@@ -2,194 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF6B6C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 02:16:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 126E9C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 03:26:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243262AbiDLCTK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Apr 2022 22:19:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48798 "EHLO
+        id S238657AbiDLD2U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Apr 2022 23:28:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244856AbiDLCTG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 22:19:06 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E3EA33E12;
-        Mon, 11 Apr 2022 19:16:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3A7E2B81A03;
-        Tue, 12 Apr 2022 02:16:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BBF0C385A9;
-        Tue, 12 Apr 2022 02:16:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1649729808;
-        bh=vnuU0Vf5uUFZG5hzr0+pY/uKtAP80ZJBw7evrhTy9Ww=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=GMRsVBfP5Tznj8S0EBzpLTJ7kD4d1BJImxQDaroOwYYzhRccW5wXVfJ8vrSq5EvuE
-         xs4wOEgfHdMOAImk859vK8lLKcW73v6C28jJARbn8SgTBM3smEZPoyKAs57ItPWna+
-         1n6Q1bPX3uNaxHA2GQBvc0bv7AXEJpuBZVVo6J1Q=
-Date:   Mon, 11 Apr 2022 19:16:45 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Stephen Rothwell <sfr@rothwell.id.au>, linux-mm@kvack.org,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, page-reclaim@google.com,
-        x86@kernel.org, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?ISO-8859-1?Q? "Holger_Hoffst=E4tte" ?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v10 14/14] mm: multi-gen LRU: design doc
-Message-Id: <20220411191645.91078752f29b82aea7ee508c@linux-foundation.org>
-In-Reply-To: <20220407031525.2368067-15-yuzhao@google.com>
-References: <20220407031525.2368067-1-yuzhao@google.com>
-        <20220407031525.2368067-15-yuzhao@google.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S244664AbiDLD2T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 23:28:19 -0400
+Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2063F2E9D4;
+        Mon, 11 Apr 2022 20:26:02 -0700 (PDT)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
+ (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 12 Apr
+ 2022 11:25:53 +0800
+Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 12 Apr
+ 2022 11:25:53 +0800
+From:   Haowen Bai <baihaowen@meizu.com>
+To:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+CC:     Haowen Bai <baihaowen@meizu.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH] docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+Date:   Tue, 12 Apr 2022 11:25:51 +0800
+Message-ID: <1649733951-8827-1-git-send-email-baihaowen@meizu.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed,  6 Apr 2022 21:15:26 -0600 Yu Zhao <yuzhao@google.com> wrote:
+As the tools/vm/page_owner_sort added some feature and original text
+updated, sync the translation of zh_CN.
 
-> Add a design doc.
-> 
->
-> ...
->
-> +Design overview
-> +===============
-> +Objectives
-> +----------
-> +The design objectives are:
-> +
-> +* Good representation of access recency
-> +* Try to profit from spatial locality
-> +* Fast paths to make obvious choices
-> +* Simple self-correcting heuristics
-> +
-> +The representation of access recency is at the core of all LRU
-> +implementations. In the multi-gen LRU, each generation represents a
-> +group of pages with similar access recency. Generations establish a
-> +common frame of reference and therefore help make better choices,
-> +e.g., between different memcgs on a computer or different computers in
-> +a data center (for job scheduling).
+Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+---
+ Documentation/translations/zh_CN/vm/page_owner.rst | 54 +++++++++++++++++++++-
+ 1 file changed, 53 insertions(+), 1 deletion(-)
 
-Does MGLRU have any special treatment for used-once pages?
-
-> +Exploiting spatial locality improves efficiency when gathering the
-> +accessed bit. A rmap walk targets a single page and does not try to
-> +profit from discovering a young PTE. A page table walk can sweep all
-> +the young PTEs in an address space, but the address space can be too
-> +large to make a profit. The key is to optimize both methods and use
-> +them in combination.
-> +
-> +Fast paths reduce code complexity and runtime overhead. Unmapped pages
-> +do not require TLB flushes; clean pages do not require writeback.
-> +These facts are only helpful when other conditions, e.g., access
-> +recency, are similar. With generations as a common frame of reference,
-> +additional factors stand out. But obvious choices might not be good
-> +choices; thus self-correction is required.
-> +
-> +The benefits of simple self-correcting heuristics are self-evident.
-> +Again, with generations as a common frame of reference, this becomes
-> +attainable. Specifically, pages in the same generation can be
-> +categorized based on additional factors, and a feedback loop can
-> +statistically compare the refault percentages across those categories
-> +and infer which of them are better choices.
-> +
-> +Assumptions
-> +-----------
-> +The protection of hot pages and the selection of cold pages are based
-> +on page access channels and patterns. There are two access channels:
-> +
-> +* Accesses through page tables
-> +* Accesses through file descriptors
-> +
-> +The protection of the former channel is by design stronger because:
-> +
-> +1. The uncertainty in determining the access patterns of the former
-> +   channel is higher due to the approximation of the accessed bit.
-> +2. The cost of evicting the former channel is higher due to the TLB
-> +   flushes required and the likelihood of encountering the dirty bit.
-> +3. The penalty of underprotecting the former channel is higher because
-> +   applications usually do not prepare themselves for major page
-> +   faults like they do for blocked I/O. E.g., GUI applications
-> +   commonly use dedicated I/O threads to avoid blocking the rendering
-> +   threads.
-> +
-> +There are also two access patterns:
-> +
-> +* Accesses exhibiting temporal locality
-> +* Accesses not exhibiting temporal locality
-> +
-> +For the reasons listed above, the former channel is assumed to follow
-> +the former pattern unless ``VM_SEQ_READ`` or ``VM_RAND_READ`` is
-> +present, and the latter channel is assumed to follow the latter
-> +pattern unless outlying refaults have been observed.
-
-What about MADV_SEQUENTIAL?    Or did we propogate that into the fd?
-
-> +Workflow overview
-> +=================
-> +Evictable pages are divided into multiple generations for each
-> +``lruvec``. The youngest generation number is stored in
-> +``lrugen->max_seq`` for both anon and file types as they are aged on
-> +an equal footing. The oldest generation numbers are stored in
-> +``lrugen->min_seq[]`` separately for anon and file types as clean file
-> +pages can be evicted regardless of swap constraints. These three
-> +variables are monotonically increasing.
-> +
->
-> ...
->
-> +Summary
-> +-------
-> +The multi-gen LRU can be disassembled into the following parts:
-> +
-> +* Generations
-> +* Page table walks
-> +* Rmap walks
-> +* Bloom filters
-> +* The PID controller
-> +
-> +The aging and the eviction is a producer-consumer model; specifically,
-> +the latter drives the former by the sliding window over generations.
-> +Within the aging, rmap walks drive page table walks by inserting hot
-> +densely populated page tables to the Bloom filters. Within the
-> +eviction, the PID controller uses refaults as the feedback to select
-> +types to evict and tiers to protect.
-
-It's cool to see a PID controller in there.
-
-How do we know that it converges well, that it doesn't exhibit instability, etc?
+diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
+index 9e951fabba9d..0d4f94034db6 100644
+--- a/Documentation/translations/zh_CN/vm/page_owner.rst
++++ b/Documentation/translations/zh_CN/vm/page_owner.rst
+@@ -103,14 +103,66 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
+ 		-m		按总内存排序
+ 		-p		按pid排序。
+ 		-P		按tgid排序。
++		-n		按任务名称排序。
+ 		-r		按内存释放时间排序。
+ 		-s		按堆栈跟踪排序。
+ 		-t		按时间排序（默认）。
++		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从
++						**标准格式说明符**部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
++						允许混合使用缩写键和全称键。
++
++		Examples:
++				./page_owner_sort <input> <output> --sort=n,+pid,-tgid
++				./page_owner_sort <input> <output> --sort=at
+ 
+    其它函数:
+ 
+ 	Cull:
+-		-c		通过比较堆栈跟踪而不是总块来进行剔除。
++		--cull <rules>
++				指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
++
++		<rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
++				符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的 
++				STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
+ 
++		Examples:
++				./page_owner_sort <input> <output> --cull=stacktrace
++				./page_owner_sort <input> <output> --cull=st,pid,name
++				./page_owner_sort <input> <output> --cull=n,f
+ 	Filter:
+ 		-f		过滤掉内存已被释放的块的信息。
++
++	Select:
++		--pid <pidlist>		通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
++		--tgid <tgidlist>	通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
++		--name <cmdlist>	按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
++
++		<pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
++
++
++		Examples:
++				./page_owner_sort <input> <output> --pid=1
++				./page_owner_sort <input> <output> --tgid=1,2,3
++				./page_owner_sort <input> <output> --name name1,name2
++
++		标准格式说明符
++==========================
++--sort 选项:
++
++	缩写键	全称键		描述
++	p		pid			进程 ID
++	tg		tgid		线程组 ID
++	n		name		任务名称
++	st		stacktrace	页面分配的调用栈
++	T		txt			块的全文
++	ft		free_ts		页面被释放的时间戳
++	at		alloc_ts	页面分配的时间戳
++
++--curl 选项:
++
++	缩写键	全称键		描述
++	p		pid			进程 ID
++	tg		tgid		线程组 ID
++	n		name		任务名称
++	f		free		该页面是否已被释放
++	st		stacktrace	页面分配的调用栈
+-- 
+2.7.4
 
