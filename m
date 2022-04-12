@@ -2,187 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E9B6C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 13:00:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7EE4C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 13:03:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344645AbiDLNCP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Apr 2022 09:02:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37514 "EHLO
+        id S241303AbiDLNFa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Apr 2022 09:05:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351833AbiDLNCJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 09:02:09 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 528466007E;
-        Tue, 12 Apr 2022 05:40:09 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id l7so31625313ejn.2;
-        Tue, 12 Apr 2022 05:40:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lAPe5KLDjByGGButyDlRAtwWbq0RQOm3lpOxpFEkjZM=;
-        b=kKKwpQym3uM9gA+kAZ3Q2JSdsU6Fj13jhXXwUYhelJ5h/YQZEprLlEo+NFEtbmiZmb
-         y7FUXefqMvevdwxFGVjdfb6xAp/KmwM4zkuCD+WMSH/r1TnwetcGp1wAxzmEW2/kvOSv
-         Y1pZwhX+4+kI83Wy7JLpCIuhjZSaxu+C6fuZoxFVUzNp0rD6ScFbKUtjrLTQJjmhAWiY
-         WDRZuF9Q5s2UhZu8takRrpu9uZvmzbnSm/IiO7OiTFzBtmAFGclpbZkO2DjEtwy5jogu
-         e5lwEvNvy4Vl3vR5hTgFANtMltR9b75mDMSeJIsBdi79bLQ/vpTOZBB+kpEHQhVeiXk0
-         GLlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lAPe5KLDjByGGButyDlRAtwWbq0RQOm3lpOxpFEkjZM=;
-        b=XB+UfidMhpcMlAxRAOIB/sAB30uZDZ0/s9ULG3IIP8RaMLPu5h+RzJxMhhxSJe++Lz
-         Y7SETiJHQMymZa4VS9CvBb+ouqv79hskcgTpEjr/Rtm/Xid035ni56JbQNnp1yIcYnOT
-         ooMiAih+HIXj03td/yP+h90hosrdq3pFBjYoq567ZyB5OVt3zGfUCKrxwP9q/qJHLVfR
-         SVP2Uw7AXTX+qPn0/KTuk5k0AOPO2anDo8WY7pnSFopigI89vUS4pdFd9QaiHT1B80EH
-         72DjZiYayP6PSzwSLtqMLtryQzNU1E8bUbwOeZ6HP3bQiagRc1dL68hBLO6Nj97gG7Zi
-         jVEA==
-X-Gm-Message-State: AOAM532AA/KP/2BcacQIKsETUdDt0O/H6soCn1CAAeQ8a8o2sJoriOWp
-        9Xh5LkIYjIGPjuDKrOhzbDI=
-X-Google-Smtp-Source: ABdhPJw3sN0aGYU973pQYZXJ+Nb9hMtQkycLysUpJUaV6hrNy+Bnjgkud/YC0BhJwZzJKUgmkOz3fA==
-X-Received: by 2002:a17:907:160a:b0:6e8:3c5d:9ce5 with SMTP id hb10-20020a170907160a00b006e83c5d9ce5mr23576285ejc.606.1649767207759;
-        Tue, 12 Apr 2022 05:40:07 -0700 (PDT)
-Received: from localhost.localdomain (host-82-60-208-254.retail.telecomitalia.it. [82.60.208.254])
-        by smtp.gmail.com with ESMTPSA id kv22-20020a17090778d600b006e8a072fb1dsm1670417ejc.172.2022.04.12.05.40.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Apr 2022 05:40:06 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        SeongJae Park <sj@kernel.org>,
-        Jiajian Ye <yejiajian2018@email.szu.edu.cn>,
-        Alistair Popple <apopple@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: [PATCH v2] Documentation/vm: Extend "Temporary Virtual Mappings" section in highmem.rst
-Date:   Tue, 12 Apr 2022 14:40:03 +0200
-Message-Id: <20220412124003.10736-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S1355978AbiDLNDN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 09:03:13 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F008694AE;
+        Tue, 12 Apr 2022 05:43:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=lfItqZaGSX0QThCc5e9sA+/hDp4Ggp82nkkyTViikdo=; b=dRTOHcDgUBrhr87pfCqONLmjY/
+        8PP4CAAUcDetHx+NyK9DyKNeUSZWIfiRrje7egcYTjebN8Z03S6yQELEaX7a0ebidNYLXMl9hHr7u
+        NxnYDv5UlREdLx/kOJ/wPqYzNnwaPxIimlfv9c7TlKysEPlplgxXVmn6pXcpkpHFhOvY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1neFrO-00FRrw-UX; Tue, 12 Apr 2022 14:43:06 +0200
+Date:   Tue, 12 Apr 2022 14:43:06 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Luiz Angelo Daros de Luca <luizluca@gmail.com>
+Cc:     "open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Tobias Waldekranz <tobias@waldekranz.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>, corbet@lwn.net,
+        Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+Subject: Re: [PATCH net-next] net: dsa: realtek: add compatible strings for
+ RTL8367RB-VB
+Message-ID: <YlVz2gqXbgtFZUhA@lunn.ch>
+References: <20220411210406.21404-1-luizluca@gmail.com>
+ <YlTFRqY3pq84Fw1i@lunn.ch>
+ <CAJq09z7CDbaFdjkmqiZsPM1He4o+szMEJANDiaZTCo_oi+ZCSQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJq09z7CDbaFdjkmqiZsPM1He4o+szMEJANDiaZTCo_oi+ZCSQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend and rework the "Temporary Virtual Mappings" section of the highmem.rst
-documentation.
+On Tue, Apr 12, 2022 at 01:12:51AM -0300, Luiz Angelo Daros de Luca wrote:
+> > On Mon, Apr 11, 2022 at 06:04:07PM -0300, Luiz Angelo Daros de Luca wrote:
+> > > RTL8367RB-VB was not mentioned in the compatible table, nor in the
+> > > Kconfig help text.
+> > >
+> > > The driver still detects the variant by itself and ignores which
+> > > compatible string was used to select it. So, any compatible string will
+> > > work for any compatible model.
+> >
+> > Meaning the compatible string is pointless, and cannot be trusted. So
+> > yes, you can add it, but don't actually try to use it for anything,
+> > like quirks.
+> 
+> 
+> Thanks, Andrew. Those compatible strings are indeed useless for now.
+> The driver probes the chip variant. Maybe in the future, if required,
+> we could provide a way to either force a model or let it autodetect as
+> it does today.
 
-Do a partial rework of the paragraph related to kmap() and add a new paragraph
-in order to document the set of kmap_local_*() functions. Re-order paragraphs
-in decreasing order of preference of usage.
+The problem is, you have to assume some percentage of shipped DT blobs
+have the wrong compatible string, but work because it is not actually
+used in a meaningful way. This is why the couple of dozen Marvell
+switches have just 3 compatible strings, which is enough to find the
+ID registers to identify the actual switch. The three compatibles are
+the name of the lowest chip in the family which introduced to location
+of the ID register.
 
-Despite the local kmaps were introduced by Thomas Gleixner in October 2020,
-documentation was still missing information about them. These additions rely
-largely on Gleixner's patches, Jonathan Corbet's LWN articles, comments by
-Ira Weiny and Matthew Wilcox, and in-code comments from
-./include/linux/highmem.h.
+> There is no "family name" for those devices. The best we had was
+> rtl8367c (with "c" probably meaning 3rd family). I suggested renaming
+> the driver to rtl8367c but, in the end, we kept it as the first
+> supported device name. My plan is, at least, to allow the user to
+> specify the correct model without knowing which model it is equivalent
+> to.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ira Weiny <ira.weiny@intel.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
+In order words, you are quite happy to allow the DT author to get is
+wrong, and do not care it is wrong. So the percentage of DT blobs with
+the wrong compatible will go up, making it even more useless.
 
-v1->v2: According to comments on v1 by Mattew Wilcox and Ira Weiny,
-correct a mistake in text, format paragraphs to stay within the 75
-characters limit, re-order the flow of the same paragraphs in decreasing
-order of preference of usage.
+It is also something you cannot retrospectively make useful, because
+of all those broken DT blobs.
 
- Documentation/vm/highmem.rst | 67 ++++++++++++++++++++++++++++++------
- 1 file changed, 56 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/vm/highmem.rst b/Documentation/vm/highmem.rst
-index 0f69a9fec34d..12dcfbee094d 100644
---- a/Documentation/vm/highmem.rst
-+++ b/Documentation/vm/highmem.rst
-@@ -52,24 +52,69 @@ Temporary Virtual Mappings
- 
- The kernel contains several ways of creating temporary mappings:
- 
--* vmap().  This can be used to make a long duration mapping of multiple
--  physical pages into a contiguous virtual space.  It needs global
--  synchronization to unmap.
--
--* kmap().  This permits a short duration mapping of a single page.  It needs
--  global synchronization, but is amortized somewhat.  It is also prone to
--  deadlocks when using in a nested fashion, and so it is not recommended for
--  new code.
-+* kmap_local_*().  These provide a set of functions that are used to require
-+  short term mappings. They can be invoked from any context (including
-+  interrupts) but the mappings can only be used in the context which acquired
-+  it.
-+
-+  These mappings are per thread, CPU local (i.e., migration from one CPU to
-+  another is disabled - this is why they are called "local"), but they don't
-+  disable preemption. It's valid to take pagefaults in a local kmap region,
-+  unless the context in which the local mapping is acquired does not allow
-+  it for other reasons.
-+
-+  If a task holding local kmaps is preempted, the maps are removed on context
-+  switch and restored when the task comes back on the CPU. As the maps are
-+  strictly CPU local, it is guaranteed that the task stays on the CPU and
-+  that the CPU cannot be unplugged until the local kmaps are released.
-+
-+  Nesting kmap_local.*() and kmap_atomic.*() mappings is allowed to a certain
-+  extent (up to KMAP_TYPE_NR). Nested kmap_local.*() and kunmap_local.*()
-+  invocations have to be strictly ordered because the map implementation is
-+  stack based.
- 
- * kmap_atomic().  This permits a very short duration mapping of a single
-   page.  Since the mapping is restricted to the CPU that issued it, it
-   performs well, but the issuing task is therefore required to stay on that
-   CPU until it has finished, lest some other task displace its mappings.
- 
--  kmap_atomic() may also be used by interrupt contexts, since it is does not
--  sleep and the caller may not sleep until after kunmap_atomic() is called.
-+  kmap_atomic() may also be used by interrupt contexts, since it does not
-+  sleep and the caller too can not sleep until after kunmap_atomic() is called.
-+  Each call of kmap_atomic() in the kernel creates a non-preemptible section and
-+  disable pagefaults.
-+
-+  This could be a source of unwanted latency, so it should be only used if it is
-+  absolutely required, otherwise the corresponding kmap_local_*() variant should
-+  be used if it is feasible.
-+
-+  On 64-bit systems, calls to kmap() and kmap_atomic() have no real work to do
-+  because a 64-bit address space is more than sufficient to address all the
-+  physical memory, so all of physical memory appears in the direct mapping.
-+
-+  It is assumed that k[un]map_atomic() won't fail.
- 
--  It may be assumed that k[un]map_atomic() won't fail.
-+* kmap().  This should be used to make short duration mapping of a single
-+  page with no restrictions on preemption or migration. It comes with an
-+  overhead as mapping space is restricted and protected by a global lock
-+  for synchronization. When mapping is no more needed, the address that
-+  the page was mapped to must be released with kunmap().
-+
-+  Mapping changes must be propagated across all the CPUs. kmap() also
-+  requires global TLB invalidation when the kmap's pool wraps and it might
-+  block when the mapping space is fully utilized until a slot becomes
-+  available. Therefore, kmap() is only callable from preemptible context.
-+
-+  All the above work is necessary if a mapping must last for a relatively
-+  long time but the bulk of high-memory mappings in the kernel are
-+  short-lived and only used in one place. This means that the cost of
-+  kmap() is mostly wasted in such cases. kmap() was not intended for long
-+  term mappings but it has morphed in that direction and its use is
-+  strongly discouraged in newer code and the set of the preceding functions
-+  should be preferred.
-+
-+* vmap().  This can be used to make a long duration mapping of multiple
-+  physical pages into a contiguous virtual space.  It needs global
-+  synchronization to unmap.
- 
- 
- Using kmap_atomic
--- 
-2.34.1
-
+    Andrew
