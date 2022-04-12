@@ -2,142 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2866FC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 13:55:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 972DFC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 14:04:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344412AbiDLN6N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Apr 2022 09:58:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59372 "EHLO
+        id S231158AbiDLOG0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Apr 2022 10:06:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356440AbiDLN5i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 09:57:38 -0400
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 019235C646
-        for <linux-doc@vger.kernel.org>; Tue, 12 Apr 2022 06:55:20 -0700 (PDT)
-Received: by mail-qk1-x732.google.com with SMTP id j6so13736042qkp.9
-        for <linux-doc@vger.kernel.org>; Tue, 12 Apr 2022 06:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=LFvLVPPZvgTha+ooTFHZYTgCdG0ws8rFXkLKQoX43UY=;
-        b=FA+rr0NcdFLgw1DDIDpBm6C7a+RJK9x6Q/vYBNaD5r9jvT/GN5T5xXvd5SG17etgIT
-         KYCVFlTLhOishU/IXTzUYj5L+xwoUbLM5oJ1110bdHym7a2fhL/Cq6LYTzHMRMPoziYx
-         aLyg0LAp2jAYecsyNOugoXyF39CEuxkby2O9NMnY6MN3zclaEjefEylZEK/09uYfplHu
-         V1qxdo4nKF1aXGR6q+KSSCcALxSK9gpPM0tkH96DQv5iv9a54llRH/qJgPx+XbzLqTkI
-         zdnggLF017XnhD7ubJRX0EF3mkY5BtXD/K+LMXYDZ4ojawcrv6OJCj/gM639Ultgxl2B
-         MdVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=LFvLVPPZvgTha+ooTFHZYTgCdG0ws8rFXkLKQoX43UY=;
-        b=kThtCG+a681ozxkQEJWg6xx91LVnamv6UwTOvApiJkOO8QCyhjodssKAvFvmBBbv6+
-         eEWhmU+4W2b8zvhGgN2/PAgGZrfeMX6amPvz4wNhrDsXlUUaOmpcAOLF3wP/HZhP+5G7
-         0CT9aKQLtAlYl18XxlkWYXL0eJXRdwZzaB3/06/TVY/pcUDMIf9I6t34w0BzE8gTV0PH
-         NAaoOatv2LHUfVLZASQrbdwTyfP+fo5YTCzCoG/orXf2tzfknpNo/KB6hcP3cNN11YgE
-         +S3ejulkz4ye1cE993N5Jh1NKbQzFReRlBHlm/H98qEMjQcwYEpk3QMulpi6+urPL5Xv
-         Rf4Q==
-X-Gm-Message-State: AOAM531WTFePgqDpVeIvTm/CU1jrByTRvw6bnL8iUwJdhIDNc6zX1XnW
-        exxUHaAeIfCd+Bf/ayySYRhWbw==
-X-Google-Smtp-Source: ABdhPJyXnKkmTlbfV6KWPHp27buSH2OPZ0NW3zzuV8rNMnApOKIMVBJ3bSpnwE7Y7amf9XZvhvbU2Q==
-X-Received: by 2002:a05:620a:2446:b0:69c:4dfa:b9bf with SMTP id h6-20020a05620a244600b0069c4dfab9bfmr289167qkn.15.1649771719135;
-        Tue, 12 Apr 2022 06:55:19 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id u5-20020a05622a198500b002ee933faf83sm4518445qtc.73.2022.04.12.06.55.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Apr 2022 06:55:18 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1neGzF-000rGH-Rn; Tue, 12 Apr 2022 10:55:17 -0300
-Date:   Tue, 12 Apr 2022 10:55:17 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Matthew Rosato <mjrosato@linux.ibm.com>
-Cc:     alex.williamson@redhat.com, linux-s390@vger.kernel.org,
-        cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
-        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
-        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
-        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
-        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 16/21] KVM: vfio: add s390x hook to register KVM guest
- designation
-Message-ID: <20220412135517.GE64706@ziepe.ca>
-References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
- <20220404174349.58530-17-mjrosato@linux.ibm.com>
- <20220408124536.GX64706@ziepe.ca>
- <3639d5fb-ff71-d42e-ef09-0b297f7e1a45@linux.ibm.com>
+        with ESMTP id S1346027AbiDLOGY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 10:06:24 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C8CDF2B;
+        Tue, 12 Apr 2022 07:04:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649772246; x=1681308246;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mpBkEIWIDmrR43RVF1sWg8x0t3HhAwOXKBLdLpHlNJs=;
+  b=hQAwm5fYsOfjGny880sZvtCOO9L9kLYAJ/qGc+FfHRRTnyMDw6sajPJh
+   VXjGQ90TdqN7jDAQ25Y7t+JSu1Qy4OtAPvK519ymcmvpahF8uzStbuk5Z
+   DNUjl/hH1PY/Kfk3yWjn7DEVC4zwmJb/TRpfLO0s+N1ffi+lz8/rukAWb
+   moRNPXAe+E1AlVyXcm4xRpo+XiuQcYZ9U9u8V8zSCOeiw0///lVuHWPjs
+   bh2V1xBbGTV9Xhl/gxwY4xEWKW3XBHVC/IC2A8FT3T1JYuOqiQKBoQcCY
+   8+yXxTe48MYTqnAV1Wh6yDuHm/hsA32aQhtuDWaMXOSExDlhC1X2SEbyS
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="259976579"
+X-IronPort-AV: E=Sophos;i="5.90,254,1643702400"; 
+   d="scan'208";a="259976579"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2022 07:04:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,254,1643702400"; 
+   d="scan'208";a="559337307"
+Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 12 Apr 2022 07:04:02 -0700
+Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1neH7h-0002tc-LI;
+        Tue, 12 Apr 2022 14:04:01 +0000
+Date:   Tue, 12 Apr 2022 22:03:41 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        osalvador@suse.de, david@redhat.com, masahiroy@kernel.org
+Cc:     kbuild-all@lists.01.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 1/4] mm: hugetlb_vmemmap: introduce
+ CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
+Message-ID: <202204122103.jCnIflyV-lkp@intel.com>
+References: <20220412111434.96498-2-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3639d5fb-ff71-d42e-ef09-0b297f7e1a45@linux.ibm.com>
+In-Reply-To: <20220412111434.96498-2-songmuchun@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 12, 2022 at 09:39:44AM -0400, Matthew Rosato wrote:
-> On 4/8/22 8:45 AM, Jason Gunthorpe wrote:
-> > On Mon, Apr 04, 2022 at 01:43:44PM -0400, Matthew Rosato wrote:
-> > > At the time a KVM is associated with a vfio group, s390x zPCI devices
-> > > must register a special guest indication (GISA designation) to allow
-> > > for the use of interpretive execution facilities.  This indication is
-> > > used to ensure that only the specified KVM can interact with the device.
-> > > Similarly, the indication must be removed once the KVM is no longer
-> > > associated with the device.
-> > > 
-> > > This patch adds an s390-specific hook to invoke a KVM registration routine
-> > > for each device associated with the iommu group; in reality, it will be a
-> > > NOP for all but zPCI devices on s390x.
-> > > 
-> > > Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> > >   virt/kvm/vfio.c | 35 ++++++++++++++++++++++++++++++++++-
-> > >   1 file changed, 34 insertions(+), 1 deletion(-)
-> > 
-> > I wonder if this should be done in the vfio_pci side from the existing
-> > kvm notifier
-> > 
-> 
-> So you mean rather than hooking into virt as I do here, drive something out
-> of drivers/vfio/vfio.c:vfio_group_set_kvm?  Note, the kvm notifier is
-> handled in vfio, not vfio_pci, so if you want to handle it in vfio_pci I
-> think we'd need to add a new routine to vfio_device_ops and only define it
-> vfio_pci for s390
+Hi Muchun,
 
-I've been thinking about doing that anyhow, exactly for reasons like
-this..
+Thank you for the patch! Yet something to improve:
 
-> static const struct vfio_device_ops vfio_pci_ops = {
-> 	.name		= "vfio-pci",
-> [...]
-> #ifdef CONFIG_S390
-> 	.set_kvm = vfio_pci_zdev_set_kvm,
-> #endif
-> };
-> 
-> and something like...
-> 
-> void vfio_group_set_kvm(struct vfio_group *group, struct kvm *kvm)
-> {
-> 	struct vfio_device *vdev;
-> 	group->kvm = kvm;
-> 
-> 	mutex_lock(&group->device_lock);
-> 	list_for_each_entry(vdev, &group->device_list, group_next) {
-> 		if (vdev->ops->set_kvm)
-> 			it->ops->set_kvm(vdev, kvm);
-> 	}
-> 	mutex_unlock(&group->device_lock);
+[auto build test ERROR on hnaz-mm/master]
+[also build test ERROR on next-20220412]
+[cannot apply to tip/x86/mm masahiroy-kbuild/for-next linus/master v5.18-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Almost, the device should be open before calling the callback
+url:    https://github.com/intel-lab-lkp/linux/commits/Muchun-Song/add-hugetlb_optimize_vmemmap-sysctl/20220412-191713
+base:   https://github.com/hnaz/linux-mm master
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20220412/202204122103.jCnIflyV-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/bb63a010442d551909f826b4c05bf707a6dff052
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Muchun-Song/add-hugetlb_optimize_vmemmap-sysctl/20220412-191713
+        git checkout bb63a010442d551909f826b4c05bf707a6dff052
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=alpha prepare
 
-And you have to inject a callback during open if the device is opened
-after the kvm was set.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-But I don't think you need to do this, you can just register a
-notifier in zpci when it hooks open_device like everything else,
-right?
+All errors (new ones prefixed by >>):
 
-Jason
+   In file included from scripts/selinux/mdp/mdp.c:22:
+>> include/linux/kconfig.h:8:10: fatal error: generated/autoconf_ext.h: No such file or directory
+       8 | #include <generated/autoconf_ext.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+   make[4]: *** [scripts/Makefile.host:111: scripts/selinux/mdp/mdp] Error 1
+   make[4]: Target '__build' not remade because of errors.
+   make[3]: *** [scripts/Makefile.build:607: scripts/selinux/mdp] Error 2
+   make[3]: Target '__build' not remade because of errors.
+   make[2]: *** [scripts/Makefile.build:607: scripts/selinux] Error 2
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:1267: scripts] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +8 include/linux/kconfig.h
+
+     6	
+     7	#ifndef __EXCLUDE_AUTOCONF_EXT_H
+   > 8	#include <generated/autoconf_ext.h>
+     9	#endif
+    10	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
