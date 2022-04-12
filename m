@@ -2,171 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDFC6C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9BB2C433FE
 	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 09:49:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239669AbiDLJv2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Apr 2022 05:51:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34114 "EHLO
+        id S240003AbiDLJvd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Apr 2022 05:51:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359678AbiDLJsD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 05:48:03 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24AF163503;
-        Tue, 12 Apr 2022 01:53:52 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id e8-20020a17090a118800b001cb13402ea2so2231574pja.0;
-        Tue, 12 Apr 2022 01:53:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=jmCpHCMje6DqtUs4yqS5xd4MJHXw5XyWXqbNnJZJI6A=;
-        b=S1S23s85lCZ4pEedIgLJany23GsJwNl+sETb6R8H7W+W3S5VOcSfEGpMnCYfUdhv3m
-         g/ew39g3VpTLSdY2410LO2Fvwt6/+p2K1sQNWXKUWyVs6NXQ3FH3FqhZn5xgUCPLKudS
-         28Z5QrFim4mD5b/TcyE3bo7QqENkek1BZqRc8iovMrIdJEIWln9trhqrxO/6LpMbcMV7
-         WZgoCehtFMafjr9LOmGoM9qTAtzPkzv9bOe4AK68uH/Zrh2hCh5zFOSj1V+BNP55snS8
-         b1Er5WX74yVtj3Qj5yuJfHrA1X6gupJrxsO8erNt0vMzldbfeTxdUTMzW9hPRs1YaD8P
-         br9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=jmCpHCMje6DqtUs4yqS5xd4MJHXw5XyWXqbNnJZJI6A=;
-        b=UsYJNc91fMgQjc7xl+zwovb6WcXn/nFIEqO9qYyaZ18jn1OhwPSODiyTIC7hdmBJIv
-         uvUI2vE4apWNevHEM1da+Y0lxTth/Fie45klzwwiOS80RUX1WkxcUWgMmRZ8PliKiGcw
-         igfXMdbp8hCAuxnYjwsrVPwx0mhp5UxVyA4fcaiFiZ7o82tDRX2wBtBCY/JFGIPYQ8pB
-         yWj+0M+FM6HcO7TT5keXaxKyCU6I5BJ0Ej2XV6PDGI6M3WhJftR17bXOnKIF8dAm6mIj
-         2scWHAimFWBrPKH2WAr/NaMhLl2cveneEZnvkkD0HO4RtJ0QaBRqoLuOJFiGoGhlGig6
-         Xb+w==
-X-Gm-Message-State: AOAM531D/64/5LjWdO6ERD8u9GGKWOKTkYnHDGc8uPePhb2rq48E25Pn
-        7IKEyz/9Bwqu+0IZUghVsQA=
-X-Google-Smtp-Source: ABdhPJzeUmMzv/rHk/HRe+pbfq6rGYcycw2WpFMc6HJD/OaTFSmf83XNk1ns+oO4R5agAGqulZcr9w==
-X-Received: by 2002:a17:90b:1803:b0:1c7:24c4:ab52 with SMTP id lw3-20020a17090b180300b001c724c4ab52mr3744795pjb.240.1649753631471;
-        Tue, 12 Apr 2022 01:53:51 -0700 (PDT)
-Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id d21-20020a056a0010d500b004fd9ee64134sm37205794pfu.74.2022.04.12.01.53.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Apr 2022 01:53:50 -0700 (PDT)
-Message-ID: <77119299-efb5-5364-44fe-9f71c7c6a4a4@gmail.com>
-Date:   Tue, 12 Apr 2022 16:53:45 +0800
+        with ESMTP id S1353701AbiDLHZw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 03:25:52 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED11227B23;
+        Tue, 12 Apr 2022 00:03:46 -0700 (PDT)
+From:   Kurt Kanzenbach <kurt@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1649747024;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=wSOBIIfV1E6zWOf6Ap6BP42f42YeWjssrthGrpaLNqo=;
+        b=yuUXZkDhtS1Q1i49HqF5bGILbELxK/GZnL8Jn+JxafbqH9uRdOYH0XloFzxS4yjiVdcotk
+        j6BOGnhzlnrKxUbopjSVQgMym8UGnW47lBEAeg0dcYHGAhiSXyL34PDMJX8BgXkqMrPGjH
+        xKwz0Kd9qKW+j+XqekCZfFBvC3oYyEt3+PB9XmVfVwb9d6F9NjDeqEQeXehvDMgAVtBSNp
+        WU2dUnTQLEtQbjxLQX3Ia9N89AWj1FKpwBzm5wowwIadQ9LeHAXRwMPz92Od6SxFJuZVbp
+        oYmaRQ0rzzedOvdjHyydXJemNj2kHToiAqAXOiPC6Ck5s+WFs9RlrdekE+iIgw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1649747024;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=wSOBIIfV1E6zWOf6Ap6BP42f42YeWjssrthGrpaLNqo=;
+        b=eLpfoolnSQcLA7qBjjn0dS096grclyQUpFIj2A+VpoERe0u6v2ABtPMrS2o2T05GUxKV09
+        I3rnJkbs3SmEPGAg==
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Richard Cochran <richardcochran@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] timekeeping: Introduce fast accessor to clock tai
+In-Reply-To: <87k0bvfibm.ffs@tglx>
+References: <20220409081300.4762-1-kurt@linutronix.de>
+ <20220409081300.4762-2-kurt@linutronix.de>
+ <20220409093727.7dda6371@rorschach.local.home> <871qy6hu8q.ffs@tglx>
+ <87k0bvfibm.ffs@tglx>
+Date:   Tue, 12 Apr 2022 09:03:42 +0200
+Message-ID: <87v8vepyup.fsf@kurt>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] docs/zh_CN: sync with original text
- Documentation/vm/page_owner.rst
-Content-Language: en-US
-To:     Haowen Bai <baihaowen@meizu.com>, Alex Shi <alexs@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        siyanteng@loongson.cn
-References: <1649733951-8827-1-git-send-email-baihaowen@meizu.com>
-From:   Alex Shi <seakeel@gmail.com>
-In-Reply-To: <1649733951-8827-1-git-send-email-baihaowen@meizu.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha512; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Cc: Yanteng Si <siyanteng@loongson.cn>
+--=-=-=
+Content-Type: text/plain
 
-and please remove the warning in git apply:
-
-Applying: docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
-.git/rebase-apply/patch:33: trailing whitespace.
-                符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的 
-warning: 1 line adds whitespace errors.
-
-
-
-On 4/12/22 11:25, Haowen Bai wrote:
-> As the tools/vm/page_owner_sort added some feature and original text
-> updated, sync the translation of zh_CN.
+On Mon Apr 11 2022, Thomas Gleixner wrote:
+> On Sat, Apr 09 2022 at 22:33, Thomas Gleixner wrote:
+>> On Sat, Apr 09 2022 at 09:37, Steven Rostedt wrote:
+>>> On Sat,  9 Apr 2022 10:12:58 +0200
+>>> Kurt Kanzenbach <kurt@linutronix.de> wrote:
+>>>
+>>>> ---
+>>>>  include/linux/timekeeping.h |  1 +
+>>>>  kernel/time/timekeeping.c   | 17 +++++++++++++++++
+>>>>  2 files changed, 18 insertions(+)
+>>>
+>>> If the time keeping folks are OK with this and ack it, I'm happy to
+>>> take this through my tree.
+>>
+>> Go ahead. I just sent a Reviewed-by and I don't see conflicting changes
+>> in that area. Famous last words :)
 >
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
-> ---
->  Documentation/translations/zh_CN/vm/page_owner.rst | 54 +++++++++++++++++++++-
->  1 file changed, 53 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
-> index 9e951fabba9d..0d4f94034db6 100644
-> --- a/Documentation/translations/zh_CN/vm/page_owner.rst
-> +++ b/Documentation/translations/zh_CN/vm/page_owner.rst
-> @@ -103,14 +103,66 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
->  		-m		按总内存排序
->  		-p		按pid排序。
->  		-P		按tgid排序。
-> +		-n		按任务名称排序。
->  		-r		按内存释放时间排序。
->  		-s		按堆栈跟踪排序。
->  		-t		按时间排序（默认）。
-> +		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从
-> +						**标准格式说明符**部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
-> +						允许混合使用缩写键和全称键。
-> +
-> +		Examples:
-> +				./page_owner_sort <input> <output> --sort=n,+pid,-tgid
-> +				./page_owner_sort <input> <output> --sort=at
->  
->     其它函数:
->  
->  	Cull:
-> -		-c		通过比较堆栈跟踪而不是总块来进行剔除。
-> +		--cull <rules>
-> +				指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
-> +
-> +		<rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
-> +				符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的 
-> +				STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
->  
-> +		Examples:
-> +				./page_owner_sort <input> <output> --cull=stacktrace
-> +				./page_owner_sort <input> <output> --cull=st,pid,name
-> +				./page_owner_sort <input> <output> --cull=n,f
->  	Filter:
->  		-f		过滤掉内存已被释放的块的信息。
-> +
-> +	Select:
-> +		--pid <pidlist>		通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
-> +		--tgid <tgidlist>	通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
-> +		--name <cmdlist>	按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
-> +
-> +		<pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
-> +
-> +
-> +		Examples:
-> +				./page_owner_sort <input> <output> --pid=1
-> +				./page_owner_sort <input> <output> --tgid=1,2,3
-> +				./page_owner_sort <input> <output> --name name1,name2
-> +
-> +		标准格式说明符
-> +==========================
-> +--sort 选项:
-> +
-> +	缩写键	全称键		描述
-> +	p		pid			进程 ID
+> And yes, I have some conflicting changes in the pipeline and just saw
+> that this lacks a data_race() annotation like the boot variant from
+> which this is derived.
 
+Interesting, didn't see that annotation. Anyway, this patch also misses
+the corresponding documentation entry. See below.
 
-Are above lines aligned?
+Thanks,
+Kurt
 
+diff --git a/Documentation/core-api/timekeeping.rst b/Documentation/core-api/timekeeping.rst
+index 729e24864fe7..22ec68f24421 100644
+--- a/Documentation/core-api/timekeeping.rst
++++ b/Documentation/core-api/timekeeping.rst
+@@ -132,6 +132,7 @@ Some additional variants exist for more specialized cases:
+ .. c:function:: u64 ktime_get_mono_fast_ns( void )
+                u64 ktime_get_raw_fast_ns( void )
+                u64 ktime_get_boot_fast_ns( void )
++               u64 ktime_get_tai_fast_ns( void )
+                u64 ktime_get_real_fast_ns( void )
 
-Thanks
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Alex
+-----BEGIN PGP SIGNATURE-----
 
-> +	tg		tgid		线程组 ID
-> +	n		name		任务名称
-> +	st		stacktrace	页面分配的调用栈
-> +	T		txt			块的全文
-> +	ft		free_ts		页面被释放的时间戳
-> +	at		alloc_ts	页面分配的时间戳
-> +
-> +--curl 选项:
-> +
-> +	缩写键	全称键		描述
-> +	p		pid			进程 ID
-> +	tg		tgid		线程组 ID
-> +	n		name		任务名称
-> +	f		free		该页面是否已被释放
-> +	st		stacktrace	页面分配的调用栈
+iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmJVJE4THGt1cnRAbGlu
+dXRyb25peC5kZQAKCRDBk9HyqkZzghWjD/sEeBixzbfdwEh+0NSFI9u11RnAGvC9
+wycvpdO5v5MNsKBgXsnO5Ssq7a1Mzx6i6hRY452BEfUvIuFFK2hvFgnvGzIQpFJZ
+Y5orhocN5IeJTq7jv+Iq75Rk1z4Zbsng9qCaDIVZa2u3pxqeng/HbpvNc8bczx5G
+TFIdkGDHJUXjsNkBa48Wj/p18QInGdrEXqHYua3auKUB+EHF0pEjqhnzXhKTHGsy
+CtZUqRkqCp2ONr5aU8jZhMLm8uNnezWC7dz8x3iN8KhEJkJezKa8X/JK7g2zLiSy
+bTviKsrixxYY7IOaBQbqynuvYPvJL9ESIik8AitJiv0qfEzpfR6ZblSzjJgPrHVS
+h4Fvw1yJZ3hTX3SJXgLcCQAgPfaRDRuwssjVmFVmjBDclZ2BwCqxE31Uo1hucEIw
+ewDwZRa/MKqGSpUGmsZAMm1MP0FW8y8p4qpHgb0BeCCiwxFyKsr6Ky/9YRO+2zAq
+zP9UpKGle8MZXy4n1RB2WZ1uStEujYnAF1+Sgm2kEUYptjTfoWqNxEQb+S12oYYG
+0VOty1agDe+UflrRKveE+I0RS8r9ohMHeSEVda2m/Ae9h+E9KZwPOGlZMGHdJaY8
+264CmK4YqwH3jl7CL3xE3rXlBaOCgGBd+3YhVPP25yOqiCmuRyim4ZuYYd02FK4B
+7CrnH8wL+HCuaA==
+=w1aW
+-----END PGP SIGNATURE-----
+--=-=-=--
