@@ -2,93 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7EE4C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 13:03:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9EBFC43217
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 13:22:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241303AbiDLNFa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Apr 2022 09:05:30 -0400
+        id S1355769AbiDLNYf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Apr 2022 09:24:35 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355978AbiDLNDN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 09:03:13 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F008694AE;
-        Tue, 12 Apr 2022 05:43:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=lfItqZaGSX0QThCc5e9sA+/hDp4Ggp82nkkyTViikdo=; b=dRTOHcDgUBrhr87pfCqONLmjY/
-        8PP4CAAUcDetHx+NyK9DyKNeUSZWIfiRrje7egcYTjebN8Z03S6yQELEaX7a0ebidNYLXMl9hHr7u
-        NxnYDv5UlREdLx/kOJ/wPqYzNnwaPxIimlfv9c7TlKysEPlplgxXVmn6pXcpkpHFhOvY=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1neFrO-00FRrw-UX; Tue, 12 Apr 2022 14:43:06 +0200
-Date:   Tue, 12 Apr 2022 14:43:06 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Luiz Angelo Daros de Luca <luizluca@gmail.com>
-Cc:     "open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Tobias Waldekranz <tobias@waldekranz.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>, corbet@lwn.net,
-        Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-Subject: Re: [PATCH net-next] net: dsa: realtek: add compatible strings for
- RTL8367RB-VB
-Message-ID: <YlVz2gqXbgtFZUhA@lunn.ch>
-References: <20220411210406.21404-1-luizluca@gmail.com>
- <YlTFRqY3pq84Fw1i@lunn.ch>
- <CAJq09z7CDbaFdjkmqiZsPM1He4o+szMEJANDiaZTCo_oi+ZCSQ@mail.gmail.com>
+        with ESMTP id S1356574AbiDLNXS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 09:23:18 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 485C913EBF;
+        Tue, 12 Apr 2022 06:14:47 -0700 (PDT)
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23CBgE2v008904;
+        Tue, 12 Apr 2022 13:14:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=pLTJILFWv8SMp1Gxs+TBC09oDeHM+2WiTPbdP91mfHs=;
+ b=MOMKJ7kd488Bg/i2/BspB/Ri5+YzqBJNMRxZGtSAE1JoB1yl/6TIymGG4XbAvUpnqs6A
+ MF8AkwVGxaXWHC8k0wL11OQKRoEx/MwUQqA0geQ+wxjD6i8xtk+P7eoVqN9XFAZq31/v
+ rJcsl4ly9PK65yNmZ0kH0B5eBZ5bmrThP5o7u615hh//jkNznoIGC8MyFJwvMKrEkgmu
+ 6yEf7nnkqSD3dJMOCUYLSXzdcoxHV+qjXcu9K4DzhGl7MKay8J85KjzNrz7Ho2ZCM2Pm
+ J5taZCAM7Qb8feem6XuktQOGsKn+9Dwn4W3DDJUHWFxD8JN2pTptDvrZGfZJ02W49lvK ig== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3fd8sbj2qw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 12 Apr 2022 13:14:44 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23CD0i2I019215;
+        Tue, 12 Apr 2022 13:14:43 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3fd8sbj2qm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 12 Apr 2022 13:14:43 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+        by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23CD7teF006999;
+        Tue, 12 Apr 2022 13:14:43 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com [9.57.198.25])
+        by ppma02wdc.us.ibm.com with ESMTP id 3fb1s9r4ra-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 12 Apr 2022 13:14:43 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23CDEgj226542584
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 12 Apr 2022 13:14:42 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 505E9B2066;
+        Tue, 12 Apr 2022 13:14:42 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2C563B2064;
+        Tue, 12 Apr 2022 13:14:38 +0000 (GMT)
+Received: from [9.211.106.50] (unknown [9.211.106.50])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Tue, 12 Apr 2022 13:14:38 +0000 (GMT)
+Message-ID: <b143e333-0add-8042-12de-7e9e8b275ec0@linux.ibm.com>
+Date:   Tue, 12 Apr 2022 09:14:36 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJq09z7CDbaFdjkmqiZsPM1He4o+szMEJANDiaZTCo_oi+ZCSQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v5 15/21] KVM: s390: pci: add routines to start/stop
+ interpretive execution
+Content-Language: en-US
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     linux-s390@vger.kernel.org, alex.williamson@redhat.com,
+        cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
+        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
+        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
+        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
+        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
+        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
+ <20220404174349.58530-16-mjrosato@linux.ibm.com>
+ <20220408124707.GY64706@ziepe.ca>
+From:   Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <20220408124707.GY64706@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ug2cA0NUQiUtzyMfzAv0jirnerPyC71J
+X-Proofpoint-ORIG-GUID: FbaeDxowGGk6k4drG8ggKIZDsBOdLcFr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-12_04,2022-04-12_02,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 mlxscore=0 spamscore=0 adultscore=0 phishscore=0
+ clxscore=1011 bulkscore=0 mlxlogscore=713 lowpriorityscore=0
+ malwarescore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2202240000 definitions=main-2204120062
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 12, 2022 at 01:12:51AM -0300, Luiz Angelo Daros de Luca wrote:
-> > On Mon, Apr 11, 2022 at 06:04:07PM -0300, Luiz Angelo Daros de Luca wrote:
-> > > RTL8367RB-VB was not mentioned in the compatible table, nor in the
-> > > Kconfig help text.
-> > >
-> > > The driver still detects the variant by itself and ignores which
-> > > compatible string was used to select it. So, any compatible string will
-> > > work for any compatible model.
-> >
-> > Meaning the compatible string is pointless, and cannot be trusted. So
-> > yes, you can add it, but don't actually try to use it for anything,
-> > like quirks.
+On 4/8/22 8:47 AM, Jason Gunthorpe wrote:
+> On Mon, Apr 04, 2022 at 01:43:43PM -0400, Matthew Rosato wrote:
+>> +int kvm_s390_pci_register_kvm(struct device *dev, void *data)
+>> +{
+>> +	struct zpci_dev *zdev = NULL;
+>> +	struct kvm *kvm = data;
+>> +
+>> +	/* Only proceed for zPCI devices, quietly ignore others */
+>> +	if (dev_is_pci(dev))
+>> +		zdev = to_zpci_dev(dev);
+>> +	if (!zdev)
+>> +		return 0;
 > 
+> Especially since this only works if we have zpci device
 > 
-> Thanks, Andrew. Those compatible strings are indeed useless for now.
-> The driver probes the chip variant. Maybe in the future, if required,
-> we could provide a way to either force a model or let it autodetect as
-> it does today.
+> So having the zpci code hook the kvm notifier and then call the arch
+> code from the zpci area seems pretty OK
+> 
+> Also why is a struct kvm * being passed as a void *?
 
-The problem is, you have to assume some percentage of shipped DT blobs
-have the wrong compatible string, but work because it is not actually
-used in a meaningful way. This is why the couple of dozen Marvell
-switches have just 3 compatible strings, which is enough to find the
-ID registers to identify the actual switch. The three compatibles are
-the name of the lowest chip in the family which introduced to location
-of the ID register.
+Only because the function is intended to be called via 
+iommu_group_for_each_dev (next patch) which requires int (*fn)(struct 
+device *, void *)
 
-> There is no "family name" for those devices. The best we had was
-> rtl8367c (with "c" probably meaning 3rd family). I suggested renaming
-> the driver to rtl8367c but, in the end, we kept it as the first
-> supported device name. My plan is, at least, to allow the user to
-> specify the correct model without knowing which model it is equivalent
-> to.
 
-In order words, you are quite happy to allow the DT author to get is
-wrong, and do not care it is wrong. So the percentage of DT blobs with
-the wrong compatible will go up, making it even more useless.
 
-It is also something you cannot retrospectively make useful, because
-of all those broken DT blobs.
-
-    Andrew
