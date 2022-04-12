@@ -2,32 +2,32 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC7F7C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 10:29:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59233C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 10:29:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354026AbiDLKbu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Apr 2022 06:31:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59776 "EHLO
+        id S1354361AbiDLKcB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Apr 2022 06:32:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380614AbiDLKUv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 06:20:51 -0400
-Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8106D47AE7;
-        Tue, 12 Apr 2022 02:25:18 -0700 (PDT)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail12.meizu.com
- (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 12 Apr
- 2022 17:25:17 +0800
+        with ESMTP id S1381006AbiDLK0A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 06:26:00 -0400
+Received: from mail.meizu.com (unknown [14.29.68.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3426F54BF1;
+        Tue, 12 Apr 2022 02:29:52 -0700 (PDT)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail04.meizu.com
+ (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 12 Apr
+ 2022 17:29:50 +0800
 Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
  (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 12 Apr
- 2022 17:25:15 +0800
+ 2022 17:29:49 +0800
 From:   Haowen Bai <baihaowen@meizu.com>
 To:     <alexs@kernel.org>, <corbet@lwn.net>
 CC:     <siyanteng@loongson.cn>, <baihaowen@meizu.com>,
         <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH V2] docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
-Date:   Tue, 12 Apr 2022 17:25:14 +0800
-Message-ID: <1649755514-949-1-git-send-email-baihaowen@meizu.com>
+Subject: [PATCH V3] docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+Date:   Tue, 12 Apr 2022 17:29:48 +0800
+Message-ID: <1649755788-1838-1-git-send-email-baihaowen@meizu.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1649733951-8827-1-git-send-email-baihaowen@meizu.com>
 References: <1649733951-8827-1-git-send-email-baihaowen@meizu.com>
@@ -47,6 +47,7 @@ updated, sync the translation of zh_CN.
 Signed-off-by: Haowen Bai <baihaowen@meizu.com>
 ---
 V1->V2: fix whitespace warning.
+V2->V3: fix some tab Alignment issue.
 
  Documentation/translations/zh_CN/vm/page_owner.rst | 54 +++++++++++++++++++++-
  1 file changed, 53 insertions(+), 1 deletion(-)
@@ -102,23 +103,23 @@ index 9e951fabba9d..0d4f94034db6 100644
 +				./page_owner_sort <input> <output> --tgid=1,2,3
 +				./page_owner_sort <input> <output> --name name1,name2
 +
-+		标准格式说明符
++	标准格式说明符
 +==========================
 +--sort 选项:
 +
-+	缩写键	全称键		描述
-+	p		pid			进程 ID
++	缩写键		全称键		描述
++	p		pid		进程 ID
 +	tg		tgid		线程组 ID
 +	n		name		任务名称
 +	st		stacktrace	页面分配的调用栈
-+	T		txt			块的全文
++	T		txt		块的全文
 +	ft		free_ts		页面被释放的时间戳
 +	at		alloc_ts	页面分配的时间戳
 +
 +--curl 选项:
 +
-+	缩写键	全称键		描述
-+	p		pid			进程 ID
++	缩写键		全称键		描述
++	p		pid		进程 ID
 +	tg		tgid		线程组 ID
 +	n		name		任务名称
 +	f		free		该页面是否已被释放
