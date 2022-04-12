@@ -2,70 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9EBFC43217
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 13:22:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 585B0C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 13:29:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355769AbiDLNYf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Apr 2022 09:24:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37592 "EHLO
+        id S1351454AbiDLNby (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Apr 2022 09:31:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356574AbiDLNXS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 09:23:18 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 485C913EBF;
-        Tue, 12 Apr 2022 06:14:47 -0700 (PDT)
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23CBgE2v008904;
-        Tue, 12 Apr 2022 13:14:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=pLTJILFWv8SMp1Gxs+TBC09oDeHM+2WiTPbdP91mfHs=;
- b=MOMKJ7kd488Bg/i2/BspB/Ri5+YzqBJNMRxZGtSAE1JoB1yl/6TIymGG4XbAvUpnqs6A
- MF8AkwVGxaXWHC8k0wL11OQKRoEx/MwUQqA0geQ+wxjD6i8xtk+P7eoVqN9XFAZq31/v
- rJcsl4ly9PK65yNmZ0kH0B5eBZ5bmrThP5o7u615hh//jkNznoIGC8MyFJwvMKrEkgmu
- 6yEf7nnkqSD3dJMOCUYLSXzdcoxHV+qjXcu9K4DzhGl7MKay8J85KjzNrz7Ho2ZCM2Pm
- J5taZCAM7Qb8feem6XuktQOGsKn+9Dwn4W3DDJUHWFxD8JN2pTptDvrZGfZJ02W49lvK ig== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3fd8sbj2qw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 12 Apr 2022 13:14:44 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23CD0i2I019215;
-        Tue, 12 Apr 2022 13:14:43 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3fd8sbj2qm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 12 Apr 2022 13:14:43 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
-        by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23CD7teF006999;
-        Tue, 12 Apr 2022 13:14:43 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com [9.57.198.25])
-        by ppma02wdc.us.ibm.com with ESMTP id 3fb1s9r4ra-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 12 Apr 2022 13:14:43 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23CDEgj226542584
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 12 Apr 2022 13:14:42 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 505E9B2066;
-        Tue, 12 Apr 2022 13:14:42 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2C563B2064;
-        Tue, 12 Apr 2022 13:14:38 +0000 (GMT)
-Received: from [9.211.106.50] (unknown [9.211.106.50])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Tue, 12 Apr 2022 13:14:38 +0000 (GMT)
-Message-ID: <b143e333-0add-8042-12de-7e9e8b275ec0@linux.ibm.com>
-Date:   Tue, 12 Apr 2022 09:14:36 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 15/21] KVM: s390: pci: add routines to start/stop
- interpretive execution
-Content-Language: en-US
-To:     Jason Gunthorpe <jgg@ziepe.ca>
+        with ESMTP id S1346865AbiDLNbv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 09:31:51 -0400
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57F1510FC7
+        for <linux-doc@vger.kernel.org>; Tue, 12 Apr 2022 06:29:32 -0700 (PDT)
+Received: by mail-qt1-x82a.google.com with SMTP id z14so4902049qto.5
+        for <linux-doc@vger.kernel.org>; Tue, 12 Apr 2022 06:29:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=utHfHRuEPsFSz+t+xVfjXy9ka6MMfgaIZASNpR7InEI=;
+        b=SxlfMPQPhz+k04tLf1e3BiEJDZeTeSTHtmTmHpU/IotpKeudy7b1diCTvh0ntAbJmg
+         +AHt6cJnIoJiag2v2tCfGYjXHyS5MMQFahb4J4exdhP+HvXug+HGUrqhFW74n4LXWGCu
+         8JOpmoawvLnfHkdQneaEVx5KiqZ+gdSlZGfg/O018VShj4JdRwdflY/sPFMN0+0NHwKR
+         8E+A6g3UnmsZoQG1EMLXQaoIlKNPycu4cyR+RVvWJ4Uqu+ZfHBJLF95ckXrfwm1yc6+9
+         YPqAZ8NWvwoEW10PTJm2+WVwyfXBiaPh1RI/YAe1aWtg+jYvUMq0n4WvxIM9FV4rpTCn
+         LOMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=utHfHRuEPsFSz+t+xVfjXy9ka6MMfgaIZASNpR7InEI=;
+        b=yr8GHK8moor//i690HZjbaT36yMcVr0nvHoZwdsXdFWi3xD+xtVKPxCaskEFXuOvfF
+         /ahav+sFLq79DlrW8faBSKw8AmmLbyiLUgBdAGz/lFM9uGlyOJ6YTaqHJafbv6Bd5QUP
+         wVllxXiAINccpQthi+BERdKkTw39XAC6e87Q03TXeWvC8V7UlW04Kp9ieVpxSty+lhnF
+         A2mF+TK9XhY6GFS0cUzSmT/R26O1wD0tKEZmZFeyLXZQYYdKuCxYV6xor51yBzQ5XdPC
+         eL3XQah8V5HgxE2YgLQGaRIiQqfH4u8lbTGV7dFjKCiq9XPFSiV5bxNj2TYajKPNeIYM
+         xtdg==
+X-Gm-Message-State: AOAM533WgKhzMxuvXLEOxD8SD9wjw4hh/fyX98jBjibDWSAavtJ4uTK7
+        gcSDvqVAUpzg/SynLNQbHUBQtg==
+X-Google-Smtp-Source: ABdhPJzR1/3qgAB9udxtprYbf3EHazhFycozkIuHDQce9GFcvxEpv9Sv2My0uQTgIIcCUEot20+ozg==
+X-Received: by 2002:ac8:7ca2:0:b0:2eb:db4c:1b53 with SMTP id z2-20020ac87ca2000000b002ebdb4c1b53mr3155060qtv.307.1649770171417;
+        Tue, 12 Apr 2022 06:29:31 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
+        by smtp.gmail.com with ESMTPSA id a4-20020a37b104000000b0069c2ba88bdasm2820895qkf.85.2022.04.12.06.29.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Apr 2022 06:29:30 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1neGaH-000nVL-7x; Tue, 12 Apr 2022 10:29:29 -0300
+Date:   Tue, 12 Apr 2022 10:29:29 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Matthew Rosato <mjrosato@linux.ibm.com>
 Cc:     linux-s390@vger.kernel.org, alex.williamson@redhat.com,
         cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
         pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
@@ -76,51 +63,48 @@ Cc:     linux-s390@vger.kernel.org, alex.williamson@redhat.com,
         pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
         kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 15/21] KVM: s390: pci: add routines to start/stop
+ interpretive execution
+Message-ID: <20220412132929.GC64706@ziepe.ca>
 References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
  <20220404174349.58530-16-mjrosato@linux.ibm.com>
  <20220408124707.GY64706@ziepe.ca>
-From:   Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <20220408124707.GY64706@ziepe.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ug2cA0NUQiUtzyMfzAv0jirnerPyC71J
-X-Proofpoint-ORIG-GUID: FbaeDxowGGk6k4drG8ggKIZDsBOdLcFr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-12_04,2022-04-12_02,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 mlxscore=0 spamscore=0 adultscore=0 phishscore=0
- clxscore=1011 bulkscore=0 mlxlogscore=713 lowpriorityscore=0
- malwarescore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2202240000 definitions=main-2204120062
+ <b143e333-0add-8042-12de-7e9e8b275ec0@linux.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b143e333-0add-8042-12de-7e9e8b275ec0@linux.ibm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/8/22 8:47 AM, Jason Gunthorpe wrote:
-> On Mon, Apr 04, 2022 at 01:43:43PM -0400, Matthew Rosato wrote:
->> +int kvm_s390_pci_register_kvm(struct device *dev, void *data)
->> +{
->> +	struct zpci_dev *zdev = NULL;
->> +	struct kvm *kvm = data;
->> +
->> +	/* Only proceed for zPCI devices, quietly ignore others */
->> +	if (dev_is_pci(dev))
->> +		zdev = to_zpci_dev(dev);
->> +	if (!zdev)
->> +		return 0;
+On Tue, Apr 12, 2022 at 09:14:36AM -0400, Matthew Rosato wrote:
+> On 4/8/22 8:47 AM, Jason Gunthorpe wrote:
+> > On Mon, Apr 04, 2022 at 01:43:43PM -0400, Matthew Rosato wrote:
+> > > +int kvm_s390_pci_register_kvm(struct device *dev, void *data)
+> > > +{
+> > > +	struct zpci_dev *zdev = NULL;
+> > > +	struct kvm *kvm = data;
+> > > +
+> > > +	/* Only proceed for zPCI devices, quietly ignore others */
+> > > +	if (dev_is_pci(dev))
+> > > +		zdev = to_zpci_dev(dev);
+> > > +	if (!zdev)
+> > > +		return 0;
+> > 
+> > Especially since this only works if we have zpci device
+> > 
+> > So having the zpci code hook the kvm notifier and then call the arch
+> > code from the zpci area seems pretty OK
+> > 
+> > Also why is a struct kvm * being passed as a void *?
 > 
-> Especially since this only works if we have zpci device
-> 
-> So having the zpci code hook the kvm notifier and then call the arch
-> code from the zpci area seems pretty OK
-> 
-> Also why is a struct kvm * being passed as a void *?
+> Only because the function is intended to be called via
+> iommu_group_for_each_dev (next patch) which requires int (*fn)(struct device
+> *, void *)
 
-Only because the function is intended to be called via 
-iommu_group_for_each_dev (next patch) which requires int (*fn)(struct 
-device *, void *)
+I think this further says this should be called from vfio on the
+actual struct device that is assigned to the KVM, not try to deduce it
+from the gorup..
 
-
-
+Jason
