@@ -2,97 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF523C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 09:49:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDFC6C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 09:49:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236481AbiDLJvV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Apr 2022 05:51:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48710 "EHLO
+        id S239669AbiDLJv2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Apr 2022 05:51:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357057AbiDLHjo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 03:39:44 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A949BE2D;
-        Tue, 12 Apr 2022 00:11:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=vPcJ0Jyf7TJXhPIUKaJIMiRr+nnNAGQ8o4ZIzMyfJYY=; b=JfeLXhwuu380orBQHL6JRm1SVF
-        ECgAYHr9tIUbUxfb+zKByQ6M5m+UdFOUQ3oWMUgfARd8XUeBIcoZKH4jMTF0OLs1YmEiCyYE8hkGF
-        XeAvGXsdinDYUCjJZxz8av+f1EguCiwG6ujUBcMZk64iEp/JwJs2onTAAlsbh9dlFgQyuTN/rfqH1
-        CXc/7TG6vwZodEaUB48AU2zdyv0KpVtqtNVkG1Etqm5djS39M0C2LM1Q4BHXQmYYinaJ2TknXylvG
-        79BlEtn404BwdqU+lAF3zdqB1ZAjc0YYEabv0Pb9CRim3qTlsCFdSU9sav2J9o8doCeMah26Wz5SW
-        foWlpEMA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1neAfS-004F93-S8; Tue, 12 Apr 2022 07:10:27 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 2AA8D98619A; Tue, 12 Apr 2022 09:10:26 +0200 (CEST)
-Date:   Tue, 12 Apr 2022 09:10:26 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Yu Zhao <yuzhao@google.com>, Stephen Rothwell <sfr@rothwell.id.au>,
-        linux-mm@kvack.org, Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, page-reclaim@google.com,
-        x86@kernel.org, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v10 08/14] mm: multi-gen LRU: support page table walks
-Message-ID: <20220412071026.GU2731@worktop.programming.kicks-ass.net>
-References: <20220407031525.2368067-1-yuzhao@google.com>
- <20220407031525.2368067-9-yuzhao@google.com>
- <20220411191621.0378467ad99ebc822d5ad005@linux-foundation.org>
+        with ESMTP id S1359678AbiDLJsD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 05:48:03 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24AF163503;
+        Tue, 12 Apr 2022 01:53:52 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id e8-20020a17090a118800b001cb13402ea2so2231574pja.0;
+        Tue, 12 Apr 2022 01:53:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=jmCpHCMje6DqtUs4yqS5xd4MJHXw5XyWXqbNnJZJI6A=;
+        b=S1S23s85lCZ4pEedIgLJany23GsJwNl+sETb6R8H7W+W3S5VOcSfEGpMnCYfUdhv3m
+         g/ew39g3VpTLSdY2410LO2Fvwt6/+p2K1sQNWXKUWyVs6NXQ3FH3FqhZn5xgUCPLKudS
+         28Z5QrFim4mD5b/TcyE3bo7QqENkek1BZqRc8iovMrIdJEIWln9trhqrxO/6LpMbcMV7
+         WZgoCehtFMafjr9LOmGoM9qTAtzPkzv9bOe4AK68uH/Zrh2hCh5zFOSj1V+BNP55snS8
+         b1Er5WX74yVtj3Qj5yuJfHrA1X6gupJrxsO8erNt0vMzldbfeTxdUTMzW9hPRs1YaD8P
+         br9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=jmCpHCMje6DqtUs4yqS5xd4MJHXw5XyWXqbNnJZJI6A=;
+        b=UsYJNc91fMgQjc7xl+zwovb6WcXn/nFIEqO9qYyaZ18jn1OhwPSODiyTIC7hdmBJIv
+         uvUI2vE4apWNevHEM1da+Y0lxTth/Fie45klzwwiOS80RUX1WkxcUWgMmRZ8PliKiGcw
+         igfXMdbp8hCAuxnYjwsrVPwx0mhp5UxVyA4fcaiFiZ7o82tDRX2wBtBCY/JFGIPYQ8pB
+         yWj+0M+FM6HcO7TT5keXaxKyCU6I5BJ0Ej2XV6PDGI6M3WhJftR17bXOnKIF8dAm6mIj
+         2scWHAimFWBrPKH2WAr/NaMhLl2cveneEZnvkkD0HO4RtJ0QaBRqoLuOJFiGoGhlGig6
+         Xb+w==
+X-Gm-Message-State: AOAM531D/64/5LjWdO6ERD8u9GGKWOKTkYnHDGc8uPePhb2rq48E25Pn
+        7IKEyz/9Bwqu+0IZUghVsQA=
+X-Google-Smtp-Source: ABdhPJzeUmMzv/rHk/HRe+pbfq6rGYcycw2WpFMc6HJD/OaTFSmf83XNk1ns+oO4R5agAGqulZcr9w==
+X-Received: by 2002:a17:90b:1803:b0:1c7:24c4:ab52 with SMTP id lw3-20020a17090b180300b001c724c4ab52mr3744795pjb.240.1649753631471;
+        Tue, 12 Apr 2022 01:53:51 -0700 (PDT)
+Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
+        by smtp.gmail.com with ESMTPSA id d21-20020a056a0010d500b004fd9ee64134sm37205794pfu.74.2022.04.12.01.53.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Apr 2022 01:53:50 -0700 (PDT)
+Message-ID: <77119299-efb5-5364-44fe-9f71c7c6a4a4@gmail.com>
+Date:   Tue, 12 Apr 2022 16:53:45 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220411191621.0378467ad99ebc822d5ad005@linux-foundation.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] docs/zh_CN: sync with original text
+ Documentation/vm/page_owner.rst
+Content-Language: en-US
+To:     Haowen Bai <baihaowen@meizu.com>, Alex Shi <alexs@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        siyanteng@loongson.cn
+References: <1649733951-8827-1-git-send-email-baihaowen@meizu.com>
+From:   Alex Shi <seakeel@gmail.com>
+In-Reply-To: <1649733951-8827-1-git-send-email-baihaowen@meizu.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 11, 2022 at 07:16:21PM -0700, Andrew Morton wrote:
-> On Wed,  6 Apr 2022 21:15:20 -0600 Yu Zhao <yuzhao@google.com> wrote:
+Cc: Yanteng Si <siyanteng@loongson.cn>
 
-> > +#ifdef CONFIG_LRU_GEN
-> > +static void mem_cgroup_attach(struct cgroup_taskset *tset)
-> > +{
-> > +	struct cgroup_subsys_state *css;
-> > +	struct task_struct *task = NULL;
-> > +
-> > +	cgroup_taskset_for_each_leader(task, css, tset)
-> > +		break;
-> 
-> Does this actually do anything?
+and please remove the warning in git apply:
 
-Yeah, it finds the first leader if there is any, but this is indeed
-quite terrible coding style.
+Applying: docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+.git/rebase-apply/patch:33: trailing whitespace.
+                符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的 
+warning: 1 line adds whitespace errors.
+
+
+
+On 4/12/22 11:25, Haowen Bai wrote:
+> As the tools/vm/page_owner_sort added some feature and original text
+> updated, sync the translation of zh_CN.
+>
+> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+> ---
+>  Documentation/translations/zh_CN/vm/page_owner.rst | 54 +++++++++++++++++++++-
+>  1 file changed, 53 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
+> index 9e951fabba9d..0d4f94034db6 100644
+> --- a/Documentation/translations/zh_CN/vm/page_owner.rst
+> +++ b/Documentation/translations/zh_CN/vm/page_owner.rst
+> @@ -103,14 +103,66 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
+>  		-m		按总内存排序
+>  		-p		按pid排序。
+>  		-P		按tgid排序。
+> +		-n		按任务名称排序。
+>  		-r		按内存释放时间排序。
+>  		-s		按堆栈跟踪排序。
+>  		-t		按时间排序（默认）。
+> +		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从
+> +						**标准格式说明符**部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
+> +						允许混合使用缩写键和全称键。
+> +
+> +		Examples:
+> +				./page_owner_sort <input> <output> --sort=n,+pid,-tgid
+> +				./page_owner_sort <input> <output> --sort=at
+>  
+>     其它函数:
+>  
+>  	Cull:
+> -		-c		通过比较堆栈跟踪而不是总块来进行剔除。
+> +		--cull <rules>
+> +				指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
+> +
+> +		<rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
+> +				符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的 
+> +				STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
+>  
+> +		Examples:
+> +				./page_owner_sort <input> <output> --cull=stacktrace
+> +				./page_owner_sort <input> <output> --cull=st,pid,name
+> +				./page_owner_sort <input> <output> --cull=n,f
+>  	Filter:
+>  		-f		过滤掉内存已被释放的块的信息。
+> +
+> +	Select:
+> +		--pid <pidlist>		通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
+> +		--tgid <tgidlist>	通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
+> +		--name <cmdlist>	按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
+> +
+> +		<pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
+> +
+> +
+> +		Examples:
+> +				./page_owner_sort <input> <output> --pid=1
+> +				./page_owner_sort <input> <output> --tgid=1,2,3
+> +				./page_owner_sort <input> <output> --name name1,name2
+> +
+> +		标准格式说明符
+> +==========================
+> +--sort 选项:
+> +
+> +	缩写键	全称键		描述
+> +	p		pid			进程 ID
+
+
+Are above lines aligned?
+
+
+Thanks
+
+Alex
+
+> +	tg		tgid		线程组 ID
+> +	n		name		任务名称
+> +	st		stacktrace	页面分配的调用栈
+> +	T		txt			块的全文
+> +	ft		free_ts		页面被释放的时间戳
+> +	at		alloc_ts	页面分配的时间戳
+> +
+> +--curl 选项:
+> +
+> +	缩写键	全称键		描述
+> +	p		pid			进程 ID
+> +	tg		tgid		线程组 ID
+> +	n		name		任务名称
+> +	f		free		该页面是否已被释放
+> +	st		stacktrace	页面分配的调用栈
