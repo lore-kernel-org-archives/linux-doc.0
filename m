@@ -2,189 +2,328 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC38FC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 11:57:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26AC1C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 12:12:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229788AbiDLL7l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Apr 2022 07:59:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57186 "EHLO
+        id S239674AbiDLMOS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Apr 2022 08:14:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353136AbiDLL6j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 07:58:39 -0400
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com (mail-eopbgr30136.outbound.protection.outlook.com [40.107.3.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B81C117B;
-        Tue, 12 Apr 2022 03:50:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hv4/xgUjrba9z0X5+QINkLnlTB5+ELbiPQPXp7Reu2se+m7KWGUVj0xAGUfXRe0U6UVg1XmRMq69Y+O2F26tPHLbrRd+Qy2ZfYlewc4mG40zsDALD4htJZsXiSHgMGewi1PzEUBgw6yv1b+MLk6vyw0oljmHkThPKOsoA9EPzr57OUTwNBRqmB0V5AOkKOUjVH6ywk4DOOub1s/vFP4gqVssfv91qR3YrLeR3ILMbEUkgoTp2R1XIR3IWXSnMusOaEmXhv/J9EavtWc1kkTnEPYNKwX+6VjoPkNz45mJUSxsvjfFCkTyZ2+Kw4dt3GhxE99Cq6m4mBezFuNe4PNrAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nr6R7TtvSNV/KaCE0wzd9dlzBC51S0LKPieI2T0HSX4=;
- b=cZqSN6PA4k4XlX8EIPRwuT93WTDFLCawY1c4P8EIJR5lJwTocZngr2ZhaM10bdrSK52TfP7VEXiqX1Bra3Brn8d7xE72gcvfKWxErPgjm1dTJBNJrH+ah96LKKY+CPhgFWXAJa9sXOyzZczHcabwaLfVlzEhIVA7dOaWBprFDn2JkqiOrVQxhnDb49MiZFUCHUqNxtJMh+Oo0VQnIkc6+r/OMzJJiEELVHnS1dWkp6oP+qpcDozzaiTSrmU5hTvVBvqJdhGFGi5SfDO/G9cQH5oejPd8b73QNvB2DPPzJa71oaE3LQBuo4GlEWypuPyUy5Tdj9/QtknjZaA7T07EKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bang-olufsen.dk; dmarc=pass action=none
- header.from=bang-olufsen.dk; dkim=pass header.d=bang-olufsen.dk; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bang-olufsen.dk;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nr6R7TtvSNV/KaCE0wzd9dlzBC51S0LKPieI2T0HSX4=;
- b=tR/uU9wwEeOlNyelMKBBq+bmT+72M1wKAWdZEbJVPVTHxmY7uXg6aCnNLSJlVdYvXcnrErN9OtKZvibf+K50Uvxh9vsiw6OdNm5PjW2ydrd+WVAPHDibZHBsAaPjcTUjsCJdFDBmD+D95PC/L0XqnI1md0qOU5gkW3HQjMWgV6Y=
-Received: from AM6PR03MB3943.eurprd03.prod.outlook.com (2603:10a6:20b:26::24)
- by AM6PR03MB4215.eurprd03.prod.outlook.com (2603:10a6:20b:e::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Tue, 12 Apr
- 2022 10:50:19 +0000
-Received: from AM6PR03MB3943.eurprd03.prod.outlook.com
- ([fe80::a443:52f8:22c3:1d82]) by AM6PR03MB3943.eurprd03.prod.outlook.com
- ([fe80::a443:52f8:22c3:1d82%3]) with mapi id 15.20.5144.030; Tue, 12 Apr 2022
- 10:50:19 +0000
-From:   =?utf-8?B?QWx2aW4gxaBpcHJhZ2E=?= <ALSI@bang-olufsen.dk>
-To:     Luiz Angelo Daros de Luca <luizluca@gmail.com>
-CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "tobias@waldekranz.com" <tobias@waldekranz.com>,
-        "andrew@lunn.ch" <andrew@lunn.ch>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-Subject: Re: [PATCH net-next] net: dsa: realtek: add compatible strings for
- RTL8367RB-VB
-Thread-Topic: [PATCH net-next] net: dsa: realtek: add compatible strings for
- RTL8367RB-VB
-Thread-Index: AQHYTlsZ5PP7ok0nLUG60UBEzGR+wQ==
-Date:   Tue, 12 Apr 2022 10:50:19 +0000
-Message-ID: <20220412105018.gjrswtwrgjyndev4@bang-olufsen.dk>
-References: <20220411210406.21404-1-luizluca@gmail.com>
-In-Reply-To: <20220411210406.21404-1-luizluca@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bang-olufsen.dk;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 47dc7c5e-cb6b-4f90-187e-08da1c723c8e
-x-ms-traffictypediagnostic: AM6PR03MB4215:EE_
-x-microsoft-antispam-prvs: <AM6PR03MB42151EA9B554200A9852294183ED9@AM6PR03MB4215.eurprd03.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: szo9kGu6pdclnoBVcBDO3oJRp5gSvcmBqXFbBECRybel7bnr1Vg/N07XIAsCG77zO+qBjAKYS6rG7z69r4zgB0GaT6xVQ8Be5+sbg2tclafiU3PnQHtA24UMaJTYR5HC67iJWy0+FLsu9c6yWkCv8eD12m0pvOQBSzzHaF7rLOvOADcbYciKmziADqmZYn2bN1Jz4Z1NfBSEB3bBLQguhLR1ksyJVMWh8HWad3qdsgqY+ZJBYdofmSutYcVcLy+H6Q/jnJGBiFEXK3krjl+EppWYD8PaVmsGNfCtaQblfX6TcbEBp2pBRy5RjFlQfotv3PKo36dKOuYm4nguiCdvOYjUImhTPT8MSAxm/sYYMuzh5MRg9ScNP5HnL0AzL09+CaLtMi12D6CgThwNo5l3ktCqs0ayQST96clNSKGdHw2ojocf/lwkoKAJMo9Q2hM+n0q+sb1lQwqObCRUKd/432gcSD//mrA44Mky9CzMgjOaBrvbBZVaR826eKmBiVsUF7iCbtl+b1oNQ5bIrqvJMwtDHvZNahnqBMdLTuyQBS1OCweFXhtX9+ek2tW992gOoTpRvU0KMPZ2IQNLBaYT5+DXEpLTxgnofYWfjZfMeoqkvGQEJUbX7Hk6y7XnpxOWE/Rc3AdgUbtuqYIJmXzTvuVo/SxPeFGGeaZINhfkMjF39HNvTmR2M1I44VDgFigLAVl6PM+OJpIJ6AxWMfbqSg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR03MB3943.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(2906002)(85202003)(122000001)(66574015)(508600001)(6512007)(85182001)(36756003)(6506007)(6486002)(86362001)(38070700005)(71200400001)(38100700002)(4326008)(8676002)(5660300002)(83380400001)(8976002)(2616005)(8936002)(316002)(7416002)(66556008)(54906003)(76116006)(6916009)(66946007)(64756008)(66476007)(91956017)(186003)(66446008)(26005)(1076003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?elo5enlQdXB4dUlnMjBXV2hnaW1vZ0lMTUgvY2JncGdLeDJkckRXM1JFbVRK?=
- =?utf-8?B?K01Wcng2VzY0TzZ0L2ZwdDRJT2F5Vm04cS9DdFIrMUNQdWhJWm9WdmxUYmgw?=
- =?utf-8?B?N1o2K3FwNWVsM05pcHpmbEdTc2dLT2NzR0Jqcko5ckRHdlVOM0V6cXhlK3J4?=
- =?utf-8?B?eG5xcVZ6V01aOFlUNFNodzA1bTVuRk9zWk1XWmZmNXBrUGF4ZkR6NkQwMlN0?=
- =?utf-8?B?QUY4clZLWE9PZFRkOW5ZRkx2MFVTUVB1QWFOblpWZVlQbFNKZGtXT0RHZXhz?=
- =?utf-8?B?dnNURG1OY3o5UFlwYjNqT0xEbTlvR243S2hGNEdoVU83U2FsLzIzRGFMeWRT?=
- =?utf-8?B?bjVWOEZFTEJqTjlRTy9OWWV2b2E5aW1kRnBROEdnY1VQL1BoUU9vZ0cvZ3Aw?=
- =?utf-8?B?d09lTG95TEJKcVV4TVNaU296MHVNNGdwSjZydHV0bFZPeWJYSnFtNzJ5L3Jj?=
- =?utf-8?B?VmF1K2o5cDRCekJiS0Nrd3BQMFo2ZGRndWgxNjNoS0VTd0N1OTBoZTFWNzVl?=
- =?utf-8?B?Q2kvZmthK2tRVDlUbmVQSXNJMnByc3V5SHA2SEYvQ2J6Z0gwL0xoS2NrbEZs?=
- =?utf-8?B?WkE5YTU4OHRJK3NzM3NjUitsdy96TlI5S3B0SmpZcWFpOFdPZVZoY1NKUGhU?=
- =?utf-8?B?eHRrQkFRdHRlT3RzM2xBNEJGRk1Qd21GOUxIbXJDU2czSE51TWNGcHFOZURj?=
- =?utf-8?B?Z0F6bkc1emRHTXFHaU10Nm92eUxOb3FQRy92Q2E0RlRudDBMYUJDWTl4dGNu?=
- =?utf-8?B?aUVqenA1eDV0NzlrL01YZzhhcTQ4RkVmUjk2dmtvUjdUQXJZSDA5bFYvamdH?=
- =?utf-8?B?U2FzVm5ZRWdUOUZ4NTVEb1pPdEFUOHNYa0l6VEZ2UkdpTUNuWHdzdy9ScDB5?=
- =?utf-8?B?ZUNtbDljaERTYXl3eUQyeHRKajk1OTZGRXVMdFBBb2lZeUZMZE95ejJyV0Ny?=
- =?utf-8?B?N05KVHJFWklYZ1YranhNSEJoQlNucFNwb2lLZWNDdnh3TFFwYnM5dmlBRUVQ?=
- =?utf-8?B?N2VnbG1XRFRHWG80T1JZOGxleWpmWEhNYXFCT0VWVktlT2JWeXRucDRFNHU2?=
- =?utf-8?B?b0grQ0hKZFd6NnBhZHF6SGlBSlh5ampRVDBtQlYrZzFTNGQ5NUsyZUp4VTFJ?=
- =?utf-8?B?R3gvVHFwRjhsc0FGL0ZVT0NtN0IydWNkeGNHOEdDQU9jcGlFU0pidGlhZ0sx?=
- =?utf-8?B?NjJnNCtLM2tMek85bEFTT2hoWVAwL1lDMU4rWlJXNlNhTXBtcWJFU1dZUmZG?=
- =?utf-8?B?WGxUUkorRzQ5RlM4bHZaN29HYmJ1L0YyYk5JN3B2T1ZZQnZTRm16SmlHRWND?=
- =?utf-8?B?WHVkOThLSHR2YjVkb2JIVnY0UUhkWi9DZjZiZW5ZT1poM2wvQ3hJSnZxdnRy?=
- =?utf-8?B?SW9ZRGtEQ2l0UFNiWnEzZDVMN0J1NUl0ZnFiRUNEWVk3bUo1ZEVyL0NtVXhZ?=
- =?utf-8?B?Q3RpUXpabjR3a0hrbzJDY1hoalpMTGtRazQ5ZVI5QWZ3Rm9ZVFM3UjJSS0oz?=
- =?utf-8?B?TGxSZEFXTUNJRVRpUzM1dWdDV3dvaXVPU2Zjc2RhRUV5bmdsSnY5VUlRbGsx?=
- =?utf-8?B?SGVkdTQ0RXFlZllsZWIrcHY4NzBPclVwNEZPRGpEbm15TXRNMVRjMC9PVTdh?=
- =?utf-8?B?MzhlMVBiaXljeDJsa0RpcDlSWnYySjdMS0FYbnJEZVhGL0xqMG02Yk9reCtZ?=
- =?utf-8?B?L051VEsra0RKejJsYjdrbkkrdnhCTlJDY29oT1NBUjNFa01wNDhFci9PY1A2?=
- =?utf-8?B?U2NpemVuRWN1OWQ4S3V0ZFBhWk1MUDhHRE5UY2tZalc3OE85TGxVQ0pVUW8x?=
- =?utf-8?B?b0pnc3NzYTR1RU5PbCtPN21ySnNDUU5sdVdwZjc2cnZnV0VMK2N1VVVYbUVJ?=
- =?utf-8?B?OHViaTdYb0wzTzh3OGEvYXpWTTVXckx3dTIybzU3OFJCZ1dwOEMxaitFaHVB?=
- =?utf-8?B?ZnpHTzVlNDdjbW5tUDdCU1ozVC90UjdEN3lVN1VrK05qQ3R1czRTVk1aYUVH?=
- =?utf-8?B?WkFSdE14MU9ucEZ6ekFSei9rYWlIU3lpV1FHWXFCa1k4TGZocUJCTDhWTXdj?=
- =?utf-8?B?bWJPYWR6MEl4K3BqUHRlWkl3SC9DekRmeHdBL1k5bHhPMys3NDNydEp0bXgv?=
- =?utf-8?B?TGttUm0raml3M1lXSHA2VS9aTTRvT1prdHFDSG1JM2pzQlVROWY0RXdiK29O?=
- =?utf-8?B?L1RTK3J3QTh0Vy8wb3p3ODhjR2lEejBjWDBmSlZYcjhrTVdkQlptQ25kRGwy?=
- =?utf-8?B?UHA2TEVOSWRFQis5S2J0QnJiWEorbVpVNk1naDdETDNGQldwNTB3bjRJaUdn?=
- =?utf-8?B?dUNQc3p0enFYdlc2Z1dnd2JtV3dSQm1KNGpZSlU0bzVNWVhwZmFMUmdyOFUx?=
- =?utf-8?Q?Leq8+/FvkyFmhWao=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B52A1897366AA64685944B095EAD7F3F@eurprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S1354423AbiDLMOG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Apr 2022 08:14:06 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FEEE8594E
+        for <linux-doc@vger.kernel.org>; Tue, 12 Apr 2022 04:15:06 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id a42so10665725pfx.7
+        for <linux-doc@vger.kernel.org>; Tue, 12 Apr 2022 04:15:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=cGvHlpqOyWmrThvVtDXdOJEGvDkWgL4hlnS8c7l/1q4=;
+        b=XRCzREANSjCoRhwvwtzhbFT/7sWxP6MhWTse7rJnbP+kIveoVTCWmnX/RahjTJeP5D
+         eX5u6qyVSX1JFNDoIOHl9fSt31jhfat1X4HM6/dAFjGU2sz3M6dAhkjVp8ySdx3GjbcW
+         CSkcUFAJfoAbnBe3P59WMQR/j0lOxsNuGUoy8QRS+bKS7dzmRO5ftWbAI27xsRRNruQu
+         BZRlY5ri8DRp7W8LughczdfCIn8wy9nqaTENqQGKRwLqHb3ws0pA+ilvQpqtrfOlF6+t
+         TfS77fNS3QpSIyy6rzpWMQYqZSTWjW08YILN5ahfU+/wNJnUMnJ6Suk+VbpsbHxMs0Zr
+         Zthw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=cGvHlpqOyWmrThvVtDXdOJEGvDkWgL4hlnS8c7l/1q4=;
+        b=r3KjUXEhgvyVz4Y/aYkyKhhMYmKOYSHTLZs/C6Bvr14GWKylnMetrQcBztcMhcGWfv
+         jz3oKQrLkLAvu/e5cv+xvd+/ARMwyU+3NWRK2T3jUVzyq9wuiq4kqapqvgXWK0kBK4YJ
+         U5/7FVnbVrhlWd3k0C104euI+3YXxfdWgnYAmiUxJ9+rxc3iv2hwfurxMcanLTVTmRF+
+         VSangSbzWy+r/ibw/QZPjoAeBi1DqRxXg8uu/E2MVXxY7CiUUHipsRzFl1LIiWAkL/+v
+         aeI/NXX1/D82wU5y1PyyKI65XlikMi41G+V3EdMS1lO4YqUi9FwdV/e9qcS1NwMLF6yY
+         NNIw==
+X-Gm-Message-State: AOAM530uB1cQJ7T8Aa6sapiPyfY3q9bAcv453sUl2Xtq6HXsl2B8kKqn
+        D2FlRxdbxyTZCnPM1O8XwupOYw==
+X-Google-Smtp-Source: ABdhPJyqgYwh+HcY/ipT3k10fjoiHOhWnLnKSBHPvmCUUAiOyumwr2SarcrOYKYxaoUlCOZ6PA8NjA==
+X-Received: by 2002:a05:6a00:1488:b0:505:9dfa:1a09 with SMTP id v8-20020a056a00148800b005059dfa1a09mr16104258pfu.43.1649762105908;
+        Tue, 12 Apr 2022 04:15:05 -0700 (PDT)
+Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.229])
+        by smtp.gmail.com with ESMTPSA id l25-20020a635719000000b0039da6cdf82dsm402507pgb.83.2022.04.12.04.15.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Apr 2022 04:15:05 -0700 (PDT)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        osalvador@suse.de, david@redhat.com, masahiroy@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH v7 1/4] mm: hugetlb_vmemmap: introduce CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
+Date:   Tue, 12 Apr 2022 19:14:31 +0800
+Message-Id: <20220412111434.96498-2-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+In-Reply-To: <20220412111434.96498-1-songmuchun@bytedance.com>
+References: <20220412111434.96498-1-songmuchun@bytedance.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bang-olufsen.dk
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR03MB3943.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47dc7c5e-cb6b-4f90-187e-08da1c723c8e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Apr 2022 10:50:19.3047
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 210d08b8-83f7-470a-bc96-381193ca14a1
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: puE3kuzUwbhooe+EHuFqUGEcMjoa+DP1J20zRdyYf2RxmeJAtsmMvkppo+U7GcycWpVKYnwd3hLrgPnEEMGWLw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB4215
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gTW9uLCBBcHIgMTEsIDIwMjIgYXQgMDY6MDQ6MDdQTSAtMDMwMCwgTHVpeiBBbmdlbG8gRGFy
-b3MgZGUgTHVjYSB3cm90ZToNCj4gUlRMODM2N1JCLVZCIHdhcyBub3QgbWVudGlvbmVkIGluIHRo
-ZSBjb21wYXRpYmxlIHRhYmxlLCBub3IgaW4gdGhlDQo+IEtjb25maWcgaGVscCB0ZXh0Lg0KPiAN
-Cj4gVGhlIGRyaXZlciBzdGlsbCBkZXRlY3RzIHRoZSB2YXJpYW50IGJ5IGl0c2VsZiBhbmQgaWdu
-b3JlcyB3aGljaA0KPiBjb21wYXRpYmxlIHN0cmluZyB3YXMgdXNlZCB0byBzZWxlY3QgaXQuIFNv
-LCBhbnkgY29tcGF0aWJsZSBzdHJpbmcgd2lsbA0KPiB3b3JrIGZvciBhbnkgY29tcGF0aWJsZSBt
-b2RlbC4NCg0KVGhpcyBpcyBub3QgcXVpdGUgdHJ1ZTogYSBjb21wYXRpYmxlIHN0cmluZyBvZiBy
-ZWFsdGVrLHJ0bDgzNjZyYiB3aWxsIHNlbGVjdCB0aGUNCm90aGVyIHN1YmRyaXZlciwgYXNzdW1p
-bmcgaXQgaXMgYXZhaWxhYmxlLg0KDQpCZXNpZGVzIHRoYXQgc21hbGwgaW5hY2N1cmFjeSwgSSB0
-aGluayB5b3VyIGRlc2NyaXB0aW9uIGlzIG1pc3Npbmcgb25lIGNydWNpYWwNCmJpdCBvZiBpbmZv
-cm1hdGlvbiwgd2hpY2ggaXMgdGhhdCB0aGUgY2hpcCBJRC92ZXJzaW9uIG9mIHRoZSAnNjdSQiBp
-cyBhbHJlYWR5DQppbmNsdWRlZCBpbiB0aGUgZHJpdmVyLiBPdGhlcndpc2UgaXQgcmVhZHMgYXMg
-dGhvdWdoIHRoZSAnNjdSQiBoYXMgdGhlIHNhbWUgSUQNCmFzIG9uZSBvZiB0aGUgYWxyZWFkeS1z
-dXBwb3J0ZWQgY2hpcHMgKCc2NU1CIG9yICc2N1MpLg0KDQpXaXRoIHRoZSBhYm92ZSBjbGFyaWZp
-Y2F0aW9uczoNCg0KUmV2aWV3ZWQtYnk6IEFsdmluIMWgaXByYWdhIDxhbHNpQGJhbmctb2x1ZnNl
-bi5kaz4NCg0KS2luZCByZWdhcmRzLA0KQWx2aW4NCg0KPiANCj4gUmVwb3J0ZWQtYnk6IEFyxLFu
-w6cgw5xOQUwgPGFyaW5jLnVuYWxAYXJpbmM5LmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogTHVpeiBB
-bmdlbG8gRGFyb3MgZGUgTHVjYSA8bHVpemx1Y2FAZ21haWwuY29tPg0KPiAtLS0NCj4gIGRyaXZl
-cnMvbmV0L2RzYS9yZWFsdGVrL0tjb25maWcgICAgICAgIHwgMyArKy0NCj4gIGRyaXZlcnMvbmV0
-L2RzYS9yZWFsdGVrL3JlYWx0ZWstbWRpby5jIHwgMSArDQo+ICBkcml2ZXJzL25ldC9kc2EvcmVh
-bHRlay9yZWFsdGVrLXNtaS5jICB8IDQgKysrKw0KPiAgMyBmaWxlcyBjaGFuZ2VkLCA3IGluc2Vy
-dGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC9k
-c2EvcmVhbHRlay9LY29uZmlnIGIvZHJpdmVycy9uZXQvZHNhL3JlYWx0ZWsvS2NvbmZpZw0KPiBp
-bmRleCBiNzQyN2E4MjkyYjIuLjhlYjUxNDhiY2MwMCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9u
-ZXQvZHNhL3JlYWx0ZWsvS2NvbmZpZw0KPiArKysgYi9kcml2ZXJzL25ldC9kc2EvcmVhbHRlay9L
-Y29uZmlnDQo+IEBAIC0yOSw3ICsyOSw4IEBAIGNvbmZpZyBORVRfRFNBX1JFQUxURUtfUlRMODM2
-NU1CDQo+ICAJZGVwZW5kcyBvbiBORVRfRFNBX1JFQUxURUtfU01JIHx8IE5FVF9EU0FfUkVBTFRF
-S19NRElPDQo+ICAJc2VsZWN0IE5FVF9EU0FfVEFHX1JUTDhfNA0KPiAgCWhlbHANCj4gLQkgIFNl
-bGVjdCB0byBlbmFibGUgc3VwcG9ydCBmb3IgUmVhbHRlayBSVEw4MzY1TUItVkMgYW5kIFJUTDgz
-NjdTLg0KPiArCSAgU2VsZWN0IHRvIGVuYWJsZSBzdXBwb3J0IGZvciBSZWFsdGVrIFJUTDgzNjVN
-Qi1WQywgUlRMODM2N1JCLVZCDQo+ICsJICBhbmQgUlRMODM2N1MuDQo+ICANCj4gIGNvbmZpZyBO
-RVRfRFNBX1JFQUxURUtfUlRMODM2NlJCDQo+ICAJdHJpc3RhdGUgIlJlYWx0ZWsgUlRMODM2NlJC
-IHN3aXRjaCBzdWJkcml2ZXIiDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC9kc2EvcmVhbHRl
-ay9yZWFsdGVrLW1kaW8uYyBiL2RyaXZlcnMvbmV0L2RzYS9yZWFsdGVrL3JlYWx0ZWstbWRpby5j
-DQo+IGluZGV4IDMxZTFmMTAwZTQ4ZS4uYTM2YjBkOGYxN2ZmIDEwMDY0NA0KPiAtLS0gYS9kcml2
-ZXJzL25ldC9kc2EvcmVhbHRlay9yZWFsdGVrLW1kaW8uYw0KPiArKysgYi9kcml2ZXJzL25ldC9k
-c2EvcmVhbHRlay9yZWFsdGVrLW1kaW8uYw0KPiBAQCAtMjY3LDYgKzI2Nyw3IEBAIHN0YXRpYyBj
-b25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIHJlYWx0ZWtfbWRpb19vZl9tYXRjaFtdID0gew0KPiAg
-I2VuZGlmDQo+ICAjaWYgSVNfRU5BQkxFRChDT05GSUdfTkVUX0RTQV9SRUFMVEVLX1JUTDgzNjVN
-QikNCj4gIAl7IC5jb21wYXRpYmxlID0gInJlYWx0ZWsscnRsODM2NW1iIiwgLmRhdGEgPSAmcnRs
-ODM2NW1iX3ZhcmlhbnQsIH0sDQo+ICsJeyAuY29tcGF0aWJsZSA9ICJyZWFsdGVrLHJ0bDgzNjdy
-YiIsIC5kYXRhID0gJnJ0bDgzNjVtYl92YXJpYW50LCB9LA0KPiAgCXsgLmNvbXBhdGlibGUgPSAi
-cmVhbHRlayxydGw4MzY3cyIsIC5kYXRhID0gJnJ0bDgzNjVtYl92YXJpYW50LCB9LA0KPiAgI2Vu
-ZGlmDQo+ICAJeyAvKiBzZW50aW5lbCAqLyB9LA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9uZXQv
-ZHNhL3JlYWx0ZWsvcmVhbHRlay1zbWkuYyBiL2RyaXZlcnMvbmV0L2RzYS9yZWFsdGVrL3JlYWx0
-ZWstc21pLmMNCj4gaW5kZXggMjI0M2QzZGE1NWIyLi5jMjIwMGJkMjM0NDggMTAwNjQ0DQo+IC0t
-LSBhL2RyaXZlcnMvbmV0L2RzYS9yZWFsdGVrL3JlYWx0ZWstc21pLmMNCj4gKysrIGIvZHJpdmVy
-cy9uZXQvZHNhL3JlYWx0ZWsvcmVhbHRlay1zbWkuYw0KPiBAQCAtNTU2LDYgKzU1NiwxMCBAQCBz
-dGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCByZWFsdGVrX3NtaV9vZl9tYXRjaFtdID0g
-ew0KPiAgCQkuY29tcGF0aWJsZSA9ICJyZWFsdGVrLHJ0bDgzNjVtYiIsDQo+ICAJCS5kYXRhID0g
-JnJ0bDgzNjVtYl92YXJpYW50LA0KPiAgCX0sDQo+ICsJew0KPiArCQkuY29tcGF0aWJsZSA9ICJy
-ZWFsdGVrLHJ0bDgzNjdyYiIsDQo+ICsJCS5kYXRhID0gJnJ0bDgzNjVtYl92YXJpYW50LA0KPiAr
-CX0sDQo+ICAJew0KPiAgCQkuY29tcGF0aWJsZSA9ICJyZWFsdGVrLHJ0bDgzNjdzIiwNCj4gIAkJ
-LmRhdGEgPSAmcnRsODM2NW1iX3ZhcmlhbnQsDQo+IC0tIA0KPiAyLjM1LjENCj4=
+If the size of "struct page" is not the power of two but with the feature
+of minimizing overhead of struct page associated with each HugeTLB is
+enabled, then the vmemmap pages of HugeTLB will be corrupted after
+remapping (panic is about to happen in theory).  But this only exists when
+!CONFIG_MEMCG && !CONFIG_SLUB on x86_64.  However, it is not a conventional
+configuration nowadays.  So it is not a real word issue, just the result
+of a code review.  But we have to prevent anyone from configuring that
+combined configurations.  In order to avoid many checks like "is_power_of_2
+(sizeof(struct page))" through mm/hugetlb_vmemmap.c.  Introduce a new macro
+CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP to represent the size of struct
+page is power of two and CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP is
+configured.  Then make the codes of this feature depends on this new macro.
+Then we could prevent anyone do any unexpected configurations.  A new
+autoconf_ext.h is introduced as well, which serves as an extension for
+autoconf.h since those special configurations (e.g.
+CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP here) are rely on the autoconf.h
+(generated from Kconfig), so we cannot embed those configurations into
+Kconfig.  After this change, it would be easy if someone want to do the
+similar thing (add a new CONFIG) in the future.
+
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+Suggested-by: Luis Chamberlain <mcgrof@kernel.org>
+---
+ Kbuild                     | 19 +++++++++++++++++++
+ arch/x86/mm/init_64.c      |  2 +-
+ include/linux/hugetlb.h    |  2 +-
+ include/linux/kconfig.h    |  4 ++++
+ include/linux/mm.h         |  2 +-
+ include/linux/page-flags.h |  2 +-
+ kernel/autoconf_ext.c      | 26 ++++++++++++++++++++++++++
+ mm/hugetlb_vmemmap.c       |  8 ++------
+ mm/hugetlb_vmemmap.h       |  4 ++--
+ mm/sparse-vmemmap.c        |  4 ++--
+ scripts/mod/Makefile       |  2 ++
+ 11 files changed, 61 insertions(+), 14 deletions(-)
+ create mode 100644 kernel/autoconf_ext.c
+
+diff --git a/Kbuild b/Kbuild
+index fa441b98c9f6..83c0d5a418d1 100644
+--- a/Kbuild
++++ b/Kbuild
+@@ -2,6 +2,12 @@
+ #
+ # Kbuild for top-level directory of the kernel
+ 
++# autoconf_ext.h is generated last since it depends on other generated headers,
++# however those other generated headers may include autoconf_ext.h. Use the
++# following macro to avoid circular dependency.
++
++KBUILD_CFLAGS_KERNEL += -D__EXCLUDE_AUTOCONF_EXT_H
++
+ #####
+ # Generate bounds.h
+ 
+@@ -37,6 +43,19 @@ $(offsets-file): arch/$(SRCARCH)/kernel/asm-offsets.s FORCE
+ 	$(call filechk,offsets,__ASM_OFFSETS_H__)
+ 
+ #####
++# Generate autoconf_ext.h.
++
++autoconf_ext-file := include/generated/autoconf_ext.h
++
++always-y += $(autoconf_ext-file)
++targets += kernel/autoconf_ext.s
++
++kernel/autoconf_ext.s: $(bounds-file) $(timeconst-file) $(offsets-file)
++
++$(autoconf_ext-file): kernel/autoconf_ext.s FORCE
++	$(call filechk,offsets,__LINUX_AUTOCONF_EXT_H__)
++
++#####
+ # Check for missing system calls
+ 
+ always-y += missing-syscalls
+diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+index 4b9e0012bbbf..9b8dfa6e4da8 100644
+--- a/arch/x86/mm/init_64.c
++++ b/arch/x86/mm/init_64.c
+@@ -1268,7 +1268,7 @@ static struct kcore_list kcore_vsyscall;
+ 
+ static void __init register_page_bootmem_info(void)
+ {
+-#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP)
++#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP)
+ 	int i;
+ 
+ 	for_each_online_node(i)
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index ac2ece9e9c79..d42de8abd2b6 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -623,7 +623,7 @@ struct hstate {
+ 	unsigned int nr_huge_pages_node[MAX_NUMNODES];
+ 	unsigned int free_huge_pages_node[MAX_NUMNODES];
+ 	unsigned int surplus_huge_pages_node[MAX_NUMNODES];
+-#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
++#ifdef CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
+ 	unsigned int optimize_vmemmap_pages;
+ #endif
+ #ifdef CONFIG_CGROUP_HUGETLB
+diff --git a/include/linux/kconfig.h b/include/linux/kconfig.h
+index 20d1079e92b4..f2cb8be6d8d0 100644
+--- a/include/linux/kconfig.h
++++ b/include/linux/kconfig.h
+@@ -4,6 +4,10 @@
+ 
+ #include <generated/autoconf.h>
+ 
++#ifndef __EXCLUDE_AUTOCONF_EXT_H
++#include <generated/autoconf_ext.h>
++#endif
++
+ #ifdef CONFIG_CPU_BIG_ENDIAN
+ #define __BIG_ENDIAN 4321
+ #else
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index e0ad13486035..4c36f77a5745 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -3186,7 +3186,7 @@ static inline void print_vma_addr(char *prefix, unsigned long rip)
+ }
+ #endif
+ 
+-#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
++#ifdef CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
+ int vmemmap_remap_free(unsigned long start, unsigned long end,
+ 		       unsigned long reuse);
+ int vmemmap_remap_alloc(unsigned long start, unsigned long end,
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index b70124b9c7c1..e409b10cd677 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -199,7 +199,7 @@ enum pageflags {
+ 
+ #ifndef __GENERATING_BOUNDS_H
+ 
+-#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
++#ifdef CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
+ DECLARE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON,
+ 			 hugetlb_optimize_vmemmap_key);
+ 
+diff --git a/kernel/autoconf_ext.c b/kernel/autoconf_ext.c
+new file mode 100644
+index 000000000000..8475735c6fc9
+--- /dev/null
++++ b/kernel/autoconf_ext.c
+@@ -0,0 +1,26 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Generate definitions needed by the preprocessor.
++ * This code generates raw asm output which is post-processed
++ * to extract and format the required data.
++ */
++#include <linux/mm_types.h>
++#include <linux/kbuild.h>
++#include <linux/log2.h>
++
++int main(void)
++{
++	if (IS_ENABLED(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP) &&
++	    is_power_of_2(sizeof(struct page))) {
++		/*
++		 * The 2nd parameter of DEFINE() will go into the comments. Do
++		 * not pass 1 directly to it to make the generated macro more
++		 * clear for the readers.
++		 */
++		DEFINE(CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP,
++		       IS_ENABLED(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP) &&
++		       is_power_of_2(sizeof(struct page)));
++	}
++
++	return 0;
++}
+diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+index 2655434a946b..be73782cc1cf 100644
+--- a/mm/hugetlb_vmemmap.c
++++ b/mm/hugetlb_vmemmap.c
+@@ -178,6 +178,7 @@
+ 
+ #include "hugetlb_vmemmap.h"
+ 
++#ifdef CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
+ /*
+  * There are a lot of struct page structures associated with each HugeTLB page.
+  * For tail pages, the value of compound_head is the same. So we can reuse first
+@@ -194,12 +195,6 @@ EXPORT_SYMBOL(hugetlb_optimize_vmemmap_key);
+ 
+ static int __init hugetlb_vmemmap_early_param(char *buf)
+ {
+-	/* We cannot optimize if a "struct page" crosses page boundaries. */
+-	if (!is_power_of_2(sizeof(struct page))) {
+-		pr_warn("cannot free vmemmap pages because \"struct page\" crosses page boundaries\n");
+-		return 0;
+-	}
+-
+ 	if (!buf)
+ 		return -EINVAL;
+ 
+@@ -300,3 +295,4 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
+ 	pr_info("can optimize %d vmemmap pages for %s\n",
+ 		h->optimize_vmemmap_pages, h->name);
+ }
++#endif /* CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP */
+diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
+index 109b0a53b6fe..3afae3ff37fa 100644
+--- a/mm/hugetlb_vmemmap.h
++++ b/mm/hugetlb_vmemmap.h
+@@ -10,7 +10,7 @@
+ #define _LINUX_HUGETLB_VMEMMAP_H
+ #include <linux/hugetlb.h>
+ 
+-#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
++#ifdef CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
+ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head);
+ void hugetlb_vmemmap_free(struct hstate *h, struct page *head);
+ void hugetlb_vmemmap_init(struct hstate *h);
+@@ -41,5 +41,5 @@ static inline unsigned int hugetlb_optimize_vmemmap_pages(struct hstate *h)
+ {
+ 	return 0;
+ }
+-#endif /* CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP */
++#endif /* CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP */
+ #endif /* _LINUX_HUGETLB_VMEMMAP_H */
+diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+index 52f36527bab3..6c7f1a9ce2dd 100644
+--- a/mm/sparse-vmemmap.c
++++ b/mm/sparse-vmemmap.c
+@@ -34,7 +34,7 @@
+ #include <asm/pgalloc.h>
+ #include <asm/tlbflush.h>
+ 
+-#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
++#ifdef CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
+ /**
+  * struct vmemmap_remap_walk - walk vmemmap page table
+  *
+@@ -420,7 +420,7 @@ int vmemmap_remap_alloc(unsigned long start, unsigned long end,
+ 
+ 	return 0;
+ }
+-#endif /* CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP */
++#endif /* CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP */
+ 
+ /*
+  * Allocate a block of memory to be used to back the virtual memory map
+diff --git a/scripts/mod/Makefile b/scripts/mod/Makefile
+index c9e38ad937fd..f82ab128c086 100644
+--- a/scripts/mod/Makefile
++++ b/scripts/mod/Makefile
+@@ -1,6 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0
+ OBJECT_FILES_NON_STANDARD := y
+ CFLAGS_REMOVE_empty.o += $(CC_FLAGS_LTO)
++# See comments in Kbuild
++KBUILD_CFLAGS_KERNEL += -D__EXCLUDE_AUTOCONF_EXT_H
+ 
+ hostprogs-always-y	+= modpost mk_elfconfig
+ always-y		+= empty.o
+-- 
+2.11.0
+
