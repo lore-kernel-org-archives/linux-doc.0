@@ -2,33 +2,33 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D1AC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 02:16:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54AF1C43217
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Apr 2022 02:16:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235879AbiDLCSV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Apr 2022 22:18:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47918 "EHLO
+        id S243840AbiDLCSf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Apr 2022 22:18:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230271AbiDLCSU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 22:18:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A8092A24A;
-        Mon, 11 Apr 2022 19:16:03 -0700 (PDT)
+        with ESMTP id S243942AbiDLCSe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Apr 2022 22:18:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 996B633A1B;
+        Mon, 11 Apr 2022 19:16:18 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4D1996168C;
-        Tue, 12 Apr 2022 02:16:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E5F1C385A4;
-        Tue, 12 Apr 2022 02:16:01 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1C27F61697;
+        Tue, 12 Apr 2022 02:16:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09DBAC385A4;
+        Tue, 12 Apr 2022 02:16:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1649729762;
-        bh=tni5PvWyZxUvzvzTtCOxpTSc4Z5BiuG+j4AAUMjSjLw=;
+        s=korg; t=1649729777;
+        bh=+vTX2+LmH++7Pu5Shh4Uo4lXVzWdHkKYI41k6YSLJJE=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ypvt4LtLI/wxKQQOhAHailuFJouqrOwDHQdOxKPFUl0+7Q9WuFLM3+RQ0vokvusr7
-         G1Nozi6lKTTm+nfFda9SoF2eedu2cD736RrVrFD96DVmyx49cXTpjMjJWqoYggHVPg
-         NTal9bWOGMDNrGM/13809C+0fKJ4TqG1VRF/+dA4=
-Date:   Mon, 11 Apr 2022 19:15:59 -0700
+        b=v7M7INNLgEZQE6SBiglzE66UBjgkcXhuHBB5+i1GqjY3bnVXvwddo7ZV+t64wV8jW
+         rQswAF4M1KJZDWoB+yWTRxmIa8yOkVwrjoqEzbqgpuH20d7tceiFye8aJhHv2U6dXc
+         cVYYtMP4kr5qoIrc7sGwiQxWx7FrtUji3t7YTkZY=
+Date:   Mon, 11 Apr 2022 19:16:15 -0700
 From:   Andrew Morton <akpm@linux-foundation.org>
 To:     Yu Zhao <yuzhao@google.com>
 Cc:     Stephen Rothwell <sfr@rothwell.id.au>, linux-mm@kvack.org,
@@ -53,11 +53,24 @@ Cc:     Stephen Rothwell <sfr@rothwell.id.au>, linux-mm@kvack.org,
         Ying Huang <ying.huang@intel.com>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, page-reclaim@google.com,
-        x86@kernel.org
-Subject: Re: [PATCH v10 00/14] Multi-Gen LRU Framework
-Message-Id: <20220411191559.a844c7140faeba2e68d842b7@linux-foundation.org>
-In-Reply-To: <20220407031525.2368067-1-yuzhao@google.com>
+        x86@kernel.org, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?ISO-8859-1?Q? "Holger_Hoffst=E4tte" ?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Subject: Re: [PATCH v10 05/14] mm: multi-gen LRU: groundwork
+Message-Id: <20220411191615.a34959bdcc25ef3f9c16a7ce@linux-foundation.org>
+In-Reply-To: <20220407031525.2368067-6-yuzhao@google.com>
 References: <20220407031525.2368067-1-yuzhao@google.com>
+        <20220407031525.2368067-6-yuzhao@google.com>
 X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -66,59 +79,119 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed,  6 Apr 2022 21:15:17 -0600 Yu Zhao <yuzhao@google.com> wrote:
 
-It's pretty clear from the results and from the test coverage to date
-that Linux wants this.
+> Evictable pages are divided into multiple generations for each lruvec.
+> The youngest generation number is stored in lrugen->max_seq for both
+> anon and file types as they are aged on an equal footing. The oldest
+> generation numbers are stored in lrugen->min_seq[] separately for anon
+> and file types as clean file pages can be evicted regardless of swap
+> constraints. These three variables are monotonically increasing.
+> 
+> ...
+>
+> +static inline bool lru_gen_del_folio(struct lruvec *lruvec, struct folio *folio, bool reclaiming)
 
-I do think additional review is needed.  For the usual code quality
-reasons, but also to help others get up to speed with the proposed
-changes and to ensure that we have something which is well maintainable
-going forward.
+There's a lot of function inlining here.  Fortunately the compiler will
+ignore it all, because some of it looks wrong.  Please review (and
+remeasure!).  If inlining is reqlly justified, use __always_inline, and
+document the reasons for doing so.
 
-The code at present is unnecessarily difficult to review and that
-review will be less effective than it might be, because of its lack of
-commentary.
+> +{
+> +	int gen;
+> +	unsigned long old_flags, new_flags;
+> +
+> +	do {
+> +		new_flags = old_flags = READ_ONCE(folio->flags);
+> +		if (!(new_flags & LRU_GEN_MASK))
+> +			return false;
+> +
+> +		VM_BUG_ON_FOLIO(folio_test_active(folio), folio);
+> +		VM_BUG_ON_FOLIO(folio_test_unevictable(folio), folio);
+> +
+> +		gen = ((new_flags & LRU_GEN_MASK) >> LRU_GEN_PGOFF) - 1;
+> +
+> +		new_flags &= ~LRU_GEN_MASK;
+> +		/* for shrink_page_list() */
+> +		if (reclaiming)
+> +			new_flags &= ~(BIT(PG_referenced) | BIT(PG_reclaim));
+> +		else if (lru_gen_is_active(lruvec, gen))
+> +			new_flags |= BIT(PG_active);
+> +	} while (cmpxchg(&folio->flags, old_flags, new_flags) != old_flags);
 
-I'll merge the v10 series into -mm and -next for additional runtime
-exposure, but I'll be asking for a broad update.
+Clearly the cmpxchg loop is handling races against a concurrent
+updater.  But it's unclear who that updater is, what are the dynamics
+here and why the designer didn't use, say, spin_lock().  The way to
+clarify such thigs is with code comments!
 
-The data structures appear to be adequately documented (this is rare)
-but the code itself is lacking.  Please go through each and every new
-function and ask "is this function so self-evident that it can be
-presented to a newcomer with no explanatory comments at all".
+>  
+> +#endif /* !__GENERATING_BOUNDS_H */
+> +
+> +/*
+> + * Evictable pages are divided into multiple generations. The youngest and the
+> + * oldest generation numbers, max_seq and min_seq, are monotonically increasing.
+> + * They form a sliding window of a variable size [MIN_NR_GENS, MAX_NR_GENS]. An
+> + * offset within MAX_NR_GENS, gen, indexes the LRU list of the corresponding
 
-If "yes" then check again.  If still "yes" then fine.  If "no" then
-let's craft comments which tell the reader things which are not evident
-from the code itself.  Things which are helpful to that reader.  Design
-concepts, side-effects, preconditions, unobvious traps, etc.
+The "within MAX_NR_GENS, gen," text here is unclear?
 
-Please ensure that the current group of mglru developers review these
-comment additions as closely as they review code changes.
+> + * generation. The gen counter in folio->flags stores gen+1 while a page is on
+> + * one of lrugen->lists[]. Otherwise it stores 0.
+> + *
+> + * A page is added to the youngest generation on faulting. The aging needs to
+> + * check the accessed bit at least twice before handing this page over to the
+> + * eviction. The first check takes care of the accessed bit set on the initial
+> + * fault; the second check makes sure this page hasn't been used since then.
+> + * This process, AKA second chance, requires a minimum of two generations,
+> + * hence MIN_NR_GENS. And to maintain ABI compatibility with the active/inactive
 
-Alas, it's late in the process to be adding these things.  But it can
-be made better.
+Where is the ABI compatibility issue?  Is it in some way in which the
+legacy LRU is presented to userspace?
 
-I'll make some high-level comments on the patches themselves now, but I
-see little point in attempting detailed review when a better-explained
-version is hopefully forthcoming.
+> + * LRU, these two generations are considered active; the rest of generations, if
+> + * they exist, are considered inactive. See lru_gen_is_active(). PG_active is
+> + * always cleared while a page is on one of lrugen->lists[] so that the aging
+> + * needs not to worry about it. And it's set again when a page considered active
+> + * is isolated for non-reclaiming purposes, e.g., migration. See
+> + * lru_gen_add_folio() and lru_gen_del_folio().
+> + *
+> + * MAX_NR_GENS is set to 4 so that the multi-gen LRU can support twice of the
 
+"twice the number of"?
+> + * categories of the active/inactive LRU when keeping track of accesses through
+> + * page tables. It requires order_base_2(MAX_NR_GENS+1) bits in folio->flags.
+> + */
 
-A few gratuitous notebook entries:
+Helpful comment, overall.
 
-- lru_gen_struct.timestamps works in jiffies?  Why?  jiffies can vary
-  based on platform and config - why add inter-platform and
-  inter-Kconfig variability like this?  Time is measured in seconds!
+> 
+> ...
+>
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -909,6 +909,14 @@ config ANON_VMA_NAME
+>  	  area from being merged with adjacent virtual memory areas due to the
+>  	  difference in their name.
+>  
+> +config LRU_GEN
+> +	bool "Multi-Gen LRU"
+> +	depends on MMU
+> +	# the following options can use up the spare bits in page flags
+> +	depends on !MAXSMP && (64BIT || !SPARSEMEM || SPARSEMEM_VMEMMAP)
+> +	help
+> +	  A high performance LRU implementation to overcommit memory.
+> +
+>  source "mm/damon/Kconfig"
 
-  And the amount of work which can be performed in one second varies
-  by, guess, 100x on machines which we care about.  This also has
-  potential to introduce tremendous inter-platform variability in the
-  behaviour of this feature.
+This is a problem.  I had to jump through hoops just to be able to
+compile-test this.  Turns out I had to figure out how to disable
+MAXSMP.
 
-- did lru_gen_use_mm() really need to test nodes_full()?  Is that
-  likely enough to be a net benefit?
+Can we please figure out a way to ensure that more testers are at least
+compile testing this?  Allnoconfig, defconfig, allyesconfig, allmodconfig.
 
-- seq_is_valid() sounds like it belongs to the seq_file() subsystem
+Also, I suggest that we actually make MGLRU the default while in linux-next.
 
-- does get_nr_evictable() need to return and use signed types (long)?
-  It sums the contents of lru_gen_struct.nr_pages[][][], which is
-  ulong, so I think "no".
+>
+> ...
+>
