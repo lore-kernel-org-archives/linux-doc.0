@@ -2,107 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 590C0C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 08:53:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2497AC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 09:10:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232641AbiDMIzy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Apr 2022 04:55:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37006 "EHLO
+        id S229840AbiDMJNE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Apr 2022 05:13:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbiDMIzy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 04:55:54 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAFCA3FDB2;
-        Wed, 13 Apr 2022 01:53:33 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id bo5so1419811pfb.4;
-        Wed, 13 Apr 2022 01:53:33 -0700 (PDT)
+        with ESMTP id S234357AbiDMJMc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 05:12:32 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77750527E8
+        for <linux-doc@vger.kernel.org>; Wed, 13 Apr 2022 02:10:03 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id a16-20020a17090a6d9000b001c7d6c1bb13so1466621pjk.4
+        for <linux-doc@vger.kernel.org>; Wed, 13 Apr 2022 02:10:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=vrTdQF20XoNgjKqhooRdhomx5wbpyGcrgzLCucSJKsQ=;
-        b=lp760lm4NwRsPDsRYdz/MWMHhWVyIy3o6EuQyqy+j/cU4lO8+jUIY2EPEV9tLMLzqX
-         tFs4cZ0qBTHYFzVqCEWH3BBGAx4X/SGuq3wx/P97/XsfhaBQf4xoyYSFr4qm2r6yL99O
-         DdzhMNMbUd8eHXQ+nbRAEA30nefNCPlrP5+PM0lPjLKTMCjQh2o0WcQqq2jsXsUE0HSA
-         cjq/kdZ6MGkaCMjwGP71XVQF/Sv8wbJ86UOATWjESkvOn5cPYdzAAGt6HaZ3H7g/QefQ
-         T2FOgklqmhA7c4nis82wL0Zt4V3CXfHW6QG3hn/cYnUudMii3rhwmXTwrZ25IqPx+1tL
-         3C2w==
+        h=message-id:date:mime-version:user-agent:content-language:to:from
+         :subject:content-transfer-encoding;
+        bh=Pg7luZ++Yiz6BXPO8vT2DT8lHaX3TyOWB9pwfm+LL7k=;
+        b=cB4wDSWfj2Rw0+tXzgPFMCDiHcwY97ZRE43jiobC9bTO0Vz1GpjipcdTUqUFlKL5t7
+         9mBNEufVh0y3sfGLY87Cohdls+b7wao63r0oK665J6/jzM9T8e4YNG/+TjtR4YP7/YZC
+         +m3lv9kd3TqxOqjgUPA9Zk0M+RHZkmb+9UU63KZlNgNDNLd5TyzuzFQhfdzTeX0wIwZP
+         7kv6crMJ2L60cYY5wf2oNerJIfT3RcPhGpU17/NWk5tiuVFix9K2RM0QTt5ml4zVxyiN
+         lJTJ6RIJ+hyvYGcwWmMSiWp7PzzqQd6XuXjI6WVCluoZ3OehAvFfZwBWIs4b0itVg9Yp
+         j7ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=vrTdQF20XoNgjKqhooRdhomx5wbpyGcrgzLCucSJKsQ=;
-        b=OBezk2F/YBXEpf9azuF0w0rorQGiW7+adb57xnIEUr8tJ2U1MJF41+B+rrPuMBJUt9
-         jD5LBKOZB3hI/vW9hPntiKnwnQcj2sZuukbEkO/XlDqaaRNNmNV9I4XPM5U3KzN1EjID
-         I5aMuAX5YYobUJ4Jw6U475HeQ8LzuFBfwEcMMAZlkHWlYJCWcuCJgUPJ0dgvOvvxki0T
-         i+2WecC2uabzjexJKt5CR6vKlNhNWBx9IP8dZej8GSuF0xibNhHWKmVQFKPM+L0tE1Z/
-         iVnLndPBPaW34DOw+ohe1shdwlNAIZBObKKNIcPw542y9P203HxuMWh1kbj2CnbgP8Vo
-         QZ4A==
-X-Gm-Message-State: AOAM5313tIN8jv4fXITW+IlWCBcghyXAFzng2oBuF+RxozNvRtfkvrJT
-        5ZfwlO1c5DWhiwgW2ovWMm8=
-X-Google-Smtp-Source: ABdhPJxDKSmRO3F/JxnbBNIZJWGtcMs44vj8qujdQNYz1RwsoGzyyBZwIXg68LqZw5E5F3o1DEJp/A==
-X-Received: by 2002:a63:3f0e:0:b0:386:1d94:312a with SMTP id m14-20020a633f0e000000b003861d94312amr34322386pga.317.1649840013257;
-        Wed, 13 Apr 2022 01:53:33 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-52.three.co.id. [116.206.28.52])
-        by smtp.gmail.com with ESMTPSA id b2-20020a056a000a8200b004f1111c66afsm45318769pfl.148.2022.04.13.01.53.29
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:from:subject:content-transfer-encoding;
+        bh=Pg7luZ++Yiz6BXPO8vT2DT8lHaX3TyOWB9pwfm+LL7k=;
+        b=pZ5RxekMahkYAskg1Cgpbuii18gOPDXumc57Chr1VL7oziOIu8yFY5nx7S+mZiD9UL
+         1b707SD7czfvCjCemwhlIbkBnV6DhlfaW/cck5xX/5i0Q3C/9boY2jxmmO/DZCGeRVWr
+         mJhsudjDrb3KY9yUcpfYtdoXhEl5whF0HGaioSJ4b+ylHut6phsf25H4hwbVr/Lx+SJS
+         IWjv0WRKQ6hDMZxGsKFbo7gbeaeUM50jQx6EnSu+JMgAgUzchtdNanXA951rulzw/fs5
+         EETC5NSdNdJMJoPaKsqmnpLWgrPQZIAk7vaszKKWYUUDUDXgjobCJpK89BaS74QuwStt
+         EZvw==
+X-Gm-Message-State: AOAM5309FGn7cV1te7LiWpuSGJAExGXPdK1g8gIdqai5hzT6u/ksCUXa
+        xCIm88h4vERmDCEzZN1U7tELN+iOVUM=
+X-Google-Smtp-Source: ABdhPJykTXXH/TKdYaCk+d758iMQN2OIOezPYIMdPhUR+sxlrLiAzilZxbzaQNuhN5lD3sjoX05FGQ==
+X-Received: by 2002:a17:90b:1d05:b0:1cd:5fe6:ddbf with SMTP id on5-20020a17090b1d0500b001cd5fe6ddbfmr599194pjb.225.1649841002614;
+        Wed, 13 Apr 2022 02:10:02 -0700 (PDT)
+Received: from ?IPV6:240b:12:16e1:e200:dab9:36e3:918c:5ba1? ([240b:12:16e1:e200:dab9:36e3:918c:5ba1])
+        by smtp.gmail.com with ESMTPSA id s24-20020a17090a441800b001ca9b5724a6sm2128457pjg.36.2022.04.13.02.10.01
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Apr 2022 01:53:32 -0700 (PDT)
-Message-ID: <c59ded56-23a0-a600-c669-1307d3ff1be4@gmail.com>
-Date:   Wed, 13 Apr 2022 15:53:27 +0700
+        Wed, 13 Apr 2022 02:10:02 -0700 (PDT)
+Message-ID: <172fa015-26df-c978-853d-3aba67c581cc@gmail.com>
+Date:   Wed, 13 Apr 2022 18:09:59 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [net-next PATCH v5 1/7] octeon_ep: Add driver framework and
- device initialization
+ Thunderbird/91.7.0
 Content-Language: en-US
-To:     Veerasenareddy Burru <vburru@marvell.com>, davem@davemloft.net,
-        kuba@kernel.org, corbet@lwn.net, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Abhijit Ayarekar <aayarekar@marvell.com>,
-        Satananda Burla <sburla@marvell.com>
-References: <20220413033503.3962-1-vburru@marvell.com>
- <20220413033503.3962-2-vburru@marvell.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220413033503.3962-2-vburru@marvell.com>
-Content-Type: text/plain; charset=UTF-8
+To:     linux-doc@vger.kernel.org
+From:   Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+Subject: Is there any Japanese translation maintainer?
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/13/22 10:34, Veerasenareddy Burru wrote:
-> @@ -0,0 +1,35 @@
-> +.. SPDX-License-Identifier: GPL-2.0+
-> +
-> +====================================================================
-> +Linux kernel networking driver for Marvell's Octeon PCI Endpoint NIC
-> +====================================================================
-> +
-> +Network driver for Marvell's Octeon PCI EndPoint NIC.
-> +Copyright (c) 2020 Marvell International Ltd.
-> +
-> +Contents
-> +========
-> +
-> +- `Overview`_
-> +- `Supported Devices`_
-> +- `Interface Control`_
-> +
+Hello,
 
-Why did you manually add table of contents?
+I would like to contact with Japanese documentation maintainer for some 
+changes. However, it looks like there is no one listed in MAINTAINERS file.
+Is there anyone who is maintaining Japanese documentation?
 
-> +Interface Control
-> +=================
-> +Network Interface control like changing mtu, link speed, link down/up are
-> +done by writing command to mailbox command queue, a mailbox interface
-> +implemented through a reserved region in BAR4.
-> +This driver writes the commands into the mailbox and the firmware on the
-> +Octeon device processes them. The firmware also sends unsolicited notifications
-> +to driver for events suchs as link change, through notification queue
-> +implemented as part of mailbox interface.
-
-How does one write to mailbox command queue?
-
--- 
-An old man doll... just what I always wanted! - Clara
+Best regards,
+Kosuke
