@@ -2,250 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44ECAC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 14:03:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3661EC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 14:06:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235593AbiDMOFa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Apr 2022 10:05:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41500 "EHLO
+        id S236086AbiDMOJC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Apr 2022 10:09:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231764AbiDMOF3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 10:05:29 -0400
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam08on2060.outbound.protection.outlook.com [40.107.100.60])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F3AD5C879;
-        Wed, 13 Apr 2022 07:03:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WMAAZfR2yFc98zwwhgxh8MfTjMewStIMCSa/pQDiqgIq3O+52XccM3f29GP/fBX/8u7J6tBmYAQvAvMcFqaqmToqLEoGlFtXj1nl9PIIIwE0uSn0BU71I3sIedtV96/VIlPQyAoFo2zP9ZXqNNjQ0AeWmVO3qbFVq2wlfyYtczveWTtzG1c8axU5ErzNThGISQb56t4eQmg86+K8/wKIWGM1sGakKVUDEKshhIIwc2zF+KWixIUhZ4X6YwPNe4wNoBkaEq//XfrO9IUeXHJFJjKOjJYwNDObRLYxBris1g3yVoT+d+b5VcMMOgr4jvEdv71t9stssq2vDl1rrUKcVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=htES9/Z1DHp50Vo2bjCdCcMNdB/gjurvWu2fIzRZDmA=;
- b=lE700iHTj2hkkau3WHpyNTtAlEZGeVcj2A0tjMKklzpunbrPdbFiBM+o5KeFwkVzj9caZnwFEINhYI2+It0f8f61EPG1dwV9WVslpZQzQVt0OInLXMZYwZoTwBPb9r3m3WGQiP4FUTp7hUZBLf/ZrIyMWsOYls2kKUynUqbszs4KDN3r94/nGYySbJf+Br31keohXMRm6ZHyJlLqXUmFI9zF80JK4246Y1htxCD2Pg8NCcmZye37LpPa9SePpB6BYAHoSHLJV6Dhzwm1o/xD10g4JluXi3C2+zwodW4zgQvxqg+MHvrgCJ0BEF++OEGawPHXgsZPFtNhQh45Yjrg3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=htES9/Z1DHp50Vo2bjCdCcMNdB/gjurvWu2fIzRZDmA=;
- b=VrjQwYH6KTdqn1YqjP0yN2UNejhJPbNXLRd4QRgQ8sYYrGk/H5PjWt9mqkKEm2BjkPfsXBTv9yQB2U4IFE2huvy+21kmiJurhiGdPMRv5EcFpVj3oHejIyR/15mv9t2mQPmIvqpcOlmqF/hy0CWuJ6PC6l3Fd517h17zwPhnBVF2Rx1Ppmm/pZ/AE9apnWfMkAFPe8VWDduUFd66WB9bL6JG0+kJkehifEoR2RekMZjnkolkOiutlbsVVNGF6uXYyFfbAxmpGSvnUoJ8ryYKOT+SxvDEo9IZlLeW/vh3raJ4rGEQMa+ToSyYtSCkzOQO9uGNOOHCiYmkijS+GhPPBQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by BN6PR12MB1345.namprd12.prod.outlook.com (2603:10b6:404:18::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.18; Wed, 13 Apr
- 2022 14:03:06 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2%5]) with mapi id 15.20.5164.018; Wed, 13 Apr 2022
- 14:03:06 +0000
-Date:   Wed, 13 Apr 2022 11:03:05 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org,
-        Eric Farman <farman@linux.ibm.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>
-Subject: Re: [PATCH 9/9] vfio: Remove calls to vfio_group_add_container_user()
-Message-ID: <20220413140305.GD368031@nvidia.com>
-References: <0-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com>
- <9-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com>
- <20220413061105.GA32701@lst.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220413061105.GA32701@lst.de>
-X-ClientProxiedBy: BLAPR03CA0095.namprd03.prod.outlook.com
- (2603:10b6:208:32a::10) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+        with ESMTP id S236102AbiDMOJB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 10:09:01 -0400
+X-Greylist: delayed 386 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 13 Apr 2022 07:06:39 PDT
+Received: from smtpservice.6wind.com (unknown [185.13.181.2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B9E5560A99
+        for <linux-doc@vger.kernel.org>; Wed, 13 Apr 2022 07:06:39 -0700 (PDT)
+Received: from bretzel (bretzel.dev.6wind.com [10.17.1.57])
+        by smtpservice.6wind.com (Postfix) with ESMTPS id 4B8B060010;
+        Wed, 13 Apr 2022 16:00:12 +0200 (CEST)
+Received: from dichtel by bretzel with local (Exim 4.92)
+        (envelope-from <dichtel@6wind.com>)
+        id 1nedXY-00069d-7O; Wed, 13 Apr 2022 16:00:12 +0200
+From:   Nicolas Dichtel <nicolas.dichtel@6wind.com>
+To:     David Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Xin Long <lucien.xin@gmail.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>
+Subject: [PATCH net] doc/ip-sysctl: add bc_forwarding
+Date:   Wed, 13 Apr 2022 16:00:00 +0200
+Message-Id: <20220413140000.23648-1-nicolas.dichtel@6wind.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ab62ac54-2289-4941-f440-08da1d565547
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1345:EE_
-X-Microsoft-Antispam-PRVS: <BN6PR12MB134593C717A21637159F09E2C2EC9@BN6PR12MB1345.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1tUM+K4OPFCYfBqiv6qLV695hAI3FKkpQwetL+0ssPovPrNPGj+CtxIvoO8JYhhJpDUj4Eo3hCpSVaaZpbKbtLJkYOO3uoJLfkQltkMJ6v1U8iePJSTK5Q69NJDY3q5z0oeNw0L2j98cb9WvhO9S9fuBd0Ed/149Y+OwzHZJy/jpaD4Qp5JVZLgvqpPbC01Cq2IQZzX/Xj1sses82C9vPD1v2NDoVAdU29FxALrSCnc+qet5Z2Nxi5oHLX1KCrX+sD4Bp6ad8aUB9wkoSHeO2NZvLC1oqJ0iHve709SwZ9gtu2pkGBwIrKt8NT9K2P3gHzeU5UT+hPhHGbhAsOy7yWzK2C3sgN2DDpcbWLIka8IkeBN+5ZEcusXvwvUGY+4iCLG5eXJkFtH8CCYNaaOeMcN/RNSP5DJbRAr4gBzY/U9ftnNoz6TpQEa4NTEIX99C4teOsUYumPaO1L8ahaDAJe7mR0X5Q/k3i8mlJJLYQTsN+D8v7jA9WaGmx+e9ex4XpGZrlaQYv/k9eNpZcA0G9nfAtTaotY3lDDGEKrsCooxWjOBu1K9khihLNMxptxyuLdp4OSQPcBR3rOiEsZM9y4ELU+LUYCFLm2EsREAKjvy+/5dQoJLNnSWxalYmQ25znJgzKvvaKc12VK4Lz4GbwsJqYGX3Unv9tvwtwfLAFVrJrATem2vcGSncO/4WZpU8SzCygpQbFaNOnLt0oZA24w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8936002)(66476007)(38100700002)(7406005)(66556008)(5660300002)(7416002)(4326008)(8676002)(26005)(66946007)(6506007)(6512007)(2906002)(186003)(1076003)(2616005)(83380400001)(508600001)(6486002)(6916009)(316002)(54906003)(86362001)(36756003)(33656002)(27376004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FTFQzmBKbab3fHCiCckJ/1fnYxrgFSG8W4ep+BbiVf0gpgXno54Sh7Yg2onN?=
- =?us-ascii?Q?GHFcGr0cFGmUdqwWecYA21r3mlWuTocaCe4ABIsXmOL+tiZh3K1RhwmH1Gc5?=
- =?us-ascii?Q?o/JMJzyTSotMb4ChDEVre1MmutYiAX8AgCZQ75iF/UAF3DGwzkrqE7Vlxw5y?=
- =?us-ascii?Q?0LUxOzQVXVKukwNyRgCKpB7PIWt537duscLo7S4IaAhTnm3FLd0l5y/kvX4W?=
- =?us-ascii?Q?qWgUtYnD19ZtU8SCeysSI1Y4aQoxwdhJYdt7ZjvBfMKU9ZoIvbbXJKUo60Ik?=
- =?us-ascii?Q?KP0PkU/cem7QRinujkEFKMQEc7TXUJUAZ0ejUOp/aPT2MQQllXRYS3/TdNuZ?=
- =?us-ascii?Q?CXCfREdtopL82TuHxBkKXXCwkW90/31wfOlULSaAmw7cRKKq6r2hlWBvP2RB?=
- =?us-ascii?Q?FiEUYR6kCZWyfvgoFv+g60Swms+YG+O2yxIOBrUrTeKssdZnNcNCO6aHkKcN?=
- =?us-ascii?Q?ELTuGtH17fDDflMGvoG8ua5d6+z34DwZAFScUHBtyccK0BAQc2w0kCaikh1Z?=
- =?us-ascii?Q?m5TbbfUKQ9bEE5KC6u/CA+PW0xg2dwQhKWpWQHCIY0H/arj2/NUUeHSBX+Nw?=
- =?us-ascii?Q?7OZxBAfo1umbB07cLZCXrCaHTTcffI8DbYx9omaUmHpevWqY9tHyf9rtC1be?=
- =?us-ascii?Q?AUQ7GQmgf8XU+0hiah3NKUFSg9rlBOzJyqOVaW9h0ojuOqOhB+U2mX3ICc3p?=
- =?us-ascii?Q?23XON9Ufnm0V5+TYmlKg4+XfXgvHI5KuEWoyxpfGQkWSVeRbg95KI/a0Z/fG?=
- =?us-ascii?Q?twx61MZ5uJDDo4utG4WBch1qibiTt6i8H5E1nUlGxl2hVVMRrbVd7CeE6Wzg?=
- =?us-ascii?Q?Qrb2VQWMHhUZY4Zp5sPWQlMxkQsWc2ueYEWoAKMUEkORZ6/87/OF/1GXcxmU?=
- =?us-ascii?Q?TSU2cV5c3ZoS3RqVjr8Mg0Fzkx5v/HgQ4M/9quqd/Qqz8p8fOBZhwG07WJUZ?=
- =?us-ascii?Q?Dr/Ngkkyl+SpnDhJsvL9MSjRlNj0mVxPf+6c2XakPElYSZbyRJTuoPYKNj2W?=
- =?us-ascii?Q?tVvY7HTwksbUnbHSUfESFwfM/HblapWslcoWCgb5dnBj6FVRxvbGeAYqJSH4?=
- =?us-ascii?Q?qCjHaJ810y2f8U38feSoLwYs6SJgMDdkuc2LLMEfDJi9TtOFL268/ZpB/MI/?=
- =?us-ascii?Q?k7/hiQaNn0rjddVx4UoNUFnlZnFX2tauLB646G/3bPbQAzRYsgzjivuRzJkU?=
- =?us-ascii?Q?GPywsW8K/+SPDMsYy2oCEVJhSBkVMG8c0Qdf3UkLL5qNysuffJfsCashSkEC?=
- =?us-ascii?Q?32X70KpoFAaqH9hoLpR2ju47N2RXRuNUJgbQo5jozL1H0NoogDN4FCXxNvhY?=
- =?us-ascii?Q?P5eAfaAB1oc16NoQKcuw1tKQgaFhyKyUcOU3YatRtAb/6PFtvs1UlXaWFUA7?=
- =?us-ascii?Q?kpCsxkJDfOv9qYNHjXycCsmmPQWsUPN6K236678xNXgu0RNorP4HWvUysaD8?=
- =?us-ascii?Q?G8gg5gzGcxq6/S3t9G0FSF7bJVrD7fD2PyOwUZpMx6Dfg1fiIkf03mWDYI4/?=
- =?us-ascii?Q?SR3QmXqhSRMscJP6Ov+/zlf39Nj1F0KxxK/Apt8ndiJhT9v0MB+8pP2JxFin?=
- =?us-ascii?Q?PFsCcZZzh6Hj1p9vM14Mor9BGiF5O4oFxSh+oJVuIaRCuF1lRoJQtlgRluDc?=
- =?us-ascii?Q?I5Hpm4hh4STAi/W4C+0KBFEvmzeRwtMFJbwoXG8OnhXIIZAyCn2fWMTdTflA?=
- =?us-ascii?Q?45IuaYkXmitaCVxoat6CWylpIFssuthO3AD1gJC/u5+scTJpi2AtEfzUFL/P?=
- =?us-ascii?Q?82FBRQhUgg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab62ac54-2289-4941-f440-08da1d565547
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2022 14:03:06.5580
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RK77JCdFE871v5kG5Awtvw9TBizHO5ueDXj0fJbwN9Q9vXx69udfcDHpGFLJJYRC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1345
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 13, 2022 at 08:11:05AM +0200, Christoph Hellwig wrote:
-> On Tue, Apr 12, 2022 at 12:53:36PM -0300, Jason Gunthorpe wrote:
-> > +	if (WARN_ON(!READ_ONCE(vdev->open_count)))
-> > +		return -EINVAL;
-> 
-> I think all the WARN_ON()s in this patch need to be WARN_ON_ONCE,
-> otherwise there will be too many backtraces to be useful if a driver
-> ever gets the API wrong.
+Let's describe this sysctl.
 
-Sure, I added a wrapper to make that have less overhead and merged it
-with the other 'driver is calling this correctly' checks:
+Fixes: 5cbf777cfdf6 ("route: add support for directed broadcast forwarding")
+Signed-off-by: Nicolas Dichtel <nicolas.dichtel@6wind.com>
+---
+ Documentation/networking/ip-sysctl.rst | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-@@ -1330,6 +1330,12 @@ static int vfio_group_add_container_user(struct vfio_group *group)
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index b0024aa7b051..66828293d9cb 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -267,6 +267,13 @@ ipfrag_max_dist - INTEGER
+ 	from different IP datagrams, which could result in data corruption.
+ 	Default: 64
  
- static const struct file_operations vfio_device_fops;
- 
-+/* true if the vfio_device has open_device() called but not close_device() */
-+static bool vfio_assert_device_open(struct vfio_device *device)
-+{
-+	return !WARN_ON_ONCE(!READ_ONCE(device->open_count));
-+}
++bc_forwarding - INTEGER
++	bc_forwarding enables the feature described in rfc1812#section-5.3.5.2
++	and rfc2644. It allows the router to forward directed broadcast.
++	To enable this feature, the 'all' entry and the input interface entry
++	should be set to 1.
++	Default: 0
 +
- static int vfio_group_get_device_fd(struct vfio_group *group, char *buf)
- {
- 	struct vfio_device *device;
-@@ -1544,6 +1550,7 @@ static int vfio_device_fops_release(struct inode *inode, struct file *filep)
- 	struct vfio_device *device = filep->private_data;
+ INET peer storage
+ =================
  
- 	mutex_lock(&device->dev_set->lock);
-+	vfio_assert_device_open(device);
- 	if (!--device->open_count && device->ops->close_device)
- 		device->ops->close_device(device);
- 	mutex_unlock(&device->dev_set->lock);
-@@ -2112,7 +2119,7 @@ int vfio_pin_pages(struct vfio_device *vdev, unsigned long *user_pfn, int npage,
- 	struct vfio_iommu_driver *driver;
- 	int ret;
- 
--	if (!user_pfn || !phys_pfn || !npage)
-+	if (!user_pfn || !phys_pfn || !npage || !vfio_assert_device_open(vdev))
- 		return -EINVAL;
- 
- 	if (npage > VFIO_PIN_PAGES_MAX_ENTRIES)
-@@ -2121,9 +2128,6 @@ int vfio_pin_pages(struct vfio_device *vdev, unsigned long *user_pfn, int npage,
- 	if (group->dev_counter > 1)
- 		return -EINVAL;
- 
--	if (WARN_ON(!READ_ONCE(vdev->open_count)))
--		return -EINVAL;
--
- 	container = group->container;
- 	driver = container->iommu_driver;
- 	if (likely(driver && driver->ops->pin_pages))
-@@ -2153,15 +2157,12 @@ int vfio_unpin_pages(struct vfio_device *vdev, unsigned long *user_pfn,
- 	struct vfio_iommu_driver *driver;
- 	int ret;
- 
--	if (!user_pfn || !npage)
-+	if (!user_pfn || !npage || !vfio_assert_device_open(vdev))
- 		return -EINVAL;
- 
- 	if (npage > VFIO_PIN_PAGES_MAX_ENTRIES)
- 		return -E2BIG;
- 
--	if (WARN_ON(!READ_ONCE(vdev->open_count)))
--		return -EINVAL;
--
- 	container = vdev->group->container;
- 	driver = container->iommu_driver;
- 	if (likely(driver && driver->ops->unpin_pages))
-@@ -2198,10 +2199,7 @@ int vfio_dma_rw(struct vfio_device *vdev, dma_addr_t user_iova,
- 	struct vfio_iommu_driver *driver;
- 	int ret = 0;
- 
--	if (!data || len <= 0)
--		return -EINVAL;
--
--	if (WARN_ON(!READ_ONCE(vdev->open_count)))
-+	if (!data || len <= 0 || !vfio_assert_device_open(vdev))
- 		return -EINVAL;
- 
- 	container = vdev->group->container;
-@@ -2294,10 +2292,7 @@ int vfio_register_notifier(struct vfio_device *dev, enum vfio_notify_type type,
- 	struct vfio_group *group = dev->group;
- 	int ret;
- 
--	if (!nb || !events || (*events == 0))
--		return -EINVAL;
--
--	if (WARN_ON(!READ_ONCE(dev->open_count)))
-+	if (!nb || !events || (*events == 0) || !vfio_assert_device_open(dev))
- 		return -EINVAL;
- 
- 	switch (type) {
-@@ -2321,10 +2316,7 @@ int vfio_unregister_notifier(struct vfio_device *dev,
- 	struct vfio_group *group = dev->group;
- 	int ret;
- 
--	if (!nb)
--		return -EINVAL;
--
--	if (WARN_ON(!READ_ONCE(dev->open_count)))
-+	if (!nb || !vfio_assert_device_open(dev))
- 		return -EINVAL;
- 
- 	switch (type) {
+-- 
+2.33.0
 
-Thanks,
-Jason
