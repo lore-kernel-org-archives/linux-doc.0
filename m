@@ -2,104 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C6A5C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 11:06:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E59BC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 11:09:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230308AbiDMLIp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Apr 2022 07:08:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34438 "EHLO
+        id S232171AbiDMLME (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Apr 2022 07:12:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235101AbiDMLIk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 07:08:40 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 775695B3CB
-        for <linux-doc@vger.kernel.org>; Wed, 13 Apr 2022 04:06:13 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id bx5so1629734pjb.3
-        for <linux-doc@vger.kernel.org>; Wed, 13 Apr 2022 04:06:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:cc:references:subject
-         :content-language:from:in-reply-to:content-transfer-encoding;
-        bh=Ogrkmeu2BJ/O1MhpRIVYCkxwjtDXcP6KA+B+vJcnV1o=;
-        b=gwU2lVFWRPRc0VMB7SqBj4rMzSzGco92LiPN11XGKKakCltyU9LtcM+Aqx/wph/i8o
-         w/jj9+9U/w/xXl0AVsu2ZmOxIJzGovQmy8eouznMAcyKEv8J2smJPOFith5Puwh3QEuC
-         KN8cAlStyvwKPFbe/fj+OfkNJfeZ5H+4AF196X39zL6w5VPKRk3itII9vHseEWcWqEo4
-         /thdYt/inlXB2+FjLQeChyaXK/XP2GykNlCBqdyluDRFPnZ41GZGRiP5QJSPSMOedAuz
-         5ud7Lad1thB50nGk/iINqN3yLryRcMCHPdX6IMKgIFVhcI92FUM08O+7xiY88grSxtkd
-         Sr4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
-         :references:subject:content-language:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Ogrkmeu2BJ/O1MhpRIVYCkxwjtDXcP6KA+B+vJcnV1o=;
-        b=yTUXZtkhWYNgFqBCkBlJua3MFX+Eh/Uoa7HaOxr8OhVHQihMqRYPhbJusoCQz+58Wo
-         d5DMpjGprY3OZpEyjWPIZwYndZWH5083e3XEiP/rZc2UZ95nxatwdOM/O4TVMmyu/g/3
-         ABn3zsdU0zuzH94UsosEGIeZNvNZfb1WvyOVZZ4yX5mC23Gqo4SECHSh5jMARaio+ynP
-         CiKsnfCj1JRprsnYyQqi39ePeQMkdzE2NMJe+DJki4NSUo9Ze2Bg6Qge8rJ9dq4ETW6b
-         q62FInDZ81206K7u6itO5DSlWvA/D8OJXVZzCLiOvpdVobshVOU3keov+u2UiyD9tzoz
-         DTlw==
-X-Gm-Message-State: AOAM532rBeC0zR0wrB3GpQG4L1J3lOKe62PuN/EeihP2rFPOQRIE+UCF
-        6MG+BKR2HBQVCdHJH2S9Odc=
-X-Google-Smtp-Source: ABdhPJwQdImDj/HE7FOLV1mXtsXJLMahXb2vdHWflFcTW32aXm/IR6ve5LME9Us4sqq5N9JUsGMsvQ==
-X-Received: by 2002:a17:90a:a78d:b0:1bc:d11c:ad40 with SMTP id f13-20020a17090aa78d00b001bcd11cad40mr10107961pjq.246.1649847972951;
-        Wed, 13 Apr 2022 04:06:12 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id l5-20020a63f305000000b0039daaa10a1fsm2902857pgh.65.2022.04.13.04.06.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Apr 2022 04:06:12 -0700 (PDT)
-Message-ID: <15b941a4-c41d-3fc1-c4f8-9a6736f6b874@gmail.com>
-Date:   Wed, 13 Apr 2022 20:06:08 +0900
+        with ESMTP id S231631AbiDMLMD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 07:12:03 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58FF140EB;
+        Wed, 13 Apr 2022 04:09:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=CBlu8+J5V5g3eicBd9/EALqxYdrUeqXoa0KFWr1/CBo=; b=bvL9CxLnFpwWqAiMycEp4G+Kyj
+        HwZdWb+IhLaHtvSoz16da28NrRCjV0Uwq9fYWfo8p9g/Zw0p4GyJ6/B/K7LA8K3Y+AdAY+8tXkAo5
+        OLpYrX/fAGFS39RNmnxTdeHfmkKNVrmtEv4jJRQMkuYMlGPPhdr0c6tz+LtoytprYxjCokraCNpTr
+        bQXEV3pvgk7mHJJ9PAYtgsFsJh8SshYoB7zG+mwmkABF0W/oBB27kM9siiJkAt9TUuuP8YA1yG1Nx
+        W6iXtdAIRMNnCKJP3tsP/+ahzrlguAeFLR0ep8zLslhQ/SPJ2f2OUsuFTUjmCsz4pfLVVUK4wYQ7/
+        V4oCzAtg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:58238)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1neasP-00032X-I2; Wed, 13 Apr 2022 12:09:33 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1neasL-0003II-Ni; Wed, 13 Apr 2022 12:09:29 +0100
+Date:   Wed, 13 Apr 2022 12:09:29 +0100
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: support DECLARE_PHY_INTERFACE_MASK()
+Message-ID: <Ylavaf+OlgTVeI6a@shell.armlinux.org.uk>
+References: <20211030020813.32654-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-To:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <172fa015-26df-c978-853d-3aba67c581cc@gmail.com>
-Subject: Re: Is there any Japanese translation maintainer?
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <172fa015-26df-c978-853d-3aba67c581cc@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211030020813.32654-1-rdunlap@infradead.org>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[+Cc: Jon, Greg]
-
-Hello Fujimoto-san,
-
-On Wed, 13 Apr 2022 18:09:59 +0900,
-Kosuke Fujimoto wrote:
-> Hello,
+On Fri, Oct 29, 2021 at 07:08:13PM -0700, Randy Dunlap wrote:
+> Support the DECLARE_PHY_INTERFACE_MASK() macro that is used to declare
+> a bitmap by converting the macro to DECLARE_BITMAP(), as has been done
+> for the __ETHTOOL_DECLARE_LINK_MODE_MASK() macro.
 > 
-> I would like to contact with Japanese documentation maintainer for some 
-> changes. However, it looks like there is no one listed in MAINTAINERS file.
-> Is there anyone who is maintaining Japanese documentation?
-
-Existing Japanese translation has a note on its first page saying:
-
-> This document is maintained by Tsugikazu Shibata <tshibata@ab.jp.nec.com>
-
-However, this email address is not reachable any more.
-
-I also have a few things I'd like to fix/update in it.
-I'm glad to know there exists someone else who has similar
-thoughts.
-
-I think I can play a role as a tentative maintainer who can
-review your changes.
-
-Jon, Greg, do you have any idea of Shibata-san's whereabouts?
-If I understand the circumstances, it was Greg who suggested to
-Shibata-san the addition of Japanese translations back in
-2007 or so.
-
-        Thanks, Akira
-
+> This fixes a 'make htmldocs' warning:
 > 
-> Best regards,
-> Kosuke
+> include/linux/phylink.h:82: warning: Function parameter or member 'DECLARE_PHY_INTERFACE_MASK(supported_interfaces' not described in 'phylink_config'
+> 
+> that was introduced by commit
+>   38c310eb46f5 ("net: phylink: add MAC phy_interface_t bitmap")
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Cc: Russell King (Oracle) <linux@armlinux.org.uk>
 
+Thanks Randy, sorry I missed this patch.
+
+Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+
+What is the intention for merging this patch? Will Jon merge it?
+Your tags said To: Jon but you don't seem to have included him in
+the email.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
