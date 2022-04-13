@@ -2,82 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 463F3C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 18:41:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A330DC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 19:12:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237617AbiDMSn2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Apr 2022 14:43:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59336 "EHLO
+        id S238120AbiDMTOW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Apr 2022 15:14:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234734AbiDMSn1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 14:43:27 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E4B440E71;
-        Wed, 13 Apr 2022 11:41:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=/JByUGqbqjRW0t22OVjXE0r2cFQqamYJUC1OFTwY4yc=; b=FXBzaLDST3Ire/7n6bLCY9fPhO
-        N4siP+mbmgstmn/bKN4PwJwGtUqsE63YmvCGhQ0ocrqPyTssotO56f2oUVcQDgDJaPHAv6UtEIajF
-        HYo4P16p9qOJDAIlOCOdBP/51wnpeUnB68z5QnxHGROJcyGT/mpPw8zE97eydN9mNIeA=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1nehvC-00FiB0-VS; Wed, 13 Apr 2022 20:40:54 +0200
-Date:   Wed, 13 Apr 2022 20:40:54 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Luiz Angelo Daros de Luca <luizluca@gmail.com>
-Cc:     Alvin =?utf-8?Q?=C5=A0ipraga?= <ALSI@bang-olufsen.dk>,
-        "open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Tobias Waldekranz <tobias@waldekranz.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-Subject: Re: [PATCH net-next] net: dsa: realtek: add compatible strings for
- RTL8367RB-VB
-Message-ID: <YlcZNlrvBXA+6tGk@lunn.ch>
-References: <20220411210406.21404-1-luizluca@gmail.com>
- <YlTFRqY3pq84Fw1i@lunn.ch>
- <CAJq09z7CDbaFdjkmqiZsPM1He4o+szMEJANDiaZTCo_oi+ZCSQ@mail.gmail.com>
- <YlVz2gqXbgtFZUhA@lunn.ch>
- <20220412133055.vmzz2copvu2qzzin@bang-olufsen.dk>
- <CAJq09z4E-HiA3WD4UtBAYm6mOCehHGedmofCqxRsAwUqND+=uQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJq09z4E-HiA3WD4UtBAYm6mOCehHGedmofCqxRsAwUqND+=uQ@mail.gmail.com>
+        with ESMTP id S238288AbiDMTMw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 15:12:52 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66D126E8DC;
+        Wed, 13 Apr 2022 12:08:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2FCBDB82760;
+        Wed, 13 Apr 2022 19:08:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C7C7C385A3;
+        Wed, 13 Apr 2022 19:08:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1649876887;
+        bh=HS2szbOJxe7C3PIkz+onUkqYqx0zj5ZuzRc1VOGk0IM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=DD5eWZ+7y7wEUnMyatZWxirBYZvREPY7llxtxRnNTa36xQjeWepf5jUk7HQvhTzkM
+         vcb10gqp4plEO0lSUDjx0bwDBE1yl4O6/OjlwSS1E2eqjTF3/YRuCqRQ0oe1KRdPbI
+         hy9guWV8Z+7Yo9UAghXSkCglT+RBOroKfE96qpO4=
+Date:   Wed, 13 Apr 2022 12:08:04 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
+        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v8 1/4] mm: hugetlb_vmemmap: introduce
+ CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
+Message-Id: <20220413120804.3570dc230a958f4923e3f3c3@linux-foundation.org>
+In-Reply-To: <20220413144748.84106-2-songmuchun@bytedance.com>
+References: <20220413144748.84106-1-songmuchun@bytedance.com>
+        <20220413144748.84106-2-songmuchun@bytedance.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> It feels strange to force the user to use "realtek,rtl8365mb" or any
-> other different string that does not match the chip's real name. I
-> would not expect the one writing the DT to know that rtl8367s shares
-> the same family with rtl8365mb and rtl8365mb driver does support
-> rtl8367s. Before writing the rtl8367s driver, I also didn't know the
-> relation between those chips. The common was only to relate rtl8367s
-> (or any other chip model) with the vendor driver rtl8367c. As we don't
-> have a generic family string, I think it is better to add every model
-> variant.
+On Wed, 13 Apr 2022 22:47:45 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
 
-I will just quote the Marvell mv88e6xxx binding:
+> If the size of "struct page" is not the power of two but with the feature
+> of minimizing overhead of struct page associated with each HugeTLB is
+> enabled, then the vmemmap pages of HugeTLB will be corrupted after
+> remapping (panic is about to happen in theory).  But this only exists when
+> !CONFIG_MEMCG && !CONFIG_SLUB on x86_64.  However, it is not a conventional
+> configuration nowadays.  So it is not a real word issue, just the result
+> of a code review.
 
-The compatibility string is used only to find an identification register,
-which is at a different MDIO base address in different switch families.
-- "marvell,mv88e6085"   : Switch has base address 0x10. Use with models:
-                          6085, 6095, 6097, 6123, 6131, 6141, 6161, 6165,
-                          6171, 6172, 6175, 6176, 6185, 6240, 6320, 6321,
-                          6341, 6350, 6351, 6352
-- "marvell,mv88e6190"   : Switch has base address 0x00. Use with models:
-                          6190, 6190X, 6191, 6290, 6390, 6390X
-- "marvell,mv88e6250"   : Switch has base address 0x08 or 0x18. Use with model:
-                          6220, 6250
+The patch does add a whole bunch of tricky junk to address something
+which won't happen.  How about we simply disable
+CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP if (!CONFIG_MEMCG &&
+!CONFIG_SLUB)?
 
-This has worked well for that driver.
-
-     Andrew
