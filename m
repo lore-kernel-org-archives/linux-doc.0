@@ -2,83 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90918C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 15:19:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A49DEC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 15:32:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236400AbiDMPVt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Apr 2022 11:21:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36296 "EHLO
+        id S236561AbiDMPfK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Apr 2022 11:35:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234666AbiDMPVs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 11:21:48 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF3E9BCA3;
-        Wed, 13 Apr 2022 08:19:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=Eszu3JL25+s+bncKpFs8T3/NcthXr80OQbGJ1Dr4gIk=; b=Wv1mYgiRWhrkQQjGPqj2nHj4o2
-        Q4obSSSAceYAZAT7CYPGyVIcWuXa9yfsPBJOvuqRSAAxk75PogmT+0U3iSRC3bsOcmDJjMlVA/AFW
-        qB9KK08rJ5nJpH0bb449y9HiXaIiEr+cDP+L7R4Gmuv1iKXv2ewZU7hGrmu1o8brSHdYEvfEs9R//
-        ls3aPjMiMOYKDoh+33zSoc9RZz43VwdET4gXm7Fsl0yoO9D6gukKc6dhav3s4ImspHW7uc3T32/JH
-        NsbfJQdbZ+hGvzhv624ByzcR46RhJIsctpEavyFt5NzYUwPu00aQ3JUVLJlx98+WL2xTyuwd71s+4
-        9ix0CzJw==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1neemB-00EM1k-Cv; Wed, 13 Apr 2022 15:19:23 +0000
-Message-ID: <6fe36857-1c94-a421-0701-caf9c38b1c92@infradead.org>
-Date:   Wed, 13 Apr 2022 08:19:19 -0700
+        with ESMTP id S236543AbiDMPfA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 11:35:00 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5493637A2B
+        for <linux-doc@vger.kernel.org>; Wed, 13 Apr 2022 08:32:39 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id c23so2319958plo.0
+        for <linux-doc@vger.kernel.org>; Wed, 13 Apr 2022 08:32:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=hiY5e47Ko87MkIuTm3Q1jTYlfib2vDpGlep7TMJhc9k=;
+        b=Q9gxT9nRG1LTxgkkOUk1qCK00K0XYxWgpNRVUIxImzeLs7XiMyPdgcVGJsjUUf/pY2
+         nGM5QWtEokydtV8uhy7oesYrXrFTiUhqfKWNreuuE9WLPW/nvsi0lS1qzUx9Jzc1gme/
+         y23Y+A5L4r3qsmP5N742xj7xd7KaaguVSN5oS/yUex5uSb5MwHKVOoeePvcrTvJ47s0E
+         dKReepulDBRt62XXrHDF+eh+Ow9tnK7meHH7eprD6A/QPNnnYl83e+z49SBKT7giLd+n
+         mxH5mhLjhvWc48tozh97oE3B4VvYqc8rQNp+i6YfLFdaXI9J2k2xCjO3krJ2zIrcgXy5
+         qmJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=hiY5e47Ko87MkIuTm3Q1jTYlfib2vDpGlep7TMJhc9k=;
+        b=1GR+gISUNqWKkkVwHDoKY3KRWfNdRp9pt9EbJwYwkME1bigCSHmCZ11PlWfk/d6brG
+         Nd7pqNVZXnv7dR6myf11S33FBOBgP1nJizKor95jlxvb+bGqPB3hwm4Oo40hA3RdUXlw
+         XuWmstHZ9jZb9l57Z52gKu09NFsNpyh3QxACpCxZZoeecIS29uKBzlcSKtD82AdcQzu3
+         8cAYzFbOpBQCUp/+4WmuNxpzp9Jqp97bd9tc5P7LKeR76ChUlMpUwPj2BjXYsMHP/cMU
+         /8a+hDIXvdzzssiDRXtDM9kxgnOedgXQl9Mo5L4JOa9mYilr7JjXZd/wr/FuWc2CygxL
+         pOgQ==
+X-Gm-Message-State: AOAM5330IKCc+UST5105pWdmK8rnqsN35u0MYUOFfm5y1YNINzSgpoi+
+        4UihnoVFL6XaZk3HJ4lJj3GPhNHmBMoVzQ==
+X-Google-Smtp-Source: ABdhPJwSs6PNtBuvPLZpQ+fLuyzDyamAXM9ZZct6t4rnjZdP2unsnaEnc0+Ry75ZRnjsRYT6G8RAgQ==
+X-Received: by 2002:a17:90a:7:b0:1c7:c286:abc2 with SMTP id 7-20020a17090a000700b001c7c286abc2mr11600715pja.65.1649863958374;
+        Wed, 13 Apr 2022 08:32:38 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id x8-20020aa784c8000000b0050577c51d38sm19390312pfn.20.2022.04.13.08.32.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Apr 2022 08:32:37 -0700 (PDT)
+Date:   Wed, 13 Apr 2022 15:32:34 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        Lai Jiangshan <jiangshan.ljs@antgroup.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH V3 2/4] KVM: X86: Introduce role.glevel for level
+ expanded pagetable
+Message-ID: <YlbtEorfabzkRucF@google.com>
+References: <20220330132152.4568-1-jiangshanlai@gmail.com>
+ <20220330132152.4568-3-jiangshanlai@gmail.com>
+ <YlXvtMqWpyM9Bjox@google.com>
+ <caffa434-5644-ee73-1636-45a87517bae2@redhat.com>
+ <YlbhVov4cvM26FnC@google.com>
+ <d2122fb0-7327-0490-9077-c69bbfba4830@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] kernel-doc: support DECLARE_PHY_INTERFACE_MASK()
-Content-Language: en-US
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc:     linux-kernel@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-doc@vger.kernel.org
-References: <20211030020813.32654-1-rdunlap@infradead.org>
- <Ylavaf+OlgTVeI6a@shell.armlinux.org.uk>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <Ylavaf+OlgTVeI6a@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d2122fb0-7327-0490-9077-c69bbfba4830@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 4/13/22 04:09, Russell King (Oracle) wrote:
-> On Fri, Oct 29, 2021 at 07:08:13PM -0700, Randy Dunlap wrote:
->> Support the DECLARE_PHY_INTERFACE_MASK() macro that is used to declare
->> a bitmap by converting the macro to DECLARE_BITMAP(), as has been done
->> for the __ETHTOOL_DECLARE_LINK_MODE_MASK() macro.
->>
->> This fixes a 'make htmldocs' warning:
->>
->> include/linux/phylink.h:82: warning: Function parameter or member 'DECLARE_PHY_INTERFACE_MASK(supported_interfaces' not described in 'phylink_config'
->>
->> that was introduced by commit
->>   38c310eb46f5 ("net: phylink: add MAC phy_interface_t bitmap")
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
->> Cc: Russell King (Oracle) <linux@armlinux.org.uk>
+On Wed, Apr 13, 2022, Paolo Bonzini wrote:
+> On 4/13/22 16:42, Sean Christopherson wrote:
+> > On Wed, Apr 13, 2022, Paolo Bonzini wrote:
+> > > On 4/12/22 23:31, Sean Christopherson wrote:
+> > > > We don't need 4 bits for this.  Crossing our fingers that we never had to shadow
+> > > > a 2-level guest with a 6-level host, we can do:
+> > > > 
+> > > > 		unsigned passthrough_delta:2;
+> > > > 
+> > > Basically, your passthrough_delta is level - glevel in Jiangshan's patches.
+> > > You'll need 3 bits anyway when we remove direct later (that would be
+> > > passthrough_delta == level).
+> > 
+> > Are we planning on removing direct?
 > 
-> Thanks Randy, sorry I missed this patch.
+> I think so, it's redundant and the code almost always checks
+> direct||passthrough (which would be passthrough_delta > 0 with your scheme).
+
+It's not redundant, just split out.  E.g. if 3 bits are used for the target_level,
+a special value is needed to indicate "direct", otherwise KVM couldn't differentiate
+between indirect and direct.  Violent agreement and all that :-)
+
+I'm ok dropping direct and rolling it into target_level, just so long as we add
+helpers, e.g. IIUC they would be
+
+static inline bool is_sp_direct(...)
+{
+	return !sp->role.target_level;
+}
+
+static inline bool is_sp_direct_or_passthrough(...)
+{
+	return sp->role.target_level != sp->role.level;
+}
+
+> > > Regarding the naming:
+> > > 
+> > > * If we keep Jiangshan's logic, I don't like the glevel name very much, any
+> > > of mapping_level, target_level or direct_level would be clearer?
+> > 
+> > I don't love any of these names, especially glevel, because the field doesn't
+> > strictly track the guest/mapping/target/direct level.  That could obviously be
+> > remedied by making it valid at all times, but then the role would truly need 3
+> > bits (on top of direct) to track 5-level guest paging.
 > 
-> Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> Yes, it would need 3 bits but direct can be removed.
 > 
-> What is the intention for merging this patch? Will Jon merge it?
-> Your tags said To: Jon but you don't seem to have included him in
-> the email.
+> > > * If we go with yours, I would call the field "passthrough_levels".
+> > 
+> > Hmm, it's not a raw level though.
+> 
+> Hence the plural. :)
 
-Hm, I didn't notice that.
-Guess I'll resend it with your R-b.
-
-thanks.
-
--- 
-~Randy
+LOL, I honestly thought that was a typo.  Making it plural sounds like it's passing
+through to multiple levels.
