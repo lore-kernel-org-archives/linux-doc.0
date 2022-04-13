@@ -2,201 +2,261 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AB35C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 20:04:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C0F4C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 20:08:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234391AbiDMUGp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Apr 2022 16:06:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43690 "EHLO
+        id S234085AbiDMULJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Apr 2022 16:11:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234421AbiDMUGn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 16:06:43 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2086.outbound.protection.outlook.com [40.107.244.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2699C2DC0;
-        Wed, 13 Apr 2022 13:04:21 -0700 (PDT)
+        with ESMTP id S232592AbiDMULH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 16:11:07 -0400
+Received: from EUR02-VE1-obe.outbound.protection.outlook.com (mail-eopbgr20040.outbound.protection.outlook.com [40.107.2.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75F087E593;
+        Wed, 13 Apr 2022 13:08:45 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HFHrnI7xUHXa43iLx+Iv9w8IGgR92SNJs2PvKoWlz060OcydGunOpvNC55IExbdK7QOl3+tKX241uUJdzilK8dNXm0dJw1SXVd0V8OLI9msxEboiccvVY7KLFv3/QfkEeK/QPFG9bczlHsHPp+FYV8TO7FlLfpcQU4WRnYQqbb/R1xoSTuXMbbE8oDZ2wx6oAKKMg6NZKQil3btYuOyLilXSkt3xdh5T0XUJgIXxP+8rdKNi5A5f5LoA/sUk4A/6fG/Dn1x3+Ur7KkGZ8UGuJXHraIImGheFjv+N8RPM1pjax76ugJb6JJbIGJCvmZwQZ4Kju8wpl/b1S0s2n8i45g==
+ b=lxLcBGcZOS6NaOsruSCWfhMTsPrGd7jyJxlo3/DmWKeTfsHlxd7oSA5Ws0SJXQMppb6fthEFvs8Den/Ldwg8bR8BIXC8LuEe52f7MwZe2gc4KDXbLv0hkhrAR8Qd5TeN87glsag4Up+dVsSn7kt+EgD2jbodnNMp+pqo1/7ntJjWMNzg8dnNIYD7vRp5H0TFwR8FGISVoYvYSxsGMwNbXPY78J85jKFqoI407ZEP7p7o2BP2kN9R7GiHlGz5Z7XN1K/pQhzqbVKUNjb0XYJVxpOmQ4T8SrOAQIVC7PRdxd8R/6pi4nklRfRsbKvXjlEcwUz+/HWMaS1uwFSSRTpILg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=65qaXMr7DRJeV1Kj8u0EXLr+PoshN2WQPLqKGR+j3pk=;
- b=fNBJoNRKpAPOJs/2MewNSftEJpDzKrX/muiQI3O3/h9UfuHo1wIWBAk46vDOt9J/OfbA6fPUU1ENgRGscGuItAxzSN7pbOoldDMMxrB4YLqNLfiRhqdexPbBGYKExitklkkXGqu/VRtVRNkqQ0XZ40IVLqyAaxLvkqPZuSPPcEjhNUrripDtVvI7Rv9O72xwhb20to7KTNGC1DXvn2N222801wJcrN19tSRF+n/aTdhz+WZ7B6gEIsM3XGv6H6tHdnTQzURpC6c+lNoyf/U5PFLzFImsJtpGyINDfAhrfJufyJ1A9neM24uxIkKppS/NlFtDP21h75BBoKE0NnWxuQ==
+ bh=5ZMnN9NbrJPd3iDt+UGaH6/OJOTVLTPxe1ygROAqjZo=;
+ b=eS3Oe268nGVI09S0EW1wliI1cyNwieO377uOOZ1F6BOijFqAXcOyBDsxAW6ZDkZG6IfWmRKSsNePF+ac2t6aVwcgib7zMi0QghLGhks9SkswfK8ReodlXetDiJPoByAa6aUWEBlWfn9yJ9DGxVpU/AggLOX88p8dTGXhSjWq1n4BVpEqHuaixGkD2XB8HmRN2zNhkYlaHnSE0o8Qzu/XbkJiIbPJw69fJiiAdqjLZggCHL19BEOVHG/z0XZQk6C+vTi3KkS2JhoASfZ9NU8tm99UT3mrrTa3VVmTG/khCaZrqfHFnxxGqh0bnNJ4LLPvExBsvUwXSeTfasn/bFL6jQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=65qaXMr7DRJeV1Kj8u0EXLr+PoshN2WQPLqKGR+j3pk=;
- b=uVFHP9iEoZNvO1kGHb71nfERLGYPpGUJTm1QQkF87la4jB4NDtezi2MLOvCCPaAHA6LFjVlerseV9Gua2NGLSh8+3/NvO4tGajLJJFWHPDXTV1M544oDoiqgMad+kdCrE8UPJQQVdBwYio3zZx1e9KBT3SdKrBx4o0jJ3sPQ/bCukgOVj00sVx/5L40ZHoz/DORKX7fmdsJr5ick50I6OmMeAYSj3BGsYcrlM+dNfDXRZtjmr+OwCCZY2Ydg4e5Y0RV6i7wgmup2mlsNKA9OmIRbQpdCqLfwgj2PJ7pT0jCADUH5HxvdlOB1PUBx/2o1IHySDSfAKJdLy1pMou20AQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by CY4PR12MB1784.namprd12.prod.outlook.com (2603:10b6:903:11e::19) with
+ bh=5ZMnN9NbrJPd3iDt+UGaH6/OJOTVLTPxe1ygROAqjZo=;
+ b=R+iL2MC0uKFB87KEPGZcIGvihpN4lSt7o30dPDmfK7Abi0QW+/AqHTysRLC0c43+o8hJutYpJRBa0DywYZpjIJa5RrJQrrmgyDp79mCRg4he7Ia/TWMowaG1ZHscwD8MwPq3lwUgvFKAI5H8dcnlAFv/orw0zJ4PYCt0kbsIH/g=
+Received: from VI1PR04MB5136.eurprd04.prod.outlook.com (2603:10a6:803:55::19)
+ by VI1PR0402MB3391.eurprd04.prod.outlook.com (2603:10a6:803:3::23) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Wed, 13 Apr
- 2022 20:04:19 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2%5]) with mapi id 15.20.5164.018; Wed, 13 Apr 2022
- 20:04:19 +0000
-Date:   Wed, 13 Apr 2022 17:04:18 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     "Wang, Zhi A" <zhi.a.wang@intel.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        Eric Farman <farman@linux.ibm.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "intel-gvt-dev@lists.freedesktop.org" 
-        <intel-gvt-dev@lists.freedesktop.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Kirti Wankhede <kwankhede@nvidia.com>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.30; Wed, 13 Apr
+ 2022 20:08:42 +0000
+Received: from VI1PR04MB5136.eurprd04.prod.outlook.com
+ ([fe80::8ed:49e7:d2e7:c55e]) by VI1PR04MB5136.eurprd04.prod.outlook.com
+ ([fe80::8ed:49e7:d2e7:c55e%3]) with mapi id 15.20.5144.029; Wed, 13 Apr 2022
+ 20:08:42 +0000
+From:   Vladimir Oltean <vladimir.oltean@nxp.com>
+To:     Luiz Angelo Daros de Luca <luizluca@gmail.com>,
+        Kurt Kanzenbach <kurt@linutronix.de>,
+        George McCollister <george.mccollister@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>
-Subject: Re: [PATCH 1/9] vfio: Make vfio_(un)register_notifier accept a
- vfio_device
-Message-ID: <20220413200418.GX2120790@nvidia.com>
-References: <0-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com>
- <1-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com>
- <20220413055524.GB32092@lst.de>
- <20220413113952.GN2120790@nvidia.com>
- <20220413160601.GA29631@lst.de>
- <20220413161814.GS2120790@nvidia.com>
- <20220413162946.GB31053@lst.de>
- <20220413173727.GU2120790@nvidia.com>
- <661447fd-b041-c08d-cedc-341b31c405f8@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <661447fd-b041-c08d-cedc-341b31c405f8@intel.com>
-X-ClientProxiedBy: BL1PR13CA0136.namprd13.prod.outlook.com
- (2603:10b6:208:2bb::21) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        Florian Fainelli <f.fainelli@gmail.com>
+Subject: Re: [PATCH net-next v2] docs: net: dsa: describe issues with checksum
+ offload
+Thread-Topic: [PATCH net-next v2] docs: net: dsa: describe issues with
+ checksum offload
+Thread-Index: AQHYTfheCzBrufjauEu7NwJglkZ/ZKzuSJmA
+Date:   Wed, 13 Apr 2022 20:08:41 +0000
+Message-ID: <20220413200841.4nmnv2qgapqhfnx3@skbuf>
+References: <20220411230305.28951-1-luizluca@gmail.com>
+In-Reply-To: <20220411230305.28951-1-luizluca@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ad6faf1f-9eae-436d-b9cc-08da1d896812
+x-ms-traffictypediagnostic: VI1PR0402MB3391:EE_
+x-microsoft-antispam-prvs: <VI1PR0402MB33918D62D2B02733056B3879E0EC9@VI1PR0402MB3391.eurprd04.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: obot/AdcaCUsJJsgO46RWJezW/DJrAqGtt4tEEUvUtmrUfOukeENvBSdzVkwVPb1cuNiDYooWyhVE40AOtfKEvkxxKCNFZ2fJTMWzWtqsNHwBIhAGq8Uoh7wmxXWYwbtpKKkf3MquHnq0UyfsmWUodlKYj591NMcy2dYUD5ilj4yUv8fOB1aL+/am4dQ/5wIYr1gbQdOdzuOAuDDnbg3CITHqYGQvSry4H1N+FJkKhFo/u/SYV+SK2gQLvxNRDMPGsfjgQkoXUdsko88ogRZoiJlA1NSJ3tYKE3r0DJoQ9EnzWDjRURZZ7qPIev+2PzO3MFUmBpG2otpxPZvkFEpGYVeVvzFekOjPp2UIo26p5mkR4zERSfvFoWRPp5aFmIDEFRZsd08FHevHrYIFW/slr0X4zD+IH46hLhZhNTHEkkSLaAb8G6MTidgc2QnheAB3Gq0Ug0mvVk9emHqP5ZnWWMoB81Venb2hcDQjE8wBFZTahVEv1TF2NZ/mW/suOH/F6P5p02ADBpKI6Dr4Yikd1yWlnogsOX9bYkcWYHNnq3EPL9wLi8MAqIxCEGC6di/BBK+5djGVW9mcTA8gEWJsfBQxlv7YBwDczNvhh7g9uA6OHHc7xKveNDCLpt/6lWpvcwSwIl5URMW0Hn9BDpfZfWSYYYoEpCfvT/tup2KywIGkP8tdEcXRsC5MD/5U248/Ct7n7upJpZyHF1fFiyKrUO4fbwCOQTnU4DMtCmONi8+QhuEUZagpbexVorgiQ/Sq2vBCUmPFuDl1SxVdkiVnQQvpVnAkWlc2TNTICkrUnM=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5136.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(4636009)(366004)(2906002)(508600001)(5660300002)(7416002)(1076003)(6486002)(966005)(66946007)(76116006)(4326008)(66556008)(71200400001)(6512007)(9686003)(66446008)(8676002)(64756008)(66476007)(86362001)(33716001)(38070700005)(110136005)(6506007)(8936002)(44832011)(316002)(54906003)(122000001)(38100700002)(186003)(26005);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?jh81cqkp6/dk1HxnBLN5iX76xYhbfqJzqpFkDtYx1ZwwevKMq04vrwV4wrZU?=
+ =?us-ascii?Q?/9MAzfJvGODIGGZsx1V9RQpJblzeDu4eUF+pG7yjzUL98/XxBPLjpPJm8Gx1?=
+ =?us-ascii?Q?ehsogEQ9+n+4oymGbj/R3HwrYRZ1ygjTsKwIViX7WmiHMDHMo9R4/fUcawCh?=
+ =?us-ascii?Q?SFupxAjqUCT3I3edDPFcI8AkSny4zIMAfJBQBjOgkvdm59AvkkyvZivn7bu9?=
+ =?us-ascii?Q?sdxAwTm0TA6WZ17PU6xz7niiYys10IJEtZ5g9z/aRcJT/wUowT18oOhmGNVF?=
+ =?us-ascii?Q?u8FLF0TcjthZ4VaKABLl7XJhN8FlDoZkLqsA6L9VwebRD16xrY2MGxn2uj9s?=
+ =?us-ascii?Q?mpy70p2bHfCq8OJxMwOF6kOkwIEHFfGNfBg6JrA8AJKIFYVoYCqaFl3qw9Z0?=
+ =?us-ascii?Q?vzRqmIv6JtU7qoHvt5RxMgUafY0BB6TpjW0Csy6ZTiDDFK+VAjGkEnvLmjty?=
+ =?us-ascii?Q?xfaAGcfaNpAejShBTN6vLYSChTLUoDwCL1UWzc605jzfnCK1xFh6tlUfZ50H?=
+ =?us-ascii?Q?l9HsOESphq1kJuF68rtzLIoWYqaj7lDKDZgURVDo1hH4xHYatoXcRKEvsGT6?=
+ =?us-ascii?Q?CPHi+Uf3xDu0eQYdwLCAY/MiTVdzGWGnHz02KrPYplOw4mSgo0/jT0nTELiq?=
+ =?us-ascii?Q?G6cRbYFldQJC8rb1u12jAysuxxyhAZnUqfLHLec+5kG73z2HAxuqo/9cBdyp?=
+ =?us-ascii?Q?KaM3zn7rXqOz2fVg56g3OxSNKRjzuEErWzAWMSKLJ5jBO7GBQ1Fl6fQwmgtH?=
+ =?us-ascii?Q?o+7LEuX3ihT2NbswGFidR5H5qD9sKvkowrxt1btu0z6knFY+tGGYc83sDs87?=
+ =?us-ascii?Q?Y1QDESsLWsg9FKFEAMmQDIXk8xH2kBMltIuI/ALieaNpAl/lQgZ9Na5F6QoG?=
+ =?us-ascii?Q?lxiHv/g63DrnD5+nsJUD87UBZi+yW6btYf2oycqPkAkA6/SKpF4xrmcy581O?=
+ =?us-ascii?Q?NVfYj0zVuzCSNfT3fz0ZMaQR9Eijj9Zo5GfmVP0Gq71V4kiFIxg7dj06tKZ6?=
+ =?us-ascii?Q?MusGpc7BtFf2/XkYzSw9NnJgtjSj5nlnsK4gcKSyGJFkGk1v96zAD6C7qFHs?=
+ =?us-ascii?Q?kBoHMo/JUL3FsksqWwEAmaZKuU6PSZXuR/xhoOKvYLZBmEzquiqEDd83trZu?=
+ =?us-ascii?Q?xGi+zyvrDAqQOX09TT1v1v2SEl+uzUUB1FQP9EWCDNut61RS3fSWYsgPer2t?=
+ =?us-ascii?Q?vTCBW0oQf+OwOqYiItrYT/ZPiIzItCOQYKT6Y8pXLZ1LhPwlDEriHMLo+X2I?=
+ =?us-ascii?Q?a8Gv7l1cYAezQWn1uL13gCNrcJP9m0qhqDXJ1chyvm3qRCteGTrBeN6569cp?=
+ =?us-ascii?Q?UPkfjBjpO2FektMkLJLUh36hqLf/kb9/C2vDs/0wznSXGzrZWCEoeLWNXWWw?=
+ =?us-ascii?Q?E3UUUhOHVI48rO9wbAkqHzbOaMw1f3YETipz/v6gIAyNpYK0EIbtREOFZ+sr?=
+ =?us-ascii?Q?ABCRHHZ7lCSQJvFlwnv+07XAMM3JdRFNFPvRm4iYDzn+PezI05RQmoQWapP6?=
+ =?us-ascii?Q?hwwomDtjbLrjdxUf8SlM0aFwiZi0O8fJK21CBiObAtQqPpt8yBlSQre3cMUN?=
+ =?us-ascii?Q?j74JI/cW9VmwBnuZz+XgAyaQ9jBFjyYqPH6tgwqm5KHM46Q2nmCWy+Mt9e0l?=
+ =?us-ascii?Q?TIu+UYzdmLinK1AEYEL3o8rHgI8vGDPWC+fUDzfp/Jgc59TtX4XBgA/5BFfd?=
+ =?us-ascii?Q?byDnNQuRL7YMYaXmhXm7jrSdRcZjOkrLsKfwPdTbhtIDGE/BrCdizLuVHVDx?=
+ =?us-ascii?Q?ipLng8/n/v2HQfoGgkxCare2dyvfdx4=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <9ADEBE699F29A941A7FF95271541347D@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a18a78d0-5c2e-4778-21b1-08da1d88cb97
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1784:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR12MB17848B3D288E6D8514DF586DC2EC9@CY4PR12MB1784.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TL0l4aaBY6A6iWour5Ztsfjdu3e/rCTlJazgxBHBq+FSmcNn7JAUpdO7+hptegpaKxMby48Er0YU1aRunY7jETXwg20bWihVAyoUn9ZyF4uwDqMLj5UTncsJ5oVoKAaq0NPIWXSpmcktHcKS/2yPhMZaGM/msaAS3KFrH4fNNlp/MSW1fqGfeT92Sk4LRoy9kO/a7lCYBY2Se6fuDnq+3glgV7j0h3M3GrQ05CgTL1tp2dYUZh3Ih8ytl7ZQv6cMXyvFRQA8o1EiSCzyCDMnFyfiWOubGp4s9uwzp5YqO/K9pnK/7w2NOmnKTFNyzdZNiKN4Y2inAgfkHwZsjZZz8AzcZw/0LHh5HJAfFgF97HJTSrfHx3JENgYsIpHsVPXzMG058yy8JGDk3HZRWAEeWESbjbUpRxujyqgivoBwfNquEow6V8wbkTyefteiVnUnqjH5sn66HrxFLt9wvVTophaN7hDFMNhj8f/Fi78pU4oXzfIaDf1OWq3aaV7slieqBoFrvVcS8cKcKDBI3nJQz2IvGHwO7Owtz+aUuqNbQVCbAcGE82nrtLtzwMrFeJ9JvujAsTpMEgvPH6vidtwmtD6YWSgdBV+yOfwfRnox6qbRN7hPEbPsMmZ3bnTPCf7wrnkpF06WhlTZ3PXz11hWPQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8676002)(66556008)(66476007)(7416002)(2616005)(5660300002)(38100700002)(6512007)(1076003)(8936002)(186003)(66946007)(7406005)(36756003)(4326008)(26005)(33656002)(54906003)(6506007)(2906002)(6916009)(53546011)(6486002)(508600001)(86362001)(316002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0amULtKcJIiru5NdLMWAJ3MuwellzjrMHLMQRNovPTG30u8Mb+UaFWXjbm/a?=
- =?us-ascii?Q?WwBrXDg6AaPbbnP0p7GX4lVOaU3vht4gfP/mAJvY5Q39nDKod0hyU5IOHRin?=
- =?us-ascii?Q?DmBs6c2Rwmt9HooOoPMG6Vx4kg5Es+94qcIn6fREziG/8IJAJsYxUfFfCv4W?=
- =?us-ascii?Q?35f9jM/xG3Yn+ZbCQcmbfh4qFxC/X5ftA6YXf6e533U5tkFEN2oAdhAGqLfe?=
- =?us-ascii?Q?FRo4R/HR+cZBh7XgH9rTeDcbr7prRWJoYFEt2/GWjSVo+Z5N6/Iu5QiMdAaN?=
- =?us-ascii?Q?Dn6chN5SApRwXq2Ly84XHJ69f0yI+Di38rVCBLBCZicOGrha56O8lqOlTkGe?=
- =?us-ascii?Q?MKrY46rD0f4l1v3nk2ddS8MVOjfjSRO18gL9t6dUB2BgO2KvQb5PZ9exNe4C?=
- =?us-ascii?Q?qVAJ3LvspOizIqXACtg/my8J9+pV9TOrYTShfpsU4fBWzDLl8/lsVw/zDY8f?=
- =?us-ascii?Q?vfygTXAMiWU2wCq8oFjq3vKnmNj10JFexIjXCBk/0ynsQZ44jW80V4D1NPvW?=
- =?us-ascii?Q?tRNeo7fnD3an9jRV2RNTZdRH2QJxEI6r3xL2O5PWVkR+wAaQiWWAB6DUVKT8?=
- =?us-ascii?Q?Rid7QiJCOK3epPryah0zd62iIyg2iLLN68a+WvRRlJvj9Slb9HIEEC7698ya?=
- =?us-ascii?Q?OrFknMWsI2KpQLpwMpS1t1MnD9Ac1bX3SdID84e10c1GbKlEhoHtPCARlMKI?=
- =?us-ascii?Q?QgPaXYYNySq312JANQnT2qJmIzX3ie4viz4CXOxoAql1RWlAjJdW/zQ0c20x?=
- =?us-ascii?Q?hCgjZHV2ZVkTLGGYvi5aUQeVBNP2Y0BTyyTPvnmB+BK9e6Gd7zBCksRVtDeu?=
- =?us-ascii?Q?PSvTezQJRoDqvJ1sKfLe24YkHPR6mzAELVM3MC7HdXHMUr4fLIcu1OY5QY3+?=
- =?us-ascii?Q?+DTMR5cgSLc8yNH2NV8C3OYakiaHZgGTyrKJamSLHzOr1jdM+SJH6hNc2gYK?=
- =?us-ascii?Q?9snGM4ymaocOdKU3eZyntXo39WpJG9zhJCNYS6gRnx3PVxQVq2ILj8OhE/hn?=
- =?us-ascii?Q?yl6KWdJBpj2HVzW/OJ5R6PA6fUls2R85QrQNfEr6MPOU+WNq84deOX9zPfD3?=
- =?us-ascii?Q?FiOLwyaKaicH01fjdbr3OhN77MNaVsIf2TeGOJjSmPiJc+fFCKjvdVt/jI68?=
- =?us-ascii?Q?VIyRmmKxFYEv3IyVIRBzshbvpa9bFsdmNjaHNoSu2wZ4F+Ao8vmI6tgYpPAt?=
- =?us-ascii?Q?oCiXmMQBNzP397dxyEMHsBi3/ZYA3zbCVXag4WRe0uipf421BpQy/VfODVEg?=
- =?us-ascii?Q?RKkGAj0VGLsw51warLpLG1f5D2dtJLtoiPBL3hGNzBOi1mhTJjXVtxPv1yUm?=
- =?us-ascii?Q?n92amVANTRPJNNYvpCFQnM/0/8fgSCSYh/HTd6/YDj8h+yRTBGVbp+li0kmD?=
- =?us-ascii?Q?8y/rbz8OM9WI04OMUVxT1XDXhIY/FJX/OuOYwqM3GatDkQWijO1b9x5vVJ22?=
- =?us-ascii?Q?Rlznd8x3dIndGH2d6fovg+I+JHXfKOz8sZThu/XfdvmEb1J0rJ/Z9YFWZs7S?=
- =?us-ascii?Q?xZgVyFU4ZsGvO+Z5CsgQKCOWU8aeHuvEFbAEkF/IkJn5u+T6sDiXcmenHpHj?=
- =?us-ascii?Q?uK0RS1IXAC5aXXFgPm2xMmG/+4N0gF9+pZkl0j/6+Al86VQjoC1JlZkS44a6?=
- =?us-ascii?Q?90QvxMLZSYAFjA28udKv74+LmDlA/OMXxJU7fSrhPDMKQc35X4UJzhg3Pcgq?=
- =?us-ascii?Q?9Ly7hyg9OukTcd65C3CghwVq+RlxB4Qp+4F9sFGGFDPvU/rI1qYW/1NT1v80?=
- =?us-ascii?Q?v5z4vImPiw=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a18a78d0-5c2e-4778-21b1-08da1d88cb97
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2022 20:04:19.6814
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5136.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad6faf1f-9eae-436d-b9cc-08da1d896812
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Apr 2022 20:08:41.9035
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JV7YfsVbgiZWTnWyS8a+o1rVyW+DaNqL1f3MvBvYcEp33VowtVRJgydm27tokrGV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1784
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zV26IYOliJswZQaWPQdLIgk2O8fqpmRWBOulcEClkCJOD7cEcotAfMzMGaPUcZ/MejQjeqdjVJwFMdvaPcBdng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3391
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 13, 2022 at 07:17:52PM +0000, Wang, Zhi A wrote:
-> On 4/13/22 5:37 PM, Jason Gunthorpe wrote:
-> > On Wed, Apr 13, 2022 at 06:29:46PM +0200, Christoph Hellwig wrote:
-> >> On Wed, Apr 13, 2022 at 01:18:14PM -0300, Jason Gunthorpe wrote:
-> >>> Yeah, I was thinking about that too, but on the other hand I think it
-> >>> is completely wrong that gvt requires kvm at all. A vfio_device is not
-> >>> supposed to be tightly linked to KVM - the only exception possibly
-> >>> being s390..
-> >>
-> >> So i915/gvt uses it for:
-> >>
-> >>  - poking into the KVM GFN translations
-> >>  - using the KVM page track notifier
-> >>
-> >> No idea how these could be solved in a more generic way.
-> > 
-> > TBH I'm not sure how any of this works fully correctly..
-> > 
-> > I see this code getting something it calls a GFN and then passing
-> > them to vfio - which makes no sense. Either a value is a GFN - the
-> > physical memory address of the VM, or it is an IOVA. VFIO only takes
-> > in IOVA and kvm only takes in GFN. So these are probably IOVAs really..
-> > 
-> Can you let me know the place? So that I can take a look.
+I've copied a bunch of new people to this email.
 
-Well, for instance:
+TL;DR: Kurt/George/Andrew, on your systems with hellcreek/xrs700x/mv88e6060=
+,
+does the DSA master declare any of the following features as "on"?
 
-static int gvt_pin_guest_page(struct intel_vgpu *vgpu, unsigned long gfn,
-		unsigned long size, struct page **page)
+ethtool -k eth0 | grep tx-checksum-ip
 
-There is no way that is a GFN, it is an IOVA.
+I would expect not. Otherwise, we've either found a bug, or discovered the =
+Sasquatch.
 
-> > It seems the purpose is to shadow a page table, and it is capturing
-> > user space CPU writes to this page table memory I guess?
-> > 
-> Yes.The shadow page will be built according to the guest GPU page table.
-> When a guest workload is executed in the GPU, the root pointer of the
-> shadow page table in the shadow GPU context is used. If the host enables
-> the IOMMU, the pages used by the shadow page table needs to be mapped as
-> IOVA, and the PFNs in the shadow entries are IOVAs.
+On Mon, Apr 11, 2022 at 08:03:06PM -0300, Luiz Angelo Daros de Luca wrote:
+> DSA tags before IP header (categories 1 and 2) or after the payload (3)
+> might introduce offload checksum issues.
+>=20
+> Signed-off-by: Luiz Angelo Daros de Luca <luizluca@gmail.com>
+> ---
 
-So if the page table in the guest has IOVA addreses then why can you
-use them as GFNs?
+Reviewed-by: Vladimir Oltean <vladimir.oltean@nxp.com>
 
-Or is it that only the page table levels themselves are GFNs and the
-actual DMA's are IOVA? The unclear mixing of GFN as IOVA in the code
-makes it inscrutible.
+>  Documentation/networking/dsa/dsa.rst | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>=20
+> diff --git a/Documentation/networking/dsa/dsa.rst b/Documentation/network=
+ing/dsa/dsa.rst
+> index ddc1dd039337..ed7fa76e7a40 100644
+> --- a/Documentation/networking/dsa/dsa.rst
+> +++ b/Documentation/networking/dsa/dsa.rst
+> @@ -193,6 +193,23 @@ protocol. If not all packets are of equal size, the =
+tagger can implement the
+>  default behavior by specifying the correct offset incurred by each indiv=
+idual
+>  RX packet. Tail taggers do not cause issues to the flow dissector.
+> =20
+> +Checksum offload should work with category 1 and 2 taggers when the DSA =
+master
+> +driver declares NETIF_F_HW_CSUM in vlan_features and looks at csum_start=
+ and
+> +csum_offset. For those cases, DSA will shift the checksum start and offs=
+et by
+> +the tag size. If the DSA master driver still uses the legacy NETIF_F_IP_=
+CSUM
+> +or NETIF_F_IPV6_CSUM in vlan_features, the offload might only work if th=
+e
+> +offload hardware already expects that specific tag (perhaps due to match=
+ing
+> +vendors). DSA slaves inherit those flags from the master port, and it is=
+ up to
+> +the driver to correctly fall back to software checksum when the IP heade=
+r is not
+> +where the hardware expects. If that check is ineffective, the packets mi=
+ght go
+> +to the network without a proper checksum (the checksum field will have t=
+he
+> +pseudo IP header sum). For category 3, when the offload hardware does no=
+t
+> +already expect the switch tag in use, the checksum must be calculated be=
+fore any
+> +tag is inserted (i.e. inside the tagger). Otherwise, the DSA master woul=
+d
+> +include the tail tag in the (software or hardware) checksum calculation.=
+ Then,
+> +when the tag gets stripped by the switch during transmission, it will le=
+ave an
+> +incorrect IP checksum in place.
+> +
 
-Jason
+While what you're describing here is truthful to what is currently being
+done, I'm re-reading this conversation:
+https://lore.kernel.org/netdev/20210715114908.ripblpevmdujkf2m@skbuf/T/#m13=
+a2e3a78d22b82f14bcdf85d988844053b1e8f9
+and trying to remember why I didn't point out what now seems obvious.
+
+It was said that inheriting master->vlan_features & NETIF_F_HW_CSUM is
+counter-productive for tail taggers, since now we have to patch all of
+them to do that "skb->ip_summed =3D=3D CHECKSUM_PARTIAL && skb_checksum_hel=
+p(skb))"
+dance. And that is most definitely true.
+
+It was also said that some systems where the DSA master vendor coincides
+with the DSA switch vendor rely on the switch inheriting NETIF_F_HW_CSUM
+from master->vlan_features, for a boost in performance. That is also
+most definitely true.
+
+But none of the examples given was for a tail tagger, which is what the
+discussion was about. With the exception of the obsolete tag_trailer.c
+used by mv88e6060, Marvell use Ethertype headers, and Broadcom either
+use an Ethertype header or a header prepended to the Ethernet header.
+
+Of all tagging protocol drivers which declare a non-zero needed_tailroom:
+
+- tag_ksz.c also calls skb_checksum_help() so I don't have doubts that
+  there aren't masters which offload checksumming for it
+
+- tag_trailer.c doesn't call skb_checksum_help(), but it's orphan and
+  probably super broken anyway
+
+- tag_hellcreek.c doesn't call skb_checksum_help() and is therefore
+  probably broken with checksum offloading masters. But it was probably
+  only tested on FPGA (or at least I assume "hirschmann,hellcreek-de1soc-r1=
+"
+  stands for "Altera DE1") and it happens to work there.
+
+- tag_xrs700x.c doesn't call skb_checksum_help() either, so there are
+  probably breakages waiting to happen
+
+- tag_sja1105.c (actually only SJA1110) uses a tail tag only for
+  link-local traffic, which is non-IP so there is no checksum offload
+  breakage there
+
+- tag_rtl8_4.c (the tail tagging version) has been added by yourself
+  with a call to skb_checksum_help().
+
+In any case, we give this advice to driver writers so off-hand that it's
+comical (I'm not attacking you, Luiz, for merely writing it down):
+
+| For category 3, when the offload hardware does not already expect the
+| switch tag in use, the checksum must be calculated before any tag is
+| inserted (i.e. inside the tagger).
+
+As if the tagging protocol driver has any crystal ball to guess whether
+the offload hardware of the DSA master in current use is going to expect
+the tail tag or not. BS. A tail tagging protocol concerned with correctness
+and portability is always going to call skb_checksum_help(), hence the
+absurdity of allowing tail taggers to inherit NETIF_F_HW_CSUM |
+NETIF_F_IP_CSUM | NETIF_F_IPV6_CSUM from the master in the first place.
+
+>  Due to various reasons (most common being category 1 taggers being assoc=
+iated
+>  with DSA-unaware masters, mangling what the master perceives as MAC DA),=
+ the
+>  tagging protocol may require the DSA master to operate in promiscuous mo=
+de, to
+> --=20
+> 2.35.1
+>=
