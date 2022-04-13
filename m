@@ -2,111 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E316C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 11:56:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA593C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 12:00:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235390AbiDML6Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Apr 2022 07:58:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56320 "EHLO
+        id S230513AbiDMMCo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Apr 2022 08:02:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235398AbiDML6R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 07:58:17 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B5AD31DC2
-        for <linux-doc@vger.kernel.org>; Wed, 13 Apr 2022 04:55:51 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id md4so1744919pjb.4
-        for <linux-doc@vger.kernel.org>; Wed, 13 Apr 2022 04:55:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=xfZYvIhJusGGTVvcijEi3gEbaY/Gp5sc+QOzlIMW8s0=;
-        b=b5cKcqguzqHlSE7L4Tu5eMsjMQWnqD8PblJB1FtfI/xMElSL6Z72EoYQW2tuov5+IH
-         m/+CBFSUGN37tR7Z2EYY+462coLXMBmBZ0jdYG2D3SG82CdHXPlTu6+e6HUoXpmuAegN
-         4T/dK03rORTBLQpHt1oYauJ+2P5fIc4tHWb/ULqqcz2V2mscoY6a936HUI0VksXVrIMG
-         ump0JAe8B6+OZwlxlkr6mz8Rc4SPr0UMcPiuvVRKV7IZHQKktrO9EEn0HbVgMz684Owu
-         MGzanrCez3ZT7EFk49yb83auBrVG7eB0BCYHAWNTtqaN5TUcPjgfWYbhvOcbHfJFshzO
-         HRnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=xfZYvIhJusGGTVvcijEi3gEbaY/Gp5sc+QOzlIMW8s0=;
-        b=21v1JYu9MexdVIl4JRMRh77Hbcf2hJzejofOEqOEk9rY3rxsXLt3pFvr1L2fCK4t+x
-         W4RWF3Wv1hgsYwZ+1zDiMeJeAJU/SEnXN7Qz51XAc8Sg0tkaZcv6ktC9tIfomcogCL3d
-         TkxbgdQY9OGuu9BtsxtzxQH8EuQecFSit04n0fQ++3oOvbGP2Ia8x85dzRzFv0gkn/7i
-         vi460Wz2JSquY5VQcRWjRlH25I0tAY0B0YdhELjaSFd72JvVV3easii12FcTKReIbGdL
-         +fMyEb+9IMAMY7llos7/ghcHDbeMMTbaagwYXUmOLrAHhXiWiHIX9/UkGs2Qtv+7vw4D
-         UxgQ==
-X-Gm-Message-State: AOAM530mAW2NKi4TGhyWcoRs015afN0GbeoHphJrjZwQ6/KFtm/ZFIaK
-        ljMlwGZSWy+Ao6aOdy5XHVW5DPNVUMs=
-X-Google-Smtp-Source: ABdhPJyvZrQtTrip19UEpXcSWHuI3ep/OTzTWZArYYpuNbXAWZ7tVBpkvxprU2162MH0qMGpJZFoVQ==
-X-Received: by 2002:a17:902:e9d3:b0:158:8521:1e8f with SMTP id 19-20020a170902e9d300b0015885211e8fmr8761230plk.82.1649850951328;
-        Wed, 13 Apr 2022 04:55:51 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id mu1-20020a17090b388100b001c77e79531bsm3055591pjb.50.2022.04.13.04.55.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Apr 2022 04:55:50 -0700 (PDT)
-Message-ID: <93f1f2c0-4884-f835-c087-08128164c4bd@gmail.com>
-Date:   Wed, 13 Apr 2022 20:55:45 +0900
+        with ESMTP id S235451AbiDMMCf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 08:02:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9333D2C673;
+        Wed, 13 Apr 2022 05:00:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2D55761E05;
+        Wed, 13 Apr 2022 12:00:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 80DCFC385A6;
+        Wed, 13 Apr 2022 12:00:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649851213;
+        bh=//BKps608RkvWlYmcUvnGAXwPzgsV2ij/OG3q7Efm/8=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=ntXGinvBMDuv00540tIZPImiM9II5aZCGGXXdYNAvqDm8kSYOyCNjht2CsVOna7dR
+         +1X1+07908SDP+2caeuF90YmJkFd+g39wBmAqX37iEAfYY/Nd9h3GFpGm8qEuJjrf9
+         t+60bn9LO8Sj0nKWh5FxntSdMurY2+sv/I0Gpc/eM+Ji1J5ltyStFqxayNSjXSOgKw
+         zTl1BREi52Fz501oHLrtWxHqOC8rbxPsqkNeWbZBpXbx33hRUrxjIHiOmabNHxSDwQ
+         K8NypZIHOFoCRBHeFQvDk2Et0nCGIchYUzlQ6sbFUdZj0CGVWIfTDXIwzbQ/9Lw8CM
+         w8scZ51vP6qoQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5F631E7399B;
+        Wed, 13 Apr 2022 12:00:13 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: Is there any Japanese translation maintainer?
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-References: <172fa015-26df-c978-853d-3aba67c581cc@gmail.com>
- <15b941a4-c41d-3fc1-c4f8-9a6736f6b874@gmail.com> <Ylazk8qA498v9AKc@kroah.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <Ylazk8qA498v9AKc@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [net-next PATCH v5 0/7] Add octeon_ep driver
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <164985121338.29697.16905786191397026617.git-patchwork-notify@kernel.org>
+Date:   Wed, 13 Apr 2022 12:00:13 +0000
+References: <20220413033503.3962-1-vburru@marvell.com>
+In-Reply-To: <20220413033503.3962-1-vburru@marvell.com>
+To:     Veerasenareddy Burru <vburru@marvell.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 13 Apr 2022 13:27:15 +0200,
-Greg Kroah-Hartman wrote:
-> On Wed, Apr 13, 2022 at 08:06:08PM +0900, Akira Yokosawa wrote:
->> [+Cc: Jon, Greg]
->>
->> Hello Fujimoto-san,
->>
->> On Wed, 13 Apr 2022 18:09:59 +0900,
->> Kosuke Fujimoto wrote:
->>> Hello,
->>>
->>> I would like to contact with Japanese documentation maintainer for some 
->>> changes. However, it looks like there is no one listed in MAINTAINERS file.
->>> Is there anyone who is maintaining Japanese documentation?
->>
->> Existing Japanese translation has a note on its first page saying:
->>
->>> This document is maintained by Tsugikazu Shibata <tshibata@ab.jp.nec.com>
->>
->> However, this email address is not reachable any more.
->>
->> I also have a few things I'd like to fix/update in it.
->> I'm glad to know there exists someone else who has similar
->> thoughts.
->>
->> I think I can play a role as a tentative maintainer who can
->> review your changes.
->>
->> Jon, Greg, do you have any idea of Shibata-san's whereabouts?
-> 
-> Yes, he has retired from NEC and now is doing other Linux-related work.
-> I can dig up his email address and send it to you off-list if you like.
+Hello:
 
-I'd really like to contact him!
-Please do so.
+This series was applied to netdev/net-next.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-        Thanks, Akira
+On Tue, 12 Apr 2022 20:34:56 -0700 you wrote:
+> This driver implements networking functionality of Marvell's Octeon
+> PCI Endpoint NIC.
+> 
+> This driver support following devices:
+>  * Network controller: Cavium, Inc. Device b200
+> 
+> V4 -> V5:
+>    - Fix warnings reported by clang.
+>    - Address comments from community reviews.
+> 
+> [...]
 
-> 
-> thanks,
-> 
-> greg k-h
+Here is the summary with links:
+  - [net-next,v5,1/7] octeon_ep: Add driver framework and device initialization
+    https://git.kernel.org/netdev/net-next/c/862cd659a6fb
+  - [net-next,v5,2/7] octeon_ep: add hardware configuration APIs
+    https://git.kernel.org/netdev/net-next/c/1f2c2d0cee02
+  - [net-next,v5,3/7] octeon_ep: Add mailbox for control commands
+    https://git.kernel.org/netdev/net-next/c/4ca2fbdd0bb6
+  - [net-next,v5,4/7] octeon_ep: add Tx/Rx ring resource setup and cleanup
+    https://git.kernel.org/netdev/net-next/c/397dfb57dcc2
+  - [net-next,v5,5/7] octeon_ep: add support for ndo ops
+    https://git.kernel.org/netdev/net-next/c/6a610a46bad1
+  - [net-next,v5,6/7] octeon_ep: add Tx/Rx processing and interrupt support
+    https://git.kernel.org/netdev/net-next/c/37d79d059606
+  - [net-next,v5,7/7] octeon_ep: add ethtool support for Octeon PCI Endpoint NIC
+    https://git.kernel.org/netdev/net-next/c/5cc256e79bff
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
