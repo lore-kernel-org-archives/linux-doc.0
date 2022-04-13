@@ -2,54 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE8FDC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 14:42:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 656B5C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Apr 2022 14:46:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236222AbiDMOpB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Apr 2022 10:45:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34588 "EHLO
+        id S236246AbiDMOsa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Apr 2022 10:48:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236226AbiDMOpA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 10:45:00 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 775F362C8F
-        for <linux-doc@vger.kernel.org>; Wed, 13 Apr 2022 07:42:35 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id n22so1857330pfa.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 Apr 2022 07:42:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/JYEDIWYyCmXfCvpDqWCkJLdtO8UQhf0VFm9gLSvtws=;
-        b=pceu2zUDQVxybZHIpx8ZRmoZzDQIwrGKZgmWOMMzB7VAntXi50Pl0f8pqyxIEWPI+5
-         pL8meqwPaGS963019NumUkybXx5CAsYMfc9veKm5KQ+oJV7CHLpP0E2YE2ceNlg24Awv
-         Xiemy6d/d+QzFJP4AyTUBvn9E10N6yw7xHZAlMF5b+RdO7301qDFVWFwUPYHcOEZEQst
-         hdyDSfjQBEYHj3aM7s6VfQjTsXUs7pBHuWqIWAdpu45F1CvjpGaMW4cUXBfpwME0fQNW
-         ATa+Av8J7FZi20cBDzMQDd2QAB2m/kLbg2cdN+dvirzLbuU7eYsx1Ld8zBtlLaLNLR02
-         zZ9w==
+        with ESMTP id S236245AbiDMOs3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Apr 2022 10:48:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C6E4563BCE
+        for <linux-doc@vger.kernel.org>; Wed, 13 Apr 2022 07:46:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1649861166;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=hNkvt/K0aQyOxX61nTzjQ7C3+Rq4NTo9lE9c4R9eKtU=;
+        b=TcVfCI+/deqi3f/N98DkLtzW+EMOzf90Adafi1cu60EH4AxbDsbMufkQH8G6GTEl/8dwVZ
+        ZyIkbynTHu90oha2diyaMH3fPVZr/y/OGb9mD+HNwbwyaUBQ1KeDktWxNUHlqGkccK3DaG
+        Z4nOW4p3agabLuXrud3S5QSLIddlsYI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-221-eYkojZfuNr-26xGm6NT1bw-1; Wed, 13 Apr 2022 10:46:03 -0400
+X-MC-Unique: eYkojZfuNr-26xGm6NT1bw-1
+Received: by mail-wm1-f71.google.com with SMTP id l41-20020a05600c1d2900b0038ec007ac7fso2931518wms.4
+        for <linux-doc@vger.kernel.org>; Wed, 13 Apr 2022 07:46:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/JYEDIWYyCmXfCvpDqWCkJLdtO8UQhf0VFm9gLSvtws=;
-        b=6Camu+zz4REdjYnOdRkgUW2LRBq2H/6SswzTkzn9T7BhwiumYNPUghElSTKaf4WNeG
-         skx9xS7QAAF97rkpsglCbRBz1jDxE+RgEkMkIiY7MknjBMmKag9OpWx/U+p4DKhxMwEg
-         vki8yz9qneXmWoAwkYamG7jc6EnJRtLITOG8sBj3l0FeQTXIhgC/t5d+y9/6i35DmsYy
-         Uzr7rA8bTqdux3vkHOLN1qStVK+kbBdo1sGT8VJZy6FDlzlofqkvP1/48zs+cjrzb4AG
-         +z5QeyV/nGz7ykG2C6O/7Jpd80N4WDyaL1aENd/GrUqC3x7llNDJPMc0f7w4PetUJy2f
-         1vNA==
-X-Gm-Message-State: AOAM5329OsUJ4cGuXeGQYm5cQNediy7ihRWXSw8vwhBw5e0MuT1PIwPO
-        NcVjmW0tKtD5cOltL/xaDkjSww==
-X-Google-Smtp-Source: ABdhPJyND0vLloxs8A3tKDdJhHhujGT9+mvw3w0rxORb0WCXA5Nj8ZZclC8so/j+m0ds/Ow5E6mDWg==
-X-Received: by 2002:a63:1024:0:b0:39d:1172:b8e0 with SMTP id f36-20020a631024000000b0039d1172b8e0mr20123646pgl.423.1649860954468;
-        Wed, 13 Apr 2022 07:42:34 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id i15-20020a17090a058f00b001cd50a6ec5csm2934080pji.16.2022.04.13.07.42.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 07:42:33 -0700 (PDT)
-Date:   Wed, 13 Apr 2022 14:42:30 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=hNkvt/K0aQyOxX61nTzjQ7C3+Rq4NTo9lE9c4R9eKtU=;
+        b=MDn6Q4TtkSXKrpLyrQ3BwWRjItYGdQIcAXYFmfwfexiSIEd70NYlCr+2Idk+pZWL7y
+         b+Oitx+bkZ2/EPBrdQDkb0z5I1dGkZHDUgNS0zvDXcXRVpdD1AT4YfYA3BVvKcsYFqg/
+         seVoSvX1U6DIJV+Z853wHgxicsC7yxgXuRE3nsIH6eXkKuWs5uXqP5PAz4f09HrHYHZT
+         mCBLgwA/vEfMJE3bItgt2U8tBEmBjimgvOotpthGISLIQFwXrl95CqbrwtbWE7XjsHo9
+         TcPYYj1J1Xh4OOK37cDIu+VHSGFjhPfWOEPadCk2QuRz6fL0P+KtPRLX09jrETg7HdQH
+         dhMw==
+X-Gm-Message-State: AOAM532q8BFsQTzbkprsC4w38ra7v7HjwxkvwufUosSiTBisIilLMTuj
+        PzXvPLg42RjoXe9hLmug135Tk6luxOHXhAso0UTa91U3SfHFRJSHPhTueDzEMEkuV2WQYHA3+uz
+        bB1c6NkXE51k9bttxWPkr
+X-Received: by 2002:a5d:5187:0:b0:207:a2ae:ee49 with SMTP id k7-20020a5d5187000000b00207a2aeee49mr14648368wrv.674.1649861162451;
+        Wed, 13 Apr 2022 07:46:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzQkqN0BdzFrNw/NCISIUZe837OYgNk82Z8gALnFHcVWR7Q6AJHH9Ut+cAuFv/bK200d/H8bw==
+X-Received: by 2002:a5d:5187:0:b0:207:a2ae:ee49 with SMTP id k7-20020a5d5187000000b00207a2aeee49mr14648345wrv.674.1649861162213;
+        Wed, 13 Apr 2022 07:46:02 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.googlemail.com with ESMTPSA id o17-20020a05600c4fd100b0038cd5074c83sm2992782wmq.34.2022.04.13.07.46.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Apr 2022 07:46:01 -0700 (PDT)
+Message-ID: <d2122fb0-7327-0490-9077-c69bbfba4830@redhat.com>
+Date:   Wed, 13 Apr 2022 16:46:00 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH V3 2/4] KVM: X86: Introduce role.glevel for level
+ expanded pagetable
+Content-Language: en-US
+To:     Sean Christopherson <seanjc@google.com>
 Cc:     Lai Jiangshan <jiangshanlai@gmail.com>,
         linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         Lai Jiangshan <jiangshan.ljs@antgroup.com>,
@@ -62,49 +76,52 @@ Cc:     Lai Jiangshan <jiangshanlai@gmail.com>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH V3 2/4] KVM: X86: Introduce role.glevel for level
- expanded pagetable
-Message-ID: <YlbhVov4cvM26FnC@google.com>
 References: <20220330132152.4568-1-jiangshanlai@gmail.com>
- <20220330132152.4568-3-jiangshanlai@gmail.com>
- <YlXvtMqWpyM9Bjox@google.com>
+ <20220330132152.4568-3-jiangshanlai@gmail.com> <YlXvtMqWpyM9Bjox@google.com>
  <caffa434-5644-ee73-1636-45a87517bae2@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <caffa434-5644-ee73-1636-45a87517bae2@redhat.com>
+ <YlbhVov4cvM26FnC@google.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <YlbhVov4cvM26FnC@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 13, 2022, Paolo Bonzini wrote:
-> On 4/12/22 23:31, Sean Christopherson wrote:
-> > > +		unsigned glevel:4;
-> > We don't need 4 bits for this.  Crossing our fingers that we never had to shadow
-> > a 2-level guest with a 6-level host, we can do:
-> > 
-> > 		unsigned passthrough_delta:2;
-> > 
-> > Where the field is ignored if direct=1, '0' for non-passthrough, and 1-3 to handle
-> > shadow_root_level - guest_root_level.  Basically the same idea as Paolo's smushing
-> > of direct+passthrough into mapping_level, just dressed up differently.
+On 4/13/22 16:42, Sean Christopherson wrote:
+> On Wed, Apr 13, 2022, Paolo Bonzini wrote:
+>> On 4/12/22 23:31, Sean Christopherson wrote:
+>>> We don't need 4 bits for this.  Crossing our fingers that we never had to shadow
+>>> a 2-level guest with a 6-level host, we can do:
+>>>
+>>> 		unsigned passthrough_delta:2;
+>>>
+>> Basically, your passthrough_delta is level - glevel in Jiangshan's patches.
+>> You'll need 3 bits anyway when we remove direct later (that would be
+>> passthrough_delta == level).
 > 
-> Basically, your passthrough_delta is level - glevel in Jiangshan's patches.
-> You'll need 3 bits anyway when we remove direct later (that would be
-> passthrough_delta == level).
+> Are we planning on removing direct?
 
-Are we planning on removing direct?
+I think so, it's redundant and the code almost always checks 
+direct||passthrough (which would be passthrough_delta > 0 with your scheme).
 
-> Regarding the naming:
+>> Regarding the naming:
+>>
+>> * If we keep Jiangshan's logic, I don't like the glevel name very much, any
+>> of mapping_level, target_level or direct_level would be clearer?
 > 
-> * If we keep Jiangshan's logic, I don't like the glevel name very much, any
-> of mapping_level, target_level or direct_level would be clearer?
+> I don't love any of these names, especially glevel, because the field doesn't
+> strictly track the guest/mapping/target/direct level.  That could obviously be
+> remedied by making it valid at all times, but then the role would truly need 3
+> bits (on top of direct) to track 5-level guest paging.
 
-I don't love any of these names, especially glevel, because the field doesn't
-strictly track the guest/mapping/target/direct level.  That could obviously be
-remedied by making it valid at all times, but then the role would truly need 3
-bits (on top of direct) to track 5-level guest paging.
+Yes, it would need 3 bits but direct can be removed.
 
-> * If we go with yours, I would call the field "passthrough_levels".
+>> * If we go with yours, I would call the field "passthrough_levels".
+> 
+> Hmm, it's not a raw level though.
 
-Hmm, it's not a raw level though.
+Hence the plural. :)
+
+Paolo
+
