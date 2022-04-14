@@ -2,104 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E093C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 10:04:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 495C5C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 10:20:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240040AbiDNKGx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 06:06:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58818 "EHLO
+        id S239844AbiDNKXB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 06:23:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241084AbiDNKGw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 06:06:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 900322253C
-        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 03:04:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1649930667;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=yuBcaeBniy5n5/L8X5921bwDC++5b8Xw6Z88KRpE9bQ=;
-        b=Emo/ajYVZelhDAfc9x8P6kPCj6nDiU5zlNTubOxUdi9nQaXkVUGFgd4Mq+pQj0MkBk//8r
-        Hl/Gj+MppC+NnldJRuQkEQw9s8TdRVW45Xq3h5+bGYHJpy4U+SmEyvK+7N/md5RzmmECDi
-        qf+6xGUWkaaQ51OcYvP0sw9qsRfGkOI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-244-YwGUxuINNoGVJV-Enq7XMg-1; Thu, 14 Apr 2022 06:04:26 -0400
-X-MC-Unique: YwGUxuINNoGVJV-Enq7XMg-1
-Received: by mail-wm1-f71.google.com with SMTP id n37-20020a05600c502500b0038fdc1394c6so1571996wmr.6
-        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 03:04:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=yuBcaeBniy5n5/L8X5921bwDC++5b8Xw6Z88KRpE9bQ=;
-        b=ZsBvANOJS7aQfD6chRhNphvdPSOQS4UHB1EvHx4sCcqmi/iHw6Eirto7Wqfimh8Jpi
-         s8riFaB2vPoOLVjlWQSi9gd4ADCB+gHjnRzyDonODMR1y6Hkg6Mglyk0VYI6XZNZzzax
-         hJEmK8F8alMLno9U2qhO3O+aMv7qDfvVq1BvpFsmrkntrjM6k6LGP90Xgo/vx2Rg9I21
-         2dzTFv9gbW+zQNRCVLV2RCEG+fjmQfY6a6iVa5Yui7e64Xfe41UCWc3R+UaPtaEs5JC7
-         cxvbtPwWKQHBnGp6B513Rs4ikyVY2iN3+mWCbGdUcNv9eemPXzjDp4fZIyAWGmU/eeD0
-         g3bA==
-X-Gm-Message-State: AOAM530K3+24bosdkC5K0i4Q9zG/s5hFOi4OvOprNTf3WqdrGA2ie4Jd
-        arMwMcJ3E4sxKFWMyDZxdSIkOCMc6IWH2Pw8njwTzNqien1NvYJ7BXZFqiE7cFKoZT7E2vYEWHe
-        K/bIgkDjcRSsw3rYnk5jS
-X-Received: by 2002:a05:600c:3ba9:b0:38e:c8c6:ae0d with SMTP id n41-20020a05600c3ba900b0038ec8c6ae0dmr2410329wms.120.1649930664854;
-        Thu, 14 Apr 2022 03:04:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyWW/CBrPwe+sYaoZNvV9T6UgMbQHF1faFSZFy0/f2vgkvI5kJx/Q5UzWAjnkbtTzqBMnumbg==
-X-Received: by 2002:a05:600c:3ba9:b0:38e:c8c6:ae0d with SMTP id n41-20020a05600c3ba900b0038ec8c6ae0dmr2410293wms.120.1649930664610;
-        Thu, 14 Apr 2022 03:04:24 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.googlemail.com with ESMTPSA id r14-20020a0560001b8e00b00205918bd86esm1395196wru.78.2022.04.14.03.04.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Apr 2022 03:04:24 -0700 (PDT)
-Message-ID: <658729a1-a4a1-a353-50d6-ef71e83a4375@redhat.com>
-Date:   Thu, 14 Apr 2022 12:04:20 +0200
+        with ESMTP id S229626AbiDNKXB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 06:23:01 -0400
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A63D03FD80;
+        Thu, 14 Apr 2022 03:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1649931636;
+  x=1681467636;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=I52ZeIB1sWjn9oq7mjMsLXKsTaoEgJRYAOxLZkkUSu4=;
+  b=eEeKiIL5VJKnCD47F5/zqC2gmVbLcXSW2iL+2arC7/Hjh1bHWiOPVaED
+   dbCErOVUBxYaBByZadhjoI3oJOrABd6NA/kCln4huQkJyUfMGPqtVN7vH
+   ZEQ/+vt8+MIywKJWTgTRng9N38bGFVi4RtYD7JZK3xkMXCGH1+emoPx2v
+   UtlskYlZTJA55LeqZxw3f721cCqVEjlqOdzwezKVBmvvFmWOp298UEu9c
+   FKzTWWeqvzfziccVELZmRSWh7gRmltmGxkJdrto3nnmA/RFt1pPeFzY+X
+   VPd13vCH3qXVYjIMyVYWPpF68/9FDR0MG90tWr7x30VB19pGdcmvmMwzu
+   A==;
+Date:   Thu, 14 Apr 2022 12:20:33 +0200
+From:   Vincent Whitchurch <vincent.whitchurch@axis.com>
+To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+CC:     Jonathan Cameron <jic23@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        kernel <kernel@axis.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "brendanhiggins@google.com" <brendanhiggins@google.com>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [RFC v1 08/10] iio: light: vcnl4000: add roadtest
+Message-ID: <20220414102033.GA13937@axis.com>
+References: <20220311162445.346685-1-vincent.whitchurch@axis.com>
+ <20220311162445.346685-9-vincent.whitchurch@axis.com>
+ <20220320170253.5b946c84@jic23-huawei>
+ <20220405134805.GA28574@axis.com>
+ <20220406140816.000038ce@Huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH V3 3/4] KVM: X86: Alloc role.pae_root shadow page
-Content-Language: en-US
-To:     Lai Jiangshan <jiangshanlai@gmail.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        Lai Jiangshan <jiangshan.ljs@antgroup.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        linux-doc@vger.kernel.org
-References: <20220330132152.4568-1-jiangshanlai@gmail.com>
- <20220330132152.4568-4-jiangshanlai@gmail.com> <YlXrshJa2Sd1WQ0P@google.com>
- <CAJhGHyD-4YFDhkxk2SQFmKe3ooqw_0wE+9u3+sZ8zOdSUfbnxw@mail.gmail.com>
- <683974e7-5801-e289-8fa4-c8a8d21ec1b2@redhat.com>
- <CAJhGHyCgo-FEgvuRfuLZikgJSyo7HGm1OfU3gme35-WBmqo7yQ@mail.gmail.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAJhGHyCgo-FEgvuRfuLZikgJSyo7HGm1OfU3gme35-WBmqo7yQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20220406140816.000038ce@Huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/14/22 11:32, Lai Jiangshan wrote:
-> kvm_mmu_free_roots() can not free those new types of sp if they are still
-> valid.  And different vcpu can use the same pae root sp if the guest cr3
-> of the vcpus are the same.
+On Wed, Apr 06, 2022 at 03:08:16PM +0200, Jonathan Cameron wrote:
+> On Tue, 5 Apr 2022 15:48:05 +0200
+> Vincent Whitchurch <vincent.whitchurch@axis.com> wrote:
+> I messed around the other day with writing tests for
+> drivers/staging/iio/cdc/ad7746.c and wasn't "too bad" and was useful for
+> verifying some refactoring (and identified a possible precision problem
+> in some integer approximation of floating point calcs)
 
-Right, but then load_pdptrs only needs to zap the page before (or 
-instead of) calling kvm_mmu_free_roots().
+Good to hear!
 
-Paolo
+> I'll try and find time to flesh that test set out more in the near future and
+> post it so you can see how bad my python is. It amused my wife if nothing
+> else :)
+> 
+> However a future project is to see if I can use this to hook up the SPDM
+> attestation stack via mctp over i2c - just because I like to live dangerously :)
+> 
+> For IIO use more generally we need a sensible path to SPI (and also platform
+> drivers).
 
-> And new pae root can be put in prev_root too (not implemented yet)
-> because they are not too special anymore.  As long as sp->gfn, sp->pae_off,
-> sp->role are matched, they can be reused.
+I have SPI working now.  I was able to do this without patching the
+kernel by have the Python code emulate an SC18IS602 I2C-SPI bridge which
+has an existing driver.  There is a limitation of 200 bytes per
+transaction (in the SC18IS602 driver/chip) so not all SPI drivers will
+work, but many will, and the underlying backend can be changed later
+without having to change the test cases.  I used this to implement a
+test for drivers/iio/adc/ti-adc084s021.c.
 
+Platform devices are going to take more work.  I did do some experiments
+(using arch/um/drivers/virt-pci.c) a while ago but I need to see how
+well it works with the rest of the framework in place.
+
+> For my day job I'd like to mess around with doing PCI devices
+> as well.  The PCI DOE support for example would be nice to run against a
+> test set that doesn't involve spinning up QEMU.
+> DOE driver support:
+> https://lore.kernel.org/all/20220330235920.2800929-1-ira.weiny@intel.com/
+> 
+> Effort wise, it's similar effort to hacking equivalent in QEMU but with the
+> obvious advantage of being in tree and simpler for CI systems etc to use.
+> 
+> It would be nice to only have to use QEMU for complex system CI tests
+> like the ones we are doing for CXL.
+> 
+> > 
+> > > I dream of a world where every driver is testable by people with out hardware
+> > > but I fear it may be a while yet.  Hopefully this will get us a little
+> > > closer!
+> > > 
+> > > I more or less follow what is going on here (good docs btw in the earlier
+> > > patch definitely helped).
+> > > 
+> > > So far I'm thoroughly in favour of road test subject to actually being
+> > > able to review the tests or getting sufficient support to do so.
+> > > It's a 'how to scale it' question really...  
+> > 
+> > Would rewriting the framework in C and forcing tests to be written in
+> > that language mean that maintainers would be able to review tests
+> > without external support?
+> 
+> I was wondering that.  If we stayed in python I think we'd definitely want
+> someone to be the 'roadtester/tests' maintainer (or group of maintainers) 
+> and their Ack to be expected for all tests we upstream.  Idea being they'd
+> sanity check correct use of framework and just how bad the python code
+> us C developers are writing is ;)
+> 
+> However, we'd still need a good chunk of that 'framework' use review even
+> if doing this in C.
+
+I think this is reasonable, especially for the first tests for each
+subsystem where there will likely be support code and framework bits
+missing.
