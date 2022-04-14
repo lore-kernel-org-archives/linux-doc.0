@@ -2,59 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29C41C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 09:07:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D426AC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 09:09:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234041AbiDNJKN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 05:10:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43028 "EHLO
+        id S238109AbiDNJLY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 05:11:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241521AbiDNJKL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 05:10:11 -0400
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B3176D962;
-        Thu, 14 Apr 2022 02:07:47 -0700 (PDT)
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-2ec42eae76bso48363707b3.10;
-        Thu, 14 Apr 2022 02:07:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=du9kKSyZ8/iyPYFYOsIaQUov6kGR9ZIsAFs+iWQKGeE=;
-        b=F1Zm9GWuALLdmCRFLyjKZXBMImjjZWjGYMZa6T0Lvy+l/3R+klqHuyhvmq57oK8ilf
-         D/Rf57UIwsxvUSzPtnI7z/BubVJwUyl7Zoq854nzvjQyjPgA2Q3jNsqBX3RcUVU8G3ki
-         ekM+iscNfZ0wSf8eDe3O+raroMVcz4XNrng1odjeirUcoxWjy+b/omiaH35wUDIteTvr
-         sUkHP1tj2SQb0/QoeRF677h5wYes1Hll8MK7HAAA2dbMW8/MQGaVrUotcwyF71Glb58W
-         t2IQM2BfsxiMws/TmWvrZA9nIwNwU8/C300ULYgPGOQRmvaMmlNFSDv9FJVDFVh2p27I
-         gQUA==
+        with ESMTP id S241565AbiDNJLX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 05:11:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8AC7F6E574
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 02:08:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1649927337;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EXK01xwL5FfymBT2O/wpbjGm/1sDlFHcoIHw2SavFDU=;
+        b=B06tffjLZSX1XnvvZA+ozn+tQWpM5Jcmyiag3mzobVOeiWdedUkdctcnhe7+gVyeOmUOu9
+        9Om/KHnT0XS9r1aKaXAkhMrjwh1t2rwVyp86Vh3lHmY+jBA5oxN8KCJ71kvAjnUShYBMJH
+        aqeHiq6eWy3YJYgOp7A4MB3yLA9fQ3E=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-439-YDOMtDKaOLy8rMGP0kxKCQ-1; Thu, 14 Apr 2022 05:08:48 -0400
+X-MC-Unique: YDOMtDKaOLy8rMGP0kxKCQ-1
+Received: by mail-wm1-f69.google.com with SMTP id i66-20020a1c3b45000000b0038eab4e0feaso2129013wma.9
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 02:08:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=du9kKSyZ8/iyPYFYOsIaQUov6kGR9ZIsAFs+iWQKGeE=;
-        b=GSlIQyNRZqebljdSSUvTmD3zlydwlsdKi9Fnw9j/YeZRo6M3BKOHHzNNPQbnciJUm4
-         Gx5DUU8VhkwlT9ZTJIIPuaD1SWvKfVp8Ni41ab3mhlqn9EBz0A28zcSILgfQI1muZU1t
-         ziItnSHPlIlOeYDbaQdWQr/b1uk1PjkE5tdlHJ02kPdyvHmJsAoMvtyNx3iN97Z/kP9F
-         uxbSoa0LlMB7RvS+yPt8gBCtZtOPzzlzZrEtfu6gJNgtPjdjWOp9olOdBDl55UDaAhtP
-         dCUxNSk+qdofpuL2oPaXGxAGMDTf++Jsr+Y+imOPST8AjYGRiSYc7o6+3IpRxDjB6P7l
-         Eyyg==
-X-Gm-Message-State: AOAM531e75HaGsJrLvu/yLomCKPJrI3YdJewN2/bI2JBzdi/TMzCIRPA
-        dh8o4lE/g0PDhQh0WX3fZfjmEZOI2V6Sl6DcxtSV/lrWXI0=
-X-Google-Smtp-Source: ABdhPJyDWj6uTxEyHSC/A79SvoyTUflzd7mvIcnj3ZJm/Gun9HLsmkI18Cg5MvBTXESQMQuygmpOwEErmMRyqfKOLXI=
-X-Received: by 2002:a81:178e:0:b0:2eb:ed49:8241 with SMTP id
- 136-20020a81178e000000b002ebed498241mr1166903ywx.417.1649927266264; Thu, 14
- Apr 2022 02:07:46 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=EXK01xwL5FfymBT2O/wpbjGm/1sDlFHcoIHw2SavFDU=;
+        b=jdV4m7HAgSiyC2kf1FPVRPdDGXG8LBXg8JBAtnuKataN9yXUNOuGwKUGowrAFh/6fD
+         hFJw38CzwY8AwgF8y3nxsHd+zMamFpo45XLxcl1tWUo48NMPw7Jv7sN/P5G91c3vndcU
+         1AKxN/lrCxdXKF3agmDmCdqhiWPsHqdgrC50/wGpg/aknFgP9DckPEQa2TMEw01ABexk
+         STF6GMGTyyGsZxYrD1dhGfXNwdi0xvF72TNY7VJ8RWM6irLNL82y80x2keKh7t6MGThk
+         BrBg1kdK14PgodkcAE29ClzMnZIWOjvZRH5vNU6tHKyJM3gnEnf4WpHv7co0gi2hn3D5
+         3Pew==
+X-Gm-Message-State: AOAM533DNKXjYTc95SIWImM+w3TFjuXjoaIWv8U0GJU6WgqRlffHiBZ+
+        JePlxiIi/EEAoQ2+ALM1Ym4ZUa88SXyrHnW5iWcH2P8ixFXWaN52s2UMLVQXcGZ5ZEqTBQ3wmCx
+        nItSDJmpTBziVNH8QMCXD
+X-Received: by 2002:a5d:64a5:0:b0:205:8e66:e9b1 with SMTP id m5-20020a5d64a5000000b002058e66e9b1mr1312050wrp.464.1649927327730;
+        Thu, 14 Apr 2022 02:08:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwAXM3iNNx7LZYO7MKlv+Z8ZcSXxb0BvT2R6br6VU+ZZLHt08JHqpN2CnaubzNSWxNIqo5rdQ==
+X-Received: by 2002:a5d:64a5:0:b0:205:8e66:e9b1 with SMTP id m5-20020a5d64a5000000b002058e66e9b1mr1312028wrp.464.1649927327531;
+        Thu, 14 Apr 2022 02:08:47 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.googlemail.com with ESMTPSA id r4-20020a05600c35c400b0038cbd8c41e9sm4947976wmq.12.2022.04.14.02.08.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Apr 2022 02:08:46 -0700 (PDT)
+Message-ID: <683974e7-5801-e289-8fa4-c8a8d21ec1b2@redhat.com>
+Date:   Thu, 14 Apr 2022 11:08:45 +0200
 MIME-Version: 1.0
-References: <20220330132152.4568-1-jiangshanlai@gmail.com> <20220330132152.4568-4-jiangshanlai@gmail.com>
- <YlXrshJa2Sd1WQ0P@google.com>
-In-Reply-To: <YlXrshJa2Sd1WQ0P@google.com>
-From:   Lai Jiangshan <jiangshanlai@gmail.com>
-Date:   Thu, 14 Apr 2022 17:07:34 +0800
-Message-ID: <CAJhGHyD-4YFDhkxk2SQFmKe3ooqw_0wE+9u3+sZ8zOdSUfbnxw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
 Subject: Re: [RFC PATCH V3 3/4] KVM: X86: Alloc role.pae_root shadow page
-To:     Sean Christopherson <seanjc@google.com>
+Content-Language: en-US
+To:     Lai Jiangshan <jiangshanlai@gmail.com>,
+        Sean Christopherson <seanjc@google.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
         Lai Jiangshan <jiangshan.ljs@antgroup.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
@@ -66,57 +76,32 @@ Cc:     LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
         Dave Hansen <dave.hansen@linux.intel.com>,
         X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
         linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20220330132152.4568-1-jiangshanlai@gmail.com>
+ <20220330132152.4568-4-jiangshanlai@gmail.com> <YlXrshJa2Sd1WQ0P@google.com>
+ <CAJhGHyD-4YFDhkxk2SQFmKe3ooqw_0wE+9u3+sZ8zOdSUfbnxw@mail.gmail.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAJhGHyD-4YFDhkxk2SQFmKe3ooqw_0wE+9u3+sZ8zOdSUfbnxw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 13, 2022 at 5:14 AM Sean Christopherson <seanjc@google.com> wrote:
->
-> On Wed, Mar 30, 2022, Lai Jiangshan wrote:
-> > From: Lai Jiangshan <jiangshan.ljs@antgroup.com>
-> >
-> > Currently pae_root is special root page, this patch adds facility to
-> > allow using kvm_mmu_get_page() to allocate pae_root shadow page.
->
-> I don't think this will work for shadow paging.  CR3 only has to be 32-byte aligned
-> for PAE paging.  Unless I'm missing something subtle in the code, KVM will incorrectly
-> reuse a pae_root if the guest puts multiple PAE CR3s on a single page because KVM's
-> gfn calculation will drop bits 11:5.
+On 4/14/22 11:07, Lai Jiangshan wrote:
+>> I don't think this will work for shadow paging.  CR3 only has to be 32-byte aligned
+>> for PAE paging.  Unless I'm missing something subtle in the code, KVM will incorrectly
+>> reuse a pae_root if the guest puts multiple PAE CR3s on a single page because KVM's
+>> gfn calculation will drop bits 11:5.
+> 
+> I forgot about it.
 
-I forgot about it.
 
->
-> Handling this as a one-off is probably easier.  For TDP, only 32-bit KVM with NPT
-> benefits from reusing roots, IMO and shaving a few pages in that case is not worth
-> the complexity.
->
+Isn't the pae_root always rebuilt by
 
-I liked the one-off idea yesterday and started trying it.
+         if (!tdp_enabled && memcmp(mmu->pdptrs, pdpte, sizeof(mmu->pdptrs)))
+                 kvm_mmu_free_roots(vcpu->kvm, mmu, KVM_MMU_ROOT_CURRENT);
 
-But things were not going as smoothly as I thought.  There are too
-many corner cases to cover.  Maybe I don't get what you envisioned.
+in load_pdptrs?  I think reuse cannot happen.
 
-one-off shadow pages must not be in the hash, must be freed
-immediately in kvm_mmu_free_roots(), taken care in
-kvm_mmu_prepare_zap_page() and so on.
+Paolo
 
-When the guest is 32bit, the host has to free and allocate sp
-every time when the guest changes cr3.  It will be a regression
-when !TDP.
-
-one-off shadow pages are too distinguished from others.
-
-When using one-off shadow pages, role.passthough can be one
-bit and be used only for 5-level NPT L0 for 4-level NPT L1,
-which is neat.  And role.pae_root can be removed.
-
-I want the newly added shadow pages to fit into the current
-shadow page management and root management.
-
-I'm going to add sp->pae_off (u16) which is 11:5 of the cr3
-when the guest is PAE paging. It needs only less than 10 lines
-of code.
-
-Thanks.
-Lai
