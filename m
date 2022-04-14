@@ -2,376 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9E25C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 19:26:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CECCC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 20:36:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345544AbiDNT3F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 15:29:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37216 "EHLO
+        id S1346531AbiDNUik (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 16:38:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234975AbiDNT3A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 15:29:00 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9549E338E;
-        Thu, 14 Apr 2022 12:26:34 -0700 (PDT)
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23EH8IU8015720;
-        Thu, 14 Apr 2022 19:26:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=ozm7ObVk9+dmufRZapWVOwMVGMWLWKlEXppBnJWoflE=;
- b=MGLO55jPGvwihfaFDaSwwejN6qf//k0YAChtN6/8N4qE04nhdYSP9y31Qj4rfcRz/CMg
- 0BEahHC9Fjb4RfTdMix3h5DhRd4/eqJOAS8wOfGfp+dvOAk/4BH81i0wrVNkfcFg4PTt
- lcnHK0bjoHtwXgjDS99tBcmquO6L1G3pUuBOarlWWVK4/Q0m+U3mWU5cGm7+MVx+5MnQ
- AglPibbAlgETll38WNKozchQt4Kjk+Vyek96CC4EuiO/+0LUNF3ljLSm7ojoEK1Py2B6
- jHK+qDr8m8ofhI9drdFzMXnNWfTFVvQbWmzh1kofvIE6/XAP7da2sPFnozf2bu/TJxvn rg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3fefydd057-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 14 Apr 2022 19:26:22 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23EJH0lv007797;
-        Thu, 14 Apr 2022 19:26:22 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3fefydd051-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 14 Apr 2022 19:26:22 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
-        by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23EJIChX024952;
-        Thu, 14 Apr 2022 19:26:21 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com [9.57.198.27])
-        by ppma02dal.us.ibm.com with ESMTP id 3fb1sabjp7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 14 Apr 2022 19:26:21 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com [9.57.199.110])
-        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23EJQKoQ25100588
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 14 Apr 2022 19:26:20 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 02C89AE060;
-        Thu, 14 Apr 2022 19:26:20 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 25C80AE05C;
-        Thu, 14 Apr 2022 19:26:13 +0000 (GMT)
-Received: from farman-thinkpad-t470p (unknown [9.211.52.116])
-        by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu, 14 Apr 2022 19:26:12 +0000 (GMT)
-Message-ID: <f9d4fb48ccee8ffa70caadf88f143bd91fcfc05e.camel@linux.ibm.com>
-Subject: Re: [PATCH 3/9] vfio/mdev: Pass in a struct vfio_device * to
- vfio_pin/unpin_pages()
-From:   Eric Farman <farman@linux.ibm.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
+        with ESMTP id S1346471AbiDNUig (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 16:38:36 -0400
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A0E6EBAEF
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 13:36:10 -0700 (PDT)
+Received: by mail-io1-xd2c.google.com with SMTP id x4so6643312iop.7
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 13:36:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=VOwb/LIajkynds1NOWj0jp1Wh/dVLVu/LuQcUbDz8pc=;
+        b=Fl/3pmZMMXpOUXW9mpvpX/dnQQ8iA+BLm4Msn7syrUbuGNt6ScyDa/OeLqypvbAZD3
+         mn/YqmGq1kRjD8kCuAkSd7Rl/xsRv9+bu/uYkJZYO6ztOmnXAmlF/Um+oHvfq8CBWlG8
+         nmo2fZO/3i/n8sBlau9jKc8ktVdxUIL6KfVQt1UTGh6oKY3BuxQRcBomVOMM5T+JSRpZ
+         G0XFcWIeCNOiY9mH6ebjC64b+MRHtWCr1HGLIEb9kbrQnYiAAybYpZVzGbnl8gaqCwCk
+         4N7JMm/Zuv+rdDf+LtmAAt0BOUCUoOUGMh0tFQTPiieWZn2K8CxtWysktqjJtG83yiFW
+         kv1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=VOwb/LIajkynds1NOWj0jp1Wh/dVLVu/LuQcUbDz8pc=;
+        b=IcfqMZ/DLoNIkHMhidhT2DMDjojYa6RGr23yJQUbYEWzaZ+Stn3p5nvagV1dJE8y9S
+         rqNssBiH6DuPDFChshstfEIM4EDS6mQz5qrriqf0K5AS2qobm/9CL0WYd2acIYVWKAJP
+         Tjoks5LC1r+oz4L+08AfMRp1yb3xwKhpyzv52Oan1YH3VpJNSVf186HvEOfFT3CKGuE/
+         5F3oAYeqBB45Zp28m9PgD/hO4tkJNT0yr3MT0ms28UsjJAncKO43PWaKKfG4iHx00ECB
+         AXLieefvhT/VLnfFdwrFFgOy1DscgAmpH5qnStiTW6e/rXw1V7FGnm8IJLvFD4qiGiZ/
+         l6DQ==
+X-Gm-Message-State: AOAM5309lYm3rRvJENhQe4g4r+sI/GS7M1lUcv5dFrKlLvRiclozIHOo
+        vuulMIddQxTW7NxCdRfbj46n5A==
+X-Google-Smtp-Source: ABdhPJzV9I/1jO0ij8KF1ngerhZUW0uge9IpUFXv4nROGyQiw1Pt6a1Zao6nhgJZ9LT4b07U+qKwrA==
+X-Received: by 2002:a05:6602:2f0a:b0:64f:99ed:d732 with SMTP id q10-20020a0566022f0a00b0064f99edd732mr1851747iow.150.1649968569030;
+        Thu, 14 Apr 2022 13:36:09 -0700 (PDT)
+Received: from google.com ([2620:15c:183:200:e02:decc:64d3:b1d3])
+        by smtp.gmail.com with ESMTPSA id h7-20020a056e021d8700b002ca753db1c9sm1660605ila.77.2022.04.14.13.36.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 13:36:08 -0700 (PDT)
+Date:   Thu, 14 Apr 2022 14:36:03 -0600
+From:   Yu Zhao <yuzhao@google.com>
+To:     Barry Song <21cnbao@gmail.com>
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>
-Date:   Thu, 14 Apr 2022 15:26:11 -0400
-In-Reply-To: <3-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com>
-References: <3-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: uZq8aBCvvRiYB0aEQrrVOKYqDxG7Xk9n
-X-Proofpoint-ORIG-GUID: 93JfTwHUje5lundOnEzqRFuD3bDlU-bs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-14_05,2022-04-14_02,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
- mlxscore=0 malwarescore=0 spamscore=0 priorityscore=1501 suspectscore=0
- impostorscore=0 mlxlogscore=999 clxscore=1015 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204140100
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Subject: Re: [PATCH v10 06/14] mm: multi-gen LRU: minimal implementation
+Message-ID: <YliFs3NOHeo2LeXl@google.com>
+References: <20220407031525.2368067-1-yuzhao@google.com>
+ <20220407031525.2368067-7-yuzhao@google.com>
+ <CAGsJ_4xqm4L4E4dW4PPHos8Ed9ej6hph28tSGy21Re3u7WiuOA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGsJ_4xqm4L4E4dW4PPHos8Ed9ej6hph28tSGy21Re3u7WiuOA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2022-04-12 at 12:53 -0300, Jason Gunthorpe wrote:
-> Every caller has a readily available vfio_device pointer, use that
-> instead
-> of passing in a generic struct device. The struct vfio_device already
-> contains the group we need so this avoids complexity, extra
-> refcountings,
-> and a confusing lifecycle model.
+On Thu, Apr 14, 2022 at 06:03:10PM +1200, Barry Song wrote:
 > 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  .../driver-api/vfio-mediated-device.rst       |  4 +-
->  drivers/s390/cio/vfio_ccw_cp.c                |  6 +--
->  drivers/s390/crypto/vfio_ap_ops.c             |  8 ++--
->  drivers/vfio/vfio.c                           | 40 ++++++-----------
-> --
->  include/linux/vfio.h                          |  4 +-
->  5 files changed, 24 insertions(+), 38 deletions(-)
-
-For the -ccw bits:
-
-Acked-by: Eric Farman <farman@linux.ibm.com>
-
+> On Thu, Apr 7, 2022 at 3:16 PM Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > +
+> > +static int isolate_folios(struct lruvec *lruvec, struct scan_control *sc, int swappiness,
+> > +                         int *type_scanned, struct list_head *list)
+> > +{
+> > +       int i;
+> > +       int type;
+> > +       int scanned;
+> > +       int tier = -1;
+> > +       DEFINE_MIN_SEQ(lruvec);
+> > +
+> > +       VM_BUG_ON(!seq_is_valid(lruvec));
+> > +
+> > +       /*
+> > +        * Try to make the obvious choice first. When anon and file are both
+> > +        * available from the same generation, interpret swappiness 1 as file
+> > +        * first and 200 as anon first.
+> > +        */
 > 
-> diff --git a/Documentation/driver-api/vfio-mediated-device.rst
-> b/Documentation/driver-api/vfio-mediated-device.rst
-> index 9f26079cacae35..6aeca741dc9be1 100644
-> --- a/Documentation/driver-api/vfio-mediated-device.rst
-> +++ b/Documentation/driver-api/vfio-mediated-device.rst
-> @@ -279,10 +279,10 @@ Translation APIs for Mediated Devices
->  The following APIs are provided for translating user pfn to host pfn
-> in a VFIO
->  driver::
->  
-> -	extern int vfio_pin_pages(struct device *dev, unsigned long
-> *user_pfn,
-> +	extern int vfio_pin_pages(struct vfio_device *vdev, unsigned
-> long *user_pfn,
->  				  int npage, int prot, unsigned long
-> *phys_pfn);
->  
-> -	extern int vfio_unpin_pages(struct device *dev, unsigned long
-> *user_pfn,
-> +	extern int vfio_unpin_pages(struct vfio_device *vdev, unsigned
-> long *user_pfn,
->  				    int npage);
->  
->  These functions call back into the back-end IOMMU module by using
-> the pin_pages
-> diff --git a/drivers/s390/cio/vfio_ccw_cp.c
-> b/drivers/s390/cio/vfio_ccw_cp.c
-> index af5048a1ba8894..e362cb962a7234 100644
-> --- a/drivers/s390/cio/vfio_ccw_cp.c
-> +++ b/drivers/s390/cio/vfio_ccw_cp.c
-> @@ -103,13 +103,13 @@ static int pfn_array_pin(struct pfn_array *pa,
-> struct vfio_device *vdev)
->  {
->  	int ret = 0;
->  
-> -	ret = vfio_pin_pages(vdev->dev, pa->pa_iova_pfn, pa->pa_nr,
-> +	ret = vfio_pin_pages(vdev, pa->pa_iova_pfn, pa->pa_nr,
->  			     IOMMU_READ | IOMMU_WRITE, pa->pa_pfn);
->  
->  	if (ret < 0) {
->  		goto err_out;
->  	} else if (ret > 0 && ret != pa->pa_nr) {
-> -		vfio_unpin_pages(vdev->dev, pa->pa_iova_pfn, ret);
-> +		vfio_unpin_pages(vdev, pa->pa_iova_pfn, ret);
->  		ret = -EINVAL;
->  		goto err_out;
->  	}
-> @@ -127,7 +127,7 @@ static void pfn_array_unpin_free(struct pfn_array
-> *pa, struct vfio_device *vdev)
->  {
->  	/* Only unpin if any pages were pinned to begin with */
->  	if (pa->pa_nr)
-> -		vfio_unpin_pages(vdev->dev, pa->pa_iova_pfn, pa-
-> >pa_nr);
-> +		vfio_unpin_pages(vdev, pa->pa_iova_pfn, pa->pa_nr);
->  	pa->pa_nr = 0;
->  	kfree(pa->pa_iova_pfn);
->  }
-> diff --git a/drivers/s390/crypto/vfio_ap_ops.c
-> b/drivers/s390/crypto/vfio_ap_ops.c
-> index 69768061cd7bd9..a10b3369d76c41 100644
-> --- a/drivers/s390/crypto/vfio_ap_ops.c
-> +++ b/drivers/s390/crypto/vfio_ap_ops.c
-> @@ -124,7 +124,7 @@ static void vfio_ap_free_aqic_resources(struct
-> vfio_ap_queue *q)
->  		q->saved_isc = VFIO_AP_ISC_INVALID;
->  	}
->  	if (q->saved_pfn && !WARN_ON(!q->matrix_mdev)) {
-> -		vfio_unpin_pages(mdev_dev(q->matrix_mdev->mdev),
-> +		vfio_unpin_pages(&q->matrix_mdev->vdev,
->  				 &q->saved_pfn, 1);
->  		q->saved_pfn = 0;
->  	}
-> @@ -258,7 +258,7 @@ static struct ap_queue_status
-> vfio_ap_irq_enable(struct vfio_ap_queue *q,
->  		return status;
->  	}
->  
-> -	ret = vfio_pin_pages(mdev_dev(q->matrix_mdev->mdev), &g_pfn, 1,
-> +	ret = vfio_pin_pages(&q->matrix_mdev->vdev, &g_pfn, 1,
->  			     IOMMU_READ | IOMMU_WRITE, &h_pfn);
->  	switch (ret) {
->  	case 1:
-> @@ -301,7 +301,7 @@ static struct ap_queue_status
-> vfio_ap_irq_enable(struct vfio_ap_queue *q,
->  		break;
->  	case AP_RESPONSE_OTHERWISE_CHANGED:
->  		/* We could not modify IRQ setings: clear new
-> configuration */
-> -		vfio_unpin_pages(mdev_dev(q->matrix_mdev->mdev),
-> &g_pfn, 1);
-> +		vfio_unpin_pages(&q->matrix_mdev->vdev, &g_pfn, 1);
->  		kvm_s390_gisc_unregister(kvm, isc);
->  		break;
->  	default:
-> @@ -1250,7 +1250,7 @@ static int vfio_ap_mdev_iommu_notifier(struct
-> notifier_block *nb,
->  		struct vfio_iommu_type1_dma_unmap *unmap = data;
->  		unsigned long g_pfn = unmap->iova >> PAGE_SHIFT;
->  
-> -		vfio_unpin_pages(mdev_dev(matrix_mdev->mdev), &g_pfn,
-> 1);
-> +		vfio_unpin_pages(&matrix_mdev->vdev, &g_pfn, 1);
->  		return NOTIFY_OK;
->  	}
->  
-> diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
-> index 8a5c46aa2bef61..24b92a45cfc8f1 100644
-> --- a/drivers/vfio/vfio.c
-> +++ b/drivers/vfio/vfio.c
-> @@ -2142,32 +2142,26 @@
-> EXPORT_SYMBOL(vfio_set_irqs_validate_and_prepare);
->   * @phys_pfn[out]: array of host PFNs
->   * Return error or number of pages pinned.
->   */
-> -int vfio_pin_pages(struct device *dev, unsigned long *user_pfn, int
-> npage,
-> +int vfio_pin_pages(struct vfio_device *vdev, unsigned long
-> *user_pfn, int npage,
->  		   int prot, unsigned long *phys_pfn)
->  {
->  	struct vfio_container *container;
-> -	struct vfio_group *group;
-> +	struct vfio_group *group = vdev->group;
->  	struct vfio_iommu_driver *driver;
->  	int ret;
->  
-> -	if (!dev || !user_pfn || !phys_pfn || !npage)
-> +	if (!user_pfn || !phys_pfn || !npage)
->  		return -EINVAL;
->  
->  	if (npage > VFIO_PIN_PAGES_MAX_ENTRIES)
->  		return -E2BIG;
->  
-> -	group = vfio_group_get_from_dev(dev);
-> -	if (!group)
-> -		return -ENODEV;
-> -
-> -	if (group->dev_counter > 1) {
-> -		ret = -EINVAL;
-> -		goto err_pin_pages;
-> -	}
-> +	if (group->dev_counter > 1)
-> +		return -EINVAL;
->  
->  	ret = vfio_group_add_container_user(group);
->  	if (ret)
-> -		goto err_pin_pages;
-> +		return ret;
->  
->  	container = group->container;
->  	driver = container->iommu_driver;
-> @@ -2180,8 +2174,6 @@ int vfio_pin_pages(struct device *dev, unsigned
-> long *user_pfn, int npage,
->  
->  	vfio_group_try_dissolve_container(group);
->  
-> -err_pin_pages:
-> -	vfio_group_put(group);
->  	return ret;
->  }
->  EXPORT_SYMBOL(vfio_pin_pages);
-> @@ -2195,28 +2187,24 @@ EXPORT_SYMBOL(vfio_pin_pages);
->   *                 be greater than VFIO_PIN_PAGES_MAX_ENTRIES.
->   * Return error or number of pages unpinned.
->   */
-> -int vfio_unpin_pages(struct device *dev, unsigned long *user_pfn,
-> int npage)
-> +int vfio_unpin_pages(struct vfio_device *vdev, unsigned long
-> *user_pfn,
-> +		     int npage)
->  {
->  	struct vfio_container *container;
-> -	struct vfio_group *group;
->  	struct vfio_iommu_driver *driver;
->  	int ret;
->  
-> -	if (!dev || !user_pfn || !npage)
-> +	if (!user_pfn || !npage)
->  		return -EINVAL;
->  
->  	if (npage > VFIO_PIN_PAGES_MAX_ENTRIES)
->  		return -E2BIG;
->  
-> -	group = vfio_group_get_from_dev(dev);
-> -	if (!group)
-> -		return -ENODEV;
-> -
-> -	ret = vfio_group_add_container_user(group);
-> +	ret = vfio_group_add_container_user(vdev->group);
->  	if (ret)
-> -		goto err_unpin_pages;
-> +		return ret;
->  
-> -	container = group->container;
-> +	container = vdev->group->container;
->  	driver = container->iommu_driver;
->  	if (likely(driver && driver->ops->unpin_pages))
->  		ret = driver->ops->unpin_pages(container->iommu_data,
-> user_pfn,
-> @@ -2224,10 +2212,8 @@ int vfio_unpin_pages(struct device *dev,
-> unsigned long *user_pfn, int npage)
->  	else
->  		ret = -ENOTTY;
->  
-> -	vfio_group_try_dissolve_container(group);
-> +	vfio_group_try_dissolve_container(vdev->group);
->  
-> -err_unpin_pages:
-> -	vfio_group_put(group);
->  	return ret;
->  }
->  EXPORT_SYMBOL(vfio_unpin_pages);
-> diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-> index 748ec0e0293aea..8f2a09801a660b 100644
-> --- a/include/linux/vfio.h
-> +++ b/include/linux/vfio.h
-> @@ -150,9 +150,9 @@ extern long vfio_external_check_extension(struct
-> vfio_group *group,
->  
->  #define VFIO_PIN_PAGES_MAX_ENTRIES	(PAGE_SIZE/sizeof(unsigned
-> long))
->  
-> -extern int vfio_pin_pages(struct device *dev, unsigned long
-> *user_pfn,
-> +extern int vfio_pin_pages(struct vfio_device *vdev, unsigned long
-> *user_pfn,
->  			  int npage, int prot, unsigned long
-> *phys_pfn);
-> -extern int vfio_unpin_pages(struct device *dev, unsigned long
-> *user_pfn,
-> +extern int vfio_unpin_pages(struct vfio_device *vdev, unsigned long
-> *user_pfn,
->  			    int npage);
->  
->  extern int vfio_group_pin_pages(struct vfio_group *group,
+> Has this changed the ABI of swapiness?
 
+No.
+
+> or it is only something
+> meaningful for the internal code?
+
+This is how swappiness is interpreted.
+
+> if so, can we rename it to
+> something else? otherwise, it is quite confusing.
+
+Feel free to suggest something.
+
+> it seems 1 is set internally as a magic number here:
+> +static void lru_gen_shrink_lruvec(struct lruvec *lruvec, struct
+> scan_control *sc)
+> +{
+> + ...
+> + else if (!cgroup_reclaim(sc) && get_swappiness(lruvec, sc))
+> + swappiness = 1;
+> + else
+> + swappiness = 0;
+> + }
+> obviously this swappiness is neither /proc/sys/vm/swappiness  nor
+> /sys/fs/cgroup/memory/<group>/>memory.swappiness, right?
+
+Right.
+
+> > @@ -3928,6 +4726,11 @@ static void age_active_anon(struct pglist_data *pgdat,
+> >         struct mem_cgroup *memcg;
+> >         struct lruvec *lruvec;
+> >
+> > +       if (lru_gen_enabled()) {
+> > +               lru_gen_age_node(pgdat, sc);
+> > +               return;
+> > +       }
+> 
+> is it really a good place for  lru_gen_age_node() since the function
+> is named age_active_anon()
+> but here you are doing aging for both anon and file pages?
+
+Yes.
+
+> obviously
+> lru_gen_age_node() is not
+> doing "age active anon".
+
+We can rename it if you have something in mind.
