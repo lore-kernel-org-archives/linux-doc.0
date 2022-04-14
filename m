@@ -2,117 +2,195 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87113C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 15:06:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FA1AC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 15:06:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232538AbiDNPIP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 11:08:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38238 "EHLO
+        id S240000AbiDNPIa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 11:08:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350006AbiDNOVg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 10:21:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DDD48BCB5C
-        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 07:12:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1649945563;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=j1PUWoxND9yB/RqRBJNB2R/kkEVrgsT3WEOw5xZ9hqE=;
-        b=b7uuRIlKYiLjzIveYIRAqpkTB9+VRlPlCBP+ef+yF2UNxpGe2D3pPNYw4IQjatjs3wItXz
-        azc5xwtATOri6wQh+9U2/+nwmy+xV9bR6BZ8urncyuiphdwrTwTr82fxHNbxEg6A+QaCyN
-        1HpjlIZc7h0nbBP36yDjv0TJN4h/OQE=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-jk77nj0SPNKx2i0O45MxxA-1; Thu, 14 Apr 2022 10:12:41 -0400
-X-MC-Unique: jk77nj0SPNKx2i0O45MxxA-1
-Received: by mail-ed1-f69.google.com with SMTP id cn27-20020a0564020cbb00b0041b5b91adb5so3097334edb.15
-        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 07:12:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=j1PUWoxND9yB/RqRBJNB2R/kkEVrgsT3WEOw5xZ9hqE=;
-        b=hyW46ECu6nI/8SIkZy5u35qjEYMGzjE9sNMtDFdCxddVVIHI4Y7RtA/NQjYYN/AuEZ
-         4L9Aep9gm+snT6gY920wHgIEjrHE8VaCPq2Sx8tXfdEEq3WKnPBk8RPmfOhY2uqycecK
-         ER18VDr32FQKJQ5yfn5iVnbm0khgiXCVkp290YEcq6fmNUogw7R8N4IkESJ+C0WqH77o
-         UerWZGoNhl5YF23JgU3Vl0wlPPpijVgVxh7S/PQIkXgb1tFevwoNrx/hfJpVh3bhxIbZ
-         260x5Uq7bmQjjclC/1tkhaLHxMbwt2WMAb7RMzyb4Ml6D1jQISm1xbaTNxLIzD1g4Gis
-         XiQg==
-X-Gm-Message-State: AOAM53314T4SczIClvCb0jCvm2EQ1657p9TKD6W3xE29d9tf6D8kOXrI
-        BbQ2gKWgplSGWJeottK27VOWzAzfw97av+OkgB/RgqpetSqM5vAkBuZ+WREHrjoCTouKQMLGWYL
-        Xd9E95moGKagGvHm0p3/d
-X-Received: by 2002:a17:907:d16:b0:6d6:e3b6:9cd8 with SMTP id gn22-20020a1709070d1600b006d6e3b69cd8mr2431090ejc.94.1649945560324;
-        Thu, 14 Apr 2022 07:12:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxzpmBaUrfDVV7d9ZOREkhEyKHyJVyB5pXUAJ4fe06+V64NEb8u+mjFbLOmP1i+mBi6Xh9zRQ==
-X-Received: by 2002:a17:907:d16:b0:6d6:e3b6:9cd8 with SMTP id gn22-20020a1709070d1600b006d6e3b69cd8mr2431066ejc.94.1649945560128;
-        Thu, 14 Apr 2022 07:12:40 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.googlemail.com with ESMTPSA id g16-20020a170906521000b006d58773e992sm672870ejm.188.2022.04.14.07.12.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Apr 2022 07:12:39 -0700 (PDT)
-Message-ID: <77699a19-65bd-5088-2f25-1be59364f5ee@redhat.com>
-Date:   Thu, 14 Apr 2022 16:12:35 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH V3 3/4] KVM: X86: Alloc role.pae_root shadow page
-Content-Language: en-US
-To:     Lai Jiangshan <jiangshanlai@gmail.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        Lai Jiangshan <jiangshan.ljs@antgroup.com>,
+        with ESMTP id S1351789AbiDNObe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 10:31:34 -0400
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam07on2082.outbound.protection.outlook.com [40.107.212.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E424BBD2D9;
+        Thu, 14 Apr 2022 07:22:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B9HF1QSrQrAWvK1rbDFden1Lvtni6a40IHGbIBnNM72TSQr23ZhAsHKYM+gRbPI9s48N3mnVZFgirMJ4rqRkthPAdKeLg1rNGRmADfVA2LHfGz8LQrPIN6yVHY5Igq09rYznNNnNl7GZaVYUZQnLqXjPVLW3tX//McXxUR1/YNkEduLWFi6iVlvyC+/YtbMRfDd90ngANQCR1BETMMLOLjUSEqk1kuwUslWYkzqIkWehgWu2UBR1uNkTKK9cdO6mJaOU1nCSAxK3XPg4esvDmgLnjxI4UYCX/PVIZiNHEiv9mrB2QdgeoBkKJJ9XlSudLMmdD/dQug2NT5ApQBzKOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NBtE58AiItvf5ISGf18XoZaN7Sl1IptLNoQwwc15Y1Q=;
+ b=UaOkqtKzId+N4jO3keSpmZKrN2pHtRWvy1uXcO057OcVqgyNLZlzRXky1T5MHV+Oe4gL5PwL3anHo1OOucT2EUHltMKj5XorTjIg7+V7v9tSbUzBjfN47jsHz5+Trg8+dPRsCpG2bBDFqxyPZJcPa3oUaaLC5I/hSGaWlFTS4swGHCe0VPjLVqBDe6zh6mvOlnIw3rG373YjQXQGIezA/NLT0AVCWXFhLxoHhtHTA3uYtLyFDnD8n/JC9Avn6DJa2hH06dijkwnQBofTfIeo22/CGhs5w85rWVL/IMD3p6pKuzqk8Zz27AXGKJYzDf8L/r/kowpQioy+MqsrN8j1wg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NBtE58AiItvf5ISGf18XoZaN7Sl1IptLNoQwwc15Y1Q=;
+ b=d1ttDyT0Drxzd1MhBKxTzbxlPc/n6zUCe9Y5/gpaCtAcGlPDKPQuU4DQYBzp0+umt2pL9LT6Vr+xHTFfj4cMfGfmweuLg6vyR+3S0ooJoYQao4PlsrNhtFH5s2UShzxln5t7uWGDlG+8xkRpyRbJZSAmWqUK/+R1yf3EBEwmgqCL8vZ9pTpMwuPTJ6V2dZJZBcs2aKX/2Fd3DypGMmneXDNZrBxdppvzCwns6prdJX18qc5EX5HwsHBwcuIoh+wRL+/OkAu+ztUoncyEC1gmxKWSwqkiFmPv34On4P0lZbVFEjsBx7ouuf4turknfLE6J0VUAKnx169AkhpZEKUVNg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by DM6PR12MB3963.namprd12.prod.outlook.com (2603:10b6:5:1cd::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Thu, 14 Apr
+ 2022 14:22:12 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ec2d:9167:1b47:2db2%5]) with mapi id 15.20.5164.020; Thu, 14 Apr 2022
+ 14:22:11 +0000
+Date:   Thu, 14 Apr 2022 11:22:10 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Matthew Rosato <mjrosato@linux.ibm.com>
+Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
+        David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        linux-doc@vger.kernel.org
-References: <20220330132152.4568-1-jiangshanlai@gmail.com>
- <20220330132152.4568-4-jiangshanlai@gmail.com> <YlXrshJa2Sd1WQ0P@google.com>
- <CAJhGHyD-4YFDhkxk2SQFmKe3ooqw_0wE+9u3+sZ8zOdSUfbnxw@mail.gmail.com>
- <683974e7-5801-e289-8fa4-c8a8d21ec1b2@redhat.com>
- <CAJhGHyCgo-FEgvuRfuLZikgJSyo7HGm1OfU3gme35-WBmqo7yQ@mail.gmail.com>
- <658729a1-a4a1-a353-50d6-ef71e83a4375@redhat.com>
- <CAJhGHyDYeQGUWmco=c4TA1uu=33ccW7z0fDLuYjvkGFW5WnDSQ@mail.gmail.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAJhGHyDYeQGUWmco=c4TA1uu=33ccW7z0fDLuYjvkGFW5WnDSQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        Christoph Hellwig <hch@lst.de>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>
+Subject: Re: [PATCH 9/9] vfio: Remove calls to vfio_group_add_container_user()
+Message-ID: <20220414142210.GE2120790@nvidia.com>
+References: <9-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com>
+ <d6e2778a-01e4-6468-2c2b-3b718d924e65@linux.ibm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d6e2778a-01e4-6468-2c2b-3b718d924e65@linux.ibm.com>
+X-ClientProxiedBy: BL1PR13CA0299.namprd13.prod.outlook.com
+ (2603:10b6:208:2bc::34) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d0e7c7ef-4c73-4f2f-1251-08da1e222a6e
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3963:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB39632998BA9FAC233FBBB78BC2EF9@DM6PR12MB3963.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NnSw3xtuxx8zY/pZfbCsgJ3JQylsmvmaVKrLBj8Wf1lBKiNd7S8hjR5CJXK7D7oUgrm11wb+ta4Fji0GOfjrYoc16Y1rlC5OoY1fyIugpXl+cH9V4y4Y4u3XpNJ7GYUroTYr7l7gdRt8BEUX3XVTGgrOB7jD9jlOizrSTyAfx1YPXJka+4FFDVZhakobWrY+LWf3weLpPT8eyAcVzapDdpTtAMTFpeMGNAX0QKeJNS8Y5UB7pD9FGodkEvbkgsKHpKidkOv3Aa73MFwUcNHh4jV5tMKXN1Kuzb/NeR5dP9RoIqSKbzsJoh4hb47O3l/ABo4FligPcl3vvZWU8uEA4HEiLAYaGP39wD+PZUhBjTWk8lk432P2wHduhTk+HVC9dj0noiWkFh/kVByeP+wpE0URchHbAzxqS3mUyT7cb9SFGITxjJx0PTc1PfSPZ4e8fVzihi4b5Cin6OERoB1syYo3qlZRvzd6ndQbgk4VMMQGRp965RobDQNjDyvT8baE0C8fXzgtA2BVpRJdXVC+nXQMbFpmBVA2j8Xz5PjJBUgbDqnYLVHwoxhw5gYo5PdbkFvqWxuEkD64r1lNKUy0DooXBrLSn77dLnT+l7mtNArcyLVTsO34pVTVAfzoFNk2Z814J2oNxyBxSs0j8fHXCQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(4326008)(1076003)(316002)(6486002)(53546011)(8936002)(7406005)(38100700002)(86362001)(36756003)(33656002)(508600001)(6916009)(54906003)(2616005)(26005)(186003)(66556008)(66476007)(66946007)(8676002)(83380400001)(6512007)(6506007)(2906002)(5660300002)(7416002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cY5TA5GkdVCLfMfxCsGcU/B1frm/RvN2VD8lNlHBaYiKTVnzyeoQ6ymjgEUj?=
+ =?us-ascii?Q?FfaaZ2Vg9tlceok7vOJs4nG7b1gokZusD2LL+vOxk1yfQzU/bJAmMmpA+z1K?=
+ =?us-ascii?Q?Cpko/f829HeRqYAWg9DWI74+mzld9f8jzwk1hvkvTRXyb5tUVU3SnZQfZKr1?=
+ =?us-ascii?Q?vJLVG4YEr1noCnYaFWiwKLZAggQynKKBq8ixUBKkOvNU/26VMjJ0lw2s7yJ5?=
+ =?us-ascii?Q?PqKrrEidPyR+SmnNRr/ydrv9Djo56sHXCXY9NTHipyowSzO5n1QM6I9GQF9G?=
+ =?us-ascii?Q?cWKthPV43tvApYGTX9wkpcNSQBSGrrIubkfnRGa5Q8hnpXw8dkWr7N2scYVW?=
+ =?us-ascii?Q?qWbPnh91ODU4StwY5L3/a53Lz2G0HD40dwfWWxUnRVe5xXmWra1yvW3zpZoJ?=
+ =?us-ascii?Q?W1zllVj7ddzXEvSdHopL+YGyPix8LQp0UrEjh8obt62m1+6L1kVrW6OYEBbc?=
+ =?us-ascii?Q?pAhqad7909QrwpzpgIzIIVyCGRxMPiPV3RDWnkflwL8vpBSSNuO4eJnsD2zE?=
+ =?us-ascii?Q?NDMom4nfPtEAzVEr9g6D/YdPjgIpN/6Kl2elKnqOJ4L+2Na4brTRJ/fAf5u2?=
+ =?us-ascii?Q?lW4CUGjUL6ET6pO7RvyuAiRLAvkU2+m0ikEJgjT7D9n+6dbWFlMyeZ66tUnF?=
+ =?us-ascii?Q?z4R3n2OeMnBYub8Wcnh6JxNjUzprTANASTNO/6Sp+M7S5jtzLWgbJ8iekuNQ?=
+ =?us-ascii?Q?QnGrregbcQ+4TWALXyt/5MGY8JopN90Cnzsq+cmccwGC23y6dAGt/Xo2Lvlu?=
+ =?us-ascii?Q?k+48qRfffy72C8jDngg5f2k4qUA110xIpONneFMq1EJlUr2UrW1TUHV7jJ1k?=
+ =?us-ascii?Q?pNccxqLjD2eXL6Aq+KrDmsHzg2fb4iSmgaeejZzu9/GFKkjO2x8MuSPxefjt?=
+ =?us-ascii?Q?WJxdqzsLV5pVb0b5ptTVqN8ksBzXUtiQJs5kXg2SuY29Vq4lKsoBThVmFv91?=
+ =?us-ascii?Q?HbFPQnSz91bStZJk07mgxEaKfoRTs6gZ3kpIzEsZVH8+CqV7x+2oWahrOq8+?=
+ =?us-ascii?Q?Q/djHk7rTyMmz7v5vUjI8YSjgSUstJXwfxtROm1kMP5K1qW6NEuqVtBnDr9x?=
+ =?us-ascii?Q?VfRRc9CZxID0l9etJp7SW3qU2zXgW3DWgLWFbqsCef1fb2Yz9onAvWMwmCnF?=
+ =?us-ascii?Q?SOw/SFy5Ci2hRqgMLuMa7mUey2j0/8sv2tPK0jUMN+rawxfpXygvcW3IYVwn?=
+ =?us-ascii?Q?v9ND56/9cvXVzkmHzWTWWwrzj7njAL3ek0UHSoodWiqUyfwBxj/tm1Pvnzl4?=
+ =?us-ascii?Q?K+7aNWPc5gLquxkfoibAcMHK7Bpc0mVPu7t5Ejm4px9a7OyLxAGm15IUKPGr?=
+ =?us-ascii?Q?qvlR0JAxi17rrUf3D42a847uFenqYnf4Rs5r+Mc8WyU8z/sPY1+CtjfBwJhm?=
+ =?us-ascii?Q?nqLfGVcNrvXLFuJXqo8cTEJb5oCRadCd94f6T/D8vVvqqUH/VA+wChIkdNXn?=
+ =?us-ascii?Q?tNSAodo7U6D9tBzPihiby+ybNwAAswfsUak/LKbwn/VwZJy+1QxQpxfJyhfK?=
+ =?us-ascii?Q?+8fjqZkeILBP5XE2kBFwldlQlUONZFFm/Bn7J0KSeUm2b+jBL1bQ2SmaqANc?=
+ =?us-ascii?Q?uVBhhPlIzcj6C/NnyTecAATVUlc+fydV7UpAcQbMDpqUsg5Gt0n1ftqcF/0H?=
+ =?us-ascii?Q?2BAvtfzwCkCBcvZytQomX7UtxQGdjg+NsLOr/u2LykvKEX+2+k7ydNpueeDM?=
+ =?us-ascii?Q?KRKrKirq1eNQHUva+kCLevbTJ0f6h33fOoAGHHb3lMoF522csCmkVsagUogO?=
+ =?us-ascii?Q?VFzJiqLoSg=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0e7c7ef-4c73-4f2f-1251-08da1e222a6e
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2022 14:22:11.7174
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gNfsiYsQbosfbbxGrSgR1kP5TETWqFyozEONrarC5wk80wbixkT6z7n7qgguR4zC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3963
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/14/22 13:06, Lai Jiangshan wrote:
->> Right, but then load_pdptrs only needs to zap the page before (or
->> instead of) calling kvm_mmu_free_roots().
->>
+On Thu, Apr 14, 2022 at 09:51:49AM -0400, Matthew Rosato wrote:
+> On 4/12/22 11:53 AM, Jason Gunthorpe wrote:
+> > When the open_device() op is called the container_users is incremented and
+> > held incremented until close_device(). Thus, so long as drivers call
+> > functions within their open_device()/close_device() region they do not
+> > need to worry about the container_users.
+> > 
+> > These functions can all only be called between
+> > open_device()/close_device():
+> > 
+> >    vfio_pin_pages()
+> >    vfio_unpin_pages()
+> >    vfio_dma_rw()
+> >    vfio_register_notifier()
+> >    vfio_unregister_notifier()
+> > 
+> > So eliminate the calls to vfio_group_add_container_user() and add a simple
+> > WARN_ON to detect mis-use by drivers.
+> > 
 > 
-> Guest PAE page is write-protected instead now (see patch4) and
-> kvm_mmu_pte_write() needs to handle this special write operation
-> with respect to sp->pae_off (todo).
-> And load_pdptrs() doesn't need to check if the pdptrs are changed.
+> vfio_device_fops_release decrements dev->open_count immediately before
+> calling dev->ops->close_device, which means we could enter close_device with
+> a dev_count of 0.
+> 
+> Maybe vfio_device_fops_release should handle the same way as
+> vfio_group_get_device_fd?
+> 
+> 	if (device->open_count == 1 && device->ops->close_device)
+> 		device->ops->close_device(device);
+> 	device->open_count--;
 
-Write-protecting the PDPTR page is unnecessary, the PDPTRs cannot change 
-without another CR3.  That should be easy to do in account_shadowed and 
-unaccount_shadowed
+Yes, thanks alot! I have nothing to test these flows on...
 
-> I think role.guest_pae_root is needed to distinguish it from
-> a sp for a level-3 guest page in a 4-level pagetable.
->
-> Or just role.guest_root_level(or role.root_level) and it can replace
-> role.passthrough_depth and role.guest_pae_root and role.pae_root.
+It matches the ordering in the only other place to call close_device.
 
-Yes, I agree.  Though this would also get change patch 1 substantially, 
-so I'll wait for you to respin.
+I folded this into the patch:
 
-Paolo
+diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
+index 0f735f9f206002..29761f0cf0a227 100644
+--- a/drivers/vfio/vfio.c
++++ b/drivers/vfio/vfio.c
+@@ -1551,8 +1551,9 @@ static int vfio_device_fops_release(struct inode *inode, struct file *filep)
+ 
+ 	mutex_lock(&device->dev_set->lock);
+ 	vfio_assert_device_open(device);
+-	if (!--device->open_count && device->ops->close_device)
++	if (device->open_count == 1 && device->ops->close_device)
+ 		device->ops->close_device(device);
++	device->open_count--;
+ 	mutex_unlock(&device->dev_set->lock);
+ 
+ 	module_put(device->dev->driver->owner);
 
+Jason
