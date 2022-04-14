@@ -2,67 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ACAFC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 14:04:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64438C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 14:05:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244938AbiDNOHN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 10:07:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43260 "EHLO
+        id S244959AbiDNOHS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 10:07:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346945AbiDNN6I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 09:58:08 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 035B5B53D1;
-        Thu, 14 Apr 2022 06:48:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=6bA3SZP3kvtP2Wpll9NtCPewFoIjvo4Ea/TB78oMn0U=; b=i78/sHtrdJmWRvO8019zlGvMhV
-        u5pdEpfdiKymh5T3N2vpel1z1b63cXmc+5CPp2SKhZKKFPbxWOrfEVYG4gvqDu09r5L1wPWg/Dsyf
-        AjBx/gtkTbn0iEXn5cBLkdxD7uTfnwO/E6Dd2pVPFlTQ8YSF90RJY7xZujTQbaBaG69c=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1nezpT-00Fpkh-Un; Thu, 14 Apr 2022 15:48:11 +0200
-Date:   Thu, 14 Apr 2022 15:48:11 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Alvin =?utf-8?Q?=C5=A0ipraga?= <ALSI@bang-olufsen.dk>
-Cc:     Luiz Angelo Daros de Luca <luizluca@gmail.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "tobias@waldekranz.com" <tobias@waldekranz.com>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-Subject: Re: [PATCH net-next] net: dsa: realtek: add compatible strings for
- RTL8367RB-VB
-Message-ID: <YlgmG3mLlRKef+sy@lunn.ch>
-References: <20220411210406.21404-1-luizluca@gmail.com>
- <20220412105018.gjrswtwrgjyndev4@bang-olufsen.dk>
- <CAJq09z53MZ6g=+tfwRU-N5BV5GcPSB5n0=+zj-cXOegMrq6g=A@mail.gmail.com>
- <20220414014527.gex5tlufyj4hm5di@bang-olufsen.dk>
- <CAJq09z6KSQS+oGFw5ZXRcSH5nQ3zongn4Owu0hCjO=RZZmHf+w@mail.gmail.com>
- <20220414113718.ofhgzhsmvyuxd2l2@bang-olufsen.dk>
+        with ESMTP id S1343966AbiDNNjc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 09:39:32 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7DA99EF5;
+        Thu, 14 Apr 2022 06:35:57 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id i20so9424343ybj.7;
+        Thu, 14 Apr 2022 06:35:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=usbrVmh/IqZeGrbdE2M9/Szfr5yBTnD3ZEUOMvSshiE=;
+        b=NLzWJaSJZPz1VxfJ8V35JeiQ1OKP+tDwmCDOL7OEXoBRqFaqNqB1W8N4bJJrl5SRDO
+         BFPtv1bbVEw/tMuvepFWesW4JU7SeKkwbBPXYSfh/t5/IZOneS7duUAwQasMnSpiITQ9
+         XndS1oIdD9jLUoeqTbuMs7OZ+I/NQzLvN3tLEEGwkU7+JFcFcjsh9TbKTJKTjyVu18KN
+         2owBNh8/ILzG/g2vY0LQzUx0JdQxfT181fGTsE7mqO3js9KsHvu827tXz3XoV6PO3F2e
+         4RFn15p8gCznyV8aiDlpQhf49jqef/UFlYcIZlfK3lbgv6UwpD4c7HKg1X1kDqU123ez
+         /lAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=usbrVmh/IqZeGrbdE2M9/Szfr5yBTnD3ZEUOMvSshiE=;
+        b=wcty3/V9HCLzKzMZgWfQeTeFsxbKCvWkyqw3VwRjFDxwUEHfdX2YfBMhsu6X4Dn/iE
+         Fu/ptF3ljHDOGbDoEWUjGBHxsmRfyM5xj28ym6jWptQq99HUk99LmXd/PSQq7GDFWcOI
+         VvHP4C7Q5xTknE3Xb+Hh8VQo5RS0QrwSXwUfxgi3NHhieg3CXPicHa82urkRLwsqU/W+
+         UiCaK1CFCoN2QfX9RVJ1sg6m4/GKCnK71QajpYRJdLMDZHHqsbV30HvZqT8cXFhIsjUw
+         ddGpiib3Ljof5mw3DqEWUKg3oV7zZMJqd6bh2gG72fjfeOVxt5JEhLbztw9LvXYETFkx
+         Zyog==
+X-Gm-Message-State: AOAM533DzkhzlcLJUO08Sv6jAOivYREyNqBYoGdyalyKtMItJaHJcmOg
+        wdfqwAtZ+w+yPX7bYiPQ8M00JBN2k5ST5x9BbwNPX25JqBI=
+X-Google-Smtp-Source: ABdhPJwopzv0ttPI92q96WOpOVANWZ/UA4QN3jGSBMSpKFajdl7+sC2a5dQBmaIJ77V2WoYOt6pYigc+WE79LYNZ87g=
+X-Received: by 2002:a05:6902:1206:b0:641:bc56:7444 with SMTP id
+ s6-20020a056902120600b00641bc567444mr1819943ybu.376.1649943356542; Thu, 14
+ Apr 2022 06:35:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220414113718.ofhgzhsmvyuxd2l2@bang-olufsen.dk>
+References: <20220330132152.4568-1-jiangshanlai@gmail.com> <20220330132152.4568-4-jiangshanlai@gmail.com>
+ <YlXrshJa2Sd1WQ0P@google.com> <CAJhGHyD-4YFDhkxk2SQFmKe3ooqw_0wE+9u3+sZ8zOdSUfbnxw@mail.gmail.com>
+ <683974e7-5801-e289-8fa4-c8a8d21ec1b2@redhat.com> <CAJhGHyCgo-FEgvuRfuLZikgJSyo7HGm1OfU3gme35-WBmqo7yQ@mail.gmail.com>
+In-Reply-To: <CAJhGHyCgo-FEgvuRfuLZikgJSyo7HGm1OfU3gme35-WBmqo7yQ@mail.gmail.com>
+From:   Lai Jiangshan <jiangshanlai@gmail.com>
+Date:   Thu, 14 Apr 2022 21:35:45 +0800
+Message-ID: <CAJhGHyCO23JbqdiwRvdggSSxxe93vyKPNY6H5nk+=y6cJJaxvQ@mail.gmail.com>
+Subject: Re: [RFC PATCH V3 3/4] KVM: X86: Alloc role.pae_root shadow page
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        Lai Jiangshan <jiangshan.ljs@antgroup.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > Is it too late to get rid of all those compatible strings from
-> > dt-bindings? And rtl8367s from the driver?
-> > We must add all supported devices to the doc as well, similar to mv88e6085.
-> 
-> You can always try! I'm OK with those things in principle, but others might
-> object due to ABI reasons.
+On Thu, Apr 14, 2022 at 5:32 PM Lai Jiangshan <jiangshanlai@gmail.com> wrote:
 
-Anything which is in a released Linus kernel is ABI and cannot be
-removed. Anything in net-next, or an -rcX kernel can still be changed.
+>
+> All new kinds of sp added in this patchset are in the hash too.
+>
 
-	 Andrew
+
+I think role.guest_pae_root is needed to distinguish it from
+a sp for a level-3 guest page in a 4-level pagetable.
+
+Or just role.guest_root_level(or role.root_level) and it can replace
+role.passthrough_depth and role.guest_pae_root and role.pae_root.
+
+role.pae_root will be
+
+(role.root_level == 3 || role.root_level == 2) && role.level == 3 &&
+(host is 32bit || !tdp_enabled)
