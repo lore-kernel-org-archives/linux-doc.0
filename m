@@ -2,91 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 935DEC43217
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 09:18:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F9A9C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 09:32:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241610AbiDNJUo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 05:20:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40858 "EHLO
+        id S233401AbiDNJes (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 05:34:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241602AbiDNJUj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 05:20:39 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10E1251E4D;
-        Thu, 14 Apr 2022 02:18:15 -0700 (PDT)
-From:   Kurt Kanzenbach <kurt@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1649927893;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=iLmCDPlHlx+4vJ7+eT/pCoYu1/+sbjT/6wC8EGaZi10=;
-        b=Ouz9SoFspDW418thOwaQ0Wmr2WP5cb7znTdJES07Jqk9ljP7qEuX4Ja0bp2p9Bx1rL46+0
-        KEM/ThW4kR7QqxstcwNG1UBJMbrSEcivkYgDo2AA3pJHs6Vv+FzGnev/fhr1PZlTqUDAWd
-        6f2Z2ddOjcAn5KCI+LKeV41G5Wyutpu08s+KxiTMHy/EPTRQLGrsB+Xt4YKuI6fXJkLvno
-        4K89hh3dbaTp+7PlMhnUVQK4fYa+WiGDSzXbiAzGiLOtHyRA3iNtaSgJD9QlQ+dOltQ2nK
-        RblARhI6wi4jP2x1Os0ZUdTxZUAMvhPMUzyZMgTeX2JXgl3mXcUdKIDh8hJV+g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1649927893;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=iLmCDPlHlx+4vJ7+eT/pCoYu1/+sbjT/6wC8EGaZi10=;
-        b=Fup1SrnNBv5FuCo7x/lZ5UGJZXakS/VRTQw77bfksXFJPu8+Pso4qvtggfACDwPEjBiz36
-        3b1SHOh6BLCvwJAA==
-To:     John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Richard Cochran <richardcochran@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kurt Kanzenbach <kurt@linutronix.de>
-Subject: [PATCH v2 3/3] tracing: Add documentation for trace clock tai
-Date:   Thu, 14 Apr 2022 11:18:05 +0200
-Message-Id: <20220414091805.89667-4-kurt@linutronix.de>
-In-Reply-To: <20220414091805.89667-1-kurt@linutronix.de>
-References: <20220414091805.89667-1-kurt@linutronix.de>
+        with ESMTP id S241096AbiDNJer (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 05:34:47 -0400
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B269F70F48;
+        Thu, 14 Apr 2022 02:32:23 -0700 (PDT)
+Received: by mail-yb1-xb2f.google.com with SMTP id x200so8308866ybe.13;
+        Thu, 14 Apr 2022 02:32:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=18iN7isOnbwaCP/A+6P5FUZa7tPpEP9mZVkoMTWqVbk=;
+        b=TaiSOkeG0C4eCouXZg0Cyq9AzWHpM+023cwzNOxyLUeMgaHNwgys3LzUfQSa+8lcyk
+         tc0wP3ET5ZCnxwFPmu874Ex5pQ0hAm2LrgwJdhvNXVvSX7kQLQgacueikDMxqwAjiaf6
+         CTg/9CQ3tfr/lSaW9M9Dlv+CAZxQpu/u5F8SXHyDRXCEFzfUpnlfqlArAiVeLrBiPnlC
+         IZlEu5dmRiC5hlpYtFE16mXx0n+JCyz/LVf55wFifLy2SZ8tf7JAmeXWhuGaSZR2GFYr
+         /mEdk+bF0X4vKkkS17+h4yscsq1DHS3G8VYuqaqiI9Jkowu7zNMXKyetJ6NHiiHsf0AQ
+         J02w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=18iN7isOnbwaCP/A+6P5FUZa7tPpEP9mZVkoMTWqVbk=;
+        b=RDTNLlBOld9ONIXGzvzDT208ZS4bHhBEOqEw2PwFlmPNmRZepW7J7L8A690SaNpxk+
+         PGw+dFg2ggdjRfDUwXhwRdHQSg2+F9OMk4XqHR6JkHRr4JbaAcb4jEdrmMzxKraI6Ac7
+         c/HyRuLv3sQzNwjb068+dDJ0YY0GA3ViqSHDcOCxT0qWp9D1AnGQeIjFB0jQCm7gb8Eb
+         Hz13n1XI2cr2IRNgHa7zLNZB4Ax9mlSNGL06OXtda/HqQIyh5icBv3qxOZcpVGDbS89d
+         RXJMdi6a5/O7Hainhg1oZi060EQfapRSYG2VjSL1Nt//FU14RT2rwbp/PLomlA/q68nr
+         3tzQ==
+X-Gm-Message-State: AOAM5306bsSZsAM5moKAZ35QhRMnz6UVHQeTNOvmX9svXnyxHv6qbkeP
+        QIu41con4kIyxq4P3QFW5clYpW4iIFuTUi3zbpU=
+X-Google-Smtp-Source: ABdhPJzgK9aC518klHOSSzwcux3CKiMlGdS3vuNoXXMM7KFp3sHe6L7qBScGGrXRgCJrCFXtsycXOEsGhbOrTGlARtM=
+X-Received: by 2002:a05:6902:124a:b0:641:c7b8:9833 with SMTP id
+ t10-20020a056902124a00b00641c7b89833mr1017162ybu.428.1649928742386; Thu, 14
+ Apr 2022 02:32:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220330132152.4568-1-jiangshanlai@gmail.com> <20220330132152.4568-4-jiangshanlai@gmail.com>
+ <YlXrshJa2Sd1WQ0P@google.com> <CAJhGHyD-4YFDhkxk2SQFmKe3ooqw_0wE+9u3+sZ8zOdSUfbnxw@mail.gmail.com>
+ <683974e7-5801-e289-8fa4-c8a8d21ec1b2@redhat.com>
+In-Reply-To: <683974e7-5801-e289-8fa4-c8a8d21ec1b2@redhat.com>
+From:   Lai Jiangshan <jiangshanlai@gmail.com>
+Date:   Thu, 14 Apr 2022 17:32:11 +0800
+Message-ID: <CAJhGHyCgo-FEgvuRfuLZikgJSyo7HGm1OfU3gme35-WBmqo7yQ@mail.gmail.com>
+Subject: Re: [RFC PATCH V3 3/4] KVM: X86: Alloc role.pae_root shadow page
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        Lai Jiangshan <jiangshan.ljs@antgroup.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for newly introduced trace clock "tai".
-This clock corresponds to CLOCK_TAI.
+On Thu, Apr 14, 2022 at 5:08 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 4/14/22 11:07, Lai Jiangshan wrote:
+> >> I don't think this will work for shadow paging.  CR3 only has to be 32-byte aligned
+> >> for PAE paging.  Unless I'm missing something subtle in the code, KVM will incorrectly
+> >> reuse a pae_root if the guest puts multiple PAE CR3s on a single page because KVM's
+> >> gfn calculation will drop bits 11:5.
+> >
+> > I forgot about it.
+>
+>
+> Isn't the pae_root always rebuilt by
+>
+>          if (!tdp_enabled && memcmp(mmu->pdptrs, pdpte, sizeof(mmu->pdptrs)))
+>                  kvm_mmu_free_roots(vcpu->kvm, mmu, KVM_MMU_ROOT_CURRENT);
+>
+> in load_pdptrs?  I think reuse cannot happen.
+>
 
-Signed-off-by: Kurt Kanzenbach <kurt@linutronix.de>
----
- Documentation/trace/ftrace.rst | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+In this patchset, root sp can be reused if it is found from the hash,
+including new pae root.
 
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index 45b8c56af67a..b37dc19e4d40 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -517,6 +517,18 @@ of ftrace. Here is a list of some of the key files:
- 		processing should be able to handle them. See comments in the
- 		ktime_get_boot_fast_ns() function for more information.
- 
-+	tai:
-+		This is the tai clock (CLOCK_TAI) and is derived from the wall-
-+		clock time. However, this clock does not experience
-+		discontinuities and backwards jumps caused by NTP inserting leap
-+		seconds. Since the clock access is designed for use in tracing,
-+		side effects are possible. The clock access may yield wrong
-+		readouts in case the internal TAI offset is updated e.g., caused
-+		by setting the system time or using adjtimex() with an offset.
-+		These effects are rare and post processing should be able to
-+		handle them. See comments in the ktime_get_tai_fast_ns()
-+		function for more information.
-+
- 	To set a clock, simply echo the clock name into this file::
- 
- 	  # echo global > trace_clock
--- 
-2.30.2
+All new kinds of sp added in this patchset are in the hash too.
 
+No more special root pages.
+
+kvm_mmu_free_roots() can not free those new types of sp if they are still
+valid.  And different vcpu can use the same pae root sp if the guest cr3
+of the vcpus are the same.
+
+And new pae root can be put in prev_root too (not implemented yet)
+because they are not too special anymore.  As long as sp->gfn, sp->pae_off,
+sp->role are matched, they can be reused.
