@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BEC4C43219
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 09:54:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79A50C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 09:54:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241026AbiDNJ5G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 05:57:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51322 "EHLO
+        id S242102AbiDNJ5M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 05:57:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242006AbiDNJ5D (ORCPT
+        with ESMTP id S242008AbiDNJ5D (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 05:57:03 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4FCB11C30;
-        Thu, 14 Apr 2022 02:54:34 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.54])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KfFCl1wB0z1HBl3;
-        Thu, 14 Apr 2022 17:53:55 +0800 (CST)
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D50CC120BE;
+        Thu, 14 Apr 2022 02:54:36 -0700 (PDT)
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.56])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KfFBN63JSzgYlp;
+        Thu, 14 Apr 2022 17:52:44 +0800 (CST)
 Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 14 Apr 2022 17:54:32 +0800
+ 15.1.2375.24; Thu, 14 Apr 2022 17:54:34 +0800
 Received: from localhost.localdomain (10.175.112.125) by
  dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 14 Apr 2022 17:54:30 +0800
+ 15.1.2375.24; Thu, 14 Apr 2022 17:54:33 +0800
 From:   Wupeng Ma <mawupeng1@huawei.com>
 To:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
         <will@kernel.org>, <corbet@lwn.net>
@@ -42,9 +42,9 @@ CC:     <ardb@kernel.org>, <tglx@linutronix.de>, <mingo@redhat.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-efi@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
         <platform-driver-x86@vger.kernel.org>, <linux-mm@kvack.org>
-Subject: [PATCH v2 3/9] efi: Make efi_find_mirror() public
-Date:   Thu, 14 Apr 2022 18:13:08 +0800
-Message-ID: <20220414101314.1250667-4-mawupeng1@huawei.com>
+Subject: [PATCH v2 5/9] mm: Ratelimited mirrored memory related warning messages
+Date:   Thu, 14 Apr 2022 18:13:10 +0800
+Message-ID: <20220414101314.1250667-6-mawupeng1@huawei.com>
 X-Mailer: git-send-email 2.18.0.huawei.25
 In-Reply-To: <20220414101314.1250667-1-mawupeng1@huawei.com>
 References: <20220414101314.1250667-1-mawupeng1@huawei.com>
@@ -60,130 +60,41 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Ma Wupeng <mawupeng1@huawei.com>
 
-Commit b05b9f5f9dcf ("x86, mirror: x86 enabling - find mirrored memory
-ranges") introduce the efi_find_mirror function on x86. In order to reuse
-the API we make it public in preparation for arm64 to support mirrord
-memory.
+If system has mirrored memory, memblock will try to allocate mirrored
+memory firstly and fallback to non-mirrored memory when fails, but if with
+limited mirrored memory or some numa node without mirrored memory, lots of
+warning message about memblock allocation will occur.
+
+This patch ratelimit the warning message to avoid a very long print during
+bootup.
 
 Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
 ---
- arch/x86/include/asm/efi.h  |  4 ----
- arch/x86/platform/efi/efi.c | 23 -----------------------
- drivers/firmware/efi/efi.c  | 23 +++++++++++++++++++++++
- include/linux/efi.h         |  3 +++
- 4 files changed, 26 insertions(+), 27 deletions(-)
+ mm/memblock.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/include/asm/efi.h b/arch/x86/include/asm/efi.h
-index 686968073f48..6be838c0f109 100644
---- a/arch/x86/include/asm/efi.h
-+++ b/arch/x86/include/asm/efi.h
-@@ -368,7 +368,6 @@ static inline bool efi_is_64bit(void)
- extern bool efi_reboot_required(void);
- extern bool efi_is_table_address(unsigned long phys_addr);
+diff --git a/mm/memblock.c b/mm/memblock.c
+index e4f03a6e8e56..b1d2a0009733 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -327,7 +327,7 @@ static phys_addr_t __init_memblock memblock_find_in_range(phys_addr_t start,
+ 					    NUMA_NO_NODE, flags);
  
--extern void efi_find_mirror(void);
- extern void efi_reserve_boot_services(void);
- #else
- static inline void parse_efi_setup(u64 phys_addr, u32 data_len) {}
-@@ -380,9 +379,6 @@ static inline  bool efi_is_table_address(unsigned long phys_addr)
- {
- 	return false;
- }
--static inline void efi_find_mirror(void)
--{
--}
- static inline void efi_reserve_boot_services(void)
- {
- }
-diff --git a/arch/x86/platform/efi/efi.c b/arch/x86/platform/efi/efi.c
-index 7b130f39d841..fedbb228faea 100644
---- a/arch/x86/platform/efi/efi.c
-+++ b/arch/x86/platform/efi/efi.c
-@@ -105,29 +105,6 @@ static int __init setup_add_efi_memmap(char *arg)
- }
- early_param("add_efi_memmap", setup_add_efi_memmap);
+ 	if (!ret && (flags & MEMBLOCK_MIRROR)) {
+-		pr_warn("Could not allocate %pap bytes of mirrored memory\n",
++		pr_warn_ratelimited("Could not allocate %pap bytes of mirrored memory\n",
+ 			&size);
+ 		flags &= ~MEMBLOCK_MIRROR;
+ 		goto again;
+@@ -1384,7 +1384,7 @@ phys_addr_t __init memblock_alloc_range_nid(phys_addr_t size,
  
--void __init efi_find_mirror(void)
--{
--	efi_memory_desc_t *md;
--	u64 mirror_size = 0, total_size = 0;
--
--	if (!efi_enabled(EFI_MEMMAP))
--		return;
--
--	for_each_efi_memory_desc(md) {
--		unsigned long long start = md->phys_addr;
--		unsigned long long size = md->num_pages << EFI_PAGE_SHIFT;
--
--		total_size += size;
--		if (md->attribute & EFI_MEMORY_MORE_RELIABLE) {
--			memblock_mark_mirror(start, size);
--			mirror_size += size;
--		}
--	}
--	if (mirror_size)
--		pr_info("Memory: %lldM/%lldM mirrored memory\n",
--			mirror_size>>20, total_size>>20);
--}
--
- /*
-  * Tell the kernel about the EFI memory map.  This might include
-  * more than the max 128 entries that can fit in the passed in e820
-diff --git a/drivers/firmware/efi/efi.c b/drivers/firmware/efi/efi.c
-index 5502e176d51b..eb9ebf4efea1 100644
---- a/drivers/firmware/efi/efi.c
-+++ b/drivers/firmware/efi/efi.c
-@@ -438,6 +438,29 @@ static int __init efisubsys_init(void)
- 
- subsys_initcall(efisubsys_init);
- 
-+void __init efi_find_mirror(void)
-+{
-+	efi_memory_desc_t *md;
-+	u64 mirror_size = 0, total_size = 0;
-+
-+	if (!efi_enabled(EFI_MEMMAP))
-+		return;
-+
-+	for_each_efi_memory_desc(md) {
-+		unsigned long long start = md->phys_addr;
-+		unsigned long long size = md->num_pages << EFI_PAGE_SHIFT;
-+
-+		total_size += size;
-+		if (md->attribute & EFI_MEMORY_MORE_RELIABLE) {
-+			memblock_mark_mirror(start, size);
-+			mirror_size += size;
-+		}
-+	}
-+	if (mirror_size)
-+		pr_info("Memory: %lldM/%lldM mirrored memory\n",
-+			mirror_size>>20, total_size>>20);
-+}
-+
- /*
-  * Find the efi memory descriptor for a given physical address.  Given a
-  * physical address, determine if it exists within an EFI Memory Map entry,
-diff --git a/include/linux/efi.h b/include/linux/efi.h
-index de05682b233b..950c84ce3f16 100644
---- a/include/linux/efi.h
-+++ b/include/linux/efi.h
-@@ -853,6 +853,7 @@ static inline bool efi_rt_services_supported(unsigned int mask)
- {
- 	return (efi.runtime_supported_mask & mask) == mask;
- }
-+extern void efi_find_mirror(void);
- #else
- static inline bool efi_enabled(int feature)
- {
-@@ -870,6 +871,8 @@ static inline bool efi_rt_services_supported(unsigned int mask)
- {
- 	return false;
- }
-+
-+static inline void efi_find_mirror(void) {}
- #endif
- 
- extern int efi_status_to_err(efi_status_t status);
+ 	if (flags & MEMBLOCK_MIRROR) {
+ 		flags &= ~MEMBLOCK_MIRROR;
+-		pr_warn("Could not allocate %pap bytes of mirrored memory\n",
++		pr_warn_ratelimited("Could not allocate %pap bytes of mirrored memory\n",
+ 			&size);
+ 		goto again;
+ 	}
 -- 
 2.18.0.huawei.25
 
