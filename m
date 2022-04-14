@@ -2,98 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B809C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 11:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDFE6C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 11:27:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233244AbiDNLIw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 07:08:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38224 "EHLO
+        id S234547AbiDNL3k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 07:29:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230009AbiDNLIt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 07:08:49 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F0B26EC47;
-        Thu, 14 Apr 2022 04:06:23 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id p65so8709301ybp.9;
-        Thu, 14 Apr 2022 04:06:23 -0700 (PDT)
+        with ESMTP id S237201AbiDNL3j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 07:29:39 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D2A76C1C4;
+        Thu, 14 Apr 2022 04:27:13 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id b15so4578064pfm.5;
+        Thu, 14 Apr 2022 04:27:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=N5JiJfdBMAAlT8pKpib3a2JLnNC277gjJU5jp8/O+lc=;
-        b=a4d4W/3sTHyXzWW788ts/VevnYbWY1vdYYS98fm265b9Tt52sN3GR0/jdW4gS4ZFuh
-         vuAmqMPZQHwdkXdn0nZFAUKdWxFF5gIPFRRoDok/MQ/YY2zBUA7M+RqTcIQjHiKOLtW4
-         5DPmZXPnr03G4UohDVjBgFa3GN000P2ljoIJDKXrI3XYjTHFtJBK6r0OZqLFBRTdDElj
-         oKRU1cfSNKt2iSZtIGV9rcMOILVlHYKOyfmnYWdlmD5YwzGOkfIgJajqI9d5PFQ9VCxW
-         z0FcnpMh//ObMuhTTah0v5L8SNOwVR7f0zMuihLR6PmSOWvYrkGm+AcO1pTFoOlwq3rV
-         x/eg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=1+CoCJrXT14J2VO1tmxeljnPM+sDWGv+iuU5ZAwlMMU=;
+        b=e1K35ZzbeO7sxfFRYtgg0inrZZjUHpWGicmshbnDK7ns9PPX+lP06jf3Om7NR7EKE0
+         dMXHWgFz4Av5Bi+w7uRAFtZoohtO9mmUoTFt5/xCQy+MYTO37SasRJ+6hoOtyxLjL16A
+         dTYHQ5+U7No3QMX0zFNzs+aJsIVB+z7Yosve0O81fzXBk1qQdk6T4BrIIhJe67dFARQS
+         Kr5k6GNcsvUaf1iPxIsYNa4GZf78Mjd23ntIndnoXGPk/Dr8Fi5iupNUPFZlUv+mij4T
+         8DwZt9D7Xc8Rpj9OdMyonzZszka+fF27fkCr4X6B2My9kOkBSIlmmTzSKo3dghFwZg/5
+         FKSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=N5JiJfdBMAAlT8pKpib3a2JLnNC277gjJU5jp8/O+lc=;
-        b=YOwJLEQtkHiOdfKfkklkf/Ulqd2JOrDvLMKFVwGB8VWXBthljGr5S6QxzL7Mzz24x2
-         w0Y8SCMONN/O2mXhGfluYhRsvvQcwdTNmTru5v+sscNuRrqMrbp/0/So4zMwbn9O3Zrh
-         oohp5w6pZ1f4B6T9pPxsPY8l+kGdmLnXQW3kcSiy8s+JEdiPNxlgR7SqdopHiAduVY13
-         UMIf77k0jKLWLJccOOH/vfQ3WnIc4df7CFsXk7cKkKt3XzgEduzJb8M7vDuBi0iSFcXR
-         Dn404/8ADXxKN5WDS0wKRpXu0hF4xHOYQObsn8TcS4BjSB1LSj69Ry2LrrOxHq35IgNp
-         u5pQ==
-X-Gm-Message-State: AOAM532jL0Sm2j2h9R3IAzPzyS3Xn5byM+8FLuKdve5kRWy0Ou2eEU23
-        q4urpEN40ONadEOGLueyrxsEE8p7TYsL7X/HlkI=
-X-Google-Smtp-Source: ABdhPJzAXh95LBfH7s5qOyw/Vn2M5G0aiYX7ztv768NkUSBBPye7QN8H+hOkHUy3WrdMF9FNr4+jPihpBMixVjcpO7c=
-X-Received: by 2002:a25:b991:0:b0:610:bf4e:1b33 with SMTP id
- r17-20020a25b991000000b00610bf4e1b33mr1406088ybg.352.1649934382554; Thu, 14
- Apr 2022 04:06:22 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=1+CoCJrXT14J2VO1tmxeljnPM+sDWGv+iuU5ZAwlMMU=;
+        b=buaAY46GtMUR34pq03u8qYz3pUPagftzdCt8zEVvFD5FSdiUNTcEt9SinyIrb0GvGC
+         GWdwH2jO+2r4Zi9MK3ynL32zYKuw4+U/nuZgFikPL2UV1GLHhSKDY02F2BPpvX4NJiGp
+         m4BAyfT1yzB3/LJQqT4POzvM6gQEiBKEodFsTP0y07LcdeesDo/157mHbkOPZk2RlVwE
+         iCO3SWtWXd0MF28olW+IrrAEYna4+EOTAurSizSg4U40y7Lv2NbFjPiirs6C9fACLmhV
+         ru1y3ueOO8CugS2puzxg1Rh2DCB3wpuFTkiKAbc8BYDS5UexpEzTooah+R3mgiy0k3DS
+         ok+Q==
+X-Gm-Message-State: AOAM533h2wc3Bp9CdUG+pCjqauBu3NEd865PxkhLIfQkjUL63GR755nX
+        hgUoufbbMff/W7EwPifkjWg=
+X-Google-Smtp-Source: ABdhPJy56GHcI9ZrtvDdcR1S0e9V/P54WAMm6U80IxoScBoYaOttE2ZRCtR/eWM0qXtMQts2mMg5Cw==
+X-Received: by 2002:a65:418b:0:b0:382:250b:4dda with SMTP id a11-20020a65418b000000b00382250b4ddamr1972051pgq.428.1649935633119;
+        Thu, 14 Apr 2022 04:27:13 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-11.three.co.id. [180.214.232.11])
+        by smtp.gmail.com with ESMTPSA id d6-20020a056a00244600b004f701135460sm2134741pfj.146.2022.04.14.04.27.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Apr 2022 04:27:12 -0700 (PDT)
+Message-ID: <0dd9ba0e-712a-37f6-a50d-f5510cd23033@gmail.com>
+Date:   Thu, 14 Apr 2022 18:27:07 +0700
 MIME-Version: 1.0
-References: <20220330132152.4568-1-jiangshanlai@gmail.com> <20220330132152.4568-4-jiangshanlai@gmail.com>
- <YlXrshJa2Sd1WQ0P@google.com> <CAJhGHyD-4YFDhkxk2SQFmKe3ooqw_0wE+9u3+sZ8zOdSUfbnxw@mail.gmail.com>
- <683974e7-5801-e289-8fa4-c8a8d21ec1b2@redhat.com> <CAJhGHyCgo-FEgvuRfuLZikgJSyo7HGm1OfU3gme35-WBmqo7yQ@mail.gmail.com>
- <658729a1-a4a1-a353-50d6-ef71e83a4375@redhat.com>
-In-Reply-To: <658729a1-a4a1-a353-50d6-ef71e83a4375@redhat.com>
-From:   Lai Jiangshan <jiangshanlai@gmail.com>
-Date:   Thu, 14 Apr 2022 19:06:11 +0800
-Message-ID: <CAJhGHyDYeQGUWmco=c4TA1uu=33ccW7z0fDLuYjvkGFW5WnDSQ@mail.gmail.com>
-Subject: Re: [RFC PATCH V3 3/4] KVM: X86: Alloc role.pae_root shadow page
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        Lai Jiangshan <jiangshan.ljs@antgroup.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 3/3] tracing: Add documentation for trace clock tai
+Content-Language: en-US
+To:     Kurt Kanzenbach <kurt@linutronix.de>,
+        John Stultz <john.stultz@linaro.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Stephen Boyd <sboyd@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Richard Cochran <richardcochran@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220414091805.89667-1-kurt@linutronix.de>
+ <20220414091805.89667-4-kurt@linutronix.de>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220414091805.89667-4-kurt@linutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 14, 2022 at 6:04 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 4/14/22 11:32, Lai Jiangshan wrote:
-> > kvm_mmu_free_roots() can not free those new types of sp if they are still
-> > valid.  And different vcpu can use the same pae root sp if the guest cr3
-> > of the vcpus are the same.
->
-> Right, but then load_pdptrs only needs to zap the page before (or
-> instead of) calling kvm_mmu_free_roots().
->
+On 4/14/22 16:18, Kurt Kanzenbach wrote:
+> +	tai:
+> +		This is the tai clock (CLOCK_TAI) and is derived from the wall-
+> +		clock time. However, this clock does not experience
+> +		discontinuities and backwards jumps caused by NTP inserting leap
+> +		seconds. Since the clock access is designed for use in tracing,
+> +		side effects are possible. The clock access may yield wrong
+> +		readouts in case the internal TAI offset is updated e.g., caused
+> +		by setting the system time or using adjtimex() with an offset.
+> +		These effects are rare and post processing should be able to
+> +		handle them. See comments in the ktime_get_tai_fast_ns()
+> +		function for more information.
+> +
 
+In what file are the ktime_get_tai_fast_ns() comments?
 
-Guest PAE page is write-protected instead now (see patch4) and
-kvm_mmu_pte_write() needs to handle this special write operation
-with respect to sp->pae_off (todo).
-And load_pdptrs() doesn't need to check if the pdptrs are changed.
-
-The semantics will be changed. When the guest updates its PAE root,
-the hwTLB will not be updated/flushed immediately until some change
-to CRx, but after this change, it will be flushed immediately.
-
-Could we fix 5-level NPT L0 for 4-level NPT L1 only first? it is
-a real bug.  I separated it out when I tried to implement one-off
-shadow pages.
+-- 
+An old man doll... just what I always wanted! - Clara
