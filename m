@@ -2,160 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90609C43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EC03C4332F
 	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 15:59:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350264AbiDNQBU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 12:01:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58390 "EHLO
+        id S243384AbiDNQBQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 12:01:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355930AbiDNPlI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 11:41:08 -0400
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70055.outbound.protection.outlook.com [40.107.7.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD02FE098A;
-        Thu, 14 Apr 2022 08:22:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GQT1tLvKPEBEVHECas5zqGjrH5UAPtHo+BDVWJr+GzWBe5eXLRLFU8+TpB52s973aOb8ghEmpi/HcDXVdMZ9+MymkgDEFc7Np03TYQwOHOLGwXoaeaUFLcr33DENJAysN/DOyTnTEmpR+aaAX9mY71yEB5hNqWZv6R1lj7cm6P0OOW8DN8ljcKxxFl5NyPA6HbNaBc7yac+G3KoySqVhGNe2SpUxyBCefdJv1vcjzi77TdkjRyWV3E/VVKbQlTeT0irwf5abWjkIeI3rpSCacP9wyui4V2RfXzKP53cCtT4ewiiNyMTogFzHIbHoEUX1eFegYavIDditcbiJaMul5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9XbLDYmSh4qOxLeudAAaaO/lS02BRDFCF9vBDmsGR2Y=;
- b=OAxsPEPgdgM99sJdUqUZcu/twfdrrBLnZcVixdgih0/CjRfmrm6DuaLCv47H7MqwzsDZcfAS2FG6sNGxXJJNGo3AsWmJSu0ny0lLrCT1efZXGNeiR7/kZPFYm7DqeWnyBiX42wzY2ubNrHFCAMx1mCi2al/T0QKDw07jWFm5HGsD9yi9SmgBlBh/p0abW8PCC3q4EgM3PKViMvXY1InfJYr+TlGFO/QNWHcbmbZyOBbBAJhspdxRCrqKiFaoTBk5s2U5qYdczQLiGMbpbB22peBx4T2hBoAg9tMc/tT4jZ9MR5y1ToOcboADquhImSlzvSBHzgK4pD28l+1/slO2Mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9XbLDYmSh4qOxLeudAAaaO/lS02BRDFCF9vBDmsGR2Y=;
- b=i3Xa6y4PXROASOi2Ugl/XDsE/At/X5cGia+RM+a/1grW5PjPB8jl3qBIqsKXKek4Uu01F1lOivsVgAi9MLwT1gDB87lGKFwMI/wcH78xgJrfZcrXVaMTErNH+UGz5cPYWV++JC5D08ioMwB4+J6hKDr75UiQIlDW4vZO82K1XHo=
-Received: from VI1PR04MB5136.eurprd04.prod.outlook.com (2603:10a6:803:55::19)
- by DBAPR04MB7256.eurprd04.prod.outlook.com (2603:10a6:10:1a3::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Thu, 14 Apr
- 2022 15:22:12 +0000
-Received: from VI1PR04MB5136.eurprd04.prod.outlook.com
- ([fe80::8ed:49e7:d2e7:c55e]) by VI1PR04MB5136.eurprd04.prod.outlook.com
- ([fe80::8ed:49e7:d2e7:c55e%3]) with mapi id 15.20.5144.029; Thu, 14 Apr 2022
- 15:22:12 +0000
-From:   Vladimir Oltean <vladimir.oltean@nxp.com>
-To:     Kurt Kanzenbach <kurt@linutronix.de>
-CC:     Luiz Angelo Daros de Luca <luizluca@gmail.com>,
-        George McCollister <george.mccollister@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        Florian Fainelli <f.fainelli@gmail.com>
-Subject: Re: [PATCH net-next v2] docs: net: dsa: describe issues with checksum
- offload
-Thread-Topic: [PATCH net-next v2] docs: net: dsa: describe issues with
- checksum offload
-Thread-Index: AQHYTfheCzBrufjauEu7NwJglkZ/ZKzuSJmAgACtXwCAAJTqgA==
-Date:   Thu, 14 Apr 2022 15:22:12 +0000
-Message-ID: <20220414152211.txmb3peuxs4rt4pw@skbuf>
-References: <20220411230305.28951-1-luizluca@gmail.com>
- <20220413200841.4nmnv2qgapqhfnx3@skbuf> <87tuawp493.fsf@kurt>
-In-Reply-To: <87tuawp493.fsf@kurt>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 481774ef-615a-4565-a22b-08da1e2a8c9a
-x-ms-traffictypediagnostic: DBAPR04MB7256:EE_
-x-microsoft-antispam-prvs: <DBAPR04MB72562CCA06A0C2008596F90CE0EF9@DBAPR04MB7256.eurprd04.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: RBFNIIvG93PXwep2mQUKlLWnMmPweuCZqjmTOE4S6x/jh9R+wwaKz3rmULRSj1VdRcCF8B5RLfwmDUU+g4bdWETqprP6FuFl2xEYF7s8fETeSWUwFy0CF8iB39n3Rf7wRomGVcXOgjCyxpW4dSnGKYafgfKhdDGCm66NmiO7fn4ZoOnWcFbd6/Zx3+EAX4sRXSLPEgjOD8tuLAYEAK/mhpCMJQV/IflcdW1BpvahF8PPnTpL1dHeiLeVGEue5Ng1edYxh6ZSBSrwKo33Y4GW9tkj+mKHqqNahUp8DDVFiT6fEN96ssJKJsuA2rSfp7WZAnbUu94KLDJxQZtKCVkSIbCLNKdHHmjPFeAAtcuEjJM1uviauuiZCyJQ1Bxi0/K3tI/Tk7ag5YV4se/i0nb0eXFS7thoaPZUoMcrCv5R9gvt0sdP59ZCTMyS8easgFDF6CXrW+YavVvhBha/UitYyt5eEt58zhua6YC6qJkUMmFItJ4k+0Zio20u0T1FMxjsdJ3UW/yWy61Nsc7vqq5ZRjMYxcVT6fTQSsn8Hztc2/Nap6y5CrvQb9fWupsa9P0v6jG5OqsnkC9gXCuYhdPbDdKo9VcFOMQvU+/0AD1IqYK0VExFbKqxiogAobA8pVfYXetU//AsAL/QPBV+C0HNzCp1eDltVQqy9Uun3gqAPmrt8KHsZffvVXUxWHW7hc15FYlQLEUT5vLu5cy4GEVtxw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5136.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(7916004)(366004)(8676002)(4326008)(5660300002)(122000001)(86362001)(2906002)(7416002)(38100700002)(38070700005)(8936002)(54906003)(44832011)(186003)(6506007)(1076003)(6512007)(9686003)(508600001)(6916009)(316002)(71200400001)(26005)(6486002)(66446008)(66556008)(76116006)(66946007)(66476007)(91956017)(33716001)(64756008);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?dShr1OM3d3YKADTvHanBez9v1OX/YQDU4qje/G8qfTQTu/BAGIIdQqEKMtsY?=
- =?us-ascii?Q?SOPS69zaYlUQq7J79aT6FnavuJ+8g/Ogf7lWIo4nIurosQcoVHBiOBgiqDFD?=
- =?us-ascii?Q?Gc2Ip0GeK2Au2RZgsLCYMLNh6wUAg2FWZtdiZZayWgE+G1HDlmfN1/6iEpnC?=
- =?us-ascii?Q?AOesupa1cLvTYknFv5WbaAPqrcMOUnF9OYtooHgax+3HSUwWfzlclvL00lXm?=
- =?us-ascii?Q?ubFCYjlIS3ZWcQ7Xxh3V/Q66iHL1/GAEu1CXb+S0zb/23euCzK93JMJqoEtK?=
- =?us-ascii?Q?WcdySURuBWs7BrGj070Ry3vyQ8p6K8lLP/xAi1mmUJAadqX//DtQnvBpJTky?=
- =?us-ascii?Q?tc61Acxwtmv5qvTVu4j8Kx10zxGK1kdLmV8YbbQL+YBXK6U5eHBxqUKchjD+?=
- =?us-ascii?Q?DuKwKo6gYNvP5cZAv+eIz8kqqa6aiRpoaUhopVFzfFKHy2vfmZeuBI0Ytzxt?=
- =?us-ascii?Q?7iz1u6uk8PDQgH+5PNgvmvaJfHnVRovv6JAIMCBLrUeygR0AM9mpS7aIu1Wa?=
- =?us-ascii?Q?4eSFisSul52Q467kxc9t0tb+Sabemx+7wLr9g6xvk977zc+pQfbFSc8Dlasp?=
- =?us-ascii?Q?CX7pnSbCbpX5T5PwLzMGi788QPuo/IMw3LdomiHB/kuTuT+LNVE0DJllcUbX?=
- =?us-ascii?Q?dBB0dFef5BTVYMVV9HbxBdaWbFDD5g+/QoH38fAyQSaVj1KkAlj7Sk23qGo+?=
- =?us-ascii?Q?bzIXtZW3/jLjA+fRtx1J6YXbSiRqUaCkL+vF7PVmr9cg/786kScM3t5Rhzgf?=
- =?us-ascii?Q?58a1LvL3uRmIvVf7nd8d9qUz5Emy2LbJAKhL1A6Z2nH38/W6ACambS06x/Us?=
- =?us-ascii?Q?XeGRFsDggsxBefNJkBj0WvlWkKwb8o5B8TOmSwXv43LMPF58sLojuQklVd3H?=
- =?us-ascii?Q?qq7Q6QazsNR6GrrEyYaaF5cqNIxvkPAW2bg12iINWmpNx2ialrGU8G+S2SoD?=
- =?us-ascii?Q?fuNfJL3dWNi+zQ6WMWMGaZ41NyP+cuVpRROJdU/rYHb0onNxEzQy+PAMoYFM?=
- =?us-ascii?Q?a7dAjsb+Bt8wrrqQHJMMijOVIEh/3Bo/wjP8JMV73/U/es6mtv1z3X9rOf60?=
- =?us-ascii?Q?4KNm+wdld1CeGnXvYwUrruC3F7fOSbT3ohNTNozGA4MUOmGlqZHSTID5nx7P?=
- =?us-ascii?Q?ZxePx3LQtSOdVt+UXciIMRFZTzAEaJ+krnh+vfWxWocYjhM91Nu8qGsgxk6q?=
- =?us-ascii?Q?ynoBkXCfgBimMleQ7kHCiASZ08+EDrdRcef/EOtzl0SWVzfn0A+/8Ro9MWIL?=
- =?us-ascii?Q?dDmq0MsFRaD4yWUxnEc5bj4r9sakXJqTynncqStBJtpU2Hr/bGGSBWJVg1qI?=
- =?us-ascii?Q?Gwf/PxERe3+6fvjsJ56e/LQY7IMxCp2wu58ja7A2Yqsgp2O1DLZFhSlYJOPo?=
- =?us-ascii?Q?zbOPhpEI8GvstLeYRJRj+/R7eP2SF934Slug/Q27jnGfaY+r6ZAjJTS7e3Du?=
- =?us-ascii?Q?XI5KLcEY7x2IHzjHlxqjwO1wlGUQ3JHurd0PkEiXmaUhYcvSyDbxa47yCHtq?=
- =?us-ascii?Q?+hrHX/dwKN/kXC/V3kHwPmJsWmHWX1zml8X/aUR4EBWgx1ndcOX5qFbVyHGF?=
- =?us-ascii?Q?/5NxYw4O+NlHyGlNpAmZyZ2PinhcwLMDF22mE+DuncSsG5LGEEMQQj/jSXwU?=
- =?us-ascii?Q?fQm44o43phnkUSdCiU97TXP3KzP8ckGqJDZPEt7ekHaDwnpWMdvVonSZrC3f?=
- =?us-ascii?Q?dNSZJbHok3RckiAY0spdXT4cEQ2GnXHd6Q6ZtaVUkwRbhzDIvhXGOIYZoj7w?=
- =?us-ascii?Q?pnww46LwNGKlro4mOOC+nPDDJODlcn0=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <25012289B008954A8D0B03E1018543F0@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S1344086AbiDNPxm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 11:53:42 -0400
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DAE9FC113;
+        Thu, 14 Apr 2022 08:34:07 -0700 (PDT)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-df22f50e0cso5624157fac.3;
+        Thu, 14 Apr 2022 08:34:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=XgRBiTVC/FFWfC6f7VFIlxavcDc/C7IkOvLYm4Mfzvs=;
+        b=QQ2vRYRmlckrTL2uohmikWroCLGEKLv0jKTlcPyESt926PPnpwMcTeFzlpWehuNSTA
+         tflGx73ggnfWtCf6c07p7TFZ1CVVxqQcZhqcEhCZ55OCx4Mp3eLY0X+mW5bWx11g8RQE
+         jm//i5g41NtucMGPNs2z2rjn4QxE0Y4ZrWp6pVGNcHsmg5AWMECHdD+0ggFQTOsmPiHR
+         bQU2cvhqzbLzle/L9M7aOVB3Y/7KrukGrBCJxB/FFvg/iDnhH93ZGN2vnnVx5mxz3d/f
+         uVtG2LtyzFoxQjlK0WNUxzmO9nugzThEUg4HQx6GEy/OVnLlVs1ggHm/kjHm8CEHJeS+
+         6QjA==
+X-Gm-Message-State: AOAM532mhJzNiOj+41uxL2P01P3UkUGOxiY96GmtfB0szSeanPpnGO/c
+        /FxYjxmCzhDIIf5MNheDEA==
+X-Google-Smtp-Source: ABdhPJxO41UyWKPRLV35Yj+ApQ4PFF6XoQyq8uSctU7sQmGIJXL6DxUImc9X9hOqKaDbOcuZF4s6Kw==
+X-Received: by 2002:a05:6870:434f:b0:bf:9f2a:26f0 with SMTP id x15-20020a056870434f00b000bf9f2a26f0mr1521011oah.40.1649950446230;
+        Thu, 14 Apr 2022 08:34:06 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id h8-20020a056830400800b005cdceb42261sm120283ots.66.2022.04.14.08.34.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 08:34:05 -0700 (PDT)
+Received: (nullmailer pid 2095983 invoked by uid 1000);
+        Thu, 14 Apr 2022 15:34:04 -0000
+Date:   Thu, 14 Apr 2022 10:34:04 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Anjelique Melendez <quic_amelende@quicinc.com>
+Cc:     dmitry.torokhov@gmail.com, corbet@lwn.net, sre@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, collinsd@codeaurora.org,
+        bjorn.andersson@linaro.org, swboyd@chromium.org,
+        skakit@codeaurora.org, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        David Collins <quic_collinsd@quicinc.com>
+Subject: Re: [PATCH v5 1/5] dt-bindings: power: reset: qcom-pon: update "reg"
+ property details
+Message-ID: <Ylg+7MVRS4sKbOFb@robh.at.kernel.org>
+References: <20220411200506.22891-1-quic_amelende@quicinc.com>
+ <20220411200506.22891-2-quic_amelende@quicinc.com>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5136.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 481774ef-615a-4565-a22b-08da1e2a8c9a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2022 15:22:12.2281
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dz9bMg1NYwFLnGZmukIXAsDOXoJGp+gmmPfSOeObXzY6DoCbFN5d1olnRF2h4/Sx1UaEp+jbbridKF5T/rvmIg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220411200506.22891-2-quic_amelende@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 14, 2022 at 08:29:12AM +0200, Kurt Kanzenbach wrote:
-> On Wed Apr 13 2022, Vladimir Oltean wrote:
-> > I've copied a bunch of new people to this email.
-> >
-> > TL;DR: Kurt/George/Andrew, on your systems with hellcreek/xrs700x/mv88e=
-6060,
-> > does the DSA master declare any of the following features as "on"?
-> >
-> > ethtool -k eth0 | grep tx-checksum-ip
->=20
-> It's a Cyclone V with stmmac as master:
->=20
-> |root@tsn:~# ethtool -k eth0 | grep tx-checksum-ip
-> |        tx-checksum-ipv4: on
-> |        tx-checksum-ip-generic: off [fixed]
-> |        tx-checksum-ipv6: on
->=20
-> >
-> > I would expect not. Otherwise, we've either found a bug, or discovered
-> > the Sasquatch.
->=20
-> Now, I'm wondering how this actually works. Anyway, I'll send a patch to
-> add the missing skb_checksum_help().
->=20
-> Thanks,
-> Kurt
+On Mon, Apr 11, 2022 at 01:05:03PM -0700, Anjelique Melendez wrote:
+> From: David Collins <quic_collinsd@quicinc.com>
+> 
+> Update the description of "reg" property to add the PON_PBS base
+> address along with PON_HLOS base address.  Also add "reg-names"
+> property description.
+> 
+> Signed-off-by: David Collins <quic_collinsd@quicinc.com>
+> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+> ---
+>  .../bindings/power/reset/qcom,pon.yaml | 20 +++++++++++++++++++-
+>  1 file changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+> index 353f155d..542200b2 100644
+> --- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+> +++ b/Documentation/bindings/power/reset/qcom,pon.yaml
+> @@ -26,7 +26,25 @@ properties:
+>        - qcom,pm8998-pon
+>  
+>    reg:
+> -    maxItems: 1
+> +    description: |
+> +      Specifies the SPMI base address for the PON (power-on) peripheral.  For
+> +      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
+> +      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
+> +      peripherals.  In that case, the PON_PBS address needs to be specified to
+> +      facilitate software debouncing on some PMICs.
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    description: |
+> +      For PON GEN1 and GEN2, it should be "pon".  For PON GEN3 it should include
+> +      "pon_hlos" and optionally "pon_pbs".
+> +    minItems: 1
+> +    maxItems: 2
+> +    items:
+> +      - const: pon_hlos
+> +      - const: pon_pbs
+> +      - const: pon
 
-Thanks, Kurt.
+This says there are 3 entries, but you limited to 2. The schema also 
+doesn't match what the description says. Entries should be extended by 
+adding new entries to the end and keeping optional entries last. So like 
+this:
 
-It works because stmmac declares NETIF_F_IP_CSUM | NETIF_F_IPV6_CSUM in
-ndev->hw_features but not in ndev->vlan_features. Whereas DSA inherits
-what it inherits from ndev->vlan_features.
+minItems: 1
+items:
+  - const: pon
+  - const: pon_hlos
+  - const: pon_pbs
 
-It's good to fix this in hellcreek anyway.=
+Rob
