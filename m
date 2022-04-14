@@ -2,116 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EC03C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 15:59:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 134E2C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 16:22:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243384AbiDNQBQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 12:01:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48866 "EHLO
+        id S237249AbiDNQZU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 12:25:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344086AbiDNPxm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 11:53:42 -0400
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DAE9FC113;
-        Thu, 14 Apr 2022 08:34:07 -0700 (PDT)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-df22f50e0cso5624157fac.3;
-        Thu, 14 Apr 2022 08:34:06 -0700 (PDT)
+        with ESMTP id S1347161AbiDNQJy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 12:09:54 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCB62F9FB5
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 08:51:19 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id q19so5105507pgm.6
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 08:51:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=528GGcT5AuLjlTi8kLrr8eu7nKa2Q0My6OrpHPfCZvA=;
+        b=EWbqny0Pp93YFKhLpC9HjurNJEBnJu/IiR1ictMdTGdNxsCMPbekhaGAJHZFo6854D
+         sTUz0E9PG8/4aCqXzd6e5m9xIknSuyKGaVI39k7wQup+5jVZnniFUu2Kuo/CKlsEd04k
+         Y34LLML4cNd4U44GaF8ptP/ww7/3Agi3AhnLRjL2vL+PKs3xTqXhm25hcwrS5phGMdi6
+         /9gTW9JE7U2HfOrs+Mr7RKQhe66kAxnIfBaA7GC83kQBx9J+GyZiujAHBFUjnbP/WqOS
+         avSyNZZHZBQ5GpHl+A017y+mHcSx0QQaSHP+5rGLDN4KHFisMaGKgGjiM4JXCK3W6tpa
+         IGfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=XgRBiTVC/FFWfC6f7VFIlxavcDc/C7IkOvLYm4Mfzvs=;
-        b=QQ2vRYRmlckrTL2uohmikWroCLGEKLv0jKTlcPyESt926PPnpwMcTeFzlpWehuNSTA
-         tflGx73ggnfWtCf6c07p7TFZ1CVVxqQcZhqcEhCZ55OCx4Mp3eLY0X+mW5bWx11g8RQE
-         jm//i5g41NtucMGPNs2z2rjn4QxE0Y4ZrWp6pVGNcHsmg5AWMECHdD+0ggFQTOsmPiHR
-         bQU2cvhqzbLzle/L9M7aOVB3Y/7KrukGrBCJxB/FFvg/iDnhH93ZGN2vnnVx5mxz3d/f
-         uVtG2LtyzFoxQjlK0WNUxzmO9nugzThEUg4HQx6GEy/OVnLlVs1ggHm/kjHm8CEHJeS+
-         6QjA==
-X-Gm-Message-State: AOAM532mhJzNiOj+41uxL2P01P3UkUGOxiY96GmtfB0szSeanPpnGO/c
-        /FxYjxmCzhDIIf5MNheDEA==
-X-Google-Smtp-Source: ABdhPJxO41UyWKPRLV35Yj+ApQ4PFF6XoQyq8uSctU7sQmGIJXL6DxUImc9X9hOqKaDbOcuZF4s6Kw==
-X-Received: by 2002:a05:6870:434f:b0:bf:9f2a:26f0 with SMTP id x15-20020a056870434f00b000bf9f2a26f0mr1521011oah.40.1649950446230;
-        Thu, 14 Apr 2022 08:34:06 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id h8-20020a056830400800b005cdceb42261sm120283ots.66.2022.04.14.08.34.05
+        bh=528GGcT5AuLjlTi8kLrr8eu7nKa2Q0My6OrpHPfCZvA=;
+        b=V+Ent+PBI7XBVF/B0EJHFW6UIZbdzPh5CHhJ1Z1uxHuGt8nZXI9aK64MBxe64QIody
+         QSqEBxRAljxDqVwyhae1biASaovewnaKj6voqO3WoyzBNqxM89eXM4NF2h8KZDp/bTXB
+         +PS5YpjK8x/pXqJBPy7gyjkXZC4n7hN3ac8WcH3ngsvyfjX8Xhd6nQWZ/RMPTLQBpeEF
+         sOrLLbAmcxpyywTgMhkvi+kSaWURotWIWzkENyxcf8ea3C8NVxJmvVzA4Pgix0lZRnKi
+         PqvwzW0sOBu+FgCBIUXo6eFBqMGTLXwuDSZoSQGaJ0UHSWZg8bQOkos+8rmLPHhPMDGe
+         otUg==
+X-Gm-Message-State: AOAM532AlXgK4gUwOhtZgD4+QF5o1Cp/vGwPZOkpYr7YrfKFtpK+Zh0w
+        UdRwTlNArNELg9IB3hyY5stUPg==
+X-Google-Smtp-Source: ABdhPJzK6IWgENAWqUpuayzeQ0Ry7DOQhMd2mRcARy4VtSmd0Ni8fcUdG/deU1VWXaPUnB9HOk8w3A==
+X-Received: by 2002:a05:6a00:b89:b0:505:dead:db1d with SMTP id g9-20020a056a000b8900b00505deaddb1dmr4598474pfj.74.1649951479140;
+        Thu, 14 Apr 2022 08:51:19 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id k11-20020a056a00168b00b004f7e1555538sm302572pfc.190.2022.04.14.08.51.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 08:34:05 -0700 (PDT)
-Received: (nullmailer pid 2095983 invoked by uid 1000);
-        Thu, 14 Apr 2022 15:34:04 -0000
-Date:   Thu, 14 Apr 2022 10:34:04 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Anjelique Melendez <quic_amelende@quicinc.com>
-Cc:     dmitry.torokhov@gmail.com, corbet@lwn.net, sre@kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, collinsd@codeaurora.org,
-        bjorn.andersson@linaro.org, swboyd@chromium.org,
-        skakit@codeaurora.org, linux-doc@vger.kernel.org,
-        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-        David Collins <quic_collinsd@quicinc.com>
-Subject: Re: [PATCH v5 1/5] dt-bindings: power: reset: qcom-pon: update "reg"
- property details
-Message-ID: <Ylg+7MVRS4sKbOFb@robh.at.kernel.org>
-References: <20220411200506.22891-1-quic_amelende@quicinc.com>
- <20220411200506.22891-2-quic_amelende@quicinc.com>
+        Thu, 14 Apr 2022 08:51:18 -0700 (PDT)
+Date:   Thu, 14 Apr 2022 15:51:15 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        Lai Jiangshan <jiangshan.ljs@antgroup.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH V3 2/4] KVM: X86: Introduce role.glevel for level
+ expanded pagetable
+Message-ID: <YlhC86CFDRghdd5v@google.com>
+References: <20220330132152.4568-1-jiangshanlai@gmail.com>
+ <20220330132152.4568-3-jiangshanlai@gmail.com>
+ <YlXvtMqWpyM9Bjox@google.com>
+ <caffa434-5644-ee73-1636-45a87517bae2@redhat.com>
+ <YlbhVov4cvM26FnC@google.com>
+ <d2122fb0-7327-0490-9077-c69bbfba4830@redhat.com>
+ <YlbtEorfabzkRucF@google.com>
+ <e549d4c4-ca56-da1d-cc50-1a73621ba487@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220411200506.22891-2-quic_amelende@quicinc.com>
+In-Reply-To: <e549d4c4-ca56-da1d-cc50-1a73621ba487@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 11, 2022 at 01:05:03PM -0700, Anjelique Melendez wrote:
-> From: David Collins <quic_collinsd@quicinc.com>
+On Wed, Apr 13, 2022, Paolo Bonzini wrote:
+> On 4/13/22 17:32, Sean Christopherson wrote:
+> > > > Are we planning on removing direct?
+> > > 
+> > > I think so, it's redundant and the code almost always checks
+> > > direct||passthrough (which would be passthrough_delta > 0 with your scheme).
+> > 
+> > I'm ok dropping direct and rolling it into target_level, just so long as we add
+> > helpers, e.g. IIUC they would be
+> > 
+> > static inline bool is_sp_direct(...)
+> > {
+> > 	return !sp->role.target_level;
+> > }
+> > 
+> > static inline bool is_sp_direct_or_passthrough(...)
+> > {
+> > 	return sp->role.target_level != sp->role.level;
+> > }
 > 
-> Update the description of "reg" property to add the PON_PBS base
-> address along with PON_HLOS base address.  Also add "reg-names"
-> property description.
+> Yes of course.  Or respectively:
 > 
-> Signed-off-by: David Collins <quic_collinsd@quicinc.com>
-> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
-> ---
->  .../bindings/power/reset/qcom,pon.yaml | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
+> 	return sp->role.passthrough_levels == s->role.level;
 > 
-> diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
-> index 353f155d..542200b2 100644
-> --- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
-> +++ b/Documentation/bindings/power/reset/qcom,pon.yaml
-> @@ -26,7 +26,25 @@ properties:
->        - qcom,pm8998-pon
->  
->    reg:
-> -    maxItems: 1
-> +    description: |
-> +      Specifies the SPMI base address for the PON (power-on) peripheral.  For
-> +      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
-> +      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
-> +      peripherals.  In that case, the PON_PBS address needs to be specified to
-> +      facilitate software debouncing on some PMICs.
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  reg-names:
-> +    description: |
-> +      For PON GEN1 and GEN2, it should be "pon".  For PON GEN3 it should include
-> +      "pon_hlos" and optionally "pon_pbs".
-> +    minItems: 1
-> +    maxItems: 2
-> +    items:
-> +      - const: pon_hlos
-> +      - const: pon_pbs
-> +      - const: pon
+> 	return sp->role.passthrough_levels > 0;
+> 
+> I'm not sure about a more concise name for the latter.  Maybe
+> sp_has_gpt(...) but I haven't thought it through very much.
+> 
+> > > > Hmm, it's not a raw level though.
+> > > 
+> > > Hence the plural. :)
+> > 
+> > LOL, I honestly thought that was a typo.  Making it plural sounds like it's passing
+> > through to multiple levels.
+> 
+> I meant it as number of levels being passed through.  I'll leave that to
+> Jiangshan, either target_level or passthrough_levels will do for me.
 
-This says there are 3 entries, but you limited to 2. The schema also 
-doesn't match what the description says. Entries should be extended by 
-adding new entries to the end and keeping optional entries last. So like 
-this:
+It took me until like 9pm last night to finally understand what you meant by
+"passthrough level".   Now that I actually have my head wrapped around this...
 
-minItems: 1
-items:
-  - const: pon
-  - const: pon_hlos
-  - const: pon_pbs
+Stepping back, "glevel" and any of its derivations is actually just a combination
+of CR0.PG, CR4.PAE, EFER.LMA, and CR4.LA57.  And "has_4_byte_gpte" is CR0.PG && !CR4.PAE.
+When running with !tdp_enabled, CR0.PG is tracked by "direct".  And with TDP enabled,
+CR0.PG is either a don't care (L1 or nested EPT), or is guaranteed to be '1' (nested NPT).
 
-Rob
+So, rather than add yet more synthetic information to the role, what about using
+the info we already have?  I don't think it changes the number of bits that need to
+be stored, but I think the result would be easier for people to understand, at
+least superficially, e.g. "oh, the mode matters, got it".  We'd need a beefy comment
+to explain the whole "passthrough levels" thing, but I think it the code would be
+more approachable for most people.
+
+If we move efer_lma and cr4_la57 from kvm_mmu_extended_role to kvm_mmu_page_role,
+and rename has_4_byte_gpte to cr4_pae, then we don't need passthrough_levels.
+If needed for performance, we could still have a "passthrough" bit, but otherwise
+detecting a passthrough SP would be
+
+static inline bool is_passthrough_sp(struct kvm_mmu_page *sp)
+{
+	return !sp->role.direct && sp->role.level > role_to_root_level(sp->role);
+}
+
+where role_to_root_level() is extracted from kvm_calc_cpu_role() is Paolo's series.
+
+Or, if we wanted to optimize "is passthrough", then cr4_la57 could be left in
+the extended role, because passthrough is guaranteed to be '0' if CR4.LA57=1.
+
+That would prevent reusing shadow pages between 64-bit paging and PAE paging, but
+in practice no sane guest is going to reuse page tables between those mode, so who
+cares.
