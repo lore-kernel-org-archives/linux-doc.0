@@ -2,110 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E754C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 06:29:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0640C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 07:20:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232326AbiDNGbl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 02:31:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52080 "EHLO
+        id S239646AbiDNHXK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 03:23:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbiDNGbk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 02:31:40 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3325A4BFFC;
-        Wed, 13 Apr 2022 23:29:16 -0700 (PDT)
-From:   Kurt Kanzenbach <kurt@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1649917753;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=cQtOV0RyDDp26xvCB7CLZ7TVyU8W4OGmVs7AgQlPm28=;
-        b=p7uo2D4PrVyE/q1szXTUx6g+RBYfQEBOMHeNfnPq0nFvP3sx0TZwD4dByDh+JfX+8ZqvVv
-        FhXZHBi7wj0x9W35HeG3MZCQgZ24MZJSgyygETCwAU1ymXzMV3k0uwhHWX688jvmL4tN+H
-        O4lw9JZyqW1tXjSq5HZmZRDYTT8WN5ut3meUgdskwUPwkwQhYtXmkMCFPR8MECnYAPc+UO
-        LrmXt1CdIvCuyYbVCYLC/bka3ld988ds3wBtQYxw1wofuRVp23VYCFLBjAEYbzRazTktTY
-        l/ILBI4hSUwjedLYbhzygBifNeb00OW7ArL+gXF1idkxZrrsypMH1XU72hIXDg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1649917753;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=cQtOV0RyDDp26xvCB7CLZ7TVyU8W4OGmVs7AgQlPm28=;
-        b=LhBUz5DMzKWC/l1fKb7WVRW3T0+RWZ/dOvQkdF+S/p4iqWzsPeS4Sai/85wwztYWnOtsd7
-        8ZAE4DHiyVyjuNBA==
-To:     Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Luiz Angelo Daros de Luca <luizluca@gmail.com>,
-        George McCollister <george.mccollister@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>
-Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        Florian Fainelli <f.fainelli@gmail.com>
-Subject: Re: [PATCH net-next v2] docs: net: dsa: describe issues with
- checksum offload
-In-Reply-To: <20220413200841.4nmnv2qgapqhfnx3@skbuf>
-References: <20220411230305.28951-1-luizluca@gmail.com>
- <20220413200841.4nmnv2qgapqhfnx3@skbuf>
-Date:   Thu, 14 Apr 2022 08:29:12 +0200
-Message-ID: <87tuawp493.fsf@kurt>
+        with ESMTP id S240218AbiDNHXH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 03:23:07 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA2E455BE3;
+        Thu, 14 Apr 2022 00:20:43 -0700 (PDT)
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23E6ulXq029810;
+        Thu, 14 Apr 2022 07:20:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=M7qdITGxKMZflqtUEJitwS22RS7/VW8O4gC7lkHX6aE=;
+ b=G45Hr2OlusJpUCsbehcPMM8yaS8GNgqUAeRfZlJWZaH3yxySfICNo89cb57zXaWLsX0k
+ W1RMssE/8McYAETLYzU77k7mYdR3AKZuUPS36lA10gileH7WR8LSv1E3ePGagplW7mfx
+ zZWfpzTUyLMDJ1osPer3HhsZfa7Vf9Hp8Fq69PM1A5ovZnLtl3iwV3fooy98m9nzO325
+ iCWYP9udTdpy12rjTxhu1l/XA74lD2NuXtj3PlC7Ex31DA+mSTIW9SBK3MV6r6C4Jif1
+ bzw6ozB1dnKJTdViP1QbEP0rsK6hIg6PUiHYBgTGJZVrO79j8OG+sQHWUp4oYY4h3xjk 8g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3feesu0e38-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 14 Apr 2022 07:20:41 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23E7FQuw032322;
+        Thu, 14 Apr 2022 07:20:41 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3feesu0e2v-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 14 Apr 2022 07:20:41 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+        by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23E78375003025;
+        Thu, 14 Apr 2022 07:20:39 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+        by ppma02fra.de.ibm.com with ESMTP id 3fb1s8peq1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 14 Apr 2022 07:20:39 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23E782ol46858612
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 14 Apr 2022 07:08:02 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 298C8A4054;
+        Thu, 14 Apr 2022 07:20:36 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0D900A405B;
+        Thu, 14 Apr 2022 07:20:35 +0000 (GMT)
+Received: from [9.171.7.59] (unknown [9.171.7.59])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu, 14 Apr 2022 07:20:34 +0000 (GMT)
+Message-ID: <95e46303-931c-ec90-94f3-67ed34383650@linux.ibm.com>
+Date:   Thu, 14 Apr 2022 09:20:34 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha512; protocol="application/pgp-signature"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v5 11/21] KVM: s390: pci: do initial setup for AEN
+ interpretation
+Content-Language: en-US
+To:     Matthew Rosato <mjrosato@linux.ibm.com>, linux-s390@vger.kernel.org
+Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
+        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
+        hca@linux.ibm.com, gor@linux.ibm.com,
+        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
+        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
+        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
+        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
+ <20220404174349.58530-12-mjrosato@linux.ibm.com>
+From:   Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20220404174349.58530-12-mjrosato@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: W8aJ_56TwyEef8MQtx5uqh8024usFQ7B
+X-Proofpoint-ORIG-GUID: yihznpiYOr22q6IIqJIXq14-4f90b2RP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-14_01,2022-04-13_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ adultscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0 clxscore=1015
+ impostorscore=0 phishscore=0 bulkscore=0 priorityscore=1501
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204140038
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
 
-On Wed Apr 13 2022, Vladimir Oltean wrote:
-> I've copied a bunch of new people to this email.
->
-> TL;DR: Kurt/George/Andrew, on your systems with hellcreek/xrs700x/mv88e6060,
-> does the DSA master declare any of the following features as "on"?
->
-> ethtool -k eth0 | grep tx-checksum-ip
 
-It's a Cyclone V with stmmac as master:
+Am 04.04.22 um 19:43 schrieb Matthew Rosato:
+> Initial setup for Adapter Event Notification Interpretation for zPCI
+> passthrough devices.  Specifically, allocate a structure for forwarding of
+> adapter events and pass the address of this structure to firmware.
+> 
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+[...]
+>   
+> diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
+> index 156d1c25a3c1..9db6f8080f71 100644
+> --- a/arch/s390/kvm/kvm-s390.c
+> +++ b/arch/s390/kvm/kvm-s390.c
+> @@ -47,6 +47,7 @@
+>   #include <asm/fpu/api.h>
+>   #include "kvm-s390.h"
+>   #include "gaccess.h"
+> +#include "pci.h"
+>   
+>   #define CREATE_TRACE_POINTS
+>   #include "trace.h"
+> @@ -502,6 +503,14 @@ int kvm_arch_init(void *opaque)
+>   		goto out;
+>   	}
+>   
+> +	if (kvm_s390_pci_interp_allowed()) {
+> +		rc = kvm_s390_pci_init();
+> +		if (rc) {
+> +			pr_err("Unable to allocate AIFT for PCI\n");
+> +			goto out;
+> +		}
+> +	}
+> +
+>   	rc = kvm_s390_gib_init(GAL_ISC);
+>   	if (rc)
+>   		goto out;
 
-|root@tsn:~# ethtool -k eth0 | grep tx-checksum-ip
-|        tx-checksum-ipv4: on
-|        tx-checksum-ip-generic: off [fixed]
-|        tx-checksum-ipv6: on
+We would not free the aift that was allocated by kvm_s390_pci_init
+in kvm_arch_exit.
+Wouldnt we re-allocate a new aift when we unload/reload kvm forgetting about the old one?
 
->
-> I would expect not. Otherwise, we've either found a bug, or discovered
-> the Sasquatch.
 
-Now, I'm wondering how this actually works. Anyway, I'll send a patch to
-add the missing skb_checksum_help().
+> diff --git a/arch/s390/kvm/pci.c b/arch/s390/kvm/pci.c
+[...]
+> +static int zpci_setup_aipb(u8 nisc)
+[...]
+> +	size = get_order(PAGE_ALIGN(ZPCI_NR_DEVICES *
+> +						sizeof(struct zpci_gaite)));
+[...]
+> +	if (zpci_set_irq_ctrl(SIC_SET_AENI_CONTROLS, 0, zpci_aipb)) {
+> +		rc = -EIO;
+> +		goto free_gait;
+> +	}
+> +
+> +	return 0;
+> +
+> +free_gait:
+> +	size = get_order(PAGE_ALIGN(ZPCI_NR_DEVICES *
+> +				    sizeof(struct zpci_gaite)));
 
-Thanks,
-Kurt
+size should still be valid here?
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+> +	free_pages((unsigned long)aift->gait, size);
+> +free_sbv:
+> +	airq_iv_release(aift->sbv);
+> +	zpci_aif_sbv = 0;
+> +free_aipb:
+> +	kfree(zpci_aipb);
+> +	zpci_aipb = 0;
+> +
+> +	return rc;
+> +}
+> +
 
------BEGIN PGP SIGNATURE-----
-
-iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmJXvzgTHGt1cnRAbGlu
-dXRyb25peC5kZQAKCRDBk9HyqkZzgm/fEACyKZ3RygUAM+2cTBaW9oUu23NYu9j7
-ukvYq/uLG8VUzTg/UD56iAKptTJ+5WUSfqitHXi2PPeCMOD4ev/V+3T7Viq8sTvA
-f2BTbPXcNtxZ5WEDur04azFNj6/BpRfzv6z9QZeMwWrWV6BUVa39enWsDygj0eit
-RAhaNZqd5/FQlTj8CIT8qVO4yQiiI4UAUZuk0Mdmd7ffU1n3FQSgSqLjV15509zY
-dXOwT9wC2Xz0fzGSthrnB0Ervtox47rGf9kxKYKN9QE7tT79jtcIF3WhanF1YwSF
-QJfPtsz2MFn3EHV50URRWOdeY8W879ORZ1hTbRP7ygFcsNe1NGy8Ygc59zKyj6u0
-+9qeF7wka6r+d10EB3CZt1Id6iMWtlOGXu83/fRPr4YrOyAfgDH8jgAZ3yixlui9
-A4u6wnsXobqeOue10a8qeF8mUq8nO9s5nLzQBXw3S5c6kTVhFpsOI525nMGUPk4k
-nnFEiHiSqosKLBgvgPi5YcZKS+X+5he0t1Fcvm9WOGQJJ3TqpEqzFGuM1XW+9z7t
-d2PxetM3ix7Ygn4RmKcltfgP+ip09XypoMLU1hzcuShPsIwe64xiywbSRF2YvjA7
-/iR878+Ua8JDICIkhv1CErfyLcAuDgCk+BMQ66yn6pSfrFLnLelF4hR5HOy+tgD0
-Vdt+vds4cWwNRA==
-=+jB1
------END PGP SIGNATURE-----
---=-=-=--
+The remaining parts look sane.
