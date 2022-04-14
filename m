@@ -2,59 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64438C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 14:05:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BA18C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 15:06:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244959AbiDNOHS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 10:07:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35352 "EHLO
+        id S237785AbiDNPI2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 11:08:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343966AbiDNNjc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 09:39:32 -0400
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7DA99EF5;
-        Thu, 14 Apr 2022 06:35:57 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id i20so9424343ybj.7;
-        Thu, 14 Apr 2022 06:35:57 -0700 (PDT)
+        with ESMTP id S1354231AbiDNOzI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 10:55:08 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99C00DBD27
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 07:42:59 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id md4so5320148pjb.4
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 07:42:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=usbrVmh/IqZeGrbdE2M9/Szfr5yBTnD3ZEUOMvSshiE=;
-        b=NLzWJaSJZPz1VxfJ8V35JeiQ1OKP+tDwmCDOL7OEXoBRqFaqNqB1W8N4bJJrl5SRDO
-         BFPtv1bbVEw/tMuvepFWesW4JU7SeKkwbBPXYSfh/t5/IZOneS7duUAwQasMnSpiITQ9
-         XndS1oIdD9jLUoeqTbuMs7OZ+I/NQzLvN3tLEEGwkU7+JFcFcjsh9TbKTJKTjyVu18KN
-         2owBNh8/ILzG/g2vY0LQzUx0JdQxfT181fGTsE7mqO3js9KsHvu827tXz3XoV6PO3F2e
-         4RFn15p8gCznyV8aiDlpQhf49jqef/UFlYcIZlfK3lbgv6UwpD4c7HKg1X1kDqU123ez
-         /lAQ==
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=qwcuBgImCmXIPh4KovD6yz7yJbjBcIk++srxxrgHoVk=;
+        b=PqcPSgK5KCFX0ypEAiiuQ48djSg+e6hRlUoxyQKm5+csfnsgcYel8pbIACDPKdIjKR
+         iHjm7BMJeqGyI/nEfPUqUFojs9W5pKDLHiOS5tTpfTgnzcLHRbQoPplRp4MSG2FubYVv
+         KJ/sOzMF9j6eDYKI9fm40PvgwjEB8UXsEx0pOCKujwLNY528/tgdDAs2+HcUzJ46A7Mk
+         b9kflZvhS0PZbSS+HVeVy4/Zjud0oNXTtCGCdZ8zs7rXuSahBGjWZIxMibg0vEHnJxav
+         6HrSLaAsH5Cugsnm62jDxshYpQ46yXTkT2wfGTJk4FYp3Tsukla7/SlJG3Ud0J9oGyjG
+         PSPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=usbrVmh/IqZeGrbdE2M9/Szfr5yBTnD3ZEUOMvSshiE=;
-        b=wcty3/V9HCLzKzMZgWfQeTeFsxbKCvWkyqw3VwRjFDxwUEHfdX2YfBMhsu6X4Dn/iE
-         Fu/ptF3ljHDOGbDoEWUjGBHxsmRfyM5xj28ym6jWptQq99HUk99LmXd/PSQq7GDFWcOI
-         VvHP4C7Q5xTknE3Xb+Hh8VQo5RS0QrwSXwUfxgi3NHhieg3CXPicHa82urkRLwsqU/W+
-         UiCaK1CFCoN2QfX9RVJ1sg6m4/GKCnK71QajpYRJdLMDZHHqsbV30HvZqT8cXFhIsjUw
-         ddGpiib3Ljof5mw3DqEWUKg3oV7zZMJqd6bh2gG72fjfeOVxt5JEhLbztw9LvXYETFkx
-         Zyog==
-X-Gm-Message-State: AOAM533DzkhzlcLJUO08Sv6jAOivYREyNqBYoGdyalyKtMItJaHJcmOg
-        wdfqwAtZ+w+yPX7bYiPQ8M00JBN2k5ST5x9BbwNPX25JqBI=
-X-Google-Smtp-Source: ABdhPJwopzv0ttPI92q96WOpOVANWZ/UA4QN3jGSBMSpKFajdl7+sC2a5dQBmaIJ77V2WoYOt6pYigc+WE79LYNZ87g=
-X-Received: by 2002:a05:6902:1206:b0:641:bc56:7444 with SMTP id
- s6-20020a056902120600b00641bc567444mr1819943ybu.376.1649943356542; Thu, 14
- Apr 2022 06:35:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220330132152.4568-1-jiangshanlai@gmail.com> <20220330132152.4568-4-jiangshanlai@gmail.com>
- <YlXrshJa2Sd1WQ0P@google.com> <CAJhGHyD-4YFDhkxk2SQFmKe3ooqw_0wE+9u3+sZ8zOdSUfbnxw@mail.gmail.com>
- <683974e7-5801-e289-8fa4-c8a8d21ec1b2@redhat.com> <CAJhGHyCgo-FEgvuRfuLZikgJSyo7HGm1OfU3gme35-WBmqo7yQ@mail.gmail.com>
-In-Reply-To: <CAJhGHyCgo-FEgvuRfuLZikgJSyo7HGm1OfU3gme35-WBmqo7yQ@mail.gmail.com>
-From:   Lai Jiangshan <jiangshanlai@gmail.com>
-Date:   Thu, 14 Apr 2022 21:35:45 +0800
-Message-ID: <CAJhGHyCO23JbqdiwRvdggSSxxe93vyKPNY6H5nk+=y6cJJaxvQ@mail.gmail.com>
-Subject: Re: [RFC PATCH V3 3/4] KVM: X86: Alloc role.pae_root shadow page
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=qwcuBgImCmXIPh4KovD6yz7yJbjBcIk++srxxrgHoVk=;
+        b=xexs2+6IPCRTWfj4ri4D3ireH2qqlY1+Q/UTPCFqyOCzzaXF9VO1bftApaHDsDO2sO
+         L+BJA81kLvpmlTVFojqag3dQMAhMG0TB74thy4xbK1Bur/nCLlLmMRgbKsQ9r+Hk4HJp
+         QnCryswKyDHD5DBr8JIJ6q5Q7PKWtj5XwFsH6HMRAVYj764BRG2p7+E5sOdG63AAB97c
+         aCVvdy1RPtwB5+b6o/6vaindgcpZfCbydvmrx1mgwsEsfut7EOPOyv1uVEDerVotT0/l
+         KIT+IsT3dXk5oXpHwLElK0e4sVQSaus3JgL1QaTRYZlfDo27btp70AwONC34TBqTnUDp
+         ieJg==
+X-Gm-Message-State: AOAM5306YWYQB5XQs9x6/195qkPE9d2VpkAJM6bidDED7Cig8CumxAux
+        D0S3DXDj0sBBpvdx6mUd/aFO9A==
+X-Google-Smtp-Source: ABdhPJy2PeIS61cClFOl7u9zD2LzLkl4mWHXZ+aCyR9ZnSEJKTwasVdmpha8K+eK6URzneRvPCXonQ==
+X-Received: by 2002:a17:902:ecc1:b0:158:6e96:83a7 with SMTP id a1-20020a170902ecc100b001586e9683a7mr18008752plh.79.1649947378972;
+        Thu, 14 Apr 2022 07:42:58 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id e12-20020a056a0000cc00b00508343a6f9esm194233pfj.5.2022.04.14.07.42.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 07:42:58 -0700 (PDT)
+Date:   Thu, 14 Apr 2022 14:42:54 +0000
+From:   Sean Christopherson <seanjc@google.com>
 To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
+Cc:     Lai Jiangshan <jiangshanlai@gmail.com>,
         LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
         Lai Jiangshan <jiangshan.ljs@antgroup.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -67,25 +63,43 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
         linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC PATCH V3 3/4] KVM: X86: Alloc role.pae_root shadow page
+Message-ID: <Ylgy7tnQAKqyV22K@google.com>
+References: <20220330132152.4568-1-jiangshanlai@gmail.com>
+ <20220330132152.4568-4-jiangshanlai@gmail.com>
+ <YlXrshJa2Sd1WQ0P@google.com>
+ <CAJhGHyD-4YFDhkxk2SQFmKe3ooqw_0wE+9u3+sZ8zOdSUfbnxw@mail.gmail.com>
+ <683974e7-5801-e289-8fa4-c8a8d21ec1b2@redhat.com>
+ <CAJhGHyCgo-FEgvuRfuLZikgJSyo7HGm1OfU3gme35-WBmqo7yQ@mail.gmail.com>
+ <658729a1-a4a1-a353-50d6-ef71e83a4375@redhat.com>
+ <CAJhGHyDYeQGUWmco=c4TA1uu=33ccW7z0fDLuYjvkGFW5WnDSQ@mail.gmail.com>
+ <77699a19-65bd-5088-2f25-1be59364f5ee@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <77699a19-65bd-5088-2f25-1be59364f5ee@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 14, 2022 at 5:32 PM Lai Jiangshan <jiangshanlai@gmail.com> wrote:
+On Thu, Apr 14, 2022, Paolo Bonzini wrote:
+> On 4/14/22 13:06, Lai Jiangshan wrote:
+> > > Right, but then load_pdptrs only needs to zap the page before (or
+> > > instead of) calling kvm_mmu_free_roots().
+> > > 
+> > 
+> > Guest PAE page is write-protected instead now (see patch4) and
+> > kvm_mmu_pte_write() needs to handle this special write operation
+> > with respect to sp->pae_off (todo).
+> > And load_pdptrs() doesn't need to check if the pdptrs are changed.
+> 
+> Write-protecting the PDPTR page is unnecessary, the PDPTRs cannot change
+> without another CR3.  That should be easy to do in account_shadowed and
+> unaccount_shadowed
 
->
-> All new kinds of sp added in this patchset are in the hash too.
->
+Technically that's not true under SVM?
 
-
-I think role.guest_pae_root is needed to distinguish it from
-a sp for a level-3 guest page in a 4-level pagetable.
-
-Or just role.guest_root_level(or role.root_level) and it can replace
-role.passthrough_depth and role.guest_pae_root and role.pae_root.
-
-role.pae_root will be
-
-(role.root_level == 3 || role.root_level == 2) && role.level == 3 &&
-(host is 32bit || !tdp_enabled)
+  Under SVM, however, when the processor is in guest mode with PAE enabled, the
+  guest PDPT entries are not cached or validated at this point, but instead are
+  loaded and checked on demand in the normal course of address translation, just
+  like page directory and page table entries
