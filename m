@@ -2,184 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCBFFC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 16:57:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC98FC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 17:26:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239057AbiDNQ7U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 12:59:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45112 "EHLO
+        id S236366AbiDNR2c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 13:28:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344391AbiDNQ6p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 12:58:45 -0400
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EAEA9F6E0;
-        Thu, 14 Apr 2022 09:32:18 -0700 (PDT)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-2ef4a241cc5so54193897b3.2;
-        Thu, 14 Apr 2022 09:32:18 -0700 (PDT)
+        with ESMTP id S235698AbiDNR2b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 13:28:31 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5652C9B71
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 10:26:05 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id z16so5451910pfh.3
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 10:26:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fdEEqqrKzs/3274zBD/YaWisZaBNOP4L2LR8YW1baHw=;
-        b=epZa5nITfJI2m97kCFx+vNtRg4MHtmfEUMolvICzsn1jko+a8J67e9/CCLceB2vI2M
-         lDsf/Wh+Nbm2suVzkaBCWpyOgVi1/9cI0BjenFsVQetNC/l+t+WwF2mJbQioRx5uhn91
-         W6pC7sATbmxXXYyomwHDngtqTxwLQe4ErgJpB6mGugt1J0BIomqsHkC/dfT05R5uoS4u
-         HJHEL0//3vA0ftkAlyy0Kf3lM0MS3RKYaJICOcDZ7tASW37OQ6s4pUqMOeITKnE8ApFT
-         eOD4t+bVKbX0coZB17+BEz967UQpaSRjROjmVZLEhOAGGPtl3FRsGzFra4IOh/F4/Xcn
-         asdw==
+        bh=Sz07fc6I7lIWKPKMNOVSVRZPVjZ/2q5aP50+7giwSck=;
+        b=dF21I7xa+PEEtOju0dwSpmZ52AgeF8q9DD0slppiVuAkzhepRjGULhGl9GSpaBaN9k
+         HGkp6aPpOc9KxYswilZx68HsiWuwoTmPMmPrje77QTltrR3lFASV4DzIG9UcRcdjscvl
+         ffQJoIJtZdVAFsLtEgdP6aUWUI6OZWXIZjpoHl3BRmAwNH9B7bKriI3kN7Xrrghy+8ok
+         w96Q/Nfe2bAgEu0mE0P095/9Fkk+kENEDAlaKx9Spnw61TPbAyCwio9dXAHsqa2FB/20
+         SpIpeNvGk1Tj/340dPGN1lPPWwoBdi2stjlFsfs5ae5cBCgS/HibP9ne/pdbI3MJwjXl
+         PXkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fdEEqqrKzs/3274zBD/YaWisZaBNOP4L2LR8YW1baHw=;
-        b=sqNUAd2Dm1YfyVV/nLWyJtyivfy8bbgxirvjKm2F/J2FfYxKiBg7DqfvbXTr7Rb4Ub
-         d/zISk1H1AroPmcQDmZ5KBi46FQfuKogO07cZDk8rCF9PgfP/J9CEK9H/IeVj4irEaCR
-         YhHstDiY+u28LsF+hrSKcqG8rVsfgNRe0iIEJNeX1rMwzdYVIIpMAIOoj/ENK1Q2HOGc
-         0OQ1WMlTx3S3ZddXLF5lrgBKpXkttdSNA7Eakvie/OvgQiJzoYwupOQmNuVAD9qjr+za
-         ke1jTLKIMJ8hg6IA18eZKG6gVvaMtCOy9kExVtsMw5jSH1pt3SjfVhcJ0xPxclb7Gt3s
-         7uHg==
-X-Gm-Message-State: AOAM530paMmHuk995wZKZ1K4Jd00MleHKECYSfwJGovOJJA0dJ7xJ7G3
-        Jtn8MV4wT9abuTInBSumxeSzrquJK9bDuIccMzs=
-X-Google-Smtp-Source: ABdhPJxNu9eO7mTH0mGGXSBUX+pHhpC3Y7C+1R14VEol1GHJTWqG0895N1899gpoMkuMBWuAuLq2FhQU6yyKFPNSCUs=
-X-Received: by 2002:a81:db05:0:b0:2ea:2b92:c317 with SMTP id
- u5-20020a81db05000000b002ea2b92c317mr2688217ywm.329.1649953937497; Thu, 14
- Apr 2022 09:32:17 -0700 (PDT)
+        bh=Sz07fc6I7lIWKPKMNOVSVRZPVjZ/2q5aP50+7giwSck=;
+        b=PcWch3VZYkagf1ne2OzOYUd2878zgr8TiuCJ+PDMr0Gxf/CFcJawIoXAKMtrfZ6+qZ
+         wWbqQJAregrSxd/y1IxOZUcpCBk6Qaod0PxZ/IeZGjOXTfa8A4HK6iQP1uEeaQHQmA6v
+         rPDqkYWxY8Ov9fA6qOwXcj/EM4zqD4RSkUBJzlavMRGRveGEv/ojq6EtKbUQ4kxIMYzI
+         dxw7RuLEv5Vk1D8L7FV51m/gsExk/a0s0FZL/O3lCgzOnPezFfFtHCT3pJpsJ95li/Hw
+         pvNbaQ7VsKe+DhMMX4ZHM693ajjCrJokYBEy1M+MQUPskIBDXFU4qeS+Smh5TFzWrL1B
+         55lw==
+X-Gm-Message-State: AOAM532VWVX23wuaVO6xV44xvOPZv3Hn/xZyclMESQXcPBNLBrVhL5pg
+        h6zXjC+3+YnlxHPgD0olyJBNa2zp6YwPwflOD7RkBw==
+X-Google-Smtp-Source: ABdhPJx93mXSCF+yEz9k2YvFHTy3Z6BKK4DmU6/ANhw2gPmq6Vl/jGOlUzeXD9No5PoS/iQzRus81pzLrcNCfCP0TIY=
+X-Received: by 2002:a05:6a00:17a6:b0:505:a751:8354 with SMTP id
+ s38-20020a056a0017a600b00505a7518354mr5003805pfg.82.1649957165014; Thu, 14
+ Apr 2022 10:26:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220330132152.4568-1-jiangshanlai@gmail.com> <20220330132152.4568-3-jiangshanlai@gmail.com>
- <YlXvtMqWpyM9Bjox@google.com> <caffa434-5644-ee73-1636-45a87517bae2@redhat.com>
- <YlbhVov4cvM26FnC@google.com> <d2122fb0-7327-0490-9077-c69bbfba4830@redhat.com>
- <YlbtEorfabzkRucF@google.com> <e549d4c4-ca56-da1d-cc50-1a73621ba487@redhat.com>
- <YlhC86CFDRghdd5v@google.com>
-In-Reply-To: <YlhC86CFDRghdd5v@google.com>
-From:   Lai Jiangshan <jiangshanlai@gmail.com>
-Date:   Fri, 15 Apr 2022 00:32:05 +0800
-Message-ID: <CAJhGHyB642oXE71Sk_NFSgUeeNfk7nkB3zkKugp-iE1z6dEy6Q@mail.gmail.com>
-Subject: Re: [RFC PATCH V3 2/4] KVM: X86: Introduce role.glevel for level
- expanded pagetable
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        Lai Jiangshan <jiangshan.ljs@antgroup.com>,
+References: <20220408045743.1432968-1-yosryahmed@google.com>
+ <20220408045743.1432968-2-yosryahmed@google.com> <YlA754XNFAmWQcm6@dschatzberg-fedora-PC0Y6AEN.dhcp.thefacebook.com>
+ <YlBCeadBqbeVvALK@dhcp22.suse.cz> <YlBM/HlPyPUZew5N@dschatzberg-fedora-PC0Y6AEN.dhcp.thefacebook.com>
+ <CAJD7tkbFjbGJ7CnNogpGq5enh_uhP8T5c0U+ku9PfwMoVLf2gg@mail.gmail.com>
+In-Reply-To: <CAJD7tkbFjbGJ7CnNogpGq5enh_uhP8T5c0U+ku9PfwMoVLf2gg@mail.gmail.com>
+From:   Yosry Ahmed <yosryahmed@google.com>
+Date:   Thu, 14 Apr 2022 10:25:29 -0700
+Message-ID: <CAJD7tkYJj2O-zaux9BZxJxG+JBjPrwRYKXPAAAh7i9GVE53VGQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] memcg: introduce per-memcg reclaim interface
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>,
+        Dan Schatzberg <schatzberg.dan@gmail.com>,
+        Zefan Li <lizefan.x@bytedance.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>, Yu Zhao <yuzhao@google.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        linux-doc@vger.kernel.org
+        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>,
+        Chen Wandun <chenwandun@huawei.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 14, 2022 at 11:51 PM Sean Christopherson <seanjc@google.com> wrote:
+On Fri, Apr 8, 2022 at 1:08 PM Yosry Ahmed <yosryahmed@google.com> wrote:
 >
-> On Wed, Apr 13, 2022, Paolo Bonzini wrote:
-> > On 4/13/22 17:32, Sean Christopherson wrote:
-> > > > > Are we planning on removing direct?
-> > > >
-> > > > I think so, it's redundant and the code almost always checks
-> > > > direct||passthrough (which would be passthrough_delta > 0 with your scheme).
-> > >
-> > > I'm ok dropping direct and rolling it into target_level, just so long as we add
-> > > helpers, e.g. IIUC they would be
-> > >
-> > > static inline bool is_sp_direct(...)
-> > > {
-> > >     return !sp->role.target_level;
-> > > }
-> > >
-> > > static inline bool is_sp_direct_or_passthrough(...)
-> > > {
-> > >     return sp->role.target_level != sp->role.level;
-> > > }
+> On Fri, Apr 8, 2022 at 7:55 AM Dan Schatzberg <schatzberg.dan@gmail.com> wrote:
 > >
-> > Yes of course.  Or respectively:
+> > On Fri, Apr 08, 2022 at 04:11:05PM +0200, Michal Hocko wrote:
+> > > Regarding "max" as a possible input. I am not really sure to be honest.
+> > > I can imagine that it could be legit to simply reclaim all the charges
+> > > (e.g. before removing the memcg) which should be achieveable by
+> > > reclaiming the reported consumption. Or what exactly should be the
+> > > semantic?
 > >
-> >       return sp->role.passthrough_levels == s->role.level;
-> >
-> >       return sp->role.passthrough_levels > 0;
-> >
-> > I'm not sure about a more concise name for the latter.  Maybe
-> > sp_has_gpt(...) but I haven't thought it through very much.
-> >
-> > > > > Hmm, it's not a raw level though.
-> > > >
-> > > > Hence the plural. :)
-> > >
-> > > LOL, I honestly thought that was a typo.  Making it plural sounds like it's passing
-> > > through to multiple levels.
-> >
-> > I meant it as number of levels being passed through.  I'll leave that to
-> > Jiangshan, either target_level or passthrough_levels will do for me.
+> > Yeah, it just allows you to avoid reading memory.current to just
+> > reclaim everything if you can specify "max" - you're still protected
+> > by nretries to eventually bail out. Mostly, though I just feel like
+> > supporting "max" makes memory.reclaim semetric with a lot of the
+> > cgroup memory control files which tend to support "max".
 >
-> It took me until like 9pm last night to finally understand what you meant by
-> "passthrough level".   Now that I actually have my head wrapped around this...
+> One possible approach here is to have force_empty behavior when we
+> write "max" to memory.reclaim. From Google's perspective we don't have
+> a preference, but it seems to me like logical behavior. We can do this
+> either by directly calling mem_cgroup_force_empty() or just draining
+> stock and lrus in memory_reclaim().
 >
-> Stepping back, "glevel" and any of its derivations is actually just a combination
-> of CR0.PG, CR4.PAE, EFER.LMA, and CR4.LA57.  And "has_4_byte_gpte" is CR0.PG && !CR4.PAE.
-> When running with !tdp_enabled, CR0.PG is tracked by "direct".  And with TDP enabled,
-> CR0.PG is either a don't care (L1 or nested EPT), or is guaranteed to be '1' (nested NPT).
+> This actually brings up another interesting point. Do you think we
+> should drain lrus if try_to_free_mem_cgroup_pages() fails to reclaim
+> the request amount? We can do this after the first call or before the
+> last one. It could introduce more evictable pages for
+> try_to_free_mem_cgroup_pages() to free.
 
-glevel in the patchset is the page level of the corresponding page
-table in the guest, not the level of the guest *root* page table.
-
-role.glevel is initialized as the guest root level, and changed to the
-level of the guest page in kvm_mmu_get_page().
-
-role.glevel is a bad name and is not sufficient to handle other
-purposes like role.pae_root, role.guest_pae_root.
-
-role.root_level is much better.
-
-role.root_level is a combination of CR0.PG, CR4.PAE, EFER.LMA, and
-CR4.LA57 as you said.
-
-
->
-> So, rather than add yet more synthetic information to the role, what about using
-> the info we already have?  I don't think it changes the number of bits that need to
-> be stored, but I think the result would be easier for people to understand, at
-> least superficially, e.g. "oh, the mode matters, got it".  We'd need a beefy comment
-> to explain the whole "passthrough levels" thing, but I think it the code would be
-> more approachable for most people.
->
-> If we move efer_lma and cr4_la57 from kvm_mmu_extended_role to kvm_mmu_page_role,
-> and rename has_4_byte_gpte to cr4_pae, then we don't need passthrough_levels.
-> If needed for performance, we could still have a "passthrough" bit, but otherwise
-> detecting a passthrough SP would be
->
-> static inline bool is_passthrough_sp(struct kvm_mmu_page *sp)
-> {
->         return !sp->role.direct && sp->role.level > role_to_root_level(sp->role);
-> }
->
-> where role_to_root_level() is extracted from kvm_calc_cpu_role() is Paolo's series.
->
-
-I'm going to add
-
-static inline bool sp_has_gpte(struct kvm_mmu_page *sp)
-{
-   return !sp->role.direct && (
-
-   /* passthrough */
-   sp->role.level > role_to_root_level(sp->role) ||
-
-   /* guest pae root */
-   (sp->role.level == 3 && role_to_root_level(sp->role) == 3)
-
-   );
-}
-
-And rename for_each_gfn_indirect_valid_sp() to
-for_each_gfn_valid_sp_has_gpte() which use sp_has_gpte() instead.
-
-I'm not objecting using efer_lma and cr4_la57. But I think role.root_level
-is more convenient than role_to_root_level(sp->role).
-
-cr4_pae, efer_lma and cr4_la57 are more natrual than has_4_byte_gpte
-and root_level.
+Hey Michal, any thoughts on this? I am looking for feedback on this
+before I send out v4.
