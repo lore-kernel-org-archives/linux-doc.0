@@ -2,144 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60BA0C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 08:59:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29C41C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 09:07:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233750AbiDNJCA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 05:02:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44420 "EHLO
+        id S234041AbiDNJKN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 05:10:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241391AbiDNJBw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 05:01:52 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9CB36E545
-        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 01:59:14 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id j8so4102669pll.11
-        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 01:59:14 -0700 (PDT)
+        with ESMTP id S241521AbiDNJKL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 05:10:11 -0400
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B3176D962;
+        Thu, 14 Apr 2022 02:07:47 -0700 (PDT)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-2ec42eae76bso48363707b3.10;
+        Thu, 14 Apr 2022 02:07:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=0LUCoLOqsjdmuMA9Sv/GTYrqnMUY1MiY7Yfiq4vegQE=;
-        b=HomuRkNsmV7IKhzIJt76YdeNNTkW/NrcqeA7SzFmKUtPaY3/VHAjsS6yZ7zHOBKR8r
-         zCbX6k8iFJINPRJt9zuZu8/CXDMqLnhSxOGqYIJpYeDl+0FvJm/iSC9G3LsO52+Oz2dg
-         rsYn2iXkkOEIHk3i3p7NtE9HPSbQsp1vtXzXF2xhtp8OUDuCvSp+B5vvOv5814PjX+ok
-         4LMXXWwLCY54XIJCI9Ibtxe+l/9oNMHcSY+At3un98WY7TMznKD02N7Wk8UNO8TB52aB
-         47NserAFqEUbjQx9vcfA+BEoQm5QtpTY7JEe5FLzJ5a8cfqTN4598JvJjiu2XQgMRIRQ
-         rsog==
+        bh=du9kKSyZ8/iyPYFYOsIaQUov6kGR9ZIsAFs+iWQKGeE=;
+        b=F1Zm9GWuALLdmCRFLyjKZXBMImjjZWjGYMZa6T0Lvy+l/3R+klqHuyhvmq57oK8ilf
+         D/Rf57UIwsxvUSzPtnI7z/BubVJwUyl7Zoq854nzvjQyjPgA2Q3jNsqBX3RcUVU8G3ki
+         ekM+iscNfZ0wSf8eDe3O+raroMVcz4XNrng1odjeirUcoxWjy+b/omiaH35wUDIteTvr
+         sUkHP1tj2SQb0/QoeRF677h5wYes1Hll8MK7HAAA2dbMW8/MQGaVrUotcwyF71Glb58W
+         t2IQM2BfsxiMws/TmWvrZA9nIwNwU8/C300ULYgPGOQRmvaMmlNFSDv9FJVDFVh2p27I
+         gQUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0LUCoLOqsjdmuMA9Sv/GTYrqnMUY1MiY7Yfiq4vegQE=;
-        b=It9UMEPUuu8k3lPwEhcSF3GHMC4Cq927VSwCLOlgG3Y8rclVR7CM+UMm5NCI3Wdm6F
-         pvoZoldZDINPHLG+9I3VnDFg3wfT7Oz6BtAhrjEbHfGiXBcFOSV12XHt7tvkvqPXBVDn
-         jNQxyC41E9sLxTuzDrzKulnnTnAw1pmeqSlI+Fk8rZL9MBjqy/kJs3gP1yqOgUSUMcKj
-         e3PyvOwAOtsPdZOnEEXJWdfAnMycsbkWZwMHOyQOSyLf0rE4KmMpmrxM0+zcXiHLjYTm
-         eniWlZDWSy3nIS6Gs3aPPK3/S48FmaCFgrwMjJ3EFjItqmb0+i7wWMix+1hHuGHhLe+B
-         XRbw==
-X-Gm-Message-State: AOAM533ucAbG5wXfYgdjoGqyG8UJvP2jHZBZiNSyecZlm6M5AVLmgu5f
-        9YkPrG4wsgBygZLkMdoxnZcMFI/zEUR8vkGyHBNB1Q==
-X-Google-Smtp-Source: ABdhPJxlr3HwneXRMQWmwp1QPVtDvPbaeJ6+jvqdb1zomhx1OdLrBeAIymtji6CSi0zshAF41yPRZfFxQZO+hbVuwLs=
-X-Received: by 2002:a17:902:7205:b0:156:1a0a:2c39 with SMTP id
- ba5-20020a170902720500b001561a0a2c39mr46589099plb.88.1649926754208; Thu, 14
- Apr 2022 01:59:14 -0700 (PDT)
+        bh=du9kKSyZ8/iyPYFYOsIaQUov6kGR9ZIsAFs+iWQKGeE=;
+        b=GSlIQyNRZqebljdSSUvTmD3zlydwlsdKi9Fnw9j/YeZRo6M3BKOHHzNNPQbnciJUm4
+         Gx5DUU8VhkwlT9ZTJIIPuaD1SWvKfVp8Ni41ab3mhlqn9EBz0A28zcSILgfQI1muZU1t
+         ziItnSHPlIlOeYDbaQdWQr/b1uk1PjkE5tdlHJ02kPdyvHmJsAoMvtyNx3iN97Z/kP9F
+         uxbSoa0LlMB7RvS+yPt8gBCtZtOPzzlzZrEtfu6gJNgtPjdjWOp9olOdBDl55UDaAhtP
+         dCUxNSk+qdofpuL2oPaXGxAGMDTf++Jsr+Y+imOPST8AjYGRiSYc7o6+3IpRxDjB6P7l
+         Eyyg==
+X-Gm-Message-State: AOAM531e75HaGsJrLvu/yLomCKPJrI3YdJewN2/bI2JBzdi/TMzCIRPA
+        dh8o4lE/g0PDhQh0WX3fZfjmEZOI2V6Sl6DcxtSV/lrWXI0=
+X-Google-Smtp-Source: ABdhPJyDWj6uTxEyHSC/A79SvoyTUflzd7mvIcnj3ZJm/Gun9HLsmkI18Cg5MvBTXESQMQuygmpOwEErmMRyqfKOLXI=
+X-Received: by 2002:a81:178e:0:b0:2eb:ed49:8241 with SMTP id
+ 136-20020a81178e000000b002ebed498241mr1166903ywx.417.1649927266264; Thu, 14
+ Apr 2022 02:07:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220414025609.578-1-aajith@arista.com> <0bf37720-870a-9dde-d825-92e12633ce38@gmail.com>
-In-Reply-To: <0bf37720-870a-9dde-d825-92e12633ce38@gmail.com>
-From:   Arun Ajith S <aajith@arista.com>
-Date:   Thu, 14 Apr 2022 14:29:01 +0530
-Message-ID: <CAOvjArTBoxSnX_ck_pW9Fq1cVXtT1sQ9zVHL207fdwj5v5iygQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v4] net/ipv6: Introduce accept_unsolicited_na
- knob to implement router-side changes for RFC9131
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     netdev@vger.kernel.org, davem@davemloft.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        dsahern@kernel.org, yoshfuji@linux-ipv6.org, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, prestwoj@gmail.com,
-        gilligan@arista.com, noureddine@arista.com, gk@arista.com
+References: <20220330132152.4568-1-jiangshanlai@gmail.com> <20220330132152.4568-4-jiangshanlai@gmail.com>
+ <YlXrshJa2Sd1WQ0P@google.com>
+In-Reply-To: <YlXrshJa2Sd1WQ0P@google.com>
+From:   Lai Jiangshan <jiangshanlai@gmail.com>
+Date:   Thu, 14 Apr 2022 17:07:34 +0800
+Message-ID: <CAJhGHyD-4YFDhkxk2SQFmKe3ooqw_0wE+9u3+sZ8zOdSUfbnxw@mail.gmail.com>
+Subject: Re: [RFC PATCH V3 3/4] KVM: X86: Alloc role.pae_root shadow page
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Lai Jiangshan <jiangshan.ljs@antgroup.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thank you.
-Do I have to post a v5 with the fixup ?
-
--Arun
-
--Arun
-
-
-On Thu, Apr 14, 2022 at 11:42 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+On Wed, Apr 13, 2022 at 5:14 AM Sean Christopherson <seanjc@google.com> wrote:
 >
-> On 4/14/22 09:56, Arun Ajith S wrote:
-> > Add a new neighbour cache entry in STALE state for routers on receiving
-> > an unsolicited (gratuitous) neighbour advertisement with
-> > target link-layer-address option specified.
-> > This is similar to the arp_accept configuration for IPv4.
-> > A new sysctl endpoint is created to turn on this behaviour:
-> > /proc/sys/net/ipv6/conf/interface/accept_unsolicited_na.
+> On Wed, Mar 30, 2022, Lai Jiangshan wrote:
+> > From: Lai Jiangshan <jiangshan.ljs@antgroup.com>
 > >
+> > Currently pae_root is special root page, this patch adds facility to
+> > allow using kvm_mmu_get_page() to allocate pae_root shadow page.
 >
-> Hi,
+> I don't think this will work for shadow paging.  CR3 only has to be 32-byte aligned
+> for PAE paging.  Unless I'm missing something subtle in the code, KVM will incorrectly
+> reuse a pae_root if the guest puts multiple PAE CR3s on a single page because KVM's
+> gfn calculation will drop bits 11:5.
+
+I forgot about it.
+
 >
-> Building the documentation (htmldocs) with this patch, I got:
+> Handling this as a one-off is probably easier.  For TDP, only 32-bit KVM with NPT
+> benefits from reusing roots, IMO and shaving a few pages in that case is not worth
+> the complexity.
 >
-> /home/bagas/repo/linux-stable/Documentation/networking/ip-sysctl.rst:2475:
-> WARNING: Unexpected indentation.
-> /home/bagas/repo/linux-stable/Documentation/networking/ip-sysctl.rst:2477:
-> WARNING: Unexpected indentation.
-> /home/bagas/repo/linux-stable/Documentation/networking/ip-sysctl.rst:2481:
-> WARNING: Unexpected indentation.
-> /home/bagas/repo/linux-stable/Documentation/networking/ip-sysctl.rst:2482:
-> WARNING: Block quote ends without a blank line; unexpected unindent.
->
-> I have applied following fixup.
->
-> ---- 8> ----
-> From 304846b43a9f962f53f3841afabfd597b3b80951 Mon Sep 17 00:00:00 2001
-> From: Bagas Sanjaya <bagasdotme@gmail.com>
-> Date: Thu, 14 Apr 2022 12:59:46 +0700
-> Subject: [PATCH] fixup for "net/ipv6: Introduce accept_unsolicited_na knob to
->  implement router-side changes for RFC9131"
->
-> Fix the simple table syntax.
->
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/networking/ip-sysctl.rst | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-> index 9e17efe343a..433f2e4a5fe 100644
-> --- a/Documentation/networking/ip-sysctl.rst
-> +++ b/Documentation/networking/ip-sysctl.rst
-> @@ -2472,13 +2472,17 @@ accept_unsolicited_na - BOOLEAN
->         unsolicited neighbour advertisement with target link-layer address option
->         specified. This is as per router-side behavior documented in RFC9131.
->         This has lower precedence than drop_unsolicited_na.
-> +
-> +        ====   ======  ======  ==============================================
->          drop   accept  fwding                   behaviour
->          ----   ------  ------  ----------------------------------------------
->             1        X       X  Drop NA packet and don't pass up the stack
->             0        0       X  Pass NA packet up the stack, don't update NC
->             0        1       0  Pass NA packet up the stack, don't update NC
->             0        1       1  Pass NA packet up the stack, and add a STALE
-> -                                 NC entry
-> +                               NC entry
-> +        ====   ======  ======  ==============================================
-> +
->         This will optimize the return path for the initial off-link communication
->         that is initiated by a directly connected host, by ensuring that
->         the first-hop router which turns on this setting doesn't have to
->
-> base-commit: 38e01f46e0e7f88b92ca0b3f52ac6b9909ed413b
-> --
-> An old man doll... just what I always wanted! - Clara
->
-> Thanks.
->
-> --
-> An old man doll... just what I always wanted! - Clara
+
+I liked the one-off idea yesterday and started trying it.
+
+But things were not going as smoothly as I thought.  There are too
+many corner cases to cover.  Maybe I don't get what you envisioned.
+
+one-off shadow pages must not be in the hash, must be freed
+immediately in kvm_mmu_free_roots(), taken care in
+kvm_mmu_prepare_zap_page() and so on.
+
+When the guest is 32bit, the host has to free and allocate sp
+every time when the guest changes cr3.  It will be a regression
+when !TDP.
+
+one-off shadow pages are too distinguished from others.
+
+When using one-off shadow pages, role.passthough can be one
+bit and be used only for 5-level NPT L0 for 4-level NPT L1,
+which is neat.  And role.pae_root can be removed.
+
+I want the newly added shadow pages to fit into the current
+shadow page management and root management.
+
+I'm going to add sp->pae_off (u16) which is 11:5 of the cr3
+when the guest is PAE paging. It needs only less than 10 lines
+of code.
+
+Thanks.
+Lai
