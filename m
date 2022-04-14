@@ -2,58 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CECCC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 20:36:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7336C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 20:53:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346531AbiDNUik (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 16:38:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54312 "EHLO
+        id S234532AbiDNU4G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 16:56:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346471AbiDNUig (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 16:38:36 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A0E6EBAEF
-        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 13:36:10 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id x4so6643312iop.7
-        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 13:36:10 -0700 (PDT)
+        with ESMTP id S229922AbiDNU4F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 16:56:05 -0400
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C33D5BBE01
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 13:53:39 -0700 (PDT)
+Received: by mail-il1-x131.google.com with SMTP id b5so3891347ile.0
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 13:53:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=VOwb/LIajkynds1NOWj0jp1Wh/dVLVu/LuQcUbDz8pc=;
-        b=Fl/3pmZMMXpOUXW9mpvpX/dnQQ8iA+BLm4Msn7syrUbuGNt6ScyDa/OeLqypvbAZD3
-         mn/YqmGq1kRjD8kCuAkSd7Rl/xsRv9+bu/uYkJZYO6ztOmnXAmlF/Um+oHvfq8CBWlG8
-         nmo2fZO/3i/n8sBlau9jKc8ktVdxUIL6KfVQt1UTGh6oKY3BuxQRcBomVOMM5T+JSRpZ
-         G0XFcWIeCNOiY9mH6ebjC64b+MRHtWCr1HGLIEb9kbrQnYiAAybYpZVzGbnl8gaqCwCk
-         4N7JMm/Zuv+rdDf+LtmAAt0BOUCUoOUGMh0tFQTPiieWZn2K8CxtWysktqjJtG83yiFW
-         kv1A==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=pa6LgTwJKoCyDm1ouvnQaXSj0XUnafk1B7DnI+4ds5E=;
+        b=YOLOl3QdEGf0HeVT/Gn6X9mQ4SlNVFfW1B2wWZPnauNvYBjdx92phALVWtyhmtOUiy
+         /YckdceI2rkicz7tfSi3vOI586pm3t2iq/JoeQOCht91JmDq4gRXbBayAilFIiGC/9oc
+         EyOw2zrv9r2uvnPxtAk+pi2ObkQUJqxEqPdSVks5sFBB/TP7HwujPSZT6cOxUxKxNNh5
+         stc1Q2d7THmA3eb9ZUjFDh4AWcUNjj7PGCngcv/EpLd9vhEniIpbuZYm8GxfJNTvD8Wd
+         Ka64OYy+PHR3cj3VeNKrERCvIj3UTCgN6YDX5zWT0DYYbnMNw/s1rsBDQnv17C9gsDg/
+         ZZfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VOwb/LIajkynds1NOWj0jp1Wh/dVLVu/LuQcUbDz8pc=;
-        b=IcfqMZ/DLoNIkHMhidhT2DMDjojYa6RGr23yJQUbYEWzaZ+Stn3p5nvagV1dJE8y9S
-         rqNssBiH6DuPDFChshstfEIM4EDS6mQz5qrriqf0K5AS2qobm/9CL0WYd2acIYVWKAJP
-         Tjoks5LC1r+oz4L+08AfMRp1yb3xwKhpyzv52Oan1YH3VpJNSVf186HvEOfFT3CKGuE/
-         5F3oAYeqBB45Zp28m9PgD/hO4tkJNT0yr3MT0ms28UsjJAncKO43PWaKKfG4iHx00ECB
-         AXLieefvhT/VLnfFdwrFFgOy1DscgAmpH5qnStiTW6e/rXw1V7FGnm8IJLvFD4qiGiZ/
-         l6DQ==
-X-Gm-Message-State: AOAM5309lYm3rRvJENhQe4g4r+sI/GS7M1lUcv5dFrKlLvRiclozIHOo
-        vuulMIddQxTW7NxCdRfbj46n5A==
-X-Google-Smtp-Source: ABdhPJzV9I/1jO0ij8KF1ngerhZUW0uge9IpUFXv4nROGyQiw1Pt6a1Zao6nhgJZ9LT4b07U+qKwrA==
-X-Received: by 2002:a05:6602:2f0a:b0:64f:99ed:d732 with SMTP id q10-20020a0566022f0a00b0064f99edd732mr1851747iow.150.1649968569030;
-        Thu, 14 Apr 2022 13:36:09 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=pa6LgTwJKoCyDm1ouvnQaXSj0XUnafk1B7DnI+4ds5E=;
+        b=B+IOIN3ax01a6K7hFJzsWmDy5uXAPrFdpmg25NopvcHRT7fEa4QQrf+bJ0EpQ0vdZr
+         oOOtNi3bTVijkxKt2pRE0ve5G57/rACMqmWVS5KmGdeIO9ttBj5Z5ehNmVK5lref8513
+         8rGar4dhUc0tWlM1WlsZ+q4wwtIwigQG+4Oe1YJsxq/TiyjViFecP7PBtRc/8dTMBuoD
+         JtxgC3kOTYW0PwLG75hZo4Ejd8uz4IRYVCwm8jqM+m/7x6DqsuJ8NngMLR4SmREv2HwN
+         ozenr8y0y4wyb37CxQZGzyQj3n/OCG0aQ6b5Ny8eZDn5vCt+Yl52D9itKrliAsKcijaZ
+         7QrA==
+X-Gm-Message-State: AOAM532sMg44t3sEgGKytMci6fc4SDJERPopEJRalePwdvyEYeVwMEfT
+        afk8BPgfayY6+NuO6lBBSVxQ1Q==
+X-Google-Smtp-Source: ABdhPJyyDgmPB1FgemJ0ZnKu90qzgVNnbgA76O0ajimJW0cemV0EzujLhLiFOctL5zYuKP5jxsTu8g==
+X-Received: by 2002:a92:d18b:0:b0:2c6:675:807c with SMTP id z11-20020a92d18b000000b002c60675807cmr1744365ilz.33.1649969618981;
+        Thu, 14 Apr 2022 13:53:38 -0700 (PDT)
 Received: from google.com ([2620:15c:183:200:e02:decc:64d3:b1d3])
-        by smtp.gmail.com with ESMTPSA id h7-20020a056e021d8700b002ca753db1c9sm1660605ila.77.2022.04.14.13.36.07
+        by smtp.gmail.com with ESMTPSA id v18-20020a6b5b12000000b00645bd8bd288sm1764416ioh.47.2022.04.14.13.53.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 13:36:08 -0700 (PDT)
-Date:   Thu, 14 Apr 2022 14:36:03 -0600
+        Thu, 14 Apr 2022 13:53:38 -0700 (PDT)
+Date:   Thu, 14 Apr 2022 14:53:34 -0600
 From:   Yu Zhao <yuzhao@google.com>
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
-        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+To:     Chen Wandun <chenwandun@huawei.com>
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>, linux-mm@kvack.org,
+        Andi Kleen <ak@linux.intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
@@ -70,11 +72,9 @@ Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
         Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
         Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, page-reclaim@google.com,
+        x86@kernel.org, Brian Geffon <bgeffon@google.com>,
         Jan Alexander Steffens <heftig@archlinux.org>,
         Oleksandr Natalenko <oleksandr@natalenko.name>,
         Steven Barrett <steven@liquorix.net>,
@@ -88,86 +88,74 @@ Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
         Sofia Trinh <sofia.trinh@edi.works>,
         Vaibhav Jain <vaibhav@linux.ibm.com>
 Subject: Re: [PATCH v10 06/14] mm: multi-gen LRU: minimal implementation
-Message-ID: <YliFs3NOHeo2LeXl@google.com>
+Message-ID: <YliJzrfXzwwxiCId@google.com>
 References: <20220407031525.2368067-1-yuzhao@google.com>
  <20220407031525.2368067-7-yuzhao@google.com>
- <CAGsJ_4xqm4L4E4dW4PPHos8Ed9ej6hph28tSGy21Re3u7WiuOA@mail.gmail.com>
+ <71af92d2-0777-c318-67fb-8f7d52c800bb@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAGsJ_4xqm4L4E4dW4PPHos8Ed9ej6hph28tSGy21Re3u7WiuOA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <71af92d2-0777-c318-67fb-8f7d52c800bb@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 14, 2022 at 06:03:10PM +1200, Barry Song wrote:
+On Thu, Apr 14, 2022 at 07:47:54PM +0800, Chen Wandun wrote:
 > 
-> On Thu, Apr 7, 2022 at 3:16 PM Yu Zhao <yuzhao@google.com> wrote:
-> >
-> > +
-> > +static int isolate_folios(struct lruvec *lruvec, struct scan_control *sc, int swappiness,
-> > +                         int *type_scanned, struct list_head *list)
+> On 2022/4/7 11:15, Yu Zhao wrote:
+> > +static void inc_min_seq(struct lruvec *lruvec)
 > > +{
-> > +       int i;
-> > +       int type;
-> > +       int scanned;
-> > +       int tier = -1;
-> > +       DEFINE_MIN_SEQ(lruvec);
+> > +	int type;
+> > +	struct lru_gen_struct *lrugen = &lruvec->lrugen;
 > > +
-> > +       VM_BUG_ON(!seq_is_valid(lruvec));
+> > +	VM_BUG_ON(!seq_is_valid(lruvec));
 > > +
-> > +       /*
-> > +        * Try to make the obvious choice first. When anon and file are both
-> > +        * available from the same generation, interpret swappiness 1 as file
-> > +        * first and 200 as anon first.
-> > +        */
+> > +	for (type = 0; type < ANON_AND_FILE; type++) {
+> > +		if (get_nr_gens(lruvec, type) != MAX_NR_GENS)
+> > +			continue;
+> I'm confused about relation between aging and LRU list operation.
 > 
-> Has this changed the ABI of swapiness?
-
-No.
-
-> or it is only something
-> meaningful for the internal code?
-
-This is how swappiness is interpreted.
-
-> if so, can we rename it to
-> something else? otherwise, it is quite confusing.
-
-Feel free to suggest something.
-
-> it seems 1 is set internally as a magic number here:
-> +static void lru_gen_shrink_lruvec(struct lruvec *lruvec, struct
-> scan_control *sc)
-> +{
-> + ...
-> + else if (!cgroup_reclaim(sc) && get_swappiness(lruvec, sc))
-> + swappiness = 1;
-> + else
-> + swappiness = 0;
-> + }
-> obviously this swappiness is neither /proc/sys/vm/swappiness  nor
-> /sys/fs/cgroup/memory/<group>/>memory.swappiness, right?
-
-Right.
-
-> > @@ -3928,6 +4726,11 @@ static void age_active_anon(struct pglist_data *pgdat,
-> >         struct mem_cgroup *memcg;
-> >         struct lruvec *lruvec;
-> >
-> > +       if (lru_gen_enabled()) {
-> > +               lru_gen_age_node(pgdat, sc);
-> > +               return;
-> > +       }
-> 
-> is it really a good place for  lru_gen_age_node() since the function
-> is named age_active_anon()
-> but here you are doing aging for both anon and file pages?
+> In function inc_max_seq,  both min_seq and max_seq will increase，
+> the lrugen->lists[] indexed by lru_gen_from_seq(max_seq + 1) may
+> be non-empty?
 
 Yes.
 
-> obviously
-> lru_gen_age_node() is not
-> doing "age active anon".
+> for example,
+> before inc_max_seq:
+> min_seq == 0, lrugen->lists[0][type][zone]
+> max_seq ==3, lrugen->lists[3][type][zone]
+> 
+> after inc_max_seq:
+> min_seq ==1, lrugen->lists[1][type][zone]
+> max_seq ==4, lrugen->lists[0][type][zone]
+> 
+> If lrugen->lists[0][type][zone] is not empty before inc_max_seq and it is
+> the most inactive list，however lurgen->lists[0][type][zone] will become
+> the most active list after inc_max_seq.
 
-We can rename it if you have something in mind.
+Correct.
+
+> So,  in this place,
+> 
+> if (get_nr_gens(lruvec, type) != MAX_NR_GENS)
+> 	continue;
+> 
+> should change to
+> 
+> if (get_nr_gens(lruvec, type) == MAX_NR_GENS)
+> 	continue;
+
+No, because max/min_seq will overlap if we do so.
+
+lrugen->lists[max_seq+1] can only be non-empty for anon LRU, for a
+couple of reasons:
+1. We can't swap at all.
+2. Swapping is constrained, e.g., swapfile is full.
+
+Both cases are similar to a producer (the aging) overrunning a
+consumer (the eviction). We used to handle them, but I simplified the
+code because I don't feel they are worth handling [1].
+
+[1] https://lore.kernel.org/r/CAOUHufbDfwgm8PgCGkhCjbhMbm=fekfjgRR56NL-j+5iUGfVuw@mail.gmail.com/
