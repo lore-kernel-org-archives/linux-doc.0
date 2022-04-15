@@ -2,62 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5215C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Apr 2022 22:15:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93288C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 01:15:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238909AbiDNWSB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 18:18:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50160 "EHLO
+        id S238812AbiDOBSA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 21:18:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232841AbiDNWSA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 18:18:00 -0400
-Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com [IPv6:2607:f8b0:4864:20::e2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B7CD443FD
-        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 15:15:32 -0700 (PDT)
-Received: by mail-vs1-xe2c.google.com with SMTP id f32so5802202vsv.1
-        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 15:15:32 -0700 (PDT)
+        with ESMTP id S236757AbiDOBR7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 21:17:59 -0400
+Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com [IPv6:2607:f8b0:4864:20::a29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 253E17CDF2
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 18:15:32 -0700 (PDT)
+Received: by mail-vk1-xa29.google.com with SMTP id i27so3033748vkr.5
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 18:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=gHW02OLiilkH2/+Tws3AW48zmC2lykajHWPQE7KEVbE=;
-        b=cX6Ui3wEnVf9lN85AlE0FUWBTpgPIOpS5e99y4DrkVKNYMrdgCzmfdADxyijNbm6X1
-         fz6WHCq5ohnl6+yC1UncZ1WpwyrihRAm9+jQSz6roUqF3/rjYSLROEUKjtqFyl9yjNIW
-         7FHHbh6ObMLZbvzOvy94zur3rSlaNpITjBE+UFhtNiStA7J4ErpcYT5A2sbt7UjAeoXn
-         CFYFmnrc3yVx9SOLuvGYpNrGFN2pqix/LOPwZbkZ1gQjNN9YpJqXxPcCKI75QgCXcLF9
-         RG1ruAr+T6nchpqowA3VtEiWGkXX+PzH5Wqrqn1mPSxULozp8gPcvMGiuZyRLtL1yhVy
-         3n0w==
+        bh=sqQ5iSXHRChMtfKt3RIiTUV6la+/DUpLnLLVZuKBh7Q=;
+        b=oviqlwgsbsf/uMOiFPTaRFR184BPOabtCsqvs6xHtrlZpVbO4wKVB0eo7OE3eF6N/f
+         WoaWM5yeZZLbX4bTnkrRStEi99QdeKS6Z3yPjXlEJ8thMjBN2y6vtiXz9+r5waIlarMi
+         PEuJDrqRxDNGWEvZtqcjJ6wDZjHCrtXjyW8RCewvZZTM8b8ewk2aMLxst08o3jkmgvHj
+         dBaMIEPKx2pirgP/PA/oNB8wvUGcKYkBWFZi8QlKZ5MZdK/U1NzAv8EWY+L7ieWQPXio
+         KQeZRRy2WP6HjteGasYoS9ndZF9Muc0bdCZWEfz9K4vzCapbUgbZygSvSEc1A6iW2EBz
+         SL8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=gHW02OLiilkH2/+Tws3AW48zmC2lykajHWPQE7KEVbE=;
-        b=RH9aNN+YiIn2vyy1xWgS9Do7M4coxTr1nVIF1BlS4bGo22zdHL9JXRAtNnY4YYG75K
-         y/zlVBkyUgbwJbGsedvz7XcJ3Y3W0DOYOAbD4Pj55YmmbHmstUVaQCRc5zE5E/BuNH0i
-         seK9xrPhq8qlXkI/Z+kpDAEiUyJtVGRKw4PL5uL49nF0mgV4PpJvANx4gp8qaFifGGh/
-         xeAI7UgnYsW1KGwAPiujwUyeqqrJcZ6+AQRa0YOAzdLgXUc6SulmjauBlDt3avMEIe+j
-         iPOtNWGXHoGd5yMMf1xkYaFoRmPPOqGgYuL1jYnkU/4ctqdIoe8yFf6EPFuWfb0CapoY
-         cBlw==
-X-Gm-Message-State: AOAM533ffBHibQm0HNJrCSAJyhHxCjMQn6KpZl+G87nvuB7b4sKVs0D8
-        eUutcFLqyB5m2JYFjyNucFiXrbKSmY+toIs6yPZfXQ==
-X-Google-Smtp-Source: ABdhPJwseL3VhTE0AoGeVMgj+ftKNkyXKHXFohiK3nY6OH3s/IVxakxl8Gh+bQzen5ztytFfSWNkxCPOFoJ/uG2ezQg=
-X-Received: by 2002:a05:6102:5cc:b0:320:9bd2:3823 with SMTP id
- v12-20020a05610205cc00b003209bd23823mr2297960vsf.81.1649974531117; Thu, 14
- Apr 2022 15:15:31 -0700 (PDT)
+        bh=sqQ5iSXHRChMtfKt3RIiTUV6la+/DUpLnLLVZuKBh7Q=;
+        b=ijocQws/8owtFUSm74BF6yZADPwNym7WFFTiMui0memtLkoT2amAv6C0EOlMN0f8BT
+         bcUcgqnqobrMpF1NNc1FCgpoGUUr2P6PIM3baNzbCWWltfxMZ6J+WGXo1/612riiOMJC
+         FusH5NknlIAHxRUJNY6Ljcaaub17XV7uzufSbUTOpEYGegOPpGUOlRh4fqC0xeopWLDG
+         apxYCmLaZzh7Abo8bSbD111b/k0iB7rpnVQ5uOof+i5vYwj48b+XDiOUr6e8C/ZBhVCZ
+         XFv/cHIQTyk75x6AlY7CNK9E0RSg8fbV1qu1EaunhN5t7iy2HQcaOQKRgSMU9R7IYKtd
+         E0MQ==
+X-Gm-Message-State: AOAM5308rkfzf7aj4ZH04oJn4HJbnkQ0CMHiLo2azpzhI1I5k2bUEUOM
+        bwX2pBzv015mWXryjr2RjLqqi7oZSE1TR17ZPkoKUg==
+X-Google-Smtp-Source: ABdhPJwvGDjSCKwPleIWn79rkQzoHHhv5ROws7qejBtcO8EAQjqcBUMU+Hjaa8vtashbeHOejWBcqwTJDS8z7VZov/8=
+X-Received: by 2002:a1f:314b:0:b0:331:fff6:a89e with SMTP id
+ x72-20020a1f314b000000b00331fff6a89emr2454874vkx.26.1649985331160; Thu, 14
+ Apr 2022 18:15:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-7-yuzhao@google.com>
- <CAGsJ_4xqm4L4E4dW4PPHos8Ed9ej6hph28tSGy21Re3u7WiuOA@mail.gmail.com>
- <YliFs3NOHeo2LeXl@google.com> <20220414143959.0daf4534613f2511b9b27f11@linux-foundation.org>
-In-Reply-To: <20220414143959.0daf4534613f2511b9b27f11@linux-foundation.org>
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-9-yuzhao@google.com>
+ <20220411191621.0378467ad99ebc822d5ad005@linux-foundation.org>
+In-Reply-To: <20220411191621.0378467ad99ebc822d5ad005@linux-foundation.org>
 From:   Yu Zhao <yuzhao@google.com>
-Date:   Thu, 14 Apr 2022 16:14:55 -0600
-Message-ID: <CAOUHufYmEYa4c7v4ATv+cHKu7uN7Lx7agMwWyPERyfMxDyFwoQ@mail.gmail.com>
-Subject: Re: [PATCH v10 06/14] mm: multi-gen LRU: minimal implementation
+Date:   Thu, 14 Apr 2022 19:14:54 -0600
+Message-ID: <CAOUHufYeC=Kuu59BPL_48sM67CqACxH2wWy-SYGXpadgMDmY3w@mail.gmail.com>
+Subject: Re: [PATCH v10 08/14] mm: multi-gen LRU: support page table walks
 To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Barry Song <21cnbao@gmail.com>,
-        Stephen Rothwell <sfr@rothwell.id.au>,
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
         Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
@@ -74,11 +73,12 @@ Cc:     Barry Song <21cnbao@gmail.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
         Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
         Jan Alexander Steffens <heftig@archlinux.org>,
         Oleksandr Natalenko <oleksandr@natalenko.name>,
         Steven Barrett <steven@liquorix.net>,
@@ -95,32 +95,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 14, 2022 at 3:40 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
 >
-> On Thu, 14 Apr 2022 14:36:03 -0600 Yu Zhao <yuzhao@google.com> wrote:
+> On Wed,  6 Apr 2022 21:15:20 -0600 Yu Zhao <yuzhao@google.com> wrote:
 >
-> > > or it is only something
-> > > meaningful for the internal code?
-> >
-> > This is how swappiness is interpreted.
-> >
-> > > if so, can we rename it to
-> > > something else? otherwise, it is quite confusing.
-> >
-> > Feel free to suggest something.
+> > +static void update_batch_size(struct lru_gen_mm_walk *walk, struct folio *folio,
+> > +                           int old_gen, int new_gen)
+> > +{
+> > +     int type = folio_is_file_lru(folio);
+> > +     int zone = folio_zonenum(folio);
+> > +     int delta = folio_nr_pages(folio);
+> > +
+> > +     VM_BUG_ON(old_gen >= MAX_NR_GENS);
+> > +     VM_BUG_ON(new_gen >= MAX_NR_GENS);
 >
-> It is confusing,   swap_preference?
+> General rule: don't add new BUG_ONs, because they crash the kenrel.
+> It's better to use WARN_ON or WARN_ON_ONCE then try to figure out a way
+> to keep the kernel limping along.  At least so the poor user can gather logs.
 
-It's still largely swappiness -- the original swappiness is twisted a
-bit around the corners (0, 1 and 200) to make it more suitable for
-internal use.
-
-I vote for __swappiness or lrugen_swappiness, which look ugly to me
-but it captures what this variable actually is, i.e., an overridden
-version of the original swappiness. And similar for lru_gen_mm_walk
-*walk vs mm_walk *walk.
-
-In other languages where polymorphism is supported, there are
-established naming conversions. In this patchset, I just used the same
-variable name when two things are closely related but distinguishable
-from the _contexts_ they are used.
+These are VM_BUG_ONs, which are BUILD_BUG_ONs except for (mostly MM) developers.
