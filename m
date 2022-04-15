@@ -2,203 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15A2DC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 10:26:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CEEDC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 11:28:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348656AbiDOK2t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Apr 2022 06:28:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54982 "EHLO
+        id S245176AbiDOLaq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Apr 2022 07:30:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350201AbiDOK2s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 06:28:48 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 528A1BBE1F;
-        Fri, 15 Apr 2022 03:26:20 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id u15so14636264ejf.11;
-        Fri, 15 Apr 2022 03:26:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EtDl/BnBqyaqmvNLPjWYvphBfIcsljxIrWQRv32e4H8=;
-        b=m4qCrQ1uGb3UnhyzgxnHQ29si2Yo2S8ghaU7xMVP0qXgiMhgFKso/9N+uhSQSQqJ1I
-         rQnzVisPwlzhsOsTAEeLSu1ebmPt0n8OtWGYFBl4yu4KJj7kO88co+sLF7Xqgs4m9vmd
-         04mZCu4QPhFnUG0K8YqqZO7VMY7oBOnNwouYz88ShlAkAVN/s87Co1yL7zVHqJW5TE+R
-         aRIUQSKT81I7MsoeXVvrMRoFYX9Ar3OyUEzrMdbfXafaEb8v7MYciVnZrbYqGFDHWuid
-         1Msm3+ZKEW9qRjOtin3wVbTJkz9tn7ox5tdE7+13UGfPA0V7vj++3zNz3cca+YADbodu
-         wSYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EtDl/BnBqyaqmvNLPjWYvphBfIcsljxIrWQRv32e4H8=;
-        b=toasQ2hXw7/c0MhTA3l68d65WAPAk4uPIOhaDoMfNqNze0BlthEy2RF1qK0wjJ3ckY
-         mMsu+/SRjMtU5TeXXqAcbJmqSfvtagVj9LpPtm48L9Nu/K30u+LXXeW8FnGveteH9v+8
-         BoYsJLABLjWfIfXBtZVwFXB/2c3hvZT7uGuRix/oLzT6r1LLceKU9C8Ehg3qUuNVDg3M
-         U1gHkMhNgfLuzzYFyvuS9i9H+dtXveP7unMgJw6NGyclJsh5gde7Vrg8RlM5yQ9HP0mb
-         cdmCsLSPWEGQs6GWoqX/np9qQdjbXcsozDIJsS4L+K/e8tIebGh9YVJvmlbU5/x0Wg9O
-         KfaQ==
-X-Gm-Message-State: AOAM5337V5KZAYq+4YXVimr9EVhay9gOE9e4VaSK+XWZz/CXa+kCzxvU
-        UJVyKPM4ZOYXrQu7RIcLr+71ofQTcRjSxtlid2g=
-X-Google-Smtp-Source: ABdhPJx188kl7Hz4e0/sADxts1l08dfuqnxi4RajAY94xDZT5CAK32+z2N7VLWp7X9SwHSIUbAHO5Ks11HdisEYJGeE=
-X-Received: by 2002:a17:906:39da:b0:6cf:7f09:a7bc with SMTP id
- i26-20020a17090639da00b006cf7f09a7bcmr5896450eje.457.1650018378797; Fri, 15
- Apr 2022 03:26:18 -0700 (PDT)
+        with ESMTP id S243602AbiDOLap (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 07:30:45 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C59365823;
+        Fri, 15 Apr 2022 04:28:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650022098; x=1681558098;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=m0mb6HYDSFX9ETisSpP+Q9Z89pB6kB8Hcj7Qvd78dk0=;
+  b=a9d2p0Fe8UofmknBtgHjLY5Gx9R8I9LbWJ7Fl+gNC/rFSko/hJbck7vZ
+   y1SoJKIQSCYFhJqucF7vEu3Q7C5UcexAWX40Bx9q0TjLrL4KqNcJQLTS3
+   yDyTnm90MShRtsf4iSdLvzxwmR8DwV2+nN3TVYtJ1fiD5YYn7X+HzjYSD
+   /finmT0BBICXTCP61B+Exlxh51L/byzoBsBMm8A7mV47s6QvyRdsXre+q
+   9h1A3xplsyScuOWimJoOHFXiall64ZiV8GdlPmLUcJFyz/Bhv7hVmFPi/
+   nRaNZo/LGgQX8/a4Drg4PXcHnOXokXGoL5Q030vH/qZysncTjejW2aXGC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="243071956"
+X-IronPort-AV: E=Sophos;i="5.90,262,1643702400"; 
+   d="scan'208";a="243071956"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2022 04:28:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,262,1643702400"; 
+   d="scan'208";a="508916656"
+Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 15 Apr 2022 04:28:07 -0700
+Received: from kbuild by 3abc53900bec with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nfK7S-0001u1-TP;
+        Fri, 15 Apr 2022 11:28:06 +0000
+Date:   Fri, 15 Apr 2022 19:27:36 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Schspa Shi <schspa@gmail.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        David Sterba <dsterba@suse.com>, linux-doc@vger.kernel.org
+Subject: [kdave-btrfs-devel:misc-next 105/114] fs/btrfs/zstd.c:98: warning:
+ This comment starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202204151934.CkKcnvuJ-lkp@intel.com>
 MIME-Version: 1.0
-References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-7-yuzhao@google.com>
- <CAGsJ_4xqm4L4E4dW4PPHos8Ed9ej6hph28tSGy21Re3u7WiuOA@mail.gmail.com> <YliFs3NOHeo2LeXl@google.com>
-In-Reply-To: <YliFs3NOHeo2LeXl@google.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Fri, 15 Apr 2022 22:26:07 +1200
-Message-ID: <CAGsJ_4yYP1Wv7_KqX+bo2u=YZNGAqYsLf8evekqz9Y6djbWD7Q@mail.gmail.com>
-Subject: Re: [PATCH v10 06/14] mm: multi-gen LRU: minimal implementation
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
-        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 15, 2022 at 8:36 AM Yu Zhao <yuzhao@google.com> wrote:
->
-> On Thu, Apr 14, 2022 at 06:03:10PM +1200, Barry Song wrote:
-> >
-> > On Thu, Apr 7, 2022 at 3:16 PM Yu Zhao <yuzhao@google.com> wrote:
-> > >
-> > > +
-> > > +static int isolate_folios(struct lruvec *lruvec, struct scan_control *sc, int swappiness,
-> > > +                         int *type_scanned, struct list_head *list)
-> > > +{
-> > > +       int i;
-> > > +       int type;
-> > > +       int scanned;
-> > > +       int tier = -1;
-> > > +       DEFINE_MIN_SEQ(lruvec);
-> > > +
-> > > +       VM_BUG_ON(!seq_is_valid(lruvec));
-> > > +
-> > > +       /*
-> > > +        * Try to make the obvious choice first. When anon and file are both
-> > > +        * available from the same generation, interpret swappiness 1 as file
-> > > +        * first and 200 as anon first.
-> > > +        */
-> >
-> > Has this changed the ABI of swapiness?
->
-> No.
->
-> > or it is only something
-> > meaningful for the internal code?
->
-> This is how swappiness is interpreted.
->
-> > if so, can we rename it to
-> > something else? otherwise, it is quite confusing.
->
-> Feel free to suggest something.
->
-> > it seems 1 is set internally as a magic number here:
-> > +static void lru_gen_shrink_lruvec(struct lruvec *lruvec, struct
-> > scan_control *sc)
-> > +{
-> > + ...
-> > + else if (!cgroup_reclaim(sc) && get_swappiness(lruvec, sc))
-> > + swappiness = 1;
-> > + else
-> > + swappiness = 0;
-> > + }
-> > obviously this swappiness is neither /proc/sys/vm/swappiness  nor
-> > /sys/fs/cgroup/memory/<group>/>memory.swappiness, right?
->
-> Right.
->
-> > > @@ -3928,6 +4726,11 @@ static void age_active_anon(struct pglist_data *pgdat,
-> > >         struct mem_cgroup *memcg;
-> > >         struct lruvec *lruvec;
-> > >
-> > > +       if (lru_gen_enabled()) {
-> > > +               lru_gen_age_node(pgdat, sc);
-> > > +               return;
-> > > +       }
-> >
-> > is it really a good place for  lru_gen_age_node() since the function
-> > is named age_active_anon()
-> > but here you are doing aging for both anon and file pages?
->
-> Yes.
->
-> > obviously
-> > lru_gen_age_node() is not
+tree:   https://github.com/kdave/btrfs-devel.git misc-next
+head:   550a34e972578538fd0826916ae4fc407b62bb68
+commit: b672526e2ee9352854d286f400122f7690f70970 [105/114] btrfs: use non-bh spin_lock in zstd timer callback
+config: alpha-randconfig-r003-20220414 (https://download.01.org/0day-ci/archive/20220415/202204151934.CkKcnvuJ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/kdave/btrfs-devel/commit/b672526e2ee9352854d286f400122f7690f70970
+        git remote add kdave-btrfs-devel https://github.com/kdave/btrfs-devel.git
+        git fetch --no-tags kdave-btrfs-devel misc-next
+        git checkout b672526e2ee9352854d286f400122f7690f70970
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=alpha SHELL=/bin/bash fs/btrfs/
 
-> > doing "age active anon".
->
-;> We can rename it if you have something in mind.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-i wonder if we can directly do:
+All warnings (new ones prefixed by >>):
 
-if (lru_gen_enabled())
-      lru_gen_age_node(pgdat, sc);
-else
-     age_active_anon();
+>> fs/btrfs/zstd.c:98: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Timer callback to free unused workspaces.
 
-rather than:
 
-/*
- * Do some background aging of the anon list, to give
- * pages a chance to be referenced before reclaiming. All
- * pages are rotated regardless of classzone as this is
- * about consistent aging.
- */
-age_active_anon()
-{
-    if (lru_gen_enabled())
-          return lru_gen_age_node(pgdat, sc);
-}
+vim +98 fs/btrfs/zstd.c
 
-the comment above makes no sense to lru_gen_age_node(pgdat, sc);
+    96	
+    97	/**
+  > 98	 * Timer callback to free unused workspaces.
+    99	 *
+   100	 * @t: timer
+   101	 *
+   102	 * This scans the lru_list and attempts to reclaim any workspace that hasn't
+   103	 * been used for ZSTD_BTRFS_RECLAIM_JIFFIES.
+   104	 *
+   105	 * The context is softirq and does not need the _bh locking primitives.
+   106	 */
+   107	static void zstd_reclaim_timer_fn(struct timer_list *timer)
+   108	{
+   109		unsigned long reclaim_threshold = jiffies - ZSTD_BTRFS_RECLAIM_JIFFIES;
+   110		struct list_head *pos, *next;
+   111	
+   112		spin_lock(&wsm.lock);
+   113	
+   114		if (list_empty(&wsm.lru_list)) {
+   115			spin_unlock(&wsm.lock);
+   116			return;
+   117		}
+   118	
+   119		list_for_each_prev_safe(pos, next, &wsm.lru_list) {
+   120			struct workspace *victim = container_of(pos, struct workspace,
+   121								lru_list);
+   122			unsigned int level;
+   123	
+   124			if (time_after(victim->last_used, reclaim_threshold))
+   125				break;
+   126	
+   127			/* workspace is in use */
+   128			if (victim->req_level)
+   129				continue;
+   130	
+   131			level = victim->level;
+   132			list_del(&victim->lru_list);
+   133			list_del(&victim->list);
+   134			zstd_free_workspace(&victim->list);
+   135	
+   136			if (list_empty(&wsm.idle_ws[level - 1]))
+   137				clear_bit(level - 1, &wsm.active_map);
+   138	
+   139		}
+   140	
+   141		if (!list_empty(&wsm.lru_list))
+   142			mod_timer(&wsm.timer, jiffies + ZSTD_BTRFS_RECLAIM_JIFFIES);
+   143	
+   144		spin_unlock(&wsm.lock);
+   145	}
+   146	
 
-another way is that we can add a wrapper for them as below,
-age_node()
-{
-    if (lru_gen_enabled())
-          return lru_gen_age_node(pgdat, sc);
-    age_active_anon();
-}
-
-Thanks
-Barry
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
