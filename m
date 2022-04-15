@@ -2,115 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93288C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 01:15:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24D9BC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 01:30:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238812AbiDOBSA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 21:18:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34432 "EHLO
+        id S1348463AbiDOBdL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 21:33:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236757AbiDOBR7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 21:17:59 -0400
-Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com [IPv6:2607:f8b0:4864:20::a29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 253E17CDF2
-        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 18:15:32 -0700 (PDT)
-Received: by mail-vk1-xa29.google.com with SMTP id i27so3033748vkr.5
-        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 18:15:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sqQ5iSXHRChMtfKt3RIiTUV6la+/DUpLnLLVZuKBh7Q=;
-        b=oviqlwgsbsf/uMOiFPTaRFR184BPOabtCsqvs6xHtrlZpVbO4wKVB0eo7OE3eF6N/f
-         WoaWM5yeZZLbX4bTnkrRStEi99QdeKS6Z3yPjXlEJ8thMjBN2y6vtiXz9+r5waIlarMi
-         PEuJDrqRxDNGWEvZtqcjJ6wDZjHCrtXjyW8RCewvZZTM8b8ewk2aMLxst08o3jkmgvHj
-         dBaMIEPKx2pirgP/PA/oNB8wvUGcKYkBWFZi8QlKZ5MZdK/U1NzAv8EWY+L7ieWQPXio
-         KQeZRRy2WP6HjteGasYoS9ndZF9Muc0bdCZWEfz9K4vzCapbUgbZygSvSEc1A6iW2EBz
-         SL8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sqQ5iSXHRChMtfKt3RIiTUV6la+/DUpLnLLVZuKBh7Q=;
-        b=ijocQws/8owtFUSm74BF6yZADPwNym7WFFTiMui0memtLkoT2amAv6C0EOlMN0f8BT
-         bcUcgqnqobrMpF1NNc1FCgpoGUUr2P6PIM3baNzbCWWltfxMZ6J+WGXo1/612riiOMJC
-         FusH5NknlIAHxRUJNY6Ljcaaub17XV7uzufSbUTOpEYGegOPpGUOlRh4fqC0xeopWLDG
-         apxYCmLaZzh7Abo8bSbD111b/k0iB7rpnVQ5uOof+i5vYwj48b+XDiOUr6e8C/ZBhVCZ
-         XFv/cHIQTyk75x6AlY7CNK9E0RSg8fbV1qu1EaunhN5t7iy2HQcaOQKRgSMU9R7IYKtd
-         E0MQ==
-X-Gm-Message-State: AOAM5308rkfzf7aj4ZH04oJn4HJbnkQ0CMHiLo2azpzhI1I5k2bUEUOM
-        bwX2pBzv015mWXryjr2RjLqqi7oZSE1TR17ZPkoKUg==
-X-Google-Smtp-Source: ABdhPJwvGDjSCKwPleIWn79rkQzoHHhv5ROws7qejBtcO8EAQjqcBUMU+Hjaa8vtashbeHOejWBcqwTJDS8z7VZov/8=
-X-Received: by 2002:a1f:314b:0:b0:331:fff6:a89e with SMTP id
- x72-20020a1f314b000000b00331fff6a89emr2454874vkx.26.1649985331160; Thu, 14
- Apr 2022 18:15:31 -0700 (PDT)
+        with ESMTP id S1348459AbiDOBdI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 21:33:08 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5B1FD434A5;
+        Thu, 14 Apr 2022 18:30:41 -0700 (PDT)
+Received: by ajax-webmail-mail.loongson.cn (Coremail) ; Fri, 15 Apr 2022
+ 09:30:39 +0800 (GMT+08:00)
+X-Originating-IP: [112.20.108.139]
+Date:   Fri, 15 Apr 2022 09:30:39 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   =?UTF-8?B?5Y+45bu26IW+?= <siyanteng@loongson.cn>
+To:     "alexs@kernel.org" <alexs@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>
+Cc:     "siyanteng@loongson.cn" <siyanteng@loongson.cn>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        siyanteng01@gmail.com
+Subject: Re: [PATCH V3] docs/zh_CN: sync with original text
+ Documentation/vm/page_owner.rst
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.10a build 20191018(4c4f6d15)
+ Copyright (c) 2002-2022 www.mailtech.cn .loongson.cn
+Content-Transfer-Encoding: base64
+X-CM-CTRLDATA: mfOwcWZvb3Rlcl90eHQ9NDA2ODo2MTI=
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-9-yuzhao@google.com>
- <20220411191621.0378467ad99ebc822d5ad005@linux-foundation.org>
-In-Reply-To: <20220411191621.0378467ad99ebc822d5ad005@linux-foundation.org>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Thu, 14 Apr 2022 19:14:54 -0600
-Message-ID: <CAOUHufYeC=Kuu59BPL_48sM67CqACxH2wWy-SYGXpadgMDmY3w@mail.gmail.com>
-Subject: Re: [PATCH v10 08/14] mm: multi-gen LRU: support page table walks
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
-        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <81254c7.3c4d.1802ad7fa26.Coremail.siyanteng@loongson.cn>
+X-Coremail-Locale: en_US
+X-CM-TRANSID: AQAAf9BxMM+_ylhiVMojAA--.12774W
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/1tbiAQAREV3QvPLlfgAAsZ
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+        daVFxhVjvjDU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->
-> On Wed,  6 Apr 2022 21:15:20 -0600 Yu Zhao <yuzhao@google.com> wrote:
->
-> > +static void update_batch_size(struct lru_gen_mm_walk *walk, struct folio *folio,
-> > +                           int old_gen, int new_gen)
-> > +{
-> > +     int type = folio_is_file_lru(folio);
-> > +     int zone = folio_zonenum(folio);
-> > +     int delta = folio_nr_pages(folio);
-> > +
-> > +     VM_BUG_ON(old_gen >= MAX_NR_GENS);
-> > +     VM_BUG_ON(new_gen >= MAX_NR_GENS);
->
-> General rule: don't add new BUG_ONs, because they crash the kenrel.
-> It's better to use WARN_ON or WARN_ON_ONCE then try to figure out a way
-> to keep the kernel limping along.  At least so the poor user can gather logs.
-
-These are VM_BUG_ONs, which are BUILD_BUG_ONs except for (mostly MM) developers.
+RGVhciBzaXlhbnRlbmcKCkNvdWxkIHlvdSBoZWxwIHRvIHJldmlldyBteSB0cmFuc2xhdGlvbu+8
+nwoKQ2VydGFpbmx5IQoKLS1DQyBzaXlhbnRlbmcwMUBnbWFpbC5jb20KClRoYW5rcywKWWFudGVu
+ZwoKCgoKCi0tLS0tLS0tIOWOn+Wni+mCruS7tiAtLS0tLS0tLQrlj5Hku7bkurrvvJrnmb3mtanm
+locgPGJhaWhhb3dlbkBtZWl6dS5jb20+CuaXtumXtO+8mjIwMjLlubQ05pyIMTLml6UgMTc6MjkK
+5pS25Lu25Lq677yaYWxleHNAa2VybmVsLm9yZyxjb3JiZXRAbHduLm5ldArmioTpgIHvvJpzaXlh
+bnRlbmdAbG9vbmdzb24uY24s55m95rWp5paHIDxiYWloYW93ZW5AbWVpenUuY29tPixsaW51eC1k
+b2NAdmdlci5rZXJuZWwub3JnLGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcK5Li76aKY77ya
+W1BBVENIIFYzXSBkb2NzL3poX0NOOiBzeW5jIHdpdGggb3JpZ2luYWwgdGV4dCBEb2N1bWVudGF0
+aW9uL3ZtL3BhZ2Vfb3duZXIucnN0CgpBcyB0aGUgdG9vbHMvdm0vcGFnZV9vd25lcl9zb3J0IGFk
+ZGVkIHNvbWUgZmVhdHVyZSBhbmQgb3JpZ2luYWwgdGV4dAp1cGRhdGVkLCBzeW5jIHRoZSB0cmFu
+c2xhdGlvbiBvZiB6aF9DTi4KClNpZ25lZC1vZmYtYnk6IEhhb3dlbiBCYWkgPGJhaWhhb3dlbkBt
+ZWl6dS5jb20+Ci0tLQpWMS0mZ3Q7VjI6IGZpeCB3aGl0ZXNwYWNlIHdhcm5pbmcuClYyLSZndDtW
+MzogZml4IHNvbWUgdGFiIEFsaWdubWVudCBpc3N1ZS4KCkRvY3VtZW50YXRpb24vdHJhbnNsYXRp
+b25zL3poX0NOL3ZtL3BhZ2Vfb3duZXIucnN0IHwgNTQgKysrKysrKysrKysrKysrKysrKysrLQox
+IGZpbGUgY2hhbmdlZCwgNTMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdp
+dCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL3BhZ2Vfb3duZXIucnN0IGIv
+RG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vcGFnZV9vd25lci5yc3QKaW5kZXgg
+OWU5NTFmYWJiYTlkLi4wZDRmOTQwMzRkYjYgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vdHJh
+bnNsYXRpb25zL3poX0NOL3ZtL3BhZ2Vfb3duZXIucnN0CisrKyBiL0RvY3VtZW50YXRpb24vdHJh
+bnNsYXRpb25zL3poX0NOL3ZtL3BhZ2Vfb3duZXIucnN0CkBAIC0xMDMsMTQgKzEwMyw2NiBAQCBw
+YWdlIG93bmVy5Zyo6buY6K6k5oOF5Ya15LiL5piv56aB55So55qE44CC5omA5Lul77yM5aaC5p6c
+5L2g5oOz5L2/55So5a6D77yM5L2gCi1tICAgICAgICAgICAgICDmjInmgLvlhoXlrZjmjpLluo8K
+LXAgICAgICAgICAgICAgIOaMiXBpZOaOkuW6j+OAggotUCAgICAgICAgICAgICAg5oyJdGdpZOaO
+kuW6j+OAggorICAgICAgICAgICAgICAgLW4gICAgICAgICAgICAgIOaMieS7u+WKoeWQjeensOaO
+kuW6j+OAggotciAgICAgICAgICAgICAg5oyJ5YaF5a2Y6YeK5pS+5pe26Ze05o6S5bqP44CCCi1z
+ICAgICAgICAgICAgICDmjInloIbmoIjot5/ouKrmjpLluo/jgIIKLXQgICAgICAgICAgICAgIOaM
+ieaXtumXtOaOkuW6j++8iOm7mOiupO+8ieOAggorICAgICAgICAgICAgICAgLS1zb3J0IDxvcmRl
+cj4gIOaMh+WumuaOkuW6j+mhuuW6j+OAguaOkuW6j+ivreazleaYryBbK3wtXWtleVssWyt8LV1r
+ZXlbLC4uLl1dLiDku44KKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgKirmoIflh4bmoLzlvI/or7TmmI7nrKYqKumDqOWIhumAieaLqeS4gOS4qumUruOAgiIr
+IiDmmK/lj6/pgInnmoTvvIzlm6DkuLrpu5jorqTmlrnlkJHmmK/lop7liqDmlbDlrZfmiJblrZfl
+hbjpobrluo/jgIIKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAg5YWB6K645re35ZCI5L2/55So57yp5YaZ6ZSu5ZKM5YWo56ew6ZSu44CCCisKKyAgICAgICAg
+ICAgICAgIEV4YW1wbGVzOgorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC4vcGFnZV9v
+d25lcl9zb3J0IDxpbnB1dD4gPG91dHB1dD4gLS1zb3J0PW4sK3BpZCwtdGdpZAorICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIC4vcGFnZV9vd25lcl9zb3J0IDxpbnB1dD4gPG91dHB1dD4g
+LS1zb3J0PWF0CgrlhbblroPlh73mlbA6CgpDdWxsOgotICAgICAgICAgICAgICAgLWMgICAgICAg
+ICAgICAgIOmAmui/h+avlOi+g+WghuagiOi3n+i4quiAjOS4jeaYr+aAu+Wdl+adpei/m+ihjOWJ
+lOmZpOOAggorICAgICAgICAgICAgICAgLS1jdWxsIDxydWxlcz4KKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICDmjIflrprnrZvpgInop4TliJnjgILnrZvpgInor63ms5XmmK8ga2V5Wyxr
+ZXlbLC4uLl1d44CC5ZyoKirmoIflh4bmoLzlvI/or7TmmI7nrKYqKumDqOWIhumAieaLqeS4gOS4
+quWkmuWtl+avjemUrgorCisgICAgICAgICAgICAgICA8cnVsZXM+IOaYr+mAl+WPt+WIhumalOWI
+l+ihqOW9ouW8j+eahOWNleS4quWPguaVsO+8jOWug+aPkOS+m+S6huS4gOenjeaMh+WumuWNleS4
+quetm+mAieinhOWImeeahOaWueazleOAguS4i+mdoueahCoq5qCH5YeG5qC85byP6K+05piOCisg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg56ymKirpg6jliIbmj4/ov7Dkuoblj6/or4bl
+iKvnmoTlhbPplK7lrZfjgII8cnVsZXM+IOWPr+S7peeUsemUriBrMSxrMiwgLi4uIOmhuuW6j+aM
+h+Wumu+8jOWmguS4i+mdoueahAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNUQU5E
+QVJEIFNPUlQgS0VZUyDpg6jliIbmiYDov7DjgILlhYHorrjmt7flkIjkvb/nlKjnvKnlhpnlvaLl
+vI/lkozlrozmlbTlvaLlvI/nmoTplK7jgIIKCisgICAgICAgICAgICAgICBFeGFtcGxlczoKKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAuL3BhZ2Vfb3duZXJfc29ydCA8aW5wdXQ+IDxv
+dXRwdXQ+IC0tY3VsbD1zdGFja3RyYWNlCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+Li9wYWdlX293bmVyX3NvcnQgPGlucHV0PiA8b3V0cHV0PiAtLWN1bGw9c3QscGlkLG5hbWUKKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAuL3BhZ2Vfb3duZXJfc29ydCA8aW5wdXQ+IDxv
+dXRwdXQ+IC0tY3VsbD1uLGYKRmlsdGVyOgotZiAgICAgICAgICAgICAg6L+H5ruk5o6J5YaF5a2Y
+5bey6KKr6YeK5pS+55qE5Z2X55qE5L+h5oGv44CCCisKKyAgICAgICBTZWxlY3Q6CisgICAgICAg
+ICAgICAgICAtLXBpZCA8cGlkbGlzdD4gICAgICAgICDpgJrov4cgcGlkIOi/m+ihjOmAieaLqeOA
+gui/meWwhumAieaLqei/m+eoiyBJRCDlj7flh7rnjrDlnKggPHBpZGxpc3Q+IOS4reeahOWdl+OA
+ggorICAgICAgICAgICAgICAgLS10Z2lkIDx0Z2lkbGlzdD4gICAgICAg6YCa6L+HIHRnaWQg6L+b
+6KGM6YCJ5oup44CC6L+Z5bCG6YCJ5oup57q/56iL57uEIElEIOWPt+WHuueOsOWcqCA8dGdpZGxp
+c3Q+IOS4reeahOWdl+OAggorICAgICAgICAgICAgICAgLS1uYW1lIDxjbWRsaXN0PiAgICAgICAg
+5oyJ5Lu75Yqh5ZCN56ew6YCJ5oup44CC6L+Z5bCG6YCJ5oup5Lu75Yqh5ZCN56ew5Ye6546w5Zyo
+IDxjbWRsaXN0PiDkuK3nmoTlnZfjgIIKKworICAgICAgICAgICAgICAgPHBpZGxpc3Q+44CBPHRn
+aWRsaXN0PuOAgTxjbWRsaXN0PuaYr+mAl+WPt+WIhumalOWIl+ihqOW9ouW8j+eahOWNleWPguaV
+sO+8jOWug+aPkOS+m+S6huS4gOenjeaMh+WumuWNleS4qumAieaLqeinhOWImeeahOaWueazleOA
+ggorCisKKyAgICAgICAgICAgICAgIEV4YW1wbGVzOgorICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIC4vcGFnZV9vd25lcl9zb3J0IDxpbnB1dD4gPG91dHB1dD4gLS1waWQ9MQorICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIC4vcGFnZV9vd25lcl9zb3J0IDxpbnB1dD4gPG91dHB1
+dD4gLS10Z2lkPTEsMiwzCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLi9wYWdlX293
+bmVyX3NvcnQgPGlucHV0PiA8b3V0cHV0PiAtLW5hbWUgbmFtZTEsbmFtZTIKKworICAgICAgIOag
+h+WHhuagvOW8j+ivtOaYjuespgorPT09PT09PT09PT09PT09PT09PT09PT09PT0KKy0tc29ydCDp
+gInpobk6CisKKyAgICAgICDnvKnlhpnplK4gICAgICAgICAgICAg5YWo56ew6ZSuICAgICAgICAg
+ICAgIOaPj+i/sAorICAgICAgIHAgICAgICAgICAgICAgICBwaWQgICAgICAgICAgICAg6L+b56iL
+IElECisgICAgICAgdGcgICAgICAgICAgICAgIHRnaWQgICAgICAgICAgICDnur/nqIvnu4QgSUQK
+KyAgICAgICBuICAgICAgICAgICAgICAgbmFtZSAgICAgICAgICAgIOS7u+WKoeWQjeensAorICAg
+ICAgIHN0ICAgICAgICAgICAgICBzdGFja3RyYWNlICAgICAg6aG16Z2i5YiG6YWN55qE6LCD55So
+5qCICisgICAgICAgVCAgICAgICAgICAgICAgIHR4dCAgICAgICAgICAgICDlnZfnmoTlhajmlocK
+KyAgICAgICBmdCAgICAgICAgICAgICAgZnJlZV90cyAgICAgICAgIOmhtemdouiiq+mHiuaUvuea
+hOaXtumXtOaIsworICAgICAgIGF0ICAgICAgICAgICAgICBhbGxvY190cyAgICAgICAg6aG16Z2i
+5YiG6YWN55qE5pe26Ze05oizCisKKy0tY3VybCDpgInpobk6CisKKyAgICAgICDnvKnlhpnplK4g
+ICAgICAgICAgICAg5YWo56ew6ZSuICAgICAgICAgICAgIOaPj+i/sAorICAgICAgIHAgICAgICAg
+ICAgICAgICBwaWQgICAgICAgICAgICAg6L+b56iLIElECisgICAgICAgdGcgICAgICAgICAgICAg
+IHRnaWQgICAgICAgICAgICDnur/nqIvnu4QgSUQKKyAgICAgICBuICAgICAgICAgICAgICAgbmFt
+ZSAgICAgICAgICAgIOS7u+WKoeWQjeensAorICAgICAgIGYgICAgICAgICAgICAgICBmcmVlICAg
+ICAgICAgICAg6K+l6aG16Z2i5piv5ZCm5bey6KKr6YeK5pS+CisgICAgICAgc3QgICAgICAgICAg
+ICAgIHN0YWNrdHJhY2UgICAgICDpobXpnaLliIbphY3nmoTosIPnlKjmoIgKLS0gCjIuNy40CgoK
+PC9vdXRwdXQ+PC9vdXRwdXQ+PC9vdXRwdXQ+PC9jbWRsaXN0PjwvdGdpZGxpc3Q+PC9waWRsaXN0
+PjwvY21kbGlzdD48L2NtZGxpc3Q+PC90Z2lkbGlzdD48L3RnaWRsaXN0PjwvcGlkbGlzdD48L3Bp
+ZGxpc3Q+PC9vdXRwdXQ+PC9vdXRwdXQ+PC9vdXRwdXQ+PC9ydWxlcz48L3J1bGVzPjwvcnVsZXM+
+PC9vdXRwdXQ+PC9vdXRwdXQ+PC9vcmRlcj48L2JhaWhhb3dlbkBtZWl6dS5jb20+PC9iYWloYW93
+ZW5AbWVpenUuY29tPjwvYmFpaGFvd2VuQG1laXp1LmNvbT4NCg0K5pys6YKu5Lu25Y+K5YW26ZmE
+5Lu25ZCr5pyJ6b6Z6Iqv5Lit56eR55qE5ZWG5Lia56eY5a+G5L+h5oGv77yM5LuF6ZmQ5LqO5Y+R
+6YCB57uZ5LiK6Z2i5Zyw5Z2A5Lit5YiX5Ye655qE5Liq5Lq65oiW576k57uE44CC56aB5q2i5Lu7
+5L2V5YW25LuW5Lq65Lul5Lu75L2V5b2i5byP5L2/55So77yI5YyF5ous5L2G5LiN6ZmQ5LqO5YWo
+6YOo5oiW6YOo5YiG5Zyw5rOE6Zyy44CB5aSN5Yi25oiW5pWj5Y+R77yJ5pys6YKu5Lu25Y+K5YW2
+6ZmE5Lu25Lit55qE5L+h5oGv44CC5aaC5p6c5oKo6ZSZ5pS25pys6YKu5Lu277yM6K+35oKo56uL
+5Y2z55S16K+d5oiW6YKu5Lu26YCa55+l5Y+R5Lu25Lq65bm25Yig6Zmk5pys6YKu5Lu244CCIA0K
+VGhpcyBlbWFpbCBhbmQgaXRzIGF0dGFjaG1lbnRzIGNvbnRhaW4gY29uZmlkZW50aWFsIGluZm9y
+bWF0aW9uIGZyb20gTG9vbmdzb24gVGVjaG5vbG9neSAsIHdoaWNoIGlzIGludGVuZGVkIG9ubHkg
+Zm9yIHRoZSBwZXJzb24gb3IgZW50aXR5IHdob3NlIGFkZHJlc3MgaXMgbGlzdGVkIGFib3ZlLiBB
+bnkgdXNlIG9mIHRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaGVyZWluIGluIGFueSB3YXkgKGlu
+Y2x1ZGluZywgYnV0IG5vdCBsaW1pdGVkIHRvLCB0b3RhbCBvciBwYXJ0aWFsIGRpc2Nsb3N1cmUs
+IHJlcHJvZHVjdGlvbiBvciBkaXNzZW1pbmF0aW9uKSBieSBwZXJzb25zIG90aGVyIHRoYW4gdGhl
+IGludGVuZGVkIHJlY2lwaWVudChzKSBpcyBwcm9oaWJpdGVkLiBJZiB5b3UgcmVjZWl2ZSB0aGlz
+IGVtYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgYnkgcGhvbmUgb3IgZW1h
+aWwgaW1tZWRpYXRlbHkgYW5kIGRlbGV0ZSBpdC4g
