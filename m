@@ -2,147 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA9CC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 23:19:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4761FC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 23:24:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356457AbiDOXWD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Apr 2022 19:22:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42270 "EHLO
+        id S1350082AbiDOX1B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Apr 2022 19:27:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235048AbiDOXWB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 19:22:01 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CDE265A6;
-        Fri, 15 Apr 2022 16:19:31 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id b24so11348063edu.10;
-        Fri, 15 Apr 2022 16:19:31 -0700 (PDT)
+        with ESMTP id S230103AbiDOX07 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 19:26:59 -0400
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69EEB26F3
+        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 16:24:27 -0700 (PDT)
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-2ec05db3dfbso95151557b3.7
+        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 16:24:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=TxYSIJusvv1F2X2tb5X/5N97/buqqwn1b/mpmqc30I0=;
-        b=ddtQL3OFQQXj8wvKhOGcfms57oABnX9kA2Qy81w1VMmTUR8zE6KNq8ZDTnwQEoPiJI
-         rV3myVF4YxEcoRlTbEacWSqydm6P5xwWAWCofYcfhLX+TnyGK0gALOKHlucJ3p9D5Pju
-         z6uxfa1Z2OqpCJvOuxt66CHNjcZSQq9Bq2pix5BdL6XbKr5ax2DMgAXOfghCeKuFRtvR
-         5ghANU/Uf/W6OplZ60G0j+1P1OVjzKq8MzGSljm/NNOwj0tcbWAlvDgS4GqvHqVW0tYW
-         JtBGZ/4SyoTgQtsMTkwg8d+UZV6UGFudU+RpBXiQgMQt8zTsZGZ9noLrWppc/zRqpBpO
-         7NZg==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Cxt2uEcbDsT/cVcss+Oed++7USVk9BRG70PSqUV2sRA=;
+        b=o9JWs2FyVHQ7Re6QVoMehMOzM6wRTq38a1AwTqjPdmACMonccCQgZUIu3hGbqNbJGx
+         wG6Ywd7yrWJXfrT0+MC5+2bGIlqnVT5IHEfmuOTHvVf3hLqCXV4HwsD4O6rPbjnXUjRR
+         85H1+co/bpMt/xuuPrqSMl4Vq6wIMi0oV2WPxV0DWonzWkDVQwCV1gB3W7mm1pQVkmVS
+         6wLhUCv9gVewt3r87ikTO6Kik6eHhGJ8GRUds3XTucwSHGoDk4tmpVJCdHvpEF3etP0m
+         ZHTzPxj9tBWm+We0AMjhwDY/56vmdkPbHw2Us46AGziCJkmE0qntu2e9QCTthSKSy3jw
+         l8Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TxYSIJusvv1F2X2tb5X/5N97/buqqwn1b/mpmqc30I0=;
-        b=jkCH9uPbS4B5ufiD6iGxUG7DGr/h7evmIpVdOe54W2BAkQyZ6pF+Tjqu6hDlj2rHtP
-         jDZtlNKEiyj70JvOZZ88eoIvAV2POwe5rJ/rMWIEOO3ikOArdfSojFOry6Wxrbvq0LiD
-         76jl4wI/m0kYE5zdsHhwjcpPmzVUBU4zZwn9i3fIB6UxA417PbtPqaN7SSIE5GUy8fcb
-         gmI2+hDkheC2REl+RF94man8vhB+jNINSbONj2G9HbslFSVFuiypP3qOnqNjdrdI8WNy
-         pRIkxJY6a9qW11KmlY90X8IoKf0S5lDH8nWTFVnfoPNFcpYGxTU7r3D6Pr+29JVFw6lx
-         T0rw==
-X-Gm-Message-State: AOAM532tZNMlt5NuRE9gCCHkHPISu/XHZlu7bbqfh1ORSqhEVmd5fez1
-        BI1hVkbAy+M4zsc0SjkoGks=
-X-Google-Smtp-Source: ABdhPJybk84Df2haJHZe2URBNZPyeHAPYgkYJQzuipWurrPPEAiLg/7+KNinE2Xp7rACwHfN0rDnyg==
-X-Received: by 2002:a05:6402:2309:b0:41f:a5a9:fe13 with SMTP id l9-20020a056402230900b0041fa5a9fe13mr1331840eda.123.1650064769863;
-        Fri, 15 Apr 2022 16:19:29 -0700 (PDT)
-Received: from localhost.localdomain (host-79-43-11-75.retail.telecomitalia.it. [79.43.11.75])
-        by smtp.gmail.com with ESMTPSA id o15-20020a50fd8f000000b0041f95b8a90dsm3203394edt.69.2022.04.15.16.19.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Apr 2022 16:19:28 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        SeongJae Park <sj@kernel.org>,
-        Jiajian Ye <yejiajian2018@email.szu.edu.cn>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        outreachy@lists.linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v3 2/2] Documentation/vm: Include kernel-doc to highmem.rst
-Date:   Sat, 16 Apr 2022 01:19:17 +0200
-Message-Id: <20220415231917.25962-3-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220415231917.25962-1-fmdefrancesco@gmail.com>
-References: <20220415231917.25962-1-fmdefrancesco@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Cxt2uEcbDsT/cVcss+Oed++7USVk9BRG70PSqUV2sRA=;
+        b=xRfaDeZKWNkyfW9JM6OSXsXsJ5Cc1VDZ/PDHDJohdo739GLORnP23heiVnWwGnN5Ib
+         CbR9CQiPB30TMvT8w90+qyoJcmnduSc+/JPmX6SzN+yGGmBDwO3ZB2XEAonYWbkZzIYO
+         rh3J0SeqWDiwN9tgEbi60gcDPPOikV6OQDJQ7OjMZqEF4QQ0cGhMhKSBB47jOrSEDS2k
+         s4OyxGCUOLSMih3cPAoywulyJO1WReLRxCIW8s3rh9a5eRrqwEoDdUc2H0aBCN0ChK8b
+         zeE2sm+ChtPII1f63ugdfHiN0j981A6ZVsAS3UqcJ+NzUDdBVoiP+QcDQyAWIHLddGsT
+         pTNg==
+X-Gm-Message-State: AOAM532kveCd43sX01nB3JakND+Ewm4c1UJQ4OFgy4qF+sL2/Zjut/C+
+        QuHezvAmN1cuWkGgudCSIw7QjKyYVABaXH8yr0uYCg==
+X-Google-Smtp-Source: ABdhPJymSM8rAJqKJqvQgojVsV7KVaqMaDPb49Py0OCI7oQ+4nknrXkY/Mk29hxHQ9wU+twofcB4rQhyzFE0gK9E3ow=
+X-Received: by 2002:a81:78c9:0:b0:2eb:469b:e788 with SMTP id
+ t192-20020a8178c9000000b002eb469be788mr1158786ywc.34.1650065066420; Fri, 15
+ Apr 2022 16:24:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-9-yuzhao@google.com>
+ <20220411191621.0378467ad99ebc822d5ad005@linux-foundation.org>
+ <CAOUHufYeC=Kuu59BPL_48sM67CqACxH2wWy-SYGXpadgMDmY3w@mail.gmail.com>
+ <20220414185654.e7150bcbe859e0dd4b9c61af@linux-foundation.org>
+ <CAOUHufYy6yQS9ARN9C5+ODkopR+ez4TH3hZNZo4HtNHBExS1mA@mail.gmail.com>
+ <20220415121521.764a88dda55ae8c676ad26b0@linux-foundation.org>
+ <CAOUHufYsjwMGMFCfYoh79rFZqwqS1jDihcBS9sHd-gBxEAD3Ug@mail.gmail.com>
+ <20220415143220.cc37b0b0a368ed2bf2a821f8@linux-foundation.org>
+ <CAHk-=whvkRTVBhAamt0kYyp925jk_+g7T0CyPke_FbCWGQ1VvA@mail.gmail.com>
+ <CAOUHufZ4KrjFTYH8wtwMGd9AriZfZtO4GhbiK1SuNbY31VTT9w@mail.gmail.com> <CAHk-=whneDk3Jde3J+O-fD32VjaK+fDf9+P6jgDtr2qyo0iu2w@mail.gmail.com>
+In-Reply-To: <CAHk-=whneDk3Jde3J+O-fD32VjaK+fDf9+P6jgDtr2qyo0iu2w@mail.gmail.com>
+From:   Jesse Barnes <jsbarnes@google.com>
+Date:   Fri, 15 Apr 2022 16:24:14 -0700
+Message-ID: <CAJmaN=mJKAhRjDHbsLrqyK_uvuysx596jEcTwV2fwx4UOe4oow@mail.gmail.com>
+Subject: Re: [page-reclaim] Re: [PATCH v10 08/14] mm: multi-gen LRU: support
+ page table walks
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Yu Zhao <yuzhao@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Justin Forbes <jforbes@fedoraproject.org>,
+        Stephen Rothwell <sfr@rothwell.id.au>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Include kernel-doc comments to highmem.rst from
-include/kernel/highmem.h.
+On Fri, Apr 15, 2022 at 4:04 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Fri, Apr 15, 2022 at 3:58 PM Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > BUG_ONs are harmful but problems that trigger them would be
+> > presummingly less penetrating to the user base; on the other hand,
+> > from my experience working with some testers (ordinary users), they
+> > ignore WARN_ON_ONCEs until the kernel crashes.
+>
+> I don't understand your argument.
+>
+> First you say that VM_BUG_ON() is only for VM developers.
+>
+> Then you say "some testers (ordinary users) ignore WARN_ON_ONCEs until
+> the kernel crashes".
+>
+> So which is it?
+>
+> VM developers, or ordinary users?
+>
+> Honestly, if a VM developer is ignoring a WARN_ON_ONCE() from the VM
+> subsystem, I don't even know what to say.
+>
+> And for ordinary users, a WARN_ON_ONCE() is about a million times
+> better, becasue:
+>
+>  - the machine will hopefully continue working, so they can report the warning
+>
+>  - even when they don't notice them, distros tend to have automated
+> reporting infrastructure
+>
+> That's why I absolutely *DETEST* those stupid BUG_ON() cases - they
+> will often kill the machine with nasty locks held, resulting in a
+> completely undebuggable thing that never gets reported.
+>
+> Yes, you can be careful and only put BUG_ON() in places where recovery
+> is possible. But even then, they have no actual _advantages_ over just
+> a WARN_ON_ONCE.
 
-From now on, the "Using kmap_atomic" section is redundant and obsolete,
-therefore remove it.
+Generally agreed, and not to belabor this relatively small issue, but in some
+environments like cloud or managed client deployments, a crash can actually
+be preferable so we can get a dump, reboot the machine, and get things going
+again for the application or user, then debug offline.  So having the
+flexibility to
+do that in those situations is helpful.  And there, a full crash dump is better
+than just a log report with the WARN info, since debugging may be easier with
+all the kernel memory.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ira Weiny <ira.weiny@intel.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- Documentation/vm/highmem.rst | 41 ++++++------------------------------
- 1 file changed, 6 insertions(+), 35 deletions(-)
-
-diff --git a/Documentation/vm/highmem.rst b/Documentation/vm/highmem.rst
-index 12dcfbee094d..5dcee6233cd5 100644
---- a/Documentation/vm/highmem.rst
-+++ b/Documentation/vm/highmem.rst
-@@ -117,41 +117,6 @@ The kernel contains several ways of creating temporary mappings:
-   synchronization to unmap.
- 
- 
--Using kmap_atomic
--=================
--
--When and where to use kmap_atomic() is straightforward.  It is used when code
--wants to access the contents of a page that might be allocated from high memory
--(see __GFP_HIGHMEM), for example a page in the pagecache.  The API has two
--functions, and they can be used in a manner similar to the following::
--
--	/* Find the page of interest. */
--	struct page *page = find_get_page(mapping, offset);
--
--	/* Gain access to the contents of that page. */
--	void *vaddr = kmap_atomic(page);
--
--	/* Do something to the contents of that page. */
--	memset(vaddr, 0, PAGE_SIZE);
--
--	/* Unmap that page. */
--	kunmap_atomic(vaddr);
--
--Note that the kunmap_atomic() call takes the result of the kmap_atomic() call
--not the argument.
--
--If you need to map two pages because you want to copy from one page to
--another you need to keep the kmap_atomic calls strictly nested, like::
--
--	vaddr1 = kmap_atomic(page1);
--	vaddr2 = kmap_atomic(page2);
--
--	memcpy(vaddr1, vaddr2, PAGE_SIZE);
--
--	kunmap_atomic(vaddr2);
--	kunmap_atomic(vaddr1);
--
--
- Cost of Temporary Mappings
- ==========================
- 
-@@ -190,3 +155,9 @@ The general recommendation is that you don't use more than 8GiB on a 32-bit
- machine - although more might work for you and your workload, you're pretty
- much on your own - don't expect kernel developers to really care much if things
- come apart.
-+
-+
-+Functions
-+=========
-+
-+.. kernel-doc:: include/linux/highmem.h
--- 
-2.34.1
-
+Jesse
