@@ -2,54 +2,48 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B0AEC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 21:37:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7FD7C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 22:58:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356122AbiDOVj4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Apr 2022 17:39:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51564 "EHLO
+        id S1356385AbiDOXAq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Apr 2022 19:00:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351959AbiDOVjw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 17:39:52 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ED893980A
-        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 14:37:21 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id 17so10717357lji.1
-        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 14:37:21 -0700 (PDT)
+        with ESMTP id S1349697AbiDOXAo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 19:00:44 -0400
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E5501A061
+        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 15:58:15 -0700 (PDT)
+Received: by mail-vs1-xe30.google.com with SMTP id z139so2647918vsz.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 15:58:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lLriqQ645VZTKiVXonXX4zRxAjFhyB+B/84wbgqzXws=;
-        b=Gq2Vs1cFahE54e4owDzXlpQ6dM9RqC+NMapopJ2Rgvnza5P4DZtfb948KXCZcASNMh
-         Iezdw+NJsOwznSxZ1Bpo42TB6jsvbJqRWxbAc6bUJkl3zS3MuE5HboWtBp6hRyTXcZb5
-         RQkyzuR9gn2IlHUb49/bg4XA6i75eDo/o8CNc=
+        bh=A+56kF8Lrin39J5VdgWnd4/aOUjS2DtusSM12wLozqw=;
+        b=UZF+A66HZGnZJZ61lTOtqW6g2I7YTVdbyQcNB+evGKbXCRVZz62v/EwsKOIzp19zBB
+         59rP6ewO/3sygS2xCMotjevd9M8r3znfqKm/4bgOn9fX5Z8fVJx5lOA4j1US7s0aIHl5
+         /VtYuyVHER/ytM7ZGizJ/r5kgT/co3s6JzRUMqpTNFKyNfQN3hEwrDzUPGGJfUwgp1sp
+         aFryI9eCSPcud7ziWsN3knb9cLSCgeLaAdLiVqqKjSMwuFmKCqXh/wbxQdH0xhWBZipj
+         NEys5URXcr/aYhEiaU9NSXuTQoXCn5bbR1TWWP4qtJUwTlyMqz53GuG85W6cXTkubUnc
+         JUMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lLriqQ645VZTKiVXonXX4zRxAjFhyB+B/84wbgqzXws=;
-        b=VE6GZbcdhwuUcN+aSa2yJYkFb6hlCcHG4avBOHLkXQ4DIQQLdHQ85XD+uh2y5KvKs/
-         xN9CkgWUhEf8GoTDh5kjgg/SH8YmuH04TRp7EZbkNk+tDn/c2V1O9GR47FtKYVXz3WkE
-         LpfjV723hoT+8zhqeFBUVH9wgbiQg6eEghJDR2a0ga/4piX59XSlOxIcrxkKIVcDYleE
-         wQEDmlFj/f5L4+jqz8CIo6pEyDJt9TN2lcn7uLFedbtB9HNCFfA5tfdqMW+fplrzGeJi
-         n6rimqpV/e8vtxJgpG3ST75rrydzCUf/7ZMyK8BKaayDf3xUoDMGsN8sIyeRApTPHVW/
-         kBpg==
-X-Gm-Message-State: AOAM531vEj5MB3qaWcrcp1Be4jPanKNsEwDsK22CwMZfpMt529s1f2Cd
-        qjkEUjpaZz5WCSawZw8DA3mewMfLdorPWWko
-X-Google-Smtp-Source: ABdhPJxp1RoY2yBwJunY5t2HOquNKeX7abVd6OoK6g/IpYqwSyHH2nkACFD738BMeOJMW5In84RbIg==
-X-Received: by 2002:a05:651c:b14:b0:24d:9c4e:42bf with SMTP id b20-20020a05651c0b1400b0024d9c4e42bfmr531081ljr.432.1650058639202;
-        Fri, 15 Apr 2022 14:37:19 -0700 (PDT)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
-        by smtp.gmail.com with ESMTPSA id t4-20020a2e9c44000000b0024ac62a66d9sm375377ljj.60.2022.04.15.14.37.18
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Apr 2022 14:37:18 -0700 (PDT)
-Received: by mail-lj1-f181.google.com with SMTP id a8so10458122ljq.5
-        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 14:37:18 -0700 (PDT)
-X-Received: by 2002:a2e:a78d:0:b0:24b:62bc:28ab with SMTP id
- c13-20020a2ea78d000000b0024b62bc28abmr551675ljf.164.1650058628048; Fri, 15
- Apr 2022 14:37:08 -0700 (PDT)
+        bh=A+56kF8Lrin39J5VdgWnd4/aOUjS2DtusSM12wLozqw=;
+        b=6PljdAdlr9c0s8v1aGLPeNkNPHDGSKDyJtVPGC7OoLMi79UnjtPTjvZ39KTHRoHEEt
+         BvsQIirxS0yj5Adhpmn26ijrgUm5dkGDl+3NB/JVPQIFEaRnz2rRwH9SDtWMMCgLPZEP
+         LUiQ6gnYO1acduMi3vV+/i1BL01rLUwja1xJ6HoFFL09wXvIiQhmigqOrbhBfR9mJjD2
+         eMVX8BBRy58drqD/hFOUlWMp42NaVD1lr5fbpZnRO9S5kdwz3YeSsocbeAuj7g/ZkHPW
+         X4Soau8I2J2s0zTDxQcHlR10oQj9/xJax3YfUcHTNQ1MYwDQjDErJXNXJGDr+/XTPIgw
+         ngNQ==
+X-Gm-Message-State: AOAM530gsJdcmbfoPVJu2x+v55B2u2mJ9fFOnuThYqCmzT4yZPEgR6Xb
+        Je7Q66Tm5ehDTHkky/sDgz4OXn4htF/YpsOsX10Q+w==
+X-Google-Smtp-Source: ABdhPJwWAmqYmdT8dsz6M7ZpU7MuJkcW11EpUOZD7VbT85AzKxPPMX2jjcOCdoHQ63DJsfg6SUOF9gF2pR4cTTl/WTA=
+X-Received: by 2002:a05:6102:5cc:b0:320:9bd2:3823 with SMTP id
+ v12-20020a05610205cc00b003209bd23823mr332654vsf.81.1650063493942; Fri, 15 Apr
+ 2022 15:58:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-9-yuzhao@google.com>
  <20220411191621.0378467ad99ebc822d5ad005@linux-foundation.org>
@@ -57,15 +51,15 @@ References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067
  <20220414185654.e7150bcbe859e0dd4b9c61af@linux-foundation.org>
  <CAOUHufYy6yQS9ARN9C5+ODkopR+ez4TH3hZNZo4HtNHBExS1mA@mail.gmail.com>
  <20220415121521.764a88dda55ae8c676ad26b0@linux-foundation.org>
- <CAOUHufYsjwMGMFCfYoh79rFZqwqS1jDihcBS9sHd-gBxEAD3Ug@mail.gmail.com> <20220415143220.cc37b0b0a368ed2bf2a821f8@linux-foundation.org>
-In-Reply-To: <20220415143220.cc37b0b0a368ed2bf2a821f8@linux-foundation.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 15 Apr 2022 14:36:51 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whvkRTVBhAamt0kYyp925jk_+g7T0CyPke_FbCWGQ1VvA@mail.gmail.com>
-Message-ID: <CAHk-=whvkRTVBhAamt0kYyp925jk_+g7T0CyPke_FbCWGQ1VvA@mail.gmail.com>
+ <CAOUHufYsjwMGMFCfYoh79rFZqwqS1jDihcBS9sHd-gBxEAD3Ug@mail.gmail.com>
+ <20220415143220.cc37b0b0a368ed2bf2a821f8@linux-foundation.org> <CAHk-=whvkRTVBhAamt0kYyp925jk_+g7T0CyPke_FbCWGQ1VvA@mail.gmail.com>
+In-Reply-To: <CAHk-=whvkRTVBhAamt0kYyp925jk_+g7T0CyPke_FbCWGQ1VvA@mail.gmail.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Fri, 15 Apr 2022 16:57:37 -0600
+Message-ID: <CAOUHufZ4KrjFTYH8wtwMGd9AriZfZtO4GhbiK1SuNbY31VTT9w@mail.gmail.com>
 Subject: Re: [PATCH v10 08/14] mm: multi-gen LRU: support page table walks
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Yu Zhao <yuzhao@google.com>,
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Justin Forbes <jforbes@fedoraproject.org>,
         Stephen Rothwell <sfr@rothwell.id.au>,
         Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
@@ -108,21 +102,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 15, 2022 at 2:32 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+On Fri, Apr 15, 2022 at 3:43 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> We could create a new MM-developer-only assertion.  Might even call it
-> MM_BUG_ON().  With compile-time enablement but perhaps not a runtime
-> switch.
+> On Fri, Apr 15, 2022 at 2:32 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+> >
+> > We could create a new MM-developer-only assertion.  Might even call it
+> > MM_BUG_ON().  With compile-time enablement but perhaps not a runtime
+> > switch.
+>
+> .. or VM_BUG_ON() could just become a WARN_ON_ONCE().
+>
+> Which it should be anyway - since the code has to be written to
+> continue after that BUG_ON() anyway.
+>
+> There is absolutely _zero_ advantage to killing the machine. If you
+> want to be notified about "this must not happen", then WARN_ON_ONCE()
+> is the right thing to use.
+>
+> BUG_ON() is basically always the wrong thing to do.
 
-.. or VM_BUG_ON() could just become a WARN_ON_ONCE().
+Not trying to start a meta discussion, just my two cents:
 
-Which it should be anyway - since the code has to be written to
-continue after that BUG_ON() anyway.
+This is a typical trolley problem: for the greater good, do we want to
+inflict more pain on a small group of users running experimental
+kernels so that they'd come back and yell at us quicker and louder?
+BUG_ONs are harmful but problems that trigger them would be
+presummingly less penetrating to the user base; on the other hand,
+from my experience working with some testers (ordinary users), they
+ignore WARN_ON_ONCEs until the kernel crashes.
 
-There is absolutely _zero_ advantage to killing the machine. If you
-want to be notified about "this must not happen", then WARN_ON_ONCE()
-is the right thing to use.
-
-BUG_ON() is basically always the wrong thing to do.
-
-                Linus
+I'll let Justin chime in on Fedora's take on CONFIG_DEBUG_VM. I bet
+it's intended to crash the kernel.
