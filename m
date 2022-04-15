@@ -2,48 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7FD7C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 22:58:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A92EC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 23:04:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356385AbiDOXAq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Apr 2022 19:00:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60806 "EHLO
+        id S1356420AbiDOXGc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Apr 2022 19:06:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349697AbiDOXAo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 19:00:44 -0400
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E5501A061
-        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 15:58:15 -0700 (PDT)
-Received: by mail-vs1-xe30.google.com with SMTP id z139so2647918vsz.0
-        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 15:58:15 -0700 (PDT)
+        with ESMTP id S229548AbiDOXGa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 19:06:30 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D26A67D3E
+        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 16:03:59 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id l7so17511367ejn.2
+        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 16:03:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=A+56kF8Lrin39J5VdgWnd4/aOUjS2DtusSM12wLozqw=;
-        b=UZF+A66HZGnZJZ61lTOtqW6g2I7YTVdbyQcNB+evGKbXCRVZz62v/EwsKOIzp19zBB
-         59rP6ewO/3sygS2xCMotjevd9M8r3znfqKm/4bgOn9fX5Z8fVJx5lOA4j1US7s0aIHl5
-         /VtYuyVHER/ytM7ZGizJ/r5kgT/co3s6JzRUMqpTNFKyNfQN3hEwrDzUPGGJfUwgp1sp
-         aFryI9eCSPcud7ziWsN3knb9cLSCgeLaAdLiVqqKjSMwuFmKCqXh/wbxQdH0xhWBZipj
-         NEys5URXcr/aYhEiaU9NSXuTQoXCn5bbR1TWWP4qtJUwTlyMqz53GuG85W6cXTkubUnc
-         JUMg==
+        bh=mmeqzLMQT+kSYtEORk1VQwlIZb6II2FKZzIIoMsERjA=;
+        b=DFSvW1LWVTiymV77lsnzL39NC77zBC5b3vG2LyDRFg75tX7jB/+k2JToy5gqlw7HJs
+         IIT2qvLXLio9Tcg1LD3U9WtQ7/udodG+XgSQ9MMnDsc+T31mCAh5A6DsEpeeX15WWL3B
+         ZuLUndHdgC4QOguxf+eu7BTSPyStUlOobqGVI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=A+56kF8Lrin39J5VdgWnd4/aOUjS2DtusSM12wLozqw=;
-        b=6PljdAdlr9c0s8v1aGLPeNkNPHDGSKDyJtVPGC7OoLMi79UnjtPTjvZ39KTHRoHEEt
-         BvsQIirxS0yj5Adhpmn26ijrgUm5dkGDl+3NB/JVPQIFEaRnz2rRwH9SDtWMMCgLPZEP
-         LUiQ6gnYO1acduMi3vV+/i1BL01rLUwja1xJ6HoFFL09wXvIiQhmigqOrbhBfR9mJjD2
-         eMVX8BBRy58drqD/hFOUlWMp42NaVD1lr5fbpZnRO9S5kdwz3YeSsocbeAuj7g/ZkHPW
-         X4Soau8I2J2s0zTDxQcHlR10oQj9/xJax3YfUcHTNQ1MYwDQjDErJXNXJGDr+/XTPIgw
-         ngNQ==
-X-Gm-Message-State: AOAM530gsJdcmbfoPVJu2x+v55B2u2mJ9fFOnuThYqCmzT4yZPEgR6Xb
-        Je7Q66Tm5ehDTHkky/sDgz4OXn4htF/YpsOsX10Q+w==
-X-Google-Smtp-Source: ABdhPJwWAmqYmdT8dsz6M7ZpU7MuJkcW11EpUOZD7VbT85AzKxPPMX2jjcOCdoHQ63DJsfg6SUOF9gF2pR4cTTl/WTA=
-X-Received: by 2002:a05:6102:5cc:b0:320:9bd2:3823 with SMTP id
- v12-20020a05610205cc00b003209bd23823mr332654vsf.81.1650063493942; Fri, 15 Apr
- 2022 15:58:13 -0700 (PDT)
+        bh=mmeqzLMQT+kSYtEORk1VQwlIZb6II2FKZzIIoMsERjA=;
+        b=Ms7tTynU6I9rChjYRgoRpSmj4YMPdOPjaiKQr12qfQWMvkH547VtaOMaakh1omn/nr
+         Fw+fLzOTxxoC61EL+1oHvj2tcMQ7gl971jPEk8NcM5895tWFKAvAxh2IoS4FFmd1MKOs
+         t3V2I1rDAyUkI2Q+BSShdlQTkxYFEFfiPjwkeNhWAqIeXsjQbdQE06aLS67YgkQ6hnwI
+         svLd+tmG5WlgMzm/tN9rkUw7A0ONS50QB5eX0VermQRomhWRNinsqSWjtT2JXiq0olyD
+         U6H3I2Ze692NtSBImO2HQHnlE43nh6GRGMWfVbBjbuVVkiRr6jCb8JdkIcpY+uuVXeV6
+         dFUA==
+X-Gm-Message-State: AOAM531Q1luGeph33MNH1GNVLs8ngANva5vadhRqDpHGdVNhMmbaY0PR
+        FblstmucbKljAewLxpL9sJxiEUv6Ge65jP39caY=
+X-Google-Smtp-Source: ABdhPJyat0tYt1FR2segy6CKKFEApQ+6GKtftWkYRM9DBKLHABOUyP0/SoE8z+oOHl/boxPvyNgIMA==
+X-Received: by 2002:a17:906:7944:b0:6da:b834:2f3e with SMTP id l4-20020a170906794400b006dab8342f3emr901272ejo.353.1650063837871;
+        Fri, 15 Apr 2022 16:03:57 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com. [209.85.221.54])
+        by smtp.gmail.com with ESMTPSA id 25-20020a170906311900b006e87e5dd529sm2093947ejx.70.2022.04.15.16.03.55
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Apr 2022 16:03:56 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id i20so12063356wrb.13
+        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 16:03:55 -0700 (PDT)
+X-Received: by 2002:a2e:b8d6:0:b0:24b:6b40:a96a with SMTP id
+ s22-20020a2eb8d6000000b0024b6b40a96amr711923ljp.176.1650063824686; Fri, 15
+ Apr 2022 16:03:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-9-yuzhao@google.com>
  <20220411191621.0378467ad99ebc822d5ad005@linux-foundation.org>
@@ -52,13 +58,15 @@ References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067
  <CAOUHufYy6yQS9ARN9C5+ODkopR+ez4TH3hZNZo4HtNHBExS1mA@mail.gmail.com>
  <20220415121521.764a88dda55ae8c676ad26b0@linux-foundation.org>
  <CAOUHufYsjwMGMFCfYoh79rFZqwqS1jDihcBS9sHd-gBxEAD3Ug@mail.gmail.com>
- <20220415143220.cc37b0b0a368ed2bf2a821f8@linux-foundation.org> <CAHk-=whvkRTVBhAamt0kYyp925jk_+g7T0CyPke_FbCWGQ1VvA@mail.gmail.com>
-In-Reply-To: <CAHk-=whvkRTVBhAamt0kYyp925jk_+g7T0CyPke_FbCWGQ1VvA@mail.gmail.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Fri, 15 Apr 2022 16:57:37 -0600
-Message-ID: <CAOUHufZ4KrjFTYH8wtwMGd9AriZfZtO4GhbiK1SuNbY31VTT9w@mail.gmail.com>
+ <20220415143220.cc37b0b0a368ed2bf2a821f8@linux-foundation.org>
+ <CAHk-=whvkRTVBhAamt0kYyp925jk_+g7T0CyPke_FbCWGQ1VvA@mail.gmail.com> <CAOUHufZ4KrjFTYH8wtwMGd9AriZfZtO4GhbiK1SuNbY31VTT9w@mail.gmail.com>
+In-Reply-To: <CAOUHufZ4KrjFTYH8wtwMGd9AriZfZtO4GhbiK1SuNbY31VTT9w@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 15 Apr 2022 16:03:28 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whneDk3Jde3J+O-fD32VjaK+fDf9+P6jgDtr2qyo0iu2w@mail.gmail.com>
+Message-ID: <CAHk-=whneDk3Jde3J+O-fD32VjaK+fDf9+P6jgDtr2qyo0iu2w@mail.gmail.com>
 Subject: Re: [PATCH v10 08/14] mm: multi-gen LRU: support page table walks
-To:     Linus Torvalds <torvalds@linux-foundation.org>
+To:     Yu Zhao <yuzhao@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Justin Forbes <jforbes@fedoraproject.org>,
         Stephen Rothwell <sfr@rothwell.id.au>,
@@ -102,35 +110,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 15, 2022 at 3:43 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Fri, Apr 15, 2022 at 3:58 PM Yu Zhao <yuzhao@google.com> wrote:
 >
-> On Fri, Apr 15, 2022 at 2:32 PM Andrew Morton <akpm@linux-foundation.org> wrote:
-> >
-> > We could create a new MM-developer-only assertion.  Might even call it
-> > MM_BUG_ON().  With compile-time enablement but perhaps not a runtime
-> > switch.
->
-> .. or VM_BUG_ON() could just become a WARN_ON_ONCE().
->
-> Which it should be anyway - since the code has to be written to
-> continue after that BUG_ON() anyway.
->
-> There is absolutely _zero_ advantage to killing the machine. If you
-> want to be notified about "this must not happen", then WARN_ON_ONCE()
-> is the right thing to use.
->
-> BUG_ON() is basically always the wrong thing to do.
+> BUG_ONs are harmful but problems that trigger them would be
+> presummingly less penetrating to the user base; on the other hand,
+> from my experience working with some testers (ordinary users), they
+> ignore WARN_ON_ONCEs until the kernel crashes.
 
-Not trying to start a meta discussion, just my two cents:
+I don't understand your argument.
 
-This is a typical trolley problem: for the greater good, do we want to
-inflict more pain on a small group of users running experimental
-kernels so that they'd come back and yell at us quicker and louder?
-BUG_ONs are harmful but problems that trigger them would be
-presummingly less penetrating to the user base; on the other hand,
-from my experience working with some testers (ordinary users), they
-ignore WARN_ON_ONCEs until the kernel crashes.
+First you say that VM_BUG_ON() is only for VM developers.
 
-I'll let Justin chime in on Fedora's take on CONFIG_DEBUG_VM. I bet
-it's intended to crash the kernel.
+Then you say "some testers (ordinary users) ignore WARN_ON_ONCEs until
+the kernel crashes".
+
+So which is it?
+
+VM developers, or ordinary users?
+
+Honestly, if a VM developer is ignoring a WARN_ON_ONCE() from the VM
+subsystem, I don't even know what to say.
+
+And for ordinary users, a WARN_ON_ONCE() is about a million times
+better, becasue:
+
+ - the machine will hopefully continue working, so they can report the warning
+
+ - even when they don't notice them, distros tend to have automated
+reporting infrastructure
+
+That's why I absolutely *DETEST* those stupid BUG_ON() cases - they
+will often kill the machine with nasty locks held, resulting in a
+completely undebuggable thing that never gets reported.
+
+Yes, you can be careful and only put BUG_ON() in places where recovery
+is possible. But even then, they have no actual _advantages_ over just
+a WARN_ON_ONCE.
+
+                  Linus
