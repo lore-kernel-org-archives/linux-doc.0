@@ -2,124 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BCD3C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 08:02:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14EBAC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 08:27:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351282AbiDOIE1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Apr 2022 04:04:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42030 "EHLO
+        id S1350037AbiDOI3a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Apr 2022 04:29:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232094AbiDOIE0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 04:04:26 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ADB31BE92;
-        Fri, 15 Apr 2022 01:01:58 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id i24-20020a17090adc1800b001cd5529465aso6570559pjv.0;
-        Fri, 15 Apr 2022 01:01:58 -0700 (PDT)
+        with ESMTP id S241474AbiDOI31 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 04:29:27 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47F71B3DE8
+        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 01:26:59 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id j17so6812510pfi.9
+        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 01:26:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=arista.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QBkn3eeqJuFTCBC21KwI1sFHjtTbFep2R7GxdftUZx8=;
-        b=barxOCuFSntfHYJG2rn/cpZ8R9kC313FM51Ml+iwxG8L8FJwNSCkpWSXkEsz+1K3pt
-         5oK32TX1sdwzhsfWhnJuemxrizHKdgPy5T8A9MJpiqKhNps6pKTWbkY/oUz4DbVxpQpY
-         MIIZIS/nKlQWmLpxoN8N2t5+0weRo1u4mBcHMW5G/2N2f8R4XGcbB8TV1YSrl5MH2m9l
-         +g8FOQSTpL4s5bGlQW2mlbVRZ7spK8479sK2VHzyhnSpvKrVBY9XVVenxJ23IFoCETYn
-         bScnPNHKtkfJsZCO1/7OPb4o6TyIgeRzgKbSJSpiktT9RXEHnqMoO0F3D7cq6bA1ySbO
-         8hdA==
+        bh=IouwgSoOU5RLyMJuBmnkWSebHjJ6FolzaVbEFNDsszU=;
+        b=gTmvcqVWKjRoSWUlP6fJYRDMffX0KIawj4PuOOu801Wi/7rfmmcSGiH/BqjX+xIriT
+         +nq2k+bskAd6ELn0+sBm+a3TTq/DF/RxNvQtcZ2ZYxGWeNbhFrH0w7Xj66Hq6YbSh7Ls
+         xOZlEe+aipJWNgpkY2ZaBifeeD0SHr6tqi9VNoi5HKwONCBjHg3nEXJ94Pvr8CeiZfBn
+         FVdPLZjKFpJfp7eoNOVHUv5vsm8OVhX1JQuC5S0MyZwPBN1KoZvjFxbSw+ejQd7RBEq2
+         MWWeqibVdA1ug9lzdH+DA4fPTlCqRibLRvhX/zBXFTI9oD4bhezridMEKHTigA98IAWc
+         B7qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QBkn3eeqJuFTCBC21KwI1sFHjtTbFep2R7GxdftUZx8=;
-        b=gpEBMufhmcVdf/VTkemfLGMInxJtiOnlpeqSjBUlmdDgnJIhv9xdLVl9nx+ooMt4GC
-         c8gUyD4OUQmRekYiW/1Zy+et/a/jvhPB/oX5SAK/39BN5DYpJd3ZGkvgc9+Ig+AKtI5T
-         s3ROgCkOCdiD/1ZQonxdAcAptSCAB8xV1tDphiRcCqrWtribBpn3luMlgUG/9wfQ1tvH
-         XSC7zgRMrFGzGwDXEfNSu3bMwYBO4/bxJghl3ASWJl58sIgMfRaup59NY9yrIDgcJIXL
-         3K73YoRjRa063aLpXxlJHzn6eZFvjOMKnJQN3TJRHJCS2Ci3oPgwqdc5boYV9T0ovJdm
-         5LxQ==
-X-Gm-Message-State: AOAM530F6xYDEZVf/Lq5DY+2aTGfiv9wCkz6SdLA6PjXuXmFl111fL1K
-        Bspx4/MHTaTcvSWqN3+WUzKIwtp38wtORsFPaJA=
-X-Google-Smtp-Source: ABdhPJzUKf0/lVAPNa4/ZgiKBXh+oxw3lzDGmkPJRgsM2pFXsuN9lwU73kjl8TFBglomCAgZaFqfv9AmMJJfKFUWqC8=
-X-Received: by 2002:a17:902:d2d0:b0:158:761e:c165 with SMTP id
- n16-20020a170902d2d000b00158761ec165mr20505494plc.59.1650009717870; Fri, 15
- Apr 2022 01:01:57 -0700 (PDT)
+        bh=IouwgSoOU5RLyMJuBmnkWSebHjJ6FolzaVbEFNDsszU=;
+        b=b67Kd8T31++YZ+/Xh86Tv1d+cNVNIJCs7FNuPootN8xmGL07UcbHHyl7mI660GuRnN
+         RRWPDaUla78oIIjRbEb7/2xgadvCvHzkD5SaHa3t+iJIRltmT5+3p4C9+J6MqdWfOAsr
+         Bo0HJuSMkDLD9893WY+DkuhZVp8hadZK7+iomhSY3KzJv1H38EIHLvfRpiagg73U2SGh
+         hk4pMqzIIRTuM9Rrk1uvOpzBV9sWAj2VGB9yI9KIFt+lDKPSXLciSbFAD0Yq7iYt8xNr
+         UBseJGVri7fq77fMWavKvXONNEX9iJX7NmTVbbXD/OYF+5kP/Rd0lUMfEZu48IsQTzmn
+         XkmQ==
+X-Gm-Message-State: AOAM533khvq5q2Z+GJP8ztr72QxYAbDaVucqwLd8ZS1Uka2QRKuY2dTQ
+        qjtteDbyxVClVnkL0neIkqxaUiJvLKjSa8PnxeHweQ==
+X-Google-Smtp-Source: ABdhPJwi7VZhcsJ5DGv660Mg4AHf5r56+3E7RgA5pVgaieMZjLUNyxDVauEwklWTDsyiDy13rPq5P6cpr0CplOR4IGc=
+X-Received: by 2002:a63:1557:0:b0:39d:8460:2e07 with SMTP id
+ 23-20020a631557000000b0039d84602e07mr5680484pgv.344.1650011218652; Fri, 15
+ Apr 2022 01:26:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220411230305.28951-1-luizluca@gmail.com> <20220413200841.4nmnv2qgapqhfnx3@skbuf>
- <Ylc3ca1k1IZUhFxZ@lunn.ch> <20220413205350.3jhtm7u6cusc7kh3@skbuf>
- <Ylc5RhzehbIuLswA@lunn.ch> <20220413210026.pe4jpq7jjefcuypo@skbuf>
- <CAJq09z7h_M9u=7jC3i3xEXCt+8wjkV9PfD4iVdje_jZ=9NZNKA@mail.gmail.com> <20220414125849.hinuxwesqrwumpd2@skbuf>
-In-Reply-To: <20220414125849.hinuxwesqrwumpd2@skbuf>
-From:   Luiz Angelo Daros de Luca <luizluca@gmail.com>
-Date:   Fri, 15 Apr 2022 05:01:46 -0300
-Message-ID: <CAJq09z6XTz7Xb0VBFdFVELb26LztFng7hULe6tSDX7KCQjzUmg@mail.gmail.com>
-Subject: Re: [PATCH net-next v2] docs: net: dsa: describe issues with checksum offload
-To:     Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>, Kurt Kanzenbach <kurt@linutronix.de>,
-        George McCollister <george.mccollister@gmail.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        Florian Fainelli <f.fainelli@gmail.com>
+References: <20220415054219.38078-1-aajith@arista.com> <4586921d-5fc4-b63f-8264-a6fd63c592b6@gmail.com>
+In-Reply-To: <4586921d-5fc4-b63f-8264-a6fd63c592b6@gmail.com>
+From:   Arun Ajith S <aajith@arista.com>
+Date:   Fri, 15 Apr 2022 13:56:46 +0530
+Message-ID: <CAOvjArSb4avVaV25925z+e5eKW89Q6k+AsPSq1yS+kroG_a=ww@mail.gmail.com>
+Subject: Re: [PATCH net-next v5] net/ipv6: Introduce accept_unsolicited_na
+ knob to implement router-side changes for RFC9131
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        dsahern@kernel.org, yoshfuji@linux-ipv6.org, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, prestwoj@gmail.com,
+        gilligan@arista.com, noureddine@arista.com, gk@arista.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> On Wed, Apr 13, 2022 at 11:48:46PM -0300, Luiz Angelo Daros de Luca wrote:
-> > > Ok, I'll go with "no checksum offload for its trailer tag, and bugs
-> > > never fixed because no one uses it", in any case no Sasquatch. Thanks.
-> >
-> > Vladimir, so the DSA switch will not copy the offload flags when a tag
-> > requests tail room? At least it will work.
-> >
-> > Now, if the offload HW does support that tag, what would be the
-> > options? Set the slave port checksum flag from userland?
-> > It would be nice to have some type of "magic trick" to have it enabled
-> > by default. I'm already expecting a no, but wouldn't it be a nice case
-> > for a DSA property in the device tree?
-> >
-> > Regards,
-> >
-> > Luiz
->
-> DSA calls netdev_upper_dev_link(master, slave_dev, NULL) to establish a
-> relationship with its master and the master driver can detect this by
-> monitoring NETDEV_CHANGEUPPER.
->
-> If we look a bit closer at the implementation of netdev_upper_dev_link
-> we see it calls __netdev_upper_dev_link() which contains an interesting
-> pair of arguments "void *upper_priv, void *upper_info". These are
-> accessible to netdev_master_upper_dev_link(), and the bonding driver
-> (for example) makes use of them, see bond_master_upper_dev_link().
->
-> I'm thinking DSA could create a struct netdev_dsa_upper_info too, and
-> certain DSA masters could populate things in it. Then DSA could look at
-> what the DSA master has said (or not said) and fix up features
-> accordingly.
->
-> One information that could get populated by the master is a bit field of
-> whether checksumming is supported for a certain tagging protocol.
-> I'd rather pass a full bit field of all tagging protocols, rather than
-> just the protocol in current use by the slave, because:
-> (a) it's less gory compared to having the master look at
->     dsa_port_from_netdev(info->upper_dev)->cpu_dp->tag_ops->proto
-> (b) the DSA tagging protocol can change at runtime, and when it does, no
->     NETDEV_CHANGEUPPER will be emitted, so the master won't have a
->     chance to inform us whether it can offload checksumming for the new
->     protocol. So it's better to have this information from the get go.
->
-> We'd also need the DSA master to populate a "bool acked=true" from this
-> new struct netdev_dsa_upper_info. The reason is to be able to
-> distinguish between an empty bit mask that means "yup, I really can't
-> offload checksumming for anything", and a bit mask that means "DSA who?"
-> (where checksum offloading is expected to work under the normal
-> circumstances described by you, no special code required).
+Sorry, it wasn't the mailer.
+The rst file in my patch was missing tabs.
+I have fixed it and verified the generated HTML is correct.
+I'll post v6 with the fix.
 
-That looks like a larger change. Should we put this patch on hold
-waiting for the code refactor or we merge it as is (as it tells no
-lies about current code).
+On Fri, Apr 15, 2022 at 1:09 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> On 4/15/22 12:42, Arun Ajith S wrote:
+> > +accept_unsolicited_na - BOOLEAN
+> > +     Add a new neighbour cache entry in STALE state for routers on receiving an
+> > +     unsolicited neighbour advertisement with target link-layer address option
+> > +     specified. This is as per router-side behavior documented in RFC9131.
+> > +     This has lower precedence than drop_unsolicited_na.
+> > +
+> > +   ====   ======  ======  ==============================================
+> > +      drop   accept  fwding                   behaviour
+> > +      ----   ------  ------  ----------------------------------------------
+> > +         1        X       X  Drop NA packet and don't pass up the stack
+> > +         0        0       X  Pass NA packet up the stack, don't update NC
+> > +         0        1       0  Pass NA packet up the stack, don't update NC
+> > +         0        1       1  Pass NA packet up the stack, and add a STALE
+> > +                             NC entry
+> > +   ====   ======  ======  ==============================================
+> > +
+>
+> Hi,
+>
+> Building htmldocs with this patch, there are no more warnings from v4, but
+> I don't see the table above generated in the output. I guess due to
+> whitespace-mangling issues on your mailer, because the table syntax alignment
+> (the =-s) don't match the contents/cells.
+>
+> Thanks.
+>
+> --
+> An old man doll... just what I always wanted! - Clara
