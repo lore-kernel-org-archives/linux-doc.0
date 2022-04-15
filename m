@@ -2,118 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01CCBC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 03:36:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5957AC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 05:25:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349082AbiDODjB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 23:39:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37464 "EHLO
+        id S230423AbiDOF1g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Apr 2022 01:27:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241106AbiDODjB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 23:39:01 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D6A475227;
-        Thu, 14 Apr 2022 20:36:34 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id bg9so6364346pgb.9;
-        Thu, 14 Apr 2022 20:36:34 -0700 (PDT)
+        with ESMTP id S1343585AbiDOF1f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 01:27:35 -0400
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFDE49233E
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 22:25:06 -0700 (PDT)
+Received: by mail-il1-x130.google.com with SMTP id f5so4325884ilj.13
+        for <linux-doc@vger.kernel.org>; Thu, 14 Apr 2022 22:25:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2Ro17QGxtHVWnLXeBVe0SlNl98KKA0TueGG/iwSk7MY=;
-        b=SoNomD0cPYQQFNOaKEr2DrGdxVcL1rCNw2q2SbcogDpRWoNOD71hlheS04wpKHj+TU
-         MuVD2tAz8sUeyGjquJBq3YDEC1ghetmuUJr1Ej1HYD9NfXZQqzuN9fPncVWNpH8WQM41
-         e756f7xMs1S0FFufoTX4yGlhx1Br3jf+5miO1GNgMObnsR1pywvGXoqys6uikcjMTqoQ
-         Y8vgBmYJMW2CDeTHwB0bfKYDgwrVB+yJYSa7CmHwmRUWHFGNNslcvi8Hfxso+0zcyjxT
-         0bydlTvQappxG3dTZfMXcWkTxC7dh1lnx4Z4DwgZLA+hh3FxfM+GZRv7PtRAjqIlXkos
-         ZSUQ==
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=L+9PwRwxAOH1Mg2qf7uyf326MX2+3tpgbGJqOX1obhw=;
+        b=ikrPxUBOlq0l84T9KUCmPb1Dso9glrpW4pHENs1lllPfIu5SM48kjcjZkPGMrTqRab
+         gh/IC05IWtF77az/lKxuNa3D0X55vsQ+bMGWXg5ypgS+C7ab8E4x0HRr8UnNYDqVHrWL
+         xSaYWfmy31jI93loGb5PhHppDwjovao1m0URYzeiQVHfV3sXvkaPzgiJ4mXdE+SHlBqG
+         ko5a1HlW0V/5Z/brlwszjKQfDwHwuDM1WXgO1oG5mtJekWlYeMrVUx4fw+E7DJi90sp3
+         pRcL7Cl5N985MFtbCJQQ4ycRVLqegQ2markt+DzYaySEZ4P3TILJFJTy1QiSdJt78XD8
+         oDAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2Ro17QGxtHVWnLXeBVe0SlNl98KKA0TueGG/iwSk7MY=;
-        b=VMukzMKsIWklv1jdCBZwAJ7GmsiWvA3btyPLzm9KIYyvGG02KTRg8mK4iilM3YZRa6
-         YGrRn5FUf5QRreCJR1jpmjy37vzvIl2e1cZRMTTzmmsv2eM/z7ZklDCEyRZuaHDL7TsL
-         Rr8sZNLPdOdQsfI+nAyLfrXg2MxVt/Xa9YBZkuct9sMoHVNFzaN6RNlFRmb7CLHaYovt
-         hJWoMnhjzUSEoMcw7CODNQjygntCydix6zAZ1oYdVLysO+qbMUytD6i/6hvyfmuzu+ka
-         MDV039ThFSC2sLOq0Bxo+Hr2KaGGQ/ySM3xYWnWfqR+SmkryhcFffZPWSEF4Fhi2ckQC
-         SdkQ==
-X-Gm-Message-State: AOAM533WW8843nOEIKIB5gFN8o2oX1wV0/PvjjXCBCk43a5Fluh5X4YT
-        ZTm/BwMbK9UkyqqxNYSfLXU=
-X-Google-Smtp-Source: ABdhPJwBh8uY0NWxqCUopeD7zL0l2WitRXJ6DQ6vCt2+LVV4O9VF2VVYF3EAxr5uSFKtBT3PqlL1zA==
-X-Received: by 2002:a63:f641:0:b0:3a2:cea2:bcf with SMTP id u1-20020a63f641000000b003a2cea20bcfmr764898pgj.506.1649993793693;
-        Thu, 14 Apr 2022 20:36:33 -0700 (PDT)
-Received: from localhost.localdomain ([2001:288:7001:2708:15e8:72d0:44ea:4d07])
-        by smtp.gmail.com with ESMTPSA id p8-20020aa78608000000b005082c3cbfd2sm1187165pfn.218.2022.04.14.20.36.30
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=L+9PwRwxAOH1Mg2qf7uyf326MX2+3tpgbGJqOX1obhw=;
+        b=iRDzBq8qDgoz4NtUHV49VXoOdehDLJr9fj/hrHygSebOTpOZYEK5GPQUhYSeHtaWiz
+         iP2A+Ad1CzUoteFUnky+7bM0IWYAU/KZMmxET8ORyltUOD3k9DcWNKoPWqiTJidQ/9Pv
+         PSZ5j1lvnNpqK9lAELXSJ06M4aHf7gyMXoo1RllFb0OOgP9XFRn30tKXruOmT5uEPxJm
+         LCp/5F9bezNqoZ8pgH8oKw45/ig0YB+NMRiwig57yc28/cOUhM0zVUCj8+nzrmJQQHpo
+         YaF+oa4Pcl949JxEpbS0ZwL3v68zswh4btOYuVmBCpu/FobjJCl1mDSQ8Z/+xP9p9nuA
+         ULew==
+X-Gm-Message-State: AOAM531p14mPkJWlLa5/pYNCEm3BA1b++zpIsihK44GY8TRQePMZWi+3
+        bdaELz9ySQgc6c2PdlGCUrkFRg==
+X-Google-Smtp-Source: ABdhPJxwK0O9V9eItDsXmWepGDGd15nU87HCouhVO3FNKAtTXKXhS4qqzoLcN8wv1Qkc0ZXdB+azMw==
+X-Received: by 2002:a05:6e02:20c4:b0:2c9:a514:6a99 with SMTP id 4-20020a056e0220c400b002c9a5146a99mr2719338ilq.50.1650000305951;
+        Thu, 14 Apr 2022 22:25:05 -0700 (PDT)
+Received: from google.com ([2620:15c:183:200:e02:decc:64d3:b1d3])
+        by smtp.gmail.com with ESMTPSA id h24-20020a6bfb18000000b006497692016bsm2386879iog.15.2022.04.14.22.25.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 20:36:33 -0700 (PDT)
-From:   Jui-Tse Huang <juitse.huang@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Huaixin Chang <changhuaixin@linux.alibaba.com>,
-        Beata Michalska <beata.michalska@arm.com>,
-        Chun-Hung Tseng <henrybear327@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Jui-Tse Huang <juitse.huang@gmail.com>,
-        Ching-Chun Huang <jserv@ccns.ncku.edu.tw>
-Subject: [PATCH] docs/scheduler: fix unit error
-Date:   Fri, 15 Apr 2022 11:36:18 +0800
-Message-Id: <20220415033618.15655-1-juitse.huang@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 14 Apr 2022 22:25:05 -0700 (PDT)
+Date:   Thu, 14 Apr 2022 23:25:00 -0600
+From:   Yu Zhao <yuzhao@google.com>
+To:     Chen Wandun <chenwandun@huawei.com>
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>, linux-mm@kvack.org,
+        Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, page-reclaim@google.com,
+        x86@kernel.org, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Subject: Re: [PATCH v10 06/14] mm: multi-gen LRU: minimal implementation
+Message-ID: <YlkBrHOFgah3vHaK@google.com>
+References: <20220407031525.2368067-1-yuzhao@google.com>
+ <20220407031525.2368067-7-yuzhao@google.com>
+ <71af92d2-0777-c318-67fb-8f7d52c800bb@huawei.com>
+ <YliJzrfXzwwxiCId@google.com>
+ <4c416f09-5304-07fd-cb53-5c9c8c75f6fa@huawei.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <4c416f09-5304-07fd-cb53-5c9c8c75f6fa@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The unit mentioned in the documentation of scheduler statistics is
-outdated which may mislead the readers.
+On Fri, Apr 15, 2022 at 10:23:18AM +0800, Chen Wandun wrote:
+> 
+> 在 2022/4/15 4:53, Yu Zhao 写道:
+> > On Thu, Apr 14, 2022 at 07:47:54PM +0800, Chen Wandun wrote:
+> > > On 2022/4/7 11:15, Yu Zhao wrote:
+> > > > +static void inc_min_seq(struct lruvec *lruvec)
+> > > > +{
+> > > > +	int type;
+> > > > +	struct lru_gen_struct *lrugen = &lruvec->lrugen;
+> > > > +
+> > > > +	VM_BUG_ON(!seq_is_valid(lruvec));
+> > > > +
+> > > > +	for (type = 0; type < ANON_AND_FILE; type++) {
+> > > > +		if (get_nr_gens(lruvec, type) != MAX_NR_GENS)
+> > > > +			continue;
+> > > I'm confused about relation between aging and LRU list operation.
+> > > 
+> > > In function inc_max_seq,  both min_seq and max_seq will increase，
+> > > the lrugen->lists[] indexed by lru_gen_from_seq(max_seq + 1) may
+> > > be non-empty?
+> > Yes.
+> > 
+> > > for example,
+> > > before inc_max_seq:
+> > > min_seq == 0, lrugen->lists[0][type][zone]
+> > > max_seq ==3, lrugen->lists[3][type][zone]
+> > > 
+> > > after inc_max_seq:
+> > > min_seq ==1, lrugen->lists[1][type][zone]
+> > > max_seq ==4, lrugen->lists[0][type][zone]
+> > > 
+> > > If lrugen->lists[0][type][zone] is not empty before inc_max_seq and it is
+> > > the most inactive list，however lurgen->lists[0][type][zone] will become
+> > > the most active list after inc_max_seq.
+> > Correct.
+> > 
+> > > So,  in this place,
+> > > 
+> > > if (get_nr_gens(lruvec, type) != MAX_NR_GENS)
+> > > 	continue;
+> > > 
+> > > should change to
+> > > 
+> > > if (get_nr_gens(lruvec, type) == MAX_NR_GENS)
+> > > 	continue;
+> > No, because max/min_seq will overlap if we do so.
+> > 
+> > lrugen->lists[max_seq+1] can only be non-empty for anon LRU, for a
+> > couple of reasons:
+> > 1. We can't swap at all.
+> > 2. Swapping is constrained, e.g., swapfile is full.
+> > 
+> > Both cases are similar to a producer (the aging) overrunning a
+> > consumer (the eviction). We used to handle them, but I simplified the
+> > code because I don't feel they are worth handling [1].
+> 
+> Can lrugen->lists[max_seq+1]  also be non-empty for file LRU？
 
-The unit of statistics that is reported by /proc/schedstat is modified
-to nanosecond, and the unit of statistics that is reported by
-/proc/PID/schedstat is provided as well to make the context consistent.
+On reclaim path, no. But it can be forced to do so via debugfs.
 
-The rq_cpu_time and the rq_sched_info.run_delay of a run queue, and the
-sched_info.run_delay of a task are all updated based on the clock of the
-run queue, while the se.sum_exec_runtime of a task is updated based on
-the clock_task of the run queue of the task. Both the clock and
-clock_task are relied on the return value of the function sched_clock()
-which is in the unit of nanosecond.
+> such as in dont reclaim mapped file page case(isolation will fail).
 
-Signed-off-by: Jui-Tse Huang <juitse.huang@gmail.com>
----
- Documentation/scheduler/sched-stats.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+You mean may_unmap=false? Pages stays in the same generation if
+isolation fails. So lrugen->lists[min_seq] won't be empty in this
+case.
 
-diff --git a/Documentation/scheduler/sched-stats.rst b/Documentation/scheduler/sched-stats.rst
-index dd9b99a025f7..03c062915998 100644
---- a/Documentation/scheduler/sched-stats.rst
-+++ b/Documentation/scheduler/sched-stats.rst
-@@ -56,9 +56,9 @@ Next two are try_to_wake_up() statistics:
- 
- Next three are statistics describing scheduling latency:
- 
--     7) sum of all time spent running by tasks on this processor (in jiffies)
-+     7) sum of all time spent running by tasks on this processor (in nanoseconds)
-      8) sum of all time spent waiting to run by tasks on this processor (in
--        jiffies)
-+        nanoseconds)
-      9) # of timeslices run on this cpu
- 
- 
-@@ -155,8 +155,8 @@ schedstats also adds a new /proc/<pid>/schedstat file to include some of
- the same information on a per-process level.  There are three fields in
- this file correlating for that process to:
- 
--     1) time spent on the cpu
--     2) time spent waiting on a runqueue
-+     1) time spent on the cpu (in nanoseconds)
-+     2) time spent waiting on a runqueue (in nanoseconds)
-      3) # of timeslices run on this cpu
- 
- A program could be easily written to make use of these extra fields to
--- 
-2.25.1
+> If so, after aging, eviction will reclaim memory start from
+> lrugen->lists[min_seq+1], but some oldest file page still
+> remain in lrugen->lists[max_seq+1].
+> 
+> sort_folio can help to put misplaced pages to the right
+> LRU list, but in this case, it does't help, because sort_folio
+> only sort lrugen->lists[min_seq+1].
 
+On reclaim path, inc_max_seq() is only called when need_aging=true,
+and this guarantees max_seq-min_seq[LRU_GEN_FILE]+1 < MAX_NR_GENS.
