@@ -2,189 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F413DC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 18:46:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31E7FC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 19:15:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347004AbiDOSsp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Apr 2022 14:48:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56828 "EHLO
+        id S232895AbiDOTR5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Apr 2022 15:17:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346923AbiDOSso (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 14:48:44 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCF5E66616;
-        Fri, 15 Apr 2022 11:46:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1650048377; x=1681584377;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=6AihOBayjwF4Y0LfejNPmko6lmJpTqxnq7TwMwhNVPw=;
-  b=WkskxvY49E2wmEUsfkd+w8rpaBFHhIkC6tP+Y/MdOskAz3MwkU6igLsQ
-   /Q9bY9SLufm97u4bq5mjUWeNZA8+dSs/vTq/OcFMKSn9zMGnXkDooO2Yb
-   SU/H6uDEPao27+IaWVpzz24Z0cxm7eqi425c71kObJQUNUpoP92k3uTKz
-   U=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 15 Apr 2022 11:46:16 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2022 11:46:14 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 15 Apr 2022 11:46:14 -0700
-Received: from [10.110.117.103] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 15 Apr
- 2022 11:46:13 -0700
-Message-ID: <773e7150-e7e8-e8f5-f25f-c61fcb3ac457@quicinc.com>
-Date:   Fri, 15 Apr 2022 11:46:12 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 3/5] input: misc: pm8941-pwrkey: add support for PON
- GEN3 base addresses
-Content-Language: en-US
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <sre@kernel.org>,
-        <robh+dt@kernel.org>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <bjorn.andersson@linaro.org>,
-        <swboyd@chromium.org>, <skakit@codeaurora.org>,
-        <linux-doc@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-References: <20220411200506.22891-1-quic_amelende@quicinc.com>
- <20220411200506.22891-4-quic_amelende@quicinc.com>
- <d9afa206-7f57-81bb-8c69-5928dccd41b5@linaro.org>
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-In-Reply-To: <d9afa206-7f57-81bb-8c69-5928dccd41b5@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+        with ESMTP id S238645AbiDOTRz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 15:17:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94E5F49C80;
+        Fri, 15 Apr 2022 12:15:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3015661DEE;
+        Fri, 15 Apr 2022 19:15:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2534C385A5;
+        Fri, 15 Apr 2022 19:15:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1650050123;
+        bh=s9C8faIK00xt2+0wVedQjvZhl8ZJTVhHLnw3heyEu+M=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=n9y0C56ItXZ6xpNq/g2dEU0MMwPVCIqzYqUviq3BiqGuyOlvqC3EoUKF/0oInwbVf
+         SFi471arNEwMtWyXZuITw10ESGMeic7mS4iX63OYEkT4VdPVoTl5TdPvK0MZ7lPXaa
+         1M7XBEfatPouaHlItxQ21PVYu5o5PQvtdvC80rBg=
+Date:   Fri, 15 Apr 2022 12:15:21 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?ISO-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Subject: Re: [PATCH v10 08/14] mm: multi-gen LRU: support page table walks
+Message-Id: <20220415121521.764a88dda55ae8c676ad26b0@linux-foundation.org>
+In-Reply-To: <CAOUHufYy6yQS9ARN9C5+ODkopR+ez4TH3hZNZo4HtNHBExS1mA@mail.gmail.com>
+References: <20220407031525.2368067-1-yuzhao@google.com>
+        <20220407031525.2368067-9-yuzhao@google.com>
+        <20220411191621.0378467ad99ebc822d5ad005@linux-foundation.org>
+        <CAOUHufYeC=Kuu59BPL_48sM67CqACxH2wWy-SYGXpadgMDmY3w@mail.gmail.com>
+        <20220414185654.e7150bcbe859e0dd4b9c61af@linux-foundation.org>
+        <CAOUHufYy6yQS9ARN9C5+ODkopR+ez4TH3hZNZo4HtNHBExS1mA@mail.gmail.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 15 Apr 2022 00:25:45 -0600 Yu Zhao <yuzhao@google.com> wrote:
 
+> On Thu, Apr 14, 2022 at 7:57 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+> >
+> > On Thu, 14 Apr 2022 19:14:54 -0600 Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > > On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+> > > >
+> > > > On Wed,  6 Apr 2022 21:15:20 -0600 Yu Zhao <yuzhao@google.com> wrote:
+> > > >
+> > > > > +static void update_batch_size(struct lru_gen_mm_walk *walk, struct folio *folio,
+> > > > > +                           int old_gen, int new_gen)
+> > > > > +{
+> > > > > +     int type = folio_is_file_lru(folio);
+> > > > > +     int zone = folio_zonenum(folio);
+> > > > > +     int delta = folio_nr_pages(folio);
+> > > > > +
+> > > > > +     VM_BUG_ON(old_gen >= MAX_NR_GENS);
+> > > > > +     VM_BUG_ON(new_gen >= MAX_NR_GENS);
+> > > >
+> > > > General rule: don't add new BUG_ONs, because they crash the kenrel.
+> > > > It's better to use WARN_ON or WARN_ON_ONCE then try to figure out a way
+> > > > to keep the kernel limping along.  At least so the poor user can gather logs.
+> > >
+> > > These are VM_BUG_ONs, which are BUILD_BUG_ONs except for (mostly MM) developers.
+> >
+> > I'm told that many production builds enable runtime VM_BUG_ONning.
+> 
+> Nobody wants to debug VM in production. Some distros that offer both
+> the latest/LTS kernels do enable CONFIG_DEBUG_VM in the former so the
+> latter can have better test coverage when it becomes available. Do
+> people use the former in production? Absolutely, otherwise we won't
+> have enough test coverage. Are we supposed to avoid CONFIG_DEBUG_VM? I
+> don't think so, because it defeats the purpose of those distros
+> enabling it in the first place.
+> 
+> The bottomline is that none of RHEL 8.5, SLES 15, Debian 11 enables
+> CONFIG_DEBUG_VM.
 
-On 4/14/2022 2:18 PM, Dmitry Baryshkov wrote:
-> On 11/04/2022 23:05, Anjelique Melendez wrote:
->> Currently, PON address is read from the "reg" property. For PON GEN3,
->> which starts with PMK8350, the "reg" property will have both the PON
->> HLOS and PON PBS addesses defined. Add support so that all PON
->> generations can be configured.
->>
->> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
->> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
->> ---
->>   drivers/input/misc/pm8941-pwrkey.c | 31 +++++++++++++++++++++++-------
->>   1 file changed, 24 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
->> index e0240db12d4f..43106e4cfd23 100644
->> --- a/drivers/input/misc/pm8941-pwrkey.c
->> +++ b/drivers/input/misc/pm8941-pwrkey.c
->> @@ -12,6 +12,7 @@
->>   #include <linux/log2.h>
->>   #include <linux/module.h>
->>   #include <linux/of.h>
->> +#include <linux/of_address.h>
->>   #include <linux/of_device.h>
->>   #include <linux/platform_device.h>
->>   #include <linux/reboot.h>
->> @@ -44,6 +45,7 @@ struct pm8941_data {
->>       unsigned int    status_bit;
->>       bool        supports_ps_hold_poff_config;
->>       bool        supports_debounce_config;
->> +    bool        has_pon_pbs;
->>       const char    *name;
->>       const char    *phys;
->>   };
->> @@ -52,6 +54,7 @@ struct pm8941_pwrkey {
->>       struct device *dev;
->>       int irq;
->>       u32 baseaddr;
->> +    u32 pon_pbs_baseaddr;
->>       struct regmap *regmap;
->>       struct input_dev *input;
->>   @@ -167,6 +170,8 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
->>       struct pm8941_pwrkey *pwrkey;
->>       bool pull_up;
->>       struct device *parent;
->> +    struct device_node *regmap_node;
->> +    const __be32 *addr;
->>       u32 req_delay;
->>       int error;
->>   @@ -188,8 +193,10 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
->>       pwrkey->data = of_device_get_match_data(&pdev->dev);
->>         parent = pdev->dev.parent;
->> +    regmap_node = pdev->dev.of_node;
->>       pwrkey->regmap = dev_get_regmap(parent, NULL);
->>       if (!pwrkey->regmap) {
->> +        regmap_node = parent->of_node;
->>           /*
->>            * We failed to get regmap for parent. Let's see if we are
->>            * a child of pon node and read regmap and reg from its
->> @@ -200,15 +207,21 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
->>               dev_err(&pdev->dev, "failed to locate regmap\n");
->>               return -ENODEV;
->>           }
->> +    }
->>   -        error = of_property_read_u32(parent->of_node,
->> -                         "reg", &pwrkey->baseaddr);
->> -    } else {
->> -        error = of_property_read_u32(pdev->dev.of_node, "reg",
->> -                         &pwrkey->baseaddr);
->> +    addr = of_get_address(regmap_node, 0, NULL, NULL);
->> +    if (!addr) {
->> +        dev_err(&pdev->dev, "reg property missing\n");
->> +        return -EINVAL;
->> +    }
->> +    pwrkey->baseaddr = be32_to_cpup(addr);
->> +
->> +    if (pwrkey->data->has_pon_pbs) {
->> +        /* PON_PBS base address is optional */
->> +        addr = of_get_address(regmap_node, 1, NULL, NULL);
->> +        if (addr)
->> +            pwrkey->pon_pbs_baseaddr = be32_to_cpup(addr);
->>       }
->> -    if (error)
->> -        return error;
->>         pwrkey->irq = platform_get_irq(pdev, 0);
->>       if (pwrkey->irq < 0)
->> @@ -316,6 +329,7 @@ static const struct pm8941_data pwrkey_data = {
->>       .phys = "pm8941_pwrkey/input0",
->>       .supports_ps_hold_poff_config = true,
->>       .supports_debounce_config = true,
->> +    .has_pon_pbs = false,
->>   };
->>     static const struct pm8941_data resin_data = {
->> @@ -325,6 +339,7 @@ static const struct pm8941_data resin_data = {
->>       .phys = "pm8941_resin/input0",
->>       .supports_ps_hold_poff_config = true,
->>       .supports_debounce_config = true,
->> +    .has_pon_pbs = false,
-> 
-> No need to declare that a field is false. Just skip this completely.
-ACK. Will get rid in next version.
-> 
->>   };
->>     static const struct pm8941_data pon_gen3_pwrkey_data = {
->> @@ -333,6 +348,7 @@ static const struct pm8941_data pon_gen3_pwrkey_data = {
->>       .phys = "pmic_pwrkey/input0",
->>       .supports_ps_hold_poff_config = false,
->>       .supports_debounce_config = false,
->> +    .has_pon_pbs = true,
->>   };
->>     static const struct pm8941_data pon_gen3_resin_data = {
->> @@ -341,6 +357,7 @@ static const struct pm8941_data pon_gen3_resin_data = {
->>       .phys = "pmic_resin/input0",
->>       .supports_ps_hold_poff_config = false,
->>       .supports_debounce_config = false,
->> +    .has_pon_pbs = true,
->>   };
->>     static const struct of_device_id pm8941_pwr_key_id_table[] = {
-> 
-> 
+I grabbed
+https://kojipkgs.fedoraproject.org//packages/kernel/5.18.0/0.rc2.23.fc37/src/kernel-5.18.0-0.rc2.23.fc37.src.rpm
+and 
+
+hp2:/home/akpm/yy> grep "DEBUG_VM[= ]" *.config 
+kernel-aarch64-debug-fedora.config:CONFIG_DEBUG_VM=y
+kernel-aarch64-debug-rhel.config:# CONFIG_DEBUG_VM is not set
+kernel-aarch64-fedora.config:CONFIG_DEBUG_VM=y
+kernel-aarch64-rhel.config:# CONFIG_DEBUG_VM is not set
+kernel-armv7hl-debug-fedora.config:CONFIG_DEBUG_VM=y
+kernel-armv7hl-fedora.config:CONFIG_DEBUG_VM=y
+kernel-armv7hl-lpae-debug-fedora.config:CONFIG_DEBUG_VM=y
+kernel-armv7hl-lpae-fedora.config:CONFIG_DEBUG_VM=y
+kernel-ppc64le-debug-fedora.config:CONFIG_DEBUG_VM=y
+kernel-ppc64le-debug-rhel.config:CONFIG_DEBUG_VM=y
+kernel-ppc64le-fedora.config:CONFIG_DEBUG_VM=y
+kernel-ppc64le-rhel.config:# CONFIG_DEBUG_VM is not set
+kernel-s390x-debug-fedora.config:CONFIG_DEBUG_VM=y
+kernel-s390x-debug-rhel.config:CONFIG_DEBUG_VM=y
+kernel-s390x-fedora.config:CONFIG_DEBUG_VM=y
+kernel-s390x-rhel.config:# CONFIG_DEBUG_VM is not set
+kernel-s390x-zfcpdump-rhel.config:# CONFIG_DEBUG_VM is not set
+kernel-x86_64-debug-fedora.config:CONFIG_DEBUG_VM=y
+kernel-x86_64-debug-rhel.config:CONFIG_DEBUG_VM=y
+kernel-x86_64-fedora.config:CONFIG_DEBUG_VM=y
+kernel-x86_64-rhel.config:# CONFIG_DEBUG_VM is not set
+
