@@ -2,158 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B4CEC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 02:23:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 152C2C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 02:25:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244656AbiDOCZv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 22:25:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57050 "EHLO
+        id S235728AbiDOC2M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 22:28:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239639AbiDOCZu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 22:25:50 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE93D433A1;
-        Thu, 14 Apr 2022 19:23:22 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.57])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Kfg7F6cDXzgYSS;
-        Fri, 15 Apr 2022 10:21:29 +0800 (CST)
-Received: from dggpemm500002.china.huawei.com (7.185.36.229) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 15 Apr 2022 10:23:20 +0800
-Received: from [10.174.178.178] (10.174.178.178) by
- dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 15 Apr 2022 10:23:18 +0800
-Message-ID: <4c416f09-5304-07fd-cb53-5c9c8c75f6fa@huawei.com>
-Date:   Fri, 15 Apr 2022 10:23:18 +0800
+        with ESMTP id S1344697AbiDOC2M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 22:28:12 -0400
+Received: from out199-1.us.a.mail.aliyun.com (out199-1.us.a.mail.aliyun.com [47.90.199.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35B8685967;
+        Thu, 14 Apr 2022 19:25:44 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=tianjia.zhang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0VA5Fc8T_1649989538;
+Received: from 30.240.101.97(mailfrom:tianjia.zhang@linux.alibaba.com fp:SMTPD_---0VA5Fc8T_1649989538)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 15 Apr 2022 10:25:40 +0800
+Message-ID: <e7a0d0d4-b6ca-6fec-df33-929961f0d43e@linux.alibaba.com>
+Date:   Fri, 15 Apr 2022 10:25:33 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.3
-Subject: Re: [PATCH v10 06/14] mm: multi-gen LRU: minimal implementation
-To:     Yu Zhao <yuzhao@google.com>
-CC:     Stephen Rothwell <sfr@rothwell.id.au>, <linux-mm@kvack.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH] arm64/sme: Add hwcap for Scalable Matrix Extension
+Content-Language: en-US
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Will Deacon <will@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Hillf Danton" <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "Matthew Wilcox" <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <page-reclaim@google.com>, <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-References: <20220407031525.2368067-1-yuzhao@google.com>
- <20220407031525.2368067-7-yuzhao@google.com>
- <71af92d2-0777-c318-67fb-8f7d52c800bb@huawei.com>
- <YliJzrfXzwwxiCId@google.com>
-From:   Chen Wandun <chenwandun@huawei.com>
-In-Reply-To: <YliJzrfXzwwxiCId@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.178]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500002.china.huawei.com (7.185.36.229)
-X-CFilter-Loop: Reflected
+        Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+        Vincenzo Frascino <Vincenzo.Frascino@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Fuad Tabba <tabba@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Vladimir Murzin <vladimir.murzin@arm.com>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220414115544.36204-1-tianjia.zhang@linux.alibaba.com>
+ <YlgNW0/ji6KlkyZo@sirena.org.uk>
+From:   Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+In-Reply-To: <YlgNW0/ji6KlkyZo@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Mark,
 
+On 4/14/22 8:02 PM, Mark Brown wrote:
+> On Thu, Apr 14, 2022 at 07:55:44PM +0800, Tianjia Zhang wrote:
+> 
+>> Allow userspace to detect support for SME (Scalable Matrix Extension)
+>> by providing a hwcap for it, using the official feature name FEAT_SME,
+>> declared in ARM DDI 0487H.a specification.
+> 
+> There's already a hwcap for the core feature and all the subfeatures
+> added as part of the series I've been posting for SME:
+> 
+>     https://lore.kernel.org/linux-arm-kernel/20220408114328.1401034-1-broonie@kernel.org/
+> 
+> Why add something independently, especially given that there is no way
+> for userspace to do anything constructive with the feature without the
+> rest of the kernel support?  Any attempt to use SME instructions without
+> kernel support will trap and generate a SIGILL even if the feature is
+> present in hardware.
 
-在 2022/4/15 4:53, Yu Zhao 写道:
-> On Thu, Apr 14, 2022 at 07:47:54PM +0800, Chen Wandun wrote:
->> On 2022/4/7 11:15, Yu Zhao wrote:
->>> +static void inc_min_seq(struct lruvec *lruvec)
->>> +{
->>> +	int type;
->>> +	struct lru_gen_struct *lrugen = &lruvec->lrugen;
->>> +
->>> +	VM_BUG_ON(!seq_is_valid(lruvec));
->>> +
->>> +	for (type = 0; type < ANON_AND_FILE; type++) {
->>> +		if (get_nr_gens(lruvec, type) != MAX_NR_GENS)
->>> +			continue;
->> I'm confused about relation between aging and LRU list operation.
->>
->> In function inc_max_seq,  both min_seq and max_seq will increase，
->> the lrugen->lists[] indexed by lru_gen_from_seq(max_seq + 1) may
->> be non-empty?
-> Yes.
->
->> for example,
->> before inc_max_seq:
->> min_seq == 0, lrugen->lists[0][type][zone]
->> max_seq ==3, lrugen->lists[3][type][zone]
->>
->> after inc_max_seq:
->> min_seq ==1, lrugen->lists[1][type][zone]
->> max_seq ==4, lrugen->lists[0][type][zone]
->>
->> If lrugen->lists[0][type][zone] is not empty before inc_max_seq and it is
->> the most inactive list，however lurgen->lists[0][type][zone] will become
->> the most active list after inc_max_seq.
-> Correct.
->
->> So,  in this place,
->>
->> if (get_nr_gens(lruvec, type) != MAX_NR_GENS)
->> 	continue;
->>
->> should change to
->>
->> if (get_nr_gens(lruvec, type) == MAX_NR_GENS)
->> 	continue;
-> No, because max/min_seq will overlap if we do so.
->
-> lrugen->lists[max_seq+1] can only be non-empty for anon LRU, for a
-> couple of reasons:
-> 1. We can't swap at all.
-> 2. Swapping is constrained, e.g., swapfile is full.
->
-> Both cases are similar to a producer (the aging) overrunning a
-> consumer (the eviction). We used to handle them, but I simplified the
-> code because I don't feel they are worth handling [1].
+Great job, I encountered the issue of invalid REVD (requires FEAT_SME)
+instruction when developing SVE2 programs, so I plan to gradually
+support SME in the kernel, thanks for your contribution, you can ignore
+my patch.
 
-Can lrugen->lists[max_seq+1]  also be non-empty for file LRU？
-such as in dont reclaim mapped file page case(isolation will fail).
+In addition, I would like to ask a question, whether there is an
+alternative SVE2 instruction for the REVD instruction that can complete
+this operation, if the machine does not support SME.
 
-If so, after aging, eviction will reclaim memory start from
-lrugen->lists[min_seq+1], but some oldest file page still
-remain in lrugen->lists[max_seq+1].
+> 
+> Do you have a system with SME that you're trying to use?  Review/testing
+> on the current series would be appreciated.
 
-sort_folio can help to put misplaced pages to the right
-LRU list, but in this case, it does't help, because sort_folio
-only sort lrugen->lists[min_seq+1].
+Unfortunately, the value currently read by my machine ID_AA64PFR1_EL1
+register is 0x121. It seems that the hardware does not support SME. Is
+there any other help I can provide?
 
-Thanks
-Wandun
->
-> [1] https://lore.kernel.org/r/CAOUHufbDfwgm8PgCGkhCjbhMbm=fekfjgRR56NL-j+5iUGfVuw@mail.gmail.com/
-> .
-
+Kind regards,
+Tianjia
