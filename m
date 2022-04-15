@@ -2,122 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AB6CC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 02:48:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01CCBC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 03:36:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348954AbiDOCvS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Apr 2022 22:51:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55340 "EHLO
+        id S1349082AbiDODjB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Apr 2022 23:39:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348876AbiDOCvL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 22:51:11 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21182BAB85;
-        Thu, 14 Apr 2022 19:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649990904; x=1681526904;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fvKMTgYSbk6pJ8MqCyitz/wA3aCnBOZnivgruHxRgxI=;
-  b=fMFflodfJVuurKHV8jyoeKr6sEz/Cn/ax5eoGJQTBfMCmxctdXn8tDZu
-   g5kKgvV6fJBcWlEQPaX8eAIY7Rq+j0mml2VWfttK7oOt8/1Jx3SnfeMsm
-   kFpG6f1yTIJJ7Yi/dvg+6CU4cvA/b1iIIBenbfWXJgBvdT6qC2vm3dGhy
-   AY6vIqBP37EuUoMoi5C8pxkYXsLQRfeOYpJkircmm/quvx1kKR+Whmd/R
-   F7oJF68hjp7T0HJzmdYnnyOyNj+Xf+Lb4QCpzakDCpPuZKy/HkNJSRYkw
-   ucDCYr27+OCAUmPFNuJH7tQEamAL04/LJXOsO9I7fkag3uZixKRXDYqXB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="349515617"
-X-IronPort-AV: E=Sophos;i="5.90,261,1643702400"; 
-   d="scan'208";a="349515617"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 19:48:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,261,1643702400"; 
-   d="scan'208";a="560421033"
-Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Apr 2022 19:48:16 -0700
-Received: from kbuild by 3abc53900bec with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nfC0N-0001S9-M6;
-        Fri, 15 Apr 2022 02:48:15 +0000
-Date:   Fri, 15 Apr 2022 10:47:20 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        mike.kravetz@oracle.com, akpm@linux-foundation.org,
-        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
-        osalvador@suse.de, david@redhat.com, masahiroy@kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 1/4] mm: hugetlb_vmemmap: introduce
- CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
-Message-ID: <202204151043.JSdPGnod-lkp@intel.com>
-References: <20220412111434.96498-2-songmuchun@bytedance.com>
+        with ESMTP id S241106AbiDODjB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Apr 2022 23:39:01 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D6A475227;
+        Thu, 14 Apr 2022 20:36:34 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id bg9so6364346pgb.9;
+        Thu, 14 Apr 2022 20:36:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2Ro17QGxtHVWnLXeBVe0SlNl98KKA0TueGG/iwSk7MY=;
+        b=SoNomD0cPYQQFNOaKEr2DrGdxVcL1rCNw2q2SbcogDpRWoNOD71hlheS04wpKHj+TU
+         MuVD2tAz8sUeyGjquJBq3YDEC1ghetmuUJr1Ej1HYD9NfXZQqzuN9fPncVWNpH8WQM41
+         e756f7xMs1S0FFufoTX4yGlhx1Br3jf+5miO1GNgMObnsR1pywvGXoqys6uikcjMTqoQ
+         Y8vgBmYJMW2CDeTHwB0bfKYDgwrVB+yJYSa7CmHwmRUWHFGNNslcvi8Hfxso+0zcyjxT
+         0bydlTvQappxG3dTZfMXcWkTxC7dh1lnx4Z4DwgZLA+hh3FxfM+GZRv7PtRAjqIlXkos
+         ZSUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2Ro17QGxtHVWnLXeBVe0SlNl98KKA0TueGG/iwSk7MY=;
+        b=VMukzMKsIWklv1jdCBZwAJ7GmsiWvA3btyPLzm9KIYyvGG02KTRg8mK4iilM3YZRa6
+         YGrRn5FUf5QRreCJR1jpmjy37vzvIl2e1cZRMTTzmmsv2eM/z7ZklDCEyRZuaHDL7TsL
+         Rr8sZNLPdOdQsfI+nAyLfrXg2MxVt/Xa9YBZkuct9sMoHVNFzaN6RNlFRmb7CLHaYovt
+         hJWoMnhjzUSEoMcw7CODNQjygntCydix6zAZ1oYdVLysO+qbMUytD6i/6hvyfmuzu+ka
+         MDV039ThFSC2sLOq0Bxo+Hr2KaGGQ/ySM3xYWnWfqR+SmkryhcFffZPWSEF4Fhi2ckQC
+         SdkQ==
+X-Gm-Message-State: AOAM533WW8843nOEIKIB5gFN8o2oX1wV0/PvjjXCBCk43a5Fluh5X4YT
+        ZTm/BwMbK9UkyqqxNYSfLXU=
+X-Google-Smtp-Source: ABdhPJwBh8uY0NWxqCUopeD7zL0l2WitRXJ6DQ6vCt2+LVV4O9VF2VVYF3EAxr5uSFKtBT3PqlL1zA==
+X-Received: by 2002:a63:f641:0:b0:3a2:cea2:bcf with SMTP id u1-20020a63f641000000b003a2cea20bcfmr764898pgj.506.1649993793693;
+        Thu, 14 Apr 2022 20:36:33 -0700 (PDT)
+Received: from localhost.localdomain ([2001:288:7001:2708:15e8:72d0:44ea:4d07])
+        by smtp.gmail.com with ESMTPSA id p8-20020aa78608000000b005082c3cbfd2sm1187165pfn.218.2022.04.14.20.36.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 20:36:33 -0700 (PDT)
+From:   Jui-Tse Huang <juitse.huang@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Huaixin Chang <changhuaixin@linux.alibaba.com>,
+        Beata Michalska <beata.michalska@arm.com>,
+        Chun-Hung Tseng <henrybear327@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Jui-Tse Huang <juitse.huang@gmail.com>,
+        Ching-Chun Huang <jserv@ccns.ncku.edu.tw>
+Subject: [PATCH] docs/scheduler: fix unit error
+Date:   Fri, 15 Apr 2022 11:36:18 +0800
+Message-Id: <20220415033618.15655-1-juitse.huang@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220412111434.96498-2-songmuchun@bytedance.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Muchun,
+The unit mentioned in the documentation of scheduler statistics is
+outdated which may mislead the readers.
 
-Thank you for the patch! Yet something to improve:
+The unit of statistics that is reported by /proc/schedstat is modified
+to nanosecond, and the unit of statistics that is reported by
+/proc/PID/schedstat is provided as well to make the context consistent.
 
-[auto build test ERROR on hnaz-mm/master]
-[also build test ERROR on next-20220414]
-[cannot apply to tip/x86/mm masahiroy-kbuild/for-next linus/master v5.18-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+The rq_cpu_time and the rq_sched_info.run_delay of a run queue, and the
+sched_info.run_delay of a task are all updated based on the clock of the
+run queue, while the se.sum_exec_runtime of a task is updated based on
+the clock_task of the run queue of the task. Both the clock and
+clock_task are relied on the return value of the function sched_clock()
+which is in the unit of nanosecond.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Muchun-Song/add-hugetlb_optimize_vmemmap-sysctl/20220412-191713
-base:   https://github.com/hnaz/linux-mm master
-config: s390-randconfig-r025-20220414 (https://download.01.org/0day-ci/archive/20220415/202204151043.JSdPGnod-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 6b7e6ea489f6dd45a9b0da9ac20871560917b9b0)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/bb63a010442d551909f826b4c05bf707a6dff052
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Muchun-Song/add-hugetlb_optimize_vmemmap-sysctl/20220412-191713
-        git checkout bb63a010442d551909f826b4c05bf707a6dff052
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 prepare
+Signed-off-by: Jui-Tse Huang <juitse.huang@gmail.com>
+---
+ Documentation/scheduler/sched-stats.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from <built-in>:2:
->> include/linux/kconfig.h:8:10: fatal error: 'generated/autoconf_ext.h' file not found
-   #include <generated/autoconf_ext.h>
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-   make[2]: *** [scripts/Makefile.host:111: arch/s390/tools/gen_facilities] Error 1
-   make[2]: Target 'kapi' not remade because of errors.
-   make[1]: *** [arch/s390/Makefile:148: archprepare] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +8 include/linux/kconfig.h
-
-     6	
-     7	#ifndef __EXCLUDE_AUTOCONF_EXT_H
-   > 8	#include <generated/autoconf_ext.h>
-     9	#endif
-    10	
-
+diff --git a/Documentation/scheduler/sched-stats.rst b/Documentation/scheduler/sched-stats.rst
+index dd9b99a025f7..03c062915998 100644
+--- a/Documentation/scheduler/sched-stats.rst
++++ b/Documentation/scheduler/sched-stats.rst
+@@ -56,9 +56,9 @@ Next two are try_to_wake_up() statistics:
+ 
+ Next three are statistics describing scheduling latency:
+ 
+-     7) sum of all time spent running by tasks on this processor (in jiffies)
++     7) sum of all time spent running by tasks on this processor (in nanoseconds)
+      8) sum of all time spent waiting to run by tasks on this processor (in
+-        jiffies)
++        nanoseconds)
+      9) # of timeslices run on this cpu
+ 
+ 
+@@ -155,8 +155,8 @@ schedstats also adds a new /proc/<pid>/schedstat file to include some of
+ the same information on a per-process level.  There are three fields in
+ this file correlating for that process to:
+ 
+-     1) time spent on the cpu
+-     2) time spent waiting on a runqueue
++     1) time spent on the cpu (in nanoseconds)
++     2) time spent waiting on a runqueue (in nanoseconds)
+      3) # of timeslices run on this cpu
+ 
+ A program could be easily written to make use of these extra fields to
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
