@@ -2,49 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EADA0C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 09:28:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E298C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 10:16:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244454AbiDOJae (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Apr 2022 05:30:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59966 "EHLO
+        id S1344658AbiDOKSc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Apr 2022 06:18:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233670AbiDOJac (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 05:30:32 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80B3897BA5;
-        Fri, 15 Apr 2022 02:28:03 -0700 (PDT)
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.53])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KfrZg1drlz1HBsy;
-        Fri, 15 Apr 2022 17:27:23 +0800 (CST)
-Received: from dggpemm500002.china.huawei.com (7.185.36.229) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 15 Apr 2022 17:28:01 +0800
-Received: from [10.174.178.178] (10.174.178.178) by
- dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 15 Apr 2022 17:27:59 +0800
-Message-ID: <ebe53198-b12f-c57d-a1e0-8365dcfbfba7@huawei.com>
-Date:   Fri, 15 Apr 2022 17:27:58 +0800
+        with ESMTP id S1344860AbiDOKSb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 06:18:31 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82F9E47067;
+        Fri, 15 Apr 2022 03:16:03 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id k23so14671178ejd.3;
+        Fri, 15 Apr 2022 03:16:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=isTdaKobIfw71vhVrWliledBvPWOo0t2AS4RMsJHhgw=;
+        b=VojlBmOs7qhrPLjvBT58iz2RSikqaqngUp0thmoO0BrOKKvxGEcdaET1fQ4+qoAcgn
+         wjJCU0JQ2q6uTuwg8ry+hQHp+25Gm+CW39abzWign/R5aY5PEckMm5LH2u7XepLGPknN
+         WZinzb1UPdKxzdHiPemWbLb4RaZhe65B/6ZGLbPin/vigUjKbhUajeWXSwNrY/b7rf2V
+         dI/+EJhDOQ+wn1JfdAQIlNjLkqBdqg0Iv/GK24ZpTgDjmw5zdhXnOUYE38UleN/WhHaA
+         e5irtprXsvMP1VMv1U7incWvDTFHbd4avKLigZC9Iw1eYCZh7u4K+UIHoXORE8OG/M26
+         1nLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=isTdaKobIfw71vhVrWliledBvPWOo0t2AS4RMsJHhgw=;
+        b=xJb4mFbeGEqPhmmnG60VebxWM7FDCGaJbVT/VbypOL1rPP2FFiBlHexCnfX1rzi2vc
+         Q88Nu4FDngxN4ThrWVLccfhCLVRv5QSV06HD8OGQ0YEKZR8DR//VUrQ76nVXm9TwicPn
+         l9sTq/JiX39bi5zcqbHA+fqpGJ07kL64awyBPLkQzdoK3ivqjq40z+0/BTw6+fbm9jp6
+         5taba3Zg7wFHOLaZ7TrC3/qb923vav3EMPP2qRwdCMtCCwQWlutNQFYwxZpgJmo/GwK8
+         jjSuLC2Vryr/ZJW8gEPu2tcRJPX7rN6YXrl+sMJqgwJvyc+QLMWBf4sybPDk2KfLBOOM
+         8Zdg==
+X-Gm-Message-State: AOAM5304IGZmnCMWCX/SkXkRgyzei+/OYF5KEi2yQ3MLc91pLCarUWg1
+        zgjnTNnI0JPvNJKfW+n7qVqsKhkfeO6nGzwZ04M=
+X-Google-Smtp-Source: ABdhPJyLCZsI7fVraonfF0F+ehCoQyH2DCXZkx6+1XCDfSBeo4O7J2luzopYDAGCrcw8pNEf+1NRHyyIfn3f38d8GQo=
+X-Received: by 2002:a17:907:2d23:b0:6e8:807c:cd94 with SMTP id
+ gs35-20020a1709072d2300b006e8807ccd94mr5588243ejc.502.1650017761992; Fri, 15
+ Apr 2022 03:16:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.3
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-7-yuzhao@google.com>
+ <CAGsJ_4xqm4L4E4dW4PPHos8Ed9ej6hph28tSGy21Re3u7WiuOA@mail.gmail.com>
+ <YliFs3NOHeo2LeXl@google.com> <20220414143959.0daf4534613f2511b9b27f11@linux-foundation.org>
+In-Reply-To: <20220414143959.0daf4534613f2511b9b27f11@linux-foundation.org>
+From:   Barry Song <21cnbao@gmail.com>
+Date:   Fri, 15 Apr 2022 22:15:50 +1200
+Message-ID: <CAGsJ_4ymn55eEkmSh5nBkoHcazHxuTBO6wtPJ0C+xE8WB+jqLg@mail.gmail.com>
 Subject: Re: [PATCH v10 06/14] mm: multi-gen LRU: minimal implementation
-To:     Yu Zhao <yuzhao@google.com>
-CC:     Stephen Rothwell <sfr@rothwell.id.au>, <linux-mm@kvack.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Yu Zhao <yuzhao@google.com>, Stephen Rothwell <sfr@rothwell.id.au>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        "Hillf Danton" <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
         Jesse Barnes <jsbarnes@google.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        "Matthew Wilcox" <willy@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
         Mel Gorman <mgorman@suse.de>,
         Michael Larabel <Michael@michaellarabel.com>,
         Michal Hocko <mhocko@kernel.org>,
@@ -53,133 +73,47 @@ CC:     Stephen Rothwell <sfr@rothwell.id.au>, <linux-mm@kvack.org>,
         Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
         Ying Huang <ying.huang@intel.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <page-reclaim@google.com>, <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
         Jan Alexander Steffens <heftig@archlinux.org>,
         Oleksandr Natalenko <oleksandr@natalenko.name>,
         Steven Barrett <steven@liquorix.net>,
         Suleiman Souhlal <suleiman@google.com>,
         Daniel Byrne <djbyrne@mtu.edu>,
         Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>,
         Vaibhav Jain <vaibhav@linux.ibm.com>
-References: <20220407031525.2368067-1-yuzhao@google.com>
- <20220407031525.2368067-7-yuzhao@google.com>
- <71af92d2-0777-c318-67fb-8f7d52c800bb@huawei.com>
- <YliJzrfXzwwxiCId@google.com>
- <4c416f09-5304-07fd-cb53-5c9c8c75f6fa@huawei.com>
- <YlkBrHOFgah3vHaK@google.com>
- <9e3ca922-1448-2eb1-b056-218236e7c72f@huawei.com>
- <YlkUPmi77qtZTaV9@google.com>
-From:   Chen Wandun <chenwandun@huawei.com>
-In-Reply-To: <YlkUPmi77qtZTaV9@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.178]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500002.china.huawei.com (7.185.36.229)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-在 2022/4/15 14:44, Yu Zhao 写道:
-> On Fri, Apr 15, 2022 at 02:31:37PM +0800, Chen Wandun wrote:
->>
->> 在 2022/4/15 13:25, Yu Zhao 写道:
->>> On Fri, Apr 15, 2022 at 10:23:18AM +0800, Chen Wandun wrote:
->>>> 在 2022/4/15 4:53, Yu Zhao 写道:
->>>>> On Thu, Apr 14, 2022 at 07:47:54PM +0800, Chen Wandun wrote:
->>>>>> On 2022/4/7 11:15, Yu Zhao wrote:
->>>>>>> +static void inc_min_seq(struct lruvec *lruvec)
->>>>>>> +{
->>>>>>> +	int type;
->>>>>>> +	struct lru_gen_struct *lrugen = &lruvec->lrugen;
->>>>>>> +
->>>>>>> +	VM_BUG_ON(!seq_is_valid(lruvec));
->>>>>>> +
->>>>>>> +	for (type = 0; type < ANON_AND_FILE; type++) {
->>>>>>> +		if (get_nr_gens(lruvec, type) != MAX_NR_GENS)
->>>>>>> +			continue;
->>>>>> I'm confused about relation between aging and LRU list operation.
->>>>>>
->>>>>> In function inc_max_seq,  both min_seq and max_seq will increase，
->>>>>> the lrugen->lists[] indexed by lru_gen_from_seq(max_seq + 1) may
->>>>>> be non-empty?
->>>>> Yes.
->>>>>
->>>>>> for example,
->>>>>> before inc_max_seq:
->>>>>> min_seq == 0, lrugen->lists[0][type][zone]
->>>>>> max_seq ==3, lrugen->lists[3][type][zone]
->>>>>>
->>>>>> after inc_max_seq:
->>>>>> min_seq ==1, lrugen->lists[1][type][zone]
->>>>>> max_seq ==4, lrugen->lists[0][type][zone]
->>>>>>
->>>>>> If lrugen->lists[0][type][zone] is not empty before inc_max_seq and it is
->>>>>> the most inactive list，however lurgen->lists[0][type][zone] will become
->>>>>> the most active list after inc_max_seq.
->>>>> Correct.
->>>>>
->>>>>> So,  in this place,
->>>>>>
->>>>>> if (get_nr_gens(lruvec, type) != MAX_NR_GENS)
->>>>>> 	continue;
->>>>>>
->>>>>> should change to
->>>>>>
->>>>>> if (get_nr_gens(lruvec, type) == MAX_NR_GENS)
->>>>>> 	continue;
->>>>> No, because max/min_seq will overlap if we do so.
->>>>>
->>>>> lrugen->lists[max_seq+1] can only be non-empty for anon LRU, for a
->>>>> couple of reasons:
->>>>> 1. We can't swap at all.
->>>>> 2. Swapping is constrained, e.g., swapfile is full.
->>>>>
->>>>> Both cases are similar to a producer (the aging) overrunning a
->>>>> consumer (the eviction). We used to handle them, but I simplified the
->>>>> code because I don't feel they are worth handling [1].
->>>> Can lrugen->lists[max_seq+1]  also be non-empty for file LRU？
->>> On reclaim path, no. But it can be forced to do so via debugfs.
->>>
->>>> such as in dont reclaim mapped file page case(isolation will fail).
->>> You mean may_unmap=false? Pages stays in the same generation if
->>> isolation fails. So lrugen->lists[min_seq] won't be empty in this
->>> case.
->>>
->>>> If so, after aging, eviction will reclaim memory start from
->>>> lrugen->lists[min_seq+1], but some oldest file page still
->>>> remain in lrugen->lists[max_seq+1].
->>>>
->>>> sort_folio can help to put misplaced pages to the right
->>>> LRU list, but in this case, it does't help, because sort_folio
->>>> only sort lrugen->lists[min_seq+1].
->>> On reclaim path, inc_max_seq() is only called when need_aging=true,
->>> and this guarantees max_seq-min_seq[LRU_GEN_FILE]+1 < MAX_NR_GENS.
->> yes, I think so, but I did't find the logical in function get_nr_evictable,
->> or am I missing something
->>
->>          if (min_seq[LRU_GEN_FILE] + MIN_NR_GENS > max_seq)
->>                  *need_aging = true;
->>          else if (min_seq[LRU_GEN_FILE] + MIN_NR_GENS < max_seq)
->>                  *need_aging = false;
-> This branch.
+On Fri, Apr 15, 2022 at 9:40 AM Andrew Morton <akpm@linux-foundation.org> wrote:
 >
-> And the following is also relavent:
+> On Thu, 14 Apr 2022 14:36:03 -0600 Yu Zhao <yuzhao@google.com> wrote:
 >
->      static int __init init_lru_gen(void)
->      {
->          BUILD_BUG_ON(MIN_NR_GENS + 1 >= MAX_NR_GENS);
-Got it, many thanks.
-Wandun
-> .
+> > > or it is only something
+> > > meaningful for the internal code?
+> >
+> > This is how swappiness is interpreted.
+> >
+> > > if so, can we rename it to
+> > > something else? otherwise, it is quite confusing.
+> >
+> > Feel free to suggest something.
+>
+> It is confusing,   swap_preference?
 
+seems to be much better. might also be worth using MACRO to replace those
+1, 200, 0 magic numbers  to tell readers the exact meaning?
+
+>
+>
+Thanks
+Barry
