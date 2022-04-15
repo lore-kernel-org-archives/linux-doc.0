@@ -2,85 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0E84C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 14:35:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC7D8C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 18:44:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243477AbiDOOiA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Apr 2022 10:38:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58438 "EHLO
+        id S1346865AbiDOSrZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Apr 2022 14:47:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231266AbiDOOiA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 10:38:00 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27EEE41619;
-        Fri, 15 Apr 2022 07:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=5RyQgEC1HEfGTnmZF0JawQFMsn2Sbm5XUHT2q7t6y2U=; b=xTmF59vKdWU3OVIrzTm3k8yuGP
-        TajKjIfn1rfAGjih4X2g8hsbNj1EP0kL6YDqnkF/sI2KY6UCw6GIV84WH1EInuNaZvdTyLcuh6lF5
-        OairZIFgSrpSdZ/nfqOCPoH3qax3SJrGhP77EXQCoxsuOWzyzskEZhv7M3HAHetDRseU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1nfN2m-00Fyrn-5W; Fri, 15 Apr 2022 16:35:28 +0200
-Date:   Fri, 15 Apr 2022 16:35:28 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Luiz Angelo Daros de Luca <luizluca@gmail.com>
-Cc:     Alvin =?utf-8?Q?=C5=A0ipraga?= <ALSI@bang-olufsen.dk>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "tobias@waldekranz.com" <tobias@waldekranz.com>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-Subject: Re: [PATCH net-next] net: dsa: realtek: add compatible strings for
- RTL8367RB-VB
-Message-ID: <YlmCsMk/GekmdewG@lunn.ch>
-References: <20220411210406.21404-1-luizluca@gmail.com>
- <20220412105018.gjrswtwrgjyndev4@bang-olufsen.dk>
- <CAJq09z53MZ6g=+tfwRU-N5BV5GcPSB5n0=+zj-cXOegMrq6g=A@mail.gmail.com>
- <20220414014527.gex5tlufyj4hm5di@bang-olufsen.dk>
- <CAJq09z6KSQS+oGFw5ZXRcSH5nQ3zongn4Owu0hCjO=RZZmHf+w@mail.gmail.com>
- <20220414113718.ofhgzhsmvyuxd2l2@bang-olufsen.dk>
- <YlgmG3mLlRKef+sy@lunn.ch>
- <CAJq09z5hG7VkhkxdhVTUvA-dMJr6_ajkHYBZ6N2ROFXLz0gijQ@mail.gmail.com>
+        with ESMTP id S1346845AbiDOSrY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 14:47:24 -0400
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38AA027FCA;
+        Fri, 15 Apr 2022 11:44:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1650048294; x=1681584294;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Y+DhyXYe7xzr+Dy/hh989lOaL8GjUsKaTM+O+hQ/8vY=;
+  b=Hqarrxtyhj5uhgwrZSrk6K8I+lcuwNQF9niAXNlOO/2t90oTF0/YO2Ao
+   Nych7fFfKkxXLlrJv+hNrl4kezg+EqasAVOK5aCoyZMLbnTLk1aPfc8JA
+   PAjDKiSctqvpOKwP2calDRzk8SfuRpv/5qpD+Aj8sne+ZKVPVhf8ZHg4e
+   Q=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 15 Apr 2022 11:44:53 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2022 11:44:53 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 15 Apr 2022 11:44:12 -0700
+Received: from [10.110.117.103] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 15 Apr
+ 2022 11:44:11 -0700
+Message-ID: <89483178-2b8b-e583-7f4f-572076c95141@quicinc.com>
+Date:   Fri, 15 Apr 2022 11:44:10 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJq09z5hG7VkhkxdhVTUvA-dMJr6_ajkHYBZ6N2ROFXLz0gijQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v5 1/5] dt-bindings: power: reset: qcom-pon: update "reg"
+ property details
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>
+CC:     <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <sre@kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <collinsd@codeaurora.org>,
+        <bjorn.andersson@linaro.org>, <swboyd@chromium.org>,
+        <skakit@codeaurora.org>, <linux-doc@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        David Collins <quic_collinsd@quicinc.com>
+References: <20220411200506.22891-1-quic_amelende@quicinc.com>
+ <20220411200506.22891-2-quic_amelende@quicinc.com>
+ <Ylg+7MVRS4sKbOFb@robh.at.kernel.org>
+From:   Anjelique Melendez <quic_amelende@quicinc.com>
+In-Reply-To: <Ylg+7MVRS4sKbOFb@robh.at.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Now, about dt-bindings, I don't know what is the best approach. As
-> device-tree should not focus on Linux, it is strange to use a
-> compatible "rtl8365mb" just because it is the Linux subdriver name and
-> that name was just because it was the first device supported.
 
-What you are trying to express is, how do you access the ID
-register. There is no obvious One True Compatible string for that. So
-just picking one switch name for that is O.K. There is nothing Linux
-specific in that, FreeBSD or whatever can use the label as a clue
-where to find the ID register.
 
-> +      realtek,rtl8365mb:
-> +        Use with models RTL8363NB, RTL8363NB-VB, RTL8363SC, RTL8363SC-VB,
-> +        RTL8364NB, RTL8364NB-VB, RTL8365MB, RTL8366SC, RTL8367RB-VB, RTL8367S,
-> +        RTL8367SB, RTL8370MB, RTL8310SR
-> +      realtek,rtl8367rb:
-> +        Use with models RTL8366RB, RTL8366S
-
-So to me, this is fine. But i might add a bit more detail, that the
-compatible is used by the driver to find the ID register, and the
-driver then uses to ID register to decide how to drive the switch. The
-problem i had with the mv88e6xxx binding was until i spelt this out in
-the binding, people kept submitting patches adding new compatible
-strings, rather than extend the documented list of switches supported
-by a compatible.
-
-       Andrew
+On 4/14/2022 8:34 AM, Rob Herring wrote:
+> On Mon, Apr 11, 2022 at 01:05:03PM -0700, Anjelique Melendez wrote:
+>> From: David Collins <quic_collinsd@quicinc.com>
+>>
+>> Update the description of "reg" property to add the PON_PBS base
+>> address along with PON_HLOS base address.  Also add "reg-names"
+>> property description.
+>>
+>> Signed-off-by: David Collins <quic_collinsd@quicinc.com>
+>> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+>> ---
+>>  .../bindings/power/reset/qcom,pon.yaml | 20 +++++++++++++++++++-
+>>  1 file changed, 19 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+>> index 353f155d..542200b2 100644
+>> --- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+>> +++ b/Documentation/bindings/power/reset/qcom,pon.yaml
+>> @@ -26,7 +26,25 @@ properties:
+>>        - qcom,pm8998-pon
+>>  
+>>    reg:
+>> -    maxItems: 1
+>> +    description: |
+>> +      Specifies the SPMI base address for the PON (power-on) peripheral.  For
+>> +      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
+>> +      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
+>> +      peripherals.  In that case, the PON_PBS address needs to be specified to
+>> +      facilitate software debouncing on some PMICs.
+>> +    minItems: 1
+>> +    maxItems: 2
+>> +
+>> +  reg-names:
+>> +    description: |
+>> +      For PON GEN1 and GEN2, it should be "pon".  For PON GEN3 it should include
+>> +      "pon_hlos" and optionally "pon_pbs".
+>> +    minItems: 1
+>> +    maxItems: 2
+>> +    items:
+>> +      - const: pon_hlos
+>> +      - const: pon_pbs
+>> +      - const: pon
+> 
+> This says there are 3 entries, but you limited to 2. The schema also 
+> doesn't match what the description says. Entries should be extended by 
+> adding new entries to the end and keeping optional entries last. So like 
+> this:
+> 
+> minItems: 1
+> items:
+>   - const: pon
+>   - const: pon_hlos
+>   - const: pon_pbs
+> 
+> RobWill update in next patch. Thanks
