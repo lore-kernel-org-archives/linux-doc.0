@@ -2,122 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4E2BC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 09:03:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC4C1C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 12:20:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229826AbiDPJGW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Apr 2022 05:06:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51776 "EHLO
+        id S231893AbiDPMXH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Apr 2022 08:23:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229792AbiDPJGV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 05:06:21 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B28921066E5
-        for <linux-doc@vger.kernel.org>; Sat, 16 Apr 2022 02:03:50 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id s14-20020a17090a880e00b001caaf6d3dd1so13443979pjn.3
-        for <linux-doc@vger.kernel.org>; Sat, 16 Apr 2022 02:03:50 -0700 (PDT)
+        with ESMTP id S231346AbiDPMXH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 08:23:07 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2A92CF4B3
+        for <linux-doc@vger.kernel.org>; Sat, 16 Apr 2022 05:20:34 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id q3so9013108plg.3
+        for <linux-doc@vger.kernel.org>; Sat, 16 Apr 2022 05:20:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=r755sEHS6XKHg2sFZbGwHYnpwi1Rp7A12cZ06QPHbdc=;
-        b=MLC7JQ6aQUGV5rPBkez+gYUL9psM2ggrs1jAqzFDWJLruf11fmATFsOtoy94NHzoPT
-         sjwJGDPuWBtA+79RYJlTq3B5E2U8+MO+4jjRrl0Qkrk8pFpzdu6vgTegAGUN9lSQljlE
-         AVY6/4XkQcdEbRXeyk1C2nAUXBlzFY9VTfgK+whPUPPYVEjRMOo4XRnqaja+Ta5OcmmT
-         wYCrg9sKqaGsvlbyb0yIoUSkF8ZNh2sQE8XBmY+PeB/qvLi+hnf8H1KjpmHsPzQk975l
-         w3mkszl7gyG4Nqq28vw0Be2pj227RdVX4im7DLgpXcskPcpKi0TeOaQhzTCYlnp7S3Kd
-         nUUA==
+        d=arista.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=10g5PeA+XaJ6h4fM6nvbGbNybYbukOrQjkFvmHObJsc=;
+        b=CgebbriGoAmkr1Rg5xVdZLvCCa309ajlKcDJD/JIiowCsjIx+cXkj7m8JGGVBfcW9r
+         wFzsYqQPaVFnDYbPKT+BdF2oE5TLzMdhyWQagqh1hTk55/3Kg1whLMV0OlsDBVPGEa08
+         XaVkOARq89nr1JApNWywxLqHflj7ZafQSGntDGnOnXwiH+0pKLKfEmuINxEWWLr2gBmd
+         CYdRtYch1N9wCOy/JfpTRLv9Ri4+tnR09/lcaWyPt2ZXYZoXBuKzOhI5XwZAdCEvvtL+
+         hDCOGwAfnk+mdI6Br0zfqKb3F5w7TuwFLISTguDvdAY+8JgZCJvJ+c+81e855UBlZlvi
+         smIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=r755sEHS6XKHg2sFZbGwHYnpwi1Rp7A12cZ06QPHbdc=;
-        b=AhE2bDhIGcvOhAZvMgCncL4B/CtQEaCAONJfpPhWA617KxtgiIYFKnzDVZQKXKQM5E
-         +9zMgbwzgZDzAQlenEYZR5uHJQLAhkeLiAXZUWI/US0UzN1Kz/c0KO+J6g1ZdP2hnpCW
-         /xLu+G2b+GD8q/dCiuVnAtVjkgwK27qFdatZz9X4FCOcp0LzTWWCYTiLgK0EQg9P+YNJ
-         paCGGeDTRo7IC2lQmKGIIXr4xGR4Bf25CJ0tQuo1waHnmSbLUG+quAmSJTzJU6xkqGyf
-         Zyg7B2ipGV78x5pYo/JnGGkmADsSYSUi/Kdl4QG4rDwZv++PLw7ilySWqDBFZkTT597T
-         Sh0g==
-X-Gm-Message-State: AOAM530/seOiP02kXC9Ccavh1dGTFX4vYS6TD9bRYZSVCm002cu6RWsD
-        0d13XD+IW+2xCVrUiKbIsNg=
-X-Google-Smtp-Source: ABdhPJwfBrbUhWF1z0UBHxhGErrDKYlvqim44SjGpgxAl1hWz1QyFEo+5o0lCxr85+IGOFTgjHQXZg==
-X-Received: by 2002:a17:902:f605:b0:14f:5d75:4fb0 with SMTP id n5-20020a170902f60500b0014f5d754fb0mr2729015plg.101.1650099830157;
-        Sat, 16 Apr 2022 02:03:50 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id pi2-20020a17090b1e4200b001c7b15928e0sm11634951pjb.23.2022.04.16.02.03.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 16 Apr 2022 02:03:49 -0700 (PDT)
-Message-ID: <09f5e92a-286b-afe3-ebea-2054363173d8@gmail.com>
-Date:   Sat, 16 Apr 2022 18:03:44 +0900
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=10g5PeA+XaJ6h4fM6nvbGbNybYbukOrQjkFvmHObJsc=;
+        b=JguFXPxjCEhZHs5uP3LmQ2XNhxJCGqhzWRQ0j/1hkHrVo98XNwAsGlKRcbGNWc2sU4
+         8t9DcTl/0eGkxELPwoIyLPMJqGoakEH+iuUlwP9E0v2eMJ9lpGwSmc9J6UtSg3xHtY9a
+         uPRvUIl/TVybPIXvbNQyvbdg0m/MiN4avLndB24s7wWAjWcCDdcyWXB51ZjSHjhHvWcm
+         FkZnKOngglYr/X2OhE+qlXMHqBsgVphpoyiSzIHMfjfJ/c7vbPnlmj9FH5t08sh2Veb8
+         uH1H0POCQh44e9QADgHdUzvKg24n1tWII2v5hvi71O7RSWX98zvk0wUooGafOTuEac9s
+         Ob4g==
+X-Gm-Message-State: AOAM5336dVX5r1jBXAgiGiZdLWRw7JooiCImRffngab6C2KQ94nYFr/w
+        hhJatKcVVEFpyzVMSkWAtRYZV9UqhWkTl8W5QCv/UA==
+X-Google-Smtp-Source: ABdhPJyEwRorxFq6OT7m+o6QC9Ai2tfvWEY9TKOl8S83xNzbiirkOnUcAtuBGD2k9i6Sa/2MBVAssWO1MK9O/UnsI08=
+X-Received: by 2002:a17:903:285:b0:158:d693:c52c with SMTP id
+ j5-20020a170903028500b00158d693c52cmr3348830plr.36.1650111634362; Sat, 16 Apr
+ 2022 05:20:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: Is there any Japanese translation maintainer?
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kosuke Fujimoto <fujimotokosuke0@gmail.com>,
-        Tsugikazu Shibata <shibata@linuxfoundation.org>
-References: <172fa015-26df-c978-853d-3aba67c581cc@gmail.com>
- <15b941a4-c41d-3fc1-c4f8-9a6736f6b874@gmail.com>
- <87pmlh4f5h.fsf@meer.lwn.net>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87pmlh4f5h.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220415083402.39080-1-aajith@arista.com> <642672cb-8b11-c78f-8975-f287ece9e89e@gmail.com>
+In-Reply-To: <642672cb-8b11-c78f-8975-f287ece9e89e@gmail.com>
+From:   Arun Ajith S <aajith@arista.com>
+Date:   Sat, 16 Apr 2022 17:50:22 +0530
+Message-ID: <CAOvjArRX_CXbUdAbfnta9sBad30aV0Q7HSA6rNPTKPbENRsnqQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v6] net/ipv6: Introduce accept_unsolicited_na
+ knob to implement router-side changes for RFC9131
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        David Ahern <dsahern@kernel.org>, yoshfuji@linux-ipv6.org,
+        kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+        prestwoj@gmail.com, Bob Gilligan <gilligan@arista.com>,
+        Salam Noureddine <noureddine@arista.com>,
+        Gautam Kachroo <gk@arista.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[+Cc: Shibata-san]
-
-On Sat, 16 Apr 2022 02:16:10 -0600,
-Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
-> 
->> On Wed, 13 Apr 2022 18:09:59 +0900,
->> Kosuke Fujimoto wrote:
->>> Hello,
->>>
->>> I would like to contact with Japanese documentation maintainer for some 
->>> changes. However, it looks like there is no one listed in MAINTAINERS file.
->>> Is there anyone who is maintaining Japanese documentation?
->>
->> Existing Japanese translation has a note on its first page saying:
->>
->>> This document is maintained by Tsugikazu Shibata <tshibata@ab.jp.nec.com>
->>
->> However, this email address is not reachable any more.
->>
->> I also have a few things I'd like to fix/update in it.
->> I'm glad to know there exists someone else who has similar
->> thoughts.
->>
->> I think I can play a role as a tentative maintainer who can
->> review your changes.
-> 
-> The Japanese translation has been effectively unmtaintained for some
-> years.  I would be delighted if somebody would be willing to work to
-> improve it - please don't hesitate!
-
-Jon,
-
-As a matter of fact, with Greg's kind help, I could reach
-Shibata-san, who is now with Linux Foundation.
-
-I'm preparing a patch adding an entry of DOCUMENTATION/JAPANESE
-to MAINTAINERS.
-
-Fujimoto-san is working on an update in ja_JP/howto.rst as well.
-
-You will likely see both of them shortly.
-Stay tuned!  ;-)
-
-        Thanks, Akira
-
-> 
-> Thanks,
-> 
-> jon
+On Sat, Apr 16, 2022 at 11:13 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> On 4/15/22 15:34, Arun Ajith S wrote:
+> > +accept_unsolicited_na - BOOLEAN
+> > +     Add a new neighbour cache entry in STALE state for routers on receiving an
+> > +     unsolicited neighbour advertisement with target link-layer address option
+> > +     specified. This is as per router-side behavior documented in RFC9131.
+> > +     This has lower precedence than drop_unsolicited_na.
+> > +
+> > +      ====   ======  ======  ==============================================
+> > +      drop   accept  fwding                   behaviour
+> > +      ----   ------  ------  ----------------------------------------------
+> > +         1        X       X  Drop NA packet and don't pass up the stack
+> > +         0        0       X  Pass NA packet up the stack, don't update NC
+> > +         0        1       0  Pass NA packet up the stack, don't update NC
+> > +         0        1       1  Pass NA packet up the stack, and add a STALE
+> > +                             NC entry
+> > +      ====   ======  ======  ==============================================
+> > +
+> > +     This will optimize the return path for the initial off-link communication
+> > +     that is initiated by a directly connected host, by ensuring that
+> > +     the first-hop router which turns on this setting doesn't have to
+> > +     buffer the initial return packets to do neighbour-solicitation.
+> > +     The prerequisite is that the host is configured to send
+> > +     unsolicited neighbour advertisements on interface bringup.
+> > +     This setting should be used in conjunction with the ndisc_notify setting
+> > +     on the host to satisfy this prerequisite.
+> > +
+> > +     By default this is turned off.
+> > +
+>
+> Looks good. htmldocs builds successfully and the table displayed properly.
+>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>
+> However, I remind you the following:
+>
+> - The patch changelogs should be put between the dashes (---) and diffstat.
+>   I don't see the changelogs when I hit reply-all because you put them as
+>   message signature (at very bottom of patch message).
+> - DON'T DO top-posting, DO configure your MUA to make reply text below
+>   the quoted text instead.
+>
+> --
+> An old man doll... just what I always wanted! - Clara
+Thank you.
+I will keep the tips for the Changelog in my mind for my next patch.
