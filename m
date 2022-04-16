@@ -2,68 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92B8BC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Apr 2022 23:49:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BC73C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 00:03:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230217AbiDOXwV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Apr 2022 19:52:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43462 "EHLO
+        id S1356688AbiDPAGY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Apr 2022 20:06:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230183AbiDOXwS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 19:52:18 -0400
-Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com [IPv6:2607:f8b0:4864:20::e2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B48B2BB02
-        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 16:49:47 -0700 (PDT)
-Received: by mail-vs1-xe2c.google.com with SMTP id v15so6644161vsm.5
-        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 16:49:47 -0700 (PDT)
+        with ESMTP id S230458AbiDPAGX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 20:06:23 -0400
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 146264338E
+        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 17:03:54 -0700 (PDT)
+Received: by mail-vs1-xe30.google.com with SMTP id j16so8170853vsv.2
+        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 17:03:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Qr6XNF1bK3PdePl03u0gY6aVL4clB778VuHLiEk7Bus=;
-        b=lf2+gHgcE6Sjq8PQbV9FP6YTAFbqNAhZzALie/K0UJSwp8Oa59xE5fwxN11DNM1jzF
-         F3nCS/VDmcRfjfl+JURbhT1QwWlvTf6TMOvYedmPUuhYHZoZ3FWE5qDqrpcgiKwp2M5b
-         jIKbKuIKL6O8SCdu+Nkg0t7A2o9CszAGzTa03ecBG4fd70UaiXXatm8yPzcBm+xkUc0w
-         OlyD+/B7EBheiPusiGgfwCmbaSrnOrKXiajcUq9uILobC5vaoL8BOyYShHP5yPjJ3eKX
-         +ZcE5PfQI7fVU5JbPATy7K69qjCUTJycQkXpbAtC/uy29svtVfrMRlXv8Zkh0xmeSuTJ
-         tKrw==
+        bh=ztOn9qTNjZOdib9wu9VtT2ux2AzPcxh/m+7PKVCw6iQ=;
+        b=R5JSg0OZdet4qAUAD70eGrmGlbnfq6SE/UKMx9mVP3XjOuHnA4bSF78m1q8xItuGE9
+         vjqnxSxQ4spxqIw4T67UAoX/WAcpVdYRh0Do8X6bcppYXWpUgrN8T6JkIEu/GY1wQYyh
+         A68dT7GLg+KlcZh58eo3TpGvYK6OsZzyfMZQDrLE0MQ6uR9X86jvNVceMpuK6ksQ1AGF
+         vNgu+/XSqK9byqpg3ekX51zXiD0AKThWb3YM076hxyjIsBkx1tLG5G2nPZKahaiU1EQ/
+         FUnVlc5HTy63gEsQMroqaIki707KQUKD83kXincChwkr/HdyaaFWnemn3Dfdf9e2bpd8
+         6Bgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Qr6XNF1bK3PdePl03u0gY6aVL4clB778VuHLiEk7Bus=;
-        b=Ili2AnmI975tf+I3EyuNUhF7ruPL+4PiJYyK69OPlEcNCTcjiCe0LuHQ2OF/3ql7RA
-         oerJhl5IjtDtRqCD+Wt6gTtUYmiJLomFlG0l0tq+FGhVa4KDtZySI2DViiy41t+1CvE8
-         0yWRBIgnwPhefBc0er+R5/PmOfkk8B0UXf9rTDsVH7KZpXJ6YBR7rDvhBwHFKB6rSrTw
-         S2RZf3E0Jecp05yzRK2qRSeMrk3q4oh3G9BvFCjOb+F3entNSBeDhH+DkJYFmfdIj3Ot
-         /+syboVheTcK8DiDdS7MIepZ5PRdDSJ7cyGI+YiPlv0XPrVM6M2fbI8eebjTQCMnte1R
-         iwLA==
-X-Gm-Message-State: AOAM532kJV6kLHOr+ggDuly18Sthg9wwb6KxG89lsrkbG1uTLYsIcKMs
-        NbZ0Rert9CHpiQDtiMlZ6QZnPemAihh2oCzBmhk+rQ==
-X-Google-Smtp-Source: ABdhPJyW7+XQXBJpdsz4McEx26yYkMLlsqpGPfU1l0p0386BmKCCX+y/uTbiRr+7GHVmV1rMDNlghHYJg9Cw/My3+7o=
+        bh=ztOn9qTNjZOdib9wu9VtT2ux2AzPcxh/m+7PKVCw6iQ=;
+        b=z1/CiPZVE562ifCzJqf4LgB78KOkQ9/icosjaD98ZPRp56xe1YfV6KRF3PI2ebJ/e+
+         P4VIjYR7Yu32Miq0Ixo3m4H0O82JL9Hg4Tj1LifR54CxPTLXSwcD2kdTUJRAnyTrvGig
+         BgpohrrwYlaGy9lZS0vr8f11wBv44Ir1QE971EjgDLY1gWSUVNMyREbD1SfRaN9EGfcb
+         yfZyVx9Fsdsb9lXSDyM//V2EqxPfJWH+hPsqTxi2lbSPMfexdobY/IQylX3Y5MTU+nRe
+         AxxmDQcenKvg7GC5egQsXQ2ovpOWUrnPiPBgOeluYT+0DAehuDD9A9km86VQbPGtyLGe
+         OiGg==
+X-Gm-Message-State: AOAM53077/cdQZhX1+YcVrz7EkJPOvUlM2SE+Q56DklF3+vENQi2RKpW
+        WOLFmZOB455+9EfV5NlCN+nqSmYOZpaLBxQPdYtZgQ==
+X-Google-Smtp-Source: ABdhPJw2ERJ54VhqBYtjNfKf1yIUSVFp1Wz9yRWf2I17eE6bxYiU0nBVH1Y+brrNjKX5bhrMgcp/2etChjEHOe5V/60=
 X-Received: by 2002:a05:6102:3753:b0:325:c20e:4b1c with SMTP id
- u19-20020a056102375300b00325c20e4b1cmr361726vst.84.1650066586474; Fri, 15 Apr
- 2022 16:49:46 -0700 (PDT)
+ u19-20020a056102375300b00325c20e4b1cmr371331vst.84.1650067433140; Fri, 15 Apr
+ 2022 17:03:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-9-yuzhao@google.com>
- <20220411191621.0378467ad99ebc822d5ad005@linux-foundation.org>
- <CAOUHufYeC=Kuu59BPL_48sM67CqACxH2wWy-SYGXpadgMDmY3w@mail.gmail.com>
- <20220414185654.e7150bcbe859e0dd4b9c61af@linux-foundation.org>
- <CAOUHufYy6yQS9ARN9C5+ODkopR+ez4TH3hZNZo4HtNHBExS1mA@mail.gmail.com>
- <20220415121521.764a88dda55ae8c676ad26b0@linux-foundation.org>
- <CAOUHufYsjwMGMFCfYoh79rFZqwqS1jDihcBS9sHd-gBxEAD3Ug@mail.gmail.com>
- <20220415143220.cc37b0b0a368ed2bf2a821f8@linux-foundation.org>
- <CAHk-=whvkRTVBhAamt0kYyp925jk_+g7T0CyPke_FbCWGQ1VvA@mail.gmail.com>
- <CAOUHufZ4KrjFTYH8wtwMGd9AriZfZtO4GhbiK1SuNbY31VTT9w@mail.gmail.com> <CAHk-=whneDk3Jde3J+O-fD32VjaK+fDf9+P6jgDtr2qyo0iu2w@mail.gmail.com>
-In-Reply-To: <CAHk-=whneDk3Jde3J+O-fD32VjaK+fDf9+P6jgDtr2qyo0iu2w@mail.gmail.com>
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-13-yuzhao@google.com>
+ <20220411191634.674554d3de2ba37b3db40ca2@linux-foundation.org>
+In-Reply-To: <20220411191634.674554d3de2ba37b3db40ca2@linux-foundation.org>
 From:   Yu Zhao <yuzhao@google.com>
-Date:   Fri, 15 Apr 2022 17:49:09 -0600
-Message-ID: <CAOUHufbc9oZ03CcOmQ=4KWzh_cof26Avag+WVkfOGR3+W8-OaA@mail.gmail.com>
-Subject: Re: [PATCH v10 08/14] mm: multi-gen LRU: support page table walks
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Justin Forbes <jforbes@fedoraproject.org>,
-        Stephen Rothwell <sfr@rothwell.id.au>,
+Date:   Fri, 15 Apr 2022 18:03:16 -0600
+Message-ID: <CAOUHufYhhCPFqoRbtn+=OFxZxNWS9yxW9Re_s-2TYGqCEaMXVw@mail.gmail.com>
+Subject: Re: [PATCH v10 12/14] mm: multi-gen LRU: debugfs interface
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
         Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
         Barry Song <21cnbao@gmail.com>,
@@ -73,6 +63,7 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Jesse Barnes <jsbarnes@google.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Matthew Wilcox <willy@infradead.org>,
         Mel Gorman <mgorman@suse.de>,
         Michael Larabel <Michael@michaellarabel.com>,
@@ -104,50 +95,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 15, 2022 at 5:03 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
 >
-> On Fri, Apr 15, 2022 at 3:58 PM Yu Zhao <yuzhao@google.com> wrote:
-> >
-> > BUG_ONs are harmful but problems that trigger them would be
-> > presummingly less penetrating to the user base; on the other hand,
-> > from my experience working with some testers (ordinary users), they
-> > ignore WARN_ON_ONCEs until the kernel crashes.
+> On Wed,  6 Apr 2022 21:15:24 -0600 Yu Zhao <yuzhao@google.com> wrote:
 >
-> I don't understand your argument.
+> > Add /sys/kernel/debug/lru_gen for working set estimation and proactive
+> > reclaim. These features are required to optimize job scheduling (bin
+> > packing) in data centers [1][2].
 >
-> First you say that VM_BUG_ON() is only for VM developers.
+> debugfs is for ephemeral temp stuf which can and will change or
+> disappear at any time.  Anything which is "required" by userspace
+> should not be in debufgs.
 
-I did? Probably I implied CONFIG_DEBUG_VM=y is meant for MM developers.
+Right. "required" is probably a poor choice of words. "These
+techniques are commonly used to optimize job scheduling" would sound
+better.
 
-> Then you say "some testers (ordinary users) ignore WARN_ON_ONCEs until
-> the kernel crashes".
->
-> So which is it?
->
-> VM developers, or ordinary users?
+> Presumably sysfs is the place.  Fully documented and with usage
+> examples in the changelog so we can carefully review the proposed
+> extensions to Linux's ABI.  Extensions which must be maintained
+> unchanged for all time.
 
-Ordinary users.
-
-> Honestly, if a VM developer is ignoring a WARN_ON_ONCE() from the VM
-> subsystem, I don't even know what to say.
-
-Same here. I wasn't worried about kernel developers ignoring any warnings.
-
-> And for ordinary users, a WARN_ON_ONCE() is about a million times
-> better, becasue:
->
->  - the machine will hopefully continue working, so they can report the warning
->
->  - even when they don't notice them, distros tend to have automated
-> reporting infrastructure
->
-> That's why I absolutely *DETEST* those stupid BUG_ON() cases - they
-> will often kill the machine with nasty locks held, resulting in a
-> completely undebuggable thing that never gets reported.
->
-> Yes, you can be careful and only put BUG_ON() in places where recovery
-> is possible. But even then, they have no actual _advantages_ over just
-> a WARN_ON_ONCE.
-
-I hear you, and I wasn't arguing about anything, just sharing my two cents.
+Eventually, yes. There still is a long way to go. Rest assured, this
+is something Google will keep investing resources on.
