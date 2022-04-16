@@ -2,113 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DCE0C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 08:15:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D50CEC433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 08:16:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230290AbiDPISV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Apr 2022 04:18:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52606 "EHLO
+        id S230108AbiDPISu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Apr 2022 04:18:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230108AbiDPISU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 04:18:20 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44F2A5F83;
-        Sat, 16 Apr 2022 01:15:48 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id i24-20020a17090adc1800b001cd5529465aso8692431pjv.0;
-        Sat, 16 Apr 2022 01:15:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iVfFJCMkrWLbyYUJOBj2PVHo9GdUj3rw5BmoGxMpBoo=;
-        b=iYCJ6Wum2Xv3OfVJqUjKKcIs4chqAe85/Ts0gdvaAhPlZcypz00oeX4nApt4uQ/IQM
-         Z/kGU5mHBZSb9cwIXqhlKJgLGbDSgyzXjte2f83Epit+PxLjJ4EZ5nvq6K/cvze/KLpV
-         WP3hiWF5BvZLNM0yjBJ/gYWOXc/A3aPeK9627J6poVefhVN+uUJNUq7nPJwXA0/05YWl
-         6XVvVYcQfJX6r08lZlHmq288j5fEPiyaUFTsEW6T8NT8d4Tgc14I/GLjt7eOXxgoSJ4L
-         tTv4KdfEoFhcmfbHm0XMaGw71L4uoZs/A6XJWQxKMgIKzxkvnRWiZwFoKy3LIzcvIXLR
-         ITDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iVfFJCMkrWLbyYUJOBj2PVHo9GdUj3rw5BmoGxMpBoo=;
-        b=xbT9YwH5mWims7iMY3SYveY/qhJFslcBt88dCfSZVaaeendUpEemHgBvFUjQodJ4p8
-         tVPZxK+vPgxl86tZLqbewuPluW3H4u/eqrE+IxOJ1zkwm5J63zV/Bdr/wuPtlopy8IEa
-         6GbzuqDu+a2fl2l1bAv91Ygrgv7AydazcvqBRFwIdYxENBDp6nwErHWikqM3Wlmt0BW2
-         VTROZrcaeMoESZCwr+jvHEC9qB2zbufZz+suZMeB7L5fSYtAqULnnMa0cxQ0FN/7G/oH
-         1tPIW9iZ5dmmGsqItpg4KZTbZLntlRwt6xOIjktup6TH1JYOT6loySTjGnyYZdxteoOd
-         wZhw==
-X-Gm-Message-State: AOAM532vcfNYmk0MbkBVCe6xAWN1qyl9Q7TMuSx+8wqcFQPSeeauoB9k
-        PSx/Tbnd2G1n2n0R100Avkophv1Tv7tcKocu
-X-Google-Smtp-Source: ABdhPJyMPbjlWbRSvxRImteK8nhcFkaxavzpAmXI8Nda6nL/B2Mb6fHzJYwRgmR8/Qxj1XUqk4txSw==
-X-Received: by 2002:a17:90b:3889:b0:1c6:408b:6b0f with SMTP id mu9-20020a17090b388900b001c6408b6b0fmr2814842pjb.43.1650096947494;
-        Sat, 16 Apr 2022 01:15:47 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-93.three.co.id. [180.214.232.93])
-        by smtp.gmail.com with ESMTPSA id z6-20020a056a00240600b004e17ab23340sm5513328pfh.177.2022.04.16.01.15.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Apr 2022 01:15:46 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        kernel test robot <lkp@intel.com>, Chris Mason <clm@fb.com>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>,
-        Nick Terrell <terrelln@fb.com>, Schspa Shi <schspa@gmail.com>,
-        linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] btrfs: zstd: add missing function name in zstd_reclaim_timer_fn() comment
-Date:   Sat, 16 Apr 2022 15:15:34 +0700
-Message-Id: <20220416081534.28729-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S230161AbiDPISr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 04:18:47 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64348183A4
+        for <linux-doc@vger.kernel.org>; Sat, 16 Apr 2022 01:16:16 -0700 (PDT)
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id D57B12CC;
+        Sat, 16 Apr 2022 08:16:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D57B12CC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1650096975; bh=fKbbpUmHQtNqe9g4j9RzZmBRblJ6jiaa2gPqUQoM4h4=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=XGZGGssx5qHg0bUC2wNf9/wRoIve5ZNAXLOmJTUPE6wgyyfRMqCimJe1pXKIwJEq8
+         1EfI/ZASZZz55bDm7bmd4yAJrFrY0mZB0Ej2DHoo6lfYYT5nqJEN2qRIlskda5hBOS
+         KIyemUxa60c4UW41n64947T/ztMaOT7mXmL0LuSmpHEeC130vca8pXWqAsWH40f+Ps
+         j/d7TM36ureUiKzoULESJRlIJu+70Zgbj5mUXCqcSOma1jBAaNMkU0jMVB6zHh2QBB
+         L/wFZ4Gr8HLqFzstSHO6wlHAladefJouOpvkE8pbG3b79UJv17xTXes7hmg+wyl+NX
+         Lii6hlKHn/qTA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>,
+        Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+Cc:     linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: Is there any Japanese translation maintainer?
+In-Reply-To: <15b941a4-c41d-3fc1-c4f8-9a6736f6b874@gmail.com>
+References: <172fa015-26df-c978-853d-3aba67c581cc@gmail.com>
+ <15b941a4-c41d-3fc1-c4f8-9a6736f6b874@gmail.com>
+Date:   Sat, 16 Apr 2022 02:16:10 -0600
+Message-ID: <87pmlh4f5h.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kernel test robot reports kernel-doc warning:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
->> fs/btrfs/zstd.c:98: warning: This comment starts with '/**', but
-isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+> On Wed, 13 Apr 2022 18:09:59 +0900,
+> Kosuke Fujimoto wrote:
+>> Hello,
+>> 
+>> I would like to contact with Japanese documentation maintainer for some 
+>> changes. However, it looks like there is no one listed in MAINTAINERS file.
+>> Is there anyone who is maintaining Japanese documentation?
+>
+> Existing Japanese translation has a note on its first page saying:
+>
+>> This document is maintained by Tsugikazu Shibata <tshibata@ab.jp.nec.com>
+>
+> However, this email address is not reachable any more.
+>
+> I also have a few things I'd like to fix/update in it.
+> I'm glad to know there exists someone else who has similar
+> thoughts.
+>
+> I think I can play a role as a tentative maintainer who can
+> review your changes.
 
-The warning is caused by missing function name (in this case
-zstd_reclaim_timer_fn) in the comment.
+The Japanese translation has been effectively unmtaintained for some
+years.  I would be delighted if somebody would be willing to work to
+improve it - please don't hesitate!
 
-Add the function name.
+Thanks,
 
-Link: https://lore.kernel.org/linux-doc/202204151934.CkKcnvuJ-lkp@intel.com/
-Fixes: b672526e2ee935 (btrfs: use non-bh spin_lock in zstd timer callback)
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Chris Mason <clm@fb.com>
-Cc: Josef Bacik <josef@toxicpanda.com>
-Cc: David Sterba <dsterba@suse.com>
-Cc: Nick Terrell <terrelln@fb.com>
-Cc: Schspa Shi <schspa@gmail.com>
-Cc: linux-btrfs@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- This patch is applied on top of btrfs-devel/misc-next [1] tree.
-
- [1]: https://github.com/kdave/btrfs-devel.git
-
- fs/btrfs/zstd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/btrfs/zstd.c b/fs/btrfs/zstd.c
-index 0fe31a6f6e68f0..b2740358e94819 100644
---- a/fs/btrfs/zstd.c
-+++ b/fs/btrfs/zstd.c
-@@ -95,7 +95,7 @@ void zstd_free_workspace(struct list_head *ws);
- struct list_head *zstd_alloc_workspace(unsigned int level);
- 
- /**
-- * Timer callback to free unused workspaces.
-+ * zstd_reclaim_timer_fn() - Timer callback to free unused workspaces.
-  *
-  * @t: timer
-  *
-
-base-commit: 550a34e972578538fd0826916ae4fc407b62bb68
--- 
-An old man doll... just what I always wanted! - Clara
-
+jon
