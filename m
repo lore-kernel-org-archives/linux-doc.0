@@ -2,77 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44D6EC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 08:55:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9823C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 08:58:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230460AbiDPI5x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Apr 2022 04:57:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53148 "EHLO
+        id S230215AbiDPJAp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Apr 2022 05:00:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbiDPI5w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 04:57:52 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3975A24BF4;
-        Sat, 16 Apr 2022 01:55:21 -0700 (PDT)
+        with ESMTP id S229436AbiDPJAo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 05:00:44 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E44F6F957B
+        for <linux-doc@vger.kernel.org>; Sat, 16 Apr 2022 01:58:12 -0700 (PDT)
 Received: from localhost (mdns.lwn.net [45.79.72.68])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 18B6060C;
-        Sat, 16 Apr 2022 08:55:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 18B6060C
+        by ms.lwn.net (Postfix) with ESMTPSA id 963902CC;
+        Sat, 16 Apr 2022 08:58:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 963902CC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1650099321; bh=kyGKxhjj+jW2MN2KpzeSLbx1pVTnpoKfNHzINimjN/8=;
+        t=1650099492; bh=OhkediGcyvdQTScZxtwjgXYdQ0PSAnpundIuOBxllNg=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=YhiPHvoYgKWUh9AlA0wGRMxBMlGl9W8RwYA93nc2lwv5uSlBaYBofQEECPqp4bAwP
-         sawOCAn63EKkprQOw0D8L5AbmP32Kv8y7bHnDESH8rquBIkizSrBp5fH5hOcQYHoc5
-         3sDXW2ioD7uqvkuPP3vggzK7EPIYZOAfTeYKti0JkiI6hFkXvuZ3jrQ7MaQW9XwJxI
-         F2SMgjk+h9y2zi6lmo7o6OKa1iE2acSAdkxBK8IKW79pj7aNZT4BoSMcWqoKrVzrSC
-         QBxvjQi0qz1azLAJ+LHCUViP4rlip9723xXAk8GC1q5cgdFddrEGMEo1AhJBjv1bWQ
-         SgQibI7K9bFqA==
+        b=MyipeEeFbwS2Ds2yQBHwTfSagmzpaOURNBjU50SNz4FlPw/vjcAne/KHqUJdFtFhl
+         eohzz7Jjqfh5D7Nx2ZjqpURf2AVxnkrH4KuD/n4gTuPX2rmVzF8C0o+g2XeqRcZ0rA
+         wYDSX6RhhOcLI+pZNcKEWu+FFlOW09/Ph5z3ruQYTA5w0reUbD13mUk20AkAAspwG+
+         CcPu6t+1uqNp8kD5QBWf3I4rez54xy8VKtdE0rpmpsy7GEM8/gA//W3j56NHqXSI+r
+         LXngFgBYVrGbF4kAx453c04sDnFaQPTT3d6VdQVdF4P3lWDLFMnEumw9firF9dTnh+
+         +pxZo7RhCfiyA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jui-Tse Huang <juitse.huang@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Huaixin Chang <changhuaixin@linux.alibaba.com>,
-        Beata Michalska <beata.michalska@arm.com>,
-        Chun-Hung Tseng <henrybear327@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Jui-Tse Huang <juitse.huang@gmail.com>,
-        Ching-Chun Huang <jserv@ccns.ncku.edu.tw>
-Subject: Re: [PATCH] docs/scheduler: fix unit error
-In-Reply-To: <20220415033618.15655-1-juitse.huang@gmail.com>
-References: <20220415033618.15655-1-juitse.huang@gmail.com>
-Date:   Sat, 16 Apr 2022 02:55:16 -0600
-Message-ID: <87ilr92yrv.fsf@meer.lwn.net>
+To:     "wangjianjian (C)" <wangjianjian3@huawei.com>, tytso@mit.edu,
+        adilger.kernel@dilger.ca
+Cc:     linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] ext4, doc: Fix incorrect h_reserved size
+In-Reply-To: <34889f32-7dd9-125e-2f7a-734faa395d20@huawei.com>
+References: <34889f32-7dd9-125e-2f7a-734faa395d20@huawei.com>
+Date:   Sat, 16 Apr 2022 02:58:08 -0600
+Message-ID: <87ee1x2yn3.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jui-Tse Huang <juitse.huang@gmail.com> writes:
+"wangjianjian (C)" <wangjianjian3@huawei.com> writes:
 
-> The unit mentioned in the documentation of scheduler statistics is
-> outdated which may mislead the readers.
+> According to document and code, ext4_xattr_header's size is 32 bytes, so
+> h_reserved size should be 3.
 >
-> The unit of statistics that is reported by /proc/schedstat is modified
-> to nanosecond, and the unit of statistics that is reported by
-> /proc/PID/schedstat is provided as well to make the context consistent.
->
-> The rq_cpu_time and the rq_sched_info.run_delay of a run queue, and the
-> sched_info.run_delay of a task are all updated based on the clock of the
-> run queue, while the se.sum_exec_runtime of a task is updated based on
-> the clock_task of the run queue of the task. Both the clock and
-> clock_task are relied on the return value of the function sched_clock()
-> which is in the unit of nanosecond.
->
-> Signed-off-by: Jui-Tse Huang <juitse.huang@gmail.com>
+> Signed-off-by: Wang Jianjian <wangjianjian3@huawei.com>
 > ---
->  Documentation/scheduler/sched-stats.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  =C2=A0Documentation/filesystems/ext4/attributes.rst | 2 +-
+>  =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/filesystems/ext4/attributes.rst=20
+> b/Documentation/filesystems/ext4/attributes.rst
+> index 54386a010a8d..871d2da7a0a9 100644
+> --- a/Documentation/filesystems/ext4/attributes.rst
+> +++ b/Documentation/filesystems/ext4/attributes.rst
+> @@ -76,7 +76,7 @@ The beginning of an extended attribute block is in
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Checksum of the extended attribute bloc=
+k.
+>  =C2=A0=C2=A0=C2=A0 * - 0x14
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - \_\_u32
+> -=C2=A0=C2=A0=C2=A0=C2=A0 - h\_reserved[2]
+> +=C2=A0=C2=A0=C2=A0=C2=A0 - h\_reserved[3]
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Zero.
+>
 
-Part of this had already been fixed by a previous patch, but git was
-able to figure it out...this one's applied as well, thanks.
+So this patch looks whitespace-damaged, please be sure that you can send
+applyable patches to the list.
+
+Beyond that, though, while you're in the neighborhood, please fix the
+unnecessary underscore escaping (i.e. s/\_/_/).
+
+Thanks,
 
 jon
