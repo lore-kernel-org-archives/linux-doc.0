@@ -2,77 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D50CEC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 08:16:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE913C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 08:21:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230108AbiDPISu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Apr 2022 04:18:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52914 "EHLO
+        id S229507AbiDPIYF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Apr 2022 04:24:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230161AbiDPISr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 04:18:47 -0400
+        with ESMTP id S230160AbiDPIYE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 04:24:04 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64348183A4
-        for <linux-doc@vger.kernel.org>; Sat, 16 Apr 2022 01:16:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61D9E2125D
+        for <linux-doc@vger.kernel.org>; Sat, 16 Apr 2022 01:21:34 -0700 (PDT)
 Received: from localhost (mdns.lwn.net [45.79.72.68])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D57B12CC;
-        Sat, 16 Apr 2022 08:16:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D57B12CC
+        by ms.lwn.net (Postfix) with ESMTPSA id 1DFF02CC;
+        Sat, 16 Apr 2022 08:21:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1DFF02CC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1650096975; bh=fKbbpUmHQtNqe9g4j9RzZmBRblJ6jiaa2gPqUQoM4h4=;
+        t=1650097294; bh=2DPdB6qDbWYtZAcU5Zi7HimVmItrlRysllWkAvdB+gE=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=XGZGGssx5qHg0bUC2wNf9/wRoIve5ZNAXLOmJTUPE6wgyyfRMqCimJe1pXKIwJEq8
-         1EfI/ZASZZz55bDm7bmd4yAJrFrY0mZB0Ej2DHoo6lfYYT5nqJEN2qRIlskda5hBOS
-         KIyemUxa60c4UW41n64947T/ztMaOT7mXmL0LuSmpHEeC130vca8pXWqAsWH40f+Ps
-         j/d7TM36ureUiKzoULESJRlIJu+70Zgbj5mUXCqcSOma1jBAaNMkU0jMVB6zHh2QBB
-         L/wFZ4Gr8HLqFzstSHO6wlHAladefJouOpvkE8pbG3b79UJv17xTXes7hmg+wyl+NX
-         Lii6hlKHn/qTA==
+        b=L08WAERSW4TsiXxppoqy61hZyIoSpgyd1BXWjCHfFeHFOOc7kwjCT4Ha1iM5A8/jL
+         dow8eq8FtIFQjXsX0Vw4UGk2UL3SnY9S0b58B3xTot6lpcAnDU72S/6WluscSJUFjG
+         EdQ+HES+a0fQeJEi/AqgQOl5j6iqMdhU7+55cbZ8d0eUhAbPYakuMeuwNzVhyAgJCa
+         jkuB/fuWPkHDS9UvYYx0uOIODDmQLvTVl2RpYh4hpbAaKXwQN4XngwQ5clmbqGnfrE
+         gpTf4zVYyMhaGRPRk6T5IyjsgYdHka5XTQQey7IGrRESOhMPdKYPUJqGceurtB6nTg
+         lvNu1EF055pJg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>,
-        Kosuke Fujimoto <fujimotokosuke0@gmail.com>
-Cc:     linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: Is there any Japanese translation maintainer?
-In-Reply-To: <15b941a4-c41d-3fc1-c4f8-9a6736f6b874@gmail.com>
-References: <172fa015-26df-c978-853d-3aba67c581cc@gmail.com>
- <15b941a4-c41d-3fc1-c4f8-9a6736f6b874@gmail.com>
-Date:   Sat, 16 Apr 2022 02:16:10 -0600
-Message-ID: <87pmlh4f5h.fsf@meer.lwn.net>
+To:     Tang Yizhou <tangyizhou@huawei.com>, siyanteng@loongson.cn,
+        siyanteng01@gmail.com, alexs@kernel.org, seakeel@gmail.com
+Cc:     linux-doc@vger.kernel.org, zhengbin13@huawei.com,
+        tangyeechou@gmail.com, Tang Yizhou <tangyizhou@huawei.com>
+Subject: Re: [PATCH v2 0/2] Add spinlocks Chinese translation
+In-Reply-To: <20220408144742.23225-1-tangyizhou@huawei.com>
+References: <20220408144742.23225-1-tangyizhou@huawei.com>
+Date:   Sat, 16 Apr 2022 02:21:29 -0600
+Message-ID: <87lew54ewm.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Tang Yizhou <tangyizhou@huawei.com> writes:
 
-> On Wed, 13 Apr 2022 18:09:59 +0900,
-> Kosuke Fujimoto wrote:
->> Hello,
->> 
->> I would like to contact with Japanese documentation maintainer for some 
->> changes. However, it looks like there is no one listed in MAINTAINERS file.
->> Is there anyone who is maintaining Japanese documentation?
+> Now I start to translate some documents of locking.
 >
-> Existing Japanese translation has a note on its first page saying:
+> Tang Yizhou (2):
+>   docs/zh_CN: Add locking/index Chinese translation
+>   docs/zh_CN: Add spinlocks Chinese translation
 >
->> This document is maintained by Tsugikazu Shibata <tshibata@ab.jp.nec.com>
->
-> However, this email address is not reachable any more.
->
-> I also have a few things I'd like to fix/update in it.
-> I'm glad to know there exists someone else who has similar
-> thoughts.
->
-> I think I can play a role as a tentative maintainer who can
-> review your changes.
+>  Documentation/translations/zh_CN/index.rst    |   2 +-
+>  .../translations/zh_CN/locking/index.rst      |  42 +++++
+>  .../translations/zh_CN/locking/spinlocks.rst  | 149 ++++++++++++++++++
+>  3 files changed, 192 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/locking/index.rst
+>  create mode 100644 Documentation/translations/zh_CN/locking/spinlocks.rst
 
-The Japanese translation has been effectively unmtaintained for some
-years.  I would be delighted if somebody would be willing to work to
-improve it - please don't hesitate!
-
-Thanks,
+Applied, thanks.
 
 jon
