@@ -2,57 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33566C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 02:24:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB5AC433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 04:20:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbiDPC0W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Apr 2022 22:26:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43192 "EHLO
+        id S229982AbiDPEXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Apr 2022 00:23:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229767AbiDPCZx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 22:25:53 -0400
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64B7B4839F
-        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 19:23:20 -0700 (PDT)
-Received: by mail-vs1-xe29.google.com with SMTP id n5so8307131vsc.4
-        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 19:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wQoyQFv+DR+j7fh3LRsGpz2vueHCeVQWzUanchbUatQ=;
-        b=YfZhReGfuSfjixzN1iUSULLfspq+EGZIgRMn8VXbc68flA1D/N7dwBKQfs/xC0p5yg
-         BgGmeJmziqzKEfW2f1qWhonkGaD4X++4IDEbom7B23DXnAGvBARF+Hx0L+xcXhRHLRUQ
-         E6VC2+zFnZz9n1JvcpvskO2IDJMJD8shaQWPMhW8VnmThGBVZAo1yNVFeDPkiqGVqiHQ
-         tNa96/gupiv5vdSM+D15htH5OWPQEmvn0NPsCokDJTlI+27gB3/z8nc1SMaLpgGODnhN
-         VkY4dGw5Y1CR15/Z2dpvvseYqGD2OtOCAFGP1+oF3mAmZWSjWmZAlhNrNJJ4KBegHTbq
-         AumQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wQoyQFv+DR+j7fh3LRsGpz2vueHCeVQWzUanchbUatQ=;
-        b=yf9B7oxoI45xE+jwLNrXqYyNZ8/l2idPwt7fgKx5nmnLtWuBf18DgI5xrV4jmd8VIb
-         3y8udaUji4eHsdVv57RP3TMMuQf3sltRZejYLmnYK7VIFaEbqfloMpFcx9tMyaWx0FqY
-         Pv2sMfYM6y7DzwVLip8xBSEyni77Y+fc1oc4sNDlZbt4LVXv2WBaetmvH0WdGxe8Acal
-         sR+IwlLyLeLZKTDE4rmKGnT3r7nXLWV5Cf3NR/rrfUH3fAlQMZFhVarUzT7yhj8FVuKm
-         QP8MxfkzjW2hboUASZSt7A2dWtC2Nj9LkZtx6Y98CDGRVsdrc04ecexp7AEiiqTR1j6/
-         WMtQ==
-X-Gm-Message-State: AOAM530t5GiNAyz05vmQVhqdakA+j3g91Gv8alNjKlI3TQl7pI1ZAbME
-        5/yW0KWzy6N0YgN9xyq1nseJ7JPHmgkFC+MyaQw9uw==
-X-Google-Smtp-Source: ABdhPJz2RupV69wuUiP6W5/87we/n4sQFTTip7chnuEWLhQ2xLI53Oru7ERzQVELUJpxwreO5H3ZWGtU1Fh+7xHkjc4=
-X-Received: by 2002:a67:de17:0:b0:32a:4007:cd86 with SMTP id
- q23-20020a67de17000000b0032a4007cd86mr479002vsk.22.1650075799347; Fri, 15 Apr
- 2022 19:23:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-14-yuzhao@google.com>
- <20220411191639.52c62959489a6c27cb7d251e@linux-foundation.org>
-In-Reply-To: <20220411191639.52c62959489a6c27cb7d251e@linux-foundation.org>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Fri, 15 Apr 2022 20:22:42 -0600
-Message-ID: <CAOUHufacnY6zMzkMvgHD9_DAwDcnpq7a9YdYT3SKUV8dAi=Fmw@mail.gmail.com>
-Subject: Re: [PATCH v10 13/14] mm: multi-gen LRU: admin guide
-To:     Andrew Morton <akpm@linux-foundation.org>
+        with ESMTP id S229975AbiDPEXD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 00:23:03 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F840F894C;
+        Fri, 15 Apr 2022 21:20:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4BC24B80ED4;
+        Sat, 16 Apr 2022 04:20:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 500FEC385A3;
+        Sat, 16 Apr 2022 04:20:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1650082827;
+        bh=ndP7DnH+0uV9LgZ6UnXjtKlMPqFkQCYtGcMxI22lfkw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=DngN/TqwEnTZN+jzz+HXCnHt18Ew6TbspwXKOFu6q4lTgpjzVgON0emfN4IrDsh3d
+         VV0zjcuL0bs+J2ek9nDUp+l5YV4oSmn4vzoRaiBspjThPY8emzLVS0i0xxTT7yBFk1
+         Nsff9JX38lKG68EEayIJVXCzA/uZFf0ZXppn/4Xg=
+Date:   Fri, 15 Apr 2022 21:20:24 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Yu Zhao <yuzhao@google.com>
 Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
         Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
@@ -85,124 +63,52 @@ Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
         Suleiman Souhlal <suleiman@google.com>,
         Daniel Byrne <djbyrne@mtu.edu>,
         Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Holger =?ISO-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>,
         Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v10 12/14] mm: multi-gen LRU: debugfs interface
+Message-Id: <20220415212024.c682ac000e3e91572d8d6d2b@linux-foundation.org>
+In-Reply-To: <CAOUHufYhhCPFqoRbtn+=OFxZxNWS9yxW9Re_s-2TYGqCEaMXVw@mail.gmail.com>
+References: <20220407031525.2368067-1-yuzhao@google.com>
+        <20220407031525.2368067-13-yuzhao@google.com>
+        <20220411191634.674554d3de2ba37b3db40ca2@linux-foundation.org>
+        <CAOUHufYhhCPFqoRbtn+=OFxZxNWS9yxW9Re_s-2TYGqCEaMXVw@mail.gmail.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->
-> On Wed,  6 Apr 2022 21:15:25 -0600 Yu Zhao <yuzhao@google.com> wrote:
->
-> > +Kill switch
-> > +-----------
-> > +``enable`` accepts different values to enable or disable the following
->
-> It's actually called "enabled".
+On Fri, 15 Apr 2022 18:03:16 -0600 Yu Zhao <yuzhao@google.com> wrote:
 
-Good catch. Thanks!
+> > Presumably sysfs is the place.  Fully documented and with usage
+> > examples in the changelog so we can carefully review the proposed
+> > extensions to Linux's ABI.  Extensions which must be maintained
+> > unchanged for all time.
+> 
+> Eventually, yes. There still is a long way to go. Rest assured, this
+> is something Google will keep investing resources on.
 
-> And I suggest that the file name be
-> included right there in the title.  ie.
->
-> "enabled": Kill Switch
-> ======================
+So.  The plan is to put these interfaces in debugfs for now, with a
+view to migrating stabilized interfaces into sysfs (or procfs or
+whatever) once end-user requirements and use cases are better
+understood?
 
-Will do.
+If so, that sounds totally great to me.  But it should have been in
+the darn changelog!  This is the sort of thing which we care about most
+keenly.
 
-> > +Experimental features
-> > +=====================
-> > +``/sys/kernel/debug/lru_gen`` accepts commands described in the
-> > +following subsections. Multiple command lines are supported, so does
-> > +concatenation with delimiters ``,`` and ``;``.
-> > +
-> > +``/sys/kernel/debug/lru_gen_full`` provides additional stats for
-> > +debugging. ``CONFIG_LRU_GEN_STATS=y`` keeps historical stats from
-> > +evicted generations in this file.
-> > +
-> > +Working set estimation
-> > +----------------------
-> > +Working set estimation measures how much memory an application
-> > +requires in a given time interval, and it is usually done with little
-> > +impact on the performance of the application. E.g., data centers want
-> > +to optimize job scheduling (bin packing) to improve memory
-> > +utilizations. When a new job comes in, the job scheduler needs to find
-> > +out whether each server it manages can allocate a certain amount of
-> > +memory for this new job before it can pick a candidate. To do so, this
-> > +job scheduler needs to estimate the working sets of the existing jobs.
->
-> These various sysfs interfaces are a big deal.  Because they are so
-> hard to change once released.
+It would be helpful for reviewers to understand the proposed timeline
+for this process, because the entire feature isn't really real until
+this is completed, is it?  I do think we should get this nailed down
+relatively rapidly, otherwise people will be reluctant to invest much
+into a moving target.
 
-Debugfs, not sysfs. The title is "Experimental features" :)
-
-> btw, what is this "job scheduler" of which you speak?
-
-Basically it's part of cluster management software. Many jobs
-(programs + data) can run concurrently in the same cluster and the job
-scheduler of this cluster does the bin packing. To improve resource
-utilization, the job scheduler needs to know the (memory) size of each
-job it packs, hence the working set estimation (how much memory a job
-uses within a given time interval). The job scheduler also takes
-memory from some jobs so that those jobs can better fit into a single
-machine (proactive reclaim).
-
-> Is there an open
-> source implementation upon which we hope the world will converge?
-
-There are many [1], e.g., Kubernetes (k8s). Personally, I don't think
-they'll ever converge.
-
-At the moment, all open source implementations I know of rely on users
-manually specifying the size of each job (job spec), e.g., [2]. Users
-overprovision memory to avoid OOM kills. The average memory
-utilization generally is surprisingly low. What we can hope for is
-that eventually some of the open source implementations will use the
-working set estimation and proactive reclaim features provided here.
-
-[1] https://en.wikipedia.org/wiki/List_of_cluster_management_software
-[2] https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-
-> > +Proactive reclaim
-> > +-----------------
-> > +Proactive reclaim induces memory reclaim when there is no memory
-> > +pressure and usually targets cold memory only. E.g., when a new job
-> > +comes in, the job scheduler wants to proactively reclaim memory on the
-> > +server it has selected to improve the chance of successfully landing
-> > +this new job.
-> > +
-> > +Users can write ``- memcg_id node_id min_gen_nr [swappiness
-> > +[nr_to_reclaim]]`` to ``lru_gen`` to evict generations less than or
-> > +equal to ``min_gen_nr``. Note that ``min_gen_nr`` should be less than
-> > +``max_gen_nr-1`` as ``max_gen_nr`` and ``max_gen_nr-1`` are not fully
-> > +aged and therefore cannot be evicted. ``swappiness`` overrides the
-> > +default value in ``/proc/sys/vm/swappiness``. ``nr_to_reclaim`` limits
-> > +the number of pages to evict.
-> > +
-> > +A typical use case is that a job scheduler writes to ``lru_gen``
-> > +before it tries to land a new job on a server, and if it fails to
-> > +materialize the cold memory without impacting the existing jobs on
-> > +this server, it retries on the next server according to the ranking
-> > +result obtained from the working set estimation step described
-> > +earlier.
->
-> It sounds to me that these interfaces were developed in response to
-> ongoing development and use of a particular job scheduler.
-
-I did borrow some of my previous experience with Google's data
-centers. But I'm a Chrome OS developer now, so I designed them to be
-job scheduler agnostic :)
-
-> This is a very good thing, but has thought been given to the potential
-> needs of other job schedulers?
-
-Yes, basically I'm trying to help everybody replicate the success
-stories at Google and Meta [3][4].
-
-[3] https://dl.acm.org/doi/10.1145/3297858.3304053
-[4] https://dl.acm.org/doi/10.1145/3503222.3507731
+And I must say, I see dissonance between the overall maturity of the
+feature as described in these emails versus the immaturity of these
+userspace control interfaces.  What's happening there?
