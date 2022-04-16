@@ -2,119 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BC73C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 00:03:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C39BC433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 02:17:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356688AbiDPAGY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Apr 2022 20:06:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59176 "EHLO
+        id S229584AbiDPCT0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Apr 2022 22:19:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230458AbiDPAGX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 20:06:23 -0400
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 146264338E
-        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 17:03:54 -0700 (PDT)
-Received: by mail-vs1-xe30.google.com with SMTP id j16so8170853vsv.2
-        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 17:03:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ztOn9qTNjZOdib9wu9VtT2ux2AzPcxh/m+7PKVCw6iQ=;
-        b=R5JSg0OZdet4qAUAD70eGrmGlbnfq6SE/UKMx9mVP3XjOuHnA4bSF78m1q8xItuGE9
-         vjqnxSxQ4spxqIw4T67UAoX/WAcpVdYRh0Do8X6bcppYXWpUgrN8T6JkIEu/GY1wQYyh
-         A68dT7GLg+KlcZh58eo3TpGvYK6OsZzyfMZQDrLE0MQ6uR9X86jvNVceMpuK6ksQ1AGF
-         vNgu+/XSqK9byqpg3ekX51zXiD0AKThWb3YM076hxyjIsBkx1tLG5G2nPZKahaiU1EQ/
-         FUnVlc5HTy63gEsQMroqaIki707KQUKD83kXincChwkr/HdyaaFWnemn3Dfdf9e2bpd8
-         6Bgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ztOn9qTNjZOdib9wu9VtT2ux2AzPcxh/m+7PKVCw6iQ=;
-        b=z1/CiPZVE562ifCzJqf4LgB78KOkQ9/icosjaD98ZPRp56xe1YfV6KRF3PI2ebJ/e+
-         P4VIjYR7Yu32Miq0Ixo3m4H0O82JL9Hg4Tj1LifR54CxPTLXSwcD2kdTUJRAnyTrvGig
-         BgpohrrwYlaGy9lZS0vr8f11wBv44Ir1QE971EjgDLY1gWSUVNMyREbD1SfRaN9EGfcb
-         yfZyVx9Fsdsb9lXSDyM//V2EqxPfJWH+hPsqTxi2lbSPMfexdobY/IQylX3Y5MTU+nRe
-         AxxmDQcenKvg7GC5egQsXQ2ovpOWUrnPiPBgOeluYT+0DAehuDD9A9km86VQbPGtyLGe
-         OiGg==
-X-Gm-Message-State: AOAM53077/cdQZhX1+YcVrz7EkJPOvUlM2SE+Q56DklF3+vENQi2RKpW
-        WOLFmZOB455+9EfV5NlCN+nqSmYOZpaLBxQPdYtZgQ==
-X-Google-Smtp-Source: ABdhPJw2ERJ54VhqBYtjNfKf1yIUSVFp1Wz9yRWf2I17eE6bxYiU0nBVH1Y+brrNjKX5bhrMgcp/2etChjEHOe5V/60=
-X-Received: by 2002:a05:6102:3753:b0:325:c20e:4b1c with SMTP id
- u19-20020a056102375300b00325c20e4b1cmr371331vst.84.1650067433140; Fri, 15 Apr
- 2022 17:03:53 -0700 (PDT)
+        with ESMTP id S229454AbiDPCTA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 22:19:00 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A45A93C72F;
+        Fri, 15 Apr 2022 19:16:24 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.55])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4KgFtl21SZzCr3Z;
+        Sat, 16 Apr 2022 09:27:43 +0800 (CST)
+Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sat, 16 Apr 2022 09:32:04 +0800
+Received: from [10.174.178.120] (10.174.178.120) by
+ dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sat, 16 Apr 2022 09:32:02 +0800
+Message-ID: <6de859df-e1c3-e9aa-4530-3b61b9c69a28@huawei.com>
+Date:   Sat, 16 Apr 2022 09:32:01 +0800
 MIME-Version: 1.0
-References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-13-yuzhao@google.com>
- <20220411191634.674554d3de2ba37b3db40ca2@linux-foundation.org>
-In-Reply-To: <20220411191634.674554d3de2ba37b3db40ca2@linux-foundation.org>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Fri, 15 Apr 2022 18:03:16 -0600
-Message-ID: <CAOUHufYhhCPFqoRbtn+=OFxZxNWS9yxW9Re_s-2TYGqCEaMXVw@mail.gmail.com>
-Subject: Re: [PATCH v10 12/14] mm: multi-gen LRU: debugfs interface
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
-        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 0/9] introduce mirrored memory support for arm64
+To:     <ardb@kernel.org>
+CC:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <corbet@lwn.net>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <hpa@zyccr.com>, <dvhart@infradead.org>,
+        <andy@infradead.org>, <rppt@kernel.org>, <paulmck@kernel.org>,
+        <peterz@infradead.org>, <jroedel@suse.de>,
+        <songmuchun@bytedance.com>, <macro@orcam.me.uk>,
+        <frederic@kernel.org>, <W_Armin@gmx.de>, <john.garry@huawei.com>,
+        <seanjc@google.com>, <tsbogend@alpha.franken.de>,
+        <anshuman.khandual@arm.com>, <chenhuacai@kernel.org>,
+        <david@redhat.com>, <gpiccoli@igalia.com>, <mark.rutland@arm.com>,
+        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-efi@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>, <linux-mm@kvack.org>
+References: <20220414101314.1250667-1-mawupeng1@huawei.com>
+ <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
+From:   mawupeng <mawupeng1@huawei.com>
+In-Reply-To: <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.120]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500014.china.huawei.com (7.185.36.153)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->
-> On Wed,  6 Apr 2022 21:15:24 -0600 Yu Zhao <yuzhao@google.com> wrote:
->
-> > Add /sys/kernel/debug/lru_gen for working set estimation and proactive
-> > reclaim. These features are required to optimize job scheduling (bin
-> > packing) in data centers [1][2].
->
-> debugfs is for ephemeral temp stuf which can and will change or
-> disappear at any time.  Anything which is "required" by userspace
-> should not be in debufgs.
 
-Right. "required" is probably a poor choice of words. "These
-techniques are commonly used to optimize job scheduling" would sound
-better.
 
-> Presumably sysfs is the place.  Fully documented and with usage
-> examples in the changelog so we can carefully review the proposed
-> extensions to Linux's ABI.  Extensions which must be maintained
-> unchanged for all time.
+在 2022/4/14 18:22, Ard Biesheuvel 写道:
+> On Thu, 14 Apr 2022 at 11:54, Wupeng Ma <mawupeng1@huawei.com> wrote:
+>>
+>> From: Ma Wupeng <mawupeng1@huawei.com>
+>>
+>> Commit b05b9f5f9dcf ("x86, mirror: x86 enabling - find mirrored memory ranges")
+>> introduced mirrored memory support for x86. This support rely on UEFI to
+>> report mirrored memory address ranges.  See UEFI 2.5 spec pages 157-158:
+>>
+>>    http://www.uefi.org/sites/default/files/resources/UEFI%202_5.pdf
+>>
+>> Memory mirroring is a technique used to separate memory into two separate
+>> channels, usually on a memory device, like a server. In memory mirroring,
+>> one channel is copied to another to create redundancy. This method makes
+>> input/output (I/O) registers and memory appear with more than one address
+>> range because the same physical byte is accessible at more than one
+>> address. Using memory mirroring, higher memory reliability and a higher
+>> level of memory consolidation are possible.
+>>
+>> Arm64 can support this too. So mirrored memory support is added to support
+>> arm64.
+>>
+>> Efi_fake_mem is used for testing mirrored features and will not be used in
+>> production environment. This test features can fake memory's attribute
+>> values.
+>>
+>> The reason why efi_fake_mem support is put first is that memory's attribute
+>> is reported by BIOS which is hard to simulate. With this support, any arm64
+>> machines with efi support can easily test mirrored features.
+>>
+>> The main purpose of this patchset is to introduce mirrored support for
+>> arm64 and we have already fixed the problems we had which is shown in
+>> patch #5 to patch #7 and try to bring total isolation in patch #8 which
+>> will disable mirror feature if kernelcore is not specified.
+>>
+>> In order to test this support in arm64:
+>> - patch this patchset
+>> - add efi_fake_mem=8G@0:0x10000 in kernel parameter to simulate mirrored
+>>    memroy between phy addr 0-8G.
+>> - add kernelcore=mirror in kernel parameter
+>> - start you kernel
+>>
+> 
+> As I explained before:
+> 
+> - NAK to EFI fake_mem support on arm64
 
-Eventually, yes. There still is a long way to go. Rest assured, this
-is something Google will keep investing resources on.
+fake_mem support on arm64 will be removed in subsequent version.
+
+> - NAK to the whole series until you come up with a proposal on how to
+> locate the static kernel image itself into more reliable memory, as
+> there is really no point to any of this otherwise.
+
+Sorry I am not familiar with this, as you metioned before,
+
+ > you have to iterate over the memory map and look for regions with
+ > the desired attribute, and allocate those pages explicitly.
+
+Do you mean this is x86, commit c05cd79750fb
+("x86/boot/KASLR: Prefer mirrored memory regions for the kernel physical address").
+I will do some research.
+
+ > I'd prefer to implement this in the bootloader, and only add minimal
+ > logic to the stub to respect the placement of the kernel by the loader
+ > if the loader signals it to do so.
+
+Does this bootloader refer to grub and then add minimal logic to arm64-stub.c?
+
+What is the loader signal?
+System exists mirrored memory reported by uefi?
+
+Thanks for reviewing, sorry for my ignorance on this.
+
+> .
+
+
+
