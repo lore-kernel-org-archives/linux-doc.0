@@ -2,80 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9823C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 08:58:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4E2BC433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 09:03:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230215AbiDPJAp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Apr 2022 05:00:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35882 "EHLO
+        id S229826AbiDPJGW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Apr 2022 05:06:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiDPJAo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 05:00:44 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E44F6F957B
-        for <linux-doc@vger.kernel.org>; Sat, 16 Apr 2022 01:58:12 -0700 (PDT)
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 963902CC;
-        Sat, 16 Apr 2022 08:58:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 963902CC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1650099492; bh=OhkediGcyvdQTScZxtwjgXYdQ0PSAnpundIuOBxllNg=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=MyipeEeFbwS2Ds2yQBHwTfSagmzpaOURNBjU50SNz4FlPw/vjcAne/KHqUJdFtFhl
-         eohzz7Jjqfh5D7Nx2ZjqpURf2AVxnkrH4KuD/n4gTuPX2rmVzF8C0o+g2XeqRcZ0rA
-         wYDSX6RhhOcLI+pZNcKEWu+FFlOW09/Ph5z3ruQYTA5w0reUbD13mUk20AkAAspwG+
-         CcPu6t+1uqNp8kD5QBWf3I4rez54xy8VKtdE0rpmpsy7GEM8/gA//W3j56NHqXSI+r
-         LXngFgBYVrGbF4kAx453c04sDnFaQPTT3d6VdQVdF4P3lWDLFMnEumw9firF9dTnh+
-         +pxZo7RhCfiyA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "wangjianjian (C)" <wangjianjian3@huawei.com>, tytso@mit.edu,
-        adilger.kernel@dilger.ca
-Cc:     linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] ext4, doc: Fix incorrect h_reserved size
-In-Reply-To: <34889f32-7dd9-125e-2f7a-734faa395d20@huawei.com>
-References: <34889f32-7dd9-125e-2f7a-734faa395d20@huawei.com>
-Date:   Sat, 16 Apr 2022 02:58:08 -0600
-Message-ID: <87ee1x2yn3.fsf@meer.lwn.net>
+        with ESMTP id S229792AbiDPJGV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 05:06:21 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B28921066E5
+        for <linux-doc@vger.kernel.org>; Sat, 16 Apr 2022 02:03:50 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id s14-20020a17090a880e00b001caaf6d3dd1so13443979pjn.3
+        for <linux-doc@vger.kernel.org>; Sat, 16 Apr 2022 02:03:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=r755sEHS6XKHg2sFZbGwHYnpwi1Rp7A12cZ06QPHbdc=;
+        b=MLC7JQ6aQUGV5rPBkez+gYUL9psM2ggrs1jAqzFDWJLruf11fmATFsOtoy94NHzoPT
+         sjwJGDPuWBtA+79RYJlTq3B5E2U8+MO+4jjRrl0Qkrk8pFpzdu6vgTegAGUN9lSQljlE
+         AVY6/4XkQcdEbRXeyk1C2nAUXBlzFY9VTfgK+whPUPPYVEjRMOo4XRnqaja+Ta5OcmmT
+         wYCrg9sKqaGsvlbyb0yIoUSkF8ZNh2sQE8XBmY+PeB/qvLi+hnf8H1KjpmHsPzQk975l
+         w3mkszl7gyG4Nqq28vw0Be2pj227RdVX4im7DLgpXcskPcpKi0TeOaQhzTCYlnp7S3Kd
+         nUUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=r755sEHS6XKHg2sFZbGwHYnpwi1Rp7A12cZ06QPHbdc=;
+        b=AhE2bDhIGcvOhAZvMgCncL4B/CtQEaCAONJfpPhWA617KxtgiIYFKnzDVZQKXKQM5E
+         +9zMgbwzgZDzAQlenEYZR5uHJQLAhkeLiAXZUWI/US0UzN1Kz/c0KO+J6g1ZdP2hnpCW
+         /xLu+G2b+GD8q/dCiuVnAtVjkgwK27qFdatZz9X4FCOcp0LzTWWCYTiLgK0EQg9P+YNJ
+         paCGGeDTRo7IC2lQmKGIIXr4xGR4Bf25CJ0tQuo1waHnmSbLUG+quAmSJTzJU6xkqGyf
+         Zyg7B2ipGV78x5pYo/JnGGkmADsSYSUi/Kdl4QG4rDwZv++PLw7ilySWqDBFZkTT597T
+         Sh0g==
+X-Gm-Message-State: AOAM530/seOiP02kXC9Ccavh1dGTFX4vYS6TD9bRYZSVCm002cu6RWsD
+        0d13XD+IW+2xCVrUiKbIsNg=
+X-Google-Smtp-Source: ABdhPJwfBrbUhWF1z0UBHxhGErrDKYlvqim44SjGpgxAl1hWz1QyFEo+5o0lCxr85+IGOFTgjHQXZg==
+X-Received: by 2002:a17:902:f605:b0:14f:5d75:4fb0 with SMTP id n5-20020a170902f60500b0014f5d754fb0mr2729015plg.101.1650099830157;
+        Sat, 16 Apr 2022 02:03:50 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id pi2-20020a17090b1e4200b001c7b15928e0sm11634951pjb.23.2022.04.16.02.03.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 16 Apr 2022 02:03:49 -0700 (PDT)
+Message-ID: <09f5e92a-286b-afe3-ebea-2054363173d8@gmail.com>
+Date:   Sat, 16 Apr 2022 18:03:44 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: Is there any Japanese translation maintainer?
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kosuke Fujimoto <fujimotokosuke0@gmail.com>,
+        Tsugikazu Shibata <shibata@linuxfoundation.org>
+References: <172fa015-26df-c978-853d-3aba67c581cc@gmail.com>
+ <15b941a4-c41d-3fc1-c4f8-9a6736f6b874@gmail.com>
+ <87pmlh4f5h.fsf@meer.lwn.net>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <87pmlh4f5h.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"wangjianjian (C)" <wangjianjian3@huawei.com> writes:
+[+Cc: Shibata-san]
 
-> According to document and code, ext4_xattr_header's size is 32 bytes, so
-> h_reserved size should be 3.
->
-> Signed-off-by: Wang Jianjian <wangjianjian3@huawei.com>
-> ---
->  =C2=A0Documentation/filesystems/ext4/attributes.rst | 2 +-
->  =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/filesystems/ext4/attributes.rst=20
-> b/Documentation/filesystems/ext4/attributes.rst
-> index 54386a010a8d..871d2da7a0a9 100644
-> --- a/Documentation/filesystems/ext4/attributes.rst
-> +++ b/Documentation/filesystems/ext4/attributes.rst
-> @@ -76,7 +76,7 @@ The beginning of an extended attribute block is in
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Checksum of the extended attribute bloc=
-k.
->  =C2=A0=C2=A0=C2=A0 * - 0x14
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - \_\_u32
-> -=C2=A0=C2=A0=C2=A0=C2=A0 - h\_reserved[2]
-> +=C2=A0=C2=A0=C2=A0=C2=A0 - h\_reserved[3]
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Zero.
->
+On Sat, 16 Apr 2022 02:16:10 -0600,
+Jonathan Corbet wrote:
+> Akira Yokosawa <akiyks@gmail.com> writes:
+> 
+>> On Wed, 13 Apr 2022 18:09:59 +0900,
+>> Kosuke Fujimoto wrote:
+>>> Hello,
+>>>
+>>> I would like to contact with Japanese documentation maintainer for some 
+>>> changes. However, it looks like there is no one listed in MAINTAINERS file.
+>>> Is there anyone who is maintaining Japanese documentation?
+>>
+>> Existing Japanese translation has a note on its first page saying:
+>>
+>>> This document is maintained by Tsugikazu Shibata <tshibata@ab.jp.nec.com>
+>>
+>> However, this email address is not reachable any more.
+>>
+>> I also have a few things I'd like to fix/update in it.
+>> I'm glad to know there exists someone else who has similar
+>> thoughts.
+>>
+>> I think I can play a role as a tentative maintainer who can
+>> review your changes.
+> 
+> The Japanese translation has been effectively unmtaintained for some
+> years.  I would be delighted if somebody would be willing to work to
+> improve it - please don't hesitate!
 
-So this patch looks whitespace-damaged, please be sure that you can send
-applyable patches to the list.
+Jon,
 
-Beyond that, though, while you're in the neighborhood, please fix the
-unnecessary underscore escaping (i.e. s/\_/_/).
+As a matter of fact, with Greg's kind help, I could reach
+Shibata-san, who is now with Linux Foundation.
 
-Thanks,
+I'm preparing a patch adding an entry of DOCUMENTATION/JAPANESE
+to MAINTAINERS.
 
-jon
+Fujimoto-san is working on an update in ja_JP/howto.rst as well.
+
+You will likely see both of them shortly.
+Stay tuned!  ;-)
+
+        Thanks, Akira
+
+> 
+> Thanks,
+> 
+> jon
