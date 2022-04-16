@@ -2,113 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB5AC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 04:20:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 137D7C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 05:28:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229982AbiDPEXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Apr 2022 00:23:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50176 "EHLO
+        id S229436AbiDPFbI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Apr 2022 01:31:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229975AbiDPEXD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 00:23:03 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F840F894C;
-        Fri, 15 Apr 2022 21:20:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4BC24B80ED4;
-        Sat, 16 Apr 2022 04:20:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 500FEC385A3;
-        Sat, 16 Apr 2022 04:20:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1650082827;
-        bh=ndP7DnH+0uV9LgZ6UnXjtKlMPqFkQCYtGcMxI22lfkw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=DngN/TqwEnTZN+jzz+HXCnHt18Ew6TbspwXKOFu6q4lTgpjzVgON0emfN4IrDsh3d
-         VV0zjcuL0bs+J2ek9nDUp+l5YV4oSmn4vzoRaiBspjThPY8emzLVS0i0xxTT7yBFk1
-         Nsff9JX38lKG68EEayIJVXCzA/uZFf0ZXppn/4Xg=
-Date:   Fri, 15 Apr 2022 21:20:24 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
-        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Holger =?ISO-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v10 12/14] mm: multi-gen LRU: debugfs interface
-Message-Id: <20220415212024.c682ac000e3e91572d8d6d2b@linux-foundation.org>
-In-Reply-To: <CAOUHufYhhCPFqoRbtn+=OFxZxNWS9yxW9Re_s-2TYGqCEaMXVw@mail.gmail.com>
-References: <20220407031525.2368067-1-yuzhao@google.com>
-        <20220407031525.2368067-13-yuzhao@google.com>
-        <20220411191634.674554d3de2ba37b3db40ca2@linux-foundation.org>
-        <CAOUHufYhhCPFqoRbtn+=OFxZxNWS9yxW9Re_s-2TYGqCEaMXVw@mail.gmail.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229379AbiDPFbG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 01:31:06 -0400
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D017B105044;
+        Fri, 15 Apr 2022 22:28:34 -0700 (PDT)
+Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-df02f7e2c9so9631449fac.10;
+        Fri, 15 Apr 2022 22:28:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WdhLn0xBW1CBAGWGNiG+mlM/bnJbRbITdURA5inxlfM=;
+        b=J/DK+1zC+eFUhCBlGmyqY+6nb5pjq1LLWFft9zwdP/dERv1sT3pazeT+o6gw2kKL+r
+         Nw/eY9C2EoUtdkhknm82JpvuDl7sSxy7l036SWGnSVLPbwY5Hulh9pxAPDcQa+8Pvymx
+         EUlp2yQIsEyAZRRPbFpXBYCcdnRpn5zGK5LWFWhQdVkFz5ALhzwAnfVrbXMcsuuo7s/n
+         MQNavx5cnW/37/or5mSnKmdjydaiBBi5rxmqbP2mJcHJUAZ1hsfIZUiLABDTEeOOcrFf
+         kIz0HrguXZzzN/8qRD3vc63pl1247DeiuuGC40qm9WGcYLM3uydJJGeOXYZy+u0kNu9j
+         Y4lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WdhLn0xBW1CBAGWGNiG+mlM/bnJbRbITdURA5inxlfM=;
+        b=ZCrh8ZICia7TX+Bk0QhPTj3jeNVIKNY4AbCz+CAfW89bWCRDY0Xx9qfn6vSCu7ihb2
+         SMT4zp7jQ5L1jcBPURLgHSYfJs8i07QFVQixeJYSnvUBj/nzNAGCK8mf0cpHxgVDGxQu
+         C5ywrbriRkCiKKjzFGZ5m2ALe+aBbMHeok2nCptbMRIsnedEsHOqWHSAdrMSZ8EmrjkL
+         xCSRfLM+0O8UJfgmpc54Kdenv8LFqumdjniF/7DfTfk5Rdahx7m6hRv3jHGFZmEhPbOi
+         0okDiEGF1+u+FltSLhSfB+c9mEKISkoA0h0ulToHWvnYjQQyHHHE6YL/Xm3xgBr9RBaN
+         gsIg==
+X-Gm-Message-State: AOAM532ZUznFxFzH/jn40h5Nsnqzx5zIgZTEmBEx7RCjuKMlZD5VHrZi
+        55QjYBA02acrVqWDHLfOHcQZyLWXJ4sh3Q==
+X-Google-Smtp-Source: ABdhPJxOBI1/Jdl3xE5TP8Y3w37cCdw62EEbXRQS2wdKknpOvr7usGLBGNppua5vlcWX9tXw9krVcw==
+X-Received: by 2002:a05:6870:3482:b0:e2:d03a:41e8 with SMTP id n2-20020a056870348200b000e2d03a41e8mr2453808oah.79.1650086913864;
+        Fri, 15 Apr 2022 22:28:33 -0700 (PDT)
+Received: from tresc043793.tre-sc.gov.br (187-049-235-234.floripa.net.br. [187.49.235.234])
+        by smtp.gmail.com with ESMTPSA id j72-20020a9d17ce000000b005e6b89f9f54sm1780775otj.32.2022.04.15.22.28.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Apr 2022 22:28:31 -0700 (PDT)
+From:   Luiz Angelo Daros de Luca <luizluca@gmail.com>
+To:     netdev@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, tobias@waldekranz.com, andrew@lunn.ch,
+        f.fainelli@gmail.com, vladimir.oltean@nxp.com, corbet@lwn.net,
+        kuba@kernel.org, davem@davemloft.net,
+        Luiz Angelo Daros de Luca <luizluca@gmail.com>
+Subject: [PATCH net-next v3] docs: net: dsa: describe issues with checksum offload
+Date:   Sat, 16 Apr 2022 02:27:37 -0300
+Message-Id: <20220416052737.25509-1-luizluca@gmail.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 15 Apr 2022 18:03:16 -0600 Yu Zhao <yuzhao@google.com> wrote:
+DSA tags before IP header (categories 1 and 2) or after the payload (3)
+might introduce offload checksum issues.
 
-> > Presumably sysfs is the place.  Fully documented and with usage
-> > examples in the changelog so we can carefully review the proposed
-> > extensions to Linux's ABI.  Extensions which must be maintained
-> > unchanged for all time.
-> 
-> Eventually, yes. There still is a long way to go. Rest assured, this
-> is something Google will keep investing resources on.
+Signed-off-by: Luiz Angelo Daros de Luca <luizluca@gmail.com>
+Reviewed-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+---
+ Documentation/networking/dsa/dsa.rst | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-So.  The plan is to put these interfaces in debugfs for now, with a
-view to migrating stabilized interfaces into sysfs (or procfs or
-whatever) once end-user requirements and use cases are better
-understood?
+diff --git a/Documentation/networking/dsa/dsa.rst b/Documentation/networking/dsa/dsa.rst
+index ddc1dd039337..ed7fa76e7a40 100644
+--- a/Documentation/networking/dsa/dsa.rst
++++ b/Documentation/networking/dsa/dsa.rst
+@@ -193,6 +193,23 @@ protocol. If not all packets are of equal size, the tagger can implement the
+ default behavior by specifying the correct offset incurred by each individual
+ RX packet. Tail taggers do not cause issues to the flow dissector.
+ 
++Checksum offload should work with category 1 and 2 taggers when the DSA master
++driver declares NETIF_F_HW_CSUM in vlan_features and looks at csum_start and
++csum_offset. For those cases, DSA will shift the checksum start and offset by
++the tag size. If the DSA master driver still uses the legacy NETIF_F_IP_CSUM
++or NETIF_F_IPV6_CSUM in vlan_features, the offload might only work if the
++offload hardware already expects that specific tag (perhaps due to matching
++vendors). DSA slaves inherit those flags from the master port, and it is up to
++the driver to correctly fall back to software checksum when the IP header is not
++where the hardware expects. If that check is ineffective, the packets might go
++to the network without a proper checksum (the checksum field will have the
++pseudo IP header sum). For category 3, when the offload hardware does not
++already expect the switch tag in use, the checksum must be calculated before any
++tag is inserted (i.e. inside the tagger). Otherwise, the DSA master would
++include the tail tag in the (software or hardware) checksum calculation. Then,
++when the tag gets stripped by the switch during transmission, it will leave an
++incorrect IP checksum in place.
++
+ Due to various reasons (most common being category 1 taggers being associated
+ with DSA-unaware masters, mangling what the master perceives as MAC DA), the
+ tagging protocol may require the DSA master to operate in promiscuous mode, to
+-- 
+2.35.1
 
-If so, that sounds totally great to me.  But it should have been in
-the darn changelog!  This is the sort of thing which we care about most
-keenly.
-
-It would be helpful for reviewers to understand the proposed timeline
-for this process, because the entire feature isn't really real until
-this is completed, is it?  I do think we should get this nailed down
-relatively rapidly, otherwise people will be reluctant to invest much
-into a moving target.
-
-And I must say, I see dissonance between the overall maturity of the
-feature as described in these emails versus the immaturity of these
-userspace control interfaces.  What's happening there?
