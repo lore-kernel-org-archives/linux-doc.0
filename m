@@ -2,142 +2,207 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C39BC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 02:17:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33566C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 02:24:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229584AbiDPCT0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Apr 2022 22:19:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51876 "EHLO
+        id S229775AbiDPC0W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Apr 2022 22:26:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbiDPCTA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 22:19:00 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A45A93C72F;
-        Fri, 15 Apr 2022 19:16:24 -0700 (PDT)
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.55])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4KgFtl21SZzCr3Z;
-        Sat, 16 Apr 2022 09:27:43 +0800 (CST)
-Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 16 Apr 2022 09:32:04 +0800
-Received: from [10.174.178.120] (10.174.178.120) by
- dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 16 Apr 2022 09:32:02 +0800
-Message-ID: <6de859df-e1c3-e9aa-4530-3b61b9c69a28@huawei.com>
-Date:   Sat, 16 Apr 2022 09:32:01 +0800
+        with ESMTP id S229767AbiDPCZx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Apr 2022 22:25:53 -0400
+Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64B7B4839F
+        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 19:23:20 -0700 (PDT)
+Received: by mail-vs1-xe29.google.com with SMTP id n5so8307131vsc.4
+        for <linux-doc@vger.kernel.org>; Fri, 15 Apr 2022 19:23:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wQoyQFv+DR+j7fh3LRsGpz2vueHCeVQWzUanchbUatQ=;
+        b=YfZhReGfuSfjixzN1iUSULLfspq+EGZIgRMn8VXbc68flA1D/N7dwBKQfs/xC0p5yg
+         BgGmeJmziqzKEfW2f1qWhonkGaD4X++4IDEbom7B23DXnAGvBARF+Hx0L+xcXhRHLRUQ
+         E6VC2+zFnZz9n1JvcpvskO2IDJMJD8shaQWPMhW8VnmThGBVZAo1yNVFeDPkiqGVqiHQ
+         tNa96/gupiv5vdSM+D15htH5OWPQEmvn0NPsCokDJTlI+27gB3/z8nc1SMaLpgGODnhN
+         VkY4dGw5Y1CR15/Z2dpvvseYqGD2OtOCAFGP1+oF3mAmZWSjWmZAlhNrNJJ4KBegHTbq
+         AumQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wQoyQFv+DR+j7fh3LRsGpz2vueHCeVQWzUanchbUatQ=;
+        b=yf9B7oxoI45xE+jwLNrXqYyNZ8/l2idPwt7fgKx5nmnLtWuBf18DgI5xrV4jmd8VIb
+         3y8udaUji4eHsdVv57RP3TMMuQf3sltRZejYLmnYK7VIFaEbqfloMpFcx9tMyaWx0FqY
+         Pv2sMfYM6y7DzwVLip8xBSEyni77Y+fc1oc4sNDlZbt4LVXv2WBaetmvH0WdGxe8Acal
+         sR+IwlLyLeLZKTDE4rmKGnT3r7nXLWV5Cf3NR/rrfUH3fAlQMZFhVarUzT7yhj8FVuKm
+         QP8MxfkzjW2hboUASZSt7A2dWtC2Nj9LkZtx6Y98CDGRVsdrc04ecexp7AEiiqTR1j6/
+         WMtQ==
+X-Gm-Message-State: AOAM530t5GiNAyz05vmQVhqdakA+j3g91Gv8alNjKlI3TQl7pI1ZAbME
+        5/yW0KWzy6N0YgN9xyq1nseJ7JPHmgkFC+MyaQw9uw==
+X-Google-Smtp-Source: ABdhPJz2RupV69wuUiP6W5/87we/n4sQFTTip7chnuEWLhQ2xLI53Oru7ERzQVELUJpxwreO5H3ZWGtU1Fh+7xHkjc4=
+X-Received: by 2002:a67:de17:0:b0:32a:4007:cd86 with SMTP id
+ q23-20020a67de17000000b0032a4007cd86mr479002vsk.22.1650075799347; Fri, 15 Apr
+ 2022 19:23:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 0/9] introduce mirrored memory support for arm64
-To:     <ardb@kernel.org>
-CC:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <corbet@lwn.net>, <tglx@linutronix.de>,
-        <mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <hpa@zyccr.com>, <dvhart@infradead.org>,
-        <andy@infradead.org>, <rppt@kernel.org>, <paulmck@kernel.org>,
-        <peterz@infradead.org>, <jroedel@suse.de>,
-        <songmuchun@bytedance.com>, <macro@orcam.me.uk>,
-        <frederic@kernel.org>, <W_Armin@gmx.de>, <john.garry@huawei.com>,
-        <seanjc@google.com>, <tsbogend@alpha.franken.de>,
-        <anshuman.khandual@arm.com>, <chenhuacai@kernel.org>,
-        <david@redhat.com>, <gpiccoli@igalia.com>, <mark.rutland@arm.com>,
-        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-efi@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>, <linux-mm@kvack.org>
-References: <20220414101314.1250667-1-mawupeng1@huawei.com>
- <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
-From:   mawupeng <mawupeng1@huawei.com>
-In-Reply-To: <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.120]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500014.china.huawei.com (7.185.36.153)
-X-CFilter-Loop: Reflected
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-14-yuzhao@google.com>
+ <20220411191639.52c62959489a6c27cb7d251e@linux-foundation.org>
+In-Reply-To: <20220411191639.52c62959489a6c27cb7d251e@linux-foundation.org>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Fri, 15 Apr 2022 20:22:42 -0600
+Message-ID: <CAOUHufacnY6zMzkMvgHD9_DAwDcnpq7a9YdYT3SKUV8dAi=Fmw@mail.gmail.com>
+Subject: Re: [PATCH v10 13/14] mm: multi-gen LRU: admin guide
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Wed,  6 Apr 2022 21:15:25 -0600 Yu Zhao <yuzhao@google.com> wrote:
+>
+> > +Kill switch
+> > +-----------
+> > +``enable`` accepts different values to enable or disable the following
+>
+> It's actually called "enabled".
 
+Good catch. Thanks!
 
-在 2022/4/14 18:22, Ard Biesheuvel 写道:
-> On Thu, 14 Apr 2022 at 11:54, Wupeng Ma <mawupeng1@huawei.com> wrote:
->>
->> From: Ma Wupeng <mawupeng1@huawei.com>
->>
->> Commit b05b9f5f9dcf ("x86, mirror: x86 enabling - find mirrored memory ranges")
->> introduced mirrored memory support for x86. This support rely on UEFI to
->> report mirrored memory address ranges.  See UEFI 2.5 spec pages 157-158:
->>
->>    http://www.uefi.org/sites/default/files/resources/UEFI%202_5.pdf
->>
->> Memory mirroring is a technique used to separate memory into two separate
->> channels, usually on a memory device, like a server. In memory mirroring,
->> one channel is copied to another to create redundancy. This method makes
->> input/output (I/O) registers and memory appear with more than one address
->> range because the same physical byte is accessible at more than one
->> address. Using memory mirroring, higher memory reliability and a higher
->> level of memory consolidation are possible.
->>
->> Arm64 can support this too. So mirrored memory support is added to support
->> arm64.
->>
->> Efi_fake_mem is used for testing mirrored features and will not be used in
->> production environment. This test features can fake memory's attribute
->> values.
->>
->> The reason why efi_fake_mem support is put first is that memory's attribute
->> is reported by BIOS which is hard to simulate. With this support, any arm64
->> machines with efi support can easily test mirrored features.
->>
->> The main purpose of this patchset is to introduce mirrored support for
->> arm64 and we have already fixed the problems we had which is shown in
->> patch #5 to patch #7 and try to bring total isolation in patch #8 which
->> will disable mirror feature if kernelcore is not specified.
->>
->> In order to test this support in arm64:
->> - patch this patchset
->> - add efi_fake_mem=8G@0:0x10000 in kernel parameter to simulate mirrored
->>    memroy between phy addr 0-8G.
->> - add kernelcore=mirror in kernel parameter
->> - start you kernel
->>
-> 
-> As I explained before:
-> 
-> - NAK to EFI fake_mem support on arm64
+> And I suggest that the file name be
+> included right there in the title.  ie.
+>
+> "enabled": Kill Switch
+> ======================
 
-fake_mem support on arm64 will be removed in subsequent version.
+Will do.
 
-> - NAK to the whole series until you come up with a proposal on how to
-> locate the static kernel image itself into more reliable memory, as
-> there is really no point to any of this otherwise.
+> > +Experimental features
+> > +=====================
+> > +``/sys/kernel/debug/lru_gen`` accepts commands described in the
+> > +following subsections. Multiple command lines are supported, so does
+> > +concatenation with delimiters ``,`` and ``;``.
+> > +
+> > +``/sys/kernel/debug/lru_gen_full`` provides additional stats for
+> > +debugging. ``CONFIG_LRU_GEN_STATS=y`` keeps historical stats from
+> > +evicted generations in this file.
+> > +
+> > +Working set estimation
+> > +----------------------
+> > +Working set estimation measures how much memory an application
+> > +requires in a given time interval, and it is usually done with little
+> > +impact on the performance of the application. E.g., data centers want
+> > +to optimize job scheduling (bin packing) to improve memory
+> > +utilizations. When a new job comes in, the job scheduler needs to find
+> > +out whether each server it manages can allocate a certain amount of
+> > +memory for this new job before it can pick a candidate. To do so, this
+> > +job scheduler needs to estimate the working sets of the existing jobs.
+>
+> These various sysfs interfaces are a big deal.  Because they are so
+> hard to change once released.
 
-Sorry I am not familiar with this, as you metioned before,
+Debugfs, not sysfs. The title is "Experimental features" :)
 
- > you have to iterate over the memory map and look for regions with
- > the desired attribute, and allocate those pages explicitly.
+> btw, what is this "job scheduler" of which you speak?
 
-Do you mean this is x86, commit c05cd79750fb
-("x86/boot/KASLR: Prefer mirrored memory regions for the kernel physical address").
-I will do some research.
+Basically it's part of cluster management software. Many jobs
+(programs + data) can run concurrently in the same cluster and the job
+scheduler of this cluster does the bin packing. To improve resource
+utilization, the job scheduler needs to know the (memory) size of each
+job it packs, hence the working set estimation (how much memory a job
+uses within a given time interval). The job scheduler also takes
+memory from some jobs so that those jobs can better fit into a single
+machine (proactive reclaim).
 
- > I'd prefer to implement this in the bootloader, and only add minimal
- > logic to the stub to respect the placement of the kernel by the loader
- > if the loader signals it to do so.
+> Is there an open
+> source implementation upon which we hope the world will converge?
 
-Does this bootloader refer to grub and then add minimal logic to arm64-stub.c?
+There are many [1], e.g., Kubernetes (k8s). Personally, I don't think
+they'll ever converge.
 
-What is the loader signal?
-System exists mirrored memory reported by uefi?
+At the moment, all open source implementations I know of rely on users
+manually specifying the size of each job (job spec), e.g., [2]. Users
+overprovision memory to avoid OOM kills. The average memory
+utilization generally is surprisingly low. What we can hope for is
+that eventually some of the open source implementations will use the
+working set estimation and proactive reclaim features provided here.
 
-Thanks for reviewing, sorry for my ignorance on this.
+[1] https://en.wikipedia.org/wiki/List_of_cluster_management_software
+[2] https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
 
-> .
+> > +Proactive reclaim
+> > +-----------------
+> > +Proactive reclaim induces memory reclaim when there is no memory
+> > +pressure and usually targets cold memory only. E.g., when a new job
+> > +comes in, the job scheduler wants to proactively reclaim memory on the
+> > +server it has selected to improve the chance of successfully landing
+> > +this new job.
+> > +
+> > +Users can write ``- memcg_id node_id min_gen_nr [swappiness
+> > +[nr_to_reclaim]]`` to ``lru_gen`` to evict generations less than or
+> > +equal to ``min_gen_nr``. Note that ``min_gen_nr`` should be less than
+> > +``max_gen_nr-1`` as ``max_gen_nr`` and ``max_gen_nr-1`` are not fully
+> > +aged and therefore cannot be evicted. ``swappiness`` overrides the
+> > +default value in ``/proc/sys/vm/swappiness``. ``nr_to_reclaim`` limits
+> > +the number of pages to evict.
+> > +
+> > +A typical use case is that a job scheduler writes to ``lru_gen``
+> > +before it tries to land a new job on a server, and if it fails to
+> > +materialize the cold memory without impacting the existing jobs on
+> > +this server, it retries on the next server according to the ranking
+> > +result obtained from the working set estimation step described
+> > +earlier.
+>
+> It sounds to me that these interfaces were developed in response to
+> ongoing development and use of a particular job scheduler.
 
+I did borrow some of my previous experience with Google's data
+centers. But I'm a Chrome OS developer now, so I designed them to be
+job scheduler agnostic :)
 
+> This is a very good thing, but has thought been given to the potential
+> needs of other job schedulers?
 
+Yes, basically I'm trying to help everybody replicate the success
+stories at Google and Meta [3][4].
+
+[3] https://dl.acm.org/doi/10.1145/3297858.3304053
+[4] https://dl.acm.org/doi/10.1145/3503222.3507731
