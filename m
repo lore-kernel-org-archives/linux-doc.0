@@ -2,88 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEE03C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 05:48:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 495AAC433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 06:27:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229458AbiDPFua (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Apr 2022 01:50:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38030 "EHLO
+        id S229691AbiDPGaJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Apr 2022 02:30:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbiDPFu3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 01:50:29 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 490AF2980B;
-        Fri, 15 Apr 2022 22:47:59 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id be5so8529188plb.13;
-        Fri, 15 Apr 2022 22:47:59 -0700 (PDT)
+        with ESMTP id S229659AbiDPGaG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 02:30:06 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 571B7E8874;
+        Fri, 15 Apr 2022 23:27:36 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id t4so9907907pgc.1;
+        Fri, 15 Apr 2022 23:27:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=hZc9zcmo/JWKOyzC5RRU+RQ67f92+BjrAId5apbjxx4=;
-        b=BTmnZpEXjDVfSLT1f+xWT1/xn6sYOGBXR8vnDdrxz72m3mLd5ZTISc8FjWEHxbnZ0Q
-         kJ7JUbXOpyyCJhdDcNb1py4wsDmm7KpjIfQP6GR8yEcaOYKFQYFO+2vWcNvXpiZKLMr3
-         q/e6QdW02QmpwPIlnbLe3oX4WWCYdm2n/JyeS+GEd0Hp93xNjUuUpiis8JhOFyd2SMFN
-         ay7peWdqRl0rrxVRxMOEZ+V2dJeDYrI9zRG6DJgh5g+qK1wueWuxmR5pDbJZt8lPtBd3
-         j/RdN9aum+gG4YDDb8b+7ttaSuryetMAh4wDVL2BAlRjdQfCShj0B6C35DBcPCbMdm1W
-         78DA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SfC6N8rNkT816Snz0VnYd8t37yDWhWvdxYYSUPu0150=;
+        b=fyXTPqWuEIfawlBmw3F7GEzALsTRckGK49QwIQlkKFrhPx29NjF0X3UBTJWHqcp7Qy
+         zUS73GzafkEro0HTJJk5T9Zy/rIzUfOJYEfkWMV294C3XCxdwMjRv6uo8a9LcZw4mdHW
+         OwFFHvzASj36SZy6jt7x8Kdfm/7AymLSUzqZ4ehmWniR/zm00tn5WTEFWsGTXPVJ9Arx
+         uHenT76D5wpBDTYrzyPKj5yn88WuF/XrX8yK9mm8Z29aDZ8McT/d85suc7IMfvmZobH7
+         wpSt3kWrdUwDgf1KpT4wbbwYm2XtEC206pokmPX785nNWOQ+geOUfRSsUci35HWQRPMy
+         2xuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=hZc9zcmo/JWKOyzC5RRU+RQ67f92+BjrAId5apbjxx4=;
-        b=ZCYEcWVq1QJCzJtf46ffc7a5sNloUyWrGNKfpQZhzlnGXrHsKrdDxLf5mXCfqDtYSb
-         WzvP7WpnM1JD27gOFZYk+NrmrCaiEDh2uOCT1Hk+i2J+tls/PPRsvRe4oeX/2Rl5MMET
-         XlL1gUQEWyVK9VUlfvfvh4z5pCU7sDp/AHhPu2dqzzo+eYPDK7smA+hx++bR0begwnJy
-         oFJM2iEuClewcGqVA6btIENUMaEXMDWzgdai4xXkS7OLUg+4AuX2EF9MosYgRvs9wr0B
-         YVvIPi5YtZG4OvC9g+M/iIIHkxVQyPzMv0IGEJW3l4COPjgLHJMC98iNtf4Ra9SORVpf
-         Zk9g==
-X-Gm-Message-State: AOAM533Fx8CMs3oLwNo88HERuBQSO8/Yi7HH42twRSyNEFNIPq7hzmXF
-        pebFiMcs68qeqDM1WR81z9E=
-X-Google-Smtp-Source: ABdhPJzdHPNlkXPAZkSmp1NrPiHL6M/Utpy+7qlfUa98UuKLz8IjuFuaODr3HigacXCm/YRRaKqAOw==
-X-Received: by 2002:a17:90b:3889:b0:1c7:a31f:2a50 with SMTP id mu9-20020a17090b388900b001c7a31f2a50mr7764499pjb.193.1650088078753;
-        Fri, 15 Apr 2022 22:47:58 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-90.three.co.id. [180.214.233.90])
-        by smtp.gmail.com with ESMTPSA id u22-20020a17090a891600b001cd498dc152sm7993070pjn.2.2022.04.15.22.47.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Apr 2022 22:47:58 -0700 (PDT)
-Message-ID: <4f4c8441-a144-6c2d-0f8b-b598905c2f3d@gmail.com>
-Date:   Sat, 16 Apr 2022 12:47:52 +0700
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SfC6N8rNkT816Snz0VnYd8t37yDWhWvdxYYSUPu0150=;
+        b=JoOlml6rQ36Kd8OrhYuFzvPSOedgnOd9L4v4YP76PJg2hgsEwbKQKUkSXVq9sQbx5z
+         /LErbkxfIUoOvevqhjqDCNRyHIKKPgtM+IDlggqxi9V28/gQhIXiFWqFgnMsZQMkQjS+
+         OqsIm4++ZVtWtEHGilXnjtg41VuQnH1gBWbzqtUCcZeL/+I1vtjBm8EKUC+hHad+FMUV
+         Z93ayh59zW5m+QfNa2NDzowNs+xfG34iBkZiCFGfKrZuYwYr8186DMPHND1YY2ol8XZM
+         Cc0I498CR0oOX/XMIHYJ+InwLopUO+fcPl9FcZ5imNWnUxrjKMcyuJME4GE2K4s2xrMU
+         CUog==
+X-Gm-Message-State: AOAM531bioDw6Ft9xMRFTklPopU7I38JnQHnhNsGlgWUp3GsSfAnlfq4
+        TNEFztd1LCT0sVEoQ1L+B3cTnRzkvXlSY4ryEQs=
+X-Google-Smtp-Source: ABdhPJxuXVx8ooTyDrdzm1tmYfgk51CFQw2OFdqFzDso/5JahWhLF8mmzzLg1aXsw/r6L//YlHN6vmGcml2sEACiuQg=
+X-Received: by 2002:a62:fb0e:0:b0:505:fd9e:9218 with SMTP id
+ x14-20020a62fb0e000000b00505fd9e9218mr2498851pfm.78.1650090455895; Fri, 15
+ Apr 2022 23:27:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 2/2] MAINTAINERS: add docs entry to AMDGPU
-Content-Language: en-US
-To:     Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        andrealmeid@riseup.net
-References: <20220415195027.305019-1-tales.aparecida@gmail.com>
- <20220415195027.305019-3-tales.aparecida@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220415195027.305019-3-tales.aparecida@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220411210406.21404-1-luizluca@gmail.com> <20220412105018.gjrswtwrgjyndev4@bang-olufsen.dk>
+ <CAJq09z53MZ6g=+tfwRU-N5BV5GcPSB5n0=+zj-cXOegMrq6g=A@mail.gmail.com>
+ <20220414014527.gex5tlufyj4hm5di@bang-olufsen.dk> <CAJq09z6KSQS+oGFw5ZXRcSH5nQ3zongn4Owu0hCjO=RZZmHf+w@mail.gmail.com>
+ <20220414113718.ofhgzhsmvyuxd2l2@bang-olufsen.dk> <YlgmG3mLlRKef+sy@lunn.ch>
+ <CAJq09z5hG7VkhkxdhVTUvA-dMJr6_ajkHYBZ6N2ROFXLz0gijQ@mail.gmail.com> <YlmCsMk/GekmdewG@lunn.ch>
+In-Reply-To: <YlmCsMk/GekmdewG@lunn.ch>
+From:   Luiz Angelo Daros de Luca <luizluca@gmail.com>
+Date:   Sat, 16 Apr 2022 03:27:24 -0300
+Message-ID: <CAJq09z7rckskEguiEtrT0ynehbKqSFq1Sec8L1wQZr8nZzbs7w@mail.gmail.com>
+Subject: Re: [PATCH net-next] net: dsa: realtek: add compatible strings for RTL8367RB-VB
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     =?UTF-8?Q?Alvin_=C5=A0ipraga?= <ALSI@bang-olufsen.dk>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "tobias@waldekranz.com" <tobias@waldekranz.com>,
+        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+        "vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/16/22 02:50, Tales Lelo da Aparecida wrote:
-> To make sure maintainers of amdgpu drivers are aware of any changes
->  in their documentation, add its entry to MAINTAINERS.
-> 
+> So to me, this is fine. But i might add a bit more detail, that the
+> compatible is used by the driver to find the ID register, and the
+> driver then uses to ID register to decide how to drive the switch. The
+> problem i had with the mv88e6xxx binding was until i spelt this out in
+> the binding, people kept submitting patches adding new compatible
+> strings, rather than extend the documented list of switches supported
+> by a compatible.
 
-Did you mean the Documentation/gpu/amdgpu/ is maintained by dri-devel?
+Thanks, Andrew.
 
--- 
-An old man doll... just what I always wanted! - Clara
+I just sent two patches to deal with the cleanup.
+
+Regards,
+
+Luiz
