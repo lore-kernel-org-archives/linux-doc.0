@@ -2,65 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 657DFC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 08:36:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA2BC433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Apr 2022 08:39:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230352AbiDPIiw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Apr 2022 04:38:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38286 "EHLO
+        id S230375AbiDPIlg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Apr 2022 04:41:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229671AbiDPIis (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 04:38:48 -0400
+        with ESMTP id S229671AbiDPIlg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Apr 2022 04:41:36 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 100FC90274;
-        Sat, 16 Apr 2022 01:36:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA2690CCE
+        for <linux-doc@vger.kernel.org>; Sat, 16 Apr 2022 01:39:05 -0700 (PDT)
 Received: from localhost (mdns.lwn.net [45.79.72.68])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id AA6DA2CC;
-        Sat, 16 Apr 2022 08:36:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AA6DA2CC
+        by ms.lwn.net (Postfix) with ESMTPSA id 1DA5D60C;
+        Sat, 16 Apr 2022 08:39:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1DA5D60C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1650098177; bh=G/+2Nu5ER114v6pty794yAv+1PY/rd+Cq6aWyeNZqIE=;
+        t=1650098345; bh=Hz8VYX4jqFVmjw8wO33Q3aqroR8IkZTrLTLsQexS4X4=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=D7E4h7Kxt9haXc+3y8+l4uaJ022BC8fGGWk2xAqF78EoQtrLTMyzXu86SvrhyUgV+
-         rQr5UBsEZFVtDPjixO6lfj6bl4kNATXBCCxo1XPxp3hJXsXr3H0w7d/17szx97u/nH
-         2XnauIJPiLM9NMf6F4Kb2YlHmAv3h+VYK+LokYZyqjdG6gTPLMx3Ol7KYrnLA8jN+c
-         QDjxWOuKPo2AZDBZ8FkK9FodInv3Rwe7bJFZfmog6O/Z+BGYu3pxskM8S5E2Vv2+7p
-         0CQOB2QRIGVlYS8XaWrH8H+t6U7pL0I2n+DAIjrEtSk5gVATfjwCUlqDZolzZ+FjPs
-         WQGqCIYCZ/53Q==
+        b=lqunuzank3ZbcME77HH+p4KjeMqQm9CdiP04oM4nkRg4K7nA0r5TI2xVFawoc0s4L
+         QbWh2lVKAd0rE4/CCLKTJ8OjXm0jlr5wVfTpzmzdQVVRhd08i/gqtzjCOI8UQrs182
+         v29TkSvbd3MM2I+z/1GCPQA3q7LIyR5pmK0PZfggy7LW3ReOcHNcv/++/KwTUBqzqf
+         /Syy+IhKHDn0Bh0HmHmOpJQdLSd96BnE1e0NhlSGgT+GLgUZ2r6hFvSuNTrW/tIhmZ
+         MNLctOb7QuOQu9PlzIXtTzA9LjxWzdG0Bk1DFwa/DDafvwi3GTn/PPAgbhriU0MUl+
+         8+I+pWbRHqvlg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>
-Cc:     "brookxu.cn" <brookxu.cn@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>
-Subject: Re: [PATCH] docs/scheduler: Change unit of cpu_time and rq_time to
- nanoseconds
-In-Reply-To: <YlA8AEfqK6eRnAPO@hirez.programming.kicks-ass.net>
-References: <1649410266-32360-1-git-send-email-brookxu.cn@gmail.com>
- <YlAub2NXBPeNcyAS@casper.infradead.org>
- <YlA8AEfqK6eRnAPO@hirez.programming.kicks-ass.net>
-Date:   Sat, 16 Apr 2022 02:36:12 -0600
-Message-ID: <87h76t4e83.fsf@meer.lwn.net>
+To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com
+Subject: Re: [PATCH v3 1/1] docs/zh_CN: add vm hugetlbfs_reserv translation
+In-Reply-To: <2fc8a76e1308e15823eebf614f35f36f322a55d3.1649384633.git.siyanteng@loongson.cn>
+References: <cover.1649384633.git.siyanteng@loongson.cn>
+ <2fc8a76e1308e15823eebf614f35f36f322a55d3.1649384633.git.siyanteng@loongson.cn>
+Date:   Sat, 16 Apr 2022 02:39:00 -0600
+Message-ID: <87czhh4e3f.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Peter Zijlstra <peterz@infradead.org> writes:
+Yanteng Si <siyanteng@loongson.cn> writes:
 
-> And that's 15 years and at least one SCHEDSTAT_VERSION ago (although
-> this change itself didn't bump the version).
+> Translate .../vm/hugetlbfs_reserv.rst into Chinese.
 >
-> So I'm thinking we can update the documentation and forget about this.
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> Reviewed-by: Alex Shi <alexs@kernel.org>
+> ---
+>  .../zh_CN/vm/hugetlbfs_reserv.rst             | 436 ++++++++++++++++++
+>  Documentation/translations/zh_CN/vm/index.rst |   1 +
+>  2 files changed, 437 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/vm/hugetlbfs_reserv.rst
 
-OK, I've applied the patch, thanks.
+Applied, thanks.
 
 jon
