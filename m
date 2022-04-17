@@ -2,102 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01ABCC433F5
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Apr 2022 07:51:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DE86C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Apr 2022 08:45:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233583AbiDQHyH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Apr 2022 03:54:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52714 "EHLO
+        id S233727AbiDQIru (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Apr 2022 04:47:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233570AbiDQHyF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Apr 2022 03:54:05 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FC24140D1;
-        Sun, 17 Apr 2022 00:51:31 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id u5-20020a17090a6a8500b001d0b95031ebso4685360pjj.3;
-        Sun, 17 Apr 2022 00:51:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=MoKiGu5hYYcfsxqQHX2Q84Bhs0fRLBU9UCfGUfeAlqU=;
-        b=HF8LwImncW0D1JtKhI+cq2dt3nB//pzEAk7tRBQrnEySTSmm/MDQHQzvYorITSuz2R
-         ouw1Rc5wdNnwbFRCPngNRvpHKiu9zaTrOd6uEyTlEOFYu8K4KPYz/qKG42oH0Bhei64r
-         cK3DbzifnAzF9qLWZjOqlIpLIQHD00Gdm5sSqa/l5S4wayRpk1WbOodvI+dZ1UCWLMf6
-         h66uACfhaB7miPIAk93SiGO9Cu6mIPpqIri0cO6b6dWEHn+gHAusvvkXDgCMe64ETQly
-         hXaAntqSLcogJFrGDB20RVST/rRd0/5svij5jXynnfvwKSOkAGaLpcTwVXYzYIWNu15A
-         W6iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=MoKiGu5hYYcfsxqQHX2Q84Bhs0fRLBU9UCfGUfeAlqU=;
-        b=nC4OoyspbMMdKBHAlWcCu00aSZfZyN2xohwc1dfQ99ItLzegpchuUL18TUKpKW0SsM
-         Qt0gOWrw7oMuBuMHP2h2Etk+PAoQ1E8ynOlXQffQ0SeHElQfIA4Dh5oELYB2UyONyaIX
-         222dMFBs3sOK0fosew64Il8WlT4EA2kg7G4punCT9DNluwdTg7VojEv3PJolWia4dLYi
-         mkLukur0AgoOxTV9Ey484TOISrzkrRrVvX6mHgbBu40HfVk/PM94v1/Ga/2YpPrwIh3y
-         srPH4lroBjHGsiZam1fCOltn2nwhRGJGlsn7kax6KEOJvQmP4n13ysk1C1WsjVVwmWnK
-         z2wg==
-X-Gm-Message-State: AOAM532/WhW0tSkm4w0v45/S6UAuqCGid09t+Rzvu8mNv+Ah+Mzzb8bM
-        cQt387secxq+Ur70LPhXjBNYgu4tzjrkww==
-X-Google-Smtp-Source: ABdhPJwEM8DJm74QIZFhmFv4M6dyT8c3GvHa7PUfPI7/TCab213391jBRaPDx72DZH0VxJVBYSaRVg==
-X-Received: by 2002:a17:902:cf05:b0:156:9d:ca01 with SMTP id i5-20020a170902cf0500b00156009dca01mr6264769plg.111.1650181890860;
-        Sun, 17 Apr 2022 00:51:30 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-74.three.co.id. [180.214.232.74])
-        by smtp.gmail.com with ESMTPSA id m21-20020a17090a7f9500b001c97c6bcaf4sm13558356pjl.39.2022.04.17.00.51.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Apr 2022 00:51:30 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        with ESMTP id S233167AbiDQIr3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Apr 2022 04:47:29 -0400
+X-Greylist: delayed 410 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 17 Apr 2022 01:44:51 PDT
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [IPv6:2001:67c:2050:0:465::102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ED99CFD;
+        Sun, 17 Apr 2022 01:44:50 -0700 (PDT)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Kh3Nh2DcQz9sPr;
+        Sun, 17 Apr 2022 10:37:56 +0200 (CEST)
+Date:   Sun, 17 Apr 2022 10:37:51 +0200
+From:   Andreas-Christian Hagau <ach@hagau.se>
+To:     Brendan Higgins <brendanhiggins@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Eric Biggers <ebiggers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND 2/2] Documentation: siphash: enclose HalfSipHash usage example in the literal block
-Date:   Sun, 17 Apr 2022 14:50:58 +0700
-Message-Id: <20220417075057.127865-3-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220417075057.127865-1-bagasdotme@gmail.com>
-References: <20220417075057.127865-1-bagasdotme@gmail.com>
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: kunit: change complete_and_exit to
+ kthread_complete_and_exit
+Message-ID: <20220417102807.10b91497ed@19d04f311a0a9de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Render usage example of HalfSipHash function as code block by using
-literal block syntax.
+Commit cead18552660 ("exit: Rename complete_and_exit to
+kthread_complete_and_exit") renamed complete_and_exit to
+kthread_complete_and_exit.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Eric Biggers <ebiggers@google.com>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Andreas-Christian Hagau <ach@hagau.se>
 ---
- Documentation/security/siphash.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/dev-tools/kunit/architecture.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/security/siphash.rst b/Documentation/security/siphash.rst
-index 42794a7e052f1e..06d793e680869c 100644
---- a/Documentation/security/siphash.rst
-+++ b/Documentation/security/siphash.rst
-@@ -132,10 +132,10 @@ Generating a HalfSipHash key
- ============================
+diff --git a/Documentation/dev-tools/kunit/architecture.rst b/Documentation/dev-tools/kunit/architecture.rst
+index ff9c85a0bff21..cf9e6e3eeae4c 100644
+--- a/Documentation/dev-tools/kunit/architecture.rst
++++ b/Documentation/dev-tools/kunit/architecture.rst
+@@ -125,7 +125,7 @@ All expectations/assertions are formatted as:
+ 		  ``void __noreturn kunit_try_catch_throw(struct kunit_try_catch *try_catch)``.
  
- Keys should always be generated from a cryptographically secure source of
--random numbers, either using get_random_bytes or get_random_once:
-+random numbers, either using get_random_bytes or get_random_once::
+ 		- ``kunit_try_catch_throw`` calls function:
+-		  ``void complete_and_exit(struct completion *, long) __noreturn;``
++		  ``void kthread_complete_and_exit(struct completion *, long) __noreturn;``
+ 		  and terminates the special thread context.
  
--hsiphash_key_t key;
--get_random_bytes(&key, sizeof(key));
-+        hsiphash_key_t key;
-+        get_random_bytes(&key, sizeof(key));
- 
- If you're not deriving your key from here, you're doing it wrong.
- 
+ - ``<op>`` denotes a check with options: ``TRUE`` (supplied property
 -- 
-An old man doll... just what I always wanted! - Clara
+2.35.1
 
