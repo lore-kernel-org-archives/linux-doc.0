@@ -2,114 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95FF2C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Apr 2022 06:18:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 951D3C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Apr 2022 07:08:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231995AbiDQGVZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Apr 2022 02:21:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35856 "EHLO
+        id S233533AbiDQHKl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Apr 2022 03:10:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229655AbiDQGVX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Apr 2022 02:21:23 -0400
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78A141CFC2;
-        Sat, 16 Apr 2022 23:18:47 -0700 (PDT)
-Received: from [192.168.1.11] (dynamic-077-011-140-085.77.11.pool.telefonica.de [77.11.140.85])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: pmenzel)
-        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 51CD061EA192D;
-        Sun, 17 Apr 2022 08:18:44 +0200 (CEST)
-Message-ID: <cb824b43-4812-f794-80dd-9ad8f7b35be0@molgen.mpg.de>
-Date:   Sun, 17 Apr 2022 08:18:33 +0200
+        with ESMTP id S233344AbiDQHKk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Apr 2022 03:10:40 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DE9B3D48A;
+        Sun, 17 Apr 2022 00:08:05 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id s14so10165470plk.8;
+        Sun, 17 Apr 2022 00:08:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XjCtvr+J3yinATZPEhst+mmG7OGWWwq+iEH9bKzy6zc=;
+        b=qUc+mqkm9V90fn0T4zB46ZDeJ3kej8CPMqnQNHY01OOlPbLXM7y7EJfjdSpIM8HLBL
+         rLWZGUlX09h08tFUp+GUQlgfjadDF32ERCbYRvtZp9lAfqihIzEOYOWyw2MHzXk2CkNr
+         3p/LYneRGr4WR/e3gJ8TC6awAbk4o4uPqxWMUt6+xHIfhf3M9hNv0RGxVOcBztE/+yBY
+         VA/rl8UdnMjjYOJP4aokydvF/WoBVVvPy7PaxmvQ7BsAKRqXEQeXvfiG+TCHIKdme6eG
+         9P5TOt+E2Xv5TPnLD+wV4/8bKbUuhwkz3Sc/H44pto1sg6nPTdTg+1jzt62FAQh2G8Qx
+         56eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XjCtvr+J3yinATZPEhst+mmG7OGWWwq+iEH9bKzy6zc=;
+        b=pGXRg4hV6x5fO5VTFQuKwqgbrM48FMgt1WmmvjyU+vbVJRFaj1CzOAjLXaMjZsY2gv
+         oOem8MUKtANbM5Jfcu1rUtJKn/xSbKB/H6BKMAyIgnvcCDu5pgfsw13mz9IaMv2/5lBI
+         11qubwu6QoQuZz5MltPzDI6/nHWoOtd5ixWeVEp85ICiEHk3POmY7xgoXc5wE78Ioile
+         Jvx7ldaawMNGPQryKMVfb4EzDuPyaDykAdM5mrGe0Up4IVBh+u9EZEGUVSEyMf1cWQJE
+         Pi6HWtswhLyZZi22W3rTmKHYGIawYCtSJVIxB/OWY2wOwm8UZ57vcpAcb5F/dnacb4V9
+         q5dA==
+X-Gm-Message-State: AOAM530BC4lkNdhK+BqTX1lbHMJ5n0LZHB4oquPbP4mUiZFNnN2MR4Us
+        J3YIm8sVHHjS1ZshPzgW3XU=
+X-Google-Smtp-Source: ABdhPJx39nwnB1/kUE4+SOJ6IhiZT0sT75bKATGpZAoE0dH9iubOt8TGy3Z+mHboxnOpDHrJteshdA==
+X-Received: by 2002:a17:902:7045:b0:157:144:57c5 with SMTP id h5-20020a170902704500b00157014457c5mr5889194plt.86.1650179284982;
+        Sun, 17 Apr 2022 00:08:04 -0700 (PDT)
+Received: from localhost.localdomain ([240b:12:16e1:e200:9fdb:b4b9:831e:2f4e])
+        by smtp.gmail.com with ESMTPSA id p1-20020a17090a0e4100b001ce188720e5sm9161763pja.53.2022.04.17.00.08.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Apr 2022 00:08:04 -0700 (PDT)
+From:   Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+To:     akiyks@gmail.com
+Cc:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Tsugikazu Shibata <shibata@linuxfoundation.org>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] docs/trans/ja_JP/howto: Don't mention specific kernel versions
+Date:   Sun, 17 Apr 2022 16:04:51 +0900
+Message-Id: <20220417070451.19736-1-fujimotokosuke0@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 1/2] Documentation/gpu: Add entries to amdgpu glossary
-Content-Language: en-US
-To:     Tales Lelo da Aparecida <tales.aparecida@gmail.com>
-References: <20220415195027.305019-1-tales.aparecida@gmail.com>
- <20220415195027.305019-2-tales.aparecida@gmail.com>
-Cc:     Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Xinhui Pan <Xinhui.Pan@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        andrealmeid@riseup.net
-From:   Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20220415195027.305019-2-tales.aparecida@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dear Tales,
+This change is based on commit d2b008f134b7 (Documentation/process/howto: Update for 4.x -> 5.x versioning)
+Replace "4.x kernel version" with generic term such as "mainline tree"
 
+Signed-off-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
+Cc: Akira Yokosawa <akiyks@gmail.com>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/translations/ja_JP/howto.rst | 43 ++++++++++------------
+ 1 file changed, 20 insertions(+), 23 deletions(-)
 
-Thank you for your patch.
+diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/translations/ja_JP/howto.rst
+index d667f9d8a02a..9b711932ae6d 100644
+--- a/Documentation/translations/ja_JP/howto.rst
++++ b/Documentation/translations/ja_JP/howto.rst
+@@ -262,21 +262,21 @@ Linux カーネルの開発プロセスは現在幾つかの異なるメイン
+ チ」と多数のサブシステム毎のカーネルブランチから構成されます。これらの
+ ブランチとは -
+ 
+-  - メインの 4.x カーネルツリー
+-  - 4.x.y -stable カーネルツリー
+-  - サブシステム毎のカーネルツリーとパッチ
+-  - 統合テストのための 4.x -next カーネルツリー
++  - Linus のメインラインツリー
++  - メジャー番号をまたぐ数本の安定版ツリー
++  - サブシステム毎のカーネルツリー
++  - 統合テストのための linux-next カーネルツリー
+ 
+-4.x カーネルツリー
++メインラインツリー
+ ~~~~~~~~~~~~~~~~~~
+ 
+-4.x カーネルは Linus Torvalds によってメンテナンスされ、
+-https://kernel.org の pub/linux/kernel/v4.x/ ディレクトリに存在します。
++メインラインツリーは Linus Torvalds によってメンテナンスされ、
++https://kernel.org のリポジトリに存在します。
+ この開発プロセスは以下のとおり -
+ 
+   - 新しいカーネルがリリースされた直後に、2週間の特別期間が設けられ、
+     この期間中に、メンテナ達は Linus に大きな差分を送ることができます。
+-    このような差分は通常 -next カーネルに数週間含まれてきたパッチです。
++    このような差分は通常 linux-next カーネルに数週間含まれてきたパッチです。
+     大きな変更は git(カーネルのソース管理ツール、詳細は
+     http://git-scm.com/ 参照) を使って送るのが好ましいやり方ですが、パッ
+     チファイルの形式のまま送るのでも十分です。
+@@ -303,20 +303,17 @@ Andrew Morton が Linux-kernel メーリングリストにカーネルリリー
+         前もって決められた計画によってリリースされるものではないから
+         です。」*
+ 
+-4.x.y -stable カーネルツリー
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++メジャー番号をまたぐ数本の安定版ツリー
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ バージョン番号が3つの数字に分かれているカーネルは -stable カーネルです。
+-これには、4.x カーネルで見つかったセキュリティ問題や重大な後戻りに対す
+-る比較的小さい重要な修正が含まれます。
++これには最初の2つの数字に対応した、メインラインリリースで見つかったセキュリティ問題や
++重大な後戻りに対する比較的小さい重要な修正が含まれます。
+ 
+ これは、開発/実験的バージョンのテストに協力することに興味が無く、最新
+ の安定したカーネルを使いたいユーザに推奨するブランチです。
+ 
+-もし、4.x.y カーネルが存在しない場合には、番号が一番大きい 4.x が最新
+-の安定版カーネルです。
+-
+-4.x.y は "stable" チーム <stable@vger.kernel.org> でメンテされており、
++安定版カーネル は "stable" チーム <stable@vger.kernel.org> でメンテされており、
+ 必要に応じてリリースされます。通常のリリース期間は 2週間毎ですが、差
+ し迫った問題がなければもう少し長くなることもあります。セキュリティ関
+ 連の問題の場合はこれに対してだいたいの場合、すぐにリリースがされます。
+@@ -326,7 +323,7 @@ Documentation/process/stable-kernel-rules.rst ファイルにはどのような
+ 類の変更が -stable ツリーに受け入れ可能か、またリリースプロセスがどう
+ 動くかが記述されています。
+ 
+-サブシステム毎のカーネルツリーとパッチ
++サブシステム毎のカーネルツリー
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ それぞれのカーネルサブシステムのメンテナ達は --- そして多くのカーネル
+@@ -351,19 +348,19 @@ quilt シリーズとして公開されているパッチキューも使われ
+ けることができます。大部分のこれらの patchwork のサイトは
+ https://patchwork.kernel.org/ でリストされています。
+ 
+-統合テストのための 4.x -next カーネルツリー
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++統合テストのための linux-next カーネルツリー
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-サブシステムツリーの更新内容がメインラインの 4.x ツリーにマージされる
++サブシステムツリーの更新内容がメインラインツリーにマージされる
+ 前に、それらは統合テストされる必要があります。この目的のため、実質的に
+ 全サブシステムツリーからほぼ毎日プルされてできる特別なテスト用のリポジ
+ トリが存在します-
+ 
+        https://git.kernel.org/?p=linux/kernel/git/next/linux-next.git
+ 
+-このやり方によって、-next カーネルは次のマージ機会でどんなものがメイン
+-ラインカーネルにマージされるか、おおまかなの展望を提供します。-next カー
+-ネルの実行テストを行う冒険好きなテスターは大いに歓迎されます。
++このやり方によって、linux-next は次のマージ機会でどんなものがメイン
++ラインにマージされるか、おおまかなの展望を提供します。
++linux-next の実行テストを行う冒険好きなテスターは大いに歓迎されます。
+ 
+ バグレポート
+ -------------
+-- 
+2.25.1
 
-Am 15.04.22 um 21:50 schrieb Tales Lelo da Aparecida:
-> Add missing acronyms to the amdgppu glossary.
-> 
-> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/1939#note_1309737
-> Signed-off-by: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
-> ---
->   Documentation/gpu/amdgpu/amdgpu-glossary.rst | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
-> 
-> diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> index 859dcec6c6f9..48829d097f40 100644
-> --- a/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> +++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> @@ -8,12 +8,19 @@ we have a dedicated glossary for Display Core at
->   
->   .. glossary::
->   
-> +    active_cu_number
-> +      The number of CUs that are active on the system.  The number of active
-> +      CUs may be less than SE * SH * CU depending on the board configuration.
-> +
->       CP
->         Command Processor
->   
->       CPLIB
->         Content Protection Library
->   
-> +    CU
-> +      Compute unit
-
-Capitalize the U in *unit* as seems to be done in the rest of the files?
-
-> +
->       DFS
->         Digital Frequency Synthesizer
->   
-> @@ -74,6 +81,12 @@ we have a dedicated glossary for Display Core at
->       SDMA
->         System DMA
->   
-> +    SE
-> +      Shader Engine
-> +
-> +    SH
-> +      SHader array
-
-No idea if the H should be capitalized.
-
-> +
->       SMU
->         System Management Unit
->   
-
-
-Kind regards,
-
-Paul
