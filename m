@@ -2,69 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CBD3C433FE
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Apr 2022 09:06:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1E62C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Apr 2022 12:30:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233753AbiDQJIj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Apr 2022 05:08:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54606 "EHLO
+        id S232130AbiDQMct (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Apr 2022 08:32:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230464AbiDQJIi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Apr 2022 05:08:38 -0400
-X-Greylist: delayed 1685 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 17 Apr 2022 02:06:03 PDT
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 566F327CDE
-        for <linux-doc@vger.kernel.org>; Sun, 17 Apr 2022 02:06:03 -0700 (PDT)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [80.241.60.233])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        with ESMTP id S231488AbiDQMcs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Apr 2022 08:32:48 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF716DEA9;
+        Sun, 17 Apr 2022 05:30:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Kh4153PvZz9sS3;
-        Sun, 17 Apr 2022 11:06:01 +0200 (CEST)
-Date:   Sun, 17 Apr 2022 11:05:55 +0200
-From:   Andreas-Christian Hagau <ach@hagau.se>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH PROPER] Documentation: kunit: change complete_and_exit to
- kthread_complete_and_exit
-Message-ID: <20220417110532.c0580c358f@2b220eea1db5e11>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7EB1BB80B83;
+        Sun, 17 Apr 2022 12:30:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 18519C385A4;
+        Sun, 17 Apr 2022 12:30:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1650198611;
+        bh=o/0z0cSTiJx0WM+KrWfPxlkZPrjpZ7Llch6HOsEHINE=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=JHlVdbmVdxZqotMNLILNbbl3JU+akKt6x8XxYjDdzB2Vf4XfOkSlc/tT3vPqKDzDM
+         gnMfLsHhCeb8ZSyxQ92grUeP2tBYvygQAKEL7T5n7NxibdskcX4/k0T9Ldk5WJmwzz
+         DFzStLf5pW0XEASkCKFPQnvejtxex+hOgQluf0rN4OtMOZdgFlpKz9br/3yLHammHe
+         zhwLA6xf9e8AHpZbeW+tn8XUTLn4A1guPAL10r61PxXkASkzhtGCggLUZ5G/GyQ5Xa
+         W9CzjQ3X4SY0+MgAGP2U0ITj11QZ1B+GRndls572QYWjXoJuE3PsQtSRq64G0nS6hb
+         +82QOvPoLHjtA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E98F9E8DD6A;
+        Sun, 17 Apr 2022 12:30:10 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v6] net/ipv6: Introduce accept_unsolicited_na knob to
+ implement router-side changes for RFC9131
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <165019861094.3969.10708842046305944701.git-patchwork-notify@kernel.org>
+Date:   Sun, 17 Apr 2022 12:30:10 +0000
+References: <20220415083402.39080-1-aajith@arista.com>
+In-Reply-To: <20220415083402.39080-1-aajith@arista.com>
+To:     Arun Ajith S <aajith@arista.com>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        dsahern@kernel.org, yoshfuji@linux-ipv6.org, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, prestwoj@gmail.com,
+        gilligan@arista.com, noureddine@arista.com, gk@arista.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit cead18552660 ("exit: Rename complete_and_exit to
-kthread_complete_and_exit") renamed complete_and_exit to
-kthread_complete_and_exit.
+Hello:
 
-CC: Brendan Higgins <brendanhiggins@google.com>
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: linux-kselftest@vger.kernel.org
-CC: kunit-dev@googlegroups.com
-CC: linux-doc@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-Signed-off-by: Andreas-Christian Hagau <ach@hagau.se>
----
- Documentation/dev-tools/kunit/architecture.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch was applied to netdev/net-next.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-diff --git a/Documentation/dev-tools/kunit/architecture.rst b/Documentation/dev-tools/kunit/architecture.rst
-index ff9c85a0bff21..cf9e6e3eeae4c 100644
---- a/Documentation/dev-tools/kunit/architecture.rst
-+++ b/Documentation/dev-tools/kunit/architecture.rst
-@@ -125,7 +125,7 @@ All expectations/assertions are formatted as:
- 		  ``void __noreturn kunit_try_catch_throw(struct kunit_try_catch *try_catch)``.
- 
- 		- ``kunit_try_catch_throw`` calls function:
--		  ``void complete_and_exit(struct completion *, long) __noreturn;``
-+		  ``void kthread_complete_and_exit(struct completion *, long) __noreturn;``
- 		  and terminates the special thread context.
- 
- - ``<op>`` denotes a check with options: ``TRUE`` (supplied property
+On Fri, 15 Apr 2022 08:34:02 +0000 you wrote:
+> Add a new neighbour cache entry in STALE state for routers on receiving
+> an unsolicited (gratuitous) neighbour advertisement with
+> target link-layer-address option specified.
+> This is similar to the arp_accept configuration for IPv4.
+> A new sysctl endpoint is created to turn on this behaviour:
+> /proc/sys/net/ipv6/conf/interface/accept_unsolicited_na.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v6] net/ipv6: Introduce accept_unsolicited_na knob to implement router-side changes for RFC9131
+    https://git.kernel.org/netdev/net-next/c/f9a2fb73318e
+
+You are awesome, thank you!
 -- 
-2.35.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
