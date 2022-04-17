@@ -2,34 +2,34 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DE86C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Apr 2022 08:45:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CBD3C433FE
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Apr 2022 09:06:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233727AbiDQIru (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Apr 2022 04:47:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36972 "EHLO
+        id S233753AbiDQJIj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Apr 2022 05:08:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233167AbiDQIr3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Apr 2022 04:47:29 -0400
-X-Greylist: delayed 410 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 17 Apr 2022 01:44:51 PDT
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [IPv6:2001:67c:2050:0:465::102])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ED99CFD;
-        Sun, 17 Apr 2022 01:44:50 -0700 (PDT)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
+        with ESMTP id S230464AbiDQJIi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Apr 2022 05:08:38 -0400
+X-Greylist: delayed 1685 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 17 Apr 2022 02:06:03 PDT
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 566F327CDE
+        for <linux-doc@vger.kernel.org>; Sun, 17 Apr 2022 02:06:03 -0700 (PDT)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [80.241.60.233])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Kh3Nh2DcQz9sPr;
-        Sun, 17 Apr 2022 10:37:56 +0200 (CEST)
-Date:   Sun, 17 Apr 2022 10:37:51 +0200
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Kh4153PvZz9sS3;
+        Sun, 17 Apr 2022 11:06:01 +0200 (CEST)
+Date:   Sun, 17 Apr 2022 11:05:55 +0200
 From:   Andreas-Christian Hagau <ach@hagau.se>
 To:     Brendan Higgins <brendanhiggins@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: kunit: change complete_and_exit to
+Subject: [PATCH PROPER] Documentation: kunit: change complete_and_exit to
  kthread_complete_and_exit
-Message-ID: <20220417102807.10b91497ed@19d04f311a0a9de>
+Message-ID: <20220417110532.c0580c358f@2b220eea1db5e11>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -41,6 +41,12 @@ Commit cead18552660 ("exit: Rename complete_and_exit to
 kthread_complete_and_exit") renamed complete_and_exit to
 kthread_complete_and_exit.
 
+CC: Brendan Higgins <brendanhiggins@google.com>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: linux-kselftest@vger.kernel.org
+CC: kunit-dev@googlegroups.com
+CC: linux-doc@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
 Signed-off-by: Andreas-Christian Hagau <ach@hagau.se>
 ---
  Documentation/dev-tools/kunit/architecture.rst | 2 +-
