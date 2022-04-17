@@ -2,400 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCDB2C433FE
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Apr 2022 15:05:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A6C1C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Apr 2022 15:45:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234290AbiDQPIR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Apr 2022 11:08:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44870 "EHLO
+        id S234336AbiDQPsI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Apr 2022 11:48:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229496AbiDQPIQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Apr 2022 11:08:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBE4AEBA;
-        Sun, 17 Apr 2022 08:05:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 765716122A;
-        Sun, 17 Apr 2022 15:05:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58033C385A7;
-        Sun, 17 Apr 2022 15:05:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650207934;
-        bh=TCEyh3gyXRnZ90K4gJfzgIbuDBywNlbZ2X/YTY7EWds=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=vJjQVh9/cnR4yymb1LjBhXhoIw0pYfMbOeY1gn3uSvU9VydPRBdO35sIimj9rsakq
-         6jkPV3DyMwZck+8d43DTLrbJMJVSJtm+X7bBnLAFqjA03Bb0Y2x1n8eDbVpiv56OXx
-         Kuu/gZ3b4t5eRiSLBOd6y06RCvOm4Qqm80qh8UkSatyKKaTu6suGei7chJ0YVeYGmC
-         B+wB/t0VZ7coxtI9FHVqCAAiUpe1dhX39jPvuYfNQvhV/4glP5LdP7xp1IFJVUPa6z
-         QpOZ9GWL2NW3o0MOUFOEOkNUhDYyJL8ORp0JdDkKdu2odeJBCUaeZAr6smXOdoM3S2
-         Ukewjhj+5ZIEg==
-Message-ID: <45b00778d60cdef80f89041e5c9597d78c0d8ae7.camel@kernel.org>
-Subject: Re: [PATCH v7 4/6] KEYS: trusted: Introduce support for NXP
- CAAM-based trusted keys
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     kernel@pengutronix.de, David Gstir <david@sigma-star.at>,
-        Pankaj Gupta <pankaj.gupta@nxp.com>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Horia =?UTF-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        Richard Weinberger <richard@nod.at>,
-        Franck LENORMAND <franck.lenormand@nxp.com>,
-        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Date:   Sun, 17 Apr 2022 18:04:24 +0300
-In-Reply-To: <20220415205647.46056-5-a.fatoum@pengutronix.de>
-References: <20220415205647.46056-1-a.fatoum@pengutronix.de>
-         <20220415205647.46056-5-a.fatoum@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 
+        with ESMTP id S234317AbiDQPsH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Apr 2022 11:48:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 18F9813F7B
+        for <linux-doc@vger.kernel.org>; Sun, 17 Apr 2022 08:45:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1650210326;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=uypO0xGq2R7G7rwhp3xAy+f7w5+Cm6Mvqy0TJPHONMI=;
+        b=VLoldAU0RkPDlMGc2eR6n5J0HMi1w36nymHwZb275arukbTvkffv3yCEWtmO3xd/fUGrVh
+        +LwwzsJB2xuThdhgLzD4yr2hW3m4n+vLUxZbCIoMqZxU8l/jz1K2/F63oBemxpufTqWsYK
+        IHAAeRqC1WnrjmjnflRUah6ydEvmAgQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-479-z-njpLg2Mdi0TwEHOR9TeQ-1; Sun, 17 Apr 2022 11:45:25 -0400
+X-MC-Unique: z-njpLg2Mdi0TwEHOR9TeQ-1
+Received: by mail-wm1-f70.google.com with SMTP id q6-20020a1cf306000000b0038c5726365aso5856178wmq.3
+        for <linux-doc@vger.kernel.org>; Sun, 17 Apr 2022 08:45:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uypO0xGq2R7G7rwhp3xAy+f7w5+Cm6Mvqy0TJPHONMI=;
+        b=MM/X+mW+MT7uRD5CVDtc8P2buizCScLYTtjSrOJg+HJMnXtruq1Ovt2glqKd5ShsYH
+         TOaiv/flGrUghlppY8Z9pMP8uTE9wMGQf9ZtzfmZvjz2ekPHKzrD6V7rlOidrS8IO6hN
+         g3+CsWlbWKHcT++uK7oK0W3Ihj6/uOxk+75u5Xiaq+cX62G0YsoOoZTDkH+59WwyVHGx
+         zTEZR6HlAefiXeFECjaTinHrBSoTCllXY7Hdl/fdDgn8Clj7DWt7AKrrNSCjaNakYWNU
+         7Ll4A2A0d7DTdt67ScazG6gV8MXd+pJ0aGn6hIEKmwqREvnC9ehAfeIKK5qT54DBs9GY
+         RSSA==
+X-Gm-Message-State: AOAM530fhIv05GwMqEUuNT7oPRyAtYHlYRm6+125CCogdWlu1X3MXbHo
+        eK0GEfgDP8lULVfDNM9n3hSXzSWx27P9oEZwiHE6pZdiO7uyQw7sz7xSG9LywLLI8laPjGElwRz
+        BYN6kZFIgDMrI6vpTppBx
+X-Received: by 2002:a05:6000:510:b0:203:e469:f0a3 with SMTP id a16-20020a056000051000b00203e469f0a3mr5746848wrf.710.1650210324049;
+        Sun, 17 Apr 2022 08:45:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwluSaBfP+cDeg500TYp/r+b8CxJggQPGEGAC6GHMUeRr/2454YadMD0qyybbeUsLz88QkIXw==
+X-Received: by 2002:a05:6000:510:b0:203:e469:f0a3 with SMTP id a16-20020a056000051000b00203e469f0a3mr5746832wrf.710.1650210323746;
+        Sun, 17 Apr 2022 08:45:23 -0700 (PDT)
+Received: from minerva.home ([92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id h10-20020a05600c414a00b0038ebb6884d8sm17878144wmm.0.2022.04.17.08.45.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Apr 2022 08:45:23 -0700 (PDT)
+From:   Javier Martinez Canillas <javierm@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Pekka Paalanen <pekka.paalanen@collabora.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Subject: [PATCH v2] drm/doc: Add in introduction sections about tiny drivers and external refs
+Date:   Sun, 17 Apr 2022 17:45:11 +0200
+Message-Id: <20220417154511.94202-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2022-04-15 at 22:56 +0200, Ahmad Fatoum wrote:
-> The Cryptographic Acceleration and Assurance Module (CAAM) is an IP core
-> built into many newer i.MX and QorIQ SoCs by NXP.
->=20
-> The CAAM does crypto acceleration, hardware number generation and
-> has a blob mechanism for encapsulation/decapsulation of sensitive materia=
-l.
->=20
-> This blob mechanism depends on a device specific random 256-bit One Time
-> Programmable Master Key that is fused in each SoC at manufacturing
-> time. This key is unreadable and can only be used by the CAAM for AES
-> encryption/decryption of user data.
->=20
-> This makes it a suitable backend (source) for kernel trusted keys.
->=20
-> Previous commits generalized trusted keys to support multiple backends
-> and added an API to access the CAAM blob mechanism. Based on these,
-> provide the necessary glue to use the CAAM for trusted keys.
->=20
-> Reviewed-by: David Gstir <david@sigma-star.at>
-> Reviewed-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-> Tested-by: Tim Harvey <tharvey@gateworks.com>
-> Tested-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> Tested-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> ---
-> v6 -> v7:
-> =C2=A0 - Split off MAINTAINERS and documentation chanes into separate pat=
-ches
-> =C2=A0=C2=A0=C2=A0 (Jarkko)
-> =C2=A0 - Use new struct caam_blob_info API (Pankaj)
-> v5 -> v6:
-> =C2=A0 - Rename caam_trusted_key_ops to trusted_key_caam_ops for symmetry
-> =C2=A0=C2=A0=C2=A0 with other trust sources (Pankaj)
-> =C2=A0 - Collected Pankaj's Reviewed-by
-> v4 -> v5:
-> =C2=A0 - Collected Reviewed-by's and Tested-by's
-> =C2=A0 - Changed modifier to SECURE_KEY for compatibility with linux-imx
-> =C2=A0=C2=A0=C2=A0 (Matthias)
-> v3 -> v4:
-> =C2=A0 - Collected Acked-by's, Reviewed-by's and Tested-by
-> v2 -> v3:
-> =C2=A0- add MAINTAINERS entry
-> v1 -> v2:
-> =C2=A0- Extend trusted keys documentation for CAAM
->=20
-> To: David Howells <dhowells@redhat.com>
-> To: Jarkko Sakkinen <jarkko@kernel.org>
-> To: James Bottomley <jejb@linux.ibm.com>
-> To: Mimi Zohar <zohar@linux.ibm.com>
-> To: Jonathan Corbet <corbet@lwn.net>
-> Cc: James Morris <jmorris@namei.org>
-> Cc: "Serge E. Hallyn" <serge@hallyn.com>
-> Cc: "Horia Geant=C4=83" <horia.geanta@nxp.com>
-> Cc: Pankaj Gupta <pankaj.gupta@nxp.com>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Biggers <ebiggers@kernel.org>
-> Cc: Jan Luebbe <j.luebbe@pengutronix.de>
-> Cc: David Gstir <david@sigma-star.at>
-> Cc: Richard Weinberger <richard@nod.at>
-> Cc: Franck LENORMAND <franck.lenormand@nxp.com>
-> Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> Cc: Sumit Garg <sumit.garg@linaro.org>
-> Cc: keyrings@vger.kernel.org
-> Cc: linux-crypto@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-integrity@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-security-module@vger.kernel.org
-> ---
-> =C2=A0.../admin-guide/kernel-parameters.txt=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> =C2=A0include/keys/trusted_caam.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 11 =
-+++
-> =C2=A0security/keys/trusted-keys/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 11 ++-
-> =C2=A0security/keys/trusted-keys/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +
-> =C2=A0security/keys/trusted-keys/trusted_caam.c=C2=A0=C2=A0=C2=A0=C2=A0 |=
- 82 +++++++++++++++++++
-> =C2=A0security/keys/trusted-keys/trusted_core.c=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 6 +-
-> =C2=A06 files changed, 111 insertions(+), 2 deletions(-)
-> =C2=A0create mode 100644 include/keys/trusted_caam.h
-> =C2=A0create mode 100644 security/keys/trusted-keys/trusted_caam.c
->=20
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
-ion/admin-guide/kernel-parameters.txt
-> index 4deed1908a75..9afb7046ce97 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5958,6 +5958,7 @@
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sou=
-rces:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0- "=
-tpm"
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0- "=
-tee"
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0- "caam"
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0If =
-not specified then it defaults to iterating through
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0the=
- trust source list starting with TPM and assigns the
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0fir=
-st trust source as a backend which is initialized
-> diff --git a/include/keys/trusted_caam.h b/include/keys/trusted_caam.h
-> new file mode 100644
-> index 000000000000..73fe2f32f65e
-> --- /dev/null
-> +++ b/include/keys/trusted_caam.h
-> @@ -0,0 +1,11 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
-> + */
-> +
-> +#ifndef __CAAM_TRUSTED_KEY_H
-> +#define __CAAM_TRUSTED_KEY_H
-> +
-> +extern struct trusted_key_ops trusted_key_caam_ops;
-> +
-> +#endif
-> diff --git a/security/keys/trusted-keys/Kconfig b/security/keys/trusted-k=
-eys/Kconfig
-> index fc4abd581abb..dbfdd8536468 100644
-> --- a/security/keys/trusted-keys/Kconfig
-> +++ b/security/keys/trusted-keys/Kconfig
-> @@ -24,6 +24,15 @@ config TRUSTED_KEYS_TEE
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Enable use of the =
-Trusted Execution Environment (TEE) as trusted
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 key backend.
-> =C2=A0
-> -if !TRUSTED_KEYS_TPM && !TRUSTED_KEYS_TEE
-> +config TRUSTED_KEYS_CAAM
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bool "CAAM-based trusted keys"
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on CRYPTO_DEV_FSL_CAAM=
-_JR >=3D TRUSTED_KEYS
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select CRYPTO_DEV_FSL_CAAM_BLO=
-B_GEN
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0default y
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0help
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Enable use of NXP's Cry=
-ptographic Accelerator and Assurance Module
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (CAAM) as trusted key b=
-ackend.
-> +
-> +if !TRUSTED_KEYS_TPM && !TRUSTED_KEYS_TEE && !TRUSTED_KEYS_CAAM
-> =C2=A0comment "No trust source selected!"
-> =C2=A0endif
-> diff --git a/security/keys/trusted-keys/Makefile b/security/keys/trusted-=
-keys/Makefile
-> index 2e2371eae4d5..735aa0bc08ef 100644
-> --- a/security/keys/trusted-keys/Makefile
-> +++ b/security/keys/trusted-keys/Makefile
-> @@ -12,3 +12,5 @@ trusted-$(CONFIG_TRUSTED_KEYS_TPM) +=3D trusted_tpm2.o
-> =C2=A0trusted-$(CONFIG_TRUSTED_KEYS_TPM) +=3D tpm2key.asn1.o
-> =C2=A0
-> =C2=A0trusted-$(CONFIG_TRUSTED_KEYS_TEE) +=3D trusted_tee.o
-> +
-> +trusted-$(CONFIG_TRUSTED_KEYS_CAAM) +=3D trusted_caam.o
-> diff --git a/security/keys/trusted-keys/trusted_caam.c b/security/keys/tr=
-usted-keys/trusted_caam.c
-> new file mode 100644
-> index 000000000000..46cb2484ec36
-> --- /dev/null
-> +++ b/security/keys/trusted-keys/trusted_caam.c
-> @@ -0,0 +1,82 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
-> + */
-> +
-> +#include <keys/trusted_caam.h>
-> +#include <keys/trusted-type.h>
-> +#include <linux/build_bug.h>
-> +#include <linux/key-type.h>
-> +#include <soc/fsl/caam-blob.h>
-> +
-> +static struct caam_blob_priv *blobifier;
-> +
-> +#define KEYMOD "SECURE_KEY"
-> +
-> +static_assert(MAX_KEY_SIZE + CAAM_BLOB_OVERHEAD <=3D CAAM_BLOB_MAX_LEN);
-> +static_assert(MAX_BLOB_SIZE <=3D CAAM_BLOB_MAX_LEN);
-> +
-> +static int trusted_caam_seal(struct trusted_key_payload *p, char *databl=
-ob)
-> +{
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int ret;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct caam_blob_info info =3D=
- {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0.input=C2=A0 =3D p->key,=C2=A0 .input_len=C2=A0=C2=A0 =3D=
- p->key_len,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0.output =3D p->blob, .output_len=C2=A0 =3D MAX_BLOB_SIZE,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0.key_mod =3D KEYMOD, .key_mod_len =3D sizeof(KEYMOD) - 1,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D caam_encap_blob(blobif=
-ier, &info);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0return ret;
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0p->blob_len =3D info.output_le=
-n;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
-> +}
-> +
-> +static int trusted_caam_unseal(struct trusted_key_payload *p, char *data=
-blob)
-> +{
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int ret;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct caam_blob_info info =3D=
- {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0.input=C2=A0=C2=A0 =3D p->blob,=C2=A0 .input_len=C2=A0 =
-=3D p->blob_len,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0.output=C2=A0 =3D p->key,=C2=A0=C2=A0 .output_len =3D MAX=
-_KEY_SIZE,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0.key_mod =3D KEYMOD,=C2=A0 .key_mod_len =3D sizeof(KEYMOD=
-) - 1,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D caam_decap_blob(blobif=
-ier, &info);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0return ret;
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0p->key_len =3D info.output_len=
-;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
-> +}
-> +
-> +static int trusted_caam_init(void)
-> +{
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int ret;
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0blobifier =3D caam_blob_gen_in=
-it();
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (IS_ERR(blobifier)) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0pr_err("Job Ring Device allocation for transform failed\n=
-");
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0return PTR_ERR(blobifier);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D register_key_type(&key=
-_type_trusted);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0caam_blob_gen_exit(blobifier);
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return ret;
-> +}
-> +
-> +static void trusted_caam_exit(void)
-> +{
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unregister_key_type(&key_type_=
-trusted);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0caam_blob_gen_exit(blobifier);
-> +}
-> +
-> +struct trusted_key_ops trusted_key_caam_ops =3D {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.migratable =3D 0, /* non-migr=
-atable */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.init =3D trusted_caam_init,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.seal =3D trusted_caam_seal,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.unseal =3D trusted_caam_unsea=
-l,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.exit =3D trusted_caam_exit,
-> +};
-> diff --git a/security/keys/trusted-keys/trusted_core.c b/security/keys/tr=
-usted-keys/trusted_core.c
-> index 9235fb7d0ec9..c6fc50d67214 100644
-> --- a/security/keys/trusted-keys/trusted_core.c
-> +++ b/security/keys/trusted-keys/trusted_core.c
-> @@ -9,6 +9,7 @@
-> =C2=A0#include <keys/user-type.h>
-> =C2=A0#include <keys/trusted-type.h>
-> =C2=A0#include <keys/trusted_tee.h>
-> +#include <keys/trusted_caam.h>
-> =C2=A0#include <keys/trusted_tpm.h>
-> =C2=A0#include <linux/capability.h>
-> =C2=A0#include <linux/err.h>
-> @@ -29,7 +30,7 @@ MODULE_PARM_DESC(rng, "Select trusted key RNG");
-> =C2=A0
-> =C2=A0static char *trusted_key_source;
-> =C2=A0module_param_named(source, trusted_key_source, charp, 0);
-> -MODULE_PARM_DESC(source, "Select trusted keys source (tpm or tee)");
-> +MODULE_PARM_DESC(source, "Select trusted keys source (tpm, tee or caam)"=
-);
-> =C2=A0
-> =C2=A0static const struct trusted_key_source trusted_key_sources[] =3D {
-> =C2=A0#if defined(CONFIG_TRUSTED_KEYS_TPM)
-> @@ -38,6 +39,9 @@ static const struct trusted_key_source trusted_key_sour=
-ces[] =3D {
-> =C2=A0#if defined(CONFIG_TRUSTED_KEYS_TEE)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ "tee", &trusted_key_tee=
-_ops },
-> =C2=A0#endif
-> +#if defined(CONFIG_TRUSTED_KEYS_CAAM)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ "caam", &trusted_key_caam_op=
-s },
-> +#endif
-> =C2=A0};
-> =C2=A0
-> =C2=A0DEFINE_STATIC_CALL_NULL(trusted_key_init, *trusted_key_sources[0].o=
-ps->init);
+Learning about the DRM subsystem could be quite overwhelming for newcomers
+but there are lots of useful talks, slides and articles available that can
+help to understand the needed concepts and ease the learning curve.
 
+There are also simple DRM drivers that can be used as example about how a
+DRM driver should look like.
 
-Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+Add sections to the introduction page, that contains references to these.
 
-BR, Jarkko
+Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+
+Changes in v2:
+- Remove paragraph that gave wrong impression that DRM is complex (Pekka Paalanen).
+- Add Thomas Zimmermann's and Pekka Paalanen's Acked-by tags.
+- Replace "Learning material" title with "External References" (Thomas Zimmermann).
+- Add a section about tiny DRM drivers being a good first example (Daniel Vetter).
+- Add some more external references that I found interesting since v1 was posted.
+
+ Documentation/gpu/introduction.rst | 60 ++++++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
+
+diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
+index 25a56e9c0cfd..574f478c3674 100644
+--- a/Documentation/gpu/introduction.rst
++++ b/Documentation/gpu/introduction.rst
+@@ -112,3 +112,63 @@ Please conduct yourself in a respectful and civilised manner when
+ interacting with community members on mailing lists, IRC, or bug
+ trackers. The community represents the project as a whole, and abusive
+ or bullying behaviour is not tolerated by the project.
++
++Simple DRM drivers to use as examples
++=====================================
++
++The DRM subsystem contains a lot of helper functions to ease writing drivers for
++simple graphic devices. For example, the `drivers/gpu/drm/tiny/` directory has a
++set of DRM drivers that are simple enough to be implemented in a single file.
++
++These drivers make use of the `struct drm_simple_display_pipe_funcs`, that hides
++any complexity of the DRM subsystem and just requires drivers to implement a few
++functions needed to operate the device. This could be used for devices that just
++need a display pipeline with one full-screen scanout buffer feeding one output.
++
++The tiny DRM drivers are good examples to understand how DRM drivers should look
++like since are written as a few hundreds line of code contained in a single file.
++
++External References
++===================
++
++Delving into a Linux kernel subsystem for the first time can be an overwhelming
++experience, one need to get familiar with all the needed concepts and learn the
++subsystem's internals.
++
++To shallow the learning curve, this section contains a list of presentations
++and documents that can be used to learn about DRM/KMS and graphics in general.
++
++There are different reasons why someone might want to get into DRM: porting an
++existing fbdev driver, write a DRM driver for a new hardware, fixing bugs that
++may face when working on the graphics user-space stack, etc. For this reason,
++the learning material covers many aspects of the Linux graphics stack. From an
++overview of the kernel and user-space stacks to very specific topics.
++
++The list is sorted in reverse chronological order, to keep the most up-to-date
++material at the top. But all of them contain useful information, and it can be
++valuable to go through older material to understand the rationale and context
++in which the recent changes to the DRM subsystem were made.
++
++Conference talks
++----------------
++
++* `An Overview of the Linux and Userspace Graphics Stack <https://www.youtube.com/watch?v=wjAJmqwg47k>`_ - Paul Kocialkowski (2020)
++* `Getting pixels on screen on Linux: introduction to Kernel Mode Setting <https://www.youtube.com/watch?v=haes4_Xnc5Q>`_ - Simon Ser (2020)
++* `Everything Great about Upstream Graphics <https://www.youtube.com/watch?v=kVzHOgt6WGE>`_ - Daniel Vetter (2019)
++* `An introduction to the Linux DRM subsystem <https://www.youtube.com/watch?v=LbDOCJcDRoo>`_ - Maxime Ripard (2017)
++* `Embrace the Atomic (Display) Age <https://www.youtube.com/watch?v=LjiB_JeDn2M>`_ - Daniel Vetter (2016)
++* `Anatomy of an Atomic KMS Driver <https://www.youtube.com/watch?v=lihqR9sENpc>`_ - Laurent Pinchart (2015)
++* `Atomic Modesetting for Drivers <https://www.youtube.com/watch?v=kl9suFgbTc8>`_ - Daniel Vetter (2015)
++* `Anatomy of an Embedded KMS Driver <https://www.youtube.com/watch?v=Ja8fM7rTae4>`_ - Laurent Pinchart (2013)
++
++Slides and articles
++-------------------
++
++* `Understanding the Linux Graphics Stack <https://bootlin.com/doc/training/graphics/graphics-slides.pdf>`_ - Bootlin (2022)
++* `DRM KMS overview <https://wiki.st.com/stm32mpu/wiki/DRM_KMS_overview>`_ - STMicroelectronics (2021)
++* `Linux graphic stack <https://studiopixl.com/2017-05-13/linux-graphic-stack-an-overview>`_ - Nathan Gauër (2017)
++* `Atomic mode setting design overview, part 1 <https://lwn.net/Articles/653071/>`_ - Daniel Vetter (2015)
++* `Atomic mode setting design overview, part 2 <https://lwn.net/Articles/653466/>`_ - Daniel Vetter (2015)
++* `The DRM/KMS subsystem from a newbie’s point of view <https://bootlin.com/pub/conferences/2014/elce/brezillon-drm-kms/brezillon-drm-kms.pdf>`_ - Boris Brezillon (2014)
++* `A brief introduction to the Linux graphics stack <https://blogs.igalia.com/itoral/2014/07/29/a-brief-introduction-to-the-linux-graphics-stack/>`_ - Iago Toral (2014)
++* `The Linux Graphics Stack <https://blog.mecheye.net/2012/06/the-linux-graphics-stack/>`_ - Jasper St. Pierre (2012)
+-- 
+2.35.1
 
