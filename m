@@ -2,117 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AA71C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 13:47:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3F68C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 13:56:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240392AbiDRNtT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Apr 2022 09:49:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57240 "EHLO
+        id S238749AbiDRN7V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Apr 2022 09:59:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243542AbiDRNqq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 09:46:46 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3860C27146;
-        Mon, 18 Apr 2022 06:00:48 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id z5-20020a17090a468500b001d2bc2743c4so483842pjf.0;
-        Mon, 18 Apr 2022 06:00:48 -0700 (PDT)
+        with ESMTP id S244620AbiDRN4x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 09:56:53 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB4922A70A
+        for <linux-doc@vger.kernel.org>; Mon, 18 Apr 2022 06:05:20 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id z6-20020a17090a398600b001cb9fca3210so14023142pjb.1
+        for <linux-doc@vger.kernel.org>; Mon, 18 Apr 2022 06:05:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=e7uOPH5NWelWL8HivChTPlWB5fjkQJwWePsqDxPJujA=;
-        b=iYNt+RhJf64VlmKk1kS1E3FQhju8m4EfHObEyFN10k8hwHKjsVoL8UPtGAiLQk6TIi
-         3+YEchqNyHKjxdLZInL7E1yu12/LfeiBqHeBlZ95IQUxAxbSkOenNQ5YTUcbdV4hD+eE
-         K4ZF+ySut4N4X2gEsLss1Z9nRTmMC7UHLMV+vr/LC5OsFRvm68qYkly+NSIREc7Z6HLi
-         g5KJIjTn3bNX8xV5A+q6zf2daHWg8pqlrACWqXhsZQW/PfIXXG+lSRgQ2oxat7KIYEjX
-         HhKXumqZ4hajGugdY0ES4MTXV8zVQho9Nmttj9fjm3RQZfH/RChkrGEWMgQAelqkYW14
-         vQ5g==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=rRMg0uEwq5ly8AwZgC4iNLsUPeUJ5pBxYhXyUTZFOC0=;
+        b=KsfLh4xDa+ryiHQhngzBdgklClrHXxmla6iZwYPcg+IegcTbX6nYz3V+zVJS56e781
+         ieIEQhI1vYRVOdD0MsNwNHaSbV9rj/kpAL+snAT0zx6XnzSI1c2f/KanlGWbpzDpYgLB
+         Kh0kPbBy8Mc9ZrWAKTAtA2eni55sfXS6oexgOVRIR44gB/n4k08ebw5DI1ReO9IFbltt
+         aBNcOvrkZMCP/ByvNhVBKYy/ueqCGGc7e5XIdE9oes1pItHjB2TesprZ/dzc5ZvKpoLv
+         1Rq8xC7ReprKWQ5SmLq+AZ7ebsC+LhCeGLjHl/Je4zrWS7PP8rBXBCeZKWM8Zud9s+jT
+         CGLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=e7uOPH5NWelWL8HivChTPlWB5fjkQJwWePsqDxPJujA=;
-        b=4pQiVbFNF505mzzFrf6keaLIvp45wjhREGMRyQM8LkllOfG9IGKZddVnuZD1NuBMuq
-         IlN6GnZZtBkEK0EAtDAFt/ry3v+Ughp+/t36MXLGl3qWvJ6dZ9Tu8/mmmP7qUZHQqD4C
-         WkWSUefHdweBQjc7vJv69ToA4kgX0cW0/5SQMgo6iDxyw8DKRSabQ6Ok2tNuJ0cgkcS+
-         23mFwUpYhPgUoQrA+shKZVgSdGGXLbzsWQM7860BhBs//ijMOqbMdrSkOI8u7EYmpMre
-         96y+KZlEyzrRimBl06bSzPaGnYa69mnIT/fucu4o7rVuiDkGiTo/s1k+EwtJ+4HMU5hP
-         p4LA==
-X-Gm-Message-State: AOAM532oKeHp3X0GAGz6FUVFx/UXalbMJmGgwpPfWejQoooYUTAfM3Mf
-        o1fwY43ZzwwIOytzPCVhJCs1H4D5lE5Sqg==
-X-Google-Smtp-Source: ABdhPJzkCrOsulp3VGPnBk7XuVigmMGyHzgaOKGrMRh4qwUugY8V5t4/UxxTAbFzcFljiWRZ8pbpeA==
-X-Received: by 2002:a17:902:c613:b0:159:9f9:85ec with SMTP id r19-20020a170902c61300b0015909f985ecmr1613966plr.67.1650286846979;
-        Mon, 18 Apr 2022 06:00:46 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-27.three.co.id. [180.214.232.27])
-        by smtp.gmail.com with ESMTPSA id d9-20020a056a00198900b00508379f2121sm12820853pfl.52.2022.04.18.06.00.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Apr 2022 06:00:46 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>, Chris Mason <clm@fb.com>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>,
-        Nick Terrell <terrelln@fb.com>, Schspa Shi <schspa@gmail.com>,
-        linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] btrfs: zstd: remove extraneous asterix at the head of zstd_reclaim_timer_fn() comment
-Date:   Mon, 18 Apr 2022 19:59:35 +0700
-Message-Id: <20220418125934.566647-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        bh=rRMg0uEwq5ly8AwZgC4iNLsUPeUJ5pBxYhXyUTZFOC0=;
+        b=qbmsZHDwtlzxZV+8ujnwu0tlnAkwPIdclLfYHvvxXt4/xOZyaEEusq6Ourtf5mmpjs
+         PYsK1xI3jUPcx6d7cEW5X89P3K5sc6EWgMxhlO5YIE3Zc5cULpVGsnXw9aKysAOrjg63
+         YRQQMkETVWwlGmR3dw+b3x+iGJ4m9GmDODvMhDGn+DQwTXPeHnBkow2d55XSqdv61Xa9
+         gr5bSiRK45QlSXB/55AHgHd+Aba/UtQ2bP1WmGGoBEUkhOMrHvAB8bvULsf0Vjxkx6VB
+         acNfZ4oCYsD8aNVSaN1h7uoCvbHIw48jDJnydHYAm6OkUfoh9ytnYjlBp1l/sj9jey+6
+         igtg==
+X-Gm-Message-State: AOAM531TPBoewMxcC2VD7lsCHTPnk5coBWGmqeyhpO58OdYgL7sb+t8l
+        keriCcCEP+0BrX46+IU5jgw=
+X-Google-Smtp-Source: ABdhPJyJxvZT5nmkZJJ2iAN9pL0xIOZbBP+tMfWSmvYX6kA5Z8+vAmD0sak3Jph4MQ7zrPMXtu9HAg==
+X-Received: by 2002:a17:902:768a:b0:159:71e:971e with SMTP id m10-20020a170902768a00b00159071e971emr2110070pll.163.1650287120289;
+        Mon, 18 Apr 2022 06:05:20 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-27.three.co.id. [180.214.232.27])
+        by smtp.gmail.com with ESMTPSA id a67-20020a621a46000000b005060c73ef43sm12410983pfa.195.2022.04.18.06.05.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Apr 2022 06:05:19 -0700 (PDT)
+Message-ID: <27af39d6-8982-6c87-c488-d5052b9fd03a@gmail.com>
+Date:   Mon, 18 Apr 2022 20:05:15 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: docs: IDE removal?
+Content-Language: en-US
+To:     Randy Dunlap <rdunlap@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+        Christoph Hellwig <hch@lst.de>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <16ed554f-0f25-e914-5cb9-dce53d027f1e@infradead.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <16ed554f-0f25-e914-5cb9-dce53d027f1e@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kernel test robot reports kernel-doc warning:
+On 4/18/22 07:06, Randy Dunlap wrote:
+> Hi,
+> 
+> Would someone suggest how much of
+> Documentation/ide/ can be removed, given:
+> 
+> commit b7fb14d3ac63
+> Author: Christoph Hellwig <hch@lst.de>
+> Date:   Wed Jun 16 15:46:58 2021 +0200
+> 
+>     ide: remove the legacy ide driver
+> 
+> 
+> 
+> ChangeLog.ide-cd.1994-2004
+> ChangeLog.ide-floppy.1996-2002
+> ChangeLog.ide-tape.1995-2002
+> changelogs.rst
+> ide.rst
+> ide-tape.rst
+> index.rst
 
->> fs/btrfs/zstd.c:98: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+I'm not the subject-matter expert for this case, but I agree to
+remove/nuke Documentation/ide/ at its entirety.
 
-The comment is for zstd_reclaim_timer_fn(). Since the function is
-static, the comment isn't meant for kernel-doc consumption.
-
-Remove the extraneous (second) asterix at the head of function comment.
-
-Link: https://lore.kernel.org/linux-doc/202204151934.CkKcnvuJ-lkp@intel.com/
-Fixes: b672526e2ee935 ("btrfs: use non-bh spin_lock in zstd timer callback")
-Cc: Chris Mason <clm@fb.com>
-Cc: Josef Bacik <josef@toxicpanda.com>
-Cc: David Sterba <dsterba@suse.com>
-Cc: Nick Terrell <terrelln@fb.com>
-Cc: Schspa Shi <schspa@gmail.com>
-Cc: linux-btrfs@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- In the previous fix attempt [1], Matthew Wilcox suggested to remove the
- second asterix instead since the function is static and it shouldn't
- have kernel-doc comments.
-
- [1]: https://lore.kernel.org/linux-doc/YluGmERvtQY9ju7Y@casper.infradead.org/
-
- This patch is based on btrfs-devel/misc-next tree [2].
-
- [2]: https://github.com/kdave/btrfs-devel.git
-
- fs/btrfs/zstd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/btrfs/zstd.c b/fs/btrfs/zstd.c
-index 0fe31a6f6e68f0..ca2102a46faefd 100644
---- a/fs/btrfs/zstd.c
-+++ b/fs/btrfs/zstd.c
-@@ -94,7 +94,7 @@ static inline struct workspace *list_to_workspace(struct list_head *list)
- void zstd_free_workspace(struct list_head *ws);
- struct list_head *zstd_alloc_workspace(unsigned int level);
- 
--/**
-+/*
-  * Timer callback to free unused workspaces.
-  *
-  * @t: timer
-
-base-commit: 550a34e972578538fd0826916ae4fc407b62bb68
 -- 
 An old man doll... just what I always wanted! - Clara
-
