@@ -2,157 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89DEFC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 08:26:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69741C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 09:28:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237227AbiDRI32 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Apr 2022 04:29:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52900 "EHLO
+        id S237270AbiDRJaw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Apr 2022 05:30:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbiDRI31 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 04:29:27 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9487193CF;
-        Mon, 18 Apr 2022 01:26:48 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id mp16-20020a17090b191000b001cb5efbcab6so16669770pjb.4;
-        Mon, 18 Apr 2022 01:26:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=NYm2dHPEUrvAGMtgFQGnTUtM0H/SBiXaCe0LWOvNDbc=;
-        b=PXfz+oVMikvzKIHWp6uEthN5Ee+J8G++tuCZohorOaSm7KXWaTQFnPytewACDAi49k
-         FwsGJUWVuU1p4QATh9o+Hi9GBClA1ogVQEEoIOjGbgd3joLUnWEVvoRSFXruvatQbhWD
-         x2XtO3cAQRojbJXIEXqUXd89ELxqmQGqMjnr+ZJEcAg3Ne1y2rUwWsBYNhrrkiv/QaH8
-         qVGEuzlMHgS16t3RlpvRDwAMEPlxD2PRSyxU0yjQ2F4ULqfRjip/jGRQTAMNBdQljP11
-         xzDnFETHk5lrg9WtHSs91HT2NYhpCHydDcIP4/P4mU1bgX04OvIQwI5Z4JHYA5BFu39f
-         Vpog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=NYm2dHPEUrvAGMtgFQGnTUtM0H/SBiXaCe0LWOvNDbc=;
-        b=2Bz9FZ8BYiAbs/teeNlfWx08BjBzleCqT6eQRiUcjmk5sba3mrBiSehMu6unG9s9y3
-         tsaF0N3de36qigbEEmRtSwssk2laO43cuVpA/VSBlJEBuLCwq0CwWfSgz1ea1MEB7isa
-         NXaNQg/TSR4E91KgwDlFDGMNaiOgLSdiRp9y4mNSldmUpmjvixOhi3QtkwxZGuH6ptTG
-         QtvahHGhrfH/64sZVvwrapIPldWV9hHKS/Ty+VYR8UIJUZO0g42R23muRBx2JNP7Zaix
-         VzAIXQyS3rcRIspJvSiYsMC3kcjyO0NLuLrnf9RaEiWVNXs5xqqzL8Z9VKXEtRj757gI
-         roCw==
-X-Gm-Message-State: AOAM5334HN4OFeSNXEzrJn/CL8SRIjIs2WQTmJymdGKqaMr4iTECq4Cn
-        9YkdynQZHt8hJFzqCjTLdh8=
-X-Google-Smtp-Source: ABdhPJybTr2UBzpmzWMtdVYYTaA5z1tdFKBLpjNfDbvdevxT0cL6HL5O3tENgdPZIaTdNIHeiVQT9Q==
-X-Received: by 2002:a17:902:eb46:b0:158:341d:93a3 with SMTP id i6-20020a170902eb4600b00158341d93a3mr9869201pli.1.1650270408408;
-        Mon, 18 Apr 2022 01:26:48 -0700 (PDT)
-Received: from smtpclient.apple ([240b:12:16e1:e200:b07f:6d92:6172:b431])
-        by smtp.gmail.com with ESMTPSA id v13-20020a17090a00cd00b001d297df6725sm2467455pjd.22.2022.04.18.01.26.46
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Apr 2022 01:26:47 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH] docs/trans/ja_JP/howto: Don't mention specific kernel
- versions
-From:   Kosuke Fujimoto <fujimotokosuke0@gmail.com>
-In-Reply-To: <40b763ab-d35d-03de-9d27-bca2af56dd34@gmail.com>
-Date:   Mon, 18 Apr 2022 17:26:45 +0900
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Tsugikazu Shibata <shibata@linuxfoundation.org>,
-        linux-doc@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <CF4F34EC-47AD-4E6F-8A36-1EE295AE31BE@gmail.com>
-References: <20220417070451.19736-1-fujimotokosuke0@gmail.com>
- <40b763ab-d35d-03de-9d27-bca2af56dd34@gmail.com>
-To:     Akira Yokosawa <akiyks@gmail.com>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
+        with ESMTP id S237520AbiDRJaw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 05:30:52 -0400
+Received: from mail.meizu.com (unknown [14.29.68.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 129CF15FFF;
+        Mon, 18 Apr 2022 02:28:10 -0700 (PDT)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail04.meizu.com
+ (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 18 Apr
+ 2022 17:28:10 +0800
+Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 18 Apr
+ 2022 17:28:07 +0800
+From:   Haowen Bai <baihaowen@meizu.com>
+To:     <siyanteng01@gmail.com>
+CC:     <alexs@kernel.org>, <baihaowen@meizu.com>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <siyanteng@loongson.cn>
+Subject: [PATCH V4] docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+Date:   Mon, 18 Apr 2022 17:28:04 +0800
+Message-ID: <1650274084-27871-1-git-send-email-baihaowen@meizu.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <CAEensMx3qvL7qmT=PhxYoJ4v5P8USn1qyAGBcB1WR5R4FQ24og@mail.gmail.com>
+References: <CAEensMx3qvL7qmT=PhxYoJ4v5P8USn1qyAGBcB1WR5R4FQ24og@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Yokosawa-san,=20
+As the tools/vm/page_owner_sort added some feature and original text
+updated, sync the translation of zh_CN.
 
-> On Apr 18, 2022, at 15:44, Akira Yokosawa <akiyks@gmail.com> wrote:
->=20
-> Hi Fujimoto-san,
->=20
-> This looks mostly good to me.
-> Please find inline comments below on a couple of conventions expected =
-in
-> this community.
->=20
-> On Sun, 17 Apr 2022 16:04:51 +0900,
-> Kosuke Fujimoto wrote:
->> [PATCH] docs/trans/ja_JP/howto: Don't mention specific kernel =
-versions
->=20
-> It looks like patches to Chinese docs carry a simpler "docs/zh_CN:" =
-prefix [1].
-> So "docs/ja_JP/howto:" should suffice.
+Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+---
+V1->V2: fix whitespace warning.
+V2->V3: fix some tab Alignment issue.
+V3->V4: fix sphinx warning
 
-Okay, I intentionally added =E2=80=9Ctrans=E2=80=9D there, but if it=E2=80=
-=99s not needed, I won=E2=80=99t add it for future commitment.
+ Documentation/translations/zh_CN/vm/page_owner.rst | 61 +++++++++++++++++++++-
+ 1 file changed, 60 insertions(+), 1 deletion(-)
 
->=20
-> [1]: example: =
-https://lore.kernel.org/r/2fc8a76e1308e15823eebf614f35f36f322a55d3.1649384=
-633.git.siyanteng@loongson.cn/
->=20
->> This change is based on commit d2b008f134b7 =
-(Documentation/process/howto: Update for 4.x -> 5.x versioning)
->=20
-> In changelog explanation, lines should not exceed 75 chars unless you
-> have a good reason.
-> The rule is stricter than the contents of documents because some of =
-git
-> commands auto indent changelogs by 4 spaces, and the result should fit
-> in an 80-column wide terminal.
-> Also, the title of the referenced commit should be enclosed in a pair
-> of double quotation marks.  So this should be:
->=20
->   This change is based on commit d2b008f134b7
->   ("Documentation/process/howto: Update for 4.x -> 5.x versioning").
->=20
-> [with a punctuation fix]
->=20
->> Replace "4.x kernel version" with generic term such as "mainline =
-tree"
->>=20
->> Signed-off-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
->> Cc: Akira Yokosawa <akiyks@gmail.com>
->> Cc: linux-doc@vger.kernel.org
-> Please note that the above mentioned width limit does not apply to
-> tags.  E.g., Fixes: and Link: tags should not wrap.
->=20
-> These conventions are covered in the latter part of Section "Describe
-> your changes" and Section "The canonical patch format" of
-> Documentation/process/submitting-patches.rst.
->=20
-> So I'd suggest that you post a v2 with the subject and changelog
-> fixed.
-> But please wait a few days for comments from someone else.
->=20
-> With the above addressed, feel free to add:
->=20
-> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
->=20
->        Thanks, Akira
->=20
->> ---
->> Documentation/translations/ja_JP/howto.rst | 43 =
-++++++++++------------
->> 1 file changed, 20 insertions(+), 23 deletions(-)
->>=20
-> [=E2=80=A6]
->=20
-
-Thank you for your detail explanation, I will apply these comments and =
-send v2.
-
-Best regards,
-Kosuke
-
-
-
-
+diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
+index 9e951fabba9d..4d719547ce4f 100644
+--- a/Documentation/translations/zh_CN/vm/page_owner.rst
++++ b/Documentation/translations/zh_CN/vm/page_owner.rst
+@@ -103,14 +103,73 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
+ 		-m		按总内存排序
+ 		-p		按pid排序。
+ 		-P		按tgid排序。
++		-n		按任务名称排序。
+ 		-r		按内存释放时间排序。
+ 		-s		按堆栈跟踪排序。
+ 		-t		按时间排序（默认）。
++		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从 
++						**标准格式说明符** 部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
++						允许混合使用缩写键和全称键。
++
++		Examples:
++				./page_owner_sort <input> <output> --sort=n,+pid,-tgid
++				./page_owner_sort <input> <output> --sort=at
+ 
+    其它函数:
+ 
+ 	Cull:
+-		-c		通过比较堆栈跟踪而不是总块来进行剔除。
++		--cull <rules>
++				指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
++
++		<rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
++				符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的
++				STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
+ 
++		Examples:
++				./page_owner_sort <input> <output> --cull=stacktrace
++				./page_owner_sort <input> <output> --cull=st,pid,name
++				./page_owner_sort <input> <output> --cull=n,f
+ 	Filter:
+ 		-f		过滤掉内存已被释放的块的信息。
++
++	Select:
++		--pid <pidlist>		通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
++		--tgid <tgidlist>	通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
++		--name <cmdlist>	按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
++
++		<pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
++
++
++		Examples:
++				./page_owner_sort <input> <output> --pid=1
++				./page_owner_sort <input> <output> --tgid=1,2,3
++				./page_owner_sort <input> <output> --name name1,name2
++
++标准格式说明符
++==============
++
++--sort 选项:
++
++        ======          ==========      ===================
++        缩写键          全称键          描述
++        ======          ==========      ===================
++        p               pid             进程 ID
++        tg              tgid            线程组 ID
++        n               name            任务名称
++        st              stacktrace      页面分配的调用栈
++        T               txt             块的全文
++        ft              free_ts         页面被释放的时间戳
++        at              alloc_ts        页面分配的时间戳
++        ======          ==========      ===================
++
++--curl 选项:
++
++        ======          ==========      ==================
++        缩写键          全称键          描述
++        ======          ==========      ==================
++        p               pid             进程 ID
++        tg              tgid            线程组 ID
++        n               name            任务名称
++        f               free            该页面是否已被释放
++        st              stacktrace      页面分配的调用栈
++        ======          ==========      ==================
+-- 
+2.7.4
 
