@@ -2,79 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B228AC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 12:37:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A362C43217
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 12:59:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239269AbiDRMkV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Apr 2022 08:40:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40062 "EHLO
+        id S240850AbiDRNB4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Apr 2022 09:01:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240690AbiDRMja (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 08:39:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52BEB12AFB;
-        Mon, 18 Apr 2022 05:30:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E5E9560F0A;
-        Mon, 18 Apr 2022 12:30:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 49668C385AE;
-        Mon, 18 Apr 2022 12:30:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650285011;
-        bh=JxYUHWfGukrKeEVSVM/JogyJAEmmHT9oqMMQ5s4QGN8=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=sF9sNCZVZuond4+u2k9kWnzvbIgrI9BI5bds67c/QBrn8WbjxwXQ3JqfDn2c9RFD5
-         o6Amh6OIvHjPvUc0Bx1d/YciQ907zdPhXDrScsieya7DoVsoX6Q7b981dijNRKQEdY
-         keAnos51W8qB1ZburIrtZWbfXziIBcHRLddrQ/YRv6ay/Fafn6cABKgfJ82bAKwZz9
-         wK+RqA01mZTE5x0TMFoN9hWzjXhejzw9cRCJzAvT5RRCPO6s6RgTp1pU9yIiMEXf/j
-         R82R3ERMlWtgRPqHuJVfYMvpY0kdmBDmx1bwtZelUJxYsZKbsT1793DOelrvI++Hfd
-         HbOC32ifhYf1w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 24C96E8DBD4;
-        Mon, 18 Apr 2022 12:30:11 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S240373AbiDRNAR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 09:00:17 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1834C3150D;
+        Mon, 18 Apr 2022 05:41:52 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id mm4-20020a17090b358400b001cb93d8b137so17179085pjb.2;
+        Mon, 18 Apr 2022 05:41:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=7kzCvTCHP5Ec0EYskhQImxhR7aaaSEbjrSNccJSSVpE=;
+        b=idMzA4OgXctXR29po4+p6or86OZoa5hbLmu3y7m+IThAXzETFBdUKW63uXTQ2ZIqJq
+         g3mZLGIhZFksaJ+TmYkuRTKR/L5KPGb3An5NUO6nrvF+MCowHEsta510JE48ntxwJROr
+         UXoKRab9tbihG62rOSi8l4gZPh4u1W4y+rKSAgHMwPCnyCOyrDyqHcVblpPvPJmvmp/J
+         c+yOnA/DuXrD3BwLNsYady06+agKPQ4z2U1pNJwBS5hw7SFmaBWoGXSHulLYuAiwQs/t
+         jJtKLtkE4hANn1PcGA7x3VQw01OX2mrrjJwCwbp9DoOrz4NcM3mqtItoyLL7SXxKXCNB
+         0B6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=7kzCvTCHP5Ec0EYskhQImxhR7aaaSEbjrSNccJSSVpE=;
+        b=WkF7wOaH4NWNzo4arIaqGtwqibwr0CX6n/3tnjSg6F4VMcFU/zeMqMlvmiYyStH2g/
+         098FVOk8Gx42fRNWvdAI7MWYkWWBGe2GYkydNSy6sTfntEAz5uMknzPIsVF4JyesvzbS
+         U+vhssbFVWK2ibbcoGGl56o0fF58HtPpdQugD1bVtSx38ILNzdfKhYKKtFT97OTdYOi1
+         v/k+jscJ+RG/P6zfNtCp0LoBcBTwK9Ebbi1WMgDTp4cJTC8O2CJqcbC9Svq3tIeYYolf
+         GdLcUCg4GarAvpUl0E0lLuQP6bsh/adRvKwY0QixXhYdxRSCUpWcPK/Yg+yPdTqIcdPP
+         Sq/w==
+X-Gm-Message-State: AOAM530OJH7j9Dy17IlXRe4n4DKo7mBszd59nz9G0kHrCIbEb3E3ZSID
+        nq0oJhIUwkS38AJ14pgrJzY=
+X-Google-Smtp-Source: ABdhPJxr8oswLT3gJLSeJiCYVoAg8kYjyl9WW56hpoZQdqGlGIrW34LbW+mDHJBjVaFvmRGTwXLAHg==
+X-Received: by 2002:a17:902:ce06:b0:156:8118:9e9a with SMTP id k6-20020a170902ce0600b0015681189e9amr10977783plg.169.1650285711582;
+        Mon, 18 Apr 2022 05:41:51 -0700 (PDT)
+Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
+        by smtp.gmail.com with ESMTPSA id h6-20020a056a00218600b004f65315bb37sm13060177pfi.13.2022.04.18.05.41.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Apr 2022 05:41:51 -0700 (PDT)
+Message-ID: <202ba5f5-f842-f4ce-dd67-c5166d94cc67@gmail.com>
+Date:   Mon, 18 Apr 2022 20:41:45 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH V4] docs/zh_CN: sync with original text
+ Documentation/vm/page_owner.rst
+Content-Language: en-US
+To:     Haowen Bai <baihaowen@meizu.com>, siyanteng01@gmail.com
+Cc:     alexs@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, siyanteng@loongson.cn
+References: <CAEensMx3qvL7qmT=PhxYoJ4v5P8USn1qyAGBcB1WR5R4FQ24og@mail.gmail.com>
+ <1650274084-27871-1-git-send-email-baihaowen@meizu.com>
+From:   Alex Shi <seakeel@gmail.com>
+In-Reply-To: <1650274084-27871-1-git-send-email-baihaowen@meizu.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v3] docs: net: dsa: describe issues with checksum
- offload
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165028501114.22399.12104889374283323185.git-patchwork-notify@kernel.org>
-Date:   Mon, 18 Apr 2022 12:30:11 +0000
-References: <20220416052737.25509-1-luizluca@gmail.com>
-In-Reply-To: <20220416052737.25509-1-luizluca@gmail.com>
-To:     Luiz Angelo Daros de Luca <luizluca@gmail.com>
-Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        tobias@waldekranz.com, andrew@lunn.ch, f.fainelli@gmail.com,
-        vladimir.oltean@nxp.com, corbet@lwn.net, kuba@kernel.org,
-        davem@davemloft.net
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Hi Haowen,
 
-This patch was applied to netdev/net-next.git (master)
-by David S. Miller <davem@davemloft.net>:
+There are still some space error during the 'git apply'.
+Could you like to fix them?
 
-On Sat, 16 Apr 2022 02:27:37 -0300 you wrote:
-> DSA tags before IP header (categories 1 and 2) or after the payload (3)
-> might introduce offload checksum issues.
+thanks
+Alex
+
+Applying: docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+
+.git/rebase-apply/patch:21: trailing whitespace.
+
+		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从 
+
+.git/rebase-apply/patch:65: indent with spaces.
+
+        ======          ==========      ===================
+
+.git/rebase-apply/patch:66: indent with spaces.
+
+        缩写键          全称键          描述
+
+.git/rebase-apply/patch:67: indent with spaces.
+
+        ======          ==========      ===================
+
+.git/rebase-apply/patch:68: indent with spaces.
+
+        p               pid             进程 ID
+
+warning: squelched 16 whitespace errors
+
+warning: 21 lines add whitespace errors.
+
+
+
+On 4/18/22 17:28, Haowen Bai wrote:
+> As the tools/vm/page_owner_sort added some feature and original text
+> updated, sync the translation of zh_CN.
 > 
-> Signed-off-by: Luiz Angelo Daros de Luca <luizluca@gmail.com>
-> Reviewed-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
 > ---
->  Documentation/networking/dsa/dsa.rst | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-
-Here is the summary with links:
-  - [net-next,v3] docs: net: dsa: describe issues with checksum offload
-    https://git.kernel.org/netdev/net-next/c/a997157e42e3
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+> V1->V2: fix whitespace warning.
+> V2->V3: fix some tab Alignment issue.
+> V3->V4: fix sphinx warning
+> 
+>  Documentation/translations/zh_CN/vm/page_owner.rst | 61 +++++++++++++++++++++-
+>  1 file changed, 60 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
+> index 9e951fabba9d..4d719547ce4f 100644
+> --- a/Documentation/translations/zh_CN/vm/page_owner.rst
+> +++ b/Documentation/translations/zh_CN/vm/page_owner.rst
+> @@ -103,14 +103,73 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
+>  		-m		按总内存排序
+>  		-p		按pid排序。
+>  		-P		按tgid排序。
+> +		-n		按任务名称排序。
+>  		-r		按内存释放时间排序。
+>  		-s		按堆栈跟踪排序。
+>  		-t		按时间排序（默认）。
+> +		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从 
+> +						**标准格式说明符** 部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
+> +						允许混合使用缩写键和全称键。
+> +
+> +		Examples:
+> +				./page_owner_sort <input> <output> --sort=n,+pid,-tgid
+> +				./page_owner_sort <input> <output> --sort=at
+>  
+>     其它函数:
+>  
+>  	Cull:
+> -		-c		通过比较堆栈跟踪而不是总块来进行剔除。
+> +		--cull <rules>
+> +				指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
+> +
+> +		<rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
+> +				符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的
+> +				STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
+>  
+> +		Examples:
+> +				./page_owner_sort <input> <output> --cull=stacktrace
+> +				./page_owner_sort <input> <output> --cull=st,pid,name
+> +				./page_owner_sort <input> <output> --cull=n,f
+>  	Filter:
+>  		-f		过滤掉内存已被释放的块的信息。
+> +
+> +	Select:
+> +		--pid <pidlist>		通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
+> +		--tgid <tgidlist>	通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
+> +		--name <cmdlist>	按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
+> +
+> +		<pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
+> +
+> +
+> +		Examples:
+> +				./page_owner_sort <input> <output> --pid=1
+> +				./page_owner_sort <input> <output> --tgid=1,2,3
+> +				./page_owner_sort <input> <output> --name name1,name2
+> +
+> +标准格式说明符
+> +==============
+> +
+> +--sort 选项:
+> +
+> +        ======          ==========      ===================
+> +        缩写键          全称键          描述
+> +        ======          ==========      ===================
+> +        p               pid             进程 ID
+> +        tg              tgid            线程组 ID
+> +        n               name            任务名称
+> +        st              stacktrace      页面分配的调用栈
+> +        T               txt             块的全文
+> +        ft              free_ts         页面被释放的时间戳
+> +        at              alloc_ts        页面分配的时间戳
+> +        ======          ==========      ===================
+> +
+> +--curl 选项:
+> +
+> +        ======          ==========      ==================
+> +        缩写键          全称键          描述
+> +        ======          ==========      ==================
+> +        p               pid             进程 ID
+> +        tg              tgid            线程组 ID
+> +        n               name            任务名称
+> +        f               free            该页面是否已被释放
+> +        st              stacktrace      页面分配的调用栈
+> +        ======          ==========      ==================
