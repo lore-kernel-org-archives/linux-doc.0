@@ -2,93 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D644AC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 15:48:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D593FC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 15:49:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345713AbiDRPvT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Apr 2022 11:51:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42046 "EHLO
+        id S1345755AbiDRPvw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Apr 2022 11:51:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345709AbiDRPuw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 11:50:52 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B70922BD7
-        for <linux-doc@vger.kernel.org>; Mon, 18 Apr 2022 08:29:14 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id d19so3547815qko.3
-        for <linux-doc@vger.kernel.org>; Mon, 18 Apr 2022 08:29:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=bk1eGuqJwndoaxsSvNYecRXq6M9A/bw4S/fhOCK+UVc=;
-        b=7F1UZiOfTJRn87TwUEurTc5P9PUWSoCZVGAWHNHavR/bXr65b7KljKF0kk1dwg8xtX
-         FV2/yylNEvwEn6tcML003t9HpMDMOOawvHFcZTPEutpToRtbZWi+UaQk8xQzv04nizSZ
-         z3nZfVkKDQV81BL2ItSAoeePcPWD9Qg2Z5i1WBFyGsUhAVxc3pB8JbhNF1jOIXOoaiSH
-         8HheabbU4cpxESbOeAge9Vh2k/fJ9DIqUXhtwrgrXor14veeWkLZs43ptPfI6ZunZrcv
-         K8Veoug7qzQGyJ7hZFDpX7uKERtiGsdL5XFq9Tcp9XHLPVDqm4ABNTRKMLETwb9l3kl4
-         VlpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=bk1eGuqJwndoaxsSvNYecRXq6M9A/bw4S/fhOCK+UVc=;
-        b=55LQLcao7EocB6VD0NHeM7JMHKOGfayAPiDz/NkMlOyVe6dXtnNIHmjLZnB6yEEebl
-         MO9tTcrsQfYTVz61ZTWbV4BD0+kHC+ItyMtM+5bIZ6jcVQk9Tqnpj+EQfB29bPOYU5P4
-         InF2awYk+hYCeYMYBrwvF6s1Elcl94hLZCkniBmU5u2FLyUg+c2qHno5UW8D6Dh5NmSA
-         tOl2i5QyiW+wi+yDPBEnsQJ+Uj+yW3cFBpPBvGHiNyMV6GDjIpK/bVPi3Ci4PNTUAkY9
-         rm8t3slUVo43vS6OsXMGleFIU+j/RkokObCXsYjfIceD1WndJ+U4gfWr/yVa3hplNMEe
-         Pdfw==
-X-Gm-Message-State: AOAM531xBQc2r9/ILzhepSniRrVZAnLsN7IakLHQ+JILjDO9ETYayoIE
-        BZvodkTBdzghhwYL6wt4VROrvA==
-X-Google-Smtp-Source: ABdhPJz/YKZah8C+U0YgIVsCTc14vr9OwHpssgyFke0VAkIsnTf4JBHSdxL1MhhT+PHSqXV7HFH79w==
-X-Received: by 2002:a37:b502:0:b0:69a:ca1:298 with SMTP id e2-20020a37b502000000b0069a0ca10298mr6942704qkf.133.1650295753354;
-        Mon, 18 Apr 2022 08:29:13 -0700 (PDT)
-Received: from localhost (cpe-174-109-172-136.nc.res.rr.com. [174.109.172.136])
-        by smtp.gmail.com with ESMTPSA id c17-20020ac85a91000000b002e1dd8ae44bsm7800323qtc.29.2022.04.18.08.29.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Apr 2022 08:29:12 -0700 (PDT)
-Date:   Mon, 18 Apr 2022 11:29:11 -0400
-From:   Josef Bacik <josef@toxicpanda.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-        Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
-        Nick Terrell <terrelln@fb.com>, Schspa Shi <schspa@gmail.com>,
-        linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] btrfs: zstd: remove extraneous asterix at the head of
- zstd_reclaim_timer_fn() comment
-Message-ID: <Yl2Dx+jefYs1Un+8@localhost.localdomain>
-References: <20220418125934.566647-1-bagasdotme@gmail.com>
+        with ESMTP id S1345888AbiDRPvY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 11:51:24 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E4C13DCD;
+        Mon, 18 Apr 2022 08:29:47 -0700 (PDT)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23IEchH7016120;
+        Mon, 18 Apr 2022 15:29:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : reply-to : subject : to : cc : references : from :
+ in-reply-to : content-type : content-transfer-encoding; s=pp1;
+ bh=4qCS7go1QL022udA2KhFYoAMPtNP6go1Iv3nZtvPb6c=;
+ b=a51n4I8TcTAjcmtwolkaREI+ePRDRsDm0vuoG2HyXi0Oc7RG/i+Mn2FnqJGrL3ZAO+tx
+ h7uzQCKQUUM8KwoGeJILabnMMUC3v42eSVTWkLZ7Y6kp4Ib8L775jnhtpVrrjT5QIJ39
+ boWR9q2iAOh/0sSjD7Jqk0Hjag9Go608InZq3UHxVIxiOzpSzUzXMtCMmJSy4BbXt/eT
+ Q4Yh0YhiXGmg6s+YdkIo6Oxmh7+UwJSTWa1ZB7z134dt8HoLPJwFcNhnJ3yc5E70sEic
+ pk8Ezs4nx+y+TsaE1xUcwtkWi0L84mBx5LUUQvBgVKK5AijGhe0wz8R4ITQj02oj6KOo VA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3fg7d6qamw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 18 Apr 2022 15:29:41 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23IFTeY2009111;
+        Mon, 18 Apr 2022 15:29:40 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.11])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3fg7d6qamm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 18 Apr 2022 15:29:40 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+        by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23IFKnVl026794;
+        Mon, 18 Apr 2022 15:29:39 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com [9.57.198.23])
+        by ppma03dal.us.ibm.com with ESMTP id 3ffne9jhva-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 18 Apr 2022 15:29:39 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com [9.57.199.110])
+        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23IFTcgq32702894
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 18 Apr 2022 15:29:38 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9B845AE05F;
+        Mon, 18 Apr 2022 15:29:38 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3F991AE05C;
+        Mon, 18 Apr 2022 15:29:37 +0000 (GMT)
+Received: from [9.65.235.174] (unknown [9.65.235.174])
+        by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+        Mon, 18 Apr 2022 15:29:37 +0000 (GMT)
+Message-ID: <07f39f6b-1dc9-64e4-12c0-928ecb7878ed@linux.ibm.com>
+Date:   Mon, 18 Apr 2022 11:29:36 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220418125934.566647-1-bagasdotme@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Reply-To: jjherne@linux.ibm.com
+Subject: Re: [PATCH 1/9] vfio: Make vfio_(un)register_notifier accept a
+ vfio_device
+Content-Language: en-US
+To:     Jason Gunthorpe <jgg@nvidia.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>
+References: <1-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com>
+From:   "Jason J. Herne" <jjherne@linux.ibm.com>
+Organization: IBM
+In-Reply-To: <1-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 1C_EF63D7M_kVDmEa1kK0eANH0md6ZpB
+X-Proofpoint-GUID: lcjgntORAoHeJQ6qPIIGxZlPToOBj9r0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-18_02,2022-04-15_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 mlxlogscore=999 phishscore=0
+ clxscore=1015 spamscore=0 malwarescore=0 priorityscore=1501 mlxscore=0
+ adultscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2202240000 definitions=main-2204180089
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 18, 2022 at 07:59:35PM +0700, Bagas Sanjaya wrote:
-> kernel test robot reports kernel-doc warning:
+On 4/12/22 11:53, Jason Gunthorpe wrote:
+> All callers have a struct vfio_device trivially available, pass it in
+> directly and avoid calling the expensive vfio_group_get_from_dev().
 > 
-> >> fs/btrfs/zstd.c:98: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+> To support the unconverted kvmgt mdev driver add
+> mdev_legacy_get_vfio_device() which will return the vfio_device pointer
+> vfio_mdev.c puts in the drv_data.
 > 
-> The comment is for zstd_reclaim_timer_fn(). Since the function is
-> static, the comment isn't meant for kernel-doc consumption.
-> 
-> Remove the extraneous (second) asterix at the head of function comment.
-> 
-> Link: https://lore.kernel.org/linux-doc/202204151934.CkKcnvuJ-lkp@intel.com/
-> Fixes: b672526e2ee935 ("btrfs: use non-bh spin_lock in zstd timer callback")
-> Cc: Chris Mason <clm@fb.com>
-> Cc: Josef Bacik <josef@toxicpanda.com>
-> Cc: David Sterba <dsterba@suse.com>
-> Cc: Nick Terrell <terrelln@fb.com>
-> Cc: Schspa Shi <schspa@gmail.com>
-> Cc: linux-btrfs@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ...
+> diff --git a/drivers/s390/crypto/vfio_ap_ops.c b/drivers/s390/crypto/vfio_ap_ops.c
+> index 6e08d04b605d6e..69768061cd7bd9 100644
+> --- a/drivers/s390/crypto/vfio_ap_ops.c
+> +++ b/drivers/s390/crypto/vfio_ap_ops.c
+> @@ -1406,21 +1406,21 @@ static int vfio_ap_mdev_open_device(struct vfio_device *vdev)
+>   	matrix_mdev->group_notifier.notifier_call = vfio_ap_mdev_group_notifier;
+>   	events = VFIO_GROUP_NOTIFY_SET_KVM;
+>   
+> -	ret = vfio_register_notifier(vdev->dev, VFIO_GROUP_NOTIFY,
+> -				     &events, &matrix_mdev->group_notifier);
+> +	ret = vfio_register_notifier(vdev, VFIO_GROUP_NOTIFY, &events,
+> +				     &matrix_mdev->group_notifier);
+>   	if (ret)
+>   		return ret;
+>   
+>   	matrix_mdev->iommu_notifier.notifier_call = vfio_ap_mdev_iommu_notifier;
+>   	events = VFIO_IOMMU_NOTIFY_DMA_UNMAP;
+> -	ret = vfio_register_notifier(vdev->dev, VFIO_IOMMU_NOTIFY,
+> -				     &events, &matrix_mdev->iommu_notifier);
+> +	ret = vfio_register_notifier(vdev, VFIO_IOMMU_NOTIFY, &events,
+> +				     &matrix_mdev->iommu_notifier);
+>   	if (ret)
+>   		goto out_unregister_group;
+>   	return 0;
+>   
+>   out_unregister_group:
+> -	vfio_unregister_notifier(vdev->dev, VFIO_GROUP_NOTIFY,
+> +	vfio_unregister_notifier(vdev, VFIO_GROUP_NOTIFY,
+>   				 &matrix_mdev->group_notifier);
+>   	return ret;
+>   }
+> @@ -1430,9 +1430,9 @@ static void vfio_ap_mdev_close_device(struct vfio_device *vdev)
+>   	struct ap_matrix_mdev *matrix_mdev =
+>   		container_of(vdev, struct ap_matrix_mdev, vdev);
+>   
+> -	vfio_unregister_notifier(vdev->dev, VFIO_IOMMU_NOTIFY,
+> +	vfio_unregister_notifier(vdev, VFIO_IOMMU_NOTIFY,
+>   				 &matrix_mdev->iommu_notifier);
+> -	vfio_unregister_notifier(vdev->dev, VFIO_GROUP_NOTIFY,
+> +	vfio_unregister_notifier(vdev, VFIO_GROUP_NOTIFY,
+>   				 &matrix_mdev->group_notifier);
+>   	vfio_ap_mdev_unset_kvm(matrix_mdev);
+>   }
+looks good for vfio_ap.
+Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
 
-Reviewed-by: Josef Bacik <josef@toxicpanda.com>
 
-Thanks,
-
-Josef
+-- 
+-- Jason J. Herne (jjherne@linux.ibm.com)
