@@ -2,388 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B860BC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 15:45:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98296C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 15:46:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345655AbiDRPrX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Apr 2022 11:47:23 -0400
+        id S1345738AbiDRPtg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Apr 2022 11:49:36 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345699AbiDRPrI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 11:47:08 -0400
-Received: from sonic310-30.consmr.mail.ne1.yahoo.com (sonic310-30.consmr.mail.ne1.yahoo.com [66.163.186.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F6B95BD05
-        for <linux-doc@vger.kernel.org>; Mon, 18 Apr 2022 08:14:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1650294868; bh=zxytV29Ee/KqsOgddLCdzZjwv8OiqPiIqHzR85jUbE8=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=Yhp8ZF1K/LGkZGuNPs0gcQ7UiwsDVfgFy2oCOFIoSARJl3t19R6wPje8yKzjwiLTHHl6ULkwDKlCyopQnei4Bo6nxvESKTNaElh+CNz541fLn/TgKsb4cuShfY9003wztr5OV0ZEzpV0vGiD+Edy6nfLbXhLQOsdSHfMdaPqbH019+BqModozeu9DphDkfEgLQvSU5BPftDr4PHLdpAewBYiTYhQQfHHpRKd/XImuS3c8LjMI1EsNOiSATrsoeQIsDQxGCPtwmgXNVWWMPAH5I9Z/kE5ZodKJ7HVn6lZJKO5z2QaxT9vzUcqpZZnS7wvjDmAsbBWBO82/mIY3+Jx/Q==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1650294868; bh=Vk4LPorpmdjOoNmR/xSMm9gdeauguAtz7W4fHMrO/vn=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=rbRlIFBGghlrJVs0TBJAGo19sYSAI5Mdh+Qz0Fm6UYwjzGvIWetO1X4P5J7W4dYy6Cq+GAJ+pXgb6mPwGUgKsGXLGIXeRoY5kmXd5+X55LGGNhScXlL4v2HwF39UOMQYmqcvJZMiHpbl0HVogIXZdA3qF3INzztw3gDnCsfxDJV81uIjgiR78DwTB6Nm2oyNGSGOETdQv6FqHWCWZt1VsZaCQ0mXryTgodELfurCsN8nRF6HIrRGUY8HB0NmRFaPq0mtqzVux+SQGGgD4+InuVvSY93bEqbVfdqZRYiKeZzWQEWjQBJPMKieDLjGSeOcNt7jme0Yi66GKJnqhOGgHg==
-X-YMail-OSG: NnLFzUcVM1nlTnEdG0edl6v83mjHge.vM7UhJeY5ofhOGQuCWzVz0ltul8rM6xq
- gD1he0CIlJ9ay6oB8StL1oivSSyPfykTJgrgVgRbc6PEdz2zLYCMjAgHxbDanHEQtaCGJZt9Ador
- SojpwAoXVkY8gMjlC8o4Zg_Q_aQK.W8tvnSyT97iRjBG_XInQvzO5ppNNNVgayLvdWUZacXAQYlP
- KGQOrIGqB_Oc_hK5mluyy0egX0EmO7aDfyJ9YLfX3QX1ydnhaoQLSRooTg1VUSBW9AlfZSoVysF.
- 9M3Hp4cAwBpU7_af9Kaui5fILTtmQA5yw2o_FezgTxEcKy4WAptXodgPZApdNqAYWmjy.x6Q9AaF
- 4LGMAsWaMn9bjfDdKrbc4kUzvI7EN.4X9I9NSJr6fdMxYVTlaiDzkIUHMB0t_.4g1QRFJTMjrOEw
- El7162tiOVrbFnrxyJ3BjzkFASJSL5E1yxQ9Q_NUbMXv.5gz8BwO1UY1NNtQ95.qJPuMz6Mdcab9
- TW3N3UdbMKuVkfr8yhZjtNmgr1n09m4aNu2qbktCT9QltZo6_6XDJbIBYS73srn0GOJK3XdQlADy
- hsc23r0zj6DnSjAcoXqWlMtNJPuHmadNqWmaYcO9_D5gClsIAKC6tlGpP.Q8TG.6sTytapWIjyZ1
- G_QjlvwHl2Qesxf1733sKS2uM3dpwYLZYdBt91PBitw8J89AAew24VA_USVFXXFv90Yp7pQ.sUoV
- rpP6gupVjW8eOfyI6RJjLREzfWJthX7vxaQtntwZkNPU9h0CnwuJKNCCzfbm_qvwfhSjAdow9yos
- m.7lLPXIfkp6GXRU4NxADITemyEB3juGaRXiXrPkbY5RvQsyPgldiJo1.qdhASiRfHuGRnM5BlY.
- 6Yw6LfbqKpC.DXMAuRDMn0Rr2ZF_swT8KQAcXtOV7Urc5mrWTKS42TaQCdFW8yYndzIxdfLHcPRg
- lk9uo6GIb9cvK4aGuwfywOSAR4AfzrJgBFMNJp06.Ef0zhSuXQOuwcWRv0gQQZ_19rbQBet5vKTz
- 2hUb2ceFSOf6cSgucSlkXUY0djHh.THllL30gSz79VzTlsLotBlUEasQT3wcutMaN13Ml_7rrsDi
- nLLQJnbR2rRGWcBBh9HgAaJneLE8sc7bF_yxrB9KBecTOocmozrxTbTSX3nOWKQKJKvY_HsqfEFj
- EJjwiNyseaK_VjTvoGepnN_gLiN7Vm4V.O0azYI.Ql2w8hnE8sFj5ANrZDVbC4Ol8eyFkJ5Mvb9G
- 3uyvZ9RdbLUQIqH4LUtxBPc29kQi5DpCvX1_eUB2uq0Ahm_ag994hSGY2yp1MmL.dVcpV_pYabYv
- ZKiQdE8qaErUyX7tORdk3iRa4bY2aAZPjB0nIeBZknFn4L2T_81s4uTgaLge.OvxEqkdimOfrpOJ
- UHUZY2N_Oj.gOhmHODrQn6jitkvu3MnvidDpe1a7vxFjEIIVo.m.VyDTIRjI5dLfPiEZgUqJeDVM
- VjyvkTtKK4s4UATfvDGa_iP67x3_EskWl5K1a95Q9G4QvWmu0sOs5pbO4h4bs2HVUQ4QbqzU48y7
- DTPw2p9XjsCIWu7vb5LpcVRqczF7KNKesg10S7REvlIrjqME7LszigYf42.Gk8v3tpx73J1KqLzS
- GiqvZB40RqP1VZnZllHV884xq4EMjtWAwX2WCUuupa.buVf4jiFOBFi7YEy1l29FM6Dr9N2ZNE3.
- Q9BOCxPfzrPzZHHac_wKvm2j_RNTpqzbDPHnUNvQ3CeJzAZMPI0lRz9o8Unt2QEKeCbH5qt2mkG8
- dLLgfnC9D87yQY7CwyEUswlbG1G9rvCUzN99T9Rm.7CZdIx.fwbyTku4KXwS_oE3RHn7L4vQhjV8
- ty8F8L5Ej.BKOTLXB48uYheS5w_d9vZhbngt1_fPHUV0GO6xz6_5T0vf8aZJqMSeEVEFnn8JwdUd
- .GcHLSexAOXxehFO8A8YnPMfvgPGxDjuPQehf2pBIq4FwavDHFZ1krruj92ITzs2ONs_4ibYxN70
- y37w74p35U0D93lxScwcvRJC6g2ICJZ.etycNav1sZkjUySs5BdNdgPbd9YI0L_pryOp9u0aA60t
- AcNZazdpBToMmwH83M4N.1Ahh9nyXF8Rne2TuHs75A8jKqZLZmVBo9uLDEVRaW76.gbvzsUSI.0t
- fj0peHfQjeppqgya2cWKHq7xg1RGv3rYWxOvl51nK3U3faZ9j4Mbqslj49BvK467S8NUaqWb1_Sg
- ZYJA04WfKE7qTxw0JqGQd8cKM8iblgFzCT675o5uMHhrj3nBTUDrr9Mwf2J1ILo5ZXaQCB_KvFY0
- YJ3hmAJZLjqySF3D9dLwP3sWk26ZdXBLTZHQvcjnfYQlSbX407ZqJEGJUnco-
-X-Sonic-MF: <casey@schaufler-ca.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.ne1.yahoo.com with HTTP; Mon, 18 Apr 2022 15:14:28 +0000
-Received: by hermes--canary-production-bf1-5f49dbcd6-xjccz (VZM Hermes SMTP Server) with ESMTPA ID 311eab809775b4af02ae966c725fa26b;
-          Mon, 18 Apr 2022 15:14:26 +0000 (UTC)
-From:   Casey Schaufler <casey@schaufler-ca.com>
-To:     casey.schaufler@intel.com, jmorris@namei.org,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
-Cc:     casey@schaufler-ca.com, linux-audit@redhat.com,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, paul@paul-moore.com,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v35 28/29] LSM: Add /proc attr entry for full LSM context
-Date:   Mon, 18 Apr 2022 07:59:44 -0700
-Message-Id: <20220418145945.38797-29-casey@schaufler-ca.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220418145945.38797-1-casey@schaufler-ca.com>
-References: <20220418145945.38797-1-casey@schaufler-ca.com>
+        with ESMTP id S1345832AbiDRPt3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 11:49:29 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 422723A5E1;
+        Mon, 18 Apr 2022 08:25:29 -0700 (PDT)
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23ICqA2P005763;
+        Mon, 18 Apr 2022 15:25:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : reply-to : subject : to : cc : references : from :
+ in-reply-to : content-type : content-transfer-encoding; s=pp1;
+ bh=evwWpk1Dm5bcc6QEDuXhMspZWK6TKCHyVA1qTLrlimg=;
+ b=JZ6jbQE3dxDOMfvOcU84vAXoKI/qfewfyg26AMwOhOnit6QwwFvrN5l1m8MtJ771adL/
+ LB1h1YGzrNrYb7DS5f5N5Y6YkmLQbiHMi1m8SstMUuYdIMzp5zQnEaOQL43m34Fw15ZW
+ DpuW8YQM1f5kDQn3MGQMfJhHRJUyBkcjsY1BHVS9KSssUOatCCjSQaqEvmBdB8bPbL8M
+ 7QAjGWJBsckn5kneVvw0Irz6E0pmmV8/aTETdGPoDqG7D7oulkKjwQVvJDt5LjWkueQ3
+ qQGAqYYCj5usUczuQJHffUWU+DkINoG7nEgypflCEbELqqgn6bplDJwayqyNbjoIgOD+ iA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3fg79dyvsf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 18 Apr 2022 15:25:20 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23IFJIvp031153;
+        Mon, 18 Apr 2022 15:25:19 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3fg79dyvs2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 18 Apr 2022 15:25:19 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+        by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23IFKltc016286;
+        Mon, 18 Apr 2022 15:25:18 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com [9.57.198.25])
+        by ppma05wdc.us.ibm.com with ESMTP id 3ffne9etgg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 18 Apr 2022 15:25:18 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com [9.57.199.110])
+        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23IFPHEr26083802
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 18 Apr 2022 15:25:17 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 38C8CAE060;
+        Mon, 18 Apr 2022 15:25:17 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CD393AE05F;
+        Mon, 18 Apr 2022 15:25:15 +0000 (GMT)
+Received: from [9.65.235.174] (unknown [9.65.235.174])
+        by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+        Mon, 18 Apr 2022 15:25:15 +0000 (GMT)
+Message-ID: <9cebd8fb-e7c2-690f-90f5-be84f9a9d6b1@linux.ibm.com>
+Date:   Mon, 18 Apr 2022 11:25:15 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Reply-To: jjherne@linux.ibm.com
+Subject: Re: [PATCH 3/9] vfio/mdev: Pass in a struct vfio_device * to
+ vfio_pin/unpin_pages()
+Content-Language: en-US
+To:     Jason Gunthorpe <jgg@nvidia.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>
+References: <3-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com>
+From:   "Jason J. Herne" <jjherne@linux.ibm.com>
+Organization: IBM
+In-Reply-To: <3-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: xLFIuplWrGMb4izzQTVWhsbDAV-A_T-r
+X-Proofpoint-ORIG-GUID: fd5UQ2plZHcyE-AzEOHOpSz_FcgI0X6C
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-18_02,2022-04-15_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
+ bulkscore=0 phishscore=0 clxscore=1011 malwarescore=0 spamscore=0
+ priorityscore=1501 mlxscore=0 impostorscore=0 lowpriorityscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204180089
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an entry /proc/.../attr/context which displays the full
-process security "context" in compound format:
-        lsm1\0value\0lsm2\0value\0...
-This entry is not writable.
+On 4/12/22 11:53, Jason Gunthorpe wrote:
+> Every caller has a readily available vfio_device pointer, use that instead
+> of passing in a generic struct device. The struct vfio_device already
+> contains the group we need so this avoids complexity, extra refcountings,
+> and a confusing lifecycle model.
+> ...
+> diff --git a/drivers/s390/crypto/vfio_ap_ops.c b/drivers/s390/crypto/vfio_ap_ops.c
+> index 69768061cd7bd9..a10b3369d76c41 100644
+> --- a/drivers/s390/crypto/vfio_ap_ops.c
+> +++ b/drivers/s390/crypto/vfio_ap_ops.c
+> @@ -124,7 +124,7 @@ static void vfio_ap_free_aqic_resources(struct vfio_ap_queue *q)
+>   		q->saved_isc = VFIO_AP_ISC_INVALID;
+>   	}
+>   	if (q->saved_pfn && !WARN_ON(!q->matrix_mdev)) {
+> -		vfio_unpin_pages(mdev_dev(q->matrix_mdev->mdev),
+> +		vfio_unpin_pages(&q->matrix_mdev->vdev,
+>   				 &q->saved_pfn, 1);
 
-A security module may decide that its policy does not allow
-this information to be displayed. In this case none of the
-information will be displayed.
+Could be contracted to a single line. If you feel like it :)
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-Cc: linux-api@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
----
- Documentation/security/lsm.rst       | 14 +++++
- fs/proc/base.c                       |  1 +
- include/linux/lsm_hooks.h            |  6 +++
- security/apparmor/include/procattr.h |  2 +-
- security/apparmor/lsm.c              |  8 ++-
- security/apparmor/procattr.c         | 22 ++++----
- security/security.c                  | 79 ++++++++++++++++++++++++++++
- security/selinux/hooks.c             |  2 +-
- security/smack/smack_lsm.c           |  2 +-
- 9 files changed, 121 insertions(+), 15 deletions(-)
+>   		q->saved_pfn = 0;
+>   	}
+> @@ -258,7 +258,7 @@ static struct ap_queue_status vfio_ap_irq_enable(struct vfio_ap_queue *q,
+>   		return status;
+>   	}
+>   
+> -	ret = vfio_pin_pages(mdev_dev(q->matrix_mdev->mdev), &g_pfn, 1,
+> +	ret = vfio_pin_pages(&q->matrix_mdev->vdev, &g_pfn, 1,
+>   			     IOMMU_READ | IOMMU_WRITE, &h_pfn);
+>   	switch (ret) {
+>   	case 1:
+> @@ -301,7 +301,7 @@ static struct ap_queue_status vfio_ap_irq_enable(struct vfio_ap_queue *q,
+>   		break;
+>   	case AP_RESPONSE_OTHERWISE_CHANGED:
+>   		/* We could not modify IRQ setings: clear new configuration */
+> -		vfio_unpin_pages(mdev_dev(q->matrix_mdev->mdev), &g_pfn, 1);
+> +		vfio_unpin_pages(&q->matrix_mdev->vdev, &g_pfn, 1);
+>   		kvm_s390_gisc_unregister(kvm, isc);
+>   		break;
+>   	default:
+> @@ -1250,7 +1250,7 @@ static int vfio_ap_mdev_iommu_notifier(struct notifier_block *nb,
+>   		struct vfio_iommu_type1_dma_unmap *unmap = data;
+>   		unsigned long g_pfn = unmap->iova >> PAGE_SHIFT;
+>   
+> -		vfio_unpin_pages(mdev_dev(matrix_mdev->mdev), &g_pfn, 1);
+> +		vfio_unpin_pages(&matrix_mdev->vdev, &g_pfn, 1);
+>   		return NOTIFY_OK;
+>   	}
+>   
 
-diff --git a/Documentation/security/lsm.rst b/Documentation/security/lsm.rst
-index b77b4a540391..070225ae6ceb 100644
---- a/Documentation/security/lsm.rst
-+++ b/Documentation/security/lsm.rst
-@@ -143,3 +143,17 @@ separated list of the active security modules.
- The file ``/proc/pid/attr/interface_lsm`` contains the name of the security
- module for which the ``/proc/pid/attr/current`` interface will
- apply. This interface can be written to.
-+
-+The infrastructure does provide an interface for the special
-+case where multiple security modules provide a process context.
-+This is provided in compound context format.
-+
-+-  `lsm\0value\0lsm\0value\0`
-+
-+The `lsm` and `value` fields are NUL-terminated bytestrings.
-+Each field may contain whitespace or non-printable characters.
-+The NUL bytes are included in the size of a compound context.
-+The context ``Bell\0Secret\0Biba\0Loose\0`` has a size of 23.
-+
-+The file ``/proc/pid/attr/context`` provides the security
-+context of the identified process.
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index f2d15348bdff..f8aed4404e7e 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -2828,6 +2828,7 @@ static const struct pid_entry attr_dir_stuff[] = {
- 	ATTR(NULL, "keycreate",		0666),
- 	ATTR(NULL, "sockcreate",	0666),
- 	ATTR(NULL, "interface_lsm",	0666),
-+	ATTR(NULL, "context",		0444),
- #ifdef CONFIG_SECURITY_SMACK
- 	DIR("smack",			0555,
- 	    proc_smack_attr_dir_inode_ops, proc_smack_attr_dir_ops),
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index fd63ae215104..425538ebc606 100644
---- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -1401,6 +1401,12 @@
-  *	@pages contains the number of pages.
-  *	Return 0 if permission is granted.
-  *
-+ * @getprocattr:
-+ *	Provide the named process attribute for display in special files in
-+ *	the /proc/.../attr directory.  Attribute naming and the data displayed
-+ *	is at the discretion of the security modules.  The exception is the
-+ *	"context" attribute, which will contain the security context of the
-+ *	task as a nul terminated text string without trailing whitespace.
-  * @ismaclabel:
-  *	Check if the extended attribute specified by @name
-  *	represents a MAC label. Returns 1 if name is a MAC
-diff --git a/security/apparmor/include/procattr.h b/security/apparmor/include/procattr.h
-index 31689437e0e1..03dbfdb2f2c0 100644
---- a/security/apparmor/include/procattr.h
-+++ b/security/apparmor/include/procattr.h
-@@ -11,7 +11,7 @@
- #ifndef __AA_PROCATTR_H
- #define __AA_PROCATTR_H
- 
--int aa_getprocattr(struct aa_label *label, char **string);
-+int aa_getprocattr(struct aa_label *label, char **string, bool newline);
- int aa_setprocattr_changehat(char *args, size_t size, int flags);
- 
- #endif /* __AA_PROCATTR_H */
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index 29181bc8c693..1ee58c1491ab 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -602,6 +602,7 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
- 	const struct cred *cred = get_task_cred(task);
- 	struct aa_task_ctx *ctx = task_ctx(current);
- 	struct aa_label *label = NULL;
-+	bool newline = true;
- 
- 	if (strcmp(name, "current") == 0)
- 		label = aa_get_newest_label(cred_label(cred));
-@@ -609,11 +610,14 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
- 		label = aa_get_newest_label(ctx->previous);
- 	else if (strcmp(name, "exec") == 0 && ctx->onexec)
- 		label = aa_get_newest_label(ctx->onexec);
--	else
-+	else if (strcmp(name, "context") == 0) {
-+		label = aa_get_newest_label(cred_label(cred));
-+		newline = false;
-+	} else
- 		error = -EINVAL;
- 
- 	if (label)
--		error = aa_getprocattr(label, value);
-+		error = aa_getprocattr(label, value, newline);
- 
- 	aa_put_label(label);
- 	put_cred(cred);
-diff --git a/security/apparmor/procattr.c b/security/apparmor/procattr.c
-index fde332e0ea7d..172550f67fc0 100644
---- a/security/apparmor/procattr.c
-+++ b/security/apparmor/procattr.c
-@@ -20,6 +20,7 @@
-  * aa_getprocattr - Return the profile information for @profile
-  * @profile: the profile to print profile info about  (NOT NULL)
-  * @string: Returns - string containing the profile info (NOT NULL)
-+ * @newline: Should a newline be added to @string.
-  *
-  * Requires: profile != NULL
-  *
-@@ -28,20 +29,21 @@
-  *
-  * Returns: size of string placed in @string else error code on failure
-  */
--int aa_getprocattr(struct aa_label *label, char **string)
-+int aa_getprocattr(struct aa_label *label, char **string, bool newline)
- {
- 	struct aa_ns *ns = labels_ns(label);
- 	struct aa_ns *current_ns = aa_get_current_ns();
-+	int flags = FLAG_VIEW_SUBNS | FLAG_HIDDEN_UNCONFINED;
- 	int len;
- 
- 	if (!aa_ns_visible(current_ns, ns, true)) {
- 		aa_put_ns(current_ns);
- 		return -EACCES;
- 	}
-+	if (newline)
-+		flags |= FLAG_SHOW_MODE;
- 
--	len = aa_label_snxprint(NULL, 0, current_ns, label,
--				FLAG_SHOW_MODE | FLAG_VIEW_SUBNS |
--				FLAG_HIDDEN_UNCONFINED);
-+	len = aa_label_snxprint(NULL, 0, current_ns, label, flags);
- 	AA_BUG(len < 0);
- 
- 	*string = kmalloc(len + 2, GFP_KERNEL);
-@@ -50,19 +52,19 @@ int aa_getprocattr(struct aa_label *label, char **string)
- 		return -ENOMEM;
- 	}
- 
--	len = aa_label_snxprint(*string, len + 2, current_ns, label,
--				FLAG_SHOW_MODE | FLAG_VIEW_SUBNS |
--				FLAG_HIDDEN_UNCONFINED);
-+	len = aa_label_snxprint(*string, len + 2, current_ns, label, flags);
- 	if (len < 0) {
- 		aa_put_ns(current_ns);
- 		return len;
- 	}
- 
--	(*string)[len] = '\n';
--	(*string)[len + 1] = 0;
-+	if (newline) {
-+		(*string)[len] = '\n';
-+		(*string)[++len] = 0;
-+	}
- 
- 	aa_put_ns(current_ns);
--	return len + 1;
-+	return len;
- }
- 
- /**
-diff --git a/security/security.c b/security/security.c
-index be6682768760..4c6d4171ded6 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -802,6 +802,57 @@ static int lsm_superblock_alloc(struct super_block *sb)
- 	return 0;
- }
- 
-+/**
-+ * append_ctx - append a lsm/context pair to a compound context
-+ * @ctx: the existing compound context
-+ * @ctxlen: size of the old context, including terminating nul byte
-+ * @lsm: new lsm name, nul terminated
-+ * @new: new context, possibly nul terminated
-+ * @newlen: maximum size of @new
-+ *
-+ * replace @ctx with a new compound context, appending @newlsm and @new
-+ * to @ctx. On exit the new data replaces the old, which is freed.
-+ * @ctxlen is set to the new size, which includes a trailing nul byte.
-+ *
-+ * Returns 0 on success, -ENOMEM if no memory is available.
-+ */
-+static int append_ctx(char **ctx, int *ctxlen, const char *lsm, char *new,
-+		      int newlen)
-+{
-+	char *final;
-+	size_t llen;
-+	size_t nlen;
-+	size_t flen;
-+
-+	llen = strlen(lsm) + 1;
-+	/*
-+	 * A security module may or may not provide a trailing nul on
-+	 * when returning a security context. There is no definition
-+	 * of which it should be, and there are modules that do it
-+	 * each way.
-+	 */
-+	nlen = strnlen(new, newlen);
-+
-+	flen = *ctxlen + llen + nlen + 1;
-+	final = kzalloc(flen, GFP_KERNEL);
-+
-+	if (final == NULL)
-+		return -ENOMEM;
-+
-+	if (*ctxlen)
-+		memcpy(final, *ctx, *ctxlen);
-+
-+	memcpy(final + *ctxlen, lsm, llen);
-+	memcpy(final + *ctxlen + llen, new, nlen);
-+
-+	kfree(*ctx);
-+
-+	*ctx = final;
-+	*ctxlen = flen;
-+
-+	return 0;
-+}
-+
- /*
-  * The default value of the LSM hook is defined in linux/lsm_hook_defs.h and
-  * can be accessed with:
-@@ -2223,6 +2274,10 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
- 				char **value)
- {
- 	struct security_hook_list *hp;
-+	char *final = NULL;
-+	char *cp;
-+	int rc = 0;
-+	int finallen = 0;
- 	int ilsm = lsm_task_ilsm(current);
- 	int slot = 0;
- 
-@@ -2250,6 +2305,30 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
- 		return -ENOMEM;
- 	}
- 
-+	if (!strcmp(name, "context")) {
-+		hlist_for_each_entry(hp, &security_hook_heads.getprocattr,
-+				     list) {
-+			rc = hp->hook.getprocattr(p, "context", &cp);
-+			if (rc == -EINVAL)
-+				continue;
-+			if (rc < 0) {
-+				kfree(final);
-+				return rc;
-+			}
-+			rc = append_ctx(&final, &finallen, hp->lsmid->lsm,
-+					cp, rc);
-+			kfree(cp);
-+			if (rc < 0) {
-+				kfree(final);
-+				return rc;
-+			}
-+		}
-+		if (final == NULL)
-+			return -EINVAL;
-+		*value = final;
-+		return finallen;
-+	}
-+
- 	hlist_for_each_entry(hp, &security_hook_heads.getprocattr, list) {
- 		if (lsm != NULL && strcmp(lsm, hp->lsmid->lsm))
- 			continue;
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 653dd2e236f1..cd977493f734 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -6346,7 +6346,7 @@ static int selinux_getprocattr(struct task_struct *p,
- 			goto bad;
- 	}
- 
--	if (!strcmp(name, "current"))
-+	if (!strcmp(name, "current") || !strcmp(name, "context"))
- 		sid = __tsec->sid;
- 	else if (!strcmp(name, "prev"))
- 		sid = __tsec->osid;
-diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-index 2190c03ae3d0..9e442c4495bf 100644
---- a/security/smack/smack_lsm.c
-+++ b/security/smack/smack_lsm.c
-@@ -3485,7 +3485,7 @@ static int smack_getprocattr(struct task_struct *p, char *name, char **value)
- 	char *cp;
- 	int slen;
- 
--	if (strcmp(name, "current") != 0)
-+	if (strcmp(name, "current") != 0 && strcmp(name, "context") != 0)
- 		return -EINVAL;
- 
- 	cp = kstrdup(skp->smk_known, GFP_KERNEL);
+Looks good to me.
+Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
+
 -- 
-2.35.1
-
+-- Jason J. Herne (jjherne@linux.ibm.com)
