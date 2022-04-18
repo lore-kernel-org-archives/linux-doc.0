@@ -2,103 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3948C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 08:17:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89DEFC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 08:26:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234521AbiDRIUY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Apr 2022 04:20:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46772 "EHLO
+        id S237227AbiDRI32 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Apr 2022 04:29:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234153AbiDRIUX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 04:20:23 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACE8A167D6;
-        Mon, 18 Apr 2022 01:17:45 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id l7so25656926ejn.2;
-        Mon, 18 Apr 2022 01:17:45 -0700 (PDT)
+        with ESMTP id S229636AbiDRI31 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 04:29:27 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9487193CF;
+        Mon, 18 Apr 2022 01:26:48 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id mp16-20020a17090b191000b001cb5efbcab6so16669770pjb.4;
+        Mon, 18 Apr 2022 01:26:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7KtsXjPh9lfFnODrrFCb9+TsBoLzX4dD8HDH0L28ETo=;
-        b=qGvm/KPaMmFmxeZQ9Ci1YPmBGPqYHItSqLu2nR0o7qsOBNcHjBa173id0xrm17VBJG
-         9SbkEWiHhoF7oPOJ8N+kwFWqBIUAjwnW6a1A56mOxc1woFJT2MDOGFJ3cMe6Ugfo/t2Z
-         DUwHEPpRk8hncMUuxz0lykj9cS7afW2on5arFNggQqo8M2W6v1Gf7KBXuoQOB2sGb4xG
-         qQEoMZSRDXbf6Wom/OCRdkORGdR6s+NHLG0loaaKYkezAJsPUrldfe2sNxEliP+owy/t
-         sHTMBTybK6EeByHtu0SAwFaBJkcVTMfLBXpDpVKfBf0qnPUBcsOFWi1E90IZwpv9ncY2
-         8BAA==
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=NYm2dHPEUrvAGMtgFQGnTUtM0H/SBiXaCe0LWOvNDbc=;
+        b=PXfz+oVMikvzKIHWp6uEthN5Ee+J8G++tuCZohorOaSm7KXWaTQFnPytewACDAi49k
+         FwsGJUWVuU1p4QATh9o+Hi9GBClA1ogVQEEoIOjGbgd3joLUnWEVvoRSFXruvatQbhWD
+         x2XtO3cAQRojbJXIEXqUXd89ELxqmQGqMjnr+ZJEcAg3Ne1y2rUwWsBYNhrrkiv/QaH8
+         qVGEuzlMHgS16t3RlpvRDwAMEPlxD2PRSyxU0yjQ2F4ULqfRjip/jGRQTAMNBdQljP11
+         xzDnFETHk5lrg9WtHSs91HT2NYhpCHydDcIP4/P4mU1bgX04OvIQwI5Z4JHYA5BFu39f
+         Vpog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7KtsXjPh9lfFnODrrFCb9+TsBoLzX4dD8HDH0L28ETo=;
-        b=jDmvGFB3/DhV++Yw6JdvGHrQKEUr6l+Q7xpXjqg8PPpW7HBt3uoqa/8c1Tlfuy+u96
-         QVP8IGkPVQOXfg0oRd/qIzg3Obt7CIBDQ4BvjZBpy1SetPCtZFKokA/cdJ0OoXL5c72Q
-         S8IsMAwRgtm7toIg42ioP6hhuXwVVhREgGAZBc1CvQv8mMfUayfp2TSM5g0Nl3t/0K1s
-         RAlJcZkdI8S2luCmpz4/jmKGf4kSq4o5sdU5TXapJEVinoWUG2bcCRMnDgjFWtaB/fQ+
-         gTxLwhlxiJKIBVwilC+BO80xZMeVba9np2QHc442uZgWDpPSdFxRv792bu490wUQO1J5
-         expg==
-X-Gm-Message-State: AOAM530bK6kodHGxGPeZ6EyYgv/lMfTUC8Ypzp3cd8KonuMuctQBFbNZ
-        52Xls5vFtTUmkXUVA00AiWk=
-X-Google-Smtp-Source: ABdhPJzs0nbDO3Ua/XZPtya90bEQnjKykEsVRVQvWzz/925zERd1qCgU2TBxRtja+LwOMrTNL2p+hQ==
-X-Received: by 2002:a17:907:2d23:b0:6e8:807c:cd94 with SMTP id gs35-20020a1709072d2300b006e8807ccd94mr8085785ejc.502.1650269864091;
-        Mon, 18 Apr 2022 01:17:44 -0700 (PDT)
-Received: from localhost.localdomain (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
-        by smtp.gmail.com with ESMTPSA id o5-20020a170906974500b006dfc781498dsm4346365ejy.37.2022.04.18.01.17.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Apr 2022 01:17:42 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        SeongJae Park <sj@kernel.org>,
-        Jiajian Ye <yejiajian2018@email.szu.edu.cn>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        outreachy@lists.linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] Documentation/vm: Include kernel-doc from highmem-internal.h
-Date:   Mon, 18 Apr 2022 10:17:40 +0200
-Message-Id: <20220418081740.21001-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=NYm2dHPEUrvAGMtgFQGnTUtM0H/SBiXaCe0LWOvNDbc=;
+        b=2Bz9FZ8BYiAbs/teeNlfWx08BjBzleCqT6eQRiUcjmk5sba3mrBiSehMu6unG9s9y3
+         tsaF0N3de36qigbEEmRtSwssk2laO43cuVpA/VSBlJEBuLCwq0CwWfSgz1ea1MEB7isa
+         NXaNQg/TSR4E91KgwDlFDGMNaiOgLSdiRp9y4mNSldmUpmjvixOhi3QtkwxZGuH6ptTG
+         QtvahHGhrfH/64sZVvwrapIPldWV9hHKS/Ty+VYR8UIJUZO0g42R23muRBx2JNP7Zaix
+         VzAIXQyS3rcRIspJvSiYsMC3kcjyO0NLuLrnf9RaEiWVNXs5xqqzL8Z9VKXEtRj757gI
+         roCw==
+X-Gm-Message-State: AOAM5334HN4OFeSNXEzrJn/CL8SRIjIs2WQTmJymdGKqaMr4iTECq4Cn
+        9YkdynQZHt8hJFzqCjTLdh8=
+X-Google-Smtp-Source: ABdhPJybTr2UBzpmzWMtdVYYTaA5z1tdFKBLpjNfDbvdevxT0cL6HL5O3tENgdPZIaTdNIHeiVQT9Q==
+X-Received: by 2002:a17:902:eb46:b0:158:341d:93a3 with SMTP id i6-20020a170902eb4600b00158341d93a3mr9869201pli.1.1650270408408;
+        Mon, 18 Apr 2022 01:26:48 -0700 (PDT)
+Received: from smtpclient.apple ([240b:12:16e1:e200:b07f:6d92:6172:b431])
+        by smtp.gmail.com with ESMTPSA id v13-20020a17090a00cd00b001d297df6725sm2467455pjd.22.2022.04.18.01.26.46
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 18 Apr 2022 01:26:47 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH] docs/trans/ja_JP/howto: Don't mention specific kernel
+ versions
+From:   Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+In-Reply-To: <40b763ab-d35d-03de-9d27-bca2af56dd34@gmail.com>
+Date:   Mon, 18 Apr 2022 17:26:45 +0900
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Tsugikazu Shibata <shibata@linuxfoundation.org>,
+        linux-doc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <CF4F34EC-47AD-4E6F-8A36-1EE295AE31BE@gmail.com>
+References: <20220417070451.19736-1-fujimotokosuke0@gmail.com>
+ <40b763ab-d35d-03de-9d27-bca2af56dd34@gmail.com>
+To:     Akira Yokosawa <akiyks@gmail.com>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In Documentation/vm/highmem.rst the kernel-doc comments are missing,
-therefore kunmap_local() and kunmap_atomic() are yet undocumented.
+Hi Yokosawa-san,=20
 
-Add a kernel-doc directive to include the above-mentioned kernel-doc
-comments in highmem.rst.
+> On Apr 18, 2022, at 15:44, Akira Yokosawa <akiyks@gmail.com> wrote:
+>=20
+> Hi Fujimoto-san,
+>=20
+> This looks mostly good to me.
+> Please find inline comments below on a couple of conventions expected =
+in
+> this community.
+>=20
+> On Sun, 17 Apr 2022 16:04:51 +0900,
+> Kosuke Fujimoto wrote:
+>> [PATCH] docs/trans/ja_JP/howto: Don't mention specific kernel =
+versions
+>=20
+> It looks like patches to Chinese docs carry a simpler "docs/zh_CN:" =
+prefix [1].
+> So "docs/ja_JP/howto:" should suffice.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ira Weiny <ira.weiny@intel.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
+Okay, I intentionally added =E2=80=9Ctrans=E2=80=9D there, but if it=E2=80=
+=99s not needed, I won=E2=80=99t add it for future commitment.
 
-This patch must be applied and built on top of 
-"[PATCH v3 2/2] Documentation/vm: Include kernel-doc to highmem.rst"
-https://lore.kernel.org/lkml/20220415231917.25962-3-fmdefrancesco@gmail.com/
+>=20
+> [1]: example: =
+https://lore.kernel.org/r/2fc8a76e1308e15823eebf614f35f36f322a55d3.1649384=
+633.git.siyanteng@loongson.cn/
+>=20
+>> This change is based on commit d2b008f134b7 =
+(Documentation/process/howto: Update for 4.x -> 5.x versioning)
+>=20
+> In changelog explanation, lines should not exceed 75 chars unless you
+> have a good reason.
+> The rule is stricter than the contents of documents because some of =
+git
+> commands auto indent changelogs by 4 spaces, and the result should fit
+> in an 80-column wide terminal.
+> Also, the title of the referenced commit should be enclosed in a pair
+> of double quotation marks.  So this should be:
+>=20
+>   This change is based on commit d2b008f134b7
+>   ("Documentation/process/howto: Update for 4.x -> 5.x versioning").
+>=20
+> [with a punctuation fix]
+>=20
+>> Replace "4.x kernel version" with generic term such as "mainline =
+tree"
+>>=20
+>> Signed-off-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
+>> Cc: Akira Yokosawa <akiyks@gmail.com>
+>> Cc: linux-doc@vger.kernel.org
+> Please note that the above mentioned width limit does not apply to
+> tags.  E.g., Fixes: and Link: tags should not wrap.
+>=20
+> These conventions are covered in the latter part of Section "Describe
+> your changes" and Section "The canonical patch format" of
+> Documentation/process/submitting-patches.rst.
+>=20
+> So I'd suggest that you post a v2 with the subject and changelog
+> fixed.
+> But please wait a few days for comments from someone else.
+>=20
+> With the above addressed, feel free to add:
+>=20
+> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+>=20
+>        Thanks, Akira
+>=20
+>> ---
+>> Documentation/translations/ja_JP/howto.rst | 43 =
+++++++++++------------
+>> 1 file changed, 20 insertions(+), 23 deletions(-)
+>>=20
+> [=E2=80=A6]
+>=20
 
- Documentation/vm/highmem.rst | 1 +
- 1 file changed, 1 insertion(+)
+Thank you for your detail explanation, I will apply these comments and =
+send v2.
 
-diff --git a/Documentation/vm/highmem.rst b/Documentation/vm/highmem.rst
-index 5dcee6233cd5..1a3e6a8f5d3e 100644
---- a/Documentation/vm/highmem.rst
-+++ b/Documentation/vm/highmem.rst
-@@ -161,3 +161,4 @@ Functions
- =========
- 
- .. kernel-doc:: include/linux/highmem.h
-+.. kernel-doc:: include/linux/highmem-internal.h
--- 
-2.34.1
+Best regards,
+Kosuke
+
+
+
+
 
