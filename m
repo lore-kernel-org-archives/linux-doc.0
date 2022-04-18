@@ -2,150 +2,305 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98913C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 22:05:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0550C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 22:50:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230365AbiDRWHw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Apr 2022 18:07:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58130 "EHLO
+        id S232832AbiDRWxT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Apr 2022 18:53:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230413AbiDRWHw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 18:07:52 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3586CE03C;
-        Mon, 18 Apr 2022 15:05:12 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id 11so13957927edw.0;
-        Mon, 18 Apr 2022 15:05:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qvyMTbp6qzFtYs01g3/WRgGGqHIALLjUx9LyH/RZFQw=;
-        b=jt8J3wmF1cufjRi2NhOBWl2z41tnRDI/8d1DDhxwtqFY2aY7Z+c5naIyB66DARgQm5
-         OFWtN+Xanr8XKb9dBpX2mgE4orYXWKjQzPBHuKUYaVMSKbOEvFA0TqL106mQ1FC8ilPp
-         jM0EW/UHmX8BdKPibC4iZFlGLDwEF/YqCs7ISQf8q5IP3g/7axKLNFlhVerJMf30Sqrp
-         mWYO+5LhENR7b9PIo3mAh1BUMZzpCDdYQIhQj2keM+EUlxYya9kDruL48q1EZ6G8ZbzZ
-         9+76fZGTMVEai3DOWgGkbWM+vMUrKE/gppTWtGCBVLmEe+JFT2cuynZ0NhXzX2/FvVSg
-         0UoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qvyMTbp6qzFtYs01g3/WRgGGqHIALLjUx9LyH/RZFQw=;
-        b=fj8kQ9ekhz75rar+pWOBqWgOAWilTT9W1faVwqhUpL5Ud2Hl4qFNluhf13htJ5Fr1a
-         1GYM3GORoUIeGCcGe72PO1fcntKob0TRXMVGN0plX09qkwzLWXWYLgjcDV0vul1GSKG0
-         b2S9yh6vLbnMpm0CrnYwXWAGcFeyXESihUfYs6Jo629YIIQiutsHY+g6k6MAesj3zLWG
-         sUjC40OnNu73zXkzougqSWvhpZrKh4r8GmH/2hZlSsJ2/djfSHSGm8PxsiWXPthFG5ha
-         P3b6dzrcbMQH1DIucOo/EHJIyA5pS3o+iiFjPGl5NKcoEWrcpkVXuo3lyCJxd0aImvn5
-         PsUw==
-X-Gm-Message-State: AOAM533lD8p+oetSnmZSjsrE8ly8f9Esc5RFvVZYdtrjDO2CIn9OFaU6
-        POo1OH/HkSB+WZLqm/c3u6E=
-X-Google-Smtp-Source: ABdhPJyfCezo9Tr9RFzy90vhk2rAq++34sWEtmK4x+AGeOegyZ8ipPNU4litJv+L/weVN/9Oal7aUg==
-X-Received: by 2002:aa7:c946:0:b0:416:226f:f8a6 with SMTP id h6-20020aa7c946000000b00416226ff8a6mr14172729edt.360.1650319510489;
-        Mon, 18 Apr 2022 15:05:10 -0700 (PDT)
-Received: from leap.localnet (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
-        by smtp.gmail.com with ESMTPSA id q19-20020a17090676d300b006e8ab621e6dsm5022698ejn.19.2022.04.18.15.05.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Apr 2022 15:05:09 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Ira Weiny <ira.weiny@intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        SeongJae Park <sj@kernel.org>,
-        Jiajian Ye <yejiajian2018@email.szu.edu.cn>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        outreachy@lists.linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/vm: Include kernel-doc from highmem-internal.h
-Date:   Tue, 19 Apr 2022 00:05:07 +0200
-Message-ID: <8118428.NyiUUSuA9g@leap>
-In-Reply-To: <Yl3Z8Qll+zGo4v/D@iweiny-desk3>
-References: <20220418081740.21001-1-fmdefrancesco@gmail.com> <Yl3Z8Qll+zGo4v/D@iweiny-desk3>
+        with ESMTP id S232875AbiDRWxR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 18:53:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5E451EC40;
+        Mon, 18 Apr 2022 15:50:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6B44A61183;
+        Mon, 18 Apr 2022 22:50:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9AF8C385A1;
+        Mon, 18 Apr 2022 22:50:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1650322235;
+        bh=xaOypoIvJjWY7Hi3qb369umxIYGBY5vPPLFOPYp1TjU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=PU7yxwEoKya9qFyf9QYgyad+UHShOn1wMcpfK7M496yHxyjr4LybMWPrUuUKOG/gE
+         zGTJTtsHdlafwKvpHY4NPLKRSG3Dx4acqIp/mq4Hwt4T+HUuFecjh6dqOSUki9knbx
+         R5sbLW1zkNrQiCgT2vUQoI1+jR4LFskRGYxsVUYafUFkv6AesK9N7HThNayjROylAl
+         IurHCEPtcf10wEbkjynL+0kYPp6GMi+WZWUajLA1aUU9i9r91jdBIulyIFOanN99/z
+         bejSrD4vRdRWqcew1qguivaPEgr9Z48rg4qe0KypRPKHRdyLESReslYi5RGWqse+UZ
+         lbulICVYwSNRA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 897EA5C04C6; Mon, 18 Apr 2022 15:50:35 -0700 (PDT)
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     rcu@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, kernel-team@fb.com,
+        rostedt@goodmis.org, Akira Yokosawa <akiyks@gmail.com>,
+        linux-doc@vger.kernel.org, "Paul E . McKenney" <paulmck@kernel.org>
+Subject: [PATCH rcu 2/2] docs: Update RCU cross-references as suggested in doc-guide
+Date:   Mon, 18 Apr 2022 15:50:33 -0700
+Message-Id: <20220418225033.3944860-2-paulmck@kernel.org>
+X-Mailer: git-send-email 2.31.1.189.g2e36527f23
+In-Reply-To: <20220418225004.GA3944767@paulmck-ThinkPad-P17-Gen-1>
+References: <20220418225004.GA3944767@paulmck-ThinkPad-P17-Gen-1>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On luned=C3=AC 18 aprile 2022 23:36:49 CEST Ira Weiny wrote:
-> On Mon, Apr 18, 2022 at 10:17:40AM +0200, Fabio M. De Francesco wrote:
-> > In Documentation/vm/highmem.rst the kernel-doc comments are missing,
-> > therefore kunmap_local() and kunmap_atomic() are yet undocumented.
-> >=20
-> > Add a kernel-doc directive to include the above-mentioned kernel-doc
-> > comments in highmem.rst.
-> >=20
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > Cc: Ira Weiny <ira.weiny@intel.com>
-> > Cc: Matthew Wilcox <willy@infradead.org>
-> > Cc: Peter Zijlstra <peterz@infradead.org>
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
->=20
-> I thought I saw a patch fly by which changed the comment of=20
-kunmap_atomic() in
-> include/linux/highmem-internal.h?  Did I miss that somewhere?
+From: Akira Yokosawa <akiyks@gmail.com>
 
-No, you're right. I had noticed just some minutes before reading your=20
-review that a made a typo.
+The RCU documentation contains old-style cross references which
+do not follow the best practices outlined in doc-guide/sphinx.rst.
+In addition, some of the cross references use URLs that should be replaced
+by pathnames.
 
-I wanted to write: "In Documentation/vm/highmem.rst some kernel-doc=20
-comments are missing" instead for some unknown reason I wrote "the" in=20
-place of "some" :(
+Update all of these cross references and adjust the surrounding words.
 
-I'll fix it ASAP.
+Summary of changes:
 
-> This is a good inclusion for now.  However, I think I would rather see=20
-this as
-> part of a new series which puts the bulk of the documentation with the=20
-code as
-> I proposed in patch 1/2 in your other series.
+  - out-of-date plaintext file names (*.txt) -> *.rst
+  - references by :ref: tags -> path names of *.rst
+    * use relative paths to .rst files under the RCU/ subdirectory
+    * use abs paths of Documentation/xxx for other .rst files
+  - references by URL under https://www.kernel.org/ -> paths of *.rst
+  - adjust surrounding words of some of updated references.
 
-I have also read your review of the patch above. I agree with you that the=
-=20
-"how" should be placed in the kernel-doc comments in the code. And I also=20
-agree that this patch should be part of a new version of a reorganized=20
-series.
+Note:
+  The automarkup.py script interprets references via "*.txt" as if they
+were via "*.rst", so the *.txt -> *.rst changes should be regarded as
+cleanups rather than bug fixes.
 
-I'll start working on your suggestions by tomorrow morning (it's midnight=20
-here in Italy).
+Cc: rcu@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+---
+ .../Design/Data-Structures/Data-Structures.rst |  2 +-
+ .../Expedited-Grace-Periods.rst                |  2 +-
+ .../RCU/Design/Requirements/Requirements.rst   |  4 ++--
+ Documentation/RCU/arrayRCU.rst                 |  4 ++--
+ Documentation/RCU/checklist.rst                |  9 ++++-----
+ Documentation/RCU/rcu.rst                      | 13 ++++++-------
+ Documentation/RCU/rculist_nulls.rst            |  2 +-
+ Documentation/RCU/whatisRCU.rst                | 18 ++++++++----------
+ 8 files changed, 25 insertions(+), 29 deletions(-)
 
-> For this particular change:
->=20
-> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-
-Thank you so much for your review,
-
-=46abio
-
-> > ---
-> >=20
-> > This patch must be applied and built on top of=20
-> > "[PATCH v3 2/2] Documentation/vm: Include kernel-doc to highmem.rst"
-> > https://lore.kernel.org/lkml/20220415231917.25962-3-fmdefrancesco@gmail=
-=2Ecom/
-> >=20
-> >  Documentation/vm/highmem.rst | 1 +
-> >  1 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/Documentation/vm/highmem.rst b/Documentation/vm/
-highmem.rst
-> > index 5dcee6233cd5..1a3e6a8f5d3e 100644
-> > --- a/Documentation/vm/highmem.rst
-> > +++ b/Documentation/vm/highmem.rst
-> > @@ -161,3 +161,4 @@ Functions
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > =20
-> >  .. kernel-doc:: include/linux/highmem.h
-> > +.. kernel-doc:: include/linux/highmem-internal.h
-> > --=20
-> > 2.34.1
-> >=20
->=20
-
-
-
+diff --git a/Documentation/RCU/Design/Data-Structures/Data-Structures.rst b/Documentation/RCU/Design/Data-Structures/Data-Structures.rst
+index f4efd6897b09..b34990c7c377 100644
+--- a/Documentation/RCU/Design/Data-Structures/Data-Structures.rst
++++ b/Documentation/RCU/Design/Data-Structures/Data-Structures.rst
+@@ -973,7 +973,7 @@ The ``->dynticks`` field counts the corresponding CPU's transitions to
+ and from either dyntick-idle or user mode, so that this counter has an
+ even value when the CPU is in dyntick-idle mode or user mode and an odd
+ value otherwise. The transitions to/from user mode need to be counted
+-for user mode adaptive-ticks support (see timers/NO_HZ.txt).
++for user mode adaptive-ticks support (see Documentation/timers/no_hz.rst).
+ 
+ The ``->rcu_need_heavy_qs`` field is used to record the fact that the
+ RCU core code would really like to see a quiescent state from the
+diff --git a/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst b/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst
+index 6f89cf1e567d..c9c957c85bac 100644
+--- a/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst
++++ b/Documentation/RCU/Design/Expedited-Grace-Periods/Expedited-Grace-Periods.rst
+@@ -406,7 +406,7 @@ In earlier implementations, the task requesting the expedited grace
+ period also drove it to completion. This straightforward approach had
+ the disadvantage of needing to account for POSIX signals sent to user
+ tasks, so more recent implemementations use the Linux kernel's
+-`workqueues <https://www.kernel.org/doc/Documentation/core-api/workqueue.rst>`__.
++workqueues (see Documentation/core-api/workqueue.rst).
+ 
+ The requesting task still does counter snapshotting and funnel-lock
+ processing, but the task reaching the top of the funnel lock does a
+diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
+index ff2be1ac54c4..04ed8bf27a0e 100644
+--- a/Documentation/RCU/Design/Requirements/Requirements.rst
++++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+@@ -370,8 +370,8 @@ pointer fetched by rcu_dereference() may not be used outside of the
+ outermost RCU read-side critical section containing that
+ rcu_dereference(), unless protection of the corresponding data
+ element has been passed from RCU to some other synchronization
+-mechanism, most commonly locking or `reference
+-counting <https://www.kernel.org/doc/Documentation/RCU/rcuref.txt>`__.
++mechanism, most commonly locking or reference counting
++(see ../../rcuref.rst).
+ 
+ .. |high-quality implementation of C11 memory_order_consume [PDF]| replace:: high-quality implementation of C11 ``memory_order_consume`` [PDF]
+ .. _high-quality implementation of C11 memory_order_consume [PDF]: http://www.rdrop.com/users/paulmck/RCU/consume.2015.07.13a.pdf
+diff --git a/Documentation/RCU/arrayRCU.rst b/Documentation/RCU/arrayRCU.rst
+index 4051ea3871ef..a5f2ff8fc54c 100644
+--- a/Documentation/RCU/arrayRCU.rst
++++ b/Documentation/RCU/arrayRCU.rst
+@@ -33,8 +33,8 @@ Situation 1: Hash Tables
+ 
+ Hash tables are often implemented as an array, where each array entry
+ has a linked-list hash chain.  Each hash chain can be protected by RCU
+-as described in the listRCU.txt document.  This approach also applies
+-to other array-of-list situations, such as radix trees.
++as described in listRCU.rst.  This approach also applies to other
++array-of-list situations, such as radix trees.
+ 
+ .. _static_arrays:
+ 
+diff --git a/Documentation/RCU/checklist.rst b/Documentation/RCU/checklist.rst
+index f4545b7c9a63..42cc5d891bd2 100644
+--- a/Documentation/RCU/checklist.rst
++++ b/Documentation/RCU/checklist.rst
+@@ -140,8 +140,7 @@ over a rather long period of time, but improvements are always welcome!
+ 		prevents destructive compiler optimizations.  However,
+ 		with a bit of devious creativity, it is possible to
+ 		mishandle the return value from rcu_dereference().
+-		Please see rcu_dereference.txt in this directory for
+-		more information.
++		Please see rcu_dereference.rst for more information.
+ 
+ 		The rcu_dereference() primitive is used by the
+ 		various "_rcu()" list-traversal primitives, such
+@@ -151,7 +150,7 @@ over a rather long period of time, but improvements are always welcome!
+ 		primitives.  This is particularly useful in code that
+ 		is common to readers and updaters.  However, lockdep
+ 		will complain if you access rcu_dereference() outside
+-		of an RCU read-side critical section.  See lockdep.txt
++		of an RCU read-side critical section.  See lockdep.rst
+ 		to learn what to do about this.
+ 
+ 		Of course, neither rcu_dereference() nor the "_rcu()"
+@@ -323,7 +322,7 @@ over a rather long period of time, but improvements are always welcome!
+ 	primitives when the update-side lock is held is that doing so
+ 	can be quite helpful in reducing code bloat when common code is
+ 	shared between readers and updaters.  Additional primitives
+-	are provided for this case, as discussed in lockdep.txt.
++	are provided for this case, as discussed in lockdep.rst.
+ 
+ 	One exception to this rule is when data is only ever added to
+ 	the linked data structure, and is never removed during any
+@@ -480,4 +479,4 @@ over a rather long period of time, but improvements are always welcome!
+ 	both rcu_barrier() and synchronize_rcu(), if necessary, using
+ 	something like workqueues to to execute them concurrently.
+ 
+-	See rcubarrier.txt for more information.
++	See rcubarrier.rst for more information.
+diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
+index 0e03c6ef3147..3cfe01ba9a49 100644
+--- a/Documentation/RCU/rcu.rst
++++ b/Documentation/RCU/rcu.rst
+@@ -10,9 +10,8 @@ A "grace period" must elapse between the two parts, and this grace period
+ must be long enough that any readers accessing the item being deleted have
+ since dropped their references.  For example, an RCU-protected deletion
+ from a linked list would first remove the item from the list, wait for
+-a grace period to elapse, then free the element.  See the
+-:ref:`Documentation/RCU/listRCU.rst <list_rcu_doc>` for more information on
+-using RCU with linked lists.
++a grace period to elapse, then free the element.  See listRCU.rst for more
++information on using RCU with linked lists.
+ 
+ Frequently Asked Questions
+ --------------------------
+@@ -50,7 +49,7 @@ Frequently Asked Questions
+ - If I am running on a uniprocessor kernel, which can only do one
+   thing at a time, why should I wait for a grace period?
+ 
+-  See :ref:`Documentation/RCU/UP.rst <up_doc>` for more information.
++  See UP.rst for more information.
+ 
+ - How can I see where RCU is currently used in the Linux kernel?
+ 
+@@ -64,13 +63,13 @@ Frequently Asked Questions
+ 
+ - What guidelines should I follow when writing code that uses RCU?
+ 
+-  See the checklist.txt file in this directory.
++  See checklist.rst.
+ 
+ - Why the name "RCU"?
+ 
+   "RCU" stands for "read-copy update".
+-  :ref:`Documentation/RCU/listRCU.rst <list_rcu_doc>` has more information on where
+-  this name came from, search for "read-copy update" to find it.
++  listRCU.rst has more information on where this name came from, search
++  for "read-copy update" to find it.
+ 
+ - I hear that RCU is patented?  What is with that?
+ 
+diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
+index a9fc774bc400..ca4692775ad4 100644
+--- a/Documentation/RCU/rculist_nulls.rst
++++ b/Documentation/RCU/rculist_nulls.rst
+@@ -8,7 +8,7 @@ This section describes how to use hlist_nulls to
+ protect read-mostly linked lists and
+ objects using SLAB_TYPESAFE_BY_RCU allocations.
+ 
+-Please read the basics in Documentation/RCU/listRCU.rst
++Please read the basics in listRCU.rst.
+ 
+ Using 'nulls'
+ =============
+diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+index c34d2212eaca..77ea260efd12 100644
+--- a/Documentation/RCU/whatisRCU.rst
++++ b/Documentation/RCU/whatisRCU.rst
+@@ -224,7 +224,7 @@ synchronize_rcu()
+ 	be delayed.  This property results in system resilience in face
+ 	of denial-of-service attacks.  Code using call_rcu() should limit
+ 	update rate in order to gain this same sort of resilience.  See
+-	checklist.txt for some approaches to limiting the update rate.
++	checklist.rst for some approaches to limiting the update rate.
+ 
+ rcu_assign_pointer()
+ ^^^^^^^^^^^^^^^^^^^^
+@@ -318,7 +318,7 @@ rcu_dereference()
+ 	must prohibit.	The rcu_dereference_protected() variant takes
+ 	a lockdep expression to indicate which locks must be acquired
+ 	by the caller. If the indicated protection is not provided,
+-	a lockdep splat is emitted.  See Documentation/RCU/Design/Requirements/Requirements.rst
++	a lockdep splat is emitted.  See Design/Requirements/Requirements.rst
+ 	and the API's code comments for more details and example usage.
+ 
+ .. 	[2] If the list_for_each_entry_rcu() instance might be used by
+@@ -399,8 +399,7 @@ for specialized uses, but are relatively uncommon.
+ 
+ This section shows a simple use of the core RCU API to protect a
+ global pointer to a dynamically allocated structure.  More-typical
+-uses of RCU may be found in :ref:`listRCU.rst <list_rcu_doc>`,
+-:ref:`arrayRCU.rst <array_rcu_doc>`, and :ref:`NMI-RCU.rst <NMI_rcu_doc>`.
++uses of RCU may be found in listRCU.rst, arrayRCU.rst, and NMI-RCU.rst.
+ ::
+ 
+ 	struct foo {
+@@ -482,10 +481,9 @@ So, to sum up:
+ 	RCU read-side critical sections that might be referencing that
+ 	data item.
+ 
+-See checklist.txt for additional rules to follow when using RCU.
+-And again, more-typical uses of RCU may be found in :ref:`listRCU.rst
+-<list_rcu_doc>`, :ref:`arrayRCU.rst <array_rcu_doc>`, and :ref:`NMI-RCU.rst
+-<NMI_rcu_doc>`.
++See checklist.rst for additional rules to follow when using RCU.
++And again, more-typical uses of RCU may be found in listRCU.rst,
++arrayRCU.rst, and NMI-RCU.rst.
+ 
+ .. _4_whatisRCU:
+ 
+@@ -579,7 +577,7 @@ to avoid having to write your own callback::
+ 
+ 	kfree_rcu(old_fp, rcu);
+ 
+-Again, see checklist.txt for additional rules governing the use of RCU.
++Again, see checklist.rst for additional rules governing the use of RCU.
+ 
+ .. _5_whatisRCU:
+ 
+@@ -663,7 +661,7 @@ been able to write-acquire the lock otherwise.  The smp_mb__after_spinlock()
+ promotes synchronize_rcu() to a full memory barrier in compliance with
+ the "Memory-Barrier Guarantees" listed in:
+ 
+-	Documentation/RCU/Design/Requirements/Requirements.rst
++	Design/Requirements/Requirements.rst
+ 
+ It is possible to nest rcu_read_lock(), since reader-writer locks may
+ be recursively acquired.  Note also that rcu_read_lock() is immune
+-- 
+2.31.1.189.g2e36527f23
 
