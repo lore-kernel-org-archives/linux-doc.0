@@ -2,214 +2,195 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EDEDC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 09:29:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C2C2C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 09:58:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234662AbiDRJb4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Apr 2022 05:31:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50244 "EHLO
+        id S237558AbiDRKBS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Apr 2022 06:01:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231946AbiDRJbx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 05:31:53 -0400
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C553715FF1;
-        Mon, 18 Apr 2022 02:29:13 -0700 (PDT)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 18 Apr
- 2022 17:29:06 +0800
-Received: from [172.16.137.70] (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 18 Apr
- 2022 17:29:05 +0800
-Message-ID: <8b7485c9-eb17-e508-2d3e-a630fcaa998d@meizu.com>
-Date:   Mon, 18 Apr 2022 17:29:04 +0800
+        with ESMTP id S231722AbiDRKBR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 06:01:17 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DF88167D1;
+        Mon, 18 Apr 2022 02:58:39 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id v15so16874492edb.12;
+        Mon, 18 Apr 2022 02:58:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=H70ax/K9P4QL3LzdGVTK9ti/817Hb8ywEBUqt5hZdj0=;
+        b=GeBFdqeInVINk9j3p1jL4YdrYvmbw+APLdasJXrZElFtNqqjtg0u5vMdO7cy1NM/oK
+         cKMtopan96Nlh0y5BgOnmJ/UBkfjHuTlC/9hZVpL6/iXLm+7XIYVllPzDw0pYt8qgeSz
+         12/ZpkNLlaeSpsjbW7hTunAU82WkAeq4GsXGy0kvSwfhQr+5ughxENWSbQ9rK0t+3kgW
+         Emdt3rEYET5rIYUeSjM5OdkYOp818aaNVao/t3nX8GCRTyftk7k0EZwTMONBelx1B7UN
+         YX5ttmpAv4E2e3DHxLz0B3kjysiVYCFmtfBWpGmH+quPSkF8mHy3BsJAb6wirxHomkzx
+         dQuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=H70ax/K9P4QL3LzdGVTK9ti/817Hb8ywEBUqt5hZdj0=;
+        b=RUomIwKfBmAoIDrGs47JXJjp/l/4L2VgDUtfkEL2Pkjxdq+NUj/3S0aCTBk3lY8c2u
+         vWB9ZrtmqRjpSIb4kmS2fThsq/T62zKOjTy7Uns14wQQKL7abYXw6yu2sF8WwMNtlxbw
+         SfqyphXprzQ8xQ9sm/U1D0NKlYQRFeuEJUKiPCbAVTVCTgSveNyy0dYXPkVXE5yirndY
+         4xOwKW38HYcAMGFHfNDxWSszn+Eix/lGIKL9+ot3SuLvwAsInIDo7hKC6FlS7qJdsqGK
+         Be1nSNWTXRDLQgvOgziOFYypkKY31BtbV1uv5ZZj0F0eSTbAP7w5aom43R2NSoY7xUJ+
+         tAZw==
+X-Gm-Message-State: AOAM531Cqex1snL9R7Wqapa1QRX4+DhTCKU+7yvrXus6EKGKf2A8Uh5l
+        Lv8UJkNZdEJmp/VyT1MQkdq+jbo6kjVRm3E3lK8=
+X-Google-Smtp-Source: ABdhPJyFy6C4Lp1eZgRvFaLJ1+gIuUbSNc6rO3HvTwRx0okGsHBwah/dQbuEAd2aZ9IYbsuVfjuGtMbjPinfw4cuKUU=
+X-Received: by 2002:aa7:d2d6:0:b0:423:97a4:801c with SMTP id
+ k22-20020aa7d2d6000000b0042397a4801cmr10507782edr.383.1650275917413; Mon, 18
+ Apr 2022 02:58:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH V3] docs/zh_CN: sync with original text
- Documentation/vm/page_owner.rst
-To:     yanteng si <siyanteng01@gmail.com>,
-        =?UTF-8?B?5Y+45bu26IW+?= <siyanteng@loongson.cn>
-CC:     "alexs@kernel.org" <alexs@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <81254c7.3c4d.1802ad7fa26.Coremail.siyanteng@loongson.cn>
- <CAEensMyRDFzcz11Zui8+U6bjZmUM1vKdya7rwDLDgYQi4Fv7pA@mail.gmail.com>
- <CAEensMx3qvL7qmT=PhxYoJ4v5P8USn1qyAGBcB1WR5R4FQ24og@mail.gmail.com>
-From:   baihaowen <baihaowen@meizu.com>
-In-Reply-To: <CAEensMx3qvL7qmT=PhxYoJ4v5P8USn1qyAGBcB1WR5R4FQ24og@mail.gmail.com>
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-7-yuzhao@google.com>
+In-Reply-To: <20220407031525.2368067-7-yuzhao@google.com>
+From:   Barry Song <21cnbao@gmail.com>
+Date:   Mon, 18 Apr 2022 21:58:26 +1200
+Message-ID: <CAGsJ_4x2wmR60GQO-jjd5UAvOMWMSi+kFpUa2DBm4e8KocH7jQ@mail.gmail.com>
+Subject: Re: [PATCH v10 06/14] mm: multi-gen LRU: minimal implementation
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-在 4/18/22 9:58 AM, yanteng si 写道:
-> yanteng si <siyanteng01@gmail.com> 于2022年4月15日周五 10:09写道：
->> 司延腾 <siyanteng@loongson.cn> 于2022年4月15日周五 09:31写道：
->>> Dear siyanteng
->>>
->>> Could you help to review my translation？
->>>
->>> Certainly!
->>>
->>> --CC siyanteng01@gmail.com
->>>
->>> Thanks,
->>> Yanteng
->>>
->>>
->>>
->>>
->>>
->>> -------- 原始邮件 --------
->>> 发件人：白浩文 <baihaowen@meizu.com>
->>> 时间：2022年4月12日 17:29
->>> 收件人：alexs@kernel.org,corbet@lwn.net
->>> 抄送：siyanteng@loongson.cn,白浩文 <baihaowen@meizu.com>,linux-doc@vger.kernel.org,linux-kernel@vger.kernel.org
->>> 主题：[PATCH V3] docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
->>>
->>> As the tools/vm/page_owner_sort added some feature and original text
->>> updated, sync the translation of zh_CN.
->>>
->>> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
->>> ---
->>> V1-&gt;V2: fix whitespace warning.
->>> V2-&gt;V3: fix some tab Alignment issue.
->>>
->>> Documentation/translations/zh_CN/vm/page_owner.rst | 54 +++++++++++++++++++++-
->>> 1 file changed, 53 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
->>> index 9e951fabba9d..0d4f94034db6 100644
->>> --- a/Documentation/translations/zh_CN/vm/page_owner.rst
->>> +++ b/Documentation/translations/zh_CN/vm/page_owner.rst
->>> @@ -103,14 +103,66 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
->>> -m              按总内存排序
->>> -p              按pid排序。
->>> -P              按tgid排序。
->>> +               -n              按任务名称排序。
->>> -r              按内存释放时间排序。
->>> -s              按堆栈跟踪排序。
->>> -t              按时间排序（默认）。
->>> +               --sort <order>  指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从
->>> +                                               **标准格式说明符**部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
->>> +                                               允许混合使用缩写键和全称键。
->>> +
->>> +               Examples:
->>> +                               ./page_owner_sort <input> <output> --sort=n,+pid,-tgid
->>> +                               ./page_owner_sort <input> <output> --sort=at
->>>
->>> 其它函数:
->>>
->>> Cull:
->>> -               -c              通过比较堆栈跟踪而不是总块来进行剔除。
->>> +               --cull <rules>
->>> +                               指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
->>> +
->>> +               <rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
->>> +                               符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的
->>> +                               STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
->>>
->>> +               Examples:
->>> +                               ./page_owner_sort <input> <output> --cull=stacktrace
->>> +                               ./page_owner_sort <input> <output> --cull=st,pid,name
->>> +                               ./page_owner_sort <input> <output> --cull=n,f
->>> Filter:
->>> -f              过滤掉内存已被释放的块的信息。
->>> +
->>> +       Select:
->>> +               --pid <pidlist>         通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
->>> +               --tgid <tgidlist>       通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
->>> +               --name <cmdlist>        按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
->>> +
->>> +               <pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
->>> +
->>> +
->>> +               Examples:
->>> +                               ./page_owner_sort <input> <output> --pid=1
->>> +                               ./page_owner_sort <input> <output> --tgid=1,2,3
->>> +                               ./page_owner_sort <input> <output> --name name1,name2
->>> +
->>> +       标准格式说明符
->>> +==========================
->> I ran a build test before reviewing and found the following ERROR：
->>
->> Sphinx parallel build error:
->> docutils.utils.SystemMessage: .../vm/page_owner.rst:149: (SEVERE/4)
->> Missing matching underline for section title overline.
->>
->> As for how to fix it, see：
->> <https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#bullet-lists>
->>
->> ref:: Documentation/translations/zh_CN/index.rst
->> 顺便说下，中文文档也需要遵守内核编码风格，风格中中文和英文的主要不同就是中文
->> 的字符标点占用两个英文字符宽度， 所以，当英文要求不要超过每行100个字符时，
->> 中文就不要超过50个字符。另外，也要注意'-'，'=' 等符号与相关标题的对齐。在将
->> 补丁提交到社区之前，一定要进行必要的checkpatch.pl检查和编译测试。
->>> _<
-> Oops! I forgot to write Haowen's email address last week.
+On Thu, Apr 7, 2022 at 3:16 PM Yu Zhao <yuzhao@google.com> wrote:
 >
-> So, --to baihaowen@meizu.com
+> To avoid confusion, the terms "promotion" and "demotion" will be
+> applied to the multi-gen LRU, as a new convention; the terms
+> "activation" and "deactivation" will be applied to the active/inactive
+> LRU, as usual.
 >
-> 标准格式说明符
-> ==============
+> The aging produces young generations. Given an lruvec, it increments
+> max_seq when max_seq-min_seq+1 approaches MIN_NR_GENS. The aging
+> promotes hot pages to the youngest generation when it finds them
+> accessed through page tables; the demotion of cold pages happens
+> consequently when it increments max_seq. The aging has the complexity
+> O(nr_hot_pages), since it is only interested in hot pages. Promotion
+> in the aging path does not require any LRU list operations, only the
+> updates of the gen counter and lrugen->nr_pages[]; demotion, unless as
+> the result of the increment of max_seq, requires LRU list operations,
+> e.g., lru_deactivate_fn().
 >
-> In this way，It should fix this error. Then you need to pass the build
-> test yourself. The general steps are as follows:
+> The eviction consumes old generations. Given an lruvec, it increments
+> min_seq when the lists indexed by min_seq%MAX_NR_GENS become empty. A
+> feedback loop modeled after the PID controller monitors refaults over
+> anon and file types and decides which type to evict when both types
+> are available from the same generation.
 >
-> $ cd xxxx/linux-next
-> $ ./scripts/sphinx-pre-install
-> $ . sphinx_2.4.4/bin/activate
-> $ make cleandocs
-> $ make htmldocs
+> Each generation is divided into multiple tiers. Tiers represent
+> different ranges of numbers of accesses through file descriptors. A
+> page accessed N times through file descriptors is in tier
+> order_base_2(N). Tiers do not have dedicated lrugen->lists[], only
+> bits in folio->flags. In contrast to moving across generations, which
+> requires the LRU lock, moving across tiers only involves operations on
+> folio->flags. The feedback loop also monitors refaults over all tiers
+> and decides when to protect pages in which tiers (N>1), using the
+> first tier (N=0,1) as a baseline. The first tier contains single-use
+> unmapped clean pages, which are most likely the best choices. The
+> eviction moves a page to the next generation, i.e., min_seq+1, if the
+> feedback loop decides so. This approach has the following advantages:
+> 1. It removes the cost of activation in the buffered access path by
+>    inferring whether pages accessed multiple times through file
+>    descriptors are statistically hot and thus worth protecting in the
+>    eviction path.
+> 2. It takes pages accessed through page tables into account and avoids
+>    overprotecting pages accessed multiple times through file
+>    descriptors. (Pages accessed through page tables are in the first
+>    tier, since N=0.)
+> 3. More tiers provide better protection for pages accessed more than
+>    twice through file descriptors, when under heavy buffered I/O
+>    workloads.
 >
-> If  there is no error and warning about zh_CN/vm/page_owner.rst，
-> Congratulations, passed!
-> else
-> Please try to fix them
->
-> Thanks,
-> Yanteng
->
->
->> Thanks,
->> Yanteng
->>
->>> +--sort 选项:
->>> +
->>> +       缩写键             全称键             描述
->>> +       p               pid             进程 ID
->>> +       tg              tgid            线程组 ID
->>> +       n               name            任务名称
->>> +       st              stacktrace      页面分配的调用栈
->>> +       T               txt             块的全文
->>> +       ft              free_ts         页面被释放的时间戳
->>> +       at              alloc_ts        页面分配的时间戳
->>> +
->>> +--curl 选项:
->>> +
->>> +       缩写键             全称键             描述
->>> +       p               pid             进程 ID
->>> +       tg              tgid            线程组 ID
->>> +       n               name            任务名称
->>> +       f               free            该页面是否已被释放
->>> +       st              stacktrace      页面分配的调用栈
->>> --
->>> 2.7.4
->>>
->>>
->>> </output></output></output></cmdlist></tgidlist></pidlist></cmdlist></cmdlist></tgidlist></tgidlist></pidlist></pidlist></output></output></output></rules></rules></rules></output></output></order></baihaowen@meizu.com></baihaowen@meizu.com></baihaowen@meizu.com>
->>>
->>> 本邮件及其附件含有龙芯中科的商业秘密信息，仅限于发送给上面地址中列出的个人或群组。禁止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制或散发）本邮件及其附件中的信息。如果您错收本邮件，请您立即电话或邮件通知发件人并删除本邮件。
->>> This email and its attachments contain confidential information from Loongson Technology , which is intended only for the person or entity whose address is listed above. Any use of the information contained herein in any way (including, but not limited to, total or partial disclosure, reproduction or dissemination) by persons other than the intended recipient(s) is prohibited. If you receive this email in error, please notify the sender by phone or email immediately and delete it.
-hi, yanteng
-Thank you for your help and review.
 
--- 
-Haowen Bai
+Hi Yu,
+As I told you before,  I tried to change the current LRU (not MGLRU) by only
+promoting unmapped file pages to the head of the inactive head rather than
+the active head on its second access:
+https://lore.kernel.org/lkml/CAGsJ_4y=TkCGoWWtWSAptW4RDFUEBeYXwfwu=fUFvV4Sa4VA4A@mail.gmail.com/
+I have already seen some very good results by the decease of cpu consumption of
+kswapd and direct reclamation in the testing.
 
+in mglru, it seems "twice" isn't a concern at all, one unmapped file
+page accessed
+twice has no much difference with those ones which are accessed once as you
+only begin to increase refs from the third time:
+
++static void folio_inc_refs(struct folio *folio)
++{
++       unsigned long refs;
++       unsigned long old_flags, new_flags;
++
++       if (folio_test_unevictable(folio))
++               return;
++
++       /* see the comment on MAX_NR_TIERS */
++       do {
++               new_flags = old_flags = READ_ONCE(folio->flags);
++
++               if (!(new_flags & BIT(PG_referenced))) {
++                       new_flags |= BIT(PG_referenced);
++                       continue;
++               }
++
++               if (!(new_flags & BIT(PG_workingset))) {
++                       new_flags |= BIT(PG_workingset);
++                       continue;
++               }
++
++               refs = new_flags & LRU_REFS_MASK;
++               refs = min(refs + BIT(LRU_REFS_PGOFF), LRU_REFS_MASK);
++
++               new_flags &= ~LRU_REFS_MASK;
++               new_flags |= refs;
++       } while (new_flags != old_flags &&
++                cmpxchg(&folio->flags, old_flags, new_flags) != old_flags);
++}
+
+So my question is what makes you so confident that twice doesn't need
+any special treatment while the vanilla kernel is upgrading this kind of page
+to the head of the active instead? I am asking this because I am considering
+reclaiming unmapped file pages which are only accessed twice when they
+get to the tail of the inactive list.
+
+Thanks
+Barry
