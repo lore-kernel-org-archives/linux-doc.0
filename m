@@ -2,198 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A362C43217
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 12:59:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AA71C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Apr 2022 13:47:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240850AbiDRNB4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Apr 2022 09:01:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60564 "EHLO
+        id S240392AbiDRNtT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Apr 2022 09:49:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240373AbiDRNAR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 09:00:17 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1834C3150D;
-        Mon, 18 Apr 2022 05:41:52 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id mm4-20020a17090b358400b001cb93d8b137so17179085pjb.2;
-        Mon, 18 Apr 2022 05:41:52 -0700 (PDT)
+        with ESMTP id S243542AbiDRNqq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 09:46:46 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3860C27146;
+        Mon, 18 Apr 2022 06:00:48 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id z5-20020a17090a468500b001d2bc2743c4so483842pjf.0;
+        Mon, 18 Apr 2022 06:00:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=7kzCvTCHP5Ec0EYskhQImxhR7aaaSEbjrSNccJSSVpE=;
-        b=idMzA4OgXctXR29po4+p6or86OZoa5hbLmu3y7m+IThAXzETFBdUKW63uXTQ2ZIqJq
-         g3mZLGIhZFksaJ+TmYkuRTKR/L5KPGb3An5NUO6nrvF+MCowHEsta510JE48ntxwJROr
-         UXoKRab9tbihG62rOSi8l4gZPh4u1W4y+rKSAgHMwPCnyCOyrDyqHcVblpPvPJmvmp/J
-         c+yOnA/DuXrD3BwLNsYady06+agKPQ4z2U1pNJwBS5hw7SFmaBWoGXSHulLYuAiwQs/t
-         jJtKLtkE4hANn1PcGA7x3VQw01OX2mrrjJwCwbp9DoOrz4NcM3mqtItoyLL7SXxKXCNB
-         0B6A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=e7uOPH5NWelWL8HivChTPlWB5fjkQJwWePsqDxPJujA=;
+        b=iYNt+RhJf64VlmKk1kS1E3FQhju8m4EfHObEyFN10k8hwHKjsVoL8UPtGAiLQk6TIi
+         3+YEchqNyHKjxdLZInL7E1yu12/LfeiBqHeBlZ95IQUxAxbSkOenNQ5YTUcbdV4hD+eE
+         K4ZF+ySut4N4X2gEsLss1Z9nRTmMC7UHLMV+vr/LC5OsFRvm68qYkly+NSIREc7Z6HLi
+         g5KJIjTn3bNX8xV5A+q6zf2daHWg8pqlrACWqXhsZQW/PfIXXG+lSRgQ2oxat7KIYEjX
+         HhKXumqZ4hajGugdY0ES4MTXV8zVQho9Nmttj9fjm3RQZfH/RChkrGEWMgQAelqkYW14
+         vQ5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=7kzCvTCHP5Ec0EYskhQImxhR7aaaSEbjrSNccJSSVpE=;
-        b=WkF7wOaH4NWNzo4arIaqGtwqibwr0CX6n/3tnjSg6F4VMcFU/zeMqMlvmiYyStH2g/
-         098FVOk8Gx42fRNWvdAI7MWYkWWBGe2GYkydNSy6sTfntEAz5uMknzPIsVF4JyesvzbS
-         U+vhssbFVWK2ibbcoGGl56o0fF58HtPpdQugD1bVtSx38ILNzdfKhYKKtFT97OTdYOi1
-         v/k+jscJ+RG/P6zfNtCp0LoBcBTwK9Ebbi1WMgDTp4cJTC8O2CJqcbC9Svq3tIeYYolf
-         GdLcUCg4GarAvpUl0E0lLuQP6bsh/adRvKwY0QixXhYdxRSCUpWcPK/Yg+yPdTqIcdPP
-         Sq/w==
-X-Gm-Message-State: AOAM530OJH7j9Dy17IlXRe4n4DKo7mBszd59nz9G0kHrCIbEb3E3ZSID
-        nq0oJhIUwkS38AJ14pgrJzY=
-X-Google-Smtp-Source: ABdhPJxr8oswLT3gJLSeJiCYVoAg8kYjyl9WW56hpoZQdqGlGIrW34LbW+mDHJBjVaFvmRGTwXLAHg==
-X-Received: by 2002:a17:902:ce06:b0:156:8118:9e9a with SMTP id k6-20020a170902ce0600b0015681189e9amr10977783plg.169.1650285711582;
-        Mon, 18 Apr 2022 05:41:51 -0700 (PDT)
-Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id h6-20020a056a00218600b004f65315bb37sm13060177pfi.13.2022.04.18.05.41.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Apr 2022 05:41:51 -0700 (PDT)
-Message-ID: <202ba5f5-f842-f4ce-dd67-c5166d94cc67@gmail.com>
-Date:   Mon, 18 Apr 2022 20:41:45 +0800
+        bh=e7uOPH5NWelWL8HivChTPlWB5fjkQJwWePsqDxPJujA=;
+        b=4pQiVbFNF505mzzFrf6keaLIvp45wjhREGMRyQM8LkllOfG9IGKZddVnuZD1NuBMuq
+         IlN6GnZZtBkEK0EAtDAFt/ry3v+Ughp+/t36MXLGl3qWvJ6dZ9Tu8/mmmP7qUZHQqD4C
+         WkWSUefHdweBQjc7vJv69ToA4kgX0cW0/5SQMgo6iDxyw8DKRSabQ6Ok2tNuJ0cgkcS+
+         23mFwUpYhPgUoQrA+shKZVgSdGGXLbzsWQM7860BhBs//ijMOqbMdrSkOI8u7EYmpMre
+         96y+KZlEyzrRimBl06bSzPaGnYa69mnIT/fucu4o7rVuiDkGiTo/s1k+EwtJ+4HMU5hP
+         p4LA==
+X-Gm-Message-State: AOAM532oKeHp3X0GAGz6FUVFx/UXalbMJmGgwpPfWejQoooYUTAfM3Mf
+        o1fwY43ZzwwIOytzPCVhJCs1H4D5lE5Sqg==
+X-Google-Smtp-Source: ABdhPJzkCrOsulp3VGPnBk7XuVigmMGyHzgaOKGrMRh4qwUugY8V5t4/UxxTAbFzcFljiWRZ8pbpeA==
+X-Received: by 2002:a17:902:c613:b0:159:9f9:85ec with SMTP id r19-20020a170902c61300b0015909f985ecmr1613966plr.67.1650286846979;
+        Mon, 18 Apr 2022 06:00:46 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-27.three.co.id. [180.214.232.27])
+        by smtp.gmail.com with ESMTPSA id d9-20020a056a00198900b00508379f2121sm12820853pfl.52.2022.04.18.06.00.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Apr 2022 06:00:46 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>, Chris Mason <clm@fb.com>,
+        Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>,
+        Nick Terrell <terrelln@fb.com>, Schspa Shi <schspa@gmail.com>,
+        linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] btrfs: zstd: remove extraneous asterix at the head of zstd_reclaim_timer_fn() comment
+Date:   Mon, 18 Apr 2022 19:59:35 +0700
+Message-Id: <20220418125934.566647-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH V4] docs/zh_CN: sync with original text
- Documentation/vm/page_owner.rst
-Content-Language: en-US
-To:     Haowen Bai <baihaowen@meizu.com>, siyanteng01@gmail.com
-Cc:     alexs@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, siyanteng@loongson.cn
-References: <CAEensMx3qvL7qmT=PhxYoJ4v5P8USn1qyAGBcB1WR5R4FQ24og@mail.gmail.com>
- <1650274084-27871-1-git-send-email-baihaowen@meizu.com>
-From:   Alex Shi <seakeel@gmail.com>
-In-Reply-To: <1650274084-27871-1-git-send-email-baihaowen@meizu.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Haowen,
+kernel test robot reports kernel-doc warning:
 
-There are still some space error during the 'git apply'.
-Could you like to fix them?
+>> fs/btrfs/zstd.c:98: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
 
-thanks
-Alex
+The comment is for zstd_reclaim_timer_fn(). Since the function is
+static, the comment isn't meant for kernel-doc consumption.
 
-Applying: docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+Remove the extraneous (second) asterix at the head of function comment.
 
-.git/rebase-apply/patch:21: trailing whitespace.
+Link: https://lore.kernel.org/linux-doc/202204151934.CkKcnvuJ-lkp@intel.com/
+Fixes: b672526e2ee935 ("btrfs: use non-bh spin_lock in zstd timer callback")
+Cc: Chris Mason <clm@fb.com>
+Cc: Josef Bacik <josef@toxicpanda.com>
+Cc: David Sterba <dsterba@suse.com>
+Cc: Nick Terrell <terrelln@fb.com>
+Cc: Schspa Shi <schspa@gmail.com>
+Cc: linux-btrfs@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ In the previous fix attempt [1], Matthew Wilcox suggested to remove the
+ second asterix instead since the function is static and it shouldn't
+ have kernel-doc comments.
 
-		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从 
+ [1]: https://lore.kernel.org/linux-doc/YluGmERvtQY9ju7Y@casper.infradead.org/
 
-.git/rebase-apply/patch:65: indent with spaces.
+ This patch is based on btrfs-devel/misc-next tree [2].
 
-        ======          ==========      ===================
+ [2]: https://github.com/kdave/btrfs-devel.git
 
-.git/rebase-apply/patch:66: indent with spaces.
+ fs/btrfs/zstd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-        缩写键          全称键          描述
+diff --git a/fs/btrfs/zstd.c b/fs/btrfs/zstd.c
+index 0fe31a6f6e68f0..ca2102a46faefd 100644
+--- a/fs/btrfs/zstd.c
++++ b/fs/btrfs/zstd.c
+@@ -94,7 +94,7 @@ static inline struct workspace *list_to_workspace(struct list_head *list)
+ void zstd_free_workspace(struct list_head *ws);
+ struct list_head *zstd_alloc_workspace(unsigned int level);
+ 
+-/**
++/*
+  * Timer callback to free unused workspaces.
+  *
+  * @t: timer
 
-.git/rebase-apply/patch:67: indent with spaces.
+base-commit: 550a34e972578538fd0826916ae4fc407b62bb68
+-- 
+An old man doll... just what I always wanted! - Clara
 
-        ======          ==========      ===================
-
-.git/rebase-apply/patch:68: indent with spaces.
-
-        p               pid             进程 ID
-
-warning: squelched 16 whitespace errors
-
-warning: 21 lines add whitespace errors.
-
-
-
-On 4/18/22 17:28, Haowen Bai wrote:
-> As the tools/vm/page_owner_sort added some feature and original text
-> updated, sync the translation of zh_CN.
-> 
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
-> ---
-> V1->V2: fix whitespace warning.
-> V2->V3: fix some tab Alignment issue.
-> V3->V4: fix sphinx warning
-> 
->  Documentation/translations/zh_CN/vm/page_owner.rst | 61 +++++++++++++++++++++-
->  1 file changed, 60 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
-> index 9e951fabba9d..4d719547ce4f 100644
-> --- a/Documentation/translations/zh_CN/vm/page_owner.rst
-> +++ b/Documentation/translations/zh_CN/vm/page_owner.rst
-> @@ -103,14 +103,73 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
->  		-m		按总内存排序
->  		-p		按pid排序。
->  		-P		按tgid排序。
-> +		-n		按任务名称排序。
->  		-r		按内存释放时间排序。
->  		-s		按堆栈跟踪排序。
->  		-t		按时间排序（默认）。
-> +		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从 
-> +						**标准格式说明符** 部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
-> +						允许混合使用缩写键和全称键。
-> +
-> +		Examples:
-> +				./page_owner_sort <input> <output> --sort=n,+pid,-tgid
-> +				./page_owner_sort <input> <output> --sort=at
->  
->     其它函数:
->  
->  	Cull:
-> -		-c		通过比较堆栈跟踪而不是总块来进行剔除。
-> +		--cull <rules>
-> +				指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
-> +
-> +		<rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
-> +				符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的
-> +				STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
->  
-> +		Examples:
-> +				./page_owner_sort <input> <output> --cull=stacktrace
-> +				./page_owner_sort <input> <output> --cull=st,pid,name
-> +				./page_owner_sort <input> <output> --cull=n,f
->  	Filter:
->  		-f		过滤掉内存已被释放的块的信息。
-> +
-> +	Select:
-> +		--pid <pidlist>		通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
-> +		--tgid <tgidlist>	通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
-> +		--name <cmdlist>	按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
-> +
-> +		<pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
-> +
-> +
-> +		Examples:
-> +				./page_owner_sort <input> <output> --pid=1
-> +				./page_owner_sort <input> <output> --tgid=1,2,3
-> +				./page_owner_sort <input> <output> --name name1,name2
-> +
-> +标准格式说明符
-> +==============
-> +
-> +--sort 选项:
-> +
-> +        ======          ==========      ===================
-> +        缩写键          全称键          描述
-> +        ======          ==========      ===================
-> +        p               pid             进程 ID
-> +        tg              tgid            线程组 ID
-> +        n               name            任务名称
-> +        st              stacktrace      页面分配的调用栈
-> +        T               txt             块的全文
-> +        ft              free_ts         页面被释放的时间戳
-> +        at              alloc_ts        页面分配的时间戳
-> +        ======          ==========      ===================
-> +
-> +--curl 选项:
-> +
-> +        ======          ==========      ==================
-> +        缩写键          全称键          描述
-> +        ======          ==========      ==================
-> +        p               pid             进程 ID
-> +        tg              tgid            线程组 ID
-> +        n               name            任务名称
-> +        f               free            该页面是否已被释放
-> +        st              stacktrace      页面分配的调用栈
-> +        ======          ==========      ==================
