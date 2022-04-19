@@ -2,81 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3394FC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 12:53:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D18C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 13:11:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348606AbiDSMz7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Apr 2022 08:55:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49438 "EHLO
+        id S243414AbiDSNNs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Apr 2022 09:13:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234667AbiDSMz7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 08:55:59 -0400
-Received: from m228-13.mailgun.net (m228-13.mailgun.net [159.135.228.13])
-        by lindbergh.monkeyblade.net (Postfix) with UTF8SMTPS id 06A7937028
-        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 05:53:15 -0700 (PDT)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=codeagain.dev; q=dns/txt;
- s=smtp; t=1650372795; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Subject: Cc: To: To: From: From: Date:
- Sender: Sender; bh=0tzc7HF03IuRlUrqpWf7hbtsECy1+vKsvv33tnnOGHo=; b=Jt39QrJSChyVoj2kqUNiNvaKWvr+fvduKRzW+BywhRodgjmmqcaLm4lrxnA8fhDFKcqP+WpS
- 3JMbkQr31OffsOw0IkuAe3B3rL+5YDl+B9PSYCZo0VGBiRYkQopbPB7HshbwFVH7KfPJJ0d3
- YI2P0uh7LczitxozOobMMBPOwg302PVdmCK4gAuCwxKn0kCBXxzhdakFKt5i0eg18MPQNMvb
- l5IxeU37/9v1wwPdwxG3bw7I15/b4i1IzmPz2VXJDMSPrYo//QEGf1u6w9cCWQjHvUnRMpMF
- lcrGl3ffVlQSavjVLrgAjcJbpoJFfYNtAOUiOt3CQ0aYaF9M+TJy3A==
-X-Mailgun-Sending-Ip: 159.135.228.13
-X-Mailgun-Sid: WyJkNWI4MiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWM2ZCJd
-Received: from AN5Bruno (186-250-90-1.mhnet.com.br [186.250.90.1]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 625eb0ba38a4f8e57d9f4df2 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
- Tue, 19 Apr 2022 12:53:14 GMT
-Sender: codeagain@codeagain.dev
-Date:   Tue, 19 Apr 2022 09:53:10 -0300
-From:   Bruno Moreira-Guedes <codeagain@codeagain.dev>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, outreachy@lists.linux.dev,
-        Bruno's Patch Watchbox <patch-reply@codeagain.dev>
-Subject: Re: [PATCH 2/2] Docs: Update kernel series in changes.rst
-Message-ID: <20220419125310.fss5634pxzujwkfg@AN5Bruno>
-References: <cover.1650336366.git.codeagain@codeagain.dev>
- <a124c3c34e627c124673640aed177c10e401b052.1650336366.git.codeagain@codeagain.dev>
- <Yl4nOBlKnWIcGcYS@casper.infradead.org>
+        with ESMTP id S1347234AbiDSNNq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 09:13:46 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E73D53122E;
+        Tue, 19 Apr 2022 06:11:03 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id A224B21118;
+        Tue, 19 Apr 2022 13:11:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1650373862;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=b/3K0pRlotaEfeU4+3K4eR5b2A9Pz6oNCQOD+UvB+zk=;
+        b=Mwrfi3PuJtG3lF8zpNdohOuLyeCfFp0GdoKSmNwoxeFSgYwqo4zURKNJzPEVbz6voetTPp
+        3yJkioCD3xtKVzBGaG4/gxc7sXRIO+IZp7sPtdwF7xDe8694fLmmBUVGEMcpnknsnSTk3R
+        8Rpx29y+aqnwcAqss4uxns5R4MGMiHA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1650373862;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=b/3K0pRlotaEfeU4+3K4eR5b2A9Pz6oNCQOD+UvB+zk=;
+        b=YNXpRNTTh2slhKeGK8LbdSeunWutxGvrv/T/jdT76Q6855uZJBZ+0jj151T8EGr7laxjQu
+        noHeFvTDSKLuxABg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 65ADB139BE;
+        Tue, 19 Apr 2022 13:11:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id +voeGOa0XmJ8fwAAMHmgww
+        (envelope-from <dsterba@suse.cz>); Tue, 19 Apr 2022 13:11:02 +0000
+Date:   Tue, 19 Apr 2022 15:06:59 +0200
+From:   David Sterba <dsterba@suse.cz>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Josef Bacik <josef@toxicpanda.com>, linux-doc@vger.kernel.org,
+        Matthew Wilcox <willy@infradead.org>, Chris Mason <clm@fb.com>,
+        David Sterba <dsterba@suse.com>,
+        Nick Terrell <terrelln@fb.com>, Schspa Shi <schspa@gmail.com>,
+        linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] btrfs: zstd: remove extraneous asterix at the head of
+ zstd_reclaim_timer_fn() comment
+Message-ID: <20220419130659.GD2348@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+Mail-Followup-To: dsterba@suse.cz, Bagas Sanjaya <bagasdotme@gmail.com>,
+        Josef Bacik <josef@toxicpanda.com>, linux-doc@vger.kernel.org,
+        Matthew Wilcox <willy@infradead.org>, Chris Mason <clm@fb.com>,
+        David Sterba <dsterba@suse.com>, Nick Terrell <terrelln@fb.com>,
+        Schspa Shi <schspa@gmail.com>, linux-btrfs@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220418125934.566647-1-bagasdotme@gmail.com>
+ <Yl2Dx+jefYs1Un+8@localhost.localdomain>
+ <b5b42b49-9d0c-c745-f355-89900b53f6e1@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="pvgwtzpde4w23vmq"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yl4nOBlKnWIcGcYS@casper.infradead.org>
+In-Reply-To: <b5b42b49-9d0c-c745-f355-89900b53f6e1@gmail.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Apr 19, 2022 at 12:19:44PM +0700, Bagas Sanjaya wrote:
+> On 4/18/22 22:29, Josef Bacik wrote:
+> > Reviewed-by: Josef Bacik <josef@toxicpanda.com>
+> > 
+> > Thanks,
+> > 
+> > Josef
+> 
+> Thanks for the review. Should I send v2 with your Reviewed-by
+> tag?
 
---pvgwtzpde4w23vmq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Apr 19, 2022 at 04:06:32AM +0100, Matthew Wilcox wrote:
-> On Mon, Apr 18, 2022 at 11:58:35PM -0300, Bruno Moreira-Guedes wrote:
-> >  This document is designed to provide a list of the minimum levels of
-> > -software necessary to run the 4.x kernels.
-> > +software necessary to run the 5.x kernels.
->=20
-> We don't change the major version when we update the minimum required
-> tooling ... why not change this once and for all to say:
->=20
-> +software necessary to build the current kernel.
-
-Indeed it makes much more sense, I'm making a v2 soon!
-
---pvgwtzpde4w23vmq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQQTUrsHCxGmQ5vyKRAZtd3tyEY2kgUCYl6wtgAKCRAZtd3tyEY2
-kn2pAQDATYppYpRY5w19hEu8qoCUpJcMbjKRvDY5b8f8RHxijgD+M7PeDtA3vB63
-+STn8RAzLCUQD6cIFWh3pZhl7S2gMgA=
-=VNQ+
------END PGP SIGNATURE-----
-
---pvgwtzpde4w23vmq--
+No, and please don't send fixes for the kdoc formats, the script does
+not have the same preferences as we who actually have to read the code.
+The kdoc format is convenient for more thnigs than just generating
+public documentation.
