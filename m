@@ -2,96 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E000C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 00:15:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F1DC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 00:54:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239543AbiDSASe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Apr 2022 20:18:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47202 "EHLO
+        id S244150AbiDSA4w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Apr 2022 20:56:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239870AbiDSASd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 20:18:33 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2DC01C924
-        for <linux-doc@vger.kernel.org>; Mon, 18 Apr 2022 17:15:47 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id o5so14370797pjr.0
-        for <linux-doc@vger.kernel.org>; Mon, 18 Apr 2022 17:15:47 -0700 (PDT)
+        with ESMTP id S229560AbiDSA4u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 20:56:50 -0400
+Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA1AF1FCD9
+        for <linux-doc@vger.kernel.org>; Mon, 18 Apr 2022 17:54:09 -0700 (PDT)
+Received: by mail-vs1-xe29.google.com with SMTP id f32so14198295vsv.1
+        for <linux-doc@vger.kernel.org>; Mon, 18 Apr 2022 17:54:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=x9YwmAp2QDkoEu3Pd7UH+hlqRg7dQPtrARKbviBaqcc=;
-        b=LS94uQCVBeDedOivqhS3AXEod3aD0uCn3OCGItQmXdYVqxQhAco1YGytull7MAaiJ1
-         4FSTlvycdokwn7L5MAMrl7O401CAF7LSp/TPRMm7N8f1AsYjcT6x6anJf9E7BZRN3ugQ
-         LqyWNMYnmMpn17a527epttazDDoT4e9bTCmHiY0GStAcCSFDC7g/4ro/A1N3UR9yR/WG
-         RKiXEg8R8FQs6XIbQ871wfOOB8fbwLM+nC9lJsuzN9XgFhvfbLB3JQdt7t8iQQmuUxc3
-         zRdfTF6jNkXh7y9trNSwFgqKEnW2U7zN6MqQnMvtwiYU8xoFjKeuBVKiIFWg69yDohul
-         9ddA==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=C3C2+caHv8rfuZKJYjuomt5I5i0GHTJeJj6r2gMkPo4=;
+        b=sY1/qETR8xJYv+7PQKKD9u7SRjoHYTxZlea4GikwQGl5vh0KebU1mqtphJ0/IqZ/Hs
+         27Lps4xZWwoPad2rPAkteq4a3iCcCfI2y9NrdmR+3C2+PdXbnZQqbZ4t/bq8BPh6TZSJ
+         nXehsFD/15v+C9adRSC6yTGLhltfO3MLYwT63eRVBPKVZwkoGP25O5p4PivBJtGZzqA1
+         KpSsQohLq9fTVEa7gUj7wvCRgC17wXNNySXNjBDU2z9hiyWBiIkzxO8Gbzlwi4pGxAka
+         IAFoJ8parNnSSKhl/qTP34XTBuAcBNLYXQjxSJHSe2hAQQyAA9/YZU6fn9MmJqXG94ZA
+         0deQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=x9YwmAp2QDkoEu3Pd7UH+hlqRg7dQPtrARKbviBaqcc=;
-        b=oiQ+VZrxLurKtQ5fr2G0hxjf9KDNP84oGdGs24nsAWMhRNl4qnFbzCHzqUW1htw5a6
-         Ru8dGuS0eiaosT1W3OAFoJreu+tDbbdMoKinUM+hnoxPua6Nc5twLoprzdh8aHrU1cG8
-         cxge3Jhqd3cNsQeMuP15+UHPDiLjYPtzPiO1eYm+EFka+fdpaxoEb6U/1hkGxWHXJ7NO
-         vXbOhVTcUU9oFyyDC1SIg9YACcWcOPVKUWq2/vs+sYIBk0trw3BpRGD94I0NsdiL8zod
-         XL98Sjh8+6MoZCjj+f8gqiP1/AvTjGlK4bNIaupHSzuBaIW13UKjbKKlovx+avEzNX0q
-         QLBQ==
-X-Gm-Message-State: AOAM5300dcqDcvAFqxdn+rHXoK91pgxw9yCkC/0xPFPfb1nCb82v4JkC
-        Ecu/o2Tsgj/HtRgGqTZTN/RgnA==
-X-Google-Smtp-Source: ABdhPJxaSGUKi+MJtTgAMP7K68Qj5DefmIKWgtVg4ePelTMJW/qDb+JicwG/VzTaZm6dCS4QO3WlPQ==
-X-Received: by 2002:a17:903:110f:b0:154:c7a4:9371 with SMTP id n15-20020a170903110f00b00154c7a49371mr12962737plh.75.1650327346860;
-        Mon, 18 Apr 2022 17:15:46 -0700 (PDT)
-Received: from [192.168.1.100] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id b7-20020a056a00114700b004f7be3231d6sm14088664pfm.7.2022.04.18.17.15.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Apr 2022 17:15:46 -0700 (PDT)
-Message-ID: <937c7152-8da9-5dba-29a8-308781e20d3a@kernel.dk>
-Date:   Mon, 18 Apr 2022 18:15:45 -0600
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=C3C2+caHv8rfuZKJYjuomt5I5i0GHTJeJj6r2gMkPo4=;
+        b=6susr/6r2UfCtCurhhvOdkylfgk0z79lkr+k684Mn2MRnzkFJMlivLuUqUaUAoZVok
+         sPiKHc6iVyLmVG2+f9Y5uEFlsl/Tze0mZ/JWrSTzZiCi5shIgMCYDUqOOxqu01klrX9n
+         EUcAJeSySE+tkQEuJ2gbAEbC2M73C40DKBA1g+dLHCZYxbs8uHNPvywAZPh3PDwx7YwL
+         yk6ozXjdI1ZSJbWJtVgTqmanNaap/4oBs9D6hA/pRy3s1cExuojY9IS8L/ozRaNLAoem
+         qngK4dL5DqMHq3+0l6s1bkgJX5XGnNsaQuNebrS7e1O1Vi/KeD4z7d14USq6vmoVwF4P
+         Jd3w==
+X-Gm-Message-State: AOAM530spqSvAHJGsihi8cY0lUAazpmEmEEulh0IbsQcjveD6j25DokP
+        T7iOV1ePGBAeoDQITiz8MxTlWPke3X4wPP+W20rIOA==
+X-Google-Smtp-Source: ABdhPJwpwrKG1WQBxuDu20cBkE0r7NgyACL8c1C4NSVpgnbaTpSuS5006KhY82nMtW0OOx1VArtyX16RGcp7iYZtM14=
+X-Received: by 2002:a67:de17:0:b0:32a:4007:cd86 with SMTP id
+ q23-20020a67de17000000b0032a4007cd86mr3575490vsk.22.1650329648830; Mon, 18
+ Apr 2022 17:54:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: docs: IDE removal?
-Content-Language: en-US
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Christoph Hellwig <hch@lst.de>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <16ed554f-0f25-e914-5cb9-dce53d027f1e@infradead.org>
-From:   Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <16ed554f-0f25-e914-5cb9-dce53d027f1e@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-7-yuzhao@google.com>
+ <CAGsJ_4x2wmR60GQO-jjd5UAvOMWMSi+kFpUa2DBm4e8KocH7jQ@mail.gmail.com>
+In-Reply-To: <CAGsJ_4x2wmR60GQO-jjd5UAvOMWMSi+kFpUa2DBm4e8KocH7jQ@mail.gmail.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Mon, 18 Apr 2022 18:53:32 -0600
+Message-ID: <CAOUHufY_DBk3R7a3=Zb1eofNyqq3VWOmffOR2LaWJQZPYUeCvA@mail.gmail.com>
+Subject: Re: [PATCH v10 06/14] mm: multi-gen LRU: minimal implementation
+To:     Barry Song <21cnbao@gmail.com>
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/17/22 6:06 PM, Randy Dunlap wrote:
-> Hi,
-> 
-> Would someone suggest how much of
-> Documentation/ide/ can be removed, given:
-> 
-> commit b7fb14d3ac63
-> Author: Christoph Hellwig <hch@lst.de>
-> Date:   Wed Jun 16 15:46:58 2021 +0200
-> 
->     ide: remove the legacy ide driver
-> 
-> 
-> 
-> ChangeLog.ide-cd.1994-2004
-> ChangeLog.ide-floppy.1996-2002
-> ChangeLog.ide-tape.1995-2002
-> changelogs.rst
-> ide.rst
-> ide-tape.rst
-> index.rst
+On Mon, Apr 18, 2022 at 3:58 AM Barry Song <21cnbao@gmail.com> wrote:
+>
+> On Thu, Apr 7, 2022 at 3:16 PM Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > To avoid confusion, the terms "promotion" and "demotion" will be
+> > applied to the multi-gen LRU, as a new convention; the terms
+> > "activation" and "deactivation" will be applied to the active/inactive
+> > LRU, as usual.
+> >
+> > The aging produces young generations. Given an lruvec, it increments
+> > max_seq when max_seq-min_seq+1 approaches MIN_NR_GENS. The aging
+> > promotes hot pages to the youngest generation when it finds them
+> > accessed through page tables; the demotion of cold pages happens
+> > consequently when it increments max_seq. The aging has the complexity
+> > O(nr_hot_pages), since it is only interested in hot pages. Promotion
+> > in the aging path does not require any LRU list operations, only the
+> > updates of the gen counter and lrugen->nr_pages[]; demotion, unless as
+> > the result of the increment of max_seq, requires LRU list operations,
+> > e.g., lru_deactivate_fn().
+> >
+> > The eviction consumes old generations. Given an lruvec, it increments
+> > min_seq when the lists indexed by min_seq%MAX_NR_GENS become empty. A
+> > feedback loop modeled after the PID controller monitors refaults over
+> > anon and file types and decides which type to evict when both types
+> > are available from the same generation.
+> >
+> > Each generation is divided into multiple tiers. Tiers represent
+> > different ranges of numbers of accesses through file descriptors. A
+> > page accessed N times through file descriptors is in tier
+> > order_base_2(N). Tiers do not have dedicated lrugen->lists[], only
+> > bits in folio->flags. In contrast to moving across generations, which
+> > requires the LRU lock, moving across tiers only involves operations on
+> > folio->flags. The feedback loop also monitors refaults over all tiers
+> > and decides when to protect pages in which tiers (N>1), using the
+> > first tier (N=0,1) as a baseline. The first tier contains single-use
+> > unmapped clean pages, which are most likely the best choices. The
+> > eviction moves a page to the next generation, i.e., min_seq+1, if the
+> > feedback loop decides so. This approach has the following advantages:
+> > 1. It removes the cost of activation in the buffered access path by
+> >    inferring whether pages accessed multiple times through file
+> >    descriptors are statistically hot and thus worth protecting in the
+> >    eviction path.
+> > 2. It takes pages accessed through page tables into account and avoids
+> >    overprotecting pages accessed multiple times through file
+> >    descriptors. (Pages accessed through page tables are in the first
+> >    tier, since N=0.)
+> > 3. More tiers provide better protection for pages accessed more than
+> >    twice through file descriptors, when under heavy buffered I/O
+> >    workloads.
+> >
+>
+> Hi Yu,
+> As I told you before,  I tried to change the current LRU (not MGLRU) by only
+> promoting unmapped file pages to the head of the inactive head rather than
+> the active head on its second access:
+> https://lore.kernel.org/lkml/CAGsJ_4y=TkCGoWWtWSAptW4RDFUEBeYXwfwu=fUFvV4Sa4VA4A@mail.gmail.com/
+> I have already seen some very good results by the decease of cpu consumption of
+> kswapd and direct reclamation in the testing.
 
-By all means, let's kill it.
+Glad to hear. I suspected you'd see some good results with that change :)
 
--- 
-Jens Axboe
+> in mglru, it seems "twice" isn't a concern at all, one unmapped file
+> page accessed
+> twice has no much difference with those ones which are accessed once as you
+> only begin to increase refs from the third time:
 
+refs are *additional* accesses:
+PG_referenced: N=1
+PG_referenced+PG_workingset: N=2
+PG_referenced+PG_workingset+refs: N=3,4,5
+
+When N=2, order_base_2(N)=1. So pages accessed twice are in the second
+tier. Therefore they are "different".
+
+More details [1]:
+
++/*
++ * Each generation is divided into multiple tiers. Tiers represent different
++ * ranges of numbers of accesses through file descriptors. A page accessed N
++ * times through file descriptors is in tier order_base_2(N). A page in the
++ * first tier (N=0,1) is marked by PG_referenced unless it was faulted in
++ * though page tables or read ahead. A page in any other tier (N>1) is marked
++ * by PG_referenced and PG_workingset.
++ *
++ * In contrast to moving across generations which requires the LRU lock, moving
++ * across tiers only requires operations on folio->flags and therefore has a
++ * negligible cost in the buffered access path. In the eviction path,
++ * comparisons of refaulted/(evicted+protected) from the first tier and the
++ * rest infer whether pages accessed multiple times through file descriptors
++ * are statistically hot and thus worth protecting.
++ *
++ * MAX_NR_TIERS is set to 4 so that the multi-gen LRU can support twice of the
++ * categories of the active/inactive LRU when keeping track of accesses through
++ * file descriptors. It requires MAX_NR_TIERS-2 additional bits in
+folio->flags.
++ */
++#define MAX_NR_TIERS 4U
+
+[1] https://lore.kernel.org/linux-mm/20220407031525.2368067-7-yuzhao@google.com/
+
+> +static void folio_inc_refs(struct folio *folio)
+> +{
+> +       unsigned long refs;
+> +       unsigned long old_flags, new_flags;
+> +
+> +       if (folio_test_unevictable(folio))
+> +               return;
+> +
+> +       /* see the comment on MAX_NR_TIERS */
+> +       do {
+> +               new_flags = old_flags = READ_ONCE(folio->flags);
+> +
+> +               if (!(new_flags & BIT(PG_referenced))) {
+> +                       new_flags |= BIT(PG_referenced);
+> +                       continue;
+> +               }
+> +
+> +               if (!(new_flags & BIT(PG_workingset))) {
+> +                       new_flags |= BIT(PG_workingset);
+> +                       continue;
+> +               }
+> +
+> +               refs = new_flags & LRU_REFS_MASK;
+> +               refs = min(refs + BIT(LRU_REFS_PGOFF), LRU_REFS_MASK);
+> +
+> +               new_flags &= ~LRU_REFS_MASK;
+> +               new_flags |= refs;
+> +       } while (new_flags != old_flags &&
+> +                cmpxchg(&folio->flags, old_flags, new_flags) != old_flags);
+> +}
+>
+> So my question is what makes you so confident that twice doesn't need
+> any special treatment while the vanilla kernel is upgrading this kind of page
+> to the head of the active instead? I am asking this because I am considering
+> reclaiming unmapped file pages which are only accessed twice when they
+> get to the tail of the inactive list.
+
+Per above, pages accessed twice are in their own tier. Hope this clarifies it.
