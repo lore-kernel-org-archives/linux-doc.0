@@ -2,276 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34819C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 22:25:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2E3CC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 22:28:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231620AbiDSW2l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Apr 2022 18:28:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54964 "EHLO
+        id S1357933AbiDSWbX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Apr 2022 18:31:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229599AbiDSW2k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 18:28:40 -0400
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC201FA60
-        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 15:25:56 -0700 (PDT)
-Received: by mail-vs1-xe30.google.com with SMTP id a127so17040856vsa.3
-        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 15:25:56 -0700 (PDT)
+        with ESMTP id S1357423AbiDSWbW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 18:31:22 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BB4C24977
+        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 15:28:38 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id r83so5210674pgr.2
+        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 15:28:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=intel-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=1SSVHI315z/RBsosmoq+DUHmCLwLjqcBK/6yGPaqYLw=;
-        b=bfljGrmwzt76fFNtfv1uodcdGEJ0apZDy0dCLzdgwQVYJ14sKe73b0wwu7HW5/Suzz
-         7FtTSwmdPlDcPqbz8RTN50cse3FKAgGrsXS+C8bfQcOFqkeuYPEYglNqA/WPXSAGeWMM
-         OdTJXW4BklnuiiObtv1xiIxaZ9zPXI2+BSwwXMFFDOVQjCxcNSmRx5aw071RWZyadwAl
-         Rv4llSwvtBnDgWv/S/wa3Cdy/Vwtz7QPFBvQTJj6YQOwx89PofNFfsHxtRq+hlDGd/pV
-         IiWaDbsqcOozuV7ZQvYdUBn2QhnmjvtGzuOHwxOUjBvhpllHCVDZylzBvTZ5g6E0A5mn
-         MA0w==
+        bh=+kb4y1ct+D39bV4tAeLvKJMLtfqsTHYQZH4lenFOa/s=;
+        b=CwsvcqUQiVh25FI4ZNK8H+0YPMBP3eJ+P3BPK5+aJX86n2oBAuo37ctouTLoufKp3t
+         AR0duUflr347GoKa1+yY2PIvjEI7hepl8ldvHjU82VoBYV1IveuNNeT2qS+Bxa7Oe1Qk
+         8P1ZsVi1PH1Fo9rBcHc5aVoRhxrRRSjFXZEPV+B3g9mY4z3qe6c8QOAm+cakFYC8IFLs
+         OG96Ex2auEffqpTVwkIpTzSM/T7wuEzcktzOJRoL1s2lksufdzd2y9Li1HQkwA1c2jt2
+         Ouj1krBuEpKLayRIU49KBi8slX2S3bxXI8AUmsjnbfr87yy/DX4QmrOeVmV/wJMbUjnb
+         O94w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1SSVHI315z/RBsosmoq+DUHmCLwLjqcBK/6yGPaqYLw=;
-        b=R/QEtbz79kazEFgrJ61LWorMKqKCjtTn0d2CfTzlMv5hb8QJh068KqzHZpjURSgcXc
-         UM0j/cMxhH7np81fYUucr6Sbm29BPKM9u7+SeG4zNh+Z+97CpsMUOLFJ7fzuqbTNtxvI
-         ueDFGxzwwt8It1amuA8+pa8X2OMknlMIEsiNmGONQFHhLQJWvdPDgqvZR96rCxJwh0sQ
-         jjIhEihMY5XNA/40dI5VUWnOAcEDc77lD2fKB+Y+MBaEgY9hktMaRkNv1/78yjTgIDvp
-         yP3vfKkn2iJOGSvnjd0fjFdwcNuAUoIwY6Rx5iH/pdImS06BYsEgvt/c3nR4cPazsO3d
-         o7fQ==
-X-Gm-Message-State: AOAM531/8y6/FUDJ9IMaLex72bR3pyFraNOdVAOAkAuvwOayt/Nbh5e+
-        6yNNQdxvPQfkMsfnUkQ/Xcds8IpiYtf2tFCw7gYqCg==
-X-Google-Smtp-Source: ABdhPJzh4FLwqXWhLNS9K4J6wbTJYY5R2UEC0it7lTqn+s/X/xkskvCzDFdlhwGQfxmpJaNgdaMiuJlDIp70EUjauDE=
-X-Received: by 2002:a05:6102:5e1:b0:32a:6d68:171d with SMTP id
- w1-20020a05610205e100b0032a6d68171dmr1714816vsf.6.1650407154980; Tue, 19 Apr
- 2022 15:25:54 -0700 (PDT)
+        bh=+kb4y1ct+D39bV4tAeLvKJMLtfqsTHYQZH4lenFOa/s=;
+        b=Mz6R8Usz6GS4apor7VgHxe+aadIztXQTEeC3nKTNUawoZC8enfscb2awZinaNtxgkn
+         uqdmWZ4fQs8oal8Nnrw9O9y5ZFVmcYbEAVXTUfj9LvSjxcBm/ceX5bWV3GH8qBgcsq3j
+         CHTjzKnIt5yJeem59Hz25ENVB3adWxAtbkyOSPjkobWx9Tmmso5nsA2dNFfWfoxGSY4j
+         qUMgsGJxKQvcjbALCBdBCgmpscuqhf58wS+c3ja2QruzfaObslyd7LRIptBfpCOCVwhe
+         3BR9G+KTjAmd1hac/hhLzJY0ZnYeNfyG8KJp27+w/8lq61M0wdB/Q7Yb6MC/GMZ0GgWW
+         5UKw==
+X-Gm-Message-State: AOAM530g4iDTUa8c4mWsvvkGr865W9ZOqvYpvEMgpSmIksfOArVZVssK
+        p+IaleJRPhKsDpdvGDPmQIWYduEAgfznXxlfzBZ9gg==
+X-Google-Smtp-Source: ABdhPJy4KNZkUqNaqV9vPC98/sJFh5SHFjYoQr6PyXvPfsPEpn0S6UwD0reKh4DY9t5+K8leyfzLFiBcIRHF+HKJrHs=
+X-Received: by 2002:a63:1117:0:b0:399:2df0:7fb9 with SMTP id
+ g23-20020a631117000000b003992df07fb9mr17107704pgl.40.1650407317523; Tue, 19
+ Apr 2022 15:28:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-7-yuzhao@google.com>
- <CAGsJ_4x2wmR60GQO-jjd5UAvOMWMSi+kFpUa2DBm4e8KocH7jQ@mail.gmail.com>
- <CAOUHufY_DBk3R7a3=Zb1eofNyqq3VWOmffOR2LaWJQZPYUeCvA@mail.gmail.com>
- <CAGsJ_4wj2mbqSoT3sXHVU+ouCpTPyOXAu9wZS+2U_T5LtN97dA@mail.gmail.com> <CAGsJ_4ys6FmwvKkNVpD9Jv_DxG+82oRBc6y9FGGo+POfMEEaUw@mail.gmail.com>
-In-Reply-To: <CAGsJ_4ys6FmwvKkNVpD9Jv_DxG+82oRBc6y9FGGo+POfMEEaUw@mail.gmail.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Tue, 19 Apr 2022 16:25:18 -0600
-Message-ID: <CAOUHufbX7hsrAq7FzXCn2FVwLJDYWnP8hhpS5Q2KN3__i_GFiQ@mail.gmail.com>
-Subject: Re: [PATCH v10 06/14] mm: multi-gen LRU: minimal implementation
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
-        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
+References: <20220407191347.9681-1-jithu.joseph@intel.com> <20220419163859.2228874-1-tony.luck@intel.com>
+ <20220419163859.2228874-4-tony.luck@intel.com> <Yl7npfrVTPFEIivC@kroah.com> <CAPcyv4jzscs3Dg4QN0+XHRYdekBeqy1=dRX-mWCj1OXo8jS2vQ@mail.gmail.com>
+In-Reply-To: <CAPcyv4jzscs3Dg4QN0+XHRYdekBeqy1=dRX-mWCj1OXo8jS2vQ@mail.gmail.com>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Tue, 19 Apr 2022 15:28:26 -0700
+Message-ID: <CAPcyv4hBGgN=LqY55nf2K4E1OD0n=_axri4CNSKVneStYEp6rw@mail.gmail.com>
+Subject: Re: [PATCH v3 03/11] platform/x86/intel/ifs: Create device for Intel
+ IFS (In Field Scan)
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Tony Luck <tony.luck@intel.com>,
+        Hans de Goede <hdegoede@redhat.com>, markgross@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "Joseph, Jithu" <jithu.joseph@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        x86 <x86@kernel.org>, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
+        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
+        Ravi V Shankar <ravi.v.shankar@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 18, 2022 at 10:36 PM Barry Song <21cnbao@gmail.com> wrote:
+On Tue, Apr 19, 2022 at 11:09 AM Dan Williams <dan.j.williams@intel.com> wrote:
 >
-> On Tue, Apr 19, 2022 at 4:25 PM Barry Song <21cnbao@gmail.com> wrote:
+> On Tue, Apr 19, 2022 at 9:48 AM Greg KH <gregkh@linuxfoundation.org> wrote:
 > >
-> > On Tue, Apr 19, 2022 at 12:54 PM Yu Zhao <yuzhao@google.com> wrote:
+> > On Tue, Apr 19, 2022 at 09:38:51AM -0700, Tony Luck wrote:
+> > > The initial implementation of IFS is model specific. Enumeration is
+> > > via a combination of family-model-stepping and a check for a bit in the
+> > > CORE_CAPABILITIES MSR.
 > > >
-> > > On Mon, Apr 18, 2022 at 3:58 AM Barry Song <21cnbao@gmail.com> wrote:
-> > > >
-> > > > On Thu, Apr 7, 2022 at 3:16 PM Yu Zhao <yuzhao@google.com> wrote:
-> > > > >
-> > > > > To avoid confusion, the terms "promotion" and "demotion" will be
-> > > > > applied to the multi-gen LRU, as a new convention; the terms
-> > > > > "activation" and "deactivation" will be applied to the active/inactive
-> > > > > LRU, as usual.
-> > > > >
-> > > > > The aging produces young generations. Given an lruvec, it increments
-> > > > > max_seq when max_seq-min_seq+1 approaches MIN_NR_GENS. The aging
-> > > > > promotes hot pages to the youngest generation when it finds them
-> > > > > accessed through page tables; the demotion of cold pages happens
-> > > > > consequently when it increments max_seq. The aging has the complexity
-> > > > > O(nr_hot_pages), since it is only interested in hot pages. Promotion
-> > > > > in the aging path does not require any LRU list operations, only the
-> > > > > updates of the gen counter and lrugen->nr_pages[]; demotion, unless as
-> > > > > the result of the increment of max_seq, requires LRU list operations,
-> > > > > e.g., lru_deactivate_fn().
-> > > > >
-> > > > > The eviction consumes old generations. Given an lruvec, it increments
-> > > > > min_seq when the lists indexed by min_seq%MAX_NR_GENS become empty. A
-> > > > > feedback loop modeled after the PID controller monitors refaults over
-> > > > > anon and file types and decides which type to evict when both types
-> > > > > are available from the same generation.
-> > > > >
-> > > > > Each generation is divided into multiple tiers. Tiers represent
-> > > > > different ranges of numbers of accesses through file descriptors. A
-> > > > > page accessed N times through file descriptors is in tier
-> > > > > order_base_2(N). Tiers do not have dedicated lrugen->lists[], only
-> > > > > bits in folio->flags. In contrast to moving across generations, which
-> > > > > requires the LRU lock, moving across tiers only involves operations on
-> > > > > folio->flags. The feedback loop also monitors refaults over all tiers
-> > > > > and decides when to protect pages in which tiers (N>1), using the
-> > > > > first tier (N=0,1) as a baseline. The first tier contains single-use
-> > > > > unmapped clean pages, which are most likely the best choices. The
-> > > > > eviction moves a page to the next generation, i.e., min_seq+1, if the
-> > > > > feedback loop decides so. This approach has the following advantages:
-> > > > > 1. It removes the cost of activation in the buffered access path by
-> > > > >    inferring whether pages accessed multiple times through file
-> > > > >    descriptors are statistically hot and thus worth protecting in the
-> > > > >    eviction path.
-> > > > > 2. It takes pages accessed through page tables into account and avoids
-> > > > >    overprotecting pages accessed multiple times through file
-> > > > >    descriptors. (Pages accessed through page tables are in the first
-> > > > >    tier, since N=0.)
-> > > > > 3. More tiers provide better protection for pages accessed more than
-> > > > >    twice through file descriptors, when under heavy buffered I/O
-> > > > >    workloads.
-> > > > >
-> > > >
-> > > > Hi Yu,
-> > > > As I told you before,  I tried to change the current LRU (not MGLRU) by only
-> > > > promoting unmapped file pages to the head of the inactive head rather than
-> > > > the active head on its second access:
-> > > > https://lore.kernel.org/lkml/CAGsJ_4y=TkCGoWWtWSAptW4RDFUEBeYXwfwu=fUFvV4Sa4VA4A@mail.gmail.com/
-> > > > I have already seen some very good results by the decease of cpu consumption of
-> > > > kswapd and direct reclamation in the testing.
-> > >
-> > > Glad to hear. I suspected you'd see some good results with that change :)
-> > >
-> > > > in mglru, it seems "twice" isn't a concern at all, one unmapped file
-> > > > page accessed
-> > > > twice has no much difference with those ones which are accessed once as you
-> > > > only begin to increase refs from the third time:
-> > >
-> > > refs are *additional* accesses:
-> > > PG_referenced: N=1
-> > > PG_referenced+PG_workingset: N=2
-> > > PG_referenced+PG_workingset+refs: N=3,4,5
-> > >
-> > > When N=2, order_base_2(N)=1. So pages accessed twice are in the second
-> > > tier. Therefore they are "different".
-> > >
-> > > More details [1]:
-> > >
-> > > +/*
-> > > + * Each generation is divided into multiple tiers. Tiers represent different
-> > > + * ranges of numbers of accesses through file descriptors. A page accessed N
-> > > + * times through file descriptors is in tier order_base_2(N). A page in the
-> > > + * first tier (N=0,1) is marked by PG_referenced unless it was faulted in
-> > > + * though page tables or read ahead. A page in any other tier (N>1) is marked
-> > > + * by PG_referenced and PG_workingset.
-> > > + *
-> > > + * In contrast to moving across generations which requires the LRU lock, moving
-> > > + * across tiers only requires operations on folio->flags and therefore has a
-> > > + * negligible cost in the buffered access path. In the eviction path,
-> > > + * comparisons of refaulted/(evicted+protected) from the first tier and the
-> > > + * rest infer whether pages accessed multiple times through file descriptors
-> > > + * are statistically hot and thus worth protecting.
-> > > + *
-> > > + * MAX_NR_TIERS is set to 4 so that the multi-gen LRU can support twice of the
-> > > + * categories of the active/inactive LRU when keeping track of accesses through
-> > > + * file descriptors. It requires MAX_NR_TIERS-2 additional bits in
-> > > folio->flags.
-> > > + */
-> > > +#define MAX_NR_TIERS 4U
-> > >
-> > > [1] https://lore.kernel.org/linux-mm/20220407031525.2368067-7-yuzhao@google.com/
-> > >
-> > > > +static void folio_inc_refs(struct folio *folio)
-> > > > +{
-> > > > +       unsigned long refs;
-> > > > +       unsigned long old_flags, new_flags;
-> > > > +
-> > > > +       if (folio_test_unevictable(folio))
-> > > > +               return;
-> > > > +
-> > > > +       /* see the comment on MAX_NR_TIERS */
-> > > > +       do {
-> > > > +               new_flags = old_flags = READ_ONCE(folio->flags);
-> > > > +
-> > > > +               if (!(new_flags & BIT(PG_referenced))) {
-> > > > +                       new_flags |= BIT(PG_referenced);
-> > > > +                       continue;
-> > > > +               }
-> > > > +
-> > > > +               if (!(new_flags & BIT(PG_workingset))) {
-> > > > +                       new_flags |= BIT(PG_workingset);
-> > > > +                       continue;
-> > > > +               }
-> > > > +
-> > > > +               refs = new_flags & LRU_REFS_MASK;
-> > > > +               refs = min(refs + BIT(LRU_REFS_PGOFF), LRU_REFS_MASK);
-> > > > +
-> > > > +               new_flags &= ~LRU_REFS_MASK;
-> > > > +               new_flags |= refs;
-> > > > +       } while (new_flags != old_flags &&
-> > > > +                cmpxchg(&folio->flags, old_flags, new_flags) != old_flags);
-> > > > +}
-> > > >
-> > > > So my question is what makes you so confident that twice doesn't need
-> > > > any special treatment while the vanilla kernel is upgrading this kind of page
-> > > > to the head of the active instead? I am asking this because I am considering
-> > > > reclaiming unmapped file pages which are only accessed twice when they
-> > > > get to the tail of the inactive list.
-> > >
-> > > Per above, pages accessed twice are in their own tier. Hope this clarifies it.
+> > > Linux has handled this lack of enumeration before with a code stub to
+> > > create a device.  See arch/x86/kernel/pmem.c. Use the same approach
+> > > here.
 > >
-> > Yep, I found the trick here , "+1" is magic behind the code, haha.
-> >
-> > +static int folio_lru_tier(struct folio *folio)
-> > +{
-> > +    int refs;
-> > +    unsigned long flags = READ_ONCE(folio->flags);
-> > +
-> > +    refs = (flags & LRU_REFS_FLAGS) == LRU_REFS_FLAGS ?
-> > +          ((flags & LRU_REFS_MASK) >> LRU_REFS_PGOFF) + 1 : 0;
-> > +
-> > +    return lru_tier_from_refs(refs);
-> > +}
-> > +
-> >
-> > TBH, this might need some comments, otherwise, it is easy to misunderstand
-> > we are beginning to have protection from 3rd access :-)
+> > Ick, why?  Why not just create a simple virtual device and use that?  Do
+> > you really want to bind a driver to this?  Or do you already "know" the
+> > only driver that you have will bind to this?
 >
-> as anyway, it would be much more straightforward to have the below if
-> we can also
-> increase refs for the 1st and 2nd access in folio_inc_refs():
+> With the realization that there may be multiple instances of an
+> IFS-like capability going forward, and that ideally those capabilities
+> would move away from a CPU capability bit to an ACPI description, then
+> it seemed to me that a simulated platform_device for this is a
+> reasonable fit. I.e. when / if an ACPI _HID is assigned for this
+> capability the same platform_driver can be reused for those instances.
 
-It would if there were abundant spare bits in page->flags. On some
-machines, we don't, so we have to reuse PG_referenced and
-PG_workingset.
-
->  +static int folio_lru_tier(struct folio *folio)
->  +{
->  +    int refs;
->  +    unsigned long flags = READ_ONCE(folio->flags);
->  +
->  +    refs = (flags & LRU_REFS_MASK) >> LRU_REFS_PGOFF;
->  +
->  +    return lru_tier_from_refs(refs);
->  +}
+Turns out the ACPI enumeration for this may not materialize, so this
+can indeed move to a simple / driver-less device.
