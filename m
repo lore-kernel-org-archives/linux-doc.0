@@ -2,240 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E713C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 06:43:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F64CC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 06:44:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348980AbiDSGpz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Apr 2022 02:45:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56076 "EHLO
+        id S231149AbiDSGrC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Apr 2022 02:47:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348963AbiDSGpv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 02:45:51 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 607D32D1FF;
-        Mon, 18 Apr 2022 23:43:09 -0700 (PDT)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.54])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4KjDfC1XhTzCrYM;
-        Tue, 19 Apr 2022 14:38:43 +0800 (CST)
-Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 19 Apr 2022 14:43:07 +0800
-Received: from localhost.localdomain (10.175.112.125) by
- dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 19 Apr 2022 14:43:05 +0800
-From:   Wupeng Ma <mawupeng1@huawei.com>
-To:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <corbet@lwn.net>
-CC:     <ardb@kernel.org>, <tglx@linutronix.de>, <mingo@redhat.com>,
-        <bp@alien8.de>, <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-        <dvhart@infradead.org>, <andy@infradead.org>, <rppt@kernel.org>,
-        <paulmck@kernel.org>, <peterz@infradead.org>, <jroedel@suse.de>,
-        <songmuchun@bytedance.com>, <macro@orcam.me.uk>,
-        <frederic@kernel.org>, <W_Armin@gmx.de>, <john.garry@huawei.com>,
-        <seanjc@google.com>, <tsbogend@alpha.franken.de>,
-        <anshuman.khandual@arm.com>, <chenhuacai@kernel.org>,
-        <david@redhat.com>, <gpiccoli@igalia.com>, <mark.rutland@arm.com>,
-        <wangkefeng.wang@huawei.com>, <mawupeng1@huawei.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-efi@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>, <linux-mm@kvack.org>
-Subject: [PATCH 1/2] arm64/boot/KASLR: Add support to relocate kernel image to mirrored region
-Date:   Tue, 19 Apr 2022 15:01:49 +0800
-Message-ID: <20220419070150.254377-2-mawupeng1@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220419070150.254377-1-mawupeng1@huawei.com>
-References: <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
- <20220419070150.254377-1-mawupeng1@huawei.com>
+        with ESMTP id S237419AbiDSGrB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 02:47:01 -0400
+Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF37431378
+        for <linux-doc@vger.kernel.org>; Mon, 18 Apr 2022 23:44:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1650350661; x=1681886661;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=8WWWeqkjRsJguwhNbQdCeYL7WvDMBr86xY9Uzcx3OXA=;
+  b=lWKWucuUxWhCj22S+HzeLshqEDFbWAngaAbmSlC5ZGTFPXjVntThVG9H
+   DWQkSyXJUvNgTy+vOURB9vm+TBmZIrhgtQY16QQYQ7XAyBLq+PR6E4hjt
+   ZmxSJhYi6XaRs9vdmzWwjXz8bDouL5bWsZJwos1GNuse15E2fPlcUr4+d
+   pbWBspcfRl/W7T9z8URYsuxUOtgJLozw38mvBIrhp30IFJCB420GzAB/O
+   gPeEhXVunOCDXH6mdhBUIMQgQQ15wY5tFQB6nhMszPfsqJKW36hjyp3EA
+   0TzJ72ZD7qlpD+gv4l4fwk86Yf8yEMSo4P2Sj8t5m6nvT86wHNMS06KQS
+   w==;
+X-IronPort-AV: E=Sophos;i="5.90,272,1643644800"; 
+   d="scan'208";a="199133686"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 19 Apr 2022 14:44:19 +0800
+IronPort-SDR: 8ADurf1946pRa+0in6m/yUfOPlR2mYGrDGKKEy9M8sdK0SOx1onAQqVvhw2nnvMYQO/O9n7Nss
+ qnKcqHlgheuTzXLRlVLcVnWUT/syryJSv4Wyino0EPAFlFju59GlGmJmcwfkEZOaF+ZArIUuz1
+ eVbB4UisMlhfKLgpUwab6/Px3Zjb8upCfOaNOrOg6lOPyYUGhL9xluWy0uzGLA6NMKZJSReGoa
+ SnxQv36VcbwbIYgGZyVpMfio6GpMWlWTs/nUchYPMXJ17f5nwr4T5BMs+8Aq6rt2gVMirj3a5j
+ ngfhJn1ZseWwi5+GHMYxVFuZ
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 18 Apr 2022 23:14:39 -0700
+IronPort-SDR: s7QNJY1euVADYAmxHf6FDH0h5widzXA1NGXZ4ekmwLe2j2bOU3TVRW1IeUBEGbK+l7HKT7iRQZ
+ VSbRADsBydXGPpz9sY9zTLIbi77euDtwHJ0xbuB6NKxD2DpoEpiH0tphTfSJGNH7ySPnVzg7sY
+ 5v+Aj6ut53NCrLDuhzWXwJ2LlEmLiDQ/SYUQAqESkPcsCPXgpVVv50I8p8zkBd1d88I1oF1Z2q
+ 0RYccVivISZZhwhQqLYKygtIrm1agtKgQeAK0/NmQE+wcAiYzFI3cObKhBJtWDaVLBupTG/QTw
+ uXM=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 18 Apr 2022 23:44:19 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KjDmf4ZM2z1SVp2
+        for <linux-doc@vger.kernel.org>; Mon, 18 Apr 2022 23:44:18 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+        reason="pass (just generated, assumed good)"
+        header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+        opensource.wdc.com; h=content-transfer-encoding:content-type
+        :in-reply-to:organization:from:references:to:content-language
+        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+        1650350657; x=1652942658; bh=8WWWeqkjRsJguwhNbQdCeYL7WvDMBr86xY9
+        Uzcx3OXA=; b=rErrfmkm1eN0G90XNiKwz3BP6CTW8icQ48Osq+ekJiG4DQxQwid
+        6zuPxQsa7uK/IW/QcPikMBUOlxEhg2FyYhGVfoww/j0nQ+3ywc1cCSUtsx5r7RGg
+        CCczSTFxS5ZiJLygtA3jK4PeoCirK+m79Uu7q9IbR08R2P079vtIB8Ek+AwokjaN
+        QZEKWDEC+tynmqWGUkJRp0asRXe50vqTEIXVvre2eAH2Y9+RDA9KbBCwsJXqd7fW
+        99ND1HhAqLnRrgaE0T/Se9JEuG9CfKfsL4Gi5wbc7NqMiUn24LTOUX47mczpNPNB
+        z98Vk1QBz3A2y+esuzpgZn1GNUPflMzit7A==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id RU26uWeLdMWw for <linux-doc@vger.kernel.org>;
+        Mon, 18 Apr 2022 23:44:17 -0700 (PDT)
+Received: from [10.225.163.14] (unknown [10.225.163.14])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KjDmc3KYcz1Rvlx;
+        Mon, 18 Apr 2022 23:44:16 -0700 (PDT)
+Message-ID: <7991758d-16b4-c9c4-0425-c2ec41943db8@opensource.wdc.com>
+Date:   Tue, 19 Apr 2022 15:44:15 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.112.125]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500014.china.huawei.com (7.185.36.153)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] Drop Documentation/ide/
+Content-Language: en-US
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     patches@lists.linux.dev, Christoph Hellwig <hch@lst.de>,
+        Jens Axboe <axboe@kernel.dk>, linux-ide@vger.kernel.org,
+        linux-block@vger.kernel.org
+References: <20220419011021.15527-1-rdunlap@infradead.org>
+From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20220419011021.15527-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Ma Wupeng <mawupeng1@huawei.com>
+On 4/19/22 10:10, Randy Dunlap wrote:
+> Drop all Documentation/ide/ since IDE support was deleted by
+> Christoph Hellwig <hch@lst.de>, Jun 16 2021.
+> 
+> Fixes: b7fb14d3ac63 ("ide: remove the legacy ide driver")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: linux-ide@vger.kernel.org
+> Cc: linux-block@vger.kernel.org
 
-Add support to relocate kernel image to mirrored regions if KASLR is
-enabled.
+Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 
-If a suiable mirrored slot if found, iterate EFI memory map and pick the
-mirrored region to process for adding candidate of randomization slot. If
-no suitable mirrored region found, alloc memory from non-mirrored regions.
+Jonathan,
 
-Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
----
- drivers/firmware/efi/libstub/arm64-stub.c  | 52 +++++++++++++++++++++-
- drivers/firmware/efi/libstub/efistub.h     |  7 ++-
- drivers/firmware/efi/libstub/randomalloc.c | 13 +++++-
- 3 files changed, 68 insertions(+), 4 deletions(-)
+Are you going to take this patch or do you want me to queue it through the
+libata tree ?
 
-diff --git a/drivers/firmware/efi/libstub/arm64-stub.c b/drivers/firmware/efi/libstub/arm64-stub.c
-index 9cc556013d08..39b774853b93 100644
---- a/drivers/firmware/efi/libstub/arm64-stub.c
-+++ b/drivers/firmware/efi/libstub/arm64-stub.c
-@@ -79,6 +79,51 @@ static bool check_image_region(u64 base, u64 size)
- 	return ret;
- }
- 
-+/* check if system has suitable for kernel to relocate */
-+static bool check_mirror_suitable(unsigned long size,
-+				   unsigned long align)
-+{
-+	unsigned long map_size, desc_size;
-+	unsigned long buff_size;
-+	efi_status_t status;
-+	efi_memory_desc_t *memory_map;
-+	int map_offset;
-+	struct efi_boot_memmap map;
-+	bool found = false;
-+
-+	map.map = &memory_map;
-+	map.map_size = &map_size;
-+	map.desc_size = &desc_size;
-+	map.desc_ver = NULL;
-+	map.key_ptr = NULL;
-+	map.buff_size = &buff_size;
-+
-+	status = efi_get_memory_map(&map);
-+	if (status != EFI_SUCCESS)
-+		return false;
-+
-+	if (align < EFI_ALLOC_ALIGN)
-+		align = EFI_ALLOC_ALIGN;
-+
-+	size = round_up(size, EFI_ALLOC_ALIGN);
-+
-+	for (map_offset = 0; map_offset < map_size; map_offset += desc_size) {
-+		efi_memory_desc_t *md = (void *)memory_map + map_offset;
-+		unsigned long slots;
-+
-+		/* system has suiable mirrored area */
-+		slots = get_entry_num_slots(md, size, ilog2(align));
-+		if (slots > 0 && md->attribute & EFI_MEMORY_MORE_RELIABLE) {
-+			found = true;
-+			break;
-+		}
-+	}
-+
-+	efi_bs_call(free_pool, memory_map);
-+
-+	return found;
-+}
-+
- efi_status_t handle_kernel_image(unsigned long *image_addr,
- 				 unsigned long *image_size,
- 				 unsigned long *reserve_addr,
-@@ -88,6 +133,7 @@ efi_status_t handle_kernel_image(unsigned long *image_addr,
- 	efi_status_t status;
- 	unsigned long kernel_size, kernel_memsize = 0;
- 	u32 phys_seed = 0;
-+	bool efi_mirror_found;
- 
- 	/*
- 	 * Although relocatable kernels can fix up the misalignment with
-@@ -127,13 +173,16 @@ efi_status_t handle_kernel_image(unsigned long *image_addr,
- 	kernel_memsize = kernel_size + (_end - _edata);
- 	*reserve_size = kernel_memsize;
- 
-+	efi_mirror_found = check_mirror_suitable(*reserve_size, min_kimg_align);
-+
- 	if (IS_ENABLED(CONFIG_RANDOMIZE_BASE) && phys_seed != 0) {
- 		/*
- 		 * If KASLR is enabled, and we have some randomness available,
- 		 * locate the kernel at a randomized offset in physical memory.
- 		 */
- 		status = efi_random_alloc(*reserve_size, min_kimg_align,
--					  reserve_addr, phys_seed);
-+					  reserve_addr, phys_seed,
-+					  efi_mirror_found);
- 		if (status != EFI_SUCCESS)
- 			efi_warn("efi_random_alloc() failed: 0x%lx\n", status);
- 	} else {
-@@ -163,6 +212,7 @@ efi_status_t handle_kernel_image(unsigned long *image_addr,
- 		}
- 	}
- 
-+out:
- 	*image_addr = *reserve_addr;
- 	memcpy((void *)*image_addr, _text, kernel_size);
- 
-diff --git a/drivers/firmware/efi/libstub/efistub.h b/drivers/firmware/efi/libstub/efistub.h
-index edb77b0621ea..0cf2e25cb7d0 100644
---- a/drivers/firmware/efi/libstub/efistub.h
-+++ b/drivers/firmware/efi/libstub/efistub.h
-@@ -790,7 +790,8 @@ void efi_get_virtmap(efi_memory_desc_t *memory_map, unsigned long map_size,
- efi_status_t efi_get_random_bytes(unsigned long size, u8 *out);
- 
- efi_status_t efi_random_alloc(unsigned long size, unsigned long align,
--			      unsigned long *addr, unsigned long random_seed);
-+			      unsigned long *addr, unsigned long random_seed,
-+			      bool efi_has_mirror);
- 
- efi_status_t check_platform_features(void);
- 
-@@ -875,6 +876,10 @@ void efi_handle_post_ebs_state(void);
- 
- enum efi_secureboot_mode efi_get_secureboot(void);
- 
-+extern unsigned long get_entry_num_slots(efi_memory_desc_t *md,
-+					 unsigned long size,
-+					 unsigned long align_shift);
-+
- #ifdef CONFIG_RESET_ATTACK_MITIGATION
- void efi_enable_reset_attack_mitigation(void);
- #else
-diff --git a/drivers/firmware/efi/libstub/randomalloc.c b/drivers/firmware/efi/libstub/randomalloc.c
-index 724155b9e10d..dd81d6c3c406 100644
---- a/drivers/firmware/efi/libstub/randomalloc.c
-+++ b/drivers/firmware/efi/libstub/randomalloc.c
-@@ -14,7 +14,7 @@
-  * addresses it covers that are suitably aligned and supply enough room
-  * for the allocation.
-  */
--static unsigned long get_entry_num_slots(efi_memory_desc_t *md,
-+unsigned long get_entry_num_slots(efi_memory_desc_t *md,
- 					 unsigned long size,
- 					 unsigned long align_shift)
- {
-@@ -53,7 +53,8 @@ static unsigned long get_entry_num_slots(efi_memory_desc_t *md,
- efi_status_t efi_random_alloc(unsigned long size,
- 			      unsigned long align,
- 			      unsigned long *addr,
--			      unsigned long random_seed)
-+			      unsigned long random_seed,
-+			      bool efi_mirror_found)
- {
- 	unsigned long map_size, desc_size, total_slots = 0, target_slot;
- 	unsigned long buff_size;
-@@ -83,6 +84,10 @@ efi_status_t efi_random_alloc(unsigned long size,
- 		efi_memory_desc_t *md = (void *)memory_map + map_offset;
- 		unsigned long slots;
- 
-+		if (efi_mirror_found &&
-+		    !(md->attribute & EFI_MEMORY_MORE_RELIABLE))
-+			continue;
-+
- 		slots = get_entry_num_slots(md, size, ilog2(align));
- 		MD_NUM_SLOTS(md) = slots;
- 		total_slots += slots;
-@@ -112,6 +117,10 @@ efi_status_t efi_random_alloc(unsigned long size,
- 			continue;
- 		}
- 
-+		if (efi_mirror_found &&
-+		    !(md->attribute & EFI_MEMORY_MORE_RELIABLE))
-+			continue;
-+
- 		target = round_up(md->phys_addr, align) + target_slot * align;
- 		pages = size / EFI_PAGE_SIZE;
- 
 -- 
-2.25.1
-
+Damien Le Moal
+Western Digital Research
