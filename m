@@ -2,85 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7AC6C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 11:13:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2627C4321E
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 11:41:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237797AbiDSLQW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Apr 2022 07:16:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43430 "EHLO
+        id S1345628AbiDSLoc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Apr 2022 07:44:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230010AbiDSLQV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 07:16:21 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5664C2B1B2;
-        Tue, 19 Apr 2022 04:13:39 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB81B1042;
-        Tue, 19 Apr 2022 04:13:38 -0700 (PDT)
-Received: from [10.163.40.223] (unknown [10.163.40.223])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B88BE3F73B;
-        Tue, 19 Apr 2022 04:13:22 -0700 (PDT)
-Message-ID: <672ff459-81bd-38ef-882d-e718992d295c@arm.com>
-Date:   Tue, 19 Apr 2022 16:44:06 +0530
+        with ESMTP id S1352183AbiDSLm6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 07:42:58 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A95A393F0
+        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 04:38:35 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id z5-20020a17090a468500b001d2bc2743c4so1626642pjf.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 04:38:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=czltG6L2KkzB298LugAHRvgCtEThwrsgoIBIYbL/lmc=;
+        b=mW1t99Tzzl//v4S6OsIZ7O7aaZ27kcJSkc7NEWIWcO0Uoau39paOP9AC0VwPLHYRb5
+         tpKKIw0Q9Nmgbw5YNVW6j3mXEoZ1v5iq1Bgy5gkuHL1FHL1Uv4VUqKmo8MMRyXLJ2s2l
+         IYYWiiVAlhU9OPfjBfqRdaZgckD4p8CCtXeyKrG7KbHCtgElYH3AhBxRn1JZkLD5jWyt
+         09iHSLgBekvpDrV/9nzTh0Fgf6N80F5g/WSS0Hy7JV+G/sjBma9yPQWpmegzyzShyB/D
+         vg/aJ4mrOHhf4C64FGNVB5IXt59uRqACzfB15PihqDViFiC+8VikE3d7Ay7JTtA6YXKU
+         r3Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=czltG6L2KkzB298LugAHRvgCtEThwrsgoIBIYbL/lmc=;
+        b=mGWy5uyNoHMl/d6zRGkLmtGIWnztvYEMfhrY8n8m+Rp9u8NEJtxGMEHZmHSowQlfNR
+         GzoRSKAkpKoxNcsIbdEjQ5UTSa/KIeIi8dvDAyjaqC/NrLGkLS2TYPYVWeQIQIqxsAsg
+         +arJ6Ori6wG2oQ45tHZGihVgEFF+R5Zny8mAhv7YaJSdAoPF46jrscVSc3u2188mefAV
+         rL3UHvojZt9ttcLJLF2pAbhOoG8OH6XPSyzY6pw3JwA8LuAxGwF1kcHVJUGkDu69Kxy7
+         kkRpAF2fcn2y3vCZYnVO8S3+pqOeCBTqbP4LtnKLUC193RJmlr56jkm1RAvgusG309Ol
+         D3ZA==
+X-Gm-Message-State: AOAM533h/zibsckC9bar64YpBJXTG/rip57ZjLtlxL8EE7N4B5WjgbM1
+        VQI/EZPab2dLaKLaj+ywcpes4A==
+X-Google-Smtp-Source: ABdhPJxPAhtfomWeKdsxGXDr3c7zmgNdpnPo++Q7ZHAGZztXONhhmeU6M+A+FPJddomQbcFHtuZPTg==
+X-Received: by 2002:a17:903:22ce:b0:158:f809:3116 with SMTP id y14-20020a17090322ce00b00158f8093116mr10472507plg.159.1650368312542;
+        Tue, 19 Apr 2022 04:38:32 -0700 (PDT)
+Received: from [192.168.1.100] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id l15-20020a62be0f000000b005059cc9cc34sm16311856pff.92.2022.04.19.04.38.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Apr 2022 04:38:32 -0700 (PDT)
+Message-ID: <77dd9800-041f-edee-4ab2-911dc311466b@kernel.dk>
+Date:   Tue, 19 Apr 2022 05:38:30 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 7/9] mm: Calc the right pfn if page size is not 4K
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] Drop Documentation/ide/
 Content-Language: en-US
-To:     Wupeng Ma <mawupeng1@huawei.com>, akpm@linux-foundation.org,
-        catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net
-Cc:     ardb@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zyccr.com, dvhart@infradead.org, andy@infradead.org,
-        rppt@kernel.org, paulmck@kernel.org, peterz@infradead.org,
-        jroedel@suse.de, songmuchun@bytedance.com, macro@orcam.me.uk,
-        frederic@kernel.org, W_Armin@gmx.de, john.garry@huawei.com,
-        seanjc@google.com, tsbogend@alpha.franken.de,
-        chenhuacai@kernel.org, david@redhat.com, gpiccoli@igalia.com,
-        mark.rutland@arm.com, wangkefeng.wang@huawei.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
-        linux-ia64@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20220414101314.1250667-1-mawupeng1@huawei.com>
- <20220414101314.1250667-8-mawupeng1@huawei.com>
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <20220414101314.1250667-8-mawupeng1@huawei.com>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Cc:     patches@lists.linux.dev, Christoph Hellwig <hch@lst.de>,
+        linux-ide@vger.kernel.org, linux-block@vger.kernel.org
+References: <20220419011021.15527-1-rdunlap@infradead.org>
+From:   Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20220419011021.15527-1-rdunlap@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 4/18/22 7:10 PM, Randy Dunlap wrote:
+> Drop all Documentation/ide/ since IDE support was deleted by
+> Christoph Hellwig <hch@lst.de>, Jun 16 2021.
 
+Acked-by: Jens Axboe <axboe@kernel.dk>
 
-On 4/14/22 15:43, Wupeng Ma wrote:
-> From: Ma Wupeng <mawupeng1@huawei.com>
-> 
-> Previous 0x100000 is used to check the 4G limit in
-> find_zone_movable_pfns_for_nodes(). This is right in x86 because
-> the page size can only be 4K. But 16K and 64K are available in
-> arm64. So replace it with PHYS_PFN(SZ_4G).
-> 
-> Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
-> ---
->  mm/page_alloc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index 6e5b4488a0c5..570d0ebf98df 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -7870,7 +7870,7 @@ static void __init find_zone_movable_pfns_for_nodes(void)
->  
->  			usable_startpfn = memblock_region_memory_base_pfn(r);
->  
-> -			if (usable_startpfn < 0x100000) {
-> +			if (usable_startpfn < PHYS_PFN(SZ_4G)) {
->  				mem_below_4gb_not_mirrored = true;
->  				continue;
->  			}
+-- 
+Jens Axboe
 
-Regardless PFN value should never be encoded directly.
-
-Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
