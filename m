@@ -2,84 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C101C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 05:20:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F314C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 05:49:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229774AbiDSFWq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Apr 2022 01:22:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43944 "EHLO
+        id S233916AbiDSFwR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Apr 2022 01:52:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348563AbiDSFWd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 01:22:33 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BAA46167;
-        Mon, 18 Apr 2022 22:19:49 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id k14so22891168pga.0;
-        Mon, 18 Apr 2022 22:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=je3GAhnrsS3qmDoIuVcaSDn6nM7iLRjCpgJb3vVvrAc=;
-        b=A8a3td9wlfAiSIhFkg5saM13qY+3v4FW01xS8tmywfWv+aYfg1FQGkNcWC4Uv1QrHZ
-         yKMabMhWqEPo93hessEAL59glLZtvZVAsMUV+faVLPCX/yG9wO1y0kO3XR3zFx/BV4yc
-         u5cTZITXyaQJN1ZX2NyR+3+xwkUvX5KDPJ1p38D3qJdub1fXJfndKJv7kDWiLpNoYNLC
-         lUluKrxiRx34yY2knrldzdzePWBdiSl5H8SRjJyPoJgC8HzXt4Pco7333xU7kg2vRf1K
-         bu/64+uxtsguYjnDmbLB9iOFgs5zlQfWqkpR8TvrIi8r65x77ter9yFWogkfVNhfHDwZ
-         ElyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=je3GAhnrsS3qmDoIuVcaSDn6nM7iLRjCpgJb3vVvrAc=;
-        b=OwabXReaj3dYCiinBjSMRw4lCwt2ZcV07YvJVdVbfFxPicmbeQS+dzkGZVmVUzt6Vi
-         xdbN9A443MNFCKdw5qAfiE47XYQhJb1fouetawGT7/PEEkMVHXykT5WaiFyZ/hYN9tDi
-         p6mgWgZTtEqu2eAszJl7f9osSKp0gnaMz8ARQV/SIzxWdyLWyst9aq9YBAhJCzpLPXq2
-         wC5QjUdoSpqFAyld6zUbFzsWlZ9q+1Uu9kt86Qjea67zGAPRIGEGr0nY4HhOc25IUpME
-         ru4TP38k4hbnXPEODDDS3MPBAaEYEKd4CIChZKGIEYG94bCpln8FiBIL1Y3uD4yo+nqJ
-         i7RA==
-X-Gm-Message-State: AOAM530v7/m4ZmHW03P2sUjTYsjAxJw6r5tu/YWzZNi7XTiNW7ncTGsP
-        Sb/Lisy1JA3ga9mBLA+kIZQ=
-X-Google-Smtp-Source: ABdhPJzhM5IkrPTBazVFqfWlLXwWqrSQLkhlty36WeiwKvHzSvbQHp5tWd0+ALc1qK1qWDh+XUJuNg==
-X-Received: by 2002:a63:68c6:0:b0:380:3fbc:dfb6 with SMTP id d189-20020a6368c6000000b003803fbcdfb6mr13102086pgc.326.1650345589078;
-        Mon, 18 Apr 2022 22:19:49 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-72.three.co.id. [180.214.233.72])
-        by smtp.gmail.com with ESMTPSA id 124-20020a621982000000b0050a73577a37sm6583315pfz.45.2022.04.18.22.19.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Apr 2022 22:19:48 -0700 (PDT)
-Message-ID: <b5b42b49-9d0c-c745-f355-89900b53f6e1@gmail.com>
-Date:   Tue, 19 Apr 2022 12:19:44 +0700
+        with ESMTP id S233616AbiDSFwQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 01:52:16 -0400
+Received: from mail.meizu.com (unknown [14.29.68.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 013D127FFF;
+        Mon, 18 Apr 2022 22:49:32 -0700 (PDT)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail04.meizu.com
+ (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 19 Apr
+ 2022 13:49:34 +0800
+Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 19 Apr
+ 2022 13:49:30 +0800
+From:   Haowen Bai <baihaowen@meizu.com>
+To:     <seakeel@gmail.com>
+CC:     <alexs@kernel.org>, <baihaowen@meizu.com>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <siyanteng01@gmail.com>, <siyanteng@loongson.cn>
+Subject: [PATCH V7] docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+Date:   Tue, 19 Apr 2022 13:49:28 +0800
+Message-ID: <1650347368-17858-1-git-send-email-baihaowen@meizu.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <fc9d5350-c4ef-8687-b041-eafcedf35aa8@gmail.com>
+References: <fc9d5350-c4ef-8687-b041-eafcedf35aa8@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] btrfs: zstd: remove extraneous asterix at the head of
- zstd_reclaim_timer_fn() comment
-Content-Language: en-US
-To:     Josef Bacik <josef@toxicpanda.com>
-Cc:     linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-        Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
-        Nick Terrell <terrelln@fb.com>, Schspa Shi <schspa@gmail.com>,
-        linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220418125934.566647-1-bagasdotme@gmail.com>
- <Yl2Dx+jefYs1Un+8@localhost.localdomain>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <Yl2Dx+jefYs1Un+8@localhost.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/18/22 22:29, Josef Bacik wrote:
-> Reviewed-by: Josef Bacik <josef@toxicpanda.com>
-> 
-> Thanks,
-> 
-> Josef
+As the tools/vm/page_owner_sort added some feature and original text
+updated, sync the translation of zh_CN as below.
 
-Thanks for the review. Should I send v2 with your Reviewed-by
-tag?
+BTW, the original text table which is made of tab will display all
+by one line. so we make a  standard table for STANDARD FORMAT SPECIFIERS
+description.
 
+Commit 8bd16bc0a081 ("tools/vm/page_owner_sort.c: support sorting blocks
+by multiple keys") add sorting blocks by multiple keys usage
+description.
+
+Commit 78a0b94f3829 ("tools/vm/page_owner_sort.c: support for multi-value
+selection in single argument") add multi-value selection in single
+argument usage description.
+
+Commit c89b3ad2dea2 ("doc/vm/page_owner.rst: remove content related to -c
+option") remove  -c option usage description.
+
+Commit 9c8a0a8e599f ("tools/vm/page_owner_sort.c: support for user-defined
+culling rules") add user-defined culling rules usage description.
+
+Commit 8ea8613a616a ("tools/vm/page_owner_sort.c: support for selecting by
+PID, TGID or task command name") add selecting by PID, TGID or task
+command name usage description.
+
+Commit 194d52d771b8 ("tools/vm/page_owner_sort: support for sorting by
+task command name") add sorting by task command name usage description.
+
+Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+---
+V1->V2: fix whitespace warning.
+V2->V3: fix some tab Alignment issue.
+V3->V4: fix sphinx warning
+V4->V5: fix whitespace warning; add fix tags.
+V5->V6: fix refer tags format.
+V6->V7: combine these 2 patches as a patchset.
+
+ Documentation/translations/zh_CN/vm/page_owner.rst | 61 +++++++++++++++++++++-
+ Documentation/vm/page_owner.rst                    | 35 ++++++++-----
+ 2 files changed, 81 insertions(+), 15 deletions(-)
+
+diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
+index 9e951fabba9d..c692e81c724e 100644
+--- a/Documentation/translations/zh_CN/vm/page_owner.rst
++++ b/Documentation/translations/zh_CN/vm/page_owner.rst
+@@ -103,14 +103,73 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
+ 		-m		按总内存排序
+ 		-p		按pid排序。
+ 		-P		按tgid排序。
++		-n		按任务名称排序。
+ 		-r		按内存释放时间排序。
+ 		-s		按堆栈跟踪排序。
+ 		-t		按时间排序（默认）。
++		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从
++						**标准格式说明符** 部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
++						允许混合使用缩写键和全称键。
++
++		Examples:
++				./page_owner_sort <input> <output> --sort=n,+pid,-tgid
++				./page_owner_sort <input> <output> --sort=at
+ 
+    其它函数:
+ 
+ 	Cull:
+-		-c		通过比较堆栈跟踪而不是总块来进行剔除。
++		--cull <rules>
++				指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
++
++		<rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
++				符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的
++				STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
+ 
++		Examples:
++				./page_owner_sort <input> <output> --cull=stacktrace
++				./page_owner_sort <input> <output> --cull=st,pid,name
++				./page_owner_sort <input> <output> --cull=n,f
+ 	Filter:
+ 		-f		过滤掉内存已被释放的块的信息。
++
++	Select:
++		--pid <pidlist>		通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
++		--tgid <tgidlist>	通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
++		--name <cmdlist>	按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
++
++		<pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
++
++
++		Examples:
++				./page_owner_sort <input> <output> --pid=1
++				./page_owner_sort <input> <output> --tgid=1,2,3
++				./page_owner_sort <input> <output> --name name1,name2
++
++标准格式说明符
++==============
++
++--sort 选项:
++
++        ======          ==========      ===================
++        缩写键          全称键          描述
++        ======          ==========      ===================
++        p               pid             进程 ID
++        tg              tgid            线程组 ID
++        n               name            任务名称
++        st              stacktrace      页面分配的调用栈
++        T               txt             块的全文
++        ft              free_ts         页面被释放的时间戳
++        at              alloc_ts        页面分配的时间戳
++        ======          ==========      ===================
++
++--curl 选项:
++
++        ======          ==========      ==================
++        缩写键          全称键          描述
++        ======          ==========      ==================
++        p               pid             进程 ID
++        tg              tgid            线程组 ID
++        n               name            任务名称
++        f               free            该页面是否已被释放
++        st              stacktrace      页面分配的调用栈
++        ======          ==========      ==================
+diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+index 422d5fa99e84..9123e55669df 100644
+--- a/Documentation/vm/page_owner.rst
++++ b/Documentation/vm/page_owner.rst
+@@ -174,22 +174,29 @@ STANDARD FORMAT SPECIFIERS
+ 
+ For --sort option:
+ 
+-	KEY		LONG		DESCRIPTION
+-	p		pid		process ID
+-	tg		tgid		thread group ID
+-	n		name		task command name
+-	st		stacktrace	stack trace of the page allocation
+-	T		txt		full text of block
+-	ft		free_ts		timestamp of the page when it was released
+-	at		alloc_ts	timestamp of the page when it was allocated
++        ====            ==========      ============================================
++        KEY             LONG            DESCRIPTION
++        ====            ==========      ============================================
++        p               pid             process ID
++        tg              tgid            thread group ID
++        n               name            task command name
++        st              stacktrace      stack trace of the page allocation
++        T               txt             full text of block
++        ft              free_ts         timestamp of the page when it was released
++        at              alloc_ts        timestamp of the page when it was allocated
+         ator            allocator       memory allocator for pages
++        ====            ==========      ============================================
+ 
+ For --curl option:
+ 
+-	KEY		LONG		DESCRIPTION
+-	p		pid		process ID
+-	tg		tgid		thread group ID
+-	n		name		task command name
+-	f		free		whether the page has been released or not
+-	st		stacktrace	stack trace of the page allocation
++        ====            ===========     ============================================
++        KEY             LONG            DESCRIPTION
++        ====            ===========     ============================================
++        p               pid             process ID
++        tg              tgid            thread group ID
++        n               name            task command name
++        f               free            whether the page has been released or not
++        st              stacktrace      stack trace of the page allocation
+         ator            allocator       memory allocator for pages
++        ====            ===========     ============================================
++
 -- 
-An old man doll... just what I always wanted! - Clara
+2.7.4
+
