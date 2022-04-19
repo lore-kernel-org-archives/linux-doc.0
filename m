@@ -2,101 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2E3CC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 22:28:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4520FC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 22:33:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357933AbiDSWbX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Apr 2022 18:31:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56044 "EHLO
+        id S1358188AbiDSWfu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Apr 2022 18:35:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357423AbiDSWbW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 18:31:22 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BB4C24977
-        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 15:28:38 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id r83so5210674pgr.2
-        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 15:28:38 -0700 (PDT)
+        with ESMTP id S1358190AbiDSWft (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 18:35:49 -0400
+Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com [IPv6:2607:f8b0:4864:20::a2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81476289A9
+        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 15:33:03 -0700 (PDT)
+Received: by mail-vk1-xa2a.google.com with SMTP id bc42so8178921vkb.12
+        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 15:33:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20210112.gappssmtp.com; s=20210112;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=+kb4y1ct+D39bV4tAeLvKJMLtfqsTHYQZH4lenFOa/s=;
-        b=CwsvcqUQiVh25FI4ZNK8H+0YPMBP3eJ+P3BPK5+aJX86n2oBAuo37ctouTLoufKp3t
-         AR0duUflr347GoKa1+yY2PIvjEI7hepl8ldvHjU82VoBYV1IveuNNeT2qS+Bxa7Oe1Qk
-         8P1ZsVi1PH1Fo9rBcHc5aVoRhxrRRSjFXZEPV+B3g9mY4z3qe6c8QOAm+cakFYC8IFLs
-         OG96Ex2auEffqpTVwkIpTzSM/T7wuEzcktzOJRoL1s2lksufdzd2y9Li1HQkwA1c2jt2
-         Ouj1krBuEpKLayRIU49KBi8slX2S3bxXI8AUmsjnbfr87yy/DX4QmrOeVmV/wJMbUjnb
-         O94w==
+        bh=VLPNm1zfYFG8sspty4o9ORFRIBEAx3D1EZl4YM6WiPM=;
+        b=Aex8SDRrS5VzWfWlV8iWRhxTbkg8b4dWxKbFr3SMF+tCFKjE+IPPMx16F51NoilY7s
+         21rG4wwBx6CoPq8yBlg1ps9EKJcunUoKzUqzpGSZI84Kie/674fmOYdbgurGa8RkFRrs
+         rKW+FDdVeXVBWi33KdLRuFtfIHeokXFBUx5QnTm7H0UDJe2qvQ6exPnmq2aGX5w1Jva5
+         eiRK3qLEMAdhGPBBscmEY8e5Z74TmukXQM9SI288cjtKyAMxK576z/J2iZdgTInGXKG0
+         RgcwEKsAXzQuvMt/REKDj1Zk+2ZWlVRhze2V36wImn0pLRx7cTH3Uy2ycA/1eeWFnTd9
+         E+2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+kb4y1ct+D39bV4tAeLvKJMLtfqsTHYQZH4lenFOa/s=;
-        b=Mz6R8Usz6GS4apor7VgHxe+aadIztXQTEeC3nKTNUawoZC8enfscb2awZinaNtxgkn
-         uqdmWZ4fQs8oal8Nnrw9O9y5ZFVmcYbEAVXTUfj9LvSjxcBm/ceX5bWV3GH8qBgcsq3j
-         CHTjzKnIt5yJeem59Hz25ENVB3adWxAtbkyOSPjkobWx9Tmmso5nsA2dNFfWfoxGSY4j
-         qUMgsGJxKQvcjbALCBdBCgmpscuqhf58wS+c3ja2QruzfaObslyd7LRIptBfpCOCVwhe
-         3BR9G+KTjAmd1hac/hhLzJY0ZnYeNfyG8KJp27+w/8lq61M0wdB/Q7Yb6MC/GMZ0GgWW
-         5UKw==
-X-Gm-Message-State: AOAM530g4iDTUa8c4mWsvvkGr865W9ZOqvYpvEMgpSmIksfOArVZVssK
-        p+IaleJRPhKsDpdvGDPmQIWYduEAgfznXxlfzBZ9gg==
-X-Google-Smtp-Source: ABdhPJy4KNZkUqNaqV9vPC98/sJFh5SHFjYoQr6PyXvPfsPEpn0S6UwD0reKh4DY9t5+K8leyfzLFiBcIRHF+HKJrHs=
-X-Received: by 2002:a63:1117:0:b0:399:2df0:7fb9 with SMTP id
- g23-20020a631117000000b003992df07fb9mr17107704pgl.40.1650407317523; Tue, 19
- Apr 2022 15:28:37 -0700 (PDT)
+        bh=VLPNm1zfYFG8sspty4o9ORFRIBEAx3D1EZl4YM6WiPM=;
+        b=apEl923ukXDnpf3mbNdxasJkaRiJcLymJYUFpLZiBdG3GoLVBChFpSFeMZzb73PFZO
+         4M5oGhXy//pvplH2Jl3suy5Uiynzf8aPnBxB/U90bJVFeyZ2tQWykArrhnthYX58iSnQ
+         JyEmDMUoyIRv/45hNLS9aFT8e9j5vp3XmL0MPlS2YnRwW3ssr1r2HokP1pZMWxUhBzUh
+         NWnyTQ/l4UkPxykIB4HOiwclFipfaxsO91DbfN9FdnNAUnrQq6o0Gafp0n2SaQxzX4ty
+         V091JQRYSyeZvjZnghTOeSo9DXkPOaswBUGNgAdZU0lwm/HhvnEcyPvmzKf9O0q/xEwN
+         1AiQ==
+X-Gm-Message-State: AOAM531CVTN80FAt/5nWrDIa2CSWA/VoKKAYTVg6P58Il1/UZzW42rv8
+        uS1LA08Nzzjfg/9Praa0a3Dl4bEFXVOkNwm2pQcAlg==
+X-Google-Smtp-Source: ABdhPJygTdEuCeOCg/yL/LJQl7X3o9uh4wxdlNfmN7Kha46mxOdlOP3/DVBLPMHaGFHWrHYIYiGUGhK6BLx6vNi5Hy0=
+X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
+ 7-20020a056122088700b00332699e7e67mr5134984vkf.35.1650407582433; Tue, 19 Apr
+ 2022 15:33:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220407191347.9681-1-jithu.joseph@intel.com> <20220419163859.2228874-1-tony.luck@intel.com>
- <20220419163859.2228874-4-tony.luck@intel.com> <Yl7npfrVTPFEIivC@kroah.com> <CAPcyv4jzscs3Dg4QN0+XHRYdekBeqy1=dRX-mWCj1OXo8jS2vQ@mail.gmail.com>
-In-Reply-To: <CAPcyv4jzscs3Dg4QN0+XHRYdekBeqy1=dRX-mWCj1OXo8jS2vQ@mail.gmail.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Tue, 19 Apr 2022 15:28:26 -0700
-Message-ID: <CAPcyv4hBGgN=LqY55nf2K4E1OD0n=_axri4CNSKVneStYEp6rw@mail.gmail.com>
-Subject: Re: [PATCH v3 03/11] platform/x86/intel/ifs: Create device for Intel
- IFS (In Field Scan)
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Tony Luck <tony.luck@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>, markgross@kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-9-yuzhao@google.com>
+ <20220411191621.0378467ad99ebc822d5ad005@linux-foundation.org>
+ <CAOUHufYeC=Kuu59BPL_48sM67CqACxH2wWy-SYGXpadgMDmY3w@mail.gmail.com>
+ <20220414185654.e7150bcbe859e0dd4b9c61af@linux-foundation.org>
+ <CAOUHufYy6yQS9ARN9C5+ODkopR+ez4TH3hZNZo4HtNHBExS1mA@mail.gmail.com>
+ <20220415121521.764a88dda55ae8c676ad26b0@linux-foundation.org>
+ <CAOUHufYsjwMGMFCfYoh79rFZqwqS1jDihcBS9sHd-gBxEAD3Ug@mail.gmail.com>
+ <20220415143220.cc37b0b0a368ed2bf2a821f8@linux-foundation.org> <CAFbkSA3jdtDrWz9-i2ZED5k8uBx6nwrikSO6x22qGeWqj8bgHg@mail.gmail.com>
+In-Reply-To: <CAFbkSA3jdtDrWz9-i2ZED5k8uBx6nwrikSO6x22qGeWqj8bgHg@mail.gmail.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Tue, 19 Apr 2022 16:32:26 -0600
+Message-ID: <CAOUHufZL8T=e8U_gSE+9tg5MZduRfs_CODLrnPydvimiq78BDQ@mail.gmail.com>
+Subject: Re: [PATCH v10 08/14] mm: multi-gen LRU: support page table walks
+To:     Justin Forbes <jforbes@fedoraproject.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Stephen Rothwell <sfr@rothwell.id.au>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
-        Ravi V Shankar <ravi.v.shankar@intel.com>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 19, 2022 at 11:09 AM Dan Williams <dan.j.williams@intel.com> wrote:
+On Sat, Apr 16, 2022 at 10:32 AM Justin Forbes
+<jforbes@fedoraproject.org> wrote:
 >
-> On Tue, Apr 19, 2022 at 9:48 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> On Fri, Apr 15, 2022 at 4:33 PM Andrew Morton <akpm@linux-foundation.org> wrote:
 > >
-> > On Tue, Apr 19, 2022 at 09:38:51AM -0700, Tony Luck wrote:
-> > > The initial implementation of IFS is model specific. Enumeration is
-> > > via a combination of family-model-stepping and a check for a bit in the
-> > > CORE_CAPABILITIES MSR.
+> > On Fri, 15 Apr 2022 14:11:32 -0600 Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > > >
+> > > > I grabbed
+> > > > https://kojipkgs.fedoraproject.org//packages/kernel/5.18.0/0.rc2.23.fc37/src/kernel-5.18.0-0.rc2.23.fc37.src.rpm
+> > > > and
 > > >
-> > > Linux has handled this lack of enumeration before with a code stub to
-> > > create a device.  See arch/x86/kernel/pmem.c. Use the same approach
-> > > here.
-> >
-> > Ick, why?  Why not just create a simple virtual device and use that?  Do
-> > you really want to bind a driver to this?  Or do you already "know" the
-> > only driver that you have will bind to this?
+> > > Yes, Fedora/RHEL is one concrete example of the model I mentioned
+> > > above (experimental/stable). I added Justin, the Fedora kernel
+> > > maintainer, and he can further clarify.
 >
-> With the realization that there may be multiple instances of an
-> IFS-like capability going forward, and that ideally those capabilities
-> would move away from a CPU capability bit to an ACPI description, then
-> it seemed to me that a simulated platform_device for this is a
-> reasonable fit. I.e. when / if an ACPI _HID is assigned for this
-> capability the same platform_driver can be reused for those instances.
+> We almost split into 3 scenarios. In rawhide we run a standard Fedora
+> config for rcX releases and .0, but git snapshots are built with debug
+> configs only. The trade off is that we can't turn on certain options
+> which kill performance, but we do get more users running these kernels
+> which expose real bugs.  The rawhide kernel follows Linus' tree and is
+> rebuilt most weekdays.  Stable Fedora is not a full debug config, but
+> in cases where we can keep a debug feature on without it much getting
+> in the way of performance, as is the case with CONFIG_DEBUG_VM, I
+> think there is value in keeping those on, until there is not.  And of
+> course RHEL is a much more conservative config, and a much more
+> conservative rebase/backport codebase.
+>
+> > > If we don't want more VM_BUG_ONs, I'll remove them. But (let me
+> > > reiterate) it seems to me that just defeats the purpose of having
+> > > CONFIG_DEBUG_VM.
+> > >
+> >
+> > Well, I feel your pain.  It was never expected that VM_BUG_ON() would
+> > get subverted in this fashion.
+>
+> Fedora is not trying to subvert anything.  If keeping the option on
+> becomes problematic, we can simply turn it off.   Fedora certainly has
+> a more diverse installed base than typical enterprise distributions,
+> and much more diverse than most QA pools.  Both in the array of
+> hardware, and in the use patterns, so things do get uncovered that
+> would not be seen otherwise.
+>
+> > We could create a new MM-developer-only assertion.  Might even call it
+> > MM_BUG_ON().  With compile-time enablement but perhaps not a runtime
+> > switch.
+> >
+> > With nice simple semantics, please.  Like "it returns void" and "if you
+> > pass an expression with side-effects then you lose".  And "if you send
+> > a patch which produces warnings when CONFIG_MM_BUG_ON=n then you get to
+> > switch to windows95 for a month".
+> >
+> > Let's leave the mglru assertions in place for now and let's think about
+> > creating something more suitable, with a view to switching mglru over
+> > to that at a later time.
+> >
+> >
+> >
+> > But really, none of this addresses the core problem: *_BUG_ON() often
+> > kills the kernel.  So guess what we just did?  We killed the user's
+> > kernel at the exact time when we least wished to do so: when they have
+> > a bug to report to us.  So the thing is self-defeating.
+> >
+> > It's much much better to WARN and to attempt to continue.  This makes
+> > it much more likely that we'll get to hear about the kernel flaw.
+>
+> I agree very much with this. We hear about warnings from users, they
+> don't go unnoticed, and several of these users are willing to spend
+> time to help get to the bottom of an issue. They may not know the
+> code, but plenty are willing to test various patches or scenarios.
 
-Turns out the ACPI enumeration for this may not materialize, so this
-can indeed move to a simple / driver-less device.
+Thanks, Justin. Glad to hear warnings are collected from the field.
+
+Based on all the feedback, my action item is to replace all VM_BUG_ONs
+with VM_WARN_ON_ONCEs.
