@@ -2,178 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4520FC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 22:33:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55322C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 22:47:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358188AbiDSWfu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Apr 2022 18:35:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60414 "EHLO
+        id S1351028AbiDSWtl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Apr 2022 18:49:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358190AbiDSWft (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 18:35:49 -0400
-Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com [IPv6:2607:f8b0:4864:20::a2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81476289A9
-        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 15:33:03 -0700 (PDT)
-Received: by mail-vk1-xa2a.google.com with SMTP id bc42so8178921vkb.12
-        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 15:33:03 -0700 (PDT)
+        with ESMTP id S1350306AbiDSWtk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 18:49:40 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CA512FFF9
+        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 15:46:55 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id j2so33808607ybu.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 15:46:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=VLPNm1zfYFG8sspty4o9ORFRIBEAx3D1EZl4YM6WiPM=;
-        b=Aex8SDRrS5VzWfWlV8iWRhxTbkg8b4dWxKbFr3SMF+tCFKjE+IPPMx16F51NoilY7s
-         21rG4wwBx6CoPq8yBlg1ps9EKJcunUoKzUqzpGSZI84Kie/674fmOYdbgurGa8RkFRrs
-         rKW+FDdVeXVBWi33KdLRuFtfIHeokXFBUx5QnTm7H0UDJe2qvQ6exPnmq2aGX5w1Jva5
-         eiRK3qLEMAdhGPBBscmEY8e5Z74TmukXQM9SI288cjtKyAMxK576z/J2iZdgTInGXKG0
-         RgcwEKsAXzQuvMt/REKDj1Zk+2ZWlVRhze2V36wImn0pLRx7cTH3Uy2ycA/1eeWFnTd9
-         E+2g==
+        bh=NQ0ZlCBfLIaeShdjzTYSygfV13RjcJgPJ7CXYizgpCQ=;
+        b=FGFYWIZ04CCV8ztbKRGzvwRYgJdM2X2X/exeme+rEEMfoSrr1bgTHMT/epk6OoQuhi
+         N64zTZGkr1hifKRi+OMxWckHFciH8cOrJ4lA/wCJI9gJWRTf+f4MrSTFsahKs8UJOMNs
+         YVLV7+ZDfxey96RUtIHpK9Z4ftJ3BMmXaHO05XB3IDFjSyPWT24hT28JWF8esuCt4Nx3
+         r/ph0t0/qk9GGbRS8p8lVQ3XZmV+vBP5nfgI7vpW1ADF19RV7zgDj1IWwH0zmByEq3qH
+         fOkBlvUixw3c1hyGdvMgMt9Kogqq/qpShsSDIfVjVOUYPZP/227XbI6nmg5VpixY9tdY
+         acww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=VLPNm1zfYFG8sspty4o9ORFRIBEAx3D1EZl4YM6WiPM=;
-        b=apEl923ukXDnpf3mbNdxasJkaRiJcLymJYUFpLZiBdG3GoLVBChFpSFeMZzb73PFZO
-         4M5oGhXy//pvplH2Jl3suy5Uiynzf8aPnBxB/U90bJVFeyZ2tQWykArrhnthYX58iSnQ
-         JyEmDMUoyIRv/45hNLS9aFT8e9j5vp3XmL0MPlS2YnRwW3ssr1r2HokP1pZMWxUhBzUh
-         NWnyTQ/l4UkPxykIB4HOiwclFipfaxsO91DbfN9FdnNAUnrQq6o0Gafp0n2SaQxzX4ty
-         V091JQRYSyeZvjZnghTOeSo9DXkPOaswBUGNgAdZU0lwm/HhvnEcyPvmzKf9O0q/xEwN
-         1AiQ==
-X-Gm-Message-State: AOAM531CVTN80FAt/5nWrDIa2CSWA/VoKKAYTVg6P58Il1/UZzW42rv8
-        uS1LA08Nzzjfg/9Praa0a3Dl4bEFXVOkNwm2pQcAlg==
-X-Google-Smtp-Source: ABdhPJygTdEuCeOCg/yL/LJQl7X3o9uh4wxdlNfmN7Kha46mxOdlOP3/DVBLPMHaGFHWrHYIYiGUGhK6BLx6vNi5Hy0=
-X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
- 7-20020a056122088700b00332699e7e67mr5134984vkf.35.1650407582433; Tue, 19 Apr
- 2022 15:33:02 -0700 (PDT)
+        bh=NQ0ZlCBfLIaeShdjzTYSygfV13RjcJgPJ7CXYizgpCQ=;
+        b=iOP6SjJ3aMU8vERjDDmrj533ZMCYTFKC/7tgre4Lv38wQ7oBtDEssLnmbd+ryYkX7N
+         NQ2cNc6TXeAZowrfFbbgtyV+dlniT0QLeIla24LsDJ/I5ZGjclEDojjTKQmGCoKi0o8p
+         0kNBebB2F2uqBP/yuuNcVYoGLW4x+vGtWMNbxUaWBXRJMX3ZlALMN9hDnEZZqjwM1tkl
+         KUO7QH6ImHNhezc/Ggc5+jV142Kyu2+KeQWs1QelZ/bjo0Ftz8QghZ7GlPhbXO9os1DR
+         EUTlgY7jbtoD6ztln8MbJVG69f6wcwsdDMHOuPSTt/laeyVW25SDRtOTsILNbjFD1H+N
+         DuiQ==
+X-Gm-Message-State: AOAM532voe7fzORjOoi4CeHLJnaQdjkuYbRbleFSPXVO3nI3XE4LGpi6
+        2wEktI1taI4vd2lwL+0G1N3y1ffGvXolA2bl1TTvtw==
+X-Google-Smtp-Source: ABdhPJzL1ZMzGRF0eQBZ7PUfu61f5JoJrxbPpEb6s7UVIgvJVwImWmYItXwnN0X+wwcRlvyNP0KhXn4m3KRIcON6pnU=
+X-Received: by 2002:a25:cf4c:0:b0:641:15d2:54a3 with SMTP id
+ f73-20020a25cf4c000000b0064115d254a3mr16840709ybg.626.1650408414361; Tue, 19
+ Apr 2022 15:46:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-9-yuzhao@google.com>
- <20220411191621.0378467ad99ebc822d5ad005@linux-foundation.org>
- <CAOUHufYeC=Kuu59BPL_48sM67CqACxH2wWy-SYGXpadgMDmY3w@mail.gmail.com>
- <20220414185654.e7150bcbe859e0dd4b9c61af@linux-foundation.org>
- <CAOUHufYy6yQS9ARN9C5+ODkopR+ez4TH3hZNZo4HtNHBExS1mA@mail.gmail.com>
- <20220415121521.764a88dda55ae8c676ad26b0@linux-foundation.org>
- <CAOUHufYsjwMGMFCfYoh79rFZqwqS1jDihcBS9sHd-gBxEAD3Ug@mail.gmail.com>
- <20220415143220.cc37b0b0a368ed2bf2a821f8@linux-foundation.org> <CAFbkSA3jdtDrWz9-i2ZED5k8uBx6nwrikSO6x22qGeWqj8bgHg@mail.gmail.com>
-In-Reply-To: <CAFbkSA3jdtDrWz9-i2ZED5k8uBx6nwrikSO6x22qGeWqj8bgHg@mail.gmail.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Tue, 19 Apr 2022 16:32:26 -0600
-Message-ID: <CAOUHufZL8T=e8U_gSE+9tg5MZduRfs_CODLrnPydvimiq78BDQ@mail.gmail.com>
-Subject: Re: [PATCH v10 08/14] mm: multi-gen LRU: support page table walks
-To:     Justin Forbes <jforbes@fedoraproject.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Stephen Rothwell <sfr@rothwell.id.au>,
-        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
+References: <20220329054521.14420-1-dipenp@nvidia.com>
+In-Reply-To: <20220329054521.14420-1-dipenp@nvidia.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 20 Apr 2022 00:46:43 +0200
+Message-ID: <CACRpkdbGyrRU9DDTmNDpU52rECAKY3wfi2y3jo9FMypDG=pmJQ@mail.gmail.com>
+Subject: Re: [PATCH v5 00/11] Intro to Hardware timestamping engine
+To:     Dipen Patel <dipenp@nvidia.com>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
+        smangipudi@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        bgolaszewski@baylibre.com, warthog618@gmail.com,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        robh+dt@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 16, 2022 at 10:32 AM Justin Forbes
-<jforbes@fedoraproject.org> wrote:
->
-> On Fri, Apr 15, 2022 at 4:33 PM Andrew Morton <akpm@linux-foundation.org> wrote:
-> >
-> > On Fri, 15 Apr 2022 14:11:32 -0600 Yu Zhao <yuzhao@google.com> wrote:
-> >
-> > > >
-> > > > I grabbed
-> > > > https://kojipkgs.fedoraproject.org//packages/kernel/5.18.0/0.rc2.23.fc37/src/kernel-5.18.0-0.rc2.23.fc37.src.rpm
-> > > > and
-> > >
-> > > Yes, Fedora/RHEL is one concrete example of the model I mentioned
-> > > above (experimental/stable). I added Justin, the Fedora kernel
-> > > maintainer, and he can further clarify.
->
-> We almost split into 3 scenarios. In rawhide we run a standard Fedora
-> config for rcX releases and .0, but git snapshots are built with debug
-> configs only. The trade off is that we can't turn on certain options
-> which kill performance, but we do get more users running these kernels
-> which expose real bugs.  The rawhide kernel follows Linus' tree and is
-> rebuilt most weekdays.  Stable Fedora is not a full debug config, but
-> in cases where we can keep a debug feature on without it much getting
-> in the way of performance, as is the case with CONFIG_DEBUG_VM, I
-> think there is value in keeping those on, until there is not.  And of
-> course RHEL is a much more conservative config, and a much more
-> conservative rebase/backport codebase.
->
-> > > If we don't want more VM_BUG_ONs, I'll remove them. But (let me
-> > > reiterate) it seems to me that just defeats the purpose of having
-> > > CONFIG_DEBUG_VM.
-> > >
-> >
-> > Well, I feel your pain.  It was never expected that VM_BUG_ON() would
-> > get subverted in this fashion.
->
-> Fedora is not trying to subvert anything.  If keeping the option on
-> becomes problematic, we can simply turn it off.   Fedora certainly has
-> a more diverse installed base than typical enterprise distributions,
-> and much more diverse than most QA pools.  Both in the array of
-> hardware, and in the use patterns, so things do get uncovered that
-> would not be seen otherwise.
->
-> > We could create a new MM-developer-only assertion.  Might even call it
-> > MM_BUG_ON().  With compile-time enablement but perhaps not a runtime
-> > switch.
-> >
-> > With nice simple semantics, please.  Like "it returns void" and "if you
-> > pass an expression with side-effects then you lose".  And "if you send
-> > a patch which produces warnings when CONFIG_MM_BUG_ON=n then you get to
-> > switch to windows95 for a month".
-> >
-> > Let's leave the mglru assertions in place for now and let's think about
-> > creating something more suitable, with a view to switching mglru over
-> > to that at a later time.
-> >
-> >
-> >
-> > But really, none of this addresses the core problem: *_BUG_ON() often
-> > kills the kernel.  So guess what we just did?  We killed the user's
-> > kernel at the exact time when we least wished to do so: when they have
-> > a bug to report to us.  So the thing is self-defeating.
-> >
-> > It's much much better to WARN and to attempt to continue.  This makes
-> > it much more likely that we'll get to hear about the kernel flaw.
->
-> I agree very much with this. We hear about warnings from users, they
-> don't go unnoticed, and several of these users are willing to spend
-> time to help get to the bottom of an issue. They may not know the
-> code, but plenty are willing to test various patches or scenarios.
+On Tue, Mar 29, 2022 at 7:45 AM Dipen Patel <dipenp@nvidia.com> wrote:
 
-Thanks, Justin. Glad to hear warnings are collected from the field.
+> This patch series introduces new subsystem called hardware timestamping
+> engine (HTE). It offers functionality such as timestamping through hardware
+> means in realtime. The HTE subsystem centralizes HTE provider and consumers
+> where providers can register themselves and the consumers can request
+> interested entity which could be lines, GPIO, signals or buses. The
+> HTE subsystem provides timestamp in nano seconds, having said that the provider
+> need to convert the timestamp if its not in that unit. There was upstream
+> discussion about the HTE at
+> https://lore.kernel.org/lkml/4c46726d-fa35-1a95-4295-bca37c8b6fe3@nvidia.com/
 
-Based on all the feedback, my action item is to replace all VM_BUG_ONs
-with VM_WARN_ON_ONCEs.
+I like this.
+
+Can you put it in a public git and make it eligible for Stephen Rothwell to
+pull into linux-next and ask him to do so, as we intend to merge this for
+v5.19?
+
+Yours,
+Linus Walleij
