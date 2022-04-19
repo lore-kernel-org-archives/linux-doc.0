@@ -2,59 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E609C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 03:06:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 477C9C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 03:18:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346129AbiDSDJV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Apr 2022 23:09:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37682 "EHLO
+        id S240069AbiDSDUw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Apr 2022 23:20:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346118AbiDSDJV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 23:09:21 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 844122DD4D;
-        Mon, 18 Apr 2022 20:06:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=SsJk7JK8mJoRcEXTenmsrGMKR0sbCwebkTrY6GmdZlg=; b=MKkF4Vkbg2Y77O3berH21bWVKV
-        NWg3ioyM6TsXWS3wS5RZRpNDBE2INsNyooWOHrB3H/fyi2ocVxWBDKP3XFMukIEVR1zRLyGzhAIU9
-        U2wNLMY3yDmKVY1HgL80LiMlaYoMhLkDbRYpzyZN3dZWdJ+vTUo29NsgsPnRPDiaZlq8wOW5jAh0e
-        kZfA+Dbdq84SR3igCJ9upua184fxmfcp0GG/QMLRX5flchXTeqzksRff/iu5hjPrOezhigHJ5x05j
-        XINGOLfYO6rhPcFkD4gadMbVzTBijuT1vynoK7G7UheC0l0q3d3zrxR1zduVJ/lquBKPwnMqeeKPW
-        IJmOBQqA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ngeCG-002jEl-4D; Tue, 19 Apr 2022 03:06:32 +0000
-Date:   Tue, 19 Apr 2022 04:06:32 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Bruno Moreira-Guedes <codeagain@codeagain.dev>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, outreachy@lists.linux.dev,
-        Bruno's Patch Watchbox <patch-reply@codeagain.dev>
-Subject: Re: [PATCH 2/2] Docs: Update kernel series in changes.rst
-Message-ID: <Yl4nOBlKnWIcGcYS@casper.infradead.org>
-References: <cover.1650336366.git.codeagain@codeagain.dev>
- <a124c3c34e627c124673640aed177c10e401b052.1650336366.git.codeagain@codeagain.dev>
+        with ESMTP id S229865AbiDSDUt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 23:20:49 -0400
+Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A1E3383;
+        Mon, 18 Apr 2022 20:18:06 -0700 (PDT)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
+ (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 19 Apr
+ 2022 11:17:59 +0800
+Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 19 Apr
+ 2022 11:17:57 +0800
+From:   Haowen Bai <baihaowen@meizu.com>
+To:     <corbet@lwn.net>, <akpm@linux-foundation.org>
+CC:     <yejiajian2018@email.szu.edu.cn>, <sfr@canb.auug.org.au>,
+        <caoyixuan2019@email.szu.edu.cn>, <skhan@linuxfoundation.org>,
+        <georgi.djakov@linaro.org>, <weizhenliang@huawei.com>,
+        <hanshenghong2019@email.szu.edu.cn>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Haowen Bai <baihaowen@meizu.com>
+Subject: [PATCH] doc/vm/page_owner.rst: Fix table display confusion
+Date:   Tue, 19 Apr 2022 11:17:56 +0800
+Message-ID: <1650338276-13687-1-git-send-email-baihaowen@meizu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a124c3c34e627c124673640aed177c10e401b052.1650336366.git.codeagain@codeagain.dev>
+Content-Type: text/plain
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 18, 2022 at 11:58:35PM -0300, Bruno Moreira-Guedes wrote:
-> @@ -7,7 +7,7 @@ Intro
->  =====
->  
->  This document is designed to provide a list of the minimum levels of
-> -software necessary to run the 4.x kernels.
-> +software necessary to run the 5.x kernels.
+After make htmldocs, the table which is made of tab will
+display all by line. so we make a standard table for STANDARD
+FORMAT SPECIFIERS description.
 
-We don't change the major version when we update the minimum required
-tooling ... why not change this once and for all to say:
+Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+---
+ Documentation/vm/page_owner.rst | 35 +++++++++++++++++++++--------------
+ 1 file changed, 21 insertions(+), 14 deletions(-)
 
-+software necessary to build the current kernel.
-
+diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+index 422d5fa99e84..9123e55669df 100644
+--- a/Documentation/vm/page_owner.rst
++++ b/Documentation/vm/page_owner.rst
+@@ -174,22 +174,29 @@ STANDARD FORMAT SPECIFIERS
+ 
+ For --sort option:
+ 
+-	KEY		LONG		DESCRIPTION
+-	p		pid		process ID
+-	tg		tgid		thread group ID
+-	n		name		task command name
+-	st		stacktrace	stack trace of the page allocation
+-	T		txt		full text of block
+-	ft		free_ts		timestamp of the page when it was released
+-	at		alloc_ts	timestamp of the page when it was allocated
++        ====            ==========      ============================================
++        KEY             LONG            DESCRIPTION
++        ====            ==========      ============================================
++        p               pid             process ID
++        tg              tgid            thread group ID
++        n               name            task command name
++        st              stacktrace      stack trace of the page allocation
++        T               txt             full text of block
++        ft              free_ts         timestamp of the page when it was released
++        at              alloc_ts        timestamp of the page when it was allocated
+         ator            allocator       memory allocator for pages
++        ====            ==========      ============================================
+ 
+ For --curl option:
+ 
+-	KEY		LONG		DESCRIPTION
+-	p		pid		process ID
+-	tg		tgid		thread group ID
+-	n		name		task command name
+-	f		free		whether the page has been released or not
+-	st		stacktrace	stack trace of the page allocation
++        ====            ===========     ============================================
++        KEY             LONG            DESCRIPTION
++        ====            ===========     ============================================
++        p               pid             process ID
++        tg              tgid            thread group ID
++        n               name            task command name
++        f               free            whether the page has been released or not
++        st              stacktrace      stack trace of the page allocation
+         ator            allocator       memory allocator for pages
++        ====            ===========     ============================================
++
+-- 
+2.7.4
 
