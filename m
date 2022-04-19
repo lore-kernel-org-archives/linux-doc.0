@@ -2,126 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC86EC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 13:58:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC695C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 14:13:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345034AbiDSOBL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Apr 2022 10:01:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36494 "EHLO
+        id S1343686AbiDSOP5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Apr 2022 10:15:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344830AbiDSOBH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 10:01:07 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25F0A38DBD;
-        Tue, 19 Apr 2022 06:58:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AA07461693;
-        Tue, 19 Apr 2022 13:58:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73840C385A5;
-        Tue, 19 Apr 2022 13:58:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650376704;
-        bh=sGN5CWJMdVz20am6iOdFUlCdx+o7gih1dOCoJNfeTSA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oVlUbHyYZrYiHdaKXoEt9i5RnHm0Tqyb/SexzIytdTBl35qudDnnNVGa1i2jiMyXC
-         EiT2Occbmv0R6ejqmALFC41DISyln6ioVQUxOiobhGuHEBRGmk895qCiGT3llLpgCS
-         DuAciLfgcCBmA6K9EUwaISHek/9dhN+cIDcMCx7WdivxTx1MPnQF5HZzzZvZ9Cwnvx
-         62Uki5HSRL/zTuf2lvogFTfDR6Lp4/b7t23mS7PaWA5w9XWLhuNcQNFlsl8HGlm8T/
-         oQ9nz++paPpgY3+W/RpjtfPgw3zZRXV/15bYCfriFjjuEbhwJljAk7bDa/MtAG3UYh
-         Z0199/1sNdoLw==
-Date:   Tue, 19 Apr 2022 14:58:17 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-Cc:     Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-        Vincenzo Frascino <Vincenzo.Frascino@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Fuad Tabba <tabba@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Vladimir Murzin <vladimir.murzin@arm.com>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64/sme: Add hwcap for Scalable Matrix Extension
-Message-ID: <Yl6/+baDhElVxwyC@sirena.org.uk>
-References: <20220414115544.36204-1-tianjia.zhang@linux.alibaba.com>
- <YlgNW0/ji6KlkyZo@sirena.org.uk>
- <e7a0d0d4-b6ca-6fec-df33-929961f0d43e@linux.alibaba.com>
+        with ESMTP id S1343586AbiDSOP5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 10:15:57 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4AF3396B5;
+        Tue, 19 Apr 2022 07:13:12 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id j70so3178642pgd.4;
+        Tue, 19 Apr 2022 07:13:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=3c9VdvftnzoWdGwuqhCOC9bUI0K0J9rSYfyqiSN2afM=;
+        b=fWAd8cl2jmc/Bxdi9Zu2be0CuLUL9Twfu6ZbRyece8VrA16qVxDeN4WorJTOLDxRHv
+         f55IZWiXayAarCHp+k6nOtsgqBUBuLvDqV03Nh1GkfyQJvmok2Wzn8eJ2rSO+kcu0mkQ
+         4VDKmuFPvNsDgluNSSOk+3RTmurL9esBNangjumoCJ0CJgTFFxKYq0nratBxtPAPXDxN
+         et45b8xJijJvlFwJlCEcKxa8uF77Y+83rx/ldn6eCAZPbTbqcRoWTqfLX3HheCtSvnq0
+         8qN2B2/ii09PuSyWDNVbn1KRKv3jC3AEe+YFUhCIK0ZxEpCil8u4anKKPdiK9Gd5s+92
+         O+xA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=3c9VdvftnzoWdGwuqhCOC9bUI0K0J9rSYfyqiSN2afM=;
+        b=5Ods7e+mPFti1r4u7SCvosU06MxXnPiGZiLqaOiImnOS1P+/0ELD37qpUiwYL/bciJ
+         zom1yo2WbEqmvQFGe8ZegXkjTwa2G6woUYoBuyfn475TadOhmAp/sZ8BcB8N2btJyYmI
+         MiawvCW7FVb7R0a/Y+bAu/qSnFKU5X9nL3pxmb9O62kUCUEWNQffFxYZIR0U1tF1HkUh
+         MaoS6jEFZXvTBzJoJMxJd7NAU+o3j91E/JLZivIfAnqcGRUnipa1D6fPsbxp+Gc1gBAN
+         kU2HyfeMz86ZgW304B2oN2eFN0b8Sa7Q5WOtTLDUqzPnvnn2eN44tbby5kKgVAaU5qxO
+         i13w==
+X-Gm-Message-State: AOAM532xmi5kNUUl4VKgfmvVYg3raMk69YnqlXDdS6hk+yymOOuQF535
+        ESYCazySSfhD7dV9w95PFJ4=
+X-Google-Smtp-Source: ABdhPJxot1TBDIfRbsfd75H0bwlDvRcfvNxXqtVyDCqz6F5Ft5Xdy7QKmrK0yznwSFhj17EppqbR7Q==
+X-Received: by 2002:a63:e315:0:b0:3a9:efa0:18a with SMTP id f21-20020a63e315000000b003a9efa0018amr9306970pgh.33.1650377592324;
+        Tue, 19 Apr 2022 07:13:12 -0700 (PDT)
+Received: from ?IPV6:240b:12:16e1:e200:9658:2d0f:e000:a321? ([240b:12:16e1:e200:9658:2d0f:e000:a321])
+        by smtp.gmail.com with ESMTPSA id q10-20020a056a00088a00b004f7ceff389esm18093287pfj.152.2022.04.19.07.13.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Apr 2022 07:13:11 -0700 (PDT)
+Message-ID: <67dca8f3-318b-808e-fac1-e9e69b87a027@gmail.com>
+Date:   Tue, 19 Apr 2022 23:13:08 +0900
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="y7+zdXbMAYrYfLfn"
-Content-Disposition: inline
-In-Reply-To: <e7a0d0d4-b6ca-6fec-df33-929961f0d43e@linux.alibaba.com>
-X-Cookie: That's what she said.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] docs/ja_JP/index: update section title in Japanese
+Content-Language: en-US
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org,
+        Tsugikazu Shibata <shibata@linuxfoundation.org>
+References: <20220419081813.6838-1-fujimotokosuke0@gmail.com>
+ <5a9c77ab-8627-b8e2-67bc-e7bd260654de@gmail.com>
+From:   Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+In-Reply-To: <5a9c77ab-8627-b8e2-67bc-e7bd260654de@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Yokosawa-san,
 
---y7+zdXbMAYrYfLfn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2022/04/19 20:52, Akira Yokosawa wrote:
+> [+Cc: Shibata-san, who originally picked the English title]
+>
+> Hi,
+>
+> On Tue, 19 Apr 2022 17:18:13 +0900,
+> Kosuke Fujimoto wrote:
+>> Update section title "Japanese Translation" in Japanese instead of English
+> Please explain _why_ do you think Japanese title is better.
+>
+> I think you want it to be consistent with other translations.
+Yes, this is to keep consistency with others. I will add the reason to 
+comment.
+>> Signed-off-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Akira Yokosawa <akiyks@gmail.com>
+>> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>> Cc: linux-doc@vger.kernel.org
+>> ---
+>>   Documentation/translations/ja_JP/index.rst | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/translations/ja_JP/index.rst
+>> index 20738c931d02..558a1f5642b0 100644
+>> --- a/Documentation/translations/ja_JP/index.rst
+>> +++ b/Documentation/translations/ja_JP/index.rst
+>> @@ -5,7 +5,7 @@
+>>   	\kerneldocCJKon
+>>   	\kerneldocBeginJP{
+>>   
+>> -Japanese translations
+>> +日本語翻訳
+> "日本語翻訳" sounds a little bit redundant to me.  I'd say "日本語訳".
+> What do you think?
+Yes, it sounds better to me as well.
+>          Thanks, Akira
+>
+>>   =====================>
+>>   .. toctree::
 
-On Fri, Apr 15, 2022 at 10:25:33AM +0800, Tianjia Zhang wrote:
-> On 4/14/22 8:02 PM, Mark Brown wrote:
-> > On Thu, Apr 14, 2022 at 07:55:44PM +0800, Tianjia Zhang wrote:
+Thanks,
 
-> > Why add something independently, especially given that there is no way
-> > for userspace to do anything constructive with the feature without the
-> > rest of the kernel support?  Any attempt to use SME instructions without
-> > kernel support will trap and generate a SIGILL even if the feature is
-> > present in hardware.
+Kosuke
 
-> Great job, I encountered the issue of invalid REVD (requires FEAT_SME)
-> instruction when developing SVE2 programs, so I plan to gradually
-> support SME in the kernel, thanks for your contribution, you can ignore
-> my patch.
-
-I see.  Unfortunately all the new registers mean that we really need to
-define all the ABI as soon as we enable anything and the only thing we
-can really skip out on when doing initial enablement is KVM (which I
-have in fact skipped for the time being, I'll look at that at some point
-after the initial support is landed).
-
-> In addition, I would like to ask a question, whether there is an
-> alternative SVE2 instruction for the REVD instruction that can complete
-> this operation, if the machine does not support SME.
-
-I'm not aware of anything, but I am mostly focused on the OS support
-rather than any of the actual mathematical operations that are more the
-point of these architecture features so I might be missing something.
-
-> > Do you have a system with SME that you're trying to use?  Review/testing
-> > on the current series would be appreciated.
-
-> Unfortunately, the value currently read by my machine ID_AA64PFR1_EL1
-> register is 0x121. It seems that the hardware does not support SME. Is
-> there any other help I can provide?
-
-Other than verifying that the series doesn't cause trouble for systems
-without SME=20
-
---y7+zdXbMAYrYfLfn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmJev/gACgkQJNaLcl1U
-h9D6Pwf5AXCOiooQjnPnliTaNN7/AbtJt2IfDB/g6sI7mk8sbxHv9T62E2BNQW9K
-7pG00JpxzBV/cjBTdT0JKgAK4Ze5I0OE8kO6rW2at9n6sKHKBTr3Adbu52KNs6CI
-wiWlZkTu6RVfy/TKHwsaw93QSJtSbo8LamAbADXSAcZ2BpdVsUvZsaVho/uLEth4
-lmd8iCnXhCpZrsyMuRx8sx6FSgizBGtxhWyhxK+1DqN8zEQxE2j2IE7SQiq9k0eI
-y3/ZF+cwQnAssmJQxS+smIdH6uBFpowl2t5CcUkE2rKIvF69rvun8tSHHDBnv1cK
-QTE+0+iGFwrWMHo0H63sSeZGs3qMig==
-=6+y1
------END PGP SIGNATURE-----
-
---y7+zdXbMAYrYfLfn--
