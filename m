@@ -2,181 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA225C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 01:25:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09EDCC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 01:47:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244218AbiDSB1s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Apr 2022 21:27:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38562 "EHLO
+        id S238363AbiDSBto (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Apr 2022 21:49:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245438AbiDSB1k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 21:27:40 -0400
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA2EA2AD7;
-        Mon, 18 Apr 2022 18:24:55 -0700 (PDT)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 19 Apr
- 2022 09:24:47 +0800
-Received: from [172.16.137.70] (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 19 Apr
- 2022 09:24:46 +0800
-Message-ID: <c16eb087-8a29-fcdc-07b1-5624cdfdb4ec@meizu.com>
-Date:   Tue, 19 Apr 2022 09:24:46 +0800
+        with ESMTP id S233223AbiDSBtn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Apr 2022 21:49:43 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 717AC1B7B8;
+        Mon, 18 Apr 2022 18:47:02 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id m132so28552794ybm.4;
+        Mon, 18 Apr 2022 18:47:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=lLQGg8TwxomVsyiOthnEB54HYudRJBTxrKHHeqKPgdw=;
+        b=R5P45tqBpzzZZGg7KhYR+2QQsVkmHUVg6rlmkdq5Q/3f+F7KOqqsLlcqij07+W+EYf
+         UkHarKPNSRl0a+lZ3Qc6eg/dAEuyEHTW644Huoh5ju0wukwSvL3hRKs0SDpmGx9mE92U
+         6I31tq6GAWsOWHdveXJFisHQ2UVga/Bo+OqUf7PviHF+VCwpcDKW+IGl8B9zlOWRAPY6
+         uY6FpLCrrK1uuADAAxSS35dusbllJowELnEvKnIpKFWoyffC7MDUSS2bRWvfpJDRJ3Kx
+         gViB+x+9RtW/jb0NYFonEjBDnYBKjCTDQYkShgaPfzrw0oHkLqXM3no51j5wn4yfIieT
+         A83Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=lLQGg8TwxomVsyiOthnEB54HYudRJBTxrKHHeqKPgdw=;
+        b=0ecVzvX4gy3FFfVumhDIuByse3LIJ3WkFJCK0xTfmUXxfIHD9j2jK5OOL9Tez0X14S
+         qESPlMiVtPUeOpnDMhUyLsENfIvy9OnWWDJsu8eTsMqfNj6176YqY2oQkZPkO6Shcixi
+         Hx0KNfy+aG+zSUwdyCisPLgjH0KJHKBlqNMGdUCnDU8RwUhcktGYd2kk9bq2t1Xr4I0J
+         ZbO+vNHGw6DKJGjIQJ/39exYWlElX2si7riqJig0na4qDD7Sv1IgHAc/yx/tAYQAYDs8
+         kz0FLwff8t4oydiSLVGlrbb7wdVBIllnCwZly13On6xYkFUWHFsW//194E61snJ8m5UE
+         o3Vw==
+X-Gm-Message-State: AOAM532uLWX+lSJ7EZsBR3mq8LY664mupFNQfYRXGc7uIey6SjY7U8zr
+        XZW6/+W+cwsqtwScwj3rC4Ggvd16AJXvKZxoQ+A=
+X-Google-Smtp-Source: ABdhPJzHjJGi2RdXoSc4Mqit2GgQZ7MM89Y05+RsKnrRtVobZQeUROUH/s7hVJZQEc55w0loqRJPs3spK5ZFG8n3ieA=
+X-Received: by 2002:a05:6902:1503:b0:644:c443:887f with SMTP id
+ q3-20020a056902150300b00644c443887fmr12047254ybu.104.1650332821630; Mon, 18
+ Apr 2022 18:47:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH V4] docs/zh_CN: sync with original text
- Documentation/vm/page_owner.rst
-To:     Alex Shi <seakeel@gmail.com>, <siyanteng01@gmail.com>
-CC:     <alexs@kernel.org>, <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <siyanteng@loongson.cn>
-References: <CAEensMx3qvL7qmT=PhxYoJ4v5P8USn1qyAGBcB1WR5R4FQ24og@mail.gmail.com>
- <1650274084-27871-1-git-send-email-baihaowen@meizu.com>
- <202ba5f5-f842-f4ce-dd67-c5166d94cc67@gmail.com>
-From:   baihaowen <baihaowen@meizu.com>
-In-Reply-To: <202ba5f5-f842-f4ce-dd67-c5166d94cc67@gmail.com>
+References: <202ba5f5-f842-f4ce-dd67-c5166d94cc67@gmail.com> <1650331438-4555-1-git-send-email-baihaowen@meizu.com>
+In-Reply-To: <1650331438-4555-1-git-send-email-baihaowen@meizu.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Tue, 19 Apr 2022 09:46:50 +0800
+Message-ID: <CAEensMz1BWx2arYAqo_g5_0w1z+m-X3nRYATmSMvZ44rb05w4Q@mail.gmail.com>
+Subject: Re: [PATCH V4] docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+To:     Haowen Bai <baihaowen@meizu.com>
+Cc:     Alex Shi <seakeel@gmail.com>, Alex Shi <alexs@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Yanteng Si <siyanteng@loongson.cn>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-在 4/18/22 8:41 PM, Alex Shi 写道:
-> Hi Haowen,
->
-> There are still some space error during the 'git apply'.
-> Could you like to fix them?
->
-> thanks
-> Alex
->
-> Applying: docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
->
-> .git/rebase-apply/patch:21: trailing whitespace.
->
-> 		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从 
->
-> .git/rebase-apply/patch:65: indent with spaces.
->
->         ======          ==========      ===================
->
-> .git/rebase-apply/patch:66: indent with spaces.
->
->         缩写键          全称键          描述
->
-> .git/rebase-apply/patch:67: indent with spaces.
->
->         ======          ==========      ===================
->
-> .git/rebase-apply/patch:68: indent with spaces.
->
->         p               pid             进程 ID
->
-> warning: squelched 16 whitespace errors
->
-> warning: 21 lines add whitespace errors.
->
->
->
-> On 4/18/22 17:28, Haowen Bai wrote:
->> As the tools/vm/page_owner_sort added some feature and original text
->> updated, sync the translation of zh_CN.
->>
->> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
->> ---
->> V1->V2: fix whitespace warning.
->> V2->V3: fix some tab Alignment issue.
->> V3->V4: fix sphinx warning
->>
->>  Documentation/translations/zh_CN/vm/page_owner.rst | 61 +++++++++++++++++++++-
->>  1 file changed, 60 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
->> index 9e951fabba9d..4d719547ce4f 100644
->> --- a/Documentation/translations/zh_CN/vm/page_owner.rst
->> +++ b/Documentation/translations/zh_CN/vm/page_owner.rst
->> @@ -103,14 +103,73 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
->>  		-m		按总内存排序
->>  		-p		按pid排序。
->>  		-P		按tgid排序。
->> +		-n		按任务名称排序。
->>  		-r		按内存释放时间排序。
->>  		-s		按堆栈跟踪排序。
->>  		-t		按时间排序（默认）。
->> +		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从 
->> +						**标准格式说明符** 部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
->> +						允许混合使用缩写键和全称键。
->> +
->> +		Examples:
->> +				./page_owner_sort <input> <output> --sort=n,+pid,-tgid
->> +				./page_owner_sort <input> <output> --sort=at
->>  
->>     其它函数:
->>  
->>  	Cull:
->> -		-c		通过比较堆栈跟踪而不是总块来进行剔除。
->> +		--cull <rules>
->> +				指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
->> +
->> +		<rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
->> +				符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的
->> +				STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
->>  
->> +		Examples:
->> +				./page_owner_sort <input> <output> --cull=stacktrace
->> +				./page_owner_sort <input> <output> --cull=st,pid,name
->> +				./page_owner_sort <input> <output> --cull=n,f
->>  	Filter:
->>  		-f		过滤掉内存已被释放的块的信息。
->> +
->> +	Select:
->> +		--pid <pidlist>		通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
->> +		--tgid <tgidlist>	通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
->> +		--name <cmdlist>	按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
->> +
->> +		<pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
->> +
->> +
->> +		Examples:
->> +				./page_owner_sort <input> <output> --pid=1
->> +				./page_owner_sort <input> <output> --tgid=1,2,3
->> +				./page_owner_sort <input> <output> --name name1,name2
->> +
->> +标准格式说明符
->> +==============
->> +
->> +--sort 选项:
->> +
->> +        ======          ==========      ===================
->> +        缩写键          全称键          描述
->> +        ======          ==========      ===================
->> +        p               pid             进程 ID
->> +        tg              tgid            线程组 ID
->> +        n               name            任务名称
->> +        st              stacktrace      页面分配的调用栈
->> +        T               txt             块的全文
->> +        ft              free_ts         页面被释放的时间戳
->> +        at              alloc_ts        页面分配的时间戳
->> +        ======          ==========      ===================
->> +
->> +--curl 选项:
->> +
->> +        ======          ==========      ==================
->> +        缩写键          全称键          描述
->> +        ======          ==========      ==================
->> +        p               pid             进程 ID
->> +        tg              tgid            线程组 ID
->> +        n               name            任务名称
->> +        f               free            该页面是否已被释放
->> +        st              stacktrace      页面分配的调用栈
->> +        ======          ==========      ==================
-hi, Alex Shi
-yes, resend again. Thanks!
-
--- 
-Haowen Bai
-
+SGFvd2VuIEJhaSA8YmFpaGFvd2VuQG1laXp1LmNvbT4g5LqOMjAyMuW5tDTmnIgxOeaXpeWRqOS6
+jCAwOToyNOWGmemBk++8mg0KPg0KPiBBcyB0aGUgdG9vbHMvdm0vcGFnZV9vd25lcl9zb3J0IGFk
+ZGVkIHNvbWUgZmVhdHVyZSBhbmQgb3JpZ2luYWwgdGV4dA0KPiB1cGRhdGVkLCBzeW5jIHRoZSB0
+cmFuc2xhdGlvbiBvZiB6aF9DTi4NCldlIG5lZWQgYSBmaXggdGFnLCBhbmQgYWxsIHlvdSBuZWVk
+IHRvIGRvIGlzIGZpbmQgb3V0IHdoaWNoIHVwZGF0ZQ0KcGF0Y2ggY29ycmVzcG9uZHMgdG8gdGhl
+IG9yaWdpbmFsIGRvY3VtZW50LCBhbmQgdGhlbiBwdXQgaXQgaW4gYQ0KZm9ybWF0IHNpbWlsYXIg
+dG8gdGhlIGZvbGxvd2luZ++8mg0KDQogICAgICAgIENvbW1pdCBlMjFkMjE3MGYzNjYwMmFlMjcw
+OCAoInZpZGVvOiByZW1vdmUgdW5uZWNlc3NhcnkNCiAgICAgICAgcGxhdGZvcm1fc2V0X2RydmRh
+dGEoKSIpIHJlbW92ZWQgdGhlIHVubmVjZXNzYXJ5DQogICAgICAgIHBsYXRmb3JtX3NldF9kcnZk
+YXRhKCksIGJ1dCBsZWZ0IHRoZSB2YXJpYWJsZSAiZGV2IiB1bnVzZWQsDQogICAgICAgIGRlbGV0
+ZSBpdC4NCnJlZjo6IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3Byb2Nlc3Mvc3Vi
+bWl0dGluZy1wYXRjaGVzLnJzdA0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBIYW93ZW4gQmFpIDxiYWlo
+YW93ZW5AbWVpenUuY29tPg0KPiAtLS0NCj4gVjEtPlYyOiBmaXggd2hpdGVzcGFjZSB3YXJuaW5n
+Lg0KPiBWMi0+VjM6IGZpeCBzb21lIHRhYiBBbGlnbm1lbnQgaXNzdWUuDQo+IFYzLT5WNDogZml4
+IHNwaGlueCB3YXJuaW5nDQpJZiBJIHJlbWVtYmVyIGNvcnJlY3RseSwgdGhpcyBzaG91bGQgYmUN
+Cg0KVjQtPlY1Onh4eHh4eHh4eA0KDQpHZW5lcmFsbHksIHdlIGRvIG5vdCByZXNlbmQuIDopDQoN
+ClRoYW5rcywNCllhbnRlbmcNCj4NCj4gIERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NO
+L3ZtL3BhZ2Vfb3duZXIucnN0IHwgNjEgKysrKysrKysrKysrKysrKysrKysrLQ0KPiAgMSBmaWxl
+IGNoYW5nZWQsIDYwIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4NCj4gZGlmZiAtLWdp
+dCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL3BhZ2Vfb3duZXIucnN0IGIv
+RG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vcGFnZV9vd25lci5yc3QNCj4gaW5k
+ZXggOWU5NTFmYWJiYTlkLi40ZDcxOTU0N2NlNGYgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRp
+b24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL3BhZ2Vfb3duZXIucnN0DQo+ICsrKyBiL0RvY3VtZW50
+YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL3BhZ2Vfb3duZXIucnN0DQo+IEBAIC0xMDMsMTQg
+KzEwMyw3MyBAQCBwYWdlIG93bmVy5Zyo6buY6K6k5oOF5Ya15LiL5piv56aB55So55qE44CC5omA
+5Lul77yM5aaC5p6c5L2g5oOz5L2/55So5a6D77yM5L2gDQo+ICAgICAgICAgICAgICAgICAtbSAg
+ICAgICAgICAgICAg5oyJ5oC75YaF5a2Y5o6S5bqPDQo+ICAgICAgICAgICAgICAgICAtcCAgICAg
+ICAgICAgICAg5oyJcGlk5o6S5bqP44CCDQo+ICAgICAgICAgICAgICAgICAtUCAgICAgICAgICAg
+ICAg5oyJdGdpZOaOkuW6j+OAgg0KPiArICAgICAgICAgICAgICAgLW4gICAgICAgICAgICAgIOaM
+ieS7u+WKoeWQjeensOaOkuW6j+OAgg0KPiAgICAgICAgICAgICAgICAgLXIgICAgICAgICAgICAg
+IOaMieWGheWtmOmHiuaUvuaXtumXtOaOkuW6j+OAgg0KPiAgICAgICAgICAgICAgICAgLXMgICAg
+ICAgICAgICAgIOaMieWghuagiOi3n+i4quaOkuW6j+OAgg0KPiAgICAgICAgICAgICAgICAgLXQg
+ICAgICAgICAgICAgIOaMieaXtumXtOaOkuW6j++8iOm7mOiupO+8ieOAgg0KPiArICAgICAgICAg
+ICAgICAgLS1zb3J0IDxvcmRlcj4gIOaMh+WumuaOkuW6j+mhuuW6j+OAguaOkuW6j+ivreazleaY
+ryBbK3wtXWtleVssWyt8LV1rZXlbLC4uLl1dLiDku44NCj4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgKirmoIflh4bmoLzlvI/or7TmmI7nrKYqKiDpg6jl
+iIbpgInmi6nkuIDkuKrplK7jgIIiKyIg5piv5Y+v6YCJ55qE77yM5Zug5Li66buY6K6k5pa55ZCR
+5piv5aKe5Yqg5pWw5a2X5oiW5a2X5YW46aG65bqP44CCDQo+ICsgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIOWFgeiuuOa3t+WQiOS9v+eUqOe8qeWGmemUruWS
+jOWFqOensOmUruOAgg0KPiArDQo+ICsgICAgICAgICAgICAgICBFeGFtcGxlczoNCj4gKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAuL3BhZ2Vfb3duZXJfc29ydCA8aW5wdXQ+IDxvdXRw
+dXQ+IC0tc29ydD1uLCtwaWQsLXRnaWQNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAuL3BhZ2Vfb3duZXJfc29ydCA8aW5wdXQ+IDxvdXRwdXQ+IC0tc29ydD1hdA0KPg0KPiAgICAg
+5YW25a6D5Ye95pWwOg0KPg0KPiAgICAgICAgIEN1bGw6DQo+IC0gICAgICAgICAgICAgICAtYyAg
+ICAgICAgICAgICAg6YCa6L+H5q+U6L6D5aCG5qCI6Lef6Liq6ICM5LiN5piv5oC75Z2X5p2l6L+b
+6KGM5YmU6Zmk44CCDQo+ICsgICAgICAgICAgICAgICAtLWN1bGwgPHJ1bGVzPg0KPiArICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIOaMh+Wumuetm+mAieinhOWImeOAguetm+mAieivreaz
+leaYryBrZXlbLGtleVssLi4uXV3jgILlnKgqKuagh+WHhuagvOW8j+ivtOaYjuespioq6YOo5YiG
+6YCJ5oup5LiA5Liq5aSa5a2X5q+N6ZSuDQo+ICsNCj4gKyAgICAgICAgICAgICAgIDxydWxlcz4g
+5piv6YCX5Y+35YiG6ZqU5YiX6KGo5b2i5byP55qE5Y2V5Liq5Y+C5pWw77yM5a6D5o+Q5L6b5LqG
+5LiA56eN5oyH5a6a5Y2V5Liq562b6YCJ6KeE5YiZ55qE5pa55rOV44CC5LiL6Z2i55qEKirmoIfl
+h4bmoLzlvI/or7TmmI4NCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDnrKYqKumD
+qOWIhuaPj+i/sOS6huWPr+ivhuWIq+eahOWFs+mUruWtl+OAgjxydWxlcz4g5Y+v5Lul55Sx6ZSu
+IGsxLGsyLCAuLi4g6aG65bqP5oyH5a6a77yM5aaC5LiL6Z2i55qEDQo+ICsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgU1RBTkRBUkQgU09SVCBLRVlTIOmDqOWIhuaJgOi/sOOAguWFgeiu
+uOa3t+WQiOS9v+eUqOe8qeWGmeW9ouW8j+WSjOWujOaVtOW9ouW8j+eahOmUruOAgg0KPg0KPiAr
+ICAgICAgICAgICAgICAgRXhhbXBsZXM6DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgLi9wYWdlX293bmVyX3NvcnQgPGlucHV0PiA8b3V0cHV0PiAtLWN1bGw9c3RhY2t0cmFjZQ0K
+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC4vcGFnZV9vd25lcl9zb3J0IDxpbnB1
+dD4gPG91dHB1dD4gLS1jdWxsPXN0LHBpZCxuYW1lDQo+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgLi9wYWdlX293bmVyX3NvcnQgPGlucHV0PiA8b3V0cHV0PiAtLWN1bGw9bixmDQo+
+ICAgICAgICAgRmlsdGVyOg0KPiAgICAgICAgICAgICAgICAgLWYgICAgICAgICAgICAgIOi/h+a7
+pOaOieWGheWtmOW3suiiq+mHiuaUvueahOWdl+eahOS/oeaBr+OAgg0KPiArDQo+ICsgICAgICAg
+U2VsZWN0Og0KPiArICAgICAgICAgICAgICAgLS1waWQgPHBpZGxpc3Q+ICAgICAgICAg6YCa6L+H
+IHBpZCDov5vooYzpgInmi6njgILov5nlsIbpgInmi6nov5vnqIsgSUQg5Y+35Ye6546w5ZyoIDxw
+aWRsaXN0PiDkuK3nmoTlnZfjgIINCj4gKyAgICAgICAgICAgICAgIC0tdGdpZCA8dGdpZGxpc3Q+
+ICAgICAgIOmAmui/hyB0Z2lkIOi/m+ihjOmAieaLqeOAgui/meWwhumAieaLqee6v+eoi+e7hCBJ
+RCDlj7flh7rnjrDlnKggPHRnaWRsaXN0PiDkuK3nmoTlnZfjgIINCj4gKyAgICAgICAgICAgICAg
+IC0tbmFtZSA8Y21kbGlzdD4gICAgICAgIOaMieS7u+WKoeWQjeensOmAieaLqeOAgui/meWwhumA
+ieaLqeS7u+WKoeWQjeensOWHuueOsOWcqCA8Y21kbGlzdD4g5Lit55qE5Z2X44CCDQo+ICsNCj4g
+KyAgICAgICAgICAgICAgIDxwaWRsaXN0PuOAgTx0Z2lkbGlzdD7jgIE8Y21kbGlzdD7mmK/pgJfl
+j7fliIbpmpTliJfooajlvaLlvI/nmoTljZXlj4LmlbDvvIzlroPmj5DkvpvkuobkuIDnp43mjIfl
+rprljZXkuKrpgInmi6nop4TliJnnmoTmlrnms5XjgIINCj4gKw0KPiArDQo+ICsgICAgICAgICAg
+ICAgICBFeGFtcGxlczoNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAuL3BhZ2Vf
+b3duZXJfc29ydCA8aW5wdXQ+IDxvdXRwdXQ+IC0tcGlkPTENCj4gKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAuL3BhZ2Vfb3duZXJfc29ydCA8aW5wdXQ+IDxvdXRwdXQ+IC0tdGdpZD0x
+LDIsMw0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC4vcGFnZV9vd25lcl9zb3J0
+IDxpbnB1dD4gPG91dHB1dD4gLS1uYW1lIG5hbWUxLG5hbWUyDQo+ICsNCj4gK+agh+WHhuagvOW8
+j+ivtOaYjuespg0KPiArPT09PT09PT09PT09PT0NCj4gKw0KPiArLS1zb3J0IOmAiemhuToNCj4g
+Kw0KPiArICAgICAgICA9PT09PT0gICAgICAgICAgPT09PT09PT09PSAgICAgID09PT09PT09PT09
+PT09PT09PT0NCj4gKyAgICAgICAg57yp5YaZ6ZSuICAgICAgICAgIOWFqOensOmUriAgICAgICAg
+ICDmj4/ov7ANCj4gKyAgICAgICAgPT09PT09ICAgICAgICAgID09PT09PT09PT0gICAgICA9PT09
+PT09PT09PT09PT09PT09DQo+ICsgICAgICAgIHAgICAgICAgICAgICAgICBwaWQgICAgICAgICAg
+ICAg6L+b56iLIElEDQo+ICsgICAgICAgIHRnICAgICAgICAgICAgICB0Z2lkICAgICAgICAgICAg
+57q/56iL57uEIElEDQo+ICsgICAgICAgIG4gICAgICAgICAgICAgICBuYW1lICAgICAgICAgICAg
+5Lu75Yqh5ZCN56ewDQo+ICsgICAgICAgIHN0ICAgICAgICAgICAgICBzdGFja3RyYWNlICAgICAg
+6aG16Z2i5YiG6YWN55qE6LCD55So5qCIDQo+ICsgICAgICAgIFQgICAgICAgICAgICAgICB0eHQg
+ICAgICAgICAgICAg5Z2X55qE5YWo5paHDQo+ICsgICAgICAgIGZ0ICAgICAgICAgICAgICBmcmVl
+X3RzICAgICAgICAg6aG16Z2i6KKr6YeK5pS+55qE5pe26Ze05oizDQo+ICsgICAgICAgIGF0ICAg
+ICAgICAgICAgICBhbGxvY190cyAgICAgICAg6aG16Z2i5YiG6YWN55qE5pe26Ze05oizDQo+ICsg
+ICAgICAgID09PT09PSAgICAgICAgICA9PT09PT09PT09ICAgICAgPT09PT09PT09PT09PT09PT09
+PQ0KPiArDQo+ICstLWN1cmwg6YCJ6aG5Og0KPiArDQo+ICsgICAgICAgID09PT09PSAgICAgICAg
+ICA9PT09PT09PT09ICAgICAgPT09PT09PT09PT09PT09PT09DQo+ICsgICAgICAgIOe8qeWGmemU
+riAgICAgICAgICDlhajnp7DplK4gICAgICAgICAg5o+P6L+wDQo+ICsgICAgICAgID09PT09PSAg
+ICAgICAgICA9PT09PT09PT09ICAgICAgPT09PT09PT09PT09PT09PT09DQo+ICsgICAgICAgIHAg
+ICAgICAgICAgICAgICBwaWQgICAgICAgICAgICAg6L+b56iLIElEDQo+ICsgICAgICAgIHRnICAg
+ICAgICAgICAgICB0Z2lkICAgICAgICAgICAg57q/56iL57uEIElEDQo+ICsgICAgICAgIG4gICAg
+ICAgICAgICAgICBuYW1lICAgICAgICAgICAg5Lu75Yqh5ZCN56ewDQo+ICsgICAgICAgIGYgICAg
+ICAgICAgICAgICBmcmVlICAgICAgICAgICAg6K+l6aG16Z2i5piv5ZCm5bey6KKr6YeK5pS+DQo+
+ICsgICAgICAgIHN0ICAgICAgICAgICAgICBzdGFja3RyYWNlICAgICAg6aG16Z2i5YiG6YWN55qE
+6LCD55So5qCIDQo+ICsgICAgICAgID09PT09PSAgICAgICAgICA9PT09PT09PT09ICAgICAgPT09
+PT09PT09PT09PT09PT09DQo+IC0tDQo+IDIuNy40DQo+DQo=
