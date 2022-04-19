@@ -2,127 +2,260 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 385B5C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 14:59:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C32AFC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 16:39:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346934AbiDSPCE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Apr 2022 11:02:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53236 "EHLO
+        id S1354760AbiDSQly (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Apr 2022 12:41:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242560AbiDSPCD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 11:02:03 -0400
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF8D03B033;
-        Tue, 19 Apr 2022 07:59:20 -0700 (PDT)
-Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-d6e29fb3d7so17776611fac.7;
-        Tue, 19 Apr 2022 07:59:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=txu5qF77kz021syUspWnSzVq95Qu7gMs2hI1GWgdN0g=;
-        b=BDcVCy0mQEGbuXPpCkJme82wpCfSVxCgreSd1AQrcG8cDczRdYp6fo63Zl1UesunPw
-         U+7T3oBEdXRDpEg2KWIKa7WShBAA+F6PTR1cIET+TL7hiJpdY5dcimQKuRMq/tT/LXan
-         JqOlL1xYoi4+pfxn//1yfmGhfJKw41MR5D28CjSMGWBLL6EcSv7cebg4hlEdqKKDrDKl
-         lHBIoE3gp2GlIZeRx8yEJThzNHeVJblMX9/2Dmo0yQ+3xRfcDzAErd6DCNTAISNfsAFw
-         II1R2VA/PxqGjA52stjrt2fjgMj1ZAZmf2WHvwt8D3qOCAIPe6DyOldDy9ZLlQGvH95K
-         /5xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=txu5qF77kz021syUspWnSzVq95Qu7gMs2hI1GWgdN0g=;
-        b=beoMY7XLA1nNNjmezjyVNsMX/7vdXSPQXxRfwImK3IMig0XwGByuweTo78gpH/LxEm
-         igYDk7sniiW33FzTEdB79eLv02CAaUYfxOLLGY2tkTteHgbMGnQri6xkUaFk/lIXGrz/
-         pF4O+yty0zU20Rw1souL/Pm5sl5HIfa84fPiGE1yRO76cdcof3ZmUVTQS0CXe/3683eQ
-         g5S0T71xNaUso0nYfKyaR1aJR3Y3ECj7sYdaARAM/1eogTTH2KzpR6I0mS99LrVPQp8J
-         N7elOVxJL7MGdzRt9VtKQ/kei0pCs6yJ2u6jpQIOEL9JV1Jc7P5gqD7mv2IrFXXQSzn4
-         jxAw==
-X-Gm-Message-State: AOAM530BdSFgdTg2WIgkRY+wjQk9x0csT0vFSCPt9XUlJ6WN0RKn0MfI
-        K+xH7fNdsdlUJrfl1KsSCzO5Rdw3V2NGlTU7DAwTzV/7
-X-Google-Smtp-Source: ABdhPJwkeTzLw742f1pLT1h5HcgounlwYPVNsuzflB54s8eFTAPlS5s6EXzaHdH41CdsZRH5FTve/PqKvS145BOY6YE=
-X-Received: by 2002:a05:6870:311d:b0:de:9b6c:362b with SMTP id
- v29-20020a056870311d00b000de9b6c362bmr8077760oaa.200.1650380360073; Tue, 19
- Apr 2022 07:59:20 -0700 (PDT)
+        with ESMTP id S1354747AbiDSQlt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 12:41:49 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60BB41583C;
+        Tue, 19 Apr 2022 09:39:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650386346; x=1681922346;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=9vli4iYZWjS13tNYw2fyNdEXM3eToMaMHVWZqh/R3S4=;
+  b=gYWvzDBWgbUtwNXKXYcjRWXTKBjVLEXlix5zdsr5hHwXmxbQp6qY0CiO
+   lJbC6QApb8ijybk0493wcgOhhLqXFsNkDmyQLZzlVvPr4DnyT3I9JID3J
+   CAIgveyvmIHM4BOJae+GgsE69RSUU2BSjWkMGwzzNwJQuyiQ3NNGBwyWX
+   iLJQGxgTZITbz3U7/n15tV77XSD11T4ko3QawB9j6IIwO4YhRsGB+iEiO
+   EtyEL9WXger/8qZm4nwMQEC0jkIvgnSKe7GTf8QMcZMHD8BoLeaVxJCcD
+   VNzTfkLX+RGUrkEWX9A5CkQE9V1zHjG0cWC58dwW80mIddUpyfhjNaXtD
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="245702516"
+X-IronPort-AV: E=Sophos;i="5.90,273,1643702400"; 
+   d="scan'208";a="245702516"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2022 09:39:05 -0700
+X-IronPort-AV: E=Sophos;i="5.90,273,1643702400"; 
+   d="scan'208";a="554802124"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2022 09:39:05 -0700
+From:   Tony Luck <tony.luck@intel.com>
+To:     hdegoede@redhat.com, markgross@kernel.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        corbet@lwn.net, gregkh@linuxfoundation.org,
+        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
+        ashok.raj@intel.com, tony.luck@intel.com, rostedt@goodmis.org,
+        dan.j.williams@intel.com, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        patches@lists.linux.dev, ravi.v.shankar@intel.com
+Subject: [PATCH v3 00/11] Introduce In Field Scan driver
+Date:   Tue, 19 Apr 2022 09:38:48 -0700
+Message-Id: <20220419163859.2228874-1-tony.luck@intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220407191347.9681-1-jithu.joseph@intel.com>
+References: <20220407191347.9681-1-jithu.joseph@intel.com>
 MIME-Version: 1.0
-References: <20220415195027.305019-1-tales.aparecida@gmail.com> <20220415195027.305019-2-tales.aparecida@gmail.com>
-In-Reply-To: <20220415195027.305019-2-tales.aparecida@gmail.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Tue, 19 Apr 2022 10:59:09 -0400
-Message-ID: <CADnq5_O9rV+42=7Lyy7dAwVZkBoxJgmwn0oavzN1pVBmKFLfcA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Documentation/gpu: Add entries to amdgpu glossary
-To:     Tales Lelo da Aparecida <tales.aparecida@gmail.com>
-Cc:     Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, andrealmeid@riseup.net
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Applied the series with minor fix to capitalize the U in Compute Unit.  Thanks!
+Longer description of what this does, and why it is useful in the v2 cover
+letter here:
+  https://lore.kernel.org/all/20220407191347.9681-1-jithu.joseph@intel.com/
 
-Alex
+But the TL;DR version is this driver loads scan test files that can
+check whether silicon in a CPU core is still running correctly. It
+is expected that these tests would be run several times per day to
+catch problems as silicon ages.
 
-On Fri, Apr 15, 2022 at 3:52 PM Tales Lelo da Aparecida
-<tales.aparecida@gmail.com> wrote:
->
-> Add missing acronyms to the amdgppu glossary.
->
-> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/1939#note_1309737
-> Signed-off-by: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
-> ---
->  Documentation/gpu/amdgpu/amdgpu-glossary.rst | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->
-> diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> index 859dcec6c6f9..48829d097f40 100644
-> --- a/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> +++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> @@ -8,12 +8,19 @@ we have a dedicated glossary for Display Core at
->
->  .. glossary::
->
-> +    active_cu_number
-> +      The number of CUs that are active on the system.  The number of active
-> +      CUs may be less than SE * SH * CU depending on the board configuration.
-> +
->      CP
->        Command Processor
->
->      CPLIB
->        Content Protection Library
->
-> +    CU
-> +      Compute unit
-> +
->      DFS
->        Digital Frequency Synthesizer
->
-> @@ -74,6 +81,12 @@ we have a dedicated glossary for Display Core at
->      SDMA
->        System DMA
->
-> +    SE
-> +      Shader Engine
-> +
-> +    SH
-> +      SHader array
-> +
->      SMU
->        System Management Unit
->
-> --
-> 2.35.1
->
+I'm posting this update because I missed many major issues when I added
+my review tag. So I have a moral obligation to fix up the things that
+I missed.
+
+Changes since V2:
+
+Dan Williams (offline):
+----------------------
+1) Provided the clue to split into a tiny driver that enumerates and
+   registers the device. Then the IFS driver can attach to that an behave
+   much more like a normal driver (original idea from Andy Lutomirski,
+   used for pmem/nvdimms)
+
+2 .. many) Lots more pointers, tips, and general good guidance to make both
+   the code and commit comments better and easier to understand.
+
+Boris:
+-----
+1) Add "intel_" prefixes to the two functions moving to wider scope.
+
+Done.
+
+2) Move the declarations from <asm/microcode_intel.h> to <asm/cpu.h>
+
+Done.
+
+3) intel_cpu_signatures_match() is small enough to be "inline".
+
+Done.
+
+Greg:
+----
+1) Is the firmware already submitted to the linux-firmware project for
+   inclusion there?
+   If not, where should a user get it from?
+
+The scan files will be distributed by Intel on Github in much the
+same way that microcode is distributed today.
+
+2) > +struct ifs_binary ifs_binary;
+
+   Please no static memory.  Use the driver model properly which does not
+   want you to do this at all.
+
+   You should not need this at all.  If you do, something is wrong as you
+   are tying the lifecycle of the memory to the code, not to the device.
+
+Moved this (and ifs_test) to dynamic allocation using devm_kzalloc()
+and attaching the resulting pointer to the device with dev_set_drvdata().
+
+3) > +static ssize_t details_show(struct device *dev,
+   > +			    struct device_attribute *attr,
+   > +			    char *buf)
+   > +{
+   > +	int ret;
+   > +
+   > +	if (down_trylock(&ifs_sem))
+   > +		return -EBUSY;
+
+   Why do you care about locking here at all?
+
+   > +
+   > +	ret = sysfs_emit(buf, "%#llx\n", ifs_test.scan_details);
+   > +	up(&ifs_sem);
+
+   What are you protecting?  The value can change right after the lock is
+   released, so who cares?
+
+Removed locking from status and details show() functions. Running a test
+is synchronous. So:
+  # echo 3 > run_test
+  # cat status
+  # cat details
+will give the results of the core 3 test as expected. It is up to the user
+to not do dumb things like reading status/details from another process in
+parallel with running tests.
+
+4) > +	if (!ifs_binary.loaded) {
+   > +		dev_info(&ifs_pdev->dev, "Load scan binary using driver bind interface\n");
+
+   Do not allow userspace to spam kernel logs for no reason :(
+
+   sysfs files are not "help files" in the kernel.
+
+Spam removed.
+
+5) > +void ifs_sysfs_add(void)
+   > +{
+   > +	ifs_pdev->dev.groups = plat_ifs_groups;
+
+   Why do you have a single global structure?
+
+All instances of the driver for different tests can use the same files
+and functions. They use "struct ifs_data *ifsd = dev_get_drvdata(dev);"
+to operate on the correct driver instance.
+
+6) > +KernelVersion:	5.19.0
+
+   No need for ".0"
+
+Removed.
+
+7) > +		For e.g to test cpu5 do echo 5 > /sys/devices/platform/intel_ifs/run_test
+
+   So core numbers are different than cpu numbers here?  How are users
+   going to map them?
+
+Added some extra text here to say that tests are per core, but any thread
+on the core can be used to run the test. Should I also point people at
+/sys/devices/system/cpu/cpu#/topology/thread_siblings_list? It seems
+easy for users to get a list of cores with a script like:
+$ cores=$(cat /sys/devices/system/cpu/cpu*/topology/thread_siblings_list | sed -e 's/,.*//' | sort -n | uniq)
+
+8) > +Description:	Version of loaded IFS binary image.
+
+   In what format?
+
+Added "(hexadecimal)". Also added code (and Docs) to print "none" if the load
+of the scan file failed.
+
+9) > +Description:	echo "intel_ifs" to reload IFS image.
+
+   Huh?  Why are you using a common sysfs file for this type of attribute?
+   Please do not do so, make it "reload" or something like that.
+
+Ok. Added a "reload" file like microcode. (Though using driver bind/unbind
+also works).
+
+10) > +Description:	IFS tunable parameter that user can modify before
+   > +		the scan run if they wish to override default value.
+
+   And where are those parameters documented?  What are valid values here?
+
+Dropped both the "noirq" and "retry" parameters. I think they now have sane
+defaults. If Jithu/Ashok have a good use case, they can send a patch to add
+them back.
+
+-Tony
+
+
+Jithu Joseph (7):
+  x86/microcode/intel: Expose collect_cpu_info_early() for IFS
+  platform/x86/intel/ifs: Read IFS firmware image
+  platform/x86/intel/ifs: Check IFS Image sanity
+  platform/x86/intel/ifs: Authenticate and copy to secured memory
+  platform/x86/intel/ifs: Add scan test support
+  platform/x86/intel/ifs: Add IFS sysfs interface
+  platform/x86/intel/ifs: add ABI documentation for IFS
+
+Tony Luck (4):
+  Documentation: In-Field Scan
+  platform/x86/intel/ifs: Create device for Intel IFS (In Field Scan)
+  platform/x86/intel/ifs: Add stub driver for In-Field Scan
+  trace: platform/x86/intel/ifs: Add trace point to track Intel IFS
+    operations
+
+ .../ABI/testing/sysfs-platform-intel-ifs      |  39 ++
+ Documentation/x86/ifs.rst                     | 101 ++++++
+ Documentation/x86/index.rst                   |   1 +
+ MAINTAINERS                                   |   8 +
+ arch/x86/include/asm/cpu.h                    |  18 +
+ arch/x86/kernel/cpu/intel.c                   |  32 ++
+ arch/x86/kernel/cpu/microcode/intel.c         |  59 +---
+ drivers/platform/x86/intel/Kconfig            |   1 +
+ drivers/platform/x86/intel/Makefile           |   1 +
+ drivers/platform/x86/intel/ifs/Kconfig        |  16 +
+ drivers/platform/x86/intel/ifs/Makefile       |   5 +
+ drivers/platform/x86/intel/ifs/core.c         |  74 ++++
+ drivers/platform/x86/intel/ifs/ifs.h          | 103 ++++++
+ .../platform/x86/intel/ifs/intel_ifs_device.c |  50 +++
+ drivers/platform/x86/intel/ifs/load.c         | 265 ++++++++++++++
+ drivers/platform/x86/intel/ifs/runtest.c      | 333 ++++++++++++++++++
+ drivers/platform/x86/intel/ifs/sysfs.c        | 151 ++++++++
+ include/trace/events/intel_ifs.h              |  38 ++
+ 18 files changed, 1243 insertions(+), 52 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-platform-intel-ifs
+ create mode 100644 Documentation/x86/ifs.rst
+ create mode 100644 drivers/platform/x86/intel/ifs/Kconfig
+ create mode 100644 drivers/platform/x86/intel/ifs/Makefile
+ create mode 100644 drivers/platform/x86/intel/ifs/core.c
+ create mode 100644 drivers/platform/x86/intel/ifs/ifs.h
+ create mode 100644 drivers/platform/x86/intel/ifs/intel_ifs_device.c
+ create mode 100644 drivers/platform/x86/intel/ifs/load.c
+ create mode 100644 drivers/platform/x86/intel/ifs/runtest.c
+ create mode 100644 drivers/platform/x86/intel/ifs/sysfs.c
+ create mode 100644 include/trace/events/intel_ifs.h
+
+
+base-commit: b2d229d4ddb17db541098b83524d901257e93845
+-- 
+2.35.1
+
