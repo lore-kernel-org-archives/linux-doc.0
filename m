@@ -2,94 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B8C2C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 14:59:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 385B5C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 14:59:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345605AbiDSPBm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Apr 2022 11:01:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52844 "EHLO
+        id S1346934AbiDSPCE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Apr 2022 11:02:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242560AbiDSPBl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 11:01:41 -0400
-Received: from m228-62.mailgun.net (m228-62.mailgun.net [159.135.228.62])
-        by lindbergh.monkeyblade.net (Postfix) with UTF8SMTPS id 23EE93B029
-        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 07:58:58 -0700 (PDT)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=codeagain.dev; q=dns/txt;
- s=smtp; t=1650380338; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Subject: To: To: From: From: Date:
- Sender: Sender; bh=GjGIZv1fDSI8+XOsFgpIg9UmNpf9tCa3JfKCPZn26Ls=; b=EnZCf3hKa7r4xBhcDpsqM4iTHzMxLNHms8kJhjhfkQ7ymFL8tVeoZckEz78rnzzoVA/RVQHk
- hP2B2XaAGAI2d8Vz86I1HJ6qrt2FTo8b8nFvAjhPL1/AiSy4ZfLwO1IlFxwPXAoMbTwIVrUD
- JMRkaLygskDXISY2ijihbJJgGL1xzUz8YV/DcjST7jOf4ZbVKGyyekTX5/zHTu/AdIqMjZbt
- m3qnss6rGCbfI+H5RiPAU4Uk18ywoLj3xjdCxPylMG26P9mK/apZtLA04HAEOW3qMGflTCnE
- NFUx7ZDoXzaGLv5ri7V7UxGjDzvNYlrQz3DdVZX1DgLOnWHHFNx6Eg==
-X-Mailgun-Sending-Ip: 159.135.228.62
-X-Mailgun-Sid: WyJkNWI4MiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWM2ZCJd
-Received: from AN5Bruno (dynamic-user.170.84.57.33.mhnet.com.br
- [170.84.57.33]) by smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 625ecbd8487c9ee854b06237 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
- Tue, 19 Apr 2022 14:48:56 GMT
-Sender: codeagain@codeagain.dev
-Date:   Tue, 19 Apr 2022 11:48:52 -0300
-From:   Bruno Moreira-Guedes <codeagain@codeagain.dev>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, outreachy@lists.linux.dev,
-        Bruno's Patch Watchbox <patch-reply@codeagain.dev>
-Subject: [PATCH v2 2/2] Docs: Replace version by 'current' in changes.rst
-Message-ID: <664bdcbb2b33b866de200ac9c05fa020ecb27ffd.1650376049.git.codeagain@codeagain.dev>
-References: <cover.1650376049.git.codeagain@codeagain.dev>
+        with ESMTP id S242560AbiDSPCD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 11:02:03 -0400
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF8D03B033;
+        Tue, 19 Apr 2022 07:59:20 -0700 (PDT)
+Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-d6e29fb3d7so17776611fac.7;
+        Tue, 19 Apr 2022 07:59:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=txu5qF77kz021syUspWnSzVq95Qu7gMs2hI1GWgdN0g=;
+        b=BDcVCy0mQEGbuXPpCkJme82wpCfSVxCgreSd1AQrcG8cDczRdYp6fo63Zl1UesunPw
+         U+7T3oBEdXRDpEg2KWIKa7WShBAA+F6PTR1cIET+TL7hiJpdY5dcimQKuRMq/tT/LXan
+         JqOlL1xYoi4+pfxn//1yfmGhfJKw41MR5D28CjSMGWBLL6EcSv7cebg4hlEdqKKDrDKl
+         lHBIoE3gp2GlIZeRx8yEJThzNHeVJblMX9/2Dmo0yQ+3xRfcDzAErd6DCNTAISNfsAFw
+         II1R2VA/PxqGjA52stjrt2fjgMj1ZAZmf2WHvwt8D3qOCAIPe6DyOldDy9ZLlQGvH95K
+         /5xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=txu5qF77kz021syUspWnSzVq95Qu7gMs2hI1GWgdN0g=;
+        b=beoMY7XLA1nNNjmezjyVNsMX/7vdXSPQXxRfwImK3IMig0XwGByuweTo78gpH/LxEm
+         igYDk7sniiW33FzTEdB79eLv02CAaUYfxOLLGY2tkTteHgbMGnQri6xkUaFk/lIXGrz/
+         pF4O+yty0zU20Rw1souL/Pm5sl5HIfa84fPiGE1yRO76cdcof3ZmUVTQS0CXe/3683eQ
+         g5S0T71xNaUso0nYfKyaR1aJR3Y3ECj7sYdaARAM/1eogTTH2KzpR6I0mS99LrVPQp8J
+         N7elOVxJL7MGdzRt9VtKQ/kei0pCs6yJ2u6jpQIOEL9JV1Jc7P5gqD7mv2IrFXXQSzn4
+         jxAw==
+X-Gm-Message-State: AOAM530BdSFgdTg2WIgkRY+wjQk9x0csT0vFSCPt9XUlJ6WN0RKn0MfI
+        K+xH7fNdsdlUJrfl1KsSCzO5Rdw3V2NGlTU7DAwTzV/7
+X-Google-Smtp-Source: ABdhPJwkeTzLw742f1pLT1h5HcgounlwYPVNsuzflB54s8eFTAPlS5s6EXzaHdH41CdsZRH5FTve/PqKvS145BOY6YE=
+X-Received: by 2002:a05:6870:311d:b0:de:9b6c:362b with SMTP id
+ v29-20020a056870311d00b000de9b6c362bmr8077760oaa.200.1650380360073; Tue, 19
+ Apr 2022 07:59:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="smwaj257h7s7n5bg"
-Content-Disposition: inline
-In-Reply-To: <cover.1650376049.git.codeagain@codeagain.dev>
+References: <20220415195027.305019-1-tales.aparecida@gmail.com> <20220415195027.305019-2-tales.aparecida@gmail.com>
+In-Reply-To: <20220415195027.305019-2-tales.aparecida@gmail.com>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Tue, 19 Apr 2022 10:59:09 -0400
+Message-ID: <CADnq5_O9rV+42=7Lyy7dAwVZkBoxJgmwn0oavzN1pVBmKFLfcA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Documentation/gpu: Add entries to amdgpu glossary
+To:     Tales Lelo da Aparecida <tales.aparecida@gmail.com>
+Cc:     Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, andrealmeid@riseup.net
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Applied the series with minor fix to capitalize the U in Compute Unit.  Thanks!
 
---smwaj257h7s7n5bg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Alex
 
-The file 'Documentation/process/changes.rst' states the listed
-requirements are for the 4.x kernel version. However, there are
-requirements updated for the 5.x version, as there might be in other
-future versions. This patch updates it to 'latest' so the document won't
-be outdated in the future.
-
-Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
----
- Documentation/process/changes.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/chan=
-ges.rst
-index 41a44e5f47e6..34415ae1af1b 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -7,7 +7,7 @@ Intro
- =3D=3D=3D=3D=3D
-=20
- This document is designed to provide a list of the minimum levels of
--software necessary to run the 4.x kernels.
-+software necessary to run the current kernel version.
-=20
- This document is originally based on my "Changes" file for 2.0.x kernels
- and therefore owes credit to the same people as that file (Jared Mauch,
---=20
-2.35.3
-
-
---smwaj257h7s7n5bg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQQTUrsHCxGmQ5vyKRAZtd3tyEY2kgUCYl7L1AAKCRAZtd3tyEY2
-kjxuAQC2/iSX96CmxkNiFSJlO8cmjxx+nY1jpNuRRBKM/h1rKwEAkBFye8E5g73s
-zA5bJaF1FVz9nhBQP1YPEpjT6CgxcAY=
-=ytKt
------END PGP SIGNATURE-----
-
---smwaj257h7s7n5bg--
+On Fri, Apr 15, 2022 at 3:52 PM Tales Lelo da Aparecida
+<tales.aparecida@gmail.com> wrote:
+>
+> Add missing acronyms to the amdgppu glossary.
+>
+> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/1939#note_1309737
+> Signed-off-by: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
+> ---
+>  Documentation/gpu/amdgpu/amdgpu-glossary.rst | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
+> index 859dcec6c6f9..48829d097f40 100644
+> --- a/Documentation/gpu/amdgpu/amdgpu-glossary.rst
+> +++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
+> @@ -8,12 +8,19 @@ we have a dedicated glossary for Display Core at
+>
+>  .. glossary::
+>
+> +    active_cu_number
+> +      The number of CUs that are active on the system.  The number of active
+> +      CUs may be less than SE * SH * CU depending on the board configuration.
+> +
+>      CP
+>        Command Processor
+>
+>      CPLIB
+>        Content Protection Library
+>
+> +    CU
+> +      Compute unit
+> +
+>      DFS
+>        Digital Frequency Synthesizer
+>
+> @@ -74,6 +81,12 @@ we have a dedicated glossary for Display Core at
+>      SDMA
+>        System DMA
+>
+> +    SE
+> +      Shader Engine
+> +
+> +    SH
+> +      SHader array
+> +
+>      SMU
+>        System Management Unit
+>
+> --
+> 2.35.1
+>
