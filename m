@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F29CC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 18:09:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6972C43219
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 18:22:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356199AbiDSSMH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Apr 2022 14:12:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48920 "EHLO
+        id S1357101AbiDSSZ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Apr 2022 14:25:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353969AbiDSSME (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 14:12:04 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ABA63CFD1
-        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 11:09:21 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id 203so5803798pgb.3
-        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 11:09:21 -0700 (PDT)
+        with ESMTP id S1357123AbiDSSWq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 14:22:46 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23A58419AE
+        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 11:15:16 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id t13so24866267pgn.8
+        for <linux-doc@vger.kernel.org>; Tue, 19 Apr 2022 11:15:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=intel-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=YYmvKovcTU6rmYG1sMPHfPQz8ABPeGl+bM0jHRmpzis=;
-        b=yMJod5bYimT8rDmcFp5bN/kHiVVWwbIxs+p3BVP2yx8f4QIJHBoRNrAY8gf0Za1hhG
-         oYHMC/USR9o8QC4xHQ6zyd0qGMzGj+HMfagUIG1Y7LZs6xI/yss+yoaDL1KjNNvAGnI+
-         SY4NlsopmStCyhUmZM3Q/LC0yOb38lxNHnnso8O8FjmZMQmeArUwza2UdQ7kY1tAKVN1
-         tbI9mjitOcesp/hTLVP2rphmqTjU7i4sBagX597BEau1fO8GVoXKfcoueH+EPcCHo3c6
-         WBzvzrQjWyE2GdHi4CO0bF1ym1K4DyrbZ9XperGCL7rZVi5gx96mDiBXZoN8uhhJZFZ3
-         SdBA==
+        bh=zpBv9Q1tNkPDBxpwPbLdjbsmA3r5cT/nw1H2p8//7VQ=;
+        b=nZvZCFCBv0zvPnol4PONdYJwznuBCN/AxhcMZT3PpAg7N/VnQFuPRmc59dVJmZhUZX
+         ECMv/hjCGO+Yo9hPm0IPGeKJ0B6ktiAJyHTxXvVuF2aVbAVF8CuAQHgIJP1LNJMXn9tW
+         pewlp4W+kHkNI1zg56QFlr1V7Y7IC03EodUwq8bmU0cnToRJRtLyABVPCFbP3syCDchx
+         LDjvNXMhS7Xh2ngpvwPQ2GqpF+opYdpOjCsLq6UgJBnYaZhcq7SIJ1v5a7aSd1NogVh6
+         VSjMR54pFEhQe1/PiG/gXQU8g8fXg+WNaoH+BrDQzIaYm/mRG5gcSrOvz7wSwTEhHzhn
+         RLUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YYmvKovcTU6rmYG1sMPHfPQz8ABPeGl+bM0jHRmpzis=;
-        b=jdD4TTQAwlOoNLL0HcKeqgcBuVRryGGH4hbfhkq0TIzBbbCD2cI/7oQZuJb8p5SoR5
-         qh70TvUCJcaBjZy1ieDr+n0f7xb8gf73qdAXKyVJMhD6KUTFMSnLGlpZr/QrJUSMfu7R
-         vkyouqPJJYIIvzpH01Gwq9B+GGNzZpGpUbB78ZOW7uFQ2smN+WFaWkhfUqQZT2svk2H7
-         locrhvitErwHvIt4Kcy+8GnaBC9Jid5BDaZhwX0sfgtJf+Zk20X+Jm3t/pLPVTGLDeHR
-         elNVA89i6OI0NuyNyQZSiw6AJuF6qgYkIJSfbT1wcUCTpfnNoHtQgvTgXgC1ybx63r+g
-         hN7Q==
-X-Gm-Message-State: AOAM533KBPCKc4S9l2gGxtmyss4Z/FcyQVY9hMy2aahXotST2UJjM+IV
-        RZ+iAloDAT7Y1mP2XRQ99TUM2v3DYRVE4YKExPfJkA==
-X-Google-Smtp-Source: ABdhPJxKEJeesJs1zZXSkOCI0lwVH4KISjHVHn30n+qo5EI5CYiu1aFO21JoQLAgELUyB/wBgi1z8fhBBV5ROaSj4yk=
-X-Received: by 2002:a05:6a00:e14:b0:4fe:3cdb:23f with SMTP id
- bq20-20020a056a000e1400b004fe3cdb023fmr19124950pfb.86.1650391760482; Tue, 19
- Apr 2022 11:09:20 -0700 (PDT)
+        bh=zpBv9Q1tNkPDBxpwPbLdjbsmA3r5cT/nw1H2p8//7VQ=;
+        b=ho/CDTPZt2g8xCBE1O1l3elOIixaxbsSxiNypr4v4gBMsqvxLU80DmxiFy76pDWvaL
+         vt6VxjXIDZ33Vl58ePre0sEl4D2M79YIqVgYClKAB0McDnzwOIWeZtoWQqVgQSZ52phP
+         KSKbXn6XBpiE27jqxLP1jGKXTZoVE+rhDhiOMqkNivVbrKLafIKufQ9numzshEpW6W99
+         bjKh+5Xv76T0G2+nWR6HufzWBhfgQ/k4xms8zvTlFlvO9fbtCcNM7ngbdCPIMcOpCesy
+         626cOXntwQJp7K5a11R+EXihcuTtacF+5l0uB4jC47kE6NJ7nQwLfyqKmbbHdZHP/2S1
+         Rv+A==
+X-Gm-Message-State: AOAM531OmLk3WUr40WCpmvOZh+upN/KmLQCl30cy+J7tHDiBhFrAzPT9
+        eKmTN8KhRDE8obZRkxPkxTS/vQDP48R4/sDDjuS1Qw==
+X-Google-Smtp-Source: ABdhPJw4oSURnCuFS/ZVGc9BlKI9iSwFoHzN3zK1GLk085q5yQt4OdaNxeK86wgd3BiiLXrJ0hkQRIeqzlpHZRTTfTo=
+X-Received: by 2002:a65:6e0e:0:b0:399:26d7:a224 with SMTP id
+ bd14-20020a656e0e000000b0039926d7a224mr15704175pgb.437.1650392116287; Tue, 19
+ Apr 2022 11:15:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220407191347.9681-1-jithu.joseph@intel.com> <20220419163859.2228874-1-tony.luck@intel.com>
- <20220419163859.2228874-4-tony.luck@intel.com> <Yl7npfrVTPFEIivC@kroah.com>
-In-Reply-To: <Yl7npfrVTPFEIivC@kroah.com>
+ <20220419163859.2228874-10-tony.luck@intel.com> <Yl7vdpJgKYRL1jeW@kroah.com>
+ <Yl7y1YDaNVxyDnKI@agluck-desk3.sc.intel.com> <Yl74MYW1+NgH4tOX@kroah.com>
+In-Reply-To: <Yl74MYW1+NgH4tOX@kroah.com>
 From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Tue, 19 Apr 2022 11:09:09 -0700
-Message-ID: <CAPcyv4jzscs3Dg4QN0+XHRYdekBeqy1=dRX-mWCj1OXo8jS2vQ@mail.gmail.com>
-Subject: Re: [PATCH v3 03/11] platform/x86/intel/ifs: Create device for Intel
- IFS (In Field Scan)
+Date:   Tue, 19 Apr 2022 11:15:05 -0700
+Message-ID: <CAPcyv4haH561eC_+oPj8PMdf2510BDq7==orHNLoHPm0d16k2w@mail.gmail.com>
+Subject: Re: [PATCH v3 09/11] platform/x86/intel/ifs: Add IFS sysfs interface
 To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Tony Luck <tony.luck@intel.com>,
+Cc:     "Luck, Tony" <tony.luck@intel.com>,
         Hans de Goede <hdegoede@redhat.com>, markgross@kernel.org,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -74,173 +74,44 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 19, 2022 at 9:48 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+On Tue, Apr 19, 2022 at 11:01 AM Greg KH <gregkh@linuxfoundation.org> wrote:
 >
-> On Tue, Apr 19, 2022 at 09:38:51AM -0700, Tony Luck wrote:
-> > The initial implementation of IFS is model specific. Enumeration is
-> > via a combination of family-model-stepping and a check for a bit in the
-> > CORE_CAPABILITIES MSR.
+> On Tue, Apr 19, 2022 at 10:35:17AM -0700, Luck, Tony wrote:
+> > On Tue, Apr 19, 2022 at 07:20:54PM +0200, Greg KH wrote:
+> > > > +/*
+> > > > + * Note there is no need for a ->remove() call back. There isn't an
+> > > > + * "unload" operation to remove the scan binary from the BIOS reserved
+> > > > + * area. Also ".dev_groups" removal order will guarantee that any in
+> > > > + * flight tests have completed.
+> > > > + */
+> > >
+> > > So you are ok with the warning the kernel gives you when you unload the
+> > > driver?  That feels wrong :(
 > >
-> > Linux has handled this lack of enumeration before with a code stub to
-> > create a device.  See arch/x86/kernel/pmem.c. Use the same approach
-> > here.
+> > What warning?
+> >
+> > # dmesg | tail -5
+> > [   38.084165] virbr0: port 1(virbr0-nic) entered listening state
+> > [   38.149621] virbr0: port 1(virbr0-nic) entered disabled state
+> > [   38.582054] broken atomic modeset userspace detected, disabling atomic
+> > [   43.703321] igc 0000:01:00.0 enp1s0: NIC Link is Up 2500 Mbps Full Duplex, Flow Control: RX
+> > [   43.703470] IPv6: ADDRCONF(NETDEV_CHANGE): enp1s0: link becomes ready
+> > # modprobe intel_ifs
+> > # ls /sys/devices/platform/intel_ifs.0/
+> > details  driver_override  modalias  reload    status     uevent
+> > driver   image_version    power     run_test  subsystem
+> > # rmmod intel_ifs
+> > # dmesg | tail -5
+> > [   38.084165] virbr0: port 1(virbr0-nic) entered listening state
+> > [   38.149621] virbr0: port 1(virbr0-nic) entered disabled state
+> > [   38.582054] broken atomic modeset userspace detected, disabling atomic
+> > [   43.703321] igc 0000:01:00.0 enp1s0: NIC Link is Up 2500 Mbps Full Duplex, Flow Control: RX
+> > [   43.703470] IPv6: ADDRCONF(NETDEV_CHANGE): enp1s0: link becomes ready
+> > #
 >
-> Ick, why?  Why not just create a simple virtual device and use that?  Do
-> you really want to bind a driver to this?  Or do you already "know" the
-> only driver that you have will bind to this?
+> If there's no warning when the device goes away, why the crazy comment
+> trying to justify the lack of a remove callback?
 
-With the realization that there may be multiple instances of an
-IFS-like capability going forward, and that ideally those capabilities
-would move away from a CPU capability bit to an ACPI description, then
-it seemed to me that a simulated platform_device for this is a
-reasonable fit. I.e. when / if an ACPI _HID is assigned for this
-capability the same platform_driver can be reused for those instances.
-
-> pmem.c should not be used as a good example of anything, sorry.
-
-Yes, the arch/x86/kernel/pmem.c hack was supplanted by an ACPI device
-description. There is no ACPI device description for the IFS
-capability, yet.
-
-So I saw these two cases as similar, that capabilities like this need
-enumeration besides a CPU-id bit or an E820 table entry, and when they
-move to an enumerable bus like ACPI a platform_driver is expected.
-
->
-> greg k-h
->
->
-> >
-> > Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> > Signed-off-by: Tony Luck <tony.luck@intel.com>
-> > ---
-> >  MAINTAINERS                                   |  7 +++
-> >  drivers/platform/x86/intel/Kconfig            |  1 +
-> >  drivers/platform/x86/intel/Makefile           |  1 +
-> >  drivers/platform/x86/intel/ifs/Kconfig        |  2 +
-> >  drivers/platform/x86/intel/ifs/Makefile       |  1 +
-> >  .../platform/x86/intel/ifs/intel_ifs_device.c | 50 +++++++++++++++++++
-> >  6 files changed, 62 insertions(+)
-> >  create mode 100644 drivers/platform/x86/intel/ifs/Kconfig
-> >  create mode 100644 drivers/platform/x86/intel/ifs/Makefile
-> >  create mode 100644 drivers/platform/x86/intel/ifs/intel_ifs_device.c
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 40fa1955ca3f..9e372a960fa5 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -9861,6 +9861,13 @@ B:     https://bugzilla.kernel.org
-> >  T:   git git://git.kernel.org/pub/scm/linux/kernel/git/lenb/linux.git
-> >  F:   drivers/idle/intel_idle.c
-> >
-> > +INTEL IN FIELD SCAN (IFS) DRIVER
-> > +M:   Jithu Joseph <jithu.joseph@intel.com>
-> > +R:   Ashok Raj <ashok.raj@intel.com>
-> > +R:   Tony Luck <tony.luck@intel.com>
-> > +S:   Maintained
-> > +F:   drivers/platform/x86/intel/ifs
-> > +
-> >  INTEL INTEGRATED SENSOR HUB DRIVER
-> >  M:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> >  M:   Jiri Kosina <jikos@kernel.org>
-> > diff --git a/drivers/platform/x86/intel/Kconfig b/drivers/platform/x86/intel/Kconfig
-> > index 1f01a8a23c57..794968bda115 100644
-> > --- a/drivers/platform/x86/intel/Kconfig
-> > +++ b/drivers/platform/x86/intel/Kconfig
-> > @@ -4,6 +4,7 @@
-> >  #
-> >
-> >  source "drivers/platform/x86/intel/atomisp2/Kconfig"
-> > +source "drivers/platform/x86/intel/ifs/Kconfig"
-> >  source "drivers/platform/x86/intel/int1092/Kconfig"
-> >  source "drivers/platform/x86/intel/int3472/Kconfig"
-> >  source "drivers/platform/x86/intel/pmc/Kconfig"
-> > diff --git a/drivers/platform/x86/intel/Makefile b/drivers/platform/x86/intel/Makefile
-> > index c61bc3e97121..10285d0fd16a 100644
-> > --- a/drivers/platform/x86/intel/Makefile
-> > +++ b/drivers/platform/x86/intel/Makefile
-> > @@ -5,6 +5,7 @@
-> >  #
-> >
-> >  obj-$(CONFIG_INTEL_ATOMISP2_PDX86)   += atomisp2/
-> > +obj-y                                        += ifs/
-> >  obj-$(CONFIG_INTEL_SAR_INT1092)              += int1092/
-> >  obj-$(CONFIG_INTEL_SKL_INT3472)              += int3472/
-> >  obj-$(CONFIG_INTEL_PMC_CORE)         += pmc/
-> > diff --git a/drivers/platform/x86/intel/ifs/Kconfig b/drivers/platform/x86/intel/ifs/Kconfig
-> > new file mode 100644
-> > index 000000000000..51325b699563
-> > --- /dev/null
-> > +++ b/drivers/platform/x86/intel/ifs/Kconfig
-> > @@ -0,0 +1,2 @@
-> > +config INTEL_IFS_DEVICE
-> > +     bool
-> > diff --git a/drivers/platform/x86/intel/ifs/Makefile b/drivers/platform/x86/intel/ifs/Makefile
-> > new file mode 100644
-> > index 000000000000..12c2f5ce9925
-> > --- /dev/null
-> > +++ b/drivers/platform/x86/intel/ifs/Makefile
-> > @@ -0,0 +1 @@
-> > +obj-$(CONFIG_INTEL_IFS_DEVICE)       += intel_ifs_device.o
-> > diff --git a/drivers/platform/x86/intel/ifs/intel_ifs_device.c b/drivers/platform/x86/intel/ifs/intel_ifs_device.c
-> > new file mode 100644
-> > index 000000000000..64a143871d72
-> > --- /dev/null
-> > +++ b/drivers/platform/x86/intel/ifs/intel_ifs_device.c
-> > @@ -0,0 +1,50 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/* Copyright(c) 2022 Intel Corporation. */
-> > +
-> > +#include <linux/platform_device.h>
-> > +#include <linux/init.h>
-> > +#include <asm/cpu_device_id.h>
-> > +
-> > +#define MSR_IA32_CORE_CAPS_INTEGRITY_BIT     2
-> > +#define MSR_IA32_CORE_CAPS_INTEGRITY         BIT(MSR_IA32_CORE_CAPS_INTEGRITY_BIT)
-> > +
-> > +#define X86_MATCH(model)                                     \
-> > +     X86_MATCH_VENDOR_FAM_MODEL_FEATURE(INTEL, 6,            \
-> > +             INTEL_FAM6_##model, X86_FEATURE_CORE_CAPABILITIES, NULL)
-> > +
-> > +static const struct x86_cpu_id ifs_cpu_ids[] __initconst = {
-> > +     X86_MATCH(SAPPHIRERAPIDS_X),
-> > +     {}
-> > +};
-> > +
-> > +static __init int register_ifs_device(void)
-> > +{
-> > +     struct platform_device *pdev;
-> > +     const struct x86_cpu_id *m;
-> > +     u64 ia32_core_caps;
-> > +
-> > +     m = x86_match_cpu(ifs_cpu_ids);
-> > +     if (!m)
-> > +             return -ENODEV;
-> > +
-> > +     if (rdmsrl_safe(MSR_IA32_CORE_CAPS, &ia32_core_caps))
-> > +             return -ENODEV;
-> > +
-> > +     if (ia32_core_caps & MSR_IA32_CORE_CAPS_INTEGRITY) {
-> > +             pdev = platform_device_alloc("intel_ifs", 0);
-> > +             if (pdev) {
-> > +                     if (platform_device_add(pdev))
-> > +                             platform_device_put(pdev);
-> > +             }
-> > +     }
-> > +
-> > +     /*
-> > +      * Failure here will be visible by a missing device
-> > +      * in sysfs. Returning an error code would not make
-> > +      * that any easier to diagnose. Would also complicate
-> > +      * future implementations that may support a subset of
-> > +      * the types of tests.
-> > +      */
-> > +     return 0;
->
-> So even if everything fails, you succeed?  But you are failing above for
-> some cases, so why is creating the device somehow special here that you
-> should succeed no matter what?
-
-My bad, this failure is not fatal to init and test execution tooling
-will notice the missing device, but yes this can just return the
-initcall error to be logged.
+The comment clarifies the nuance that driver.dev_groups coordinates
+flushing access sysfs ops users before ->remove() is called. It can
+certainly be dropped.
