@@ -2,214 +2,255 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19999C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 07:34:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A504C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 07:51:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233072AbiDSHgv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Apr 2022 03:36:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58448 "EHLO
+        id S243341AbiDSHx7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Apr 2022 03:53:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232599AbiDSHgu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 03:36:50 -0400
-Received: from mail.meizu.com (unknown [14.29.68.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14C13140DF;
-        Tue, 19 Apr 2022 00:34:07 -0700 (PDT)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail04.meizu.com
- (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 19 Apr
- 2022 15:34:08 +0800
-Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 19 Apr
- 2022 15:34:04 +0800
-From:   Haowen Bai <baihaowen@meizu.com>
-To:     <baihaowen@meizu.com>
-CC:     <alexs@kernel.org>, <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <seakeel@gmail.com>,
-        <siyanteng01@gmail.com>, <siyanteng@loongson.cn>
-Subject: [PATCH V8] docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
-Date:   Tue, 19 Apr 2022 15:34:03 +0800
-Message-ID: <1650353643-24722-1-git-send-email-baihaowen@meizu.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1650347368-17858-1-git-send-email-baihaowen@meizu.com>
-References: <1650347368-17858-1-git-send-email-baihaowen@meizu.com>
+        with ESMTP id S234750AbiDSHx6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 03:53:58 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B821E617C;
+        Tue, 19 Apr 2022 00:51:16 -0700 (PDT)
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23J7ctNv006757;
+        Tue, 19 Apr 2022 07:51:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=A1a7xWbcOcUfmV0lXpHiy7uYOtzD1vJDZCycSndM4FU=;
+ b=hlHTQSn9/ujPkz4Q5Vv4tDHzZmbYUIY2XElFQ38fv2OXEdtvKxCYY9JH9Rql7jV/KZom
+ jAe8I+cOWW4uaDFhLRjVdIOWDt/3SQTRKCAAWTPZWGoTasuCOE4bsff8VYwQ/8vdBWpb
+ VKJEL/BF1OeA5+B8pnMTC1VaAEaEUYvHlJXrbZxiFgnoRgiNSTRcNVyAOHPZjNkY+dDU
+ 5qkaLTf7UPsXvGmX/L6NFCWl57Z73Wt4xs0VdDNMfT65Bq2OW7TobarpJYz78CMJ393l
+ o/0osxUV0Qxa7mCfl4CFW+6qWu+7s7c1x4K1S2qKOy6T9A2KEnWD0F/gjZtypeWmOf6n lQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3fg77jryxq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 19 Apr 2022 07:51:14 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23J7c3ap016080;
+        Tue, 19 Apr 2022 07:51:14 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3fg77jryx7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 19 Apr 2022 07:51:14 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+        by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23J7lcAL029247;
+        Tue, 19 Apr 2022 07:51:12 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+        by ppma06ams.nl.ibm.com with ESMTP id 3ffn2huw7y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 19 Apr 2022 07:51:11 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23J7p82U47907228
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 19 Apr 2022 07:51:08 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BAA0342045;
+        Tue, 19 Apr 2022 07:51:08 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 599A24203F;
+        Tue, 19 Apr 2022 07:51:07 +0000 (GMT)
+Received: from [9.171.88.57] (unknown [9.171.88.57])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Tue, 19 Apr 2022 07:51:07 +0000 (GMT)
+Message-ID: <06585446-b28c-a15b-6267-ace24cbc6885@linux.ibm.com>
+Date:   Tue, 19 Apr 2022 09:54:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="y"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v5 08/21] s390/pci: stash associated GISA designation
+Content-Language: en-US
+To:     Matthew Rosato <mjrosato@linux.ibm.com>, linux-s390@vger.kernel.org
+Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
+        schnelle@linux.ibm.com, farman@linux.ibm.com,
+        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
+        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
+        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
+        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
+ <20220404174349.58530-9-mjrosato@linux.ibm.com>
+From:   Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <20220404174349.58530-9-mjrosato@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: eLGopDV-HRdi8V-tf2fkNCd8wGRVFc3s
+X-Proofpoint-ORIG-GUID: tuIdsk7RDlmz7OByL1oplM80XoINRn0q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-19_02,2022-04-15_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 mlxlogscore=999 spamscore=0 impostorscore=0
+ bulkscore=0 adultscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204190040
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As the tools/vm/page_owner_sort added some feature and original text
-updated, sync the translation of zh_CN as below.
 
-BTW, the original text table which is made of tab will display all
-by one line. so we make a  standard table for STANDARD FORMAT SPECIFIERS
-description.
 
-Commit 8bd16bc0a081 ("tools/vm/page_owner_sort.c: support sorting blocks
-by multiple keys") add sorting blocks by multiple keys usage
-description.
+On 4/4/22 19:43, Matthew Rosato wrote:
+> For passthrough devices, we will need to know the GISA designation of the
+> guest if interpretation facilities are to be used.  Setup to stash this in
+> the zdev and set a default of 0 (no GISA designation) for now; a subsequent
+> patch will set a valid GISA designation for passthrough devices.
+> Also, extend mpcific routines to specify this stashed designation as part
+> of the mpcific command.
+> 
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
 
-Commit 78a0b94f3829 ("tools/vm/page_owner_sort.c: support for multi-value
-selection in single argument") add multi-value selection in single
-argument usage description.
 
-Commit c89b3ad2dea2 ("doc/vm/page_owner.rst: remove content related to -c
-option") remove  -c option usage description.
+Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
 
-Commit 9c8a0a8e599f ("tools/vm/page_owner_sort.c: support for user-defined
-culling rules") add user-defined culling rules usage description.
+> ---
+>   arch/s390/include/asm/pci.h     | 1 +
+>   arch/s390/include/asm/pci_clp.h | 3 ++-
+>   arch/s390/pci/pci.c             | 6 ++++++
+>   arch/s390/pci/pci_clp.c         | 5 +++++
+>   arch/s390/pci/pci_irq.c         | 5 +++++
+>   5 files changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/s390/include/asm/pci.h b/arch/s390/include/asm/pci.h
+> index fdb9745ee998..42a4a312a6dd 100644
+> --- a/arch/s390/include/asm/pci.h
+> +++ b/arch/s390/include/asm/pci.h
+> @@ -123,6 +123,7 @@ struct zpci_dev {
+>   	enum zpci_state state;
+>   	u32		fid;		/* function ID, used by sclp */
+>   	u32		fh;		/* function handle, used by insn's */
+> +	u32		gisa;		/* GISA designation for passthrough */
+>   	u16		vfn;		/* virtual function number */
+>   	u16		pchid;		/* physical channel ID */
+>   	u8		pfgid;		/* function group ID */
+> diff --git a/arch/s390/include/asm/pci_clp.h b/arch/s390/include/asm/pci_clp.h
+> index 1f4b666e85ee..f3286bc5ba6e 100644
+> --- a/arch/s390/include/asm/pci_clp.h
+> +++ b/arch/s390/include/asm/pci_clp.h
+> @@ -173,7 +173,8 @@ struct clp_req_set_pci {
+>   	u16 reserved2;
+>   	u8 oc;				/* operation controls */
+>   	u8 ndas;			/* number of dma spaces */
+> -	u64 reserved3;
+> +	u32 reserved3;
+> +	u32 gisa;			/* GISA designation */
+>   } __packed;
+>   
+>   /* Set PCI function response */
+> diff --git a/arch/s390/pci/pci.c b/arch/s390/pci/pci.c
+> index e563cb65c0c4..a86cd1cbb80e 100644
+> --- a/arch/s390/pci/pci.c
+> +++ b/arch/s390/pci/pci.c
+> @@ -120,6 +120,7 @@ int zpci_register_ioat(struct zpci_dev *zdev, u8 dmaas,
+>   	fib.pba = base;
+>   	fib.pal = limit;
+>   	fib.iota = iota | ZPCI_IOTA_RTTO_FLAG;
+> +	fib.gd = zdev->gisa;
+>   	cc = zpci_mod_fc(req, &fib, &status);
+>   	if (cc)
+>   		zpci_dbg(3, "reg ioat fid:%x, cc:%d, status:%d\n", zdev->fid, cc, status);
+> @@ -133,6 +134,8 @@ int zpci_unregister_ioat(struct zpci_dev *zdev, u8 dmaas)
+>   	struct zpci_fib fib = {0};
+>   	u8 cc, status;
+>   
+> +	fib.gd = zdev->gisa;
+> +
+>   	cc = zpci_mod_fc(req, &fib, &status);
+>   	if (cc)
+>   		zpci_dbg(3, "unreg ioat fid:%x, cc:%d, status:%d\n", zdev->fid, cc, status);
+> @@ -160,6 +163,7 @@ int zpci_fmb_enable_device(struct zpci_dev *zdev)
+>   	atomic64_set(&zdev->unmapped_pages, 0);
+>   
+>   	fib.fmb_addr = virt_to_phys(zdev->fmb);
+> +	fib.gd = zdev->gisa;
+>   	cc = zpci_mod_fc(req, &fib, &status);
+>   	if (cc) {
+>   		kmem_cache_free(zdev_fmb_cache, zdev->fmb);
+> @@ -178,6 +182,8 @@ int zpci_fmb_disable_device(struct zpci_dev *zdev)
+>   	if (!zdev->fmb)
+>   		return -EINVAL;
+>   
+> +	fib.gd = zdev->gisa;
+> +
+>   	/* Function measurement is disabled if fmb address is zero */
+>   	cc = zpci_mod_fc(req, &fib, &status);
+>   	if (cc == 3) /* Function already gone. */
+> diff --git a/arch/s390/pci/pci_clp.c b/arch/s390/pci/pci_clp.c
+> index 1057d7af4a55..deed35edea14 100644
+> --- a/arch/s390/pci/pci_clp.c
+> +++ b/arch/s390/pci/pci_clp.c
+> @@ -229,12 +229,16 @@ static int clp_set_pci_fn(struct zpci_dev *zdev, u32 *fh, u8 nr_dma_as, u8 comma
+>   {
+>   	struct clp_req_rsp_set_pci *rrb;
+>   	int rc, retries = 100;
+> +	u32 gisa = 0;
+>   
+>   	*fh = 0;
+>   	rrb = clp_alloc_block(GFP_KERNEL);
+>   	if (!rrb)
+>   		return -ENOMEM;
+>   
+> +	if (command != CLP_SET_DISABLE_PCI_FN)
+> +		gisa = zdev->gisa;
+> +
+>   	do {
+>   		memset(rrb, 0, sizeof(*rrb));
+>   		rrb->request.hdr.len = sizeof(rrb->request);
+> @@ -243,6 +247,7 @@ static int clp_set_pci_fn(struct zpci_dev *zdev, u32 *fh, u8 nr_dma_as, u8 comma
+>   		rrb->request.fh = zdev->fh;
+>   		rrb->request.oc = command;
+>   		rrb->request.ndas = nr_dma_as;
+> +		rrb->request.gisa = gisa;
+>   
+>   		rc = clp_req(rrb, CLP_LPS_PCI);
+>   		if (rrb->response.hdr.rsp == CLP_RC_SETPCIFN_BUSY) {
+> diff --git a/arch/s390/pci/pci_irq.c b/arch/s390/pci/pci_irq.c
+> index f2b3145b6697..a2b42a63a53b 100644
+> --- a/arch/s390/pci/pci_irq.c
+> +++ b/arch/s390/pci/pci_irq.c
+> @@ -43,6 +43,7 @@ static int zpci_set_airq(struct zpci_dev *zdev)
+>   	fib.fmt0.aibvo = 0;	/* each zdev has its own interrupt vector */
+>   	fib.fmt0.aisb = virt_to_phys(zpci_sbv->vector) + (zdev->aisb / 64) * 8;
+>   	fib.fmt0.aisbo = zdev->aisb & 63;
+> +	fib.gd = zdev->gisa;
+>   
+>   	return zpci_mod_fc(req, &fib, &status) ? -EIO : 0;
+>   }
+> @@ -54,6 +55,8 @@ static int zpci_clear_airq(struct zpci_dev *zdev)
+>   	struct zpci_fib fib = {0};
+>   	u8 cc, status;
+>   
+> +	fib.gd = zdev->gisa;
+> +
+>   	cc = zpci_mod_fc(req, &fib, &status);
+>   	if (cc == 3 || (cc == 1 && status == 24))
+>   		/* Function already gone or IRQs already deregistered. */
+> @@ -72,6 +75,7 @@ static int zpci_set_directed_irq(struct zpci_dev *zdev)
+>   	fib.fmt = 1;
+>   	fib.fmt1.noi = zdev->msi_nr_irqs;
+>   	fib.fmt1.dibvo = zdev->msi_first_bit;
+> +	fib.gd = zdev->gisa;
+>   
+>   	return zpci_mod_fc(req, &fib, &status) ? -EIO : 0;
+>   }
+> @@ -84,6 +88,7 @@ static int zpci_clear_directed_irq(struct zpci_dev *zdev)
+>   	u8 cc, status;
+>   
+>   	fib.fmt = 1;
+> +	fib.gd = zdev->gisa;
+>   	cc = zpci_mod_fc(req, &fib, &status);
+>   	if (cc == 3 || (cc == 1 && status == 24))
+>   		/* Function already gone or IRQs already deregistered. */
+> 
 
-Commit 8ea8613a616a ("tools/vm/page_owner_sort.c: support for selecting by
-PID, TGID or task command name") add selecting by PID, TGID or task
-command name usage description.
-
-Commit 194d52d771b8 ("tools/vm/page_owner_sort: support for sorting by
-task command name") add sorting by task command name usage description.
-
-Signed-off-by: Haowen Bai <baihaowen@meizu.com>
----
-V1->V2: fix whitespace warning.
-V2->V3: fix some tab Alignment issue.
-V3->V4: fix sphinx warning
-V4->V5: fix whitespace warning; add fix tags.
-V5->V6: fix refer tags format.
-V6->V7: combine these 2 patches as a patchset.
-V7->V8: fix git am whitespace error.
-
- Documentation/translations/zh_CN/vm/page_owner.rst | 61 +++++++++++++++++++++-
- Documentation/vm/page_owner.rst                    | 34 +++++++-----
- 2 files changed, 80 insertions(+), 15 deletions(-)
-
-diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
-index 9e951fabba9d..c692e81c724e 100644
---- a/Documentation/translations/zh_CN/vm/page_owner.rst
-+++ b/Documentation/translations/zh_CN/vm/page_owner.rst
-@@ -103,14 +103,73 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
- 		-m		按总内存排序
- 		-p		按pid排序。
- 		-P		按tgid排序。
-+		-n		按任务名称排序。
- 		-r		按内存释放时间排序。
- 		-s		按堆栈跟踪排序。
- 		-t		按时间排序（默认）。
-+		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从
-+						**标准格式说明符** 部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
-+						允许混合使用缩写键和全称键。
-+
-+		Examples:
-+				./page_owner_sort <input> <output> --sort=n,+pid,-tgid
-+				./page_owner_sort <input> <output> --sort=at
- 
-    其它函数:
- 
- 	Cull:
--		-c		通过比较堆栈跟踪而不是总块来进行剔除。
-+		--cull <rules>
-+				指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
-+
-+		<rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
-+				符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的
-+				STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
- 
-+		Examples:
-+				./page_owner_sort <input> <output> --cull=stacktrace
-+				./page_owner_sort <input> <output> --cull=st,pid,name
-+				./page_owner_sort <input> <output> --cull=n,f
- 	Filter:
- 		-f		过滤掉内存已被释放的块的信息。
-+
-+	Select:
-+		--pid <pidlist>		通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
-+		--tgid <tgidlist>	通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
-+		--name <cmdlist>	按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
-+
-+		<pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
-+
-+
-+		Examples:
-+				./page_owner_sort <input> <output> --pid=1
-+				./page_owner_sort <input> <output> --tgid=1,2,3
-+				./page_owner_sort <input> <output> --name name1,name2
-+
-+标准格式说明符
-+==============
-+
-+--sort 选项:
-+
-+        ======          ==========      ===================
-+        缩写键          全称键          描述
-+        ======          ==========      ===================
-+        p               pid             进程 ID
-+        tg              tgid            线程组 ID
-+        n               name            任务名称
-+        st              stacktrace      页面分配的调用栈
-+        T               txt             块的全文
-+        ft              free_ts         页面被释放的时间戳
-+        at              alloc_ts        页面分配的时间戳
-+        ======          ==========      ===================
-+
-+--curl 选项:
-+
-+        ======          ==========      ==================
-+        缩写键          全称键          描述
-+        ======          ==========      ==================
-+        p               pid             进程 ID
-+        tg              tgid            线程组 ID
-+        n               name            任务名称
-+        f               free            该页面是否已被释放
-+        st              stacktrace      页面分配的调用栈
-+        ======          ==========      ==================
-diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-index 422d5fa99e84..a8505e3a3044 100644
---- a/Documentation/vm/page_owner.rst
-+++ b/Documentation/vm/page_owner.rst
-@@ -174,22 +174,28 @@ STANDARD FORMAT SPECIFIERS
- 
- For --sort option:
- 
--	KEY		LONG		DESCRIPTION
--	p		pid		process ID
--	tg		tgid		thread group ID
--	n		name		task command name
--	st		stacktrace	stack trace of the page allocation
--	T		txt		full text of block
--	ft		free_ts		timestamp of the page when it was released
--	at		alloc_ts	timestamp of the page when it was allocated
-+        ====            ==========      ============================================
-+        KEY             LONG            DESCRIPTION
-+        ====            ==========      ============================================
-+        p               pid             process ID
-+        tg              tgid            thread group ID
-+        n               name            task command name
-+        st              stacktrace      stack trace of the page allocation
-+        T               txt             full text of block
-+        ft              free_ts         timestamp of the page when it was released
-+        at              alloc_ts        timestamp of the page when it was allocated
-         ator            allocator       memory allocator for pages
-+        ====            ==========      ============================================
- 
- For --curl option:
- 
--	KEY		LONG		DESCRIPTION
--	p		pid		process ID
--	tg		tgid		thread group ID
--	n		name		task command name
--	f		free		whether the page has been released or not
--	st		stacktrace	stack trace of the page allocation
-+        ====            ===========     ============================================
-+        KEY             LONG            DESCRIPTION
-+        ====            ===========     ============================================
-+        p               pid             process ID
-+        tg              tgid            thread group ID
-+        n               name            task command name
-+        f               free            whether the page has been released or not
-+        st              stacktrace      stack trace of the page allocation
-         ator            allocator       memory allocator for pages
-+        ====            ===========     ============================================
 -- 
-2.7.4
-
+Pierre Morel
+IBM Lab Boeblingen
