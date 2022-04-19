@@ -2,93 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D18C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 13:11:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC86EC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Apr 2022 13:58:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243414AbiDSNNs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Apr 2022 09:13:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42820 "EHLO
+        id S1345034AbiDSOBL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Apr 2022 10:01:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347234AbiDSNNq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 09:13:46 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E73D53122E;
-        Tue, 19 Apr 2022 06:11:03 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        with ESMTP id S1344830AbiDSOBH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 10:01:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25F0A38DBD;
+        Tue, 19 Apr 2022 06:58:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id A224B21118;
-        Tue, 19 Apr 2022 13:11:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1650373862;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=b/3K0pRlotaEfeU4+3K4eR5b2A9Pz6oNCQOD+UvB+zk=;
-        b=Mwrfi3PuJtG3lF8zpNdohOuLyeCfFp0GdoKSmNwoxeFSgYwqo4zURKNJzPEVbz6voetTPp
-        3yJkioCD3xtKVzBGaG4/gxc7sXRIO+IZp7sPtdwF7xDe8694fLmmBUVGEMcpnknsnSTk3R
-        8Rpx29y+aqnwcAqss4uxns5R4MGMiHA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1650373862;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=b/3K0pRlotaEfeU4+3K4eR5b2A9Pz6oNCQOD+UvB+zk=;
-        b=YNXpRNTTh2slhKeGK8LbdSeunWutxGvrv/T/jdT76Q6855uZJBZ+0jj151T8EGr7laxjQu
-        noHeFvTDSKLuxABg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 65ADB139BE;
-        Tue, 19 Apr 2022 13:11:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id +voeGOa0XmJ8fwAAMHmgww
-        (envelope-from <dsterba@suse.cz>); Tue, 19 Apr 2022 13:11:02 +0000
-Date:   Tue, 19 Apr 2022 15:06:59 +0200
-From:   David Sterba <dsterba@suse.cz>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Josef Bacik <josef@toxicpanda.com>, linux-doc@vger.kernel.org,
-        Matthew Wilcox <willy@infradead.org>, Chris Mason <clm@fb.com>,
-        David Sterba <dsterba@suse.com>,
-        Nick Terrell <terrelln@fb.com>, Schspa Shi <schspa@gmail.com>,
-        linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] btrfs: zstd: remove extraneous asterix at the head of
- zstd_reclaim_timer_fn() comment
-Message-ID: <20220419130659.GD2348@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-Mail-Followup-To: dsterba@suse.cz, Bagas Sanjaya <bagasdotme@gmail.com>,
-        Josef Bacik <josef@toxicpanda.com>, linux-doc@vger.kernel.org,
-        Matthew Wilcox <willy@infradead.org>, Chris Mason <clm@fb.com>,
-        David Sterba <dsterba@suse.com>, Nick Terrell <terrelln@fb.com>,
-        Schspa Shi <schspa@gmail.com>, linux-btrfs@vger.kernel.org,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AA07461693;
+        Tue, 19 Apr 2022 13:58:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73840C385A5;
+        Tue, 19 Apr 2022 13:58:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1650376704;
+        bh=sGN5CWJMdVz20am6iOdFUlCdx+o7gih1dOCoJNfeTSA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oVlUbHyYZrYiHdaKXoEt9i5RnHm0Tqyb/SexzIytdTBl35qudDnnNVGa1i2jiMyXC
+         EiT2Occbmv0R6ejqmALFC41DISyln6ioVQUxOiobhGuHEBRGmk895qCiGT3llLpgCS
+         DuAciLfgcCBmA6K9EUwaISHek/9dhN+cIDcMCx7WdivxTx1MPnQF5HZzzZvZ9Cwnvx
+         62Uki5HSRL/zTuf2lvogFTfDR6Lp4/b7t23mS7PaWA5w9XWLhuNcQNFlsl8HGlm8T/
+         oQ9nz++paPpgY3+W/RpjtfPgw3zZRXV/15bYCfriFjjuEbhwJljAk7bDa/MtAG3UYh
+         Z0199/1sNdoLw==
+Date:   Tue, 19 Apr 2022 14:58:17 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+Cc:     Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+        Vincenzo Frascino <Vincenzo.Frascino@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Fuad Tabba <tabba@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Vladimir Murzin <vladimir.murzin@arm.com>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20220418125934.566647-1-bagasdotme@gmail.com>
- <Yl2Dx+jefYs1Un+8@localhost.localdomain>
- <b5b42b49-9d0c-c745-f355-89900b53f6e1@gmail.com>
+Subject: Re: [PATCH] arm64/sme: Add hwcap for Scalable Matrix Extension
+Message-ID: <Yl6/+baDhElVxwyC@sirena.org.uk>
+References: <20220414115544.36204-1-tianjia.zhang@linux.alibaba.com>
+ <YlgNW0/ji6KlkyZo@sirena.org.uk>
+ <e7a0d0d4-b6ca-6fec-df33-929961f0d43e@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="y7+zdXbMAYrYfLfn"
 Content-Disposition: inline
-In-Reply-To: <b5b42b49-9d0c-c745-f355-89900b53f6e1@gmail.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+In-Reply-To: <e7a0d0d4-b6ca-6fec-df33-929961f0d43e@linux.alibaba.com>
+X-Cookie: That's what she said.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 19, 2022 at 12:19:44PM +0700, Bagas Sanjaya wrote:
-> On 4/18/22 22:29, Josef Bacik wrote:
-> > Reviewed-by: Josef Bacik <josef@toxicpanda.com>
-> > 
-> > Thanks,
-> > 
-> > Josef
-> 
-> Thanks for the review. Should I send v2 with your Reviewed-by
-> tag?
 
-No, and please don't send fixes for the kdoc formats, the script does
-not have the same preferences as we who actually have to read the code.
-The kdoc format is convenient for more thnigs than just generating
-public documentation.
+--y7+zdXbMAYrYfLfn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Apr 15, 2022 at 10:25:33AM +0800, Tianjia Zhang wrote:
+> On 4/14/22 8:02 PM, Mark Brown wrote:
+> > On Thu, Apr 14, 2022 at 07:55:44PM +0800, Tianjia Zhang wrote:
+
+> > Why add something independently, especially given that there is no way
+> > for userspace to do anything constructive with the feature without the
+> > rest of the kernel support?  Any attempt to use SME instructions without
+> > kernel support will trap and generate a SIGILL even if the feature is
+> > present in hardware.
+
+> Great job, I encountered the issue of invalid REVD (requires FEAT_SME)
+> instruction when developing SVE2 programs, so I plan to gradually
+> support SME in the kernel, thanks for your contribution, you can ignore
+> my patch.
+
+I see.  Unfortunately all the new registers mean that we really need to
+define all the ABI as soon as we enable anything and the only thing we
+can really skip out on when doing initial enablement is KVM (which I
+have in fact skipped for the time being, I'll look at that at some point
+after the initial support is landed).
+
+> In addition, I would like to ask a question, whether there is an
+> alternative SVE2 instruction for the REVD instruction that can complete
+> this operation, if the machine does not support SME.
+
+I'm not aware of anything, but I am mostly focused on the OS support
+rather than any of the actual mathematical operations that are more the
+point of these architecture features so I might be missing something.
+
+> > Do you have a system with SME that you're trying to use?  Review/testing
+> > on the current series would be appreciated.
+
+> Unfortunately, the value currently read by my machine ID_AA64PFR1_EL1
+> register is 0x121. It seems that the hardware does not support SME. Is
+> there any other help I can provide?
+
+Other than verifying that the series doesn't cause trouble for systems
+without SME=20
+
+--y7+zdXbMAYrYfLfn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmJev/gACgkQJNaLcl1U
+h9D6Pwf5AXCOiooQjnPnliTaNN7/AbtJt2IfDB/g6sI7mk8sbxHv9T62E2BNQW9K
+7pG00JpxzBV/cjBTdT0JKgAK4Ze5I0OE8kO6rW2at9n6sKHKBTr3Adbu52KNs6CI
+wiWlZkTu6RVfy/TKHwsaw93QSJtSbo8LamAbADXSAcZ2BpdVsUvZsaVho/uLEth4
+lmd8iCnXhCpZrsyMuRx8sx6FSgizBGtxhWyhxK+1DqN8zEQxE2j2IE7SQiq9k0eI
+y3/ZF+cwQnAssmJQxS+smIdH6uBFpowl2t5CcUkE2rKIvF69rvun8tSHHDBnv1cK
+QTE+0+iGFwrWMHo0H63sSeZGs3qMig==
+=6+y1
+-----END PGP SIGNATURE-----
+
+--y7+zdXbMAYrYfLfn--
