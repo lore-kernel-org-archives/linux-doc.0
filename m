@@ -2,118 +2,227 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A295BC4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 12:47:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A623EC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 13:11:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352501AbiDTMuA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Apr 2022 08:50:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59518 "EHLO
+        id S1352877AbiDTNO1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Apr 2022 09:14:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348748AbiDTMt7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 08:49:59 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA72B3C73F;
-        Wed, 20 Apr 2022 05:47:13 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 0A1F1210F1;
-        Wed, 20 Apr 2022 12:47:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1650458832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fE2JVFjVSECX2xSom7dha9uadrw2m4rx6MxVgcht3TU=;
-        b=ls08cpYNS6BsFKbzep+CNbq8sfVdl2ellBWBujxnccydNYGlZusiruxwRBWAGNdG+LbEjN
-        jBIdNmHiFta1RBcAXwfZU0dmIdTZsOgoaKPo4njd2eiadAdPKoabYOFObP16BYeeo/IWJ6
-        6qVYRksrngynbRG+maQ3Tkc4EqFNkn0=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 261B62C142;
-        Wed, 20 Apr 2022 12:47:11 +0000 (UTC)
-Date:   Wed, 20 Apr 2022 14:47:10 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Yosry Ahmed <yosryahmed@google.com>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        David Rientjes <rientjes@google.com>,
-        Tejun Heo <tj@kernel.org>,
-        Dan Schatzberg <schatzberg.dan@gmail.com>,
-        Zefan Li <lizefan.x@bytedance.com>,
+        with ESMTP id S235000AbiDTNOX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 09:14:23 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 648B942A0A;
+        Wed, 20 Apr 2022 06:11:28 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id md20-20020a17090b23d400b001cb70ef790dso4901465pjb.5;
+        Wed, 20 Apr 2022 06:11:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=mWNorpTVTS8YkgukxxtTFjnF+otEpg4XNgwVUHpZnIQ=;
+        b=jj9A5Cyr874v3eIGy0ew2ad/5LfmJKMdu135QHTykt4YCKFEy0TWjxYdTejZso8y82
+         dDqAS+/8N+GIHN169rU+B689RGLl6EgNyCnrGTSpfGAw2V8eB3Yfqw5jBd8wYk8/FUA5
+         xwJbr0OwEEQhVkbTN/bo55HSk6SGS0e8s6wXQxfDhWLQRAZA/9+k1OWdmT7lGAEreqhJ
+         8Tg+UC71kewIwzZ8GSzXgzh/TraoW02d910vwan1oyZJqd9y3epvrW6aK3k21CytHhfL
+         x8F/3NRj3lccxZxSyRJBvT/b6lBTlDjcLeI0LzvxUD7bI8ScP2FT2BiPs4wqBR4kWJh4
+         Thng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=mWNorpTVTS8YkgukxxtTFjnF+otEpg4XNgwVUHpZnIQ=;
+        b=OYKBy7Yc7ff+m4DQ1oPPvGTLW4R2Gej8BN/Rj7cFEvLwlENFtpWXk5KFkZGo5Jo1Hv
+         HhZuWtIA1qrotwICjBOzhFpxb870Z2hk7TF/wrwSFrayIrMsZdHMrippdFqWwPHsWm+g
+         p69YMFagf6PyhMkRYdNCrNzdn8cUc0NF/bNEMW1JeWes5N3JUZv/dTJjbqzjZdzE04UD
+         CugDt5odI831Vd8jRIdr6AhbYL/+NvhnG7isS1oMYnn1DObbq+GhUPP0+CTook25gxp3
+         uyHHW1FvBJXvSxZVqppanZazymGTDP6Sef77lC28MVmkl/193VPdjQF4IfdFlCMVf+Iz
+         f15w==
+X-Gm-Message-State: AOAM533E1PfEW1OsFuzkc8isba1qk9RKNK79ObS0rPZlES/r3HA8x4fO
+        8u/ft7KBW5oLJFgGmP+GTrlRYK3Enbg=
+X-Google-Smtp-Source: ABdhPJy1Bwddw+H4T+PkoT9mTXN79JdHLJy9h4FOaLbu6y5LW6r9REHfASht15WV4yo9Cc0p1Z352w==
+X-Received: by 2002:a17:90a:6501:b0:1ca:a7df:695c with SMTP id i1-20020a17090a650100b001caa7df695cmr4467780pjj.152.1650460287648;
+        Wed, 20 Apr 2022 06:11:27 -0700 (PDT)
+Received: from localhost ([47.251.4.198])
+        by smtp.gmail.com with ESMTPSA id m13-20020a62a20d000000b004fe0ce6d7a1sm20353148pff.193.2022.04.20.06.11.26
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 20 Apr 2022 06:11:27 -0700 (PDT)
+From:   Lai Jiangshan <jiangshanlai@gmail.com>
+To:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc:     Lai Jiangshan <jiangshan.ljs@antgroup.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, Yu Zhao <yuzhao@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>,
-        Chen Wandun <chenwandun@huawei.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] memcg: introduce per-memcg reclaim interface
-Message-ID: <YmAAzkwGg6GspCiu@dhcp22.suse.cz>
-References: <20220408045743.1432968-1-yosryahmed@google.com>
- <20220408045743.1432968-2-yosryahmed@google.com>
- <YlA754XNFAmWQcm6@dschatzberg-fedora-PC0Y6AEN.dhcp.thefacebook.com>
- <YlBCeadBqbeVvALK@dhcp22.suse.cz>
- <YlBM/HlPyPUZew5N@dschatzberg-fedora-PC0Y6AEN.dhcp.thefacebook.com>
- <CAJD7tkbFjbGJ7CnNogpGq5enh_uhP8T5c0U+ku9PfwMoVLf2gg@mail.gmail.com>
- <CAJD7tkYJj2O-zaux9BZxJxG+JBjPrwRYKXPAAAh7i9GVE53VGQ@mail.gmail.com>
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
+Subject: [PATCH 2/2] KVM: X86/MMU: Introduce role.passthrough for shadowing 5-level NPT for 4-level NPT L1 guest
+Date:   Wed, 20 Apr 2022 21:12:04 +0800
+Message-Id: <20220420131204.2850-3-jiangshanlai@gmail.com>
+X-Mailer: git-send-email 2.19.1.6.gb485710b
+In-Reply-To: <20220420131204.2850-1-jiangshanlai@gmail.com>
+References: <20220420131204.2850-1-jiangshanlai@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJD7tkYJj2O-zaux9BZxJxG+JBjPrwRYKXPAAAh7i9GVE53VGQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 14-04-22 10:25:29, Yosry Ahmed wrote:
-> On Fri, Apr 8, 2022 at 1:08 PM Yosry Ahmed <yosryahmed@google.com> wrote:
-> >
-> > On Fri, Apr 8, 2022 at 7:55 AM Dan Schatzberg <schatzberg.dan@gmail.com> wrote:
-> > >
-> > > On Fri, Apr 08, 2022 at 04:11:05PM +0200, Michal Hocko wrote:
-> > > > Regarding "max" as a possible input. I am not really sure to be honest.
-> > > > I can imagine that it could be legit to simply reclaim all the charges
-> > > > (e.g. before removing the memcg) which should be achieveable by
-> > > > reclaiming the reported consumption. Or what exactly should be the
-> > > > semantic?
-> > >
-> > > Yeah, it just allows you to avoid reading memory.current to just
-> > > reclaim everything if you can specify "max" - you're still protected
-> > > by nretries to eventually bail out. Mostly, though I just feel like
-> > > supporting "max" makes memory.reclaim semetric with a lot of the
-> > > cgroup memory control files which tend to support "max".
-> >
-> > One possible approach here is to have force_empty behavior when we
-> > write "max" to memory.reclaim. From Google's perspective we don't have
-> > a preference, but it seems to me like logical behavior. We can do this
-> > either by directly calling mem_cgroup_force_empty() or just draining
-> > stock and lrus in memory_reclaim().
-> >
-> > This actually brings up another interesting point. Do you think we
-> > should drain lrus if try_to_free_mem_cgroup_pages() fails to reclaim
-> > the request amount? We can do this after the first call or before the
-> > last one. It could introduce more evictable pages for
-> > try_to_free_mem_cgroup_pages() to free.
-> 
-> Hey Michal, any thoughts on this? I am looking for feedback on this
-> before I send out v4.
+From: Lai Jiangshan <jiangshan.ljs@antgroup.com>
 
-As I've already said I do not have strong preferences for the "max"
-value to be accepted by the interface. Maybe you can add a support for
-max in a separate patch so the discussion would not delay the rest of
-the work.
+When shadowing 5-level NPT for 4-level NPT L1 guest, the root_sp is
+allocated with role.level = 5 and the guest pagetable's root gfn.
 
-For the LRU draining I do not see any problem for that to be added. The
-overhead of the operation would increase, especially on larger machines,
-which could be a concern. So the real question is whether not doing so
-is a big problem. Our force_empty implementation optimistically drains
-pcp caches but please note that this is not really guranteeing anything
-as charges can happen at any time. 
+And root_sp->spt[0] is also allocated with the same gfn and the same
+role except role.level = 4.  Luckily that they are different shadow
+pages, but only root_sp->spt[0] is the real translation of the guest
+pagetable.
 
+Here comes a problem:
+
+If the guest switches from gCR4_LA57=0 to gCR4_LA57=1 (or vice verse)
+and uses the same gfn as the root page for nested NPT before and after
+switching gCR4_LA57.  The host (hCR4_LA57=1) might use the same root_sp
+for the guest even the guest switches gCR4_LA57.  The guest will see
+unexpected page mapped and L2 may exploit the bug and hurt L1.  It is
+lucky that the problem can't hurt L0.
+
+And three special cases need to be handled:
+
+The root_sp should be like role.direct=1 sometimes: its contents are
+not backed by gptes, root_sp->gfns is meaningless.  (For a normal high
+level sp in shadow paging, sp->gfns is often unused and kept zero, but
+it could be relevant and meaningful if sp->gfns is used because they
+are backed by concrete gptes.)
+
+For such root_sp in the case, root_sp is just a portal to contribute
+root_sp->spt[0], and root_sp->gfns should not be used and
+root_sp->spt[0] should not be dropped if gpte[0] of the guest root
+pagetable is changed.
+
+Such root_sp should not be accounted too.
+
+So add role.passthrough to distinguish the shadow pages in the hash
+when gCR4_LA57 is toggled and fix above special cases by using it in
+kvm_mmu_page_{get|set}_gfn() and sp_has_gptes().
+
+Signed-off-by: Lai Jiangshan <jiangshan.ljs@antgroup.com>
+---
+ Documentation/virt/kvm/mmu.rst  |  3 +++
+ arch/x86/include/asm/kvm_host.h |  5 +++--
+ arch/x86/kvm/mmu/mmu.c          | 16 ++++++++++++++++
+ arch/x86/kvm/mmu/paging_tmpl.h  |  1 +
+ 4 files changed, 23 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/virt/kvm/mmu.rst b/Documentation/virt/kvm/mmu.rst
+index 5b1ebad24c77..4018b9d7a0d3 100644
+--- a/Documentation/virt/kvm/mmu.rst
++++ b/Documentation/virt/kvm/mmu.rst
+@@ -202,6 +202,9 @@ Shadow pages contain the following information:
+     Is 1 if the MMU instance cannot use A/D bits.  EPT did not have A/D
+     bits before Haswell; shadow EPT page tables also cannot use A/D bits
+     if the L1 hypervisor does not enable them.
++  role.passthrough:
++    Is 1 if role.level = 5 when shadowing 5-level shadow NPT for
++    4-level NPT L1.
+   gfn:
+     Either the guest page table containing the translations shadowed by this
+     page, or the base page frame for linear translations.  See role.direct.
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 9694dd5e6ccc..d4f8f4784d87 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -285,7 +285,7 @@ struct kvm_kernel_irq_routing_entry;
+  * minimize the size of kvm_memory_slot.arch.gfn_track, i.e. allows allocating
+  * 2 bytes per gfn instead of 4 bytes per gfn.
+  *
+- * Indirect upper-level shadow pages are tracked for write-protection via
++ * Upper-level shadow pages having gptes are tracked for write-protection via
+  * gfn_track.  As above, gfn_track is a 16 bit counter, so KVM must not create
+  * more than 2^16-1 upper-level shadow pages at a single gfn, otherwise
+  * gfn_track will overflow and explosions will ensure.
+@@ -331,7 +331,8 @@ union kvm_mmu_page_role {
+ 		unsigned smap_andnot_wp:1;
+ 		unsigned ad_disabled:1;
+ 		unsigned guest_mode:1;
+-		unsigned :6;
++		unsigned passthrough:1;
++		unsigned :5;
+ 
+ 		/*
+ 		 * This is left at the top of the word so that
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 1bdff55218ef..d14cb6f99cb1 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -737,6 +737,9 @@ static void mmu_free_pte_list_desc(struct pte_list_desc *pte_list_desc)
+ 
+ static gfn_t kvm_mmu_page_get_gfn(struct kvm_mmu_page *sp, int index)
+ {
++	if (sp->role.passthrough)
++		return sp->gfn;
++
+ 	if (!sp->role.direct)
+ 		return sp->gfns[index];
+ 
+@@ -745,6 +748,11 @@ static gfn_t kvm_mmu_page_get_gfn(struct kvm_mmu_page *sp, int index)
+ 
+ static void kvm_mmu_page_set_gfn(struct kvm_mmu_page *sp, int index, gfn_t gfn)
+ {
++	if (sp->role.passthrough) {
++		WARN_ON_ONCE(gfn != sp->gfn);
++		return;
++	}
++
+ 	if (!sp->role.direct) {
+ 		sp->gfns[index] = gfn;
+ 		return;
+@@ -1861,6 +1869,9 @@ static bool sp_has_gptes(struct kvm_mmu_page *sp)
+ 	if (sp->role.direct)
+ 		return false;
+ 
++	if (sp->role.passthrough)
++		return false;
++
+ 	return true;
+ }
+ 
+@@ -2059,6 +2070,8 @@ static struct kvm_mmu_page *kvm_mmu_get_page(struct kvm_vcpu *vcpu,
+ 		quadrant &= (1 << ((PT32_PT_BITS - PT64_PT_BITS) * level)) - 1;
+ 		role.quadrant = quadrant;
+ 	}
++	if (level <= vcpu->arch.mmu->root_level)
++		role.passthrough = 0;
+ 
+ 	sp_list = &vcpu->kvm->arch.mmu_page_hash[kvm_page_table_hashfn(gfn)];
+ 	for_each_valid_sp(vcpu->kvm, sp, sp_list) {
+@@ -4890,6 +4903,9 @@ kvm_calc_shadow_npt_root_page_role(struct kvm_vcpu *vcpu,
+ 
+ 	role.base.direct = false;
+ 	role.base.level = kvm_mmu_get_tdp_level(vcpu);
++	if (role.base.level == PT64_ROOT_5LEVEL &&
++	    role_regs_to_root_level(regs) == PT64_ROOT_4LEVEL)
++		role.base.passthrough = 1;
+ 
+ 	return role;
+ }
+diff --git a/arch/x86/kvm/mmu/paging_tmpl.h b/arch/x86/kvm/mmu/paging_tmpl.h
+index 8621188b46df..c1b975fb85a2 100644
+--- a/arch/x86/kvm/mmu/paging_tmpl.h
++++ b/arch/x86/kvm/mmu/paging_tmpl.h
+@@ -1042,6 +1042,7 @@ static int FNAME(sync_page)(struct kvm_vcpu *vcpu, struct kvm_mmu_page *sp)
+ 		.level = 0xf,
+ 		.access = 0x7,
+ 		.quadrant = 0x3,
++		.passthrough = 0x1,
+ 	};
+ 
+ 	/*
 -- 
-Michal Hocko
-SUSE Labs
+2.19.1.6.gb485710b
+
