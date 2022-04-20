@@ -2,73 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FE21C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 09:32:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A912DC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 09:35:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377239AbiDTJfT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Apr 2022 05:35:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60876 "EHLO
+        id S1377255AbiDTJiG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Apr 2022 05:38:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353295AbiDTJfR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 05:35:17 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 199DEDFCE;
-        Wed, 20 Apr 2022 02:32:30 -0700 (PDT)
+        with ESMTP id S1377260AbiDTJiE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 05:38:04 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A50315A1C;
+        Wed, 20 Apr 2022 02:35:15 -0700 (PDT)
 Received: from localhost (mdns.lwn.net [45.79.72.68])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id ACF0C536;
-        Wed, 20 Apr 2022 09:32:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net ACF0C536
+        by ms.lwn.net (Postfix) with ESMTPSA id 71CAF378;
+        Wed, 20 Apr 2022 09:35:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 71CAF378
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1650447150; bh=PbaANqBxm5Yq6NehLblBsrlv5kCxKsUbmAEvoNQEyUI=;
+        t=1650447315; bh=/drfVWlpA5rvL+Fx11EF7dxixc4TXy05BiVzmO3nX6Q=;
         h=From:To:Subject:In-Reply-To:References:Date:From;
-        b=KY5RpXDumXChSYTdA2loCrWgx+BMyPF47wj9XH6RRL6Yvi8WUFJuURoRcIMLv/iPv
-         iHT4ZPAuFJdoGPyIvcR0O+KycsHrIF12QJvpQIOL4M22uEjRySOHLcONLT9SHBHV96
-         MZGT7V9PnMS8NBMB2NJjsEKHWi3a5sbWSjspfI1sAXZQ3uWURStp0Q+rtsS8a4Kwqn
-         y9yCr9tYL7AMFZ24ZFOuvUgn8Puste0esMwO8o0QohgMijrgiisQKg0h5rlgJUtBuZ
-         Q7ZMcVN82QQox9/3h9gTXBr98t3TMXqUAF56SA3ky1pS/MG1Rod4r8s5431WIQV6C1
-         quH5S4cENZcCg==
+        b=BNoyTCusYisehvH1uDCtgaTeCCwQWpDmKVC5M5AMsgEulgiLPO3HfoSUlZZyOlM8h
+         JC/7h0TpOjDpNBtOn+17ID99REjcprINr4UaklTLdHHhSkFGmW44wcyj19aOklrdpY
+         a/PrFfnGKYQik4i9hgbdLNWSsTgjFk4sx9ok4XsrwjFxGUtkUsKB8mxsBQ/djWlG+4
+         FQFR0exYECfzMKfLJfJZ8CTjeAtmzD73fk+AbqexelSkUxfEBk1Y1cV/EVOugeSM1S
+         CXloiBRrDBRdlr7UhOne2BlDGxIbP4eLlAh6EkbupWuZPydIiTncKvcUrNvQx3DjBZ
+         NFSAbM5MAfeVQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Andreas-Christian Hagau <ach@hagau.se>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kunit: change complete_and_exit to
- kthread_complete_and_exit
-In-Reply-To: <20220417102807.10b91497ed@19d04f311a0a9de>
-References: <20220417102807.10b91497ed@19d04f311a0a9de>
-Date:   Wed, 20 Apr 2022 03:32:26 -0600
-Message-ID: <877d7k3xsl.fsf@meer.lwn.net>
+To:     Bruno Moreira-Guedes <codeagain@codeagain.dev>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        outreachy@lists.linux.dev,
+        Bruno's Patch Watchbox <patch-reply@codeagain.dev>
+Subject: Re: [PATCH v2 0/2] Docs: Update information at changes.rst
+In-Reply-To: <cover.1650376049.git.codeagain@codeagain.dev>
+References: <cover.1650376049.git.codeagain@codeagain.dev>
+Date:   Wed, 20 Apr 2022 03:35:10 -0600
+Message-ID: <8735i83xo1.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Andreas-Christian Hagau <ach@hagau.se> writes:
+Bruno Moreira-Guedes <codeagain@codeagain.dev> writes:
 
-> Commit cead18552660 ("exit: Rename complete_and_exit to
-> kthread_complete_and_exit") renamed complete_and_exit to
-> kthread_complete_and_exit.
+> Add and update information at 'Documentation/process/changes.rst'. The
+> text has outdated kernel version and misses the 'cpio' build
+> requirement, necessary for the `kernel/gen_kheaders.sh` script called by
+> the install target.
 >
-> Signed-off-by: Andreas-Christian Hagau <ach@hagau.se>
-> ---
->  Documentation/dev-tools/kunit/architecture.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> The PATCH 1/2 fixes the missing cpio requirement, while PATCH 2/2 fixes
+> the kernel version reference.
 >
-> diff --git a/Documentation/dev-tools/kunit/architecture.rst b/Documentation/dev-tools/kunit/architecture.rst
-> index ff9c85a0bff21..cf9e6e3eeae4c 100644
-> --- a/Documentation/dev-tools/kunit/architecture.rst
-> +++ b/Documentation/dev-tools/kunit/architecture.rst
-> @@ -125,7 +125,7 @@ All expectations/assertions are formatted as:
->  		  ``void __noreturn kunit_try_catch_throw(struct kunit_try_catch *try_catch)``.
->  
->  		- ``kunit_try_catch_throw`` calls function:
-> -		  ``void complete_and_exit(struct completion *, long) __noreturn;``
-> +		  ``void kthread_complete_and_exit(struct completion *, long) __noreturn;``
->  		  and terminates the special thread context.
+> Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
 
-Applied, thanks.
+Patches applied, thanks.
 
 jon
