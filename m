@@ -2,61 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A912DC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 09:35:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 055C5C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 09:38:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377255AbiDTJiG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Apr 2022 05:38:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35384 "EHLO
+        id S1377276AbiDTJlE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Apr 2022 05:41:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377260AbiDTJiE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 05:38:04 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A50315A1C;
-        Wed, 20 Apr 2022 02:35:15 -0700 (PDT)
+        with ESMTP id S1377277AbiDTJlD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 05:41:03 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80CD4205E8;
+        Wed, 20 Apr 2022 02:38:17 -0700 (PDT)
 Received: from localhost (mdns.lwn.net [45.79.72.68])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 71CAF378;
-        Wed, 20 Apr 2022 09:35:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 71CAF378
+        by ms.lwn.net (Postfix) with ESMTPSA id E22E1536;
+        Wed, 20 Apr 2022 09:38:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E22E1536
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1650447315; bh=/drfVWlpA5rvL+Fx11EF7dxixc4TXy05BiVzmO3nX6Q=;
-        h=From:To:Subject:In-Reply-To:References:Date:From;
-        b=BNoyTCusYisehvH1uDCtgaTeCCwQWpDmKVC5M5AMsgEulgiLPO3HfoSUlZZyOlM8h
-         JC/7h0TpOjDpNBtOn+17ID99REjcprINr4UaklTLdHHhSkFGmW44wcyj19aOklrdpY
-         a/PrFfnGKYQik4i9hgbdLNWSsTgjFk4sx9ok4XsrwjFxGUtkUsKB8mxsBQ/djWlG+4
-         FQFR0exYECfzMKfLJfJZ8CTjeAtmzD73fk+AbqexelSkUxfEBk1Y1cV/EVOugeSM1S
-         CXloiBRrDBRdlr7UhOne2BlDGxIbP4eLlAh6EkbupWuZPydIiTncKvcUrNvQx3DjBZ
-         NFSAbM5MAfeVQ==
+        t=1650447496; bh=0NzDxonImRhcRK7m2RGoPtMTw81nEVFFUstwMY8oGEQ=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=LygPhmyKr5Y7EC5qtRGxwgca1T27iM/CBNtkfZWnlCH0gzaDCXw8Fb6/xKtMpOlM4
+         lldCdsExTQK3ShHD5UrHtC5mrwpkw4/3/8VmX0E4x8Q48Vwt29uS2e8DZp9dPtSPxZ
+         1yC6DA+9GFNYoQQO2lp8KuISqo3Pf1HpMrLz8sqIYvQRafLctb4Yg5qi6GFa/grIpJ
+         SouBBnPvaQ8tfmYDikG7QWaY76z58Ncg0y0mnJw/YcUY4DRoTjoBOphGs6DJmJ8gRQ
+         SDF7zLFLjSVsjMxUgLq79LitXjVKW6kKmfShhN+K2gi5TAhnHhI8j4DQKwJptsyzWg
+         0MWUVVFpH5NNw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bruno Moreira-Guedes <codeagain@codeagain.dev>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        outreachy@lists.linux.dev,
-        Bruno's Patch Watchbox <patch-reply@codeagain.dev>
-Subject: Re: [PATCH v2 0/2] Docs: Update information at changes.rst
-In-Reply-To: <cover.1650376049.git.codeagain@codeagain.dev>
-References: <cover.1650376049.git.codeagain@codeagain.dev>
-Date:   Wed, 20 Apr 2022 03:35:10 -0600
-Message-ID: <8735i83xo1.fsf@meer.lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        David Howells <dhowells@redhat.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: move watch_queue to core-api
+In-Reply-To: <20220419025416.19434-1-rdunlap@infradead.org>
+References: <20220419025416.19434-1-rdunlap@infradead.org>
+Date:   Wed, 20 Apr 2022 03:38:12 -0600
+Message-ID: <87y2002iyj.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bruno Moreira-Guedes <codeagain@codeagain.dev> writes:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> Add and update information at 'Documentation/process/changes.rst'. The
-> text has outdated kernel version and misses the 'cpio' build
-> requirement, necessary for the `kernel/gen_kheaders.sh` script called by
-> the install target.
+> Move watch_queue documentation to the core-api index and
+> subdirectory.
 >
-> The PATCH 1/2 fixes the missing cpio requirement, while PATCH 2/2 fixes
-> the kernel version reference.
+> Fixes: c73be61cede5 ("pipe: Add general notification queue support")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: David Howells <dhowells@redhat.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
 >
-> Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
+>  Documentation/core-api/index.rst             | 1 +
+>  Documentation/{ => core-api}/watch_queue.rst | 0
+>  Documentation/index.rst                      | 1 -
+>  3 files changed, 1 insertion(+), 1 deletion(-)
+>  rename Documentation/{ => core-api}/watch_queue.rst (100%)
 
-Patches applied, thanks.
+Applied, thanks.
 
 jon
