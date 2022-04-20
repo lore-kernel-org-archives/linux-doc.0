@@ -2,191 +2,243 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99F96C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 17:12:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 250DBC43217
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 17:15:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380943AbiDTRPm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Apr 2022 13:15:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33080 "EHLO
+        id S1381001AbiDTRSM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Apr 2022 13:18:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380918AbiDTRPl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 13:15:41 -0400
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A014578A;
-        Wed, 20 Apr 2022 10:12:54 -0700 (PDT)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 23KHCZ77026093;
-        Thu, 21 Apr 2022 02:12:35 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 23KHCZ77026093
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1650474755;
-        bh=Fk2/b3chLadxxWYR7TJuggZMmEaTZ15R1Bl8NCeoLQw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ARgD5/tIAHSdmMMtb7NUu93xkSGxzvvKSvM6ViAIAMDlTiFJnxXLs1DOTnQjHuYQ4
-         f2pYiIjxiVXwOySQOeVtE+zncDSKUFsk3I3F66Zsa+BzeuCamPFN7AeieGCiyMvX91
-         75NlsPxWTWMcdTAUwnmV7SbTCasLzoFUiyNfso33DDFqes00T3OG5gNQQzZDFenB8R
-         4JgCnT4NYjgT31bkdl5EVR5gGCzUWaZXuh2hsGc4s6budcsleuEacb8butjFUhogic
-         kDflNYr1obyVpohbCZr1y9tMbNqiebeN+XWiqJx0P0yVjagyG39ldjKCUvjQ2TBX8s
-         fBaumduZXZM6A==
-X-Nifty-SrcIP: [209.85.215.174]
-Received: by mail-pg1-f174.google.com with SMTP id bg9so2168690pgb.9;
-        Wed, 20 Apr 2022 10:12:35 -0700 (PDT)
-X-Gm-Message-State: AOAM532DcY9CgbnpVonKz/gecx+RbuQQxmZZVw2lrS0PcEb2ZgpG3d8U
-        dPRK6beYefLhYS8jG0sGam8z8uk7Ilovw8AnUr0=
-X-Google-Smtp-Source: ABdhPJxOQtBOOzOzHz6j7UNKrhcW2BGLKttRmgmlW//TR+NzqtbsEr8i0spqFRmnkBFUS4Q6boqKGjMOv67/TlpIZao=
-X-Received: by 2002:a63:5212:0:b0:3a9:fb93:462b with SMTP id
- g18-20020a635212000000b003a9fb93462bmr14310900pgb.126.1650474754505; Wed, 20
- Apr 2022 10:12:34 -0700 (PDT)
+        with ESMTP id S1381087AbiDTRRz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 13:17:55 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7346462E0;
+        Wed, 20 Apr 2022 10:15:08 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id q3so3172639wrj.7;
+        Wed, 20 Apr 2022 10:15:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=VVE40BH1GRcbe/2Tu0Z62ouo5J9RFF1pHt0E7xPlfvg=;
+        b=IQnt/x4OcHX5HZ7mUhDc2ms9QVGAIqV2zbzFjSl/BZga+POXGprc8jAVcP4WSBn8q1
+         oC5hUbE3f6l+Jzzr4sdV/Ymci9y5RbyiL52HGSuNgpV7j/y/XnAboHJWcXFj0fwpyy5z
+         eKPgBZNNG1V9twCmthvzdlKMf/41DMP3YWUrS27NcX/bJjIGToW3XSjaok/cXdGPspeg
+         R09YACy8sr9p/VlWOoLOAb0nJCMZr88milhj4Buqymnm70moyTHwgrKh6FfcIAk7xXVc
+         c3eTLSsYRjlm5bvxLmhF6M/j1C7egViWY+e0l/dsHfkJ0AI3vSU4nwTHJIju/5UlMNvR
+         aXtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=VVE40BH1GRcbe/2Tu0Z62ouo5J9RFF1pHt0E7xPlfvg=;
+        b=XeOOh43XbTo9f3+uMfCEgTgnmKzX+/Mm8Odplop0INAFFzZKj9mxx2X7mn2VomkyRI
+         MB4HakiViqVkGiRDC7552mvVUplatNyaAqEOHxgdfyPUaTTwUthNid6VcP1Ircdi0YSI
+         H2djVwcct/UEh5k6XSx7imYikxKPWAt8A0Wxxu6txCU1zXEBgmqyZE5q6CdQ4h5rk/Se
+         sKzpOQHG7bJWpbN0TDvv+LpxNloVYVOQG/pzase8A/GnMnDZtHB5rtFkMlD7VnA8cybP
+         LVACel5qFI6GfvY/kjLZn9WJoh27xqXpL+W9kxaQ/Oq2eYjnYhVb29QSNskRJNCR7n84
+         XNbQ==
+X-Gm-Message-State: AOAM533iEC8KTT0qpgY4wNUmpgicgYu1NWAWoYPOyddetAmP168g8Vv1
+        L9T1eENU3VfzhzXIb0QqzWg=
+X-Google-Smtp-Source: ABdhPJxIWxnjYPQvPY4VWEEwaTL7CTlMNmYuFQRH2BJ3aMaZWK7/tlKRUWXIe4rCjz+bb1//4bh1qA==
+X-Received: by 2002:adf:f943:0:b0:203:e832:129 with SMTP id q3-20020adff943000000b00203e8320129mr16151390wrr.626.1650474906913;
+        Wed, 20 Apr 2022 10:15:06 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.googlemail.com with ESMTPSA id l6-20020a1c2506000000b0038e6fe8e8d8sm398575wml.5.2022.04.20.10.15.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Apr 2022 10:15:06 -0700 (PDT)
+Sender: Paolo Bonzini <paolo.bonzini@gmail.com>
+Message-ID: <3e6018ad-06b7-f465-7b74-aeb20bca9489@redhat.com>
+Date:   Wed, 20 Apr 2022 19:15:04 +0200
 MIME-Version: 1.0
-References: <20220413144748.84106-1-songmuchun@bytedance.com> <20220413144748.84106-2-songmuchun@bytedance.com>
-In-Reply-To: <20220413144748.84106-2-songmuchun@bytedance.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 21 Apr 2022 02:11:36 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARNyYNMMYcEwU-pVFb-b21cKN+K_jwseLTtoOfscS2Ggw@mail.gmail.com>
-Message-ID: <CAK7LNARNyYNMMYcEwU-pVFb-b21cKN+K_jwseLTtoOfscS2Ggw@mail.gmail.com>
-Subject: Re: [PATCH v8 1/4] mm: hugetlb_vmemmap: introduce CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, mike.kravetz@oracle.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        David Hildenbrand <david@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 2/2] KVM: X86/MMU: Introduce role.passthrough for
+ shadowing 5-level NPT for 4-level NPT L1 guest
+Content-Language: en-US
+To:     Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        Sean Christopherson <seanjc@google.com>
+Cc:     Lai Jiangshan <jiangshan.ljs@antgroup.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
+References: <20220420131204.2850-1-jiangshanlai@gmail.com>
+ <20220420131204.2850-3-jiangshanlai@gmail.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220420131204.2850-3-jiangshanlai@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 13, 2022 at 11:48 PM Muchun Song <songmuchun@bytedance.com> wrote:
->
-> If the size of "struct page" is not the power of two but with the feature
-> of minimizing overhead of struct page associated with each HugeTLB is
-> enabled, then the vmemmap pages of HugeTLB will be corrupted after
-> remapping (panic is about to happen in theory).  But this only exists when
-> !CONFIG_MEMCG && !CONFIG_SLUB on x86_64.  However, it is not a conventional
-> configuration nowadays.  So it is not a real word issue, just the result
-> of a code review.  But we have to prevent anyone from configuring that
-> combined configurations.  In order to avoid many checks like "is_power_of_2
-> (sizeof(struct page))" through mm/hugetlb_vmemmap.c.  Introduce a new macro
-> CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP to represent the size of struct
-> page is power of two and CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP is
-> configured.  Then make the codes of this feature depends on this new macro.
-> Then we could prevent anyone do any unexpected configurations.  A new
-> autoconf_ext.h is introduced as well, which serves as an extension for
-> autoconf.h since those special configurations (e.g.
-> CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP here) are rely on the autoconf.h
-> (generated from Kconfig), so we cannot embed those configurations into
-> Kconfig.  After this change, it would be easy if someone want to do the
-> similar thing (add a new CONFIG) in the future.
->
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Suggested-by: Luis Chamberlain <mcgrof@kernel.org>
+On 4/20/22 15:12, Lai Jiangshan wrote:
+> From: Lai Jiangshan <jiangshan.ljs@antgroup.com>
+> 
+> When shadowing 5-level NPT for 4-level NPT L1 guest, the root_sp is
+> allocated with role.level = 5 and the guest pagetable's root gfn.
+> 
+> And root_sp->spt[0] is also allocated with the same gfn and the same
+> role except role.level = 4.  Luckily that they are different shadow
+> pages, but only root_sp->spt[0] is the real translation of the guest
+> pagetable.
+> 
+> Here comes a problem:
+> 
+> If the guest switches from gCR4_LA57=0 to gCR4_LA57=1 (or vice verse)
+> and uses the same gfn as the root page for nested NPT before and after
+> switching gCR4_LA57.  The host (hCR4_LA57=1) might use the same root_sp
+> for the guest even the guest switches gCR4_LA57.  The guest will see
+> unexpected page mapped and L2 may exploit the bug and hurt L1.  It is
+> lucky that the problem can't hurt L0.
+> 
+> And three special cases need to be handled:
+> 
+> The root_sp should be like role.direct=1 sometimes: its contents are
+> not backed by gptes, root_sp->gfns is meaningless.  (For a normal high
+> level sp in shadow paging, sp->gfns is often unused and kept zero, but
+> it could be relevant and meaningful if sp->gfns is used because they
+> are backed by concrete gptes.)
+> 
+> For such root_sp in the case, root_sp is just a portal to contribute
+> root_sp->spt[0], and root_sp->gfns should not be used and
+> root_sp->spt[0] should not be dropped if gpte[0] of the guest root
+> pagetable is changed.
+> 
+> Such root_sp should not be accounted too.
+> 
+> So add role.passthrough to distinguish the shadow pages in the hash
+> when gCR4_LA57 is toggled and fix above special cases by using it in
+> kvm_mmu_page_{get|set}_gfn() and sp_has_gptes().
+> 
+> Signed-off-by: Lai Jiangshan <jiangshan.ljs@antgroup.com>
+
+Looks good, and is easy to backport; thanks.
+
+However, once we have also your series "KVM: X86/MMU: Use one-off 
+special shadow page for special roots", perhaps the passthrough sp can 
+be converted to a special root (but now with a shadow_page) as well?
+
+Paolo
+
 > ---
->  Kbuild                     | 19 +++++++++++++++++++
->  arch/x86/mm/init_64.c      |  2 +-
->  include/linux/hugetlb.h    |  2 +-
->  include/linux/kconfig.h    |  4 ++++
->  include/linux/mm.h         |  2 +-
->  include/linux/page-flags.h |  2 +-
->  kernel/autoconf_ext.c      | 26 ++++++++++++++++++++++++++
->  mm/hugetlb_vmemmap.c       |  8 ++------
->  mm/hugetlb_vmemmap.h       |  4 ++--
->  mm/sparse-vmemmap.c        |  4 ++--
->  scripts/mod/Makefile       |  2 ++
->  11 files changed, 61 insertions(+), 14 deletions(-)
->  create mode 100644 kernel/autoconf_ext.c
->
-> diff --git a/Kbuild b/Kbuild
-> index fa441b98c9f6..83c0d5a418d1 100644
-> --- a/Kbuild
-> +++ b/Kbuild
-> @@ -2,6 +2,12 @@
->  #
->  # Kbuild for top-level directory of the kernel
->
-> +# autoconf_ext.h is generated last since it depends on other generated headers,
-> +# however those other generated headers may include autoconf_ext.h. Use the
-> +# following macro to avoid circular dependency.
+>   Documentation/virt/kvm/mmu.rst  |  3 +++
+>   arch/x86/include/asm/kvm_host.h |  5 +++--
+>   arch/x86/kvm/mmu/mmu.c          | 16 ++++++++++++++++
+>   arch/x86/kvm/mmu/paging_tmpl.h  |  1 +
+>   4 files changed, 23 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/mmu.rst b/Documentation/virt/kvm/mmu.rst
+> index 5b1ebad24c77..4018b9d7a0d3 100644
+> --- a/Documentation/virt/kvm/mmu.rst
+> +++ b/Documentation/virt/kvm/mmu.rst
+> @@ -202,6 +202,9 @@ Shadow pages contain the following information:
+>       Is 1 if the MMU instance cannot use A/D bits.  EPT did not have A/D
+>       bits before Haswell; shadow EPT page tables also cannot use A/D bits
+>       if the L1 hypervisor does not enable them.
+> +  role.passthrough:
+> +    Is 1 if role.level = 5 when shadowing 5-level shadow NPT for
+> +    4-level NPT L1.
+>     gfn:
+>       Either the guest page table containing the translations shadowed by this
+>       page, or the base page frame for linear translations.  See role.direct.
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index 9694dd5e6ccc..d4f8f4784d87 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -285,7 +285,7 @@ struct kvm_kernel_irq_routing_entry;
+>    * minimize the size of kvm_memory_slot.arch.gfn_track, i.e. allows allocating
+>    * 2 bytes per gfn instead of 4 bytes per gfn.
+>    *
+> - * Indirect upper-level shadow pages are tracked for write-protection via
+> + * Upper-level shadow pages having gptes are tracked for write-protection via
+>    * gfn_track.  As above, gfn_track is a 16 bit counter, so KVM must not create
+>    * more than 2^16-1 upper-level shadow pages at a single gfn, otherwise
+>    * gfn_track will overflow and explosions will ensure.
+> @@ -331,7 +331,8 @@ union kvm_mmu_page_role {
+>   		unsigned smap_andnot_wp:1;
+>   		unsigned ad_disabled:1;
+>   		unsigned guest_mode:1;
+> -		unsigned :6;
+> +		unsigned passthrough:1;
+> +		unsigned :5;
+>   
+>   		/*
+>   		 * This is left at the top of the word so that
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index 1bdff55218ef..d14cb6f99cb1 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+> @@ -737,6 +737,9 @@ static void mmu_free_pte_list_desc(struct pte_list_desc *pte_list_desc)
+>   
+>   static gfn_t kvm_mmu_page_get_gfn(struct kvm_mmu_page *sp, int index)
+>   {
+> +	if (sp->role.passthrough)
+> +		return sp->gfn;
 > +
-> +KBUILD_CFLAGS_KERNEL += -D__EXCLUDE_AUTOCONF_EXT_H
+>   	if (!sp->role.direct)
+>   		return sp->gfns[index];
+>   
+> @@ -745,6 +748,11 @@ static gfn_t kvm_mmu_page_get_gfn(struct kvm_mmu_page *sp, int index)
+>   
+>   static void kvm_mmu_page_set_gfn(struct kvm_mmu_page *sp, int index, gfn_t gfn)
+>   {
+> +	if (sp->role.passthrough) {
+> +		WARN_ON_ONCE(gfn != sp->gfn);
+> +		return;
+> +	}
 > +
->  #####
->  # Generate bounds.h
->
-> @@ -37,6 +43,19 @@ $(offsets-file): arch/$(SRCARCH)/kernel/asm-offsets.s FORCE
->         $(call filechk,offsets,__ASM_OFFSETS_H__)
->
->  #####
-> +# Generate autoconf_ext.h.
+>   	if (!sp->role.direct) {
+>   		sp->gfns[index] = gfn;
+>   		return;
+> @@ -1861,6 +1869,9 @@ static bool sp_has_gptes(struct kvm_mmu_page *sp)
+>   	if (sp->role.direct)
+>   		return false;
+>   
+> +	if (sp->role.passthrough)
+> +		return false;
 > +
-> +autoconf_ext-file := include/generated/autoconf_ext.h
-> +
-> +always-y += $(autoconf_ext-file)
-> +targets += kernel/autoconf_ext.s
-> +
-> +kernel/autoconf_ext.s: $(bounds-file) $(timeconst-file) $(offsets-file)
-> +
-> +$(autoconf_ext-file): kernel/autoconf_ext.s FORCE
-> +       $(call filechk,offsets,__LINUX_AUTOCONF_EXT_H__)
-> +
-> +#####
->  # Check for missing system calls
->
->  always-y += missing-syscalls
-> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
-> index 4b9e0012bbbf..9b8dfa6e4da8 100644
-> --- a/arch/x86/mm/init_64.c
-> +++ b/arch/x86/mm/init_64.c
-> @@ -1268,7 +1268,7 @@ static struct kcore_list kcore_vsyscall;
->
->  static void __init register_page_bootmem_info(void)
->  {
-> -#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP)
-> +#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP)
->         int i;
->
->         for_each_online_node(i)
-> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> index ac2ece9e9c79..d42de8abd2b6 100644
-> --- a/include/linux/hugetlb.h
-> +++ b/include/linux/hugetlb.h
-> @@ -623,7 +623,7 @@ struct hstate {
->         unsigned int nr_huge_pages_node[MAX_NUMNODES];
->         unsigned int free_huge_pages_node[MAX_NUMNODES];
->         unsigned int surplus_huge_pages_node[MAX_NUMNODES];
-> -#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
-> +#ifdef CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
->         unsigned int optimize_vmemmap_pages;
->  #endif
->  #ifdef CONFIG_CGROUP_HUGETLB
-> diff --git a/include/linux/kconfig.h b/include/linux/kconfig.h
-> index 20d1079e92b4..00796794f177 100644
-> --- a/include/linux/kconfig.h
-> +++ b/include/linux/kconfig.h
-> @@ -4,6 +4,10 @@
->
->  #include <generated/autoconf.h>
->
-> +#if defined(__KERNEL__) && !defined(__EXCLUDE_AUTOCONF_EXT_H)
-> +#include <generated/autoconf_ext.h>
-> +#endif
-> +
+>   	return true;
+>   }
+>   
+> @@ -2059,6 +2070,8 @@ static struct kvm_mmu_page *kvm_mmu_get_page(struct kvm_vcpu *vcpu,
+>   		quadrant &= (1 << ((PT32_PT_BITS - PT64_PT_BITS) * level)) - 1;
+>   		role.quadrant = quadrant;
+>   	}
+> +	if (level <= vcpu->arch.mmu->root_level)
+> +		role.passthrough = 0;
+>   
+>   	sp_list = &vcpu->kvm->arch.mmu_page_hash[kvm_page_table_hashfn(gfn)];
+>   	for_each_valid_sp(vcpu->kvm, sp, sp_list) {
+> @@ -4890,6 +4903,9 @@ kvm_calc_shadow_npt_root_page_role(struct kvm_vcpu *vcpu,
+>   
+>   	role.base.direct = false;
+>   	role.base.level = kvm_mmu_get_tdp_level(vcpu);
+> +	if (role.base.level == PT64_ROOT_5LEVEL &&
+> +	    role_regs_to_root_level(regs) == PT64_ROOT_4LEVEL)
+> +		role.base.passthrough = 1;
+>   
+>   	return role;
+>   }
+> diff --git a/arch/x86/kvm/mmu/paging_tmpl.h b/arch/x86/kvm/mmu/paging_tmpl.h
+> index 8621188b46df..c1b975fb85a2 100644
+> --- a/arch/x86/kvm/mmu/paging_tmpl.h
+> +++ b/arch/x86/kvm/mmu/paging_tmpl.h
+> @@ -1042,6 +1042,7 @@ static int FNAME(sync_page)(struct kvm_vcpu *vcpu, struct kvm_mmu_page *sp)
+>   		.level = 0xf,
+>   		.access = 0x7,
+>   		.quadrant = 0x3,
+> +		.passthrough = 0x1,
+>   	};
+>   
+>   	/*
 
-
-Please do not do this either.
-
-When autoconf_ext.h is updated, the kernel tree
-would be rebuilt entirely.
-
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
