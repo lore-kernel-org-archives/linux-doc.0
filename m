@@ -2,66 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 055C5C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 09:38:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69DEFC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 09:40:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377276AbiDTJlE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Apr 2022 05:41:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36960 "EHLO
+        id S231693AbiDTJnA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Apr 2022 05:43:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377277AbiDTJlD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 05:41:03 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80CD4205E8;
-        Wed, 20 Apr 2022 02:38:17 -0700 (PDT)
-Received: from localhost (mdns.lwn.net [45.79.72.68])
+        with ESMTP id S236879AbiDTJm7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 05:42:59 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34308340DA;
+        Wed, 20 Apr 2022 02:40:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E22E1536;
-        Wed, 20 Apr 2022 09:38:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E22E1536
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1650447496; bh=0NzDxonImRhcRK7m2RGoPtMTw81nEVFFUstwMY8oGEQ=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=LygPhmyKr5Y7EC5qtRGxwgca1T27iM/CBNtkfZWnlCH0gzaDCXw8Fb6/xKtMpOlM4
-         lldCdsExTQK3ShHD5UrHtC5mrwpkw4/3/8VmX0E4x8Q48Vwt29uS2e8DZp9dPtSPxZ
-         1yC6DA+9GFNYoQQO2lp8KuISqo3Pf1HpMrLz8sqIYvQRafLctb4Yg5qi6GFa/grIpJ
-         SouBBnPvaQ8tfmYDikG7QWaY76z58Ncg0y0mnJw/YcUY4DRoTjoBOphGs6DJmJ8gRQ
-         SDF7zLFLjSVsjMxUgLq79LitXjVKW6kKmfShhN+K2gi5TAhnHhI8j4DQKwJptsyzWg
-         0MWUVVFpH5NNw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        David Howells <dhowells@redhat.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: move watch_queue to core-api
-In-Reply-To: <20220419025416.19434-1-rdunlap@infradead.org>
-References: <20220419025416.19434-1-rdunlap@infradead.org>
-Date:   Wed, 20 Apr 2022 03:38:12 -0600
-Message-ID: <87y2002iyj.fsf@meer.lwn.net>
+        by ams.source.kernel.org (Postfix) with ESMTPS id D82E3B81E1C;
+        Wed, 20 Apr 2022 09:40:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 74F12C385A8;
+        Wed, 20 Apr 2022 09:40:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1650447611;
+        bh=bH0TgcVovdZFNPyE+RQlHrCOteeo4plxQp+8KyshTXQ=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=Is7MgfnkWr50sAPa0MsCufqpdYN89VV0XrwLZlOJqXf86359DYBj1CDJ/djdAxXZt
+         YgGgu8xL6dyYkTt2unBIYtAOjY61DOnhplLZ+dv/osGACexllZStayROU/nO2qKWhy
+         mpsj1TiWIVqQQw0STQEEgxt3C8ayL2YaI5vqsR1SsXT9vlzWh0F269X1aCJAbVnUcA
+         jveq77Gwu3Y75/yFIKi8A1VfTENQHBLckiiuYV7giDDVPtuIWbXRyuG8bL1Y2qNSLE
+         ThWA1p+8l92hmO45g2owli3GZBTJKGDkL5dmQIQQFJ1hrnLmF2rYkFd7hO8kzhEHE/
+         madzDoeQQLPww==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 588ACE8DD85;
+        Wed, 20 Apr 2022 09:40:11 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] doc/ip-sysctl: add bc_forwarding
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <165044761135.27023.9005040852408802876.git-patchwork-notify@kernel.org>
+Date:   Wed, 20 Apr 2022 09:40:11 +0000
+References: <20220413140000.23648-1-nicolas.dichtel@6wind.com>
+In-Reply-To: <20220413140000.23648-1-nicolas.dichtel@6wind.com>
+To:     Nicolas Dichtel <nicolas.dichtel@6wind.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        corbet@lwn.net, lucien.xin@gmail.com, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Hello:
 
-> Move watch_queue documentation to the core-api index and
-> subdirectory.
->
-> Fixes: c73be61cede5 ("pipe: Add general notification queue support")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: David Howells <dhowells@redhat.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+This patch was applied to netdev/net.git (master)
+by David S. Miller <davem@davemloft.net>:
+
+On Wed, 13 Apr 2022 16:00:00 +0200 you wrote:
+> Let's describe this sysctl.
+> 
+> Fixes: 5cbf777cfdf6 ("route: add support for directed broadcast forwarding")
+> Signed-off-by: Nicolas Dichtel <nicolas.dichtel@6wind.com>
 > ---
->
->  Documentation/core-api/index.rst             | 1 +
->  Documentation/{ => core-api}/watch_queue.rst | 0
->  Documentation/index.rst                      | 1 -
->  3 files changed, 1 insertion(+), 1 deletion(-)
->  rename Documentation/{ => core-api}/watch_queue.rst (100%)
+>  Documentation/networking/ip-sysctl.rst | 7 +++++++
+>  1 file changed, 7 insertions(+)
 
-Applied, thanks.
+Here is the summary with links:
+  - [net] doc/ip-sysctl: add bc_forwarding
+    https://git.kernel.org/netdev/net/c/c6a4254c18c6
 
-jon
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
