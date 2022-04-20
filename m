@@ -2,209 +2,191 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A2AC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 15:56:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99F96C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 17:12:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234332AbiDTP7k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Apr 2022 11:59:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37322 "EHLO
+        id S1380943AbiDTRPm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Apr 2022 13:15:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230051AbiDTP7j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 11:59:39 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DF97205D4
-        for <linux-doc@vger.kernel.org>; Wed, 20 Apr 2022 08:56:53 -0700 (PDT)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23KFZ7rX012445;
-        Wed, 20 Apr 2022 15:54:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- mime-version; s=corp-2021-07-09;
- bh=ovme9e+tTvO4wJJnibmVHs6VjdH60MVWqY13XUbqeNQ=;
- b=RndOmyhn1tE4HvkUOG/trIOGeMNPniHA86gxv+NgTLtCwoagq9NkXBYzszl7PTmw+qUi
- MMYewsxSFAZkXsHVwpxjZvfXCy7qRBo5N0n+d9GdNNuWrDZT7G/WbXZwQ83c8YFUy1HK
- A1sUQ7FneiFqkyps/0rRxeFUbLWT5x4D2b7P40BIXo8mbugI3R2p346vJE781CcWSL1H
- ITphxOmZ0PNPppZHkrnQZSzNH+GIEHzVYA4EvbHZJphK05MB3fDfYN9f6I+mWYz/Ago5
- iK7vvUOJNNSEqRv7FG7QfOZMg83PsaChom7H09w2ICH8eqJYkQoC+KjZzlxCiENsTvHv ww== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3ffpbv9ndk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 20 Apr 2022 15:54:39 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 23KFqAdL001383;
-        Wed, 20 Apr 2022 15:54:33 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3ffm8727rc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 20 Apr 2022 15:54:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xp43mx3+UqCCQMJmljN6O+ZnZg6Zc3/ETqvwkJ4MjZ6GavhocvrgyjOW6jU99SpSJCtwW4aX8O5bmcc1kpuYWt0bIiVG4Gy/xpza2wI7AkRhLBQTdezbqChlcP916zxcARn7wO4hZI6ssyjlgPPsuos+pM64lFzpBP+S5ddzdto99gskoMTg1Yn/CUlHL3z+p40pBNagVheorJ/n0e6wymSi3wlmRtD1NZQEcvcOP2xVFRK+X4hKTIM9ldZVd1Qs0efxFuUhpoFsfPNvw2V2jkXgN1xxs1s+hDwM/AFW0lKaTO9FBNA2KAByAVX25ZFBiY0O123ggKCxQt7pgiMBUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ovme9e+tTvO4wJJnibmVHs6VjdH60MVWqY13XUbqeNQ=;
- b=dGdQzohFeXEo9QaCm7RVxPwBaCH9YLTMFjH5c+sd+5Zq5JFtWFwyqwEGC5D6iSS77aCPRcmTiVtD/TkJArYHtgaa1iyxwXwOGUywzsfsBY5NF3N6opRtf80IUsmobGRE/8Wg3aTu66pQdRXJ10H2rpMddPY0hcAs/yDgJK8adML1aiuFuZtdby8DLNJdXHQn36lxXMiVoBuIeRsQpIJIIgxPfqT1FFl3WB3Q4h8W2xd8A201GxaPw3G19eNGHG42J705IF/aYH+MTVTHcbIV1oL3dWfFRlZA6SKQwW1gsyBx7BzilU6cQuC2Tu/NqZ4vfc0o+mI7azWEP72nNZBVhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ovme9e+tTvO4wJJnibmVHs6VjdH60MVWqY13XUbqeNQ=;
- b=tJUr9gzA8qqNKL7m1bHuXarRPQ/9WhAHSCkgRGcv2/5VOcrybeB1fBSQxNh8ROdNm2egjGNhJAmTlbkcucTCpO5fh4D8ewdhCNtjZ50yxp1LCUgWHu5P35jZ9TovX+mUqllgageXqL9ShfyNpyMDvoILJi4lh0O26R2wo8dVYSI=
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by BN6PR10MB1330.namprd10.prod.outlook.com (2603:10b6:404:43::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.25; Wed, 20 Apr
- 2022 15:54:31 +0000
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::d17f:a2a4:ca0c:cb49]) by BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::d17f:a2a4:ca0c:cb49%4]) with mapi id 15.20.5186.013; Wed, 20 Apr 2022
- 15:54:31 +0000
-From:   Joao Martins <joao.m.martins@oracle.com>
-To:     linux-mm@kvack.org
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v9 5/5] mm/page_alloc: reuse tail struct pages for compound devmaps
-Date:   Wed, 20 Apr 2022 16:53:10 +0100
-Message-Id: <20220420155310.9712-6-joao.m.martins@oracle.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20220420155310.9712-1-joao.m.martins@oracle.com>
-References: <20220420155310.9712-1-joao.m.martins@oracle.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SGAP274CA0011.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::23)
- To BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+        with ESMTP id S1380918AbiDTRPl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 13:15:41 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A014578A;
+        Wed, 20 Apr 2022 10:12:54 -0700 (PDT)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 23KHCZ77026093;
+        Thu, 21 Apr 2022 02:12:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 23KHCZ77026093
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1650474755;
+        bh=Fk2/b3chLadxxWYR7TJuggZMmEaTZ15R1Bl8NCeoLQw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ARgD5/tIAHSdmMMtb7NUu93xkSGxzvvKSvM6ViAIAMDlTiFJnxXLs1DOTnQjHuYQ4
+         f2pYiIjxiVXwOySQOeVtE+zncDSKUFsk3I3F66Zsa+BzeuCamPFN7AeieGCiyMvX91
+         75NlsPxWTWMcdTAUwnmV7SbTCasLzoFUiyNfso33DDFqes00T3OG5gNQQzZDFenB8R
+         4JgCnT4NYjgT31bkdl5EVR5gGCzUWaZXuh2hsGc4s6budcsleuEacb8butjFUhogic
+         kDflNYr1obyVpohbCZr1y9tMbNqiebeN+XWiqJx0P0yVjagyG39ldjKCUvjQ2TBX8s
+         fBaumduZXZM6A==
+X-Nifty-SrcIP: [209.85.215.174]
+Received: by mail-pg1-f174.google.com with SMTP id bg9so2168690pgb.9;
+        Wed, 20 Apr 2022 10:12:35 -0700 (PDT)
+X-Gm-Message-State: AOAM532DcY9CgbnpVonKz/gecx+RbuQQxmZZVw2lrS0PcEb2ZgpG3d8U
+        dPRK6beYefLhYS8jG0sGam8z8uk7Ilovw8AnUr0=
+X-Google-Smtp-Source: ABdhPJxOQtBOOzOzHz6j7UNKrhcW2BGLKttRmgmlW//TR+NzqtbsEr8i0spqFRmnkBFUS4Q6boqKGjMOv67/TlpIZao=
+X-Received: by 2002:a63:5212:0:b0:3a9:fb93:462b with SMTP id
+ g18-20020a635212000000b003a9fb93462bmr14310900pgb.126.1650474754505; Wed, 20
+ Apr 2022 10:12:34 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4d3b2e22-4bbd-47d4-3711-08da22e60ec0
-X-MS-TrafficTypeDiagnostic: BN6PR10MB1330:EE_
-X-Microsoft-Antispam-PRVS: <BN6PR10MB1330C14C06B214B809FDA18EBBF59@BN6PR10MB1330.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /uaQhrkuEZAE+GljW/TRWJv61FJxjRKFeQv2RRsRzRvUG1EAxglmR0k0mZ0HElvDk/f67B+bJR9AQlVjlyw49FRnznjB7KkKDYAJ1V7g+M6hlKivDiSkB0i0APUe0sFnmg7RuOM58B2gKOwmjq0qcDvidnCwVcG2/vUDLKGGsoOScC/D8OBIqTUKANLdERTiQ0yaYUfgngJ/AR0vF3+hs/9CrwLoVA6EhXgM678/zjeYdji+6+SuEfqHGpQR6RwSCpLjJ9MDHKl1Rf/TnGRNsgsBWkoRhybY5AHoVUWj/R2L4Hg2accWHRjLwTOHGQSu+ZOcIZIQS/b6MWngbtq/SrBBsD/APt8PcZ+QSzAbuWxHikNhED73wg5IpT1hO7LkV1P1o83rCCsGsbYf0ikXlAfCT6/e/DvweUHanSdSiLRRRcfqFxsgjmSPtmwGTexDCfPFieU/pOYaQYdRwZk3LsVZdhYiNaHh1ny+4i/8nuDbrMp/IbSdQ2ycAcxJuB/WwZ4mpRxBDCR5tQL9xqJTwGTIeG9bY1dC0CNC22Gj79tyJ1/qyS0EGafqlzlANjGUEsA11Jow04ESm/v3GUEA5q5DpIdWp7Ogw9XOqYQsa6R0SfwyebYk0YZ1qm4Zzi5t/Ab6A1Okno7JE5T0CkvPF1dpBF6eDZFRj+UZriR6REFY8u+Gxl6suJqfEUc8mXIvVQxxHm0Yn0X8va4VZYwBsA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(6506007)(8676002)(26005)(6512007)(4326008)(86362001)(38100700002)(38350700002)(6486002)(8936002)(66556008)(508600001)(66946007)(6666004)(7416002)(52116002)(316002)(1076003)(6916009)(186003)(2906002)(54906003)(36756003)(83380400001)(2616005)(66476007)(5660300002)(103116003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2F+l4YW2Q64H2LlQm3MOFDrJ6wZ0cEC5OI7xT+TznJ8PsKhB5AU7E6w5RkrZ?=
- =?us-ascii?Q?PY8urkZB8K7tqwuTLtSPTWESz9nN2C31XXtogCjS82/VaUxrWVEqOGl6UElj?=
- =?us-ascii?Q?N7DwLHemeNsRrcQ+a4cJGeN82iRwH5yPkFB0oivpcNtE0NyctoHT3lM40U2i?=
- =?us-ascii?Q?4eMcup2bkr/cYZyztjxLX962wjWhlHoGDi46qBENiHVdowa8SevxO4uQJcjB?=
- =?us-ascii?Q?GUq6f0pu6MH5bRfvvHsPyPw/1+A1S3U5KlokNOQSMVohWShXq5emcyUb9jOd?=
- =?us-ascii?Q?lZGk8gg6mEDbByAK2/YfkJ/faaraTpp1KjyFS72HbyUMvyy594q+dtUzfEtG?=
- =?us-ascii?Q?P1ki4/RGkDbqUlytRgbBfw+uDGbKwn0K4+26/TMrDXEAXjLijXolAobMOMyA?=
- =?us-ascii?Q?7kjEFWBci8ebZWEYhiTETX/iMSbUeL06CpXKay69B9nSL3Rt2PrV3F8Y1H8O?=
- =?us-ascii?Q?5VgXsOFKcA10JlzY53bSRTREYvAztWQkLvb7gkJMmKuyRQrp98IHivuB+ZVC?=
- =?us-ascii?Q?XkJ3j3siqOAuoeBeB0yUMyIlUxcFtzKJ4oMiCN69VWH/we+hkJFEh2w5akBZ?=
- =?us-ascii?Q?nZehfaaNz8q6ja6I79HDbhoMPP5oA+EFydMjp+fssyQmCPeHm8oHSkQ3CuuY?=
- =?us-ascii?Q?m+Krc445G64wf3DQxooX8JOgRTjE81ajZ50Hl5bygMZ91/7k+cZeL8/60aVf?=
- =?us-ascii?Q?5DZckLojysdTAwqQu0tpFMrKCuSeMigv0tCqFwNu05pd0j++QLHV0LfzczGj?=
- =?us-ascii?Q?vDXVoPNjE9p+VtxMklYt1F9bYEByBQmm3kJqi4idx1wWIaVx5yXhQFCNmLvE?=
- =?us-ascii?Q?B2pH0ttFSycmMn+9kINT5LZl7MyIvxKXYaRSi2ShLGwt0epXqb/2xqvYIisU?=
- =?us-ascii?Q?49wJ4er2x0d2s8lII0O9mj6UoIN+Jf+qongZkul3pesLiBOtfXaCGs3xl7XD?=
- =?us-ascii?Q?41WjNS0oOzwgHB9QvO/zIk5GVmVwQE4hU64tm0Yz1UU+fjG06GL9bn8HT9zL?=
- =?us-ascii?Q?Zj3PaHYMRz+UBwLKJkVC6P15Pj7Kh7W4Howhy0dDiASqNrOtMBdzajAc8zJT?=
- =?us-ascii?Q?78ytV0QUvw3B8IsAB9CFY7HYKTRV+QARgmkUray52n6oAopTzwUPuPakRMVa?=
- =?us-ascii?Q?5+ta0QOh9+9aWQ2ODmFd0wGPdebBLdMMq2ejQjWiG8Woh3CG6Fb/61UqnIV0?=
- =?us-ascii?Q?XcVBRITy98EWa5Sr+742kVMJXqcFotcCWiPh12axu7Cz+ySr2iLsCn7PAtjS?=
- =?us-ascii?Q?UTi1eGiv3o5HgOqIySyy/1jqs4mF2/rY1pC1pBBQJIoyqJFEOHAD9SK2+e/d?=
- =?us-ascii?Q?cGzgPiAcpEqRSx0gF3TC4i4XLA20sNDUAf1ElPzVSEfp1zKUr3j4JJtrF2Yx?=
- =?us-ascii?Q?oLGDqstJH1D6b74jYHGOe+YJtRmdPQv7lJ+QQpYDUppd0ACjC9s9RHv+3cNa?=
- =?us-ascii?Q?AXLUN/bcKyGOCWuh/wzGO88RZPPYoix5ubHAYwqiNf6B99MlMBIeuuaZKsta?=
- =?us-ascii?Q?ZhKQ0Zr1KAuyIsnp0sOPD6FmXsTDzBxSNAa5ZRllFGv/T4FlDgjV5TXCTVVi?=
- =?us-ascii?Q?nTd/R3VnpeiQzK1DpHqXbHFF6vwRqwor/tqFLhEsAJj/9cfJ11/bPLtI7/et?=
- =?us-ascii?Q?ailk09hlLIHJcrK23GP4vAVSfjDTLKa7Df8Tdb6FZsWqYpsmqDNZCB4aMxRi?=
- =?us-ascii?Q?Qgye2ZyA+ga1SPzKXDhU5Tqw6/6WebVIPhCEP863q7ktFZeQGgF6YjnFmKd8?=
- =?us-ascii?Q?SllvDhWWQI/ZzPTz5y+KTnhSsiir2iU=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d3b2e22-4bbd-47d4-3711-08da22e60ec0
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2022 15:54:31.4458
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LBInq0BJeVRJCnICv5xmv92VJz12reESKnRupKHIW2fg0yVJx5JxHzTN+1qS4Q7TLHJCWHW0bGkSoNC0LR6SZW/3qpfdx/qf6lqmxar3UHo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR10MB1330
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.858
- definitions=2022-04-20_04:2022-04-20,2022-04-20 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0
- malwarescore=0 mlxlogscore=999 suspectscore=0 spamscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204200094
-X-Proofpoint-GUID: 2XgPbn4L1qH4ratiX2fP5or5HyUWEq_g
-X-Proofpoint-ORIG-GUID: 2XgPbn4L1qH4ratiX2fP5or5HyUWEq_g
+References: <20220413144748.84106-1-songmuchun@bytedance.com> <20220413144748.84106-2-songmuchun@bytedance.com>
+In-Reply-To: <20220413144748.84106-2-songmuchun@bytedance.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 21 Apr 2022 02:11:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARNyYNMMYcEwU-pVFb-b21cKN+K_jwseLTtoOfscS2Ggw@mail.gmail.com>
+Message-ID: <CAK7LNARNyYNMMYcEwU-pVFb-b21cKN+K_jwseLTtoOfscS2Ggw@mail.gmail.com>
+Subject: Re: [PATCH v8 1/4] mm: hugetlb_vmemmap: introduce CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, mike.kravetz@oracle.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        David Hildenbrand <david@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently memmap_init_zone_device() ends up initializing 32768 pages
-when it only needs to initialize 128 given tail page reuse. That
-number is worse with 1GB compound pages, 262144 instead of 128. Update
-memmap_init_zone_device() to skip redundant initialization, detailed
-below.
+On Wed, Apr 13, 2022 at 11:48 PM Muchun Song <songmuchun@bytedance.com> wrote:
+>
+> If the size of "struct page" is not the power of two but with the feature
+> of minimizing overhead of struct page associated with each HugeTLB is
+> enabled, then the vmemmap pages of HugeTLB will be corrupted after
+> remapping (panic is about to happen in theory).  But this only exists when
+> !CONFIG_MEMCG && !CONFIG_SLUB on x86_64.  However, it is not a conventional
+> configuration nowadays.  So it is not a real word issue, just the result
+> of a code review.  But we have to prevent anyone from configuring that
+> combined configurations.  In order to avoid many checks like "is_power_of_2
+> (sizeof(struct page))" through mm/hugetlb_vmemmap.c.  Introduce a new macro
+> CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP to represent the size of struct
+> page is power of two and CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP is
+> configured.  Then make the codes of this feature depends on this new macro.
+> Then we could prevent anyone do any unexpected configurations.  A new
+> autoconf_ext.h is introduced as well, which serves as an extension for
+> autoconf.h since those special configurations (e.g.
+> CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP here) are rely on the autoconf.h
+> (generated from Kconfig), so we cannot embed those configurations into
+> Kconfig.  After this change, it would be easy if someone want to do the
+> similar thing (add a new CONFIG) in the future.
+>
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Suggested-by: Luis Chamberlain <mcgrof@kernel.org>
+> ---
+>  Kbuild                     | 19 +++++++++++++++++++
+>  arch/x86/mm/init_64.c      |  2 +-
+>  include/linux/hugetlb.h    |  2 +-
+>  include/linux/kconfig.h    |  4 ++++
+>  include/linux/mm.h         |  2 +-
+>  include/linux/page-flags.h |  2 +-
+>  kernel/autoconf_ext.c      | 26 ++++++++++++++++++++++++++
+>  mm/hugetlb_vmemmap.c       |  8 ++------
+>  mm/hugetlb_vmemmap.h       |  4 ++--
+>  mm/sparse-vmemmap.c        |  4 ++--
+>  scripts/mod/Makefile       |  2 ++
+>  11 files changed, 61 insertions(+), 14 deletions(-)
+>  create mode 100644 kernel/autoconf_ext.c
+>
+> diff --git a/Kbuild b/Kbuild
+> index fa441b98c9f6..83c0d5a418d1 100644
+> --- a/Kbuild
+> +++ b/Kbuild
+> @@ -2,6 +2,12 @@
+>  #
+>  # Kbuild for top-level directory of the kernel
+>
+> +# autoconf_ext.h is generated last since it depends on other generated headers,
+> +# however those other generated headers may include autoconf_ext.h. Use the
+> +# following macro to avoid circular dependency.
+> +
+> +KBUILD_CFLAGS_KERNEL += -D__EXCLUDE_AUTOCONF_EXT_H
+> +
+>  #####
+>  # Generate bounds.h
+>
+> @@ -37,6 +43,19 @@ $(offsets-file): arch/$(SRCARCH)/kernel/asm-offsets.s FORCE
+>         $(call filechk,offsets,__ASM_OFFSETS_H__)
+>
+>  #####
+> +# Generate autoconf_ext.h.
+> +
+> +autoconf_ext-file := include/generated/autoconf_ext.h
+> +
+> +always-y += $(autoconf_ext-file)
+> +targets += kernel/autoconf_ext.s
+> +
+> +kernel/autoconf_ext.s: $(bounds-file) $(timeconst-file) $(offsets-file)
+> +
+> +$(autoconf_ext-file): kernel/autoconf_ext.s FORCE
+> +       $(call filechk,offsets,__LINUX_AUTOCONF_EXT_H__)
+> +
+> +#####
+>  # Check for missing system calls
+>
+>  always-y += missing-syscalls
+> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+> index 4b9e0012bbbf..9b8dfa6e4da8 100644
+> --- a/arch/x86/mm/init_64.c
+> +++ b/arch/x86/mm/init_64.c
+> @@ -1268,7 +1268,7 @@ static struct kcore_list kcore_vsyscall;
+>
+>  static void __init register_page_bootmem_info(void)
+>  {
+> -#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP)
+> +#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP)
+>         int i;
+>
+>         for_each_online_node(i)
+> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> index ac2ece9e9c79..d42de8abd2b6 100644
+> --- a/include/linux/hugetlb.h
+> +++ b/include/linux/hugetlb.h
+> @@ -623,7 +623,7 @@ struct hstate {
+>         unsigned int nr_huge_pages_node[MAX_NUMNODES];
+>         unsigned int free_huge_pages_node[MAX_NUMNODES];
+>         unsigned int surplus_huge_pages_node[MAX_NUMNODES];
+> -#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
+> +#ifdef CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
+>         unsigned int optimize_vmemmap_pages;
+>  #endif
+>  #ifdef CONFIG_CGROUP_HUGETLB
+> diff --git a/include/linux/kconfig.h b/include/linux/kconfig.h
+> index 20d1079e92b4..00796794f177 100644
+> --- a/include/linux/kconfig.h
+> +++ b/include/linux/kconfig.h
+> @@ -4,6 +4,10 @@
+>
+>  #include <generated/autoconf.h>
+>
+> +#if defined(__KERNEL__) && !defined(__EXCLUDE_AUTOCONF_EXT_H)
+> +#include <generated/autoconf_ext.h>
+> +#endif
+> +
 
-When a pgmap @vmemmap_shift is set, all pages are mapped at a given
-huge page alignment and use compound pages to describe them as opposed
-to a struct per 4K.
 
-With @vmemmap_shift > 0 and when struct pages are stored in ram
-(!altmap) most tail pages are reused. Consequently, the amount of
-unique struct pages is a lot smaller than the total amount of struct
-pages being mapped.
+Please do not do this either.
 
-The altmap path is left alone since it does not support memory savings
-based on compound pages devmap.
+When autoconf_ext.h is updated, the kernel tree
+would be rebuilt entirely.
 
-Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-Reviewed-by: Muchun Song <songmuchun@bytedance.com>
----
- mm/page_alloc.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 8d4c6a74fc85..8c34d43a4914 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -6606,6 +6606,21 @@ static void __ref __init_zone_device_page(struct page *page, unsigned long pfn,
- 	}
- }
- 
-+/*
-+ * With compound page geometry and when struct pages are stored in ram most
-+ * tail pages are reused. Consequently, the amount of unique struct pages to
-+ * initialize is a lot smaller that the total amount of struct pages being
-+ * mapped. This is a paired / mild layering violation with explicit knowledge
-+ * of how the sparse_vmemmap internals handle compound pages in the lack
-+ * of an altmap. See vmemmap_populate_compound_pages().
-+ */
-+static inline unsigned long compound_nr_pages(struct vmem_altmap *altmap,
-+					      unsigned long nr_pages)
-+{
-+	return is_power_of_2(sizeof(struct page)) &&
-+		!altmap ? 2 * (PAGE_SIZE / sizeof(struct page)) : nr_pages;
-+}
-+
- static void __ref memmap_init_compound(struct page *head,
- 				       unsigned long head_pfn,
- 				       unsigned long zone_idx, int nid,
-@@ -6670,7 +6685,7 @@ void __ref memmap_init_zone_device(struct zone *zone,
- 			continue;
- 
- 		memmap_init_compound(page, pfn, zone_idx, nid, pgmap,
--				     pfns_per_compound);
-+				     compound_nr_pages(altmap, pfns_per_compound));
- 	}
- 
- 	pr_info("%s initialised %lu pages in %ums\n", __func__,
+
+
+
 -- 
-2.17.2
-
+Best Regards
+Masahiro Yamada
