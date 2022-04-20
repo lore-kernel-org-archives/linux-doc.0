@@ -2,94 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65B23C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 21:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75F05C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 21:34:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382477AbiDTV0Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Apr 2022 17:26:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35390 "EHLO
+        id S237756AbiDTVhU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Apr 2022 17:37:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350252AbiDTV0Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 17:26:25 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59D8248891
-        for <linux-doc@vger.kernel.org>; Wed, 20 Apr 2022 14:23:37 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id h8so5203273ybj.11
-        for <linux-doc@vger.kernel.org>; Wed, 20 Apr 2022 14:23:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kNoFOy4a3bgPkQVqzY9jvHwandHXVY61/sg4Zfz5i3w=;
-        b=Seo2bThqdCMjzWqjYXZ0xLFOhHtVm9bLdX6O0DJ3+v0DymcUaqJLYUJHsrSy7ma5N/
-         JlVJ0OZTTGsMCajqR1C1ddy1D4vS+VEeKR/c9a5WUnkg0ZXm03NLiKP7YuhrHQubTSej
-         JkIQfWxFY8vFlSnuAiJlRc7WgvOZLOIRtOVTYjgNsNSRM0KoADLyAgDS9bZZpVXMOcdl
-         v7cCprLixK+YvYKgcKX5ezBFGGa9ak++pc79Hs4qO9dJpJxwzjJwxLF+RaFm62gtNZXb
-         um/uwTJpGhmkQ1Mt75SuC6yIm0m4r0uxD7tUnrYpwWE+GINkJy6pGCdzcWi2oBhV0Cx2
-         2R0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kNoFOy4a3bgPkQVqzY9jvHwandHXVY61/sg4Zfz5i3w=;
-        b=rDHOPKtHrRZDnw2CvkVkvdaFb7IQEdXR4YSExFvXFe3+3nUcsaQhEeQ1daFaO+s7xV
-         zeeUGx8hd2rVtFxF64QoOFZNr1ZZTQL56VztU9nWwc2pTrWjqo0vVz9LmutACsbUoTsJ
-         sJ7tvu4KG4bcOUy0+6D5S5RE41WZ1pnl9PXQLgK8RqPGQuzRpte2/gyO0KYwMjo8vAXE
-         8rG9yMk/F0BAAQo9tpmqzj/fMyMX3j4N4378Z3e9CM7zs8B53X93QOIQZ1hLO7wVkZjm
-         e1Iq3/Y4jaUQYZEsL+2CBAA9/SKL5fVw1mHV5Py5lUtOk3BTFy2RbalDbBOG3QWfJIHG
-         Ey6Q==
-X-Gm-Message-State: AOAM532UpGFxV0SNjzPxwOSISiaFk+9kvZaGAovundAAc8BJanIwvZaM
-        7/C1psANwyNoZ4zYyqDOkmQQgFFLWUt60yI4cNuTsA==
-X-Google-Smtp-Source: ABdhPJxiHDq05p9pdRKqWJQxsx5s+4OOdYxBG0GepwCxgjP4lZMjN5+fEEckXfW9Nwt6Rn8+Qcb9CqFq5moxgaXyirU=
-X-Received: by 2002:a5b:8c8:0:b0:641:e8de:a6f4 with SMTP id
- w8-20020a5b08c8000000b00641e8dea6f4mr21879860ybq.533.1650489816614; Wed, 20
- Apr 2022 14:23:36 -0700 (PDT)
+        with ESMTP id S1382542AbiDTVhT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 17:37:19 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F05A2488A1;
+        Wed, 20 Apr 2022 14:34:30 -0700 (PDT)
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id DCB90536;
+        Wed, 20 Apr 2022 21:34:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DCB90536
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1650490470; bh=6T0lvX8RNX9xGYkNbu6K5mxfaWl3HxhoGMIgYH6RZgk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=EQpMNXKGIxm38WSQDxnU2OdP/4CzkhHcofv0U0qShswpXUT1Hkk9mmRTNoIfYP7YN
+         yd7D6NQU2ueg5+AjSzzYWO0YAs3ortCaoNy048kqLPG+qR7KUWMRE7oBBldiOwEbHG
+         6QPzRlP8bjEAPdGBzvP1d3cj3IgVmxiEezT/GofTarisxddOGNc0uTyrGkE7eyAKaV
+         xZdO6L0SfWQkgv4rla7xsCk0Wk7jLC/vbX/wzTw/C9+PKc4Fhyc3USGVAHFRu4lKBM
+         SExjDE70Y7pDHa8oXj/tn1s94SQxyY0T1GS0gdbWrDPOSxwbWn6VnWCvtY832M07Lw
+         UgolFy9dY8XQg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Bruno Moreira-Guedes <codeagain@codeagain.dev>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        outreachy@lists.linux.dev,
+        Bruno's Patch Watchbox <patch-reply@codeagain.dev>
+Subject: Re: [PATCH v2 0/2] Docs: Update information at changes.rst
+In-Reply-To: <20220420172731.ru7kfrdkmprybtu7@AN5Bruno>
+References: <cover.1650376049.git.codeagain@codeagain.dev>
+ <8735i83xo1.fsf@meer.lwn.net> <20220420172731.ru7kfrdkmprybtu7@AN5Bruno>
+Date:   Wed, 20 Apr 2022 15:34:26 -0600
+Message-ID: <878rrz30d9.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20220329054521.14420-1-dipenp@nvidia.com> <CACRpkdbGyrRU9DDTmNDpU52rECAKY3wfi2y3jo9FMypDG=pmJQ@mail.gmail.com>
- <YmAPBG6IknkLotJp@orome>
-In-Reply-To: <YmAPBG6IknkLotJp@orome>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 20 Apr 2022 23:23:25 +0200
-Message-ID: <CACRpkdY_R+kJr9KppVBENzav_tJ_XToubs8mvtHmvCz9HokeUA@mail.gmail.com>
-Subject: Re: [PATCH v5 00/11] Intro to Hardware timestamping engine
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Dipen Patel <dipenp@nvidia.com>, jonathanh@nvidia.com,
-        smangipudi@nvidia.com, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
-        bgolaszewski@baylibre.com, warthog618@gmail.com,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        robh+dt@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 20, 2022 at 3:47 PM Thierry Reding <thierry.reding@gmail.com> wrote:
-> On Wed, Apr 20, 2022 at 12:46:43AM +0200, Linus Walleij wrote:
-> > On Tue, Mar 29, 2022 at 7:45 AM Dipen Patel <dipenp@nvidia.com> wrote:
-> >
-> > > This patch series introduces new subsystem called hardware timestamping
-> > > engine (HTE). It offers functionality such as timestamping through hardware
-> > > means in realtime. The HTE subsystem centralizes HTE provider and consumers
-> > > where providers can register themselves and the consumers can request
-> > > interested entity which could be lines, GPIO, signals or buses. The
-> > > HTE subsystem provides timestamp in nano seconds, having said that the provider
-> > > need to convert the timestamp if its not in that unit. There was upstream
-> > > discussion about the HTE at
-> > > https://lore.kernel.org/lkml/4c46726d-fa35-1a95-4295-bca37c8b6fe3@nvidia.com/
-> >
-> > I like this.
-> >
-> > Can you put it in a public git and make it eligible for Stephen Rothwell to
-> > pull into linux-next and ask him to do so, as we intend to merge this for
-> > v5.19?
->
-> Do you intend to maintain this as part of the pinctrl or GPIO trees with
-> Dipen as a sub-maintainer? Or would you prefer for this to be a separate
-> tree?
+Bruno Moreira-Guedes <codeagain@codeagain.dev> writes:
 
-It has nothing to do with pin control but a bit to do with GPIO and IIO.
-I think it needs to be its own tree just like regulators or clocks.
+> On Wed, Apr 20, 2022 at 03:35:10AM -0600, Jonathan Corbet wrote:
+>> Bruno Moreira-Guedes <codeagain@codeagain.dev> writes:
+>> >
+>> > The PATCH 1/2 fixes the missing cpio requirement, while PATCH 2/2 fixes
+>> > the kernel version reference.
+>> >
+>> > Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
+>> 
+>> Patches applied, thanks.
+> Thanks, Jon! I have also been thinking whether this filename
+> ('changes.rst') is a good description of the file contents. Do you think
+> renaming it to something like 'requirements.rst' and updating its
+> references would be a good patch?
 
-Yours,
-Linus Walleij
+It's best not to rename things unnecessarily, especially relatively
+well-known files that a lot of people expect to find in a specific
+place.  We've done a lot of renaming over the last few years, but this
+is one I might let slide for now.
+
+Thanks,
+
+jon
