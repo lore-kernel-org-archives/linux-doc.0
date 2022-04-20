@@ -2,76 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69DEFC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 09:40:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93CCEC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 12:19:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231693AbiDTJnA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Apr 2022 05:43:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39470 "EHLO
+        id S1378446AbiDTMVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Apr 2022 08:21:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236879AbiDTJm7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 05:42:59 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34308340DA;
-        Wed, 20 Apr 2022 02:40:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S1378473AbiDTMVy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 08:21:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 328E525E8C
+        for <linux-doc@vger.kernel.org>; Wed, 20 Apr 2022 05:19:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1650457147;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+        b=O7hDaCbtQRDTv4+C0wp3S8wcw0nFCe5/Dq2Dbnn8uM1MCpH/AHmMD8+Q8gj8WU3I+eXM0y
+        6hK8GD38nXnmzY8wPoCHM2bk5XGkl+BKBPs+Rv0NK1vOF6+Z+e6qXRejfRzGR2GbR3/4EF
+        Rdy9CSQBV2EyKk0IEb7xL07zSDUloSc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-37-c57Y8JUANKiI4K4YZsNEHg-1; Wed, 20 Apr 2022 08:19:03 -0400
+X-MC-Unique: c57Y8JUANKiI4K4YZsNEHg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D82E3B81E1C;
-        Wed, 20 Apr 2022 09:40:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 74F12C385A8;
-        Wed, 20 Apr 2022 09:40:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650447611;
-        bh=bH0TgcVovdZFNPyE+RQlHrCOteeo4plxQp+8KyshTXQ=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=Is7MgfnkWr50sAPa0MsCufqpdYN89VV0XrwLZlOJqXf86359DYBj1CDJ/djdAxXZt
-         YgGgu8xL6dyYkTt2unBIYtAOjY61DOnhplLZ+dv/osGACexllZStayROU/nO2qKWhy
-         mpsj1TiWIVqQQw0STQEEgxt3C8ayL2YaI5vqsR1SsXT9vlzWh0F269X1aCJAbVnUcA
-         jveq77Gwu3Y75/yFIKi8A1VfTENQHBLckiiuYV7giDDVPtuIWbXRyuG8bL1Y2qNSLE
-         ThWA1p+8l92hmO45g2owli3GZBTJKGDkL5dmQIQQFJ1hrnLmF2rYkFd7hO8kzhEHE/
-         madzDoeQQLPww==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 588ACE8DD85;
-        Wed, 20 Apr 2022 09:40:11 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8BA648047D6;
+        Wed, 20 Apr 2022 12:19:02 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E3F7CC53523;
+        Wed, 20 Apr 2022 12:19:01 +0000 (UTC)
+From:   Paolo Bonzini <pbonzini@redhat.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-doc@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
+        KVM <kvm@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Anup Patel <anup.patel@wdc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v2] Documentation: kvm: Add missing line break in api.rst
+Date:   Wed, 20 Apr 2022 08:18:58 -0400
+Message-Id: <20220420121858.1147650-1-pbonzini@redhat.com>
+In-Reply-To: <20220407123327.159079-1-bagasdotme@gmail.com>
+References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] doc/ip-sysctl: add bc_forwarding
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165044761135.27023.9005040852408802876.git-patchwork-notify@kernel.org>
-Date:   Wed, 20 Apr 2022 09:40:11 +0000
-References: <20220413140000.23648-1-nicolas.dichtel@6wind.com>
-In-Reply-To: <20220413140000.23648-1-nicolas.dichtel@6wind.com>
-To:     Nicolas Dichtel <nicolas.dichtel@6wind.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        corbet@lwn.net, lucien.xin@gmail.com, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Queued, thanks.
 
-This patch was applied to netdev/net.git (master)
-by David S. Miller <davem@davemloft.net>:
-
-On Wed, 13 Apr 2022 16:00:00 +0200 you wrote:
-> Let's describe this sysctl.
-> 
-> Fixes: 5cbf777cfdf6 ("route: add support for directed broadcast forwarding")
-> Signed-off-by: Nicolas Dichtel <nicolas.dichtel@6wind.com>
-> ---
->  Documentation/networking/ip-sysctl.rst | 7 +++++++
->  1 file changed, 7 insertions(+)
-
-Here is the summary with links:
-  - [net] doc/ip-sysctl: add bc_forwarding
-    https://git.kernel.org/netdev/net/c/c6a4254c18c6
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Paolo
 
 
