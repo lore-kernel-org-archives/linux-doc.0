@@ -2,66 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93CCEC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 12:19:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81709C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 12:31:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378446AbiDTMVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Apr 2022 08:21:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33356 "EHLO
+        id S1378546AbiDTMd7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Apr 2022 08:33:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378473AbiDTMVy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 08:21:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 328E525E8C
-        for <linux-doc@vger.kernel.org>; Wed, 20 Apr 2022 05:19:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1650457147;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
-        b=O7hDaCbtQRDTv4+C0wp3S8wcw0nFCe5/Dq2Dbnn8uM1MCpH/AHmMD8+Q8gj8WU3I+eXM0y
-        6hK8GD38nXnmzY8wPoCHM2bk5XGkl+BKBPs+Rv0NK1vOF6+Z+e6qXRejfRzGR2GbR3/4EF
-        Rdy9CSQBV2EyKk0IEb7xL07zSDUloSc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-37-c57Y8JUANKiI4K4YZsNEHg-1; Wed, 20 Apr 2022 08:19:03 -0400
-X-MC-Unique: c57Y8JUANKiI4K4YZsNEHg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8BA648047D6;
-        Wed, 20 Apr 2022 12:19:02 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E3F7CC53523;
-        Wed, 20 Apr 2022 12:19:01 +0000 (UTC)
-From:   Paolo Bonzini <pbonzini@redhat.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
-        KVM <kvm@vger.kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Anup Patel <anup.patel@wdc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2] Documentation: kvm: Add missing line break in api.rst
-Date:   Wed, 20 Apr 2022 08:18:58 -0400
-Message-Id: <20220420121858.1147650-1-pbonzini@redhat.com>
-In-Reply-To: <20220407123327.159079-1-bagasdotme@gmail.com>
-References: 
+        with ESMTP id S1353229AbiDTMd4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 08:33:56 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B3613FDB9;
+        Wed, 20 Apr 2022 05:31:11 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id j8-20020a17090a060800b001cd4fb60dccso1874300pjj.2;
+        Wed, 20 Apr 2022 05:31:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=mVOmSvu/QkyoUDoaCks1TklFl6bhUL0cfDQZbrDtx0c=;
+        b=eFrXzuQVru1SO/Jm++W8BFQ/TrnadQKCmTFewy4D+IvOJEkOyy/IxcF3Nl5lMJXZSG
+         3LR1ddukzf/0l4cFRiLP9e/SNgVj754fkMk6ex6W6/GT9vhz1+XIYwEzsMA2Od0z1vEm
+         fBLliE3poB2EQB3/yzUcYLHh8hrWQ86fbEOG8TWbGW8+O7t5/SKSyaFPSK7i5Zux3G/j
+         cxSmXvEt+PdNYcc1iz9EJrPBlnwJ2ImTuy1mqKgDdyk8VwfcMfOz91G6Y2J2fdYGeaDN
+         owWuWpmYLKEP6FZAPSeaHFrB43Nq6NqwVriNMKiAT93gO50FMc7waA3ETUalCch2m8sg
+         2T8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=mVOmSvu/QkyoUDoaCks1TklFl6bhUL0cfDQZbrDtx0c=;
+        b=Qi09TN6oKO7pWokEcA50CdWnTuoVm2U26Z0fVOjz8XvsdbjHME34vnjLQ0hJPO9Phn
+         x5teoW02kwjdOErj3eW9XY0SrqUl5CPfXxm+7AtCcTkFa17RzxkK+7uRwHGpPTouusox
+         uuRr85e2M+0lf3qzK2nymvKRgtDHJyf6WyGQ42mVi/JU2TLrFtFFM2/5j1MnpHqz/FWx
+         A4zZoKV/f6ky0fg3XoS9wlLQaxkY4avGdKn0KgnxA96qZM84VNOJ/2rrJsxNtxOgfe5G
+         Ls0V/3xr5HYMsvYN5W8BuGBI6VbBBAKp2zDdhHqpOTCo6Zv1WKThPExU0Sa0oXts2sjo
+         8reQ==
+X-Gm-Message-State: AOAM533C17CcYl5ynNxp9NIToFDe9s0j2hncAuwMIfY9mfs55N1apdtB
+        fYltc6pvkAWYlVYiyKaGu7NjsGjqOuARng==
+X-Google-Smtp-Source: ABdhPJxIfSVgLOciGFWpy5cIRm2hHQBq9p8H/yilz0yZPsHnVLamtbYiXQo5NM1eaNGP99t3RSkGkg==
+X-Received: by 2002:a17:90a:2983:b0:1cb:8d6e:e10b with SMTP id h3-20020a17090a298300b001cb8d6ee10bmr4161825pjd.208.1650457870525;
+        Wed, 20 Apr 2022 05:31:10 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-76.three.co.id. [180.214.232.76])
+        by smtp.gmail.com with ESMTPSA id e1-20020a056a00162100b0050a40f75a82sm18588603pfc.113.2022.04.20.05.31.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Apr 2022 05:31:09 -0700 (PDT)
+Message-ID: <cbb540d1-151d-f5a0-0a24-ce2d2fba4825@gmail.com>
+Date:   Wed, 20 Apr 2022 19:31:06 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 2/2] doc/vm/page_owner.rst: Fix table display confusion
+Content-Language: en-US
+To:     Haowen Bai <baihaowen@meizu.com>, siyanteng01@gmail.com
+Cc:     alexs@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, seakeel@gmail.com,
+        siyanteng@loongson.cn
+References: <CAEensMzuQ0uAw8_5Xb7u1n685au=DpaJyPevGCT8GCG7xS42ow@mail.gmail.com>
+ <1650424016-7225-1-git-send-email-baihaowen@meizu.com>
+ <1650424016-7225-3-git-send-email-baihaowen@meizu.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <1650424016-7225-3-git-send-email-baihaowen@meizu.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Queued, thanks.
+On 4/20/22 10:06, Haowen Bai wrote:
+> After make htmldocs, the table which is made of tab will
+> display all by one line. so we make a standard table for STANDARD
+> FORMAT SPECIFIERS description.
+> 
+> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+> ---
+>  Documentation/vm/page_owner.rst | 34 ++++++++++++++++++++--------------
+>  1 file changed, 20 insertions(+), 14 deletions(-)
+> 
 
-Paolo
+I guess this patch can be factored into its own single-patch series,
+so the zh_CN patch at [1/2] can depend on it, right?
 
-
+-- 
+An old man doll... just what I always wanted! - Clara
