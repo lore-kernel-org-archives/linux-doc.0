@@ -2,149 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77F79C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 13:43:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07692C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 13:47:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352895AbiDTNqg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Apr 2022 09:46:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35620 "EHLO
+        id S1379163AbiDTNum (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Apr 2022 09:50:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235764AbiDTNqf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 09:46:35 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FDB8433A9;
-        Wed, 20 Apr 2022 06:43:50 -0700 (PDT)
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23KD8PDf029086;
-        Wed, 20 Apr 2022 13:43:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=TQ89idDVj5DnsiPty35O+SNdf9oVI1XNdc4Vs+NJmRU=;
- b=PlCNhHPBHSzSPVmBWk0lT9IkkkZkI+nvVA5RFAOSUInoP2FGasVBHOSBwC/QeMvP8oqG
- PviCuNNkg2LsPeq/ETSVgE9B2cRuldC9iNn64Nt1ru90+n/6lFOOFFABYEJ6tcOf3iYg
- LwgqPsDg4U0c0qzTExugLPL+VbThLXu778muu6GoV6v7WUsHwSM3m81tHATojy5INpGG
- vSBf6at59xax1Ukf5/HKjnBpNjX6QXKNUI06oU0izzjA29qpIwDR7QMcQ4fh7uZqJx6L
- Xv7hdEbJ01PD7QkVcCEjhuWEzWiG6gHT9XoQ8c+6Je9AJ/9STS9EvEqRD9XGq7Tnagsb ug== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3fjdn3qmtq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 20 Apr 2022 13:43:49 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23KCqXle007363;
-        Wed, 20 Apr 2022 13:43:48 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com [169.63.121.186])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3fjdn3qmt0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 20 Apr 2022 13:43:48 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
-        by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23KDhDlf031586;
-        Wed, 20 Apr 2022 13:43:47 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com [9.57.198.26])
-        by ppma03wdc.us.ibm.com with ESMTP id 3ffnea4mpj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 20 Apr 2022 13:43:47 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com [9.57.199.110])
-        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23KDhkIt6030222
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 20 Apr 2022 13:43:46 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B750FAE062;
-        Wed, 20 Apr 2022 13:43:46 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3D01DAE05C;
-        Wed, 20 Apr 2022 13:43:41 +0000 (GMT)
-Received: from [9.211.82.47] (unknown [9.211.82.47])
-        by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
-        Wed, 20 Apr 2022 13:43:40 +0000 (GMT)
-Message-ID: <0a8848fb-73b3-97aa-4147-9a647ceb2397@linux.ibm.com>
-Date:   Wed, 20 Apr 2022 09:43:40 -0400
+        with ESMTP id S1379167AbiDTNuk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 09:50:40 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7738427F8;
+        Wed, 20 Apr 2022 06:47:53 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id y32so3090950lfa.6;
+        Wed, 20 Apr 2022 06:47:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=EUDkuHiiE3jOGgT4dcOAN2NtXeesxDjziWFKWNdMwMc=;
+        b=BKC/1S9Ee+T0NGL/P7YfvoKT+dmJL4wsNBQAfXHnjRNWR4dwf21aZ1dvxTCL8+/rcK
+         wx/7Kdgs3LG3kiYeC7s42fviwXf3HkU73FmyIFTVGdfAIL086e4Lr6rt9FUpes8npNuo
+         YqgxyBj+SQQbyGF5V/0aCcIS9T+WgmDGmbshBePWkv7J0HxB+hhY8vMGHV8D6sP4ueZS
+         izBzCYnT8lfxOagMVj1412yYX1K4GQu510euYsM1uLWS1SW5IYazfIjJC9454mfBB1Kc
+         DPHpXL1UznW8q/9oMBAAhXrIejAT7LgRQfykFkrKJe73x8IeMmjqEsfLs5X3c38b7vpK
+         0JXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=EUDkuHiiE3jOGgT4dcOAN2NtXeesxDjziWFKWNdMwMc=;
+        b=QpioY95bY3SYCHkPc4KDr2aiocKhvsvG9NLvI71N7dEwMFWGZBRQnwwsbsfISk33bU
+         Yrx4d6oNjE9L8QMYLfTEGylolItqhpUzNN0H6FoAK8L7TGmkmWlrwvPR9rZGXX4N2Q9E
+         /ouhzezW3YjabVHnbQBys/1WhNJu1vphV4g4kzyiJ1SV+APNp8TjAV4OHPkSfmnG/XPA
+         jdz7WDXXR8UNZfN/o7llXRfG2RJy6W/p/YM2nYPymFMxEExqSQ8Wg3ssCgy+nCaTXOaJ
+         cqrvWFK7vppVtZNtUa1dQgltgaEYQR4lwrmhqJe+TNsJA7RozwIzo5HqKvchrAuuPnGi
+         /+YA==
+X-Gm-Message-State: AOAM530nQ+iF00PwP3DnlCNyjaURy0Xmxo+kEI+wTL7HcHG35hPJcMsi
+        fHxRRj5XJ3z6TYAJNGnJlHA=
+X-Google-Smtp-Source: ABdhPJzZGRiSwSAqvgCP5AOIeyD7C70dmObSjXexKMSthWVgviMeZ0vUc/6O4elYeHnoz70VHTMwag==
+X-Received: by 2002:a05:6512:2613:b0:448:5164:689d with SMTP id bt19-20020a056512261300b004485164689dmr14645349lfb.526.1650462471947;
+        Wed, 20 Apr 2022 06:47:51 -0700 (PDT)
+Received: from orome ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id f20-20020a056512229400b0044a6ac1af69sm1826081lfu.181.2022.04.20.06.47.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Apr 2022 06:47:50 -0700 (PDT)
+Date:   Wed, 20 Apr 2022 15:47:48 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Dipen Patel <dipenp@nvidia.com>, jonathanh@nvidia.com,
+        smangipudi@nvidia.com, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-gpio@vger.kernel.org,
+        bgolaszewski@baylibre.com, warthog618@gmail.com,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        robh+dt@kernel.org
+Subject: Re: [PATCH v5 00/11] Intro to Hardware timestamping engine
+Message-ID: <YmAPBG6IknkLotJp@orome>
+References: <20220329054521.14420-1-dipenp@nvidia.com>
+ <CACRpkdbGyrRU9DDTmNDpU52rECAKY3wfi2y3jo9FMypDG=pmJQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 11/21] KVM: s390: pci: do initial setup for AEN
- interpretation
-Content-Language: en-US
-To:     Pierre Morel <pmorel@linux.ibm.com>, linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com,
-        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220404174349.58530-1-mjrosato@linux.ibm.com>
- <20220404174349.58530-12-mjrosato@linux.ibm.com>
- <c405e8de-5f6b-d33d-15e3-c4453e0348fe@linux.ibm.com>
-From:   Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <c405e8de-5f6b-d33d-15e3-c4453e0348fe@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: p6G_grO_i8XKwRVty1YfCzZCf21NCMxf
-X-Proofpoint-GUID: ONyjyGYwammObKJXRBzYE-UvW_WocnDI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-20_03,2022-04-20_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
- malwarescore=0 bulkscore=0 clxscore=1015 priorityscore=1501
- impostorscore=0 mlxlogscore=999 phishscore=0 lowpriorityscore=0
- spamscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204200081
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="aQT/Tnz8hJhvHE9O"
+Content-Disposition: inline
+In-Reply-To: <CACRpkdbGyrRU9DDTmNDpU52rECAKY3wfi2y3jo9FMypDG=pmJQ@mail.gmail.com>
+User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/19/22 4:16 AM, Pierre Morel wrote:
-> 
-> 
-> On 4/4/22 19:43, Matthew Rosato wrote:
->> Initial setup for Adapter Event Notification Interpretation for zPCI
->> passthrough devices.  Specifically, allocate a structure for 
->> forwarding of
->> adapter events and pass the address of this structure to firmware.
->>
->> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->> ---
 
-...
+--aQT/Tnz8hJhvHE9O
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> +
->> +static int zpci_reset_aipb(u8 nisc)
->> +{
->> +    /*
->> +     * AEN registration can only happen once per system boot.  If
->> +     * an aipb already exists then AEN was already registered and
->> +     * we can re-use the aipb contents.  This can only happen if
->> +     * the KVM module was removed and re-inserted.
->> +     */
->> +    if (zpci_aipb->aipb.faal != ZPCI_NR_DEVICES ||
->> +        zpci_aipb->aipb.afi != nisc) {
->> +        return -EINVAL;
->> +    }
-> 
-> I do not understand how faal cound be different of ZPCI_NR_DEVICES if 
-> aipb has been already initialised.
-> Same for afi.
-> Can you please explain?
+On Wed, Apr 20, 2022 at 12:46:43AM +0200, Linus Walleij wrote:
+> On Tue, Mar 29, 2022 at 7:45 AM Dipen Patel <dipenp@nvidia.com> wrote:
+>=20
+> > This patch series introduces new subsystem called hardware timestamping
+> > engine (HTE). It offers functionality such as timestamping through hard=
+ware
+> > means in realtime. The HTE subsystem centralizes HTE provider and consu=
+mers
+> > where providers can register themselves and the consumers can request
+> > interested entity which could be lines, GPIO, signals or buses. The
+> > HTE subsystem provides timestamp in nano seconds, having said that the =
+provider
+> > need to convert the timestamp if its not in that unit. There was upstre=
+am
+> > discussion about the HTE at
+> > https://lore.kernel.org/lkml/4c46726d-fa35-1a95-4295-bca37c8b6fe3@nvidi=
+a.com/
+>=20
+> I like this.
+>=20
+> Can you put it in a public git and make it eligible for Stephen Rothwell =
+to
+> pull into linux-next and ask him to do so, as we intend to merge this for
+> v5.19?
 
-Well, my concern was along the lines of 'what if we rmmod kvm and then 
-insmod a different version of the kvm module' -- These are really sanity 
-checks.
+Do you intend to maintain this as part of the pinctrl or GPIO trees with
+Dipen as a sub-maintainer? Or would you prefer for this to be a separate
+tree?
 
-Now, ZPCI_NR_DEVICES/faal is built in with PCI, so yeah this check is 
-probably unnecessary as we shouldn't be able to change this value 
-without a new kernel.
+Thierry
 
-afi is however derived from nisc, which was passed in all the way from 
-kvm_s390_gib_init during kvm_arch_init.  Today, this is hard-coded as 
-GAL_ISC; but the point is that this is hard-coded within the kvm module, 
-so we can't be quite sure that it's the same value every time we insmod 
-kvm.  In an (admittedly, far-fetched) scenario where we insmod kvm, 
-initialize AEN with GAL_ISC, rmmod kvm, then insmod a kvm where, for 
-example, GAL_ISC was changed to a different number, we would need to 
-trigger a failure here because we have no way to update the forwarding 
-isc with firmware until the kernel is rebooted.
+--aQT/Tnz8hJhvHE9O
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJgDwQACgkQ3SOs138+
+s6GBVBAAoIufX261GXCPhjjv2Vpcv/Fcq66w2zBD79G3dM6msz72AoX/qFRt0ppr
+G/6umVXxICTcvt+pCbtorBpAWfb8B38Z5Qr8isBHzhFL8lNRBBvF2PB2Tx1IAMrZ
+CXL3pRfxv99bDxy9ScdHenFDzbASlLVPcRIRGJ2AWZipxx6+jg1BFqKti5RQl12H
+bFYJo2G/FG2jSCCz9LEAgjzW/rWEMNDnoacyq7dvf9vUp9tjc2on9YY+MH6vPzmD
+aM8LX5fZYyvarFJ0bZJoPXSlnzIZJkzj8QF/w/mUyipFPVubOWtFxcp+D9NdIkuh
+4ZlXS4W2lLLvmQMWP/zn6fpKWl+I0buHPLF8rT89YgAGwA1fQqPNQmGUSs9Rjctd
+Sw76IxkuTY7xwazAps29WUYc1hzDkA9ovt78DbyMRmoxT1naiLzzHwIinPr4X0Pm
+0MwXUYQwrQ8jwm0WkgFND74GmaPQ3UZ8aBD+cGp3zQn6YLcttR0xzfdBBUmYE2ZV
+Ygh+Mv5tUmz6theIk66+37qtKONoLjZZXoLcvBCzo4a/Tv95N6xRWeN/i6qIV8vc
+myDSa2bkJ/NisM8kxYdUkW+kdZTfY22SXchL7dKDbdf1dkxvl8m1Apu2sLyzY6by
++hFVfp0+aNaP8/KP+KEAQFAGVae6of0GLiDOSppaSDqB/6Vry1U=
+=EMoF
+-----END PGP SIGNATURE-----
+
+--aQT/Tnz8hJhvHE9O--
