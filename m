@@ -2,102 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8527C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 03:07:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7F91C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 06:07:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357305AbiDTDKc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Apr 2022 23:10:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41066 "EHLO
+        id S1357156AbiDTGKS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Apr 2022 02:10:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359204AbiDTDK0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Apr 2022 23:10:26 -0400
-Received: from mail.meizu.com (edge01.meizu.com [14.29.68.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C3E960FC;
-        Tue, 19 Apr 2022 20:07:25 -0700 (PDT)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail04.meizu.com
- (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 20 Apr
- 2022 11:07:26 +0800
-Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 20 Apr
- 2022 11:07:22 +0800
-From:   Haowen Bai <baihaowen@meizu.com>
-To:     <siyanteng01@gmail.com>
-CC:     <alexs@kernel.org>, <baihaowen@meizu.com>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <seakeel@gmail.com>, <siyanteng@loongson.cn>
-Subject: [PATCH 2/2] doc/vm/page_owner.rst: Fix table display confusion
-Date:   Wed, 20 Apr 2022 11:06:56 +0800
-Message-ID: <1650424016-7225-3-git-send-email-baihaowen@meizu.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1650424016-7225-1-git-send-email-baihaowen@meizu.com>
-References: <CAEensMzuQ0uAw8_5Xb7u1n685au=DpaJyPevGCT8GCG7xS42ow@mail.gmail.com>
- <1650424016-7225-1-git-send-email-baihaowen@meizu.com>
+        with ESMTP id S1358093AbiDTGKR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 02:10:17 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46372387B8;
+        Tue, 19 Apr 2022 23:07:32 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id o5so1022600pjr.0;
+        Tue, 19 Apr 2022 23:07:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=PXXhsO1cc1k6eZQ5kkAXBV1Y4UG2/t7OyhqoqVFc0/0=;
+        b=hjM6lhGGix++5j1Y/+1HN1ghogA1Y4nC19JC71fazQEZUloVUcgJNT8YNm9hy3Yx6u
+         7/UDemR1x5lCD/VpqPymNHOijLaYOTmTKyhrhmHzyqwTUS+C2EyFBvrxI8yfJvInGwvB
+         vy1f7P9503qmEgZ59NMZt2GOjjJ5a410fuYlg/XN4fNAkHIozn/OulIyKXWCqhKagWut
+         xKnsa5RtBEpwz0VFMD+KSnXj1P6HeUc3RVprgrj+48fCPDpGC20AxrwLf3BTZTqV/y5/
+         GR0cdDqg/HMgFUMOhUOdMub9MQPQQbp56TffYIZiqVyAIOZ8r4QVgb1HsA963cR9/+ZC
+         22ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=PXXhsO1cc1k6eZQ5kkAXBV1Y4UG2/t7OyhqoqVFc0/0=;
+        b=y7sgcVkWcMHtL+5vrfm1D1NTpGwNgftEzM47difUo4ktUr53QSfC32Lb7yZ58B7V+f
+         nMowi320OQBDmjrPPUOTKNtsR+uqEZb0mkErBnkw0LXSzSvfoMSQDoJg3orhwODyVk90
+         iRm04L9kKhqgmXSWP5V+TILquZHClXgMWOGWb16srtutizJ2+jBuYTxB2IBkjWT5SQ+k
+         l1YaLCXT896bx2XSCSgZjNWlkhC3qSPzoo+VqgaTTXH/lt0Eu2mNaCJN0M5VK/KcXkwr
+         0HJRRWvFISfyeIirohXoqgDwOgfzCrZDxM7KAjftOBHFi37BA4TCtjptINnnYElet/CS
+         xQOg==
+X-Gm-Message-State: AOAM530cxexfVEUNmCRp1m42PvxAbsfl/6JcLfl8+aaPYNRlR++B3D1y
+        jlCIDGC2RD4wllp0+zxaYnM=
+X-Google-Smtp-Source: ABdhPJw67KSTWTy6zq1YDwYpHlmWRiDx+KPSRNuwV/9DFLL7ufUyIcqLEjJRXTiZRPsX8alr7tepqA==
+X-Received: by 2002:a17:90b:388f:b0:1d2:7381:3b41 with SMTP id mu15-20020a17090b388f00b001d273813b41mr2612722pjb.72.1650434851734;
+        Tue, 19 Apr 2022 23:07:31 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-69.three.co.id. [180.214.233.69])
+        by smtp.gmail.com with ESMTPSA id b184-20020a62cfc1000000b0050600ab6e26sm18346135pfg.187.2022.04.19.23.07.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Apr 2022 23:07:30 -0700 (PDT)
+Message-ID: <ed6cd79c-6a1d-8299-c90a-5f00064f18e5@gmail.com>
+Date:   Wed, 20 Apr 2022 13:07:27 +0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 1/2] Docs: Add cpio requirement to changes.rst
+Content-Language: en-US
+To:     Bruno Moreira-Guedes <codeagain@codeagain.dev>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, outreachy@lists.linux.dev,
+        Bruno's Patch Watchbox <patch-reply@codeagain.dev>
+References: <cover.1650376049.git.codeagain@codeagain.dev>
+ <16abd8eb6a5c8398a030ae5d8919d5c8e92e2af1.1650376049.git.codeagain@codeagain.dev>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <16abd8eb6a5c8398a030ae5d8919d5c8e92e2af1.1650376049.git.codeagain@codeagain.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After make htmldocs, the table which is made of tab will
-display all by one line. so we make a standard table for STANDARD
-FORMAT SPECIFIERS description.
+On 4/19/22 21:48, Bruno Moreira-Guedes wrote:
+> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> index a337e8eabfe1..41a44e5f47e6 100644
+> --- a/Documentation/process/changes.rst
+> +++ b/Documentation/process/changes.rst
+> @@ -56,6 +56,7 @@ iptables               1.4.2            iptables -V
+>  openssl & libcrypto    1.0.0            openssl version
+>  bc                     1.06.95          bc --version
+>  Sphinx\ [#f1]_         1.7              sphinx-build --version
+> +cpio                   any              cpio --version
+>  ====================== ===============  ========================================
+>  
 
-Signed-off-by: Haowen Bai <baihaowen@meizu.com>
----
- Documentation/vm/page_owner.rst | 34 ++++++++++++++++++++--------------
- 1 file changed, 20 insertions(+), 14 deletions(-)
+You mentioned that **any** version of cpio will work, right?
+Or is there a specific minimum version?
 
-diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-index 422d5fa99e84..a8505e3a3044 100644
---- a/Documentation/vm/page_owner.rst
-+++ b/Documentation/vm/page_owner.rst
-@@ -174,22 +174,28 @@ STANDARD FORMAT SPECIFIERS
- 
- For --sort option:
- 
--	KEY		LONG		DESCRIPTION
--	p		pid		process ID
--	tg		tgid		thread group ID
--	n		name		task command name
--	st		stacktrace	stack trace of the page allocation
--	T		txt		full text of block
--	ft		free_ts		timestamp of the page when it was released
--	at		alloc_ts	timestamp of the page when it was allocated
-+        ====            ==========      ============================================
-+        KEY             LONG            DESCRIPTION
-+        ====            ==========      ============================================
-+        p               pid             process ID
-+        tg              tgid            thread group ID
-+        n               name            task command name
-+        st              stacktrace      stack trace of the page allocation
-+        T               txt             full text of block
-+        ft              free_ts         timestamp of the page when it was released
-+        at              alloc_ts        timestamp of the page when it was allocated
-         ator            allocator       memory allocator for pages
-+        ====            ==========      ============================================
- 
- For --curl option:
- 
--	KEY		LONG		DESCRIPTION
--	p		pid		process ID
--	tg		tgid		thread group ID
--	n		name		task command name
--	f		free		whether the page has been released or not
--	st		stacktrace	stack trace of the page allocation
-+        ====            ===========     ============================================
-+        KEY             LONG            DESCRIPTION
-+        ====            ===========     ============================================
-+        p               pid             process ID
-+        tg              tgid            thread group ID
-+        n               name            task command name
-+        f               free            whether the page has been released or not
-+        st              stacktrace      stack trace of the page allocation
-         ator            allocator       memory allocator for pages
-+        ====            ===========     ============================================
 -- 
-2.7.4
-
+An old man doll... just what I always wanted! - Clara
