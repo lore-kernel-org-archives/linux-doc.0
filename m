@@ -2,71 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43306C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 09:28:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FE21C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Apr 2022 09:32:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345685AbiDTJbf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Apr 2022 05:31:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57814 "EHLO
+        id S1377239AbiDTJfT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Apr 2022 05:35:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244362AbiDTJbe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 05:31:34 -0400
+        with ESMTP id S1353295AbiDTJfR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 05:35:17 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9984910FFE;
-        Wed, 20 Apr 2022 02:28:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 199DEDFCE;
+        Wed, 20 Apr 2022 02:32:30 -0700 (PDT)
 Received: from localhost (mdns.lwn.net [45.79.72.68])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 37543378;
-        Wed, 20 Apr 2022 09:28:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 37543378
+        by ms.lwn.net (Postfix) with ESMTPSA id ACF0C536;
+        Wed, 20 Apr 2022 09:32:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net ACF0C536
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1650446929; bh=7zWBHxG4jtYQ6dRdLjEtUynzfmSn2eD+L9NJ3pIQ9f4=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=dTOci+dItv/WxYIM0Rm3HzqrE5q6VaShut5P4VmbSWQW9ZWxBCAqOSYHI96hTNGnF
-         fJ8WM1QfEhRJGblf4ibaKxvQQeEW0QnT6ybiHIjR6kKjqA3bnffk2uVhhAIyoEgg2z
-         w4J/6zSYx+JC75V3vQwTO90Py3YMZU/01apW3qAKxV1YtRjPY1HvmqIdoGT3K8whei
-         aFyo95yYWlajVnehwA8+tpQqQabM4hst42+FzUlcGnMuJyciayl0cxhQnK0OFnbgp3
-         SBbhgs+WbiQYaHXdW/MPr2D2M4dBiWUZiVMqBBrfMV8LXrQRM0kdgb6SVMUhG79vMb
-         0XNuShs1S6jrA==
+        t=1650447150; bh=PbaANqBxm5Yq6NehLblBsrlv5kCxKsUbmAEvoNQEyUI=;
+        h=From:To:Subject:In-Reply-To:References:Date:From;
+        b=KY5RpXDumXChSYTdA2loCrWgx+BMyPF47wj9XH6RRL6Yvi8WUFJuURoRcIMLv/iPv
+         iHT4ZPAuFJdoGPyIvcR0O+KycsHrIF12QJvpQIOL4M22uEjRySOHLcONLT9SHBHV96
+         MZGT7V9PnMS8NBMB2NJjsEKHWi3a5sbWSjspfI1sAXZQ3uWURStp0Q+rtsS8a4Kwqn
+         y9yCr9tYL7AMFZ24ZFOuvUgn8Puste0esMwO8o0QohgMijrgiisQKg0h5rlgJUtBuZ
+         Q7ZMcVN82QQox9/3h9gTXBr98t3TMXqUAF56SA3ky1pS/MG1Rod4r8s5431WIQV6C1
+         quH5S4cENZcCg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND 0/2] Documentation: siphash: formatting fixes
-In-Reply-To: <20220417075057.127865-1-bagasdotme@gmail.com>
-References: <20220417075057.127865-1-bagasdotme@gmail.com>
-Date:   Wed, 20 Apr 2022 03:28:44 -0600
-Message-ID: <87bkww3xyr.fsf@meer.lwn.net>
+To:     Andreas-Christian Hagau <ach@hagau.se>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: kunit: change complete_and_exit to
+ kthread_complete_and_exit
+In-Reply-To: <20220417102807.10b91497ed@19d04f311a0a9de>
+References: <20220417102807.10b91497ed@19d04f311a0a9de>
+Date:   Wed, 20 Apr 2022 03:32:26 -0600
+Message-ID: <877d7k3xsl.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Andreas-Christian Hagau <ach@hagau.se> writes:
 
-> Formatting fixes for Documentation/security/siphash.rst. The shortlog
-> should be self-explanatory. Resend of [1].
+> Commit cead18552660 ("exit: Rename complete_and_exit to
+> kthread_complete_and_exit") renamed complete_and_exit to
+> kthread_complete_and_exit.
 >
-> [1]: https://lore.kernel.org/linux-doc/20220329042952.10100-1-bagasdotme@gmail.com/
+> Signed-off-by: Andreas-Christian Hagau <ach@hagau.se>
+> ---
+>  Documentation/dev-tools/kunit/architecture.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Eric Biggers <ebiggers@google.com>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Cc: linux-kernel@vger.kernel.org
->
-> Bagas Sanjaya (2):
->   Documentation: siphash: convert danger note to warning for HalfSipHash
->   Documentation: siphash: enclose HalfSipHash usage example in the
->     literal block
->
->  Documentation/security/siphash.rst | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
+> diff --git a/Documentation/dev-tools/kunit/architecture.rst b/Documentation/dev-tools/kunit/architecture.rst
+> index ff9c85a0bff21..cf9e6e3eeae4c 100644
+> --- a/Documentation/dev-tools/kunit/architecture.rst
+> +++ b/Documentation/dev-tools/kunit/architecture.rst
+> @@ -125,7 +125,7 @@ All expectations/assertions are formatted as:
+>  		  ``void __noreturn kunit_try_catch_throw(struct kunit_try_catch *try_catch)``.
+>  
+>  		- ``kunit_try_catch_throw`` calls function:
+> -		  ``void complete_and_exit(struct completion *, long) __noreturn;``
+> +		  ``void kthread_complete_and_exit(struct completion *, long) __noreturn;``
+>  		  and terminates the special thread context.
 
 Applied, thanks.
 
