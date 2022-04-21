@@ -2,145 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DF2AC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 04:26:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F5AC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 06:45:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229950AbiDUE3a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Apr 2022 00:29:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58452 "EHLO
+        id S1385100AbiDUGsP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Apr 2022 02:48:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229894AbiDUE33 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 00:29:29 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87B2212602;
-        Wed, 20 Apr 2022 21:26:41 -0700 (PDT)
+        with ESMTP id S1385169AbiDUGrV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 02:47:21 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0651E15717;
+        Wed, 20 Apr 2022 23:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650515201; x=1682051201;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Z7jdM6pq07KjbTcwuki1ZSctHuXY7XcN+eSmZWx0l0M=;
-  b=cAfSDuCbf7xBSYDM0O40TAf1HQ6qGlpdbPgBD7WQm3UU1PB8INVICZJn
-   AwZv8AXz2ESdGhdW++ayrWRzfh78/StXsj8uWAylPGKOYVCdf4lvJvRPQ
-   8kk3k0bUQgOqKC0WQ53kHWhoqJ8zJOgiWPLms0Ud+vuudStbrbyf1/nrg
-   zrQ+c31rp7fFtPV0vKMnjsQ40BUfxCH7cp4bFVpPyuWBv12gQYMZYoH2z
-   wrNVW5+VUUQ1TJSXCzoncllW847OjHUEsWzIJt8Tt3fFJ5fJ4MAR1Of4D
-   dB6DlAefyQYu8HPxxemPj+4Uub1rPY1CrdLkHgoIzIHjzGohNRQQHAvsG
+  t=1650523433; x=1682059433;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ljGAKqIpbRmSST7I3qc4W5awgSwI6u3NtnyPHd/EEUU=;
+  b=InV7vHW4hAi52LP4mww6AYjk0vlJihzhaStf13c8bJbbzMrwey/etrFL
+   /Pl5gvlgWAEzxR+S+OJEhnCyl2c/WPZ9tqaphi8/gz74mFEHCkMOGgb9Q
+   Gizl+zR/McImHqoPzDVo6YHOZMeyG4BPkhNWa/zKtGyVuGyc8eyhy//Gw
+   gKZzQz7nchbJC1wnZ887EMjeYUWeCfGLIn0JXVjGI6iLWm1FgeGsTHYQC
+   55+w4WNXz2lMd8AzzBlHqwYxJZqAyGh1qQOkx5x8zRCupWz9xGAQCbZX9
+   MLYgy2MNvrVwFvt3K93W23OLgG5CbwTj0KHqy0keLgEqvcj9RVeMBHpdE
    g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="324672494"
-X-IronPort-AV: E=Sophos;i="5.90,277,1643702400"; 
-   d="scan'208";a="324672494"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2022 21:26:41 -0700
+X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="264429361"
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; 
+   d="scan'208";a="264429361"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2022 23:43:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,277,1643702400"; 
-   d="scan'208";a="727803522"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga005.jf.intel.com with ESMTP; 20 Apr 2022 21:26:40 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Wed, 20 Apr 2022 21:26:40 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Wed, 20 Apr 2022 21:26:39 -0700
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
- Wed, 20 Apr 2022 21:26:39 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-CC:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "markgross@kernel.org" <markgross@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: RE: [PATCH v3 10/11] trace: platform/x86/intel/ifs: Add trace point
- to track Intel IFS operations
-Thread-Topic: [PATCH v3 10/11] trace: platform/x86/intel/ifs: Add trace point
- to track Intel IFS operations
-Thread-Index: AQHYVAv/GMu0aAF5oU2sc2NlODgUPKz57MaA///Yp0A=
-Date:   Thu, 21 Apr 2022 04:26:39 +0000
-Message-ID: <adc49af263e2464f86b20ccc2d8f184d@intel.com>
-References: <20220407191347.9681-1-jithu.joseph@intel.com>
-        <20220419163859.2228874-1-tony.luck@intel.com>
-        <20220419163859.2228874-11-tony.luck@intel.com>
- <20220420193839.6e9d810b@gandalf.local.home>
-In-Reply-To: <20220420193839.6e9d810b@gandalf.local.home>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; 
+   d="scan'208";a="865403325"
+Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 20 Apr 2022 23:43:51 -0700
+Received: from kbuild by 3abc53900bec with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nhQXf-00081A-8P;
+        Thu, 21 Apr 2022 06:43:51 +0000
+Date:   Thu, 21 Apr 2022 14:43:42 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Robin Chen <po-tchen@amd.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Anthony Koo <Anthony.Koo@amd.com>, linux-doc@vger.kernel.org
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_psr.c:231:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202204210704.BOBjQ2pT-lkp@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->> +TRACE_EVENT(ifs_status,
->> +
->> +	TP_PROTO(union ifs_scan activate, union ifs_status status),
->
-> Really, you want to pass the structure in by value, so that we have two
-> copies? One to get to this function and then one to write to the ring
-> buffer?
+Hi Robin,
 
-These "structures" are just bitfield helpers for a u64 that is passed into
-WRMSR (in the case of activate) and received back from RDMSR in
-the case of status.
+FYI, the error/warning still remains.
 
-So this is really just a pair of u64 arguments, with the compiler handling
-the bit field extractions into the ring buffer.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b253435746d9a4a701b5f09211b9c14d3370d0da
+commit: e5dfcd272722fe3948837e7f1ca7aafb471037b1 drm/amd/display: dc_link_set_psr_allow_active refactoring
+date:   6 months ago
+config: s390-randconfig-c005-20220420 (https://download.01.org/0day-ci/archive/20220421/202204210704.BOBjQ2pT-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project bac6cd5bf85669e3376610cfc4c4f9ca015e7b9b)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e5dfcd272722fe3948837e7f1ca7aafb471037b1
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e5dfcd272722fe3948837e7f1ca7aafb471037b1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/ drivers/gpu/drm/amd/display/dc/ drivers/hid/
 
-Here are the definitions:
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-union ifs_scan {
-        u64     data;
-        struct {
-                u32     start   :8;
-                u32     stop    :8;
-                u32     rsvd    :16;
-                u32     delay   :31;
-                u32     sigmce  :1;
-        };
-};
+All warnings (new ones prefixed by >>):
 
-union ifs_status {
-        u64     data;
-        struct {
-                u32     chunk_num               :8;
-                u32     chunk_stop_index        :8;
-                u32     rsvd1                   :16;
-                u32     error_code              :8;
-                u32     rsvd2                   :22;
-                u32     control_error           :1;
-                u32     signature_error         :1;
-        };
-};
-
-Would it be better to do the bit extractions of the start/stop fields first=
-?
-
--Tony
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_psr.c:231: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Set PSR power optimization flags.
 
 
+vim +231 drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_psr.c
+
+   229	
+   230	/**
+ > 231	 * Set PSR power optimization flags.
+   232	 */
+   233	static void dmub_psr_set_power_opt(struct dmub_psr *dmub, unsigned int power_opt)
+   234	{
+   235		union dmub_rb_cmd cmd;
+   236		struct dc_context *dc = dmub->ctx;
+   237	
+   238		memset(&cmd, 0, sizeof(cmd));
+   239		cmd.psr_set_power_opt.header.type = DMUB_CMD__PSR;
+   240		cmd.psr_set_power_opt.header.sub_type = DMUB_CMD__SET_PSR_POWER_OPT;
+   241		cmd.psr_set_power_opt.header.payload_bytes = sizeof(struct dmub_cmd_psr_set_power_opt_data);
+   242		cmd.psr_set_power_opt.psr_set_power_opt_data.power_opt = power_opt;
+   243	
+   244		dc_dmub_srv_cmd_queue(dc->dmub_srv, &cmd);
+   245		dc_dmub_srv_cmd_execute(dc->dmub_srv);
+   246		dc_dmub_srv_wait_idle(dc->dmub_srv);
+   247	}
+   248	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
