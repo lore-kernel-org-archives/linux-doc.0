@@ -2,119 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33951C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 17:52:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAD56C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 18:02:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349086AbiDURzY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Apr 2022 13:55:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51490 "EHLO
+        id S1390870AbiDUSFA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Apr 2022 14:05:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348173AbiDURzY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 13:55:24 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 753C34A901;
-        Thu, 21 Apr 2022 10:52:33 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id c190-20020a1c35c7000000b0038e37907b5bso6401750wma.0;
-        Thu, 21 Apr 2022 10:52:33 -0700 (PDT)
+        with ESMTP id S1390799AbiDUSE7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 14:04:59 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAB9C4A914;
+        Thu, 21 Apr 2022 11:02:08 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id v15so7488731edb.12;
+        Thu, 21 Apr 2022 11:02:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=7S1HS8zqtDyWf8mUL+p+GGCoIBRPIF5unnXiHhwzozc=;
-        b=i0Qr1q9/gP1NrfI1K+c89R8JePSpH4attbPjr54V2XO0crTDa1URKKECloWEthvAA3
-         n8bBS1lcbDBuIbVc0RNoFlpkaFqHwgxxSJfSnauspFBTtYxUNAGuwj0uKA0b42FeSqty
-         fBN+STTSR2An+5dxbarlfB30S65gtU78gQNrZOX3NqOu3RlUgMEhAWyy3lVpFkuZ29qB
-         rBCeHq7zq2uICjVHJTDioSwdox1mZAYBvXlYQO3MnTi5PdZ61tyQihJYMlMqpJqrhlTy
-         dNYlekhMr3WTSzHhjgnIFIG3pqRb4NjDk/OFZwlFIQJF7l8zfyHY/ErW73+IXNNsjkXs
-         pSwA==
+        bh=lOywcq043Yv+FklAUr4QgDF+CZZ8Fm9pvDhYVpjnqBA=;
+        b=eecx/nbIl/qVmAavXVH1QtBMm/WUTeluckxs1qc4tw1Y6vxZ86/xB7ozu/zgCvduHh
+         1h6sr+60PV4OZotP1IkXl6PiEAO6jIBaH8I+wCyUWAVuROGFmk+qqIdqW4LbPAlpZDOd
+         dwTlvsztPjkIOdF+CghH88DMzlav2RgUCJNJstXASPY5+WZjEyPHowy8F3Z0AZjYZA8j
+         eGdVGE4cgYTPUAQ76zyWm/ThY828nVJNDGv6iAnDc19k8syiC7u1OGaCwnbT9ToLVW3V
+         cZS1A8gsXDxltmFaNc7s9AG8ikNO/UkB9u+jaaBX3cCvL4co8zlPFmKAsYp71ZX99+vJ
+         JMwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7S1HS8zqtDyWf8mUL+p+GGCoIBRPIF5unnXiHhwzozc=;
-        b=XuuUvsi8bTQPlZAaT1+GLgjBwDf7wMn8grrVBhA1nH6V4v7UMMjLRJHkfCGsSBSdWa
-         SeSMfitcK5YiLENIc5oKA7CXL/SBL+hlNVqrgLYowpKxTJ42jGqR5WAQ2ie76FTz1q4W
-         LVEwKU06rvJDuO6tGspTLaf6jfjR+p+dJs+DlrIXNhNRIm7OxVybV/CBcN1WclsfLF9R
-         3Ai8M2McccPfaBlzfp47mlaQEnrCouFO1BgryGAGOgiLvgIBiOsjuueUdrR+d8knw99Z
-         /GR5o2whnW+A1COvF7XBrGzcSGQfcbT+thEZDIN586PDr7amkRWlgIfxIsyN2nKCw+UA
-         tVUw==
-X-Gm-Message-State: AOAM532gByNouKJVFEinCyfAf+nhU3LpVL+484pcqgDw+VU5JBDB4w9C
-        D6jb/j0G4iGXpHv7dNjcveuDWMND8EU=
-X-Google-Smtp-Source: ABdhPJxDOKGfEizTR3nTzgt4lViILYZF+pvyG4PygXgfeih6hNIDAYOtIQsB32LFFFHZDBuEKPwRRw==
-X-Received: by 2002:a05:600c:6d3:b0:38e:c692:d50a with SMTP id b19-20020a05600c06d300b0038ec692d50amr9704777wmn.30.1650563552001;
-        Thu, 21 Apr 2022 10:52:32 -0700 (PDT)
-Received: from leap.localnet (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
-        by smtp.gmail.com with ESMTPSA id 100-20020adf806d000000b00205ba671b25sm2790717wrk.56.2022.04.21.10.52.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lOywcq043Yv+FklAUr4QgDF+CZZ8Fm9pvDhYVpjnqBA=;
+        b=zWconP0bdBlcJGlO2f3rvyALrj6mdWKQEzUGNcd0mvyHUDYzcp67y+Uu9SJX0Sr5Jm
+         nokuIKoGMf0eNDmVZIccpByF96m2GCknNSTQzZxv0wF6bv6ErFxG9RXB1Oy+yF+xj1BT
+         Zz8K2jl1PpViLwarX+YRyXT+3bTIxnEIqFKYvQZf8+onM0IXNVXddYa/pHILyzaASCLE
+         TYknclYc1QPmvVNQs1J7xQyWtIkqAc4kwgfeSdSgMLOuICtxdFjhkglLTxZzyoc4T08Q
+         eMa3AaUF925+9Z7tFqf48yTEKP/8D4V11B7Wc9qvsK90MAdUsWcKOstWXRuPlMT7Nkj5
+         hnjQ==
+X-Gm-Message-State: AOAM530thjBv8ZeVAHsGAIlsneJ1f0KIDZAfFU82hEkiU1ltl6z9qiij
+        48/ppwIO7JC+2cegE+unEYs=
+X-Google-Smtp-Source: ABdhPJwauNZg58tpQBk9hzxL0id6LFCJ4zvxpDL6xTFyXaXnoMUP7JB6yC/Zn52v1XcuKBIHi2gK8w==
+X-Received: by 2002:a05:6402:3548:b0:424:2245:8d45 with SMTP id f8-20020a056402354800b0042422458d45mr815045edd.286.1650564127154;
+        Thu, 21 Apr 2022 11:02:07 -0700 (PDT)
+Received: from localhost.localdomain (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
+        by smtp.gmail.com with ESMTPSA id l17-20020a056402231100b0041d98ed7ad8sm11836204eda.46.2022.04.21.11.02.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 10:52:30 -0700 (PDT)
+        Thu, 21 Apr 2022 11:02:05 -0700 (PDT)
 From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
+To:     Ira Weiny <ira.weiny@intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        SeongJae Park <sj@kernel.org>,
-        Jiajian Ye <yejiajian2018@email.szu.edu.cn>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        outreachy@lists.linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/vm: Include kernel-doc from highmem-internal.h
-Date:   Thu, 21 Apr 2022 19:52:29 +0200
-Message-ID: <1755877.Zkmt1EvEu4@leap>
-In-Reply-To: <20220418081740.21001-1-fmdefrancesco@gmail.com>
-References: <20220418081740.21001-1-fmdefrancesco@gmail.com>
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, outreachy@lists.linux.dev
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH 0/4] Extend and reorganize Highmem's documentation
+Date:   Thu, 21 Apr 2022 20:01:56 +0200
+Message-Id: <20220421180200.16901-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On luned=C3=AC 18 aprile 2022 10:17:40 CEST Fabio M. De Francesco wrote:
-> In Documentation/vm/highmem.rst the kernel-doc comments are missing,
-> therefore kunmap_local() and kunmap_atomic() are yet undocumented.
->=20
-> Add a kernel-doc directive to include the above-mentioned kernel-doc
-> comments in highmem.rst.
->=20
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ira Weiny <ira.weiny@intel.com>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
->=20
-> This patch must be applied and built on top of=20
-> "[PATCH v3 2/2] Documentation/vm: Include kernel-doc to highmem.rst"
-> https://lore.kernel.org/lkml/20220415231917.25962-3-fmdefrancesco@gmail.c=
-om/
->=20
->  Documentation/vm/highmem.rst | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/vm/highmem.rst b/Documentation/vm/highmem.rst
-> index 5dcee6233cd5..1a3e6a8f5d3e 100644
-> --- a/Documentation/vm/highmem.rst
-> +++ b/Documentation/vm/highmem.rst
-> @@ -161,3 +161,4 @@ Functions
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
->  .. kernel-doc:: include/linux/highmem.h
-> +.. kernel-doc:: include/linux/highmem-internal.h
-> --=20
-> 2.34.1
->=20
-Dear Maintainers,
+This series has the purpose to extend and reorganize Highmem's
+documentation.
 
-Please drop this patch because it has been reworked and inserted as part of=
-=20
-a new series whose subject is "Extend and reorganize Highmem's=20
-documentation" and which is about to be submitted.
+This is still a work in progress, because some information should still be
+moved from highmem.rst to highmem.h and highmem-internal.h. Specifically 
+I'm talking about moving the "how to" information to the relevant headers, 
+as it as been suggested by Ira Weiny (Intel).
 
-Thanks,
+This series is composed by four patches gathered from a previous series
+made of two, plus two more single patches. The subject of this cover has
+changed and the layout of the changes across the four patches has
+changed too. For this reason it is very hard to show a valid versions'
+log. Therefore, I decided to start over and drop versions (Maintainers
+of the previous patch have been told to drop them).
 
-=46abio M. De Francesco
+Fabio M. De Francesco (4):
+  mm/highmem: Fix kernel-doc warnings in highmem*.h
+  Documentation/vm: Include kdocs from highmem*.h into highmem.rst
+  Documentation/vm: Remove "Using kmap-atomic" from highmem.rst.
+  Documentation/vm: Rework "Temporary Virtual Mappings" section
 
+ Documentation/vm/highmem.rst     | 101 +++++++++++++++++++------------
+ include/linux/highmem-internal.h |  14 ++++-
+ include/linux/highmem.h          |  15 +----
+ 3 files changed, 75 insertions(+), 55 deletions(-)
 
+-- 
+2.34.1
 
