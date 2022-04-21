@@ -2,262 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45A28C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 07:28:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26194C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 07:50:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236278AbiDUHbQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Apr 2022 03:31:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55022 "EHLO
+        id S1354757AbiDUHxe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Apr 2022 03:53:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235324AbiDUHbP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 03:31:15 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4869AE40;
-        Thu, 21 Apr 2022 00:28:25 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id x3so2612758wmj.5;
-        Thu, 21 Apr 2022 00:28:25 -0700 (PDT)
+        with ESMTP id S1386290AbiDUHxb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 03:53:31 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38614E0AE;
+        Thu, 21 Apr 2022 00:50:30 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id md4so4219362pjb.4;
+        Thu, 21 Apr 2022 00:50:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kVcUd33TF8f6ZtTFduCfuS5Af+o0e9jEQEOkEXblH+c=;
-        b=lAXa/6GPAVzY+POcPHX7uYwK0iesKTsRDcYPuRioQcp7mKEbEy8OteKie5/yplIFHA
-         IEeCGYVChiiuNypK63/9/mMxFr0XxOT6Pf5NuPg5MNv/H6h/cJYuSCKdgE5C79sWgxMg
-         FMvpc/JlJpEqVegxHJ2pExql5X0nzP5i7IWZ9xH80Vl0d7DEORPgV+jB6g9nVzxRpoga
-         6vjgfn6Un+chRjZdL9jkadQvSdOgh4/r6MkSXdZRbW5Ll/QufoedZTFtnjt0V1hGzak0
-         WbFdHZH+UBfWAJrBUmDwhDKSTVUj9339lu4Pi3rNHzVJfJemIQkR4KvIVea794CIPBoz
-         6HSg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=oicvIY0y5wccZhVe6ivP5Xo5+MG/BvSEb+nQiz7dyjQ=;
+        b=V1Xglz2oLjrxpQkc5GBIiz3GzvJqg4IKyNDPTkuaNdo4ZTsHidcRaaXp8v6ztS2vFU
+         dSwb+J/F2qw0xowspA0tDT3ckvYlt7X3LUJLAygGypOAgcHsClWlcELVg35ampaeDLe7
+         QBmXh0Mg72WN948teJpSUp8xRL2vLrujoQcXPIjSMVx7iFmgJuss3pL3Szc6klaE6C1N
+         uxvshLcSU78Lhtd9JFOt9D19h9mn0HS3AyPat1jTPOIy3EVf1gpE0O9jmeHj8BpGXwKr
+         HrqOV42rLg7Zd0a05S2/z1ztPvnuIoNx0OFT8sud0d2vLiCN1rZS5skYqa/RhlJRqatY
+         aOKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=kVcUd33TF8f6ZtTFduCfuS5Af+o0e9jEQEOkEXblH+c=;
-        b=svlZsF1Xr7/HV17dX8NmkDeVXLMLVoxEr1Wtcb7+st0zvJVmklq+k+MGabtu0E3poA
-         LxtFPNxBdHweKEo7yxEtYAq3jCQViP95Pth5OvOATpZTpP8CnqS3FRUPfZWRZp56s5so
-         fCF3x1XrW+hvOgAsjdPltopWHLcYtDz1qR1qFZtx5dCqbS3HbjiAlVCTn9WpJ90douuZ
-         bkrhBkRN8xEQm5x5NvyhwmZhQUyn8jtcOSBYLFDIwWInbPdQaK2PBJQYRWKJNSDbdFuM
-         2Eqa2fr7+RulzIdM4USBHmcr19B/ozkYOS0f6sK1wgkNs1aGJmSfUwFIHpSwB+CEVCW9
-         WSNA==
-X-Gm-Message-State: AOAM530LqdABkSzLzlCjgXOxKnaIe7n1NyAftf/Vp30du84X+QR5g52n
-        fFxszA2aVbYypiEiz5fi8vwFdSdazOCZuQ==
-X-Google-Smtp-Source: ABdhPJyxOCa2EfufJCDTkwLazEmN2JPZfxw6npHwm9VGRvzv7yn8Z3NsmkOeMInAyCnVkvRALXGn+A==
-X-Received: by 2002:a7b:c201:0:b0:38f:f7f5:f6db with SMTP id x1-20020a7bc201000000b0038ff7f5f6dbmr7160900wmi.191.1650526104018;
-        Thu, 21 Apr 2022 00:28:24 -0700 (PDT)
-Received: from fedora.. ([95.180.24.23])
-        by smtp.gmail.com with ESMTPSA id a2-20020a056000188200b0020aa2581c7fsm1743733wri.104.2022.04.21.00.28.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 00:28:23 -0700 (PDT)
-From:   Aleksa Savic <savicaleksa83@gmail.com>
-To:     linux-hwmon@vger.kernel.org
-Cc:     savicaleksa83@gmail.com, Jack Doan <me@jackdoan.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (aquacomputer_d5next) Add support for Aquacomputer Farbwerk
-Date:   Thu, 21 Apr 2022 09:27:42 +0200
-Message-Id: <20220421072743.5058-1-savicaleksa83@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        bh=oicvIY0y5wccZhVe6ivP5Xo5+MG/BvSEb+nQiz7dyjQ=;
+        b=QSMc/3qOuwgQqzcOtUHgZu1x2xd5WH93oxsho2YnXWzJUFvkqMps/9LuEQjlAHt6Nu
+         rCMdRTdn2UekfJa8zF1IGW3cH+pw02gzwLk0O77LQwROQeDcc2+khf4C0iJl1t9oCbAB
+         RreL4/Hwbhv9GRTe4mMmy4H4bHYHAPakDte92rb/0JU1C2onw+2X+qtWFShrJVt1TbT2
+         lvwm6GLkLu83Av1FA/6MVeW6IBvw9H4trowVvNLvHlNBoZKBtjd7JCuEoBjAIYrW31hT
+         NxdBHoMwEHIT6TQDCVPP6PXalqBk3Hjw5vV5rON5dc7Wt4N+qkIY/oumvPKrxZljUwqF
+         LuVQ==
+X-Gm-Message-State: AOAM530pe6S9U116DtHLGLCwhKYuw2SFxTCiYQ+WQK6106znmEC8rDFW
+        fmZ66To6v7nuVYQg4ibj9Hw=
+X-Google-Smtp-Source: ABdhPJwPwrHN/kgtMeCVvBZbTGWh+qmRSFtqroD5tz6rMKKos9VyqUt8UyA/ufcoacKmw/+uSOTJww==
+X-Received: by 2002:a17:902:b193:b0:158:c040:5cf8 with SMTP id s19-20020a170902b19300b00158c0405cf8mr24676272plr.146.1650527429609;
+        Thu, 21 Apr 2022 00:50:29 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-15.three.co.id. [180.214.233.15])
+        by smtp.gmail.com with ESMTPSA id o5-20020a62f905000000b0050b5b5efa47sm799738pfh.191.2022.04.21.00.50.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Apr 2022 00:50:28 -0700 (PDT)
+Message-ID: <2f4c72d2-4669-4217-f322-9d4f34c3053e@gmail.com>
+Date:   Thu, 21 Apr 2022 14:50:24 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 0/2] Docs: Update information at changes.rst
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Bruno Moreira-Guedes <codeagain@codeagain.dev>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        outreachy@lists.linux.dev,
+        Bruno's Patch Watchbox <patch-reply@codeagain.dev>
+References: <cover.1650376049.git.codeagain@codeagain.dev>
+ <8735i83xo1.fsf@meer.lwn.net> <20220420172731.ru7kfrdkmprybtu7@AN5Bruno>
+ <878rrz30d9.fsf@meer.lwn.net>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <878rrz30d9.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend aquacomputer_d5next driver to expose hardware temperature sensors
-of the Aquacomputer Farbwerk RGB controller, which communicates through
-a proprietary USB HID protocol.
+On 4/21/22 04:34, Jonathan Corbet wrote:
+>> Thanks, Jon! I have also been thinking whether this filename
+>> ('changes.rst') is a good description of the file contents. Do you think
+>> renaming it to something like 'requirements.rst' and updating its
+>> references would be a good patch?
+> 
+> It's best not to rename things unnecessarily, especially relatively
+> well-known files that a lot of people expect to find in a specific
+> place.  We've done a lot of renaming over the last few years, but this
+> is one I might let slide for now.
+> 
 
-Four temperature sensors are available. Additionally, serial number and
-firmware version are exposed through debugfs.
+Did you mean the rename will be benefical?
 
-Also, add Jack Doan to MAINTAINERS for this driver.
-
-Signed-off-by: Jack Doan <me@jackdoan.com>
-Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
----
-If adding to MAINTAINERS requires a separate commit, I'll send it
-separately.
----
- Documentation/hwmon/aquacomputer_d5next.rst |  3 +-
- MAINTAINERS                                 |  1 +
- drivers/hwmon/Kconfig                       |  5 +--
- drivers/hwmon/aquacomputer_d5next.c         | 37 ++++++++++++++++++---
- 4 files changed, 38 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/hwmon/aquacomputer_d5next.rst b/Documentation/hwmon/aquacomputer_d5next.rst
-index e69f718caf5b..717e28226cde 100644
---- a/Documentation/hwmon/aquacomputer_d5next.rst
-+++ b/Documentation/hwmon/aquacomputer_d5next.rst
-@@ -6,6 +6,7 @@ Kernel driver aquacomputer-d5next
- Supported devices:
- 
- * Aquacomputer D5 Next watercooling pump
-+* Aquacomputer Farbwerk RGB controller
- * Aquacomputer Farbwerk 360 RGB controller
- * Aquacomputer Octo fan controller
- 
-@@ -32,7 +33,7 @@ better suited for userspace tools.
- The Octo exposes four temperature sensors and eight PWM controllable fans, along
- with their speed (in RPM), power, voltage and current.
- 
--The Farbwerk 360 exposes four temperature sensors. Depending on the device,
-+The Farbwerk and Farbwerk 360 expose four temperature sensors. Depending on the device,
- not all sysfs and debugfs entries will be available.
- 
- Usage notes
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ea2cd656ee6c..d8e3ca0fbc3a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1389,6 +1389,7 @@ F:	drivers/media/i2c/aptina-pll.*
- 
- AQUACOMPUTER D5 NEXT PUMP SENSOR DRIVER
- M:	Aleksa Savic <savicaleksa83@gmail.com>
-+M:	Jack Doan <me@jackdoan.com>
- L:	linux-hwmon@vger.kernel.org
- S:	Maintained
- F:	Documentation/hwmon/aquacomputer_d5next.rst
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 5beadd8a0932..01d10c9b633a 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -256,12 +256,13 @@ config SENSORS_AHT10
- 	  will be called aht10.
- 
- config SENSORS_AQUACOMPUTER_D5NEXT
--	tristate "Aquacomputer D5 Next, Octo and Farbwerk 360"
-+	tristate "Aquacomputer D5 Next, Octo, Farbwerk, Farbwerk 360"
- 	depends on USB_HID
- 	help
- 	  If you say yes here you get support for sensors and fans of
- 	  the Aquacomputer D5 Next watercooling pump, Octo fan
--	  controller and Farbwerk 360 RGB controller, where available.
-+	  controller, Farbwerk and Farbwerk 360 RGB controllers, where
-+	  available.
- 
- 	  This driver can also be built as a module. If so, the module
- 	  will be called aquacomputer_d5next.
-diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
-index a464473bc981..7d2e7279abfb 100644
---- a/drivers/hwmon/aquacomputer_d5next.c
-+++ b/drivers/hwmon/aquacomputer_d5next.c
-@@ -1,11 +1,12 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk 360, Octo)
-+ * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk, Farbwerk 360, Octo)
-  *
-  * Aquacomputer devices send HID reports (with ID 0x01) every second to report
-  * sensor values.
-  *
-  * Copyright 2021 Aleksa Savic <savicaleksa83@gmail.com>
-+ * Copyright 2022 Jack Doan <me@jackdoan.com>
-  */
- 
- #include <linux/crc16.h>
-@@ -19,14 +20,16 @@
- #include <asm/unaligned.h>
- 
- #define USB_VENDOR_ID_AQUACOMPUTER	0x0c70
-+#define USB_PRODUCT_ID_FARBWERK		0xf00a
- #define USB_PRODUCT_ID_D5NEXT		0xf00e
- #define USB_PRODUCT_ID_FARBWERK360	0xf010
- #define USB_PRODUCT_ID_OCTO		0xf011
- 
--enum kinds { d5next, farbwerk360, octo };
-+enum kinds { d5next, farbwerk, farbwerk360, octo };
- 
- static const char *const aqc_device_names[] = {
- 	[d5next] = "d5next",
-+	[farbwerk] = "farbwerk",
- 	[farbwerk360] = "farbwerk360",
- 	[octo] = "octo"
- };
-@@ -69,6 +72,12 @@ static u8 secondary_ctrl_report[] = {
- #define D5NEXT_PUMP_CURRENT		112
- #define D5NEXT_FAN_CURRENT		99
- 
-+/* Register offsets for the Farbwerk RGB controller */
-+#define FARBWERK_NUM_SENSORS		4
-+#define FARBWERK_SENSOR_START		0x2f
-+#define FARBWERK_SENSOR_SIZE		0x02
-+#define FARBWERK_SENSOR_DISCONNECTED	0x7FFF
-+
- /* Register offsets for the Farbwerk 360 RGB controller */
- #define FARBWERK360_NUM_SENSORS		4
- #define FARBWERK360_SENSOR_START	0x32
-@@ -125,7 +134,7 @@ static const char *const label_d5next_current[] = {
- 	"Fan current"
- };
- 
--/* Labels for Farbwerk 360 and Octo temperature sensors */
-+/* Labels for Farbwerk, Farbwerk 360 and Octo temperature sensors */
- static const char *const label_temp_sensors[] = {
- 	"Sensor 1",
- 	"Sensor 2",
-@@ -319,6 +328,7 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
- 			if (channel == 0)
- 				return 0444;
- 			break;
-+		case farbwerk:
- 		case farbwerk360:
- 		case octo:
- 			return 0444;
-@@ -551,8 +561,7 @@ static const struct hwmon_chip_info aqc_chip_info = {
- 	.info = aqc_info,
- };
- 
--static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8 *data,
--			 int size)
-+static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8 *data, int size)
- {
- 	int i, sensor_value;
- 	struct aqc_data *priv;
-@@ -587,6 +596,17 @@ static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8
- 		priv->current_input[0] = get_unaligned_be16(data + D5NEXT_PUMP_CURRENT);
- 		priv->current_input[1] = get_unaligned_be16(data + D5NEXT_FAN_CURRENT);
- 		break;
-+	case farbwerk:
-+		/* Temperature sensor readings */
-+		for (i = 0; i < FARBWERK_NUM_SENSORS; i++) {
-+			sensor_value = get_unaligned_be16(data + FARBWERK_SENSOR_START +
-+							  i * FARBWERK_SENSOR_SIZE);
-+			if (sensor_value == FARBWERK_SENSOR_DISCONNECTED)
-+				priv->temp_input[i] = -ENODATA;
-+			else
-+				priv->temp_input[i] = sensor_value * 10;
-+		}
-+		break;
- 	case farbwerk360:
- 		/* Temperature sensor readings */
- 		for (i = 0; i < FARBWERK360_NUM_SENSORS; i++) {
-@@ -733,6 +753,11 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		priv->voltage_label = label_d5next_voltages;
- 		priv->current_label = label_d5next_current;
- 		break;
-+	case USB_PRODUCT_ID_FARBWERK:
-+		priv->kind = farbwerk;
-+
-+		priv->temp_label = label_temp_sensors;
-+		break;
- 	case USB_PRODUCT_ID_FARBWERK360:
- 		priv->kind = farbwerk360;
- 
-@@ -795,6 +820,7 @@ static void aqc_remove(struct hid_device *hdev)
- 
- static const struct hid_device_id aqc_table[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_D5NEXT) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_FARBWERK) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_FARBWERK360) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_OCTO) },
- 	{ }
-@@ -826,4 +852,5 @@ module_exit(aqc_exit);
- 
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Aleksa Savic <savicaleksa83@gmail.com>");
-+MODULE_AUTHOR("Jack Doan <me@jackdoan.com>");
- MODULE_DESCRIPTION("Hwmon driver for Aquacomputer devices");
 -- 
-2.35.1
-
+An old man doll... just what I always wanted! - Clara
