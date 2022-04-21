@@ -2,117 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0463C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 12:41:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F33A8C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 14:46:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385105AbiDUMom (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Apr 2022 08:44:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45952 "EHLO
+        id S1389619AbiDUOtR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Apr 2022 10:49:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385111AbiDUMol (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 08:44:41 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68A7A3193C;
-        Thu, 21 Apr 2022 05:41:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0F1A6B8245D;
-        Thu, 21 Apr 2022 12:41:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D60C7C385A5;
-        Thu, 21 Apr 2022 12:41:46 +0000 (UTC)
-Date:   Thu, 21 Apr 2022 08:41:45 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     "Luck, Tony" <tony.luck@intel.com>
-Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "markgross@kernel.org" <markgross@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: Re: [PATCH v3 10/11] trace: platform/x86/intel/ifs: Add trace point
- to track Intel IFS operations
-Message-ID: <20220421084145.3b0c3539@gandalf.local.home>
-In-Reply-To: <adc49af263e2464f86b20ccc2d8f184d@intel.com>
-References: <20220407191347.9681-1-jithu.joseph@intel.com>
-        <20220419163859.2228874-1-tony.luck@intel.com>
-        <20220419163859.2228874-11-tony.luck@intel.com>
-        <20220420193839.6e9d810b@gandalf.local.home>
-        <adc49af263e2464f86b20ccc2d8f184d@intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S1389341AbiDUOtN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 10:49:13 -0400
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01F8A275C0;
+        Thu, 21 Apr 2022 07:46:23 -0700 (PDT)
+Received: by mail-pf1-f169.google.com with SMTP id j17so5202382pfi.9;
+        Thu, 21 Apr 2022 07:46:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=68aQiXtJdbSqo/3JtN5CLu/jqQDwbP40/JDr4/iZoI8=;
+        b=AOb8YbpqI+D2yBpyli2Ne6uoCnm0Ew+iIur468RY9YJ4iZPnQfyakYdHC5ivDi3jyw
+         RS7FH82LKl+j/3DNTVCt1gLJmU963GYDOEtIbvD+DkPzhPnPSKf1f5ieWmSNu1i0giGb
+         15MfYJrQI7xoKcWMyyEB4aat09CFF+661yPturtmLrk32vYnKP92ipuvGQXgYQT1a8Mc
+         ytsz2cdMVCsv5gQlsog2sCr5qn7mQfEg8VShhesPj0B4DKGkbuonnaniwaZPa7Cg44M6
+         QgWMI1v+1r/IVfVyNhB4EGr6BgY7kFJgcSas84/3F3+jDgoZlvuEE4/8VsSJGggX2DP3
+         L8Fg==
+X-Gm-Message-State: AOAM533H7xJUuau9B2N1DEzhexueARJnJOA7qPKkYBfmZ+FPKpSNePlZ
+        R/+hq2dm2mHEylugxBPh++c=
+X-Google-Smtp-Source: ABdhPJw+lELoD2P97sAlP0tY8bc4cqSyEaNhgwVyzU5Hi9CD89FiMOgc+2SwbCzF3OA5TNVU5asFOA==
+X-Received: by 2002:aa7:8241:0:b0:509:979d:c760 with SMTP id e1-20020aa78241000000b00509979dc760mr29335995pfn.84.1650552383104;
+        Thu, 21 Apr 2022 07:46:23 -0700 (PDT)
+Received: from localhost ([2601:647:5b00:ece1:6248:e226:d2e0:1f33])
+        by smtp.gmail.com with ESMTPSA id b2-20020a056a000a8200b004f1111c66afsm26260875pfl.148.2022.04.21.07.46.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Apr 2022 07:46:22 -0700 (PDT)
+Date:   Thu, 21 Apr 2022 07:46:21 -0700
+From:   Moritz Fischer <mdf@kernel.org>
+To:     Tianfei Zhang <tianfei.zhang@intel.com>
+Cc:     hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
+        yilun.xu@intel.com, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, corbet@lwn.net,
+        Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Subject: Re: [PATCH v7 1/2] fpga: dfl: check feature type before parse irq
+ info
+Message-ID: <YmFuPdzQCL5LwH2F@archbook>
+References: <20220419032942.427429-1-tianfei.zhang@intel.com>
+ <20220419032942.427429-2-tianfei.zhang@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220419032942.427429-2-tianfei.zhang@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 21 Apr 2022 04:26:39 +0000
-"Luck, Tony" <tony.luck@intel.com> wrote:
-
-> >> +TRACE_EVENT(ifs_status,
-> >> +
-> >> +	TP_PROTO(union ifs_scan activate, union ifs_status status),  
-> >
-> > Really, you want to pass the structure in by value, so that we have two
-> > copies? One to get to this function and then one to write to the ring
-> > buffer?  
+On Mon, Apr 18, 2022 at 11:29:41PM -0400, Tianfei Zhang wrote:
+> From: Tianfei zhang <tianfei.zhang@intel.com>
 > 
-> These "structures" are just bitfield helpers for a u64 that is passed into
-> WRMSR (in the case of activate) and received back from RDMSR in
-> the case of status.
+> Previously the feature IDs defined are unique, no matter
+> which feature type. But currently we want to extend its
+> usage to have a per-type feature ID space, so this patch
+> adds feature type checking as well just before look into
+> feature ID for different features which have irq info.
 > 
-> So this is really just a pair of u64 arguments, with the compiler handling
-> the bit field extractions into the ring buffer.
-
-I was just wondering if passing by reference would be better, but as you
-stated, they are just two u64 arguments.
-
+> Reviewed-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> Acked-by: Wu Hao <hao.wu@intel.com>
+Acked-by: Moritz Fischer <mdf@kernel.org>
+> Signed-off-by: Tianfei zhang <tianfei.zhang@intel.com>
+> ---
+> v7:
+>   - Add Reviewed-by and Acked-by tag.
+> v4:
+>   - Fix the git commit from Hao's comments.
+>   - Split documentation into another patch.
+> v3:
+>   - Remove "Fixes" in commit log with Hao's comment, this is a
+>     extension not a bug fix.
+> v2:
+>   - add DFL Feature ID Registry in documentation.
+> ---
+>  drivers/fpga/dfl.c | 38 ++++++++++++++++++++++----------------
+>  1 file changed, 22 insertions(+), 16 deletions(-)
 > 
-> Here are the definitions:
+> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+> index 599bb21d86af..6bff39ff21a0 100644
+> --- a/drivers/fpga/dfl.c
+> +++ b/drivers/fpga/dfl.c
+> @@ -940,9 +940,12 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+>  {
+>  	void __iomem *base = binfo->ioaddr + ofst;
+>  	unsigned int i, ibase, inr = 0;
+> +	enum dfl_id_type type;
+>  	int virq;
+>  	u64 v;
+>  
+> +	type = feature_dev_id_type(binfo->feature_dev);
+> +
+>  	/*
+>  	 * Ideally DFL framework should only read info from DFL header, but
+>  	 * current version DFL only provides mmio resources information for
+> @@ -957,22 +960,25 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+>  	 * code will be added. But in order to be compatible to old version
+>  	 * DFL, the driver may still fall back to these quirks.
+>  	 */
+> -	switch (fid) {
+> -	case PORT_FEATURE_ID_UINT:
+> -		v = readq(base + PORT_UINT_CAP);
+> -		ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
+> -		inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
+> -		break;
+> -	case PORT_FEATURE_ID_ERROR:
+> -		v = readq(base + PORT_ERROR_CAP);
+> -		ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
+> -		inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
+> -		break;
+> -	case FME_FEATURE_ID_GLOBAL_ERR:
+> -		v = readq(base + FME_ERROR_CAP);
+> -		ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
+> -		inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
+> -		break;
+> +	if (type == PORT_ID) {
+> +		switch (fid) {
+> +		case PORT_FEATURE_ID_UINT:
+> +			v = readq(base + PORT_UINT_CAP);
+> +			ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
+> +			inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
+> +			break;
+> +		case PORT_FEATURE_ID_ERROR:
+> +			v = readq(base + PORT_ERROR_CAP);
+> +			ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
+> +			inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
+> +			break;
+> +		}
+> +	} else if (type == FME_ID) {
+> +		if (fid == FME_FEATURE_ID_GLOBAL_ERR) {
+> +			v = readq(base + FME_ERROR_CAP);
+> +			ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
+> +			inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
+> +		}
+>  	}
+>  
+>  	if (!inr) {
+> -- 
+> 2.26.2
 > 
-> union ifs_scan {
->         u64     data;
->         struct {
->                 u32     start   :8;
->                 u32     stop    :8;
->                 u32     rsvd    :16;
->                 u32     delay   :31;
->                 u32     sigmce  :1;
->         };
-> };
-> 
-> union ifs_status {
->         u64     data;
->         struct {
->                 u32     chunk_num               :8;
->                 u32     chunk_stop_index        :8;
->                 u32     rsvd1                   :16;
->                 u32     error_code              :8;
->                 u32     rsvd2                   :22;
->                 u32     control_error           :1;
->                 u32     signature_error         :1;
->         };
-> };
-> 
-> Would it be better to do the bit extractions of the start/stop fields first?
-
-No, I'm just paranoid about passing structures / unions in by value and not
-reference. If you are fine with this, then I'm OK too.
-
--- Steve
-
