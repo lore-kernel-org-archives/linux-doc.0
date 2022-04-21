@@ -2,94 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C15C0C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 14:47:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56F8AC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 14:56:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1389625AbiDUOuL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Apr 2022 10:50:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56092 "EHLO
+        id S1389805AbiDUO7M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Apr 2022 10:59:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1389629AbiDUOuK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 10:50:10 -0400
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89A8842A32;
-        Thu, 21 Apr 2022 07:47:20 -0700 (PDT)
-Received: by mail-pl1-f180.google.com with SMTP id t12so5077824pll.7;
-        Thu, 21 Apr 2022 07:47:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=g202DJgphpepUMd7JLCHKLgUnPLzuZXeZkNUO2SATTw=;
-        b=3bhRDFwtKMS4adOqMnmfloduEPDa8Pmbs7wQgecRj8a4qi92NUzm07yU87FstKQkNm
-         uVy9ScoJvw4crowbmGUl1TPoTnpbUI6uT4ML+zK/iFiURfHaVJe+PGMvnIVjcT3wBnHg
-         i3pFmxWl1w+1n2I1TxOVKC2L0lwVueTRgZHX3TB5zVjR14ImSSTpwEWhTOTXMCm1HGqk
-         dO/XIH1gpLeQqI6lX3XhNVPiU6Glz6k5aQqfIt+5UyHEcsfZxOVAiZyPVaTmMnLvU461
-         Mp7h3l9FZ7Maj+oXRc7Vz9azeQaXgLajxjPJk/apsgh39ag66pqN8RnRhrnwg7YWWO12
-         qBeQ==
-X-Gm-Message-State: AOAM532KhwuB27+iHD2NqnZ5/ONJIzyCH1AdyAnX/5fqVhlTC12cai4T
-        A082NZ57gwnlFhDby3GtGOQ=
-X-Google-Smtp-Source: ABdhPJwBBG1+ZOyO338IDd1IlfZfSzpt6gLj8EEu9VjP4CL3AXLKJFs5PAwxfQV9lBn2EFmUoYRH2w==
-X-Received: by 2002:a17:903:31c8:b0:158:d060:eab7 with SMTP id v8-20020a17090331c800b00158d060eab7mr25810957ple.5.1650552439960;
-        Thu, 21 Apr 2022 07:47:19 -0700 (PDT)
-Received: from localhost ([2601:647:5b00:ece1:6248:e226:d2e0:1f33])
-        by smtp.gmail.com with ESMTPSA id c2-20020a63a442000000b0039cc5a6af1csm22577214pgp.30.2022.04.21.07.47.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 07:47:19 -0700 (PDT)
-Date:   Thu, 21 Apr 2022 07:47:18 -0700
-From:   Moritz Fischer <mdf@kernel.org>
-To:     Tianfei Zhang <tianfei.zhang@intel.com>
-Cc:     hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
-        yilun.xu@intel.com, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net,
-        Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: Re: [PATCH v7 2/2] Documentation: fpga: dfl: add link address of
- feature id table
-Message-ID: <YmFudmiIRh5RHGQ+@archbook>
-References: <20220419032942.427429-1-tianfei.zhang@intel.com>
- <20220419032942.427429-3-tianfei.zhang@intel.com>
+        with ESMTP id S233309AbiDUO7L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 10:59:11 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10E5F43392;
+        Thu, 21 Apr 2022 07:56:21 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1650552979;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=3kCmmeBFyKdPCM39jp9rfdUy/VRt431xwBuf3wpfKds=;
+        b=2YIcM1pfi0m8RrAtM3GW/cEzGwM03IHx14kKmkky9jseLGxHS6boPU+SJS3IvaUX6qGz24
+        PfmoWSDYkoxmvNYCv3P84Of2ewTlBA+PN2z5tNozCdUir+Z/MBJR/XaVDP7ljPv0HgZeGL
+        Cnmfhky8wIhx7Rd+6IEwEpAMRdDJvOHMCk+yXqsqwuvg+PyHeu1CiF0YDOa8uDrbPCq4J5
+        UGiu3wnbzj5PQgdtGSoI/sxK8GGpygszVEf5E4S6s0byZZpScssgN2Qez7XAPVcEwopsS+
+        Wa8XMDCV4/5GDRwxI8InboSUHZvv9GCKdCy534HIpOyPzIvwJhIcsZCTu/WZIA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1650552979;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=3kCmmeBFyKdPCM39jp9rfdUy/VRt431xwBuf3wpfKds=;
+        b=cUFWYXFbRStTQNvqnNyN8QiNjcTaVlh1mE6iJSETtZjT1l9CRDvaI9pfkvMK+ZplQogoOE
+        iEAdRr16VWtQrTDQ==
+To:     Borislav Petkov <bp@alien8.de>,
+        Jithu Joseph <jithu.joseph@intel.com>
+Cc:     hdegoede@redhat.com, markgross@kernel.org, mingo@redhat.com,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        corbet@lwn.net, gregkh@linuxfoundation.org,
+        andriy.shevchenko@linux.intel.com, ashok.raj@intel.com,
+        tony.luck@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
+        ravi.v.shankar@intel.com
+Subject: Re: [PATCH v2 01/10] x86/microcode/intel: expose
+ collect_cpu_info_early() for IFS
+In-Reply-To: <Yk/zhV3SGib6TaI5@zn.tnic>
+References: <20220407191347.9681-1-jithu.joseph@intel.com>
+ <20220407191347.9681-2-jithu.joseph@intel.com> <Yk/zhV3SGib6TaI5@zn.tnic>
+Date:   Thu, 21 Apr 2022 16:56:19 +0200
+Message-ID: <871qxqtrho.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220419032942.427429-3-tianfei.zhang@intel.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 18, 2022 at 11:29:42PM -0400, Tianfei Zhang wrote:
-> From: Tianfei zhang <tianfei.zhang@intel.com>
-> 
-> This patch adds the link address of feature id table in documentation.
-> 
-> Reviewed-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> Signed-off-by: Tianfei zhang <tianfei.zhang@intel.com>
-Acked-by: Moritz Fischer <mdf@kernel.org>
-> ---
-> v7:
->   - change the title and git commit message.
->   - add Reviewed by from Matthew Gerlach.
-> v6: fix documentation from Hao's comment.
-> v5: fix documentation from Matthew's comment.
-> ---
->  Documentation/fpga/dfl.rst | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-> index ef9eec71f6f3..15b670926084 100644
-> --- a/Documentation/fpga/dfl.rst
-> +++ b/Documentation/fpga/dfl.rst
-> @@ -502,6 +502,11 @@ Developer only needs to provide a sub feature driver with matched feature id.
->  FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-pr.c)
->  could be a reference.
->  
-> +Please refer to below link to existing feature id table and guide for new feature
-> +ids application.
-> +https://github.com/OPAE/dfl-feature-id
-> +
-> +
->  Location of DFLs on a PCI Device
->  ================================
->  The original method for finding a DFL on a PCI device assumed the start of the
-> -- 
-> 2.26.2
-> 
+On Fri, Apr 08 2022 at 10:34, Borislav Petkov wrote:
+> On Thu, Apr 07, 2022 at 12:13:38PM -0700, Jithu Joseph wrote:
+>> +EXPORT_SYMBOL_GPL(cpu_signatures_match);
+>> +
+>> +int cpu_collect_info_early(struct ucode_cpu_info *uci)
+>
+> intel_collect_cpu_info_early()
+
+That function name does not make sense in context of that driver...
+
+Thanks,
+
+        tglx
