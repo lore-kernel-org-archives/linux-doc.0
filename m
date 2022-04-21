@@ -2,112 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C09A6C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 03:18:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DF2AC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 04:26:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1383917AbiDUDVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Apr 2022 23:21:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60088 "EHLO
+        id S229950AbiDUE3a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Apr 2022 00:29:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1383906AbiDUDVg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 23:21:36 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65D291262D
-        for <linux-doc@vger.kernel.org>; Wed, 20 Apr 2022 20:18:48 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id s14so3587710plk.8
-        for <linux-doc@vger.kernel.org>; Wed, 20 Apr 2022 20:18:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=NghepmBiaj68pxaOpcG/lSCzSAs3yu0ibKXLD1qTgVU=;
-        b=455j9DFRMs2U4tYQSDrRfRP4nUqSK00fXmqysu4e/bPsZzlckCyuXj/B4Y6S4Gy/kd
-         1cPTlmK7Sd2NHhR1t9aI7qj1qUlQWyrAYwUxjmz7MscUTz06a2PReygGRCEl5sjU1p5s
-         AShoRN1705vDVF8/K9zjL0TN+7kAAREvbQUhlvYHBcEQVZOT/GNOBbxPDf8C8V0hFYY0
-         LLA5kIohpZqvAhApQQS63aPM9CE4FIuwkFLEIYSalcxOfL5BfO19RUh+VyRh4JK8FIUw
-         8McGY06AAEkYHoCJHRq1xbsa22lUGKS44moWcUmuY+LDfdF+v1XkArmdR+uUaKOIPdWi
-         Bfsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=NghepmBiaj68pxaOpcG/lSCzSAs3yu0ibKXLD1qTgVU=;
-        b=goZ1pc1l1ny0hmbfE6iaMPVcRCgLfmbmfCd22pW1wMoDM+c/A31DD6tqDttlfi9hGT
-         ERnwL4buVDudiC5MTDp5Fcyd146SLpflSvLV1CuS19y95PnOQ7DuoPGSX9LWbhu7Ew96
-         ilUMc5BcOPmbjj8MQYH/YTZj9a79s/5l2rBmtuHbawRvWxcfq0PRUJWzLrFnW2BqElhw
-         x+srRDvWe8WlzKJDWLNtFjD3cQoUSdLhsiMt9VsFJAhsCNho/Ej6GbCefT9izdcH2fPA
-         oBUhSK535p8UBeE7V7cab9hHnTsXK2Pb7FlmNuCmkVz6XtGR2Mto9P058HsN1K5TbUBT
-         CprQ==
-X-Gm-Message-State: AOAM530sWG9j+GWysCwnCmG+ipbRLVx2KEJe5xMN7yE63oCa2e02PiKo
-        fFFFFMzI+8cU5/ptiz9QmOxOXw==
-X-Google-Smtp-Source: ABdhPJymzdzVbaGcv9D9XGC4x7JH8QeNZKFSjMs5U0NY0Qf5J+81At3RmjwzuwOZY02fSOmyeqBv7g==
-X-Received: by 2002:a17:902:7407:b0:159:6a:8beb with SMTP id g7-20020a170902740700b00159006a8bebmr17249263pll.168.1650511127951;
-        Wed, 20 Apr 2022 20:18:47 -0700 (PDT)
-Received: from localhost ([139.177.225.245])
-        by smtp.gmail.com with ESMTPSA id j6-20020aa79286000000b004fdf02851eesm21039552pfa.4.2022.04.20.20.18.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 20:18:47 -0700 (PDT)
-Date:   Thu, 21 Apr 2022 11:18:44 +0800
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        David Hildenbrand <david@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v8 1/4] mm: hugetlb_vmemmap: introduce
- CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
-Message-ID: <YmDNFO6+wHSEkiSO@FVFYT0MHHV2J.usts.net>
-References: <20220413144748.84106-1-songmuchun@bytedance.com>
- <20220413144748.84106-2-songmuchun@bytedance.com>
- <CAK7LNARNyYNMMYcEwU-pVFb-b21cKN+K_jwseLTtoOfscS2Ggw@mail.gmail.com>
- <9bd9c89a-b2fb-04dd-0aac-c42f2ee9e1a1@oracle.com>
+        with ESMTP id S229894AbiDUE33 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 00:29:29 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87B2212602;
+        Wed, 20 Apr 2022 21:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650515201; x=1682051201;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Z7jdM6pq07KjbTcwuki1ZSctHuXY7XcN+eSmZWx0l0M=;
+  b=cAfSDuCbf7xBSYDM0O40TAf1HQ6qGlpdbPgBD7WQm3UU1PB8INVICZJn
+   AwZv8AXz2ESdGhdW++ayrWRzfh78/StXsj8uWAylPGKOYVCdf4lvJvRPQ
+   8kk3k0bUQgOqKC0WQ53kHWhoqJ8zJOgiWPLms0Ud+vuudStbrbyf1/nrg
+   zrQ+c31rp7fFtPV0vKMnjsQ40BUfxCH7cp4bFVpPyuWBv12gQYMZYoH2z
+   wrNVW5+VUUQ1TJSXCzoncllW847OjHUEsWzIJt8Tt3fFJ5fJ4MAR1Of4D
+   dB6DlAefyQYu8HPxxemPj+4Uub1rPY1CrdLkHgoIzIHjzGohNRQQHAvsG
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="324672494"
+X-IronPort-AV: E=Sophos;i="5.90,277,1643702400"; 
+   d="scan'208";a="324672494"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2022 21:26:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,277,1643702400"; 
+   d="scan'208";a="727803522"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga005.jf.intel.com with ESMTP; 20 Apr 2022 21:26:40 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Wed, 20 Apr 2022 21:26:40 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Wed, 20 Apr 2022 21:26:39 -0700
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
+ Wed, 20 Apr 2022 21:26:39 -0700
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+CC:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "markgross@kernel.org" <markgross@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "Joseph, Jithu" <jithu.joseph@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
+Subject: RE: [PATCH v3 10/11] trace: platform/x86/intel/ifs: Add trace point
+ to track Intel IFS operations
+Thread-Topic: [PATCH v3 10/11] trace: platform/x86/intel/ifs: Add trace point
+ to track Intel IFS operations
+Thread-Index: AQHYVAv/GMu0aAF5oU2sc2NlODgUPKz57MaA///Yp0A=
+Date:   Thu, 21 Apr 2022 04:26:39 +0000
+Message-ID: <adc49af263e2464f86b20ccc2d8f184d@intel.com>
+References: <20220407191347.9681-1-jithu.joseph@intel.com>
+        <20220419163859.2228874-1-tony.luck@intel.com>
+        <20220419163859.2228874-11-tony.luck@intel.com>
+ <20220420193839.6e9d810b@gandalf.local.home>
+In-Reply-To: <20220420193839.6e9d810b@gandalf.local.home>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.401.20
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9bd9c89a-b2fb-04dd-0aac-c42f2ee9e1a1@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 20, 2022 at 04:30:02PM -0700, Mike Kravetz wrote:
-> On 4/20/22 10:11, Masahiro Yamada wrote:
-> > On Wed, Apr 13, 2022 at 11:48 PM Muchun Song <songmuchun@bytedance.com> wrote:
-> >>
-> >> If the size of "struct page" is not the power of two but with the feature
-> >> of minimizing overhead of struct page associated with each HugeTLB is
-> >> enabled, then the vmemmap pages of HugeTLB will be corrupted after
-> >> remapping (panic is about to happen in theory).  But this only exists when
-> >> !CONFIG_MEMCG && !CONFIG_SLUB on x86_64.  However, it is not a conventional
-> >> configuration nowadays.  So it is not a real word issue, just the result
-> >> of a code review.  But we have to prevent anyone from configuring that
-> >> combined configurations.  In order to avoid many checks like "is_power_of_2
-> >> (sizeof(struct page))" through mm/hugetlb_vmemmap.c.  Introduce a new macro
-> 
-> Sorry for jumping in so late.  I am far from expert in Kconfig so did not pay
-> much attention to all those discussions.
-> 
-> Why not just add one (or a few) simple runtime checks for struct page not a
-> power of two before enabling hugetlb vmemmap optimization in the code?  Sure,
-> it would be ideal to never build/include the vmemmap optimization code if
-> this can be detected at config time.  However, it seems this is a very rare
-> combination and the checks for it at config time are very complex.
+>> +TRACE_EVENT(ifs_status,
+>> +
+>> +	TP_PROTO(union ifs_scan activate, union ifs_status status),
+>
+> Really, you want to pass the structure in by value, so that we have two
+> copies? One to get to this function and then one to write to the ring
+> buffer?
 
-Right. Iterated and explored through 8 versions, I realized checking
-it at config time is very complex.
- 
-> Would we really need many checks throughout the code as you mention above?
-> Or, do we only need to check or two before enabling
-> hugetlb_optimize_vmemmap_key?
+These "structures" are just bitfield helpers for a u64 that is passed into
+WRMSR (in the case of activate) and received back from RDMSR in
+the case of status.
 
-Yep, now there is only one place where needs to check that size.
-I think I should go back to v1, it is simpler.
+So this is really just a pair of u64 arguments, with the compiler handling
+the bit field extractions into the ring buffer.
 
-Thanks Mike.
+Here are the definitions:
+
+union ifs_scan {
+        u64     data;
+        struct {
+                u32     start   :8;
+                u32     stop    :8;
+                u32     rsvd    :16;
+                u32     delay   :31;
+                u32     sigmce  :1;
+        };
+};
+
+union ifs_status {
+        u64     data;
+        struct {
+                u32     chunk_num               :8;
+                u32     chunk_stop_index        :8;
+                u32     rsvd1                   :16;
+                u32     error_code              :8;
+                u32     rsvd2                   :22;
+                u32     control_error           :1;
+                u32     signature_error         :1;
+        };
+};
+
+Would it be better to do the bit extractions of the start/stop fields first=
+?
+
+-Tony
+
+
