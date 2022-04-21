@@ -2,88 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26194C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 07:50:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E553C43219
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 08:09:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354757AbiDUHxe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Apr 2022 03:53:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48534 "EHLO
+        id S1386466AbiDUIMY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Apr 2022 04:12:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1386290AbiDUHxb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 03:53:31 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38614E0AE;
-        Thu, 21 Apr 2022 00:50:30 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id md4so4219362pjb.4;
-        Thu, 21 Apr 2022 00:50:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=oicvIY0y5wccZhVe6ivP5Xo5+MG/BvSEb+nQiz7dyjQ=;
-        b=V1Xglz2oLjrxpQkc5GBIiz3GzvJqg4IKyNDPTkuaNdo4ZTsHidcRaaXp8v6ztS2vFU
-         dSwb+J/F2qw0xowspA0tDT3ckvYlt7X3LUJLAygGypOAgcHsClWlcELVg35ampaeDLe7
-         QBmXh0Mg72WN948teJpSUp8xRL2vLrujoQcXPIjSMVx7iFmgJuss3pL3Szc6klaE6C1N
-         uxvshLcSU78Lhtd9JFOt9D19h9mn0HS3AyPat1jTPOIy3EVf1gpE0O9jmeHj8BpGXwKr
-         HrqOV42rLg7Zd0a05S2/z1ztPvnuIoNx0OFT8sud0d2vLiCN1rZS5skYqa/RhlJRqatY
-         aOKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=oicvIY0y5wccZhVe6ivP5Xo5+MG/BvSEb+nQiz7dyjQ=;
-        b=QSMc/3qOuwgQqzcOtUHgZu1x2xd5WH93oxsho2YnXWzJUFvkqMps/9LuEQjlAHt6Nu
-         rCMdRTdn2UekfJa8zF1IGW3cH+pw02gzwLk0O77LQwROQeDcc2+khf4C0iJl1t9oCbAB
-         RreL4/Hwbhv9GRTe4mMmy4H4bHYHAPakDte92rb/0JU1C2onw+2X+qtWFShrJVt1TbT2
-         lvwm6GLkLu83Av1FA/6MVeW6IBvw9H4trowVvNLvHlNBoZKBtjd7JCuEoBjAIYrW31hT
-         NxdBHoMwEHIT6TQDCVPP6PXalqBk3Hjw5vV5rON5dc7Wt4N+qkIY/oumvPKrxZljUwqF
-         LuVQ==
-X-Gm-Message-State: AOAM530pe6S9U116DtHLGLCwhKYuw2SFxTCiYQ+WQK6106znmEC8rDFW
-        fmZ66To6v7nuVYQg4ibj9Hw=
-X-Google-Smtp-Source: ABdhPJwPwrHN/kgtMeCVvBZbTGWh+qmRSFtqroD5tz6rMKKos9VyqUt8UyA/ufcoacKmw/+uSOTJww==
-X-Received: by 2002:a17:902:b193:b0:158:c040:5cf8 with SMTP id s19-20020a170902b19300b00158c0405cf8mr24676272plr.146.1650527429609;
-        Thu, 21 Apr 2022 00:50:29 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-15.three.co.id. [180.214.233.15])
-        by smtp.gmail.com with ESMTPSA id o5-20020a62f905000000b0050b5b5efa47sm799738pfh.191.2022.04.21.00.50.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Apr 2022 00:50:28 -0700 (PDT)
-Message-ID: <2f4c72d2-4669-4217-f322-9d4f34c3053e@gmail.com>
-Date:   Thu, 21 Apr 2022 14:50:24 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2 0/2] Docs: Update information at changes.rst
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S1386464AbiDUIMY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 04:12:24 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DB4C1DA7D;
+        Thu, 21 Apr 2022 01:09:35 -0700 (PDT)
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5FC582D7;
+        Thu, 21 Apr 2022 08:09:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5FC582D7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1650528575; bh=5Pv2XFkNCv+/OrUz+c2muD9XTwPx9utQOZAWaseH+80=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=TMn8Tq9xsV+ljsIBhf7BQ+NBRvgL96yjrOVlobZT4/LWrrUZJiyEXG3USj/QIGnjx
+         iqoQvfX1sZS1dsNpG1KwamXCU9JQMiSrHEV9gjNAbK8NmXu//f6BBTetEkTU+ynExk
+         SEzYGtpY4rWMYFX+RYxHUNmV/j++stHxAvcENIhwd/paOOBlZSzCw4VDyW7789NYv9
+         TSW6y6OM7sXKzc+tTfvF7J+IjS0F8oq00I6h+rwN0hhHoSPfen6o8dMkyudIYlfRNs
+         pPg2S+wJbx+RwPkTjspn4YMjcZArUNx6Cv8fV6EMrPktrVrmA/pFLwFhxY3VQ+72pW
+         8aBzWSNVwKWOg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
         Bruno Moreira-Guedes <codeagain@codeagain.dev>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         outreachy@lists.linux.dev,
         Bruno's Patch Watchbox <patch-reply@codeagain.dev>
+Subject: Re: [PATCH v2 0/2] Docs: Update information at changes.rst
+In-Reply-To: <2f4c72d2-4669-4217-f322-9d4f34c3053e@gmail.com>
 References: <cover.1650376049.git.codeagain@codeagain.dev>
  <8735i83xo1.fsf@meer.lwn.net> <20220420172731.ru7kfrdkmprybtu7@AN5Bruno>
  <878rrz30d9.fsf@meer.lwn.net>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <878rrz30d9.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <2f4c72d2-4669-4217-f322-9d4f34c3053e@gmail.com>
+Date:   Thu, 21 Apr 2022 02:09:31 -0600
+Message-ID: <874k2m3lj8.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/21/22 04:34, Jonathan Corbet wrote:
->> Thanks, Jon! I have also been thinking whether this filename
->> ('changes.rst') is a good description of the file contents. Do you think
->> renaming it to something like 'requirements.rst' and updating its
->> references would be a good patch?
-> 
-> It's best not to rename things unnecessarily, especially relatively
-> well-known files that a lot of people expect to find in a specific
-> place.  We've done a lot of renaming over the last few years, but this
-> is one I might let slide for now.
-> 
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-Did you mean the rename will be benefical?
+> On 4/21/22 04:34, Jonathan Corbet wrote:
+>>> Thanks, Jon! I have also been thinking whether this filename
+>>> ('changes.rst') is a good description of the file contents. Do you think
+>>> renaming it to something like 'requirements.rst' and updating its
+>>> references would be a good patch?
+>> 
+>> It's best not to rename things unnecessarily, especially relatively
+>> well-known files that a lot of people expect to find in a specific
+>> place.  We've done a lot of renaming over the last few years, but this
+>> is one I might let slide for now.
+>> 
+>
+> Did you mean the rename will be benefical?
 
--- 
-An old man doll... just what I always wanted! - Clara
+No, I would not do the rename at this time.
+
+jon
