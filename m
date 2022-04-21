@@ -2,116 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 696C0C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 22:25:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28720C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 23:44:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238958AbiDUW2f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Apr 2022 18:28:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34108 "EHLO
+        id S1442718AbiDUXrd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Apr 2022 19:47:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230463AbiDUW2c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 18:28:32 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D6D74A3DF
-        for <linux-doc@vger.kernel.org>; Thu, 21 Apr 2022 15:25:41 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id t25so8254863edt.9
-        for <linux-doc@vger.kernel.org>; Thu, 21 Apr 2022 15:25:41 -0700 (PDT)
+        with ESMTP id S239543AbiDUXrc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 19:47:32 -0400
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A1D63A71F
+        for <linux-doc@vger.kernel.org>; Thu, 21 Apr 2022 16:44:41 -0700 (PDT)
+Received: by mail-pg1-x549.google.com with SMTP id a15-20020a63cd4f000000b003a9f17da993so3590501pgj.13
+        for <linux-doc@vger.kernel.org>; Thu, 21 Apr 2022 16:44:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=flU6CYbGj5HHjHL/rSfoESS0j19ra3SqkJwdnrfGTCE=;
-        b=mhiuMoEGCpN3Zgcfbu33ndnnHh5jgqOCiSxHecLhuWCXZWzmGwn3io2Yb0J9sVXrRu
-         dVuKXpiZLkRNq27Wi97ysToJPLJVCkO2UJj8e9pi1U9+geswfxbQk0PInen+gN1nC/q3
-         EQH+J+W2EB/3oJQcLHvhzMasWXWbYKCN+xFkYzvLtnIDfwvghacyiAv73I5tHw5J4Xyl
-         kOW8QFEmHY7Y4t2gLJj+WtM3k8FiNHmvtFww+x6GTaRfj9df1KxCR5rFPJeAEUPRYRWa
-         +jbksUqiyU0D5YlCrSSFOKo0uGF9q5mGT13/q67LBrF3I7WvpFCT+oN/ugxSWLTg5R1w
-         OJ3g==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=5O0kxWZmLwFRE//70CU4SnK5FsmrfXu8oMUA9u7C7Og=;
+        b=EEuRmGT5N/AhXYspmngFDGUt6HR2mHaVhu/fczoNdkx1S+Tiw4e5ODeE/h0GtPvaG2
+         bvqoiL5mnjZ/aduPS9JOdCT/WFHetjHQ/fFxUMLwUz2iHstQGYdLFY9nEc3RGO/pFRId
+         m0WQO8I7VArJ1uX3NbmYYEA88ykvSfC0OpSqsvj5vs/DO49GYszGs0S7tk5R8f4jxym8
+         I2h1Y/p24TBtaEZqcwGkSWTlCVdJnfbO6lXa5S28c65m4gPlKPQoodGuay5Lob9zUCDG
+         714Wv7IzMi+PqiG7UTFB2mdWmfKUmZO1+0ChdhKc8za/syH6jJBY1fE/GNCPODAwzk8P
+         Nyvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=flU6CYbGj5HHjHL/rSfoESS0j19ra3SqkJwdnrfGTCE=;
-        b=hua7qiUSQ/jMAjoPkChFkwKDBFSQUKTrySI8kD+09mGgnq5/AOnmSd9Pt4CLUMrIF3
-         WpIlXdlbUXPwBKeFUNXJq8yXPOwviKgFDM6KmUbuHOYhFBpdsmipscnpuzycXL/E/Mri
-         kHE3DG+/nNI7d1Nskmgfojst0rxgM0E495uu03FqCS+07Yo46VdqJONgLLRj3xDtqJGv
-         WSx6fHJbxsHJHuRkOyXbZteiFsr1hXKIJZUMpKOtt4I42ZU793+rwmhzsAucju7nrNAq
-         UNqURRQJmjvwTS0Nmnr5mDKhgNKQv2no3j3qkgPXkoMUZmxOF3KfCMLsyixm6+uhCjkb
-         tl8w==
-X-Gm-Message-State: AOAM531vzBtId+/x7hSAPZcCbIkqY1MpXsDoccOV7GG/xgoE7/YB9prS
-        72XxdJ9eVcH5tEhViIoKcxf7tAVLvLATh4qUbg2TCw==
-X-Google-Smtp-Source: ABdhPJwFjKL7IPakp+6xAgghiOAlOuHjAgg1o426hhEXf8oiL7SRnTS4Ua2knhN3kp/AQcYwc0V9Gv/jkgiNr64uQxU=
-X-Received: by 2002:a05:6402:4488:b0:425:9335:bbcb with SMTP id
- er8-20020a056402448800b004259335bbcbmr1799092edb.197.1650579939899; Thu, 21
- Apr 2022 15:25:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220420235228.2767816-1-tjmercier@google.com>
- <20220420235228.2767816-2-tjmercier@google.com> <YmG/4Q0Cz0yUMbu+@slm.duckdns.org>
-In-Reply-To: <YmG/4Q0Cz0yUMbu+@slm.duckdns.org>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Thu, 21 Apr 2022 15:25:28 -0700
-Message-ID: <CABdmKX2+72bh2tsdg5iFDTQnFyER1Vs9aX0p3TE7RaM4D5_uCA@mail.gmail.com>
-Subject: Re: [RFC v5 1/6] gpu: rfc: Proposal for a GPU cgroup controller
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=5O0kxWZmLwFRE//70CU4SnK5FsmrfXu8oMUA9u7C7Og=;
+        b=sERq3I3AFomnBUVZz84bBwUm7C5I9mqJfG9934v3Nxr9pf92kxlbm0+6GJmpnTW9L+
+         ogH3T4Y3NfiDFJXCIoGVorBq+Rk0gOw6l97ci1zEjsJgH1PWqQGpAUgjoUM4rPb7dKfN
+         zFIxuXfIWbMub4ByIUGXyOfDwFnefiQ7AXhPA5gsAMaBVJX3Toox8twF0alU0gWZazC4
+         v01JCnFArOYjzRo0XxMM2JW9Ca5SepGlolOwvg9mKAv9GvzasgFGF90YuD/fefUQFqA8
+         VViov1BHUg8fn2lZV+3i5SXRjeohRGfPnWUmClaJr5k/NM2BATxze/TgKWDT4UQh+Xnf
+         Ku8A==
+X-Gm-Message-State: AOAM533p5gGWE+W2FL+nnxwnwiwAWDEESflqY1Jn4Rd9qbdIIJaM9ExU
+        FD2MrzBEPg8SPLcHO1Pxjl5PYbcKGXRs8+sP
+X-Google-Smtp-Source: ABdhPJwbrNyYgwlg049kNO7De6jIXhM0txTIQgoR7t77/mZCi0rHv0F4AqswEeup+3MsId9P62g42WOoKu2wvlT1
+X-Received: from yosry.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:2327])
+ (user=yosryahmed job=sendgmr) by 2002:a65:6216:0:b0:39d:5e6c:7578 with SMTP
+ id d22-20020a656216000000b0039d5e6c7578mr1558461pgv.114.1650584680523; Thu,
+ 21 Apr 2022 16:44:40 -0700 (PDT)
+Date:   Thu, 21 Apr 2022 23:44:22 +0000
+Message-Id: <20220421234426.3494842-1-yosryahmed@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.36.0.rc2.479.g8af0fa9b8e-goog
+Subject: [PATCH v4 0/4] memcg: introduce per-memcg proactive reclaim
+From:   Yosry Ahmed <yosryahmed@google.com>
+To:     Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>
+Cc:     David Rientjes <rientjes@google.com>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Hridya Valsaraju <hridya@google.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        John Stultz <jstultz@google.com>,
-        Todd Kjos <tkjos@android.com>,
-        Carlos Llamas <cmllamas@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        kernel-team@android.com, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        Shuah Khan <shuah@kernel.org>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>,
+        Chen Wandun <chenwandun@huawei.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        "=?UTF-8?q?Michal=20Koutn=C3=BD?=" <mkoutny@suse.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Dan Schatzberg <schatzberg.dan@gmail.com>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org,
+        Yosry Ahmed <yosryahmed@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 21, 2022 at 1:34 PM Tejun Heo <tj@kernel.org> wrote:
->
-> Hello,
->
-> On Wed, Apr 20, 2022 at 11:52:19PM +0000, T.J. Mercier wrote:
-> > From: Hridya Valsaraju <hridya@google.com>
-> >
-> > This patch adds a proposal for a new GPU cgroup controller for
-> > accounting/limiting GPU and GPU-related memory allocations.
-> > The proposed controller is based on the DRM cgroup controller[1] and
-> > follows the design of the RDMA cgroup controller.
-> >
-> > The new cgroup controller would:
-> > * Allow setting per-device limits on the total size of buffers
-> >   allocated by device within a cgroup.
-> > * Expose a per-device/allocator breakdown of the buffers charged to a
-> >   cgroup.
-> >
-> > The prototype in the following patches is only for memory accounting
-> > using the GPU cgroup controller and does not implement limit setting.
-> >
-> > [1]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.welty@intel.com/
-> >
-> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
->
-> Looks straight-forward enough from cgroup side. Are gpu folks generally
-> happy? David, Daniel, Kenny, what are your thoughts?
->
-> >  Documentation/gpu/rfc/gpu-cgroup.rst | 190 +++++++++++++++++++++++++++
->
-> Can you fold the important part into cgroup-v2.rst and maybe make the rest
-> code comments if necessary?
->
-Sure thing, thanks.
+This patch series adds a memory.reclaim proactive reclaim interface.
+The rationale behind the interface and how it works are in the first
+patch.
 
-> Thanks.
->
-> --
-> tejun
+---
+
+Changes in V4:
+mm/memcontrol.c:
+- Return -EINTR on signal_pending().
+- On the final retry, drain percpu lru caches hoping that it might
+  introduce some evictable pages for reclaim.
+- Simplified the retry loop as suggested by Dan Schatzberg.
+
+selftests:
+- Always return -errno on failure from cg_write() (whether open() or
+  write() fail), also update cg_read() and read_text() to return -errno
+  as well for consistency. Also make sure to correctly check that the
+  whole buffer was written in cg_write().
+- Added a maximum number of retries for the reclaim selftest.
+
+Changes in V3:
+- Fix cg_write() (in patch 2) to properly return -1 if open() fails
+  and not fail if len == errno.
+- Remove debug printf() in patch 3.
+
+Changes in V2:
+- Add the interface to root as well.
+- Added a selftest.
+- Documented the interface as a nested-keyed interface, which makes
+  adding optional arguments in the future easier (see doc updates in the
+  first patch).
+- Modified the commit message to reflect changes and added a timeout
+  argument as a suggested possible extension
+- Return -EAGAIN if the kernel fails to reclaim the full requested
+  amount.
+
+---
+
+Shakeel Butt (1):
+  memcg: introduce per-memcg reclaim interface
+
+Yosry Ahmed (3):
+  selftests: cgroup: return -errno from cg_read()/cg_write() on failure
+  selftests: cgroup: fix alloc_anon_noexit() instantly freeing memory
+  selftests: cgroup: add a selftest for memory.reclaim
+
+ Documentation/admin-guide/cgroup-v2.rst       | 21 +++++
+ mm/memcontrol.c                               | 44 +++++++++
+ tools/testing/selftests/cgroup/cgroup_util.c  | 44 ++++-----
+ .../selftests/cgroup/test_memcontrol.c        | 94 ++++++++++++++++++-
+ 4 files changed, 176 insertions(+), 27 deletions(-)
+
+-- 
+2.36.0.rc2.479.g8af0fa9b8e-goog
+
