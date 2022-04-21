@@ -2,93 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DB04C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 00:23:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C09A6C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Apr 2022 03:18:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356778AbiDUA0c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Apr 2022 20:26:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57144 "EHLO
+        id S1383917AbiDUDVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Apr 2022 23:21:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232084AbiDUA0b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 20:26:31 -0400
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 550901AD94;
-        Wed, 20 Apr 2022 17:23:44 -0700 (PDT)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-2ec05db3dfbso35888427b3.7;
-        Wed, 20 Apr 2022 17:23:44 -0700 (PDT)
+        with ESMTP id S1383906AbiDUDVg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Apr 2022 23:21:36 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65D291262D
+        for <linux-doc@vger.kernel.org>; Wed, 20 Apr 2022 20:18:48 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id s14so3587710plk.8
+        for <linux-doc@vger.kernel.org>; Wed, 20 Apr 2022 20:18:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/6tjTikelc+DvD6SuOPR5OX/KDETCZdTqib8WzVGM6k=;
-        b=J9+P2QcdFxTdNjI+911dj+CfKlzokjSU3cXmZi9MWP8ijq02O5okdNsan8eheLZyZH
-         UVOCM4IO+PwLszE1eSTfQeqy3Y2FJdNypyCFQRyzhNLA6BmHvVFrmk3nRJY4QnH7vsxl
-         BbQl0eKDpfEIiWxbckp5d21fN1iplmCAwGxF6XPq9HzfA7Mr/QDhxCKrkaV+Rw0vE8fv
-         N6B8AM3+cLBWNbi/j/jXbMhajM5Mkzk7FZd6cC/C9bWf5Ls9ZNkWDvy73bYK0nSGFDrr
-         xUU4zTSgGUQoEcXpc/HWeVT3D0cwDwfFbxnBGwFLNrgRE1likQDbWQW4gvzovcQLjQlX
-         6k/A==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NghepmBiaj68pxaOpcG/lSCzSAs3yu0ibKXLD1qTgVU=;
+        b=455j9DFRMs2U4tYQSDrRfRP4nUqSK00fXmqysu4e/bPsZzlckCyuXj/B4Y6S4Gy/kd
+         1cPTlmK7Sd2NHhR1t9aI7qj1qUlQWyrAYwUxjmz7MscUTz06a2PReygGRCEl5sjU1p5s
+         AShoRN1705vDVF8/K9zjL0TN+7kAAREvbQUhlvYHBcEQVZOT/GNOBbxPDf8C8V0hFYY0
+         LLA5kIohpZqvAhApQQS63aPM9CE4FIuwkFLEIYSalcxOfL5BfO19RUh+VyRh4JK8FIUw
+         8McGY06AAEkYHoCJHRq1xbsa22lUGKS44moWcUmuY+LDfdF+v1XkArmdR+uUaKOIPdWi
+         Bfsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/6tjTikelc+DvD6SuOPR5OX/KDETCZdTqib8WzVGM6k=;
-        b=uvr0NXsbtic2HXDNDuH1JBGjDQqBCzjkFsFJJECE3kyaMUSHb3iQRDJROtsHG3Tkq4
-         KbY8UpgTkYislRVOkWHedi8mMEmkAOURPznMqY0Abfzfh3xmt74igauM9EsesHWUXbQG
-         458uZe8K+UwmJpMYcTYID2UhR6pe2ZY7TXrk4USUmnaq19dL6EEnwxUQNHjSSb7l9iXa
-         xMSA78V6uGZnjftbydTcdc623+BM8gDKClmAekc2yerEyO4nzn82XSlkChnX0WJjZOS3
-         QQwHHSgWF7XisrBtMi3L2S4OiqHo36sohRr5DN8YpF9pS4/I7l2JU2RZXPqHkIwyBQ8t
-         Fotw==
-X-Gm-Message-State: AOAM5310Qt/wMyw7h17OpRwfqCZB3635lptNgIuUBZfI9GAKcMlHlc0w
-        ggzCVOtePKoiEVc2ZkWt94lhBhloUMlu9GF4IwM=
-X-Google-Smtp-Source: ABdhPJxh4FIiwkC8UnFlBKLEY0wBQ9HXsKx09lA/608Freh+1YGN0z1iMdCE2drd101Ja4/ElvJtb40Pd+fncXlrROM=
-X-Received: by 2002:a81:1e86:0:b0:2eb:66b9:3a93 with SMTP id
- e128-20020a811e86000000b002eb66b93a93mr22693995ywe.411.1650500623592; Wed, 20
- Apr 2022 17:23:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220420131204.2850-1-jiangshanlai@gmail.com> <20220420131204.2850-3-jiangshanlai@gmail.com>
- <3e6018ad-06b7-f465-7b74-aeb20bca9489@redhat.com>
-In-Reply-To: <3e6018ad-06b7-f465-7b74-aeb20bca9489@redhat.com>
-From:   Lai Jiangshan <jiangshanlai@gmail.com>
-Date:   Thu, 21 Apr 2022 08:23:32 +0800
-Message-ID: <CAJhGHyARz6rPZ+yJfkGPCbtZJnnMnODSD8szs7YYNVceCXhbSQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] KVM: X86/MMU: Introduce role.passthrough for
- shadowing 5-level NPT for 4-level NPT L1 guest
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        Sean Christopherson <seanjc@google.com>,
-        Lai Jiangshan <jiangshan.ljs@antgroup.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NghepmBiaj68pxaOpcG/lSCzSAs3yu0ibKXLD1qTgVU=;
+        b=goZ1pc1l1ny0hmbfE6iaMPVcRCgLfmbmfCd22pW1wMoDM+c/A31DD6tqDttlfi9hGT
+         ERnwL4buVDudiC5MTDp5Fcyd146SLpflSvLV1CuS19y95PnOQ7DuoPGSX9LWbhu7Ew96
+         ilUMc5BcOPmbjj8MQYH/YTZj9a79s/5l2rBmtuHbawRvWxcfq0PRUJWzLrFnW2BqElhw
+         x+srRDvWe8WlzKJDWLNtFjD3cQoUSdLhsiMt9VsFJAhsCNho/Ej6GbCefT9izdcH2fPA
+         oBUhSK535p8UBeE7V7cab9hHnTsXK2Pb7FlmNuCmkVz6XtGR2Mto9P058HsN1K5TbUBT
+         CprQ==
+X-Gm-Message-State: AOAM530sWG9j+GWysCwnCmG+ipbRLVx2KEJe5xMN7yE63oCa2e02PiKo
+        fFFFFMzI+8cU5/ptiz9QmOxOXw==
+X-Google-Smtp-Source: ABdhPJymzdzVbaGcv9D9XGC4x7JH8QeNZKFSjMs5U0NY0Qf5J+81At3RmjwzuwOZY02fSOmyeqBv7g==
+X-Received: by 2002:a17:902:7407:b0:159:6a:8beb with SMTP id g7-20020a170902740700b00159006a8bebmr17249263pll.168.1650511127951;
+        Wed, 20 Apr 2022 20:18:47 -0700 (PDT)
+Received: from localhost ([139.177.225.245])
+        by smtp.gmail.com with ESMTPSA id j6-20020aa79286000000b004fdf02851eesm21039552pfa.4.2022.04.20.20.18.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Apr 2022 20:18:47 -0700 (PDT)
+Date:   Thu, 21 Apr 2022 11:18:44 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        David Hildenbrand <david@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v8 1/4] mm: hugetlb_vmemmap: introduce
+ CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP
+Message-ID: <YmDNFO6+wHSEkiSO@FVFYT0MHHV2J.usts.net>
+References: <20220413144748.84106-1-songmuchun@bytedance.com>
+ <20220413144748.84106-2-songmuchun@bytedance.com>
+ <CAK7LNARNyYNMMYcEwU-pVFb-b21cKN+K_jwseLTtoOfscS2Ggw@mail.gmail.com>
+ <9bd9c89a-b2fb-04dd-0aac-c42f2ee9e1a1@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9bd9c89a-b2fb-04dd-0aac-c42f2ee9e1a1@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 21, 2022 at 1:15 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Wed, Apr 20, 2022 at 04:30:02PM -0700, Mike Kravetz wrote:
+> On 4/20/22 10:11, Masahiro Yamada wrote:
+> > On Wed, Apr 13, 2022 at 11:48 PM Muchun Song <songmuchun@bytedance.com> wrote:
+> >>
+> >> If the size of "struct page" is not the power of two but with the feature
+> >> of minimizing overhead of struct page associated with each HugeTLB is
+> >> enabled, then the vmemmap pages of HugeTLB will be corrupted after
+> >> remapping (panic is about to happen in theory).  But this only exists when
+> >> !CONFIG_MEMCG && !CONFIG_SLUB on x86_64.  However, it is not a conventional
+> >> configuration nowadays.  So it is not a real word issue, just the result
+> >> of a code review.  But we have to prevent anyone from configuring that
+> >> combined configurations.  In order to avoid many checks like "is_power_of_2
+> >> (sizeof(struct page))" through mm/hugetlb_vmemmap.c.  Introduce a new macro
+> 
+> Sorry for jumping in so late.  I am far from expert in Kconfig so did not pay
+> much attention to all those discussions.
+> 
+> Why not just add one (or a few) simple runtime checks for struct page not a
+> power of two before enabling hugetlb vmemmap optimization in the code?  Sure,
+> it would be ideal to never build/include the vmemmap optimization code if
+> this can be detected at config time.  However, it seems this is a very rare
+> combination and the checks for it at config time are very complex.
 
->
-> Looks good, and is easy to backport; thanks.
->
-> However, once we have also your series "KVM: X86/MMU: Use one-off
-> special shadow page for special roots", perhaps the passthrough sp can
-> be converted to a special root (but now with a shadow_page) as well?
->
+Right. Iterated and explored through 8 versions, I realized checking
+it at config time is very complex.
+ 
+> Would we really need many checks throughout the code as you mention above?
+> Or, do we only need to check or two before enabling
+> hugetlb_optimize_vmemmap_key?
 
-It will be much more complicated.
+Yep, now there is only one place where needs to check that size.
+I think I should go back to v1, it is simpler.
 
-The current code allows fast_pgd_switch() for shadowing 5-level NPT
-for 4-level NPT L1 guests because both the host and the guest are
-64 bit. Using a special shadow page will disallow fast_pgd_switch().
-
-And it will make using_special_root_page() more complicated.
-
-It will require a different kind of special shadow page to make it
-able to do fast switch.
+Thanks Mike.
