@@ -2,185 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DAABC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 22:21:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB74EC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 22:25:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232126AbiDVWYj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Apr 2022 18:24:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45370 "EHLO
+        id S231824AbiDVW2j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Apr 2022 18:28:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234118AbiDVWXl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 18:23:41 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B045333FD93;
-        Fri, 22 Apr 2022 14:15:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1650662149; x=1682198149;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=EdQ4+pbii1s0GkIfqo8a1S7OEIRav3qnPqvnYhkYj3g=;
-  b=MbEz6Z2TomSdbBzrhEzX6Gt5rDCO4ayQKBJnPchYbLkN1vqUWmA79c3h
-   BPkCkMztJjsNj1VVN7KLOeHASSjd8W1mqTYmWiQIpdBeQ1X3fN3YGFJcO
-   8sHdNJUZOzwkd8sVnwoBOxGxiXa6v8ej+2SF+NhWHwQsPijaH3ufUUUcD
-   Q=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 22 Apr 2022 12:14:36 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2022 12:14:36 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 22 Apr 2022 12:14:34 -0700
-Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 22 Apr 2022 12:14:33 -0700
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-To:     <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <sre@kernel.org>,
-        <robh+dt@kernel.org>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <bjorn.andersson@linaro.org>,
-        <swboyd@chromium.org>, <linux-doc@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: [PATCH v6 3/5] input: misc: pm8941-pwrkey: add support for PON GEN3 base addresses
-Date:   Fri, 22 Apr 2022 12:12:41 -0700
-Message-ID: <20220422191239.6271-4-quic_amelende@quicinc.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220422191239.6271-1-quic_amelende@quicinc.com>
-References: <20220422191239.6271-1-quic_amelende@quicinc.com>
+        with ESMTP id S232984AbiDVW13 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 18:27:29 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C9831C9CE0;
+        Fri, 22 Apr 2022 14:20:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650662419; x=1682198419;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8oZmbcJgaLEluY4MIs8edkXFbtUVeZ9n1fl2FQ+iUbA=;
+  b=kJGLDCdx9C1PNY3UqEYU2MHpUor31XnYDshCnXcSsvJZU9Z5Xsb7j4W8
+   PLL3B4tztuJn5gjQ5xet6qMLXvTAcgNs3gf7Sqrnpg2b+1Hqc39sNK7rK
+   TnXx9TT64XZFO9E+aNTCtmM5CrIrNKrtifcGMjY+W/nZKKhvuech7HInR
+   GtSp4YiPc+KK6t7tngpplf8ffR2vyHMF+5WaBtB08in6JLeseZVtlZo2/
+   y3ShcXUpf+cI5Z2SLfk1TJivSSQ8PcjcoKDMqOVmaCcltsD9QafhSf2V9
+   NrVGoRaTKE2METarNKoBjq2tKa46sSZrcZZaXgA3fg6om8b7kW+63lJPb
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="289914444"
+X-IronPort-AV: E=Sophos;i="5.90,282,1643702400"; 
+   d="scan'208";a="289914444"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2022 14:20:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,282,1643702400"; 
+   d="scan'208";a="659211292"
+Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2022 14:20:14 -0700
+Received: from kbuild by 3abc53900bec with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1ni0hJ-000Aag-Ri;
+        Fri, 22 Apr 2022 21:20:13 +0000
+Date:   Sat, 23 Apr 2022 05:19:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Quan Nguyen <quan@os.amperecomputing.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thu Nguyen <thu@os.amperecomputing.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
+Subject: Re: [PATCH v8 8/9] mfd: smpro-mfd: Adds Ampere's Altra SMpro MFD
+ driver
+Message-ID: <202204230554.4528TqPu-lkp@intel.com>
+References: <20220422024653.2199489-9-quan@os.amperecomputing.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220422024653.2199489-9-quan@os.amperecomputing.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, PON address is read from the "reg" property. For PON GEN3,
-which starts with PMK8350, the "reg" property will have both the PON
-HLOS and PON PBS addesses defined. Add support so that all PON
-generations can be configured.
+Hi Quan,
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
----
- drivers/input/misc/pm8941-pwrkey.c | 31 +++++++++++++++++++++++-------
- 1 file changed, 24 insertions(+), 7 deletions(-)
+I love your patch! Perhaps something to improve:
 
-diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
-index e0240db12d4f..43106e4cfd23 100644
---- a/drivers/input/misc/pm8941-pwrkey.c
-+++ b/drivers/input/misc/pm8941-pwrkey.c
-@@ -12,6 +12,7 @@
- #include <linux/log2.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/of_address.h>
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/reboot.h>
-@@ -44,6 +45,7 @@ struct pm8941_data {
- 	unsigned int	status_bit;
- 	bool		supports_ps_hold_poff_config;
- 	bool		supports_debounce_config;
-+	bool		has_pon_pbs;
- 	const char	*name;
- 	const char	*phys;
- };
-@@ -52,6 +54,7 @@ struct pm8941_pwrkey {
- 	struct device *dev;
- 	int irq;
- 	u32 baseaddr;
-+	u32 pon_pbs_baseaddr;
- 	struct regmap *regmap;
- 	struct input_dev *input;
- 
-@@ -167,6 +170,8 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
- 	struct pm8941_pwrkey *pwrkey;
- 	bool pull_up;
- 	struct device *parent;
-+	struct device_node *regmap_node;
-+	const __be32 *addr;
- 	u32 req_delay;
- 	int error;
- 
-@@ -188,8 +193,10 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
- 	pwrkey->data = of_device_get_match_data(&pdev->dev);
- 
- 	parent = pdev->dev.parent;
-+	regmap_node = pdev->dev.of_node;
- 	pwrkey->regmap = dev_get_regmap(parent, NULL);
- 	if (!pwrkey->regmap) {
-+		regmap_node = parent->of_node;
- 		/*
- 		 * We failed to get regmap for parent. Let's see if we are
- 		 * a child of pon node and read regmap and reg from its
-@@ -200,15 +207,21 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
- 			dev_err(&pdev->dev, "failed to locate regmap\n");
- 			return -ENODEV;
- 		}
-+	}
- 
--		error = of_property_read_u32(parent->of_node,
--					     "reg", &pwrkey->baseaddr);
--	} else {
--		error = of_property_read_u32(pdev->dev.of_node, "reg",
--					     &pwrkey->baseaddr);
-+	addr = of_get_address(regmap_node, 0, NULL, NULL);
-+	if (!addr) {
-+		dev_err(&pdev->dev, "reg property missing\n");
-+		return -EINVAL;
-+	}
-+	pwrkey->baseaddr = be32_to_cpup(addr);
-+
-+	if (pwrkey->data->has_pon_pbs) {
-+		/* PON_PBS base address is optional */
-+		addr = of_get_address(regmap_node, 1, NULL, NULL);
-+		if (addr)
-+			pwrkey->pon_pbs_baseaddr = be32_to_cpup(addr);
- 	}
--	if (error)
--		return error;
- 
- 	pwrkey->irq = platform_get_irq(pdev, 0);
- 	if (pwrkey->irq < 0)
-@@ -316,6 +329,7 @@ static const struct pm8941_data pwrkey_data = {
- 	.phys = "pm8941_pwrkey/input0",
- 	.supports_ps_hold_poff_config = true,
- 	.supports_debounce_config = true,
-+	.has_pon_pbs = false,
- };
- 
- static const struct pm8941_data resin_data = {
-@@ -325,6 +339,7 @@ static const struct pm8941_data resin_data = {
- 	.phys = "pm8941_resin/input0",
- 	.supports_ps_hold_poff_config = true,
- 	.supports_debounce_config = true,
-+	.has_pon_pbs = false,
- };
- 
- static const struct pm8941_data pon_gen3_pwrkey_data = {
-@@ -333,6 +348,7 @@ static const struct pm8941_data pon_gen3_pwrkey_data = {
- 	.phys = "pmic_pwrkey/input0",
- 	.supports_ps_hold_poff_config = false,
- 	.supports_debounce_config = false,
-+	.has_pon_pbs = true,
- };
- 
- static const struct pm8941_data pon_gen3_resin_data = {
-@@ -341,6 +357,7 @@ static const struct pm8941_data pon_gen3_resin_data = {
- 	.phys = "pmic_resin/input0",
- 	.supports_ps_hold_poff_config = false,
- 	.supports_debounce_config = false,
-+	.has_pon_pbs = true,
- };
- 
- static const struct of_device_id pm8941_pwr_key_id_table[] = {
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on groeck-staging/hwmon-next lee-mfd/for-mfd-next v5.18-rc3 next-20220422]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Quan-Nguyen/Add-Ampere-s-Altra-SMPro-MFD-and-its-child-drivers/20220422-105732
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git c50c29a806113614098efd8da9fd7b48d605ba45
+config: arm-randconfig-r004-20220422 (https://download.01.org/0day-ci/archive/20220423/202204230554.4528TqPu-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5bd87350a5ae429baf8f373cb226a57b62f87280)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/09ec873f0dd4611cb2df0150923d8906b9c5b2d1
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Quan-Nguyen/Add-Ampere-s-Altra-SMPro-MFD-and-its-child-drivers/20220422-105732
+        git checkout 09ec873f0dd4611cb2df0150923d8906b9c5b2d1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/mach-at91/ drivers/hwmon/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/hwmon/smpro-hwmon.c:376:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+                   default:
+                   ^
+   drivers/hwmon/smpro-hwmon.c:376:3: note: insert 'break;' to avoid fall-through
+                   default:
+                   ^
+                   break; 
+   1 warning generated.
+
+
+vim +376 drivers/hwmon/smpro-hwmon.c
+
+e1354080fc83378 Quan Nguyen 2022-04-22  359  
+e1354080fc83378 Quan Nguyen 2022-04-22  360  static umode_t smpro_is_visible(const void *data, enum hwmon_sensor_types type,
+e1354080fc83378 Quan Nguyen 2022-04-22  361  				u32 attr, int channel)
+e1354080fc83378 Quan Nguyen 2022-04-22  362  {
+e1354080fc83378 Quan Nguyen 2022-04-22  363  	const struct smpro_hwmon *hwmon = data;
+e1354080fc83378 Quan Nguyen 2022-04-22  364  	unsigned int value;
+e1354080fc83378 Quan Nguyen 2022-04-22  365  	int ret;
+e1354080fc83378 Quan Nguyen 2022-04-22  366  
+e1354080fc83378 Quan Nguyen 2022-04-22  367  	switch (type) {
+e1354080fc83378 Quan Nguyen 2022-04-22  368  	case hwmon_temp:
+e1354080fc83378 Quan Nguyen 2022-04-22  369  		switch (attr) {
+e1354080fc83378 Quan Nguyen 2022-04-22  370  		case hwmon_temp_input:
+e1354080fc83378 Quan Nguyen 2022-04-22  371  		case hwmon_temp_label:
+e1354080fc83378 Quan Nguyen 2022-04-22  372  		case hwmon_temp_crit:
+e1354080fc83378 Quan Nguyen 2022-04-22  373  			ret = regmap_read(hwmon->regmap, temperature[channel].reg, &value);
+e1354080fc83378 Quan Nguyen 2022-04-22  374  			if (ret || value == 0xFFFF)
+e1354080fc83378 Quan Nguyen 2022-04-22  375  				return 0;
+e1354080fc83378 Quan Nguyen 2022-04-22 @376  		default:
+e1354080fc83378 Quan Nguyen 2022-04-22  377  			break;
+e1354080fc83378 Quan Nguyen 2022-04-22  378  		}
+e1354080fc83378 Quan Nguyen 2022-04-22  379  		break;
+e1354080fc83378 Quan Nguyen 2022-04-22  380  	default:
+e1354080fc83378 Quan Nguyen 2022-04-22  381  		break;
+e1354080fc83378 Quan Nguyen 2022-04-22  382  	}
+e1354080fc83378 Quan Nguyen 2022-04-22  383  
+e1354080fc83378 Quan Nguyen 2022-04-22  384  	return 0444;
+e1354080fc83378 Quan Nguyen 2022-04-22  385  }
+e1354080fc83378 Quan Nguyen 2022-04-22  386  
+
 -- 
-2.35.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
