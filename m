@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1973DC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 22:35:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3B36C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 22:35:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233191AbiDVWi2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Apr 2022 18:38:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49528 "EHLO
+        id S233290AbiDVWi3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Apr 2022 18:38:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234068AbiDVWh5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 18:37:57 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FF3B288EE7
-        for <linux-doc@vger.kernel.org>; Fri, 22 Apr 2022 14:30:03 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id e4-20020a056902034400b00633691534d5so8217626ybs.7
-        for <linux-doc@vger.kernel.org>; Fri, 22 Apr 2022 14:30:03 -0700 (PDT)
+        with ESMTP id S234024AbiDVWhz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 18:37:55 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E8C288ED4
+        for <linux-doc@vger.kernel.org>; Fri, 22 Apr 2022 14:30:01 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id b6-20020a5b0b46000000b006457d921729so4369786ybr.23
+        for <linux-doc@vger.kernel.org>; Fri, 22 Apr 2022 14:30:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=1YOjrnQqyN8cWPWkvfNUjTufFbltn2OwC2/XNWaN1e0=;
-        b=VXaVbbtBV03bulzAic2gmN8NCLz/V3ogNL6IMpUPoIEsATtTIJStusANwVvrAoLxjv
-         fkvqlb6oQ96giIPTD0RY1s7jdxptuPWu8kfoVzvuOg8C0C32WXl8qZzv11n9fppg3P7z
-         MCzA2nE/4x8vHUZC/oFKsQJxeBxpCSO9DZyv/RHB6igxtBeXTcNLvhOBUrMONmTXITmC
-         Q1HuwamYVWWP6rtLGSDmD58hOW5WRi7ZxZVg45RtfHx4jYax2LP8OdDXzya11iu+o6tk
-         88F+2mzpijpTSk69INGoR0ljgkz4YKldnOs3vhQc2Ls/zSToXGQz4AiQRTmuyuOTSk79
-         WQdQ==
+        bh=BoyidSMyUmqDlYzeEP7zIQ3rGwHdvB7avXDVy08761s=;
+        b=i6OlZZVuB93oXNW0rTUa3oTx5Wl6MFZGMztF7zW6l8uv5ZXP4VZ9/BlQ/fIJ2bNj5S
+         czzlvWKkurK9uKgLUtRxQx52c1k65fe/FZAngeSjsnDddI45UExXmV5LwP9IrqFxD2IL
+         rtOStuM0sMGjHQrlSNKyNGZRZVNEsl2JeX44VJMGESx5Y7WYCCaPLOPxkCwlFNBhKVDk
+         Qw8fn7GcIem22OY4dCLEKW72OsbVeJfMJDIVUycXbzEA3IIOpcnx7NgdQXCA8ZQAouml
+         KftTE01eZE8W63qMuu8ZiPsmT/z34kLTk6gjP+7TIvUM+Wt/kSuOwHlhRL1JNn39s4sE
+         62UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=1YOjrnQqyN8cWPWkvfNUjTufFbltn2OwC2/XNWaN1e0=;
-        b=8Ho45As+2KLDhovPuK0jq6w6qRB8smz5hhFsQtmE5figiiCoZ5u81vDipLWktdp/Ai
-         Dg8WcpPny+eoqsU1pagxWYHV4qeWIYQbE4mgKp9VHfYk9lXLKC7mgIdI3/uoKwj3tkKT
-         x2up7f3+aSFfjxd6y1Ti0whAGXaSMy/oqW3D4POZEWB7Km+LqOCb8o1AeFJFgWpsJBPw
-         vs81mb3VodptkeRVx/ure4KqLwI0qZlB6xcLgFi9F1KxAAaw57/6kI6i2r0ZOskjM61A
-         N/XnXruV9dK4EtiYghF+7RNw80v5srkeTCGlCfjd0qz6Ad3Ie/QP7JO0t1kteSxV/Zvw
-         9EEg==
-X-Gm-Message-State: AOAM533EXQ5/mb37/iZKMICS+0ZMkRDswCuv0leo58fH9CVa0RfkJ98S
-        XxoHYEa6DKMGw6dzWGg0nOgnA9V7E/P4VbuJVvnY
-X-Google-Smtp-Source: ABdhPJyvEbcz/g37JS1iHe7tFbj9IzynivIbmgA81koqkS0c5Hqgo9XHv7TCJvVa1vy3xfQL4hFPgo3isBOBJ39pAMse
+        bh=BoyidSMyUmqDlYzeEP7zIQ3rGwHdvB7avXDVy08761s=;
+        b=WUSkxr1uQv8l1GIwDpsKCZbV9cUs+9r4U8aXjErpFI7M912ilV+zHcWATpq3kQQ8oj
+         uG3IT9PjrP1iKZSIDU1Lg9s42wEJX56NaAWf/6AqXafIelTcLpuezR9Qu4f1kLu/Lvzp
+         6rgG7UxkI4KJF8JDPCfBXKNX1AhwPTJWTH+uXHQDhmAYYTzyZ2YmXi0LlBsx4tRN39KI
+         RqDEw/j9VTWANvLfM75liWo7QejcPWBy1cYsnMI1PrbbvhZ2hCEJQbjigD68MvBcxnFR
+         /ucKjAFX4rjIGm6tW7p/VdSnlzywdDtKQuiO7VCvhfUDkBgK79LJL++FVSWBSPJ47IJ1
+         aI/Q==
+X-Gm-Message-State: AOAM531p7PdHr7otYrMvzI65u49+sD+oanBiVc6vrQCTLYJa0KLrxz8K
+        MF4tgKRwIpcVlHqeCXSnyPMbKWc7aBBDGqhBmsUI
+X-Google-Smtp-Source: ABdhPJyyc9freLfS6Q7maf39aEdLRh07bXNJn2H9FTDAgzp1lfS3Y4cI9xMNuZVlhb0cZNxgd4sxJOv/WouvvrTj1H7F
 X-Received: from ajr0.svl.corp.google.com ([2620:15c:2cd:203:7ba6:20ac:a8f7:1dbd])
- (user=axelrasmussen job=sendgmr) by 2002:a25:df8a:0:b0:647:4954:83e8 with
- SMTP id w132-20020a25df8a000000b00647495483e8mr645787ybg.526.1650663002551;
- Fri, 22 Apr 2022 14:30:02 -0700 (PDT)
-Date:   Fri, 22 Apr 2022 14:29:44 -0700
+ (user=axelrasmussen job=sendgmr) by 2002:a81:56d5:0:b0:2f4:c9b2:575f with
+ SMTP id k204-20020a8156d5000000b002f4c9b2575fmr6944685ywb.111.1650663000214;
+ Fri, 22 Apr 2022 14:30:00 -0700 (PDT)
+Date:   Fri, 22 Apr 2022 14:29:43 -0700
 In-Reply-To: <20220422212945.2227722-1-axelrasmussen@google.com>
-Message-Id: <20220422212945.2227722-6-axelrasmussen@google.com>
+Message-Id: <20220422212945.2227722-5-axelrasmussen@google.com>
 Mime-Version: 1.0
 References: <20220422212945.2227722-1-axelrasmussen@google.com>
 X-Mailer: git-send-email 2.36.0.rc2.479.g8af0fa9b8e-goog
-Subject: [PATCH v2 5/6] userfaultfd: selftests: make /dev/userfaultfd testing configurable
+Subject: [PATCH v2 4/6] userfaultfd: update documentation to describe /dev/userfaultfd
 From:   Axel Rasmussen <axelrasmussen@google.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -76,111 +76,92 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instead of always testing both userfaultfd(2) and /dev/userfaultfd,
-let the user choose which to test.
-
-As with other test features, change the behavior based on a new
-command line flag. Introduce the idea of "test mods", which are
-generic (not specific to a test type) modifications to the behavior of
-the test. This is sort of borrowed from this RFC patch series [1], but
-simplified a bit.
-
-The benefit is, in "typical" configurations this test is somewhat slow
-(say, 30sec or something). Testing both clearly doubles it, so it may
-not always be desirable, as users are likely to use one or the other,
-but never both, in the "real world".
-
-[1]: https://patchwork.kernel.org/project/linux-mm/patch/20201129004548.1619714-14-namit@vmware.com/
+Explain the different ways to create a new userfaultfd, and how access
+control works for each way.
 
 Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
 ---
- tools/testing/selftests/vm/userfaultfd.c | 41 +++++++++++++++++-------
- 1 file changed, 30 insertions(+), 11 deletions(-)
+ Documentation/admin-guide/mm/userfaultfd.rst | 38 ++++++++++++++++++--
+ Documentation/admin-guide/sysctl/vm.rst      |  3 ++
+ 2 files changed, 39 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/vm/userfaultfd.c b/tools/testing/selftests/vm/userfaultfd.c
-index 12ae742a9981..274522704e40 100644
---- a/tools/testing/selftests/vm/userfaultfd.c
-+++ b/tools/testing/selftests/vm/userfaultfd.c
-@@ -142,8 +142,17 @@ static void usage(void)
- {
- 	fprintf(stderr, "\nUsage: ./userfaultfd <test type> <MiB> <bounces> "
- 		"[hugetlbfs_file]\n\n");
-+
- 	fprintf(stderr, "Supported <test type>: anon, hugetlb, "
- 		"hugetlb_shared, shmem\n\n");
-+
-+	fprintf(stderr, "'Test mods' can be joined to the test type string with a ':'. "
-+		"Supported mods:\n");
-+	fprintf(stderr, "\tdev - Use /dev/userfaultfd instead of userfaultfd(2)\n");
-+	fprintf(stderr, "\nExample test mod usage:\n");
-+	fprintf(stderr, "# Run anonymous memory test with /dev/userfaultfd:\n");
-+	fprintf(stderr, "./userfaultfd anon:dev 100 99999\n\n");
-+
- 	fprintf(stderr, "Examples:\n\n");
- 	fprintf(stderr, "%s", examples);
- 	exit(1);
-@@ -1610,8 +1619,6 @@ unsigned long default_huge_page_size(void)
+diff --git a/Documentation/admin-guide/mm/userfaultfd.rst b/Documentation/admin-guide/mm/userfaultfd.rst
+index 6528036093e1..4c079b5377d4 100644
+--- a/Documentation/admin-guide/mm/userfaultfd.rst
++++ b/Documentation/admin-guide/mm/userfaultfd.rst
+@@ -17,7 +17,10 @@ of the ``PROT_NONE+SIGSEGV`` trick.
+ Design
+ ======
  
- static void set_test_type(const char *type)
- {
--	uint64_t features = UFFD_API_FEATURES;
--
- 	if (!strcmp(type, "anon")) {
- 		test_type = TEST_ANON;
- 		uffd_test_ops = &anon_uffd_test_ops;
-@@ -1631,10 +1638,28 @@ static void set_test_type(const char *type)
- 		test_type = TEST_SHMEM;
- 		uffd_test_ops = &shmem_uffd_test_ops;
- 		test_uffdio_minor = true;
--	} else {
--		err("Unknown test type: %s", type);
-+	}
-+}
-+
-+static void parse_test_type_arg(const char *raw_type)
-+{
-+	char *buf = strdup(raw_type);
-+	uint64_t features = UFFD_API_FEATURES;
-+
-+	while (buf) {
-+		const char *token = strsep(&buf, ":");
-+
-+		if (!test_type)
-+			set_test_type(token);
-+		else if (!strcmp(token, "dev"))
-+			test_dev_userfaultfd = true;
-+		else
-+			err("unrecognized test mod '%s'", token);
- 	}
+-Userfaults are delivered and resolved through the ``userfaultfd`` syscall.
++Userspace creates a new userfaultfd, initializes it, and registers one or more
++regions of virtual memory with it. Then, any page faults which occur within the
++region(s) result in a message being delivered to the userfaultfd, notifying
++userspace of the fault.
  
-+	if (!test_type)
-+		err("failed to parse test type argument: '%s'", raw_type);
+ The ``userfaultfd`` (aside from registering and unregistering virtual
+ memory ranges) provides two primary functionalities:
+@@ -39,7 +42,7 @@ Vmas are not suitable for page- (or hugepage) granular fault tracking
+ when dealing with virtual address spaces that could span
+ Terabytes. Too many vmas would be needed for that.
+ 
+-The ``userfaultfd`` once opened by invoking the syscall, can also be
++The ``userfaultfd``, once created, can also be
+ passed using unix domain sockets to a manager process, so the same
+ manager process could handle the userfaults of a multitude of
+ different processes without them being aware about what is going on
+@@ -50,6 +53,37 @@ is a corner case that would currently return ``-EBUSY``).
+ API
+ ===
+ 
++Creating a userfaultfd
++----------------------
 +
- 	if (test_type == TEST_HUGETLB)
- 		page_size = default_huge_page_size();
- 	else
-@@ -1681,7 +1706,7 @@ int main(int argc, char **argv)
- 		err("failed to arm SIGALRM");
- 	alarm(ALARM_INTERVAL_SECS);
++There are two mechanisms to create a userfaultfd. There are various ways to
++restrict this too, since userfaultfds which handle kernel page faults have
++historically been a useful tool for exploiting the kernel.
++
++The first is the userfaultfd(2) syscall. Access to this is controlled in several
++ways:
++
++- By default, the userfaultfd will be able to handle kernel page faults. This
++  can be disabled by passing in UFFD_USER_MODE_ONLY.
++
++- If vm.unprivileged_userfaultfd is 0, then the caller must *either* have
++  CAP_SYS_PTRACE, or pass in UFFD_USER_MODE_ONLY.
++
++- If vm.unprivileged_userfaultfd is 1, then no particular privilege is needed to
++  use this syscall, even if UFFD_USER_MODE_ONLY is *not* set.
++
++Alternatively, userfaultfds can be created by opening /dev/userfaultfd, and
++issuing a USERFAULTFD_IOC_NEW ioctl to this device. Access to this device is
++controlled via normal filesystem permissions (user/group/mode for example) - no
++additional permission (capability/sysctl) is needed to be able to handle kernel
++faults this way. This is useful because it allows e.g. a specific user or group
++to be able to create kernel-fault-handling userfaultfds, without allowing it
++more broadly, or granting more privileges in addition to that particular ability
++(CAP_SYS_PTRACE). In other words, it allows permissions to be minimized.
++
++Initializing up a userfaultfd
++------------------------
++
+ When first opened the ``userfaultfd`` must be enabled invoking the
+ ``UFFDIO_API`` ioctl specifying a ``uffdio_api.api`` value set to ``UFFD_API`` (or
+ a later API version) which will specify the ``read/POLLIN`` protocol
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index f4804ce37c58..8682d5fbc8ea 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -880,6 +880,9 @@ calls without any restrictions.
  
--	set_test_type(argv[1]);
-+	parse_test_type_arg(argv[1]);
+ The default value is 0.
  
- 	nr_cpus = sysconf(_SC_NPROCESSORS_ONLN);
- 	nr_pages_per_cpu = atol(argv[2]) * 1024*1024 / page_size /
-@@ -1719,12 +1744,6 @@ int main(int argc, char **argv)
- 	}
- 	printf("nr_pages: %lu, nr_pages_per_cpu: %lu\n",
- 	       nr_pages, nr_pages_per_cpu);
--
--	test_dev_userfaultfd = false;
--	if (userfaultfd_stress())
--		return 1;
--
--	test_dev_userfaultfd = true;
- 	return userfaultfd_stress();
- }
++An alternative to this sysctl / the userfaultfd(2) syscall is to create
++userfaultfds via /dev/userfaultfd. See
++Documentation/admin-guide/mm/userfaultfd.rst.
  
+ user_reserve_kbytes
+ ===================
 -- 
 2.36.0.rc2.479.g8af0fa9b8e-goog
 
