@@ -2,74 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B81EC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 07:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B98DC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 08:24:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1444743AbiDVH03 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Apr 2022 03:26:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43622 "EHLO
+        id S232768AbiDVI1Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Apr 2022 04:27:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229670AbiDVH02 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 03:26:28 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C16B5006B;
-        Fri, 22 Apr 2022 00:23:35 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id ks6so14671411ejb.1;
-        Fri, 22 Apr 2022 00:23:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2ckmga5iewVe4NEqSvC8/k1bVhDBRyp3WcuyEXAk3hU=;
-        b=PpNKAdIhwwej/a+iKEhoQa1qXge7ez608u/l5uwtwNfnysvKWBQ0cdjbPq5yEZUZ35
-         X2JEdNLn1IR2N4ZiG/C5xbs4tXPiDiuvOr+ve3zLQTb2wEY2xFIPB7LtYLR9axlcE/qG
-         fVfTxYYy9TIvQhyJ9a6bdJfv8oeATIYEI1hM/IJ8as/VUnLJyLXkPzbyFcSYg4GVDoO0
-         vGVY+5hGF5cheJlLxZmIxzGE8NOfkvnEBTUURcHtHji/MkKKzzBlBDl1eulobKi4/WyY
-         uwo2z+eoZbHKJj7GT1jcUF5Vfs99V2rN6bGFrtctRr+B3uwwOlJWVlnn/m5zAqdL3enB
-         zw+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2ckmga5iewVe4NEqSvC8/k1bVhDBRyp3WcuyEXAk3hU=;
-        b=TrF0x3+xualYfObJT1rkkBjGacZoi0VjPZ/p2E9uXxFU7ZLzOpljd/UgbTaPcNmNWd
-         zatuhcPYYmbnkDhu3S19KVI+SR6xOv+ljsKrAMz5h9ifZEaEQk68MLJEyLCk8WQZ40YN
-         ixurK/CBnAvHtdkErPqXlyqaTbLw6ITahY6ptIpAJjKRFzXEeEpB8+T2idI645aF2m5n
-         LvgmbCyApXJHsKdHGuhrmiHHNyy041aTXLyF910epjkxwwdT6we2WttNJdZmr02sHxEC
-         ET5ONUd6mOtmR5Q+JV39l9QTOw5UjEwE2te2fST/M9rgPGqJD/6ZE898EBxWuAJgSlDK
-         pzUg==
-X-Gm-Message-State: AOAM532gBC2qAH4ffjVRGfKv91PNmTIFGonnzq6bJmOhH2UACgM48QVM
-        fm9m7NZK2Zry5ma8p/u9o4izzbHGsuWo1Q==
-X-Google-Smtp-Source: ABdhPJxCLeGVVvH9tOb+su2mvPLIvuhRdpdzqU+hDcPh49P2pGyZuANbhEWfISlSKuhxVTeSeruyVQ==
-X-Received: by 2002:a17:906:d14e:b0:6ef:b5ab:48e1 with SMTP id br14-20020a170906d14e00b006efb5ab48e1mr2988104ejb.11.1650612213358;
-        Fri, 22 Apr 2022 00:23:33 -0700 (PDT)
-Received: from fedora ([95.180.24.23])
-        by smtp.gmail.com with ESMTPSA id jw12-20020a17090776ac00b006e87137194esm463569ejc.150.2022.04.22.00.23.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Apr 2022 00:23:32 -0700 (PDT)
-Date:   Fri, 22 Apr 2022 09:23:30 +0200
-From:   Aleksa Savic <savicaleksa83@gmail.com>
-To:     linux-hwmon@vger.kernel.org
-Cc:     Jack Doan <me@jackdoan.com>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (aquacomputer_d5next) Add support for
- Aquacomputer Farbwerk
-Message-ID: <YmJX8vNlpd6wQDkg@fedora>
-References: <20220421072743.5058-1-savicaleksa83@gmail.com>
+        with ESMTP id S1352963AbiDVI1P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 04:27:15 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08A3F52E64;
+        Fri, 22 Apr 2022 01:24:23 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 999D161FDE;
+        Fri, 22 Apr 2022 08:24:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B304BC385A4;
+        Fri, 22 Apr 2022 08:24:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1650615862;
+        bh=VZe04wi9Ke1WpooTFqZ15tO/MjgK1FO8qd/uJToj3Wc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jwwEHEHm2Ma97jStCDyTuowW/EJpEo2brMRPLwYkscX+vZ0y40ShSuC0xXJrlMZLa
+         xGdHODv60Vr4GH4JG7nMd9bk3D1pTOlXGyEvTFDf1QYD4qL/WAMD9sIc8FN1r+zneJ
+         mrXlAHE4xs7kzBye6xymR8SqS8XyXO8Wz0ZUUBgdHDNFdd8X2BcJu6DJRA9RuuKCnT
+         Nt94O5Y2oHiNFmXK1Ws+cejfKO9o2Hoii14u/I8Rs5nMU0nivYbc5jXXV0F2NZD6RE
+         xth+GpJBj1+wprn5x/k1gZHn0AzWiPa8vx7UAjg39037MaOd+BogTDYYtPD7hPcr3Z
+         1tPd+eydP2kOQ==
+Date:   Fri, 22 Apr 2022 11:24:14 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc:     Ira Weiny <ira.weiny@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, outreachy@lists.linux.dev,
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH 1/4] mm/highmem: Fix kernel-doc warnings in highmem*.h
+Message-ID: <YmJmLrS3hPR6gOaw@kernel.org>
+References: <20220421180200.16901-1-fmdefrancesco@gmail.com>
+ <20220421180200.16901-2-fmdefrancesco@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220421072743.5058-1-savicaleksa83@gmail.com>
+In-Reply-To: <20220421180200.16901-2-fmdefrancesco@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Thu, Apr 21, 2022 at 08:01:57PM +0200, Fabio M. De Francesco wrote:
+> `scripts/kernel-doc -v -none include/linux/highmem*` reports the following
+> warnings:
+> 
+> include/linux/highmem.h:160: warning: expecting prototype for kunmap_atomic(). Prototype was for nr_free_highpages() instead
+> include/linux/highmem.h:204: warning: No description found for return value of 'alloc_zeroed_user_highpage_movable'
+> include/linux/highmem-internal.h:256: warning: Function parameter or member '__addr' not described in 'kunmap_atomic'
+> include/linux/highmem-internal.h:256: warning: Excess function parameter 'addr' description in 'kunmap_atomic'
+> 
+> Fix these warnings by (1) moving the kernel-doc comments from highmem.h to
+> highmem-internal.h (which is the file were the kunmap_atomic() macro is
+> actually defined), (2) extending and merging it with the comment which was
+> already in highmem-internal.h, and (3) using correct parameter names.
+> 
+> Cc: Mike Rapoport <rppt@linux.ibm.com>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Suggested-by: Matthew Wilcox <willy@infradead.org>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+>  include/linux/highmem-internal.h | 14 +++++++++++---
+>  include/linux/highmem.h          | 15 +++------------
+>  2 files changed, 14 insertions(+), 15 deletions(-)
+> 
+> diff --git a/include/linux/highmem-internal.h b/include/linux/highmem-internal.h
+> index a77be5630209..b099a08e29d3 100644
+> --- a/include/linux/highmem-internal.h
+> +++ b/include/linux/highmem-internal.h
+> @@ -236,9 +236,17 @@ static inline unsigned long totalhigh_pages(void) { return 0UL; }
+>  
+>  #endif /* CONFIG_HIGHMEM */
+>  
+> -/*
+> - * Prevent people trying to call kunmap_atomic() as if it were kunmap()
+> - * kunmap_atomic() should get the return value of kmap_atomic, not the page.
+> +/**
+> + * kunmap_atomic - Unmap the virtual address mapped by kmap_atomic()
+> + * @__addr:       Virtual address to be unmapped
+> + *
+> + * Unmap an address previously mapped by kmap_atomic() and re-enables
 
-Just noticed that this patch is missing the "select CRC16" addition
-present in hwmon-next. I apologize for that, will fix in v2.
+Unmap ... and re-enable
 
-Thanks,
-Aleksa
+or 
+
+Unmaps ... and re-enables
+
+Other than that
+
+Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+
+> + * pagefaults and preemption. Mappings should be unmapped in the reverse
+> + * order that they were mapped. See kmap_local_page() for details.
+> + * @__addr can be any address within the mapped page, so there is no need
+> + * to subtract any offset that has been added. In contrast to kunmap(),
+> + * this function takes the address returned from kmap_atomic(), not the
+> + * page passed to it. The compiler will warn you if you pass the page.
+>   */
+>  #define kunmap_atomic(__addr)					\
+>  do {								\
+> diff --git a/include/linux/highmem.h b/include/linux/highmem.h
+> index 39bb9b47fa9c..c3d562b5f0c1 100644
+> --- a/include/linux/highmem.h
+> +++ b/include/linux/highmem.h
+> @@ -37,7 +37,7 @@ static inline void *kmap(struct page *page);
+>  
+>  /**
+>   * kunmap - Unmap the virtual address mapped by kmap()
+> - * @addr:	Virtual address to be unmapped
+> + * @page:	Virtual address to be unmapped
+>   *
+>   * Counterpart to kmap(). A NOOP for CONFIG_HIGHMEM=n and for mappings of
+>   * pages in the low memory area.
+> @@ -145,17 +145,6 @@ static inline void *kmap_local_folio(struct folio *folio, size_t offset);
+>   */
+>  static inline void *kmap_atomic(struct page *page);
+>  
+> -/**
+> - * kunmap_atomic - Unmap the virtual address mapped by kmap_atomic()
+> - * @addr:	Virtual address to be unmapped
+> - *
+> - * Counterpart to kmap_atomic().
+> - *
+> - * Effectively a wrapper around kunmap_local() which additionally undoes
+> - * the side effects of kmap_atomic(), i.e. reenabling pagefaults and
+> - * preemption.
+> - */
+> -
+>  /* Highmem related interfaces for management code */
+>  static inline unsigned int nr_free_highpages(void);
+>  static inline unsigned long totalhigh_pages(void);
+> @@ -191,6 +180,8 @@ static inline void clear_user_highpage(struct page *page, unsigned long vaddr)
+>   * @vma: The VMA the page is to be allocated for
+>   * @vaddr: The virtual address the page will be inserted into
+>   *
+> + * Returns: The allocated and zeroed HIGHMEM page
+> + *
+>   * This function will allocate a page for a VMA that the caller knows will
+>   * be able to migrate in the future using move_pages() or reclaimed
+>   *
+> -- 
+> 2.34.1
+> 
+> 
+
+-- 
+Sincerely yours,
+Mike.
