@@ -2,101 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48660C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 15:18:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0316CC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 16:40:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1448928AbiDVPUz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Apr 2022 11:20:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34792 "EHLO
+        id S1449752AbiDVQns (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Apr 2022 12:43:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1449390AbiDVPUx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 11:20:53 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5E6F5DA37;
-        Fri, 22 Apr 2022 08:17:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 66C26B830EE;
-        Fri, 22 Apr 2022 15:17:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A523BC385A0;
-        Fri, 22 Apr 2022 15:17:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1650640671;
-        bh=OQu2HnPIYsfQw0YtgkB3j0oCb5sAGQ5oTcK00sCNEoQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ziLUmyry5BXoBF9rZ5VdG5+lvPTU7ab5iiUsLrmyA/DfjkCh/W3oZv/EPJQTm2bSp
-         x7937822JWbxTjtKGf/0GvPPWve40RfNLMDLl/deXWMwUbxprutwKZAsx/1HzJ1WHB
-         xbCMyZG6JVxLqWl47+Nfiob9MOHr7SO/pLVBZbhw=
-Date:   Fri, 22 Apr 2022 17:17:48 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Javier Martinez Canillas <javierm@redhat.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        dri-devel@lists.freedesktop.org,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Borislav Petkov <bp@suse.de>,
-        Changcheng Deng <deng.changcheng@zte.com.cn>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Helge Deller <deller@gmx.de>, Johan Hovold <johan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miaoqian Lin <linmq006@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Yizhuo Zhai <yzhai003@ucr.edu>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v3 0/5] Fix some race conditions that exists between
- fbmem and sysfb
-Message-ID: <YmLHHCQyN03oAqr0@kroah.com>
-References: <20220420085303.100654-1-javierm@redhat.com>
+        with ESMTP id S1449746AbiDVQnr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 12:43:47 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 101E3220F7
+        for <linux-doc@vger.kernel.org>; Fri, 22 Apr 2022 09:40:54 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id g18so17424040ejc.10
+        for <linux-doc@vger.kernel.org>; Fri, 22 Apr 2022 09:40:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CoGqA9rNsKJzYU/Obb8AAvf20gVKLeXNXFwl6nZ00rM=;
+        b=puSEmprmz1nabSt+ml3920aGPKkUVGoZm9P1z5qEs6WOb5oaEqNdPuB+XnBF/+pdaO
+         BVteA6H2VgQlmb0Vq/J/n/1XVZvrvGQjt3mVj7lbZ/55jU+YzyVz0YPnKdWjffXAa8Sz
+         MZZheTPjT0XiMePlwtP5H2lntWYI8T7f3sghXXsJd3g7Ti463gREa1RRPDULw3YuULJU
+         V2eu6FowolcgcwIpjbYp+q6SYrrPz3TtrfOdT2/aZwIAQaPxpVJyN7CzTxgTka8GC3Wa
+         WXEDYA8EWuQGKrc2twCsC4WwQ7w8TiQWt2zr4dmLhdutg4v2XDEey0Wxj5JTGpSZAciX
+         TulA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CoGqA9rNsKJzYU/Obb8AAvf20gVKLeXNXFwl6nZ00rM=;
+        b=zWOkqjGZAUDQtIq7EvQG9BT+7OCZMCUapICW1AJm/WWCimDIOMv5fNAi1HGuQUKQRl
+         KXnt/hC6FqBZiuLTVlqg1fNa+Zv+1TJg6NVgXIASrAFQ+2+czl6MU1TwtYaaNl1EWRAV
+         JlH/42+/S2Jf/rZe47w10+/dIeQ7KZhXGUAxGCb1BQZCwDtGRCGX5r+Mgx9iTYh6R6Pr
+         /IcG/AtgW7G6e5TRfM0ovAhCcMpmduPg3lwKdBL99gRVXUk3UEgcr/5jOBQ+70uQlfDK
+         r90kzAGJfivYBuHYBhve4JulfJ63y1YYMdlt6UKubStU2aRVh7n6xA0/cICekNk5c+Nh
+         XamA==
+X-Gm-Message-State: AOAM533wK9IfdBzfHqTcYmQibpGAuTwAVa7ydculu27GZDvKrHBPRtMH
+        J7vcJHUFcsGzzG5YcnfFTUFtdAde53E51gN+DgULDA==
+X-Google-Smtp-Source: ABdhPJzoLmBU5Xg3Lxmb7MT8CNOOwTwJf10BbLeuL2aNNlpJcThtRrea/0k1l5jXVtMthl5n+035wmUrG4QqfMQQfso=
+X-Received: by 2002:a17:907:60c9:b0:6f3:47fb:df26 with SMTP id
+ hv9-20020a17090760c900b006f347fbdf26mr3107234ejc.159.1650645652344; Fri, 22
+ Apr 2022 09:40:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220420085303.100654-1-javierm@redhat.com>
+References: <20220420235228.2767816-1-tjmercier@google.com> <YmLBTBd+5RHzr9MK@kroah.com>
+In-Reply-To: <YmLBTBd+5RHzr9MK@kroah.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Fri, 22 Apr 2022 09:40:41 -0700
+Message-ID: <CABdmKX2X6VqK4rw90+OtSOF+aFZELefuzd=YOY3+cqiOqqYALQ@mail.gmail.com>
+Subject: Re: [RFC v5 0/6] Proposal for a GPU cgroup controller
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, Tejun Heo <tj@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>,
+        John Stultz <jstultz@google.com>,
+        Carlos Llamas <cmllamas@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kernel-team@android.com, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 20, 2022 at 10:52:58AM +0200, Javier Martinez Canillas wrote:
-> Hello,
-> 
-> The patches in this series are mostly changes suggested by Daniel Vetter
-> to fix some race conditions that exists between the fbdev core (fbmem)
-> and sysfb with regard to device registration and removal.
-> 
-> For example, it is currently possible for sysfb to register a platform
-> device after a real DRM driver was registered and requested to remove the
-> conflicting framebuffers.
-> 
-> A symptom of this issue, was worked around with by commit fb561bf9abde
-> ("fbdev: Prevent probing generic drivers if a FB is already registered")
-> but that's really a hack and should be reverted.
-> 
-> This series attempt to fix it more properly and revert the mentioned hack.
-> That will also unblock a pending patch to not make the num_registered_fb
-> variable visible to drivers anymore, since that's internal to fbdev core.
-> 
-> Patch #1 is just a trivial preparatory change.
-> 
-> Patch #2 add sysfb_disable() and sysfb_try_unregister() helpers for fbmem
-> to use them.
-> 
-> Patch #3 changes how is dealt with conflicting framebuffers unregistering,
-> rather than having a variable to determine if a lock should be take, it
-> just drops the lock before unregistering the platform device.
-> 
-> Patch #4 fixes the mentioned race conditions and finally patch #5 is the
-> revert patch that was posted by Daniel before but he dropped from his set.
-> 
-> The patches were tested on a rpi4 using different video configurations:
-> (simpledrm -> vc4 both builtin, only vc4 builtin, only simpledrm builtin
-> and simpledrm builtin with vc4 built as a module).
-> 
-> Best regards,
-> Javier
+On Fri, Apr 22, 2022 at 7:53 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Apr 20, 2022 at 11:52:18PM +0000, T.J. Mercier wrote:
+> > This patch series revisits the proposal for a GPU cgroup controller to
+> > track and limit memory allocations by various device/allocator
+> > subsystems. The patch series also contains a simple prototype to
+> > illustrate how Android intends to implement DMA-BUF allocator
+> > attribution using the GPU cgroup controller. The prototype does not
+> > include resource limit enforcements.
+> >
+> > Changelog:
+> > v5:
+> > Rebase on top of v5.18-rc3
+>
+> Why is a "RFC" series on v5?  I treat "RFC" as "not ready to be merged,
+> if people are interested, please look at it".  But v5 seems like you
+> think this is real.
+>
+> confused,
+>
+> greg k-h
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+I'm sorry for the confusion. I'll change this to PATCH in future revisions.
