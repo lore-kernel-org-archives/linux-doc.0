@@ -2,459 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 752FAC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 01:39:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 759E3C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 01:40:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1387330AbiDVBmK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Apr 2022 21:42:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38354 "EHLO
+        id S1344083AbiDVBnh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Apr 2022 21:43:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344083AbiDVBmK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 21:42:10 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BF5A49F94;
-        Thu, 21 Apr 2022 18:39:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650591558; x=1682127558;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=LlSeNJZw9K0gs+mSo7Cj6lJNYTXDNTi7/dqz/0pJyqM=;
-  b=fgbpWBZUCIefmjGdRFi62ig6AoFHdnmlL/aia/O7rLNNYwXamfwl2mw1
-   9dGkfxhRb4hazp3JKrXmh2an14WDxTd8Vm7ZaybxJPBh10OkhW9G2bicA
-   /ADtew3hl7uGYsR0YhNb7r1Ldak1yW+mZjNoUwESjOZ5uYotE99+S2FBv
-   oXupOUth7eXy4KNHJr9iz/OYzY0Bx0YeEd5W3rPOhyLBdrSo46hv2HGLt
-   pShShrcqMBzEM8XQIg7LYJsSVcCIBVXTh9ss61kPzO6jLT4KIUV9nv52o
-   ZHGgPfCFd7ALAnnpS1JERDNxQOEc+pbwWhuNd3kF5NV8pNo4SV681ZOao
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="324984443"
-X-IronPort-AV: E=Sophos;i="5.90,280,1643702400"; 
-   d="scan'208";a="324984443"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2022 18:39:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,280,1643702400"; 
-   d="scan'208";a="511356189"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga003.jf.intel.com with ESMTP; 21 Apr 2022 18:39:14 -0700
-Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 21 Apr 2022 18:39:13 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Thu, 21 Apr 2022 18:39:13 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.171)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Thu, 21 Apr 2022 18:39:13 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nx0zEByFV3tlDTYZ1DslV3DKhCWV6MI/hR2DTU28xyxmEwZGoSCcePlJyclJ7LU5g7YTEViDCZyGA6GfaVD9ArEFWnLhJXF67tnFMYb+dcH0M5PV6TDV425V2cuMD/YQAHylacWvpaByFJv8U8JOJo2y9YsxRhlNwZimKZCqIzDJ29g10LM7Mq76QYTkmgtA+pic2ndjfJdQovu8B1uUR70q/QuALUzGFKFdM2VESN+sF9Y7CDjX7Z6x3Z8JdzrQcaakYfI2poor4Mf2+CxTZAW5EFHxcS1K3awse5NH+y1L153N1Ha6WkdC2HB8XH8icMAv0A+a4tsqbh0tsX/7ZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kddw+Fu+YsDqf7Sb/ou1bxbSz4o19BA1/4PC7EVr14I=;
- b=QjHBaYp+IjdJ7/AP5Aatq8Sm6TuTn04K6Ekx9PoPEGrjwDjJS/DG6ljisDJth1jpCT4uce6A7p03Bsz62qGktx20nrPQk1cgWmlz8wYak49qW6E3gzNBhdwaIieD+eCeHn7k/5D+eBMr5p2gK5Sd4nWLhSwr5In05MmIKtj13q8+BGD3TFQ0kHn/ZdDXz+85Znwnpqgbxi3VWB7BqdoT5mvkwp/cCSx0Ndi+mEzjAFXaMnjmQHBvPZd4P/EjHPnuEA2aDMemYtEWMiCiSrTw5SL4qmvZLDWXOZTwG0kWOUhYpvltCG9PQNG/vY6tHIpE7o3BPe4Q9utQGLtQYWD5xQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by PH0PR11MB5093.namprd11.prod.outlook.com (2603:10b6:510:3e::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Fri, 22 Apr
- 2022 01:39:10 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::24dd:37c2:3778:1adb]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::24dd:37c2:3778:1adb%2]) with mapi id 15.20.5186.015; Fri, 22 Apr 2022
- 01:39:10 +0000
-From:   "Tian, Kevin" <kevin.tian@intel.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Airlie <airlied@linux.ie>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "Harald Freudenberger" <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "intel-gvt-dev@lists.freedesktop.org" 
-        <intel-gvt-dev@lists.freedesktop.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        "Halil Pasic" <pasic@linux.ibm.com>,
-        "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
-        "Sven Schnelle" <svens@linux.ibm.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        "Wang, Zhi A" <zhi.a.wang@intel.com>
-CC:     Tony Krowiak <akrowiak@linux.ibm.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>, Christoph Hellwig <hch@lst.de>
-Subject: RE: [PATCH v2 1/7] vfio: Make vfio_(un)register_notifier accept a
- vfio_device
-Thread-Topic: [PATCH v2 1/7] vfio: Make vfio_(un)register_notifier accept a
- vfio_device
-Thread-Index: AQHYVZz2Cke44OBD9UOI6FhokQW4CKz7J+BA
-Date:   Fri, 22 Apr 2022 01:39:09 +0000
-Message-ID: <BN9PR11MB52761D81DA24CD00E0FFA7728CF79@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <0-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
- <1-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
-In-Reply-To: <1-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8d853ae9-22c4-4d8f-c9ce-08da2400e5cd
-x-ms-traffictypediagnostic: PH0PR11MB5093:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-microsoft-antispam-prvs: <PH0PR11MB5093086AF4D8ED18D90397A68CF79@PH0PR11MB5093.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: m/eJofcHIRn3h9ZLAO+8yCS+QEa2mWqWYNPp1fY1RiMQ28SrNPs8C/W+0g17HGOX5Hy+svJv21As6218Kcw5tzW854Sq+gNSmJ/g3F8cpe2gp8L9TiWF7bkANCa1cFbOdShjDL7ynFtFimpZV8M6ibrajfaV6gpPrUXwi/M4iATz7ZZS8/FLItS8LOUnUmvrqBqcDsTV7PZTayGobGG8IIVL8ZoH/Fucm5JjlTH5i2dB4iv/gxFYeqopyVfEd4HOzcZe5Gm8Qvz90xUrh3YBK0SZn/aohf1AE6FvK6VAYtwyXPjFHlZMQGQn/xNyU60erK4KkxXi2CbnYPXmvIYfN0+ABOrz36ZlNsrZoK2D00CQdsNw4tW6u/T0hOvuXDwGKwZZWLrZH8fXemU3/k/yvA/kx3D5doSj0rvxw8/A8vbjsIKw9uZjR3eqzr27kACvcRX/SaReqdnTEGxJrN6twHwX05aEpEB919m8QUzv1U07eVmrgH5QmCxtRWcJZP8EhOdaLYb2kG0ggyJ9wsiPzx1ta9G341E+zybdseDgzimxZHQ+aBLdhTBTXY/bQM5kI6bEvCRH/NDEtwtWv+xkYMkNhbnCnSSUo+LGM2PxNLqclyvNmvpK8eIgOGFS5hm6WrpBVZlJ4w5MeDVyzXdjkzyY6SfHqD7vALzbqxGYc2lvLeXQJK3HAXsLXm/7per+Ma9D9ki/SPBHLWO6PxW5u7V4uhUcLzn9TI2v2v13eng=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(186003)(86362001)(508600001)(66446008)(66476007)(66946007)(76116006)(6636002)(64756008)(66556008)(4326008)(8676002)(54906003)(110136005)(316002)(71200400001)(38070700005)(5660300002)(38100700002)(6506007)(7416002)(7406005)(52536014)(7696005)(8936002)(26005)(9686003)(83380400001)(55016003)(921005)(82960400001)(122000001)(33656002)(2906002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?W66AdAphoMzDy27Ku9L1isYvIIFqej/6eMU9hXu4b5yLqTdZnMHToGXdJSo5?=
- =?us-ascii?Q?40cCA9wydAIt7QOu+aUfs8mV9/3sPeO5Wn2sDyk3wKymGPpCyCdhVhDsl8NM?=
- =?us-ascii?Q?OVVkYJFjqqAIwv6i7uaoegCjbevzo3SyQQErgP4dBGZwxQoZK+diZ5Y0ntO1?=
- =?us-ascii?Q?1jvpgCc1PwPflMpaeFia/z5v/+wG3EGYnvPvYqrwrnYstasr51KRldSvksHB?=
- =?us-ascii?Q?9o7GjM/6w/bWVVkBid7awMVerxs6l7p6+16WV0bjEXk9cnR/tfIWdKtq7N2Q?=
- =?us-ascii?Q?zC0ZTMbZo8a+euYV24tufBiqWFrbLBgU/vRY6iR9LFnHqJ8QVtnCakUCIYaI?=
- =?us-ascii?Q?MK6tScO22MKcD9TW7kdFRIo5DHQ3nbFo1yD5ay6hV4GpHJn95O7Q04Jgdobr?=
- =?us-ascii?Q?gzOs25KN1ifC7HIGQl3JdU300KM+lhzJChQFcpwS/qSNCSOPQghUfZVvQPPP?=
- =?us-ascii?Q?NdBZcLcyKn/++88AWk9RFP2vqcc1xUuqs6Ofx1yCvSLei26evy5LzMi/8nm7?=
- =?us-ascii?Q?4WXM4086vFf/eyDRTDgISLeEY+D6VafEgjxTdAoEoepIcSxyq4CFgi3RMcZ/?=
- =?us-ascii?Q?ORfAYVVqnV1KpfJp3nGCwFZsZC3LAQolD4ZlNncLf9H0nzs/epntUwjw5Y80?=
- =?us-ascii?Q?IY83Kkpyxp8b65O5cbfn7/Ognk4wVB4U7sbl7dDoTcCtOjDlCyYeRZNs2vr7?=
- =?us-ascii?Q?E+VjgawIHVhsiha3gR0BB9Zz2mi+roFZevLqzyG0oIaSLKS6RjECJ7eYHB6B?=
- =?us-ascii?Q?83HjoPnttXuKuq1ed9E+bCfYCIm8S2ZyuqD/jDPSQfDWz5FR8fj+jlFosb37?=
- =?us-ascii?Q?WBXX0YofK8Oucga2x+IMCxPY3nFRNrxvDLk5QsS6kTBMb/JWeSQY96B5sVYN?=
- =?us-ascii?Q?4+vzJhdlEJIaylo6A7Rke+f179M6lgbc8IyihG0We2na46kHsjFvb/FCs08h?=
- =?us-ascii?Q?fOcUfJeuRi+tfobtWXr0+Rh6VNHEhgU5rNuvE9AcuEs6ke50tnAQbDJHms/U?=
- =?us-ascii?Q?Vkrexc5Yd+txvF7l6jJceh2r15+RThtkWrSRQQjzL8L1xMLiYsx45/wk5BKS?=
- =?us-ascii?Q?+nB7IT4BRHj7PmF3/LU/0CSMGll0ah55U7OnA5hp3Vwj7Uxc86LEKABwm9v0?=
- =?us-ascii?Q?XymaY1Pa38Skdwq08wuqoPEa0SL2oz3cRrEPH8CpkHIvCSbMQEdbnJLLqpzI?=
- =?us-ascii?Q?wuwZQddezgELeU96FB8t71i+j3tm2GZ3Ha4LDqcIKJEK7pb+E4/z5BGw55nd?=
- =?us-ascii?Q?4LNMXKFmf7caCXKNUyyREm3JeBeue/BV1xR5D6RWe26n07sALdYrb8SvG/c/?=
- =?us-ascii?Q?JwQfTths1gdsyYtAYvQmepaR24iPFdjG6gY2gOfMH2o8ixVaVL4BGb6FdAwi?=
- =?us-ascii?Q?0wVbdRhcxEjCqqgGGq6QYhpDJEC+Fdl3tm0u5SaSKczaczyyUtEK3bv8Ua20?=
- =?us-ascii?Q?tXuD8fs7ql4VCfeHRDZc3lixFybYMI0fqM7s8h/2tUcKPuPpGlUqVNpHOVwU?=
- =?us-ascii?Q?QC0ctK1caYvbbM5wU8mIrMBoW3ukyYkO/takca8X5xYiuCtEHVri93ACtofm?=
- =?us-ascii?Q?8zM843wWEB0dz8kSZM8afNxVwcFTgT6CIn5bfDbotQjc117FwDGUwEzmB2ox?=
- =?us-ascii?Q?NjH05wkikkPRJDFPbwgYEF9f9Q0Gsegp7825MRMeIjll2tBPYRhA0K1gVCVK?=
- =?us-ascii?Q?pXMLjVr/iTybETLcbLzyXmWNZNg43SZtQH62Zs06zHrYl4z14LE7Zs3FAerM?=
- =?us-ascii?Q?3+FFQ0Sv2g=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S232628AbiDVBnf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Apr 2022 21:43:35 -0400
+Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7263849C9E;
+        Thu, 21 Apr 2022 18:40:42 -0700 (PDT)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail12.meizu.com
+ (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 22 Apr
+ 2022 09:40:42 +0800
+Received: from [172.16.137.70] (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 22 Apr
+ 2022 09:40:39 +0800
+Message-ID: <93467d50-8ffb-0fb7-cafb-60eb2dd44130@meizu.com>
+Date:   Fri, 22 Apr 2022 09:40:39 +0800
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d853ae9-22c4-4d8f-c9ce-08da2400e5cd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Apr 2022 01:39:09.9946
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nMj66Julz1N+aGk4MAdind55RkbRKqXl+aNkKtD1xAp8IBEZEbMrc/sh/KyrbvNiCOJ5xY5Pj9z3gT1rPipz2g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5093
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 0/2] sync with original text
+ Documentation/vm/page_owner.rst
+To:     yanteng si <siyanteng01@gmail.com>
+CC:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Alex Shi <seakeel@gmail.com>,
+        Yanteng Si <siyanteng@loongson.cn>
+References: <CAEensMzuQ0uAw8_5Xb7u1n685au=DpaJyPevGCT8GCG7xS42ow@mail.gmail.com>
+ <1650424016-7225-1-git-send-email-baihaowen@meizu.com>
+ <CAEensMxtk8zJPAM-u7hvYkaNTBrVdmhKA7YzVsKmTw0TcOE=Pw@mail.gmail.com>
+From:   baihaowen <baihaowen@meizu.com>
+In-Reply-To: <CAEensMxtk8zJPAM-u7hvYkaNTBrVdmhKA7YzVsKmTw0TcOE=Pw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-123.meizu.com (172.16.1.123) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Jason Gunthorpe
-> Sent: Friday, April 22, 2022 12:29 AM
->=20
-> All callers have a struct vfio_device trivially available, pass it in
-> directly and avoid calling the expensive vfio_group_get_from_dev().
->=20
-> To support the unconverted kvmgt mdev driver add
-> mdev_legacy_get_vfio_device() which will return the vfio_device pointer
-> vfio_mdev.c puts in the drv_data.
+在 4/21/22 8:26 PM, yanteng si 写道:
+> Haowen Bai <baihaowen@meizu.com> 于2022年4月20日周三 11:07写道：
+>> This patches series will sync the translation of zh_CN as below:
+>>
+>> Commit 8bd16bc0a081 ("tools/vm/page_owner_sort.c: support sorting blocks
+>> by multiple keys") add sorting blocks by multiple keys usage
+>> description.
+>>
+>> Commit 78a0b94f3829 ("tools/vm/page_owner_sort.c: support for multi-value
+>> selection in single argument") add multi-value selection in single
+>> argument usage description.
+>>
+>> Commit c89b3ad2dea2 ("doc/vm/page_owner.rst: remove content related to -c
+>> option") remove  -c option usage description.
+>>
+>> Commit 9c8a0a8e599f ("tools/vm/page_owner_sort.c: support for user-defined
+>> culling rules") add user-defined culling rules usage description.
+>>
+>> Commit 8ea8613a616a ("tools/vm/page_owner_sort.c: support for selecting by
+>> PID, TGID or task command name") add selecting by PID, TGID or task
+>> command name usage description.
+>>
+>> Commit 194d52d771b8 ("tools/vm/page_owner_sort: support for sorting by
+>> task command name") add sorting by task command name usage description.
+>>
+>> But the original text table which is made of tab will display all
+>> by one line. so we make a standard table for STANDARD FORMAT SPECIFIERS
+>> description. I fix it up togeter by this patches series.
+>>
+>>
+>> Haowen Bai (2):
+>>   docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+>>   doc/vm/page_owner.rst: Fix table display confusion
+> hi haowen,
+>
+> I'm not sure why, your different versions of the patch are in one
+> thread and they look like this inside
+> <https://lore.kernel.org/linux-doc/>：
+>
+> [PATCH V3] docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+>  2022-04-20 12:46 UTC  (22+ messages)
+>     ` [PATCH V4] "
+>             ` [PATCH V5] "
+>                   ` [PATCH V6] "
+>                     ` [PATCH V7] "
+>                       ` [PATCH V8] "
+>                           ` [PATCH 0/2] "
+>                             ` [PATCH 1/2] docs/zh_CN: "
+>                             ` [PATCH 2/2] doc/vm/page_owner.rst: Fix
+> table display confusion
 
-stale comment
+I always reply mail using below method:
 
->=20
-> Acked-by: Eric Farman <farman@linux.ibm.com>
-> Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
-> Reviewed-by: Tony Krowiak <akrowiak@linux.ibm.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+  git send-email \
+    --in-reply-to='CAEensMxtk8zJPAM-u7hvYkaNTBrVdmhKA7YzVsKmTw0TcOE=Pw@mail.gmail.com' \
+    --to=siyanteng01@gmail.com \
+    --cc=alexs@kernel.org \
+    --cc=baihaowen@meizu.com \
+    --cc=corbet@lwn.net \
+    --cc=linux-doc@vger.kernel.org \
+    --cc=linux-kernel@vger.kernel.org \
+    --cc=seakeel@gmail.com \
+    --cc=siyanteng@loongson.cn \
+    --subject='Re: [PATCH 0/2] sync with original text Documentation/vm/page_owner.rst' \
+    /path/to/YOUR_REPLY
 
-Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+link previous
 
-> ---
->  drivers/gpu/drm/i915/gvt/kvmgt.c  | 24 ++++++++++++------------
->  drivers/s390/cio/vfio_ccw_ops.c   |  7 +++----
->  drivers/s390/crypto/vfio_ap_ops.c | 14 +++++++-------
->  drivers/vfio/vfio.c               | 25 +++++++------------------
->  include/linux/vfio.h              |  4 ++--
->  5 files changed, 31 insertions(+), 43 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c
-> b/drivers/gpu/drm/i915/gvt/kvmgt.c
-> index 0787ba5c301f5e..1cec4f1fdfaced 100644
-> --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
-> +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-> @@ -810,8 +810,8 @@ static int intel_vgpu_open_device(struct vfio_device
-> *vfio_dev)
->  	vgpu->group_notifier.notifier_call =3D intel_vgpu_group_notifier;
->=20
->  	events =3D VFIO_IOMMU_NOTIFY_DMA_UNMAP;
-> -	ret =3D vfio_register_notifier(vfio_dev->dev, VFIO_IOMMU_NOTIFY,
-> &events,
-> -				&vgpu->iommu_notifier);
-> +	ret =3D vfio_register_notifier(vfio_dev, VFIO_IOMMU_NOTIFY, &events,
-> +				     &vgpu->iommu_notifier);
->  	if (ret !=3D 0) {
->  		gvt_vgpu_err("vfio_register_notifier for iommu failed: %d\n",
->  			ret);
-> @@ -819,8 +819,8 @@ static int intel_vgpu_open_device(struct vfio_device
-> *vfio_dev)
->  	}
->=20
->  	events =3D VFIO_GROUP_NOTIFY_SET_KVM;
-> -	ret =3D vfio_register_notifier(vfio_dev->dev, VFIO_GROUP_NOTIFY,
-> &events,
-> -				&vgpu->group_notifier);
-> +	ret =3D vfio_register_notifier(vfio_dev, VFIO_GROUP_NOTIFY, &events,
-> +				     &vgpu->group_notifier);
->  	if (ret !=3D 0) {
->  		gvt_vgpu_err("vfio_register_notifier for group failed: %d\n",
->  			ret);
-> @@ -873,12 +873,12 @@ static int intel_vgpu_open_device(struct
-> vfio_device *vfio_dev)
->  	vgpu->vfio_group =3D NULL;
->=20
->  undo_register:
-> -	vfio_unregister_notifier(vfio_dev->dev, VFIO_GROUP_NOTIFY,
-> -					&vgpu->group_notifier);
-> +	vfio_unregister_notifier(vfio_dev, VFIO_GROUP_NOTIFY,
-> +				 &vgpu->group_notifier);
->=20
->  undo_iommu:
-> -	vfio_unregister_notifier(vfio_dev->dev, VFIO_IOMMU_NOTIFY,
-> -					&vgpu->iommu_notifier);
-> +	vfio_unregister_notifier(vfio_dev, VFIO_IOMMU_NOTIFY,
-> +				 &vgpu->iommu_notifier);
->  out:
->  	return ret;
->  }
-> @@ -907,13 +907,13 @@ static void __intel_vgpu_release(struct intel_vgpu
-> *vgpu)
->=20
->  	intel_gvt_release_vgpu(vgpu);
->=20
-> -	ret =3D vfio_unregister_notifier(vgpu->vfio_device.dev,
-> VFIO_IOMMU_NOTIFY,
-> -					&vgpu->iommu_notifier);
-> +	ret =3D vfio_unregister_notifier(&vgpu->vfio_device,
-> VFIO_IOMMU_NOTIFY,
-> +				       &vgpu->iommu_notifier);
->  	drm_WARN(&i915->drm, ret,
->  		 "vfio_unregister_notifier for iommu failed: %d\n", ret);
->=20
-> -	ret =3D vfio_unregister_notifier(vgpu->vfio_device.dev,
-> VFIO_GROUP_NOTIFY,
-> -					&vgpu->group_notifier);
-> +	ret =3D vfio_unregister_notifier(&vgpu->vfio_device,
-> VFIO_GROUP_NOTIFY,
-> +				       &vgpu->group_notifier);
->  	drm_WARN(&i915->drm, ret,
->  		 "vfio_unregister_notifier for group failed: %d\n", ret);
->=20
-> diff --git a/drivers/s390/cio/vfio_ccw_ops.c
-> b/drivers/s390/cio/vfio_ccw_ops.c
-> index c4d60cdbf247bf..b49e2e9db2dc6f 100644
-> --- a/drivers/s390/cio/vfio_ccw_ops.c
-> +++ b/drivers/s390/cio/vfio_ccw_ops.c
-> @@ -183,7 +183,7 @@ static int vfio_ccw_mdev_open_device(struct
-> vfio_device *vdev)
->=20
->  	private->nb.notifier_call =3D vfio_ccw_mdev_notifier;
->=20
-> -	ret =3D vfio_register_notifier(vdev->dev, VFIO_IOMMU_NOTIFY,
-> +	ret =3D vfio_register_notifier(vdev, VFIO_IOMMU_NOTIFY,
->  				     &events, &private->nb);
->  	if (ret)
->  		return ret;
-> @@ -204,8 +204,7 @@ static int vfio_ccw_mdev_open_device(struct
-> vfio_device *vdev)
->=20
->  out_unregister:
->  	vfio_ccw_unregister_dev_regions(private);
-> -	vfio_unregister_notifier(vdev->dev, VFIO_IOMMU_NOTIFY,
-> -				 &private->nb);
-> +	vfio_unregister_notifier(vdev, VFIO_IOMMU_NOTIFY, &private->nb);
->  	return ret;
->  }
->=20
-> @@ -223,7 +222,7 @@ static void vfio_ccw_mdev_close_device(struct
-> vfio_device *vdev)
->=20
->  	cp_free(&private->cp);
->  	vfio_ccw_unregister_dev_regions(private);
-> -	vfio_unregister_notifier(vdev->dev, VFIO_IOMMU_NOTIFY, &private-
-> >nb);
-> +	vfio_unregister_notifier(vdev, VFIO_IOMMU_NOTIFY, &private->nb);
->  }
->=20
->  static ssize_t vfio_ccw_mdev_read_io_region(struct vfio_ccw_private
-> *private,
-> diff --git a/drivers/s390/crypto/vfio_ap_ops.c
-> b/drivers/s390/crypto/vfio_ap_ops.c
-> index ee0a3bf8f476ca..bfa7ee6ef532d9 100644
-> --- a/drivers/s390/crypto/vfio_ap_ops.c
-> +++ b/drivers/s390/crypto/vfio_ap_ops.c
-> @@ -1406,21 +1406,21 @@ static int vfio_ap_mdev_open_device(struct
-> vfio_device *vdev)
->  	matrix_mdev->group_notifier.notifier_call =3D
-> vfio_ap_mdev_group_notifier;
->  	events =3D VFIO_GROUP_NOTIFY_SET_KVM;
->=20
-> -	ret =3D vfio_register_notifier(vdev->dev, VFIO_GROUP_NOTIFY,
-> -				     &events, &matrix_mdev->group_notifier);
-> +	ret =3D vfio_register_notifier(vdev, VFIO_GROUP_NOTIFY, &events,
-> +				     &matrix_mdev->group_notifier);
->  	if (ret)
->  		return ret;
->=20
->  	matrix_mdev->iommu_notifier.notifier_call =3D
-> vfio_ap_mdev_iommu_notifier;
->  	events =3D VFIO_IOMMU_NOTIFY_DMA_UNMAP;
-> -	ret =3D vfio_register_notifier(vdev->dev, VFIO_IOMMU_NOTIFY,
-> -				     &events, &matrix_mdev->iommu_notifier);
-> +	ret =3D vfio_register_notifier(vdev, VFIO_IOMMU_NOTIFY, &events,
-> +				     &matrix_mdev->iommu_notifier);
->  	if (ret)
->  		goto out_unregister_group;
->  	return 0;
->=20
->  out_unregister_group:
-> -	vfio_unregister_notifier(vdev->dev, VFIO_GROUP_NOTIFY,
-> +	vfio_unregister_notifier(vdev, VFIO_GROUP_NOTIFY,
->  				 &matrix_mdev->group_notifier);
->  	return ret;
->  }
-> @@ -1430,9 +1430,9 @@ static void vfio_ap_mdev_close_device(struct
-> vfio_device *vdev)
->  	struct ap_matrix_mdev *matrix_mdev =3D
->  		container_of(vdev, struct ap_matrix_mdev, vdev);
->=20
-> -	vfio_unregister_notifier(vdev->dev, VFIO_IOMMU_NOTIFY,
-> +	vfio_unregister_notifier(vdev, VFIO_IOMMU_NOTIFY,
->  				 &matrix_mdev->iommu_notifier);
-> -	vfio_unregister_notifier(vdev->dev, VFIO_GROUP_NOTIFY,
-> +	vfio_unregister_notifier(vdev, VFIO_GROUP_NOTIFY,
->  				 &matrix_mdev->group_notifier);
->  	vfio_ap_mdev_unset_kvm(matrix_mdev);
->  }
-> diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
-> index a4555014bd1e72..8a5c46aa2bef61 100644
-> --- a/drivers/vfio/vfio.c
-> +++ b/drivers/vfio/vfio.c
-> @@ -2484,19 +2484,15 @@ static int vfio_unregister_group_notifier(struct
-> vfio_group *group,
->  	return ret;
->  }
->=20
-> -int vfio_register_notifier(struct device *dev, enum vfio_notify_type typ=
-e,
-> +int vfio_register_notifier(struct vfio_device *dev, enum vfio_notify_typ=
-e
-> type,
->  			   unsigned long *events, struct notifier_block *nb)
->  {
-> -	struct vfio_group *group;
-> +	struct vfio_group *group =3D dev->group;
->  	int ret;
->=20
-> -	if (!dev || !nb || !events || (*events =3D=3D 0))
-> +	if (!nb || !events || (*events =3D=3D 0))
->  		return -EINVAL;
->=20
-> -	group =3D vfio_group_get_from_dev(dev);
-> -	if (!group)
-> -		return -ENODEV;
-> -
->  	switch (type) {
->  	case VFIO_IOMMU_NOTIFY:
->  		ret =3D vfio_register_iommu_notifier(group, events, nb);
-> @@ -2507,25 +2503,20 @@ int vfio_register_notifier(struct device *dev,
-> enum vfio_notify_type type,
->  	default:
->  		ret =3D -EINVAL;
->  	}
-> -
-> -	vfio_group_put(group);
->  	return ret;
->  }
->  EXPORT_SYMBOL(vfio_register_notifier);
->=20
-> -int vfio_unregister_notifier(struct device *dev, enum vfio_notify_type t=
-ype,
-> +int vfio_unregister_notifier(struct vfio_device *dev,
-> +			     enum vfio_notify_type type,
->  			     struct notifier_block *nb)
->  {
-> -	struct vfio_group *group;
-> +	struct vfio_group *group =3D dev->group;
->  	int ret;
->=20
-> -	if (!dev || !nb)
-> +	if (!nb)
->  		return -EINVAL;
->=20
-> -	group =3D vfio_group_get_from_dev(dev);
-> -	if (!group)
-> -		return -ENODEV;
-> -
->  	switch (type) {
->  	case VFIO_IOMMU_NOTIFY:
->  		ret =3D vfio_unregister_iommu_notifier(group, nb);
-> @@ -2536,8 +2527,6 @@ int vfio_unregister_notifier(struct device *dev,
-> enum vfio_notify_type type,
->  	default:
->  		ret =3D -EINVAL;
->  	}
-> -
-> -	vfio_group_put(group);
->  	return ret;
->  }
->  EXPORT_SYMBOL(vfio_unregister_notifier);
-> diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-> index 66dda06ec42d1b..748ec0e0293aea 100644
-> --- a/include/linux/vfio.h
-> +++ b/include/linux/vfio.h
-> @@ -178,11 +178,11 @@ enum vfio_notify_type {
->  /* events for VFIO_GROUP_NOTIFY */
->  #define VFIO_GROUP_NOTIFY_SET_KVM	BIT(0)
->=20
-> -extern int vfio_register_notifier(struct device *dev,
-> +extern int vfio_register_notifier(struct vfio_device *dev,
->  				  enum vfio_notify_type type,
->  				  unsigned long *required_events,
->  				  struct notifier_block *nb);
-> -extern int vfio_unregister_notifier(struct device *dev,
-> +extern int vfio_unregister_notifier(struct vfio_device *dev,
->  				    enum vfio_notify_type type,
->  				    struct notifier_block *nb);
->=20
-> --
-> 2.36.0
+> This will make trouble for the maintainer，Usually, they should look like this：
+>
+> [PATCH 0/2] docs/zh_CN: add hmm and numa translation
+>  2022-04-21 11:59 UTC  (3+ messages)
+> ` [PATCH 1/2] docs/zh_CN: add vm hmm translation
+> ` [PATCH 2/2] docs/zh_CN: add vm numa translation
+>
+>
+> Thanks,
+> Yanteng
+>
+>>  Documentation/translations/zh_CN/vm/page_owner.rst | 61 +++++++++++++++++++++-
+>>  Documentation/vm/page_owner.rst                    | 34 +++++++-----
+>>  2 files changed, 80 insertions(+), 15 deletions(-)
+>>
+>> --
+>> 2.7.4
+>>
+
+-- 
+Haowen Bai
 
