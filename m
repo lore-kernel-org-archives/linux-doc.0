@@ -2,159 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A9A2C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 21:12:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BE3CC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 21:15:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229716AbiDVVPN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Apr 2022 17:15:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32884 "EHLO
+        id S229762AbiDVVSl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Apr 2022 17:18:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229680AbiDVVPL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 17:15:11 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 68C8F25C667;
-        Fri, 22 Apr 2022 13:10:47 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E7F041063;
-        Fri, 22 Apr 2022 12:41:16 -0700 (PDT)
-Received: from [10.57.80.98] (unknown [10.57.80.98])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 822023F73B;
-        Fri, 22 Apr 2022 12:41:13 -0700 (PDT)
-Message-ID: <a9e09125-c61b-4a2a-f87e-1ba8147f659f@arm.com>
-Date:   Fri, 22 Apr 2022 20:41:07 +0100
+        with ESMTP id S229747AbiDVVSk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 17:18:40 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD64B38AAF2;
+        Fri, 22 Apr 2022 13:13:55 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id h25so6508550wrc.13;
+        Fri, 22 Apr 2022 13:13:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=w+utQDHmts9UPP01phPwUuY21AVZWcPb7bollwyH9Mk=;
+        b=IJNFyE5jk2bGLMjfXZKstoGottY1Ii5MZIiMzWUVd1UhLlu53iiHJ3Ux4NgiXfru1a
+         F7NmldnfmJPUHsQa1MiW0PyQLS8G0ByeNBf1qDkLfO5Din9W5/w5R6sebe9eSPlFNByD
+         2KmzRVWIqsg1ZfpbFCE/aXmmPgLdAPMeBJ/mbUVznC7Bqhu+Zqet0NJhTjqFo5uf5QRM
+         zGgkb7XhSiwkqVLbOscW5t2Rjoiy/ulogBKcZRxQkTGqYug8mZQVi4o5Bh1uyc9+KBj9
+         Xj94IFfEYGLh1R9YjcrgHnEXC5FS+UlGyzVT0Vl4G09OYJsClXBe7oiPUQcPKeYyUy9Y
+         SMTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=w+utQDHmts9UPP01phPwUuY21AVZWcPb7bollwyH9Mk=;
+        b=6IdEzsrsialgQkJ14dNNBgmx0XuHsIZ6YrVP/JldVNr1ymY2wgE1jxBxJRpH4zo3bn
+         W+R5Lm5BMerxJkaTzNO1GgDqsOGes2s3AOVvErYof3EM5GCm0c+44H2KcpprO9ouXvSa
+         UGzdTAuSywFbNTQBKi2BcO1IUOi1cGqUlXCiFcoInhYOgC1qoCE1pRDlVuUSI6Jw/EHk
+         ygSS3g/+ZuYEmtSbNTaWushPsDL3UyyFaXRjv7MJvgQBPY20drJM0CGVLgFXz0sfyRs3
+         wkaWtS0KRt5DTJug3reFIoZj+52n4tWl1WhovfMhSl9If+DFexmAV7WUF5+LDvbfC2zE
+         wkzA==
+X-Gm-Message-State: AOAM532lrzSxfGMfXWXU5bFzGb/YUz2qYmoaYtHz/7obD/9XUxYpGMbu
+        1wZQa84kkLkGqnrthxV7BO8=
+X-Google-Smtp-Source: ABdhPJyjcqBTW7qhlMx8HaQwl43iu5uwxc77fSl7v1wiuG0PZdzEPLENOOiyb9VCz3c5euNoqhh2LA==
+X-Received: by 2002:a05:6000:1f83:b0:207:a4d8:5173 with SMTP id bw3-20020a0560001f8300b00207a4d85173mr5020266wrb.556.1650658146852;
+        Fri, 22 Apr 2022 13:09:06 -0700 (PDT)
+Received: from leap.localnet (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
+        by smtp.gmail.com with ESMTPSA id c12-20020a05600c0a4c00b00381141f4967sm2901272wmq.35.2022.04.22.13.09.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Apr 2022 13:09:05 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Ira Weiny <ira.weiny@intel.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, outreachy@lists.linux.dev,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH 3/4] Documentation/vm: Remove "Using kmap-atomic" from highmem.rst.
+Date:   Fri, 22 Apr 2022 22:09:03 +0200
+Message-ID: <2370538.jE0xQCEvom@leap>
+In-Reply-To: <YmL2EQhfQLMoU1WV@iweiny-desk3>
+References: <20220421180200.16901-1-fmdefrancesco@gmail.com> <20220421180200.16901-4-fmdefrancesco@gmail.com> <YmL2EQhfQLMoU1WV@iweiny-desk3>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v4] Documentation: x86: rework IOMMU documentation
-Content-Language: en-GB
-To:     Alex Deucher <alexander.deucher@amd.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, hpa@zytor.com, x86@kernel.org,
-        dave.hansen@linux.intel.com, bp@alien8.de, mingo@redhat.com,
-        tglx@linutronix.de, joro@8bytes.org, Suravee.Suthikulpanit@amd.com,
-        will@kernel.org, iommu@lists.linux-foundation.org,
-        Vasant.Hegde@amd.com
-References: <20220422175423.44491-1-alexander.deucher@amd.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20220422175423.44491-1-alexander.deucher@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-04-22 18:54, Alex Deucher wrote:
-[...]
-> +Intel Specific Notes
-> +--------------------
-> +
-> +Graphics Problems?
-> +^^^^^^^^^^^^^^^^^^
-> +
-> +If you encounter issues with graphics devices, you can try adding
-> +option intel_iommu=igfx_off to turn off the integrated graphics engine.
-> +If this fixes anything, please ensure you file a bug reporting the problem.
-> +
-> +Some exceptions to IOVA
-> +^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +Interrupt ranges are not address translated, (0xfee00000 - 0xfeefffff).
-> +The same is true for peer to peer transactions. Hence we reserve the
-> +address from PCI MMIO ranges so they are not allocated for IOVA addresses.
+On venerd=C3=AC 22 aprile 2022 20:38:09 CEST Ira Weiny wrote:
+> On Thu, Apr 21, 2022 at 08:01:59PM +0200, Fabio M. De Francesco wrote:
+> > The use of kmap_atomic() is deprecated in favor of kmap_local_page().
+>=20
+> I'm not sure deprecated is the right word.
 
-Note that this should be true for both drivers.
+OK, in v2 I won't use "deprecated". Instead I'll say something about a=20
+strong preference to avoid its use. The reason why developers should avoid=
+=20
+kmap_atomic() are explained in 4/4 (I've copy-pasted some lines here for=20
+your convenience):
 
-> +
-> +AMD Specific Notes
-> +------------------
-> +
-> +Graphics Problems?
-> +^^^^^^^^^^^^^^^^^^
-> +
-> +If you encounter issues with integrated graphics devices, you can try adding
-> +option iommu=pt to the kernel command line use a 1:1 mapping for the IOMMU.  If
-> +this fixes anything, please ensure you file a bug reporting the problem.
++  Each call of kmap_atomic() in the kernel creates a non-preemptible=20
+section
++  and disable pagefaults. This could be a source of unwanted latency, so=20
+it
++  should be only used if it is absolutely required, otherwise=20
+kmap_local_page()
++  should be used where it is feasible.
 
-And indeed this is a generic option. I reckon we could simply merge 
-these two sections together, with the first paragraph being something like:
+> And I think the fact that this
+> documentation is stale is a better reason for the patch as is.
+>=20
+> This series should end up indicating the desire to stop growing kmap()=20
+and
+> kmap_atomic() call sites and that their deprecation is on the horizon. =20
+I've
+> not read the text in patch 4/4 yet.
 
-If you encounter issues with integrated graphics devices, you can try 
-adding the option "iommu.passthrough=1", or the equivalent "iommu=pt", 
-to the kernel command line to use a 1:1 mapping for the IOMMU in 
-general.  On Intel you can also try "intel_iommu=igfx_off" to turn off 
-translation specifically for the integrated graphics engine only.  If 
-this fixes anything, please ensure you file a bug reporting the problem.
+I'll wait for your review of 4/4 before sending v2.
 
-> +
-> +Fault reporting
-> +---------------
-> +When errors are reported, the IOMMU signals via an interrupt. The fault
-> +reason and device that caused it is printed on the console.
-> +
-> +
-> +Kernel Log Samples
-> +------------------
-> +
-> +Intel Boot Messages
-> +^^^^^^^^^^^^^^^^^^^
-> +
-> +Something like this gets printed indicating presence of DMAR tables
-> +in ACPI.
-> +
-> +::
-> +
-> +	ACPI: DMAR (v001 A M I  OEMDMAR  0x00000001 MSFT 0x00000097) @ 0x000000007f5b5ef0
-> +
-> +When DMAR is being processed and initialized by ACPI, prints DMAR locations
-> +and any RMRR's processed
-> +
-> +::
-> +
-> +	ACPI DMAR:Host address width 36
-> +	ACPI DMAR:DRHD (flags: 0x00000000)base: 0x00000000fed90000
-> +	ACPI DMAR:DRHD (flags: 0x00000000)base: 0x00000000fed91000
-> +	ACPI DMAR:DRHD (flags: 0x00000001)base: 0x00000000fed93000
-> +	ACPI DMAR:RMRR base: 0x00000000000ed000 end: 0x00000000000effff
-> +	ACPI DMAR:RMRR base: 0x000000007f600000 end: 0x000000007fffffff
-> +
-> +When DMAR is enabled for use, you will notice
-> +
-> +::
-> +
-> +	PCI-DMA: Using DMAR IOMMU
-> +
-> +Intel Fault reporting
-> +^^^^^^^^^^^^^^^^^^^^^
-> +
-> +::
-> +
-> +	DMAR:[DMA Write] Request device [00:02.0] fault addr 6df084000
-> +	DMAR:[fault reason 05] PTE Write access is not set
-> +	DMAR:[DMA Write] Request device [00:02.0] fault addr 6df084000
-> +	DMAR:[fault reason 05] PTE Write access is not set
-> +
-> +AMD Boot Messages
-> +^^^^^^^^^^^^^^^^^
-> +
-> +Something like this gets printed indicating presence of the IOMMU.
-> +
-> +::
-> +
-> +	iommu: Default domain type: Translated
-> +	iommu: DMA domain TLB invalidation policy: lazy mode
+>=20
+> > For
+> > this reason the "Using kmap_atomic" section in highmem.rst is obsolete=
+=20
+and
+> > unnecessary.
+>=20
+> A lot of the text is obsolete (and redundant) but the example code might=
+=20
+be
+> useful.
+>=20
+> Why not move the example and relevant bits into the kdoc for=20
+kmap_atomic()
+> which is then automatically picked up via patch 2/4.
 
-Similarly, that's common IOMMU API reporting which will be seen on all 
-architectures (let alone IOMMU drivers). Maybe some of the messages from 
-print_iommu_info() might be better AMD-specific examples?
+Yes, I agree with you. I'll take into account your suggestion for v2.
 
-Cheers,
-Robin.
+However, as I said above, I'll hold v2 until you have time to review 4/4=20
+for the purpose to not miss any changes that you might require for that=20
+patch too.
 
-> +
-> +AMD Fault reporting
-> +^^^^^^^^^^^^^^^^^^^
-> +
-> +::
-> +
-> +	AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0007 address=0xffffc02000 flags=0x0000]
-> +	AMD-Vi: Event logged [IO_PAGE_FAULT device=07:00.0 domain=0x0007 address=0xffffc02000 flags=0x0000]
+=46urthermore, while working on v2, I think that I'll extend this series wi=
+th=20
+one or two patch more, in order to address other issues I noticed.=20
+
+Thanks,
+
+=46abio=20
+
+
