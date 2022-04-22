@@ -2,109 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EC7FC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 22:30:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6A51C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 22:35:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232984AbiDVWdW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Apr 2022 18:33:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57116 "EHLO
+        id S233150AbiDVWi1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Apr 2022 18:38:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233555AbiDVWcp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 18:32:45 -0400
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 293752512F0;
-        Fri, 22 Apr 2022 14:26:01 -0700 (PDT)
+        with ESMTP id S233475AbiDVWhb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 18:37:31 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9D341F627F
+        for <linux-doc@vger.kernel.org>; Fri, 22 Apr 2022 14:29:53 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2ec0490dc1bso81612117b3.5
+        for <linux-doc@vger.kernel.org>; Fri, 22 Apr 2022 14:29:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1650662761; x=1682198761;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Bz2rLXg33ZlwCJFTP5vcqCWU/OHhXNlZLcLHoGg/qx4=;
-  b=eAxS+LQI0o6/mcUs8oWPfe8NFAPVeyzv3TCr5EkAiWtgpwZe/ur00433
-   1wLeHu6iGKvWO6sed4cDg/VDqhRDEPvejZ3Sdjugq4f6knljS7m1VT3QO
-   fToulQMqqaaP7rTnoJGuS2gJFU397N3+ZJbD7iKEKkBP18rrhDOZm7h30
-   k=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 22 Apr 2022 12:14:25 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2022 12:14:25 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 22 Apr 2022 12:14:24 -0700
-Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 22 Apr 2022 12:14:24 -0700
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-To:     <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <sre@kernel.org>,
-        <robh+dt@kernel.org>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <bjorn.andersson@linaro.org>,
-        <swboyd@chromium.org>, <linux-doc@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        David Collins <collinsd@quicinc.com>,
-        David Collins <quic_collinsd@quicinc.com>,
-        "Anjelique Melendez" <quic_amelende@quicinc.com>
-Subject: [PATCH v6] dt-bindings: power: reset: qcom-pon: update "reg" property details
-Date:   Fri, 22 Apr 2022 12:12:38 -0700
-Message-ID: <20220422191239.6271-2-quic_amelende@quicinc.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220422191239.6271-1-quic_amelende@quicinc.com>
-References: <20220422191239.6271-1-quic_amelende@quicinc.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+        d=google.com; s=20210112;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=/z1dLT2VgPLiDImKUFQxfJeCLXLbaB4rbFSQTc8Z7xg=;
+        b=T7Y5iN0BPf96fnzNK7ZHU6vX0fBe/A3dst2c12cELyfKQ79U/HOQor03zypmVLp1If
+         uI8UFZO5MKdK3bq3HmTy6OycGmGbCr8KvVuboRoot8Dmc47nfO5+vN9qfcW9MqGlSZ7l
+         PRJ2hmyct17qJuveqLhAfzJw5ps3ymAMGZ1k31aYcUwdb+GtUMEGkKPlOcqofEoBIlHp
+         pwIx3/Q96ETwqhck8u3dbsamL8jS0omSGAoJtcg/cJqrzRfcOKdB4BklXofPQ4mG7YPR
+         o6lZ1l3IUTdb5dxqkIIoZHbZ7xu4gYhZCpWvRRUJynxmAwAapUiyc6b3GBWS6hzsOm6Y
+         30ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=/z1dLT2VgPLiDImKUFQxfJeCLXLbaB4rbFSQTc8Z7xg=;
+        b=vIuLojRD4szp3i4maZjTV4/UvzRf3PlyRsvk5SvYGyXRkORA0m7NSw5B+Dx6CClFh7
+         P11ecaEPfvCax0326MrvRyciCrYHzkdiU6f9YzNMc5bKistNCuTEz9QNgzSL0l3RRmQe
+         i5NA8irU/zs0Bq8/oGCJwIAJYqGMCEHIOFfD70DCMSX0l52vXqe14/LF7LzhQFJziiH4
+         qda6EodiQsU2Wgo6WDu5dTu8J0xxPp5CNuIMePBZagODyYf3Eb16DrhORAF6X8J0YyYs
+         E/L1bEt59xjdRinagoJU6HfPDcNYJ5GbhKcwWw5UTMYm0abNGIDIyXk071lyhoXWuEM3
+         VhlQ==
+X-Gm-Message-State: AOAM532PDqUNR3aemIIxC18YMKyIFrPqV+qnj0FDOUiTl7GHbJ2+X3V6
+        0JmrFvXwZc2rz9DLrX4EcxJKQl+BcPCxLLAHOiE8
+X-Google-Smtp-Source: ABdhPJxdF3c0ToaXlnNGfx2U55uFir0mnBR1xoNncmXKoo64JVGSzaYeOVGtOAX0slR2R1/1i4hxxc2yi3eMNWQBn9Hr
+X-Received: from ajr0.svl.corp.google.com ([2620:15c:2cd:203:7ba6:20ac:a8f7:1dbd])
+ (user=axelrasmussen job=sendgmr) by 2002:a25:cad8:0:b0:645:7633:d179 with
+ SMTP id a207-20020a25cad8000000b006457633d179mr6471821ybg.304.1650662993181;
+ Fri, 22 Apr 2022 14:29:53 -0700 (PDT)
+Date:   Fri, 22 Apr 2022 14:29:40 -0700
+In-Reply-To: <20220422212945.2227722-1-axelrasmussen@google.com>
+Message-Id: <20220422212945.2227722-2-axelrasmussen@google.com>
+Mime-Version: 1.0
+References: <20220422212945.2227722-1-axelrasmussen@google.com>
+X-Mailer: git-send-email 2.36.0.rc2.479.g8af0fa9b8e-goog
+Subject: [PATCH v2 1/6] selftests: vm: add hugetlb_shared userfaultfd test to run_vmtests.sh
+From:   Axel Rasmussen <axelrasmussen@google.com>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Charan Teja Reddy <charante@codeaurora.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
+        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>, zhangyi <yi.zhang@huawei.com>
+Cc:     Axel Rasmussen <axelrasmussen@google.com>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: David Collins <collinsd@quicinc.com>
+This not being included was just a simple oversight. There are certain
+features (like minor fault support) which are only enabled on shared
+mappings, so without including hugetlb_shared we actually lose a
+significant amount of test coverage.
 
-Update the description of "reg" property to add the PON_PBS base
-address along with PON_HLOS base address.  Also add "reg-names"
-property description.
-
-Signed-off-by: David Collins <quic_collinsd@quicinc.com>
-Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
 ---
- .../bindings/power/reset/qcom,pon.yaml | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ tools/testing/selftests/vm/run_vmtests.sh | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
-index 353f155d..65ec8197 100644
---- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
-+++ b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
-@@ -26,7 +26,24 @@ properties:
-       - qcom,pm8998-pon
+diff --git a/tools/testing/selftests/vm/run_vmtests.sh b/tools/testing/selftests/vm/run_vmtests.sh
+index a2302b5faaf2..5065dbd89bdb 100755
+--- a/tools/testing/selftests/vm/run_vmtests.sh
++++ b/tools/testing/selftests/vm/run_vmtests.sh
+@@ -121,9 +121,11 @@ run_test ./gup_test -a
+ run_test ./gup_test -ct -F 0x1 0 19 0x1000
  
-   reg:
--    maxItems: 1
-+    description: |
-+      Specifies the SPMI base address for the PON (power-on) peripheral.  For
-+      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
-+      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
-+      peripherals.  In that case, the PON_PBS address needs to be specified to
-+      facilitate software debouncing on some PMICs.
-+    minItems: 1
-+    maxItems: 2
-+
-+  reg-names:
-+    description: |
-+      For PON GEN1 and GEN2, it should be "pon".  For PON GEN3 it should include
-+      "pon_hlos" and optionally "pon_pbs".
-+    minItems: 1
-+    items:
-+      - const: pon_hlos
-+      - const: pon_pbs
-+      - const: pon
+ run_test ./userfaultfd anon 20 16
+-# Test requires source and destination huge pages.  Size of source
+-# (half_ufd_size_MB) is passed as argument to test.
++# Hugetlb tests require source and destination huge pages. Pass in half the
++# size ($half_ufd_size_MB), which is used for *each*.
+ run_test ./userfaultfd hugetlb "$half_ufd_size_MB" 32
++run_test ./userfaultfd hugetlb_shared "$half_ufd_size_MB" 32 "$mnt"/uffd-test
++rm -f "$mnt"/uffd-test
+ run_test ./userfaultfd shmem 20 16
  
-   pwrkey:
-     type: object
+ #cleanup
 -- 
-2.35.1
+2.36.0.rc2.479.g8af0fa9b8e-goog
 
