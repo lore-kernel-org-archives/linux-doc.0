@@ -2,156 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD964C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 14:58:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48660C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Apr 2022 15:18:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1449051AbiDVPBD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Apr 2022 11:01:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44674 "EHLO
+        id S1448928AbiDVPUz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Apr 2022 11:20:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382570AbiDVPAt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 11:00:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D93965C367;
-        Fri, 22 Apr 2022 07:57:55 -0700 (PDT)
+        with ESMTP id S1449390AbiDVPUx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 11:20:53 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5E6F5DA37;
+        Fri, 22 Apr 2022 08:17:53 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 753FA6183B;
-        Fri, 22 Apr 2022 14:57:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D7A8C385A9;
-        Fri, 22 Apr 2022 14:57:54 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 66C26B830EE;
+        Fri, 22 Apr 2022 15:17:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A523BC385A0;
+        Fri, 22 Apr 2022 15:17:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1650639474;
-        bh=jdfEAEfL/tHuS0CUSWCzH65IfQhsNXe6NsYvzPJn3m4=;
+        s=korg; t=1650640671;
+        bh=OQu2HnPIYsfQw0YtgkB3j0oCb5sAGQ5oTcK00sCNEoQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=zynYzEfdFxTqZdpwtraIU+SDaP99Q45Vdj1QS+aVTi2hBIobLBP/a/r3UncGpLOeo
-         WyJ/R8zr9m7h/9tXlqQxonNVA8sa9bBi7St098xXmKgmu2rCFXHh1oxPlQt/Lo5erl
-         u6+URGfEHCqD/w+tRhIGFr7b9PaJeNjCVhwl97g4=
-Date:   Fri, 22 Apr 2022 16:57:52 +0200
+        b=ziLUmyry5BXoBF9rZ5VdG5+lvPTU7ab5iiUsLrmyA/DfjkCh/W3oZv/EPJQTm2bSp
+         x7937822JWbxTjtKGf/0GvPPWve40RfNLMDLl/deXWMwUbxprutwKZAsx/1HzJ1WHB
+         xbCMyZG6JVxLqWl47+Nfiob9MOHr7SO/pLVBZbhw=
+Date:   Fri, 22 Apr 2022 17:17:48 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Quan Nguyen <quan@os.amperecomputing.com>
-Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
+To:     Javier Martinez Canillas <javierm@redhat.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        dri-devel@lists.freedesktop.org,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Borislav Petkov <bp@suse.de>,
+        Changcheng Deng <deng.changcheng@zte.com.cn>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Helge Deller <deller@gmx.de>, Johan Hovold <johan@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Thu Nguyen <thu@os.amperecomputing.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Open Source Submission <patches@amperecomputing.com>,
-        Phong Vo <phong@os.amperecomputing.com>,
-        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-Subject: Re: [PATCH v8 3/9] misc: smpro-errmon: Add Ampere's SMpro error
- monitor driver
-Message-ID: <YmLCcFrrobUJtiLI@kroah.com>
-References: <20220422024653.2199489-1-quan@os.amperecomputing.com>
- <20220422024653.2199489-4-quan@os.amperecomputing.com>
- <YmJJIb1DAIq5arCw@kroah.com>
- <82a6452a-965b-7fbe-eba2-919f0a6ed73a@os.amperecomputing.com>
+        Miaoqian Lin <linmq006@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Yizhuo Zhai <yzhai003@ucr.edu>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] Fix some race conditions that exists between
+ fbmem and sysfb
+Message-ID: <YmLHHCQyN03oAqr0@kroah.com>
+References: <20220420085303.100654-1-javierm@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <82a6452a-965b-7fbe-eba2-919f0a6ed73a@os.amperecomputing.com>
+In-Reply-To: <20220420085303.100654-1-javierm@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 22, 2022 at 09:43:39PM +0700, Quan Nguyen wrote:
-> On 22/04/2022 13:20, Greg Kroah-Hartman wrote:
-> > On Fri, Apr 22, 2022 at 09:46:47AM +0700, Quan Nguyen wrote:
-> > > This commit adds Ampere's SMpro error monitor driver for monitoring
-> > > and reporting RAS-related errors as reported by SMpro co-processor
-> > > found on Ampere's Altra processor family.
-> > > 
-> > > Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-> > > ---
-> > > Changes in v8:
-> > >    + Update wording for SMPRO_ERRMON on Kconfig file             [Quan]
-> > >    + Avoid uninitialized variable use               [kernel test robot]
-> > >    + Switch to use sysfs_emit()                                  [Greg]
-> > >    + Make sysfs to return single value                           [Greg]
-> > >    + Change errors_* sysfs to error_*                            [Quan]
-> > >    + Add overflow_[core|mem|pcie|other]_[ce|ue] sysfs to report
-> > >    overflow status of each type of HW errors                     [Quan]
-> > >    + Add some minor refactor                                     [Quan]
-> > > 
-> > > Changes in v7:
-> > >    + Remove regmap_acquire/release_lock(), read_i2c_block_data() [Quan]
-> > >    + Use regmap_noinc_read() instead of errmon_read_block()      [Quan]
-> > >    + Validate number of errors before read                       [Quan]
-> > >    + Fix wrong return type of *_show() function     [kernel test robot]
-> > >    + Adjust patch order to avoid dependence with smpro-mfd  [Lee Jones]
-> > >    + Use pointer instead of stack memory                         [Quan]
-> > > 
-> > > Changes in v6:
-> > >    + First introduced in v6 [Quan]
-> > > 
-> > >   drivers/misc/Kconfig        |  12 +
-> > >   drivers/misc/Makefile       |   1 +
-> > >   drivers/misc/smpro-errmon.c | 477 ++++++++++++++++++++++++++++++++++++
-> > >   3 files changed, 490 insertions(+)
-> > >   create mode 100644 drivers/misc/smpro-errmon.c
-> > > 
-> > > diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-> > > index 41d2bb0ae23a..9fbe6797c440 100644
-> > > --- a/drivers/misc/Kconfig
-> > > +++ b/drivers/misc/Kconfig
-> > > @@ -176,6 +176,18 @@ config SGI_XP
-> > >   	  this feature will allow for direct communication between SSIs
-> > >   	  based on a network adapter and DMA messaging.
-> > > +config SMPRO_ERRMON
-> > > +	tristate "Ampere Computing SMPro error monitor driver"
-> > > +	depends on MFD_SMPRO || COMPILE_TEST
-> > > +	help
-> > > +	  Say Y here to get support for the SMpro error monitor function
-> > > +	  provided by Ampere Computing's Altra and Altra Max SoCs. Upon
-> > > +	  loading, the driver creates sysfs files which can be use to gather
-> > > +	  multiple HW error data reported via read and write system calls.
-> > > +
-> > > +	  To compile this driver as a module, say M here. The driver will be
-> > > +	  called smpro-errmon.
-> > > +
-> > >   config CS5535_MFGPT
-> > >   	tristate "CS5535/CS5536 Geode Multi-Function General Purpose Timer (MFGPT) support"
-> > >   	depends on MFD_CS5535
-> > > diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
-> > > index 70e800e9127f..483308a6e113 100644
-> > > --- a/drivers/misc/Makefile
-> > > +++ b/drivers/misc/Makefile
-> > > @@ -23,6 +23,7 @@ obj-$(CONFIG_ENCLOSURE_SERVICES) += enclosure.o
-> > >   obj-$(CONFIG_KGDB_TESTS)	+= kgdbts.o
-> > >   obj-$(CONFIG_SGI_XP)		+= sgi-xp/
-> > >   obj-$(CONFIG_SGI_GRU)		+= sgi-gru/
-> > > +obj-$(CONFIG_SMPRO_ERRMON)	+= smpro-errmon.o
-> > >   obj-$(CONFIG_CS5535_MFGPT)	+= cs5535-mfgpt.o
-> > >   obj-$(CONFIG_GEHC_ACHC)		+= gehc-achc.o
-> > >   obj-$(CONFIG_HP_ILO)		+= hpilo.o
-> > > diff --git a/drivers/misc/smpro-errmon.c b/drivers/misc/smpro-errmon.c
-> > > new file mode 100644
-> > > index 000000000000..df7d8fc4ff3f
-> > > --- /dev/null
-> > > +++ b/drivers/misc/smpro-errmon.c
-> > > @@ -0,0 +1,477 @@
-> > > +// SPDX-License-Identifier: GPL-2.0+
-> > 
-> > Are you sure you mean "or any later version"?  I have to ask.
-> > 
+On Wed, Apr 20, 2022 at 10:52:58AM +0200, Javier Martinez Canillas wrote:
+> Hello,
 > 
-> Thank Greg for the review.
+> The patches in this series are mostly changes suggested by Daniel Vetter
+> to fix some race conditions that exists between the fbdev core (fbmem)
+> and sysfb with regard to device registration and removal.
 > 
-> Will change all to SPDX-License-Identifier: GPL-2.0-or-later in next
-> version.
+> For example, it is currently possible for sysfb to register a platform
+> device after a real DRM driver was registered and requested to remove the
+> conflicting framebuffers.
+> 
+> A symptom of this issue, was worked around with by commit fb561bf9abde
+> ("fbdev: Prevent probing generic drivers if a FB is already registered")
+> but that's really a hack and should be reverted.
+> 
+> This series attempt to fix it more properly and revert the mentioned hack.
+> That will also unblock a pending patch to not make the num_registered_fb
+> variable visible to drivers anymore, since that's internal to fbdev core.
+> 
+> Patch #1 is just a trivial preparatory change.
+> 
+> Patch #2 add sysfb_disable() and sysfb_try_unregister() helpers for fbmem
+> to use them.
+> 
+> Patch #3 changes how is dealt with conflicting framebuffers unregistering,
+> rather than having a variable to determine if a lock should be take, it
+> just drops the lock before unregistering the platform device.
+> 
+> Patch #4 fixes the mentioned race conditions and finally patch #5 is the
+> revert patch that was posted by Daniel before but he dropped from his set.
+> 
+> The patches were tested on a rpi4 using different video configurations:
+> (simpledrm -> vc4 both builtin, only vc4 builtin, only simpledrm builtin
+> and simpledrm builtin with vc4 built as a module).
+> 
+> Best regards,
+> Javier
 
-That is not what I am asking (the SPDX tag format).  I mean, do you
-really mean "or later" for your license as that is not the license of
-the kernel overall?  If so, wonderful, but I have to ask that as your
-legal group needs to be aware of it, sorry.
-
-thanks,
-
-greg k-h
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
