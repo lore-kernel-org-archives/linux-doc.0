@@ -2,221 +2,202 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3F7CC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Apr 2022 06:14:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5752C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Apr 2022 07:53:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229687AbiDWGRj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Apr 2022 02:17:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53860 "EHLO
+        id S234099AbiDWH43 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Apr 2022 03:56:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233468AbiDWGRd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 02:17:33 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA57619FA81
-        for <linux-doc@vger.kernel.org>; Fri, 22 Apr 2022 23:14:37 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id z30so2028515pfw.6
-        for <linux-doc@vger.kernel.org>; Fri, 22 Apr 2022 23:14:37 -0700 (PDT)
+        with ESMTP id S233966AbiDWH40 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 03:56:26 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DA3768330
+        for <linux-doc@vger.kernel.org>; Sat, 23 Apr 2022 00:53:30 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id u3so13974218wrg.3
+        for <linux-doc@vger.kernel.org>; Sat, 23 Apr 2022 00:53:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=OSiNyhjPpfTwobbztaLQGb0IgncKOJP+bt+YizKVI3E=;
-        b=dqRHoiTlaWgxRO5xuNcUaldxDqmHEhCIdCKp3NfnDVbBdyvOldJ/DY+UZvxbgxv2v9
-         LeE+pdwxVoMnBCjcUpHKPdjFAS/gUhj6uTRv36i3/JCGj6AqfQ8lKqH/2O76Urbe29Z2
-         CkJQ6vOtzFm9tzf3pPlKO35fnCP4wfn7/IxbQaMgopioSIKkHn3zbaoA8TcKYpAe5oWa
-         vYV39IWBiH172baVChnTNrQgKIkKY3QRS8JkzF2lk8qAE8+9c2TqGNJFnmlGchRASHKY
-         lo1pL9Afa6Utlx8NAdgjbxLZkYlZfhogSe/N9OITnWo62uPxneHWaa2QswpW4WD/6p+i
-         dgzg==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=P3jkmG78hl1c1zan1Yz5SyYCn2YyNb28T1Mm42adV18=;
+        b=I3ZJC113VuGO/EAz0RuPfEcTVepPrwJJ0bz1kMaF6H+ukot+wAA7LdzySdIJmumOOl
+         B6RDKxI6Jc1jWH0htaioBGQT+KcU0WOGSkSXA1+qZsqLCAB3NtLcznB1XJSzgV9ZwPv6
+         USLMMVSt2NGyEhiNgJ25pKvTWzbZ38/JY9Dqjyt2TRdXaHJfSJxHyjGUhYr0KJsPwNGG
+         0bcJ4/p2ESt2KudydenctG2dLb0e8bXi5ylG/mESLJ4c663IYdW16sy6UK9zKQHlxCIS
+         Y4TpL32i1au6PqhJxAtnG8voxoMwcEeIqfm8njxDY7Ixq/C+WNVc8GxxaYZ443W1FTHf
+         kiyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=OSiNyhjPpfTwobbztaLQGb0IgncKOJP+bt+YizKVI3E=;
-        b=OdZdVQm0v1/3lCpoE16ij/ZxyruHVVkMRKcV+tDhNTdBlMlyCm4Vw6QboCN8EFN5hX
-         iTg78GSKpQYHUrmRnbtraDVdkobV4BVdpHc6RH/LF0GnqccOfzq1sbZpUNN2ZTLE5cRS
-         EMqbMN38UBA05FldJks3nGQa/eG/Qyik6MseAVvmqrlRnjeeINA7enyzZ4ZlLAIscq+O
-         5gXK6NbycxGlCJ55E6nXyu6eJjN0X+nWIKH0LyuhigaYkNE8DVO2i8O8rielF5N/Lvgo
-         TAlpOElNoGv1AgIoIGT+rKw3gh8fdV65tYzBeZ79tGV4sJlX3lct6/SnfDAtOjcOhjwb
-         Ou0g==
-X-Gm-Message-State: AOAM5322Omu74110er/GNdCo7gn7H/tbjro4oP/F/37n2a/h4Jp7KZvV
-        0YZ/A7fSRdFr/W+yPd3a7S9edpHZFw2dp27u
-X-Google-Smtp-Source: ABdhPJxLXsxFGm5NcMUuj7nlazXIdJkNht2p0W8l/SsHvFHexm+ZpP9HUi/ru4d91K/lc4cxFWsJ0A==
-X-Received: by 2002:a63:854a:0:b0:3aa:ed49:b5c1 with SMTP id u71-20020a63854a000000b003aaed49b5c1mr2343529pgd.277.1650694477005;
-        Fri, 22 Apr 2022 23:14:37 -0700 (PDT)
-Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id m4-20020a17090ab78400b001cd4989fed0sm7852317pjr.28.2022.04.22.23.14.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Apr 2022 23:14:36 -0700 (PDT)
-Message-ID: <c0424699-7dc5-6b6b-619e-c9ff20e23dd0@gmail.com>
-Date:   Sat, 23 Apr 2022 14:14:27 +0800
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=P3jkmG78hl1c1zan1Yz5SyYCn2YyNb28T1Mm42adV18=;
+        b=f4GI090SZI3y67NXpUSqMsP0ZPN/IiN1g2TIPkfAZAwR6KdAaoV1/G90bQ4wjS9n96
+         /HuySA2UWYTVBsQYs2DUUAhtRV72JgMZy5F9NDKy/i285UaQuAhloswGD0kiQDf+6bRS
+         cP3mJLLv3gDMCh5QqMkmH4R2sdnL2V6+zZ1PAbTjU7nUq2TcX6M55LVH/KYiCWvovsVo
+         ylzB8+ecVWu4tZnTVYpKKRGleNYn/IBsEUG1ecwL13sIwT8WyK1suUsFclYU4jrE2EzE
+         5X5hdhltM/bPJeygmcQ/eDcYi0VcuG5peNzSO5AJy5hQ7xjafBNF4ZXxE3Rby0P0KHJ7
+         ZJMA==
+X-Gm-Message-State: AOAM532XKcmBF659GNvNu7Kh1aayu8+RPefyzuX3yyIu7paJKXkyxaGm
+        +fORE9rwB866mmIxvJni8+FxxejvSDanY2/hHpiiPw==
+X-Google-Smtp-Source: ABdhPJzEt5KhdbZs/h9GuJWp8z1vxcsMVKUy48Z287ibECLkroOmnDCHtELsnhXUV7i6uUiFQ7LkCn33iI9MluJDRX0=
+X-Received: by 2002:a5d:46c3:0:b0:20a:b845:f164 with SMTP id
+ g3-20020a5d46c3000000b0020ab845f164mr6697785wrs.269.1650700408640; Sat, 23
+ Apr 2022 00:53:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 2/2] docs/zh_CN: add vm numa translation
-Content-Language: en-US
-To:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
-        alexs@kernel.org
-Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com
-References: <cover.1650542165.git.siyanteng@loongson.cn>
- <c7e9fc1a99bbcc4f30c90f564983ee71ac566c4e.1650542165.git.siyanteng@loongson.cn>
-From:   Alex Shi <seakeel@gmail.com>
-In-Reply-To: <c7e9fc1a99bbcc4f30c90f564983ee71ac566c4e.1650542165.git.siyanteng@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220316202622.324866-1-frowand.list@gmail.com>
+ <CABVgOSmkvxhHSJx0W6BEYz=Ai9vB=nCz625dSKLLUfU0rMLkFA@mail.gmail.com> <37465a0f-7deb-bedb-1a84-90324f554ad1@gmail.com>
+In-Reply-To: <37465a0f-7deb-bedb-1a84-90324f554ad1@gmail.com>
+From:   David Gow <davidgow@google.com>
+Date:   Sat, 23 Apr 2022 15:53:17 +0800
+Message-ID: <CABVgOSm5Bc13o5UEVEiRCpzrq1Jqt11DjQ7YWPyjfj_6fBwWVw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/2] Documentation: dev-tools: begin KTAP spec v2 process
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        "Bird, Tim" <Tim.Bird@sony.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Rae Moar <rmr167@gmail.com>,
+        Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Daniel Latypov <dlatypov@google.com>, kernelci@groups.io,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="00000000000081a06105dd4da320"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+--00000000000081a06105dd4da320
+Content-Type: text/plain; charset="UTF-8"
 
+On Sat, Apr 23, 2022 at 7:16 AM Frank Rowand <frowand.list@gmail.com> wrote:
+>
+> On 3/17/22 03:42, David Gow wrote:
+> > On Thu, Mar 17, 2022 at 4:26 AM <frowand.list@gmail.com> wrote:
+> >>
+> >> From: Frank Rowand <frank.rowand@sony.com>
+> >>
+> >> An August 2021 RFC patch [1] to create the KTAP Specification resulted in
+> >> some discussion of possible items to add to the specification.
+> >> The conversation ended without completing the document.
+> >>
+> >> Progress resumed with a December 2021 RFC patch [2] to add a KTAP
+> >> Specification file (Version 1) to the Linux kernel.  Many of the
+> >> suggestions from the August 2021 discussion were not included in
+> >> Version 1.  This patch series is intended to revisit some of the
+> >> suggestions from the August 2021 discussion.
+> >
+> > Thanks for kicking this off again. There were definitely a lot of good
+> > ideas in those threads which we haven't got to yet.
+> >
+> > I think there is an interesting line to walk between keeping KTAP
+> > sufficiently "TAP-like" (particularly w/r/t being able to reuse
+> > existing TAP parsers), and actually adding features, but I don't
+> > recall seeing many such issues in the previous threads.
+> >
+> >>
+> >> Patch 1 changes the Specification version to "2-rc" to indicate
+> >> that following patches are not yet accepted into a final version 2.
+> >
+> > I'm okay with this, though I'd want us to be a little careful with the
+> > timing so we don't end up with, for example, 5.18 having a KTAP spec
+> > called 2-rc which is functionally indistinguishable from v1.
+>
+> I finally have some time to return to this.
+>
+> I could host a branch on my kernel.org "frowand" linux kernel.  When
+> agreement is reached on a patch on this mail list, I would add it
+> to the branch.  When the discussion determines that it is time to
+> release a version 2 of the specification I would add one more commit
+> that only updates the version.
+>
+> Does that sound like a good way to proceed?
+>
 
-On 4/21/22 19:59, Yanteng Si wrote:
-> Translate .../vm/numa.rst into Chinese.
-> 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  Documentation/translations/zh_CN/vm/index.rst |   2 +-
->  Documentation/translations/zh_CN/vm/numa.rst  | 101 ++++++++++++++++++
->  2 files changed, 102 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/vm/numa.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-> index 0839b2231548..a1c6d529b6ff 100644
-> --- a/Documentation/translations/zh_CN/vm/index.rst
-> +++ b/Documentation/translations/zh_CN/vm/index.rst
-> @@ -33,6 +33,7 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
->     hugetlbfs_reserv
->     memory-model
->     mmu_notifier
-> +   numa
->     overcommit-accounting
->     page_frags
->     page_owner
-> @@ -46,7 +47,6 @@ TODOLIST:
->  * arch_pgtable_helpers
->  * free_page_reporting
->  * hugetlbfs_reserv
-> -* numa
->  * page_migration
->  * slub
->  * transhuge
-> diff --git a/Documentation/translations/zh_CN/vm/numa.rst b/Documentation/translations/zh_CN/vm/numa.rst
-> new file mode 100644
-> index 000000000000..0469fa973922
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/numa.rst
-> @@ -0,0 +1,101 @@
-> +:Original: Documentation/vm/numa.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +
-> +始于1999年11月，作者： <kanoj@sgi.com>
-> +
-> +==========
-> +何为NUMA？
+Yeah: that sounds good to me.
 
-Could we translate NUMA as 非统一内存访问?
+-- David
 
-> +==========
-> +
-> +这个问题可以从几个视角来回答：硬件观点和Linux软件视角。
-> +
-> +从硬件角度看，NUMA系统是一个由多个组件或装配组成的计算机平台，每个组件可能包含0个或更多的CPU、
-> +本地内存和/或IO总线。为了简洁起见，并将这些物理组件/装配的硬件视角与软件抽象区分开来，我们在
-> +本文中称这些组件/装配为“单元”。
-> +
-> +每个“单元”都可以看作是系统的一个SMP[对称多处理器]子集——尽管独立的SMP系统所需的一些组件可能
-> +不会在任何给定的单元上填充。NUMA系统的单元通过某种系统互连连接在一起——例如，交叉开关或点对点
-> +链接是NUMA系统互连的常见类型。这两种类型的互连都可以聚合起来，以创建NUMA平台，其中的单元与其
-> +他单元有多个距离。
-> +
-> +对于Linux，感兴趣的NUMA平台主要是所谓的缓存相干NUMA或ccNUMA系统。在ccNUMA系统中，所有的
+--00000000000081a06105dd4da320
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-缓存相干NUMA--简称ccNUMA系统， otherwise it's easy to be misunderstand.
-
-> +内存都是可见的，并且可以从连接到任何单元的任何CPU中访问，缓存一致性是由处理器缓存和/或系统互
-> +连在硬件中处理。
-> +
-> +内存访问时间和有效的内存带宽取决于包含CPU的单元或进行内存访问的IO总线距离包含目标内存的单元
-> +有多远。例如，连接到同一单元的CPU对内存的访问将比访问其他远程单元的内存经历更快的访问时间和
-> +更高的带宽。NUMA平台可以在与任何给定单元的多个远程距离上设置单元。
-
-how about NUMA平台可以在任何给定单元上访问多种远程距离的（其他）单元?
-
-For the rest,
-Reviewed-by: Alex Shi <alexs@kernel.org>
-
-> +
-> +平台供应商建立NUMA系统并不只是为了让软件开发人员的生活变得有趣。相反，这种架构是提供可扩展
-> +内存带宽的一种手段。然而，为了实现可扩展的内存带宽，系统和应用软件必须安排大部分的内存引用
-> +[cache misses]到“本地”内存——同一单元的内存，如果有的话——或者到最近的有内存的单元。
-> +
-> +这就自然而然有了Linux软件对NUMA系统的视角:
-> +
-> +Linux将系统的硬件资源划分为多个软件抽象，称为“节点”。Linux将节点映射到硬件平台的物理单元
-> +上，对一些架构的细节进行了抽象。与物理单元一样，软件节点可能包含0或更多的CPU、内存和/或IO
-> +总线。同样，对“较近”节点的内存访问——映射到较近单元的节点——通常会比对较远单元的访问经历更快
-> +的访问时间和更高的有效带宽。
-> +
-> +对于一些架构，如x86，Linux将“隐藏”任何代表没有内存连接的物理单元的节点，并将连接到该单元
-> +的任何CPU重新分配到代表有内存的单元的节点上。因此，在这些架构上，我们不能假设Linux将所有
-> +的CPU与一个给定的节点相关联，会看到相同的本地内存访问时间和带宽。
-> +
-> +此外，对于某些架构，同样以x86为例，Linux支持对额外节点的仿真。对于NUMA仿真，Linux会将现
-> +有的节点或者非NUMA平台的系统内存分割成多个节点。每个模拟的节点将管理底层单元物理内存的一部
-> +分。NUMA仿真对于在非NUMA平台上测试NUMA内核和应用功能是非常有用的，当与cpusets一起使用时，
-> +可以作为一种内存资源管理机制。[见 Documentation/admin-guide/cgroup-v1/cpusets.rst]
-> +
-> +对于每个有内存的节点，Linux构建了一个独立的内存管理子系统，有自己的空闲页列表、使用中页列表、
-> +使用统计和锁来调解访问。此外，Linux为每个内存区[DMA、DMA32、NORMAL、HIGH_MEMORY、MOVABLE
-> +中的一个或多个]构建了一个有序的“区列表”。zonelist指定了当一个选定的区/节点不能满足分配请求
-> +时要访问的区/节点。当一个区没有可用的内存来满足请求时，这种情况被称为“overflow 溢出”或
-> +“fallback 回退”。
-> +
-> +由于一些节点包含多个包含不同类型内存的区，Linux必须决定是否对区列表进行排序，使分配回退到不同
-> +节点上的相同区类型，或同一节点上的不同区类型。这是一个重要的考虑因素，因为有些区，如DMA或DMA32，
-> +代表了相对稀缺的资源。Linux选择了一个默认的Node ordered zonelist。这意味着在使用按NUMA距
-> +离排序的远程节点之前，它会尝试回退到同一节点的其他分区。
-> +
-> +默认情况下，Linux会尝试从执行请求的CPU被分配到的节点中满足内存分配请求。具体来说，Linux将试
-> +图从请求来源的节点的适当分区列表中的第一个节点进行分配。这被称为“本地分配”。如果“本地”节点不能
-> +满足请求，内核将检查所选分区列表中其他节点的区域，寻找列表中第一个能满足请求的区域。
-> +
-> +本地分配将倾向于保持对分配的内存的后续访问 “本地”的底层物理资源和系统互连——只要内核代表其分配
-> +一些内存的任务后来不从该内存迁移。Linux调度器知道平台的NUMA拓扑结构——体现在“调度域”数据结构
-> +中[见 Documentation/scheduler/sched-domains.rst]——并且调度器试图尽量减少任务迁移到遥
-> +远的调度域中。然而，调度器并没有直接考虑到任务的NUMA足迹。因此，在充分不平衡的情况下，任务可
-> +以在节点之间迁移，远离其初始节点和内核数据结构。
-> +
-> +系统管理员和应用程序设计者可以使用各种CPU亲和命令行接口，如taskset(1)和numactl(1)，以及程
-> +序接口，如sched_setaffinity(2)，来限制任务的迁移，以改善NUMA定位。此外，人们可以使用
-> +Linux NUMA内存策略修改内核的默认本地分配行为。 [见
-> +:ref:`Documentation/admin-guide/mm/numa_memory_policy.rst <numa_memory_policy>`].
-> +
-> +系统管理员可以使用控制组和CPUsets限制非特权用户在调度或NUMA命令和功能中可以指定的CPU和节点
-> +的内存。 [见 Documentation/admin-guide/cgroup-v1/cpusets.rst]
-> +
-> +在不隐藏无内存节点的架构上，Linux会在分区列表中只包括有内存的区域[节点]。这意味着对于一个无
-> +内存的节点，“本地内存节点”——CPU节点的分区列表中的第一个区域的节点——将不是节点本身。相反，它
-> +将是内核在建立分区列表时选择的离它最近的有内存的节点。所以，默认情况下，本地分配将由内核提供
-> +最近的可用内存来完成。这是同一机制的结果，该机制允许这种分配在一个包含内存的节点溢出时回退到
-> +其他附近的节点。
-> +
-> +一些内核分配不希望或不能容忍这种分配回退行为。相反，他们想确保他们从指定的节点获得内存，或者
-> +得到通知说该节点没有空闲内存。例如，当一个子系统分配每个CPU的内存资源时，通常是这种情况。
-> +
-> +一个典型的分配模式是使用内核的numa_node_id()或CPU_to_node()函数获得“当前CPU”所在节点的
-> +节点ID，然后只从返回的节点ID请求内存。当这样的分配失败时，请求的子系统可以恢复到它自己的回退
-> +路径。板块内核内存分配器就是这样的一个例子。或者，子系统可以选择在分配失败时禁用或不启用自己。
-> +内核分析子系统就是这样的一个例子。
-> +
-> +如果架构支持——不隐藏无内存节点，那么连接到无内存节点的CPU将总是产生回退路径的开销，或者一些
-> +子系统如果试图完全从无内存的节点分配内存，将无法初始化。为了透明地支持这种架构，内核子系统可
-> +以使用numa_mem_id()或cpu_to_mem()函数来定位调用或指定CPU的“本地内存节点”。同样，这是同
-> +一个节点，默认的本地页分配将从这个节点开始尝试。
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+G7p3AiuB2sgfq6cOpbO5MEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBsL34EJkCtu9Nu
+2+R6l1Qzno5Gl+N2Cm6/YLujukDGYa1JW27txXiilR9dGP7yl60HYyG2Exd5i6fiLDlaNEw0SqzE
+dw9ZSIak3Qvm2UybR8zcnB0deCUiwahqh7ZncEPlhnPpB08ETEUtwBEqCEnndNEkIN67yz4kniCZ
+jZstNF/BUnI3864fATiXSbnNqBwlJS3YkoaCTpbI9qNTrf5VIvnbryT69xJ6f25yfmxrXNJJe5OG
+ncB34Cwnb7xQyk+uRLZ465yUBkbjk9pC/yamL0O7SOGYUclrQl2c5zzGuVBD84YcQGDOK6gSPj6w
+QuBfOooZPOyZZZ8AMih7J980MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABQeVybOOpR4bOOXZYL5T3MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBT
+2WKL+QzVxktHiy8D3jl4rbbz6uuaIFkyDlRzkKcRpzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjA0MjMwNzUzMjhaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAdyOTlbBGaPzy5lF5rhjj
+Vh0e3bs/ISEs6K8IHhJkZgySEwCz/AIFf4x2+DQyebilrPUMWPU2QfdU48kI5qhv16ONb5L3Jk98
+U+zIK/+ct0iBazQDdnVno5dK7u80fvgBpu/EuGzC6WO0pDIvmrGtbLPi2OEQtjAVPl3vBoYoBBaE
+2kiv9Bt4F13hp+C+wL8iMoCx7GhBUu4PxfBXtmWuIp8D3bi+V1LsvkjhBkhLxrZTCfuFiYfytRr9
+QUa6fiLfgRpBis+lastzm1Lu0w2Esuyeso8Jxwr6x4scPqIG00cPBweUrUuOjuUTbfbDohzHwSqD
+ipNsQpXa4dA4yVxe9g==
+--00000000000081a06105dd4da320--
