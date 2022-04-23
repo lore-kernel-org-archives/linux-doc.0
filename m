@@ -2,164 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B63CC4321E
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Apr 2022 12:49:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2C32C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Apr 2022 13:30:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235526AbiDWMwP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Apr 2022 08:52:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45230 "EHLO
+        id S231203AbiDWNdh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Apr 2022 09:33:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235514AbiDWMwN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 08:52:13 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2050.outbound.protection.outlook.com [40.107.236.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBED01C102;
-        Sat, 23 Apr 2022 05:49:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=li8PcwZjfbWVHN7xA/oatSMxcXPxn36fbusg/+mVdIU9JXkjhhzEA+vVRvq6lDJpH42OzzXY3dXahBhnjK/odqZKWslokZeDL9ei29n95F/d+pDkFwI/AerBzSx2/ElP4srVeblAjB9amfbvtxlTtsDKksGlhciLnW02hfqdsUxAxe+fTcPzvZvUvA8UguttDS1FygMO1cWBuZFTC/j7OWkmyen2ELSdAC42IjyupZD13CJ7GeLjLNS7kPM45+7pOJa2PZhpmg1NFuNe5aeP3xdquUCPqZv19loJMb3XKeQowcV54f4BhErc7eAQievvjkrKNLrYqNDY89yhUE2R8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LU1z22KXlDpV5Kfz7jKeG3fM2JH1nfPsDZpNyua6n/w=;
- b=Jei0IT6azEPBkU8mTiGlqSfgqjY3qCfFvz3mXefENNStVfFZmCKRFO1S8pd/CI/Idjw5V+HhL8fpw4Gp6sc3Kd8hPWagAy7LVWSU3KyiFkXmeLa46B19dDmOW2Dcp+65D/z9vwQSBoAiDZ3hVfnKkAt/dzOQIvznn36QFPGqg/N7gOoQU3s4AHd2XPn9eohwOUy8pQc5Pqv/gLGb1ieZgS3M3e21RiU1HO5Mpw+CpR4Dd2Hc6BZJGobBlCb8QsVChGtC58KWlqJ0qwAueFgBjCH+VOhkKiFzH359LdcMIwx58Rv5u+TxGRfGwpDMX53JXO74jJ6oce7q2v6zF/ZGRA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LU1z22KXlDpV5Kfz7jKeG3fM2JH1nfPsDZpNyua6n/w=;
- b=klSuTCWNK0Oa/PaN0sB4J564YR8LL7YdyIjdLJRqm1HX3l3bDCvrBAStl0WTW6aIwnQBRoocEfgjDtoRIzh0GMPh/RZEjPKHZ9eUQgL8sUmlVEEnLVGQm1kNjI52sSL1oaMn9o+q/037aOVSjGUcq/ycOyYxfc216HMS0FpGa/wYIpmOV3/us3gXT5n7K7zN4B/l8FrgRFW++pXw5uaRC/B8ZaChMy5av+tk27hSF2ydEDFenE046iihLV01RniPtd8ycPWATbW7WDMmz3H8D4vxkJr9pxbxw+fW/IhBLx5WJv5ee2NtS9X1kOmTPuu/VrRBJLNYPs0n7wKGQM9xQg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by PH7PR12MB5805.namprd12.prod.outlook.com (2603:10b6:510:1d1::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Sat, 23 Apr
- 2022 12:49:14 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2%6]) with mapi id 15.20.5186.020; Sat, 23 Apr 2022
- 12:49:14 +0000
-Date:   Sat, 23 Apr 2022 09:49:12 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Airlie <airlied@linux.ie>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
+        with ESMTP id S234951AbiDWNdg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 09:33:36 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC7773A710
+        for <linux-doc@vger.kernel.org>; Sat, 23 Apr 2022 06:30:38 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2f4dfd09d7fso52107577b3.0
+        for <linux-doc@vger.kernel.org>; Sat, 23 Apr 2022 06:30:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=Aem2PdHshEukZ4FbitCFbjtHLa6kiNwj57G3fxoNlVk=;
+        b=XMNhXPfkwDK4e/banSthnWhXs9a5a1aYvMVU0NMfybXNvVEmGdmNtMSK5oZ++QlHWR
+         V3ufPwN5hRsYkM5z7ddo0Hd5/C0+X86gdeDg/EcbOv27ChnnE88NajcxBj4l6hUotTKL
+         6tfKwnl6G2aAPMEmhO1Yt7R0ge16i+pGXVJ2xPTzPY66OOpXaSAgdxQEYnybzB9GAExs
+         VtlV4OYLzO1vWnYGB9iH8I6VOegPQXleK6VLBFgcWRkY7enBxEw+MDSDLoh5bF3WVyfH
+         FqpESvZE7ugxZsVz8I+JwrKaWP6J3N54HEMtZksvV6fAOOhKYCeurqhF2C19tTrZ6OiL
+         0y0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=Aem2PdHshEukZ4FbitCFbjtHLa6kiNwj57G3fxoNlVk=;
+        b=3cqsEyRpIo8aeA3Ic5EVszgC8u0xBL7E9DdCYuSap8N78CkmzTewVXie7mE/PFsd4z
+         tkyKeMthCMl2ok2YzDtes5EqwoWIlJr81NNLFry1ul0kVFiEwgJQGWSCCqyxOwyA9hKa
+         D6cnlA3LBaiYz62J8u4R3Do5INFL02t01chyUx8+hIP2b5JpZcDud2BJPUpGHQyaFquo
+         beHo3DetACSkUwfKd6SFChPeWczGS/wjvfYSvS71TKshMJo+9fnBSYJIe/YRnzjEZN/J
+         +C6d4KUwyeagkQO38nYvYbQM+8ZArJY5UE4sZyHLUmGnVTUtUtAzYwCTdOrciCxtCeHW
+         hp7g==
+X-Gm-Message-State: AOAM530MStemRjk5q6GfM9eiylfm3tItSDVVua4wLfMjVJWIp/DYboeb
+        WS8BvO2Gayc2cmDBJyItR/5KcoIs7QFvTw==
+X-Google-Smtp-Source: ABdhPJx7g+b3t+7TTJeJC7GYl+CeuU3UNtFktcnoCl3pUuWnyLkIOPvBkq8XTsd2INy154YtYRsMI9zJBpyJaA==
+X-Received: from shakeelb.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:28b])
+ (user=shakeelb job=sendgmr) by 2002:a05:6902:1349:b0:645:d63b:2751 with SMTP
+ id g9-20020a056902134900b00645d63b2751mr6582268ybu.165.1650720637980; Sat, 23
+ Apr 2022 06:30:37 -0700 (PDT)
+Date:   Sat, 23 Apr 2022 13:30:35 +0000
+In-Reply-To: <20220421234426.3494842-2-yosryahmed@google.com>
+Message-Id: <20220423133035.b6iz6vzhzlym3m4w@google.com>
+Mime-Version: 1.0
+References: <20220421234426.3494842-1-yosryahmed@google.com> <20220421234426.3494842-2-yosryahmed@google.com>
+Subject: Re: [PATCH v4 1/4] memcg: introduce per-memcg reclaim interface
+From:   Shakeel Butt <shakeelb@google.com>
+To:     Yosry Ahmed <yosryahmed@google.com>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>
-Subject: Re: [PATCH v2 3/7] vfio/mdev: Pass in a struct vfio_device * to
- vfio_pin/unpin_pages()
-Message-ID: <20220423124912.GM2120790@nvidia.com>
-References: <0-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
- <3-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
- <20220422062232.GB11926@lst.de>
- <20220422205651.GF1951132@nvidia.com>
- <20220423051551.GA17488@lst.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220423051551.GA17488@lst.de>
-X-ClientProxiedBy: BL1PR13CA0146.namprd13.prod.outlook.com
- (2603:10b6:208:2bb::31) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 66951928-5e1c-4992-01ee-08da2527ab6c
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5805:EE_
-X-Microsoft-Antispam-PRVS: <PH7PR12MB5805331FC83E0085514F2402C2F69@PH7PR12MB5805.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ubtX0keUHbsZ+RF6ZxcWLoGuVq/FaeinJRZrw1Qh4wnVw1gCKK6WlysTMtYOCTbK5psC1eKrVp6Zxp8UBPmsJs81cNPcKxoYUzZSB9FBoKrMoh7LXF7ZQI+DEEWKCIqTjwX0NdNKA7H9VIbL/xUMJsv4TUSu+DFXucen4TrNNOnET51VDpbDu4fq6zAbifZCcjWdDKu5ahhcb8WL4T4GpmzSq983g5BU0kxQm93JKJzah5n7ReosIzRr2Q0SnTmQoyUTE7xkZZE/2aSGoczMxjW9/TDOqn0yA7qI3TErFGlUsvSVPEO16e1EGaR+1a1HylHQv21VNTbaZKapS0Q9hQg8NP43qQk5dmYk2D5zQmQ1jivZWzg9M/QuDBRe1iP/JQmQP0ratCA40uoEw+5KpzkZWfLg5iLd6thoORL3suv1g+5cnl1xpKmluZq/M8kK1mKUGP1faeziuUv4h8Jsnlr7XCChAtUoNFPCiK408RYlOZQNzjS8o+POdxWH+H5UQCanMT4Z41sQsu0Sq6dIt+QjRT1H6nTpQxnen+o7gMnL40VPTiUPgnwpLTYv0EM8WMnw6860fEVZICGgJJzdXFnOmIPzRd53fjURmuhI87IsdMKXqi2Htn6r85325a7z0erZvJak87Nnu2dhK0OYXQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(26005)(6512007)(66556008)(6506007)(5660300002)(2616005)(8676002)(36756003)(4326008)(54906003)(6916009)(38100700002)(86362001)(2906002)(8936002)(66946007)(66476007)(33656002)(316002)(7416002)(6486002)(7406005)(4744005)(1076003)(186003)(508600001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+JXR+9hf/Iq3AVIFoPWaSTjV7PKo/QU+hiwKyzCnjvW28iYNDEu+itKr8zAx?=
- =?us-ascii?Q?PxzafGtPGjlblRi3J7hjxX0r1Z9wlVV2/NALSzA9S+JxvjY+y4JSLQ/oTBts?=
- =?us-ascii?Q?cQhHZTq+pNVsud5ER3gdNZ82GfhGzd8sf8nUegRzLcvFt+AnJc5XnHoNTSPQ?=
- =?us-ascii?Q?wvzkofzqtth0IJTad9VUXpzMQr/nQ3lklOZFwyLpeR+5XsCtMan80Av0zC/Y?=
- =?us-ascii?Q?dO5kYnpQrEoWNoMZ8pGPtj3JQyiTi77LmpHMLqLe5+nZYzJliJ6cpoe0Otej?=
- =?us-ascii?Q?kQiC4rmoO/7Iqqx66GyjOj3JEGEG5vll6ZRSyvPBzPX4fLJ2jrLLSmhjObdc?=
- =?us-ascii?Q?agv9paQPVe8EcLvrtL86Tpz0DoToqQ5hFDIG4IUwN+H1JxVi2gOBJkq6QMOo?=
- =?us-ascii?Q?qCbZY9mT92KUnWCaEVfxeLfzV6Lvvd0aZ34yOXeu4q6xo6UTCyymX7hFGPSH?=
- =?us-ascii?Q?++N+bfI3pIE66UVGo4pqZEp2UWFftdlWqJTJlsHL4CvhfRJyHnRD40l/aoFK?=
- =?us-ascii?Q?YhU7OcKqBJ8Dkr6O+Y6kRfdlOlqB0dO3GmYzrUPrh7QYwX0WpY+9dWlC78W1?=
- =?us-ascii?Q?eSngDe1QHkoYNJgm5DF7tms5XACeyk0UbIC9S+QyCh2DcuypqobkBg1Wjbn4?=
- =?us-ascii?Q?LSXxtD8I72fWcVsa7IKKB7EXjuPtXWvUamrgJ1v00mhMIuvpnNajC0YsklP6?=
- =?us-ascii?Q?ZneacGoF6ZoHqKgfhDA5cLva9YCNtVbkicneJj8eNjky/kBK+hJ7ES/yYP0I?=
- =?us-ascii?Q?bf0DYbaAy0141h7T2I9eT5/5CkF9a+m9ZZ/Ums4LbtzzRpU7mcDFRZU/p62p?=
- =?us-ascii?Q?jiz4h+JSViAf0mOKSxwygBIKkCC4V3iPM9beUqRquVEV2dvJ3PmCOBvQO8ku?=
- =?us-ascii?Q?uEF3Igh0SjZFtbC+f5PL6CsClGNk99P8M+VJvdv0N/O44DJ9H7YXLY+k6sZi?=
- =?us-ascii?Q?VwFHBWAX/2m4+g4PF7aiMLxyLxfnEpOVC9LD6PvYAk8mBmHa735cW0n+KzDu?=
- =?us-ascii?Q?2XTNdk4gqAGjYcEJ2OEEmZruT22ds5qxwS+0eR6phGa/BshAq48L5qeAOCz+?=
- =?us-ascii?Q?Xb/e9HPA3/Bf0iV9AD6WjWoJERDYrr9JYUpNzkqGCRWHTTxxKGk5eSSUw1KZ?=
- =?us-ascii?Q?k928kKCGbSi08fBQHZOReQbDYPQgdQA3Cu/2RdCLQxOfLYPUBUG2P9Tzf5Z0?=
- =?us-ascii?Q?Dg22ljFLF8uZJ8iO2jREUh+7oHEXmz3ijW+0ixrrVqNLjUM14XaEccYuBUPr?=
- =?us-ascii?Q?WC7SMZmUEh42Hwbm3vGOqUOmPOEeXwhvtoSqdzntTSzz7ppE4kCeMCWAuCjh?=
- =?us-ascii?Q?6oa0KCmoFkhqeh/kHjhyIvtJFr7AOgV61cVsGqoayWoxJf6O2TS7qCOHvI0Q?=
- =?us-ascii?Q?3a6EDBSmojDnhTnh2FoO1wMKkqDE3TrOLjnI4JqYNvhi6pijKMp423MH73Wg?=
- =?us-ascii?Q?S0tYPIQifz3PvVOFNl5tmuGG9tx//6HtRnIMP1gbB0gGcYo2jod0KZ69m/s6?=
- =?us-ascii?Q?0gAnd/qQotCZEOztKCgejdq0ROSN9CJI1c4TokUydM0lUHZ2++Jwh0SCDH22?=
- =?us-ascii?Q?CN1Ctrh/iSDJysHI80UGFt5P4cYUdQsrqXlP67BVp0C+ozwlRRygc0M2qT3Q?=
- =?us-ascii?Q?LTqywR/97yL12+19+H4ASKT/vCHEu5ToA75AV+TmuLjE8hOhSI1jtHaIcwc/?=
- =?us-ascii?Q?sI8+jTQR5H1hAaijAb89co5TbkOSZEA4KAlYhhn2AnQdZp4p4GN4Gh0Cn6AW?=
- =?us-ascii?Q?crYm6U3tyA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66951928-5e1c-4992-01ee-08da2527ab6c
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2022 12:49:14.0187
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JLdN2WccaPZGCSqsZ+KH7BiV9yIysu1uF7jvV3dGQpzCaODOrX6LcyVgZNy0Ptq1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5805
+        Shuah Khan <shuah@kernel.org>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>,
+        Chen Wandun <chenwandun@huawei.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        "Michal =?utf-8?Q?Koutn=C3=BD?=" <mkoutny@suse.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Dan Schatzberg <schatzberg.dan@gmail.com>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org, Michal Hocko <mhocko@suse.com>
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 23, 2022 at 07:15:52AM +0200, Christoph Hellwig wrote:
-> On Fri, Apr 22, 2022 at 05:56:51PM -0300, Jason Gunthorpe wrote:
-> > On Fri, Apr 22, 2022 at 08:22:32AM +0200, Christoph Hellwig wrote:
-> > > Nit: why do some of these patches that don't touch the mdev code
-> > > mdev in the subject?
-> > 
-> > I consider these APIs to be 'mdev apis' because only mdev drivers
-> > should call them.
+On Thu, Apr 21, 2022 at 11:44:23PM +0000, Yosry Ahmed wrote:
+> From: Shakeel Butt <shakeelb@google.com>
+[...]
 > 
-> I thought we settled on 'emulated IOMMU device' in the VFIO core for
-> them, leaving mdev just for the odd lifecycle management glue.
+> [yosryahmed@google.com: refreshed to current master, updated commit
+> message based on recent discussions and use cases]
+> Signed-off-by: Shakeel Butt <shakeelb@google.com>
+> Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
 
-Yes
+You should add "Co-developed-by" tag for yourself here.
 
-vfio/emulated
+> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+> Acked-by: Michal Hocko <mhocko@suse.com>
+> Acked-by: Wei Xu <weixugc@google.com>
+> Acked-by: Roman Gushchin <roman.gushchin@linux.dev>
+> ---
+>  
+[...]
+> +static ssize_t memory_reclaim(struct kernfs_open_file *of, char *buf,
+> +			      size_t nbytes, loff_t off)
+> +{
+> +	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
+> +	unsigned int nr_retries = MAX_RECLAIM_RETRIES;
+> +	unsigned long nr_to_reclaim, nr_reclaimed = 0;
+> +	int err;
+> +
+> +	buf = strstrip(buf);
+> +	err = page_counter_memparse(buf, "", &nr_to_reclaim);
+> +	if (err)
+> +		return err;
+> +
+> +	while (nr_reclaimed < nr_to_reclaim) {
+> +		unsigned long reclaimed;
+> +
+> +		if (signal_pending(current))
+> +			return -EINTR;
+> +
+> +		/* This is the final attempt, drain percpu lru caches in the
 
-?
+Fix the comment format. "/*" should be on its own line.
 
-Jason
+> +		 * hope of introducing more evictable pages for
+> +		 * try_to_free_mem_cgroup_pages().
+> +		 */
+
+No need to send a new version if Andrew can fix these in the mm tree.
