@@ -2,202 +2,484 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5752C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Apr 2022 07:53:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B86AC433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Apr 2022 10:18:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234099AbiDWH43 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Apr 2022 03:56:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48942 "EHLO
+        id S234872AbiDWKVt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Apr 2022 06:21:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233966AbiDWH40 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 03:56:26 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DA3768330
-        for <linux-doc@vger.kernel.org>; Sat, 23 Apr 2022 00:53:30 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id u3so13974218wrg.3
-        for <linux-doc@vger.kernel.org>; Sat, 23 Apr 2022 00:53:30 -0700 (PDT)
+        with ESMTP id S233592AbiDWKVr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 06:21:47 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90E24B1ED
+        for <linux-doc@vger.kernel.org>; Sat, 23 Apr 2022 03:18:50 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id c23so16225465plo.0
+        for <linux-doc@vger.kernel.org>; Sat, 23 Apr 2022 03:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=P3jkmG78hl1c1zan1Yz5SyYCn2YyNb28T1Mm42adV18=;
-        b=I3ZJC113VuGO/EAz0RuPfEcTVepPrwJJ0bz1kMaF6H+ukot+wAA7LdzySdIJmumOOl
-         B6RDKxI6Jc1jWH0htaioBGQT+KcU0WOGSkSXA1+qZsqLCAB3NtLcznB1XJSzgV9ZwPv6
-         USLMMVSt2NGyEhiNgJ25pKvTWzbZ38/JY9Dqjyt2TRdXaHJfSJxHyjGUhYr0KJsPwNGG
-         0bcJ4/p2ESt2KudydenctG2dLb0e8bXi5ylG/mESLJ4c663IYdW16sy6UK9zKQHlxCIS
-         Y4TpL32i1au6PqhJxAtnG8voxoMwcEeIqfm8njxDY7Ixq/C+WNVc8GxxaYZ443W1FTHf
-         kiyg==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=meHQMaY4dqrQXwBji1fD+FkRdlKd/dy3GQkv10D8djc=;
+        b=X03SEolRCiD86V0N0m9qM8+s2bX1sQTeQOootqMnYe3m7Y2ueEpBh8aS8JxxOxEsVl
+         10RitXZtNRCE3Ms7dNvz/F1r2p2LsR1J0r3SqsYqm2aRptYzFD5dQ3tJYvj0cR2Oi3Rj
+         QcdxOSxgGMYeQDEcB8SdZJeBQyhOXF/+pdKZxmXzcEMTBcIXVdPh0WxeQ5a75IWZJKW5
+         p/uYA9H0j6Wsh30IoK7O7RBSBzCsqCn9hGslkQrggJJuh21SnnKWrBpc2cl8sExm1N9s
+         8j8PqTBhmW2Zr6lxnT9VP2w21fH4gEg7v1b+OEVUEXZ5Rr/Pqjymg1oDNRajAiuiJzM1
+         OSug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=P3jkmG78hl1c1zan1Yz5SyYCn2YyNb28T1Mm42adV18=;
-        b=f4GI090SZI3y67NXpUSqMsP0ZPN/IiN1g2TIPkfAZAwR6KdAaoV1/G90bQ4wjS9n96
-         /HuySA2UWYTVBsQYs2DUUAhtRV72JgMZy5F9NDKy/i285UaQuAhloswGD0kiQDf+6bRS
-         cP3mJLLv3gDMCh5QqMkmH4R2sdnL2V6+zZ1PAbTjU7nUq2TcX6M55LVH/KYiCWvovsVo
-         ylzB8+ecVWu4tZnTVYpKKRGleNYn/IBsEUG1ecwL13sIwT8WyK1suUsFclYU4jrE2EzE
-         5X5hdhltM/bPJeygmcQ/eDcYi0VcuG5peNzSO5AJy5hQ7xjafBNF4ZXxE3Rby0P0KHJ7
-         ZJMA==
-X-Gm-Message-State: AOAM532XKcmBF659GNvNu7Kh1aayu8+RPefyzuX3yyIu7paJKXkyxaGm
-        +fORE9rwB866mmIxvJni8+FxxejvSDanY2/hHpiiPw==
-X-Google-Smtp-Source: ABdhPJzEt5KhdbZs/h9GuJWp8z1vxcsMVKUy48Z287ibECLkroOmnDCHtELsnhXUV7i6uUiFQ7LkCn33iI9MluJDRX0=
-X-Received: by 2002:a5d:46c3:0:b0:20a:b845:f164 with SMTP id
- g3-20020a5d46c3000000b0020ab845f164mr6697785wrs.269.1650700408640; Sat, 23
- Apr 2022 00:53:28 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=meHQMaY4dqrQXwBji1fD+FkRdlKd/dy3GQkv10D8djc=;
+        b=IoN05B4EcvvNMpdTT97Dve1RoBJ0pkmMgGCJ9zEBCIZwjH9LqEhs50nR7hZOdj9+Zf
+         vdsehRaNoaUSrSlzBSzSKi5WO2LMPkR0Z3xE3EVQDtmktITaVSs5+JzAIx8MBNXxePi4
+         Ap/x0cbJ44DdrVGiw5pFv3Ld6/LQvODzvLP123Qnf7Kxj1VZdzDB+c/HIMIZTVuWiRLs
+         ugF5Xl5L1rDhD1B5JDG8b9EcBl9eOTeFy7eDf6/IF61DI/BgTLQwbZ35W1ij5OHd4rFG
+         /UERl12kvwj4fPvall72ESf2nA5YevH6Fv5rlKG0cwEdNlp8JyNRo4U4VZtdhGZjAqbX
+         wORQ==
+X-Gm-Message-State: AOAM531REKN/h2XXqwYG1eIuNuFIgSe+xbk3AbNcxhbXxaUEnIEn/5Rn
+        SHVq0bu7BG7sQLPcvH8xru04pMpY9X+yuvig
+X-Google-Smtp-Source: ABdhPJxKhz6XrGSnHau4GxesFEAmQoC6fxY9uT6tKqFELa8MUMolKEpIVUqqmkoXztJ0Qxw9mdjEWg==
+X-Received: by 2002:a17:902:a712:b0:158:e577:f82 with SMTP id w18-20020a170902a71200b00158e5770f82mr8471960plq.146.1650709129661;
+        Sat, 23 Apr 2022 03:18:49 -0700 (PDT)
+Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
+        by smtp.gmail.com with ESMTPSA id k15-20020a63ab4f000000b00381eef69bfbsm4478182pgp.3.2022.04.23.03.18.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 23 Apr 2022 03:18:49 -0700 (PDT)
+Message-ID: <71580dd7-f75b-d994-c914-8a00ec822ff4@gmail.com>
+Date:   Sat, 23 Apr 2022 18:18:41 +0800
 MIME-Version: 1.0
-References: <20220316202622.324866-1-frowand.list@gmail.com>
- <CABVgOSmkvxhHSJx0W6BEYz=Ai9vB=nCz625dSKLLUfU0rMLkFA@mail.gmail.com> <37465a0f-7deb-bedb-1a84-90324f554ad1@gmail.com>
-In-Reply-To: <37465a0f-7deb-bedb-1a84-90324f554ad1@gmail.com>
-From:   David Gow <davidgow@google.com>
-Date:   Sat, 23 Apr 2022 15:53:17 +0800
-Message-ID: <CABVgOSm5Bc13o5UEVEiRCpzrq1Jqt11DjQ7YWPyjfj_6fBwWVw@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/2] Documentation: dev-tools: begin KTAP spec v2 process
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Bird, Tim" <Tim.Bird@sony.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Rae Moar <rmr167@gmail.com>,
-        Guillaume Tucker <guillaume.tucker@collabora.com>,
-        Daniel Latypov <dlatypov@google.com>, kernelci@groups.io,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="00000000000081a06105dd4da320"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/2] docs/zh_CN: add vm hmm translation
+Content-Language: en-US
+To:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
+        alexs@kernel.org
+Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, siyanteng01@gmail.com
+References: <cover.1650542165.git.siyanteng@loongson.cn>
+ <1e36cd387c131b1da22a21f9a68e934cdcbe54c3.1650542165.git.siyanteng@loongson.cn>
+From:   Alex Shi <seakeel@gmail.com>
+In-Reply-To: <1e36cd387c131b1da22a21f9a68e934cdcbe54c3.1650542165.git.siyanteng@loongson.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---00000000000081a06105dd4da320
-Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Apr 23, 2022 at 7:16 AM Frank Rowand <frowand.list@gmail.com> wrote:
->
-> On 3/17/22 03:42, David Gow wrote:
-> > On Thu, Mar 17, 2022 at 4:26 AM <frowand.list@gmail.com> wrote:
-> >>
-> >> From: Frank Rowand <frank.rowand@sony.com>
-> >>
-> >> An August 2021 RFC patch [1] to create the KTAP Specification resulted in
-> >> some discussion of possible items to add to the specification.
-> >> The conversation ended without completing the document.
-> >>
-> >> Progress resumed with a December 2021 RFC patch [2] to add a KTAP
-> >> Specification file (Version 1) to the Linux kernel.  Many of the
-> >> suggestions from the August 2021 discussion were not included in
-> >> Version 1.  This patch series is intended to revisit some of the
-> >> suggestions from the August 2021 discussion.
-> >
-> > Thanks for kicking this off again. There were definitely a lot of good
-> > ideas in those threads which we haven't got to yet.
-> >
-> > I think there is an interesting line to walk between keeping KTAP
-> > sufficiently "TAP-like" (particularly w/r/t being able to reuse
-> > existing TAP parsers), and actually adding features, but I don't
-> > recall seeing many such issues in the previous threads.
-> >
-> >>
-> >> Patch 1 changes the Specification version to "2-rc" to indicate
-> >> that following patches are not yet accepted into a final version 2.
-> >
-> > I'm okay with this, though I'd want us to be a little careful with the
-> > timing so we don't end up with, for example, 5.18 having a KTAP spec
-> > called 2-rc which is functionally indistinguishable from v1.
->
-> I finally have some time to return to this.
->
-> I could host a branch on my kernel.org "frowand" linux kernel.  When
-> agreement is reached on a patch on this mail list, I would add it
-> to the branch.  When the discussion determines that it is time to
-> release a version 2 of the specification I would add one more commit
-> that only updates the version.
->
-> Does that sound like a good way to proceed?
->
 
-Yeah: that sounds good to me.
+On 4/21/22 19:59, Yanteng Si wrote:
+> Translate .../vm/hmm.rst into Chinese.
+> 
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  Documentation/translations/zh_CN/vm/hmm.rst   | 361 ++++++++++++++++++
+>  Documentation/translations/zh_CN/vm/index.rst |   2 +-
+>  2 files changed, 362 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/vm/hmm.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/vm/hmm.rst b/Documentation/translations/zh_CN/vm/hmm.rst
+> new file mode 100644
+> index 000000000000..7e57c5b14aeb
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/vm/hmm.rst
+> @@ -0,0 +1,361 @@
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/vm/hmm.rst
+> +
+> +:翻译:
+> +
+> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
+> +
+> +:校译:
+> +
+> +==================
+> +异构内存管理 (HMM)
+> +==================
+> +
+> +提供基础设施和帮助程序以将非常规内存（设备内存，如板上 GPU 内存）集成到常规内核路径中，其
+> +基石是此类内存的专用struct page（请参阅本文档的第 5 至 7 节）。
+> +
+> +HMM 还为 SVM（共享虚拟内存）提供了可选的帮助程序，即允许设备透明地访问与 CPU 一致的程序
+> +地址，这意味着 CPU 上的任何有效指针也是该设备的有效指针。这对于简化高级异构计算的使用变得
+> +必不可少，其中 GPU、DSP 或 FPGA 用于代表进程执行各种计算。
+> +
+> +本文档分为以下部分：在第一部分中，我揭示了与使用特定于设备的内存分配器相关的问题。在第二
+> +部分中，我揭示了许多平台固有的硬件限制。第三部分概述了 HMM 设计。第四部分解释了 CPU 页
+> +表镜像的工作原理以及 HMM 在这种情况下的目的。第五部分处理内核中如何表示设备内存。最后，
+> +最后一节介绍了一个新的迁移助手，它允许利用设备 DMA 引擎。
+> +
+> +.. contents:: :local:
+> +
+> +使用特定于设备的内存分配器的问题
+> +================================
+> +
+> +具有大量板载内存（几 GB）的设备（如 GPU）历来通过专用驱动程序特定 API 管理其内存。这会
+> +造成设备驱动程序分配和管理的内存与常规应用程序内存（私有匿名、共享内存或常规文件支持内存）
+> +之间的隔断。从这里开始，我将把这个方面称为分割的地址空间。我使用共享地址空间来指代相反的情况：
+> +即，设备可以透明地使用任何应用程序内存区域。
+> +
+> +分割的地址空间的发生是因为设备只能访问通过设备特定 API 分配的内存。这意味着从设备的角度来
+> +看，程序中的所有内存对象并不平等，这使得依赖于广泛的库的大型程序变得复杂。
+> +
+> +具体来说，这意味着想要利用像 GPU 这样的设备的代码需要在通用分配的内存（malloc、mmap
+> +私有、mmap 共享）和通过设备驱动程序 API 分配的内存之间复制对象（这仍然以 mmap 结束，
+> +但是是设备文件）。
+> +
+> +对于平面数据集（数组、网格、图像……），这并不难实现，但对于复杂数据集（列表、树……），
+> +很难做到正确。复制一个复杂的数据集需要重新映射其每个元素之间的所有指针关系。这很容易出错，
+> +而且由于数据集和地址的重复，程序更难调试。
+> +
+> +分割地址空间也意味着库不能透明地使用它们从核心程序或另一个库中获得的数据，因此每个库可能
+> +不得不使用设备特定的内存分配器来重复其输入数据集。大型项目会因此受到影响，并因为各种内存
+> +拷贝而浪费资源。
+> +
+> +复制每个库的API以接受每个设备特定分配器分配的内存作为输入或输出，并不是一个可行的选择。
+> +这将导致库入口点的组合爆炸。
+> +
+> +最后，随着高级语言结构（在 C++ 中，当然野在其他语言中）的进步，编译器现在有可能在没有程
 
--- David
+当然也在其他语言中
 
---00000000000081a06105dd4da320
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+> +序员干预的情况下利用 GPU 和其他设备。某些编译器识别的模式仅适用于共享地址空间。对所有
+> +其他模式，使用共享地址空间也更合理。
+> +
+> +
+> +I/O 总线、设备内存特性
+> +======================
+> +
+> +由于一些限制，I/O 总线削弱了共享地址空间。大多数 I/O 总线只允许从设备到主内存的基本
+> +内存访问；甚至缓存一致性通常是可选的。从 CPU 访问设备内存甚至更加有限。通常情况下，它
+> +不是缓存一致的。
+> +
+> +如果我们只考虑 PCIE 总线，那么设备可以访问主内存（通常通过 IOMMU）并与 CPU 缓存一
+> +致。但是，它只允许设备对主存储器进行一组有限的原子操作。这在另一个方向上更糟：CPU
+> +只能访问有限范围的设备内存，而不能对其执行原子操作。因此，从内核的角度来看，设备内存不
+> +能被视为与常规内存等同。
+> +
+> +另一个严重的因素是带宽有限（约 32GBytes/s，PCIE 4.0 和 16 通道）。这比最快的 GPU
+> +内存 (1 TBytes/s) 慢 33 倍。最后一个限制是延迟。从设备访问主内存的延迟比设备访问自
+> +己的内存时高一个数量级。
+> +
+> +一些平台正在开发新的 I/O 总线或对 PCIE 的添加/修改以解决其中一些限制
+> +（OpenCAPI、CCIX）。它们主要允许 CPU 和设备之间的双向缓存一致性，并允许架构支持的所
+> +有原子操作。遗憾的是，并非所有平台都遵循这一趋势，并且一些主要架构没有针对这些问题的硬
+> +件解决方案。
+> +
+> +因此，为了使共享地址空间有意义，我们不仅必须允许设备访问任何内存，而且还必须允许任何内
+> +存在设备使用时迁移到设备内存（在发生时阻止 CPU 访问）。
 
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-G7p3AiuB2sgfq6cOpbO5MEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBsL34EJkCtu9Nu
-2+R6l1Qzno5Gl+N2Cm6/YLujukDGYa1JW27txXiilR9dGP7yl60HYyG2Exd5i6fiLDlaNEw0SqzE
-dw9ZSIak3Qvm2UybR8zcnB0deCUiwahqh7ZncEPlhnPpB08ETEUtwBEqCEnndNEkIN67yz4kniCZ
-jZstNF/BUnI3864fATiXSbnNqBwlJS3YkoaCTpbI9qNTrf5VIvnbryT69xJ6f25yfmxrXNJJe5OG
-ncB34Cwnb7xQyk+uRLZ465yUBkbjk9pC/yamL0O7SOGYUclrQl2c5zzGuVBD84YcQGDOK6gSPj6w
-QuBfOooZPOyZZZ8AMih7J980MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABQeVybOOpR4bOOXZYL5T3MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBT
-2WKL+QzVxktHiy8D3jl4rbbz6uuaIFkyDlRzkKcRpzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA0MjMwNzUzMjhaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAdyOTlbBGaPzy5lF5rhjj
-Vh0e3bs/ISEs6K8IHhJkZgySEwCz/AIFf4x2+DQyebilrPUMWPU2QfdU48kI5qhv16ONb5L3Jk98
-U+zIK/+ct0iBazQDdnVno5dK7u80fvgBpu/EuGzC6WO0pDIvmrGtbLPi2OEQtjAVPl3vBoYoBBaE
-2kiv9Bt4F13hp+C+wL8iMoCx7GhBUu4PxfBXtmWuIp8D3bi+V1LsvkjhBkhLxrZTCfuFiYfytRr9
-QUa6fiLfgRpBis+lastzm1Lu0w2Esuyeso8Jxwr6x4scPqIG00cPBweUrUuOjuUTbfbDohzHwSqD
-ipNsQpXa4dA4yVxe9g==
---00000000000081a06105dd4da320--
+（在发生时阻止 CPU 访问） -> （在迁移时阻止 CPU 访问）
+
+> +
+> +
+> +共享地址空间和迁移
+> +==================
+> +
+> +HMM 打算提供两个主要功能。第一个是通过复制设备页表中的 CPU 页表来共享地址空间，因此对
+change to 复制设备页表中的 CPU 页表 -> 复制cpu页表到设备页表中?
+> +于进程地址空间中的任何有效主内存地址，相同的地址指向相同的物理内存。
+> +
+> +为了实现这一点，HMM 提供了一组帮助程序来填充设备页表，同时跟踪 CPU 页表更新。设备页表
+> +更新不像 CPU 页表更新那么容易。要更新设备页表，您必须分配一个缓冲区（或使用预先分配的
+> +缓冲区池）并在其中写入 GPU 特定命令以执行更新（取消映射、缓存失效和刷新等）。这不能通
+> +过所有设备的通用代码来完成。因此，为什么HMM提供了帮助器，在把硬件的具体细节留给设备驱
+> +动程序的同时，把一切可以考虑的因素都考虑进去了。
+> +
+> +HMM 提供的第二种机制是一种新的 ZONE_DEVICE 内存，它允许为设备内存的每个页面分配一个
+> +struct page。这些页面很特殊，因为 CPU 无法映射它们。然而，它们允许使用现有的迁移机
+> +制将主内存迁移到设备内存，从 CPU 的角度来看，一切看起来都像是换出到磁盘的页面。使用
+> +struct page可以与现有的 mm 机制进行最简单、最干净的集成。再次，HMM 仅提供帮助程序，
+> +首先为设备内存热插拔新的 ZONE_DEVICE 内存，然后执行迁移。迁移内容和时间的策略决定留
+> +给设备驱动程序。
+> +
+> +请注意，任何 CPU 对设备页面的访问都会触发缺页异常并迁移回主内存。例如，当支持给定CPU
+> +地址 A 的页面从主内存页面迁移到设备页面时，对地址 A 的任何 CPU 访问都会触发缺页异常
+> +并启动向主内存的迁移。
+> +
+> +凭借这两个特性，HMM 不仅允许设备镜像进程地址空间并保持 CPU 和设备页表同步，而且还通
+> +过迁移设备正在使用的数据集部分来利用设备内存。
+> +
+> +
+> +地址空间镜像实现和API
+> +=====================
+> +
+> +地址空间镜像的主要目标是允许将一定范围的 CPU 页表复制到一个设备页表中；HMM 有助于
+> +保持两者同步。想要镜像进程地址空间的设备驱动程序必须从注册 mmu_interval_notifier
+> +开始::
+> +
+> + int mmu_interval_notifier_insert(struct mmu_interval_notifier *interval_sub,
+> +				  struct mm_struct *mm, unsigned long start,
+> +				  unsigned long length,
+> +				  const struct mmu_interval_notifier_ops *ops);
+> +
+> +在 ops->invalidate() 回调期间，设备驱动程序必须对范围执行更新操作（将范围标记为只
+> +读，或完全取消映射等）。设备必须在驱动程序回调返回之前完成更新。
+> +
+> +当设备驱动程序想要填充一个虚拟地址范围时，它可以使用::
+> +
+> +  int hmm_range_fault(struct hmm_range *range);
+> +
+> +如果请求写访问，它将在丢失或只读条目上触发缺页异常（见下文）。缺页异常使用通用的 mm 缺
+> +页异常代码路径，就像 CPU 缺页异常一样。
+> +
+> +这两个函数都将 CPU 页表条目复制到它们的 pfns 数组参数中。该数组中的每个条目对应于虚拟
+> +范围中的一个地址。HMM 提供了一组标志来帮助驱动程序识别特殊的 CPU 页表项。
+> +
+> +在 sync_cpu_device_pagetables() 回调中锁定是驱动程序必须尊重的最重要的方面，以保
+> +持事物正确同步。使用模式是::
+> +
+> + int driver_populate_range(...)
+> + {
+> +      struct hmm_range range;
+> +      ...
+> +
+> +      range.notifier = &interval_sub;
+> +      range.start = ...;
+> +      range.end = ...;
+> +      range.hmm_pfns = ...;
+> +
+> +      if (!mmget_not_zero(interval_sub->notifier.mm))
+> +          return -EFAULT;
+> +
+> + again:
+> +      range.notifier_seq = mmu_interval_read_begin(&interval_sub);
+> +      mmap_read_lock(mm);
+> +      ret = hmm_range_fault(&range);
+> +      if (ret) {
+> +          mmap_read_unlock(mm);
+> +          if (ret == -EBUSY)
+> +                 goto again;
+> +          return ret;
+> +      }
+> +      mmap_read_unlock(mm);
+> +
+> +      take_lock(driver->update);
+> +      if (mmu_interval_read_retry(&ni, range.notifier_seq) {
+> +          release_lock(driver->update);
+> +          goto again;
+> +      }
+> +
+> +      /* Use pfns array content to update device page table,
+> +       * under the update lock */
+> +
+> +      release_lock(driver->update);
+> +      return 0;
+> + }
+> +
+> +driver->update 锁与驱动程序在其 invalidate() 回调中使用的锁相同。该锁必须在调用
+> +mmu_interval_read_retry() 之前保持，以避免与并发 CPU 页表更新发生任何竞争。
+> +
+> +利用 default_flags 和 pfn_flags_mask
+> +====================================
+> +
+> +hmm_range 结构有 2 个字段，default_flags 和 pfn_flags_mask，它们指定整个范围
+> +的故障或快照策略，而不必为 pfns 数组中的每个条目设置它们。
+> +
+> +例如，如果设备驱动程序需要至少具有读取权限的范围的页面，它会设置::
+> +
+> +    range->default_flags = HMM_PFN_REQ_FAULT;
+> +    range->pfn_flags_mask = 0;
+> +
+> +并如上所述调用 hmm_range_fault()。这将填充至少具有读取权限的范围内的所有页面。
+> +
+> +现在假设驱动程序想要做同样的事情，除了它想要拥有写权限的范围内的一页。现在驱动程序设
+> +置::
+> +
+> +    range->default_flags = HMM_PFN_REQ_FAULT;
+> +    range->pfn_flags_mask = HMM_PFN_REQ_WRITE;
+> +    range->pfns[index_of_write] = HMM_PFN_REQ_WRITE;
+> +
+> +有了这个，HMM 将在至少读取（即有效）的所有页面中异常，并且对于地址
+> +== range->start + (index_of_write << PAGE_SHIFT) 它将异常写入权限，即，如果
+> +CPU pte 没有设置写权限，那么HMM将调用handle_mm_fault()。
+> +
+> +hmm_range_fault 完成后，标志位被设置为页表的当前状态，即 HMM_PFN_VALID | 如果页
+> +面可写，将设置 HMM_PFN_WRITE。
+> +
+> +
+> +从核心内核的角度表示和管理设备内存
+> +==================================
+> +
+> +尝试了几种不同的设计来支持设备内存。第一个使用特定于设备的数据结构来保存有关迁移内存
+> +的信息，HMM 将自身挂接到 mm 代码的各个位置，以处理对设备内存支持的地址的任何访问。
+> +事实证明，这最终复制了 struct page 的大部分字段，并且还需要更新许多内核代码路径才
+> +能理解这种新的内存类型。
+> +
+> +大多数内核代码路径从不尝试访问页面后面的内存，而只关心struct page的内容。正因为如此，
+> +HMM 切换到直接使用 struct page 用于设备内存，这使得大多数内核代码路径不知道差异。
+> +我们只需要确保没有人试图从 CPU 端映射这些页面。
+> +
+> +移入和移出设备内存
+> +==================
+> +
+> +由于 CPU 无法直接访问设备内存，因此设备驱动程序必须使用硬件 DMA 或设备特定的加载/存
+> +储指令来迁移数据。migrate_vma_setup()、migrate_vma_pages() 和
+> +migrate_vma_finalize() 函数旨在使驱动程序更易于编写并集中跨驱动程序的通用代码。
+> +
+> +在将页面迁移到设备私有内存之前，需要创建特殊的设备私有 。这些将用作特殊的“交换”页表
+需要创建特殊的设备私有的``struct page``.
+
+> +条目，以便 CPU 进程在尝试访问已迁移到设备专用内存的页面时会异常。
+
+会异常->会发生异常。
+
+Reviewed-by: Alex Shi <alexs@kernel.org>
+
+
+> +
+> +这些可以通过以下方式分配和释放::
+> +
+> +    struct resource *res;
+> +    struct dev_pagemap pagemap;
+> +
+> +    res = request_free_mem_region(&iomem_resource, /* number of bytes */,
+> +                                  "name of driver resource");
+> +    pagemap.type = MEMORY_DEVICE_PRIVATE;
+> +    pagemap.range.start = res->start;
+> +    pagemap.range.end = res->end;
+> +    pagemap.nr_range = 1;
+> +    pagemap.ops = &device_devmem_ops;
+> +    memremap_pages(&pagemap, numa_node_id());
+> +
+> +    memunmap_pages(&pagemap);
+> +    release_mem_region(pagemap.range.start, range_len(&pagemap.range));
+> +
+> +还有devm_request_free_mem_region(), devm_memremap_pages(), 
+> +devm_memunmap_pages() 和 devm_release_mem_region() 当资源可以绑定到 ``struct device``.
+> +
+> +整体迁移步骤类似于在系统内存中迁移 NUMA 页面(see :ref:`Page migration <page_migration>`) ，
+> +但这些步骤分为设备驱动程序特定代码和共享公共代码:
+> +
+> +1. ``mmap_read_lock()``
+> +
+> +   设备驱动程序必须将 ``struct vm_area_struct`` 传递给migrate_vma_setup()，
+> +   因此需要在迁移期间保留 mmap_read_lock() 或 mmap_write_lock()。
+> +
+> +2. ``migrate_vma_setup(struct migrate_vma *args)``
+> +
+> +   设备驱动初始化了 ``struct migrate_vma`` 的字段，并将该指针传递给
+> +   migrate_vma_setup()。``args->flags`` 字段是用来过滤哪些源页面应该被迁移。
+> +   例如，设置 ``MIGRATE_VMA_SELECT_SYSTEM`` 将只迁移系统内存，设置
+> +   ``MIGRATE_VMA_SELECT_DEVICE_PRIVATE`` 将只迁移驻留在设备私有内存中的页
+> +   面。如果后者被设置， ``args->pgmap_owner`` 字段被用来识别驱动所拥有的设备
+> +   私有页。这就避免了试图迁移驻留在其他设备中的设备私有页。目前，只有匿名的私有VMA
+> +   范围可以被迁移到系统内存和设备私有内存。
+> +
+> +   migrate_vma_setup()所做的第一步是用 ``mmu_notifier_invalidate_range_start()``
+> +   和 ``mmu_notifier_invalidate_range_end()`` 调用来遍历设备周围的页表，使
+> +   其他设备的MMU无效，以便在 ``args->src`` 数组中填写要迁移的PFN。
+> +   ``invalidate_range_start()`` 回调传递给一个``struct mmu_notifier_range`` ，
+> +   其 ``event`` 字段设置为MMU_NOTIFY_MIGRATE， ``owner`` 字段设置为传递给
+> +   migrate_vma_setup()的 ``args->pgmap_owner`` 字段。这允许设备驱动跳过无
+> +   效化回调，只无效化那些实际正在迁移的设备私有MMU映射。这一点将在下一节详细解释。
+> +
+> +
+> +   在遍历页表时，一个 ``pte_none()`` 或 ``is_zero_pfn()`` 条目导致一个有效
+> +   的  “zero” PFN 存储在 ``args->src`` 阵列中。这让驱动分配设备私有内存并清
+> +   除它，而不是复制一个零页。到系统内存或设备私有结构页的有效PTE条目将被
+> +   ``lock_page()``锁定，与LRU隔离（如果系统内存和设备私有页不在LRU上），从进
+> +   程中取消映射，并插入一个特殊的迁移PTE来代替原来的PTE。 migrate_vma_setup()
+> +   还清除了 ``args->dst`` 数组。
+> +
+> +3. 设备驱动程序分配目标页面并将源页面复制到目标页面。
+> +
+> +   驱动程序检查每个 ``src`` 条目以查看该 ``MIGRATE_PFN_MIGRATE`` 位是否已
+> +   设置并跳过未迁移的条目。设备驱动程序还可以通过不填充页面的 ``dst`` 数组来选
+> +   择跳过页面迁移。
+> +
+> +   然后，驱动程序分配一个设备私有 struct page 或一个系统内存页，用 ``lock_page()``
+> +   锁定该页，并将 ``dst`` 数组条目填入::
+> +
+> +     dst[i] = migrate_pfn(page_to_pfn(dpage));
+> +
+> +   现在驱动程序知道这个页面正在被迁移，它可以使设备私有 MMU 映射无效并将设备私有
+> +   内存复制到系统内存或另一个设备私有页面。由于核心 Linux 内核会处理 CPU 页表失
+> +   效，因此设备驱动程序只需使其自己的 MMU 映射失效。
+> +
+> +   驱动程序可以使用 ``migrate_pfn_to_page(src[i])`` 来获取源设备的
+> +   ``struct page`` 面，并将源页面复制到目标设备上，如果指针为 ``NULL`` ，意
+> +   味着源页面没有被填充到系统内存中，则清除目标设备的私有内存。
+> +
+> +4. ``migrate_vma_pages()``
+> +
+> +   这一步是实际“提交”迁移的地方。
+> +
+> +   如果源页是 ``pte_none()`` 或 ``is_zero_pfn()`` 页，这时新分配的页会被插
+> +   入到CPU的页表中。如果一个CPU线程在同一页面上发生异常，这可能会失败。然而，页
+> +   表被锁定，只有一个新页会被插入。如果它失去了竞争，设备驱动将看到
+> +   ``MIGRATE_PFN_MIGRATE`` 位被清除。
+> +
+> +   如果源页被锁定、隔离等，源 ``struct page`` 信息现在被复制到目标
+> +   ``struct page`` ，最终完成CPU端的迁移。
+> +
+> +5. 设备驱动为仍在迁移的页面更新设备MMU页表，回滚未迁移的页面。
+> +
+> +   如果 ``src`` 条目仍然有 ``MIGRATE_PFN_MIGRATE`` 位被设置，设备驱动可以
+> +   更新设备MMU，如果 ``MIGRATE_PFN_WRITE`` 位被设置，则设置写启用位。
+> +
+> +6. ``migrate_vma_finalize()``
+> +
+> +   这一步用新页的页表项替换特殊的迁移页表项，并释放对源和目的 ``struct page``
+> +   的引用。
+> +
+> +7. ``mmap_read_unlock()``
+> +
+> +   现在可以释放锁了。
+> +
+> +独占访问存储器
+> +==============
+> +
+> +一些设备具有诸如原子PTE位的功能，可以用来实现对系统内存的原子访问。为了支持对一
+> +个共享的虚拟内存页的原子操作，这样的设备需要对该页的访问是排他的，而不是来自CPU
+> +的任何用户空间访问。  ``make_device_exclusive_range()`` 函数可以用来使一
+> +个内存范围不能从用户空间访问。
+> +
+> +这将用特殊的交换条目替换给定范围内的所有页的映射。任何试图访问交换条目的行为都会
+> +导致一个异常，该异常会通过用原始映射替换该条目而得到恢复。驱动程序会被通知映射已
+> +经被MMU通知器改变，之后它将不再有对该页的独占访问。独占访问被保证持续到驱动程序
+> +放弃页面锁和页面引用为止，这时页面上的任何CPU异常都可以按所述进行。
+> +
+> +内存 cgroup (memcg) 和 rss 统计
+> +===============================
+> +
+> +目前，设备内存被视为 rss 计数器中的任何常规页面（如果设备页面用于匿名，则为匿名，
+> +如果设备页面用于文件支持页面，则为文件，如果设备页面用于共享内存，则为 shmem）。
+> +这是为了保持现有应用程序的故意选择，这些应用程序可能在不知情的情况下开始使用设备
+> +内存，运行不受影响。
+> +
+> +一个缺点是 OOM 杀手可能会杀死使用大量设备内存而不是大量常规系统内存的应用程序，
+> +因此不会释放太多系统内存。在决定以不同方式计算设备内存之前，我们希望收集更多关
+> +于应用程序和系统在存在设备内存的情况下在内存压力下如何反应的实际经验。
+> +
+> +对内存 cgroup 做出了相同的决定。设备内存页面根据相同的内存 cgroup 计算，常规
+> +页面将被计算在内。这确实简化了进出设备内存的迁移。这也意味着从设备内存迁移回常规
+> +内存不会失败，因为它会超过内存 cgroup 限制。一旦我们对设备内存的使用方式及其对
+> +内存资源控制的影响有了更多的了解，我们可能会在后面重新考虑这个选择。
+> +
+> +请注意，设备内存永远不能由设备驱动程序或通过 GUP 固定，因此此类内存在进程退出时
+> +总是被释放的。或者在共享内存或文件支持内存的情况下，当删除最后一个引用时。
+> diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
+> index 61cd39cefdcf..0839b2231548 100644
+> --- a/Documentation/translations/zh_CN/vm/index.rst
+> +++ b/Documentation/translations/zh_CN/vm/index.rst
+> @@ -28,6 +28,7 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
+>     highmem
+>     ksm
+>     frontswap
+> +   hmm
+>     hwpoison
+>     hugetlbfs_reserv
+>     memory-model
+> @@ -44,7 +45,6 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
+>  TODOLIST:
+>  * arch_pgtable_helpers
+>  * free_page_reporting
+> -* hmm
+>  * hugetlbfs_reserv
+>  * numa
+>  * page_migration
