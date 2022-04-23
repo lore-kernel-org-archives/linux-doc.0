@@ -2,195 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10A3CC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Apr 2022 10:28:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B63CC4321E
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Apr 2022 12:49:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234947AbiDWKbE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Apr 2022 06:31:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50268 "EHLO
+        id S235526AbiDWMwP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Apr 2022 08:52:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234749AbiDWKbE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 06:31:04 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EC2D193E8;
-        Sat, 23 Apr 2022 03:28:07 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id s17so16207012plg.9;
-        Sat, 23 Apr 2022 03:28:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=nWpbGlpwLh+gEQkkWRq3YHbL1ngb/Lz4M10YRAZLF3A=;
-        b=JkmbreG6V3KF7ABzgpWuBafkd0PznuzvpymRkHC8ZFJpH2QT2/cs9+MoXLo8pBqieI
-         NY+GhlD/zQKbCV2ubWeFoNlUd5n6DBkvCAqlPuFYeL73Tr1AZ0lfiXoAe6h+KJNaAWhj
-         wAHMEiawcTjCo5UJGimf12tuwUvpZguO3Q2RYCr1Sccs4l55+Jb9SjR6j0HdnbUwogCu
-         6d4W6S4vhk1VURgyu+zT6KsKJOLdKUpbnsYz+khpn1sTbMyo+5ZFvyWMNMpFlOwEcJGp
-         XBEtUOCUAKFNCtCGpAQVI+dQj8MNMv5A4kfwIwqL/HDVklTmMgp7elLp8R5ZG3oNXKc3
-         VVEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=nWpbGlpwLh+gEQkkWRq3YHbL1ngb/Lz4M10YRAZLF3A=;
-        b=hv+XynlAO9kts/6JNv0zGEpNbmJMWMTHsO3YBX7jBrwSw5csRE5kRLcsbAENjNNnxs
-         4/hLxjTDDhcudhqEeucrw149UgUM2O1h5GlGuVVHzBQPEnnXvfA2AGO5pbrFXPp6Asew
-         WcRh7IwPCWFheOSwsHwhJSBLrkzYhve1NuFYP5KawffEj/+flBJxYaIl8wAl9yCrmMrr
-         ZMK2YKvFQHQEfu8VCCXHpcQSrUnFtkMTgkZGsmU0koTHnYgjiBvs3TEizet1t7t2KUf+
-         vnGqpBo6nck6gv6l/P6SukN4X6X2EXrCyMnOnoulFTNwEYLraNN1J1Y3zcRiBPvXIcPf
-         ZpLg==
-X-Gm-Message-State: AOAM532kv9LixCOdpR6WjSSHvVQrXdjWo82JlRidec5BMGEFNGAs42SJ
-        nANUUmJ7/uS9Zkc9yFaJ0+A=
-X-Google-Smtp-Source: ABdhPJzlCSDoBuNXEtO4t3tDMyqJEjWViQXI6z+2Y63K0fJEUcTtWC5/eRRfg3Xp9bcWQiApoOrc0Q==
-X-Received: by 2002:a17:902:d2c5:b0:158:f839:4d8a with SMTP id n5-20020a170902d2c500b00158f8394d8amr8798658plc.108.1650709685590;
-        Sat, 23 Apr 2022 03:28:05 -0700 (PDT)
-Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id m23-20020a17090a859700b001cd4989ff47sm8653973pjn.14.2022.04.23.03.28.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 23 Apr 2022 03:28:05 -0700 (PDT)
-Message-ID: <30d2f96e-99e1-2976-a294-8e112166afff@gmail.com>
-Date:   Sat, 23 Apr 2022 18:27:58 +0800
+        with ESMTP id S235514AbiDWMwN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 08:52:13 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2050.outbound.protection.outlook.com [40.107.236.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBED01C102;
+        Sat, 23 Apr 2022 05:49:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=li8PcwZjfbWVHN7xA/oatSMxcXPxn36fbusg/+mVdIU9JXkjhhzEA+vVRvq6lDJpH42OzzXY3dXahBhnjK/odqZKWslokZeDL9ei29n95F/d+pDkFwI/AerBzSx2/ElP4srVeblAjB9amfbvtxlTtsDKksGlhciLnW02hfqdsUxAxe+fTcPzvZvUvA8UguttDS1FygMO1cWBuZFTC/j7OWkmyen2ELSdAC42IjyupZD13CJ7GeLjLNS7kPM45+7pOJa2PZhpmg1NFuNe5aeP3xdquUCPqZv19loJMb3XKeQowcV54f4BhErc7eAQievvjkrKNLrYqNDY89yhUE2R8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LU1z22KXlDpV5Kfz7jKeG3fM2JH1nfPsDZpNyua6n/w=;
+ b=Jei0IT6azEPBkU8mTiGlqSfgqjY3qCfFvz3mXefENNStVfFZmCKRFO1S8pd/CI/Idjw5V+HhL8fpw4Gp6sc3Kd8hPWagAy7LVWSU3KyiFkXmeLa46B19dDmOW2Dcp+65D/z9vwQSBoAiDZ3hVfnKkAt/dzOQIvznn36QFPGqg/N7gOoQU3s4AHd2XPn9eohwOUy8pQc5Pqv/gLGb1ieZgS3M3e21RiU1HO5Mpw+CpR4Dd2Hc6BZJGobBlCb8QsVChGtC58KWlqJ0qwAueFgBjCH+VOhkKiFzH359LdcMIwx58Rv5u+TxGRfGwpDMX53JXO74jJ6oce7q2v6zF/ZGRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LU1z22KXlDpV5Kfz7jKeG3fM2JH1nfPsDZpNyua6n/w=;
+ b=klSuTCWNK0Oa/PaN0sB4J564YR8LL7YdyIjdLJRqm1HX3l3bDCvrBAStl0WTW6aIwnQBRoocEfgjDtoRIzh0GMPh/RZEjPKHZ9eUQgL8sUmlVEEnLVGQm1kNjI52sSL1oaMn9o+q/037aOVSjGUcq/ycOyYxfc216HMS0FpGa/wYIpmOV3/us3gXT5n7K7zN4B/l8FrgRFW++pXw5uaRC/B8ZaChMy5av+tk27hSF2ydEDFenE046iihLV01RniPtd8ycPWATbW7WDMmz3H8D4vxkJr9pxbxw+fW/IhBLx5WJv5ee2NtS9X1kOmTPuu/VrRBJLNYPs0n7wKGQM9xQg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by PH7PR12MB5805.namprd12.prod.outlook.com (2603:10b6:510:1d1::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Sat, 23 Apr
+ 2022 12:49:14 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ec2d:9167:1b47:2db2%6]) with mapi id 15.20.5186.020; Sat, 23 Apr 2022
+ 12:49:14 +0000
+Date:   Sat, 23 Apr 2022 09:49:12 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
+        David Airlie <airlied@linux.ie>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>
+Subject: Re: [PATCH v2 3/7] vfio/mdev: Pass in a struct vfio_device * to
+ vfio_pin/unpin_pages()
+Message-ID: <20220423124912.GM2120790@nvidia.com>
+References: <0-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
+ <3-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
+ <20220422062232.GB11926@lst.de>
+ <20220422205651.GF1951132@nvidia.com>
+ <20220423051551.GA17488@lst.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220423051551.GA17488@lst.de>
+X-ClientProxiedBy: BL1PR13CA0146.namprd13.prod.outlook.com
+ (2603:10b6:208:2bb::31) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/2] docs/zh_CN: sync with original text
- Documentation/vm/page_owner.rst
-Content-Language: en-US
-To:     Haowen Bai <baihaowen@meizu.com>, siyanteng01@gmail.com
-Cc:     alexs@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, siyanteng@loongson.cn
-References: <CAEensMzuQ0uAw8_5Xb7u1n685au=DpaJyPevGCT8GCG7xS42ow@mail.gmail.com>
- <1650424016-7225-1-git-send-email-baihaowen@meizu.com>
- <1650424016-7225-2-git-send-email-baihaowen@meizu.com>
-From:   Alex Shi <seakeel@gmail.com>
-In-Reply-To: <1650424016-7225-2-git-send-email-baihaowen@meizu.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 66951928-5e1c-4992-01ee-08da2527ab6c
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5805:EE_
+X-Microsoft-Antispam-PRVS: <PH7PR12MB5805331FC83E0085514F2402C2F69@PH7PR12MB5805.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ubtX0keUHbsZ+RF6ZxcWLoGuVq/FaeinJRZrw1Qh4wnVw1gCKK6WlysTMtYOCTbK5psC1eKrVp6Zxp8UBPmsJs81cNPcKxoYUzZSB9FBoKrMoh7LXF7ZQI+DEEWKCIqTjwX0NdNKA7H9VIbL/xUMJsv4TUSu+DFXucen4TrNNOnET51VDpbDu4fq6zAbifZCcjWdDKu5ahhcb8WL4T4GpmzSq983g5BU0kxQm93JKJzah5n7ReosIzRr2Q0SnTmQoyUTE7xkZZE/2aSGoczMxjW9/TDOqn0yA7qI3TErFGlUsvSVPEO16e1EGaR+1a1HylHQv21VNTbaZKapS0Q9hQg8NP43qQk5dmYk2D5zQmQ1jivZWzg9M/QuDBRe1iP/JQmQP0ratCA40uoEw+5KpzkZWfLg5iLd6thoORL3suv1g+5cnl1xpKmluZq/M8kK1mKUGP1faeziuUv4h8Jsnlr7XCChAtUoNFPCiK408RYlOZQNzjS8o+POdxWH+H5UQCanMT4Z41sQsu0Sq6dIt+QjRT1H6nTpQxnen+o7gMnL40VPTiUPgnwpLTYv0EM8WMnw6860fEVZICGgJJzdXFnOmIPzRd53fjURmuhI87IsdMKXqi2Htn6r85325a7z0erZvJak87Nnu2dhK0OYXQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(26005)(6512007)(66556008)(6506007)(5660300002)(2616005)(8676002)(36756003)(4326008)(54906003)(6916009)(38100700002)(86362001)(2906002)(8936002)(66946007)(66476007)(33656002)(316002)(7416002)(6486002)(7406005)(4744005)(1076003)(186003)(508600001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+JXR+9hf/Iq3AVIFoPWaSTjV7PKo/QU+hiwKyzCnjvW28iYNDEu+itKr8zAx?=
+ =?us-ascii?Q?PxzafGtPGjlblRi3J7hjxX0r1Z9wlVV2/NALSzA9S+JxvjY+y4JSLQ/oTBts?=
+ =?us-ascii?Q?cQhHZTq+pNVsud5ER3gdNZ82GfhGzd8sf8nUegRzLcvFt+AnJc5XnHoNTSPQ?=
+ =?us-ascii?Q?wvzkofzqtth0IJTad9VUXpzMQr/nQ3lklOZFwyLpeR+5XsCtMan80Av0zC/Y?=
+ =?us-ascii?Q?dO5kYnpQrEoWNoMZ8pGPtj3JQyiTi77LmpHMLqLe5+nZYzJliJ6cpoe0Otej?=
+ =?us-ascii?Q?kQiC4rmoO/7Iqqx66GyjOj3JEGEG5vll6ZRSyvPBzPX4fLJ2jrLLSmhjObdc?=
+ =?us-ascii?Q?agv9paQPVe8EcLvrtL86Tpz0DoToqQ5hFDIG4IUwN+H1JxVi2gOBJkq6QMOo?=
+ =?us-ascii?Q?qCbZY9mT92KUnWCaEVfxeLfzV6Lvvd0aZ34yOXeu4q6xo6UTCyymX7hFGPSH?=
+ =?us-ascii?Q?++N+bfI3pIE66UVGo4pqZEp2UWFftdlWqJTJlsHL4CvhfRJyHnRD40l/aoFK?=
+ =?us-ascii?Q?YhU7OcKqBJ8Dkr6O+Y6kRfdlOlqB0dO3GmYzrUPrh7QYwX0WpY+9dWlC78W1?=
+ =?us-ascii?Q?eSngDe1QHkoYNJgm5DF7tms5XACeyk0UbIC9S+QyCh2DcuypqobkBg1Wjbn4?=
+ =?us-ascii?Q?LSXxtD8I72fWcVsa7IKKB7EXjuPtXWvUamrgJ1v00mhMIuvpnNajC0YsklP6?=
+ =?us-ascii?Q?ZneacGoF6ZoHqKgfhDA5cLva9YCNtVbkicneJj8eNjky/kBK+hJ7ES/yYP0I?=
+ =?us-ascii?Q?bf0DYbaAy0141h7T2I9eT5/5CkF9a+m9ZZ/Ums4LbtzzRpU7mcDFRZU/p62p?=
+ =?us-ascii?Q?jiz4h+JSViAf0mOKSxwygBIKkCC4V3iPM9beUqRquVEV2dvJ3PmCOBvQO8ku?=
+ =?us-ascii?Q?uEF3Igh0SjZFtbC+f5PL6CsClGNk99P8M+VJvdv0N/O44DJ9H7YXLY+k6sZi?=
+ =?us-ascii?Q?VwFHBWAX/2m4+g4PF7aiMLxyLxfnEpOVC9LD6PvYAk8mBmHa735cW0n+KzDu?=
+ =?us-ascii?Q?2XTNdk4gqAGjYcEJ2OEEmZruT22ds5qxwS+0eR6phGa/BshAq48L5qeAOCz+?=
+ =?us-ascii?Q?Xb/e9HPA3/Bf0iV9AD6WjWoJERDYrr9JYUpNzkqGCRWHTTxxKGk5eSSUw1KZ?=
+ =?us-ascii?Q?k928kKCGbSi08fBQHZOReQbDYPQgdQA3Cu/2RdCLQxOfLYPUBUG2P9Tzf5Z0?=
+ =?us-ascii?Q?Dg22ljFLF8uZJ8iO2jREUh+7oHEXmz3ijW+0ixrrVqNLjUM14XaEccYuBUPr?=
+ =?us-ascii?Q?WC7SMZmUEh42Hwbm3vGOqUOmPOEeXwhvtoSqdzntTSzz7ppE4kCeMCWAuCjh?=
+ =?us-ascii?Q?6oa0KCmoFkhqeh/kHjhyIvtJFr7AOgV61cVsGqoayWoxJf6O2TS7qCOHvI0Q?=
+ =?us-ascii?Q?3a6EDBSmojDnhTnh2FoO1wMKkqDE3TrOLjnI4JqYNvhi6pijKMp423MH73Wg?=
+ =?us-ascii?Q?S0tYPIQifz3PvVOFNl5tmuGG9tx//6HtRnIMP1gbB0gGcYo2jod0KZ69m/s6?=
+ =?us-ascii?Q?0gAnd/qQotCZEOztKCgejdq0ROSN9CJI1c4TokUydM0lUHZ2++Jwh0SCDH22?=
+ =?us-ascii?Q?CN1Ctrh/iSDJysHI80UGFt5P4cYUdQsrqXlP67BVp0C+ozwlRRygc0M2qT3Q?=
+ =?us-ascii?Q?LTqywR/97yL12+19+H4ASKT/vCHEu5ToA75AV+TmuLjE8hOhSI1jtHaIcwc/?=
+ =?us-ascii?Q?sI8+jTQR5H1hAaijAb89co5TbkOSZEA4KAlYhhn2AnQdZp4p4GN4Gh0Cn6AW?=
+ =?us-ascii?Q?crYm6U3tyA=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66951928-5e1c-4992-01ee-08da2527ab6c
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2022 12:49:14.0187
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JLdN2WccaPZGCSqsZ+KH7BiV9yIysu1uF7jvV3dGQpzCaODOrX6LcyVgZNy0Ptq1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5805
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Haowen,
+On Sat, Apr 23, 2022 at 07:15:52AM +0200, Christoph Hellwig wrote:
+> On Fri, Apr 22, 2022 at 05:56:51PM -0300, Jason Gunthorpe wrote:
+> > On Fri, Apr 22, 2022 at 08:22:32AM +0200, Christoph Hellwig wrote:
+> > > Nit: why do some of these patches that don't touch the mdev code
+> > > mdev in the subject?
+> > 
+> > I consider these APIs to be 'mdev apis' because only mdev drivers
+> > should call them.
+> 
+> I thought we settled on 'emulated IOMMU device' in the VFIO core for
+> them, leaving mdev just for the odd lifecycle management glue.
 
-I hit the mistake again while apply your patch:
-$git am your_patch
-error: cannot convert from N to UTF-8
+Yes
 
-fatal: could not parse patch
+vfio/emulated
 
+?
 
-You have to try apply it before sending out your patch.
-and this patch is better be to be 2nd patch in series.
-
-Thanks
-Alex
-
-On 4/20/22 11:06, Haowen Bai wrote:
-> As the tools/vm/page_owner_sort added some feature and original text
-> updated, sync the translation of zh_CN as below.
-> 
-> Commit 8bd16bc0a081 ("tools/vm/page_owner_sort.c: support sorting blocks
-> by multiple keys") add sorting blocks by multiple keys usage
-> description.
-> 
-> Commit 78a0b94f3829 ("tools/vm/page_owner_sort.c: support for multi-value
-> selection in single argument") add multi-value selection in single
-> argument usage description.
-> 
-> Commit c89b3ad2dea2 ("doc/vm/page_owner.rst: remove content related to -c
-> option") remove  -c option usage description.
-> 
-> Commit 9c8a0a8e599f ("tools/vm/page_owner_sort.c: support for user-defined
-> culling rules") add user-defined culling rules usage description.
-> 
-> Commit 8ea8613a616a ("tools/vm/page_owner_sort.c: support for selecting by
-> PID, TGID or task command name") add selecting by PID, TGID or task
-> command name usage description.
-> 
-> Commit 194d52d771b8 ("tools/vm/page_owner_sort: support for sorting by
-> task command name") add sorting by task command name usage description.
-> 
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
-> ---
->  Documentation/translations/zh_CN/vm/page_owner.rst | 61 +++++++++++++++++++++-
->  1 file changed, 60 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
-> index 9e951fabba9d..c692e81c724e 100644
-> --- a/Documentation/translations/zh_CN/vm/page_owner.rst
-> +++ b/Documentation/translations/zh_CN/vm/page_owner.rst
-> @@ -103,14 +103,73 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
->  		-m		按总内存排序
->  		-p		按pid排序。
->  		-P		按tgid排序。
-> +		-n		按任务名称排序。
->  		-r		按内存释放时间排序。
->  		-s		按堆栈跟踪排序。
->  		-t		按时间排序（默认）。
-> +		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从
-> +						**标准格式说明符** 部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
-> +						允许混合使用缩写键和全称键。
-> +
-> +		Examples:
-> +				./page_owner_sort <input> <output> --sort=n,+pid,-tgid
-> +				./page_owner_sort <input> <output> --sort=at
->  
->     其它函数:
->  
->  	Cull:
-> -		-c		通过比较堆栈跟踪而不是总块来进行剔除。
-> +		--cull <rules>
-> +				指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
-> +
-> +		<rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
-> +				符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的
-> +				STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
->  
-> +		Examples:
-> +				./page_owner_sort <input> <output> --cull=stacktrace
-> +				./page_owner_sort <input> <output> --cull=st,pid,name
-> +				./page_owner_sort <input> <output> --cull=n,f
->  	Filter:
->  		-f		过滤掉内存已被释放的块的信息。
-> +
-> +	Select:
-> +		--pid <pidlist>		通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
-> +		--tgid <tgidlist>	通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
-> +		--name <cmdlist>	按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
-> +
-> +		<pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
-> +
-> +
-> +		Examples:
-> +				./page_owner_sort <input> <output> --pid=1
-> +				./page_owner_sort <input> <output> --tgid=1,2,3
-> +				./page_owner_sort <input> <output> --name name1,name2
-> +
-> +标准格式说明符
-> +==============
-> +
-> +--sort 选项:
-> +
-> +        ======          ==========      ===================
-> +        缩写键          全称键          描述
-> +        ======          ==========      ===================
-> +        p               pid             进程 ID
-> +        tg              tgid            线程组 ID
-> +        n               name            任务名称
-> +        st              stacktrace      页面分配的调用栈
-> +        T               txt             块的全文
-> +        ft              free_ts         页面被释放的时间戳
-> +        at              alloc_ts        页面分配的时间戳
-> +        ======          ==========      ===================
-> +
-> +--curl 选项:
-> +
-> +        ======          ==========      ==================
-> +        缩写键          全称键          描述
-> +        ======          ==========      ==================
-> +        p               pid             进程 ID
-> +        tg              tgid            线程组 ID
-> +        n               name            任务名称
-> +        f               free            该页面是否已被释放
-> +        st              stacktrace      页面分配的调用栈
-> +        ======          ==========      ==================
+Jason
