@@ -2,255 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79C56C433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Apr 2022 01:50:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0A82C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Apr 2022 05:16:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230231AbiDWBxq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Apr 2022 21:53:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50878 "EHLO
+        id S233147AbiDWFS4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Apr 2022 01:18:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231397AbiDWBxp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Apr 2022 21:53:45 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A53E21A4
-        for <linux-doc@vger.kernel.org>; Fri, 22 Apr 2022 18:50:49 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id c1so3032421pfo.0
-        for <linux-doc@vger.kernel.org>; Fri, 22 Apr 2022 18:50:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iuHt4Iz4FeZBvfTekgoBxhqf7wWZiBSKlKE/b+2tuYo=;
-        b=goIqv8VMZbjl/c21Jd/hdMFrKYsyG7ZmdvPyMP0a/LfpPFogQ2pz0rqGGlL/AbTqAs
-         9pSaiVPXATwgYFD5N5J3yDUb/pSsg0GPEKelq16yimQnW972dgloHJe65mdFFqD9Do1K
-         rfbVg7wta3owfIXNgtPf9exTJ5PLWsXRn7YHotwHXiR3Lkj659kCquaRDrj310oN7KKB
-         jMZM6HpvA98IESGZVPUiQud4tbPccE2u3eNVzqTqrXy3s0yTKF6yVKnJ7iGeA60/fd96
-         +GWnu5/SHFOm3yjfGlSdAu7G7dd4BdX/igL9srOjG3lvbYLAaHSMkweQg27Zn7pzyHq/
-         VUDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=iuHt4Iz4FeZBvfTekgoBxhqf7wWZiBSKlKE/b+2tuYo=;
-        b=MHp2RRLhlYqQQvHSNI4gYtRfzGJX9ri4VmpID6vupQ7b5HrYKKWhKfR7jUs7rFF+OA
-         wYpn1zAz1L3+Zbg8hz1lO8YJeT0WHgOCvgEW3eQVIStpvfZLmA6oW4nkHKVuTQ/o0YFV
-         m5uvcirvA1RQBY3w9JxWTcRj0wSZgi9c+pdFfv6h+VH9Y22bJfjKiG9w/DyKhZMbspTA
-         +XYBbICmPmIDVR6lkGzKtMgpaV2Qf6eReMAo6wjBfiRnIx0E00zsHBdPFDxkN9U8YHbl
-         4FueWXJrWoVuNm8ggRDnbFqrdgz+juv4wbS4C3edogOPcN2hPBFRnZJmlO5OTf1E8GwQ
-         DWRQ==
-X-Gm-Message-State: AOAM532pmAs/28a4GVQ1C1GI0NyQOXr8pdIBmHm/+22u5b9WXqZwHScq
-        AbPeB2dz1EyZTNGRoGugxX2Ntg==
-X-Google-Smtp-Source: ABdhPJxJGqglrviMvw8Swe1RM63k2IYS5w00YAqVduQcH5u9WbhL2yia4TEU96zrIIxxdu1APdK0XA==
-X-Received: by 2002:a63:c5:0:b0:3aa:9882:9f91 with SMTP id 188-20020a6300c5000000b003aa98829f91mr6164187pga.574.1650678648423;
-        Fri, 22 Apr 2022 18:50:48 -0700 (PDT)
-Received: from localhost ([12.3.194.138])
-        by smtp.gmail.com with ESMTPSA id 123-20020a620681000000b004fa7c20d732sm3684931pfg.133.2022.04.22.18.50.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Apr 2022 18:50:47 -0700 (PDT)
-Date:   Fri, 22 Apr 2022 18:50:47 -0700 (PDT)
-X-Google-Original-Date: Fri, 22 Apr 2022 18:50:27 PDT (-0700)
-Subject:     Re: [PATCH v3 00/13] Introduce sv48 support without relocatable kernel
-In-Reply-To: <CA+zEjCuyEsB0cHoL=zepejcRbn9Rwg9nRXLMZCOXe_daSWbvig@mail.gmail.com>
-CC:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, zong.li@sifive.com, anup@brainfault.org,
-        Atish.Patra@rivosinc.com, Christoph Hellwig <hch@lst.de>,
-        ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
-        dvyukov@google.com, ardb@kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        keescook@chromium.org, guoren@linux.alibaba.com,
-        heinrich.schuchardt@canonical.com, mchitale@ventanamicro.com,
-        panqinglin2020@iscas.ac.cn, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
-        linux-arch@vger.kernel.org
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     alexandre.ghiti@canonical.com
-Message-ID: <mhng-f386a42e-77d9-4644-914f-552a8e721f5c@palmer-ri-x1c9>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229945AbiDWFS4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 01:18:56 -0400
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DFB14F461;
+        Fri, 22 Apr 2022 22:15:59 -0700 (PDT)
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id AF36268AFE; Sat, 23 Apr 2022 07:15:52 +0200 (CEST)
+Date:   Sat, 23 Apr 2022 07:15:52 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        David Airlie <airlied@linux.ie>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>
+Subject: Re: [PATCH v2 3/7] vfio/mdev: Pass in a struct vfio_device * to
+ vfio_pin/unpin_pages()
+Message-ID: <20220423051551.GA17488@lst.de>
+References: <0-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com> <3-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com> <20220422062232.GB11926@lst.de> <20220422205651.GF1951132@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220422205651.GF1951132@nvidia.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 01 Apr 2022 05:56:30 PDT (-0700), alexandre.ghiti@canonical.com wrote:
-> On Fri, Feb 18, 2022 at 11:45 AM Alexandre Ghiti
-> <alexandre.ghiti@canonical.com> wrote:
->>
->> Hi Palmer,
->>
->> On Thu, Jan 20, 2022 at 11:05 AM Alexandre Ghiti
->> <alexandre.ghiti@canonical.com> wrote:
->> >
->> > On Thu, Jan 20, 2022 at 8:30 AM Alexandre Ghiti
->> > <alexandre.ghiti@canonical.com> wrote:
->> > >
->> > > On Thu, Jan 20, 2022 at 5:18 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
->> > > >
->> > > > On Mon, 06 Dec 2021 02:46:44 PST (-0800), alexandre.ghiti@canonical.com wrote:
->> > > > > * Please note notable changes in memory layouts and kasan population *
->> > > > >
->> > > > > This patchset allows to have a single kernel for sv39 and sv48 without
->> > > > > being relocatable.
->> > > > >
->> > > > > The idea comes from Arnd Bergmann who suggested to do the same as x86,
->> > > > > that is mapping the kernel to the end of the address space, which allows
->> > > > > the kernel to be linked at the same address for both sv39 and sv48 and
->> > > > > then does not require to be relocated at runtime.
->> > > > >
->> > > > > This implements sv48 support at runtime. The kernel will try to
->> > > > > boot with 4-level page table and will fallback to 3-level if the HW does not
->> > > > > support it. Folding the 4th level into a 3-level page table has almost no
->> > > > > cost at runtime.
->> > > > >
->> > > > > Note that kasan region had to be moved to the end of the address space
->> > > > > since its location must be known at compile-time and then be valid for
->> > > > > both sv39 and sv48 (and sv57 that is coming).
->> > > > >
->> > > > > Tested on:
->> > > > >   - qemu rv64 sv39: OK
->> > > > >   - qemu rv64 sv48: OK
->> > > > >   - qemu rv64 sv39 + kasan: OK
->> > > > >   - qemu rv64 sv48 + kasan: OK
->> > > > >   - qemu rv32: OK
->> > > > >
->> > > > > Changes in v3:
->> > > > >   - Fix SZ_1T, thanks to Atish
->> > > > >   - Fix warning create_pud_mapping, thanks to Atish
->> > > > >   - Fix k210 nommu build, thanks to Atish
->> > > > >   - Fix wrong rebase as noted by Samuel
->> > > > >   - * Downgrade to sv39 is only possible if !KASAN (see commit changelog) *
->> > > > >   - * Move KASAN next to the kernel: virtual layouts changed and kasan population *
->> > > > >
->> > > > > Changes in v2:
->> > > > >   - Rebase onto for-next
->> > > > >   - Fix KASAN
->> > > > >   - Fix stack canary
->> > > > >   - Get completely rid of MAXPHYSMEM configs
->> > > > >   - Add documentation
->> > > > >
->> > > > > Alexandre Ghiti (13):
->> > > > >   riscv: Move KASAN mapping next to the kernel mapping
->> > > > >   riscv: Split early kasan mapping to prepare sv48 introduction
->> > > > >   riscv: Introduce functions to switch pt_ops
->> > > > >   riscv: Allow to dynamically define VA_BITS
->> > > > >   riscv: Get rid of MAXPHYSMEM configs
->> > > > >   asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
->> > > > >   riscv: Implement sv48 support
->> > > > >   riscv: Use pgtable_l4_enabled to output mmu_type in cpuinfo
->> > > > >   riscv: Explicit comment about user virtual address space size
->> > > > >   riscv: Improve virtual kernel memory layout dump
->> > > > >   Documentation: riscv: Add sv48 description to VM layout
->> > > > >   riscv: Initialize thread pointer before calling C functions
->> > > > >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
->> > > > >
->> > > > >  Documentation/riscv/vm-layout.rst             |  48 ++-
->> > > > >  arch/riscv/Kconfig                            |  37 +-
->> > > > >  arch/riscv/configs/nommu_k210_defconfig       |   1 -
->> > > > >  .../riscv/configs/nommu_k210_sdcard_defconfig |   1 -
->> > > > >  arch/riscv/configs/nommu_virt_defconfig       |   1 -
->> > > > >  arch/riscv/include/asm/csr.h                  |   3 +-
->> > > > >  arch/riscv/include/asm/fixmap.h               |   1
->> > > > >  arch/riscv/include/asm/kasan.h                |  11 +-
->> > > > >  arch/riscv/include/asm/page.h                 |  20 +-
->> > > > >  arch/riscv/include/asm/pgalloc.h              |  40 ++
->> > > > >  arch/riscv/include/asm/pgtable-64.h           | 108 ++++-
->> > > > >  arch/riscv/include/asm/pgtable.h              |  47 +-
->> > > > >  arch/riscv/include/asm/sparsemem.h            |   6 +-
->> > > > >  arch/riscv/kernel/cpu.c                       |  23 +-
->> > > > >  arch/riscv/kernel/head.S                      |   4 +-
->> > > > >  arch/riscv/mm/context.c                       |   4 +-
->> > > > >  arch/riscv/mm/init.c                          | 408 ++++++++++++++----
->> > > > >  arch/riscv/mm/kasan_init.c                    | 250 ++++++++---
->> > > > >  drivers/firmware/efi/libstub/efi-stub.c       |   2
->> > > > >  drivers/pci/controller/pci-xgene.c            |   2 +-
->> > > > >  include/asm-generic/pgalloc.h                 |  24 +-
->> > > > >  include/linux/sizes.h                         |   1
->> > > > >  22 files changed, 833 insertions(+), 209 deletions(-)
->> > > >
->> > > > Sorry this took a while.  This is on for-next, with a bit of juggling: a
->> > > > handful of trivial fixes for configs that were failing to build/boot and
->> > > > some merge issues.  I also pulled out that MAXPHYSMEM fix to the top, so
->> > > > it'd be easier to backport.  This is bigger than something I'd normally like to
->> > > > take late in the cycle, but given there's a lot of cleanups, likely some fixes,
->> > > > and it looks like folks have been testing this I'm just going to go with it.
->> > > >
->> > >
->> > > Yes yes yes! That's fantastic news :)
->> > >
->> > > > Let me know if there's any issues with the merge, it was a bit hairy.
->> > > > Probably best to just send along a fixup patch at this point.
->> > >
->> > > I'm going to take a look at that now, and I'll fix anything that comes
->> > > up quickly :)
->> >
->> > I see in for-next that you did not take the following patches:
->> >
->> >   riscv: Improve virtual kernel memory layout dump
->> >   Documentation: riscv: Add sv48 description to VM layout
->> >   riscv: Initialize thread pointer before calling C functions
->> >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
->> >
->> > I'm not sure this was your intention. If it was, I believe that at
->> > least the first 2 patches are needed in this series, the 3rd one is a
->> > useful fix and we can discuss the 4th if that's an issue for you.
->>
->> Can you confirm that this was intentional and maybe explain the
->> motivation behind it? Because I see value in those patches.
->
-> Palmer,
->
-> I read that you were still taking patches for 5.18, so I confirm again
-> that the patches above are needed IMO.
+On Fri, Apr 22, 2022 at 05:56:51PM -0300, Jason Gunthorpe wrote:
+> On Fri, Apr 22, 2022 at 08:22:32AM +0200, Christoph Hellwig wrote:
+> > Nit: why do some of these patches that don't touch the mdev code
+> > mdev in the subject?
+> 
+> I consider these APIs to be 'mdev apis' because only mdev drivers
+> should call them.
 
-It was too late for this when it was sent (I saw it then, but just got 
-around to actually doing the work to sort it out).
-
-It took me a while to figure out exactly what was going on here, but I 
-think I remember now: that downgrade patch (and the follow-on I just 
-sent) is broken for medlow, because mm/init.c must be built medany 
-(which we're using for the mostly-PIC qualities).  I remember being in 
-the middle of rebasing/debugging this a while ago, I must have forgotten 
-I was in the middle of that and accidentally merged the branch as-is.  
-Certainly wasn't trying to silently take half the patch set and leave 
-the rest in limbo, that's the wrong way to do things. 
-
-I'm not sure what the right answer is here, but I just sent a patch to 
-drop support for medlow.  We'll have to talk about that, for now I 
-cleaned up some other minor issues, rearranged that docs and fix to come 
-first, and put this at palmer/riscv-sv48.  I think that fix is 
-reasonable to take the doc and fix into fixes, then the dump improvement 
-on for-next.  We'll have to see what folks think about the medany-only 
-kernels, the other option would be to build FDT as medany which seems a 
-bit awkward.  
-
-> Maybe even the relocatable series?
-
-Do you mind giving me a pointer?  I'm not sure why I'm so drop-prone 
-with your patches, I promise I'm not doing it on purpose.
-
->
-> Thanks,
->
-> Alex
->
->>
->> Thanks,
->>
->> Alex
->>
->> >
->> > I tested for-next on both sv39 and sv48 successfully, I took a glance
->> > at the code and noticed you fixed the PTRS_PER_PGD error, thanks for
->> > that. Otherwise nothing obvious has popped.
->> >
->> > Thanks again,
->> >
->> > Alex
->> >
->> > >
->> > > Thanks!
->> > >
->> > > Alex
->> > >
->> > > >
->> > > > Thanks!
+I thought we settled on 'emulated IOMMU device' in the VFIO core for
+them, leaving mdev just for the odd lifecycle management glue.
