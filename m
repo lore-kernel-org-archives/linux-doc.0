@@ -2,280 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C923C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Apr 2022 01:42:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD55C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Apr 2022 02:57:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235794AbiDXBpM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Apr 2022 21:45:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47250 "EHLO
+        id S237802AbiDXDAB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Apr 2022 23:00:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231462AbiDXBpI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 21:45:08 -0400
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFD8D69CCC;
-        Sat, 23 Apr 2022 18:42:09 -0700 (PDT)
-Received: by mail-ot1-x334.google.com with SMTP id l9-20020a056830268900b006054381dd35so8334379otu.4;
-        Sat, 23 Apr 2022 18:42:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qykk6L3O46pcTN8m/dbwpB49SKDDD1ul8Pr/0fbcNr4=;
-        b=OfdqFn9TxiYhZrV1EY7p2xs1IIS/5TTzepb3+R73KYuSo6otBauxGu1eTIQu4KoS0C
-         3OXieWoq0MFeY0b9plCLsm+DmGxFKpqRvxxIUIjoRx0eNITiI06rQvL3qEJjx7mvWgRM
-         7sn17QrcT2ogXfc9r80xMDctK1ohQznXjFWpSV1llwV6bP0gLqLkyal5iImGesqVD06v
-         rLhvdYg5gpKEBYZDHXZgSr55/UfXVCf9SGjjNsra6icYiAsFEHRN3vaQ2slzEkDuAWRk
-         civAvR39XjrSHxNlOpOwf5j0FrpCUymZd4Xvp8nLysuePsBZj16wb4y4juBxN68H1VLJ
-         NFbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=qykk6L3O46pcTN8m/dbwpB49SKDDD1ul8Pr/0fbcNr4=;
-        b=4FxOi23tsvXA1Dt+0p50+uB0A59SGILQPtFRcGm/xFEqxT27eDX71BAIjpCOa/Qv7p
-         InphUqWWW6bULoMfdFoDDLDZupU7+V6Ao0xWIPiCoExs9KmGSVobJqxhq+b2YmNu5ywY
-         8cn0Co1CSAGDtKWXWrNe7fsrURiS89sPV3Xvy9F61Vq5i5FDBWOaEGytpJPJf+fffpcB
-         X0ZSRWWidBTt2H2EC3LwtKIB3jT6aL7jUs7n9XPzUBBsLoW7TWOon3KhY+uvzdkMtq8s
-         Y5mKAH26cQPCgNAiIshPeu6Ffvn/jepaGewV1vU9nj8eWCsPByBtzLka4Q+8FqGysxDs
-         oAyA==
-X-Gm-Message-State: AOAM533nTPQo0eBqyoP5FjAByNyXRaWWKvRNwcRrsLylk0b4IaDC/BJ0
-        f9zbtHWoFNv5H9S9BMemPmMXVXoTZBo=
-X-Google-Smtp-Source: ABdhPJx4MMlJeQ5vZXbF2e7xZJzwhL01YczaXY2YBn975gQcpzZ+hoKmpaDULPfHX1U7km+K1buGrA==
-X-Received: by 2002:a9d:7501:0:b0:605:483d:d198 with SMTP id r1-20020a9d7501000000b00605483dd198mr4211116otk.155.1650764529230;
-        Sat, 23 Apr 2022 18:42:09 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id r23-20020a056830237700b005b2610517c8sm2368011oth.56.2022.04.23.18.42.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Apr 2022 18:42:08 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Sat, 23 Apr 2022 18:42:06 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Aleksa Savic <savicaleksa83@gmail.com>
-Cc:     linux-hwmon@vger.kernel.org, Jack Doan <me@jackdoan.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (aquacomputer_d5next) Add support for
- Aquacomputer Farbwerk
-Message-ID: <20220424014206.GA3989097@roeck-us.net>
-References: <20220421072743.5058-1-savicaleksa83@gmail.com>
+        with ESMTP id S229885AbiDXDAB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 23:00:01 -0400
+Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B828B13F26B;
+        Sat, 23 Apr 2022 19:57:00 -0700 (PDT)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
+ (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Sun, 24 Apr
+ 2022 10:56:55 +0800
+Received: from [172.16.137.70] (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Sun, 24 Apr
+ 2022 10:56:53 +0800
+Message-ID: <049ccac8-c394-0cdc-c2ed-4ea91cab6439@meizu.com>
+Date:   Sun, 24 Apr 2022 10:56:52 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220421072743.5058-1-savicaleksa83@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 1/2] docs/zh_CN: sync with original text
+ Documentation/vm/page_owner.rst
+To:     Alex Shi <seakeel@gmail.com>, <siyanteng01@gmail.com>
+CC:     <alexs@kernel.org>, <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <siyanteng@loongson.cn>
+References: <CAEensMzuQ0uAw8_5Xb7u1n685au=DpaJyPevGCT8GCG7xS42ow@mail.gmail.com>
+ <1650424016-7225-1-git-send-email-baihaowen@meizu.com>
+ <1650424016-7225-2-git-send-email-baihaowen@meizu.com>
+ <30d2f96e-99e1-2976-a294-8e112166afff@gmail.com>
+From:   baihaowen <baihaowen@meizu.com>
+In-Reply-To: <30d2f96e-99e1-2976-a294-8e112166afff@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 21, 2022 at 09:27:42AM +0200, Aleksa Savic wrote:
-> Extend aquacomputer_d5next driver to expose hardware temperature sensors
-> of the Aquacomputer Farbwerk RGB controller, which communicates through
-> a proprietary USB HID protocol.
-> 
-> Four temperature sensors are available. Additionally, serial number and
-> firmware version are exposed through debugfs.
-> 
-> Also, add Jack Doan to MAINTAINERS for this driver.
-> 
-> Signed-off-by: Jack Doan <me@jackdoan.com>
-> Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
-> ---
+在 4/23/22 6:27 PM, Alex Shi 写道:
+> Hi Haowen,
+>
+> I hit the mistake again while apply your patch:
+> $git am your_patch
+> error: cannot convert from N to UTF-8
+>
+> fatal: could not parse patch
+>
+>
+> You have to try apply it before sending out your patch.
+> and this patch is better be to be 2nd patch in series.
+>
+> Thanks
+> Alex
+>
+> On 4/20/22 11:06, Haowen Bai wrote:
+>> As the tools/vm/page_owner_sort added some feature and original text
+>> updated, sync the translation of zh_CN as below.
+>>
+>> Commit 8bd16bc0a081 ("tools/vm/page_owner_sort.c: support sorting blocks
+>> by multiple keys") add sorting blocks by multiple keys usage
+>> description.
+>>
+>> Commit 78a0b94f3829 ("tools/vm/page_owner_sort.c: support for multi-value
+>> selection in single argument") add multi-value selection in single
+>> argument usage description.
+>>
+>> Commit c89b3ad2dea2 ("doc/vm/page_owner.rst: remove content related to -c
+>> option") remove  -c option usage description.
+>>
+>> Commit 9c8a0a8e599f ("tools/vm/page_owner_sort.c: support for user-defined
+>> culling rules") add user-defined culling rules usage description.
+>>
+>> Commit 8ea8613a616a ("tools/vm/page_owner_sort.c: support for selecting by
+>> PID, TGID or task command name") add selecting by PID, TGID or task
+>> command name usage description.
+>>
+>> Commit 194d52d771b8 ("tools/vm/page_owner_sort: support for sorting by
+>> task command name") add sorting by task command name usage description.
+>>
+>> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+>> ---
+>>  Documentation/translations/zh_CN/vm/page_owner.rst | 61 +++++++++++++++++++++-
+>>  1 file changed, 60 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
+>> index 9e951fabba9d..c692e81c724e 100644
+>> --- a/Documentation/translations/zh_CN/vm/page_owner.rst
+>> +++ b/Documentation/translations/zh_CN/vm/page_owner.rst
+>> @@ -103,14 +103,73 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
+>>  		-m		按总内存排序
+>>  		-p		按pid排序。
+>>  		-P		按tgid排序。
+>> +		-n		按任务名称排序。
+>>  		-r		按内存释放时间排序。
+>>  		-s		按堆栈跟踪排序。
+>>  		-t		按时间排序（默认）。
+>> +		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从
+>> +						**标准格式说明符** 部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
+>> +						允许混合使用缩写键和全称键。
+>> +
+>> +		Examples:
+>> +				./page_owner_sort <input> <output> --sort=n,+pid,-tgid
+>> +				./page_owner_sort <input> <output> --sort=at
+>>  
+>>     其它函数:
+>>  
+>>  	Cull:
+>> -		-c		通过比较堆栈跟踪而不是总块来进行剔除。
+>> +		--cull <rules>
+>> +				指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
+>> +
+>> +		<rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
+>> +				符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的
+>> +				STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
+>>  
+>> +		Examples:
+>> +				./page_owner_sort <input> <output> --cull=stacktrace
+>> +				./page_owner_sort <input> <output> --cull=st,pid,name
+>> +				./page_owner_sort <input> <output> --cull=n,f
+>>  	Filter:
+>>  		-f		过滤掉内存已被释放的块的信息。
+>> +
+>> +	Select:
+>> +		--pid <pidlist>		通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
+>> +		--tgid <tgidlist>	通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
+>> +		--name <cmdlist>	按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
+>> +
+>> +		<pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
+>> +
+>> +
+>> +		Examples:
+>> +				./page_owner_sort <input> <output> --pid=1
+>> +				./page_owner_sort <input> <output> --tgid=1,2,3
+>> +				./page_owner_sort <input> <output> --name name1,name2
+>> +
+>> +标准格式说明符
+>> +==============
+>> +
+>> +--sort 选项:
+>> +
+>> +        ======          ==========      ===================
+>> +        缩写键          全称键          描述
+>> +        ======          ==========      ===================
+>> +        p               pid             进程 ID
+>> +        tg              tgid            线程组 ID
+>> +        n               name            任务名称
+>> +        st              stacktrace      页面分配的调用栈
+>> +        T               txt             块的全文
+>> +        ft              free_ts         页面被释放的时间戳
+>> +        at              alloc_ts        页面分配的时间戳
+>> +        ======          ==========      ===================
+>> +
+>> +--curl 选项:
+>> +
+>> +        ======          ==========      ==================
+>> +        缩写键          全称键          描述
+>> +        ======          ==========      ==================
+>> +        p               pid             进程 ID
+>> +        tg              tgid            线程组 ID
+>> +        n               name            任务名称
+>> +        f               free            该页面是否已被释放
+>> +        st              stacktrace      页面分配的调用栈
+>> +        ======          ==========      ==================
+hi, Alex
+I can apply local.
+➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documentation-vm-.patch
+应用：docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0002-doc-vm-page_owner.rst-Fix-table-display-confusion.patch   
+应用：doc/vm/page_owner.rst: Fix table display confusion
 
-This patch doesn't apply. Please rebase to master and resend.
+I think git send-email will change format by my select. I'll try to resend.
 
-More comments inline.
+-- 
+Haowen Bai
 
-> If adding to MAINTAINERS requires a separate commit, I'll send it
-> separately.
-> ---
->  Documentation/hwmon/aquacomputer_d5next.rst |  3 +-
->  MAINTAINERS                                 |  1 +
->  drivers/hwmon/Kconfig                       |  5 +--
->  drivers/hwmon/aquacomputer_d5next.c         | 37 ++++++++++++++++++---
->  4 files changed, 38 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/aquacomputer_d5next.rst b/Documentation/hwmon/aquacomputer_d5next.rst
-> index e69f718caf5b..717e28226cde 100644
-> --- a/Documentation/hwmon/aquacomputer_d5next.rst
-> +++ b/Documentation/hwmon/aquacomputer_d5next.rst
-> @@ -6,6 +6,7 @@ Kernel driver aquacomputer-d5next
->  Supported devices:
->  
->  * Aquacomputer D5 Next watercooling pump
-> +* Aquacomputer Farbwerk RGB controller
->  * Aquacomputer Farbwerk 360 RGB controller
->  * Aquacomputer Octo fan controller
->  
-> @@ -32,7 +33,7 @@ better suited for userspace tools.
->  The Octo exposes four temperature sensors and eight PWM controllable fans, along
->  with their speed (in RPM), power, voltage and current.
->  
-> -The Farbwerk 360 exposes four temperature sensors. Depending on the device,
-> +The Farbwerk and Farbwerk 360 expose four temperature sensors. Depending on the device,
->  not all sysfs and debugfs entries will be available.
->  
->  Usage notes
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ea2cd656ee6c..d8e3ca0fbc3a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1389,6 +1389,7 @@ F:	drivers/media/i2c/aptina-pll.*
->  
->  AQUACOMPUTER D5 NEXT PUMP SENSOR DRIVER
->  M:	Aleksa Savic <savicaleksa83@gmail.com>
-> +M:	Jack Doan <me@jackdoan.com>
->  L:	linux-hwmon@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/hwmon/aquacomputer_d5next.rst
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 5beadd8a0932..01d10c9b633a 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -256,12 +256,13 @@ config SENSORS_AHT10
->  	  will be called aht10.
->  
->  config SENSORS_AQUACOMPUTER_D5NEXT
-> -	tristate "Aquacomputer D5 Next, Octo and Farbwerk 360"
-> +	tristate "Aquacomputer D5 Next, Octo, Farbwerk, Farbwerk 360"
->  	depends on USB_HID
->  	help
->  	  If you say yes here you get support for sensors and fans of
->  	  the Aquacomputer D5 Next watercooling pump, Octo fan
-> -	  controller and Farbwerk 360 RGB controller, where available.
-> +	  controller, Farbwerk and Farbwerk 360 RGB controllers, where
-> +	  available.
->  
->  	  This driver can also be built as a module. If so, the module
->  	  will be called aquacomputer_d5next.
-> diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
-> index a464473bc981..7d2e7279abfb 100644
-> --- a/drivers/hwmon/aquacomputer_d5next.c
-> +++ b/drivers/hwmon/aquacomputer_d5next.c
-> @@ -1,11 +1,12 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
-> - * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk 360, Octo)
-> + * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk, Farbwerk 360, Octo)
->   *
->   * Aquacomputer devices send HID reports (with ID 0x01) every second to report
->   * sensor values.
->   *
->   * Copyright 2021 Aleksa Savic <savicaleksa83@gmail.com>
-> + * Copyright 2022 Jack Doan <me@jackdoan.com>
-
-That is a bit aggressive for a few lines of code.
-
->   */
->  
->  #include <linux/crc16.h>
-> @@ -19,14 +20,16 @@
->  #include <asm/unaligned.h>
->  
->  #define USB_VENDOR_ID_AQUACOMPUTER	0x0c70
-> +#define USB_PRODUCT_ID_FARBWERK		0xf00a
->  #define USB_PRODUCT_ID_D5NEXT		0xf00e
->  #define USB_PRODUCT_ID_FARBWERK360	0xf010
->  #define USB_PRODUCT_ID_OCTO		0xf011
->  
-> -enum kinds { d5next, farbwerk360, octo };
-> +enum kinds { d5next, farbwerk, farbwerk360, octo };
->  
->  static const char *const aqc_device_names[] = {
->  	[d5next] = "d5next",
-> +	[farbwerk] = "farbwerk",
->  	[farbwerk360] = "farbwerk360",
->  	[octo] = "octo"
->  };
-> @@ -69,6 +72,12 @@ static u8 secondary_ctrl_report[] = {
->  #define D5NEXT_PUMP_CURRENT		112
->  #define D5NEXT_FAN_CURRENT		99
->  
-> +/* Register offsets for the Farbwerk RGB controller */
-> +#define FARBWERK_NUM_SENSORS		4
-> +#define FARBWERK_SENSOR_START		0x2f
-> +#define FARBWERK_SENSOR_SIZE		0x02
-> +#define FARBWERK_SENSOR_DISCONNECTED	0x7FFF
-> +
->  /* Register offsets for the Farbwerk 360 RGB controller */
->  #define FARBWERK360_NUM_SENSORS		4
->  #define FARBWERK360_SENSOR_START	0x32
-> @@ -125,7 +134,7 @@ static const char *const label_d5next_current[] = {
->  	"Fan current"
->  };
->  
-> -/* Labels for Farbwerk 360 and Octo temperature sensors */
-> +/* Labels for Farbwerk, Farbwerk 360 and Octo temperature sensors */
->  static const char *const label_temp_sensors[] = {
->  	"Sensor 1",
->  	"Sensor 2",
-> @@ -319,6 +328,7 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
->  			if (channel == 0)
->  				return 0444;
->  			break;
-> +		case farbwerk:
->  		case farbwerk360:
->  		case octo:
->  			return 0444;
-> @@ -551,8 +561,7 @@ static const struct hwmon_chip_info aqc_chip_info = {
->  	.info = aqc_info,
->  };
->  
-> -static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8 *data,
-> -			 int size)
-> +static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8 *data, int size)
->  {
->  	int i, sensor_value;
->  	struct aqc_data *priv;
-> @@ -587,6 +596,17 @@ static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8
->  		priv->current_input[0] = get_unaligned_be16(data + D5NEXT_PUMP_CURRENT);
->  		priv->current_input[1] = get_unaligned_be16(data + D5NEXT_FAN_CURRENT);
->  		break;
-> +	case farbwerk:
-> +		/* Temperature sensor readings */
-> +		for (i = 0; i < FARBWERK_NUM_SENSORS; i++) {
-> +			sensor_value = get_unaligned_be16(data + FARBWERK_SENSOR_START +
-> +							  i * FARBWERK_SENSOR_SIZE);
-> +			if (sensor_value == FARBWERK_SENSOR_DISCONNECTED)
-> +				priv->temp_input[i] = -ENODATA;
-
-Can the sensor be connected dynamically ? If not, this should be handled
-in an is_visible function.
-
-> +			else
-> +				priv->temp_input[i] = sensor_value * 10;
-> +		}
-> +		break;
->  	case farbwerk360:
->  		/* Temperature sensor readings */
->  		for (i = 0; i < FARBWERK360_NUM_SENSORS; i++) {
-> @@ -733,6 +753,11 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  		priv->voltage_label = label_d5next_voltages;
->  		priv->current_label = label_d5next_current;
->  		break;
-> +	case USB_PRODUCT_ID_FARBWERK:
-> +		priv->kind = farbwerk;
-> +
-> +		priv->temp_label = label_temp_sensors;
-> +		break;
->  	case USB_PRODUCT_ID_FARBWERK360:
->  		priv->kind = farbwerk360;
->  
-> @@ -795,6 +820,7 @@ static void aqc_remove(struct hid_device *hdev)
->  
->  static const struct hid_device_id aqc_table[] = {
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_D5NEXT) },
-> +	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_FARBWERK) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_FARBWERK360) },
->  	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_OCTO) },
->  	{ }
-> @@ -826,4 +852,5 @@ module_exit(aqc_exit);
->  
->  MODULE_LICENSE("GPL");
->  MODULE_AUTHOR("Aleksa Savic <savicaleksa83@gmail.com>");
-> +MODULE_AUTHOR("Jack Doan <me@jackdoan.com>");
-
-.... as is claiming authorship. I'd be the "author" of hundreds of kernel
-files if I would do that. Aleksa signed off on it, so I'll accept it,
-but I don't think it is appropriate.
-
->  MODULE_DESCRIPTION("Hwmon driver for Aquacomputer devices");
