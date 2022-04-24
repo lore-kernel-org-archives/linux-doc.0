@@ -2,71 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7114C433F5
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Apr 2022 16:10:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61491C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Apr 2022 17:38:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234483AbiDXQNA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Apr 2022 12:13:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50092 "EHLO
+        id S236671AbiDXRlA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Apr 2022 13:41:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234474AbiDXQMy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 12:12:54 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EFF7106DC1;
-        Sun, 24 Apr 2022 09:09:53 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id dk23so1960020ejb.8;
-        Sun, 24 Apr 2022 09:09:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=GRnYvMYthiO14j3rOxFdH46THRDOp7DQhEpnCN4rSCc=;
-        b=BhKCjflQpgVCf4HhsUaejkJ8EqPUozXqYqYzjvRO9F74yIfYiY99oUdToAAJ0NT4+f
-         tG77sQ++s2cd2HeXeUlCEWXWy6FyiRr2GCXp9Nu5H9WPTHuI5oeCjMYOH9CV9y/69fYW
-         LZsxUL4TZDxeawHSYXzgp004Lqdn5Tnn6gHR7ttErkkocY9c0VJxurYKzpGN4YiZPEna
-         oP+Xht9wkmSbcis+wIj5tlTNjTr1/eQY//6C51pHaJqjMqGVR7216ASAflrPshJyiz/E
-         LvINzMBuahbHC7vymPLq4sxC5hensawuEmX5zRkuVU+ZWSqpha02mP3r9U1HVQHikYph
-         2pRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=GRnYvMYthiO14j3rOxFdH46THRDOp7DQhEpnCN4rSCc=;
-        b=YXWk0jQ3KRlH02F5BtOcJVEe+4hddWHn5gszrxt6+q0YiWSgBsIB7t5SlSL9lEzgUM
-         s/eyk7/wznHub2TbyhflHpD4WSPJga+Y2y7Boz87cTB4cl0pyyIjEndb7+7gocJ0sOUB
-         2VGK4iepMFZzL45/b/3DGA2jIp4/BSN14DQ2OPlzQJWODo97p6ML7bDoazHtm9SWXD7B
-         BdG3um8eZ8cMqPDUOOtHw19MFkD8YsYN3sXitdSgOHIMxp17XbibKQDTwEH58LCBwQ8E
-         EmBP/FKuCmZKO6+NdlsXeczG+T5eNtdi+K8xEp8P3cnb7QAcraCSiF9bAJecY7wXlzM5
-         XZDA==
-X-Gm-Message-State: AOAM531NBFOxQ+o4DQYwJcezXRDjk76ncv0GbtkMs2luFJ9pbecaJgAS
-        PYF1k+GGgrbdxUc7yzK2NidxzZhQEwVWPCLm
-X-Google-Smtp-Source: ABdhPJzAD7x1l4jW49jnqmFisG1U2MeNPnnuewXOB3Pp5cvZVzHeR1sjJIGYsOTPnPvdAIiYOcMhwQ==
-X-Received: by 2002:a17:907:1624:b0:6db:8caa:d71 with SMTP id hb36-20020a170907162400b006db8caa0d71mr12740868ejc.723.1650816591641;
-        Sun, 24 Apr 2022 09:09:51 -0700 (PDT)
-Received: from fedora ([95.180.24.23])
-        by smtp.gmail.com with ESMTPSA id x14-20020a1709064bce00b006f006948581sm2756876ejv.170.2022.04.24.09.09.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Apr 2022 09:09:50 -0700 (PDT)
-Date:   Sun, 24 Apr 2022 18:09:48 +0200
-From:   Aleksa Savic <savicaleksa83@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jack Doan <me@jackdoan.com>, linux-hwmon@vger.kernel.org,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] hwmon: (aquacomputer_d5next) Add support for
- Aquacomputer Farbwerk
-Message-ID: <YmV2TIcOqTLBA4+U@fedora>
-References: <YmTcrq8Gzel0zYYD@jackdesk>
- <20220424160628.GA719092@roeck-us.net>
+        with ESMTP id S229539AbiDXRk7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 13:40:59 -0400
+X-Greylist: delayed 521 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 24 Apr 2022 10:37:58 PDT
+Received: from mxout01.lancloud.ru (mxout01.lancloud.ru [45.84.86.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55DA7888CA
+        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 10:37:56 -0700 (PDT)
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 3B8D620D8B79
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH 1/5] ata: libata-core: cleanup ata_device_blacklist
+To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        <linux-ide@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>
+References: <20220407123748.1170212-1-damien.lemoal@opensource.wdc.com>
+ <20220407123748.1170212-2-damien.lemoal@opensource.wdc.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <3ca894a2-eafd-ea75-dcae-e6299e65937c@omp.ru>
+Date:   Sun, 24 Apr 2022 20:29:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220424160628.GA719092@roeck-us.net>
+In-Reply-To: <20220407123748.1170212-2-damien.lemoal@opensource.wdc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thank you!
+Hello!
 
-Aleksa
+On 4/7/22 3:37 PM, Damien Le Moal wrote:
+
+> Remove the unneeded comma after the last field of the array entries.
+> 
+> Signed-off-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+> ---
+>  drivers/ata/libata-core.c | 96 +++++++++++++++++++--------------------
+>  1 file changed, 48 insertions(+), 48 deletions(-)
+> 
+> diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
+> index cceedde51126..bc59c77b99b6 100644
+> --- a/drivers/ata/libata-core.c
+> +++ b/drivers/ata/libata-core.c
+[...]
+
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
+MBR, Sergey
