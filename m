@@ -2,157 +2,294 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52021C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Apr 2022 03:38:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E6ECC433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Apr 2022 03:56:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238062AbiDXDlX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Apr 2022 23:41:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42076 "EHLO
+        id S238101AbiDXD7f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Apr 2022 23:59:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238063AbiDXDlQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 23:41:16 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4805626FB;
-        Sat, 23 Apr 2022 20:38:17 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id b12so4839612plg.4;
-        Sat, 23 Apr 2022 20:38:17 -0700 (PDT)
+        with ESMTP id S235089AbiDXD7e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 23:59:34 -0400
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEB9BDEFE
+        for <linux-doc@vger.kernel.org>; Sat, 23 Apr 2022 20:56:34 -0700 (PDT)
+Received: by mail-oi1-x22b.google.com with SMTP id t15so13583312oie.1
+        for <linux-doc@vger.kernel.org>; Sat, 23 Apr 2022 20:56:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:cc:references:subject
-         :content-language:from:in-reply-to:content-transfer-encoding;
-        bh=nGMc+Z22AXUnC+pCn5jAPVEn9ljsBIe0MBnGTXohsCg=;
-        b=HevHAIoIufDAkmbDUiJyea4LZ411BtHC1g9Z+0bknJ7VB+kgepu70ImFX/DFiEq+Gp
-         O2sKW6BHe9ApjEduYLp96JKsywmVbyeQLn2YkLZbkKuZrV9VAUGMvOFFpMYo7ii/hTNj
-         F3GmJnTMfxXCf9QzHkaZza1vtNGrPjNZC21vFWI5092hYagk4hk7JKVkkC4mdmD+RIA+
-         NHA7eQTlbuh0O/0NleWxx0eeynrOlWBtMo/8w4z7McqospSSbsjgL5zoo0VrMgXcOi5F
-         LzaZHip/Kykt5AjWcEJS4vqSy8onEBkiHtf3HEQkpCux0wK8y/LOdIwGypgfjsI+AZA4
-         G6YA==
+        d=jackdoan-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=SI6k7b10AiK1hM0eXBJEIUwBjMbKHQkO/wRH+36ynPU=;
+        b=RDCF2ZXRJuQ4Z4pZpBX4+JmOm1jb1rQNPgvxOoRIFpNG4CZvcvCQIJL7vF2fcDWXL3
+         FYcal0I9FM+zkmks80GEKtbYl/Pkv50vIW4GyS0cz3FKIUWfKEpwN/Zup3ldltW99mZ1
+         Br2BtE86RQnqYYzyECw92ttelf+fxzQkUKKJEqfGTpD0FniAj++lpEKT5Plbx/sSUFl7
+         FrbJUHQSDEyRw9AU0TL95tKnYnAHLn+FMrxtpNGJYApNeycFtBARh+UQwK43SLmvc8a9
+         8Di8CsNqbO1CUjJ0bz+i63hQsoHEv1L6Q3l5ocsrbS6xYU0o/z76PXFSorljzvSqGf9m
+         RwTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
-         :references:subject:content-language:from:in-reply-to
-         :content-transfer-encoding;
-        bh=nGMc+Z22AXUnC+pCn5jAPVEn9ljsBIe0MBnGTXohsCg=;
-        b=sDV73ePyTfIR52SVuc1IJXuC6biBs7FJL98EHaQcXeac5lJErrEVpgKq0J34ocv7er
-         632JJiWkQsYV1FOVCEOQ1X8lwoqClLYcbfei19tRF+FeV/BAZvDy7p2GOMY+WLX07FCw
-         4SiV6E8/eYJj1e/3fN0RpTpnGJkQo4Cq62wlT3BcqmJ0eMNrNatRFiqu+ESFchq14wGX
-         +XnAMALAgQY5UsHTbwo/twfP3avILwKrifpodeobq/zofFpHi4iio6gNVV9CFVFepgW8
-         WPzCrhCxzQKUQO3es/r/EZOiM48BJpocClTsu42r/Pkbe2h4kJRFKgdAcZj2trXBB0hH
-         XyMA==
-X-Gm-Message-State: AOAM533Lh+4BMEqzypn/SLCgeILmr/06jDCRD+AJK+mfEW79Ma53Hkne
-        8iwKnfqzril0IAMrqqU8qjs=
-X-Google-Smtp-Source: ABdhPJznANpdO/h8c2xYNCXXhfqwXvCdFcaQb/J6/UnoprwsCE+Udlz/pc5ksWseLaC8iwhWQlmxVg==
-X-Received: by 2002:a17:90a:c002:b0:1d9:250a:73c8 with SMTP id p2-20020a17090ac00200b001d9250a73c8mr7657096pjt.133.1650771496841;
-        Sat, 23 Apr 2022 20:38:16 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id ei12-20020a17090ae54c00b001d952b8f728sm953593pjb.2.2022.04.23.20.38.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 23 Apr 2022 20:38:16 -0700 (PDT)
-Message-ID: <3ce4feb9-5477-e7fb-e98c-3d6342ddc7b5@gmail.com>
-Date:   Sun, 24 Apr 2022 12:38:10 +0900
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=SI6k7b10AiK1hM0eXBJEIUwBjMbKHQkO/wRH+36ynPU=;
+        b=vBWuodgNEn/3i2NukKzDm94/CMIOSEhggVpwZzEsE6u9pxjAUtuT5H0tXo426pjDH4
+         uZKmfBbHKffI+oa3LXw6MU4tJuOtJoHm5HSYseVe2IHKJls5msmnscSiP6xiu/umJMni
+         AxjgGvx9z8mzcKsGZAIPH4c93owRooE9tvi6KweJmdHJ4Tjjb+qCv3QBhwGZ6QrV+Tky
+         5YoEp1qgA1uZ45BWRy4E5Vvc+iCjUeegMjaDPmKfQ3bTQDdE35oLXPDR2P8V/NaNyuqj
+         1qesYnhA9ECkNq0UnM2UphM6/NElrDv5SmF+WVCeIjrZbnN16cs96oiNzEcjpSWjp3jE
+         BWJA==
+X-Gm-Message-State: AOAM530fXtipk47/8jGtEDxAnpmjLgxajuPYQ4FNf7o6CTQATnw6RQTO
+        GwXud/Qpt/IAjGW++ytSyfe/1g==
+X-Google-Smtp-Source: ABdhPJzuAj7ScYB1mYxjUtPsv4e0+tztFjNprqIols0hwsoy9aYTxZG6YpwuXDw6RJBknTznE2NfGg==
+X-Received: by 2002:a05:6808:23d4:b0:323:c21:71fb with SMTP id bq20-20020a05680823d400b003230c2171fbmr5510709oib.261.1650772594221;
+        Sat, 23 Apr 2022 20:56:34 -0700 (PDT)
+Received: from jackdesk ([2600:1700:24d0:1e2f:386a:dfff:fe72:8e55])
+        by smtp.gmail.com with ESMTPSA id x20-20020a4ac594000000b00329a02f2f34sm2671037oop.16.2022.04.23.20.56.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Apr 2022 20:56:33 -0700 (PDT)
+Date:   Sat, 23 Apr 2022 22:56:25 -0500
+From:   Jack Doan <me@jackdoan.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Aleksa Savic <savicaleksa83@gmail.com>,
+        linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (aquacomputer_d5next) Add support for
+ Aquacomputer Farbwerk
+Message-ID: <YmTKaZwxTRZRnFkq@jackdesk>
+References: <20220421072743.5058-1-savicaleksa83@gmail.com>
+ <20220424014206.GA3989097@roeck-us.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-To:     baihaowen@meizu.com
-Cc:     alexs@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, seakeel@gmail.com,
-        siyanteng01@gmail.com, siyanteng@loongson.cn
-References: <1650424016-7225-3-git-send-email-baihaowen@meizu.com>
-Subject: Re: [PATCH 2/2] doc/vm/page_owner.rst: Fix table display confusion
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <1650424016-7225-3-git-send-email-baihaowen@meizu.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220424014206.GA3989097@roeck-us.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-Wed, 20 Apr 2022 11:06:56 +0800,
-baihaowen wrote:
-> After make htmldocs, the table which is made of tab will
-> display all by one line. so we make a standard table for STANDARD
-> FORMAT SPECIFIERS description.
+On Sat, Apr 23, 2022 at 06:42:06PM -0700, Guenter Roeck wrote:
+> On Thu, Apr 21, 2022 at 09:27:42AM +0200, Aleksa Savic wrote:
+> > Extend aquacomputer_d5next driver to expose hardware temperature sensors
+> > of the Aquacomputer Farbwerk RGB controller, which communicates through
+> > a proprietary USB HID protocol.
+> > 
+> > Four temperature sensors are available. Additionally, serial number and
+> > firmware version are exposed through debugfs.
+> > 
+> > Also, add Jack Doan to MAINTAINERS for this driver.
+> > 
+> > Signed-off-by: Jack Doan <me@jackdoan.com>
+> > Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
+> > ---
 > 
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
-> ---
->  Documentation/vm/page_owner.rst | 34 ++++++++++++++++++++--------------
->  1 file changed, 20 insertions(+), 14 deletions(-)
+> This patch doesn't apply. Please rebase to master and resend.
 > 
-> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-> index 422d5fa99e84..a8505e3a3044 100644
-> --- a/Documentation/vm/page_owner.rst
-> +++ b/Documentation/vm/page_owner.rst
-> @@ -174,22 +174,28 @@ STANDARD FORMAT SPECIFIERS
->  
->  For --sort option:
->  
-> -	KEY		LONG		DESCRIPTION
-> -	p		pid		process ID
-> -	tg		tgid		thread group ID
-> -	n		name		task command name
-> -	st		stacktrace	stack trace of the page allocation
-> -	T		txt		full text of block
-> -	ft		free_ts		timestamp of the page when it was released
-> -	at		alloc_ts	timestamp of the page when it was allocated
-> +        ====            ==========      ============================================
-> +        KEY             LONG            DESCRIPTION
-> +        ====            ==========      ============================================
-> +        p               pid             process ID
-> +        tg              tgid            thread group ID
-> +        n               name            task command name
-> +        st              stacktrace      stack trace of the page allocation
-> +        T               txt             full text of block
-> +        ft              free_ts         timestamp of the page when it was released
-> +        at              alloc_ts        timestamp of the page when it was allocated
->          ator            allocator       memory allocator for pages
-> +        ====            ==========      ============================================
->  
->  For --curl option:
->  
-> -	KEY		LONG		DESCRIPTION
-> -	p		pid		process ID
-> -	tg		tgid		thread group ID
-> -	n		name		task command name
-> -	f		free		whether the page has been released or not
-> -	st		stacktrace	stack trace of the page allocation
-> +        ====            ===========     ============================================
-> +        KEY             LONG            DESCRIPTION
-> +        ====            ===========     ============================================
-> +        p               pid             process ID
-> +        tg              tgid            thread group ID
-> +        n               name            task command name
-> +        f               free            whether the page has been released or not
-> +        st              stacktrace      stack trace of the page allocation
->          ator            allocator       memory allocator for pages
-> +        ====            ===========     ============================================
+Will do! 
 
-This patch looks like against akpm's tree (or linux-next).
-So it is not applicable to docs-next of Jonathan's tree at the
-moment.
+> More comments inline.
+> 
+> > If adding to MAINTAINERS requires a separate commit, I'll send it
+> > separately.
+> > ---
+> >  Documentation/hwmon/aquacomputer_d5next.rst |  3 +-
+> >  MAINTAINERS                                 |  1 +
+> >  drivers/hwmon/Kconfig                       |  5 +--
+> >  drivers/hwmon/aquacomputer_d5next.c         | 37 ++++++++++++++++++---
+> >  4 files changed, 38 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/Documentation/hwmon/aquacomputer_d5next.rst b/Documentation/hwmon/aquacomputer_d5next.rst
+> > index e69f718caf5b..717e28226cde 100644
+> > --- a/Documentation/hwmon/aquacomputer_d5next.rst
+> > +++ b/Documentation/hwmon/aquacomputer_d5next.rst
+> > @@ -6,6 +6,7 @@ Kernel driver aquacomputer-d5next
+> >  Supported devices:
+> >  
+> >  * Aquacomputer D5 Next watercooling pump
+> > +* Aquacomputer Farbwerk RGB controller
+> >  * Aquacomputer Farbwerk 360 RGB controller
+> >  * Aquacomputer Octo fan controller
+> >  
+> > @@ -32,7 +33,7 @@ better suited for userspace tools.
+> >  The Octo exposes four temperature sensors and eight PWM controllable fans, along
+> >  with their speed (in RPM), power, voltage and current.
+> >  
+> > -The Farbwerk 360 exposes four temperature sensors. Depending on the device,
+> > +The Farbwerk and Farbwerk 360 expose four temperature sensors. Depending on the device,
+> >  not all sysfs and debugfs entries will be available.
+> >  
+> >  Usage notes
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index ea2cd656ee6c..d8e3ca0fbc3a 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -1389,6 +1389,7 @@ F:	drivers/media/i2c/aptina-pll.*
+> >  
+> >  AQUACOMPUTER D5 NEXT PUMP SENSOR DRIVER
+> >  M:	Aleksa Savic <savicaleksa83@gmail.com>
+> > +M:	Jack Doan <me@jackdoan.com>
+> >  L:	linux-hwmon@vger.kernel.org
+> >  S:	Maintained
+> >  F:	Documentation/hwmon/aquacomputer_d5next.rst
+> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> > index 5beadd8a0932..01d10c9b633a 100644
+> > --- a/drivers/hwmon/Kconfig
+> > +++ b/drivers/hwmon/Kconfig
+> > @@ -256,12 +256,13 @@ config SENSORS_AHT10
+> >  	  will be called aht10.
+> >  
+> >  config SENSORS_AQUACOMPUTER_D5NEXT
+> > -	tristate "Aquacomputer D5 Next, Octo and Farbwerk 360"
+> > +	tristate "Aquacomputer D5 Next, Octo, Farbwerk, Farbwerk 360"
+> >  	depends on USB_HID
+> >  	help
+> >  	  If you say yes here you get support for sensors and fans of
+> >  	  the Aquacomputer D5 Next watercooling pump, Octo fan
+> > -	  controller and Farbwerk 360 RGB controller, where available.
+> > +	  controller, Farbwerk and Farbwerk 360 RGB controllers, where
+> > +	  available.
+> >  
+> >  	  This driver can also be built as a module. If so, the module
+> >  	  will be called aquacomputer_d5next.
+> > diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
+> > index a464473bc981..7d2e7279abfb 100644
+> > --- a/drivers/hwmon/aquacomputer_d5next.c
+> > +++ b/drivers/hwmon/aquacomputer_d5next.c
+> > @@ -1,11 +1,12 @@
+> >  // SPDX-License-Identifier: GPL-2.0+
+> >  /*
+> > - * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk 360, Octo)
+> > + * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk, Farbwerk 360, Octo)
+> >   *
+> >   * Aquacomputer devices send HID reports (with ID 0x01) every second to report
+> >   * sensor values.
+> >   *
+> >   * Copyright 2021 Aleksa Savic <savicaleksa83@gmail.com>
+> > + * Copyright 2022 Jack Doan <me@jackdoan.com>
+> 
+> That is a bit aggressive for a few lines of code.
+Addressed below.
 
-You need to wait until docs-next catches up akpm's tree.
+> 
+> >   */
+> >  
+> >  #include <linux/crc16.h>
+> > @@ -19,14 +20,16 @@
+> >  #include <asm/unaligned.h>
+> >  
+> >  #define USB_VENDOR_ID_AQUACOMPUTER	0x0c70
+> > +#define USB_PRODUCT_ID_FARBWERK		0xf00a
+> >  #define USB_PRODUCT_ID_D5NEXT		0xf00e
+> >  #define USB_PRODUCT_ID_FARBWERK360	0xf010
+> >  #define USB_PRODUCT_ID_OCTO		0xf011
+> >  
+> > -enum kinds { d5next, farbwerk360, octo };
+> > +enum kinds { d5next, farbwerk, farbwerk360, octo };
+> >  
+> >  static const char *const aqc_device_names[] = {
+> >  	[d5next] = "d5next",
+> > +	[farbwerk] = "farbwerk",
+> >  	[farbwerk360] = "farbwerk360",
+> >  	[octo] = "octo"
+> >  };
+> > @@ -69,6 +72,12 @@ static u8 secondary_ctrl_report[] = {
+> >  #define D5NEXT_PUMP_CURRENT		112
+> >  #define D5NEXT_FAN_CURRENT		99
+> >  
+> > +/* Register offsets for the Farbwerk RGB controller */
+> > +#define FARBWERK_NUM_SENSORS		4
+> > +#define FARBWERK_SENSOR_START		0x2f
+> > +#define FARBWERK_SENSOR_SIZE		0x02
+> > +#define FARBWERK_SENSOR_DISCONNECTED	0x7FFF
+> > +
+> >  /* Register offsets for the Farbwerk 360 RGB controller */
+> >  #define FARBWERK360_NUM_SENSORS		4
+> >  #define FARBWERK360_SENSOR_START	0x32
+> > @@ -125,7 +134,7 @@ static const char *const label_d5next_current[] = {
+> >  	"Fan current"
+> >  };
+> >  
+> > -/* Labels for Farbwerk 360 and Octo temperature sensors */
+> > +/* Labels for Farbwerk, Farbwerk 360 and Octo temperature sensors */
+> >  static const char *const label_temp_sensors[] = {
+> >  	"Sensor 1",
+> >  	"Sensor 2",
+> > @@ -319,6 +328,7 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
+> >  			if (channel == 0)
+> >  				return 0444;
+> >  			break;
+> > +		case farbwerk:
+> >  		case farbwerk360:
+> >  		case octo:
+> >  			return 0444;
+> > @@ -551,8 +561,7 @@ static const struct hwmon_chip_info aqc_chip_info = {
+> >  	.info = aqc_info,
+> >  };
+> >  
+> > -static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8 *data,
+> > -			 int size)
+> > +static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8 *data, int size)
+> >  {
+> >  	int i, sensor_value;
+> >  	struct aqc_data *priv;
+> > @@ -587,6 +596,17 @@ static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8
+> >  		priv->current_input[0] = get_unaligned_be16(data + D5NEXT_PUMP_CURRENT);
+> >  		priv->current_input[1] = get_unaligned_be16(data + D5NEXT_FAN_CURRENT);
+> >  		break;
+> > +	case farbwerk:
+> > +		/* Temperature sensor readings */
+> > +		for (i = 0; i < FARBWERK_NUM_SENSORS; i++) {
+> > +			sensor_value = get_unaligned_be16(data + FARBWERK_SENSOR_START +
+> > +							  i * FARBWERK_SENSOR_SIZE);
+> > +			if (sensor_value == FARBWERK_SENSOR_DISCONNECTED)
+> > +				priv->temp_input[i] = -ENODATA;
+> 
+> Can the sensor be connected dynamically ? If not, this should be handled
+> in an is_visible function.
+> 
+It's a somewhat unlikely use-case, but yes, they can be. The sensors are NTC thermistors that connect to pin-headers. Do we have a better way of representing "open circuit" than -ENODATA?
 
-Patch 1/2 should wait until the English doc is updated,
-I suppose.
+> > +			else
+> > +				priv->temp_input[i] = sensor_value * 10;
+> > +		}
+> > +		break;
+> >  	case farbwerk360:
+> >  		/* Temperature sensor readings */
+> >  		for (i = 0; i < FARBWERK360_NUM_SENSORS; i++) {
+> > @@ -733,6 +753,11 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
+> >  		priv->voltage_label = label_d5next_voltages;
+> >  		priv->current_label = label_d5next_current;
+> >  		break;
+> > +	case USB_PRODUCT_ID_FARBWERK:
+> > +		priv->kind = farbwerk;
+> > +
+> > +		priv->temp_label = label_temp_sensors;
+> > +		break;
+> >  	case USB_PRODUCT_ID_FARBWERK360:
+> >  		priv->kind = farbwerk360;
+> >  
+> > @@ -795,6 +820,7 @@ static void aqc_remove(struct hid_device *hdev)
+> >  
+> >  static const struct hid_device_id aqc_table[] = {
+> >  	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_D5NEXT) },
+> > +	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_FARBWERK) },
+> >  	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_FARBWERK360) },
+> >  	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_OCTO) },
+> >  	{ }
+> > @@ -826,4 +852,5 @@ module_exit(aqc_exit);
+> >  
+> >  MODULE_LICENSE("GPL");
+> >  MODULE_AUTHOR("Aleksa Savic <savicaleksa83@gmail.com>");
+> > +MODULE_AUTHOR("Jack Doan <me@jackdoan.com>");
+> 
+> .... as is claiming authorship. I'd be the "author" of hundreds of kernel
+> files if I would do that. Aleksa signed off on it, so I'll accept it,
+> but I don't think it is appropriate.
 
-By the way, I don't think the list of options need tables.
-Literal blocks should suffice.
+In the context of just this patch, yes, I agree. But, I felt it was warranted based on my previous contributions. I did a good bit of the reverse-engineering that made writing settings to these devices possible, and a lot of the previously submitted code for writing the setting changes is mine as well.
 
-I mean, How about the simpler changes:
+I didn't mean to make an inappropriate request though! If you'd like, I can submit a version of the patch without these lines.
 
->  For --sort option:
-   For --sort option::
+Also I'm really sorry if you get this email twice. Thunderbird seems to have snuck HTML into my emails and the mailinglist rejected my first reply. I've switched to mutt to prevent this.
 
->  For --curl option:
-   For --curl option::
-
-Thoughts?
-
-       Thanks, Akira
-
-> -- 
-> 2.7.4
-
+> 
+> >  MODULE_DESCRIPTION("Hwmon driver for Aquacomputer devices");
