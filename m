@@ -2,184 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD55C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Apr 2022 02:57:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD5B2C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Apr 2022 03:16:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237802AbiDXDAB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Apr 2022 23:00:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43840 "EHLO
+        id S237944AbiDXDTL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Apr 2022 23:19:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229885AbiDXDAB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 23:00:01 -0400
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B828B13F26B;
-        Sat, 23 Apr 2022 19:57:00 -0700 (PDT)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Sun, 24 Apr
- 2022 10:56:55 +0800
-Received: from [172.16.137.70] (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Sun, 24 Apr
- 2022 10:56:53 +0800
-Message-ID: <049ccac8-c394-0cdc-c2ed-4ea91cab6439@meizu.com>
-Date:   Sun, 24 Apr 2022 10:56:52 +0800
+        with ESMTP id S237931AbiDXDTJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Apr 2022 23:19:09 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FEEA3B299;
+        Sat, 23 Apr 2022 20:16:09 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id d15so5133044plh.2;
+        Sat, 23 Apr 2022 20:16:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=3bvurDKgvUK5gVjuAf7rLv/Q7SaVp8dMr6PwRHtYoNk=;
+        b=OKwZ0zpYmQ9G0/O2HR6ljEzj7OIokLKjQxZexuo7s5z17kL1BWtCFuNp6L+kHgy3u+
+         zNc5Yq9o6L8p1No89z2FIFA1oi0eAayyAaYwWQdt+vjLWNWvE+lKHYLAFMEGPjW9BSDJ
+         WlKoL/lTbbigOa/tuUlXkc8dzAkf+yDYZ0EOxAVGKypGrQZnxcclJoFI0D/nmggRQByr
+         ZsBp1tsVM7tZHogi2xf5MUFuYRLdOJ9nf2KTo+k+59i95O0tln/qPnxgNxbn1nX6oy34
+         UnS8sbkn5ElSVs180zwnk407yGRqunrGpDO8ncX6GyRyK/aJC2EBIk4xy5ITI0Gt4rOW
+         oDKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=3bvurDKgvUK5gVjuAf7rLv/Q7SaVp8dMr6PwRHtYoNk=;
+        b=lmS01Tju1DLPZGwR+vfYTEenyblSAcBHr6x7mQatOKlH2zXgoumm6McvqbJF+B7x6L
+         06+9gtqaGX1Ec+wyUr2Mk6PyVf8udarCqg/m7RSdV45yHG9cTZtcFpCDW4/abfbKhQv9
+         BgzvJPVHhp8z1VcqXFTNBtdM9E16D5x+8O5cEtG5Z9efDWzr21ofP2VgSyJziZY9Nk1p
+         A3fc5GGPVnvtnW0bYczMc9FkeLxnoZYqEn97d/MRI4vGOQs5+F1jhYNa11z6ci9AKW3T
+         eANOEqN5rfQ742KE4pTb+zo5Tvn2yidKjOOKHgwT1nbYJu8F8E1oqnDbOOAKDin1Lm86
+         khfQ==
+X-Gm-Message-State: AOAM530Di3uSLAClAyB6+yAEXHxU/qf4/ITwaU4J1DV2dixOoS3qJYTP
+        qWzs+EfCch73pKy5aj69tKzt5hnAgfOCffnM
+X-Google-Smtp-Source: ABdhPJw8pBAvzLZVR1t6lFbi2GvrKsH/tUa5FYAeMfBHr73YfpJrxcq7gthtq8YRmSYZMbWQxXFbAQ==
+X-Received: by 2002:a17:903:1d0:b0:15c:f02f:d2d6 with SMTP id e16-20020a17090301d000b0015cf02fd2d6mr3994755plh.77.1650770169003;
+        Sat, 23 Apr 2022 20:16:09 -0700 (PDT)
+Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
+        by smtp.gmail.com with ESMTPSA id q13-20020a056a00088d00b004e1bea9c582sm7485336pfj.43.2022.04.23.20.16.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 23 Apr 2022 20:16:08 -0700 (PDT)
+Message-ID: <c498b2a7-8f0e-4f6d-10ba-49c4c7794ff9@gmail.com>
+Date:   Sun, 24 Apr 2022 11:16:03 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
+ Thunderbird/91.7.0
 Subject: Re: [PATCH 1/2] docs/zh_CN: sync with original text
  Documentation/vm/page_owner.rst
-To:     Alex Shi <seakeel@gmail.com>, <siyanteng01@gmail.com>
-CC:     <alexs@kernel.org>, <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <siyanteng@loongson.cn>
+Content-Language: en-US
+To:     baihaowen <baihaowen@meizu.com>, siyanteng01@gmail.com
+Cc:     alexs@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, siyanteng@loongson.cn
 References: <CAEensMzuQ0uAw8_5Xb7u1n685au=DpaJyPevGCT8GCG7xS42ow@mail.gmail.com>
  <1650424016-7225-1-git-send-email-baihaowen@meizu.com>
  <1650424016-7225-2-git-send-email-baihaowen@meizu.com>
  <30d2f96e-99e1-2976-a294-8e112166afff@gmail.com>
-From:   baihaowen <baihaowen@meizu.com>
-In-Reply-To: <30d2f96e-99e1-2976-a294-8e112166afff@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ <049ccac8-c394-0cdc-c2ed-4ea91cab6439@meizu.com>
+From:   Alex Shi <seakeel@gmail.com>
+In-Reply-To: <049ccac8-c394-0cdc-c2ed-4ea91cab6439@meizu.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-在 4/23/22 6:27 PM, Alex Shi 写道:
-> Hi Haowen,
->
-> I hit the mistake again while apply your patch:
-> $git am your_patch
-> error: cannot convert from N to UTF-8
->
-> fatal: could not parse patch
->
->
-> You have to try apply it before sending out your patch.
-> and this patch is better be to be 2nd patch in series.
->
-> Thanks
-> Alex
->
-> On 4/20/22 11:06, Haowen Bai wrote:
->> As the tools/vm/page_owner_sort added some feature and original text
->> updated, sync the translation of zh_CN as below.
->>
->> Commit 8bd16bc0a081 ("tools/vm/page_owner_sort.c: support sorting blocks
->> by multiple keys") add sorting blocks by multiple keys usage
->> description.
->>
->> Commit 78a0b94f3829 ("tools/vm/page_owner_sort.c: support for multi-value
->> selection in single argument") add multi-value selection in single
->> argument usage description.
->>
->> Commit c89b3ad2dea2 ("doc/vm/page_owner.rst: remove content related to -c
->> option") remove  -c option usage description.
->>
->> Commit 9c8a0a8e599f ("tools/vm/page_owner_sort.c: support for user-defined
->> culling rules") add user-defined culling rules usage description.
->>
->> Commit 8ea8613a616a ("tools/vm/page_owner_sort.c: support for selecting by
->> PID, TGID or task command name") add selecting by PID, TGID or task
->> command name usage description.
->>
->> Commit 194d52d771b8 ("tools/vm/page_owner_sort: support for sorting by
->> task command name") add sorting by task command name usage description.
->>
->> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
->> ---
->>  Documentation/translations/zh_CN/vm/page_owner.rst | 61 +++++++++++++++++++++-
->>  1 file changed, 60 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/translations/zh_CN/vm/page_owner.rst b/Documentation/translations/zh_CN/vm/page_owner.rst
->> index 9e951fabba9d..c692e81c724e 100644
->> --- a/Documentation/translations/zh_CN/vm/page_owner.rst
->> +++ b/Documentation/translations/zh_CN/vm/page_owner.rst
->> @@ -103,14 +103,73 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
->>  		-m		按总内存排序
->>  		-p		按pid排序。
->>  		-P		按tgid排序。
->> +		-n		按任务名称排序。
->>  		-r		按内存释放时间排序。
->>  		-s		按堆栈跟踪排序。
->>  		-t		按时间排序（默认）。
->> +		--sort <order>	指定排序顺序。排序语法是 [+|-]key[,[+|-]key[,...]]. 从
->> +						**标准格式说明符** 部分选择一个键。"+" 是可选的，因为默认方向是增加数字或字典顺序。
->> +						允许混合使用缩写键和全称键。
->> +
->> +		Examples:
->> +				./page_owner_sort <input> <output> --sort=n,+pid,-tgid
->> +				./page_owner_sort <input> <output> --sort=at
->>  
->>     其它函数:
->>  
->>  	Cull:
->> -		-c		通过比较堆栈跟踪而不是总块来进行剔除。
->> +		--cull <rules>
->> +				指定筛选规则。筛选语法是 key[,key[,...]]。在**标准格式说明符**部分选择一个多字母键
->> +
->> +		<rules> 是逗号分隔列表形式的单个参数，它提供了一种指定单个筛选规则的方法。下面的**标准格式说明
->> +				符**部分描述了可识别的关键字。<rules> 可以由键 k1,k2, ... 顺序指定，如下面的
->> +				STANDARD SORT KEYS 部分所述。允许混合使用缩写形式和完整形式的键。
->>  
->> +		Examples:
->> +				./page_owner_sort <input> <output> --cull=stacktrace
->> +				./page_owner_sort <input> <output> --cull=st,pid,name
->> +				./page_owner_sort <input> <output> --cull=n,f
->>  	Filter:
->>  		-f		过滤掉内存已被释放的块的信息。
->> +
->> +	Select:
->> +		--pid <pidlist>		通过 pid 进行选择。这将选择进程 ID 号出现在 <pidlist> 中的块。
->> +		--tgid <tgidlist>	通过 tgid 进行选择。这将选择线程组 ID 号出现在 <tgidlist> 中的块。
->> +		--name <cmdlist>	按任务名称选择。这将选择任务名称出现在 <cmdlist> 中的块。
->> +
->> +		<pidlist>、<tgidlist>、<cmdlist>是逗号分隔列表形式的单参数，它提供了一种指定单个选择规则的方法。
->> +
->> +
->> +		Examples:
->> +				./page_owner_sort <input> <output> --pid=1
->> +				./page_owner_sort <input> <output> --tgid=1,2,3
->> +				./page_owner_sort <input> <output> --name name1,name2
->> +
->> +标准格式说明符
->> +==============
->> +
->> +--sort 选项:
->> +
->> +        ======          ==========      ===================
->> +        缩写键          全称键          描述
->> +        ======          ==========      ===================
->> +        p               pid             进程 ID
->> +        tg              tgid            线程组 ID
->> +        n               name            任务名称
->> +        st              stacktrace      页面分配的调用栈
->> +        T               txt             块的全文
->> +        ft              free_ts         页面被释放的时间戳
->> +        at              alloc_ts        页面分配的时间戳
->> +        ======          ==========      ===================
->> +
->> +--curl 选项:
->> +
->> +        ======          ==========      ==================
->> +        缩写键          全称键          描述
->> +        ======          ==========      ==================
->> +        p               pid             进程 ID
->> +        tg              tgid            线程组 ID
->> +        n               name            任务名称
->> +        f               free            该页面是否已被释放
->> +        st              stacktrace      页面分配的调用栈
->> +        ======          ==========      ==================
-hi, Alex
-I can apply local.
-➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documentation-vm-.patch
-应用：docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
-➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0002-doc-vm-page_owner.rst-Fix-table-display-confusion.patch   
-应用：doc/vm/page_owner.rst: Fix table display confusion
 
-I think git send-email will change format by my select. I'll try to resend.
 
--- 
-Haowen Bai
+On 4/24/22 10:56, baihaowen wrote:
+>>> +        ======          ==========      ==================
+> hi, Alex
+> I can apply local.
+> ➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documentation-vm-.patch
+> 应用：docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+> ➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0002-doc-vm-page_owner.rst-Fix-table-display-confusion.patch   
+> 应用：doc/vm/page_owner.rst: Fix table display confusion
+> 
+> I think git send-email will change format by my select. I'll try to resend.
 
+Send to yourself only then get it from your email client and try applying. 
+
+Thanks
+Alex
