@@ -2,95 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3359C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Apr 2022 09:55:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B186C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Apr 2022 10:10:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238955AbiDXJ6G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Apr 2022 05:58:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41282 "EHLO
+        id S238953AbiDXKNI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Apr 2022 06:13:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238971AbiDXJ5i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 05:57:38 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA10C6A043
-        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 02:54:37 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id x3so7575384wmj.5
-        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 02:54:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=IFzo2AyAr/8UJ+zjot0AiwlKsJEusi+Z1xhhKSENwoU=;
-        b=pPi82HnN0vcRuminofbaN8FJbBK7JgIF5OnyIdDCBJUcU34UM7kaAfvTs05v/EqhsR
-         SZF2HNtJFIcHquT0Er5PoN44S2KzwDJ42RA4qhV37vHAVr+vbe0q/SI0HUNyyiRF0Hgf
-         gCNJ3yYSKcoZvXTLIpxKH/FDUwDWBk9CzWzev3quvT45jXeLt1GCgW94sAbRfDQvaNwL
-         bKYrcVi9c4icIgM5az5NAyyNaoVdqIQXkuA7XWjtx1qXKaLuUy7YvUxRcIyt100EZt8d
-         1REbds1FU1BMFhvOaE+6gVWogW8To/w3LSfFOVv0EyF0DJXWONm46k9qU0JkGKwAjLDV
-         EKaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=IFzo2AyAr/8UJ+zjot0AiwlKsJEusi+Z1xhhKSENwoU=;
-        b=qx+cNDaWFZnbgev9DiEfS1fdVdJiw+QEtdN+wo4YRYNs2U3GlWBR4w9dYSf7eJ3d/H
-         df4eWNuERFf9juLrTlvTfko5YLCZSNEu0vyTflluHgo8zaiZWmShnBuKemkX877jh2Fj
-         0+cnnUWK6yMDDJwUTOmSULq6OfnyWayqIJDrr8AAP4W7g4jloY43H0kFUtO7XLw9ibn3
-         3SObT6rvr19DjlIM97gFAfgAjgNLi3cL5l4fBUVE+UfAIDVev+jjhV7oyhjCh9I/oIrB
-         XYXRwbcNp5HPFmkMl6FeczVqHtf+iXfVOwQzuiy41RgZVh5X96+2c/ctrEJ2cBk38Ec5
-         J43Q==
-X-Gm-Message-State: AOAM531QrZ7brjFXWSc340YbOHVsKRZjfCHm6tAgcnwuLhOnWp+1OUMH
-        cumfK2TmLZqmxSeRyW79ijmzbA==
-X-Google-Smtp-Source: ABdhPJx1C7TZNqA2WDgmRS8PP/JkKglPqepniU5Uam1gCfvOmL17fML6wIRJ1zqLcKVeSaTXVbQkTA==
-X-Received: by 2002:a05:600c:2e16:b0:393:e950:4e35 with SMTP id o22-20020a05600c2e1600b00393e9504e35mr2336042wmf.90.1650794076220;
-        Sun, 24 Apr 2022 02:54:36 -0700 (PDT)
-Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id n2-20020a05600c4f8200b003928e8e85eesm5908723wmq.10.2022.04.24.02.54.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Apr 2022 02:54:35 -0700 (PDT)
-Date:   Sun, 24 Apr 2022 10:54:33 +0100
-From:   Phillip Potter <phil@philpotter.co.uk>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: drop more IDE boot options and ide-cd.rst
-Message-ID: <YmUeWXCHZm/OG9sz@equinox>
-References: <20220424033701.7988-1-rdunlap@infradead.org>
+        with ESMTP id S237417AbiDXKNI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 06:13:08 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 83C53DEF7
+        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 03:10:07 -0700 (PDT)
+Received: from localhost.localdomain (unknown [112.20.112.130])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxHxD6IWVi03wvAA--.33060S2;
+        Sun, 24 Apr 2022 18:10:03 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com
+Subject: [PATCH v2 0/2] docs/zh_CN: add hmm and numa translation
+Date:   Sun, 24 Apr 2022 18:10:48 +0800
+Message-Id: <cover.1650794774.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220424033701.7988-1-rdunlap@infradead.org>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxHxD6IWVi03wvAA--.33060S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrCF17Cr18Ww13XFy7XF4Utwb_yoWxWrc_ua
+        1kXFWFyF47AFyktFW0kr47JrWjkFs5K348JF1Dtay5Ga9rurWDK34qqwnY9a15XF4Uury5
+        GrWkXryfJrsFgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbc8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+        Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+        0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+        jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+        1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8twCF
+        04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+        18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vI
+        r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+        1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
+        cVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUonmRUUUUU
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 23, 2022 at 08:37:01PM -0700, Randy Dunlap wrote:
-> Drop ide-* command line options.
-> Drop cdrom/ide-cd.rst documentation.
-> 
-> Fixes: 898ee22c32be ("Drop Documentation/ide/")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Phillip Potter <phil@philpotter.co.uk>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
-> I missed a few things in dropping all IDE documentation.
-> Hopefully this is all of the remaining pieces.
-> 
->  Documentation/admin-guide/kernel-parameters.txt |   20 
->  Documentation/cdrom/ide-cd.rst                  |  538 --------------
->  2 files changed, 558 deletions(-)
-> 
-Hi Randy,
+v2:
+* Pick Alex's Reviewed-by tag.
+* Modify some word under Alex's advice.
 
-Looks good to me, thanks.
+v1:
+* Translate .../vm/hmm.rst and .../vm/numa.rst into Chinese.
 
-Acked-by: Phillip Potter <phil@philpotter.co.uk>
+Yanteng Si (2):
+  docs/zh_CN: add vm hmm translation
+  docs/zh_CN: add vm numa translation
 
-Regards,
-Phil
+ Documentation/translations/zh_CN/vm/hmm.rst   | 361 ++++++++++++++++++
+ Documentation/translations/zh_CN/vm/index.rst |   4 +-
+ Documentation/translations/zh_CN/vm/numa.rst  | 101 +++++
+ 3 files changed, 464 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/vm/hmm.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/numa.rst
+
+-- 
+2.27.0
+
