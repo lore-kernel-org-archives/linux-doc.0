@@ -2,81 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E023C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 01:34:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD887C43217
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 01:34:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240163AbiDYBhx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Apr 2022 21:37:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39962 "EHLO
+        id S240173AbiDYBhz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Apr 2022 21:37:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240180AbiDYBhb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 21:37:31 -0400
+        with ESMTP id S240178AbiDYBha (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 21:37:30 -0400
 Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D00A8EE992
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F700EE987
         for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 18:34:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1650850468; x=1682386468;
+  t=1650850467; x=1682386467;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=2gb9ZbRuGLhgbilCIjbrPF15OV9shU7ZieMSAoKjS8w=;
-  b=ggiWl/+PCMCRqu/Td8QwrgmoW/ug5OoF6VPhIMUsDlu0yAQ5YPgK6KUO
-   +ptAWbpf7PK2OdppjtIVetJirTlY+/D2hk0mo4b90lhy4NXEk2kwUi+6M
-   3z+nCcbZV/O3CIUYG22a2fBLiTECKw5stAIU1icap53g5DOGLxGrx3FKs
-   Ia4rFzzrl86fLGuNn5fXOJfhv73O0icMkgjXVe8kEDE4ue7umbtbZJt5f
-   MagvlDiemO9Oro7A4FzWFo9thJhEJqS8hF1uBT+7isLtkAc766OcT0oT7
-   FAE2Jt/PSKHfNWD6CtPPvpJfgC+lKnERh5vC2u18A0WImg+bnzhEkWt9u
-   Q==;
+  bh=d9PnIoUQA+w0BwKcbtVShR1kDth5oR1vKirt4inS49A=;
+  b=nkOC2Hld5MAg87UtefxrK+dWkL4TR5Sj8CVXMNcbQyy1xatbzuWIb9DB
+   L3l8bJi91CK2rqw3Cyhk9jYzCaJMLK6y8gJ81Bg47BW1R1eQq4k6x3rfh
+   41PxO9MzdVRMLDfNvrTe0r/OmAU6FpSviaHbJnzZgODPfOSnHU/rWdNlP
+   vbAf7ld41BMl1Twnwmg2pR705vy9Mi8H3w8+OlaYWj4EMmrhtqRekBSRJ
+   YftAFYErnCpIvWO9QN2buwFWMzfr60ep6zSaLghPr+OcQazXjcLTZSeQY
+   cEnqTXNhpsEI1Oa7tPXDzjzck2NHBHVpfxmcn2sbJkmFSwIh38hrs078O
+   w==;
 X-IronPort-AV: E=Sophos;i="5.90,287,1643644800"; 
-   d="scan'208";a="302917802"
+   d="scan'208";a="302917797"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 25 Apr 2022 09:34:27 +0800
-IronPort-SDR: bJ7ls6YQftB7MNGFu75rU7/4sJvkVMGNl2iAMECIohDB9tPbnEEeNc30GghCsCObXvta1iyWaP
- 23OFXvxbMeIw80HPdvNlna84ep/2CPjrvhWDNxQkH2vbvlpKtg1h1cC0c8xEdxBolYy28yKpeu
- dWe0BXadT9PjHa2LLzBLmiI0HO/Eh2d42EJWTlvvA3pfYptGNKwZCh0ixA3xXekt5VeJFRglXU
- ejiaOjZfSLNOw+dGY6qzkrpRAp7iQ60rYaco+qbnBhnzzdB/kJwtYcXpXg8fe1m+IuNFCQoO/A
- d1tP1cIHaQL5zQZlO6A7EeoE
+  by ob1.hgst.iphmx.com with ESMTP; 25 Apr 2022 09:34:25 +0800
+IronPort-SDR: Jp4p8672TECKB7fndn9A4unWApWPI4wMTMmOXZuHIW7FXVFM2bXHbu97CsGoyCWI+myU7n6CKf
+ SeiBwjw7r6uj20lnjUFUFbxQWVMN/jKIGgBwTE7rGP1rag3e6Rwr5jqMix0CMNc2MJYolNelU8
+ xW8uN80lrM60mRKKSYC4qpBcgHsXYTHEJDzW2WSka32Jrei/v52buyyq3HsZ+nah8qXTp+jLIb
+ vx1MOVM9Vu6mOx49TXe/m729nQ6M3KwP0ZeuKJGueX/xXqvyayZGAki7sYZXv1PJlS6uAa6Q+t
+ cxlrJ2w7GstJvJDGsYhJ4GPy
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Apr 2022 18:05:23 -0700
-IronPort-SDR: q+EaNftzCtnDOpTJUcHjJ2Tqjyp/33Lxb/fszBTmYB1qJtVLdies4KjxywtlU0f/mvKHPWF0mm
- CS8vjBGCccYECijEzp32o2NkeaXt3b0UrHzzJLFO9arUbRS21qKdL5oUWgb25Ljg3SYdjGaAFZ
- elsVbUeqSs/Ey6lYxz5PMyG2exk7AiP1ZwEvrNeF1uIymIGDwaY6+zvMZjqLKMMR69D2x+u2HZ
- Prpa2s29FimZYmqrbG0HqcG5Z1zKDq/pASuQirzd6z8YHJYgq8Y3xgytNf7S2n3wY7zInYBxfO
- 0TA=
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Apr 2022 18:05:22 -0700
+IronPort-SDR: fbqSUr2EN9hvlQCw9luxh8mxRNAf67cdUqyjdRclryVPAUVnTfgs+vEW0OejiTwP86ZnUwA30z
+ HxLcKw1zNiARRuXRKEZBs99yQ/pmHkDJYQaNZXliAEHSx5Bhlh3nTxQV6rOP+iX2iQjSltPtG2
+ YAtZXTgUaym4qngcQTGig2A9987djlTCzdzTYKhGuiE5daJ/W0q6ZkjkMTqrRIIyfcOR0qkfEQ
+ wWarSRjB3KUv1v+7RIYwIjVpLRsyMOX+LkPNpGxEDLxepf13Cd/GQ//6m8toteJUK+Vq0ywAMG
+ jyY=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Apr 2022 18:34:26 -0700
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Apr 2022 18:34:25 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KmncL1LzPz1SVny
-        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 18:34:26 -0700 (PDT)
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KmncK0Pd1z1SVp0
+        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 18:34:25 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
         reason="pass (just generated, assumed good)"
         header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
         opensource.wdc.com; h=content-transfer-encoding:mime-version
         :references:in-reply-to:x-mailer:message-id:date:subject:to
-        :from; s=dkim; t=1650850465; x=1653442466; bh=2gb9ZbRuGLhgbilCIj
-        brPF15OV9shU7ZieMSAoKjS8w=; b=IZZvGWR4CF3CHcDWnV5Wc1aR4pQ1zfF/8a
-        Ef7Qzg6RyC4egI2mboX54OtnDwXZsw1UdIslfjlVC4mRH5eSaSEfKYz/+drIMhgK
-        PpnOJ+4tunSvm6F3tobgSFmNBdGn0GMl9+1EJQZYTKmpKBXfW7JkMNO870Wfmjws
-        26Jp/ejqYz2bSQeVxFarzKENp845AF7aXorqTlHHsPXbZATCd01GQrT+F/wpebbu
-        jfFYmIKZ3/LmMUGvqUgx5i25O5VUky3QBVpt4yyT1kVoHYK409JUtq7RAIwT0JcN
-        wm6sBY53jDlc6S4ppjUcPFFTqkv+EbfOp//AYwG8HYLFypNuMg+g==
+        :from; s=dkim; t=1650850464; x=1653442465; bh=d9PnIoUQA+w0BwKcbt
+        VShR1kDth5oR1vKirt4inS49A=; b=q3w6szy/xc+Uksn40s6AmaYANNJiADEmSG
+        aZx7uuIJqCZ+UkD1sytvwPsmS0q7gFH1gogS28AIt0VoBfFNkU7JR1+MsRtD7E+8
+        9pBjSAMHMO+zBSJbFrsnAznRrCz5PI5b2Xmq0S7AZtSWQ35lr1EqUr2bRURFuNj2
+        rJXw2xcEus/Cbfntp7uJE5gkHSxW47fqkkxh+KxNpm2+dDqO7Sw6l8ZowXU2qTYt
+        pLUd8LSdCvFI4fyhCdF8KnWraQHxzIUEipTIG5VSe7ex+1TRJRCvIyToT6BvrHWc
+        3VQ2etp1+vwukv+yUa1He/rnTHj9Fa4Fwx1jLvjLX5cWhWKMDUxg==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
         by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 3ruznnbppwmT for <linux-doc@vger.kernel.org>;
-        Sun, 24 Apr 2022 18:34:25 -0700 (PDT)
-Received: from washi.fujisawa.hgst.com (washi.fujisawa.hgst.com [10.149.53.254])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KmncJ6MHSz1Rwrw;
+        with ESMTP id JnPUrxS_9XuF for <linux-doc@vger.kernel.org>;
         Sun, 24 Apr 2022 18:34:24 -0700 (PDT)
+Received: from washi.fujisawa.hgst.com (washi.fujisawa.hgst.com [10.149.53.254])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KmncH693Sz1Rvlx;
+        Sun, 24 Apr 2022 18:34:23 -0700 (PDT)
 From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
 To:     linux-ide@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org
 Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: [PATCH v2 5/5] doc: admin-guide: Update libata kernel parameters
-Date:   Mon, 25 Apr 2022 10:34:17 +0900
-Message-Id: <20220425013417.3947791-6-damien.lemoal@opensource.wdc.com>
+Subject: [PATCH v2 4/5] ata: libata-core: Allow forcing most horkage flags
+Date:   Mon, 25 Apr 2022 10:34:16 +0900
+Message-Id: <20220425013417.3947791-5-damien.lemoal@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220425013417.3947791-1-damien.lemoal@opensource.wdc.com>
 References: <20220425013417.3947791-1-damien.lemoal@opensource.wdc.com>
@@ -86,118 +86,52 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Cleanup the text text describing the libata.force boot parameter and
-update the list of the values to include all supported horkage and link
-flag that can be forced.
+To facilitate debugging of drive issues in the field without kernel
+changes (e.g. temporary test patches), add an entry for most horkage
+flags in the force_tbl array to allow controlling these horkage
+settings with the libata.force kernel boot parameter.
 
 Signed-off-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
- .../admin-guide/kernel-parameters.txt         | 71 ++++++++++++++-----
- 1 file changed, 55 insertions(+), 16 deletions(-)
+ drivers/ata/libata-core.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
-ion/admin-guide/kernel-parameters.txt
-index 3f1cc5e317ed..00fb37cab649 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2622,14 +2622,14 @@
- 			when set.
- 			Format: <int>
+diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
+index e5a0e73b39d3..f68cb5639ec4 100644
+--- a/drivers/ata/libata-core.c
++++ b/drivers/ata/libata-core.c
+@@ -6230,9 +6230,27 @@ static const struct ata_force_param force_tbl[] __=
+initconst =3D {
+ 	force_horkage_onoff(ncqtrim,	ATA_HORKAGE_NO_NCQ_TRIM),
+ 	force_horkage_onoff(ncqati,	ATA_HORKAGE_NO_NCQ_ON_ATI),
 =20
--	libata.force=3D	[LIBATA] Force configurations.  The format is comma-
--			separated list of "[ID:]VAL" where ID is
--			PORT[.DEVICE].  PORT and DEVICE are decimal numbers
--			matching port, link or device.  Basically, it matches
--			the ATA ID string printed on console by libata.  If
--			the whole ID part is omitted, the last PORT and DEVICE
--			values are used.  If ID hasn't been specified yet, the
--			configuration applies to all ports, links and devices.
-+	libata.force=3D	[LIBATA] Force configurations.  The format is a comma-
-+			separated list of "[ID:]VAL" where ID is PORT[.DEVICE].
-+			PORT and DEVICE are decimal numbers matching port, link
-+			or device.  Basically, it matches the ATA ID string
-+			printed on console by libata.  If the whole ID part is
-+			omitted, the last PORT and DEVICE values are used.  If
-+			ID hasn't been specified yet, the configuration applies
-+			to all ports, links and devices.
+-	force_horkage_on(dump_id,	ATA_HORKAGE_DUMP_ID),
++	force_horkage_onoff(trim,	ATA_HORKAGE_NOTRIM),
++	force_horkage_on(trim_zero,	ATA_HORKAGE_ZERO_AFTER_TRIM),
++	force_horkage_on(max_trim_128m, ATA_HORKAGE_MAX_TRIM_128M),
++
++	force_horkage_onoff(dma,	ATA_HORKAGE_NODMA),
+ 	force_horkage_on(atapi_dmadir,	ATA_HORKAGE_ATAPI_DMADIR),
+-	force_horkage_on(disable,	ATA_HORKAGE_DISABLE)
++	force_horkage_on(atapi_mod16_dma, ATA_HORKAGE_ATAPI_MOD16_DMA),
++
++	force_horkage_onoff(dmalog,	ATA_HORKAGE_NO_DMA_LOG),
++	force_horkage_onoff(iddevlog,	ATA_HORKAGE_NO_ID_DEV_LOG),
++	force_horkage_onoff(logdir,	ATA_HORKAGE_NO_LOG_DIR),
++
++	force_horkage_on(max_sec_128,	ATA_HORKAGE_MAX_SEC_128),
++	force_horkage_on(max_sec_1024,	ATA_HORKAGE_MAX_SEC_1024),
++	force_horkage_on(max_sec_lba48,	ATA_HORKAGE_MAX_SEC_LBA48),
++
++	force_horkage_onoff(lpm,	ATA_HORKAGE_NOLPM),
++	force_horkage_onoff(setxfer,	ATA_HORKAGE_NOSETXFER),
++	force_horkage_on(dump_id,	ATA_HORKAGE_DUMP_ID),
++
++	force_horkage_on(disable,	ATA_HORKAGE_DISABLE),
+ };
 =20
- 			If only DEVICE is omitted, the parameter applies to
- 			the port and all links and devices behind it.  DEVICE
-@@ -2639,7 +2639,7 @@
- 			host link and device attached to it.
-=20
- 			The VAL specifies the configuration to force.  As long
--			as there's no ambiguity shortcut notation is allowed.
-+			as there is no ambiguity, shortcut notation is allowed.
- 			For example, both 1.5 and 1.5G would work for 1.5Gbps.
- 			The following configurations can be forced.
-=20
-@@ -2652,19 +2652,58 @@
- 			  udma[/][16,25,33,44,66,100,133] notation is also
- 			  allowed.
-=20
-+			* nohrst, nosrst, norst: suppress hard, soft and both
-+			  resets.
-+
-+			* rstonce: only attempt one reset during hot-unplug
-+			  link recovery.
-+
-+			* [no]dbdelay: Enable or disable the extra 200ms delay
-+			  before debouncing a link PHY and device presence
-+			  detection.
-+
- 			* [no]ncq: Turn on or off NCQ.
-=20
--			* [no]ncqtrim: Turn off queued DSM TRIM.
-+			* [no]ncqtrim: Enable or disable queued DSM TRIM.
-+
-+			* [no]ncqati: Enable or disable NCQ trim on ATI chipset.
-+
-+			* [no]trim: Enable or disable (unqueued) TRIM.
-+
-+			* trim_zero: Indicate that TRIM command zeroes data.
-+
-+			* max_trim_128m: Set 128M maximum trim size limit.
-+
-+			* [no]dma: Turn on or off DMA transfers.
-+
-+			* atapi_dmadir: Enable ATAPI DMADIR bridge support.
-+
-+			* atapi_mod16_dma: Enable the use of ATAPI DMA for
-+			  commands that are not a multiple of 16 bytes.
-+
-+			* [no]dmalog: Enable or disable the use of the
-+			  READ LOG DMA EXT command to access logs.
-+
-+			* [no]iddevlog: Enable or disable access to the
-+			  identify device data log.
-+
-+			* [no]logdir: Enable or disable access to the general
-+			  purpose log directory.
-+
-+			* max_sec_128: Set transfer size limit to 128 sectors.
-+
-+			* max_sec_1024: Set or clear transfer size limit to
-+			  1024 sectors.
-=20
--			* nohrst, nosrst, norst: suppress hard, soft
--			  and both resets.
-+			* max_sec_lba48: Set or clear transfer size limit to
-+			  65535 sectors.
-=20
--			* rstonce: only attempt one reset during
--			  hot-unplug link recovery
-+			* [no]lpm: Enable or disable link power management.
-=20
--			* dump_id: dump IDENTIFY data.
-+			* [no]setxfer: Indicate if transfer speed mode setting
-+			  should be skipped.
-=20
--			* atapi_dmadir: Enable ATAPI DMADIR bridge support
-+			* dump_id: Dump IDENTIFY data.
-=20
- 			* disable: Disable this device.
-=20
+ static int __init ata_parse_force_one(char **cur,
 --=20
 2.35.1
 
