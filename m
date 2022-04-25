@@ -2,122 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D3EFC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 03:20:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89540C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 03:50:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236922AbiDYDXI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Apr 2022 23:23:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38040 "EHLO
+        id S238051AbiDYDxD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Apr 2022 23:53:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240592AbiDYDWd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 23:22:33 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0886C20197;
-        Sun, 24 Apr 2022 20:19:30 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id v25so2984708ybd.8;
-        Sun, 24 Apr 2022 20:19:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=QAunaVT1jcyoQModTE6mBAO7CfddjaWEj8RHhYf/ZM0=;
-        b=W5ZdxqEJpcFSowY9QYhfBMhfCTBd0OclvVfDyTmZdMCCqTgebng3/ptSEH5ALHZVLw
-         1kwcUC/P22kVb/bPhwkPhj6X0LffxfXCCdaaMZT4JQqtVvw89Ccpy0AH07tj+q0DEUzz
-         7W2Ija68fHWuP05Y0YPIaYK0CXGS3+jzV7p3oKT5n0xCFTHm+L6Oh6TyfmGnoRc7bXZV
-         5Dcifp/bc1EXietsKFFWwApGMPl+Gvv5vQhnf7takf+8dPSagTNjgmFtNRjWt38l7Cbr
-         gcKcO7fsFZhvuGsvaALcMhZ0JB0c6pzirPmjIUDW0dRILCmNFKzANKQ3ugkMg/Qo5loE
-         zhmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=QAunaVT1jcyoQModTE6mBAO7CfddjaWEj8RHhYf/ZM0=;
-        b=zo1W18gbeTpEvOOha8ttpQOjHWC5TthKxMMQxgHa+xuya//WIXZ2LrSS40QJaoG+Li
-         9X8AWrdlhARfAXNnPl2AMd3+kLVnvqHUkPPXlwn9OnG+gG3EAlcIqJabkZlorofNZONH
-         GnhyYeoi/3V9EVtgYli7UUd0gpQfL1Oae3WsvVy4FVxd6KB5egzqIlL9ifPIdPs33LlG
-         +gx6b24CrRGZO0/NhX+rOyfwk4Yk86uotqdcDI2sRTEsDC9RI5L7lM2TFLJ7CcQXXE27
-         aOA6hIVd5u/9mtPRFs0ZtHe0WTXZ3TQynpV7lhgUi4C211KvGg3scR/SJ/P5d3SoYBIu
-         CzTg==
-X-Gm-Message-State: AOAM532MtxI0K85EBuDhw8YKMrxuLuvBE91XcsqELqXgEAnJcXhABQlI
-        oOpwM/j2+Ql+9uDo+FHh2IQQEaYjxriMtgTUeLJm9DpB2X26Vgm4
-X-Google-Smtp-Source: ABdhPJxoU5GLqrUvuWhvTkTslCk2tbyx7Aak5KOgpM9DKpWjMCsJpmpMMNHRTuPAmmZkPFXwlPC4Qm3TCfVjZJC4qSc=
-X-Received: by 2002:a5b:690:0:b0:645:d493:36c9 with SMTP id
- j16-20020a5b0690000000b00645d49336c9mr11829962ybq.641.1650856769257; Sun, 24
- Apr 2022 20:19:29 -0700 (PDT)
+        with ESMTP id S231730AbiDYDxC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 23:53:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 68A632F005
+        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 20:49:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1650858596;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=6+BjK5j3p07NV8YTOKQRJe/TLrsI/cMPaYzFnvSMXsY=;
+        b=Qd8EHiBUS0AuPL5Qe39eQqX4biOp3pJM6ZaKrkQIFYawlGa1/4jM6Xqep6ocwgYIAeC/m9
+        Yw78fsS2nr4Cli8rMtKvUbojQg78VD6prTbHblgbBlqQUHOYqWhHnS5r7ygMMKXh/tBCbi
+        iev+kVl8p4ZthsWCDh0KGoYV0wiyZR8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-671-66BGPX6ZN3KzlUNj4q2GrQ-1; Sun, 24 Apr 2022 23:49:54 -0400
+X-MC-Unique: 66BGPX6ZN3KzlUNj4q2GrQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C3E13810D40;
+        Mon, 25 Apr 2022 03:49:53 +0000 (UTC)
+Received: from localhost (ovpn-12-73.pek2.redhat.com [10.72.12.73])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id C317755105D;
+        Mon, 25 Apr 2022 03:49:51 +0000 (UTC)
+Date:   Mon, 25 Apr 2022 11:49:48 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v22 1/9] kdump: return -ENOENT if required cmdline option
+ does not exist
+Message-ID: <YmYaXDrEYOXLzT5H@MiWiFi-R3L-srv>
+References: <20220414115720.1887-1-thunder.leizhen@huawei.com>
+ <20220414115720.1887-2-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-References: <CAEensMzuQ0uAw8_5Xb7u1n685au=DpaJyPevGCT8GCG7xS42ow@mail.gmail.com>
- <1650424016-7225-1-git-send-email-baihaowen@meizu.com> <1650424016-7225-2-git-send-email-baihaowen@meizu.com>
- <30d2f96e-99e1-2976-a294-8e112166afff@gmail.com> <049ccac8-c394-0cdc-c2ed-4ea91cab6439@meizu.com>
- <c498b2a7-8f0e-4f6d-10ba-49c4c7794ff9@gmail.com> <0be9fe6a-b01e-b355-9283-6ad8372932d6@meizu.com>
-In-Reply-To: <0be9fe6a-b01e-b355-9283-6ad8372932d6@meizu.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Mon, 25 Apr 2022 11:19:16 +0800
-Message-ID: <CAEensMzgJ6LmGiJajqwgE3cQCR-pcgr1o35Qf=n1K215BwHLhA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
-To:     baihaowen <baihaowen@meizu.com>
-Cc:     Alex Shi <seakeel@gmail.com>, Alex Shi <alexs@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Yanteng Si <siyanteng@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220414115720.1887-2-thunder.leizhen@huawei.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-baihaowen <baihaowen@meizu.com> =E4=BA=8E2022=E5=B9=B44=E6=9C=8825=E6=97=A5=
-=E5=91=A8=E4=B8=80 09:17=E5=86=99=E9=81=93=EF=BC=9A
->
-> =E5=9C=A8 4/24/22 11:16 AM, Alex Shi =E5=86=99=E9=81=93:
-> >
-> > On 4/24/22 10:56, baihaowen wrote:
-> >>>> +        =3D=3D=3D=3D=3D=3D          =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >> hi, Alex
-> >> I can apply local.
-> >> =E2=9E=9C  linux-next git:(heads/next-20220421) =E2=9C=97 git am doc_p=
-ageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documentation-vm-.=
-patch
-> >> =E5=BA=94=E7=94=A8=EF=BC=9Adocs/zh_CN: sync with original text Documen=
-tation/vm/page_owner.rst
-> >> =E2=9E=9C  linux-next git:(heads/next-20220421) =E2=9C=97 git am doc_p=
-ageonwer_patches/0002-doc-vm-page_owner.rst-Fix-table-display-confusion.pat=
-ch
-> >> =E5=BA=94=E7=94=A8=EF=BC=9Adoc/vm/page_owner.rst: Fix table display co=
-nfusion
-> >>
-> >> I think git send-email will change format by my select. I'll try to re=
-send.
-> > Send to yourself only then get it from your email client and try applyi=
-ng.
-> >
-> > Thanks
-> > Alex
-> Hi Alex
->
-> Could you tell me how do you do when you get a patch from email ?
-$: git clone git://git.kernel.org/pub/scm/utils/b4/b4.git
-$: b4/b4.sh am <message-id>
-###=E5=9C=A8=E4=BD=A0=E7=9A=84=E9=82=AE=E7=AE=B1=E9=87=8C=E6=9F=A5=E7=9C=8B=
-=E5=8E=9F=E5=A7=8B=E6=9C=89=E9=82=AE=E4=BB=B6=EF=BC=8C=E7=84=B6=E5=90=8E=E6=
-=89=BE=E5=88=B0message-id=EF=BC=8C=E8=B4=B4=E8=BF=87=E6=9D=A5=E5=B0=B1=E8=
-=A1=8C=EF=BC=8C=E5=89=8D=E6=8F=90=E6=98=AF=E4=BD=A0=E7=9A=84=E8=A1=A5=E4=B8=
-=81=E7=B3=BB=E5=88=97=E5=9C=A8lore=E9=87=8C=E6=98=AF=E6=8C=89=E7=85=A7=E5=
-=89=8D=E5=87=A0=E5=A4=A9=E6=88=91=E8=AF=B4=E7=9A=84=E9=82=A3=E4=B9=88=E5=BC=
-=84=E3=80=82
-$: vim xxxx.mbx   ### [modify your patch]
-$: git am  xxxx.mbx
+On 04/14/22 at 07:57pm, Zhen Lei wrote:
+> According to the current crashkernel=Y,low support in other ARCHes, it's
+> an optional command-line option. When it doesn't exist, kernel will try
+> to allocate minimum required memory below 4G automatically.
+> 
+> However, __parse_crashkernel() returns '-EINVAL' for all error cases. It
+> can't distinguish the nonexistent option from invalid option.
+> 
+> Change __parse_crashkernel() to return '-ENOENT' for the nonexistent option
+> case. With this change, crashkernel,low memory will take the default
+> value if crashkernel=,low is not specified; while crashkernel reservation
+> will fail and bail out if an invalid option is specified.
+> 
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 
+Acked-by: Baoquan He <bhe@redhat.com>
 
-Thanks,
-Yanteng
+> ---
+>  kernel/crash_core.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> index 256cf6db573cd09..4d57c03714f4e13 100644
+> --- a/kernel/crash_core.c
+> +++ b/kernel/crash_core.c
+> @@ -243,9 +243,8 @@ static int __init __parse_crashkernel(char *cmdline,
+>  	*crash_base = 0;
+>  
+>  	ck_cmdline = get_last_crashkernel(cmdline, name, suffix);
+> -
+>  	if (!ck_cmdline)
+> -		return -EINVAL;
+> +		return -ENOENT;
+>  
+>  	ck_cmdline += strlen(name);
+>  
+> -- 
+> 2.25.1
+> 
 
->
-> I get my patch from email and then copy-patse to a new file, then git am =
-xx.patch.
-> It will notice =E8=A1=A5=E4=B8=81=E6=A0=BC=E5=BC=8F=E6=A3=80=E6=B5=8B=E5=
-=A4=B1=E8=B4=A5=E3=80=82
->
-> --
-> Haowen Bai
->
