@@ -2,153 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31224C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 07:39:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F534C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 08:18:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232501AbiDYHmq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Apr 2022 03:42:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48654 "EHLO
+        id S231933AbiDYIVx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Apr 2022 04:21:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240010AbiDYHmf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Apr 2022 03:42:35 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5150F1EC65;
-        Mon, 25 Apr 2022 00:39:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650872369; x=1682408369;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3KF/nt6njR142ErCOrFh+78Qmc0uUlvrXI0T2lqSfgI=;
-  b=anMJAV56slPzoLJLm8CV4apSUhYIkAWjSpqH+37f9mCU/xlNLzFYQ8Cd
-   BagUvcKdtmsERH7hg6VeAtd0CC8azIavdVoVI3Hr73P/5IrUHGFGV4Iun
-   OAjQT9cuKFgATku2IIFq0qqsIKBot9S49bTrEzYlPNJARRbQqanhb05hn
-   pLFPP75ftDWwkriWvAgtts5SpAdnOES41GwslhmNE5btu7PwqoLSX1hoo
-   OAWzrRUrYThjfbzg4Sqy49UNaWF4GGJDB0bGx12zw+YkUDsFkciv0Ft4L
-   LRv0FhVkG7whq2Gna3CApYm1cPyvB7aZNmsCJbAW6VyNwLdAGu0v9gKOs
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10327"; a="264971399"
-X-IronPort-AV: E=Sophos;i="5.90,287,1643702400"; 
-   d="scan'208";a="264971399"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2022 00:39:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,287,1643702400"; 
-   d="scan'208";a="531988427"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.135])
-  by orsmga006.jf.intel.com with ESMTP; 25 Apr 2022 00:39:20 -0700
-Date:   Mon, 25 Apr 2022 15:31:39 +0800
-From:   Xu Yilun <yilun.xu@intel.com>
-To:     Moritz Fischer <mdf@kernel.org>
-Cc:     Tianfei Zhang <tianfei.zhang@intel.com>, hao.wu@intel.com,
-        trix@redhat.com, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net,
-        Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: Re: [PATCH v7 1/2] fpga: dfl: check feature type before parse irq
-  info
-Message-ID: <20220425073139.GC363795@yilunxu-OptiPlex-7050>
-References: <20220419032942.427429-1-tianfei.zhang@intel.com>
- <20220419032942.427429-2-tianfei.zhang@intel.com>
- <YmFuPdzQCL5LwH2F@archbook>
+        with ESMTP id S231858AbiDYIVw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Apr 2022 04:21:52 -0400
+Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD03C5DA05;
+        Mon, 25 Apr 2022 01:18:41 -0700 (PDT)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail12.meizu.com
+ (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 25 Apr
+ 2022 16:18:40 +0800
+Received: from [172.16.137.70] (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 25 Apr
+ 2022 16:18:39 +0800
+Message-ID: <53ac1850-0286-0dc7-4a76-8a0ddee696c0@meizu.com>
+Date:   Mon, 25 Apr 2022 16:18:39 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YmFuPdzQCL5LwH2F@archbook>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 1/2] docs/zh_CN: sync with original text
+ Documentation/vm/page_owner.rst
+To:     yanteng si <siyanteng01@gmail.com>
+CC:     Alex Shi <seakeel@gmail.com>, Alex Shi <alexs@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Yanteng Si <siyanteng@loongson.cn>
+References: <CAEensMzuQ0uAw8_5Xb7u1n685au=DpaJyPevGCT8GCG7xS42ow@mail.gmail.com>
+ <1650424016-7225-1-git-send-email-baihaowen@meizu.com>
+ <1650424016-7225-2-git-send-email-baihaowen@meizu.com>
+ <30d2f96e-99e1-2976-a294-8e112166afff@gmail.com>
+ <049ccac8-c394-0cdc-c2ed-4ea91cab6439@meizu.com>
+ <c498b2a7-8f0e-4f6d-10ba-49c4c7794ff9@gmail.com>
+ <0be9fe6a-b01e-b355-9283-6ad8372932d6@meizu.com>
+ <CAEensMzgJ6LmGiJajqwgE3cQCR-pcgr1o35Qf=n1K215BwHLhA@mail.gmail.com>
+From:   baihaowen <baihaowen@meizu.com>
+In-Reply-To: <CAEensMzgJ6LmGiJajqwgE3cQCR-pcgr1o35Qf=n1K215BwHLhA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 21, 2022 at 07:46:21AM -0700, Moritz Fischer wrote:
-> On Mon, Apr 18, 2022 at 11:29:41PM -0400, Tianfei Zhang wrote:
-> > From: Tianfei zhang <tianfei.zhang@intel.com>
-> > 
-> > Previously the feature IDs defined are unique, no matter
-> > which feature type. But currently we want to extend its
-> > usage to have a per-type feature ID space, so this patch
-> > adds feature type checking as well just before look into
-> > feature ID for different features which have irq info.
-> > 
-> > Reviewed-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> > Acked-by: Wu Hao <hao.wu@intel.com>
-> Acked-by: Moritz Fischer <mdf@kernel.org>
+在 4/25/22 11:19 AM, yanteng si 写道:
+> baihaowen <baihaowen@meizu.com> 于2022年4月25日周一 09:17写道：
+>> 在 4/24/22 11:16 AM, Alex Shi 写道:
+>>> On 4/24/22 10:56, baihaowen wrote:
+>>>>>> +        ======          ==========      ==================
+>>>> hi, Alex
+>>>> I can apply local.
+>>>> ➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documentation-vm-.patch
+>>>> 应用：docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+>>>> ➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0002-doc-vm-page_owner.rst-Fix-table-display-confusion.patch
+>>>> 应用：doc/vm/page_owner.rst: Fix table display confusion
+>>>>
+>>>> I think git send-email will change format by my select. I'll try to resend.
+>>> Send to yourself only then get it from your email client and try applying.
+>>>
+>>> Thanks
+>>> Alex
+>> Hi Alex
+>>
+>> Could you tell me how do you do when you get a patch from email ?
+> $: git clone git://git.kernel.org/pub/scm/utils/b4/b4.git
+> $: b4/b4.sh am <message-id>
+> ###在你的邮箱里查看原始有邮件，然后找到message-id，贴过来就行，前提是你的补丁系列在lore里是按照前几天我说的那么弄。
+> $: vim xxxx.mbx   ### [modify your patch]
+> $: git am  xxxx.mbx
+>
+>
+> Thanks,
+> Yanteng
+>
+>> I get my patch from email and then copy-patse to a new file, then git am xx.patch.
+>> It will notice 补丁格式检测失败。
+>>
+>> --
+>> Haowen Bai
+>>
+hi, Yanteng
 
-Acked-by: Xu Yilun <yilun.xu@intel.com>
+No matter I select y or N, I could not git am the Chinese translation patch.
 
-> > Signed-off-by: Tianfei zhang <tianfei.zhang@intel.com>
-> > ---
-> > v7:
-> >   - Add Reviewed-by and Acked-by tag.
-> > v4:
-> >   - Fix the git commit from Hao's comments.
-> >   - Split documentation into another patch.
-> > v3:
-> >   - Remove "Fixes" in commit log with Hao's comment, this is a
-> >     extension not a bug fix.
-> > v2:
-> >   - add DFL Feature ID Registry in documentation.
-> > ---
-> >  drivers/fpga/dfl.c | 38 ++++++++++++++++++++++----------------
-> >  1 file changed, 22 insertions(+), 16 deletions(-)
-> > 
-> > diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
-> > index 599bb21d86af..6bff39ff21a0 100644
-> > --- a/drivers/fpga/dfl.c
-> > +++ b/drivers/fpga/dfl.c
-> > @@ -940,9 +940,12 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
-> >  {
-> >  	void __iomem *base = binfo->ioaddr + ofst;
-> >  	unsigned int i, ibase, inr = 0;
-> > +	enum dfl_id_type type;
-> >  	int virq;
-> >  	u64 v;
-> >  
-> > +	type = feature_dev_id_type(binfo->feature_dev);
-> > +
-> >  	/*
-> >  	 * Ideally DFL framework should only read info from DFL header, but
-> >  	 * current version DFL only provides mmio resources information for
-> > @@ -957,22 +960,25 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
-> >  	 * code will be added. But in order to be compatible to old version
-> >  	 * DFL, the driver may still fall back to these quirks.
-> >  	 */
-> > -	switch (fid) {
-> > -	case PORT_FEATURE_ID_UINT:
-> > -		v = readq(base + PORT_UINT_CAP);
-> > -		ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
-> > -		inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
-> > -		break;
-> > -	case PORT_FEATURE_ID_ERROR:
-> > -		v = readq(base + PORT_ERROR_CAP);
-> > -		ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
-> > -		inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
-> > -		break;
-> > -	case FME_FEATURE_ID_GLOBAL_ERR:
-> > -		v = readq(base + FME_ERROR_CAP);
-> > -		ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
-> > -		inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
-> > -		break;
-> > +	if (type == PORT_ID) {
-> > +		switch (fid) {
-> > +		case PORT_FEATURE_ID_UINT:
-> > +			v = readq(base + PORT_UINT_CAP);
-> > +			ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
-> > +			inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
-> > +			break;
-> > +		case PORT_FEATURE_ID_ERROR:
-> > +			v = readq(base + PORT_ERROR_CAP);
-> > +			ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
-> > +			inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
-> > +			break;
-> > +		}
-> > +	} else if (type == FME_ID) {
-> > +		if (fid == FME_FEATURE_ID_GLOBAL_ERR) {
-> > +			v = readq(base + FME_ERROR_CAP);
-> > +			ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
-> > +			inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
-> > +		}
-> >  	}
-> >  
-> >  	if (!inr) {
-> > -- 
-> > 2.26.2
-> > 
+    doc_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documentation-vm-.patch
+Which 8bit encoding should I declare [UTF-8]? y
+Are you sure you want to use <y> [y/N]? y
+
+    doc_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documentation-vm-.patch
+Which 8bit encoding should I declare [UTF-8]? N
+Are you sure you want to use <N> [y/N]? y
+
+$git am xxx.patch
+error: cannot convert from y to UTF-8
+fatal: could not parse patch
+or
+$git am xxx.patch
+error: cannot convert from N to UTF-8
+fatal: could not parse patch
+
+so, the problem is happening when I did git send-email, and the original zh_CN patch is successful for git am.
+Have you ever meet this problem ?
+
+-- 
+Haowen Bai
+
