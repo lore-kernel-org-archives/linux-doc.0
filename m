@@ -2,75 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB03C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 01:17:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F24B8C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 01:34:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240109AbiDYBUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Apr 2022 21:20:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43026 "EHLO
+        id S240171AbiDYBh1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Apr 2022 21:37:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240021AbiDYBUW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 21:20:22 -0400
-Received: from mail.meizu.com (unknown [14.29.68.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4E014EF58;
-        Sun, 24 Apr 2022 18:17:18 -0700 (PDT)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail04.meizu.com
- (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 25 Apr
- 2022 09:17:16 +0800
-Received: from [172.16.137.70] (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 25 Apr
- 2022 09:17:16 +0800
-Message-ID: <0be9fe6a-b01e-b355-9283-6ad8372932d6@meizu.com>
-Date:   Mon, 25 Apr 2022 09:17:15 +0800
+        with ESMTP id S232655AbiDYBhX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 21:37:23 -0400
+Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A7FDECCFF
+        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 18:34:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1650850461; x=1682386461;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=koJDTDMLq54JWd9HeD7XD8paBg1Poz/+wyi8yWF470w=;
+  b=XyBkROXG7eeSt5RriEO9RHZvhQSVIb82ibKqPq2TiIJzr1hlZEEKNNfk
+   1l5KSiQSp2jR93pMmUgAJzzY/i/G/DDXKOLun0KFwTKKJMva1UXD777X9
+   khWoe8mgGPdWANS8PBwmDUyKNzuTSPDgCJiJsM6cRuPfzf1y3zFNgdKmX
+   hkYJkfe/7JSZlU0T/Wp8FpYhmc9wAhJz04087vkAMXb16xu80IvpeY8Wi
+   P/cCzmEfFztAxwdcDy7JaQTRH4iGhZU1vkRh3sf21lx0KNk02YPIJWoGO
+   1HZm0zzCeE+ADuw0Z3focrGO1KWTJbOTQ28An/1EzmR6k6Ie1EZJ0XIhG
+   A==;
+X-IronPort-AV: E=Sophos;i="5.90,287,1643644800"; 
+   d="scan'208";a="197558807"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 25 Apr 2022 09:34:20 +0800
+IronPort-SDR: +U/oA1dtAmjZwxwk9nOITZXX+x0yq9uuG5rO/PtmS1+kgSHjxj9QMP/2YgcUVq/FNb1I/nipXs
+ zsWT2SJmkabcf6fTZxkQozaEu47Fp+hclG4zz8ZTmPkLj+ar7odTcFVoPaFzhTk5EYN/5g5oV4
+ JciK9Oum5Gjj4Wm4CeM8QzpwLGXhuJeJV6Y3tim4bIoLXkFkW9jOKC3wMD/RlfGTewM1vKU8Br
+ 0UYY2GtYQRy8BS5b/h1LYkLGMXRGnJ+N/VEBRKf30xZc9IirCmH2J0trW1cAHor2OfU3lkL9gs
+ BLQ+wJnoswI3Vp0lPdeX9qQZ
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Apr 2022 18:04:33 -0700
+IronPort-SDR: jzUaay76o80HdHLO7uwC2048jAoNEaACbmhFMRI14e4v+YoE1E7lroZYwl0wekpLn7u/vF3oQF
+ 8DGSqtT+F99tWO+ubkB+qKKNECMT9Q9fwMq97N4XFk6seBzEDGYT4M1y62RkhJDDIdcIyt7+Hh
+ P4E+ax3qeafqEJ/ppHHSLVvBvwx0NjZKl3D3jadkbUgbw5j4J0t5Scs9rhljh3+7FB7xo1YktD
+ +uoPYyQ/K2pR9VmQZLF7juPk6NimhlmBRBKIEyp6RnTfW6mi5BXHlM0KlOVlcMSh+cJBlFox3w
+ B6M=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Apr 2022 18:34:21 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KmncD450gz1SVny
+        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 18:34:20 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+        reason="pass (just generated, assumed good)"
+        header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+        opensource.wdc.com; h=content-transfer-encoding:mime-version
+        :x-mailer:message-id:date:subject:to:from; s=dkim; t=1650850460;
+         x=1653442461; bh=koJDTDMLq54JWd9HeD7XD8paBg1Poz/+wyi8yWF470w=; b=
+        LjiiMFJPQXszUP2UCl5q7KIJhBBrSh0RV1S8meF82USut/SwpeDHjUxYNt0ifqG5
+        COfO5PHCzxxIesOZL2D+e1NVu+mLqEZndR4Nfccz66qP/hIgDph0hYzqdJDHZ8LR
+        4UpaDEawjqGp/vzNTjhRQ+og9ZwgvJh5TGVirlpuXxJWM1dShHglwu0e/8U/LmPB
+        sSLZsp0gJ5D6iWtxlSYTtXYlLJsVvTa6WPRV71HioGy1DTa5FWBfG45BIZxMR9fD
+        LSFCxHYI36gQRAerZWuhuTyNBjvgWa4Ya691v/BP4jW6fyu5y9YRVB+W+n++YEvm
+        210zyCRgE0amQ2tsJ05h2w==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 5fwk-oP3MJ_Z for <linux-doc@vger.kernel.org>;
+        Sun, 24 Apr 2022 18:34:20 -0700 (PDT)
+Received: from washi.fujisawa.hgst.com (washi.fujisawa.hgst.com [10.149.53.254])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KmncC2KVrz1Rvlx;
+        Sun, 24 Apr 2022 18:34:19 -0700 (PDT)
+From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
+To:     linux-ide@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: [PATCH v2 0/5] libata.force improvements
+Date:   Mon, 25 Apr 2022 10:34:12 +0900
+Message-Id: <20220425013417.3947791-1-damien.lemoal@opensource.wdc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 1/2] docs/zh_CN: sync with original text
- Documentation/vm/page_owner.rst
-To:     Alex Shi <seakeel@gmail.com>, <siyanteng01@gmail.com>
-CC:     <alexs@kernel.org>, <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <siyanteng@loongson.cn>
-References: <CAEensMzuQ0uAw8_5Xb7u1n685au=DpaJyPevGCT8GCG7xS42ow@mail.gmail.com>
- <1650424016-7225-1-git-send-email-baihaowen@meizu.com>
- <1650424016-7225-2-git-send-email-baihaowen@meizu.com>
- <30d2f96e-99e1-2976-a294-8e112166afff@gmail.com>
- <049ccac8-c394-0cdc-c2ed-4ea91cab6439@meizu.com>
- <c498b2a7-8f0e-4f6d-10ba-49c4c7794ff9@gmail.com>
-From:   baihaowen <baihaowen@meizu.com>
-In-Reply-To: <c498b2a7-8f0e-4f6d-10ba-49c4c7794ff9@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-在 4/24/22 11:16 AM, Alex Shi 写道:
->
-> On 4/24/22 10:56, baihaowen wrote:
->>>> +        ======          ==========      ==================
->> hi, Alex
->> I can apply local.
->> ➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documentation-vm-.patch
->> 应用：docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
->> ➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0002-doc-vm-page_owner.rst-Fix-table-display-confusion.patch   
->> 应用：doc/vm/page_owner.rst: Fix table display confusion
->>
->> I think git send-email will change format by my select. I'll try to resend.
-> Send to yourself only then get it from your email client and try applying. 
->
-> Thanks
-> Alex
-Hi Alex
+This patch series improves the usefulness of the libata.force kernel
+boot parameters to facilitate field debugging of ata drives and adapter
+issues by extending the range of horkage flags and link flags that can
+be controlled.
 
-Could you tell me how do you do when you get a patch from email ?
+The first patch is a simple cleanup of the drive blacklist array.
+Patch 2 refactors the declaration of the force_tbl array defining the
+possible values that libata.force can take. Patch 3 and 4 extend this
+array adding most horkage flags and one link flag. Finally, patch 5
+updates the kernel documentation reflecting these changes.
 
-I get my patch from email and then copy-patse to a new file, then git am xx.patch.
-It will notice 补丁格式检测失败。
+Changes from v1:
+* Changed force_lflag_on() macro name to force_lflag() in patch 2.
+  Patch 3 introduce the on & onoff naming of the macro.
+* Updated the commit message of patch 2 and 3.
+* Removed underscores in the onoff horkage option names in patch 4.
+* Added review tags.
 
--- 
-Haowen Bai
+Damien Le Moal (5):
+  ata: libata-core: cleanup ata_device_blacklist
+  ata: libata-core: Refactor force_tbl definition
+  ata: libata-core: Improve link flags forced settings
+  ata: libata-core: Allow forcing most horkage flags
+  doc: admin-guide: Update libata kernel parameters
+
+ .../admin-guide/kernel-parameters.txt         |  71 +++--
+ drivers/ata/libata-core.c                     | 271 +++++++++++-------
+ 2 files changed, 217 insertions(+), 125 deletions(-)
+
+--=20
+2.35.1
 
