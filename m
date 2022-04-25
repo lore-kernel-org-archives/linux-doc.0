@@ -2,67 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE2B5C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 14:52:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 865CCC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 15:16:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235644AbiDYO4C convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Apr 2022 10:56:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49630 "EHLO
+        id S241754AbiDYPTV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Apr 2022 11:19:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229819AbiDYO4C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Apr 2022 10:56:02 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD00133E1E;
-        Mon, 25 Apr 2022 07:52:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 04E57B8185F;
-        Mon, 25 Apr 2022 14:52:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD35CC385A4;
-        Mon, 25 Apr 2022 14:52:52 +0000 (UTC)
-Date:   Mon, 25 Apr 2022 10:52:51 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Tony Luck <tony.luck@intel.com>
-Cc:     hdegoede@redhat.com, markgross@kernel.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
-        jithu.joseph@intel.com, ashok.raj@intel.com,
-        dan.j.williams@intel.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        patches@lists.linux.dev, ravi.v.shankar@intel.com
-Subject: Re: [PATCH v4 09/10] trace: platform/x86/intel/ifs: Add trace point
- to track Intel IFS operations
-Message-ID: <20220425105251.3f5e8021@gandalf.local.home>
-In-Reply-To: <20220422200219.2843823-10-tony.luck@intel.com>
-References: <20220419163859.2228874-1-tony.luck@intel.com>
-        <20220422200219.2843823-1-tony.luck@intel.com>
-        <20220422200219.2843823-10-tony.luck@intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8BIT
+        with ESMTP id S232572AbiDYPTV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Apr 2022 11:19:21 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F8E49F38A
+        for <linux-doc@vger.kernel.org>; Mon, 25 Apr 2022 08:16:16 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2eb7d137101so130489247b3.12
+        for <linux-doc@vger.kernel.org>; Mon, 25 Apr 2022 08:16:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=VgCwJNrSWLamwr26sf8FxhD/HG4cXOd5kOE1NHtb3Lc=;
+        b=n+3K4I/06qyEIawpbSiGFoxmIG2WckzHJniuNA3IrWYHIDmrQJPps1fZCv8oZNwSmM
+         djRwqb8qKIJdhL5flEOwoWrVf3bgw6r6rtBL6CiLjfJjgVeHt9rbRyZvi2iSQtcSgL0m
+         65ns45Ge3Iq2HNetZYhGnHOJBhbwo86ueRNoo7CPPkWaqJ5XyjXrA6fYqELFFEZSjet5
+         0OWyA1mggzBwOWq2YcP+eq1e9fceZkTFP0kFcxB7g7bqxE3NHOKo/3QkDrmhQK19CILR
+         xTvPRmKD1wfvVAMuwJG6R7P9g1gkSn/gsfhl21Nj9xXHYQ1wxqgQ0MMJhY0uXSFekZE/
+         Z5QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=VgCwJNrSWLamwr26sf8FxhD/HG4cXOd5kOE1NHtb3Lc=;
+        b=e11xsG7ljHkoUrvkFxsoN91d+eaehQ8k7ZsBR8JJY9KDlngGAL/a5xvfbTwwKYrYMd
+         ipGlOjMG+cBddNJRo/9Pj1kBYDK0qTCTFTs3TGeSIg8EFvPMCPd3Io8xCkXSfogcWEKL
+         Am+M4gWQyJTGgtqB8+1MYrvP1i93jccdelShF9x9ye6/jYjTHnT2E7MDNd+zIBHp0Zqw
+         ORiNF02PE+MXbS+y2EwYom23iXSo1/E7NL9y4+FJzrn0KvGQRqluScepfAHMIac8kOd8
+         rfj99faSe6dtGjIpyyjBPqO8fkFiYI8zVktLs1bTP/C9QMhLFQDI5jOQnnYRYefe3ybz
+         La5g==
+X-Gm-Message-State: AOAM531CzTdgqzanCj6RADOu6t+rafjMfLxfCLyJ5EkD4oVJeZahGl6N
+        DSAKc+SqJWqVK5R450feWX/tLoEN96rJtg==
+X-Google-Smtp-Source: ABdhPJwU4K+YuD6yyf2aAdrpYnOWuj48hDCtiv+bO71qwNSDnOZ34f4eBzdf+Yw8LRMOIjCH7Y8ILNnSfkLjmA==
+X-Received: from shakeelb.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:28b])
+ (user=shakeelb job=sendgmr) by 2002:a81:a4e:0:b0:2f7:d86c:e565 with SMTP id
+ 75-20020a810a4e000000b002f7d86ce565mr6895908ywk.374.1650899775751; Mon, 25
+ Apr 2022 08:16:15 -0700 (PDT)
+Date:   Mon, 25 Apr 2022 15:16:12 +0000
+In-Reply-To: <CAJD7tkbhjJDNXcAmiAkGT8RCvBSz=SAfh7JR3AJysSz29hcEgw@mail.gmail.com>
+Message-Id: <20220425151612.izmxhkgugq6isyz3@google.com>
+Mime-Version: 1.0
+References: <20220421234426.3494842-1-yosryahmed@google.com>
+ <20220421234426.3494842-5-yosryahmed@google.com> <20220423142801.gnvd42cdcsz4hpon@google.com>
+ <CAJD7tkbhjJDNXcAmiAkGT8RCvBSz=SAfh7JR3AJysSz29hcEgw@mail.gmail.com>
+Subject: Re: [PATCH v4 4/4] selftests: cgroup: add a selftest for memory.reclaim
+From:   Shakeel Butt <shakeelb@google.com>
+To:     Yosry Ahmed <yosryahmed@google.com>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        David Rientjes <rientjes@google.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>,
+        Chen Wandun <chenwandun@huawei.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        "Michal =?utf-8?Q?Koutn=C3=BD?=" <mkoutny@suse.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Dan Schatzberg <schatzberg.dan@gmail.com>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 22 Apr 2022 13:02:18 -0700
-Tony Luck <tony.luck@intel.com> wrote:
-
-> Add tracing support which may be useful for debugging systems that fail to complete
-> In Field Scan tests.
+On Sat, Apr 23, 2022 at 02:43:13PM -0700, Yosry Ahmed wrote:
+[...]
+> > > +     cg_run_nowait(memcg, alloc_pagecache_50M_noexit, (void *)(long)fd);
+> > > +     sleep(1);
+> >
+> > These sleep(1)s do not seem robust. Since kernel keeps the page cache
+> > around, you can convert anon to use tmpfs and use simple cg_run to
+> > trigger the allocations of anon (tmpfs) and file which will remain in
+> > memory even after return from cg_run.
 > 
-> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Tony Luck <tony.luck@intel.com>
-> ---
->  MAINTAINERS                              |  1 +
->  drivers/platform/x86/intel/ifs/runtest.c |  5 ++++
->  include/trace/events/intel_ifs.h         | 38 ++++++++++++++++++++++++
+> Other tests in the file are also using sleep approach (see
+> test_memcg_min, although it retries for multiple times until
+> memory.current reaches an expected amount). In my experience it hasn't
+> been flaky running for multiple times on different machines, but I
+> agree it can be flaky (false negative).
+> 
 
-From the tracing POV:
+If other tests are doing the same then ignore this comment for now.
+There should be a separate effort to move towards more deterministic
+approach for the tests instead of sleep().
 
-Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> I am not sure about the allocating file pages with cg_run, is it
+> guaranteed that the page cache will remain in memory until the test
+> ends? If it doesn't, it can also flake, but it would produce false
+> positives (the test could pass because the kernel drained page cache
+> for some other reason although the interface is not working
+> correctly).
+> 
+> In my personal opinion, false negative flakes are better than false
+> positives. At least currently the test explicitly and clearly fails if
+> the allocations are not successful. If we rely on the page cache
+> remaining until the test finishes then it could silently pass if the
+> interface is not working correctly.
+> 
+> There are a few ways we can go forward with this:
+> 1) Keep everything as-is, but print a message if the test fails due to
+> memory.current not reaching 100MB to make it clear that it didn't fail
+> due to a problem with the interface.
+> 2) Add a sleep/retry loop similar to test_memcg_min instead of sleeping once.
+> 3) Send a signal from forked children when they are done with the
+> allocation, and wait to receive this signal in the test to make sure
+> the allocation is completed.
+> 
+> In my opinion we should do (1) (and maybe (2)) for now as (3) could be
+> an overkill if the test is normal passing. Maybe add a comment about
+> (3) being an option in the future if the test flakes. Let me know what
+> you think?
 
--- Steve
+I am ok with (1).
