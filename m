@@ -2,113 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89540C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 03:50:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 480DCC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 04:08:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238051AbiDYDxD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Apr 2022 23:53:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51404 "EHLO
+        id S238226AbiDYELg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Apr 2022 00:11:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231730AbiDYDxC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 23:53:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 68A632F005
-        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 20:49:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1650858596;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=6+BjK5j3p07NV8YTOKQRJe/TLrsI/cMPaYzFnvSMXsY=;
-        b=Qd8EHiBUS0AuPL5Qe39eQqX4biOp3pJM6ZaKrkQIFYawlGa1/4jM6Xqep6ocwgYIAeC/m9
-        Yw78fsS2nr4Cli8rMtKvUbojQg78VD6prTbHblgbBlqQUHOYqWhHnS5r7ygMMKXh/tBCbi
-        iev+kVl8p4ZthsWCDh0KGoYV0wiyZR8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-671-66BGPX6ZN3KzlUNj4q2GrQ-1; Sun, 24 Apr 2022 23:49:54 -0400
-X-MC-Unique: 66BGPX6ZN3KzlUNj4q2GrQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C3E13810D40;
-        Mon, 25 Apr 2022 03:49:53 +0000 (UTC)
-Received: from localhost (ovpn-12-73.pek2.redhat.com [10.72.12.73])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id C317755105D;
-        Mon, 25 Apr 2022 03:49:51 +0000 (UTC)
-Date:   Mon, 25 Apr 2022 11:49:48 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v22 1/9] kdump: return -ENOENT if required cmdline option
- does not exist
-Message-ID: <YmYaXDrEYOXLzT5H@MiWiFi-R3L-srv>
-References: <20220414115720.1887-1-thunder.leizhen@huawei.com>
- <20220414115720.1887-2-thunder.leizhen@huawei.com>
+        with ESMTP id S241043AbiDYELQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Apr 2022 00:11:16 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2147847079;
+        Sun, 24 Apr 2022 21:07:09 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id p8so13661711pfh.8;
+        Sun, 24 Apr 2022 21:07:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=2PdcqZRLrGYWewMO+0J4UfGlrsrMciQWjjDbQSu/atI=;
+        b=EBBnLRnNq7Z5wsHox5sLOOntzmOxBw0ws6BNddIbqr3YZlnQRqyeE2X4mgXHolaW9a
+         e5n2smsJfQn/e+AFfVVT+Viu81Y6pEPgKRyKmDzJXicpJ5y9wu7VULohoocjkKjPs4JW
+         qaJAX4cJ0lm4EYnQJ7U3QvwdL00JWZqM2RAk4dRlteFLR+KSQO4mn0RIdIcjjTLw7Z4n
+         D7GAblpdxvPW8qbCz0KqRaGQG367aoZ652lcaj9FOJ7TrIWtZSBnIxLZd0TKcJrb0A+q
+         xPeFWdxUFCsz8+txqJQi6fWDhAWVKr6Szor9Mvp2BhOZuq1BBKBCingFn4ZSwu9TVpBX
+         gQAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=2PdcqZRLrGYWewMO+0J4UfGlrsrMciQWjjDbQSu/atI=;
+        b=q9bL0H9+vOcEvRQSbIH0hpmIFKlqPg1nNHDHGlnk1dYwcYeb72DvIZkPvYSxHJp6HQ
+         bJdKthl54j6EAn0rwAGo5hUCxjdIWYi9t3iki+NBtxTfJhrAKBsGSWZreyU1o1S+rULY
+         47CyEwTZCEAQfTUJMrpCSJFMU+s5M0M71gYKovEItoP8i8VQ4X29jsHHnJht/K0723PI
+         0b1FQdDkNBS+bFJGuAmxqx5VOogyixu+d0btHL90moCPCFz96+bGA2bAFiFsxxGIEG/Y
+         OxVMAeFwsWLJAnfrFpIHRZ5XMszoWff8OOWJ0a3XVTlh4Lphw4U7klcFRNReHOlvXIuv
+         UF3A==
+X-Gm-Message-State: AOAM531QUFqV4ja9aTphxLdxsakI78l/ylqm35wmjvRSpY4GsQib1anm
+        5oxlIKwwa291vzADYdVNpN4=
+X-Google-Smtp-Source: ABdhPJwRknQqJGX0YDPXS4AWwTiIghnE0zpK+9PzHIQe+3C7utxudEfznrcplB6ZQkjOwN/CBr9cXQ==
+X-Received: by 2002:a63:1543:0:b0:39d:9729:1992 with SMTP id 3-20020a631543000000b0039d97291992mr13614671pgv.155.1650859628502;
+        Sun, 24 Apr 2022 21:07:08 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:282a:d50e:e0fc:c145])
+        by smtp.gmail.com with ESMTPSA id t15-20020a63b70f000000b00381510608e9sm7848171pgf.14.2022.04.24.21.07.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Apr 2022 21:07:07 -0700 (PDT)
+Date:   Sun, 24 Apr 2022 21:07:04 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Anjelique Melendez <quic_amelende@quicinc.com>
+Cc:     corbet@lwn.net, sre@kernel.org, robh+dt@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, bjorn.andersson@linaro.org,
+        swboyd@chromium.org, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 2/5] input: misc: pm8941-pwrkey: fix error message
+Message-ID: <YmYeaGDyJHHr/lk/@google.com>
+References: <20220422191239.6271-1-quic_amelende@quicinc.com>
+ <20220422191239.6271-3-quic_amelende@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220414115720.1887-2-thunder.leizhen@huawei.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+In-Reply-To: <20220422191239.6271-3-quic_amelende@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/14/22 at 07:57pm, Zhen Lei wrote:
-> According to the current crashkernel=Y,low support in other ARCHes, it's
-> an optional command-line option. When it doesn't exist, kernel will try
-> to allocate minimum required memory below 4G automatically.
+On Fri, Apr 22, 2022 at 12:12:40PM -0700, Anjelique Melendez wrote:
+> Currently, error message reads "failed to set debounce". However,
+> code is attempting to read revision not set debounce. Fix this.
 > 
-> However, __parse_crashkernel() returns '-EINVAL' for all error cases. It
-> can't distinguish the nonexistent option from invalid option.
-> 
-> Change __parse_crashkernel() to return '-ENOENT' for the nonexistent option
-> case. With this change, crashkernel,low memory will take the default
-> value if crashkernel=,low is not specified; while crashkernel reservation
-> will fail and bail out if an invalid option is specified.
-> 
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
 
-Acked-by: Baoquan He <bhe@redhat.com>
+Applied, thank you.
 
-> ---
->  kernel/crash_core.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> index 256cf6db573cd09..4d57c03714f4e13 100644
-> --- a/kernel/crash_core.c
-> +++ b/kernel/crash_core.c
-> @@ -243,9 +243,8 @@ static int __init __parse_crashkernel(char *cmdline,
->  	*crash_base = 0;
->  
->  	ck_cmdline = get_last_crashkernel(cmdline, name, suffix);
-> -
->  	if (!ck_cmdline)
-> -		return -EINVAL;
-> +		return -ENOENT;
->  
->  	ck_cmdline += strlen(name);
->  
-> -- 
-> 2.25.1
-> 
-
+-- 
+Dmitry
