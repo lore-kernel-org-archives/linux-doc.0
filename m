@@ -2,141 +2,317 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E93CAC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 16:49:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09BFEC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 16:51:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243536AbiDYQwr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Apr 2022 12:52:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46318 "EHLO
+        id S241056AbiDYQyS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Apr 2022 12:54:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243585AbiDYQwm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Apr 2022 12:52:42 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D69A724969;
-        Mon, 25 Apr 2022 09:49:37 -0700 (PDT)
+        with ESMTP id S243606AbiDYQyR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Apr 2022 12:54:17 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE08A1A042;
+        Mon, 25 Apr 2022 09:51:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650905377; x=1682441377;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=x1VjlOLFf7+Iwtn5He+Gw098wHontYefP4lyjR1he+4=;
-  b=b9bi1/SdNNCgm03qImb79kNc92BtVmgknXpIjjRJuDxvy4oDjCTtqueq
-   gOBs0YVnAoorP14Igtzhn/qLLjuIKqG0fJnjx/u61CBaFAqtVw1o6zllf
-   1LEm4Zzv4NWjfZ9vcwOC+H/mv6jhSRLRNlcb1ULIgc9H0v8IF/9/r48mS
-   aH6mO9AT9N8/L2O+E/cOGtSkyszGaDrCGKORKKwAcyyK0+geK43PHoJ+Z
-   XhYJHbY0xu0VV+t6nZpCFvEain3xhqvXgRMGGgXPnwuyn6Fv1uFSFr2JR
-   Ul0E86yoKJxqAsGZnMqAsa/36nuPW/6jjAUL4ZDbjttyPBXULknzsSjRj
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="264822399"
-X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; 
-   d="scan'208";a="264822399"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2022 09:49:37 -0700
-X-ExtLoop1: 1
+  t=1650905472; x=1682441472;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=sNT4x+GZpx5jtw0CJ7/oLIIw/S8KoYk0ZT6jquEq14Q=;
+  b=mDk/QCs5kOr4Sub3BlOs4mfbxZfxivm+6grZykV9yrF4vAz99y/Q6nlR
+   xvaaNqVyforYioxCh3BWDdW2vWSWQg1KuwC5DG3WXmZm6U5zFgffnYVnw
+   70C8MP2c0Uw5ZBas0lMewUJ4RK8ENbCIHDAsrihAqnxh61Jk5m6f48gpG
+   nd/Gyuder5n+YYIBo02cxUONsD+dugJ9b6l8gzjI5/88wNcjs+Xsdyj2Z
+   3FOivgVTgojdMMi/7S6OFGV6h2GrKMI9puCYfUkm4i178Sd48cW6NKGcE
+   v6Al50rOExGg37br6TE5V5hSlrJuWY9bdI3yRLklaffbl/58sZkw5b/bA
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="351749907"
 X-IronPort-AV: E=Sophos;i="5.90,289,1643702400"; 
-   d="scan'208";a="628115236"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga004.fm.intel.com with ESMTP; 25 Apr 2022 09:49:36 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 25 Apr 2022 09:49:36 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 25 Apr 2022 09:49:35 -0700
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
- Mon, 25 Apr 2022 09:49:35 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-CC:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "markgross@kernel.org" <markgross@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: RE: [PATCH v4 09/10] trace: platform/x86/intel/ifs: Add trace point
- to track Intel IFS operations
-Thread-Topic: [PATCH v4 09/10] trace: platform/x86/intel/ifs: Add trace point
- to track Intel IFS operations
-Thread-Index: AQHYVoPmGcq84+Hs50ec7Nq4KoK2Oa0BMJaA//+oPOA=
-Date:   Mon, 25 Apr 2022 16:49:35 +0000
-Message-ID: <1752057af33e4eb28bcea0fd75e44048@intel.com>
-References: <20220419163859.2228874-1-tony.luck@intel.com>
-        <20220422200219.2843823-1-tony.luck@intel.com>
-        <20220422200219.2843823-10-tony.luck@intel.com>
- <20220425105251.3f5e8021@gandalf.local.home>
-In-Reply-To: <20220425105251.3f5e8021@gandalf.local.home>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="351749907"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2022 09:51:12 -0700
+X-IronPort-AV: E=Sophos;i="5.90,289,1643702400"; 
+   d="scan'208";a="579375156"
+Received: from kruparel-mobl1.amr.corp.intel.com (HELO localhost) ([10.213.188.223])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2022 09:51:11 -0700
+Date:   Mon, 25 Apr 2022 09:51:10 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, outreachy@lists.linux.dev,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH 4/4] Documentation/vm: Rework "Temporary Virtual Mappings"
+Message-ID: <YmbRfjGi12P4eX5F@iweiny-desk3>
+References: <20220421180200.16901-1-fmdefrancesco@gmail.com>
+ <20220421180200.16901-5-fmdefrancesco@gmail.com>
+ <YmXyhH7wAJo274WB@iweiny-desk3>
+ <1894872.PYKUYFuaPT@leap>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1894872.PYKUYFuaPT@leap>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > Add tracing support which may be useful for debugging systems that fail=
- to complete
-> > In Field Scan tests.
-> >
-> > Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> > Signed-off-by: Tony Luck <tony.luck@intel.com>
-> > ---
-> >  MAINTAINERS                              |  1 +
-> >  drivers/platform/x86/intel/ifs/runtest.c |  5 ++++
-> >  include/trace/events/intel_ifs.h         | 38 ++++++++++++++++++++++++
->
-> From the tracing POV:
->
-> Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+On Mon, Apr 25, 2022 at 03:42:46AM +0200, Fabio M. De Francesco wrote:
+> On lunedì 25 aprile 2022 02:59:48 CEST Ira Weiny wrote:
+> > On Thu, Apr 21, 2022 at 08:02:00PM +0200, Fabio M. De Francesco wrote:
+> > > Extend and rework the "Temporary Virtual Mappings" section of the 
+> highmem.rst
+> > > documentation.
+> > > 
+> > > Despite the local kmaps were introduced by Thomas Gleixner in October 
+> 2020,
+> > > documentation was still missing information about them. These additions 
+> rely
+> > > largely on Gleixner's patches, Jonathan Corbet's LWN articles, comments 
+> by
+> > > Ira Weiny and Matthew Wilcox, and in-code comments from
+> > > ./include/linux/highmem.h.
+> > > 
+> > > 1) Add a paragraph to document kmap_local_page().
+> > > 2) Reorder the list of functions by decreasing order of preference of
+> > > use.
+> > > 3) Rework part of the kmap() entry in list.
+> > > 
+> > > Cc: Jonathan Corbet <corbet@lwn.net>
+> > > Cc: Thomas Gleixner <tglx@linutronix.de>
+> > > Cc: Ira Weiny <ira.weiny@intel.com>
+> > > Cc: Matthew Wilcox <willy@infradead.org>
+> > > Cc: Peter Zijlstra <peterz@infradead.org>
+> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > > ---
+> > >  Documentation/vm/highmem.rst | 71 ++++++++++++++++++++++++++++++------
+> > >  1 file changed, 60 insertions(+), 11 deletions(-)
+> > > 
+> > > diff --git a/Documentation/vm/highmem.rst b/Documentation/vm/
+> highmem.rst
+> > > index e05bf5524174..960f61e7a552 100644
+> > > --- a/Documentation/vm/highmem.rst
+> > > +++ b/Documentation/vm/highmem.rst
+> > > @@ -50,26 +50,75 @@ space when they use mm context tags.
+> > >  Temporary Virtual Mappings
+> > >  ==========================
+> > >  
+> > > -The kernel contains several ways of creating temporary mappings:
+> > > +The kernel contains several ways of creating temporary mappings. The 
+> following
+> > > +list shows them in order of preference of use.
+> > >  
+> > > -* vmap().  This can be used to make a long duration mapping of 
+> multiple
+> > > -  physical pages into a contiguous virtual space.  It needs global
+> > > -  synchronization to unmap.
+> > > +* kmap_local_page().  This function is used to require short term 
+> mappings.
+> > > +  It can be invoked from any context (including interrupts) but the 
+> mappings
+> > > +  can only be used in the context which acquired them.
+> > > +
+> > > +  This function should be preferred, where feasible, over all the 
+> others.
+> > >  
+> > > -* kmap().  This permits a short duration mapping of a single page.  It 
+> needs
+> > > -  global synchronization, but is amortized somewhat.  It is also prone 
+> to
+> > > -  deadlocks when using in a nested fashion, and so it is not 
+> recommended for
+> > > -  new code.
+> > > +  These mappings are per thread, CPU local (i.e., migration from one 
+> CPU to
+> > > +  another is disabled - this is why they are called "local"), but they 
+> don't
+> > > +  disable preemption. It's valid to take pagefaults in a local kmap 
+> region,
+> > > +  unless the context in which the local mapping is acquired does not 
+> allow
+> > > +  it for other reasons.
+> > > +
+> > > +  It is assumed that kmap_local_page() always returns the virtual 
+> address
+> > 
+> > kmap_local_page() does return a kernel virtual address.  Why 'assume' 
+> this?
+> > 
+> > Do you mean it returns an address in the direct map?
+> > 
+> > > +  of the mapping, therefore they won't ever fail.
+> > 
+> > I don't think that returning a virtual address has anything to do with 
+> the
+> > assumption they will not fail.
+> > 
+> > Why do you say this?
+> 
+> Oh, sorry! I didn't mean to say this. What I wrote is _not_ what I meant. 
+> My intention was to say the same that you may read below about 
+> k[un]map_atomic().
+> 
+> This sentence should have been:
+> 
+> + It always returns a valid virtual address. It is assumed that
+> + k[un]map_local() won't ever fail.
+> 
+> Is this rewording correct?
+> 
+> It's not my first time I make these kinds of silly mistakes when copy-
+> pasting lines and then rework or merge with other text that was already 
+> there. Recently I've made a couple of these kinds of mistakes.
+> 
+> I'd better read twice (maybe thrice) what I write before sending :(
 
-Question for the future of this driver.  There are a couple more scan tools=
- coming
-in the future. The interface is similar:
+NP  That is part of the reason we have reviews.
 
-	WRMSR to start a scan
-	RDMSR to get the results
+> 
+> > 
+> > > +
+> > > +  If a task holding local kmaps is preempted, the maps are removed on 
+> context
+> > > +  switch and restored when the task comes back on the CPU. As the maps 
+> are
+> > > +  strictly CPU local, it is guaranteed that the task stays on the CPU 
+> and
+> > > +  that the CPU cannot be unplugged until the local kmaps are released.
+> > > +
+> > > +  Nesting kmap_local_page() and kmap_atomic() mappings is allowed to a 
+> certain
+> > > +  extent (up to KMAP_TYPE_NR) but their invocations have to be 
+> strictly ordered
+> > > +  because the map implementation is stack based.
+> > 
+> > I think I would reference the kmap_local_page()
+> 
+> I suppose you are talking about the kdocs comments in code. If so, please 
+> remember that the kmap_local_page() kdocs have already been included in  
+> highmem.rst.
 
-For this first one, I made the trace code do some user friendly decoding of=
- the
-WRMSR value to just show the two interesting fields (start & stop).
+Yes exactly.
 
-The future scan modes will have different fields.
+> 
+> Am I misunderstanding what you write?
 
-I see two paths:
+I was just suggesting that the above could add.
 
-1) Create a new user friendly trace point for each new scan mode.
-2) Just provide a generic one that dumps both the 64-bit WRMSR and RDMSR va=
-lues.
+'See kmal_local_page() kdoc for ordering details.'
 
-Q: Are trace points "expensive" in some way ... so better to just have one =
-than three?
-     Or are the cheap enough that decoding for the user is an OK thing?
+To make sure that people understand those details and you don't have to rewrite
+the kdoc stuff here.
 
-Thanks
+> 
+> > for more details on the
+> > ordering because there have been some conversions I've done which were
+> > complicated by this.
+> > 
+> > >  
+> > >  * kmap_atomic().  This permits a very short duration mapping of a 
+> single
+> > >    page.  Since the mapping is restricted to the CPU that issued it, it
+> > >    performs well, but the issuing task is therefore required to stay on 
+> that
+> > >    CPU until it has finished, lest some other task displace its 
+> mappings.
+> > >  
+> > > -  kmap_atomic() may also be used by interrupt contexts, since it is 
+> does not
+> > > -  sleep and the caller may not sleep until after kunmap_atomic() is 
+> called.
+> > > +  kmap_atomic() may also be used by interrupt contexts, since it does 
+> not
+> > > +  sleep and the callers too may not sleep until after kunmap_atomic() 
+> is
+> > > +  called.
+> > > +
+> > > +  Each call of kmap_atomic() in the kernel creates a non-preemptible 
+> section
+> > > +  and disable pagefaults. This could be a source of unwanted latency, 
+> so it
+> > > +  should be only used if it is absolutely required, otherwise 
+> kmap_local_page()
+> > > +  should be used where it is feasible.
+> > >  
+> > > -  It may be assumed that k[un]map_atomic() won't fail.
+> > > +  It is assumed that k[un]map_atomic() won't fail.
+> > > +
+> > > +* kmap().  This should be used to make short duration mapping of a 
+> single
+> > > +  page with no restrictions on preemption or migration. It comes with 
+> an
+> > > +  overhead as mapping space is restricted and protected by a global 
+> lock
+> > > +  for synchronization. When mapping is no more needed, the address 
+> that
+> >                                          ^^^^^^^^
+> > 					 no longer
+> 
+> Yes, correct. I'll fix it.
+> 
+> > > +  the page was mapped to must be released with kunmap().
+> > > +
+> > > +  Mapping changes must be propagated across all the CPUs. kmap() also
+> > > +  requires global TLB invalidation when the kmap's pool wraps and it 
+> might
+> > > +  block when the mapping space is fully utilized until a slot becomes
+> > > +  available. Therefore, kmap() is only callable from preemptible 
+> context.
+> > > +
+> > > +  All the above work is necessary if a mapping must last for a 
+> relatively
+> > > +  long time but the bulk of high-memory mappings in the kernel are
+> > > +  short-lived and only used in one place. This means that the cost of
+> > > +  kmap() is mostly wasted in such cases. kmap() was not intended for 
+> long
+> > > +  term mappings but it has morphed in that direction and its use is
+> > > +  strongly discouraged in newer code and the set of the preceding 
+> functions
+> > > +  should be preferred.
+> > 
+> > Nice!
+> 
+> Now that I have your reviews for all the four patches of this series I'll 
+> send next version on Monday.
+> 
+> Thanks you so much,
 
--Tony
+Thank you!
+Ira
 
-
+> 
+> Fabio
+> 
+> > 
+> > Ira
+> > 
+> > > +
+> > > +  On 64-bit systems, calls to kmap_local_page(), kmap_atomic() and 
+> kmap() have
+> > > +  no real work to do because a 64-bit address space is more than 
+> sufficient to
+> > > +  address all the physical memory whose pages are permanently mapped.
+> > > +
+> > > +* vmap().  This can be used to make a long duration mapping of 
+> multiple
+> > > +  physical pages into a contiguous virtual space.  It needs global
+> > > +  synchronization to unmap.
+> > >  
+> > >  
+> > >  Cost of Temporary Mappings
+> > > -- 
+> > > 2.34.1
+> > > 
+> > 
+> 
+> 
+> 
+> 
