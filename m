@@ -2,81 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 170ECC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 01:34:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E023C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 01:34:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232655AbiDYBhw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Apr 2022 21:37:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39666 "EHLO
+        id S240163AbiDYBhx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Apr 2022 21:37:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240168AbiDYBhZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 21:37:25 -0400
+        with ESMTP id S240180AbiDYBhb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 21:37:31 -0400
 Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01DDAEE987
-        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 18:34:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D00A8EE992
+        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 18:34:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1650850462; x=1682386462;
+  t=1650850468; x=1682386468;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=0qK5trTMohR+usRjrhJxE3Vg0PVM3LOFaxYvJKwRmHE=;
-  b=GG/Im3330RgpeUGrtd6bRiTaku76TP3oJcYUNm8VZo9WqPtolyyYoThn
-   OyXw1ej8z2hun+lobZ/dgQdXmTQrYwl92cX3FCgFM7Ey61r6mokYGYRva
-   UvNJtFU5t5VYF9DWsO7+kYSQ1vWopPYm3Fn3XHGcu2XmBFDksvQfQD92m
-   N7m1LA1YhPdbWCRL/fuZZ8MGUILfhbpofAiJrH1pjOktT+IFri0M9F6xQ
-   poxFbEutNsVwKmepTgP0H993HRYik0kQdW7dFLLvxqw3uw0Gprro/nf3J
-   BMmUgsICnGMmB5Zx+uyxMlEmBM49Tit1PwuUa52f5nleDH/uarhKzijB+
+  bh=2gb9ZbRuGLhgbilCIjbrPF15OV9shU7ZieMSAoKjS8w=;
+  b=ggiWl/+PCMCRqu/Td8QwrgmoW/ug5OoF6VPhIMUsDlu0yAQ5YPgK6KUO
+   +ptAWbpf7PK2OdppjtIVetJirTlY+/D2hk0mo4b90lhy4NXEk2kwUi+6M
+   3z+nCcbZV/O3CIUYG22a2fBLiTECKw5stAIU1icap53g5DOGLxGrx3FKs
+   Ia4rFzzrl86fLGuNn5fXOJfhv73O0icMkgjXVe8kEDE4ue7umbtbZJt5f
+   MagvlDiemO9Oro7A4FzWFo9thJhEJqS8hF1uBT+7isLtkAc766OcT0oT7
+   FAE2Jt/PSKHfNWD6CtPPvpJfgC+lKnERh5vC2u18A0WImg+bnzhEkWt9u
    Q==;
 X-IronPort-AV: E=Sophos;i="5.90,287,1643644800"; 
-   d="scan'208";a="302917785"
+   d="scan'208";a="302917802"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 25 Apr 2022 09:34:22 +0800
-IronPort-SDR: 6cU+vFU105tLf/7bHh6dHCrzqXU7uyYaiMxWO5hk3HDLTOpEB4lAZ9wMlabwZfCDwMwkpoJaFz
- y94rIRbIWxf9R0eCE1Uw1EuDPI8MzIbtkmlpfCq1myH0pMxYnYC+30YyHdtyla1grfYEocDB4w
- PeS3hxLUeLPdlSx2dKLug1fdWhMEAf8TSM/6vZ13FCo4wxSbckp1xCWD/EVr3D5+c3MZb4C5lJ
- s0grOpUTFDTxNz++mTjpTpI5KjY0SM3DONLtedSk5Qbl5vXd8cy2/19eWD3X2jXlVu56fhjvEi
- 3srPYOLz/1Uzu1mhhz+mzrmL
+  by ob1.hgst.iphmx.com with ESMTP; 25 Apr 2022 09:34:27 +0800
+IronPort-SDR: bJ7ls6YQftB7MNGFu75rU7/4sJvkVMGNl2iAMECIohDB9tPbnEEeNc30GghCsCObXvta1iyWaP
+ 23OFXvxbMeIw80HPdvNlna84ep/2CPjrvhWDNxQkH2vbvlpKtg1h1cC0c8xEdxBolYy28yKpeu
+ dWe0BXadT9PjHa2LLzBLmiI0HO/Eh2d42EJWTlvvA3pfYptGNKwZCh0ixA3xXekt5VeJFRglXU
+ ejiaOjZfSLNOw+dGY6qzkrpRAp7iQ60rYaco+qbnBhnzzdB/kJwtYcXpXg8fe1m+IuNFCQoO/A
+ d1tP1cIHaQL5zQZlO6A7EeoE
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Apr 2022 18:05:18 -0700
-IronPort-SDR: VEsev7CRNbBqroJuurwJAq/kB6ZL2Kpi4aCg6fUFYFDMW2GZ2dxVh8sTkhWLeUN8uWQ01m6B4C
- VRlZWKwr8W+Ztc7bumDJ1IHYLWHt5Y5E3wEtZDtydSEk9wG1uYRKOviOVGJt2C4zy5eCyNx5s1
- f56ewkDC/wEUN+8r0Oy7LIQIOPcMpGZObTB5bHn6spXMQRW6nsdg6Z+IAat8FphtMcdKlGQa6b
- WM/FnkUfMZCfjfMZIZQR4RqYjJKZnC2P1bp9s7F6rlKnBKTgwz4sEICqMKwf29P3wgLcj+Jsrr
- ruM=
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Apr 2022 18:05:23 -0700
+IronPort-SDR: q+EaNftzCtnDOpTJUcHjJ2Tqjyp/33Lxb/fszBTmYB1qJtVLdies4KjxywtlU0f/mvKHPWF0mm
+ CS8vjBGCccYECijEzp32o2NkeaXt3b0UrHzzJLFO9arUbRS21qKdL5oUWgb25Ljg3SYdjGaAFZ
+ elsVbUeqSs/Ey6lYxz5PMyG2exk7AiP1ZwEvrNeF1uIymIGDwaY6+zvMZjqLKMMR69D2x+u2HZ
+ Prpa2s29FimZYmqrbG0HqcG5Z1zKDq/pASuQirzd6z8YHJYgq8Y3xgytNf7S2n3wY7zInYBxfO
+ 0TA=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Apr 2022 18:34:22 -0700
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Apr 2022 18:34:26 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KmncG029Yz1SVp0
-        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 18:34:22 -0700 (PDT)
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KmncL1LzPz1SVny
+        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 18:34:26 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
         reason="pass (just generated, assumed good)"
         header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
         opensource.wdc.com; h=content-transfer-encoding:mime-version
         :references:in-reply-to:x-mailer:message-id:date:subject:to
-        :from; s=dkim; t=1650850461; x=1653442462; bh=0qK5trTMohR+usRjrh
-        JxE3Vg0PVM3LOFaxYvJKwRmHE=; b=ahhQIz9sjXFje0I9UG7vqzxN9kkGTOTOPU
-        h2yE9i7DBvDm+cKVIfIFqV7Afja1NW1gjSJiXQs2MfoPwcb5z0cZH+TBkZvqUM71
-        Ybr9swVWqv24bDkfN3Oev5rXRwovKlbrwEdC1cpHdUlgD9cUijz+p2YnXOGGncY9
-        yp6LX0iP24J2Xf2/XGUqhXpx8j0ZEl0rokOUaI/d/tbDbT8f1BjDlNWhf1PANktR
-        LFU12p25TFmBd4b/jk0snVZ3zfIVFYV+O+1g3k1F+7FoMnsW8rQXAb/DzuvbqEzW
-        NDxpeHH8ig7grUg3hl8McE8LRWKaTACRnvzG65mQmt22tuYTc91g==
+        :from; s=dkim; t=1650850465; x=1653442466; bh=2gb9ZbRuGLhgbilCIj
+        brPF15OV9shU7ZieMSAoKjS8w=; b=IZZvGWR4CF3CHcDWnV5Wc1aR4pQ1zfF/8a
+        Ef7Qzg6RyC4egI2mboX54OtnDwXZsw1UdIslfjlVC4mRH5eSaSEfKYz/+drIMhgK
+        PpnOJ+4tunSvm6F3tobgSFmNBdGn0GMl9+1EJQZYTKmpKBXfW7JkMNO870Wfmjws
+        26Jp/ejqYz2bSQeVxFarzKENp845AF7aXorqTlHHsPXbZATCd01GQrT+F/wpebbu
+        jfFYmIKZ3/LmMUGvqUgx5i25O5VUky3QBVpt4yyT1kVoHYK409JUtq7RAIwT0JcN
+        wm6sBY53jDlc6S4ppjUcPFFTqkv+EbfOp//AYwG8HYLFypNuMg+g==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
         by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id YSP79VK9wc1R for <linux-doc@vger.kernel.org>;
-        Sun, 24 Apr 2022 18:34:21 -0700 (PDT)
+        with ESMTP id 3ruznnbppwmT for <linux-doc@vger.kernel.org>;
+        Sun, 24 Apr 2022 18:34:25 -0700 (PDT)
 Received: from washi.fujisawa.hgst.com (washi.fujisawa.hgst.com [10.149.53.254])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KmncD2x1kz1Rwrw;
-        Sun, 24 Apr 2022 18:34:20 -0700 (PDT)
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KmncJ6MHSz1Rwrw;
+        Sun, 24 Apr 2022 18:34:24 -0700 (PDT)
 From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
 To:     linux-ide@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org
 Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: [PATCH v2 1/5] ata: libata-core: cleanup ata_device_blacklist
-Date:   Mon, 25 Apr 2022 10:34:13 +0900
-Message-Id: <20220425013417.3947791-2-damien.lemoal@opensource.wdc.com>
+Subject: [PATCH v2 5/5] doc: admin-guide: Update libata kernel parameters
+Date:   Mon, 25 Apr 2022 10:34:17 +0900
+Message-Id: <20220425013417.3947791-6-damien.lemoal@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220425013417.3947791-1-damien.lemoal@opensource.wdc.com>
 References: <20220425013417.3947791-1-damien.lemoal@opensource.wdc.com>
@@ -86,200 +86,118 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove the unneeded comma after the last field of the array entries.
+Cleanup the text text describing the libata.force boot parameter and
+update the list of the values to include all supported horkage and link
+flag that can be forced.
 
 Signed-off-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
- drivers/ata/libata-core.c | 96 +++++++++++++++++++--------------------
- 1 file changed, 48 insertions(+), 48 deletions(-)
+ .../admin-guide/kernel-parameters.txt         | 71 ++++++++++++++-----
+ 1 file changed, 55 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
-index cceedde51126..bc59c77b99b6 100644
---- a/drivers/ata/libata-core.c
-+++ b/drivers/ata/libata-core.c
-@@ -3898,7 +3898,7 @@ static const struct ata_blacklist_entry ata_device_=
-blacklist [] =3D {
- 	/* Devices where NCQ should be avoided */
- 	/* NCQ is slow */
- 	{ "WDC WD740ADFD-00",	NULL,		ATA_HORKAGE_NONCQ },
--	{ "WDC WD740ADFD-00NLR1", NULL,		ATA_HORKAGE_NONCQ, },
-+	{ "WDC WD740ADFD-00NLR1", NULL,		ATA_HORKAGE_NONCQ },
- 	/* http://thread.gmane.org/gmane.linux.ide/14907 */
- 	{ "FUJITSU MHT2060BH",	NULL,		ATA_HORKAGE_NONCQ },
- 	/* NCQ is broken */
-@@ -3924,23 +3924,23 @@ static const struct ata_blacklist_entry ata_devic=
-e_blacklist [] =3D {
- 	/* drives which fail FPDMA_AA activation (some may freeze afterwards)
- 	   the ST disks also have LPM issues */
- 	{ "ST1000LM024 HN-M101MBB", NULL,	ATA_HORKAGE_BROKEN_FPDMA_AA |
--						ATA_HORKAGE_NOLPM, },
-+						ATA_HORKAGE_NOLPM },
- 	{ "VB0250EAVER",	"HPG7",		ATA_HORKAGE_BROKEN_FPDMA_AA },
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+index 3f1cc5e317ed..00fb37cab649 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2622,14 +2622,14 @@
+ 			when set.
+ 			Format: <int>
 =20
- 	/* Blacklist entries taken from Silicon Image 3124/3132
- 	   Windows driver .inf file - also several Linux problem reports */
--	{ "HTS541060G9SA00",    "MB3OC60D",     ATA_HORKAGE_NONCQ, },
--	{ "HTS541080G9SA00",    "MB4OC60D",     ATA_HORKAGE_NONCQ, },
--	{ "HTS541010G9SA00",    "MBZOC60D",     ATA_HORKAGE_NONCQ, },
-+	{ "HTS541060G9SA00",    "MB3OC60D",     ATA_HORKAGE_NONCQ },
-+	{ "HTS541080G9SA00",    "MB4OC60D",     ATA_HORKAGE_NONCQ },
-+	{ "HTS541010G9SA00",    "MBZOC60D",     ATA_HORKAGE_NONCQ },
+-	libata.force=3D	[LIBATA] Force configurations.  The format is comma-
+-			separated list of "[ID:]VAL" where ID is
+-			PORT[.DEVICE].  PORT and DEVICE are decimal numbers
+-			matching port, link or device.  Basically, it matches
+-			the ATA ID string printed on console by libata.  If
+-			the whole ID part is omitted, the last PORT and DEVICE
+-			values are used.  If ID hasn't been specified yet, the
+-			configuration applies to all ports, links and devices.
++	libata.force=3D	[LIBATA] Force configurations.  The format is a comma-
++			separated list of "[ID:]VAL" where ID is PORT[.DEVICE].
++			PORT and DEVICE are decimal numbers matching port, link
++			or device.  Basically, it matches the ATA ID string
++			printed on console by libata.  If the whole ID part is
++			omitted, the last PORT and DEVICE values are used.  If
++			ID hasn't been specified yet, the configuration applies
++			to all ports, links and devices.
 =20
- 	/* https://bugzilla.kernel.org/show_bug.cgi?id=3D15573 */
--	{ "C300-CTFDDAC128MAG",	"0001",		ATA_HORKAGE_NONCQ, },
-+	{ "C300-CTFDDAC128MAG",	"0001",		ATA_HORKAGE_NONCQ },
+ 			If only DEVICE is omitted, the parameter applies to
+ 			the port and all links and devices behind it.  DEVICE
+@@ -2639,7 +2639,7 @@
+ 			host link and device attached to it.
 =20
- 	/* Sandisk SD7/8/9s lock up hard on large trims */
--	{ "SanDisk SD[789]*",	NULL,		ATA_HORKAGE_MAX_TRIM_128M, },
-+	{ "SanDisk SD[789]*",	NULL,		ATA_HORKAGE_MAX_TRIM_128M },
+ 			The VAL specifies the configuration to force.  As long
+-			as there's no ambiguity shortcut notation is allowed.
++			as there is no ambiguity, shortcut notation is allowed.
+ 			For example, both 1.5 and 1.5G would work for 1.5Gbps.
+ 			The following configurations can be forced.
 =20
- 	/* devices which puke on READ_NATIVE_MAX */
--	{ "HDS724040KLSA80",	"KFAOA20N",	ATA_HORKAGE_BROKEN_HPA, },
-+	{ "HDS724040KLSA80",	"KFAOA20N",	ATA_HORKAGE_BROKEN_HPA },
- 	{ "WDC WD3200JD-00KLB0", "WD-WCAMR1130137", ATA_HORKAGE_BROKEN_HPA },
- 	{ "WDC WD2500JD-00HBB0", "WD-WMAL71490727", ATA_HORKAGE_BROKEN_HPA },
- 	{ "MAXTOR 6L080L4",	"A93.0500",	ATA_HORKAGE_BROKEN_HPA },
-@@ -3949,22 +3949,22 @@ static const struct ata_blacklist_entry ata_devic=
-e_blacklist [] =3D {
- 	{ "OCZ-VERTEX",		    "1.30",	ATA_HORKAGE_BROKEN_HPA },
+@@ -2652,19 +2652,58 @@
+ 			  udma[/][16,25,33,44,66,100,133] notation is also
+ 			  allowed.
 =20
- 	/* Devices which report 1 sector over size HPA */
--	{ "ST340823A",		NULL,		ATA_HORKAGE_HPA_SIZE, },
--	{ "ST320413A",		NULL,		ATA_HORKAGE_HPA_SIZE, },
--	{ "ST310211A",		NULL,		ATA_HORKAGE_HPA_SIZE, },
-+	{ "ST340823A",		NULL,		ATA_HORKAGE_HPA_SIZE },
-+	{ "ST320413A",		NULL,		ATA_HORKAGE_HPA_SIZE },
-+	{ "ST310211A",		NULL,		ATA_HORKAGE_HPA_SIZE },
-=20
- 	/* Devices which get the IVB wrong */
--	{ "QUANTUM FIREBALLlct10 05", "A03.0900", ATA_HORKAGE_IVB, },
-+	{ "QUANTUM FIREBALLlct10 05", "A03.0900", ATA_HORKAGE_IVB },
- 	/* Maybe we should just blacklist TSSTcorp... */
--	{ "TSSTcorp CDDVDW SH-S202[HJN]", "SB0[01]",  ATA_HORKAGE_IVB, },
-+	{ "TSSTcorp CDDVDW SH-S202[HJN]", "SB0[01]",  ATA_HORKAGE_IVB },
-=20
- 	/* Devices that do not need bridging limits applied */
--	{ "MTRON MSP-SATA*",		NULL,	ATA_HORKAGE_BRIDGE_OK, },
--	{ "BUFFALO HD-QSU2/R5",		NULL,	ATA_HORKAGE_BRIDGE_OK, },
-+	{ "MTRON MSP-SATA*",		NULL,	ATA_HORKAGE_BRIDGE_OK },
-+	{ "BUFFALO HD-QSU2/R5",		NULL,	ATA_HORKAGE_BRIDGE_OK },
-=20
- 	/* Devices which aren't very happy with higher link speeds */
--	{ "WD My Book",			NULL,	ATA_HORKAGE_1_5_GBPS, },
--	{ "Seagate FreeAgent GoFlex",	NULL,	ATA_HORKAGE_1_5_GBPS, },
-+	{ "WD My Book",			NULL,	ATA_HORKAGE_1_5_GBPS },
-+	{ "Seagate FreeAgent GoFlex",	NULL,	ATA_HORKAGE_1_5_GBPS },
-=20
- 	/*
- 	 * Devices which choke on SETXFER.  Applies only if both the
-@@ -3982,54 +3982,54 @@ static const struct ata_blacklist_entry ata_devic=
-e_blacklist [] =3D {
- 	/* 512GB MX100 with MU01 firmware has both queued TRIM and LPM issues *=
-/
- 	{ "Crucial_CT512MX100*",	"MU01",	ATA_HORKAGE_NO_NCQ_TRIM |
- 						ATA_HORKAGE_ZERO_AFTER_TRIM |
--						ATA_HORKAGE_NOLPM, },
-+						ATA_HORKAGE_NOLPM },
- 	/* 512GB MX100 with newer firmware has only LPM issues */
- 	{ "Crucial_CT512MX100*",	NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM |
--						ATA_HORKAGE_NOLPM, },
-+						ATA_HORKAGE_NOLPM },
-=20
- 	/* 480GB+ M500 SSDs have both queued TRIM and LPM issues */
- 	{ "Crucial_CT480M500*",		NULL,	ATA_HORKAGE_NO_NCQ_TRIM |
- 						ATA_HORKAGE_ZERO_AFTER_TRIM |
--						ATA_HORKAGE_NOLPM, },
-+						ATA_HORKAGE_NOLPM },
- 	{ "Crucial_CT960M500*",		NULL,	ATA_HORKAGE_NO_NCQ_TRIM |
- 						ATA_HORKAGE_ZERO_AFTER_TRIM |
--						ATA_HORKAGE_NOLPM, },
-+						ATA_HORKAGE_NOLPM },
-=20
- 	/* These specific Samsung models/firmware-revs do not handle LPM well *=
-/
--	{ "SAMSUNG MZMPC128HBFU-000MV", "CXM14M1Q", ATA_HORKAGE_NOLPM, },
--	{ "SAMSUNG SSD PM830 mSATA *",  "CXM13D1Q", ATA_HORKAGE_NOLPM, },
--	{ "SAMSUNG MZ7TD256HAFV-000L9", NULL,       ATA_HORKAGE_NOLPM, },
--	{ "SAMSUNG MZ7TE512HMHP-000L1", "EXT06L0Q", ATA_HORKAGE_NOLPM, },
-+	{ "SAMSUNG MZMPC128HBFU-000MV", "CXM14M1Q", ATA_HORKAGE_NOLPM },
-+	{ "SAMSUNG SSD PM830 mSATA *",  "CXM13D1Q", ATA_HORKAGE_NOLPM },
-+	{ "SAMSUNG MZ7TD256HAFV-000L9", NULL,       ATA_HORKAGE_NOLPM },
-+	{ "SAMSUNG MZ7TE512HMHP-000L1", "EXT06L0Q", ATA_HORKAGE_NOLPM },
-=20
- 	/* devices that don't properly handle queued TRIM commands */
- 	{ "Micron_M500IT_*",		"MU01",	ATA_HORKAGE_NO_NCQ_TRIM |
--						ATA_HORKAGE_ZERO_AFTER_TRIM, },
-+						ATA_HORKAGE_ZERO_AFTER_TRIM },
- 	{ "Micron_M500_*",		NULL,	ATA_HORKAGE_NO_NCQ_TRIM |
--						ATA_HORKAGE_ZERO_AFTER_TRIM, },
-+						ATA_HORKAGE_ZERO_AFTER_TRIM },
- 	{ "Crucial_CT*M500*",		NULL,	ATA_HORKAGE_NO_NCQ_TRIM |
--						ATA_HORKAGE_ZERO_AFTER_TRIM, },
-+						ATA_HORKAGE_ZERO_AFTER_TRIM },
- 	{ "Micron_M5[15]0_*",		"MU01",	ATA_HORKAGE_NO_NCQ_TRIM |
--						ATA_HORKAGE_ZERO_AFTER_TRIM, },
-+						ATA_HORKAGE_ZERO_AFTER_TRIM },
- 	{ "Crucial_CT*M550*",		"MU01",	ATA_HORKAGE_NO_NCQ_TRIM |
--						ATA_HORKAGE_ZERO_AFTER_TRIM, },
-+						ATA_HORKAGE_ZERO_AFTER_TRIM },
- 	{ "Crucial_CT*MX100*",		"MU01",	ATA_HORKAGE_NO_NCQ_TRIM |
--						ATA_HORKAGE_ZERO_AFTER_TRIM, },
-+						ATA_HORKAGE_ZERO_AFTER_TRIM },
- 	{ "Samsung SSD 840*",		NULL,	ATA_HORKAGE_NO_NCQ_TRIM |
--						ATA_HORKAGE_ZERO_AFTER_TRIM, },
-+						ATA_HORKAGE_ZERO_AFTER_TRIM },
- 	{ "Samsung SSD 850*",		NULL,	ATA_HORKAGE_NO_NCQ_TRIM |
--						ATA_HORKAGE_ZERO_AFTER_TRIM, },
-+						ATA_HORKAGE_ZERO_AFTER_TRIM },
- 	{ "Samsung SSD 860*",		NULL,	ATA_HORKAGE_NO_NCQ_TRIM |
- 						ATA_HORKAGE_ZERO_AFTER_TRIM |
--						ATA_HORKAGE_NO_NCQ_ON_ATI, },
-+						ATA_HORKAGE_NO_NCQ_ON_ATI },
- 	{ "Samsung SSD 870*",		NULL,	ATA_HORKAGE_NO_NCQ_TRIM |
- 						ATA_HORKAGE_ZERO_AFTER_TRIM |
--						ATA_HORKAGE_NO_NCQ_ON_ATI, },
-+						ATA_HORKAGE_NO_NCQ_ON_ATI },
- 	{ "FCCT*M500*",			NULL,	ATA_HORKAGE_NO_NCQ_TRIM |
--						ATA_HORKAGE_ZERO_AFTER_TRIM, },
-+						ATA_HORKAGE_ZERO_AFTER_TRIM },
-=20
- 	/* devices that don't properly handle TRIM commands */
--	{ "SuperSSpeed S238*",		NULL,	ATA_HORKAGE_NOTRIM, },
--	{ "M88V29*",			NULL,	ATA_HORKAGE_NOTRIM, },
-+	{ "SuperSSpeed S238*",		NULL,	ATA_HORKAGE_NOTRIM },
-+	{ "M88V29*",			NULL,	ATA_HORKAGE_NOTRIM },
-=20
- 	/*
- 	 * As defined, the DRAT (Deterministic Read After Trim) and RZAT
-@@ -4047,16 +4047,16 @@ static const struct ata_blacklist_entry ata_devic=
-e_blacklist [] =3D {
- 	 * The intel 510 drive has buggy DRAT/RZAT. Explicitly exclude
- 	 * that model before whitelisting all other intel SSDs.
- 	 */
--	{ "INTEL*SSDSC2MH*",		NULL,	0, },
--
--	{ "Micron*",			NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM, },
--	{ "Crucial*",			NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM, },
--	{ "INTEL*SSD*", 		NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM, },
--	{ "SSD*INTEL*",			NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM, },
--	{ "Samsung*SSD*",		NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM, },
--	{ "SAMSUNG*SSD*",		NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM, },
--	{ "SAMSUNG*MZ7KM*",		NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM, },
--	{ "ST[1248][0248]0[FH]*",	NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM, },
-+	{ "INTEL*SSDSC2MH*",		NULL,	0 },
++			* nohrst, nosrst, norst: suppress hard, soft and both
++			  resets.
 +
-+	{ "Micron*",			NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM },
-+	{ "Crucial*",			NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM },
-+	{ "INTEL*SSD*", 		NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM },
-+	{ "SSD*INTEL*",			NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM },
-+	{ "Samsung*SSD*",		NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM },
-+	{ "SAMSUNG*SSD*",		NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM },
-+	{ "SAMSUNG*MZ7KM*",		NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM },
-+	{ "ST[1248][0248]0[FH]*",	NULL,	ATA_HORKAGE_ZERO_AFTER_TRIM },
++			* rstonce: only attempt one reset during hot-unplug
++			  link recovery.
++
++			* [no]dbdelay: Enable or disable the extra 200ms delay
++			  before debouncing a link PHY and device presence
++			  detection.
++
+ 			* [no]ncq: Turn on or off NCQ.
 =20
- 	/*
- 	 * Some WD SATA-I drives spin up and down erratically when the link
+-			* [no]ncqtrim: Turn off queued DSM TRIM.
++			* [no]ncqtrim: Enable or disable queued DSM TRIM.
++
++			* [no]ncqati: Enable or disable NCQ trim on ATI chipset.
++
++			* [no]trim: Enable or disable (unqueued) TRIM.
++
++			* trim_zero: Indicate that TRIM command zeroes data.
++
++			* max_trim_128m: Set 128M maximum trim size limit.
++
++			* [no]dma: Turn on or off DMA transfers.
++
++			* atapi_dmadir: Enable ATAPI DMADIR bridge support.
++
++			* atapi_mod16_dma: Enable the use of ATAPI DMA for
++			  commands that are not a multiple of 16 bytes.
++
++			* [no]dmalog: Enable or disable the use of the
++			  READ LOG DMA EXT command to access logs.
++
++			* [no]iddevlog: Enable or disable access to the
++			  identify device data log.
++
++			* [no]logdir: Enable or disable access to the general
++			  purpose log directory.
++
++			* max_sec_128: Set transfer size limit to 128 sectors.
++
++			* max_sec_1024: Set or clear transfer size limit to
++			  1024 sectors.
+=20
+-			* nohrst, nosrst, norst: suppress hard, soft
+-			  and both resets.
++			* max_sec_lba48: Set or clear transfer size limit to
++			  65535 sectors.
+=20
+-			* rstonce: only attempt one reset during
+-			  hot-unplug link recovery
++			* [no]lpm: Enable or disable link power management.
+=20
+-			* dump_id: dump IDENTIFY data.
++			* [no]setxfer: Indicate if transfer speed mode setting
++			  should be skipped.
+=20
+-			* atapi_dmadir: Enable ATAPI DMADIR bridge support
++			* dump_id: Dump IDENTIFY data.
+=20
+ 			* disable: Disable this device.
+=20
 --=20
 2.35.1
 
