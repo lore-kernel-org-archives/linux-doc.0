@@ -2,118 +2,206 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55C6FC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 00:31:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38041C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 00:59:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236292AbiDYAen (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Apr 2022 20:34:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49462 "EHLO
+        id S237989AbiDYBCy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Apr 2022 21:02:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236605AbiDYAem (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 20:34:42 -0400
-Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 339C2BC9B
-        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 17:31:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1650846695; x=1682382695;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=wDLCtuBq54UtBmgKxE3AVpjC3YNcL/Oi5cNMLBrmOHw=;
-  b=Lnr7FMCliDx83gBJ3rvk+MR4w8GOEAoHQM6/ZCuz79Qjjnyqy6sBUoRP
-   XJ+eceNYm5UojTKUCXQ2rW49cirHfaNo/vQERMDEqjrdZJGUZBRVb1uSM
-   UKbkIAIdlqBbxXnjqemdmoPu5aCgAMjm6OMWuM3DDQZ43RJf2slVwt7qD
-   v+LSmPyK7zlIeAX2ArP9ehUS+wHC/lmyKqxXd8ISHHA2MghGwC67/cod+
-   Aza/2o0etfRBunPDjl/GlCgcGUkG22BbVGPRITiZqmE8cMEBSuP5GnkR2
-   LPbl5qpk548+GEJ+YAr36n70zf1cEUndEZsyKGrXczwLnAB1VdsAOVZJR
-   g==;
-X-IronPort-AV: E=Sophos;i="5.90,287,1643644800"; 
-   d="scan'208";a="198702952"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 25 Apr 2022 08:31:34 +0800
-IronPort-SDR: Dbm3JYKrpP8v3yDo9CWkNSYrSw0To+N2i3mn2gkPeBk3Y4akyqdCukQs+PabsR4sGm006N2Ypd
- CoZi/9+pfJYPxeQwCdA5rXRbrttb+/RYkQEkpjyGfsxSdHYWe2E29aalPV5kmosvas7UgbVgnB
- 5Ia52KjZI4OAPg/SnpTY2pLnKpNY/BhPm7H2SLycEkSVhWGE/L5acHwAF8tSn2sJ33ZDysVBv7
- xcRdf7qqkjYlgDSqsw4ga1kON95rSTuRU0dQpRvMvtJi/YISmMzXx6e/zxCHOSEGmCY+1A2obA
- kvRkGfPqwDBAN9GK2VL5P00s
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Apr 2022 17:02:32 -0700
-IronPort-SDR: FksWxohpXhQCL/jO1X7p0GysUwpK74amRSvpXv84dK8C0C6V6R6wcleaMbbPIkbi1LOUOL+rhX
- V8llDPjHrHxh7eyzKYYCA75ZILXGb+HglYujFa80np0dTCi9VngQVITcuUkF6MJnqQj51Cj7R5
- FNN+5arhR7I8enYHgE2QTwjOiqA4+zc1DQM6ufYY0l1nesQtOUz/MvzYKqpJ/5yC5deAV+yTd3
- P9YuH5Sok0WkOBu6LB0xArFtIjHggWEdxdwXtP48Nk4ZAkloOI1w52oOAyFw4E15Zhn9oEchWd
- F1c=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Apr 2022 17:31:36 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KmmCq54bjz1SVnx
-        for <linux-doc@vger.kernel.org>; Sun, 24 Apr 2022 17:31:35 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)"
-        header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-        opensource.wdc.com; h=content-transfer-encoding:content-type
-        :in-reply-to:organization:from:references:to:content-language
-        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
-        1650846695; x=1653438696; bh=wDLCtuBq54UtBmgKxE3AVpjC3YNcL/Oi5cN
-        MLBrmOHw=; b=DoR0uPeWt/xyFkliUhyDW6DvSryy9Y0bFXtAuH43ROxKkB+uFe+
-        9bZwDj6G8CS4bmj72fzJUoFXK6OtCQBpIQ/B0hXBd8RC4mrcI+ymFciCT4N9W5Mz
-        lkSRRrKUz+8IrazPZndLAXxqvVZOQD6atFczyNyLlz9UgY+Y1moTWYkqyUehvR7Y
-        HMF9A/ko+2pERO/OgxIFHjE2Hbq7HIeOSEn+8R5Eckn7uepMs/qtywX7wPfmz301
-        ipUKn1MNGlZRWqfEi4GwRlZrXheKsgLRgzApLgFlJCHc9XcGtwcIy5Q+VpqpzGcr
-        cEeMjsO9Rr/wrmaXlpWq/x2sijXj1OlYsBA==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
-        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id epXt0yEqSCAF for <linux-doc@vger.kernel.org>;
-        Sun, 24 Apr 2022 17:31:35 -0700 (PDT)
-Received: from [10.225.163.24] (unknown [10.225.163.24])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KmmCp0wCwz1Rvlx;
-        Sun, 24 Apr 2022 17:31:33 -0700 (PDT)
-Message-ID: <983b5717-0993-cb5e-cc21-71efbcd8f636@opensource.wdc.com>
-Date:   Mon, 25 Apr 2022 09:31:32 +0900
+        with ESMTP id S235292AbiDYBCx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Apr 2022 21:02:53 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCE0B6D4C7;
+        Sun, 24 Apr 2022 17:59:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650848389; x=1682384389;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5Cq1Fl9CMgifsT97lU21ZUbbD/AKhEGdsuclScV7Qss=;
+  b=XKRyf/xFL1MntLe6WMw3hcGQdre+DyK0y+E8CbSO9WX9pbs0ChUrMVO4
+   mwSa+fPYp29RJrBwXZbLaDVo32Mn/9P5gRLUxew8zIr7A/8o/J5Fbojbr
+   j29E/fM5RARJlCfyaZt8ORnYgEXJbF1UzsrLGq5RuFnVUmhku+j5C9soK
+   u1lDLabNWbzFmUfcu1A+QZ89mXeeepqq5T6EL39jLHxJqPJQ7FCGQDI05
+   KoFbVuS3m5sGKDO7L1lQDSaP2mV7uV5woQzZDDhpHa7AoA9Pm2admjfKX
+   H7h4E1hz1WLV2RJN3sOsj+IanJ7H0tDCtjMRZI5iLUKpffWYrfx7JcujT
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10327"; a="351553645"
+X-IronPort-AV: E=Sophos;i="5.90,287,1643702400"; 
+   d="scan'208";a="351553645"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2022 17:59:49 -0700
+X-IronPort-AV: E=Sophos;i="5.90,287,1643702400"; 
+   d="scan'208";a="675966787"
+Received: from hungyuan-mobl.amr.corp.intel.com (HELO localhost) ([10.212.88.155])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2022 17:59:48 -0700
+Date:   Sun, 24 Apr 2022 17:59:48 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, outreachy@lists.linux.dev,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH 4/4] Documentation/vm: Rework "Temporary Virtual Mappings"
+Message-ID: <YmXyhH7wAJo274WB@iweiny-desk3>
+References: <20220421180200.16901-1-fmdefrancesco@gmail.com>
+ <20220421180200.16901-5-fmdefrancesco@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] Documentation: drop more IDE boot options and ide-cd.rst
-Content-Language: en-US
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-        Phillip Potter <phil@philpotter.co.uk>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20220424033701.7988-1-rdunlap@infradead.org>
-From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <20220424033701.7988-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220421180200.16901-5-fmdefrancesco@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/24/22 12:37, Randy Dunlap wrote:
-> Drop ide-* command line options.
-> Drop cdrom/ide-cd.rst documentation.
+On Thu, Apr 21, 2022 at 08:02:00PM +0200, Fabio M. De Francesco wrote:
+> Extend and rework the "Temporary Virtual Mappings" section of the highmem.rst
+> documentation.
 > 
-> Fixes: 898ee22c32be ("Drop Documentation/ide/")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Phillip Potter <phil@philpotter.co.uk>
+> Despite the local kmaps were introduced by Thomas Gleixner in October 2020,
+> documentation was still missing information about them. These additions rely
+> largely on Gleixner's patches, Jonathan Corbet's LWN articles, comments by
+> Ira Weiny and Matthew Wilcox, and in-code comments from
+> ./include/linux/highmem.h.
+> 
+> 1) Add a paragraph to document kmap_local_page().
+> 2) Reorder the list of functions by decreasing order of preference of
+> use.
+> 3) Rework part of the kmap() entry in list.
+> 
 > Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 > ---
-> I missed a few things in dropping all IDE documentation.
-> Hopefully this is all of the remaining pieces.
+>  Documentation/vm/highmem.rst | 71 ++++++++++++++++++++++++++++++------
+>  1 file changed, 60 insertions(+), 11 deletions(-)
 > 
->  Documentation/admin-guide/kernel-parameters.txt |   20 
->  Documentation/cdrom/ide-cd.rst                  |  538 --------------
->  2 files changed, 558 deletions(-)
+> diff --git a/Documentation/vm/highmem.rst b/Documentation/vm/highmem.rst
+> index e05bf5524174..960f61e7a552 100644
+> --- a/Documentation/vm/highmem.rst
+> +++ b/Documentation/vm/highmem.rst
+> @@ -50,26 +50,75 @@ space when they use mm context tags.
+>  Temporary Virtual Mappings
+>  ==========================
+>  
+> -The kernel contains several ways of creating temporary mappings:
+> +The kernel contains several ways of creating temporary mappings. The following
+> +list shows them in order of preference of use.
+>  
+> -* vmap().  This can be used to make a long duration mapping of multiple
+> -  physical pages into a contiguous virtual space.  It needs global
+> -  synchronization to unmap.
+> +* kmap_local_page().  This function is used to require short term mappings.
+> +  It can be invoked from any context (including interrupts) but the mappings
+> +  can only be used in the context which acquired them.
+> +
+> +  This function should be preferred, where feasible, over all the others.
+>  
+> -* kmap().  This permits a short duration mapping of a single page.  It needs
+> -  global synchronization, but is amortized somewhat.  It is also prone to
+> -  deadlocks when using in a nested fashion, and so it is not recommended for
+> -  new code.
+> +  These mappings are per thread, CPU local (i.e., migration from one CPU to
+> +  another is disabled - this is why they are called "local"), but they don't
+> +  disable preemption. It's valid to take pagefaults in a local kmap region,
+> +  unless the context in which the local mapping is acquired does not allow
+> +  it for other reasons.
+> +
+> +  It is assumed that kmap_local_page() always returns the virtual address
 
-Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+kmap_local_page() does return a kernel virtual address.  Why 'assume' this?
 
--- 
-Damien Le Moal
-Western Digital Research
+Do you mean it returns an address in the direct map?
+
+> +  of the mapping, therefore they won't ever fail.
+
+I don't think that returning a virtual address has anything to do with the
+assumption they will not fail.
+
+Why do you say this?
+
+> +
+> +  If a task holding local kmaps is preempted, the maps are removed on context
+> +  switch and restored when the task comes back on the CPU. As the maps are
+> +  strictly CPU local, it is guaranteed that the task stays on the CPU and
+> +  that the CPU cannot be unplugged until the local kmaps are released.
+> +
+> +  Nesting kmap_local_page() and kmap_atomic() mappings is allowed to a certain
+> +  extent (up to KMAP_TYPE_NR) but their invocations have to be strictly ordered
+> +  because the map implementation is stack based.
+
+I think I would reference the kmap_local_page() for more details on the
+ordering because there have been some conversions I've done which were
+complicated by this.
+
+>  
+>  * kmap_atomic().  This permits a very short duration mapping of a single
+>    page.  Since the mapping is restricted to the CPU that issued it, it
+>    performs well, but the issuing task is therefore required to stay on that
+>    CPU until it has finished, lest some other task displace its mappings.
+>  
+> -  kmap_atomic() may also be used by interrupt contexts, since it is does not
+> -  sleep and the caller may not sleep until after kunmap_atomic() is called.
+> +  kmap_atomic() may also be used by interrupt contexts, since it does not
+> +  sleep and the callers too may not sleep until after kunmap_atomic() is
+> +  called.
+> +
+> +  Each call of kmap_atomic() in the kernel creates a non-preemptible section
+> +  and disable pagefaults. This could be a source of unwanted latency, so it
+> +  should be only used if it is absolutely required, otherwise kmap_local_page()
+> +  should be used where it is feasible.
+>  
+> -  It may be assumed that k[un]map_atomic() won't fail.
+> +  It is assumed that k[un]map_atomic() won't fail.
+> +
+> +* kmap().  This should be used to make short duration mapping of a single
+> +  page with no restrictions on preemption or migration. It comes with an
+> +  overhead as mapping space is restricted and protected by a global lock
+> +  for synchronization. When mapping is no more needed, the address that
+                                         ^^^^^^^^
+					 no longer
+
+> +  the page was mapped to must be released with kunmap().
+> +
+> +  Mapping changes must be propagated across all the CPUs. kmap() also
+> +  requires global TLB invalidation when the kmap's pool wraps and it might
+> +  block when the mapping space is fully utilized until a slot becomes
+> +  available. Therefore, kmap() is only callable from preemptible context.
+> +
+> +  All the above work is necessary if a mapping must last for a relatively
+> +  long time but the bulk of high-memory mappings in the kernel are
+> +  short-lived and only used in one place. This means that the cost of
+> +  kmap() is mostly wasted in such cases. kmap() was not intended for long
+> +  term mappings but it has morphed in that direction and its use is
+> +  strongly discouraged in newer code and the set of the preceding functions
+> +  should be preferred.
+
+Nice!
+
+Ira
+
+> +
+> +  On 64-bit systems, calls to kmap_local_page(), kmap_atomic() and kmap() have
+> +  no real work to do because a 64-bit address space is more than sufficient to
+> +  address all the physical memory whose pages are permanently mapped.
+> +
+> +* vmap().  This can be used to make a long duration mapping of multiple
+> +  physical pages into a contiguous virtual space.  It needs global
+> +  synchronization to unmap.
+>  
+>  
+>  Cost of Temporary Mappings
+> -- 
+> 2.34.1
+> 
