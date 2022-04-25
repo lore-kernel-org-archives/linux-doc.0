@@ -2,85 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B0B0C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 12:11:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27462C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Apr 2022 12:51:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240251AbiDYMOI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Apr 2022 08:14:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53578 "EHLO
+        id S241916AbiDYMyT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Apr 2022 08:54:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239766AbiDYMOE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Apr 2022 08:14:04 -0400
-Received: from mxout01.lancloud.ru (mxout01.lancloud.ru [45.84.86.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE502165A0;
-        Mon, 25 Apr 2022 05:10:55 -0700 (PDT)
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 1465620AC3D5
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: Re: [PATCH 5/5] doc: admin-guide: Update libata kernel parameters
-To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        <linux-ide@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>
-References: <20220407123748.1170212-1-damien.lemoal@opensource.wdc.com>
- <20220407123748.1170212-6-damien.lemoal@opensource.wdc.com>
-Organization: Open Mobile Platform
-Message-ID: <1a50f793-251e-7971-7b92-0990d91f4815@omp.ru>
-Date:   Mon, 25 Apr 2022 15:10:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        with ESMTP id S241965AbiDYMxt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Apr 2022 08:53:49 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 018072E6B3;
+        Mon, 25 Apr 2022 05:50:24 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id q8so3626919plx.3;
+        Mon, 25 Apr 2022 05:50:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZtSqGSMA3etNjTj6trmxv7klrkKu8BVhmcusbSV9Xzs=;
+        b=T/bFkBsyhIjD6D3+BALHVAdR5tBxgVsW5YsA6N+HpTMFOGoCyefZm1HUgMnXgVkptx
+         700CaTcip07oIPVYecY+S9uHia/Gr3ru48pvnbB3Lh2uX8vYKh2ap0Im7OaIJa1Ie5Gi
+         vWmnxTEaJ1n3JeklZ1myYNUCYV9s76DmRyxXJD8zPMZA0ApCnA3LqBztAvUA0LRUgUik
+         JG9RizCiDRoZuPP+49ISrYXq7I2B6OLZECx1iTA+iiF0TG6VGoIvjJKHLlraR/vJzr4H
+         GJcUFiJVKRnpcMoSCYT2U7szzmBC9brcpDFLyvhbQq2G/jTrh6svZZ9lK3Syq5scssYs
+         zYjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZtSqGSMA3etNjTj6trmxv7klrkKu8BVhmcusbSV9Xzs=;
+        b=1YaIksxCe3xKPRFCvd3aUVV+Ei7JTF6o558YPUmwBfhZYWk0aYdsqH7izJqUka2fds
+         JKh2tbPzihhf4DbluPs08JVcuGjp5+ult5vpOxqNKjATGVlpSHoBIeYUJnPcEQQaifK3
+         CqJoBTCcFznnuUgcbc6odE8bcSpaVWMFTzFwpZxqbbD3gT2f78s0GIVe5ON2gumDqnfs
+         MEKgAC2nsXynySfIPvDmGEeRO253kZaSW3TqyBo70b7V9gsJ+xtqrgkVngnyVN4LvCXR
+         ScQx/vd5xwVmbVNIsypq+q5+GZbyHfjSPcpnk3ua8MMvnTYLbNbysjQ0VwRuIHLl8t9a
+         nfvQ==
+X-Gm-Message-State: AOAM532KwgjriDX/w76OZZnRqrAsfAtZVCx6VLS7ejaMkpH26gZuhCNm
+        aOo9Q86enbyK9MxJ4NyLPvY=
+X-Google-Smtp-Source: ABdhPJxCBZ0QibQ5JoVP0o9YmqfK0IKE+R1KzODQuZg4QuDggW49f0lWvAXsjw6UbBO/bxdq+tXH+A==
+X-Received: by 2002:a17:90a:550e:b0:1cd:e722:8b82 with SMTP id b14-20020a17090a550e00b001cde7228b82mr31481162pji.223.1650891022182;
+        Mon, 25 Apr 2022 05:50:22 -0700 (PDT)
+Received: from localhost.localdomain ([240b:12:16e1:e200:4aa8:af1e:5803:5c87])
+        by smtp.gmail.com with ESMTPSA id s4-20020a056a00194400b004fb358ffe84sm11532675pfk.104.2022.04.25.05.50.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Apr 2022 05:50:21 -0700 (PDT)
+From:   Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+To:     akiyks@gmail.com
+Cc:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Tsugikazu Shibata <shibata@linuxfoundation.org>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2] docs/ja_JP/index: update section title in Japanese
+Date:   Mon, 25 Apr 2022 21:48:53 +0900
+Message-Id: <20220425124853.8347-1-fujimotokosuke0@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20220407123748.1170212-6-damien.lemoal@opensource.wdc.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/7/22 3:37 PM, Damien Le Moal wrote:
+Update section title "Japanese Translation" in Japanese.
+This change is to keep consistency with other translations.
 
-> Cleanup the text text describing the libata.force boot parameter and
-                   ^^^^           
-   Once is enough. :-)
+Signed-off-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
+Cc: Akira Yokosawa <akiyks@gmail.com>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/translations/ja_JP/index.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> update the list of the values to include all supported horkage and link
-> flag that can be forced.
-> 
-> Signed-off-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         | 71 ++++++++++++++-----
->  1 file changed, 55 insertions(+), 16 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 3f1cc5e317ed..30734a610b92 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-[...]
-> @@ -2639,7 +2639,7 @@
->  			host link and device attached to it.
->  
->  			The VAL specifies the configuration to force.  As long
-> -			as there's no ambiguity shortcut notation is allowed.
-> +			as there is no ambiguity, shortcut notation is allowed.
+diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/translations/ja_JP/index.rst
+index 20738c931d02..43b9fb7246d3 100644
+--- a/Documentation/translations/ja_JP/index.rst
++++ b/Documentation/translations/ja_JP/index.rst
+@@ -5,7 +5,7 @@
+ 	\kerneldocCJKon
+ 	\kerneldocBeginJP{
+ 
+-Japanese translations
++日本語訳
+ =====================
+ 
+ .. toctree::
+-- 
+2.25.1
 
-   Dunno what you have against more informal style in the kernel... :-)
-
-[...]
-> @@ -2652,19 +2652,58 @@
-[...]
-> -			* dump_id: dump IDENTIFY data.
-> +			* [no]setxfer: Indicate if transfer speed mode setting
-> +			  should be skipped.
-                                ^ (not)
-
-[...]
-
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-
-MBR, Sergey
