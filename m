@@ -2,146 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C36EC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 07:00:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DE86C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 07:01:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245687AbiDZHD0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 03:03:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38110 "EHLO
+        id S244937AbiDZHEo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 03:04:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343591AbiDZHDX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 03:03:23 -0400
-Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07064DF73
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 00:00:15 -0700 (PDT)
-Received: by mail-ua1-x92b.google.com with SMTP id az13so2352169uab.13
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 00:00:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YiJEB0dRG8Vs28wunrpsUd3aNm5kWfCeFbd3eFY3as0=;
-        b=d5Yk9vkBLEnKHZ514Yf7ffIGn1EMaNSf9hcUKn32e7vRywUbt99pLhvqkR7Liz+aP8
-         sozJ0ZzYbXQ8jrjtb5NyDXRaai+A2UT7dybpsV4vswDl9pVDBXrK/HvM3tdK+vBkDas5
-         u4pRqvPtK619yrrKfHNYAPBOddzYm/XqjOCWEjmKcIw/YcsNrgtftJEl3A3Oi2uBHlct
-         5CuoeK/L0Cllvp3/1VRIoE8zAUKrSBpPnBfrcSMd+oMFDLlxx4rRX3k8CStKnzUDvgg3
-         ie8x7Q5M7PPH+2xHukY2sM0rSNrnhtRnbfH/ZxmsCnuQx3BIO4btY8/oYwhwTKq9U8dB
-         XJsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YiJEB0dRG8Vs28wunrpsUd3aNm5kWfCeFbd3eFY3as0=;
-        b=nnYnO3d6+BKHDctQehtvbClie6pS0PIOiUgag6BZaTstBmvmDIxa39NlEXtEv4xIpj
-         4CMXsd0Lx0CBP1D9CKiPHj0sKBHk9tdqMQYh2wWjNaRxyNGtYTSPBPz9pE7J82h+5vTM
-         1ROJhIyM0586R2Ij5i0qp+YrU+57c1TvEYZt4Zm7qDtnWoEdbdEw7du1RXy+vG3xd5Rk
-         lxORO65zPzOYa4OKwn/A87K/Y1KB1pXYehjFWlGok/5pju+h+p04oFjiG0jOYkg4PeRc
-         rTPLeAwMnchUFjaElvsO9M91vjId+NnkgO5YqjIObAHbhyBivsDSVqb6ErJZVLMq0UKl
-         L4FA==
-X-Gm-Message-State: AOAM532WROz9Ig+ftg9AjEh68LgTPDboMwynM94n+l9womdFtskpE2oB
-        CxHBPwVSROWLLZSqaWkOB5o4hhMvvl089ctBJv9aZQ==
-X-Google-Smtp-Source: ABdhPJzkXr9BOqsgJAkCTK7/ifPaSnlqKx7Ilm0RuLZ18kZbUoUwyM07wgDkFY+vVJrPQc3/yTK2PG51XyTTjydMhQs=
-X-Received: by 2002:ab0:482d:0:b0:35d:1e5e:ed19 with SMTP id
- b42-20020ab0482d000000b0035d1e5eed19mr6553573uad.17.1650956413953; Tue, 26
- Apr 2022 00:00:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-13-yuzhao@google.com>
- <20220411191634.674554d3de2ba37b3db40ca2@linux-foundation.org>
- <CAOUHufYhhCPFqoRbtn+=OFxZxNWS9yxW9Re_s-2TYGqCEaMXVw@mail.gmail.com> <20220415212024.c682ac000e3e91572d8d6d2b@linux-foundation.org>
-In-Reply-To: <20220415212024.c682ac000e3e91572d8d6d2b@linux-foundation.org>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Tue, 26 Apr 2022 00:59:37 -0600
-Message-ID: <CAOUHufa60CVZcXJ937=P4GVtV_Cn76mYCWwcyBNjMAADmyWEwQ@mail.gmail.com>
-Subject: Re: [PATCH v10 12/14] mm: multi-gen LRU: debugfs interface
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
-        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
+        with ESMTP id S236689AbiDZHEm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 03:04:42 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 888D365D37;
+        Tue, 26 Apr 2022 00:01:36 -0700 (PDT)
+Date:   Tue, 26 Apr 2022 09:01:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1650956493;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VTCRMU626wUXdIQdsZJqxEPJIS21IoevEG8EtyqRngs=;
+        b=G1YYFC7b9CA25F5dqZ9G3lB1okaKxhr7ktdUOimKsz4r416XIpu7aqXalKH35lsqmIgocG
+        XtnjaBEKDpwPiIwmZ3fqNBM4Isdnl7FJnPAOj5hbHYVoY9ZT7UGNNBtszOi7+U1+bD3qY2
+        JbPL0FSSpvsfAFkiTeZjCs8vf/Y4gHkdfqNe0H4fGOaJeICEWrx8K9Lm1YR4qwsugidY17
+        8nOAUb5Ztub8G9FAhMj0cG0HjotfyV1EenDdoeb/yfGrwwjV7Ibg1v9PtHo4Er8/V5TBJS
+        uwvSZ3E4pof+F3558WLSX6kvhxZl1Eq6LoisSWDhKx1G8QlD2Gi9TZ344r1a6Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1650956493;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VTCRMU626wUXdIQdsZJqxEPJIS21IoevEG8EtyqRngs=;
+        b=lYRgzZbkyghTMsuisYtZfHyNE6sUa/c2MsYt3zCtiyMmsqyoJQbiuBx91lqudW4h3ffaQ1
+        9nxLtOnBF63hLXDw==
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc:     Ira Weiny <ira.weiny@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        outreachy@lists.linux.dev,
+        "Acked-by : Mike Rapoport" <rppt@linux.ibm.com>
+Subject: Re: [PATCH v2 1/4] mm/highmem: Fix kernel-doc warnings in highmem*.h
+Message-ID: <YmeYzKT8Ikq5SfdE@linutronix.de>
+References: <20220425162400.11334-1-fmdefrancesco@gmail.com>
+ <20220425162400.11334-2-fmdefrancesco@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220425162400.11334-2-fmdefrancesco@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 15, 2022 at 10:20 PM Andrew Morton
-<akpm@linux-foundation.org> wrote:
->
-> On Fri, 15 Apr 2022 18:03:16 -0600 Yu Zhao <yuzhao@google.com> wrote:
->
-> > > Presumably sysfs is the place.  Fully documented and with usage
-> > > examples in the changelog so we can carefully review the proposed
-> > > extensions to Linux's ABI.  Extensions which must be maintained
-> > > unchanged for all time.
-> >
-> > Eventually, yes. There still is a long way to go. Rest assured, this
-> > is something Google will keep investing resources on.
->
-> So.  The plan is to put these interfaces in debugfs for now, with a
-> view to migrating stabilized interfaces into sysfs (or procfs or
-> whatever) once end-user requirements and use cases are better
-> understood?
+On 2022-04-25 18:23:57 [+0200], Fabio M. De Francesco wrote:
+> index a77be5630209..aa22daeed617 100644
+> --- a/include/linux/highmem-internal.h
+> +++ b/include/linux/highmem-internal.h
+> @@ -236,9 +236,17 @@ static inline unsigned long totalhigh_pages(void) { return 0UL; }
+>  
+>  #endif /* CONFIG_HIGHMEM */
+>  
+> -/*
+> - * Prevent people trying to call kunmap_atomic() as if it were kunmap()
+> - * kunmap_atomic() should get the return value of kmap_atomic, not the page.
+> +/**
+> + * kunmap_atomic - Unmap the virtual address mapped by kmap_atomic()
+> + * @__addr:       Virtual address to be unmapped
+> + *
+> + * Unmaps an address previously mapped by kmap_atomic() and re-enables
+> + * pagefaults and preemption. Mappings should be unmapped in the reverse
 
-The requirements are well understood and the use cases are proven,
-e.g., Google [1], Meta [2] and Alibaba [3].
+You mind adding "Deprecated!" like kmap_atomic() has? The part about
+disabling/ enabling preemption is true for !PREEMPT_RT. The part that
+worries me is that people use it and rely on disabled preemption like
+some did in the past. 
+I've been told this API is about to be removed (or so I have been told)
+so I hope that it will be gone soon ;)
 
-[1] https://dl.acm.org/doi/10.1145/3297858.3304053
-[2] https://dl.acm.org/doi/10.1145/3503222.3507731
-[3] https://gitee.com/anolis/cloud-kernel/blob/release-5.10/mm/kidled.c
+> + * order that they were mapped. See kmap_local_page() for details.
+> + * @__addr can be any address within the mapped page, so there is no need
+> + * to subtract any offset that has been added. In contrast to kunmap(),
+> + * this function takes the address returned from kmap_atomic(), not the
+> + * page passed to it. The compiler will warn you if you pass the page.
+>   */
+>  #define kunmap_atomic(__addr)					\
+>  do {								\
 
-> If so, that sounds totally great to me.  But it should have been in
-> the darn changelog!  This is the sort of thing which we care about most
-> keenly.
->
-> It would be helpful for reviewers to understand the proposed timeline
-> for this process, because the entire feature isn't really real until
-> this is completed, is it?  I do think we should get this nailed down
-> relatively rapidly, otherwise people will be reluctant to invest much
-> into a moving target.
->
-> And I must say, I see dissonance between the overall maturity of the
-> feature as described in these emails versus the immaturity of these
-> userspace control interfaces.  What's happening there?
-
-Very observant. To answer both of the questions above: each iteration
-of the entire stack is a multi-year effort.
-
-Given its ROI, companies I know of constantly pour money into this
-area. Given its scale, this debugfs is the least of their concerns. A
-good example is the proactive reclaim sysfs interface [4]. It's been
-used at Google for many years and at Meta for a few years. We only
-started finalizing it recently.
-
-[4] https://lore.kernel.org/r/20220425190040.2475377-1-yosryahmed@google.com/
+Sebastian
