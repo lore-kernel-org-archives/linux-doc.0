@@ -2,161 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB519C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 23:42:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14BB4C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 23:53:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356172AbiDZXp4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 19:45:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52938 "EHLO
+        id S230099AbiDZX4Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 19:56:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351361AbiDZXpz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 19:45:55 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8918D7E59A;
-        Tue, 26 Apr 2022 16:42:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4E26EB823FE;
-        Tue, 26 Apr 2022 23:42:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A33F6C385A0;
-        Tue, 26 Apr 2022 23:42:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1651016564;
-        bh=rkWOOpymajYPINPF/6OKmwxFHU7UQnqmc3SblTgW3GI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Dh/nLmQngZ0x60vGJBUI8w3qIcq8X5L3WO8oRG8EFdQ8xQS4HuEiC+0LmW+KdbPuS
-         DAdi1MD0ubzM0Cd93Pc5pxiRX/9JMruLVwwOGe4+clWiHvKERN/AO93Lt08ZIKpY0E
-         rtXOwE7HdtS4x9VHAAKpSVHkmmMAV0mO16pJ2Lb0=
-Date:   Tue, 26 Apr 2022 16:42:41 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
-        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Holger =?ISO-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v10 05/14] mm: multi-gen LRU: groundwork
-Message-Id: <20220426164241.99e6a283c371ed75fa5c12a0@linux-foundation.org>
-In-Reply-To: <CAOUHufaeNzDJnDqatHe0MwsN-D6M_tw6JX2UBJFc+JpZNP86hQ@mail.gmail.com>
-References: <20220407031525.2368067-1-yuzhao@google.com>
-        <20220407031525.2368067-6-yuzhao@google.com>
-        <20220411191615.a34959bdcc25ef3f9c16a7ce@linux-foundation.org>
-        <CAOUHufaeNzDJnDqatHe0MwsN-D6M_tw6JX2UBJFc+JpZNP86hQ@mail.gmail.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S230094AbiDZX4X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 19:56:23 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF3EBB91B;
+        Tue, 26 Apr 2022 16:53:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651017194; x=1682553194;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=khnX1ty93jUwk1ufPotG1fbs/K/3Ddf4V9dX4JV7/uw=;
+  b=RDrWI4+gCuCPbkxN2elDVgQ1+97GO1Cv3ryfzQ5iXuQZv+AzU2jdY4vP
+   88VNmVdSbkWlcdTv0z7sjTBfMWY/65KKwraq6v/g3w0vsEgdrZ1SA0U2w
+   S+egZI2l97Q+EKkVk1km1aS81G8LKKgzXCPZBPlOTK7M47eK/7ansR+SM
+   Nvk+bOrqbWK7/UdxdVb10ZbuWg5VNrQlYzfEY6K3uJ7iejlUclMm9909P
+   QRI2/SOsrha46buwxxl27jNmZS4ZT8Rgzb93GjkCp4Gsr0E/erJK2HUVT
+   O2ouzW0xxBySScAx+wavucFd5H6FRx89JyCMDizeV5DSFDbBMygJr2c9C
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="265921491"
+X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; 
+   d="scan'208";a="265921491"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 16:53:14 -0700
+X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; 
+   d="scan'208";a="660942056"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 16:53:14 -0700
+Date:   Tue, 26 Apr 2022 16:53:13 -0700
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "markgross@kernel.org" <markgross@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "Joseph, Jithu" <jithu.joseph@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
+Subject: Re: [PATCH v4 09/10] trace: platform/x86/intel/ifs: Add trace point
+ to track Intel IFS operations
+Message-ID: <YmiF6Rsy04pUHVQo@agluck-desk3.sc.intel.com>
+References: <20220419163859.2228874-1-tony.luck@intel.com>
+ <20220422200219.2843823-1-tony.luck@intel.com>
+ <20220422200219.2843823-10-tony.luck@intel.com>
+ <20220425105251.3f5e8021@gandalf.local.home>
+ <1752057af33e4eb28bcea0fd75e44048@intel.com>
+ <20220425214928.2aac3391@gandalf.local.home>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220425214928.2aac3391@gandalf.local.home>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 26 Apr 2022 16:39:07 -0600 Yu Zhao <yuzhao@google.com> wrote:
-
-> On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
-> >
-> > On Wed,  6 Apr 2022 21:15:17 -0600 Yu Zhao <yuzhao@google.com> wrote:
-> >
-> > > Evictable pages are divided into multiple generations for each lruvec.
-> > > The youngest generation number is stored in lrugen->max_seq for both
-> > > anon and file types as they are aged on an equal footing. The oldest
-> > > generation numbers are stored in lrugen->min_seq[] separately for anon
-> > > and file types as clean file pages can be evicted regardless of swap
-> > > constraints. These three variables are monotonically increasing.
-> > >
-> > > ...
-> > >
-> > > +static inline bool lru_gen_del_folio(struct lruvec *lruvec, struct folio *folio, bool reclaiming)
-> >
-> > There's a lot of function inlining here.  Fortunately the compiler will
-> > ignore it all, because some of it looks wrong.  Please review (and
-> > remeasure!).  If inlining is reqlly justified, use __always_inline, and
-> > document the reasons for doing so.
+On Mon, Apr 25, 2022 at 09:49:28PM -0400, Steven Rostedt wrote:
+> On Mon, 25 Apr 2022 16:49:35 +0000
+> "Luck, Tony" <tony.luck@intel.com> wrote:
 > 
-> I totally expect modern compilers to make better decisions than I do.
-> And personally, I'd never use __always_inline; instead, I'd strongly
-> recommend FDO/LTO.
-
-My (badly expressed) point is that there's a lot of inlining of large
-functions here.
-
-For example, lru_gen_add_folio() is huge and has 4(?) call sites.  This
-may well produce slower code due to the icache footprint.
-
-Experiment: moving lru_gen_del_folio() into mm/vmscan.c shrinks that
-file's .text from 80612 bytes to 78956.
-
-I tend to think that out-of-line regular old C functions should be the
-default and that the code should be inlined only when a clear benefit
-is demonstrable, or has at least been seriously thought about.
-
-> > > --- a/mm/Kconfig
-> > > +++ b/mm/Kconfig
-> > > @@ -909,6 +909,14 @@ config ANON_VMA_NAME
-> > >         area from being merged with adjacent virtual memory areas due to the
-> > >         difference in their name.
-> > >
-> > > +config LRU_GEN
-> > > +     bool "Multi-Gen LRU"
-> > > +     depends on MMU
-> > > +     # the following options can use up the spare bits in page flags
-> > > +     depends on !MAXSMP && (64BIT || !SPARSEMEM || SPARSEMEM_VMEMMAP)
-> > > +     help
-> > > +       A high performance LRU implementation to overcommit memory.
-> > > +
-> > >  source "mm/damon/Kconfig"
-> >
-> > This is a problem.  I had to jump through hoops just to be able to
-> > compile-test this.  Turns out I had to figure out how to disable
-> > MAXSMP.
-> >
-> > Can we please figure out a way to ensure that more testers are at least
-> > compile testing this?  Allnoconfig, defconfig, allyesconfig, allmodconfig.
-> >
-> > Also, I suggest that we actually make MGLRU the default while in linux-next.
+> > I see two paths:
+> > 
+> > 1) Create a new user friendly trace point for each new scan mode.
+> > 2) Just provide a generic one that dumps both the 64-bit WRMSR and RDMSR values.
+> > 
+> > Q: Are trace points "expensive" in some way ... so better to just have one than three?
+> >      Or are the cheap enough that decoding for the user is an OK thing?
 > 
-> The !MAXSMP is to work around [1], which I haven't had the time to
-> fix. That BUILD_BUG_ON() shouldn't assert sizeof(struct page) == 64
-> since the true size depends on WANT_PAGE_VIRTUAL as well as
-> LAST_CPUPID_NOT_IN_PAGE_FLAGS. My plan is here [2].
+> Yes, they are expensive as each TRACE_EVENT() can add a few KB of text and
+> data. But you can add a DECLARE_EVENT_CLASS() and then add "printk"
+> differences that are less memory heavy.
 > 
-> [1] https://lore.kernel.org/r/20190905154603.10349-4-aneesh.kumar@linux.ibm.com/
-> [2] https://lore.kernel.org/r/Ygl1Gf+ATBuI%2Fm2q@google.com/
+> See DEFINE_EVENT_PRINT().
 
-OK, thanks.  This is fairly urgent for -next and -rc inclusion.  If
-practically nobody is compiling the feature then practically nobody is
-testing it.  Let's come up with a way to improves the expected coverage
-by a lot.
+I looked at the examples in samples/trace_events/trace-events-sample.h
+and tried to use this. But I'm doing something wrong because the
+compiler barfs on something defined but not used.
+
+Maybe my problem is the TP_printk() in the DECLARE_EVENT_CLASS() that
+is over-ridden by DEFINE_EVENT_PRINT(). I wasn't at all sure what to
+put here ... or how to use the base tracepoint that doesn't have the
+printk() over-ridden.
+
+I think I need my class to just save both the u64 values to the trace
+buffer. Then the different trace points will extract the bits they want
+and print in a user friendly way. While this increases space used in
+the trace buffer, these events are not crazy high frequency. Usually 
+one or two events per core with a gap 30 minutes or more between tests.
+
+In my ".c" file the tracepoint looks like this using the name from
+DEFINE_EVENT_PRINT(), and now passing the full u64 values:
+
+	trace_ifs_status_saf(activate.data, status.data);
+
+and my #include file looks like this:
+
+----------------------------------------------
+/* SPDX-License-Identifier: GPL-2.0 */
+#undef TRACE_SYSTEM
+#define TRACE_SYSTEM intel_ifs
+
+#if !defined(_TRACE_IFS_H) || defined(TRACE_HEADER_MULTI_READ)
+#define _TRACE_IFS_H
+
+#include <linux/ktime.h>
+#include <linux/tracepoint.h>
+
+DECLARE_EVENT_CLASS(ifs_status,
+
+	TP_PROTO(u64 activate, u64 status),
+
+	TP_ARGS(activate, status),
+
+	TP_STRUCT__entry(
+		__field(	u64,	activate	)
+		__field(	u64,	status		)
+	),
+
+	TP_fast_assign(
+		__entry->activate = activate;
+		__entry->status	= status;
+	),
+
+	TP_printk("activate: %llx status: %llx",
+		__entry->activate,
+		__entry->status)
+);
+
+DEFINE_EVENT_PRINT(ifs_status, ifs_status_saf,
+	TP_PROTO(u64 activate, u64 status),
+	TP_ARGS(activate, status),
+	TP_printk("start: %.2x, stop: %.2x, status: %llx",
+		((union ifs_scan *)&(__entry->activate))->start,
+		((union ifs_scan *)&(__entry->activate))->stop,
+		__entry->status)
+);
+
+#endif /* _TRACE_IFS_H */
+
+/* This part must be outside protection */
+#include <trace/define_trace.h>
+-----------------------------------------------------
+
+GCC messages:
+
+
+  CC [M]  drivers/platform/x86/intel/ifs/runtest.o
+In file included from /home/agluck/GIT/mywork/include/trace/define_trace.h:102,
+                 from /home/agluck/GIT/mywork/include/trace/events/intel_ifs.h:44,
+                 from /home/agluck/GIT/mywork/drivers/platform/x86/intel/ifs/runtest.c:27:
+/home/agluck/GIT/mywork/include/trace/trace_events.h:426:13: warning: ‘print_fmt_ifs_status’ defined but not used [-Wunused-variable]
+  426 | static char print_fmt_##call[] = print;                                 \
+      |             ^~~~~~~~~~
+/home/agluck/GIT/mywork/include/trace/events/intel_ifs.h:11:1: note: in expansion of macro ‘DECLARE_EVENT_CLASS’
+   11 | DECLARE_EVENT_CLASS(ifs_status,
+      | ^~~~~~~~~~~~~~~~~~~
+In file included from /home/agluck/GIT/mywork/include/trace/define_trace.h:102,
+                 from /home/agluck/GIT/mywork/include/trace/events/intel_ifs.h:44,
+                 from /home/agluck/GIT/mywork/drivers/platform/x86/intel/ifs/runtest.c:27:
+/home/agluck/GIT/mywork/include/trace/trace_events.h:207:37: warning: ‘trace_event_type_funcs_ifs_status’ defined but not used [-Wunused-variable]
+  207 | static struct trace_event_functions trace_event_type_funcs_##call = {   \
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~
+/home/agluck/GIT/mywork/include/trace/events/intel_ifs.h:11:1: note: in expansion of macro ‘DECLARE_EVENT_CLASS’
+   11 | DECLARE_EVENT_CLASS(ifs_status,
+      | ^~~~~~~~~~~~~~~~~~~
+make[1]: Leaving directory '/home/agluck/GIT/mywork/build/ifsv5-rc1'
+
+-Tony
