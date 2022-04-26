@@ -2,166 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95694C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 06:58:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C36EC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 07:00:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343541AbiDZHBW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 03:01:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58932 "EHLO
+        id S245687AbiDZHD0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 03:03:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240071AbiDZHBS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 03:01:18 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A909A5DE67;
-        Mon, 25 Apr 2022 23:58:11 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id p65so31215197ybp.9;
-        Mon, 25 Apr 2022 23:58:11 -0700 (PDT)
+        with ESMTP id S1343591AbiDZHDX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 03:03:23 -0400
+Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07064DF73
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 00:00:15 -0700 (PDT)
+Received: by mail-ua1-x92b.google.com with SMTP id az13so2352169uab.13
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 00:00:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=7yRqtTQTTbmtbqFkDbH3OPtikPIs3kbhA8R9oT1fjtA=;
-        b=bRBHixiG98kSSWlYRVnV48E5Za2aabxiGVPKzUUBMlsIX+gyTi3pwFGmzS7ddnDJWm
-         sUJEjXJa9129BlLE2TIJdJqvmDb/mHh6njg0fOaxhqkZY5W7JdLWNyYfVAgjNvlisVUI
-         mDiH6P/0JsNkOC4/KjxtgJCHSxhvsjFc0S8L9d/phQnhrDO0zAeZ1srks+2WPZyAQDnJ
-         HsvLflr5Ph6LDs3BTugcP39vZ5R4QRv10eRMFQY5IblVSLNb5xq1lI83bot0t/hKF8VN
-         Jkq3INh6dha6+8cQuQ11K4ESawBU63J8jqMQTVYnQ4rvyvRv+t+j9oS4d5Oaty33jDgW
-         53iQ==
+         :cc;
+        bh=YiJEB0dRG8Vs28wunrpsUd3aNm5kWfCeFbd3eFY3as0=;
+        b=d5Yk9vkBLEnKHZ514Yf7ffIGn1EMaNSf9hcUKn32e7vRywUbt99pLhvqkR7Liz+aP8
+         sozJ0ZzYbXQ8jrjtb5NyDXRaai+A2UT7dybpsV4vswDl9pVDBXrK/HvM3tdK+vBkDas5
+         u4pRqvPtK619yrrKfHNYAPBOddzYm/XqjOCWEjmKcIw/YcsNrgtftJEl3A3Oi2uBHlct
+         5CuoeK/L0Cllvp3/1VRIoE8zAUKrSBpPnBfrcSMd+oMFDLlxx4rRX3k8CStKnzUDvgg3
+         ie8x7Q5M7PPH+2xHukY2sM0rSNrnhtRnbfH/ZxmsCnuQx3BIO4btY8/oYwhwTKq9U8dB
+         XJsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=7yRqtTQTTbmtbqFkDbH3OPtikPIs3kbhA8R9oT1fjtA=;
-        b=ZnFNJsjqMXOuf+vCFwoANXyXGtd9nlBrHKK23r0zx32lUaJJ4IUHHEEkjziod9WKro
-         W4JKpQ7IdLFRd618srbFCoXINpwbGd36PzU0ktY59alSCzffUfxzrv8PUG1iEdBhHJxy
-         t8pajgwdQos3qvMt9wXZbEAyyHK3iV35TvFUPMgb5XpjyUZ5lgYZwyKsKCtgLTXgaLFy
-         sOJtFZCgRg0CB4h5Ro7JATxUkLzmJRaV/mWwuh5SxOP3J15xytNPVpD0kvlmfK3wmzVN
-         ztxh5df3RXaee6NP/W1upOTu9yT6X4G0Ojo57pzNrSxuTKb2HJ33arOyAzZ/lQWoI6Wj
-         PjDg==
-X-Gm-Message-State: AOAM531/Xb5EPk1ozMy3xP3PtkpSem8i6VZCMlStipnXdL5bYxuyuY8i
-        gAof11mVc2p/zUv1AMYDAoPQuCw2fYyxeCOTg6A=
-X-Google-Smtp-Source: ABdhPJw357ay+aWUKAuyu9Qe8tlk0iRQnqcntDWpTWz69x6FeUa6TPWxXIkKuahGyR8BfUfkYLhtqX7qRSs4Lzm1FYQ=
-X-Received: by 2002:a25:9a43:0:b0:628:672c:e471 with SMTP id
- r3-20020a259a43000000b00628672ce471mr18683367ybo.73.1650956290907; Mon, 25
- Apr 2022 23:58:10 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=YiJEB0dRG8Vs28wunrpsUd3aNm5kWfCeFbd3eFY3as0=;
+        b=nnYnO3d6+BKHDctQehtvbClie6pS0PIOiUgag6BZaTstBmvmDIxa39NlEXtEv4xIpj
+         4CMXsd0Lx0CBP1D9CKiPHj0sKBHk9tdqMQYh2wWjNaRxyNGtYTSPBPz9pE7J82h+5vTM
+         1ROJhIyM0586R2Ij5i0qp+YrU+57c1TvEYZt4Zm7qDtnWoEdbdEw7du1RXy+vG3xd5Rk
+         lxORO65zPzOYa4OKwn/A87K/Y1KB1pXYehjFWlGok/5pju+h+p04oFjiG0jOYkg4PeRc
+         rTPLeAwMnchUFjaElvsO9M91vjId+NnkgO5YqjIObAHbhyBivsDSVqb6ErJZVLMq0UKl
+         L4FA==
+X-Gm-Message-State: AOAM532WROz9Ig+ftg9AjEh68LgTPDboMwynM94n+l9womdFtskpE2oB
+        CxHBPwVSROWLLZSqaWkOB5o4hhMvvl089ctBJv9aZQ==
+X-Google-Smtp-Source: ABdhPJzkXr9BOqsgJAkCTK7/ifPaSnlqKx7Ilm0RuLZ18kZbUoUwyM07wgDkFY+vVJrPQc3/yTK2PG51XyTTjydMhQs=
+X-Received: by 2002:ab0:482d:0:b0:35d:1e5e:ed19 with SMTP id
+ b42-20020ab0482d000000b0035d1e5eed19mr6553573uad.17.1650956413953; Tue, 26
+ Apr 2022 00:00:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAEensMzuQ0uAw8_5Xb7u1n685au=DpaJyPevGCT8GCG7xS42ow@mail.gmail.com>
- <1650424016-7225-1-git-send-email-baihaowen@meizu.com> <1650424016-7225-2-git-send-email-baihaowen@meizu.com>
- <30d2f96e-99e1-2976-a294-8e112166afff@gmail.com> <049ccac8-c394-0cdc-c2ed-4ea91cab6439@meizu.com>
- <c498b2a7-8f0e-4f6d-10ba-49c4c7794ff9@gmail.com> <0be9fe6a-b01e-b355-9283-6ad8372932d6@meizu.com>
- <CAEensMzgJ6LmGiJajqwgE3cQCR-pcgr1o35Qf=n1K215BwHLhA@mail.gmail.com> <53ac1850-0286-0dc7-4a76-8a0ddee696c0@meizu.com>
-In-Reply-To: <53ac1850-0286-0dc7-4a76-8a0ddee696c0@meizu.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Tue, 26 Apr 2022 14:57:58 +0800
-Message-ID: <CAEensMw7PsQK4h8a9R_0iOo+KyMYqCf2_eR4-ojtb4qgD8SMgQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
-To:     baihaowen <baihaowen@meizu.com>
-Cc:     Alex Shi <seakeel@gmail.com>, Alex Shi <alexs@kernel.org>,
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-13-yuzhao@google.com>
+ <20220411191634.674554d3de2ba37b3db40ca2@linux-foundation.org>
+ <CAOUHufYhhCPFqoRbtn+=OFxZxNWS9yxW9Re_s-2TYGqCEaMXVw@mail.gmail.com> <20220415212024.c682ac000e3e91572d8d6d2b@linux-foundation.org>
+In-Reply-To: <20220415212024.c682ac000e3e91572d8d6d2b@linux-foundation.org>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Tue, 26 Apr 2022 00:59:37 -0600
+Message-ID: <CAOUHufa60CVZcXJ937=P4GVtV_Cn76mYCWwcyBNjMAADmyWEwQ@mail.gmail.com>
+Subject: Re: [PATCH v10 12/14] mm: multi-gen LRU: debugfs interface
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Yanteng Si <siyanteng@loongson.cn>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-baihaowen <baihaowen@meizu.com> =E4=BA=8E2022=E5=B9=B44=E6=9C=8825=E6=97=A5=
-=E5=91=A8=E4=B8=80 16:20=E5=86=99=E9=81=93=EF=BC=9A
+On Fri, Apr 15, 2022 at 10:20 PM Andrew Morton
+<akpm@linux-foundation.org> wrote:
 >
-> =E5=9C=A8 4/25/22 11:19 AM, yanteng si =E5=86=99=E9=81=93:
-> > baihaowen <baihaowen@meizu.com> =E4=BA=8E2022=E5=B9=B44=E6=9C=8825=E6=
-=97=A5=E5=91=A8=E4=B8=80 09:17=E5=86=99=E9=81=93=EF=BC=9A
-> >> =E5=9C=A8 4/24/22 11:16 AM, Alex Shi =E5=86=99=E9=81=93:
-> >>> On 4/24/22 10:56, baihaowen wrote:
-> >>>>>> +        =3D=3D=3D=3D=3D=3D          =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D      =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>> hi, Alex
-> >>>> I can apply local.
-> >>>> =E2=9E=9C  linux-next git:(heads/next-20220421) =E2=9C=97 git am doc=
-_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documentation-vm=
--.patch
-> >>>> =E5=BA=94=E7=94=A8=EF=BC=9Adocs/zh_CN: sync with original text Docum=
-entation/vm/page_owner.rst
-> >>>> =E2=9E=9C  linux-next git:(heads/next-20220421) =E2=9C=97 git am doc=
-_pageonwer_patches/0002-doc-vm-page_owner.rst-Fix-table-display-confusion.p=
-atch
-> >>>> =E5=BA=94=E7=94=A8=EF=BC=9Adoc/vm/page_owner.rst: Fix table display =
-confusion
-> >>>>
-> >>>> I think git send-email will change format by my select. I'll try to =
-resend.
-> >>> Send to yourself only then get it from your email client and try appl=
-ying.
-> >>>
-> >>> Thanks
-> >>> Alex
-> >> Hi Alex
-> >>
-> >> Could you tell me how do you do when you get a patch from email ?
-> > $: git clone git://git.kernel.org/pub/scm/utils/b4/b4.git
-> > $: b4/b4.sh am <message-id>
-> > ###=E5=9C=A8=E4=BD=A0=E7=9A=84=E9=82=AE=E7=AE=B1=E9=87=8C=E6=9F=A5=E7=
-=9C=8B=E5=8E=9F=E5=A7=8B=E6=9C=89=E9=82=AE=E4=BB=B6=EF=BC=8C=E7=84=B6=E5=90=
-=8E=E6=89=BE=E5=88=B0message-id=EF=BC=8C=E8=B4=B4=E8=BF=87=E6=9D=A5=E5=B0=
-=B1=E8=A1=8C=EF=BC=8C=E5=89=8D=E6=8F=90=E6=98=AF=E4=BD=A0=E7=9A=84=E8=A1=A5=
-=E4=B8=81=E7=B3=BB=E5=88=97=E5=9C=A8lore=E9=87=8C=E6=98=AF=E6=8C=89=E7=85=
-=A7=E5=89=8D=E5=87=A0=E5=A4=A9=E6=88=91=E8=AF=B4=E7=9A=84=E9=82=A3=E4=B9=88=
-=E5=BC=84=E3=80=82
-> > $: vim xxxx.mbx   ### [modify your patch]
-> > $: git am  xxxx.mbx
+> On Fri, 15 Apr 2022 18:03:16 -0600 Yu Zhao <yuzhao@google.com> wrote:
+>
+> > > Presumably sysfs is the place.  Fully documented and with usage
+> > > examples in the changelog so we can carefully review the proposed
+> > > extensions to Linux's ABI.  Extensions which must be maintained
+> > > unchanged for all time.
 > >
-> >
-> > Thanks,
-> > Yanteng
-> >
-> >> I get my patch from email and then copy-patse to a new file, then git =
-am xx.patch.
-> >> It will notice =E8=A1=A5=E4=B8=81=E6=A0=BC=E5=BC=8F=E6=A3=80=E6=B5=8B=
-=E5=A4=B1=E8=B4=A5=E3=80=82
-> >>
-> >> --
-> >> Haowen Bai
-> >>
-> hi, Yanteng
+> > Eventually, yes. There still is a long way to go. Rest assured, this
+> > is something Google will keep investing resources on.
 >
-> No matter I select y or N, I could not git am the Chinese translation pat=
-ch.
->
->     doc_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documen=
-tation-vm-.patch
-> Which 8bit encoding should I declare [UTF-8]? y
-Git asked: What format encoding should I use, how about UTF-8?
-You answer: Encode it in y .
-> Are you sure you want to use <y> [y/N]? y
-Git=EF=BC=9AYou're kidding.
-You=EF=BC=9AI'm serious.
-Git=EF=BC=9AOk, now, Content-Type: text/plain; charset=3D"y".
+> So.  The plan is to put these interfaces in debugfs for now, with a
+> view to migrating stabilized interfaces into sysfs (or procfs or
+> whatever) once end-user requirements and use cases are better
+> understood?
 
-I'm sorry. I played a joke. >_<
+The requirements are well understood and the use cases are proven,
+e.g., Google [1], Meta [2] and Alibaba [3].
 
-Haowen, You only need to press enter, not y or N.
+[1] https://dl.acm.org/doi/10.1145/3297858.3304053
+[2] https://dl.acm.org/doi/10.1145/3503222.3507731
+[3] https://gitee.com/anolis/cloud-kernel/blob/release-5.10/mm/kidled.c
 
-Thanks,
-Yanteng
+> If so, that sounds totally great to me.  But it should have been in
+> the darn changelog!  This is the sort of thing which we care about most
+> keenly.
 >
->     doc_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documen=
-tation-vm-.patch
-> Which 8bit encoding should I declare [UTF-8]? N
-> Are you sure you want to use <N> [y/N]? y
+> It would be helpful for reviewers to understand the proposed timeline
+> for this process, because the entire feature isn't really real until
+> this is completed, is it?  I do think we should get this nailed down
+> relatively rapidly, otherwise people will be reluctant to invest much
+> into a moving target.
 >
-> $git am xxx.patch
-> error: cannot convert from y to UTF-8
-> fatal: could not parse patch
-> or
-> $git am xxx.patch
-> error: cannot convert from N to UTF-8
-> fatal: could not parse patch
->
-> so, the problem is happening when I did git send-email, and the original =
-zh_CN patch is successful for git am.
-> Have you ever meet this problem ?
->
-> --
-> Haowen Bai
->
+> And I must say, I see dissonance between the overall maturity of the
+> feature as described in these emails versus the immaturity of these
+> userspace control interfaces.  What's happening there?
+
+Very observant. To answer both of the questions above: each iteration
+of the entire stack is a multi-year effort.
+
+Given its ROI, companies I know of constantly pour money into this
+area. Given its scale, this debugfs is the least of their concerns. A
+good example is the proactive reclaim sysfs interface [4]. It's been
+used at Google for many years and at Meta for a few years. We only
+started finalizing it recently.
+
+[4] https://lore.kernel.org/r/20220425190040.2475377-1-yosryahmed@google.com/
