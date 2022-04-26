@@ -2,158 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E1FEC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 06:18:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95694C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 06:58:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229807AbiDZGVO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 02:21:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56490 "EHLO
+        id S1343541AbiDZHBW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 03:01:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232042AbiDZGVN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 02:21:13 -0400
-X-Greylist: delayed 1233 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 25 Apr 2022 23:18:07 PDT
-Received: from mailgate.ics.forth.gr (mailgate.ics.forth.gr [139.91.1.2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C404F1ECF
-        for <linux-doc@vger.kernel.org>; Mon, 25 Apr 2022 23:18:07 -0700 (PDT)
-Received: from av3.ics.forth.gr (av3in.ics.forth.gr [139.91.1.77])
-        by mailgate.ics.forth.gr (8.15.2/ICS-FORTH/V10-1.8-GATE) with ESMTP id 23Q5vVcV063355
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 08:57:31 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; d=ics.forth.gr; s=av; c=relaxed/simple;
-        q=dns/txt; i=@ics.forth.gr; t=1650952645; x=1653544645;
-        h=From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=LL28OJv509egBstFeV2Ig3Njtp/Ayo/hHdAQn0ETPec=;
-        b=inL8gMH1cWEb8U7PIiRtwnnf7GjL0T6zk5P4mLcmVnQKraiGPCW26ZMn5iYuHdZO
-        AZepokb2YUfIpjs60yqFS/QWUkH/djpkRawTJrAYBqC/m1DaBLBF8eRS96GpM+OH
-        IuTtb578KJ13c4XPndM0b1Yvk2he35rQYyKLHiyaxwUeiUDmGziGvc0HibvBmOV7
-        pTmUr89xvwVvQzyanmsERc96wk7UWsVWyeBZhnh2hoJy95KGRYuHvYlTbUGEtpJt
-        0UsKF081i4iAG43/bmtnm4yObPosq92f0OOcDeAOHo6QCSzhvbqP/4pOasl/UFUn
-        CcvdEM211o5gHpxie02+sA==;
-X-AuditID: 8b5b014d-f2ab27000000641e-1f-626789c58245
-Received: from enigma.ics.forth.gr (enigma.ics.forth.gr [139.91.151.35])
-        by av3.ics.forth.gr (Symantec Messaging Gateway) with SMTP id C3.C0.25630.5C987626; Tue, 26 Apr 2022 08:57:25 +0300 (EEST)
-X-ICS-AUTH-INFO: Authenticated user: mick at ics.forth.gr
-Message-ID: <ff85cdc4-b1e3-06a3-19fc-a7e1acf99d40@ics.forth.gr>
-Date:   Tue, 26 Apr 2022 08:57:19 +0300
+        with ESMTP id S240071AbiDZHBS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 03:01:18 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A909A5DE67;
+        Mon, 25 Apr 2022 23:58:11 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id p65so31215197ybp.9;
+        Mon, 25 Apr 2022 23:58:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=7yRqtTQTTbmtbqFkDbH3OPtikPIs3kbhA8R9oT1fjtA=;
+        b=bRBHixiG98kSSWlYRVnV48E5Za2aabxiGVPKzUUBMlsIX+gyTi3pwFGmzS7ddnDJWm
+         sUJEjXJa9129BlLE2TIJdJqvmDb/mHh6njg0fOaxhqkZY5W7JdLWNyYfVAgjNvlisVUI
+         mDiH6P/0JsNkOC4/KjxtgJCHSxhvsjFc0S8L9d/phQnhrDO0zAeZ1srks+2WPZyAQDnJ
+         HsvLflr5Ph6LDs3BTugcP39vZ5R4QRv10eRMFQY5IblVSLNb5xq1lI83bot0t/hKF8VN
+         Jkq3INh6dha6+8cQuQ11K4ESawBU63J8jqMQTVYnQ4rvyvRv+t+j9oS4d5Oaty33jDgW
+         53iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=7yRqtTQTTbmtbqFkDbH3OPtikPIs3kbhA8R9oT1fjtA=;
+        b=ZnFNJsjqMXOuf+vCFwoANXyXGtd9nlBrHKK23r0zx32lUaJJ4IUHHEEkjziod9WKro
+         W4JKpQ7IdLFRd618srbFCoXINpwbGd36PzU0ktY59alSCzffUfxzrv8PUG1iEdBhHJxy
+         t8pajgwdQos3qvMt9wXZbEAyyHK3iV35TvFUPMgb5XpjyUZ5lgYZwyKsKCtgLTXgaLFy
+         sOJtFZCgRg0CB4h5Ro7JATxUkLzmJRaV/mWwuh5SxOP3J15xytNPVpD0kvlmfK3wmzVN
+         ztxh5df3RXaee6NP/W1upOTu9yT6X4G0Ojo57pzNrSxuTKb2HJ33arOyAzZ/lQWoI6Wj
+         PjDg==
+X-Gm-Message-State: AOAM531/Xb5EPk1ozMy3xP3PtkpSem8i6VZCMlStipnXdL5bYxuyuY8i
+        gAof11mVc2p/zUv1AMYDAoPQuCw2fYyxeCOTg6A=
+X-Google-Smtp-Source: ABdhPJw357ay+aWUKAuyu9Qe8tlk0iRQnqcntDWpTWz69x6FeUa6TPWxXIkKuahGyR8BfUfkYLhtqX7qRSs4Lzm1FYQ=
+X-Received: by 2002:a25:9a43:0:b0:628:672c:e471 with SMTP id
+ r3-20020a259a43000000b00628672ce471mr18683367ybo.73.1650956290907; Mon, 25
+ Apr 2022 23:58:10 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 07/13] riscv: Implement sv48 support
-Content-Language: el-en
-To:     Alexandre Ghiti <alexandre.ghiti@canonical.com>,
+References: <CAEensMzuQ0uAw8_5Xb7u1n685au=DpaJyPevGCT8GCG7xS42ow@mail.gmail.com>
+ <1650424016-7225-1-git-send-email-baihaowen@meizu.com> <1650424016-7225-2-git-send-email-baihaowen@meizu.com>
+ <30d2f96e-99e1-2976-a294-8e112166afff@gmail.com> <049ccac8-c394-0cdc-c2ed-4ea91cab6439@meizu.com>
+ <c498b2a7-8f0e-4f6d-10ba-49c4c7794ff9@gmail.com> <0be9fe6a-b01e-b355-9283-6ad8372932d6@meizu.com>
+ <CAEensMzgJ6LmGiJajqwgE3cQCR-pcgr1o35Qf=n1K215BwHLhA@mail.gmail.com> <53ac1850-0286-0dc7-4a76-8a0ddee696c0@meizu.com>
+In-Reply-To: <53ac1850-0286-0dc7-4a76-8a0ddee696c0@meizu.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Tue, 26 Apr 2022 14:57:58 +0800
+Message-ID: <CAEensMw7PsQK4h8a9R_0iOo+KyMYqCf2_eR4-ojtb4qgD8SMgQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+To:     baihaowen <baihaowen@meizu.com>
+Cc:     Alex Shi <seakeel@gmail.com>, Alex Shi <alexs@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Zong Li <zong.li@sifive.com>, Anup Patel <anup@brainfault.org>,
-        Atish Patra <Atish.Patra@rivosinc.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kees Cook <keescook@chromium.org>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-        Mayuresh Chitale <mchitale@ventanamicro.com>,
-        panqinglin2020@iscas.ac.cn, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
-        linux-arch@vger.kernel.org
-References: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
- <20211206104657.433304-8-alexandre.ghiti@canonical.com>
-From:   Nick Kossifidis <mick@ics.forth.gr>
-In-Reply-To: <20211206104657.433304-8-alexandre.ghiti@canonical.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Rf0yMcRzH973n6Xmezo5vV/jKsF0MISw/vtTC2HpMfi3ze+Oqx/VL9HQ1
-        vx3ydN1hV6R5dPTjSsVC59JdIlnESlcNpd24MnNNhAiN0cXWf6993p/3+/3ZPgwhf0n6MjEJ
-        ao5PUMYrKCmp35btN6suXRUx5+a5QFyWb/fA/RnZNE7t/eCBLQMijX/0fQT4V+ZDGuutWgK/
-        qUkD2OAUaJz2qZrAjzptJC65WifB9mPtNC5++0qCG/S7sdb2lcR5gonEgvMlwK22HApXfEml
-        cFZ9F4ldracIfPlTL4UFcRR+ZLlF4F7HRWqpLzvwMxOwWQMNJCtqTlPsRU0zyb53uUj2gbaP
-        Zq2ig2Zzy5PZOxmPKfZupRmw5aXpFGt1LmLNpqNsVbuGYgvOnPVg28TN67y3SoOjuPiYFI6f
-        HbJTGv3678F7NfJ9TelGWgNKR+qAJ4PgPNR2wkDpgJSRwzqAclL7wJCwCJk/u8hBlsElqKtM
-        oAeZhFNQY3kHMTT3Qo8vvHHvjIabUZEty83eMAjdtJjdOQQci2wtOslggQ+sYVB9r9EdJIeH
-        kenJOzdTcDq63HL/r5lhPOEKlP5NPeRdgHQW3b+cSeh2Tw5hAKPEYdXisApxmEUcZskFZCmA
-        ypTAgJjIpIBde3h1dICKLwfu94PVlaDD3BNQCyQMqAWIIRQ+sqwpuyLksijl/gMcv2cHnxzP
-        JdWC8QypGCuj326KkEOVUs3Fcdxejv+vShhPX40ERDqrT9pvREQvb6yyLR7Zlg8tE88fmqCI
-        LNqy9nl/Siq89O1glDT8Wr598tQSR2PIVB+bv/lHN0z0exrkLxRKqrbLuaYKXWhlact0LdR3
-        tJnzjBmGLV1SU0H1jnFHRqwpenB//k/HEiGxInZOdzOZ2KrqDj/F+7vCus9Vh60MNlQCB0Gk
-        5RbeE7zM9jFN1lDvS2vHnS0JWv9bMiK3+Pv+1/mynuvqbGeB/vO7muCBhNiqkMS40ECDX/8R
-        r9irB7XWmZ2zjM9ySmQ+T6c9+74hLlJV1t5wRedYMSNPWmesCd8YVhy7bKewynQ32WPiws4X
-        25ufK3+tmly/5rhYOLu/RUEmRSvn+hN8kvIP4RAOL20DAAA=
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Yanteng Si <siyanteng@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Alex,
+baihaowen <baihaowen@meizu.com> =E4=BA=8E2022=E5=B9=B44=E6=9C=8825=E6=97=A5=
+=E5=91=A8=E4=B8=80 16:20=E5=86=99=E9=81=93=EF=BC=9A
+>
+> =E5=9C=A8 4/25/22 11:19 AM, yanteng si =E5=86=99=E9=81=93:
+> > baihaowen <baihaowen@meizu.com> =E4=BA=8E2022=E5=B9=B44=E6=9C=8825=E6=
+=97=A5=E5=91=A8=E4=B8=80 09:17=E5=86=99=E9=81=93=EF=BC=9A
+> >> =E5=9C=A8 4/24/22 11:16 AM, Alex Shi =E5=86=99=E9=81=93:
+> >>> On 4/24/22 10:56, baihaowen wrote:
+> >>>>>> +        =3D=3D=3D=3D=3D=3D          =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D      =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >>>> hi, Alex
+> >>>> I can apply local.
+> >>>> =E2=9E=9C  linux-next git:(heads/next-20220421) =E2=9C=97 git am doc=
+_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documentation-vm=
+-.patch
+> >>>> =E5=BA=94=E7=94=A8=EF=BC=9Adocs/zh_CN: sync with original text Docum=
+entation/vm/page_owner.rst
+> >>>> =E2=9E=9C  linux-next git:(heads/next-20220421) =E2=9C=97 git am doc=
+_pageonwer_patches/0002-doc-vm-page_owner.rst-Fix-table-display-confusion.p=
+atch
+> >>>> =E5=BA=94=E7=94=A8=EF=BC=9Adoc/vm/page_owner.rst: Fix table display =
+confusion
+> >>>>
+> >>>> I think git send-email will change format by my select. I'll try to =
+resend.
+> >>> Send to yourself only then get it from your email client and try appl=
+ying.
+> >>>
+> >>> Thanks
+> >>> Alex
+> >> Hi Alex
+> >>
+> >> Could you tell me how do you do when you get a patch from email ?
+> > $: git clone git://git.kernel.org/pub/scm/utils/b4/b4.git
+> > $: b4/b4.sh am <message-id>
+> > ###=E5=9C=A8=E4=BD=A0=E7=9A=84=E9=82=AE=E7=AE=B1=E9=87=8C=E6=9F=A5=E7=
+=9C=8B=E5=8E=9F=E5=A7=8B=E6=9C=89=E9=82=AE=E4=BB=B6=EF=BC=8C=E7=84=B6=E5=90=
+=8E=E6=89=BE=E5=88=B0message-id=EF=BC=8C=E8=B4=B4=E8=BF=87=E6=9D=A5=E5=B0=
+=B1=E8=A1=8C=EF=BC=8C=E5=89=8D=E6=8F=90=E6=98=AF=E4=BD=A0=E7=9A=84=E8=A1=A5=
+=E4=B8=81=E7=B3=BB=E5=88=97=E5=9C=A8lore=E9=87=8C=E6=98=AF=E6=8C=89=E7=85=
+=A7=E5=89=8D=E5=87=A0=E5=A4=A9=E6=88=91=E8=AF=B4=E7=9A=84=E9=82=A3=E4=B9=88=
+=E5=BC=84=E3=80=82
+> > $: vim xxxx.mbx   ### [modify your patch]
+> > $: git am  xxxx.mbx
+> >
+> >
+> > Thanks,
+> > Yanteng
+> >
+> >> I get my patch from email and then copy-patse to a new file, then git =
+am xx.patch.
+> >> It will notice =E8=A1=A5=E4=B8=81=E6=A0=BC=E5=BC=8F=E6=A3=80=E6=B5=8B=
+=E5=A4=B1=E8=B4=A5=E3=80=82
+> >>
+> >> --
+> >> Haowen Bai
+> >>
+> hi, Yanteng
+>
+> No matter I select y or N, I could not git am the Chinese translation pat=
+ch.
+>
+>     doc_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documen=
+tation-vm-.patch
+> Which 8bit encoding should I declare [UTF-8]? y
+Git asked: What format encoding should I use, how about UTF-8?
+You answer: Encode it in y .
+> Are you sure you want to use <y> [y/N]? y
+Git=EF=BC=9AYou're kidding.
+You=EF=BC=9AI'm serious.
+Git=EF=BC=9AOk, now, Content-Type: text/plain; charset=3D"y".
 
-On 12/6/21 12:46, Alexandre Ghiti wrote:
-> 
-> +#ifdef CONFIG_64BIT
-> +static void __init disable_pgtable_l4(void)
-> +{
-> +	pgtable_l4_enabled = false;
-> +	kernel_map.page_offset = PAGE_OFFSET_L3;
-> +	satp_mode = SATP_MODE_39;
-> +}
-> +
-> +/*
-> + * There is a simple way to determine if 4-level is supported by the
-> + * underlying hardware: establish 1:1 mapping in 4-level page table mode
-> + * then read SATP to see if the configuration was taken into account
-> + * meaning sv48 is supported.
-> + */
-> +static __init void set_satp_mode(void)
-> +{
-> +	u64 identity_satp, hw_satp;
-> +	uintptr_t set_satp_mode_pmd;
-> +
-> +	set_satp_mode_pmd = ((unsigned long)set_satp_mode) & PMD_MASK;
-> +	create_pgd_mapping(early_pg_dir,
-> +			   set_satp_mode_pmd, (uintptr_t)early_pud,
-> +			   PGDIR_SIZE, PAGE_TABLE);
-> +	create_pud_mapping(early_pud,
-> +			   set_satp_mode_pmd, (uintptr_t)early_pmd,
-> +			   PUD_SIZE, PAGE_TABLE);
-> +	/* Handle the case where set_satp_mode straddles 2 PMDs */
-> +	create_pmd_mapping(early_pmd,
-> +			   set_satp_mode_pmd, set_satp_mode_pmd,
-> +			   PMD_SIZE, PAGE_KERNEL_EXEC);
-> +	create_pmd_mapping(early_pmd,
-> +			   set_satp_mode_pmd + PMD_SIZE,
-> +			   set_satp_mode_pmd + PMD_SIZE,
-> +			   PMD_SIZE, PAGE_KERNEL_EXEC);
-> +
-> +	identity_satp = PFN_DOWN((uintptr_t)&early_pg_dir) | satp_mode;
-> +
-> +	local_flush_tlb_all();
-> +	csr_write(CSR_SATP, identity_satp);
-> +	hw_satp = csr_swap(CSR_SATP, 0ULL);
-> +	local_flush_tlb_all();
-> +
-> +	if (hw_satp != identity_satp)
-> +		disable_pgtable_l4();
-> +
-> +	memset(early_pg_dir, 0, PAGE_SIZE);
-> +	memset(early_pud, 0, PAGE_SIZE);
-> +	memset(early_pmd, 0, PAGE_SIZE);
-> +}
-> +#endif
-> +
+I'm sorry. I played a joke. >_<
 
-When doing the 1:1 mapping you don't take into account the limitation 
-that all bits above 47 need to have the same value as bit 47. If the 
-kernel exists at a high physical address with bit 47 set the 
-corresponding virtual address will be invalid, resulting an instruction 
-fetch fault as the privilege spec mandates. We verified this bug on our 
-prototype. I suggest we re-write this in assembly and do a proper satp 
-switch like we do on head.S, so that we don't need the 1:1 mapping and 
-we also have a way to recover in case this fails.
+Haowen, You only need to press enter, not y or N.
 
-Regards,
-Nick
+Thanks,
+Yanteng
+>
+>     doc_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documen=
+tation-vm-.patch
+> Which 8bit encoding should I declare [UTF-8]? N
+> Are you sure you want to use <N> [y/N]? y
+>
+> $git am xxx.patch
+> error: cannot convert from y to UTF-8
+> fatal: could not parse patch
+> or
+> $git am xxx.patch
+> error: cannot convert from N to UTF-8
+> fatal: could not parse patch
+>
+> so, the problem is happening when I did git send-email, and the original =
+zh_CN patch is successful for git am.
+> Have you ever meet this problem ?
+>
+> --
+> Haowen Bai
+>
