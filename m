@@ -2,150 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F57CC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 21:30:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB3F1C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 21:34:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355424AbiDZVdv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 17:33:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40114 "EHLO
+        id S1355514AbiDZVhP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 17:37:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351728AbiDZVdr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 17:33:47 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 727B2167D1;
-        Tue, 26 Apr 2022 14:30:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0864661768;
-        Tue, 26 Apr 2022 21:30:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B698C385A0;
-        Tue, 26 Apr 2022 21:30:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1651008636;
-        bh=hRBN2iGUWntk6rFDQClPrjJSN1u3Plq5R5MkMdlntzA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=2AgeVAJdYeuPtwz5M/eqMKQsJKokdP1kIZVf0URVWM3SGYun4iiEJslJB0++i7lv+
-         G29Uwsy2kwANU1AUg4BAnaWWNz9Q1s5uGgVhQoLMY6hwbuitH9tHnUinZbWz/b/lia
-         ThO4ZAVemknNsB+RzsmXUH8bOCELau56862WiyuQ=
-Date:   Tue, 26 Apr 2022 14:30:34 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
-        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
+        with ESMTP id S1351810AbiDZVhO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 17:37:14 -0400
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77FBD1A5DCF
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 14:34:04 -0700 (PDT)
+Received: by mail-io1-xd2c.google.com with SMTP id f4so281016iov.2
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 14:34:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zJHneikLXEGfJde4krQasd9PQhsFRpApoS4ZRag7+RU=;
+        b=EdwxR0V/0R58E5VQDj0HrytGDcfRa0ZaI7Me6rDBjirAgNHRbWWWvGaw7HmQEIGzu+
+         8UTTpBJpVmtohKiGL5cVYIq8PicWJvFUQVly2vSP4TS+56W86k/aX6l5WCrdoFzyILM+
+         1Yehf40AqvUszrZodWCBswvT50v8vrsYb0CT9VT0ik1assb3s50rjI/Ghc6ERMC0+hQS
+         kngQQpUrenrx0Z/CG7kuYI7vOHHB9pxCvklytawOfmTdu9cTLRddizluzNirEjBtvgHq
+         /7wjZvrPSoiAuTCiyBqcBwBGz7SjzYicglmkQ0p2ZcHJZmj17y1/IkCZAoejAg68UMHJ
+         xOsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zJHneikLXEGfJde4krQasd9PQhsFRpApoS4ZRag7+RU=;
+        b=LXGIp6aIaCLhFxa8QdGM6+//jXs4CZeQOlnpa49MpDbGQaVA6H4naOLneB+iXlHVHa
+         HrRn+LvMcyUkNz3ncgE4nFvd9HZoVKAB399xRKQT2uHGfyCZF7e56ndG9WZMprbHi6i/
+         g6bRaa4LqNSYlN+ue15eKLBGGje0ZvJzGMlGLsEnaJiEm2FpdlIcZn9dkl2mFVNYgtcK
+         VGso/BZGYF5yEruLE0+zXQJCFLUyfHSierp2QNNWJkfCB/l8SJ8AStHK7alcJWP32ivf
+         RCwzBsNhttZ+2kQM40PfXnEPZWmDhY6y7faI2ZthptGv7OobyivhJKHgV0dlEQDbbgwk
+         ciig==
+X-Gm-Message-State: AOAM532o0uL/PfLm+99TcUWKZYDDuoeQkTJzqrZvhuNXjRXlDQodFA/S
+        ituFzrnelFj7Z0kdj9EUaZGlYqhYenRpQI8OQ29C9g==
+X-Google-Smtp-Source: ABdhPJyGNR5sOXzGqUeKg6keEazd9H9Z8L/jAzBgMCoHI+lyyK7gNjS+2erCu0X4dzgJTpnr7YSLg3mNpJ5fsfcJHI0=
+X-Received: by 2002:a5d:9448:0:b0:657:24e0:c0b2 with SMTP id
+ x8-20020a5d9448000000b0065724e0c0b2mr10388348ior.167.1651008843696; Tue, 26
+ Apr 2022 14:34:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220422212945.2227722-1-axelrasmussen@google.com>
+ <20220422212945.2227722-3-axelrasmussen@google.com> <YmhW+mOuQUWsByj4@xz-m1.local>
+In-Reply-To: <YmhW+mOuQUWsByj4@xz-m1.local>
+From:   Axel Rasmussen <axelrasmussen@google.com>
+Date:   Tue, 26 Apr 2022 14:33:27 -0700
+Message-ID: <CAJHvVch=8znnY-u1PbPb1qUeczn+9AR_eZOP5z9kD6PgtPQjrQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] userfaultfd: add /dev/userfaultfd for fine grained
+ access control
+To:     Peter Xu <peterx@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Charan Teja Reddy <charante@codeaurora.org>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
+        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
         Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Holger =?ISO-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v10 12/14] mm: multi-gen LRU: debugfs interface
-Message-Id: <20220426143034.f520c062830f9e3405c890d0@linux-foundation.org>
-In-Reply-To: <CAOUHufa60CVZcXJ937=P4GVtV_Cn76mYCWwcyBNjMAADmyWEwQ@mail.gmail.com>
-References: <20220407031525.2368067-1-yuzhao@google.com>
-        <20220407031525.2368067-13-yuzhao@google.com>
-        <20220411191634.674554d3de2ba37b3db40ca2@linux-foundation.org>
-        <CAOUHufYhhCPFqoRbtn+=OFxZxNWS9yxW9Re_s-2TYGqCEaMXVw@mail.gmail.com>
-        <20220415212024.c682ac000e3e91572d8d6d2b@linux-foundation.org>
-        <CAOUHufa60CVZcXJ937=P4GVtV_Cn76mYCWwcyBNjMAADmyWEwQ@mail.gmail.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        zhangyi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Linuxkselftest <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 26 Apr 2022 00:59:37 -0600 Yu Zhao <yuzhao@google.com> wrote:
+On Tue, Apr 26, 2022 at 1:33 PM Peter Xu <peterx@redhat.com> wrote:
+>
+> Axel,
+>
+> On Fri, Apr 22, 2022 at 02:29:41PM -0700, Axel Rasmussen wrote:
+> > @@ -65,6 +66,8 @@ struct userfaultfd_ctx {
+> >       unsigned int flags;
+> >       /* features requested from the userspace */
+> >       unsigned int features;
+> > +     /* whether or not to handle kernel faults */
+> > +     bool handle_kernel_faults;
+>
+> Could you help explain why we need this bool?  I failed to figure out
+> myself on the difference against "!(ctx->flags & UFFD_USER_MODE_ONLY)".
 
-> On Fri, Apr 15, 2022 at 10:20 PM Andrew Morton
-> <akpm@linux-foundation.org> wrote:
-> >
-> > On Fri, 15 Apr 2022 18:03:16 -0600 Yu Zhao <yuzhao@google.com> wrote:
-> >
-> > > > Presumably sysfs is the place.  Fully documented and with usage
-> > > > examples in the changelog so we can carefully review the proposed
-> > > > extensions to Linux's ABI.  Extensions which must be maintained
-> > > > unchanged for all time.
-> > >
-> > > Eventually, yes. There still is a long way to go. Rest assured, this
-> > > is something Google will keep investing resources on.
-> >
-> > So.  The plan is to put these interfaces in debugfs for now, with a
-> > view to migrating stabilized interfaces into sysfs (or procfs or
-> > whatever) once end-user requirements and use cases are better
-> > understood?
-> 
-> The requirements are well understood and the use cases are proven,
-> e.g., Google [1], Meta [2] and Alibaba [3].
-> 
-> [1] https://dl.acm.org/doi/10.1145/3297858.3304053
-> [2] https://dl.acm.org/doi/10.1145/3503222.3507731
-> [3] https://gitee.com/anolis/cloud-kernel/blob/release-5.10/mm/kidled.c
+Ah, yeah you're right, we can get rid of it and just rely on
+UFFD_USER_MODE_ONLY.
 
-So will these interfaces be moved into sysfs?
+Just to add context, in a previous version I never sent out, I had:
 
-> > If so, that sounds totally great to me.  But it should have been in
-> > the darn changelog!  This is the sort of thing which we care about most
-> > keenly.
-> >
-> > It would be helpful for reviewers to understand the proposed timeline
-> > for this process, because the entire feature isn't really real until
-> > this is completed, is it?  I do think we should get this nailed down
-> > relatively rapidly, otherwise people will be reluctant to invest much
-> > into a moving target.
-> >
-> > And I must say, I see dissonance between the overall maturity of the
-> > feature as described in these emails versus the immaturity of these
-> > userspace control interfaces.  What's happening there?
-> 
-> Very observant. To answer both of the questions above: each iteration
-> of the entire stack is a multi-year effort.
-> 
-> Given its ROI, companies I know of constantly pour money into this
-> area. Given its scale, this debugfs is the least of their concerns. A
-> good example is the proactive reclaim sysfs interface [4]. It's been
-> used at Google for many years and at Meta for a few years. We only
-> started finalizing it recently.
-> 
-> [4] https://lore.kernel.org/r/20220425190040.2475377-1-yosryahmed@google.com/
+ctx->handle_kernel_faults = userfaultfd_allowed(...);
 
-Sure, if one organization is involved in both the userspace code and
-the kernel interfaces then the alteration of kernel interfaces can be
-handled in a coordinated fashion.
+That's wrong for other reasons, but if we were going to do that we'd
+have to store the result, since it's a function not just of the flags,
+but also of the method used to create the userfaultfd. I changed this
+without also dropping the boolean, which can now be cleaned up. I'll
+include this change in a v3.
 
-But releasing interfaces to the whole world is a different deal.  It's
-acceptable to say "this is in debugfs for now because it's a work
-in progress" but it sounds like mglru's interfaces are beyond that
-stage?
-
+>
+> Thanks,
+>
+> --
+> Peter Xu
+>
