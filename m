@@ -2,219 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 212ADC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 02:15:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E1FEC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 06:18:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232967AbiDZCSt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Apr 2022 22:18:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48686 "EHLO
+        id S229807AbiDZGVO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 02:21:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbiDZCSr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Apr 2022 22:18:47 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6832336B79;
-        Mon, 25 Apr 2022 19:15:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650939341; x=1682475341;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=HVnqEfAprWnkYgKlU/xFa3sLUa+BZprVebL13mi0kO8=;
-  b=g8exgWxsxO5oZfjm0gzBdHPI7bcOuucFuDVtg4cQ/dhpcTqKgaO+5EqX
-   3cK2dsEpR9ASdIP3lVWpLBS0MSLg0WZXSKO8XpCufyEAbgATO6EaNju7w
-   VxGrWvinO5QV0VyXHZ3aMEJlPKte3dV+TOkvpecMAKeGI3tttCNQRmr+Y
-   no4IOBrORERcw47Byj8+OSfe3r1LyLDVUa1OuRC75DxJ1tDvuGszY2vfN
-   uGUFTxO83lJBBAzk/5ADqwT0lTpiXFS+zwy/oTmbo3FuFye8Y0zgWxuhq
-   w8lnDQaTb7FI+0CXPqKNf4tYxGu9GtTZk+TnPFSpc9ZtJCVD8UMRLaLjf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="328364080"
-X-IronPort-AV: E=Sophos;i="5.90,289,1643702400"; 
-   d="scan'208";a="328364080"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2022 19:15:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,289,1643702400"; 
-   d="scan'208";a="512917037"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga003.jf.intel.com with ESMTP; 25 Apr 2022 19:15:31 -0700
-Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 25 Apr 2022 19:15:30 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Mon, 25 Apr 2022 19:15:30 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.173)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Mon, 25 Apr 2022 19:15:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MxRAg7boLq3zxT7tPkr9fCokekDQr0gi2KfAfhdpEv9oiooRKOH1BMp6LbOJ4SY+/bKZV5bbClxYswfd/Edaw9n7oakZsJMCkGUMW6tT82P+PszSEHcm3G1kf+h0+oLoiKZxXLA2HADaSbr0KItD6wnIvlq+Mk2T6rSKeSC29RXgCwJ0MEM8URw8dA4sCV2+HlRU6MzF2uSD7r8oHSMf4YclJxNmPs0USEJMoT2nOlIVZoZa1YefiNt+MolDwKOj73R5SIjStA2DzKeCxs6QmVupg2kPHUpC8PjtcGmxgKxOJXkYCUM97BDFOQqf3LfanfAubXB5uyO8iC9wBeT+ZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t6I7tNO82OW3EQQtizlm7KD7D8r4xiRWMG2PfFNU+AQ=;
- b=LbIR7XwV8DjXjfklyVuSLkDGLICxQLjmTskzNQug0TdX9zsB94h6YBHJOWUJXILnYBsq40m6186hjNTH9p4EN+LxtzBdhLuFbVygS9GZDcMewcYdFtWmb/LypkQSfdgHvXCWi1NARqMFd8ZwSWupx1jp94Vs+2zhVbUMoB2NLwjGVdkNOUOEnwgXcHrmuVw9dZRgzUTeiv3q27Ydenb8x3FpUD/zWYuK2NzwcdI7BvztIoI3lmttNyKBdlFJYe7uuUm5ibd2JsocWrvc4CPUPTVuwBNs6ivl2cAq14YpwgBSo/Bmp3lx9dOxlc1tLVqx8ILxA78s9tSJUfOubRJ9IA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com (2603:10b6:5:13f::31)
- by MN2PR11MB4648.namprd11.prod.outlook.com (2603:10b6:208:26f::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Tue, 26 Apr
- 2022 02:15:28 +0000
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::4838:60ae:b637:3fc0]) by DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::4838:60ae:b637:3fc0%7]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
- 02:15:28 +0000
-From:   "Wu, Hao" <hao.wu@intel.com>
-To:     "Xu, Yilun" <yilun.xu@intel.com>, Moritz Fischer <mdf@kernel.org>
-CC:     "Zhang, Tianfei" <tianfei.zhang@intel.com>,
-        "trix@redhat.com" <trix@redhat.com>,
-        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: RE: [PATCH v7 2/2] Documentation: fpga: dfl: add link address of
-  feature id table
-Thread-Topic: [PATCH v7 2/2] Documentation: fpga: dfl: add link address of
-  feature id table
-Thread-Index: AQHYWHZo5VGoL8N2UUSPblDvkyVUjq0BdfTA
-Date:   Tue, 26 Apr 2022 02:15:28 +0000
-Message-ID: <DM6PR11MB381918B2AE8AFB90D857F3FA85FB9@DM6PR11MB3819.namprd11.prod.outlook.com>
-References: <20220419032942.427429-1-tianfei.zhang@intel.com>
- <20220419032942.427429-3-tianfei.zhang@intel.com> <YmFudmiIRh5RHGQ+@archbook>
- <20220425072307.GB363795@yilunxu-OptiPlex-7050>
-In-Reply-To: <20220425072307.GB363795@yilunxu-OptiPlex-7050>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4c164a88-303d-44dc-b92d-08da272aa1c8
-x-ms-traffictypediagnostic: MN2PR11MB4648:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-microsoft-antispam-prvs: <MN2PR11MB464810EEDCF9EBBA72B57C0985FB9@MN2PR11MB4648.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: tIuJPO7IHWUNVbgW6EPOSUO86LGbFaWYikP4UU9mqw5UB9WODMzNNzAcwaDJ871g4y5JtScRLHmLpLgOEZCa4d+lDzy156/b75x/GQ9ny+TLKUFf/qFI4FdDxDhZHsuCLguTqqS49muGJBNLTdQEpSTyo4FJ+l4vRLXsFHwp/8EYlwBaXwF9gqhVjojubnvZnHooQtRH2LF8by1yYaEFTjJ6q3voAYT6nsUxgUK9pS8feL1Ml/t9A0ok5A83uf9GpHdVRqtNqXZXF26JjITiUXPtDTzvaOssV7sHOckcDRRKOkRnl16ZB/goMCutwmq0EQhK3308FI5b61sA2cRJDQKmVlrn2QuO3QjmoOXjLcUOISVLuDJeX3Za/FJFnDhFWZNRKtr5V+TM92msXmRo92BPzQAVuQygF9gdPq5CfwqCv+bgAGzPaBXddGnznH9rv1jxBe+TK3xrEXLAG9yoomGer7ruBPSM2p37YyWexpAI3jznU01rsw56tTITe57KiXCsgDf7sev8vK28hpMI9HObi9Z5bY1NKpiSCqA3F+Pt92EP7C7ibyU+FoDno1MQhqWwNu09SI6tnHpgRIsWE2/dXSEIzCNs0rF2fqoA+P40EDSNALEjtw72Qw0OMyBZUmVwh11hSJEI6g8UzUKcpYD99Bty1wwzKIofFjaPZJA2kDYLB5/B+Y2zqtxjvMWKduobXDNBexMI4kCg6MJ62Iezc2OksCH6p8b0cBVQYghukTzcn1/dXaO9P2TXidYGTA2po4xbW9nb7G1slmTMW9+Q6lAhctc1xnSNW/KLTrI=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3819.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(54906003)(64756008)(66946007)(9686003)(66556008)(8676002)(76116006)(82960400001)(66446008)(66476007)(4326008)(316002)(71200400001)(122000001)(508600001)(53546011)(6506007)(110136005)(86362001)(186003)(38070700005)(38100700002)(83380400001)(7696005)(26005)(33656002)(55016003)(2906002)(52536014)(8936002)(5660300002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?N53EblJCCJkkvahyYTgZrYHtIivNXdTcFNPdJDUpUbEOJQ3jWY0QuPbQe2P6?=
- =?us-ascii?Q?TSM7KOLVa7HdJE3ONpjOAWnPy4mA6jpH8a28iRH/n+n/l6eyZdtXPV2qpum/?=
- =?us-ascii?Q?EBUK5cV5UlyFfFvnuBiAId6C7JL2Z0W6Uu9vVubhXH4nqyG1SAgnH7wpeA/R?=
- =?us-ascii?Q?GfEGM0IX6yI9Fphwmp22sm7TFyYKlLqoVxaBF1MeqwcMYoD+Yyc+VX52dDIB?=
- =?us-ascii?Q?BylxjgaxXI+Ym3yNzA0SDPDkZWPuLZrIM2KvqHU0RkoghBYZOW8X6KhO6IKc?=
- =?us-ascii?Q?gjWXfC+hsWAqSLaKtGeuitsqwlWB8tQE96Yg/szqD14AfgQZ5VcacXzNGMyt?=
- =?us-ascii?Q?2Okbalrkf027KiMZ+vdoAAaG3XbHDxBf7AQUouYNRUyFTX7D5xMnTgRgQIw0?=
- =?us-ascii?Q?tkXQlt1dpkoIe93DjfTmD7Hi494Q/UTKAvaiFm2JtOOemt0qtL8dp9rDkTuV?=
- =?us-ascii?Q?37MeqZFh0fTVyQ0p+zfV0ieDK0lPnWq8AWgpq9Znmjm9sS2UKG8dEWkBMPuN?=
- =?us-ascii?Q?EodTx+cPZG4MWezVBH1c3krjL8ubO0pGRUgb4XDCp0xmn/Z5C5AqTaroyXMY?=
- =?us-ascii?Q?ynHnoDf2d7kukiW3lIkxgpgHh5Esa3GHBW7RDzvoZQ0MRNW09EPGgh3OU2MU?=
- =?us-ascii?Q?zJoqCUZexwBI4luDp2RVhjW1dXQf3zdmvKsohFJdf8IXlMaAc7dCM/VrnN7t?=
- =?us-ascii?Q?3eaLX0Z9kAJPFKwVr2s8qVJHBM17e5rPpbVXu/LHWAaXx3pTN18YvTMMPHER?=
- =?us-ascii?Q?M7BAnYPZNKBQec8u5fT5j5cXvZtZTWYTy86k9JpFnTl3g1Drv9k0PqWnbQR6?=
- =?us-ascii?Q?AjCCXC96jqlmpCEeTk5/zVRX+7wGMDn0rS5svcw5DbtsMRjCSOarAK2lEOzF?=
- =?us-ascii?Q?H8blWTGYSXQZd+5JS9nTidNwXtzwBzi5rVmkdCVA8o8mnPgoPEt6fKtB6BUT?=
- =?us-ascii?Q?SWTPH6AT9uL8qIXnL6BLubluurXvW+XE4jiH9moXrubMVkH0A7UTDqYCt9fJ?=
- =?us-ascii?Q?1vAWWmbxD4scojJVdcSwKdShliO4thHdmZyz6kURpS9zCNjXb/NwpoK6cNYg?=
- =?us-ascii?Q?RVZjFVZsnPAA80ijn5ddVb6HHTGYZBouW7ElOe1aQirDH7W7bYuRnFgnWVlp?=
- =?us-ascii?Q?2oYFmNikbq/h6gd6JGDr/39kkD50Nb02H3lFAqK6XGI7jHxF24ZuD/HfMNpd?=
- =?us-ascii?Q?53QkMQf2nAcg767sS0c4FDbRQ/bHFYGWM8qDVTruWCr93HtXfjgZSDPbcO1N?=
- =?us-ascii?Q?Z0vgp7PN3RiQQgB3iyIZInnd7jA2lsWdkxSGgjERtEI0POexgs4S2vsIotBe?=
- =?us-ascii?Q?o5DTMcWXVFyNxuD1F1XAzjGA3456jAeCk7C3CRqKY9vniZ8tV4OgJYu0U79o?=
- =?us-ascii?Q?QbDqxlqVQ5WpGHewSJLzByLFto1h126sa139GOwZV1ye8YHCW4Pv38HtIUOY?=
- =?us-ascii?Q?w9nNGFyyUqSISvRQEasfBhEWFLpLSpshEjnz2fG2DqDIjmefMdn3F4yotVSX?=
- =?us-ascii?Q?ZdDaDadIEfyZm7hJNCEb1Zn10I54Vt22/+7CbCBgzp2EusxD6V9AWKsCy68z?=
- =?us-ascii?Q?a5UlWtDMQF8Cv9wA/gW3kImu232/U2AEjklgSUnago4FMPwBZUnctBoJZ9pf?=
- =?us-ascii?Q?p77CSFqMh46GuGwj7kbRHa8OyjvwUjwUfJN3dQLZsFTkG/LKRNsw7dW7xGbr?=
- =?us-ascii?Q?+4DPN1l1fG9A6tCwo6k+Qr34igi0gZR5ZEUfnK7dclpOTDN5jtdcBTqp4eTX?=
- =?us-ascii?Q?SyTGIkOamg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S232042AbiDZGVN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 02:21:13 -0400
+X-Greylist: delayed 1233 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 25 Apr 2022 23:18:07 PDT
+Received: from mailgate.ics.forth.gr (mailgate.ics.forth.gr [139.91.1.2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C404F1ECF
+        for <linux-doc@vger.kernel.org>; Mon, 25 Apr 2022 23:18:07 -0700 (PDT)
+Received: from av3.ics.forth.gr (av3in.ics.forth.gr [139.91.1.77])
+        by mailgate.ics.forth.gr (8.15.2/ICS-FORTH/V10-1.8-GATE) with ESMTP id 23Q5vVcV063355
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 08:57:31 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; d=ics.forth.gr; s=av; c=relaxed/simple;
+        q=dns/txt; i=@ics.forth.gr; t=1650952645; x=1653544645;
+        h=From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=LL28OJv509egBstFeV2Ig3Njtp/Ayo/hHdAQn0ETPec=;
+        b=inL8gMH1cWEb8U7PIiRtwnnf7GjL0T6zk5P4mLcmVnQKraiGPCW26ZMn5iYuHdZO
+        AZepokb2YUfIpjs60yqFS/QWUkH/djpkRawTJrAYBqC/m1DaBLBF8eRS96GpM+OH
+        IuTtb578KJ13c4XPndM0b1Yvk2he35rQYyKLHiyaxwUeiUDmGziGvc0HibvBmOV7
+        pTmUr89xvwVvQzyanmsERc96wk7UWsVWyeBZhnh2hoJy95KGRYuHvYlTbUGEtpJt
+        0UsKF081i4iAG43/bmtnm4yObPosq92f0OOcDeAOHo6QCSzhvbqP/4pOasl/UFUn
+        CcvdEM211o5gHpxie02+sA==;
+X-AuditID: 8b5b014d-f2ab27000000641e-1f-626789c58245
+Received: from enigma.ics.forth.gr (enigma.ics.forth.gr [139.91.151.35])
+        by av3.ics.forth.gr (Symantec Messaging Gateway) with SMTP id C3.C0.25630.5C987626; Tue, 26 Apr 2022 08:57:25 +0300 (EEST)
+X-ICS-AUTH-INFO: Authenticated user: mick at ics.forth.gr
+Message-ID: <ff85cdc4-b1e3-06a3-19fc-a7e1acf99d40@ics.forth.gr>
+Date:   Tue, 26 Apr 2022 08:57:19 +0300
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3819.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c164a88-303d-44dc-b92d-08da272aa1c8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Apr 2022 02:15:28.2273
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tiM8nxPSsSgAdQz3EDUHwRhAnBJrbSchv/OzikmUP6sKmUbtDX7IhN9IDcL/WAFQo5zNdDn8thgtR2Xe3mZ0Gw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4648
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v3 07/13] riscv: Implement sv48 support
+Content-Language: el-en
+To:     Alexandre Ghiti <alexandre.ghiti@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Zong Li <zong.li@sifive.com>, Anup Patel <anup@brainfault.org>,
+        Atish Patra <Atish.Patra@rivosinc.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Kees Cook <keescook@chromium.org>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        Mayuresh Chitale <mchitale@ventanamicro.com>,
+        panqinglin2020@iscas.ac.cn, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
+        linux-arch@vger.kernel.org
+References: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
+ <20211206104657.433304-8-alexandre.ghiti@canonical.com>
+From:   Nick Kossifidis <mick@ics.forth.gr>
+In-Reply-To: <20211206104657.433304-8-alexandre.ghiti@canonical.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Rf0yMcRzH973n6Xmezo5vV/jKsF0MISw/vtTC2HpMfi3ze+Oqx/VL9HQ1
+        vx3ydN1hV6R5dPTjSsVC59JdIlnESlcNpd24MnNNhAiN0cXWf6993p/3+/3ZPgwhf0n6MjEJ
+        ao5PUMYrKCmp35btN6suXRUx5+a5QFyWb/fA/RnZNE7t/eCBLQMijX/0fQT4V+ZDGuutWgK/
+        qUkD2OAUaJz2qZrAjzptJC65WifB9mPtNC5++0qCG/S7sdb2lcR5gonEgvMlwK22HApXfEml
+        cFZ9F4ldracIfPlTL4UFcRR+ZLlF4F7HRWqpLzvwMxOwWQMNJCtqTlPsRU0zyb53uUj2gbaP
+        Zq2ig2Zzy5PZOxmPKfZupRmw5aXpFGt1LmLNpqNsVbuGYgvOnPVg28TN67y3SoOjuPiYFI6f
+        HbJTGv3678F7NfJ9TelGWgNKR+qAJ4PgPNR2wkDpgJSRwzqAclL7wJCwCJk/u8hBlsElqKtM
+        oAeZhFNQY3kHMTT3Qo8vvHHvjIabUZEty83eMAjdtJjdOQQci2wtOslggQ+sYVB9r9EdJIeH
+        kenJOzdTcDq63HL/r5lhPOEKlP5NPeRdgHQW3b+cSeh2Tw5hAKPEYdXisApxmEUcZskFZCmA
+        ypTAgJjIpIBde3h1dICKLwfu94PVlaDD3BNQCyQMqAWIIRQ+sqwpuyLksijl/gMcv2cHnxzP
+        JdWC8QypGCuj326KkEOVUs3Fcdxejv+vShhPX40ERDqrT9pvREQvb6yyLR7Zlg8tE88fmqCI
+        LNqy9nl/Siq89O1glDT8Wr598tQSR2PIVB+bv/lHN0z0exrkLxRKqrbLuaYKXWhlact0LdR3
+        tJnzjBmGLV1SU0H1jnFHRqwpenB//k/HEiGxInZOdzOZ2KrqDj/F+7vCus9Vh60MNlQCB0Gk
+        5RbeE7zM9jFN1lDvS2vHnS0JWv9bMiK3+Pv+1/mynuvqbGeB/vO7muCBhNiqkMS40ECDX/8R
+        r9irB7XWmZ2zjM9ySmQ+T6c9+74hLlJV1t5wRedYMSNPWmesCd8YVhy7bKewynQ32WPiws4X
+        25ufK3+tmly/5rhYOLu/RUEmRSvn+hN8kvIP4RAOL20DAAA=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> -----Original Message-----
-> From: Xu, Yilun <yilun.xu@intel.com>
-> Sent: Monday, April 25, 2022 3:23 PM
-> To: Moritz Fischer <mdf@kernel.org>
-> Cc: Zhang, Tianfei <tianfei.zhang@intel.com>; Wu, Hao <hao.wu@intel.com>;
-> trix@redhat.com; linux-fpga@vger.kernel.org; linux-doc@vger.kernel.org;
-> corbet@lwn.net; Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> Subject: Re: [PATCH v7 2/2] Documentation: fpga: dfl: add link address of
-> feature id table
->=20
-> On Thu, Apr 21, 2022 at 07:47:18AM -0700, Moritz Fischer wrote:
-> > On Mon, Apr 18, 2022 at 11:29:42PM -0400, Tianfei Zhang wrote:
-> > > From: Tianfei zhang <tianfei.zhang@intel.com>
-> > >
-> > > This patch adds the link address of feature id table in documentation=
-.
-> > >
-> > > Reviewed-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> > > Signed-off-by: Tianfei zhang <tianfei.zhang@intel.com>
-> > Acked-by: Moritz Fischer <mdf@kernel.org>
->=20
-> Acked-by: Xu Yilun <yilun.xu@intel.com>
->=20
+Hello Alex,
 
-Acked-by: Wu Hao <hao.wu@intel.com>
+On 12/6/21 12:46, Alexandre Ghiti wrote:
+> 
+> +#ifdef CONFIG_64BIT
+> +static void __init disable_pgtable_l4(void)
+> +{
+> +	pgtable_l4_enabled = false;
+> +	kernel_map.page_offset = PAGE_OFFSET_L3;
+> +	satp_mode = SATP_MODE_39;
+> +}
+> +
+> +/*
+> + * There is a simple way to determine if 4-level is supported by the
+> + * underlying hardware: establish 1:1 mapping in 4-level page table mode
+> + * then read SATP to see if the configuration was taken into account
+> + * meaning sv48 is supported.
+> + */
+> +static __init void set_satp_mode(void)
+> +{
+> +	u64 identity_satp, hw_satp;
+> +	uintptr_t set_satp_mode_pmd;
+> +
+> +	set_satp_mode_pmd = ((unsigned long)set_satp_mode) & PMD_MASK;
+> +	create_pgd_mapping(early_pg_dir,
+> +			   set_satp_mode_pmd, (uintptr_t)early_pud,
+> +			   PGDIR_SIZE, PAGE_TABLE);
+> +	create_pud_mapping(early_pud,
+> +			   set_satp_mode_pmd, (uintptr_t)early_pmd,
+> +			   PUD_SIZE, PAGE_TABLE);
+> +	/* Handle the case where set_satp_mode straddles 2 PMDs */
+> +	create_pmd_mapping(early_pmd,
+> +			   set_satp_mode_pmd, set_satp_mode_pmd,
+> +			   PMD_SIZE, PAGE_KERNEL_EXEC);
+> +	create_pmd_mapping(early_pmd,
+> +			   set_satp_mode_pmd + PMD_SIZE,
+> +			   set_satp_mode_pmd + PMD_SIZE,
+> +			   PMD_SIZE, PAGE_KERNEL_EXEC);
+> +
+> +	identity_satp = PFN_DOWN((uintptr_t)&early_pg_dir) | satp_mode;
+> +
+> +	local_flush_tlb_all();
+> +	csr_write(CSR_SATP, identity_satp);
+> +	hw_satp = csr_swap(CSR_SATP, 0ULL);
+> +	local_flush_tlb_all();
+> +
+> +	if (hw_satp != identity_satp)
+> +		disable_pgtable_l4();
+> +
+> +	memset(early_pg_dir, 0, PAGE_SIZE);
+> +	memset(early_pud, 0, PAGE_SIZE);
+> +	memset(early_pmd, 0, PAGE_SIZE);
+> +}
+> +#endif
+> +
 
-> > > ---
-> > > v7:
-> > >   - change the title and git commit message.
-> > >   - add Reviewed by from Matthew Gerlach.
-> > > v6: fix documentation from Hao's comment.
-> > > v5: fix documentation from Matthew's comment.
-> > > ---
-> > >  Documentation/fpga/dfl.rst | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > >
-> > > diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-> > > index ef9eec71f6f3..15b670926084 100644
-> > > --- a/Documentation/fpga/dfl.rst
-> > > +++ b/Documentation/fpga/dfl.rst
-> > > @@ -502,6 +502,11 @@ Developer only needs to provide a sub feature
-> driver with matched feature id.
-> > >  FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl=
--fme-
-> pr.c)
-> > >  could be a reference.
-> > >
-> > > +Please refer to below link to existing feature id table and guide fo=
-r new
-> feature
-> > > +ids application.
-> > > +https://github.com/OPAE/dfl-feature-id
-> > > +
-> > > +
-> > >  Location of DFLs on a PCI Device
-> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > >  The original method for finding a DFL on a PCI device assumed the st=
-art of
-> the
-> > > --
-> > > 2.26.2
-> > >
+When doing the 1:1 mapping you don't take into account the limitation 
+that all bits above 47 need to have the same value as bit 47. If the 
+kernel exists at a high physical address with bit 47 set the 
+corresponding virtual address will be invalid, resulting an instruction 
+fetch fault as the privilege spec mandates. We verified this bug on our 
+prototype. I suggest we re-write this in assembly and do a proper satp 
+switch like we do on head.S, so that we don't need the 1:1 mapping and 
+we also have a way to recover in case this fails.
+
+Regards,
+Nick
