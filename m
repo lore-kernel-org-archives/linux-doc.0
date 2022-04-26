@@ -2,100 +2,267 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6182C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 20:33:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84EA5C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 20:57:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355013AbiDZUgy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 16:36:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44330 "EHLO
+        id S1354172AbiDZVBC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 17:01:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355075AbiDZUg2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 16:36:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EC3371AB8D2
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 13:33:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651005193;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Av2XJWYSmxJiVQjp5kZR1hfhT+pdVskMA4VQgdFQOaM=;
-        b=WK9VxpmjoLLrOX/Z94nx1NOwSqYuPD0Yy/ZDXQDXPjHYre1pneNPBH0Hauo0Y0QWpGvTMb
-        +K4zJNZYPIhpKXbzbgtxr2VRbkT9VR/kKBbD8wAeyRO3uTBOSr+R6v9VOtV+ttKZXF/l0E
-        10bXil0mPPSh/OJtaTuyPSU4bMqq85c=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-146-Q9whoHqiOJOC_XConPOH0Q-1; Tue, 26 Apr 2022 16:33:12 -0400
-X-MC-Unique: Q9whoHqiOJOC_XConPOH0Q-1
-Received: by mail-io1-f69.google.com with SMTP id r17-20020a0566022b9100b00654b99e71dbso36589iov.3
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 13:33:12 -0700 (PDT)
+        with ESMTP id S1355191AbiDZVBB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 17:01:01 -0400
+Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com [IPv6:2607:f8b0:4864:20::934])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D34C73EABB
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 13:57:52 -0700 (PDT)
+Received: by mail-ua1-x934.google.com with SMTP id v3so4403842uau.4
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 13:57:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=acSONY7PP2jxfx8qQHXfWpOHe20HF0xIP8aPzje00+M=;
+        b=JpNU2w+DsXQSncx5zG+Ikno8ZWXS25SA6eFSzK6/TW3MxvGsN8ddRCtT/YaZM3xt0F
+         gaJJMy5bD4/gXwhwYtaKTdGcwgb5l1EX+cC3STdJCqdoid8BcTt/Ac1JU4mo71qBFscX
+         KKf58dnBkUP4FXIcESPAy9AkO25CiIZCUrBcg0mJafNTeTbBgr7j2vFSSyK8c3DSX3GK
+         mQoiDCvTyffrIGGuRHAF0SkZgSQ+iYF3+7/VHtflGihitBqY1xEHACdj5DFTMZGpr5aP
+         TZ+vU9SHqT0eg6IW8kp0IwNrHi2QNPWmwJhrg5Mro8+0jozhjwgc5ifw9MYPNvDYOhW9
+         j0DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Av2XJWYSmxJiVQjp5kZR1hfhT+pdVskMA4VQgdFQOaM=;
-        b=e/ExSn9oW900H5mFOSbWUaS13jKWRFTpspDtApBm/O06uLpIHmdSg5/ly0AqJOm7vQ
-         GiWRY9gLbtsZwELoP8jhjgTme9w7QKhd4coZcHyxGtptizUsdSBh4MP5gEE0jIpUIcRT
-         sw9f5EO0w/hBXy7QAvnh8WsZ+Y4WxMmvMtyopSvh0fEX+yM4Z4IKJq6J/3iRBiIY4gkz
-         tSMg91ZZDYrEFELC08B5S3hfLUZohKcl4fuanjfouRdydFB9cLuF2mwFysEd4jTMWt7M
-         v0tTFWX2eWP7Fz+YzcdPxPicC4nSSovHwfw7QbcLWfkZwfwAiGj8cbWPsxxO5RWbpZqb
-         lN2g==
-X-Gm-Message-State: AOAM533Lzmbg1koFHTf4FG4MMFVRvK9PkFEG5+Tsi+aI5YYOS++5YwgH
-        UFJJXa3J4mWUO56BMD6kIuXJ1td9Wyj1rC9nBzqWtai9YYdvgiiYLAhbKc1gdZHwqnUaKbDRaXK
-        k3gJUZHKc07uvkoMg+A6j
-X-Received: by 2002:a05:6638:272c:b0:32a:f95b:fc77 with SMTP id m44-20020a056638272c00b0032af95bfc77mr4011883jav.179.1651005191544;
-        Tue, 26 Apr 2022 13:33:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxd4CFNten6nl0jATzOU1yCBTY6Y58j8Espgob7sbvIFYcRfIXeg+IqFoDNsZPO7cKZaJ3nww==
-X-Received: by 2002:a05:6638:272c:b0:32a:f95b:fc77 with SMTP id m44-20020a056638272c00b0032af95bfc77mr4011865jav.179.1651005191365;
-        Tue, 26 Apr 2022 13:33:11 -0700 (PDT)
-Received: from xz-m1.local (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
-        by smtp.gmail.com with ESMTPSA id e18-20020a92d752000000b002cd6dae980fsm8497051ilq.13.2022.04.26.13.33.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Apr 2022 13:33:11 -0700 (PDT)
-Date:   Tue, 26 Apr 2022 16:33:08 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Axel Rasmussen <axelrasmussen@google.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Charan Teja Reddy <charante@codeaurora.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        zhangyi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 1/6] selftests: vm: add hugetlb_shared userfaultfd
- test to run_vmtests.sh
-Message-ID: <YmhXBHFrXKT/Jqkd@xz-m1.local>
-References: <20220422212945.2227722-1-axelrasmussen@google.com>
- <20220422212945.2227722-2-axelrasmussen@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=acSONY7PP2jxfx8qQHXfWpOHe20HF0xIP8aPzje00+M=;
+        b=ZdJSN3ZFb1GAvAvXi0mFlLv0FDCIGbtKPUOvG5R1L90MCTTzXMrvVLobPYyoC7DZ9x
+         TI94VAJ88F2TJf+wpmhiJZsFNbRIK8k6fYrByCte/BTftVjLgHKJ93cBF02/pNIuydfn
+         aMPKeDOzibLSRpvDO1E3v+YO3258pkiiBuGRaVa7z99XB02aOxVlJSKW0imTloGAM7vR
+         D/eHnpYd6tFLjmr2qMQbE6haWigETvQ7p9d8+wto2j7iaFCU9u6xnF+RJGgE3SWMdneG
+         7cA2rXgzRsWceO1Sz0ip9ejgyj3d0uxxUjh/oZGeAdIOHo51wiXYz7Qc1DfXPq9bLa9Y
+         zlKQ==
+X-Gm-Message-State: AOAM533IfTINkwwhxzZLGcjsL9TT+U3MPosl14sBXToyomQYXomuY/eM
+        CfuTzEwCpVdOZCEzf8sJDR41I1x3C/C7HuTxVYLutw==
+X-Google-Smtp-Source: ABdhPJy5myAb5fqj4bnCfcgkTFURiD2z7LFGeZlFl3dLh4JqOCbjKAEjQx0QB9WUjBvY6m/QWrutDjviJulyK20Kdmk=
+X-Received: by 2002:ab0:2008:0:b0:352:2b3a:6bce with SMTP id
+ v8-20020ab02008000000b003522b3a6bcemr7833585uak.19.1651006671757; Tue, 26 Apr
+ 2022 13:57:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220422212945.2227722-2-axelrasmussen@google.com>
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-11-yuzhao@google.com>
+ <20220411191627.629f21de83cd0a520ef4a142@linux-foundation.org>
+In-Reply-To: <20220411191627.629f21de83cd0a520ef4a142@linux-foundation.org>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Tue, 26 Apr 2022 14:57:15 -0600
+Message-ID: <CAOUHufbtFj0Hez7wkw3DHGDwo6wudCzCvACt2GfgrFcubW_DYg@mail.gmail.com>
+Subject: Re: [PATCH v10 10/14] mm: multi-gen LRU: kill switch
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Tejun Heo <tj@kernel.org>
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 22, 2022 at 02:29:40PM -0700, Axel Rasmussen wrote:
-> This not being included was just a simple oversight. There are certain
-> features (like minor fault support) which are only enabled on shared
-> mappings, so without including hugetlb_shared we actually lose a
-> significant amount of test coverage.
-> 
-> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Wed,  6 Apr 2022 21:15:22 -0600 Yu Zhao <yuzhao@google.com> wrote:
+>
+> > Add /sys/kernel/mm/lru_gen/enabled as a kill switch. Components that
+> > can be disabled include:
+> >   0x0001: the multi-gen LRU core
+> >   0x0002: walking page table, when arch_has_hw_pte_young() returns
+> >           true
+> >   0x0004: clearing the accessed bit in non-leaf PMD entries, when
+> >           CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG=y
+> >   [yYnN]: apply to all the components above
+> > E.g.,
+> >   echo y >/sys/kernel/mm/lru_gen/enabled
+> >   cat /sys/kernel/mm/lru_gen/enabled
+> >   0x0007
+> >   echo 5 >/sys/kernel/mm/lru_gen/enabled
+> >   cat /sys/kernel/mm/lru_gen/enabled
+> >   0x0005
+>
+> I'm shocked that this actually works.  How does it work?  Existing
+> pages & folios are drained over time or synchrnously?
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Basically we have a double-throw way, and once flipped, new (isolated)
+pages can only be added to the lists of the current implementation.
+Existing pages on the lists of the previous implementation are
+synchronously drained (isolated and then re-added), with
+cond_resched() of course.
 
--- 
-Peter Xu
+> Supporting
+> structures remain allocated, available for reenablement?
 
+Correct.
+
+> Why is it thought necessary to have this?  Is it expected to be
+> permanent?
+
+This is almost a must for large scale deployments/experiments.
+
+For deployments, we need to keep fix rollout (high priority) and
+feature enabling (low priority) separate. Rolling out multiple
+binaries works but will make the process slower and more painful. So
+generally for each release, there is only one binary to roll out, and
+unless it's impossible, new features are disabled by default. Once a
+rollout completes, i.e., reaches enough population and remains stable,
+new features are turned on gradually. If something goes wrong with a
+new feature, we turn off that feature rather than roll back the
+kernel.
+
+Similarly, for A/B experiments, we don't want to use two binaries.
+
+
+> > NB: the page table walks happen on the scale of seconds under heavy
+> > memory pressure, in which case the mmap_lock contention is a lesser
+> > concern, compared with the LRU lock contention and the I/O congestion.
+> > So far the only well-known case of the mmap_lock contention happens on
+> > Android, due to Scudo [1] which allocates several thousand VMAs for
+> > merely a few hundred MBs. The SPF and the Maple Tree also have
+> > provided their own assessments [2][3]. However, if walking page tables
+> > does worsen the mmap_lock contention, the kill switch can be used to
+> > disable it. In this case the multi-gen LRU will suffer a minor
+> > performance degradation, as shown previously.
+> >
+> > Clearing the accessed bit in non-leaf PMD entries can also be
+> > disabled, since this behavior was not tested on x86 varieties other
+> > than Intel and AMD.
+> >
+> > ...
+> >
+> > --- a/include/linux/cgroup.h
+> > +++ b/include/linux/cgroup.h
+> > @@ -432,6 +432,18 @@ static inline void cgroup_put(struct cgroup *cgrp)
+> >       css_put(&cgrp->self);
+> >  }
+> >
+> > +extern struct mutex cgroup_mutex;
+> > +
+> > +static inline void cgroup_lock(void)
+> > +{
+> > +     mutex_lock(&cgroup_mutex);
+> > +}
+> > +
+> > +static inline void cgroup_unlock(void)
+> > +{
+> > +     mutex_unlock(&cgroup_mutex);
+> > +}
+>
+> It's a tad rude to export mutex_lock like this without (apparently)
+> informing its owner (Tejun).
+
+Looping in Tejun.
+
+> And if we're going to wrap its operations via helper fuctions then
+>
+> - presumably all cgroup_mutex operations should be wrapped and
+>
+> - exiting open-coded operations on this mutex should be converted.
+
+I wrapped cgroup_mutex here because I'm not a big fan of #ifdefs
+(CONFIG_CGROUPs). Internally for cgroup code, it seems superfluous to
+me to use these wrappers, e.g., for developers who work on cgroup
+code, they might not be interested in looking up these wrappers.
+
+> > +static bool drain_evictable(struct lruvec *lruvec)
+> > +{
+> > +     int gen, type, zone;
+> > +     int remaining = MAX_LRU_BATCH;
+> > +
+> > +     for_each_gen_type_zone(gen, type, zone) {
+> > +             struct list_head *head = &lruvec->lrugen.lists[gen][type][zone];
+> > +
+> > +             while (!list_empty(head)) {
+> > +                     bool success;
+> > +                     struct folio *folio = lru_to_folio(head);
+> > +
+> > +                     VM_BUG_ON_FOLIO(folio_test_unevictable(folio), folio);
+> > +                     VM_BUG_ON_FOLIO(folio_test_active(folio), folio);
+> > +                     VM_BUG_ON_FOLIO(folio_is_file_lru(folio) != type, folio);
+> > +                     VM_BUG_ON_FOLIO(folio_zonenum(folio) != zone, folio);
+>
+> So many new BUG_ONs to upset Linus :(
+
+I'll replace them with VM_WARN_ON_ONCE_FOLIO(), based on the previous
+discussion.
+
+> > +                     success = lru_gen_del_folio(lruvec, folio, false);
+> > +                     VM_BUG_ON(!success);
+> > +                     lruvec_add_folio(lruvec, folio);
+> > +
+> > +                     if (!--remaining)
+> > +                             return false;
+> > +             }
+> > +     }
+> > +
+> > +     return true;
+> > +}
+> > +
+> >
+> > ...
+> >
+> > +static ssize_t store_enable(struct kobject *kobj, struct kobj_attribute *attr,
+> > +                         const char *buf, size_t len)
+> > +{
+> > +     int i;
+> > +     unsigned int caps;
+> > +
+> > +     if (tolower(*buf) == 'n')
+> > +             caps = 0;
+> > +     else if (tolower(*buf) == 'y')
+> > +             caps = -1;
+> > +     else if (kstrtouint(buf, 0, &caps))
+> > +             return -EINVAL;
+>
+> See kstrtobool()
+
+`caps` is not a boolean, hence the plural and the below.
+
+> > +     for (i = 0; i < NR_LRU_GEN_CAPS; i++) {
+> > +             bool enable = caps & BIT(i);
+> > +
+> > +             if (i == LRU_GEN_CORE)
+> > +                     lru_gen_change_state(enable);
+> > +             else if (enable)
+> > +                     static_branch_enable(&lru_gen_caps[i]);
+> > +             else
+> > +                     static_branch_disable(&lru_gen_caps[i]);
+> > +     }
+> > +
+> > +     return len;
+> > +}
