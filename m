@@ -2,163 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6CDBC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 16:16:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9D4DC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 16:36:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352878AbiDZQTb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 12:19:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45026 "EHLO
+        id S244932AbiDZQj7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 12:39:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348232AbiDZQTa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 12:19:30 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C93041E3EF
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 09:16:21 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id z26so2382558iot.8
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 09:16:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=HXWdjkfFgqjuuDDxvdwI+4bKI50cYTCo99OhpT4yUUA=;
-        b=asJnWv/5XRA4F4Rt4VsDIaqHUngaJ2jxIJmd6hFDl+QhdPM+ZE2j+UaZ4xSwq8xqdS
-         PBI3/IGHu50VNKpA+cm2y+UyoIyVSrw+ygqofnIyiUhrrC1OOFIjJf3/k77+14GKNefy
-         Ba34H4zkKpDXtSa0ViWgDX0M9ljaWZ4NFhi38=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=HXWdjkfFgqjuuDDxvdwI+4bKI50cYTCo99OhpT4yUUA=;
-        b=JVkJewtX6FBaGRuv8YHgxg/WLN351ZVW8z3D1/pKjI/tF1xGaONL+7iEQKsRvSl+gk
-         nG/iSxhalMiUj5Rdq8Hzfwo7AgxTh+1KQUCBIcmwE4U87qpF4g2Am83efhAtdKDhE96d
-         cb5Qv6JaiBgi/5MSvZX8OW6vvN+ZQPQb/VmubS/NsbmXAedWxC5EQfCxd9F8e5eIryuj
-         1F4xtrhDz5LJvWUO1gu70km8rY/uONASfrBX2+DZm3vSdyFCAYsN5dg3eX51b4+e9geY
-         T6iFz9TcOL/nllO+Jv3A3mjbB9damYlxGayFbaSehGGY4GdSbivqUfcEsqwMc5a4J23Q
-         uCSA==
-X-Gm-Message-State: AOAM532JOUfdPZwgNp8pSeHGWsYgnkHu64HVLsrlajuNo4NlNqBz8Ezf
-        Be6BRGCPD9STJJNrzsx7B072/w==
-X-Google-Smtp-Source: ABdhPJyZ9Q6A3Qye4GAn3uZyc/gODe2JY9K+1Qqgz0ZLuqW7qoimkMFBBI5vTAdI8yWt1KFsJ5dbqg==
-X-Received: by 2002:a6b:fb05:0:b0:657:655e:a287 with SMTP id h5-20020a6bfb05000000b00657655ea287mr7364988iog.211.1650989781126;
-        Tue, 26 Apr 2022 09:16:21 -0700 (PDT)
-Received: from [192.168.1.128] ([71.205.29.0])
-        by smtp.gmail.com with ESMTPSA id r9-20020a6b6009000000b006412abddbbbsm9458932iog.24.2022.04.26.09.16.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Apr 2022 09:16:20 -0700 (PDT)
-Subject: Re: [PATCH v2 3/6] userfaultfd: selftests: modify selftest to use
- /dev/userfaultfd
-To:     Axel Rasmussen <axelrasmussen@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Charan Teja Reddy <charante@codeaurora.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
-        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>, zhangyi <yi.zhang@huawei.com>
-Cc:     linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20220422212945.2227722-1-axelrasmussen@google.com>
- <20220422212945.2227722-4-axelrasmussen@google.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <a6f7ff80-ea77-75d0-2454-99d14f164708@linuxfoundation.org>
-Date:   Tue, 26 Apr 2022 10:16:18 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        with ESMTP id S229684AbiDZQj6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 12:39:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C10A2BE2C;
+        Tue, 26 Apr 2022 09:36:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5AA6C60ADA;
+        Tue, 26 Apr 2022 16:36:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DA9FC385AA;
+        Tue, 26 Apr 2022 16:36:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1650991009;
+        bh=9UBlXEL+5EXdMywZqCfNDnB8y2GkRUxHNwf+32JANRQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EDsksfjnlTd1PwBoyZCNHLOrR5M2shxvAywQ6MsmCSbgi/4tuCzy4/PY6ZUgpGL6s
+         WV8b21lEWkARxPfmRX9nTZ6zZyKvmE0ZGxj40sche74Hw8EXNZXKw2ayKfrmEVZUbo
+         LpQdEHw9m/KJ3l4WVmHd/Hov+YrJKU/cIveZlPLE=
+Date:   Tue, 26 Apr 2022 18:36:46 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     "Luck, Tony" <tony.luck@intel.com>
+Cc:     hdegoede@redhat.com, markgross@kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, corbet@lwn.net,
+        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
+        ashok.raj@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
+        ravi.v.shankar@intel.com
+Subject: Re: [PATCH v4 04/10] platform/x86/intel/ifs: Read IFS firmware image
+Message-ID: <YmgfnhhCQHWPHxAw@kroah.com>
+References: <20220419163859.2228874-1-tony.luck@intel.com>
+ <20220422200219.2843823-1-tony.luck@intel.com>
+ <20220422200219.2843823-5-tony.luck@intel.com>
+ <YmfNVG0qLahv7TzL@kroah.com>
+ <YmgZ9d54sjKllh6U@agluck-desk3.sc.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20220422212945.2227722-4-axelrasmussen@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YmgZ9d54sjKllh6U@agluck-desk3.sc.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/22/22 3:29 PM, Axel Rasmussen wrote:
-> We clearly want to ensure both userfaultfd(2) and /dev/userfaultfd keep
-> working into the future, so just run the test twice, using each
-> interface.
+On Tue, Apr 26, 2022 at 09:12:37AM -0700, Luck, Tony wrote:
+> On Tue, Apr 26, 2022 at 12:45:40PM +0200, Greg KH wrote:
+> > On Fri, Apr 22, 2022 at 01:02:13PM -0700, Tony Luck wrote:
+> > >  drivers/platform/x86/intel/ifs/Makefile |  2 +-
+> > >  drivers/platform/x86/intel/ifs/core.c   | 36 ++++++++++++++++++++++++-
+> > >  drivers/platform/x86/intel/ifs/ifs.h    | 25 +++++++++++++++++
+> > >  drivers/platform/x86/intel/ifs/load.c   | 28 +++++++++++++++++++
 > 
-> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
-> ---
->   tools/testing/selftests/vm/userfaultfd.c | 31 ++++++++++++++++++++++--
->   1 file changed, 29 insertions(+), 2 deletions(-)
+> You haven't commented on the source tree location. With the change
+> to use misc_register() this isn't a "platform" device anymore.
 > 
-> diff --git a/tools/testing/selftests/vm/userfaultfd.c b/tools/testing/selftests/vm/userfaultfd.c
-> index 92a4516f8f0d..12ae742a9981 100644
-> --- a/tools/testing/selftests/vm/userfaultfd.c
-> +++ b/tools/testing/selftests/vm/userfaultfd.c
-> @@ -77,6 +77,9 @@ static int bounces;
->   #define TEST_SHMEM	3
->   static int test_type;
->   
-> +/* test using /dev/userfaultfd, instead of userfaultfd(2) */
-> +static bool test_dev_userfaultfd;
-> +
->   /* exercise the test_uffdio_*_eexist every ALARM_INTERVAL_SECS */
->   #define ALARM_INTERVAL_SECS 10
->   static volatile bool test_uffdio_copy_eexist = true;
-> @@ -383,13 +386,31 @@ static void assert_expected_ioctls_present(uint64_t mode, uint64_t ioctls)
->   	}
->   }
->   
-> +static void __userfaultfd_open_dev(void)
-> +{
-> +	int fd;
-> +
-> +	uffd = -1;
-> +	fd = open("/dev/userfaultfd", O_RDWR | O_CLOEXEC);
-> +	if (fd < 0)
-> +		return;
-> +
-> +	uffd = ioctl(fd, USERFAULTFD_IOC_NEW,
-> +		     O_CLOEXEC | O_NONBLOCK | UFFD_USER_MODE_ONLY);
-> +	close(fd);
-> +}
-> +
->   static void userfaultfd_open(uint64_t *features)
->   {
->   	struct uffdio_api uffdio_api;
->   
-> -	uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK | UFFD_USER_MODE_ONLY);
-> +	if (test_dev_userfaultfd)
-> +		__userfaultfd_open_dev();
-> +	else
-> +		uffd = syscall(__NR_userfaultfd,
-> +			       O_CLOEXEC | O_NONBLOCK | UFFD_USER_MODE_ONLY);
->   	if (uffd < 0)
-> -		err("userfaultfd syscall not available in this kernel");
-> +		err("creating userfaultfd failed");
+> Should I move to "drivers/misc/"? Or is there some better spot that
+> preseves the detail that this is an x86/intel driver in the path?
 
-This isn't an error as in test failure. This will be a skip because of
-unmet dependencies. Also if this test requires root access, please check
-for that and make that a skip as well.
+There's misc_register() users all over the tree, no need for it to be in
+drivers/misc/ at all, especially if this really is a platform device as
+this one is.  It's fine here.
 
->   	uffd_flags = fcntl(uffd, F_GETFD, NULL);
->   
->   	uffdio_api.api = UFFD_API;
-> @@ -1698,6 +1719,12 @@ int main(int argc, char **argv)
->   	}
->   	printf("nr_pages: %lu, nr_pages_per_cpu: %lu\n",
->   	       nr_pages, nr_pages_per_cpu);
-> +
-> +	test_dev_userfaultfd = false;
-> +	if (userfaultfd_stress())
-> +		return 1;
-> +
-> +	test_dev_userfaultfd = true;
->   	return userfaultfd_stress();
->   }
->   
+> > > +static struct ifs_device ifs_devices[] = {
+> > > +	[IFS_SAF] = {
+> > > +		.data = {
+> > > +			.integrity_cap_bit = MSR_INTEGRITY_CAPS_PERIODIC_BIST_BIT,
+> > > +		},
+> > > +		.misc = {
+> > > +			.name = "intel_ifs_0",
+> > > +			.nodename = "intel_ifs/0",
+> > > +			.minor = MISC_DYNAMIC_MINOR,
+> > > +		},
+> > > +	},
+> > > +};
+> > > +
+> > > +#define IFS_NUMTESTS ARRAY_SIZE(ifs_devices)
+> > 
+> > Cute way to do this, but I don't see you ever have any more devices
+> > added to this list in this series.  Did I miss them?
 > 
+> That's in part 11/10 ... I have hardware, so I'm pretty sure that this
+> is a real thing. Just not ready to post until Intel announces the
+> details of the new test type.
 
-thanks,
--- Shuah
+Let's not over-engineer for anything we can not review today please.
+
+> > If not, why all the overhead and complexity involved here for just a
+> > single misc device?
+> 
+> It didn't seem like a lot of complexity here. It makes the changes to
+> this file to add an extra test trivial (just a new name in the "enum"
+> and a new initializer in ifs_devices[]).
+> 
+> Obviously some more code in load.c and runtest.c to handle the new
+> test type.
+> 
+> If it really is too much now, I can rip it out from this submission
+> and add it back when the second test is ready for public view.
+
+Please do, thanks.
+
+greg k-h
