@@ -2,120 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D505BC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 18:31:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 593CBC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 18:47:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351445AbiDZSeb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 14:34:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58218 "EHLO
+        id S1352347AbiDZSvE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 14:51:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351058AbiDZSe3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 14:34:29 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC0C91CB17;
-        Tue, 26 Apr 2022 11:31:17 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id e23so2384842eda.11;
-        Tue, 26 Apr 2022 11:31:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CtivK/lbjkFn6fCJitHMAm73ZL6+X5IagBxOgsbgoFw=;
-        b=ah1fX5YhJKRbkl+xlw+Gun6kLxP6FBDciSqczj3fapwkuEbS7nsMr7mlTDVtKJ1EUl
-         CvYuRt7OKaa2x4WC3Ov4dKXFA91FO0RGO2RCrJhnO9TZa0V9JmgcNWreiw0dpFxJiEto
-         oCU5egWOMJr9SFwZhP8ZpezrzNDQLbQkflTlcFhzqz7y6XdzaH5LqWR4edEyGlnishXZ
-         5ymYVmGlemkREtdQoT/iYs08oFnqCVoD/t5MrcqZfyK/u129VbxWppE5lb1+bwf1RWK6
-         L9UpILm7HT1PkQXpP/8IPzwCfNBUBwE10QWwativi/VOGN0tn4iUIRYc400hEhugKVey
-         tHHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CtivK/lbjkFn6fCJitHMAm73ZL6+X5IagBxOgsbgoFw=;
-        b=BAiJwGLRAtj5/fy6s5viLF0aHkkayHE9Dd4d15523jJInO0SXJzUjMbFKTuKYS3R9J
-         tH+1HRFCLK24fH20DQo9dZxdlEakbGlU4+xFJkDYqC3eNGAxAFE+vLLaal7ULuMVEIHF
-         v7VORL6hz/L8YEJkDmjk3+t7GLez8FkuDBkbtYDaLABDZH3u9PIQRTcCdCrwcSjBLgt3
-         zsoLw109jOrXtt0KnooXbGCuBVjzk0UDFnk3SXU7HyPEMsJsILk/qbNoGoMABpXCxTsA
-         4rnlyvUIIYeYEG4iLc049/sNplrbUL9xj7GJDyMRWeepVl9G4VPjdcluQCjKvddpmjik
-         Gjeg==
-X-Gm-Message-State: AOAM531cR6wV+1sxdRdXhSD3pEZXXUu+RxXjtUeASTqd+w+5OUVMuq/Q
-        rRNlt5NVyBZWIFp+ISPrqDE=
-X-Google-Smtp-Source: ABdhPJy5U8SX/X1DAwEV03AhVM1LZD7u+G9Vyhc7qZDg06eobpf3P/8ZRCfEaMn2oPl979RDTw6Swg==
-X-Received: by 2002:a05:6402:2318:b0:413:7645:fa51 with SMTP id l24-20020a056402231800b004137645fa51mr26535565eda.201.1650997876370;
-        Tue, 26 Apr 2022 11:31:16 -0700 (PDT)
-Received: from leap.localnet (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
-        by smtp.gmail.com with ESMTPSA id d11-20020a1709067f0b00b006f395247b5esm2817517ejr.84.2022.04.26.11.31.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Apr 2022 11:31:15 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc:     Ira Weiny <ira.weiny@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Collingbourne <pcc@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        outreachy@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH v2 4/4] Documentation/vm: Rework "Temporary Virtual Mappings" section
-Date:   Tue, 26 Apr 2022 20:31:12 +0200
-Message-ID: <3429395.iIbC2pHGDl@leap>
-In-Reply-To: <Ymfb1saaHVuq4IUl@linutronix.de>
-References: <20220425162400.11334-1-fmdefrancesco@gmail.com> <3610796.MHq7AAxBmi@leap> <Ymfb1saaHVuq4IUl@linutronix.de>
+        with ESMTP id S1352620AbiDZSvD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 14:51:03 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0242A90CDC;
+        Tue, 26 Apr 2022 11:47:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650998873; x=1682534873;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0hMC9FCc92/UZsP/d4xjIGjECImVMpXb8G2MfDigzBQ=;
+  b=je8v9jOXBGMD0go0KnHsUgzKj9NurMjbZUxRv23m/FPKAOSLnVobCX4D
+   ZjB1fYEJPBd5aZhdoAUSf0MIpyz7OqJHClzHyqC+BvR1IMCzSsNChFg2a
+   6xBOxN67Wd8BvHbxd1wO1I22m6bIoVb9zC7N76Sh9+q6VXvZwaiXFDLN0
+   XcQ9XoRPSI9LhvVqYCJVVaNMWlvsbYM33gHUAAtDgJyUOi2kLn3caaWlJ
+   YT/oeVa8jmnbZ5vC5B4AFA7TXEEUOh7VGTxBcsE4d8yvDIJBII19tFWZU
+   IFnXdFfu8Nm6s459iYuBrkuUFSftL7uHABbCyHVmdezKU1L3x67+WiLta
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="265851409"
+X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; 
+   d="scan'208";a="265851409"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 11:47:52 -0700
+X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; 
+   d="scan'208";a="580091108"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 11:47:52 -0700
+Date:   Tue, 26 Apr 2022 11:47:50 -0700
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     hdegoede@redhat.com, markgross@kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, corbet@lwn.net,
+        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
+        ashok.raj@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
+        ravi.v.shankar@intel.com
+Subject: Re: [PATCH v4 04/10] platform/x86/intel/ifs: Read IFS firmware image
+Message-ID: <Ymg+VnkW544a4La2@agluck-desk3.sc.intel.com>
+References: <20220419163859.2228874-1-tony.luck@intel.com>
+ <20220422200219.2843823-1-tony.luck@intel.com>
+ <20220422200219.2843823-5-tony.luck@intel.com>
+ <YmfNVG0qLahv7TzL@kroah.com>
+ <YmgZ9d54sjKllh6U@agluck-desk3.sc.intel.com>
+ <YmgfnhhCQHWPHxAw@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YmgfnhhCQHWPHxAw@kroah.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On marted=C3=AC 26 aprile 2022 13:47:34 CEST Sebastian Andrzej Siewior wrot=
-e:
->=20
-> Hmm. It is thread-local in the end. There are slots 0 =E2=80=A6 KM_MAX_ID=
-X for
-> the mappings. Slot 0 for task A can be different from slot 0 for task B
-> while both run on CPU0. So the same address, that is returned from
-> kmap_local(), will point to a different page for both tasks. Both tasks
-> can't be migrated to another CPU while the mapping is active.
-> "CPU local" sounds like something that is same to everyone on the same
-> CPU which is what this_cpu_read() for instance does.
->=20
+On Tue, Apr 26, 2022 at 06:36:46PM +0200, Greg KH wrote:
+> On Tue, Apr 26, 2022 at 09:12:37AM -0700, Luck, Tony wrote:
+> > If it really is too much now, I can rip it out from this submission
+> > and add it back when the second test is ready for public view.
+> 
+> Please do, thanks.
 
-OK, I agree with you :)=20
+Hmmm ... maybe there were more bits than I thought.
 
-I just got three notices from Greg K-H stating that he has applied three of=
-=20
-my driver / Android patches. The patches are some conversions from kmap()=20
-and / or kmap_atomic() to kmap_local_page() (or wrappers around it):
+ 1 file changed, 19 insertions(+), 36 deletions(-)
 
-https://lore.kernel.org/lkml/20220425175754.8180-4-fmdefrancesco@gmail.com/
-https://lore.kernel.org/lkml/20220425175754.8180-3-fmdefrancesco@gmail.com/
-https://lore.kernel.org/lkml/20220425175754.8180-2-fmdefrancesco@gmail.com/
+core.c is now down to just 80 lines ... so that was a significant
+fraction of the file.
 
-I had forgotten that I wrote the following sentence in all three commit=20
-messages: "[] With kmap_local_page(), the mapping is per thread, CPU local=
-=20
-and not globally visible. []"
+Net change below (I'll thread it back into the patch series before reposting).
 
-Therefore, I'll add "thread-local" or "per thread". I probably like your=20
-wording more than mine: "thread-local" is more suitable.
+Any other comments on the series?
 
-=46or consistency (again) I like the other change you proposed, which is to=
-=20
-add "deprecated!" also in kunmap_atomic(), exactly as it is already in=20
-kmap_atomic() kernel-docs.
+-Tony
 
-However, I will wait one more day before sending v3, in case there are=20
-other people who want to suggest further changes.
 
-If I remember correctly, I'm overlooking nothing else. Do I overlook=20
-something?
 
-Thanks for your help,
-
-=46abio
-
+diff --git a/drivers/platform/x86/intel/ifs/core.c b/drivers/platform/x86/intel/ifs/core.c
+index 317ed3225307..489b77645b5e 100644
+--- a/drivers/platform/x86/intel/ifs/core.c
++++ b/drivers/platform/x86/intel/ifs/core.c
+@@ -9,10 +9,6 @@
+ 
+ #include "ifs.h"
+ 
+-enum test_types {
+-	IFS_SAF,
+-};
+-
+ #define X86_MATCH(model)				\
+ 	X86_MATCH_VENDOR_FAM_MODEL_FEATURE(INTEL, 6,	\
+ 		INTEL_FAM6_##model, X86_FEATURE_CORE_CAPABILITIES, NULL)
+@@ -23,27 +19,21 @@ static const struct x86_cpu_id ifs_cpu_ids[] __initconst = {
+ };
+ MODULE_DEVICE_TABLE(x86cpu, ifs_cpu_ids);
+ 
+-static struct ifs_device ifs_devices[] = {
+-	[IFS_SAF] = {
+-		.data = {
+-			.integrity_cap_bit = MSR_INTEGRITY_CAPS_PERIODIC_BIST_BIT,
+-		},
+-		.misc = {
+-			.name = "intel_ifs_0",
+-			.nodename = "intel_ifs/0",
+-			.minor = MISC_DYNAMIC_MINOR,
+-		},
++static struct ifs_device ifs_device = {
++	.data = {
++		.integrity_cap_bit = MSR_INTEGRITY_CAPS_PERIODIC_BIST_BIT,
++	},
++	.misc = {
++		.name = "intel_ifs_0",
++		.nodename = "intel_ifs/0",
++		.minor = MISC_DYNAMIC_MINOR,
+ 	},
+ };
+ 
+-#define IFS_NUMTESTS ARRAY_SIZE(ifs_devices)
+-
+ static int __init ifs_init(void)
+ {
+ 	const struct x86_cpu_id *m;
+-	int ndevices = 0;
+ 	u64 msrval;
+-	int i;
+ 
+ 	m = x86_match_cpu(ifs_cpu_ids);
+ 	if (!m)
+@@ -61,32 +51,25 @@ static int __init ifs_init(void)
+ 	if (ifs_setup_wq())
+ 		return -ENOMEM;
+ 
+-	for (i = 0; i < IFS_NUMTESTS; i++) {
+-		if (!(msrval & BIT(ifs_devices[i].data.integrity_cap_bit)))
+-			continue;
+-
+-		ifs_devices[i].misc.groups = ifs_get_groups();
+-		if (!misc_register(&ifs_devices[i].misc)) {
+-			ndevices++;
+-			down(&ifs_sem);
+-			ifs_load_firmware(ifs_devices[i].misc.this_device);
+-			up(&ifs_sem);
+-		}
+-	}
++	ifs_device.misc.groups = ifs_get_groups();
+ 
+-	if (!ndevices)
++	if ((msrval & BIT(ifs_device.data.integrity_cap_bit)) &&
++	    !misc_register(&ifs_device.misc)) {
++		down(&ifs_sem);
++		ifs_load_firmware(ifs_device.misc.this_device);
++		up(&ifs_sem);
++	} else {
+ 		ifs_destroy_wq();
++		return -ENODEV;
++	}
+ 
+-	return ndevices ? 0 : -ENODEV;
++	return 0;
+ }
+ 
+ static void __exit ifs_exit(void)
+ {
+-	int i;
+ 
+-	for (i = 0; i < IFS_NUMTESTS; i++)
+-		if (ifs_devices[i].misc.this_device)
+-			misc_deregister(&ifs_devices[i].misc);
++	misc_deregister(&ifs_device.misc);
+ 	ifs_destroy_wq();
+ }
+ 
+-- 
+2.35.1
 
