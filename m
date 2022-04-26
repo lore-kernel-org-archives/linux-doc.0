@@ -2,123 +2,2330 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C11C7C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 17:34:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D581C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 17:55:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349281AbiDZRha (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 13:37:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33254 "EHLO
+        id S1346458AbiDZR6C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 13:58:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349209AbiDZRh3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 13:37:29 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7314A98F68
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 10:34:20 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id r12so21043869iod.6
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 10:34:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7f2dI15a4+fxCm2oUbnayxZipYVTc4CPiFnYf4iZd2U=;
-        b=SREAqgM7dV17pgSKvTHXqGRtHaa149tdP3zeKDxtvrWfF/g9kSkykZn7f2kF/kZLrp
-         4ADMNFdr49SVVqqxE4FHv2OBrlkZEsjAwubpihKozfaxZGLx7hfE7uTEAW3lvU4/70if
-         Lzcv5LPTbN395oaYwmC48671h2iLMAq3lDqPI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=7f2dI15a4+fxCm2oUbnayxZipYVTc4CPiFnYf4iZd2U=;
-        b=bD1mb39Ttm+3vnnWg6s2AUu49NdY1m1uPAnmZ/6OrMVi4JfRd97v0Ac+U/XanxOlH4
-         3LFPHbf07iWfQRtT5o0edAIWy4IV4oQ2iXgg10yDtEjziOPIx+W+SBcLLSA/9zYBzxhN
-         4/Jv5cBBf/HNW7wTBEUd7q/23fwW/1TU8cu2wl0ZcjAI5qvs4wcILC3jEOc9DzZLfIDD
-         XpIRhfiQiDQlhFoigvOUTHPIV72g5bjF/GU0xWT37K/C9m2Q9desX5wL4kOlNirhFTnS
-         qUiWuNcGh9hT0uaeWnKW8XDPVp96M5TIlhMfK5Rbs1YMp3muXmFUsFcKm/kgzdQyyWY6
-         b+HA==
-X-Gm-Message-State: AOAM532av3QXFhF7c9QcRQC6XZ8dBKOw9y4yTDhv3C9EQgXOUgBKhCYG
-        sZn+lPNqCcknjsPs9nKL9/2bug==
-X-Google-Smtp-Source: ABdhPJzQGDlIXE5ent6k2MVRos1IeGAWobjiKgxDUQSt7g0QXIN9BmEROJsT2JY8WurBH/mD6/+5sA==
-X-Received: by 2002:a6b:490f:0:b0:657:5e68:66b8 with SMTP id u15-20020a6b490f000000b006575e6866b8mr7896021iob.102.1650994459551;
-        Tue, 26 Apr 2022 10:34:19 -0700 (PDT)
-Received: from [192.168.1.128] ([71.205.29.0])
-        by smtp.gmail.com with ESMTPSA id t11-20020a922c0b000000b002c85834eb06sm8164495ile.47.2022.04.26.10.34.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Apr 2022 10:34:19 -0700 (PDT)
-Subject: Re: [PATCH v2 6/6] selftests: vm: add /dev/userfaultfd test cases to
- run_vmtests.sh
-To:     Axel Rasmussen <axelrasmussen@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Charan Teja Reddy <charante@codeaurora.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
-        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>, zhangyi <yi.zhang@huawei.com>
-Cc:     linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20220422212945.2227722-1-axelrasmussen@google.com>
- <20220422212945.2227722-7-axelrasmussen@google.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <f257d358-1ec8-d3f4-d3c2-e61e0063df03@linuxfoundation.org>
-Date:   Tue, 26 Apr 2022 11:34:17 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        with ESMTP id S1346856AbiDZR6B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 13:58:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DF32366A7;
+        Tue, 26 Apr 2022 10:54:49 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E1BB361771;
+        Tue, 26 Apr 2022 17:54:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2155BC385AA;
+        Tue, 26 Apr 2022 17:54:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1650995688;
+        bh=xEupKk1w2NI7Dq6VTj+IRFgXaZitcqsNwiACQjX785k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=pDLAbWxNA32dJ96b7k8rJRjgRAnTRWBcwl8MS6sTocqwiCsrVOZzvpwFym7w0zHBV
+         9rdkxp4Uvg4xkXKQ+XMNMDps8cVMuTp1aLRfQ07tdAc0JpRXnBILug1hHjXBd8rjja
+         oRiwgEdKZOjxsPs3LMuWbDXGfjrEU759smTh5POR2isAFaru11me4j/1Ip6Sh0I5Ly
+         nk8bUrphXjrd6l2ogN0248KeXF1g0b5e/HKq295X3MiNaYn3MZkpW3BRzK1BmTBSY+
+         pbmv6XT3S103+YUu4GCQJoobYqNUJfc4QxY2/mOOPRDhdxfhVthytDNngDPFvxSs6V
+         bFpzOvXW9rFCg==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net, pabeni@redhat.com
+Cc:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        alexandre.ghiti@canonical.com, linus.walleij@linaro.org,
+        juerg.haefliger@canonical.com, kilobyte@angband.pl,
+        huangguangbin2@huawei.com, lipeng321@huawei.com, arnd@arndb.de
+Subject: [PATCH net-next 4/6] net: wan: remove support for COSA and SRP synchronous serial boards
+Date:   Tue, 26 Apr 2022 10:54:34 -0700
+Message-Id: <20220426175436.417283-5-kuba@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220426175436.417283-1-kuba@kernel.org>
+References: <20220426175436.417283-1-kuba@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20220422212945.2227722-7-axelrasmussen@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/22/22 3:29 PM, Axel Rasmussen wrote:
-> This new mode was recently added to the userfaultfd selftest. We want to
-> exercise both userfaultfd(2) as well as /dev/userfaultfd, so add both
-> test cases to the script.
-> 
-> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
-> ---
->   tools/testing/selftests/vm/run_vmtests.sh | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/tools/testing/selftests/vm/run_vmtests.sh b/tools/testing/selftests/vm/run_vmtests.sh
-> index 5065dbd89bdb..57f01505c719 100755
-> --- a/tools/testing/selftests/vm/run_vmtests.sh
-> +++ b/tools/testing/selftests/vm/run_vmtests.sh
-> @@ -121,12 +121,17 @@ run_test ./gup_test -a
->   run_test ./gup_test -ct -F 0x1 0 19 0x1000
->   
->   run_test ./userfaultfd anon 20 16
-> +run_test ./userfaultfd anon:dev 20 16
->   # Hugetlb tests require source and destination huge pages. Pass in half the
->   # size ($half_ufd_size_MB), which is used for *each*.
->   run_test ./userfaultfd hugetlb "$half_ufd_size_MB" 32
-> +run_test ./userfaultfd hugetlb:dev "$half_ufd_size_MB" 32
->   run_test ./userfaultfd hugetlb_shared "$half_ufd_size_MB" 32 "$mnt"/uffd-test
->   rm -f "$mnt"/uffd-test
-> +run_test ./userfaultfd hugetlb_shared:dev "$half_ufd_size_MB" 32 "$mnt"/uffd-test
-> +rm -f "$mnt"/uffd-test
->   run_test ./userfaultfd shmem 20 16
-> +run_test ./userfaultfd shmem:dev 20 16
->   
->   #cleanup
->   umount "$mnt"
-> 
+Looks like all the changes to this driver had been automated
+churn since git era begun. The driver is using virt_to_bus()
+so it should be updated to a proper DMA API or removed. Given
+the latest "news" entry on the website is from 1999 I'm opting
+for the latter.
 
-Looks good to me.
+I'm marking the allocated char device major number as [REMOVED],
+I reckon we can't reuse it in case some SW out there assumes its
+COSA?
 
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: corbet@lwn.net
+CC: linux-doc@vger.kernel.org
+CC: alexandre.ghiti@canonical.com
+CC: linus.walleij@linaro.org
+CC: juerg.haefliger@canonical.com
+CC: kilobyte@angband.pl
+CC: huangguangbin2@huawei.com
+CC: lipeng321@huawei.com
+CC: arnd@arndb.de
+CC: Jan "Yenya" Kasprzak <kas@fi.muni.cz>
+---
+ Documentation/admin-guide/devices.txt |    2 +-
+ MAINTAINERS                           |    6 -
+ drivers/net/wan/Kconfig               |   22 -
+ drivers/net/wan/Makefile              |    1 -
+ drivers/net/wan/cosa.c                | 2052 -------------------------
+ drivers/net/wan/cosa.h                |  104 --
+ 6 files changed, 1 insertion(+), 2186 deletions(-)
+ delete mode 100644 drivers/net/wan/cosa.c
+ delete mode 100644 drivers/net/wan/cosa.h
 
-thanks,
--- Shuah
+diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
+index c07dc0ee860e..9764d6edb189 100644
+--- a/Documentation/admin-guide/devices.txt
++++ b/Documentation/admin-guide/devices.txt
+@@ -1933,7 +1933,7 @@
+ 		    ...
+ 		255= /dev/umem/d15p15  15th partition of 16th board.
+ 
+- 117 char	COSA/SRP synchronous serial card
++ 117 char	[REMOVED] COSA/SRP synchronous serial card
+ 		  0 = /dev/cosa0c0	1st board, 1st channel
+ 		  1 = /dev/cosa0c1	1st board, 2nd channel
+ 		    ...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dd61684c2573..9619058bb0b9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5047,12 +5047,6 @@ S:	Maintained
+ F:	Documentation/hwmon/corsair-psu.rst
+ F:	drivers/hwmon/corsair-psu.c
+ 
+-COSA/SRP SYNC SERIAL DRIVER
+-M:	Jan "Yenya" Kasprzak <kas@fi.muni.cz>
+-S:	Maintained
+-W:	http://www.fi.muni.cz/~kas/cosa/
+-F:	drivers/net/wan/cosa*
+-
+ COUNTER SUBSYSTEM
+ M:	William Breathitt Gray <vilhelm.gray@gmail.com>
+ L:	linux-iio@vger.kernel.org
+diff --git a/drivers/net/wan/Kconfig b/drivers/net/wan/Kconfig
+index 588b2333cdb8..12c5b6c67ab2 100644
+--- a/drivers/net/wan/Kconfig
++++ b/drivers/net/wan/Kconfig
+@@ -35,28 +35,6 @@ config HOSTESS_SV11
+ 	  The driver will be compiled as a module: the
+ 	  module will be called hostess_sv11.
+ 
+-# The COSA/SRP driver has not been tested as non-modular yet.
+-config COSA
+-	tristate "COSA/SRP sync serial boards support"
+-	depends on ISA && m && ISA_DMA_API && HDLC && VIRT_TO_BUS
+-	help
+-	  Driver for COSA and SRP synchronous serial boards.
+-
+-	  These boards allow to connect synchronous serial devices (for example
+-	  base-band modems, or any other device with the X.21, V.24, V.35 or
+-	  V.36 interface) to your Linux box. The cards can work as the
+-	  character device, synchronous PPP network device, or the Cisco HDLC
+-	  network device.
+-
+-	  You will need user-space utilities COSA or SRP boards for downloading
+-	  the firmware to the cards and to set them up. Look at the
+-	  <http://www.fi.muni.cz/~kas/cosa/> for more information. You can also
+-	  read the comment at the top of the <file:drivers/net/wan/cosa.c> for
+-	  details about the cards and the driver itself.
+-
+-	  The driver will be compiled as a module: the
+-	  module will be called cosa.
+-
+ # There is no way to detect a Sealevel board. Force it modular
+ config SEALEVEL_4021
+ 	tristate "Sealevel Systems 4021 support"
+diff --git a/drivers/net/wan/Makefile b/drivers/net/wan/Makefile
+index 1cd42147b34f..901a094c061c 100644
+--- a/drivers/net/wan/Makefile
++++ b/drivers/net/wan/Makefile
+@@ -16,7 +16,6 @@ obj-$(CONFIG_HDLC_X25)		+= hdlc_x25.o
+ 
+ obj-$(CONFIG_HOSTESS_SV11)	+= z85230.o	hostess_sv11.o
+ obj-$(CONFIG_SEALEVEL_4021)	+= z85230.o	sealevel.o
+-obj-$(CONFIG_COSA)		+= cosa.o
+ obj-$(CONFIG_FARSYNC)		+= farsync.o
+ 
+ obj-$(CONFIG_LAPBETHER)		+= lapbether.o
+diff --git a/drivers/net/wan/cosa.c b/drivers/net/wan/cosa.c
+deleted file mode 100644
+index 23d2954d9747..000000000000
+--- a/drivers/net/wan/cosa.c
++++ /dev/null
+@@ -1,2052 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-/* $Id: cosa.c,v 1.31 2000/03/08 17:47:16 kas Exp $ */
+-
+-/*  Copyright (C) 1995-1997  Jan "Yenya" Kasprzak <kas@fi.muni.cz>
+- *  Generic HDLC port Copyright (C) 2008 Krzysztof Halasa <khc@pm.waw.pl>
+- */
+-
+-/* The driver for the SRP and COSA synchronous serial cards.
+- *
+- * HARDWARE INFO
+- *
+- * Both cards are developed at the Institute of Computer Science,
+- * Masaryk University (https://www.ics.muni.cz/). The hardware is
+- * developed by Jiri Novotny <novotny@ics.muni.cz>. More information
+- * and the photo of both cards is available at
+- * http://www.pavoucek.cz/cosa.html. The card documentation, firmwares
+- * and other goods can be downloaded from ftp://ftp.ics.muni.cz/pub/cosa/.
+- * For Linux-specific utilities, see below in the "Software info" section.
+- * If you want to order the card, contact Jiri Novotny.
+- *
+- * The SRP (serial port?, the Czech word "srp" means "sickle") card
+- * is a 2-port intelligent (with its own 8-bit CPU) synchronous serial card
+- * with V.24 interfaces up to 80kb/s each.
+- *
+- * The COSA (communication serial adapter?, the Czech word "kosa" means
+- * "scythe") is a next-generation sync/async board with two interfaces
+- * - currently any of V.24, X.21, V.35 and V.36 can be selected.
+- * It has a 16-bit SAB80166 CPU and can do up to 10 Mb/s per channel.
+- * The 8-channels version is in development.
+- *
+- * Both types have downloadable firmware and communicate via ISA DMA.
+- * COSA can be also a bus-mastering device.
+- *
+- * SOFTWARE INFO
+- *
+- * The homepage of the Linux driver is at https://www.fi.muni.cz/~kas/cosa/.
+- * The CVS tree of Linux driver can be viewed there, as well as the
+- * firmware binaries and user-space utilities for downloading the firmware
+- * into the card and setting up the card.
+- *
+- * The Linux driver (unlike the present *BSD drivers :-) can work even
+- * for the COSA and SRP in one computer and allows each channel to work
+- * in one of the two modes (character or network device).
+- *
+- * AUTHOR
+- *
+- * The Linux driver was written by Jan "Yenya" Kasprzak <kas@fi.muni.cz>.
+- *
+- * You can mail me bugfixes and even success reports. I am especially
+- * interested in the SMP and/or muliti-channel success/failure reports
+- * (I wonder if I did the locking properly :-).
+- *
+- * THE AUTHOR USED THE FOLLOWING SOURCES WHEN PROGRAMMING THE DRIVER
+- *
+- * The COSA/SRP NetBSD driver by Zdenek Salvet and Ivos Cernohlavek
+- * The skeleton.c by Donald Becker
+- * The SDL Riscom/N2 driver by Mike Natale
+- * The Comtrol Hostess SV11 driver by Alan Cox
+- * The Sync PPP/Cisco HDLC layer (syncppp.c) ported to Linux by Alan Cox
+- */
+-
+-#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+-
+-#include <linux/module.h>
+-#include <linux/kernel.h>
+-#include <linux/sched/signal.h>
+-#include <linux/slab.h>
+-#include <linux/poll.h>
+-#include <linux/fs.h>
+-#include <linux/interrupt.h>
+-#include <linux/delay.h>
+-#include <linux/hdlc.h>
+-#include <linux/errno.h>
+-#include <linux/ioport.h>
+-#include <linux/netdevice.h>
+-#include <linux/spinlock.h>
+-#include <linux/mutex.h>
+-#include <linux/device.h>
+-#include <asm/io.h>
+-#include <asm/dma.h>
+-#include <asm/byteorder.h>
+-
+-#undef COSA_SLOW_IO	/* for testing purposes only */
+-
+-#include "cosa.h"
+-
+-/* Maximum length of the identification string. */
+-#define COSA_MAX_ID_STRING	128
+-
+-/* Maximum length of the channel name */
+-#define COSA_MAX_NAME		(sizeof("cosaXXXcXXX") + 1)
+-
+-/* Per-channel data structure */
+-
+-struct channel_data {
+-	int usage;	/* Usage count; >0 for chrdev, -1 for netdev */
+-	int num;	/* Number of the channel */
+-	struct cosa_data *cosa;	/* Pointer to the per-card structure */
+-	int txsize;	/* Size of transmitted data */
+-	char *txbuf;	/* Transmit buffer */
+-	char name[COSA_MAX_NAME];	/* channel name */
+-
+-	/* The HW layer interface */
+-	/* routine called from the RX interrupt */
+-	char *(*setup_rx)(struct channel_data *channel, int size);
+-	/* routine called when the RX is done (from the EOT interrupt) */
+-	int (*rx_done)(struct channel_data *channel);
+-	/* routine called when the TX is done (from the EOT interrupt) */
+-	int (*tx_done)(struct channel_data *channel, int size);
+-
+-	/* Character device parts */
+-	struct mutex rlock;
+-	struct semaphore wsem;
+-	char *rxdata;
+-	int rxsize;
+-	wait_queue_head_t txwaitq, rxwaitq;
+-	int tx_status, rx_status;
+-
+-	/* generic HDLC device parts */
+-	struct net_device *netdev;
+-	struct sk_buff *rx_skb, *tx_skb;
+-};
+-
+-/* cosa->firmware_status bits */
+-#define COSA_FW_RESET		BIT(0)	/* Is the ROM monitor active? */
+-#define COSA_FW_DOWNLOAD	BIT(1)	/* Is the microcode downloaded? */
+-#define COSA_FW_START		BIT(2)	/* Is the microcode running? */
+-
+-struct cosa_data {
+-	int num;			/* Card number */
+-	char name[COSA_MAX_NAME];	/* Card name - e.g "cosa0" */
+-	unsigned int datareg, statusreg;	/* I/O ports */
+-	unsigned short irq, dma;	/* IRQ and DMA number */
+-	unsigned short startaddr;	/* Firmware start address */
+-	unsigned short busmaster;	/* Use busmastering? */
+-	int nchannels;			/* # of channels on this card */
+-	int driver_status;		/* For communicating with firmware */
+-	int firmware_status;		/* Downloaded, reseted, etc. */
+-	unsigned long rxbitmap, txbitmap;/* Bitmap of channels who are willing to send/receive data */
+-	unsigned long rxtx;		/* RX or TX in progress? */
+-	int enabled;
+-	int usage;				/* usage count */
+-	int txchan, txsize, rxsize;
+-	struct channel_data *rxchan;
+-	char *bouncebuf;
+-	char *txbuf, *rxbuf;
+-	struct channel_data *chan;
+-	spinlock_t lock;	/* For exclusive operations on this structure */
+-	char id_string[COSA_MAX_ID_STRING];	/* ROM monitor ID string */
+-	char *type;				/* card type */
+-};
+-
+-/* Define this if you want all the possible ports to be autoprobed.
+- * It is here but it probably is not a good idea to use this.
+- */
+-/* #define COSA_ISA_AUTOPROBE	1*/
+-
+-/* Character device major number. 117 was allocated for us.
+- * The value of 0 means to allocate a first free one.
+- */
+-static DEFINE_MUTEX(cosa_chardev_mutex);
+-static int cosa_major = 117;
+-
+-/* Encoding of the minor numbers:
+- * The lowest CARD_MINOR_BITS bits means the channel on the single card,
+- * the highest bits means the card number.
+- */
+-#define CARD_MINOR_BITS	4	/* How many bits in minor number are reserved
+-				 * for the single card
+-				 */
+-/* The following depends on CARD_MINOR_BITS. Unfortunately, the "MODULE_STRING"
+- * macro doesn't like anything other than the raw number as an argument :-(
+- */
+-#define MAX_CARDS	16
+-/* #define MAX_CARDS	(1 << (8-CARD_MINOR_BITS)) */
+-
+-#define DRIVER_RX_READY		0x0001
+-#define DRIVER_TX_READY		0x0002
+-#define DRIVER_TXMAP_SHIFT	2
+-#define DRIVER_TXMAP_MASK	0x0c	/* FIXME: 0xfc for 8-channel version */
+-
+-/* for cosa->rxtx - indicates whether either transmit or receive is
+- * in progress. These values are mean number of the bit.
+- */
+-#define TXBIT 0
+-#define RXBIT 1
+-#define IRQBIT 2
+-
+-#define COSA_MTU 2000	/* FIXME: I don't know this exactly */
+-
+-#undef DEBUG_DATA //1	/* Dump the data read or written to the channel */
+-#undef DEBUG_IRQS //1	/* Print the message when the IRQ is received */
+-#undef DEBUG_IO   //1	/* Dump the I/O traffic */
+-
+-#define TX_TIMEOUT	(5 * HZ)
+-
+-/* Maybe the following should be allocated dynamically */
+-static struct cosa_data cosa_cards[MAX_CARDS];
+-static int nr_cards;
+-
+-#ifdef COSA_ISA_AUTOPROBE
+-static int io[MAX_CARDS + 1]  = {0x220, 0x228, 0x210, 0x218, 0,};
+-/* NOTE: DMA is not autoprobed!!! */
+-static int dma[MAX_CARDS + 1] = {1, 7, 1, 7, 1, 7, 1, 7, 0,};
+-#else
+-static int io[MAX_CARDS + 1];
+-static int dma[MAX_CARDS + 1];
+-#endif
+-/* IRQ can be safely autoprobed */
+-static int irq[MAX_CARDS + 1] = {-1, -1, -1, -1, -1, -1, 0,};
+-
+-/* for class stuff*/
+-static struct class *cosa_class;
+-
+-#ifdef MODULE
+-module_param_hw_array(io, int, ioport, NULL, 0);
+-MODULE_PARM_DESC(io, "The I/O bases of the COSA or SRP cards");
+-module_param_hw_array(irq, int, irq, NULL, 0);
+-MODULE_PARM_DESC(irq, "The IRQ lines of the COSA or SRP cards");
+-module_param_hw_array(dma, int, dma, NULL, 0);
+-MODULE_PARM_DESC(dma, "The DMA channels of the COSA or SRP cards");
+-
+-MODULE_AUTHOR("Jan \"Yenya\" Kasprzak, <kas@fi.muni.cz>");
+-MODULE_DESCRIPTION("Modular driver for the COSA or SRP synchronous card");
+-MODULE_LICENSE("GPL");
+-#endif
+-
+-/* I use this mainly for testing purposes */
+-#ifdef COSA_SLOW_IO
+-#define cosa_outb outb_p
+-#define cosa_outw outw_p
+-#define cosa_inb  inb_p
+-#define cosa_inw  inw_p
+-#else
+-#define cosa_outb outb
+-#define cosa_outw outw
+-#define cosa_inb  inb
+-#define cosa_inw  inw
+-#endif
+-
+-#define is_8bit(cosa)		(!((cosa)->datareg & 0x08))
+-
+-#define cosa_getstatus(cosa)	(cosa_inb((cosa)->statusreg))
+-#define cosa_putstatus(cosa, stat)	(cosa_outb(stat, (cosa)->statusreg))
+-#define cosa_getdata16(cosa)	(cosa_inw((cosa)->datareg))
+-#define cosa_getdata8(cosa)	(cosa_inb((cosa)->datareg))
+-#define cosa_putdata16(cosa, dt)	(cosa_outw(dt, (cosa)->datareg))
+-#define cosa_putdata8(cosa, dt)	(cosa_outb(dt, (cosa)->datareg))
+-
+-/* Initialization stuff */
+-static int cosa_probe(int ioaddr, int irq, int dma);
+-
+-/* HW interface */
+-static void cosa_enable_rx(struct channel_data *chan);
+-static void cosa_disable_rx(struct channel_data *chan);
+-static int cosa_start_tx(struct channel_data *channel, char *buf, int size);
+-static void cosa_kick(struct cosa_data *cosa);
+-static int cosa_dma_able(struct channel_data *chan, char *buf, int data);
+-
+-/* Network device stuff */
+-static int cosa_net_attach(struct net_device *dev, unsigned short encoding,
+-			   unsigned short parity);
+-static int cosa_net_open(struct net_device *d);
+-static int cosa_net_close(struct net_device *d);
+-static void cosa_net_timeout(struct net_device *d, unsigned int txqueue);
+-static netdev_tx_t cosa_net_tx(struct sk_buff *skb, struct net_device *d);
+-static char *cosa_net_setup_rx(struct channel_data *channel, int size);
+-static int cosa_net_rx_done(struct channel_data *channel);
+-static int cosa_net_tx_done(struct channel_data *channel, int size);
+-
+-/* Character device */
+-static char *chrdev_setup_rx(struct channel_data *channel, int size);
+-static int chrdev_rx_done(struct channel_data *channel);
+-static int chrdev_tx_done(struct channel_data *channel, int size);
+-static ssize_t cosa_read(struct file *file,
+-			 char __user *buf, size_t count, loff_t *ppos);
+-static ssize_t cosa_write(struct file *file,
+-			  const char __user *buf, size_t count, loff_t *ppos);
+-static unsigned int cosa_poll(struct file *file, poll_table *poll);
+-static int cosa_open(struct inode *inode, struct file *file);
+-static int cosa_release(struct inode *inode, struct file *file);
+-static long cosa_chardev_ioctl(struct file *file, unsigned int cmd,
+-			       unsigned long arg);
+-#ifdef COSA_FASYNC_WORKING
+-static int cosa_fasync(struct inode *inode, struct file *file, int on);
+-#endif
+-
+-static const struct file_operations cosa_fops = {
+-	.owner		= THIS_MODULE,
+-	.llseek		= no_llseek,
+-	.read		= cosa_read,
+-	.write		= cosa_write,
+-	.poll		= cosa_poll,
+-	.unlocked_ioctl	= cosa_chardev_ioctl,
+-	.open		= cosa_open,
+-	.release	= cosa_release,
+-#ifdef COSA_FASYNC_WORKING
+-	.fasync		= cosa_fasync,
+-#endif
+-};
+-
+-/* Ioctls */
+-static int cosa_start(struct cosa_data *cosa, int address);
+-static int cosa_reset(struct cosa_data *cosa);
+-static int cosa_download(struct cosa_data *cosa, void __user *a);
+-static int cosa_readmem(struct cosa_data *cosa, void __user *a);
+-
+-/* COSA/SRP ROM monitor */
+-static int download(struct cosa_data *cosa, const char __user *data, int addr, int len);
+-static int startmicrocode(struct cosa_data *cosa, int address);
+-static int readmem(struct cosa_data *cosa, char __user *data, int addr, int len);
+-static int cosa_reset_and_read_id(struct cosa_data *cosa, char *id);
+-
+-/* Auxiliary functions */
+-static int get_wait_data(struct cosa_data *cosa);
+-static int put_wait_data(struct cosa_data *cosa, int data);
+-static int puthexnumber(struct cosa_data *cosa, int number);
+-static void put_driver_status(struct cosa_data *cosa);
+-static void put_driver_status_nolock(struct cosa_data *cosa);
+-
+-/* Interrupt handling */
+-static irqreturn_t cosa_interrupt(int irq, void *cosa);
+-
+-/* I/O ops debugging */
+-#ifdef DEBUG_IO
+-static void debug_data_in(struct cosa_data *cosa, int data);
+-static void debug_data_out(struct cosa_data *cosa, int data);
+-static void debug_data_cmd(struct cosa_data *cosa, int data);
+-static void debug_status_in(struct cosa_data *cosa, int status);
+-static void debug_status_out(struct cosa_data *cosa, int status);
+-#endif
+-
+-static inline struct channel_data *dev_to_chan(struct net_device *dev)
+-{
+-	return (struct channel_data *)dev_to_hdlc(dev)->priv;
+-}
+-
+-/* ---------- Initialization stuff ---------- */
+-
+-static int __init cosa_init(void)
+-{
+-	int i, err = 0;
+-
+-	if (cosa_major > 0) {
+-		if (register_chrdev(cosa_major, "cosa", &cosa_fops)) {
+-			pr_warn("unable to get major %d\n", cosa_major);
+-			err = -EIO;
+-			goto out;
+-		}
+-	} else {
+-		cosa_major = register_chrdev(0, "cosa", &cosa_fops);
+-		if (!cosa_major) {
+-			pr_warn("unable to register chardev\n");
+-			err = -EIO;
+-			goto out;
+-		}
+-	}
+-	for (i = 0; i < MAX_CARDS; i++)
+-		cosa_cards[i].num = -1;
+-	for (i = 0; io[i] != 0 && i < MAX_CARDS; i++)
+-		cosa_probe(io[i], irq[i], dma[i]);
+-	if (!nr_cards) {
+-		pr_warn("no devices found\n");
+-		unregister_chrdev(cosa_major, "cosa");
+-		err = -ENODEV;
+-		goto out;
+-	}
+-	cosa_class = class_create(THIS_MODULE, "cosa");
+-	if (IS_ERR(cosa_class)) {
+-		err = PTR_ERR(cosa_class);
+-		goto out_chrdev;
+-	}
+-	for (i = 0; i < nr_cards; i++)
+-		device_create(cosa_class, NULL, MKDEV(cosa_major, i), NULL,
+-			      "cosa%d", i);
+-	err = 0;
+-	goto out;
+-
+-out_chrdev:
+-	unregister_chrdev(cosa_major, "cosa");
+-out:
+-	return err;
+-}
+-module_init(cosa_init);
+-
+-static void __exit cosa_exit(void)
+-{
+-	struct cosa_data *cosa;
+-	int i;
+-
+-	for (i = 0; i < nr_cards; i++)
+-		device_destroy(cosa_class, MKDEV(cosa_major, i));
+-	class_destroy(cosa_class);
+-
+-	for (cosa = cosa_cards; nr_cards--; cosa++) {
+-		/* Clean up the per-channel data */
+-		for (i = 0; i < cosa->nchannels; i++) {
+-			/* Chardev driver has no alloc'd per-channel data */
+-			unregister_hdlc_device(cosa->chan[i].netdev);
+-			free_netdev(cosa->chan[i].netdev);
+-		}
+-		/* Clean up the per-card data */
+-		kfree(cosa->chan);
+-		kfree(cosa->bouncebuf);
+-		free_irq(cosa->irq, cosa);
+-		free_dma(cosa->dma);
+-		release_region(cosa->datareg, is_8bit(cosa) ? 2 : 4);
+-	}
+-	unregister_chrdev(cosa_major, "cosa");
+-}
+-module_exit(cosa_exit);
+-
+-static const struct net_device_ops cosa_ops = {
+-	.ndo_open       = cosa_net_open,
+-	.ndo_stop       = cosa_net_close,
+-	.ndo_start_xmit = hdlc_start_xmit,
+-	.ndo_siocwandev = hdlc_ioctl,
+-	.ndo_tx_timeout = cosa_net_timeout,
+-};
+-
+-static int cosa_probe(int base, int irq, int dma)
+-{
+-	struct cosa_data *cosa = cosa_cards + nr_cards;
+-	int i, err = 0;
+-
+-	memset(cosa, 0, sizeof(struct cosa_data));
+-
+-	/* Checking validity of parameters: */
+-	/* IRQ should be 2-7 or 10-15; negative IRQ means autoprobe */
+-	if ((irq >= 0  && irq < 2) || irq > 15 || (irq < 10 && irq > 7)) {
+-		pr_info("invalid IRQ %d\n", irq);
+-		return -1;
+-	}
+-	/* I/O address should be between 0x100 and 0x3ff and should be
+-	 * multiple of 8.
+-	 */
+-	if (base < 0x100 || base > 0x3ff || base & 0x7) {
+-		pr_info("invalid I/O address 0x%x\n", base);
+-		return -1;
+-	}
+-	/* DMA should be 0,1 or 3-7 */
+-	if (dma < 0 || dma == 4 || dma > 7) {
+-		pr_info("invalid DMA %d\n", dma);
+-		return -1;
+-	}
+-	/* and finally, on 16-bit COSA DMA should be 4-7 and
+-	 * I/O base should not be multiple of 0x10
+-	 */
+-	if (((base & 0x8) && dma < 4) || (!(base & 0x8) && dma > 3)) {
+-		pr_info("8/16 bit base and DMA mismatch (base=0x%x, dma=%d)\n",
+-			base, dma);
+-		return -1;
+-	}
+-
+-	cosa->dma = dma;
+-	cosa->datareg = base;
+-	cosa->statusreg = is_8bit(cosa) ? base + 1 : base + 2;
+-	spin_lock_init(&cosa->lock);
+-
+-	if (!request_region(base, is_8bit(cosa) ? 2 : 4, "cosa"))
+-		return -1;
+-
+-	if (cosa_reset_and_read_id(cosa, cosa->id_string) < 0) {
+-		printk(KERN_DEBUG "probe at 0x%x failed.\n", base);
+-		err = -1;
+-		goto err_out;
+-	}
+-
+-	/* Test the validity of identification string */
+-	if (!strncmp(cosa->id_string, "SRP", 3)) {
+-		cosa->type = "srp";
+-	} else if (!strncmp(cosa->id_string, "COSA", 4)) {
+-		cosa->type = is_8bit(cosa) ? "cosa8" : "cosa16";
+-	} else {
+-/* Print a warning only if we are not autoprobing */
+-#ifndef COSA_ISA_AUTOPROBE
+-		pr_info("valid signature not found at 0x%x\n", base);
+-#endif
+-		err = -1;
+-		goto err_out;
+-	}
+-	/* Update the name of the region now we know the type of card */
+-	release_region(base, is_8bit(cosa) ? 2 : 4);
+-	if (!request_region(base, is_8bit(cosa) ? 2 : 4, cosa->type)) {
+-		printk(KERN_DEBUG "changing name at 0x%x failed.\n", base);
+-		return -1;
+-	}
+-
+-	/* Now do IRQ autoprobe */
+-	if (irq < 0) {
+-		unsigned long irqs;
+-/*		pr_info("IRQ autoprobe\n"); */
+-		irqs = probe_irq_on();
+-		/* Enable interrupt on tx buffer empty (it sure is)
+-		 * really sure ?
+-		 * FIXME: When this code is not used as module, we should
+-		 * probably call udelay() instead of the interruptible sleep.
+-		 */
+-		set_current_state(TASK_INTERRUPTIBLE);
+-		cosa_putstatus(cosa, SR_TX_INT_ENA);
+-		schedule_timeout(msecs_to_jiffies(300));
+-		irq = probe_irq_off(irqs);
+-		/* Disable all IRQs from the card */
+-		cosa_putstatus(cosa, 0);
+-		/* Empty the received data register */
+-		cosa_getdata8(cosa);
+-
+-		if (irq < 0) {
+-			pr_info("multiple interrupts obtained (%d, board at 0x%x)\n",
+-				irq, cosa->datareg);
+-			err = -1;
+-			goto err_out;
+-		}
+-		if (irq == 0) {
+-			pr_info("no interrupt obtained (board at 0x%x)\n",
+-				cosa->datareg);
+-		/*	return -1; */
+-		}
+-	}
+-
+-	cosa->irq = irq;
+-	cosa->num = nr_cards;
+-	cosa->usage = 0;
+-	cosa->nchannels = 2;	/* FIXME: how to determine this? */
+-
+-	if (request_irq(cosa->irq, cosa_interrupt, 0, cosa->type, cosa)) {
+-		err = -1;
+-		goto err_out;
+-	}
+-	if (request_dma(cosa->dma, cosa->type)) {
+-		err = -1;
+-		goto err_out1;
+-	}
+-
+-	cosa->bouncebuf = kmalloc(COSA_MTU, GFP_KERNEL | GFP_DMA);
+-	if (!cosa->bouncebuf) {
+-		err = -ENOMEM;
+-		goto err_out2;
+-	}
+-	sprintf(cosa->name, "cosa%d", cosa->num);
+-
+-	/* Initialize the per-channel data */
+-	cosa->chan = kcalloc(cosa->nchannels, sizeof(struct channel_data), GFP_KERNEL);
+-	if (!cosa->chan) {
+-		err = -ENOMEM;
+-		goto err_out3;
+-	}
+-
+-	for (i = 0; i < cosa->nchannels; i++) {
+-		struct channel_data *chan = &cosa->chan[i];
+-
+-		chan->cosa = cosa;
+-		chan->num = i;
+-		sprintf(chan->name, "cosa%dc%d", chan->cosa->num, i);
+-
+-		/* Initialize the chardev data structures */
+-		mutex_init(&chan->rlock);
+-		sema_init(&chan->wsem, 1);
+-
+-		/* Register the network interface */
+-		chan->netdev = alloc_hdlcdev(chan);
+-		if (!chan->netdev) {
+-			pr_warn("%s: alloc_hdlcdev failed\n", chan->name);
+-			err = -ENOMEM;
+-			goto err_hdlcdev;
+-		}
+-		dev_to_hdlc(chan->netdev)->attach = cosa_net_attach;
+-		dev_to_hdlc(chan->netdev)->xmit = cosa_net_tx;
+-		chan->netdev->netdev_ops = &cosa_ops;
+-		chan->netdev->watchdog_timeo = TX_TIMEOUT;
+-		chan->netdev->base_addr = chan->cosa->datareg;
+-		chan->netdev->irq = chan->cosa->irq;
+-		chan->netdev->dma = chan->cosa->dma;
+-		err = register_hdlc_device(chan->netdev);
+-		if (err) {
+-			netdev_warn(chan->netdev,
+-				    "register_hdlc_device() failed\n");
+-			free_netdev(chan->netdev);
+-			goto err_hdlcdev;
+-		}
+-	}
+-
+-	pr_info("cosa%d: %s (%s at 0x%x irq %d dma %d), %d channels\n",
+-		cosa->num, cosa->id_string, cosa->type,
+-		cosa->datareg, cosa->irq, cosa->dma, cosa->nchannels);
+-
+-	return nr_cards++;
+-
+-err_hdlcdev:
+-	while (i-- > 0) {
+-		unregister_hdlc_device(cosa->chan[i].netdev);
+-		free_netdev(cosa->chan[i].netdev);
+-	}
+-	kfree(cosa->chan);
+-err_out3:
+-	kfree(cosa->bouncebuf);
+-err_out2:
+-	free_dma(cosa->dma);
+-err_out1:
+-	free_irq(cosa->irq, cosa);
+-err_out:
+-	release_region(cosa->datareg, is_8bit(cosa) ? 2 : 4);
+-	pr_notice("cosa%d: allocating resources failed\n", cosa->num);
+-	return err;
+-}
+-
+-/*---------- network device ---------- */
+-
+-static int cosa_net_attach(struct net_device *dev, unsigned short encoding,
+-			   unsigned short parity)
+-{
+-	if (encoding == ENCODING_NRZ && parity == PARITY_CRC16_PR1_CCITT)
+-		return 0;
+-	return -EINVAL;
+-}
+-
+-static int cosa_net_open(struct net_device *dev)
+-{
+-	struct channel_data *chan = dev_to_chan(dev);
+-	int err;
+-	unsigned long flags;
+-
+-	if (!(chan->cosa->firmware_status & COSA_FW_START)) {
+-		pr_notice("%s: start the firmware first (status %d)\n",
+-			  chan->cosa->name, chan->cosa->firmware_status);
+-		return -EPERM;
+-	}
+-	spin_lock_irqsave(&chan->cosa->lock, flags);
+-	if (chan->usage != 0) {
+-		pr_warn("%s: cosa_net_open called with usage count %d\n",
+-			chan->name, chan->usage);
+-		spin_unlock_irqrestore(&chan->cosa->lock, flags);
+-		return -EBUSY;
+-	}
+-	chan->setup_rx = cosa_net_setup_rx;
+-	chan->tx_done = cosa_net_tx_done;
+-	chan->rx_done = cosa_net_rx_done;
+-	chan->usage = -1;
+-	chan->cosa->usage++;
+-	spin_unlock_irqrestore(&chan->cosa->lock, flags);
+-
+-	err = hdlc_open(dev);
+-	if (err) {
+-		spin_lock_irqsave(&chan->cosa->lock, flags);
+-		chan->usage = 0;
+-		chan->cosa->usage--;
+-		spin_unlock_irqrestore(&chan->cosa->lock, flags);
+-		return err;
+-	}
+-
+-	netif_start_queue(dev);
+-	cosa_enable_rx(chan);
+-	return 0;
+-}
+-
+-static netdev_tx_t cosa_net_tx(struct sk_buff *skb,
+-			       struct net_device *dev)
+-{
+-	struct channel_data *chan = dev_to_chan(dev);
+-
+-	netif_stop_queue(dev);
+-
+-	chan->tx_skb = skb;
+-	cosa_start_tx(chan, skb->data, skb->len);
+-	return NETDEV_TX_OK;
+-}
+-
+-static void cosa_net_timeout(struct net_device *dev, unsigned int txqueue)
+-{
+-	struct channel_data *chan = dev_to_chan(dev);
+-
+-	if (test_bit(RXBIT, &chan->cosa->rxtx)) {
+-		chan->netdev->stats.rx_errors++;
+-		chan->netdev->stats.rx_missed_errors++;
+-	} else {
+-		chan->netdev->stats.tx_errors++;
+-		chan->netdev->stats.tx_aborted_errors++;
+-	}
+-	cosa_kick(chan->cosa);
+-	if (chan->tx_skb) {
+-		dev_kfree_skb(chan->tx_skb);
+-		chan->tx_skb = NULL;
+-	}
+-	netif_wake_queue(dev);
+-}
+-
+-static int cosa_net_close(struct net_device *dev)
+-{
+-	struct channel_data *chan = dev_to_chan(dev);
+-	unsigned long flags;
+-
+-	netif_stop_queue(dev);
+-	hdlc_close(dev);
+-	cosa_disable_rx(chan);
+-	spin_lock_irqsave(&chan->cosa->lock, flags);
+-	if (chan->rx_skb) {
+-		kfree_skb(chan->rx_skb);
+-		chan->rx_skb = NULL;
+-	}
+-	if (chan->tx_skb) {
+-		kfree_skb(chan->tx_skb);
+-		chan->tx_skb = NULL;
+-	}
+-	chan->usage = 0;
+-	chan->cosa->usage--;
+-	spin_unlock_irqrestore(&chan->cosa->lock, flags);
+-	return 0;
+-}
+-
+-static char *cosa_net_setup_rx(struct channel_data *chan, int size)
+-{
+-	/* We can safely fall back to non-dma-able memory, because we have
+-	 * the cosa->bouncebuf pre-allocated.
+-	 */
+-	kfree_skb(chan->rx_skb);
+-	chan->rx_skb = dev_alloc_skb(size);
+-	if (!chan->rx_skb) {
+-		pr_notice("%s: Memory squeeze, dropping packet\n", chan->name);
+-		chan->netdev->stats.rx_dropped++;
+-		return NULL;
+-	}
+-	netif_trans_update(chan->netdev);
+-	return skb_put(chan->rx_skb, size);
+-}
+-
+-static int cosa_net_rx_done(struct channel_data *chan)
+-{
+-	if (!chan->rx_skb) {
+-		pr_warn("%s: rx_done with empty skb!\n", chan->name);
+-		chan->netdev->stats.rx_errors++;
+-		chan->netdev->stats.rx_frame_errors++;
+-		return 0;
+-	}
+-	chan->rx_skb->protocol = hdlc_type_trans(chan->rx_skb, chan->netdev);
+-	chan->rx_skb->dev = chan->netdev;
+-	skb_reset_mac_header(chan->rx_skb);
+-	chan->netdev->stats.rx_packets++;
+-	chan->netdev->stats.rx_bytes += chan->cosa->rxsize;
+-	netif_rx(chan->rx_skb);
+-	chan->rx_skb = NULL;
+-	return 0;
+-}
+-
+-/* ARGSUSED */
+-static int cosa_net_tx_done(struct channel_data *chan, int size)
+-{
+-	if (!chan->tx_skb) {
+-		pr_warn("%s: tx_done with empty skb!\n", chan->name);
+-		chan->netdev->stats.tx_errors++;
+-		chan->netdev->stats.tx_aborted_errors++;
+-		return 1;
+-	}
+-	dev_consume_skb_irq(chan->tx_skb);
+-	chan->tx_skb = NULL;
+-	chan->netdev->stats.tx_packets++;
+-	chan->netdev->stats.tx_bytes += size;
+-	netif_wake_queue(chan->netdev);
+-	return 1;
+-}
+-
+-/*---------- Character device ---------- */
+-
+-static ssize_t cosa_read(struct file *file,
+-			 char __user *buf, size_t count, loff_t *ppos)
+-{
+-	DECLARE_WAITQUEUE(wait, current);
+-	unsigned long flags;
+-	struct channel_data *chan = file->private_data;
+-	struct cosa_data *cosa = chan->cosa;
+-	char *kbuf;
+-
+-	if (!(cosa->firmware_status & COSA_FW_START)) {
+-		pr_notice("%s: start the firmware first (status %d)\n",
+-			  cosa->name, cosa->firmware_status);
+-		return -EPERM;
+-	}
+-	if (mutex_lock_interruptible(&chan->rlock))
+-		return -ERESTARTSYS;
+-
+-	chan->rxdata = kmalloc(COSA_MTU, GFP_DMA | GFP_KERNEL);
+-	if (!chan->rxdata) {
+-		mutex_unlock(&chan->rlock);
+-		return -ENOMEM;
+-	}
+-
+-	chan->rx_status = 0;
+-	cosa_enable_rx(chan);
+-	spin_lock_irqsave(&cosa->lock, flags);
+-	add_wait_queue(&chan->rxwaitq, &wait);
+-	while (!chan->rx_status) {
+-		set_current_state(TASK_INTERRUPTIBLE);
+-		spin_unlock_irqrestore(&cosa->lock, flags);
+-		schedule();
+-		spin_lock_irqsave(&cosa->lock, flags);
+-		if (signal_pending(current) && chan->rx_status == 0) {
+-			chan->rx_status = 1;
+-			remove_wait_queue(&chan->rxwaitq, &wait);
+-			__set_current_state(TASK_RUNNING);
+-			spin_unlock_irqrestore(&cosa->lock, flags);
+-			mutex_unlock(&chan->rlock);
+-			return -ERESTARTSYS;
+-		}
+-	}
+-	remove_wait_queue(&chan->rxwaitq, &wait);
+-	__set_current_state(TASK_RUNNING);
+-	kbuf = chan->rxdata;
+-	count = chan->rxsize;
+-	spin_unlock_irqrestore(&cosa->lock, flags);
+-	mutex_unlock(&chan->rlock);
+-
+-	if (copy_to_user(buf, kbuf, count)) {
+-		kfree(kbuf);
+-		return -EFAULT;
+-	}
+-	kfree(kbuf);
+-	return count;
+-}
+-
+-static char *chrdev_setup_rx(struct channel_data *chan, int size)
+-{
+-	/* Expect size <= COSA_MTU */
+-	chan->rxsize = size;
+-	return chan->rxdata;
+-}
+-
+-static int chrdev_rx_done(struct channel_data *chan)
+-{
+-	if (chan->rx_status) { /* Reader has died */
+-		kfree(chan->rxdata);
+-		up(&chan->wsem);
+-	}
+-	chan->rx_status = 1;
+-	wake_up_interruptible(&chan->rxwaitq);
+-	return 1;
+-}
+-
+-static ssize_t cosa_write(struct file *file,
+-			  const char __user *buf, size_t count, loff_t *ppos)
+-{
+-	DECLARE_WAITQUEUE(wait, current);
+-	struct channel_data *chan = file->private_data;
+-	struct cosa_data *cosa = chan->cosa;
+-	unsigned long flags;
+-	char *kbuf;
+-
+-	if (!(cosa->firmware_status & COSA_FW_START)) {
+-		pr_notice("%s: start the firmware first (status %d)\n",
+-			  cosa->name, cosa->firmware_status);
+-		return -EPERM;
+-	}
+-	if (down_interruptible(&chan->wsem))
+-		return -ERESTARTSYS;
+-
+-	if (count > COSA_MTU)
+-		count = COSA_MTU;
+-
+-	/* Allocate the buffer */
+-	kbuf = kmalloc(count, GFP_KERNEL | GFP_DMA);
+-	if (!kbuf) {
+-		up(&chan->wsem);
+-		return -ENOMEM;
+-	}
+-	if (copy_from_user(kbuf, buf, count)) {
+-		up(&chan->wsem);
+-		kfree(kbuf);
+-		return -EFAULT;
+-	}
+-	chan->tx_status = 0;
+-	cosa_start_tx(chan, kbuf, count);
+-
+-	spin_lock_irqsave(&cosa->lock, flags);
+-	add_wait_queue(&chan->txwaitq, &wait);
+-	while (!chan->tx_status) {
+-		set_current_state(TASK_INTERRUPTIBLE);
+-		spin_unlock_irqrestore(&cosa->lock, flags);
+-		schedule();
+-		spin_lock_irqsave(&cosa->lock, flags);
+-		if (signal_pending(current) && chan->tx_status == 0) {
+-			chan->tx_status = 1;
+-			remove_wait_queue(&chan->txwaitq, &wait);
+-			__set_current_state(TASK_RUNNING);
+-			chan->tx_status = 1;
+-			spin_unlock_irqrestore(&cosa->lock, flags);
+-			up(&chan->wsem);
+-			kfree(kbuf);
+-			return -ERESTARTSYS;
+-		}
+-	}
+-	remove_wait_queue(&chan->txwaitq, &wait);
+-	__set_current_state(TASK_RUNNING);
+-	up(&chan->wsem);
+-	spin_unlock_irqrestore(&cosa->lock, flags);
+-	kfree(kbuf);
+-	return count;
+-}
+-
+-static int chrdev_tx_done(struct channel_data *chan, int size)
+-{
+-	if (chan->tx_status) { /* Writer was interrupted */
+-		kfree(chan->txbuf);
+-		up(&chan->wsem);
+-	}
+-	chan->tx_status = 1;
+-	wake_up_interruptible(&chan->txwaitq);
+-	return 1;
+-}
+-
+-static __poll_t cosa_poll(struct file *file, poll_table *poll)
+-{
+-	pr_info("cosa_poll is here\n");
+-	return 0;
+-}
+-
+-static int cosa_open(struct inode *inode, struct file *file)
+-{
+-	struct cosa_data *cosa;
+-	struct channel_data *chan;
+-	unsigned long flags;
+-	int n;
+-	int ret = 0;
+-
+-	mutex_lock(&cosa_chardev_mutex);
+-	n = iminor(file_inode(file)) >> CARD_MINOR_BITS;
+-	if (n >= nr_cards) {
+-		ret = -ENODEV;
+-		goto out;
+-	}
+-	cosa = cosa_cards + n;
+-
+-	n = iminor(file_inode(file)) & ((1 << CARD_MINOR_BITS) - 1);
+-	if (n >= cosa->nchannels) {
+-		ret = -ENODEV;
+-		goto out;
+-	}
+-	chan = cosa->chan + n;
+-
+-	file->private_data = chan;
+-
+-	spin_lock_irqsave(&cosa->lock, flags);
+-
+-	if (chan->usage < 0) { /* in netdev mode */
+-		spin_unlock_irqrestore(&cosa->lock, flags);
+-		ret = -EBUSY;
+-		goto out;
+-	}
+-	cosa->usage++;
+-	chan->usage++;
+-
+-	chan->tx_done = chrdev_tx_done;
+-	chan->setup_rx = chrdev_setup_rx;
+-	chan->rx_done = chrdev_rx_done;
+-	spin_unlock_irqrestore(&cosa->lock, flags);
+-out:
+-	mutex_unlock(&cosa_chardev_mutex);
+-	return ret;
+-}
+-
+-static int cosa_release(struct inode *inode, struct file *file)
+-{
+-	struct channel_data *channel = file->private_data;
+-	struct cosa_data *cosa;
+-	unsigned long flags;
+-
+-	cosa = channel->cosa;
+-	spin_lock_irqsave(&cosa->lock, flags);
+-	cosa->usage--;
+-	channel->usage--;
+-	spin_unlock_irqrestore(&cosa->lock, flags);
+-	return 0;
+-}
+-
+-#ifdef COSA_FASYNC_WORKING
+-static struct fasync_struct *fasync[256] = { NULL, };
+-
+-/* To be done ... */
+-static int cosa_fasync(struct inode *inode, struct file *file, int on)
+-{
+-	int port = iminor(inode);
+-
+-	return fasync_helper(inode, file, on, &fasync[port]);
+-}
+-#endif
+-
+-/* ---------- Ioctls ---------- */
+-
+-/* Ioctl subroutines can safely be made inline, because they are called
+- * only from cosa_ioctl().
+- */
+-static inline int cosa_reset(struct cosa_data *cosa)
+-{
+-	char idstring[COSA_MAX_ID_STRING];
+-
+-	if (cosa->usage > 1)
+-		pr_info("cosa%d: WARNING: reset requested with cosa->usage > 1 (%d). Odd things may happen.\n",
+-			cosa->num, cosa->usage);
+-	cosa->firmware_status &= ~(COSA_FW_RESET | COSA_FW_START);
+-	if (cosa_reset_and_read_id(cosa, idstring) < 0) {
+-		pr_notice("cosa%d: reset failed\n", cosa->num);
+-		return -EIO;
+-	}
+-	pr_info("cosa%d: resetting device: %s\n", cosa->num, idstring);
+-	cosa->firmware_status |= COSA_FW_RESET;
+-	return 0;
+-}
+-
+-/* High-level function to download data into COSA memory. Calls download() */
+-static inline int cosa_download(struct cosa_data *cosa, void __user *arg)
+-{
+-	struct cosa_download d;
+-	int i;
+-
+-	if (cosa->usage > 1)
+-		pr_info("%s: WARNING: download of microcode requested with cosa->usage > 1 (%d). Odd things may happen.\n",
+-			cosa->name, cosa->usage);
+-	if (!(cosa->firmware_status & COSA_FW_RESET)) {
+-		pr_notice("%s: reset the card first (status %d)\n",
+-			  cosa->name, cosa->firmware_status);
+-		return -EPERM;
+-	}
+-
+-	if (copy_from_user(&d, arg, sizeof(d)))
+-		return -EFAULT;
+-
+-	if (d.addr < 0 || d.addr > COSA_MAX_FIRMWARE_SIZE)
+-		return -EINVAL;
+-	if (d.len < 0 || d.len > COSA_MAX_FIRMWARE_SIZE)
+-		return -EINVAL;
+-
+-	/* If something fails, force the user to reset the card */
+-	cosa->firmware_status &= ~(COSA_FW_RESET | COSA_FW_DOWNLOAD);
+-
+-	i = download(cosa, d.code, d.len, d.addr);
+-	if (i < 0) {
+-		pr_notice("cosa%d: microcode download failed: %d\n",
+-			  cosa->num, i);
+-		return -EIO;
+-	}
+-	pr_info("cosa%d: downloading microcode - 0x%04x bytes at 0x%04x\n",
+-		cosa->num, d.len, d.addr);
+-	cosa->firmware_status |= COSA_FW_RESET | COSA_FW_DOWNLOAD;
+-	return 0;
+-}
+-
+-/* High-level function to read COSA memory. Calls readmem() */
+-static inline int cosa_readmem(struct cosa_data *cosa, void __user *arg)
+-{
+-	struct cosa_download d;
+-	int i;
+-
+-	if (cosa->usage > 1)
+-		pr_info("cosa%d: WARNING: readmem requested with cosa->usage > 1 (%d). Odd things may happen.\n",
+-			cosa->num, cosa->usage);
+-	if (!(cosa->firmware_status & COSA_FW_RESET)) {
+-		pr_notice("%s: reset the card first (status %d)\n",
+-			  cosa->name, cosa->firmware_status);
+-		return -EPERM;
+-	}
+-
+-	if (copy_from_user(&d, arg, sizeof(d)))
+-		return -EFAULT;
+-
+-	/* If something fails, force the user to reset the card */
+-	cosa->firmware_status &= ~COSA_FW_RESET;
+-
+-	i = readmem(cosa, d.code, d.len, d.addr);
+-	if (i < 0) {
+-		pr_notice("cosa%d: reading memory failed: %d\n", cosa->num, i);
+-		return -EIO;
+-	}
+-	pr_info("cosa%d: reading card memory - 0x%04x bytes at 0x%04x\n",
+-		cosa->num, d.len, d.addr);
+-	cosa->firmware_status |= COSA_FW_RESET;
+-	return 0;
+-}
+-
+-/* High-level function to start microcode. Calls startmicrocode(). */
+-static inline int cosa_start(struct cosa_data *cosa, int address)
+-{
+-	int i;
+-
+-	if (cosa->usage > 1)
+-		pr_info("cosa%d: WARNING: start microcode requested with cosa->usage > 1 (%d). Odd things may happen.\n",
+-			cosa->num, cosa->usage);
+-
+-	if ((cosa->firmware_status & (COSA_FW_RESET | COSA_FW_DOWNLOAD))
+-		!= (COSA_FW_RESET | COSA_FW_DOWNLOAD)) {
+-		pr_notice("%s: download the microcode and/or reset the card first (status %d)\n",
+-			  cosa->name, cosa->firmware_status);
+-		return -EPERM;
+-	}
+-	cosa->firmware_status &= ~COSA_FW_RESET;
+-	i = startmicrocode(cosa, address);
+-	if (i < 0) {
+-		pr_notice("cosa%d: start microcode at 0x%04x failed: %d\n",
+-			  cosa->num, address, i);
+-		return -EIO;
+-	}
+-	pr_info("cosa%d: starting microcode at 0x%04x\n", cosa->num, address);
+-	cosa->startaddr = address;
+-	cosa->firmware_status |= COSA_FW_START;
+-	return 0;
+-}
+-
+-/* Buffer of size at least COSA_MAX_ID_STRING is expected */
+-static inline int cosa_getidstr(struct cosa_data *cosa, char __user *string)
+-{
+-	int l = strlen(cosa->id_string) + 1;
+-
+-	if (copy_to_user(string, cosa->id_string, l))
+-		return -EFAULT;
+-	return l;
+-}
+-
+-/* Buffer of size at least COSA_MAX_ID_STRING is expected */
+-static inline int cosa_gettype(struct cosa_data *cosa, char __user *string)
+-{
+-	int l = strlen(cosa->type) + 1;
+-
+-	if (copy_to_user(string, cosa->type, l))
+-		return -EFAULT;
+-	return l;
+-}
+-
+-static int cosa_ioctl_common(struct cosa_data *cosa,
+-			     struct channel_data *channel, unsigned int cmd,
+-			     unsigned long arg)
+-{
+-	void __user *argp = (void __user *)arg;
+-
+-	switch (cmd) {
+-	case COSAIORSET:	/* Reset the device */
+-		if (!capable(CAP_NET_ADMIN))
+-			return -EACCES;
+-		return cosa_reset(cosa);
+-	case COSAIOSTRT:	/* Start the firmware */
+-		if (!capable(CAP_SYS_RAWIO))
+-			return -EACCES;
+-		return cosa_start(cosa, arg);
+-	case COSAIODOWNLD:	/* Download the firmware */
+-		if (!capable(CAP_SYS_RAWIO))
+-			return -EACCES;
+-
+-		return cosa_download(cosa, argp);
+-	case COSAIORMEM:
+-		if (!capable(CAP_SYS_RAWIO))
+-			return -EACCES;
+-		return cosa_readmem(cosa, argp);
+-	case COSAIORTYPE:
+-		return cosa_gettype(cosa, argp);
+-	case COSAIORIDSTR:
+-		return cosa_getidstr(cosa, argp);
+-	case COSAIONRCARDS:
+-		return nr_cards;
+-	case COSAIONRCHANS:
+-		return cosa->nchannels;
+-	case COSAIOBMSET:
+-		if (!capable(CAP_SYS_RAWIO))
+-			return -EACCES;
+-		if (is_8bit(cosa))
+-			return -EINVAL;
+-		if (arg != COSA_BM_OFF && arg != COSA_BM_ON)
+-			return -EINVAL;
+-		cosa->busmaster = arg;
+-		return 0;
+-	case COSAIOBMGET:
+-		return cosa->busmaster;
+-	}
+-	return -ENOIOCTLCMD;
+-}
+-
+-static long cosa_chardev_ioctl(struct file *file, unsigned int cmd,
+-			       unsigned long arg)
+-{
+-	struct channel_data *channel = file->private_data;
+-	struct cosa_data *cosa;
+-	long ret;
+-
+-	mutex_lock(&cosa_chardev_mutex);
+-	cosa = channel->cosa;
+-	ret = cosa_ioctl_common(cosa, channel, cmd, arg);
+-	mutex_unlock(&cosa_chardev_mutex);
+-	return ret;
+-}
+-
+-/*---------- HW layer interface ---------- */
+-
+-/* The higher layer can bind itself to the HW layer by setting the callbacks
+- * in the channel_data structure and by using these routines.
+- */
+-static void cosa_enable_rx(struct channel_data *chan)
+-{
+-	struct cosa_data *cosa = chan->cosa;
+-
+-	if (!test_and_set_bit(chan->num, &cosa->rxbitmap))
+-		put_driver_status(cosa);
+-}
+-
+-static void cosa_disable_rx(struct channel_data *chan)
+-{
+-	struct cosa_data *cosa = chan->cosa;
+-
+-	if (test_and_clear_bit(chan->num, &cosa->rxbitmap))
+-		put_driver_status(cosa);
+-}
+-
+-/* FIXME: This routine probably should check for cosa_start_tx() called when
+- * the previous transmit is still unfinished. In this case the non-zero
+- * return value should indicate to the caller that the queuing(sp?) up
+- * the transmit has failed.
+- */
+-static int cosa_start_tx(struct channel_data *chan, char *buf, int len)
+-{
+-	struct cosa_data *cosa = chan->cosa;
+-	unsigned long flags;
+-#ifdef DEBUG_DATA
+-	int i;
+-
+-	pr_info("cosa%dc%d: starting tx(0x%x)",
+-		chan->cosa->num, chan->num, len);
+-	for (i = 0; i < len; i++)
+-		pr_cont(" %02x", buf[i]&0xff);
+-	pr_cont("\n");
+-#endif
+-	spin_lock_irqsave(&cosa->lock, flags);
+-	chan->txbuf = buf;
+-	chan->txsize = len;
+-	if (len > COSA_MTU)
+-		chan->txsize = COSA_MTU;
+-	spin_unlock_irqrestore(&cosa->lock, flags);
+-
+-	/* Tell the firmware we are ready */
+-	set_bit(chan->num, &cosa->txbitmap);
+-	put_driver_status(cosa);
+-
+-	return 0;
+-}
+-
+-static void put_driver_status(struct cosa_data *cosa)
+-{
+-	unsigned long flags;
+-	int status;
+-
+-	spin_lock_irqsave(&cosa->lock, flags);
+-
+-	status = (cosa->rxbitmap ? DRIVER_RX_READY : 0)
+-		| (cosa->txbitmap ? DRIVER_TX_READY : 0)
+-		| (cosa->txbitmap ? ~(cosa->txbitmap << DRIVER_TXMAP_SHIFT)
+-			& DRIVER_TXMAP_MASK : 0);
+-	if (!cosa->rxtx) {
+-		if (cosa->rxbitmap | cosa->txbitmap) {
+-			if (!cosa->enabled) {
+-				cosa_putstatus(cosa, SR_RX_INT_ENA);
+-#ifdef DEBUG_IO
+-				debug_status_out(cosa, SR_RX_INT_ENA);
+-#endif
+-				cosa->enabled = 1;
+-			}
+-		} else if (cosa->enabled) {
+-			cosa->enabled = 0;
+-			cosa_putstatus(cosa, 0);
+-#ifdef DEBUG_IO
+-			debug_status_out(cosa, 0);
+-#endif
+-		}
+-		cosa_putdata8(cosa, status);
+-#ifdef DEBUG_IO
+-		debug_data_cmd(cosa, status);
+-#endif
+-	}
+-	spin_unlock_irqrestore(&cosa->lock, flags);
+-}
+-
+-static void put_driver_status_nolock(struct cosa_data *cosa)
+-{
+-	int status;
+-
+-	status = (cosa->rxbitmap ? DRIVER_RX_READY : 0)
+-		| (cosa->txbitmap ? DRIVER_TX_READY : 0)
+-		| (cosa->txbitmap ? ~(cosa->txbitmap << DRIVER_TXMAP_SHIFT)
+-			& DRIVER_TXMAP_MASK : 0);
+-
+-	if (cosa->rxbitmap | cosa->txbitmap) {
+-		cosa_putstatus(cosa, SR_RX_INT_ENA);
+-#ifdef DEBUG_IO
+-		debug_status_out(cosa, SR_RX_INT_ENA);
+-#endif
+-		cosa->enabled = 1;
+-	} else {
+-		cosa_putstatus(cosa, 0);
+-#ifdef DEBUG_IO
+-		debug_status_out(cosa, 0);
+-#endif
+-		cosa->enabled = 0;
+-	}
+-	cosa_putdata8(cosa, status);
+-#ifdef DEBUG_IO
+-	debug_data_cmd(cosa, status);
+-#endif
+-}
+-
+-/* The "kickme" function: When the DMA times out, this is called to
+- * clean up the driver status.
+- * FIXME: Preliminary support, the interface is probably wrong.
+- */
+-static void cosa_kick(struct cosa_data *cosa)
+-{
+-	unsigned long flags, flags1;
+-	char *s = "(probably) IRQ";
+-
+-	if (test_bit(RXBIT, &cosa->rxtx))
+-		s = "RX DMA";
+-	if (test_bit(TXBIT, &cosa->rxtx))
+-		s = "TX DMA";
+-
+-	pr_info("%s: %s timeout - restarting\n", cosa->name, s);
+-	spin_lock_irqsave(&cosa->lock, flags);
+-	cosa->rxtx = 0;
+-
+-	flags1 = claim_dma_lock();
+-	disable_dma(cosa->dma);
+-	clear_dma_ff(cosa->dma);
+-	release_dma_lock(flags1);
+-
+-	/* FIXME: Anything else? */
+-	udelay(100);
+-	cosa_putstatus(cosa, 0);
+-	udelay(100);
+-	(void)cosa_getdata8(cosa);
+-	udelay(100);
+-	cosa_putdata8(cosa, 0);
+-	udelay(100);
+-	put_driver_status_nolock(cosa);
+-	spin_unlock_irqrestore(&cosa->lock, flags);
+-}
+-
+-/* Check if the whole buffer is DMA-able. It means it is below the 16M of
+- * physical memory and doesn't span the 64k boundary. For now it seems
+- * SKB's never do this, but we'll check this anyway.
+- */
+-static int cosa_dma_able(struct channel_data *chan, char *buf, int len)
+-{
+-	static int count;
+-	unsigned long b = (unsigned long)buf;
+-
+-	if (b + len >= MAX_DMA_ADDRESS)
+-		return 0;
+-	if ((b ^ (b + len)) & 0x10000) {
+-		if (count++ < 5)
+-			pr_info("%s: packet spanning a 64k boundary\n",
+-				chan->name);
+-		return 0;
+-	}
+-	return 1;
+-}
+-
+-/* ---------- The SRP/COSA ROM monitor functions ---------- */
+-
+-/* Downloading SRP microcode: say "w" to SRP monitor, it answers by "w=",
+- * drivers need to say 4-digit hex number meaning start address of the microcode
+- * separated by a single space. Monitor replies by saying " =". Now driver
+- * has to write 4-digit hex number meaning the last byte address ended
+- * by a single space. Monitor has to reply with a space. Now the download
+- * begins. After the download monitor replies with "\r\n." (CR LF dot).
+- */
+-static int download(struct cosa_data *cosa, const char __user *microcode, int length, int address)
+-{
+-	int i;
+-
+-	if (put_wait_data(cosa, 'w') == -1)
+-		return -1;
+-	if ((i=get_wait_data(cosa)) != 'w') { printk("dnld: 0x%04x\n",i); return -2;}
+-	if (get_wait_data(cosa) != '=')
+-		return -3;
+-
+-	if (puthexnumber(cosa, address) < 0)
+-		return -4;
+-	if (put_wait_data(cosa, ' ') == -1)
+-		return -10;
+-	if (get_wait_data(cosa) != ' ')
+-		return -11;
+-	if (get_wait_data(cosa) != '=')
+-		return -12;
+-
+-	if (puthexnumber(cosa, address + length - 1) < 0)
+-		return -13;
+-	if (put_wait_data(cosa, ' ') == -1)
+-		return -18;
+-	if (get_wait_data(cosa) != ' ')
+-		return -19;
+-
+-	while (length--) {
+-		char c;
+-#ifndef SRP_DOWNLOAD_AT_BOOT
+-		if (get_user(c, microcode))
+-			return -23; /* ??? */
+-#else
+-		c = *microcode;
+-#endif
+-		if (put_wait_data(cosa, c) == -1)
+-			return -20;
+-		microcode++;
+-	}
+-
+-	if (get_wait_data(cosa) != '\r')
+-		return -21;
+-	if (get_wait_data(cosa) != '\n')
+-		return -22;
+-	if (get_wait_data(cosa) != '.')
+-		return -23;
+-#if 0
+-	printk(KERN_DEBUG "cosa%d: download completed.\n", cosa->num);
+-#endif
+-	return 0;
+-}
+-
+-/* Starting microcode is done via the "g" command of the SRP monitor.
+- * The chat should be the following: "g" "g=" "<addr><CR>"
+- * "<CR><CR><LF><CR><LF>".
+- */
+-static int startmicrocode(struct cosa_data *cosa, int address)
+-{
+-	if (put_wait_data(cosa, 'g') == -1)
+-		return -1;
+-	if (get_wait_data(cosa) != 'g')
+-		return -2;
+-	if (get_wait_data(cosa) != '=')
+-		return -3;
+-
+-	if (puthexnumber(cosa, address) < 0)
+-		return -4;
+-	if (put_wait_data(cosa, '\r') == -1)
+-		return -5;
+-
+-	if (get_wait_data(cosa) != '\r')
+-		return -6;
+-	if (get_wait_data(cosa) != '\r')
+-		return -7;
+-	if (get_wait_data(cosa) != '\n')
+-		return -8;
+-	if (get_wait_data(cosa) != '\r')
+-		return -9;
+-	if (get_wait_data(cosa) != '\n')
+-		return -10;
+-#if 0
+-	printk(KERN_DEBUG "cosa%d: microcode started\n", cosa->num);
+-#endif
+-	return 0;
+-}
+-
+-/* Reading memory is done via the "r" command of the SRP monitor.
+- * The chat is the following "r" "r=" "<addr> " " =" "<last_byte> " " "
+- * Then driver can read the data and the conversation is finished
+- * by SRP monitor sending "<CR><LF>." (dot at the end).
+- *
+- * This routine is not needed during the normal operation and serves
+- * for debugging purposes only.
+- */
+-static int readmem(struct cosa_data *cosa, char __user *microcode, int length, int address)
+-{
+-	if (put_wait_data(cosa, 'r') == -1)
+-		return -1;
+-	if ((get_wait_data(cosa)) != 'r')
+-		return -2;
+-	if ((get_wait_data(cosa)) != '=')
+-		return -3;
+-
+-	if (puthexnumber(cosa, address) < 0)
+-		return -4;
+-	if (put_wait_data(cosa, ' ') == -1)
+-		return -5;
+-	if (get_wait_data(cosa) != ' ')
+-		return -6;
+-	if (get_wait_data(cosa) != '=')
+-		return -7;
+-
+-	if (puthexnumber(cosa, address + length - 1) < 0)
+-		return -8;
+-	if (put_wait_data(cosa, ' ') == -1)
+-		return -9;
+-	if (get_wait_data(cosa) != ' ')
+-		return -10;
+-
+-	while (length--) {
+-		char c;
+-		int i;
+-
+-		i = get_wait_data(cosa);
+-		if (i == -1) {
+-			pr_info("0x%04x bytes remaining\n", length);
+-			return -11;
+-		}
+-		c = i;
+-#if 1
+-		if (put_user(c, microcode))
+-			return -23; /* ??? */
+-#else
+-		*microcode = c;
+-#endif
+-		microcode++;
+-	}
+-
+-	if (get_wait_data(cosa) != '\r')
+-		return -21;
+-	if (get_wait_data(cosa) != '\n')
+-		return -22;
+-	if (get_wait_data(cosa) != '.')
+-		return -23;
+-#if 0
+-	printk(KERN_DEBUG "cosa%d: readmem completed.\n", cosa->num);
+-#endif
+-	return 0;
+-}
+-
+-/* This function resets the device and reads the initial prompt
+- * of the device's ROM monitor.
+- */
+-static int cosa_reset_and_read_id(struct cosa_data *cosa, char *idstring)
+-{
+-	int i = 0, id = 0, prev = 0, curr = 0;
+-
+-	/* Reset the card ... */
+-	cosa_putstatus(cosa, 0);
+-	cosa_getdata8(cosa);
+-	cosa_putstatus(cosa, SR_RST);
+-	msleep(500);
+-	/* Disable all IRQs from the card */
+-	cosa_putstatus(cosa, 0);
+-
+-	/* Try to read the ID string. The card then prints out the
+-	 * identification string ended by the "\n\x2e".
+-	 *
+-	 * The following loop is indexed through i (instead of id)
+-	 * to avoid looping forever when for any reason
+-	 * the port returns '\r', '\n' or '\x2e' permanently.
+-	 */
+-	for (i = 0; i < COSA_MAX_ID_STRING - 1; i++, prev = curr) {
+-		curr = get_wait_data(cosa);
+-		if (curr == -1)
+-			return -1;
+-
+-		curr &= 0xff;
+-		if (curr != '\r' && curr != '\n' && curr != 0x2e)
+-			idstring[id++] = curr;
+-		if (curr == 0x2e && prev == '\n')
+-			break;
+-	}
+-	/* Perhaps we should fail when i==COSA_MAX_ID_STRING-1 ? */
+-	idstring[id] = '\0';
+-	return id;
+-}
+-
+-/* ---------- Auxiliary routines for COSA/SRP monitor ---------- */
+-
+-/* This routine gets the data byte from the card waiting for the SR_RX_RDY
+- * bit to be set in a loop. It should be used in the exceptional cases
+- * only (for example when resetting the card or downloading the firmware.
+- */
+-static int get_wait_data(struct cosa_data *cosa)
+-{
+-	int retries = 1000;
+-
+-	while (--retries) {
+-		/* read data and return them */
+-		if (cosa_getstatus(cosa) & SR_RX_RDY) {
+-			short r;
+-
+-			r = cosa_getdata8(cosa);
+-#if 0
+-			pr_info("get_wait_data returning after %d retries\n",
+-				999 - retries);
+-#endif
+-			return r;
+-		}
+-		/* sleep if not ready to read */
+-		schedule_timeout_interruptible(1);
+-	}
+-	pr_info("timeout in get_wait_data (status 0x%x)\n",
+-		cosa_getstatus(cosa));
+-	return -1;
+-}
+-
+-/* This routine puts the data byte to the card waiting for the SR_TX_RDY
+- * bit to be set in a loop. It should be used in the exceptional cases
+- * only (for example when resetting the card or downloading the firmware).
+- */
+-static int put_wait_data(struct cosa_data *cosa, int data)
+-{
+-	int retries = 1000;
+-
+-	while (--retries) {
+-		/* read data and return them */
+-		if (cosa_getstatus(cosa) & SR_TX_RDY) {
+-			cosa_putdata8(cosa, data);
+-#if 0
+-			pr_info("Putdata: %d retries\n", 999 - retries);
+-#endif
+-			return 0;
+-		}
+-#if 0
+-		/* sleep if not ready to read */
+-		schedule_timeout_interruptible(1);
+-#endif
+-	}
+-	pr_info("cosa%d: timeout in put_wait_data (status 0x%x)\n",
+-		cosa->num, cosa_getstatus(cosa));
+-	return -1;
+-}
+-
+-/* The following routine puts the hexadecimal number into the SRP monitor
+- * and verifies the proper echo of the sent bytes. Returns 0 on success,
+- * negative number on failure (-1,-3,-5,-7) means that put_wait_data() failed,
+- * (-2,-4,-6,-8) means that reading echo failed.
+- */
+-static int puthexnumber(struct cosa_data *cosa, int number)
+-{
+-	char temp[5];
+-	int i;
+-
+-	/* Well, I should probably replace this by something faster. */
+-	sprintf(temp, "%04X", number);
+-	for (i = 0; i < 4; i++) {
+-		if (put_wait_data(cosa, temp[i]) == -1) {
+-			pr_notice("cosa%d: puthexnumber failed to write byte %d\n",
+-				  cosa->num, i);
+-			return -1 - 2 * i;
+-		}
+-		if (get_wait_data(cosa) != temp[i]) {
+-			pr_notice("cosa%d: puthexhumber failed to read echo of byte %d\n",
+-				  cosa->num, i);
+-			return -2 - 2 * i;
+-		}
+-	}
+-	return 0;
+-}
+-
+-/* ---------- Interrupt routines ---------- */
+-
+-/* There are three types of interrupt:
+- * At the beginning of transmit - this handled is in tx_interrupt(),
+- * at the beginning of receive - it is in rx_interrupt() and
+- * at the end of transmit/receive - it is the eot_interrupt() function.
+- * These functions are multiplexed by cosa_interrupt() according to the
+- * COSA status byte. I have moved the rx/tx/eot interrupt handling into
+- * separate functions to make it more readable. These functions are inline,
+- * so there should be no overhead of function call.
+- *
+- * In the COSA bus-master mode, we need to tell the card the address of a
+- * buffer. Unfortunately, COSA may be too slow for us, so we must busy-wait.
+- * It's time to use the bottom half :-(
+- */
+-
+-/* Transmit interrupt routine - called when COSA is willing to obtain
+- * data from the OS. The most tricky part of the routine is selection
+- * of channel we (OS) want to send packet for. For SRP we should probably
+- * use the round-robin approach. The newer COSA firmwares have a simple
+- * flow-control - in the status word has bits 2 and 3 set to 1 means that the
+- * channel 0 or 1 doesn't want to receive data.
+- *
+- * It seems there is a bug in COSA firmware (need to trace it further):
+- * When the driver status says that the kernel has no more data for transmit
+- * (e.g. at the end of TX DMA) and then the kernel changes its mind
+- * (e.g. new packet is queued to hard_start_xmit()), the card issues
+- * the TX interrupt but does not mark the channel as ready-to-transmit.
+- * The fix seems to be to push the packet to COSA despite its request.
+- * We first try to obey the card's opinion, and then fall back to forced TX.
+- */
+-static inline void tx_interrupt(struct cosa_data *cosa, int status)
+-{
+-	unsigned long flags, flags1;
+-#ifdef DEBUG_IRQS
+-	pr_info("cosa%d: SR_DOWN_REQUEST status=0x%04x\n", cosa->num, status);
+-#endif
+-	spin_lock_irqsave(&cosa->lock, flags);
+-	set_bit(TXBIT, &cosa->rxtx);
+-	if (!test_bit(IRQBIT, &cosa->rxtx)) {
+-		/* flow control, see the comment above */
+-		int i = 0;
+-
+-		if (!cosa->txbitmap) {
+-			pr_warn("%s: No channel wants data in TX IRQ. Expect DMA timeout.\n",
+-				cosa->name);
+-			put_driver_status_nolock(cosa);
+-			clear_bit(TXBIT, &cosa->rxtx);
+-			spin_unlock_irqrestore(&cosa->lock, flags);
+-			return;
+-		}
+-		while (1) {
+-			cosa->txchan++;
+-			i++;
+-			if (cosa->txchan >= cosa->nchannels)
+-				cosa->txchan = 0;
+-			if (!(cosa->txbitmap & (1 << cosa->txchan)))
+-				continue;
+-			if (~status &
+-			    (1 << (cosa->txchan + DRIVER_TXMAP_SHIFT)))
+-				break;
+-			/* in second pass, accept first ready-to-TX channel */
+-			if (i > cosa->nchannels) {
+-				/* Can be safely ignored */
+-#ifdef DEBUG_IRQS
+-				printk(KERN_DEBUG "%s: Forcing TX "
+-					"to not-ready channel %d\n",
+-					cosa->name, cosa->txchan);
+-#endif
+-				break;
+-			}
+-		}
+-
+-		cosa->txsize = cosa->chan[cosa->txchan].txsize;
+-		if (cosa_dma_able(cosa->chan + cosa->txchan,
+-				  cosa->chan[cosa->txchan].txbuf,
+-				  cosa->txsize)) {
+-			cosa->txbuf = cosa->chan[cosa->txchan].txbuf;
+-		} else {
+-			memcpy(cosa->bouncebuf, cosa->chan[cosa->txchan].txbuf,
+-			       cosa->txsize);
+-			cosa->txbuf = cosa->bouncebuf;
+-		}
+-	}
+-
+-	if (is_8bit(cosa)) {
+-		if (!test_bit(IRQBIT, &cosa->rxtx)) {
+-			cosa_putstatus(cosa, SR_TX_INT_ENA);
+-			cosa_putdata8(cosa, ((cosa->txchan << 5) & 0xe0) |
+-				((cosa->txsize >> 8) & 0x1f));
+-#ifdef DEBUG_IO
+-			debug_status_out(cosa, SR_TX_INT_ENA);
+-			debug_data_out(cosa, ((cosa->txchan << 5) & 0xe0) |
+-				       ((cosa->txsize >> 8) & 0x1f));
+-			debug_data_in(cosa, cosa_getdata8(cosa));
+-#else
+-			cosa_getdata8(cosa);
+-#endif
+-			set_bit(IRQBIT, &cosa->rxtx);
+-			spin_unlock_irqrestore(&cosa->lock, flags);
+-			return;
+-		} else {
+-			clear_bit(IRQBIT, &cosa->rxtx);
+-			cosa_putstatus(cosa, 0);
+-			cosa_putdata8(cosa, cosa->txsize & 0xff);
+-#ifdef DEBUG_IO
+-			debug_status_out(cosa, 0);
+-			debug_data_out(cosa, cosa->txsize & 0xff);
+-#endif
+-		}
+-	} else {
+-		cosa_putstatus(cosa, SR_TX_INT_ENA);
+-		cosa_putdata16(cosa, ((cosa->txchan << 13) & 0xe000)
+-			| (cosa->txsize & 0x1fff));
+-#ifdef DEBUG_IO
+-		debug_status_out(cosa, SR_TX_INT_ENA);
+-		debug_data_out(cosa, ((cosa->txchan << 13) & 0xe000) |
+-			       (cosa->txsize & 0x1fff));
+-		debug_data_in(cosa, cosa_getdata8(cosa));
+-		debug_status_out(cosa, 0);
+-#else
+-		cosa_getdata8(cosa);
+-#endif
+-		cosa_putstatus(cosa, 0);
+-	}
+-
+-	if (cosa->busmaster) {
+-		unsigned long addr = virt_to_bus(cosa->txbuf);
+-		int count = 0;
+-
+-		pr_info("busmaster IRQ\n");
+-		while (!(cosa_getstatus(cosa) & SR_TX_RDY)) {
+-			count++;
+-			udelay(10);
+-			if (count > 1000)
+-				break;
+-		}
+-		pr_info("status %x\n", cosa_getstatus(cosa));
+-		pr_info("ready after %d loops\n", count);
+-		cosa_putdata16(cosa, (addr >> 16) & 0xffff);
+-
+-		count = 0;
+-		while (!(cosa_getstatus(cosa) & SR_TX_RDY)) {
+-			count++;
+-			if (count > 1000)
+-				break;
+-			udelay(10);
+-		}
+-		pr_info("ready after %d loops\n", count);
+-		cosa_putdata16(cosa, addr & 0xffff);
+-		flags1 = claim_dma_lock();
+-		set_dma_mode(cosa->dma, DMA_MODE_CASCADE);
+-		enable_dma(cosa->dma);
+-		release_dma_lock(flags1);
+-	} else {
+-		/* start the DMA */
+-		flags1 = claim_dma_lock();
+-		disable_dma(cosa->dma);
+-		clear_dma_ff(cosa->dma);
+-		set_dma_mode(cosa->dma, DMA_MODE_WRITE);
+-		set_dma_addr(cosa->dma, virt_to_bus(cosa->txbuf));
+-		set_dma_count(cosa->dma, cosa->txsize);
+-		enable_dma(cosa->dma);
+-		release_dma_lock(flags1);
+-	}
+-	cosa_putstatus(cosa, SR_TX_DMA_ENA | SR_USR_INT_ENA);
+-#ifdef DEBUG_IO
+-	debug_status_out(cosa, SR_TX_DMA_ENA | SR_USR_INT_ENA);
+-#endif
+-	spin_unlock_irqrestore(&cosa->lock, flags);
+-}
+-
+-static inline void rx_interrupt(struct cosa_data *cosa, int status)
+-{
+-	unsigned long flags;
+-#ifdef DEBUG_IRQS
+-	pr_info("cosa%d: SR_UP_REQUEST\n", cosa->num);
+-#endif
+-
+-	spin_lock_irqsave(&cosa->lock, flags);
+-	set_bit(RXBIT, &cosa->rxtx);
+-
+-	if (is_8bit(cosa)) {
+-		if (!test_bit(IRQBIT, &cosa->rxtx)) {
+-			set_bit(IRQBIT, &cosa->rxtx);
+-			put_driver_status_nolock(cosa);
+-			cosa->rxsize = cosa_getdata8(cosa) << 8;
+-#ifdef DEBUG_IO
+-			debug_data_in(cosa, cosa->rxsize >> 8);
+-#endif
+-			spin_unlock_irqrestore(&cosa->lock, flags);
+-			return;
+-		} else {
+-			clear_bit(IRQBIT, &cosa->rxtx);
+-			cosa->rxsize |= cosa_getdata8(cosa) & 0xff;
+-#ifdef DEBUG_IO
+-			debug_data_in(cosa, cosa->rxsize & 0xff);
+-#endif
+-#if 0
+-			pr_info("cosa%d: receive rxsize = (0x%04x)\n",
+-				cosa->num, cosa->rxsize);
+-#endif
+-		}
+-	} else {
+-		cosa->rxsize = cosa_getdata16(cosa);
+-#ifdef DEBUG_IO
+-		debug_data_in(cosa, cosa->rxsize);
+-#endif
+-#if 0
+-		pr_info("cosa%d: receive rxsize = (0x%04x)\n",
+-			cosa->num, cosa->rxsize);
+-#endif
+-	}
+-	if (((cosa->rxsize & 0xe000) >> 13) >= cosa->nchannels) {
+-		pr_warn("%s: rx for unknown channel (0x%04x)\n",
+-			cosa->name, cosa->rxsize);
+-		spin_unlock_irqrestore(&cosa->lock, flags);
+-		goto reject;
+-	}
+-	cosa->rxchan = cosa->chan + ((cosa->rxsize & 0xe000) >> 13);
+-	cosa->rxsize &= 0x1fff;
+-	spin_unlock_irqrestore(&cosa->lock, flags);
+-
+-	cosa->rxbuf = NULL;
+-	if (cosa->rxchan->setup_rx)
+-		cosa->rxbuf = cosa->rxchan->setup_rx(cosa->rxchan, cosa->rxsize);
+-
+-	if (!cosa->rxbuf) {
+-reject:		/* Reject the packet */
+-		pr_info("cosa%d: rejecting packet on channel %d\n",
+-			cosa->num, cosa->rxchan->num);
+-		cosa->rxbuf = cosa->bouncebuf;
+-	}
+-
+-	/* start the DMA */
+-	flags = claim_dma_lock();
+-	disable_dma(cosa->dma);
+-	clear_dma_ff(cosa->dma);
+-	set_dma_mode(cosa->dma, DMA_MODE_READ);
+-	if (cosa_dma_able(cosa->rxchan, cosa->rxbuf, cosa->rxsize & 0x1fff))
+-		set_dma_addr(cosa->dma, virt_to_bus(cosa->rxbuf));
+-	else
+-		set_dma_addr(cosa->dma, virt_to_bus(cosa->bouncebuf));
+-
+-	set_dma_count(cosa->dma, (cosa->rxsize & 0x1fff));
+-	enable_dma(cosa->dma);
+-	release_dma_lock(flags);
+-	spin_lock_irqsave(&cosa->lock, flags);
+-	cosa_putstatus(cosa, SR_RX_DMA_ENA | SR_USR_INT_ENA);
+-	if (!is_8bit(cosa) && (status & SR_TX_RDY))
+-		cosa_putdata8(cosa, DRIVER_RX_READY);
+-#ifdef DEBUG_IO
+-	debug_status_out(cosa, SR_RX_DMA_ENA | SR_USR_INT_ENA);
+-	if (!is_8bit(cosa) && (status & SR_TX_RDY))
+-		debug_data_cmd(cosa, DRIVER_RX_READY);
+-#endif
+-	spin_unlock_irqrestore(&cosa->lock, flags);
+-}
+-
+-static inline void eot_interrupt(struct cosa_data *cosa, int status)
+-{
+-	unsigned long flags, flags1;
+-
+-	spin_lock_irqsave(&cosa->lock, flags);
+-	flags1 = claim_dma_lock();
+-	disable_dma(cosa->dma);
+-	clear_dma_ff(cosa->dma);
+-	release_dma_lock(flags1);
+-	if (test_bit(TXBIT, &cosa->rxtx)) {
+-		struct channel_data *chan = cosa->chan + cosa->txchan;
+-
+-		if (chan->tx_done)
+-			if (chan->tx_done(chan, cosa->txsize))
+-				clear_bit(chan->num, &cosa->txbitmap);
+-	} else if (test_bit(RXBIT, &cosa->rxtx)) {
+-#ifdef DEBUG_DATA
+-	{
+-		int i;
+-
+-		pr_info("cosa%dc%d: done rx(0x%x)",
+-			cosa->num, cosa->rxchan->num, cosa->rxsize);
+-		for (i = 0; i < cosa->rxsize; i++)
+-			pr_cont(" %02x", cosa->rxbuf[i]&0xff);
+-		pr_cont("\n");
+-	}
+-#endif
+-		/* Packet for unknown channel? */
+-		if (cosa->rxbuf == cosa->bouncebuf)
+-			goto out;
+-		if (!cosa_dma_able(cosa->rxchan, cosa->rxbuf, cosa->rxsize))
+-			memcpy(cosa->rxbuf, cosa->bouncebuf, cosa->rxsize);
+-		if (cosa->rxchan->rx_done)
+-			if (cosa->rxchan->rx_done(cosa->rxchan))
+-				clear_bit(cosa->rxchan->num, &cosa->rxbitmap);
+-	} else {
+-		pr_notice("cosa%d: unexpected EOT interrupt\n", cosa->num);
+-	}
+-	/* Clear the RXBIT, TXBIT and IRQBIT (the latest should be
+-	 * cleared anyway). We should do it as soon as possible
+-	 * so that we can tell the COSA we are done and to give it a time
+-	 * for recovery.
+-	 */
+-out:
+-	cosa->rxtx = 0;
+-	put_driver_status_nolock(cosa);
+-	spin_unlock_irqrestore(&cosa->lock, flags);
+-}
+-
+-static irqreturn_t cosa_interrupt(int irq, void *cosa_)
+-{
+-	unsigned status;
+-	int count = 0;
+-	struct cosa_data *cosa = cosa_;
+-again:
+-	status = cosa_getstatus(cosa);
+-#ifdef DEBUG_IRQS
+-	pr_info("cosa%d: got IRQ, status 0x%02x\n", cosa->num, status & 0xff);
+-#endif
+-#ifdef DEBUG_IO
+-	debug_status_in(cosa, status);
+-#endif
+-	switch (status & SR_CMD_FROM_SRP_MASK) {
+-	case SR_DOWN_REQUEST:
+-		tx_interrupt(cosa, status);
+-		break;
+-	case SR_UP_REQUEST:
+-		rx_interrupt(cosa, status);
+-		break;
+-	case SR_END_OF_TRANSFER:
+-		eot_interrupt(cosa, status);
+-		break;
+-	default:
+-		/* We may be too fast for SRP. Try to wait a bit more. */
+-		if (count++ < 100) {
+-			udelay(100);
+-			goto again;
+-		}
+-		pr_info("cosa%d: unknown status 0x%02x in IRQ after %d retries\n",
+-			cosa->num, status & 0xff, count);
+-	}
+-#ifdef DEBUG_IRQS
+-	if (count)
+-		pr_info("%s: %d-times got unknown status in IRQ\n",
+-			cosa->name, count);
+-	else
+-		pr_info("%s: returning from IRQ\n", cosa->name);
+-#endif
+-	return IRQ_HANDLED;
+-}
+-
+-/* ---------- I/O debugging routines ---------- */
+-/* These routines can be used to monitor COSA/SRP I/O and to printk()
+- * the data being transferred on the data and status I/O port in a
+- * readable way.
+- */
+-
+-#ifdef DEBUG_IO
+-static void debug_status_in(struct cosa_data *cosa, int status)
+-{
+-	char *s;
+-
+-	switch (status & SR_CMD_FROM_SRP_MASK) {
+-	case SR_UP_REQUEST:
+-		s = "RX_REQ";
+-		break;
+-	case SR_DOWN_REQUEST:
+-		s = "TX_REQ";
+-		break;
+-	case SR_END_OF_TRANSFER:
+-		s = "ET_REQ";
+-		break;
+-	default:
+-		s = "NO_REQ";
+-		break;
+-	}
+-	pr_info("%s: IO: status -> 0x%02x (%s%s%s%s)\n",
+-		cosa->name,
+-		status,
+-		status & SR_USR_RQ ? "USR_RQ|" : "",
+-		status & SR_TX_RDY ? "TX_RDY|" : "",
+-		status & SR_RX_RDY ? "RX_RDY|" : "",
+-		s);
+-}
+-
+-static void debug_status_out(struct cosa_data *cosa, int status)
+-{
+-	pr_info("%s: IO: status <- 0x%02x (%s%s%s%s%s%s)\n",
+-		cosa->name,
+-		status,
+-		status & SR_RX_DMA_ENA  ? "RXDMA|"  : "!rxdma|",
+-		status & SR_TX_DMA_ENA  ? "TXDMA|"  : "!txdma|",
+-		status & SR_RST         ? "RESET|"  : "",
+-		status & SR_USR_INT_ENA ? "USRINT|" : "!usrint|",
+-		status & SR_TX_INT_ENA  ? "TXINT|"  : "!txint|",
+-		status & SR_RX_INT_ENA  ? "RXINT"   : "!rxint");
+-}
+-
+-static void debug_data_in(struct cosa_data *cosa, int data)
+-{
+-	pr_info("%s: IO: data -> 0x%04x\n", cosa->name, data);
+-}
+-
+-static void debug_data_out(struct cosa_data *cosa, int data)
+-{
+-	pr_info("%s: IO: data <- 0x%04x\n", cosa->name, data);
+-}
+-
+-static void debug_data_cmd(struct cosa_data *cosa, int data)
+-{
+-	pr_info("%s: IO: data <- 0x%04x (%s|%s)\n",
+-		cosa->name, data,
+-		data & SR_RDY_RCV ? "RX_RDY" : "!rx_rdy",
+-		data & SR_RDY_SND ? "TX_RDY" : "!tx_rdy");
+-}
+-#endif
+-
+-/* EOF -- this file has not been truncated */
+diff --git a/drivers/net/wan/cosa.h b/drivers/net/wan/cosa.h
+deleted file mode 100644
+index f57e0af9d56a..000000000000
+--- a/drivers/net/wan/cosa.h
++++ /dev/null
+@@ -1,104 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
+-/* $Id: cosa.h,v 1.6 1999/01/06 14:02:44 kas Exp $ */
+-
+-/*
+- *  Copyright (C) 1995-1997  Jan "Yenya" Kasprzak <kas@fi.muni.cz>
+- */
+-
+-#ifndef COSA_H__
+-#define COSA_H__
+-
+-#include <linux/ioctl.h>
+-
+-#ifdef __KERNEL__
+-/* status register - output bits */
+-#define SR_RX_DMA_ENA   0x04    /* receiver DMA enable bit */
+-#define SR_TX_DMA_ENA   0x08    /* transmitter DMA enable bit */
+-#define SR_RST          0x10    /* SRP reset */
+-#define SR_USR_INT_ENA  0x20    /* user interrupt enable bit */
+-#define SR_TX_INT_ENA   0x40    /* transmitter interrupt enable bit */
+-#define SR_RX_INT_ENA   0x80    /* receiver interrupt enable bit */
+-
+-/* status register - input bits */
+-#define SR_USR_RQ       0x20    /* user interrupt request pending */
+-#define SR_TX_RDY       0x40    /* transmitter empty (ready) */
+-#define SR_RX_RDY       0x80    /* receiver data ready */
+-
+-#define SR_UP_REQUEST   0x02    /* request from SRP to transfer data
+-                                   up to PC */
+-#define SR_DOWN_REQUEST 0x01    /* SRP is able to transfer data down
+-                                   from PC to SRP */
+-#define SR_END_OF_TRANSFER      0x03    /* SRP signalize end of
+-                                           transfer (up or down) */
+-
+-#define SR_CMD_FROM_SRP_MASK    0x03    /* mask to get SRP command */
+-
+-/* bits in driver status byte definitions : */
+-#define SR_RDY_RCV      0x01    /* ready to receive packet */
+-#define SR_RDY_SND      0x02    /* ready to send packet */
+-#define SR_CMD_PND      0x04    /* command pending */ /* not currently used */
+-
+-/* ???? */
+-#define SR_PKT_UP       0x01    /* transfer of packet up in progress */
+-#define SR_PKT_DOWN     0x02    /* transfer of packet down in progress */
+-
+-#endif /* __KERNEL__ */
+-
+-#define SR_LOAD_ADDR    0x4400  /* SRP microcode load address */
+-#define SR_START_ADDR   0x4400  /* SRP microcode start address */
+-
+-#define COSA_LOAD_ADDR    0x400  /* SRP microcode load address */
+-#define COSA_MAX_FIRMWARE_SIZE	0x10000
+-
+-/* ioctls */
+-struct cosa_download {
+-	int addr, len;
+-	char __user *code;
+-};
+-
+-/* Reset the device */
+-#define COSAIORSET	_IO('C',0xf0)
+-
+-/* Start microcode at given address */
+-#define COSAIOSTRT	_IOW('C',0xf1, int)
+-
+-/* Read the block from the device memory */
+-#define COSAIORMEM	_IOWR('C',0xf2, struct cosa_download *)
+-	/* actually the struct cosa_download itself; this is to keep
+-	 * the ioctl number same as in 2.4 in order to keep the user-space
+-	 * utils compatible. */
+-
+-/* Write the block to the device memory (i.e. download the microcode) */
+-#define COSAIODOWNLD	_IOW('C',0xf2, struct cosa_download *)
+-	/* actually the struct cosa_download itself; this is to keep
+-	 * the ioctl number same as in 2.4 in order to keep the user-space
+-	 * utils compatible. */
+-
+-/* Read the device type (one of "srp", "cosa", and "cosa8" for now) */
+-#define COSAIORTYPE	_IOR('C',0xf3, char *)
+-
+-/* Read the device identification string */
+-#define COSAIORIDSTR	_IOR('C',0xf4, char *)
+-/* Maximum length of the identification string. */
+-#define COSA_MAX_ID_STRING 128
+-
+-/* Increment/decrement the module usage count :-) */
+-/* #define COSAIOMINC	_IO('C',0xf5) */
+-/* #define COSAIOMDEC	_IO('C',0xf6) */
+-
+-/* Get the total number of cards installed */
+-#define COSAIONRCARDS	_IO('C',0xf7)
+-
+-/* Get the number of channels on this card */
+-#define COSAIONRCHANS	_IO('C',0xf8)
+-
+-/* Set the driver for the bus-master operations */
+-#define COSAIOBMSET	_IOW('C', 0xf9, unsigned short)
+-
+-#define COSA_BM_OFF	0	/* Bus-mastering off - use ISA DMA (default) */
+-#define COSA_BM_ON	1	/* Bus-mastering on - faster but untested */
+-
+-/* Gets the busmaster status */
+-#define COSAIOBMGET	_IO('C', 0xfa)
+-
+-#endif /* !COSA_H__ */
+-- 
+2.34.1
+
