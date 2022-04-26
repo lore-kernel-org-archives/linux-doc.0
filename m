@@ -2,131 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD162C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 11:47:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5EADC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 11:52:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235039AbiDZLuq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 07:50:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45204 "EHLO
+        id S1345067AbiDZLzN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 07:55:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbiDZLup (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 07:50:45 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D88C032EF1;
-        Tue, 26 Apr 2022 04:47:37 -0700 (PDT)
-Date:   Tue, 26 Apr 2022 13:47:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1650973656;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qhTe3rXGVtUc76KewVm4yQpY7h0Bmtd3SNVKnbkCB3s=;
-        b=asVeung/CiSsVRuxtfEAm3It6XUCErzkC6VvkOvaQQ8fZCbx042HNYJvLrHVr20k/pp0MS
-        /azs8QxjNgHC3QrPkGV8iyIaI4cZBueBrvM5CzZXm/AFYecW39Bo+wdt1W8PPJOcbbJsIw
-        i4UI0ue9IdSR2YRvkzqKNMq7aYL5s4294DL5qPrkXXjYf1H5QwebXCyxGoYImg0NVHQU7V
-        oVj35Oet9xC1xPHIS0Mkd5ZmjGLWOA1482+1EsMyeAQexYCJqzchfO4+n4XYS1B6iqGxdc
-        0T8qsEUVBvIbX5lYJFWuA5WK46KLfad3MhJ8deKdohZ3YgYn/l/uysL28bvSyw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1650973656;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qhTe3rXGVtUc76KewVm4yQpY7h0Bmtd3SNVKnbkCB3s=;
-        b=Ks55If1juL3ARLDz2V4EPwsZyCTMB7miQuJvHrqgOUjIOunhxHzS7P1lpf+Ttaw5ZjDzJC
-        Dml4KxUUvc1L2RDw==
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc:     Ira Weiny <ira.weiny@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Collingbourne <pcc@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        outreachy@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH v2 4/4] Documentation/vm: Rework "Temporary Virtual
- Mappings" section
-Message-ID: <Ymfb1saaHVuq4IUl@linutronix.de>
-References: <20220425162400.11334-1-fmdefrancesco@gmail.com>
- <20220425162400.11334-5-fmdefrancesco@gmail.com>
- <YmecctAD9XXYG8CR@linutronix.de>
- <3610796.MHq7AAxBmi@leap>
+        with ESMTP id S231283AbiDZLzM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 07:55:12 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 016656B0AA;
+        Tue, 26 Apr 2022 04:52:05 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 6C02D4FA;
+        Tue, 26 Apr 2022 11:52:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6C02D4FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1650973925; bh=3ZzQrlw1NQbrjpZwAUYdsefYcABLAR3rDhbIC83lg5o=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Ejf3vPkCoDZZPjUag3HzOItIi90qAHWh2ynOOpEwwfuogWHblVC/OxlqlP6rYMFXz
+         j47hh175m1IdOgegDPgXeK/DkeKXPye9wmEErrdDJ/qqoP0DYlOZgzaS0ug+ulgxko
+         8VN/uEeVoEQme/8Qbov/oZXu1PO8UciBwK1BSf8GLqny/UTjnWGcsajWDcKLSJtDli
+         GGnOyfZMK3ERJy7jbrs5slBcrhRjGTT658GsUbi/rH9BdXHh4sbEEIsyK7/SbxDkKB
+         IUWJT22pFhI6sYPQ+4p0KB5sTR1zIFaj+Uvg3ZuiOZet84l4cFVcoLk5aIYY//ae21
+         G6YnRFfCNG1/g==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Haowen Bai <baihaowen@meizu.com>, alexs@kernel.org,
+        siyanteng01@gmail.com
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        siyanteng@loongson.cn, Haowen Bai <baihaowen@meizu.com>
+Subject: Re: [PATCH 0/2] sync with original text
+ Documentation/vm/page_owner.rst
+In-Reply-To: <1650956829-31013-1-git-send-email-baihaowen@meizu.com>
+References: <1650956829-31013-1-git-send-email-baihaowen@meizu.com>
+Date:   Tue, 26 Apr 2022 05:52:04 -0600
+Message-ID: <8735i0dpuj.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <3610796.MHq7AAxBmi@leap>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-04-26 12:45:12 [+0200], Fabio M. De Francesco wrote:
-> > > +* kmap_local_page().  This function is used to require short term=20
-> mappings.
-> > > +  It can be invoked from any context (including interrupts) but the=
-=20
-> mappings
-> > > +  can only be used in the context which acquired them.
-> > > +
-> > > +  This function should be preferred, where feasible, over all the=20
-> others.
-> >=20
-> > feasible? It should always be used.=20
->=20
-> No, it cannot always be used. Please read again few lines above this that=
-=20
-> "The mapping can only be used in the context which acquired them". We=20
-> cannot do blind s/kmap/kmap_local_page/.
+Haowen Bai <baihaowen@meizu.com> writes:
 
-I'm sorry it seems I slipped while reading and replying.
-The kmap_atomic() part has "should be only used if it is absolutely
-required" =E2=80=A6 " otherwise kmap_local_page()". The kmap_atomic() shoul=
-d be
-used in new code. The alternative kmap() and kmap_local*() should be
-enough.
+> This patches series will sync the translation of zh_CN as below:
 
-> > Maybe "thread local" instead CPU local? Another thread on the same CPU
-> > can not use this mapping.
-> >=20
->=20
-> Hmm, I might add "thread local" to convey that the local mappings should=
-=20
-> stay in the same context that acquired them.=20
->=20
-> However, kmap_local_page() also disable migration. This is how Thomas=20
-> Gleixner talks about kmap_local_page() in his patch where it introduced=
-=20
-> this function:=20
->=20
-> "The kmap_local.*() functions can be invoked from both preemptible and
-> atomic context. kmap local sections disable migration to keep the resulti=
-ng
-> virtual mapping address correct, but disable neither pagefaults nor
-> preemption.".
->=20
-> Therefore, if it "disable migration" it is "CPU local". I mean that I mig=
-ht=20
-> also add "thread local" but I think (at least at this moment) that I won'=
-t=20
-> remove "CPU local".
+So I got two sets of these patches sent within minutes...so I'm not sure
+what to do with them.  Why did you send them twice.
 
-Hmm. It is thread-local in the end. There are slots 0 =E2=80=A6 KM_MAX_IDX =
-for
-the mappings. Slot 0 for task A can be different from slot 0 for task B
-while both run on CPU0. So the same address, that is returned from
-kmap_local(), will point to a different page for both tasks. Both tasks
-can't be migrated to another CPU while the mapping is active.
-"CPU local" sounds like something that is same to everyone on the same
-CPU which is what this_cpu_read() for instance does.
+Additionally:
 
-> @Ira: what about this proposal?
->=20
-> Thanks,
->=20
-> Fabio
+ - Please put a version number on your patch postings
 
-Sebastian
+ - A brief note (below the "---") line on what changed is helpful to
+   reviewers and maintainers alike.
+
+Thanks,
+
+jon
