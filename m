@@ -2,161 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AEAFC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 21:53:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B92CC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 22:16:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349038AbiDZV4x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 17:56:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43508 "EHLO
+        id S1355749AbiDZWTf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 18:19:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237427AbiDZV4x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 17:56:53 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D24D4EE4DF;
-        Tue, 26 Apr 2022 14:53:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 82B05B82169;
-        Tue, 26 Apr 2022 21:53:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51CA7C385AD;
-        Tue, 26 Apr 2022 21:53:40 +0000 (UTC)
-Date:   Tue, 26 Apr 2022 17:53:38 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Kurt Kanzenbach <kurt@linutronix.de>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Richard Cochran <richardcochran@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] timekeeping: Introduce fast accessor to clock
- tai
-Message-ID: <20220426175338.3807ca4f@gandalf.local.home>
-In-Reply-To: <20220414091805.89667-2-kurt@linutronix.de>
-References: <20220414091805.89667-1-kurt@linutronix.de>
-        <20220414091805.89667-2-kurt@linutronix.de>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S1355744AbiDZWTe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 18:19:34 -0400
+Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58BE344757
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 15:16:05 -0700 (PDT)
+Received: by mail-vs1-xe32.google.com with SMTP id i186so105932vsc.9
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 15:16:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6zGXmfev2fZGrOwPRRRskiATCBJI4+jYm998S3ATC8Q=;
+        b=SspT/Gc1YeBYxd3CDjgccU2KIlthHvbpi3ELpC1/z6AtxsRSGcDqwaIGXTajqWv35R
+         U60ZsfoDh1/7M4TIEPZB6asL2txtS5ml4OIggIpTnfg+6k72xgPyg8qlqtC3uIn63Sc/
+         4YzjlF0Z54wBRglXo5yjakB8gPaoRQFvWL76oA5kdOQJ+eVZg2eGyFwCrwCvW2yJZD1b
+         IPYK9K59RGTw+qyLe8gQvRFAcHt47psGBWruCznn4BB9YGpIVHNQ886qej50GZAN/4Ly
+         na8F3eaEjgkDsk2VBWT/Oggkhho04df+tjjUZCswqQ/sqs0022L0tNQmX8FdAAINcDF+
+         Yhrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6zGXmfev2fZGrOwPRRRskiATCBJI4+jYm998S3ATC8Q=;
+        b=z8CuOOEeFs+fIbefsOdMNIqhAhGdAND3IxEK8OwVkRL+/HCzpym2T/Ru24hbbMMQIj
+         lm3Aznv+MFIoVkCD628joITIFH7ZcvSXTyNGoHBvswP0Qiie4/Q4AjdhbhHZdcl8OBk9
+         7b2Cle7xRRo7EXsUgCfoxdgpbCXXWE1wS+O+tbyPjG+9b1hKPby/P75b9to9TKCl9bur
+         JoS8y9e/hj/BTcRPWQPkkW3GnCWJLuZoEOK3ad5T1I6Ze1lzXbVhfFx5x7CT1F87XXhr
+         DUKg03E+qbUet5hbITSc9hkA0YL6sNpH+HivhGCRaMc3vGJADXuLZPfotujMs9uCqrq9
+         rMCQ==
+X-Gm-Message-State: AOAM533bdW2FttkrP2RBLxp/EbtcNwlWY2tZ5DjF5DyVYi5qMJmmRSLU
+        ASXE6esNk+ekv8zPKnOR2ICYkHWUgkXmsPEWYH3hlg==
+X-Google-Smtp-Source: ABdhPJwtXIjGlv7qMVkp8DMl5ITZo9rPEtcBPeYIWRka13ZludUdH/JfX3XZPzMGGhjISchzL8DHf+KslyvYgkO1+v8=
+X-Received: by 2002:a67:cfc5:0:b0:32c:d143:d8e9 with SMTP id
+ h5-20020a67cfc5000000b0032cd143d8e9mr3404761vsm.22.1651011363983; Tue, 26 Apr
+ 2022 15:16:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-13-yuzhao@google.com>
+ <20220411191634.674554d3de2ba37b3db40ca2@linux-foundation.org>
+ <CAOUHufYhhCPFqoRbtn+=OFxZxNWS9yxW9Re_s-2TYGqCEaMXVw@mail.gmail.com>
+ <20220415212024.c682ac000e3e91572d8d6d2b@linux-foundation.org>
+ <CAOUHufa60CVZcXJ937=P4GVtV_Cn76mYCWwcyBNjMAADmyWEwQ@mail.gmail.com> <20220426143034.f520c062830f9e3405c890d0@linux-foundation.org>
+In-Reply-To: <20220426143034.f520c062830f9e3405c890d0@linux-foundation.org>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Tue, 26 Apr 2022 16:15:26 -0600
+Message-ID: <CAOUHufY1FmZGnAvpRYtTvXQ2cYTisxUauD0MzSXDesQ-T6GvQg@mail.gmail.com>
+Subject: Re: [PATCH v10 12/14] mm: multi-gen LRU: debugfs interface
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 14 Apr 2022 11:18:03 +0200
-Kurt Kanzenbach <kurt@linutronix.de> wrote:
+On Tue, Apr 26, 2022 at 3:30 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Tue, 26 Apr 2022 00:59:37 -0600 Yu Zhao <yuzhao@google.com> wrote:
+>
+> > On Fri, Apr 15, 2022 at 10:20 PM Andrew Morton
+> > <akpm@linux-foundation.org> wrote:
+> > >
+> > > On Fri, 15 Apr 2022 18:03:16 -0600 Yu Zhao <yuzhao@google.com> wrote:
+> > >
+> > > > > Presumably sysfs is the place.  Fully documented and with usage
+> > > > > examples in the changelog so we can carefully review the proposed
+> > > > > extensions to Linux's ABI.  Extensions which must be maintained
+> > > > > unchanged for all time.
+> > > >
+> > > > Eventually, yes. There still is a long way to go. Rest assured, this
+> > > > is something Google will keep investing resources on.
+> > >
+> > > So.  The plan is to put these interfaces in debugfs for now, with a
+> > > view to migrating stabilized interfaces into sysfs (or procfs or
+> > > whatever) once end-user requirements and use cases are better
+> > > understood?
+> >
+> > The requirements are well understood and the use cases are proven,
+> > e.g., Google [1], Meta [2] and Alibaba [3].
+> >
+> > [1] https://dl.acm.org/doi/10.1145/3297858.3304053
+> > [2] https://dl.acm.org/doi/10.1145/3503222.3507731
+> > [3] https://gitee.com/anolis/cloud-kernel/blob/release-5.10/mm/kidled.c
+>
+> So will these interfaces be moved into sysfs?
 
-I finally ran this series through my tests, and it has some issues.
+So the debugfs interface from this patch provides:
+1. proactive reclaim,
+2. working set estimation.
 
-> Introduce fast/NMI safe accessor to clock tai for tracing. The Linux kernel
-> tracing infrastructure has support for using different clocks to generate
-> timestamps for trace events. Especially in TSN networks it's useful to have TAI
-> as trace clock, because the application scheduling is done in accordance to the
-> network time, which is based on TAI. With a tai trace_clock in place, it becomes
-> very convenient to correlate network activity with Linux kernel application
-> traces.
-> 
-> Use the same implementation as ktime_get_boot_fast_ns() does by reading the
-> monotonic time and adding the TAI offset. The same limitations as for the fast
-> boot implementation apply. The TAI offset may change at run time e.g., by
-> setting the time or using adjtimex() with an offset. However, these kind of
-> offset changes are rare events. Nevertheless, the user has to be aware and deal
-> with it in post processing.
-> 
-> An alternative approach would be to use the same implementation as
-> ktime_get_real_fast_ns() does. However, this requires to add an additional u64
-> member to the tk_read_base struct. This struct together with a seqcount is
-> designed to fit into a single cache line on 64 bit architectures. Adding a new
-> member would violate this constraint.
-> 
-> Signed-off-by: Kurt Kanzenbach <kurt@linutronix.de>
-> ---
->  Documentation/core-api/timekeeping.rst |  1 +
->  include/linux/timekeeping.h            |  1 +
->  kernel/time/timekeeping.c              | 17 +++++++++++++++++
->  3 files changed, 19 insertions(+)
-> 
-> diff --git a/Documentation/core-api/timekeeping.rst b/Documentation/core-api/timekeeping.rst
-> index 729e24864fe7..22ec68f24421 100644
-> --- a/Documentation/core-api/timekeeping.rst
-> +++ b/Documentation/core-api/timekeeping.rst
-> @@ -132,6 +132,7 @@ Some additional variants exist for more specialized cases:
->  .. c:function:: u64 ktime_get_mono_fast_ns( void )
->  		u64 ktime_get_raw_fast_ns( void )
->  		u64 ktime_get_boot_fast_ns( void )
-> +		u64 ktime_get_tai_fast_ns( void )
->  		u64 ktime_get_real_fast_ns( void )
->  
->  	These variants are safe to call from any context, including from
-> diff --git a/include/linux/timekeeping.h b/include/linux/timekeeping.h
-> index 78a98bdff76d..fe1e467ba046 100644
-> --- a/include/linux/timekeeping.h
-> +++ b/include/linux/timekeeping.h
-> @@ -177,6 +177,7 @@ static inline u64 ktime_get_raw_ns(void)
->  extern u64 ktime_get_mono_fast_ns(void);
->  extern u64 ktime_get_raw_fast_ns(void);
->  extern u64 ktime_get_boot_fast_ns(void);
-> +extern u64 ktime_get_tai_fast_ns(void);
->  extern u64 ktime_get_real_fast_ns(void);
->  
->  /*
-> diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
-> index dcdcb85121e4..2c22023fbf5f 100644
-> --- a/kernel/time/timekeeping.c
-> +++ b/kernel/time/timekeeping.c
-> @@ -532,6 +532,23 @@ u64 notrace ktime_get_boot_fast_ns(void)
->  }
->  EXPORT_SYMBOL_GPL(ktime_get_boot_fast_ns);
->  
-> +/**
-> + * ktime_get_tai_fast_ns - NMI safe and fast access to tai clock.
-> + *
-> + * The same limitations as described for ktime_get_boot_fast_ns() apply. The
-> + * mono time and the TAI offset are not read atomically which may yield wrong
-> + * readouts. However, an update of the TAI offset is an rare event e.g., caused
-> + * by settime or adjtimex with an offset. The user of this function has to deal
-> + * with the possibility of wrong timestamps in post processing.
-> + */
-> +u64 notrace ktime_get_tai_fast_ns(void)
-> +{
-> +	struct timekeeper *tk = &tk_core.timekeeper;
-> +
-> +	return (ktime_get_mono_fast_ns() + ktime_to_ns(data_race(tk->offs_tai)));
+The sysfs interface for item 1 is being finalized by [4], and it's a
+subset of this debugfs interface because we want it to be more
+general. The sysfs interface for item 2 will be eventually proposed as
+well, with the same approach. It will look like a histogram in which
+the active/inactive LRU has two bins whereas MGLRU has more bins. Bins
+contain pages and multiple bins represent different hotness/coldness.
+Since [4] took about two years, I'd say this histogram-like interface
+would take no less than a couple of years as well.
 
-As you are using this for tracing, can you open code the
-ktime_get_mono_fast_ns(), otherwise we need to mark that function as
-notrace. Not to mention, this is a fast path and using the noinline of
-__ktime_get_fast_ns() should be less overhead.
+This debugfs interface stays even after that, and it will serve its
+true purpose (debugging), not a substitute for the sysfs interfaces.
 
-That said, I hit this too:
+> > > If so, that sounds totally great to me.  But it should have been in
+> > > the darn changelog!  This is the sort of thing which we care about most
+> > > keenly.
+> > >
+> > > It would be helpful for reviewers to understand the proposed timeline
+> > > for this process, because the entire feature isn't really real until
+> > > this is completed, is it?  I do think we should get this nailed down
+> > > relatively rapidly, otherwise people will be reluctant to invest much
+> > > into a moving target.
+> > >
+> > > And I must say, I see dissonance between the overall maturity of the
+> > > feature as described in these emails versus the immaturity of these
+> > > userspace control interfaces.  What's happening there?
+> >
+> > Very observant. To answer both of the questions above: each iteration
+> > of the entire stack is a multi-year effort.
+> >
+> > Given its ROI, companies I know of constantly pour money into this
+> > area. Given its scale, this debugfs is the least of their concerns. A
+> > good example is the proactive reclaim sysfs interface [4]. It's been
+> > used at Google for many years and at Meta for a few years. We only
+> > started finalizing it recently.
+> >
+> > [4] https://lore.kernel.org/r/20220425190040.2475377-1-yosryahmed@google.com/
+>
+> Sure, if one organization is involved in both the userspace code and
+> the kernel interfaces then the alteration of kernel interfaces can be
+> handled in a coordinated fashion.
+>
+> But releasing interfaces to the whole world is a different deal.  It's
+> acceptable to say "this is in debugfs for now because it's a work
+> in progress" but it sounds like mglru's interfaces are beyond that
+> stage?
 
-            less-5071    [000] d.h2. 498087876.351330: do_raw_spin_trylock <-_raw_spin_lock
-            less-5071    [000] d.h4. 498087876.351334: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
-            less-5071    [000] d.h5. 498087876.351334: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
-            less-5071    [000] d.h3. 498087876.351334: rcu_read_lock_sched_held <-lock_acquired
-            less-5071    [000] d.h5. 498087876.351337: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
-    kworker/u8:1-45      [003] d.h7. 1651009380.982749: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
-    kworker/u8:1-45      [003] d.h7. 1651009380.982749: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
-    kworker/u8:1-45      [003] d.h5. 1651009380.982749: rcu_read_lock_held_common <-rcu_read_lock_sched_held
-    kworker/u8:1-45      [003] d.h7. 498087876.375905: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
-    kworker/u8:1-45      [003] d.h7. 498087876.375905: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
-    kworker/u8:1-45      [003] d.h5. 498087876.375905: update_cfs_group <-task_tick_fair
-    kworker/u8:1-45      [003] d.h7. 498087876.375909: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
-
-The clock seems to be toggling between 1651009380 and 498087876 causing the
-ftrace ring buffer to shutdown (it doesn't allow for time to go backwards).
-
-This is running on a 32 bit x86.
-
--- Steve
-
-
-> +}
-> +EXPORT_SYMBOL_GPL(ktime_get_tai_fast_ns);
-> +
->  static __always_inline u64 __ktime_get_real_fast(struct tk_fast *tkf, u64 *mono)
->  {
->  	struct tk_read_base *tkr;
-
+Correct. It's a WIP in the sense of "know what needs to be done but
+can't get it done immediately", not "don't know what's next; try this
+for now".
