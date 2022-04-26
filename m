@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E6DFC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 07:05:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFA6DC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 07:07:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236408AbiDZHIP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 03:08:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57364 "EHLO
+        id S237349AbiDZHK5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 03:10:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238909AbiDZHIN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 03:08:13 -0400
+        with ESMTP id S1343720AbiDZHKx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 03:10:53 -0400
 Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 385EC26CC;
-        Tue, 26 Apr 2022 00:05:05 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 589E538198;
+        Tue, 26 Apr 2022 00:07:17 -0700 (PDT)
 Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail12.meizu.com
  (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 26 Apr
- 2022 15:05:03 +0800
+ 2022 15:07:15 +0800
 Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
  (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 26 Apr
- 2022 15:05:02 +0800
+ 2022 15:07:15 +0800
 From:   Haowen Bai <baihaowen@meizu.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-CC:     Haowen Bai <baihaowen@meizu.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
+To:     <corbet@lwn.net>, <alexs@kernel.org>, <siyanteng01@gmail.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <siyanteng@loongson.cn>, Haowen Bai <baihaowen@meizu.com>
 Subject: [PATCH 2/2] doc/vm/page_owner.rst: Fix table display confusion
-Date:   Tue, 26 Apr 2022 15:04:54 +0800
-Message-ID: <1650956694-30699-3-git-send-email-baihaowen@meizu.com>
+Date:   Tue, 26 Apr 2022 15:07:09 +0800
+Message-ID: <1650956829-31013-3-git-send-email-baihaowen@meizu.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1650956694-30699-1-git-send-email-baihaowen@meizu.com>
-References: <1650956694-30699-1-git-send-email-baihaowen@meizu.com>
+In-Reply-To: <1650956829-31013-1-git-send-email-baihaowen@meizu.com>
+References: <1650956829-31013-1-git-send-email-baihaowen@meizu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [172.16.137.70]
