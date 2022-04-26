@@ -2,105 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA9B2C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 18:02:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D505BC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 18:31:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349879AbiDZSGF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 14:06:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58620 "EHLO
+        id S1351445AbiDZSeb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 14:34:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353052AbiDZSGE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 14:06:04 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97FF527CE6;
-        Tue, 26 Apr 2022 11:02:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3BA90B820F9;
-        Tue, 26 Apr 2022 18:02:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9B48C385A4;
-        Tue, 26 Apr 2022 18:02:49 +0000 (UTC)
-Date:   Tue, 26 Apr 2022 19:02:46 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v22 5/9] arm64: kdump: Reimplement crashkernel=X
-Message-ID: <YmgzxsrrMlCDYsWp@arm.com>
-References: <20220414115720.1887-1-thunder.leizhen@huawei.com>
- <20220414115720.1887-6-thunder.leizhen@huawei.com>
+        with ESMTP id S1351058AbiDZSe3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 14:34:29 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC0C91CB17;
+        Tue, 26 Apr 2022 11:31:17 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id e23so2384842eda.11;
+        Tue, 26 Apr 2022 11:31:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=CtivK/lbjkFn6fCJitHMAm73ZL6+X5IagBxOgsbgoFw=;
+        b=ah1fX5YhJKRbkl+xlw+Gun6kLxP6FBDciSqczj3fapwkuEbS7nsMr7mlTDVtKJ1EUl
+         CvYuRt7OKaa2x4WC3Ov4dKXFA91FO0RGO2RCrJhnO9TZa0V9JmgcNWreiw0dpFxJiEto
+         oCU5egWOMJr9SFwZhP8ZpezrzNDQLbQkflTlcFhzqz7y6XdzaH5LqWR4edEyGlnishXZ
+         5ymYVmGlemkREtdQoT/iYs08oFnqCVoD/t5MrcqZfyK/u129VbxWppE5lb1+bwf1RWK6
+         L9UpILm7HT1PkQXpP/8IPzwCfNBUBwE10QWwativi/VOGN0tn4iUIRYc400hEhugKVey
+         tHHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=CtivK/lbjkFn6fCJitHMAm73ZL6+X5IagBxOgsbgoFw=;
+        b=BAiJwGLRAtj5/fy6s5viLF0aHkkayHE9Dd4d15523jJInO0SXJzUjMbFKTuKYS3R9J
+         tH+1HRFCLK24fH20DQo9dZxdlEakbGlU4+xFJkDYqC3eNGAxAFE+vLLaal7ULuMVEIHF
+         v7VORL6hz/L8YEJkDmjk3+t7GLez8FkuDBkbtYDaLABDZH3u9PIQRTcCdCrwcSjBLgt3
+         zsoLw109jOrXtt0KnooXbGCuBVjzk0UDFnk3SXU7HyPEMsJsILk/qbNoGoMABpXCxTsA
+         4rnlyvUIIYeYEG4iLc049/sNplrbUL9xj7GJDyMRWeepVl9G4VPjdcluQCjKvddpmjik
+         Gjeg==
+X-Gm-Message-State: AOAM531cR6wV+1sxdRdXhSD3pEZXXUu+RxXjtUeASTqd+w+5OUVMuq/Q
+        rRNlt5NVyBZWIFp+ISPrqDE=
+X-Google-Smtp-Source: ABdhPJy5U8SX/X1DAwEV03AhVM1LZD7u+G9Vyhc7qZDg06eobpf3P/8ZRCfEaMn2oPl979RDTw6Swg==
+X-Received: by 2002:a05:6402:2318:b0:413:7645:fa51 with SMTP id l24-20020a056402231800b004137645fa51mr26535565eda.201.1650997876370;
+        Tue, 26 Apr 2022 11:31:16 -0700 (PDT)
+Received: from leap.localnet (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
+        by smtp.gmail.com with ESMTPSA id d11-20020a1709067f0b00b006f395247b5esm2817517ejr.84.2022.04.26.11.31.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Apr 2022 11:31:15 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     Ira Weiny <ira.weiny@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        outreachy@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH v2 4/4] Documentation/vm: Rework "Temporary Virtual Mappings" section
+Date:   Tue, 26 Apr 2022 20:31:12 +0200
+Message-ID: <3429395.iIbC2pHGDl@leap>
+In-Reply-To: <Ymfb1saaHVuq4IUl@linutronix.de>
+References: <20220425162400.11334-1-fmdefrancesco@gmail.com> <3610796.MHq7AAxBmi@leap> <Ymfb1saaHVuq4IUl@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220414115720.1887-6-thunder.leizhen@huawei.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 14, 2022 at 07:57:16PM +0800, Zhen Lei wrote:
->  /*
->   * reserve_crashkernel() - reserves memory for crash kernel
->   *
->   * This function reserves memory area given in "crashkernel=" kernel command
->   * line parameter. The memory reserved is used by dump capture kernel when
->   * primary kernel is crashing.
-> + *
-> + * NOTE: Reservation of crashkernel,low is special since its existence
-> + * is not independent, need rely on the existence of crashkernel,high.
-> + * Here, four cases of crashkernel low memory reservation are summarized:
-> + * 1) crashkernel=Y,low is specified explicitly, the size of crashkernel low
-> + *    memory takes Y;
-> + * 2) crashkernel=,low is not given, while crashkernel=,high is specified,
-> + *    take the default crashkernel low memory size;
-> + * 3) crashkernel=X is specified, while fallback to get a memory region
-> + *    in high memory, take the default crashkernel low memory size;
-> + * 4) crashkernel='invalid value',low is specified, failed the whole
-> + *    crashkernel reservation and bail out.
+On marted=C3=AC 26 aprile 2022 13:47:34 CEST Sebastian Andrzej Siewior wrot=
+e:
+>=20
+> Hmm. It is thread-local in the end. There are slots 0 =E2=80=A6 KM_MAX_ID=
+X for
+> the mappings. Slot 0 for task A can be different from slot 0 for task B
+> while both run on CPU0. So the same address, that is returned from
+> kmap_local(), will point to a different page for both tasks. Both tasks
+> can't be migrated to another CPU while the mapping is active.
+> "CPU local" sounds like something that is same to everyone on the same
+> CPU which is what this_cpu_read() for instance does.
+>=20
 
-Following the x86 behaviour made sense when we were tried to get that
-code generic. Now that we moved the logic under arch/arm64, we can
-diverge a bit. I lost track of the original (v1/v2) proposal but I
-wonder whether we still need the fallback to high for crashkernel=Y.
-Maybe simpler, no fallbacks:
+OK, I agree with you :)=20
 
-	crashkernel=Y - keep the current behaviour, ignore high,low
-	crashkernel=Y,high - allocate above ZONE_DMA
-	crashkernel=Y,low - allocate within ZONE_DMA
+I just got three notices from Greg K-H stating that he has applied three of=
+=20
+my driver / Android patches. The patches are some conversions from kmap()=20
+and / or kmap_atomic() to kmap_local_page() (or wrappers around it):
 
-From your proposal, the difference is that the Y,high option won't
-have any default ZONE_DMA fallback, one would have to explicitly pass
-the Y,low option if needed.
+https://lore.kernel.org/lkml/20220425175754.8180-4-fmdefrancesco@gmail.com/
+https://lore.kernel.org/lkml/20220425175754.8180-3-fmdefrancesco@gmail.com/
+https://lore.kernel.org/lkml/20220425175754.8180-2-fmdefrancesco@gmail.com/
 
-Just a thought, maybe it makes the code simpler. But I'm open to
-discussion if there are good arguments for the proposed (x86-like)
-behaviour. One argument could be for crashkernel=Y to fall back to high
-if distros don't want to bother with high/low settings.
+I had forgotten that I wrote the following sentence in all three commit=20
+messages: "[] With kmap_local_page(), the mapping is per thread, CPU local=
+=20
+and not globally visible. []"
 
-Another thing I may have asked in the past, what happens if we run a new
-kernel with these patches with old kexec user tools. I suspect the
-crashkernel=Y with the fallback to high will confuse the tools.
+Therefore, I'll add "thread-local" or "per thread". I probably like your=20
+wording more than mine: "thread-local" is more suitable.
 
-BTW, please separate the NO_BLOCK_MAPPINGS optimisations from the
-crashkernel above 4G. Let's get the crashkernel reservations sorted
-first, it's been around for too long.
+=46or consistency (again) I like the other change you proposed, which is to=
+=20
+add "deprecated!" also in kunmap_atomic(), exactly as it is already in=20
+kmap_atomic() kernel-docs.
 
-Thanks.
+However, I will wait one more day before sending v3, in case there are=20
+other people who want to suggest further changes.
 
--- 
-Catalin
+If I remember correctly, I'm overlooking nothing else. Do I overlook=20
+something?
+
+Thanks for your help,
+
+=46abio
+
+
