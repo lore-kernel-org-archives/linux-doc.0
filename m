@@ -2,134 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5958DC4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 10:47:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C8E0C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 11:04:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349078AbiDZKuQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 06:50:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34116 "EHLO
+        id S245433AbiDZLHz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 07:07:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349200AbiDZKtc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 06:49:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA0F21147;
-        Tue, 26 Apr 2022 03:45:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 403F86173A;
-        Tue, 26 Apr 2022 10:45:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2258C385A0;
-        Tue, 26 Apr 2022 10:45:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1650969943;
-        bh=6gWdf0sx4XE9f8S+pDU7h2Xqd2fTzJnBt5BeFM/9wH4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Id742V0xJ5l8zl5zUJpQ8HtxX0VBqF1DX1/YfNeEYETApb64r5/RilRtxqLgpNUyU
-         oMHglFdtTjG6oJO35TMkCUAeWKv6rYkUMuqG/eF6/WRbn0vE4VPfn8STq5FPuaOiYK
-         ezuml9uttCHTwOml/BHl8+e9pVYnTfQNf2FkxtAY=
-Date:   Tue, 26 Apr 2022 12:45:40 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Tony Luck <tony.luck@intel.com>
-Cc:     hdegoede@redhat.com, markgross@kernel.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, corbet@lwn.net,
-        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
-        ashok.raj@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
-        ravi.v.shankar@intel.com
-Subject: Re: [PATCH v4 04/10] platform/x86/intel/ifs: Read IFS firmware image
-Message-ID: <YmfNVG0qLahv7TzL@kroah.com>
-References: <20220419163859.2228874-1-tony.luck@intel.com>
- <20220422200219.2843823-1-tony.luck@intel.com>
- <20220422200219.2843823-5-tony.luck@intel.com>
+        with ESMTP id S233696AbiDZLHy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 07:07:54 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85F7F28E2A;
+        Tue, 26 Apr 2022 04:04:46 -0700 (PDT)
+Date:   Tue, 26 Apr 2022 13:04:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1650971084;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=HjyU9NvofkV276yYd3L7iXZQQ0QFvFSNByjHU0uq55c=;
+        b=Gk0yHJbv2aGJ/2l1nIkLLvqz5HrQO/PDPUfAftVbi8s6Pognk8pqJSusRuinaNcx9PpVne
+        BvO49UaWcszJJeLPZXrKe6fsthVJb4qKWfMHX+5PBu8mJm22mABoRt+nVL4ALXXN1MrSNI
+        4DvH3WinatcPub7cgQJPm1IFwbeOwEa0nitf4Nxx1Bfen753d7PDI/2lmXWnlw6rx6uCrL
+        yUVQszsXwdT6wQ4V/QM+1hauVHfnizUJv7/qdkhLMQcTDD6vZKipF0s/0sQPuTnaWYi8EH
+        6MavcUNGD6G5k0uv81GqURnJZsWo9dQNoqH9k9Fd9+CLBcBnWhNTeTTlzH19+w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1650971084;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=HjyU9NvofkV276yYd3L7iXZQQ0QFvFSNByjHU0uq55c=;
+        b=+b8zV0yo/mXtz/93HGWqiMRgkSpPuzqlcsWqHHG8/yhDsUpHdRxcogSO3dx/Mbs5WnV6Oa
+        x+JjmR6t3PENpcBg==
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc:     Ira Weiny <ira.weiny@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        outreachy@lists.linux.dev,
+        "Acked-by : Mike Rapoport" <rppt@linux.ibm.com>
+Subject: Re: [PATCH v2 1/4] mm/highmem: Fix kernel-doc warnings in highmem*.h
+Message-ID: <YmfRynAhuSWz9H+e@linutronix.de>
+References: <20220425162400.11334-1-fmdefrancesco@gmail.com>
+ <20220425162400.11334-2-fmdefrancesco@gmail.com>
+ <YmeYzKT8Ikq5SfdE@linutronix.de>
+ <4396926.LvFx2qVVIh@leap>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220422200219.2843823-5-tony.luck@intel.com>
+In-Reply-To: <4396926.LvFx2qVVIh@leap>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 22, 2022 at 01:02:13PM -0700, Tony Luck wrote:
-> From: Jithu Joseph <jithu.joseph@intel.com>
+On 2022-04-26 11:43:03 [+0200], Fabio M. De Francesco wrote:
+> I might add "Deprecated!", however Ira Weiny asked me to rephrase an 
+> earlier version of one of the patch which is is this series. I wrote that 
+> "The use of kmap_atomic() is deprecated in favor of kmap_local_page()." and 
+> Ira replied "I'm not sure deprecated is the right word. [] This series 
+> should end up indicating the desire to stop growing kmap() and
+> kmap_atomic() call sites and that their deprecation is on the horizon.".
 > 
-> Driver probe routine allocates structure to communicate status
-> and parameters between functions in the driver. Also call
-> load_ifs_binary() to load the scan image file.
+> What Ira suggested is exactly what I'm doing in v2. 
 > 
-> There is a separate scan image file for each processor family,
-> model, stepping combination. This is read from the static path:
-> 
->   /lib/firmware/intel/ifs/{ff-mm-ss}.scan
-> 
-> Step 1 in loading is to generate the correct path and use
-> request_firmware_direct() to load into memory.
-> 
-> Subsequent patches will use the IFS MSR interfaces to copy
-> the image to BIOS reserved memory and validate the SHA256
-> checksums.
-> 
-> Signed-off-by: Jithu Joseph <jithu.joseph@intel.com>
-> Co-developed-by: Tony Luck <tony.luck@intel.com>
-> Signed-off-by: Tony Luck <tony.luck@intel.com>
-> ---
->  drivers/platform/x86/intel/ifs/Makefile |  2 +-
->  drivers/platform/x86/intel/ifs/core.c   | 36 ++++++++++++++++++++++++-
->  drivers/platform/x86/intel/ifs/ifs.h    | 25 +++++++++++++++++
->  drivers/platform/x86/intel/ifs/load.c   | 28 +++++++++++++++++++
->  4 files changed, 89 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/platform/x86/intel/ifs/ifs.h
->  create mode 100644 drivers/platform/x86/intel/ifs/load.c
-> 
-> diff --git a/drivers/platform/x86/intel/ifs/Makefile b/drivers/platform/x86/intel/ifs/Makefile
-> index af904880e959..98b6fde15689 100644
-> --- a/drivers/platform/x86/intel/ifs/Makefile
-> +++ b/drivers/platform/x86/intel/ifs/Makefile
-> @@ -1,3 +1,3 @@
->  obj-$(CONFIG_INTEL_IFS)		+= intel_ifs.o
->  
-> -intel_ifs-objs			:= core.o
-> +intel_ifs-objs			:= core.o load.o
-> diff --git a/drivers/platform/x86/intel/ifs/core.c b/drivers/platform/x86/intel/ifs/core.c
-> index 5713e6ee90f0..ed4ded6755b2 100644
-> --- a/drivers/platform/x86/intel/ifs/core.c
-> +++ b/drivers/platform/x86/intel/ifs/core.c
-> @@ -6,6 +6,8 @@
->  
->  #include <asm/cpu_device_id.h>
->  
-> +#include "ifs.h"
-> +
->  enum test_types {
->  	IFS_SAF,
->  };
-> @@ -20,10 +22,27 @@ static const struct x86_cpu_id ifs_cpu_ids[] __initconst = {
->  };
->  MODULE_DEVICE_TABLE(x86cpu, ifs_cpu_ids);
->  
-> +static struct ifs_device ifs_devices[] = {
-> +	[IFS_SAF] = {
-> +		.data = {
-> +			.integrity_cap_bit = MSR_INTEGRITY_CAPS_PERIODIC_BIST_BIT,
-> +		},
-> +		.misc = {
-> +			.name = "intel_ifs_0",
-> +			.nodename = "intel_ifs/0",
-> +			.minor = MISC_DYNAMIC_MINOR,
-> +		},
-> +	},
-> +};
-> +
-> +#define IFS_NUMTESTS ARRAY_SIZE(ifs_devices)
+> @Ira: what about adding "Deprecated!" for consistency with kmap_atomic() 
+> kdoc?
 
-Cute way to do this, but I don't see you ever have any more devices
-added to this list in this series.  Did I miss them?
+I would prefer to keep the documentation symmetric.
 
-If not, why all the overhead and complexity involved here for just a
-single misc device?
+> > The part about
+> > disabling/ enabling preemption is true for !PREEMPT_RT.
+> 
+> To me it looks that this is not what Thomas Gleixner wrote in the cover 
+> letter of his series ("[patch V2 00/18] mm/highmem: Preemptible variant of 
+> kmap_atomic & friends") at 
+> https://lore.kernel.org/lkml/20201029221806.189523375@linutronix.de/
+> 
+> For your convenience:
+> 
+> "[] there is not a real reason anymore to confine migration disabling to 
+> RT. [] Removing the RT dependency from migrate_disable/enable()".
+> 
+> Is there anything I'm still missing?
 
-thanks,
+Hmm. We had migrate_disable() initially limited to RT for a few reasons.
+Then Linus complained about this and that and mentioned something about
+Highmem is dying or not used that widely anymore (or so) and then the
+local interface came up which required the migrate_disable() interface
+to work for everyone. Back then the atomic interface should go away and
+I remember that hch wanted to remove some of the callers from the DMA
+API.
+That is just on top of my head.
 
-greg k-h
+Looking at kmap_atomic() there is this:
+
+| static inline void *kmap_atomic_prot(struct page *page, pgprot_t prot)
+| {
+|         if (IS_ENABLED(CONFIG_PREEMPT_RT))
+|                 migrate_disable();
+|         else
+|                 preempt_disable();
+| 
+|         pagefault_disable();
+|         return __kmap_local_page_prot(page, prot);
+| }
+| 
+| static inline void *kmap_atomic(struct page *page)
+| {
+|         return kmap_atomic_prot(page, kmap_prot);
+| }
+
+as of v5.18-rc4. As you see, pagefaults are disabled for everyone. RT disables
+migration only and !RT disables preemption. 
+Internally __kmap_local_page_prot() ends up in __kmap_local_pfn_prot()
+which uses migrate_disable() for the lifetime of the mapping. So it
+disables additionally migration for the life time of the mapping but
+preemption has been also disabled (and only for !RT).
+
+We _could_ only disable migration in kmap_atomic_prot() for everyone but
+we can't easily proof that none of the kmap_atomic() user rely on the
+preempt-disable part. RT never disabled preemption here so it is safe to
+assume that nothing on RT relies on that.
+
+> > The part that
+> > worries me is that people use it and rely on disabled preemption like
+> > some did in the past. 
+> 
+> This is something I'd prefer to hear also from other developers who are 
+> CC'ed for this patch :) 
+
+Eitherway, according to the code kmap_atomic() does not always disable
+preemption and the other comments around indicate that it is deprecated,
+see commit
+   f3ba3c710ac5a ("mm/highmem: Provide kmap_local*")
+   https://git.kernel.org/torvalds/c/f3ba3c710ac5a
+
+> Thanks for your review,
+> 
+> Fabio
+
+Sebastian
