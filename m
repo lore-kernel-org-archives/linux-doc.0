@@ -2,108 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48FEDC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 08:20:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D364EC43219
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 08:22:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344581AbiDZIXm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 04:23:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51170 "EHLO
+        id S1344610AbiDZI0D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 04:26:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344584AbiDZIXd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 04:23:33 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2F5D39BA6;
-        Tue, 26 Apr 2022 01:20:24 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id iq2-20020a17090afb4200b001d93cf33ae9so1581044pjb.5;
-        Tue, 26 Apr 2022 01:20:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=HTkhVCwB81oItW36nLwVzqqoPPJpYzHgpYIkMsBEsWk=;
-        b=qde4ACVjiYLawr37T6PT5dksdblUsoa1GgAxmw56O26epijv0fY5S/aos5REMDWYCG
-         JfIuyZni5momoXAwCnCqNE+ZEUOtQaLV19GuctsTU4aLJGXnT/qF3KC6QbqbvAKrPHJe
-         XMXKNSxyAd8FVND+DY1oRO3ry5GQH9u5BJSCMrmatwAusRSHP1C0raAXQS+DFn6Yrs38
-         3KrwPVzaaNMQhUgyC9dmAOVYb9nTfvd8zFFHDNuWfkjdt7/PpwasisaDSz/1t9OeczwD
-         1MyxnHDs6zYoDccHszD7bPBNvEFOkwPT13kdjB6QdIFe61KwUWd5WPYP9h8vt8FzIu9N
-         tAJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=HTkhVCwB81oItW36nLwVzqqoPPJpYzHgpYIkMsBEsWk=;
-        b=hCysq6tAqzlEGxUpOsCvso2DS+MUTBkxVy9xJZFmMqDdbY74uK7sogsa5+OBXl4kRs
-         qHlvNV9MBQ+4n1cSHeoZ7/AEyfQpBWuco0HZsXehC8fk7lrOXy5JzocQeNxqPX5nFWH1
-         /Xo5WYKxn9t8fDdMcTwqf98LKRviYF0IWXLSSLqBcX5zp9Ht4nvbxwMxwJVyasK1uVT6
-         tewF2tJqYTGfhbbvSpVX9MNa7HuRHQobZybKfioChPfAzN4fXYslKsYNWeiaSqtgrlt/
-         KQKJ0wEtPFgV6wwoCX959T/QQcLayU5MHNYzf6xVk2AjTSV+aeJInhI26u/q5OizY92T
-         YAUA==
-X-Gm-Message-State: AOAM533U+F8WWSG2tPHc1BiOw0VCJikibwyAEM/H2g0S3vmXQkv4dT31
-        iLdXhRnwPl2054yDr6crhlI=
-X-Google-Smtp-Source: ABdhPJwXqDMtVIFw0QkmLuBxcx6aLiJkCFN1IFwubZCd4py0WHhuQkHE3qlR2hKfthPTTcPsxfFYHw==
-X-Received: by 2002:a17:90b:4c47:b0:1d9:88b2:1995 with SMTP id np7-20020a17090b4c4700b001d988b21995mr7575724pjb.80.1650961224288;
-        Tue, 26 Apr 2022 01:20:24 -0700 (PDT)
-Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id 132-20020a62168a000000b004f40e8b3133sm14947128pfw.188.2022.04.26.01.20.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Apr 2022 01:20:23 -0700 (PDT)
-Message-ID: <73d2f4cb-9f38-ac33-b4c0-c4d3b465bf8b@gmail.com>
-Date:   Tue, 26 Apr 2022 16:20:17 +0800
+        with ESMTP id S234242AbiDZI0A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 04:26:00 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93BB33A5E9;
+        Tue, 26 Apr 2022 01:22:47 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 357091F380;
+        Tue, 26 Apr 2022 08:22:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1650961366; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=NKbpFjMDPqd7TQ514NLGknGrSkR1xvTuZ+twvGBw1Ds=;
+        b=Ku8RBnA0Rf9zQsz4S8BTrgHF20lahZ8buxMT5bsutog3s+qQEzlQpjXalln29/WK/9rWTe
+        y/9DNr88hxHzQwcPkYA9KVTaL8FZ7DTVb/ZbTuzWAufvvhtv6te6DXO8ZUj85HjsIehW/n
+        qbSDE3xjlsTQgKOtmALRZ+WjV1K1F3E=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 2BB612C146;
+        Tue, 26 Apr 2022 08:22:45 +0000 (UTC)
+Date:   Tue, 26 Apr 2022 10:22:42 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Yosry Ahmed <yosryahmed@google.com>
+Cc:     David Rientjes <rientjes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, Yu Zhao <yuzhao@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Wei Xu <weixugc@google.com>, Greg Thelen <gthelen@google.com>,
+        Chen Wandun <chenwandun@huawei.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v5 1/4] memcg: introduce per-memcg reclaim interface
+Message-ID: <Ymer0qeaJlRY1Ju6@dhcp22.suse.cz>
+References: <20220425190040.2475377-1-yosryahmed@google.com>
+ <20220425190040.2475377-2-yosryahmed@google.com>
+ <a4c3d067-d08d-409d-e7b-b6e0b1d2dfda@google.com>
+ <CAJD7tka_96du2UUx0xuseR62wu005-KPf7fSyDTAuXOWsgUQDg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/2] docs/zh_CN: sync with original text
- Documentation/vm/page_owner.rst
-Content-Language: en-US
-To:     baihaowen <baihaowen@meizu.com>, siyanteng01@gmail.com
-Cc:     alexs@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, siyanteng@loongson.cn
-References: <CAEensMzuQ0uAw8_5Xb7u1n685au=DpaJyPevGCT8GCG7xS42ow@mail.gmail.com>
- <1650424016-7225-1-git-send-email-baihaowen@meizu.com>
- <1650424016-7225-2-git-send-email-baihaowen@meizu.com>
- <30d2f96e-99e1-2976-a294-8e112166afff@gmail.com>
- <049ccac8-c394-0cdc-c2ed-4ea91cab6439@meizu.com>
- <c498b2a7-8f0e-4f6d-10ba-49c4c7794ff9@gmail.com>
- <0be9fe6a-b01e-b355-9283-6ad8372932d6@meizu.com>
-From:   Alex Shi <seakeel@gmail.com>
-In-Reply-To: <0be9fe6a-b01e-b355-9283-6ad8372932d6@meizu.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJD7tka_96du2UUx0xuseR62wu005-KPf7fSyDTAuXOWsgUQDg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 4/25/22 09:17, baihaowen wrote:
-> 在 4/24/22 11:16 AM, Alex Shi 写道:
->>
->> On 4/24/22 10:56, baihaowen wrote:
->>>>> +        ======          ==========      ==================
->>> hi, Alex
->>> I can apply local.
->>> ➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documentation-vm-.patch
->>> 应用：docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
->>> ➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0002-doc-vm-page_owner.rst-Fix-table-display-confusion.patch   
->>> 应用：doc/vm/page_owner.rst: Fix table display confusion
->>>
->>> I think git send-email will change format by my select. I'll try to resend.
->> Send to yourself only then get it from your email client and try applying. 
->>
->> Thanks
->> Alex
-> Hi Alex
+On Mon 25-04-22 12:31:51, Yosry Ahmed wrote:
+> On Mon, Apr 25, 2022 at 12:15 PM David Rientjes <rientjes@google.com> wrote:
+[...]
+> > "can over or under reclaim from the target cgroup" begs the question of
+> > how much more memory the kernel can decide to reclaim :)  I think it's
+> > assumed that it's minimal and that matches the current implementation that
+> > rounds up to SWAP_CLUSTER_MAX, though, so looks good.
+> >
+> > Thanks Yosry!
 > 
-> Could you tell me how do you do when you get a patch from email ?
-> 
-> I get my patch from email and then copy-patse to a new file, then git am xx.patch.
+> I think it could be more complex than this. Some functions that get
+> called during reclaim only use the nr_to_reclaim parameter to check if
+> they need one more iteration, but not to limit the actual reclaimed
+> pages per say. For example, nr_to_reclaim is not even passed to
+> shrink_slab() or mem_cgroup_soft_limit_reclaim(), so they have no way
+> to know that they should stop if nr_to_reclaim was already satisfied.
+> I think the general assumption is that each of these calls normally
+> does not reclaim a huge number of pages, so like you said, the kernel
+> should not over-reclaim too much. However, I don't think there are
+> guarantees about this.
 
-Don't do it. copy usually mess the format of patch.
-
-Saving the patch email from many kind of email-clients as raw file, like thunderbird etc.
-Then using 'git am xxx.patch'. It will work. In fact, git can handle the plain email patch well.
-
-
-> It will notice 补丁格式检测失败。
-> 
+There are no guarantees indeed and it si definitely good to be explicit
+about that so that userspace tools expect that and consider that in
+the imeplementation. Sure we do not want to go overboard and huge excess
+should be considered a bug. I am not sure we do agree on the notion of
+"huge" so let's see.
+-- 
+Michal Hocko
+SUSE Labs
