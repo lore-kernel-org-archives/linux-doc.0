@@ -2,120 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC6A7C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 16:06:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 051ADC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 16:12:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352811AbiDZQJr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 12:09:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33900 "EHLO
+        id S1348048AbiDZQPr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 12:15:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242727AbiDZQJq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 12:09:46 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 764A347548
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 09:06:38 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id z26so2329391iot.8
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 09:06:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=48HTw/rBGTX9w0BVqolReo8yB9AAi0BaZFQxJTNNLy4=;
-        b=ZD1m7Y4nVS7PfQ4Kjhtcx2pWQRTgJwYNx2+YXbk1O2CUO2UxP5EWmPra4LFir6/Taw
-         RpW0It155qOW40r+x6bxxHSyaWqdAxyZPQbArFGFnVhID+wD8iVD1c4L/8kFEbTKgLUz
-         EJZN4+mqFAvk4fkU1MkgFX4lHN0a0xfTh0KQ0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=48HTw/rBGTX9w0BVqolReo8yB9AAi0BaZFQxJTNNLy4=;
-        b=VVBVeX6SUUitLXI027rgWqyLth3FrKI0KnpkJ2hiAYXnatICG2YpWeX0OtqmJdf1TN
-         L0ETLLOm1Cqg+6ZIonWWWkCUQrhc7JCnxOusf3sKAMxTQsf6F5Z90nMUDNCAxd1Hoe0R
-         sa34V6TERqDN9MGB089gBvScWQkq31HVBFNfy2WjH/O6qOkVtk3RHY4I92oyrO0K9ocl
-         Y5aKNGz7FJHxCfDQkx3g7RqHzXAv3Fj4k3rk8VHqzaGMyyliNw1jJldEFSd8J4hmAW+f
-         8MPxtp7MNx7SvO19k0Ynkjn0LojQUHkoXtukZHbLlqUg8zSojWaWdWMGtRc39HI+wiKr
-         k8Rw==
-X-Gm-Message-State: AOAM532u9rJE50DHOdwMmM2NpIMGxShnRhb0q6UjDSUquUv3Vdnycga0
-        00DPTCg0XoI83iORXS/4ZBnjMQ==
-X-Google-Smtp-Source: ABdhPJxlhTF/uJw3gqLA3Hj0XRaHwykEJis0oX2P2Zrd5M2rhYKz2s635umapHwjfAZEV7w+j3mLVw==
-X-Received: by 2002:a05:6638:1652:b0:328:5357:7acb with SMTP id a18-20020a056638165200b0032853577acbmr11320817jat.71.1650989197839;
-        Tue, 26 Apr 2022 09:06:37 -0700 (PDT)
-Received: from [192.168.1.128] ([71.205.29.0])
-        by smtp.gmail.com with ESMTPSA id s21-20020a6bd315000000b006573987c4fcsm9786770iob.3.2022.04.26.09.06.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Apr 2022 09:06:37 -0700 (PDT)
-Subject: Re: [PATCH v2 1/6] selftests: vm: add hugetlb_shared userfaultfd test
- to run_vmtests.sh
-To:     Axel Rasmussen <axelrasmussen@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Charan Teja Reddy <charante@codeaurora.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
-        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>, zhangyi <yi.zhang@huawei.com>
-Cc:     linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20220422212945.2227722-1-axelrasmussen@google.com>
- <20220422212945.2227722-2-axelrasmussen@google.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <037ea7ee-5248-86a5-55a2-f1726567af81@linuxfoundation.org>
-Date:   Tue, 26 Apr 2022 10:06:36 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        with ESMTP id S1345245AbiDZQPq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 12:15:46 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71584996AE;
+        Tue, 26 Apr 2022 09:12:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650989559; x=1682525559;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0RIR7mb999d1172gD+dJU/ULf/cy2ZbhtoDViRJG+bI=;
+  b=akxPOGmwj8OoVXM6KLBkU7Yd1qEQIybwgbLqf+n+q0P9ii73iuBJi/RI
+   IFYQA/8lM2o/MKVk/EC67g/Yh2TulTZFKH+XMdY0FOX6595t/ZaPp63rc
+   V8DjW8Iq/BhmhtniqxEvV+LKiJoszwKNskGI3/JgugA2qliLcuCEtbU0U
+   aC8oASDWhubjUFtme/IuM1JgDUYZtJrnwpKaxzPumG91n1aG0hrndIzCH
+   ny2zeBwR8/HpquljsnlpjzpF6itkefcYFplO5tl3w6RkYJxbili4uQjCj
+   wesIkF01qm0I2IFumxpUmHCR36s4d5b1qXJrB0AHOoQvofDPLHgcaWumz
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="245552675"
+X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; 
+   d="scan'208";a="245552675"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 09:12:38 -0700
+X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; 
+   d="scan'208";a="617063201"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 09:12:38 -0700
+Date:   Tue, 26 Apr 2022 09:12:37 -0700
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     hdegoede@redhat.com, markgross@kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, corbet@lwn.net,
+        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
+        ashok.raj@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
+        ravi.v.shankar@intel.com
+Subject: Re: [PATCH v4 04/10] platform/x86/intel/ifs: Read IFS firmware image
+Message-ID: <YmgZ9d54sjKllh6U@agluck-desk3.sc.intel.com>
+References: <20220419163859.2228874-1-tony.luck@intel.com>
+ <20220422200219.2843823-1-tony.luck@intel.com>
+ <20220422200219.2843823-5-tony.luck@intel.com>
+ <YmfNVG0qLahv7TzL@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <20220422212945.2227722-2-axelrasmussen@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YmfNVG0qLahv7TzL@kroah.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/22/22 3:29 PM, Axel Rasmussen wrote:
-> This not being included was just a simple oversight. There are certain
-> features (like minor fault support) which are only enabled on shared
-> mappings, so without including hugetlb_shared we actually lose a
-> significant amount of test coverage.
-> 
-> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
-> ---
->   tools/testing/selftests/vm/run_vmtests.sh | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/vm/run_vmtests.sh b/tools/testing/selftests/vm/run_vmtests.sh
-> index a2302b5faaf2..5065dbd89bdb 100755
-> --- a/tools/testing/selftests/vm/run_vmtests.sh
-> +++ b/tools/testing/selftests/vm/run_vmtests.sh
-> @@ -121,9 +121,11 @@ run_test ./gup_test -a
->   run_test ./gup_test -ct -F 0x1 0 19 0x1000
->   
->   run_test ./userfaultfd anon 20 16
-> -# Test requires source and destination huge pages.  Size of source
-> -# (half_ufd_size_MB) is passed as argument to test.
-> +# Hugetlb tests require source and destination huge pages. Pass in half the
-> +# size ($half_ufd_size_MB), which is used for *each*.
->   run_test ./userfaultfd hugetlb "$half_ufd_size_MB" 32
-> +run_test ./userfaultfd hugetlb_shared "$half_ufd_size_MB" 32 "$mnt"/uffd-test
-> +rm -f "$mnt"/uffd-test
->   run_test ./userfaultfd shmem 20 16
->   
->   #cleanup
-> 
+On Tue, Apr 26, 2022 at 12:45:40PM +0200, Greg KH wrote:
+> On Fri, Apr 22, 2022 at 01:02:13PM -0700, Tony Luck wrote:
+> >  drivers/platform/x86/intel/ifs/Makefile |  2 +-
+> >  drivers/platform/x86/intel/ifs/core.c   | 36 ++++++++++++++++++++++++-
+> >  drivers/platform/x86/intel/ifs/ifs.h    | 25 +++++++++++++++++
+> >  drivers/platform/x86/intel/ifs/load.c   | 28 +++++++++++++++++++
 
-Looks good to me.
+You haven't commented on the source tree location. With the change
+to use misc_register() this isn't a "platform" device anymore.
 
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+Should I move to "drivers/misc/"? Or is there some better spot that
+preseves the detail that this is an x86/intel driver in the path?
 
-thanks,
--- Shuah
+> > +static struct ifs_device ifs_devices[] = {
+> > +	[IFS_SAF] = {
+> > +		.data = {
+> > +			.integrity_cap_bit = MSR_INTEGRITY_CAPS_PERIODIC_BIST_BIT,
+> > +		},
+> > +		.misc = {
+> > +			.name = "intel_ifs_0",
+> > +			.nodename = "intel_ifs/0",
+> > +			.minor = MISC_DYNAMIC_MINOR,
+> > +		},
+> > +	},
+> > +};
+> > +
+> > +#define IFS_NUMTESTS ARRAY_SIZE(ifs_devices)
+> 
+> Cute way to do this, but I don't see you ever have any more devices
+> added to this list in this series.  Did I miss them?
+
+That's in part 11/10 ... I have hardware, so I'm pretty sure that this
+is a real thing. Just not ready to post until Intel announces the
+details of the new test type.
+
+> If not, why all the overhead and complexity involved here for just a
+> single misc device?
+
+It didn't seem like a lot of complexity here. It makes the changes to
+this file to add an extra test trivial (just a new name in the "enum"
+and a new initializer in ifs_devices[]).
+
+Obviously some more code in load.c and runtest.c to handle the new
+test type.
+
+If it really is too much now, I can rip it out from this submission
+and add it back when the second test is ready for public view.
+
+-Tony
