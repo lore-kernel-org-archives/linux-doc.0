@@ -2,112 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB3F1C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 21:34:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AEAFC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 21:53:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355514AbiDZVhP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 17:37:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54706 "EHLO
+        id S1349038AbiDZV4x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 17:56:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351810AbiDZVhO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 17:37:14 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77FBD1A5DCF
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 14:34:04 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id f4so281016iov.2
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 14:34:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zJHneikLXEGfJde4krQasd9PQhsFRpApoS4ZRag7+RU=;
-        b=EdwxR0V/0R58E5VQDj0HrytGDcfRa0ZaI7Me6rDBjirAgNHRbWWWvGaw7HmQEIGzu+
-         8UTTpBJpVmtohKiGL5cVYIq8PicWJvFUQVly2vSP4TS+56W86k/aX6l5WCrdoFzyILM+
-         1Yehf40AqvUszrZodWCBswvT50v8vrsYb0CT9VT0ik1assb3s50rjI/Ghc6ERMC0+hQS
-         kngQQpUrenrx0Z/CG7kuYI7vOHHB9pxCvklytawOfmTdu9cTLRddizluzNirEjBtvgHq
-         /7wjZvrPSoiAuTCiyBqcBwBGz7SjzYicglmkQ0p2ZcHJZmj17y1/IkCZAoejAg68UMHJ
-         xOsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zJHneikLXEGfJde4krQasd9PQhsFRpApoS4ZRag7+RU=;
-        b=LXGIp6aIaCLhFxa8QdGM6+//jXs4CZeQOlnpa49MpDbGQaVA6H4naOLneB+iXlHVHa
-         HrRn+LvMcyUkNz3ncgE4nFvd9HZoVKAB399xRKQT2uHGfyCZF7e56ndG9WZMprbHi6i/
-         g6bRaa4LqNSYlN+ue15eKLBGGje0ZvJzGMlGLsEnaJiEm2FpdlIcZn9dkl2mFVNYgtcK
-         VGso/BZGYF5yEruLE0+zXQJCFLUyfHSierp2QNNWJkfCB/l8SJ8AStHK7alcJWP32ivf
-         RCwzBsNhttZ+2kQM40PfXnEPZWmDhY6y7faI2ZthptGv7OobyivhJKHgV0dlEQDbbgwk
-         ciig==
-X-Gm-Message-State: AOAM532o0uL/PfLm+99TcUWKZYDDuoeQkTJzqrZvhuNXjRXlDQodFA/S
-        ituFzrnelFj7Z0kdj9EUaZGlYqhYenRpQI8OQ29C9g==
-X-Google-Smtp-Source: ABdhPJyGNR5sOXzGqUeKg6keEazd9H9Z8L/jAzBgMCoHI+lyyK7gNjS+2erCu0X4dzgJTpnr7YSLg3mNpJ5fsfcJHI0=
-X-Received: by 2002:a5d:9448:0:b0:657:24e0:c0b2 with SMTP id
- x8-20020a5d9448000000b0065724e0c0b2mr10388348ior.167.1651008843696; Tue, 26
- Apr 2022 14:34:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220422212945.2227722-1-axelrasmussen@google.com>
- <20220422212945.2227722-3-axelrasmussen@google.com> <YmhW+mOuQUWsByj4@xz-m1.local>
-In-Reply-To: <YmhW+mOuQUWsByj4@xz-m1.local>
-From:   Axel Rasmussen <axelrasmussen@google.com>
-Date:   Tue, 26 Apr 2022 14:33:27 -0700
-Message-ID: <CAJHvVch=8znnY-u1PbPb1qUeczn+9AR_eZOP5z9kD6PgtPQjrQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] userfaultfd: add /dev/userfaultfd for fine grained
- access control
-To:     Peter Xu <peterx@redhat.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Charan Teja Reddy <charante@codeaurora.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+        with ESMTP id S237427AbiDZV4x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 17:56:53 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D24D4EE4DF;
+        Tue, 26 Apr 2022 14:53:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 82B05B82169;
+        Tue, 26 Apr 2022 21:53:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51CA7C385AD;
+        Tue, 26 Apr 2022 21:53:40 +0000 (UTC)
+Date:   Tue, 26 Apr 2022 17:53:38 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Kurt Kanzenbach <kurt@linutronix.de>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        zhangyi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Linuxkselftest <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Richard Cochran <richardcochran@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] timekeeping: Introduce fast accessor to clock
+ tai
+Message-ID: <20220426175338.3807ca4f@gandalf.local.home>
+In-Reply-To: <20220414091805.89667-2-kurt@linutronix.de>
+References: <20220414091805.89667-1-kurt@linutronix.de>
+        <20220414091805.89667-2-kurt@linutronix.de>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 1:33 PM Peter Xu <peterx@redhat.com> wrote:
->
-> Axel,
->
-> On Fri, Apr 22, 2022 at 02:29:41PM -0700, Axel Rasmussen wrote:
-> > @@ -65,6 +66,8 @@ struct userfaultfd_ctx {
-> >       unsigned int flags;
-> >       /* features requested from the userspace */
-> >       unsigned int features;
-> > +     /* whether or not to handle kernel faults */
-> > +     bool handle_kernel_faults;
->
-> Could you help explain why we need this bool?  I failed to figure out
-> myself on the difference against "!(ctx->flags & UFFD_USER_MODE_ONLY)".
+On Thu, 14 Apr 2022 11:18:03 +0200
+Kurt Kanzenbach <kurt@linutronix.de> wrote:
 
-Ah, yeah you're right, we can get rid of it and just rely on
-UFFD_USER_MODE_ONLY.
+I finally ran this series through my tests, and it has some issues.
 
-Just to add context, in a previous version I never sent out, I had:
+> Introduce fast/NMI safe accessor to clock tai for tracing. The Linux kernel
+> tracing infrastructure has support for using different clocks to generate
+> timestamps for trace events. Especially in TSN networks it's useful to have TAI
+> as trace clock, because the application scheduling is done in accordance to the
+> network time, which is based on TAI. With a tai trace_clock in place, it becomes
+> very convenient to correlate network activity with Linux kernel application
+> traces.
+> 
+> Use the same implementation as ktime_get_boot_fast_ns() does by reading the
+> monotonic time and adding the TAI offset. The same limitations as for the fast
+> boot implementation apply. The TAI offset may change at run time e.g., by
+> setting the time or using adjtimex() with an offset. However, these kind of
+> offset changes are rare events. Nevertheless, the user has to be aware and deal
+> with it in post processing.
+> 
+> An alternative approach would be to use the same implementation as
+> ktime_get_real_fast_ns() does. However, this requires to add an additional u64
+> member to the tk_read_base struct. This struct together with a seqcount is
+> designed to fit into a single cache line on 64 bit architectures. Adding a new
+> member would violate this constraint.
+> 
+> Signed-off-by: Kurt Kanzenbach <kurt@linutronix.de>
+> ---
+>  Documentation/core-api/timekeeping.rst |  1 +
+>  include/linux/timekeeping.h            |  1 +
+>  kernel/time/timekeeping.c              | 17 +++++++++++++++++
+>  3 files changed, 19 insertions(+)
+> 
+> diff --git a/Documentation/core-api/timekeeping.rst b/Documentation/core-api/timekeeping.rst
+> index 729e24864fe7..22ec68f24421 100644
+> --- a/Documentation/core-api/timekeeping.rst
+> +++ b/Documentation/core-api/timekeeping.rst
+> @@ -132,6 +132,7 @@ Some additional variants exist for more specialized cases:
+>  .. c:function:: u64 ktime_get_mono_fast_ns( void )
+>  		u64 ktime_get_raw_fast_ns( void )
+>  		u64 ktime_get_boot_fast_ns( void )
+> +		u64 ktime_get_tai_fast_ns( void )
+>  		u64 ktime_get_real_fast_ns( void )
+>  
+>  	These variants are safe to call from any context, including from
+> diff --git a/include/linux/timekeeping.h b/include/linux/timekeeping.h
+> index 78a98bdff76d..fe1e467ba046 100644
+> --- a/include/linux/timekeeping.h
+> +++ b/include/linux/timekeeping.h
+> @@ -177,6 +177,7 @@ static inline u64 ktime_get_raw_ns(void)
+>  extern u64 ktime_get_mono_fast_ns(void);
+>  extern u64 ktime_get_raw_fast_ns(void);
+>  extern u64 ktime_get_boot_fast_ns(void);
+> +extern u64 ktime_get_tai_fast_ns(void);
+>  extern u64 ktime_get_real_fast_ns(void);
+>  
+>  /*
+> diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
+> index dcdcb85121e4..2c22023fbf5f 100644
+> --- a/kernel/time/timekeeping.c
+> +++ b/kernel/time/timekeeping.c
+> @@ -532,6 +532,23 @@ u64 notrace ktime_get_boot_fast_ns(void)
+>  }
+>  EXPORT_SYMBOL_GPL(ktime_get_boot_fast_ns);
+>  
+> +/**
+> + * ktime_get_tai_fast_ns - NMI safe and fast access to tai clock.
+> + *
+> + * The same limitations as described for ktime_get_boot_fast_ns() apply. The
+> + * mono time and the TAI offset are not read atomically which may yield wrong
+> + * readouts. However, an update of the TAI offset is an rare event e.g., caused
+> + * by settime or adjtimex with an offset. The user of this function has to deal
+> + * with the possibility of wrong timestamps in post processing.
+> + */
+> +u64 notrace ktime_get_tai_fast_ns(void)
+> +{
+> +	struct timekeeper *tk = &tk_core.timekeeper;
+> +
+> +	return (ktime_get_mono_fast_ns() + ktime_to_ns(data_race(tk->offs_tai)));
 
-ctx->handle_kernel_faults = userfaultfd_allowed(...);
+As you are using this for tracing, can you open code the
+ktime_get_mono_fast_ns(), otherwise we need to mark that function as
+notrace. Not to mention, this is a fast path and using the noinline of
+__ktime_get_fast_ns() should be less overhead.
 
-That's wrong for other reasons, but if we were going to do that we'd
-have to store the result, since it's a function not just of the flags,
-but also of the method used to create the userfaultfd. I changed this
-without also dropping the boolean, which can now be cleaned up. I'll
-include this change in a v3.
+That said, I hit this too:
 
->
-> Thanks,
->
-> --
-> Peter Xu
->
+            less-5071    [000] d.h2. 498087876.351330: do_raw_spin_trylock <-_raw_spin_lock
+            less-5071    [000] d.h4. 498087876.351334: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+            less-5071    [000] d.h5. 498087876.351334: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+            less-5071    [000] d.h3. 498087876.351334: rcu_read_lock_sched_held <-lock_acquired
+            less-5071    [000] d.h5. 498087876.351337: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+    kworker/u8:1-45      [003] d.h7. 1651009380.982749: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+    kworker/u8:1-45      [003] d.h7. 1651009380.982749: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+    kworker/u8:1-45      [003] d.h5. 1651009380.982749: rcu_read_lock_held_common <-rcu_read_lock_sched_held
+    kworker/u8:1-45      [003] d.h7. 498087876.375905: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+    kworker/u8:1-45      [003] d.h7. 498087876.375905: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+    kworker/u8:1-45      [003] d.h5. 498087876.375905: update_cfs_group <-task_tick_fair
+    kworker/u8:1-45      [003] d.h7. 498087876.375909: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+
+The clock seems to be toggling between 1651009380 and 498087876 causing the
+ftrace ring buffer to shutdown (it doesn't allow for time to go backwards).
+
+This is running on a 32 bit x86.
+
+-- Steve
+
+
+> +}
+> +EXPORT_SYMBOL_GPL(ktime_get_tai_fast_ns);
+> +
+>  static __always_inline u64 __ktime_get_real_fast(struct tk_fast *tkf, u64 *mono)
+>  {
+>  	struct tk_read_base *tkr;
+
