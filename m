@@ -2,126 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 323E5C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 07:48:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48FEDC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 08:20:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238407AbiDZHvp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 03:51:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45812 "EHLO
+        id S1344581AbiDZIXm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 04:23:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242452AbiDZHvp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 03:51:45 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C00741A040;
-        Tue, 26 Apr 2022 00:48:37 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id h1so17219580pfv.12;
-        Tue, 26 Apr 2022 00:48:37 -0700 (PDT)
+        with ESMTP id S1344584AbiDZIXd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 04:23:33 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2F5D39BA6;
+        Tue, 26 Apr 2022 01:20:24 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id iq2-20020a17090afb4200b001d93cf33ae9so1581044pjb.5;
+        Tue, 26 Apr 2022 01:20:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=f3CunhxLC3mb3e6UNr+xNX95pgRojNIa+JUKiN4OUms=;
-        b=TljaTwoD8SLvOhWYTxOMKfYY4caoHsVCypcKaTpr1fj0K9eavwC4WSrr8G2XGElv8x
-         TV9kj4OpypB/7rTo+tSov6Fhh50nCp6quQer1GYUvmSyAxLUzyGDQwX6SW4ddDzFDIOx
-         6NB1aq9idon2IZZRJdp8SP825iqygYG2wCZap9YmIKbCh1GtDzbZSPKq6e1EU+rYfu3Q
-         DysNrV27KbaIKIkDTDBGraC+yTWaPMQGx3+ki4BKfk4HizU8csvTp0Ol0uCs3egEEEzh
-         S0HZdkVei0DhgK4TtYnkwmcRYoRjDjQH2Ho5T6mcxx2QupLuE1DZthyiYYsEEzAdy8aq
-         DKfw==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=HTkhVCwB81oItW36nLwVzqqoPPJpYzHgpYIkMsBEsWk=;
+        b=qde4ACVjiYLawr37T6PT5dksdblUsoa1GgAxmw56O26epijv0fY5S/aos5REMDWYCG
+         JfIuyZni5momoXAwCnCqNE+ZEUOtQaLV19GuctsTU4aLJGXnT/qF3KC6QbqbvAKrPHJe
+         XMXKNSxyAd8FVND+DY1oRO3ry5GQH9u5BJSCMrmatwAusRSHP1C0raAXQS+DFn6Yrs38
+         3KrwPVzaaNMQhUgyC9dmAOVYb9nTfvd8zFFHDNuWfkjdt7/PpwasisaDSz/1t9OeczwD
+         1MyxnHDs6zYoDccHszD7bPBNvEFOkwPT13kdjB6QdIFe61KwUWd5WPYP9h8vt8FzIu9N
+         tAJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=f3CunhxLC3mb3e6UNr+xNX95pgRojNIa+JUKiN4OUms=;
-        b=4yZQCA26rgytSVQg66+gNMaq5dwTDEuljoYzkpJhW547TMDWlso3xheFlGFvgcgCKT
-         tAPSljbENDe/EmRdTOFciCO+VXPqcMtFvtYcYmnN27Fi9LVRs7C4hfyNWcE5ayKUf3Bc
-         5puG8JGgYoGzu+9k0OmzE5Im13xveuA5tuspsAUecUXtbpXY+gbCzytc6HoKah7T3Seu
-         xODILt1EgNYg7PwHXuN1IOrdcAsulECVMRlQYEDwalUIWXbyNh1qj5y/4is8DUtexsEJ
-         hpRCHEU06xEuYCGHUPyApcoQisHGCvJHleTFkEbgw8oIb+0FVSO+YsSb2p6t7+OM0Gb7
-         FuLQ==
-X-Gm-Message-State: AOAM531mF+vsF/RsoM9IwpmJmweqx2nDBsZ9pXVLANRVWlnVnR42/flT
-        A2aDZAeb5tQARb6DgxYGZPCD0hKsCaQ=
-X-Google-Smtp-Source: ABdhPJzbS6CSlbSiL3g2XpFHPHeAZCURvdyStjTGUIx8QfAcYIPh4pe5nzI/LP307yAagUaH8Nk2Bg==
-X-Received: by 2002:a63:3115:0:b0:3ab:2131:5f12 with SMTP id x21-20020a633115000000b003ab21315f12mr9658991pgx.0.1650959316856;
-        Tue, 26 Apr 2022 00:48:36 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-30.three.co.id. [116.206.28.30])
-        by smtp.gmail.com with ESMTPSA id n12-20020a17090ade8c00b001d25dfb9d39sm1845467pjv.14.2022.04.26.00.48.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Apr 2022 00:48:35 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        kernel test robot <lkp@intel.com>,
-        Suresh Warrier <warrier@linux.vnet.ibm.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Segher Boessenkool <segher@kernel.crashing.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Fabiano Rosas <farosas@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Alexey Kardashevskiy <aik@ozlabs.ru>,
-        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-        stable@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] KVM: powerpc: remove extraneous asterisk from rm_host_ipi_action comment
-Date:   Tue, 26 Apr 2022 14:47:51 +0700
-Message-Id: <20220426074750.71251-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.36.0
+        bh=HTkhVCwB81oItW36nLwVzqqoPPJpYzHgpYIkMsBEsWk=;
+        b=hCysq6tAqzlEGxUpOsCvso2DS+MUTBkxVy9xJZFmMqDdbY74uK7sogsa5+OBXl4kRs
+         qHlvNV9MBQ+4n1cSHeoZ7/AEyfQpBWuco0HZsXehC8fk7lrOXy5JzocQeNxqPX5nFWH1
+         /Xo5WYKxn9t8fDdMcTwqf98LKRviYF0IWXLSSLqBcX5zp9Ht4nvbxwMxwJVyasK1uVT6
+         tewF2tJqYTGfhbbvSpVX9MNa7HuRHQobZybKfioChPfAzN4fXYslKsYNWeiaSqtgrlt/
+         KQKJ0wEtPFgV6wwoCX959T/QQcLayU5MHNYzf6xVk2AjTSV+aeJInhI26u/q5OizY92T
+         YAUA==
+X-Gm-Message-State: AOAM533U+F8WWSG2tPHc1BiOw0VCJikibwyAEM/H2g0S3vmXQkv4dT31
+        iLdXhRnwPl2054yDr6crhlI=
+X-Google-Smtp-Source: ABdhPJwXqDMtVIFw0QkmLuBxcx6aLiJkCFN1IFwubZCd4py0WHhuQkHE3qlR2hKfthPTTcPsxfFYHw==
+X-Received: by 2002:a17:90b:4c47:b0:1d9:88b2:1995 with SMTP id np7-20020a17090b4c4700b001d988b21995mr7575724pjb.80.1650961224288;
+        Tue, 26 Apr 2022 01:20:24 -0700 (PDT)
+Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
+        by smtp.gmail.com with ESMTPSA id 132-20020a62168a000000b004f40e8b3133sm14947128pfw.188.2022.04.26.01.20.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Apr 2022 01:20:23 -0700 (PDT)
+Message-ID: <73d2f4cb-9f38-ac33-b4c0-c4d3b465bf8b@gmail.com>
+Date:   Tue, 26 Apr 2022 16:20:17 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/2] docs/zh_CN: sync with original text
+ Documentation/vm/page_owner.rst
+Content-Language: en-US
+To:     baihaowen <baihaowen@meizu.com>, siyanteng01@gmail.com
+Cc:     alexs@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, siyanteng@loongson.cn
+References: <CAEensMzuQ0uAw8_5Xb7u1n685au=DpaJyPevGCT8GCG7xS42ow@mail.gmail.com>
+ <1650424016-7225-1-git-send-email-baihaowen@meizu.com>
+ <1650424016-7225-2-git-send-email-baihaowen@meizu.com>
+ <30d2f96e-99e1-2976-a294-8e112166afff@gmail.com>
+ <049ccac8-c394-0cdc-c2ed-4ea91cab6439@meizu.com>
+ <c498b2a7-8f0e-4f6d-10ba-49c4c7794ff9@gmail.com>
+ <0be9fe6a-b01e-b355-9283-6ad8372932d6@meizu.com>
+From:   Alex Shi <seakeel@gmail.com>
+In-Reply-To: <0be9fe6a-b01e-b355-9283-6ad8372932d6@meizu.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kernel test robot reported kernel-doc warning for rm_host_ipi_action():
 
-arch/powerpc/kvm/book3s_hv_rm_xics.c:887: warning: This comment
-starts with '/**', but isn't a kernel-doc comment. Refer
-Documentation/doc-guide/kernel-doc.rst
 
-Since the function is static, remove the extraneous (second) asterisk at
-the head of function comment.
+On 4/25/22 09:17, baihaowen wrote:
+> 在 4/24/22 11:16 AM, Alex Shi 写道:
+>>
+>> On 4/24/22 10:56, baihaowen wrote:
+>>>>> +        ======          ==========      ==================
+>>> hi, Alex
+>>> I can apply local.
+>>> ➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documentation-vm-.patch
+>>> 应用：docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
+>>> ➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0002-doc-vm-page_owner.rst-Fix-table-display-confusion.patch   
+>>> 应用：doc/vm/page_owner.rst: Fix table display confusion
+>>>
+>>> I think git send-email will change format by my select. I'll try to resend.
+>> Send to yourself only then get it from your email client and try applying. 
+>>
+>> Thanks
+>> Alex
+> Hi Alex
+> 
+> Could you tell me how do you do when you get a patch from email ?
+> 
+> I get my patch from email and then copy-patse to a new file, then git am xx.patch.
 
-Link: https://lore.kernel.org/linux-doc/202204252334.Cd2IsiII-lkp@intel.com/
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Suresh Warrier <warrier@linux.vnet.ibm.com>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: Anders Roxell <anders.roxell@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Segher Boessenkool <segher@kernel.crashing.org>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Nicholas Piggin <npiggin@gmail.com>
-Cc: Fabiano Rosas <farosas@linux.ibm.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: kvm@vger.kernel.org
-Cc: stable@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- arch/powerpc/kvm/book3s_hv_rm_xics.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Don't do it. copy usually mess the format of patch.
 
-diff --git a/arch/powerpc/kvm/book3s_hv_rm_xics.c b/arch/powerpc/kvm/book3s_hv_rm_xics.c
-index 587c33fc45640f..6e16bd751c8423 100644
---- a/arch/powerpc/kvm/book3s_hv_rm_xics.c
-+++ b/arch/powerpc/kvm/book3s_hv_rm_xics.c
-@@ -883,7 +883,7 @@ long kvmppc_deliver_irq_passthru(struct kvm_vcpu *vcpu,
- 
- /*  --- Non-real mode XICS-related built-in routines ---  */
- 
--/**
-+/*
-  * Host Operations poked by RM KVM
-  */
- static void rm_host_ipi_action(int action, void *data)
+Saving the patch email from many kind of email-clients as raw file, like thunderbird etc.
+Then using 'git am xxx.patch'. It will work. In fact, git can handle the plain email patch well.
 
-base-commit: d615b5416f8a1afeb82d13b238f8152c572d59c0
--- 
-An old man doll... just what I always wanted! - Clara
 
+> It will notice 补丁格式检测失败。
+> 
