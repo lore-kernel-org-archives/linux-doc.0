@@ -2,58 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84EA5C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 20:57:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F57CC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 21:30:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354172AbiDZVBC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 17:01:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51604 "EHLO
+        id S1355424AbiDZVdv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 17:33:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355191AbiDZVBB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 17:01:01 -0400
-Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com [IPv6:2607:f8b0:4864:20::934])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D34C73EABB
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 13:57:52 -0700 (PDT)
-Received: by mail-ua1-x934.google.com with SMTP id v3so4403842uau.4
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 13:57:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=acSONY7PP2jxfx8qQHXfWpOHe20HF0xIP8aPzje00+M=;
-        b=JpNU2w+DsXQSncx5zG+Ikno8ZWXS25SA6eFSzK6/TW3MxvGsN8ddRCtT/YaZM3xt0F
-         gaJJMy5bD4/gXwhwYtaKTdGcwgb5l1EX+cC3STdJCqdoid8BcTt/Ac1JU4mo71qBFscX
-         KKf58dnBkUP4FXIcESPAy9AkO25CiIZCUrBcg0mJafNTeTbBgr7j2vFSSyK8c3DSX3GK
-         mQoiDCvTyffrIGGuRHAF0SkZgSQ+iYF3+7/VHtflGihitBqY1xEHACdj5DFTMZGpr5aP
-         TZ+vU9SHqT0eg6IW8kp0IwNrHi2QNPWmwJhrg5Mro8+0jozhjwgc5ifw9MYPNvDYOhW9
-         j0DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=acSONY7PP2jxfx8qQHXfWpOHe20HF0xIP8aPzje00+M=;
-        b=ZdJSN3ZFb1GAvAvXi0mFlLv0FDCIGbtKPUOvG5R1L90MCTTzXMrvVLobPYyoC7DZ9x
-         TI94VAJ88F2TJf+wpmhiJZsFNbRIK8k6fYrByCte/BTftVjLgHKJ93cBF02/pNIuydfn
-         aMPKeDOzibLSRpvDO1E3v+YO3258pkiiBuGRaVa7z99XB02aOxVlJSKW0imTloGAM7vR
-         D/eHnpYd6tFLjmr2qMQbE6haWigETvQ7p9d8+wto2j7iaFCU9u6xnF+RJGgE3SWMdneG
-         7cA2rXgzRsWceO1Sz0ip9ejgyj3d0uxxUjh/oZGeAdIOHo51wiXYz7Qc1DfXPq9bLa9Y
-         zlKQ==
-X-Gm-Message-State: AOAM533IfTINkwwhxzZLGcjsL9TT+U3MPosl14sBXToyomQYXomuY/eM
-        CfuTzEwCpVdOZCEzf8sJDR41I1x3C/C7HuTxVYLutw==
-X-Google-Smtp-Source: ABdhPJy5myAb5fqj4bnCfcgkTFURiD2z7LFGeZlFl3dLh4JqOCbjKAEjQx0QB9WUjBvY6m/QWrutDjviJulyK20Kdmk=
-X-Received: by 2002:ab0:2008:0:b0:352:2b3a:6bce with SMTP id
- v8-20020ab02008000000b003522b3a6bcemr7833585uak.19.1651006671757; Tue, 26 Apr
- 2022 13:57:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-11-yuzhao@google.com>
- <20220411191627.629f21de83cd0a520ef4a142@linux-foundation.org>
-In-Reply-To: <20220411191627.629f21de83cd0a520ef4a142@linux-foundation.org>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Tue, 26 Apr 2022 14:57:15 -0600
-Message-ID: <CAOUHufbtFj0Hez7wkw3DHGDwo6wudCzCvACt2GfgrFcubW_DYg@mail.gmail.com>
-Subject: Re: [PATCH v10 10/14] mm: multi-gen LRU: kill switch
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Tejun Heo <tj@kernel.org>
+        with ESMTP id S1351728AbiDZVdr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 17:33:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 727B2167D1;
+        Tue, 26 Apr 2022 14:30:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0864661768;
+        Tue, 26 Apr 2022 21:30:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B698C385A0;
+        Tue, 26 Apr 2022 21:30:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1651008636;
+        bh=hRBN2iGUWntk6rFDQClPrjJSN1u3Plq5R5MkMdlntzA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=2AgeVAJdYeuPtwz5M/eqMKQsJKokdP1kIZVf0URVWM3SGYun4iiEJslJB0++i7lv+
+         G29Uwsy2kwANU1AUg4BAnaWWNz9Q1s5uGgVhQoLMY6hwbuitH9tHnUinZbWz/b/lia
+         ThO4ZAVemknNsB+RzsmXUH8bOCELau56862WiyuQ=
+Date:   Tue, 26 Apr 2022 14:30:34 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Yu Zhao <yuzhao@google.com>
 Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
         Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
@@ -86,183 +63,89 @@ Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
         Suleiman Souhlal <suleiman@google.com>,
         Daniel Byrne <djbyrne@mtu.edu>,
         Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Holger =?ISO-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>,
         Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v10 12/14] mm: multi-gen LRU: debugfs interface
+Message-Id: <20220426143034.f520c062830f9e3405c890d0@linux-foundation.org>
+In-Reply-To: <CAOUHufa60CVZcXJ937=P4GVtV_Cn76mYCWwcyBNjMAADmyWEwQ@mail.gmail.com>
+References: <20220407031525.2368067-1-yuzhao@google.com>
+        <20220407031525.2368067-13-yuzhao@google.com>
+        <20220411191634.674554d3de2ba37b3db40ca2@linux-foundation.org>
+        <CAOUHufYhhCPFqoRbtn+=OFxZxNWS9yxW9Re_s-2TYGqCEaMXVw@mail.gmail.com>
+        <20220415212024.c682ac000e3e91572d8d6d2b@linux-foundation.org>
+        <CAOUHufa60CVZcXJ937=P4GVtV_Cn76mYCWwcyBNjMAADmyWEwQ@mail.gmail.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->
-> On Wed,  6 Apr 2022 21:15:22 -0600 Yu Zhao <yuzhao@google.com> wrote:
->
-> > Add /sys/kernel/mm/lru_gen/enabled as a kill switch. Components that
-> > can be disabled include:
-> >   0x0001: the multi-gen LRU core
-> >   0x0002: walking page table, when arch_has_hw_pte_young() returns
-> >           true
-> >   0x0004: clearing the accessed bit in non-leaf PMD entries, when
-> >           CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG=y
-> >   [yYnN]: apply to all the components above
-> > E.g.,
-> >   echo y >/sys/kernel/mm/lru_gen/enabled
-> >   cat /sys/kernel/mm/lru_gen/enabled
-> >   0x0007
-> >   echo 5 >/sys/kernel/mm/lru_gen/enabled
-> >   cat /sys/kernel/mm/lru_gen/enabled
-> >   0x0005
->
-> I'm shocked that this actually works.  How does it work?  Existing
-> pages & folios are drained over time or synchrnously?
+On Tue, 26 Apr 2022 00:59:37 -0600 Yu Zhao <yuzhao@google.com> wrote:
 
-Basically we have a double-throw way, and once flipped, new (isolated)
-pages can only be added to the lists of the current implementation.
-Existing pages on the lists of the previous implementation are
-synchronously drained (isolated and then re-added), with
-cond_resched() of course.
-
-> Supporting
-> structures remain allocated, available for reenablement?
-
-Correct.
-
-> Why is it thought necessary to have this?  Is it expected to be
-> permanent?
-
-This is almost a must for large scale deployments/experiments.
-
-For deployments, we need to keep fix rollout (high priority) and
-feature enabling (low priority) separate. Rolling out multiple
-binaries works but will make the process slower and more painful. So
-generally for each release, there is only one binary to roll out, and
-unless it's impossible, new features are disabled by default. Once a
-rollout completes, i.e., reaches enough population and remains stable,
-new features are turned on gradually. If something goes wrong with a
-new feature, we turn off that feature rather than roll back the
-kernel.
-
-Similarly, for A/B experiments, we don't want to use two binaries.
-
-
-> > NB: the page table walks happen on the scale of seconds under heavy
-> > memory pressure, in which case the mmap_lock contention is a lesser
-> > concern, compared with the LRU lock contention and the I/O congestion.
-> > So far the only well-known case of the mmap_lock contention happens on
-> > Android, due to Scudo [1] which allocates several thousand VMAs for
-> > merely a few hundred MBs. The SPF and the Maple Tree also have
-> > provided their own assessments [2][3]. However, if walking page tables
-> > does worsen the mmap_lock contention, the kill switch can be used to
-> > disable it. In this case the multi-gen LRU will suffer a minor
-> > performance degradation, as shown previously.
+> On Fri, Apr 15, 2022 at 10:20 PM Andrew Morton
+> <akpm@linux-foundation.org> wrote:
 > >
-> > Clearing the accessed bit in non-leaf PMD entries can also be
-> > disabled, since this behavior was not tested on x86 varieties other
-> > than Intel and AMD.
+> > On Fri, 15 Apr 2022 18:03:16 -0600 Yu Zhao <yuzhao@google.com> wrote:
 > >
-> > ...
+> > > > Presumably sysfs is the place.  Fully documented and with usage
+> > > > examples in the changelog so we can carefully review the proposed
+> > > > extensions to Linux's ABI.  Extensions which must be maintained
+> > > > unchanged for all time.
+> > >
+> > > Eventually, yes. There still is a long way to go. Rest assured, this
+> > > is something Google will keep investing resources on.
 > >
-> > --- a/include/linux/cgroup.h
-> > +++ b/include/linux/cgroup.h
-> > @@ -432,6 +432,18 @@ static inline void cgroup_put(struct cgroup *cgrp)
-> >       css_put(&cgrp->self);
-> >  }
+> > So.  The plan is to put these interfaces in debugfs for now, with a
+> > view to migrating stabilized interfaces into sysfs (or procfs or
+> > whatever) once end-user requirements and use cases are better
+> > understood?
+> 
+> The requirements are well understood and the use cases are proven,
+> e.g., Google [1], Meta [2] and Alibaba [3].
+> 
+> [1] https://dl.acm.org/doi/10.1145/3297858.3304053
+> [2] https://dl.acm.org/doi/10.1145/3503222.3507731
+> [3] https://gitee.com/anolis/cloud-kernel/blob/release-5.10/mm/kidled.c
+
+So will these interfaces be moved into sysfs?
+
+> > If so, that sounds totally great to me.  But it should have been in
+> > the darn changelog!  This is the sort of thing which we care about most
+> > keenly.
 > >
-> > +extern struct mutex cgroup_mutex;
-> > +
-> > +static inline void cgroup_lock(void)
-> > +{
-> > +     mutex_lock(&cgroup_mutex);
-> > +}
-> > +
-> > +static inline void cgroup_unlock(void)
-> > +{
-> > +     mutex_unlock(&cgroup_mutex);
-> > +}
->
-> It's a tad rude to export mutex_lock like this without (apparently)
-> informing its owner (Tejun).
-
-Looping in Tejun.
-
-> And if we're going to wrap its operations via helper fuctions then
->
-> - presumably all cgroup_mutex operations should be wrapped and
->
-> - exiting open-coded operations on this mutex should be converted.
-
-I wrapped cgroup_mutex here because I'm not a big fan of #ifdefs
-(CONFIG_CGROUPs). Internally for cgroup code, it seems superfluous to
-me to use these wrappers, e.g., for developers who work on cgroup
-code, they might not be interested in looking up these wrappers.
-
-> > +static bool drain_evictable(struct lruvec *lruvec)
-> > +{
-> > +     int gen, type, zone;
-> > +     int remaining = MAX_LRU_BATCH;
-> > +
-> > +     for_each_gen_type_zone(gen, type, zone) {
-> > +             struct list_head *head = &lruvec->lrugen.lists[gen][type][zone];
-> > +
-> > +             while (!list_empty(head)) {
-> > +                     bool success;
-> > +                     struct folio *folio = lru_to_folio(head);
-> > +
-> > +                     VM_BUG_ON_FOLIO(folio_test_unevictable(folio), folio);
-> > +                     VM_BUG_ON_FOLIO(folio_test_active(folio), folio);
-> > +                     VM_BUG_ON_FOLIO(folio_is_file_lru(folio) != type, folio);
-> > +                     VM_BUG_ON_FOLIO(folio_zonenum(folio) != zone, folio);
->
-> So many new BUG_ONs to upset Linus :(
-
-I'll replace them with VM_WARN_ON_ONCE_FOLIO(), based on the previous
-discussion.
-
-> > +                     success = lru_gen_del_folio(lruvec, folio, false);
-> > +                     VM_BUG_ON(!success);
-> > +                     lruvec_add_folio(lruvec, folio);
-> > +
-> > +                     if (!--remaining)
-> > +                             return false;
-> > +             }
-> > +     }
-> > +
-> > +     return true;
-> > +}
-> > +
+> > It would be helpful for reviewers to understand the proposed timeline
+> > for this process, because the entire feature isn't really real until
+> > this is completed, is it?  I do think we should get this nailed down
+> > relatively rapidly, otherwise people will be reluctant to invest much
+> > into a moving target.
 > >
-> > ...
-> >
-> > +static ssize_t store_enable(struct kobject *kobj, struct kobj_attribute *attr,
-> > +                         const char *buf, size_t len)
-> > +{
-> > +     int i;
-> > +     unsigned int caps;
-> > +
-> > +     if (tolower(*buf) == 'n')
-> > +             caps = 0;
-> > +     else if (tolower(*buf) == 'y')
-> > +             caps = -1;
-> > +     else if (kstrtouint(buf, 0, &caps))
-> > +             return -EINVAL;
->
-> See kstrtobool()
+> > And I must say, I see dissonance between the overall maturity of the
+> > feature as described in these emails versus the immaturity of these
+> > userspace control interfaces.  What's happening there?
+> 
+> Very observant. To answer both of the questions above: each iteration
+> of the entire stack is a multi-year effort.
+> 
+> Given its ROI, companies I know of constantly pour money into this
+> area. Given its scale, this debugfs is the least of their concerns. A
+> good example is the proactive reclaim sysfs interface [4]. It's been
+> used at Google for many years and at Meta for a few years. We only
+> started finalizing it recently.
+> 
+> [4] https://lore.kernel.org/r/20220425190040.2475377-1-yosryahmed@google.com/
 
-`caps` is not a boolean, hence the plural and the below.
+Sure, if one organization is involved in both the userspace code and
+the kernel interfaces then the alteration of kernel interfaces can be
+handled in a coordinated fashion.
 
-> > +     for (i = 0; i < NR_LRU_GEN_CAPS; i++) {
-> > +             bool enable = caps & BIT(i);
-> > +
-> > +             if (i == LRU_GEN_CORE)
-> > +                     lru_gen_change_state(enable);
-> > +             else if (enable)
-> > +                     static_branch_enable(&lru_gen_caps[i]);
-> > +             else
-> > +                     static_branch_disable(&lru_gen_caps[i]);
-> > +     }
-> > +
-> > +     return len;
-> > +}
+But releasing interfaces to the whole world is a different deal.  It's
+acceptable to say "this is in debugfs for now because it's a work
+in progress" but it sounds like mglru's interfaces are beyond that
+stage?
+
