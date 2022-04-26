@@ -2,36 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D61C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 22:22:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8DCCC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 22:39:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347414AbiDZWZv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 18:25:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39068 "EHLO
+        id S1355886AbiDZWmz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 18:42:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347064AbiDZWZv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 18:25:51 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE0601FA60;
-        Tue, 26 Apr 2022 15:22:41 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 884F5B8219D;
-        Tue, 26 Apr 2022 22:22:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2701C385A4;
-        Tue, 26 Apr 2022 22:22:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1651011759;
-        bh=lYfUppC7lZmr5zSo7kS0sPDNwx4JInbK68kqdDwnp4Y=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=2qNdPSDjZ1dr6qUYrlw2odyTjrXmCOrYFxnBkwScJqQRstVEbT4zCaOdUVfRgdo1U
-         GsaUofEarLA66SHZVJNMkOgTrGoiw7n6o7oKbmiYtSCaSAg/Lnjolb6loUTPDzExsv
-         XAv5D1nvf7laYuEyO2ulqHwlD07joJA861bR61CM=
-Date:   Tue, 26 Apr 2022 15:22:37 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Tejun Heo <tj@kernel.org>, Stephen Rothwell <sfr@rothwell.id.au>,
+        with ESMTP id S1355885AbiDZWmy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 18:42:54 -0400
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C74E177C99
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 15:39:45 -0700 (PDT)
+Received: by mail-vs1-xe2f.google.com with SMTP id m14so142968vsp.11
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 15:39:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=07Zd/16O2HE5Be6dl0YhxA/WYrWu/Ra4RQxC/o3rHN4=;
+        b=mXqqHglO8XEfpNHe4xKmQqH8vvmuEmWI2bFNvmyTbbCSV0ya7UVXg/CycRw8F18FwN
+         UcSuyVAxAkkxGzNmJMQQLPhr7tKKwVRzQg5TEQVjgMzzOOilYUIOThNtoL67+JZ+ZyhN
+         5Pajba/FLU+hVEX2+YLmzV+ru2ChYCNly/8fbTWXtQoLaEtfEOoL7/pUYffGG7YWBfwo
+         IwcYTlGqHA67e2TC163DJobE7uBZLHCJTXOOq/kEfJ0EBn/W8KeKWzAk1RDA7rhSVdju
+         YJznNyD0LtFe11RwAAZLedbIeNvEpcI7u+tykPQ0OZYSXc4Ih1OudNrgdkLaGY0wVuJs
+         QhnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=07Zd/16O2HE5Be6dl0YhxA/WYrWu/Ra4RQxC/o3rHN4=;
+        b=QAi0CNWGp1QfDr3dOFTZNCuNdTY57q1z3Q4Xs6AQaR4n8Apxri9RVi94L8VM9s9x2e
+         jL6x+jJiQUtQwN3eXELHE8c2iV+16TU/kkzDHMjN4xPKMG/hmN/l9NfiXbZMM5mc6LN/
+         HQjApu109jffg1xbni/BGOhTqG2khJDlKOXFKLvSjn8Nf7tIe3eOD7dpV+6LEPfXMPHU
+         1AB2vHWCiHqYv91DtLD/F9xi8kLkWHHGDoqV6quXvNU0/+66o1HecXmfZ88ajf8BQ3G3
+         Op4nWUg7OM7OcRhUGeVGCsb1OoB32u8cXsxL+a9BTrpJ+7s9N2j/NAVhK+BvxztA7+AM
+         qN5w==
+X-Gm-Message-State: AOAM531p8OoN5/Z5/c8tkKSUETzpwz1kzTCLm6hwWJH7Iz/Yn2BWrVk2
+        JQGUPgB9HnNnsGlwXgRxkopEf4D4+TimZaknJ+0fVA==
+X-Google-Smtp-Source: ABdhPJz+toQujxv6dyO8lpqxNaRIpc4rYh12ObWjdCPFl2wj3PCxuXZcbz1W3wRfVwURFc/mI9NOxhiwyLvLEQzX21c=
+X-Received: by 2002:a05:6102:158a:b0:32a:56ea:3fba with SMTP id
+ g10-20020a056102158a00b0032a56ea3fbamr7477528vsv.84.1651012784332; Tue, 26
+ Apr 2022 15:39:44 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-6-yuzhao@google.com>
+ <20220411191615.a34959bdcc25ef3f9c16a7ce@linux-foundation.org>
+In-Reply-To: <20220411191615.a34959bdcc25ef3f9c16a7ce@linux-foundation.org>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Tue, 26 Apr 2022 16:39:07 -0600
+Message-ID: <CAOUHufaeNzDJnDqatHe0MwsN-D6M_tw6JX2UBJFc+JpZNP86hQ@mail.gmail.com>
+Subject: Re: [PATCH v10 05/14] mm: multi-gen LRU: groundwork
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
         Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
         Barry Song <21cnbao@gmail.com>,
@@ -63,92 +85,147 @@ Cc:     Tejun Heo <tj@kernel.org>, Stephen Rothwell <sfr@rothwell.id.au>,
         Suleiman Souhlal <suleiman@google.com>,
         Daniel Byrne <djbyrne@mtu.edu>,
         Donald Carr <d@chaos-reins.com>,
-        Holger =?ISO-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>,
         Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v10 10/14] mm: multi-gen LRU: kill switch
-Message-Id: <20220426152237.21d3f173eded69c0f63911f0@linux-foundation.org>
-In-Reply-To: <CAOUHufbtFj0Hez7wkw3DHGDwo6wudCzCvACt2GfgrFcubW_DYg@mail.gmail.com>
-References: <20220407031525.2368067-1-yuzhao@google.com>
-        <20220407031525.2368067-11-yuzhao@google.com>
-        <20220411191627.629f21de83cd0a520ef4a142@linux-foundation.org>
-        <CAOUHufbtFj0Hez7wkw3DHGDwo6wudCzCvACt2GfgrFcubW_DYg@mail.gmail.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 26 Apr 2022 14:57:15 -0600 Yu Zhao <yuzhao@google.com> wrote:
-
-> On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Wed,  6 Apr 2022 21:15:17 -0600 Yu Zhao <yuzhao@google.com> wrote:
+>
+> > Evictable pages are divided into multiple generations for each lruvec.
+> > The youngest generation number is stored in lrugen->max_seq for both
+> > anon and file types as they are aged on an equal footing. The oldest
+> > generation numbers are stored in lrugen->min_seq[] separately for anon
+> > and file types as clean file pages can be evicted regardless of swap
+> > constraints. These three variables are monotonically increasing.
 > >
-> > On Wed,  6 Apr 2022 21:15:22 -0600 Yu Zhao <yuzhao@google.com> wrote:
+> > ...
 > >
-> > > Add /sys/kernel/mm/lru_gen/enabled as a kill switch. Components that
-> > > can be disabled include:
-> > >   0x0001: the multi-gen LRU core
-> > >   0x0002: walking page table, when arch_has_hw_pte_young() returns
-> > >           true
-> > >   0x0004: clearing the accessed bit in non-leaf PMD entries, when
-> > >           CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG=y
-> > >   [yYnN]: apply to all the components above
-> > > E.g.,
-> > >   echo y >/sys/kernel/mm/lru_gen/enabled
-> > >   cat /sys/kernel/mm/lru_gen/enabled
-> > >   0x0007
-> > >   echo 5 >/sys/kernel/mm/lru_gen/enabled
-> > >   cat /sys/kernel/mm/lru_gen/enabled
-> > >   0x0005
+> > +static inline bool lru_gen_del_folio(struct lruvec *lruvec, struct folio *folio, bool reclaiming)
+>
+> There's a lot of function inlining here.  Fortunately the compiler will
+> ignore it all, because some of it looks wrong.  Please review (and
+> remeasure!).  If inlining is reqlly justified, use __always_inline, and
+> document the reasons for doing so.
+
+I totally expect modern compilers to make better decisions than I do.
+And personally, I'd never use __always_inline; instead, I'd strongly
+recommend FDO/LTO.
+
+> > +{
+> > +     int gen;
+> > +     unsigned long old_flags, new_flags;
+> > +
+> > +     do {
+> > +             new_flags = old_flags = READ_ONCE(folio->flags);
+> > +             if (!(new_flags & LRU_GEN_MASK))
+> > +                     return false;
+> > +
+> > +             VM_BUG_ON_FOLIO(folio_test_active(folio), folio);
+> > +             VM_BUG_ON_FOLIO(folio_test_unevictable(folio), folio);
+> > +
+> > +             gen = ((new_flags & LRU_GEN_MASK) >> LRU_GEN_PGOFF) - 1;
+> > +
+> > +             new_flags &= ~LRU_GEN_MASK;
+> > +             /* for shrink_page_list() */
+> > +             if (reclaiming)
+> > +                     new_flags &= ~(BIT(PG_referenced) | BIT(PG_reclaim));
+> > +             else if (lru_gen_is_active(lruvec, gen))
+> > +                     new_flags |= BIT(PG_active);
+> > +     } while (cmpxchg(&folio->flags, old_flags, new_flags) != old_flags);
+>
+> Clearly the cmpxchg loop is handling races against a concurrent
+> updater.  But it's unclear who that updater is, what are the dynamics
+> here and why the designer didn't use, say, spin_lock().  The way to
+> clarify such thigs is with code comments!
+
+Right. set_mask_bits() should suffice here.
+
+> > +#endif /* !__GENERATING_BOUNDS_H */
+> > +
+> > +/*
+> > + * Evictable pages are divided into multiple generations. The youngest and the
+> > + * oldest generation numbers, max_seq and min_seq, are monotonically increasing.
+> > + * They form a sliding window of a variable size [MIN_NR_GENS, MAX_NR_GENS]. An
+> > + * offset within MAX_NR_GENS, gen, indexes the LRU list of the corresponding
+>
+> The "within MAX_NR_GENS, gen," text here is unclear?
+
+Will update: "i.e., gen".
+
+> > + * generation. The gen counter in folio->flags stores gen+1 while a page is on
+> > + * one of lrugen->lists[]. Otherwise it stores 0.
+> > + *
+> > + * A page is added to the youngest generation on faulting. The aging needs to
+> > + * check the accessed bit at least twice before handing this page over to the
+> > + * eviction. The first check takes care of the accessed bit set on the initial
+> > + * fault; the second check makes sure this page hasn't been used since then.
+> > + * This process, AKA second chance, requires a minimum of two generations,
+> > + * hence MIN_NR_GENS. And to maintain ABI compatibility with the active/inactive
+>
+> Where is the ABI compatibility issue?  Is it in some way in which the
+> legacy LRU is presented to userspace?
+
+Will update: yes, active/inactive LRU sizes in /proc/vmstat.
+
+> > + * LRU, these two generations are considered active; the rest of generations, if
+> > + * they exist, are considered inactive. See lru_gen_is_active(). PG_active is
+> > + * always cleared while a page is on one of lrugen->lists[] so that the aging
+> > + * needs not to worry about it. And it's set again when a page considered active
+> > + * is isolated for non-reclaiming purposes, e.g., migration. See
+> > + * lru_gen_add_folio() and lru_gen_del_folio().
+> > + *
+> > + * MAX_NR_GENS is set to 4 so that the multi-gen LRU can support twice of the
+>
+> "twice the number of"?
+
+Will update.
+
+> > + * categories of the active/inactive LRU when keeping track of accesses through
+> > + * page tables. It requires order_base_2(MAX_NR_GENS+1) bits in folio->flags.
+> > + */
+>
+> Helpful comment, overall.
+>
 > >
-> > I'm shocked that this actually works.  How does it work?  Existing
-> > pages & folios are drained over time or synchrnously?
-> 
-> Basically we have a double-throw way, and once flipped, new (isolated)
-> pages can only be added to the lists of the current implementation.
-> Existing pages on the lists of the previous implementation are
-> synchronously drained (isolated and then re-added), with
-> cond_resched() of course.
-> 
-> > Supporting
-> > structures remain allocated, available for reenablement?
-> 
-> Correct.
-> 
-> > Why is it thought necessary to have this?  Is it expected to be
-> > permanent?
-> 
-> This is almost a must for large scale deployments/experiments.
-> 
-> For deployments, we need to keep fix rollout (high priority) and
-> feature enabling (low priority) separate. Rolling out multiple
-> binaries works but will make the process slower and more painful. So
-> generally for each release, there is only one binary to roll out, and
-> unless it's impossible, new features are disabled by default. Once a
-> rollout completes, i.e., reaches enough population and remains stable,
-> new features are turned on gradually. If something goes wrong with a
-> new feature, we turn off that feature rather than roll back the
-> kernel.
-> 
-> Similarly, for A/B experiments, we don't want to use two binaries.
+> > ...
+> >
+> > --- a/mm/Kconfig
+> > +++ b/mm/Kconfig
+> > @@ -909,6 +909,14 @@ config ANON_VMA_NAME
+> >         area from being merged with adjacent virtual memory areas due to the
+> >         difference in their name.
+> >
+> > +config LRU_GEN
+> > +     bool "Multi-Gen LRU"
+> > +     depends on MMU
+> > +     # the following options can use up the spare bits in page flags
+> > +     depends on !MAXSMP && (64BIT || !SPARSEMEM || SPARSEMEM_VMEMMAP)
+> > +     help
+> > +       A high performance LRU implementation to overcommit memory.
+> > +
+> >  source "mm/damon/Kconfig"
+>
+> This is a problem.  I had to jump through hoops just to be able to
+> compile-test this.  Turns out I had to figure out how to disable
+> MAXSMP.
+>
+> Can we please figure out a way to ensure that more testers are at least
+> compile testing this?  Allnoconfig, defconfig, allyesconfig, allmodconfig.
+>
+> Also, I suggest that we actually make MGLRU the default while in linux-next.
 
-Please let's spell out this sort of high-level thinking in the
-changelogging.
+The !MAXSMP is to work around [1], which I haven't had the time to
+fix. That BUILD_BUG_ON() shouldn't assert sizeof(struct page) == 64
+since the true size depends on WANT_PAGE_VIRTUAL as well as
+LAST_CPUPID_NOT_IN_PAGE_FLAGS. My plan is here [2].
 
-From what you're saying, this is a transient thing.  It sounds that
-this enablement is only needed when mglru is at an early stage.  Once
-it has matured more then successive rollouts will have essentially the
-same mglru implementation and being able to disable mglru at runtime
-will no longer be required?
-
-I guess the capability is reasonable simple/small and is livable with,
-but does it have a long-term future?
-
-I mean, when organizations such as google start adopting the mglru
-implementation which is present in Linus's tree we're, what, a year or
-more into the future?  Will they still need a kill switch then?
+[1] https://lore.kernel.org/r/20190905154603.10349-4-aneesh.kumar@linux.ibm.com/
+[2] https://lore.kernel.org/r/Ygl1Gf+ATBuI%2Fm2q@google.com/
