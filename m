@@ -2,231 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23D86C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 07:43:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 323E5C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 07:48:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343799AbiDZHqO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 03:46:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51630 "EHLO
+        id S238407AbiDZHvp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 03:51:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343782AbiDZHqN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 03:46:13 -0400
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B44181334EC
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 00:43:06 -0700 (PDT)
-Received: by mail-vs1-xe33.google.com with SMTP id y74so7871388vsy.7
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 00:43:06 -0700 (PDT)
+        with ESMTP id S242452AbiDZHvp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 03:51:45 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C00741A040;
+        Tue, 26 Apr 2022 00:48:37 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id h1so17219580pfv.12;
+        Tue, 26 Apr 2022 00:48:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=F6hORQhWD4R4PBBaL15o7cQDBZSUWYx9+THQUkS8oik=;
-        b=nXY/jyTlv7QAuUsIJPC7aUL8xu31SPzL1bxZweM6Hbt56IqaVYOxOqVmdLCuEH7OCi
-         FUYT8m9jDymm04MoMEF3hNYKUGc4hcmG6bS3lNCUKekqAgf7bXYLMCCFJdVK7ZTTQoUN
-         LeQaEzTmHc7Ehq7uWn9SY4+ygDmk8YOugiY/F4wliaccWAY4pyuc/MRBTdsPK0chG/2y
-         dyfCk6HxBfCr+SfSf1dxCTreUXtNre0vItXXdjMAv4E0MDdSxPldz0rSkhE2IZPEPtgj
-         PMgud5bgboNo28FLcNcjPBLHuNgaiJ1CVnanYSVbXTOOgvoC5YjdZQdmMK/LUhpjov3c
-         Y6nQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f3CunhxLC3mb3e6UNr+xNX95pgRojNIa+JUKiN4OUms=;
+        b=TljaTwoD8SLvOhWYTxOMKfYY4caoHsVCypcKaTpr1fj0K9eavwC4WSrr8G2XGElv8x
+         TV9kj4OpypB/7rTo+tSov6Fhh50nCp6quQer1GYUvmSyAxLUzyGDQwX6SW4ddDzFDIOx
+         6NB1aq9idon2IZZRJdp8SP825iqygYG2wCZap9YmIKbCh1GtDzbZSPKq6e1EU+rYfu3Q
+         DysNrV27KbaIKIkDTDBGraC+yTWaPMQGx3+ki4BKfk4HizU8csvTp0Ol0uCs3egEEEzh
+         S0HZdkVei0DhgK4TtYnkwmcRYoRjDjQH2Ho5T6mcxx2QupLuE1DZthyiYYsEEzAdy8aq
+         DKfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=F6hORQhWD4R4PBBaL15o7cQDBZSUWYx9+THQUkS8oik=;
-        b=lDYe1bx/b3ULlwDNhlp0MpSQMHR13VpQ8kfdfUoVK2ZI61uyBkL2t7Y2JCjoEX2BAk
-         syLkabvFDu/jAImanLrLVUSPAfnfDXyI9v+DqG4PiFT7N4V3RLwp/gGFbELTKG4WGmXi
-         y20VlbJvPGPE+Os2GYUwILnQXPDgnUEe90oM5YoKO85fvwE3ngmv3M5dBPpyZUsAClLI
-         5CreuifQmnoGXzUyKmsvUXzU3HaWYAi1P4YYKG2kjrlxD0+XbJNr90mPY2PFhwORrP5w
-         EA7TF1LuEUJfEy0qR+hf2USvll8tnKxUjhOghxLdfAm1036zpRmEkiaQohGlz7JS50GZ
-         Aoww==
-X-Gm-Message-State: AOAM530Qjj7M2SoxSc52wgwaZ3kxzm/iPoBxCxzBUVZrvVf3Az4jNrEV
-        j8Ic7Hh8+MvTdIDUSXfQOi+LpGAiTepPJUqd49a2rA==
-X-Google-Smtp-Source: ABdhPJwrYwHJliqqvdxOxEXGiUwfDiSxoM+Qnd1xHIJRZWoed1Am6bjcaOL5Pk10UbnYyCsT4xwysfqq8d6vEqmiqek=
-X-Received: by 2002:a67:cb02:0:b0:32c:2690:be39 with SMTP id
- b2-20020a67cb02000000b0032c2690be39mr6421711vsl.81.1650958985634; Tue, 26 Apr
- 2022 00:43:05 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f3CunhxLC3mb3e6UNr+xNX95pgRojNIa+JUKiN4OUms=;
+        b=4yZQCA26rgytSVQg66+gNMaq5dwTDEuljoYzkpJhW547TMDWlso3xheFlGFvgcgCKT
+         tAPSljbENDe/EmRdTOFciCO+VXPqcMtFvtYcYmnN27Fi9LVRs7C4hfyNWcE5ayKUf3Bc
+         5puG8JGgYoGzu+9k0OmzE5Im13xveuA5tuspsAUecUXtbpXY+gbCzytc6HoKah7T3Seu
+         xODILt1EgNYg7PwHXuN1IOrdcAsulECVMRlQYEDwalUIWXbyNh1qj5y/4is8DUtexsEJ
+         hpRCHEU06xEuYCGHUPyApcoQisHGCvJHleTFkEbgw8oIb+0FVSO+YsSb2p6t7+OM0Gb7
+         FuLQ==
+X-Gm-Message-State: AOAM531mF+vsF/RsoM9IwpmJmweqx2nDBsZ9pXVLANRVWlnVnR42/flT
+        A2aDZAeb5tQARb6DgxYGZPCD0hKsCaQ=
+X-Google-Smtp-Source: ABdhPJzbS6CSlbSiL3g2XpFHPHeAZCURvdyStjTGUIx8QfAcYIPh4pe5nzI/LP307yAagUaH8Nk2Bg==
+X-Received: by 2002:a63:3115:0:b0:3ab:2131:5f12 with SMTP id x21-20020a633115000000b003ab21315f12mr9658991pgx.0.1650959316856;
+        Tue, 26 Apr 2022 00:48:36 -0700 (PDT)
+Received: from debian.me (subs32-116-206-28-30.three.co.id. [116.206.28.30])
+        by smtp.gmail.com with ESMTPSA id n12-20020a17090ade8c00b001d25dfb9d39sm1845467pjv.14.2022.04.26.00.48.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Apr 2022 00:48:35 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        kernel test robot <lkp@intel.com>,
+        Suresh Warrier <warrier@linux.vnet.ibm.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Anders Roxell <anders.roxell@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Fabiano Rosas <farosas@linux.ibm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Alexey Kardashevskiy <aik@ozlabs.ru>,
+        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+        stable@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] KVM: powerpc: remove extraneous asterisk from rm_host_ipi_action comment
+Date:   Tue, 26 Apr 2022 14:47:51 +0700
+Message-Id: <20220426074750.71251-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-15-yuzhao@google.com>
- <20220411191645.91078752f29b82aea7ee508c@linux-foundation.org>
-In-Reply-To: <20220411191645.91078752f29b82aea7ee508c@linux-foundation.org>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Tue, 26 Apr 2022 01:42:29 -0600
-Message-ID: <CAOUHufaUPeAB8N11REc-43V2SLEMgE2ZbyFofnpZAhF+tL8ebg@mail.gmail.com>
-Subject: Re: [PATCH v10 14/14] mm: multi-gen LRU: design doc
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
-        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->
-> On Wed,  6 Apr 2022 21:15:26 -0600 Yu Zhao <yuzhao@google.com> wrote:
->
-> > Add a design doc.
-> >
-> >
-> > ...
-> >
-> > +Design overview
-> > +===============
-> > +Objectives
-> > +----------
-> > +The design objectives are:
-> > +
-> > +* Good representation of access recency
-> > +* Try to profit from spatial locality
-> > +* Fast paths to make obvious choices
-> > +* Simple self-correcting heuristics
-> > +
-> > +The representation of access recency is at the core of all LRU
-> > +implementations. In the multi-gen LRU, each generation represents a
-> > +group of pages with similar access recency. Generations establish a
-> > +common frame of reference and therefore help make better choices,
-> > +e.g., between different memcgs on a computer or different computers in
-> > +a data center (for job scheduling).
->
-> Does MGLRU have any special treatment for used-once pages?
+kernel test robot reported kernel-doc warning for rm_host_ipi_action():
 
-Yes. Single-use pages are assumed to be the cheapest to reclaim:
+arch/powerpc/kvm/book3s_hv_rm_xics.c:887: warning: This comment
+starts with '/**', but isn't a kernel-doc comment. Refer
+Documentation/doc-guide/kernel-doc.rst
 
-"The first tier contains single-use unmapped clean pages, which are
-the best bet."
+Since the function is static, remove the extraneous (second) asterisk at
+the head of function comment.
 
-> > +Exploiting spatial locality improves efficiency when gathering the
-> > +accessed bit. A rmap walk targets a single page and does not try to
-> > +profit from discovering a young PTE. A page table walk can sweep all
-> > +the young PTEs in an address space, but the address space can be too
-> > +large to make a profit. The key is to optimize both methods and use
-> > +them in combination.
-> > +
-> > +Fast paths reduce code complexity and runtime overhead. Unmapped pages
-> > +do not require TLB flushes; clean pages do not require writeback.
-> > +These facts are only helpful when other conditions, e.g., access
-> > +recency, are similar. With generations as a common frame of reference,
-> > +additional factors stand out. But obvious choices might not be good
-> > +choices; thus self-correction is required.
-> > +
-> > +The benefits of simple self-correcting heuristics are self-evident.
-> > +Again, with generations as a common frame of reference, this becomes
-> > +attainable. Specifically, pages in the same generation can be
-> > +categorized based on additional factors, and a feedback loop can
-> > +statistically compare the refault percentages across those categories
-> > +and infer which of them are better choices.
-> > +
-> > +Assumptions
-> > +-----------
-> > +The protection of hot pages and the selection of cold pages are based
-> > +on page access channels and patterns. There are two access channels:
-> > +
-> > +* Accesses through page tables
-> > +* Accesses through file descriptors
-> > +
-> > +The protection of the former channel is by design stronger because:
-> > +
-> > +1. The uncertainty in determining the access patterns of the former
-> > +   channel is higher due to the approximation of the accessed bit.
-> > +2. The cost of evicting the former channel is higher due to the TLB
-> > +   flushes required and the likelihood of encountering the dirty bit.
-> > +3. The penalty of underprotecting the former channel is higher because
-> > +   applications usually do not prepare themselves for major page
-> > +   faults like they do for blocked I/O. E.g., GUI applications
-> > +   commonly use dedicated I/O threads to avoid blocking the rendering
-> > +   threads.
-> > +
-> > +There are also two access patterns:
-> > +
-> > +* Accesses exhibiting temporal locality
-> > +* Accesses not exhibiting temporal locality
-> > +
-> > +For the reasons listed above, the former channel is assumed to follow
-> > +the former pattern unless ``VM_SEQ_READ`` or ``VM_RAND_READ`` is
-> > +present, and the latter channel is assumed to follow the latter
-> > +pattern unless outlying refaults have been observed.
->
-> What about MADV_SEQUENTIAL?    Or did we propogate that into the fd?
+Link: https://lore.kernel.org/linux-doc/202204252334.Cd2IsiII-lkp@intel.com/
+Reported-by: kernel test robot <lkp@intel.com>
+Cc: Suresh Warrier <warrier@linux.vnet.ibm.com>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: Anders Roxell <anders.roxell@linaro.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Segher Boessenkool <segher@kernel.crashing.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Fabiano Rosas <farosas@linux.ibm.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: kvm@vger.kernel.org
+Cc: stable@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ arch/powerpc/kvm/book3s_hv_rm_xics.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-MADV_SEQUENTIAL is VM_SEQ_READ. I think you mean
-POSIX_FADV_SEQUENTIAL. We don't need to propagate it to the fd. Pages
-sequentially accessed through fd, i.e., detected by
-mark_page_accessed(), fall into the single-use category.
+diff --git a/arch/powerpc/kvm/book3s_hv_rm_xics.c b/arch/powerpc/kvm/book3s_hv_rm_xics.c
+index 587c33fc45640f..6e16bd751c8423 100644
+--- a/arch/powerpc/kvm/book3s_hv_rm_xics.c
++++ b/arch/powerpc/kvm/book3s_hv_rm_xics.c
+@@ -883,7 +883,7 @@ long kvmppc_deliver_irq_passthru(struct kvm_vcpu *vcpu,
+ 
+ /*  --- Non-real mode XICS-related built-in routines ---  */
+ 
+-/**
++/*
+  * Host Operations poked by RM KVM
+  */
+ static void rm_host_ipi_action(int action, void *data)
 
-> > +Workflow overview
-> > +=================
-> > +Evictable pages are divided into multiple generations for each
-> > +``lruvec``. The youngest generation number is stored in
-> > +``lrugen->max_seq`` for both anon and file types as they are aged on
-> > +an equal footing. The oldest generation numbers are stored in
-> > +``lrugen->min_seq[]`` separately for anon and file types as clean file
-> > +pages can be evicted regardless of swap constraints. These three
-> > +variables are monotonically increasing.
-> > +
-> >
-> > ...
-> >
-> > +Summary
-> > +-------
-> > +The multi-gen LRU can be disassembled into the following parts:
-> > +
-> > +* Generations
-> > +* Page table walks
-> > +* Rmap walks
-> > +* Bloom filters
-> > +* The PID controller
-> > +
-> > +The aging and the eviction is a producer-consumer model; specifically,
-> > +the latter drives the former by the sliding window over generations.
-> > +Within the aging, rmap walks drive page table walks by inserting hot
-> > +densely populated page tables to the Bloom filters. Within the
-> > +eviction, the PID controller uses refaults as the feedback to select
-> > +types to evict and tiers to protect.
->
-> It's cool to see a PID controller in there.
->
-> How do we know that it converges well, that it doesn't exhibit instability, etc?
+base-commit: d615b5416f8a1afeb82d13b238f8152c572d59c0
+-- 
+An old man doll... just what I always wanted! - Clara
 
-Divergence can be easily avoided by using sane parameters. A more
-specific problem for our use case is how to establish a (relative)
-time domain. We can't just use wall clock since different CPUs run at
-the different speeds. Even for the same CPU, it scans pages at
-different rates under different memory pressure. So generations serve
-as a time dimension. For each new generation, we refresh the PID
-controller to minimize the chance of it locking in a bad state. It may
-make poor choices now and then, but it should never make poor choices
-all the time.
