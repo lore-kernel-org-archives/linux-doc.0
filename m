@@ -2,27 +2,27 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5094C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 08:23:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A9BEC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 08:38:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344780AbiDZI1D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 04:27:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36346 "EHLO
+        id S1345355AbiDZIlf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 04:41:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344067AbiDZI0n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 04:26:43 -0400
-Received: from mail.meizu.com (unknown [14.29.68.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9321E3B3F3;
-        Tue, 26 Apr 2022 01:23:10 -0700 (PDT)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail04.meizu.com
- (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 26 Apr
- 2022 16:23:08 +0800
+        with ESMTP id S1345609AbiDZIjR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 04:39:17 -0400
+Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D62983BA5E;
+        Tue, 26 Apr 2022 01:30:25 -0700 (PDT)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail12.meizu.com
+ (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 26 Apr
+ 2022 16:30:23 +0800
 Received: from [172.16.137.70] (172.16.137.70) by IT-EXMB-1-125.meizu.com
  (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 26 Apr
- 2022 16:23:07 +0800
-Message-ID: <68b68f35-86e5-3f3b-ffd0-bea9c952fc66@meizu.com>
-Date:   Tue, 26 Apr 2022 16:23:07 +0800
+ 2022 16:30:23 +0800
+Message-ID: <89f61153-1ef6-df1b-1bf6-90ba853b080b@meizu.com>
+Date:   Tue, 26 Apr 2022 16:30:23 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
@@ -39,8 +39,10 @@ References: <CAEensMzuQ0uAw8_5Xb7u1n685au=DpaJyPevGCT8GCG7xS42ow@mail.gmail.com>
  <c498b2a7-8f0e-4f6d-10ba-49c4c7794ff9@gmail.com>
  <0be9fe6a-b01e-b355-9283-6ad8372932d6@meizu.com>
  <73d2f4cb-9f38-ac33-b4c0-c4d3b465bf8b@gmail.com>
+ <68b68f35-86e5-3f3b-ffd0-bea9c952fc66@meizu.com>
+ <3f93bb0d-5658-f269-f8cc-d0a964ffb68b@gmail.com>
 From:   baihaowen <baihaowen@meizu.com>
-In-Reply-To: <73d2f4cb-9f38-ac33-b4c0-c4d3b465bf8b@gmail.com>
+In-Reply-To: <3f93bb0d-5658-f269-f8cc-d0a964ffb68b@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [172.16.137.70]
@@ -50,39 +52,25 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-在 4/26/22 4:20 PM, Alex Shi 写道:
+在 4/26/22 4:29 PM, Alex Shi 写道:
 >
-> On 4/25/22 09:17, baihaowen wrote:
->> 在 4/24/22 11:16 AM, Alex Shi 写道:
->>> On 4/24/22 10:56, baihaowen wrote:
->>>>>> +        ======          ==========      ==================
->>>> hi, Alex
->>>> I can apply local.
->>>> ➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0001-docs-zh_CN-sync-with-original-text-Documentation-vm-.patch
->>>> 应用：docs/zh_CN: sync with original text Documentation/vm/page_owner.rst
->>>> ➜  linux-next git:(heads/next-20220421) ✗ git am doc_pageonwer_patches/0002-doc-vm-page_owner.rst-Fix-table-display-confusion.patch   
->>>> 应用：doc/vm/page_owner.rst: Fix table display confusion
->>>>
->>>> I think git send-email will change format by my select. I'll try to resend.
->>> Send to yourself only then get it from your email client and try applying. 
+>
+> On 4/26/22 16:23, baihaowen wrote:
+>>> Saving the patch email from many kind of email-clients as raw file, like thunderbird etc.
+>>> Then using 'git am xxx.patch'. It will work. In fact, git can handle the plain email patch well.
 >>>
->>> Thanks
->>> Alex
->> Hi Alex
->>
->> Could you tell me how do you do when you get a patch from email ?
->>
->> I get my patch from email and then copy-patse to a new file, then git am xx.patch.
-> Don't do it. copy usually mess the format of patch.
->
-> Saving the patch email from many kind of email-clients as raw file, like thunderbird etc.
-> Then using 'git am xxx.patch'. It will work. In fact, git can handle the plain email patch well.
+>>>
+>>>> It will notice 补丁格式检测失败。
+>>>>
+>> hi, Alex
+>> I have sent you an available patch set, plz try to apply.
 >
 >
->> It will notice 补丁格式检测失败。
->>
-hi, Alex
-I have sent you an available patch set, plz try to apply.
+> Did you try your post by yourself? :)
+>
+>
+>> -- Haowen Bai
+YES.
 
 -- 
 Haowen Bai
