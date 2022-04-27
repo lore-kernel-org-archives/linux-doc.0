@@ -2,141 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ECDDC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 20:10:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79F3CC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 20:11:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236380AbiD0UNJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 16:13:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54646 "EHLO
+        id S235948AbiD0UOh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 16:14:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230154AbiD0UM4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 16:12:56 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A20A972B5;
-        Wed, 27 Apr 2022 13:06:51 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1651090009;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=TeFBJ6BMGAy+Ewq+CYjwj4kASBe/7C6TdEh8x9Z5Ous=;
-        b=37Rm74dwmyP9+Bs9sPwVcBKLY+b5VjDVcnyI4bPCwOHOj5eqGhNcfMBvh3OBnvyTRl4b1h
-        S7YtDDWaqchUQy2Ddg+qbNRF9EagewIc/KZuy4+90/r3N9DQjRUg+j+RzxmUhOH2bquvvo
-        TyzqirUSLYSFVve9DzGcz6Ynkz+E07PEPB2VBBofqxf5cqsqnzNoluKHBIaQhqlhT9Cw71
-        2qc2Hq2SkpRuNfAmFpwVEhs0/pFIIixFfCpGbK71etA3D/ghvmzOelm9bmR7n7G+vec6l9
-        fo39Wq2J2AN52+HZYku3/UymZjw3iBeoH/ATkB+eCiEFl2sIgHKmrQoPTAZemQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1651090009;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=TeFBJ6BMGAy+Ewq+CYjwj4kASBe/7C6TdEh8x9Z5Ous=;
-        b=LU/WZ930oEEcYwjgAFTNYGBSJMy4wpTKnoYBDWEymfOcY9LETvGI2oDXv4zFTg19MEMv7U
-        LM7kKyQiHGBB/mBQ==
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Kurt Kanzenbach <kurt@linutronix.de>
-Cc:     John Stultz <john.stultz@linaro.org>,
+        with ESMTP id S237619AbiD0UOO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 16:14:14 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71C0890CEC;
+        Wed, 27 Apr 2022 13:08:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 20557B8291B;
+        Wed, 27 Apr 2022 20:08:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1D62C385A7;
+        Wed, 27 Apr 2022 20:08:11 +0000 (UTC)
+Date:   Wed, 27 Apr 2022 16:08:10 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Kurt Kanzenbach <kurt@linutronix.de>,
+        John Stultz <john.stultz@linaro.org>,
         Stephen Boyd <sboyd@kernel.org>,
         Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Richard Cochran <richardcochran@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] timekeeping: Introduce fast accessor to clock tai
-In-Reply-To: <20220427112759.1cedda69@gandalf.local.home>
+Subject: Re: [PATCH v2 1/3] timekeeping: Introduce fast accessor to clock
+ tai
+Message-ID: <20220427160810.682c9c3d@gandalf.local.home>
+In-Reply-To: <87pml2wasm.ffs@tglx>
 References: <20220414091805.89667-1-kurt@linutronix.de>
- <20220414091805.89667-2-kurt@linutronix.de>
- <20220426175338.3807ca4f@gandalf.local.home> <87r15i9azg.fsf@kurt>
- <20220427112759.1cedda69@gandalf.local.home>
-Date:   Wed, 27 Apr 2022 22:06:49 +0200
-Message-ID: <87pml2wasm.ffs@tglx>
+        <20220414091805.89667-2-kurt@linutronix.de>
+        <20220426175338.3807ca4f@gandalf.local.home>
+        <87r15i9azg.fsf@kurt>
+        <20220427112759.1cedda69@gandalf.local.home>
+        <87pml2wasm.ffs@tglx>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 27 2022 at 11:27, Steven Rostedt wrote:
->> >             less-5071    [000] d.h2. 498087876.351330: do_raw_spin_trylock <-_raw_spin_lock
->> >             less-5071    [000] d.h4. 498087876.351334: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->> >             less-5071    [000] d.h5. 498087876.351334: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->> >             less-5071    [000] d.h3. 498087876.351334: rcu_read_lock_sched_held <-lock_acquired
->> >             less-5071    [000] d.h5. 498087876.351337: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->> >     kworker/u8:1-45      [003] d.h7. 1651009380.982749: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->> >     kworker/u8:1-45      [003] d.h7. 1651009380.982749: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->> >     kworker/u8:1-45      [003] d.h5. 1651009380.982749: rcu_read_lock_held_common <-rcu_read_lock_sched_held
->> >     kworker/u8:1-45      [003] d.h7. 498087876.375905: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->> >     kworker/u8:1-45      [003] d.h7. 498087876.375905: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->> >     kworker/u8:1-45      [003] d.h5. 498087876.375905: update_cfs_group <-task_tick_fair
->> >     kworker/u8:1-45      [003] d.h7. 498087876.375909: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->> >
->> > The clock seems to be toggling between 1651009380 and 498087876 causing the
->> > ftrace ring buffer to shutdown (it doesn't allow for time to go backwards).
->> >
->> > This is running on a 32 bit x86.  
->> 
->> Hm. The only problem is that the TAI offset may change. That should only
->> happen if the time is set or similar. For the TSN use case I've ran
->> ptp4l and phc2sys. phc2sys in the default configuration sets the offset
->> hard once and uses frequency adjustments from that point on. I didn't
->> observe any time jumps. Nevertheless, my test systems is based on
->> arm64. I'll do some testing on x86.
->
-> I'm able to trigger this on x86 64bit too.
->
-> One thing I noticed, is that the two numbers I have (from a different
-> trace, but very similar to the above)
->
-> $ printf "%llx\n" 498151194674148935
-> 6e9c9df4afd3647
->
-> $ printf "%llx\n" 1651072699280995911
-> 16e9c9df4afd3647
+On Wed, 27 Apr 2022 22:06:49 +0200
+Thomas Gleixner <tglx@linutronix.de> wrote:
 
-TAI offset after boot is somewhere in this region:
+> Haven't found where ftrace loses the upper bit, but it does so
+> somewhere.
 
-It's 16e9d5dca2e7ac57 here. Converted to ctime:
+https://lore.kernel.org/all/20220427153339.16c33f75@gandalf.local.home/
 
-Wed Apr 27 20:58:02 2022
+ ;-)
 
-and that does not change after booting on the VM I'm testing. But then
-ftrace suddenly throws this warning:
-
-[  456.444350] Delta way too big! 1152921504606861182
-   ts=1651087617720667106 before=498166113113805924
-   after=498166113113820130 write stamp=498166113113820130
-
-I first set tai as trace clock and then enabled a trace point. It seems
-the first hit on this trace point ended up there.
-
-> That is, the last nibble either is 0 or 1, causing the change?
->
-> 06e9c9df4afd3647
-> 16e9c9df4afd3647
-
-I added debug into ktime_get_tai_fast_ns() to emit a pr_warn() when
-either the TAI offset or the result is less than 1 << 60.
-
-That does not trigger, but ftrace still confuses itself....
-
-There is some mumble about timestamps only requiring 59 bits and the
-check which triggers the warning has:
-
-      if (unlikely(info->delta > (1ULL << 59))) {
-
-So something cuts off bit 60 somewhere and then the whole thing goes
-into confusion mode.
-
-When I set wall time to something before 1985, it works.
-
-ctime(0x06e9c9df4afd3647/1e9) = Mon Oct 14 16:19:54 1985
-
-Haven't found where ftrace loses the upper bit, but it does so
-somewhere.
-
-Thanks,
-
-        tglx
-
-
-
+-- Steve
