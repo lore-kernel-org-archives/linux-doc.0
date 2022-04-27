@@ -2,86 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B83EC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 18:03:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA195C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 18:49:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244625AbiD0SGP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 14:06:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45840 "EHLO
+        id S231166AbiD0Swb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 14:52:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244601AbiD0SGG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 14:06:06 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BCF43A2363;
-        Wed, 27 Apr 2022 11:02:51 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id bv19so4963272ejb.6;
-        Wed, 27 Apr 2022 11:02:51 -0700 (PDT)
+        with ESMTP id S231206AbiD0SwX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 14:52:23 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B606DD0AAB;
+        Wed, 27 Apr 2022 11:38:27 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id r13so5141222ejd.5;
+        Wed, 27 Apr 2022 11:38:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kFl7F+bDiuTXuRK9B+innYEa8c7xLmi165v70TPlxvo=;
-        b=g1+X8ARdAKY3b3yP0X0ZmFyJOuQQ7wyti6Nr/e2OkKjrdDZsnjWpHAeY14DgJtO/BR
-         8AvpI+Sh3u9AEkRpdtrs9/r7ip/p9RiMaG0xn6kuFe7QvYwzgKvC07tLhPGDrpSuKVAV
-         xnmYGCz/Z/Yr473MbHTiRIUBwe1ic0debupuOGp07h6MDlnVt5ZaAz92mYpL1HmXAna3
-         d9vanuE4VpBLovhxee1wq0bLQ8P3ePyu6gQGce8P01S+ZsO8N8xPkCGGz9Sp0B14Kk3r
-         NID2F8DDG7N4TXOeXVUAzGr1jT7AeCdD7WaTctycMSETLmV3+HN7W48FcDZlKCBijWmz
-         3Jmg==
+        bh=Jf9i3ztTNjfWPutrOO+p/55EBe7ejBl7ElvzXmHGQEg=;
+        b=X2Wrw6aGSdtD6osErIZoyheLcvMUX8NAYUDuh9B4v8dSyZZoDLP601yJkl5p94uFnU
+         5Ubb9b8EMYHGAcI5U44jJCxVgx+RD1VwFmHUdyD5P7xlBN87TredFXCsIbeLg9ULH4hy
+         QaRH63Crb0DyI1GApXZDihx/uU0BG4rIdnvz+EYoc3+UAW7d4LpS44swBX6qmC8y7h/S
+         O1YnCBF0RnDKYI1OBIf9L4RBD6zeOcjMUXcxjnR4ZS4pSimK43YIIDodIy9zWc/TXV7z
+         UHdigbdNTV0YYN6+rESapEtYvmFruijwAMEkgjY+m0NzxqMfETrmSaftKX0A4EUVE3wu
+         WWxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kFl7F+bDiuTXuRK9B+innYEa8c7xLmi165v70TPlxvo=;
-        b=59q+9JvhWziyqRlexsJUJAwHNmiPiKT4M5CbOuZ4rbgUQEbtFtISnIBcCO7gz5eNwe
-         lpAi64OHLknfANviC33DgApUwD4XQHpcIZCS6H5wTjjzf/zdzFcKOrag33+M6EJZIYFL
-         tie7+NObMeU+S0NdfgRE854Xvf3C/hXlU9yUXD3QKar7oPdg7OkXE5Mr7Flq7UCALBQL
-         zosLZk4d8+mWzUxQkKLX4YqVlPKfxYz/3/MwHJx5pA/VsGMmu1VYekOALYk34haAxzVx
-         jHcEoNTut+tFmmRfdIg1mr7f/jKnB02Kw7kUtl2hjMdancHXlflFvQsPLze1UALWwLQH
-         FJTw==
-X-Gm-Message-State: AOAM530iywWLuxWPrVcTqZCk4dKH0AiOqA+4S3qYTusLH95JXL2n/q9k
-        HfN5bQhRO9LbY4t7Lt1FqWw=
-X-Google-Smtp-Source: ABdhPJxdsVTmlYPCwZAL6LfmspKOKFwpTh0gGX+jG1taFFNxyj+O7zNYFpdayz32BJXR51B834LIFQ==
-X-Received: by 2002:a17:907:7d86:b0:6f3:a92d:7fa4 with SMTP id oz6-20020a1709077d8600b006f3a92d7fa4mr10978810ejc.498.1651082569820;
-        Wed, 27 Apr 2022 11:02:49 -0700 (PDT)
-Received: from tiger.museclub.art (p200300cf9f393100d379c1e4199524ea.dip0.t-ipconnect.de. [2003:cf:9f39:3100:d379:c1e4:1995:24ea])
-        by smtp.googlemail.com with ESMTPSA id lf5-20020a170907174500b006f3806fc9cdsm5638036ejc.39.2022.04.27.11.02.49
+        bh=Jf9i3ztTNjfWPutrOO+p/55EBe7ejBl7ElvzXmHGQEg=;
+        b=T3GOw5AHrGQIAJ6GfhOejbApJwkoUDYTTNV28Qgj1yquv/cOVMNRDddFDRdvbYE3hL
+         ano9RfC2Kam3f9ZL9AoOZWYi+RuLl7bCmQ9EBkIo06angnj5eKaJWeeLeyW4clx/Ygwv
+         TkCo3VdE/V3bqOY5dZNRp0LeMW05MiJWIeaMxVFlG8Way+ncs1h/qlawrOMtEPjGaLfo
+         PtKdAvbKuslEYg58vlVVJ1YT+Jb3LZU9WtvGtaYmDDQbJkSjQX8g3Qu6ACJE5bkE80fq
+         vOVUKk6HEJMGTyRe51nnanYU/q4wsNS8H0YXGsYddacSX540ZuzHl4V+CGq5VSHK8Yvz
+         VHWw==
+X-Gm-Message-State: AOAM531OqPNDgCYA3vIonRro22Ol5r7uQUmmEsYSvU86Tn7ESBlB51bx
+        uJhn5W7kjNBMiNEbPvN1NNAYjSJQbaI=
+X-Google-Smtp-Source: ABdhPJxYmulAe68OxOgM9m3Ff9OqMHejTV4BuNDsrsdH/lnJG7g4ZBSf8iATJgr6HWV37aVYAGJZZA==
+X-Received: by 2002:a17:906:3104:b0:6ce:6b85:ecc9 with SMTP id 4-20020a170906310400b006ce6b85ecc9mr27247261ejx.339.1651084705994;
+        Wed, 27 Apr 2022 11:38:25 -0700 (PDT)
+Received: from localhost.localdomain (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
+        by smtp.gmail.com with ESMTPSA id ig8-20020a1709072e0800b006f38f2e9ebesm4691667ejc.64.2022.04.27.11.38.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 11:02:49 -0700 (PDT)
-From:   Eugene Shalygin <eugene.shalygin@gmail.com>
-To:     eugene.shalygin@gmail.com
-Cc:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (asus-ec-sensors) add doc entry for PRIME X470-PRO
-Date:   Wed, 27 Apr 2022 20:02:36 +0200
-Message-Id: <20220427180237.1475954-1-eugene.shalygin@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        Wed, 27 Apr 2022 11:38:24 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Ira Weiny <ira.weiny@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        outreachy@lists.linux.dev
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v3 0/4] Extend and reorganize Highmem's documentation 
+Date:   Wed, 27 Apr 2022 20:38:17 +0200
+Message-Id: <20220427183821.1979-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add PRIME X470-PRO to the list of supported boards.
+This series has the purpose to extend and reorganize Highmem's
+documentation.
 
-Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
----
- Documentation/hwmon/asus_ec_sensors.rst | 1 +
- 1 file changed, 1 insertion(+)
+This is still a work in progress, because some information should still be
+moved from highmem.rst to highmem.h and highmem-internal.h. Specifically
+I'm talking about moving the "how to" information to the relevant headers,
+as it as been suggested by Ira Weiny (Intel).
 
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-index 36ca531d32dd..1700fe619597 100644
---- a/Documentation/hwmon/asus_ec_sensors.rst
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -4,6 +4,7 @@ Kernel driver asus_ec_sensors
- =================================
- 
- Supported boards:
-+ * PRIME X470-PRO,
-  * PRIME X570-PRO,
-  * Pro WS X570-ACE,
-  * ProArt X570-CREATOR WIFI
+This series is composed by four patches gathered from a previous series
+made of two, plus two more single patches. The subject of this cover has
+changed and the layout of the changes across the four patches has
+changed too. For this reason it is very hard to show a valid versions'
+log. Therefore, I decided to start over and drop versions (Maintainers
+of the previous patch have been told to drop them).
+
+Changes from v1 to v2:
+
+        1/4 - Fix typos (Mike Rapoport); re-write the description of @page
+              because the original was wrong (Ira Weiny); add Ira's and
+              Mike's tags in the commit message.
+        2/4 - Add Ira's and Mike's tags in the commit message.
+        3/4 - Rework the subject to better summarize what this patch
+              changes; merge the section which was removed from highmem.rst
+              with the kdocs of highmem.h (suggested by Ira Weiny); add
+              Ira's tag in the commit message.
+        4/4 - Reformulate a sentence that was incomprehensible due to my
+              own mistakes in copying and pasting the text of another
+              paragraph (problem noted by Ira Weiny); refer to the kdocs
+              of kmap_local_page () to show how nested mappings should be
+              handled; fix grammar error; add Ira's tag in the commit
+              message.
+
+Changes from v2 to v3:
+
+	1/4 - Add a deprecation notice to kunmap_atomic() for consistency
+	      with the same notice in kmap_atomic() (Sebastian Andrzej
+	      Siewior); shorten subject and extend commit message.
+	2/4 - No changes.
+	3/4 - No changes.
+	4/4 - Correct a technical inaccuracy about preemption disabling / 
+	      re-enabling in kmap_atomic() / kunmap_atomic() (Sebastian
+	      Andrzej Siewior).
+
+Fabio M. De Francesco (4):
+  mm/highmem: Fix kernel-doc warnings in highmem*.h
+  Documentation/vm: Include kdocs from highmem*.h into highmem.rst
+  Documentation/vm: Move "Using kmap-atomic" to highmem.h
+  Documentation/vm: Rework "Temporary Virtual Mappings" section
+
+ Documentation/vm/highmem.rst     | 104 +++++++++++++++++++------------
+ include/linux/highmem-internal.h |  15 ++++-
+ include/linux/highmem.h          |  49 +++++++++++----
+ 3 files changed, 112 insertions(+), 56 deletions(-)
+
 -- 
-2.35.1
+2.34.1
 
