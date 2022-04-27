@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 348DFC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 01:12:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B16C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 01:19:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240563AbiD0BPn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 21:15:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39636 "EHLO
+        id S1356634AbiD0BWK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 21:22:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239232AbiD0BPm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 21:15:42 -0400
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C89D03B57C
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 18:12:32 -0700 (PDT)
-Received: by mail-vs1-xe33.google.com with SMTP id v139so456704vsv.0
-        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 18:12:32 -0700 (PDT)
+        with ESMTP id S1344391AbiD0BWI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 21:22:08 -0400
+Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 285BB174433
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 18:18:59 -0700 (PDT)
+Received: by mail-ua1-x92f.google.com with SMTP id z15so87918uad.7
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 18:18:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=0OB4iCXtxiKbS3NMWNYxYIAROlGFdL0Wkd5J0MHv91A=;
-        b=Bp9dT2NsWeXsrortAGIE6Vx0R7SGr+A/O59m+DJngXiWhnvAv4m8qbxVl4TUtOJQY5
-         bAmLUMBUoJocnLAu4lLnTOo5zkNupj3UnX7QkNy45lihtzmQbwIdNBHV08x4R0xmEECs
-         RHOOGe9FvdObHDrXgCsZGk886CHiL8Mvv/8I/3JeNmEJBjskYzLheGO/bCFQfgdYE8wx
-         4/n80TAzYbqYYRM294NyAu8H8roXt4mF8a1JXWwVzzD+bSmgY1wQCgAeAWiStF7eoYXW
-         /Ec0TvS1b2RbTQiLUA1gTqUxmZh8oiMj/QKw1CLegC52kGpb8aLHwXgU/6srNFGYZd2B
-         J0oQ==
+        bh=dkaom6jGHiqXJJvzANNgQPiwnUpwsfzq/QVSUZefRFM=;
+        b=CNABcSddX5b6n+TQdqiZuhToeSYgN8qqRcrhLTf2cbtNpqOpITOw0HoUW1VxeheSqr
+         +kIHNlxEm7JA7PbBw9bvynk3vAS1zjmQEequdqIu7eonYeGOKX1RbYd4eXS4EL7Cnlm7
+         Wi8acyLCuqs+uqGQDo0rBN9uQkgZ45oK5xeF1xKHiAeYfZZu4409vPwkLv8mkEOmuhRN
+         gxvSR+Fa/kK898TJTUuGLY5PaLuM7wYYzf5ZxA16B0IMmvu8tPBoxRFky8sOUqW9+Xyz
+         04/FOMsq62xn0mP4AjRhUQRea/OIEEJpkItR6Q3DMQikK/BMkmfkfFRsGadzVE77x5+x
+         1sIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0OB4iCXtxiKbS3NMWNYxYIAROlGFdL0Wkd5J0MHv91A=;
-        b=rVyn3vyUC6In+mvuGB1thyGptz/sRjy+gixfcrDvspTiebOMADJWvpybWj7a2dyMa5
-         2i9qF8hic6IZbsS73S3LYvcTvFlIbSNx7U/401FFO5ZaRtZhIntDc7Ka4iCz2y0iVz/l
-         Vh3pgwkzQ4t9+m3rdDegDqanq/bP9YtFgqnblfgMxzASgqL5sDPX6fZgyvhE51j1PRC8
-         /bh5GL7ueA1hN275BHbWSGSnnPMP6JT80W/HZrW16I7GjfYu/wBBSxzjueiA5IXQCwza
-         sO/fFujjiFJdG+06yilloMevBpqA5YZW9BrChswY+MBARZSrLKxWSQME1fqUNmAyQVEr
-         CBUQ==
-X-Gm-Message-State: AOAM531IGICJtY/zZXqvZEDWW78O5VCJ1BzRXxBbe2Ytw5lw37izVFUK
-        VVhk59MhVAuiC8HWMD2UrqFwoTADqBk+w9gW6zLi8Q==
-X-Google-Smtp-Source: ABdhPJwy/MRAp4oC6Hi1ll9gS9jBkgqQtmNi88ADT/C3NJcTx+Bes6COrB45hWc8WPeVFid4VYYYZG1IRGGt4+/7Wgg=
-X-Received: by 2002:a05:6102:158a:b0:32a:56ea:3fba with SMTP id
- g10-20020a056102158a00b0032a56ea3fbamr7630158vsv.84.1651021951811; Tue, 26
- Apr 2022 18:12:31 -0700 (PDT)
+        bh=dkaom6jGHiqXJJvzANNgQPiwnUpwsfzq/QVSUZefRFM=;
+        b=VhDpFH9Ql3kSQX4TN9Y8bm6otbwFAh4Jelmhtpr1lSAAp1RkoIf6WKmCeliwKydSLG
+         uTHjXIBT4d/HiY6Lpx+6R0iFtkXRioActlbCLoUUgZxHYPC5SCXuagXadIWCaHKLDoj2
+         HCdQJmRO8PNKEaA3XOIb9zCdwL2rYUJhCSRcXi7rHAp7aUe91MfWWU8rMiga14rXapcJ
+         ahgX2eerrIpyI9f9XhW89KHf305dM2nSyXR6iZGxYV3di3ZJVvnqlToC9qaew8hHyqdW
+         IrOrD7Hk5Q3joqa8RE/vBxtTA1/2YMWoRe6Smk48KAOWc1mtfizQq1wsmG/5xM+Brd29
+         N06A==
+X-Gm-Message-State: AOAM533gHWWoWrn2YSfx4Lzpf4unB7IQ8QjvciHtx7mLXS2TFdQfGfYG
+        AyQMxY/vz5OxU7el0hyZ5lb5N+jaIOSsy2DO5msBmQ==
+X-Google-Smtp-Source: ABdhPJwdvDGouIH2ciLL1gxZrezu13HylZKO7y/rVDTnJd8+6pCaQT17EsqSX68jOcxM2tD03lALxOCQHXmVvOnDW5M=
+X-Received: by 2002:ab0:2695:0:b0:352:5fc9:4132 with SMTP id
+ t21-20020ab02695000000b003525fc94132mr7877586uao.29.1651022338107; Tue, 26
+ Apr 2022 18:18:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-11-yuzhao@google.com>
- <20220411191627.629f21de83cd0a520ef4a142@linux-foundation.org>
- <CAOUHufbtFj0Hez7wkw3DHGDwo6wudCzCvACt2GfgrFcubW_DYg@mail.gmail.com> <20220426152237.21d3f173eded69c0f63911f0@linux-foundation.org>
-In-Reply-To: <20220426152237.21d3f173eded69c0f63911f0@linux-foundation.org>
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-6-yuzhao@google.com>
+ <20220411191615.a34959bdcc25ef3f9c16a7ce@linux-foundation.org>
+ <CAOUHufaeNzDJnDqatHe0MwsN-D6M_tw6JX2UBJFc+JpZNP86hQ@mail.gmail.com> <20220426164241.99e6a283c371ed75fa5c12a0@linux-foundation.org>
+In-Reply-To: <20220426164241.99e6a283c371ed75fa5c12a0@linux-foundation.org>
 From:   Yu Zhao <yuzhao@google.com>
-Date:   Tue, 26 Apr 2022 19:11:54 -0600
-Message-ID: <CAOUHufZ3fRcDqyFPSL9buqcE_sZsZQE+fUW7XkiwubNSD0Zb5g@mail.gmail.com>
-Subject: Re: [PATCH v10 10/14] mm: multi-gen LRU: kill switch
+Date:   Tue, 26 Apr 2022 19:18:21 -0600
+Message-ID: <CAOUHufbMA7VutATpDYZ15JT_WuP9MGL_Vp6q5KFk72OjzRV+qQ@mail.gmail.com>
+Subject: Re: [PATCH v10 05/14] mm: multi-gen LRU: groundwork
 To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Tejun Heo <tj@kernel.org>, Stephen Rothwell <sfr@rothwell.id.au>,
+Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
         Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
         Barry Song <21cnbao@gmail.com>,
@@ -96,89 +96,90 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 4:22 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+On Tue, Apr 26, 2022 at 5:42 PM Andrew Morton <akpm@linux-foundation.org> wrote:
 >
-> On Tue, 26 Apr 2022 14:57:15 -0600 Yu Zhao <yuzhao@google.com> wrote:
+> On Tue, 26 Apr 2022 16:39:07 -0600 Yu Zhao <yuzhao@google.com> wrote:
 >
 > > On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
 > > >
-> > > On Wed,  6 Apr 2022 21:15:22 -0600 Yu Zhao <yuzhao@google.com> wrote:
+> > > On Wed,  6 Apr 2022 21:15:17 -0600 Yu Zhao <yuzhao@google.com> wrote:
 > > >
-> > > > Add /sys/kernel/mm/lru_gen/enabled as a kill switch. Components that
-> > > > can be disabled include:
-> > > >   0x0001: the multi-gen LRU core
-> > > >   0x0002: walking page table, when arch_has_hw_pte_young() returns
-> > > >           true
-> > > >   0x0004: clearing the accessed bit in non-leaf PMD entries, when
-> > > >           CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG=y
-> > > >   [yYnN]: apply to all the components above
-> > > > E.g.,
-> > > >   echo y >/sys/kernel/mm/lru_gen/enabled
-> > > >   cat /sys/kernel/mm/lru_gen/enabled
-> > > >   0x0007
-> > > >   echo 5 >/sys/kernel/mm/lru_gen/enabled
-> > > >   cat /sys/kernel/mm/lru_gen/enabled
-> > > >   0x0005
+> > > > Evictable pages are divided into multiple generations for each lruvec.
+> > > > The youngest generation number is stored in lrugen->max_seq for both
+> > > > anon and file types as they are aged on an equal footing. The oldest
+> > > > generation numbers are stored in lrugen->min_seq[] separately for anon
+> > > > and file types as clean file pages can be evicted regardless of swap
+> > > > constraints. These three variables are monotonically increasing.
+> > > >
+> > > > ...
+> > > >
+> > > > +static inline bool lru_gen_del_folio(struct lruvec *lruvec, struct folio *folio, bool reclaiming)
 > > >
-> > > I'm shocked that this actually works.  How does it work?  Existing
-> > > pages & folios are drained over time or synchrnously?
+> > > There's a lot of function inlining here.  Fortunately the compiler will
+> > > ignore it all, because some of it looks wrong.  Please review (and
+> > > remeasure!).  If inlining is reqlly justified, use __always_inline, and
+> > > document the reasons for doing so.
 > >
-> > Basically we have a double-throw way, and once flipped, new (isolated)
-> > pages can only be added to the lists of the current implementation.
-> > Existing pages on the lists of the previous implementation are
-> > synchronously drained (isolated and then re-added), with
-> > cond_resched() of course.
-> >
-> > > Supporting
-> > > structures remain allocated, available for reenablement?
-> >
-> > Correct.
-> >
-> > > Why is it thought necessary to have this?  Is it expected to be
-> > > permanent?
-> >
-> > This is almost a must for large scale deployments/experiments.
-> >
-> > For deployments, we need to keep fix rollout (high priority) and
-> > feature enabling (low priority) separate. Rolling out multiple
-> > binaries works but will make the process slower and more painful. So
-> > generally for each release, there is only one binary to roll out, and
-> > unless it's impossible, new features are disabled by default. Once a
-> > rollout completes, i.e., reaches enough population and remains stable,
-> > new features are turned on gradually. If something goes wrong with a
-> > new feature, we turn off that feature rather than roll back the
-> > kernel.
-> >
-> > Similarly, for A/B experiments, we don't want to use two binaries.
+> > I totally expect modern compilers to make better decisions than I do.
+> > And personally, I'd never use __always_inline; instead, I'd strongly
+> > recommend FDO/LTO.
 >
-> Please let's spell out this sort of high-level thinking in the
-> changelogging.
+> My (badly expressed) point is that there's a lot of inlining of large
+> functions here.
+>
+> For example, lru_gen_add_folio() is huge and has 4(?) call sites.  This
+> may well produce slower code due to the icache footprint.
+>
+> Experiment: moving lru_gen_del_folio() into mm/vmscan.c shrinks that
+> file's .text from 80612 bytes to 78956.
+>
+> I tend to think that out-of-line regular old C functions should be the
+> default and that the code should be inlined only when a clear benefit
+> is demonstrable, or has at least been seriously thought about.
 
-Will do.
+I can move those functions to vmscan.c if you think it would improve
+performance. I don't have a strong opinion here -- I was able to
+measure the bloat but not the performance impact.
 
-> From what you're saying, this is a transient thing.  It sounds that
-> this enablement is only needed when mglru is at an early stage.  Once
-> it has matured more then successive rollouts will have essentially the
-> same mglru implementation and being able to disable mglru at runtime
-> will no longer be required?
+> > > > --- a/mm/Kconfig
+> > > > +++ b/mm/Kconfig
+> > > > @@ -909,6 +909,14 @@ config ANON_VMA_NAME
+> > > >         area from being merged with adjacent virtual memory areas due to the
+> > > >         difference in their name.
+> > > >
+> > > > +config LRU_GEN
+> > > > +     bool "Multi-Gen LRU"
+> > > > +     depends on MMU
+> > > > +     # the following options can use up the spare bits in page flags
+> > > > +     depends on !MAXSMP && (64BIT || !SPARSEMEM || SPARSEMEM_VMEMMAP)
+> > > > +     help
+> > > > +       A high performance LRU implementation to overcommit memory.
+> > > > +
+> > > >  source "mm/damon/Kconfig"
+> > >
+> > > This is a problem.  I had to jump through hoops just to be able to
+> > > compile-test this.  Turns out I had to figure out how to disable
+> > > MAXSMP.
+> > >
+> > > Can we please figure out a way to ensure that more testers are at least
+> > > compile testing this?  Allnoconfig, defconfig, allyesconfig, allmodconfig.
+> > >
+> > > Also, I suggest that we actually make MGLRU the default while in linux-next.
+> >
+> > The !MAXSMP is to work around [1], which I haven't had the time to
+> > fix. That BUILD_BUG_ON() shouldn't assert sizeof(struct page) == 64
+> > since the true size depends on WANT_PAGE_VIRTUAL as well as
+> > LAST_CPUPID_NOT_IN_PAGE_FLAGS. My plan is here [2].
+> >
+> > [1] https://lore.kernel.org/r/20190905154603.10349-4-aneesh.kumar@linux.ibm.com/
+> > [2] https://lore.kernel.org/r/Ygl1Gf+ATBuI%2Fm2q@google.com/
+>
+> OK, thanks.  This is fairly urgent for -next and -rc inclusion.  If
+> practically nobody is compiling the feature then practically nobody is
+> testing it.  Let's come up with a way to improves the expected coverage
+> by a lot.
 
-I certainly hope so. But realistically this switch is here to stay,
-just like anything else added after careful planning or on a whim.
+Let me just remove !MAXSMP, since I wasn't able to reproduce this
+build error [1] anymore.
 
-> I guess the capability is reasonable simple/small and is livable with,
-> but does it have a long-term future?
-
-I see it as a necessary evil.
-
-> I mean, when organizations such as google start adopting the mglru
-> implementation which is present in Linus's tree we're, what, a year or
-> more into the future?  Will they still need a kill switch then?
-
-There are two distinct possibilities:
-1. Naturally the number of caps would grow. Old caps that have been
-proven remain the same values. New caps need to be flipped on/off for
-deployments/experiments.
-2. The worst case scenario: this file becomes something like
-/sys/kernel/mm/transparent_hugepage/enabled. For different workloads,
-it's set to different values. Otherwise we'd have to build multiple
-kernel binaries.
+[1] https://lore.kernel.org/r/1792f0b2e29.d72f70c9807100.8179330337708563324@xanmod.org/
