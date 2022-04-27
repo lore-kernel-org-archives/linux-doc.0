@@ -2,148 +2,368 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11233C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 14:04:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB4BCC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 14:30:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236929AbiD0OH2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 10:07:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35854 "EHLO
+        id S237871AbiD0Odc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 10:33:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236817AbiD0OHZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 10:07:25 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2082.outbound.protection.outlook.com [40.107.236.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE54F49F3C;
-        Wed, 27 Apr 2022 07:04:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WkPup6EzLRaxXvm9iCwACLlNUOJUZVQgm2h8UHW+Oo/bEWeGQMLBZKcEGIHO/ll9QJnxUznOsFvmTo31HdQGV2IfR5plfmpFN1FBqTi6ePlXMeCIrk91Xd3ZJ3wdKl4QxdSZKzpi5bH11QOTquNtmscs52zh2F+LyGn8SJnecAGAi44evK/PQ5yaqo4C+yJAfOxV029QeiZVm1YuqPJobDRzPUNXzTvWQsrO0iq2cP2gSXAsLkxshPx5PjeU3thMi3AIhvxPr4V5JxzQnqrfGE1yViO8hEZgap15eUm6Omt1Od+40sM8awXydiFpBaNeu8U8DmL2tpn3i/+d2yCbzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OOgcx4a9oXkoYntP12BfQ3X6+7t7XYyNmex6/Vx0HUw=;
- b=LdTBEruiHTzwmB11CEyxduJimQC0abd2Vd9yw61fVDhRf8Au/XIsrSFF2Pm8RoYYmVx72LlDjlRYxXyG0iEqED5REF+9H+pZ7tevcYtGu0QP5kbzMQWYdnkpqkK1fbE8Xc3M7ESViFivZ/W8af0qJ1/Rqm5KyyOi+COa0c6fww4aSAzdwI7v8jgaibJHzQFJDpsKFfK2h+k9kSsnA4bJRrK26CF0cev4bRODVazjsyvtYH6OGfQd2VCuUgiDd6WM8DSZ0EXyucQOgR3+VjgeJoJprkNsLorr3DjREOJQwyncN4KfN+V71SXvQaG/GP5TbTKCi1/hCehzvPhbMu114Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OOgcx4a9oXkoYntP12BfQ3X6+7t7XYyNmex6/Vx0HUw=;
- b=FdUs5HEPKE5HMbRaEV5HEkIHQS6NwzQF/QfxpmcL+AV1tWnG3PfIznBOj0y4/z6Uu8Xjx1t9dGV2pjNksqyotKli2dyk6VW6nRNOJdPZHGcxVkxsrP7Xul5ePLDRe696ojMwbgQspHmVNXzDFmMyDWZFXm/wBpvft6/L9X4J7b77O0Sejarpi41rxJEt/eGzxIGADJqQ6QzyfoqBq7yOkGhvSdBMa1LDa6kqF2fNDL7Cbswm9782gJPmwLgG6DgqpSOKAKGYmP5d6qHshfH1AspVOL1flem1DHHhJ+hfc2UgoBSFEKKWXJhSqpuvgqLQHQGXRl+pgVKqgFvjEmHM7g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by MN2PR12MB3728.namprd12.prod.outlook.com (2603:10b6:208:167::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Wed, 27 Apr
- 2022 14:04:12 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2%6]) with mapi id 15.20.5186.021; Wed, 27 Apr 2022
- 14:04:12 +0000
-Date:   Wed, 27 Apr 2022 11:04:10 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Matthew Rosato <mjrosato@linux.ibm.com>
-Cc:     linux-s390@vger.kernel.org, alex.williamson@redhat.com,
-        cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
-        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
-        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
-        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
-        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 16/21] vfio-pci/zdev: add open/close device hooks
-Message-ID: <20220427140410.GX2125828@nvidia.com>
-References: <20220426200842.98655-1-mjrosato@linux.ibm.com>
- <20220426200842.98655-17-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220426200842.98655-17-mjrosato@linux.ibm.com>
-X-ClientProxiedBy: BL0PR1501CA0033.namprd15.prod.outlook.com
- (2603:10b6:207:17::46) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+        with ESMTP id S237816AbiD0Od2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 10:33:28 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81BDCF55;
+        Wed, 27 Apr 2022 07:30:14 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id x18so2824180wrc.0;
+        Wed, 27 Apr 2022 07:30:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=aPY2RBBUppVq+Xf2lJAMzWiZhBUTz4JXi2Mn7VuYgDk=;
+        b=V8KSLPIDC34vdohlTmGNIuA4UeObNlpS/2W7QL64/5Xe0U8LpKsHdNHUvojwDO/Qj3
+         ohcvLkJrSsoG2iuWDlR4NvsuVLh+P90jujELwq5K7JIoL60cm6y+K4CEp+sA45BRLmdL
+         VMFP0O6OQlW010sFVKqmZP3lH7KndZ8V8fQP/7sg5M47YsV8unWVSu7wSCauOe5mvZka
+         K//b1MPAEGTO3dsqEeazMly+8spc0kQzXaNPEXLmu8RxDPvnK6jvMwhuazsEOuk7R8NH
+         Ya5K1c+ueYy/VGU6eM4A2ibMaK3w7MmTcZD7du2oPVn0/DGSK6Nn1RKpGzN0dTKoWPfG
+         g7pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=aPY2RBBUppVq+Xf2lJAMzWiZhBUTz4JXi2Mn7VuYgDk=;
+        b=DYtHqw4K3sdfsmplhpixtrGD7CDQCGt0PXFa6ZivwFP3YwaCT6MAwQm7sovKh3v4D3
+         johgf8rGftECKb2scUnPRHkWABRbFzPhtS9peeZRhoM/S0dv+T8cLyLGAEKgjzedkO2x
+         o/KoklFR18vuNb1Ia69Gtp2ikETOUNWWf47/W6E3qXw9TI0JAGhgDLB5cAfLDgf7z+c5
+         0n/zigaY+UruvO85bWu3OlJyMX9EiDdAhgHCprxiBSGTwF2ViHJGKhr9mhGIAnBuudHw
+         czHxc5s7K0Y4nrRRPmaSZUlQwDiIBcNrcphrUyWCqUm23OLVabiWpMy1VKsXTos++imW
+         BZDw==
+X-Gm-Message-State: AOAM533z4humbuLr3g0pQ0mM3kI1yHesOxiNh89a5+uvTfdskAaEpEiW
+        GB6onMXyYf3PETsjpDvUHAc=
+X-Google-Smtp-Source: ABdhPJz2amJedm0h+S7JpXD+Kc8SX2VdJlRXZ3JKH/eX/OK+uO3CBy6zAkhwBu58H8Ain8SogvqYIA==
+X-Received: by 2002:a5d:620f:0:b0:20a:d560:9996 with SMTP id y15-20020a5d620f000000b0020ad5609996mr16506884wru.471.1651069812972;
+        Wed, 27 Apr 2022 07:30:12 -0700 (PDT)
+Received: from tiger.museclub.art (p200300cf9f393100d379c1e4199524ea.dip0.t-ipconnect.de. [2003:cf:9f39:3100:d379:c1e4:1995:24ea])
+        by smtp.googlemail.com with ESMTPSA id i14-20020a1c540e000000b00393dc91e9c9sm1721625wmb.17.2022.04.27.07.30.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Apr 2022 07:30:12 -0700 (PDT)
+From:   Eugene Shalygin <eugene.shalygin@gmail.com>
+Cc:     Eugene Shalygin <eugene.shalygin@gmail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 2/4] hwmon: (asus-ec-sensors) implement locking via the ACPI global lock
+Date:   Wed, 27 Apr 2022 16:29:59 +0200
+Message-Id: <20220427143001.1443605-3-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220427143001.1443605-1-eugene.shalygin@gmail.com>
+References: <20220427143001.1443605-1-eugene.shalygin@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 505dafd7-d316-448b-8802-08da2856ce5c
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3728:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3728D46821AAF5FCF8383642C2FA9@MN2PR12MB3728.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lSgGXmr/9EtqD0Nf6fx9+BBsyXVrXHUnWN9d4KbHNbXfeEnE6C5O5GGstGZqR/STpYAVZBuwE9Rj2YdEuTGFzXyY9Ziw3ns4lSIwieMLH5QyGoOpDp1FQysJAn/TeB+Wcs1Ad4GwggizrAnXEfZzVxxXyf4jo/GO5d+jyS2aZHrm8+GG5TdZ6gHBVEb/RJmCZ6766dHzoMyOKRoc31FIhOYGZB/PFxK7xE6QPwzWg8NsgnnheuSXorPcPoCGasdUGfk9x/BRKJXvOJF1bZBC3AFgZHKym3OOlaZxw4oWxQt4DWwM8fJGtBweXu0LnbFYEE7AzFdaxduR+S3ccG4rUuVXYn8kC+CJ7Hjp2zh/erxVfvbb4uwg/22GWW3ntbC+0MjI2rb6rHiwqpt1tnaWe4Znt7JFIwsPLz7ISCGzgwZYW0asn/OoNsswwYcz5d814VSvBIoMGc65KQ03S5a8RgNvhYXVSVd8F46PvzPczHrJi4aCirPr8UfvyWKjMIZwlLlQiiSEiJe3c3QVPTwCvq+5UhiveInzRYM81akNJ6L8SSVqTD0u41cftsMEuHBGehc+Js2nrNiWPLwpnvJE2uvllK2xQBU9n3/njxzKH1NZlVn9i1YRfO8vQov7IJb1dbpXJxO0tIwFVnNQPqFXPg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(83380400001)(38100700002)(186003)(1076003)(508600001)(86362001)(4744005)(7416002)(36756003)(5660300002)(8936002)(33656002)(2906002)(26005)(66476007)(4326008)(2616005)(6916009)(6512007)(8676002)(66946007)(66556008)(316002)(6506007)(6486002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?L6qgz2jmcKSxmzQgj41HZKGbOV90psXvEfj0Om74ctEr9eF6230O8S2PO1Ox?=
- =?us-ascii?Q?rfCXX3jFRgok1BgFkBInk+QmaFvip7UQZCrOKRN/Nq5RoE+3+TLgtcUEesd2?=
- =?us-ascii?Q?IlEFKX4u7r3ly/XYGgaAmkvF51CvgUb0OqG+qVLMPzgXRS6cKsj3YV4k8Q9H?=
- =?us-ascii?Q?SW4J2PB+SCI/utlyE5vksWHW0abdPEa7Fne8QiQNOIdO5yg/r7mH/IoeHD1H?=
- =?us-ascii?Q?fWXtCjRApXNfrYWrLLrEnCv2x0G4NODqyTmqaIInu0kAQXZXd1iWHDnkC+6V?=
- =?us-ascii?Q?fEudAJzkmZG/LdP/KZWFFw1Ma/hGZv7Zgs3iPRg31lOzeAP8fLiihM5QMQOd?=
- =?us-ascii?Q?UaAMDFwbkBVeD/sUOiKVEPvq8QbJkZn0sw8mBp1+Thb6EM15U9B3Kjo3DSdZ?=
- =?us-ascii?Q?oEhvvI7TQ6kZuaU0uLI1KlgFFDmoHPBlas9v0jh4dcGybKHeoS8W0XRP7i9x?=
- =?us-ascii?Q?zzRybdoiq+/ma+AQWE2xRNIPlACC1JkVy3R4dBbkAs2EKE4xWda2vB8arEeA?=
- =?us-ascii?Q?NwtM+M/8Kk+QZkGpgLMKW9asYfKrGTWTaoGN3XUXnlgxlbTgnvOW3Y9zXTi1?=
- =?us-ascii?Q?50+dVOPE97s9+AdcqQh58MtLwpAl22a85HazyWJib/3wiC8A31GqlmJrR230?=
- =?us-ascii?Q?59ibX3ibNwFgojA+lsNXt1+CbO/cUajDW+cdhPjzWUsT2dj61TXWLaRCp6tI?=
- =?us-ascii?Q?Chw5IoU1igdZonRAVgJUtQLKC27ddi+mfwQf7raTA4cb8JFNzimoVvk67P3L?=
- =?us-ascii?Q?I6AM5FQRavNnV6RRXySU4C3qugLBk27itgRVQtfPZEJEFCSScFvSlc7QTwqv?=
- =?us-ascii?Q?Gd2DSBZY8fyOTUkLFx935iAYNNOGeuWnC2sPZrqvQFe+XIABB81C2fYygsED?=
- =?us-ascii?Q?5LFr/YVUeieGmtShhGIOc4uJnfjOWC6666S9pptvi26gkJu1Kxzo9yk3msfX?=
- =?us-ascii?Q?KDqnRl6L59gjEj6Hkn8SDkFGwUFlzBFebJDmJFApF+Dzo2eKJqsw4iNUv9Ue?=
- =?us-ascii?Q?tZjOtdsRGxa5huzeWbTLohrcrWxJf89Ex2tD+baDnxtsNs+GA8sLnwvChWw4?=
- =?us-ascii?Q?o+Sb3dktLTgTVkhA5/NdWwqPd7Facsw3wZbXOmH/iesaBcui6dTaPLAcg5YW?=
- =?us-ascii?Q?vMt62shuz1elO5AuEFSCRlPSTWuwDKOUBW7VdhGVRSGc/S91M8gvZqpsV1yF?=
- =?us-ascii?Q?pbi0ZZLQTGS0dShu2JWNrAZIB5wers2fc0KE9C2G6XbjHqw3UTrDow21hX8c?=
- =?us-ascii?Q?YhqBchsBwHVaoQoFRx4BJO20CVNhB84lfDvk/XDFQcFw/Z28XPTOFGUUAwXG?=
- =?us-ascii?Q?eduhd0rTXmUGX4aWKIkc0M3FbDg1zU4Q0Xtev5huGzJMWJn4+n2dMpJ7dSJ/?=
- =?us-ascii?Q?aYzzRysnIo4LQg+AoWYztfI1XHelqa8tqEaEFPiLUutDktTiVabmZpizLfJo?=
- =?us-ascii?Q?rRIdRUNXnZcT4j0nAJRMChB7trLxfN407frwnit90ZPzG0XSxrxi72X2hgBx?=
- =?us-ascii?Q?suy72XhJ2VNylWzPji8CcO88lf+ujDxzHHMCr/4OHUwfoqAdpVjZObfRxRxR?=
- =?us-ascii?Q?0XFZ/c+Ve/rnIBbTUn0ozUMAFzaonzWVWoVsWhc4nxeptU4ZJ5+whzPJA0i/?=
- =?us-ascii?Q?9rmXppiAfisTZvFXC1HVauICZJtUaOnDRuK6+XZyr5j3Cr9CpugTBmAOwrKs?=
- =?us-ascii?Q?PoR3rirAYZzvasIO6M0ftoBjmVohcQbVBO2rSnVOphUlod5Uhhwwf+2CSjv6?=
- =?us-ascii?Q?nk3Rgzq+7Q=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 505dafd7-d316-448b-8802-08da2856ce5c
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2022 14:04:12.2690
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HiGgoAPoWyId0kfiep94wpP3bUV0x/SfgWABIuO/aD59p+vUZHj//MSCRXhG11UO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3728
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 04:08:37PM -0400, Matthew Rosato wrote:
+For some board models ASUS uses the global ACPI lock to guard access to
+the hardware, so do we.
 
-> +static int vfio_pci_zdev_group_notifier(struct notifier_block *nb,
-> +					unsigned long action, void *data)
-> +{
-> +	struct zpci_dev *zdev = container_of(nb, struct zpci_dev, nb);
-> +	int (*fn)(struct zpci_dev *zdev, struct kvm *kvm);
-> +	int rc = NOTIFY_OK;
-> +
-> +	if (action == VFIO_GROUP_NOTIFY_SET_KVM) {
-> +		if (!zdev)
-> +			return NOTIFY_DONE;
-> +
-> +		fn = symbol_get(kvm_s390_pci_register_kvm);
-> +		if (!fn)
-> +			return NOTIFY_DONE;
-> +
-> +		if (fn(zdev, (struct kvm *)data))
-> +			rc = NOTIFY_BAD;
-> +
-> +		symbol_put(kvm_s390_pci_register_kvm);
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+---
+ Documentation/hwmon/asus_ec_sensors.rst |   2 +
+ drivers/hwmon/asus-ec-sensors.c         | 125 +++++++++++++++++++-----
+ 2 files changed, 101 insertions(+), 26 deletions(-)
 
-Is it possible this function can be in statically linked arch code?
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index b3469851ab9a..36ca531d32dd 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -53,3 +53,5 @@ Module Parameters
+ 		the path is mostly identical for them). If ASUS changes this path
+ 		in a future BIOS update, this parameter can be used to override
+ 		the stored in the driver value until it gets updated.
++		A special string ":GLOBAL_LOCK" can be passed to use the ACPI
++		global lock instead of a dedicated mutex.
+diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+index 0c82723f85b5..581df4053060 100644
+--- a/drivers/hwmon/asus-ec-sensors.c
++++ b/drivers/hwmon/asus-ec-sensors.c
+@@ -56,6 +56,9 @@ static char *mutex_path_override;
+ 
+ #define MAX_IDENTICAL_BOARD_VARIATIONS	2
+ 
++/* Moniker for the ACPI global lock (':' is not allowed in ASL identifiers) */
++#define ACPI_GLOBAL_LOCK_PSEUDO_PATH	":GLOBAL_LOCK"
++
+ typedef union {
+ 	u32 value;
+ 	struct {
+@@ -166,6 +169,14 @@ static const struct ec_sensor_info known_ec_sensors[] = {
+ struct ec_board_info {
+ 	const char *board_names[MAX_IDENTICAL_BOARD_VARIATIONS];
+ 	unsigned long sensors;
++	/*
++	 * Defines which mutex to use for guarding access to the state and the
++	 * hardware. Can be either a full path to an AML mutex or the
++	 * pseudo-path ACPI_GLOBAL_LOCK_PSEUDO_PATH to use the global ACPI lock,
++	 * or left empty to use a regular mutex object, in which case access to
++	 * the hardware is not guarded.
++	 */
++	const char *mutex_path;
+ };
+ 
+ static const struct ec_board_info board_info[] = {
+@@ -173,6 +184,7 @@ static const struct ec_board_info board_info[] = {
+ 		.board_names = {"PRIME X570-PRO"},
+ 		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_VRM |
+ 			SENSOR_TEMP_T_SENSOR | SENSOR_FAN_CHIPSET,
++		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+ 	},
+ 	{
+ 		.board_names = {"ProArt X570-CREATOR WIFI"},
+@@ -185,6 +197,7 @@ static const struct ec_board_info board_info[] = {
+ 		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_VRM |
+ 			SENSOR_TEMP_T_SENSOR | SENSOR_FAN_CHIPSET |
+ 			SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE,
++		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+ 	},
+ 	{
+ 		.board_names = {"ROG CROSSHAIR VIII DARK HERO"},
+@@ -193,6 +206,7 @@ static const struct ec_board_info board_info[] = {
+ 			SENSOR_TEMP_VRM | SENSOR_SET_TEMP_WATER |
+ 			SENSOR_FAN_CPU_OPT | SENSOR_FAN_WATER_FLOW |
+ 			SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE,
++		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+ 	},
+ 	{
+ 		.board_names = {"ROG CROSSHAIR VIII FORMULA"},
+@@ -200,6 +214,7 @@ static const struct ec_board_info board_info[] = {
+ 			SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM |
+ 			SENSOR_FAN_CPU_OPT | SENSOR_FAN_CHIPSET |
+ 			SENSOR_CURR_CPU | SENSOR_IN_CPU_CORE,
++		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+ 	},
+ 	{
+ 		.board_names = {
+@@ -212,6 +227,7 @@ static const struct ec_board_info board_info[] = {
+ 			SENSOR_FAN_CPU_OPT | SENSOR_FAN_CHIPSET |
+ 			SENSOR_FAN_WATER_FLOW | SENSOR_CURR_CPU |
+ 			SENSOR_IN_CPU_CORE,
++		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+ 	},
+ 	{
+ 		.board_names = {"ROG CROSSHAIR VIII IMPACT"},
+@@ -219,12 +235,14 @@ static const struct ec_board_info board_info[] = {
+ 			SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM |
+ 			SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU |
+ 			SENSOR_IN_CPU_CORE,
++		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+ 	},
+ 	{
+ 		.board_names = {"ROG STRIX B550-E GAMING"},
+ 		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+ 			SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM |
+ 			SENSOR_FAN_CPU_OPT,
++		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+ 	},
+ 	{
+ 		.board_names = {"ROG STRIX B550-I GAMING"},
+@@ -232,6 +250,7 @@ static const struct ec_board_info board_info[] = {
+ 			SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM |
+ 			SENSOR_FAN_VRM_HS | SENSOR_CURR_CPU |
+ 			SENSOR_IN_CPU_CORE,
++		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+ 	},
+ 	{
+ 		.board_names = {"ROG STRIX X570-E GAMING"},
+@@ -239,17 +258,20 @@ static const struct ec_board_info board_info[] = {
+ 			SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM |
+ 			SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU |
+ 			SENSOR_IN_CPU_CORE,
++		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+ 	},
+ 	{
+ 		.board_names = {"ROG STRIX X570-F GAMING"},
+ 		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+ 			SENSOR_TEMP_T_SENSOR | SENSOR_FAN_CHIPSET,
++		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+ 	},
+ 	{
+ 		.board_names = {"ROG STRIX X570-I GAMING"},
+ 		.sensors = SENSOR_TEMP_T_SENSOR | SENSOR_FAN_VRM_HS |
+ 			SENSOR_FAN_CHIPSET | SENSOR_CURR_CPU |
+ 			SENSOR_IN_CPU_CORE,
++		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+ 	},
+ 	{}
+ };
+@@ -259,6 +281,46 @@ struct ec_sensor {
+ 	s32 cached_value;
+ };
+ 
++struct lock_data {
++	union {
++		acpi_handle aml;
++		/* global lock handle */
++		u32 glk;
++	} mutex;
++	bool (*lock)(struct lock_data *data);
++	bool (*unlock)(struct lock_data *data);
++};
++
++/*
++ * The next function pairs implement options for locking access to the
++ * state and the EC
++ */
++static bool lock_via_acpi_mutex(struct lock_data *data)
++{
++	/*
++	 * ASUS DSDT does not specify that access to the EC has to be guarded,
++	 * but firmware does access it via ACPI
++	 */
++	return ACPI_SUCCESS(acpi_acquire_mutex(data->mutex.aml,
++					       NULL, ACPI_LOCK_DELAY_MS));
++}
++
++static bool unlock_acpi_mutex(struct lock_data *data)
++{
++	return ACPI_SUCCESS(acpi_release_mutex(data->mutex.aml, NULL));
++}
++
++static bool lock_via_global_acpi_lock(struct lock_data *data)
++{
++	return ACPI_SUCCESS(acpi_acquire_global_lock(ACPI_LOCK_DELAY_MS,
++						     &data->mutex.glk));
++}
++
++static bool unlock_global_acpi_lock(struct lock_data *data)
++{
++	return ACPI_SUCCESS(acpi_release_global_lock(data->mutex.glk));
++}
++
+ struct ec_sensors_data {
+ 	const struct ec_board_info *board_info;
+ 	struct ec_sensor *sensors;
+@@ -269,7 +331,7 @@ struct ec_sensors_data {
+ 	u8 banks[ASUS_EC_MAX_BANK + 1];
+ 	/* in jiffies */
+ 	unsigned long last_updated;
+-	acpi_handle aml_mutex;
++	struct lock_data lock_data;
+ 	/* number of board EC sensors */
+ 	u8 nr_sensors;
+ 	/*
+@@ -373,23 +435,36 @@ static void __init fill_ec_registers(struct ec_sensors_data *ec)
+ 	}
+ }
+ 
+-static acpi_handle __init asus_hw_access_mutex(struct device *dev)
++static int __init setup_lock_data(struct device *dev)
+ {
+ 	const char *mutex_path;
+-	acpi_handle res;
+ 	int status;
++	struct ec_sensors_data *state = dev_get_drvdata(dev);
+ 
+ 	mutex_path = mutex_path_override ?
+-		mutex_path_override : ASUS_HW_ACCESS_MUTEX_ASMX;
++		mutex_path_override : state->board_info->mutex_path;
+ 
+-	status = acpi_get_handle(NULL, (acpi_string)mutex_path, &res);
+-	if (ACPI_FAILURE(status)) {
+-		dev_err(dev,
+-			"Could not get hardware access guard mutex '%s': error %d",
+-			mutex_path, status);
+-		return NULL;
++	if (!mutex_path || !strlen(mutex_path)) {
++		dev_err(dev, "Hardware access guard mutex name is empty");
++		return -EINVAL;
+ 	}
+-	return res;
++	if (!strcmp(mutex_path, ACPI_GLOBAL_LOCK_PSEUDO_PATH)) {
++		state->lock_data.mutex.glk = 0;
++		state->lock_data.lock = lock_via_global_acpi_lock;
++		state->lock_data.unlock = unlock_global_acpi_lock;
++	} else {
++		status = acpi_get_handle(NULL, (acpi_string)mutex_path,
++					 &state->lock_data.mutex.aml);
++		if (ACPI_FAILURE(status)) {
++			dev_err(dev,
++				"Failed to get hardware access guard AML mutex '%s': error %d",
++				mutex_path, status);
++			return -ENOENT;
++		}
++		state->lock_data.lock = lock_via_acpi_mutex;
++		state->lock_data.unlock = unlock_acpi_mutex;
++	}
++	return 0;
+ }
+ 
+ static int asus_ec_bank_switch(u8 bank, u8 *old)
+@@ -492,15 +567,9 @@ static int update_ec_sensors(const struct device *dev,
+ {
+ 	int status;
+ 
+-	/*
+-	 * ASUS DSDT does not specify that access to the EC has to be guarded,
+-	 * but firmware does access it via ACPI
+-	 */
+-	if (ACPI_FAILURE(acpi_acquire_mutex(ec->aml_mutex, NULL,
+-					    ACPI_LOCK_DELAY_MS))) {
+-		dev_err(dev, "Failed to acquire AML mutex");
+-		status = -EBUSY;
+-		goto cleanup;
++	if (!ec->lock_data.lock(&ec->lock_data)) {
++		dev_warn(dev, "Failed to acquire mutex");
++		return -EBUSY;
+ 	}
+ 
+ 	status = asus_ec_block_read(dev, ec);
+@@ -508,10 +577,10 @@ static int update_ec_sensors(const struct device *dev,
+ 	if (!status) {
+ 		update_sensor_values(ec, ec->read_buffer);
+ 	}
+-	if (ACPI_FAILURE(acpi_release_mutex(ec->aml_mutex, NULL))) {
+-		dev_err(dev, "Failed to release AML mutex");
+-	}
+-cleanup:
++
++	if (!ec->lock_data.unlock(&ec->lock_data))
++		dev_err(dev, "Failed to release mutex");
++
+ 	return status;
+ }
+ 
+@@ -651,6 +720,7 @@ static int __init asus_ec_probe(struct platform_device *pdev)
+ 	enum hwmon_sensor_types type;
+ 	struct device *hwdev;
+ 	unsigned int i;
++	int status;
+ 
+ 	pboard_info = get_board_info();
+ 	if (!pboard_info)
+@@ -667,6 +737,11 @@ static int __init asus_ec_probe(struct platform_device *pdev)
+ 	ec_data->sensors = devm_kcalloc(dev, ec_data->nr_sensors,
+ 					sizeof(struct ec_sensor), GFP_KERNEL);
+ 
++	status = setup_lock_data(dev);
++	if (status) {
++		dev_err(dev, "Failed to setup state/EC locking: %d", status);
++		return status;
++	}
+ 	setup_sensor_data(ec_data);
+ 	ec_data->registers = devm_kcalloc(dev, ec_data->nr_registers,
+ 					  sizeof(u16), GFP_KERNEL);
+@@ -678,8 +753,6 @@ static int __init asus_ec_probe(struct platform_device *pdev)
+ 
+ 	fill_ec_registers(ec_data);
+ 
+-	ec_data->aml_mutex = asus_hw_access_mutex(dev);
+-
+ 	for (i = 0; i < ec_data->nr_sensors; ++i) {
+ 		si = get_sensor_info(ec_data, i);
+ 		if (!nr_count[si->type])
+-- 
+2.35.1
 
-Or, actually, is zPCI useful anyhow without kvm ie can you just have a
-direct dependency here?
-
-Jason
