@@ -2,162 +2,193 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 061B7C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 13:26:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E92C2C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 13:49:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235948AbiD0N32 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 09:29:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46864 "EHLO
+        id S236554AbiD0Nwh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 09:52:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235863AbiD0N3Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 09:29:25 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C31663B3E0;
-        Wed, 27 Apr 2022 06:26:13 -0700 (PDT)
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23RCidEh010459;
-        Wed, 27 Apr 2022 13:26:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=0MMC0/ng/dIdP/pAZ7koQhzGXGZhfRB8Wma3oTWB3nw=;
- b=bfSYnoxx3Yp/2pqHFSvUHpQSPVymtndE5UDPH7UEY2FBbsvq9p0wYXqyPb+3+fpAu6L6
- evkzrH3Dp05Yg3swdIFNshryG64wRK4egCms+o7olkdcjJy3OlrT6ClGaUFcsRqXDF6z
- Q6qovf3CYB9A3I/rffphgfi9d3uXYX701TIAgnph0/0t/DEl4VBR6zq5LOONqadqK7i8
- t0i5hZyS9PIB93YnIqhkkPDx5E+CrMYWH+cId9twejxsWm7rB1ItFNFFuAQb90XxPZUI
- B7Q86gpOqFmV89zeoeDLWx/Q/NRwgHerG4Dt9rYKJe8w5moKzEOQ6lGTDv9S9Pdzlxmf NQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3fpv88bn50-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 27 Apr 2022 13:26:07 +0000
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23RCjXQq013232;
-        Wed, 27 Apr 2022 13:26:07 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3fpv88bn4n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 27 Apr 2022 13:26:06 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
-        by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23RDCrgk032328;
-        Wed, 27 Apr 2022 13:26:06 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com [9.57.198.29])
-        by ppma05wdc.us.ibm.com with ESMTP id 3fm939mb7b-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 27 Apr 2022 13:26:06 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
-        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23RDQ5B124576272
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 27 Apr 2022 13:26:05 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7602CAC05E;
-        Wed, 27 Apr 2022 13:26:05 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6F520AC062;
-        Wed, 27 Apr 2022 13:26:00 +0000 (GMT)
-Received: from [9.211.73.42] (unknown [9.211.73.42])
-        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
-        Wed, 27 Apr 2022 13:26:00 +0000 (GMT)
-Message-ID: <6a4db1a9-70c4-3ed1-b055-c5161d021d3d@linux.ibm.com>
-Date:   Wed, 27 Apr 2022 09:25:59 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v6 10/21] KVM: s390: pci: add basic kvm_zdev structure
-Content-Language: en-US
-To:     kernel test robot <lkp@intel.com>, linux-s390@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, alex.williamson@redhat.com,
-        cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
-        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
-        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
-        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
-        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        jgg@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220426200842.98655-11-mjrosato@linux.ibm.com>
- <202204271653.1ZoYsV9W-lkp@intel.com>
-From:   Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <202204271653.1ZoYsV9W-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Fwjb9CrrNEutd_u3c5vwxtKiNp0v1T8S
-X-Proofpoint-ORIG-GUID: x1gbDLIaaprs5nhPa-x4HY2M5HAAiOS7
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        with ESMTP id S236383AbiD0Nwh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 09:52:37 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADA022D1D8;
+        Wed, 27 Apr 2022 06:49:24 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.55])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4KpKk94815zCsJT;
+        Wed, 27 Apr 2022 21:44:49 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 27 Apr 2022 21:49:22 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 27 Apr 2022 21:49:21 +0800
+Subject: Re: [PATCH v22 5/9] arm64: kdump: Reimplement crashkernel=X
+To:     Catalin Marinas <catalin.marinas@arm.com>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>, Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        "John Donnelly" <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+References: <20220414115720.1887-1-thunder.leizhen@huawei.com>
+ <20220414115720.1887-6-thunder.leizhen@huawei.com> <YmgzxsrrMlCDYsWp@arm.com>
+ <ee8daaa9-3258-e7e8-e5c4-c51dc9841580@huawei.com> <Ymk34NsIFqUgfk3b@arm.com>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <ae7211ad-e2ac-f5b1-5aa0-701802132e73@huawei.com>
+Date:   Wed, 27 Apr 2022 21:49:20 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-27_04,2022-04-27_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 malwarescore=0 clxscore=1011 priorityscore=1501
- phishscore=0 adultscore=0 suspectscore=0 spamscore=0 bulkscore=0
- mlxlogscore=773 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204270086
+In-Reply-To: <Ymk34NsIFqUgfk3b@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/27/22 4:41 AM, kernel test robot wrote:
-> Hi Matthew,
+
+
+On 2022/4/27 20:32, Catalin Marinas wrote:
+> On Wed, Apr 27, 2022 at 02:54:52PM +0800, Leizhen (ThunderTown) wrote:
+>> On 2022/4/27 2:02, Catalin Marinas wrote:
+>>> On Thu, Apr 14, 2022 at 07:57:16PM +0800, Zhen Lei wrote:
+>>>>  /*
+>>>>   * reserve_crashkernel() - reserves memory for crash kernel
+>>>>   *
+>>>>   * This function reserves memory area given in "crashkernel=" kernel command
+>>>>   * line parameter. The memory reserved is used by dump capture kernel when
+>>>>   * primary kernel is crashing.
+>>>> + *
+>>>> + * NOTE: Reservation of crashkernel,low is special since its existence
+>>>> + * is not independent, need rely on the existence of crashkernel,high.
+>>>> + * Here, four cases of crashkernel low memory reservation are summarized:
+>>>> + * 1) crashkernel=Y,low is specified explicitly, the size of crashkernel low
+>>>> + *    memory takes Y;
+>>>> + * 2) crashkernel=,low is not given, while crashkernel=,high is specified,
+>>>> + *    take the default crashkernel low memory size;
+>>>> + * 3) crashkernel=X is specified, while fallback to get a memory region
+>>>> + *    in high memory, take the default crashkernel low memory size;
+>>>> + * 4) crashkernel='invalid value',low is specified, failed the whole
+>>>> + *    crashkernel reservation and bail out.
+>>>
+>>> Following the x86 behaviour made sense when we were tried to get that
+>>> code generic. Now that we moved the logic under arch/arm64, we can
+>>> diverge a bit. I lost track of the original (v1/v2) proposal but I
+>>> wonder whether we still need the fallback to high for crashkernel=Y.
+>>
+>> I don't think anyone has raised this demand yet! If it weren't for the
+>> fact that crashkernel=X appeared earlier, it would probably have been
+>> enough for a combination of crashkernel=X,high and crashkernel=Y,low.
+>>
+>> In fact, I also tend not to support "fallback to high for crashkernel=Y".
+>> I took over this from Chen Zhou. In the absence of any objection, I had
+>> to inherit. Now that you've brought it up, I'm happy to delete it.
+>> Supporting this feature complicates the code logic a lot. The point is,
+>> it's not fully backwards compatible yet. For example, someone may want
+>> crashkernel=3G to report failure, but the the new support make it work.
 > 
-> I love your patch! Perhaps something to improve:
+> BTW, prior to v20, this patch had this line:
 > 
-> [auto build test WARNING on v5.18-rc4]
-> [cannot apply to s390/features kvms390/next awilliam-vfio/next next-20220427]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
+> 	crashk_low_res.name = "Crash kernel (low)";
 > 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Rosato/KVM-s390-enable-zPCI-for-interpretive-execution/20220427-041853
-> base:    af2d861d4cd2a4da5137f795ee3509e6f944a25b
-> config: s390-defconfig (https://download.01.org/0day-ci/archive/20220427/202204271653.1ZoYsV9W-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 11.3.0
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/intel-lab-lkp/linux/commit/e6d8c620090a7b184afdf5b5123d10ac45776eaf
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Matthew-Rosato/KVM-s390-enable-zPCI-for-interpretive-execution/20220427-041853
->          git checkout e6d8c620090a7b184afdf5b5123d10ac45776eaf
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash arch/s390/kvm/
+> I can't find it anymore. Do the kexec tools need to distinguish between
+> low and high or they can cope with multiple "Crash kernel" entries?
+
+Yes, I've updated the kexec tool patch based on Borislav Petkov's comments
+to keep it the same as x86. And this patch has been merged into kexec v2.0.24.
+b5a34a2 arm64: support more than one crash kernel regions
+
+The kexec tool will first sorted all "Crash kernel" memory range in ascending
+order, then choose the last one (the memory range with the highest address) to
+store the second kernel's Image,dtb,initrd.
+
 > 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
+>>> Maybe simpler, no fallbacks:
+>>>
+>>> 	crashkernel=Y - keep the current behaviour, ignore high,low
+>>> 	crashkernel=Y,high - allocate above ZONE_DMA
+>>> 	crashkernel=Y,low - allocate within ZONE_DMA
+>>>
+>>> From your proposal, the difference is that the Y,high option won't
+>>> have any default ZONE_DMA fallback, one would have to explicitly pass
+>>> the Y,low option if needed.
+>>
+>> I agree with you. Now we don't need code generic, so there is no need to
+>> carry the historical burden of other ARCHs. arm64 does not need to delve
+>> into that empirical value(the default size of crash low memory).
+>>
+>>> Just a thought, maybe it makes the code simpler. But I'm open to
+>>> discussion if there are good arguments for the proposed (x86-like)
+>>> behaviour. One argument could be for crashkernel=Y to fall back to high
+>>> if distros don't want to bother with high/low settings.
+>>
+>> I think distros should take precedence over "crashkernel=Y,high". After all,
+>> ZONE_DMA memory is more valuable than high memory.
 > 
-> All warnings (new ones prefixed by >>):
+> My point is whether an admin configuring the kernel command line needs
+> to know the layout of ZONE_DMA etc. to figure out how much to pass in
+
+No need.
+
+> high and low. The fallbacks in this case have some value but they also
+> complicate the code logic. The 4GB limit does not always make sense
+> either for some platforms (RPi4 has a ZONE_DMA limit of 1GB).
 > 
->>> arch/s390/kvm/pci.c:14:5: warning: no previous prototype for 'kvm_s390_pci_dev_open' [-Wmissing-prototypes]
->        14 | int kvm_s390_pci_dev_open(struct zpci_dev *zdev)
->           |     ^~~~~~~~~~~~~~~~~~~~~
->>> arch/s390/kvm/pci.c:29:6: warning: no previous prototype for 'kvm_s390_pci_dev_release' [-Wmissing-prototypes]
->        29 | void kvm_s390_pci_dev_release(struct zpci_dev *zdev)
->           |      ^~~~~~~~~~~~~~~~~~~~~~~~
+> I think one could always pass a default command line like:
+> 
+> 	crashkernel=1G,high crashkernel=128M,low
+> 
+> without much knowledge of the SoC memory layout.
+
+Yes, that's what the end result is. The user specify crashkernel=128M,low
+and the implementation ensure the 128M low memory is allocated from DMA zone.
+We use arm64_dma_phys_limit as the upper limit for crash low memory.
+
++#define CRASH_ADDR_LOW_MAX             arm64_dma_phys_limit
++       unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
++       crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+                                               crash_base, crash_max);
+
+> 
+> Another option is to only introduce crashkernel=Y,low and, when that is
+> passed, crashkernel=Y can go above arm64_dma_phys_limit. We won't need a
+> 'high' option at all:
+> 
+> 	crashkernel=1G				- all within ZONE_DMA
+> 	crashkernel=1G crashkernel=128M,low	- 128M in ZONE_DMA
+> 						  1G above ZONE_DMA
+> 
+> If ZONE_DMA is not present or it extends to the whole RAM, we can ignore
+> the 'low' option.
+
+I think although the code is hard to make generic, the interface is better to
+be relatively uniform. A user might have to maintain both x86 and arm64, and
+so on. It's not a good thing that the difference is too big.
+
+A well had already been dug by the forefathers, and it seemed unnecessary to
+dig another well beside it if there was no particular advantage.
+
 > 
 
-Oops, these 2 functions no longer need to be externalized and can simply 
-be marked static.
-
-> 
-> vim +/kvm_s390_pci_dev_open +14 arch/s390/kvm/pci.c
-> 
->      13	
->    > 14	int kvm_s390_pci_dev_open(struct zpci_dev *zdev)
->      15	{
->      16		struct kvm_zdev *kzdev;
->      17	
->      18		kzdev = kzalloc(sizeof(struct kvm_zdev), GFP_KERNEL);
->      19		if (!kzdev)
->      20			return -ENOMEM;
->      21	
->      22		kzdev->zdev = zdev;
->      23		zdev->kzdev = kzdev;
->      24	
->      25		return 0;
->      26	}
->      27	EXPORT_SYMBOL_GPL(kvm_s390_pci_dev_open);
->      28	
->    > 29	void kvm_s390_pci_dev_release(struct zpci_dev *zdev)
-> 
-
+-- 
+Regards,
+  Zhen Lei
