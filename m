@@ -2,196 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63BB4C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 19:23:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ECDDC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 20:10:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233923AbiD0T05 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 15:26:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45822 "EHLO
+        id S236380AbiD0UNJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 16:13:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234473AbiD0T0k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 15:26:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6641533A28;
-        Wed, 27 Apr 2022 12:23:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0217F61A9F;
-        Wed, 27 Apr 2022 19:23:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 591CBC385A7;
-        Wed, 27 Apr 2022 19:23:04 +0000 (UTC)
-Date:   Wed, 27 Apr 2022 15:23:02 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Kurt Kanzenbach <kurt@linutronix.de>
+        with ESMTP id S230154AbiD0UM4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 16:12:56 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A20A972B5;
+        Wed, 27 Apr 2022 13:06:51 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1651090009;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TeFBJ6BMGAy+Ewq+CYjwj4kASBe/7C6TdEh8x9Z5Ous=;
+        b=37Rm74dwmyP9+Bs9sPwVcBKLY+b5VjDVcnyI4bPCwOHOj5eqGhNcfMBvh3OBnvyTRl4b1h
+        S7YtDDWaqchUQy2Ddg+qbNRF9EagewIc/KZuy4+90/r3N9DQjRUg+j+RzxmUhOH2bquvvo
+        TyzqirUSLYSFVve9DzGcz6Ynkz+E07PEPB2VBBofqxf5cqsqnzNoluKHBIaQhqlhT9Cw71
+        2qc2Hq2SkpRuNfAmFpwVEhs0/pFIIixFfCpGbK71etA3D/ghvmzOelm9bmR7n7G+vec6l9
+        fo39Wq2J2AN52+HZYku3/UymZjw3iBeoH/ATkB+eCiEFl2sIgHKmrQoPTAZemQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1651090009;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TeFBJ6BMGAy+Ewq+CYjwj4kASBe/7C6TdEh8x9Z5Ous=;
+        b=LU/WZ930oEEcYwjgAFTNYGBSJMy4wpTKnoYBDWEymfOcY9LETvGI2oDXv4zFTg19MEMv7U
+        LM7kKyQiHGBB/mBQ==
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Kurt Kanzenbach <kurt@linutronix.de>
 Cc:     John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
         Stephen Boyd <sboyd@kernel.org>,
         Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Richard Cochran <richardcochran@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] timekeeping: Introduce fast accessor to clock
- tai
-Message-ID: <20220427152302.558bfc35@gandalf.local.home>
-In-Reply-To: <20220427132205.386be5e6@gandalf.local.home>
+Subject: Re: [PATCH v2 1/3] timekeeping: Introduce fast accessor to clock tai
+In-Reply-To: <20220427112759.1cedda69@gandalf.local.home>
 References: <20220414091805.89667-1-kurt@linutronix.de>
-        <20220414091805.89667-2-kurt@linutronix.de>
-        <20220426175338.3807ca4f@gandalf.local.home>
-        <87r15i9azg.fsf@kurt>
-        <20220427112759.1cedda69@gandalf.local.home>
-        <20220427132205.386be5e6@gandalf.local.home>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20220414091805.89667-2-kurt@linutronix.de>
+ <20220426175338.3807ca4f@gandalf.local.home> <87r15i9azg.fsf@kurt>
+ <20220427112759.1cedda69@gandalf.local.home>
+Date:   Wed, 27 Apr 2022 22:06:49 +0200
+Message-ID: <87pml2wasm.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 27 Apr 2022 13:22:05 -0400
-Steven Rostedt <rostedt@goodmis.org> wrote:
+On Wed, Apr 27 2022 at 11:27, Steven Rostedt wrote:
+>> >             less-5071    [000] d.h2. 498087876.351330: do_raw_spin_trylock <-_raw_spin_lock
+>> >             less-5071    [000] d.h4. 498087876.351334: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>> >             less-5071    [000] d.h5. 498087876.351334: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>> >             less-5071    [000] d.h3. 498087876.351334: rcu_read_lock_sched_held <-lock_acquired
+>> >             less-5071    [000] d.h5. 498087876.351337: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>> >     kworker/u8:1-45      [003] d.h7. 1651009380.982749: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>> >     kworker/u8:1-45      [003] d.h7. 1651009380.982749: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>> >     kworker/u8:1-45      [003] d.h5. 1651009380.982749: rcu_read_lock_held_common <-rcu_read_lock_sched_held
+>> >     kworker/u8:1-45      [003] d.h7. 498087876.375905: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>> >     kworker/u8:1-45      [003] d.h7. 498087876.375905: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>> >     kworker/u8:1-45      [003] d.h5. 498087876.375905: update_cfs_group <-task_tick_fair
+>> >     kworker/u8:1-45      [003] d.h7. 498087876.375909: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>> >
+>> > The clock seems to be toggling between 1651009380 and 498087876 causing the
+>> > ftrace ring buffer to shutdown (it doesn't allow for time to go backwards).
+>> >
+>> > This is running on a 32 bit x86.  
+>> 
+>> Hm. The only problem is that the TAI offset may change. That should only
+>> happen if the time is set or similar. For the TSN use case I've ran
+>> ptp4l and phc2sys. phc2sys in the default configuration sets the offset
+>> hard once and uses frequency adjustments from that point on. I didn't
+>> observe any time jumps. Nevertheless, my test systems is based on
+>> arm64. I'll do some testing on x86.
+>
+> I'm able to trigger this on x86 64bit too.
+>
+> One thing I noticed, is that the two numbers I have (from a different
+> trace, but very similar to the above)
+>
+> $ printf "%llx\n" 498151194674148935
+> 6e9c9df4afd3647
+>
+> $ printf "%llx\n" 1651072699280995911
+> 16e9c9df4afd3647
 
-> I can see if I can play some games to detect this and replace the top 5
-> bits with the saved timestamp at the head of the sub buffer.
+TAI offset after boot is somewhere in this region:
 
-This appears to fix the issue. It adds a function when reading the absolute
-time stamp comparing it to a previous time stamp. If the previous time
-stamp has any of the 5 MSB set, then it will OR it into the absolute time
-stamp, and then compare it to the previous time stamp to check for overflow.
+It's 16e9d5dca2e7ac57 here. Converted to ctime:
 
-It also does not complain of "big deltas" if the update is an absolute
-time stamp and the current time stamp has any of the 5 MSB set.
+Wed Apr 27 20:58:02 2022
 
-I will need to update libtraceevent to handle this case as well.
+and that does not change after booting on the VM I'm testing. But then
+ftrace suddenly throws this warning:
 
-But looks like there's nothing on your end that needs to be done. Probably
-just set those other functions you found to notrace. But that can be a
-separate patch.
+[  456.444350] Delta way too big! 1152921504606861182
+   ts=1651087617720667106 before=498166113113805924
+   after=498166113113820130 write stamp=498166113113820130
 
--- Steve
+I first set tai as trace clock and then enabled a trace point. It seems
+the first hit on this trace point ended up there.
 
-diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
-index 655d6db3e3c3..3a0c7ed0e93f 100644
---- a/kernel/trace/ring_buffer.c
-+++ b/kernel/trace/ring_buffer.c
-@@ -29,6 +29,14 @@
- 
- #include <asm/local.h>
- 
-+/*
-+ * The "absolute" timestamp in the buffer is only 59 bits.
-+ * If a clock has the 5 MSBs set, it needs to be saved and
-+ * reinserted.
-+ */
-+#define TS_MSB		(0xf8ULL << 56)
-+#define ABS_TS_MASK	(~TS_MSB)
-+
- static void update_pages_handler(struct work_struct *work);
- 
- /*
-@@ -783,6 +791,24 @@ static inline void verify_event(struct ring_buffer_per_cpu *cpu_buffer,
- }
- #endif
- 
-+/*
-+ * The absolute time stamp drops the 5 MSBs and some clocks may
-+ * require them. The rb_fix_abs_ts() will take a previous full
-+ * time stamp, and add the 5 MSB of that time stamp on to the
-+ * saved absolute time stamp. Then they are compared in case of
-+ * the unlikely event that the latest time stamp incremented
-+ * the 5 MSB.
-+ */
-+static inline u64 rb_fix_abs_ts(u64 abs, u64 save_ts)
-+{
-+	if (save_ts & TS_MSB) {
-+		abs |= save_ts & TS_MSB;
-+		/* Check for overflow */
-+		if (unlikely(abs < save_ts))
-+			abs += 1ULL << 59;
-+	}
-+	return abs;
-+}
- 
- static inline u64 rb_time_stamp(struct trace_buffer *buffer);
- 
-@@ -811,8 +837,10 @@ u64 ring_buffer_event_time_stamp(struct trace_buffer *buffer,
- 	u64 ts;
- 
- 	/* If the event includes an absolute time, then just use that */
--	if (event->type_len == RINGBUF_TYPE_TIME_STAMP)
--		return rb_event_time_stamp(event);
-+	if (event->type_len == RINGBUF_TYPE_TIME_STAMP) {
-+		ts = rb_event_time_stamp(event);
-+		return rb_fix_abs_ts(ts, cpu_buffer->tail_page->page->time_stamp);
-+	}
- 
- 	nest = local_read(&cpu_buffer->committing);
- 	verify_event(cpu_buffer, event);
-@@ -2754,8 +2782,15 @@ static void rb_add_timestamp(struct ring_buffer_per_cpu *cpu_buffer,
- 		(RB_ADD_STAMP_FORCE | RB_ADD_STAMP_ABSOLUTE);
- 
- 	if (unlikely(info->delta > (1ULL << 59))) {
-+		/*
-+		 * Some timers can use more than 59 bits, and when a timestamp
-+		 * is added to the buffer, it will lose those bits.
-+		 */
-+		if (abs && (info->ts & TS_MSB)) {
-+			info->delta &= ABS_TS_MASK;
-+
- 		/* did the clock go backwards */
--		if (info->before == info->after && info->before > info->ts) {
-+		} else if (info->before == info->after && info->before > info->ts) {
- 			/* not interrupted */
- 			static int once;
- 
-@@ -3304,7 +3339,7 @@ static void dump_buffer_page(struct buffer_data_page *bpage,
- 
- 		case RINGBUF_TYPE_TIME_STAMP:
- 			delta = rb_event_time_stamp(event);
--			ts = delta;
-+			ts = rb_fix_abs_ts(delta, ts);
- 			pr_warn("  [%lld] absolute:%lld TIME STAMP\n", ts, delta);
- 			break;
- 
-@@ -3380,7 +3415,7 @@ static void check_buffer(struct ring_buffer_per_cpu *cpu_buffer,
- 
- 		case RINGBUF_TYPE_TIME_STAMP:
- 			delta = rb_event_time_stamp(event);
--			ts = delta;
-+			ts = rb_fix_abs_ts(delta, ts);
- 			break;
- 
- 		case RINGBUF_TYPE_PADDING:
-@@ -4367,6 +4402,7 @@ rb_update_read_stamp(struct ring_buffer_per_cpu *cpu_buffer,
- 
- 	case RINGBUF_TYPE_TIME_STAMP:
- 		delta = rb_event_time_stamp(event);
-+		delta = rb_fix_abs_ts(delta, cpu_buffer->read_stamp);
- 		cpu_buffer->read_stamp = delta;
- 		return;
- 
-@@ -4397,6 +4433,7 @@ rb_update_iter_read_stamp(struct ring_buffer_iter *iter,
- 
- 	case RINGBUF_TYPE_TIME_STAMP:
- 		delta = rb_event_time_stamp(event);
-+		delta = rb_fix_abs_ts(delta, iter->read_stamp);
- 		iter->read_stamp = delta;
- 		return;
- 
-@@ -4650,6 +4687,7 @@ rb_buffer_peek(struct ring_buffer_per_cpu *cpu_buffer, u64 *ts,
- 	case RINGBUF_TYPE_TIME_STAMP:
- 		if (ts) {
- 			*ts = rb_event_time_stamp(event);
-+			*ts = rb_fix_abs_ts(*ts, reader->page->time_stamp);
- 			ring_buffer_normalize_time_stamp(cpu_buffer->buffer,
- 							 cpu_buffer->cpu, ts);
- 		}
-@@ -4741,6 +4779,7 @@ rb_iter_peek(struct ring_buffer_iter *iter, u64 *ts)
- 	case RINGBUF_TYPE_TIME_STAMP:
- 		if (ts) {
- 			*ts = rb_event_time_stamp(event);
-+			*ts = rb_fix_abs_ts(*ts, iter->head_page->page->time_stamp);
- 			ring_buffer_normalize_time_stamp(cpu_buffer->buffer,
- 							 cpu_buffer->cpu, ts);
- 		}
+> That is, the last nibble either is 0 or 1, causing the change?
+>
+> 06e9c9df4afd3647
+> 16e9c9df4afd3647
+
+I added debug into ktime_get_tai_fast_ns() to emit a pr_warn() when
+either the TAI offset or the result is less than 1 << 60.
+
+That does not trigger, but ftrace still confuses itself....
+
+There is some mumble about timestamps only requiring 59 bits and the
+check which triggers the warning has:
+
+      if (unlikely(info->delta > (1ULL << 59))) {
+
+So something cuts off bit 60 somewhere and then the whole thing goes
+into confusion mode.
+
+When I set wall time to something before 1985, it works.
+
+ctime(0x06e9c9df4afd3647/1e9) = Mon Oct 14 16:19:54 1985
+
+Haven't found where ftrace loses the upper bit, but it does so
+somewhere.
+
+Thanks,
+
+        tglx
+
+
+
