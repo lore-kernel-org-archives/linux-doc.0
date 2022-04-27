@@ -2,69 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAAA9C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 05:34:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B1B4C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 06:01:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353424AbiD0Fhy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 01:37:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60264 "EHLO
+        id S1352520AbiD0GEg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 02:04:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240277AbiD0Fhx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 01:37:53 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ED1614D9E0;
-        Tue, 26 Apr 2022 22:34:43 -0700 (PDT)
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23R1jrb4016461;
-        Wed, 27 Apr 2022 05:31:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=qvcqSETCnrSsVB/BY/2FeP2hnvOR7fL3OJ1Z/zo8n8Y=;
- b=k1nI4OI10xALs2/hzr8UhYW9h9IrOmFoU2I5Q/J/BR8YqvpScp6XwQuC2BuMHkrHTl5u
- IIh3PCTtMf4gF7x1RoVAZX4mOanbC7zafMrFoUViASCe6Vw/R2pXo6wWT7qKnGJ5kzTZ
- 2/DWGBEQC3dWgsXqnVTnGjBDFeNNNiY91XGL7MOWGV8F9f4NYxHSutfdN96QmicQQcoa
- CgjgmWI0Kq8z5KvHiYq1442XaiJ4nOL7TGswFnnz6YB+nogLJ7bJDI8VOAV9xoKC6dkq
- OFafQVpbJ1BWUzBPEWkk5DUVlR0v+VCEv3kLn0T20ZLtcWdZcdlLUVIU5Do1lC7aT5EB vw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fpvf2ayjd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 27 Apr 2022 05:31:24 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23R5Qnkr022931;
-        Wed, 27 Apr 2022 05:31:23 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fpvf2ayhk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 27 Apr 2022 05:31:23 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-        by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23R5STgZ009553;
-        Wed, 27 Apr 2022 05:31:20 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma06ams.nl.ibm.com with ESMTP id 3fm8qj5dqe-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 27 Apr 2022 05:31:20 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23R5VV7a197362
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 27 Apr 2022 05:31:31 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 44AE0A405B;
-        Wed, 27 Apr 2022 05:31:18 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9325CA4054;
-        Wed, 27 Apr 2022 05:31:06 +0000 (GMT)
-Received: from [9.43.50.189] (unknown [9.43.50.189])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed, 27 Apr 2022 05:31:06 +0000 (GMT)
-Message-ID: <bab0d3f3-9f03-142c-7f53-86cb8cb178e4@linux.ibm.com>
-Date:   Wed, 27 Apr 2022 11:01:05 +0530
+        with ESMTP id S232640AbiD0GEf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 02:04:35 -0400
+Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com [IPv6:2607:f8b0:4864:20::930])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24D083FDBD
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 23:01:25 -0700 (PDT)
+Received: by mail-ua1-x930.google.com with SMTP id 63so241374uaw.10
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 23:01:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eEenBPTT+A8NftOZwlTNAzvJdJr06gaMpQKvN58cBsM=;
+        b=rB0CdeG5tjzYHEixLfnyBxBN8Py8g9fJZ/W8h2JVMHNdvkQi0/EHFiqOmCaacpuXFU
+         628XUqXPgbnn7+t5QuJUsrZg0LS0BjRpKvOscPq6mLwMsr41GQdTFZiIRZmRxLrzsb7t
+         uvwjkz4lksY9DHaFI2FD37wIh3fNKYVnM/qZpX2u6qfDLcCGqIpzO7YPwg8nfDpIxdJH
+         dm14+oFOJdwhUJoom7iHvraVdDFnJTXC3IshjVIwoqTpyXHZno4TMfXJ9p98ndxMp3bU
+         5WMIyH8nXzVUxgIPlTZ4F3VnO56QrYBo2felfbpX4PnzYDfDjf311D8Hgg8LcOQygVEK
+         qH0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eEenBPTT+A8NftOZwlTNAzvJdJr06gaMpQKvN58cBsM=;
+        b=JOAP7DsaYJV3pu5p7XfUJUFcJpFkXdRBBOPzqHKRfuzOG7c9wg943w3UPOsErAhvnG
+         9Rcvy0yaP4IeeslOGQEyM4nYzJbu4GFabQKKDFZODn5b7/WLNtwFC/W+vgqmt5A8og4E
+         mYVi0B3llpRet7zOxIH0GJ3qHdNmQGIGQJyoV4eA1v5YHB8pxD6mm4wOYAPjd8jhq2N9
+         2fvhIPfUpgqwdNK5v3uJYtjXx2+nBjsf4m89JP4rL2J51cbXGCi6bn5HiwSJ+bp/FyfR
+         0H41g8npZ72OvhasE5B8tsvcjovFp6jcf+zyZqYO5KG1LmDDIUG91drC6B556dFU+QGk
+         6+ew==
+X-Gm-Message-State: AOAM531SDSaEtnHwGDEWOUxuSbrI40UTYVfQ4xQk3C6y2PY3DZBGMqhy
+        91q8UJ5GwrhwnuOSglgB6I8zc+f8XKI6s+B2vpGVUQ==
+X-Google-Smtp-Source: ABdhPJxgvGijbH7jxYuaIKjHR/e2sUn7feZnfqFOoKQXZ9QvO1ndFMrJOawwmWogeWkH02N9ILsUauEjnILfGArW+Qs=
+X-Received: by 2002:ab0:77d5:0:b0:352:42d7:88c2 with SMTP id
+ y21-20020ab077d5000000b0035242d788c2mr7891618uar.1.1651039283985; Tue, 26 Apr
+ 2022 23:01:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-8-yuzhao@google.com>
+ <87zgk7xi13.fsf@linux.ibm.com> <CAOUHufbRLUg8274At8ZkUMUz2ghuGs52AvJsMkjQR=6-pusEhw@mail.gmail.com>
+ <bab0d3f3-9f03-142c-7f53-86cb8cb178e4@linux.ibm.com>
+In-Reply-To: <bab0d3f3-9f03-142c-7f53-86cb8cb178e4@linux.ibm.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Wed, 27 Apr 2022 00:00:47 -0600
+Message-ID: <CAOUHufah=yc7pucvWg83pymHX4+govxaYiLYDt7dHnGVTfJMQg@mail.gmail.com>
 Subject: Re: [PATCH v10 07/14] mm: multi-gen LRU: exploit locality in rmap
-Content-Language: en-US
-To:     Yu Zhao <yuzhao@google.com>
+To:     Aneesh Kumar K V <aneesh.kumar@linux.ibm.com>
 Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
         Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -89,7 +78,7 @@ Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
         Brian Geffon <bgeffon@google.com>,
         Jan Alexander Steffens <heftig@archlinux.org>,
         Oleksandr Natalenko <oleksandr@natalenko.name>,
@@ -97,72 +86,63 @@ Cc:     Stephen Rothwell <sfr@rothwell.id.au>,
         Suleiman Souhlal <suleiman@google.com>,
         Daniel Byrne <djbyrne@mtu.edu>,
         Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>,
         Vaibhav Jain <vaibhav@linux.ibm.com>
-References: <20220407031525.2368067-1-yuzhao@google.com>
- <20220407031525.2368067-8-yuzhao@google.com> <87zgk7xi13.fsf@linux.ibm.com>
- <CAOUHufbRLUg8274At8ZkUMUz2ghuGs52AvJsMkjQR=6-pusEhw@mail.gmail.com>
-From:   Aneesh Kumar K V <aneesh.kumar@linux.ibm.com>
-In-Reply-To: <CAOUHufbRLUg8274At8ZkUMUz2ghuGs52AvJsMkjQR=6-pusEhw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: wSnKa9i6LJ4CkALAKM198ug-RE1mkUcQ
-X-Proofpoint-ORIG-GUID: GLXECfseS7nZckMSqJ77FNySoyWBaJ6a
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-27_01,2022-04-26_02,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=999
- lowpriorityscore=0 spamscore=0 malwarescore=0 bulkscore=0 phishscore=0
- mlxscore=0 priorityscore=1501 adultscore=0 impostorscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2204270036
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/27/22 10:08 AM, Yu Zhao wrote:
-> On Tue, Apr 26, 2022 at 10:33 PM Aneesh Kumar K.V
-> <aneesh.kumar@linux.ibm.com> wrote:
->>
->> Yu Zhao <yuzhao@google.com> writes:
->>
->> ....
->>
->>   diff --git a/mm/rmap.c b/mm/rmap.c
->>> index fedb82371efe..7cb7ef29088a 100644
->>> --- a/mm/rmap.c
->>> +++ b/mm/rmap.c
->>> @@ -73,6 +73,7 @@
->>>   #include <linux/page_idle.h>
->>>   #include <linux/memremap.h>
->>>   #include <linux/userfaultfd_k.h>
->>> +#include <linux/mm_inline.h>
->>>
->>>   #include <asm/tlbflush.h>
->>>
->>> @@ -821,6 +822,12 @@ static bool folio_referenced_one(struct folio *folio,
->>>                }
->>>
->>>                if (pvmw.pte) {
->>> +                     if (lru_gen_enabled() && pte_young(*pvmw.pte) &&
->>> +                         !(vma->vm_flags & (VM_SEQ_READ | VM_RAND_READ))) {
->>> +                             lru_gen_look_around(&pvmw);
->>> +                             referenced++;
->>> +                     }
->>
->> Is it required to update referenced here? we do that below after
->> clearing the young bit. Or is the goal to identify whether we found any
->> young pte around?
-> 
-> referenced++ is needed because lru_gen_look_around() also clears the
-> young bit in pvmw.pte. And ptep_clear_flush_young_notify() will return
-> false unless mmu notifier returns true.
+On Tue, Apr 26, 2022 at 11:31 PM Aneesh Kumar K V
+<aneesh.kumar@linux.ibm.com> wrote:
+>
+> On 4/27/22 10:08 AM, Yu Zhao wrote:
+> > On Tue, Apr 26, 2022 at 10:33 PM Aneesh Kumar K.V
+> > <aneesh.kumar@linux.ibm.com> wrote:
+> >>
+> >> Yu Zhao <yuzhao@google.com> writes:
+> >>
+> >> ....
+> >>
+> >>   diff --git a/mm/rmap.c b/mm/rmap.c
+> >>> index fedb82371efe..7cb7ef29088a 100644
+> >>> --- a/mm/rmap.c
+> >>> +++ b/mm/rmap.c
+> >>> @@ -73,6 +73,7 @@
+> >>>   #include <linux/page_idle.h>
+> >>>   #include <linux/memremap.h>
+> >>>   #include <linux/userfaultfd_k.h>
+> >>> +#include <linux/mm_inline.h>
+> >>>
+> >>>   #include <asm/tlbflush.h>
+> >>>
+> >>> @@ -821,6 +822,12 @@ static bool folio_referenced_one(struct folio *folio,
+> >>>                }
+> >>>
+> >>>                if (pvmw.pte) {
+> >>> +                     if (lru_gen_enabled() && pte_young(*pvmw.pte) &&
+> >>> +                         !(vma->vm_flags & (VM_SEQ_READ | VM_RAND_READ))) {
+> >>> +                             lru_gen_look_around(&pvmw);
+> >>> +                             referenced++;
+> >>> +                     }
+> >>
+> >> Is it required to update referenced here? we do that below after
+> >> clearing the young bit. Or is the goal to identify whether we found any
+> >> young pte around?
+> >
+> > referenced++ is needed because lru_gen_look_around() also clears the
+> > young bit in pvmw.pte. And ptep_clear_flush_young_notify() will return
+> > false unless mmu notifier returns true.
+>
+> should we then use a mmu notifier variant of clear_young in
+> lru_gen_look_around() ?
 
-should we then use a mmu notifier variant of clear_young in 
-lru_gen_look_around() ?
-
--aneesh
+Generally multiple sets of page tables don't share the same memory
+locality. E.g., for kvm, its secondary page tables map to guest
+physical address space, whose locality is very different from typical
+virtual address space. In this case lru_gen_look_around() is generally
+not helpful. For this reason, we don't use the mmu notifier variants
+of pte_young() or clear_young().
