@@ -2,184 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF66C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 20:20:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B6CCC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 20:43:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229864AbiD0UXn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 16:23:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32990 "EHLO
+        id S231327AbiD0UqO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 16:46:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236659AbiD0UXh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 16:23:37 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F36B1EEF5;
-        Wed, 27 Apr 2022 13:20:21 -0700 (PDT)
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23RILb1c008987;
-        Wed, 27 Apr 2022 20:20:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=gjDixvznS3OUZDhDu+ceM/p4K0gyyuopeZlFpkcmmjc=;
- b=KaorH21DAb05vhKzfbv1u5YMlqNu7crAKkmVZsb8gSzmoYSzbMBgQyVAectAP6zeuSEs
- CCAGb66FxOGe43SExX6BIfJadyH7+QAZzJHhCPOmbZRwUIfI2IL2hgBNI6OyyeVWWVyq
- pmkhBriT2mTyUVxaF8E2yGPN9YEe/UJ7dp5MTUKxlZtaJoEjsZD7ojDdCAeoAi5vWusB
- AtaVqUYaWA2jiklthjuBZO6ToLo6bOAllfSSbPnrAEUnWoDvVDy3DO31Xsnxfeqe9f0i
- OwUMuqfPExKLY414GFu1CSigZvJpUlWETbvv4XCitova+DDL/1t0jlAvgFxHt28kmsq7 Yg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqb1ua1vr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 27 Apr 2022 20:20:19 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23RK7Ns6027451;
-        Wed, 27 Apr 2022 20:20:18 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.11])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqb1ua1vg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 27 Apr 2022 20:20:18 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
-        by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23RK8cSQ001950;
-        Wed, 27 Apr 2022 20:20:17 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com [9.57.198.25])
-        by ppma03dal.us.ibm.com with ESMTP id 3fm93a62ct-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 27 Apr 2022 20:20:17 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
-        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23RKKGpo23855576
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 27 Apr 2022 20:20:16 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 91E9EAC062;
-        Wed, 27 Apr 2022 20:20:16 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 72639AC059;
-        Wed, 27 Apr 2022 20:20:11 +0000 (GMT)
-Received: from [9.211.73.42] (unknown [9.211.73.42])
-        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
-        Wed, 27 Apr 2022 20:20:11 +0000 (GMT)
-Message-ID: <b9575614-a234-0c36-7601-9c09d159c3b0@linux.ibm.com>
-Date:   Wed, 27 Apr 2022 16:20:10 -0400
+        with ESMTP id S235863AbiD0UqN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 16:46:13 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6358C6459;
+        Wed, 27 Apr 2022 13:43:00 -0700 (PDT)
+From:   Kurt Kanzenbach <kurt@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1651092179;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=rTA8jJf9AA5RlYMvaBE3R4oWy0zZygajljklA7XJzag=;
+        b=mM4ICMJf4ZxV0WhY5GyOlCIUT/RgT/M51rGUg9fNOC38KV0zCEgLt5Nei0yH+hVsjSsWIM
+        OT3X9gKh3DxC5FNsxCykriCIgm46wUeRZXlpf02cSnYx+DCOtIY87H9BGmdzoKjCGQdBfS
+        hI/C9nkG/9WJlLuoO4klAv0R2kQx5NtrtHb1eXnsmBzJ54i3yYbAhsBOvM/uIFIbNV6d6h
+        Mf8K158dE23wJbk3kgeMnDuFy1lkVrA5+pCdC43ZXDVgTQ56ky9sNX/irtpkZDm9kT7Vbd
+        arRp4vJymtq4DthvJV/m8+dQVC/re64KFV6KD3Vm8OW5vn0DSrfBxYyIXri+eQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1651092179;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=rTA8jJf9AA5RlYMvaBE3R4oWy0zZygajljklA7XJzag=;
+        b=0L9v6aojyMJh/+MNxUBLkFOvo+i0292rxxHV9NBSXMeaJFOhItQIiRscaun5FOOf0w/2Tf
+        iBqteUmuXhCpxaCQ==
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Richard Cochran <richardcochran@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] timekeeping: Introduce fast accessor to clock tai
+In-Reply-To: <20220427112759.1cedda69@gandalf.local.home>
+References: <20220414091805.89667-1-kurt@linutronix.de>
+ <20220414091805.89667-2-kurt@linutronix.de>
+ <20220426175338.3807ca4f@gandalf.local.home> <87r15i9azg.fsf@kurt>
+ <20220427112759.1cedda69@gandalf.local.home>
+Date:   Wed, 27 Apr 2022 22:42:57 +0200
+Message-ID: <87fslyw94e.fsf@kurt>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v6 15/21] KVM: s390: pci: add routines to start/stop
- interpretive execution
-Content-Language: en-US
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     linux-s390@vger.kernel.org, alex.williamson@redhat.com,
-        cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
-        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
-        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
-        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
-        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220426200842.98655-1-mjrosato@linux.ibm.com>
- <20220426200842.98655-16-mjrosato@linux.ibm.com>
- <20220427151400.GY2125828@nvidia.com>
-From:   Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <20220427151400.GY2125828@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: HaAkdg-qH8ONb4fcE-33RKJwrgsbU-JV
-X-Proofpoint-GUID: Sw17_kpvkFHU4xFu2acH_zFgc8AUdWMt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-27_04,2022-04-27_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- mlxscore=0 impostorscore=0 clxscore=1015 mlxlogscore=999 spamscore=0
- priorityscore=1501 adultscore=0 malwarescore=0 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204270123
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha512; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/27/22 11:14 AM, Jason Gunthorpe wrote:
-> On Tue, Apr 26, 2022 at 04:08:36PM -0400, Matthew Rosato wrote:
-> 
->> +int kvm_s390_pci_register_kvm(struct zpci_dev *zdev, struct kvm *kvm)
->> +{
->> +	if (!zdev)
->> +		return 0;
->> +
->> +	/*
->> +	 * Register device with this KVM (or remove the KVM association if 0).
->> +	 * If interpetation facilities are available, enable them and let
->> +	 * userspace indicate whether or not they will be used (specify SHM bit
->> +	 * to disable).
->> +	 */
->> +	if (kvm)
->> +		return register_kvm(zdev, kvm);
->> +	else
->> +		return unregister_kvm(zdev);
->> +}
->> +EXPORT_SYMBOL_GPL(kvm_s390_pci_register_kvm);
-> 
-> I think it is cleaner to expose both the register/unregister APIs and
-> not multiplex them like this
-> 
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-OK
+On Wed Apr 27 2022, Steven Rostedt wrote:
+> I'm able to trigger this on x86 64bit too.
 
->> +void kvm_s390_pci_clear_list(struct kvm *kvm)
->> +{
->> +	struct kvm_zdev *tmp, *kzdev;
->> +	LIST_HEAD(remove);
->> +
->> +	spin_lock(&kvm->arch.kzdev_list_lock);
->> +	list_for_each_entry_safe(kzdev, tmp, &kvm->arch.kzdev_list, entry)
->> +		list_move_tail(&kzdev->entry, &remove);
->> +	spin_unlock(&kvm->arch.kzdev_list_lock);
->> +
->> +	list_for_each_entry_safe(kzdev, tmp, &remove, entry)
->> +		unregister_kvm(kzdev->zdev);
-> 
-> Hum, I wonder if this is a mistake in kvm:
-> 
-> static void kvm_destroy_vm(struct kvm *kvm)
-> {
-> [..]
-> 	kvm_arch_destroy_vm(kvm);
-> 	kvm_destroy_devices(kvm);
-> 
-> kvm_destroy_devices() triggers the VFIO notifier with NULL. Indeed for
-> correctness I would expect the VFIO users to have been notified to
-> release the kvm before the kvm object becomes partially destroyed?
-> 
-> Maybe you should investigate re-ordering this at the KVM side and just
-> WARN_ON(!list_empty) in the arch code?
-> 
-> (vfio has this odd usage model where it should use the kvm pointer
-> without taking a ref on it so long as the unregister hasn't been
-> called)
->
+OK, reproduced it by using the function tracer (instead of events).
 
-The issue there is that I am unregistering the notifier during 
-close_device for each zPCI dev, which will have already happened -- so 
-by the time we get to kvm_destroy_devices(), whether it's before or 
-after kvm_arch_destroy_vm, there are no longer any zPCI notifiers 
-registered that will trigger.
+Anyway, with your patch applied [1] and the one below it looks way
+better:
 
-One way to solve this is to have the zpci close_device hook also trigger 
-the work that a KVM_DEV_VFIO_GROUP_DEL would (if the device is being 
-closed, the KVM association for that device isn't applicable anymore so 
-go ahead and clean up).
+|            bash-4252    [003] ...1. 1651091299.936121: file_ra_state_init=
+ <-do_dentry_open
+|            bash-4252    [003] ...1. 1651091299.936121: inode_to_bdi <-fil=
+e_ra_state_init
+|            bash-4252    [003] ...1. 1651091299.936121: do_truncate <-path=
+_openat
+|            bash-4252    [003] ...1. 1651091299.936122: dentry_needs_remov=
+e_privs <-do_truncate
+|            bash-4252    [003] ...1. 1651091299.936122: should_remove_suid=
+ <-dentry_needs_remove_privs
+|            bash-4252    [003] ...1. 1651091299.936122: security_inode_nee=
+d_killpriv <-dentry_needs_remove_privs
+|            bash-4252    [003] ...1. 1651091299.936122: cap_inode_need_kil=
+lpriv <-security_inode_need_killpriv
+|            bash-4252    [003] ...1. 1651091299.936123: __vfs_getxattr <-c=
+ap_inode_need_killpriv
+|            bash-4252    [003] ...1. 1651091299.936123: xattr_resolve_name=
+ <-__vfs_getxattr
+|            bash-4252    [003] ...1. 1651091299.936123: is_bad_inode <-xat=
+tr_resolve_name
+|            bash-4252    [003] ...1. 1651091299.936123: down_write <-do_tr=
+uncate
+|            bash-4252    [003] ...1. 1651091299.936123: notify_change <-do=
+_truncate
+|            bash-4252    [003] ...1. 1651091299.936123: may_setattr <-noti=
+fy_change
+|            bash-4252    [003] ...1. 1651091299.936123: current_time <-not=
+ify_change
+|            bash-4252    [003] ...1. 1651091299.936124: ktime_get_coarse_r=
+eal_ts64 <-current_time
+|            bash-4252    [003] ...1. 1651091299.936124: security_inode_set=
+attr <-notify_change
+|            bash-4252    [003] ...1. 1651091299.936124: selinux_inode_seta=
+ttr <-security_inode_setattr
+|            bash-4252    [003] ...1. 1651091299.936125: inode_has_perm <-s=
+elinux_inode_setattr
+|/sys/kernel/debug/tracing # phc_ctl /dev/ptp0 get
+|phc_ctl[760.604]: clock time is 1651091302.512977591 or Wed Apr 27 22:28:2=
+2 2022
 
-Then, since we know each device will get closed (either by userspace or 
-by kvm), I don't need something like kvm_s390_pci_clear_list at all.
+Thanks for debugging it!
 
-> If you keep it like this then the locking in register/unregister looks
-> not broad enough and has to cover the zdev->kzdev also.
+[1] - https://lore.kernel.org/all/20220427153339.16c33f75@gandalf.local.hom=
+e/
 
-But I would still need to revisit the locking with the above idea.
+Thanks,
+Kurt
 
-> 
-> Overall I think it is OK designed like this, aside from the ugly
-> symbol_get in vfio which I hope you can resolve.
-> 
-> Jason
+commit 81c4f2de420cc4ac08efc39e78ffd80e146bfbd7
+Author: Kurt Kanzenbach <kurt@linutronix.de>
+Date:   Wed Apr 27 21:59:58 2022 +0200
 
+    timekeeping: Mark mono fast time accessors as notrace
+=20=20=20=20
+    Mark the CLOCK_MONOTONIC fast time accessors as notrace. These function=
+s are
+    used in tracing to retrieve timestamps.
+=20=20=20=20
+    Signed-off-by: Kurt Kanzenbach <kurt@linutronix.de>
+
+diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
+index 2c22023fbf5f..dddc37035215 100644
+=2D-- a/kernel/time/timekeeping.c
++++ b/kernel/time/timekeeping.c
+@@ -482,7 +482,7 @@ static __always_inline u64 __ktime_get_fast_ns(struct t=
+k_fast *tkf)
+  * of the following timestamps. Callers need to be aware of that and
+  * deal with it.
+  */
+=2Du64 ktime_get_mono_fast_ns(void)
++u64 notrace ktime_get_mono_fast_ns(void)
+ {
+        return __ktime_get_fast_ns(&tk_fast_mono);
+ }
+@@ -494,7 +494,7 @@ EXPORT_SYMBOL_GPL(ktime_get_mono_fast_ns);
+  * Contrary to ktime_get_mono_fast_ns() this is always correct because the
+  * conversion factor is not affected by NTP/PTP correction.
+  */
+=2Du64 ktime_get_raw_fast_ns(void)
++u64 notrace ktime_get_raw_fast_ns(void)
+ {
+        return __ktime_get_fast_ns(&tk_fast_raw);
+ }
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmJpqtETHGt1cnRAbGlu
+dXRyb25peC5kZQAKCRDBk9HyqkZzgqHED/0ZjWkFpI8PVENtmyoz1uaWIYDcxajq
+2gqUnkBzQAsHnNzfNqPpWcf9VD1G95pZGos86jjRWuOIV7b36EB4ogP1+aJKfqxF
+a2FAu5UQKyKvgtsMRLhUwkTqNFw8ltSOMjNn0oi6rzvHNDuwcU8F4XyvXZ7XENWr
+ckxLdtr0uBTVg7+Jg9ZdQF4uuOLMa+TWThmOkPGmL4wgvZIVa5kwCYAfkMhzcYao
+tngqe2PhnH2RW0i5afm8AiEvVcCnP007MkD1Nfe8I9C2kng417fcmctP2OkwukdM
+TgKWqhTRGa2dlNl32P8WnvSywJIhR7dw1GdnkJq8p0FEvROxHg8WRvtTQgHbitob
+LBQvrCT85JARlmt/BFtfK5dKmsq71f7ZNv82GiJCIenSvMduMmO7Z+iC9JvR3eNx
+QVoZdJTZBK63ZzG9dPhFf2bgzqamxyX7YBuVG7d3DWaglBMhqu4w1pLe7O3eHt+P
+OhHpbHSVqrdlGmABNSG55Zgu5UVh6cSF2YbsDkOOKyAYSxsDqcAmceZq1DaqKRtw
+dWFX/0hcCXOKbfvCjNTh3m/OvlGJek+fXlooshY/gW13/P/KGI4qq9JOpvjpzihD
+eGuv9mzVbUvIjqIIkI3gnUHIGZH1dGEazdSD4jbT2ceDnjOFlwhCqr2T1oLsQywT
+8X4DJSpMAvGcCQ==
+=v69O
+-----END PGP SIGNATURE-----
+--=-=-=--
