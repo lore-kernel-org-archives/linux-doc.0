@@ -2,153 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDE2EC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 15:39:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57DD8C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 16:06:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240035AbiD0Pmo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 11:42:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36530 "EHLO
+        id S241670AbiD0QJ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 12:09:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239986AbiD0Pmn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 11:42:43 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2061.outbound.protection.outlook.com [40.107.243.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D392B1C9;
-        Wed, 27 Apr 2022 08:39:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BdgHZ0dhniQCUXSwbVngx3+x0EpE+jlGkVk252urOyh4ctS5XTUWSuKgA6QPGFkHiQUuQgfz/rcpOaMtdZJJGoIOid9jmcEDCkxXXLZReXpD0MQ9BDM8zNDb/2sf/K9GU38HA4QYeIrb3evg3/pxNpbdOl7BLFnqTs0IjNFIma2ZkDPodC7wC7iMDlFmza4lUC07C/0Qjawgzsage6FqZkK0grXHlmMtNRbS9DTb4KYHoP4A2G/r9kOoUiYe66dSq7J6VddaQJfNz22wtWUu2IHmjDH3AmO+knHO26EGbB3pbixzAZQum1VecG9dsi2AkCYylFMwq+uqj2NtS4LHLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3w3uGNnNj9C5O/XU7QTuwQ1oyNC9/cdH4Nh0g3yhvVE=;
- b=HtfxErF6+FW6d4dz+hp8JRO5jaVcuYimgAaKNxGyL2dgVo2if150DfYQ91tjX9YECSpvo7KE+qLyfZZ2pUKR8UKyfr9jQXvyNVwq0XqN6odx/soWCYz/43mBRzNwesOaSIrk4P8TsqDr6pyzEfo3GBcALLmXpER9pnFw4mcp8J9iTIypl251fOEvN6E0p8JpIr2h8HEIOCL/u53QSaxA1bt6uIDB3hbly2JfWLR1vp7dY+ZPaWd8n8XkWybs6ie2LTRPredvUeZ8IgnPaXqSR/XdFMOspmzGQgaFz3WnGnPr+0dGqy1MpyI9hdOj6Zsf2hHP0lCoywbZXufyqBgxGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3w3uGNnNj9C5O/XU7QTuwQ1oyNC9/cdH4Nh0g3yhvVE=;
- b=eCuEgNPz3pEVABcA+ndOvOZWe7U1D+2t/Cke8J4CoJp4EOUmTpQ3MrbqT/+5I+2Wz9SthAB9iejfDsgyJoJPxvBTNXNKcGlxqlBZgqCAxSCZKpxXevGm7Zo2wmgqMwkv4Ei4eU1C0q1YTrcxzBi0eUXf1QydY6lQmLDg6ud7VSP+gUdAWqbIRZoRRgFcmVz2EojRZThqibj8cRy1tKl+syIn1gsLG9yHJJ+bHOkhnHzFCjaRCax8TUc7mpDRwcJz3wP7E6iNoANUt7QKyvBZTzE5oSQCMAly20WCrj5MeL3ghC7TsRC4cBlEP3yG4cvo0OvsJcjXTkaWHSLtkvVFBw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by BN9PR12MB5083.namprd12.prod.outlook.com (2603:10b6:408:134::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Wed, 27 Apr
- 2022 15:39:26 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2%6]) with mapi id 15.20.5186.021; Wed, 27 Apr 2022
- 15:39:26 +0000
-Date:   Wed, 27 Apr 2022 12:39:24 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Matthew Rosato <mjrosato@linux.ibm.com>
-Cc:     linux-s390@vger.kernel.org, alex.williamson@redhat.com,
-        cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
-        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
-        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
-        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
-        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 16/21] vfio-pci/zdev: add open/close device hooks
-Message-ID: <20220427153924.GZ2125828@nvidia.com>
-References: <20220426200842.98655-1-mjrosato@linux.ibm.com>
- <20220426200842.98655-17-mjrosato@linux.ibm.com>
- <20220427140410.GX2125828@nvidia.com>
- <f6c78792-9cf7-0cde-f760-76166f9b7eb7@linux.ibm.com>
- <20220427150138.GA2512703@nvidia.com>
- <1bca5de9-88aa-6abc-88b7-cbd2a11e5c85@linux.ibm.com>
+        with ESMTP id S242595AbiD0QJq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 12:09:46 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2A2B3E4FBA;
+        Wed, 27 Apr 2022 09:05:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3663661BE9;
+        Wed, 27 Apr 2022 16:04:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25C52C385A9;
+        Wed, 27 Apr 2022 16:04:25 +0000 (UTC)
+Date:   Wed, 27 Apr 2022 17:04:22 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v22 5/9] arm64: kdump: Reimplement crashkernel=X
+Message-ID: <YmlphvZVMsGfFksp@arm.com>
+References: <20220414115720.1887-1-thunder.leizhen@huawei.com>
+ <20220414115720.1887-6-thunder.leizhen@huawei.com>
+ <YmgzxsrrMlCDYsWp@arm.com>
+ <ee8daaa9-3258-e7e8-e5c4-c51dc9841580@huawei.com>
+ <Ymk34NsIFqUgfk3b@arm.com>
+ <ae7211ad-e2ac-f5b1-5aa0-701802132e73@huawei.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1bca5de9-88aa-6abc-88b7-cbd2a11e5c85@linux.ibm.com>
-X-ClientProxiedBy: BL1PR13CA0268.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::33) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2a081e1b-a000-48da-5c3d-08da28641c24
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5083:EE_
-X-Microsoft-Antispam-PRVS: <BN9PR12MB5083F0E6FE5335FC715D44FAC2FA9@BN9PR12MB5083.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KZkv9cHbBu+Z4cbNVTukQkpff+gLxyPAcn+sahn/GX4SWTrOZ+rByCI+Wo2TQ//st+oBl+0rIlTVkLcFhImOhPbFSf5GWczngcHW35S0uuX8N40HBTIdPih4rSV7mDaHPFIkHV4PPBJ9/NKO9WT86EWuCbSP3DygJk9uV12fB/QX86heZULjxhO9v4hcBHewQdZwX/HTTgP2cQBwbPDLwKeSjAqBXzhwLs6cQNO2XjN75IPjcfVnti3VPzdli3V+t0kvFqfVVgh/EH2qfj5VadlzngI/vdWewydFOk3uCB7HHaElEY9duVh3bMPLYcbQitNaQM4ITwNjWOPdyJMGa3dEh4Q9x35MrtgXs/d3UG+R299Tea5lm5yip5qUGLPbcW8hprklZ8RezS0GJ23dPkh7RKQ5y8YV1FSCZJCu2ZPMEA/gHegxvTwtjvlcXU775dAWCS2SlWBuvbEIQpQ7GBbnJfgkxZXUgH7y8oImxHKBnjU+M1w9MPN0oavRvv6nUnIkOMzpG6CIaIzv4KA6DHFHZQyoUkb7vreRKgczIVxVokoSuzkTOOCRctHglRuI3XxSiNlhNKk7TJOacW1BMCbKOPzvevJulDIHOUnwm7GhShsH0ofK/4/fWBx67JbNdO7vAqI1fPo2irkXNlYImjEs0qSZLhC0pLyICdxjT9lI1IdnUcIZAfGgRl9ZWF80+KJj9rAAmDosFeMgXvTR/VO4PbFUx0MwsLTHukR0U2c=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8936002)(1076003)(8676002)(4326008)(33656002)(6916009)(186003)(316002)(86362001)(6486002)(7416002)(966005)(2906002)(508600001)(38100700002)(5660300002)(2616005)(66946007)(66556008)(66476007)(6512007)(6506007)(26005)(36756003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kfAe63i7Pma9S0lNS75G4jKHZ1z0mRAqimj5vR1KsrS4cu7zCktC6cOPcQIv?=
- =?us-ascii?Q?SjI3YPsU8qu+sq18C3tTQV+JZIMX/Nw5FPg3J403bVlahOEDrOqOzSpQKg69?=
- =?us-ascii?Q?3PN0uA/Hl8QaTLUIvpl65/uTfcD8nb5Ij1e9ThfrL8aBFIVLOJfLJNdI36Om?=
- =?us-ascii?Q?eFv8pPOZi+gi4XuwcrYynJWNeoXevwiThmD4EHCN4CKvqJB0Eki+0oaRWWgf?=
- =?us-ascii?Q?cAQtSAqU9K4BabT0FXPeTEhq9wAhfIqn3Cft8b/QzXIKuPWf4gI1Um7lRxmd?=
- =?us-ascii?Q?bBQWuoHF2xzWrHY8pF05Zed/YvldGybFqI3/ktnTHGOP0I5FeZaqrzMlfVUv?=
- =?us-ascii?Q?n5plL8kfm566rh6j1eUrBvkPf9K/vl8gbeg2WISEZi4h/m6RrRXvRFZspWg1?=
- =?us-ascii?Q?mjTxs0Xx1pEu9nvqPcuR+BdNrkz6nblmSpjZpAcnjKRv98gpgLNc/R2uWBG3?=
- =?us-ascii?Q?eViRRM79WTioEoznQ0jETSB5Il1jstFabY0YQZPdu5DK9ptFiPL0efCQrspb?=
- =?us-ascii?Q?o2orpBikJXEGut4rLUbmq/V2MeWDP5ATuXhXeYFw3x5b6pVVRozqMMpJVO3L?=
- =?us-ascii?Q?+OLRtusZvwYNM7maublhaAqBycIzJWbTTAO8Jii6u/k37WKMe6qxkiHe4a5I?=
- =?us-ascii?Q?WL3PUuf48CJSv81ZSW7iGZIIgPYywC6sXkBk0Vp1aAEtvdoCPVovoDVasN+2?=
- =?us-ascii?Q?ZSvbC5kK3A7NVSdu6c+0FFicwxi5mluntIm23SbRuQcY0axSAn8cjXqwtlei?=
- =?us-ascii?Q?F50RYqtWlSKoETe5s28RLwP/qeDZgm2LFoynXGXrC45m+wukFBoQKJ5qgYjM?=
- =?us-ascii?Q?gifcwJR2viGBcfK+5u7rQif7hgsEBZ0pxDjIEUpsQijUI7Y2pnXko394Ndiz?=
- =?us-ascii?Q?Ud4oU3mgcGlMJIa1GdY9E2pGOQDmustvMXOcMj5iSZacEixI8bzgFYgwx7lg?=
- =?us-ascii?Q?0IhTDb0m51VFtYoi+KV7zRoWCmJxZjwBv63Eu/doQZCOnbnNtSOzeI+oAawI?=
- =?us-ascii?Q?eNOTEEfRhPpS0w1ua6qIGIhvmqb2NdlMEgekaVmjKbIEaDvsq8TkqDkn1B3V?=
- =?us-ascii?Q?rDeez9SA8NmRtDgg98avXOtG4sAfnSWFP+hMKUUhwjDvjVtMb2cf6z7ME6S1?=
- =?us-ascii?Q?DlUextKUluGRCrvQRAoi9jxZcZQyPB+UOt4sa16JI1LwdfevGiBGY/kFGlif?=
- =?us-ascii?Q?CcKNH5VsNK2aLPKUUn2HcfD/elU+L2gcyTvy4f90NCR29pJvUE7DQkuAn024?=
- =?us-ascii?Q?iBbPPfRKZfTQVofhu+7ndtkKcTkSTzHr9l4DNiFEBglsqLJqwY74H2yHBR3K?=
- =?us-ascii?Q?43rnF9fZliALOnXgpr1aQzIbllU426TJu+RAqhq1+PjfrWTfZ0sHCDUgKCBC?=
- =?us-ascii?Q?KNJE5RQ2Wos5gsi37FLvoTu28UDwT7n7H7Zk7NYxY7a5G3+VvGHBTmo4cGFI?=
- =?us-ascii?Q?EiZifo2NM26cqlHBlpYFv/yXhSxkaEa5IKfRBZhDtbS/I1qotuBF9xFMHHiM?=
- =?us-ascii?Q?hIjdb721ormzAKV75boN/lplkYVVOsJu/qSpsWhBcF8Hx/mN7y6+fMgRxwZ5?=
- =?us-ascii?Q?lFb6mTprk0t9J6GUbx/GxDZv+Nrcr7dmS2n4sa4z6QeEg8baQFWyXRzfw17I?=
- =?us-ascii?Q?SURQg34jzyUk2qbkw7Nyacocpk7nO7Doq999DCZMoZACfbPImpJ3Uwxbi0xf?=
- =?us-ascii?Q?xz+MQJVVUEWR+wr3Im2bXDTMRkYbAhMPOS9wjwCweOXbkdhGsASsT+ZZt4Nl?=
- =?us-ascii?Q?rQ0/1mp0Xg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a081e1b-a000-48da-5c3d-08da28641c24
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2022 15:39:26.2675
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fccPEF2UuJ35KnZnMBJwb3Npg7/PQ+WsZs7pMbTFXpj2zCtECzvWTZP7wRbOxEhK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5083
+In-Reply-To: <ae7211ad-e2ac-f5b1-5aa0-701802132e73@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 27, 2022 at 11:26:40AM -0400, Matthew Rosato wrote:
-> > > zPCI devices (zpci_dev) exist regardless of whether kvm is configured or
-> > > not, and you can e.g. bind the associated PCI device to vfio-pci when KVM is
-> > > not configured (or module not loaded) and get the existing vfio-pci-zdev
-> > > extensions for that device (extra VFIO_DEVICE_INFO response data).  Making a
-> > > direct dependency on KVM would remove that; this was discussed in a prior
-> > > version because this extra info is not used today outside of a KVM usecase
-> > > are not specific to kvm that need vfio-pci-zdev).
+On Wed, Apr 27, 2022 at 09:49:20PM +0800, Leizhen (ThunderTown) wrote:
+> On 2022/4/27 20:32, Catalin Marinas wrote:
+> > I think one could always pass a default command line like:
 > > 
-> > I'm a bit confused, what is the drawback of just having a direct
-> > symbol dependency here? It means vfio loads a little extra kernel
-> > module code, but is that really a big worry given almost all vfio
-> > users on s390 will be using it with kvm?
+> > 	crashkernel=1G,high crashkernel=128M,low
+> > 
+> > without much knowledge of the SoC memory layout.
 > 
-> It's about trying to avoid loading unnecessary code (or at least giving a
-> way to turn it off).
+> Yes, that's what the end result is. The user specify crashkernel=128M,low
+> and the implementation ensure the 128M low memory is allocated from DMA zone.
+> We use arm64_dma_phys_limit as the upper limit for crash low memory.
 > 
-> Previously I did something like....
+> +#define CRASH_ADDR_LOW_MAX             arm64_dma_phys_limit
+> +       unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+> +       crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+>                                                crash_base, crash_max);
 > 
-> https://lore.kernel.org/kvm/20220204211536.321475-15-mjrosato@linux.ibm.com/
+> > Another option is to only introduce crashkernel=Y,low and, when that is
+> > passed, crashkernel=Y can go above arm64_dma_phys_limit. We won't need a
+> > 'high' option at all:
+> > 
+> > 	crashkernel=1G				- all within ZONE_DMA
+> > 	crashkernel=1G crashkernel=128M,low	- 128M in ZONE_DMA
+> > 						  1G above ZONE_DMA
+> > 
+> > If ZONE_DMA is not present or it extends to the whole RAM, we can ignore
+> > the 'low' option.
 > 
-> And could do so again; as discussed in the thread there, I can use e.g.
-> CONFIG_VFIO_PCI_ZDEV_KVM and make vfio-pci-zdev depend on KVM in this
-> series.  You only get the vfio-pci-zdev extensions when you configure KVM.
+> I think although the code is hard to make generic, the interface is better to
+> be relatively uniform. A user might have to maintain both x86 and arm64, and
+> so on. It's not a good thing that the difference is too big.
 
-That make sense to me, I'd rather see that then the symbol_get/put here
+There will be some difference as the 4G limit doesn't always hold for
+arm64 (though it's true in most cases). Anyway, we can probably simplify
+things a bit while following the documented behaviour:
 
-Thanks,
-Jason
+	crashkernel=Y		- current behaviour within ZONE_DMA
+	crashkernel=Y,high	- allocate from above ZONE_DMA
+	crashkernel=Y,low	- allocate within ZONE_DMA
+
+There is no fallback from crashkernel=Y.
+
+The question is whether we still want a default low allocation if
+crashkernel=Y,low is missing but 'high' is present. If we add this, I
+think we'd be consistent with kernel-parameters.txt for the 'low'
+description. A default 'low' is probably not that bad but I'm tempted to
+always mandate both 'high' and 'low'.
+
+-- 
+Catalin
