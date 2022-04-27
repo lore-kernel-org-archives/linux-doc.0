@@ -2,178 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BF1CC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 18:49:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADB73C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 19:06:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229970AbiD0SxC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 14:53:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43094 "EHLO
+        id S231555AbiD0TJU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 15:09:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231288AbiD0SwY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 14:52:24 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D392DD3731;
-        Wed, 27 Apr 2022 11:38:29 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id m20so5096844ejj.10;
-        Wed, 27 Apr 2022 11:38:29 -0700 (PDT)
+        with ESMTP id S233727AbiD0TJF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 15:09:05 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DF4769CFE
+        for <linux-doc@vger.kernel.org>; Wed, 27 Apr 2022 11:57:38 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id bv19so5226444ejb.6
+        for <linux-doc@vger.kernel.org>; Wed, 27 Apr 2022 11:57:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=3A9Xsphph+SQIianXjBh4+4o7zyb9BLunLh+E/0CQio=;
-        b=UnfU+HKtW2D06NU0bNOq17sb224h2OOputwJe94u41Qt8hwta0lHaQFIp972VNxMxw
-         NidlrzU1EDNDzfMvPXwIjMrmvr1NjR37cOhY1nYV+roOMxaNJKralBkSBGKZ/BN5Th8s
-         N9lRPYTPjGbr0cSTjbxEspuArLVLDdoBPgK6+upGAizAiELcdp5a9hMp/Xoahvusgq57
-         Th2ISXRFFfvep7ONNLZ0oteYokL2E120n27AHTizXeVhQ6Z8Bx7kArRZNl0nJnyk3Zz+
-         9wm2qfNSgd9FOpItl1vN8l1QYWQbKpnNcH79auchDN29l0o91cDPqLo/49TJ8Kt/t9PO
-         5Vvg==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iPKi8PgGQaBnzyHIXBRWRUTqjsQoxp2zAwkTWoaTAuc=;
+        b=GZs2Ap7YssDTDUzMi9Tmwfvp52es0XpGnz/uyDvPKjQsmCEEr/oCIDLLx+CfQbWjhx
+         PESpWsgxHMdYHi5A3U6qfQPYCQOpfxgBAiljS4p0GYzJDLAg5tnlzQq49HNBIIlbfcho
+         0sEXEDb0Kq7bJc4Ryi4nh6VifDGAm7PQebMPlX9c49SC4O0g7QtnzERU0tsyY7K4KmyR
+         u90eageJ8I8XauO5IW5a6CpngCi+kU0hYYHDkFd0bQ+n3ApcZUBdtLIk8uI9hAhTdCv9
+         WqzXupQfiMIqaz8lq8p288+7itiSFKawnRin5Tb1s9Z7V+9q/ih/L3YO0HZ2PWVk9SML
+         n9+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=3A9Xsphph+SQIianXjBh4+4o7zyb9BLunLh+E/0CQio=;
-        b=vdh5uG0cCkMHAU/TaFvgEZOTPuQtb/u1By18gXovY/oQYHoN/IZweRiMbQ7xB5XNWL
-         jxvW1nIit6SRlUsY4uITjp1pus3z9lirClGUZIgvkaItYQLNMr5fpzRyobrig2dZhNrj
-         GXxoIEcAbUiNemxDF0ibRMZsXtHs7YarBytjmFe7SYaEH4mziBXOQOIrULORlH2nM2fi
-         TtcrVwP7mlT9jwS5TKqLipYvoeo8E3bZqqNtbkCfo2doxGDNKh3AT8bvQ83Bfup/uzLj
-         Uaej56kkE5UyFEBsQ1K4fczf0KowK44eJ/BM2u9S/8N+z7aCYjS7gmSXWZTmhiTqx6np
-         329g==
-X-Gm-Message-State: AOAM5327NR0Q6Iwf/2IDNOnHVcGR7IQIBJ/BrbgdQ90Q9SErMmFQP5lM
-        iM1bDzqCrAfhqcCOy1hyZfo=
-X-Google-Smtp-Source: ABdhPJwbRHA28mPeqny4TiNCbUmpYR75vpZN6jbYw41zpIX7FDWDTPi4S99nZfjEdPb0JJjaOjNyZw==
-X-Received: by 2002:a17:907:da0:b0:6df:d4a4:9d0f with SMTP id go32-20020a1709070da000b006dfd4a49d0fmr29043562ejc.407.1651084708394;
-        Wed, 27 Apr 2022 11:38:28 -0700 (PDT)
-Received: from localhost.localdomain (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
-        by smtp.gmail.com with ESMTPSA id ig8-20020a1709072e0800b006f38f2e9ebesm4691667ejc.64.2022.04.27.11.38.26
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iPKi8PgGQaBnzyHIXBRWRUTqjsQoxp2zAwkTWoaTAuc=;
+        b=jwp47kAs+V8ldc5yGu8jVefB3rDAoPm13D8RA6jFWBPqbzOzHKDqsjqekFJz6Nxvgy
+         nZMS/uj9g5UP2nZd+hHmpMHrQC5D5IjuF8HgfnJo+qEIQ1PziVAIFTMmQ7/zj0O980Vf
+         Ru/oUZg0+29E9L1oDfx24i0oo9Q6CTvJF9wQlSBztEMtoqcVypJlzQ/sEBf+5LGQa+pX
+         OTmKqbnio2DclGlgNxSy5ONTqhZMMZA2iZiBDTWq3T28Agg3hVvyoQC9CVJaQedEmKH8
+         GIrZb5RjmTG3rgnWs8BGhnkiIV4ymzyUTsrt0QcjKrEvM1VXNOkgsIJNRTPkwcXTGf/E
+         b6DA==
+X-Gm-Message-State: AOAM533jra5nV3UTgRPE1Xu/SoBRbNwVGzlRCUVvo4tuEkzRAw3DmoCP
+        eTuUnYF8X+HhwG6TppimK7eP2bLzaN9Ehg==
+X-Google-Smtp-Source: ABdhPJzfkdw3+HaFRXiY3ueNL3+pwS9ImdeHsOucq24QuQGFw4LxzzUQh62Tb0G3YV6tOTE5oga+mQ==
+X-Received: by 2002:a17:906:ece3:b0:6f3:da10:138a with SMTP id qt3-20020a170906ece300b006f3da10138amr266656ejb.438.1651085856857;
+        Wed, 27 Apr 2022 11:57:36 -0700 (PDT)
+Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id n10-20020a170906378a00b006f3cd3e7b94sm1348563ejc.213.2022.04.27.11.57.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 11:38:27 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Ira Weiny <ira.weiny@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Collingbourne <pcc@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        outreachy@lists.linux.dev
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Mike Rapoport <rppt@linux.ibm.com>
-Subject: [PATCH v3 1/4] mm/highmem: Fix kernel-doc warnings in highmem*.h
-Date:   Wed, 27 Apr 2022 20:38:18 +0200
-Message-Id: <20220427183821.1979-2-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220427183821.1979-1-fmdefrancesco@gmail.com>
-References: <20220427183821.1979-1-fmdefrancesco@gmail.com>
+        Wed, 27 Apr 2022 11:57:36 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] Documentation/process: use scripts/get_maintainer.pl on patches
+Date:   Wed, 27 Apr 2022 20:56:45 +0200
+Message-Id: <20220427185645.677039-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-`scripts/kernel-doc -v -none include/linux/highmem*` reports the following
-warnings:
+Explain that, when collecting list of people to Cc the patch,
+scripts/get_maintainer.pl should be used on patches, not on the
+directories.  The behavior is quite different, because with "-f" on
+a directory, the maintainers of individual files will not be shown.
 
-include/linux/highmem.h:160: warning: expecting prototype for kunmap_atomic(). Prototype was for nr_free_highpages() instead
-include/linux/highmem.h:204: warning: No description found for return value of 'alloc_zeroed_user_highpage_movable'
-include/linux/highmem-internal.h:256: warning: Function parameter or member '__addr' not described in 'kunmap_atomic'
-include/linux/highmem-internal.h:256: warning: Excess function parameter 'addr' description in 'kunmap_atomic'
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Fix these warnings by (1) moving the kernel-doc comments from highmem.h to
-highmem-internal.h (which is the file were the kunmap_atomic() macro is
-actually defined), (2) extending and merging it with the comment which was
-already in highmem-internal.h, (3) using correct parameter names, (4)
-adding description of return value of alloc_zeroed_user_highpage_movable(),
-(5) correcting some technical inaccuracies in comments, and (5) adding a
-deprecation notice in kunmap_atomic() for consistency with kmap_atomic().
-
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Acked-by: Mike Rapoport <rppt@linux.ibm.com>
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- include/linux/highmem-internal.h | 15 ++++++++++++---
- include/linux/highmem.h          | 20 ++++++--------------
- 2 files changed, 18 insertions(+), 17 deletions(-)
 
-diff --git a/include/linux/highmem-internal.h b/include/linux/highmem-internal.h
-index a77be5630209..9968a1282317 100644
---- a/include/linux/highmem-internal.h
-+++ b/include/linux/highmem-internal.h
-@@ -236,9 +236,18 @@ static inline unsigned long totalhigh_pages(void) { return 0UL; }
+It seems using the script on patches is not obvious and it already
+caused some misunderstandings.
+---
+ Documentation/doc-guide/contributing.rst     | 5 +++--
+ Documentation/process/3.Early-stage.rst      | 9 +++++----
+ Documentation/process/submitting-patches.rst | 7 ++++---
+ 3 files changed, 12 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/doc-guide/contributing.rst b/Documentation/doc-guide/contributing.rst
+index 207fd93d7c80..d4793826ad9a 100644
+--- a/Documentation/doc-guide/contributing.rst
++++ b/Documentation/doc-guide/contributing.rst
+@@ -79,8 +79,9 @@ simplistic idea of what C comment blocks look like.  This problem had been
+ present since that comment was added in 2016 — a full four years.  Fixing
+ it was a matter of adding the missing asterisks.  A quick look at the
+ history for that file showed what the normal format for subject lines is,
+-and ``scripts/get_maintainer.pl`` told me who should receive it.  The
+-resulting patch looked like this::
++and ``scripts/get_maintainer.pl`` told me who should receive it (pass paths to
++your patches as arguments to scripts/get_maintainer.pl).  The resulting patch
++looked like this::
  
- #endif /* CONFIG_HIGHMEM */
+   [PATCH] PM / devfreq: Fix two malformed kerneldoc comments
  
--/*
-- * Prevent people trying to call kunmap_atomic() as if it were kunmap()
-- * kunmap_atomic() should get the return value of kmap_atomic, not the page.
-+/**
-+ * kunmap_atomic - Unmap the virtual address mapped by kmap_atomic() - deprecated!
-+ * @__addr:       Virtual address to be unmapped
-+ *
-+ * Unmaps an address previously mapped by kmap_atomic() and re-enables
-+ * pagefaults, migration, preemption (the latter was disabled only for
-+ * !PREEMP_RT configurations). Mappings should be unmapped in the reverse
-+ * order that they were mapped. See kmap_local_page() for details.
-+ * @__addr can be any address within the mapped page, so there is no need
-+ * to subtract any offset that has been added. In contrast to kunmap(),
-+ * this function takes the address returned from kmap_atomic(), not the
-+ * page passed to it. The compiler will warn you if you pass the page.
-  */
- #define kunmap_atomic(__addr)					\
- do {								\
-diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-index 39bb9b47fa9c..3623319a659d 100644
---- a/include/linux/highmem.h
-+++ b/include/linux/highmem.h
-@@ -37,7 +37,7 @@ static inline void *kmap(struct page *page);
+diff --git a/Documentation/process/3.Early-stage.rst b/Documentation/process/3.Early-stage.rst
+index 6bfd60d77d1a..894a920041c6 100644
+--- a/Documentation/process/3.Early-stage.rst
++++ b/Documentation/process/3.Early-stage.rst
+@@ -154,10 +154,11 @@ that the kernel developers have added a script to ease the process:
+ This script will return the current maintainer(s) for a given file or
+ directory when given the "-f" option.  If passed a patch on the
+ command line, it will list the maintainers who should probably receive
+-copies of the patch.  There are a number of options regulating how hard
+-get_maintainer.pl will search for maintainers; please be careful about
+-using the more aggressive options as you may end up including developers
+-who have no real interest in the code you are modifying.
++copies of the patch.  This is the preferred way (unlike "-f" option) to get the
++list of people to Cc for your patches.  There are a number of options
++regulating how hard get_maintainer.pl will search for maintainers; please be
++careful about using the more aggressive options as you may end up including
++developers who have no real interest in the code you are modifying.
  
- /**
-  * kunmap - Unmap the virtual address mapped by kmap()
-- * @addr:	Virtual address to be unmapped
-+ * @page:	Pointer to the page which was mapped by kmap()
-  *
-  * Counterpart to kmap(). A NOOP for CONFIG_HIGHMEM=n and for mappings of
-  * pages in the low memory area.
-@@ -138,24 +138,14 @@ static inline void *kmap_local_folio(struct folio *folio, size_t offset);
-  *
-  * Returns: The virtual address of the mapping
-  *
-- * Effectively a wrapper around kmap_local_page() which disables pagefaults
-- * and preemption.
-+ * In fact a wrapper around kmap_local_page() which disables pagefaults,
-+ * migration, preemption (the latter disabled only for !PREEMP_RT
-+ * configurations).
-  *
-  * Do not use in new code. Use kmap_local_page() instead.
-  */
- static inline void *kmap_atomic(struct page *page);
+ If all else fails, talking to Andrew Morton can be an effective way to
+ track down a maintainer for a specific piece of code.
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 9bb4e8c0f635..1708b66c4672 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -227,9 +227,10 @@ Select the recipients for your patch
+ You should always copy the appropriate subsystem maintainer(s) on any patch
+ to code that they maintain; look through the MAINTAINERS file and the
+ source code revision history to see who those maintainers are.  The
+-script scripts/get_maintainer.pl can be very useful at this step.  If you
+-cannot find a maintainer for the subsystem you are working on, Andrew
+-Morton (akpm@linux-foundation.org) serves as a maintainer of last resort.
++script scripts/get_maintainer.pl can be very useful at this step (pass paths to
++your patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
++maintainer for the subsystem you are working on, Andrew Morton
++(akpm@linux-foundation.org) serves as a maintainer of last resort.
  
--/**
-- * kunmap_atomic - Unmap the virtual address mapped by kmap_atomic()
-- * @addr:	Virtual address to be unmapped
-- *
-- * Counterpart to kmap_atomic().
-- *
-- * Effectively a wrapper around kunmap_local() which additionally undoes
-- * the side effects of kmap_atomic(), i.e. reenabling pagefaults and
-- * preemption.
-- */
--
- /* Highmem related interfaces for management code */
- static inline unsigned int nr_free_highpages(void);
- static inline unsigned long totalhigh_pages(void);
-@@ -191,6 +181,8 @@ static inline void clear_user_highpage(struct page *page, unsigned long vaddr)
-  * @vma: The VMA the page is to be allocated for
-  * @vaddr: The virtual address the page will be inserted into
-  *
-+ * Returns: The allocated and zeroed HIGHMEM page
-+ *
-  * This function will allocate a page for a VMA that the caller knows will
-  * be able to migrate in the future using move_pages() or reclaimed
-  *
+ You should also normally choose at least one mailing list to receive a copy
+ of your patch set.  linux-kernel@vger.kernel.org should be used by default
 -- 
-2.34.1
+2.32.0
 
