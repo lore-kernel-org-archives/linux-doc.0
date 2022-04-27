@@ -2,122 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE263C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 17:14:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99D7FC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 17:22:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243792AbiD0RSJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 13:18:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49206 "EHLO
+        id S237170AbiD0RZ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 13:25:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243940AbiD0RSI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 13:18:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D98AE42A37
-        for <linux-doc@vger.kernel.org>; Wed, 27 Apr 2022 10:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651079696;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9YUznmB9P2jBcOq6DrfzVnG8uJ/Bk7HsqZZR2IcuP88=;
-        b=UOpoAK7G9kAiwo+UQTwItEkM5gcIFxL7W/TWO2n4rv2Ntzw2QssMZlD9YOUSUIRuN4tiRq
-        npJrCCc6TW51wMjUL9roUDXr6uzI5zHEQ5z4J+OWL67G5XM+T3hYL05VqA+JvCiN4OQEMW
-        nax12ziBNigJaJ/g2FIFOyykBt+7/Cw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-v00tpUGwOtC6NcdTfUqrrQ-1; Wed, 27 Apr 2022 13:14:54 -0400
-X-MC-Unique: v00tpUGwOtC6NcdTfUqrrQ-1
-Received: by mail-wr1-f71.google.com with SMTP id j21-20020adfa555000000b0020adb9ac14fso965902wrb.13
-        for <linux-doc@vger.kernel.org>; Wed, 27 Apr 2022 10:14:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=9YUznmB9P2jBcOq6DrfzVnG8uJ/Bk7HsqZZR2IcuP88=;
-        b=cntWq8+cSfa/WIk3ViAgT8DAVObr1oZXnc0fY/Avc+90tAYFxPuSaiPZYESxM+ypyG
-         6B4i9LZso9DcSX/o16hTWITvsdFuHBZqG+93ehGlWuDMeCrdt4McXiziwSqYxcEYGmKi
-         1X66787JIRmQN71T9e0i1AvoqJJs4cW8+WTq0tzI2KTkbp3heNfHvG/TKysdFfsk6XRV
-         6cPLpITBhKucWN/6Pbp9C6nEkbIo+Ofhg7zkl9OY5257dIFsQBBqCHFLvV5UtVDeOOdi
-         5Uwdrss8230KWtSUNXzDTYx9YAmem4LPHzADgNVH3CK7xVP5+CEfgG/2xXRjEwDhHGUT
-         eMiA==
-X-Gm-Message-State: AOAM532ZelUqxKlLoqK0cHApOQm7WLM5mwpRrhMnrEdhm76hzskLszDj
-        VK8jbBKidkOPK0+vssOsktFME06Hf0KfCQzRJcy1dsiE3402Q8ZtZTJOdFqF9nlxjWhNdFSoayJ
-        M0A09qVntqtsVwI/ZuE75
-X-Received: by 2002:a5d:5311:0:b0:20a:d007:b499 with SMTP id e17-20020a5d5311000000b0020ad007b499mr18651216wrv.258.1651079693301;
-        Wed, 27 Apr 2022 10:14:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9gmILqTdRAEv5fADePBJ//BGbzfu/YlqdgybewixXeP/an9YLV/CAg7PFZJIOJmkGoxatPQ==
-X-Received: by 2002:a5d:5311:0:b0:20a:d007:b499 with SMTP id e17-20020a5d5311000000b0020ad007b499mr18651198wrv.258.1651079693033;
-        Wed, 27 Apr 2022 10:14:53 -0700 (PDT)
-Received: from [192.168.1.129] ([92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id v11-20020a056000144b00b0020a9c02f60dsm15149131wrx.50.2022.04.27.10.14.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Apr 2022 10:14:52 -0700 (PDT)
-Message-ID: <1885e110-6353-45bb-1120-c6fa4c50f63a@redhat.com>
-Date:   Wed, 27 Apr 2022 19:14:51 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3] drm/doc: Add sections about tiny drivers and external
- refs to intro page
-Content-Language: en-US
-To:     linux-kernel@vger.kernel.org,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
+        with ESMTP id S244082AbiD0RZY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 13:25:24 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A78B246B29;
+        Wed, 27 Apr 2022 10:22:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 69429B825F9;
+        Wed, 27 Apr 2022 17:22:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C747C385A9;
+        Wed, 27 Apr 2022 17:22:07 +0000 (UTC)
+Date:   Wed, 27 Apr 2022 13:22:05 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Kurt Kanzenbach <kurt@linutronix.de>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-References: <20220420072411.15104-1-javierm@redhat.com>
- <YmlhS3m6se0sqhnn@phenom.ffwll.local>
-From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <YmlhS3m6se0sqhnn@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8
+        Richard Cochran <richardcochran@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] timekeeping: Introduce fast accessor to clock
+ tai
+Message-ID: <20220427132205.386be5e6@gandalf.local.home>
+In-Reply-To: <20220427112759.1cedda69@gandalf.local.home>
+References: <20220414091805.89667-1-kurt@linutronix.de>
+        <20220414091805.89667-2-kurt@linutronix.de>
+        <20220426175338.3807ca4f@gandalf.local.home>
+        <87r15i9azg.fsf@kurt>
+        <20220427112759.1cedda69@gandalf.local.home>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Daniel,
+On Wed, 27 Apr 2022 11:27:59 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-On 4/27/22 17:29, Daniel Vetter wrote:
-> On Wed, Apr 20, 2022 at 09:24:11AM +0200, Javier Martinez Canillas wrote:
->> Learning about the DRM subsystem could be quite overwhelming for newcomers
->> but there are lots of useful talks, slides and articles available that can
->> help to understand the needed concepts and ease the learning curve.
->>
->> There are also simple DRM drivers that can be used as example about how a
->> DRM driver should look like.
->>
->> Add sections to the introduction page, that contains references to these.
->>
->> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
->> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> I'm able to trigger this on x86 64bit too.
 > 
-> Maybe needs more acks to land?
+> One thing I noticed, is that the two numbers I have (from a different
+> trace, but very similar to the above)
 > 
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
+> $ printf "%llx\n" 498151194674148935
+> 6e9c9df4afd3647
+> 
+> $ printf "%llx\n" 1651072699280995911
+> 16e9c9df4afd3647
+> 
+> That is, the last nibble either is 0 or 1, causing the change?
+> 
+> 06e9c9df4afd3647
+> 16e9c9df4afd3647
+> 
+> The numbers are the same except for that last nibble.
 
-Thanks! But this landed already a few days ago in drm-misc-next:
+And I just realized what the issue is. The ring buffer only allows for 59
+bits of timestamp, as there's times it needs to inject a timestamp into the
+buffer, which is 16 bytes, and the first 5 bits are meta data, leaving 59
+bits for the timestamp. Since no timestamp came close to that before this
+timer, everything worked.
 
-https://cgit.freedesktop.org/drm/drm-misc/commit/?id=e41a2999f746
- 
-> Would be good we can hand out links to pretty htmldocs instead of lore
-> links to this patch, the latter is rather hard on the eyes :-)
->
+Thus, when a full timestamp is injected, it takes off the 5 MSBs of the
+timestamp (which took off that 1) and that is what is happening.
 
-Agreed :)
- -- 
-Best regards,
+I can see if I can play some games to detect this and replace the top 5
+bits with the saved timestamp at the head of the sub buffer.
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+-- Steve
