@@ -2,148 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04FD1C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 12:32:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 515CAC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 12:58:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234074AbiD0Mfy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 08:35:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56164 "EHLO
+        id S235160AbiD0NBh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 09:01:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234069AbiD0Mfx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 08:35:53 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECCD04C7A2;
-        Wed, 27 Apr 2022 05:32:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A7B3EB82666;
-        Wed, 27 Apr 2022 12:32:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19409C385A9;
-        Wed, 27 Apr 2022 12:32:35 +0000 (UTC)
-Date:   Wed, 27 Apr 2022 13:32:32 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v22 5/9] arm64: kdump: Reimplement crashkernel=X
-Message-ID: <Ymk34NsIFqUgfk3b@arm.com>
-References: <20220414115720.1887-1-thunder.leizhen@huawei.com>
- <20220414115720.1887-6-thunder.leizhen@huawei.com>
- <YmgzxsrrMlCDYsWp@arm.com>
- <ee8daaa9-3258-e7e8-e5c4-c51dc9841580@huawei.com>
+        with ESMTP id S235076AbiD0NBg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 09:01:36 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B26162C66DC;
+        Wed, 27 Apr 2022 05:58:25 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id q8so1479486plx.3;
+        Wed, 27 Apr 2022 05:58:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=pNSvpo4QWccajCxpCePsKswiAx+NwxjUiJYzt3ZtdWM=;
+        b=LwKplNmSEkTQw+JSbpj2IRAvZCw4yjHl0sNVCER90ey7S5JduVpQGaq3gqEJJmGKCX
+         rKO5kGl6CPh/vl4R/ct9NXqi0VCqTHcrHZ75Bex3FRTyrL+wBhzUcdLPUapjp6Vj0dJI
+         eu7H9Dne6xdgDeaFPEZoxiPwh7EDZOy7qbqItfaIusxGxUJe7PFY6uGtthIXR8mFqlyh
+         EoAZgaUUyBorfCwaVunuur1sdygci5KQPIoeGahM7zGRyO6pvx5jvVxW42VWD6BIGRLj
+         cug4b31+uso0kHBoy/DGWTLiTKv0+UGgkJMmW6mb3qXSN60T8yrHrOFK1SZE3MLYlRHw
+         8p4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:from:subject:content-transfer-encoding;
+        bh=pNSvpo4QWccajCxpCePsKswiAx+NwxjUiJYzt3ZtdWM=;
+        b=0aY1z4D5asa9MNdIKi8jOMUzDFOw70qUC3QxwaKG+FDvQR6m/RFts4vByEQhy7v0KE
+         L+nr0CvtgyZPWG5BgVfzhDag9XJ2Y1nPvcyyBV04RSw6DRsj3kOpMAP3y5p2vCRDhcS4
+         IbZfirfPw1sW4fCoM3f9qzuHCOV+zonTVTx9WTmmr1GUtI57gfZY2P7XyVzAR8a9iX9G
+         aakIIQrgWjmwEWksnTGFbvRE5VU9ly36471DEU3NBM+bopzgen1bACPUuFPE+Pk2+xy0
+         idNq1LK5IONhOCYaN6sTX4tjI4o86HhXr2d0JCE2auYoNXE5aswa0sFl0mcQUrzQ32v2
+         XmpQ==
+X-Gm-Message-State: AOAM533+nGaCtVwYtT2SOc5crNQ1kXCd5CcO5XlI55Ibr/7DSFHw3giC
+        qdKNAjVx+rIKnVX7yJ1lFr/Yvd5hNAI=
+X-Google-Smtp-Source: ABdhPJyUhXYVhzQ9HdukUIH8Lt76iARMHSOhLknwOZsTL0InvkauM1X0tJqq/PFsjaKHfO1cIAnQLw==
+X-Received: by 2002:a17:902:edd0:b0:15c:6f65:d06b with SMTP id q16-20020a170902edd000b0015c6f65d06bmr25432406plk.91.1651064305209;
+        Wed, 27 Apr 2022 05:58:25 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id 123-20020a620681000000b004fa7c20d732sm18502417pfg.133.2022.04.27.05.58.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Apr 2022 05:58:24 -0700 (PDT)
+Message-ID: <cfd3bcc0-b51d-0c68-c065-ca1c4c202447@gmail.com>
+Date:   Wed, 27 Apr 2022 21:58:19 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ee8daaa9-3258-e7e8-e5c4-c51dc9841580@huawei.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Shenghong Han <hanshenghong2019@email.szu.edu.cn>,
+        Haowen Bai <baihaowen@meizu.com>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <seakeel@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] docs: vm/page_owner: Use literal blocks for param description
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 27, 2022 at 02:54:52PM +0800, Leizhen (ThunderTown) wrote:
-> On 2022/4/27 2:02, Catalin Marinas wrote:
-> > On Thu, Apr 14, 2022 at 07:57:16PM +0800, Zhen Lei wrote:
-> >>  /*
-> >>   * reserve_crashkernel() - reserves memory for crash kernel
-> >>   *
-> >>   * This function reserves memory area given in "crashkernel=" kernel command
-> >>   * line parameter. The memory reserved is used by dump capture kernel when
-> >>   * primary kernel is crashing.
-> >> + *
-> >> + * NOTE: Reservation of crashkernel,low is special since its existence
-> >> + * is not independent, need rely on the existence of crashkernel,high.
-> >> + * Here, four cases of crashkernel low memory reservation are summarized:
-> >> + * 1) crashkernel=Y,low is specified explicitly, the size of crashkernel low
-> >> + *    memory takes Y;
-> >> + * 2) crashkernel=,low is not given, while crashkernel=,high is specified,
-> >> + *    take the default crashkernel low memory size;
-> >> + * 3) crashkernel=X is specified, while fallback to get a memory region
-> >> + *    in high memory, take the default crashkernel low memory size;
-> >> + * 4) crashkernel='invalid value',low is specified, failed the whole
-> >> + *    crashkernel reservation and bail out.
-> > 
-> > Following the x86 behaviour made sense when we were tried to get that
-> > code generic. Now that we moved the logic under arch/arm64, we can
-> > diverge a bit. I lost track of the original (v1/v2) proposal but I
-> > wonder whether we still need the fallback to high for crashkernel=Y.
-> 
-> I don't think anyone has raised this demand yet! If it weren't for the
-> fact that crashkernel=X appeared earlier, it would probably have been
-> enough for a combination of crashkernel=X,high and crashkernel=Y,low.
-> 
-> In fact, I also tend not to support "fallback to high for crashkernel=Y".
-> I took over this from Chen Zhou. In the absence of any objection, I had
-> to inherit. Now that you've brought it up, I'm happy to delete it.
-> Supporting this feature complicates the code logic a lot. The point is,
-> it's not fully backwards compatible yet. For example, someone may want
-> crashkernel=3G to report failure, but the the new support make it work.
+Subject: [PATCH] docs: vm/page_owner: Use literal blocks for param description
 
-BTW, prior to v20, this patch had this line:
+Sphinx generates hard-to-read lists of parameters at the bottom
+of the page.  Fix them by putting literal-block markers of "::"
+in front of them.
 
-	crashk_low_res.name = "Crash kernel (low)";
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Fixes: 57f2b54a9379 ("Documentation/vm/page_owner.rst: update the documentation")
+Cc: Shenghong Han <hanshenghong2019@email.szu.edu.cn>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Haowen Bai <baihaowen@meizu.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Alex Shi <seakeel@gmail.com>
+---
+Hello Andrew,
 
-I can't find it anymore. Do the kexec tools need to distinguish between
-low and high or they can cope with multiple "Crash kernel" entries?
+This is the first time I send a patch in your way.
+So I'm not sure this works as I intend.
+If anything goes wrong, please let me know.
 
-> > Maybe simpler, no fallbacks:
-> > 
-> > 	crashkernel=Y - keep the current behaviour, ignore high,low
-> > 	crashkernel=Y,high - allocate above ZONE_DMA
-> > 	crashkernel=Y,low - allocate within ZONE_DMA
-> > 
-> > From your proposal, the difference is that the Y,high option won't
-> > have any default ZONE_DMA fallback, one would have to explicitly pass
-> > the Y,low option if needed.
-> 
-> I agree with you. Now we don't need code generic, so there is no need to
-> carry the historical burden of other ARCHs. arm64 does not need to delve
-> into that empirical value(the default size of crash low memory).
-> 
-> > Just a thought, maybe it makes the code simpler. But I'm open to
-> > discussion if there are good arguments for the proposed (x86-like)
-> > behaviour. One argument could be for crashkernel=Y to fall back to high
-> > if distros don't want to bother with high/low settings.
-> 
-> I think distros should take precedence over "crashkernel=Y,high". After all,
-> ZONE_DMA memory is more valuable than high memory.
+This issue is in discussion in a linux-doc thread triggered by
+a post from Haowen Bai [1]. (Warning: The thread looks confused
+due to Haowen's unnecessary uses of In-Reply-To: headers.)
+Jon suggested the route via your tree, but he keeps posting
+to linux-doc.
 
-My point is whether an admin configuring the kernel command line needs
-to know the layout of ZONE_DMA etc. to figure out how much to pass in
-high and low. The fallbacks in this case have some value but they also
-complicate the code logic. The 4GB limit does not always make sense
-either for some platforms (RPi4 has a ZONE_DMA limit of 1GB).
+[1]: https://lore.kernel.org/all/1650424016-7225-3-git-send-email-baihaowen@meizu.com/
 
-I think one could always pass a default command line like:
+Haowen's patch uses tables to improve the look of param lists.
+I suggested him using literal blocks instead, but I failed to
+hear any response. So I'm sending my version of the fix in your
+way.
 
-	crashkernel=1G,high crashkernel=128M,low
+I believe this fix is worth for 5.18-rcX.
 
-without much knowledge of the SoC memory layout.
+Side note 1: I see another patch queued for -next around here, which
+has broken indents by white spaces.  You might want to fix or drop it.
 
-Another option is to only introduce crashkernel=Y,low and, when that is
-passed, crashkernel=Y can go above arm64_dma_phys_limit. We won't need a
-'high' option at all:
+Side note 2: page_owner.rst is not covered in MAINTAINERS.
+You might want to add an entry, maybe, under "PAGE TABLE CHECK".
 
-	crashkernel=1G				- all within ZONE_DMA
-	crashkernel=1G crashkernel=128M,low	- 128M in ZONE_DMA
-						  1G above ZONE_DMA
+Again, if there is anything I can do better, please let me know.
 
-If ZONE_DMA is not present or it extends to the whole RAM, we can ignore
-the 'low' option.
+Best,
 
+        Akira
+--
+ Documentation/vm/page_owner.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+index 65204d7f004f..7e0c3f574e78 100644
+--- a/Documentation/vm/page_owner.rst
++++ b/Documentation/vm/page_owner.rst
+@@ -110,7 +110,7 @@ Usage
+    If you want to sort by the page nums of buf, use the ``-m`` parameter.
+    The detailed parameters are:
+ 
+-   fundamental function:
++   fundamental function::
+ 
+ 	Sort:
+ 		-a		Sort by memory allocation time.
+@@ -122,7 +122,7 @@ Usage
+ 		-s		Sort by stack trace.
+ 		-t		Sort by times (default).
+ 
+-   additional function:
++   additional function::
+ 
+ 	Cull:
+ 		--cull <rules>
+@@ -153,6 +153,7 @@ Usage
+ 
+ STANDARD FORMAT SPECIFIERS
+ ==========================
++::
+ 
+ 	KEY		LONG		DESCRIPTION
+ 	p		pid		process ID
+
+base-commit: af2d861d4cd2a4da5137f795ee3509e6f944a25b
 -- 
-Catalin
+2.25.1
+
