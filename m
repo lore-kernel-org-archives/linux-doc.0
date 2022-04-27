@@ -2,190 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14BB4C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Apr 2022 23:53:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 348DFC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 01:12:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230099AbiDZX4Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Apr 2022 19:56:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34746 "EHLO
+        id S240563AbiD0BPn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Apr 2022 21:15:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230094AbiDZX4X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 19:56:23 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF3EBB91B;
-        Tue, 26 Apr 2022 16:53:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651017194; x=1682553194;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=khnX1ty93jUwk1ufPotG1fbs/K/3Ddf4V9dX4JV7/uw=;
-  b=RDrWI4+gCuCPbkxN2elDVgQ1+97GO1Cv3ryfzQ5iXuQZv+AzU2jdY4vP
-   88VNmVdSbkWlcdTv0z7sjTBfMWY/65KKwraq6v/g3w0vsEgdrZ1SA0U2w
-   S+egZI2l97Q+EKkVk1km1aS81G8LKKgzXCPZBPlOTK7M47eK/7ansR+SM
-   Nvk+bOrqbWK7/UdxdVb10ZbuWg5VNrQlYzfEY6K3uJ7iejlUclMm9909P
-   QRI2/SOsrha46buwxxl27jNmZS4ZT8Rgzb93GjkCp4Gsr0E/erJK2HUVT
-   O2ouzW0xxBySScAx+wavucFd5H6FRx89JyCMDizeV5DSFDbBMygJr2c9C
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="265921491"
-X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; 
-   d="scan'208";a="265921491"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 16:53:14 -0700
-X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; 
-   d="scan'208";a="660942056"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 16:53:14 -0700
-Date:   Tue, 26 Apr 2022 16:53:13 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "markgross@kernel.org" <markgross@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: Re: [PATCH v4 09/10] trace: platform/x86/intel/ifs: Add trace point
- to track Intel IFS operations
-Message-ID: <YmiF6Rsy04pUHVQo@agluck-desk3.sc.intel.com>
-References: <20220419163859.2228874-1-tony.luck@intel.com>
- <20220422200219.2843823-1-tony.luck@intel.com>
- <20220422200219.2843823-10-tony.luck@intel.com>
- <20220425105251.3f5e8021@gandalf.local.home>
- <1752057af33e4eb28bcea0fd75e44048@intel.com>
- <20220425214928.2aac3391@gandalf.local.home>
+        with ESMTP id S239232AbiD0BPm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Apr 2022 21:15:42 -0400
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C89D03B57C
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 18:12:32 -0700 (PDT)
+Received: by mail-vs1-xe33.google.com with SMTP id v139so456704vsv.0
+        for <linux-doc@vger.kernel.org>; Tue, 26 Apr 2022 18:12:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0OB4iCXtxiKbS3NMWNYxYIAROlGFdL0Wkd5J0MHv91A=;
+        b=Bp9dT2NsWeXsrortAGIE6Vx0R7SGr+A/O59m+DJngXiWhnvAv4m8qbxVl4TUtOJQY5
+         bAmLUMBUoJocnLAu4lLnTOo5zkNupj3UnX7QkNy45lihtzmQbwIdNBHV08x4R0xmEECs
+         RHOOGe9FvdObHDrXgCsZGk886CHiL8Mvv/8I/3JeNmEJBjskYzLheGO/bCFQfgdYE8wx
+         4/n80TAzYbqYYRM294NyAu8H8roXt4mF8a1JXWwVzzD+bSmgY1wQCgAeAWiStF7eoYXW
+         /Ec0TvS1b2RbTQiLUA1gTqUxmZh8oiMj/QKw1CLegC52kGpb8aLHwXgU/6srNFGYZd2B
+         J0oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0OB4iCXtxiKbS3NMWNYxYIAROlGFdL0Wkd5J0MHv91A=;
+        b=rVyn3vyUC6In+mvuGB1thyGptz/sRjy+gixfcrDvspTiebOMADJWvpybWj7a2dyMa5
+         2i9qF8hic6IZbsS73S3LYvcTvFlIbSNx7U/401FFO5ZaRtZhIntDc7Ka4iCz2y0iVz/l
+         Vh3pgwkzQ4t9+m3rdDegDqanq/bP9YtFgqnblfgMxzASgqL5sDPX6fZgyvhE51j1PRC8
+         /bh5GL7ueA1hN275BHbWSGSnnPMP6JT80W/HZrW16I7GjfYu/wBBSxzjueiA5IXQCwza
+         sO/fFujjiFJdG+06yilloMevBpqA5YZW9BrChswY+MBARZSrLKxWSQME1fqUNmAyQVEr
+         CBUQ==
+X-Gm-Message-State: AOAM531IGICJtY/zZXqvZEDWW78O5VCJ1BzRXxBbe2Ytw5lw37izVFUK
+        VVhk59MhVAuiC8HWMD2UrqFwoTADqBk+w9gW6zLi8Q==
+X-Google-Smtp-Source: ABdhPJwy/MRAp4oC6Hi1ll9gS9jBkgqQtmNi88ADT/C3NJcTx+Bes6COrB45hWc8WPeVFid4VYYYZG1IRGGt4+/7Wgg=
+X-Received: by 2002:a05:6102:158a:b0:32a:56ea:3fba with SMTP id
+ g10-20020a056102158a00b0032a56ea3fbamr7630158vsv.84.1651021951811; Tue, 26
+ Apr 2022 18:12:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220425214928.2aac3391@gandalf.local.home>
+References: <20220407031525.2368067-1-yuzhao@google.com> <20220407031525.2368067-11-yuzhao@google.com>
+ <20220411191627.629f21de83cd0a520ef4a142@linux-foundation.org>
+ <CAOUHufbtFj0Hez7wkw3DHGDwo6wudCzCvACt2GfgrFcubW_DYg@mail.gmail.com> <20220426152237.21d3f173eded69c0f63911f0@linux-foundation.org>
+In-Reply-To: <20220426152237.21d3f173eded69c0f63911f0@linux-foundation.org>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Tue, 26 Apr 2022 19:11:54 -0600
+Message-ID: <CAOUHufZ3fRcDqyFPSL9buqcE_sZsZQE+fUW7XkiwubNSD0Zb5g@mail.gmail.com>
+Subject: Re: [PATCH v10 10/14] mm: multi-gen LRU: kill switch
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Tejun Heo <tj@kernel.org>, Stephen Rothwell <sfr@rothwell.id.au>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 25, 2022 at 09:49:28PM -0400, Steven Rostedt wrote:
-> On Mon, 25 Apr 2022 16:49:35 +0000
-> "Luck, Tony" <tony.luck@intel.com> wrote:
-> 
-> > I see two paths:
-> > 
-> > 1) Create a new user friendly trace point for each new scan mode.
-> > 2) Just provide a generic one that dumps both the 64-bit WRMSR and RDMSR values.
-> > 
-> > Q: Are trace points "expensive" in some way ... so better to just have one than three?
-> >      Or are the cheap enough that decoding for the user is an OK thing?
-> 
-> Yes, they are expensive as each TRACE_EVENT() can add a few KB of text and
-> data. But you can add a DECLARE_EVENT_CLASS() and then add "printk"
-> differences that are less memory heavy.
-> 
-> See DEFINE_EVENT_PRINT().
+On Tue, Apr 26, 2022 at 4:22 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Tue, 26 Apr 2022 14:57:15 -0600 Yu Zhao <yuzhao@google.com> wrote:
+>
+> > On Mon, Apr 11, 2022 at 8:16 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+> > >
+> > > On Wed,  6 Apr 2022 21:15:22 -0600 Yu Zhao <yuzhao@google.com> wrote:
+> > >
+> > > > Add /sys/kernel/mm/lru_gen/enabled as a kill switch. Components that
+> > > > can be disabled include:
+> > > >   0x0001: the multi-gen LRU core
+> > > >   0x0002: walking page table, when arch_has_hw_pte_young() returns
+> > > >           true
+> > > >   0x0004: clearing the accessed bit in non-leaf PMD entries, when
+> > > >           CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG=y
+> > > >   [yYnN]: apply to all the components above
+> > > > E.g.,
+> > > >   echo y >/sys/kernel/mm/lru_gen/enabled
+> > > >   cat /sys/kernel/mm/lru_gen/enabled
+> > > >   0x0007
+> > > >   echo 5 >/sys/kernel/mm/lru_gen/enabled
+> > > >   cat /sys/kernel/mm/lru_gen/enabled
+> > > >   0x0005
+> > >
+> > > I'm shocked that this actually works.  How does it work?  Existing
+> > > pages & folios are drained over time or synchrnously?
+> >
+> > Basically we have a double-throw way, and once flipped, new (isolated)
+> > pages can only be added to the lists of the current implementation.
+> > Existing pages on the lists of the previous implementation are
+> > synchronously drained (isolated and then re-added), with
+> > cond_resched() of course.
+> >
+> > > Supporting
+> > > structures remain allocated, available for reenablement?
+> >
+> > Correct.
+> >
+> > > Why is it thought necessary to have this?  Is it expected to be
+> > > permanent?
+> >
+> > This is almost a must for large scale deployments/experiments.
+> >
+> > For deployments, we need to keep fix rollout (high priority) and
+> > feature enabling (low priority) separate. Rolling out multiple
+> > binaries works but will make the process slower and more painful. So
+> > generally for each release, there is only one binary to roll out, and
+> > unless it's impossible, new features are disabled by default. Once a
+> > rollout completes, i.e., reaches enough population and remains stable,
+> > new features are turned on gradually. If something goes wrong with a
+> > new feature, we turn off that feature rather than roll back the
+> > kernel.
+> >
+> > Similarly, for A/B experiments, we don't want to use two binaries.
+>
+> Please let's spell out this sort of high-level thinking in the
+> changelogging.
 
-I looked at the examples in samples/trace_events/trace-events-sample.h
-and tried to use this. But I'm doing something wrong because the
-compiler barfs on something defined but not used.
+Will do.
 
-Maybe my problem is the TP_printk() in the DECLARE_EVENT_CLASS() that
-is over-ridden by DEFINE_EVENT_PRINT(). I wasn't at all sure what to
-put here ... or how to use the base tracepoint that doesn't have the
-printk() over-ridden.
+> From what you're saying, this is a transient thing.  It sounds that
+> this enablement is only needed when mglru is at an early stage.  Once
+> it has matured more then successive rollouts will have essentially the
+> same mglru implementation and being able to disable mglru at runtime
+> will no longer be required?
 
-I think I need my class to just save both the u64 values to the trace
-buffer. Then the different trace points will extract the bits they want
-and print in a user friendly way. While this increases space used in
-the trace buffer, these events are not crazy high frequency. Usually 
-one or two events per core with a gap 30 minutes or more between tests.
+I certainly hope so. But realistically this switch is here to stay,
+just like anything else added after careful planning or on a whim.
 
-In my ".c" file the tracepoint looks like this using the name from
-DEFINE_EVENT_PRINT(), and now passing the full u64 values:
+> I guess the capability is reasonable simple/small and is livable with,
+> but does it have a long-term future?
 
-	trace_ifs_status_saf(activate.data, status.data);
+I see it as a necessary evil.
 
-and my #include file looks like this:
+> I mean, when organizations such as google start adopting the mglru
+> implementation which is present in Linus's tree we're, what, a year or
+> more into the future?  Will they still need a kill switch then?
 
-----------------------------------------------
-/* SPDX-License-Identifier: GPL-2.0 */
-#undef TRACE_SYSTEM
-#define TRACE_SYSTEM intel_ifs
-
-#if !defined(_TRACE_IFS_H) || defined(TRACE_HEADER_MULTI_READ)
-#define _TRACE_IFS_H
-
-#include <linux/ktime.h>
-#include <linux/tracepoint.h>
-
-DECLARE_EVENT_CLASS(ifs_status,
-
-	TP_PROTO(u64 activate, u64 status),
-
-	TP_ARGS(activate, status),
-
-	TP_STRUCT__entry(
-		__field(	u64,	activate	)
-		__field(	u64,	status		)
-	),
-
-	TP_fast_assign(
-		__entry->activate = activate;
-		__entry->status	= status;
-	),
-
-	TP_printk("activate: %llx status: %llx",
-		__entry->activate,
-		__entry->status)
-);
-
-DEFINE_EVENT_PRINT(ifs_status, ifs_status_saf,
-	TP_PROTO(u64 activate, u64 status),
-	TP_ARGS(activate, status),
-	TP_printk("start: %.2x, stop: %.2x, status: %llx",
-		((union ifs_scan *)&(__entry->activate))->start,
-		((union ifs_scan *)&(__entry->activate))->stop,
-		__entry->status)
-);
-
-#endif /* _TRACE_IFS_H */
-
-/* This part must be outside protection */
-#include <trace/define_trace.h>
------------------------------------------------------
-
-GCC messages:
-
-
-  CC [M]  drivers/platform/x86/intel/ifs/runtest.o
-In file included from /home/agluck/GIT/mywork/include/trace/define_trace.h:102,
-                 from /home/agluck/GIT/mywork/include/trace/events/intel_ifs.h:44,
-                 from /home/agluck/GIT/mywork/drivers/platform/x86/intel/ifs/runtest.c:27:
-/home/agluck/GIT/mywork/include/trace/trace_events.h:426:13: warning: ‘print_fmt_ifs_status’ defined but not used [-Wunused-variable]
-  426 | static char print_fmt_##call[] = print;                                 \
-      |             ^~~~~~~~~~
-/home/agluck/GIT/mywork/include/trace/events/intel_ifs.h:11:1: note: in expansion of macro ‘DECLARE_EVENT_CLASS’
-   11 | DECLARE_EVENT_CLASS(ifs_status,
-      | ^~~~~~~~~~~~~~~~~~~
-In file included from /home/agluck/GIT/mywork/include/trace/define_trace.h:102,
-                 from /home/agluck/GIT/mywork/include/trace/events/intel_ifs.h:44,
-                 from /home/agluck/GIT/mywork/drivers/platform/x86/intel/ifs/runtest.c:27:
-/home/agluck/GIT/mywork/include/trace/trace_events.h:207:37: warning: ‘trace_event_type_funcs_ifs_status’ defined but not used [-Wunused-variable]
-  207 | static struct trace_event_functions trace_event_type_funcs_##call = {   \
-      |                                     ^~~~~~~~~~~~~~~~~~~~~~~
-/home/agluck/GIT/mywork/include/trace/events/intel_ifs.h:11:1: note: in expansion of macro ‘DECLARE_EVENT_CLASS’
-   11 | DECLARE_EVENT_CLASS(ifs_status,
-      | ^~~~~~~~~~~~~~~~~~~
-make[1]: Leaving directory '/home/agluck/GIT/mywork/build/ifsv5-rc1'
-
--Tony
+There are two distinct possibilities:
+1. Naturally the number of caps would grow. Old caps that have been
+proven remain the same values. New caps need to be flipped on/off for
+deployments/experiments.
+2. The worst case scenario: this file becomes something like
+/sys/kernel/mm/transparent_hugepage/enabled. For different workloads,
+it's set to different values. Otherwise we'd have to build multiple
+kernel binaries.
