@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 267B6C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 08:17:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6616C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 08:39:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350750AbiD0IUl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 04:20:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40692 "EHLO
+        id S1353952AbiD0ImN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 04:42:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344335AbiD0IUl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 04:20:41 -0400
+        with ESMTP id S234044AbiD0ImM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 04:42:12 -0400
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAA7928E12;
-        Wed, 27 Apr 2022 01:17:30 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A08876A018;
+        Wed, 27 Apr 2022 01:39:02 -0700 (PDT)
+From:   Kurt Kanzenbach <kurt@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1651047449;
+        s=2020; t=1651048741;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=vFLr6SeRCSuxjMA6GTzB7LHQDHSnRaJltcyEgh+cjO0=;
-        b=aJF2X2/avz3+HF2QHdBbVS8weBIsDYKXE2x5xzBvLNkaG25WRChNDiMnkb/dZdfco7RXYy
-        te5oqgi+ax/n+a3oRYq6GEyss7oTKwh7fPEIS9qjRbni5vlFuV0mUUom4VjbFlcuy+MiGT
-        Vfq5Wp2xh9OIzVEbjtsPBvqxVSKCt6hDak3PJA64SWMWfM5r3mxRHsCN1v0HL6XWWVyM/g
-        eHsQJmKek//gAmI+vuzAbKpzJQkAoifOlgeM8dfCMAgHSA7yx/nrufs0rhI4laH/4qJsnL
-        DP6XsV7RjcSMiYoIhaksmyEO02stdyp6MMU0Rjz3X2FdavzrdRMrmty819f8FQ==
+        bh=GzMQGXqkpUhrUWCXBrGu4FxwFSp+DerGEsoezHXPpw8=;
+        b=HcDpgLJcOKVcS1iYB6drBO2RdkOQ0pdO0oaebDDrafbD8rjrVTdi7ikE8VSQxUUBW75XiW
+        +zOT6Mbc9wfn+jq9xD2GGp3hES127TCjmsPilsJAy8z71jSsGB/hBOfNvNAk3zS8twmmIK
+        NFD2C/9GlCgSGUuCF6rkN+s96GxiM5c14HRRf5Mq84nKyyPRW3Bcq/hRmscTP1dW/HxTNP
+        yFcLP0dBZkGMgl2HtyP+Ivd9YOqPyYMwEyoXdjDkDPbv4SXQSUgfdXvrn1PjA7jeF8EczX
+        CaVSbaYssrdoeOYSFFe/6eGBWTHOJ/lUKxbz4qYtWs03F6zYzzEgmEgebpLgew==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1651047449;
+        s=2020e; t=1651048741;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=vFLr6SeRCSuxjMA6GTzB7LHQDHSnRaJltcyEgh+cjO0=;
-        b=d58LPj7BSSvwfgRcJr+dM16qMOmnuSCGuGOTWRo5CPHVqoYGqDpadPlAp1ENXtVVvkuJfQ
-        KgkXi6C/4vYwQXAw==
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Kurt Kanzenbach <kurt@linutronix.de>
+        bh=GzMQGXqkpUhrUWCXBrGu4FxwFSp+DerGEsoezHXPpw8=;
+        b=POa/YUZgEcY1UmXTe6ny+2c9tvxDmnli5oU8lJEvt4c3iBIP9BiMOYWDvsfVojQDC/miCl
+        RzRUFunHqaLP00Bg==
+To:     Steven Rostedt <rostedt@goodmis.org>
 Cc:     John Stultz <john.stultz@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Stephen Boyd <sboyd@kernel.org>,
         Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -47,15 +47,28 @@ In-Reply-To: <20220426175338.3807ca4f@gandalf.local.home>
 References: <20220414091805.89667-1-kurt@linutronix.de>
  <20220414091805.89667-2-kurt@linutronix.de>
  <20220426175338.3807ca4f@gandalf.local.home>
-Date:   Wed, 27 Apr 2022 10:17:28 +0200
-Message-ID: <87pml3x7mv.ffs@tglx>
+Date:   Wed, 27 Apr 2022 10:38:59 +0200
+Message-ID: <87r15i9azg.fsf@kurt>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha512; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 26 2022 at 17:53, Steven Rostedt wrote:
+--=-=-=
+Content-Type: text/plain
+
+On Tue Apr 26 2022, Steven Rostedt wrote:
+> On Thu, 14 Apr 2022 11:18:03 +0200
+> Kurt Kanzenbach <kurt@linutronix.de> wrote:
+>
+> I finally ran this series through my tests, and it has some issues.
+
+Thanks!
+
+[snip]
+
 >> +/**
 >> + * ktime_get_tai_fast_ns - NMI safe and fast access to tai clock.
 >> + *
@@ -73,14 +86,18 @@ On Tue, Apr 26 2022 at 17:53, Steven Rostedt wrote:
 >
 > As you are using this for tracing, can you open code the
 > ktime_get_mono_fast_ns(), otherwise we need to mark that function as
-> notrace.
-
-which we should do anyway....
-
-kernel/trace/trace.c:   { ktime_get_mono_fast_ns,       "mono", 1 },
-
-> Not to mention, this is a fast path and using the noinline of
+> notrace. Not to mention, this is a fast path and using the noinline of
 > __ktime_get_fast_ns() should be less overhead.
+
+Looking at the other functions used for tracing:
+
+ - ktime_get_mono_fast_ns - no annotations
+ - ktime_get_raw_fast_ns  - no annotations
+ - ktime_get_boot_fast_ns - notrace
+ - ktime_get_tai_fast_ns  - notrace
+
+Seems a little bit inconsistent.
+
 >
 > That said, I hit this too:
 >
@@ -99,10 +116,37 @@ kernel/trace/trace.c:   { ktime_get_mono_fast_ns,       "mono", 1 },
 >
 > The clock seems to be toggling between 1651009380 and 498087876 causing the
 > ftrace ring buffer to shutdown (it doesn't allow for time to go backwards).
+>
+> This is running on a 32 bit x86.
 
-That does not make sense. offs_tai changes only when clock is set via
-adjtimex() or settimeofday().
+Hm. The only problem is that the TAI offset may change. That should only
+happen if the time is set or similar. For the TSN use case I've ran
+ptp4l and phc2sys. phc2sys in the default configuration sets the offset
+hard once and uses frequency adjustments from that point on. I didn't
+observe any time jumps. Nevertheless, my test systems is based on
+arm64. I'll do some testing on x86.
 
 Thanks,
+Kurt
 
-        tglx
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmJpASMTHGt1cnRAbGlu
+dXRyb25peC5kZQAKCRDBk9HyqkZzglnWD/sHU1zSn04SZ1cl1tnLEp6QZWQZnLNs
+w1jxDj/MM25pe/uP5JH3gRMmwXUGI0QPsKoWm9Cl0q4+cAMB7ZzmFGMP6vyWzVyv
+HPtuC5vXJizM+pwKykAqHsr2bAKF46Ve1Pmp5ndE/QFIwqZZgJAWscWIdExfi/j1
+ZlN0ZLCp2kuq39wTaqNS2Uk9OYMiT06yqurRDHlDa6kdz3P0bmseAfgiXqIOzXP/
+ovubuuJoRfmkj7E/bWqUWgxRJg4TUVQvVhdSBnfHbCc4S3TUldghMGgBuTaBW+V7
+EeH6yiceHv1Llx80BOjQp35fF5VP92/U0m7hoQVsmcN/5coHTA2SXShcIDEYzxI+
+Vn61rTxb8ksev7ORYOFELB6m3i6QCbSvs5hEUPJ784mv/PrJxgyBXU6UmUKHqo/X
+rHR+wby/9jsqHAdK9ReNFvB5KDIfy5APGbr7q5w3NCxNEMF+Pl2AA6UxI4GYfuOB
+iIccit04WOws14nj4VhB6m5HSn5JHeNyu7Y+ftrHremx/DM/0COVDDoqxFSqR+k4
+OHZy6pg6QiDDV50Vk0MrMPo1CdXSKTBqfIVDuqnIrh67zTgvkrqI/V57ve0vOua2
+eDQ4JQJyBO8clV/pbxE8Lvhr9TBXoRcE09BFcuRfUXTkgO/MuLJEQaOtPbLln0KA
+k6V9lBpH296Evg==
+=ePHe
+-----END PGP SIGNATURE-----
+--=-=-=--
