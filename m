@@ -2,73 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0FFFC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 07:32:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 267B6C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 08:17:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358869AbiD0Hfd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 03:35:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60818 "EHLO
+        id S1350750AbiD0IUl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 04:20:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358872AbiD0Hfa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 03:35:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B9B9888C6;
-        Wed, 27 Apr 2022 00:32:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A60B861AE1;
-        Wed, 27 Apr 2022 07:32:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09083C385AA;
-        Wed, 27 Apr 2022 07:32:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651044738;
-        bh=Re0RgXJGnca1jXG71eZZH/Isy2xvfbR7ESV6L/VsEoo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=konfTTjIek83M/SNfWhqBvJPMcgWRw0Ikpd/4gNseDywbPJ7aFFI3nmppWXQNoD+Y
-         Sj8jckpuyhXkAH/DBDUyvjSecumjX/zA4Uf2f9bl1RFm0r3PvSAWyJV4f9/1vIPXHe
-         kn0hLlZsLS0TuoJVaxEcyvu0b0hOJxEPsEZQCSsDt4cXYKG2r47BRaSRvJ/vYj3gRw
-         +5Mrjhji/KshE8GF6v2ABexREhoZUmjrE7pQZrnmNY0OW4c++r1orBZz4e0g2hfq/O
-         9ceyc0LGxDWJyefXN+E8WhPDgqCFlo7A9NRi2NwIn2qvwCyeoVnEFcxQeIOrlwMFut
-         1uB5fzSY4qkdQ==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan+linaro@kernel.org>)
-        id 1njc9r-0004Li-M2; Wed, 27 Apr 2022 09:32:19 +0200
-From:   Johan Hovold <johan+linaro@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH] Documentation: devres: fix typo in interface list
-Date:   Wed, 27 Apr 2022 09:31:42 +0200
-Message-Id: <20220427073142.16700-1-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S1344335AbiD0IUl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 04:20:41 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAA7928E12;
+        Wed, 27 Apr 2022 01:17:30 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1651047449;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vFLr6SeRCSuxjMA6GTzB7LHQDHSnRaJltcyEgh+cjO0=;
+        b=aJF2X2/avz3+HF2QHdBbVS8weBIsDYKXE2x5xzBvLNkaG25WRChNDiMnkb/dZdfco7RXYy
+        te5oqgi+ax/n+a3oRYq6GEyss7oTKwh7fPEIS9qjRbni5vlFuV0mUUom4VjbFlcuy+MiGT
+        Vfq5Wp2xh9OIzVEbjtsPBvqxVSKCt6hDak3PJA64SWMWfM5r3mxRHsCN1v0HL6XWWVyM/g
+        eHsQJmKek//gAmI+vuzAbKpzJQkAoifOlgeM8dfCMAgHSA7yx/nrufs0rhI4laH/4qJsnL
+        DP6XsV7RjcSMiYoIhaksmyEO02stdyp6MMU0Rjz3X2FdavzrdRMrmty819f8FQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1651047449;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vFLr6SeRCSuxjMA6GTzB7LHQDHSnRaJltcyEgh+cjO0=;
+        b=d58LPj7BSSvwfgRcJr+dM16qMOmnuSCGuGOTWRo5CPHVqoYGqDpadPlAp1ENXtVVvkuJfQ
+        KgkXi6C/4vYwQXAw==
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Kurt Kanzenbach <kurt@linutronix.de>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Richard Cochran <richardcochran@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] timekeeping: Introduce fast accessor to clock tai
+In-Reply-To: <20220426175338.3807ca4f@gandalf.local.home>
+References: <20220414091805.89667-1-kurt@linutronix.de>
+ <20220414091805.89667-2-kurt@linutronix.de>
+ <20220426175338.3807ca4f@gandalf.local.home>
+Date:   Wed, 27 Apr 2022 10:17:28 +0200
+Message-ID: <87pml3x7mv.ffs@tglx>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix the misspelled devm_get_clk_from_child() helper name in the devres
-interface list.
+On Tue, Apr 26 2022 at 17:53, Steven Rostedt wrote:
+>> +/**
+>> + * ktime_get_tai_fast_ns - NMI safe and fast access to tai clock.
+>> + *
+>> + * The same limitations as described for ktime_get_boot_fast_ns() apply. The
+>> + * mono time and the TAI offset are not read atomically which may yield wrong
+>> + * readouts. However, an update of the TAI offset is an rare event e.g., caused
+>> + * by settime or adjtimex with an offset. The user of this function has to deal
+>> + * with the possibility of wrong timestamps in post processing.
+>> + */
+>> +u64 notrace ktime_get_tai_fast_ns(void)
+>> +{
+>> +	struct timekeeper *tk = &tk_core.timekeeper;
+>> +
+>> +	return (ktime_get_mono_fast_ns() + ktime_to_ns(data_race(tk->offs_tai)));
+>
+> As you are using this for tracing, can you open code the
+> ktime_get_mono_fast_ns(), otherwise we need to mark that function as
+> notrace.
 
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
- Documentation/driver-api/driver-model/devres.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+which we should do anyway....
 
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index 5018403fe82f..2d39967bafcc 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -249,7 +249,7 @@ CLOCK
-   devm_clk_bulk_get()
-   devm_clk_bulk_get_all()
-   devm_clk_bulk_get_optional()
--  devm_get_clk_from_childl()
-+  devm_get_clk_from_child()
-   devm_clk_hw_register()
-   devm_of_clk_add_hw_provider()
-   devm_clk_hw_register_clkdev()
--- 
-2.35.1
+kernel/trace/trace.c:   { ktime_get_mono_fast_ns,       "mono", 1 },
 
+> Not to mention, this is a fast path and using the noinline of
+> __ktime_get_fast_ns() should be less overhead.
+>
+> That said, I hit this too:
+>
+>             less-5071    [000] d.h2. 498087876.351330: do_raw_spin_trylock <-_raw_spin_lock
+>             less-5071    [000] d.h4. 498087876.351334: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>             less-5071    [000] d.h5. 498087876.351334: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>             less-5071    [000] d.h3. 498087876.351334: rcu_read_lock_sched_held <-lock_acquired
+>             less-5071    [000] d.h5. 498087876.351337: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>     kworker/u8:1-45      [003] d.h7. 1651009380.982749: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>     kworker/u8:1-45      [003] d.h7. 1651009380.982749: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>     kworker/u8:1-45      [003] d.h5. 1651009380.982749: rcu_read_lock_held_common <-rcu_read_lock_sched_held
+>     kworker/u8:1-45      [003] d.h7. 498087876.375905: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>     kworker/u8:1-45      [003] d.h7. 498087876.375905: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>     kworker/u8:1-45      [003] d.h5. 498087876.375905: update_cfs_group <-task_tick_fair
+>     kworker/u8:1-45      [003] d.h7. 498087876.375909: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
+>
+> The clock seems to be toggling between 1651009380 and 498087876 causing the
+> ftrace ring buffer to shutdown (it doesn't allow for time to go backwards).
+
+That does not make sense. offs_tai changes only when clock is set via
+adjtimex() or settimeofday().
+
+Thanks,
+
+        tglx
