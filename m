@@ -2,83 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99D7FC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 17:22:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B83EC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 18:03:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237170AbiD0RZ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 13:25:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48348 "EHLO
+        id S244625AbiD0SGP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 14:06:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244082AbiD0RZY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 13:25:24 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A78B246B29;
-        Wed, 27 Apr 2022 10:22:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 69429B825F9;
-        Wed, 27 Apr 2022 17:22:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C747C385A9;
-        Wed, 27 Apr 2022 17:22:07 +0000 (UTC)
-Date:   Wed, 27 Apr 2022 13:22:05 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Kurt Kanzenbach <kurt@linutronix.de>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Richard Cochran <richardcochran@gmail.com>,
+        with ESMTP id S244601AbiD0SGG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 14:06:06 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BCF43A2363;
+        Wed, 27 Apr 2022 11:02:51 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id bv19so4963272ejb.6;
+        Wed, 27 Apr 2022 11:02:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kFl7F+bDiuTXuRK9B+innYEa8c7xLmi165v70TPlxvo=;
+        b=g1+X8ARdAKY3b3yP0X0ZmFyJOuQQ7wyti6Nr/e2OkKjrdDZsnjWpHAeY14DgJtO/BR
+         8AvpI+Sh3u9AEkRpdtrs9/r7ip/p9RiMaG0xn6kuFe7QvYwzgKvC07tLhPGDrpSuKVAV
+         xnmYGCz/Z/Yr473MbHTiRIUBwe1ic0debupuOGp07h6MDlnVt5ZaAz92mYpL1HmXAna3
+         d9vanuE4VpBLovhxee1wq0bLQ8P3ePyu6gQGce8P01S+ZsO8N8xPkCGGz9Sp0B14Kk3r
+         NID2F8DDG7N4TXOeXVUAzGr1jT7AeCdD7WaTctycMSETLmV3+HN7W48FcDZlKCBijWmz
+         3Jmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kFl7F+bDiuTXuRK9B+innYEa8c7xLmi165v70TPlxvo=;
+        b=59q+9JvhWziyqRlexsJUJAwHNmiPiKT4M5CbOuZ4rbgUQEbtFtISnIBcCO7gz5eNwe
+         lpAi64OHLknfANviC33DgApUwD4XQHpcIZCS6H5wTjjzf/zdzFcKOrag33+M6EJZIYFL
+         tie7+NObMeU+S0NdfgRE854Xvf3C/hXlU9yUXD3QKar7oPdg7OkXE5Mr7Flq7UCALBQL
+         zosLZk4d8+mWzUxQkKLX4YqVlPKfxYz/3/MwHJx5pA/VsGMmu1VYekOALYk34haAxzVx
+         jHcEoNTut+tFmmRfdIg1mr7f/jKnB02Kw7kUtl2hjMdancHXlflFvQsPLze1UALWwLQH
+         FJTw==
+X-Gm-Message-State: AOAM530iywWLuxWPrVcTqZCk4dKH0AiOqA+4S3qYTusLH95JXL2n/q9k
+        HfN5bQhRO9LbY4t7Lt1FqWw=
+X-Google-Smtp-Source: ABdhPJxdsVTmlYPCwZAL6LfmspKOKFwpTh0gGX+jG1taFFNxyj+O7zNYFpdayz32BJXR51B834LIFQ==
+X-Received: by 2002:a17:907:7d86:b0:6f3:a92d:7fa4 with SMTP id oz6-20020a1709077d8600b006f3a92d7fa4mr10978810ejc.498.1651082569820;
+        Wed, 27 Apr 2022 11:02:49 -0700 (PDT)
+Received: from tiger.museclub.art (p200300cf9f393100d379c1e4199524ea.dip0.t-ipconnect.de. [2003:cf:9f39:3100:d379:c1e4:1995:24ea])
+        by smtp.googlemail.com with ESMTPSA id lf5-20020a170907174500b006f3806fc9cdsm5638036ejc.39.2022.04.27.11.02.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Apr 2022 11:02:49 -0700 (PDT)
+From:   Eugene Shalygin <eugene.shalygin@gmail.com>
+To:     eugene.shalygin@gmail.com
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] timekeeping: Introduce fast accessor to clock
- tai
-Message-ID: <20220427132205.386be5e6@gandalf.local.home>
-In-Reply-To: <20220427112759.1cedda69@gandalf.local.home>
-References: <20220414091805.89667-1-kurt@linutronix.de>
-        <20220414091805.89667-2-kurt@linutronix.de>
-        <20220426175338.3807ca4f@gandalf.local.home>
-        <87r15i9azg.fsf@kurt>
-        <20220427112759.1cedda69@gandalf.local.home>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Subject: [PATCH] hwmon: (asus-ec-sensors) add doc entry for PRIME X470-PRO
+Date:   Wed, 27 Apr 2022 20:02:36 +0200
+Message-Id: <20220427180237.1475954-1-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 27 Apr 2022 11:27:59 -0400
-Steven Rostedt <rostedt@goodmis.org> wrote:
+Add PRIME X470-PRO to the list of supported boards.
 
-> I'm able to trigger this on x86 64bit too.
-> 
-> One thing I noticed, is that the two numbers I have (from a different
-> trace, but very similar to the above)
-> 
-> $ printf "%llx\n" 498151194674148935
-> 6e9c9df4afd3647
-> 
-> $ printf "%llx\n" 1651072699280995911
-> 16e9c9df4afd3647
-> 
-> That is, the last nibble either is 0 or 1, causing the change?
-> 
-> 06e9c9df4afd3647
-> 16e9c9df4afd3647
-> 
-> The numbers are the same except for that last nibble.
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+---
+ Documentation/hwmon/asus_ec_sensors.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-And I just realized what the issue is. The ring buffer only allows for 59
-bits of timestamp, as there's times it needs to inject a timestamp into the
-buffer, which is 16 bytes, and the first 5 bits are meta data, leaving 59
-bits for the timestamp. Since no timestamp came close to that before this
-timer, everything worked.
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index 36ca531d32dd..1700fe619597 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -4,6 +4,7 @@ Kernel driver asus_ec_sensors
+ =================================
+ 
+ Supported boards:
++ * PRIME X470-PRO,
+  * PRIME X570-PRO,
+  * Pro WS X570-ACE,
+  * ProArt X570-CREATOR WIFI
+-- 
+2.35.1
 
-Thus, when a full timestamp is injected, it takes off the 5 MSBs of the
-timestamp (which took off that 1) and that is what is happening.
-
-I can see if I can play some games to detect this and replace the top 5
-bits with the saved timestamp at the head of the sub buffer.
-
--- Steve
