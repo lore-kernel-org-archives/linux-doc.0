@@ -2,151 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6616C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 08:39:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35C61C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Apr 2022 08:41:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353952AbiD0ImN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 04:42:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37806 "EHLO
+        id S1359501AbiD0Io4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 04:44:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234044AbiD0ImM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 04:42:12 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A08876A018;
-        Wed, 27 Apr 2022 01:39:02 -0700 (PDT)
-From:   Kurt Kanzenbach <kurt@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1651048741;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GzMQGXqkpUhrUWCXBrGu4FxwFSp+DerGEsoezHXPpw8=;
-        b=HcDpgLJcOKVcS1iYB6drBO2RdkOQ0pdO0oaebDDrafbD8rjrVTdi7ikE8VSQxUUBW75XiW
-        +zOT6Mbc9wfn+jq9xD2GGp3hES127TCjmsPilsJAy8z71jSsGB/hBOfNvNAk3zS8twmmIK
-        NFD2C/9GlCgSGUuCF6rkN+s96GxiM5c14HRRf5Mq84nKyyPRW3Bcq/hRmscTP1dW/HxTNP
-        yFcLP0dBZkGMgl2HtyP+Ivd9YOqPyYMwEyoXdjDkDPbv4SXQSUgfdXvrn1PjA7jeF8EczX
-        CaVSbaYssrdoeOYSFFe/6eGBWTHOJ/lUKxbz4qYtWs03F6zYzzEgmEgebpLgew==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1651048741;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GzMQGXqkpUhrUWCXBrGu4FxwFSp+DerGEsoezHXPpw8=;
-        b=POa/YUZgEcY1UmXTe6ny+2c9tvxDmnli5oU8lJEvt4c3iBIP9BiMOYWDvsfVojQDC/miCl
-        RzRUFunHqaLP00Bg==
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Richard Cochran <richardcochran@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] timekeeping: Introduce fast accessor to clock tai
-In-Reply-To: <20220426175338.3807ca4f@gandalf.local.home>
-References: <20220414091805.89667-1-kurt@linutronix.de>
- <20220414091805.89667-2-kurt@linutronix.de>
- <20220426175338.3807ca4f@gandalf.local.home>
-Date:   Wed, 27 Apr 2022 10:38:59 +0200
-Message-ID: <87r15i9azg.fsf@kurt>
+        with ESMTP id S1359487AbiD0Iox (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 04:44:53 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0A707892A;
+        Wed, 27 Apr 2022 01:41:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651048902; x=1682584902;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Or6mGoiigOsmCY44ez//qcXP16P68GeRxhWNaqieJzE=;
+  b=UHKOMuUmMvURfb7S86kysshehWml+4KUBggzZDpTgYfc1yDnqUicLQcQ
+   JvCudTTcJC4YMw13XjXJlX3xdqdJG3DKn6nzeHNOqQq/scMJUZwZheMB2
+   R8K/pyafYziYFa+xSaTR6M7iYpfXUBIQJzWOLZ1Sg9UvgFPSQtB7JjXGE
+   totOwD+rUaS0eHG9xFB9xHwWwzZE+r70RfNWz87rfPcyegqET3GQ1J9KM
+   0ECYf7gSOXn6jUG4T/ogAP2nEIog5ILhXo2v0ktRShdiLjvONWol69b2B
+   BemzfcVl702oTGsnzCom3FztrSVRcZ1l7BzIZsSmrRpfNSJi7CrOkRZEy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="253244556"
+X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; 
+   d="scan'208";a="253244556"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2022 01:41:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; 
+   d="scan'208";a="628919321"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 27 Apr 2022 01:41:34 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1njdEr-0004W9-Av;
+        Wed, 27 Apr 2022 08:41:33 +0000
+Date:   Wed, 27 Apr 2022 16:41:17 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Matthew Rosato <mjrosato@linux.ibm.com>, linux-s390@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, alex.williamson@redhat.com,
+        cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
+        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
+        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
+        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
+        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
+        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
+        jgg@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 10/21] KVM: s390: pci: add basic kvm_zdev structure
+Message-ID: <202204271653.1ZoYsV9W-lkp@intel.com>
+References: <20220426200842.98655-11-mjrosato@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha512; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220426200842.98655-11-mjrosato@linux.ibm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
+Hi Matthew,
 
-On Tue Apr 26 2022, Steven Rostedt wrote:
-> On Thu, 14 Apr 2022 11:18:03 +0200
-> Kurt Kanzenbach <kurt@linutronix.de> wrote:
->
-> I finally ran this series through my tests, and it has some issues.
+I love your patch! Perhaps something to improve:
 
-Thanks!
+[auto build test WARNING on v5.18-rc4]
+[cannot apply to s390/features kvms390/next awilliam-vfio/next next-20220427]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-[snip]
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Rosato/KVM-s390-enable-zPCI-for-interpretive-execution/20220427-041853
+base:    af2d861d4cd2a4da5137f795ee3509e6f944a25b
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20220427/202204271653.1ZoYsV9W-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/e6d8c620090a7b184afdf5b5123d10ac45776eaf
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Matthew-Rosato/KVM-s390-enable-zPCI-for-interpretive-execution/20220427-041853
+        git checkout e6d8c620090a7b184afdf5b5123d10ac45776eaf
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash arch/s390/kvm/
 
->> +/**
->> + * ktime_get_tai_fast_ns - NMI safe and fast access to tai clock.
->> + *
->> + * The same limitations as described for ktime_get_boot_fast_ns() apply. The
->> + * mono time and the TAI offset are not read atomically which may yield wrong
->> + * readouts. However, an update of the TAI offset is an rare event e.g., caused
->> + * by settime or adjtimex with an offset. The user of this function has to deal
->> + * with the possibility of wrong timestamps in post processing.
->> + */
->> +u64 notrace ktime_get_tai_fast_ns(void)
->> +{
->> +	struct timekeeper *tk = &tk_core.timekeeper;
->> +
->> +	return (ktime_get_mono_fast_ns() + ktime_to_ns(data_race(tk->offs_tai)));
->
-> As you are using this for tracing, can you open code the
-> ktime_get_mono_fast_ns(), otherwise we need to mark that function as
-> notrace. Not to mention, this is a fast path and using the noinline of
-> __ktime_get_fast_ns() should be less overhead.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Looking at the other functions used for tracing:
+All warnings (new ones prefixed by >>):
 
- - ktime_get_mono_fast_ns - no annotations
- - ktime_get_raw_fast_ns  - no annotations
- - ktime_get_boot_fast_ns - notrace
- - ktime_get_tai_fast_ns  - notrace
+>> arch/s390/kvm/pci.c:14:5: warning: no previous prototype for 'kvm_s390_pci_dev_open' [-Wmissing-prototypes]
+      14 | int kvm_s390_pci_dev_open(struct zpci_dev *zdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> arch/s390/kvm/pci.c:29:6: warning: no previous prototype for 'kvm_s390_pci_dev_release' [-Wmissing-prototypes]
+      29 | void kvm_s390_pci_dev_release(struct zpci_dev *zdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
 
-Seems a little bit inconsistent.
 
->
-> That said, I hit this too:
->
->             less-5071    [000] d.h2. 498087876.351330: do_raw_spin_trylock <-_raw_spin_lock
->             less-5071    [000] d.h4. 498087876.351334: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->             less-5071    [000] d.h5. 498087876.351334: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->             less-5071    [000] d.h3. 498087876.351334: rcu_read_lock_sched_held <-lock_acquired
->             less-5071    [000] d.h5. 498087876.351337: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->     kworker/u8:1-45      [003] d.h7. 1651009380.982749: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->     kworker/u8:1-45      [003] d.h7. 1651009380.982749: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->     kworker/u8:1-45      [003] d.h5. 1651009380.982749: rcu_read_lock_held_common <-rcu_read_lock_sched_held
->     kworker/u8:1-45      [003] d.h7. 498087876.375905: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->     kworker/u8:1-45      [003] d.h7. 498087876.375905: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->     kworker/u8:1-45      [003] d.h5. 498087876.375905: update_cfs_group <-task_tick_fair
->     kworker/u8:1-45      [003] d.h7. 498087876.375909: ktime_get_mono_fast_ns <-ktime_get_tai_fast_ns
->
-> The clock seems to be toggling between 1651009380 and 498087876 causing the
-> ftrace ring buffer to shutdown (it doesn't allow for time to go backwards).
->
-> This is running on a 32 bit x86.
+vim +/kvm_s390_pci_dev_open +14 arch/s390/kvm/pci.c
 
-Hm. The only problem is that the TAI offset may change. That should only
-happen if the time is set or similar. For the TSN use case I've ran
-ptp4l and phc2sys. phc2sys in the default configuration sets the offset
-hard once and uses frequency adjustments from that point on. I didn't
-observe any time jumps. Nevertheless, my test systems is based on
-arm64. I'll do some testing on x86.
+    13	
+  > 14	int kvm_s390_pci_dev_open(struct zpci_dev *zdev)
+    15	{
+    16		struct kvm_zdev *kzdev;
+    17	
+    18		kzdev = kzalloc(sizeof(struct kvm_zdev), GFP_KERNEL);
+    19		if (!kzdev)
+    20			return -ENOMEM;
+    21	
+    22		kzdev->zdev = zdev;
+    23		zdev->kzdev = kzdev;
+    24	
+    25		return 0;
+    26	}
+    27	EXPORT_SYMBOL_GPL(kvm_s390_pci_dev_open);
+    28	
+  > 29	void kvm_s390_pci_dev_release(struct zpci_dev *zdev)
 
-Thanks,
-Kurt
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmJpASMTHGt1cnRAbGlu
-dXRyb25peC5kZQAKCRDBk9HyqkZzglnWD/sHU1zSn04SZ1cl1tnLEp6QZWQZnLNs
-w1jxDj/MM25pe/uP5JH3gRMmwXUGI0QPsKoWm9Cl0q4+cAMB7ZzmFGMP6vyWzVyv
-HPtuC5vXJizM+pwKykAqHsr2bAKF46Ve1Pmp5ndE/QFIwqZZgJAWscWIdExfi/j1
-ZlN0ZLCp2kuq39wTaqNS2Uk9OYMiT06yqurRDHlDa6kdz3P0bmseAfgiXqIOzXP/
-ovubuuJoRfmkj7E/bWqUWgxRJg4TUVQvVhdSBnfHbCc4S3TUldghMGgBuTaBW+V7
-EeH6yiceHv1Llx80BOjQp35fF5VP92/U0m7hoQVsmcN/5coHTA2SXShcIDEYzxI+
-Vn61rTxb8ksev7ORYOFELB6m3i6QCbSvs5hEUPJ784mv/PrJxgyBXU6UmUKHqo/X
-rHR+wby/9jsqHAdK9ReNFvB5KDIfy5APGbr7q5w3NCxNEMF+Pl2AA6UxI4GYfuOB
-iIccit04WOws14nj4VhB6m5HSn5JHeNyu7Y+ftrHremx/DM/0COVDDoqxFSqR+k4
-OHZy6pg6QiDDV50Vk0MrMPo1CdXSKTBqfIVDuqnIrh67zTgvkrqI/V57ve0vOua2
-eDQ4JQJyBO8clV/pbxE8Lvhr9TBXoRcE09BFcuRfUXTkgO/MuLJEQaOtPbLln0KA
-k6V9lBpH296Evg==
-=ePHe
------END PGP SIGNATURE-----
---=-=-=--
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
