@@ -2,78 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34A6EC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 18:31:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC80CC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 18:33:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351092AbiD1SfE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Apr 2022 14:35:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36810 "EHLO
+        id S1349698AbiD1ShE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Apr 2022 14:37:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351079AbiD1Se7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 14:34:59 -0400
+        with ESMTP id S1350876AbiD1ShD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 14:37:03 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 760A4BC851;
-        Thu, 28 Apr 2022 11:31:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBF62BC857
+        for <linux-doc@vger.kernel.org>; Thu, 28 Apr 2022 11:33:48 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 200CB37A;
-        Thu, 28 Apr 2022 18:31:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 200CB37A
+        by ms.lwn.net (Postfix) with ESMTPSA id 7CC8C2BD;
+        Thu, 28 Apr 2022 18:33:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7CC8C2BD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1651170703; bh=9RTbBSdubyXbieuSV3NDuJy87KZ+iQDFdQOlLDDRTRI=;
+        t=1651170828; bh=ehCRRU2deE1d6YhU7fw8O7oCX8ZmQfMG0tim4glijhg=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=q7QcXzbs88fWQT1Qdw2ss7nNNHYDW58bGibi7ZkWEMtYi0vYlNOmq2iofLvvCcahx
-         LidQ5eyvMy6xgJsyDpbu62tbhX4dC1Yf996OyB5svwu5VAdRbBlKmVWH2ECmddGURr
-         BdyIvccqyJCTJHWgWF22O8+CRzF8eu765/VquTaVb7KYA413ptVL+5Kc1PIBzsouN7
-         rIWugTnqwjebrKiOfvn9dqAGZ4AlKWD1EaeQ4H1fKcw/1uWxWLJTzJ+IdvaJYiN/8k
-         XWuIto6E9oqYK1qaCj0sGlwPH2WHhR6rfjKwVzyiJZ1uqGNoUT/T46/8zVJdKLcu+l
-         05p9hXKc0GQMA==
+        b=ijs45oFJ1Lk9MtdY6UoiObfABG+Vbhzt8I8KrY92H6pWQjZ/PvjGFjrxxOtFZpRXc
+         PGeK6awynW4yZm/AA1So6rOOD9B7eiizowJeqawxfOs57bh+X+wagGGqGz/98gwWeh
+         ULyXgc0V6iTnHun1zKfuLkW6hjXXP5qpEbwIGzj5WhZESwd5LWYbBmEVfgtzYY7Cne
+         If48jxAUN3ry4jPC/nMhXE+jfg1thll3kduZChGzj8msu7UJOYpn2raYJN11P7jd9E
+         omnN/4TENfSIk6d+n/9TjR2lFF2Q0vUsj6OcPAs4JYBtoKktkU8OpWEEPx7/oCGCrC
+         /OgwVth2H39uA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>, akiyks@gmail.com
-Cc:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        Tsugikazu Shibata <shibata@linuxfoundation.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs/ja_JP/index: update section title in Japanese
-In-Reply-To: <20220425124853.8347-1-fujimotokosuke0@gmail.com>
-References: <20220425124853.8347-1-fujimotokosuke0@gmail.com>
-Date:   Thu, 28 Apr 2022 12:31:42 -0600
-Message-ID: <8735hx6ovl.fsf@meer.lwn.net>
+To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com
+Subject: Re: [PATCH v2 0/2] docs/zh_CN: add hmm and numa translation
+In-Reply-To: <cover.1650794774.git.siyanteng@loongson.cn>
+References: <cover.1650794774.git.siyanteng@loongson.cn>
+Date:   Thu, 28 Apr 2022 12:33:47 -0600
+Message-ID: <87y1zp5a7o.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kosuke Fujimoto <fujimotokosuke0@gmail.com> writes:
+Yanteng Si <siyanteng@loongson.cn> writes:
 
-> Update section title "Japanese Translation" in Japanese.
-> This change is to keep consistency with other translations.
+> v2:
+> * Pick Alex's Reviewed-by tag.
+> * Modify some word under Alex's advice.
 >
-> Signed-off-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
-> Cc: Akira Yokosawa <akiyks@gmail.com>
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/translations/ja_JP/index.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> v1:
+> * Translate .../vm/hmm.rst and .../vm/numa.rst into Chinese.
 >
-> diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/t=
-ranslations/ja_JP/index.rst
-> index 20738c931d02..43b9fb7246d3 100644
-> --- a/Documentation/translations/ja_JP/index.rst
-> +++ b/Documentation/translations/ja_JP/index.rst
-> @@ -5,7 +5,7 @@
->  	\kerneldocCJKon
->  	\kerneldocBeginJP{
->=20=20
-> -Japanese translations
-> +=E6=97=A5=E6=9C=AC=E8=AA=9E=E8=A8=B3
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Yanteng Si (2):
+>   docs/zh_CN: add vm hmm translation
+>   docs/zh_CN: add vm numa translation
+>
+>  Documentation/translations/zh_CN/vm/hmm.rst   | 361 ++++++++++++++++++
+>  Documentation/translations/zh_CN/vm/index.rst |   4 +-
+>  Documentation/translations/zh_CN/vm/numa.rst  | 101 +++++
+>  3 files changed, 464 insertions(+), 2 deletions(-)
+>  create mode 100644 Documentation/translations/zh_CN/vm/hmm.rst
+>  create mode 100644 Documentation/translations/zh_CN/vm/numa.rst
 
-Applied, thanks.
+Series applied, thanks.
 
 jon
