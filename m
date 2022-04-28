@@ -2,62 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2E5AC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 14:06:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E09C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 15:30:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348058AbiD1OKI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Apr 2022 10:10:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47186 "EHLO
+        id S231469AbiD1Pdd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Apr 2022 11:33:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348166AbiD1OJv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 10:09:51 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E25AB7156;
-        Thu, 28 Apr 2022 07:06:25 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
+        with ESMTP id S234220AbiD1Pda (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 11:33:30 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D26E0A8;
+        Thu, 28 Apr 2022 08:30:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0C7AE37A;
-        Thu, 28 Apr 2022 14:06:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0C7AE37A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1651154785; bh=Y2xnGB6jAuDv2OSGOPccTS08t10lDzVVPJqY/azBkxg=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=OVHg3XH3CV9h4WnwpB2QxRGv+qWAAHo4xnpjabp5fV5kID38tVUqBcoQb/pnL6uEW
-         8uEBwaOrzPgltzkqwiAkUJC60V7i5i9pZR7pK1CtmDV3is9OmJVRZwY26IjQW7s3jv
-         CMCxbmk0SG1T5vMmpG1PCmPYP0uxSUMif3pUTEfWrAsoztJO0y6OCxcBc2p43MALWT
-         pCcXF4h/bwXdTG2ys8XqOF4Rw80L06yY/H34TsErdOPu1iyUN00nPKz+p8ysCdsDvv
-         iUDXBmLwd0194Q+P+qm6aL4QJMBB9LIJQ9OgFWCrreh39iOIcS05DfDxm+MRr0189i
-         Fm/M6V1Cr2zdQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Joerg Roedel <joro@8bytes.org>,
-        Alex Deucher <alexander.deucher@amd.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        hpa@zytor.com, x86@kernel.org, dave.hansen@linux.intel.com,
-        bp@alien8.de, mingo@redhat.com, tglx@linutronix.de,
-        Suravee.Suthikulpanit@amd.com, will@kernel.org,
-        iommu@lists.linux-foundation.org, robin.murphy@arm.com,
-        Vasant.Hegde@amd.com
-Subject: Re: [PATCH] Documentation: x86: rework IOMMU documentation
-In-Reply-To: <YmpNevdJFec0+9Mn@8bytes.org>
-References: <20220422200607.627754-1-alexander.deucher@amd.com>
- <YmpNevdJFec0+9Mn@8bytes.org>
-Date:   Thu, 28 Apr 2022 08:06:24 -0600
-Message-ID: <87ee1h8fq7.fsf@meer.lwn.net>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 95474B82E4F;
+        Thu, 28 Apr 2022 15:30:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 31AEFC385AA;
+        Thu, 28 Apr 2022 15:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1651159812;
+        bh=T+WZ741ROL6RC6V663uGNmJr88+g1OnBpfCrdEBCD0Q=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=fOt2pYzdJAA91dl2eWxmBnMYmvoCyC52GrMib/VTgrtNBgD0Eu7cprNCpM7MxhEwY
+         5piIM0rnXDc2agyzdojvnuSQZD9G9LmFVs4Er6pXtw4XefaSqCvCzWaa9TsVm1Ixcs
+         vUYfxqXALDc8TiMpgfir75UP7P9aoesJIB66x6+OG8+HSECpPrHhattciLpB4YmYMx
+         nLh6KGtyixWffn8EHk+ljTZ3ZSM4XH/acGTen0KV1NarT9/7Cr2g9VIjcAUTiUsAe8
+         +eRod0Or2k9kDklwHtHPfYLoY0NHO/34jPUwaOPD/+Rmgqf7f0v1OjsPCOZpJAw9PT
+         YfHtzK5w1putw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 135FDE8DD85;
+        Thu, 28 Apr 2022 15:30:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH bpf-next v2 0/3] bpf, docs: Fix typos in instruction-set.rst
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <165115981207.8186.1086744167638703650.git-patchwork-notify@kernel.org>
+Date:   Thu, 28 Apr 2022 15:30:12 +0000
+References: <1651139754-4838-1-git-send-email-yangtiezhu@loongson.cn>
+In-Reply-To: <1651139754-4838-1-git-send-email-yangtiezhu@loongson.cn>
+To:     Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        corbet@lwn.net, netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Joerg Roedel <joro@8bytes.org> writes:
+Hello:
 
-> Acked-by: Joerg Roedel <jroedel@suse.de>
->
-> Jonathan, will you merge that through the documentation tree?
+This series was applied to bpf/bpf-next.git (master)
+by Daniel Borkmann <daniel@iogearbox.net>:
 
-Done.
+On Thu, 28 Apr 2022 17:55:51 +0800 you wrote:
+> v2:
+>   -- update the commit message of patch #2
+>   -- add new patch #3
+> 
+> Tiezhu Yang (3):
+>   bpf, docs: Remove duplicated word "instructions"
+>   bpf, docs: BPF_FROM_BE exists as alias for BPF_TO_BE
+>   bpf, docs: Fix typo "respetively" to "respectively"
+> 
+> [...]
 
-Thanks,
+Here is the summary with links:
+  - [bpf-next,v2,1/3] bpf, docs: Remove duplicated word "instructions"
+    https://git.kernel.org/bpf/bpf-next/c/67b97e584232
+  - [bpf-next,v2,2/3] bpf, docs: BPF_FROM_BE exists as alias for BPF_TO_BE
+    https://git.kernel.org/bpf/bpf-next/c/c821d80bb890
+  - [bpf-next,v2,3/3] bpf, docs: Fix typo "respetively" to "respectively"
+    https://git.kernel.org/bpf/bpf-next/c/9a9a90ca1327
 
-jon
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
