@@ -2,115 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00230C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 18:49:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47957C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 21:25:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351052AbiD1Sw6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Apr 2022 14:52:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53368 "EHLO
+        id S243183AbiD1V2S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Apr 2022 17:28:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233258AbiD1Sw6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 14:52:58 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0D527CB0C;
-        Thu, 28 Apr 2022 11:49:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 91933B82F53;
-        Thu, 28 Apr 2022 18:49:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1936AC385A9;
-        Thu, 28 Apr 2022 18:49:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651171780;
-        bh=vY7+ICt2zXsN4Qwq+crX7yjoKkOoFqIDxY4aJZFwEsQ=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Nig5Rqf3UEJzb9Q3KfjN+JuxLarhqSY1QFPSKADqWOJ8ol6NaGtVqkz9sfSQNc9IN
-         akRt6wT1LJ7h7PfzvsEclLOBiNJaDSzsdjfddXhct6VI+G6M2LgylBHHX9tJMojnNk
-         t3fjDWoquVxSqtSfDzKsudC02yuPPY+Pq+AMV04qmgSdx6ipv9WWVCWl1oEGqF6MTj
-         EN3HOX+wX9Zk3cfCewPyYfALph3EAHYDBOpCyQLdXL85kP/aSJqXeHNVT00Ie81z9Y
-         drWLEFlM7WOygV5xJMv7b/U0xVqwlkIfVZCc3bqIjytP27OlrMnIZFsUXxsEeYCYjP
-         AnYKC4UFGY9jw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id A34CE5C0500; Thu, 28 Apr 2022 11:49:39 -0700 (PDT)
-Date:   Thu, 28 Apr 2022 11:49:39 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Joel Savitz <jsavitz@redhat.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
+        with ESMTP id S1346246AbiD1V2R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 17:28:17 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7357C1CC;
+        Thu, 28 Apr 2022 14:25:01 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id z19so6924523edx.9;
+        Thu, 28 Apr 2022 14:25:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LPQ3E9afTjlW5TilMvGAGVvq6Wv6p0MGgQrQX5vBToU=;
+        b=Yp8Nn7etXHHyxHUU99zuitzC6s9xSi6HYAm4gUmHCRzWvw8tr6ZFQANoMPkfU96FJp
+         79OtP6j5l0rTPnZnjqVrsMOYIWP09zmWBgRIzVXN2FK/y+BXhFJxFmPnrjMR4I+tyzwS
+         TVEOiw3BQiqW8STaWzUDWyu5VjbAgjX6AOBiOplCCLdwhhcVafOP9Iop/fp2+p1pYL7t
+         CkV0hno+pYyhrpXdgL34wu/fuxKxxxKprAmHe/qHhPeElQB6JZdJDFtEamY0N32vNs74
+         n38W1eMnTHZUf1Dai2Tewk/ZtY7goElQioJ08iIYrOxtqASdELpdMJsX2dbYDWT0wuR4
+         2OTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LPQ3E9afTjlW5TilMvGAGVvq6Wv6p0MGgQrQX5vBToU=;
+        b=C7/FjogMiJUjqbIQz2VCyknDq2tpVCvLIil3l41ZP+iJUYjkhHvjZdO9AtNgTcLhnT
+         IzqB1LclpZkyNgdXbDv48B4chiyiY0EnZadpP1sFki5dTbPooqy9p4t6NkdcKPsOhfZ+
+         OQO14fgtVbms/75JS6Y3OzcObTqqCdFcllQl6UfqxM2dcVW04Ws1z3w7vnvUI3vwWlh0
+         eb6x7lqEVafmchpMhaZgh3Cn1lRmaUVJmTrUUkSXhyXpwu1TzEzMb7VLRN3cL25OsaxC
+         mlvR1vC6iiliQV5RRzAU337SA62ti5GyF56iY8rU+rhzMnAyBzKQRc2vQ/jl3o1nKow7
+         lb6Q==
+X-Gm-Message-State: AOAM533fVLz8+ixLoPv0upeitSTwHGKk8OEd5fSh2F44KhyHJECyqjeU
+        /DtH586pNdSzujD68wzH7vA=
+X-Google-Smtp-Source: ABdhPJxVfvZSIi6nZEKqLikrHqKrvrPVCUOyQoemYyu0IzSYp9ZETBQspl0NWkmxbfl1F1T7bv95tg==
+X-Received: by 2002:a05:6402:5247:b0:426:27c4:97d0 with SMTP id t7-20020a056402524700b0042627c497d0mr5827312edd.65.1651181099850;
+        Thu, 28 Apr 2022 14:24:59 -0700 (PDT)
+Received: from localhost.localdomain (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
+        by smtp.gmail.com with ESMTPSA id ze12-20020a170906ef8c00b006f3ef214e68sm37147ejb.206.2022.04.28.14.24.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Apr 2022 14:24:58 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Ira Weiny <ira.weiny@intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Huang Ying <ying.huang@intel.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Rob Herring <robh@kernel.org>, Wang Qing <wangqing@vivo.com>,
-        linux-doc@vger.kernel.org, chao <chao@eero.com>
-Subject: Re: [PATCH] Documentation/sysctl: document max_rcu_stall_to_panic
-Message-ID: <20220428184939.GL1790663@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20220324221156.44813-1-jsavitz@redhat.com>
- <CAL1p7m4drKAz4yocoT7ovhmFC_cGBbAC+jPvsg+exYkwJ72POw@mail.gmail.com>
- <87levp59xh.fsf@meer.lwn.net>
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        outreachy@lists.linux.dev
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v4 0/4] Extend and reorganize Highmem's documentation
+Date:   Thu, 28 Apr 2022 23:24:51 +0200
+Message-Id: <20220428212455.892-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87levp59xh.fsf@meer.lwn.net>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 28, 2022 at 12:39:54PM -0600, Jonathan Corbet wrote:
-> Joel Savitz <jsavitz@redhat.com> writes:
-> 
-> > Friendly ping.
-> 
-> This was waiting for an ack from an RCU person.  Looking now, though, I
-> see that you didn't copy any RCU people.  Adding Paul and the author of
-> the patch you reference (and appending patch below).
+This series has the purpose to extend and reorganize Highmem's
+documentation.
 
-Thank you for calling this to my attention.  ;-)
+This is a work in progress because some information should still be moved
+from highmem.rst to highmem.h and highmem-internal.h. Specifically I'm
+talking about moving the "how to" information to the relevant headers, as
+it as been suggested by Ira Weiny (Intel).
 
-> Thanks,
-> 
-> jon
-> 
-> Joel Savitz <jsavitz@redhat.com> (March 24) (kernel lwn)
-> Subject: [PATCH] Documentation/sysctl: document max_rcu_stall_to_panic
-> To: linux-kernel@vger.kernel.org
-> Cc: Joel Savitz <jsavitz@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, Huang Ying <ying.huang@intel.com>, Eric Biggers <ebiggers@google.com>, Dominik Brodowski <linux@dominikbrodowski.net>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, "Jason A. Donenfeld" <Jason@zx2c4.com>, Daniel Borkmann <daniel@iogearbox.net>, Rob Herring <robh@kernel.org>, Wang Qing <wangqing@vivo.com>, linux-doc@vger.kernel.org
-> Date: Thu, 24 Mar 2022 18:11:56 -0400
-> 
-> commit dfe564045c65 ("rcu: Panic after fixed number of stalls")
-> introduced a new systctl but no accompanying documentation.
-> 
-> Add a simple entry to the documentation.
-> 
-> Signed-off-by: Joel Savitz <jsavitz@redhat.com>
+Also, this is a work in progress because some kdocs in highmem.h and
+highmem-internal.h should be improved.
 
-Acked-by: Paul E. McKenney <paulmck@kernel.org>
+However, I think (and hope that my thoughts are also shared by Maintainers
+and Reviewers) that this series constitues a sensible step forward
+improving Highmem's documentation, despite some important issues are not
+yet addressed.
 
-> ---
->  Documentation/admin-guide/sysctl/kernel.rst | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 803c60bf21d3..4e48139b9a34 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -781,6 +781,13 @@ is useful to define the root cause of RCU stalls using a vmcore.
->  1 panic() after printing RCU stall messages.
->  = ============================================================
-> 
-> +max_rcu_stall_to_panic
-> +======================
-> +
-> +When ``panic_on_rcu_stall`` is set to 1, this value determines the
-> +number of times that RCU can stall before panic() is called.
-> +
-> +When ``panic_on_rcu_stall`` is set to 0, this value is has no effect.
-> 
->  perf_cpu_time_max_percent
->  =========================
+Changes from v1 to v2:
+
+        1/4 - Fix typos (Mike Rapoport); re-write the description of @page
+              because the original was wrong (Ira Weiny); add Ira's and
+              Mike's tags in the commit message.
+        2/4 - Add Ira's and Mike's tags in the commit message.
+        3/4 - Rework the subject to better summarize what this patch
+              changes; merge the section which was removed from highmem.rst
+              with the kdocs of highmem.h (suggested by Ira Weiny); add
+              Ira's tag in the commit message.
+        4/4 - Reformulate a sentence that was incomprehensible due to my
+              own mistakes in copying and pasting the text of another
+              paragraph (problem noted by Ira Weiny); refer to the kdocs
+              of kmap_local_page () to show how nested mappings should be
+              handled; fix grammar error; add Ira's tag in the commit
+              message.
+
+Changes from v2 to v3:
+
+        1/4 - Add a deprecation notice to kunmap_atomic() for consistency
+              with the same notice in kmap_atomic() (Sebastian Andrzej
+              Siewior); shorten subject and extend commit message.
+        2/4 - No changes.
+        3/4 - No changes.
+        4/4 - Correct a technical inaccuracy about preemption disabling /
+              re-enabling in kmap_atomic() / kunmap_atomic() (Sebastian
+              Andrzej Siewior).
+
+Changes from v3 to v4:
+
+	1/4 - Correct some techinal inaccuracies about the side effects
+	      of calling kmap_atomic() and kmap_local_page() (Sebastian
+	      Andrzej Siewior); drop "Acked-by:" and "Reviewed-by:" tags
+	      because relevant parts of this patch have changed.
+	2/4 - No changes.
+	3/4 - No changes.
+	4/4 - Shorten a couple of paragraphs by removing redundant
+	      information (Sebastian Andrzej Siewior).
+
+Fabio M. De Francesco (4):
+  mm/highmem: Fix kernel-doc warnings in highmem*.h
+  Documentation/vm: Include kdocs from highmem*.h into highmem.rst
+  Documentation/vm: Move "Using kmap-atomic" from highmem.rst to
+    highmem.h
+  Documentation/vm: Rework "Temporary Virtual Mappings" section
+
+ Documentation/vm/highmem.rst     | 100 ++++++++++++++++++-------------
+ include/linux/highmem-internal.h |  18 +++++-
+ include/linux/highmem.h          |  51 ++++++++++++----
+ 3 files changed, 113 insertions(+), 56 deletions(-)
+
+-- 
+2.34.1
+
