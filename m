@@ -2,104 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C24DC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 16:08:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5474BC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 16:34:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236189AbiD1QLj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Apr 2022 12:11:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52108 "EHLO
+        id S1349877AbiD1QiJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Apr 2022 12:38:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232927AbiD1QLi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 12:11:38 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58B834A3E0;
-        Thu, 28 Apr 2022 09:08:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651162103; x=1682698103;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Ir4T5uqY+GX2tlG/wVzI1xs8T7NLnwE/od0GN7231xQ=;
-  b=nqs0/Z474mMw2UkUDmi9VYZ669Dgh2igJbavv1ofFaietJIOCrADOXyE
-   QeTyHuJCI0NBkNWjIr4fVj8ttHsuooD3R4fwICJz1fmpIyddTe9eXEH3k
-   oA31usmbcPwNOzm1lDxaLIml5XCgs3YHfJ67ZCNugSPS3uucwBY9mNkGI
-   0DCo0JYoyAqBNW0/a2bJqHxJV3LNMXOzJuivImUT7FGN+VTGK7QtM5K1T
-   6h7mnsM7ZWBY6XCeij0fphRv6OMCiGzbISZTOxp3zGw8LpOBrQP5kCO+X
-   qZgRbjnyAhOGyYtW6SDK50tyN+UdW3peVz1RBX3PYzosz6LrRJ9SPw8mC
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10331"; a="246893415"
-X-IronPort-AV: E=Sophos;i="5.91,295,1647327600"; 
-   d="scan'208";a="246893415"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2022 09:07:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,295,1647327600"; 
-   d="scan'208";a="651280527"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
-  by FMSMGA003.fm.intel.com with ESMTP; 28 Apr 2022 09:07:46 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 28 Apr 2022 09:07:46 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 28 Apr 2022 09:07:45 -0700
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
- Thu, 28 Apr 2022 09:07:45 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "markgross@kernel.org" <markgross@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: RE: [PATCH v5 00/10] Introduce In Field Scan driver
-Thread-Topic: [PATCH v5 00/10] Introduce In Field Scan driver
-Thread-Index: AQHYWxYVdsKdZt61BUSHj1qB1cqAT60F8LwA//+M88A=
-Date:   Thu, 28 Apr 2022 16:07:45 +0000
-Message-ID: <08c593c1aecd4131bf9c2558198a2dc1@intel.com>
-References: <20220422200219.2843823-1-tony.luck@intel.com>
- <20220428153849.295779-1-tony.luck@intel.com> <Ymq5nH/A9c88wIM/@kroah.com>
-In-Reply-To: <Ymq5nH/A9c88wIM/@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S1345895AbiD1QiJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 12:38:09 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D91D6B1A8A;
+        Thu, 28 Apr 2022 09:34:53 -0700 (PDT)
+Date:   Thu, 28 Apr 2022 18:34:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1651163691;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=D4IYzK4skMcshvqsyuOfqpCXfosOxqx0uW/iv4Scnbo=;
+        b=We0NfvK3dDgo1MmaO1oe+HaQNGlP+RYJTdR/JDmYFAQAfc5W65605nC5vH/9Z/XGUGBQAL
+        foI+vP4bIwUDV+p1wk2f26qbnMYvoGiAMOS0edDSdpMb0S4HV8nZUA2a0wEG82aUZ0LVlI
+        nbwE5WiFeKIXRgDwDGQ7Zjzdt8I5zT5yer39IKwRSFzTd5VS3foN45pvIqRA6rgdQjajbN
+        nnyOPxGwhWlDWUjUTgNTQ/q/H2L6JkiaCOK0Tx5ZIs6Wb2e2KsBnJhxj6EEPd3tVFJF693
+        GSbIRee2Nve7KFCMU1UBGfFT4/v8L+3vWHyNqehXPpT+kqkPTkfTB3bubDS+BQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1651163691;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=D4IYzK4skMcshvqsyuOfqpCXfosOxqx0uW/iv4Scnbo=;
+        b=eIJZCZ63DW+C5rUkw5LE1bT7Hm+mj2yYHcNJ9MaXuuBEwcCHruY1kdLsPbgIvrUunFaazH
+        0eABWJMEqSif0SDw==
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc:     Ira Weiny <ira.weiny@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, outreachy@lists.linux.dev,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH v3 4/4] Documentation/vm: Rework "Temporary Virtual
+ Mappings" section
+Message-ID: <YmrCKtGaCbD5SQtY@linutronix.de>
+References: <20220427183821.1979-1-fmdefrancesco@gmail.com>
+ <20220427183821.1979-5-fmdefrancesco@gmail.com>
+ <YmpYEkvbJX2JBPvW@linutronix.de>
+ <6442788.4vTCxPXJkl@leap>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <6442788.4vTCxPXJkl@leap>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Much nicer and simpler as compared to the first version submitted,
-> thanks for sticking with it.  The diff seems about 1/3 smaller from the
-> first version sent out, peer-review works :)
->=20
-> Reviewed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On 2022-04-28 13:14:30 [+0200], Fabio M. De Francesco wrote:
+> > > +  should be only used if it is absolutely required, otherwise 
+> kmap_local_page()
+> > > +  should be used where it is feasible.
+> > 
+> > I'm not keen about the "absolutely required" wording and "feasible".
+> > That said, the other pieces look good, thank you for the work.
+> 
+> I'll rewrite the last part of this sentence as it follows:
+> 
+> + should be only used if it is required, otherwise kmap_local_page()
+> + should be preferred.
 
-Thanks for your patience leading me to a much better driver.
+Yeah, my point is that it shouldn't be required. Using a kmap_atomic()
+mapping only because it is not limited to a thread/ CPU sounds wrong.
+This shouldn't be a valid requirement. Therefore kmap_local() should
+always be the way to go.
 
--Tony
+Anyway, I can live with that and hopefully that interface will removed
+soon :) You yourself, as you pointed out, removed a user or two so I'm
+confident that it will happen at some point ;)
 
+> Thank you so much for the time you have spent for reviewing and helping,
+
+You are welcome.
+
+> Fabio
+
+Sebastian
