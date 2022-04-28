@@ -2,21 +2,21 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C575C4321E
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 07:25:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5CA1C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 07:35:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245172AbiD1H3I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Apr 2022 03:29:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37080 "EHLO
+        id S245284AbiD1HjL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Apr 2022 03:39:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245099AbiD1H2s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 03:28:48 -0400
+        with ESMTP id S245610AbiD1HjF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 03:39:05 -0400
 Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 108C630F78;
-        Thu, 28 Apr 2022 00:25:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0FEAC344ED;
+        Thu, 28 Apr 2022 00:35:49 -0700 (PDT)
 Received: from linux.localdomain (unknown [113.200.148.30])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxMNpjQWpidk8BAA--.6695S3;
-        Thu, 28 Apr 2022 15:25:25 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxUNrQQ2piqFEBAA--.6543S4;
+        Thu, 28 Apr 2022 15:35:46 +0800 (CST)
 From:   Tiezhu Yang <yangtiezhu@loongson.cn>
 To:     Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
@@ -24,35 +24,41 @@ To:     Alexei Starovoitov <ast@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     netdev@vger.kernel.org, bpf@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] bpf, docs: Remove duplicated word "instructions"
-Date:   Thu, 28 Apr 2022 15:25:22 +0800
-Message-Id: <1651130723-23635-2-git-send-email-yangtiezhu@loongson.cn>
+Subject: [PATCH bpf-next RESEND 2/2] bpf, docs: BPF_FROM_BE exists as alias for BPF_TO_BE
+Date:   Thu, 28 Apr 2022 15:35:44 +0800
+Message-Id: <1651131344-24528-3-git-send-email-yangtiezhu@loongson.cn>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1651130723-23635-1-git-send-email-yangtiezhu@loongson.cn>
-References: <1651130723-23635-1-git-send-email-yangtiezhu@loongson.cn>
-X-CM-TRANSID: AQAAf9BxMNpjQWpidk8BAA--.6695S3
-X-Coremail-Antispam: 1UD129KBjvdXoWrtF4UCryftFy3XF18Wr1UAwb_yoWfArg_CF
-        y7tFW5C3Z8Ka4rKr4UCr1UXF97uFWrCr18Ar1jyrsFq34DXa1DAFZ8tryqy343Cr4xuFn8
-        JrZ7Xr13ArnxCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbfkYjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Xr0_Wr1l1xkIjI8I
+In-Reply-To: <1651131344-24528-1-git-send-email-yangtiezhu@loongson.cn>
+References: <1651131344-24528-1-git-send-email-yangtiezhu@loongson.cn>
+X-CM-TRANSID: AQAAf9BxUNrQQ2piqFEBAA--.6543S4
+X-Coremail-Antispam: 1UD129KBjvdXoW7GrWrJryUJrWruF47WF17KFg_yoW3Zrg_CF
+        1kJ3Z5Wa1rCryruw1UWF1xCF97AFWrur4UA3WIyF4DAayqqws8Cr98W34DArWUGrW7u398
+        CrZ3Wry3ZrnrGjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbqxYjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Wr0E3s1l1xkIjI8I
         6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7
-        IE14v26r18M28IrcIa0xkI8VCY1x0267AKxVWUCVW8JwA2ocxC64kIII0Yj41l84x0c7CE
+        IE14v26r15M28IrcIa0xkI8VCY1x0267AKxVW8JVW5JwA2ocxC64kIII0Yj41l84x0c7CE
         w4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6x
-        kF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIE
-        c7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I
-        8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCF
-        s4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY02Avz4vE14v_GF4l42xK82IYc2Ij64
-        vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
-        jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2I
-        x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK
-        8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
-        0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUxYLvDUUUU
+        kF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv
+        6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c
+        02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE
+        4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4
+        AK67AK6r4xMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
+        rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
+        CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x02
+        67AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
+        0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU090
+        ePUUUUU==
 X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The word "instructions" is duplicated, remove it.
+According include/uapi/linux/bpf.h:
+
+  #define BPF_FROM_LE	BPF_TO_LE
+  #define BPF_FROM_BE	BPF_TO_BE
+
+BPF_FROM_BE exists as alias for BPF_TO_BE instead of BPF_TO_LE.
 
 Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
 ---
@@ -60,18 +66,18 @@ Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/bpf/instruction-set.rst b/Documentation/bpf/instruction-set.rst
-index 5300837..30b019c 100644
+index 30b019c..00b0800 100644
 --- a/Documentation/bpf/instruction-set.rst
 +++ b/Documentation/bpf/instruction-set.rst
-@@ -130,7 +130,7 @@ Byte swap instructions
- The byte swap instructions use an instruction class of ``BFP_ALU`` and a 4-bit
- code field of ``BPF_END``.
+@@ -157,7 +157,7 @@ Examples:
+   dst_reg = htobe64(dst_reg)
  
--The byte swap instructions instructions operate on the destination register
-+The byte swap instructions operate on the destination register
- only and do not use a separate source register or immediate value.
+ ``BPF_FROM_LE`` and ``BPF_FROM_BE`` exist as aliases for ``BPF_TO_LE`` and
+-``BPF_TO_LE`` respetively.
++``BPF_TO_BE`` respetively.
  
- The 1-bit source operand field in the opcode is used to to select what byte
+ 
+ Jump instructions
 -- 
 2.1.0
 
