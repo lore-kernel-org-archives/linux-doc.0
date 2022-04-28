@@ -2,71 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC250C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 18:30:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34A6EC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 18:31:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229449AbiD1SdW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Apr 2022 14:33:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58378 "EHLO
+        id S1351092AbiD1SfE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Apr 2022 14:35:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351056AbiD1SdV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 14:33:21 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68D9810E0;
-        Thu, 28 Apr 2022 11:30:05 -0700 (PDT)
+        with ESMTP id S1351079AbiD1Se7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 14:34:59 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 760A4BC851;
+        Thu, 28 Apr 2022 11:31:43 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1E99937A;
-        Thu, 28 Apr 2022 18:30:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1E99937A
+        by ms.lwn.net (Postfix) with ESMTPSA id 200CB37A;
+        Thu, 28 Apr 2022 18:31:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 200CB37A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1651170605; bh=uUe5JPUPEKkIi+hqGokCtEf0h8oRxp9iVJg9+zYxsU8=;
+        t=1651170703; bh=9RTbBSdubyXbieuSV3NDuJy87KZ+iQDFdQOlLDDRTRI=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Qf2JMoC0f+2BtE+ldAj5N9nc346WH2ayqc1wBBGg6xqO0/ETgNv/7JCqJlZpVGntE
-         t5eQQpaptDH3ukGgDG0DWp8tjzjKPNpzW8ezr1mKMS3fcNXqtOm6QRmoVpXh5qqDV6
-         obkv1eE/rL2uzYmlV0xS2LnWd9NXbGVutC/cXUldjWG5X8RcENNHgrH3RSYL5EV3vk
-         K9mViUJCCJPxq2Nl5oEEyhdT0GVVahNKcdqmDjn5krjTaL61yWKokPhgh5/3S1btnw
-         YmXMd1zePutOLpQE0cK4ehlF8KKu/jX8X7HjWIESFJBl5vt5YlzBh3BSXT41VwvlRz
-         a06fVk+p9PLiw==
+        b=q7QcXzbs88fWQT1Qdw2ss7nNNHYDW58bGibi7ZkWEMtYi0vYlNOmq2iofLvvCcahx
+         LidQ5eyvMy6xgJsyDpbu62tbhX4dC1Yf996OyB5svwu5VAdRbBlKmVWH2ECmddGURr
+         BdyIvccqyJCTJHWgWF22O8+CRzF8eu765/VquTaVb7KYA413ptVL+5Kc1PIBzsouN7
+         rIWugTnqwjebrKiOfvn9dqAGZ4AlKWD1EaeQ4H1fKcw/1uWxWLJTzJ+IdvaJYiN/8k
+         XWuIto6E9oqYK1qaCj0sGlwPH2WHhR6rfjKwVzyiJZ1uqGNoUT/T46/8zVJdKLcu+l
+         05p9hXKc0GQMA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Johan Hovold <johan+linaro@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan+linaro@kernel.org>
-Subject: Re: [PATCH] Documentation: devres: fix typo in interface list
-In-Reply-To: <20220427073142.16700-1-johan+linaro@kernel.org>
-References: <20220427073142.16700-1-johan+linaro@kernel.org>
-Date:   Thu, 28 Apr 2022 12:30:04 -0600
-Message-ID: <877d796oyb.fsf@meer.lwn.net>
+To:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>, akiyks@gmail.com
+Cc:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Tsugikazu Shibata <shibata@linuxfoundation.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] docs/ja_JP/index: update section title in Japanese
+In-Reply-To: <20220425124853.8347-1-fujimotokosuke0@gmail.com>
+References: <20220425124853.8347-1-fujimotokosuke0@gmail.com>
+Date:   Thu, 28 Apr 2022 12:31:42 -0600
+Message-ID: <8735hx6ovl.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Johan Hovold <johan+linaro@kernel.org> writes:
+Kosuke Fujimoto <fujimotokosuke0@gmail.com> writes:
 
-> Fix the misspelled devm_get_clk_from_child() helper name in the devres
-> interface list.
+> Update section title "Japanese Translation" in Japanese.
+> This change is to keep consistency with other translations.
 >
-> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+> Signed-off-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
+> Cc: Akira Yokosawa <akiyks@gmail.com>
+> Cc: linux-doc@vger.kernel.org
 > ---
->  Documentation/driver-api/driver-model/devres.rst | 2 +-
+>  Documentation/translations/ja_JP/index.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-> index 5018403fe82f..2d39967bafcc 100644
-> --- a/Documentation/driver-api/driver-model/devres.rst
-> +++ b/Documentation/driver-api/driver-model/devres.rst
-> @@ -249,7 +249,7 @@ CLOCK
->    devm_clk_bulk_get()
->    devm_clk_bulk_get_all()
->    devm_clk_bulk_get_optional()
-> -  devm_get_clk_from_childl()
-> +  devm_get_clk_from_child()
->    devm_clk_hw_register()
->    devm_of_clk_add_hw_provider()
->    devm_clk_hw_register_clkdev()
+> diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/t=
+ranslations/ja_JP/index.rst
+> index 20738c931d02..43b9fb7246d3 100644
+> --- a/Documentation/translations/ja_JP/index.rst
+> +++ b/Documentation/translations/ja_JP/index.rst
+> @@ -5,7 +5,7 @@
+>  	\kerneldocCJKon
+>  	\kerneldocBeginJP{
+>=20=20
+> -Japanese translations
+> +=E6=97=A5=E6=9C=AC=E8=AA=9E=E8=A8=B3
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
 Applied, thanks.
 
