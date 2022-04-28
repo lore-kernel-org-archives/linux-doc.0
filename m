@@ -2,136 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06E0CC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 01:42:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C24B7C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 02:22:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240745AbiD1BpM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Apr 2022 21:45:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47002 "EHLO
+        id S230435AbiD1CZz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Apr 2022 22:25:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239789AbiD1BpL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 21:45:11 -0400
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAAFB98F4B;
-        Wed, 27 Apr 2022 18:41:56 -0700 (PDT)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 28 Apr
- 2022 09:41:50 +0800
-Received: from [172.16.137.70] (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Thu, 28 Apr
- 2022 09:41:48 +0800
-Message-ID: <76bbc209-44df-ddbb-e5b1-42278644bc80@meizu.com>
-Date:   Thu, 28 Apr 2022 09:41:47 +0800
+        with ESMTP id S229826AbiD1CZy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Apr 2022 22:25:54 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44C407523D;
+        Wed, 27 Apr 2022 19:22:41 -0700 (PDT)
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.56])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KpfXD1JHdzhYTS;
+        Thu, 28 Apr 2022 10:22:20 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 28 Apr 2022 10:22:39 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 28 Apr 2022 10:22:38 +0800
+Subject: Re: [PATCH v22 5/9] arm64: kdump: Reimplement crashkernel=X
+To:     Catalin Marinas <catalin.marinas@arm.com>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>, Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        "John Donnelly" <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+References: <20220414115720.1887-1-thunder.leizhen@huawei.com>
+ <20220414115720.1887-6-thunder.leizhen@huawei.com> <YmgzxsrrMlCDYsWp@arm.com>
+ <ee8daaa9-3258-e7e8-e5c4-c51dc9841580@huawei.com> <Ymk34NsIFqUgfk3b@arm.com>
+ <ae7211ad-e2ac-f5b1-5aa0-701802132e73@huawei.com> <YmlphvZVMsGfFksp@arm.com>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <42f4db6c-d3f9-e1c4-6a61-dc2bf4f89adf@huawei.com>
+Date:   Thu, 28 Apr 2022 10:22:37 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] docs: vm/page_owner: Use literal blocks for param
- description
-To:     Akira Yokosawa <akiyks@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-CC:     Shenghong Han <hanshenghong2019@email.szu.edu.cn>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <seakeel@gmail.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <cfd3bcc0-b51d-0c68-c065-ca1c4c202447@gmail.com>
-From:   baihaowen <baihaowen@meizu.com>
-In-Reply-To: <cfd3bcc0-b51d-0c68-c065-ca1c4c202447@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
+In-Reply-To: <YmlphvZVMsGfFksp@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-在 4/27/22 8:58 PM, Akira Yokosawa 写道:
-> Subject: [PATCH] docs: vm/page_owner: Use literal blocks for param description
->
-> Sphinx generates hard-to-read lists of parameters at the bottom
-> of the page.  Fix them by putting literal-block markers of "::"
-> in front of them.
->
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Fixes: 57f2b54a9379 ("Documentation/vm/page_owner.rst: update the documentation")
-> Cc: Shenghong Han <hanshenghong2019@email.szu.edu.cn>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Haowen Bai <baihaowen@meizu.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Alex Shi <seakeel@gmail.com>
-> ---
-> Hello Andrew,
->
-> This is the first time I send a patch in your way.
-> So I'm not sure this works as I intend.
-> If anything goes wrong, please let me know.
->
-> This issue is in discussion in a linux-doc thread triggered by
-> a post from Haowen Bai [1]. (Warning: The thread looks confused
-> due to Haowen's unnecessary uses of In-Reply-To: headers.)
-> Jon suggested the route via your tree, but he keeps posting
-> to linux-doc.
->
-> [1]: https://lore.kernel.org/all/1650424016-7225-3-git-send-email-baihaowen@meizu.com/
->
-> Haowen's patch uses tables to improve the look of param lists.
-> I suggested him using literal blocks instead, but I failed to
-> hear any response. So I'm sending my version of the fix in your
-> way.
-Dear Akira Yokosawa
-Sorry for missing reply your mail, since I am out of work at that time.
-BTW, I'll try to work base on the newest Doc later.
-Thank you for your suggestion and apply the typical format for  parameter description.
-> I believe this fix is worth for 5.18-rcX.
->
-> Side note 1: I see another patch queued for -next around here, which
-> has broken indents by white spaces.  You might want to fix or drop it.
->
-> Side note 2: page_owner.rst is not covered in MAINTAINERS.
-> You might want to add an entry, maybe, under "PAGE TABLE CHECK".
->
-> Again, if there is anything I can do better, please let me know.
->
-> Best,
->
->         Akira
-> --
->  Documentation/vm/page_owner.rst | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-> index 65204d7f004f..7e0c3f574e78 100644
-> --- a/Documentation/vm/page_owner.rst
-> +++ b/Documentation/vm/page_owner.rst
-> @@ -110,7 +110,7 @@ Usage
->     If you want to sort by the page nums of buf, use the ``-m`` parameter.
->     The detailed parameters are:
->  
-> -   fundamental function:
-> +   fundamental function::
->  
->  	Sort:
->  		-a		Sort by memory allocation time.
-> @@ -122,7 +122,7 @@ Usage
->  		-s		Sort by stack trace.
->  		-t		Sort by times (default).
->  
-> -   additional function:
-> +   additional function::
->  
->  	Cull:
->  		--cull <rules>
-> @@ -153,6 +153,7 @@ Usage
->  
->  STANDARD FORMAT SPECIFIERS
->  ==========================
-> +::
->  
->  	KEY		LONG		DESCRIPTION
->  	p		pid		process ID
->
-> base-commit: af2d861d4cd2a4da5137f795ee3509e6f944a25b
+
+
+On 2022/4/28 0:04, Catalin Marinas wrote:
+> On Wed, Apr 27, 2022 at 09:49:20PM +0800, Leizhen (ThunderTown) wrote:
+>> On 2022/4/27 20:32, Catalin Marinas wrote:
+>>> I think one could always pass a default command line like:
+>>>
+>>> 	crashkernel=1G,high crashkernel=128M,low
+>>>
+>>> without much knowledge of the SoC memory layout.
+>>
+>> Yes, that's what the end result is. The user specify crashkernel=128M,low
+>> and the implementation ensure the 128M low memory is allocated from DMA zone.
+>> We use arm64_dma_phys_limit as the upper limit for crash low memory.
+>>
+>> +#define CRASH_ADDR_LOW_MAX             arm64_dma_phys_limit
+>> +       unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+>> +       crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+>>                                                crash_base, crash_max);
+>>
+>>> Another option is to only introduce crashkernel=Y,low and, when that is
+>>> passed, crashkernel=Y can go above arm64_dma_phys_limit. We won't need a
+>>> 'high' option at all:
+>>>
+>>> 	crashkernel=1G				- all within ZONE_DMA
+>>> 	crashkernel=1G crashkernel=128M,low	- 128M in ZONE_DMA
+>>> 						  1G above ZONE_DMA
+>>>
+>>> If ZONE_DMA is not present or it extends to the whole RAM, we can ignore
+>>> the 'low' option.
+>>
+>> I think although the code is hard to make generic, the interface is better to
+>> be relatively uniform. A user might have to maintain both x86 and arm64, and
+>> so on. It's not a good thing that the difference is too big.
+> 
+> There will be some difference as the 4G limit doesn't always hold for
+> arm64 (though it's true in most cases). Anyway, we can probably simplify
+> things a bit while following the documented behaviour:
+> 
+> 	crashkernel=Y		- current behaviour within ZONE_DMA
+> 	crashkernel=Y,high	- allocate from above ZONE_DMA
+> 	crashkernel=Y,low	- allocate within ZONE_DMA
+> 
+> There is no fallback from crashkernel=Y.
+
+Yes, I followed your guidelines yesterday to modify the code. Now the code flow
+is much clearer.
+
+> 
+> The question is whether we still want a default low allocation if
+> crashkernel=Y,low is missing but 'high' is present. If we add this, I
+> think we'd be consistent with kernel-parameters.txt for the 'low'
+> description. A default 'low' is probably not that bad but I'm tempted to
+> always mandate both 'high' and 'low'.
+
+Yes, I agree with you. Because the situation is complicated, the default value
+is hard to be accurate. It's better to let the user configure it according to
+the actual situation, they're also programmers.
+
+Whether mandate both 'high' and 'low', or allow only 'high' like x86(but the default
+value becomes zero). I prefer the latter. The size of 'low' maybe zero, for example,
+SMMU is enabled on the second kernel. If only high memory is required, only that
+high memory needs to be configured, seems more reasonable.
+
+> 
 
 -- 
-Haowen Bai
-
+Regards,
+  Zhen Lei
