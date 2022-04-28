@@ -2,127 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5CE2C43217
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 14:02:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2E5AC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 14:06:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240745AbiD1OFg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Apr 2022 10:05:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34252 "EHLO
+        id S1348058AbiD1OKI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Apr 2022 10:10:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343893AbiD1OFc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 10:05:32 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1D02AC05A
-        for <linux-doc@vger.kernel.org>; Thu, 28 Apr 2022 07:02:17 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <afa@pengutronix.de>)
-        id 1nk4iN-0000As-ME; Thu, 28 Apr 2022 16:01:52 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <afa@pengutronix.de>)
-        id 1nk4iN-005lwi-Pl; Thu, 28 Apr 2022 16:01:50 +0200
-Received: from afa by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <afa@pengutronix.de>)
-        id 1nk4iL-003i1O-FQ; Thu, 28 Apr 2022 16:01:49 +0200
-From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
-To:     Jarkko Sakkinen <jarkko@kernel.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>
-Cc:     kernel@pengutronix.de, Pankaj Gupta <pankaj.gupta@nxp.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        =?UTF-8?q?Horia=20Geant=C4=83?= <horia.geanta@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        David Gstir <david@sigma-star.at>,
-        Richard Weinberger <richard@nod.at>,
-        Franck LENORMAND <franck.lenormand@nxp.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: [PATCH v8 6/6] MAINTAINERS: add myself as CAAM trusted key maintainer
-Date:   Thu, 28 Apr 2022 16:01:45 +0200
-Message-Id: <20220428140145.870527-7-a.fatoum@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220428140145.870527-1-a.fatoum@pengutronix.de>
-References: <20220428140145.870527-1-a.fatoum@pengutronix.de>
+        with ESMTP id S1348166AbiD1OJv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 10:09:51 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E25AB7156;
+        Thu, 28 Apr 2022 07:06:25 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 0C7AE37A;
+        Thu, 28 Apr 2022 14:06:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0C7AE37A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1651154785; bh=Y2xnGB6jAuDv2OSGOPccTS08t10lDzVVPJqY/azBkxg=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=OVHg3XH3CV9h4WnwpB2QxRGv+qWAAHo4xnpjabp5fV5kID38tVUqBcoQb/pnL6uEW
+         8uEBwaOrzPgltzkqwiAkUJC60V7i5i9pZR7pK1CtmDV3is9OmJVRZwY26IjQW7s3jv
+         CMCxbmk0SG1T5vMmpG1PCmPYP0uxSUMif3pUTEfWrAsoztJO0y6OCxcBc2p43MALWT
+         pCcXF4h/bwXdTG2ys8XqOF4Rw80L06yY/H34TsErdOPu1iyUN00nPKz+p8ysCdsDvv
+         iUDXBmLwd0194Q+P+qm6aL4QJMBB9LIJQ9OgFWCrreh39iOIcS05DfDxm+MRr0189i
+         Fm/M6V1Cr2zdQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Joerg Roedel <joro@8bytes.org>,
+        Alex Deucher <alexander.deucher@amd.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        hpa@zytor.com, x86@kernel.org, dave.hansen@linux.intel.com,
+        bp@alien8.de, mingo@redhat.com, tglx@linutronix.de,
+        Suravee.Suthikulpanit@amd.com, will@kernel.org,
+        iommu@lists.linux-foundation.org, robin.murphy@arm.com,
+        Vasant.Hegde@amd.com
+Subject: Re: [PATCH] Documentation: x86: rework IOMMU documentation
+In-Reply-To: <YmpNevdJFec0+9Mn@8bytes.org>
+References: <20220422200607.627754-1-alexander.deucher@amd.com>
+ <YmpNevdJFec0+9Mn@8bytes.org>
+Date:   Thu, 28 Apr 2022 08:06:24 -0600
+Message-ID: <87ee1h8fq7.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: afa@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add myself as maintainer for the just added trusted key integration
-with the NXP Cryptographic Acceleration and Assurance Module.
+Joerg Roedel <joro@8bytes.org> writes:
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
----
-v7 -> v8:
-  - add Pankaj's Reviewed-by
-v6 -> v7:
-  - split off as separate patch (Jarkko)
+> Acked-by: Joerg Roedel <jroedel@suse.de>
+>
+> Jonathan, will you merge that through the documentation tree?
 
-To: Jarkko Sakkinen <jarkko@kernel.org>
-To: James Bottomley <jejb@linux.ibm.com>
-To: Mimi Zohar <zohar@linux.ibm.com>
-To: David Howells <dhowells@redhat.com>
-Cc: James Morris <jmorris@namei.org>
-Cc: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: "Horia Geantă" <horia.geanta@nxp.com>
-Cc: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Biggers <ebiggers@kernel.org>
-Cc: Jan Luebbe <j.luebbe@pengutronix.de>
-Cc: David Gstir <david@sigma-star.at>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Franck LENORMAND <franck.lenormand@nxp.com>
-Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Cc: Sumit Garg <sumit.garg@linaro.org>
-Cc: keyrings@vger.kernel.org
-Cc: linux-crypto@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-integrity@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-security-module@vger.kernel.org
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Done.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5e8c2f611766..e58e6fc3016d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10855,6 +10855,15 @@ S:	Supported
- F:	include/keys/trusted_tee.h
- F:	security/keys/trusted-keys/trusted_tee.c
- 
-+KEYS-TRUSTED-CAAM
-+M:	Ahmad Fatoum <a.fatoum@pengutronix.de>
-+R:	Pengutronix Kernel Team <kernel@pengutronix.de>
-+L:	linux-integrity@vger.kernel.org
-+L:	keyrings@vger.kernel.org
-+S:	Maintained
-+F:	include/keys/trusted_caam.h
-+F:	security/keys/trusted-keys/trusted_caam.c
-+
- KEYS/KEYRINGS
- M:	David Howells <dhowells@redhat.com>
- M:	Jarkko Sakkinen <jarkko@kernel.org>
--- 
-2.30.2
+Thanks,
 
+jon
