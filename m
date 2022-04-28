@@ -2,100 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 985DFC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 06:14:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 662CFC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 07:25:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240117AbiD1GSH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Apr 2022 02:18:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38208 "EHLO
+        id S233871AbiD1H2t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Apr 2022 03:28:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233607AbiD1GSG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 02:18:06 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01FC52181A
-        for <linux-doc@vger.kernel.org>; Wed, 27 Apr 2022 23:14:53 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id bv19so7462041ejb.6
-        for <linux-doc@vger.kernel.org>; Wed, 27 Apr 2022 23:14:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=+ZIXV2LLVgo4LwCBTD4ugdbUMSH+dsG0f0fk8L+x54M=;
-        b=TF/NWe395gOl8BHS3S78qFofPQwaFTjv32LLH0o7wH0SZ27a412ooJWNGyqlkl+vAb
-         7NN+p4urCC2+joKG09ocuVBEIClJ+QO6NfKEB4YEEwyqzOBLZ/M4qhxb7QN2aH9ylWvk
-         ZWAHbs8QeFpm3d91vOLg/fMSQD4GQd+jGqUbQBjkYHSp96gZ3UC8ocHkW8b6GeLPh2cQ
-         Ti60WLNpSmf5AsBXhG7pHGCvFXs/LkVw37cXwv54CzyqjIIiiv4LKvVLF0wBF394wvPH
-         jxZClmk67AhyrxeBZuT4GEyZJwZBPoPCAFh2d3jEABRvyotYrvjvUoL4P+8sncnvlo/a
-         bY6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=+ZIXV2LLVgo4LwCBTD4ugdbUMSH+dsG0f0fk8L+x54M=;
-        b=rdFhLmhPE4BDH35p7WPpjrWFbWRw4BJ3KL+tIQg3b1YHTT8ky8Wy0PJVqD4tVU03Uh
-         1GPluIzF9QriDZxLEYRv6cHO5WBZc6epWKHBJZlhDtNMWMohUlp0pfJ1vaGahePmd8kz
-         10UCAE/2Kx2czl8KKXxQD6mIUi5Y9PJdPFd+nZMf0lqZkdod+/NmDGDQ4u4jOH3wHzEX
-         rXU6M1zYvORhgopaWiDeLYnmrInc/9aZMCGCHPi9x+xKGxVLPPqDbdKfl4cBj1ucwMOe
-         jK8WbdsE7OU32DGFIW4Dbur0YzJVn0qWOHiDphpd7xk1GQiXJHmRqGvnW+Bw2RCYc5jw
-         ZERA==
-X-Gm-Message-State: AOAM531jvrK+FiseBt3dQFx+E8IEkL5gEy/autXuCDsWnBn4bVtIJC65
-        R6AXVzJNnGTSV/MssCDtRcD0TkLW2e5cSg==
-X-Google-Smtp-Source: ABdhPJzL+j0KsDRXFj07hIztrF9YSG4t1iFa37y0+WHpiKXmj5te+vwXKDfRosj3q3WBEKgNHy1+qQ==
-X-Received: by 2002:a17:907:9804:b0:6ee:f915:9c25 with SMTP id ji4-20020a170907980400b006eef9159c25mr29527027ejc.121.1651126491491;
-        Wed, 27 Apr 2022 23:14:51 -0700 (PDT)
-Received: from [192.168.0.159] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id z22-20020a1709063ad600b006e8867caa5dsm7782023ejd.72.2022.04.27.23.14.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Apr 2022 23:14:50 -0700 (PDT)
-Message-ID: <8b6b92ca-bfa3-5903-57e1-3baf58e0c37b@linaro.org>
-Date:   Thu, 28 Apr 2022 08:14:50 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] Documentation/process: use scripts/get_maintainer.pl on
- patches
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220427185645.677039-1-krzysztof.kozlowski@linaro.org>
- <0d32cc45-bf65-e279-19f5-3db078ee8cc8@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <0d32cc45-bf65-e279-19f5-3db078ee8cc8@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S245108AbiD1H2s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 03:28:48 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 81BBE2F392;
+        Thu, 28 Apr 2022 00:25:29 -0700 (PDT)
+Received: from linux.localdomain (unknown [113.200.148.30])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxMNpjQWpidk8BAA--.6695S4;
+        Thu, 28 Apr 2022 15:25:25 +0800 (CST)
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+To:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] bpf, docs: BPF_FROM_BE exists as alias for BPF_TO_BE
+Date:   Thu, 28 Apr 2022 15:25:23 +0800
+Message-Id: <1651130723-23635-3-git-send-email-yangtiezhu@loongson.cn>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <1651130723-23635-1-git-send-email-yangtiezhu@loongson.cn>
+References: <1651130723-23635-1-git-send-email-yangtiezhu@loongson.cn>
+X-CM-TRANSID: AQAAf9BxMNpjQWpidk8BAA--.6695S4
+X-Coremail-Antispam: 1UD129KBjvdXoW7GrWrJryUJrWruF47WF17KFg_yoW3Zrg_CF
+        1kJ3Z5Wa1rCryruw1UWF1xCF97AFWrur4UA3WIyF4DAayqqws8Cr98W34DArWUGrW7u398
+        CrZ3Wry3ZrnrGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbfkYjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Wr0E3s1l1xkIjI8I
+        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7
+        IE14v26r15M28IrcIa0xkI8VCY1x0267AKxVW8JVW5JwA2ocxC64kIII0Yj41l84x0c7CE
+        w4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6x
+        kF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIE
+        c7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I
+        8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCF
+        s4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY02Avz4vE14v_GF4l42xK82IYc2Ij64
+        vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
+        jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2I
+        x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK
+        8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
+        0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUs8sqDUUUU
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28/04/2022 07:42, Bagas Sanjaya wrote:
-> On 4/28/22 01:56, Krzysztof Kozlowski wrote:
->> diff --git a/Documentation/process/3.Early-stage.rst b/Documentation/process/3.Early-stage.rst
->> index 6bfd60d77d1a..894a920041c6 100644
->> --- a/Documentation/process/3.Early-stage.rst
->> +++ b/Documentation/process/3.Early-stage.rst
->> @@ -154,10 +154,11 @@ that the kernel developers have added a script to ease the process:
->>  This script will return the current maintainer(s) for a given file or
->>  directory when given the "-f" option.  If passed a patch on the
->>  command line, it will list the maintainers who should probably receive
->> -copies of the patch.  There are a number of options regulating how hard
->> -get_maintainer.pl will search for maintainers; please be careful about
->> -using the more aggressive options as you may end up including developers
->> -who have no real interest in the code you are modifying.
->> +copies of the patch.  This is the preferred way (unlike "-f" option) to get the
->> +list of people to Cc for your patches.  There are a number of options
->> +regulating how hard get_maintainer.pl will search for maintainers; please be
->> +careful about using the more aggressive options as you may end up including
->> +developers who have no real interest in the code you are modifying.
->>  
-> 
-> This raises my question: Supposed that I'm ready to send multiple-patch
-> series (two or more patches in the series). How can I get maintainers list,
-> given such series?
+According include/uapi/linux/bpf.h:
 
-Method is the same, nothing differs. What is inaccurate in my
-description above around such case?
+  #define BPF_FROM_LE	BPF_TO_LE
+  #define BPF_FROM_BE	BPF_TO_BE
 
-Best regards,
-Krzysztof
+BPF_FROM_BE exists as alias for BPF_TO_BE instead of BPF_TO_LE.
+
+Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+---
+ Documentation/bpf/instruction-set.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/bpf/instruction-set.rst b/Documentation/bpf/instruction-set.rst
+index 30b019c..00b0800 100644
+--- a/Documentation/bpf/instruction-set.rst
++++ b/Documentation/bpf/instruction-set.rst
+@@ -157,7 +157,7 @@ Examples:
+   dst_reg = htobe64(dst_reg)
+ 
+ ``BPF_FROM_LE`` and ``BPF_FROM_BE`` exist as aliases for ``BPF_TO_LE`` and
+-``BPF_TO_LE`` respetively.
++``BPF_TO_BE`` respetively.
+ 
+ 
+ Jump instructions
+-- 
+2.1.0
+
