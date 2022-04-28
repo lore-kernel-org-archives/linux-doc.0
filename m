@@ -2,62 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD84CC4321E
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 07:36:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F2C1C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 07:41:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245490AbiD1HjM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Apr 2022 03:39:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42786 "EHLO
+        id S234188AbiD1HpD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Apr 2022 03:45:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245605AbiD1HjE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 03:39:04 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7908C109F;
-        Thu, 28 Apr 2022 00:35:49 -0700 (PDT)
-Received: from linux.localdomain (unknown [113.200.148.30])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxUNrQQ2piqFEBAA--.6543S2;
-        Thu, 28 Apr 2022 15:35:45 +0800 (CST)
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-To:     Alexei Starovoitov <ast@kernel.org>,
+        with ESMTP id S232526AbiD1HpC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 03:45:02 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48040220CA;
+        Thu, 28 Apr 2022 00:41:47 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.57])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4KpnWX2KPyzCsNn;
+        Thu, 28 Apr 2022 15:37:12 +0800 (CST)
+Received: from [10.174.178.165] (10.174.178.165) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 28 Apr 2022 15:41:45 +0800
+Subject: Re: [PATCH bpf-next RESEND 0/2] bpf, docs: Fix typos in
+ instruction-set.rst
+To:     Tiezhu Yang <yangtiezhu@loongson.cn>,
+        Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
         Andrii Nakryiko <andrii@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
-Cc:     netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH bpf-next RESEND 0/2] bpf, docs: Fix typos in instruction-set.rst
-Date:   Thu, 28 Apr 2022 15:35:42 +0800
-Message-Id: <1651131344-24528-1-git-send-email-yangtiezhu@loongson.cn>
-X-Mailer: git-send-email 2.1.0
-X-CM-TRANSID: AQAAf9BxUNrQQ2piqFEBAA--.6543S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-        VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYe7k0a2IF6F4UM7kC6x804xWl14x267AK
-        xVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGw
-        A2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj
-        6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxV
-        WxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvE
-        ncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I
-        8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xS
-        Y4AK67AK6r4xMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-        8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
-        ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-        0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAF
-        wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
-        7IU8BnmtUUUUU==
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+CC:     <netdev@vger.kernel.org>, <bpf@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1651131344-24528-1-git-send-email-yangtiezhu@loongson.cn>
+From:   "weiyongjun (A)" <weiyongjun1@huawei.com>
+Message-ID: <a3105210-757e-b2f7-51d0-9ca7bec7e0cb@huawei.com>
+Date:   Thu, 28 Apr 2022 15:41:45 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <1651131344-24528-1-git-send-email-yangtiezhu@loongson.cn>
+Content-Type: text/plain; charset="gbk"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.165]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Forget to add [PATCH bpf-next] subject prefix,
-sorry for that, just resend.
 
-Tiezhu Yang (2):
-  bpf, docs: Remove duplicated word "instructions"
-  bpf, docs: BPF_FROM_BE exists as alias for BPF_TO_BE
+ÔÚ 2022/4/28 15:35, Tiezhu Yang Ð´µÀ:
+> Forget to add [PATCH bpf-next] subject prefix,
+> sorry for that, just resend.
+>
+> Tiezhu Yang (2):
+>    bpf, docs: Remove duplicated word "instructions"
+>    bpf, docs: BPF_FROM_BE exists as alias for BPF_TO_BE
+>
+>   Documentation/bpf/instruction-set.rst | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
- Documentation/bpf/instruction-set.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
--- 
-2.1.0
+Looks good to me
+
 
