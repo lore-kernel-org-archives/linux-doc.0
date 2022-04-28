@@ -2,70 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC80CC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 18:33:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A3ABC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 18:35:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349698AbiD1ShE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Apr 2022 14:37:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40796 "EHLO
+        id S1351109AbiD1SjC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Apr 2022 14:39:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350876AbiD1ShD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 14:37:03 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBF62BC857
-        for <linux-doc@vger.kernel.org>; Thu, 28 Apr 2022 11:33:48 -0700 (PDT)
+        with ESMTP id S1351173AbiD1SjB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 14:39:01 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B6E42B247;
+        Thu, 28 Apr 2022 11:35:46 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7CC8C2BD;
-        Thu, 28 Apr 2022 18:33:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7CC8C2BD
+        by ms.lwn.net (Postfix) with ESMTPSA id 058662BD;
+        Thu, 28 Apr 2022 18:35:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 058662BD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1651170828; bh=ehCRRU2deE1d6YhU7fw8O7oCX8ZmQfMG0tim4glijhg=;
+        t=1651170946; bh=9IIGBlboau/zQf/QWoBV5Td7htGubCcvMj6JuOI5Muk=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ijs45oFJ1Lk9MtdY6UoiObfABG+Vbhzt8I8KrY92H6pWQjZ/PvjGFjrxxOtFZpRXc
-         PGeK6awynW4yZm/AA1So6rOOD9B7eiizowJeqawxfOs57bh+X+wagGGqGz/98gwWeh
-         ULyXgc0V6iTnHun1zKfuLkW6hjXXP5qpEbwIGzj5WhZESwd5LWYbBmEVfgtzYY7Cne
-         If48jxAUN3ry4jPC/nMhXE+jfg1thll3kduZChGzj8msu7UJOYpn2raYJN11P7jd9E
-         omnN/4TENfSIk6d+n/9TjR2lFF2Q0vUsj6OcPAs4JYBtoKktkU8OpWEEPx7/oCGCrC
-         /OgwVth2H39uA==
+        b=CiRmNdmZR8iAq8WrObjx7wftNIkJ3jR+I0vx1wmI4OYrQ4NfOdj8NfeyeerNF9wNT
+         NMKQiHNWKg53eE9qOsRFt3vE/iL5/3FA8wx6JGt4smYYF0ut04QLUWN782BCXAm7Dy
+         sK2VeZKVeCCucMwYSeh839UZJCCV7rzFqyXOvIQUIqV8Hw0fMEvj3uGXquUiMkyJev
+         oKxDW/JxQzxB/vA0p4yZoP76b8HwqN3AJ/rWiZqvje9ZkkX8hcdV31QSIdCmH2EoSC
+         9Io215IN4/QOfaJHSwrho8sHOvUh9LLdYAIniV8pa5KG49J8o+I6v6mjDMcwi78hmF
+         sHcpICD40eIFA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
-        seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        siyanteng01@gmail.com
-Subject: Re: [PATCH v2 0/2] docs/zh_CN: add hmm and numa translation
-In-Reply-To: <cover.1650794774.git.siyanteng@loongson.cn>
-References: <cover.1650794774.git.siyanteng@loongson.cn>
-Date:   Thu, 28 Apr 2022 12:33:47 -0600
-Message-ID: <87y1zp5a7o.fsf@meer.lwn.net>
+To:     Frank Rowand <frowand.list@gmail.com>,
+        David Gow <davidgow@google.com>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        "Bird, Tim" <Tim.Bird@sony.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Rae Moar <rmr167@gmail.com>,
+        Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Daniel Latypov <dlatypov@google.com>, kernelci@groups.io,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 2/2] Documentation: dev-tools: use literal block
+ instead of code-block
+In-Reply-To: <95dcdcd3-fb48-6e5c-3262-7aacaac71e78@gmail.com>
+References: <20220316202622.324866-1-frowand.list@gmail.com>
+ <20220316202622.324866-3-frowand.list@gmail.com>
+ <CABVgOSngfB41BVoEvQ1JX+2oFvS7Mik58VfPm9pydmiC_GSD6Q@mail.gmail.com>
+ <95dcdcd3-fb48-6e5c-3262-7aacaac71e78@gmail.com>
+Date:   Thu, 28 Apr 2022 12:35:45 -0600
+Message-ID: <87tuad5a4e.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yanteng Si <siyanteng@loongson.cn> writes:
+Frank Rowand <frowand.list@gmail.com> writes:
 
-> v2:
-> * Pick Alex's Reviewed-by tag.
-> * Modify some word under Alex's advice.
->
-> v1:
-> * Translate .../vm/hmm.rst and .../vm/numa.rst into Chinese.
->
-> Yanteng Si (2):
->   docs/zh_CN: add vm hmm translation
->   docs/zh_CN: add vm numa translation
->
->  Documentation/translations/zh_CN/vm/hmm.rst   | 361 ++++++++++++++++++
->  Documentation/translations/zh_CN/vm/index.rst |   4 +-
->  Documentation/translations/zh_CN/vm/numa.rst  | 101 +++++
->  3 files changed, 464 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/translations/zh_CN/vm/hmm.rst
->  create mode 100644 Documentation/translations/zh_CN/vm/numa.rst
+> Hi Jon,
 
-Series applied, thanks.
+> I got distracted with other tasks, just now returning to this.
+>
+> There has been no other comment in the last month, so I think it
+> is fair to go ahead and ask you to pull this patch.
+>
+> Can you pull just this patch (patch 2/2) or would you prefer that
+> I do a version 2 which does not contain patch 1/2?
+
+I've applied it, thanks.
 
 jon
