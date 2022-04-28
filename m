@@ -2,202 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56573C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 11:14:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC38EC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 11:47:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239616AbiD1LRu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Apr 2022 07:17:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40812 "EHLO
+        id S235286AbiD1Luw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Apr 2022 07:50:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236798AbiD1LRu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 07:17:50 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9761A674E6;
-        Thu, 28 Apr 2022 04:14:35 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id a21so5129128edb.1;
-        Thu, 28 Apr 2022 04:14:35 -0700 (PDT)
+        with ESMTP id S229814AbiD1Luv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 07:50:51 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0AF968983;
+        Thu, 28 Apr 2022 04:47:36 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id o69so2712427pjo.3;
+        Thu, 28 Apr 2022 04:47:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=klUaX5LsZlPXz+2S/Ecxx3wW7aKARbJJEWDUTbqH/Nk=;
-        b=brrOMsvJQTAEXAUQjWINO2YTgDMMd6eT5U+vBpVl+TwLUSly9kanTmCKFsI09W0NYl
-         e2Ud7VFpjHD7ZOv2rrFY7O6gb40X211j/T+lAMzWdcDdg+/x4sE7w3V01C/ArdKJBPJz
-         vuTtsgxZd6zj1COrgzj+xvPPXJiuOALYIsDnXML7iNhLfsS+DUWQfwvAPqa4bvyY1nHU
-         c3loYjBpS4xUd1QWlfW9IbGW4+8t0bYcdkNjSvvQMnWXCzxEmUWurGNy9qTw0pbxEce2
-         f2Vx+YZfi6PHYuvS02rI6+HxNxozLE36AWcEtACRlf1khulF/PFP4HVoED0thomwd1CU
-         vOog==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=N6IBRFyqHzyovjymn28OuFX1kLvXKvlfEABFpAl56Ps=;
+        b=VrP78e9NkPWgsFtyhw6+WX9d2tl4k+ckSvK5CUUUJJGoeEtm74AsIk849tLFxF0CC2
+         bj425Kjif46MeiiUyhkqigysawm3UqxemI6zA2UDPC9+LwjKca46Sz86KtR/nNNU+Egj
+         Gyb8ckVVkYoMuL5A/fuacx/asgWgUiJuwGUyLZ4tuRev+r1nDvIeDhLg0ihio55ShX5F
+         tUCrp3L2k2+NocbZaEFeT3/rkkT/o/MMvuSA7/lbTPSCS+iyMrvBFRpfJHqRVRTL0BAH
+         JOD+KUXWIvMBKI8IYvpMwk5tazgZWUs9HF9w35Rd8uCFiOVXXNSw2pe6fdqmAhKUA9mW
+         9CZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=klUaX5LsZlPXz+2S/Ecxx3wW7aKARbJJEWDUTbqH/Nk=;
-        b=T13jf4JK+xtLLS/Tqvlbt+B4PzrDyeojNA1+VE6SPgWsI4qn4NZDeSWeIsVKd+aqfZ
-         oP/PhsHQqxBqMI+rhsFu2NrpZdgAhziCC9jdRkJc/SHiKnERgKC3yOMy0vSpc7HcUCke
-         VvC3ziuiX1Oyqv71sLgYpobdyDCGxVw52WhNkTHmBqU7BeZ64fOF98JVMal0mi0IWCrd
-         KSjJifpvGhaOpQGngiBXxgmCuk7B07fv+5gJE3ZswQAH22RVsB00cbuzP09TNxW7rYyG
-         8+cm/xO6r78+Ihz0L5L3DMA+FebQW01Ca21Grkv0yGnJQ1QnUJwhwbux8a3xjtOTRxDH
-         eg9Q==
-X-Gm-Message-State: AOAM532CJldxaLNgxpe1/LBzhsJJblsrLedHGqyAGkf7QGlCMWtPbaiX
-        +PZ9Z+9iwdo+H9arZu44tCfT6jlFRpo=
-X-Google-Smtp-Source: ABdhPJybBsv9UEF9BtIRVZX8Gyzc4N8+6vv3dS/0K6yu0WQ+zmqjfEAZA6iOX42oWlnaDdw3Aew4yQ==
-X-Received: by 2002:aa7:dd45:0:b0:425:8cea:8c76 with SMTP id o5-20020aa7dd45000000b004258cea8c76mr34965037edw.353.1651144474081;
-        Thu, 28 Apr 2022 04:14:34 -0700 (PDT)
-Received: from leap.localnet (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
-        by smtp.gmail.com with ESMTPSA id p5-20020a1709066a8500b006f3bdf3a2f4sm3491952ejr.105.2022.04.28.04.14.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Apr 2022 04:14:32 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc:     Ira Weiny <ira.weiny@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Collingbourne <pcc@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, outreachy@lists.linux.dev,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH v3 4/4] Documentation/vm: Rework "Temporary Virtual Mappings" section
-Date:   Thu, 28 Apr 2022 13:14:30 +0200
-Message-ID: <6442788.4vTCxPXJkl@leap>
-In-Reply-To: <YmpYEkvbJX2JBPvW@linutronix.de>
-References: <20220427183821.1979-1-fmdefrancesco@gmail.com> <20220427183821.1979-5-fmdefrancesco@gmail.com> <YmpYEkvbJX2JBPvW@linutronix.de>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=N6IBRFyqHzyovjymn28OuFX1kLvXKvlfEABFpAl56Ps=;
+        b=cJ/r7rOFuNQRKEjpVL7HgIjfp8cb/NdTCpNcXxOR9ykleWyUpO3PnuczoTatj2GWp3
+         FiWgeYCWRnBScil+AtjF/howBQWSyO7wEXl5VG6owuSoyF8qKN00RKY6NNjw9DL994II
+         uu+sCcIq/5mYY/y5qUjEIiFDVidvXCY/Fub4d6UzpxfiEQyI5cguKWBwQ6MWmnF7Lyov
+         yr9nGhpUdnrJBqQk14UHvk467q0AbrouCWztNJ9w6aguAsAUdLawyXeTCzZ01NssXp2n
+         aBo9yb9b9zCYuuYmyMmzaFiHg5/2NmyH/5yf2i93ZDL7o5p0/Wsh3B63xNItxd9KMMJ3
+         IgeA==
+X-Gm-Message-State: AOAM53301iV56+Vmm1c/UfuymoIbdrc5Is/10aDp7s/r4ww1NBQG5Mka
+        YWmnbvikBIomQLn4AvsKw1YtqYQsNFw=
+X-Google-Smtp-Source: ABdhPJygekZSmJALXd+BjpZZ3XSqug8GWwU+/IAOngNvyJ/8cGw9aReDJenijONtLuqbTOW2DbKG4g==
+X-Received: by 2002:a17:903:2309:b0:15c:e766:994e with SMTP id d9-20020a170903230900b0015ce766994emr26601005plh.29.1651146456459;
+        Thu, 28 Apr 2022 04:47:36 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id 1-20020a631541000000b003c14af50646sm2608695pgv.94.2022.04.28.04.47.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Apr 2022 04:47:35 -0700 (PDT)
+Message-ID: <a332cd81-c234-7bff-ac2b-f19a4368210a@gmail.com>
+Date:   Thu, 28 Apr 2022 20:47:30 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2] docs/ja_JP/howto: Don't mention specific kernel
+ versions
+Content-Language: en-US
+To:     Tsugikazu Shibata <shibata@linuxfoundation.org>,
+        Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <20220424122745.15386-1-fujimotokosuke0@gmail.com>
+ <CAO+cJp0adp9W22zBbOnUvaLxa2fbsTky431NE_K+MbwyOLpZYQ@mail.gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <CAO+cJp0adp9W22zBbOnUvaLxa2fbsTky431NE_K+MbwyOLpZYQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On gioved=C3=AC 28 aprile 2022 11:02:10 CEST Sebastian Andrzej Siewior wrot=
-e:
-> On 2022-04-27 20:38:21 [+0200], Fabio M. De Francesco wrote:
-> > index e05bf5524174..c8aff448612b 100644
-> > --- a/Documentation/vm/highmem.rst
-> > +++ b/Documentation/vm/highmem.rst
-> > @@ -50,26 +50,78 @@ space when they use mm context tags.
-> =E2=80=A6
-> > =20
-> > -* kmap().  This permits a short duration mapping of a single page.  It=
-=20
-needs
-> > -  global synchronization, but is amortized somewhat.  It is also prone=
-=20
-to
-> > -  deadlocks when using in a nested fashion, and so it is not=20
-recommended for
-> > -  new code.
-> > +  These mappings are thread-local and CPU-local (i.e., migration from=
-=20
-one CPU
-> > +  to another is disabled - this is why they are called "local"), but=20
-they don't
-> > +  disable preemption.=20
->=20
-> So if you replace this block with
->=20
->    These mappings are thread-local and CPU-local meaning that the mapping
->    can only be accessed from within this thread and the thread is bound=20
-the
->    CPU while the mapping is active. Even if the thread is preempted=20
-(since
->    preemption is never disabled by the function) the CPU can not be
->    unplugged from the system via CPU-hotplug until the mapping is=20
-disposed.
-
-OK, I'm too wordy here :(
-
-> The you could drop the latter block
->=20
-> >                          It's valid to take pagefaults in a local kmap=
-=20
-region,
-> > +  unless the context in which the local mapping is acquired does not=20
-allow it
-> > +  for other reasons.
->=20
-> > +  kmap_local_page() always returns a valid virtual address and it is=20
-assumed
-> > +  that kunmap_local() will never fail.
->=20
-> from here
->=20
-> > +  If a task holding local kmaps is preempted, the maps are removed on=
-=20
-context
-> > +  switch and restored when the task comes back on the CPU. The maps=20
-are
-> > +  strictly thread-local and CPU-local, therefore it is guaranteed that=
-=20
-the
-> > +  task stays on the CPU and the CPU cannot be unplugged until the=20
-local kmaps
-> > +  are released.
->=20
-> to here since it mostly the same thing.
-
-I agree, this is redundant.
-
->=20
-> > +  Nesting kmap_local_page() and kmap_atomic() mappings is allowed to a=
-=20
-certain
-> > +  extent (up to KMAP_TYPE_NR) but their invocations have to be=20
-strictly ordered
-> > +  because the map implementation is stack based. See kmap_local_page=20
-() kdocs
->=20
-> kmap_local_page () =3D> kmap_local_page()
-
-Sure, it's just a typo.
-
-> > +  (included in the "Functions" section) for details on how to manage=20
-nested
-> > +  mappings.
-> > =20
-> >  * kmap_atomic().  This permits a very short duration mapping of a=20
-single
-> >    page.  Since the mapping is restricted to the CPU that issued it, it
-> >    performs well, but the issuing task is therefore required to stay on=
-=20
-that
-> >    CPU until it has finished, lest some other task displace its=20
-mappings.
-> > =20
-> > -  kmap_atomic() may also be used by interrupt contexts, since it is=20
-does not
-> > -  sleep and the caller may not sleep until after kunmap_atomic() is=20
-called.
-> > +  kmap_atomic() may also be used by interrupt contexts, since it does=
-=20
-not
-> > +  sleep and the callers too may not sleep until after kunmap_atomic()=
-=20
-is
-> > +  called.
-> > +
-> > +  Each call of kmap_atomic() in the kernel creates a non-preemptible=20
-section
-> > +  and disable pagefaults. This could be a source of unwanted latency,=
-=20
-so it
-> > +  should be only used if it is absolutely required, otherwise=20
-kmap_local_page()
-> > +  should be used where it is feasible.
->=20
-> I'm not keen about the "absolutely required" wording and "feasible".
-> That said, the other pieces look good, thank you for the work.
-
-I'll rewrite the last part of this sentence as it follows:
-
-+ should be only used if it is required, otherwise kmap_local_page()
-+ should be preferred.
-
-Thank you so much for the time you have spent for reviewing and helping,
-
-=46abio
-
-
+T24gVGh1LCAyOCBBcHIgMjAyMiAxNzo0MDoyNyArMDkwMCwNClRzdWdpa2F6dSBTaGliYXRh
+IHdyb3RlOg0KPiBGaXJzdCBvZiBhbGwsIFRoYW5rcyB0byBGdWppbW90by1zYW4gYW5kIFlv
+a29zYXdhLXNhbiBmb3Igd2FraW5nIG1lIHVwLg0KPiBOb3cgSSBnZXQgYmFjayB0byBoZXJl
+IGJ5IG5ldyBlbWFpbCBhZGRyZXNzLg0KDQpXZWxjb21lIGJhY2ssIFNoaWJhdGEtc2FuIQ0K
+DQo+IA0KPiBJIGhhdmUgYSBmZXcgY29tbWVudHMgYXMgYmVsb3c6DQo+IA0KPiBPbiBTdW4s
+IEFwciAyNCwgMjAyMiBhdCA5OjI4IFBNIEtvc3VrZSBGdWppbW90bw0KPiA8ZnVqaW1vdG9r
+b3N1a2UwQGdtYWlsLmNvbT4gd3JvdGU6DQo+Pg0KPj4gVGhpcyBjaGFuZ2UgaXMgYmFzZWQg
+b24gY29tbWl0IGQyYjAwOGYxMzRiNw0KPj4gKCJEb2N1bWVudGF0aW9uL3Byb2Nlc3MvaG93
+dG86IFVwZGF0ZSBmb3IgNC54IC0+IDUueCB2ZXJzaW9uaW5nIikuDQo+Pg0KPj4gUmVwbGFj
+ZSAiNC54IGtlcm5lbCB2ZXJzaW9uIiB3aXRoIGdlbmVyaWMgdGVybSBzdWNoIGFzICJtYWlu
+bGluZSB0cmVlIg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IEtvc3VrZSBGdWppbW90byA8ZnVq
+aW1vdG9rb3N1a2UwQGdtYWlsLmNvbT4NCj4+IFJldmlld2VkLWJ5OiBBa2lyYSBZb2tvc2F3
+YSA8YWtpeWtzQGdtYWlsLmNvbT4NCj4+IENjOiBKb25hdGhhbiBDb3JiZXQgPGNvcmJldEBs
+d24ubmV0Pg0KPj4gQ2M6IFRzdWdpa2F6dSBTaGliYXRhIDxzaGliYXRhQGxpbnV4Zm91bmRh
+dGlvbi5vcmc+DQo+PiBDYzogQWtpcmEgWW9rb3Nhd2EgPGFraXlrc0BnbWFpbC5jb20+DQo+
+PiBDYzogbGludXgtZG9jQHZnZXIua2VybmVsLm9yZw0KPj4gLS0tDQo+PiBWMjogUmVmb3Jt
+YXR0ZWQgY29tbWl0IGxvZyBtZXNzYWdlDQo+PiAtLS0NCj4+ICBEb2N1bWVudGF0aW9uL3Ry
+YW5zbGF0aW9ucy9qYV9KUC9ob3d0by5yc3QgfCA0MyArKysrKysrKysrLS0tLS0tLS0tLS0t
+DQo+PiAgMSBmaWxlIGNoYW5nZWQsIDIwIGluc2VydGlvbnMoKyksIDIzIGRlbGV0aW9ucygt
+KQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9qYV9K
+UC9ob3d0by5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9qYV9KUC9ob3d0by5y
+c3QNCj4+IGluZGV4IGQ2NjdmOWQ4YTAyYS4uOWI3MTE5MzJhZTZkIDEwMDY0NA0KPj4gLS0t
+IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvamFfSlAvaG93dG8ucnN0DQo+PiArKysg
+Yi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9qYV9KUC9ob3d0by5yc3QNClsuLi5dDQo+
+PiAtNC54LnkgLXN0YWJsZSDjgqvjg7zjg43jg6vjg4Tjg6rjg7wNCj4+IC1+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+DQo+PiAr44Oh44K444Oj44O855Wq5Y+344KS44G+44Gf44GQ
+5pWw5pys44Gu5a6J5a6a54mI44OE44Oq44O8DQo+PiArfn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+DQo+Pg0KPj4gIOODkOODvOOCuOODp+ODs+eVquWPt+OBjDPj
+gaTjga7mlbDlrZfjgavliIbjgYvjgozjgabjgYTjgovjgqvjg7zjg43jg6vjga8gLXN0YWJs
+ZSDjgqvjg7zjg43jg6vjgafjgZnjgIINCj4+IC3jgZPjgozjgavjga/jgIE0Lngg44Kr44O8
+44ON44Or44Gn6KaL44Gk44GL44Gj44Gf44K744Kt44Ol44Oq44OG44Kj5ZWP6aGM44KE6YeN
+5aSn44Gq5b6M5oi744KK44Gr5a++44GZDQo+PiAt44KL5q+U6LyD55qE5bCP44GV44GE6YeN
+6KaB44Gq5L+u5q2j44GM5ZCr44G+44KM44G+44GZ44CCDQo+PiAr44GT44KM44Gr44Gv5pyA
+5Yid44GuMuOBpOOBruaVsOWtl+OBq+WvvuW/nOOBl+OBn+OAgeODoeOCpOODs+ODqeOCpOOD
+s+ODquODquODvOOCueOBp+imi+OBpOOBi+OBo+OBn+OCu+OCreODpeODquODhuOCo+WVj+mh
+jOOChA0KPiANCj4gQWJvdmUgbGluZSBjb21lcyBmcm9tOg0KPiAuLi5zZWN1cml0eSBwcm9i
+bGVtcyBvciBzaWduaWZpY2FudCByZWdyZXNzaW9ucyBkaXNjb3ZlcmVkIGluIGEgZ2l2ZW4N
+Cj4gbWFqb3IgbWFpbmxpbmUgcmVsZWFzZSwNCj4gd2l0aCB0aGUgZmlyc3QgMi1wYXJ0IG9m
+IHZlcnNpb24gbnVtYmVyIGFyZSB0aGUgc2FtZSBjb3JyZXNwb25kaW5nbHkuDQo+IA0KPiBJ
+dCBtYXkgYmV0dGVyIHRvIGJlOg0KPiDjgZPjgozjgavjga/mnIDliJ3jga4y44Gk44Gu44OQ
+44O844K444On44Oz55Wq5Y+344Gu5pWw5a2X44Gr5a++5b+c44GX44Gf44CB44Oh44Kk44Oz
+44Op44Kk44Oz44Oq44Oq44O844K544Gn6KaL44Gk44GL44Gj44Gf44K744Kt44Ol44Oq44OG
+44Kj5ZWP6aGM44KEDQoNClRoaXMgbG9va3MgbW9yZSBmYWl0aGZ1bC4NCg0KPiANCj4+ICvp
+h43lpKfjgarlvozmiLvjgorjgavlr77jgZnjgovmr5TovIPnmoTlsI/jgZXjgYTph43opoHj
+garkv67mraPjgYzlkKvjgb7jgozjgb7jgZnjgIINCj4+DQo+PiAg44GT44KM44Gv44CB6ZaL
+55m6L+Wun+mok+eahOODkOODvOOCuOODp+ODs+OBruODhuOCueODiOOBq+WNlOWKm+OBmeOC
+i+OBk+OBqOOBq+iIiOWRs+OBjOeEoeOBj+OAgeacgOaWsA0KPj4gIOOBruWuieWumuOBl+OB
+n+OCq+ODvOODjeODq+OCkuS9v+OBhOOBn+OBhOODpuODvOOCtuOBq+aOqOWlqOOBmeOCi+OD
+luODqeODs+ODgeOBp+OBmeOAgg0KPj4NCj4+IC3jgoLjgZfjgIE0LngueSDjgqvjg7zjg43j
+g6vjgYzlrZjlnKjjgZfjgarjgYTloLTlkIjjgavjga/jgIHnlarlj7fjgYzkuIDnlarlpKfj
+gY3jgYQgNC54IOOBjOacgOaWsA0KPj4gLeOBruWuieWumueJiOOCq+ODvOODjeODq+OBp+OB
+meOAgg0KPj4gLQ0KPj4gLTQueC55IOOBryAic3RhYmxlIiDjg4Hjg7zjg6AgPHN0YWJsZUB2
+Z2VyLmtlcm5lbC5vcmc+IOOBp+ODoeODs+ODhuOBleOCjOOBpuOBiuOCiuOAgQ0KPj4gK+Wu
+ieWumueJiOOCq+ODvOODjeODqyDjga8gInN0YWJsZSIg44OB44O844OgIDxzdGFibGVAdmdl
+ci5rZXJuZWwub3JnPiDjgafjg6Hjg7Pjg4bjgZXjgozjgabjgYrjgorjgIENCj4gDQo+IFRo
+aXMgbGluZSBjb21lcyBmcm9tOg0KPiBTdGFibGUgdHJlZXMgYXJlIG1haW50YWluZWQgYnkg
+dGhlICJzdGFibGUiIHRlYW0gPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+LCAuLi4NCj4gDQo+
+IFNvLCBJdCBtYXkgYWxzbyBiZXR0ZXIgdG8gYmU6DQo+IOWuieWumueJiOODhOODquODvOOB
+ryJzdGFibGUiIOODgeODvOODoCA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4g44Gn44Oh44Oz
+44OG44GV44KM44Gm44GK44KK44CBDQoNCkRpdHRvLg0KDQpGdWppbW90by1zYW4sIHBsZWFz
+ZSBrZWVwIG15IFJldmlld2VkLWJ5OiB0YWcgaW4gdGhlIG5leHQgc3Bpbi4NCg0KICAgICAg
+ICBUaGFua3MsIEFraXJhDQoNCj4gDQo+IEZvciBvdGhlciBwYXJ0cyBpdCBsb29rcyBnb29k
+IHRvIG1lLiBJIGhvcGUgeW91IHdpbGwgZml4IGFuZCBzdWJtaXQNCj4geW91ciBwYXRjaCBh
+Z2Fpbi4NCj4gVGhhbmsgeW91IGZvciB5b3VyIHBhdGNoLg0KPiANCj4gVHN1Z2lrYXp1IFNo
+aWJhdGENCg==
