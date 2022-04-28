@@ -2,37 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96496C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 18:39:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00230C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 18:49:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345038AbiD1SnL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Apr 2022 14:43:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55158 "EHLO
+        id S1351052AbiD1Sw6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Apr 2022 14:52:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232896AbiD1SnL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 14:43:11 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09DCEBE9F5;
-        Thu, 28 Apr 2022 11:39:55 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
+        with ESMTP id S233258AbiD1Sw6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 14:52:58 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0D527CB0C;
+        Thu, 28 Apr 2022 11:49:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 71CC137A;
-        Thu, 28 Apr 2022 18:39:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 71CC137A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1651171195; bh=fxw3rNrkfLA2emenBhZ8L7bdgypypZpUWtQbyeBbAl8=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=G84Kt3DbbfUzzepGREd8nWnTW9WwCy231V3+AEwXL7wKFJxLer3Ya3dXEZ2o9bQMm
-         70kAjxtBCWiaFuj2nenIbd9Uh1mY6EGSGBM2TMnq943D0cGF3H/zyZaog5Lrvf8vXT
-         e+7bex7EKjDXYQYW9XrNCaawpbj65EYOBQGmbi0pAp0iZVzk0clTeQ/veu+ModTV/D
-         YFcY0LAux0tv7Y0bK15RF7LLN9hJj94KuRFaPuTwfyXrioSKj1EHCziccYZRstExE4
-         uol3LxVzsTUxoI8vDqonSUrojaRvywPd+PvhZviGOr1c3NDUQLaWV6lc2hCjQ4PtJ6
-         m0a5Fj3Nb0YCg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Joel Savitz <jsavitz@redhat.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        by ams.source.kernel.org (Postfix) with ESMTPS id 91933B82F53;
+        Thu, 28 Apr 2022 18:49:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1936AC385A9;
+        Thu, 28 Apr 2022 18:49:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1651171780;
+        bh=vY7+ICt2zXsN4Qwq+crX7yjoKkOoFqIDxY4aJZFwEsQ=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=Nig5Rqf3UEJzb9Q3KfjN+JuxLarhqSY1QFPSKADqWOJ8ol6NaGtVqkz9sfSQNc9IN
+         akRt6wT1LJ7h7PfzvsEclLOBiNJaDSzsdjfddXhct6VI+G6M2LgylBHHX9tJMojnNk
+         t3fjDWoquVxSqtSfDzKsudC02yuPPY+Pq+AMV04qmgSdx6ipv9WWVCWl1oEGqF6MTj
+         EN3HOX+wX9Zk3cfCewPyYfALph3EAHYDBOpCyQLdXL85kP/aSJqXeHNVT00Ie81z9Y
+         drWLEFlM7WOygV5xJMv7b/U0xVqwlkIfVZCc3bqIjytP27OlrMnIZFsUXxsEeYCYjP
+         AnYKC4UFGY9jw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id A34CE5C0500; Thu, 28 Apr 2022 11:49:39 -0700 (PDT)
+Date:   Thu, 28 Apr 2022 11:49:39 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Joel Savitz <jsavitz@redhat.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Huang Ying <ying.huang@intel.com>,
         Eric Biggers <ebiggers@google.com>,
         Dominik Brodowski <linux@dominikbrodowski.net>,
@@ -41,63 +47,70 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         "Jason A. Donenfeld" <Jason@zx2c4.com>,
         Daniel Borkmann <daniel@iogearbox.net>,
         Rob Herring <robh@kernel.org>, Wang Qing <wangqing@vivo.com>,
-        linux-doc@vger.kernel.org, chao <chao@eero.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>
+        linux-doc@vger.kernel.org, chao <chao@eero.com>
 Subject: Re: [PATCH] Documentation/sysctl: document max_rcu_stall_to_panic
-In-Reply-To: <CAL1p7m4drKAz4yocoT7ovhmFC_cGBbAC+jPvsg+exYkwJ72POw@mail.gmail.com>
+Message-ID: <20220428184939.GL1790663@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
 References: <20220324221156.44813-1-jsavitz@redhat.com>
  <CAL1p7m4drKAz4yocoT7ovhmFC_cGBbAC+jPvsg+exYkwJ72POw@mail.gmail.com>
-Date:   Thu, 28 Apr 2022 12:39:54 -0600
-Message-ID: <87levp59xh.fsf@meer.lwn.net>
+ <87levp59xh.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87levp59xh.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Joel Savitz <jsavitz@redhat.com> writes:
+On Thu, Apr 28, 2022 at 12:39:54PM -0600, Jonathan Corbet wrote:
+> Joel Savitz <jsavitz@redhat.com> writes:
+> 
+> > Friendly ping.
+> 
+> This was waiting for an ack from an RCU person.  Looking now, though, I
+> see that you didn't copy any RCU people.  Adding Paul and the author of
+> the patch you reference (and appending patch below).
 
-> Friendly ping.
+Thank you for calling this to my attention.  ;-)
 
-This was waiting for an ack from an RCU person.  Looking now, though, I
-see that you didn't copy any RCU people.  Adding Paul and the author of
-the patch you reference (and appending patch below).
+> Thanks,
+> 
+> jon
+> 
+> Joel Savitz <jsavitz@redhat.com> (March 24) (kernel lwn)
+> Subject: [PATCH] Documentation/sysctl: document max_rcu_stall_to_panic
+> To: linux-kernel@vger.kernel.org
+> Cc: Joel Savitz <jsavitz@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, Huang Ying <ying.huang@intel.com>, Eric Biggers <ebiggers@google.com>, Dominik Brodowski <linux@dominikbrodowski.net>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, "Jason A. Donenfeld" <Jason@zx2c4.com>, Daniel Borkmann <daniel@iogearbox.net>, Rob Herring <robh@kernel.org>, Wang Qing <wangqing@vivo.com>, linux-doc@vger.kernel.org
+> Date: Thu, 24 Mar 2022 18:11:56 -0400
+> 
+> commit dfe564045c65 ("rcu: Panic after fixed number of stalls")
+> introduced a new systctl but no accompanying documentation.
+> 
+> Add a simple entry to the documentation.
+> 
+> Signed-off-by: Joel Savitz <jsavitz@redhat.com>
 
-Thanks,
+Acked-by: Paul E. McKenney <paulmck@kernel.org>
 
-jon
-
-Joel Savitz <jsavitz@redhat.com> (March 24) (kernel lwn)
-Subject: [PATCH] Documentation/sysctl: document max_rcu_stall_to_panic
-To: linux-kernel@vger.kernel.org
-Cc: Joel Savitz <jsavitz@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, Huang Ying <ying.huang@intel.com>, Eric Biggers <ebiggers@google.com>, Dominik Brodowski <linux@dominikbrodowski.net>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, "Jason A. Donenfeld" <Jason@zx2c4.com>, Daniel Borkmann <daniel@iogearbox.net>, Rob Herring <robh@kernel.org>, Wang Qing <wangqing@vivo.com>, linux-doc@vger.kernel.org
-Date: Thu, 24 Mar 2022 18:11:56 -0400
-
-commit dfe564045c65 ("rcu: Panic after fixed number of stalls")
-introduced a new systctl but no accompanying documentation.
-
-Add a simple entry to the documentation.
-
-Signed-off-by: Joel Savitz <jsavitz@redhat.com>
----
- Documentation/admin-guide/sysctl/kernel.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 803c60bf21d3..4e48139b9a34 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -781,6 +781,13 @@ is useful to define the root cause of RCU stalls using a vmcore.
- 1 panic() after printing RCU stall messages.
- = ============================================================
-
-+max_rcu_stall_to_panic
-+======================
-+
-+When ``panic_on_rcu_stall`` is set to 1, this value determines the
-+number of times that RCU can stall before panic() is called.
-+
-+When ``panic_on_rcu_stall`` is set to 0, this value is has no effect.
-
- perf_cpu_time_max_percent
- =========================
+> ---
+>  Documentation/admin-guide/sysctl/kernel.rst | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index 803c60bf21d3..4e48139b9a34 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -781,6 +781,13 @@ is useful to define the root cause of RCU stalls using a vmcore.
+>  1 panic() after printing RCU stall messages.
+>  = ============================================================
+> 
+> +max_rcu_stall_to_panic
+> +======================
+> +
+> +When ``panic_on_rcu_stall`` is set to 1, this value determines the
+> +number of times that RCU can stall before panic() is called.
+> +
+> +When ``panic_on_rcu_stall`` is set to 0, this value is has no effect.
+> 
+>  perf_cpu_time_max_percent
+>  =========================
