@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B14B9C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 13:36:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEDA8C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 13:36:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345635AbiD2Njh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 09:39:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50508 "EHLO
+        id S1349499AbiD2Njp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 09:39:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235983AbiD2Njg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 09:39:36 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88F7C8BCF
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:36:16 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id q12so6523136pgj.13
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:36:16 -0700 (PDT)
+        with ESMTP id S1347966AbiD2Njk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 09:39:40 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A817CABAC
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:36:22 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id cx11-20020a17090afd8b00b001d9fe5965b3so8604246pjb.3
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:36:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dpbde/vaZRRFySCr85iPpDzqYqW+eIo3XY8pE4lO6sM=;
-        b=ecGalpDz8llCqz+zXe8P6mTGdoUAiMgYIVGYu0HUBQH78AbPHlKQrKuujMDWaTYbpq
-         mYAGEt3y1jeMMN6q1+wUH1yPXfM9+cxR4ZMo5cKthMRTBJDMyMtzHut3ETZODuzD1WtW
-         +h0gx8sWt2DfqRO339NQFG2D/wje4F/h/r67YCun0rpJ5eNPYoloyyOyGj9/0RUV49E6
-         KA20ldAGAjuKP0rMWwd0bMuSdnWortC/3GlpcNz86YufkwZzMPSzw9tjPW39O9XqADDA
-         5ScIWptHZM719pknZrA/CI/BRFMkDhZ0xUZinkNQBjiunQ9nmjA8N0JWxXSJHnyXXwzH
-         ajPQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=L6JfYichFyXFsf3r/4znwUIKw3e8Xt3i1DYSf+5mskE=;
+        b=uiu5RLuEB7qSCoidGIQkJZQf2tXs/EuKorStHUYGrE3Q5/xwMjpvGCmRYxjgJA6Ctu
+         75nC7BuohPGVHhHiVloQeiByLs8cb+N0Ed8rJ3utK+A6gQToV+GujF6l5qKhJ6c7EtGn
+         NGGslCeqHkUhC439mUKObKU0nONs9Y2XDO0mRRIdYkuP+YXoGmTiT18RjaEEpxX9bPsh
+         AAQJ8XZb1PV/10ty6IAIC9mYDPdZ84ojotFDfykLySr4Rl5A0JazS0rcCBaq64jgtFXH
+         n+rOZQhRPeLRzNBkYnF0c08yntciuvNCXpZK09/v/tg0M7w22eVyLTCmchLVjWICGks9
+         yfeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dpbde/vaZRRFySCr85iPpDzqYqW+eIo3XY8pE4lO6sM=;
-        b=dMuLn7Ryrcfrr6M2zhmM62WY6Zuq5IOlBYJXGdnbxbxhG4SzJn2OBrlt+AhvCaqrny
-         QIJ2nGfAWuqpTgzJIzrD0BCMBXYg8uBLfKy0p+ML8ZxoKg8Be0cex5rdUw2GK65FZLZT
-         u53BKTMeKUUg+DNs1HSZ73wZ92myXP/j7nuXj9RKwKgDbD61N2tX/2O8JTXiYEbT4ZPX
-         0WD97EWHn97KNpG4KQuLOfFbr6r3w5g6R72ssa+nO6AHc/vsuCB0gdnOnD9JwawAMkmD
-         DJ30bJZaZssI8Equ/Lcu5EZr9T0S9xnpn8Xy0n7//CCHWDol13JZWlBMfFWKTyy0YvCS
-         JHpQ==
-X-Gm-Message-State: AOAM530zf9K2e8we6TJY5jdQ2rkbofWqlMbfJilh36DyNQ0gCQ5yy8yk
-        /S+2KuGAtHoMf4bhX8DONS0q+w==
-X-Google-Smtp-Source: ABdhPJxeRhBFbkwTHIaM2b9Mdnm1pxMN/wK2KEcBoO7TNdUijwgyiXrx2s/neJyAY//6saUNM26sdA==
-X-Received: by 2002:a65:60d3:0:b0:39c:f431:5859 with SMTP id r19-20020a6560d3000000b0039cf4315859mr32419170pgv.442.1651239376174;
-        Fri, 29 Apr 2022 06:36:16 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=L6JfYichFyXFsf3r/4znwUIKw3e8Xt3i1DYSf+5mskE=;
+        b=hjR3+e/sCbnLH8LhanGFA/A1a6Y4rnfpkcU26WkudgRlF0GRJqD1s7fxncm8y4Pu6x
+         GultzPHNiW6mWXpBSj2u8hHaeJSJj3ufA7hVp0bwDB4amWg2Uc14X0ndJoLprUFP8fZX
+         TI1jVDQ3eSXKCkUKPFtebYu4EVEQLi7m7xgQ04IiDytS4e+j8pZYtkj27Iu7MuT4CsG1
+         QEGbSbVNNUabJSHGNGxzfKJCjE/+d8ib0nAddNI2sTy9rVm8XDl8KdaUeaLD4KY1nJC7
+         G+DvLkpGTVYmehzqWV1VmwDOMmz7ocLOgueKyApERuRQ6IzibLfvYVJ3WNMziPVR6UW6
+         WaYA==
+X-Gm-Message-State: AOAM5326I/B+Jvxfgseju59TipFLzBxvvUHiNg56GC5TK4fkkXoK3W0e
+        HSIF3243B8NFp7DU8p0TG+5Spw==
+X-Google-Smtp-Source: ABdhPJx+W1PxtRy+jGpbbBvOatDdA/DNvTfTbEwQM2M30hTFb7Isln+pU5bpMFj6BaOrsgTZDYJFuQ==
+X-Received: by 2002:a17:902:ed89:b0:15a:d3e:ada6 with SMTP id e9-20020a170902ed8900b0015a0d3eada6mr39276616plj.94.1651239381708;
+        Fri, 29 Apr 2022 06:36:21 -0700 (PDT)
 Received: from localhost.localdomain ([139.177.225.240])
-        by smtp.gmail.com with ESMTPSA id m8-20020a17090a414800b001d81a30c437sm10681977pjg.50.2022.04.29.06.36.10
+        by smtp.gmail.com with ESMTPSA id m8-20020a17090a414800b001d81a30c437sm10681977pjg.50.2022.04.29.06.36.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 06:36:15 -0700 (PDT)
+        Fri, 29 Apr 2022 06:36:21 -0700 (PDT)
 From:   Qi Zheng <zhengqi.arch@bytedance.com>
 To:     akpm@linux-foundation.org, tglx@linutronix.de,
         kirill.shutemov@linux.intel.com, mika.penttila@nextfour.com,
@@ -55,165 +55,40 @@ To:     akpm@linux-foundation.org, tglx@linutronix.de,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, songmuchun@bytedance.com,
         zhouchengming@bytedance.com, Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: [RFC PATCH 00/18] Try to free user PTE page table pages
-Date:   Fri, 29 Apr 2022 21:35:34 +0800
-Message-Id: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
+Subject: [RFC PATCH 01/18] x86/mm/encrypt: add the missing pte_unmap() call
+Date:   Fri, 29 Apr 2022 21:35:35 +0800
+Message-Id: <20220429133552.33768-2-zhengqi.arch@bytedance.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+In-Reply-To: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
+References: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+The paired pte_unmap() call is missing before the sme_populate_pgd()
+returns. Although this code only runs under the CONFIG_X86_64, for
+the correctness of the code semantics, it is necessary to add a
+paired pte_unmap() call.
 
-This patch series aims to try to free user PTE page table pages when no one is
-using it.
+Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+---
+ arch/x86/mm/mem_encrypt_identity.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-The beginning of this story is that some malloc libraries(e.g. jemalloc or
-tcmalloc) usually allocate the amount of VAs by mmap() and do not unmap those
-VAs. They will use madvise(MADV_DONTNEED) to free physical memory if they want.
-But the page tables do not be freed by madvise(), so it can produce many
-page tables when the process touches an enormous virtual address space.
-
-The following figures are a memory usage snapshot of one process which actually
-happened on our server:
-
-        VIRT:  55t
-        RES:   590g
-        VmPTE: 110g
-
-As we can see, the PTE page tables size is 110g, while the RES is 590g. In
-theory, the process only need 1.2g PTE page tables to map those physical
-memory. The reason why PTE page tables occupy a lot of memory is that
-madvise(MADV_DONTNEED) only empty the PTE and free physical memory but
-doesn't free the PTE page table pages. So we can free those empty PTE page
-tables to save memory. In the above cases, we can save memory about 108g(best
-case). And the larger the difference between the size of VIRT and RES, the
-more memory we save.
-
-In this patch series, we add a pte_ref field to the struct page of page table
-to track how many users of user PTE page table. Similar to the mechanism of page
-refcount, the user of PTE page table should hold a refcount to it before
-accessing. The user PTE page table page may be freed when the last refcount is
-dropped.
-
-Different from the idea of another patchset of mine before[1], the pte_ref
-becomes a struct percpu_ref type, and we switch it to atomic mode only in cases
-such as MADV_DONTNEED and MADV_FREE that may clear the user PTE page table
-entryies, and then release the user PTE page table page when checking that
-pte_ref is 0. The advantage of this is that there is basically no performance
-overhead in percpu mode, but it can also free the empty PTEs. In addition, the
-code implementation of this patchset is much simpler and more portable than the
-another patchset[1].
-
-Testing:
-
-The following code snippet can show the effect of optimization:
-
-        mmap 50G
-        while (1) {
-                for (; i < 1024 * 25; i++) {
-                        touch 2M memory
-                        madvise MADV_DONTNEED 2M
-                }
-        }
-
-As we can see, the memory usage of VmPTE is reduced:
-
-                        before                          after
-VIRT                   50.0 GB                        50.0 GB
-RES                     3.1 MB                         3.1 MB
-VmPTE                102640 kB                          96 kB
-
-I also have tested the stability by LTP[2] for several weeks. I have not seen
-any crash so far.
-
-This series is based on v5.18-rc2.
-
-Comments and suggestions are welcome.
-
-Thanks,
-Qi.
-
-[1] https://patchwork.kernel.org/project/linux-mm/cover/20211110105428.32458-1-zhengqi.arch@bytedance.com/
-[2] https://github.com/linux-test-project/ltp
-
-Qi Zheng (18):
-  x86/mm/encrypt: add the missing pte_unmap() call
-  percpu_ref: make ref stable after percpu_ref_switch_to_atomic_sync()
-    returns
-  percpu_ref: make percpu_ref_switch_lock per percpu_ref
-  mm: convert to use ptep_clear() in pte_clear_not_present_full()
-  mm: split the related definitions of pte_offset_map_lock() into
-    pgtable.h
-  mm: introduce CONFIG_FREE_USER_PTE
-  mm: add pte_to_page() helper
-  mm: introduce percpu_ref for user PTE page table page
-  pte_ref: add pte_tryget() and {__,}pte_put() helper
-  mm: add pte_tryget_map{_lock}() helper
-  mm: convert to use pte_tryget_map_lock()
-  mm: convert to use pte_tryget_map()
-  mm: add try_to_free_user_pte() helper
-  mm: use try_to_free_user_pte() in MADV_DONTNEED case
-  mm: use try_to_free_user_pte() in MADV_FREE case
-  pte_ref: add track_pte_{set, clear}() helper
-  x86/mm: add x86_64 support for pte_ref
-  Documentation: add document for pte_ref
-
- Documentation/vm/index.rst         |   1 +
- Documentation/vm/pte_ref.rst       | 210 ++++++++++++++++++++++++++
- arch/x86/Kconfig                   |   1 +
- arch/x86/include/asm/pgtable.h     |   7 +-
- arch/x86/mm/mem_encrypt_identity.c |  10 +-
- fs/proc/task_mmu.c                 |  16 +-
- fs/userfaultfd.c                   |  10 +-
- include/linux/mm.h                 | 162 ++------------------
- include/linux/mm_types.h           |   1 +
- include/linux/percpu-refcount.h    |   6 +-
- include/linux/pgtable.h            | 196 +++++++++++++++++++++++-
- include/linux/pte_ref.h            |  73 +++++++++
- include/linux/rmap.h               |   2 +
- include/linux/swapops.h            |   4 +-
- kernel/events/core.c               |   5 +-
- lib/percpu-refcount.c              |  86 +++++++----
- mm/Kconfig                         |  10 ++
- mm/Makefile                        |   2 +-
- mm/damon/vaddr.c                   |  30 ++--
- mm/debug_vm_pgtable.c              |   2 +-
- mm/filemap.c                       |   4 +-
- mm/gup.c                           |  20 ++-
- mm/hmm.c                           |   9 +-
- mm/huge_memory.c                   |   4 +-
- mm/internal.h                      |   3 +-
- mm/khugepaged.c                    |  18 ++-
- mm/ksm.c                           |   4 +-
- mm/madvise.c                       |  35 +++--
- mm/memcontrol.c                    |   8 +-
- mm/memory-failure.c                |  15 +-
- mm/memory.c                        | 187 +++++++++++++++--------
- mm/mempolicy.c                     |   4 +-
- mm/migrate.c                       |   8 +-
- mm/migrate_device.c                |  22 ++-
- mm/mincore.c                       |   5 +-
- mm/mlock.c                         |   5 +-
- mm/mprotect.c                      |   4 +-
- mm/mremap.c                        |  10 +-
- mm/oom_kill.c                      |   3 +-
- mm/page_table_check.c              |   2 +-
- mm/page_vma_mapped.c               |  59 +++++++-
- mm/pagewalk.c                      |   6 +-
- mm/pte_ref.c                       | 230 +++++++++++++++++++++++++++++
- mm/rmap.c                          |   9 ++
- mm/swap_state.c                    |   4 +-
- mm/swapfile.c                      |  18 ++-
- mm/userfaultfd.c                   |  11 +-
- mm/vmalloc.c                       |   2 +-
- 48 files changed, 1203 insertions(+), 340 deletions(-)
- create mode 100644 Documentation/vm/pte_ref.rst
- create mode 100644 include/linux/pte_ref.h
- create mode 100644 mm/pte_ref.c
-
+diff --git a/arch/x86/mm/mem_encrypt_identity.c b/arch/x86/mm/mem_encrypt_identity.c
+index b43bc24d2bb6..6d323230320a 100644
+--- a/arch/x86/mm/mem_encrypt_identity.c
++++ b/arch/x86/mm/mem_encrypt_identity.c
+@@ -190,6 +190,7 @@ static void __init sme_populate_pgd(struct sme_populate_pgd_data *ppd)
+ 	pte = pte_offset_map(pmd, ppd->vaddr);
+ 	if (pte_none(*pte))
+ 		set_pte(pte, __pte(ppd->paddr | ppd->pte_flags));
++	pte_unmap(pte);
+ }
+ 
+ static void __init __sme_map_range_pmd(struct sme_populate_pgd_data *ppd)
 -- 
 2.20.1
 
