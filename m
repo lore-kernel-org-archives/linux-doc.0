@@ -2,371 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB448C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 12:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 764C0C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 13:35:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359003AbiD2MWO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 08:22:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39380 "EHLO
+        id S234357AbiD2Ni5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 09:38:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359017AbiD2MWN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 08:22:13 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95F52C8AA7
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 05:18:54 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id s14so6981460plk.8
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 05:18:54 -0700 (PDT)
+        with ESMTP id S229673AbiD2Ni5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 09:38:57 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F133B80226;
+        Fri, 29 Apr 2022 06:35:38 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id cq17-20020a17090af99100b001dc0386cd8fso1898513pjb.5;
+        Fri, 29 Apr 2022 06:35:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zDXpEWP/M8b8xOVREYB3k63KnnxPDMvYn9pJUThphoA=;
-        b=AmcOpfwPVIFaelJEou6Pn+NQDCIakRdzRx7dzQEVHRWQAQRSMhHiB9svFeOGWbUMQ3
-         FOw1fM+wJNwn1NJx94nhrerK0ScBS0xz8zuyzm7lfypZ1aKrPishIKLEah9Bo8S+uWd9
-         TLQkb5d51/AYp0UVAQU2hAjwMb/YrEh21CiGH8VyZnJlqcrsCZUEAnPgkR1Y8mpQmr49
-         ZNEzn/xwtTjHFXwBZ4P7YyR6envMkD2vw3m7FeQZ2ZtwLr+Sv2+l05wDQT8FeMvDQvd5
-         xrTZ6jJL3qgQImWAuWgwWjZa46M6lKvQ9n9Fv018yb61zoe10wEIpKZTRrzNeJnfGMlI
-         whWw==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=d77kFU+9eiqSJaQTuYIx7qKaKqXTgR0JP17JofrmVSE=;
+        b=fBMzoMoUPvaLV2dDu8oIPX08t5t3YWip3be5fkbk+LnTmlekDGdZ/JZyxY4UPj74+t
+         7RWw5n3ftCT/JmMhGOZ5Z3U08VUKeKA2PcBQ9mU7Gh4AmCKbXKftX2mEPU4rPUi2g4tq
+         xbjsu6bDJ1X00gc7jHvcr+E2oZVFLehNrtKh1uSQfTyf+Bj3wIihOQ0H1EaA0Ax2prbD
+         Wyxtf30g/6l7JjHr9shlfeJedlpTE60F77u2Ywvm/xQ/Hk2yhx4F8X5UgdGUG9kCv+Mm
+         1AlsuItIVQNu9kCgTWeaha6GgW7EIhhMl1nYkcwuEQJQFUledE3YgUU9leg/A0Uv2pEK
+         GFKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zDXpEWP/M8b8xOVREYB3k63KnnxPDMvYn9pJUThphoA=;
-        b=5/EhD9lwM6wRtYwW/HaV3ohBEzvvMAdDdO4R0fZI1VyzUsO/IAc1ymGZCLi1toxzIT
-         inn9nXp+OXAmYIa3HTaGLeJZ9DBAkfGIAvO1bKmbQBzLqVjkioj1ouOdQsW8UReFmkbK
-         kE0UY577Pc2BFaemSH4PlGIP6hXrAll9ocTXcqEHZ161AobMW5xP1OUDyrqUvjDmeQx0
-         Og+fVx+rIsI6qIcXmnmniko2ZPvSy7Yc2JiI1V+Gsu4IJciB+xV9L3zRi6afZr+g+yIh
-         LK7oA3D1YHZL4a0oyOYzqviwVgTUTBE12leRPlJmKZhPnW/S7rmPtBWgp/zdNbBFygtv
-         lyFw==
-X-Gm-Message-State: AOAM5300zYwYVWaMxtF2drsDsVTswSeMWeLxf3y3G1Gwk+r5oZcjHHDy
-        CHZmX7yCVO6pPGVfDQjEnwPWwg==
-X-Google-Smtp-Source: ABdhPJwKHR7kT2EV6lDbvTrCLziq87suBz9Ay1g9D+Q4dhe222lhHxp0kqbAVc/XcJ2nNVp91WNHwQ==
-X-Received: by 2002:a17:902:c2c7:b0:159:9f9:85f3 with SMTP id c7-20020a170902c2c700b0015909f985f3mr37791962pla.18.1651234733640;
-        Fri, 29 Apr 2022 05:18:53 -0700 (PDT)
-Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.239])
-        by smtp.gmail.com with ESMTPSA id k11-20020a056a00168b00b004f7e1555538sm3101421pfc.190.2022.04.29.05.18.49
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=d77kFU+9eiqSJaQTuYIx7qKaKqXTgR0JP17JofrmVSE=;
+        b=TU5twmgtZPGYQqM5zXWc01G7b4yOMw60KKkIFraLMVB1rmLwULSitXPJpeHD3sItBO
+         KAasXsb1z5IeRDa81ixCURPb3oMhZ4VTt8vjXYGFy/dqWKrK2krww/bi7xP4HV0me5OW
+         ZFpL9wlxzV8qeSzHDV1eu8C3BRS6HvVlchhFPRn0P6cWxE+OsjM5+Ljmli4trDzcUm+G
+         Y/UaESp2QWRpnOtoegbHPfFmNKya57yz4VtCK5uswAxDA6sJ8pyfe8MZHYAGrqiJvbT0
+         JV5AU21zCOsbY0xFFcpiVIAFkiN1BXIJriZa/fNOWTvmsrg0Wyf7DSMxkV9JbcVruqU4
+         Cx9Q==
+X-Gm-Message-State: AOAM532JJbOug2SLITGXQFjL83cvh22y+2X/hnq6Tx9XBsohFRjCQLI+
+        0KDe+LEqywyE/fBJmFKnFdXLZJmITJnf4A==
+X-Google-Smtp-Source: ABdhPJzyMNHjx1aPPP1zAhwe6arong2uZJ38Qxm0YT/rxr58atd9jxvDNxvkTAt410EQo457/80f6g==
+X-Received: by 2002:a17:902:e78e:b0:15d:29ba:77fe with SMTP id cp14-20020a170902e78e00b0015d29ba77femr22040994plb.119.1651239338209;
+        Fri, 29 Apr 2022 06:35:38 -0700 (PDT)
+Received: from localhost.localdomain (164.174.128.101.dy.bbexcite.jp. [101.128.174.164])
+        by smtp.gmail.com with ESMTPSA id u2-20020a62d442000000b0050d404f837fsm3221828pfl.156.2022.04.29.06.35.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 05:18:53 -0700 (PDT)
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
-        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
-        osalvador@suse.de, david@redhat.com, masahiroy@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v9 4/4] mm: hugetlb_vmemmap: add hugetlb_optimize_vmemmap sysctl
-Date:   Fri, 29 Apr 2022 20:18:16 +0800
-Message-Id: <20220429121816.37541-5-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
-In-Reply-To: <20220429121816.37541-1-songmuchun@bytedance.com>
-References: <20220429121816.37541-1-songmuchun@bytedance.com>
+        Fri, 29 Apr 2022 06:35:37 -0700 (PDT)
+From:   Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+To:     shibata@linuxfoundation.org
+Cc:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>, corbet@lwn.net,
+        akiyks@gmail.com, skhan@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] docs/trans/ja_JP/howto: Don't mention specific kernel versions
+Date:   Fri, 29 Apr 2022 22:35:22 +0900
+Message-Id: <20220429133522.41013-1-fujimotokosuke0@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We must add hugetlb_free_vmemmap=on (or "off") to the boot cmdline and
-reboot the server to enable or disable the feature of optimizing vmemmap
-pages associated with HugeTLB pages.  However, rebooting usually takes a
-long time.  So add a sysctl to enable or disable the feature at runtime
-without rebooting.  Why we need this?  There are 3 use cases.
+This change is based on commit d2b008f134b7
+("Documentation/process/howto: Update for 4.x -> 5.x versioning").
 
-1) The feature of minimizing overhead of struct page associated with each
-HugeTLB is disabled by default without passing "hugetlb_free_vmemmap=on"
-to the boot cmdline. When we (ByteDance) deliver the servers to the
-users who want to enable this feature, they have to configure the grub
-(change boot cmdline) and reboot the servers, whereas rebooting usually
-takes a long time (we have thousands of servers).  It's a very bad
-experience for the users.  So we need a approach to enable this feature
-after rebooting. This is a use case in our practical environment.
+Replace "4.x kernel version" with generic term such as "mainline tree"
 
-2) Some use cases are that HugeTLB pages are allocated 'on the fly'
-instead of being pulled from the HugeTLB pool, those workloads would be
-affected with this feature enabled.  Those workloads could be identified
-by the characteristics of they never explicitly allocating huge pages
-with 'nr_hugepages' but only set 'nr_overcommit_hugepages' and then let
-the pages be allocated from the buddy allocator at fault time.  We can
-confirm it is a real use case from the commit 099730d67417.  For those
-workloads, the page fault time could be ~2x slower than before. We
-suspect those users want to disable this feature if the system has enabled
-this before and they don't think the memory savings benefit is enough to
-make up for the performance drop.
-
-3) If the workload which wants vmemmap pages to be optimized and the
-workload which wants to set 'nr_overcommit_hugepages' and does not want
-the extera overhead at fault time when the overcommitted pages be
-allocated from the buddy allocator are deployed in the same server.
-The user could enable this feature and set 'nr_hugepages' and
-'nr_overcommit_hugepages', then disable the feature.  In this case,
-the overcommited HugeTLB pages will not encounter the extra overhead
-at fault time.
-
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+Signed-off-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
 ---
- Documentation/admin-guide/sysctl/vm.rst | 30 +++++++++++
- include/linux/memory_hotplug.h          |  9 ++++
- mm/hugetlb_vmemmap.c                    | 92 +++++++++++++++++++++++++++++----
- mm/hugetlb_vmemmap.h                    |  4 +-
- mm/memory_hotplug.c                     |  7 +--
- 5 files changed, 126 insertions(+), 16 deletions(-)
+V2: Reformatted commit log message
+V3: Updated some expressions
+- added "version number" in mainline tree section
+- updated from "stable kernel" to "stable tree"
+---
+---
+ Documentation/translations/ja_JP/howto.rst | 44 +++++++++++-----------
+ 1 file changed, 21 insertions(+), 23 deletions(-)
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 747e325ebcd0..00434789cf26 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -562,6 +562,36 @@ Change the minimum size of the hugepage pool.
- See Documentation/admin-guide/mm/hugetlbpage.rst
+diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/translations/ja_JP/howto.rst
+index d667f9d8a02a..deac41eb038a 100644
+--- a/Documentation/translations/ja_JP/howto.rst
++++ b/Documentation/translations/ja_JP/howto.rst
+@@ -262,21 +262,21 @@ Linux カーネルの開発プロセスは現在幾つかの異なるメイン
+ チ」と多数のサブシステム毎のカーネルブランチから構成されます。これらの
+ ブランチとは -
  
+-  - メインの 4.x カーネルツリー
+-  - 4.x.y -stable カーネルツリー
+-  - サブシステム毎のカーネルツリーとパッチ
+-  - 統合テストのための 4.x -next カーネルツリー
++  - Linus のメインラインツリー
++  - メジャー番号をまたぐ数本の安定版ツリー
++  - サブシステム毎のカーネルツリー
++  - 統合テストのための linux-next カーネルツリー
  
-+hugetlb_optimize_vmemmap
-+========================
-+
-+Enable (set to 1) or disable (set to 0) the feature of optimizing vmemmap pages
-+associated with each HugeTLB page.
-+
-+Once enabled, the vmemmap pages of subsequent allocation of HugeTLB pages from
-+buddy allocator will be optimized (7 pages per 2MB HugeTLB page and 4095 pages
-+per 1GB HugeTLB page), whereas already allocated HugeTLB pages will not be
-+optimized.  When those optimized HugeTLB pages are freed from the HugeTLB pool
-+to the buddy allocator, the vmemmap pages representing that range needs to be
-+remapped again and the vmemmap pages discarded earlier need to be rellocated
-+again.  If your use case is that HugeTLB pages are allocated 'on the fly' (e.g.
-+never explicitly allocating HugeTLB pages with 'nr_hugepages' but only set
-+'nr_overcommit_hugepages', those overcommitted HugeTLB pages are allocated 'on
-+the fly') instead of being pulled from the HugeTLB pool, you should weigh the
-+benefits of memory savings against the more overhead (~2x slower than before)
-+of allocation or freeing HugeTLB pages between the HugeTLB pool and the buddy
-+allocator.  Another behavior to note is that if the system is under heavy memory
-+pressure, it could prevent the user from freeing HugeTLB pages from the HugeTLB
-+pool to the buddy allocator since the allocation of vmemmap pages could be
-+failed, you have to retry later if your system encounter this situation.
-+
-+Once disabled, the vmemmap pages of subsequent allocation of HugeTLB pages from
-+buddy allocator will not be optimized meaning the extra overhead at allocation
-+time from buddy allocator disappears, whereas already optimized HugeTLB pages
-+will not be affected.  If you want to make sure there is no optimized HugeTLB
-+pages, you can set "nr_hugepages" to 0 first and then disable this.
-+
-+
- nr_hugepages_mempolicy
- ======================
+-4.x カーネルツリー
++メインラインツリー
+ ~~~~~~~~~~~~~~~~~~
  
-diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
-index 029fb7e26504..917112661b5c 100644
---- a/include/linux/memory_hotplug.h
-+++ b/include/linux/memory_hotplug.h
-@@ -351,4 +351,13 @@ void arch_remove_linear_mapping(u64 start, u64 size);
- extern bool mhp_supports_memmap_on_memory(unsigned long size);
- #endif /* CONFIG_MEMORY_HOTPLUG */
+-4.x カーネルは Linus Torvalds によってメンテナンスされ、
+-https://kernel.org の pub/linux/kernel/v4.x/ ディレクトリに存在します。
++メインラインツリーは Linus Torvalds によってメンテナンスされ、
++https://kernel.org のリポジトリに存在します。
+ この開発プロセスは以下のとおり -
  
-+#ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
-+bool mhp_memmap_on_memory(void);
-+#else
-+static inline bool mhp_memmap_on_memory(void)
-+{
-+	return false;
-+}
-+#endif
-+
- #endif /* __LINUX_MEMORY_HOTPLUG_H */
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index cc4ec752ec16..5820a681a724 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -10,6 +10,7 @@
-  */
- #define pr_fmt(fmt)	"HugeTLB: " fmt
+   - 新しいカーネルがリリースされた直後に、2週間の特別期間が設けられ、
+     この期間中に、メンテナ達は Linus に大きな差分を送ることができます。
+-    このような差分は通常 -next カーネルに数週間含まれてきたパッチです。
++    このような差分は通常 linux-next カーネルに数週間含まれてきたパッチです。
+     大きな変更は git(カーネルのソース管理ツール、詳細は
+     http://git-scm.com/ 参照) を使って送るのが好ましいやり方ですが、パッ
+     チファイルの形式のまま送るのでも十分です。
+@@ -303,20 +303,18 @@ Andrew Morton が Linux-kernel メーリングリストにカーネルリリー
+         前もって決められた計画によってリリースされるものではないから
+         です。」*
  
-+#include <linux/memory_hotplug.h>
- #include "hugetlb_vmemmap.h"
+-4.x.y -stable カーネルツリー
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++メジャー番号をまたぐ数本の安定版ツリー
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
- /*
-@@ -22,21 +23,40 @@
- #define RESERVE_VMEMMAP_NR		1U
- #define RESERVE_VMEMMAP_SIZE		(RESERVE_VMEMMAP_NR << PAGE_SHIFT)
+ バージョン番号が3つの数字に分かれているカーネルは -stable カーネルです。
+-これには、4.x カーネルで見つかったセキュリティ問題や重大な後戻りに対す
+-る比較的小さい重要な修正が含まれます。
++これには最初の2つのバージョン番号の数字に対応した、
++メインラインリリースで見つかったセキュリティ問題や
++重大な後戻りに対する比較的小さい重要な修正が含まれます。
  
-+enum vmemmap_optimize_mode {
-+	VMEMMAP_OPTIMIZE_OFF,
-+	VMEMMAP_OPTIMIZE_ON,
-+};
-+
- DEFINE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON,
- 			hugetlb_optimize_vmemmap_key);
- EXPORT_SYMBOL(hugetlb_optimize_vmemmap_key);
+ これは、開発/実験的バージョンのテストに協力することに興味が無く、最新
+ の安定したカーネルを使いたいユーザに推奨するブランチです。
  
-+static enum vmemmap_optimize_mode vmemmap_optimize_mode =
-+	IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON);
-+
-+static void vmemmap_optimize_mode_switch(enum vmemmap_optimize_mode to)
-+{
-+	if (vmemmap_optimize_mode == to)
-+		return;
-+
-+	if (to == VMEMMAP_OPTIMIZE_OFF)
-+		static_branch_dec(&hugetlb_optimize_vmemmap_key);
-+	else
-+		static_branch_inc(&hugetlb_optimize_vmemmap_key);
-+	vmemmap_optimize_mode = to;
-+}
-+
- static int __init hugetlb_vmemmap_early_param(char *buf)
- {
- 	bool enable;
-+	enum vmemmap_optimize_mode mode;
- 
- 	if (kstrtobool(buf, &enable))
- 		return -EINVAL;
- 
--	if (enable)
--		static_branch_enable(&hugetlb_optimize_vmemmap_key);
--	else
--		static_branch_disable(&hugetlb_optimize_vmemmap_key);
-+	mode = enable ? VMEMMAP_OPTIMIZE_ON : VMEMMAP_OPTIMIZE_OFF;
-+	vmemmap_optimize_mode_switch(mode);
- 
- 	return 0;
- }
-@@ -60,6 +80,8 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
- 	vmemmap_end	= vmemmap_addr + (vmemmap_pages << PAGE_SHIFT);
- 	vmemmap_reuse	= vmemmap_addr - PAGE_SIZE;
- 
-+	VM_BUG_ON_PAGE(!vmemmap_pages, head);
-+
- 	/*
- 	 * The pages which the vmemmap virtual address range [@vmemmap_addr,
- 	 * @vmemmap_end) are mapped to are freed to the buddy allocator, and
-@@ -69,8 +91,10 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
- 	 */
- 	ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
- 				  GFP_KERNEL | __GFP_NORETRY | __GFP_THISNODE);
--	if (!ret)
-+	if (!ret) {
- 		ClearHPageVmemmapOptimized(head);
-+		static_branch_dec(&hugetlb_optimize_vmemmap_key);
-+	}
- 
- 	return ret;
- }
-@@ -84,6 +108,8 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
- 	if (!vmemmap_pages)
- 		return;
- 
-+	static_branch_inc(&hugetlb_optimize_vmemmap_key);
-+
- 	vmemmap_addr	+= RESERVE_VMEMMAP_SIZE;
- 	vmemmap_end	= vmemmap_addr + (vmemmap_pages << PAGE_SHIFT);
- 	vmemmap_reuse	= vmemmap_addr - PAGE_SIZE;
-@@ -93,7 +119,9 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
- 	 * to the page which @vmemmap_reuse is mapped to, then free the pages
- 	 * which the range [@vmemmap_addr, @vmemmap_end] is mapped to.
- 	 */
--	if (!vmemmap_remap_free(vmemmap_addr, vmemmap_end, vmemmap_reuse))
-+	if (vmemmap_remap_free(vmemmap_addr, vmemmap_end, vmemmap_reuse))
-+		static_branch_dec(&hugetlb_optimize_vmemmap_key);
-+	else
- 		SetHPageVmemmapOptimized(head);
- }
- 
-@@ -110,9 +138,6 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
- 	BUILD_BUG_ON(__NR_USED_SUBPAGE >=
- 		     RESERVE_VMEMMAP_SIZE / sizeof(struct page));
- 
--	if (!hugetlb_optimize_vmemmap_enabled())
--		return;
+-もし、4.x.y カーネルが存在しない場合には、番号が一番大きい 4.x が最新
+-の安定版カーネルです。
 -
- 	if (!is_power_of_2(sizeof(struct page))) {
- 		pr_warn_once("cannot optimize vmemmap pages because \"struct page\" crosses page boundaries\n");
- 		static_branch_disable(&hugetlb_optimize_vmemmap_key);
-@@ -134,3 +159,52 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
- 	pr_info("can optimize %d vmemmap pages for %s\n",
- 		h->optimize_vmemmap_pages, h->name);
- }
-+
-+#ifdef CONFIG_PROC_SYSCTL
-+static int hugetlb_optimize_vmemmap_handler(struct ctl_table *table, int write,
-+					    void *buffer, size_t *length,
-+					    loff_t *ppos)
-+{
-+	int ret;
-+	enum vmemmap_optimize_mode mode;
-+	static DEFINE_MUTEX(sysctl_mutex);
-+
-+	if (write && !capable(CAP_SYS_ADMIN))
-+		return -EPERM;
-+
-+	mutex_lock(&sysctl_mutex);
-+	mode = vmemmap_optimize_mode;
-+	table->data = &mode;
-+	ret = proc_dointvec_minmax(table, write, buffer, length, ppos);
-+	if (write && !ret)
-+		vmemmap_optimize_mode_switch(mode);
-+	mutex_unlock(&sysctl_mutex);
-+
-+	return ret;
-+}
-+
-+static struct ctl_table hugetlb_vmemmap_sysctls[] = {
-+	{
-+		.procname	= "hugetlb_optimize_vmemmap",
-+		.maxlen		= sizeof(enum vmemmap_optimize_mode),
-+		.mode		= 0644,
-+		.proc_handler	= hugetlb_optimize_vmemmap_handler,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_ONE,
-+	},
-+	{ }
-+};
-+
-+static __init int hugetlb_vmemmap_sysctls_init(void)
-+{
-+	/*
-+	 * If "memory_hotplug.memmap_on_memory" is enabled or "struct page"
-+	 * crosses page boundaries, the vmemmap pages cannot be optimized.
-+	 */
-+	if (!mhp_memmap_on_memory() && is_power_of_2(sizeof(struct page)))
-+		register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
-+
-+	return 0;
-+}
-+late_initcall(hugetlb_vmemmap_sysctls_init);
-+#endif /* CONFIG_PROC_SYSCTL */
-diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-index 109b0a53b6fe..19840aa900fd 100644
---- a/mm/hugetlb_vmemmap.h
-+++ b/mm/hugetlb_vmemmap.h
-@@ -21,7 +21,9 @@ void hugetlb_vmemmap_init(struct hstate *h);
-  */
- static inline unsigned int hugetlb_optimize_vmemmap_pages(struct hstate *h)
- {
--	return h->optimize_vmemmap_pages;
-+	if (hugetlb_optimize_vmemmap_enabled())
-+		return h->optimize_vmemmap_pages;
-+	return 0;
- }
- #else
- static inline int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index a6101ae402f9..c72070cdd055 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -63,15 +63,10 @@ static bool memmap_on_memory __ro_after_init;
- module_param_cb(memmap_on_memory, &memmap_on_memory_ops, &memmap_on_memory, 0444);
- MODULE_PARM_DESC(memmap_on_memory, "Enable memmap on memory for memory hotplug");
+-4.x.y は "stable" チーム <stable@vger.kernel.org> でメンテされており、
++安定版ツリーは"stable" チーム <stable@vger.kernel.org> でメンテされており、
+ 必要に応じてリリースされます。通常のリリース期間は 2週間毎ですが、差
+ し迫った問題がなければもう少し長くなることもあります。セキュリティ関
+ 連の問題の場合はこれに対してだいたいの場合、すぐにリリースがされます。
+@@ -326,7 +324,7 @@ Documentation/process/stable-kernel-rules.rst ファイルにはどのような
+ 類の変更が -stable ツリーに受け入れ可能か、またリリースプロセスがどう
+ 動くかが記述されています。
  
--static inline bool mhp_memmap_on_memory(void)
-+bool mhp_memmap_on_memory(void)
- {
- 	return memmap_on_memory;
- }
--#else
--static inline bool mhp_memmap_on_memory(void)
--{
--	return false;
--}
- #endif
+-サブシステム毎のカーネルツリーとパッチ
++サブシステム毎のカーネルツリー
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
- enum {
+ それぞれのカーネルサブシステムのメンテナ達は --- そして多くのカーネル
+@@ -351,19 +349,19 @@ quilt シリーズとして公開されているパッチキューも使われ
+ けることができます。大部分のこれらの patchwork のサイトは
+ https://patchwork.kernel.org/ でリストされています。
+ 
+-統合テストのための 4.x -next カーネルツリー
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++統合テストのための linux-next カーネルツリー
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-サブシステムツリーの更新内容がメインラインの 4.x ツリーにマージされる
++サブシステムツリーの更新内容がメインラインツリーにマージされる
+ 前に、それらは統合テストされる必要があります。この目的のため、実質的に
+ 全サブシステムツリーからほぼ毎日プルされてできる特別なテスト用のリポジ
+ トリが存在します-
+ 
+        https://git.kernel.org/?p=linux/kernel/git/next/linux-next.git
+ 
+-このやり方によって、-next カーネルは次のマージ機会でどんなものがメイン
+-ラインカーネルにマージされるか、おおまかなの展望を提供します。-next カー
+-ネルの実行テストを行う冒険好きなテスターは大いに歓迎されます。
++このやり方によって、linux-next は次のマージ機会でどんなものがメイン
++ラインにマージされるか、おおまかなの展望を提供します。
++linux-next の実行テストを行う冒険好きなテスターは大いに歓迎されます。
+ 
+ バグレポート
+ -------------
 -- 
-2.11.0
+2.25.1
 
