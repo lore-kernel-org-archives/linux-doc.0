@@ -2,330 +2,209 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 637C1C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 08:25:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D77DBC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 08:43:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355479AbiD2I3G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 04:29:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49142 "EHLO
+        id S1355942AbiD2Iqi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 04:46:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355411AbiD2I3F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 04:29:05 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A5646545;
-        Fri, 29 Apr 2022 01:25:46 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KqQWz3MkczfbC6;
-        Fri, 29 Apr 2022 16:24:47 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 29 Apr 2022 16:25:44 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 29 Apr 2022 16:25:42 +0800
-Subject: Re: [PATCH v22 5/9] arm64: kdump: Reimplement crashkernel=X
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-To:     Baoquan He <bhe@redhat.com>
-CC:     Catalin Marinas <catalin.marinas@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>, Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "John Donnelly" <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-References: <20220414115720.1887-1-thunder.leizhen@huawei.com>
- <20220414115720.1887-6-thunder.leizhen@huawei.com> <YmgzxsrrMlCDYsWp@arm.com>
- <ee8daaa9-3258-e7e8-e5c4-c51dc9841580@huawei.com> <Ymk34NsIFqUgfk3b@arm.com>
- <ae7211ad-e2ac-f5b1-5aa0-701802132e73@huawei.com> <YmlphvZVMsGfFksp@arm.com>
- <YmoMvV1wzHT5V1aw@MiWiFi-R3L-srv> <YmoPhvkXQFZQOcIO@MiWiFi-R3L-srv>
- <3fc41a94-4247-40f3-14e7-f11e3001ec33@huawei.com>
- <YmtaiJhwIgP6m2Sk@MiWiFi-R3L-srv>
- <a9c736a0-f2b3-5b8a-94d9-80742ccd2700@huawei.com>
-Message-ID: <23e2dcf4-4e9a-5298-d5d8-8761b0bbbe21@huawei.com>
-Date:   Fri, 29 Apr 2022 16:25:37 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        with ESMTP id S1355917AbiD2Iqc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 04:46:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 064EA17E16
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 01:43:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1651221794;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=O+D/lXpklfq+8wvoJL4WqSLyZYHeykKORq3ghDDfCNk=;
+        b=FanRMczF0mGM1Ox4iDUn+k346bGFfYf6bpNglKJgZhHFTUyVCPodEvSlF1TuCWny5ZQJ9y
+        UrwfGLeY7Sa+/0kh8NhBpS4zX0It6dIDNz32H8+vKKPNZi6jgbJEN6XA5dYw7k3leZYncD
+        zAvJy17UIekT18Q+DDjMGZf3el2w9yI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-115-jHT8pTFMN9y00oXZ5pq-Bg-1; Fri, 29 Apr 2022 04:43:12 -0400
+X-MC-Unique: jHT8pTFMN9y00oXZ5pq-Bg-1
+Received: by mail-wr1-f69.google.com with SMTP id l11-20020adfc78b000000b0020abc1ce7e4so2819752wrg.1
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 01:43:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O+D/lXpklfq+8wvoJL4WqSLyZYHeykKORq3ghDDfCNk=;
+        b=Y1+9t6ojhg5lEJsbTiIRK+N1cMgrN0e7c2BsVa3mYgmdxiOy02qdNhQpDFIGYi0CKP
+         zX5PdKHrDTtSUEsXboF6zVBodLEKy0YT7gO/qJM/cXCzAZ6BI9InsG6IIRJjgVvzXd29
+         ccVvH7B4Ej3ZGB+5d01/Fy1z/TlPW26CeGg3mayjcoObEEiYontrPjwUErJx3CnXAOUq
+         P4c78b9wz7jidiJllXp/ONLMmadL8qinut3YEqjuVIdU+fJOAOfryTOCfQ3PGwtAkfvP
+         weQ6aLd8RslQmapjBwxSkxi0ecuFIgTi6zRGItNYI32ZLbOpCqBBFpn1IUJg0CKjBATo
+         j5PA==
+X-Gm-Message-State: AOAM531zN/vX2EPcIfaEweIKLdwC32US2cEvndEls9p5etTOELUoZlyc
+        TTJBEYksU/mJP7UeCMEEjP4IXomvvnAc0rYBWy0Ppr0LOagR/w1E9IkCQsvFono3KqRnEGFhdmz
+        VhIYniCd7Phw2txBm6xnQ
+X-Received: by 2002:a05:600c:1f0e:b0:392:8b04:9b26 with SMTP id bd14-20020a05600c1f0e00b003928b049b26mr2125832wmb.106.1651221791636;
+        Fri, 29 Apr 2022 01:43:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFPu5i9uIaA8HyARC22sqTOXWCEAPFZw0X8BSM+9g/zQpViY352JC38fzukmqcZeLoqR+Pfw==
+X-Received: by 2002:a05:600c:1f0e:b0:392:8b04:9b26 with SMTP id bd14-20020a05600c1f0e00b003928b049b26mr2125550wmb.106.1651221786551;
+        Fri, 29 Apr 2022 01:43:06 -0700 (PDT)
+Received: from minerva.home ([92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id f7-20020a05600c4e8700b00393f1393abfsm7199256wmq.41.2022.04.29.01.43.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Apr 2022 01:43:06 -0700 (PDT)
+From:   Javier Martinez Canillas <javierm@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Borislav Petkov <bp@suse.de>,
+        Changcheng Deng <deng.changcheng@zte.com.cn>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Helge Deller <deller@gmx.de>, Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org
+Subject: [RFC PATCH v4 00/11] Fix some race between sysfb device registration and drivers probe
+Date:   Fri, 29 Apr 2022 10:42:42 +0200
+Message-Id: <20220429084253.1085911-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <a9c736a0-f2b3-5b8a-94d9-80742ccd2700@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello,
 
+The patches in this series contain mostly changes suggested by Daniel Vetter
+Thomas Zimmermann. They aim to fix existing races between the Generic System
+Framebuffer (sysfb) infrastructure and the fbdev and DRM device registration.
 
-On 2022/4/29 16:02, Leizhen (ThunderTown) wrote:
-> 
-> 
-> On 2022/4/29 11:24, Baoquan He wrote:
->> On 04/28/22 at 05:33pm, Leizhen (ThunderTown) wrote:
->>>
->>>
->>> On 2022/4/28 11:52, Baoquan He wrote:
->>>> On 04/28/22 at 11:40am, Baoquan He wrote:
->>>>> Hi Catalin, Zhen Lei,
->>>>>
->>>>> On 04/27/22 at 05:04pm, Catalin Marinas wrote:
->>>>>> On Wed, Apr 27, 2022 at 09:49:20PM +0800, Leizhen (ThunderTown) wrote:
->>>>>>> On 2022/4/27 20:32, Catalin Marinas wrote:
->>>>>>>> I think one could always pass a default command line like:
->>>>>>>>
->>>>>>>> 	crashkernel=1G,high crashkernel=128M,low
->>>>>>>>
->>>>>>>> without much knowledge of the SoC memory layout.
->>>>>>>
->>>>>>> Yes, that's what the end result is. The user specify crashkernel=128M,low
->>>>>>> and the implementation ensure the 128M low memory is allocated from DMA zone.
->>>>>>> We use arm64_dma_phys_limit as the upper limit for crash low memory.
->>>>>>>
->>>>>>> +#define CRASH_ADDR_LOW_MAX             arm64_dma_phys_limit
->>>>>>> +       unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
->>>>>>> +       crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
->>>>>>>                                                crash_base, crash_max);
->>>>>>>
->>>>>>>> Another option is to only introduce crashkernel=Y,low and, when that is
->>>>>>>> passed, crashkernel=Y can go above arm64_dma_phys_limit. We won't need a
->>>>>>>> 'high' option at all:
->>>>>>>>
->>>>>>>> 	crashkernel=1G				- all within ZONE_DMA
->>>>>>>> 	crashkernel=1G crashkernel=128M,low	- 128M in ZONE_DMA
->>>>>>>> 						  1G above ZONE_DMA
->>>>>>>>
->>>>>>>> If ZONE_DMA is not present or it extends to the whole RAM, we can ignore
->>>>>>>> the 'low' option.
->>>>>>>
->>>>>>> I think although the code is hard to make generic, the interface is better to
->>>>>>> be relatively uniform. A user might have to maintain both x86 and arm64, and
->>>>>>> so on. It's not a good thing that the difference is too big.
->>>>>>
->>>>>> There will be some difference as the 4G limit doesn't always hold for
->>>>>> arm64 (though it's true in most cases). Anyway, we can probably simplify
->>>>>> things a bit while following the documented behaviour:
->>>>>>
->>>>>> 	crashkernel=Y		- current behaviour within ZONE_DMA
->>>>>> 	crashkernel=Y,high	- allocate from above ZONE_DMA
->>>>>> 	crashkernel=Y,low	- allocate within ZONE_DMA
->>>>>>
->>>>>> There is no fallback from crashkernel=Y.
->>>>>>
->>>>>> The question is whether we still want a default low allocation if
->>>>>> crashkernel=Y,low is missing but 'high' is present. If we add this, I
->>>>>> think we'd be consistent with kernel-parameters.txt for the 'low'
->>>>>> description. A default 'low' is probably not that bad but I'm tempted to
->>>>>> always mandate both 'high' and 'low'.
->>>>>
->>>>> Sorry to interrupt. Seems the ,high ,low and fallback are main concerns
->>>>> about this version. And I have the same concerns about them which comes
->>>>> from below points:
->>>>> 1) we may need to take best effort to keep ,high, ,low behaviour
->>>>> consistent on all ARCHes. Otherwise user/admin may be confused when they
->>>>> deploy/configure kdump on different machines of different ARCHes in the
->>>>> same LAB. I think we should try to avoid the confusion.
->>>
->>> Yes, but for someone who is configuring crashkernel= for the first time, he
->>> needs to read doc to understand how to configure it. The doc can show the
->>> recommended default value of 'low' size.
->>>
->>> After commit 94fb93341822 ("x86/crash: Allocate enough low memory when crashkernel=high"),
->>> the default 'low' size doesn't make much sense anymore. The default size of swiotlb_size()
->>> is 64M, far less than 256M. And if user specify "swiotlb=", he can also adjust crashkernel=Y,low.
->>>
->>>
->>> +                * -swiotlb size: user-specified with swiotlb= or default.
->>> -               low_size = swiotlb_size_or_default() + (8UL<<20);
->>> +               low_size = max(swiotlb_size_or_default() + (8UL<<20), 256UL<<20);
->>>
->>> That means all ARCHs can explicit configure crashkernel=256M,low, instead of
->>> omitting it. This may be another way to avoid confusion. It's not hard for
->>> programmer-turned-user/admin. However, this requires us to forgo backward
->>> compatibility with the default size of 'low'.
->>
->> We can make ,high and ,low simpler at first as they are alternative. If
->> possible, we can also simplify the ,high ,low implementation on x86_64
->> if it truly brings better archievement on arm64.
-> 
-> OK, I plan to remove optimization, fallback and default low size, to follow the
-> suggestion of Catalin first. But there's one minor point of contention.
-> 
-> 1)    Both "crashkernel=X,high" and "crashkernel=X,low" must be present.
-> 2)    Both "crashkernel=X,high" and "crashkernel=X,low" are present.
->    or
->       Allow "crashkernel=X,high" to be present alone. Unlike x86, the default low size is zero.
-> 
-> I prefer 2), how about you?
-> 
->>
->>>
->>>
->>>>> 2) Fallback behaviour is important to our distros. The reason is we will
->>>>> provide default value with crashkernel=xxxM along kernel of distros. In
->>>>> this case, we hope the reservation will succeed by all means. The ,high
->>>>> and ,low is an option if customer likes to take with expertise.
->>>
->>> OK, I got it.
->>>
->>>>>
->>>>> After going through arm64 memory init code, I got below summary about
->>>>> arm64_dma_phys_limit which is the first zone's upper limit. I think we
->>>>> can make use of it to facilitate to simplify code.
->>>>> ================================================================================
->>>>>                         DMA                      DMA32                    NORMAL
->>>>> 1)Raspberry Pi4         0~1G                     3G~4G                    (above 4G)
->>>>> 2)Normal machine        0~4G                     0                        (above 4G)
->>>>> 3)Special machine       (above 4G)~MAX
->>>>> 4)No DMA|DMA32                                                            (above 4G)~MAX
->>>
->>> arm64_memblock_init()
->>> 	reserve_crashkernel()        ---------------   0a30c53573b0 ("arm64: mm: Move reserve_crashkernel() into mem_init()")
->> We don't need different code for this place of reservation as you are
->> doing in this patchset, since arm64_dma_phys_limit is initialized as 
->> below. In fact, in arm64_memblock_init(), we have made memblock ready,
->> we can initialize arm64_dma_phys_limit as memblock_end_of_DRAM(). And if
->> memblock_start_of_DRAM() is bigger than 4G, we possibly can call
->> reserve_crashkernel() here too.
-> 
-> Yes. Maybe all the devices in this environment are 64-bit. One way I know of allowing
-> 32-bit devices to access high memory without SMMU is: Set a fixed value for the upper
-> 32 bits. In this case, the DMA zone should be [phys_start, phys_start + 4G).
+For example, it is currently possible for sysfb to register a platform
+device after a real DRM driver was registered and requested to remove the
+conflicting framebuffers. Or is possible for a simple{fb,drm} to match with
+a device previously registered by sysfb, even after a real driver is present.
 
-I just read the message of commit 791ab8b2e3 ("arm64: Ignore any DMA offsets in the max_zone_phys() calculation")
+A symptom of this issue, was worked around with by commit fb561bf9abde
+("fbdev: Prevent probing generic drivers if a FB is already registered")
+but that's really a hack and should be reverted.
 
-    Currently, the kernel assumes that if RAM starts above 32-bit (or
-    zone_bits), there is still a ZONE_DMA/DMA32 at the bottom of the RAM and
-    such constrained devices have a hardwired DMA offset. In practice, we
-    haven't noticed any such hardware so let's assume that we can expand
-    ZONE_DMA32 to the available memory if no RAM below 4GB. Similarly,
-    ZONE_DMA is expanded to the 4GB limit if no RAM addressable by
-    zone_bits.
+This series attempt to fix it more correctly and revert the mentioned hack.
+That will also allow to make the num_registered_fb variable not visible to
+drivers anymore, since that's internal to fbdev core.
 
-So your suggestion is feasible.
+Even though the series is a v4, I've marked it as RFC again since some of
+the patches are controversial and the approach will need more discussion.
 
-> 
->>
->> phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
->>
->>> paging_init()                                       |
->>> 	map_mem()                                   |
->>> unflatten_device_tree or ACPI                       |  ----  //Raspberry Pi4 get dma zone base on dtb or ACPI
->>> bootmem_init();                                     |      |
->>> 	zone_sizes_init()                           |      |
->>> 		of_dma_get_max_cpu_address          |  ----|
->>> 		//Update arm64_dma_phys_limit       |  ----|
->>> 	reserve_crashkernel()        <--------------  //Because we need arm64_dma_phys_limit to be updated above
->>> request_standard_resources()
->>
->> Yeah, because arm64_dma_phys_limit is decided late in the 1) and 2) case
->> as I summarized, we need defer reserve_crashkernel() to bootmem_init(). But 
->> arm64_dma_phys_limit could be 1G or 4G, that's why your optimization
->> about BLOCKING may not be right since you assume the 4G boundary, while
->> forgetting Raspberry Pi4 on which 1G is the boundary of low memory and
-> 
-> No, no, my optimization for Raspberry Pi4 is fine. I do page mapping for memory
-> under 4G and block mapping for memory above 4G. But still try to reserve crash
-> low memory from DMA zone. So when 1G is the boundary, it's just not fully optimized,
-> the memory 1-4G are mapped as page.
-> 
->> high memory. So separating out BLOCKING optimization can let us focus on
->> the crashkernel,high support.
->>
->>>
->>>>>
->>>>> -------------------------------------------
->>>>>                       arm64_dma_phys_limit
->>>>> 1)Raspberry Pi4         1G                     
->>>>> 2)Normal machine        4G                     
->>>>> 3)Special machine       MAX
->>>>> 4)No DMA|DMA32          MAX
->>>>>
->>>>> Note: 3)Special machine means the machine's starting physical address is above 4G.
->>>>> WHile 4)No DMA|DMA32 means kernel w/o CONFIG_ZONE_DMA|DMA32, and has
->>>>> IOMMU hardware supporting.
->>>>> ===================================================================================
->>>>>
->>>>> I made a draft patch based on this patchset, please feel free to check and
->>>>> see if it's OK, or anything missing or wrongly understood. I removed
->>>>> reserve_crashkernel_high() and only keep reserve_crashkernel() and
->>>>> reserve_crashkernel_low() as the v21 did.
->>>>
->>>> Sorry, forgot attaching the draft patch.
->>>>
->>>> By the way, we can also have a simple version with basic ,high, ,low
->>>> support, no fallback. We can add fallback and other optimization later.
->>>> This can be plan B.
->>>
->>> Yes, That's what Catalin suggested also.
->>>
->>> Hi, Baoquan He:
->>>   Without optimization, the whole Patch 3-4 and 6-7 can be dropped.
->>>
->>> Process after abstraction:
->>> 	if (!IS_ENABLED(CONFIG_ZONE_DMA) && !IS_ENABLED(CONFIG_ZONE_DMA32)) {
->>> 		reserve_crashkernel()
->>> 		//block mapping
->>> 	} else {
->>> 		//page mapping
->>> 		reserve_crashkernel()
->>> 	}
->>>
->>> ------------ Simplified real-world process ---------
->> Yeah, this looks clearer. I would like to see a version with them.
->>
->>> arm64_memblock_init()
->>         Before reserve_crashkernel(), we can update arm64_dma_phys_limit
->> as memblock_end_of_DRAM() if CONFIG_ZONE_DMA|DMA32 is not enabled or
->> memblock_start_of_DRAM() is bigger than 4G.
->>         Then we go with:
->>         if (!arm64_dma_phys_limit)
->> 		reserve_crashkernel();
->>
->> Just personal opinion, please check if it's appropriate to handle case
->> 3) which has physical starting memory above 4G here. 
-> 
-> OK, I'll write it down and consider it in the future optimization.
-> 
->>
->>> 	if (!IS_ENABLED(CONFIG_ZONE_DMA) && !IS_ENABLED(CONFIG_ZONE_DMA32))
->>> 		reserve_crashkernel()
->>            
->>> paging_init()
->>> 	map_mem()
->>> 		if (!IS_ENABLED(CONFIG_ZONE_DMA) && !IS_ENABLED(CONFIG_ZONE_DMA32))
->>> 			//block mapping
->>> 		else
->>> 			//page mapping
->>> unflatten_device_tree or ACPI
->>> bootmem_init();
->>> 	zone_sizes_init()
->>> 		of_dma_get_max_cpu_address
->>> 		//Update arm64_dma_phys_limit
->>> 	if (IS_ENABLED(CONFIG_ZONE_DMA) || IS_ENABLED(CONFIG_ZONE_DMA32))
->>> 		reserve_crashkernel()
->>
->> The rest sounds good with optimization code split out.
->>
->> .
->>
-> 
+Patches 1-3 add a new DRIVER_FIRMWARE capability to denote that a DRM driver
+uses a firmware provided framebuffer, to mark the emulated fbdev registered
+also as a firmware provided framebuffer.
+
+Pach 4 is just a simple cleanup in preparation for later patches.
+
+Patch 5 add a sysfb_disable() and sysfb_try_unregister() helpers to allow
+disabling sysfb and attempt to unregister registered devices respectively.
+
+Patch 6 changes how is dealt with conflicting framebuffers unregistering,
+rather than having a variable to determine if a lock should be take, it
+just drops the lock before unregistering the platform device.
+
+Patch 7 changes the fbdev core to not attempt to unregister devices that
+were registered by sysfb, let the same code doing the registration to also
+handle the unregistration.
+
+Patch 8 fixes the race that exists between sysfb devices registration and
+fbdev framebuffer devices registration.
+
+Patch 9 does the same but to fix the race that exists between sysfb and
+the DRM subsystem.
+
+Patch 10 is the revert patch that was posted by Daniel before but dropped
+from his set and finally patch 11 is the one that makes num_registered_fb
+private to fbmem.c and not allow drivers to use it anymore.
+
+The patches were tested on a rpi4 with the vc4, simpledrm and simplefb
+drivers, using different combinations of built-in and as a module. But
+being an RFC, I didn't test all possible cases.
+
+Best regards,
+Javier
+
+Changes in v4:
+- Make sysfb_disable() to also attempt to unregister a device.
+- Drop call to sysfb_disable() in fbmem since is done in other places now.
+- Add patch to make registered_fb[] private.
+- Add patches that introduce the DRM_FIRMWARE capability and usage.
+
+Changes in v3:
+- Add Thomas Zimmermann's Reviewed-by tag to patch #1.
+- Call sysfb_disable() when a fbdev framebuffer is registered rather
+  than when conflicting framebuffers are removed (Thomas Zimmermann).
+- Drop Daniel Vetter's Reviewed-by tag since patch changed a lot.
+- Call sysfb_disable() when a DRM device is registered rather than
+  when conflicting framebuffers are removed (Thomas Zimmermann).
+- Rebase on top of latest drm-misc-next branch.
+
+Changes in v2:
+- Rebase on top of latest drm-misc-next and fix conflicts (Daniel Vetter).
+- Add kernel-doc comments and include in other_interfaces.rst (Daniel Vetter).
+- Explain in the commit message that fbmem has to unregister the device
+  as fallback if a driver registered the device itself (Daniel Vetter).
+- Also explain that fallback in a comment in the code (Daniel Vetter).
+- Don't encode in fbmem the assumption that sysfb will always register
+  platform devices (Daniel Vetter).
+- Add a FIXME comment about drivers registering devices (Daniel Vetter).
+- Explain in the commit message that fbmem has to unregister the device
+  as fallback if a driver registered the device itself (Daniel Vetter).
+- Also explain that fallback in a comment in the code (Daniel Vetter).
+- Don't encode in fbmem the assumption that sysfb will always register
+  platform devices (Daniel Vetter).
+- Add a FIXME comment about drivers registering devices (Daniel Vetter).
+- Drop RFC prefix since patches were already reviewed by Daniel Vetter.
+- Add Daniel Reviewed-by tags to the patches.
+
+Daniel Vetter (2):
+  Revert "fbdev: Prevent probing generic drivers if a FB is already
+    registered"
+  fbdev: Make registered_fb[] private to fbmem.c
+
+Javier Martinez Canillas (9):
+  drm: Add a capability flag for simple framebuffer drivers
+  drm/fb-helper: Set FBINFO_MISC_FIRMWARE flag for DRIVER_FIRMWARE fb
+  drm/simpledrm: Set the DRM_FIRMWARE capability
+  firmware: sysfb: Make sysfb_create_simplefb() return a pdev pointer
+  firmware: sysfb: Add helpers to unregister a pdev and disable
+    registration
+  fbdev: Restart conflicting fb removal loop when unregistering devices
+  fbdev: Make sysfb to unregister its own registered devices
+  fbdev: Fix race between sysfb and framebuffer devices registration
+  drm: Fix race between sysfb and DRM devices registration
+
+ .../driver-api/firmware/other_interfaces.rst  |  6 ++
+ drivers/firmware/sysfb.c                      | 91 +++++++++++++++++--
+ drivers/firmware/sysfb_simplefb.c             | 16 ++--
+ drivers/gpu/drm/drm_drv.c                     | 12 +++
+ drivers/gpu/drm/drm_fb_helper.c               |  4 +
+ drivers/gpu/drm/tiny/simpledrm.c              |  2 +-
+ drivers/video/fbdev/core/fbmem.c              | 67 +++++++++++---
+ drivers/video/fbdev/efifb.c                   | 11 ---
+ drivers/video/fbdev/simplefb.c                | 11 ---
+ include/drm/drm_drv.h                         |  6 ++
+ include/linux/fb.h                            |  8 +-
+ include/linux/sysfb.h                         | 29 +++++-
+ 12 files changed, 201 insertions(+), 62 deletions(-)
 
 -- 
-Regards,
-  Zhen Lei
+2.35.1
+
