@@ -2,189 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E1E0C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 12:07:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87359C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 12:18:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357842AbiD2MKt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 08:10:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33334 "EHLO
+        id S1344315AbiD2MVy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 08:21:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347487AbiD2MKs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 08:10:48 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 037A0A1472;
-        Fri, 29 Apr 2022 05:07:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A7BAEB8346E;
-        Fri, 29 Apr 2022 12:07:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDCBFC385AD;
-        Fri, 29 Apr 2022 12:07:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1651234046;
-        bh=VeZZK3nq0xqQBNb7qp0qAkJQnROZryyX5wpt1xcREVU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hvPXKUpqvoPhSromFOwczy83Hk/E46GrEsHnY/pQT/pRRP7M4nu6WiYLiQQuIsClo
-         84qCLfg1PPd6yp5ZFWCzlB6F3B2/9OrCDFLTrqtrPIBG7TKnUxkQL20bTNNA1/IURE
-         7w3eySy9Vn7u5Ub1xUfm9eiUEPcny7kmctL3bf0g=
-Date:   Fri, 29 Apr 2022 14:07:23 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     David Gow <davidgow@google.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kunit: Taint kernel if any tests run
-Message-ID: <YmvU+/RUhOcL+B1p@kroah.com>
-References: <20220429043913.626647-1-davidgow@google.com>
- <YmuPFGrkzQYACgK0@kroah.com>
- <87tuacrv7t.fsf@intel.com>
- <YmvO3RoY1JqrR1pu@kroah.com>
- <87o80krtou.fsf@intel.com>
+        with ESMTP id S238952AbiD2MVx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 08:21:53 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C06BFB36B0
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 05:18:33 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id b12so6992549plg.4
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 05:18:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3RkULuqhhhX3uuLQ5CElh2Ii/L2usT9wtqwuaXqStls=;
+        b=6dgC+bHSAeFJrC8KYg2z7/2H3/R6h6zeIP2/TJM/lbA1VYy7SbJIMRyIrieRowIaQv
+         kJ1SOEdSzpZW5RWIfKHc50pJY+MknWf6wyZ9mBDTSwdQHraDZEU1pDlp0hOXMDHzylgF
+         ifJ3CIfECLSdzzd+Hs1I8D9emPRAiSTJWuOdPodBLLugKQxYi5DQ2J5LWb0UXB3GKT35
+         VjwlylSkcqgoLK/lJASS0z3jk/BKMsGyUtgguRSoE/UUVpx+Q6mT8cdv95iEao6gZnq5
+         eaE7vV4dtDupThy77SS0zIM29gLGBKU0oYc7ymGlICVJ/7p6SROAx9I4jN05YRtw2b5Q
+         sVgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3RkULuqhhhX3uuLQ5CElh2Ii/L2usT9wtqwuaXqStls=;
+        b=Ji7PGvKhd1vMOy7XV0SnsZ+Qdnbe3zLXoAZPp4CaKwepuQPQnw9qqbPmqYo9TBFMdU
+         UQ9Vv3ZuhwdzhRnqEvGhk/MjOEjmbVeOdem6xFXfr6QlmTllMbusLk+kxKFco3oBMbEo
+         F6hHswu0Hp2kcooWgS0ShOgbkVnihITqfcKdEvoATwtxzqjE7taEXofs99sDC51pYjhJ
+         kk/YODTaNvCW7AAm12ssDS1UfhhR7KyAUFk47Ohet9OpGtkkoFIdKH9pmcfd7/YZYePI
+         Ng9ondTS6HPqGsREeodRCbX5Wm95jXiax1iMDesf2XWopXQ6DzW8+qvKvq/z8rf7j+De
+         r27A==
+X-Gm-Message-State: AOAM532nzBaC0LfXNWbkYf43J2zKsUdXjQOsl9RLVBPuhKuhgW4XgrnB
+        OkcjkEBi8n5iXVhD6x7W9nS8hw==
+X-Google-Smtp-Source: ABdhPJxtE+CaijPiIC9LAoGrQDqYJS3f51fjNp6Dgr2elQX0PSrsGMqnZLLhoG9YQBepjs7VbKUriQ==
+X-Received: by 2002:a17:902:7d83:b0:158:c7e9:1ff3 with SMTP id a3-20020a1709027d8300b00158c7e91ff3mr38794664plm.55.1651234713265;
+        Fri, 29 Apr 2022 05:18:33 -0700 (PDT)
+Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.239])
+        by smtp.gmail.com with ESMTPSA id k11-20020a056a00168b00b004f7e1555538sm3101421pfc.190.2022.04.29.05.18.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Apr 2022 05:18:32 -0700 (PDT)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        osalvador@suse.de, david@redhat.com, masahiroy@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH v9 0/4] add hugetlb_optimize_vmemmap sysctl
+Date:   Fri, 29 Apr 2022 20:18:12 +0800
+Message-Id: <20220429121816.37541-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87o80krtou.fsf@intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 29, 2022 at 02:54:25PM +0300, Jani Nikula wrote:
-> On Fri, 29 Apr 2022, Greg KH <gregkh@linuxfoundation.org> wrote:
-> > On Fri, Apr 29, 2022 at 02:21:26PM +0300, Jani Nikula wrote:
-> >> On Fri, 29 Apr 2022, Greg KH <gregkh@linuxfoundation.org> wrote:
-> >> > On Fri, Apr 29, 2022 at 12:39:14PM +0800, David Gow wrote:
-> >> >> KUnit tests are not supposed to run on production systems: they may do
-> >> >> deliberately illegal things to trigger errors, and have security
-> >> >> implications (assertions will often deliberately leak kernel addresses).
-> >> >> 
-> >> >> Add a new taint type, TAINT_KUNIT to signal that a KUnit test has been
-> >> >> run. This will be printed as 'N' (for kuNit, as K, U and T were already
-> >> >> taken).
-> >> >> 
-> >> >> This should discourage people from running KUnit tests on production
-> >> >> systems, and to make it easier to tell if tests have been run
-> >> >> accidentally (by loading the wrong configuration, etc.)
-> >> >> 
-> >> >> Signed-off-by: David Gow <davidgow@google.com>
-> >> >> ---
-> >> >> 
-> >> >> This is something I'd been thinking about for a while, and it came up
-> >> >> again, so I'm finally giving it a go.
-> >> >> 
-> >> >> Two notes:
-> >> >> - I decided to add a new type of taint, as none of the existing ones
-> >> >>   really seemed to fit. We could live with considering KUnit tests as
-> >> >>   TAINT_WARN or TAINT_CRAP or something otherwise, but neither are quite
-> >> >>   right.
-> >> >> - The taint_flags table gives a couple of checkpatch.pl errors around
-> >> >>   bracket placement. I've kept the new entry consistent with what's
-> >> >>   there rather than reformatting the whole table, but be prepared for
-> >> >>   complaints about spaces.
-> >> >> 
-> >> >> Thoughts?
-> >> >> -- David
-> >> >> 
-> >> >> ---
-> >> >>  Documentation/admin-guide/tainted-kernels.rst | 1 +
-> >> >>  include/linux/panic.h                         | 3 ++-
-> >> >>  kernel/panic.c                                | 1 +
-> >> >>  lib/kunit/test.c                              | 4 ++++
-> >> >>  4 files changed, 8 insertions(+), 1 deletion(-)
-> >> >> 
-> >> >> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-> >> >> index ceeed7b0798d..8f18fc4659d4 100644
-> >> >> --- a/Documentation/admin-guide/tainted-kernels.rst
-> >> >> +++ b/Documentation/admin-guide/tainted-kernels.rst
-> >> >> @@ -100,6 +100,7 @@ Bit  Log  Number  Reason that got the kernel tainted
-> >> >>   15  _/K   32768  kernel has been live patched
-> >> >>   16  _/X   65536  auxiliary taint, defined for and used by distros
-> >> >>   17  _/T  131072  kernel was built with the struct randomization plugin
-> >> >> + 18  _/N  262144  a KUnit test has been run
-> >> >>  ===  ===  ======  ========================================================
-> >> >>  
-> >> >>  Note: The character ``_`` is representing a blank in this table to make reading
-> >> >> diff --git a/include/linux/panic.h b/include/linux/panic.h
-> >> >> index f5844908a089..1d316c26bf27 100644
-> >> >> --- a/include/linux/panic.h
-> >> >> +++ b/include/linux/panic.h
-> >> >> @@ -74,7 +74,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
-> >> >>  #define TAINT_LIVEPATCH			15
-> >> >>  #define TAINT_AUX			16
-> >> >>  #define TAINT_RANDSTRUCT		17
-> >> >> -#define TAINT_FLAGS_COUNT		18
-> >> >> +#define TAINT_KUNIT			18
-> >> >> +#define TAINT_FLAGS_COUNT		19
-> >> >>  #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
-> >> >>  
-> >> >>  struct taint_flag {
-> >> >> diff --git a/kernel/panic.c b/kernel/panic.c
-> >> >> index eb4dfb932c85..b24ca63ed738 100644
-> >> >> --- a/kernel/panic.c
-> >> >> +++ b/kernel/panic.c
-> >> >> @@ -404,6 +404,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
-> >> >>  	[ TAINT_LIVEPATCH ]		= { 'K', ' ', true },
-> >> >>  	[ TAINT_AUX ]			= { 'X', ' ', true },
-> >> >>  	[ TAINT_RANDSTRUCT ]		= { 'T', ' ', true },
-> >> >> +	[ TAINT_KUNIT ]			= { 'N', ' ', false },
-> >> >
-> >> > As kunit tests can be in modules, shouldn't this be "true" here?
-> >> >
-> >> > Overall, I like it, makes sense to me.  The "N" will take some getting
-> >> > used to, and I have no idea why "T" was for "struct randomization", that
-> >> > would have allowed you to use "T" instead.  Oh well.
-> >> 
-> >> Would you consider a patch adding more self-explanatory taint flag
-> >> strings to the output?
-> >
-> > Where would those strings go?  In the oops report?  Or somewhere else?
-> 
-> I was thinking the oops report. Basically most times I look at an oops
-> with taint, I need to double check what the flags mean. There are soon
-> 19 of them, you need to look at a lot of oops to remember them all.
+This series is based on next-20220428.
 
-I agree, it isn't easy to remember.
+This series amis to add hugetlb_optimize_vmemmap sysctl to enable or disable
+the feature of optimizing vmemmap pages associated with HugeTLB pages.
 
-> Currently we also print ' ' (or 'G' in case of non-properietary module)
-> for every unset taint flag. If we stopped doing that we wouldn't even
-> need that much more horizontal space for the strings, unless several
-> flags were set. (I assume people who do remember all the flags by heart
-> would still want to keep them too.)
+v9:
+  - Go back to v3 since checking the size of struct page at config time is
+    very complex.
 
-I recommend keeping the current layout, but maybe adding a new line that
-gives the "key" for what the current taint flags mean?
+v8:
+  - Fix compilation (scripts/selinux/mdp/mdp.c) error when
+    CONFIG_SECURITY_SELINUX is selected.
 
-For example, the oops report here:
-	https://lore.kernel.org/r/20220413033425.GM16799@magnolia
-Has the lines:
-	kernel BUG at mm/filemap.c:1653!
-	invalid opcode: 0000 [#1] PREEMPT SMP
-	CPU: 0 PID: 1349866 Comm: 0:116 Tainted: G        W         5.18.0-rc2-djwx #rc2 19cc48221d47ada6c8e5859639b6a0946c9a3777
-	Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS ?-20171121_152543-x86-ol7-builder-01.us.oracle.com-4.el7.1 04/01/2014
-	Workqueue: xfs-conv/sda4 xfs_end_io [xfs]
-	RIP: 0010:folio_end_writeback+0x79/0x80
+v7:
+  - Fix circular dependency issue reported by kernel test robot.
+  - Introduce CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP instead of
+    STRUCT_PAGE_SIZE_IS_POWER_OF_2.
+  - Add more comments into vm.rst to explain hugetlb_optimize_vmemmap (Andrew).
+  - Drop the patch "sysctl: allow to set extra1 to SYSCTL_ONE".
+  - Add a new patch "use kstrtobool for hugetlb_vmemmap param parsing".
+  - Reuse static_key's refcount to count the number of HugeTLB pages with
+    vmemmap pages optimized to simplify the lock scheme.
 
-Perhaps we add another line right before or after "Hardware name:" that
-lists the flags that are set at the moment and what they mean:
+v6:
+  - Remove "make syncconfig" from Kbuild.
 
-	Taint flags: [G]=PROPRIETARY_MODULE, [W]=WARN
+v5:
+  - Fix not working properly if one is workig off of a very clean build
+    reported by Luis Chamberlain.
+  - Add Suggested-by for Luis Chamberlain.
 
-Or something like that (format was a first guess only).
+v4:
+  - Introduce STRUCT_PAGE_SIZE_IS_POWER_OF_2 inspired by Luis.
 
-Anyway, might be helpful?
+v3:
+  - Add pr_warn_once() (Mike).
+  - Handle the transition from enabling to disabling (Luis)
 
-thanks,
+v2:
+  - Fix compilation when !CONFIG_MHP_MEMMAP_ON_MEMORY reported by kernel
+    test robot <lkp@intel.com>.
+  - Move sysctl code from kernel/sysctl.c to mm/hugetlb_vmemmap.c.
 
-greg k-h
+Muchun Song (4):
+  mm: hugetlb_vmemmap: disable hugetlb_optimize_vmemmap when struct page
+    crosses page boundaries
+  mm: memory_hotplug: override memmap_on_memory when
+    hugetlb_free_vmemmap=on
+  mm: hugetlb_vmemmap: use kstrtobool for hugetlb_vmemmap param parsing
+  mm: hugetlb_vmemmap: add hugetlb_optimize_vmemmap sysctl
+
+ Documentation/admin-guide/kernel-parameters.txt |   6 +-
+ Documentation/admin-guide/sysctl/vm.rst         |  30 +++++++
+ include/linux/memory_hotplug.h                  |   9 ++
+ mm/hugetlb_vmemmap.c                            | 104 ++++++++++++++++++++----
+ mm/hugetlb_vmemmap.h                            |   4 +-
+ mm/memory_hotplug.c                             |  27 ++++--
+ 6 files changed, 155 insertions(+), 25 deletions(-)
+
+-- 
+2.11.0
+
