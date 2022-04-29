@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17FCBC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 13:38:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABCEFC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 13:38:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376348AbiD2NlV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 09:41:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55582 "EHLO
+        id S1376322AbiD2NlY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 09:41:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236786AbiD2NlC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 09:41:02 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0A55CB006
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:37:43 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id z16so6947447pfh.3
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:37:43 -0700 (PDT)
+        with ESMTP id S1344093AbiD2NlR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 09:41:17 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92152CB033
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:37:49 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id j8-20020a17090a060800b001cd4fb60dccso7299559pjj.2
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:37:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=O5cSbfL+Kws2WK1XWtshx/2qRi6Wn3xrF3ZBZvoPEF4=;
-        b=k82gmWwUxLeytVIW73YEj81XzJTEAi/VIKgG1khPQ5s9ntJrhtKUiHv2z65IM6x1pP
-         cHyGFHCju/c6KUsgM1fEQ0gtlsNMOaUvhzKlUmUgO8zN6rDeRYSGJyNAofMSN3w21Nek
-         gSVYkIKFvK/gSV3nvq9ZsEQmDBGd8P7fkTMiDlBwEy6tOiIFycE6VmPf+oth9zRFTpRq
-         xQmyrVyejNKrcVf5wn9fIwvLO8i/YUdZETKNoql2OyZvMa0w5HO+dTEIc3OZxueEv5n+
-         C3QqYodUydvPO2/5EMdhE3bSPnrK80wuPiHAcYuSAuhfVECNh/kNOJxshL9h1CVpnKlE
-         HNhg==
+        bh=VvydQG5zjUSumdtIipaqFpls71i8yJoag+sGGmgO3rc=;
+        b=7NbcGgSkwHrJY1tx3toqeV+Xk5yX2uYskO+z5MFj6UbbTYBe0q1WO97WvSjnChdIC7
+         i1KaBtCoZvUzFuHqvg/yX7Sermx9dZh9Iowvqovf+yqAqOU9nR2rvNz8vX4p8YMW9Pr/
+         lcrLnleXLlHf98P6UtW9P6LVIs3t/qYmRfgfSYvLdrou9KwvgQiL7q66BHZj/JDMNoUC
+         D900OhH7LCn0E2x6kfYvQ9+i0goWdK5HbTs5N9gnfI5iJNzW/g4nC1cnBFMZbnmGJu/U
+         3ZC4/cu0R2dvf0oaLfZZa5zTEhGLX+Dy1LhFT0O/TkQEjvp4dUTJFE4jWAq0xK4ZGERA
+         XgYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=O5cSbfL+Kws2WK1XWtshx/2qRi6Wn3xrF3ZBZvoPEF4=;
-        b=ATmYtnnvr881hf8ebbee206uQt6qTq2v6Ky1BbNcHKKI5TnE0rd2HsAddvjlyIFgXt
-         NgPrjLEKZIX4jYZdn8+Mc8ScwOKxb35cgUFW7PfMaeviCszOlTEcEuP8nkAsxGgJrN1r
-         eGb7Z+s0KRY9PeBRlCzC42p4EXRRUopy5arorXPHKTBmB2Ymk8LJFF1WPwzMfdlq7gPE
-         XB54OhGr8lZXgV7TV7xuSh/0HocCQfiV+VhockbVs2DMtF+y/p2lMJoeCBj6hOPzJdbZ
-         afOosB8nUWYk1EI12H7bcdi9XWe0e2ZZVewImHi9d1LfCtWd+AlCeDLCAftgk56Mt+Jl
-         MgeA==
-X-Gm-Message-State: AOAM530jWuufz2Q9bLPBvTjsgL01whQNSn+1a14pPFpobJrIb4LZ/HpU
-        tM2pNsH5pwFeWpGd4MPol7Gt5w==
-X-Google-Smtp-Source: ABdhPJw5CiRd+JTZxOeaHYQjHa7B3chtYZCpnIESroFu7Xy+Zl7X7Cm8G2ZfLUtwF1UYd9U60cOnNg==
-X-Received: by 2002:a63:f749:0:b0:3aa:361c:8827 with SMTP id f9-20020a63f749000000b003aa361c8827mr32583907pgk.361.1651239463216;
-        Fri, 29 Apr 2022 06:37:43 -0700 (PDT)
+        bh=VvydQG5zjUSumdtIipaqFpls71i8yJoag+sGGmgO3rc=;
+        b=BzsZpZDwWXXaR8K4TxGB7LUCyX/HI/Dx//Zs3AXyXUIypWNKkHVZN4+I6P/IpUqXPD
+         TCVIgE7yN/ERWhSgpujzhWQeMjyDtoABwNveO7gezxoTMHN7jSpzcq/dYW7kw7CKPaQN
+         PHi4OLOTFYXYhPcrdlbOitWzwT8SU0p2a60etcpsQajeKyGMle6CJ3sXnAHdY7y5Bzju
+         NZJN/9xesOLp0120hkr5KQi3mS4HhjUQhcLtmQVsVrBf++zFTK0Hpz5XAefkHW9w6Ydf
+         mYrB9PzU1cKdFKLyuHrNvn25VN+F1kp3DDKhiGuyzD8SofdPUO71KvJX6yh1Oo7DkXN+
+         nrMw==
+X-Gm-Message-State: AOAM53267TPdYpJODzuIPi+qxciy9/9KNivqnO4DepWi4aNjJUN72uHL
+        PKn5tAnmPGMMG3bngtHb/khHjw==
+X-Google-Smtp-Source: ABdhPJzNnW/PfivTTKMAdGz8oCU9UxMQX9vEZMqhPr9ijXGFPd76Q1h9afEdGPE6Q5AkyqAGhbs2Cw==
+X-Received: by 2002:a17:90a:784b:b0:1db:dfe6:5d54 with SMTP id y11-20020a17090a784b00b001dbdfe65d54mr3938283pjl.112.1651239468914;
+        Fri, 29 Apr 2022 06:37:48 -0700 (PDT)
 Received: from localhost.localdomain ([139.177.225.240])
-        by smtp.gmail.com with ESMTPSA id m8-20020a17090a414800b001d81a30c437sm10681977pjg.50.2022.04.29.06.37.37
+        by smtp.gmail.com with ESMTPSA id m8-20020a17090a414800b001d81a30c437sm10681977pjg.50.2022.04.29.06.37.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 06:37:42 -0700 (PDT)
+        Fri, 29 Apr 2022 06:37:48 -0700 (PDT)
 From:   Qi Zheng <zhengqi.arch@bytedance.com>
 To:     akpm@linux-foundation.org, tglx@linutronix.de,
         kirill.shutemov@linux.intel.com, mika.penttila@nextfour.com,
@@ -55,9 +55,9 @@ To:     akpm@linux-foundation.org, tglx@linutronix.de,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, songmuchun@bytedance.com,
         zhouchengming@bytedance.com, Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: [RFC PATCH 15/18] mm: use try_to_free_user_pte() in MADV_FREE case
-Date:   Fri, 29 Apr 2022 21:35:49 +0800
-Message-Id: <20220429133552.33768-16-zhengqi.arch@bytedance.com>
+Subject: [RFC PATCH 16/18] pte_ref: add track_pte_{set, clear}() helper
+Date:   Fri, 29 Apr 2022 21:35:50 +0800
+Message-Id: <20220429133552.33768-17-zhengqi.arch@bytedance.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
 References: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
@@ -67,160 +67,94 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Different from MADV_DONTNEED case, MADV_FREE just marks the physical
-page as lazyfree instead of unmapping it immediately, and the physical
-page will not be unmapped until the system memory is tight. So we
-convert the percpu_ref of the related user PTE page table page to
-atomic mode in madvise_free_pte_range(), and then check if it is 0
-in try_to_unmap_one(). If it is 0, we can safely reclaim the PTE page
-table page at this time.
+The track_pte_set() is used to track the setting of the PTE page table
+entry, and the percpu_ref of the PTE page table page will be incremented
+when the entry changes from pte_none() to !pte_none().
+
+The track_pte_clear() is used to track the clearing of the PTE page
+table entry, and the percpu_ref of the PTE page table page will be
+decremented when the entry changes from !pte_none() to pte_none().
+
+In this way, the usage of the PTE page table page can be tracked by
+its percpu_ref.
 
 Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
 ---
- include/linux/rmap.h |  2 ++
- mm/madvise.c         |  7 ++++++-
- mm/page_vma_mapped.c | 46 ++++++++++++++++++++++++++++++++++++++++++--
- mm/rmap.c            |  9 +++++++++
- 4 files changed, 61 insertions(+), 3 deletions(-)
+ include/linux/pte_ref.h | 14 ++++++++++++++
+ mm/pte_ref.c            | 30 ++++++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
 
-diff --git a/include/linux/rmap.h b/include/linux/rmap.h
-index 17230c458341..a3174d3bf118 100644
---- a/include/linux/rmap.h
-+++ b/include/linux/rmap.h
-@@ -204,6 +204,8 @@ int make_device_exclusive_range(struct mm_struct *mm, unsigned long start,
- #define PVMW_SYNC		(1 << 0)
- /* Look for migration entries rather than present PTEs */
- #define PVMW_MIGRATION		(1 << 1)
-+/* Used for MADV_FREE page */
-+#define PVMW_MADV_FREE		(1 << 2)
+diff --git a/include/linux/pte_ref.h b/include/linux/pte_ref.h
+index 379c3b45a6ab..6ab740e1b989 100644
+--- a/include/linux/pte_ref.h
++++ b/include/linux/pte_ref.h
+@@ -18,6 +18,10 @@ void __pte_put(pgtable_t page);
+ void pte_put(pte_t *ptep);
+ void try_to_free_user_pte(struct mm_struct *mm, pmd_t *pmd, unsigned long addr,
+ 			  bool switch_back);
++void track_pte_set(struct mm_struct *mm, unsigned long addr, pte_t *ptep,
++		   pte_t pte);
++void track_pte_clear(struct mm_struct *mm, unsigned long addr, pte_t *ptep,
++		     pte_t pte);
  
- struct page_vma_mapped_walk {
- 	unsigned long pfn;
-diff --git a/mm/madvise.c b/mm/madvise.c
-index 8123397f14c8..bd4bcaad5a9f 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -598,7 +598,9 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
- 	pte_t *orig_pte, *pte, ptent;
- 	struct page *page;
- 	int nr_swap = 0;
-+	bool have_lazyfree = false;
- 	unsigned long next;
-+	unsigned long start = addr;
+ #else /* !CONFIG_FREE_USER_PTE */
  
- 	next = pmd_addr_end(addr, end);
- 	if (pmd_trans_huge(*pmd))
-@@ -709,6 +711,7 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
- 			tlb_remove_tlb_entry(tlb, pte, addr);
- 		}
- 		mark_page_lazyfree(page);
-+		have_lazyfree = true;
+@@ -54,6 +58,16 @@ static inline void try_to_free_user_pte(struct mm_struct *mm, pmd_t *pmd,
+ {
+ }
+ 
++static inline void track_pte_set(struct mm_struct *mm, unsigned long addr,
++				 pte_t *ptep, pte_t pte)
++{
++}
++
++static inline void track_pte_clear(struct mm_struct *mm, unsigned long addr,
++				   pte_t *ptep, pte_t pte)
++{
++}
++
+ #endif /* CONFIG_FREE_USER_PTE */
+ 
+ #endif /* _LINUX_PTE_REF_H */
+diff --git a/mm/pte_ref.c b/mm/pte_ref.c
+index bf9629272c71..e92510deda0b 100644
+--- a/mm/pte_ref.c
++++ b/mm/pte_ref.c
+@@ -197,4 +197,34 @@ void try_to_free_user_pte(struct mm_struct *mm, pmd_t *pmd, unsigned long addr,
  	}
- out:
- 	if (nr_swap) {
-@@ -718,8 +721,10 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
- 		add_mm_counter(mm, MM_SWAPENTS, nr_swap);
- 	}
- 	arch_leave_lazy_mmu_mode();
--	if (orig_pte)
-+	if (orig_pte) {
- 		pte_unmap_unlock(orig_pte, ptl);
-+		try_to_free_user_pte(mm, pmd, start, !have_lazyfree);
-+	}
- 	cond_resched();
- next:
- 	return 0;
-diff --git a/mm/page_vma_mapped.c b/mm/page_vma_mapped.c
-index 8ecf8fd7cf5e..00bc09f57f48 100644
---- a/mm/page_vma_mapped.c
-+++ b/mm/page_vma_mapped.c
-@@ -266,8 +266,30 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
- next_pte:
- 		do {
- 			pvmw->address += PAGE_SIZE;
--			if (pvmw->address >= end)
--				return not_found(pvmw);
-+			if (pvmw->address >= end) {
-+				not_found(pvmw);
-+
-+				if (pvmw->flags & PVMW_MADV_FREE) {
-+					pgtable_t pte;
-+					pmd_t pmdval;
-+
-+					pvmw->flags &= ~PVMW_MADV_FREE;
-+					rcu_read_lock();
-+					pmdval = READ_ONCE(*pvmw->pmd);
-+					if (pmd_none(pmdval) || pmd_leaf(pmdval)) {
-+						rcu_read_unlock();
-+						return false;
-+					}
-+					pte = pmd_pgtable(pmdval);
-+					if (percpu_ref_is_zero(pte->pte_ref)) {
-+						rcu_read_unlock();
-+						free_user_pte(mm, pvmw->pmd, pvmw->address);
-+					} else {
-+						rcu_read_unlock();
-+					}
-+				}
-+				return false;
-+			}
- 			/* Did we cross page table boundary? */
- 			if ((pvmw->address & (PMD_SIZE - PAGE_SIZE)) == 0) {
- 				if (pvmw->ptl) {
-@@ -275,6 +297,26 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
- 					pvmw->ptl = NULL;
- 				}
- 				pte_unmap(pvmw->pte);
-+				if (pvmw->flags & PVMW_MADV_FREE) {
-+					pgtable_t pte;
-+					pmd_t pmdval;
-+
-+					pvmw->flags &= ~PVMW_MADV_FREE;
-+					rcu_read_lock();
-+					pmdval = READ_ONCE(*pvmw->pmd);
-+					if (pmd_none(pmdval) || pmd_leaf(pmdval)) {
-+						rcu_read_unlock();
-+						pvmw->pte = NULL;
-+						goto restart;
-+					}
-+					pte = pmd_pgtable(pmdval);
-+					if (percpu_ref_is_zero(pte->pte_ref)) {
-+						rcu_read_unlock();
-+						free_user_pte(mm, pvmw->pmd, pvmw->address);
-+					} else {
-+						rcu_read_unlock();
-+					}
-+				}
- 				pvmw->pte = NULL;
- 				goto restart;
- 			}
-diff --git a/mm/rmap.c b/mm/rmap.c
-index fedb82371efe..f978d324d4f9 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -1616,6 +1616,8 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
- 					mmu_notifier_invalidate_range(mm,
- 						address, address + PAGE_SIZE);
- 					dec_mm_counter(mm, MM_ANONPAGES);
-+					if (IS_ENABLED(CONFIG_FREE_USER_PTE))
-+						pvmw.flags |= PVMW_MADV_FREE;
- 					goto discard;
- 				}
+ }
  
-@@ -1627,6 +1629,13 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
- 				folio_set_swapbacked(folio);
- 				ret = false;
- 				page_vma_mapped_walk_done(&pvmw);
-+				if (IS_ENABLED(CONFIG_FREE_USER_PTE) &&
-+				    pte_tryget(mm, pvmw.pmd, address)) {
-+					pgtable_t pte_page = pmd_pgtable(*pvmw.pmd);
++void track_pte_set(struct mm_struct *mm, unsigned long addr, pte_t *ptep,
++		   pte_t pte)
++{
++	pgtable_t page;
 +
-+					percpu_ref_switch_to_percpu(pte_page->pte_ref);
-+					__pte_put(pte_page);
-+				}
- 				break;
- 			}
- 
++	if (&init_mm == mm || pte_huge(pte))
++		return;
++
++	page = pte_to_page(ptep);
++	BUG_ON(percpu_ref_is_zero(page->pte_ref));
++	if (pte_none(*ptep) && !pte_none(pte))
++		percpu_ref_get(page->pte_ref);
++}
++EXPORT_SYMBOL(track_pte_set);
++
++void track_pte_clear(struct mm_struct *mm, unsigned long addr, pte_t *ptep,
++		     pte_t pte)
++{
++	pgtable_t page;
++
++	if (&init_mm == mm || pte_huge(pte))
++		return;
++
++	page = pte_to_page(ptep);
++	BUG_ON(percpu_ref_is_zero(page->pte_ref));
++	if (!pte_none(pte))
++		percpu_ref_put(page->pte_ref);
++}
++EXPORT_SYMBOL(track_pte_clear);
++
+ #endif /* CONFIG_FREE_USER_PTE */
 -- 
 2.20.1
 
