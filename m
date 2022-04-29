@@ -2,193 +2,286 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B97BFC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Apr 2022 21:25:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38DE1C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 03:25:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236958AbiD1V2i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Apr 2022 17:28:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33954 "EHLO
+        id S235899AbiD2D2f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Apr 2022 23:28:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352281AbiD1V2f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 17:28:35 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D6583121A;
-        Thu, 28 Apr 2022 14:25:12 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id i19so11960607eja.11;
-        Thu, 28 Apr 2022 14:25:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=fjmeDt2yw6BAdExaQDbjjx+V1POVPHBtHKYVuj5eu/o=;
-        b=fLf+kEKk/G/GbMbYZt5wF/ids93UzRAoHIG3B8YA55Md415wTMhZ6buJEJhzPp0jxi
-         f0LRl8xXnGjdUk8Aw5DEwshaBSBlzTyUKtcYV/vLXcbUwmw4pe/yL7gqFLGaj9k0Svj7
-         aLVphwY9a3V5/uhYl7a3OK0sc6CESzGHv/NiO4PtDASQuwQsnoTrHEiKMmj1bgptSYzl
-         csr9DtT3WX7QefU+tdAt2zbdWuldi0i0wk5pF7WvzQf0pW+EEOguwnAMXyxIQtO24kyc
-         mr7TsLofN2Bih8+HBzWmyoiDG+Je+T5T7VkbJXFQLXy1EmQwiBrHEHNWba/qJ09ETWn/
-         X9Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=fjmeDt2yw6BAdExaQDbjjx+V1POVPHBtHKYVuj5eu/o=;
-        b=mJj+zWH5iZlNOyy/RXvRsKKiLSqv0twF6qFNvVIOCQVEVvpJY7I+2iNc69BUp/raGk
-         nbuCHxxuPSSedz239dEgwGWbcQ+0Y8B5DNDroG69hwhP/54K58NEhiPHPcnkheEOCu4C
-         TLNhDSeF+/dCaEYRhzuisbsrtsHlWlbZqe9Ji6xsB3b+mIhMAYsf5i6zNfi7ubdTzHHS
-         zg0UsBVS4ESeKtY0+XoXb39RNWBbh1t4kWj1cxdFSyllSq8wdiZpATmSEECpAEhQSgpo
-         sEyMovx2ZyhnS93i0ajAka0Y6Kb+z9jg5Uz9DHdHh5m34tMC4nsfFT5NGHz/6fqN8kOt
-         zUwg==
-X-Gm-Message-State: AOAM531I20jAbB2XNF0QCI1mCyr8zGMMCydxFsHg4aSWZd1Yh/vv0dUJ
-        x4xRUwcPljvz8HBtzZdpVVaHIRuq4WE=
-X-Google-Smtp-Source: ABdhPJyyyU/1nD7V6tY3Q4ZxnhlHdzsy3gzHd8vbn02vQxaSojptW962SPkdAPYR5crxUWUF4c4uYg==
-X-Received: by 2002:a17:906:478c:b0:6df:6b35:156d with SMTP id cw12-20020a170906478c00b006df6b35156dmr32858821ejc.578.1651181110717;
-        Thu, 28 Apr 2022 14:25:10 -0700 (PDT)
-Received: from localhost.localdomain (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
-        by smtp.gmail.com with ESMTPSA id ze12-20020a170906ef8c00b006f3ef214e68sm37147ejb.206.2022.04.28.14.25.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Apr 2022 14:25:08 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Ira Weiny <ira.weiny@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Collingbourne <pcc@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        outreachy@lists.linux.dev
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: [PATCH v4 4/4] Documentation/vm: Rework "Temporary Virtual Mappings" section
-Date:   Thu, 28 Apr 2022 23:24:55 +0200
-Message-Id: <20220428212455.892-5-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220428212455.892-1-fmdefrancesco@gmail.com>
-References: <20220428212455.892-1-fmdefrancesco@gmail.com>
+        with ESMTP id S235802AbiD2D2d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Apr 2022 23:28:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7D6F827CDD
+        for <linux-doc@vger.kernel.org>; Thu, 28 Apr 2022 20:25:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1651202713;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Ke+2dJcsQMIpkdR8+c+AhY3692zN3fcX2I1duuJx5Gs=;
+        b=jFWEku+B4xQyAyDfw1/6kpXnYaztHWUG4zRdBDtgQj8f8Vmb8Dfkje0JEjHnoSv3KJ+gyj
+        Tsu7a1l3gjU9CQvJK053PD2Dh5uYr2pcZfOij+eywRHZTKRJahqz8kJGho+XQId6JQfPJd
+        +Ki4h6uX2Bvvs78vvePLb6V2k02JCWM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-67-E-iJdaU5MKWRS9GQ2KHS3Q-1; Thu, 28 Apr 2022 23:25:02 -0400
+X-MC-Unique: E-iJdaU5MKWRS9GQ2KHS3Q-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C0F3C185A7B2;
+        Fri, 29 Apr 2022 03:25:01 +0000 (UTC)
+Received: from localhost (ovpn-12-205.pek2.redhat.com [10.72.12.205])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id B0001463EC5;
+        Fri, 29 Apr 2022 03:24:59 +0000 (UTC)
+Date:   Fri, 29 Apr 2022 11:24:56 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v22 5/9] arm64: kdump: Reimplement crashkernel=X
+Message-ID: <YmtaiJhwIgP6m2Sk@MiWiFi-R3L-srv>
+References: <20220414115720.1887-1-thunder.leizhen@huawei.com>
+ <20220414115720.1887-6-thunder.leizhen@huawei.com>
+ <YmgzxsrrMlCDYsWp@arm.com>
+ <ee8daaa9-3258-e7e8-e5c4-c51dc9841580@huawei.com>
+ <Ymk34NsIFqUgfk3b@arm.com>
+ <ae7211ad-e2ac-f5b1-5aa0-701802132e73@huawei.com>
+ <YmlphvZVMsGfFksp@arm.com>
+ <YmoMvV1wzHT5V1aw@MiWiFi-R3L-srv>
+ <YmoPhvkXQFZQOcIO@MiWiFi-R3L-srv>
+ <3fc41a94-4247-40f3-14e7-f11e3001ec33@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3fc41a94-4247-40f3-14e7-f11e3001ec33@huawei.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend and rework the "Temporary Virtual Mappings" section of the highmem.rst
-documentation.
+On 04/28/22 at 05:33pm, Leizhen (ThunderTown) wrote:
+> 
+> 
+> On 2022/4/28 11:52, Baoquan He wrote:
+> > On 04/28/22 at 11:40am, Baoquan He wrote:
+> >> Hi Catalin, Zhen Lei,
+> >>
+> >> On 04/27/22 at 05:04pm, Catalin Marinas wrote:
+> >>> On Wed, Apr 27, 2022 at 09:49:20PM +0800, Leizhen (ThunderTown) wrote:
+> >>>> On 2022/4/27 20:32, Catalin Marinas wrote:
+> >>>>> I think one could always pass a default command line like:
+> >>>>>
+> >>>>> 	crashkernel=1G,high crashkernel=128M,low
+> >>>>>
+> >>>>> without much knowledge of the SoC memory layout.
+> >>>>
+> >>>> Yes, that's what the end result is. The user specify crashkernel=128M,low
+> >>>> and the implementation ensure the 128M low memory is allocated from DMA zone.
+> >>>> We use arm64_dma_phys_limit as the upper limit for crash low memory.
+> >>>>
+> >>>> +#define CRASH_ADDR_LOW_MAX             arm64_dma_phys_limit
+> >>>> +       unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+> >>>> +       crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+> >>>>                                                crash_base, crash_max);
+> >>>>
+> >>>>> Another option is to only introduce crashkernel=Y,low and, when that is
+> >>>>> passed, crashkernel=Y can go above arm64_dma_phys_limit. We won't need a
+> >>>>> 'high' option at all:
+> >>>>>
+> >>>>> 	crashkernel=1G				- all within ZONE_DMA
+> >>>>> 	crashkernel=1G crashkernel=128M,low	- 128M in ZONE_DMA
+> >>>>> 						  1G above ZONE_DMA
+> >>>>>
+> >>>>> If ZONE_DMA is not present or it extends to the whole RAM, we can ignore
+> >>>>> the 'low' option.
+> >>>>
+> >>>> I think although the code is hard to make generic, the interface is better to
+> >>>> be relatively uniform. A user might have to maintain both x86 and arm64, and
+> >>>> so on. It's not a good thing that the difference is too big.
+> >>>
+> >>> There will be some difference as the 4G limit doesn't always hold for
+> >>> arm64 (though it's true in most cases). Anyway, we can probably simplify
+> >>> things a bit while following the documented behaviour:
+> >>>
+> >>> 	crashkernel=Y		- current behaviour within ZONE_DMA
+> >>> 	crashkernel=Y,high	- allocate from above ZONE_DMA
+> >>> 	crashkernel=Y,low	- allocate within ZONE_DMA
+> >>>
+> >>> There is no fallback from crashkernel=Y.
+> >>>
+> >>> The question is whether we still want a default low allocation if
+> >>> crashkernel=Y,low is missing but 'high' is present. If we add this, I
+> >>> think we'd be consistent with kernel-parameters.txt for the 'low'
+> >>> description. A default 'low' is probably not that bad but I'm tempted to
+> >>> always mandate both 'high' and 'low'.
+> >>
+> >> Sorry to interrupt. Seems the ,high ,low and fallback are main concerns
+> >> about this version. And I have the same concerns about them which comes
+> >> from below points:
+> >> 1) we may need to take best effort to keep ,high, ,low behaviour
+> >> consistent on all ARCHes. Otherwise user/admin may be confused when they
+> >> deploy/configure kdump on different machines of different ARCHes in the
+> >> same LAB. I think we should try to avoid the confusion.
+> 
+> Yes, but for someone who is configuring crashkernel= for the first time, he
+> needs to read doc to understand how to configure it. The doc can show the
+> recommended default value of 'low' size.
+> 
+> After commit 94fb93341822 ("x86/crash: Allocate enough low memory when crashkernel=high"),
+> the default 'low' size doesn't make much sense anymore. The default size of swiotlb_size()
+> is 64M, far less than 256M. And if user specify "swiotlb=", he can also adjust crashkernel=Y,low.
+> 
+> 
+> +                * -swiotlb size: user-specified with swiotlb= or default.
+> -               low_size = swiotlb_size_or_default() + (8UL<<20);
+> +               low_size = max(swiotlb_size_or_default() + (8UL<<20), 256UL<<20);
+> 
+> That means all ARCHs can explicit configure crashkernel=256M,low, instead of
+> omitting it. This may be another way to avoid confusion. It's not hard for
+> programmer-turned-user/admin. However, this requires us to forgo backward
+> compatibility with the default size of 'low'.
 
-Despite the local kmaps were introduced by Thomas Gleixner in October 2020,
-documentation was still missing information about them. These additions rely
-largely on Gleixner's patches, Jonathan Corbet's LWN articles, comments by
-Ira Weiny and Matthew Wilcox, and in-code comments from
-./include/linux/highmem.h.
+We can make ,high and ,low simpler at first as they are alternative. If
+possible, we can also simplify the ,high ,low implementation on x86_64
+if it truly brings better archievement on arm64.
 
-1) Add a paragraph to document kmap_local_page().
-2) Reorder the list of functions by decreasing order of preference of
-use.
-3) Rework part of the kmap() entry in list.
+> 
+> 
+> >> 2) Fallback behaviour is important to our distros. The reason is we will
+> >> provide default value with crashkernel=xxxM along kernel of distros. In
+> >> this case, we hope the reservation will succeed by all means. The ,high
+> >> and ,low is an option if customer likes to take with expertise.
+> 
+> OK, I got it.
+> 
+> >>
+> >> After going through arm64 memory init code, I got below summary about
+> >> arm64_dma_phys_limit which is the first zone's upper limit. I think we
+> >> can make use of it to facilitate to simplify code.
+> >> ================================================================================
+> >>                         DMA                      DMA32                    NORMAL
+> >> 1)Raspberry Pi4         0~1G                     3G~4G                    (above 4G)
+> >> 2)Normal machine        0~4G                     0                        (above 4G)
+> >> 3)Special machine       (above 4G)~MAX
+> >> 4)No DMA|DMA32                                                            (above 4G)~MAX
+> 
+> arm64_memblock_init()
+> 	reserve_crashkernel()        ---------------   0a30c53573b0 ("arm64: mm: Move reserve_crashkernel() into mem_init()")
+We don't need different code for this place of reservation as you are
+doing in this patchset, since arm64_dma_phys_limit is initialized as 
+below. In fact, in arm64_memblock_init(), we have made memblock ready,
+we can initialize arm64_dma_phys_limit as memblock_end_of_DRAM(). And if
+memblock_start_of_DRAM() is bigger than 4G, we possibly can call
+reserve_crashkernel() here too.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Suggested-by: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- Documentation/vm/highmem.rst | 70 ++++++++++++++++++++++++++++++------
- 1 file changed, 59 insertions(+), 11 deletions(-)
+phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
 
-diff --git a/Documentation/vm/highmem.rst b/Documentation/vm/highmem.rst
-index e05bf5524174..c9887f241c6c 100644
---- a/Documentation/vm/highmem.rst
-+++ b/Documentation/vm/highmem.rst
-@@ -50,26 +50,74 @@ space when they use mm context tags.
- Temporary Virtual Mappings
- ==========================
- 
--The kernel contains several ways of creating temporary mappings:
-+The kernel contains several ways of creating temporary mappings. The following
-+list shows them in order of preference of use.
- 
--* vmap().  This can be used to make a long duration mapping of multiple
--  physical pages into a contiguous virtual space.  It needs global
--  synchronization to unmap.
-+* kmap_local_page().  This function is used to require short term mappings.
-+  It can be invoked from any context (including interrupts) but the mappings
-+  can only be used in the context which acquired them.
-+
-+  This function should be preferred, where feasible, over all the others.
- 
--* kmap().  This permits a short duration mapping of a single page.  It needs
--  global synchronization, but is amortized somewhat.  It is also prone to
--  deadlocks when using in a nested fashion, and so it is not recommended for
--  new code.
-+  These mappings are thread-local and CPU-local, meaning that the mapping
-+  can only be accessed from within this thread and the thread is bound the
-+  CPU while the mapping is active. Even if the thread is preempted (since
-+  preemption is never disabled by the function) the CPU can not be
-+  unplugged from the system via CPU-hotplug until the mapping is disposed.
-+
-+  It's valid to take pagefaults in a local kmap region, unless the context
-+  in which the local mapping is acquired does not allow it for other reasons.
-+
-+  kmap_local_page() always returns a valid virtual address and it is assumed
-+  that kunmap_local() will never fail.
-+
-+  Nesting kmap_local_page() and kmap_atomic() mappings is allowed to a certain
-+  extent (up to KMAP_TYPE_NR) but their invocations have to be strictly ordered
-+  because the map implementation is stack based. See kmap_local_page() kdocs
-+  (included in the "Functions" section) for details on how to manage nested
-+  mappings.
- 
- * kmap_atomic().  This permits a very short duration mapping of a single
-   page.  Since the mapping is restricted to the CPU that issued it, it
-   performs well, but the issuing task is therefore required to stay on that
-   CPU until it has finished, lest some other task displace its mappings.
- 
--  kmap_atomic() may also be used by interrupt contexts, since it is does not
--  sleep and the caller may not sleep until after kunmap_atomic() is called.
-+  kmap_atomic() may also be used by interrupt contexts, since it does not
-+  sleep and the callers too may not sleep until after kunmap_atomic() is
-+  called.
-+
-+  Each call of kmap_atomic() in the kernel creates a non-preemptible section
-+  and disable pagefaults. This could be a source of unwanted latency. Therefore
-+  users should prefer kmap_local_page() instead of kmap_atomic().
- 
--  It may be assumed that k[un]map_atomic() won't fail.
-+  It is assumed that k[un]map_atomic() won't fail.
-+
-+* kmap().  This should be used to make short duration mapping of a single
-+  page with no restrictions on preemption or migration. It comes with an
-+  overhead as mapping space is restricted and protected by a global lock
-+  for synchronization. When mapping is no longer needed, the address that
-+  the page was mapped to must be released with kunmap().
-+
-+  Mapping changes must be propagated across all the CPUs. kmap() also
-+  requires global TLB invalidation when the kmap's pool wraps and it might
-+  block when the mapping space is fully utilized until a slot becomes
-+  available. Therefore, kmap() is only callable from preemptible context.
-+
-+  All the above work is necessary if a mapping must last for a relatively
-+  long time but the bulk of high-memory mappings in the kernel are
-+  short-lived and only used in one place. This means that the cost of
-+  kmap() is mostly wasted in such cases. kmap() was not intended for long
-+  term mappings but it has morphed in that direction and its use is
-+  strongly discouraged in newer code and the set of the preceding functions
-+  should be preferred.
-+
-+  On 64-bit systems, calls to kmap_local_page(), kmap_atomic() and kmap() have
-+  no real work to do because a 64-bit address space is more than sufficient to
-+  address all the physical memory whose pages are permanently mapped.
-+
-+* vmap().  This can be used to make a long duration mapping of multiple
-+  physical pages into a contiguous virtual space.  It needs global
-+  synchronization to unmap.
- 
- 
- Cost of Temporary Mappings
--- 
-2.34.1
+> paging_init()                                       |
+> 	map_mem()                                   |
+> unflatten_device_tree or ACPI                       |  ----  //Raspberry Pi4 get dma zone base on dtb or ACPI
+> bootmem_init();                                     |      |
+> 	zone_sizes_init()                           |      |
+> 		of_dma_get_max_cpu_address          |  ----|
+> 		//Update arm64_dma_phys_limit       |  ----|
+> 	reserve_crashkernel()        <--------------  //Because we need arm64_dma_phys_limit to be updated above
+> request_standard_resources()
+
+Yeah, because arm64_dma_phys_limit is decided late in the 1) and 2) case
+as I summarized, we need defer reserve_crashkernel() to bootmem_init(). But 
+arm64_dma_phys_limit could be 1G or 4G, that's why your optimization
+about BLOCKING may not be right since you assume the 4G boundary, while
+forgetting Raspberry Pi4 on which 1G is the boundary of low memory and
+high memory. So separating out BLOCKING optimization can let us focus on
+the crashkernel,high support.
+
+> 
+> >>
+> >> -------------------------------------------
+> >>                       arm64_dma_phys_limit
+> >> 1)Raspberry Pi4         1G                     
+> >> 2)Normal machine        4G                     
+> >> 3)Special machine       MAX
+> >> 4)No DMA|DMA32          MAX
+> >>
+> >> Note: 3)Special machine means the machine's starting physical address is above 4G.
+> >> WHile 4)No DMA|DMA32 means kernel w/o CONFIG_ZONE_DMA|DMA32, and has
+> >> IOMMU hardware supporting.
+> >> ===================================================================================
+> >>
+> >> I made a draft patch based on this patchset, please feel free to check and
+> >> see if it's OK, or anything missing or wrongly understood. I removed
+> >> reserve_crashkernel_high() and only keep reserve_crashkernel() and
+> >> reserve_crashkernel_low() as the v21 did.
+> > 
+> > Sorry, forgot attaching the draft patch.
+> > 
+> > By the way, we can also have a simple version with basic ,high, ,low
+> > support, no fallback. We can add fallback and other optimization later.
+> > This can be plan B.
+> 
+> Yes, That's what Catalin suggested also.
+> 
+> Hi, Baoquan He:
+>   Without optimization, the whole Patch 3-4 and 6-7 can be dropped.
+> 
+> Process after abstraction:
+> 	if (!IS_ENABLED(CONFIG_ZONE_DMA) && !IS_ENABLED(CONFIG_ZONE_DMA32)) {
+> 		reserve_crashkernel()
+> 		//block mapping
+> 	} else {
+> 		//page mapping
+> 		reserve_crashkernel()
+> 	}
+> 
+> ------------ Simplified real-world process ---------
+Yeah, this looks clearer. I would like to see a version with them.
+
+> arm64_memblock_init()
+        Before reserve_crashkernel(), we can update arm64_dma_phys_limit
+as memblock_end_of_DRAM() if CONFIG_ZONE_DMA|DMA32 is not enabled or
+memblock_start_of_DRAM() is bigger than 4G.
+        Then we go with:
+        if (!arm64_dma_phys_limit)
+		reserve_crashkernel();
+
+Just personal opinion, please check if it's appropriate to handle case
+3) which has physical starting memory above 4G here. 
+
+> 	if (!IS_ENABLED(CONFIG_ZONE_DMA) && !IS_ENABLED(CONFIG_ZONE_DMA32))
+> 		reserve_crashkernel()
+           
+> paging_init()
+> 	map_mem()
+> 		if (!IS_ENABLED(CONFIG_ZONE_DMA) && !IS_ENABLED(CONFIG_ZONE_DMA32))
+> 			//block mapping
+> 		else
+> 			//page mapping
+> unflatten_device_tree or ACPI
+> bootmem_init();
+> 	zone_sizes_init()
+> 		of_dma_get_max_cpu_address
+> 		//Update arm64_dma_phys_limit
+> 	if (IS_ENABLED(CONFIG_ZONE_DMA) || IS_ENABLED(CONFIG_ZONE_DMA32))
+> 		reserve_crashkernel()
+
+The rest sounds good with optimization code split out.
 
