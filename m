@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90968C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 13:38:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F124C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 13:38:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376311AbiD2NlZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 09:41:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56176 "EHLO
+        id S1376275AbiD2Nlv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 09:41:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359809AbiD2NlS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 09:41:18 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C426CB026
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:37:55 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id n14so283323plf.3
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:37:55 -0700 (PDT)
+        with ESMTP id S1359858AbiD2NlW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 09:41:22 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F288CB02D
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:38:01 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id p6so7152667plf.9
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:38:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PDb352oR+7/T20U1mOURtFBi5DeN+iddATN1VUBhapY=;
-        b=M4jKPxmu6lHLcuN2g3BJoI5FkuKhJPRPks8ERBsNxVTHX3vhgtEMdYENdfW7JcqHwT
-         yIH289VoRZXsV1Haj1Czsaw7RvMgfpNlIK48fcm+b7NNl/oeI7592UtbcrVGAto3j8qC
-         VAobCLwT2x5h91yk+I7lMpecP96Ie33InH4JS0EJJehK9pIzs5ACN6H54/tw0aIyHkt/
-         wfJfNrXbInpX6Uxy8tB2TVaoW38mmPPuQ4fg2KMeUpipyE6IjHJ7eHpciSWTRoh6yjhe
-         peT1zi4IDbHb6FzrmQ0mld9hn0zaB46duAeGKxPzmtH5lzBQefASzBL34t5JOt4uPvRq
-         1WyQ==
+        bh=eRy8MpvNC58F/UyXGBAubwgn5yhnXW5DArHTiriXqOA=;
+        b=TkkXGSkcHeQ2HN+4kQyis5zmihRY3+P5XKbLE56DY4YYoqqTSnBAZQSkt8HShcDL1Y
+         pna6lXKQks7nCKFwAb8lPv2ELLP1EHP7BC0L+tEblOUQ2tjXbPofhtBCEL4RHSKUiM+T
+         SPXWW+3xIBJJPl60oVBE1kbw0YfRp5hBgkURC7WcxvTmgKuysqThrwaHfS2f/ZPJckX2
+         iRS4JQjouD9CEKnyfCkh5QKVkKqvMDxXrYZFXA7bjAukG7CzEOo/V1CQpcoLZehvz0Ll
+         t8R5QN2CL7ruHzsj5cLWt/UWgvclVrA8+xFk2tgGWIk8gd2+/YwSVDmRPNjq4+Ef8xwN
+         DLww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PDb352oR+7/T20U1mOURtFBi5DeN+iddATN1VUBhapY=;
-        b=rJyuNeoddGy3iffmt+ZVqIlmNAtLs3W5P3wSHPVGotc/BduVK5DfzeVo4UNpMVgobE
-         1vzfCPhL9FYqW4fNvTlJkQT+qEwFZRZXfxFnL/ihnnIpBoq7L4wZ2+UNy1iMepc7CARP
-         yHxcydBP3B30r8G24K+8nkXFsUNnliAUnhs31s2ps5Ftlub9pG4guNO+qiVXowvEyVgU
-         POeXMmuupa/TWFfouHu2lSroWnGttW/SUsgXnKh9Cs2nytYj/2CIw/u74LmNDptAAYo4
-         S2+IX2Uh8r2nD7eTHFW25u/6zGAqa1EHRr2lRvfiQ02/agC8HCW+KkBV9052ZuZRECuC
-         DIjg==
-X-Gm-Message-State: AOAM531XI6Cqg6/WkoV02TnqTP8wsxddV9xMNj8CMhQDzduO6Axa0Afd
-        JYHR6b4iHZQqPdsyVboeJ5uMQw==
-X-Google-Smtp-Source: ABdhPJxuA4t7O9ORj9b40GN2GlWOmbbs1FpQC2BMOlij9ue4QgL40/Ximfv1xZWE9b9PeECFx/EvXA==
-X-Received: by 2002:a17:90a:e510:b0:1d8:39b3:280b with SMTP id t16-20020a17090ae51000b001d839b3280bmr4062679pjy.142.1651239474777;
-        Fri, 29 Apr 2022 06:37:54 -0700 (PDT)
+        bh=eRy8MpvNC58F/UyXGBAubwgn5yhnXW5DArHTiriXqOA=;
+        b=KCR0yUPZsuZhihWJYEaEpQxy2wRGu/NsqYYRQXlf9XDgglw7sD/k1sBBVXRlyYfGg/
+         eDcKha3Gn5KGxIGaHUAcBL15Hr8PrkV+qxuQIUWMd7mC1CIct1d88XtK7IuTe+RwAzxt
+         DYDzeskg1KWxN9OexkIpvdyZvWMrEQVVKPhk1wZ1LwPW8jmKZKo9i0EC48YNcTpLnmkF
+         PIkt1gaTmaeiFkRuLVK7AFaCytDn3XCVvmP9QfPXcKxY9qpf7xo57lW1uz3vw9VmPK7l
+         CMSuWcuz4LrFZCLHUoHjOh2Tjmvud0XfBLhQihKfzDy9J5zRNZvMvHWvFebkt6ya9Pe9
+         g0jg==
+X-Gm-Message-State: AOAM5336el8CDKj3UVaKDfyVzZpKcdywAKCnbEXf0u0mN3aX69z6oZeS
+        CGooL3u1kyKZQBIBXjE7rACY4g==
+X-Google-Smtp-Source: ABdhPJxSWULOjvO6LZb8fH5rIPVk36LG3U/StG5RIQqrXaps+4e7g0yd+bWTzUdJKU9VKCIdUNmIXg==
+X-Received: by 2002:a17:902:cec3:b0:15d:242c:477d with SMTP id d3-20020a170902cec300b0015d242c477dmr22380034plg.54.1651239480766;
+        Fri, 29 Apr 2022 06:38:00 -0700 (PDT)
 Received: from localhost.localdomain ([139.177.225.240])
-        by smtp.gmail.com with ESMTPSA id m8-20020a17090a414800b001d81a30c437sm10681977pjg.50.2022.04.29.06.37.49
+        by smtp.gmail.com with ESMTPSA id m8-20020a17090a414800b001d81a30c437sm10681977pjg.50.2022.04.29.06.37.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 06:37:54 -0700 (PDT)
+        Fri, 29 Apr 2022 06:38:00 -0700 (PDT)
 From:   Qi Zheng <zhengqi.arch@bytedance.com>
 To:     akpm@linux-foundation.org, tglx@linutronix.de,
         kirill.shutemov@linux.intel.com, mika.penttila@nextfour.com,
@@ -55,9 +55,9 @@ To:     akpm@linux-foundation.org, tglx@linutronix.de,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, songmuchun@bytedance.com,
         zhouchengming@bytedance.com, Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: [RFC PATCH 17/18] x86/mm: add x86_64 support for pte_ref
-Date:   Fri, 29 Apr 2022 21:35:51 +0800
-Message-Id: <20220429133552.33768-18-zhengqi.arch@bytedance.com>
+Subject: [RFC PATCH 18/18] Documentation: add document for pte_ref
+Date:   Fri, 29 Apr 2022 21:35:52 +0800
+Message-Id: <20220429133552.33768-19-zhengqi.arch@bytedance.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
 References: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
@@ -67,74 +67,243 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add pte_ref hooks into routines that modify user PTE page tables,
-and select ARCH_SUPPORTS_FREE_USER_PTE, so that the pte_ref code
-can be compiled and worked on this architecture.
+This commit adds document for pte_ref under `Documentation/vm/`.
 
 Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
 ---
- arch/x86/Kconfig               | 1 +
- arch/x86/include/asm/pgtable.h | 7 ++++++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ Documentation/vm/index.rst   |   1 +
+ Documentation/vm/pte_ref.rst | 210 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 211 insertions(+)
+ create mode 100644 Documentation/vm/pte_ref.rst
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index b0142e01002e..c1046fc15882 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -34,6 +34,7 @@ config X86_64
- 	select SWIOTLB
- 	select ARCH_HAS_ELFCORE_COMPAT
- 	select ZONE_DMA32
-+	select ARCH_SUPPORTS_FREE_USER_PTE
- 
- config FORCE_DYNAMIC_FTRACE
- 	def_bool y
-diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-index 62ab07e24aef..08d0aa5ce8d4 100644
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -23,6 +23,7 @@
- #include <asm/coco.h>
- #include <asm-generic/pgtable_uffd.h>
- #include <linux/page_table_check.h>
-+#include <linux/pte_ref.h>
- 
- extern pgd_t early_top_pgt[PTRS_PER_PGD];
- bool __init __early_make_pgtable(unsigned long address, pmdval_t pmd);
-@@ -1010,6 +1011,7 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
- 			      pte_t *ptep, pte_t pte)
- {
- 	page_table_check_pte_set(mm, addr, ptep, pte);
-+	track_pte_set(mm, addr, ptep, pte);
- 	set_pte(ptep, pte);
- }
- 
-@@ -1055,6 +1057,7 @@ static inline pte_t ptep_get_and_clear(struct mm_struct *mm, unsigned long addr,
- {
- 	pte_t pte = native_ptep_get_and_clear(ptep);
- 	page_table_check_pte_clear(mm, addr, pte);
-+	track_pte_clear(mm, addr, ptep, pte);
- 	return pte;
- }
- 
-@@ -1071,6 +1074,7 @@ static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
- 		 */
- 		pte = native_local_ptep_get_and_clear(ptep);
- 		page_table_check_pte_clear(mm, addr, pte);
-+		track_pte_clear(mm, addr, ptep, pte);
- 	} else {
- 		pte = ptep_get_and_clear(mm, addr, ptep);
- 	}
-@@ -1081,7 +1085,8 @@ static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
- static inline void ptep_clear(struct mm_struct *mm, unsigned long addr,
- 			      pte_t *ptep)
- {
--	if (IS_ENABLED(CONFIG_PAGE_TABLE_CHECK))
-+	if (IS_ENABLED(CONFIG_PAGE_TABLE_CHECK)
-+	    || IS_ENABLED(CONFIG_FREE_USER_PTE))
- 		ptep_get_and_clear(mm, addr, ptep);
- 	else
- 		pte_clear(mm, addr, ptep);
+diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
+index 44365c4574a3..ee71baccc2e7 100644
+--- a/Documentation/vm/index.rst
++++ b/Documentation/vm/index.rst
+@@ -31,6 +31,7 @@ algorithms.  If you are looking for advice on simply allocating memory, see the
+    page_frags
+    page_owner
+    page_table_check
++   pte_ref
+    remap_file_pages
+    slub
+    split_page_table_lock
+diff --git a/Documentation/vm/pte_ref.rst b/Documentation/vm/pte_ref.rst
+new file mode 100644
+index 000000000000..0ac1e5a408d7
+--- /dev/null
++++ b/Documentation/vm/pte_ref.rst
+@@ -0,0 +1,210 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============================================================================
++pte_ref: Tracking about how many references to each user PTE page table page
++============================================================================
++
++Preface
++=======
++
++Now in order to pursue high performance, applications mostly use some
++high-performance user-mode memory allocators, such as jemalloc or tcmalloc.
++These memory allocators use madvise(MADV_DONTNEED or MADV_FREE) to release
++physical memory for the following reasons::
++
++ First of all, we should hold as few write locks of mmap_lock as possible,
++ since the mmap_lock semaphore has long been a contention point in the
++ memory management subsystem. The mmap()/munmap() hold the write lock, and
++ the madvise(MADV_DONTNEED or MADV_FREE) hold the read lock, so using
++ madvise() instead of munmap() to released physical memory can reduce the
++ competition of the mmap_lock.
++
++ Secondly, after using madvise() to release physical memory, there is no
++ need to build vma and allocate page tables again when accessing the same
++ virtual address again, which can also save some time.
++
++The following is the largest user PTE page table memory that can be
++allocated by a single user process in a 32-bit and a 64-bit system.
++
+++---------------------------+--------+---------+
++|                           | 32-bit | 64-bit  |
+++===========================+========+=========+
++| user PTE page table pages | 3 MiB  | 512 GiB |
+++---------------------------+--------+---------+
++| user PMD page table pages | 3 KiB  | 1 GiB   |
+++---------------------------+--------+---------+
++
++(for 32-bit, take 3G user address space, 4K page size as an example;
++ for 64-bit, take 48-bit address width, 4K page size as an example.)
++
++After using madvise(), everything looks good, but as can be seen from the
++above table, a single process can create a large number of PTE page tables
++on a 64-bit system, since both of the MADV_DONTNEED and MADV_FREE will not
++release page table memory. And before the process exits or calls munmap(),
++the kernel cannot reclaim these pages even if these PTE page tables do not
++map anything.
++
++To fix the situation, we introduces a reference count for each user PTE page
++table page. Then we can track whether users are using the user PTE page table
++page and reclaim the user PTE page table pages that does not map anything at
++the right time.
++
++Introduction
++============
++
++The ``pte_ref``, which is the reference count of user PTE page table page, is
++``percpu_ref`` type. It is used to track the usage of each user PTE page table
++page.
++
++Who will hold the pte_ref?
++--------------------------
++
++The following people will hold a pte_ref::
++
++ The !pte_none() entry, such as regular page table entry that map physical
++ pages, or swap entry, or migrate entry, etc.
++
++ Visitor to the PTE page table entries, such as page table walker.
++
++Any ``!pte_none()`` entry and visitor can be regarded as the user of the PTE
++page table page. When the pte_ref is reduced to 0, it means that no one is
++using the PTE page table page, then this free PTE page table page can be
++reclaimed at this time.
++
++About mode switching
++--------------------
++
++When user PTE page table page is allocated, its ``pte_ref`` will be initialized
++to percpu mode, which basically does not bring performance overhead. When we
++want to reclaim the PTE page, it will be switched to atomic mode. Then we can
++check if the ``pte_ref`` is zero::
++
++ - If it is zero, we can safely reclaim it immediately;
++ - If it is not zero but we expect that the PTE page can be reclaimed
++   automatically when no one is using it, we can keep its ``pte_ref`` in
++   atomic mode (e.g. MADV_FREE case);
++ - If it is not zero, and we will continue to try at the next opportunity,
++   then we can choose to switch back to percpu mode (e.g. MADV_DONTNEED case).
++
++Competitive relationship
++------------------------
++
++Now, the user page table will only be released by calling ``free_pgtables()``
++when the process exits or ``unmap_region()`` is called (e.g. ``munmap()`` path).
++So other threads only need to ensure mutual exclusion with these paths to ensure
++that the page table is not released. For example::
++
++	thread A			thread B
++	page table walker		munmap
++	=================		======
++
++	mmap_read_lock()
++	if (!pte_none() && pte_present() && !pmd_trans_unstable()) {
++		pte_offset_map_lock()
++		*walk page table*
++		pte_unmap_unlock()
++	}
++	mmap_read_unlock()
++
++					mmap_write_lock_killable()
++					detach_vmas_to_be_unmapped()
++					unmap_region()
++					--> free_pgtables()
++
++But after we introduce the ``pte_ref`` for the user PTE page table page, these
++existing balances will be broken. The page can be released at any time when its
++``pte_ref`` is reduced to 0. Therefore, the following case may happen::
++
++	thread A		thread B			thread C
++	page table walker	madvise(MADV_DONTNEED)		page fault
++	=================	======================		==========
++
++	mmap_read_lock()
++	if (!pte_none() && pte_present() && !pmd_trans_unstable()) {
++
++				mmap_read_lock()
++				unmap_page_range()
++				--> zap_pte_range()
++				    /* the pte_ref is reduced to 0 */
++				    --> free PTE page table page
++
++								mmap_read_lock()
++								/* may allocate
++								 * a new huge
++								 * pmd or a new
++								 * PTE page
++								 */
++
++		/* broken!! */
++		pte_offset_map_lock()
++
++As we can see, all of the thread A, B and C hold the read lock of mmap_lock, so
++they can execute concurrently. When thread B releases the PTE page table page,
++the value in the corresponding pmd entry will become unstable, which may be
++none or huge pmd, or map a new PTE page table page again. This will cause system
++chaos and even panic.
++
++So as described in the section "Who will hold the pte_ref?", the page table
++walker (visitor) also need to try to take a ``pte_ref`` to the user PTE page
++table page before walking page table (the helper ``pte_tryget_map{_lock}()``
++can help us to do this), then the system will become orderly again::
++
++	thread A		thread B
++	page table walker	madvise(MADV_DONTNEED)
++	=================	======================
++
++	mmap_read_lock()
++	if (!pte_none() && pte_present() && !pmd_trans_unstable()) {
++		pte_tryget()
++		--> percpu_ref_tryget
++		*if successfully, then:*
++
++				mmap_read_lock()
++				unmap_page_range()
++				--> zap_pte_range()
++				    /* the pte_refcount is reduced to 1 */
++
++		pte_offset_map_lock()
++		*walk page table*
++		pte_unmap_unlock()
++
++There is also a lock-less scenario(such as fast GUP). Fortunately, we don't need
++to do any additional operations to ensure that the system is in order. Take fast
++GUP as an example::
++
++	thread A		thread B
++	fast GUP		madvise(MADV_DONTNEED)
++	========		======================
++
++	get_user_pages_fast_only()
++	--> local_irq_save();
++				call_rcu(pte_free_rcu)
++	    gup_pgd_range();
++	    local_irq_restore();
++	    			/* do pte_free_rcu() */
++
++Helpers
++=======
++
+++----------------------+------------------------------------------------+
++| pte_ref_init         | Initialize the pte_ref                         |
+++----------------------+------------------------------------------------+
++| pte_ref_free         | Free the pte_ref                               |
+++----------------------+------------------------------------------------+
++| pte_tryget           | Try to hold a pte_ref                          |
+++----------------------+------------------------------------------------+
++| pte_put              | Decrement a pte_ref                            |
+++----------------------+------------------------------------------------+
++| pte_tryget_map       | Do pte_tryget and pte_offset_map               |
+++----------------------+------------------------------------------------+
++| pte_tryget_map_lock  | Do pte_tryget and pte_offset_map_lock          |
+++----------------------+------------------------------------------------+
++| free_user_pte        | Free the user PTE page table page              |
+++----------------------+------------------------------------------------+
++| try_to_free_user_pte | Try to free the user PTE page table page       |
+++----------------------+------------------------------------------------+
++| track_pte_set        | Track the setting of user PTE page table page  |
+++----------------------+------------------------------------------------+
++| track_pte_clear      | Track the clearing of user PTE page table page |
+++----------------------+------------------------------------------------+
++
 -- 
 2.20.1
 
