@@ -2,186 +2,312 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79F9FC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 07:47:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FD4DC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 08:02:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355259AbiD2Huz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 03:50:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55564 "EHLO
+        id S1355283AbiD2IFs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 04:05:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354280AbiD2Huy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 03:50:54 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51A48AFB37
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 00:47:36 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id gh6so13947963ejb.0
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 00:47:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=VUCWa3lSIaNzDwHCn+z/F0FVFVoykexDHXhwFfLqcXs=;
-        b=Hb9Qr18ymp5oDvIwpneOgr2tAoqL9sBJ7zKZgSyrpcbSV5mYNUK9omsjGB2BUHy+wF
-         hvNETRF2PNhs7QD9/wvRRjDcTsr8N9DePY6cH8hHGqe1tUFA4SY2HS0R26d67pVic+WS
-         nfGHe2KFkWF9WqSUjRo8/UlNwH/umWyfvVFqw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=VUCWa3lSIaNzDwHCn+z/F0FVFVoykexDHXhwFfLqcXs=;
-        b=WfZWDJfHOLwAv3q2FofSwJ/1oKYjqMfs+GA+rVyBv+qBqwtnanVaC4jMLwywg9yk7b
-         tq6ms62vSrD65qfB8xUokz02DHol+ihyX3epq/KpBnPIpKXUKlWaa+doFj544U0lNwAS
-         N2U9NerCyqIqw5iZxehy+TOVeIiUNa0H/TPJkzFd5jZ3x8NwymoaSGCJ7OIYg0n4S15w
-         48Os0dzka1S7zCm1L6NFt3EKDdP1MCiHh/uSz7oqH6nl6GAhCLYpT0ldKwzlZpgmSVbK
-         DRcIJ5sbMzPWQ7VkDzO5/Wgn/g3Ua0YOZ+GvA5BKGDYVEE+J7nOFjKQULsZoJeLt+rfA
-         rhEg==
-X-Gm-Message-State: AOAM532aM82KflmIMvopvwenbeKqWYxT5qtbjxiY0ssc1o92nCZg+JDP
-        w7uydoU57jH/m6Odu7As/BsYJQ==
-X-Google-Smtp-Source: ABdhPJx0LzJCI67IHW7p4FMMHHkPQKC/N0VzjjyRtPZ0oOI21KH7mh9tFSrg8s64jQaUV9HW5qz+Kw==
-X-Received: by 2002:a17:907:3f8f:b0:6f3:d4a0:e80c with SMTP id hr15-20020a1709073f8f00b006f3d4a0e80cmr8378065ejc.709.1651218453598;
-        Fri, 29 Apr 2022 00:47:33 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id hv6-20020a17090760c600b006f3ef214e34sm389502ejc.154.2022.04.29.00.47.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 00:47:32 -0700 (PDT)
-Date:   Fri, 29 Apr 2022 09:47:31 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Javier Martinez Canillas <javierm@redhat.com>
-Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        dri-devel@lists.freedesktop.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Borislav Petkov <bp@suse.de>,
-        Changcheng Deng <deng.changcheng@zte.com.cn>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Helge Deller <deller@gmx.de>, Johan Hovold <johan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miaoqian Lin <linmq006@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Yizhuo Zhai <yzhai003@ucr.edu>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v3 0/5] Fix some race conditions that exists between
- fbmem and sysfb
-Message-ID: <YmuYE2t51lPIRT8p@phenom.ffwll.local>
-Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        dri-devel@lists.freedesktop.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Borislav Petkov <bp@suse.de>,
-        Changcheng Deng <deng.changcheng@zte.com.cn>,
-        Hans de Goede <hdegoede@redhat.com>, Helge Deller <deller@gmx.de>,
-        Johan Hovold <johan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Miaoqian Lin <linmq006@gmail.com>, Peter Jones <pjones@redhat.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Yizhuo Zhai <yzhai003@ucr.edu>,
-        Zhen Lei <thunder.leizhen@huawei.com>, linux-doc@vger.kernel.org,
-        linux-fbdev@vger.kernel.org
-References: <20220420085303.100654-1-javierm@redhat.com>
- <535ebbe4-605c-daf5-1afb-f5225e4bb3a8@suse.de>
- <093d742f-4c87-2ff3-e9fe-153cd734f8e4@suse.de>
- <220929be-91c4-d19c-b04f-312c5f7e9e40@redhat.com>
+        with ESMTP id S1350225AbiD2IFq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 04:05:46 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D0B46F481;
+        Fri, 29 Apr 2022 01:02:23 -0700 (PDT)
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.57])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KqQ111D8Yz1JBgp;
+        Fri, 29 Apr 2022 16:01:25 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 29 Apr 2022 16:02:21 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 29 Apr 2022 16:02:20 +0800
+Subject: Re: [PATCH v22 5/9] arm64: kdump: Reimplement crashkernel=X
+To:     Baoquan He <bhe@redhat.com>
+CC:     Catalin Marinas <catalin.marinas@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>, Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        "John Donnelly" <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+References: <20220414115720.1887-1-thunder.leizhen@huawei.com>
+ <20220414115720.1887-6-thunder.leizhen@huawei.com> <YmgzxsrrMlCDYsWp@arm.com>
+ <ee8daaa9-3258-e7e8-e5c4-c51dc9841580@huawei.com> <Ymk34NsIFqUgfk3b@arm.com>
+ <ae7211ad-e2ac-f5b1-5aa0-701802132e73@huawei.com> <YmlphvZVMsGfFksp@arm.com>
+ <YmoMvV1wzHT5V1aw@MiWiFi-R3L-srv> <YmoPhvkXQFZQOcIO@MiWiFi-R3L-srv>
+ <3fc41a94-4247-40f3-14e7-f11e3001ec33@huawei.com>
+ <YmtaiJhwIgP6m2Sk@MiWiFi-R3L-srv>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <a9c736a0-f2b3-5b8a-94d9-80742ccd2700@huawei.com>
+Date:   Fri, 29 Apr 2022 16:02:19 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <220929be-91c4-d19c-b04f-312c5f7e9e40@redhat.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <YmtaiJhwIgP6m2Sk@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 25, 2022 at 11:49:13AM +0200, Javier Martinez Canillas wrote:
-> Hello Thomas,
-> 
-> Thanks for the feedback. It was very useful.
-> 
-> On 4/25/22 11:15, Thomas Zimmermann wrote:
-> > Hi
-> > 
-> > Am 25.04.22 um 10:54 schrieb Thomas Zimmermann:
-> >> Hi
-> >>
-> >> Am 20.04.22 um 10:52 schrieb Javier Martinez Canillas:
-> >>> Hello,
-> >>>
-> >>> The patches in this series are mostly changes suggested by Daniel Vetter
-> >>> to fix some race conditions that exists between the fbdev core (fbmem)
-> >>> and sysfb with regard to device registration and removal.
-> >>>
-> >>> For example, it is currently possible for sysfb to register a platform
-> >>> device after a real DRM driver was registered and requested to remove the
-> >>> conflicting framebuffers.
-> >>>
-> >>> A symptom of this issue, was worked around with by commit fb561bf9abde
-> >>> ("fbdev: Prevent probing generic drivers if a FB is already registered")
-> >>> but that's really a hack and should be reverted.
-> >>
-> >> As I mentioned on IRC, I think this series should be merged for the 
-> >> reasons I give in the other comments.
-> >>
-> 
-> You meant that should *not* get merged, as we discussed over IRC.
-> 
-> >>>
-> >>> This series attempt to fix it more properly and revert the mentioned 
-> >>> hack.
-> >>> That will also unblock a pending patch to not make the num_registered_fb
-> >>> variable visible to drivers anymore, since that's internal to fbdev core.
-> >>
-> >> Here's as far as I understand the problem:
-> >>
-> >>   1) build DRM/fbdev and sysfb code into the kernel
-> >>   2) during boot, load the DRM/fbdev modules and have them acquire I/O 
-> >> ranges
-> >>   3) afterwards load sysfb and have it register platform devices for the 
-> >> generic framebuffers
-> >>   4) these devices now conflict with the already-registered DRM/fbdev 
-> >> devices
-> >>
-> 
-> That's correct, yes.
-> 
-> >> If that is the problem here, let's simply set a sysfb_disable flag in 
-> >> sysfb code when the first DRM/fbdev driver first loads. With the flag 
-> >> set, sysfb won't create any platform devices. We assume that there are 
-> >> now DRM/fbdev drivers for the framebuffers and sysfb won't be needed.
-> >>
-> >> We can set the flag internally from drm_aperture_detach_drivers() [1] 
-> >> and do_remove_conflicting_framebuffers() [2].
-> > 
-> > And further thinking about it, it would be better to set such a flag 
-> > after successfully registering a DRM/fbdev device.  So we know that 
-> > there's at least one working display in the system. We don't have to 
-> > rely on generic framebuffers after that.
-> >
-> 
-> Exactly, should be done when the device is registered rather than when
-> the driver is registered or a call is made to remove the conflicting FB.
-> 
-> I'll rework this series with only the bits for sysfb_disable() and drop
-> the rest. We can go back to the discussion of the remaining parts later
-> if that makes sense (I still think that patch 3/5 is a better approach,
-> but let's defer that for a different series).
 
-We need to kill sysfb _before_ the driver loads, otherwise you can have
-two drivers fighting over each another. And yes that means you might end
-up with black screen if the driver load goes wrong, but the two drivers
-fighting over each another can also result in black screens. And the
-latter isn't fixable any other way (in general at least) than by making
-sure the fw stuff is gone before driver load starts in earnest.
--Daniel
+
+On 2022/4/29 11:24, Baoquan He wrote:
+> On 04/28/22 at 05:33pm, Leizhen (ThunderTown) wrote:
+>>
+>>
+>> On 2022/4/28 11:52, Baoquan He wrote:
+>>> On 04/28/22 at 11:40am, Baoquan He wrote:
+>>>> Hi Catalin, Zhen Lei,
+>>>>
+>>>> On 04/27/22 at 05:04pm, Catalin Marinas wrote:
+>>>>> On Wed, Apr 27, 2022 at 09:49:20PM +0800, Leizhen (ThunderTown) wrote:
+>>>>>> On 2022/4/27 20:32, Catalin Marinas wrote:
+>>>>>>> I think one could always pass a default command line like:
+>>>>>>>
+>>>>>>> 	crashkernel=1G,high crashkernel=128M,low
+>>>>>>>
+>>>>>>> without much knowledge of the SoC memory layout.
+>>>>>>
+>>>>>> Yes, that's what the end result is. The user specify crashkernel=128M,low
+>>>>>> and the implementation ensure the 128M low memory is allocated from DMA zone.
+>>>>>> We use arm64_dma_phys_limit as the upper limit for crash low memory.
+>>>>>>
+>>>>>> +#define CRASH_ADDR_LOW_MAX             arm64_dma_phys_limit
+>>>>>> +       unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+>>>>>> +       crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+>>>>>>                                                crash_base, crash_max);
+>>>>>>
+>>>>>>> Another option is to only introduce crashkernel=Y,low and, when that is
+>>>>>>> passed, crashkernel=Y can go above arm64_dma_phys_limit. We won't need a
+>>>>>>> 'high' option at all:
+>>>>>>>
+>>>>>>> 	crashkernel=1G				- all within ZONE_DMA
+>>>>>>> 	crashkernel=1G crashkernel=128M,low	- 128M in ZONE_DMA
+>>>>>>> 						  1G above ZONE_DMA
+>>>>>>>
+>>>>>>> If ZONE_DMA is not present or it extends to the whole RAM, we can ignore
+>>>>>>> the 'low' option.
+>>>>>>
+>>>>>> I think although the code is hard to make generic, the interface is better to
+>>>>>> be relatively uniform. A user might have to maintain both x86 and arm64, and
+>>>>>> so on. It's not a good thing that the difference is too big.
+>>>>>
+>>>>> There will be some difference as the 4G limit doesn't always hold for
+>>>>> arm64 (though it's true in most cases). Anyway, we can probably simplify
+>>>>> things a bit while following the documented behaviour:
+>>>>>
+>>>>> 	crashkernel=Y		- current behaviour within ZONE_DMA
+>>>>> 	crashkernel=Y,high	- allocate from above ZONE_DMA
+>>>>> 	crashkernel=Y,low	- allocate within ZONE_DMA
+>>>>>
+>>>>> There is no fallback from crashkernel=Y.
+>>>>>
+>>>>> The question is whether we still want a default low allocation if
+>>>>> crashkernel=Y,low is missing but 'high' is present. If we add this, I
+>>>>> think we'd be consistent with kernel-parameters.txt for the 'low'
+>>>>> description. A default 'low' is probably not that bad but I'm tempted to
+>>>>> always mandate both 'high' and 'low'.
+>>>>
+>>>> Sorry to interrupt. Seems the ,high ,low and fallback are main concerns
+>>>> about this version. And I have the same concerns about them which comes
+>>>> from below points:
+>>>> 1) we may need to take best effort to keep ,high, ,low behaviour
+>>>> consistent on all ARCHes. Otherwise user/admin may be confused when they
+>>>> deploy/configure kdump on different machines of different ARCHes in the
+>>>> same LAB. I think we should try to avoid the confusion.
+>>
+>> Yes, but for someone who is configuring crashkernel= for the first time, he
+>> needs to read doc to understand how to configure it. The doc can show the
+>> recommended default value of 'low' size.
+>>
+>> After commit 94fb93341822 ("x86/crash: Allocate enough low memory when crashkernel=high"),
+>> the default 'low' size doesn't make much sense anymore. The default size of swiotlb_size()
+>> is 64M, far less than 256M. And if user specify "swiotlb=", he can also adjust crashkernel=Y,low.
+>>
+>>
+>> +                * -swiotlb size: user-specified with swiotlb= or default.
+>> -               low_size = swiotlb_size_or_default() + (8UL<<20);
+>> +               low_size = max(swiotlb_size_or_default() + (8UL<<20), 256UL<<20);
+>>
+>> That means all ARCHs can explicit configure crashkernel=256M,low, instead of
+>> omitting it. This may be another way to avoid confusion. It's not hard for
+>> programmer-turned-user/admin. However, this requires us to forgo backward
+>> compatibility with the default size of 'low'.
+> 
+> We can make ,high and ,low simpler at first as they are alternative. If
+> possible, we can also simplify the ,high ,low implementation on x86_64
+> if it truly brings better archievement on arm64.
+
+OK, I plan to remove optimization, fallback and default low size, to follow the
+suggestion of Catalin first. But there's one minor point of contention.
+
+1)    Both "crashkernel=X,high" and "crashkernel=X,low" must be present.
+2)    Both "crashkernel=X,high" and "crashkernel=X,low" are present.
+   or
+      Allow "crashkernel=X,high" to be present alone. Unlike x86, the default low size is zero.
+
+I prefer 2), how about you?
+
+> 
+>>
+>>
+>>>> 2) Fallback behaviour is important to our distros. The reason is we will
+>>>> provide default value with crashkernel=xxxM along kernel of distros. In
+>>>> this case, we hope the reservation will succeed by all means. The ,high
+>>>> and ,low is an option if customer likes to take with expertise.
+>>
+>> OK, I got it.
+>>
+>>>>
+>>>> After going through arm64 memory init code, I got below summary about
+>>>> arm64_dma_phys_limit which is the first zone's upper limit. I think we
+>>>> can make use of it to facilitate to simplify code.
+>>>> ================================================================================
+>>>>                         DMA                      DMA32                    NORMAL
+>>>> 1)Raspberry Pi4         0~1G                     3G~4G                    (above 4G)
+>>>> 2)Normal machine        0~4G                     0                        (above 4G)
+>>>> 3)Special machine       (above 4G)~MAX
+>>>> 4)No DMA|DMA32                                                            (above 4G)~MAX
+>>
+>> arm64_memblock_init()
+>> 	reserve_crashkernel()        ---------------   0a30c53573b0 ("arm64: mm: Move reserve_crashkernel() into mem_init()")
+> We don't need different code for this place of reservation as you are
+> doing in this patchset, since arm64_dma_phys_limit is initialized as 
+> below. In fact, in arm64_memblock_init(), we have made memblock ready,
+> we can initialize arm64_dma_phys_limit as memblock_end_of_DRAM(). And if
+> memblock_start_of_DRAM() is bigger than 4G, we possibly can call
+> reserve_crashkernel() here too.
+
+Yes. Maybe all the devices in this environment are 64-bit. One way I know of allowing
+32-bit devices to access high memory without SMMU is: Set a fixed value for the upper
+32 bits. In this case, the DMA zone should be [phys_start, phys_start + 4G).
+
+> 
+> phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
+> 
+>> paging_init()                                       |
+>> 	map_mem()                                   |
+>> unflatten_device_tree or ACPI                       |  ----  //Raspberry Pi4 get dma zone base on dtb or ACPI
+>> bootmem_init();                                     |      |
+>> 	zone_sizes_init()                           |      |
+>> 		of_dma_get_max_cpu_address          |  ----|
+>> 		//Update arm64_dma_phys_limit       |  ----|
+>> 	reserve_crashkernel()        <--------------  //Because we need arm64_dma_phys_limit to be updated above
+>> request_standard_resources()
+> 
+> Yeah, because arm64_dma_phys_limit is decided late in the 1) and 2) case
+> as I summarized, we need defer reserve_crashkernel() to bootmem_init(). But 
+> arm64_dma_phys_limit could be 1G or 4G, that's why your optimization
+> about BLOCKING may not be right since you assume the 4G boundary, while
+> forgetting Raspberry Pi4 on which 1G is the boundary of low memory and
+
+No, no, my optimization for Raspberry Pi4 is fine. I do page mapping for memory
+under 4G and block mapping for memory above 4G. But still try to reserve crash
+low memory from DMA zone. So when 1G is the boundary, it's just not fully optimized,
+the memory 1-4G are mapped as page.
+
+> high memory. So separating out BLOCKING optimization can let us focus on
+> the crashkernel,high support.
+> 
+>>
+>>>>
+>>>> -------------------------------------------
+>>>>                       arm64_dma_phys_limit
+>>>> 1)Raspberry Pi4         1G                     
+>>>> 2)Normal machine        4G                     
+>>>> 3)Special machine       MAX
+>>>> 4)No DMA|DMA32          MAX
+>>>>
+>>>> Note: 3)Special machine means the machine's starting physical address is above 4G.
+>>>> WHile 4)No DMA|DMA32 means kernel w/o CONFIG_ZONE_DMA|DMA32, and has
+>>>> IOMMU hardware supporting.
+>>>> ===================================================================================
+>>>>
+>>>> I made a draft patch based on this patchset, please feel free to check and
+>>>> see if it's OK, or anything missing or wrongly understood. I removed
+>>>> reserve_crashkernel_high() and only keep reserve_crashkernel() and
+>>>> reserve_crashkernel_low() as the v21 did.
+>>>
+>>> Sorry, forgot attaching the draft patch.
+>>>
+>>> By the way, we can also have a simple version with basic ,high, ,low
+>>> support, no fallback. We can add fallback and other optimization later.
+>>> This can be plan B.
+>>
+>> Yes, That's what Catalin suggested also.
+>>
+>> Hi, Baoquan He:
+>>   Without optimization, the whole Patch 3-4 and 6-7 can be dropped.
+>>
+>> Process after abstraction:
+>> 	if (!IS_ENABLED(CONFIG_ZONE_DMA) && !IS_ENABLED(CONFIG_ZONE_DMA32)) {
+>> 		reserve_crashkernel()
+>> 		//block mapping
+>> 	} else {
+>> 		//page mapping
+>> 		reserve_crashkernel()
+>> 	}
+>>
+>> ------------ Simplified real-world process ---------
+> Yeah, this looks clearer. I would like to see a version with them.
+> 
+>> arm64_memblock_init()
+>         Before reserve_crashkernel(), we can update arm64_dma_phys_limit
+> as memblock_end_of_DRAM() if CONFIG_ZONE_DMA|DMA32 is not enabled or
+> memblock_start_of_DRAM() is bigger than 4G.
+>         Then we go with:
+>         if (!arm64_dma_phys_limit)
+> 		reserve_crashkernel();
+> 
+> Just personal opinion, please check if it's appropriate to handle case
+> 3) which has physical starting memory above 4G here. 
+
+OK, I'll write it down and consider it in the future optimization.
+
+> 
+>> 	if (!IS_ENABLED(CONFIG_ZONE_DMA) && !IS_ENABLED(CONFIG_ZONE_DMA32))
+>> 		reserve_crashkernel()
+>            
+>> paging_init()
+>> 	map_mem()
+>> 		if (!IS_ENABLED(CONFIG_ZONE_DMA) && !IS_ENABLED(CONFIG_ZONE_DMA32))
+>> 			//block mapping
+>> 		else
+>> 			//page mapping
+>> unflatten_device_tree or ACPI
+>> bootmem_init();
+>> 	zone_sizes_init()
+>> 		of_dma_get_max_cpu_address
+>> 		//Update arm64_dma_phys_limit
+>> 	if (IS_ENABLED(CONFIG_ZONE_DMA) || IS_ENABLED(CONFIG_ZONE_DMA32))
+>> 		reserve_crashkernel()
+> 
+> The rest sounds good with optimization code split out.
+> 
+> .
+> 
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Regards,
+  Zhen Lei
