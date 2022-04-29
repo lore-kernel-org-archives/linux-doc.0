@@ -2,190 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA63EC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 22:53:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66996C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 23:00:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239852AbiD2W4V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 18:56:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45340 "EHLO
+        id S239840AbiD2XDl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 19:03:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239840AbiD2W4U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 18:56:20 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 649E37839D;
-        Fri, 29 Apr 2022 15:53:01 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id p6so8275604pjm.1;
-        Fri, 29 Apr 2022 15:53:01 -0700 (PDT)
+        with ESMTP id S1381665AbiD2XDk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 19:03:40 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D964317AAB;
+        Fri, 29 Apr 2022 16:00:19 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d15so8368495plh.2;
+        Fri, 29 Apr 2022 16:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=igLOqTt7c0+9rOub31h3DCTn/9DZSO8QV11F0F++Etw=;
-        b=b+GxKAGp10UA0dEQqzHpFp8qB9TceUV9WwO+8pZhT9cNZjlGDnBj/vXlFfqyxyabqK
-         0oxmdIcOMUAovt/fV0li7zUuKcfyh+zOFQaUJwofBjtpSQB4zJMoO3926jM31fk4BeZH
-         VEG6+ANfZq96wUR+ukj7qERaxJYDRXOA/9TlM1KoLGW+5ay+Rn4sDQaD/wF5DG8gHwI5
-         1GbPJRKLEOrTlFRI2E1YRFNnxT4hX+bQfKf5QbpFm14be9oOsdLT9oKOJR87HWZJhjPj
-         /MMJAVeDxFBRXl+nuU8lOMQYSMxzFWgXJc7E3Xkv1bXQGnLl+CWxGHg+bIGzFJkTdA0I
-         a9fA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dlmPAtCVXUFto+oenKYnRNw/Xs3pnpINvENJYUeN16c=;
+        b=cJF2fEOEEoqrAx/jcayEkxBxGGDVlNLpslj3mUsd8/B4N7l8kBmhGf0vYnVWCW/cKZ
+         bczgoiLlyKfezu90N/Yd/NGxR5Z1RjL/QdrooC7XIbzV997qqTjc5p6hA88y3Ex46Iba
+         +MaWxBvWg1zn4gAyJdD4iuHUgYo2ke8OV1Bk+wpxbkkb9FPVUPBT98m6Cqd5uFvUlA66
+         sDDhF6ZK77uKamkbP0Czt8781Uz/BPfSls5HwoUIRlySZyw9UMd0PZgbkXPtvzxIwHsu
+         Gs8CX+hkzgCb3HuhbxzqNFaP7lGFWnyCxkiDmVpskJfZ0r7LLBTgOKAGVsmYnasrJdVB
+         jJ2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=igLOqTt7c0+9rOub31h3DCTn/9DZSO8QV11F0F++Etw=;
-        b=8N+NGj6ytjsKsYyhbFeYmom8/g7li4BZZHZQ+I21o7JAgyMbImqpA5LsAR8Gow6rAc
-         hYx2kJ9E4OsVdse1LZ79K8jtAJS8e+Gb9z1ock9H3uYRfSUUJKsAKc8vTwOX0Nma7bzS
-         mgQZmqscqUpAxnc8m24I3LmFjtL/eEwvHxN8Ugnk78zcpJI91t/p/qET5sZt81GdQuTf
-         sMv1gDmk1UP8b2wSqRNLKe/4EyVTh+7dvylClVbKYSVhxojIenRHaN44VFdCSakYJowQ
-         o3oD5dFMSxUpi0QijkqwrSlTOxKemBySowCPFoF3eHS0Xg9kYjW9qAF2qcR6PlH0sesP
-         e4pw==
-X-Gm-Message-State: AOAM532k9gDXowCIL/F2rCqzjVBdWjjfXwM+UfAQlnHnpBMBzux91n6G
-        yuVDcHR0w/weTKuZVO8k1mZFyKnzZsM=
-X-Google-Smtp-Source: ABdhPJxtzHkDldh7HirdrUNvkceKmrTnIWr8Fv5MXfBfPoKrYJ8hbIx/2VQPEaMOroZIxZ1QKgc74g==
-X-Received: by 2002:a17:90a:8d82:b0:1d8:a5a9:5489 with SMTP id d2-20020a17090a8d8200b001d8a5a95489mr1389664pjo.102.1651272780803;
-        Fri, 29 Apr 2022 15:53:00 -0700 (PDT)
-Received: from smtpclient.apple (164.174.128.101.dy.bbexcite.jp. [101.128.174.164])
-        by smtp.gmail.com with ESMTPSA id a8-20020a17090a6d8800b001cd4c118b07sm11839070pjk.16.2022.04.29.15.52.58
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 29 Apr 2022 15:53:00 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH v3] docs/trans/ja_JP/howto: Don't mention specific kernel
- versions
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dlmPAtCVXUFto+oenKYnRNw/Xs3pnpINvENJYUeN16c=;
+        b=DBoWSz6680Spxn98W5beaIB97AfC8RuMtexapylndgml5O5DFPsOFygKXQJ6FZhmYa
+         XzyLZHAd+4yZ+I8budzN736TGEmxNNoqAg23tVfO7StGN4Qexz9/AYRPUhGO/wpelAI3
+         zzSeEmrx6Lbtx3KmZq3K/D5cwcRxn+igzGq99e/f/ujNVjEP/r4h71YID1mTuf3um3Eh
+         lxhfX/ZsOqykFte2puX2TPTZdx/QVqfd/cTxf7AKusmVrx54/YHTvzOmrSwTkprMGPKk
+         Bz/P7sGpB/dll9a9M/Id4pFHTXYzQ4c3174LRpEYaZNTP8RBv4u/MgRXnKD/oyPHLipw
+         Rksg==
+X-Gm-Message-State: AOAM530V/Eyj57E7a3Ey+Bbo/udaEi8f288onxskf1SbkVlbz/3f0iWz
+        944zDfeSAoKypKfxdqy8BJg=
+X-Google-Smtp-Source: ABdhPJy6tKo3op8pC1HVFCOodWCd18LjL3zXn+zhgLtkD6QGn8EKs5nxc71an7cx2vr0s06sClN83g==
+X-Received: by 2002:a17:902:9b94:b0:156:2c08:14a5 with SMTP id y20-20020a1709029b9400b001562c0814a5mr1332397plp.60.1651273219221;
+        Fri, 29 Apr 2022 16:00:19 -0700 (PDT)
+Received: from localhost.localdomain (164.174.128.101.dy.bbexcite.jp. [101.128.174.164])
+        by smtp.gmail.com with ESMTPSA id s14-20020a170902ea0e00b0015e8d4eb29esm63140plg.232.2022.04.29.16.00.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Apr 2022 16:00:18 -0700 (PDT)
 From:   Kosuke Fujimoto <fujimotokosuke0@gmail.com>
-In-Reply-To: <20220429133522.41013-1-fujimotokosuke0@gmail.com>
-Date:   Sat, 30 Apr 2022 07:52:56 +0900
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Akira Yokosawa <akiyks@gmail.com>, skhan@linuxfoundation.org,
+To:     shibata@linuxfoundation.org
+Cc:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>, corbet@lwn.net,
+        akiyks@gmail.com, skhan@linuxfoundation.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: base64
-Message-Id: <93D2EBDC-A1F5-4C48-8E59-F6FDDB12735F@gmail.com>
-References: <20220429133522.41013-1-fujimotokosuke0@gmail.com>
-To:     Tsugikazu Shibata <shibata@linuxfoundation.org>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
+Subject: [PATCH v4] docs/trans/ja_JP/howto: Don't mention specific kernel versions
+Date:   Sat, 30 Apr 2022 08:00:01 +0900
+Message-Id: <20220429230001.6124-1-fujimotokosuke0@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DQoNCj4gT24gQXByIDI5LCAyMDIyLCBhdCAyMjozNSwgS29zdWtlIEZ1amltb3RvIDxmdWppbW90
-b2tvc3VrZTBAZ21haWwuY29tPiB3cm90ZToNCj4gDQo+IFRoaXMgY2hhbmdlIGlzIGJhc2VkIG9u
-IGNvbW1pdCBkMmIwMDhmMTM0YjcNCj4gKCJEb2N1bWVudGF0aW9uL3Byb2Nlc3MvaG93dG86IFVw
-ZGF0ZSBmb3IgNC54IC0+IDUueCB2ZXJzaW9uaW5nIikuDQo+IA0KPiBSZXBsYWNlICI0Lngga2Vy
-bmVsIHZlcnNpb24iIHdpdGggZ2VuZXJpYyB0ZXJtIHN1Y2ggYXMgIm1haW5saW5lIHRyZWUiDQo+
-IA0KPiBTaWduZWQtb2ZmLWJ5OiBLb3N1a2UgRnVqaW1vdG8gPGZ1amltb3Rva29zdWtlMEBnbWFp
-bC5jb20+DQo+IC0tLQ0KPiBWMjogUmVmb3JtYXR0ZWQgY29tbWl0IGxvZyBtZXNzYWdlDQo+IFYz
-OiBVcGRhdGVkIHNvbWUgZXhwcmVzc2lvbnMNCj4gLSBhZGRlZCAidmVyc2lvbiBudW1iZXIiIGlu
-IG1haW5saW5lIHRyZWUgc2VjdGlvbg0KPiAtIHVwZGF0ZWQgZnJvbSAic3RhYmxlIGtlcm5lbCIg
-dG8gInN0YWJsZSB0cmVlIg0KPiAtLS0NCj4gLS0tDQo+IERvY3VtZW50YXRpb24vdHJhbnNsYXRp
-b25zL2phX0pQL2hvd3RvLnJzdCB8IDQ0ICsrKysrKysrKysrLS0tLS0tLS0tLS0NCj4gMSBmaWxl
-IGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDIzIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAt
-LWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL2hvd3RvLnJzdCBiL0RvY3Vt
-ZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL2hvd3RvLnJzdA0KPiBpbmRleCBkNjY3ZjlkOGEw
-MmEuLmRlYWM0MWViMDM4YSAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
-bnMvamFfSlAvaG93dG8ucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2ph
-X0pQL2hvd3RvLnJzdA0KPiBAQCAtMjYyLDIxICsyNjIsMjEgQEAgTGludXgg44Kr44O844ON44Or
-44Gu6ZaL55m644OX44Ot44K744K544Gv54++5Zyo5bm+44Gk44GL44Gu55Ww44Gq44KL44Oh44Kk
-44OzDQo+IOODgeOAjeOBqOWkmuaVsOOBruOCteODluOCt+OCueODhuODoOavjuOBruOCq+ODvOOD
-jeODq+ODluODqeODs+ODgeOBi+OCieani+aIkOOBleOCjOOBvuOBmeOAguOBk+OCjOOCieOBrg0K
-PiDjg5bjg6njg7Pjg4Hjgajjga8gLQ0KPiANCj4gLSAgLSDjg6HjgqTjg7Pjga4gNC54IOOCq+OD
-vOODjeODq+ODhOODquODvA0KPiAtICAtIDQueC55IC1zdGFibGUg44Kr44O844ON44Or44OE44Oq
-44O8DQo+IC0gIC0g44K144OW44K344K544OG44Og5q+O44Gu44Kr44O844ON44Or44OE44Oq44O8
-44Go44OR44OD44OBDQo+IC0gIC0g57Wx5ZCI44OG44K544OI44Gu44Gf44KB44GuIDQueCAtbmV4
-dCDjgqvjg7zjg43jg6vjg4Tjg6rjg7wNCj4gKyAgLSBMaW51cyDjga7jg6HjgqTjg7Pjg6njgqTj
-g7Pjg4Tjg6rjg7wNCj4gKyAgLSDjg6Hjgrjjg6Pjg7znlarlj7fjgpLjgb7jgZ/jgZDmlbDmnKzj
-ga7lronlrprniYjjg4Tjg6rjg7wNCj4gKyAgLSDjgrXjg5bjgrfjgrnjg4bjg6Dmr47jga7jgqvj
-g7zjg43jg6vjg4Tjg6rjg7wNCj4gKyAgLSDntbHlkIjjg4bjgrnjg4jjga7jgZ/jgoHjga4gbGlu
-dXgtbmV4dCDjgqvjg7zjg43jg6vjg4Tjg6rjg7wNCj4gDQo+IC00Lngg44Kr44O844ON44Or44OE
-44Oq44O8DQo+ICvjg6HjgqTjg7Pjg6njgqTjg7Pjg4Tjg6rjg7wNCj4gfn5+fn5+fn5+fn5+fn5+
-fn5+DQo+IA0KPiAtNC54IOOCq+ODvOODjeODq+OBryBMaW51cyBUb3J2YWxkcyDjgavjgojjgaPj
-gabjg6Hjg7Pjg4bjg4rjg7PjgrnjgZXjgozjgIENCj4gLWh0dHBzOi8va2VybmVsLm9yZyDjga4g
-cHViL2xpbnV4L2tlcm5lbC92NC54LyDjg4fjgqPjg6zjgq/jg4jjg6rjgavlrZjlnKjjgZfjgb7j
-gZnjgIINCj4gK+ODoeOCpOODs+ODqeOCpOODs+ODhOODquODvOOBryBMaW51cyBUb3J2YWxkcyDj
-gavjgojjgaPjgabjg6Hjg7Pjg4bjg4rjg7PjgrnjgZXjgozjgIENCj4gK2h0dHBzOi8va2VybmVs
-Lm9yZyDjga7jg6rjg53jgrjjg4jjg6rjgavlrZjlnKjjgZfjgb7jgZnjgIINCj4g44GT44Gu6ZaL
-55m644OX44Ot44K744K544Gv5Lul5LiL44Gu44Go44GK44KKIC0NCj4gDQo+ICAgLSDmlrDjgZfj
-gYTjgqvjg7zjg43jg6vjgYzjg6rjg6rjg7zjgrnjgZXjgozjgZ/nm7TlvozjgavjgIEy6YCx6ZaT
-44Gu54m55Yil5pyf6ZaT44GM6Kit44GR44KJ44KM44CBDQo+ICAgICDjgZPjga7mnJ/plpPkuK3j
-gavjgIHjg6Hjg7Pjg4bjg4rpgZTjga8gTGludXMg44Gr5aSn44GN44Gq5beu5YiG44KS6YCB44KL
-44GT44Go44GM44Gn44GN44G+44GZ44CCDQo+IC0gICAg44GT44Gu44KI44GG44Gq5beu5YiG44Gv
-6YCa5bi4IC1uZXh0IOOCq+ODvOODjeODq+OBq+aVsOmAsemWk+WQq+OBvuOCjOOBpuOBjeOBn+OD
-keODg+ODgeOBp+OBmeOAgg0KPiArICAgIOOBk+OBruOCiOOBhuOBquW3ruWIhuOBr+mAmuW4uCBs
-aW51eC1uZXh0IOOCq+ODvOODjeODq+OBq+aVsOmAsemWk+WQq+OBvuOCjOOBpuOBjeOBn+ODkeOD
-g+ODgeOBp+OBmeOAgg0KPiAgICAg5aSn44GN44Gq5aSJ5pu044GvIGdpdCjjgqvjg7zjg43jg6vj
-ga7jgr3jg7zjgrnnrqHnkIbjg4Tjg7zjg6vjgIHoqbPntLDjga8NCj4gICAgIGh0dHA6Ly9naXQt
-c2NtLmNvbS8g5Y+C54WnKSDjgpLkvb/jgaPjgabpgIHjgovjga7jgYzlpb3jgb7jgZfjgYTjgoTj
-gormlrnjgafjgZnjgYzjgIHjg5Hjg4MNCj4gICAgIOODgeODleOCoeOCpOODq+OBruW9ouW8j+OB
-ruOBvuOBvumAgeOCi+OBruOBp+OCguWNgeWIhuOBp+OBmeOAgg0KPiBAQCAtMzAzLDIwICszMDMs
-MTggQEAgQW5kcmV3IE1vcnRvbiDjgYwgTGludXgta2VybmVsIOODoeODvOODquODs+OCsOODquOC
-ueODiOOBq+OCq+ODvOODjeODq+ODquODquODvA0KPiAgICAgICAgIOWJjeOCguOBo+OBpuaxuuOC
-geOCieOCjOOBn+ioiOeUu+OBq+OCiOOBo+OBpuODquODquODvOOCueOBleOCjOOCi+OCguOBruOB
-p+OBr+OBquOBhOOBi+OCiQ0KPiAgICAgICAgIOOBp+OBmeOAguOAjSoNCj4gDQo+IC00LngueSAt
-c3RhYmxlIOOCq+ODvOODjeODq+ODhOODquODvA0KPiAtfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fg0KPiAr44Oh44K444Oj44O855Wq5Y+344KS44G+44Gf44GQ5pWw5pys44Gu5a6J5a6a54mI
-44OE44Oq44O8DQo+ICt+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4NCj4g
-DQo+IOODkOODvOOCuOODp+ODs+eVquWPt+OBjDPjgaTjga7mlbDlrZfjgavliIbjgYvjgozjgabj
-gYTjgovjgqvjg7zjg43jg6vjga8gLXN0YWJsZSDjgqvjg7zjg43jg6vjgafjgZnjgIINCj4gLeOB
-k+OCjOOBq+OBr+OAgTQueCDjgqvjg7zjg43jg6vjgafopovjgaTjgYvjgaPjgZ/jgrvjgq3jg6Xj
-g6rjg4bjgqPllY/poYzjgoTph43lpKfjgarlvozmiLvjgorjgavlr77jgZkNCj4gLeOCi+avlOi8
-g+eahOWwj+OBleOBhOmHjeimgeOBquS/ruato+OBjOWQq+OBvuOCjOOBvuOBmeOAgg0KPiAr44GT
-44KM44Gr44Gv5pyA5Yid44GuMuOBpOOBruODkOODvOOCuOODp+ODs+eVquWPt+OBruaVsOWtl+OB
-q+WvvuW/nOOBl+OBn+OAgQ0KPiAr44Oh44Kk44Oz44Op44Kk44Oz44Oq44Oq44O844K544Gn6KaL
-44Gk44GL44Gj44Gf44K744Kt44Ol44Oq44OG44Kj5ZWP6aGM44KEDQo+ICvph43lpKfjgarlvozm
-iLvjgorjgavlr77jgZnjgovmr5TovIPnmoTlsI/jgZXjgYTph43opoHjgarkv67mraPjgYzlkKvj
-gb7jgozjgb7jgZnjgIINCj4gDQo+IOOBk+OCjOOBr+OAgemWi+eZui/lrp/pqJPnmoTjg5Djg7zj
-grjjg6fjg7Pjga7jg4bjgrnjg4jjgavljZTlipvjgZnjgovjgZPjgajjgavoiIjlkbPjgYznhKHj
-gY/jgIHmnIDmlrANCj4g44Gu5a6J5a6a44GX44Gf44Kr44O844ON44Or44KS5L2/44GE44Gf44GE
-44Om44O844K244Gr5o6o5aWo44GZ44KL44OW44Op44Oz44OB44Gn44GZ44CCDQo+IA0KPiAt44KC
-44GX44CBNC54Lnkg44Kr44O844ON44Or44GM5a2Y5Zyo44GX44Gq44GE5aC05ZCI44Gr44Gv44CB
-55Wq5Y+344GM5LiA55Wq5aSn44GN44GEIDQueCDjgYzmnIDmlrANCj4gLeOBruWuieWumueJiOOC
-q+ODvOODjeODq+OBp+OBmeOAgg0KPiAtDQo+IC00LngueSDjga8gInN0YWJsZSIg44OB44O844Og
-IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiDjgafjg6Hjg7Pjg4bjgZXjgozjgabjgYrjgorjgIEN
-Cj4gK+WuieWumueJiOODhOODquODvOOBryJzdGFibGUiIOODgeODvOODoCA8c3RhYmxlQHZnZXIu
-a2VybmVsLm9yZz4g44Gn44Oh44Oz44OG44GV44KM44Gm44GK44KK44CBDQo+IOW/heimgeOBq+W/
-nOOBmOOBpuODquODquODvOOCueOBleOCjOOBvuOBmeOAgumAmuW4uOOBruODquODquODvOOCueac
-n+mWk+OBryAy6YCx6ZaT5q+O44Gn44GZ44GM44CB5beuDQo+IOOBl+i/q+OBo+OBn+WVj+mhjOOB
-jOOBquOBkeOCjOOBsOOCguOBhuWwkeOBl+mVt+OBj+OBquOCi+OBk+OBqOOCguOBguOCiuOBvuOB
-meOAguOCu+OCreODpeODquODhuOCo+mWog0KPiDpgKPjga7llY/poYzjga7loLTlkIjjga/jgZPj
-gozjgavlr77jgZfjgabjgaDjgYTjgZ/jgYTjga7loLTlkIjjgIHjgZnjgZDjgavjg6rjg6rjg7zj
-grnjgYzjgZXjgozjgb7jgZnjgIINCj4gQEAgLTMyNiw3ICszMjQsNyBAQCBEb2N1bWVudGF0aW9u
-L3Byb2Nlc3Mvc3RhYmxlLWtlcm5lbC1ydWxlcy5yc3Qg44OV44Kh44Kk44Or44Gr44Gv44Gp44Gu
-44KI44GG44GqDQo+IOmhnuOBruWkieabtOOBjCAtc3RhYmxlIOODhOODquODvOOBq+WPl+OBkeWF
-peOCjOWPr+iDveOBi+OAgeOBvuOBn+ODquODquODvOOCueODl+ODreOCu+OCueOBjOOBqeOBhg0K
-PiDli5XjgY/jgYvjgYzoqJjov7DjgZXjgozjgabjgYTjgb7jgZnjgIINCj4gDQo+IC3jgrXjg5bj
-grfjgrnjg4bjg6Dmr47jga7jgqvjg7zjg43jg6vjg4Tjg6rjg7zjgajjg5Hjg4Pjg4ENCj4gK+OC
-teODluOCt+OCueODhuODoOavjuOBruOCq+ODvOODjeODq+ODhOODquODvA0KPiB+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0KPiANCj4g44Gd44KM44Ge44KM44Gu44Kr44O8
-44ON44Or44K144OW44K344K544OG44Og44Gu44Oh44Oz44OG44OK6YGU44GvIC0tLSDjgZ3jgZfj
-gablpJrjgY/jga7jgqvjg7zjg43jg6sNCj4gQEAgLTM1MSwxOSArMzQ5LDE5IEBAIHF1aWx0IOOC
-t+ODquODvOOCuuOBqOOBl+OBpuWFrOmWi+OBleOCjOOBpuOBhOOCi+ODkeODg+ODgeOCreODpeOD
-vOOCguS9v+OCj+OCjA0KPiDjgZHjgovjgZPjgajjgYzjgafjgY3jgb7jgZnjgILlpKfpg6jliIbj
-ga7jgZPjgozjgonjga4gcGF0Y2h3b3JrIOOBruOCteOCpOODiOOBrw0KPiBodHRwczovL3BhdGNo
-d29yay5rZXJuZWwub3JnLyDjgafjg6rjgrnjg4jjgZXjgozjgabjgYTjgb7jgZnjgIINCj4gDQo+
-IC3ntbHlkIjjg4bjgrnjg4jjga7jgZ/jgoHjga4gNC54IC1uZXh0IOOCq+ODvOODjeODq+ODhOOD
-quODvA0KPiAtfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0KPiAr
-57Wx5ZCI44OG44K544OI44Gu44Gf44KB44GuIGxpbnV4LW5leHQg44Kr44O844ON44Or44OE44Oq
-44O8DQo+ICt+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+DQo+
-IA0KPiAt44K144OW44K344K544OG44Og44OE44Oq44O844Gu5pu05paw5YaF5a6544GM44Oh44Kk
-44Oz44Op44Kk44Oz44GuIDQueCDjg4Tjg6rjg7zjgavjg57jg7zjgrjjgZXjgozjgosNCj4gK+OC
-teODluOCt+OCueODhuODoOODhOODquODvOOBruabtOaWsOWGheWuueOBjOODoeOCpOODs+ODqeOC
-pOODs+ODhOODquODvOOBq+ODnuODvOOCuOOBleOCjOOCiw0KPiDliY3jgavjgIHjgZ3jgozjgonj
-ga/ntbHlkIjjg4bjgrnjg4jjgZXjgozjgovlv4XopoHjgYzjgYLjgorjgb7jgZnjgILjgZPjga7n
-m67nmoTjga7jgZ/jgoHjgIHlrp/os6rnmoTjgasNCj4g5YWo44K144OW44K344K544OG44Og44OE
-44Oq44O844GL44KJ44G744G85q+O5pel44OX44Or44GV44KM44Gm44Gn44GN44KL54m55Yil44Gq
-44OG44K544OI55So44Gu44Oq44Od44K4DQo+IOODiOODquOBjOWtmOWcqOOBl+OBvuOBmS0NCj4g
-DQo+ICAgICAgICBodHRwczovL2dpdC5rZXJuZWwub3JnLz9wPWxpbnV4L2tlcm5lbC9naXQvbmV4
-dC9saW51eC1uZXh0LmdpdA0KPiANCj4gLeOBk+OBruOChOOCiuaWueOBq+OCiOOBo+OBpuOAgS1u
-ZXh0IOOCq+ODvOODjeODq+OBr+asoeOBruODnuODvOOCuOapn+S8muOBp+OBqeOCk+OBquOCguOB
-ruOBjOODoeOCpOODsw0KPiAt44Op44Kk44Oz44Kr44O844ON44Or44Gr44Oe44O844K444GV44KM
-44KL44GL44CB44GK44GK44G+44GL44Gq44Gu5bGV5pyb44KS5o+Q5L6b44GX44G+44GZ44CCLW5l
-eHQg44Kr44O8DQo+IC3jg43jg6vjga7lrp/ooYzjg4bjgrnjg4jjgpLooYzjgYblhpLpmbrlpb3j
-gY3jgarjg4bjgrnjgr/jg7zjga/lpKfjgYTjgavmrZPov47jgZXjgozjgb7jgZnjgIINCj4gK+OB
-k+OBruOChOOCiuaWueOBq+OCiOOBo+OBpuOAgWxpbnV4LW5leHQg44Gv5qyh44Gu44Oe44O844K4
-5qmf5Lya44Gn44Gp44KT44Gq44KC44Gu44GM44Oh44Kk44OzDQo+ICvjg6njgqTjg7Pjgavjg57j
-g7zjgrjjgZXjgozjgovjgYvjgIHjgYrjgYrjgb7jgYvjgarjga7lsZXmnJvjgpLmj5DkvpvjgZfj
-gb7jgZnjgIINCj4gK2xpbnV4LW5leHQg44Gu5a6f6KGM44OG44K544OI44KS6KGM44GG5YaS6Zm6
-5aW944GN44Gq44OG44K544K/44O844Gv5aSn44GE44Gr5q2T6L+O44GV44KM44G+44GZ44CCDQo+
-IA0KPiDjg5DjgrDjg6zjg53jg7zjg4gNCj4gLS0tLS0tLS0tLS0tLQ0KPiAtLSANCj4gMi4yNS4x
-DQo+IA0KDQoNCk15IGFwb2xvZ2llcy4NCg0KUGxlYXNlIGlnbm9yZSB0aGlzIHZlcnNpb24gc2lu
-Y2UgSSBmb3Jnb3QgdG8gYWRkIHJldmlld2VkIGJ5IHRhZy4NCg0KQmVzdCByZWdhcmRzLA0KS29z
-dWtlDQoNCg0K
+This change is based on commit d2b008f134b7
+("Documentation/process/howto: Update for 4.x -> 5.x versioning").
+
+Replace "4.x kernel version" with generic term such as "mainline tree"
+
+Signed-off-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+---
+V2: Reformatted commit log messagae (Yokosawa-san)
+V3: Updated some expressions (Shibata-san)
+- added "version number" in mainline tree section
+- updated from "stable kernel" to "stable tree"
+V4: Added reviewed by tag and removed extra characters (Yokosawa-san)
+---
+ Documentation/translations/ja_JP/howto.rst | 44 +++++++++++-----------
+ 1 file changed, 21 insertions(+), 23 deletions(-)
+
+diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/translations/ja_JP/howto.rst
+index d667f9d8a02a..deac41eb038a 100644
+--- a/Documentation/translations/ja_JP/howto.rst
++++ b/Documentation/translations/ja_JP/howto.rst
+@@ -262,21 +262,21 @@ Linux カーネルの開発プロセスは現在幾つかの異なるメイン
+ チ」と多数のサブシステム毎のカーネルブランチから構成されます。これらの
+ ブランチとは -
+ 
+-  - メインの 4.x カーネルツリー
+-  - 4.x.y -stable カーネルツリー
+-  - サブシステム毎のカーネルツリーとパッチ
+-  - 統合テストのための 4.x -next カーネルツリー
++  - Linus のメインラインツリー
++  - メジャー番号をまたぐ数本の安定版ツリー
++  - サブシステム毎のカーネルツリー
++  - 統合テストのための linux-next カーネルツリー
+ 
+-4.x カーネルツリー
++メインラインツリー
+ ~~~~~~~~~~~~~~~~~~
+ 
+-4.x カーネルは Linus Torvalds によってメンテナンスされ、
+-https://kernel.org の pub/linux/kernel/v4.x/ ディレクトリに存在します。
++メインラインツリーは Linus Torvalds によってメンテナンスされ、
++https://kernel.org のリポジトリに存在します。
+ この開発プロセスは以下のとおり -
+ 
+   - 新しいカーネルがリリースされた直後に、2週間の特別期間が設けられ、
+     この期間中に、メンテナ達は Linus に大きな差分を送ることができます。
+-    このような差分は通常 -next カーネルに数週間含まれてきたパッチです。
++    このような差分は通常 linux-next カーネルに数週間含まれてきたパッチです。
+     大きな変更は git(カーネルのソース管理ツール、詳細は
+     http://git-scm.com/ 参照) を使って送るのが好ましいやり方ですが、パッ
+     チファイルの形式のまま送るのでも十分です。
+@@ -303,20 +303,18 @@ Andrew Morton が Linux-kernel メーリングリストにカーネルリリー
+         前もって決められた計画によってリリースされるものではないから
+         です。」*
+ 
+-4.x.y -stable カーネルツリー
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++メジャー番号をまたぐ数本の安定版ツリー
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ バージョン番号が3つの数字に分かれているカーネルは -stable カーネルです。
+-これには、4.x カーネルで見つかったセキュリティ問題や重大な後戻りに対す
+-る比較的小さい重要な修正が含まれます。
++これには最初の2つのバージョン番号の数字に対応した、
++メインラインリリースで見つかったセキュリティ問題や
++重大な後戻りに対する比較的小さい重要な修正が含まれます。
+ 
+ これは、開発/実験的バージョンのテストに協力することに興味が無く、最新
+ の安定したカーネルを使いたいユーザに推奨するブランチです。
+ 
+-もし、4.x.y カーネルが存在しない場合には、番号が一番大きい 4.x が最新
+-の安定版カーネルです。
+-
+-4.x.y は "stable" チーム <stable@vger.kernel.org> でメンテされており、
++安定版ツリーは"stable" チーム <stable@vger.kernel.org> でメンテされており、
+ 必要に応じてリリースされます。通常のリリース期間は 2週間毎ですが、差
+ し迫った問題がなければもう少し長くなることもあります。セキュリティ関
+ 連の問題の場合はこれに対してだいたいの場合、すぐにリリースがされます。
+@@ -326,7 +324,7 @@ Documentation/process/stable-kernel-rules.rst ファイルにはどのような
+ 類の変更が -stable ツリーに受け入れ可能か、またリリースプロセスがどう
+ 動くかが記述されています。
+ 
+-サブシステム毎のカーネルツリーとパッチ
++サブシステム毎のカーネルツリー
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ それぞれのカーネルサブシステムのメンテナ達は --- そして多くのカーネル
+@@ -351,19 +349,19 @@ quilt シリーズとして公開されているパッチキューも使われ
+ けることができます。大部分のこれらの patchwork のサイトは
+ https://patchwork.kernel.org/ でリストされています。
+ 
+-統合テストのための 4.x -next カーネルツリー
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++統合テストのための linux-next カーネルツリー
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-サブシステムツリーの更新内容がメインラインの 4.x ツリーにマージされる
++サブシステムツリーの更新内容がメインラインツリーにマージされる
+ 前に、それらは統合テストされる必要があります。この目的のため、実質的に
+ 全サブシステムツリーからほぼ毎日プルされてできる特別なテスト用のリポジ
+ トリが存在します-
+ 
+        https://git.kernel.org/?p=linux/kernel/git/next/linux-next.git
+ 
+-このやり方によって、-next カーネルは次のマージ機会でどんなものがメイン
+-ラインカーネルにマージされるか、おおまかなの展望を提供します。-next カー
+-ネルの実行テストを行う冒険好きなテスターは大いに歓迎されます。
++このやり方によって、linux-next は次のマージ機会でどんなものがメイン
++ラインにマージされるか、おおまかなの展望を提供します。
++linux-next の実行テストを行う冒険好きなテスターは大いに歓迎されます。
+ 
+ バグレポート
+ -------------
+-- 
+2.25.1
+
