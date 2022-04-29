@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E884CC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 13:36:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B24F7C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 13:36:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359819AbiD2Nj4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 09:39:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51776 "EHLO
+        id S1359818AbiD2NkE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 09:40:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351569AbiD2Njx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 09:39:53 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E145CABA6
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:36:33 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id t13so6956901pfg.2
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:36:33 -0700 (PDT)
+        with ESMTP id S1359833AbiD2NkC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 09:40:02 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3867BCB019
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:36:41 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id p6so7150111plf.9
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:36:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ieDn4aiMaGLBWCIS3wtwm2RaJ5ulm380NWzDeauNbb4=;
-        b=EBM/v5v9b/++wKJ7UyNtJG3hOZtf0D0P421yMRX4mbDxLWaLjOnVd44J8Kojpk1/Jx
-         wCFrmBGQ/ceCjK2D4mHXGw0dSrIqtbGqjjBrZNAFATQx+fQ3H5noDNFQwBzJ7OOgtWB+
-         JVr1SHNAxpY01lGGs23Wp0T2G74lyX6XkV1W6acl+SBAclRUO5GvysEsfCuAuaRStabd
-         GfI7JWXoZkXpXKsQkXGJI8UFEcFsomE5V4M3jZm36E83p3L+E9GJIPbxQ/45XJ5HkdU0
-         inXCNH8Zsk7/VEzeqUaBbswbkgOHbaJakh63ipxlq9pP6hJllz+gzTUgl2B+oN4/WO8g
-         3ANA==
+        bh=VfzL8+rKvBDkdHAWJz+BdGeabJSdieMoCyrARJf31C8=;
+        b=Dqjg2bggCbl33T/45lA7Ve3w9lBbtFVa1mXx8Ejbfs5Il/fK1BO/bf2J+ibvJhiS+Y
+         l23GVOPL2ey3vEhQd+FUJsO23dOCMwlDnUhlsabAJNQ3g/BLU+l3S8kF5q8xLqzcTLa9
+         N+2i4eoix1OJOltamNeXZ/RGg3nTxJmJ0nzjpfCx0serQBaJh+6ocZmzJ/QUqMKiG8zZ
+         C7mOsKzMS1pHhUig4gWLkDlR56bIK6XpC/halFlOpppKGwDWVvjdEs/vIuYtRhDEisEk
+         ZvmIPR0cAqycBsaDnGQH53owG2POMRJWUrpPJ9xjBwVSchPUFsRwPJYuD3dyOj2bgPPh
+         wFOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ieDn4aiMaGLBWCIS3wtwm2RaJ5ulm380NWzDeauNbb4=;
-        b=l48IYjTwY88+lc4NDqoYGBfgrA+2HiYnG+aC8FS973zC7SR0HgVspMIYMH8xkeAIvZ
-         T4AJod+WGlKmap9OCjPWUR8f21GkdmUqLIpbV7yjXmxqV3SiT8K6YzLgo4PBBUhA30oL
-         bLuKznnXAF/GzigBY2tRBbJbhK0qSwcThqhKqStzo7rwVr5SQ+RoqxmSlrw/ADdpEuYf
-         J/k0V5CIbS5SLr1uUrGqH7jEU8ANCwjrqZVM+TcD/F9wV/tTK8UewQi4qhz9XgM7lTtm
-         kWaFVWuc0X1iTUQhsjDRbpKUN9eTGPi63a/NAvqdEX70VK7MY63SzValNxQxUuIWhLAl
-         iCoA==
-X-Gm-Message-State: AOAM532MbHW+LSPlTc+vo0P2gEQ+EPuL9VlJK2usIhefuQ4dKldoLbFN
-        QqrzexbDxucsUn9G162y82FcWQ==
-X-Google-Smtp-Source: ABdhPJxItc3PJijXr/92XujdPMZZoCsMTMRrNeqFfimvMzqakWNCQB/zCudyZqo7pQwxbtrJvVy/Xg==
-X-Received: by 2002:a65:6a56:0:b0:3aa:49b8:ee77 with SMTP id o22-20020a656a56000000b003aa49b8ee77mr32125077pgu.19.1651239392962;
-        Fri, 29 Apr 2022 06:36:32 -0700 (PDT)
+        bh=VfzL8+rKvBDkdHAWJz+BdGeabJSdieMoCyrARJf31C8=;
+        b=N69H+hCUsNJR8BDuNllXzspJoGUNSmVK2cAuDTnCGoGbuMik+6ZYQ0MAT+BEKPOreu
+         gX05ac/qJ1CL59KZO1u9l5RHBSGrrUZP6iocyHxjHoO3rhIeD9ogk9wTeo+9qSvf6ofY
+         uJYrQY4Ty6USzUcTuexbAoxNy59k6z0llwFcTt+2h+0ME8cnE+181IUlRZGYPeGIyU1m
+         ql8qUEtumk5nCexV2PgW7arG7IQvC2TkrhYJJrg68g4c9lRbu8ZPjZUxjbXF4QdYM07r
+         ZdS9E9Q4SiypS7wFY+odBHCfp4KNF9j39rj6gUEQcyUg8mNDyQPg1kaYQcQT5R41GB+/
+         EAcQ==
+X-Gm-Message-State: AOAM532mQr42P6wOQhAuqRSCQZPPq/umLR65DulGP6aM3VWCTwhHYaoF
+        P2h5CQyZf91Wn4T2mSZwLhjZtg==
+X-Google-Smtp-Source: ABdhPJwdG27EhVPvJrwtYvxik6bbTXqrOGosOq9mejsaq+voyl0UgeehoOYZEA+LTuFQKgY2z1Cn4A==
+X-Received: by 2002:a17:903:1051:b0:15c:f02f:cd0e with SMTP id f17-20020a170903105100b0015cf02fcd0emr31282057plc.81.1651239400770;
+        Fri, 29 Apr 2022 06:36:40 -0700 (PDT)
 Received: from localhost.localdomain ([139.177.225.240])
-        by smtp.gmail.com with ESMTPSA id m8-20020a17090a414800b001d81a30c437sm10681977pjg.50.2022.04.29.06.36.27
+        by smtp.gmail.com with ESMTPSA id m8-20020a17090a414800b001d81a30c437sm10681977pjg.50.2022.04.29.06.36.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 06:36:32 -0700 (PDT)
+        Fri, 29 Apr 2022 06:36:40 -0700 (PDT)
 From:   Qi Zheng <zhengqi.arch@bytedance.com>
 To:     akpm@linux-foundation.org, tglx@linutronix.de,
         kirill.shutemov@linux.intel.com, mika.penttila@nextfour.com,
@@ -55,9 +55,9 @@ To:     akpm@linux-foundation.org, tglx@linutronix.de,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, songmuchun@bytedance.com,
         zhouchengming@bytedance.com, Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: [RFC PATCH 03/18] percpu_ref: make percpu_ref_switch_lock per percpu_ref
-Date:   Fri, 29 Apr 2022 21:35:37 +0800
-Message-Id: <20220429133552.33768-4-zhengqi.arch@bytedance.com>
+Subject: [RFC PATCH 04/18] mm: convert to use ptep_clear() in pte_clear_not_present_full()
+Date:   Fri, 29 Apr 2022 21:35:38 +0800
+Message-Id: <20220429133552.33768-5-zhengqi.arch@bytedance.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
 References: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
@@ -67,165 +67,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, percpu_ref uses the global percpu_ref_switch_lock to
-protect the mode switching operation. When multiple percpu_ref
-perform mode switching at the same time, the lock may become a
-performance bottleneck.
-
-This patch introduces per percpu_ref percpu_ref_switch_lock to
-fixes this situation.
+After commit 08d5b29eac7d ("mm: ptep_clear() page table helper"),
+the ptep_clear() can be used to track the clearing of PTE page
+table entries, but pte_clear_not_present_full() is not covered,
+so also convert it to use ptep_clear(), we will need this call
+in subsequent patches.
 
 Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
 ---
- include/linux/percpu-refcount.h |  2 ++
- lib/percpu-refcount.c           | 30 +++++++++++++++---------------
- 2 files changed, 17 insertions(+), 15 deletions(-)
+ include/linux/pgtable.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/percpu-refcount.h b/include/linux/percpu-refcount.h
-index 75844939a965..eb8695e578fd 100644
---- a/include/linux/percpu-refcount.h
-+++ b/include/linux/percpu-refcount.h
-@@ -110,6 +110,8 @@ struct percpu_ref {
- 	 */
- 	unsigned long		percpu_count_ptr;
- 
-+	spinlock_t percpu_ref_switch_lock;
-+
- 	/*
- 	 * 'percpu_ref' is often embedded into user structure, and only
- 	 * 'percpu_count_ptr' is required in fast path, move other fields
-diff --git a/lib/percpu-refcount.c b/lib/percpu-refcount.c
-index 3a8906715e09..4336fd1bd77a 100644
---- a/lib/percpu-refcount.c
-+++ b/lib/percpu-refcount.c
-@@ -36,7 +36,6 @@
- 
- #define PERCPU_COUNT_BIAS	(1LU << (BITS_PER_LONG - 1))
- 
--static DEFINE_SPINLOCK(percpu_ref_switch_lock);
- static DECLARE_WAIT_QUEUE_HEAD(percpu_ref_switch_waitq);
- 
- static unsigned long __percpu *percpu_count_ptr(struct percpu_ref *ref)
-@@ -95,6 +94,7 @@ int percpu_ref_init(struct percpu_ref *ref, percpu_ref_func_t *release,
- 		start_count++;
- 
- 	atomic_long_set(&data->count, start_count);
-+	spin_lock_init(&ref->percpu_ref_switch_lock);
- 
- 	data->release = release;
- 	data->confirm_switch = NULL;
-@@ -137,11 +137,11 @@ void percpu_ref_exit(struct percpu_ref *ref)
- 	if (!data)
- 		return;
- 
--	spin_lock_irqsave(&percpu_ref_switch_lock, flags);
-+	spin_lock_irqsave(&ref->percpu_ref_switch_lock, flags);
- 	ref->percpu_count_ptr |= atomic_long_read(&ref->data->count) <<
- 		__PERCPU_REF_FLAG_BITS;
- 	ref->data = NULL;
--	spin_unlock_irqrestore(&percpu_ref_switch_lock, flags);
-+	spin_unlock_irqrestore(&ref->percpu_ref_switch_lock, flags);
- 
- 	kfree(data);
- }
-@@ -287,7 +287,7 @@ static void __percpu_ref_switch_mode(struct percpu_ref *ref,
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index f4f4077b97aa..bed9a559d45b 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -423,7 +423,7 @@ static inline void pte_clear_not_present_full(struct mm_struct *mm,
+ 					      pte_t *ptep,
+ 					      int full)
  {
- 	struct percpu_ref_data *data = ref->data;
- 
--	lockdep_assert_held(&percpu_ref_switch_lock);
-+	lockdep_assert_held(&ref->percpu_ref_switch_lock);
- 
- 	/*
- 	 * If the previous ATOMIC switching hasn't finished yet, wait for
-@@ -295,7 +295,7 @@ static void __percpu_ref_switch_mode(struct percpu_ref *ref,
- 	 * isn't in progress, this function can be called from any context.
- 	 */
- 	wait_event_lock_irq(percpu_ref_switch_waitq, !data->confirm_switch,
--			    percpu_ref_switch_lock);
-+			    ref->percpu_ref_switch_lock);
- 
- 	if (data->force_atomic || percpu_ref_is_dying(ref))
- 		__percpu_ref_switch_to_atomic(ref, confirm_switch, sync);
-@@ -329,12 +329,12 @@ void percpu_ref_switch_to_atomic(struct percpu_ref *ref,
- {
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&percpu_ref_switch_lock, flags);
-+	spin_lock_irqsave(&ref->percpu_ref_switch_lock, flags);
- 
- 	ref->data->force_atomic = true;
- 	__percpu_ref_switch_mode(ref, confirm_switch, sync);
- 
--	spin_unlock_irqrestore(&percpu_ref_switch_lock, flags);
-+	spin_unlock_irqrestore(&ref->percpu_ref_switch_lock, flags);
+-	pte_clear(mm, address, ptep);
++	ptep_clear(mm, address, ptep);
  }
- EXPORT_SYMBOL_GPL(percpu_ref_switch_to_atomic);
+ #endif
  
-@@ -376,12 +376,12 @@ void percpu_ref_switch_to_percpu(struct percpu_ref *ref)
- {
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&percpu_ref_switch_lock, flags);
-+	spin_lock_irqsave(&ref->percpu_ref_switch_lock, flags);
- 
- 	ref->data->force_atomic = false;
- 	__percpu_ref_switch_mode(ref, NULL, false);
- 
--	spin_unlock_irqrestore(&percpu_ref_switch_lock, flags);
-+	spin_unlock_irqrestore(&ref->percpu_ref_switch_lock, flags);
- }
- EXPORT_SYMBOL_GPL(percpu_ref_switch_to_percpu);
- 
-@@ -407,7 +407,7 @@ void percpu_ref_kill_and_confirm(struct percpu_ref *ref,
- {
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&percpu_ref_switch_lock, flags);
-+	spin_lock_irqsave(&ref->percpu_ref_switch_lock, flags);
- 
- 	WARN_ONCE(percpu_ref_is_dying(ref),
- 		  "%s called more than once on %ps!", __func__,
-@@ -417,7 +417,7 @@ void percpu_ref_kill_and_confirm(struct percpu_ref *ref,
- 	__percpu_ref_switch_mode(ref, confirm_kill, false);
- 	percpu_ref_put(ref);
- 
--	spin_unlock_irqrestore(&percpu_ref_switch_lock, flags);
-+	spin_unlock_irqrestore(&ref->percpu_ref_switch_lock, flags);
- }
- EXPORT_SYMBOL_GPL(percpu_ref_kill_and_confirm);
- 
-@@ -438,12 +438,12 @@ bool percpu_ref_is_zero(struct percpu_ref *ref)
- 		return false;
- 
- 	/* protect us from being destroyed */
--	spin_lock_irqsave(&percpu_ref_switch_lock, flags);
-+	spin_lock_irqsave(&ref->percpu_ref_switch_lock, flags);
- 	if (ref->data)
- 		count = atomic_long_read(&ref->data->count);
- 	else
- 		count = ref->percpu_count_ptr >> __PERCPU_REF_FLAG_BITS;
--	spin_unlock_irqrestore(&percpu_ref_switch_lock, flags);
-+	spin_unlock_irqrestore(&ref->percpu_ref_switch_lock, flags);
- 
- 	return count == 0;
- }
-@@ -487,7 +487,7 @@ void percpu_ref_resurrect(struct percpu_ref *ref)
- 	unsigned long __percpu *percpu_count;
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&percpu_ref_switch_lock, flags);
-+	spin_lock_irqsave(&ref->percpu_ref_switch_lock, flags);
- 
- 	WARN_ON_ONCE(!percpu_ref_is_dying(ref));
- 	WARN_ON_ONCE(__ref_is_percpu(ref, &percpu_count));
-@@ -496,6 +496,6 @@ void percpu_ref_resurrect(struct percpu_ref *ref)
- 	percpu_ref_get(ref);
- 	__percpu_ref_switch_mode(ref, NULL, false);
- 
--	spin_unlock_irqrestore(&percpu_ref_switch_lock, flags);
-+	spin_unlock_irqrestore(&ref->percpu_ref_switch_lock, flags);
- }
- EXPORT_SYMBOL_GPL(percpu_ref_resurrect);
 -- 
 2.20.1
 
