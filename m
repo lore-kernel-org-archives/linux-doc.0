@@ -2,270 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 174BBC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 08:43:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7832C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 09:13:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355906AbiD2Iqn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 04:46:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45342 "EHLO
+        id S1352473AbiD2JRO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 05:17:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355939AbiD2Iqi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 04:46:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C7140C400B
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 01:43:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651221796;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=sNYlvzVzM/yRIsQFJFDDE/gEOtrzgO/JKjkWbkd7amE=;
-        b=EJLXvSwNkgQlJ0D7/lBc4b4j8eU3QBrZUN7v8LlIV+HRU5JCHsLT/w/cnNHzyU0N9jtLc7
-        /slcG2Gqjrk66sxaWDJ0HFmtWlhE+dQyHR8QpNbDHiU4j7RPsOgb07TgsjRZSiqAyLqfaK
-        ZtRqAWWTX50T+Yq2uyup1eb5FhJZkx0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-594-wHB8qJZeOU-V5gqf-3u0Hg-1; Fri, 29 Apr 2022 04:43:14 -0400
-X-MC-Unique: wHB8qJZeOU-V5gqf-3u0Hg-1
-Received: by mail-wr1-f72.google.com with SMTP id s8-20020adf9788000000b0020adb01dc25so2800320wrb.20
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 01:43:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=sNYlvzVzM/yRIsQFJFDDE/gEOtrzgO/JKjkWbkd7amE=;
-        b=e2axzojHXCPlc34qqltUExvJJsExRUjxW+EDxn1X2zezLyvF0reT/lCGaWsNbrbprS
-         LaTew7RvBE/Ej635mlt1/EjQWchfVevWK+4H8ecQIK1MOsEc+Dkooxm59+pOFtV8+dQg
-         +kF5lPQ4212SqtvwH+snAJYzkaoQy+7+zpNcmF0UGHQ69UHfvHzA4MiOTRfFNCub0foN
-         FYgOmws6nMdh/zXYkTnQRCWagGf0n/Tgx7AB/gzVHagP7UKZzke63hxhjzKCwY2lyqPt
-         QGCWqP1Buq21dBLPq30xKsgM9MwLJLUWnFJ+GPTgRTsg6VD4Swk8UUNjR4XYwVVGcpRN
-         Ljrg==
-X-Gm-Message-State: AOAM533v3HERtU3TODmVcbF6seioJieuzMOuRZPRzDPUa06+q54Kby3b
-        x0QWXEBxOP/RtG3/zl23rogEa6cVoVTPD4jsuhokW9GMe13JXz/2BbO1X/fTZ47wcFMZiJNvm25
-        3Jjifl+wsmmIgHT8mdyLy
-X-Received: by 2002:a1c:2185:0:b0:38f:f4ed:f964 with SMTP id h127-20020a1c2185000000b0038ff4edf964mr2140360wmh.115.1651221793212;
-        Fri, 29 Apr 2022 01:43:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzULH/Z8iTBu9imB6E2jhhktq6ujl1Rp03jG3ZGkP0d9/n1g3yBNXFS/dMPBVvjlH2AOcTVlQ==
-X-Received: by 2002:a1c:2185:0:b0:38f:f4ed:f964 with SMTP id h127-20020a1c2185000000b0038ff4edf964mr2140338wmh.115.1651221792987;
-        Fri, 29 Apr 2022 01:43:12 -0700 (PDT)
-Received: from minerva.home ([92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id f7-20020a05600c4e8700b00393f1393abfsm7199256wmq.41.2022.04.29.01.43.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 01:43:12 -0700 (PDT)
-From:   Javier Martinez Canillas <javierm@redhat.com>
+        with ESMTP id S238756AbiD2JRO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 05:17:14 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F32465F8E0;
+        Fri, 29 Apr 2022 02:13:56 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC7F51063;
+        Fri, 29 Apr 2022 02:13:56 -0700 (PDT)
+Received: from e123648.arm.com (unknown [10.57.14.15])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 474083F73B;
+        Fri, 29 Apr 2022 02:13:54 -0700 (PDT)
+From:   Lukasz Luba <lukasz.luba@arm.com>
 To:     linux-kernel@vger.kernel.org
-Cc:     dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Borislav Petkov <bp@suse.de>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [RFC PATCH v4 05/11] firmware: sysfb: Add helpers to unregister a pdev and disable registration
-Date:   Fri, 29 Apr 2022 10:42:47 +0200
-Message-Id: <20220429084253.1085911-6-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220429084253.1085911-1-javierm@redhat.com>
-References: <20220429084253.1085911-1-javierm@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc:     corbet@lwn.net, mingo@redhat.com, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, lukasz.luba@arm.com,
+        xuewen.yan@unisoc.com, linux-doc@vger.kernel.org
+Subject: [PATCH] sched: thermal_load_avg: Change the raising/decaying period mechanism
+Date:   Fri, 29 Apr 2022 10:12:45 +0100
+Message-Id: <20220429091245.12423-1-lukasz.luba@arm.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-These can be used by subsystems to unregister a platform device registered
-by sysfb and also to disable future platform device registration in sysfb.
+The thermal pressure mechanism consists of two parts:
+1) PELT-like signal with its own clock (rq_clock_thermal()) which is
+   responsible for the raising/decaying characteristics
+2) instantaneous information provided in 'thermal_pressure' variable,
+   which is set by thermal framework or drivers to notify about
+   the throttling.
 
-Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Add a new mechanism which allows to change the raising/decaying
+characteristics of the PELT-like thermal signal. To make this happen
+modify how the rq_clock_thermal() counts. Instead of only slowing down the
+clock, which results in longer raising/decaying periods, make it faster.
+Thanks to that the information about throttling can faster arrive at the
+right place in the scheduler. This faster propagation of information
+is useful for the latency sensitive stuff, such as RT tasks. In
+a situation of CPU capacity inversion, such task might suffer when
+staying on the lower capacity CPU.
+
+Change the boot parameter 'sched_thermal_decay_shift' allowed values
+and use the negatives to speed up the thermal clock.
+
+Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
 ---
+Hi all,
 
-(no changes since v2)
+This patch addresses an issue of missing configuration for the
+thermal pressure raising/decaying characteristic to be more instantaneous.
+This more sharp signal might be better if the raw thermal signal
+already has 'some logic' or doesn't change that often, like in IPA
+(every 100ms).
 
-Changes in v2:
-- Add kernel-doc comments and include in other_interfaces.rst (Daniel Vetter).
+I've prepared a notebook with experiments with different shifter
+values [0, -2, -3, -4, 2, 4] for IPA thermal update periods:
+50ms, 100ms (and also jumping between cooling states 0, 1 or 0, 3).
+It presents two signals: instantaneous thermal update and thermal_load_avg().
+It would be useful for discussion. I can provide more details if needed.
 
- .../driver-api/firmware/other_interfaces.rst  |  6 ++
- drivers/firmware/sysfb.c                      | 87 +++++++++++++++++--
- include/linux/sysfb.h                         | 19 ++++
- 3 files changed, 106 insertions(+), 6 deletions(-)
+Regards,
+Lukasz Luba
 
-diff --git a/Documentation/driver-api/firmware/other_interfaces.rst b/Documentation/driver-api/firmware/other_interfaces.rst
-index b81794e0cfbb..06ac89adaafb 100644
---- a/Documentation/driver-api/firmware/other_interfaces.rst
-+++ b/Documentation/driver-api/firmware/other_interfaces.rst
-@@ -13,6 +13,12 @@ EDD Interfaces
- .. kernel-doc:: drivers/firmware/edd.c
-    :internal:
+[1] https://nbviewer.org/github/lukaszluba-arm/lisa/blob/public_tests/thermal_pressure_delays-all-ipa.ipynb
+
+
+
+ Documentation/admin-guide/kernel-parameters.txt | 15 +++++++++++----
+ kernel/sched/fair.c                             |  2 +-
+ kernel/sched/sched.h                            | 17 +++++++++++++++--
+ 3 files changed, 27 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index c2d1f8b5e8f3..ba32540f1fbf 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5117,15 +5117,22 @@
+ 			pressure signal. Thermal pressure signal follows the
+ 			default decay period of other scheduler pelt
+ 			signals(usually 32 ms but configurable). Setting
+-			sched_thermal_decay_shift will left shift the decay
+-			period for the thermal pressure signal by the shift
+-			value.
++			a positive value for sched_thermal_decay_shift will
++			left shift the decay period for the thermal pressure
++			signal by the shift value. This would make
++			raising/decaying characteristic longer. Setting
++			a negative value will right shift the decay period
++			by the shift value and make the raising/decaying
++			characteristic more sharp.
+ 			i.e. with the default pelt decay period of 32 ms
+ 			sched_thermal_decay_shift   thermal pressure decay pr
++				-2			8 ms
++				-1			16 ms
++				0			32 ms
+ 				1			64 ms
+ 				2			128 ms
+ 			and so on.
+-			Format: integer between 0 and 10
++			Format: integer between -5 and 10
+ 			Default is 0.
  
-+Generic System Framebuffers Interface
-+-------------------------------------
-+
-+.. kernel-doc:: drivers/firmware/sysfb.c
-+   :export:
-+
- Intel Stratix10 SoC Service Layer
- ---------------------------------
- Some features of the Intel Stratix10 SoC require a level of privilege
-diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
-index b032f40a92de..6768968949e6 100644
---- a/drivers/firmware/sysfb.c
-+++ b/drivers/firmware/sysfb.c
-@@ -34,21 +34,92 @@
- #include <linux/screen_info.h>
- #include <linux/sysfb.h>
+ 	scftorture.holdoff= [KNL]
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index 5146163bfabb..93cb7db5939c 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -100,7 +100,7 @@ static int __init setup_sched_thermal_decay_shift(char *str)
+ 	if (kstrtoint(str, 0, &_shift))
+ 		pr_warn("Unable to set scheduler thermal pressure decay shift parameter\n");
  
-+static struct platform_device *pd;
-+static DEFINE_MUTEX(disable_lock);
-+static bool disabled;
-+
-+static bool sysfb_unregister(void)
-+{
-+	if (IS_ERR_OR_NULL(pd))
-+		return false;
-+
-+	platform_device_unregister(pd);
-+	pd = NULL;
-+
-+	return true;
-+}
-+
-+/**
-+ * sysfb_disable() - disable the Generic System Framebuffers support
-+ *
-+ * This disables the registration of system framebuffer devices that match the
-+ * generic drivers that make use of the system framebuffer set up by firmware.
-+ *
-+ * It also unregisters a device if this was already registered by sysfb_init().
-+ *
-+ * Context: The function can sleep. A @disable_lock mutex is acquired to serialize
-+ *          against sysfb_init(), that registers a system framebuffer device and
-+ *          sysfb_try_unregister(), that tries to unregister a framebuffer device.
-+ */
-+void sysfb_disable(void)
-+{
-+	mutex_lock(&disable_lock);
-+	sysfb_unregister();
-+	disabled = true;
-+	mutex_unlock(&disable_lock);
-+}
-+EXPORT_SYMBOL_GPL(sysfb_disable);
-+
-+/**
-+ * sysfb_try_unregister() - attempt to unregister a system framebuffer device
-+ * @dev: device to unregister
-+ *
-+ * This tries to unregister a system framebuffer device if this was registered
-+ * by the Generic System Framebuffers. The device will only be unregistered if
-+ * it was registered by sysfb_init(), otherwise it will not be unregistered.
-+ *
-+ * Context: The function can sleep. a @load_lock mutex is acquired to serialize
-+ *          against sysfb_init(), that registers a simple framebuffer device and
-+ *          sysfb_disable(), that disables the Generic System Framebuffers support.
-+ *
-+ * Return:
-+ * * true          - the device was unregistered successfully
-+ * * false         - the device was not unregistered
-+ */
-+bool sysfb_try_unregister(struct device *dev)
-+{
-+	bool ret = false;
-+
-+	mutex_lock(&disable_lock);
-+	if (IS_ERR_OR_NULL(pd) || pd != to_platform_device(dev))
-+		goto unlock_mutex;
-+
-+	ret = sysfb_unregister();
-+
-+unlock_mutex:
-+	mutex_unlock(&disable_lock);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(sysfb_try_unregister);
-+
- static __init int sysfb_init(void)
+-	sched_thermal_decay_shift = clamp(_shift, 0, 10);
++	sched_thermal_decay_shift = clamp(_shift, -5, 10);
+ 	return 1;
+ }
+ __setup("sched_thermal_decay_shift=", setup_sched_thermal_decay_shift);
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index de53be905739..cb453c0f3572 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -1478,8 +1478,14 @@ static inline u64 rq_clock_task(struct rq *rq)
+ /**
+  * By default the decay is the default pelt decay period.
+  * The decay shift can change the decay period in
+- * multiples of 32.
++ * multiples of 32 to make it longer or to make it shorter using
++ * negative values as on the example below.
+  *  Decay shift		Decay period(ms)
++ *	-5			1
++ *	-4			2
++ *	-3			4
++ *	-2			8
++ *	-1			16
+  *	0			32
+  *	1			64
+  *	2			128
+@@ -1490,7 +1496,14 @@ extern int sched_thermal_decay_shift;
+ 
+ static inline u64 rq_clock_thermal(struct rq *rq)
  {
- 	struct screen_info *si = &screen_info;
- 	struct simplefb_platform_data mode;
--	struct platform_device *pd;
- 	const char *name;
- 	bool compatible;
--	int ret;
-+	int ret = 0;
+-	return rq_clock_task(rq) >> sched_thermal_decay_shift;
++	u64 thermal_clock = rq_clock_task(rq);
 +
-+	mutex_lock(&disable_lock);
-+	if (disabled)
-+		goto unlock_mutex;
- 
- 	/* try to create a simple-framebuffer device */
- 	compatible = sysfb_parse_mode(si, &mode);
- 	if (compatible) {
- 		pd = sysfb_create_simplefb(si, &mode);
- 		if (!IS_ERR(pd))
--			return 0;
-+			goto unlock_mutex;
- 	}
- 
- 	/* if the FB is incompatible, create a legacy framebuffer device */
-@@ -60,8 +131,10 @@ static __init int sysfb_init(void)
- 		name = "platform-framebuffer";
- 
- 	pd = platform_device_alloc(name, 0);
--	if (!pd)
--		return -ENOMEM;
-+	if (!pd) {
-+		ret = -ENOMEM;
-+		goto unlock_mutex;
-+	}
- 
- 	sysfb_apply_efi_quirks(pd);
- 
-@@ -73,9 +146,11 @@ static __init int sysfb_init(void)
- 	if (ret)
- 		goto err;
- 
--	return 0;
-+	goto unlock_mutex;
- err:
- 	platform_device_put(pd);
-+unlock_mutex:
-+	mutex_unlock(&disable_lock);
- 	return ret;
++	if (sched_thermal_decay_shift < 0)
++		thermal_clock <<= -sched_thermal_decay_shift;
++	else
++		thermal_clock >>= sched_thermal_decay_shift;
++
++	return thermal_clock;
  }
  
-diff --git a/include/linux/sysfb.h b/include/linux/sysfb.h
-index 708152e9037b..e8c0313fac8f 100644
---- a/include/linux/sysfb.h
-+++ b/include/linux/sysfb.h
-@@ -55,6 +55,25 @@ struct efifb_dmi_info {
- 	int flags;
- };
- 
-+#ifdef CONFIG_SYSFB
-+
-+void sysfb_disable(void);
-+bool sysfb_try_unregister(struct device *dev);
-+
-+#else /* CONFIG_SYSFB */
-+
-+static inline void sysfb_disable(void)
-+{
-+
-+}
-+
-+static inline bool sysfb_try_unregister(struct device *dev)
-+{
-+	return false;
-+}
-+
-+#endif /* CONFIG_SYSFB */
-+
- #ifdef CONFIG_EFI
- 
- extern struct efifb_dmi_info efifb_dmi_list[];
+ static inline void rq_clock_skip_update(struct rq *rq)
 -- 
-2.35.1
+2.17.1
 
