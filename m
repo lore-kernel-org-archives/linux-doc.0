@@ -2,141 +2,186 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAA0BC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 07:09:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79F9FC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 07:47:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345628AbiD2HMb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 03:12:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54432 "EHLO
+        id S1355259AbiD2Huz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 03:50:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232023AbiD2HM3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 03:12:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54098BF958;
-        Fri, 29 Apr 2022 00:09:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E452861FAC;
-        Fri, 29 Apr 2022 07:09:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE2F5C385A7;
-        Fri, 29 Apr 2022 07:09:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1651216151;
-        bh=pPnNA7l+RPM/P9eQGjg00BuTyqTQsPsqQezFfVprvwo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=zV/Ee37rg7nWJC6Gzw0dbhxcCqPFx7CIi0FPv8U8J/QH5RIlLqvhRitsSrxPPxkAt
-         H+xZ8whaRKX/4IaX7ua4ADZQkmlPWxyWMK3cC1JGZZs2wpapFl+TSC+etpK4hapghA
-         HkRQMn42GSiZwHQAWGBqNnhQgZZYCgk7S8gEov4M=
-Date:   Fri, 29 Apr 2022 09:09:08 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     David Gow <davidgow@google.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        with ESMTP id S1354280AbiD2Huy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 03:50:54 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51A48AFB37
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 00:47:36 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id gh6so13947963ejb.0
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 00:47:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=VUCWa3lSIaNzDwHCn+z/F0FVFVoykexDHXhwFfLqcXs=;
+        b=Hb9Qr18ymp5oDvIwpneOgr2tAoqL9sBJ7zKZgSyrpcbSV5mYNUK9omsjGB2BUHy+wF
+         hvNETRF2PNhs7QD9/wvRRjDcTsr8N9DePY6cH8hHGqe1tUFA4SY2HS0R26d67pVic+WS
+         nfGHe2KFkWF9WqSUjRo8/UlNwH/umWyfvVFqw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=VUCWa3lSIaNzDwHCn+z/F0FVFVoykexDHXhwFfLqcXs=;
+        b=WfZWDJfHOLwAv3q2FofSwJ/1oKYjqMfs+GA+rVyBv+qBqwtnanVaC4jMLwywg9yk7b
+         tq6ms62vSrD65qfB8xUokz02DHol+ihyX3epq/KpBnPIpKXUKlWaa+doFj544U0lNwAS
+         N2U9NerCyqIqw5iZxehy+TOVeIiUNa0H/TPJkzFd5jZ3x8NwymoaSGCJ7OIYg0n4S15w
+         48Os0dzka1S7zCm1L6NFt3EKDdP1MCiHh/uSz7oqH6nl6GAhCLYpT0ldKwzlZpgmSVbK
+         DRcIJ5sbMzPWQ7VkDzO5/Wgn/g3Ua0YOZ+GvA5BKGDYVEE+J7nOFjKQULsZoJeLt+rfA
+         rhEg==
+X-Gm-Message-State: AOAM532aM82KflmIMvopvwenbeKqWYxT5qtbjxiY0ssc1o92nCZg+JDP
+        w7uydoU57jH/m6Odu7As/BsYJQ==
+X-Google-Smtp-Source: ABdhPJx0LzJCI67IHW7p4FMMHHkPQKC/N0VzjjyRtPZ0oOI21KH7mh9tFSrg8s64jQaUV9HW5qz+Kw==
+X-Received: by 2002:a17:907:3f8f:b0:6f3:d4a0:e80c with SMTP id hr15-20020a1709073f8f00b006f3d4a0e80cmr8378065ejc.709.1651218453598;
+        Fri, 29 Apr 2022 00:47:33 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id hv6-20020a17090760c600b006f3ef214e34sm389502ejc.154.2022.04.29.00.47.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Apr 2022 00:47:32 -0700 (PDT)
+Date:   Fri, 29 Apr 2022 09:47:31 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Javier Martinez Canillas <javierm@redhat.com>
+Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        dri-devel@lists.freedesktop.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Borislav Petkov <bp@suse.de>,
+        Changcheng Deng <deng.changcheng@zte.com.cn>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Helge Deller <deller@gmx.de>, Johan Hovold <johan@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kunit: Taint kernel if any tests run
-Message-ID: <YmuPFGrkzQYACgK0@kroah.com>
-References: <20220429043913.626647-1-davidgow@google.com>
+        Miaoqian Lin <linmq006@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Yizhuo Zhai <yzhai003@ucr.edu>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] Fix some race conditions that exists between
+ fbmem and sysfb
+Message-ID: <YmuYE2t51lPIRT8p@phenom.ffwll.local>
+Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        dri-devel@lists.freedesktop.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Borislav Petkov <bp@suse.de>,
+        Changcheng Deng <deng.changcheng@zte.com.cn>,
+        Hans de Goede <hdegoede@redhat.com>, Helge Deller <deller@gmx.de>,
+        Johan Hovold <johan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Miaoqian Lin <linmq006@gmail.com>, Peter Jones <pjones@redhat.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Yizhuo Zhai <yzhai003@ucr.edu>,
+        Zhen Lei <thunder.leizhen@huawei.com>, linux-doc@vger.kernel.org,
+        linux-fbdev@vger.kernel.org
+References: <20220420085303.100654-1-javierm@redhat.com>
+ <535ebbe4-605c-daf5-1afb-f5225e4bb3a8@suse.de>
+ <093d742f-4c87-2ff3-e9fe-153cd734f8e4@suse.de>
+ <220929be-91c4-d19c-b04f-312c5f7e9e40@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220429043913.626647-1-davidgow@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <220929be-91c4-d19c-b04f-312c5f7e9e40@redhat.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 29, 2022 at 12:39:14PM +0800, David Gow wrote:
-> KUnit tests are not supposed to run on production systems: they may do
-> deliberately illegal things to trigger errors, and have security
-> implications (assertions will often deliberately leak kernel addresses).
+On Mon, Apr 25, 2022 at 11:49:13AM +0200, Javier Martinez Canillas wrote:
+> Hello Thomas,
 > 
-> Add a new taint type, TAINT_KUNIT to signal that a KUnit test has been
-> run. This will be printed as 'N' (for kuNit, as K, U and T were already
-> taken).
+> Thanks for the feedback. It was very useful.
 > 
-> This should discourage people from running KUnit tests on production
-> systems, and to make it easier to tell if tests have been run
-> accidentally (by loading the wrong configuration, etc.)
+> On 4/25/22 11:15, Thomas Zimmermann wrote:
+> > Hi
+> > 
+> > Am 25.04.22 um 10:54 schrieb Thomas Zimmermann:
+> >> Hi
+> >>
+> >> Am 20.04.22 um 10:52 schrieb Javier Martinez Canillas:
+> >>> Hello,
+> >>>
+> >>> The patches in this series are mostly changes suggested by Daniel Vetter
+> >>> to fix some race conditions that exists between the fbdev core (fbmem)
+> >>> and sysfb with regard to device registration and removal.
+> >>>
+> >>> For example, it is currently possible for sysfb to register a platform
+> >>> device after a real DRM driver was registered and requested to remove the
+> >>> conflicting framebuffers.
+> >>>
+> >>> A symptom of this issue, was worked around with by commit fb561bf9abde
+> >>> ("fbdev: Prevent probing generic drivers if a FB is already registered")
+> >>> but that's really a hack and should be reverted.
+> >>
+> >> As I mentioned on IRC, I think this series should be merged for the 
+> >> reasons I give in the other comments.
+> >>
 > 
-> Signed-off-by: David Gow <davidgow@google.com>
-> ---
+> You meant that should *not* get merged, as we discussed over IRC.
 > 
-> This is something I'd been thinking about for a while, and it came up
-> again, so I'm finally giving it a go.
+> >>>
+> >>> This series attempt to fix it more properly and revert the mentioned 
+> >>> hack.
+> >>> That will also unblock a pending patch to not make the num_registered_fb
+> >>> variable visible to drivers anymore, since that's internal to fbdev core.
+> >>
+> >> Here's as far as I understand the problem:
+> >>
+> >>   1) build DRM/fbdev and sysfb code into the kernel
+> >>   2) during boot, load the DRM/fbdev modules and have them acquire I/O 
+> >> ranges
+> >>   3) afterwards load sysfb and have it register platform devices for the 
+> >> generic framebuffers
+> >>   4) these devices now conflict with the already-registered DRM/fbdev 
+> >> devices
+> >>
 > 
-> Two notes:
-> - I decided to add a new type of taint, as none of the existing ones
->   really seemed to fit. We could live with considering KUnit tests as
->   TAINT_WARN or TAINT_CRAP or something otherwise, but neither are quite
->   right.
-> - The taint_flags table gives a couple of checkpatch.pl errors around
->   bracket placement. I've kept the new entry consistent with what's
->   there rather than reformatting the whole table, but be prepared for
->   complaints about spaces.
+> That's correct, yes.
 > 
-> Thoughts?
-> -- David
+> >> If that is the problem here, let's simply set a sysfb_disable flag in 
+> >> sysfb code when the first DRM/fbdev driver first loads. With the flag 
+> >> set, sysfb won't create any platform devices. We assume that there are 
+> >> now DRM/fbdev drivers for the framebuffers and sysfb won't be needed.
+> >>
+> >> We can set the flag internally from drm_aperture_detach_drivers() [1] 
+> >> and do_remove_conflicting_framebuffers() [2].
+> > 
+> > And further thinking about it, it would be better to set such a flag 
+> > after successfully registering a DRM/fbdev device.  So we know that 
+> > there's at least one working display in the system. We don't have to 
+> > rely on generic framebuffers after that.
+> >
 > 
-> ---
->  Documentation/admin-guide/tainted-kernels.rst | 1 +
->  include/linux/panic.h                         | 3 ++-
->  kernel/panic.c                                | 1 +
->  lib/kunit/test.c                              | 4 ++++
->  4 files changed, 8 insertions(+), 1 deletion(-)
+> Exactly, should be done when the device is registered rather than when
+> the driver is registered or a call is made to remove the conflicting FB.
 > 
-> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-> index ceeed7b0798d..8f18fc4659d4 100644
-> --- a/Documentation/admin-guide/tainted-kernels.rst
-> +++ b/Documentation/admin-guide/tainted-kernels.rst
-> @@ -100,6 +100,7 @@ Bit  Log  Number  Reason that got the kernel tainted
->   15  _/K   32768  kernel has been live patched
->   16  _/X   65536  auxiliary taint, defined for and used by distros
->   17  _/T  131072  kernel was built with the struct randomization plugin
-> + 18  _/N  262144  a KUnit test has been run
->  ===  ===  ======  ========================================================
->  
->  Note: The character ``_`` is representing a blank in this table to make reading
-> diff --git a/include/linux/panic.h b/include/linux/panic.h
-> index f5844908a089..1d316c26bf27 100644
-> --- a/include/linux/panic.h
-> +++ b/include/linux/panic.h
-> @@ -74,7 +74,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
->  #define TAINT_LIVEPATCH			15
->  #define TAINT_AUX			16
->  #define TAINT_RANDSTRUCT		17
-> -#define TAINT_FLAGS_COUNT		18
-> +#define TAINT_KUNIT			18
-> +#define TAINT_FLAGS_COUNT		19
->  #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
->  
->  struct taint_flag {
-> diff --git a/kernel/panic.c b/kernel/panic.c
-> index eb4dfb932c85..b24ca63ed738 100644
-> --- a/kernel/panic.c
-> +++ b/kernel/panic.c
-> @@ -404,6 +404,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
->  	[ TAINT_LIVEPATCH ]		= { 'K', ' ', true },
->  	[ TAINT_AUX ]			= { 'X', ' ', true },
->  	[ TAINT_RANDSTRUCT ]		= { 'T', ' ', true },
-> +	[ TAINT_KUNIT ]			= { 'N', ' ', false },
+> I'll rework this series with only the bits for sysfb_disable() and drop
+> the rest. We can go back to the discussion of the remaining parts later
+> if that makes sense (I still think that patch 3/5 is a better approach,
+> but let's defer that for a different series).
 
-As kunit tests can be in modules, shouldn't this be "true" here?
-
-Overall, I like it, makes sense to me.  The "N" will take some getting
-used to, and I have no idea why "T" was for "struct randomization", that
-would have allowed you to use "T" instead.  Oh well.
-
-thanks,
-
-greg k-h
+We need to kill sysfb _before_ the driver loads, otherwise you can have
+two drivers fighting over each another. And yes that means you might end
+up with black screen if the driver load goes wrong, but the two drivers
+fighting over each another can also result in black screens. And the
+latter isn't fixable any other way (in general at least) than by making
+sure the fw stuff is gone before driver load starts in earnest.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
