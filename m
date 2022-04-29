@@ -2,132 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0F9DC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 20:28:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E11B9C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 22:09:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380705AbiD2Ubq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 16:31:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54124 "EHLO
+        id S238270AbiD2WNA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 18:13:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380676AbiD2Ubp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 16:31:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5D3CDCD32F
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 13:28:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651264105;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=n8HsfkpqhssnZoIsPQ1O3oVRAyXbkapxW4GnxH0gSv4=;
-        b=OXyk+ZlA2xofIDLIpoh4YJ+rLWv81XKCIyy/IB39BgGEe31RKH4WNLCYpEDcIa1ShrAN2n
-        Df/3G8VM/wCkyyVQ1ZiPCi2WCGcyyQGgVCm4XzcCAkmyd+sygyQJLNjtrtFnsUkDESUdmC
-        f8FSupPV971Lb1Wl1zABlpBDfU5IZDE=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-60-GmsUPGlcMI2QxMwAD1OprA-1; Fri, 29 Apr 2022 16:28:24 -0400
-X-MC-Unique: GmsUPGlcMI2QxMwAD1OprA-1
-Received: by mail-io1-f70.google.com with SMTP id n9-20020a056602340900b006572c443316so7207073ioz.23
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 13:28:24 -0700 (PDT)
+        with ESMTP id S1381329AbiD2WM5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 18:12:57 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B03DCA9C
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 15:09:38 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id d188-20020a25cdc5000000b00648429e5ab9so8563846ybf.13
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 15:09:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=hKM9bITdw0PGb2XwX81mFD9iQzTpEY1OKJb9nL2wmVM=;
+        b=OoLk1SvFv/jTJtrMYW0SOQyQRGCBGpFgc/vEoNllR1AaKSyYPbAn38fZE7kG1JaLNw
+         sexAk7BDkPLMod8qlp9KvRVu4XZVkwoG6sot1ziSm12s8n1f0lWwP3pd4NZO9hDjSCIo
+         n4EVt4n/T4i6LWzvHIC5efT4Il77PiWFZq+vsVus4b88F/GLYaYnxrTF2BhYrTHjVvyZ
+         YJSlHx/76rMlgL8unw+vVcNr0SJeZky16wGNg4m9e30BDCrhD2L42ccHx+nJLraDz9Cv
+         QE7K62V9FK7wicbv99MdhKS9km/Q3/YCc5Tw9pA87iGWFI/wHo6va2SanzKXtugCTKxa
+         BOOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=n8HsfkpqhssnZoIsPQ1O3oVRAyXbkapxW4GnxH0gSv4=;
-        b=kEuTydK8wTttBaAABVf9TxSvUWh5GG/+CkZfRHhcNjiMPlwl+TFWf+DVoU20zIHcLV
-         dbpQP3q6aXa5k2olwwh7TcKC/FzGgOL1LYV7IEJwnNzhfVZ8WpXJYUExpe1Hx+3S9Edd
-         PM5RoT25nrElLDRqqccYliN2u6wy3yko7eeQmkwNA9omxIgN8LPuPvBEQr1cgyhbl5vu
-         xUr1/xzGEhcd4Jpl8hiEs8Q1BlcG0r1K27PeSHfCNKRLFUeBltCqCsIwBnVJM+IuSHe4
-         gyMpIY1hpBRw+gCUfgyJUaFGCWQKLTqHbF90Nu6eNmb6Otla/tQJeFZGVp4SBJVqV2a8
-         dKmg==
-X-Gm-Message-State: AOAM531Ve7XXmDuJdpAZWI40H8ulHupjmFi+2Ffquci0hsYI48ymgEt/
-        adQaWf7PnaYr4yvQw8fmCEeAxWLYMjOJTSEYoYGSA0wvKvJ38J08FNZGC3g0T8EY3ifT4fw4/3d
-        +Efs8mQZKGlDuxJAfDKhX
-X-Received: by 2002:a6b:ca44:0:b0:657:b54a:5c53 with SMTP id a65-20020a6bca44000000b00657b54a5c53mr445899iog.108.1651264103269;
-        Fri, 29 Apr 2022 13:28:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXw055Zf6CAZcffMOqFXVe3D8deItwuTS9dyUJRlHujGyFKq6cxPYeLOoiZHbK09XyaEEw5w==
-X-Received: by 2002:a6b:ca44:0:b0:657:b54a:5c53 with SMTP id a65-20020a6bca44000000b00657b54a5c53mr445889iog.108.1651264103032;
-        Fri, 29 Apr 2022 13:28:23 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239])
-        by smtp.gmail.com with ESMTPSA id j7-20020a02cb07000000b0032b3a7817b2sm836302jap.118.2022.04.29.13.28.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 13:28:22 -0700 (PDT)
-Date:   Fri, 29 Apr 2022 14:28:20 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Airlie <airlied@linux.ie>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Christoph Hellwig <hch@lst.de>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>
-Subject: Re: [PATCH v2 7/7] vfio: Remove calls to
- vfio_group_add_container_user()
-Message-ID: <20220429142820.6afe7bbe.alex.williamson@redhat.com>
-In-Reply-To: <7-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
-References: <0-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
-        <7-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=hKM9bITdw0PGb2XwX81mFD9iQzTpEY1OKJb9nL2wmVM=;
+        b=btCAN2Tvefx0noq00tllVJM8dK0TySKDm6IG9NF9FgnbK0DOq7NeHUfQUbZAhlorAW
+         nInBKIVeJgHg0LwWrUqq0ljNbPEY3QcnJ4XpSd7V/qzlmzoqQiSoe1Olwto7Y9x+Ba/X
+         CuJFJgV/6OW1zNSPv+kVErRv7KiYDTR8OdwNXnd/fNgDAIYXG645JIe9f2/q/YWOalpr
+         NEBDYTbGf8Kwzp1LqaNYZUO5H3i664818GAvHtM5GqOkR5J0rVR8rJOgLmttMuHuSaXn
+         B+4emAXiMtq0wI57AM1sPy1Cv+GlMBimsnh3H1JyC+4vd+TfC2rFYKAi+kuODwEvJD9t
+         o2yA==
+X-Gm-Message-State: AOAM531au9wDZC9QMzvb35AEkocqqGOYsAm5pOMsjCcWLrw6STN7e9Qt
+        ybWgwpDtdagEn8c/oiJazxIw7TP9YqF0itk=
+X-Google-Smtp-Source: ABdhPJwkaqvpwIOQfXloIgXrKBqVrkXz9dU2lTi8+9Th0do7w1YPgiKZjeu5emN11KLpq4+CmhlxSMcUnqAj3JA=
+X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:52dc:281f:8619:9d36])
+ (user=saravanak job=sendgmr) by 2002:a81:b88:0:b0:2f7:ccdd:642f with SMTP id
+ 130-20020a810b88000000b002f7ccdd642fmr1475417ywl.303.1651270177291; Fri, 29
+ Apr 2022 15:09:37 -0700 (PDT)
+Date:   Fri, 29 Apr 2022 15:09:32 -0700
+Message-Id: <20220429220933.1350374-1-saravanak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.36.0.464.gb9c8b46e94-goog
+Subject: [PATCH v1] driver core: Extend deferred probe timeout on driver registration
+From:   Saravana Kannan <saravanak@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Saravana Kannan <saravanak@google.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rob Herring <robh@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Will Deacon <will@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
+        iommu@lists.linux-foundation.org, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 21 Apr 2022 13:28:38 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+The deferred probe timer that's used for this currently starts at
+late_initcall and runs for driver_deferred_probe_timeout seconds. The
+assumption being that all available drivers would be loaded and
+registered before the timer expires. This means, the
+driver_deferred_probe_timeout has to be pretty large for it to cover the
+worst case. But if we set the default value for it to cover the worst
+case, it would significantly slow down the average case. For this
+reason, the default value is set to 0.
 
-> When the open_device() op is called the container_users is incremented and
-> held incremented until close_device(). Thus, so long as drivers call
-> functions within their open_device()/close_device() region they do not
-> need to worry about the container_users.
-> 
-> These functions can all only be called between open_device() and
-> close_device():
-> 
->   vfio_pin_pages()
->   vfio_unpin_pages()
->   vfio_dma_rw()
->   vfio_register_notifier()
->   vfio_unregister_notifier()
-> 
-> Eliminate the calls to vfio_group_add_container_user() and add
-> vfio_assert_device_open() to detect driver mis-use.
+Also, with CONFIG_MODULES=y and the current default values of
+driver_deferred_probe_timeout=0 and fw_devlink=on, devices with missing
+drivers will cause their consumer devices to always defer their probes.
+This is because device links created by fw_devlink defer the probe even
+before the consumer driver's probe() is called.
 
-A comment here explaining that decrementing open_count is pushed until
-after close_device to support this feature would help to explain the
-somewhat subtle change in vfio_group_get_device_fd().
+Instead of a fixed timeout, if we extend an unexpired deferred probe
+timer on every successful driver registration, with the expectation more
+modules would be loaded in the near future, then the default value of
+driver_deferred_probe_timeout only needs to be as long as the worst case
+time difference between two consecutive module loads.
 
-Otherwise the series looks ok with fixes noted by previous reviews.
-Thanks,
+So let's implement that and set the default value to 10 seconds when
+CONFIG_MODULES=y.
 
-Alex
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Will Deacon <will@kernel.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Kevin Hilman <khilman@kernel.org>
+Cc: Thierry Reding <treding@nvidia.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-gpio@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+Cc: iommu@lists.linux-foundation.org
+Signed-off-by: Saravana Kannan <saravanak@google.com>
+---
+ .../admin-guide/kernel-parameters.txt         |  6 ++++--
+ drivers/base/base.h                           |  1 +
+ drivers/base/dd.c                             | 19 +++++++++++++++++++
+ drivers/base/driver.c                         |  1 +
+ 4 files changed, 25 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 7123524a86b8..fcc1dfc877a9 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -939,8 +939,10 @@
+ 			[KNL] Debugging option to set a timeout in seconds for
+ 			deferred probe to give up waiting on dependencies to
+ 			probe. Only specific dependencies (subsystems or
+-			drivers) that have opted in will be ignored. A timeout of 0
+-			will timeout at the end of initcalls. This option will also
++			drivers) that have opted in will be ignored. A timeout
++			of 0 will timeout at the end of initcalls. If the time
++			out hasn't expired, it'll be restarted by each
++			successful driver registration. This option will also
+ 			dump out devices still on the deferred probe list after
+ 			retrying.
+ 
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index 2882af26392a..ab71403d102f 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -159,6 +159,7 @@ extern char *make_class_name(const char *name, struct kobject *kobj);
+ extern int devres_release_all(struct device *dev);
+ extern void device_block_probing(void);
+ extern void device_unblock_probing(void);
++extern void deferred_probe_extend_timeout(void);
+ 
+ /* /sys/devices directory */
+ extern struct kset *devices_kset;
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index f47cab21430f..603379b5f9dd 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -255,7 +255,12 @@ static int deferred_devs_show(struct seq_file *s, void *data)
+ }
+ DEFINE_SHOW_ATTRIBUTE(deferred_devs);
+ 
++#ifdef CONFIG_MODULES
++int driver_deferred_probe_timeout = 10;
++#else
+ int driver_deferred_probe_timeout;
++#endif
++
+ EXPORT_SYMBOL_GPL(driver_deferred_probe_timeout);
+ static DECLARE_WAIT_QUEUE_HEAD(probe_timeout_waitqueue);
+ 
+@@ -315,6 +320,20 @@ static void deferred_probe_timeout_work_func(struct work_struct *work)
+ }
+ static DECLARE_DELAYED_WORK(deferred_probe_timeout_work, deferred_probe_timeout_work_func);
+ 
++void deferred_probe_extend_timeout(void)
++{
++	/*
++	 * If the work hasn't been queued yet or if the work expired, don't
++	 * start a new one.
++	 */
++	if (cancel_delayed_work(&deferred_probe_timeout_work)) {
++		schedule_delayed_work(&deferred_probe_timeout_work,
++				driver_deferred_probe_timeout * HZ);
++		pr_debug("Extended deferred probe timeout by %d secs\n",
++					driver_deferred_probe_timeout);
++	}
++}
++
+ /**
+  * deferred_probe_initcall() - Enable probing of deferred devices
+  *
+diff --git a/drivers/base/driver.c b/drivers/base/driver.c
+index 8c0d33e182fd..77a77b2095cd 100644
+--- a/drivers/base/driver.c
++++ b/drivers/base/driver.c
+@@ -177,6 +177,7 @@ int driver_register(struct device_driver *drv)
+ 		return ret;
+ 	}
+ 	kobject_uevent(&drv->p->kobj, KOBJ_ADD);
++	deferred_probe_extend_timeout();
+ 
+ 	return ret;
+ }
+-- 
+2.36.0.464.gb9c8b46e94-goog
 
