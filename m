@@ -2,171 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8AA7C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 04:40:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94662C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 06:51:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237538AbiD2EnZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 00:43:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49560 "EHLO
+        id S238405AbiD2Gyv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 02:54:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237499AbiD2EnY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 00:43:24 -0400
-Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F23A1165BA
-        for <linux-doc@vger.kernel.org>; Thu, 28 Apr 2022 21:40:03 -0700 (PDT)
-Received: by mail-pj1-x104a.google.com with SMTP id t24-20020a17090a449800b001d2d6e740c3so6264700pjg.9
-        for <linux-doc@vger.kernel.org>; Thu, 28 Apr 2022 21:40:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=7pAm/LDFHoDLOVuIZx6NOUlnYoOG6z2KtSbentQNohQ=;
-        b=lOJ6ndqujbkQ9y8YtiKLh1NmKtjsaaYLb7DNBKdzwM6kNdDJymwTB229+sHcII9IGm
-         ZgijMD9LB65oEfpnzDUuw7gMa1qtR6k7S2ZlegTaofUACUzwpv8vlppdU55LGRFu3xOo
-         DTTGaB92cV5r20Fkg0e2H9E3kthvAOiLTkz3TfcnrbdLxtSzKUl/QUaAPl9Nlyd9d+NP
-         hlFSo4WvNXsXYW96S52BZhtTswOFsceMy/Pzv0U02tJAyQ7NxtUhQdPT8MVsYrL7qi8C
-         lrvnil194+31LqgOEWw4WdQqbFQ3bkGTAw/oDIyQ1CcH4F+XIZe5J159ZKBObnviPkrs
-         Yh9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=7pAm/LDFHoDLOVuIZx6NOUlnYoOG6z2KtSbentQNohQ=;
-        b=fsSt34i4T+8z0FHmTXxjAMN7+ImvQb4lpUPrhYI/3xG0FQpaY2SGd6uSysL/9FogVO
-         uELbPRzCHkT1FvHmOfbBVwhhavrW6rMErOdZl0odxbTGlISiG4xXVN4zhQOBPEJ2H9BM
-         zqWvMJojE1Pn2vK0q8HOdao26FFKrVV6aKLdALpVS7WPzsxn4sx3TXTpHq/kNiN34j/U
-         JhfnSviKlFxOArIldIdrMPfBCzTSzbo22N/qo0XPavH+xEiJ1SbJdq2nKKxJKLLEGOlK
-         IC/g5nNW9GTPu1RZJ1Uc1x4cOgKFNdMOfDUe7aKxa1/L73fuAvuxaUwSD7u7ktvyAPfF
-         TAOg==
-X-Gm-Message-State: AOAM533Al+GG7xQeec5I/jjZeWuF9FRfmdjKMkM/P+IPEk/8g3I166Di
-        3yyKa3gKnpgmArER1NlNIilL2GjsrUv1og==
-X-Google-Smtp-Source: ABdhPJymcIZSLhtD4Eu7q4Ap5bwpv/nVLCJ/HlABq4/5Ntta3fkMA3IydOm1P3Wx780QZrTfXCSsdCH/PLWsog==
-X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a17:902:ce02:b0:151:a86d:dc2b with SMTP
- id k2-20020a170902ce0200b00151a86ddc2bmr37514527plg.57.1651207203378; Thu, 28
- Apr 2022 21:40:03 -0700 (PDT)
-Date:   Fri, 29 Apr 2022 12:39:14 +0800
-Message-Id: <20220429043913.626647-1-davidgow@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.36.0.464.gb9c8b46e94-goog
-Subject: [PATCH] kunit: Taint kernel if any tests run
-From:   David Gow <davidgow@google.com>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S238433AbiD2Gyt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 02:54:49 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6068692B3;
+        Thu, 28 Apr 2022 23:51:30 -0700 (PDT)
+Date:   Fri, 29 Apr 2022 08:51:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1651215088;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=uRzozrRh87VYBCwryVh04/6Hx6ex7vN/oS+Y/xaCbtM=;
+        b=UJRaGgxLoKh6czf9r26arXU5zga0sZvYvfio3kw23yWtgx6AAOmn0s5PV8tAseb67aaLNx
+        gmQj8UM6crplZ/by4HFA4Q6gcVd5qgzP8OlhDbCeuWAkMC4nFga6gCE2+nQ2I+1ePpv/O0
+        C3ePzbaJsZdN5ilbiAmMqXPrZ5nGn1tQDnJVa6ja4I2FjhOCuSeCZb1IJBna0QJu2FKo+6
+        wgQAvCUSoPTZzge2oiS0RaKsqNQU1kDBj0+s9iktNnG1ak2CqJi2ev0jzgxwMiqamm84kL
+        eGM0MwwpCikHxAKd3gFqIIhEytUg+8dv+rI5DiNk05Qd5HJRwXytLpKthnxqjA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1651215088;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=uRzozrRh87VYBCwryVh04/6Hx6ex7vN/oS+Y/xaCbtM=;
+        b=Doc3/tS5OTAZj5I8MKbL9nv6qfjEue89W4VnDuJRjzl2MjCJWbjUA9A91izB9MEpTs5rrK
+        +YTtP6N3tjAQDzCw==
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc:     Ira Weiny <ira.weiny@intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     David Gow <davidgow@google.com>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH v4 0/4] Extend and reorganize Highmem's documentation
+Message-ID: <YmuK79YPRAi0fHhH@linutronix.de>
+References: <20220428212455.892-1-fmdefrancesco@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220428212455.892-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-KUnit tests are not supposed to run on production systems: they may do
-deliberately illegal things to trigger errors, and have security
-implications (assertions will often deliberately leak kernel addresses).
+On 2022-04-28 23:24:51 [+0200], Fabio M. De Francesco wrote:
+> This series has the purpose to extend and reorganize Highmem's
+> documentation.
 
-Add a new taint type, TAINT_KUNIT to signal that a KUnit test has been
-run. This will be printed as 'N' (for kuNit, as K, U and T were already
-taken).
+Thanks.
 
-This should discourage people from running KUnit tests on production
-systems, and to make it easier to tell if tests have been run
-accidentally (by loading the wrong configuration, etc.)
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-Signed-off-by: David Gow <davidgow@google.com>
----
-
-This is something I'd been thinking about for a while, and it came up
-again, so I'm finally giving it a go.
-
-Two notes:
-- I decided to add a new type of taint, as none of the existing ones
-  really seemed to fit. We could live with considering KUnit tests as
-  TAINT_WARN or TAINT_CRAP or something otherwise, but neither are quite
-  right.
-- The taint_flags table gives a couple of checkpatch.pl errors around
-  bracket placement. I've kept the new entry consistent with what's
-  there rather than reformatting the whole table, but be prepared for
-  complaints about spaces.
-
-Thoughts?
--- David
-
----
- Documentation/admin-guide/tainted-kernels.rst | 1 +
- include/linux/panic.h                         | 3 ++-
- kernel/panic.c                                | 1 +
- lib/kunit/test.c                              | 4 ++++
- 4 files changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-index ceeed7b0798d..8f18fc4659d4 100644
---- a/Documentation/admin-guide/tainted-kernels.rst
-+++ b/Documentation/admin-guide/tainted-kernels.rst
-@@ -100,6 +100,7 @@ Bit  Log  Number  Reason that got the kernel tainted
-  15  _/K   32768  kernel has been live patched
-  16  _/X   65536  auxiliary taint, defined for and used by distros
-  17  _/T  131072  kernel was built with the struct randomization plugin
-+ 18  _/N  262144  a KUnit test has been run
- ===  ===  ======  ========================================================
- 
- Note: The character ``_`` is representing a blank in this table to make reading
-diff --git a/include/linux/panic.h b/include/linux/panic.h
-index f5844908a089..1d316c26bf27 100644
---- a/include/linux/panic.h
-+++ b/include/linux/panic.h
-@@ -74,7 +74,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
- #define TAINT_LIVEPATCH			15
- #define TAINT_AUX			16
- #define TAINT_RANDSTRUCT		17
--#define TAINT_FLAGS_COUNT		18
-+#define TAINT_KUNIT			18
-+#define TAINT_FLAGS_COUNT		19
- #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
- 
- struct taint_flag {
-diff --git a/kernel/panic.c b/kernel/panic.c
-index eb4dfb932c85..b24ca63ed738 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -404,6 +404,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
- 	[ TAINT_LIVEPATCH ]		= { 'K', ' ', true },
- 	[ TAINT_AUX ]			= { 'X', ' ', true },
- 	[ TAINT_RANDSTRUCT ]		= { 'T', ' ', true },
-+	[ TAINT_KUNIT ]			= { 'N', ' ', false },
- };
- 
- /**
-diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-index 0f66c13d126e..ea8e9162445d 100644
---- a/lib/kunit/test.c
-+++ b/lib/kunit/test.c
-@@ -11,6 +11,7 @@
- #include <kunit/test-bug.h>
- #include <linux/kernel.h>
- #include <linux/moduleparam.h>
-+#include <linux/panic.h>
- #include <linux/sched/debug.h>
- #include <linux/sched.h>
- 
-@@ -498,6 +499,9 @@ int kunit_run_tests(struct kunit_suite *suite)
- 	struct kunit_result_stats suite_stats = { 0 };
- 	struct kunit_result_stats total_stats = { 0 };
- 
-+	/* Taint the kernel so we know we've run tests. */
-+	add_taint(TAINT_KUNIT, LOCKDEP_STILL_OK);
-+
- 	kunit_print_subtest_start(suite);
- 
- 	kunit_suite_for_each_test_case(suite, test_case) {
--- 
-2.36.0.464.gb9c8b46e94-goog
-
+Sebastian
