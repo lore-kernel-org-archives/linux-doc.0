@@ -2,185 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2E07C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 22:22:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA63EC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 22:53:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239772AbiD2WZg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 18:25:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55612 "EHLO
+        id S239852AbiD2W4V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 18:56:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233815AbiD2WZe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 18:25:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 40226DC9AC
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 15:22:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651270934;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ATKyFNAAAkRRTMtWxAFMAqDXlfz2eEkoQ0lWbdsfdDE=;
-        b=DwQYV3FePSX6Qla3J0/FYZ0+WO4dSHSXBBgbvv3/W1yHxG0vZIy/YkqtffXonsZPk/C9fa
-        pMuSk47iMnFODYdCvFj73U35C+Ub6BIS4xwPHeuOz6ay6hEMisrpNi4ndRq1xR1gMwpOID
-        L329yMBQR2hpQEgZRjlJJ0FCD4KVO2A=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-XM5BFzT3PZSP3oyRQNxvVA-1; Fri, 29 Apr 2022 18:22:13 -0400
-X-MC-Unique: XM5BFzT3PZSP3oyRQNxvVA-1
-Received: by mail-io1-f69.google.com with SMTP id x13-20020a0566022c4d00b0065491fa5614so7395020iov.9
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 15:22:13 -0700 (PDT)
+        with ESMTP id S239840AbiD2W4U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 18:56:20 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 649E37839D;
+        Fri, 29 Apr 2022 15:53:01 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id p6so8275604pjm.1;
+        Fri, 29 Apr 2022 15:53:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=igLOqTt7c0+9rOub31h3DCTn/9DZSO8QV11F0F++Etw=;
+        b=b+GxKAGp10UA0dEQqzHpFp8qB9TceUV9WwO+8pZhT9cNZjlGDnBj/vXlFfqyxyabqK
+         0oxmdIcOMUAovt/fV0li7zUuKcfyh+zOFQaUJwofBjtpSQB4zJMoO3926jM31fk4BeZH
+         VEG6+ANfZq96wUR+ukj7qERaxJYDRXOA/9TlM1KoLGW+5ay+Rn4sDQaD/wF5DG8gHwI5
+         1GbPJRKLEOrTlFRI2E1YRFNnxT4hX+bQfKf5QbpFm14be9oOsdLT9oKOJR87HWZJhjPj
+         /MMJAVeDxFBRXl+nuU8lOMQYSMxzFWgXJc7E3Xkv1bXQGnLl+CWxGHg+bIGzFJkTdA0I
+         a9fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ATKyFNAAAkRRTMtWxAFMAqDXlfz2eEkoQ0lWbdsfdDE=;
-        b=wImK8m3WyXJRIBkB4BPAzNJ+u8dusqOFtlnozJMZ0TK6vMfeDBb41DAbsCFF5hgFZK
-         EgRUiepCADreyks6Le915Av0MWobcRO2CafMQpYlBd2Gp/ktuy8rDobChtLIk0xGKHGu
-         lh4a8zh1NwvDJkedrPcXo7Gbtk8B6Q70kjnSvVFFT8C+gMFpJrfn5vPUkxukXKFMVFOi
-         F3o17wIgy6Zu2gk2QtPoUOTdDI53HTjCSi4WsAOZQch0Px2YPxUx41wWuyzRsg4SUvL6
-         m1ocuPIW/pB8abko5v9gh14seW/WyyiLIw/muqERq2Uj1pcKDwidQX7N5DVMwLCg2o78
-         Zhcw==
-X-Gm-Message-State: AOAM533Eh4TwtCE/7vDwmsbdJRB4rXfEmbQdIoc8R3YVoJ/d3JRd/KmW
-        08NU4PocEtQBwcFB9MmrhJqGx2cMmV954GjFfZ7xk23WMNJy8wf5pO1QZYcogKxoo9gXao//RLu
-        7nL1uPZoRjxMGILsYSjgV
-X-Received: by 2002:a05:6638:4604:b0:32b:4eab:7394 with SMTP id bw4-20020a056638460400b0032b4eab7394mr636149jab.18.1651270932501;
-        Fri, 29 Apr 2022 15:22:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwPQNrRSGnW48FBq1t2/hjh8q51j2JzUcOvWsug9aMrqr32bPZVspTaleHuRHvQdSR9CF/bGw==
-X-Received: by 2002:a05:6638:4604:b0:32b:4eab:7394 with SMTP id bw4-20020a056638460400b0032b4eab7394mr636115jab.18.1651270932123;
-        Fri, 29 Apr 2022 15:22:12 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239])
-        by smtp.gmail.com with ESMTPSA id e71-20020a02864d000000b0032b3a78176bsm897885jai.47.2022.04.29.15.22.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 15:22:11 -0700 (PDT)
-Date:   Fri, 29 Apr 2022 16:22:09 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Airlie <airlied@linux.ie>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v2 0/7] Make the rest of the VFIO driver interface use
- vfio_device
-Message-ID: <20220429162209.2ec03e4f.alex.williamson@redhat.com>
-In-Reply-To: <20220429173149.GA167483@nvidia.com>
-References: <0-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
-        <20220429173149.GA167483@nvidia.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=igLOqTt7c0+9rOub31h3DCTn/9DZSO8QV11F0F++Etw=;
+        b=8N+NGj6ytjsKsYyhbFeYmom8/g7li4BZZHZQ+I21o7JAgyMbImqpA5LsAR8Gow6rAc
+         hYx2kJ9E4OsVdse1LZ79K8jtAJS8e+Gb9z1ock9H3uYRfSUUJKsAKc8vTwOX0Nma7bzS
+         mgQZmqscqUpAxnc8m24I3LmFjtL/eEwvHxN8Ugnk78zcpJI91t/p/qET5sZt81GdQuTf
+         sMv1gDmk1UP8b2wSqRNLKe/4EyVTh+7dvylClVbKYSVhxojIenRHaN44VFdCSakYJowQ
+         o3oD5dFMSxUpi0QijkqwrSlTOxKemBySowCPFoF3eHS0Xg9kYjW9qAF2qcR6PlH0sesP
+         e4pw==
+X-Gm-Message-State: AOAM532k9gDXowCIL/F2rCqzjVBdWjjfXwM+UfAQlnHnpBMBzux91n6G
+        yuVDcHR0w/weTKuZVO8k1mZFyKnzZsM=
+X-Google-Smtp-Source: ABdhPJxtzHkDldh7HirdrUNvkceKmrTnIWr8Fv5MXfBfPoKrYJ8hbIx/2VQPEaMOroZIxZ1QKgc74g==
+X-Received: by 2002:a17:90a:8d82:b0:1d8:a5a9:5489 with SMTP id d2-20020a17090a8d8200b001d8a5a95489mr1389664pjo.102.1651272780803;
+        Fri, 29 Apr 2022 15:53:00 -0700 (PDT)
+Received: from smtpclient.apple (164.174.128.101.dy.bbexcite.jp. [101.128.174.164])
+        by smtp.gmail.com with ESMTPSA id a8-20020a17090a6d8800b001cd4c118b07sm11839070pjk.16.2022.04.29.15.52.58
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 29 Apr 2022 15:53:00 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v3] docs/trans/ja_JP/howto: Don't mention specific kernel
+ versions
+From:   Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+In-Reply-To: <20220429133522.41013-1-fujimotokosuke0@gmail.com>
+Date:   Sat, 30 Apr 2022 07:52:56 +0900
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Akira Yokosawa <akiyks@gmail.com>, skhan@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: base64
+Message-Id: <93D2EBDC-A1F5-4C48-8E59-F6FDDB12735F@gmail.com>
+References: <20220429133522.41013-1-fujimotokosuke0@gmail.com>
+To:     Tsugikazu Shibata <shibata@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 29 Apr 2022 14:31:49 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
-
-> On Thu, Apr 21, 2022 at 01:28:31PM -0300, Jason Gunthorpe wrote:
-> > Prior series have transformed other parts of VFIO from working on struct
-> > device or struct vfio_group into working directly on struct
-> > vfio_device. Based on that work we now have vfio_device's readily
-> > available in all the drivers.
-> > 
-> > Update the rest of the driver facing API to use vfio_device as an input.
-> > 
-> > The following are switched from struct device to struct vfio_device:
-> >   vfio_register_notifier()
-> >   vfio_unregister_notifier()
-> >   vfio_pin_pages()
-> >   vfio_unpin_pages()
-> >   vfio_dma_rw()
-> > 
-> > The following group APIs are obsoleted and removed by just using struct
-> > vfio_device with the above:
-> >   vfio_group_pin_pages()
-> >   vfio_group_unpin_pages()
-> >   vfio_group_iommu_domain()
-> >   vfio_group_get_external_user_from_dev()
-> > 
-> > To retain the performance of the new device APIs relative to their group
-> > versions optimize how vfio_group_add_container_user() is used to avoid
-> > calling it when the driver must already guarantee the device is open and
-> > the container_users incrd.
-> > 
-> > The remaining exported VFIO group interfaces are only used by kvm, and are
-> > addressed by a parallel series.
-> > 
-> > This series is based on Christoph's gvt rework here:
-> > 
-> >  https://lore.kernel.org/all/5a8b9f48-2c32-8177-1c18-e3bd7bfde558@intel.com/
-> > 
-> > and so will need the PR merged first.  
-> 
-> Hi Alex,
-> 
-> Since all the shared branch PRs are ready, do you have any remarks on
-> this series and the others before I rebase and repost them?
-
-Only the nit in the commit log:
-https://lore.kernel.org/all/20220429142820.6afe7bbe.alex.williamson@redhat.com/ 
-
-> This one has a few changes to the commit messages outstanding, but v2
-> didn't have any code changes.
-> 
-> Also, what order would like the different series in - they conflict
-> with each other a little bit. I suggest this:
-> 
-> - mdev group removal (this one)
-> - Remove vfio_device_get_from_dev()
->   https://lore.kernel.org/r/0-v1-7f2292e6b2ba+44839-vfio_get_from_dev_jgg@nvidia.com
-> - Remove group from kvm
->   https://lore.kernel.org/r/0-v1-33906a626da1+16b0-vfio_kvm_no_group_jgg@nvidia.com
-
-I think you mean (v2):
-
-https://lore.kernel.org/all/0-v2-6a528653a750+1578a-vfio_kvm_no_group_jgg@nvidia.com/
-
-Otherwise, thanks for sorting these out for me.
-
-> All of them seem to have got enough reviews now.
->
-> I have one more series on this group topic and a few little patches still
-> 
-> It would be great if you could merge the gvt and iommu series together
-> into your tree toward linux-next so I can post patches against a
-> stable commit ID so the build-bots can test them.
-
-Please check my vfio next branch and see if this matches what you're
-looking for:
-
-https://github.com/awilliam/linux-vfio/commits/next
-
-I'll look for any fallout from Stephen and build bots on Monday's
-linux-next compilation.  Thanks,
-
-Alex
-
+DQoNCj4gT24gQXByIDI5LCAyMDIyLCBhdCAyMjozNSwgS29zdWtlIEZ1amltb3RvIDxmdWppbW90
+b2tvc3VrZTBAZ21haWwuY29tPiB3cm90ZToNCj4gDQo+IFRoaXMgY2hhbmdlIGlzIGJhc2VkIG9u
+IGNvbW1pdCBkMmIwMDhmMTM0YjcNCj4gKCJEb2N1bWVudGF0aW9uL3Byb2Nlc3MvaG93dG86IFVw
+ZGF0ZSBmb3IgNC54IC0+IDUueCB2ZXJzaW9uaW5nIikuDQo+IA0KPiBSZXBsYWNlICI0Lngga2Vy
+bmVsIHZlcnNpb24iIHdpdGggZ2VuZXJpYyB0ZXJtIHN1Y2ggYXMgIm1haW5saW5lIHRyZWUiDQo+
+IA0KPiBTaWduZWQtb2ZmLWJ5OiBLb3N1a2UgRnVqaW1vdG8gPGZ1amltb3Rva29zdWtlMEBnbWFp
+bC5jb20+DQo+IC0tLQ0KPiBWMjogUmVmb3JtYXR0ZWQgY29tbWl0IGxvZyBtZXNzYWdlDQo+IFYz
+OiBVcGRhdGVkIHNvbWUgZXhwcmVzc2lvbnMNCj4gLSBhZGRlZCAidmVyc2lvbiBudW1iZXIiIGlu
+IG1haW5saW5lIHRyZWUgc2VjdGlvbg0KPiAtIHVwZGF0ZWQgZnJvbSAic3RhYmxlIGtlcm5lbCIg
+dG8gInN0YWJsZSB0cmVlIg0KPiAtLS0NCj4gLS0tDQo+IERvY3VtZW50YXRpb24vdHJhbnNsYXRp
+b25zL2phX0pQL2hvd3RvLnJzdCB8IDQ0ICsrKysrKysrKysrLS0tLS0tLS0tLS0NCj4gMSBmaWxl
+IGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDIzIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAt
+LWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL2hvd3RvLnJzdCBiL0RvY3Vt
+ZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL2hvd3RvLnJzdA0KPiBpbmRleCBkNjY3ZjlkOGEw
+MmEuLmRlYWM0MWViMDM4YSAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
+bnMvamFfSlAvaG93dG8ucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2ph
+X0pQL2hvd3RvLnJzdA0KPiBAQCAtMjYyLDIxICsyNjIsMjEgQEAgTGludXgg44Kr44O844ON44Or
+44Gu6ZaL55m644OX44Ot44K744K544Gv54++5Zyo5bm+44Gk44GL44Gu55Ww44Gq44KL44Oh44Kk
+44OzDQo+IOODgeOAjeOBqOWkmuaVsOOBruOCteODluOCt+OCueODhuODoOavjuOBruOCq+ODvOOD
+jeODq+ODluODqeODs+ODgeOBi+OCieani+aIkOOBleOCjOOBvuOBmeOAguOBk+OCjOOCieOBrg0K
+PiDjg5bjg6njg7Pjg4Hjgajjga8gLQ0KPiANCj4gLSAgLSDjg6HjgqTjg7Pjga4gNC54IOOCq+OD
+vOODjeODq+ODhOODquODvA0KPiAtICAtIDQueC55IC1zdGFibGUg44Kr44O844ON44Or44OE44Oq
+44O8DQo+IC0gIC0g44K144OW44K344K544OG44Og5q+O44Gu44Kr44O844ON44Or44OE44Oq44O8
+44Go44OR44OD44OBDQo+IC0gIC0g57Wx5ZCI44OG44K544OI44Gu44Gf44KB44GuIDQueCAtbmV4
+dCDjgqvjg7zjg43jg6vjg4Tjg6rjg7wNCj4gKyAgLSBMaW51cyDjga7jg6HjgqTjg7Pjg6njgqTj
+g7Pjg4Tjg6rjg7wNCj4gKyAgLSDjg6Hjgrjjg6Pjg7znlarlj7fjgpLjgb7jgZ/jgZDmlbDmnKzj
+ga7lronlrprniYjjg4Tjg6rjg7wNCj4gKyAgLSDjgrXjg5bjgrfjgrnjg4bjg6Dmr47jga7jgqvj
+g7zjg43jg6vjg4Tjg6rjg7wNCj4gKyAgLSDntbHlkIjjg4bjgrnjg4jjga7jgZ/jgoHjga4gbGlu
+dXgtbmV4dCDjgqvjg7zjg43jg6vjg4Tjg6rjg7wNCj4gDQo+IC00Lngg44Kr44O844ON44Or44OE
+44Oq44O8DQo+ICvjg6HjgqTjg7Pjg6njgqTjg7Pjg4Tjg6rjg7wNCj4gfn5+fn5+fn5+fn5+fn5+
+fn5+DQo+IA0KPiAtNC54IOOCq+ODvOODjeODq+OBryBMaW51cyBUb3J2YWxkcyDjgavjgojjgaPj
+gabjg6Hjg7Pjg4bjg4rjg7PjgrnjgZXjgozjgIENCj4gLWh0dHBzOi8va2VybmVsLm9yZyDjga4g
+cHViL2xpbnV4L2tlcm5lbC92NC54LyDjg4fjgqPjg6zjgq/jg4jjg6rjgavlrZjlnKjjgZfjgb7j
+gZnjgIINCj4gK+ODoeOCpOODs+ODqeOCpOODs+ODhOODquODvOOBryBMaW51cyBUb3J2YWxkcyDj
+gavjgojjgaPjgabjg6Hjg7Pjg4bjg4rjg7PjgrnjgZXjgozjgIENCj4gK2h0dHBzOi8va2VybmVs
+Lm9yZyDjga7jg6rjg53jgrjjg4jjg6rjgavlrZjlnKjjgZfjgb7jgZnjgIINCj4g44GT44Gu6ZaL
+55m644OX44Ot44K744K544Gv5Lul5LiL44Gu44Go44GK44KKIC0NCj4gDQo+ICAgLSDmlrDjgZfj
+gYTjgqvjg7zjg43jg6vjgYzjg6rjg6rjg7zjgrnjgZXjgozjgZ/nm7TlvozjgavjgIEy6YCx6ZaT
+44Gu54m55Yil5pyf6ZaT44GM6Kit44GR44KJ44KM44CBDQo+ICAgICDjgZPjga7mnJ/plpPkuK3j
+gavjgIHjg6Hjg7Pjg4bjg4rpgZTjga8gTGludXMg44Gr5aSn44GN44Gq5beu5YiG44KS6YCB44KL
+44GT44Go44GM44Gn44GN44G+44GZ44CCDQo+IC0gICAg44GT44Gu44KI44GG44Gq5beu5YiG44Gv
+6YCa5bi4IC1uZXh0IOOCq+ODvOODjeODq+OBq+aVsOmAsemWk+WQq+OBvuOCjOOBpuOBjeOBn+OD
+keODg+ODgeOBp+OBmeOAgg0KPiArICAgIOOBk+OBruOCiOOBhuOBquW3ruWIhuOBr+mAmuW4uCBs
+aW51eC1uZXh0IOOCq+ODvOODjeODq+OBq+aVsOmAsemWk+WQq+OBvuOCjOOBpuOBjeOBn+ODkeOD
+g+ODgeOBp+OBmeOAgg0KPiAgICAg5aSn44GN44Gq5aSJ5pu044GvIGdpdCjjgqvjg7zjg43jg6vj
+ga7jgr3jg7zjgrnnrqHnkIbjg4Tjg7zjg6vjgIHoqbPntLDjga8NCj4gICAgIGh0dHA6Ly9naXQt
+c2NtLmNvbS8g5Y+C54WnKSDjgpLkvb/jgaPjgabpgIHjgovjga7jgYzlpb3jgb7jgZfjgYTjgoTj
+gormlrnjgafjgZnjgYzjgIHjg5Hjg4MNCj4gICAgIOODgeODleOCoeOCpOODq+OBruW9ouW8j+OB
+ruOBvuOBvumAgeOCi+OBruOBp+OCguWNgeWIhuOBp+OBmeOAgg0KPiBAQCAtMzAzLDIwICszMDMs
+MTggQEAgQW5kcmV3IE1vcnRvbiDjgYwgTGludXgta2VybmVsIOODoeODvOODquODs+OCsOODquOC
+ueODiOOBq+OCq+ODvOODjeODq+ODquODquODvA0KPiAgICAgICAgIOWJjeOCguOBo+OBpuaxuuOC
+geOCieOCjOOBn+ioiOeUu+OBq+OCiOOBo+OBpuODquODquODvOOCueOBleOCjOOCi+OCguOBruOB
+p+OBr+OBquOBhOOBi+OCiQ0KPiAgICAgICAgIOOBp+OBmeOAguOAjSoNCj4gDQo+IC00LngueSAt
+c3RhYmxlIOOCq+ODvOODjeODq+ODhOODquODvA0KPiAtfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fg0KPiAr44Oh44K444Oj44O855Wq5Y+344KS44G+44Gf44GQ5pWw5pys44Gu5a6J5a6a54mI
+44OE44Oq44O8DQo+ICt+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4NCj4g
+DQo+IOODkOODvOOCuOODp+ODs+eVquWPt+OBjDPjgaTjga7mlbDlrZfjgavliIbjgYvjgozjgabj
+gYTjgovjgqvjg7zjg43jg6vjga8gLXN0YWJsZSDjgqvjg7zjg43jg6vjgafjgZnjgIINCj4gLeOB
+k+OCjOOBq+OBr+OAgTQueCDjgqvjg7zjg43jg6vjgafopovjgaTjgYvjgaPjgZ/jgrvjgq3jg6Xj
+g6rjg4bjgqPllY/poYzjgoTph43lpKfjgarlvozmiLvjgorjgavlr77jgZkNCj4gLeOCi+avlOi8
+g+eahOWwj+OBleOBhOmHjeimgeOBquS/ruato+OBjOWQq+OBvuOCjOOBvuOBmeOAgg0KPiAr44GT
+44KM44Gr44Gv5pyA5Yid44GuMuOBpOOBruODkOODvOOCuOODp+ODs+eVquWPt+OBruaVsOWtl+OB
+q+WvvuW/nOOBl+OBn+OAgQ0KPiAr44Oh44Kk44Oz44Op44Kk44Oz44Oq44Oq44O844K544Gn6KaL
+44Gk44GL44Gj44Gf44K744Kt44Ol44Oq44OG44Kj5ZWP6aGM44KEDQo+ICvph43lpKfjgarlvozm
+iLvjgorjgavlr77jgZnjgovmr5TovIPnmoTlsI/jgZXjgYTph43opoHjgarkv67mraPjgYzlkKvj
+gb7jgozjgb7jgZnjgIINCj4gDQo+IOOBk+OCjOOBr+OAgemWi+eZui/lrp/pqJPnmoTjg5Djg7zj
+grjjg6fjg7Pjga7jg4bjgrnjg4jjgavljZTlipvjgZnjgovjgZPjgajjgavoiIjlkbPjgYznhKHj
+gY/jgIHmnIDmlrANCj4g44Gu5a6J5a6a44GX44Gf44Kr44O844ON44Or44KS5L2/44GE44Gf44GE
+44Om44O844K244Gr5o6o5aWo44GZ44KL44OW44Op44Oz44OB44Gn44GZ44CCDQo+IA0KPiAt44KC
+44GX44CBNC54Lnkg44Kr44O844ON44Or44GM5a2Y5Zyo44GX44Gq44GE5aC05ZCI44Gr44Gv44CB
+55Wq5Y+344GM5LiA55Wq5aSn44GN44GEIDQueCDjgYzmnIDmlrANCj4gLeOBruWuieWumueJiOOC
+q+ODvOODjeODq+OBp+OBmeOAgg0KPiAtDQo+IC00LngueSDjga8gInN0YWJsZSIg44OB44O844Og
+IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiDjgafjg6Hjg7Pjg4bjgZXjgozjgabjgYrjgorjgIEN
+Cj4gK+WuieWumueJiOODhOODquODvOOBryJzdGFibGUiIOODgeODvOODoCA8c3RhYmxlQHZnZXIu
+a2VybmVsLm9yZz4g44Gn44Oh44Oz44OG44GV44KM44Gm44GK44KK44CBDQo+IOW/heimgeOBq+W/
+nOOBmOOBpuODquODquODvOOCueOBleOCjOOBvuOBmeOAgumAmuW4uOOBruODquODquODvOOCueac
+n+mWk+OBryAy6YCx6ZaT5q+O44Gn44GZ44GM44CB5beuDQo+IOOBl+i/q+OBo+OBn+WVj+mhjOOB
+jOOBquOBkeOCjOOBsOOCguOBhuWwkeOBl+mVt+OBj+OBquOCi+OBk+OBqOOCguOBguOCiuOBvuOB
+meOAguOCu+OCreODpeODquODhuOCo+mWog0KPiDpgKPjga7llY/poYzjga7loLTlkIjjga/jgZPj
+gozjgavlr77jgZfjgabjgaDjgYTjgZ/jgYTjga7loLTlkIjjgIHjgZnjgZDjgavjg6rjg6rjg7zj
+grnjgYzjgZXjgozjgb7jgZnjgIINCj4gQEAgLTMyNiw3ICszMjQsNyBAQCBEb2N1bWVudGF0aW9u
+L3Byb2Nlc3Mvc3RhYmxlLWtlcm5lbC1ydWxlcy5yc3Qg44OV44Kh44Kk44Or44Gr44Gv44Gp44Gu
+44KI44GG44GqDQo+IOmhnuOBruWkieabtOOBjCAtc3RhYmxlIOODhOODquODvOOBq+WPl+OBkeWF
+peOCjOWPr+iDveOBi+OAgeOBvuOBn+ODquODquODvOOCueODl+ODreOCu+OCueOBjOOBqeOBhg0K
+PiDli5XjgY/jgYvjgYzoqJjov7DjgZXjgozjgabjgYTjgb7jgZnjgIINCj4gDQo+IC3jgrXjg5bj
+grfjgrnjg4bjg6Dmr47jga7jgqvjg7zjg43jg6vjg4Tjg6rjg7zjgajjg5Hjg4Pjg4ENCj4gK+OC
+teODluOCt+OCueODhuODoOavjuOBruOCq+ODvOODjeODq+ODhOODquODvA0KPiB+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0KPiANCj4g44Gd44KM44Ge44KM44Gu44Kr44O8
+44ON44Or44K144OW44K344K544OG44Og44Gu44Oh44Oz44OG44OK6YGU44GvIC0tLSDjgZ3jgZfj
+gablpJrjgY/jga7jgqvjg7zjg43jg6sNCj4gQEAgLTM1MSwxOSArMzQ5LDE5IEBAIHF1aWx0IOOC
+t+ODquODvOOCuuOBqOOBl+OBpuWFrOmWi+OBleOCjOOBpuOBhOOCi+ODkeODg+ODgeOCreODpeOD
+vOOCguS9v+OCj+OCjA0KPiDjgZHjgovjgZPjgajjgYzjgafjgY3jgb7jgZnjgILlpKfpg6jliIbj
+ga7jgZPjgozjgonjga4gcGF0Y2h3b3JrIOOBruOCteOCpOODiOOBrw0KPiBodHRwczovL3BhdGNo
+d29yay5rZXJuZWwub3JnLyDjgafjg6rjgrnjg4jjgZXjgozjgabjgYTjgb7jgZnjgIINCj4gDQo+
+IC3ntbHlkIjjg4bjgrnjg4jjga7jgZ/jgoHjga4gNC54IC1uZXh0IOOCq+ODvOODjeODq+ODhOOD
+quODvA0KPiAtfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0KPiAr
+57Wx5ZCI44OG44K544OI44Gu44Gf44KB44GuIGxpbnV4LW5leHQg44Kr44O844ON44Or44OE44Oq
+44O8DQo+ICt+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+DQo+
+IA0KPiAt44K144OW44K344K544OG44Og44OE44Oq44O844Gu5pu05paw5YaF5a6544GM44Oh44Kk
+44Oz44Op44Kk44Oz44GuIDQueCDjg4Tjg6rjg7zjgavjg57jg7zjgrjjgZXjgozjgosNCj4gK+OC
+teODluOCt+OCueODhuODoOODhOODquODvOOBruabtOaWsOWGheWuueOBjOODoeOCpOODs+ODqeOC
+pOODs+ODhOODquODvOOBq+ODnuODvOOCuOOBleOCjOOCiw0KPiDliY3jgavjgIHjgZ3jgozjgonj
+ga/ntbHlkIjjg4bjgrnjg4jjgZXjgozjgovlv4XopoHjgYzjgYLjgorjgb7jgZnjgILjgZPjga7n
+m67nmoTjga7jgZ/jgoHjgIHlrp/os6rnmoTjgasNCj4g5YWo44K144OW44K344K544OG44Og44OE
+44Oq44O844GL44KJ44G744G85q+O5pel44OX44Or44GV44KM44Gm44Gn44GN44KL54m55Yil44Gq
+44OG44K544OI55So44Gu44Oq44Od44K4DQo+IOODiOODquOBjOWtmOWcqOOBl+OBvuOBmS0NCj4g
+DQo+ICAgICAgICBodHRwczovL2dpdC5rZXJuZWwub3JnLz9wPWxpbnV4L2tlcm5lbC9naXQvbmV4
+dC9saW51eC1uZXh0LmdpdA0KPiANCj4gLeOBk+OBruOChOOCiuaWueOBq+OCiOOBo+OBpuOAgS1u
+ZXh0IOOCq+ODvOODjeODq+OBr+asoeOBruODnuODvOOCuOapn+S8muOBp+OBqeOCk+OBquOCguOB
+ruOBjOODoeOCpOODsw0KPiAt44Op44Kk44Oz44Kr44O844ON44Or44Gr44Oe44O844K444GV44KM
+44KL44GL44CB44GK44GK44G+44GL44Gq44Gu5bGV5pyb44KS5o+Q5L6b44GX44G+44GZ44CCLW5l
+eHQg44Kr44O8DQo+IC3jg43jg6vjga7lrp/ooYzjg4bjgrnjg4jjgpLooYzjgYblhpLpmbrlpb3j
+gY3jgarjg4bjgrnjgr/jg7zjga/lpKfjgYTjgavmrZPov47jgZXjgozjgb7jgZnjgIINCj4gK+OB
+k+OBruOChOOCiuaWueOBq+OCiOOBo+OBpuOAgWxpbnV4LW5leHQg44Gv5qyh44Gu44Oe44O844K4
+5qmf5Lya44Gn44Gp44KT44Gq44KC44Gu44GM44Oh44Kk44OzDQo+ICvjg6njgqTjg7Pjgavjg57j
+g7zjgrjjgZXjgozjgovjgYvjgIHjgYrjgYrjgb7jgYvjgarjga7lsZXmnJvjgpLmj5DkvpvjgZfj
+gb7jgZnjgIINCj4gK2xpbnV4LW5leHQg44Gu5a6f6KGM44OG44K544OI44KS6KGM44GG5YaS6Zm6
+5aW944GN44Gq44OG44K544K/44O844Gv5aSn44GE44Gr5q2T6L+O44GV44KM44G+44GZ44CCDQo+
+IA0KPiDjg5DjgrDjg6zjg53jg7zjg4gNCj4gLS0tLS0tLS0tLS0tLQ0KPiAtLSANCj4gMi4yNS4x
+DQo+IA0KDQoNCk15IGFwb2xvZ2llcy4NCg0KUGxlYXNlIGlnbm9yZSB0aGlzIHZlcnNpb24gc2lu
+Y2UgSSBmb3Jnb3QgdG8gYWRkIHJldmlld2VkIGJ5IHRhZy4NCg0KQmVzdCByZWdhcmRzLA0KS29z
+dWtlDQoNCg0K
