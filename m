@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEDA8C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 13:36:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B221CC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 13:36:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349499AbiD2Njp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 09:39:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50714 "EHLO
+        id S1347966AbiD2Njs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 09:39:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347966AbiD2Njk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 09:39:40 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A817CABAC
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:36:22 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id cx11-20020a17090afd8b00b001d9fe5965b3so8604246pjb.3
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:36:22 -0700 (PDT)
+        with ESMTP id S1351675AbiD2Njq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 09:39:46 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 244C2CB003
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:36:27 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id j8so7143111pll.11
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 06:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=L6JfYichFyXFsf3r/4znwUIKw3e8Xt3i1DYSf+5mskE=;
-        b=uiu5RLuEB7qSCoidGIQkJZQf2tXs/EuKorStHUYGrE3Q5/xwMjpvGCmRYxjgJA6Ctu
-         75nC7BuohPGVHhHiVloQeiByLs8cb+N0Ed8rJ3utK+A6gQToV+GujF6l5qKhJ6c7EtGn
-         NGGslCeqHkUhC439mUKObKU0nONs9Y2XDO0mRRIdYkuP+YXoGmTiT18RjaEEpxX9bPsh
-         AAQJ8XZb1PV/10ty6IAIC9mYDPdZ84ojotFDfykLySr4Rl5A0JazS0rcCBaq64jgtFXH
-         n+rOZQhRPeLRzNBkYnF0c08yntciuvNCXpZK09/v/tg0M7w22eVyLTCmchLVjWICGks9
-         yfeQ==
+        bh=TMZmZ4AGQljuOcKnvNnlPkQjL1BDLadEZvUt3w1Anw8=;
+        b=iNbXqvglmSrqfFNb3nFzL0dKEc6ia3WcRkU7xNMP/tHBQSotTfWchC6ouLupv7gKG6
+         mjLWcX7CspmW80y0Qeb/TyGyZZi5yxh/EQGlKJWLIMropwa6Iv2OOK9jr2sYgcXxprZ5
+         UEr8ImcwooRjwwOIzUNVOu/4dBlKsJNZb0ph4n9C1AkUYJhYk1T7s4n+e/UvC/IBJXiH
+         lelZrCLgW31cqCdXshBxLBAl5D20bnxmQwk5IutcdRzkuh3QaA7GJQaxil8805VZ+bKL
+         LtZQu7le0S6cehGWwU6lFsz62Ehg8Ne/le2UyAqsY2z4SBsgcZzowDkcSOqKwQ72hUWd
+         Ry/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=L6JfYichFyXFsf3r/4znwUIKw3e8Xt3i1DYSf+5mskE=;
-        b=hjR3+e/sCbnLH8LhanGFA/A1a6Y4rnfpkcU26WkudgRlF0GRJqD1s7fxncm8y4Pu6x
-         GultzPHNiW6mWXpBSj2u8hHaeJSJj3ufA7hVp0bwDB4amWg2Uc14X0ndJoLprUFP8fZX
-         TI1jVDQ3eSXKCkUKPFtebYu4EVEQLi7m7xgQ04IiDytS4e+j8pZYtkj27Iu7MuT4CsG1
-         QEGbSbVNNUabJSHGNGxzfKJCjE/+d8ib0nAddNI2sTy9rVm8XDl8KdaUeaLD4KY1nJC7
-         G+DvLkpGTVYmehzqWV1VmwDOMmz7ocLOgueKyApERuRQ6IzibLfvYVJ3WNMziPVR6UW6
-         WaYA==
-X-Gm-Message-State: AOAM5326I/B+Jvxfgseju59TipFLzBxvvUHiNg56GC5TK4fkkXoK3W0e
-        HSIF3243B8NFp7DU8p0TG+5Spw==
-X-Google-Smtp-Source: ABdhPJx+W1PxtRy+jGpbbBvOatDdA/DNvTfTbEwQM2M30hTFb7Isln+pU5bpMFj6BaOrsgTZDYJFuQ==
-X-Received: by 2002:a17:902:ed89:b0:15a:d3e:ada6 with SMTP id e9-20020a170902ed8900b0015a0d3eada6mr39276616plj.94.1651239381708;
-        Fri, 29 Apr 2022 06:36:21 -0700 (PDT)
+        bh=TMZmZ4AGQljuOcKnvNnlPkQjL1BDLadEZvUt3w1Anw8=;
+        b=gkFNh3UO/HbxADKyP/dL1H/t1p3tJPjy//B8NS7vZWwHyXnoclktlEYW6PMPVyeUdr
+         LLB0867spvvYRm16AM+6mhPeetEKZC2+vqQqSM7ZNGv6dlpFcjDCN2GF4HIyedCh9rLr
+         o7XshNCP7iK44dTjaYseSWLdga186LkL29YqpTfpAe5dBXDi3koGH88zz7n3PXKVW6Rq
+         Yt0QEfRZGvYpN97WEPv/85YY7G1LQtq8ZYVNtvs1o/KVarTSs9/vgB/y7P4GGwlBAFwC
+         MeWMiDC6ApWuQHfJvqvnUx6h5EEzuFt7s7zDnVkE7bBc+MrWDcAyZ/lsMZdhWBuxxKs7
+         Rq+A==
+X-Gm-Message-State: AOAM531BgywyCOTc+UX7koKBcLLCsspcpDcbd3K5/Sb+Tm5IqTHyvR3O
+        Wrz1VVW/UKjCQyExST7EGd7R/Q==
+X-Google-Smtp-Source: ABdhPJxpxUNyJ4Q8PzIgoCFgG7OivbK5xNlpIRA+PWmaJAKluGlH8xiPo6kD1HPbaMTFamIM9Vs/pw==
+X-Received: by 2002:a17:90b:3a89:b0:1d9:b448:a932 with SMTP id om9-20020a17090b3a8900b001d9b448a932mr3941757pjb.173.1651239387248;
+        Fri, 29 Apr 2022 06:36:27 -0700 (PDT)
 Received: from localhost.localdomain ([139.177.225.240])
-        by smtp.gmail.com with ESMTPSA id m8-20020a17090a414800b001d81a30c437sm10681977pjg.50.2022.04.29.06.36.16
+        by smtp.gmail.com with ESMTPSA id m8-20020a17090a414800b001d81a30c437sm10681977pjg.50.2022.04.29.06.36.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 06:36:21 -0700 (PDT)
+        Fri, 29 Apr 2022 06:36:26 -0700 (PDT)
 From:   Qi Zheng <zhengqi.arch@bytedance.com>
 To:     akpm@linux-foundation.org, tglx@linutronix.de,
         kirill.shutemov@linux.intel.com, mika.penttila@nextfour.com,
@@ -55,9 +55,9 @@ To:     akpm@linux-foundation.org, tglx@linutronix.de,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, songmuchun@bytedance.com,
         zhouchengming@bytedance.com, Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: [RFC PATCH 01/18] x86/mm/encrypt: add the missing pte_unmap() call
-Date:   Fri, 29 Apr 2022 21:35:35 +0800
-Message-Id: <20220429133552.33768-2-zhengqi.arch@bytedance.com>
+Subject: [RFC PATCH 02/18] percpu_ref: make ref stable after percpu_ref_switch_to_atomic_sync() returns
+Date:   Fri, 29 Apr 2022 21:35:36 +0800
+Message-Id: <20220429133552.33768-3-zhengqi.arch@bytedance.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
 References: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
@@ -67,28 +67,246 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The paired pte_unmap() call is missing before the sme_populate_pgd()
-returns. Although this code only runs under the CONFIG_X86_64, for
-the correctness of the code semantics, it is necessary to add a
-paired pte_unmap() call.
+In the percpu_ref_call_confirm_rcu(), we call the wake_up_all()
+before calling percpu_ref_put(), which will cause the value of
+percpu_ref to be unstable when percpu_ref_switch_to_atomic_sync()
+returns.
+
+	CPU0				CPU1
+
+percpu_ref_switch_to_atomic_sync(&ref)
+--> percpu_ref_switch_to_atomic(&ref)
+    --> percpu_ref_get(ref);	/* put after confirmation */
+	call_rcu(&ref->data->rcu, percpu_ref_switch_to_atomic_rcu);
+
+					percpu_ref_switch_to_atomic_rcu
+					--> percpu_ref_call_confirm_rcu
+					    --> data->confirm_switch = NULL;
+						wake_up_all(&percpu_ref_switch_waitq);
+
+    /* here waiting to wake up */
+    wait_event(percpu_ref_switch_waitq, !ref->data->confirm_switch);
+						(A)percpu_ref_put(ref);
+/* The value of &ref is unstable! */
+percpu_ref_is_zero(&ref)
+						(B)percpu_ref_put(ref);
+
+As shown above, assuming that the counts on each cpu add up to 0 before
+calling percpu_ref_switch_to_atomic_sync(), we expect that after switching
+to atomic mode, percpu_ref_is_zero() can return true. But actually it will
+return different values in the two cases of A and B, which is not what
+we expected.
+
+Now there are two users of percpu_ref_switch_to_atomic_sync() in the kernel:
+
+	i. mddev->writes_pending in the driver/md/md.c
+	ii. q->q_usage_counter in the block/blk-pm.c
+
+And they are all used as shown above. In the worst case, percpu_ref_is_zero()
+may not hold because of the case B every time. While this is unlikely to occur
+in a production environment, it is a problem.
+
+This patch moves percpu_ref_put() out of the rcu handler and call it after
+wait_event(), which can makes ref stable after percpu_ref_switch_to_atomic_sync()
+returns. Then in the example above, percpu_ref_is_zero() can see a steady 0 value,
+which is what we would expect.
 
 Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
 ---
- arch/x86/mm/mem_encrypt_identity.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/linux/percpu-refcount.h |  4 ++-
+ lib/percpu-refcount.c           | 56 +++++++++++++++++++++++----------
+ 2 files changed, 43 insertions(+), 17 deletions(-)
 
-diff --git a/arch/x86/mm/mem_encrypt_identity.c b/arch/x86/mm/mem_encrypt_identity.c
-index b43bc24d2bb6..6d323230320a 100644
---- a/arch/x86/mm/mem_encrypt_identity.c
-+++ b/arch/x86/mm/mem_encrypt_identity.c
-@@ -190,6 +190,7 @@ static void __init sme_populate_pgd(struct sme_populate_pgd_data *ppd)
- 	pte = pte_offset_map(pmd, ppd->vaddr);
- 	if (pte_none(*pte))
- 		set_pte(pte, __pte(ppd->paddr | ppd->pte_flags));
-+	pte_unmap(pte);
+diff --git a/include/linux/percpu-refcount.h b/include/linux/percpu-refcount.h
+index d73a1c08c3e3..75844939a965 100644
+--- a/include/linux/percpu-refcount.h
++++ b/include/linux/percpu-refcount.h
+@@ -98,6 +98,7 @@ struct percpu_ref_data {
+ 	percpu_ref_func_t	*confirm_switch;
+ 	bool			force_atomic:1;
+ 	bool			allow_reinit:1;
++	bool			sync:1;
+ 	struct rcu_head		rcu;
+ 	struct percpu_ref	*ref;
+ };
+@@ -123,7 +124,8 @@ int __must_check percpu_ref_init(struct percpu_ref *ref,
+ 				 gfp_t gfp);
+ void percpu_ref_exit(struct percpu_ref *ref);
+ void percpu_ref_switch_to_atomic(struct percpu_ref *ref,
+-				 percpu_ref_func_t *confirm_switch);
++				 percpu_ref_func_t *confirm_switch,
++				 bool sync);
+ void percpu_ref_switch_to_atomic_sync(struct percpu_ref *ref);
+ void percpu_ref_switch_to_percpu(struct percpu_ref *ref);
+ void percpu_ref_kill_and_confirm(struct percpu_ref *ref,
+diff --git a/lib/percpu-refcount.c b/lib/percpu-refcount.c
+index af9302141bcf..3a8906715e09 100644
+--- a/lib/percpu-refcount.c
++++ b/lib/percpu-refcount.c
+@@ -99,6 +99,7 @@ int percpu_ref_init(struct percpu_ref *ref, percpu_ref_func_t *release,
+ 	data->release = release;
+ 	data->confirm_switch = NULL;
+ 	data->ref = ref;
++	data->sync = false;
+ 	ref->data = data;
+ 	return 0;
+ }
+@@ -146,21 +147,33 @@ void percpu_ref_exit(struct percpu_ref *ref)
+ }
+ EXPORT_SYMBOL_GPL(percpu_ref_exit);
+ 
++static inline void percpu_ref_switch_to_atomic_post(struct percpu_ref *ref)
++{
++	struct percpu_ref_data *data = ref->data;
++
++	if (!data->allow_reinit)
++		__percpu_ref_exit(ref);
++
++	/* drop ref from percpu_ref_switch_to_atomic() */
++	percpu_ref_put(ref);
++}
++
+ static void percpu_ref_call_confirm_rcu(struct rcu_head *rcu)
+ {
+ 	struct percpu_ref_data *data = container_of(rcu,
+ 			struct percpu_ref_data, rcu);
+ 	struct percpu_ref *ref = data->ref;
++	bool need_put = true;
++
++	if (data->sync)
++		need_put = data->sync = false;
+ 
+ 	data->confirm_switch(ref);
+ 	data->confirm_switch = NULL;
+ 	wake_up_all(&percpu_ref_switch_waitq);
+ 
+-	if (!data->allow_reinit)
+-		__percpu_ref_exit(ref);
+-
+-	/* drop ref from percpu_ref_switch_to_atomic() */
+-	percpu_ref_put(ref);
++	if (need_put)
++		percpu_ref_switch_to_atomic_post(ref);
  }
  
- static void __init __sme_map_range_pmd(struct sme_populate_pgd_data *ppd)
+ static void percpu_ref_switch_to_atomic_rcu(struct rcu_head *rcu)
+@@ -210,14 +223,19 @@ static void percpu_ref_noop_confirm_switch(struct percpu_ref *ref)
+ }
+ 
+ static void __percpu_ref_switch_to_atomic(struct percpu_ref *ref,
+-					  percpu_ref_func_t *confirm_switch)
++					  percpu_ref_func_t *confirm_switch,
++					  bool sync)
+ {
+ 	if (ref->percpu_count_ptr & __PERCPU_REF_ATOMIC) {
+ 		if (confirm_switch)
+ 			confirm_switch(ref);
++		if (sync)
++			percpu_ref_get(ref);
+ 		return;
+ 	}
+ 
++	ref->data->sync = sync;
++
+ 	/* switching from percpu to atomic */
+ 	ref->percpu_count_ptr |= __PERCPU_REF_ATOMIC;
+ 
+@@ -232,13 +250,16 @@ static void __percpu_ref_switch_to_atomic(struct percpu_ref *ref,
+ 	call_rcu(&ref->data->rcu, percpu_ref_switch_to_atomic_rcu);
+ }
+ 
+-static void __percpu_ref_switch_to_percpu(struct percpu_ref *ref)
++static void __percpu_ref_switch_to_percpu(struct percpu_ref *ref, bool sync)
+ {
+ 	unsigned long __percpu *percpu_count = percpu_count_ptr(ref);
+ 	int cpu;
+ 
+ 	BUG_ON(!percpu_count);
+ 
++	if (sync)
++		percpu_ref_get(ref);
++
+ 	if (!(ref->percpu_count_ptr & __PERCPU_REF_ATOMIC))
+ 		return;
+ 
+@@ -261,7 +282,8 @@ static void __percpu_ref_switch_to_percpu(struct percpu_ref *ref)
+ }
+ 
+ static void __percpu_ref_switch_mode(struct percpu_ref *ref,
+-				     percpu_ref_func_t *confirm_switch)
++				     percpu_ref_func_t *confirm_switch,
++				     bool sync)
+ {
+ 	struct percpu_ref_data *data = ref->data;
+ 
+@@ -276,9 +298,9 @@ static void __percpu_ref_switch_mode(struct percpu_ref *ref,
+ 			    percpu_ref_switch_lock);
+ 
+ 	if (data->force_atomic || percpu_ref_is_dying(ref))
+-		__percpu_ref_switch_to_atomic(ref, confirm_switch);
++		__percpu_ref_switch_to_atomic(ref, confirm_switch, sync);
+ 	else
+-		__percpu_ref_switch_to_percpu(ref);
++		__percpu_ref_switch_to_percpu(ref, sync);
+ }
+ 
+ /**
+@@ -302,14 +324,15 @@ static void __percpu_ref_switch_mode(struct percpu_ref *ref,
+  * switching to atomic mode, this function can be called from any context.
+  */
+ void percpu_ref_switch_to_atomic(struct percpu_ref *ref,
+-				 percpu_ref_func_t *confirm_switch)
++				 percpu_ref_func_t *confirm_switch,
++				 bool sync)
+ {
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&percpu_ref_switch_lock, flags);
+ 
+ 	ref->data->force_atomic = true;
+-	__percpu_ref_switch_mode(ref, confirm_switch);
++	__percpu_ref_switch_mode(ref, confirm_switch, sync);
+ 
+ 	spin_unlock_irqrestore(&percpu_ref_switch_lock, flags);
+ }
+@@ -325,8 +348,9 @@ EXPORT_SYMBOL_GPL(percpu_ref_switch_to_atomic);
+  */
+ void percpu_ref_switch_to_atomic_sync(struct percpu_ref *ref)
+ {
+-	percpu_ref_switch_to_atomic(ref, NULL);
++	percpu_ref_switch_to_atomic(ref, NULL, true);
+ 	wait_event(percpu_ref_switch_waitq, !ref->data->confirm_switch);
++	percpu_ref_switch_to_atomic_post(ref);
+ }
+ EXPORT_SYMBOL_GPL(percpu_ref_switch_to_atomic_sync);
+ 
+@@ -355,7 +379,7 @@ void percpu_ref_switch_to_percpu(struct percpu_ref *ref)
+ 	spin_lock_irqsave(&percpu_ref_switch_lock, flags);
+ 
+ 	ref->data->force_atomic = false;
+-	__percpu_ref_switch_mode(ref, NULL);
++	__percpu_ref_switch_mode(ref, NULL, false);
+ 
+ 	spin_unlock_irqrestore(&percpu_ref_switch_lock, flags);
+ }
+@@ -390,7 +414,7 @@ void percpu_ref_kill_and_confirm(struct percpu_ref *ref,
+ 		  ref->data->release);
+ 
+ 	ref->percpu_count_ptr |= __PERCPU_REF_DEAD;
+-	__percpu_ref_switch_mode(ref, confirm_kill);
++	__percpu_ref_switch_mode(ref, confirm_kill, false);
+ 	percpu_ref_put(ref);
+ 
+ 	spin_unlock_irqrestore(&percpu_ref_switch_lock, flags);
+@@ -470,7 +494,7 @@ void percpu_ref_resurrect(struct percpu_ref *ref)
+ 
+ 	ref->percpu_count_ptr &= ~__PERCPU_REF_DEAD;
+ 	percpu_ref_get(ref);
+-	__percpu_ref_switch_mode(ref, NULL);
++	__percpu_ref_switch_mode(ref, NULL, false);
+ 
+ 	spin_unlock_irqrestore(&percpu_ref_switch_lock, flags);
+ }
 -- 
 2.20.1
 
