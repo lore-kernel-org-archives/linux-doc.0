@@ -2,167 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7832C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 09:13:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FBBFC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 11:24:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352473AbiD2JRO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 05:17:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54760 "EHLO
+        id S1358263AbiD2L1s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 07:27:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238756AbiD2JRO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 05:17:14 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F32465F8E0;
-        Fri, 29 Apr 2022 02:13:56 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC7F51063;
-        Fri, 29 Apr 2022 02:13:56 -0700 (PDT)
-Received: from e123648.arm.com (unknown [10.57.14.15])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 474083F73B;
-        Fri, 29 Apr 2022 02:13:54 -0700 (PDT)
-From:   Lukasz Luba <lukasz.luba@arm.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     corbet@lwn.net, mingo@redhat.com, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, bristot@redhat.com, lukasz.luba@arm.com,
-        xuewen.yan@unisoc.com, linux-doc@vger.kernel.org
-Subject: [PATCH] sched: thermal_load_avg: Change the raising/decaying period mechanism
-Date:   Fri, 29 Apr 2022 10:12:45 +0100
-Message-Id: <20220429091245.12423-1-lukasz.luba@arm.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S1345528AbiD2L1r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 07:27:47 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDD5632ECF;
+        Fri, 29 Apr 2022 04:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651231469; x=1682767469;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=lb5yLVgnVmkYIIVoioX0WLdSXH8dIeW5esUM9LN0+Yw=;
+  b=JtFmQrsSBvjGoMstEdpTgLP8vLj4ghxj61X0Sg9bTsXUp21izRTEzKQG
+   Y6zVur5olhoKo1TswzYpCusMf1aKNE6PoQusgsNn/QX7NERlzFJoUu4k/
+   7XD/8bf/TrXbV92ukwW4ingwZ+YesOkj8K7gEn6h7MP1joHVeuuoAqTeM
+   X7/Rv5e/jIlFguNGiLLVflB+WI0qUxXsvydbQtAdNQru3LFYbNmXpXsCr
+   ysgcPGY27SpCxC4YOfQr5AfMsw49B4tCxgE4VfQS8ubCjU8++rNnR1X8P
+   Jvxg1IfQ/KdBmO3+uzKWD8eZr1a73mKG9/xX20NE+FCsslVW2RJE5c6ja
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10331"; a="266144752"
+X-IronPort-AV: E=Sophos;i="5.91,185,1647327600"; 
+   d="scan'208";a="266144752"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2022 04:21:35 -0700
+X-IronPort-AV: E=Sophos;i="5.91,185,1647327600"; 
+   d="scan'208";a="534437328"
+Received: from agerasym-mobl.ger.corp.intel.com (HELO localhost) ([10.249.133.25])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2022 04:21:29 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        David Gow <davidgow@google.com>
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kunit: Taint kernel if any tests run
+In-Reply-To: <YmuPFGrkzQYACgK0@kroah.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220429043913.626647-1-davidgow@google.com>
+ <YmuPFGrkzQYACgK0@kroah.com>
+Date:   Fri, 29 Apr 2022 14:21:26 +0300
+Message-ID: <87tuacrv7t.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The thermal pressure mechanism consists of two parts:
-1) PELT-like signal with its own clock (rq_clock_thermal()) which is
-   responsible for the raising/decaying characteristics
-2) instantaneous information provided in 'thermal_pressure' variable,
-   which is set by thermal framework or drivers to notify about
-   the throttling.
+On Fri, 29 Apr 2022, Greg KH <gregkh@linuxfoundation.org> wrote:
+> On Fri, Apr 29, 2022 at 12:39:14PM +0800, David Gow wrote:
+>> KUnit tests are not supposed to run on production systems: they may do
+>> deliberately illegal things to trigger errors, and have security
+>> implications (assertions will often deliberately leak kernel addresses).
+>> 
+>> Add a new taint type, TAINT_KUNIT to signal that a KUnit test has been
+>> run. This will be printed as 'N' (for kuNit, as K, U and T were already
+>> taken).
+>> 
+>> This should discourage people from running KUnit tests on production
+>> systems, and to make it easier to tell if tests have been run
+>> accidentally (by loading the wrong configuration, etc.)
+>> 
+>> Signed-off-by: David Gow <davidgow@google.com>
+>> ---
+>> 
+>> This is something I'd been thinking about for a while, and it came up
+>> again, so I'm finally giving it a go.
+>> 
+>> Two notes:
+>> - I decided to add a new type of taint, as none of the existing ones
+>>   really seemed to fit. We could live with considering KUnit tests as
+>>   TAINT_WARN or TAINT_CRAP or something otherwise, but neither are quite
+>>   right.
+>> - The taint_flags table gives a couple of checkpatch.pl errors around
+>>   bracket placement. I've kept the new entry consistent with what's
+>>   there rather than reformatting the whole table, but be prepared for
+>>   complaints about spaces.
+>> 
+>> Thoughts?
+>> -- David
+>> 
+>> ---
+>>  Documentation/admin-guide/tainted-kernels.rst | 1 +
+>>  include/linux/panic.h                         | 3 ++-
+>>  kernel/panic.c                                | 1 +
+>>  lib/kunit/test.c                              | 4 ++++
+>>  4 files changed, 8 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+>> index ceeed7b0798d..8f18fc4659d4 100644
+>> --- a/Documentation/admin-guide/tainted-kernels.rst
+>> +++ b/Documentation/admin-guide/tainted-kernels.rst
+>> @@ -100,6 +100,7 @@ Bit  Log  Number  Reason that got the kernel tainted
+>>   15  _/K   32768  kernel has been live patched
+>>   16  _/X   65536  auxiliary taint, defined for and used by distros
+>>   17  _/T  131072  kernel was built with the struct randomization plugin
+>> + 18  _/N  262144  a KUnit test has been run
+>>  ===  ===  ======  ========================================================
+>>  
+>>  Note: The character ``_`` is representing a blank in this table to make reading
+>> diff --git a/include/linux/panic.h b/include/linux/panic.h
+>> index f5844908a089..1d316c26bf27 100644
+>> --- a/include/linux/panic.h
+>> +++ b/include/linux/panic.h
+>> @@ -74,7 +74,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
+>>  #define TAINT_LIVEPATCH			15
+>>  #define TAINT_AUX			16
+>>  #define TAINT_RANDSTRUCT		17
+>> -#define TAINT_FLAGS_COUNT		18
+>> +#define TAINT_KUNIT			18
+>> +#define TAINT_FLAGS_COUNT		19
+>>  #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
+>>  
+>>  struct taint_flag {
+>> diff --git a/kernel/panic.c b/kernel/panic.c
+>> index eb4dfb932c85..b24ca63ed738 100644
+>> --- a/kernel/panic.c
+>> +++ b/kernel/panic.c
+>> @@ -404,6 +404,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
+>>  	[ TAINT_LIVEPATCH ]		= { 'K', ' ', true },
+>>  	[ TAINT_AUX ]			= { 'X', ' ', true },
+>>  	[ TAINT_RANDSTRUCT ]		= { 'T', ' ', true },
+>> +	[ TAINT_KUNIT ]			= { 'N', ' ', false },
+>
+> As kunit tests can be in modules, shouldn't this be "true" here?
+>
+> Overall, I like it, makes sense to me.  The "N" will take some getting
+> used to, and I have no idea why "T" was for "struct randomization", that
+> would have allowed you to use "T" instead.  Oh well.
 
-Add a new mechanism which allows to change the raising/decaying
-characteristics of the PELT-like thermal signal. To make this happen
-modify how the rq_clock_thermal() counts. Instead of only slowing down the
-clock, which results in longer raising/decaying periods, make it faster.
-Thanks to that the information about throttling can faster arrive at the
-right place in the scheduler. This faster propagation of information
-is useful for the latency sensitive stuff, such as RT tasks. In
-a situation of CPU capacity inversion, such task might suffer when
-staying on the lower capacity CPU.
+Would you consider a patch adding more self-explanatory taint flag
+strings to the output?
 
-Change the boot parameter 'sched_thermal_decay_shift' allowed values
-and use the negatives to speed up the thermal clock.
+BR,
+Jani.
 
-Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
----
-Hi all,
-
-This patch addresses an issue of missing configuration for the
-thermal pressure raising/decaying characteristic to be more instantaneous.
-This more sharp signal might be better if the raw thermal signal
-already has 'some logic' or doesn't change that often, like in IPA
-(every 100ms).
-
-I've prepared a notebook with experiments with different shifter
-values [0, -2, -3, -4, 2, 4] for IPA thermal update periods:
-50ms, 100ms (and also jumping between cooling states 0, 1 or 0, 3).
-It presents two signals: instantaneous thermal update and thermal_load_avg().
-It would be useful for discussion. I can provide more details if needed.
-
-Regards,
-Lukasz Luba
-
-[1] https://nbviewer.org/github/lukaszluba-arm/lisa/blob/public_tests/thermal_pressure_delays-all-ipa.ipynb
-
-
-
- Documentation/admin-guide/kernel-parameters.txt | 15 +++++++++++----
- kernel/sched/fair.c                             |  2 +-
- kernel/sched/sched.h                            | 17 +++++++++++++++--
- 3 files changed, 27 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index c2d1f8b5e8f3..ba32540f1fbf 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5117,15 +5117,22 @@
- 			pressure signal. Thermal pressure signal follows the
- 			default decay period of other scheduler pelt
- 			signals(usually 32 ms but configurable). Setting
--			sched_thermal_decay_shift will left shift the decay
--			period for the thermal pressure signal by the shift
--			value.
-+			a positive value for sched_thermal_decay_shift will
-+			left shift the decay period for the thermal pressure
-+			signal by the shift value. This would make
-+			raising/decaying characteristic longer. Setting
-+			a negative value will right shift the decay period
-+			by the shift value and make the raising/decaying
-+			characteristic more sharp.
- 			i.e. with the default pelt decay period of 32 ms
- 			sched_thermal_decay_shift   thermal pressure decay pr
-+				-2			8 ms
-+				-1			16 ms
-+				0			32 ms
- 				1			64 ms
- 				2			128 ms
- 			and so on.
--			Format: integer between 0 and 10
-+			Format: integer between -5 and 10
- 			Default is 0.
- 
- 	scftorture.holdoff= [KNL]
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 5146163bfabb..93cb7db5939c 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -100,7 +100,7 @@ static int __init setup_sched_thermal_decay_shift(char *str)
- 	if (kstrtoint(str, 0, &_shift))
- 		pr_warn("Unable to set scheduler thermal pressure decay shift parameter\n");
- 
--	sched_thermal_decay_shift = clamp(_shift, 0, 10);
-+	sched_thermal_decay_shift = clamp(_shift, -5, 10);
- 	return 1;
- }
- __setup("sched_thermal_decay_shift=", setup_sched_thermal_decay_shift);
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index de53be905739..cb453c0f3572 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -1478,8 +1478,14 @@ static inline u64 rq_clock_task(struct rq *rq)
- /**
-  * By default the decay is the default pelt decay period.
-  * The decay shift can change the decay period in
-- * multiples of 32.
-+ * multiples of 32 to make it longer or to make it shorter using
-+ * negative values as on the example below.
-  *  Decay shift		Decay period(ms)
-+ *	-5			1
-+ *	-4			2
-+ *	-3			4
-+ *	-2			8
-+ *	-1			16
-  *	0			32
-  *	1			64
-  *	2			128
-@@ -1490,7 +1496,14 @@ extern int sched_thermal_decay_shift;
- 
- static inline u64 rq_clock_thermal(struct rq *rq)
- {
--	return rq_clock_task(rq) >> sched_thermal_decay_shift;
-+	u64 thermal_clock = rq_clock_task(rq);
-+
-+	if (sched_thermal_decay_shift < 0)
-+		thermal_clock <<= -sched_thermal_decay_shift;
-+	else
-+		thermal_clock >>= sched_thermal_decay_shift;
-+
-+	return thermal_clock;
- }
- 
- static inline void rq_clock_skip_update(struct rq *rq)
 -- 
-2.17.1
-
+Jani Nikula, Intel Open Source Graphics Center
