@@ -2,242 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32C24C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 13:35:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60079C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 14:52:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382797AbiD3Niw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Apr 2022 09:38:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57486 "EHLO
+        id S1382867AbiD3OzR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Apr 2022 10:55:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345995AbiD3Nig (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Apr 2022 09:38:36 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511C4D47
-        for <linux-doc@vger.kernel.org>; Sat, 30 Apr 2022 06:35:14 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id a11so9082101pff.1
-        for <linux-doc@vger.kernel.org>; Sat, 30 Apr 2022 06:35:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=HQ59R31kOZxcptZQ/S5iazOxCiS3izDuAYFbVd8n5/E=;
-        b=069McI4DqR70XB3lIDxTUYctr70jsgeTteu9YrPkryeuCdx5reEP5fsrwymoWOztw0
-         UeacU9zAQAPbNv7GDh66Z6jn6K1L63pamKDQZbfImlOn6hHqtmNb4ofb2OkWugzt199f
-         jqMTrTWtn1ei+Rz+J0TYmpapdXx32AvycWXHPUd3jSYaK7B5GJKw2aTyXoT4aAdpOvzq
-         1/FgH64mmfuA/zm8GlAqH6C42e+yRk2rIkYybNE77mMNpwZ77ux8m9D0O08+RhW4pvqX
-         I8oWSX2QXZ+jZcH9xaUIJOWUSsWaPtg3YFtYQwzxGu4T9pOls3nmfVLOomr+RQvUUNzy
-         pmEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=HQ59R31kOZxcptZQ/S5iazOxCiS3izDuAYFbVd8n5/E=;
-        b=JGiHieWR8Ce9YJ+uF8+dVcP43uKskoa8IoEgPa4WDlZDx8mSKEWqj4VI8Tq3NHmT4O
-         n3f7Q0uo0RlOzLbENV4AmjOyVA8b3BexAW0QErPRTVPZRzM0JfeQPJSdUCPPr8lTap4p
-         YgSkGxWPeuufyoJVRPH5FjekmND8iJLGKegcV/DLnXgiyrXHOgqFsKw1OHF1OJT2DF6m
-         /hl7FlaFo7V1a+ij4citUKdZAaVAHP6cSUjF6N5SMS2qQZKjrPynm3nz7tMo+qtkdI2P
-         y0QtgKUts2JYJNtKgF1A3Xwrd0Q+9WgP8G9BPJE3eBN8rZ3rD9zNhsA0uzzvP/ExYHU2
-         T4Bw==
-X-Gm-Message-State: AOAM532opc6a+r7+yR4662bJ/rL8kZHoCPAyzDMdUWxqvcjxj9uDB4k4
-        HdqsDWCAYwVOgW6bcyf74KtmkQ==
-X-Google-Smtp-Source: ABdhPJw+GOcmPoRu8CvP5yUGeeT5/UT0/kkYaRyU2YknYleqFK6MVAW8Aww/4XsGKgnRkkTxY7ozXg==
-X-Received: by 2002:a63:1711:0:b0:3a6:d2df:65f6 with SMTP id x17-20020a631711000000b003a6d2df65f6mr3141798pgl.72.1651325713814;
-        Sat, 30 Apr 2022 06:35:13 -0700 (PDT)
-Received: from [10.254.246.218] ([139.177.225.240])
-        by smtp.gmail.com with ESMTPSA id m11-20020a17090a71cb00b001cd4989feebsm16625792pjs.55.2022.04.30.06.35.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 Apr 2022 06:35:13 -0700 (PDT)
-Message-ID: <a0b0b3f0-f10e-2832-f494-7cd111d038ff@bytedance.com>
-Date:   Sat, 30 Apr 2022 21:35:06 +0800
+        with ESMTP id S1382872AbiD3OzN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Apr 2022 10:55:13 -0400
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [IPv6:2001:4b7a:2000:18::169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 643B0340E9
+        for <linux-doc@vger.kernel.org>; Sat, 30 Apr 2022 07:51:49 -0700 (PDT)
+Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by m-r2.th.seeweb.it (Postfix) with ESMTPSA id E34F23F685;
+        Sat, 30 Apr 2022 16:51:46 +0200 (CEST)
+Date:   Sat, 30 Apr 2022 16:51:45 +0200
+From:   Marijn Suijten <marijn.suijten@somainline.org>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        Luca Weiss <luca@z3ntu.xyz>,
+        Doug Anderson <dianders@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
+Message-ID: <20220430145145.2zlxahmtjwyzezkg@SoMainline.org>
+References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
+ <20220303214300.59468-2-bjorn.andersson@linaro.org>
+ <20220430123502.7od55knvxkw3sv6s@SoMainline.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 13/18] mm: add try_to_free_user_pte() helper
-Content-Language: en-US
-To:     akpm@linux-foundation.org, tglx@linutronix.de,
-        kirill.shutemov@linux.intel.com, david@redhat.com, jgg@nvidia.com,
-        tj@kernel.org, dennis@kernel.org, ming.lei@redhat.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, songmuchun@bytedance.com,
-        zhouchengming@bytedance.com
-References: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
- <20220429133552.33768-14-zhengqi.arch@bytedance.com>
-From:   Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <20220429133552.33768-14-zhengqi.arch@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220430123502.7od55knvxkw3sv6s@SoMainline.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2022/4/29 9:35 PM, Qi Zheng wrote:
-> Normally, the percpu_ref of the user PTE page table page is in
-> percpu mode. This patch add try_to_free_user_pte() to switch
-> the percpu_ref to atomic mode and check if it is 0. If the
-> percpu_ref is 0, which means that no one is using the user PTE
-> page table page, then we can safely reclaim it.
+On 2022-04-30 14:35:04, Marijn Suijten wrote:
+[..]
+> > +static int lpg_add_led(struct lpg *lpg, struct device_node *np)
+> > +{
+> > +	struct led_init_data init_data = {};
+> > +	struct led_classdev *cdev;
+> > +	struct device_node *child;
+> > +	struct mc_subled *info;
+> > +	struct lpg_led *led;
+> > +	const char *state;
+> > +	int num_channels;
+> > +	u32 color = 0;
+> > +	int ret;
+> > +	int i;
+> > +
+> > +	ret = of_property_read_u32(np, "color", &color);
+> > +	if (ret < 0 && ret != -EINVAL) {
+> > +		dev_err(lpg->dev, "failed to parse \"color\" of %pOF\n", np);
+> > +		return ret;
+> > +	}
+> > +
+> > +	if (color == LED_COLOR_ID_RGB)
+> > +		num_channels = of_get_available_child_count(np);
+> > +	else
+> > +		num_channels = 1;
+> > +
+> > +	led = devm_kzalloc(lpg->dev, struct_size(led, channels, num_channels), GFP_KERNEL);
+> > +	if (!led)
+> > +		return -ENOMEM;
+> > +
+> > +	led->lpg = lpg;
+> > +	led->num_channels = num_channels;
+> > +
+> > +	if (color == LED_COLOR_ID_RGB) {
+> > +		info = devm_kcalloc(lpg->dev, num_channels, sizeof(*info), GFP_KERNEL);
+> > +		if (!info)
+> > +			return -ENOMEM;
+> > +		i = 0;
+> > +		for_each_available_child_of_node(np, child) {
+> > +			ret = lpg_parse_channel(lpg, child, &led->channels[i]);
+> > +			if (ret < 0)
+> > +				return ret;
+> > +
+> > +			info[i].color_index = led->channels[i]->color;
+> > +			info[i].intensity = 0;
 > 
-> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
-> ---
->   include/linux/pte_ref.h |  7 +++
->   mm/pte_ref.c            | 99 ++++++++++++++++++++++++++++++++++++++++-
->   2 files changed, 104 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/pte_ref.h b/include/linux/pte_ref.h
-> index bfe620038699..379c3b45a6ab 100644
-> --- a/include/linux/pte_ref.h
-> +++ b/include/linux/pte_ref.h
-> @@ -16,6 +16,8 @@ void free_user_pte(struct mm_struct *mm, pmd_t *pmd, unsigned long addr);
->   bool pte_tryget(struct mm_struct *mm, pmd_t *pmd, unsigned long addr);
->   void __pte_put(pgtable_t page);
->   void pte_put(pte_t *ptep);
-> +void try_to_free_user_pte(struct mm_struct *mm, pmd_t *pmd, unsigned long addr,
-> +			  bool switch_back);
->   
->   #else /* !CONFIG_FREE_USER_PTE */
->   
-> @@ -47,6 +49,11 @@ static inline void pte_put(pte_t *ptep)
->   {
->   }
->   
-> +static inline void try_to_free_user_pte(struct mm_struct *mm, pmd_t *pmd,
-> +					unsigned long addr, bool switch_back)
-> +{
-> +}
-> +
->   #endif /* CONFIG_FREE_USER_PTE */
->   
->   #endif /* _LINUX_PTE_REF_H */
-> diff --git a/mm/pte_ref.c b/mm/pte_ref.c
-> index 5b382445561e..bf9629272c71 100644
-> --- a/mm/pte_ref.c
-> +++ b/mm/pte_ref.c
-> @@ -8,6 +8,9 @@
->   #include <linux/pte_ref.h>
->   #include <linux/percpu-refcount.h>
->   #include <linux/slab.h>
-> +#include <linux/hugetlb.h>
-> +#include <asm/tlbflush.h>
-> +#include <asm/pgalloc.h>
->   
->   #ifdef CONFIG_FREE_USER_PTE
->   
-> @@ -44,8 +47,6 @@ void pte_ref_free(pgtable_t pte)
->   	kfree(ref);
->   }
->   
-> -void free_user_pte(struct mm_struct *mm, pmd_t *pmd, unsigned long addr) {}
-> -
->   /*
->    * pte_tryget - try to get the pte_ref of the user PTE page table page
->    * @mm: pointer the target address space
-> @@ -102,4 +103,98 @@ void pte_put(pte_t *ptep)
->   }
->   EXPORT_SYMBOL(pte_put);
->   
-> +#ifdef CONFIG_DEBUG_VM
-> +void pte_free_debug(pmd_t pmd)
-> +{
-> +	pte_t *ptep = (pte_t *)pmd_page_vaddr(pmd);
-> +	int i = 0;
-> +
-> +	for (i = 0; i < PTRS_PER_PTE; i++)
-> +		BUG_ON(!pte_none(*ptep++));
-> +}
-> +#else
-> +static inline void pte_free_debug(pmd_t pmd)
-> +{
-> +}
-> +#endif
-> +
-> +static inline void pte_free_rcu(struct rcu_head *rcu)
-> +{
-> +	struct page *page = container_of(rcu, struct page, rcu_head);
-> +
-> +	pgtable_pte_page_dtor(page);
-> +	__free_page(page);
-> +}
-> +
-> +/*
-> + * free_user_pte - free the user PTE page table page
-> + * @mm: pointer the target address space
-> + * @pmd: pointer to a PMD
-> + * @addr: start address of the tlb range to be flushed
-> + *
-> + * Context: The pmd range has been unmapped and TLB purged. And the user PTE
-> + *	    page table page will be freed by rcu handler.
-> + */
-> +void free_user_pte(struct mm_struct *mm, pmd_t *pmd, unsigned long addr)
-> +{
-> +	struct vm_area_struct vma = TLB_FLUSH_VMA(mm, 0);
-> +	spinlock_t *ptl;
-> +	pmd_t pmdval;
-> +
-> +	ptl = pmd_lock(mm, pmd);
-> +	pmdval = *pmd;
-> +	if (pmd_none(pmdval) || pmd_leaf(pmdval)) {
-> +		spin_unlock(ptl);
-> +		return;
-> +	}
-> +	pmd_clear(pmd);
-> +	flush_tlb_range(&vma, addr, addr + PMD_SIZE);
-> +	spin_unlock(ptl);
-> +
-> +	pte_free_debug(pmdval);
-> +	mm_dec_nr_ptes(mm);
-> +	call_rcu(&pmd_pgtable(pmdval)->rcu_head, pte_free_rcu);
-> +}
-> +
-> +/*
-> + * try_to_free_user_pte - try to free the user PTE page table page
-> + * @mm: pointer the target address space
-> + * @pmd: pointer to a PMD
-> + * @addr: virtual address associated with pmd
-> + * @switch_back: indicates if switching back to percpu mode is required
-> + */
-> +void try_to_free_user_pte(struct mm_struct *mm, pmd_t *pmd, unsigned long addr,
-> +			  bool switch_back)
-> +{
-> +	pgtable_t pte;
-> +
-> +	if (&init_mm == mm)
-> +		return;
-> +
-> +	if (!pte_tryget(mm, pmd, addr))
-> +		return;
-> +	pte = pmd_pgtable(*pmd);
-> +	percpu_ref_switch_to_atomic_sync(pte->pte_ref);
-> +	rcu_read_lock();
-> +	/*
-> +	 * Here we can safely put the pte_ref because we already hold the rcu
-> +	 * lock, which guarantees that the user PTE page table page will not
-> +	 * be released.
-> +	 */
-> +	__pte_put(pte);
-> +	if (percpu_ref_is_zero(pte->pte_ref)) {
-> +		rcu_read_unlock();
-> +		free_user_pte(mm, pmd, addr & PMD_MASK);
-> +		return;
-> +	}
-> +	rcu_read_unlock();
-> +
-> +	if (switch_back) {
-> +		if (pte_tryget(mm, pmd, addr)) {
-> +			percpu_ref_switch_to_percpu(pte->pte_ref);
-> +			__pte_put(pte);
-> +		}
-> +	}
+> This struct also has a "channel" field that doesn't seem to be used
+> anywhere.  Should we still initialize it to something sensible, or is it
+> better reported upstream for removal?
 
-We shouldn't switch back to percpu mode here, it will drastically reduce
-performance.
+Never mind the second bit: lp552[13] uses the `channel` field internally
+to store a custom index.  This LPG driver simply iterates over all the
+led channels (stored in the LPG struct, with all necessary info) in the
+same order as the subleds in the multicolor led device, so it's most
+likely of no use for us.
 
-> +}
-> +
->   #endif /* CONFIG_FREE_USER_PTE */
-
--- 
-Thanks,
-Qi
+- Marijn
