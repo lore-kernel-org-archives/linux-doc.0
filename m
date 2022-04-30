@@ -2,170 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC06AC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 03:00:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 330B4C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 05:44:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382092AbiD3DEE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 23:04:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39944 "EHLO
+        id S1357629AbiD3FsG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Apr 2022 01:48:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344530AbiD3DDt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 23:03:49 -0400
-Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 117FDE0F1
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 20:00:25 -0700 (PDT)
-Received: by mail-pj1-x104a.google.com with SMTP id t24-20020a17090a449800b001d2d6e740c3so7741461pjg.9
-        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 20:00:25 -0700 (PDT)
+        with ESMTP id S1352200AbiD3FsG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Apr 2022 01:48:06 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31A7451339
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 22:44:45 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id k1so187311pll.4
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 22:44:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=Y0mJtz6kGToZ1XuYtks7aF8CEo8QOuFB6egMwMGeOWg=;
-        b=nbl8KYpua6DCCViS49Tu7tFMSfJFNtItyA9PjOYQUt/zaQpxJ+Qk+MzKnJ2Uws5813
-         xILu9buerl4skg+dLPG/xwJtdhMH3qEk5SBHQt7izarOoqvXn5fBrbXlNdo9FWjmOCtt
-         k46+OAwUgCUm2leSRfcbs5hVejtSDmlCDWUzfHxc8J8u5APkCXBPw9AYO+c0gI1hDA0a
-         t4l0pVkk10pT2rq+2WfVNPeHTchGYQ5ggguwhCUF7XocASQx2Sud+OyHJNMIPlu+8BSU
-         0foH7DU3KVCt+LPQ7JLp3CyA7ngS1P4UENLCGzqoVwxsuv3R4da85sDJd2h6T4dEDxWl
-         wjBQ==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=nMDKk7f5M2tgu0ZP+aeUDb0bQnhlCJAR66AvIm0h2wY=;
+        b=CVpsBq8XB9ZJCpjyhhHCHXvR6itZF3NzbTvqunb2cjGkHEjhyCUtqbdNFM7wrX4ah6
+         KHtxOKjNdlUB02TgJB59fmHOq0Dx3OMosOD1YRTJqZLr/P6CBoppq+8eNCi9n9005+nL
+         fUTlLCmV4EQ5dhOwB5qtczv9NeQXHVTo2NK3Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=Y0mJtz6kGToZ1XuYtks7aF8CEo8QOuFB6egMwMGeOWg=;
-        b=RZEoAK+hi8Af3b9jsvlGoZ+1QNrXCPuIs5dHaJFyXYlWIDlzTq9V7m8Fj5w9ZF3hbh
-         vLHYHRxZ7kdYqgY4ANZKqmJhZuJl6UB7E8b+7U2m7LjcCtg+QUsqHD3TWF0IclE0yGsQ
-         q4YhYdCrRbDHDwIP+i5ii8Y2zYGlyXcVw23/xc1ELbRu780RqgfnVSimsd0Kj8iJ+cJw
-         D0p7QnOWrz2bxmkCtC3VHTlIvlyICM6MgUtPyt2SiTC08GQOOzvMzqDhyAHaexD0t/EY
-         mp8YOTKyZ0ahvRy5kuYT3VbpVoqGdyf7t3fr2BuYwc76zXaZ0zyBmjfCRCAY0reDos07
-         hWtQ==
-X-Gm-Message-State: AOAM532b6HqcIDqX+35aPkYOn4i3IlqbFcYnTIiVutuTkxT+JpRD9JNg
-        Vev+XtU47v1IRutAEsX6d6HIlf90bZC/+g==
-X-Google-Smtp-Source: ABdhPJyrr+ZW4u6syRGXqvYmBAKZH0ORoShKd169l9smKllVepRzNAcvxS7PCTyychjlH0jQZuqOha85xnlSKg==
-X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a17:90a:c986:b0:1d9:56e7:4e83 with SMTP
- id w6-20020a17090ac98600b001d956e74e83mr497866pjt.1.1651287624304; Fri, 29
- Apr 2022 20:00:24 -0700 (PDT)
-Date:   Sat, 30 Apr 2022 11:00:19 +0800
-In-Reply-To: <20220429043913.626647-1-davidgow@google.com>
-Message-Id: <20220430030019.803481-1-davidgow@google.com>
-Mime-Version: 1.0
-References: <20220429043913.626647-1-davidgow@google.com>
-X-Mailer: git-send-email 2.36.0.464.gb9c8b46e94-goog
-Subject: [PATCH v2] kunit: Taint kernel if any tests run
-From:   David Gow <davidgow@google.com>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>
-Cc:     David Gow <davidgow@google.com>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=nMDKk7f5M2tgu0ZP+aeUDb0bQnhlCJAR66AvIm0h2wY=;
+        b=Va4Df905BxDqlPUdiA2TJA5+LzohKJUcJJ4g+l+YRT86v1a7Vy2cFquE8Mqn8qmv59
+         uDw5OjyDQy+v6hkmL0vDRM4f0rcM8gEZw9Hax7LiiIUgHWtFJ2AwTsubDK4CdIZcF/jF
+         3fRDOMCIxEwvSR5jBZG3+YkstN1cS3ptW+1FUnyeQy+hpmBePJSB+731V9dzOPMeB9uu
+         j1zlKEy75cByVj1aP/50+rp3O94zW0usKTpJdQuJxh6Zxz9QaO8s6tX/E8GbWvwJR3iA
+         KReTULOWTWyMHY4QgygSu/UTWL13SY1wzJg+rCJ2XtC8wzreXdciEal5xeYOttslKVYt
+         oyAQ==
+X-Gm-Message-State: AOAM531vLmT++LLgohBt+lcKTWLz+oD+WkObIpfoml3ExYAc7ggVA/8E
+        ch7FiMEEs9IzFxjdTAHnFFzy8DtH/LFItBi36twB3uED3QqaSg==
+X-Google-Smtp-Source: ABdhPJw2QIJIWitYOoFtC6x8j5Cv00SwGPReTPEBu/QJvYbrFHLlet+hLnaBYeHoK52gPmjz2Q/uKHz6jhjYA5V1qKI=
+X-Received: by 2002:a17:90a:4417:b0:1ca:a861:3fbf with SMTP id
+ s23-20020a17090a441700b001caa8613fbfmr7714140pjg.80.1651297484488; Fri, 29
+ Apr 2022 22:44:44 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220429230001.6124-1-fujimotokosuke0@gmail.com>
+In-Reply-To: <20220429230001.6124-1-fujimotokosuke0@gmail.com>
+From:   Tsugikazu Shibata <shibata@linuxfoundation.org>
+Date:   Sat, 30 Apr 2022 14:44:33 +0900
+Message-ID: <CAO+cJp0T-OrC1x+pTezPqWdkOKcSXutLF6yb=YO7TCVMh7BxwQ@mail.gmail.com>
+Subject: Re: [PATCH v4] docs/trans/ja_JP/howto: Don't mention specific kernel versions
+To:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+Cc:     corbet@lwn.net, Akira Yokosawa <akiyks@gmail.com>,
+        skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-KUnit tests are not supposed to run on production systems: they may do
-deliberately illegal things to trigger errors, and have security
-implications (assertions will often deliberately leak kernel addresses).
-
-Add a new taint type, TAINT_KUNIT to signal that a KUnit test has been
-run. This will be printed as 'N' (for kuNit, as K, U and T were already
-taken).
-
-This should discourage people from running KUnit tests on production
-systems, and to make it easier to tell if tests have been run
-accidentally (by loading the wrong configuration, etc.)
-
-Signed-off-by: David Gow <davidgow@google.com>
----
-
-Changes since v1:
-https://lore.kernel.org/linux-kselftest/20220429043913.626647-1-davidgow@google.com/
-- Make the taint per-module, to handle the case when tests are in
-  (longer lasting) modules. (Thanks Greg KH).
-
-Note that this still has checkpatch.pl warnings around bracket
-placement, which are intentional as part of matching the surrounding
-code.
-
----
- Documentation/admin-guide/tainted-kernels.rst | 1 +
- include/linux/panic.h                         | 3 ++-
- kernel/panic.c                                | 1 +
- lib/kunit/test.c                              | 4 ++++
- 4 files changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-index ceeed7b0798d..8f18fc4659d4 100644
---- a/Documentation/admin-guide/tainted-kernels.rst
-+++ b/Documentation/admin-guide/tainted-kernels.rst
-@@ -100,6 +100,7 @@ Bit  Log  Number  Reason that got the kernel tainted
-  15  _/K   32768  kernel has been live patched
-  16  _/X   65536  auxiliary taint, defined for and used by distros
-  17  _/T  131072  kernel was built with the struct randomization plugin
-+ 18  _/N  262144  a KUnit test has been run
- ===  ===  ======  ========================================================
- 
- Note: The character ``_`` is representing a blank in this table to make reading
-diff --git a/include/linux/panic.h b/include/linux/panic.h
-index f5844908a089..1d316c26bf27 100644
---- a/include/linux/panic.h
-+++ b/include/linux/panic.h
-@@ -74,7 +74,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
- #define TAINT_LIVEPATCH			15
- #define TAINT_AUX			16
- #define TAINT_RANDSTRUCT		17
--#define TAINT_FLAGS_COUNT		18
-+#define TAINT_KUNIT			18
-+#define TAINT_FLAGS_COUNT		19
- #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
- 
- struct taint_flag {
-diff --git a/kernel/panic.c b/kernel/panic.c
-index eb4dfb932c85..9a026d98a00c 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -404,6 +404,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
- 	[ TAINT_LIVEPATCH ]		= { 'K', ' ', true },
- 	[ TAINT_AUX ]			= { 'X', ' ', true },
- 	[ TAINT_RANDSTRUCT ]		= { 'T', ' ', true },
-+	[ TAINT_KUNIT ]			= { 'N', ' ', true },
- };
- 
- /**
-diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-index 0f66c13d126e..ea8e9162445d 100644
---- a/lib/kunit/test.c
-+++ b/lib/kunit/test.c
-@@ -11,6 +11,7 @@
- #include <kunit/test-bug.h>
- #include <linux/kernel.h>
- #include <linux/moduleparam.h>
-+#include <linux/panic.h>
- #include <linux/sched/debug.h>
- #include <linux/sched.h>
- 
-@@ -498,6 +499,9 @@ int kunit_run_tests(struct kunit_suite *suite)
- 	struct kunit_result_stats suite_stats = { 0 };
- 	struct kunit_result_stats total_stats = { 0 };
- 
-+	/* Taint the kernel so we know we've run tests. */
-+	add_taint(TAINT_KUNIT, LOCKDEP_STILL_OK);
-+
- 	kunit_print_subtest_start(suite);
- 
- 	kunit_suite_for_each_test_case(suite, test_case) {
--- 
-2.36.0.464.gb9c8b46e94-goog
-
+SGVsbG8gRnVqaW1vdG8tc2FuLA0KDQpUaGFua3MgZm9yIHRoZSBwYXRjaC4NClVuZm9ydHVuYXRl
+bHksIEkgZm91bmQgb25lIG1vcmUgaXNzdWUuLg0KDQpPbiBTYXQsIEFwciAzMCwgMjAyMiBhdCA4
+OjAwIEFNIEtvc3VrZSBGdWppbW90bw0KPGZ1amltb3Rva29zdWtlMEBnbWFpbC5jb20+IHdyb3Rl
+Og0KPg0KPiBUaGlzIGNoYW5nZSBpcyBiYXNlZCBvbiBjb21taXQgZDJiMDA4ZjEzNGI3DQo+ICgi
+RG9jdW1lbnRhdGlvbi9wcm9jZXNzL2hvd3RvOiBVcGRhdGUgZm9yIDQueCAtPiA1LnggdmVyc2lv
+bmluZyIpLg0KPg0KPiBSZXBsYWNlICI0Lngga2VybmVsIHZlcnNpb24iIHdpdGggZ2VuZXJpYyB0
+ZXJtIHN1Y2ggYXMgIm1haW5saW5lIHRyZWUiDQo+DQo+IFNpZ25lZC1vZmYtYnk6IEtvc3VrZSBG
+dWppbW90byA8ZnVqaW1vdG9rb3N1a2UwQGdtYWlsLmNvbT4NCj4gUmV2aWV3ZWQtYnk6IEFraXJh
+IFlva29zYXdhIDxha2l5a3NAZ21haWwuY29tPg0KPiAtLS0NCj4gVjI6IFJlZm9ybWF0dGVkIGNv
+bW1pdCBsb2cgbWVzc2FnYWUgKFlva29zYXdhLXNhbikNCj4gVjM6IFVwZGF0ZWQgc29tZSBleHBy
+ZXNzaW9ucyAoU2hpYmF0YS1zYW4pDQo+IC0gYWRkZWQgInZlcnNpb24gbnVtYmVyIiBpbiBtYWlu
+bGluZSB0cmVlIHNlY3Rpb24NCj4gLSB1cGRhdGVkIGZyb20gInN0YWJsZSBrZXJuZWwiIHRvICJz
+dGFibGUgdHJlZSINCj4gVjQ6IEFkZGVkIHJldmlld2VkIGJ5IHRhZyBhbmQgcmVtb3ZlZCBleHRy
+YSBjaGFyYWN0ZXJzIChZb2tvc2F3YS1zYW4pDQo+IC0tLQ0KPiAgRG9jdW1lbnRhdGlvbi90cmFu
+c2xhdGlvbnMvamFfSlAvaG93dG8ucnN0IHwgNDQgKysrKysrKysrKystLS0tLS0tLS0tLQ0KPiAg
+MSBmaWxlIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDIzIGRlbGV0aW9ucygtKQ0KPg0KPiBk
+aWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvamFfSlAvaG93dG8ucnN0IGIv
+RG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvamFfSlAvaG93dG8ucnN0DQo+IGluZGV4IGQ2Njdm
+OWQ4YTAyYS4uZGVhYzQxZWIwMzhhIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5z
+bGF0aW9ucy9qYV9KUC9ob3d0by5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
+bnMvamFfSlAvaG93dG8ucnN0DQo+IEBAIC0yNjIsMjEgKzI2MiwyMSBAQCBMaW51eCDjgqvjg7zj
+g43jg6vjga7plovnmbrjg5fjg63jgrvjgrnjga/nj77lnKjlub7jgaTjgYvjga7nlbDjgarjgovj
+g6HjgqTjg7MNCj4gIOODgeOAjeOBqOWkmuaVsOOBruOCteODluOCt+OCueODhuODoOavjuOBruOC
+q+ODvOODjeODq+ODluODqeODs+ODgeOBi+OCieani+aIkOOBleOCjOOBvuOBmeOAguOBk+OCjOOC
+ieOBrg0KPiAg44OW44Op44Oz44OB44Go44GvIC0NCj4NCj4gLSAgLSDjg6HjgqTjg7Pjga4gNC54
+IOOCq+ODvOODjeODq+ODhOODquODvA0KPiAtICAtIDQueC55IC1zdGFibGUg44Kr44O844ON44Or
+44OE44Oq44O8DQo+IC0gIC0g44K144OW44K344K544OG44Og5q+O44Gu44Kr44O844ON44Or44OE
+44Oq44O844Go44OR44OD44OBDQo+IC0gIC0g57Wx5ZCI44OG44K544OI44Gu44Gf44KB44GuIDQu
+eCAtbmV4dCDjgqvjg7zjg43jg6vjg4Tjg6rjg7wNCj4gKyAgLSBMaW51cyDjga7jg6HjgqTjg7Pj
+g6njgqTjg7Pjg4Tjg6rjg7wNCj4gKyAgLSDjg6Hjgrjjg6Pjg7znlarlj7fjgpLjgb7jgZ/jgZDm
+lbDmnKzjga7lronlrprniYjjg4Tjg6rjg7wNCj4gKyAgLSDjgrXjg5bjgrfjgrnjg4bjg6Dmr47j
+ga7jgqvjg7zjg43jg6vjg4Tjg6rjg7wNCj4gKyAgLSDntbHlkIjjg4bjgrnjg4jjga7jgZ/jgoHj
+ga4gbGludXgtbmV4dCDjgqvjg7zjg43jg6vjg4Tjg6rjg7wNCj4NCj4gLTQueCDjgqvjg7zjg43j
+g6vjg4Tjg6rjg7wNCj4gK+ODoeOCpOODs+ODqeOCpOODs+ODhOODquODvA0KPiAgfn5+fn5+fn5+
+fn5+fn5+fn5+DQo+DQo+IC00Lngg44Kr44O844ON44Or44GvIExpbnVzIFRvcnZhbGRzIOOBq+OC
+iOOBo+OBpuODoeODs+ODhuODiuODs+OCueOBleOCjOOAgQ0KPiAtaHR0cHM6Ly9rZXJuZWwub3Jn
+IOOBriBwdWIvbGludXgva2VybmVsL3Y0LngvIOODh+OCo+ODrOOCr+ODiOODquOBq+WtmOWcqOOB
+l+OBvuOBmeOAgg0KPiAr44Oh44Kk44Oz44Op44Kk44Oz44OE44Oq44O844GvIExpbnVzIFRvcnZh
+bGRzIOOBq+OCiOOBo+OBpuODoeODs+ODhuODiuODs+OCueOBleOCjOOAgQ0KPiAraHR0cHM6Ly9r
+ZXJuZWwub3JnIOOBruODquODneOCuOODiOODquOBq+WtmOWcqOOBl+OBvuOBmeOAgg0KPiAg44GT
+44Gu6ZaL55m644OX44Ot44K744K544Gv5Lul5LiL44Gu44Go44GK44KKIC0NCj4NCj4gICAgLSDm
+lrDjgZfjgYTjgqvjg7zjg43jg6vjgYzjg6rjg6rjg7zjgrnjgZXjgozjgZ/nm7TlvozjgavjgIEy
+6YCx6ZaT44Gu54m55Yil5pyf6ZaT44GM6Kit44GR44KJ44KM44CBDQo+ICAgICAg44GT44Gu5pyf
+6ZaT5Lit44Gr44CB44Oh44Oz44OG44OK6YGU44GvIExpbnVzIOOBq+Wkp+OBjeOBquW3ruWIhuOC
+kumAgeOCi+OBk+OBqOOBjOOBp+OBjeOBvuOBmeOAgg0KPiAtICAgIOOBk+OBruOCiOOBhuOBquW3
+ruWIhuOBr+mAmuW4uCAtbmV4dCDjgqvjg7zjg43jg6vjgavmlbDpgLHplpPlkKvjgb7jgozjgabj
+gY3jgZ/jg5Hjg4Pjg4HjgafjgZnjgIINCj4gKyAgICDjgZPjga7jgojjgYbjgarlt67liIbjga/p
+gJrluLggbGludXgtbmV4dCDjgqvjg7zjg43jg6vjgavmlbDpgLHplpPlkKvjgb7jgozjgabjgY3j
+gZ/jg5Hjg4Pjg4HjgafjgZnjgIINCj4gICAgICDlpKfjgY3jgarlpInmm7Tjga8gZ2l0KOOCq+OD
+vOODjeODq+OBruOCveODvOOCueeuoeeQhuODhOODvOODq+OAgeips+e0sOOBrw0KPiAgICAgIGh0
+dHA6Ly9naXQtc2NtLmNvbS8g5Y+C54WnKSDjgpLkvb/jgaPjgabpgIHjgovjga7jgYzlpb3jgb7j
+gZfjgYTjgoTjgormlrnjgafjgZnjgYzjgIHjg5Hjg4MNCj4gICAgICDjg4Hjg5XjgqHjgqTjg6vj
+ga7lvaLlvI/jga7jgb7jgb7pgIHjgovjga7jgafjgoLljYHliIbjgafjgZnjgIINCj4gQEAgLTMw
+MywyMCArMzAzLDE4IEBAIEFuZHJldyBNb3J0b24g44GMIExpbnV4LWtlcm5lbCDjg6Hjg7zjg6rj
+g7PjgrDjg6rjgrnjg4jjgavjgqvjg7zjg43jg6vjg6rjg6rjg7wNCj4gICAgICAgICAg5YmN44KC
+44Gj44Gm5rG644KB44KJ44KM44Gf6KiI55S744Gr44KI44Gj44Gm44Oq44Oq44O844K544GV44KM
+44KL44KC44Gu44Gn44Gv44Gq44GE44GL44KJDQo+ICAgICAgICAgIOOBp+OBmeOAguOAjSoNCj4N
+Cj4gLTQueC55IC1zdGFibGUg44Kr44O844ON44Or44OE44Oq44O8DQo+IC1+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+DQo+ICvjg6Hjgrjjg6Pjg7znlarlj7fjgpLjgb7jgZ/jgZDmlbDmnKzj
+ga7lronlrprniYjjg4Tjg6rjg7wNCj4gK35+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fg0KPg0KPiAg44OQ44O844K444On44Oz55Wq5Y+344GMM+OBpOOBruaVsOWtl+OBq+WI
+huOBi+OCjOOBpuOBhOOCi+OCq+ODvOODjeODq+OBryAtc3RhYmxlIOOCq+ODvOODjeODq+OBp+OB
+meOAgg0KPiAt44GT44KM44Gr44Gv44CBNC54IOOCq+ODvOODjeODq+OBp+imi+OBpOOBi+OBo+OB
+n+OCu+OCreODpeODquODhuOCo+WVj+mhjOOChOmHjeWkp+OBquW+jOaIu+OCiuOBq+WvvuOBmQ0K
+PiAt44KL5q+U6LyD55qE5bCP44GV44GE6YeN6KaB44Gq5L+u5q2j44GM5ZCr44G+44KM44G+44GZ
+44CCDQo+ICvjgZPjgozjgavjga/mnIDliJ3jga4y44Gk44Gu44OQ44O844K444On44Oz55Wq5Y+3
+44Gu5pWw5a2X44Gr5a++5b+c44GX44Gf44CBDQo+ICvjg6HjgqTjg7Pjg6njgqTjg7Pjg6rjg6rj
+g7zjgrnjgafopovjgaTjgYvjgaPjgZ/jgrvjgq3jg6Xjg6rjg4bjgqPllY/poYzjgoQNCj4gK+mH
+jeWkp+OBquW+jOaIu+OCiuOBq+WvvuOBmeOCi+avlOi8g+eahOWwj+OBleOBhOmHjeimgeOBquS/
+ruato+OBjOWQq+OBvuOCjOOBvuOBmeOAgg0KPg0KPiAg44GT44KM44Gv44CB6ZaL55m6L+Wun+mo
+k+eahOODkOODvOOCuOODp+ODs+OBruODhuOCueODiOOBq+WNlOWKm+OBmeOCi+OBk+OBqOOBq+iI
+iOWRs+OBjOeEoeOBj+OAgeacgOaWsA0KPiAg44Gu5a6J5a6a44GX44Gf44Kr44O844ON44Or44KS
+5L2/44GE44Gf44GE44Om44O844K244Gr5o6o5aWo44GZ44KL44OW44Op44Oz44OB44Gn44GZ44CC
+DQo+DQo+IC3jgoLjgZfjgIE0LngueSDjgqvjg7zjg43jg6vjgYzlrZjlnKjjgZfjgarjgYTloLTl
+kIjjgavjga/jgIHnlarlj7fjgYzkuIDnlarlpKfjgY3jgYQgNC54IOOBjOacgOaWsA0KPiAt44Gu
+5a6J5a6a54mI44Kr44O844ON44Or44Gn44GZ44CCDQo+IC0NCj4gLTQueC55IOOBryAic3RhYmxl
+IiDjg4Hjg7zjg6AgPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+IOOBp+ODoeODs+ODhuOBleOCjOOB
+puOBiuOCiuOAgQ0KPiAr5a6J5a6a54mI44OE44Oq44O844GvInN0YWJsZSIg44OB44O844OgIDxz
+dGFibGVAdmdlci5rZXJuZWwub3JnPiDjgafjg6Hjg7Pjg4bjgZXjgozjgabjgYrjgorjgIENCj4g
+IOW/heimgeOBq+W/nOOBmOOBpuODquODquODvOOCueOBleOCjOOBvuOBmeOAgumAmuW4uOOBruOD
+quODquODvOOCueacn+mWk+OBryAy6YCx6ZaT5q+O44Gn44GZ44GM44CB5beuDQo+ICDjgZfov6vj
+gaPjgZ/llY/poYzjgYzjgarjgZHjgozjgbDjgoLjgYblsJHjgZfplbfjgY/jgarjgovjgZPjgajj
+goLjgYLjgorjgb7jgZnjgILjgrvjgq3jg6Xjg6rjg4bjgqPplqINCj4gIOmAo+OBruWVj+mhjOOB
+ruWgtOWQiOOBr+OBk+OCjOOBq+WvvuOBl+OBpuOBoOOBhOOBn+OBhOOBruWgtOWQiOOAgeOBmeOB
+kOOBq+ODquODquODvOOCueOBjOOBleOCjOOBvuOBmeOAgg0KPiBAQCAtMzI2LDcgKzMyNCw3IEBA
+IERvY3VtZW50YXRpb24vcHJvY2Vzcy9zdGFibGUta2VybmVsLXJ1bGVzLnJzdCDjg5XjgqHjgqTj
+g6vjgavjga/jganjga7jgojjgYbjgaoNCj4gIOmhnuOBruWkieabtOOBjCAtc3RhYmxlIOODhOOD
+quODvOOBq+WPl+OBkeWFpeOCjOWPr+iDveOBi+OAgeOBvuOBn+ODquODquODvOOCueODl+ODreOC
+u+OCueOBjOOBqeOBhg0KPiAg5YuV44GP44GL44GM6KiY6L+w44GV44KM44Gm44GE44G+44GZ44CC
+DQo+DQo+IC3jgrXjg5bjgrfjgrnjg4bjg6Dmr47jga7jgqvjg7zjg43jg6vjg4Tjg6rjg7zjgajj
+g5Hjg4Pjg4ENCj4gK+OCteODluOCt+OCueODhuODoOavjuOBruOCq+ODvOODjeODq+ODhOODquOD
+vA0KPiAgfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4NCj4NCj4gIOOBneOC
+jOOBnuOCjOOBruOCq+ODvOODjeODq+OCteODluOCt+OCueODhuODoOOBruODoeODs+ODhuODiumB
+lOOBryAtLS0g44Gd44GX44Gm5aSa44GP44Gu44Kr44O844ON44OrDQo+IEBAIC0zNTEsMTkgKzM0
+OSwxOSBAQCBxdWlsdCDjgrfjg6rjg7zjgrrjgajjgZfjgablhazplovjgZXjgozjgabjgYTjgovj
+g5Hjg4Pjg4Hjgq3jg6Xjg7zjgoLkvb/jgo/jgowNCj4gIOOBkeOCi+OBk+OBqOOBjOOBp+OBjeOB
+vuOBmeOAguWkp+mDqOWIhuOBruOBk+OCjOOCieOBriBwYXRjaHdvcmsg44Gu44K144Kk44OI44Gv
+DQo+ICBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnLyDjgafjg6rjgrnjg4jjgZXjgozjgabj
+gYTjgb7jgZnjgIINCj4NCj4gLee1seWQiOODhuOCueODiOOBruOBn+OCgeOBriA0LnggLW5leHQg
+44Kr44O844ON44Or44OE44Oq44O8DQo+IC1+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+DQo+ICvntbHlkIjjg4bjgrnjg4jjga7jgZ/jgoHjga4gbGludXgtbmV4dCDj
+gqvjg7zjg43jg6vjg4Tjg6rjg7wNCj4gK35+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn4NCj4NCj4gLeOCteODluOCt+OCueODhuODoOODhOODquODvOOBruabtOaW
+sOWGheWuueOBjOODoeOCpOODs+ODqeOCpOODs+OBriA0Lngg44OE44Oq44O844Gr44Oe44O844K4
+44GV44KM44KLDQo+ICvjgrXjg5bjgrfjgrnjg4bjg6Djg4Tjg6rjg7zjga7mm7TmlrDlhoXlrrnj
+gYzjg6HjgqTjg7Pjg6njgqTjg7Pjg4Tjg6rjg7zjgavjg57jg7zjgrjjgZXjgozjgosNCj4gIOWJ
+jeOBq+OAgeOBneOCjOOCieOBr+e1seWQiOODhuOCueODiOOBleOCjOOCi+W/heimgeOBjOOBguOC
+iuOBvuOBmeOAguOBk+OBruebrueahOOBruOBn+OCgeOAgeWun+izqueahOOBqw0KPiAg5YWo44K1
+44OW44K344K544OG44Og44OE44Oq44O844GL44KJ44G744G85q+O5pel44OX44Or44GV44KM44Gm
+44Gn44GN44KL54m55Yil44Gq44OG44K544OI55So44Gu44Oq44Od44K4DQo+ICDjg4jjg6rjgYzl
+rZjlnKjjgZfjgb7jgZktDQo+DQo+ICAgICAgICAgaHR0cHM6Ly9naXQua2VybmVsLm9yZy8/cD1s
+aW51eC9rZXJuZWwvZ2l0L25leHQvbGludXgtbmV4dC5naXQNCj4NCj4gLeOBk+OBruOChOOCiuaW
+ueOBq+OCiOOBo+OBpuOAgS1uZXh0IOOCq+ODvOODjeODq+OBr+asoeOBruODnuODvOOCuOapn+S8
+muOBp+OBqeOCk+OBquOCguOBruOBjOODoeOCpOODsw0KPiAt44Op44Kk44Oz44Kr44O844ON44Or
+44Gr44Oe44O844K444GV44KM44KL44GL44CB44GK44GK44G+44GL44Gq44Gu5bGV5pyb44KS5o+Q
+5L6b44GX44G+44GZ44CCLW5leHQg44Kr44O8DQo+IC3jg43jg6vjga7lrp/ooYzjg4bjgrnjg4jj
+gpLooYzjgYblhpLpmbrlpb3jgY3jgarjg4bjgrnjgr/jg7zjga/lpKfjgYTjgavmrZPov47jgZXj
+gozjgb7jgZnjgIINCj4gK+OBk+OBruOChOOCiuaWueOBq+OCiOOBo+OBpuOAgWxpbnV4LW5leHQg
+44Gv5qyh44Gu44Oe44O844K45qmf5Lya44Gn44Gp44KT44Gq44KC44Gu44GM44Oh44Kk44OzDQo+
+ICvjg6njgqTjg7Pjgavjg57jg7zjgrjjgZXjgozjgovjgYvjgIHjgYrjgYrjgb7jgYvjgarjga7l
+sZXmnJvjgpLmj5DkvpvjgZfjgb7jgZnjgIINCg0KVGhpcyB3b3VsZCBiZToNCuODqeOCpOODs+OB
+q+ODnuODvOOCuOOBleOCjOOCi+OBi+OAgeOBiuOBiuOBvuOBi+OBquWxleacm+OCkuaPkOS+m+OB
+l+OBvuOBmeOAgg0KDQpUaGFuayB5b3UgZm9yIGZpeGluZyB0aGlzIGRvY3VtZW50Lg0KDQpUc3Vn
+aWthenUgU2hpYmF0YQ0K
