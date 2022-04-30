@@ -2,267 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16323C43219
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 10:06:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D0CBC433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 10:25:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382561AbiD3KJe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Apr 2022 06:09:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41690 "EHLO
+        id S240138AbiD3K3R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Apr 2022 06:29:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382574AbiD3KJd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Apr 2022 06:09:33 -0400
-X-Greylist: delayed 547 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 30 Apr 2022 03:06:09 PDT
-Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [IPv6:2001:4b7a:2000:18::166])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFDED23BEA;
-        Sat, 30 Apr 2022 03:06:08 -0700 (PDT)
-Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by m-r2.th.seeweb.it (Postfix) with ESMTPSA id C1EDB3F735;
-        Sat, 30 Apr 2022 12:06:06 +0200 (CEST)
-Date:   Sat, 30 Apr 2022 12:06:05 +0200
-From:   Marijn Suijten <marijn.suijten@somainline.org>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v14 1/2] dt-bindings: leds: Add Qualcomm Light Pulse
- Generator binding
-Message-ID: <20220430100605.vn4wf33mft3vdm5w@SoMainline.org>
-References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220303214300.59468-1-bjorn.andersson@linaro.org>
+        with ESMTP id S1382576AbiD3K3Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Apr 2022 06:29:16 -0400
+Received: from smtpbg152.qq.com (smtpbg152.qq.com [13.245.186.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F294326FF
+        for <linux-doc@vger.kernel.org>; Sat, 30 Apr 2022 03:25:50 -0700 (PDT)
+X-QQ-GoodBg: 2
+X-QQ-SSF: 00400000000000F0
+X-QQ-FEAT: Xs7QaUu06a2lj95B5oQFRrsICijAH5lskblvcoVIxFiZWt9b/ijJkh6MlehDr
+        5AGDedKCGkcVASAik5h1HcdfH5H2SGIPzFLKjXUoVbDc+8RNgqtLqbQyFO/KOSBQDN5e13M
+        LbIq4rIBUuq6y9c1xlqgbQOrO5ZnIibckKIQE1khKjbDYqDQNjF6E8XSif5XADY5w7I9QdK
+        ry7ONUBRdF/j28iktSQsFBLoB5nJSTsyQZPXcbBou96C3bNXx+tF4Iy+vkYomwAcJGK75mH
+        5LwgoKEyRxY64mCyAU5ZtiMb0M7se4b5uo+9uGKHlyl9wCRGQyicQEkyZCS453FUoht5IkP
+        WY8Xgv1vPDyT0rNqTc0FY7E4sOUJv36hPMGLvXdR34F5041G9mrgw7jDwO3cK8S3Znn25SH
+        4bNAzFDbdmCPQZ6xyuiMeQ==
+X-QQ-BUSINESS-ORIGIN: 2
+X-Originating-IP: 218.17.66.222
+X-QQ-STYLE: 
+X-QQ-mid: llogic72t1651314329t6396239
+From:   "=?utf-8?B?U2hlbmdob25nIEhhbg==?=" 
+        <hanshenghong2019@email.szu.edu.cn>
+To:     "=?utf-8?B?QWtpcmEgWW9rb3Nhd2E=?=" <akiyks@gmail.com>,
+        "=?utf-8?B?Sm9uYXRoYW4gQ29yYmV0?=" <corbet@lwn.net>
+Cc:     "=?utf-8?B?YWtwbQ==?=" <akpm@linux-foundation.org>,
+        "=?utf-8?B?YmFpaGFvd2Vu?=" <baihaowen@meizu.com>,
+        "=?utf-8?B?c2Vha2VlbA==?=" <seakeel@gmail.com>,
+        "=?utf-8?B?bGludXgtZG9j?=" <linux-doc@vger.kernel.org>,
+        "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>,
+        "=?utf-8?B?Y2FveWl4dWFuMjAxOQ==?=" <caoyixuan2019@email.szu.edu.cn>,
+        "=?utf-8?B?eWVqaWFqaWFuMjAxOA==?=" <yejiajian2018@email.szu.edu.cn>,
+        "=?utf-8?B?eXVob25nZg==?=" <yuhongf@szu.edu.cn>
+Subject: Resend: [PATCH] Documentation/vm/page_owner.rst: Fix syntax error and Describe details using table
+Mime-Version: 1.0
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: base64
+Date:   Sat, 30 Apr 2022 18:25:29 +0800
+X-Priority: 3
+Message-ID: <tencent_640F24F90BA09A5302AA9BD7@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+References: <20220429181926.10658-1-hanshenghong2019@email.szu.edu.cn>
+        <ea37d4f9-26e2-272a-01d6-fa7e8c62687e@gmail.com>
+In-Reply-To: <ea37d4f9-26e2-272a-01d6-fa7e8c62687e@gmail.com>
+X-QQ-ReplyHash: 897282373
+X-QQ-SENDSIZE: 520
+Received: from qq.com (unknown [127.0.0.1])
+        by smtp.qq.com (ESMTP) with SMTP
+        id ; Sat, 30 Apr 2022 18:25:31 +0800 (CST)
+Feedback-ID: llogic:email.szu.edu.cn:qybgforeign:qybgforeign9
+X-QQ-Bgrelay: 1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-03-03 13:42:59, Bjorn Andersson wrote:
-> This adds the binding document describing the three hardware blocks
-> related to the Light Pulse Generator found in a wide range of Qualcomm
-> PMICs.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+VGhlIG9uZSByZXBseSBhcmNoaXZlZCBhdCAiaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGlu
+dXgtZG9jL3RlbmNlbnRfMDg4NzYzRjM1Q0UyMzNGQjZDOUNFQjgwQHFxLmNvbS8iKE9uIDIw
+MjIvMDQvMzAgMTY6MTMpIGlzIGJyb2tlbi1sb29raW5nLiANCg0KQXBvbG9naXplIGZvciB0
+aGF0IQ0KDQpSZXNlbmQgdGhhdCByZXBseToNCg0KMCkgSWYgeW91IGhhdmUgcmVjZWl2ZWQg
+YSBzaW1pbGFyIHJlcGx5LCBwbGVhc2UgcmVmZXIgdG8gdGhlIGxhdGVzdCByZXBseS4NCg0K
+MSkgQWNjaWRlbnRhbGx5IHVzZWQgQ2hpbmVzZSBJbnB1dCBNZXRob2QgRWRpdG9yLCBsZWF2
+aW5nIGZ1bGwtd2lkdGggc3ltYm9scyBkdXJpbmcgdGhlIHRlc3QsIGNhdXNpbmcgdGhlIGRv
+dWJsZSBkYXNoZXMgb2YgIi0tIiBjaGFuZ2VkIGludG8gImxvbmcgc2luZ2xlIGRhc2giIHdo
+aWNoIHNob3VsZCBub3QgaGF2ZSBvY2N1cnJlZC4NCg0KMikgSW4gdGhlIGN1cnJlbnQgZG9j
+dW1lbnQsIHRoZSAiU1RBTkRBUkQgRk9STUFUIFNQRUNJRklFUlMiIHRhYmxlIGRvZXMgbm90
+IGNvcnJlY3RseSB1c2UgdGhlIGZvcm1hdCBvZiB0aGUgcnN0IGRvY3VtZW50LCBzbyBpbiB0
+aGUgd2Vic2l0ZSBodHRwczovL3d3dy5rZXJuZWwub3JnL2RvYy9odG1sL2xhdGVzdC92bS9w
+YWdlX293bmVyLmh0bWwsIGl0IGRvZXMgbm90IGxvb2sgZ29vZC4gVGhlcmVmb3JlLCB0aGUg
+IlNUQU5EQVJEIEZPUk1BVCBTUEVDSUZJRVJTIiBoYXMgYmVlbiBhZGp1c3RlZCB1c2luZyB0
+aGUgZm9ybWF0IG9mIHRoZSByc3QgdGFibGUuICpUaGlzKiBpcyB0aGUgbWFpbiBwdXJwb3Nl
+Lg0KDQozKSBJbiB2ZXJzaW9uIDEgYmVmb3JlKE9uIDIwMjIvMDQvMzAgMToxOSksIHRoZSBz
+ZW50ZW5jZSBsb29rIGxpa2U6IlRhYmxlIDEgeHh4KHNvbWUgZXhwbGFpbmF0aW9uKS4iIGFu
+ZCAiVGFibGUgMiB4eHgoc29tZSBleHBsYWluYXRpb24pLiIsIGluIHRoZXNlIDIgImxvbmci
+IHNlbnRlbmNlcywgdXNpbmcgIi4iIGluc3RlYWQgb2YgIjoiLkhvbmVzdGx5LCBjb21wbGV4
+IHNlbnRlbmNlIGlzIHVubmVjZXNzYXJ5LiBXaGVuIEkgdHJpZWQgdG8gbW9kaWZ5IHRoZSBz
+ZW50ZW5jZSwgSSBpZ25vcmUgdGhlIHN0cmljdCBkaXN0aW5jdGlvbiBiZXR3ZWVuICIuIiBh
+bmQgIjoiLkluIHNob3J0LCBUaGlzIG1vZGlmaWNhdGlvbiBpcyB1bm5lY2Vzc2FyeS4NCg0K
+NCkgQXBvbG9naXplIGFnYWluIGZvciB0aGUgdHJvdWJsZXMgdGhhdCBteSBjbHVtc3kgYmVo
+YXZpb3JzIGhhdmUgY2F1c2VkLg0KDQpUaGFua3MsIA0KDQpTaGVuZ2hvbmcgSGFuDQogDQot
+LS0tLS0tLS0tLS0tLS0tLS0gT3JpZ2luYWwgLS0tLS0tLS0tLS0tLS0tLS0tDQpGcm9tOiAg
+IkFraXJhIFlva29zYXdhIjxha2l5a3NAZ21haWwuY29tPjsNCkRhdGU6ICBTYXQsIEFwciAz
+MCwgMjAyMiAwMjo0MCBQTQ0KVG86ICAiU2hlbmdob25nIEhhbiI8aGFuc2hlbmdob25nMjAx
+OUBlbWFpbC5zenUuZWR1LmNuPjsgIkpvbmF0aGFuIENvcmJldCI8Y29yYmV0QGx3bi5uZXQ+
+Ow0KQ2M6ICAiYWtwbSI8YWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZz47ICJiYWloYW93ZW4i
+PGJhaWhhb3dlbkBtZWl6dS5jb20+OyAic2Vha2VlbCI8c2Vha2VlbEBnbWFpbC5jb20+OyAi
+bGludXgtZG9jIjxsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnPjsgImxpbnV4LWtlcm5lbCI8
+bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZz47ICJjYW95aXh1YW4yMDE5IjxjYW95aXh1
+YW4yMDE5QGVtYWlsLnN6dS5lZHUuY24+OyAieWVqaWFqaWFuMjAxOCI8eWVqaWFqaWFuMjAx
+OEBlbWFpbC5zenUuZWR1LmNuPjsgInl1aG9uZ2YiPHl1aG9uZ2ZAc3p1LmVkdS5jbj47DQpT
+dWJqZWN0OiAgUmU6IFtQQVRDSF0gRG9jdW1lbnRhdGlvbi92bS9wYWdlX293bmVyLnJzdDog
+Rml4IHN5bnRheCBlcnJvciBhbmQgRGVzY3JpYmUgZGV0YWlscyB1c2luZyB0YWJsZQ0KIA0K
+T24gMjAyMi8wNC8zMCAzOjE5LA0KU2hlbmdob25nIEhhbiB3cm90ZToNCj4gU29tZSBzeW50
+YXggZXJyb3JzIGV4aXN0IGluICJwYWdlX293bmVyLnJzdCIuIFRoYW5rcyB0byBBa2lyYSBZ
+b2tvc2F3YSBhbmQNCj4gSGFvd2VuIEJhaSBmb3IgdGlwcyB0byBoZWxwIGltcHJvdmUgdGhl
+IGRvY3VtZW50YXRpb24uDQo+DQo+IFdlIHRyeSB0byBmaXggdGhlbS4gSG9wZSB0aGF0IHRo
+ZSBEb2N1bWVudGF0aW9uIGlzIHNob3dlZCBhcyB3ZSBleHBlY3QuDQo+DQo+IFNpZ25lZC1v
+ZmYtYnk6IFNoZW5naG9uZyBIYW4gPGhhbnNoZW5naG9uZzIwMTlAZW1haWwuc3p1LmVkdS5j
+bj4NCj4gRml4ZXM6IGVkYzkzYWJiY2M2ZCAoInRvb2xzL3ZtL3BhZ2Vfb3duZXJfc29ydC5j
+OiBzdXBwb3J0IHNvcnRpbmcgYmxvY2tzIGJ5IG11bHRpcGxlIGtleXMiKQ0KPg0KPiAtLS0N
+Cj4gVGhhbmtzIEpvbmF0aGFuJ3Mgc3VnZ2VzdGlvbi4NCj4NCj4gVGhpcyBmaXggaXMgYSBz
+aW1wbGVyIHRoYW4gYmVmb3JlLg0KPiBBbmQgeWVzLCBJdCBoYXMgYnVpbHQgaW4gbXkgbWFj
+aGluZS4NCj4NCj4gQmVzdCwNCj4NCj4gU2hlbmdob25nIEhhbg0KPiAtLS0NCj4gLS0tDQo+
+ICBEb2N1bWVudGF0aW9uL3ZtL3BhZ2Vfb3duZXIucnN0IHwgMTUgKysrKysrKysrKy0tLS0t
+DQo+ICAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkN
+Cj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdm0vcGFnZV9vd25lci5yc3QgYi9E
+b2N1bWVudGF0aW9uL3ZtL3BhZ2Vfb3duZXIucnN0DQo+IGluZGV4IDI1NjIyYzcxNS4uMGVj
+YjRhNzM5IDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3ZtL3BhZ2Vfb3duZXIucnN0
+DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdm0vcGFnZV9vd25lci5yc3QNCj4gQEAgLTE3MSwx
+MSArMTcxLDEyIEBAIFVzYWdlDQo+IA0KPiAgU1RBTkRBUkQgRk9STUFUIFNQRUNJRklFUlMN
+Cj4gID09PT09PT09PT09PT09PT09PT09PT09PT09DQo+IC06Og0KPiANCj4gLUZvciAtLXNv
+cnQgb3B0aW9uOg0KPiArMSkgRm9yIC0tc29ydCBvcHRpb24uDQo+IA0KPiArID09PT0gPT09
+PT09PT09PSA9PT09PT09PT09PQ0KPiAgS0VZIExPTkcgREVTQ1JJUFRJT04NCj4gKyA9PT09
+ID09PT09PT09PT0gPT09PT09PT09PT0NCj4gIHAgcGlkIHByb2Nlc3MgSUQNCj4gIHRnIHRn
+aWQgdGhyZWFkIGdyb3VwIElEDQo+ICBuIG5hbWUgdGFzayBjb21tYW5kIG5hbWUNCj4gQEAg
+LTE4MywxNCArMTg0LDE4IEBAIEZvciAtLXNvcnQgb3B0aW9uOg0KPiAgVCB0eHQgZnVsbCB0
+ZXh0IG9mIGJsb2NrDQo+ICBmdCBmcmVlX3RzIHRpbWVzdGFtcCBvZiB0aGUgcGFnZSB3aGVu
+IGl0IHdhcyByZWxlYXNlZA0KPiAgYXQgYWxsb2NfdHMgdGltZXN0YW1wIG9mIHRoZSBwYWdl
+IHdoZW4gaXQgd2FzIGFsbG9jYXRlZA0KPiAtICAgICAgICBhdG9yICAgICAgICAgICAgYWxs
+b2NhdG9yICAgICAgIG1lbW9yeSBhbGxvY2F0b3IgZm9yIHBhZ2VzDQo+ICsgYXRvciBhbGxv
+Y2F0b3IgbWVtb3J5IGFsbG9jYXRvciBmb3IgcGFnZXMNCj4gKyA9PT09ID09PT09PT09PT0g
+PT09PT09PT09PT0NCj4gDQo+IC1Gb3IgLS1jdXJsIG9wdGlvbjoNCj4gKzIpIEZvciAtLWN1
+cmwgb3B0aW9uLg0KPiANCj4gKyA9PT09ID09PT09PT09PT0gPT09PT09PT09PT0NCj4gIEtF
+WSBMT05HIERFU0NSSVBUSU9ODQo+ICsgPT09PSA9PT09PT09PT09ID09PT09PT09PT09DQo+
+ICBwIHBpZCBwcm9jZXNzIElEDQo+ICB0ZyB0Z2lkIHRocmVhZCBncm91cCBJRA0KPiAgbiBu
+YW1lIHRhc2sgY29tbWFuZCBuYW1lDQo+ICBmIGZyZWUgd2hldGhlciB0aGUgcGFnZSBoYXMg
+YmVlbiByZWxlYXNlZCBvciBub3QNCj4gIHN0IHN0YWNrdHJhY2Ugc3RhY2sgdHJhY2Ugb2Yg
+dGhlIHBhZ2UgYWxsb2NhdGlvbg0KPiAtICAgICAgICBhdG9yICAgICAgICAgICAgYWxsb2Nh
+dG9yICAgICAgIG1lbW9yeSBhbGxvY2F0b3IgZm9yIHBhZ2VzDQo+ICsgYXRvciBhbGxvY2F0
+b3IgbWVtb3J5IGFsbG9jYXRvciBmb3IgcGFnZXMNCj4gKyA9PT09ID09PT09PT09PT0gPT09
+PT09PT09PT0NCg0KU28sIEkgaGF2ZSBhY3R1YWxseSB0ZXN0ZWQgdGhpcy4NCg0KQXJlIHlv
+dSBPSyB3aXRoIHRoZSBsb29rIG9mDQoNCiAgMSkgRm9yIC0tc29ydCBvcHRpb24uDQoNCmFu
+ZA0KDQogIDIpIEZvciAtLWN1cmwgb3B0aW9uLg0KDQppbiBnZW5lcmF0ZWQgSFRNTCBvciBQ
+REYgZG9jcz8NCg0KSW4gbGl0ZXJhbCBibG9ja3MsIHlvdSB3b3VsZCBzZWUgZG91YmxlIGRh
+c2hlcyBvZiAiLS0iLg0KTm93IHRoZXkgYXJlIGNvbnZlcnRlZCB0byBzby1jYWxsZWQgZW5k
+YXNoLCB3aGljaCBpcyBhIHNpbmdsZSBkYXNoDQpzbGlnaHRseSBsb25nZXIgdGhhbiBhIG5v
+cm1hbCBoeXBoZW4uICBJdCBsb29rcyBjb25mdXNpbmcgdG8gbWUuDQoNClRvIHJlbWVkeSB0
+aGlzLCB5b3UgbmVlZCBpbmxpbmUgbGl0ZXJhbCBtYXJrZXJzIG9mDQoNCiAgMSkgRm9yIGBg
+LS1zb3J0YGAgb3B0aW9uLg0KDQphbmQNCg0KICAyKSBGb3IgYGAtLWN1cmxgYCBvcHRpb24u
+DQoNCg0KQnkgdGhlIHdheSwgdGhpcyBwYXRjaCBjaGFuZ2VzICI6IiB0byAiLiIgYXQgdGhl
+IGVuZCBvZiB0aGVtLg0KQXJlIHRoZXkgaW50ZW50aW9uYWwgY2hhbmdlcz8gIElmIHNvLCB3
+aHk/DQoNCiAgICAgICAgVGhhbmtzLCBBa2lyYQ==
 
-Apart the nits below:
 
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> ---
-> 
-> Changes since v13:
-> - None
-> 
-> Changes since v12:
-> - None
-> 
->  .../bindings/leds/leds-qcom-lpg.yaml          | 173 ++++++++++++++++++
->  1 file changed, 173 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> new file mode 100644
-> index 000000000000..336bd8e10efd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> @@ -0,0 +1,173 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-qcom-lpg.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm Light Pulse Generator
-> +
-> +maintainers:
-> +  - Bjorn Andersson <bjorn.andersson@linaro.org>
-> +
-> +description: >
-> +  The Qualcomm Light Pulse Generator consists of three different hardware blocks;
-> +  a ramp generator with lookup table, the light pulse generator and a three
-> +  channel current sink. These blocks are found in a wide range of Qualcomm PMICs.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - qcom,pm8150b-lpg
-> +      - qcom,pm8150l-lpg
-> +      - qcom,pm8916-pwm
-> +      - qcom,pm8941-lpg
-> +      - qcom,pm8994-lpg
-> +      - qcom,pmc8180c-lpg
-> +      - qcom,pmi8994-lpg
-> +      - qcom,pmi8998-lpg
-> +
-> +  "#pwm-cells":
-> +    const: 2
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  qcom,power-source:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      power-source used to drive the output, as defined in the datasheet.
-> +      Should be specified if the TRILED block is present
-> +    enum: [0, 1, 3]
-> +
-> +  qcom,dtest:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-matrix
-> +    description: >
-> +      A list of integer pairs, where each pair represent the dtest line the
-> +      particular channel should be connected to and the flags denoting how the
-> +      value should be outputed, as defined in the datasheet. The number of
 
-Nit: I think outputed is with double-t, though just using "output" here
-should work as well.
-
-> +      pairs should be the same as the number of channels.
-> +    items:
-> +      items:
-> +        - description: dtest line to attach
-> +        - description: flags for the attachment
-> +
-> +  multi-led:
-
-As mentioned on IRC, doesn't this need an @[0-9a-f] designator, as
-specified in leds-class-multicolor.yaml and to match `#address-cells` on
-this level?  Same for the examples.
-
-> +    type: object
-> +    $ref: leds-class-multicolor.yaml#
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +    patternProperties:
-> +      "^led@[0-9a-f]$":
-> +        type: object
-> +        $ref: common.yaml#
-
-I'm not familiar enough with DT bindings - doesn't this need the
-requirements for `reg` just like the identical patternProperties for
-led@ below?
-
-> +
-> +patternProperties:
-> +  "^led@[0-9a-f]$":
-> +    type: object
-> +    $ref: common.yaml#
-> +
-> +    properties:
-> +      reg: true
-> +
-> +    required:
-> +      - reg
-> +
-> +required:
-> +  - compatible
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    led-controller {
-> +      compatible = "qcom,pmi8994-lpg";
-> +
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      qcom,power-source = <1>;
-> +
-> +      qcom,dtest = <0 0>,
-> +                   <0 0>,
-> +                   <0 0>,
-> +                   <4 1>;
-> +
-> +      led@1 {
-> +        reg = <1>;
-> +        color = <LED_COLOR_ID_GREEN>;
-> +        function = LED_FUNCTION_INDICATOR;
-> +        function-enumerator = <1>;
-> +      };
-> +
-> +      led@2 {
-> +        reg = <2>;
-> +        color = <LED_COLOR_ID_GREEN>;
-> +        function = LED_FUNCTION_INDICATOR;
-> +        function-enumerator = <0>;
-> +        default-state = "on";
-> +      };
-> +
-> +      led@3 {
-> +        reg = <3>;
-> +        color = <LED_COLOR_ID_GREEN>;
-> +        function = LED_FUNCTION_INDICATOR;
-> +        function-enumerator = <2>;
-> +      };
-> +
-> +      led@4 {
-> +        reg = <4>;
-> +        color = <LED_COLOR_ID_GREEN>;
-> +        function = LED_FUNCTION_INDICATOR;
-> +        function-enumerator = <3>;
-> +      };
-> +    };
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    led-controller {
-> +      compatible = "qcom,pmi8994-lpg";
-> +
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      qcom,power-source = <1>;
-> +
-> +      multi-led {
-> +        color = <LED_COLOR_ID_RGB>;
-> +        function = LED_FUNCTION_STATUS;
-> +
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        led@1 {
-> +          reg = <1>;
-> +          color = <LED_COLOR_ID_RED>;
-> +        };
-> +
-> +        led@2 {
-> +          reg = <2>;
-> +          color = <LED_COLOR_ID_GREEN>;
-> +        };
-> +
-> +        led@3 {
-> +          reg = <3>;
-> +          color = <LED_COLOR_ID_BLUE>;
-> +        };
-> +      };
-> +    };
-> +  - |
-> +    pwm-controller {
-> +      compatible = "qcom,pm8916-pwm";
-> +      #pwm-cells = <2>;
-> +    };
-> +...
-> -- 
-> 2.33.1
-> 
