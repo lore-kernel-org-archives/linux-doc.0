@@ -2,154 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D0CBC433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 10:25:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AED47C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 10:48:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240138AbiD3K3R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Apr 2022 06:29:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54140 "EHLO
+        id S239206AbiD3Kvt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Apr 2022 06:51:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382576AbiD3K3Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Apr 2022 06:29:16 -0400
-Received: from smtpbg152.qq.com (smtpbg152.qq.com [13.245.186.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F294326FF
-        for <linux-doc@vger.kernel.org>; Sat, 30 Apr 2022 03:25:50 -0700 (PDT)
-X-QQ-GoodBg: 2
-X-QQ-SSF: 00400000000000F0
-X-QQ-FEAT: Xs7QaUu06a2lj95B5oQFRrsICijAH5lskblvcoVIxFiZWt9b/ijJkh6MlehDr
-        5AGDedKCGkcVASAik5h1HcdfH5H2SGIPzFLKjXUoVbDc+8RNgqtLqbQyFO/KOSBQDN5e13M
-        LbIq4rIBUuq6y9c1xlqgbQOrO5ZnIibckKIQE1khKjbDYqDQNjF6E8XSif5XADY5w7I9QdK
-        ry7ONUBRdF/j28iktSQsFBLoB5nJSTsyQZPXcbBou96C3bNXx+tF4Iy+vkYomwAcJGK75mH
-        5LwgoKEyRxY64mCyAU5ZtiMb0M7se4b5uo+9uGKHlyl9wCRGQyicQEkyZCS453FUoht5IkP
-        WY8Xgv1vPDyT0rNqTc0FY7E4sOUJv36hPMGLvXdR34F5041G9mrgw7jDwO3cK8S3Znn25SH
-        4bNAzFDbdmCPQZ6xyuiMeQ==
-X-QQ-BUSINESS-ORIGIN: 2
-X-Originating-IP: 218.17.66.222
-X-QQ-STYLE: 
-X-QQ-mid: llogic72t1651314329t6396239
-From:   "=?utf-8?B?U2hlbmdob25nIEhhbg==?=" 
-        <hanshenghong2019@email.szu.edu.cn>
-To:     "=?utf-8?B?QWtpcmEgWW9rb3Nhd2E=?=" <akiyks@gmail.com>,
-        "=?utf-8?B?Sm9uYXRoYW4gQ29yYmV0?=" <corbet@lwn.net>
-Cc:     "=?utf-8?B?YWtwbQ==?=" <akpm@linux-foundation.org>,
-        "=?utf-8?B?YmFpaGFvd2Vu?=" <baihaowen@meizu.com>,
-        "=?utf-8?B?c2Vha2VlbA==?=" <seakeel@gmail.com>,
-        "=?utf-8?B?bGludXgtZG9j?=" <linux-doc@vger.kernel.org>,
-        "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>,
-        "=?utf-8?B?Y2FveWl4dWFuMjAxOQ==?=" <caoyixuan2019@email.szu.edu.cn>,
-        "=?utf-8?B?eWVqaWFqaWFuMjAxOA==?=" <yejiajian2018@email.szu.edu.cn>,
-        "=?utf-8?B?eXVob25nZg==?=" <yuhongf@szu.edu.cn>
-Subject: Resend: [PATCH] Documentation/vm/page_owner.rst: Fix syntax error and Describe details using table
-Mime-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: base64
-Date:   Sat, 30 Apr 2022 18:25:29 +0800
-X-Priority: 3
-Message-ID: <tencent_640F24F90BA09A5302AA9BD7@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-References: <20220429181926.10658-1-hanshenghong2019@email.szu.edu.cn>
-        <ea37d4f9-26e2-272a-01d6-fa7e8c62687e@gmail.com>
-In-Reply-To: <ea37d4f9-26e2-272a-01d6-fa7e8c62687e@gmail.com>
-X-QQ-ReplyHash: 897282373
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1])
-        by smtp.qq.com (ESMTP) with SMTP
-        id ; Sat, 30 Apr 2022 18:25:31 +0800 (CST)
-Feedback-ID: llogic:email.szu.edu.cn:qybgforeign:qybgforeign9
-X-QQ-Bgrelay: 1
+        with ESMTP id S230459AbiD3Kvn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Apr 2022 06:51:43 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41AD295499;
+        Sat, 30 Apr 2022 03:48:21 -0700 (PDT)
+Received: from mail-yb1-f177.google.com ([209.85.219.177]) by
+ mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MwQKp-1o1BTC1i8j-00sOOA; Sat, 30 Apr 2022 12:48:19 +0200
+Received: by mail-yb1-f177.google.com with SMTP id d12so18534069ybc.4;
+        Sat, 30 Apr 2022 03:48:19 -0700 (PDT)
+X-Gm-Message-State: AOAM5339bAUwu+qUmnymsiXelobcYRZ1ShdCZtZ4E43aMBum0im16TmY
+        fOMttPf5ZHiG4Zrw+J03x3l7RgOVwbx2PD3YWpY=
+X-Google-Smtp-Source: ABdhPJwpzn9EC0RwN/J7S1C0YhM4S7/xT03EODVmCgkuoTRktIMKwUMUL90gkxIf9qXlOUH0npNethOfeHG9D6/pL7I=
+X-Received: by 2002:a25:c50a:0:b0:647:b840:df2c with SMTP id
+ v10-20020a25c50a000000b00647b840df2cmr3193581ybe.106.1651315335679; Sat, 30
+ Apr 2022 03:42:15 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
+ <20220430090518.3127980-17-chenhuacai@loongson.cn> <CAK8P3a097Z_DKXbrLrCB7JZUB0J0duSmZRHSJkjRM5=rteit6g@mail.gmail.com>
+ <CAAhV-H4COmSy1RNBKi1XCDerAhiQb1Z=g4rEmBz4xgLkSpKmmA@mail.gmail.com>
+In-Reply-To: <CAAhV-H4COmSy1RNBKi1XCDerAhiQb1Z=g4rEmBz4xgLkSpKmmA@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Sat, 30 Apr 2022 12:41:59 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1Cnp-SNiXnSbnUdbw9jC+aT1TxEjckK2jFYgwT-CSpcw@mail.gmail.com>
+Message-ID: <CAK8P3a1Cnp-SNiXnSbnUdbw9jC+aT1TxEjckK2jFYgwT-CSpcw@mail.gmail.com>
+Subject: Re: [PATCH V9 16/24] LoongArch: Add misc common routines
+To:     Huacai Chen <chenhuacai@gmail.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:7KAKj9I+D5At570gbNGr3cglDF4vT1MGlSQ6gRQI5WKGPBqqhXN
+ rSU6LIxKBM1mX77Y49GAJ8oHRNK+f0d+75I0IM7hXJA/mG2wEKp/N21qMfcYH4qAtWF/aJ8
+ E7VlGyPy8xSrlCcULZ69Iv5lVOIKmquTHlildb4eU77VSFUQoBBPf1qoRtAdhoKkPVavx/m
+ oWqYr89xL8luxaH9PC9tw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:avuFvZTkDnI=:LCL8ARtw02iWBlwVmCDdwM
+ GGOqcejykQPT9n5mOtxsKPpB2xclvbwZzOigMweQE/nQw7Sn3lypQ6mLCYJPFZlyOX4BGXY+f
+ 01XmYuuvoHgUw8bjiLbvGXk/tzbzOXCmCYuPvIBz9QiM1jfYsXNNOaFDeaSRI6ahRjuPbt1zg
+ fkiPa2/pN53poTpZzdKWYSWC3QAboSTUq1lCeHLbhVQdeZ+/1L/1EeF94WVtMcZ+ejpyb956d
+ I4wsN+iwFWSDpmuuw0GjDZE+0rduO/GmvK1etFFgM9IYrcPfUfcL9QUbvPMrJ5UDM/Wknc8JP
+ s7fJBtRzEB9UJ67NbhkEyqLknEvv8DpQbduELrQgKFwdqbDRuO8dI2LGyEQc8suE2nfKPkB9l
+ StyMPhfdBmGsoF6ZLjYaYnFTeT5bg/oTdKEWcrn0a+EZDzlGAqYfdsE9oOxJ9Y8WnqPSwW58O
+ QtsyYF0OfBW+Gq1HBKxyVddgXeH3fb9di/zFJNhevnMcUci/LsEjYspUTct9tJ1SEFY60nTSB
+ dJ4yBE0mfD3dlUwrOswqdV8mlIQp2uj/99oe1FyoBC0Z/oFV9Je12MnKCfl4q4aXAl8tCp2pO
+ bi38wW5mNT69macSgvUB6Pi9XyzPJhzhO88qAUafoOCgzpD3+/0lis7CAsAIXw9+AuGGkLI+p
+ gySBbeHZWOtRLxveU/iLs9eoay50Z6xxHKZ2K+RthSzL31OxeNVw0YhRK6jz7n3ukilHNCrPH
+ XKeR9XDGhngrb6Th0Pn5dgDNRiqGX20I0GCNoMS7xol8kQ8rje6CdnUoTDTMG0tF/2UeIWatb
+ ZALBjQqmus19tgo6NpzjVvBO723wFjqqFPAg4uJWsVFSyQ/hS/cToPgz1Z9GNeY28GKSGZR
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-VGhlIG9uZSByZXBseSBhcmNoaXZlZCBhdCAiaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGlu
-dXgtZG9jL3RlbmNlbnRfMDg4NzYzRjM1Q0UyMzNGQjZDOUNFQjgwQHFxLmNvbS8iKE9uIDIw
-MjIvMDQvMzAgMTY6MTMpIGlzIGJyb2tlbi1sb29raW5nLiANCg0KQXBvbG9naXplIGZvciB0
-aGF0IQ0KDQpSZXNlbmQgdGhhdCByZXBseToNCg0KMCkgSWYgeW91IGhhdmUgcmVjZWl2ZWQg
-YSBzaW1pbGFyIHJlcGx5LCBwbGVhc2UgcmVmZXIgdG8gdGhlIGxhdGVzdCByZXBseS4NCg0K
-MSkgQWNjaWRlbnRhbGx5IHVzZWQgQ2hpbmVzZSBJbnB1dCBNZXRob2QgRWRpdG9yLCBsZWF2
-aW5nIGZ1bGwtd2lkdGggc3ltYm9scyBkdXJpbmcgdGhlIHRlc3QsIGNhdXNpbmcgdGhlIGRv
-dWJsZSBkYXNoZXMgb2YgIi0tIiBjaGFuZ2VkIGludG8gImxvbmcgc2luZ2xlIGRhc2giIHdo
-aWNoIHNob3VsZCBub3QgaGF2ZSBvY2N1cnJlZC4NCg0KMikgSW4gdGhlIGN1cnJlbnQgZG9j
-dW1lbnQsIHRoZSAiU1RBTkRBUkQgRk9STUFUIFNQRUNJRklFUlMiIHRhYmxlIGRvZXMgbm90
-IGNvcnJlY3RseSB1c2UgdGhlIGZvcm1hdCBvZiB0aGUgcnN0IGRvY3VtZW50LCBzbyBpbiB0
-aGUgd2Vic2l0ZSBodHRwczovL3d3dy5rZXJuZWwub3JnL2RvYy9odG1sL2xhdGVzdC92bS9w
-YWdlX293bmVyLmh0bWwsIGl0IGRvZXMgbm90IGxvb2sgZ29vZC4gVGhlcmVmb3JlLCB0aGUg
-IlNUQU5EQVJEIEZPUk1BVCBTUEVDSUZJRVJTIiBoYXMgYmVlbiBhZGp1c3RlZCB1c2luZyB0
-aGUgZm9ybWF0IG9mIHRoZSByc3QgdGFibGUuICpUaGlzKiBpcyB0aGUgbWFpbiBwdXJwb3Nl
-Lg0KDQozKSBJbiB2ZXJzaW9uIDEgYmVmb3JlKE9uIDIwMjIvMDQvMzAgMToxOSksIHRoZSBz
-ZW50ZW5jZSBsb29rIGxpa2U6IlRhYmxlIDEgeHh4KHNvbWUgZXhwbGFpbmF0aW9uKS4iIGFu
-ZCAiVGFibGUgMiB4eHgoc29tZSBleHBsYWluYXRpb24pLiIsIGluIHRoZXNlIDIgImxvbmci
-IHNlbnRlbmNlcywgdXNpbmcgIi4iIGluc3RlYWQgb2YgIjoiLkhvbmVzdGx5LCBjb21wbGV4
-IHNlbnRlbmNlIGlzIHVubmVjZXNzYXJ5LiBXaGVuIEkgdHJpZWQgdG8gbW9kaWZ5IHRoZSBz
-ZW50ZW5jZSwgSSBpZ25vcmUgdGhlIHN0cmljdCBkaXN0aW5jdGlvbiBiZXR3ZWVuICIuIiBh
-bmQgIjoiLkluIHNob3J0LCBUaGlzIG1vZGlmaWNhdGlvbiBpcyB1bm5lY2Vzc2FyeS4NCg0K
-NCkgQXBvbG9naXplIGFnYWluIGZvciB0aGUgdHJvdWJsZXMgdGhhdCBteSBjbHVtc3kgYmVo
-YXZpb3JzIGhhdmUgY2F1c2VkLg0KDQpUaGFua3MsIA0KDQpTaGVuZ2hvbmcgSGFuDQogDQot
-LS0tLS0tLS0tLS0tLS0tLS0gT3JpZ2luYWwgLS0tLS0tLS0tLS0tLS0tLS0tDQpGcm9tOiAg
-IkFraXJhIFlva29zYXdhIjxha2l5a3NAZ21haWwuY29tPjsNCkRhdGU6ICBTYXQsIEFwciAz
-MCwgMjAyMiAwMjo0MCBQTQ0KVG86ICAiU2hlbmdob25nIEhhbiI8aGFuc2hlbmdob25nMjAx
-OUBlbWFpbC5zenUuZWR1LmNuPjsgIkpvbmF0aGFuIENvcmJldCI8Y29yYmV0QGx3bi5uZXQ+
-Ow0KQ2M6ICAiYWtwbSI8YWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZz47ICJiYWloYW93ZW4i
-PGJhaWhhb3dlbkBtZWl6dS5jb20+OyAic2Vha2VlbCI8c2Vha2VlbEBnbWFpbC5jb20+OyAi
-bGludXgtZG9jIjxsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnPjsgImxpbnV4LWtlcm5lbCI8
-bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZz47ICJjYW95aXh1YW4yMDE5IjxjYW95aXh1
-YW4yMDE5QGVtYWlsLnN6dS5lZHUuY24+OyAieWVqaWFqaWFuMjAxOCI8eWVqaWFqaWFuMjAx
-OEBlbWFpbC5zenUuZWR1LmNuPjsgInl1aG9uZ2YiPHl1aG9uZ2ZAc3p1LmVkdS5jbj47DQpT
-dWJqZWN0OiAgUmU6IFtQQVRDSF0gRG9jdW1lbnRhdGlvbi92bS9wYWdlX293bmVyLnJzdDog
-Rml4IHN5bnRheCBlcnJvciBhbmQgRGVzY3JpYmUgZGV0YWlscyB1c2luZyB0YWJsZQ0KIA0K
-T24gMjAyMi8wNC8zMCAzOjE5LA0KU2hlbmdob25nIEhhbiB3cm90ZToNCj4gU29tZSBzeW50
-YXggZXJyb3JzIGV4aXN0IGluICJwYWdlX293bmVyLnJzdCIuIFRoYW5rcyB0byBBa2lyYSBZ
-b2tvc2F3YSBhbmQNCj4gSGFvd2VuIEJhaSBmb3IgdGlwcyB0byBoZWxwIGltcHJvdmUgdGhl
-IGRvY3VtZW50YXRpb24uDQo+DQo+IFdlIHRyeSB0byBmaXggdGhlbS4gSG9wZSB0aGF0IHRo
-ZSBEb2N1bWVudGF0aW9uIGlzIHNob3dlZCBhcyB3ZSBleHBlY3QuDQo+DQo+IFNpZ25lZC1v
-ZmYtYnk6IFNoZW5naG9uZyBIYW4gPGhhbnNoZW5naG9uZzIwMTlAZW1haWwuc3p1LmVkdS5j
-bj4NCj4gRml4ZXM6IGVkYzkzYWJiY2M2ZCAoInRvb2xzL3ZtL3BhZ2Vfb3duZXJfc29ydC5j
-OiBzdXBwb3J0IHNvcnRpbmcgYmxvY2tzIGJ5IG11bHRpcGxlIGtleXMiKQ0KPg0KPiAtLS0N
-Cj4gVGhhbmtzIEpvbmF0aGFuJ3Mgc3VnZ2VzdGlvbi4NCj4NCj4gVGhpcyBmaXggaXMgYSBz
-aW1wbGVyIHRoYW4gYmVmb3JlLg0KPiBBbmQgeWVzLCBJdCBoYXMgYnVpbHQgaW4gbXkgbWFj
-aGluZS4NCj4NCj4gQmVzdCwNCj4NCj4gU2hlbmdob25nIEhhbg0KPiAtLS0NCj4gLS0tDQo+
-ICBEb2N1bWVudGF0aW9uL3ZtL3BhZ2Vfb3duZXIucnN0IHwgMTUgKysrKysrKysrKy0tLS0t
-DQo+ICAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkN
-Cj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdm0vcGFnZV9vd25lci5yc3QgYi9E
-b2N1bWVudGF0aW9uL3ZtL3BhZ2Vfb3duZXIucnN0DQo+IGluZGV4IDI1NjIyYzcxNS4uMGVj
-YjRhNzM5IDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3ZtL3BhZ2Vfb3duZXIucnN0
-DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdm0vcGFnZV9vd25lci5yc3QNCj4gQEAgLTE3MSwx
-MSArMTcxLDEyIEBAIFVzYWdlDQo+IA0KPiAgU1RBTkRBUkQgRk9STUFUIFNQRUNJRklFUlMN
-Cj4gID09PT09PT09PT09PT09PT09PT09PT09PT09DQo+IC06Og0KPiANCj4gLUZvciAtLXNv
-cnQgb3B0aW9uOg0KPiArMSkgRm9yIC0tc29ydCBvcHRpb24uDQo+IA0KPiArID09PT0gPT09
-PT09PT09PSA9PT09PT09PT09PQ0KPiAgS0VZIExPTkcgREVTQ1JJUFRJT04NCj4gKyA9PT09
-ID09PT09PT09PT0gPT09PT09PT09PT0NCj4gIHAgcGlkIHByb2Nlc3MgSUQNCj4gIHRnIHRn
-aWQgdGhyZWFkIGdyb3VwIElEDQo+ICBuIG5hbWUgdGFzayBjb21tYW5kIG5hbWUNCj4gQEAg
-LTE4MywxNCArMTg0LDE4IEBAIEZvciAtLXNvcnQgb3B0aW9uOg0KPiAgVCB0eHQgZnVsbCB0
-ZXh0IG9mIGJsb2NrDQo+ICBmdCBmcmVlX3RzIHRpbWVzdGFtcCBvZiB0aGUgcGFnZSB3aGVu
-IGl0IHdhcyByZWxlYXNlZA0KPiAgYXQgYWxsb2NfdHMgdGltZXN0YW1wIG9mIHRoZSBwYWdl
-IHdoZW4gaXQgd2FzIGFsbG9jYXRlZA0KPiAtICAgICAgICBhdG9yICAgICAgICAgICAgYWxs
-b2NhdG9yICAgICAgIG1lbW9yeSBhbGxvY2F0b3IgZm9yIHBhZ2VzDQo+ICsgYXRvciBhbGxv
-Y2F0b3IgbWVtb3J5IGFsbG9jYXRvciBmb3IgcGFnZXMNCj4gKyA9PT09ID09PT09PT09PT0g
-PT09PT09PT09PT0NCj4gDQo+IC1Gb3IgLS1jdXJsIG9wdGlvbjoNCj4gKzIpIEZvciAtLWN1
-cmwgb3B0aW9uLg0KPiANCj4gKyA9PT09ID09PT09PT09PT0gPT09PT09PT09PT0NCj4gIEtF
-WSBMT05HIERFU0NSSVBUSU9ODQo+ICsgPT09PSA9PT09PT09PT09ID09PT09PT09PT09DQo+
-ICBwIHBpZCBwcm9jZXNzIElEDQo+ICB0ZyB0Z2lkIHRocmVhZCBncm91cCBJRA0KPiAgbiBu
-YW1lIHRhc2sgY29tbWFuZCBuYW1lDQo+ICBmIGZyZWUgd2hldGhlciB0aGUgcGFnZSBoYXMg
-YmVlbiByZWxlYXNlZCBvciBub3QNCj4gIHN0IHN0YWNrdHJhY2Ugc3RhY2sgdHJhY2Ugb2Yg
-dGhlIHBhZ2UgYWxsb2NhdGlvbg0KPiAtICAgICAgICBhdG9yICAgICAgICAgICAgYWxsb2Nh
-dG9yICAgICAgIG1lbW9yeSBhbGxvY2F0b3IgZm9yIHBhZ2VzDQo+ICsgYXRvciBhbGxvY2F0
-b3IgbWVtb3J5IGFsbG9jYXRvciBmb3IgcGFnZXMNCj4gKyA9PT09ID09PT09PT09PT0gPT09
-PT09PT09PT0NCg0KU28sIEkgaGF2ZSBhY3R1YWxseSB0ZXN0ZWQgdGhpcy4NCg0KQXJlIHlv
-dSBPSyB3aXRoIHRoZSBsb29rIG9mDQoNCiAgMSkgRm9yIC0tc29ydCBvcHRpb24uDQoNCmFu
-ZA0KDQogIDIpIEZvciAtLWN1cmwgb3B0aW9uLg0KDQppbiBnZW5lcmF0ZWQgSFRNTCBvciBQ
-REYgZG9jcz8NCg0KSW4gbGl0ZXJhbCBibG9ja3MsIHlvdSB3b3VsZCBzZWUgZG91YmxlIGRh
-c2hlcyBvZiAiLS0iLg0KTm93IHRoZXkgYXJlIGNvbnZlcnRlZCB0byBzby1jYWxsZWQgZW5k
-YXNoLCB3aGljaCBpcyBhIHNpbmdsZSBkYXNoDQpzbGlnaHRseSBsb25nZXIgdGhhbiBhIG5v
-cm1hbCBoeXBoZW4uICBJdCBsb29rcyBjb25mdXNpbmcgdG8gbWUuDQoNClRvIHJlbWVkeSB0
-aGlzLCB5b3UgbmVlZCBpbmxpbmUgbGl0ZXJhbCBtYXJrZXJzIG9mDQoNCiAgMSkgRm9yIGBg
-LS1zb3J0YGAgb3B0aW9uLg0KDQphbmQNCg0KICAyKSBGb3IgYGAtLWN1cmxgYCBvcHRpb24u
-DQoNCg0KQnkgdGhlIHdheSwgdGhpcyBwYXRjaCBjaGFuZ2VzICI6IiB0byAiLiIgYXQgdGhl
-IGVuZCBvZiB0aGVtLg0KQXJlIHRoZXkgaW50ZW50aW9uYWwgY2hhbmdlcz8gIElmIHNvLCB3
-aHk/DQoNCiAgICAgICAgVGhhbmtzLCBBa2lyYQ==
+On Sat, Apr 30, 2022 at 12:00 PM Huacai Chen <chenhuacai@gmail.com> wrote:
+>
+> On Sat, Apr 30, 2022 at 5:50 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> >
+> > On Sat, Apr 30, 2022 at 11:05 AM Huacai Chen <chenhuacai@loongson.cn> wrote:
+> >
+> > > +unsigned long __xchg_small(volatile void *ptr, unsigned long val, unsigned int size)
+> > > +{
+> > > +       u32 old32, mask, temp;
+> > > +       volatile u32 *ptr32;
+> > > +       unsigned int shift;
+> > > +
+> > > +       /* Check that ptr is naturally aligned */
+> >
+> > As discussed, please remove this function and all the references to it.
+>
+> It seems that "generic ticket spinlock" hasn't been merged in 5.18?
 
+No, but we can merge it together with the loongarch architecture for 5.19.
 
+I suggested you coordinate with Guo Ren and Palmer Dabbelt about how
+to best merge it. The latest version was pasted two weeks ago [1], and
+it sounds like there are only minor issues to work out and that I can merge
+v4 into the asm-generic tree before merging the loongarch code in the
+same place.
 
+     Arnd
+
+[1] https://lore.kernel.org/lkml/20220414220214.24556-1-palmer@rivosinc.com/
