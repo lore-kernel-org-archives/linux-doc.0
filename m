@@ -2,180 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66996C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Apr 2022 23:00:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E8E2C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 00:57:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239840AbiD2XDl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 19:03:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34422 "EHLO
+        id S1381148AbiD3BAq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 21:00:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381665AbiD2XDk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 19:03:40 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D964317AAB;
-        Fri, 29 Apr 2022 16:00:19 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id d15so8368495plh.2;
-        Fri, 29 Apr 2022 16:00:19 -0700 (PDT)
+        with ESMTP id S240051AbiD3BAn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 21:00:43 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB3819AE55;
+        Fri, 29 Apr 2022 17:57:23 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id qe3-20020a17090b4f8300b001dc24e4da73so400409pjb.1;
+        Fri, 29 Apr 2022 17:57:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dlmPAtCVXUFto+oenKYnRNw/Xs3pnpINvENJYUeN16c=;
-        b=cJF2fEOEEoqrAx/jcayEkxBxGGDVlNLpslj3mUsd8/B4N7l8kBmhGf0vYnVWCW/cKZ
-         bczgoiLlyKfezu90N/Yd/NGxR5Z1RjL/QdrooC7XIbzV997qqTjc5p6hA88y3Ex46Iba
-         +MaWxBvWg1zn4gAyJdD4iuHUgYo2ke8OV1Bk+wpxbkkb9FPVUPBT98m6Cqd5uFvUlA66
-         sDDhF6ZK77uKamkbP0Czt8781Uz/BPfSls5HwoUIRlySZyw9UMd0PZgbkXPtvzxIwHsu
-         Gs8CX+hkzgCb3HuhbxzqNFaP7lGFWnyCxkiDmVpskJfZ0r7LLBTgOKAGVsmYnasrJdVB
-         jJ2w==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=mNyLvH43MfPDniIsq9lMkWz/KLzGO/YPNGTp4lBSC4c=;
+        b=Ikn2m/zUdMTBUneTvHpZGEvTEvEkBSKkAf7tfUvGabeK/E23MOq6UhUFbeQ3k9G2U7
+         UoA3O3+BGw2v7X/jbMz3hjxTrHYm7YBNQeels+KnyC35p0Qs1rjyVX7xSJrgfUAfgdJi
+         RW6tKIsKNbIVLx6j7+5qvyyr3zm99GWWoIiUIpeTclTXMxl/WxCVRCD72QCv1v1w9/IO
+         zNV2+tyQWMmPlVkRV0CgpfkmO3+umUR+DmkRyZwdXJC/cRF18wQ6OZl8GNJ7gz6LoqMr
+         abiSSbxYqVfIxshW6SMxw/iaZHq6j7zLP5JOhsAs+O2W5ySd18cCy6Q60dhzw1OcpLZ/
+         dC5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=dlmPAtCVXUFto+oenKYnRNw/Xs3pnpINvENJYUeN16c=;
-        b=DBoWSz6680Spxn98W5beaIB97AfC8RuMtexapylndgml5O5DFPsOFygKXQJ6FZhmYa
-         XzyLZHAd+4yZ+I8budzN736TGEmxNNoqAg23tVfO7StGN4Qexz9/AYRPUhGO/wpelAI3
-         zzSeEmrx6Lbtx3KmZq3K/D5cwcRxn+igzGq99e/f/ujNVjEP/r4h71YID1mTuf3um3Eh
-         lxhfX/ZsOqykFte2puX2TPTZdx/QVqfd/cTxf7AKusmVrx54/YHTvzOmrSwTkprMGPKk
-         Bz/P7sGpB/dll9a9M/Id4pFHTXYzQ4c3174LRpEYaZNTP8RBv4u/MgRXnKD/oyPHLipw
-         Rksg==
-X-Gm-Message-State: AOAM530V/Eyj57E7a3Ey+Bbo/udaEi8f288onxskf1SbkVlbz/3f0iWz
-        944zDfeSAoKypKfxdqy8BJg=
-X-Google-Smtp-Source: ABdhPJy6tKo3op8pC1HVFCOodWCd18LjL3zXn+zhgLtkD6QGn8EKs5nxc71an7cx2vr0s06sClN83g==
-X-Received: by 2002:a17:902:9b94:b0:156:2c08:14a5 with SMTP id y20-20020a1709029b9400b001562c0814a5mr1332397plp.60.1651273219221;
-        Fri, 29 Apr 2022 16:00:19 -0700 (PDT)
-Received: from localhost.localdomain (164.174.128.101.dy.bbexcite.jp. [101.128.174.164])
-        by smtp.gmail.com with ESMTPSA id s14-20020a170902ea0e00b0015e8d4eb29esm63140plg.232.2022.04.29.16.00.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 16:00:18 -0700 (PDT)
-From:   Kosuke Fujimoto <fujimotokosuke0@gmail.com>
-To:     shibata@linuxfoundation.org
-Cc:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>, corbet@lwn.net,
-        akiyks@gmail.com, skhan@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4] docs/trans/ja_JP/howto: Don't mention specific kernel versions
-Date:   Sat, 30 Apr 2022 08:00:01 +0900
-Message-Id: <20220429230001.6124-1-fujimotokosuke0@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        bh=mNyLvH43MfPDniIsq9lMkWz/KLzGO/YPNGTp4lBSC4c=;
+        b=ehQjd8pFdGh0JavSOMEECI9TJRY8H32yvgdBqJkjjGAycrelFcR1l/4610v7W5K+zy
+         9G+mNwBKm1yMsjed9sRZF3C5ftohm8U3rke/QSWk9sDntnnt86AuJ6KJ4CDgmKBs1xfl
+         qevjkJKPgf216EUq//hYpdEeA/GAmJ5VwjNvJnKwAc9c7SuYx9Tz6fCS4YYD3eWKyF1T
+         Py4gIRHLGcrk+f2UnpFcJQEWiy9pv2u07gTAdd+MiAWFdUpCqM+O4UVloBVHySkub1p9
+         gIGzXpZap7ywbW5svaTc28W7ejYyg0n9ylsURyLomRhQAeHJ8h6W94YCarZCXADBXZ6V
+         he0g==
+X-Gm-Message-State: AOAM530l1yJjtr4a+Om6jGfBX3K3RbtlwYZeEn5+iAQCMhVZUuOn6fY4
+        enF1HEhOKIkv8R8GfbHFBLg=
+X-Google-Smtp-Source: ABdhPJwE/7f5AnlFfXfh4dUCYmbF+dvvij3jKffdGgValII8eU6AVuSoxIGBoluNUioKER8t6HMOFg==
+X-Received: by 2002:a17:90a:9418:b0:1d8:91d1:4d74 with SMTP id r24-20020a17090a941800b001d891d14d74mr6779237pjo.62.1651280243475;
+        Fri, 29 Apr 2022 17:57:23 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id o18-20020a170903301200b0015e8d4eb2ddsm204019pla.295.2022.04.29.17.57.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Apr 2022 17:57:22 -0700 (PDT)
+Message-ID: <83176583-f392-ed9c-a4a2-9d8f67c0fd19@gmail.com>
+Date:   Sat, 30 Apr 2022 09:57:19 +0900
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] Documentation/vm/page_owner.rst: Fix syntax error and
+ Describe details using table
+Content-Language: en-US
+To:     Shenghong Han <hanshenghong2019@email.szu.edu.cn>, corbet@lwn.net
+Cc:     akpm@linux-foundation.org, baihaowen@meizu.com, seakeel@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        caoyixuan2019@email.szu.edu.cn, yejiajian2018@email.szu.edu.cn,
+        yuhongf@szu.edu.cn
+References: <20220429181926.10658-1-hanshenghong2019@email.szu.edu.cn>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20220429181926.10658-1-hanshenghong2019@email.szu.edu.cn>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This change is based on commit d2b008f134b7
-("Documentation/process/howto: Update for 4.x -> 5.x versioning").
+Hi,
 
-Replace "4.x kernel version" with generic term such as "mainline tree"
+On Sat, 30 Apr 2022 02:19:26 +0800,
+Shenghong Han wrote:
+> Subject: [PATCH] Documentation/vm/page_owner.rst: ...
+This is v2 of the patch, isn't it?  If so, it should be indicated
+in the prefix as "[PATCH v2]".
 
-Signed-off-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
-Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
----
-V2: Reformatted commit log messagae (Yokosawa-san)
-V3: Updated some expressions (Shibata-san)
-- added "version number" in mainline tree section
-- updated from "stable kernel" to "stable tree"
-V4: Added reviewed by tag and removed extra characters (Yokosawa-san)
----
- Documentation/translations/ja_JP/howto.rst | 44 +++++++++++-----------
- 1 file changed, 21 insertions(+), 23 deletions(-)
+> Some syntax errors exist in "page_owner.rst". Thanks to Akira Yokosawa and
+> Haowen Bai for tips to help improve the documentation.> 
+> We try to fix them. Hope that the Documentation is showed as we expect.
+In changelog, describe technical facts.  Not what you think or hope.
+You need to do a respin with a better explanation at least.
 
-diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/translations/ja_JP/howto.rst
-index d667f9d8a02a..deac41eb038a 100644
---- a/Documentation/translations/ja_JP/howto.rst
-+++ b/Documentation/translations/ja_JP/howto.rst
-@@ -262,21 +262,21 @@ Linux カーネルの開発プロセスは現在幾つかの異なるメイン
- チ」と多数のサブシステム毎のカーネルブランチから構成されます。これらの
- ブランチとは -
- 
--  - メインの 4.x カーネルツリー
--  - 4.x.y -stable カーネルツリー
--  - サブシステム毎のカーネルツリーとパッチ
--  - 統合テストのための 4.x -next カーネルツリー
-+  - Linus のメインラインツリー
-+  - メジャー番号をまたぐ数本の安定版ツリー
-+  - サブシステム毎のカーネルツリー
-+  - 統合テストのための linux-next カーネルツリー
- 
--4.x カーネルツリー
-+メインラインツリー
- ~~~~~~~~~~~~~~~~~~
- 
--4.x カーネルは Linus Torvalds によってメンテナンスされ、
--https://kernel.org の pub/linux/kernel/v4.x/ ディレクトリに存在します。
-+メインラインツリーは Linus Torvalds によってメンテナンスされ、
-+https://kernel.org のリポジトリに存在します。
- この開発プロセスは以下のとおり -
- 
-   - 新しいカーネルがリリースされた直後に、2週間の特別期間が設けられ、
-     この期間中に、メンテナ達は Linus に大きな差分を送ることができます。
--    このような差分は通常 -next カーネルに数週間含まれてきたパッチです。
-+    このような差分は通常 linux-next カーネルに数週間含まれてきたパッチです。
-     大きな変更は git(カーネルのソース管理ツール、詳細は
-     http://git-scm.com/ 参照) を使って送るのが好ましいやり方ですが、パッ
-     チファイルの形式のまま送るのでも十分です。
-@@ -303,20 +303,18 @@ Andrew Morton が Linux-kernel メーリングリストにカーネルリリー
-         前もって決められた計画によってリリースされるものではないから
-         です。」*
- 
--4.x.y -stable カーネルツリー
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+メジャー番号をまたぐ数本の安定版ツリー
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- バージョン番号が3つの数字に分かれているカーネルは -stable カーネルです。
--これには、4.x カーネルで見つかったセキュリティ問題や重大な後戻りに対す
--る比較的小さい重要な修正が含まれます。
-+これには最初の2つのバージョン番号の数字に対応した、
-+メインラインリリースで見つかったセキュリティ問題や
-+重大な後戻りに対する比較的小さい重要な修正が含まれます。
- 
- これは、開発/実験的バージョンのテストに協力することに興味が無く、最新
- の安定したカーネルを使いたいユーザに推奨するブランチです。
- 
--もし、4.x.y カーネルが存在しない場合には、番号が一番大きい 4.x が最新
--の安定版カーネルです。
--
--4.x.y は "stable" チーム <stable@vger.kernel.org> でメンテされており、
-+安定版ツリーは"stable" チーム <stable@vger.kernel.org> でメンテされており、
- 必要に応じてリリースされます。通常のリリース期間は 2週間毎ですが、差
- し迫った問題がなければもう少し長くなることもあります。セキュリティ関
- 連の問題の場合はこれに対してだいたいの場合、すぐにリリースがされます。
-@@ -326,7 +324,7 @@ Documentation/process/stable-kernel-rules.rst ファイルにはどのような
- 類の変更が -stable ツリーに受け入れ可能か、またリリースプロセスがどう
- 動くかが記述されています。
- 
--サブシステム毎のカーネルツリーとパッチ
-+サブシステム毎のカーネルツリー
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- それぞれのカーネルサブシステムのメンテナ達は --- そして多くのカーネル
-@@ -351,19 +349,19 @@ quilt シリーズとして公開されているパッチキューも使われ
- けることができます。大部分のこれらの patchwork のサイトは
- https://patchwork.kernel.org/ でリストされています。
- 
--統合テストのための 4.x -next カーネルツリー
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+統合テストのための linux-next カーネルツリー
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--サブシステムツリーの更新内容がメインラインの 4.x ツリーにマージされる
-+サブシステムツリーの更新内容がメインラインツリーにマージされる
- 前に、それらは統合テストされる必要があります。この目的のため、実質的に
- 全サブシステムツリーからほぼ毎日プルされてできる特別なテスト用のリポジ
- トリが存在します-
- 
-        https://git.kernel.org/?p=linux/kernel/git/next/linux-next.git
- 
--このやり方によって、-next カーネルは次のマージ機会でどんなものがメイン
--ラインカーネルにマージされるか、おおまかなの展望を提供します。-next カー
--ネルの実行テストを行う冒険好きなテスターは大いに歓迎されます。
-+このやり方によって、linux-next は次のマージ機会でどんなものがメイン
-+ラインにマージされるか、おおまかなの展望を提供します。
-+linux-next の実行テストを行う冒険好きなテスターは大いに歓迎されます。
- 
- バグレポート
- -------------
--- 
-2.25.1
+Hint: A fix without using tables would be the simplest.  Please look
+at the changes in the preceding section I made in commit 5603f9bdea68
+("docs: vm/page_owner: use literal blocks for param description").
+You are seeing the build error because a literal block ends at a next
+line which starts from column 1.
 
+I don't think Jon would dislike the simplest approach. :-)
+
+Of course, if you guys love tables so much, I don't mind.
+
+> 
+> Signed-off-by: Shenghong Han <hanshenghong2019@email.szu.edu.cn>
+> Fixes: edc93abbcc6d ("tools/vm/page_owner_sort.c: support sorting blocks by multiple keys")
+SHA-1 ID of a not-yet-merged commit will likely break later in
+the merge window.
+
+Good luck!
+
+        Thanks, Akira
+> 
+> ---
+> Thanks Jonathan's suggestion.
+> 
+> This fix is a simpler than before.
+> And yes, It has built in my machine.
+> 
+> Best,
+> 
+> 	Shenghong Han
+> ---
+> ---
+>  Documentation/vm/page_owner.rst | 15 ++++++++++-----
+>  1 file changed, 10 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+> index 25622c715..0ecb4a739 100644
+> --- a/Documentation/vm/page_owner.rst
+> +++ b/Documentation/vm/page_owner.rst
+[...]
