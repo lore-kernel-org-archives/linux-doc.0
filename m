@@ -2,124 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E8E2C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 00:57:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C02C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 02:54:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381148AbiD3BAq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Apr 2022 21:00:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58788 "EHLO
+        id S238521AbiD3C5g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Apr 2022 22:57:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240051AbiD3BAn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 21:00:43 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB3819AE55;
-        Fri, 29 Apr 2022 17:57:23 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id qe3-20020a17090b4f8300b001dc24e4da73so400409pjb.1;
-        Fri, 29 Apr 2022 17:57:23 -0700 (PDT)
+        with ESMTP id S234499AbiD3C5f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Apr 2022 22:57:35 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A932B1AB0
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 19:54:15 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id q23so12924064wra.1
+        for <linux-doc@vger.kernel.org>; Fri, 29 Apr 2022 19:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=mNyLvH43MfPDniIsq9lMkWz/KLzGO/YPNGTp4lBSC4c=;
-        b=Ikn2m/zUdMTBUneTvHpZGEvTEvEkBSKkAf7tfUvGabeK/E23MOq6UhUFbeQ3k9G2U7
-         UoA3O3+BGw2v7X/jbMz3hjxTrHYm7YBNQeels+KnyC35p0Qs1rjyVX7xSJrgfUAfgdJi
-         RW6tKIsKNbIVLx6j7+5qvyyr3zm99GWWoIiUIpeTclTXMxl/WxCVRCD72QCv1v1w9/IO
-         zNV2+tyQWMmPlVkRV0CgpfkmO3+umUR+DmkRyZwdXJC/cRF18wQ6OZl8GNJ7gz6LoqMr
-         abiSSbxYqVfIxshW6SMxw/iaZHq6j7zLP5JOhsAs+O2W5ySd18cCy6Q60dhzw1OcpLZ/
-         dC5A==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=At5x0vwx+0kNPvKIIZERfAAx8DzudMw2FI8jUD9f4fw=;
+        b=afOHB8WfTSVmo1t+0T6XP+znSB29GtGLFCnuGs+mt2nkcNlosx4otYCqwoXBLsgDC2
+         QqR4DBAm7zWcL3KiOlME6s9jySPzKxBZOdzkOZv5ZB1kt54x3Wygne733T3cG/uIc2X/
+         YYeIrHFsToqqOnhfkeBxRssS/M6ZozFR+aGfWX3kfemIhEqzagiyEI+LHJsXzI1Ce2vW
+         jQf0zFLVMtB6Igcy9dOTfvhWO16Ohv4qKlxjwG68pvKzoXmG6NZRnK+JRaOnKSMq25Lc
+         xXzSLo52MTmes+WsiPyKggaRRQlO+iRthhScWjWJ0CmSIJwZJe2iQsMhzlrwF9ZTkxt6
+         QxQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=mNyLvH43MfPDniIsq9lMkWz/KLzGO/YPNGTp4lBSC4c=;
-        b=ehQjd8pFdGh0JavSOMEECI9TJRY8H32yvgdBqJkjjGAycrelFcR1l/4610v7W5K+zy
-         9G+mNwBKm1yMsjed9sRZF3C5ftohm8U3rke/QSWk9sDntnnt86AuJ6KJ4CDgmKBs1xfl
-         qevjkJKPgf216EUq//hYpdEeA/GAmJ5VwjNvJnKwAc9c7SuYx9Tz6fCS4YYD3eWKyF1T
-         Py4gIRHLGcrk+f2UnpFcJQEWiy9pv2u07gTAdd+MiAWFdUpCqM+O4UVloBVHySkub1p9
-         gIGzXpZap7ywbW5svaTc28W7ejYyg0n9ylsURyLomRhQAeHJ8h6W94YCarZCXADBXZ6V
-         he0g==
-X-Gm-Message-State: AOAM530l1yJjtr4a+Om6jGfBX3K3RbtlwYZeEn5+iAQCMhVZUuOn6fY4
-        enF1HEhOKIkv8R8GfbHFBLg=
-X-Google-Smtp-Source: ABdhPJwE/7f5AnlFfXfh4dUCYmbF+dvvij3jKffdGgValII8eU6AVuSoxIGBoluNUioKER8t6HMOFg==
-X-Received: by 2002:a17:90a:9418:b0:1d8:91d1:4d74 with SMTP id r24-20020a17090a941800b001d891d14d74mr6779237pjo.62.1651280243475;
-        Fri, 29 Apr 2022 17:57:23 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id o18-20020a170903301200b0015e8d4eb2ddsm204019pla.295.2022.04.29.17.57.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Apr 2022 17:57:22 -0700 (PDT)
-Message-ID: <83176583-f392-ed9c-a4a2-9d8f67c0fd19@gmail.com>
-Date:   Sat, 30 Apr 2022 09:57:19 +0900
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=At5x0vwx+0kNPvKIIZERfAAx8DzudMw2FI8jUD9f4fw=;
+        b=rxPQ/SYtGiPUk/omRNVomKmso4A6PQLz+wn5yTXdyEBI+npuq6RpEBV3U7i7Q8hqO9
+         TLrgENu9F+05QH8QJGv1ov1RJsHwfipoUZiezqUmxqM4uJ4lH6pH5ZZxSqkW3wyCxqPr
+         KIOf3kDYBVknVJqN7KmZXpHR9BmuzuWjBnfyN4HcjrE/ga5EoV6ug6Y95SpJTYvSGR3j
+         PXecWQiOp3CvTT6pqpoE3bPRd7sFdpwLYm9K7ehhW+1pZj+Pd1S4rSJUOI4QCwuF3/75
+         DRUdXzPihiz21l75SKTT+SwLzqQTkn+ZEC4bf466hBmPh6iVFXp3WoEWOJoPU7lG9Sj4
+         jMNQ==
+X-Gm-Message-State: AOAM530k6cs8fArvhv+YgxgNwahio9wvKRg9jI8LyW3AdlQPM98hnVS9
+        rV7/99cL9gM0NrvFQaF+ufkESVsKL6r4mdeSr2UDQw==
+X-Google-Smtp-Source: ABdhPJyeIB2RkdixEXoN25B4RRGZcH4tLs0XeX0TGRPl8SUbZAQ5Pg5Ry/w/sOv+m/oNwrr7ExkT0Psenbv3heh6mhA=
+X-Received: by 2002:a5d:4806:0:b0:20a:da03:711b with SMTP id
+ l6-20020a5d4806000000b0020ada03711bmr1387927wrq.395.1651287253894; Fri, 29
+ Apr 2022 19:54:13 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] Documentation/vm/page_owner.rst: Fix syntax error and
- Describe details using table
-Content-Language: en-US
-To:     Shenghong Han <hanshenghong2019@email.szu.edu.cn>, corbet@lwn.net
-Cc:     akpm@linux-foundation.org, baihaowen@meizu.com, seakeel@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        caoyixuan2019@email.szu.edu.cn, yejiajian2018@email.szu.edu.cn,
-        yuhongf@szu.edu.cn
-References: <20220429181926.10658-1-hanshenghong2019@email.szu.edu.cn>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220429181926.10658-1-hanshenghong2019@email.szu.edu.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220429043913.626647-1-davidgow@google.com> <YmuPFGrkzQYACgK0@kroah.com>
+In-Reply-To: <YmuPFGrkzQYACgK0@kroah.com>
+From:   David Gow <davidgow@google.com>
+Date:   Sat, 30 Apr 2022 10:54:02 +0800
+Message-ID: <CABVgOSmn3fTOr0LB3bUMJOzKTjNd6EMtSEKz5ZRfTfeF7DiE2w@mail.gmail.com>
+Subject: Re: [PATCH] kunit: Taint kernel if any tests run
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Fri, Apr 29, 2022 at 3:09 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Apr 29, 2022 at 12:39:14PM +0800, David Gow wrote:
+> > KUnit tests are not supposed to run on production systems: they may do
+> > deliberately illegal things to trigger errors, and have security
+> > implications (assertions will often deliberately leak kernel addresses).
+> >
+> > Add a new taint type, TAINT_KUNIT to signal that a KUnit test has been
+> > run. This will be printed as 'N' (for kuNit, as K, U and T were already
+> > taken).
+> >
+> > This should discourage people from running KUnit tests on production
+> > systems, and to make it easier to tell if tests have been run
+> > accidentally (by loading the wrong configuration, etc.)
+> >
+> > Signed-off-by: David Gow <davidgow@google.com>
 
-On Sat, 30 Apr 2022 02:19:26 +0800,
-Shenghong Han wrote:
-> Subject: [PATCH] Documentation/vm/page_owner.rst: ...
-This is v2 of the patch, isn't it?  If so, it should be indicated
-in the prefix as "[PATCH v2]".
+< snip >
 
-> Some syntax errors exist in "page_owner.rst". Thanks to Akira Yokosawa and
-> Haowen Bai for tips to help improve the documentation.> 
-> We try to fix them. Hope that the Documentation is showed as we expect.
-In changelog, describe technical facts.  Not what you think or hope.
-You need to do a respin with a better explanation at least.
+> > +     [ TAINT_KUNIT ]                 = { 'N', ' ', false },
+>
+> As kunit tests can be in modules, shouldn't this be "true" here?
 
-Hint: A fix without using tables would be the simplest.  Please look
-at the changes in the preceding section I made in commit 5603f9bdea68
-("docs: vm/page_owner: use literal blocks for param description").
-You are seeing the build error because a literal block ends at a next
-line which starts from column 1.
+Ah, good catch. While I tend to use either built-in tests (or modules
+which are immediately unloaded), there are definitely some cases where
+the tests are part of long-lasting modules.
 
-I don't think Jon would dislike the simplest approach. :-)
+I'll send out v2 with that changed.
 
-Of course, if you guys love tables so much, I don't mind.
+> Overall, I like it, makes sense to me.  The "N" will take some getting
+> used to, and I have no idea why "T" was for "struct randomization", that
+> would have allowed you to use "T" instead.  Oh well.
 
-> 
-> Signed-off-by: Shenghong Han <hanshenghong2019@email.szu.edu.cn>
-> Fixes: edc93abbcc6d ("tools/vm/page_owner_sort.c: support sorting blocks by multiple keys")
-SHA-1 ID of a not-yet-merged commit will likely break later in
-the merge window.
+Yeah, 'T' would've been nice, but I doubt it'd be worth trying to
+change it now. At least we haven't had to resort to emoji...
 
-Good luck!
+Adding an actual name as Jani suggested would be a good idea, IMHO,
+though obviously best done in a separate patch.
 
-        Thanks, Akira
-> 
-> ---
-> Thanks Jonathan's suggestion.
-> 
-> This fix is a simpler than before.
-> And yes, It has built in my machine.
-> 
-> Best,
-> 
-> 	Shenghong Han
-> ---
-> ---
->  Documentation/vm/page_owner.rst | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-> index 25622c715..0ecb4a739 100644
-> --- a/Documentation/vm/page_owner.rst
-> +++ b/Documentation/vm/page_owner.rst
-[...]
+
+Cheers,
+-- David
