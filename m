@@ -2,71 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8CCBC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 13:32:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32C24C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 13:35:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359808AbiD3Nfd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Apr 2022 09:35:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55744 "EHLO
+        id S1382797AbiD3Niw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Apr 2022 09:38:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241829AbiD3Nfc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Apr 2022 09:35:32 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B931FA94DF
-        for <linux-doc@vger.kernel.org>; Sat, 30 Apr 2022 06:32:10 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id z5-20020a17090a468500b001d2bc2743c4so9495019pjf.0
-        for <linux-doc@vger.kernel.org>; Sat, 30 Apr 2022 06:32:10 -0700 (PDT)
+        with ESMTP id S1345995AbiD3Nig (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Apr 2022 09:38:36 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511C4D47
+        for <linux-doc@vger.kernel.org>; Sat, 30 Apr 2022 06:35:14 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id a11so9082101pff.1
+        for <linux-doc@vger.kernel.org>; Sat, 30 Apr 2022 06:35:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=dbDWgmPkPLStp/l8kRXyOJz5NyE5KuQFyXl2VDskwyU=;
-        b=nxXKBufS8v7zlmdyBhrIqOI6zYhkk5YZIBkJiU12Zysh/RGlGNgqQYhx5g1z5j2AhE
-         ujAPtVqtDXU0WrK5k8bDm10KlHjZMnTHcJERL0TD/hNud6NQ69sCO4ivlgRbMSqsfWUF
-         1VtYQ2CSj0fWyKVw/UarmeZwlHQrtMTS8aH8PqdF2AMtUZjoafNoGybi0/3GpVD6hCUF
-         qPdixGrPflNOGw8cnppv+b8kl+2BFgtYNRjnYyCGLCo7zDjtDUcQX6RV7zVbXV5MrWf/
-         3SJSgdtSOruQiqVhb2QhvcKWrglLGmnLNGAxlKEjjDtAeQk23qgt986PvDycdWdhYnsn
-         sXfQ==
+        bh=HQ59R31kOZxcptZQ/S5iazOxCiS3izDuAYFbVd8n5/E=;
+        b=069McI4DqR70XB3lIDxTUYctr70jsgeTteu9YrPkryeuCdx5reEP5fsrwymoWOztw0
+         UeacU9zAQAPbNv7GDh66Z6jn6K1L63pamKDQZbfImlOn6hHqtmNb4ofb2OkWugzt199f
+         jqMTrTWtn1ei+Rz+J0TYmpapdXx32AvycWXHPUd3jSYaK7B5GJKw2aTyXoT4aAdpOvzq
+         1/FgH64mmfuA/zm8GlAqH6C42e+yRk2rIkYybNE77mMNpwZ77ux8m9D0O08+RhW4pvqX
+         I8oWSX2QXZ+jZcH9xaUIJOWUSsWaPtg3YFtYQwzxGu4T9pOls3nmfVLOomr+RQvUUNzy
+         pmEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=dbDWgmPkPLStp/l8kRXyOJz5NyE5KuQFyXl2VDskwyU=;
-        b=TCa5BsAtXXYvxJ0ndAy3WfdHqqOhZpWn4HeSwUbFmwJ1fIUqsQbXXPUMQ0K2QzX8Lh
-         IzoBzkWpRG962SQqOB/b6sMpd9i13QFiFs8Gx+xWJVhcPUd2wO+xT5IL7XT/Ca4bW/Ki
-         KErCSO1UVPa+cDf/rZwbN9d/Wt9Pmayi/D0nQiFdrJBW1h30a20k5rHPVaVU3AtaGVwl
-         +f2NI7iF1BbCP2bG5sb/W+9sQbdrFabCzWZc9PaAYcjpGM1XHDeIputHrXOclQv647r+
-         XlPn/ra1r3NObkXzVzLYTgWaPtD5Sxr0YoBZC8PZx/7mvbMeUE6j/b5X2kGQg9fMUzE9
-         XISQ==
-X-Gm-Message-State: AOAM530P9I5Xz/NxMaFWcN6U8RLhtlCmZF9iTOYIyhbPmg3K9eDPxCx5
-        zIg3AvFETtzUZgOzoztiKbHM7A==
-X-Google-Smtp-Source: ABdhPJxfWSvO+6m1XvVr6FutuZE6Ik/Z5TJmpD/tUHd14ymyAHBgC6TYIizTQ14p2WFMZ1ZUk1AGqg==
-X-Received: by 2002:a17:90b:1e4c:b0:1db:cbc5:e031 with SMTP id pi12-20020a17090b1e4c00b001dbcbc5e031mr4280582pjb.62.1651325530190;
-        Sat, 30 Apr 2022 06:32:10 -0700 (PDT)
+        bh=HQ59R31kOZxcptZQ/S5iazOxCiS3izDuAYFbVd8n5/E=;
+        b=JGiHieWR8Ce9YJ+uF8+dVcP43uKskoa8IoEgPa4WDlZDx8mSKEWqj4VI8Tq3NHmT4O
+         n3f7Q0uo0RlOzLbENV4AmjOyVA8b3BexAW0QErPRTVPZRzM0JfeQPJSdUCPPr8lTap4p
+         YgSkGxWPeuufyoJVRPH5FjekmND8iJLGKegcV/DLnXgiyrXHOgqFsKw1OHF1OJT2DF6m
+         /hl7FlaFo7V1a+ij4citUKdZAaVAHP6cSUjF6N5SMS2qQZKjrPynm3nz7tMo+qtkdI2P
+         y0QtgKUts2JYJNtKgF1A3Xwrd0Q+9WgP8G9BPJE3eBN8rZ3rD9zNhsA0uzzvP/ExYHU2
+         T4Bw==
+X-Gm-Message-State: AOAM532opc6a+r7+yR4662bJ/rL8kZHoCPAyzDMdUWxqvcjxj9uDB4k4
+        HdqsDWCAYwVOgW6bcyf74KtmkQ==
+X-Google-Smtp-Source: ABdhPJw+GOcmPoRu8CvP5yUGeeT5/UT0/kkYaRyU2YknYleqFK6MVAW8Aww/4XsGKgnRkkTxY7ozXg==
+X-Received: by 2002:a63:1711:0:b0:3a6:d2df:65f6 with SMTP id x17-20020a631711000000b003a6d2df65f6mr3141798pgl.72.1651325713814;
+        Sat, 30 Apr 2022 06:35:13 -0700 (PDT)
 Received: from [10.254.246.218] ([139.177.225.240])
-        by smtp.gmail.com with ESMTPSA id q26-20020a63505a000000b003aa8b87feb5sm8503912pgl.0.2022.04.30.06.32.04
+        by smtp.gmail.com with ESMTPSA id m11-20020a17090a71cb00b001cd4989feebsm16625792pjs.55.2022.04.30.06.35.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 Apr 2022 06:32:09 -0700 (PDT)
-Message-ID: <8e4d1e8a-6bf7-df07-2cc6-01d840db2757@bytedance.com>
-Date:   Sat, 30 Apr 2022 21:32:01 +0800
+        Sat, 30 Apr 2022 06:35:13 -0700 (PDT)
+Message-ID: <a0b0b3f0-f10e-2832-f494-7cd111d038ff@bytedance.com>
+Date:   Sat, 30 Apr 2022 21:35:06 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 18/18] Documentation: add document for pte_ref
+Subject: Re: [RFC PATCH 13/18] mm: add try_to_free_user_pte() helper
 Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     akpm@linux-foundation.org, tglx@linutronix.de,
-        kirill.shutemov@linux.intel.com, mika.penttila@nextfour.com,
-        david@redhat.com, jgg@nvidia.com, tj@kernel.org, dennis@kernel.org,
-        ming.lei@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        songmuchun@bytedance.com, zhouchengming@bytedance.com
+To:     akpm@linux-foundation.org, tglx@linutronix.de,
+        kirill.shutemov@linux.intel.com, david@redhat.com, jgg@nvidia.com,
+        tj@kernel.org, dennis@kernel.org, ming.lei@redhat.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, songmuchun@bytedance.com,
+        zhouchengming@bytedance.com
 References: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
- <20220429133552.33768-19-zhengqi.arch@bytedance.com>
- <Ym03Z7FlgcCpwXCi@debian.me>
+ <20220429133552.33768-14-zhengqi.arch@bytedance.com>
 From:   Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <Ym03Z7FlgcCpwXCi@debian.me>
+In-Reply-To: <20220429133552.33768-14-zhengqi.arch@bytedance.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -75,120 +73,170 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 2022/4/30 9:19 PM, Bagas Sanjaya wrote:
-> Hi Qi,
+On 2022/4/29 9:35 PM, Qi Zheng wrote:
+> Normally, the percpu_ref of the user PTE page table page is in
+> percpu mode. This patch add try_to_free_user_pte() to switch
+> the percpu_ref to atomic mode and check if it is 0. If the
+> percpu_ref is 0, which means that no one is using the user PTE
+> page table page, then we can safely reclaim it.
 > 
-> On Fri, Apr 29, 2022 at 09:35:52PM +0800, Qi Zheng wrote:
->> +Now in order to pursue high performance, applications mostly use some
->> +high-performance user-mode memory allocators, such as jemalloc or tcmalloc.
->> +These memory allocators use madvise(MADV_DONTNEED or MADV_FREE) to release
->> +physical memory for the following reasons::
->> +
->> + First of all, we should hold as few write locks of mmap_lock as possible,
->> + since the mmap_lock semaphore has long been a contention point in the
->> + memory management subsystem. The mmap()/munmap() hold the write lock, and
->> + the madvise(MADV_DONTNEED or MADV_FREE) hold the read lock, so using
->> + madvise() instead of munmap() to released physical memory can reduce the
->> + competition of the mmap_lock.
->> +
->> + Secondly, after using madvise() to release physical memory, there is no
->> + need to build vma and allocate page tables again when accessing the same
->> + virtual address again, which can also save some time.
->> +
+> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+> ---
+>   include/linux/pte_ref.h |  7 +++
+>   mm/pte_ref.c            | 99 ++++++++++++++++++++++++++++++++++++++++-
+>   2 files changed, 104 insertions(+), 2 deletions(-)
 > 
-> I think we can use enumerated list, like below:
-
-Thanks for your review, LGTM, will do.
-
-> 
-> -- >8 --
-> 
-> diff --git a/Documentation/vm/pte_ref.rst b/Documentation/vm/pte_ref.rst
-> index 0ac1e5a408d7c6..67b18e74fcb367 100644
-> --- a/Documentation/vm/pte_ref.rst
-> +++ b/Documentation/vm/pte_ref.rst
-> @@ -10,18 +10,18 @@ Preface
->   Now in order to pursue high performance, applications mostly use some
->   high-performance user-mode memory allocators, such as jemalloc or tcmalloc.
->   These memory allocators use madvise(MADV_DONTNEED or MADV_FREE) to release
-> -physical memory for the following reasons::
-> -
-> - First of all, we should hold as few write locks of mmap_lock as possible,
-> - since the mmap_lock semaphore has long been a contention point in the
-> - memory management subsystem. The mmap()/munmap() hold the write lock, and
-> - the madvise(MADV_DONTNEED or MADV_FREE) hold the read lock, so using
-> - madvise() instead of munmap() to released physical memory can reduce the
-> - competition of the mmap_lock.
-> -
-> - Secondly, after using madvise() to release physical memory, there is no
-> - need to build vma and allocate page tables again when accessing the same
-> - virtual address again, which can also save some time.
-> +physical memory for the following reasons:
-> +
-> +1. We should hold as few write locks of mmap_lock as possible,
-> +   since the mmap_lock semaphore has long been a contention point in the
-> +   memory management subsystem. The mmap()/munmap() hold the write lock, and
-> +   the madvise(MADV_DONTNEED or MADV_FREE) hold the read lock, so using
-> +   madvise() instead of munmap() to released physical memory can reduce the
-> +   competition of the mmap_lock.
-> +
-> +2. After using madvise() to release physical memory, there is no
-> +   need to build vma and allocate page tables again when accessing the same
-> +   virtual address again, which can also save some time.
+> diff --git a/include/linux/pte_ref.h b/include/linux/pte_ref.h
+> index bfe620038699..379c3b45a6ab 100644
+> --- a/include/linux/pte_ref.h
+> +++ b/include/linux/pte_ref.h
+> @@ -16,6 +16,8 @@ void free_user_pte(struct mm_struct *mm, pmd_t *pmd, unsigned long addr);
+>   bool pte_tryget(struct mm_struct *mm, pmd_t *pmd, unsigned long addr);
+>   void __pte_put(pgtable_t page);
+>   void pte_put(pte_t *ptep);
+> +void try_to_free_user_pte(struct mm_struct *mm, pmd_t *pmd, unsigned long addr,
+> +			  bool switch_back);
 >   
->   The following is the largest user PTE page table memory that can be
->   allocated by a single user process in a 32-bit and a 64-bit system.
-> 
->> +The following is the largest user PTE page table memory that can be
->> +allocated by a single user process in a 32-bit and a 64-bit system.
->> +
-> 
-> We can say "assuming 4K page size" here,
-> 
->> ++---------------------------+--------+---------+
->> +|                           | 32-bit | 64-bit  |
->> ++===========================+========+=========+
->> +| user PTE page table pages | 3 MiB  | 512 GiB |
->> ++---------------------------+--------+---------+
->> +| user PMD page table pages | 3 KiB  | 1 GiB   |
->> ++---------------------------+--------+---------+
->> +
->> +(for 32-bit, take 3G user address space, 4K page size as an example;
->> + for 64-bit, take 48-bit address width, 4K page size as an example.)
->> +
-> 
-> ... instead of here.
+>   #else /* !CONFIG_FREE_USER_PTE */
+>   
+> @@ -47,6 +49,11 @@ static inline void pte_put(pte_t *ptep)
+>   {
+>   }
+>   
+> +static inline void try_to_free_user_pte(struct mm_struct *mm, pmd_t *pmd,
+> +					unsigned long addr, bool switch_back)
+> +{
+> +}
+> +
+>   #endif /* CONFIG_FREE_USER_PTE */
+>   
+>   #endif /* _LINUX_PTE_REF_H */
+> diff --git a/mm/pte_ref.c b/mm/pte_ref.c
+> index 5b382445561e..bf9629272c71 100644
+> --- a/mm/pte_ref.c
+> +++ b/mm/pte_ref.c
+> @@ -8,6 +8,9 @@
+>   #include <linux/pte_ref.h>
+>   #include <linux/percpu-refcount.h>
+>   #include <linux/slab.h>
+> +#include <linux/hugetlb.h>
+> +#include <asm/tlbflush.h>
+> +#include <asm/pgalloc.h>
+>   
+>   #ifdef CONFIG_FREE_USER_PTE
+>   
+> @@ -44,8 +47,6 @@ void pte_ref_free(pgtable_t pte)
+>   	kfree(ref);
+>   }
+>   
+> -void free_user_pte(struct mm_struct *mm, pmd_t *pmd, unsigned long addr) {}
+> -
+>   /*
+>    * pte_tryget - try to get the pte_ref of the user PTE page table page
+>    * @mm: pointer the target address space
+> @@ -102,4 +103,98 @@ void pte_put(pte_t *ptep)
+>   }
+>   EXPORT_SYMBOL(pte_put);
+>   
+> +#ifdef CONFIG_DEBUG_VM
+> +void pte_free_debug(pmd_t pmd)
+> +{
+> +	pte_t *ptep = (pte_t *)pmd_page_vaddr(pmd);
+> +	int i = 0;
+> +
+> +	for (i = 0; i < PTRS_PER_PTE; i++)
+> +		BUG_ON(!pte_none(*ptep++));
+> +}
+> +#else
+> +static inline void pte_free_debug(pmd_t pmd)
+> +{
+> +}
+> +#endif
+> +
+> +static inline void pte_free_rcu(struct rcu_head *rcu)
+> +{
+> +	struct page *page = container_of(rcu, struct page, rcu_head);
+> +
+> +	pgtable_pte_page_dtor(page);
+> +	__free_page(page);
+> +}
+> +
+> +/*
+> + * free_user_pte - free the user PTE page table page
+> + * @mm: pointer the target address space
+> + * @pmd: pointer to a PMD
+> + * @addr: start address of the tlb range to be flushed
+> + *
+> + * Context: The pmd range has been unmapped and TLB purged. And the user PTE
+> + *	    page table page will be freed by rcu handler.
+> + */
+> +void free_user_pte(struct mm_struct *mm, pmd_t *pmd, unsigned long addr)
+> +{
+> +	struct vm_area_struct vma = TLB_FLUSH_VMA(mm, 0);
+> +	spinlock_t *ptl;
+> +	pmd_t pmdval;
+> +
+> +	ptl = pmd_lock(mm, pmd);
+> +	pmdval = *pmd;
+> +	if (pmd_none(pmdval) || pmd_leaf(pmdval)) {
+> +		spin_unlock(ptl);
+> +		return;
+> +	}
+> +	pmd_clear(pmd);
+> +	flush_tlb_range(&vma, addr, addr + PMD_SIZE);
+> +	spin_unlock(ptl);
+> +
+> +	pte_free_debug(pmdval);
+> +	mm_dec_nr_ptes(mm);
+> +	call_rcu(&pmd_pgtable(pmdval)->rcu_head, pte_free_rcu);
+> +}
+> +
+> +/*
+> + * try_to_free_user_pte - try to free the user PTE page table page
+> + * @mm: pointer the target address space
+> + * @pmd: pointer to a PMD
+> + * @addr: virtual address associated with pmd
+> + * @switch_back: indicates if switching back to percpu mode is required
+> + */
+> +void try_to_free_user_pte(struct mm_struct *mm, pmd_t *pmd, unsigned long addr,
+> +			  bool switch_back)
+> +{
+> +	pgtable_t pte;
+> +
+> +	if (&init_mm == mm)
+> +		return;
+> +
+> +	if (!pte_tryget(mm, pmd, addr))
+> +		return;
+> +	pte = pmd_pgtable(*pmd);
+> +	percpu_ref_switch_to_atomic_sync(pte->pte_ref);
+> +	rcu_read_lock();
+> +	/*
+> +	 * Here we can safely put the pte_ref because we already hold the rcu
+> +	 * lock, which guarantees that the user PTE page table page will not
+> +	 * be released.
+> +	 */
+> +	__pte_put(pte);
+> +	if (percpu_ref_is_zero(pte->pte_ref)) {
+> +		rcu_read_unlock();
+> +		free_user_pte(mm, pmd, addr & PMD_MASK);
+> +		return;
+> +	}
+> +	rcu_read_unlock();
+> +
+> +	if (switch_back) {
+> +		if (pte_tryget(mm, pmd, addr)) {
+> +			percpu_ref_switch_to_percpu(pte->pte_ref);
+> +			__pte_put(pte);
+> +		}
+> +	}
 
-will do.
+We shouldn't switch back to percpu mode here, it will drastically reduce
+performance.
 
-> 
->> +There is also a lock-less scenario(such as fast GUP). Fortunately, we don't need
->> +to do any additional operations to ensure that the system is in order. Take fast
->> +GUP as an example::
->> +
->> +	thread A		thread B
->> +	fast GUP		madvise(MADV_DONTNEED)
->> +	========		======================
->> +
->> +	get_user_pages_fast_only()
->> +	--> local_irq_save();
->> +				call_rcu(pte_free_rcu)
->> +	    gup_pgd_range();
->> +	    local_irq_restore();
->> +	    			/* do pte_free_rcu() */
->> +
-> 
-> I see whitespace warning circa do pte_free_rcu() line above when
-> applying this series.
-
-will fix.
-
-Thanks,
-Qi
-
-> 
-> Thanks.
-> 
+> +}
+> +
+>   #endif /* CONFIG_FREE_USER_PTE */
 
 -- 
 Thanks,
