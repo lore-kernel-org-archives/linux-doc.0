@@ -2,169 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4273AC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 06:26:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87A12C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 06:40:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348723AbiD3GaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Apr 2022 02:30:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37076 "EHLO
+        id S238473AbiD3GoK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Apr 2022 02:44:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238155AbiD3GaJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Apr 2022 02:30:09 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CB9D167D3;
-        Fri, 29 Apr 2022 23:26:46 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id l11-20020a17090a49cb00b001d923a9ca99so8989166pjm.1;
-        Fri, 29 Apr 2022 23:26:46 -0700 (PDT)
+        with ESMTP id S231935AbiD3GoJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Apr 2022 02:44:09 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E48315729;
+        Fri, 29 Apr 2022 23:40:48 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id cq17-20020a17090af99100b001dc0386cd8fso3612293pjb.5;
+        Fri, 29 Apr 2022 23:40:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=65gbH99Ie2ps8ltGauBlx8zj/8q89alb6NfyqqfPWs0=;
-        b=PLle8i7v1ah8swjXYmP8S90WynzBnfpKzN6Cz6PEgvaAaFi0u5PyWS1pYSLuChxQTG
-         OdPiYb/2/eXtwND7ZVF9GailXR9mbiEOUJMOKdNWh1nhbGwDc2mJRngV/RP6uR8bzhEa
-         46SkWsnAzExxg3q8yAdxejtwMSExZZFG+1BMzyoBZcfxGCYQQeOGlDOL0/8BJMxwXuiZ
-         kYWR9z63cTGxMdo0kKoyev3LCmUm5qHtQEqmxiCkTfAkYWCb8Lf+0yFrny9qFRGAlKV3
-         e7buWDjhimSq7ueLbuxeZYC5jrvPro3TJyrX8sLvDWbywXjECsFVyN5QQis7Veh1uvCz
-         epPQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=YUPwNyLPHZa5hixR22g0azdeZ0E7hPm3LgYZIKLMpT8=;
+        b=bkPrR2BfpZPU4Yu0AR4GZ+CO51ixoWTwtHQXvYiGDUWhQTs7gvg3cmFJFlfhzhA+CM
+         twJEMlI15VquADfqF+puE7B5xiS2eCIYdyhjU2z61J9+7fkOP/sr9oob+rV+Z/krmcSw
+         ROlEkTITVuKWQKFjGgz6K7be42DKVBhTlNx69obnZ1cUcK8QLxVwb82NouQ/Xzokr5WH
+         HiBgerP+FFeHZjPqMhq323P5cxdQ1S+gNiJQosuzh++Rb7eryiRh+eboxSyCpUH5Bvkt
+         kbD2xlFIOSKOizGEol/hr5wJ0KLRU4NDy+SBGuEoJBbfkp5L0UrYKC3oGNxNKjYsSw1/
+         AkIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=65gbH99Ie2ps8ltGauBlx8zj/8q89alb6NfyqqfPWs0=;
-        b=MaUC5mTFO2tdTuh9e7RU4nvucUmHPBu5tNAgcPcbLRwIRgaQ+PGv9TkJxZ2crJZ4n7
-         /4+aAfpUwnW24yorefk6exy4uDiyUR7mF7b5215mRhL34TO8OgGiYpoW4ahyY6tjlQ/S
-         Ce72yIPmcAgrBLAtaGb+kCJk3QMJQ0rZjoWcokZtsiqeTek6YJGVDU71+ZGIpqsUlj3V
-         m6sMOjipmjnvq/aXBvWIUzC+cTWyVdA5k0AjyJTsd4xfb87U8+ZRKI8Kydj4LeVyOYrO
-         85TyoiGtyaUSbc7hUFthAddBoy1nbxnpnNy/vLeHZnK4m2N/SBVwfEYkQZsdxgD8gH7E
-         G1YQ==
-X-Gm-Message-State: AOAM533hdNJRN9CjT+n1tKOfkAo7/ab4YO5fAdCILnMSnUqDvMR+IXjU
-        /njoI246zZyc7EFyoLE4q68=
-X-Google-Smtp-Source: ABdhPJwbKzUBYecx9iUN8S9t4j0DIEa0/LbYLEsUEp+pk2rJMNujd+Dr+AjV1dcvPIGtQAMHmcBYYg==
-X-Received: by 2002:a17:903:208:b0:15c:7dd0:eb64 with SMTP id r8-20020a170903020800b0015c7dd0eb64mr2798843plh.40.1651300005702;
-        Fri, 29 Apr 2022 23:26:45 -0700 (PDT)
-Received: from smtpclient.apple (121.142.5.103.wi-fi.wi2.ne.jp. [103.5.142.121])
-        by smtp.gmail.com with ESMTPSA id r11-20020a170903014b00b0015e8d4eb2bcsm644169plc.262.2022.04.29.23.26.43
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 29 Apr 2022 23:26:45 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH v4] docs/trans/ja_JP/howto: Don't mention specific kernel
- versions
-From:   Kosuke Fujimoto <fujimotokosuke0@gmail.com>
-In-Reply-To: <475af784-ae64-1a8c-6e81-cf64cf3079b8@gmail.com>
-Date:   Sat, 30 Apr 2022 15:26:41 +0900
-Cc:     Tsugikazu Shibata <shibata@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <A7E94B97-84F6-4BDB-B5C3-33AADE91D877@gmail.com>
-References: <20220429230001.6124-1-fujimotokosuke0@gmail.com>
- <CAO+cJp0T-OrC1x+pTezPqWdkOKcSXutLF6yb=YO7TCVMh7BxwQ@mail.gmail.com>
- <475af784-ae64-1a8c-6e81-cf64cf3079b8@gmail.com>
-To:     Akira Yokosawa <akiyks@gmail.com>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=YUPwNyLPHZa5hixR22g0azdeZ0E7hPm3LgYZIKLMpT8=;
+        b=3IH8BooiztmOMZaafefv1AMErOEtU10fFLFmUlKYkSLPlmrPae5L5DHxHN7dgkCxUg
+         RXfvy6GXLTSJPlN2LEDCtxz5ycU7wKuIyCiethmje9fv/3i5MefafHxTCQI5lzmKL9mw
+         7bRfhTflkYiadbtXszeBgzsuFyRsVTVQeokrj+2K5tonpVByQutNgEbQqCCStdyiKCzk
+         nZWWwj97jrR0X8sXyXXr1FppZ5qT6fCf5GT3Irl3ln/w0a3E8CITrsw6ar9NMHO7eyJB
+         ni50W4TYPafX9QJ7XtPT29Y0AzQoSVAfBJzKErU55wm+XYfJx4mlXvXVCW4T2oKvSvv8
+         O9sA==
+X-Gm-Message-State: AOAM530FF1ShwMyRrVjAqzAYNOmRPO08080+k0Y7y9v+4PX3a+eKvWVE
+        5eAyvzTa8r4NJ352rmIgbhU=
+X-Google-Smtp-Source: ABdhPJyIhwHiAu4ro7z/6oK62fjkTk/fsSZ9nE+GX3E78EqQ7XBTHXDjQ0Yx8w3WXCWECK6oGJxcbQ==
+X-Received: by 2002:a17:90a:bb8f:b0:1d9:650e:10f5 with SMTP id v15-20020a17090abb8f00b001d9650e10f5mr7716611pjr.148.1651300847853;
+        Fri, 29 Apr 2022 23:40:47 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id i3-20020aa787c3000000b0050dc76281c6sm747905pfo.160.2022.04.29.23.40.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Apr 2022 23:40:47 -0700 (PDT)
+Message-ID: <ea37d4f9-26e2-272a-01d6-fa7e8c62687e@gmail.com>
+Date:   Sat, 30 Apr 2022 15:40:42 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] Documentation/vm/page_owner.rst: Fix syntax error and
+ Describe details using table
+Content-Language: en-US
+To:     Shenghong Han <hanshenghong2019@email.szu.edu.cn>, corbet@lwn.net
+Cc:     akpm@linux-foundation.org, baihaowen@meizu.com, seakeel@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        caoyixuan2019@email.szu.edu.cn, yejiajian2018@email.szu.edu.cn,
+        yuhongf@szu.edu.cn
+References: <20220429181926.10658-1-hanshenghong2019@email.szu.edu.cn>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20220429181926.10658-1-hanshenghong2019@email.szu.edu.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 2022/04/30 3:19,
+Shenghong Han wrote:
+> Some syntax errors exist in "page_owner.rst". Thanks to Akira Yokosawa and
+> Haowen Bai for tips to help improve the documentation.
+> 
+> We try to fix them. Hope that the Documentation is showed as we expect.
+> 
+> Signed-off-by: Shenghong Han <hanshenghong2019@email.szu.edu.cn>
+> Fixes: edc93abbcc6d ("tools/vm/page_owner_sort.c: support sorting blocks by multiple keys")
+> 
+> ---
+> Thanks Jonathan's suggestion.
+> 
+> This fix is a simpler than before.
+> And yes, It has built in my machine.
+> 
+> Best,
+> 
+> 	Shenghong Han
+> ---
+> ---
+>  Documentation/vm/page_owner.rst | 15 ++++++++++-----
+>  1 file changed, 10 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+> index 25622c715..0ecb4a739 100644
+> --- a/Documentation/vm/page_owner.rst
+> +++ b/Documentation/vm/page_owner.rst
+> @@ -171,11 +171,12 @@ Usage
+>  
+>  STANDARD FORMAT SPECIFIERS
+>  ==========================
+> -::
+>  
+> -For --sort option:
+> +1) For --sort option.
+>  
+> +	====		==========	===========
+>  	KEY		LONG		DESCRIPTION
+> +	====		==========	===========
+>  	p		pid		process ID
+>  	tg		tgid		thread group ID
+>  	n		name		task command name
+> @@ -183,14 +184,18 @@ For --sort option:
+>  	T		txt		full text of block
+>  	ft		free_ts		timestamp of the page when it was released
+>  	at		alloc_ts	timestamp of the page when it was allocated
+> -        ator            allocator       memory allocator for pages
+> +	ator		allocator	memory allocator for pages
+> +	====		==========	===========
+>  
+> -For --curl option:
+> +2) For --curl option.
+>  
+> +	====		==========	===========
+>  	KEY		LONG		DESCRIPTION
+> +	====		==========	===========
+>  	p		pid		process ID
+>  	tg		tgid		thread group ID
+>  	n		name		task command name
+>  	f		free		whether the page has been released or not
+>  	st		stacktrace	stack trace of the page allocation
+> -        ator            allocator       memory allocator for pages
+> +	ator		allocator	memory allocator for pages
+> +	====		==========	===========
+
+So, I have actually tested this.
+
+Are you OK with the look of
+
+  1) For --sort option.
+
+and
+
+  2) For --curl option.
+
+in generated HTML or PDF docs?
+
+In literal blocks, you would see double dashes of "--".
+Now they are converted to so-called endash, which is a single dash
+slightly longer than a normal hyphen.  It looks confusing to me.
+
+To remedy this, you need inline literal markers of
+
+  1) For ``--sort`` option.
+
+and
+
+  2) For ``--curl`` option.
 
 
-> On Apr 30, 2022, at 15:01, Akira Yokosawa <akiyks@gmail.com> wrote:
->=20
-> On Sat, 30 Apr 2022 14:44:33 +0900,
-> Tsugikazu Shibata wrote:
->> Hello Fujimoto-san,
->>=20
->> Thanks for the patch.
->> Unfortunately, I found one more issue..
->>=20
->> On Sat, Apr 30, 2022 at 8:00 AM Kosuke Fujimoto
->> <fujimotokosuke0@gmail.com> wrote:
->>>=20
->>> This change is based on commit d2b008f134b7
->>> ("Documentation/process/howto: Update for 4.x -> 5.x versioning").
->>>=20
->>> Replace "4.x kernel version" with generic term such as "mainline =
-tree"
->>>=20
->>> Signed-off-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
->>> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
->>> ---
->>> V2: Reformatted commit log messagae (Yokosawa-san)
->>> V3: Updated some expressions (Shibata-san)
->>> - added "version number" in mainline tree section
->>> - updated from "stable kernel" to "stable tree"
->>> V4: Added reviewed by tag and removed extra characters =
-(Yokosawa-san)
->>> ---
->>> Documentation/translations/ja_JP/howto.rst | 44 =
-+++++++++++-----------
->>> 1 file changed, 21 insertions(+), 23 deletions(-)
->>>=20
->>> diff --git a/Documentation/translations/ja_JP/howto.rst =
-b/Documentation/translations/ja_JP/howto.rst
->>> index d667f9d8a02a..deac41eb038a 100644
->>> --- a/Documentation/translations/ja_JP/howto.rst
->>> +++ b/Documentation/translations/ja_JP/howto.rst
-> [...]
->>>=20
->>> -=E3=81=93=E3=81=AE=E3=82=84=E3=82=8A=E6=96=B9=E3=81=AB=E3=82=88=E3=81=
-=A3=E3=81=A6=E3=80=81-next =
-=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=AF=E6=AC=A1=E3=81=AE=E3=83=9E=E3=
-=83=BC=E3=82=B8=E6=A9=9F=E4=BC=9A=E3=81=A7=E3=81=A9=E3=82=93=E3=81=AA=E3=82=
-=82=E3=81=AE=E3=81=8C=E3=83=A1=E3=82=A4=E3=83=B3
->>> =
--=E3=83=A9=E3=82=A4=E3=83=B3=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=AB=E3=
-=83=9E=E3=83=BC=E3=82=B8=E3=81=95=E3=82=8C=E3=82=8B=E3=81=8B=E3=80=81=E3=81=
-=8A=E3=81=8A=E3=81=BE=E3=81=8B=E3=81=AA=E3=81=AE=E5=B1=95=E6=9C=9B=E3=82=92=
-=E6=8F=90=E4=BE=9B=E3=81=97=E3=81=BE=E3=81=99=E3=80=82-next =E3=82=AB=E3=83=
-=BC
->>> =
--=E3=83=8D=E3=83=AB=E3=81=AE=E5=AE=9F=E8=A1=8C=E3=83=86=E3=82=B9=E3=83=88=E3=
-=82=92=E8=A1=8C=E3=81=86=E5=86=92=E9=99=BA=E5=A5=BD=E3=81=8D=E3=81=AA=E3=83=
-=86=E3=82=B9=E3=82=BF=E3=83=BC=E3=81=AF=E5=A4=A7=E3=81=84=E3=81=AB=E6=AD=93=
-=E8=BF=8E=E3=81=95=E3=82=8C=E3=81=BE=E3=81=99=E3=80=82
->>> +=E3=81=93=E3=81=AE=E3=82=84=E3=82=8A=E6=96=B9=E3=81=AB=E3=82=88=E3=81=
-=A3=E3=81=A6=E3=80=81linux-next =
-=E3=81=AF=E6=AC=A1=E3=81=AE=E3=83=9E=E3=83=BC=E3=82=B8=E6=A9=9F=E4=BC=9A=E3=
-=81=A7=E3=81=A9=E3=82=93=E3=81=AA=E3=82=82=E3=81=AE=E3=81=8C=E3=83=A1=E3=82=
-=A4=E3=83=B3
->>> =
-+=E3=83=A9=E3=82=A4=E3=83=B3=E3=81=AB=E3=83=9E=E3=83=BC=E3=82=B8=E3=81=95=E3=
-=82=8C=E3=82=8B=E3=81=8B=E3=80=81=E3=81=8A=E3=81=8A=E3=81=BE=E3=81=8B=E3=81=
-=AA=E3=81=AE=E5=B1=95=E6=9C=9B=E3=82=92=E6=8F=90=E4=BE=9B=E3=81=97=E3=81=BE=
-=E3=81=99=E3=80=82
->>=20
->> This would be:
->> =
-=E3=83=A9=E3=82=A4=E3=83=B3=E3=81=AB=E3=83=9E=E3=83=BC=E3=82=B8=E3=81=95=E3=
-=82=8C=E3=82=8B=E3=81=8B=E3=80=81=E3=81=8A=E3=81=8A=E3=81=BE=E3=81=8B=E3=81=
-=AA=E5=B1=95=E6=9C=9B=E3=82=92=E6=8F=90=E4=BE=9B=E3=81=97=E3=81=BE=E3=81=99=
-=E3=80=82
->=20
-> Good eyes!
-> I'm beginning to think I can't be a good reviewer...  :-/
->=20
-> Fujimoto-san, please keep my Reviewed-by: tag in v5.
-> As Shibata-san might catch something else, v5 can wait for a day
-> or so, I guess.
->=20
->        Thanks, Akira
->=20
+By the way, this patch changes ":" to "." at the end of them.
+Are they intentional changes?  If so, why?
 
-Hi Shibata-san,=20
-
-Thank you for pointing that out.=20
-I will fix it and submit tomorrow as Yokosawa-san suggested.
-
-Thanks,
-Kosuke
-
->>=20
->> Thank you for fixing this document.
->>=20
->> Tsugikazu Shibata
-
+        Thanks, Akira
