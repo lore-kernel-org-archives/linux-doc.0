@@ -2,861 +2,186 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BF72C433F5
-	for <linux-doc@archiver.kernel.org>; Sun,  1 May 2022 12:42:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26614C433F5
+	for <linux-doc@archiver.kernel.org>; Sun,  1 May 2022 13:01:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347250AbiEAMp2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 1 May 2022 08:45:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45334 "EHLO
+        id S244086AbiEANE4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 1 May 2022 09:04:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234626AbiEAMp1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 May 2022 08:45:27 -0400
-Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com [IPv6:2607:f8b0:4864:20::a30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18FD06A000;
-        Sun,  1 May 2022 05:41:59 -0700 (PDT)
-Received: by mail-vk1-xa30.google.com with SMTP id bc42so5594759vkb.12;
-        Sun, 01 May 2022 05:41:59 -0700 (PDT)
+        with ESMTP id S235158AbiEANE4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 May 2022 09:04:56 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 982BB17AA7
+        for <linux-doc@vger.kernel.org>; Sun,  1 May 2022 06:01:30 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id m14-20020a17090a34ce00b001d5fe250e23so10850630pjf.3
+        for <linux-doc@vger.kernel.org>; Sun, 01 May 2022 06:01:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linuxfoundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=D5j3P0TPnfEWCPlSH533KQDta4KHttFPWbKWUAnf2Ds=;
-        b=GX8JoPDUtjnSh2GqtiikDUlZaxKG9AZiaUJgxFQt9/WJWyrmnsOsFBaFaBFOMfQ8rV
-         9BiJbBED1axsm7feEw885F7YJNeenIwz1xco9PUSnDxmQex0EZEUif/TfkIES1d97Gio
-         jJd6Xmize8m8k1WVDix3GXayJWd7rnf0lky9CmkPQUc6D1+/SXi3QvzbWAz2S1rUUybg
-         LQbtAKSbz2lfejxxNIvMYRZ3zD2p/0AliV/DQ7OHKmQowg9KVI7+tXXdm13ybrCYHdfr
-         wfxVJGkPOmTQd89TyLOicLsVysPK9JmuscjC7L9BBKr1Do6H+7nt+6WkerdToV2A3cb/
-         sbIg==
+         :cc:content-transfer-encoding;
+        bh=ThyRTKjdeg/D3GoZEAF2qAHjp8u7PbcqfFeGm9LJNZU=;
+        b=QvzEO85GX0Vj/kGddWdIS1wghVldyMC1NjUi3vDtVpTiv0Dw43/BGsdSk+oc5jJxNh
+         2NeV8T3O5rG+0KOa4Y48A7UUdVXuGWOjWzc8QM788o1y1OxoYGAgoDupvtA2FOBGymHV
+         ZU1wmk+myBZJYC5On42xpWUhPU9Hxb/yYCCoo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=D5j3P0TPnfEWCPlSH533KQDta4KHttFPWbKWUAnf2Ds=;
-        b=IyAzxN01metZon577WBmzdFnd85L/DZbUQs/tY5QmHg1mfMAYgu5E8uQ1+V/13OdTx
-         BPdEWVN0elgg6RJH1OC7zJ89Wk6otoL5Bn4YvlOAZzPWB/RFXR3hK5UgDpIkRIHiM/3W
-         C/j4QZrNlhiaJHTvSZJBPZbh60Z9sDFcOrKiX72P+ohQ0hJbKnHXdws+9jdEiE12f4wr
-         EKY9hG6UQwOtNc4B8tHJnuKnVeTQ/WJugpKuv0wUBEYlgDji4bBDfqhIJXW+RVVMCIh1
-         RQmsikS44SFWf2+DcD9Np8ztymNxYTAtjxZGCmyzBihSMrl6JQdfk37MjBKeeAQXxRYU
-         DCKA==
-X-Gm-Message-State: AOAM532bsWc86hM0EbGlDCp+Dt/+WhL6s/HBqeCCEiqN1F3AUpy4Y6nx
-        IzWViq3y2WfawbrR/laBVEefh0aqw7xLMGBhgEo=
-X-Google-Smtp-Source: ABdhPJxNjBFsApy9+x4cuz5v4a6pCBCF9MeoQOOQrMapOs5+C9OdjQpd3ikG5UzOFp17yTyO/nHNaznnsS7bvmGsxdk=
-X-Received: by 2002:a1f:d102:0:b0:345:b1af:81a2 with SMTP id
- i2-20020a1fd102000000b00345b1af81a2mr1955995vkg.5.1651408917870; Sun, 01 May
- 2022 05:41:57 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ThyRTKjdeg/D3GoZEAF2qAHjp8u7PbcqfFeGm9LJNZU=;
+        b=h4lcMOnKUvroPE49ilJVczS1DGwAFt7+hPyQ76qxzknLLq1n2JHwKYH/dSwT0OvV+n
+         D+R0CdT2W6jUC6D1v28E0zikG+cj5LHZMvBfbe6UowKleQ1uvDnXUH1NMy1G35Mbhfv1
+         a9Jdj0DewnA3aaya3SsB43ixC1EuhZeRmjEq9sFdV2Pol0qNKs8JDro7Ggo9HvUFZeCC
+         OIAwU+UzXetdVYFHiBIKesen9Fs7nyXsJjNp0KqbbYFCgyZHhdGqD4bQ9jxC0G+3YSxs
+         KhIBiQ9fPlD8BH3H9WhdIXVOcIDxeCJa7LXj36QlC6Us3H0I4bgD28qdmzlVUBoNInpn
+         F0Zw==
+X-Gm-Message-State: AOAM530FdZ0zD/LA4UO25s8F+P5O/IrVeFpfoYnm+hAbbZu7hamYH115
+        +AU/Ya30uRSXsgYlYTw0cbkxI4mP+x/4rqQS2RvhJQ==
+X-Google-Smtp-Source: ABdhPJwGdonmbGg5X/LvIJpd3OF0GpSJlBvKd61HOTvebhOMEZ+PLY2slkBQVWsIwCsydZnysQeWo9zDBrslFWPFw4c=
+X-Received: by 2002:a17:90a:4417:b0:1ca:a861:3fbf with SMTP id
+ s23-20020a17090a441700b001caa8613fbfmr13322405pjg.80.1651410089648; Sun, 01
+ May 2022 06:01:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
- <20220430090518.3127980-6-chenhuacai@loongson.cn> <3f46aa25-ef45-fff8-dba5-5db1034b38d9@xen0n.name>
-In-Reply-To: <3f46aa25-ef45-fff8-dba5-5db1034b38d9@xen0n.name>
-From:   Huacai Chen <chenhuacai@gmail.com>
-Date:   Sun, 1 May 2022 20:41:46 +0800
-Message-ID: <CAAhV-H7xR_4ib29Kaw3jBX5P=Mu70Lbts26hiPoht94Ouumh=g@mail.gmail.com>
-Subject: Re: [PATCH V9 05/24] LoongArch: Add build infrastructure
-To:     WANG Xuerui <kernel@xen0n.name>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20220501102256.6379-1-fujimotokosuke0@gmail.com>
+In-Reply-To: <20220501102256.6379-1-fujimotokosuke0@gmail.com>
+From:   Tsugikazu Shibata <shibata@linuxfoundation.org>
+Date:   Sun, 1 May 2022 22:01:18 +0900
+Message-ID: <CAO+cJp21-DaqsiFVDDO7X50oPyVMzbazdeYAtaDJA083HXsdrw@mail.gmail.com>
+Subject: Re: [PATCH v5] docs/trans/ja_JP/howto: Don't mention specific kernel versions
+To:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+Cc:     corbet@lwn.net, Akira Yokosawa <akiyks@gmail.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Xuerui,
-
-On Sun, May 1, 2022 at 6:09 PM WANG Xuerui <kernel@xen0n.name> wrote:
->
->
-> On 4/30/22 17:04, Huacai Chen wrote:
-> > This patch adds Kbuild, Makefile, Kconfig and link script for LoongArch
-> > build infrastructure.
-> >
-> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-> > ---
-> >   arch/loongarch/.gitignore              |   9 +
-> >   arch/loongarch/Kbuild                  |   3 +
-> >   arch/loongarch/Kconfig                 | 351 +++++++++++++++++++++++++
-> >   arch/loongarch/Kconfig.debug           |   0
-> >   arch/loongarch/Makefile                |  99 +++++++
-> >   arch/loongarch/include/asm/Kbuild      |  29 ++
-> >   arch/loongarch/include/uapi/asm/Kbuild |   2 +
-> >   arch/loongarch/kernel/Makefile         |  22 ++
-> >   arch/loongarch/kernel/vmlinux.lds.S    | 100 +++++++
-> >   arch/loongarch/lib/Makefile            |   7 +
-> >   arch/loongarch/mm/Makefile             |   9 +
-> >   arch/loongarch/pci/Makefile            |   7 +
-> >   scripts/subarch.include                |   2 +-
-> >   13 files changed, 639 insertions(+), 1 deletion(-)
-> >   create mode 100644 arch/loongarch/.gitignore
-> >   create mode 100644 arch/loongarch/Kbuild
-> >   create mode 100644 arch/loongarch/Kconfig
-> >   create mode 100644 arch/loongarch/Kconfig.debug
-> >   create mode 100644 arch/loongarch/Makefile
-> >   create mode 100644 arch/loongarch/include/asm/Kbuild
-> >   create mode 100644 arch/loongarch/include/uapi/asm/Kbuild
-> >   create mode 100644 arch/loongarch/kernel/Makefile
-> >   create mode 100644 arch/loongarch/kernel/vmlinux.lds.S
-> >   create mode 100644 arch/loongarch/lib/Makefile
-> >   create mode 100644 arch/loongarch/mm/Makefile
-> >   create mode 100644 arch/loongarch/pci/Makefile
-> >
-> > diff --git a/arch/loongarch/.gitignore b/arch/loongarch/.gitignore
-> > new file mode 100644
-> > index 000000000000..fd88d21e7172
-> > --- /dev/null
-> > +++ b/arch/loongarch/.gitignore
-> > @@ -0,0 +1,9 @@
-> > +*.lds
-> > +*.raw
-> > +calc_vmlinuz_load_addr
-> > +elf-entry
-> > +relocs
-> > +vmlinux*
-> > +vmlinuz*
-> > +
-> > +!kernel/vmlinux.lds.S
-> This exclude entry is unnecessary?
-> > diff --git a/arch/loongarch/Kbuild b/arch/loongarch/Kbuild
-> > new file mode 100644
-> > index 000000000000..1ad35aabdd16
-> > --- /dev/null
-> > +++ b/arch/loongarch/Kbuild
-> > @@ -0,0 +1,3 @@
-> > +obj-y += kernel/
-> > +obj-y += mm/
-> > +obj-y += vdso/
-> > diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-> > new file mode 100644
-> > index 000000000000..44b763046893
-> > --- /dev/null
-> > +++ b/arch/loongarch/Kconfig
-> > @@ -0,0 +1,351 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +config LOONGARCH
-> > +     bool
-> > +     default y
-> > +     select ACPI_MCFG if ACPI
-> > +     select ACPI_SYSTEM_POWER_STATES_SUPPORT if ACPI
-> > +     select ARCH_BINFMT_ELF_STATE
-> > +     select ARCH_ENABLE_MEMORY_HOTPLUG
-> > +     select ARCH_ENABLE_MEMORY_HOTREMOVE
-> > +     select ARCH_HAS_ACPI_TABLE_UPGRADE      if ACPI
-> > +     select ARCH_HAS_PTE_SPECIAL
-> > +     select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
-> > +     select ARCH_INLINE_READ_LOCK if !PREEMPTION
-> > +     select ARCH_INLINE_READ_LOCK_BH if !PREEMPTION
-> > +     select ARCH_INLINE_READ_LOCK_IRQ if !PREEMPTION
-> > +     select ARCH_INLINE_READ_LOCK_IRQSAVE if !PREEMPTION
-> > +     select ARCH_INLINE_READ_UNLOCK if !PREEMPTION
-> > +     select ARCH_INLINE_READ_UNLOCK_BH if !PREEMPTION
-> > +     select ARCH_INLINE_READ_UNLOCK_IRQ if !PREEMPTION
-> > +     select ARCH_INLINE_READ_UNLOCK_IRQRESTORE if !PREEMPTION
-> > +     select ARCH_INLINE_WRITE_LOCK if !PREEMPTION
-> > +     select ARCH_INLINE_WRITE_LOCK_BH if !PREEMPTION
-> > +     select ARCH_INLINE_WRITE_LOCK_IRQ if !PREEMPTION
-> > +     select ARCH_INLINE_WRITE_LOCK_IRQSAVE if !PREEMPTION
-> > +     select ARCH_INLINE_WRITE_UNLOCK if !PREEMPTION
-> > +     select ARCH_INLINE_WRITE_UNLOCK_BH if !PREEMPTION
-> > +     select ARCH_INLINE_WRITE_UNLOCK_IRQ if !PREEMPTION
-> > +     select ARCH_INLINE_WRITE_UNLOCK_IRQRESTORE if !PREEMPTION
-> > +     select ARCH_INLINE_SPIN_TRYLOCK if !PREEMPTION
-> > +     select ARCH_INLINE_SPIN_TRYLOCK_BH if !PREEMPTION
-> > +     select ARCH_INLINE_SPIN_LOCK if !PREEMPTION
-> > +     select ARCH_INLINE_SPIN_LOCK_BH if !PREEMPTION
-> > +     select ARCH_INLINE_SPIN_LOCK_IRQ if !PREEMPTION
-> > +     select ARCH_INLINE_SPIN_LOCK_IRQSAVE if !PREEMPTION
-> > +     select ARCH_INLINE_SPIN_UNLOCK if !PREEMPTION
-> > +     select ARCH_INLINE_SPIN_UNLOCK_BH if !PREEMPTION
-> > +     select ARCH_INLINE_SPIN_UNLOCK_IRQ if !PREEMPTION
-> > +     select ARCH_INLINE_SPIN_UNLOCK_IRQRESTORE if !PREEMPTION
-> > +     select ARCH_MIGHT_HAVE_PC_PARPORT
-> > +     select ARCH_MIGHT_HAVE_PC_SERIO
-> > +     select ARCH_SPARSEMEM_ENABLE
-> > +     select ARCH_SUPPORTS_ACPI
-> > +     select ARCH_SUPPORTS_ATOMIC_RMW
-> > +     select ARCH_SUPPORTS_HUGETLBFS
-> > +     select ARCH_USE_BUILTIN_BSWAP
-> > +     select ARCH_USE_CMPXCHG_LOCKREF
-> > +     select ARCH_USE_QUEUED_RWLOCKS
-> > +     select ARCH_USE_QUEUED_SPINLOCKS
-> > +     select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT
-> > +     select ARCH_WANTS_NO_INSTR
-> > +     select BUILDTIME_TABLE_SORT
-> > +     select COMMON_CLK
-> > +     select GENERIC_CLOCKEVENTS
-> > +     select GENERIC_CMOS_UPDATE
-> > +     select GENERIC_CPU_AUTOPROBE
-> > +     select GENERIC_ENTRY
-> > +     select GENERIC_FIND_FIRST_BIT
-> > +     select GENERIC_GETTIMEOFDAY
-> > +     select GENERIC_IRQ_MULTI_HANDLER
-> > +     select GENERIC_IRQ_PROBE
-> > +     select GENERIC_IRQ_SHOW
-> > +     select GENERIC_LIB_ASHLDI3
-> > +     select GENERIC_LIB_ASHRDI3
-> > +     select GENERIC_LIB_CMPDI2
-> > +     select GENERIC_LIB_LSHRDI3
-> > +     select GENERIC_LIB_UCMPDI2
-> > +     select GENERIC_PCI_IOMAP
-> > +     select GENERIC_SCHED_CLOCK
-> > +     select GENERIC_TIME_VSYSCALL
-> > +     select GPIOLIB
-> > +     select HAVE_ARCH_AUDITSYSCALL
-> > +     select HAVE_ARCH_COMPILER_H
-> > +     select HAVE_ARCH_MMAP_RND_BITS if MMU
-> > +     select HAVE_ARCH_SECCOMP_FILTER
-> > +     select HAVE_ARCH_TRACEHOOK
-> > +     select HAVE_ARCH_TRANSPARENT_HUGEPAGE
-> > +     select HAVE_ASM_MODVERSIONS
-> > +     select HAVE_CONTEXT_TRACKING
-> > +     select HAVE_COPY_THREAD_TLS
-> > +     select HAVE_DEBUG_KMEMLEAK
-> > +     select HAVE_DEBUG_STACKOVERFLOW
-> > +     select HAVE_DMA_CONTIGUOUS
-> > +     select HAVE_EXIT_THREAD
-> > +     select HAVE_FAST_GUP
-> > +     select HAVE_GENERIC_VDSO
-> > +     select HAVE_IOREMAP_PROT
-> > +     select HAVE_IRQ_EXIT_ON_IRQ_STACK
-> > +     select HAVE_IRQ_TIME_ACCOUNTING
-> > +     select HAVE_MEMBLOCK
-> > +     select HAVE_MEMBLOCK_NODE_MAP
-> > +     select HAVE_MOD_ARCH_SPECIFIC
-> > +     select HAVE_NMI
-> > +     select HAVE_PCI
-> > +     select HAVE_PERF_EVENTS
-> > +     select HAVE_REGS_AND_STACK_ACCESS_API
-> > +     select HAVE_RSEQ
-> > +     select HAVE_SYSCALL_TRACEPOINTS
-> > +     select HAVE_TIF_NOHZ
-> > +     select HAVE_VIRT_CPU_ACCOUNTING_GEN
-> > +     select IRQ_FORCED_THREADING
-> > +     select IRQ_LOONGARCH_CPU
-> > +     select MODULES_USE_ELF_RELA if MODULES
-> > +     select PCI
-> > +     select PCI_DOMAINS_GENERIC
-> > +     select PCI_ECAM if ACPI
-> > +     select PCI_MSI_ARCH_FALLBACKS
-> > +     select PERF_USE_VMALLOC
-> > +     select RTC_LIB
-> > +     select SPARSE_IRQ
-> > +     select SYSCTL_EXCEPTION_TRACE
-> > +     select SWIOTLB
-> > +     select TRACE_IRQFLAGS_SUPPORT
-> > +     select ZONE_DMA32
-> > +
-> > +config 32BIT
-> > +     bool
-> > +
-> > +config 64BIT
-> > +     def_bool y
-> > +
-> > +config CPU_HAS_FPU
-> > +     bool
-> > +     default y
-> > +
-> > +config CPU_HAS_PREFETCH
-> > +     bool
-> > +     default y
-> > +
-> > +config GENERIC_CALIBRATE_DELAY
-> > +     def_bool y
-> > +
-> > +config GENERIC_CSUM
-> > +     def_bool y
-> > +
-> > +config GENERIC_HWEIGHT
-> > +     def_bool y
-> > +
-> > +config L1_CACHE_SHIFT
-> > +     int
-> > +     default "6"
-> > +
-> > +config LOCKDEP_SUPPORT
-> > +     bool
-> > +     default y
-> > +
-> > +config MACH_LOONGSON32
-> > +     def_bool 32BIT
-> > +
-> > +config MACH_LOONGSON64
-> > +     def_bool 64BIT
-> These two config symbols are not used anywhere in arch/loongarch, but
-> from a quick grep it seems they're sharing the names of the MIPS config
-> symbols, on purpose, maybe for sharing code between the MIPS-era
-> Loongson models and the LoongArch models. If so, a comment explaining
-> this could be beneficial.
-> > +
-> > +config PAGE_SIZE_4KB
-> > +     bool
-> > +
-> > +config PAGE_SIZE_16KB
-> > +     bool
-> > +
-> > +config PAGE_SIZE_64KB
-> > +     bool
-> > +
-> > +config PGTABLE_2LEVEL
-> > +     bool
-> > +
-> > +config PGTABLE_3LEVEL
-> > +     bool
-> > +
-> > +config PGTABLE_4LEVEL
-> > +     bool
-> > +
-> > +config PGTABLE_LEVELS
-> > +     int
-> > +     default 2 if PGTABLE_2LEVEL
-> > +     default 3 if PGTABLE_3LEVEL
-> > +     default 4 if PGTABLE_4LEVEL
-> > +
-> > +config SCHED_OMIT_FRAME_POINTER
-> > +     bool
-> > +     default y
-> > +
-> > +menu "Kernel type"
-> > +
-> > +source "kernel/Kconfig.hz"
-> > +
-> > +choice
-> > +     prompt "Page Table Layout"
-> > +     default 16KB_2LEVEL if 32BIT
-> > +     default 16KB_3LEVEL if 64BIT
-> > +     help
-> > +       Allows choosing the page table layout, which is a combination
-> > +       of page size and page table levels. The virtual memory address
-> > +       space bits are determined by the page table layout.
-> "The size of virtual memory address space"?
-> > +
-> > +config 4KB_3LEVEL
-> > +     bool "4KB with 3 levels"
-> > +     select PAGE_SIZE_4KB
-> > +     select PGTABLE_3LEVEL
-> > +     help
-> > +       This option selects 4KB page size with 3 level page tables, which
-> > +       support a maximum 39 bits of application virtual memory.
-> "a maximum of XX bits" -- similarly for all occurrences below.
-OK, most of your suggestions will be taken.
-
-Huacai
-> > +
-> > +config 4KB_4LEVEL
-> > +     bool "4KB with 4 levels"
-> > +     select PAGE_SIZE_4KB
-> > +     select PGTABLE_4LEVEL
-> > +     help
-> > +       This option selects 4KB page size with 4 level page tables, which
-> > +       support a maximum 48 bits of application virtual memory.
-> > +
-> > +config 16KB_2LEVEL
-> > +     bool "16KB with 2 levels"
-> > +     select PAGE_SIZE_16KB
-> > +     select PGTABLE_2LEVEL
-> > +     help
-> > +       This option selects 16KB page size with 2 level page tables, which
-> > +       support a maximum 36 bits of application virtual memory.
-> > +
-> > +config 16KB_3LEVEL
-> > +     bool "16KB with 3 levels"
-> > +     select PAGE_SIZE_16KB
-> > +     select PGTABLE_3LEVEL
-> > +     help
-> > +       This option selects 16KB page size with 3 level page tables, which
-> > +       support a maximum 47 bits of application virtual memory.
-> > +
-> > +config 64KB_2LEVEL
-> > +     bool "64KB with 2 levels"
-> > +     select PAGE_SIZE_64KB
-> > +     select PGTABLE_2LEVEL
-> > +     help
-> > +       This option selects 64KB page size with 2 level page tables, which
-> > +       support a maximum 42 bits of application virtual memory.
-> > +
-> > +config 64KB_3LEVEL
-> > +     bool "64KB with 3 levels"
-> > +     select PAGE_SIZE_64KB
-> > +     select PGTABLE_3LEVEL
-> > +     help
-> > +       This option selects 64KB page size with 3 level page tables, which
-> > +       support a maximum 55 bits of application virtual memory.
-> > +
-> > +endchoice
-> > +
-> > +config DMI
-> > +     bool "Enable DMI scanning"
-> > +     select DMI_SCAN_MACHINE_NON_EFI_FALLBACK
-> > +     default y
-> > +     help
-> > +       Enabled scanning of DMI to identify machine quirks. Say Y
-> Should be "Enable scanning ..." but the arch/x86 and arch/mips versions
-> of this text all have this typo. Might be wise to fix here... then fix
-> the other two later.
-> > +       here unless you have verified that your setup is not
-> > +       affected by entries in the DMI blacklist. Required by PNP
-> > +       BIOS code.
-> Do we have a "PNP BIOS"? I know this is also copied text, but we may
-> tweak it to suit our platform.
-> > +
-> > +config EFI
-> > +     bool "EFI runtime service support"
-> > +     select UCS2_STRING
-> > +     select EFI_RUNTIME_WRAPPERS
-> > +     help
-> > +       This enables the kernel to use EFI runtime services that are
-> > +       available (such as the EFI variable services).
-> > +
-> > +       This option is only useful on systems that have EFI firmware.
-> > +       In addition, you should use the latest ELILO loader available
-> > +       at <http://elilo.sourceforge.net> in order to take advantage
-> > +       of EFI runtime services. However, even with this option, the
-> Remove mention of ELILO?
-> > +       resultant kernel should continue to boot on existing non-EFI
-> > +       platforms.
-> > +
-> > +config FORCE_MAX_ZONEORDER
-> > +     int "Maximum zone order"
-> > +     range 14 64 if PAGE_SIZE_64KB
-> > +     default "14" if PAGE_SIZE_64KB
-> > +     range 12 64 if PAGE_SIZE_16KB
-> > +     default "12" if PAGE_SIZE_16KB
-> > +     range 11 64
-> > +     default "11"
-> > +     help
-> > +       The kernel memory allocator divides physically contiguous memory
-> > +       blocks into "zones", where each zone is a power of two number of
-> > +       pages.  This option selects the largest power of two that the kernel
-> > +       keeps in the memory allocator.  If you need to allocate very large
-> > +       blocks of physically contiguous memory, then you may need to
-> > +       increase this value.
-> > +
-> > +       This config option is actually maximum order plus one. For example,
-> > +       a value of 11 means that the largest free memory block is 2^10 pages.
-> > +
-> > +       The page size is not necessarily 4KB.  Keep this in mind
-> > +       when choosing a value for this option.
-> > +
-> > +config SECCOMP
-> > +     bool "Enable seccomp to safely compute untrusted bytecode"
-> > +     depends on PROC_FS
-> > +     default y
-> > +     help
-> > +       This kernel feature is useful for number crunching applications
-> > +       that may need to compute untrusted bytecode during their
-> > +       execution. By using pipes or other transports made available to
-> > +       the process as file descriptors supporting the read/write
-> > +       syscalls, it's possible to isolate those applications in
-> > +       their own address space using seccomp. Once seccomp is
-> > +       enabled via /proc/<pid>/seccomp, it cannot be disabled
-> > +       and the task is only allowed to execute a few safe syscalls
-> > +       defined by each seccomp mode.
-> > +
-> > +       If unsure, say Y. Only embedded should say N here.
-> > +
-> > +endmenu
-> > +
-> > +config ARCH_SELECT_MEMORY_MODEL
-> > +     def_bool y
-> > +
-> > +config ARCH_FLATMEM_ENABLE
-> > +     def_bool y
-> > +
-> > +config ARCH_SPARSEMEM_ENABLE
-> > +     def_bool y
-> > +     help
-> > +       Say Y to support efficient handling of sparse physical memory,
-> > +       for architectures which are either NUMA (Non-Uniform Memory Access)
-> > +       or have huge holes in the physical address space for other reasons.
-> > +       See <file:Documentation/vm/numa.rst> for more.
-> > +
-> > +config ARCH_ENABLE_THP_MIGRATION
-> > +     def_bool y
-> > +     depends on TRANSPARENT_HUGEPAGE
-> > +
-> > +config ARCH_MEMORY_PROBE
-> > +     def_bool y
-> > +     depends on MEMORY_HOTPLUG
-> > +
-> > +config MMU
-> > +     bool
-> > +     default y
-> > +
-> > +config ARCH_MMAP_RND_BITS_MIN
-> > +     default 12
-> > +
-> > +config ARCH_MMAP_RND_BITS_MAX
-> > +     default 18
-> > +
-> > +menu "Bus options"
-> > +
-> > +endmenu
-> > +
-> > +menu "Power management options"
-> > +
-> > +source "drivers/acpi/Kconfig"
-> > +
-> > +endmenu
-> > +
-> > +source "drivers/firmware/Kconfig"
-> > diff --git a/arch/loongarch/Kconfig.debug b/arch/loongarch/Kconfig.debug
-> > new file mode 100644
-> > index 000000000000..e69de29bb2d1
-> > diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
-> > new file mode 100644
-> > index 000000000000..0a40e79b3265
-> > --- /dev/null
-> > +++ b/arch/loongarch/Makefile
-> > @@ -0,0 +1,99 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +#
-> > +# Author: Huacai Chen <chenhuacai@loongson.cn>
-> > +# Copyright (C) 2020-2022 Loongson Technology Corporation Limited
-> > +
-> > +#
-> > +# Select the object file format to substitute into the linker script.
-> > +#
-> > +64bit-tool-archpref  = loongarch64
-> > +32bit-bfd            = elf32-loongarch
-> > +64bit-bfd            = elf64-loongarch
-> > +32bit-emul           = elf32loongarch
-> > +64bit-emul           = elf64loongarch
-> > +
-> > +ifdef CONFIG_64BIT
-> > +tool-archpref                = $(64bit-tool-archpref)
-> > +UTS_MACHINE          := loongarch64
-> > +endif
-> > +
-> > +ifneq ($(SUBARCH),$(ARCH))
-> > +  ifeq ($(CROSS_COMPILE),)
-> > +    CROSS_COMPILE := $(call cc-cross-prefix, $(tool-archpref)-linux-  $(tool-archpref)-linux-gnu-  $(tool-archpref)-unknown-linux-gnu-)
-> > +  endif
-> > +endif
-> > +
-> > +cflags-y += $(call cc-option, -mno-check-zero-division)
-> > +
-> > +ifdef CONFIG_64BIT
-> > +ld-emul                      = $(64bit-emul)
-> > +cflags-y             += -mabi=lp64s
-> > +endif
-> > +
-> > +all-y                        := vmlinux
-> > +
-> > +#
-> > +# GCC uses -G0 -mabicalls -fpic as default.  We don't want PIC in the kernel
-> > +# code since it only slows down the whole thing.  At some point we might make
-> > +# use of global pointer optimizations but their use of $r2 conflicts with
-> > +# the current pointer optimization.
-> LoongArch doesn't have any notion of "abicalls", please remove the whole
-> MIPS legacy... or at least replace with something suitable for LoongArch.
-> > +#
-> > +cflags-y                     += -G0 -pipe
-> > +cflags-y                     += -msoft-float
-> > +LDFLAGS_vmlinux                      += -G0 -static -n -nostdlib
-> > +KBUILD_AFLAGS_KERNEL         += -Wa,-mla-global-with-pcrel
-> > +KBUILD_CFLAGS_KERNEL         += -Wa,-mla-global-with-pcrel
-> > +KBUILD_AFLAGS_MODULE         += -Wa,-mla-global-with-abs
-> > +KBUILD_CFLAGS_MODULE         += -fplt -Wa,-mla-global-with-abs,-mla-local-with-abs
-> These switches are the ones that should receive more love via
-> comments... they are here to tell the assembler to emit the "la.global"
-> and "la.local" pseudo-insns in a particular "flavor". Why not simply use
-> the default? This needs explanation!
-> > +
-> > +cflags-y += -ffreestanding
-> > +cflags-y += $(call as-option,-Wa$(comma)-mno-fix-loongson3-llsc,)
-> Unfortunately we're still working around the LL/SC hardware issue even
-> after migrating to LoongArch... might be better to add a comment too.
-> (something along the line of "we work around the issue manually in the
-> handwritten assembly, so no automatic workarounds should kick in")
-> > +
-> > +load-y               = 0x9000000000200000
-> > +bootvars-y   = VMLINUX_LOAD_ADDRESS=$(load-y)
-> > +
-> > +drivers-$(CONFIG_PCI)                += arch/loongarch/pci/
-> > +
-> > +KBUILD_AFLAGS        += $(cflags-y)
-> > +KBUILD_CFLAGS        += $(cflags-y)
-> > +KBUILD_CPPFLAGS += -DVMLINUX_LOAD_ADDRESS=$(load-y)
-> > +
-> > +# This is required to get dwarf unwinding tables into .debug_frame
-> > +# instead of .eh_frame so we don't discard them.
-> > +KBUILD_CFLAGS += -fno-asynchronous-unwind-tables
-> > +KBUILD_CFLAGS += -isystem $(shell $(CC) -print-file-name=include)
-> > +KBUILD_CFLAGS += $(call cc-option,-mstrict-align)
-> Explain reason of this -mstrict-align request -- it's because not all
-> LoongArch cores support unaligned accesses, and as kernel we can't rely
-> on others to provide emulation for these accesses.
-> > +
-> > +KBUILD_LDFLAGS       += -m $(ld-emul)
-> > +
-> > +ifdef CONFIG_LOONGARCH
-> > +CHECKFLAGS += $(shell $(CC) $(KBUILD_CFLAGS) -dM -E -x c /dev/null | \
-> > +     egrep -vw '__GNUC_(MINOR_|PATCHLEVEL_)?_' | \
-> > +     sed -e "s/^\#define /-D'/" -e "s/ /'='/" -e "s/$$/'/" -e 's/\$$/&&/g')
-> > +endif
-> > +
-> > +head-y := arch/loongarch/kernel/head.o
-> > +
-> > +libs-y += arch/loongarch/lib/
-> > +
-> > +prepare: vdso_prepare
-> > +vdso_prepare: prepare0
-> > +     $(Q)$(MAKE) $(build)=arch/loongarch/vdso include/generated/vdso-offsets.h
-> > +
-> > +PHONY += vdso_install
-> > +vdso_install:
-> > +     $(Q)$(MAKE) $(build)=arch/loongarch/vdso $@
-> > +
-> > +all: $(all-y)
-> > +
-> > +CLEAN_FILES += vmlinux
-> > +
-> > +install:
-> > +     $(Q)install -D -m 755 vmlinux $(INSTALL_PATH)/vmlinux-$(KERNELRELEASE)
-> > +     $(Q)install -D -m 644 .config $(INSTALL_PATH)/config-$(KERNELRELEASE)
-> > +     $(Q)install -D -m 644 System.map $(INSTALL_PATH)/System.map-$(KERNELRELEASE)
-> > +
-> > +define archhelp
-> > +     echo '  install              - install kernel into $(INSTALL_PATH)'
-> > +     echo
-> > +endef
-> > diff --git a/arch/loongarch/include/asm/Kbuild b/arch/loongarch/include/asm/Kbuild
-> > new file mode 100644
-> > index 000000000000..a0eed6076c79
-> > --- /dev/null
-> > +++ b/arch/loongarch/include/asm/Kbuild
-> > @@ -0,0 +1,29 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +generic-y += dma-contiguous.h
-> > +generic-y += export.h
-> > +generic-y += mcs_spinlock.h
-> > +generic-y += parport.h
-> > +generic-y += early_ioremap.h
-> > +generic-y += qrwlock.h
-> > +generic-y += qspinlock.h
-> > +generic-y += rwsem.h
-> > +generic-y += segment.h
-> > +generic-y += user.h
-> > +generic-y += stat.h
-> > +generic-y += fcntl.h
-> > +generic-y += ioctl.h
-> > +generic-y += ioctls.h
-> > +generic-y += mman.h
-> > +generic-y += msgbuf.h
-> > +generic-y += sembuf.h
-> > +generic-y += shmbuf.h
-> > +generic-y += statfs.h
-> > +generic-y += socket.h
-> > +generic-y += sockios.h
-> > +generic-y += termios.h
-> > +generic-y += termbits.h
-> > +generic-y += poll.h
-> > +generic-y += param.h
-> > +generic-y += posix_types.h
-> > +generic-y += resource.h
-> > +generic-y += kvm_para.h
-> > diff --git a/arch/loongarch/include/uapi/asm/Kbuild b/arch/loongarch/include/uapi/asm/Kbuild
-> > new file mode 100644
-> > index 000000000000..4aa680ca2e5f
-> > --- /dev/null
-> > +++ b/arch/loongarch/include/uapi/asm/Kbuild
-> > @@ -0,0 +1,2 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +generic-y += kvm_para.h
-> > diff --git a/arch/loongarch/kernel/Makefile b/arch/loongarch/kernel/Makefile
-> > new file mode 100644
-> > index 000000000000..ead27a11e8e0
-> > --- /dev/null
-> > +++ b/arch/loongarch/kernel/Makefile
-> > @@ -0,0 +1,22 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +#
-> > +# Makefile for the Linux/LoongArch kernel.
-> > +#
-> > +
-> > +extra-y              := head.o vmlinux.lds
-> > +
-> > +obj-y                += cpu-probe.o cacheinfo.o cmdline.o env.o setup.o entry.o genex.o \
-> > +                traps.o irq.o idle.o process.o dma.o mem.o io.o reset.o switch.o \
-> > +                elf.o rtc.o syscall.o signal.o time.o topology.o cmpxchg.o \
-> > +                inst.o ptrace.o vdso.o
-> > +
-> > +obj-$(CONFIG_ACPI)           += acpi.o
-> > +obj-$(CONFIG_EFI)            += efi.o
-> > +
-> > +obj-$(CONFIG_CPU_HAS_FPU)    += fpu.o
-> > +
-> > +obj-$(CONFIG_MODULES)                += module.o module-sections.o
-> > +
-> > +obj-$(CONFIG_PROC_FS)                += proc.o
-> > +
-> > +CPPFLAGS_vmlinux.lds         := $(KBUILD_CFLAGS)
-> > diff --git a/arch/loongarch/kernel/vmlinux.lds.S b/arch/loongarch/kernel/vmlinux.lds.S
-> > new file mode 100644
-> > index 000000000000..02abfaaa4892
-> > --- /dev/null
-> > +++ b/arch/loongarch/kernel/vmlinux.lds.S
-> > @@ -0,0 +1,100 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +#include <linux/sizes.h>
-> > +#include <asm/asm-offsets.h>
-> > +#include <asm/thread_info.h>
-> > +
-> > +#define PAGE_SIZE _PAGE_SIZE
-> > +
-> > +/*
-> > + * Put .bss..swapper_pg_dir as the first thing in .bss. This will
-> > + * ensure that it has .bss alignment (64K).
-> > + */
-> > +#define BSS_FIRST_SECTIONS *(.bss..swapper_pg_dir)
-> > +
-> > +#include <asm-generic/vmlinux.lds.h>
-> > +
-> > +OUTPUT_ARCH(loongarch)
-> > +ENTRY(kernel_entry)
-> > +PHDRS {
-> > +     text PT_LOAD FLAGS(7);  /* RWX */
-> > +     note PT_NOTE FLAGS(4);  /* R__ */
-> > +}
-> > +
-> > +jiffies       = jiffies_64;
-> > +
-> > +SECTIONS
-> > +{
-> > +     . = VMLINUX_LOAD_ADDRESS;
-> > +
-> > +     _text = .;
-> > +     .text : {
-> > +             TEXT_TEXT
-> > +             SCHED_TEXT
-> > +             CPUIDLE_TEXT
-> > +             LOCK_TEXT
-> > +             KPROBES_TEXT
-> > +             IRQENTRY_TEXT
-> > +             SOFTIRQENTRY_TEXT
-> > +             *(.fixup)
-> > +             *(.gnu.warning)
-> > +     } :text = 0
-> > +     _etext = .;
-> > +
-> > +     EXCEPTION_TABLE(16)
-> > +
-> > +     . = ALIGN(PAGE_SIZE);
-> > +     __init_begin = .;
-> > +     __inittext_begin = .;
-> > +
-> > +     INIT_TEXT_SECTION(PAGE_SIZE)
-> > +     .exit.text : {
-> > +             EXIT_TEXT
-> > +     }
-> > +
-> > +     __inittext_end = .;
-> > +
-> > +     __initdata_begin = .;
-> > +
-> > +     INIT_DATA_SECTION(16)
-> > +     .exit.data : {
-> > +             EXIT_DATA
-> > +     }
-> > +
-> > +     __initdata_end = .;
-> > +
-> > +     __init_end = .;
-> > +
-> > +     _sdata = .;
-> > +     RO_DATA(4096)
-> > +     RW_DATA(1 << CONFIG_L1_CACHE_SHIFT, PAGE_SIZE, THREAD_SIZE)
-> > +
-> > +     .sdata : {
-> > +             *(.sdata)
-> > +     }
-> > +
-> > +     . = ALIGN(SZ_64K);
-> > +     _edata =  .;
-> > +
-> > +     BSS_SECTION(0, SZ_64K, 8)
-> > +
-> > +     _end = .;
-> > +
-> > +     STABS_DEBUG
-> > +     DWARF_DEBUG
-> > +
-> > +     .gptab.sdata : {
-> > +             *(.gptab.data)
-> > +             *(.gptab.sdata)
-> > +     }
-> > +     .gptab.sbss : {
-> > +             *(.gptab.bss)
-> > +             *(.gptab.sbss)
-> > +     }
-> > +
-> > +     DISCARDS
-> > +     /DISCARD/ : {
-> > +             *(.gnu.attributes)
-> > +             *(.options)
-> > +             *(.eh_frame)
-> > +     }
-> > +}
-> > diff --git a/arch/loongarch/lib/Makefile b/arch/loongarch/lib/Makefile
-> > new file mode 100644
-> > index 000000000000..7f32f3e4a6ec
-> > --- /dev/null
-> > +++ b/arch/loongarch/lib/Makefile
-> > @@ -0,0 +1,7 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +#
-> > +# Makefile for LoongArch-specific library files..
-> One extra period at end of line.
-> > +#
-> > +
-> > +lib-y        += delay.o memset.o memcpy.o memmove.o \
-> > +        clear_user.o copy_user.o dump_tlb.o
-> > diff --git a/arch/loongarch/mm/Makefile b/arch/loongarch/mm/Makefile
-> > new file mode 100644
-> > index 000000000000..8ffc6383f836
-> > --- /dev/null
-> > +++ b/arch/loongarch/mm/Makefile
-> > @@ -0,0 +1,9 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +#
-> > +# Makefile for the Linux/LoongArch-specific parts of the memory manager.
-> > +#
-> > +
-> > +obj-y                                += init.o cache.o tlb.o tlbex.o extable.o \
-> > +                                fault.o ioremap.o maccess.o mmap.o pgtable.o page.o
-> > +
-> > +obj-$(CONFIG_HUGETLB_PAGE)   += hugetlbpage.o
-> > diff --git a/arch/loongarch/pci/Makefile b/arch/loongarch/pci/Makefile
-> > new file mode 100644
-> > index 000000000000..8101ef3df71c
-> > --- /dev/null
-> > +++ b/arch/loongarch/pci/Makefile
-> > @@ -0,0 +1,7 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +#
-> > +# Makefile for the PCI specific kernel interface routines under Linux.
-> > +#
-> > +
-> > +obj-y                                += pci.o
-> > +obj-$(CONFIG_ACPI)           += acpi.o
-> > diff --git a/scripts/subarch.include b/scripts/subarch.include
-> > index 776849a3c500..4bd327d0ae42 100644
-> > --- a/scripts/subarch.include
-> > +++ b/scripts/subarch.include
-> > @@ -10,4 +10,4 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
-> >                                 -e s/s390x/s390/ \
-> >                                 -e s/ppc.*/powerpc/ -e s/mips.*/mips/ \
-> >                                 -e s/sh[234].*/sh/ -e s/aarch64.*/arm64/ \
-> > -                               -e s/riscv.*/riscv/)
-> > +                               -e s/riscv.*/riscv/ -e s/loongarch.*/loongarch/)
+SGVsbG8gRnVqaW1vdG8tc2FuLA0KDQpPbiBTdW4sIE1heSAxLCAyMDIyIGF0IDc6MjMgUE0gS29z
+dWtlIEZ1amltb3RvDQo8ZnVqaW1vdG9rb3N1a2UwQGdtYWlsLmNvbT4gd3JvdGU6DQo+DQo+ICAg
+ICBUaGlzIGNoYW5nZSBpcyBiYXNlZCBvbiBjb21taXQgZDJiMDA4ZjEzNGI3DQo+ICAgICAoIkRv
+Y3VtZW50YXRpb24vcHJvY2Vzcy9ob3d0bzogVXBkYXRlIGZvciA0LnggLT4gNS54IHZlcnNpb25p
+bmciKS4NCj4NCj4gICAgIFJlcGxhY2UgIjQueCBrZXJuZWwgdmVyc2lvbiIgd2l0aCBnZW5lcmlj
+IHRlcm0gc3VjaCBhcyAibWFpbmxpbmUgdHJlZSINCj4NCj4gICAgIFNpZ25lZC1vZmYtYnk6IEtv
+c3VrZSBGdWppbW90byA8ZnVqaW1vdG9rb3N1a2UwQGdtYWlsLmNvbT4NCj4gICAgIFJldmlld2Vk
+LWJ5OiBBa2lyYSBZb2tvc2F3YSA8YWtpeWtzQGdtYWlsLmNvbT4NCg0KTm93LCBhbGwgbG9va3Mg
+Z29vZCB0byBtZS4NCg0KQWNrZWQtYnk6IFRzdWdpa2F6dSBTaGliYXRhIDxzaGliYXRhQGxpbnV4
+Zm91bmRhdGlvbi5vcmc+DQoNClRoYW5rIHlvdSBmb3IgeW91ciBjaGFuZ2VzIQ0KVHN1Z2lrYXp1
+IFNoaWJhdGENCg0KPiAgICAgLS0tDQo+ICAgICBWMjogUmVmb3JtYXR0ZWQgY29tbWl0IGxvZyBt
+ZXNzYWdlIChZb2tvc2F3YS1zYW4pDQo+ICAgICBWMzogVXBkYXRlZCBzb21lIGV4cHJlc3Npb25z
+IChTaGliYXRhLXNhbikNCj4gICAgIC0gYWRkZWQgInZlcnNpb24gbnVtYmVyIiBpbiBtYWlubGlu
+ZSB0cmVlIHNlY3Rpb24NCj4gICAgIC0gdXBkYXRlZCBmcm9tICJzdGFibGUga2VybmVsIiB0byAi
+c3RhYmxlIHRyZWUiDQo+ICAgICBWNDogQWRkZWQgcmV2aWV3ZWQgYnkgdGFnIGFuZCByZW1vdmVk
+IGV4dHJhIGNoYXJhY3RlcnMgKFlva29zYXdhLXNhbikNCj4g44CAICBWNTogUmVtb3ZlZCBhbiBl
+eHRyYSBjaGFyYWN0ZXIgKFNoaWJhdGEtc2FuKQ0KPiAtLS0NCj4gIERvY3VtZW50YXRpb24vdHJh
+bnNsYXRpb25zL2phX0pQL2hvd3RvLnJzdCB8IDQ0ICsrKysrKysrKysrLS0tLS0tLS0tLS0NCj4g
+IDEgZmlsZSBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCAyMyBkZWxldGlvbnMoLSkNCj4NCj4g
+ZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL2hvd3RvLnJzdCBi
+L0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL2hvd3RvLnJzdA0KPiBpbmRleCBkNjY3
+ZjlkOGEwMmEuLjM4ZmVkNmZlNjJmZSAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFu
+c2xhdGlvbnMvamFfSlAvaG93dG8ucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRp
+b25zL2phX0pQL2hvd3RvLnJzdA0KPiBAQCAtMjYyLDIxICsyNjIsMjEgQEAgTGludXgg44Kr44O8
+44ON44Or44Gu6ZaL55m644OX44Ot44K744K544Gv54++5Zyo5bm+44Gk44GL44Gu55Ww44Gq44KL
+44Oh44Kk44OzDQo+ICDjg4HjgI3jgajlpJrmlbDjga7jgrXjg5bjgrfjgrnjg4bjg6Dmr47jga7j
+gqvjg7zjg43jg6vjg5bjg6njg7Pjg4HjgYvjgonmp4vmiJDjgZXjgozjgb7jgZnjgILjgZPjgozj
+gonjga4NCj4gIOODluODqeODs+ODgeOBqOOBryAtDQo+DQo+IC0gIC0g44Oh44Kk44Oz44GuIDQu
+eCDjgqvjg7zjg43jg6vjg4Tjg6rjg7wNCj4gLSAgLSA0LngueSAtc3RhYmxlIOOCq+ODvOODjeOD
+q+ODhOODquODvA0KPiAtICAtIOOCteODluOCt+OCueODhuODoOavjuOBruOCq+ODvOODjeODq+OD
+hOODquODvOOBqOODkeODg+ODgQ0KPiAtICAtIOe1seWQiOODhuOCueODiOOBruOBn+OCgeOBriA0
+LnggLW5leHQg44Kr44O844ON44Or44OE44Oq44O8DQo+ICsgIC0gTGludXMg44Gu44Oh44Kk44Oz
+44Op44Kk44Oz44OE44Oq44O8DQo+ICsgIC0g44Oh44K444Oj44O855Wq5Y+344KS44G+44Gf44GQ
+5pWw5pys44Gu5a6J5a6a54mI44OE44Oq44O8DQo+ICsgIC0g44K144OW44K344K544OG44Og5q+O
+44Gu44Kr44O844ON44Or44OE44Oq44O8DQo+ICsgIC0g57Wx5ZCI44OG44K544OI44Gu44Gf44KB
+44GuIGxpbnV4LW5leHQg44Kr44O844ON44Or44OE44Oq44O8DQo+DQo+IC00Lngg44Kr44O844ON
+44Or44OE44Oq44O8DQo+ICvjg6HjgqTjg7Pjg6njgqTjg7Pjg4Tjg6rjg7wNCj4gIH5+fn5+fn5+
+fn5+fn5+fn5+fg0KPg0KPiAtNC54IOOCq+ODvOODjeODq+OBryBMaW51cyBUb3J2YWxkcyDjgavj
+gojjgaPjgabjg6Hjg7Pjg4bjg4rjg7PjgrnjgZXjgozjgIENCj4gLWh0dHBzOi8va2VybmVsLm9y
+ZyDjga4gcHViL2xpbnV4L2tlcm5lbC92NC54LyDjg4fjgqPjg6zjgq/jg4jjg6rjgavlrZjlnKjj
+gZfjgb7jgZnjgIINCj4gK+ODoeOCpOODs+ODqeOCpOODs+ODhOODquODvOOBryBMaW51cyBUb3J2
+YWxkcyDjgavjgojjgaPjgabjg6Hjg7Pjg4bjg4rjg7PjgrnjgZXjgozjgIENCj4gK2h0dHBzOi8v
+a2VybmVsLm9yZyDjga7jg6rjg53jgrjjg4jjg6rjgavlrZjlnKjjgZfjgb7jgZnjgIINCj4gIOOB
+k+OBrumWi+eZuuODl+ODreOCu+OCueOBr+S7peS4i+OBruOBqOOBiuOCiiAtDQo+DQo+ICAgIC0g
+5paw44GX44GE44Kr44O844ON44Or44GM44Oq44Oq44O844K544GV44KM44Gf55u05b6M44Gr44CB
+MumAsemWk+OBrueJueWIpeacn+mWk+OBjOioreOBkeOCieOCjOOAgQ0KPiAgICAgIOOBk+OBruac
+n+mWk+S4reOBq+OAgeODoeODs+ODhuODiumBlOOBryBMaW51cyDjgavlpKfjgY3jgarlt67liIbj
+gpLpgIHjgovjgZPjgajjgYzjgafjgY3jgb7jgZnjgIINCj4gLSAgICDjgZPjga7jgojjgYbjgarl
+t67liIbjga/pgJrluLggLW5leHQg44Kr44O844ON44Or44Gr5pWw6YCx6ZaT5ZCr44G+44KM44Gm
+44GN44Gf44OR44OD44OB44Gn44GZ44CCDQo+ICsgICAg44GT44Gu44KI44GG44Gq5beu5YiG44Gv
+6YCa5bi4IGxpbnV4LW5leHQg44Kr44O844ON44Or44Gr5pWw6YCx6ZaT5ZCr44G+44KM44Gm44GN
+44Gf44OR44OD44OB44Gn44GZ44CCDQo+ICAgICAg5aSn44GN44Gq5aSJ5pu044GvIGdpdCjjgqvj
+g7zjg43jg6vjga7jgr3jg7zjgrnnrqHnkIbjg4Tjg7zjg6vjgIHoqbPntLDjga8NCj4gICAgICBo
+dHRwOi8vZ2l0LXNjbS5jb20vIOWPgueFpykg44KS5L2/44Gj44Gm6YCB44KL44Gu44GM5aW944G+
+44GX44GE44KE44KK5pa544Gn44GZ44GM44CB44OR44ODDQo+ICAgICAg44OB44OV44Kh44Kk44Or
+44Gu5b2i5byP44Gu44G+44G+6YCB44KL44Gu44Gn44KC5Y2B5YiG44Gn44GZ44CCDQo+IEBAIC0z
+MDMsMjAgKzMwMywxOCBAQCBBbmRyZXcgTW9ydG9uIOOBjCBMaW51eC1rZXJuZWwg44Oh44O844Oq
+44Oz44Kw44Oq44K544OI44Gr44Kr44O844ON44Or44Oq44Oq44O8DQo+ICAgICAgICAgIOWJjeOC
+guOBo+OBpuaxuuOCgeOCieOCjOOBn+ioiOeUu+OBq+OCiOOBo+OBpuODquODquODvOOCueOBleOC
+jOOCi+OCguOBruOBp+OBr+OBquOBhOOBi+OCiQ0KPiAgICAgICAgICDjgafjgZnjgILjgI0qDQo+
+DQo+IC00LngueSAtc3RhYmxlIOOCq+ODvOODjeODq+ODhOODquODvA0KPiAtfn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fg0KPiAr44Oh44K444Oj44O855Wq5Y+344KS44G+44Gf44GQ5pWw5pys
+44Gu5a6J5a6a54mI44OE44Oq44O8DQo+ICt+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn4NCj4NCj4gIOODkOODvOOCuOODp+ODs+eVquWPt+OBjDPjgaTjga7mlbDlrZfjgavl
+iIbjgYvjgozjgabjgYTjgovjgqvjg7zjg43jg6vjga8gLXN0YWJsZSDjgqvjg7zjg43jg6vjgafj
+gZnjgIINCj4gLeOBk+OCjOOBq+OBr+OAgTQueCDjgqvjg7zjg43jg6vjgafopovjgaTjgYvjgaPj
+gZ/jgrvjgq3jg6Xjg6rjg4bjgqPllY/poYzjgoTph43lpKfjgarlvozmiLvjgorjgavlr77jgZkN
+Cj4gLeOCi+avlOi8g+eahOWwj+OBleOBhOmHjeimgeOBquS/ruato+OBjOWQq+OBvuOCjOOBvuOB
+meOAgg0KPiAr44GT44KM44Gr44Gv5pyA5Yid44GuMuOBpOOBruODkOODvOOCuOODp+ODs+eVquWP
+t+OBruaVsOWtl+OBq+WvvuW/nOOBl+OBn+OAgQ0KPiAr44Oh44Kk44Oz44Op44Kk44Oz44Oq44Oq
+44O844K544Gn6KaL44Gk44GL44Gj44Gf44K744Kt44Ol44Oq44OG44Kj5ZWP6aGM44KEDQo+ICvp
+h43lpKfjgarlvozmiLvjgorjgavlr77jgZnjgovmr5TovIPnmoTlsI/jgZXjgYTph43opoHjgark
+v67mraPjgYzlkKvjgb7jgozjgb7jgZnjgIINCj4NCj4gIOOBk+OCjOOBr+OAgemWi+eZui/lrp/p
+qJPnmoTjg5Djg7zjgrjjg6fjg7Pjga7jg4bjgrnjg4jjgavljZTlipvjgZnjgovjgZPjgajjgavo
+iIjlkbPjgYznhKHjgY/jgIHmnIDmlrANCj4gIOOBruWuieWumuOBl+OBn+OCq+ODvOODjeODq+OC
+kuS9v+OBhOOBn+OBhOODpuODvOOCtuOBq+aOqOWlqOOBmeOCi+ODluODqeODs+ODgeOBp+OBmeOA
+gg0KPg0KPiAt44KC44GX44CBNC54Lnkg44Kr44O844ON44Or44GM5a2Y5Zyo44GX44Gq44GE5aC0
+5ZCI44Gr44Gv44CB55Wq5Y+344GM5LiA55Wq5aSn44GN44GEIDQueCDjgYzmnIDmlrANCj4gLeOB
+ruWuieWumueJiOOCq+ODvOODjeODq+OBp+OBmeOAgg0KPiAtDQo+IC00LngueSDjga8gInN0YWJs
+ZSIg44OB44O844OgIDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiDjgafjg6Hjg7Pjg4bjgZXjgozj
+gabjgYrjgorjgIENCj4gK+WuieWumueJiOODhOODquODvOOBryJzdGFibGUiIOODgeODvOODoCA8
+c3RhYmxlQHZnZXIua2VybmVsLm9yZz4g44Gn44Oh44Oz44OG44GV44KM44Gm44GK44KK44CBDQo+
+ICDlv4XopoHjgavlv5zjgZjjgabjg6rjg6rjg7zjgrnjgZXjgozjgb7jgZnjgILpgJrluLjjga7j
+g6rjg6rjg7zjgrnmnJ/plpPjga8gMumAsemWk+avjuOBp+OBmeOBjOOAgeW3rg0KPiAg44GX6L+r
+44Gj44Gf5ZWP6aGM44GM44Gq44GR44KM44Gw44KC44GG5bCR44GX6ZW344GP44Gq44KL44GT44Go
+44KC44GC44KK44G+44GZ44CC44K744Kt44Ol44Oq44OG44Kj6ZaiDQo+ICDpgKPjga7llY/poYzj
+ga7loLTlkIjjga/jgZPjgozjgavlr77jgZfjgabjgaDjgYTjgZ/jgYTjga7loLTlkIjjgIHjgZnj
+gZDjgavjg6rjg6rjg7zjgrnjgYzjgZXjgozjgb7jgZnjgIINCj4gQEAgLTMyNiw3ICszMjQsNyBA
+QCBEb2N1bWVudGF0aW9uL3Byb2Nlc3Mvc3RhYmxlLWtlcm5lbC1ydWxlcy5yc3Qg44OV44Kh44Kk
+44Or44Gr44Gv44Gp44Gu44KI44GG44GqDQo+ICDpoZ7jga7lpInmm7TjgYwgLXN0YWJsZSDjg4Tj
+g6rjg7zjgavlj5fjgZHlhaXjgozlj6/og73jgYvjgIHjgb7jgZ/jg6rjg6rjg7zjgrnjg5fjg63j
+grvjgrnjgYzjganjgYYNCj4gIOWLleOBj+OBi+OBjOiomOi/sOOBleOCjOOBpuOBhOOBvuOBmeOA
+gg0KPg0KPiAt44K144OW44K344K544OG44Og5q+O44Gu44Kr44O844ON44Or44OE44Oq44O844Go
+44OR44OD44OBDQo+ICvjgrXjg5bjgrfjgrnjg4bjg6Dmr47jga7jgqvjg7zjg43jg6vjg4Tjg6rj
+g7wNCj4gIH5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+DQo+DQo+ICDjgZ3j
+gozjgZ7jgozjga7jgqvjg7zjg43jg6vjgrXjg5bjgrfjgrnjg4bjg6Djga7jg6Hjg7Pjg4bjg4rp
+gZTjga8gLS0tIOOBneOBl+OBpuWkmuOBj+OBruOCq+ODvOODjeODqw0KPiBAQCAtMzUxLDE5ICsz
+NDksMTkgQEAgcXVpbHQg44K344Oq44O844K644Go44GX44Gm5YWs6ZaL44GV44KM44Gm44GE44KL
+44OR44OD44OB44Kt44Ol44O844KC5L2/44KP44KMDQo+ICDjgZHjgovjgZPjgajjgYzjgafjgY3j
+gb7jgZnjgILlpKfpg6jliIbjga7jgZPjgozjgonjga4gcGF0Y2h3b3JrIOOBruOCteOCpOODiOOB
+rw0KPiAgaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy8g44Gn44Oq44K544OI44GV44KM44Gm
+44GE44G+44GZ44CCDQo+DQo+IC3ntbHlkIjjg4bjgrnjg4jjga7jgZ/jgoHjga4gNC54IC1uZXh0
+IOOCq+ODvOODjeODq+ODhOODquODvA0KPiAtfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fg0KPiAr57Wx5ZCI44OG44K544OI44Gu44Gf44KB44GuIGxpbnV4LW5leHQg
+44Kr44O844ON44Or44OE44Oq44O8DQo+ICt+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+DQo+DQo+IC3jgrXjg5bjgrfjgrnjg4bjg6Djg4Tjg6rjg7zjga7mm7Tm
+lrDlhoXlrrnjgYzjg6HjgqTjg7Pjg6njgqTjg7Pjga4gNC54IOODhOODquODvOOBq+ODnuODvOOC
+uOOBleOCjOOCiw0KPiAr44K144OW44K344K544OG44Og44OE44Oq44O844Gu5pu05paw5YaF5a65
+44GM44Oh44Kk44Oz44Op44Kk44Oz44OE44Oq44O844Gr44Oe44O844K444GV44KM44KLDQo+ICDl
+iY3jgavjgIHjgZ3jgozjgonjga/ntbHlkIjjg4bjgrnjg4jjgZXjgozjgovlv4XopoHjgYzjgYLj
+gorjgb7jgZnjgILjgZPjga7nm67nmoTjga7jgZ/jgoHjgIHlrp/os6rnmoTjgasNCj4gIOWFqOOC
+teODluOCt+OCueODhuODoOODhOODquODvOOBi+OCieOBu+OBvOavjuaXpeODl+ODq+OBleOCjOOB
+puOBp+OBjeOCi+eJueWIpeOBquODhuOCueODiOeUqOOBruODquODneOCuA0KPiAg44OI44Oq44GM
+5a2Y5Zyo44GX44G+44GZLQ0KPg0KPiAgICAgICAgIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvP3A9
+bGludXgva2VybmVsL2dpdC9uZXh0L2xpbnV4LW5leHQuZ2l0DQo+DQo+IC3jgZPjga7jgoTjgorm
+lrnjgavjgojjgaPjgabjgIEtbmV4dCDjgqvjg7zjg43jg6vjga/mrKHjga7jg57jg7zjgrjmqZ/k
+vJrjgafjganjgpPjgarjgoLjga7jgYzjg6HjgqTjg7MNCj4gLeODqeOCpOODs+OCq+ODvOODjeOD
+q+OBq+ODnuODvOOCuOOBleOCjOOCi+OBi+OAgeOBiuOBiuOBvuOBi+OBquOBruWxleacm+OCkuaP
+kOS+m+OBl+OBvuOBmeOAgi1uZXh0IOOCq+ODvA0KPiAt44ON44Or44Gu5a6f6KGM44OG44K544OI
+44KS6KGM44GG5YaS6Zm65aW944GN44Gq44OG44K544K/44O844Gv5aSn44GE44Gr5q2T6L+O44GV
+44KM44G+44GZ44CCDQo+ICvjgZPjga7jgoTjgormlrnjgavjgojjgaPjgabjgIFsaW51eC1uZXh0
+IOOBr+asoeOBruODnuODvOOCuOapn+S8muOBp+OBqeOCk+OBquOCguOBruOBjOODoeOCpOODsw0K
+PiAr44Op44Kk44Oz44Gr44Oe44O844K444GV44KM44KL44GL44CB44GK44GK44G+44GL44Gq5bGV
+5pyb44KS5o+Q5L6b44GX44G+44GZ44CCDQo+ICtsaW51eC1uZXh0IOOBruWun+ihjOODhuOCueOD
+iOOCkuihjOOBhuWGkumZuuWlveOBjeOBquODhuOCueOCv+ODvOOBr+Wkp+OBhOOBq+atk+i/juOB
+leOCjOOBvuOBmeOAgg0KPg0KPiAg44OQ44Kw44Os44Od44O844OIDQo+ICAtLS0tLS0tLS0tLS0t
+DQo+IC0tDQo+IDIuMjUuMQ0KPg0K
