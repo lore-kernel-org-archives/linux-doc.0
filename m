@@ -2,186 +2,971 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26614C433F5
-	for <linux-doc@archiver.kernel.org>; Sun,  1 May 2022 13:01:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECE07C433FE
+	for <linux-doc@archiver.kernel.org>; Sun,  1 May 2022 13:16:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244086AbiEANE4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 1 May 2022 09:04:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32844 "EHLO
+        id S1347446AbiEANTr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 1 May 2022 09:19:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235158AbiEANE4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 May 2022 09:04:56 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 982BB17AA7
-        for <linux-doc@vger.kernel.org>; Sun,  1 May 2022 06:01:30 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id m14-20020a17090a34ce00b001d5fe250e23so10850630pjf.3
-        for <linux-doc@vger.kernel.org>; Sun, 01 May 2022 06:01:30 -0700 (PDT)
+        with ESMTP id S1347435AbiEANTp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 May 2022 09:19:45 -0400
+Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E887F1EC57;
+        Sun,  1 May 2022 06:16:17 -0700 (PDT)
+Received: by mail-ua1-x92b.google.com with SMTP id x11so2287907uao.2;
+        Sun, 01 May 2022 06:16:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ThyRTKjdeg/D3GoZEAF2qAHjp8u7PbcqfFeGm9LJNZU=;
-        b=QvzEO85GX0Vj/kGddWdIS1wghVldyMC1NjUi3vDtVpTiv0Dw43/BGsdSk+oc5jJxNh
-         2NeV8T3O5rG+0KOa4Y48A7UUdVXuGWOjWzc8QM788o1y1OxoYGAgoDupvtA2FOBGymHV
-         ZU1wmk+myBZJYC5On42xpWUhPU9Hxb/yYCCoo=
+         :cc;
+        bh=pXxSRTnxkHFn6wC9U5YQxFjINN75epKQwt1NOVJ6pdY=;
+        b=anmravSjmCHW7XHkeWJSo/1glkHn5LVyApoPHf9d8kjdUzh3qxqGpFcXqPfotH8gZs
+         zJ+TqXj+bqb98XkmiudoD2jau85R8GXhOmX0lVbBQgS21KzYgB2wt/z4NhZvUlBDgn6l
+         XWhJQ0GinI9zhlxIme48ZXL7kL1wWJ0pnIlNp/zXYWBdJY1JcmVY69KWGG2Nf/kAr1Xz
+         g3RFgkATbUyywLsLP6mqR4HYdCspKEKistD6lK+gYXIw/lFjDh+RIutxHEzFTEkU8z8M
+         bU9amhRfq6Rv+zNaOAoZPNxc+46F1rAn3edKT7vMlRVlEWgebYbFX2Hm2+KUXs20Wz+Z
+         0NpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ThyRTKjdeg/D3GoZEAF2qAHjp8u7PbcqfFeGm9LJNZU=;
-        b=h4lcMOnKUvroPE49ilJVczS1DGwAFt7+hPyQ76qxzknLLq1n2JHwKYH/dSwT0OvV+n
-         D+R0CdT2W6jUC6D1v28E0zikG+cj5LHZMvBfbe6UowKleQ1uvDnXUH1NMy1G35Mbhfv1
-         a9Jdj0DewnA3aaya3SsB43ixC1EuhZeRmjEq9sFdV2Pol0qNKs8JDro7Ggo9HvUFZeCC
-         OIAwU+UzXetdVYFHiBIKesen9Fs7nyXsJjNp0KqbbYFCgyZHhdGqD4bQ9jxC0G+3YSxs
-         KhIBiQ9fPlD8BH3H9WhdIXVOcIDxeCJa7LXj36QlC6Us3H0I4bgD28qdmzlVUBoNInpn
-         F0Zw==
-X-Gm-Message-State: AOAM530FdZ0zD/LA4UO25s8F+P5O/IrVeFpfoYnm+hAbbZu7hamYH115
-        +AU/Ya30uRSXsgYlYTw0cbkxI4mP+x/4rqQS2RvhJQ==
-X-Google-Smtp-Source: ABdhPJwGdonmbGg5X/LvIJpd3OF0GpSJlBvKd61HOTvebhOMEZ+PLY2slkBQVWsIwCsydZnysQeWo9zDBrslFWPFw4c=
-X-Received: by 2002:a17:90a:4417:b0:1ca:a861:3fbf with SMTP id
- s23-20020a17090a441700b001caa8613fbfmr13322405pjg.80.1651410089648; Sun, 01
- May 2022 06:01:29 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=pXxSRTnxkHFn6wC9U5YQxFjINN75epKQwt1NOVJ6pdY=;
+        b=Iu1IC1E0o+tf+Dl1v421+cJPV6bBYIz/vgdM6vyKZKXgClgCf2H8XhJnpfOFxuEKaW
+         ORx7krM87cEQoEE+A1oqBCp8Ly7x57QleC14EVLbTAlbrqNq5KFKmyBl42wUQ2xA4cgZ
+         JCEHkDYu819p3wLGKo8rE2vFX/a0cYF/fygAa8IMnUCZ+aV9/tBbJxpjc6fSvRP9cRdk
+         xPC4GXbasEL43iZmQIRwYj4DMa9kT3bjyFP3ju2OqtMyYv4+8hK3i5KSMNM+mmHqiP5k
+         8EK2jI2Ki0KZgA1ES9bER0yynvBzLNqDJeh41A1qytpHRYG/8y5Yrl2gss8v17nEy2gq
+         yGCg==
+X-Gm-Message-State: AOAM5330bnA1KsXTj3hPVwRQMt+a9evlRV83ibzdLunVblvXb3B5trkq
+        gHAmalrJYsUjUYMGB8Bkmfl4uj0rcWhIe6xvXhE=
+X-Google-Smtp-Source: ABdhPJwCCfe3+Y2mwaUzx11iPz8qj4T2GnUQntpAPENgnLB5DVlApmNubgaz/luyMrXp886xlSpRahc9ilpI8MlEBOI=
+X-Received: by 2002:a9f:3582:0:b0:365:8006:eceb with SMTP id
+ t2-20020a9f3582000000b003658006ecebmr1470345uad.70.1651410976916; Sun, 01 May
+ 2022 06:16:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220501102256.6379-1-fujimotokosuke0@gmail.com>
-In-Reply-To: <20220501102256.6379-1-fujimotokosuke0@gmail.com>
-From:   Tsugikazu Shibata <shibata@linuxfoundation.org>
-Date:   Sun, 1 May 2022 22:01:18 +0900
-Message-ID: <CAO+cJp21-DaqsiFVDDO7X50oPyVMzbazdeYAtaDJA083HXsdrw@mail.gmail.com>
-Subject: Re: [PATCH v5] docs/trans/ja_JP/howto: Don't mention specific kernel versions
-To:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>
-Cc:     corbet@lwn.net, Akira Yokosawa <akiyks@gmail.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
+ <20220430090518.3127980-8-chenhuacai@loongson.cn> <e8e7f70e-ec93-58a1-cd2e-f446e935e0b5@xen0n.name>
+In-Reply-To: <e8e7f70e-ec93-58a1-cd2e-f446e935e0b5@xen0n.name>
+From:   Huacai Chen <chenhuacai@gmail.com>
+Date:   Sun, 1 May 2022 21:16:05 +0800
+Message-ID: <CAAhV-H7T-hXj7ZEW7_XaNk82smgZ_5m_2x1yh_kyoPnu4a+rZg@mail.gmail.com>
+Subject: Re: [PATCH V9 07/24] LoongArch: Add atomic/locking headers
+To:     WANG Xuerui <kernel@xen0n.name>
+Cc:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGVsbG8gRnVqaW1vdG8tc2FuLA0KDQpPbiBTdW4sIE1heSAxLCAyMDIyIGF0IDc6MjMgUE0gS29z
-dWtlIEZ1amltb3RvDQo8ZnVqaW1vdG9rb3N1a2UwQGdtYWlsLmNvbT4gd3JvdGU6DQo+DQo+ICAg
-ICBUaGlzIGNoYW5nZSBpcyBiYXNlZCBvbiBjb21taXQgZDJiMDA4ZjEzNGI3DQo+ICAgICAoIkRv
-Y3VtZW50YXRpb24vcHJvY2Vzcy9ob3d0bzogVXBkYXRlIGZvciA0LnggLT4gNS54IHZlcnNpb25p
-bmciKS4NCj4NCj4gICAgIFJlcGxhY2UgIjQueCBrZXJuZWwgdmVyc2lvbiIgd2l0aCBnZW5lcmlj
-IHRlcm0gc3VjaCBhcyAibWFpbmxpbmUgdHJlZSINCj4NCj4gICAgIFNpZ25lZC1vZmYtYnk6IEtv
-c3VrZSBGdWppbW90byA8ZnVqaW1vdG9rb3N1a2UwQGdtYWlsLmNvbT4NCj4gICAgIFJldmlld2Vk
-LWJ5OiBBa2lyYSBZb2tvc2F3YSA8YWtpeWtzQGdtYWlsLmNvbT4NCg0KTm93LCBhbGwgbG9va3Mg
-Z29vZCB0byBtZS4NCg0KQWNrZWQtYnk6IFRzdWdpa2F6dSBTaGliYXRhIDxzaGliYXRhQGxpbnV4
-Zm91bmRhdGlvbi5vcmc+DQoNClRoYW5rIHlvdSBmb3IgeW91ciBjaGFuZ2VzIQ0KVHN1Z2lrYXp1
-IFNoaWJhdGENCg0KPiAgICAgLS0tDQo+ICAgICBWMjogUmVmb3JtYXR0ZWQgY29tbWl0IGxvZyBt
-ZXNzYWdlIChZb2tvc2F3YS1zYW4pDQo+ICAgICBWMzogVXBkYXRlZCBzb21lIGV4cHJlc3Npb25z
-IChTaGliYXRhLXNhbikNCj4gICAgIC0gYWRkZWQgInZlcnNpb24gbnVtYmVyIiBpbiBtYWlubGlu
-ZSB0cmVlIHNlY3Rpb24NCj4gICAgIC0gdXBkYXRlZCBmcm9tICJzdGFibGUga2VybmVsIiB0byAi
-c3RhYmxlIHRyZWUiDQo+ICAgICBWNDogQWRkZWQgcmV2aWV3ZWQgYnkgdGFnIGFuZCByZW1vdmVk
-IGV4dHJhIGNoYXJhY3RlcnMgKFlva29zYXdhLXNhbikNCj4g44CAICBWNTogUmVtb3ZlZCBhbiBl
-eHRyYSBjaGFyYWN0ZXIgKFNoaWJhdGEtc2FuKQ0KPiAtLS0NCj4gIERvY3VtZW50YXRpb24vdHJh
-bnNsYXRpb25zL2phX0pQL2hvd3RvLnJzdCB8IDQ0ICsrKysrKysrKysrLS0tLS0tLS0tLS0NCj4g
-IDEgZmlsZSBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCAyMyBkZWxldGlvbnMoLSkNCj4NCj4g
-ZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL2hvd3RvLnJzdCBi
-L0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL2hvd3RvLnJzdA0KPiBpbmRleCBkNjY3
-ZjlkOGEwMmEuLjM4ZmVkNmZlNjJmZSAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvamFfSlAvaG93dG8ucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRp
-b25zL2phX0pQL2hvd3RvLnJzdA0KPiBAQCAtMjYyLDIxICsyNjIsMjEgQEAgTGludXgg44Kr44O8
-44ON44Or44Gu6ZaL55m644OX44Ot44K744K544Gv54++5Zyo5bm+44Gk44GL44Gu55Ww44Gq44KL
-44Oh44Kk44OzDQo+ICDjg4HjgI3jgajlpJrmlbDjga7jgrXjg5bjgrfjgrnjg4bjg6Dmr47jga7j
-gqvjg7zjg43jg6vjg5bjg6njg7Pjg4HjgYvjgonmp4vmiJDjgZXjgozjgb7jgZnjgILjgZPjgozj
-gonjga4NCj4gIOODluODqeODs+ODgeOBqOOBryAtDQo+DQo+IC0gIC0g44Oh44Kk44Oz44GuIDQu
-eCDjgqvjg7zjg43jg6vjg4Tjg6rjg7wNCj4gLSAgLSA0LngueSAtc3RhYmxlIOOCq+ODvOODjeOD
-q+ODhOODquODvA0KPiAtICAtIOOCteODluOCt+OCueODhuODoOavjuOBruOCq+ODvOODjeODq+OD
-hOODquODvOOBqOODkeODg+ODgQ0KPiAtICAtIOe1seWQiOODhuOCueODiOOBruOBn+OCgeOBriA0
-LnggLW5leHQg44Kr44O844ON44Or44OE44Oq44O8DQo+ICsgIC0gTGludXMg44Gu44Oh44Kk44Oz
-44Op44Kk44Oz44OE44Oq44O8DQo+ICsgIC0g44Oh44K444Oj44O855Wq5Y+344KS44G+44Gf44GQ
-5pWw5pys44Gu5a6J5a6a54mI44OE44Oq44O8DQo+ICsgIC0g44K144OW44K344K544OG44Og5q+O
-44Gu44Kr44O844ON44Or44OE44Oq44O8DQo+ICsgIC0g57Wx5ZCI44OG44K544OI44Gu44Gf44KB
-44GuIGxpbnV4LW5leHQg44Kr44O844ON44Or44OE44Oq44O8DQo+DQo+IC00Lngg44Kr44O844ON
-44Or44OE44Oq44O8DQo+ICvjg6HjgqTjg7Pjg6njgqTjg7Pjg4Tjg6rjg7wNCj4gIH5+fn5+fn5+
-fn5+fn5+fn5+fg0KPg0KPiAtNC54IOOCq+ODvOODjeODq+OBryBMaW51cyBUb3J2YWxkcyDjgavj
-gojjgaPjgabjg6Hjg7Pjg4bjg4rjg7PjgrnjgZXjgozjgIENCj4gLWh0dHBzOi8va2VybmVsLm9y
-ZyDjga4gcHViL2xpbnV4L2tlcm5lbC92NC54LyDjg4fjgqPjg6zjgq/jg4jjg6rjgavlrZjlnKjj
-gZfjgb7jgZnjgIINCj4gK+ODoeOCpOODs+ODqeOCpOODs+ODhOODquODvOOBryBMaW51cyBUb3J2
-YWxkcyDjgavjgojjgaPjgabjg6Hjg7Pjg4bjg4rjg7PjgrnjgZXjgozjgIENCj4gK2h0dHBzOi8v
-a2VybmVsLm9yZyDjga7jg6rjg53jgrjjg4jjg6rjgavlrZjlnKjjgZfjgb7jgZnjgIINCj4gIOOB
-k+OBrumWi+eZuuODl+ODreOCu+OCueOBr+S7peS4i+OBruOBqOOBiuOCiiAtDQo+DQo+ICAgIC0g
-5paw44GX44GE44Kr44O844ON44Or44GM44Oq44Oq44O844K544GV44KM44Gf55u05b6M44Gr44CB
-MumAsemWk+OBrueJueWIpeacn+mWk+OBjOioreOBkeOCieOCjOOAgQ0KPiAgICAgIOOBk+OBruac
-n+mWk+S4reOBq+OAgeODoeODs+ODhuODiumBlOOBryBMaW51cyDjgavlpKfjgY3jgarlt67liIbj
-gpLpgIHjgovjgZPjgajjgYzjgafjgY3jgb7jgZnjgIINCj4gLSAgICDjgZPjga7jgojjgYbjgarl
-t67liIbjga/pgJrluLggLW5leHQg44Kr44O844ON44Or44Gr5pWw6YCx6ZaT5ZCr44G+44KM44Gm
-44GN44Gf44OR44OD44OB44Gn44GZ44CCDQo+ICsgICAg44GT44Gu44KI44GG44Gq5beu5YiG44Gv
-6YCa5bi4IGxpbnV4LW5leHQg44Kr44O844ON44Or44Gr5pWw6YCx6ZaT5ZCr44G+44KM44Gm44GN
-44Gf44OR44OD44OB44Gn44GZ44CCDQo+ICAgICAg5aSn44GN44Gq5aSJ5pu044GvIGdpdCjjgqvj
-g7zjg43jg6vjga7jgr3jg7zjgrnnrqHnkIbjg4Tjg7zjg6vjgIHoqbPntLDjga8NCj4gICAgICBo
-dHRwOi8vZ2l0LXNjbS5jb20vIOWPgueFpykg44KS5L2/44Gj44Gm6YCB44KL44Gu44GM5aW944G+
-44GX44GE44KE44KK5pa544Gn44GZ44GM44CB44OR44ODDQo+ICAgICAg44OB44OV44Kh44Kk44Or
-44Gu5b2i5byP44Gu44G+44G+6YCB44KL44Gu44Gn44KC5Y2B5YiG44Gn44GZ44CCDQo+IEBAIC0z
-MDMsMjAgKzMwMywxOCBAQCBBbmRyZXcgTW9ydG9uIOOBjCBMaW51eC1rZXJuZWwg44Oh44O844Oq
-44Oz44Kw44Oq44K544OI44Gr44Kr44O844ON44Or44Oq44Oq44O8DQo+ICAgICAgICAgIOWJjeOC
-guOBo+OBpuaxuuOCgeOCieOCjOOBn+ioiOeUu+OBq+OCiOOBo+OBpuODquODquODvOOCueOBleOC
-jOOCi+OCguOBruOBp+OBr+OBquOBhOOBi+OCiQ0KPiAgICAgICAgICDjgafjgZnjgILjgI0qDQo+
-DQo+IC00LngueSAtc3RhYmxlIOOCq+ODvOODjeODq+ODhOODquODvA0KPiAtfn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fg0KPiAr44Oh44K444Oj44O855Wq5Y+344KS44G+44Gf44GQ5pWw5pys
-44Gu5a6J5a6a54mI44OE44Oq44O8DQo+ICt+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn4NCj4NCj4gIOODkOODvOOCuOODp+ODs+eVquWPt+OBjDPjgaTjga7mlbDlrZfjgavl
-iIbjgYvjgozjgabjgYTjgovjgqvjg7zjg43jg6vjga8gLXN0YWJsZSDjgqvjg7zjg43jg6vjgafj
-gZnjgIINCj4gLeOBk+OCjOOBq+OBr+OAgTQueCDjgqvjg7zjg43jg6vjgafopovjgaTjgYvjgaPj
-gZ/jgrvjgq3jg6Xjg6rjg4bjgqPllY/poYzjgoTph43lpKfjgarlvozmiLvjgorjgavlr77jgZkN
-Cj4gLeOCi+avlOi8g+eahOWwj+OBleOBhOmHjeimgeOBquS/ruato+OBjOWQq+OBvuOCjOOBvuOB
-meOAgg0KPiAr44GT44KM44Gr44Gv5pyA5Yid44GuMuOBpOOBruODkOODvOOCuOODp+ODs+eVquWP
-t+OBruaVsOWtl+OBq+WvvuW/nOOBl+OBn+OAgQ0KPiAr44Oh44Kk44Oz44Op44Kk44Oz44Oq44Oq
-44O844K544Gn6KaL44Gk44GL44Gj44Gf44K744Kt44Ol44Oq44OG44Kj5ZWP6aGM44KEDQo+ICvp
-h43lpKfjgarlvozmiLvjgorjgavlr77jgZnjgovmr5TovIPnmoTlsI/jgZXjgYTph43opoHjgark
-v67mraPjgYzlkKvjgb7jgozjgb7jgZnjgIINCj4NCj4gIOOBk+OCjOOBr+OAgemWi+eZui/lrp/p
-qJPnmoTjg5Djg7zjgrjjg6fjg7Pjga7jg4bjgrnjg4jjgavljZTlipvjgZnjgovjgZPjgajjgavo
-iIjlkbPjgYznhKHjgY/jgIHmnIDmlrANCj4gIOOBruWuieWumuOBl+OBn+OCq+ODvOODjeODq+OC
-kuS9v+OBhOOBn+OBhOODpuODvOOCtuOBq+aOqOWlqOOBmeOCi+ODluODqeODs+ODgeOBp+OBmeOA
-gg0KPg0KPiAt44KC44GX44CBNC54Lnkg44Kr44O844ON44Or44GM5a2Y5Zyo44GX44Gq44GE5aC0
-5ZCI44Gr44Gv44CB55Wq5Y+344GM5LiA55Wq5aSn44GN44GEIDQueCDjgYzmnIDmlrANCj4gLeOB
-ruWuieWumueJiOOCq+ODvOODjeODq+OBp+OBmeOAgg0KPiAtDQo+IC00LngueSDjga8gInN0YWJs
-ZSIg44OB44O844OgIDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiDjgafjg6Hjg7Pjg4bjgZXjgozj
-gabjgYrjgorjgIENCj4gK+WuieWumueJiOODhOODquODvOOBryJzdGFibGUiIOODgeODvOODoCA8
-c3RhYmxlQHZnZXIua2VybmVsLm9yZz4g44Gn44Oh44Oz44OG44GV44KM44Gm44GK44KK44CBDQo+
-ICDlv4XopoHjgavlv5zjgZjjgabjg6rjg6rjg7zjgrnjgZXjgozjgb7jgZnjgILpgJrluLjjga7j
-g6rjg6rjg7zjgrnmnJ/plpPjga8gMumAsemWk+avjuOBp+OBmeOBjOOAgeW3rg0KPiAg44GX6L+r
-44Gj44Gf5ZWP6aGM44GM44Gq44GR44KM44Gw44KC44GG5bCR44GX6ZW344GP44Gq44KL44GT44Go
-44KC44GC44KK44G+44GZ44CC44K744Kt44Ol44Oq44OG44Kj6ZaiDQo+ICDpgKPjga7llY/poYzj
-ga7loLTlkIjjga/jgZPjgozjgavlr77jgZfjgabjgaDjgYTjgZ/jgYTjga7loLTlkIjjgIHjgZnj
-gZDjgavjg6rjg6rjg7zjgrnjgYzjgZXjgozjgb7jgZnjgIINCj4gQEAgLTMyNiw3ICszMjQsNyBA
-QCBEb2N1bWVudGF0aW9uL3Byb2Nlc3Mvc3RhYmxlLWtlcm5lbC1ydWxlcy5yc3Qg44OV44Kh44Kk
-44Or44Gr44Gv44Gp44Gu44KI44GG44GqDQo+ICDpoZ7jga7lpInmm7TjgYwgLXN0YWJsZSDjg4Tj
-g6rjg7zjgavlj5fjgZHlhaXjgozlj6/og73jgYvjgIHjgb7jgZ/jg6rjg6rjg7zjgrnjg5fjg63j
-grvjgrnjgYzjganjgYYNCj4gIOWLleOBj+OBi+OBjOiomOi/sOOBleOCjOOBpuOBhOOBvuOBmeOA
-gg0KPg0KPiAt44K144OW44K344K544OG44Og5q+O44Gu44Kr44O844ON44Or44OE44Oq44O844Go
-44OR44OD44OBDQo+ICvjgrXjg5bjgrfjgrnjg4bjg6Dmr47jga7jgqvjg7zjg43jg6vjg4Tjg6rj
-g7wNCj4gIH5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+DQo+DQo+ICDjgZ3j
-gozjgZ7jgozjga7jgqvjg7zjg43jg6vjgrXjg5bjgrfjgrnjg4bjg6Djga7jg6Hjg7Pjg4bjg4rp
-gZTjga8gLS0tIOOBneOBl+OBpuWkmuOBj+OBruOCq+ODvOODjeODqw0KPiBAQCAtMzUxLDE5ICsz
-NDksMTkgQEAgcXVpbHQg44K344Oq44O844K644Go44GX44Gm5YWs6ZaL44GV44KM44Gm44GE44KL
-44OR44OD44OB44Kt44Ol44O844KC5L2/44KP44KMDQo+ICDjgZHjgovjgZPjgajjgYzjgafjgY3j
-gb7jgZnjgILlpKfpg6jliIbjga7jgZPjgozjgonjga4gcGF0Y2h3b3JrIOOBruOCteOCpOODiOOB
-rw0KPiAgaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy8g44Gn44Oq44K544OI44GV44KM44Gm
-44GE44G+44GZ44CCDQo+DQo+IC3ntbHlkIjjg4bjgrnjg4jjga7jgZ/jgoHjga4gNC54IC1uZXh0
-IOOCq+ODvOODjeODq+ODhOODquODvA0KPiAtfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fg0KPiAr57Wx5ZCI44OG44K544OI44Gu44Gf44KB44GuIGxpbnV4LW5leHQg
-44Kr44O844ON44Or44OE44Oq44O8DQo+ICt+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+DQo+DQo+IC3jgrXjg5bjgrfjgrnjg4bjg6Djg4Tjg6rjg7zjga7mm7Tm
-lrDlhoXlrrnjgYzjg6HjgqTjg7Pjg6njgqTjg7Pjga4gNC54IOODhOODquODvOOBq+ODnuODvOOC
-uOOBleOCjOOCiw0KPiAr44K144OW44K344K544OG44Og44OE44Oq44O844Gu5pu05paw5YaF5a65
-44GM44Oh44Kk44Oz44Op44Kk44Oz44OE44Oq44O844Gr44Oe44O844K444GV44KM44KLDQo+ICDl
-iY3jgavjgIHjgZ3jgozjgonjga/ntbHlkIjjg4bjgrnjg4jjgZXjgozjgovlv4XopoHjgYzjgYLj
-gorjgb7jgZnjgILjgZPjga7nm67nmoTjga7jgZ/jgoHjgIHlrp/os6rnmoTjgasNCj4gIOWFqOOC
-teODluOCt+OCueODhuODoOODhOODquODvOOBi+OCieOBu+OBvOavjuaXpeODl+ODq+OBleOCjOOB
-puOBp+OBjeOCi+eJueWIpeOBquODhuOCueODiOeUqOOBruODquODneOCuA0KPiAg44OI44Oq44GM
-5a2Y5Zyo44GX44G+44GZLQ0KPg0KPiAgICAgICAgIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvP3A9
-bGludXgva2VybmVsL2dpdC9uZXh0L2xpbnV4LW5leHQuZ2l0DQo+DQo+IC3jgZPjga7jgoTjgorm
-lrnjgavjgojjgaPjgabjgIEtbmV4dCDjgqvjg7zjg43jg6vjga/mrKHjga7jg57jg7zjgrjmqZ/k
-vJrjgafjganjgpPjgarjgoLjga7jgYzjg6HjgqTjg7MNCj4gLeODqeOCpOODs+OCq+ODvOODjeOD
-q+OBq+ODnuODvOOCuOOBleOCjOOCi+OBi+OAgeOBiuOBiuOBvuOBi+OBquOBruWxleacm+OCkuaP
-kOS+m+OBl+OBvuOBmeOAgi1uZXh0IOOCq+ODvA0KPiAt44ON44Or44Gu5a6f6KGM44OG44K544OI
-44KS6KGM44GG5YaS6Zm65aW944GN44Gq44OG44K544K/44O844Gv5aSn44GE44Gr5q2T6L+O44GV
-44KM44G+44GZ44CCDQo+ICvjgZPjga7jgoTjgormlrnjgavjgojjgaPjgabjgIFsaW51eC1uZXh0
-IOOBr+asoeOBruODnuODvOOCuOapn+S8muOBp+OBqeOCk+OBquOCguOBruOBjOODoeOCpOODsw0K
-PiAr44Op44Kk44Oz44Gr44Oe44O844K444GV44KM44KL44GL44CB44GK44GK44G+44GL44Gq5bGV
-5pyb44KS5o+Q5L6b44GX44G+44GZ44CCDQo+ICtsaW51eC1uZXh0IOOBruWun+ihjOODhuOCueOD
-iOOCkuihjOOBhuWGkumZuuWlveOBjeOBquODhuOCueOCv+ODvOOBr+Wkp+OBhOOBq+atk+i/juOB
-leOCjOOBvuOBmeOAgg0KPg0KPiAg44OQ44Kw44Os44Od44O844OIDQo+ICAtLS0tLS0tLS0tLS0t
-DQo+IC0tDQo+IDIuMjUuMQ0KPg0K
+Hi, Xuerui,
+
+On Sun, May 1, 2022 at 7:16 PM WANG Xuerui <kernel@xen0n.name> wrote:
+>
+>
+> On 4/30/22 17:05, Huacai Chen wrote:
+> > This patch adds common headers (atomic, bitops, barrier and locking)
+> > for basic LoongArch support.
+> >
+> > LoongArch has no native sub-word xchg/cmpxchg instructions now, but
+> > LoongArch-based CPUs support NUMA (e.g., quad-core Loongson-3A5000
+> > supports as many as 16 nodes, 64 cores in total). So, we emulate sub-
+> > word xchg/cmpxchg in software and use qspinlock/qrwlock rather than
+> > ticket locks.
+> I'd leave the details for others more familiar with the intricate art of
+> locking to review; here's only a couple minor suggestions.
+> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> > ---
+> >   arch/loongarch/include/asm/atomic.h         | 358 ++++++++++++++++++++
+> >   arch/loongarch/include/asm/barrier.h        |  51 +++
+> >   arch/loongarch/include/asm/bitops.h         |  33 ++
+> >   arch/loongarch/include/asm/bitrev.h         |  34 ++
+> >   arch/loongarch/include/asm/cmpxchg.h        | 135 ++++++++
+> >   arch/loongarch/include/asm/local.h          | 138 ++++++++
+> >   arch/loongarch/include/asm/percpu.h         |  20 ++
+> >   arch/loongarch/include/asm/spinlock.h       |  12 +
+> >   arch/loongarch/include/asm/spinlock_types.h |  11 +
+> >   9 files changed, 792 insertions(+)
+> >   create mode 100644 arch/loongarch/include/asm/atomic.h
+> >   create mode 100644 arch/loongarch/include/asm/barrier.h
+> >   create mode 100644 arch/loongarch/include/asm/bitops.h
+> >   create mode 100644 arch/loongarch/include/asm/bitrev.h
+> >   create mode 100644 arch/loongarch/include/asm/cmpxchg.h
+> >   create mode 100644 arch/loongarch/include/asm/local.h
+> >   create mode 100644 arch/loongarch/include/asm/percpu.h
+> >   create mode 100644 arch/loongarch/include/asm/spinlock.h
+> >   create mode 100644 arch/loongarch/include/asm/spinlock_types.h
+> >
+> > diff --git a/arch/loongarch/include/asm/atomic.h b/arch/loongarch/include/asm/atomic.h
+> > new file mode 100644
+> > index 000000000000..f0ed7f9c08c9
+> > --- /dev/null
+> > +++ b/arch/loongarch/include/asm/atomic.h
+> > @@ -0,0 +1,358 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Atomic operations.
+> > + *
+> > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > + */
+> > +#ifndef _ASM_ATOMIC_H
+> > +#define _ASM_ATOMIC_H
+> > +
+> > +#include <linux/types.h>
+> > +#include <asm/barrier.h>
+> > +#include <asm/cmpxchg.h>
+> > +#include <asm/compiler.h>
+> > +
+> > +#if _LOONGARCH_SZLONG == 32
+>
+> Please don't use the MIPS-like macros, as they *may* go away (once my
+> https://github.com/loongson/LoongArch-Documentation/pull/28 is merged);
+> you may use the architecture-independent macro __SIZEOF_LONG__ instead
+> (this would become "__SIZEOF_LONG__ == 4"). Or use
+> __loongarch32/__loongarch64.
+OK, thanks.
+
+Huacai
+>
+> > +#define __LL         "ll.w   "
+> > +#define __SC         "sc.w   "
+> > +#define __AMADD              "amadd.w        "
+> > +#define __AMAND_SYNC "amand_db.w     "
+> "__AMADD_DB" would better match the instruction mnemonic... IIRC
+> "amadd_sync" is the old LoongISA-era name!
+> > +#define __AMOR_SYNC  "amor_db.w      "
+> > +#define __AMXOR_SYNC "amxor_db.w     "
+> > +#elif _LOONGARCH_SZLONG == 64
+> > +#define __LL         "ll.d   "
+> > +#define __SC         "sc.d   "
+> > +#define __AMADD              "amadd.d        "
+> > +#define __AMAND_SYNC "amand_db.d     "
+> > +#define __AMOR_SYNC  "amor_db.d      "
+> > +#define __AMXOR_SYNC "amxor_db.d     "
+> > +#endif
+> > +
+> > +#define ATOMIC_INIT(i)         { (i) }
+> > +
+> > +/*
+> > + * arch_atomic_read - read atomic variable
+> > + * @v: pointer of type atomic_t
+> > + *
+> > + * Atomically reads the value of @v.
+> > + */
+> > +#define arch_atomic_read(v)  READ_ONCE((v)->counter)
+> > +
+> > +/*
+> > + * arch_atomic_set - set atomic variable
+> > + * @v: pointer of type atomic_t
+> > + * @i: required value
+> > + *
+> > + * Atomically sets the value of @v to @i.
+> > + */
+> > +#define arch_atomic_set(v, i)        WRITE_ONCE((v)->counter, (i))
+> > +
+> > +#define ATOMIC_OP(op, I, asm_op)                                     \
+> > +static inline void arch_atomic_##op(int i, atomic_t *v)                      \
+> > +{                                                                    \
+> > +     __asm__ __volatile__(                                           \
+> > +     "am"#asm_op"_db.w" " $zero, %1, %0      \n"                     \
+> > +     : "+ZB" (v->counter)                                            \
+> > +     : "r" (I)                                                       \
+> > +     : "memory");                                                    \
+> > +}
+> > +
+> > +#define ATOMIC_OP_RETURN(op, I, asm_op, c_op)                                \
+> > +static inline int arch_atomic_##op##_return_relaxed(int i, atomic_t *v)      \
+> > +{                                                                    \
+> > +     int result;                                                     \
+> > +                                                                     \
+> > +     __asm__ __volatile__(                                           \
+> > +     "am"#asm_op"_db.w" " %1, %2, %0         \n"                     \
+> > +     : "+ZB" (v->counter), "=&r" (result)                            \
+> > +     : "r" (I)                                                       \
+> > +     : "memory");                                                    \
+> > +                                                                     \
+> > +     return result c_op I;                                           \
+> > +}
+> > +
+> > +#define ATOMIC_FETCH_OP(op, I, asm_op)                                       \
+> > +static inline int arch_atomic_fetch_##op##_relaxed(int i, atomic_t *v)       \
+> > +{                                                                    \
+> > +     int result;                                                     \
+> > +                                                                     \
+> > +     __asm__ __volatile__(                                           \
+> > +     "am"#asm_op"_db.w" " %1, %2, %0         \n"                     \
+> > +     : "+ZB" (v->counter), "=&r" (result)                            \
+> > +     : "r" (I)                                                       \
+> > +     : "memory");                                                    \
+> > +                                                                     \
+> > +     return result;                                                  \
+> > +}
+> > +
+> > +#define ATOMIC_OPS(op, I, asm_op, c_op)                                      \
+> > +     ATOMIC_OP(op, I, asm_op)                                        \
+> > +     ATOMIC_OP_RETURN(op, I, asm_op, c_op)                           \
+> > +     ATOMIC_FETCH_OP(op, I, asm_op)
+> > +
+> > +ATOMIC_OPS(add, i, add, +)
+> > +ATOMIC_OPS(sub, -i, add, +)
+> > +
+> > +#define arch_atomic_add_return_relaxed       arch_atomic_add_return_relaxed
+> > +#define arch_atomic_sub_return_relaxed       arch_atomic_sub_return_relaxed
+> > +#define arch_atomic_fetch_add_relaxed        arch_atomic_fetch_add_relaxed
+> > +#define arch_atomic_fetch_sub_relaxed        arch_atomic_fetch_sub_relaxed
+> > +
+> > +#undef ATOMIC_OPS
+> > +
+> > +#define ATOMIC_OPS(op, I, asm_op)                                    \
+> > +     ATOMIC_OP(op, I, asm_op)                                        \
+> > +     ATOMIC_FETCH_OP(op, I, asm_op)
+> > +
+> > +ATOMIC_OPS(and, i, and)
+> > +ATOMIC_OPS(or, i, or)
+> > +ATOMIC_OPS(xor, i, xor)
+> > +
+> > +#define arch_atomic_fetch_and_relaxed        arch_atomic_fetch_and_relaxed
+> > +#define arch_atomic_fetch_or_relaxed arch_atomic_fetch_or_relaxed
+> > +#define arch_atomic_fetch_xor_relaxed        arch_atomic_fetch_xor_relaxed
+> > +
+> > +#undef ATOMIC_OPS
+> > +#undef ATOMIC_FETCH_OP
+> > +#undef ATOMIC_OP_RETURN
+> > +#undef ATOMIC_OP
+> > +
+> > +static inline int arch_atomic_fetch_add_unless(atomic_t *v, int a, int u)
+> > +{
+> > +       int prev, rc;
+> > +
+> > +     __asm__ __volatile__ (
+> > +             "0:     ll.w    %[p],  %[c]\n"
+> > +             "       beq     %[p],  %[u], 1f\n"
+> > +             "       add.w   %[rc], %[p], %[a]\n"
+> > +             "       sc.w    %[rc], %[c]\n"
+> > +             "       beqz    %[rc], 0b\n"
+> > +             "       b       2f\n"
+> > +             "1:\n"
+> > +             __WEAK_LLSC_MB
+> > +             "2:\n"
+> > +             : [p]"=&r" (prev), [rc]"=&r" (rc),
+> > +               [c]"=ZB" (v->counter)
+> > +             : [a]"r" (a), [u]"r" (u)
+> > +             : "memory");
+> > +
+> > +     return prev;
+> > +}
+> > +#define arch_atomic_fetch_add_unless arch_atomic_fetch_add_unless
+> > +
+> > +/*
+> > + * arch_atomic_sub_if_positive - conditionally subtract integer from atomic variable
+> > + * @i: integer value to subtract
+> > + * @v: pointer of type atomic_t
+> > + *
+> > + * Atomically test @v and subtract @i if @v is greater or equal than @i.
+> > + * The function returns the old value of @v minus @i.
+> > + */
+> > +static inline int arch_atomic_sub_if_positive(int i, atomic_t *v)
+> > +{
+> > +     int result;
+> > +     int temp;
+> > +
+> > +     if (__builtin_constant_p(i)) {
+> > +             __asm__ __volatile__(
+> > +             "1:     ll.w    %1, %2          # atomic_sub_if_positive\n"
+> > +             "       addi.w  %0, %1, %3                              \n"
+> > +             "       or      %1, %0, $zero                           \n"
+> > +             "       blt     %0, $zero, 2f                           \n"
+> > +             "       sc.w    %1, %2                                  \n"
+> > +             "       beq     $zero, %1, 1b                           \n"
+> > +             "2:                                                     \n"
+> > +             : "=&r" (result), "=&r" (temp),
+> > +               "+" GCC_OFF_SMALL_ASM() (v->counter)
+> > +             : "I" (-i));
+> > +     } else {
+> > +             __asm__ __volatile__(
+> > +             "1:     ll.w    %1, %2          # atomic_sub_if_positive\n"
+> > +             "       sub.w   %0, %1, %3                              \n"
+> > +             "       or      %1, %0, $zero                           \n"
+> > +             "       blt     %0, $zero, 2f                           \n"
+> > +             "       sc.w    %1, %2                                  \n"
+> > +             "       beq     $zero, %1, 1b                           \n"
+> > +             "2:                                                     \n"
+> > +             : "=&r" (result), "=&r" (temp),
+> > +               "+" GCC_OFF_SMALL_ASM() (v->counter)
+> > +             : "r" (i));
+> > +     }
+> > +
+> > +     return result;
+> > +}
+> > +
+> > +#define arch_atomic_cmpxchg(v, o, n) (arch_cmpxchg(&((v)->counter), (o), (n)))
+> > +#define arch_atomic_xchg(v, new) (arch_xchg(&((v)->counter), (new)))
+> > +
+> > +/*
+> > + * arch_atomic_dec_if_positive - decrement by 1 if old value positive
+> > + * @v: pointer of type atomic_t
+> > + */
+> > +#define arch_atomic_dec_if_positive(v)       arch_atomic_sub_if_positive(1, v)
+> > +
+> > +#ifdef CONFIG_64BIT
+> > +
+> > +#define ATOMIC64_INIT(i)    { (i) }
+> > +
+> > +/*
+> > + * arch_atomic64_read - read atomic variable
+> > + * @v: pointer of type atomic64_t
+> > + *
+> > + */
+> > +#define arch_atomic64_read(v)        READ_ONCE((v)->counter)
+> > +
+> > +/*
+> > + * arch_atomic64_set - set atomic variable
+> > + * @v: pointer of type atomic64_t
+> > + * @i: required value
+> > + */
+> > +#define arch_atomic64_set(v, i)      WRITE_ONCE((v)->counter, (i))
+> > +
+> > +#define ATOMIC64_OP(op, I, asm_op)                                   \
+> > +static inline void arch_atomic64_##op(long i, atomic64_t *v)         \
+> > +{                                                                    \
+> > +     __asm__ __volatile__(                                           \
+> > +     "am"#asm_op"_db.d " " $zero, %1, %0     \n"                     \
+> > +     : "+ZB" (v->counter)                                            \
+> > +     : "r" (I)                                                       \
+> > +     : "memory");                                                    \
+> > +}
+> > +
+> > +#define ATOMIC64_OP_RETURN(op, I, asm_op, c_op)                                      \
+> > +static inline long arch_atomic64_##op##_return_relaxed(long i, atomic64_t *v)        \
+> > +{                                                                            \
+> > +     long result;                                                            \
+> > +     __asm__ __volatile__(                                                   \
+> > +     "am"#asm_op"_db.d " " %1, %2, %0                \n"                     \
+> > +     : "+ZB" (v->counter), "=&r" (result)                                    \
+> > +     : "r" (I)                                                               \
+> > +     : "memory");                                                            \
+> > +                                                                             \
+> > +     return result c_op I;                                                   \
+> > +}
+> > +
+> > +#define ATOMIC64_FETCH_OP(op, I, asm_op)                                     \
+> > +static inline long arch_atomic64_fetch_##op##_relaxed(long i, atomic64_t *v) \
+> > +{                                                                            \
+> > +     long result;                                                            \
+> > +                                                                             \
+> > +     __asm__ __volatile__(                                                   \
+> > +     "am"#asm_op"_db.d " " %1, %2, %0                \n"                     \
+> > +     : "+ZB" (v->counter), "=&r" (result)                                    \
+> > +     : "r" (I)                                                               \
+> > +     : "memory");                                                            \
+> > +                                                                             \
+> > +     return result;                                                          \
+> > +}
+> > +
+> > +#define ATOMIC64_OPS(op, I, asm_op, c_op)                                  \
+> > +     ATOMIC64_OP(op, I, asm_op)                                            \
+> > +     ATOMIC64_OP_RETURN(op, I, asm_op, c_op)                               \
+> > +     ATOMIC64_FETCH_OP(op, I, asm_op)
+> > +
+> > +ATOMIC64_OPS(add, i, add, +)
+> > +ATOMIC64_OPS(sub, -i, add, +)
+> > +
+> > +#define arch_atomic64_add_return_relaxed     arch_atomic64_add_return_relaxed
+> > +#define arch_atomic64_sub_return_relaxed     arch_atomic64_sub_return_relaxed
+> > +#define arch_atomic64_fetch_add_relaxed              arch_atomic64_fetch_add_relaxed
+> > +#define arch_atomic64_fetch_sub_relaxed              arch_atomic64_fetch_sub_relaxed
+> > +
+> > +#undef ATOMIC64_OPS
+> > +
+> > +#define ATOMIC64_OPS(op, I, asm_op)                                        \
+> > +     ATOMIC64_OP(op, I, asm_op)                                            \
+> > +     ATOMIC64_FETCH_OP(op, I, asm_op)
+> > +
+> > +ATOMIC64_OPS(and, i, and)
+> > +ATOMIC64_OPS(or, i, or)
+> > +ATOMIC64_OPS(xor, i, xor)
+> > +
+> > +#define arch_atomic64_fetch_and_relaxed      arch_atomic64_fetch_and_relaxed
+> > +#define arch_atomic64_fetch_or_relaxed       arch_atomic64_fetch_or_relaxed
+> > +#define arch_atomic64_fetch_xor_relaxed      arch_atomic64_fetch_xor_relaxed
+> > +
+> > +#undef ATOMIC64_OPS
+> > +#undef ATOMIC64_FETCH_OP
+> > +#undef ATOMIC64_OP_RETURN
+> > +#undef ATOMIC64_OP
+> > +
+> > +static inline long arch_atomic64_fetch_add_unless(atomic64_t *v, long a, long u)
+> > +{
+> > +       long prev, rc;
+> > +
+> > +     __asm__ __volatile__ (
+> > +             "0:     ll.d    %[p],  %[c]\n"
+> > +             "       beq     %[p],  %[u], 1f\n"
+> > +             "       add.d   %[rc], %[p], %[a]\n"
+> > +             "       sc.d    %[rc], %[c]\n"
+> > +             "       beqz    %[rc], 0b\n"
+> > +             "       b       2f\n"
+> > +             "1:\n"
+> > +             __WEAK_LLSC_MB
+> > +             "2:\n"
+> > +             : [p]"=&r" (prev), [rc]"=&r" (rc),
+> > +               [c] "=ZB" (v->counter)
+> > +             : [a]"r" (a), [u]"r" (u)
+> > +             : "memory");
+> > +
+> > +     return prev;
+> > +}
+> > +#define arch_atomic64_fetch_add_unless arch_atomic64_fetch_add_unless
+> > +
+> > +/*
+> > + * arch_atomic64_sub_if_positive - conditionally subtract integer from atomic variable
+> > + * @i: integer value to subtract
+> > + * @v: pointer of type atomic64_t
+> > + *
+> > + * Atomically test @v and subtract @i if @v is greater or equal than @i.
+> > + * The function returns the old value of @v minus @i.
+> > + */
+> > +static inline long arch_atomic64_sub_if_positive(long i, atomic64_t *v)
+> > +{
+> > +     long result;
+> > +     long temp;
+> > +
+> > +     if (__builtin_constant_p(i)) {
+> > +             __asm__ __volatile__(
+> > +             "1:     ll.d    %1, %2  # atomic64_sub_if_positive      \n"
+> > +             "       addi.d  %0, %1, %3                              \n"
+> > +             "       or      %1, %0, $zero                           \n"
+> > +             "       blt     %0, $zero, 2f                           \n"
+> > +             "       sc.d    %1, %2                                  \n"
+> > +             "       beq     %1, $zero, 1b                           \n"
+> > +             "2:                                                     \n"
+> > +             : "=&r" (result), "=&r" (temp),
+> > +               "+" GCC_OFF_SMALL_ASM() (v->counter)
+> > +             : "I" (-i));
+> > +     } else {
+> > +             __asm__ __volatile__(
+> > +             "1:     ll.d    %1, %2  # atomic64_sub_if_positive      \n"
+> > +             "       sub.d   %0, %1, %3                              \n"
+> > +             "       or      %1, %0, $zero                           \n"
+> > +             "       blt     %0, $zero, 2f                           \n"
+> > +             "       sc.d    %1, %2                                  \n"
+> > +             "       beq     %1, $zero, 1b                           \n"
+> > +             "2:                                                     \n"
+> > +             : "=&r" (result), "=&r" (temp),
+> > +               "+" GCC_OFF_SMALL_ASM() (v->counter)
+> > +             : "r" (i));
+> > +     }
+> > +
+> > +     return result;
+> > +}
+> > +
+> > +#define arch_atomic64_cmpxchg(v, o, n) \
+> > +     ((__typeof__((v)->counter))arch_cmpxchg(&((v)->counter), (o), (n)))
+> > +#define arch_atomic64_xchg(v, new) (arch_xchg(&((v)->counter), (new)))
+> > +
+> > +/*
+> > + * arch_atomic64_dec_if_positive - decrement by 1 if old value positive
+> > + * @v: pointer of type atomic64_t
+> > + */
+> > +#define arch_atomic64_dec_if_positive(v)     arch_atomic64_sub_if_positive(1, v)
+> > +
+> > +#endif /* CONFIG_64BIT */
+> > +
+> > +#endif /* _ASM_ATOMIC_H */
+> > diff --git a/arch/loongarch/include/asm/barrier.h b/arch/loongarch/include/asm/barrier.h
+> > new file mode 100644
+> > index 000000000000..cc6c7e3f5ce6
+> > --- /dev/null
+> > +++ b/arch/loongarch/include/asm/barrier.h
+> > @@ -0,0 +1,51 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > + */
+> > +#ifndef __ASM_BARRIER_H
+> > +#define __ASM_BARRIER_H
+> > +
+> > +#define __sync()     __asm__ __volatile__("dbar 0" : : : "memory")
+> > +
+> > +#define fast_wmb()   __sync()
+> > +#define fast_rmb()   __sync()
+> > +#define fast_mb()    __sync()
+> > +#define fast_iob()   __sync()
+> > +#define wbflush()    __sync()
+> > +
+> > +#define wmb()                fast_wmb()
+> > +#define rmb()                fast_rmb()
+> > +#define mb()         fast_mb()
+> > +#define iob()                fast_iob()
+> > +
+> > +/**
+> > + * array_index_mask_nospec() - generate a ~0 mask when index < size, 0 otherwise
+> > + * @index: array element index
+> > + * @size: number of elements in array
+> > + *
+> > + * Returns:
+> > + *     0 - (@index < @size)
+> > + */
+> > +#define array_index_mask_nospec array_index_mask_nospec
+> > +static inline unsigned long array_index_mask_nospec(unsigned long index,
+> > +                                                 unsigned long size)
+> > +{
+> > +     unsigned long mask;
+> > +
+> > +     __asm__ __volatile__(
+> > +             "sltu   %0, %1, %2\n\t"
+> > +#if (_LOONGARCH_SZLONG == 32)
+> > +             "sub.w  %0, $r0, %0\n\t"
+> > +#elif (_LOONGARCH_SZLONG == 64)
+> > +             "sub.d  %0, $r0, %0\n\t"
+> > +#endif
+> > +             : "=r" (mask)
+> > +             : "r" (index), "r" (size)
+> > +             :);
+> > +
+> > +     return mask;
+> > +}
+> > +
+> > +#include <asm-generic/barrier.h>
+> > +
+> > +#endif /* __ASM_BARRIER_H */
+> > diff --git a/arch/loongarch/include/asm/bitops.h b/arch/loongarch/include/asm/bitops.h
+> > new file mode 100644
+> > index 000000000000..69e00f8d8034
+> > --- /dev/null
+> > +++ b/arch/loongarch/include/asm/bitops.h
+> > @@ -0,0 +1,33 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > + */
+> > +#ifndef _ASM_BITOPS_H
+> > +#define _ASM_BITOPS_H
+> > +
+> > +#include <linux/compiler.h>
+> > +
+> > +#ifndef _LINUX_BITOPS_H
+> > +#error only <linux/bitops.h> can be included directly
+> > +#endif
+> > +
+> > +#include <asm/barrier.h>
+> > +
+> > +#include <asm-generic/bitops/builtin-ffs.h>
+> > +#include <asm-generic/bitops/builtin-fls.h>
+> > +#include <asm-generic/bitops/builtin-__ffs.h>
+> > +#include <asm-generic/bitops/builtin-__fls.h>
+> > +
+> > +#include <asm-generic/bitops/ffz.h>
+> > +#include <asm-generic/bitops/fls64.h>
+> > +
+> > +#include <asm-generic/bitops/sched.h>
+> > +#include <asm-generic/bitops/hweight.h>
+> > +
+> > +#include <asm-generic/bitops/atomic.h>
+> > +#include <asm-generic/bitops/non-atomic.h>
+> > +#include <asm-generic/bitops/lock.h>
+> > +#include <asm-generic/bitops/le.h>
+> > +#include <asm-generic/bitops/ext2-atomic.h>
+> > +
+> > +#endif /* _ASM_BITOPS_H */
+> > diff --git a/arch/loongarch/include/asm/bitrev.h b/arch/loongarch/include/asm/bitrev.h
+> > new file mode 100644
+> > index 000000000000..46f275b9cdf7
+> > --- /dev/null
+> > +++ b/arch/loongarch/include/asm/bitrev.h
+> > @@ -0,0 +1,34 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > + */
+> > +#ifndef __LOONGARCH_ASM_BITREV_H__
+> > +#define __LOONGARCH_ASM_BITREV_H__
+> > +
+> > +#include <linux/swab.h>
+> > +
+> > +static __always_inline __attribute_const__ u32 __arch_bitrev32(u32 x)
+> > +{
+> > +     u32 ret;
+> > +
+> > +     asm("bitrev.4b  %0, %1" : "=r"(ret) : "r"(__swab32(x)));
+> > +     return ret;
+> > +}
+> > +
+> > +static __always_inline __attribute_const__ u16 __arch_bitrev16(u16 x)
+> > +{
+> > +     u16 ret;
+> > +
+> > +     asm("bitrev.4b  %0, %1" : "=r"(ret) : "r"(__swab16(x)));
+> > +     return ret;
+> > +}
+> > +
+> > +static __always_inline __attribute_const__ u8 __arch_bitrev8(u8 x)
+> > +{
+> > +     u8 ret;
+> > +
+> > +     asm("bitrev.4b  %0, %1" : "=r"(ret) : "r"(x));
+> > +     return ret;
+> > +}
+> > +
+> > +#endif /* __LOONGARCH_ASM_BITREV_H__ */
+> > diff --git a/arch/loongarch/include/asm/cmpxchg.h b/arch/loongarch/include/asm/cmpxchg.h
+> > new file mode 100644
+> > index 000000000000..69c3e2b7827d
+> > --- /dev/null
+> > +++ b/arch/loongarch/include/asm/cmpxchg.h
+> > @@ -0,0 +1,135 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > + */
+> > +#ifndef __ASM_CMPXCHG_H
+> > +#define __ASM_CMPXCHG_H
+> > +
+> > +#include <linux/build_bug.h>
+> > +
+> > +#define __xchg_asm(amswap_db, m, val)                \
+> > +({                                           \
+> > +             __typeof(val) __ret;            \
+> > +                                             \
+> > +             __asm__ __volatile__ (          \
+> > +             " "amswap_db" %1, %z2, %0 \n"   \
+> > +             : "+ZB" (*m), "=&r" (__ret)     \
+> > +             : "Jr" (val)                    \
+> > +             : "memory");                    \
+> > +                                             \
+> > +             __ret;                          \
+> > +})
+> > +
+> > +extern unsigned long __xchg_small(volatile void *ptr, unsigned long x,
+> > +                               unsigned int size);
+> > +
+> > +static inline unsigned long __xchg(volatile void *ptr, unsigned long x,
+> > +                                int size)
+> > +{
+> > +     switch (size) {
+> > +     case 1:
+> > +     case 2:
+> > +             return __xchg_small(ptr, x, size);
+> > +
+> > +     case 4:
+> > +             return __xchg_asm("amswap_db.w", (volatile u32 *)ptr, (u32)x);
+> > +
+> > +     case 8:
+> > +             return __xchg_asm("amswap_db.d", (volatile u64 *)ptr, (u64)x);
+> > +
+> > +     default:
+> > +             BUILD_BUG();
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +#define arch_xchg(ptr, x)                                            \
+> > +({                                                                   \
+> > +     __typeof__(*(ptr)) __res;                                       \
+> > +                                                                     \
+> > +     __res = (__typeof__(*(ptr)))                                    \
+> > +             __xchg((ptr), (unsigned long)(x), sizeof(*(ptr)));      \
+> > +                                                                     \
+> > +     __res;                                                          \
+> > +})
+> > +
+> > +#define __cmpxchg_asm(ld, st, m, old, new)                           \
+> > +({                                                                   \
+> > +     __typeof(old) __ret;                                            \
+> > +                                                                     \
+> > +     __asm__ __volatile__(                                           \
+> > +     "1:     " ld "  %0, %2          # __cmpxchg_asm \n"             \
+> > +     "       bne     %0, %z3, 2f                     \n"             \
+> > +     "       or      $t0, %z4, $zero                 \n"             \
+> > +     "       " st "  $t0, %1                         \n"             \
+> > +     "       beq     $zero, $t0, 1b                  \n"             \
+> > +     "2:                                             \n"             \
+> > +     : "=&r" (__ret), "=ZB"(*m)                                      \
+> > +     : "ZB"(*m), "Jr" (old), "Jr" (new)                              \
+> > +     : "t0", "memory");                                              \
+> > +                                                                     \
+> > +     __ret;                                                          \
+> > +})
+> > +
+> > +extern unsigned long __cmpxchg_small(volatile void *ptr, unsigned long old,
+> > +                                  unsigned long new, unsigned int size);
+> > +
+> > +static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
+> > +                                   unsigned long new, unsigned int size)
+> > +{
+> > +     switch (size) {
+> > +     case 1:
+> > +     case 2:
+> > +             return __cmpxchg_small(ptr, old, new, size);
+> > +
+> > +     case 4:
+> > +             return __cmpxchg_asm("ll.w", "sc.w", (volatile u32 *)ptr,
+> > +                                  (u32)old, new);
+> > +
+> > +     case 8:
+> > +             return __cmpxchg_asm("ll.d", "sc.d", (volatile u64 *)ptr,
+> > +                                  (u64)old, new);
+> > +
+> > +     default:
+> > +             BUILD_BUG();
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +#define arch_cmpxchg_local(ptr, old, new)                            \
+> > +     ((__typeof__(*(ptr)))                                           \
+> > +             __cmpxchg((ptr),                                        \
+> > +                       (unsigned long)(__typeof__(*(ptr)))(old),     \
+> > +                       (unsigned long)(__typeof__(*(ptr)))(new),     \
+> > +                       sizeof(*(ptr))))
+> > +
+> > +#define arch_cmpxchg(ptr, old, new)                                  \
+> > +({                                                                   \
+> > +     __typeof__(*(ptr)) __res;                                       \
+> > +                                                                     \
+> > +     __res = arch_cmpxchg_local((ptr), (old), (new));                \
+> > +                                                                     \
+> > +     __res;                                                          \
+> > +})
+> > +
+> > +#ifdef CONFIG_64BIT
+> > +#define arch_cmpxchg64_local(ptr, o, n)                                      \
+> > +  ({                                                                 \
+> > +     BUILD_BUG_ON(sizeof(*(ptr)) != 8);                              \
+> > +     arch_cmpxchg_local((ptr), (o), (n));                            \
+> > +  })
+> > +
+> > +#define arch_cmpxchg64(ptr, o, n)                                    \
+> > +  ({                                                                 \
+> > +     BUILD_BUG_ON(sizeof(*(ptr)) != 8);                              \
+> > +     arch_cmpxchg((ptr), (o), (n));                                  \
+> > +  })
+> > +#else
+> > +#include <asm-generic/cmpxchg-local.h>
+> > +#define arch_cmpxchg64_local(ptr, o, n) __generic_cmpxchg64_local((ptr), (o), (n))
+> > +#define arch_cmpxchg64(ptr, o, n) arch_cmpxchg64_local((ptr), (o), (n))
+> > +#endif
+> > +
+> > +#endif /* __ASM_CMPXCHG_H */
+> > diff --git a/arch/loongarch/include/asm/local.h b/arch/loongarch/include/asm/local.h
+> > new file mode 100644
+> > index 000000000000..2052a2267337
+> > --- /dev/null
+> > +++ b/arch/loongarch/include/asm/local.h
+> > @@ -0,0 +1,138 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > + */
+> > +#ifndef _ARCH_LOONGARCH_LOCAL_H
+> > +#define _ARCH_LOONGARCH_LOCAL_H
+> > +
+> > +#include <linux/percpu.h>
+> > +#include <linux/bitops.h>
+> > +#include <linux/atomic.h>
+> > +#include <asm/cmpxchg.h>
+> > +#include <asm/compiler.h>
+> > +
+> > +typedef struct {
+> > +     atomic_long_t a;
+> > +} local_t;
+> > +
+> > +#define LOCAL_INIT(i)        { ATOMIC_LONG_INIT(i) }
+> > +
+> > +#define local_read(l)        atomic_long_read(&(l)->a)
+> > +#define local_set(l, i) atomic_long_set(&(l)->a, (i))
+> > +
+> > +#define local_add(i, l) atomic_long_add((i), (&(l)->a))
+> > +#define local_sub(i, l) atomic_long_sub((i), (&(l)->a))
+> > +#define local_inc(l) atomic_long_inc(&(l)->a)
+> > +#define local_dec(l) atomic_long_dec(&(l)->a)
+> > +
+> > +/*
+> > + * Same as above, but return the result value
+> > + */
+> > +static inline long local_add_return(long i, local_t *l)
+> > +{
+> > +     unsigned long result;
+> > +
+> > +     __asm__ __volatile__(
+> > +     "   " __AMADD " %1, %2, %0      \n"
+> > +     : "+ZB" (l->a.counter), "=&r" (result)
+> > +     : "r" (i)
+> > +     : "memory");
+> > +     result = result + i;
+> > +
+> > +     return result;
+> > +}
+> > +
+> > +static inline long local_sub_return(long i, local_t *l)
+> > +{
+> > +     unsigned long result;
+> > +
+> > +     __asm__ __volatile__(
+> > +     "   " __AMADD "%1, %2, %0       \n"
+> > +     : "+ZB" (l->a.counter), "=&r" (result)
+> > +     : "r" (-i)
+> > +     : "memory");
+> > +
+> > +     result = result - i;
+> > +
+> > +     return result;
+> > +}
+> > +
+> > +#define local_cmpxchg(l, o, n) \
+> > +     ((long)cmpxchg_local(&((l)->a.counter), (o), (n)))
+> > +#define local_xchg(l, n) (atomic_long_xchg((&(l)->a), (n)))
+> > +
+> > +/**
+> > + * local_add_unless - add unless the number is a given value
+> > + * @l: pointer of type local_t
+> > + * @a: the amount to add to l...
+> > + * @u: ...unless l is equal to u.
+> > + *
+> > + * Atomically adds @a to @l, so long as it was not @u.
+> > + * Returns non-zero if @l was not @u, and zero otherwise.
+> > + */
+> > +#define local_add_unless(l, a, u)                            \
+> > +({                                                           \
+> > +     long c, old;                                            \
+> > +     c = local_read(l);                                      \
+> > +     while (c != (u) && (old = local_cmpxchg((l), c, c + (a))) != c) \
+> > +             c = old;                                        \
+> > +     c != (u);                                               \
+> > +})
+> > +#define local_inc_not_zero(l) local_add_unless((l), 1, 0)
+> > +
+> > +#define local_dec_return(l) local_sub_return(1, (l))
+> > +#define local_inc_return(l) local_add_return(1, (l))
+> > +
+> > +/*
+> > + * local_sub_and_test - subtract value from variable and test result
+> > + * @i: integer value to subtract
+> > + * @l: pointer of type local_t
+> > + *
+> > + * Atomically subtracts @i from @l and returns
+> > + * true if the result is zero, or false for all
+> > + * other cases.
+> > + */
+> > +#define local_sub_and_test(i, l) (local_sub_return((i), (l)) == 0)
+> > +
+> > +/*
+> > + * local_inc_and_test - increment and test
+> > + * @l: pointer of type local_t
+> > + *
+> > + * Atomically increments @l by 1
+> > + * and returns true if the result is zero, or false for all
+> > + * other cases.
+> > + */
+> > +#define local_inc_and_test(l) (local_inc_return(l) == 0)
+> > +
+> > +/*
+> > + * local_dec_and_test - decrement by 1 and test
+> > + * @l: pointer of type local_t
+> > + *
+> > + * Atomically decrements @l by 1 and
+> > + * returns true if the result is 0, or false for all other
+> > + * cases.
+> > + */
+> > +#define local_dec_and_test(l) (local_sub_return(1, (l)) == 0)
+> > +
+> > +/*
+> > + * local_add_negative - add and test if negative
+> > + * @l: pointer of type local_t
+> > + * @i: integer value to add
+> > + *
+> > + * Atomically adds @i to @l and returns true
+> > + * if the result is negative, or false when
+> > + * result is greater than or equal to zero.
+> > + */
+> > +#define local_add_negative(i, l) (local_add_return(i, (l)) < 0)
+> > +
+> > +/* Use these for per-cpu local_t variables: on some archs they are
+> > + * much more efficient than these naive implementations.  Note they take
+> > + * a variable, not an address.
+> > + */
+> > +
+> > +#define __local_inc(l)               ((l)->a.counter++)
+> > +#define __local_dec(l)               ((l)->a.counter++)
+> > +#define __local_add(i, l)    ((l)->a.counter += (i))
+> > +#define __local_sub(i, l)    ((l)->a.counter -= (i))
+> > +
+> > +#endif /* _ARCH_LOONGARCH_LOCAL_H */
+> > diff --git a/arch/loongarch/include/asm/percpu.h b/arch/loongarch/include/asm/percpu.h
+> > new file mode 100644
+> > index 000000000000..7d5b22ebd834
+> > --- /dev/null
+> > +++ b/arch/loongarch/include/asm/percpu.h
+> > @@ -0,0 +1,20 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > + */
+> > +#ifndef __ASM_PERCPU_H
+> > +#define __ASM_PERCPU_H
+> > +
+> > +/* Use r21 for fast access */
+> > +register unsigned long __my_cpu_offset __asm__("$r21");
+> > +
+> > +static inline void set_my_cpu_offset(unsigned long off)
+> > +{
+> > +     __my_cpu_offset = off;
+> > +     csr_writeq(off, PERCPU_BASE_KS);
+> > +}
+> > +#define __my_cpu_offset __my_cpu_offset
+> > +
+> > +#include <asm-generic/percpu.h>
+> > +
+> > +#endif /* __ASM_PERCPU_H */
+> > diff --git a/arch/loongarch/include/asm/spinlock.h b/arch/loongarch/include/asm/spinlock.h
+> > new file mode 100644
+> > index 000000000000..7cb3476999be
+> > --- /dev/null
+> > +++ b/arch/loongarch/include/asm/spinlock.h
+> > @@ -0,0 +1,12 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > + */
+> > +#ifndef _ASM_SPINLOCK_H
+> > +#define _ASM_SPINLOCK_H
+> > +
+> > +#include <asm/processor.h>
+> > +#include <asm/qspinlock.h>
+> > +#include <asm/qrwlock.h>
+> > +
+> > +#endif /* _ASM_SPINLOCK_H */
+> > diff --git a/arch/loongarch/include/asm/spinlock_types.h b/arch/loongarch/include/asm/spinlock_types.h
+> > new file mode 100644
+> > index 000000000000..7458d036c161
+> > --- /dev/null
+> > +++ b/arch/loongarch/include/asm/spinlock_types.h
+> > @@ -0,0 +1,11 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > + */
+> > +#ifndef _ASM_SPINLOCK_TYPES_H
+> > +#define _ASM_SPINLOCK_TYPES_H
+> > +
+> > +#include <asm-generic/qspinlock_types.h>
+> > +#include <asm-generic/qrwlock_types.h>
+> > +
+> > +#endif
