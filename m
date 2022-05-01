@@ -2,93 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DF6DC433EF
-	for <linux-doc@archiver.kernel.org>; Sun,  1 May 2022 17:08:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A50B8C433EF
+	for <linux-doc@archiver.kernel.org>; Sun,  1 May 2022 18:23:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348670AbiEARMO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 1 May 2022 13:12:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48952 "EHLO
+        id S1352154AbiEAS0Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 1 May 2022 14:26:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240473AbiEARMN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 May 2022 13:12:13 -0400
-Received: from mengyan1223.wang (mengyan1223.wang [89.208.246.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2A1F4D9FC;
-        Sun,  1 May 2022 10:08:47 -0700 (PDT)
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
-        (Client did not present a certificate)
-        (Authenticated sender: xry111@mengyan1223.wang)
-        by mengyan1223.wang (Postfix) with ESMTPSA id DA17C66572;
-        Sun,  1 May 2022 13:08:43 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mengyan1223.wang;
-        s=mail; t=1651424927;
-        bh=XYISo4h8KCnyxTuDi0BN/dzHxVCfbkmceDgjCj19MXU=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=2OmCnLlIrXPnbgEiKmC7P7cHlUkobbFyTBLHl+wu/u+DEWBBfiV3w0gRMZM2/jF7s
-         0ojeh6h642czjkUxRRFDgLSEPbxTENJTwAluOfhO+fKY6Zfy94K7AtC8LGMhQ+eBK6
-         r82alvKa8iTgV5e9bWWyvCUhvEIXIP74fzTgNDL9t/aaABP4GnfzIMTHsIkZUQW+rO
-         CGWFBFYBpGmiSYPJ6re0kYZhl/I8V5Wb/UTSFimi9nf9GznCjdr5+JibvWHel+ZHLi
-         yvcopxHXTMtghfJgPKaHZ+AXx3w2hZQzQgqHBXdEM4wyEdVkKlivmnlI9c2v0sK8Cp
-         GIHAYm+9NZ46A==
-Message-ID: <2a534c89b3c905a34f947fb2739d58c9373bb915.camel@mengyan1223.wang>
-Subject: Re: [PATCH V9 10/24] LoongArch: Add exception/interrupt handling
-From:   Xi Ruoyao <xry111@mengyan1223.wang>
-To:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
+        with ESMTP id S1356465AbiEAS0V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 May 2022 14:26:21 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0195956F90;
+        Sun,  1 May 2022 11:22:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=FsxRG+o5tCFQ9J2x/QjS5qnwU7KinLZIjT5m8zCRNvI=; b=iglSFNTl8xU8y6sJPUcWiF+8zA
+        nFZr9469FlwEN2Q04GrInbny8Sk1c7BqVTRdk7FJEwOx4Yi4RLsmUeN3T2xRXTw5AUzSDcQIQdLvf
+        CkxZwTnLDq7e2AlYl1dzNkIkNSIXVukLMcaeMR7/+m6matsNwqp8fXt/tLUoTm4OIC4gi/EkTvoo/
+        dHJarYVn7yhFAbklYOsOpArsiFe2R5flgRyHTaNX7J4EZPEg3AaTfPu3k6dzjecDWzrpcJmtErwua
+        vDAuzP+yTIOW/SEf9/63Fmd9fEVhXeUyJLUZM5GOrsmVwlFMEW1vBYAzIWuqmlE/kBO/i4P8lNzxN
+        Vz+uQJmg==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nlEDO-00Gh3W-4i; Sun, 01 May 2022 18:22:38 +0000
+Date:   Sun, 1 May 2022 11:22:38 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     David Gow <davidgow@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-Date:   Mon, 02 May 2022 01:08:41 +0800
-In-Reply-To: <4dd26d88b807c967dbbc81a7b2e5f4084d9603d7.camel@mengyan1223.wang>
-References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
-         <20220430090518.3127980-11-chenhuacai@loongson.cn>
-         <4dd26d88b807c967dbbc81a7b2e5f4084d9603d7.camel@mengyan1223.wang>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.1 
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2] kunit: Taint kernel if any tests run
+Message-ID: <Ym7P7mCoMiQq99EM@bombadil.infradead.org>
+References: <20220429043913.626647-1-davidgow@google.com>
+ <20220430030019.803481-1-davidgow@google.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220430030019.803481-1-davidgow@google.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gTW9uLCAyMDIyLTA1LTAyIGF0IDAwOjI3ICswODAwLCBYaSBSdW95YW8gd3JvdGU6Cj4gT24g
-U2F0LCAyMDIyLTA0LTMwIGF0IDE3OjA1ICswODAwLCBIdWFjYWkgQ2hlbiB3cm90ZToKPiA+ICtz
-dHJ1Y3QgYWNwaV9tYWR0X2xpb19waWM7Cj4gPiArc3RydWN0IGFjcGlfbWFkdF9laW9fcGljOwo+
-ID4gK3N0cnVjdCBhY3BpX21hZHRfaHRfcGljOwo+ID4gK3N0cnVjdCBhY3BpX21hZHRfYmlvX3Bp
-YzsKPiA+ICtzdHJ1Y3QgYWNwaV9tYWR0X21zaV9waWM7Cj4gPiArc3RydWN0IGFjcGlfbWFkdF9s
-cGNfcGljOwo+IAo+IFdoZXJlIGFyZSB0aG9zZSBkZWZpbmVkP8KgIEkgY2FuJ3QgZmluZCB0aGVt
-IGFuZCB0aGUgY29tcGlsYXRpb24gZmFpbHMKPiB3aXRoOgo+IAo+IGFyY2gvbG9vbmdhcmNoL2tl
-cm5lbC9pcnEuYzogSW4gZnVuY3Rpb24g4oCYZmluZF9wY2hfcGlj4oCZOgo+IGFyY2gvbG9vbmdh
-cmNoL2tlcm5lbC9pcnEuYzo0ODozMjogZXJyb3I6IGludmFsaWQgdXNlIG9mIHVuZGVmaW5lZAo+
-IHR5cGUg4oCYc3RydWN0IGFjcGlfbWFkdF9iaW9fcGlj4oCZCj4gwqDCoCA0OCB8wqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RhcnQgPSBpcnFfY2ZnLT5nc2lfYmFzZTsKPiDCoMKg
-wqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBefgo+IGFyY2gvbG9vbmdhcmNoL2tlcm5lbC9pcnEuYzo0OTozMjogZXJy
-b3I6IGludmFsaWQgdXNlIG9mIHVuZGVmaW5lZAo+IHR5cGUg4oCYc3RydWN0IGFjcGlfbWFkdF9i
-aW9fcGlj4oCZCj4gwqDCoCA0OSB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZW5k
-wqDCoCA9IGlycV9jZmctPmdzaV9iYXNlICsgaXJxX2NmZy0+c2l6ZTsKPiDCoMKgwqDCoMKgIHzC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBefgo+IGFyY2gvbG9vbmdhcmNoL2tlcm5lbC9pcnEuYzo0OTo1MjogZXJyb3I6IGludmFs
-aWQgdXNlIG9mIHVuZGVmaW5lZAo+IHR5cGUg4oCYc3RydWN0IGFjcGlfbWFkdF9iaW9fcGlj4oCZ
-Cj4gwqDCoCA0OSB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZW5kwqDCoCA9IGly
-cV9jZmctPmdzaV9iYXNlICsgaXJxX2NmZy0+c2l6ZTsKPiDCoMKgwqDCoMKgIHzCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXn4KCkFscmlnaHQsIG15IGJhZC4u
-LiBJIGRpZG4ndCByZWFsaXplIHRoZSBMb29uZ0FyY2ggcGF0Y2hlcyBhcmUgc3BsaXR0ZWQKaW50
-byBtdWx0aXBsZSBzZXJpZXMgZm9yIG11bHRpcGxlIGxpc3RzLiAgQnV0IGlzIHRoaXMgdGhlIFNP
-UCBvZiBrZXJuZWwKcGF0Y2ggcmV2aWV3aW5nPyAgV291bGQgaXQgYmUgZWFzaWVyIHRvIGp1c3Qg
-c2VuZCBvbmUgc2VyaWVzIGFuZCBDQyBhbGwKcmVsZXZlbnQgbGlzdHM/CgotLSAKWGkgUnVveWFv
-IDx4cnkxMTFAbWVuZ3lhbjEyMjMud2FuZz4KU2Nob29sIG9mIEFlcm9zcGFjZSBTY2llbmNlIGFu
-ZCBUZWNobm9sb2d5LCBYaWRpYW4gVW5pdmVyc2l0eQo=
+On Sat, Apr 30, 2022 at 11:00:19AM +0800, David Gow wrote:
+> KUnit tests are not supposed to run on production systems: they may do
+> deliberately illegal things to trigger errors, and have security
+> implications (assertions will often deliberately leak kernel addresses).
+> 
+> Add a new taint type, TAINT_KUNIT to signal that a KUnit test has been
+> run. This will be printed as 'N' (for kuNit, as K, U and T were already
+> taken).
+> 
+> This should discourage people from running KUnit tests on production
+> systems, and to make it easier to tell if tests have been run
+> accidentally (by loading the wrong configuration, etc.)
+> 
+> Signed-off-by: David Gow <davidgow@google.com>
 
+There is no reason to distinguish kunit from selftests if the result is
+the same: really make the kernel try really insane stupid things which
+may crash it or put it into a bad state.
+
+So no, this should be renamed to "TEST_BREAK" as I think outside of
+selftest and kunit we may grow the kernel to do stupid things outside
+of that domain and this gives us the flexilibilty to use that in other
+places as well.
+
+It begs the question if we *should* allow userspace to volunterally say
+"hey, we are doing really insane things, brace yourself." Why ? Well
+because selftest has tons of modules. We either then define a macro
+that adds the taint for them and wrap the module declaration for it,
+or we expose a syctl to let userspace volunteer to opt-in to seggest
+we are about to try something stupid with the kernel including loading
+some dangeerous modules which may not have macros which taint the kernel.
+That would let selftest taint on *any* selftest. Because we can run all
+selftests or run one selftest.
+
+Then, if such sysctl is exposed, maybe we should then also use this for
+example for blktests, fstests, fio tests, etc.
+
+  Luis
