@@ -2,103 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B01E6C433FE
-	for <linux-doc@archiver.kernel.org>; Sun,  1 May 2022 18:24:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09D86C433F5
+	for <linux-doc@archiver.kernel.org>; Sun,  1 May 2022 23:15:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349445AbiEAS2A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 1 May 2022 14:28:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59378 "EHLO
+        id S245505AbiEAXTP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 1 May 2022 19:19:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234718AbiEAS16 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 May 2022 14:27:58 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09E0B56403;
-        Sun,  1 May 2022 11:24:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=++0tXB8r6fqAoAWO0zn58LBjR0GxZ8Ui8yI9kV7Ql6c=; b=5Bvm25+pkmeLL5rMNrxHfplM7s
-        uKg935xXJmaVLLztQS7lAaaumcfTsInHq0U3fp0FT/49AU/iugvoMPp7Ea3qOHNOyCfdpoH3vR0EC
-        f2YSrPcQciYHpVw6Ms4xCNFi3SDZg2dGg3No6LR98z+5DajXjeQlFPOpno0chVBe7ChAk0qntgBFB
-        6PpCt0ZbB1//y4zNnHabMq4ZeZnWZv29LszwS5klex7qmCWYQJ/hmQULdZRG30COu18Z4lbWo/WIA
-        73Dfy97TxkjyMZaJeYaYl0NW0lqSv4ZbGKSERZqAsmCARqz+d+ccDFcYoUcux6UOKFd/KOq7BBh+N
-        RJUiABXg==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nlEFA-00Gh9I-PL; Sun, 01 May 2022 18:24:28 +0000
-Date:   Sun, 1 May 2022 11:24:28 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S232078AbiEAXTN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 May 2022 19:19:13 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB0341C90B;
+        Sun,  1 May 2022 16:15:46 -0700 (PDT)
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id AC9C02C3;
+        Sun,  1 May 2022 23:15:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AC9C02C3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1651446945; bh=FS5amElCk888qT+hGyfHPyM0t0QHFVh2qDy5LmfQhDM=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=ezkB0T+j4N6aCMugB+3/zyq0E1JbR+MentPR7VHjg2k+wXIn1shHKjW1ogbgHtuJ6
+         3otQgGVkoPu2ZLUXzHB48bxScSDwwxDaEVqjU6FErNRRwGriLfon2zKPwCEItEA+I8
+         sNJTXrKrH364CDX2U/R7LdblDkftXw1MwMkxD4vbqdDrNjVqEgXR6UEKsv00JL73z4
+         JOr5Kd2GgI7TfeqsO5Bw8qzvZs8C1rywlNZYD34y8sh8bPkeOsorrZpmSjPwa5+qbq
+         3CgahUZk9oUkvPFrKs5x/e7k9dW4mOEx7RZX50gO/7Vy65VXKF1XOGaWPsw5PI6bfH
+         VxksDpjlUk76g==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     paulmck@kernel.org
+Cc:     Joel Savitz <jsavitz@redhat.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2] kunit: Taint kernel if any tests run
-Message-ID: <Ym7QXOMK3fLQ+b6t@bombadil.infradead.org>
-References: <20220429043913.626647-1-davidgow@google.com>
- <20220430030019.803481-1-davidgow@google.com>
- <Ym7P7mCoMiQq99EM@bombadil.infradead.org>
+        Huang Ying <ying.huang@intel.com>,
+        Eric Biggers <ebiggers@google.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Rob Herring <robh@kernel.org>, Wang Qing <wangqing@vivo.com>,
+        linux-doc@vger.kernel.org, chao <chao@eero.com>
+Subject: Re: [PATCH] Documentation/sysctl: document max_rcu_stall_to_panic
+In-Reply-To: <20220428184939.GL1790663@paulmck-ThinkPad-P17-Gen-1>
+References: <20220324221156.44813-1-jsavitz@redhat.com>
+ <CAL1p7m4drKAz4yocoT7ovhmFC_cGBbAC+jPvsg+exYkwJ72POw@mail.gmail.com>
+ <87levp59xh.fsf@meer.lwn.net>
+ <20220428184939.GL1790663@paulmck-ThinkPad-P17-Gen-1>
+Date:   Sun, 01 May 2022 17:15:45 -0600
+Message-ID: <87mtg0yhcu.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ym7P7mCoMiQq99EM@bombadil.infradead.org>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, May 01, 2022 at 11:22:38AM -0700, Luis Chamberlain wrote:
-> On Sat, Apr 30, 2022 at 11:00:19AM +0800, David Gow wrote:
-> > KUnit tests are not supposed to run on production systems: they may do
-> > deliberately illegal things to trigger errors, and have security
-> > implications (assertions will often deliberately leak kernel addresses).
-> > 
-> > Add a new taint type, TAINT_KUNIT to signal that a KUnit test has been
-> > run. This will be printed as 'N' (for kuNit, as K, U and T were already
-> > taken).
-> > 
-> > This should discourage people from running KUnit tests on production
-> > systems, and to make it easier to tell if tests have been run
-> > accidentally (by loading the wrong configuration, etc.)
-> > 
-> > Signed-off-by: David Gow <davidgow@google.com>
-> 
-> There is no reason to distinguish kunit from selftests if the result is
-> the same: really make the kernel try really insane stupid things which
-> may crash it or put it into a bad state.
-> 
-> So no, this should be renamed to "TEST_BREAK" as I think outside of
-> selftest and kunit we may grow the kernel to do stupid things outside
-> of that domain and this gives us the flexilibilty to use that in other
-> places as well.
-> 
-> It begs the question if we *should* allow userspace to volunterally say
-> "hey, we are doing really insane things, brace yourself." Why ? Well
-> because selftest has tons of modules. We either then define a macro
-> that adds the taint for them and wrap the module declaration for it,
-> or we expose a syctl to let userspace volunteer to opt-in to seggest
-> we are about to try something stupid with the kernel including loading
-> some dangeerous modules which may not have macros which taint the kernel.
-> That would let selftest taint on *any* selftest. Because we can run all
-> selftests or run one selftest.
-> 
-> Then, if such sysctl is exposed, maybe we should then also use this for
-> example for blktests, fstests, fio tests, etc.
+"Paul E. McKenney" <paulmck@kernel.org> writes:
 
-For got to expand to fsdevel and linux-block.
+>> commit dfe564045c65 ("rcu: Panic after fixed number of stalls")
+>> introduced a new systctl but no accompanying documentation.
+>> 
+>> Add a simple entry to the documentation.
+>> 
+>> Signed-off-by: Joel Savitz <jsavitz@redhat.com>
+>
+> Acked-by: Paul E. McKenney <paulmck@kernel.org>
 
-  Luis
+OK, applied, thanks.
+
+jon
