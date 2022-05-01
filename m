@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B49BDC433EF
-	for <linux-doc@archiver.kernel.org>; Sun,  1 May 2022 16:27:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DF6DC433EF
+	for <linux-doc@archiver.kernel.org>; Sun,  1 May 2022 17:08:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243322AbiEAQap (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 1 May 2022 12:30:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58296 "EHLO
+        id S1348670AbiEARMO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 1 May 2022 13:12:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238590AbiEAQao (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 May 2022 12:30:44 -0400
+        with ESMTP id S240473AbiEARMN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 May 2022 13:12:13 -0400
 Received: from mengyan1223.wang (mengyan1223.wang [89.208.246.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B36F5B7FD;
-        Sun,  1 May 2022 09:27:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2A1F4D9FC;
+        Sun,  1 May 2022 10:08:47 -0700 (PDT)
 Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
         (Client did not present a certificate)
         (Authenticated sender: xry111@mengyan1223.wang)
-        by mengyan1223.wang (Postfix) with ESMTPSA id 4F9BB66572;
-        Sun,  1 May 2022 12:27:14 -0400 (EDT)
+        by mengyan1223.wang (Postfix) with ESMTPSA id DA17C66572;
+        Sun,  1 May 2022 13:08:43 -0400 (EDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mengyan1223.wang;
-        s=mail; t=1651422438;
-        bh=ALSJSv8A+BX4KvgFoFkSkIrjhFtjXG2yRggtMxZ7sBw=;
+        s=mail; t=1651424927;
+        bh=XYISo4h8KCnyxTuDi0BN/dzHxVCfbkmceDgjCj19MXU=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=JDW/VZQ4Xej666lypIysa7YDCKe5n59BDSNNZEC4o5y1nFR7nAUJtsf5vPSRD53dq
-         vR2K2VJf35Q2xn7OYzROVFze7wohQGSJVegAmqJDd/p7xV6+5An11IIjKwN0Rba23w
-         VkAd2ybE14g7ic9klBWX33LgGB5bqzFTMB1I0jtGGzdtKYJqjAx5Kg7qxPC3md/4JQ
-         iKxF4pKxY0Ny3YGgkcSe92dwvygVwh3TKVZYjXwbgaK8rw0sK3dmPzEZCLZPTbd4cK
-         Zo/LNuHu+wKJLIoKYoslSyFIkiY6QE+7mR1gEcqNvBZwTOuf/34YxOETPQIMOw4IsO
-         RVIT4kvdIeMKg==
-Message-ID: <4dd26d88b807c967dbbc81a7b2e5f4084d9603d7.camel@mengyan1223.wang>
+        b=2OmCnLlIrXPnbgEiKmC7P7cHlUkobbFyTBLHl+wu/u+DEWBBfiV3w0gRMZM2/jF7s
+         0ojeh6h642czjkUxRRFDgLSEPbxTENJTwAluOfhO+fKY6Zfy94K7AtC8LGMhQ+eBK6
+         r82alvKa8iTgV5e9bWWyvCUhvEIXIP74fzTgNDL9t/aaABP4GnfzIMTHsIkZUQW+rO
+         CGWFBFYBpGmiSYPJ6re0kYZhl/I8V5Wb/UTSFimi9nf9GznCjdr5+JibvWHel+ZHLi
+         yvcopxHXTMtghfJgPKaHZ+AXx3w2hZQzQgqHBXdEM4wyEdVkKlivmnlI9c2v0sK8Cp
+         GIHAYm+9NZ46A==
+Message-ID: <2a534c89b3c905a34f947fb2739d58c9373bb915.camel@mengyan1223.wang>
 Subject: Re: [PATCH V9 10/24] LoongArch: Add exception/interrupt handling
 From:   Xi Ruoyao <xry111@mengyan1223.wang>
 To:     Huacai Chen <chenhuacai@loongson.cn>,
@@ -49,42 +49,46 @@ Cc:     linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
         Huacai Chen <chenhuacai@gmail.com>,
         Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>
-Date:   Mon, 02 May 2022 00:27:12 +0800
-In-Reply-To: <20220430090518.3127980-11-chenhuacai@loongson.cn>
+Date:   Mon, 02 May 2022 01:08:41 +0800
+In-Reply-To: <4dd26d88b807c967dbbc81a7b2e5f4084d9603d7.camel@mengyan1223.wang>
 References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
          <20220430090518.3127980-11-chenhuacai@loongson.cn>
+         <4dd26d88b807c967dbbc81a7b2e5f4084d9603d7.camel@mengyan1223.wang>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 User-Agent: Evolution 3.44.1 
 MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 2022-04-30 at 17:05 +0800, Huacai Chen wrote:
-> +struct acpi_madt_lio_pic;
-> +struct acpi_madt_eio_pic;
-> +struct acpi_madt_ht_pic;
-> +struct acpi_madt_bio_pic;
-> +struct acpi_madt_msi_pic;
-> +struct acpi_madt_lpc_pic;
+T24gTW9uLCAyMDIyLTA1LTAyIGF0IDAwOjI3ICswODAwLCBYaSBSdW95YW8gd3JvdGU6Cj4gT24g
+U2F0LCAyMDIyLTA0LTMwIGF0IDE3OjA1ICswODAwLCBIdWFjYWkgQ2hlbiB3cm90ZToKPiA+ICtz
+dHJ1Y3QgYWNwaV9tYWR0X2xpb19waWM7Cj4gPiArc3RydWN0IGFjcGlfbWFkdF9laW9fcGljOwo+
+ID4gK3N0cnVjdCBhY3BpX21hZHRfaHRfcGljOwo+ID4gK3N0cnVjdCBhY3BpX21hZHRfYmlvX3Bp
+YzsKPiA+ICtzdHJ1Y3QgYWNwaV9tYWR0X21zaV9waWM7Cj4gPiArc3RydWN0IGFjcGlfbWFkdF9s
+cGNfcGljOwo+IAo+IFdoZXJlIGFyZSB0aG9zZSBkZWZpbmVkP8KgIEkgY2FuJ3QgZmluZCB0aGVt
+IGFuZCB0aGUgY29tcGlsYXRpb24gZmFpbHMKPiB3aXRoOgo+IAo+IGFyY2gvbG9vbmdhcmNoL2tl
+cm5lbC9pcnEuYzogSW4gZnVuY3Rpb24g4oCYZmluZF9wY2hfcGlj4oCZOgo+IGFyY2gvbG9vbmdh
+cmNoL2tlcm5lbC9pcnEuYzo0ODozMjogZXJyb3I6IGludmFsaWQgdXNlIG9mIHVuZGVmaW5lZAo+
+IHR5cGUg4oCYc3RydWN0IGFjcGlfbWFkdF9iaW9fcGlj4oCZCj4gwqDCoCA0OCB8wqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RhcnQgPSBpcnFfY2ZnLT5nc2lfYmFzZTsKPiDCoMKg
+wqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBefgo+IGFyY2gvbG9vbmdhcmNoL2tlcm5lbC9pcnEuYzo0OTozMjogZXJy
+b3I6IGludmFsaWQgdXNlIG9mIHVuZGVmaW5lZAo+IHR5cGUg4oCYc3RydWN0IGFjcGlfbWFkdF9i
+aW9fcGlj4oCZCj4gwqDCoCA0OSB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZW5k
+wqDCoCA9IGlycV9jZmctPmdzaV9iYXNlICsgaXJxX2NmZy0+c2l6ZTsKPiDCoMKgwqDCoMKgIHzC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBefgo+IGFyY2gvbG9vbmdhcmNoL2tlcm5lbC9pcnEuYzo0OTo1MjogZXJyb3I6IGludmFs
+aWQgdXNlIG9mIHVuZGVmaW5lZAo+IHR5cGUg4oCYc3RydWN0IGFjcGlfbWFkdF9iaW9fcGlj4oCZ
+Cj4gwqDCoCA0OSB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZW5kwqDCoCA9IGly
+cV9jZmctPmdzaV9iYXNlICsgaXJxX2NmZy0+c2l6ZTsKPiDCoMKgwqDCoMKgIHzCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXn4KCkFscmlnaHQsIG15IGJhZC4u
+LiBJIGRpZG4ndCByZWFsaXplIHRoZSBMb29uZ0FyY2ggcGF0Y2hlcyBhcmUgc3BsaXR0ZWQKaW50
+byBtdWx0aXBsZSBzZXJpZXMgZm9yIG11bHRpcGxlIGxpc3RzLiAgQnV0IGlzIHRoaXMgdGhlIFNP
+UCBvZiBrZXJuZWwKcGF0Y2ggcmV2aWV3aW5nPyAgV291bGQgaXQgYmUgZWFzaWVyIHRvIGp1c3Qg
+c2VuZCBvbmUgc2VyaWVzIGFuZCBDQyBhbGwKcmVsZXZlbnQgbGlzdHM/CgotLSAKWGkgUnVveWFv
+IDx4cnkxMTFAbWVuZ3lhbjEyMjMud2FuZz4KU2Nob29sIG9mIEFlcm9zcGFjZSBTY2llbmNlIGFu
+ZCBUZWNobm9sb2d5LCBYaWRpYW4gVW5pdmVyc2l0eQo=
 
-Where are those defined?  I can't find them and the compilation fails with:
-
-arch/loongarch/kernel/irq.c: In function =E2=80=98find_pch_pic=E2=80=99:
-arch/loongarch/kernel/irq.c:48:32: error: invalid use of undefined type =E2=
-=80=98struct acpi_madt_bio_pic=E2=80=99
-   48 |                 start =3D irq_cfg->gsi_base;
-      |                                ^~
-arch/loongarch/kernel/irq.c:49:32: error: invalid use of undefined type =E2=
-=80=98struct acpi_madt_bio_pic=E2=80=99
-   49 |                 end   =3D irq_cfg->gsi_base + irq_cfg->size;
-      |                                ^~
-arch/loongarch/kernel/irq.c:49:52: error: invalid use of undefined type =E2=
-=80=98struct acpi_madt_bio_pic=E2=80=99
-   49 |                 end   =3D irq_cfg->gsi_base + irq_cfg->size;
-      |                                                    ^~
-
---=20
-Xi Ruoyao <xry111@mengyan1223.wang>
-School of Aerospace Science and Technology, Xidian University
