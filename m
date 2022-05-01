@@ -2,105 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60079C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Apr 2022 14:52:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C56C433EF
+	for <linux-doc@archiver.kernel.org>; Sun,  1 May 2022 05:11:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382867AbiD3OzR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Apr 2022 10:55:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42000 "EHLO
+        id S238085AbiEAFPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 1 May 2022 01:15:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382872AbiD3OzN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Apr 2022 10:55:13 -0400
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [IPv6:2001:4b7a:2000:18::169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 643B0340E9
-        for <linux-doc@vger.kernel.org>; Sat, 30 Apr 2022 07:51:49 -0700 (PDT)
-Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by m-r2.th.seeweb.it (Postfix) with ESMTPSA id E34F23F685;
-        Sat, 30 Apr 2022 16:51:46 +0200 (CEST)
-Date:   Sat, 30 Apr 2022 16:51:45 +0200
-From:   Marijn Suijten <marijn.suijten@somainline.org>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Luca Weiss <luca@z3ntu.xyz>,
-        Doug Anderson <dianders@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
-Message-ID: <20220430145145.2zlxahmtjwyzezkg@SoMainline.org>
-References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
- <20220303214300.59468-2-bjorn.andersson@linaro.org>
- <20220430123502.7od55knvxkw3sv6s@SoMainline.org>
+        with ESMTP id S232817AbiEAFPI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 May 2022 01:15:08 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62B814A906;
+        Sat, 30 Apr 2022 22:11:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651381904; x=1682917904;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JKmlc2N07ImkrRm9eM53sgRdX9aGwES/lKiUIH8s89E=;
+  b=Z+fh6qMqWJk7JPLVgtxSdnDWJSbZlgflc0oiH4iixon1wp5mUBzeQrdy
+   cw4sZ11dujimuPUmI7ICbU9qPxbF+yGpPUeDN01grEaS3arcQEDVMRA70
+   TYWR68CGojMJpqZlcoFETgDjxPeDMZOU5+ktHlDa4k0kuB83foOaqx8mP
+   k9AV3KQOVB6YJfejFF/KQVNKA9FQqSNfUwNL3Tuuz2IriL038VuZM/QxG
+   +zeP9H9GxK2isw2PDhzEYpz1Ty+1AnM8LWDPytXDpoIYWb9l8+RfV2Ksa
+   DO2PYvjslwZC5YtKOXujqUaf3/6mZW+4/XdKGjKSt2bNvGoufWmjYDU2L
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10333"; a="264552675"
+X-IronPort-AV: E=Sophos;i="5.91,189,1647327600"; 
+   d="scan'208";a="264552675"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2022 22:11:43 -0700
+X-IronPort-AV: E=Sophos;i="5.91,189,1647327600"; 
+   d="scan'208";a="732846343"
+Received: from iweiny-server.sc.intel.com (HELO localhost) ([172.25.222.75])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2022 22:11:43 -0700
+Date:   Sat, 30 Apr 2022 22:11:43 -0700
+From:   ira.weiny@intel.com
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        outreachy@lists.linux.dev
+Subject: Re: [PATCH v4 0/4] Extend and reorganize Highmem's documentation
+Message-ID: <Ym4WSstEQI7yYU0n@iweiny-server>
+References: <20220428212455.892-1-fmdefrancesco@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220430123502.7od55knvxkw3sv6s@SoMainline.org>
+In-Reply-To: <20220428212455.892-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-04-30 14:35:04, Marijn Suijten wrote:
-[..]
-> > +static int lpg_add_led(struct lpg *lpg, struct device_node *np)
-> > +{
-> > +	struct led_init_data init_data = {};
-> > +	struct led_classdev *cdev;
-> > +	struct device_node *child;
-> > +	struct mc_subled *info;
-> > +	struct lpg_led *led;
-> > +	const char *state;
-> > +	int num_channels;
-> > +	u32 color = 0;
-> > +	int ret;
-> > +	int i;
-> > +
-> > +	ret = of_property_read_u32(np, "color", &color);
-> > +	if (ret < 0 && ret != -EINVAL) {
-> > +		dev_err(lpg->dev, "failed to parse \"color\" of %pOF\n", np);
-> > +		return ret;
-> > +	}
-> > +
-> > +	if (color == LED_COLOR_ID_RGB)
-> > +		num_channels = of_get_available_child_count(np);
-> > +	else
-> > +		num_channels = 1;
-> > +
-> > +	led = devm_kzalloc(lpg->dev, struct_size(led, channels, num_channels), GFP_KERNEL);
-> > +	if (!led)
-> > +		return -ENOMEM;
-> > +
-> > +	led->lpg = lpg;
-> > +	led->num_channels = num_channels;
-> > +
-> > +	if (color == LED_COLOR_ID_RGB) {
-> > +		info = devm_kcalloc(lpg->dev, num_channels, sizeof(*info), GFP_KERNEL);
-> > +		if (!info)
-> > +			return -ENOMEM;
-> > +		i = 0;
-> > +		for_each_available_child_of_node(np, child) {
-> > +			ret = lpg_parse_channel(lpg, child, &led->channels[i]);
-> > +			if (ret < 0)
-> > +				return ret;
-> > +
-> > +			info[i].color_index = led->channels[i]->color;
-> > +			info[i].intensity = 0;
+On Thu, Apr 28, 2022 at 11:24:51PM +0200, Fabio M. De Francesco wrote:
+> This series has the purpose to extend and reorganize Highmem's
+> documentation.
 > 
-> This struct also has a "channel" field that doesn't seem to be used
-> anywhere.  Should we still initialize it to something sensible, or is it
-> better reported upstream for removal?
+> This is a work in progress because some information should still be moved
+> from highmem.rst to highmem.h and highmem-internal.h. Specifically I'm
+> talking about moving the "how to" information to the relevant headers, as
+> it as been suggested by Ira Weiny (Intel).
+> 
+> Also, this is a work in progress because some kdocs in highmem.h and
+> highmem-internal.h should be improved.
+> 
+> However, I think (and hope that my thoughts are also shared by Maintainers
+> and Reviewers) that this series constitues a sensible step forward
+> improving Highmem's documentation, despite some important issues are not
+> yet addressed.
 
-Never mind the second bit: lp552[13] uses the `channel` field internally
-to store a custom index.  This LPG driver simply iterates over all the
-led channels (stored in the LPG struct, with all necessary info) in the
-same order as the subleds in the multicolor led device, so it's most
-likely of no use for us.
+For the series:
 
-- Marijn
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+
+> 
+> Changes from v1 to v2:
+> 
+>         1/4 - Fix typos (Mike Rapoport); re-write the description of @page
+>               because the original was wrong (Ira Weiny); add Ira's and
+>               Mike's tags in the commit message.
+>         2/4 - Add Ira's and Mike's tags in the commit message.
+>         3/4 - Rework the subject to better summarize what this patch
+>               changes; merge the section which was removed from highmem.rst
+>               with the kdocs of highmem.h (suggested by Ira Weiny); add
+>               Ira's tag in the commit message.
+>         4/4 - Reformulate a sentence that was incomprehensible due to my
+>               own mistakes in copying and pasting the text of another
+>               paragraph (problem noted by Ira Weiny); refer to the kdocs
+>               of kmap_local_page () to show how nested mappings should be
+>               handled; fix grammar error; add Ira's tag in the commit
+>               message.
+> 
+> Changes from v2 to v3:
+> 
+>         1/4 - Add a deprecation notice to kunmap_atomic() for consistency
+>               with the same notice in kmap_atomic() (Sebastian Andrzej
+>               Siewior); shorten subject and extend commit message.
+>         2/4 - No changes.
+>         3/4 - No changes.
+>         4/4 - Correct a technical inaccuracy about preemption disabling /
+>               re-enabling in kmap_atomic() / kunmap_atomic() (Sebastian
+>               Andrzej Siewior).
+> 
+> Changes from v3 to v4:
+> 
+> 	1/4 - Correct some techinal inaccuracies about the side effects
+> 	      of calling kmap_atomic() and kmap_local_page() (Sebastian
+> 	      Andrzej Siewior); drop "Acked-by:" and "Reviewed-by:" tags
+> 	      because relevant parts of this patch have changed.
+> 	2/4 - No changes.
+> 	3/4 - No changes.
+> 	4/4 - Shorten a couple of paragraphs by removing redundant
+> 	      information (Sebastian Andrzej Siewior).
+> 
+> Fabio M. De Francesco (4):
+>   mm/highmem: Fix kernel-doc warnings in highmem*.h
+>   Documentation/vm: Include kdocs from highmem*.h into highmem.rst
+>   Documentation/vm: Move "Using kmap-atomic" from highmem.rst to
+>     highmem.h
+>   Documentation/vm: Rework "Temporary Virtual Mappings" section
+> 
+>  Documentation/vm/highmem.rst     | 100 ++++++++++++++++++-------------
+>  include/linux/highmem-internal.h |  18 +++++-
+>  include/linux/highmem.h          |  51 ++++++++++++----
+>  3 files changed, 113 insertions(+), 56 deletions(-)
+> 
+> -- 
+> 2.34.1
+> 
