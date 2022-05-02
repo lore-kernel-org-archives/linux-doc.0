@@ -2,123 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 904BDC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  2 May 2022 00:01:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DCE0C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  2 May 2022 01:44:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229505AbiEBAFK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 1 May 2022 20:05:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49844 "EHLO
+        id S245709AbiEBBsI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 1 May 2022 21:48:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiEBAFJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 May 2022 20:05:09 -0400
-Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com [IPv6:2607:f8b0:4864:20::e2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DAE162FC;
-        Sun,  1 May 2022 17:01:42 -0700 (PDT)
-Received: by mail-vs1-xe2c.google.com with SMTP id c62so12314720vsc.10;
-        Sun, 01 May 2022 17:01:42 -0700 (PDT)
+        with ESMTP id S230455AbiEBBsI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 May 2022 21:48:08 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4114AEAA;
+        Sun,  1 May 2022 18:44:41 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id p12so11290641pfn.0;
+        Sun, 01 May 2022 18:44:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=0Td4oiGEn76YE86E1aORkuCrqQirCdqspkzlKcZCyrY=;
-        b=fU4yq50q2lQ3XuLdj/qGGDFPc8g3IoPe3R2fNAkZYkADZWlCeJmGai2z8oB95Enj+b
-         OAzgPYD1lDelMiSIQF4I3d2B4Yuq17YQOZmcgwWc1WtWrNe4O2rH0dWEvYZhkPw6m6PG
-         69a6QFQxB8lOvHNxX/Ekl5xo1FNp0BdDP2y+9oOzmzq+KlMPxk1JK2Y0uve70rsaeLG+
-         e3z6JWucbF9VjgBbKKGxAoSjDoC9cg58D8NwJSw6Hsccu5cvBQQo3qKdww8iAiAtoXnR
-         VevmJKMpGDEhaAHxqQSjDAbyNAkcAW9mvgZtvAqUGOyazA7ML4VAegw68uB3Rserr6Va
-         4AzA==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=45/vefmAOs7jyOLkjPvaCzZ3Mr4L7nUL4GQTRp6tqe4=;
+        b=joLJdRPQBi9WnNBC6XJUCAuK5cCfVx4A58Ds3gAJK3YPVJ0VF6R7Q94E5R8HFuurci
+         VUTurL1ED7uuiJr8/T57CNzj1EWhhmuQWJSkH879W8jKtkoWOxSFJ+7bn+jg85Xatjut
+         bhjDkgpYtXFEkdOL5o6rCfw5dfVXSSch6FcplaEoU/5JUxEjNQZlBsz7OLl55xhe0iWq
+         SWSupIP1WayZ4InD/e1XRFT2WFmpEH2/C8/5fq868wWyYnDsT1tb529VdkyTRv1Oq/CS
+         bcocR+HyglawWtZUqscZx7NWTuDMyTgUEE1zSR5r8ORB/QB9H46m2IyIj2n0RxuScXb1
+         2pUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=0Td4oiGEn76YE86E1aORkuCrqQirCdqspkzlKcZCyrY=;
-        b=IJYVS+x28iBgXfCAU+Mll9cx1wOsMZq8vhS2bgAFyBRvVh1KuR5rnclTHXRjETUunF
-         8tYjPFw+tmnbudLiVWcpcKnqUc9OEFZQP1k/UJn9x71oZMVjo61TMaoFOVKM7DyGiDFQ
-         osGbHGPXkhZWy5T8oLGGlerapi4Pu3pd5xoItl0udeg/ExJM0jKGGiHGPmxnF4MtrOi1
-         qU1O4Mj22dvwB/hg2uc270+Z0x06oZRq+i/fE9D9/ITGVtp/0Qa5rlMRUYId2sDzGxO6
-         Vz72aPPgEJfOyt9vJQKT2cg6koUT4lMHCgq3Gmm7qzEZw4UzF3PAakpB0TOci5IytAw/
-         Qlqg==
-X-Gm-Message-State: AOAM532ifm8zagSPZqsqkNhzQWy7V3rmVyo/zAq2utjwwuq2IgKSDOpG
-        UzfGaqGV7O2EKp0Y8vKXwFJzcXdeTNALiOhdvpE=
-X-Google-Smtp-Source: ABdhPJx1LTNtGjC4S/dJvwCxmfi42wRxvYaWkAkZZY1UkYum9sFJturAmVyB2ut7y9HxV6wtSJLcf6hlza0EMjoIuyE=
-X-Received: by 2002:a67:be0b:0:b0:32c:d82f:6723 with SMTP id
- x11-20020a67be0b000000b0032cd82f6723mr2711106vsq.67.1651449701274; Sun, 01
- May 2022 17:01:41 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=45/vefmAOs7jyOLkjPvaCzZ3Mr4L7nUL4GQTRp6tqe4=;
+        b=34ZJRr3M3Im4m1LsahW+CkS0tp+wuNrVqmiU7z5VxQggzEN57qGdgQRna7dm5czwSY
+         cdrJXK+/o2vFKrWK7fj5K3pm/ZpGqU/dNXDwEXUwbX2RNNKGwwk1b9uvtpNjMdRINJ9p
+         LmI5uDpt9rgH9WrraUvtWV6Kk46ichdkBEZSKliScA6CcUFbDSXJRpvVDZOm1W6n60u7
+         8evZMB5aOJ23lfQoLX0VZB6MAcZPn9AXAFVPankgXAgUmHQkMeEHPwY9k0ErpBAfiEdI
+         NwPXt+zXWC6Ehwq8D8ZP4yMwNpTTFFEeQEkzH0Sb4Si/4utyQYppP9LW0rW4fRRnuNGK
+         3JTw==
+X-Gm-Message-State: AOAM532eZu37Q4MtXzNQ1dUKHRtlQbpRCoZgnA4GjFfrW1v23rw2wYoX
+        1OCpE5LeZBNODgNPier6yo8=
+X-Google-Smtp-Source: ABdhPJzLS9jPlqZ0qOAGE9vCkUweuHxaJ8ewW3XmxdmtO8IuZMAZrTmWYPfOooIsxbv+vFALKRiK5Q==
+X-Received: by 2002:a05:6a00:22c4:b0:50d:ed2b:2002 with SMTP id f4-20020a056a0022c400b0050ded2b2002mr2528969pfj.54.1651455880796;
+        Sun, 01 May 2022 18:44:40 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id v2-20020aa78502000000b0050dc7628146sm3433518pfn.32.2022.05.01.18.44.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 01 May 2022 18:44:40 -0700 (PDT)
+Message-ID: <e2c14da5-4759-8175-2042-30fba995b883@gmail.com>
+Date:   Mon, 2 May 2022 10:44:35 +0900
 MIME-Version: 1.0
-References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
- <20220430090518.3127980-11-chenhuacai@loongson.cn> <4dd26d88b807c967dbbc81a7b2e5f4084d9603d7.camel@mengyan1223.wang>
- <2a534c89b3c905a34f947fb2739d58c9373bb915.camel@mengyan1223.wang>
-In-Reply-To: <2a534c89b3c905a34f947fb2739d58c9373bb915.camel@mengyan1223.wang>
-From:   Huacai Chen <chenhuacai@gmail.com>
-Date:   Mon, 2 May 2022 08:01:31 +0800
-Message-ID: <CAAhV-H5vviww-h7BuhCitHVGeExjMOuWaap=iAc9ekqJzppgwQ@mail.gmail.com>
-Subject: Re: [PATCH V9 10/24] LoongArch: Add exception/interrupt handling
-To:     Xi Ruoyao <xry111@mengyan1223.wang>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: Resend: [PATCH] Documentation/vm/page_owner.rst: Fix syntax error
+ and Describe details using table
+Content-Language: en-US
+To:     Shenghong Han <hanshenghong2019@email.szu.edu.cn>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     akpm <akpm@linux-foundation.org>, baihaowen <baihaowen@meizu.com>,
+        seakeel <seakeel@gmail.com>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        caoyixuan2019 <caoyixuan2019@email.szu.edu.cn>,
+        yejiajian2018 <yejiajian2018@email.szu.edu.cn>,
+        yuhongf <yuhongf@szu.edu.cn>
+References: <20220429181926.10658-1-hanshenghong2019@email.szu.edu.cn>
+ <ea37d4f9-26e2-272a-01d6-fa7e8c62687e@gmail.com>
+ <tencent_640F24F90BA09A5302AA9BD7@qq.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <tencent_640F24F90BA09A5302AA9BD7@qq.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Ruoyao,
+Hi,
+On Sat, 30 Apr 2022 18:25:29 +0800,
+Shenghong Han wrote:
+> The one reply archived at "https://lore.kernel.org/linux-doc/tencent_088763F35CE233FB6C9CEB80@qq.com/"(On 2022/04/30 16:13) is broken-looking. 
+> 
+> Apologize for that!
+> 
+> Resend that reply:
+> 
+> 0) If you have received a similar reply, please refer to the latest reply.
+> 
+> 1) Accidentally used Chinese Input Method Editor, leaving full-width> symbols during the test, causing the double dashes of "--" changed into
+> "long single dash" which should not have occurred.
+I don't see any "full-width" symbols in your patch.
 
-On Mon, May 2, 2022 at 1:08 AM Xi Ruoyao <xry111@mengyan1223.wang> wrote:
->
-> On Mon, 2022-05-02 at 00:27 +0800, Xi Ruoyao wrote:
-> > On Sat, 2022-04-30 at 17:05 +0800, Huacai Chen wrote:
-> > > +struct acpi_madt_lio_pic;
-> > > +struct acpi_madt_eio_pic;
-> > > +struct acpi_madt_ht_pic;
-> > > +struct acpi_madt_bio_pic;
-> > > +struct acpi_madt_msi_pic;
-> > > +struct acpi_madt_lpc_pic;
-> >
-> > Where are those defined?  I can't find them and the compilation fails
-> > with:
-> >
-> > arch/loongarch/kernel/irq.c: In function =E2=80=98find_pch_pic=E2=80=99=
-:
-> > arch/loongarch/kernel/irq.c:48:32: error: invalid use of undefined
-> > type =E2=80=98struct acpi_madt_bio_pic=E2=80=99
-> >    48 |                 start =3D irq_cfg->gsi_base;
-> >       |                                ^~
-> > arch/loongarch/kernel/irq.c:49:32: error: invalid use of undefined
-> > type =E2=80=98struct acpi_madt_bio_pic=E2=80=99
-> >    49 |                 end   =3D irq_cfg->gsi_base + irq_cfg->size;
-> >       |                                ^~
-> > arch/loongarch/kernel/irq.c:49:52: error: invalid use of undefined
-> > type =E2=80=98struct acpi_madt_bio_pic=E2=80=99
-> >    49 |                 end   =3D irq_cfg->gsi_base + irq_cfg->size;
-> >       |                                                    ^~
->
-> Alright, my bad... I didn't realize the LoongArch patches are splitted
-> into multiple series for multiple lists.  But is this the SOP of kernel
-> patch reviewing?  Would it be easier to just send one series and CC all
-> relevent lists?
-The acpi stuff should go to acpica project first, then Rafael sync the
-code to the kernel. The current status is acpica has merged LoongArch
-support, but hasn't yet gone to the kernel.
-ACPI: Add LoongArch-related definitions by chenhuacai =C2=B7 Pull Request
-#757 =C2=B7 acpica/acpica =C2=B7 GitHub
+> 
+> 2) In the current document, the "STANDARD FORMAT SPECIFIERS" table
+> does not correctly use the format of the rst document, so in the
+> website https://www.kernel.org/doc/html/latest/vm/page_owner.html,
+Now that the web page catches up v5.18-rc5, how does it look to
+you?
 
-Huacai
->
-> --
-> Xi Ruoyao <xry111@mengyan1223.wang>
-> School of Aerospace Science and Technology, Xidian University
+"the current document" is always changing, so it doesn't mean
+anything...
+
+> it does not look good. Therefore, the "STANDARD FORMAT SPECIFIERS"
+> has been adjusted using the format of the rst table. *This* is the
+> main purpose.
+> 
+> 3) In version 1 before(On 2022/04/30 1:19), the sentence look> like:"Table 1 xxx(some explaination)." and "Table 2 xxx(some
+> explaination).", in these 2 "long" sentences, using "." instead of
+> ":".Honestly, complex sentence is unnecessary. When I tried to
+> modify the sentence, I ignore the strict distinction between "."
+> and ":".In short, This modification is unnecessary.
+OK.
+
+> 4) Apologize again for the troubles that my clumsy behaviors have> caused.
+Looks like you have still a lot to improve...
+
+Akira
+
+> 
+> Thanks, 
+> 
+> Shenghong Han
+>  
+> ------------------ Original ------------------
+> From:  "Akira Yokosawa"<akiyks@gmail.com>;
+> Date:  Sat, Apr 30, 2022 02:40 PM
+> To:  "Shenghong Han"<hanshenghong2019@email.szu.edu.cn>; "Jonathan Corbet"<corbet@lwn.net>;
+> Cc:  "akpm"<akpm@linux-foundation.org>; "baihaowen"<baihaowen@meizu.com>; "seakeel"<seakeel@gmail.com>; "linux-doc"<linux-doc@vger.kernel.org>; "linux-kernel"<linux-kernel@vger.kernel.org>; "caoyixuan2019"<caoyixuan2019@email.szu.edu.cn>; "yejiajian2018"<yejiajian2018@email.szu.edu.cn>; "yuhongf"<yuhongf@szu.edu.cn>;
+> Subject:  Re: [PATCH] Documentation/vm/page_owner.rst: Fix syntax error and Describe details using table
+>  
+> On 2022/04/30 3:19,
+> Shenghong Han wrote:
+>> Some syntax errors exist in "page_owner.rst". Thanks to Akira Yokosawa and
+>> Haowen Bai for tips to help improve the documentation.
+>>
+>> We try to fix them. Hope that the Documentation is showed as we expect.
+>>
+>> Signed-off-by: Shenghong Han <hanshenghong2019@email.szu.edu.cn>
+>> Fixes: edc93abbcc6d ("tools/vm/page_owner_sort.c: support sorting blocks by multiple keys")
+>>
+>> ---
+>> Thanks Jonathan's suggestion.
+>>
+>> This fix is a simpler than before.
+>> And yes, It has built in my machine.
+>>
+>> Best,
+>>
+>> Shenghong Han
+>> ---
+>> ---
+>>  Documentation/vm/page_owner.rst | 15 ++++++++++-----
+>>  1 file changed, 10 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+>> index 25622c715..0ecb4a739 100644
+>> --- a/Documentation/vm/page_owner.rst
+>> +++ b/Documentation/vm/page_owner.rst
+>> @@ -171,11 +171,12 @@ Usage
+>>
+>>  STANDARD FORMAT SPECIFIERS
+>>  ==========================
+>> -::
+>>
+>> -For --sort option:
+>> +1) For --sort option.
+>>
+>> + ==== ========== ===========
+>>  KEY LONG DESCRIPTION
+>> + ==== ========== ===========
+>>  p pid process ID
+>>  tg tgid thread group ID
+>>  n name task command name
+>> @@ -183,14 +184,18 @@ For --sort option:
+>>  T txt full text of block
+>>  ft free_ts timestamp of the page when it was released
+>>  at alloc_ts timestamp of the page when it was allocated
+>> -        ator            allocator       memory allocator for pages
+>> + ator allocator memory allocator for pages
+>> + ==== ========== ===========
+>>
+>> -For --curl option:
+>> +2) For --curl option.
+>>
+>> + ==== ========== ===========
+>>  KEY LONG DESCRIPTION
+>> + ==== ========== ===========
+>>  p pid process ID
+>>  tg tgid thread group ID
+>>  n name task command name
+>>  f free whether the page has been released or not
+>>  st stacktrace stack trace of the page allocation
+>> -        ator            allocator       memory allocator for pages
+>> + ator allocator memory allocator for pages
+>> + ==== ========== ===========
+> 
+> So, I have actually tested this.
+> 
+> Are you OK with the look of
+> 
+>   1) For --sort option.
+> 
+> and
+> 
+>   2) For --curl option.
+> 
+> in generated HTML or PDF docs?
+> 
+> In literal blocks, you would see double dashes of "--".
+> Now they are converted to so-called endash, which is a single dash
+> slightly longer than a normal hyphen.  It looks confusing to me.
+> 
+> To remedy this, you need inline literal markers of
+> 
+>   1) For ``--sort`` option.
+> 
+> and
+> 
+>   2) For ``--curl`` option.
+> 
+> 
+> By the way, this patch changes ":" to "." at the end of them.
+> Are they intentional changes?  If so, why?
+> 
+>         Thanks, Akira
