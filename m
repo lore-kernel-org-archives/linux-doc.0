@@ -2,98 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C3CC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  3 May 2022 10:33:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A2AC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  3 May 2022 10:46:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234039AbiECKgq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 May 2022 06:36:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53090 "EHLO
+        id S234222AbiECKt6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 May 2022 06:49:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232986AbiECKgq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 May 2022 06:36:46 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DC461FA67;
-        Tue,  3 May 2022 03:33:14 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id i62so13710238pgd.6;
-        Tue, 03 May 2022 03:33:14 -0700 (PDT)
+        with ESMTP id S229572AbiECKt4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 May 2022 06:49:56 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B2651E3ED;
+        Tue,  3 May 2022 03:46:24 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id o69so13612115pjo.3;
+        Tue, 03 May 2022 03:46:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=muzTKDXHxre739JwDPLn6W0CCP4JY3KIRqvskM6X8vM=;
-        b=FBWGNVXMbpvfke8TdnuLjHwzsu+ynQgTTlyROkGSap+8QLTHjZDJmK7cIafOr0Hi1O
-         dNfRvuICGuXh508Kxf5D7N5kCiO6jBN9sS350BoHpyImp/N6U4z23xV8lhdZFaSlWag3
-         XmoX5yRmhNkyuPOoe4dXf1JBavuVMDXdVFPdQEQpBvVbtXcS7zsPGWvfUw8FhaAWzC9f
-         jBEfZlDqtye3UEMHwLOEbV21LJZCx/hRQSDxC4vZej9r6w4K09H/NO/klSYZMw1+C69q
-         RYUsPpmJf1SDLOzUJI7b+lBvPpvzuQrfslR4Y2RsaYBGfY+bkehb4ELqBCijWTEjjS2S
-         FK3w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=8uv29XzlfJotxtpA2xDWU9p+9n0jURpOMge0Zxy9CFQ=;
+        b=NGd8BS+q7B8v3GbSUsa00znrn/4O1l0MGv9SzYs6ausuBzmcDsIj9xzsVveUi6eLxU
+         5/Azu310vYWRnZvlSE5Hx6dalPb0TY0v9ojqYyQkafSlcpLf9Sc2S/75EnlMk5Vld6RB
+         XtjDg5rkmpN+4mfPW2C7v6MeauNXdCM5Lfxc8ZyaAq0GJ7+0dQFVyAW7l/s96Kjkfjjs
+         uY52pTLkgv5utHV9GVJ4WHt+IscPoR72pw+Z1sZNpgeHYf4yCayELJgxY3jEdLFKyX0v
+         By7QTN1CtRoVkpjxMdwMtOIC2YJwOSdEVYXzcFPdflu/rX9iHP1cHYuZ8SnV2ZHUeiTp
+         cGVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=muzTKDXHxre739JwDPLn6W0CCP4JY3KIRqvskM6X8vM=;
-        b=gUE95QbD2yRvUg9M74ik3I4Pyn7v+OSrRkzclLzYcyZBPkaIsFH8U8Rc/UZ1knYFOJ
-         xb1MhlTcuDi8UfZyo04b488vHe/QjoJ97vx1k2L5KTdnBnmeiPH70QoaGCQjgwh72Fso
-         JCr4TtH4eWWvJtmigWB0/zrb87RZtlePKIhiH/APM1us7ioyr+u6qfmC6vfPp0bGXYSG
-         EaXfQCgOS0uRofKL9luDSQKtmW9P7Yb6BoiBWNXa2TBC+BQgiB/VeIC5lyPUUGm3pId3
-         RlO5TsR+gkqhR1c4BdPF3VBmj4BelpeEyQCJRB1D4hKvKiQnuiMSs4M5NFwRU7AZsz5y
-         I52A==
-X-Gm-Message-State: AOAM530IhtYbjiTKVxy58lQg2ysY8f0IWkEz1JMWArsAxxqToO91S9MG
-        Eziz/B4yxKulnSs2U9XXYwzNzmiLZkU=
-X-Google-Smtp-Source: ABdhPJxDy7q//uBK9EK/lcQ9h4a/dMMi9ej11sgl909BEOF+gp398rwtS4myrfXHQPjKOxB/CPx7TA==
-X-Received: by 2002:a63:d2:0:b0:3c2:57a7:a11f with SMTP id 201-20020a6300d2000000b003c257a7a11fmr4966660pga.583.1651573993801;
-        Tue, 03 May 2022 03:33:13 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=8uv29XzlfJotxtpA2xDWU9p+9n0jURpOMge0Zxy9CFQ=;
+        b=N+c7V0dCbd3EBBAwznsmhu2HRnelToBWD/Ogk3gM3/3EAX9pKBX4pfEpf4fZ+DOFZD
+         412UCgB1YVeePY+b1fL1LwnH1zxvamNTDxiSnVFCv25x1udzvksgMK419aR5y4Hi4kPQ
+         U6PuBdsDkT+c99UOLRA5qFq9lFBRE+aHuDQXkwQtaqizuQZCghc8ERyonEyFKgjdgqsn
+         LbVCbJB1IzptAwJxRKZ1hBjJjR64LsXlT+mDXvWsCtOSTDEcI4uBx8QXFGUiOBR0DeLA
+         eYCz6k16lteNzHCZAc7bVVM2TFabsnXoWA1xA06NgZQDnB0MTa8b0oUYWvxPda8+eoSo
+         8p2Q==
+X-Gm-Message-State: AOAM53168G29SyHamWdkPNeHNryXqJu/wtbpcLaasTNQD08aEcrNw/4L
+        YddLswSq6XOfknABXum5pMlgr/VXFIQ=
+X-Google-Smtp-Source: ABdhPJxou7TVqai248MMrhvQiF8ZR8tB1frIze9Hj5mIuhQiu9xb895IsbibbpRCGsOfKiwnV/NorQ==
+X-Received: by 2002:a17:902:d510:b0:15e:afc4:85a0 with SMTP id b16-20020a170902d51000b0015eafc485a0mr5811446plg.64.1651574783560;
+        Tue, 03 May 2022 03:46:23 -0700 (PDT)
 Received: from localhost.localdomain (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id j2-20020a17090a734200b001d0ec9c93fesm1101476pjs.12.2022.05.03.03.33.11
+        by smtp.gmail.com with ESMTPSA id k11-20020aa792cb000000b0050dc762812bsm6035769pfa.5.2022.05.03.03.46.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 May 2022 03:33:13 -0700 (PDT)
+        Tue, 03 May 2022 03:46:22 -0700 (PDT)
 From:   Akira Yokosawa <akiyks@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/5] docs/ja_JP/SubmittingPatches: Trace changes in English docs, take 1
-Date:   Tue,  3 May 2022 19:24:30 +0900
-Message-Id: <20220503102429.48304-1-akiyks@gmail.com>
+Cc:     Akira Yokosawa <akiyks@gmail.com>,
+        Tsugikazu Shibata <shibata@linuxfoundation.org>,
+        Kosuke Fujimoto <fujimotokosuke0@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/5] docs/ja_JP/SubmittingPatches: Update GregKH links
+Date:   Tue,  3 May 2022 19:46:13 +0900
+Message-Id: <20220503104613.49001-1-akiyks@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220503102429.48304-1-akiyks@gmail.com>
+References: <20220503102429.48304-1-akiyks@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Reflect changes made in commit f5039935ac68 ("Documentation: update
+GregKH links").
 
-This is the first batch of updates attempting to modernize Japanese
-SubmittingPatches.  Conversion to ReST will be done later when the
-corresponding commit doing the conversion is reached.  Pending list
-of commits is quite long (about 90) and this effort is expected to
-produce dozens of series.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
+Cc: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ Documentation/translations/ja_JP/SubmittingPatches | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-List of commits for English (then) SubmittingPatches:
-
- - f5039935ac68 ("Documentation: update GregKH links")
- - e52d2e1f25f0 ("Documentation/SubmittingPatches: suggested the use of scripts/get_maintainer.pl")
- - 755727b7fb1e ("Randy has moved")
- - 8543ae1296f6 ("checkpatch: add Suggested-by as a standard signature")
- - 0af5270324cc ("Documentation/SubmittingPatches: Request summaries for commit references")
-
-Note: Commit db12fb833a88 ("Documentation: fix spelling error in
-SubmittingPatches") does not affect Japanese translation.
-
-        Thanks, Akira
---
-Akira Yokosawa (5):
-  docs/ja_JP/SubmittingPatches: Update GregKH links
-  docs/ja_JP/SubmittingPatches: Suggest the use of
-    scripts/get_maintainer.pl
-  docs/ja_JP/SubmittingPatches: Randy has moved
-  docs/ja_JP/SubmittingPatches: Add Suggested-by as a standard signature
-  docs/ja_JP/SubmittingPatches: Request summaries for commit references
-
- .../translations/ja_JP/SubmittingPatches      | 36 ++++++++++++++-----
- 1 file changed, 27 insertions(+), 9 deletions(-)
-
-
-base-commit: 81c653659d34ec253fba7f5d0f430813fe0f643d
+diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documentation/translations/ja_JP/SubmittingPatches
+index 0d308edef781..c986d925de51 100644
+--- a/Documentation/translations/ja_JP/SubmittingPatches
++++ b/Documentation/translations/ja_JP/SubmittingPatches
+@@ -681,10 +681,11 @@ Jeff Garzik, "Linux kernel patch submission format".
+   <https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html>
+ 
+ Greg Kroah-Hartman, "How to piss off a kernel subsystem maintainer".
+-  <http://www.kroah.com/log/2005/03/31/>
+-  <http://www.kroah.com/log/2005/07/08/>
+-  <http://www.kroah.com/log/2005/10/19/>
+-  <http://www.kroah.com/log/2006/01/11/>
++  <http://www.kroah.com/log/linux/maintainer.html>
++  <http://www.kroah.com/log/linux/maintainer-02.html>
++  <http://www.kroah.com/log/linux/maintainer-03.html>
++  <http://www.kroah.com/log/linux/maintainer-04.html>
++  <http://www.kroah.com/log/linux/maintainer-05.html>
+ 
+ NO!!!! No more huge patch bombs to linux-kernel@vger.kernel.org people!
+   <https://lore.kernel.org/r/20050711.125305.08322243.davem@davemloft.net>
 -- 
 2.25.1
 
