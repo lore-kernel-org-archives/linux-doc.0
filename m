@@ -2,138 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84451C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  3 May 2022 09:59:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C3CC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  3 May 2022 10:33:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233900AbiECKCh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 May 2022 06:02:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47138 "EHLO
+        id S234039AbiECKgq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 May 2022 06:36:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230482AbiECKCg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 May 2022 06:02:36 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DF4436144;
-        Tue,  3 May 2022 02:59:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D7B1EB81A99;
-        Tue,  3 May 2022 09:59:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F1BDC385B3;
-        Tue,  3 May 2022 09:59:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651571941;
-        bh=WVwFOkcs0sk/AMUmXJiSEkXOMbWN6ztZIQQGzqt52AM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=XtQoNbbEFZdYp4LpIJJEhHEAGMGZu00Cp2IQTv9OCYdBCz3V9yn9A9suUqlU8clee
-         +U/x/KqJZsWZVtekrVzB9pop5aKtxswiuVdNBaQpCVckVhZOBu+YAq02mF/8snLy4K
-         m3HHKSR8WDrFbBPJTsxZ2VaNNhrxQoep1GrSC4Iuz4TImEnKdtnUQcxSiYDiYygORo
-         pZxuUnaH/0ZIRXpxCcEPxw/3XfGSj9cWfIYa6PInV/dRQdpYY+fnSBFcp/E3XajZM8
-         lu2MnJ3uOkmXZVulO8s50sDVOQsyabzAhLticAB6tVfKshVxfAbHvwyzJfL5uSBOzQ
-         UZPswvkYpDIjA==
-Received: by mail-oi1-f173.google.com with SMTP id s131so17689713oie.1;
-        Tue, 03 May 2022 02:59:01 -0700 (PDT)
-X-Gm-Message-State: AOAM531E11NE06SxipYM2vbCPHKHdZsVnKjQrQedyi0aAM0TiYR/7rWo
-        ywmtrbUmd7xtSW9L+MY9bpBrD7eXEb04hK6/MpU=
-X-Google-Smtp-Source: ABdhPJzZLw8ilzQbV1pL4k8nZiRUjWAyZqXRQGFBAJdJypcgmo+eQk7OAOpjcIo6rkTWfD85Nr8vlqeh1Vobo6YGtI4=
-X-Received: by 2002:a05:6808:1141:b0:325:cd92:ef8d with SMTP id
- u1-20020a056808114100b00325cd92ef8dmr1465875oiu.228.1651571940719; Tue, 03
- May 2022 02:59:00 -0700 (PDT)
+        with ESMTP id S232986AbiECKgq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 May 2022 06:36:46 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DC461FA67;
+        Tue,  3 May 2022 03:33:14 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id i62so13710238pgd.6;
+        Tue, 03 May 2022 03:33:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=muzTKDXHxre739JwDPLn6W0CCP4JY3KIRqvskM6X8vM=;
+        b=FBWGNVXMbpvfke8TdnuLjHwzsu+ynQgTTlyROkGSap+8QLTHjZDJmK7cIafOr0Hi1O
+         dNfRvuICGuXh508Kxf5D7N5kCiO6jBN9sS350BoHpyImp/N6U4z23xV8lhdZFaSlWag3
+         XmoX5yRmhNkyuPOoe4dXf1JBavuVMDXdVFPdQEQpBvVbtXcS7zsPGWvfUw8FhaAWzC9f
+         jBEfZlDqtye3UEMHwLOEbV21LJZCx/hRQSDxC4vZej9r6w4K09H/NO/klSYZMw1+C69q
+         RYUsPpmJf1SDLOzUJI7b+lBvPpvzuQrfslR4Y2RsaYBGfY+bkehb4ELqBCijWTEjjS2S
+         FK3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=muzTKDXHxre739JwDPLn6W0CCP4JY3KIRqvskM6X8vM=;
+        b=gUE95QbD2yRvUg9M74ik3I4Pyn7v+OSrRkzclLzYcyZBPkaIsFH8U8Rc/UZ1knYFOJ
+         xb1MhlTcuDi8UfZyo04b488vHe/QjoJ97vx1k2L5KTdnBnmeiPH70QoaGCQjgwh72Fso
+         JCr4TtH4eWWvJtmigWB0/zrb87RZtlePKIhiH/APM1us7ioyr+u6qfmC6vfPp0bGXYSG
+         EaXfQCgOS0uRofKL9luDSQKtmW9P7Yb6BoiBWNXa2TBC+BQgiB/VeIC5lyPUUGm3pId3
+         RlO5TsR+gkqhR1c4BdPF3VBmj4BelpeEyQCJRB1D4hKvKiQnuiMSs4M5NFwRU7AZsz5y
+         I52A==
+X-Gm-Message-State: AOAM530IhtYbjiTKVxy58lQg2ysY8f0IWkEz1JMWArsAxxqToO91S9MG
+        Eziz/B4yxKulnSs2U9XXYwzNzmiLZkU=
+X-Google-Smtp-Source: ABdhPJxDy7q//uBK9EK/lcQ9h4a/dMMi9ej11sgl909BEOF+gp398rwtS4myrfXHQPjKOxB/CPx7TA==
+X-Received: by 2002:a63:d2:0:b0:3c2:57a7:a11f with SMTP id 201-20020a6300d2000000b003c257a7a11fmr4966660pga.583.1651573993801;
+        Tue, 03 May 2022 03:33:13 -0700 (PDT)
+Received: from localhost.localdomain (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id j2-20020a17090a734200b001d0ec9c93fesm1101476pjs.12.2022.05.03.03.33.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 May 2022 03:33:13 -0700 (PDT)
+From:   Akira Yokosawa <akiyks@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] docs/ja_JP/SubmittingPatches: Trace changes in English docs, take 1
+Date:   Tue,  3 May 2022 19:24:30 +0900
+Message-Id: <20220503102429.48304-1-akiyks@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
- <20220419070150.254377-1-mawupeng1@huawei.com>
-In-Reply-To: <20220419070150.254377-1-mawupeng1@huawei.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Tue, 3 May 2022 11:58:49 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXHr2RdYSPor1st1ZnL=O42c8N6e=bNG+eFhatfefWLUrw@mail.gmail.com>
-Message-ID: <CAMj1kXHr2RdYSPor1st1ZnL=O42c8N6e=bNG+eFhatfefWLUrw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Add support to relocate kernel image to mirrored region
-To:     Wupeng Ma <mawupeng1@huawei.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Joerg Roedel <jroedel@suse.de>, songmuchun@bytedance.com,
-        macro@orcam.me.uk, Frederic Weisbecker <frederic@kernel.org>,
-        W_Armin@gmx.de, John Garry <john.garry@huawei.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        chenhuacai@kernel.org, David Hildenbrand <david@redhat.com>,
-        gpiccoli@igalia.com, Mark Rutland <mark.rutland@arm.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        linux-ia64@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 19 Apr 2022 at 08:43, Wupeng Ma <mawupeng1@huawei.com> wrote:
->
-> From: Ma Wupeng <mawupeng1@huawei.com>
->
-> Now system image will perfer to be located to mirrored regions both KASLR
-> on and off.
->
+Hi,
 
-Hello Ma Wupeng,
+This is the first batch of updates attempting to modernize Japanese
+SubmittingPatches.  Conversion to ReST will be done later when the
+corresponding commit doing the conversion is reached.  Pending list
+of commits is quite long (about 90) and this effort is expected to
+produce dozens of series.
 
-I wonder if we could simplify this as follows:
-- ignore the non-KASLR case for now, and rely on the bootloader to
-load the image into mirrored memory if it exists;
-- simplify the KASLR case to the below.
+List of commits for English (then) SubmittingPatches:
 
-I think this is reasonable, because it means we take mirrored memory
-into account when we decide to move the image anyway, but expect the
-boot chain to take care of this if there is no need to move the image.
+ - f5039935ac68 ("Documentation: update GregKH links")
+ - e52d2e1f25f0 ("Documentation/SubmittingPatches: suggested the use of scripts/get_maintainer.pl")
+ - 755727b7fb1e ("Randy has moved")
+ - 8543ae1296f6 ("checkpatch: add Suggested-by as a standard signature")
+ - 0af5270324cc ("Documentation/SubmittingPatches: Request summaries for commit references")
 
--------------8<------------------
---- a/drivers/firmware/efi/libstub/randomalloc.c
-+++ b/drivers/firmware/efi/libstub/randomalloc.c
-@@ -56,6 +56,7 @@ efi_status_t efi_random_alloc(unsigned long size,
-                              unsigned long random_seed)
- {
-        unsigned long map_size, desc_size, total_slots = 0, target_slot;
-+       unsigned long total_mirrored_slots = 0;
-        unsigned long buff_size;
-        efi_status_t status;
-        efi_memory_desc_t *memory_map;
-@@ -86,8 +87,14 @@ efi_status_t efi_random_alloc(unsigned long size,
-                slots = get_entry_num_slots(md, size, ilog2(align));
-                MD_NUM_SLOTS(md) = slots;
-                total_slots += slots;
-+               if (md->attribute & EFI_MEMORY_MORE_RELIABLE)
-+                       total_mirrored_slots += slots;
-        }
+Note: Commit db12fb833a88 ("Documentation: fix spelling error in
+SubmittingPatches") does not affect Japanese translation.
 
-+       /* only consider mirrored slots for randomization if any exist */
-+       if (total_mirrored_slots > 0)
-+               total_slots = total_mirrored_slots;
-+
-        /* find a random number between 0 and total_slots */
-        target_slot = (total_slots * (u64)(random_seed & U32_MAX)) >> 32;
+        Thanks, Akira
+--
+Akira Yokosawa (5):
+  docs/ja_JP/SubmittingPatches: Update GregKH links
+  docs/ja_JP/SubmittingPatches: Suggest the use of
+    scripts/get_maintainer.pl
+  docs/ja_JP/SubmittingPatches: Randy has moved
+  docs/ja_JP/SubmittingPatches: Add Suggested-by as a standard signature
+  docs/ja_JP/SubmittingPatches: Request summaries for commit references
 
-@@ -107,6 +114,10 @@ efi_status_t efi_random_alloc(unsigned long size,
-                efi_physical_addr_t target;
-                unsigned long pages;
+ .../translations/ja_JP/SubmittingPatches      | 36 ++++++++++++++-----
+ 1 file changed, 27 insertions(+), 9 deletions(-)
 
-+               if (total_mirrored_slots > 0 &&
-+                   !(md->attribute & EFI_MEMORY_MORE_RELIABLE))
-+                       continue;
-+
-                if (target_slot >= MD_NUM_SLOTS(md)) {
-                        target_slot -= MD_NUM_SLOTS(md);
-                        continue;
+
+base-commit: 81c653659d34ec253fba7f5d0f430813fe0f643d
+-- 
+2.25.1
+
