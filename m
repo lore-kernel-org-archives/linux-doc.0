@@ -2,147 +2,257 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F212AC43217
-	for <linux-doc@archiver.kernel.org>; Mon,  2 May 2022 23:21:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C1AAC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  3 May 2022 06:30:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230170AbiEBXYq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 2 May 2022 19:24:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51520 "EHLO
+        id S229837AbiECGeS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 May 2022 02:34:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233283AbiEBXYB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 May 2022 19:24:01 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E41FF2BDE
-        for <linux-doc@vger.kernel.org>; Mon,  2 May 2022 16:20:28 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id g26-20020a25b11a000000b0064984a4ffb7so3312849ybj.7
-        for <linux-doc@vger.kernel.org>; Mon, 02 May 2022 16:20:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=UH1XfZjmWNrGFAlQeXLr7/Tn9jAIkuGUATe4oOI798U=;
-        b=K8lxNnVJV2nNNR2bjZTLTTcJNcIHJUYlXV6GRGSPb8mpVwpTE0uDSNxLJ37x7XdIkA
-         7c4g/6g48Saj5gUCrRd/3Rj8gGG9lWI/O30Oaj8OQnaKge5pU6gilhErbJ/1s3dhWTTj
-         jVCB8aMopODYlzr7OoBjNgPRmFnZDh+5d8ajLa880AXO4pyzxsodEQd4NJ7drByormN6
-         YGPn3oYgwfJssilvhWGtvms7zgucKbDBq1EPnJIA8+eEhhqyOgwnB3l2jfuSuLSXkhN+
-         YSWLfr2xN4rx4KVNnu/lUGJt9jJlXjy9Hak6wJQVWFZyNM/nKUiEzyp1TZEQ4CnSowMe
-         231w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=UH1XfZjmWNrGFAlQeXLr7/Tn9jAIkuGUATe4oOI798U=;
-        b=HBKBIzo/ATw8/jrD7XXOfC60MCet7FUCQfXG7hEeqChVz5VD6wMhhJJd6W+M94JPid
-         bRinvHcQ7K4g/BxTHD+oe1nSc5AL+bgnz4xoUPUawEbKBp6zYjx5jTFPKRraVE9COa7p
-         xC9VUpcw2WYhynn6lorw0M1iTfs7BVYB8zjsGUpPLqiBTxONHBSm+BUHEPMsbjQ+IK/X
-         I7aloyL2gGEpheFP92cBhUqAQvoxYPWw25DTcuPGBn8zAJyJI6kV49ZdM8UOiATyrlqO
-         1EHtgBAip12CdHfTWcgZMPFJQ7UMmzsPfBKq30VD8yG5vfOPoAHDIHBRGvnrIjtiSYAj
-         bqYA==
-X-Gm-Message-State: AOAM533Ac/HyFEH8HC2DzWf6YHhbARxGpJBKcguK/U+l4VomIkucAGy1
-        TYO9BJFIuvrFz9ujpKychMYi6GimOIQRzl0=
-X-Google-Smtp-Source: ABdhPJybHUudCB9D+8ErBhY3Xz9dCSyX1SKKeoUKTX3ComoYu9JNHba5QRe5ZczB4ktdetpR7AyQAy9UB5XyOSM=
-X-Received: from tj.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:53a])
- (user=tjmercier job=sendgmr) by 2002:a25:9d90:0:b0:648:75a5:2172 with SMTP id
- v16-20020a259d90000000b0064875a52172mr11887702ybp.319.1651533609145; Mon, 02
- May 2022 16:20:09 -0700 (PDT)
-Date:   Mon,  2 May 2022 23:19:35 +0000
-In-Reply-To: <20220502231944.3891435-1-tjmercier@google.com>
-Message-Id: <20220502231944.3891435-2-tjmercier@google.com>
-Mime-Version: 1.0
-References: <20220502231944.3891435-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.36.0.464.gb9c8b46e94-goog
-Subject: [PATCH v6 1/6] gpu: rfc: Proposal for a GPU cgroup controller
-From:   "T.J. Mercier" <tjmercier@google.com>
-To:     tjmercier@google.com, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     daniel@ffwll.ch, hridya@google.com, christian.koenig@amd.com,
-        jstultz@google.com, tkjos@android.com, cmllamas@google.com,
-        surenb@google.com, kaleshsingh@google.com, Kenny.Ho@amd.com,
-        mkoutny@suse.com, skhan@linuxfoundation.org,
-        kernel-team@android.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S229845AbiECGeM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 May 2022 02:34:12 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1705C381A5
+        for <linux-doc@vger.kernel.org>; Mon,  2 May 2022 23:30:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=1UE8ibzPz2q6h9w+b4EF+wm91rk2W3MthNOjjwFq5fI=; b=cMvbV6JOI1zH+EUug/GMQVdw2F
+        DEHhyAfBWNvYXUlZ8zKMVw2PqvB3fqkXFknkdnyEf+HGxVUeJq3WNgiRljrV75L9InHN976bMuLly
+        5il59/0GDIxK+wNc3I7/gr0wuGM0nBm7YoOg7nqQHK1nKCR82PpJJ3DC5bRak7XYdniRzTQkaAPtW
+        6NVZ51gbeKuzF7l1TDFHKQ+1iF+AgBsryWUQ6PKVVEY9qXT8MpTMyvp1kO3xhJd5SoD5iudhJdtLk
+        yUWhDghAAnUkuMBsbr64gdQI3c2dwbDvcq8h2rHBFCIY0bthmg8RFqk0SBNTovn75+mmxaeQYNN0f
+        iuVZfWrA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nlm3R-00FRSp-Pj; Tue, 03 May 2022 06:30:37 +0000
+From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To:     linux-mm@kvack.org, linux-doc@vger.kernel.org
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Subject: [PATCH] mm,doc: Add new documentation structure
+Date:   Tue,  3 May 2022 07:30:32 +0100
+Message-Id: <20220503063032.3680308-1-willy@infradead.org>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Hridya Valsaraju <hridya@google.com>
+Closely following the outline of Mel Gorman's book "Understanding the
+Linux Virtual Memory Manager", add a new outline.  Preserve the current
+contents of the mm underneath the new outline so we can transition those
+documents to a more sensible place later.
 
-This patch adds a proposal for a new GPU cgroup controller for
-accounting/limiting GPU and GPU-related memory allocations.
-The proposed controller is based on the DRM cgroup controller[1] and
-follows the design of the RDMA cgroup controller.
-
-The new cgroup controller would:
-* Allow setting per-device limits on the total size of buffers
-  allocated by device within a cgroup.
-* Expose a per-device/allocator breakdown of the buffers charged to a
-  cgroup.
-
-The prototype in the following patches is only for memory accounting
-using the GPU cgroup controller and does not implement limit setting.
-
-[1]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.welty@intel.com/
-
-Signed-off-by: Hridya Valsaraju <hridya@google.com>
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
-
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
-v6 changes
-Move documentation into cgroup-v2.rst per Tejun Heo.
+ Documentation/vm/bootmem.rst         |  5 +++++
+ Documentation/vm/index.rst           | 27 +++++++++++++++++++++++----
+ Documentation/vm/oom.rst             |  5 +++++
+ Documentation/vm/page_allocation.rst |  5 +++++
+ Documentation/vm/page_cache.rst      |  5 +++++
+ Documentation/vm/page_reclaim.rst    |  5 +++++
+ Documentation/vm/page_tables.rst     |  5 +++++
+ Documentation/vm/physical_memory.rst |  5 +++++
+ Documentation/vm/process_addrs.rst   |  5 +++++
+ Documentation/vm/shmfs.rst           |  5 +++++
+ Documentation/vm/slab.rst            |  5 +++++
+ Documentation/vm/swap.rst            |  5 +++++
+ Documentation/vm/vmalloc.rst         |  5 +++++
+ 13 files changed, 83 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/vm/bootmem.rst
+ create mode 100644 Documentation/vm/oom.rst
+ create mode 100644 Documentation/vm/page_allocation.rst
+ create mode 100644 Documentation/vm/page_cache.rst
+ create mode 100644 Documentation/vm/page_reclaim.rst
+ create mode 100644 Documentation/vm/page_tables.rst
+ create mode 100644 Documentation/vm/physical_memory.rst
+ create mode 100644 Documentation/vm/process_addrs.rst
+ create mode 100644 Documentation/vm/shmfs.rst
+ create mode 100644 Documentation/vm/slab.rst
+ create mode 100644 Documentation/vm/swap.rst
+ create mode 100644 Documentation/vm/vmalloc.rst
 
-v5 changes
-Drop the global GPU cgroup "total" (sum of all device totals) portion
-of the design since there is no currently known use for this per
-Tejun Heo.
-
-Update for renamed functions/variables.
-
-v3 changes
-Remove Upstreaming Plan from gpu-cgroup.rst per John Stultz.
-
-Use more common dual author commit message format per John Stultz.
----
- Documentation/admin-guide/cgroup-v2.rst | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 69d7a6983f78..baeec096f1d8 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2352,6 +2352,30 @@ first, and stays charged to that cgroup until that resource is freed. Migrating
- a process to a different cgroup does not move the charge to the destination
- cgroup where the process has moved.
+diff --git a/Documentation/vm/bootmem.rst b/Documentation/vm/bootmem.rst
+new file mode 100644
+index 000000000000..eb2b31eedfa1
+--- /dev/null
++++ b/Documentation/vm/bootmem.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===========
++Boot Memory
++===========
+diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
+index 44365c4574a3..bc495a846871 100644
+--- a/Documentation/vm/index.rst
++++ b/Documentation/vm/index.rst
+@@ -2,12 +2,32 @@
+ Linux Memory Management Documentation
+ =====================================
  
++This is a guide to understanding the memory management subsystem
++of Linux.  If you are looking for advice on simply allocating memory,
++see the :ref:`memory_allocation`.  For controlling and tuning guides,
++see the :doc:`admin guide <../admin-guide/mm/index>`.
 +
-+GPU
-+---
++.. toctree::
++   :maxdepth: 1
 +
-+The GPU controller accounts for device and system memory allocated by the GPU
-+and related subsystems for graphics use. Resource limits are not currently
-+supported.
++   physical_memory
++   page_tables
++   process_addrs
++   bootmem
++   page_allocation
++   vmalloc
++   slab
++   highmem
++   page_reclaim
++   swap
++   page_cache
++   shmfs
++   oom
 +
-+GPU Interface Files
-+~~~~~~~~~~~~~~~~~~~~
-+
-+  gpu.memory.current
-+	A read-only file containing memory allocations in flat-keyed format. The key
-+	is a string representing the device name. The value is the size of the memory
-+	charged to the device in bytes. The device names are globally unique.::
-+
-+	  $ cat /sys/kernel/fs/cgroup1/gpu.memory.current
-+	  dev1 4194304
-+	  dev2 104857600
-+
-+	The device name string is set by a device driver when it registers with the
-+	GPU cgroup controller to participate in resource accounting. Non-unique names
-+	will be rejected at the point of registration.
-+
- Others
- ------
+ This is a collection of documents about the Linux memory management (mm)
+ subsystem internals with different level of details ranging from notes and
+ mailing list responses for elaborating descriptions of data structures and
+-algorithms.  If you are looking for advice on simply allocating memory, see the
+-:ref:`memory_allocation`.  For controlling and tuning guides, see the
+-:doc:`admin guide <../admin-guide/mm/index>`.
++algorithms.
  
+ .. toctree::
+    :maxdepth: 1
+@@ -18,7 +38,6 @@ algorithms.  If you are looking for advice on simply allocating memory, see the
+    damon/index
+    free_page_reporting
+    frontswap
+-   highmem
+    hmm
+    hwpoison
+    hugetlbfs_reserv
+diff --git a/Documentation/vm/oom.rst b/Documentation/vm/oom.rst
+new file mode 100644
+index 000000000000..18e9e40c1ec1
+--- /dev/null
++++ b/Documentation/vm/oom.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++======================
++Out Of Memory Handling
++======================
+diff --git a/Documentation/vm/page_allocation.rst b/Documentation/vm/page_allocation.rst
+new file mode 100644
+index 000000000000..d9b4495561f1
+--- /dev/null
++++ b/Documentation/vm/page_allocation.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===============
++Page Allocation
++===============
+diff --git a/Documentation/vm/page_cache.rst b/Documentation/vm/page_cache.rst
+new file mode 100644
+index 000000000000..75eba7c431b2
+--- /dev/null
++++ b/Documentation/vm/page_cache.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==========
++Page Cache
++==========
+diff --git a/Documentation/vm/page_reclaim.rst b/Documentation/vm/page_reclaim.rst
+new file mode 100644
+index 000000000000..50a30b7f8ac3
+--- /dev/null
++++ b/Documentation/vm/page_reclaim.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============
++Page Reclaim
++============
+diff --git a/Documentation/vm/page_tables.rst b/Documentation/vm/page_tables.rst
+new file mode 100644
+index 000000000000..96939571d7bc
+--- /dev/null
++++ b/Documentation/vm/page_tables.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===========
++Page Tables
++===========
+diff --git a/Documentation/vm/physical_memory.rst b/Documentation/vm/physical_memory.rst
+new file mode 100644
+index 000000000000..2ab7b8c1c863
+--- /dev/null
++++ b/Documentation/vm/physical_memory.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===============
++Physical Memory
++===============
+diff --git a/Documentation/vm/process_addrs.rst b/Documentation/vm/process_addrs.rst
+new file mode 100644
+index 000000000000..e8618fbc62c9
+--- /dev/null
++++ b/Documentation/vm/process_addrs.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=================
++Process Addresses
++=================
+diff --git a/Documentation/vm/shmfs.rst b/Documentation/vm/shmfs.rst
+new file mode 100644
+index 000000000000..8b01ebb4c30e
+--- /dev/null
++++ b/Documentation/vm/shmfs.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++========================
++Shared Memory Filesystem
++========================
+diff --git a/Documentation/vm/slab.rst b/Documentation/vm/slab.rst
+new file mode 100644
+index 000000000000..87d5a5bb172f
+--- /dev/null
++++ b/Documentation/vm/slab.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===============
++Slab Allocation
++===============
+diff --git a/Documentation/vm/swap.rst b/Documentation/vm/swap.rst
+new file mode 100644
+index 000000000000..78819bd4d745
+--- /dev/null
++++ b/Documentation/vm/swap.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++====
++Swap
++====
+diff --git a/Documentation/vm/vmalloc.rst b/Documentation/vm/vmalloc.rst
+new file mode 100644
+index 000000000000..363fe20d6b9f
+--- /dev/null
++++ b/Documentation/vm/vmalloc.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++======================================
++Virtually Contiguous Memory Allocation
++======================================
 -- 
-2.36.0.464.gb9c8b46e94-goog
+2.34.1
 
