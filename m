@@ -2,99 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13BD5C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  3 May 2022 16:04:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A3B8C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  3 May 2022 16:22:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238959AbiECQIX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 May 2022 12:08:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49662 "EHLO
+        id S239343AbiECQ0S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 May 2022 12:26:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238803AbiECQIW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 May 2022 12:08:22 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78EFF193FB;
-        Tue,  3 May 2022 09:04:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651593889; x=1683129889;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=TOqujW17h1b62Lml6AZoxLlPLfSYjHro3qzoD1t/Ztk=;
-  b=S4Vu9SyzFWlVh/wbYWrpI5CyddnLCViOmRwrshlyPG5QuWgZm7XsFtcI
-   vNxQ38yGGr46Q8h6bcizlZuiItdCWlftExDVox1kmeKiYQmeP0gmRclFU
-   E40WikHDgmeC1LvycfKyU5Q5Kz1uOyWJRPWHk60U5z+dYW8bj5rNIGtRc
-   kV4PrT/iSz1v1nebTMB9FnbzxC6DgtQu/Kj3J9+xilUAuvryaYSeIHIzG
-   nG5HQSFnW0E6pLVJ1dq0PYfpCG+37UmYqw3lOzOc/kOjEmLCVOJ6EORLf
-   uDnF1sN78NI/RHTxUZonlP4e55Se7OhV+5+CqlTeregnAchC9vn86s2Fn
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10336"; a="266357701"
-X-IronPort-AV: E=Sophos;i="5.91,195,1647327600"; 
-   d="scan'208";a="266357701"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2022 09:04:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,195,1647327600"; 
-   d="scan'208";a="547666816"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga002.jf.intel.com with ESMTP; 03 May 2022 09:04:41 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 3 May 2022 09:04:40 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 3 May 2022 09:04:40 -0700
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
- Tue, 3 May 2022 09:04:40 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>
-CC:     "markgross@kernel.org" <markgross@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: RE: [PATCH v5 00/10] Introduce In Field Scan driver
-Thread-Topic: [PATCH v5 00/10] Introduce In Field Scan driver
-Thread-Index: AQHYWxYVdsKdZt61BUSHj1qB1cqAT60MLiKAgAGW8wD//5MXcA==
-Date:   Tue, 3 May 2022 16:04:40 +0000
-Message-ID: <c30f82f1d4544ebb8a15da1f6fc033ac@intel.com>
-References: <20220422200219.2843823-1-tony.luck@intel.com>
- <20220428153849.295779-1-tony.luck@intel.com>
- <13054c5c-ed48-b7a2-a800-25b9b1b1ab0d@redhat.com> <YnFK+gXFx0jQB1dz@zn.tnic>
-In-Reply-To: <YnFK+gXFx0jQB1dz@zn.tnic>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S236279AbiECQ0Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 May 2022 12:26:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E872439816
+        for <linux-doc@vger.kernel.org>; Tue,  3 May 2022 09:22:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1651594962;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=LdXD9yJFaOeo2pHNThXvtRNDE3czSMc0peQhxLvTF7o=;
+        b=Hj+F8k0m+7t76NrKG5lTl26EyzIjolyZRPb8HBkpk0Rc1pJIykRj0GhuFVXHlJOvbkmWvT
+        Fg4mFvMH9kSsV/PuES+JltQAjPeM4cr0uUiMGF34KxLMA1At7WBVOPnTrpatoQb2LyQLG9
+        Eyad/qeALs0LCLZC3mOiMha+t9z+Tfo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-36-9DcLVbBoNNGK7qbA7j_JgA-1; Tue, 03 May 2022 12:22:38 -0400
+X-MC-Unique: 9DcLVbBoNNGK7qbA7j_JgA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9774AD99F81;
+        Tue,  3 May 2022 16:22:37 +0000 (UTC)
+Received: from llong.com (dhcp-17-215.bos.redhat.com [10.18.17.215])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 26D30403373;
+        Tue,  3 May 2022 16:22:37 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v10 1/8] cgroup/cpuset: Add top_cpuset check in update_tasks_cpumask()
+Date:   Tue,  3 May 2022 12:21:42 -0400
+Message-Id: <20220503162149.1764245-2-longman@redhat.com>
+In-Reply-To: <20220503162149.1764245-1-longman@redhat.com>
+References: <20220503162149.1764245-1-longman@redhat.com>
 MIME-Version: 1.0
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiBIbW0sIHNvIGxvb2tpbmcgYXQgdGhlIGRpZmZzdGF0IC0gdGhlIG1ham9yaXR5IG9mIHRoYXQg
-aXMNCj4gZHJpdmVycy9wbGF0Zm9ybS94ODYvIHNvIEkgZ3Vlc3MgeW91ciB0cmVlIHdvdWxkIGJl
-IGJldHRlciBzdWl0ZWQgZm9yDQo+IGl0Li4uDQoNCkNhbiB5b3UgY2hlY2sgdGhhdCBJIGZpeGVk
-IHRoZSBpc3N1ZXMgaW4gcGFydCAwMS8xMCB0aGF0IHlvdSByZXBvcnRlZCBpbiB2MyBvZiB0aGlz
-DQpzZXJpZXMgYW5kIGdpdmUgYW4gQWNrIHRvIEhhbnM/DQoNCi1Ub255DQo=
+Right now, update_tasks_cpumask() is not supposed to be called with top
+cpuset.  With cpuset partition that takes CPUs away from the top cpuset,
+we may want to consider adjusting the cpu_allows mask of the tasks in
+the top cpuset as well. However, we need more investigation to figure
+out a way to do that without breaking non-cgroup aware applications in
+the top cpuset. So move the top_cpuset check into update_tasks_cpumask()
+and add a comment about possible future work.
+
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ kernel/cgroup/cpuset.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index 9390bfd9f1cd..d90f33b068a3 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -1128,6 +1128,14 @@ static void update_tasks_cpumask(struct cpuset *cs)
+ 	struct css_task_iter it;
+ 	struct task_struct *task;
+ 
++	/*
++	 * TODO: With cpuset partition that takes CPUs away from the top
++	 * cpuset, we may want to properly adjust the cpus_allowed mask of
++	 * tasks in the top cpuset as well.
++	 */
++	if (cs == &top_cpuset)
++		return;
++
+ 	css_task_iter_start(&cs->css, 0, &it);
+ 	while ((task = css_task_iter_next(&it)))
+ 		set_cpus_allowed_ptr(task, cs->effective_cpus);
+@@ -2092,12 +2100,7 @@ static int update_prstate(struct cpuset *cs, int new_prs)
+ 		update_flag(CS_CPU_EXCLUSIVE, cs, 0);
+ 	}
+ 
+-	/*
+-	 * Update cpumask of parent's tasks except when it is the top
+-	 * cpuset as some system daemons cannot be mapped to other CPUs.
+-	 */
+-	if (parent != &top_cpuset)
+-		update_tasks_cpumask(parent);
++	update_tasks_cpumask(parent);
+ 
+ 	if (parent->child_ecpus_count)
+ 		update_sibling_cpumasks(parent, cs, &tmpmask);
+-- 
+2.27.0
+
