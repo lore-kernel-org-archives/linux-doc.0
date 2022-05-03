@@ -2,65 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB676C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  3 May 2022 12:12:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D9BBC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  3 May 2022 14:55:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235126AbiECMQX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 May 2022 08:16:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59432 "EHLO
+        id S237557AbiECO7a convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 May 2022 10:59:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234572AbiECMQW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 May 2022 08:16:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9032D32EF2;
-        Tue,  3 May 2022 05:12:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F16A16167E;
-        Tue,  3 May 2022 12:12:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38705C385A9;
-        Tue,  3 May 2022 12:12:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1651579969;
-        bh=vgFAild2JjYBiqVdCQwJNRs0RnamlbN2uPUvKKoc4mg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tF5zz26H1yJkYXDAQc03mXv/lf0vh1XwDTbX82pjT8iQon2IteOZSzMv0v1gwin+0
-         BoiIH8TZoPvouEI8I6vDY1Qvxz1IpTvCbiX3SvWlszJ2LWCTLRb2H2O4FB1Aio6aDY
-         GdFSpRZQDmmU5NvGQvgG4scB/bruuOahC37yuZCU=
-Date:   Tue, 3 May 2022 14:12:48 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
-        Russ Weight <russell.h.weight@intel.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: Re: [PATCH] firmware_loader: describe 'module' parameter of
- firmware_upload_register()
-Message-ID: <YnEcQMZPDGjuOQUh@kroah.com>
-References: <20220502051456.30741-1-bagasdotme@gmail.com>
+        with ESMTP id S237528AbiECO7V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 May 2022 10:59:21 -0400
+X-Greylist: delayed 407 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 03 May 2022 07:55:48 PDT
+Received: from mail.megasoftsol.com (mail.megasoftsol.com [43.231.250.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82E0F338BD
+        for <linux-doc@vger.kernel.org>; Tue,  3 May 2022 07:55:48 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.megasoftsol.com (Postfix) with ESMTP id 66A7890E9D0
+        for <linux-doc@vger.kernel.org>; Tue,  3 May 2022 20:16:29 +0530 (IST)
+Received: from mail.megasoftsol.com ([127.0.0.1])
+        by localhost (mail.megasoftsol.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id vUvyl3Vg05GA for <linux-doc@vger.kernel.org>;
+        Tue,  3 May 2022 20:16:29 +0530 (IST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.megasoftsol.com (Postfix) with ESMTP id ECEB790E9C8
+        for <linux-doc@vger.kernel.org>; Tue,  3 May 2022 20:16:28 +0530 (IST)
+X-Virus-Scanned: amavisd-new at megasoftsol.com
+Received: from mail.megasoftsol.com ([127.0.0.1])
+        by localhost (mail.megasoftsol.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id kZmZxOV8lBFo for <linux-doc@vger.kernel.org>;
+        Tue,  3 May 2022 20:16:28 +0530 (IST)
+Received: from asda.co.uk (unknown [20.97.211.134])
+        (Authenticated sender: admin)
+        by mail.megasoftsol.com (Postfix) with ESMTPSA id 2AE0A90E9CB
+        for <linux-doc@vger.kernel.org>; Tue,  3 May 2022 20:16:27 +0530 (IST)
+Reply-To: sales@asdaa.uk
+From:   ASDA Stores Limited <Hanes.Thomas23877@asda.co.uk>
+To:     linux-doc@vger.kernel.org
+Subject: 2nd Quater puchase request
+Date:   03 May 2022 14:48:56 +0000
+Message-ID: <20220503092157.C39B941F657D4C34@asda.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220502051456.30741-1-bagasdotme@gmail.com>
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 02, 2022 at 12:14:56PM +0700, Bagas Sanjaya wrote:
-> Stephen Rothwell reported kernel-doc warning:
-> 
-> drivers/base/firmware_loader/sysfs_upload.c:285: warning: Function parameter or member 'module' not described in 'firmware_upload_register'
-> 
-> Fix the warning by describing the 'module' parameter.
-> 
-> Fixes: 97730bbb242cde ("firmware_loader: Add firmware-upload support")
-> Link: https://lore.kernel.org/linux-next/20220502083658.266d55f8@canb.auug.org.au/
-> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+Dear linux-doc
 
-This should be "Reported-by:"  I'll fix it up when I apply it to my tree
-now, thanks.
-
-greg k-h
+We are interested in having some of your hot selling product in 
+our stores and outlets spread all over United Kingdom, Northern 
+Island and Africa. ASDA Stores Limited is one of the highest-
+ranking Wholesale & Retail outlets in the United Kingdom. 
+  
+We shall furnish our detailed company profile in our next 
+correspondent. However, it would be appreciated if you can send 
+us your catalog through email to learn more about your company's 
+products and wholesale quote. It is hopeful that we can start a 
+viable long-lasting business relationship (partnership) with you.  
+  
+  
+Your prompt response would be delightfully appreciated. 
+  
+Best Wishes 
+  
+  
+Hanes S. Thomas 
+Procurement Office. 
+ASDA Stores Limited 
+Tel:  + 44 - 7451271650 
+WhatsApp: + 44 – 7441440360 
+Website: www.asda.co.uk
