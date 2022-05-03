@@ -2,125 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 314E8C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  3 May 2022 15:20:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CF13C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  3 May 2022 15:29:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231737AbiECPYT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 May 2022 11:24:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51066 "EHLO
+        id S238523AbiECPd0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 May 2022 11:33:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238198AbiECPWL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 May 2022 11:22:11 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3D0F3B284;
-        Tue,  3 May 2022 08:18:30 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id p18so20219595edr.7;
-        Tue, 03 May 2022 08:18:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=4CKD+DKMQd1ZEVY0/Od89OuEu7h6AxtbdaBQHqft0yE=;
-        b=HKihauhgQX2IKgIzKLB0B3T94583zUyrC5ZwDOufzBh1kiCDtyzDhz4oGrE5BVXib0
-         mt/8qujzN+FR+2oAwGydwXS2FXNkBJcww/w3VY8UZtodzt8CB/26N3Vd1gPyP/SMlGUf
-         /4Qgqg51j2lLfcjHYrZTSBA04QEe4SOZQh8NxeUOy84luKqxWpdz26B16/HeCqCdv8Cw
-         jBtURTZVZiUGTqkQnMYuwEhR4hfFrheL1l8NUnNeN5CkGra4D1M65+tLE0/NnAkD/GyW
-         M/vK3eVnoilumQkuDbAvvLhtB3aBXUH56Im+FGuo81WwO8fv+K50j8ObbDVVsGZOo3wT
-         GPyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4CKD+DKMQd1ZEVY0/Od89OuEu7h6AxtbdaBQHqft0yE=;
-        b=e6keluzVr8CeVS+CiQgRrYyKw6LSHcFv5Gj2H8HrpPrZA0op46xp2pd4GQzTo2EAtC
-         FbOBblO3ylx5F+QIhCjwqBu7zroupEE9ymUu2BY6jbP4zwd4Jk6nilkiA2T10cIZECbR
-         ym0vpNFRXCQWMyqsh+1mYUVdYJLnq4oizscMHvfkdaKbS3S3r5hP44cgwQ8EejlZynRn
-         uYe+GiLpiEm1hnLAnkSJuRvaPQ6VBzb2Wn/1jNCsoNWsYn6tbaiqcilt8lADHIz8jLG3
-         Zow3xIcrfRmPuL8OOB9Z4zaI7YuNIiJew0avXyDpKuaoRs4qpvSRa7idKSsv1XmecTPw
-         D1Tg==
-X-Gm-Message-State: AOAM530H5S45Z5E43K3TGuCjv7r5dhaFJAdFPJkkSC/S1t1UxeMnzlp3
-        MRYW7V3ZAU+G5xZl/pMyysE=
-X-Google-Smtp-Source: ABdhPJwNPlohltAOl9bRzLdnMWY8egRON0HXgwdFSqhhIXHwaosoUIwMHnQDOIRpRY8cy3iEWVPrwQ==
-X-Received: by 2002:a05:6402:3586:b0:427:b16e:a191 with SMTP id y6-20020a056402358600b00427b16ea191mr15097225edc.137.1651591109212;
-        Tue, 03 May 2022 08:18:29 -0700 (PDT)
-Received: from localhost.localdomain (93-42-70-190.ip85.fastwebnet.it. [93.42.70.190])
-        by smtp.googlemail.com with ESMTPSA id v3-20020aa7d9c3000000b0042617ba63cesm7947507eds.88.2022.05.03.08.18.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 May 2022 08:18:28 -0700 (PDT)
-From:   Ansuel Smith <ansuelsmth@gmail.com>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        Ansuel Smith <ansuelsmth@gmail.com>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: [RFC PATCH v6 11/11] dt-bindings: net: dsa: qca8k: add LEDs definition example
-Date:   Tue,  3 May 2022 17:16:33 +0200
-Message-Id: <20220503151633.18760-12-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220503151633.18760-1-ansuelsmth@gmail.com>
-References: <20220503151633.18760-1-ansuelsmth@gmail.com>
+        with ESMTP id S238360AbiECPdZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 May 2022 11:33:25 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 655E029817;
+        Tue,  3 May 2022 08:29:53 -0700 (PDT)
+Received: from zn.tnic (p5de8eeb4.dip0.t-ipconnect.de [93.232.238.180])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DD34D1EC01E0;
+        Tue,  3 May 2022 17:29:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1651591787;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=OAZ8BBOMxTQtT+Y2LCxiEZ74Q/wI8Prs/+c/U9ygqlQ=;
+        b=kOflgr9V+B/lhxJDjEXpqEJ26xqWXMcviI9WtoHBenBDjgyL6CaISHHLmijO5hT9Y5yo6S
+        FRHD9nA6M9V9uonbkwNXstNrxKYYOkkbWtZCYV0xI7ZAqmyaMSeBeramQqOc3sDfDHBvxN
+        4KUMGrxsPLvKHeWEIqvWs84xLjaVRLc=
+Date:   Tue, 3 May 2022 17:29:46 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Tony Luck <tony.luck@intel.com>
+Cc:     hdegoede@redhat.com, markgross@kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, corbet@lwn.net, gregkh@linuxfoundation.org,
+        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
+        ashok.raj@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
+        ravi.v.shankar@intel.com
+Subject: Re: [PATCH v5 01/10] x86/microcode/intel: Expose
+ collect_cpu_info_early() for IFS
+Message-ID: <YnFKarR+8fxKwBvg@zn.tnic>
+References: <20220422200219.2843823-1-tony.luck@intel.com>
+ <20220428153849.295779-1-tony.luck@intel.com>
+ <20220428153849.295779-2-tony.luck@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220428153849.295779-2-tony.luck@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add LEDs definition example for qca8k using the offload trigger as the
-default trigger and add all the supported offload triggers by the
-switch.
+On Thu, Apr 28, 2022 at 08:38:40AM -0700, Tony Luck wrote:
+> From: Jithu Joseph <jithu.joseph@intel.com>
+> 
+> IFS is a CPU feature that allows a binary blob, similar to microcode,
+> to be loaded and consumed to perform low level validation of CPU
+> circuitry. In fact, it carries the same Processor Signature
+> (family/model/stepping) details that are contained in Intel microcode
+> blobs.
+> 
+> In support of an IFS driver to trigger loading, validation, and running
+> of these tests blobs, make the functionality of cpu_signatures_match()
+> and collect_cpu_info_early() available outside of the microcode driver.
+> 
+> Add an "intel_" prefix and drop the "_early" suffix from
+> collect_cpu_info_early() and EXPORT_SYMBOL_GPL() it. Add
+> declaration to x86 <asm/cpu.h>
+> 
+> Make cpu_signatures_match() an inline function in x86 <asm/cpu.h>,
+> and also give it an "intel_" prefix.
+> 
+> No functional change intended.
+> 
+> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Jithu Joseph <jithu.joseph@intel.com>
+> Co-developed-by: Tony Luck <tony.luck@intel.com>
+> Signed-off-by: Tony Luck <tony.luck@intel.com>
+> ---
+>  arch/x86/include/asm/cpu.h            | 18 ++++++++
+>  arch/x86/kernel/cpu/intel.c           | 32 +++++++++++++++
+>  arch/x86/kernel/cpu/microcode/intel.c | 59 ++++-----------------------
+>  3 files changed, 57 insertions(+), 52 deletions(-)
 
-Signed-off-by: Ansuel Smith <ansuelsmth@gmail.com>
----
- .../devicetree/bindings/net/dsa/qca8k.yaml    | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Acked-by: Borislav Petkov <bp@suse.de>
 
-diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-index f3c88371d76c..9b46ef645a2d 100644
---- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-+++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-@@ -65,6 +65,8 @@ properties:
-                  internal mdio access is used.
-                  With the legacy mapping the reg corresponding to the internal
-                  mdio is the switch reg with an offset of -1.
-+                 Each phy have at least 3 LEDs connected and can be declared
-+                 using the standard LEDs structure.
- 
- patternProperties:
-   "^(ethernet-)?ports$":
-@@ -287,6 +289,24 @@ examples:
- 
-                 internal_phy_port1: ethernet-phy@0 {
-                     reg = <0>;
-+
-+                    leds {
-+                        led@0 {
-+                            reg = <0>;
-+                            color = <LED_COLOR_ID_WHITE>;
-+                            function = LED_FUNCTION_LAN;
-+                            function-enumerator = <1>;
-+                            linux,default-trigger = "netdev";
-+                        };
-+
-+                        led@1 {
-+                            reg = <1>;
-+                            color = <LED_COLOR_ID_AMBER>;
-+                            function = LED_FUNCTION_LAN;
-+                            function-enumerator = <1>;
-+                            linux,default-trigger = "netdev";
-+                        };
-+                    };
-                 };
- 
-                 internal_phy_port2: ethernet-phy@1 {
 -- 
-2.34.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
