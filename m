@@ -2,203 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D760AC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  3 May 2022 18:43:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9347EC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  3 May 2022 20:05:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240923AbiECSql (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 May 2022 14:46:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34650 "EHLO
+        id S236265AbiECUJP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 3 May 2022 16:09:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234806AbiECSqk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 May 2022 14:46:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6B5243191E
-        for <linux-doc@vger.kernel.org>; Tue,  3 May 2022 11:42:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651603361;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=wAjZbwqar/ddmAXQ+agT5r7ZgOk1RQOfgtbGHsbQLps=;
-        b=GcodJl/V4zmfE+roTzDhurHBZnS/cZ5y/z9DXX2/Xo/KuqxRUHHgMm62/u5RftswNUXO6A
-        cE4X1qAn3raMvv3ncc9itP9/p0ZrhDCkxTsO3euc6i6Axo5I0ZVbVLs2udqjCRaN57tNS6
-        u5HE46gYc6Y4CAHJfgbKVcf3iu0TIYg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-baiEU2_JMEaKQJhAkf0UPA-1; Tue, 03 May 2022 14:39:36 -0400
-X-MC-Unique: baiEU2_JMEaKQJhAkf0UPA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E2D7A3806703;
-        Tue,  3 May 2022 18:39:23 +0000 (UTC)
-Received: from [10.18.17.215] (dhcp-17-215.bos.redhat.com [10.18.17.215])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2A13B54CB17;
-        Tue,  3 May 2022 18:39:23 +0000 (UTC)
-Message-ID: <66910f2d-a8c0-6c04-cca0-62a00fbad6cf@redhat.com>
-Date:   Tue, 3 May 2022 14:39:23 -0400
+        with ESMTP id S237119AbiECUI5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 May 2022 16:08:57 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73CD72DFA;
+        Tue,  3 May 2022 13:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=6y73UrLkuBeZbqQWQxE1t7/fvOkdPG7FrQgvW5TbCZk=; b=uV47lbaYCI77SzKFgjANFlLdPi
+        L02iSgJfX9+DktwQKv2+gW04aiFG88sPWwCOpfbWVfsKcu5mcv6/fSFU+nTtYhp4/nG6vb6sK6vO1
+        VuOYw0zbi0N5oB1BXqerDMF7l1psgHzPI174q4fF7eoDfL7w+JUkH5bAerAOHbru+Yd3kpigqC8Qv
+        qaW65HJ2rsoeJpsMNjSwiawKJyE5v7ztmXTNDLnq1z+n3rPjhh/MtEwPoeXxzP0/w7t/fjkR8jMOD
+        yUESiFI99BpsJg2J6h3EUzozTZNBVnIfNljmTXGlRhcUON7mxblWtRdlKKftawmCl9vCGYK6Z3Mag
+        IuaQzkHg==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nlylv-007UQd-7t; Tue, 03 May 2022 20:05:23 +0000
+Date:   Tue, 3 May 2022 13:05:23 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-doc@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
+        Russ Weight <russell.h.weight@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: [PATCH] firmware_loader: describe 'module' parameter of
+ firmware_upload_register()
+Message-ID: <YnGLA92KGlloOsLf@bombadil.infradead.org>
+References: <20220502051456.30741-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v10 3/8] cgroup/cpuset: Allow no-task partition to have
- empty cpuset.cpus.effective
-Content-Language: en-US
-To:     Phil Auld <pauld@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
-References: <20220503162149.1764245-1-longman@redhat.com>
- <20220503162149.1764245-4-longman@redhat.com>
- <20220503175454.GA20433@pauld.bos.csb>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <20220503175454.GA20433@pauld.bos.csb>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220502051456.30741-1-bagasdotme@gmail.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/3/22 13:54, Phil Auld wrote:
-> Hi Waiman
->
-> On Tue, May 03, 2022 at 12:21:44PM -0400 Waiman Long wrote:
->> Currently, a partition root cannot have empty "cpuset.cpus.effective".
->> As a result, a parent partition root cannot distribute out all its CPUs
->>   to child partitions with no CPUs left. However in most cases, there
->> shouldn't be any tasks associated with intermediate nodes of the default
->>   hierarchy. So the current rule is too restrictive and can waste valuable
->>   CPU resource.
->>
->> To address this issue, we are now allowing a partition to have empty
->> "cpuset.cpus.effective" as long as it has no task. Therefore, a parent
->> partition with no task can now have all its CPUs distributed out to its
->> child partitions. The top cpuset always have some house-keeping tasks
->> running and so its list of effective cpu can't never be empty.
-> s/never/ever/
-It is a double negative. I think I will just remove "never".
->> Once a partition with empty "cpuset.cpus.effective" is formed, no
->> new task can be moved into it until "cpuset.cpus.effective" becomes
->> non-empty.
->>
->> Signed-off-by: Waiman Long <longman@redhat.com>
->> ---
->>   kernel/cgroup/cpuset.c | 111 +++++++++++++++++++++++++++++++----------
->>   1 file changed, 84 insertions(+), 27 deletions(-)
->>
->> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
->> index d156a39d7a08..7d9abd50a1b9 100644
->> --- a/kernel/cgroup/cpuset.c
->> +++ b/kernel/cgroup/cpuset.c
->> @@ -412,6 +412,41 @@ static inline bool is_in_v2_mode(void)
->>   	      (cpuset_cgrp_subsys.root->flags & CGRP_ROOT_CPUSET_V2_MODE);
->>   }
->>   
->> +/**
->> + * partition_is_populated - check if partition has tasks
->> + * @cs: partition root to be checked
->> + * @excluded_child: a child cpuset to be excluded in task checking
->> + * Return: true if there are tasks, false otherwise
->> + *
->> + * It is assumed that @cs is a valid partition root. @excluded_child should
->> + * be non-NULL when this cpuset is going to become a partition itself.
->> + */
->> +static inline bool partition_is_populated(struct cpuset *cs,
->> +					  struct cpuset *excluded_child)
->> +{
->> +	struct cgroup_subsys_state *css;
->> +	struct cpuset *child;
->> +
->> +	if (cs->css.cgroup->nr_populated_csets)
->> +		return true;
->> +	if (!excluded_child && !cs->nr_subparts_cpus)
->> +		return cgroup_is_populated(cs->css.cgroup);
->> +
->> +	rcu_read_lock();
->> +	cpuset_for_each_child(child, css, cs) {
->> +		if (child == excluded_child)
->> +			continue;
->> +		if (is_partition_valid(child))
->> +			continue;
->> +		if (cgroup_is_populated(child->css.cgroup)) {
->> +			rcu_read_unlock();
->> +			return true;
->> +		}
->> +	}
->> +	rcu_read_unlock();
->> +	return false;
->> +}
->> +
->>   /*
->>    * Return in pmask the portion of a task's cpusets's cpus_allowed that
->>    * are online and are capable of running the task.  If none are found,
->> @@ -1252,22 +1287,25 @@ static int update_parent_subparts_cpumask(struct cpuset *cs, int cmd,
->>   	if ((cmd != partcmd_update) && css_has_online_children(&cs->css))
->>   		return -EBUSY;
->>   
->> -	/*
->> -	 * Enabling partition root is not allowed if not all the CPUs
->> -	 * can be granted from parent's effective_cpus or at least one
->> -	 * CPU will be left after that.
->> -	 */
->> -	if ((cmd == partcmd_enable) &&
->> -	   (!cpumask_subset(cs->cpus_allowed, parent->effective_cpus) ||
->> -	     cpumask_equal(cs->cpus_allowed, parent->effective_cpus)))
->> -		return -EINVAL;
->> -
->> -	/*
->> -	 * A cpumask update cannot make parent's effective_cpus become empty.
->> -	 */
->>   	adding = deleting = false;
->>   	old_prs = new_prs = cs->partition_root_state;
->>   	if (cmd == partcmd_enable) {
->> +		/*
->> +		 * Enabling partition root is not allowed if not all the CPUs
->> +		 * can be granted from parent's effective_cpus.
->> +		 */
->> +		if (!cpumask_subset(cs->cpus_allowed, parent->effective_cpus))
->> +			return -EINVAL;
->> +
->> +		/*
->> +		 * A parent can be left with no CPU as long as there is no
->> +		 * task directly associated with the parent partition. For
->> +		 * such a parent, no new task can be moved into it.
->> +		 */
->> +		if (partition_is_populated(parent, cs) &&
->> +		    cpumask_equal(cs->cpus_allowed, parent->effective_cpus))
->> +			return -EINVAL;
->> +
-> You might consider switching these around to check the cpumasks first.
-Good point, partition_is_populated() is more expensive.
->
->
->>   		cpumask_copy(tmp->addmask, cs->cpus_allowed);
->>   		adding = true;
->>   	} else if (cmd == partcmd_disable) {
->> @@ -1289,9 +1327,10 @@ static int update_parent_subparts_cpumask(struct cpuset *cs, int cmd,
->>   		adding = cpumask_andnot(tmp->addmask, tmp->addmask,
->>   					parent->subparts_cpus);
->>   		/*
->> -		 * Return error if the new effective_cpus could become empty.
->> +		 * Return error if the new effective_cpus could become empty
->> +		 * and there are tasks in the parent.
->>   		 */
->> -		if (adding &&
->> +		if (adding && partition_is_populated(parent, cs) &&
->>   		    cpumask_equal(parent->effective_cpus, tmp->addmask)) {
-> Same.
-Thanks,
-Longman
+On Mon, May 02, 2022 at 12:14:56PM +0700, Bagas Sanjaya wrote:
+> Stephen Rothwell reported kernel-doc warning:
+> 
+> drivers/base/firmware_loader/sysfs_upload.c:285: warning: Function parameter or member 'module' not described in 'firmware_upload_register'
+> 
+> Fix the warning by describing the 'module' parameter.
+> 
+> Fixes: 97730bbb242cde ("firmware_loader: Add firmware-upload support")
+> Link: https://lore.kernel.org/linux-next/20220502083658.266d55f8@canb.auug.org.au/
+> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+> Cc: Russ Weight <russell.h.weight@intel.com>
+> Cc: Luis Chamberlain <mcgrof@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+> Cc: Linux Next Mailing List <linux-next@vger.kernel.org>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
+Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+
+  Luis
