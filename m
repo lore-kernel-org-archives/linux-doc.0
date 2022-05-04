@@ -2,123 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D0FC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 16:24:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFD1DC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 16:25:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351207AbiEDQ23 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 12:28:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33108 "EHLO
+        id S245258AbiEDQ3a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 12:29:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233593AbiEDQ23 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 12:28:29 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6F146675;
-        Wed,  4 May 2022 09:24:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651681492; x=1683217492;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=lIZS8L9hUURotYWnPIQEjJsG5uiWV1waq7GDXPVIqcc=;
-  b=gExUBy8e2Cihm/6XjCUMw7vxfEqmclF77qKJoR3k0GbAblzfMm/VX3tV
-   /19mYH11fGepyzx0wbCkvWVz5xyctii3eWJRWkPexTyqaQ+bRuB3I3myr
-   c8qCIvrF/joHyr83Dp2czBNZi7aFDdIL97M+z70Sd/kpflcfYqP4N8dvz
-   5u/lUA5aL3ZnbNNW5iMSrdr5+Q6ny72G4RLl7tU/viLk8YWYTmj9+vmNm
-   2O/4dn6QpnfD/JgsfHSzUWCyzSFc4cnUfRaSW8L9+57c09WNGsg6V+ROn
-   uMNCF/8nOPidkU69grdbB7RPngkIzbZoINEfsmkt171pb/mPVFAS4VofM
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="293004702"
-X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; 
-   d="scan'208";a="293004702"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2022 09:24:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; 
-   d="scan'208";a="599597736"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
-  by orsmga001.jf.intel.com with ESMTP; 04 May 2022 09:24:51 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Wed, 4 May 2022 09:24:51 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Wed, 4 May 2022 09:24:50 -0700
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
- Wed, 4 May 2022 09:24:50 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "markgross@kernel.org" <markgross@kernel.org>
-CC:     "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: RE: [PATCH v5 03/10] platform/x86/intel/ifs: Add stub driver for
- In-Field Scan
-Thread-Topic: [PATCH v5 03/10] platform/x86/intel/ifs: Add stub driver for
- In-Field Scan
-Thread-Index: AQHYWxYWmJjf7gsCY0aglBAPDxFRY60PBIYA///pJDA=
-Date:   Wed, 4 May 2022 16:24:50 +0000
-Message-ID: <eedc3fa9ec47494590be66ad66f90bb7@intel.com>
-References: <20220422200219.2843823-1-tony.luck@intel.com>
- <20220428153849.295779-1-tony.luck@intel.com>
- <20220428153849.295779-4-tony.luck@intel.com> <87zgjxk2kt.ffs@tglx>
-In-Reply-To: <87zgjxk2kt.ffs@tglx>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S1353529AbiEDQ3D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 12:29:03 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3C141C7
+        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 09:25:26 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id j6so3859124ejc.13
+        for <linux-doc@vger.kernel.org>; Wed, 04 May 2022 09:25:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Yl4WQenCDLJErgHp6t3UJjMlUc388BkN8ozV46DV1Jw=;
+        b=UkruObD31qixCl3tEbnbC6/Szb3fOE20vobsG9EB3D9Txyb4DwrMg1MPuKOiuriQO0
+         bfrFQY2q3GU5cpGZ7NEMVFeHonKS5jshPndb1NXSNCiTBMlfAEkFMO8MhdiXH6ubVy15
+         BzqTQmHqpfWQzsfzfYtrrlft6mJ9zFxFJEfJ4U4Ie+qKpkI5l8BD5+La8b4QxtHnOZHv
+         y9hlgtiUQDYw5ZGnGKioMzZ+lQRrGXXZhBVznZ74FaY+dTBY6b/TGGgYXY5R1PpQQCrK
+         I9YG9e+4QLGYqahZJ2AFhjRAc1yU0adG166I7bIvuvzbKey6OlIqjHgUaeb4A8zObyB3
+         Q+zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Yl4WQenCDLJErgHp6t3UJjMlUc388BkN8ozV46DV1Jw=;
+        b=e595o65b6GFwHZ8IuZDgumyqGJHi7EtChmV3zVDvwInXqIJGNdh090E3fAfz1pji9R
+         56YqMmj/yM3RdVCdMs4go61M8vwrapQzXkXaMJZAYuEv2qp0yvJlhGBWy3vuCL1M4IDv
+         ek42PWMWEERUDwMq5ODP+msOOfG2HLl7F1PBNSbZuVUSfeypaAX0c/yueTeYikrXxJKa
+         Mwc+krsljS7jdI91VjGcSnJwQhzZSOhHVAw/SLfZP5TeOnAFVnT0dzSpbSCjYm6gFBgc
+         EA8GzeOLZBo+Lg2Ofr6KQk+XXnkdSNkmnI88KsSFVdhM9TqrXY62EiJ4WrTn1OH7umkl
+         VLdQ==
+X-Gm-Message-State: AOAM532Bp0rixvDTgx5SMFyw9toBrE+7mgbtQo083PsKTY9MtGcHnZAf
+        5MjJRA66mUTETgaUlaqZgkJPfVojPxmai9D117F92A==
+X-Google-Smtp-Source: ABdhPJx2xz2gkiQHrChRkpvk1HKnyjR91ITm5VKWQSf9RezsTKQGBIkW/vQqKqLiPCJXMRXYwGVEze3ZiWHXru1KY2Q=
+X-Received: by 2002:a17:906:a2c2:b0:6e7:efc2:17f2 with SMTP id
+ by2-20020a170906a2c200b006e7efc217f2mr20140929ejb.542.1651681525279; Wed, 04
+ May 2022 09:25:25 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220429043913.626647-1-davidgow@google.com> <20220430030019.803481-1-davidgow@google.com>
+ <Ym7P7mCoMiQq99EM@bombadil.infradead.org> <Ym7QXOMK3fLQ+b6t@bombadil.infradead.org>
+ <CABVgOSmXyN3SrDkUt4y_TaKPvEGVJgbuE3ycrVDa-Kt1NFGH7g@mail.gmail.com> <YnKS3MwNxvEi73OP@bombadil.infradead.org>
+In-Reply-To: <YnKS3MwNxvEi73OP@bombadil.infradead.org>
+From:   Daniel Latypov <dlatypov@google.com>
+Date:   Wed, 4 May 2022 11:25:14 -0500
+Message-ID: <CAGS_qxrz1WoUd5oGa7p1-H2mQVbkRxSTEbqnCG=aBj=xnMu1zQ@mail.gmail.com>
+Subject: Re: [PATCH v2] kunit: Taint kernel if any tests run
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     David Gow <davidgow@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->> +static const struct x86_cpu_id ifs_cpu_ids[] __initconst =3D {
->> +	X86_MATCH(SAPPHIRERAPIDS_X),
->
-> Why do we need a model match here? The core capabilities MSR is only
-> available when X86_FEATURE_CORE_CAPABILITIES is set:
->
->    "If CPUID.(EAX=3D07H, ECX=3D0):EDX[30] =3D 1.
->     This MSR provides an architectural enumeration
->     function for model-specific behavior."
->
-> So checking for Intel Fam6 ANYMODEL and X86_FEATURE_CORE_CAPABILITIES is
-> sufficient, no?
+On Wed, May 4, 2022 at 9:51 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> selftests has modules, although I am not sure if there are selftests
+> which do not load modules. Shuah?
 
-IA32_CORE_CAPABILITES is a nightmare. Although it is an architectural
-register, the bits inside it are model specific.
+I'm not Shuah, but there are indeed selftests that don't load modules.
 
-In particular bit 2 (which we check here for the existence of the INTEGRITY
-MSR) has been assigned for other use on other models. See SDM volume 4
-table 2-45 where bit 2 means FUSA supported on 06_8C and 06_8D (Tigerlake
-mobile and desktop). Ditto in table 2-46 (Alderlake and Raptorlake).
-
-> We really don't need more match id tables with gazillions of CPU models.
-
-Sadly we do :-(
-
--Tony
+I went looking for an example and found
+tools/testing/selftests/bpf/test_doc_build.sh, which runs entirely in
+userspace (basically just `make docs`).
