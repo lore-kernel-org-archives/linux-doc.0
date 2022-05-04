@@ -2,123 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06354C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 11:05:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B01D9C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 11:25:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346849AbiEDLJc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 07:09:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45538 "EHLO
+        id S1348732AbiEDL3c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 07:29:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348515AbiEDLJb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 07:09:31 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DCB0240B8;
-        Wed,  4 May 2022 04:05:54 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id w5-20020a17090aaf8500b001d74c754128so4900243pjq.0;
-        Wed, 04 May 2022 04:05:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=FuHzk/nIGePrHZXHu5obeBKL4CwmtgVLQ7B81qaX0ec=;
-        b=QEPx7U9hNlI3vRDWKAbDtfXmpeSpovU9WosXOMWPby75hsXz8BF9NJPpYo3SPZmwHd
-         n/Gm3/On5FKA84ftZRrEaLUWoxrAPvc/+zBa2+gmMQfMDBntS3YRP0IlNfTaE+UX/o2F
-         3QZNPYoUEKMzUZzz+TBxu5FwphTwigrUEW3T4jZxk6uAq/TLtFplG+CR/kJ8zCzXFRXm
-         xhCvp73xVaUtWtQfb7uSmfudTePdsyBf9cAeTv/S5xSAmqKOP1PGExdXwVO7Ek8SbpRR
-         zgfNv30iDlnORAwDnTuf+PLC0Ek4bma6TSaPA4TrmX+YkG2vVPV07cFmwFyuhbnkkwfN
-         m0pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=FuHzk/nIGePrHZXHu5obeBKL4CwmtgVLQ7B81qaX0ec=;
-        b=yWUv9F9O9xFaHPlr2DCC7dPEV1aOCzFracVLQj7RgOVSbqYeAoEsoHlSoCGbBElCtL
-         hZsew3t+MiQQaxbLIiaKZqvBzXL9Q/aKtHi6r6yqT5ITUY76CDJADHixNDIHh3oqyMqU
-         6jjMCdc9PzEvt1jPlalFbbhtMJjH5iYr+6v2tZEr0wgk+mp9M+jvNiKHRd58toDEtWAE
-         VAruiWXGw7zoUgNT8811c1YVxGOOa0JDNMnygPw7AxpK0gCeIaF4GhJtD4LG4q0hp6bZ
-         xKi+faxf2qp/ezsxgxKV+hLvU/wdFOTYAUFWrLO2QXiUFNF9Q/KEZezHwPGMoKEK+CpI
-         K+Og==
-X-Gm-Message-State: AOAM530vFZuEzn15bY0FzBdhgY3ZhlYSsoi5Bs6EBDL/j5dO/274cNLU
-        vWdIbnlzs/rr8a8S3PDXapU=
-X-Google-Smtp-Source: ABdhPJzxZ+xobWZQq60DnEg27iH6kRN+0zqq2JznY9vhTdiadAjubYEwreH4wT1gnCSEBBhDMd+WuA==
-X-Received: by 2002:a17:902:f690:b0:15e:9825:291 with SMTP id l16-20020a170902f69000b0015e98250291mr17327173plg.89.1651662353882;
-        Wed, 04 May 2022 04:05:53 -0700 (PDT)
-Received: from smtpclient.apple (164.174.128.101.dy.bbexcite.jp. [101.128.174.164])
-        by smtp.gmail.com with ESMTPSA id w24-20020a1709029a9800b0015ebbaccc46sm2555977plp.159.2022.05.04.04.05.51
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 04 May 2022 04:05:53 -0700 (PDT)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH 0/5] docs/ja_JP/SubmittingPatches: Trace changes in
- English docs, take 1
-From:   Kosuke Fujimoto <fujimotokosuke0@gmail.com>
-In-Reply-To: <20220503102429.48304-1-akiyks@gmail.com>
-Date:   Wed, 4 May 2022 20:05:49 +0900
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Tsugikazu Shibata <shibata@linuxfoundation.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <2146482E-C509-421F-AF7B-C220F8E1614F@gmail.com>
-References: <20220503102429.48304-1-akiyks@gmail.com>
-To:     Akira Yokosawa <akiyks@gmail.com>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
+        with ESMTP id S1348719AbiEDL3b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 07:29:31 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B3502A71C;
+        Wed,  4 May 2022 04:25:55 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id BE45B210E0;
+        Wed,  4 May 2022 11:25:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1651663553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=IHotc1tLxNFQnMsMhQ4/PAmmsXVX/ZrmEY2hoLkhoeY=;
+        b=prmLabugZEs93348NyPI+Rk+PvbnW03y6T9MnWqgkElCaLaxD76fSofTgRaeDBgj+VsO+6
+        JJrL0pJY5taH3pcpCX3mOYmFXRH4wLu2FwI9+uFoFQy61iIBDOsN98iOmHbJLnWAaSemYH
+        wBbOqgwKNBoCX7DWQOQHFbvaRdjwiaA=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5E694132C4;
+        Wed,  4 May 2022 11:25:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id GYZmFcFicmKxPgAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Wed, 04 May 2022 11:25:53 +0000
+Date:   Wed, 4 May 2022 13:25:52 +0200
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v10 7/8] cgroup/cpuset: Update description of
+ cpuset.cpus.partition in cgroup-v2.rst
+Message-ID: <20220504112552.GA15266@blackbody.suse.cz>
+References: <20220503162149.1764245-1-longman@redhat.com>
+ <20220503162149.1764245-8-longman@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220503162149.1764245-8-longman@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello.
+
+On Tue, May 03, 2022 at 12:21:48PM -0400, Waiman Long <longman@redhat.com> wrote:
+>  Documentation/admin-guide/cgroup-v2.rst | 145 +++++++++++++-----------
+>  1 file changed, 79 insertions(+), 66 deletions(-)
+
+A note across various lines -- it seems your new text accidentally mixes
+both spaces and tabs for indentation.
+
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 69d7a6983f78..94e1e3771830 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> [...]
+> +	The value shown in "cpuset.cpus.effective" of a partition root is
+> +	the CPUs that the parent partition root can dedicate to the new
+> +	partition root.  They are subtracted from "cpuset.cpus.effective"
+> +	of the parent and may be different from "cpuset.cpus"
+
+I find this paragraph a bit hard to comprehend (I read it as it talks
+about three levels of cgroups (parent, child, grandparent). It is
+correct but I'd suggect following formulation (where I additionally
+simplifed it by talking about "available" cpus):
+
+> The value shown in "cpuset.cpus.effective" of a partition root is
+> the CPUs that the partition root can dedicate to a potential new child
+> partition root. The new child subtracts available CPUs from its parent
+> "cpuset.cpus.effective".
 
 
-> On May 3, 2022, at 19:24, Akira Yokosawa <akiyks@gmail.com> wrote:
->=20
-> Hi,
->=20
-> This is the first batch of updates attempting to modernize Japanese
-> SubmittingPatches.  Conversion to ReST will be done later when the
-> corresponding commit doing the conversion is reached.  Pending list
-> of commits is quite long (about 90) and this effort is expected to
-> produce dozens of series.
->=20
-> List of commits for English (then) SubmittingPatches:
->=20
-> - f5039935ac68 ("Documentation: update GregKH links")
-> - e52d2e1f25f0 ("Documentation/SubmittingPatches: suggested the use of =
-scripts/get_maintainer.pl")
-> - 755727b7fb1e ("Randy has moved")
-> - 8543ae1296f6 ("checkpatch: add Suggested-by as a standard =
-signature")
-> - 0af5270324cc ("Documentation/SubmittingPatches: Request summaries =
-for commit references")
->=20
-> Note: Commit db12fb833a88 ("Documentation: fix spelling error in
-> SubmittingPatches") does not affect Japanese translation.
->=20
->        Thanks, Akira
-> --
-> Akira Yokosawa (5):
->  docs/ja_JP/SubmittingPatches: Update GregKH links
->  docs/ja_JP/SubmittingPatches: Suggest the use of
->    scripts/get_maintainer.pl
->  docs/ja_JP/SubmittingPatches: Randy has moved
->  docs/ja_JP/SubmittingPatches: Add Suggested-by as a standard =
-signature
->  docs/ja_JP/SubmittingPatches: Request summaries for commit references
->=20
-> .../translations/ja_JP/SubmittingPatches      | 36 ++++++++++++++-----
-> 1 file changed, 27 insertions(+), 9 deletions(-)
->=20
->=20
-> base-commit: 81c653659d34ec253fba7f5d0f430813fe0f643d
-> --=20
-> 2.25.1
->=20
+> +	For a partition root to become valid, the following conditions
+> +	must be met.
+> +
+> +	1) The "cpuset.cpus" is exclusive, i.e. they are not shared by
+> +	   any of its siblings (exclusivity rule).
+> +	2) The parent cgroup is a valid partition root.
+> +	3) The "cpuset.cpus" is not empty and must contain at least
+> +	   one of the CPUs from parent's "cpuset.cpus", i.e. they overlap.
+> +        4) The "cpuset.cpus.effective" must be a subset of "cpuset.cpus"
+> +           and cannot be empty unless there is no task associated with
+> +           this partition.
 
-Resending the response to this patch due to misconfiguration of my email =
-client.=20
+This sounds good to me.
 
-For the series,
+> +        Care must be taken to change a valid partition root to "member"
+> +        as all its child partitions, if present, will become invalid.
 
-Reviewed-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+This does not talk about recovering. Is it intentional? (I.e. to left
+implementation defined)
 
-Best regards,
-Kosuke=
+Except the remarks above, I find the concepts described here good. I'll
+reply to implementation separately & later.
+
+Regards,
+Michal
