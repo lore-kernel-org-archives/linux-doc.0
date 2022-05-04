@@ -2,116 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADE1EC43219
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 17:58:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33300C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 17:58:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359713AbiEDSCK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 14:02:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41680 "EHLO
+        id S1359730AbiEDSCO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 14:02:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377584AbiEDSBO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 14:01:14 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C3494E3B1
-        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 10:17:03 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id kq17so4169852ejb.4
-        for <linux-doc@vger.kernel.org>; Wed, 04 May 2022 10:17:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=FnWaMtJ2reMZ0hSCzzXuNRbvuXwq8gpuYV5+BFONKAE=;
-        b=ebMRE72btSfbTu94JZ+XbYWhvE/t1czQ57kEXj7uZgqVNjU0RU05kt542IcNMw286P
-         mZ6xpaFHpoeprnPd/kWTrSQM1G1BlgktJBr4xG6RhrWbvNpjLFl0+ecdobJz9KuMfktV
-         UlJP10pRifyYNtb3y8yF7fYoE45nmhJGPuHRr8itCnr4dcm9iT/w1jRlWmB9PS7QeasX
-         MBbnOipnG539gw+r56zTNE0rnzgfv4xUxVI+yvcMCj1GqXyXDIgz3lhz/guXrQx5FvT8
-         2GLVwiFONxmqgCymujrhnutcpLdrZszCr9yLOce9QDwfXfAXYsJDEcTv/UtDWzRMX6T4
-         WUAQ==
+        with ESMTP id S1377452AbiEDSA4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 14:00:56 -0400
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8D451C12B;
+        Wed,  4 May 2022 10:15:51 -0700 (PDT)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-e5e433d66dso1825981fac.5;
+        Wed, 04 May 2022 10:15:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=FnWaMtJ2reMZ0hSCzzXuNRbvuXwq8gpuYV5+BFONKAE=;
-        b=gt/+z6RxzrvclxqnXxqBTKp9XzKQirpfsPgo7F7WdI7zeg7YnKhc4eQnzyKwkOnRAY
-         XOSZAWrch9T/9auLtuGEqCxgPm+8c1EmE86ZnlzL5Mr8HARf+5H0MViZN0gAz6W2z+m5
-         AToeuG1PDUs31wR85SrC5HAyXOAFRe39hH3XWDjuNQO+trp9Oy8xO/wO6QLKzOctk/wc
-         Xs0FcgaaFiMSkq2ACO5Iwe8zLV8BKzQnO413MvAO70APq1O5Qf3CQ+3TyGd0Nhn20/WG
-         tVaBuES781YKvZKUthVX7XRzCLOKx8+w0eGHrND7No+FUDheiXxhrxG/BBfpYXVzBnRc
-         yyFQ==
-X-Gm-Message-State: AOAM5308N3gvVDmF0N5h6c5Oaa9cWiSbYxXCoc7el16khUU2zALwAjpm
-        +LPgW4tEROu+/6//74dzeKvyJGvukdkYECJrpo7PiA==
-X-Google-Smtp-Source: ABdhPJz/zOdjLmIrLFM4P9uo4u+sCzHObiW2BBC9Wwk/Gd0JvieVCy9Z4KHizOYES4jB3khXzoCnClSitVy5oWW1avQ=
-X-Received: by 2002:a17:906:3404:b0:6f4:d33d:9d88 with SMTP id
- c4-20020a170906340400b006f4d33d9d88mr2280391ejb.446.1651684621642; Wed, 04
- May 2022 10:17:01 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/sZFoGSuVJsC2wZ9dNCc4JLrQrkFZcqEG47d9JqV1Gg=;
+        b=Wr9U25nWL8PG6OO8do93gYbUy0N/ihRqkK/bG7hG7rdAZvds4bbbFujaJWEU5A1wdH
+         mqR5n3zR+FV6pcTyCAMwXPkipvbJXkQyMKX4BRGQXdrkvQnbS5rD72dILnM2Lcc+C4/g
+         UP4u/ZMql1p9cg7qM1vsYvlhxieblw8PXaVIK7UBmegsd/SJpYkfHRohDVqtTWgvG++M
+         aEhmU8Ty17KjYU/nBbylIOBrEYFCjoE02eXMz3nz3+1Il9hKZcY5G5pt4TvulFiuOlQe
+         jN79sSn3V3ZFmk6DC7n+fxK1sIPVekN6c3TOAJrkIr7bLpe7iFyGRY5Qq0fbue7tE7BG
+         U9+A==
+X-Gm-Message-State: AOAM531NQFsr89tMQ6FUmSMRh7QTq34GytN4hDYBDwebMZ1yCHmuxfPM
+        j055A1eAbtZnsdIcJnFvHg==
+X-Google-Smtp-Source: ABdhPJz/D0e0enLqOyhRaOxOcEe96JkZ+yUVLWBCkpaNez82JEr/wX3grMMHjSAk9p5UL5gCadvo6Q==
+X-Received: by 2002:a05:6870:9a05:b0:e6:589e:1ec5 with SMTP id fo5-20020a0568709a0500b000e6589e1ec5mr240831oab.203.1651684550678;
+        Wed, 04 May 2022 10:15:50 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id f6-20020a4ad806000000b0035eb4e5a6c4sm6234126oov.26.2022.05.04.10.15.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 May 2022 10:15:49 -0700 (PDT)
+Received: (nullmailer pid 1896703 invoked by uid 1000);
+        Wed, 04 May 2022 17:15:48 -0000
+Date:   Wed, 4 May 2022 12:15:48 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Ansuel Smith <ansuelsmth@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [RFC PATCH v6 11/11] dt-bindings: net: dsa: qca8k: add LEDs
+ definition example
+Message-ID: <YnK0xHOkfXI+rgzs@robh.at.kernel.org>
+References: <20220503151633.18760-1-ansuelsmth@gmail.com>
+ <20220503151633.18760-12-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-References: <20220502231944.3891435-1-tjmercier@google.com>
- <20220502231944.3891435-2-tjmercier@google.com> <20220504121052.GA24172@blackbody.suse.cz>
-In-Reply-To: <20220504121052.GA24172@blackbody.suse.cz>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Wed, 4 May 2022 10:16:50 -0700
-Message-ID: <CABdmKX2nbXLrngK8XRFCBCP=Zz-AMgKviiUdpWvEiYc-jOqang@mail.gmail.com>
-Subject: Re: [PATCH v6 1/6] gpu: rfc: Proposal for a GPU cgroup controller
-To:     =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Hridya Valsaraju <hridya@google.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        John Stultz <jstultz@google.com>,
-        Todd Kjos <tkjos@android.com>,
-        Carlos Llamas <cmllamas@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        kernel-team@android.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220503151633.18760-12-ansuelsmth@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 4, 2022 at 5:10 AM Michal Koutn=C3=BD <mkoutny@suse.com> wrote:
->
-> Hello.
->
-> On Mon, May 02, 2022 at 11:19:35PM +0000, "T.J. Mercier" <tjmercier@googl=
-e.com> wrote:
-> > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > [...]
-> > +     The device name string is set by a device driver when it register=
-s with the
-> > +     GPU cgroup controller to participate in resource accounting.
->
-> Are these names available anywhere else for the user? (I.e. would
-> drivers add respective sysfs attributes or similar?)
->
-Hi, this sounds like it could be a good idea but it'd probably be best
-to do this inside gpucg_register_bucket instead of requiring drivers
-to perform this externally, possibly in a non-uniform way. Maybe a
-sysfs file that prints each name of the gpucg_buckets elements?
-However the only names that would result from this series are the
-names of the dma-buf heaps, with "-heap" appended. So they are
-predictable from the /dev/dma_heap/* names, and only the system and
-cma heaps currently exist upstream.
+On Tue, May 03, 2022 at 05:16:33PM +0200, Ansuel Smith wrote:
+> Add LEDs definition example for qca8k using the offload trigger as the
+> default trigger and add all the supported offload triggers by the
+> switch.
+> 
+> Signed-off-by: Ansuel Smith <ansuelsmth@gmail.com>
+> ---
+>  .../devicetree/bindings/net/dsa/qca8k.yaml    | 20 +++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> index f3c88371d76c..9b46ef645a2d 100644
+> --- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> +++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> @@ -65,6 +65,8 @@ properties:
+>                   internal mdio access is used.
+>                   With the legacy mapping the reg corresponding to the internal
+>                   mdio is the switch reg with an offset of -1.
+> +                 Each phy have at least 3 LEDs connected and can be declared
 
-For other future uses of this controller I thought we were headed in
-the direction of "standardized" names which would be
-predefined/hardcoded and documented, so these names wouldn't really
-need to be made available to a user at runtime.
-https://lore.kernel.org/lkml/CABdmKX3gTAohaOwkNccGrQyXN9tzT-oEVibO5ZPF+eP+V=
-q=3DAOg@mail.gmail.com/
->
-> > +     Non-unique names will be rejected at the point of registration.
->
-> This doesn't seem relevant to the cgroupfs user, does it?
-> I think it should be mentioned at the respective API.
->
-Yeah you're right. Thank you.
+s/at least/up to/ ?
 
-> HTH,
-> Michal
->
+Or your example is wrong with only 2.
+
+> +                 using the standard LEDs structure.
+>  
+>  patternProperties:
+>    "^(ethernet-)?ports$":
+> @@ -287,6 +289,24 @@ examples:
+>  
+>                  internal_phy_port1: ethernet-phy@0 {
+>                      reg = <0>;
+> +
+> +                    leds {
+> +                        led@0 {
+> +                            reg = <0>;
+> +                            color = <LED_COLOR_ID_WHITE>;
+> +                            function = LED_FUNCTION_LAN;
+> +                            function-enumerator = <1>;
+> +                            linux,default-trigger = "netdev";
+> +                        };
+> +
+> +                        led@1 {
+> +                            reg = <1>;
+> +                            color = <LED_COLOR_ID_AMBER>;
+> +                            function = LED_FUNCTION_LAN;
+> +                            function-enumerator = <1>;
+> +                            linux,default-trigger = "netdev";
+> +                        };
+> +                    };
+>                  };
+>  
+>                  internal_phy_port2: ethernet-phy@1 {
+> -- 
+> 2.34.1
+> 
+> 
