@@ -2,100 +2,206 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB26AC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 03:37:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B152C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 04:17:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344349AbiEDDl1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 3 May 2022 23:41:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44600 "EHLO
+        id S1344522AbiEDEUe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 00:20:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344407AbiEDDlW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 May 2022 23:41:22 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E8F728991
-        for <linux-doc@vger.kernel.org>; Tue,  3 May 2022 20:37:46 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id 7so146173pga.12
-        for <linux-doc@vger.kernel.org>; Tue, 03 May 2022 20:37:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mnH+42aht6yqmG7U5pfKT59kRTusDPAPgC1nDObmhLU=;
-        b=xq0OE+G1oprXqRtC6pQz/5wP42YdYcl3p8QPLJHh1Zo400NXUFiruszN4dZxmb8CKL
-         2rglpn6BJ6BPeW4159iBSgG3jVIhdjiQSMXsqIT6j+sxjiCurYrjcpRORaFCjatHlZY3
-         /jgUT5V7IcFACKZNJTn2kkt54kOyO2x1EhkmUYwXJWRUd9yvhmgQz5snWeCKBlewCfuw
-         uZDdZsC1iAyr/owg+4eguxIJlluL0zrJFNQZu2D5un4lWb8e022BJ4ZXuHPCb54IH6kd
-         nrioLR3t6d5Ko7a/ie9dEa0HCsXJKzjlptJrY91Cx6BR0GyjE+mb+E75bu3DTNTV/twp
-         yk0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mnH+42aht6yqmG7U5pfKT59kRTusDPAPgC1nDObmhLU=;
-        b=WSU83s6PDjGNs+BiJRuu2+g6tDX5us/09K8Qvd4vgnQbP1VgoG+WwSZW6szRH59WgA
-         S6ZHMlwBj4s9eXqp1Nt/HIJjwbyptl17RQetKp3gGtaS5gg1MMzPE9AmMywnCL6Sh7Sg
-         DaUnjMM3BcrNsVzh024HCuM3Od+K80z054AGTKMMbp3bvOhKj3AwquNWZBaLuHz2rV0u
-         Z6nTONRvHSe/nV5V3/OOk59KZ4YvTsm76+MmVwoj355gRXbLllSvkqxCBtbKn9lmd+Uz
-         l+qKrct3KithLjviWr+N/wWFgkKzCH6IqN9PLHUWlkDtiz0VWGR6Y2AShw/9SnB0FyOn
-         L32A==
-X-Gm-Message-State: AOAM531MBdIU9ScIs5fku3fROq3J8iSDhN/8uXmLY7C0H3lJit46O0wB
-        pkgPtQq+oelPxmhS1oe6Hd7I1g==
-X-Google-Smtp-Source: ABdhPJwnrBK2PxUL2wLY3YNmxal8cHQW0OPf/mceeWgk1gF2mGj25P+YfQ8ZF5ZQfsXlWJPDRcm7zg==
-X-Received: by 2002:aa7:848a:0:b0:510:44da:223d with SMTP id u10-20020aa7848a000000b0051044da223dmr263616pfn.66.1651635466035;
-        Tue, 03 May 2022 20:37:46 -0700 (PDT)
-Received: from localhost ([139.177.225.239])
-        by smtp.gmail.com with ESMTPSA id v4-20020a62a504000000b0050dc7628149sm7057285pfm.35.2022.05.03.20.37.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 May 2022 20:37:45 -0700 (PDT)
-Date:   Wed, 4 May 2022 11:37:43 +0800
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
-        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v9 2/4] mm: memory_hotplug: override memmap_on_memory
- when hugetlb_free_vmemmap=on
-Message-ID: <YnH1B1Al/oW3rbmu@FVFYT0MHHV2J.usts.net>
-References: <20220429121816.37541-1-songmuchun@bytedance.com>
- <20220429121816.37541-3-songmuchun@bytedance.com>
- <3d040faf-7fc1-80a6-c584-aafeff27af18@oracle.com>
+        with ESMTP id S1344519AbiEDEUc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 00:20:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 857C61F632;
+        Tue,  3 May 2022 21:16:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 255AE61A71;
+        Wed,  4 May 2022 04:16:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03405C385A5;
+        Wed,  4 May 2022 04:16:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1651637813;
+        bh=kuLEziF1RBwT7frZNU3CgmC3ZYuUArL6BjwI7VssVcU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mX6chb6cqJWKfxIy+ImvfapILLIsi07JxyNr3R2RM+0iI34p5GUqvRFrTBPmXQHd0
+         vbCZ7srmv22qLBxzzKFiyCFjTfTdRr/cFINMCigIHP3t3bHCKloHRvaRw9qza/wwcD
+         MTPPrVkmRd0dZg8S2BO8SrE9TdFCoVY3t1kyw9d1SJl11s0TPudFrq2plK/mgwbYTI
+         yOrgAzt6TNuZ7cEMBCLoBuTUCfNv5Mib63k1ZFogsDq9TPSCro4+iEf2hqC4+3TsHb
+         tq+j9eJW8mUOSXkEKtHg2nyvSc4sLmJ2qwDhYMt8G1HD/05kXexL1C9RQAMTF9oMhx
+         0AsKcvMUKgjhg==
+Date:   Wed, 4 May 2022 07:15:28 +0300
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Mimi Zohar <zohar@linux.ibm.com>, kernel@pengutronix.de,
+        Pankaj Gupta <pankaj.gupta@nxp.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Jan Luebbe <j.luebbe@pengutronix.de>,
+        David Gstir <david@sigma-star.at>,
+        Richard Weinberger <richard@nod.at>,
+        Franck LENORMAND <franck.lenormand@nxp.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v8 5/6] doc: trusted-encrypted: describe new CAAM trust
+ source
+Message-ID: <YnH94F62yDHPxRlK@kernel.org>
+References: <20220428140145.870527-1-a.fatoum@pengutronix.de>
+ <20220428140145.870527-6-a.fatoum@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <3d040faf-7fc1-80a6-c584-aafeff27af18@oracle.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220428140145.870527-6-a.fatoum@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 03, 2022 at 05:23:37PM -0700, Mike Kravetz wrote:
-> On 4/29/22 05:18, Muchun Song wrote:
-> > When "hugetlb_free_vmemmap=on" and "memory_hotplug.memmap_on_memory"
-> > are both passed to boot cmdline, the variable of "memmap_on_memory"
-> > will be set to 1 even if the vmemmap pages will not be allocated from
-> > the hotadded memory since the former takes precedence over the latter.
+On Thu, Apr 28, 2022 at 04:01:44PM +0200, Ahmad Fatoum wrote:
+> Update documentation for trusted key use with the Cryptographic
+> Acceleration and Assurance Module (CAAM), an IP on NXP SoCs.
 > 
-> I had to read that sentence a few times before understanding what it was
-> trying to say.  Not insisting, but how about this instead:
->
-
-Sorry for my poor English.
- 
-> Freeing HugeTLB vmemmap pages is not compatible with allocating memmap on
-> hot added memory. If "hugetlb_free_vmemmap=on" and
-> memory_hotplug.memmap_on_memory" are both passed on the kernel command line,
-> freeing hugetlb pages takes precedence.  However, the global variable
-> memmap_on_memory will still be set to 1, even though we will not try to
-> allocate memmap on hot added memory.
+> Reviewed-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> ---
+> v7 -> v8:
+>   - add Pankaj's Reviewed-by
+> v6 -> v7:
+>   - docs update split off as new Patch (Jarkko)
+>   - fixed typo in "Trusted Keys usage: CAAM" section
 > 
-> Not sure if that is more clear or not.
+> To: Jonathan Corbet <corbet@lwn.net>
+> To: David Howells <dhowells@redhat.com>
+> To: Jarkko Sakkinen <jarkko@kernel.org>
+> To: James Bottomley <jejb@linux.ibm.com>
+> To: Mimi Zohar <zohar@linux.ibm.com>
+> Cc: James Morris <jmorris@namei.org>
+> Cc: "Serge E. Hallyn" <serge@hallyn.com>
+> Cc: "Horia Geantă" <horia.geanta@nxp.com>
+> Cc: Pankaj Gupta <pankaj.gupta@nxp.com>
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Biggers <ebiggers@kernel.org>
+> Cc: Jan Luebbe <j.luebbe@pengutronix.de>
+> Cc: David Gstir <david@sigma-star.at>
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Franck LENORMAND <franck.lenormand@nxp.com>
+> Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> Cc: Sumit Garg <sumit.garg@linaro.org>
+> Cc: keyrings@vger.kernel.org
+> Cc: linux-crypto@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-integrity@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-security-module@vger.kernel.org
+> ---
+>  .../security/keys/trusted-encrypted.rst       | 40 ++++++++++++++++++-
+>  1 file changed, 39 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
+> index 2fe6fd1a2bbd..0bfb4c339748 100644
+> --- a/Documentation/security/keys/trusted-encrypted.rst
+> +++ b/Documentation/security/keys/trusted-encrypted.rst
+> @@ -35,6 +35,13 @@ safe.
+>           Rooted to Hardware Unique Key (HUK) which is generally burnt in on-chip
+>           fuses and is accessible to TEE only.
+>  
+> +     (3) CAAM (Cryptographic Acceleration and Assurance Module: IP on NXP SoCs)
+> +
+> +         When High Assurance Boot (HAB) is enabled and the CAAM is in secure
+> +         mode, trust is rooted to the OTPMK, a never-disclosed 256-bit key
+> +         randomly generated and fused into each SoC at manufacturing time.
+> +         Otherwise, a common fixed test key is used instead.
+> +
+>    *  Execution isolation
+>  
+>       (1) TPM
+> @@ -46,6 +53,10 @@ safe.
+>           Customizable set of operations running in isolated execution
+>           environment verified via Secure/Trusted boot process.
+>  
+> +     (3) CAAM
+> +
+> +         Fixed set of operations running in isolated execution environment.
+> +
+>    * Optional binding to platform integrity state
+>  
+>       (1) TPM
+> @@ -63,6 +74,11 @@ safe.
+>           Relies on Secure/Trusted boot process for platform integrity. It can
+>           be extended with TEE based measured boot process.
+>  
+> +     (3) CAAM
+> +
+> +         Relies on the High Assurance Boot (HAB) mechanism of NXP SoCs
+> +         for platform integrity.
+> +
+>    *  Interfaces and APIs
+>  
+>       (1) TPM
+> @@ -74,10 +90,13 @@ safe.
+>           TEEs have well-documented, standardized client interface and APIs. For
+>           more details refer to ``Documentation/staging/tee.rst``.
+>  
+> +     (3) CAAM
+> +
+> +         Interface is specific to silicon vendor.
+>  
+>    *  Threat model
+>  
+> -     The strength and appropriateness of a particular TPM or TEE for a given
+> +     The strength and appropriateness of a particular trust source for a given
+>       purpose must be assessed when using them to protect security-relevant data.
+>  
+>  
+> @@ -104,6 +123,12 @@ selected trust source:
+>       from platform specific hardware RNG or a software based Fortuna CSPRNG
+>       which can be seeded via multiple entropy sources.
+>  
+> +  *  CAAM: Kernel RNG
+> +
+> +     The normal kernel random number generator is used. To seed it from the
+> +     CAAM HWRNG, enable CRYPTO_DEV_FSL_CAAM_RNG_API and ensure the device
+> +     is probed.
+> +
+>  Users may override this by specifying ``trusted.rng=kernel`` on the kernel
+>  command-line to override the used RNG with the kernel's random number pool.
+>  
+> @@ -193,6 +218,19 @@ Usage::
+>  specific to TEE device implementation.  The key length for new keys is always
+>  in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
+>  
+> +Trusted Keys usage: CAAM
+> +------------------------
+> +
+> +Usage::
+> +
+> +    keyctl add trusted name "new keylen" ring
+> +    keyctl add trusted name "load hex_blob" ring
+> +    keyctl print keyid
+> +
+> +"keyctl print" returns an ASCII hex copy of the sealed key, which is in a
+> +CAAM-specific format.  The key length for new keys is always in bytes.
+> +Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
+> +
+>  Encrypted Keys usage
+>  --------------------
+>  
+> -- 
+> 2.30.2
 > 
 
-Clearer than mine.
+Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
 
-> Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
->
-
-Thanks.
- 
+BR, Jarkko
