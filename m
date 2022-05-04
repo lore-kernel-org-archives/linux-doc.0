@@ -2,102 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF7FC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 16:19:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D0FC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 16:24:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353346AbiEDQXd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 12:23:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56972 "EHLO
+        id S1351207AbiEDQ23 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 12:28:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352128AbiEDQXc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 12:23:32 -0400
-Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com [IPv6:2607:f8b0:4864:20::c29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 675A146675
-        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 09:19:55 -0700 (PDT)
-Received: by mail-oo1-xc29.google.com with SMTP id c19-20020a4a3813000000b0035ea4a3b97eso267615ooa.12
-        for <linux-doc@vger.kernel.org>; Wed, 04 May 2022 09:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=dbVLoGLvvdOw9abtQc9gMQO+m9oCoAXtfZ2W1vRohYs=;
-        b=Xl0uRWlbqSeaYgNid5Xu5/x9v7F3s8ycxvRHbVXBkc4EaIyf8JUvW+LZrrYwSj84wg
-         Uq7G3EQ7sfke3vOYEhCzmHNBYlM17MnW/uzSzv8nP+Tgohzev8jDZ4W4W+ZpfkD5laux
-         TTWySJmTsuGHMjO6dYe3e5VgCshw5h1EZOVlcUeqYNJD3PLb9aNoiXxgfVGYXIq9x0Ke
-         9KbzEgVsafGZtNYX7X5WKx/E4i8ciZRLG3KL0RyAn8/Jojrnpcg3wnLSWw/fw9jjwlt9
-         22y/68iKAzVgHEYk66WuPBR+IfJBlguzT1rrJfY+btECbT13qFzxAIxq0ipFpCOz2iPI
-         tCRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dbVLoGLvvdOw9abtQc9gMQO+m9oCoAXtfZ2W1vRohYs=;
-        b=NT69KR2fbwh9Nx6FDj4Twnk3oCIW0RML8189he41A38SjXBgwfmjwF77As79pFK1/g
-         uQyImV07Kbp4YfTdCqg2VoZn/172w1bL8NJzfLD7xZZxDPsKC5B8hZQqC4/7Yaj9KRDr
-         oNmbXk1scC1Di0W5yS8DiPlcFcBqzYdh08xKrgGVGkKS69K7kA76Wg30h9F+nfn0bE5e
-         yBG//135etAzYk85zxdjUY/h6KKWeBVmlG4os5iFAeMTLLxp2+jANVzYtrbGUJXemcmE
-         H1FBJFcyOIn1MuE8Atln4TSR0vCU5/QtHS7cqomJ13kZZXwc5M7hRXX4Cfj6TRy3Dhph
-         n2/Q==
-X-Gm-Message-State: AOAM533u1Lb4QDd1PZA4tCFUzSAJ2I3i7udQsw8IO9WEKp+/Dw2+7IMA
-        pd2SimWr23PTlZadQSatcRmIHg==
-X-Google-Smtp-Source: ABdhPJyyqUME15QFq+hLqomIxwFjEJTKjoS8Pdb8JTFULASh6I8vEFeva5aVv9Q+SPjB3A5zoW/eKg==
-X-Received: by 2002:a4a:3546:0:b0:35e:cecd:c81d with SMTP id w6-20020a4a3546000000b0035ececdc81dmr7461215oog.79.1651681194666;
-        Wed, 04 May 2022 09:19:54 -0700 (PDT)
-Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id z4-20020a056870514400b000edae17a8cesm3104330oak.3.2022.05.04.09.19.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 09:19:54 -0700 (PDT)
-Date:   Wed, 4 May 2022 09:21:39 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v14 1/2] dt-bindings: leds: Add Qualcomm Light Pulse
- Generator binding
-Message-ID: <YnKoEyEtFP3TBxkg@ripper>
-References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
- <20220504072435.GB8204@duo.ucw.cz>
+        with ESMTP id S233593AbiEDQ23 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 12:28:29 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6F146675;
+        Wed,  4 May 2022 09:24:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651681492; x=1683217492;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=lIZS8L9hUURotYWnPIQEjJsG5uiWV1waq7GDXPVIqcc=;
+  b=gExUBy8e2Cihm/6XjCUMw7vxfEqmclF77qKJoR3k0GbAblzfMm/VX3tV
+   /19mYH11fGepyzx0wbCkvWVz5xyctii3eWJRWkPexTyqaQ+bRuB3I3myr
+   c8qCIvrF/joHyr83Dp2czBNZi7aFDdIL97M+z70Sd/kpflcfYqP4N8dvz
+   5u/lUA5aL3ZnbNNW5iMSrdr5+Q6ny72G4RLl7tU/viLk8YWYTmj9+vmNm
+   2O/4dn6QpnfD/JgsfHSzUWCyzSFc4cnUfRaSW8L9+57c09WNGsg6V+ROn
+   uMNCF/8nOPidkU69grdbB7RPngkIzbZoINEfsmkt171pb/mPVFAS4VofM
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="293004702"
+X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; 
+   d="scan'208";a="293004702"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2022 09:24:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; 
+   d="scan'208";a="599597736"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+  by orsmga001.jf.intel.com with ESMTP; 04 May 2022 09:24:51 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Wed, 4 May 2022 09:24:51 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Wed, 4 May 2022 09:24:50 -0700
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
+ Wed, 4 May 2022 09:24:50 -0700
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "markgross@kernel.org" <markgross@kernel.org>
+CC:     "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "Joseph, Jithu" <jithu.joseph@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
+Subject: RE: [PATCH v5 03/10] platform/x86/intel/ifs: Add stub driver for
+ In-Field Scan
+Thread-Topic: [PATCH v5 03/10] platform/x86/intel/ifs: Add stub driver for
+ In-Field Scan
+Thread-Index: AQHYWxYWmJjf7gsCY0aglBAPDxFRY60PBIYA///pJDA=
+Date:   Wed, 4 May 2022 16:24:50 +0000
+Message-ID: <eedc3fa9ec47494590be66ad66f90bb7@intel.com>
+References: <20220422200219.2843823-1-tony.luck@intel.com>
+ <20220428153849.295779-1-tony.luck@intel.com>
+ <20220428153849.295779-4-tony.luck@intel.com> <87zgjxk2kt.ffs@tglx>
+In-Reply-To: <87zgjxk2kt.ffs@tglx>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.401.20
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220504072435.GB8204@duo.ucw.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 04 May 00:24 PDT 2022, Pavel Machek wrote:
+>> +static const struct x86_cpu_id ifs_cpu_ids[] __initconst =3D {
+>> +	X86_MATCH(SAPPHIRERAPIDS_X),
+>
+> Why do we need a model match here? The core capabilities MSR is only
+> available when X86_FEATURE_CORE_CAPABILITIES is set:
+>
+>    "If CPUID.(EAX=3D07H, ECX=3D0):EDX[30] =3D 1.
+>     This MSR provides an architectural enumeration
+>     function for model-specific behavior."
+>
+> So checking for Intel Fam6 ANYMODEL and X86_FEATURE_CORE_CAPABILITIES is
+> sufficient, no?
 
-> Hi!
-> 
-> > This adds the binding document describing the three hardware blocks
-> > related to the Light Pulse Generator found in a wide range of Qualcomm
-> > PMICs.
-> 
-> Sorry for the delays. I have collected tested/review tags and push the
-> result to:
-> 
-> To gitolite.kernel.org:pub/scm/linux/kernel/git/pavel/linux-leds.git
->    312310928417..24e2d05d1b68  for-next -> for-next
-> 
+IA32_CORE_CAPABILITES is a nightmare. Although it is an architectural
+register, the bits inside it are model specific.
 
-Much appreciated, this will unblock a few different use cases for us -
-perhaps the most important one backlight control on devices such as the
-Lenovo Flex 5G :)
+In particular bit 2 (which we check here for the existence of the INTEGRITY
+MSR) has been assigned for other use on other models. See SDM volume 4
+table 2-45 where bit 2 means FUSA supported on 06_8C and 06_8D (Tigerlake
+mobile and desktop). Ditto in table 2-46 (Alderlake and Raptorlake).
 
-> I'll need to check pattern usage in the driver, and there are some
-> small fixes needed as evidenced in the reviews.
-> 
+> We really don't need more match id tables with gazillions of CPU models.
 
-I will go through the Marijn's feedback in detail and am looking forward
-to hear from you on the pattern front, and will look into preparing
-incremental patches for the changes needed.
+Sadly we do :-(
 
-Thanks,
-Bjorn
+-Tony
