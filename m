@@ -2,114 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B89E1C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 14:51:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23250C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 14:52:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351623AbiEDOy5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 10:54:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42674 "EHLO
+        id S237055AbiEDOzo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 10:55:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351497AbiEDOyz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 10:54:55 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87F0A2250C;
-        Wed,  4 May 2022 07:51:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=S2gb7XqGVCua1J4ObYPWqu6oqDz0D+gONZmwmSAT5u0=; b=yohmkVdc1HEiFErskoUX3A88MC
-        imI16VZWdSN1NTiGoZm/E0P67fi6koEUXubQBJY5SMenScgAKEU8IhyJ1qXu7PHbs5zZtofExsIYV
-        wsfQQ38SL//vc+P8mculJsju6c6L2nxtUL8VD+B51YnznAu5BuIDA82AfmAqHmmAb7nqMvC4YwCZv
-        6yGeRvKMURbJ8Sjyr5jiMwPrRxX60f7OUv9gxVdXzm5N6Ee4z6Ip5EhD3bjGdqxz/gujGyNF2cOx+
-        07kbDv6ERZSybEInGCSvByWav8AC60xD5LHHHUrDhVcyTIrGpTJuRu7PISjPO5k5yUvd8gMOyobAw
-        NZKz4eOw==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nmGLM-00BIQY-Kf; Wed, 04 May 2022 14:51:08 +0000
-Date:   Wed, 4 May 2022 07:51:08 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Lucas De Marchi <lucas.demarchi@intel.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2] kunit: Taint kernel if any tests run
-Message-ID: <YnKS3MwNxvEi73OP@bombadil.infradead.org>
-References: <20220429043913.626647-1-davidgow@google.com>
- <20220430030019.803481-1-davidgow@google.com>
- <Ym7P7mCoMiQq99EM@bombadil.infradead.org>
- <Ym7QXOMK3fLQ+b6t@bombadil.infradead.org>
- <CABVgOSmXyN3SrDkUt4y_TaKPvEGVJgbuE3ycrVDa-Kt1NFGH7g@mail.gmail.com>
+        with ESMTP id S1351526AbiEDOxl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 10:53:41 -0400
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB8C24F2B
+        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 07:50:04 -0700 (PDT)
+Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-d6e29fb3d7so1391002fac.7
+        for <linux-doc@vger.kernel.org>; Wed, 04 May 2022 07:50:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=QeFiQ9rABQ+jsnlWFATMHbzDLVEHfjrJ5lroY7LHjX4=;
+        b=H5IJ/aqZWpfdIMrj7CgLAqG/SdKN5STaYbw0mAiMe3knsYohgMViLX+4UVUoKCbjYy
+         KKl4gSQqN+y8a/5bgi2RL4jv+amby146NGM7XBx8dbVn4RsofMgka5QZYxjpufREvBgx
+         on8qRLmmmZDTNBS3mIpw49Zfq+rPlMGaYLZ12oBZLGWqrTnMda+uze00F4XB8lCnZ5nm
+         8Tl5G8rLBtDEYPTBoB6Iw3xTervmR0L8O+zASziNoND35e/wLu2xlyoXStOr8sXjon1D
+         bzVRi1ICf4OkXuJZNPr4iA9KfJYxKeZKraeRlic8bM30iN0elqk80fTjZY50t3Okqw6Y
+         ZeuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=QeFiQ9rABQ+jsnlWFATMHbzDLVEHfjrJ5lroY7LHjX4=;
+        b=IsVcLLiWXnjX74AQEtfaX23+FJDHw+BdltvcavoOkLEySqBkeOeUuxA+3c6h8+GoDy
+         KinsNdDoAHK6krkG87po7n6zK2QjfV1vxg/pDacR2ntvpSrcaDZHvgTT3mzvkI9zNFVj
+         Nq4/PKvK5SGbYi3NFpUxsUmz88VHA4zai/ZxUPSA+zxm5TAo9bYSMu29N+l3KA8X3Hlr
+         TJh0TKLlNQemtDnSz62J5oH7kOZfrwbHD3zOkBiMMvm7rcqJ8b9QcRQHR7wcMnojsZSw
+         Nel1x2ffeUjrvypNGsWUWGAA5STEkgHa5mVQp9qDToD55JAnTJwFhKTEMLfBLiXsMosG
+         omlg==
+X-Gm-Message-State: AOAM531KTkxIKmKWIGGP3glesvLrrACTUEIgoFe4kp7P/yBcgRB/noxK
+        mdVpBoIgfz3QMUTjUMbYA96s9A==
+X-Google-Smtp-Source: ABdhPJwNJvAJDal6JEEM3A076oA8yC/XXroNGViJX0ZDvZfYyeiTcwTHDhaQwkREcnPpG+p4quwFKw==
+X-Received: by 2002:a05:6870:d254:b0:e9:5d17:9e35 with SMTP id h20-20020a056870d25400b000e95d179e35mr3712035oac.154.1651675803423;
+        Wed, 04 May 2022 07:50:03 -0700 (PDT)
+Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id v15-20020a05683018cf00b0060603221251sm5158169ote.33.2022.05.04.07.50.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 May 2022 07:50:02 -0700 (PDT)
+Date:   Wed, 4 May 2022 07:51:46 -0700
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
+        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Doug Anderson <dianders@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
+Message-ID: <YnKTAvQc6eDxTl14@ripper>
+References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
+ <20220303214300.59468-2-bjorn.andersson@linaro.org>
+ <20220504073009.GC8204@duo.ucw.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CABVgOSmXyN3SrDkUt4y_TaKPvEGVJgbuE3ycrVDa-Kt1NFGH7g@mail.gmail.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+In-Reply-To: <20220504073009.GC8204@duo.ucw.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 03, 2022 at 02:49:58PM +0800, David Gow wrote:
-> On Mon, May 2, 2022 at 2:24 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> >
-> > On Sun, May 01, 2022 at 11:22:38AM -0700, Luis Chamberlain wrote:
-> > > On Sat, Apr 30, 2022 at 11:00:19AM +0800, David Gow wrote:
-> > > > KUnit tests are not supposed to run on production systems: they may do
-> > > > deliberately illegal things to trigger errors, and have security
-> > > > implications (assertions will often deliberately leak kernel addresses).
-> > > >
-> > > > Add a new taint type, TAINT_KUNIT to signal that a KUnit test has been
-> > > > run. This will be printed as 'N' (for kuNit, as K, U and T were already
-> > > > taken).
-> > > >
-> > > > This should discourage people from running KUnit tests on production
-> > > > systems, and to make it easier to tell if tests have been run
-> > > > accidentally (by loading the wrong configuration, etc.)
-> > > >
-> > > > Signed-off-by: David Gow <davidgow@google.com>
-> > >
-> > > There is no reason to distinguish kunit from selftests if the result is
-> > > the same: really make the kernel try really insane stupid things which
-> > > may crash it or put it into a bad state.
-> > >
-> My initial thought is that KUnit is explicitly in-kernel testing,
-> whereas kselftest is (at least somewhat) user-space based.
+On Wed 04 May 00:30 PDT 2022, Pavel Machek wrote:
 
-selftests has modules, although I am not sure if there are selftests
-which do not load modules. Shuah?
+> Hi!
+> 
+> > +/sys/class/leds/<led>/hw_pattern
+> > +--------------------------------
+> > +
+> > +Specify a hardware pattern for a Qualcomm LPG LED.
+> > +
+> > +The pattern is a series of brightness and hold-time pairs, with the hold-time
+> > +expressed in milliseconds. The hold time is a property of the pattern and must
+> > +therefor be identical for each element in the pattern (except for the pauses
+> > +described below).
+> 
+> therefore?
+> 
 
-> My personal
-> feeling is that "doing weird stuff from userspace" is fundamentally
-> different from "doing weird stuff in the kernel".
+Yes
 
-True.
+> > +Simple pattern::
+> > +
+> > +    "255 500 0 500"
+> > +
+> > +        ^
+> > +        |
+> > +    255 +----+    +----+
+> > +        |    |    |    |      ...
+> > +      0 |    +----+    +----
+> > +        +---------------------->
+> > +        0    5   10   15     time (100ms)
+> > +
+> > +The LPG supports specifying a longer hold-time for the first and last element
+> > +in the pattern, the so called "low pause" and "high pause".
+> 
+> Please see
+> Documentation/devicetree/bindings/leds/leds-trigger-pattern.txt . This
+> should really be compatible.
+> 
 
-> That being said, in
-> practice many kselftest tests load modules which do strange things,
-> and those could be in scope for something like that. I'd still err on
-> the side of only having those tests (or specifically those modules)
-> add the taint, rather than all selftests, but could be conveniced.
+Unfortunately the LPG hardware only supports fixed duration (except for
+the ability to hold/extend the first and last duration in the pattern)
+and it also does not support gradual transition between the brightness
+levels.
 
-Yeah I think now that this can easily be added by having a special
-new module info, MODULE_TAINTS(taint_flag). Then in check_modinfo()
-you'd get_modinfo(info, "taints") to then add_taint_module() if set.
+As such the pattern sequence provided to hw_pattern looks to be the
+smae, but I don't see that it can be made compatible.
 
-We can ignore the userspace thing I mentioned earlier as I thought
-at first we could not add the taint to selftest modules easily but
-we can.
+> Can I get either patch to disable pattern infrastructure for now or to
+> get it compatible?
+> 
 
-  Luis
+I'd be happy to get this updated to your liking, but this was one of the
+drivers we discussed when we introduced the pattern trigger and led to
+the conclusion that we need the ability to do hw-specific patterns.
+
+As such this document provides the hardware specific documentation, as
+we describe under "hw_pattern" in
+Documentation/ABI/testing/sysfs-class-led-trigger-pattern.
+
+Please advice on what you would like me to do.
+
+Regards,
+Bjorn
