@@ -2,77 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75597C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 14:37:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F602C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 14:49:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351287AbiEDOks (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 10:40:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53760 "EHLO
+        id S1343969AbiEDOxb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 10:53:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234380AbiEDOkr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 10:40:47 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 994771FA62;
-        Wed,  4 May 2022 07:37:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S241165AbiEDOxa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 10:53:30 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4B7213EBE;
+        Wed,  4 May 2022 07:49:53 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 531A3B825A5;
-        Wed,  4 May 2022 14:37:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B57C2C385A4;
-        Wed,  4 May 2022 14:37:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651675029;
-        bh=MSt2zlmGXVoqI6N9XTs/+AqjMOyxIZe/p2Hq/hvMrd4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=F7eEElwlh37OuvPZ3dRT/g0xVUbLe7yzBTe/yP3K47P96Qu5nRGqmS34Xzq0Zpy2L
-         UHUU6a3YNYj9+/2HnhiCj6vntOnIVdbrk6UUCFAlZTXIPfElNQ2ycBYA1F9N8GXiEP
-         sW3Eu2CX2INXIr7Rj5zvMf+H8nBMmzmklhPF6m03wkFKA4UMOFIPgyNL8yg2IfCv2q
-         TXHaFnzVUm8MqOMGttsHibvxnwbvKx4Upv20z2JNf2/3mEybI0ETC3zH/3vg8jYZ1n
-         rI4Av6LTEb/ELKI1bcNivcaMvEcCmQCaRc8s8yYxZApESLjFvvZCm1AAY5F/SF7Inu
-         pU3TlAcUOZ8gA==
-Date:   Wed, 4 May 2022 07:37:07 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        Dave Jones <davej@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        Randy Dunlap <randy.dunlap@oracle.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH net-next] net/core: Remove comment quote for
- __dev_queue_xmit()
-Message-ID: <20220504073707.5bd851b0@kernel.org>
-In-Reply-To: <c578c9e6-b2a5-3294-d291-2abfda7d1aed@gmail.com>
-References: <9d8b436a-5d8d-2a53-a2a1-5fbab987e41b@gmail.com>
-        <c578c9e6-b2a5-3294-d291-2abfda7d1aed@gmail.com>
+        by smtp-out2.suse.de (Postfix) with ESMTPS id A46F41F745;
+        Wed,  4 May 2022 14:49:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1651675792; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=z7a1tUIqeQwhYVrRkWyPm+b7zgnGEqyjjbvzog71260=;
+        b=B2Zw2g+w9XDRK6G7lxyfk7VvFnVb5A0kVZbGig8g7aedHQR9YwU7CJJrx7wWzjO9AiB1Bi
+        twYb9up37BZf/7I1bz9OpSZ9NWMMbqCD7HQOyvkaG98l9jvIchKtwQOxqcYSK88O1gZlZc
+        Sdgx6ISEP/WAFUiQDP6IBGaA1zbawZE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1651675792;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=z7a1tUIqeQwhYVrRkWyPm+b7zgnGEqyjjbvzog71260=;
+        b=JfDFAxGNSDITB8tXcxJE223wy+ZesjAzz9qL0Pv/snTnxrRTpMD2dz0P+R1qjfUa4HW/Pq
+        gdl2w1TXFwIFhnCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7893D131BD;
+        Wed,  4 May 2022 14:49:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id oGNQHJCScmKIHwAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Wed, 04 May 2022 14:49:52 +0000
+Message-ID: <e1a4290e-32c9-f3c1-ce8d-7ff56e2063c4@suse.de>
+Date:   Wed, 4 May 2022 16:49:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] drm/todo: Add entry for using kunit in the subsystem
+Content-Language: en-US
+To:     Javier Martinez Canillas <javierm@redhat.com>,
+        linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        Maxime Ripard <maxime@cerno.tech>
+References: <20220504080212.713275-1-javierm@redhat.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220504080212.713275-1-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------S8kgMgY0OsMM915jm8s2l0gf"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 4 May 2022 22:43:12 +0900 Akira Yokosawa wrote:
-> > I can't think of preserving delineation between actual documentation
-> > and the quote without messing up kernel-doc.  
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------S8kgMgY0OsMM915jm8s2l0gf
+Content-Type: multipart/mixed; boundary="------------V00YHOmcYaEUm0RvKjWgIClX";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ Maxime Ripard <maxime@cerno.tech>
+Message-ID: <e1a4290e-32c9-f3c1-ce8d-7ff56e2063c4@suse.de>
+Subject: Re: [PATCH] drm/todo: Add entry for using kunit in the subsystem
+References: <20220504080212.713275-1-javierm@redhat.com>
+In-Reply-To: <20220504080212.713275-1-javierm@redhat.com>
 
-That's not what I'm complaining about, I'm saying that you rewrote 
-the documentation. There were 3 paragraphs now there are 2.
+--------------V00YHOmcYaEUm0RvKjWgIClX
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> Actually, it is possible.
-> 
-> See "Block Quotes" in ReST documentation at:
-> https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#block-quotes
-> 
-> kernel-doc is basically ReST within comment blocks with several kernel-doc
-> specific implicit/explicit markers.
+SGkNCg0KQW0gMDQuMDUuMjIgdW0gMTA6MDIgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IFRoZSBLZXJuZWwgVW5pdCBUZXN0aW5nIChLVW5pdCkgZnJhbWV3b3JrIHBy
+b3ZpZGVzIGEgY29tbW9uIGZyYW1ld29yayBmb3INCj4gdW5pdCB0ZXN0cyB3aXRoaW4gdGhl
+IExpbnV4IGtlcm5lbC4gSGF2aW5nIGEgdGVzdCBzdWl0ZSB3b3VsZCBhbGxvdyB0bw0KPiBp
+ZGVudGlmeSByZWdyZXNzaW9ucyBlYXJsaWVyLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogSmF2
+aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQo+IC0tLQ0KPiAN
+Cj4gICBEb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdCB8IDE0ICsrKysrKysrKysrKysrDQo+
+ICAgMSBmaWxlIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQg
+YS9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdCBiL0RvY3VtZW50YXRpb24vZ3B1L3RvZG8u
+cnN0DQo+IGluZGV4IDEyN2U3NmVlMGIyZC4uMTBiZmI1MDkwOGQxIDEwMDY0NA0KPiAtLS0g
+YS9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL2dw
+dS90b2RvLnJzdA0KPiBAQCAtNjAzLDYgKzYwMywyMCBAQCBMZXZlbDogQWR2YW5jZWQNCj4g
+ICBCZXR0ZXIgVGVzdGluZw0KPiAgID09PT09PT09PT09PT09DQo+ICAgDQo+ICtBZGQgdW5p
+dCB0ZXN0cyB1c2luZyB0aGUgS2VybmVsIFVuaXQgVGVzdGluZyAoS1VuaXQpIGZyYW1ld29y
+aw0KPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0NCj4gKw0KPiArVGhlIGBLVW5pdCA8aHR0cHM6Ly93d3cua2VybmVs
+Lm9yZy9kb2MvaHRtbC9sYXRlc3QvZGV2LXRvb2xzL2t1bml0L2luZGV4Lmh0bWw+YF8NCj4g
+K3Byb3ZpZGVzIGEgY29tbW9uIGZyYW1ld29yayBmb3IgdW5pdCB0ZXN0cyB3aXRoaW4gdGhl
+IExpbnV4IGtlcm5lbC4gSGF2aW5nIGENCj4gK3Rlc3Qgc3VpdGUgd291bGQgYWxsb3cgdG8g
+aWRlbnRpZnkgcmVncmVzc2lvbnMgZWFybGllci4NCj4gKw0KPiArQSBnb29kIGNhbmRpZGF0
+ZSBmb3IgdGhlIGZpcnN0IHVuaXQgdGVzdHMgYXJlIHRoZSBmb3JtYXQtY29udmVyc2lvbiBo
+ZWxwZXJzIGluDQo+ICtgYGRybV9mb3JtYXRfaGVscGVyLmNgYC4NCj4gKw0KPiArQ29udGFj
+dDogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQoNCkFj
+a2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KPiAr
+DQo+ICtMZXZlbDogSW50ZXJtZWRpYXRlDQo+ICsNCj4gICBFbmFibGUgdHJpbml0eSBmb3Ig
+RFJNDQo+ICAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAgIA0KDQotLSANClRob21hcyBa
+aW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNv
+bHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywg
+R2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6
+IEl2byBUb3Rldg0K
 
-With all due respect I don't even know who (what?) "BLG" is.
+--------------V00YHOmcYaEUm0RvKjWgIClX--
 
-Let's just get rid of the delineation and the signature and make 
-the text of the quote normal documentation.
+--------------S8kgMgY0OsMM915jm8s2l0gf
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> > Actually the "--BLG" signature is the culprit.  
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJykpAFAwAAAAAACgkQlh/E3EQov+D6
+mxAAq7XObyRynI00OE4am3y87JyfCqsp42IrnRyBfArkaH2UnQsc5N5OMV+c8HrcDY2/77kZ3Oba
+mBqrVPl6xa80bynqXdHL8onCcOLrSesWWXgw5UjUK1m1MkxwRetWL3GGCbDt+LDG4UXlhiboVgaf
+FOz8ndPgo0aGUdXF6v1W2HCeWuhI0Lg5ftC73ndVgh95iKPvq62o8UUuaXZhLx2lpz+NO08bq5tg
+xWkBnCwD/pmou1akE9sc1kkgDvUckILyvirXiuVE6G5ukWq9wR31L/E4r0y7r1/VTa6xKiCtq+EC
+y8r4DdjncnGSmWT42atdsl8V/n2TYakh6gOBtioemXpdZNODkLSkoxliI0zPnwifwubHaM23VaXs
+J/V37JXIJDThz66YTMYBjE/+dP54iYLLbJlvNOrMWeqT0WjhHSJ4sK639uEUSgiS+S/yiYdqoIig
+aok0ceAqL3LkLrGD/HAe4I2LXob5/WsIr4KAS9oMTEDATxeKr4/NxPJ4F8sGqrraqyTSWj8RBQXT
+Q3NuTi3zJ0rI1gSiKmt2e4RymHbij8bWWby//uRUEPO34CONJa8lhCpz/Du7k1+zxlytBPo8nfvG
+IjsEPIiuP7bqVnewHFa3lBifIIimJVfpR+Xa9Ss6eHOfHNM329p5gbcjuheM7AmcJcDRI9p7k6Cb
+kf4=
+=2abr
+-----END PGP SIGNATURE-----
+
+--------------S8kgMgY0OsMM915jm8s2l0gf--
