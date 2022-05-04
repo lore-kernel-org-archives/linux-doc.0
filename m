@@ -2,143 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F602C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 14:49:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B89E1C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 14:51:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343969AbiEDOxb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 10:53:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38280 "EHLO
+        id S1351623AbiEDOy5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 10:54:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241165AbiEDOxa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 10:53:30 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4B7213EBE;
-        Wed,  4 May 2022 07:49:53 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id A46F41F745;
-        Wed,  4 May 2022 14:49:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1651675792; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=z7a1tUIqeQwhYVrRkWyPm+b7zgnGEqyjjbvzog71260=;
-        b=B2Zw2g+w9XDRK6G7lxyfk7VvFnVb5A0kVZbGig8g7aedHQR9YwU7CJJrx7wWzjO9AiB1Bi
-        twYb9up37BZf/7I1bz9OpSZ9NWMMbqCD7HQOyvkaG98l9jvIchKtwQOxqcYSK88O1gZlZc
-        Sdgx6ISEP/WAFUiQDP6IBGaA1zbawZE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1651675792;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=z7a1tUIqeQwhYVrRkWyPm+b7zgnGEqyjjbvzog71260=;
-        b=JfDFAxGNSDITB8tXcxJE223wy+ZesjAzz9qL0Pv/snTnxrRTpMD2dz0P+R1qjfUa4HW/Pq
-        gdl2w1TXFwIFhnCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7893D131BD;
-        Wed,  4 May 2022 14:49:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id oGNQHJCScmKIHwAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Wed, 04 May 2022 14:49:52 +0000
-Message-ID: <e1a4290e-32c9-f3c1-ce8d-7ff56e2063c4@suse.de>
-Date:   Wed, 4 May 2022 16:49:52 +0200
+        with ESMTP id S1351497AbiEDOyz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 10:54:55 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87F0A2250C;
+        Wed,  4 May 2022 07:51:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=S2gb7XqGVCua1J4ObYPWqu6oqDz0D+gONZmwmSAT5u0=; b=yohmkVdc1HEiFErskoUX3A88MC
+        imI16VZWdSN1NTiGoZm/E0P67fi6koEUXubQBJY5SMenScgAKEU8IhyJ1qXu7PHbs5zZtofExsIYV
+        wsfQQ38SL//vc+P8mculJsju6c6L2nxtUL8VD+B51YnznAu5BuIDA82AfmAqHmmAb7nqMvC4YwCZv
+        6yGeRvKMURbJ8Sjyr5jiMwPrRxX60f7OUv9gxVdXzm5N6Ee4z6Ip5EhD3bjGdqxz/gujGyNF2cOx+
+        07kbDv6ERZSybEInGCSvByWav8AC60xD5LHHHUrDhVcyTIrGpTJuRu7PISjPO5k5yUvd8gMOyobAw
+        NZKz4eOw==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nmGLM-00BIQY-Kf; Wed, 04 May 2022 14:51:08 +0000
+Date:   Wed, 4 May 2022 07:51:08 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     David Gow <davidgow@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2] kunit: Taint kernel if any tests run
+Message-ID: <YnKS3MwNxvEi73OP@bombadil.infradead.org>
+References: <20220429043913.626647-1-davidgow@google.com>
+ <20220430030019.803481-1-davidgow@google.com>
+ <Ym7P7mCoMiQq99EM@bombadil.infradead.org>
+ <Ym7QXOMK3fLQ+b6t@bombadil.infradead.org>
+ <CABVgOSmXyN3SrDkUt4y_TaKPvEGVJgbuE3ycrVDa-Kt1NFGH7g@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] drm/todo: Add entry for using kunit in the subsystem
-Content-Language: en-US
-To:     Javier Martinez Canillas <javierm@redhat.com>,
-        linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        Maxime Ripard <maxime@cerno.tech>
-References: <20220504080212.713275-1-javierm@redhat.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220504080212.713275-1-javierm@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------S8kgMgY0OsMM915jm8s2l0gf"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABVgOSmXyN3SrDkUt4y_TaKPvEGVJgbuE3ycrVDa-Kt1NFGH7g@mail.gmail.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------S8kgMgY0OsMM915jm8s2l0gf
-Content-Type: multipart/mixed; boundary="------------V00YHOmcYaEUm0RvKjWgIClX";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- Maxime Ripard <maxime@cerno.tech>
-Message-ID: <e1a4290e-32c9-f3c1-ce8d-7ff56e2063c4@suse.de>
-Subject: Re: [PATCH] drm/todo: Add entry for using kunit in the subsystem
-References: <20220504080212.713275-1-javierm@redhat.com>
-In-Reply-To: <20220504080212.713275-1-javierm@redhat.com>
+On Tue, May 03, 2022 at 02:49:58PM +0800, David Gow wrote:
+> On Mon, May 2, 2022 at 2:24 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> >
+> > On Sun, May 01, 2022 at 11:22:38AM -0700, Luis Chamberlain wrote:
+> > > On Sat, Apr 30, 2022 at 11:00:19AM +0800, David Gow wrote:
+> > > > KUnit tests are not supposed to run on production systems: they may do
+> > > > deliberately illegal things to trigger errors, and have security
+> > > > implications (assertions will often deliberately leak kernel addresses).
+> > > >
+> > > > Add a new taint type, TAINT_KUNIT to signal that a KUnit test has been
+> > > > run. This will be printed as 'N' (for kuNit, as K, U and T were already
+> > > > taken).
+> > > >
+> > > > This should discourage people from running KUnit tests on production
+> > > > systems, and to make it easier to tell if tests have been run
+> > > > accidentally (by loading the wrong configuration, etc.)
+> > > >
+> > > > Signed-off-by: David Gow <davidgow@google.com>
+> > >
+> > > There is no reason to distinguish kunit from selftests if the result is
+> > > the same: really make the kernel try really insane stupid things which
+> > > may crash it or put it into a bad state.
+> > >
+> My initial thought is that KUnit is explicitly in-kernel testing,
+> whereas kselftest is (at least somewhat) user-space based.
 
---------------V00YHOmcYaEUm0RvKjWgIClX
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+selftests has modules, although I am not sure if there are selftests
+which do not load modules. Shuah?
 
-SGkNCg0KQW0gMDQuMDUuMjIgdW0gMTA6MDIgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IFRoZSBLZXJuZWwgVW5pdCBUZXN0aW5nIChLVW5pdCkgZnJhbWV3b3JrIHBy
-b3ZpZGVzIGEgY29tbW9uIGZyYW1ld29yayBmb3INCj4gdW5pdCB0ZXN0cyB3aXRoaW4gdGhl
-IExpbnV4IGtlcm5lbC4gSGF2aW5nIGEgdGVzdCBzdWl0ZSB3b3VsZCBhbGxvdyB0bw0KPiBp
-ZGVudGlmeSByZWdyZXNzaW9ucyBlYXJsaWVyLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogSmF2
-aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQo+IC0tLQ0KPiAN
-Cj4gICBEb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdCB8IDE0ICsrKysrKysrKysrKysrDQo+
-ICAgMSBmaWxlIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQg
-YS9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdCBiL0RvY3VtZW50YXRpb24vZ3B1L3RvZG8u
-cnN0DQo+IGluZGV4IDEyN2U3NmVlMGIyZC4uMTBiZmI1MDkwOGQxIDEwMDY0NA0KPiAtLS0g
-YS9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL2dw
-dS90b2RvLnJzdA0KPiBAQCAtNjAzLDYgKzYwMywyMCBAQCBMZXZlbDogQWR2YW5jZWQNCj4g
-ICBCZXR0ZXIgVGVzdGluZw0KPiAgID09PT09PT09PT09PT09DQo+ICAgDQo+ICtBZGQgdW5p
-dCB0ZXN0cyB1c2luZyB0aGUgS2VybmVsIFVuaXQgVGVzdGluZyAoS1VuaXQpIGZyYW1ld29y
-aw0KPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0NCj4gKw0KPiArVGhlIGBLVW5pdCA8aHR0cHM6Ly93d3cua2VybmVs
-Lm9yZy9kb2MvaHRtbC9sYXRlc3QvZGV2LXRvb2xzL2t1bml0L2luZGV4Lmh0bWw+YF8NCj4g
-K3Byb3ZpZGVzIGEgY29tbW9uIGZyYW1ld29yayBmb3IgdW5pdCB0ZXN0cyB3aXRoaW4gdGhl
-IExpbnV4IGtlcm5lbC4gSGF2aW5nIGENCj4gK3Rlc3Qgc3VpdGUgd291bGQgYWxsb3cgdG8g
-aWRlbnRpZnkgcmVncmVzc2lvbnMgZWFybGllci4NCj4gKw0KPiArQSBnb29kIGNhbmRpZGF0
-ZSBmb3IgdGhlIGZpcnN0IHVuaXQgdGVzdHMgYXJlIHRoZSBmb3JtYXQtY29udmVyc2lvbiBo
-ZWxwZXJzIGluDQo+ICtgYGRybV9mb3JtYXRfaGVscGVyLmNgYC4NCj4gKw0KPiArQ29udGFj
-dDogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQoNCkFj
-a2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KPiAr
-DQo+ICtMZXZlbDogSW50ZXJtZWRpYXRlDQo+ICsNCj4gICBFbmFibGUgdHJpbml0eSBmb3Ig
-RFJNDQo+ICAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAgIA0KDQotLSANClRob21hcyBa
-aW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNv
-bHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywg
-R2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6
-IEl2byBUb3Rldg0K
+> My personal
+> feeling is that "doing weird stuff from userspace" is fundamentally
+> different from "doing weird stuff in the kernel".
 
---------------V00YHOmcYaEUm0RvKjWgIClX--
+True.
 
---------------S8kgMgY0OsMM915jm8s2l0gf
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> That being said, in
+> practice many kselftest tests load modules which do strange things,
+> and those could be in scope for something like that. I'd still err on
+> the side of only having those tests (or specifically those modules)
+> add the taint, rather than all selftests, but could be conveniced.
 
------BEGIN PGP SIGNATURE-----
+Yeah I think now that this can easily be added by having a special
+new module info, MODULE_TAINTS(taint_flag). Then in check_modinfo()
+you'd get_modinfo(info, "taints") to then add_taint_module() if set.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJykpAFAwAAAAAACgkQlh/E3EQov+D6
-mxAAq7XObyRynI00OE4am3y87JyfCqsp42IrnRyBfArkaH2UnQsc5N5OMV+c8HrcDY2/77kZ3Oba
-mBqrVPl6xa80bynqXdHL8onCcOLrSesWWXgw5UjUK1m1MkxwRetWL3GGCbDt+LDG4UXlhiboVgaf
-FOz8ndPgo0aGUdXF6v1W2HCeWuhI0Lg5ftC73ndVgh95iKPvq62o8UUuaXZhLx2lpz+NO08bq5tg
-xWkBnCwD/pmou1akE9sc1kkgDvUckILyvirXiuVE6G5ukWq9wR31L/E4r0y7r1/VTa6xKiCtq+EC
-y8r4DdjncnGSmWT42atdsl8V/n2TYakh6gOBtioemXpdZNODkLSkoxliI0zPnwifwubHaM23VaXs
-J/V37JXIJDThz66YTMYBjE/+dP54iYLLbJlvNOrMWeqT0WjhHSJ4sK639uEUSgiS+S/yiYdqoIig
-aok0ceAqL3LkLrGD/HAe4I2LXob5/WsIr4KAS9oMTEDATxeKr4/NxPJ4F8sGqrraqyTSWj8RBQXT
-Q3NuTi3zJ0rI1gSiKmt2e4RymHbij8bWWby//uRUEPO34CONJa8lhCpz/Du7k1+zxlytBPo8nfvG
-IjsEPIiuP7bqVnewHFa3lBifIIimJVfpR+Xa9Ss6eHOfHNM329p5gbcjuheM7AmcJcDRI9p7k6Cb
-kf4=
-=2abr
------END PGP SIGNATURE-----
+We can ignore the userspace thing I mentioned earlier as I thought
+at first we could not add the taint to selftest modules easily but
+we can.
 
---------------S8kgMgY0OsMM915jm8s2l0gf--
+  Luis
