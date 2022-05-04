@@ -2,136 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C43FAC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 16:02:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF7FC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 16:19:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353049AbiEDQGC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 12:06:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40356 "EHLO
+        id S1353346AbiEDQXd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 12:23:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244190AbiEDQGB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 12:06:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B9EC51571D
-        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 09:02:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651680144;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Kx7MkkZT+Yq+fM3GfswobHpHpBTfL9nTvycJqnYKSP8=;
-        b=g64HKG3q7K9kl0OdgE3bVx0t56mL25HfPcdeYHdrnZG95Gt95xSWwL3EWg2VMMvjGH/6IU
-        G/YZ2Xg/1Apbh17i2zs+e3ofB+tM9ShMxCQaqEtlrEw5zbFUbGp24Fird2Rk7fP1pdF7sz
-        eelDZJqopjQ7GRxGKAZBsAJ5ITqW7RY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-45-MzJLmzJiNoatZxsrxTXkGw-1; Wed, 04 May 2022 12:02:23 -0400
-X-MC-Unique: MzJLmzJiNoatZxsrxTXkGw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35937805F46;
-        Wed,  4 May 2022 16:02:22 +0000 (UTC)
-Received: from [10.18.17.215] (dhcp-17-215.bos.redhat.com [10.18.17.215])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 77B9540CF8EF;
-        Wed,  4 May 2022 16:02:20 +0000 (UTC)
-Message-ID: <379138a0-1721-d6fa-4d1d-cb8d79f28474@redhat.com>
-Date:   Wed, 4 May 2022 12:02:19 -0400
+        with ESMTP id S1352128AbiEDQXc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 12:23:32 -0400
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com [IPv6:2607:f8b0:4864:20::c29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 675A146675
+        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 09:19:55 -0700 (PDT)
+Received: by mail-oo1-xc29.google.com with SMTP id c19-20020a4a3813000000b0035ea4a3b97eso267615ooa.12
+        for <linux-doc@vger.kernel.org>; Wed, 04 May 2022 09:19:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=dbVLoGLvvdOw9abtQc9gMQO+m9oCoAXtfZ2W1vRohYs=;
+        b=Xl0uRWlbqSeaYgNid5Xu5/x9v7F3s8ycxvRHbVXBkc4EaIyf8JUvW+LZrrYwSj84wg
+         Uq7G3EQ7sfke3vOYEhCzmHNBYlM17MnW/uzSzv8nP+Tgohzev8jDZ4W4W+ZpfkD5laux
+         TTWySJmTsuGHMjO6dYe3e5VgCshw5h1EZOVlcUeqYNJD3PLb9aNoiXxgfVGYXIq9x0Ke
+         9KbzEgVsafGZtNYX7X5WKx/E4i8ciZRLG3KL0RyAn8/Jojrnpcg3wnLSWw/fw9jjwlt9
+         22y/68iKAzVgHEYk66WuPBR+IfJBlguzT1rrJfY+btECbT13qFzxAIxq0ipFpCOz2iPI
+         tCRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=dbVLoGLvvdOw9abtQc9gMQO+m9oCoAXtfZ2W1vRohYs=;
+        b=NT69KR2fbwh9Nx6FDj4Twnk3oCIW0RML8189he41A38SjXBgwfmjwF77As79pFK1/g
+         uQyImV07Kbp4YfTdCqg2VoZn/172w1bL8NJzfLD7xZZxDPsKC5B8hZQqC4/7Yaj9KRDr
+         oNmbXk1scC1Di0W5yS8DiPlcFcBqzYdh08xKrgGVGkKS69K7kA76Wg30h9F+nfn0bE5e
+         yBG//135etAzYk85zxdjUY/h6KKWeBVmlG4os5iFAeMTLLxp2+jANVzYtrbGUJXemcmE
+         H1FBJFcyOIn1MuE8Atln4TSR0vCU5/QtHS7cqomJ13kZZXwc5M7hRXX4Cfj6TRy3Dhph
+         n2/Q==
+X-Gm-Message-State: AOAM533u1Lb4QDd1PZA4tCFUzSAJ2I3i7udQsw8IO9WEKp+/Dw2+7IMA
+        pd2SimWr23PTlZadQSatcRmIHg==
+X-Google-Smtp-Source: ABdhPJyyqUME15QFq+hLqomIxwFjEJTKjoS8Pdb8JTFULASh6I8vEFeva5aVv9Q+SPjB3A5zoW/eKg==
+X-Received: by 2002:a4a:3546:0:b0:35e:cecd:c81d with SMTP id w6-20020a4a3546000000b0035ececdc81dmr7461215oog.79.1651681194666;
+        Wed, 04 May 2022 09:19:54 -0700 (PDT)
+Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id z4-20020a056870514400b000edae17a8cesm3104330oak.3.2022.05.04.09.19.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 May 2022 09:19:54 -0700 (PDT)
+Date:   Wed, 4 May 2022 09:21:39 -0700
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v14 1/2] dt-bindings: leds: Add Qualcomm Light Pulse
+ Generator binding
+Message-ID: <YnKoEyEtFP3TBxkg@ripper>
+References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
+ <20220504072435.GB8204@duo.ucw.cz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v10 7/8] cgroup/cpuset: Update description of
- cpuset.cpus.partition in cgroup-v2.rst
-Content-Language: en-US
-To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-References: <20220503162149.1764245-1-longman@redhat.com>
- <20220503162149.1764245-8-longman@redhat.com>
- <20220504112552.GA15266@blackbody.suse.cz>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <20220504112552.GA15266@blackbody.suse.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220504072435.GB8204@duo.ucw.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/4/22 07:25, Michal Koutný wrote:
-> Hello.
->
-> On Tue, May 03, 2022 at 12:21:48PM -0400, Waiman Long <longman@redhat.com> wrote:
->>   Documentation/admin-guide/cgroup-v2.rst | 145 +++++++++++++-----------
->>   1 file changed, 79 insertions(+), 66 deletions(-)
-> A note across various lines -- it seems your new text accidentally mixes
-> both spaces and tabs for indentation.
+On Wed 04 May 00:24 PDT 2022, Pavel Machek wrote:
 
-You are right. I will fix that.
+> Hi!
+> 
+> > This adds the binding document describing the three hardware blocks
+> > related to the Light Pulse Generator found in a wide range of Qualcomm
+> > PMICs.
+> 
+> Sorry for the delays. I have collected tested/review tags and push the
+> result to:
+> 
+> To gitolite.kernel.org:pub/scm/linux/kernel/git/pavel/linux-leds.git
+>    312310928417..24e2d05d1b68  for-next -> for-next
+> 
 
->
->> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
->> index 69d7a6983f78..94e1e3771830 100644
->> --- a/Documentation/admin-guide/cgroup-v2.rst
->> +++ b/Documentation/admin-guide/cgroup-v2.rst
->> [...]
->> +	The value shown in "cpuset.cpus.effective" of a partition root is
->> +	the CPUs that the parent partition root can dedicate to the new
->> +	partition root.  They are subtracted from "cpuset.cpus.effective"
->> +	of the parent and may be different from "cpuset.cpus"
-> I find this paragraph a bit hard to comprehend (I read it as it talks
-> about three levels of cgroups (parent, child, grandparent). It is
-> correct but I'd suggect following formulation (where I additionally
-> simplifed it by talking about "available" cpus):
->
->> The value shown in "cpuset.cpus.effective" of a partition root is
->> the CPUs that the partition root can dedicate to a potential new child
->> partition root. The new child subtracts available CPUs from its parent
->> "cpuset.cpus.effective".
+Much appreciated, this will unblock a few different use cases for us -
+perhaps the most important one backlight control on devices such as the
+Lenovo Flex 5G :)
 
+> I'll need to check pattern usage in the driver, and there are some
+> small fixes needed as evidenced in the reviews.
+> 
 
-Thanks for the suggestion, will modify the text as suggested.
-
-
->
->> +	For a partition root to become valid, the following conditions
->> +	must be met.
->> +
->> +	1) The "cpuset.cpus" is exclusive, i.e. they are not shared by
->> +	   any of its siblings (exclusivity rule).
->> +	2) The parent cgroup is a valid partition root.
->> +	3) The "cpuset.cpus" is not empty and must contain at least
->> +	   one of the CPUs from parent's "cpuset.cpus", i.e. they overlap.
->> +        4) The "cpuset.cpus.effective" must be a subset of "cpuset.cpus"
->> +           and cannot be empty unless there is no task associated with
->> +           this partition.
-> This sounds good to me.
->
->> +        Care must be taken to change a valid partition root to "member"
->> +        as all its child partitions, if present, will become invalid.
-> This does not talk about recovering. Is it intentional? (I.e. to left
-> implementation defined)
-
-This new patch series does have the ability to recover now.  I am just 
-not emphasizing the recovery aspect of it in the doc file. I will add a 
-sentence about it.
-
->
-> Except the remarks above, I find the concepts described here good. I'll
-> reply to implementation separately & later.
+I will go through the Marijn's feedback in detail and am looking forward
+to hear from you on the pattern front, and will look into preparing
+incremental patches for the changes needed.
 
 Thanks,
-Longman
-
+Bjorn
