@@ -2,129 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14CA6C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 08:56:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96860C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 09:46:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240562AbiEDJAD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 05:00:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55530 "EHLO
+        id S1346303AbiEDJuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 05:50:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346784AbiEDI7e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 04:59:34 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74B1D286E5
-        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 01:53:16 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id g6so1604752ejw.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 May 2022 01:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=FWeYiYf0DMm7V+g21Cbm+9C9Pn1oqo14ZQ670Fj9soM=;
-        b=H3LWFD2SKqhgrKGammVqLPu1+tsxAB77OiaspD7wNyK6giB6LGiCB0egmuFelRz0xd
-         Wwr8iW5bq7rM304cdd3tRii/BntL55bHQGs59Jj+dRjdM5XT8vOzIahu7OZtSg/9zgsA
-         PYg9GxvGp61ZKK8xDG4sWyfqcA89Y++1uLPP0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=FWeYiYf0DMm7V+g21Cbm+9C9Pn1oqo14ZQ670Fj9soM=;
-        b=VvfHza3D5VaKPZb0Gq36PLeHU4sv5zuJUom5wknLXsKFDp3y2mkfuQck3gEl6Itnln
-         bkhvI42ZYDkqFJ0DtnVF4hC82zg97CIZJTOo+UKuPZjTR9GiaSpIEySTaRDYLG2J4CZP
-         gi+XKaNPl7I68mt44Q3GYbJV6SFxqrpJxEv5KbvIjlu2S61AAR8ykcGa8OA6ffg6Q4Ql
-         0dFQr1/wIw14YiuLQOBstWVe4M2vsBLLvOfu26nzqkzJagwasUKWBNGJK+L3PJPxu18i
-         pwgSvkYwwHEK4fnPNH/u6P/zZ3ON13DNS9uqpSDa0A7pKRZpxdP1PlJwr3m0tQaMQmTg
-         dAeA==
-X-Gm-Message-State: AOAM532+2f7GhxT5zVpwJJpk1LY37DW0NL8Pxs+qoQ3T9LfYd7MZ2hFH
-        PTSOszpUOJRHZn7K+WEyj0sJEQ==
-X-Google-Smtp-Source: ABdhPJynePYca4h8hGIO/ma6nS7rL//o7qYPz+d7uodB/VCGwalHggLOksWn/GzUnOuMimdixtbeHg==
-X-Received: by 2002:a17:907:50a3:b0:6f3:a302:96aa with SMTP id fv35-20020a17090750a300b006f3a30296aamr18975623ejc.2.1651654395002;
-        Wed, 04 May 2022 01:53:15 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id gz21-20020a170907a05500b006f3ef214e3csm5502964ejc.162.2022.05.04.01.53.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 01:53:14 -0700 (PDT)
-Date:   Wed, 4 May 2022 10:53:12 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Javier Martinez Canillas <javierm@redhat.com>,
-        linux-kernel@vger.kernel.org,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] drm/todo: Add entry for using kunit in the subsystem
-Message-ID: <YnI++MYijJFqyStF@phenom.ffwll.local>
-Mail-Followup-To: Maxime Ripard <maxime@cerno.tech>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        linux-kernel@vger.kernel.org,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>, Jonathan Corbet <corbet@lwn.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-References: <20220504080212.713275-1-javierm@redhat.com>
- <20220504081030.ky57nenipnif5r2e@houat>
+        with ESMTP id S1346296AbiEDJuA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 05:50:00 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C2BC81D0F0;
+        Wed,  4 May 2022 02:46:24 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9070FED1;
+        Wed,  4 May 2022 02:46:24 -0700 (PDT)
+Received: from [10.57.1.74] (unknown [10.57.1.74])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D1D03FA50;
+        Wed,  4 May 2022 02:46:22 -0700 (PDT)
+Message-ID: <e19b1b96-f5b0-b4c0-00ab-2d793d6476fe@arm.com>
+Date:   Wed, 4 May 2022 10:46:20 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220504081030.ky57nenipnif5r2e@houat>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.8.1
+Subject: Re: [PATCH v2 1/6] coresight: Add config flag to enable branch
+ broadcast
+To:     James Clark <james.clark@arm.com>,
+        Mike Leach <mike.leach@linaro.org>
+Cc:     coresight@lists.linaro.org, leo.yan@linaro.com,
+        John Garry <john.garry@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
+References: <20220113091056.1297982-1-james.clark@arm.com>
+ <20220113091056.1297982-2-james.clark@arm.com>
+ <b3545a88-4743-db95-4676-b0b193cbea78@arm.com>
+ <CAJ9a7Vi584BcY49TaRn5CJT=wcpafMf-3cA0R+sZ54p6iUKmeQ@mail.gmail.com>
+ <7fae6630-fdec-3f95-9eac-3f7a5c789272@arm.com>
+ <CAJ9a7VjTJ4E7=qdPgfTTVjoW01rCzd-f1mFYHjtA3BHk25saMA@mail.gmail.com>
+ <ae5a3464-1f07-e7b4-0f25-c3774c0e5922@arm.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <ae5a3464-1f07-e7b4-0f25-c3774c0e5922@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 04, 2022 at 10:10:30AM +0200, Maxime Ripard wrote:
-> Hi,
+On 22/04/2022 11:18, James Clark wrote:
 > 
-> On Wed, May 04, 2022 at 10:02:12AM +0200, Javier Martinez Canillas wrote:
-> > The Kernel Unit Testing (KUnit) framework provides a common framework for
-> > unit tests within the Linux kernel. Having a test suite would allow to
-> > identify regressions earlier.
-> > 
-> > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> > ---
-> > 
-> >  Documentation/gpu/todo.rst | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
-> > 
-> > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> > index 127e76ee0b2d..10bfb50908d1 100644
-> > --- a/Documentation/gpu/todo.rst
-> > +++ b/Documentation/gpu/todo.rst
-> > @@ -603,6 +603,20 @@ Level: Advanced
-> >  Better Testing
-> >  ==============
-> >  
-> > +Add unit tests using the Kernel Unit Testing (KUnit) framework
-> > +--------------------------------------------------------------
-> > +
-> > +The `KUnit <https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html>`_
-> > +provides a common framework for unit tests within the Linux kernel. Having a
-> > +test suite would allow to identify regressions earlier.
-> > +
-> > +A good candidate for the first unit tests are the format-conversion helpers in
-> > +``drm_format_helper.c``.
-> > +
-> > +Contact: Javier Martinez Canillas <javierm@redhat.com>
-> > +
-> > +Level: Intermediate
 > 
-> Kunit is fairly easy to grasp if you have some knowledge of other unit
-> testing frameworks already (pytest, cmocka, etc.)
+> On 11/03/2022 15:56, Mike Leach wrote:
+>> Hi James,
+>>
+>> On Fri, 11 Mar 2022 at 14:58, James Clark <james.clark@arm.com> wrote:
+>>>
+>>>
+>>>
+>>> On 02/02/2022 20:25, Mike Leach wrote:
+>>>> Hi James, Suzuki
+>>>>
+>>>> On Fri, 28 Jan 2022 at 11:19, Suzuki K Poulose <suzuki.poulose@arm.com> wrote:
+>>>>>
+>>>>> On 13/01/2022 09:10, James Clark wrote:
+>>>>>> When enabled, all taken branch addresses are output, even if the branch
+>>>>>> was because of a direct branch instruction. This enables reconstruction
+>>>>>> of the program flow without having access to the memory image of the
+>>>>>> code being executed.
+>>>>>>
+>>>>>> Use bit 8 for the config option which would be the correct bit for
+>>>>>> programming ETMv3. Although branch broadcast can't be enabled on ETMv3
+>>>>>> because it's not in the define ETM3X_SUPPORTED_OPTIONS, using the
+>>>>>> correct bit might help prevent future collisions or allow it to be
+>>>>>> enabled if needed.
+>>>>>>
+>>>>>> Signed-off-by: James Clark <james.clark@arm.com>
+>>>>>> ---
+>>>>>>    drivers/hwtracing/coresight/coresight-etm-perf.c   |  2 ++
+>>>>>>    drivers/hwtracing/coresight/coresight-etm4x-core.c | 10 ++++++++++
+>>>>>>    include/linux/coresight-pmu.h                      |  2 ++
+>>>>>>    3 files changed, 14 insertions(+)
+>>>>>>
+>>>>>> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+>>>>>> index c039b6ae206f..43bbd5dc3d3b 100644
+>>>>>> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
+>>>>>> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+>>>>>> @@ -52,6 +52,7 @@ static DEFINE_PER_CPU(struct coresight_device *, csdev_src);
+>>>>>>     * The PMU formats were orignally for ETMv3.5/PTM's ETMCR 'config';
+>>>>>>     * now take them as general formats and apply on all ETMs.
+>>>>>>     */
+>>>>>> +PMU_FORMAT_ATTR(branch_broadcast, "config:"__stringify(ETM_OPT_BRANCH_BROADCAST));
+>>>>>>    PMU_FORMAT_ATTR(cycacc,             "config:" __stringify(ETM_OPT_CYCACC));
+>>>>>>    /* contextid1 enables tracing CONTEXTIDR_EL1 for ETMv4 */
+>>>>>>    PMU_FORMAT_ATTR(contextid1, "config:" __stringify(ETM_OPT_CTXTID));
+>>>>>> @@ -97,6 +98,7 @@ static struct attribute *etm_config_formats_attr[] = {
+>>>>>>        &format_attr_sinkid.attr,
+>>>>>>        &format_attr_preset.attr,
+>>>>>>        &format_attr_configid.attr,
+>>>>>> +     &format_attr_branch_broadcast.attr,
+>>>>>
+>>>>> Does it make sense to hide the option if the bb is not supported ? I
+>>>>> guess it will be tricky as we don't track the common feature set. So,
+>>>>> that said...>>>>
+>>>>>>        NULL,
+>>>>>>    };
+>>>>>>
+>>>>>> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>>>>>> index bf18128cf5de..04669ecc0efa 100644
+>>>>>> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>>>>>> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+>>>>>> @@ -692,6 +692,16 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
+>>>>>>                ret = cscfg_csdev_enable_active_config(csdev, cfg_hash, preset);
+>>>>>>        }
+>>>>>>
+>>>>>> +     /* branch broadcast - enable if selected and supported */
+>>>>>> +     if (attr->config & BIT(ETM_OPT_BRANCH_BROADCAST)) {
+>>>>>> +             if (!drvdata->trcbb) {
+>>>>>> +                     ret = -EINVAL;
+>>>>>
+>>>>> Should we fail here ? We could simply ignore this and generate the trace
+>>>>> normally. This would work on a big.LITTLE system with one set missing
+>>>>> the branch broadcast, while the others support.
 > 
-> Another good candidate would be to convert (some ?) selftests to kunit.
-> I'm not sure the others, but at least test-drm_cmdline_parser should be
-> fairly easy to convert.
+> Hi Suzuki,
+> 
+> I think if the user really needs branch broadcast because they've modified their
+> binaries then they would want feedback that one of the cores doesn't support it.
+> Otherwise their decode would silently go wrong and they could get stuck.
+> 
+> Perf already opens an event per core, so it wouldn't be much effort to manually
+> modify the command line to only select cores where it is supported.
+> 
+> I think for that scenario the current patch already works that way because the
+> feature is checked on the active core when the event is enabled?
 
-All the drm selftest should be good candidates for conversion to kunit.
+Fair enough. We could let the user pin the perf to the CPUs where this
+is supported. This information is available to the user via sysfs.
 
-Either way patch is Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+So, let us proceed with the changes here.
 
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Cheers
+Suzuki
