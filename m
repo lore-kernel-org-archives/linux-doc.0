@@ -2,136 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23250C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 14:52:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C43FAC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 16:02:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237055AbiEDOzo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 10:55:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38504 "EHLO
+        id S1353049AbiEDQGC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 12:06:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351526AbiEDOxl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 10:53:41 -0400
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB8C24F2B
-        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 07:50:04 -0700 (PDT)
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-d6e29fb3d7so1391002fac.7
-        for <linux-doc@vger.kernel.org>; Wed, 04 May 2022 07:50:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QeFiQ9rABQ+jsnlWFATMHbzDLVEHfjrJ5lroY7LHjX4=;
-        b=H5IJ/aqZWpfdIMrj7CgLAqG/SdKN5STaYbw0mAiMe3knsYohgMViLX+4UVUoKCbjYy
-         KKl4gSQqN+y8a/5bgi2RL4jv+amby146NGM7XBx8dbVn4RsofMgka5QZYxjpufREvBgx
-         on8qRLmmmZDTNBS3mIpw49Zfq+rPlMGaYLZ12oBZLGWqrTnMda+uze00F4XB8lCnZ5nm
-         8Tl5G8rLBtDEYPTBoB6Iw3xTervmR0L8O+zASziNoND35e/wLu2xlyoXStOr8sXjon1D
-         bzVRi1ICf4OkXuJZNPr4iA9KfJYxKeZKraeRlic8bM30iN0elqk80fTjZY50t3Okqw6Y
-         ZeuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QeFiQ9rABQ+jsnlWFATMHbzDLVEHfjrJ5lroY7LHjX4=;
-        b=IsVcLLiWXnjX74AQEtfaX23+FJDHw+BdltvcavoOkLEySqBkeOeUuxA+3c6h8+GoDy
-         KinsNdDoAHK6krkG87po7n6zK2QjfV1vxg/pDacR2ntvpSrcaDZHvgTT3mzvkI9zNFVj
-         Nq4/PKvK5SGbYi3NFpUxsUmz88VHA4zai/ZxUPSA+zxm5TAo9bYSMu29N+l3KA8X3Hlr
-         TJh0TKLlNQemtDnSz62J5oH7kOZfrwbHD3zOkBiMMvm7rcqJ8b9QcRQHR7wcMnojsZSw
-         Nel1x2ffeUjrvypNGsWUWGAA5STEkgHa5mVQp9qDToD55JAnTJwFhKTEMLfBLiXsMosG
-         omlg==
-X-Gm-Message-State: AOAM531KTkxIKmKWIGGP3glesvLrrACTUEIgoFe4kp7P/yBcgRB/noxK
-        mdVpBoIgfz3QMUTjUMbYA96s9A==
-X-Google-Smtp-Source: ABdhPJwNJvAJDal6JEEM3A076oA8yC/XXroNGViJX0ZDvZfYyeiTcwTHDhaQwkREcnPpG+p4quwFKw==
-X-Received: by 2002:a05:6870:d254:b0:e9:5d17:9e35 with SMTP id h20-20020a056870d25400b000e95d179e35mr3712035oac.154.1651675803423;
-        Wed, 04 May 2022 07:50:03 -0700 (PDT)
-Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id v15-20020a05683018cf00b0060603221251sm5158169ote.33.2022.05.04.07.50.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 07:50:02 -0700 (PDT)
-Date:   Wed, 4 May 2022 07:51:46 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Doug Anderson <dianders@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
-Message-ID: <YnKTAvQc6eDxTl14@ripper>
-References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
- <20220303214300.59468-2-bjorn.andersson@linaro.org>
- <20220504073009.GC8204@duo.ucw.cz>
+        with ESMTP id S244190AbiEDQGB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 12:06:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B9EC51571D
+        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 09:02:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1651680144;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Kx7MkkZT+Yq+fM3GfswobHpHpBTfL9nTvycJqnYKSP8=;
+        b=g64HKG3q7K9kl0OdgE3bVx0t56mL25HfPcdeYHdrnZG95Gt95xSWwL3EWg2VMMvjGH/6IU
+        G/YZ2Xg/1Apbh17i2zs+e3ofB+tM9ShMxCQaqEtlrEw5zbFUbGp24Fird2Rk7fP1pdF7sz
+        eelDZJqopjQ7GRxGKAZBsAJ5ITqW7RY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-45-MzJLmzJiNoatZxsrxTXkGw-1; Wed, 04 May 2022 12:02:23 -0400
+X-MC-Unique: MzJLmzJiNoatZxsrxTXkGw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35937805F46;
+        Wed,  4 May 2022 16:02:22 +0000 (UTC)
+Received: from [10.18.17.215] (dhcp-17-215.bos.redhat.com [10.18.17.215])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 77B9540CF8EF;
+        Wed,  4 May 2022 16:02:20 +0000 (UTC)
+Message-ID: <379138a0-1721-d6fa-4d1d-cb8d79f28474@redhat.com>
+Date:   Wed, 4 May 2022 12:02:19 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220504073009.GC8204@duo.ucw.cz>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v10 7/8] cgroup/cpuset: Update description of
+ cpuset.cpus.partition in cgroup-v2.rst
+Content-Language: en-US
+To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+References: <20220503162149.1764245-1-longman@redhat.com>
+ <20220503162149.1764245-8-longman@redhat.com>
+ <20220504112552.GA15266@blackbody.suse.cz>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <20220504112552.GA15266@blackbody.suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 04 May 00:30 PDT 2022, Pavel Machek wrote:
+On 5/4/22 07:25, Michal Koutný wrote:
+> Hello.
+>
+> On Tue, May 03, 2022 at 12:21:48PM -0400, Waiman Long <longman@redhat.com> wrote:
+>>   Documentation/admin-guide/cgroup-v2.rst | 145 +++++++++++++-----------
+>>   1 file changed, 79 insertions(+), 66 deletions(-)
+> A note across various lines -- it seems your new text accidentally mixes
+> both spaces and tabs for indentation.
 
-> Hi!
-> 
-> > +/sys/class/leds/<led>/hw_pattern
-> > +--------------------------------
-> > +
-> > +Specify a hardware pattern for a Qualcomm LPG LED.
-> > +
-> > +The pattern is a series of brightness and hold-time pairs, with the hold-time
-> > +expressed in milliseconds. The hold time is a property of the pattern and must
-> > +therefor be identical for each element in the pattern (except for the pauses
-> > +described below).
-> 
-> therefore?
-> 
+You are right. I will fix that.
 
-Yes
+>
+>> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+>> index 69d7a6983f78..94e1e3771830 100644
+>> --- a/Documentation/admin-guide/cgroup-v2.rst
+>> +++ b/Documentation/admin-guide/cgroup-v2.rst
+>> [...]
+>> +	The value shown in "cpuset.cpus.effective" of a partition root is
+>> +	the CPUs that the parent partition root can dedicate to the new
+>> +	partition root.  They are subtracted from "cpuset.cpus.effective"
+>> +	of the parent and may be different from "cpuset.cpus"
+> I find this paragraph a bit hard to comprehend (I read it as it talks
+> about three levels of cgroups (parent, child, grandparent). It is
+> correct but I'd suggect following formulation (where I additionally
+> simplifed it by talking about "available" cpus):
+>
+>> The value shown in "cpuset.cpus.effective" of a partition root is
+>> the CPUs that the partition root can dedicate to a potential new child
+>> partition root. The new child subtracts available CPUs from its parent
+>> "cpuset.cpus.effective".
 
-> > +Simple pattern::
-> > +
-> > +    "255 500 0 500"
-> > +
-> > +        ^
-> > +        |
-> > +    255 +----+    +----+
-> > +        |    |    |    |      ...
-> > +      0 |    +----+    +----
-> > +        +---------------------->
-> > +        0    5   10   15     time (100ms)
-> > +
-> > +The LPG supports specifying a longer hold-time for the first and last element
-> > +in the pattern, the so called "low pause" and "high pause".
-> 
-> Please see
-> Documentation/devicetree/bindings/leds/leds-trigger-pattern.txt . This
-> should really be compatible.
-> 
 
-Unfortunately the LPG hardware only supports fixed duration (except for
-the ability to hold/extend the first and last duration in the pattern)
-and it also does not support gradual transition between the brightness
-levels.
+Thanks for the suggestion, will modify the text as suggested.
 
-As such the pattern sequence provided to hw_pattern looks to be the
-smae, but I don't see that it can be made compatible.
 
-> Can I get either patch to disable pattern infrastructure for now or to
-> get it compatible?
-> 
+>
+>> +	For a partition root to become valid, the following conditions
+>> +	must be met.
+>> +
+>> +	1) The "cpuset.cpus" is exclusive, i.e. they are not shared by
+>> +	   any of its siblings (exclusivity rule).
+>> +	2) The parent cgroup is a valid partition root.
+>> +	3) The "cpuset.cpus" is not empty and must contain at least
+>> +	   one of the CPUs from parent's "cpuset.cpus", i.e. they overlap.
+>> +        4) The "cpuset.cpus.effective" must be a subset of "cpuset.cpus"
+>> +           and cannot be empty unless there is no task associated with
+>> +           this partition.
+> This sounds good to me.
+>
+>> +        Care must be taken to change a valid partition root to "member"
+>> +        as all its child partitions, if present, will become invalid.
+> This does not talk about recovering. Is it intentional? (I.e. to left
+> implementation defined)
 
-I'd be happy to get this updated to your liking, but this was one of the
-drivers we discussed when we introduced the pattern trigger and led to
-the conclusion that we need the ability to do hw-specific patterns.
+This new patch series does have the ability to recover now.  I am just 
+not emphasizing the recovery aspect of it in the doc file. I will add a 
+sentence about it.
 
-As such this document provides the hardware specific documentation, as
-we describe under "hw_pattern" in
-Documentation/ABI/testing/sysfs-class-led-trigger-pattern.
+>
+> Except the remarks above, I find the concepts described here good. I'll
+> reply to implementation separately & later.
 
-Please advice on what you would like me to do.
+Thanks,
+Longman
 
-Regards,
-Bjorn
