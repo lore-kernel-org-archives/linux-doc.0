@@ -2,81 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 774E0C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 04:26:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D12D7C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 04:29:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236869AbiEDE3x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 00:29:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56488 "EHLO
+        id S1344558AbiEDEcj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 00:32:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233383AbiEDE3x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 00:29:53 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F110326567;
-        Tue,  3 May 2022 21:26:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A27F6B82280;
-        Wed,  4 May 2022 04:26:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF2C8C385A4;
-        Wed,  4 May 2022 04:26:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651638375;
-        bh=2grO925VY+hSkPAqlv6IbwcYz8VLaRjVf1Oso1qMAqA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KoCDcdKBjR87YVuMlGi+tTfF8Yy73r2asC5iEP0t8ihdkyU3gx8q5kC/4W0tplzmX
-         6lrgXdW7Mp8r/uzdYEdlVK8mlPiS2ouF7g/Kd7CJsgTeNOOPEz6rJJBNk4qHpmtHZA
-         hLUDP0SLBDO3sFPQXXjLUnE+f/QH7H7axRGU6YtjWSA5M46Z1rVlSsJkp5F33xHC7g
-         BfCuZV9G5dG40HSQqWLROxiQzYQXEmI9zR4l2ybXsGJeQJbSmE1V0WqXKzgdXlF9kP
-         vNoIzW7nptOq68EEoKt/7NnUbAe38hoQ6VkG78n+Ua+wmESgyE9N549sBaMWRBVnFd
-         r+n1FrXYtqwaQ==
-Date:   Wed, 4 May 2022 07:24:50 +0300
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc:     James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>, kernel@pengutronix.de,
-        Pankaj Gupta <pankaj.gupta@nxp.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        David Gstir <david@sigma-star.at>,
-        Richard Weinberger <richard@nod.at>,
-        Franck LENORMAND <franck.lenormand@nxp.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v8 6/6] MAINTAINERS: add myself as CAAM trusted key
- maintainer
-Message-ID: <YnIAEmUKfFxoGlwr@kernel.org>
-References: <20220428140145.870527-1-a.fatoum@pengutronix.de>
- <20220428140145.870527-7-a.fatoum@pengutronix.de>
+        with ESMTP id S1344563AbiEDEch (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 00:32:37 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9531A26AD5;
+        Tue,  3 May 2022 21:28:57 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id d17so426609plg.0;
+        Tue, 03 May 2022 21:28:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=QZv7jD+5fjk8Vawh6DvHYJ+ahvZutcLwH7fZiiHiZyw=;
+        b=Jso0De5bNwc//lqgdmQqnB+Zh9nQgwCN58RWg43w5Ql33c4zC2QiPrAfbAC9KfP+2d
+         3GALSCV6ukS5IyeHDSZESrC54EvB6uOjA5vjOU7P9HKbJ/XegozUG6Q8ziIPVJgwO8SF
+         dE8E0sPCsXGjNjMGbbKnMOO9NARdh8dSQsKG6InlkTzh9MMu3cSz3QCdBKyDJsEmbOp7
+         6Bef7YduWVgSkkyd/ZoDuhiBD9AJD9iSbTrSLWOilbSe9WJP+VfLkjKvf1kwocC0HL6+
+         S8ZsWXqUOD9UPvXvprS6RW+lJmDvp1Eq31jckdGHvImYs9hgpg3/AkUz/yGAAICSUQmk
+         28ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=QZv7jD+5fjk8Vawh6DvHYJ+ahvZutcLwH7fZiiHiZyw=;
+        b=THqzooi3aTchZTueybjcRDJIwoum7ZI+BFbtvxqTwBu/lmQVimvgfk0Tugtw9Ix7Ha
+         ifK7DsXoVEN7nPSOUrncIsXCisnZRRsfk+9YZflYzUFFsoRt9IBWcabi9mmLk43Clu8d
+         FjQj9na1iKRZglhWxYKaELgjEw8n/Y+hAtQrptriOGC9wL705spDnosdWWALIJEg8HGD
+         cE8UhOgYvZ6cjuE2cpxSXLUe9F9rElNE3xy+9qPF8eP9CFhmJN22G6CSYt4CWP4P0waL
+         jyLmAXAs5+JT0x/WvdziSPmcN6n9qEtvAjTdOnc70SgHNtXrPDl87+wbNu6WuZzOCsxb
+         Obfg==
+X-Gm-Message-State: AOAM530fL93d1rT+Ktwxt6b1kl/91KRQEM6wopoBnB8XWt/VPBfeRxqe
+        uBhK7X4+5N24vE8aBpFbmyo=
+X-Google-Smtp-Source: ABdhPJxBosJjQajdsV74540jZx9QulgrSss19Tu62YIXWGYMzhRhhFToCNoBMcqTNvczd7RKluLEDw==
+X-Received: by 2002:a17:90a:b106:b0:1d9:7cde:7914 with SMTP id z6-20020a17090ab10600b001d97cde7914mr8402344pjq.56.1651638537098;
+        Tue, 03 May 2022 21:28:57 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-30.three.co.id. [180.214.233.30])
+        by smtp.gmail.com with ESMTPSA id j12-20020a62e90c000000b0050dc76281e7sm7157486pfh.193.2022.05.03.21.28.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 May 2022 21:28:56 -0700 (PDT)
+Message-ID: <9d8b436a-5d8d-2a53-a2a1-5fbab987e41b@gmail.com>
+Date:   Wed, 4 May 2022 11:28:51 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220428140145.870527-7-a.fatoum@pengutronix.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH net-next] net/core: Remove comment quote for
+ __dev_queue_xmit()
+Content-Language: en-US
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     linux-doc@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
+        Dave Jones <davej@redhat.com>,
+        Randy Dunlap <randy.dunlap@oracle.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Pavel Begunkov <asml.silence@gmail.com>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220503072949.27336-1-bagasdotme@gmail.com>
+ <20220503180341.36dcbb07@kernel.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220503180341.36dcbb07@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"MAINTAINERS: add KEYS-TRUSTED-CAAM"
+On 5/4/22 08:03, Jakub Kicinski wrote:
+> On Tue,  3 May 2022 14:29:49 +0700 Bagas Sanjaya wrote:
+>> - * -----------------------------------------------------------------------------------
+>> - *      I notice this method can also return errors from the queue disciplines,
+>> - *      including NET_XMIT_DROP, which is a positive value.  So, errors can also
+>> - *      be positive.
+>> - *
+>> - *      Regardless of the return value, the skb is consumed, so it is currently
+>> - *      difficult to retry a send to this method.  (You can bump the ref count
+>> - *      before sending to hold a reference for retry if you are careful.)
+>> - *
+>> - *      When calling this method, interrupts MUST be enabled.  This is because
+>> - *      the BH enable code must have IRQs enabled so that it will not deadlock.
+>> - *          --BLG
+>> + *	This method can also return positive errno code from the queue
+>> + *	disciplines (including NET_XMIT_DROP).
+>> + *
+>> + *	Note that regardless of the return value, the skb is consumed
+>> + *	anyway, so it is currently difficult to retry sending to this
+>> + *	method.
+> 
+> Why drop almost half of the comment if the problem is just the ----
+> banner?
 
-On Thu, Apr 28, 2022 at 04:01:45PM +0200, Ahmad Fatoum wrote:
-> Add myself as maintainer for the just added trusted key integration
-> with the NXP Cryptographic Acceleration and Assurance Module.
+I can't think of preserving delineation between actual documentation
+and the quote without messing up kernel-doc.
 
-Please, remove "just added". Also what the heck is this integration
-in this context? It's afaik a process and not any sort of asset.
+Actually the "--BLG" signature is the culprit.
 
-Maybe rephrase the whole paragraph simply:
-
-"Create a maintainer entry for CAAM trusted keys in the Linux keyring."
-
-BR, Jarkko
+-- 
+An old man doll... just what I always wanted! - Clara
