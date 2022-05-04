@@ -2,156 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72680C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 10:48:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06354C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 11:05:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348261AbiEDKwV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 06:52:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57354 "EHLO
+        id S1346849AbiEDLJc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 07:09:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235739AbiEDKwU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 06:52:20 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 838C41E3C7;
-        Wed,  4 May 2022 03:48:45 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1651661324;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Gse6ZyFtiTkctjQAWRHeBSPf14TvnJ2nc5QZOsLjx8k=;
-        b=lbJvplHHyN0WtQuVpu1E8Tgq+Nmvv38AtnIlKnSwvvbO7nwtnoic+LlbTJSp/gPjld2oqp
-        S+SbhlrxQnURvbCl5cEqXb2U6YC85xK+LFCNoFv+64lj/hzST8K1ELo7Zpss0X57K57dQd
-        aOgJXt7b7hbp5NnL2vuu68b7WRlVfj8NtuXxvlaGN0SoDGze70mQ9SVf0iAAMbzaX5gfM/
-        8Tv8n8fFYtwjRG632N7kUkNtIaS+nqvNaXzkEiAYAiruJm8DKFmOHaTjMcjaJ8ZFXOuiXd
-        hSNbXLqN0KPV0kY3I6H2bsP0bOkS47mSL4g6YdH0+5XZNo1L4e1nu8ydHticaQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1651661324;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Gse6ZyFtiTkctjQAWRHeBSPf14TvnJ2nc5QZOsLjx8k=;
-        b=3NLlWMvWQO80kMeVrTyz1icM1GCZMA7nxF6m5u047fQutvMTDwEHsCrTQ4Aic7Ay2TOPtj
-        7UCMBphWcZiq1pBg==
-To:     Tony Luck <tony.luck@intel.com>, hdegoede@redhat.com,
-        markgross@kernel.org
-Cc:     mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
-        jithu.joseph@intel.com, ashok.raj@intel.com, tony.luck@intel.com,
-        rostedt@goodmis.org, dan.j.williams@intel.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
-        ravi.v.shankar@intel.com
-Subject: Re: [PATCH v5 06/10] platform/x86/intel/ifs: Authenticate and copy
- to secured memory
-In-Reply-To: <20220428153849.295779-7-tony.luck@intel.com>
-References: <20220422200219.2843823-1-tony.luck@intel.com>
- <20220428153849.295779-1-tony.luck@intel.com>
- <20220428153849.295779-7-tony.luck@intel.com>
-Date:   Wed, 04 May 2022 12:48:43 +0200
-Message-ID: <87tua5k1ys.ffs@tglx>
-MIME-Version: 1.0
-Content-Type: text/plain
+        with ESMTP id S1348515AbiEDLJb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 07:09:31 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DCB0240B8;
+        Wed,  4 May 2022 04:05:54 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id w5-20020a17090aaf8500b001d74c754128so4900243pjq.0;
+        Wed, 04 May 2022 04:05:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=FuHzk/nIGePrHZXHu5obeBKL4CwmtgVLQ7B81qaX0ec=;
+        b=QEPx7U9hNlI3vRDWKAbDtfXmpeSpovU9WosXOMWPby75hsXz8BF9NJPpYo3SPZmwHd
+         n/Gm3/On5FKA84ftZRrEaLUWoxrAPvc/+zBa2+gmMQfMDBntS3YRP0IlNfTaE+UX/o2F
+         3QZNPYoUEKMzUZzz+TBxu5FwphTwigrUEW3T4jZxk6uAq/TLtFplG+CR/kJ8zCzXFRXm
+         xhCvp73xVaUtWtQfb7uSmfudTePdsyBf9cAeTv/S5xSAmqKOP1PGExdXwVO7Ek8SbpRR
+         zgfNv30iDlnORAwDnTuf+PLC0Ek4bma6TSaPA4TrmX+YkG2vVPV07cFmwFyuhbnkkwfN
+         m0pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=FuHzk/nIGePrHZXHu5obeBKL4CwmtgVLQ7B81qaX0ec=;
+        b=yWUv9F9O9xFaHPlr2DCC7dPEV1aOCzFracVLQj7RgOVSbqYeAoEsoHlSoCGbBElCtL
+         hZsew3t+MiQQaxbLIiaKZqvBzXL9Q/aKtHi6r6yqT5ITUY76CDJADHixNDIHh3oqyMqU
+         6jjMCdc9PzEvt1jPlalFbbhtMJjH5iYr+6v2tZEr0wgk+mp9M+jvNiKHRd58toDEtWAE
+         VAruiWXGw7zoUgNT8811c1YVxGOOa0JDNMnygPw7AxpK0gCeIaF4GhJtD4LG4q0hp6bZ
+         xKi+faxf2qp/ezsxgxKV+hLvU/wdFOTYAUFWrLO2QXiUFNF9Q/KEZezHwPGMoKEK+CpI
+         K+Og==
+X-Gm-Message-State: AOAM530vFZuEzn15bY0FzBdhgY3ZhlYSsoi5Bs6EBDL/j5dO/274cNLU
+        vWdIbnlzs/rr8a8S3PDXapU=
+X-Google-Smtp-Source: ABdhPJzxZ+xobWZQq60DnEg27iH6kRN+0zqq2JznY9vhTdiadAjubYEwreH4wT1gnCSEBBhDMd+WuA==
+X-Received: by 2002:a17:902:f690:b0:15e:9825:291 with SMTP id l16-20020a170902f69000b0015e98250291mr17327173plg.89.1651662353882;
+        Wed, 04 May 2022 04:05:53 -0700 (PDT)
+Received: from smtpclient.apple (164.174.128.101.dy.bbexcite.jp. [101.128.174.164])
+        by smtp.gmail.com with ESMTPSA id w24-20020a1709029a9800b0015ebbaccc46sm2555977plp.159.2022.05.04.04.05.51
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 04 May 2022 04:05:53 -0700 (PDT)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH 0/5] docs/ja_JP/SubmittingPatches: Trace changes in
+ English docs, take 1
+From:   Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+In-Reply-To: <20220503102429.48304-1-akiyks@gmail.com>
+Date:   Wed, 4 May 2022 20:05:49 +0900
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Tsugikazu Shibata <shibata@linuxfoundation.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <2146482E-C509-421F-AF7B-C220F8E1614F@gmail.com>
+References: <20220503102429.48304-1-akiyks@gmail.com>
+To:     Akira Yokosawa <akiyks@gmail.com>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 28 2022 at 08:38, Tony Luck wrote:
-> The IFS image contains hashes that will be used to authenticate the ifs
-> test chunks. First, use WRMSR to copy the hashes and enumerate the number
-> of test chunks, chunk size and the maximum number of cores that can run
-> scan test simultaneously.
->
-> Next, use WRMSR to authenticate each and every scan test chunk which is
-> also stored in the IFS image. The CPU will check if the test chunks match
 
-s/also// ?
 
-> +
-> +/* MSR_CHUNKS_AUTH_STATUS bit fields */
-> +union ifs_chunks_auth_status {
-> +	u64	data;
-> +	struct {
-> +		u32	valid_chunks	:8;
-> +		u32	total_chunks	:8;
-> +		u32	rsvd1		:16;
-> +		u32	error_code	:8;
-> +		u32	rsvd2		:24;
-> +	};
-> +};
-> +
->  /**
->   * struct ifs_data - attributes related to intel IFS driver
->   * @integrity_cap_bit - MSR_INTEGRITY_CAPS bit enumerating this test
-> + * @loaded_version: stores the currently loaded ifs image version.
-> + * @loaded: If a valid test binary has been loaded into the memory
-> + * @loading_error: Error occurred on another CPU while loading image
-> + * @valid_chunks: number of chunks which could be validated.
->   */
->  struct ifs_data {
->  	int integrity_cap_bit;
-> +	int loaded_version;
-> +	bool loaded;
-> +	bool loading_error;
-> +	int valid_chunks;
+> On May 3, 2022, at 19:24, Akira Yokosawa <akiyks@gmail.com> wrote:
+>=20
+> Hi,
+>=20
+> This is the first batch of updates attempting to modernize Japanese
+> SubmittingPatches.  Conversion to ReST will be done later when the
+> corresponding commit doing the conversion is reached.  Pending list
+> of commits is quite long (about 90) and this effort is expected to
+> produce dozens of series.
+>=20
+> List of commits for English (then) SubmittingPatches:
+>=20
+> - f5039935ac68 ("Documentation: update GregKH links")
+> - e52d2e1f25f0 ("Documentation/SubmittingPatches: suggested the use of =
+scripts/get_maintainer.pl")
+> - 755727b7fb1e ("Randy has moved")
+> - 8543ae1296f6 ("checkpatch: add Suggested-by as a standard =
+signature")
+> - 0af5270324cc ("Documentation/SubmittingPatches: Request summaries =
+for commit references")
+>=20
+> Note: Commit db12fb833a88 ("Documentation: fix spelling error in
+> SubmittingPatches") does not affect Japanese translation.
+>=20
+>        Thanks, Akira
+> --
+> Akira Yokosawa (5):
+>  docs/ja_JP/SubmittingPatches: Update GregKH links
+>  docs/ja_JP/SubmittingPatches: Suggest the use of
+>    scripts/get_maintainer.pl
+>  docs/ja_JP/SubmittingPatches: Randy has moved
+>  docs/ja_JP/SubmittingPatches: Add Suggested-by as a standard =
+signature
+>  docs/ja_JP/SubmittingPatches: Request summaries for commit references
+>=20
+> .../translations/ja_JP/SubmittingPatches      | 36 ++++++++++++++-----
+> 1 file changed, 27 insertions(+), 9 deletions(-)
+>=20
+>=20
+> base-commit: 81c653659d34ec253fba7f5d0f430813fe0f643d
+> --=20
+> 2.25.1
+>=20
 
-The above struct is nicely tabular. Can we have that here too please?
+Resending the response to this patch due to misconfiguration of my email =
+client.=20
 
-> +/*
-> + * IFS requires scan chunks authenticated per each socket in the platform.
-> + * Once the test chunk is authenticated, it is automatically copied to secured memory
-> + * and proceed the authentication for the next chunk.
-> + */
-> +static int scan_chunks_sanity_check(struct device *dev)
-> +{
-> +	int metadata_size, curr_pkg, cpu, ret = -ENOMEM;
-> +	struct ifs_data *ifsd = ifs_get_data(dev);
-> +	bool *package_authenticated;
-> +	char *test_ptr;
-> +
-> +	package_authenticated = kcalloc(topology_max_packages(), sizeof(bool), GFP_KERNEL);
-> +	if (!package_authenticated)
-> +		return ret;
-> +
-> +	metadata_size = ifs_header_ptr->metadata_size;
-> +
-> +	/* Spec says that if the Meta Data Size = 0 then it should be treated as 2000 */
-> +	if (metadata_size == 0)
-> +		metadata_size = 2000;
-> +
-> +	/* Scan chunk start must be 256 byte aligned */
-> +	if ((metadata_size + IFS_HEADER_SIZE) % 256) {
-> +		dev_err(dev, "Scan pattern offset within the binary is not 256 byte aligned\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	test_ptr = (char *)ifs_header_ptr + IFS_HEADER_SIZE + metadata_size;
-> +	ifsd->loading_error = false;
-> +
-> +	ifs_test_image_ptr = (u64)test_ptr;
-> +	ifsd->loaded_version = ifs_header_ptr->blob_revision;
-> +
-> +	/* copy the scan hash and authenticate per package */
-> +	cpus_read_lock();
-> +	for_each_online_cpu(cpu) {
-> +		curr_pkg = topology_physical_package_id(cpu);
-> +		if (package_authenticated[curr_pkg])
-> +			continue;
-> +		package_authenticated[curr_pkg] = 1;
+For the series,
 
-Setting the authenticated indicator _before_ actually doing the
-authentication is just wrong. It does not matter in this case, but it's
-still making my eyes bleed.
+Reviewed-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
 
-> +		ret = smp_call_function_single(cpu, copy_hashes_authenticate_chunks,
-> +					       dev, 1);
-
-Why has this to be a smp function call? Just because it's conveniant?
-This is nothing urgent and no hotpath, so this really can use
-queue_work_on().
-
-Thanks,
-
-        tglx
+Best regards,
+Kosuke=
