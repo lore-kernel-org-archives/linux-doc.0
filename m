@@ -2,110 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E509EC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 22:56:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D5EAC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 23:33:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236453AbiEDW6x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 18:58:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46228 "EHLO
+        id S231305AbiEDXgC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 19:36:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379520AbiEDW6J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 18:58:09 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E13053A7F;
-        Wed,  4 May 2022 15:52:03 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id o190so3054250iof.10;
-        Wed, 04 May 2022 15:52:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=N4IM2LeuBxLjZOXI4Ac+itNTVFMU+JztF68jOZmjG9Q=;
-        b=q1aYKbBjaX3cEmdXnV9RE0f59cZqJopxNNmkQ5+M5CRU4vjlKL22zb2e66ZDJSSDFs
-         tyBFpf7BAhvO2MyJ3tdgS392YiOk1hKSAHozAX6LDrjXtxZgXTM9adnM8/qANvw37Z2n
-         NwkTxHvFAOV5ej3T0RHCBg60hUWy9Sspo4sN1XEZmCGbeuArKLs5DTejC/hnhJcd7juj
-         R4uqcOs5S5EJuyz6rJhRxGylwpsbYjAs9kV4HesTFG1rL6Fxhh2pqpSxGq76c4Jtb736
-         JpFQQI/R36/PglqCbmi9cEJf/K1woE2fMPRws/QkX2LKmHubgkt8V+yGytyhk19Rj4si
-         70GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=N4IM2LeuBxLjZOXI4Ac+itNTVFMU+JztF68jOZmjG9Q=;
-        b=k+0QvcsJ4m7oUNeRklPa+DWCf0yJKdumVsYI1R9YJgbvCbFTxNsOq/P6ly9KZI/9qZ
-         6cRyu0Uiofrd+BPXRMiAcbpEyeaBhwZwPqPYArvPyGdMMbu6KQzrSUetBS2lpK9SXfuc
-         lNoXxegZzfGQYdudD4wV9OOVNcUkHlrSARcH59GvARrFY9LpnEjMfomC9cKvyh5n1A+U
-         crWygdaAaxBe+K1S4dVywsmaVRQSDOXcfJbOA+DhC2xK2KjcF9zfpooPgtqRcEhXpZ5m
-         IBVpkEOB//bVmxkzNbdbUnlW24dX2AayBSRKkDI+TC+vWPdHQRXHE45zNPUNBDcCEVIe
-         6EeA==
-X-Gm-Message-State: AOAM531xmqqszg/REhLjGuZEIL3HhxirICPnudpAh0oKZK5Hw2yj4YXQ
-        4EDvfgo9TH1Xeg1KnIHztBY=
-X-Google-Smtp-Source: ABdhPJzriMH8Zg3BqmSxGLS9g9rQRt9WUwBzLpDDk8CXMJ4QPnos7XK8RBHz2OynQMhHnhCCZz/2IQ==
-X-Received: by 2002:a05:6638:24d2:b0:32a:caa9:e679 with SMTP id y18-20020a05663824d200b0032acaa9e679mr10419338jat.41.1651704720842;
-        Wed, 04 May 2022 15:52:00 -0700 (PDT)
-Received: from xps8900.attlocal.net ([2600:1700:2442:6db0:94d4:5fe2:e117:e7c3])
-        by smtp.gmail.com with ESMTPSA id i25-20020a02b699000000b0032b608e2926sm66372jam.9.2022.05.04.15.52.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 15:52:00 -0700 (PDT)
-From:   frowand.list@gmail.com
-To:     Frank Rowand <frowand.list@gmail.com>,
-        David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>, Tim.Bird@sony.com,
-        Brendan Higgins <brendanhiggins@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, rmr167@gmail.com,
-        guillaume.tucker@collabora.com, dlatypov@google.com,
-        kernelci@groups.io, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] ktap_v2: change version to 2-rc in KTAP specification
-Date:   Wed,  4 May 2022 17:51:51 -0500
-Message-Id: <20220504225152.1451440-2-frowand.list@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220504225152.1451440-1-frowand.list@gmail.com>
-References: <20220504225152.1451440-1-frowand.list@gmail.com>
+        with ESMTP id S1380101AbiEDX13 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 19:27:29 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9E5B50B13;
+        Wed,  4 May 2022 16:23:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=z9csiruEF5xbbCJV5LeYL29FmqJAFdz3ZoLv9sjrHrQ=; b=5CK4fQnwZ5a6lvAHhinEALRp/t
+        S43cRzuf6hgQWYVQ1BaliQev7dwRrINVXjS9k+S65XNd2DhoSZjUjVh6M0lYbL2rWbXbKyl4E4ZNw
+        Y/iJ8VeRoPwZISh+iABX3W3HfrLNqZu1Ezh6T+/J3kmh7ySGtSurUk+ZN+Ff/NWcyW/U=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1nmOLI-001HGB-8v; Thu, 05 May 2022 01:23:36 +0200
+Date:   Thu, 5 May 2022 01:23:36 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Ansuel Smith <ansuelsmth@gmail.com>
+Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [RFC PATCH v6 02/11] leds: add function to configure hardware
+ controlled LED
+Message-ID: <YnMK+EZDQXSGDXM1@lunn.ch>
+References: <20220503151633.18760-1-ansuelsmth@gmail.com>
+ <20220503151633.18760-3-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220503151633.18760-3-ansuelsmth@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Frank Rowand <frank.rowand@sony.com>
+> +In SUPPORTED hw_control_configure() should return 0 or 1 if the LED driver supports the
+> +requested blink mode (flags) or not.
 
-Prepare KTAP Specification for the process of creating version 2.
+-EOPNOTSUPP might be clearer.
 
-The version will remain "2-rc" until the final commit to complete
-Version 2.  Adding the "-rc" ensures that none of the development
-versions will be mistaken for the completed version 2.
 
-After this commit, Sphinx complains that we now need more '=' signs:
+> +In ZERO hw_control_configure() should return 0 with success operation or error.
+> +
+> +The unsigned long flag is specific to the trigger and change across them. It's in the LED
+> +driver interest know how to elaborate this flag and to declare support for a
+> +particular trigger. For this exact reason explicit support for the specific
+> +trigger is mandatory or the driver returns -EOPNOTSUPP if asked to enter offload mode
+> +with a not supported trigger.
+> +If the driver returns -EOPNOTSUPP on hw_control_configure(), the trigger activation will
+> +fail as the driver doesn't support that specific offload trigger or doesn't know
+> +how to handle the provided flags.
+> +
+>  Known Issues
+>  ============
+>  
+> diff --git a/include/linux/leds.h b/include/linux/leds.h
+> index 09ff1dc6f48d..b5aad67fecfb 100644
+> --- a/include/linux/leds.h
+> +++ b/include/linux/leds.h
+> @@ -73,6 +73,16 @@ enum led_blink_modes {
+>  	SOFTWARE_HARDWARE_CONTROLLED,
+>  };
+>  
+> +#ifdef CONFIG_LEDS_HARDWARE_CONTROL
+> +enum blink_mode_cmd {
+> +	BLINK_MODE_ENABLE, /* Enable the hardware blink mode */
+> +	BLINK_MODE_DISABLE, /* Disable the hardware blink mode */
+> +	BLINK_MODE_READ, /* Read the status of the hardware blink mode */
+> +	BLINK_MODE_SUPPORTED, /* Ask the driver if the hardware blink mode is supported */
+> +	BLINK_MODE_ZERO, /* Disable any hardware blink active */
+> +};
+> +#endif
 
-  Documentation/dev-tools/ktap.rst:3: WARNING: Title overline too short.
-  ===================================================
-  The Kernel Test Anything Protocol (KTAP), version 2-rc
-  ===================================================
+Skip the #ifdef. The enum itself takes no space if never used, and it
+makes the driver simpler if they always exist.
 
-This warning will disappear in the final commit for the release of
-version 2, when the "-rc" is removed.
+> +
+>  struct led_classdev {
+>  	const char		*name;
+>  	unsigned int brightness;
+> @@ -185,6 +195,17 @@ struct led_classdev {
+>  	 * the old status but that is not mandatory and also putting it off is accepted.
+>  	 */
+>  	int			(*hw_control_stop)(struct led_classdev *led_cdev);
+> +	/* This will be used to configure the various blink modes LED support in hardware
+> +	 * mode.
+> +	 * The LED driver require to support the active trigger and will elaborate the
+> +	 * unsigned long flag and do the operation based on the provided cmd.
+> +	 * Current operation are enable,disable,supported and status.
+> +	 * A trigger will use this to enable or disable the asked blink mode, check the
+> +	 * status of the blink mode or ask if the blink mode can run in hardware mode.
+> +	 */
+> +	int			(*hw_control_configure)(struct led_classdev *led_cdev,
+> +							unsigned long flag,
+> +							enum blink_mode_cmd cmd);
+>  #endif
+>  #endif
+>  
+> @@ -454,6 +475,24 @@ static inline void *led_get_trigger_data(struct led_classdev *led_cdev)
+>  	return led_cdev->trigger_data;
+>  }
+>  
+> +#ifdef CONFIG_LEDS_HARDWARE_CONTROL
+> +static inline bool led_trigger_blink_mode_is_supported(struct led_classdev *led_cdev,
+> +						       unsigned long flag)
+> +{
+> +	int ret;
+> +
+> +	/* Sanity check: make sure led support hw mode */
+> +	if (led_cdev->blink_mode == SOFTWARE_CONTROLLED)
+> +		return false;
+> +
+> +	ret = led_cdev->hw_control_configure(led_cdev, flag, BLINK_MODE_SUPPORTED);
+> +	if (ret > 0)
+> +		return true;
+> +
+> +	return false;
+> +}
+> +#endif
 
-Signed-off-by: Frank Rowand <frank.rowand@sony.com>
----
- Documentation/dev-tools/ktap.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Please add a version which returns false when
+CONFIG_LEDS_HARDWARE_CONTROL is disabled.
 
-diff --git a/Documentation/dev-tools/ktap.rst b/Documentation/dev-tools/ktap.rst
-index 5ee735c6687f..37b5dc61bfb8 100644
---- a/Documentation/dev-tools/ktap.rst
-+++ b/Documentation/dev-tools/ktap.rst
-@@ -1,7 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- ===================================================
--The Kernel Test Anything Protocol (KTAP), version 1
-+The Kernel Test Anything Protocol (KTAP), version 2-rc
- ===================================================
- 
- TAP, or the Test Anything Protocol is a format for specifying test results used
--- 
-Frank Rowand <frank.rowand@sony.com>
+Does this actually need to be an inline function?
 
+     Andrew
