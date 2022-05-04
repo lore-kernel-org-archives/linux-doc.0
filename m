@@ -2,104 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9639C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01066C433F5
 	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 23:35:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235473AbiEDXhu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S234788AbiEDXhu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 4 May 2022 19:37:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39498 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385531AbiEDXIu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 19:08:50 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 295CC14084;
-        Wed,  4 May 2022 16:04:52 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id f4so3093440iov.2;
-        Wed, 04 May 2022 16:04:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=ILzkKB4GFyvmkKkoAzfRz5MTJCTm65HgHQFqL1jHiLk=;
-        b=i/gQfgcmMDtibRhSvwUM/ZTpCzqbjQ9Qm2G+7QUIqK1tyPSHWXUmYcN/Qyyui24NE0
-         HDVDSkPwL7WibbfZoOd3aM6z1du7CJosgr+RNPTU6XgV9vYV20xEdNkI61eSuqd+kgSj
-         1BXy+tGggSySRA9yYoXtZ+dRo4Jb5kW5TBtuxiha84iHr75ChX8QCW1Aqt+Ih6bc1GdN
-         BevtIQ2dhC4sZaizEyA1wJIx0mBVjDOiDgYFYHJFxbFCyx1CwVQzoH8C6Pdxx/rr/s42
-         z2GJv+Tl38zc9qWFHAtwvvFEkDodSXj3/0YPzzOTMKKf5LJrERKVHSfp9GmddqY1a8Q8
-         QNiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=ILzkKB4GFyvmkKkoAzfRz5MTJCTm65HgHQFqL1jHiLk=;
-        b=7USB4VwZmulOhhwvONUG5EBKA0cdVBFQEEfSl5EEcXH8AOA+RWYtf88VmDnpOoO79I
-         BHFqIygWHRNBvipFkaTOe9wd/xxLjiq6jdpLm18zzPjV25VWa/LW6MzClcEwR1NNMtaY
-         dYogMh/4QIOABJW7LHeEFDZHHc1isdr5ZQixanHlVIro7GsNy5hFauMekhQYnTZA1a24
-         2PzOuIiFtLT2EaaTrpn19XLqGKvuybGX6ENUO4rHDlrguEXfXnTmxAn9GP+TFx6OzIz3
-         vVML2keZssOkXEkNCCUq3L7TV5J9/o+MwUv9C3jsN0adJHi1veIK2/I61L/l2aVtJbfM
-         QzIg==
-X-Gm-Message-State: AOAM531mq39Lg2uiOIRiQiy/GOmzekNyxu8wnmBzFJprcQg8IKJ0PI3T
-        +b2Ju5OR6O/Jn+g/Z28/oRM=
-X-Google-Smtp-Source: ABdhPJzKlDN42/enHfqoRythPwvPy3t4d9tW0TI2VEKciXivlkHqQmLUxBKJM0dT2fP8ZO9eepHOjQ==
-X-Received: by 2002:a05:6638:1346:b0:32b:71ec:3a74 with SMTP id u6-20020a056638134600b0032b71ec3a74mr6466213jad.270.1651705491546;
-        Wed, 04 May 2022 16:04:51 -0700 (PDT)
-Received: from ?IPV6:2600:1700:2442:6db0:5871:54:c73e:3c22? ([2600:1700:2442:6db0:5871:54:c73e:3c22])
-        by smtp.gmail.com with ESMTPSA id b35-20020a05663838a300b0032b3a781741sm73199jav.5.2022.05.04.16.04.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 May 2022 16:04:51 -0700 (PDT)
-Message-ID: <cca4e4ae-0a37-83ea-c740-1085b59a3e1c@gmail.com>
-Date:   Wed, 4 May 2022 18:04:49 -0500
+        with ESMTP id S1380372AbiEDX3U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 19:29:20 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46E774F9F8;
+        Wed,  4 May 2022 16:25:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=Jh0E5X0iydVvkz7XqNrDyD+rBDluF5khygQc2zdVasw=; b=EvCZKuuhsTlJaKl2Vmdl8pM0xU
+        Xm6OH+num05/am++VP2ysYeco2LkZanxFlNdXyN9Sqp2W4gkHhZrozisTu/ECfE6teJ30HRZCZVJL
+        ILLlqmAIwrUEr0nudRKMSvuxUB3ZC65hJe6C4CGuBWnQqQgpqmpb6aYL63cx/AnLB024=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1nmON9-001HHB-RH; Thu, 05 May 2022 01:25:31 +0200
+Date:   Thu, 5 May 2022 01:25:31 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Ansuel Smith <ansuelsmth@gmail.com>
+Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [RFC PATCH v6 03/11] leds: trigger: netdev: drop
+ NETDEV_LED_MODE_LINKUP from mode
+Message-ID: <YnMLay1N2KBjC1VE@lunn.ch>
+References: <20220503151633.18760-1-ansuelsmth@gmail.com>
+ <20220503151633.18760-4-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 0/2] begin KTAP spec v2 process
-Content-Language: en-US
-To:     David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>, Tim.Bird@sony.com,
-        Brendan Higgins <brendanhiggins@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, rmr167@gmail.com,
-        guillaume.tucker@collabora.com, dlatypov@google.com,
-        kernelci@groups.io, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220504225152.1451440-1-frowand.list@gmail.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-In-Reply-To: <20220504225152.1451440-1-frowand.list@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220503151633.18760-4-ansuelsmth@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/4/22 17:51, frowand.list@gmail.com wrote:
-> From: Frank Rowand <frank.rowand@sony.com>
-> 
-> The process to create version 2 of the KTAP Specification is documented
-> in email discussions.  I am attempting to capture this information at
-> 
->    https://elinux.org/Test_Results_Format_Notes#KTAP_version_2
-> 
-> I am already not following the suggested process, which says:
-> "...please try to follow this principal of one major topic per email
-> thread."  I think that is ok in this case because the two patches
-> are related and (hopefully) not controversial.
-> 
-> Changes since patch version 1:
->    - drop patch 1/2.  Jonathan Corbet has already applied this patch
->      into version 1 of the Specification
->    - rename patch 2/2 to patch 1/2, with updated patch comment
->    - add new patch 2/2
-> 
-> Frank Rowand (2):
->   ktap_v2: change version to 2-rc in KTAP specification
->   ktap_v2: change "version 1" to "version 2" in examples
-> 
->  Documentation/dev-tools/ktap.rst | 25 +++++++++++++------------
->  1 file changed, 13 insertions(+), 12 deletions(-)
-> 
+On Tue, May 03, 2022 at 05:16:25PM +0200, Ansuel Smith wrote:
+> Drop NETDEV_LED_MODE_LINKUP from mode list and convert to a simple bool
+> that will be true or false based on the carrier link. No functional
+> change intended.
 
-I should note that I will be maintaining a branch of the KTAP Specification version 2
-patches and that they will not be submitted to mainline until we agree on the final
-content of version 2.
+What is missing from the commit message is an explanation why?
+
+     Andrew
