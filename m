@@ -2,282 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23B79C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34051C43219
 	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 23:35:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231366AbiEDXhw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 19:37:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33634 "EHLO
+        id S237922AbiEDXhv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 19:37:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381094AbiEDXSw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 19:18:52 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 582DF15A22;
-        Wed,  4 May 2022 16:15:11 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1651706108;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=zAXVpRwwTqHPHiIb2bR3bIkusSqVy9qjv8p6mQpq15A=;
-        b=rLAYGbm1+ZJXd2B/04KDHruU27nBv9Nhye24v570SNolvMoJzMfsTidnwvMCPC24vpD+4e
-        SEeebHqZR9COsONQNia7rInMuBHK6iFVrBBNYve+fZIzc9joDK11Tr7QqzcMkpF8W8lNlq
-        vzjdJ0qhPigJ3H5y4mEVXY7VPdd856701ydYsv8UP6CyxMJE9yOQ3VIU6Fy2Up28jSeEd3
-        vK8v25HMbz+6YTRKiAIyouB+r4ulmwuscxuLbq4Fqe95sA65LzrBJ+pITTRaElZyNEpgD7
-        wvh8U9wGMg26dSXmI09FFDwxIOUYNtocauCjcEOGiw2HoRO/dVVBtsCvK+5crQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1651706108;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=zAXVpRwwTqHPHiIb2bR3bIkusSqVy9qjv8p6mQpq15A=;
-        b=Q8qTftolWduXH9XEUHghzXb2MC+xyZwQ0qbLByxJXrz/YKAavb4F4TSVrhu3MWag4gh0g0
-        4Q/gQaCvR+rwXkAw==
-To:     "Luck, Tony" <tony.luck@intel.com>
-Cc:     hdegoede@redhat.com, markgross@kernel.org, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, corbet@lwn.net, gregkh@linuxfoundation.org,
-        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
-        ashok.raj@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
-        ravi.v.shankar@intel.com, Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH v5 07/10] platform/x86/intel/ifs: Add scan test support
-In-Reply-To: <YnLLekoripdY2oQU@agluck-desk3.sc.intel.com>
-References: <20220422200219.2843823-1-tony.luck@intel.com>
- <20220428153849.295779-1-tony.luck@intel.com>
- <20220428153849.295779-8-tony.luck@intel.com> <87r159jxaq.ffs@tglx>
- <YnLLekoripdY2oQU@agluck-desk3.sc.intel.com>
-Date:   Thu, 05 May 2022 01:15:07 +0200
-Message-ID: <87tua4j3es.ffs@tglx>
+        with ESMTP id S1382044AbiEDXYx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 19:24:53 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 045B04DF49
+        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 16:21:15 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id t11-20020a17090ad50b00b001d95bf21996so6486372pju.2
+        for <linux-doc@vger.kernel.org>; Wed, 04 May 2022 16:21:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f0BxOsiS7N+HTfWR68wbuI5GyHjxWUqAQAvHwIwW+yE=;
+        b=R5D0DOFVkQco+OK496uEyWM8qRT/qEDa61ADRf8s0rAJeF034c8CBOcJkI9DhSK99P
+         T9KGcuzycnvXcJPNISrJKPRM0NBDojZJdo/30qDInqLY8l2tGI62dZHO/kSe2d29NFi9
+         K7Vu8cNCpHGLqj5AbbquXriJVZ5gqG2e3HHcg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f0BxOsiS7N+HTfWR68wbuI5GyHjxWUqAQAvHwIwW+yE=;
+        b=togft3aFOcEkOWk9XKdSFubEIiFt6pMC7PoyokaylRA3OsjIDmHgakkRC3qbbOBd+r
+         Bq3P+QkmciXAMUg38573WFjb2rJKtQfqdm/Bo31nivJOfnxlQ64UdkuEuMWHw+P4awSR
+         OJ2AVv9dY4frYNrTEGJ3SA2GjVjWVJgkI9K9u1ZUHfw9ffdIVf32tvk7x2KYqZNPoqWM
+         TSreIheY9KxgRduSa+d7hU9GN1F8VvxjCkcuDV2QeJ60Z6F1nvrCGY7AmJwsGIkC1ZVt
+         L4lH5Eayh0k+YJQJT/eKM07il0cMWJK9cpcllt0xAqPQUk314LZSUp5lO4rdVyVe+iDm
+         Xhlg==
+X-Gm-Message-State: AOAM532iKbXJTqRUCKrNTiunaRGYq6YOxWy+qvXNuTKEjtUIZSRWWGbO
+        sdERrs1keSqBgPqU8clmZ7SH6Q==
+X-Google-Smtp-Source: ABdhPJz4iqQo29US5gcPdIjO5OrbAwRmVDtwaNJJOfTh1rXJxFOpVW3YvogErA3bWiWXuRJJXotSlg==
+X-Received: by 2002:a17:90b:4b83:b0:1dc:5073:b704 with SMTP id lr3-20020a17090b4b8300b001dc5073b704mr2397627pjb.94.1651706474455;
+        Wed, 04 May 2022 16:21:14 -0700 (PDT)
+Received: from evgreen-glaptop.lan ([98.47.98.87])
+        by smtp.gmail.com with ESMTPSA id q12-20020a170902f78c00b0015e8d4eb2d6sm1901pln.288.2022.05.04.16.21.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 May 2022 16:21:14 -0700 (PDT)
+From:   Evan Green <evgreen@chromium.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Matthew Garrett <mgarrett@aurora.tech>, dlunev@google.com,
+        zohar@linux.ibm.com, jejb@linux.ibm.com,
+        linux-integrity@vger.kernel.org, corbet@lwn.net, rjw@rjwysocki.net,
+        gwendal@chromium.org, jarkko@kernel.org, linux-pm@vger.kernel.org,
+        Evan Green <evgreen@chromium.org>,
+        David Howells <dhowells@redhat.com>,
+        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Len Brown <len.brown@intel.com>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        Pavel Machek <pavel@ucw.cz>, Peter Huewe <peterhuewe@gmx.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
+        keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: [PATCH 00/10] Encrypted Hibernation
+Date:   Wed,  4 May 2022 16:20:52 -0700
+Message-Id: <20220504232102.469959-1-evgreen@chromium.org>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 04 2022 at 11:52, Luck, Tony wrote:
-> On Wed, May 04, 2022 at 02:29:33PM +0200, Thomas Gleixner wrote:
->> On Thu, Apr 28 2022 at 08:38, Tony Luck wrote:
->> > +
->> > +	/* wait for the sibling threads to join */
->> > +	first = cpumask_first(topology_sibling_cpumask(cpu));
->> > +	if (!wait_for_siblings(dev, ifsd, &siblings_in, NSEC_PER_SEC)) {
->> 
->> Waiting for a second with preemption disabled? Seriously?
->
-> Probably won't ever wait for a second. Any suggestions for a reasonable
-> timeout for how long it might take before both threads on a core begin
-> executing the target code after a pair of:
->
-> 	queue_work_on(sibling, ifs_wq, &local_work[i].w);
->
-> that the request to check this core fired off?
+We are exploring enabling hibernation in some new scenarios. However,
+our security team has a few requirements, listed below:
+1. The hibernate image must be encrypted with protection derived from
+   both the platform (eg TPM) and user authentication data (eg
+   password).
+2. Hibernation must not be a vector by which a malicious userspace can
+   escalate to the kernel.
 
-The real question is why you try to rendevouz CPUs via work queues.
+Requirement #1 can be achieved solely with uswsusp, however requirement
+2 necessitates mechanisms in the kernel to guarantee integrity of the
+hibernate image. The kernel needs a way to authenticate that it generated
+the hibernate image being loaded, and that the image has not been tampered
+with. Adding support for in-kernel AEAD encryption with a TPM-sealed key
+allows us to achieve both requirements with a single computation pass.
 
-The kernel has a well established mechanism to do CPU rendevouz already:
+Matthew Garrett published a series [1] that aligns closely with this
+goal. His series utilized the fact that PCR23 is a resettable PCR that
+can be blocked from access by usermode. The TPM can create a sealed key
+tied to PCR23 in two ways. First, the TPM can attest to the value of
+PCR23 when the key was created, which the kernel can use on resume to
+verify that the kernel must have created the key (since it is the only
+one capable of modifying PCR23). It can also create a policy that enforces
+PCR23 be set to a specific value as a condition of unsealing the key,
+preventing usermode from unsealing the key by talking directly to the
+TPM.
 
-    stomp_machine()
+This series adopts that primitive as a foundation, tweaking and building
+on it a bit. Where Matthew's series used the TPM-backed key to encrypt a
+hash of the image, this series uses the key directly as a gcm(aes)
+encryption key, which the kernel uses to encrypt and decrypt the
+hibernate image in chunks of 16 pages. This provides both encryption and
+integrity, which turns out to be a noticeable performance improvement over
+separate passes for encryption and hashing.
 
-We all hate it with a passion, but it is already doing what you are
-trying to achieve and as the stopper threads run with high priority they
-are not subject to arbitrary scheduling delays which make one CPU wait
-for a long time with preemption disabled.
+The series also introduces the concept of mixing user key material into
+the encryption key. This allows usermode to introduce key material
+based on unspecified external authentication data (in our case derived
+from something like the user password or PIN), without requiring
+usermode to do a separate encryption pass.
 
->> Plus another half a second with preemption disabled. That's just insane.
->
-> Another rounded up value. Experimentally we are seeing the core scan
-> test take aroun 50ms. The spec (I know, we haven't published the spec)
-> says "up to 200ms".
+Matthew also documented issues his series had [2] related to generating
+fake images by booting alternate kernels without the PCR23 limiting.
+With access to PCR23 on the same machine, usermode can create fake
+hibernate images that are indistinguishable to the new kernel from
+genuine ones. His post outlines a solution that involves adding more
+PCRs into the creation data and policy, with some gyrations to make this
+work well on a standard PC.
 
-That's daft. Both the 200ms and the non-published spec, though the latter
-is worse because it's wasting everyones time.
+Our approach would be similar: on our machines PCR 0 indicates whether
+the system is booted in secure/verified mode or developer mode. By
+adding PCR0 to the policy, we can reject hibernate images made in
+developer mode while in verified mode (or vice versa).
 
->> > +	retries = MAX_IFS_RETRIES;
->> > +
->> > +	while (activate.start <= activate.stop) {
->> > +		if (time_after(jiffies, timeout)) {
->> > +			status.error_code = IFS_SW_TIMEOUT;
->> > +			break;
->> > +		}
->> > +
->> > +		local_irq_disable();
->> > +		wrmsrl(MSR_ACTIVATE_SCAN, activate.data);
->> > +		local_irq_enable();
->> 
->> That local_irq_disable() solves what?
->
-> An interrupt will stop the currently running "chunk" of the scan.
-> It is a restartable case. But the concern is that with high rate of
-> interrupts the scan may not complete (or even make any forward
-> progress).
+Additionally, mixing in the user authentication data limits both
+data exfiltration attacks (eg a stolen laptop) and forged hibernation
+image attacks to attackers that already know the authentication data (eg
+user's password). This, combined with our relatively sealed userspace
+(dm-verity on the rootfs), and some judicious clearing of the hibernate
+image (such as across an OS update) further reduce the risk of an online
+attack. The remaining attack space of a forgery from someone with
+physical access to the device and knowledge of the authentication data
+is out of scope for us, given that flipping to developer mode or
+reflashing RO firmware trivially achieves the same thing.
 
-What about NMI/MCE? What happens if the scan triggers an MCE?
+A couple of patches still need to be written on top of this series. The
+generalized functionality to OR in additional PCRs via Kconfig (like PCR
+0 or 5) still needs to be added. We'll also need a patch that disallows
+unencrypted forms of resume from hibernation, to fully close the door
+to malicious userspace. However, I wanted to get this series out first
+and get reactions from upstream before continuing to add to it.
 
-If the scan is stopped, will it be stopped on both hyperthreads?
+[1] https://patchwork.kernel.org/project/linux-pm/cover/20210220013255.1083202-1-matthewgarrett@google.com/
+[2] https://mjg59.dreamwidth.org/58077.html
 
-What happens in the case, when one of the CPUs is slightly behind the
-other:
 
-     CPU A                      CPU B
-     local_irq_disable()
-     wrmsrl(...);
-                                <- Interrupt
-                                   handle_irq();
-                                local_irq_disable();
-                                wrmsrl(...);
+Evan Green (6):
+  security: keys: trusted: Verify creation data
+  PM: hibernate: Add kernel-based encryption
+  PM: hibernate: Use TPM-backed keys to encrypt image
+  PM: hibernate: Mix user key in encrypted hibernate
+  PM: hibernate: Verify the digest encryption key
+  PM: hibernate: seal the encryption key with a PCR policy
 
-Will the interrupt which hit CPU B _after_ CPU A issued the MSR write
-stop the operation on CPU A and make it return?
+Matthew Garrett (4):
+  tpm: Add support for in-kernel resetting of PCRs
+  tpm: Allow PCR 23 to be restricted to kernel-only use
+  security: keys: trusted: Parse out individual components of the key
+    blob
+  security: keys: trusted: Allow storage of PCR values in creation data
 
-If not, then how long is CPU A waiting for CPU B to join the party?
+ Documentation/power/userland-swsusp.rst       |    8 +
+ .../security/keys/trusted-encrypted.rst       |    4 +
+ drivers/char/tpm/Kconfig                      |   10 +
+ drivers/char/tpm/tpm-dev-common.c             |    8 +
+ drivers/char/tpm/tpm-interface.c              |   28 +
+ drivers/char/tpm/tpm.h                        |   23 +
+ drivers/char/tpm/tpm1-cmd.c                   |   69 ++
+ drivers/char/tpm/tpm2-cmd.c                   |   58 +
+ drivers/char/tpm/tpm2-space.c                 |    2 +-
+ include/keys/trusted-type.h                   |    9 +
+ include/linux/tpm.h                           |   12 +
+ include/uapi/linux/suspend_ioctls.h           |   28 +-
+ kernel/power/Kconfig                          |   15 +
+ kernel/power/Makefile                         |    1 +
+ kernel/power/power.h                          |    1 +
+ kernel/power/snapenc.c                        | 1076 +++++++++++++++++
+ kernel/power/snapshot.c                       |    5 +
+ kernel/power/user.c                           |   44 +-
+ kernel/power/user.h                           |  114 ++
+ security/keys/trusted-keys/trusted_tpm1.c     |    9 +
+ security/keys/trusted-keys/trusted_tpm2.c     |  164 ++-
+ 21 files changed, 1670 insertions(+), 18 deletions(-)
+ create mode 100644 kernel/power/snapenc.c
+ create mode 100644 kernel/power/user.h
 
->> > +		/*
->> > +		 * All logical CPUs on this core are now running IFS test. When it completes
->> > +		 * execution or is interrupted, the following RDMSR gets the scan status.
->> > +		 */
->> > +
->> > +		rdmsrl(MSR_SCAN_STATUS, status.data);
->> 
->> Wait. Is that rdmsrl() blocking execution until the scan completes?
->
-> The comment isn't quite accurate here (my fault). The WRMSR doesn't
-> retire until the scan stops (either because it completed, or because
-> some thing happend to stop before all chunks were processed).
+-- 
+2.31.0
 
-I suspected that due to the non-commented local_irq_disable() ...
-
->> If so, what's the stall time here? If not, how is the logic below
->> supposed to work?
->
-> Exact time will depend how many chunks of the scan were completed, and
-> how long they took. I see 50 ms total on current test system.
-
-Per chunk or for all chunks? The interresting part is not the total
-time, the interresting part is the time per chunk.
-
->> Is there anywhere a proper specification of this mechanism? The public
->> available MSR list in the SDM is uselss.
->> 
->> Without proper documentation it's pretty much impossible to review this
->> code and to think about the approach.
-
-...
-
-> Step 2 is the run time test of each core. That requires the near
-> simultaneous execution of:
->
-> 	wrmsrl(MSR_ACTIVATE_SCAN, activate.data);
->
-> on all HT threads on the core. Trivial on parts that do not support
-> HT, or where it is disabled in BIOS. The above code is trying to
-> achieve this "parallel" execution.
-
-How is that supposed to work on a system which has HT enabled in BIOS,
-but disabled on the kernel command line or via /sys/..../smt/control or
-when a HT sibling is offlined temporarily?
-
-I assume it cannot work, but I can't see anything which handles those
-cases.
-
-> The follow-on :
->
-> 	rdmsrl(MSR_SCAN_STATUS, status.data);
->
-> doesn't have to be synchronized ... but handy to do so for when not
-> all chunks were processed and need to loop back to run another
-> activate_scan to continue starting from the interrupted chunk. In
-> the lab, this seems common ... when scanning all cores many of them
-> complete all chunks in a single bite, but several take 2-3 times around
-> the loop before completing.
-
-Is there a timeout for restarting an interrupted chunk?
-
-> As noted above I'm seeing a core test take around 50ms (but spec says
-> up to 200ms). In some environments that doesn't require any special
-> application or system reconfiguration.  It's not much different from
-> time-slicing when you are running more processes (or guests) than you
-> have CPUs. So sysadmins in those environments can use this driver to
-> cylce through cores testing each in turn without any extra steps.
->
-> You've pointed out that the driver disables preemption for insanely
-> long amounts of time ... to use this driver to test cores on a system
-> running applications where that is an issue will require additonal steps
-> to migrate latency critical applications to a different core while the
-> test is in progess, also re-direct interrupts. That seems well beyond the
-> scope of what is possible in a driver without all the information about
-> what workloads are running to pick a new temporary home for processes
-> and interrupts while the core is being tested.
-
-I assume that's all described in Documentation/x86/intel-ifs.rst, which
-was in patch 11/10 and unfortunately got lost in the intertubes.
-
-Coming back to that rendevouz mechanism.
-
-As far as I understand it, but of course my implementation of
-
-   # pdforacle --remote=tony --condense sekrit-ifs-spec.pdf
-
-might be suboptimal, the only hard requirement is to start the
-scan for a particular chunk on all HT threads roughly at the same
-time.
-
-But there is no hard requirement that the individual chunks are started
-right after each other or that a restart of an for whatever reason
-interrupted chunk happens 'immediately'.
-
-If that's the case and anything else would be an insanity, then you can
-do something like this:
-
-static DEFINE_PER_CPU(struct ifs_status, ifs_status);
-
-int do_test(int cpu, struct device *dev)
-{
-        const struct cpumask *mask;
-        struct ifsdata data;
-
-        cpus_read_lock();
-        mask = topology_sibling_cpumask(cpu);
-        if (!sane(mask))
-        	goto fail;
-
-        for_each_cpu(sibling, mask)
-        	init_ifs_status(sibling);
-
-        init_data(data, dev);
-
-        while (data.chunk < data.max_chunks) {
-        	ret = stomp_cpumask(mask, doscan, data);
-
-                if (!ret) {
-                        data.chunk++;
-                	continue;
-                }
-
-                // Analyze per CPU ifs_status to either
-                // restart or abort with proper information
-                // about the reason to abort
-                .....
-        }
-        ....
-
-We don't have stomp_cpumask() today, but that's trivial enough to
-implement. Yes, we want to avoid expanding stomp_machine(), but trying
-to resemble stomp_machine() with work queues is worse by several orders
-of magnitude.
-
-doscan() will boil down to:
-
-    wrmsrl(RUN_SCAM, data->chunk);
-    rdmsrl(STA_SCAM, status);
-    this_cpu_write(ifs_status, status);
-    return status ? -ECRAP : 0;
-
-plus the required commentry which will be an order of magnitude more
-lines than the actual code above.
-
-Thanks,
-
-        tglx
