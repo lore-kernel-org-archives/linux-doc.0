@@ -2,98 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E4EAC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 05:19:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 516C0C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 05:57:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243355AbiEEFXX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 01:23:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53548 "EHLO
+        id S243985AbiEEGAr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 02:00:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243354AbiEEFXX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 01:23:23 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C96F325289;
-        Wed,  4 May 2022 22:19:44 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id p4so3949459edx.0;
-        Wed, 04 May 2022 22:19:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:to:cc:references
-         :from:in-reply-to:content-transfer-encoding;
-        bh=gDZB9prqVEcRFYfiG16SNiYfWZ6Q9f/8/MXT90OAgZ8=;
-        b=bv9KrtI3RA77JCJVR2qt7R5lnHFDu+Xe8/ZzP7+c46p0aPbKfRKCzlskn2fYlLXDTD
-         EZEcFYBV2bGdscBMqAydn1lpdTN8CYEqXQrQfaZRsUWFoln5WbmJnN+ke+2Kzbm4jmIg
-         8TeRZS/kGxau2ZNysPi+30BdSdKVccx0KK75D210v3SD3kiAhMtSzjj1wNrfKaF2fno7
-         Y807dkWXxhGp3Fy5mXM1ml1AHdyfvuf/kSaS+udKJOJnXw27hYkx0pbgBkOoqJRwqQc8
-         Ekjl1Tq1wh71koCvu6S4JVDh6+p0xStScb32bz87plJt77nAYhOta8hFw1HcVUNiOSdQ
-         vSbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :to:cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=gDZB9prqVEcRFYfiG16SNiYfWZ6Q9f/8/MXT90OAgZ8=;
-        b=iemVji4ORRHELATagIAqSDeBnCc/TrP76xZmtXzO2sBc8yh7tvBj9+ZqHdUsmeznap
-         YNYZp9PqrGDl9QGs9FOyL/CThovkfTlcCN2TsbTYn+rcfvgIHGjjTH3cyuoZuLpN7A2F
-         HpnIITTO1VnVGQd/hRAcNWqAUzCF30Fi1hvU6AJi1cvHzGBriEnAQ30u+8e2TGX7Ndy2
-         m3ADvcUqlpAnsJiJHgZp0NhxzfU6pJJlOmSa3rWh/VM7a3DOSnGLUgLB0JG13vgc1Ctf
-         BzISUKTV5d1ojMUHjMSOcm+qd7Wo7Y5JB2N50V3fdfgX6fReGJWQL3U6gkmWsLRkDSIH
-         ricw==
-X-Gm-Message-State: AOAM5306nC5Y2rkfxeOSE5Fe/reDehjSpoJ/OwFE82IzPVtSKG8zkoVt
-        YxyxgoVw8ghunz9caAIJkDI=
-X-Google-Smtp-Source: ABdhPJwLXgyXMU8n4ziKV1g4zpamdPhfaEMCo/cW+4nZdSp3Auy4zRSa6TJUEDujyzGieTQSjs+oLw==
-X-Received: by 2002:a05:6402:2692:b0:427:ddba:d811 with SMTP id w18-20020a056402269200b00427ddbad811mr14604494edd.343.1651727983284;
-        Wed, 04 May 2022 22:19:43 -0700 (PDT)
-Received: from [192.168.26.149] (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
-        by smtp.googlemail.com with ESMTPSA id v16-20020a17090690d000b006f3ef214da8sm343529ejw.14.2022.05.04.22.19.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 May 2022 22:19:42 -0700 (PDT)
-Message-ID: <235aa025-7c12-f7e1-d788-9a2ef97f664f@gmail.com>
-Date:   Thu, 5 May 2022 07:19:41 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101
- Thunderbird/96.0
-Subject: Re: [PATCH 1/4] dt-bindings: net: add bitfield defines for Ethernet
- speeds
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        devicetree@vger.kernel.org, netdev@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
+        with ESMTP id S230024AbiEEGAq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 02:00:46 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 495F629C86;
+        Wed,  4 May 2022 22:57:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=0RNEm5+NEN7w925eokqd3iQQhIS/p5lgAQiqOzj0AqU=; b=bpPQHauP0GZlNt0nhaYRYMQd3o
+        CKwArj2r5bWsVVV9QTcAiG640anvOGmiyynASSWVxl3B6LE3yjbdxrni2KF08ELfEiIU9p+fd2jhQ
+        1uNxD6vkdcF0lNf9uZnIqkV41MItkS79TmI1DpdTe91eW9whq3bJiO84G7oWQhAaerHBwaouRZ0PW
+        A3N/Ebz6NiCFh77/rTSM+cA1+fXt6IYH7WR2bKL6ingkU6mjQs3ayUmt2/uSOtxjx5GQTLFKr1jIv
+        KJjHmEbxT1y81iSSe7ucdPTSF8sYqHUp4rFia8UxOMbMcSQVx+gFtsN2noS6D3Tw1B6bRT50i3mPS
+        Pnh6VbXA==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nmUU0-00E7Vg-Tl; Thu, 05 May 2022 05:57:00 +0000
+Date:   Wed, 4 May 2022 22:57:00 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Daniel Latypov <dlatypov@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Cc:     David Gow <davidgow@google.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        John Crispin <john@phrozen.org>, linux-doc@vger.kernel.org
-References: <20220503153613.15320-1-zajec5@gmail.com>
-From:   =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-In-Reply-To: <20220503153613.15320-1-zajec5@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2] kunit: Taint kernel if any tests run
+Message-ID: <YnNnLIZDxkNwECv+@bombadil.infradead.org>
+References: <20220429043913.626647-1-davidgow@google.com>
+ <20220430030019.803481-1-davidgow@google.com>
+ <Ym7P7mCoMiQq99EM@bombadil.infradead.org>
+ <Ym7QXOMK3fLQ+b6t@bombadil.infradead.org>
+ <CABVgOSmXyN3SrDkUt4y_TaKPvEGVJgbuE3ycrVDa-Kt1NFGH7g@mail.gmail.com>
+ <YnKS3MwNxvEi73OP@bombadil.infradead.org>
+ <CAGS_qxrz1WoUd5oGa7p1-H2mQVbkRxSTEbqnCG=aBj=xnMu1zQ@mail.gmail.com>
+ <YnLJ6dJQBTYjBRHZ@bombadil.infradead.org>
+ <CAGS_qxoFECVJD3Jby1eTWG741hBWuotuEM78PU-qfyvp-nLV7Q@mail.gmail.com>
+ <YnLsPgbQ7CHiannN@bombadil.infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YnLsPgbQ7CHiannN@bombadil.infradead.org>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3.05.2022 17:36, Rafał Miłecki wrote:
-> From: Rafał Miłecki <rafal@milecki.pl>
+On Wed, May 04, 2022 at 02:12:30PM -0700, Luis Chamberlain wrote:
+> On Wed, May 04, 2022 at 02:19:59PM -0500, Daniel Latypov wrote:
+> > On Wed, May 4, 2022 at 1:46 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> > > OK so, we can just skip tainting considerations for selftests which
+> > > don't use modules for now. There may be selftests which do wonky
+> > > things in userspace but indeed I agree the userspace taint would
+> > > be better for those but I don't think it may be worth bother
+> > > worrying about those at this point in time.
+> > >
+> > > But my point in that sharing a taint between kunit / selftests modules
+> > > does make sense and is easily possible. The unfortunate aspect is just
+> > 
+> > Yes, I 100% agree that we should share a taint for kernelspace testing
+> > from both kunit/kselftest.
+> > Someone running the system won't care what framework was used.
 > 
-> This allows specifying multiple Ethernet speeds in a single DT uint32
-> value.
+> OK do you mind doing the nasty work of manually adding the new
+> MODULE_TAINT() to the selftests as part of your effort?
 > 
-> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+> *Alternatively*, if we *moved* all sefltests modules to a new
+> lib/debug/selftests/ directory or something like that then t would
+> seem modpost *could* add the taint flag automagically for us without
+> having to edit or require it on new drivers. We have similar type of
+> taint for staging, see add_staging_flag().
+> 
+> I would *highly* prefer this approach, event though it is more work,
+> because I think this is a step we should take anyway.
+> 
+> However, I just checked modules on lib/ and well, some of them are
+> already in their own directory, like lib/math/test_div64.c. So not
+> sure, maybe just move a few modules which are just in lib/*.c for now
+> and then just sprinkle the MODULE_TAINT() to the others?
 
-Ansuel please check if my patchset conflicts in any way with your work.
+I *think* we could just pull this off with a much easier approach,
+simply looking for the substrings in the module name in modpost.c:
 
-Andrew suggested to combine both but right now I don't see it as
-necessary.
+  * "_test." || "-test."
+  * ^"test_" || ^"test-"
 
-I'd still appreciate your review of my work. Such binding may be
-required for some hardware controlled LEDs setup too I guess.
+An issue with this of course is a vendor $FOO with an out of tree
+test driver may end up with the taint. Perhaps we don't care.
+
+That means moving selftests to its own directory is not needed at this
+point in time.
+
+  Luis
