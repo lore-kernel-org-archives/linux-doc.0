@@ -2,93 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBE10C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 04:49:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E4EAC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 05:19:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236408AbiEEExM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 00:53:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34374 "EHLO
+        id S243355AbiEEFXX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 01:23:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235492AbiEEExJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 00:53:09 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB15C3F88A
-        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 21:49:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=kLCBVCmT5KkJQLwDEkVNu+Ri0GbKXrf5Pqq5oqmV3ZA=; b=pPEWQrlw+uQQXrDZm1Yp/VMtIA
-        M8BXeLRh1y9vEGPoY3gqZzUXDQhjtw08XRD6mN3YW+/wpu8XLz0lFp9Ull5MFSdal4u290x2H+4S+
-        goFz7i/iF+BdpWaQb48QH0JHMd8U6tG7qUWm/sxO4z699Od8IEiBlE6ruBm76uKrJ3Hi71JUc8z/9
-        ZHg9nL3cGyOmZxgBL34bMKmN97N93jm6tFx0NzzV649CGQOaZH2nwcIN7JqgFxi3F4CF1nysk9Sjy
-        IUk8sGWbxjHYXpKh1A4lwb/33Zov0k8pOAkEPdwlPWxu7KmB8moH1h54nqynaaLppyf/aEhwx6FfT
-        C4xCR9Eg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nmTQa-00HGql-7Y; Thu, 05 May 2022 04:49:24 +0000
-Date:   Thu, 5 May 2022 05:49:24 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     John Hubbard <jhubbard@nvidia.com>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] mm,doc: Add new documentation structure
-Message-ID: <YnNXVAr5RFtoA8Y3@casper.infradead.org>
-References: <20220503063032.3680308-1-willy@infradead.org>
- <20c73284-66e5-8e3a-aa78-01f982720aea@nvidia.com>
- <YnLiKnVdBFYLtCJe@casper.infradead.org>
- <7628c3d7-9b5a-f3b1-1a05-a348e701c171@infradead.org>
+        with ESMTP id S243354AbiEEFXX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 01:23:23 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C96F325289;
+        Wed,  4 May 2022 22:19:44 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id p4so3949459edx.0;
+        Wed, 04 May 2022 22:19:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:to:cc:references
+         :from:in-reply-to:content-transfer-encoding;
+        bh=gDZB9prqVEcRFYfiG16SNiYfWZ6Q9f/8/MXT90OAgZ8=;
+        b=bv9KrtI3RA77JCJVR2qt7R5lnHFDu+Xe8/ZzP7+c46p0aPbKfRKCzlskn2fYlLXDTD
+         EZEcFYBV2bGdscBMqAydn1lpdTN8CYEqXQrQfaZRsUWFoln5WbmJnN+ke+2Kzbm4jmIg
+         8TeRZS/kGxau2ZNysPi+30BdSdKVccx0KK75D210v3SD3kiAhMtSzjj1wNrfKaF2fno7
+         Y807dkWXxhGp3Fy5mXM1ml1AHdyfvuf/kSaS+udKJOJnXw27hYkx0pbgBkOoqJRwqQc8
+         Ekjl1Tq1wh71koCvu6S4JVDh6+p0xStScb32bz87plJt77nAYhOta8hFw1HcVUNiOSdQ
+         vSbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :to:cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=gDZB9prqVEcRFYfiG16SNiYfWZ6Q9f/8/MXT90OAgZ8=;
+        b=iemVji4ORRHELATagIAqSDeBnCc/TrP76xZmtXzO2sBc8yh7tvBj9+ZqHdUsmeznap
+         YNYZp9PqrGDl9QGs9FOyL/CThovkfTlcCN2TsbTYn+rcfvgIHGjjTH3cyuoZuLpN7A2F
+         HpnIITTO1VnVGQd/hRAcNWqAUzCF30Fi1hvU6AJi1cvHzGBriEnAQ30u+8e2TGX7Ndy2
+         m3ADvcUqlpAnsJiJHgZp0NhxzfU6pJJlOmSa3rWh/VM7a3DOSnGLUgLB0JG13vgc1Ctf
+         BzISUKTV5d1ojMUHjMSOcm+qd7Wo7Y5JB2N50V3fdfgX6fReGJWQL3U6gkmWsLRkDSIH
+         ricw==
+X-Gm-Message-State: AOAM5306nC5Y2rkfxeOSE5Fe/reDehjSpoJ/OwFE82IzPVtSKG8zkoVt
+        YxyxgoVw8ghunz9caAIJkDI=
+X-Google-Smtp-Source: ABdhPJwLXgyXMU8n4ziKV1g4zpamdPhfaEMCo/cW+4nZdSp3Auy4zRSa6TJUEDujyzGieTQSjs+oLw==
+X-Received: by 2002:a05:6402:2692:b0:427:ddba:d811 with SMTP id w18-20020a056402269200b00427ddbad811mr14604494edd.343.1651727983284;
+        Wed, 04 May 2022 22:19:43 -0700 (PDT)
+Received: from [192.168.26.149] (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
+        by smtp.googlemail.com with ESMTPSA id v16-20020a17090690d000b006f3ef214da8sm343529ejw.14.2022.05.04.22.19.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 May 2022 22:19:42 -0700 (PDT)
+Message-ID: <235aa025-7c12-f7e1-d788-9a2ef97f664f@gmail.com>
+Date:   Thu, 5 May 2022 07:19:41 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7628c3d7-9b5a-f3b1-1a05-a348e701c171@infradead.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101
+ Thunderbird/96.0
+Subject: Re: [PATCH 1/4] dt-bindings: net: add bitfield defines for Ethernet
+ speeds
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        John Crispin <john@phrozen.org>, linux-doc@vger.kernel.org
+References: <20220503153613.15320-1-zajec5@gmail.com>
+From:   =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+In-Reply-To: <20220503153613.15320-1-zajec5@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 04, 2022 at 09:43:04PM -0700, Randy Dunlap wrote:
+On 3.05.2022 17:36, Rafał Miłecki wrote:
+> From: Rafał Miłecki <rafal@milecki.pl>
 > 
+> This allows specifying multiple Ethernet speeds in a single DT uint32
+> value.
 > 
-> On 5/4/22 13:29, Matthew Wilcox wrote:
-> > On Wed, May 04, 2022 at 06:12:09AM -0700, John Hubbard wrote:
-> >> This needs to be properly merged with the existing index. Otherwise
-> >> the result here is very confusing because there are two summaries
-> >> and no explanation of what is going on here.
-> >>
-> >> If I get a moment today, I'll take a quick shot at at merging them,
-> >> and post some suggestions here, but just wanted to point that out
-> >> before this goes in as-is.
-> > 
-> > John and I have chatted to understand what he was getting at here,
-> > but haven't had a chance to review this change in-person yet.
-> > 
-> > +++ b/Documentation/vm/index.rst
-> > @@ -2,6 +2,9 @@
-> >  Linux Memory Management Documentation
-> >  =====================================
-> > 
-> > +Memory Management Guide
-> > +=======================
-> > +
-> >  This is a guide to understanding the memory management subsystem
-> >  of Linux.  If you are looking for advice on simply allocating memory,
-> >  see the :ref:`memory_allocation`.  For controlling and tuning guides,
-> > @@ -24,10 +27,14 @@ see the :doc:`admin guide <../admin-guide/mm/index>`.
-> >     shmfs
-> >     oom
-> >  
-> > -This is a collection of documents about the Linux memory management (mm)
-> > -subsystem internals with different level of details ranging from notes and
-> > -mailing list responses for elaborating descriptions of data structures and
-> > -algorithms.
-> > +Legacy Documentation
-> > +====================
-> > +
-> > +This is a collection of older documents about the Linux memory management
-> > +(mm) subsystem internals with different level of details ranging from
-> 
-> I prefer (MM).
-> Otherwise LGTM.
+> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
 
-Heh, I just moved that around; it's how it was before.  I have no
-preference here, so I'll just change it to be the way you like it.
-Thanks!
+Ansuel please check if my patchset conflicts in any way with your work.
+
+Andrew suggested to combine both but right now I don't see it as
+necessary.
+
+I'd still appreciate your review of my work. Such binding may be
+required for some hardware controlled LEDs setup too I guess.
