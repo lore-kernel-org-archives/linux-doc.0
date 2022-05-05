@@ -2,201 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70C9EC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  4 May 2022 23:37:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43A4DC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 00:06:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239327AbiEDXhw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 19:37:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41816 "EHLO
+        id S230072AbiEEAKX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 20:10:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382913AbiEDXZO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 19:25:14 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AAA94EA17
-        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 16:21:36 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id iq10so2607342pjb.0
-        for <linux-doc@vger.kernel.org>; Wed, 04 May 2022 16:21:36 -0700 (PDT)
+        with ESMTP id S231415AbiEEAKQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 20:10:16 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87A4E562E6
+        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 17:04:03 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id q76so2367048pgq.10
+        for <linux-doc@vger.kernel.org>; Wed, 04 May 2022 17:04:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=oSCDp+BlWHOAe2tqoHinPSSzUxabaz3SWirbYWgZ7iE=;
-        b=AK96nFD2jq9As8QRqe4ZZgrKB3muSxd4UKPDu0PiPgxZCEkF09YM3a/lbxSE2Aolhc
-         8/11YUs8xGSuIa13K4FNjPmrXP32NRaFX2/fqhw5ycNjYisg1PBFJZiM4dKkwgF7l4SI
-         8V/qwibG9N2Kolpq0e2PDsUZD0WN7jb8AqoT4=
+        d=linuxfoundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CqsigwUJFKlnytpQ1Jy6F2ijHqljosWDgLfk+F7d57k=;
+        b=YuT85oCYk2g6XazqjmT1dK18Z3DqFlEZrszgqzoA9ArQPHadR4SBvRSW3mEk6Divvu
+         E1015XRwDsF5/VgwjMsmE5l8tNlyACTbzNPIZ0MPWp5SUzDnLPGk9ZPN7l+pyAN4uwfk
+         L4MTYNV+ED3vxmb73CNAHQhv4wFnVNxoKYnDQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=oSCDp+BlWHOAe2tqoHinPSSzUxabaz3SWirbYWgZ7iE=;
-        b=bmkpQ+SncDVJYjCb5CjEpCod+rDc5zNatz4YWfgu2a8UjiSdYdfCwX95saKG6n4nvK
-         jHuYKOVr0M4TSuphzwVOURui3X2KkiUQFAikR/ltQtaReCthT+/ppohzylpl+kyp1j2W
-         o9adwFamEr+9jZLjp2sVaL8nRFcGv+nwi3XOI4yc6sWHLzLrT9hOR/dMvVxxe/sgW4oP
-         1z8LR4Wx7v7T469fTVmuU/E5rvcEx1QZlZTi6f+8ZH/+PY9gm2eT/vEumRiL4nD7crH3
-         fvaG81GIyQYEpqmt9UGBS5BYvss2pHfykVsyDOK3+N0N9EdHVYoVCmK8RKEw/49TpR5O
-         VO3w==
-X-Gm-Message-State: AOAM531tgv/FSMPJgFJYpNaplr7lkAY8rzAug2reW+X7GpCWRPvpoUT0
-        sW2cJZQH1kbKKNzdvvH+bfUj9Q==
-X-Google-Smtp-Source: ABdhPJyWCNX/I16qyW4fvcathhxcuAgJ0GjSbW0c5vLuKr3I6Bnp2rIZfhNKLxSoEtDyFcQM2HOpmw==
-X-Received: by 2002:a17:902:7e01:b0:15e:caea:d6 with SMTP id b1-20020a1709027e0100b0015ecaea00d6mr4372912plm.33.1651706495884;
-        Wed, 04 May 2022 16:21:35 -0700 (PDT)
-Received: from evgreen-glaptop.lan ([98.47.98.87])
-        by smtp.gmail.com with ESMTPSA id q12-20020a170902f78c00b0015e8d4eb2d6sm1901pln.288.2022.05.04.16.21.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 16:21:35 -0700 (PDT)
-From:   Evan Green <evgreen@chromium.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Matthew Garrett <mgarrett@aurora.tech>, dlunev@google.com,
-        zohar@linux.ibm.com, jejb@linux.ibm.com,
-        linux-integrity@vger.kernel.org, corbet@lwn.net, rjw@rjwysocki.net,
-        gwendal@chromium.org, jarkko@kernel.org, linux-pm@vger.kernel.org,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Evan Green <evgreen@chromium.org>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: [PATCH 04/10] security: keys: trusted: Allow storage of PCR values in creation data
-Date:   Wed,  4 May 2022 16:20:56 -0700
-Message-Id: <20220504161439.4.I32591db064b6cdc91850d777f363c9d05c985b39@changeid>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20220504232102.469959-1-evgreen@chromium.org>
-References: <20220504232102.469959-1-evgreen@chromium.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CqsigwUJFKlnytpQ1Jy6F2ijHqljosWDgLfk+F7d57k=;
+        b=0MmMPXF0NRdeD4n8aTc3hhRgO2fR7jUbYV2ZeBGjslOwUHDwY5pNUkjyGcjEx/1+Ph
+         6SEYGjbfYIDwuXNMQw5H4WfDNuDpad+pfPlVy0UeJsz5wYP/hocbwarR+LqmPRsdiMDu
+         ElH4UpGBammfcn7kTWkymcZf4GT683EbW6TrZYaQzAPjVb5p+Sp3gr0fwV+p95XRV0Yi
+         ljDPAcHuafMLrqZF15FNeyeqRv9j/oMKG1xrj6jplpDjUkI3lWgBJEMGzdUfZ46gdN8R
+         2fAYV57loqXwUtA7ab3phqarZiQ1kbt61ClofJbpK4ktZur5LlyIv/iCFntHwpTYlI2O
+         7CMw==
+X-Gm-Message-State: AOAM531BYJvdkEk+GeatwV0Aq8CfrcYKz9O42tXBgFKYZL4afx+WPb/Z
+        Boq+gRkrwaz7RUNDQedWIbD0OyMjRxSNHGiQmdDnVWYNG0cHow==
+X-Google-Smtp-Source: ABdhPJwOTwHXqLBFLks7kg9f9lp1vjEit5/A35jklPA5XjIBHhSwNZKb07eOxk4x30s/MsWtpzrzwFp46v68+uh0BXs=
+X-Received: by 2002:a63:5752:0:b0:3c2:1c59:666f with SMTP id
+ h18-20020a635752000000b003c21c59666fmr13978898pgm.59.1651709043026; Wed, 04
+ May 2022 17:04:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220503102429.48304-1-akiyks@gmail.com> <2146482E-C509-421F-AF7B-C220F8E1614F@gmail.com>
+In-Reply-To: <2146482E-C509-421F-AF7B-C220F8E1614F@gmail.com>
+From:   Tsugikazu Shibata <shibata@linuxfoundation.org>
+Date:   Thu, 5 May 2022 09:03:51 +0900
+Message-ID: <CAO+cJp2DOawa0FOjU5nkZo=xnYbEXbpPuKZsP8QkDromZnBndA@mail.gmail.com>
+Subject: Re: [PATCH 0/5] docs/ja_JP/SubmittingPatches: Trace changes in
+ English docs, take 1
+To:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+Cc:     Akira Yokosawa <akiyks@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Matthew Garrett <matthewgarrett@google.com>
+On Wed, May 4, 2022 at 8:05 PM Kosuke Fujimoto
+<fujimotokosuke0@gmail.com> wrote:
+>
+>
+>
+> > On May 3, 2022, at 19:24, Akira Yokosawa <akiyks@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > This is the first batch of updates attempting to modernize Japanese
+> > SubmittingPatches.  Conversion to ReST will be done later when the
+> > corresponding commit doing the conversion is reached.  Pending list
+> > of commits is quite long (about 90) and this effort is expected to
+> > produce dozens of series.
+> >
+> > List of commits for English (then) SubmittingPatches:
+> >
+> > - f5039935ac68 ("Documentation: update GregKH links")
+> > - e52d2e1f25f0 ("Documentation/SubmittingPatches: suggested the use of scripts/get_maintainer.pl")
+> > - 755727b7fb1e ("Randy has moved")
+> > - 8543ae1296f6 ("checkpatch: add Suggested-by as a standard signature")
+> > - 0af5270324cc ("Documentation/SubmittingPatches: Request summaries for commit references")
+> >
+> > Note: Commit db12fb833a88 ("Documentation: fix spelling error in
+> > SubmittingPatches") does not affect Japanese translation.
+> >
+> >        Thanks, Akira
+> > --
+> > Akira Yokosawa (5):
+> >  docs/ja_JP/SubmittingPatches: Update GregKH links
+> >  docs/ja_JP/SubmittingPatches: Suggest the use of
+> >    scripts/get_maintainer.pl
+> >  docs/ja_JP/SubmittingPatches: Randy has moved
+> >  docs/ja_JP/SubmittingPatches: Add Suggested-by as a standard signature
+> >  docs/ja_JP/SubmittingPatches: Request summaries for commit references
+> >
+> > .../translations/ja_JP/SubmittingPatches      | 36 ++++++++++++++-----
+> > 1 file changed, 27 insertions(+), 9 deletions(-)
+> >
+> >
+> > base-commit: 81c653659d34ec253fba7f5d0f430813fe0f643d
+> > --
+> > 2.25.1
+> >
+>
+> Resending the response to this patch due to misconfiguration of my email client.
+>
+> For the series,
+>
+> Reviewed-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
+>
+> Best regards,
+> Kosuke
 
-When TPMs generate keys, they can also generate some information
-describing the state of the PCRs at creation time. This data can then
-later be certified by the TPM, allowing verification of the PCR values.
-This allows us to determine the state of the system at the time a key
-was generated. Add an additional argument to the trusted key creation
-options, allowing the user to provide the set of PCRs that should have
-their values incorporated into the creation data.
+Plan of doing follow up chagens at first and then conversion to ReST
+sounds good.
+I'll continue to review your changes.
 
-From: Matthew Garrett <mjg59@google.com>
-Signed-off-by: Matthew Garrett <mjg59@google.com>
+Acked-by: Tsugikazu Shibata <shibata@linuxfoundation.org>
 
-Signed-off-by: Evan Green <evgreen@chromium.org>
----
-Matthew's original version of this patch is at:
-https://patchwork.kernel.org/patch/12096503/
-
- .../security/keys/trusted-encrypted.rst       |  4 +++
- include/keys/trusted-type.h                   |  1 +
- security/keys/trusted-keys/trusted_tpm1.c     |  9 +++++++
- security/keys/trusted-keys/trusted_tpm2.c     | 25 +++++++++++++++++--
- 4 files changed, 37 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-index f614dad7de12f9..7215b067bf128f 100644
---- a/Documentation/security/keys/trusted-encrypted.rst
-+++ b/Documentation/security/keys/trusted-encrypted.rst
-@@ -170,6 +170,10 @@ Usage::
-        policyhandle= handle to an authorization policy session that defines the
-                      same policy and with the same hash algorithm as was used to
-                      seal the key.
-+       creationpcrs= hex integer representing the set of PCR values to be
-+                     included in the PCR creation data. The bit corresponding
-+		     to each PCR should be 1 to be included, 0 to be ignored.
-+		     TPM2 only.
- 
- "keyctl print" returns an ascii hex copy of the sealed key, which is in standard
- TPM_STORED_DATA format.  The key length for new keys are always in bytes.
-diff --git a/include/keys/trusted-type.h b/include/keys/trusted-type.h
-index 8a793ae1ad9f70..b3ac4afe8ba987 100644
---- a/include/keys/trusted-type.h
-+++ b/include/keys/trusted-type.h
-@@ -54,6 +54,7 @@ struct trusted_key_options {
- 	uint32_t policydigest_len;
- 	unsigned char policydigest[MAX_DIGEST_SIZE];
- 	uint32_t policyhandle;
-+	uint32_t creation_pcrs;
- };
- 
- struct trusted_key_ops {
-diff --git a/security/keys/trusted-keys/trusted_tpm1.c b/security/keys/trusted-keys/trusted_tpm1.c
-index aa108bea6739b3..2975827c01bec0 100644
---- a/security/keys/trusted-keys/trusted_tpm1.c
-+++ b/security/keys/trusted-keys/trusted_tpm1.c
-@@ -713,6 +713,7 @@ enum {
- 	Opt_hash,
- 	Opt_policydigest,
- 	Opt_policyhandle,
-+	Opt_creationpcrs,
- };
- 
- static const match_table_t key_tokens = {
-@@ -725,6 +726,7 @@ static const match_table_t key_tokens = {
- 	{Opt_hash, "hash=%s"},
- 	{Opt_policydigest, "policydigest=%s"},
- 	{Opt_policyhandle, "policyhandle=%s"},
-+	{Opt_creationpcrs, "creationpcrs=%s"},
- 	{Opt_err, NULL}
- };
- 
-@@ -858,6 +860,13 @@ static int getoptions(char *c, struct trusted_key_payload *pay,
- 				return -EINVAL;
- 			opt->policyhandle = handle;
- 			break;
-+		case Opt_creationpcrs:
-+			if (!tpm2)
-+				return -EINVAL;
-+			res = kstrtoint(args[0].from, 16, &opt->creation_pcrs);
-+			if (res < 0)
-+				return -EINVAL;
-+			break;
- 		default:
- 			return -EINVAL;
- 		}
-diff --git a/security/keys/trusted-keys/trusted_tpm2.c b/security/keys/trusted-keys/trusted_tpm2.c
-index 296a00f872ba40..b7ddb78e644d17 100644
---- a/security/keys/trusted-keys/trusted_tpm2.c
-+++ b/security/keys/trusted-keys/trusted_tpm2.c
-@@ -290,7 +290,7 @@ int tpm2_seal_trusted(struct tpm_chip *chip,
- 	struct tpm_buf buf;
- 	u32 hash;
- 	u32 flags;
--	int i;
-+	int i, j;
- 	int rc;
- 
- 	for (i = 0; i < ARRAY_SIZE(tpm2_hash_map); i++) {
-@@ -359,7 +359,28 @@ int tpm2_seal_trusted(struct tpm_chip *chip,
- 	tpm_buf_append_u16(&buf, 0);
- 
- 	/* creation PCR */
--	tpm_buf_append_u32(&buf, 0);
-+	if (options->creation_pcrs) {
-+		/* One bank */
-+		tpm_buf_append_u32(&buf, 1);
-+		/* Which bank to use */
-+		tpm_buf_append_u16(&buf, hash);
-+		/* Length of the PCR bitmask */
-+		tpm_buf_append_u8(&buf, 3);
-+		/* PCR bitmask */
-+		for (i = 0; i < 3; i++) {
-+			char tmp = 0;
-+
-+			for (j = 0; j < 8; j++) {
-+				char bit = (i * 8) + j;
-+
-+				if (options->creation_pcrs & (1 << bit))
-+					tmp |= (1 << j);
-+			}
-+			tpm_buf_append_u8(&buf, tmp);
-+		}
-+	} else {
-+		tpm_buf_append_u32(&buf, 0);
-+	}
- 
- 	if (buf.flags & TPM_BUF_OVERFLOW) {
- 		rc = -E2BIG;
--- 
-2.31.0
-
+Thank you for your patches.
+Tsugikazu Shibata
