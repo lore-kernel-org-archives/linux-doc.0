@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F08DC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 09:20:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EBB1C4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 09:20:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352829AbiEEJYS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 05:24:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34030 "EHLO
+        id S1352518AbiEEJYU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 05:24:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352794AbiEEJXv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 05:23:51 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 414434E390;
-        Thu,  5 May 2022 02:20:12 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.54])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Kv7Rs6K1Zz1JBvP;
-        Thu,  5 May 2022 17:19:05 +0800 (CST)
+        with ESMTP id S1352846AbiEEJX6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 05:23:58 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F053ADB0;
+        Thu,  5 May 2022 02:20:16 -0700 (PDT)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Kv7Rx6MB9zfbMF;
+        Thu,  5 May 2022 17:19:09 +0800 (CST)
 Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 5 May 2022 17:20:10 +0800
+ 15.1.2375.24; Thu, 5 May 2022 17:20:14 +0800
 Received: from thunder-town.china.huawei.com (10.174.178.55) by
  dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 5 May 2022 17:20:09 +0800
+ 15.1.2375.24; Thu, 5 May 2022 17:20:13 +0800
 From:   Zhen Lei <thunder.leizhen@huawei.com>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -47,9 +47,9 @@ CC:     Zhen Lei <thunder.leizhen@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>,
         "John Donnelly" <John.p.donnelly@oracle.com>,
         Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: [PATCH v23 2/6] arm64: Use insert_resource() to simplify code
-Date:   Thu, 5 May 2022 17:18:41 +0800
-Message-ID: <20220505091845.167-3-thunder.leizhen@huawei.com>
+Subject: [PATCH v23 6/6] docs: kdump: Update the crashkernel description for arm64
+Date:   Thu, 5 May 2022 17:18:45 +0800
+Message-ID: <20220505091845.167-7-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 In-Reply-To: <20220505091845.167-1-thunder.leizhen@huawei.com>
 References: <20220505091845.167-1-thunder.leizhen@huawei.com>
@@ -64,68 +64,49 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-insert_resource() traverses the subtree layer by layer from the root node
-until a proper location is found. Compared with request_resource(), the
-parent node does not need to be determined in advance.
-
-In addition, move the insertion of node 'crashk_res' into function
-reserve_crashkernel() to make the associated code close together.
+Now arm64 has added support for "crashkernel=X,high" and
+"crashkernel=Y,low". Unlike x86, crash low memory is not allocated if
+"crashkernel=Y,low" is not specified.
 
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-Acked-by: John Donnelly  <john.p.donnelly@oracle.com>
-Acked-by: Baoquan He <bhe@redhat.com>
 ---
- arch/arm64/kernel/setup.c | 17 +++--------------
- arch/arm64/mm/init.c      |  1 +
- 2 files changed, 4 insertions(+), 14 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
-index 3505789cf4bd92a..fea3223704b6339 100644
---- a/arch/arm64/kernel/setup.c
-+++ b/arch/arm64/kernel/setup.c
-@@ -225,6 +225,8 @@ static void __init request_standard_resources(void)
- 	kernel_code.end     = __pa_symbol(__init_begin - 1);
- 	kernel_data.start   = __pa_symbol(_sdata);
- 	kernel_data.end     = __pa_symbol(_end - 1);
-+	insert_resource(&iomem_resource, &kernel_code);
-+	insert_resource(&iomem_resource, &kernel_data);
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 3f1cc5e317ed4a5..aa44c61114aa4b8 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -808,7 +808,7 @@
+ 			Documentation/admin-guide/kdump/kdump.rst for an example.
  
- 	num_standard_resources = memblock.memory.cnt;
- 	res_size = num_standard_resources * sizeof(*standard_resources);
-@@ -246,20 +248,7 @@ static void __init request_standard_resources(void)
- 			res->end = __pfn_to_phys(memblock_region_memory_end_pfn(region)) - 1;
- 		}
+ 	crashkernel=size[KMG],high
+-			[KNL, X86-64] range could be above 4G. Allow kernel
++			[KNL, X86-64, ARM64] range could be above 4G. Allow kernel
+ 			to allocate physical memory region from top, so could
+ 			be above 4G if system have more than 4G ram installed.
+ 			Otherwise memory region will be allocated below 4G, if
+@@ -821,7 +821,7 @@
+ 			that require some amount of low memory, e.g. swiotlb
+ 			requires at least 64M+32K low memory, also enough extra
+ 			low memory is needed to make sure DMA buffers for 32-bit
+-			devices won't run out. Kernel would try to allocate at
++			devices won't run out. Kernel would try to allocate
+ 			at least 256M below 4G automatically.
+ 			This one let user to specify own low range under 4G
+ 			for second kernel instead.
+@@ -829,6 +829,11 @@
+ 			It will be ignored when crashkernel=X,high is not used
+ 			or memory reserved is below 4G.
  
--		request_resource(&iomem_resource, res);
--
--		if (kernel_code.start >= res->start &&
--		    kernel_code.end <= res->end)
--			request_resource(res, &kernel_code);
--		if (kernel_data.start >= res->start &&
--		    kernel_data.end <= res->end)
--			request_resource(res, &kernel_data);
--#ifdef CONFIG_KEXEC_CORE
--		/* Userspace will find "Crash kernel" region in /proc/iomem. */
--		if (crashk_res.end && crashk_res.start >= res->start &&
--		    crashk_res.end <= res->end)
--			request_resource(res, &crashk_res);
--#endif
-+		insert_resource(&iomem_resource, res);
- 	}
- }
++			[KNL, ARM64] range in low memory.
++			This one let user to specify a low range in DMA zone for
++			crash dump kernel.
++			It will be ignored when crashkernel=X,high is not used.
++
+ 	cryptomgr.notests
+ 			[KNL] Disable crypto self-tests
  
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 1e7b1550e2fcebb..51863f1448c6989 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -137,6 +137,7 @@ static void __init reserve_crashkernel(void)
- 	kmemleak_ignore_phys(crash_base);
- 	crashk_res.start = crash_base;
- 	crashk_res.end = crash_base + crash_size - 1;
-+	insert_resource(&iomem_resource, &crashk_res);
- }
- 
- /*
 -- 
 2.25.1
 
