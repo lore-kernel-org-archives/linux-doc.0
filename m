@@ -2,299 +2,230 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAA76C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 02:36:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A40EC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 03:02:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239617AbiEECjo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 22:39:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48864 "EHLO
+        id S240331AbiEEDFr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 23:05:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238249AbiEECjn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 22:39:43 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 609C13DDD5
-        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 19:36:01 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id a15-20020a17090ad80f00b001dc2e23ad84so6773547pjv.4
-        for <linux-doc@vger.kernel.org>; Wed, 04 May 2022 19:36:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=vfI9dRRrbRWZEeFgPNImhpqkxo6j6rN6qd6JDTcnQxw=;
-        b=Ha469BA+EztXs1J5u+pIVSs9eibLGz9Cmo3ynM9BCj+IvH/ogfVI5HiaZYE6en2nvj
-         WTAUcGDra+crky6JsFdF693+Ef8DC0OXTDEBkRjFLd5sYWq1yHOlxugnagLhfcv077BF
-         l0YKa3jrch2i4MEGHCrQAeIetCXo93xRSF3YdvD3dG1pdBH2707IiA1UPL73kwrKPK/H
-         qwpihjYhgqoNAOaFBLDzteJKxuoD8bRelG7Dpb3dIZVT2/jc+6Hlu4d2jy7gWb8FZBax
-         jDmiqHRVtuYtIj1lR1bJJemgu60ttLw9WmZymLxKMK6xkIOKB8qvkYeFezmuJ5P8broo
-         P8Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=vfI9dRRrbRWZEeFgPNImhpqkxo6j6rN6qd6JDTcnQxw=;
-        b=4zjLl+5DTW2PyCBODHSamwBD20d1YwfQ4mj4QzzuhSOnrZtORlELpTeLmu3WuB+fHa
-         sHtfM6AAX+F+HdKxcIiwIWm6YqJ5mvRCuE8cwUlU1Fs4w4RWxyuIgwV3v2AdgfgWj5c5
-         y1QMbACIKVlTb/VZzIJsjW1gZaLO4JFGB5x64gWStloV6LQ60390PdHL7asFwUmPJHc5
-         nAhETbMsQS/9RmA1tWjJRFiJJNd6cEZMkaXgCKdzchuLfutKn1yhPny2r28phAxxPtIM
-         t8rT2NIndKFQXYtgKcKBGNu7ULBuBC/8CLENdVyxtf1pTElBWDQv+5bhv+tiL5xrMUUG
-         rk8Q==
-X-Gm-Message-State: AOAM533GjuzV+QCukbBMrsUHIyS8HW2UIsoC3WfTl8yor1xLDrtHBMTQ
-        cctHV7yEZDKvmeAW/qxQFf8HlA==
-X-Google-Smtp-Source: ABdhPJx2E2xMRskXq0h26rr/xhvddkVY2w5PvONji5NxAbW+D8aGP8lPvgzDzp8vCw+ivYJmTaJNDw==
-X-Received: by 2002:a17:90b:3ec7:b0:1dc:b008:3cd3 with SMTP id rm7-20020a17090b3ec700b001dcb0083cd3mr3325056pjb.226.1651718160754;
-        Wed, 04 May 2022 19:36:00 -0700 (PDT)
-Received: from localhost ([139.177.225.234])
-        by smtp.gmail.com with ESMTPSA id q5-20020a170902edc500b0015e8d4eb2cfsm177398plk.281.2022.05.04.19.35.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 19:36:00 -0700 (PDT)
-Date:   Thu, 5 May 2022 10:35:57 +0800
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
-        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v9 4/4] mm: hugetlb_vmemmap: add hugetlb_optimize_vmemmap
- sysctl
-Message-ID: <YnM4DRFhdD6iZIs1@FVFYT0MHHV2J.googleapis.com>
-References: <20220429121816.37541-1-songmuchun@bytedance.com>
- <20220429121816.37541-5-songmuchun@bytedance.com>
- <eadec7de-2e1a-2fb3-3317-c7b492a84e2b@oracle.com>
+        with ESMTP id S240322AbiEEDFp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 23:05:45 -0400
+X-Greylist: delayed 80 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 04 May 2022 20:02:02 PDT
+Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [170.10.133.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1306D252A9
+        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 20:02:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1651719720;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=kXbvduo1+pXP2xsQyJhB2ESjMhg7t8jVXPIOUihsXiA=;
+        b=Y2+TZ4zm/QBSuiwkFQB9N+kwWRrZMvFrhFoqSHJDMD8kg2WOgDVGuszkMK7UF0Ei9wK6Mb
+        OD9mGUVOSJFveKTxhsULThswpqdPkKeZLkKozubE2aq0jKHZUMzTuejGIb50XAfuchZAn6
+        AxRDiSELb6bpcU8BUdD7dgUxsOqG5Rc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-352-2UwQDUfUOkCZSKV-5UDNDQ-1; Wed, 04 May 2022 23:00:25 -0400
+X-MC-Unique: 2UwQDUfUOkCZSKV-5UDNDQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6FF7038041C1;
+        Thu,  5 May 2022 03:00:24 +0000 (UTC)
+Received: from localhost (ovpn-12-197.pek2.redhat.com [10.72.12.197])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id C29EF40D2822;
+        Thu,  5 May 2022 03:00:22 +0000 (UTC)
+Date:   Thu, 5 May 2022 11:00:19 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v22 5/9] arm64: kdump: Reimplement crashkernel=X
+Message-ID: <YnM9w69l5dbE+k15@MiWiFi-R3L-srv>
+References: <Ymk34NsIFqUgfk3b@arm.com>
+ <ae7211ad-e2ac-f5b1-5aa0-701802132e73@huawei.com>
+ <YmlphvZVMsGfFksp@arm.com>
+ <YmoMvV1wzHT5V1aw@MiWiFi-R3L-srv>
+ <YmoPhvkXQFZQOcIO@MiWiFi-R3L-srv>
+ <3fc41a94-4247-40f3-14e7-f11e3001ec33@huawei.com>
+ <YmtaiJhwIgP6m2Sk@MiWiFi-R3L-srv>
+ <a9c736a0-f2b3-5b8a-94d9-80742ccd2700@huawei.com>
+ <23e2dcf4-4e9a-5298-d5d8-8761b0bbbe21@huawei.com>
+ <YnGmCwaWkvCrJoU2@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <eadec7de-2e1a-2fb3-3317-c7b492a84e2b@oracle.com>
+In-Reply-To: <YnGmCwaWkvCrJoU2@arm.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 04, 2022 at 03:12:39PM -0700, Mike Kravetz wrote:
-> On 4/29/22 05:18, Muchun Song wrote:
-> > We must add hugetlb_free_vmemmap=on (or "off") to the boot cmdline and
-> > reboot the server to enable or disable the feature of optimizing vmemmap
-> > pages associated with HugeTLB pages.  However, rebooting usually takes a
-> > long time.  So add a sysctl to enable or disable the feature at runtime
-> > without rebooting.  Why we need this?  There are 3 use cases.
-> > 
-> > 1) The feature of minimizing overhead of struct page associated with each
-> > HugeTLB is disabled by default without passing "hugetlb_free_vmemmap=on"
-> > to the boot cmdline. When we (ByteDance) deliver the servers to the
-> > users who want to enable this feature, they have to configure the grub
-> > (change boot cmdline) and reboot the servers, whereas rebooting usually
-> > takes a long time (we have thousands of servers).  It's a very bad
-> > experience for the users.  So we need a approach to enable this feature
-> > after rebooting. This is a use case in our practical environment.
-> > 
-> > 2) Some use cases are that HugeTLB pages are allocated 'on the fly'
-> > instead of being pulled from the HugeTLB pool, those workloads would be
-> > affected with this feature enabled.  Those workloads could be identified
-> > by the characteristics of they never explicitly allocating huge pages
-> > with 'nr_hugepages' but only set 'nr_overcommit_hugepages' and then let
-> > the pages be allocated from the buddy allocator at fault time.  We can
-> > confirm it is a real use case from the commit 099730d67417.  For those
-> > workloads, the page fault time could be ~2x slower than before. We
-> > suspect those users want to disable this feature if the system has enabled
-> > this before and they don't think the memory savings benefit is enough to
-> > make up for the performance drop.
-> > 
-> > 3) If the workload which wants vmemmap pages to be optimized and the
-> > workload which wants to set 'nr_overcommit_hugepages' and does not want
-> > the extera overhead at fault time when the overcommitted pages be
-> > allocated from the buddy allocator are deployed in the same server.
-> > The user could enable this feature and set 'nr_hugepages' and
-> > 'nr_overcommit_hugepages', then disable the feature.  In this case,
-> > the overcommited HugeTLB pages will not encounter the extra overhead
-> > at fault time.
-> > 
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  Documentation/admin-guide/sysctl/vm.rst | 30 +++++++++++
-> >  include/linux/memory_hotplug.h          |  9 ++++
-> >  mm/hugetlb_vmemmap.c                    | 92 +++++++++++++++++++++++++++++----
-> >  mm/hugetlb_vmemmap.h                    |  4 +-
-> >  mm/memory_hotplug.c                     |  7 +--
-> >  5 files changed, 126 insertions(+), 16 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> > index 747e325ebcd0..00434789cf26 100644
-> > --- a/Documentation/admin-guide/sysctl/vm.rst
-> > +++ b/Documentation/admin-guide/sysctl/vm.rst
-> > @@ -562,6 +562,36 @@ Change the minimum size of the hugepage pool.
-> >  See Documentation/admin-guide/mm/hugetlbpage.rst
-> >  
-> >  
-> > +hugetlb_optimize_vmemmap
-> > +========================
-> > +
-> > +Enable (set to 1) or disable (set to 0) the feature of optimizing vmemmap pages
-> > +associated with each HugeTLB page.
+On 05/03/22 at 11:00pm, Catalin Marinas wrote:
+> On Fri, Apr 29, 2022 at 04:25:37PM +0800, Leizhen (ThunderTown) wrote:
+> > On 2022/4/29 16:02, Leizhen (ThunderTown) wrote:
+> > > On 2022/4/29 11:24, Baoquan He wrote:
+> > >> On 04/28/22 at 05:33pm, Leizhen (ThunderTown) wrote:
+> > >>> On 2022/4/28 11:52, Baoquan He wrote:
+> > >>>> On 04/28/22 at 11:40am, Baoquan He wrote:
+> > >>>>> On 04/27/22 at 05:04pm, Catalin Marinas wrote:
+> > >>>>>> There will be some difference as the 4G limit doesn't always hold for
+> > >>>>>> arm64 (though it's true in most cases). Anyway, we can probably simplify
+> > >>>>>> things a bit while following the documented behaviour:
+> > >>>>>>
+> > >>>>>> 	crashkernel=Y		- current behaviour within ZONE_DMA
+> > >>>>>> 	crashkernel=Y,high	- allocate from above ZONE_DMA
+> > >>>>>> 	crashkernel=Y,low	- allocate within ZONE_DMA
+> [...]
+> > >>>>> Sorry to interrupt. Seems the ,high ,low and fallback are main concerns
+> > >>>>> about this version. And I have the same concerns about them which comes
+> > >>>>> from below points:
+> > >>>>> 1) we may need to take best effort to keep ,high, ,low behaviour
+> > >>>>> consistent on all ARCHes. Otherwise user/admin may be confused when they
+> > >>>>> deploy/configure kdump on different machines of different ARCHes in the
+> > >>>>> same LAB. I think we should try to avoid the confusion.
 > 
-> Should we mention that "memory_hotplug.memmap_on_memory" or an unusual system
-> config that results in struct page not being a power of 2 will prevent
-> enabling?
->
+> I guess by all arches you mean just x86 here. Since the code is not
+> generic, all arches do their own stuff.
 
-Good question. I think maybe it is better to clarify that this knob exists when
-memory_hotplug.memmap_on_memory (kernel parameter) is disabled and the size of
-"struct page" must be power of 2 (an unusual system config that could results
-in this).
- 
-> > +
-> > +Once enabled, the vmemmap pages of subsequent allocation of HugeTLB pages from
-> > +buddy allocator will be optimized (7 pages per 2MB HugeTLB page and 4095 pages
-> > +per 1GB HugeTLB page), whereas already allocated HugeTLB pages will not be
-> > +optimized.  When those optimized HugeTLB pages are freed from the HugeTLB pool
-> > +to the buddy allocator, the vmemmap pages representing that range needs to be
-> > +remapped again and the vmemmap pages discarded earlier need to be rellocated
-> > +again.  If your use case is that HugeTLB pages are allocated 'on the fly' (e.g.
-> > +never explicitly allocating HugeTLB pages with 'nr_hugepages' but only set
-> > +'nr_overcommit_hugepages', those overcommitted HugeTLB pages are allocated 'on
-> > +the fly') instead of being pulled from the HugeTLB pool, you should weigh the
-> > +benefits of memory savings against the more overhead (~2x slower than before)
-> > +of allocation or freeing HugeTLB pages between the HugeTLB pool and the buddy
-> > +allocator.  Another behavior to note is that if the system is under heavy memory
-> > +pressure, it could prevent the user from freeing HugeTLB pages from the HugeTLB
-> > +pool to the buddy allocator since the allocation of vmemmap pages could be
-> > +failed, you have to retry later if your system encounter this situation.
-> > +
-> > +Once disabled, the vmemmap pages of subsequent allocation of HugeTLB pages from
-> > +buddy allocator will not be optimized meaning the extra overhead at allocation
-> > +time from buddy allocator disappears, whereas already optimized HugeTLB pages
-> > +will not be affected.  If you want to make sure there is no optimized HugeTLB
-> > +pages, you can set "nr_hugepages" to 0 first and then disable this.
+Right. Since currently only x86 has crashkernel,high|low support. From
+the distros and customer's point of view, we would like to see the same
+feature has the same or similar behaviour. This will ease operation and
+maintaining. E.g on the cloud platform, the base of it could be any
+ARCH, x86, arm64. The inconsistent behaviour could cause confusion.
+Certainly, the underlying implementation may be different.
+
+Surely, if arm64 has its own manner because of reasons, we can
+add document to note that.
+
 > 
-> Thank you for adding this documentation.
+> > > OK, I plan to remove optimization, fallback and default low size, to follow the
+> > > suggestion of Catalin first. But there's one minor point of contention.
+> > > 
+> > > 1)    Both "crashkernel=X,high" and "crashkernel=X,low" must be present.
+> > > 2)    Both "crashkernel=X,high" and "crashkernel=X,low" are present.
+> > >    or
+> > >       Allow "crashkernel=X,high" to be present alone. Unlike x86, the default low size is zero.
+> > > 
+> > > I prefer 2), how about you?
 > 
-> We may want to clarify that last statement about making sure there are no
-> optimized HugeTLB pages.  Writing 0 to nr_hugepages will make any "in use"
-> HugeTLB pages become surplus pages.  So, those surplus pages are still
-> optimized until they are no longer in use.  You would need to wait for
-> those surplus pages to be released before there are no optimized pages in
-> the system.
->
-
-I didn't realize this, I'll add this into documentation, Thanks.
- 
-> > +
-> > +
-> >  nr_hugepages_mempolicy
-> >  ======================
-> >  
-> > diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
-> > index 029fb7e26504..917112661b5c 100644
-> > --- a/include/linux/memory_hotplug.h
-> > +++ b/include/linux/memory_hotplug.h
-> > @@ -351,4 +351,13 @@ void arch_remove_linear_mapping(u64 start, u64 size);
-> >  extern bool mhp_supports_memmap_on_memory(unsigned long size);
-> >  #endif /* CONFIG_MEMORY_HOTPLUG */
-> >  
-> > +#ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
-> > +bool mhp_memmap_on_memory(void);
-> > +#else
-> > +static inline bool mhp_memmap_on_memory(void)
-> > +{
-> > +	return false;
-> > +}
-> > +#endif
-> > +
-> >  #endif /* __LINUX_MEMORY_HOTPLUG_H */
-> > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> > index cc4ec752ec16..5820a681a724 100644
-> > --- a/mm/hugetlb_vmemmap.c
-> > +++ b/mm/hugetlb_vmemmap.c
-> > @@ -10,6 +10,7 @@
-> >   */
-> >  #define pr_fmt(fmt)	"HugeTLB: " fmt
-> >  
-> > +#include <linux/memory_hotplug.h>
-> >  #include "hugetlb_vmemmap.h"
-> >  
-> >  /*
-> > @@ -22,21 +23,40 @@
-> >  #define RESERVE_VMEMMAP_NR		1U
-> >  #define RESERVE_VMEMMAP_SIZE		(RESERVE_VMEMMAP_NR << PAGE_SHIFT)
-> >  
-> > +enum vmemmap_optimize_mode {
-> > +	VMEMMAP_OPTIMIZE_OFF,
-> > +	VMEMMAP_OPTIMIZE_ON,
-> > +};
-> > +
-> >  DEFINE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON,
-> >  			hugetlb_optimize_vmemmap_key);
-> >  EXPORT_SYMBOL(hugetlb_optimize_vmemmap_key);
-> >  
-> > +static enum vmemmap_optimize_mode vmemmap_optimize_mode =
-> > +	IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON);
-> > +
-> > +static void vmemmap_optimize_mode_switch(enum vmemmap_optimize_mode to)
-> > +{
-> > +	if (vmemmap_optimize_mode == to)
-> > +		return;
-> > +
-> > +	if (to == VMEMMAP_OPTIMIZE_OFF)
-> > +		static_branch_dec(&hugetlb_optimize_vmemmap_key);
-> > +	else
-> > +		static_branch_inc(&hugetlb_optimize_vmemmap_key);
-> > +	vmemmap_optimize_mode = to;
-> > +}
-> > +
-> >  static int __init hugetlb_vmemmap_early_param(char *buf)
-> >  {
-> >  	bool enable;
-> > +	enum vmemmap_optimize_mode mode;
-> >  
-> >  	if (kstrtobool(buf, &enable))
-> >  		return -EINVAL;
-> >  
-> > -	if (enable)
-> > -		static_branch_enable(&hugetlb_optimize_vmemmap_key);
-> > -	else
-> > -		static_branch_disable(&hugetlb_optimize_vmemmap_key);
-> > +	mode = enable ? VMEMMAP_OPTIMIZE_ON : VMEMMAP_OPTIMIZE_OFF;
-> > +	vmemmap_optimize_mode_switch(mode);
-> >  
-> >  	return 0;
-> >  }
-> > @@ -60,6 +80,8 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
-> >  	vmemmap_end	= vmemmap_addr + (vmemmap_pages << PAGE_SHIFT);
-> >  	vmemmap_reuse	= vmemmap_addr - PAGE_SIZE;
-> >  
-> > +	VM_BUG_ON_PAGE(!vmemmap_pages, head);
-> > +
-> >  	/*
-> >  	 * The pages which the vmemmap virtual address range [@vmemmap_addr,
-> >  	 * @vmemmap_end) are mapped to are freed to the buddy allocator, and
-> > @@ -69,8 +91,10 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
-> >  	 */
-> >  	ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
-> >  				  GFP_KERNEL | __GFP_NORETRY | __GFP_THISNODE);
-> > -	if (!ret)
-> > +	if (!ret) {
-> >  		ClearHPageVmemmapOptimized(head);
-> > +		static_branch_dec(&hugetlb_optimize_vmemmap_key);
-> > +	}
-> >  
-> >  	return ret;
-> >  }
-> > @@ -84,6 +108,8 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
-> >  	if (!vmemmap_pages)
-> >  		return;
-> >  
-> > +	static_branch_inc(&hugetlb_optimize_vmemmap_key);
+> (2) works for me as well. We keep these simple as "expert" options and
+> allow crashkernel= to fall back to 'high' if not sufficient memory in
+> ZONE_DMA. That would be a slight change from the current behaviour but,
+> as Zhen Lei said, with the old tools it's just moving the error around,
+> the crashkernel wouldn't be available in either case.
 > 
-> Can you explain the reasoning behind doing the static_branch_inc here in free,
-> and static_branch_dec in alloc?
-> IIUC, they may not be absolutely necessary but you could use the count to
-> know how many optimized pages are in use?  Or, I may just be missing
-> something.
->
+> > >>>>> 2) Fallback behaviour is important to our distros. The reason is we will
+> > >>>>> provide default value with crashkernel=xxxM along kernel of distros. In
+> > >>>>> this case, we hope the reservation will succeed by all means. The ,high
+> > >>>>> and ,low is an option if customer likes to take with expertise.
+> 
+> OK, that's good feedback.
+> 
+> So, to recap, IIUC you are fine with:
+> 
+> 	crashkernel=Y		- allocate within ZONE_DMA with fallback
+> 				  above with a default in ZONE_DMA (like
+> 				  x86, 256M or swiotlb size)
+                                  
+        Ack to this one. 
 
-Partly right. One 'count' is not enough. I have implemented this with similar
-approach in v6 [1]. Except the 'count', we also need a lock to do synchronization.
-However, both count and synchronization are included in static_key_inc/dec
-infrastructure. It is simpler to use static_key_inc/dec directly, right? 
 
-[1] https://lore.kernel.org/all/20220330153745.20465-5-songmuchun@bytedance.com/
+> 	crashkernel=Y,high	- allocate from above ZONE_DMA
+                                  
+        Not exactly. If there's only ZONE_DMA, crashkernel,high will
+        be reserved in ZONE_DMA, and crashkernel,low will be ignored.
+        Other than this, ack.
 
-Thanks.
+> 	crashkernel=Y,low	- allocate within ZONE_DMA
+
+        Ack to this one.
+> 
+> 'crashkernel' overrides the high and low while the latter two can be
+> passed independently.
+
+        crashkernel=,high can be passed independently, then a crashkernel=,low
+        is needed implicitly. If people don't want crashkernel=,low
+        explicitly, crashkernel=0,low need be specified.
+
+        An independent crashkernel=,low makes no sense. Crashkernel=,low
+        should be paird with crashkernel=,high.
+        
+        My personal opinion according to the existed senmantics on x86.
+        Otherwise, the guidance of crashkernel= |,high|,low reservation
+        will be complicated to write.
+
+> 
+> > >>>>> After going through arm64 memory init code, I got below summary about
+> > >>>>> arm64_dma_phys_limit which is the first zone's upper limit. I think we
+> > >>>>> can make use of it to facilitate to simplify code.
+> > >>>>> ================================================================================
+> > >>>>>                         DMA                      DMA32                    NORMAL
+> > >>>>> 1)Raspberry Pi4         0~1G                     3G~4G                    (above 4G)
+> > >>>>> 2)Normal machine        0~4G                     0                        (above 4G)
+> > >>>>> 3)Special machine       (above 4G)~MAX
+> > >>>>> 4)No DMA|DMA32                                                            (above 4G)~MAX
+> > >>>
+> > >>> arm64_memblock_init()
+> > >>> 	reserve_crashkernel()        ---------------   0a30c53573b0 ("arm64: mm: Move reserve_crashkernel() into mem_init()")
+> > >> We don't need different code for this place of reservation as you are
+> > >> doing in this patchset, since arm64_dma_phys_limit is initialized as 
+> > >> below. In fact, in arm64_memblock_init(), we have made memblock ready,
+> > >> we can initialize arm64_dma_phys_limit as memblock_end_of_DRAM(). And if
+> > >> memblock_start_of_DRAM() is bigger than 4G, we possibly can call
+> > >> reserve_crashkernel() here too.
+> > > 
+> > > Yes. Maybe all the devices in this environment are 64-bit. One way I
+> > > know of allowing 32-bit devices to access high memory without SMMU
+> > > is: Set a fixed value for the upper 32 bits. In this case, the DMA
+> > > zone should be [phys_start, phys_start + 4G).
+> 
+> We decided that this case doesn't really exists for arm64 platforms (no
+> need for special ZONE_DMA).
+> 
+> > I just read the message of commit 791ab8b2e3 ("arm64: Ignore any DMA
+> > offsets in the max_zone_phys() calculation")
+> > 
+> >     Currently, the kernel assumes that if RAM starts above 32-bit (or
+> >     zone_bits), there is still a ZONE_DMA/DMA32 at the bottom of the RAM and
+> >     such constrained devices have a hardwired DMA offset. In practice, we
+> >     haven't noticed any such hardware so let's assume that we can expand
+> >     ZONE_DMA32 to the available memory if no RAM below 4GB. Similarly,
+> >     ZONE_DMA is expanded to the 4GB limit if no RAM addressable by
+> >     zone_bits.
+> 
+> I think the above log is slightly confusing. If the DRAM starts above
+> 4G, ZONE_DMA goes to the end of DRAM. If the DRAM starts below 4G but
+> above the zone_bits for ZONE_DMA as specified in DT/ACPI, it pushes
+> ZONE_DMA to 4G. I don't remember why we did this last part, maybe in
+> case we get incorrect firmware tables, otherwise we could have extended
+> ZONE_DMA to end of DRAM.
+> 
+> Zhen Lei, if we agreed on the crashkernel behaviour, could you please
+> post a series that does the above parsing allocation? Ignore the
+> optimisations, we can look at them afterwards.
+> 
+> Thanks.
+> 
+> -- 
+> Catalin
+> 
+
