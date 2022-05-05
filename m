@@ -2,73 +2,299 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B904C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 02:14:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAA76C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 02:36:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237614AbiEECSK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 22:18:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48900 "EHLO
+        id S239617AbiEECjo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 22:39:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230027AbiEECSH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 22:18:07 -0400
-Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C425F473B7;
-        Wed,  4 May 2022 19:14:29 -0700 (PDT)
-Received: from mercury.. (097-089-247-249.biz.spectrum.com [97.89.247.249])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 7E6EE41074;
-        Thu,  5 May 2022 02:14:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1651716867;
-        bh=+kiBDwMB6jg1ZLP34LWc/QdKOZ0jnghNEem5EEnhQn4=;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-        b=uCTsmAaHg3pZHCIoHwh1PerN6TKQySTQJErWCu3WbNYZFaaB+Sww+4ysi2GLTxMHu
-         wWmTZ8xfYPfniONKZUXUqwfaESrvJkjmI9S2jl7Rqu5N6hBf7eYa0zEkXxhoWhlGRo
-         lmtX258ZVX31vPlu74J1mFRnDbrJyQoKDPxO7i8pGkk2YeIrS8vxl8BlohMMilQYLF
-         2xaUSUvMfHpbnq+YeSMHdzAZ4qcibs3l5E104DHuhnjLPI4WsZdlrp/lOu1oQES9ID
-         O7Rc/eZimbhr5MFUDx+G1vKSfJT08iFmhLD6kN+4Zd8qcdiaiHfK//3Zgxb6bkglfx
-         apWqV2p93AE6Q==
-From:   Joseph Salisbury <joseph.salisbury@canonical.com>
-To:     linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Cc:     stable@vger.kernel.org, peterz@infradead.org, tglx@linutronix.de
-Subject: [PATCH] docs: sched: Update sched-rt-group Documentation For Gender Inclusiveness
-Date:   Wed,  4 May 2022 22:14:24 -0400
-Message-Id: <20220505021424.12656-1-joseph.salisbury@canonical.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S238249AbiEECjn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 22:39:43 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 609C13DDD5
+        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 19:36:01 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id a15-20020a17090ad80f00b001dc2e23ad84so6773547pjv.4
+        for <linux-doc@vger.kernel.org>; Wed, 04 May 2022 19:36:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vfI9dRRrbRWZEeFgPNImhpqkxo6j6rN6qd6JDTcnQxw=;
+        b=Ha469BA+EztXs1J5u+pIVSs9eibLGz9Cmo3ynM9BCj+IvH/ogfVI5HiaZYE6en2nvj
+         WTAUcGDra+crky6JsFdF693+Ef8DC0OXTDEBkRjFLd5sYWq1yHOlxugnagLhfcv077BF
+         l0YKa3jrch2i4MEGHCrQAeIetCXo93xRSF3YdvD3dG1pdBH2707IiA1UPL73kwrKPK/H
+         qwpihjYhgqoNAOaFBLDzteJKxuoD8bRelG7Dpb3dIZVT2/jc+6Hlu4d2jy7gWb8FZBax
+         jDmiqHRVtuYtIj1lR1bJJemgu60ttLw9WmZymLxKMK6xkIOKB8qvkYeFezmuJ5P8broo
+         P8Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vfI9dRRrbRWZEeFgPNImhpqkxo6j6rN6qd6JDTcnQxw=;
+        b=4zjLl+5DTW2PyCBODHSamwBD20d1YwfQ4mj4QzzuhSOnrZtORlELpTeLmu3WuB+fHa
+         sHtfM6AAX+F+HdKxcIiwIWm6YqJ5mvRCuE8cwUlU1Fs4w4RWxyuIgwV3v2AdgfgWj5c5
+         y1QMbACIKVlTb/VZzIJsjW1gZaLO4JFGB5x64gWStloV6LQ60390PdHL7asFwUmPJHc5
+         nAhETbMsQS/9RmA1tWjJRFiJJNd6cEZMkaXgCKdzchuLfutKn1yhPny2r28phAxxPtIM
+         t8rT2NIndKFQXYtgKcKBGNu7ULBuBC/8CLENdVyxtf1pTElBWDQv+5bhv+tiL5xrMUUG
+         rk8Q==
+X-Gm-Message-State: AOAM533GjuzV+QCukbBMrsUHIyS8HW2UIsoC3WfTl8yor1xLDrtHBMTQ
+        cctHV7yEZDKvmeAW/qxQFf8HlA==
+X-Google-Smtp-Source: ABdhPJx2E2xMRskXq0h26rr/xhvddkVY2w5PvONji5NxAbW+D8aGP8lPvgzDzp8vCw+ivYJmTaJNDw==
+X-Received: by 2002:a17:90b:3ec7:b0:1dc:b008:3cd3 with SMTP id rm7-20020a17090b3ec700b001dcb0083cd3mr3325056pjb.226.1651718160754;
+        Wed, 04 May 2022 19:36:00 -0700 (PDT)
+Received: from localhost ([139.177.225.234])
+        by smtp.gmail.com with ESMTPSA id q5-20020a170902edc500b0015e8d4eb2cfsm177398plk.281.2022.05.04.19.35.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 May 2022 19:36:00 -0700 (PDT)
+Date:   Thu, 5 May 2022 10:35:57 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     corbet@lwn.net, akpm@linux-foundation.org, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
+        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v9 4/4] mm: hugetlb_vmemmap: add hugetlb_optimize_vmemmap
+ sysctl
+Message-ID: <YnM4DRFhdD6iZIs1@FVFYT0MHHV2J.googleapis.com>
+References: <20220429121816.37541-1-songmuchun@bytedance.com>
+ <20220429121816.37541-5-songmuchun@bytedance.com>
+ <eadec7de-2e1a-2fb3-3317-c7b492a84e2b@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eadec7de-2e1a-2fb3-3317-c7b492a84e2b@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document assumes root user is he:
-"assumes root knows what he is doing."
+On Wed, May 04, 2022 at 03:12:39PM -0700, Mike Kravetz wrote:
+> On 4/29/22 05:18, Muchun Song wrote:
+> > We must add hugetlb_free_vmemmap=on (or "off") to the boot cmdline and
+> > reboot the server to enable or disable the feature of optimizing vmemmap
+> > pages associated with HugeTLB pages.  However, rebooting usually takes a
+> > long time.  So add a sysctl to enable or disable the feature at runtime
+> > without rebooting.  Why we need this?  There are 3 use cases.
+> > 
+> > 1) The feature of minimizing overhead of struct page associated with each
+> > HugeTLB is disabled by default without passing "hugetlb_free_vmemmap=on"
+> > to the boot cmdline. When we (ByteDance) deliver the servers to the
+> > users who want to enable this feature, they have to configure the grub
+> > (change boot cmdline) and reboot the servers, whereas rebooting usually
+> > takes a long time (we have thousands of servers).  It's a very bad
+> > experience for the users.  So we need a approach to enable this feature
+> > after rebooting. This is a use case in our practical environment.
+> > 
+> > 2) Some use cases are that HugeTLB pages are allocated 'on the fly'
+> > instead of being pulled from the HugeTLB pool, those workloads would be
+> > affected with this feature enabled.  Those workloads could be identified
+> > by the characteristics of they never explicitly allocating huge pages
+> > with 'nr_hugepages' but only set 'nr_overcommit_hugepages' and then let
+> > the pages be allocated from the buddy allocator at fault time.  We can
+> > confirm it is a real use case from the commit 099730d67417.  For those
+> > workloads, the page fault time could be ~2x slower than before. We
+> > suspect those users want to disable this feature if the system has enabled
+> > this before and they don't think the memory savings benefit is enough to
+> > make up for the performance drop.
+> > 
+> > 3) If the workload which wants vmemmap pages to be optimized and the
+> > workload which wants to set 'nr_overcommit_hugepages' and does not want
+> > the extera overhead at fault time when the overcommitted pages be
+> > allocated from the buddy allocator are deployed in the same server.
+> > The user could enable this feature and set 'nr_hugepages' and
+> > 'nr_overcommit_hugepages', then disable the feature.  In this case,
+> > the overcommited HugeTLB pages will not encounter the extra overhead
+> > at fault time.
+> > 
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> >  Documentation/admin-guide/sysctl/vm.rst | 30 +++++++++++
+> >  include/linux/memory_hotplug.h          |  9 ++++
+> >  mm/hugetlb_vmemmap.c                    | 92 +++++++++++++++++++++++++++++----
+> >  mm/hugetlb_vmemmap.h                    |  4 +-
+> >  mm/memory_hotplug.c                     |  7 +--
+> >  5 files changed, 126 insertions(+), 16 deletions(-)
+> > 
+> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+> > index 747e325ebcd0..00434789cf26 100644
+> > --- a/Documentation/admin-guide/sysctl/vm.rst
+> > +++ b/Documentation/admin-guide/sysctl/vm.rst
+> > @@ -562,6 +562,36 @@ Change the minimum size of the hugepage pool.
+> >  See Documentation/admin-guide/mm/hugetlbpage.rst
+> >  
+> >  
+> > +hugetlb_optimize_vmemmap
+> > +========================
+> > +
+> > +Enable (set to 1) or disable (set to 0) the feature of optimizing vmemmap pages
+> > +associated with each HugeTLB page.
+> 
+> Should we mention that "memory_hotplug.memmap_on_memory" or an unusual system
+> config that results in struct page not being a power of 2 will prevent
+> enabling?
+>
 
-Update documentation for inclusivness, since root is not limited by gender.
-
-Fixes: 60aa605dfce2 ("sched: rt: document the risk of small values in the bandwidth settings")
-Cc: stable@vger.kernel.org
-Signed-off-by: Joseph Salisbury <joseph.salisbury@canonical.com>
----
- Documentation/scheduler/sched-rt-group.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/scheduler/sched-rt-group.rst b/Documentation/scheduler/sched-rt-group.rst
-index 655a096ec8fb..e55fee6772c4 100644
---- a/Documentation/scheduler/sched-rt-group.rst
-+++ b/Documentation/scheduler/sched-rt-group.rst
-@@ -19,7 +19,7 @@ Real-Time group scheduling
- ==========
+Good question. I think maybe it is better to clarify that this knob exists when
+memory_hotplug.memmap_on_memory (kernel parameter) is disabled and the size of
+"struct page" must be power of 2 (an unusual system config that could results
+in this).
  
-  Fiddling with these settings can result in an unstable system, the knobs are
-- root only and assumes root knows what he is doing.
-+ root only and assumes root knows what they are doing.
- 
- Most notable:
- 
--- 
-2.34.1
+> > +
+> > +Once enabled, the vmemmap pages of subsequent allocation of HugeTLB pages from
+> > +buddy allocator will be optimized (7 pages per 2MB HugeTLB page and 4095 pages
+> > +per 1GB HugeTLB page), whereas already allocated HugeTLB pages will not be
+> > +optimized.  When those optimized HugeTLB pages are freed from the HugeTLB pool
+> > +to the buddy allocator, the vmemmap pages representing that range needs to be
+> > +remapped again and the vmemmap pages discarded earlier need to be rellocated
+> > +again.  If your use case is that HugeTLB pages are allocated 'on the fly' (e.g.
+> > +never explicitly allocating HugeTLB pages with 'nr_hugepages' but only set
+> > +'nr_overcommit_hugepages', those overcommitted HugeTLB pages are allocated 'on
+> > +the fly') instead of being pulled from the HugeTLB pool, you should weigh the
+> > +benefits of memory savings against the more overhead (~2x slower than before)
+> > +of allocation or freeing HugeTLB pages between the HugeTLB pool and the buddy
+> > +allocator.  Another behavior to note is that if the system is under heavy memory
+> > +pressure, it could prevent the user from freeing HugeTLB pages from the HugeTLB
+> > +pool to the buddy allocator since the allocation of vmemmap pages could be
+> > +failed, you have to retry later if your system encounter this situation.
+> > +
+> > +Once disabled, the vmemmap pages of subsequent allocation of HugeTLB pages from
+> > +buddy allocator will not be optimized meaning the extra overhead at allocation
+> > +time from buddy allocator disappears, whereas already optimized HugeTLB pages
+> > +will not be affected.  If you want to make sure there is no optimized HugeTLB
+> > +pages, you can set "nr_hugepages" to 0 first and then disable this.
+> 
+> Thank you for adding this documentation.
+> 
+> We may want to clarify that last statement about making sure there are no
+> optimized HugeTLB pages.  Writing 0 to nr_hugepages will make any "in use"
+> HugeTLB pages become surplus pages.  So, those surplus pages are still
+> optimized until they are no longer in use.  You would need to wait for
+> those surplus pages to be released before there are no optimized pages in
+> the system.
+>
 
+I didn't realize this, I'll add this into documentation, Thanks.
+ 
+> > +
+> > +
+> >  nr_hugepages_mempolicy
+> >  ======================
+> >  
+> > diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
+> > index 029fb7e26504..917112661b5c 100644
+> > --- a/include/linux/memory_hotplug.h
+> > +++ b/include/linux/memory_hotplug.h
+> > @@ -351,4 +351,13 @@ void arch_remove_linear_mapping(u64 start, u64 size);
+> >  extern bool mhp_supports_memmap_on_memory(unsigned long size);
+> >  #endif /* CONFIG_MEMORY_HOTPLUG */
+> >  
+> > +#ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
+> > +bool mhp_memmap_on_memory(void);
+> > +#else
+> > +static inline bool mhp_memmap_on_memory(void)
+> > +{
+> > +	return false;
+> > +}
+> > +#endif
+> > +
+> >  #endif /* __LINUX_MEMORY_HOTPLUG_H */
+> > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> > index cc4ec752ec16..5820a681a724 100644
+> > --- a/mm/hugetlb_vmemmap.c
+> > +++ b/mm/hugetlb_vmemmap.c
+> > @@ -10,6 +10,7 @@
+> >   */
+> >  #define pr_fmt(fmt)	"HugeTLB: " fmt
+> >  
+> > +#include <linux/memory_hotplug.h>
+> >  #include "hugetlb_vmemmap.h"
+> >  
+> >  /*
+> > @@ -22,21 +23,40 @@
+> >  #define RESERVE_VMEMMAP_NR		1U
+> >  #define RESERVE_VMEMMAP_SIZE		(RESERVE_VMEMMAP_NR << PAGE_SHIFT)
+> >  
+> > +enum vmemmap_optimize_mode {
+> > +	VMEMMAP_OPTIMIZE_OFF,
+> > +	VMEMMAP_OPTIMIZE_ON,
+> > +};
+> > +
+> >  DEFINE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON,
+> >  			hugetlb_optimize_vmemmap_key);
+> >  EXPORT_SYMBOL(hugetlb_optimize_vmemmap_key);
+> >  
+> > +static enum vmemmap_optimize_mode vmemmap_optimize_mode =
+> > +	IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP_DEFAULT_ON);
+> > +
+> > +static void vmemmap_optimize_mode_switch(enum vmemmap_optimize_mode to)
+> > +{
+> > +	if (vmemmap_optimize_mode == to)
+> > +		return;
+> > +
+> > +	if (to == VMEMMAP_OPTIMIZE_OFF)
+> > +		static_branch_dec(&hugetlb_optimize_vmemmap_key);
+> > +	else
+> > +		static_branch_inc(&hugetlb_optimize_vmemmap_key);
+> > +	vmemmap_optimize_mode = to;
+> > +}
+> > +
+> >  static int __init hugetlb_vmemmap_early_param(char *buf)
+> >  {
+> >  	bool enable;
+> > +	enum vmemmap_optimize_mode mode;
+> >  
+> >  	if (kstrtobool(buf, &enable))
+> >  		return -EINVAL;
+> >  
+> > -	if (enable)
+> > -		static_branch_enable(&hugetlb_optimize_vmemmap_key);
+> > -	else
+> > -		static_branch_disable(&hugetlb_optimize_vmemmap_key);
+> > +	mode = enable ? VMEMMAP_OPTIMIZE_ON : VMEMMAP_OPTIMIZE_OFF;
+> > +	vmemmap_optimize_mode_switch(mode);
+> >  
+> >  	return 0;
+> >  }
+> > @@ -60,6 +80,8 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
+> >  	vmemmap_end	= vmemmap_addr + (vmemmap_pages << PAGE_SHIFT);
+> >  	vmemmap_reuse	= vmemmap_addr - PAGE_SIZE;
+> >  
+> > +	VM_BUG_ON_PAGE(!vmemmap_pages, head);
+> > +
+> >  	/*
+> >  	 * The pages which the vmemmap virtual address range [@vmemmap_addr,
+> >  	 * @vmemmap_end) are mapped to are freed to the buddy allocator, and
+> > @@ -69,8 +91,10 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
+> >  	 */
+> >  	ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
+> >  				  GFP_KERNEL | __GFP_NORETRY | __GFP_THISNODE);
+> > -	if (!ret)
+> > +	if (!ret) {
+> >  		ClearHPageVmemmapOptimized(head);
+> > +		static_branch_dec(&hugetlb_optimize_vmemmap_key);
+> > +	}
+> >  
+> >  	return ret;
+> >  }
+> > @@ -84,6 +108,8 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
+> >  	if (!vmemmap_pages)
+> >  		return;
+> >  
+> > +	static_branch_inc(&hugetlb_optimize_vmemmap_key);
+> 
+> Can you explain the reasoning behind doing the static_branch_inc here in free,
+> and static_branch_dec in alloc?
+> IIUC, they may not be absolutely necessary but you could use the count to
+> know how many optimized pages are in use?  Or, I may just be missing
+> something.
+>
+
+Partly right. One 'count' is not enough. I have implemented this with similar
+approach in v6 [1]. Except the 'count', we also need a lock to do synchronization.
+However, both count and synchronization are included in static_key_inc/dec
+infrastructure. It is simpler to use static_key_inc/dec directly, right? 
+
+[1] https://lore.kernel.org/all/20220330153745.20465-5-songmuchun@bytedance.com/
+
+Thanks.
