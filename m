@@ -2,107 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A02C3C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 04:43:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBE10C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 04:49:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242959AbiEEErN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 00:47:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57354 "EHLO
+        id S236408AbiEEExM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 00:53:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242826AbiEEErM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 00:47:12 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B21EC488BF
-        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 21:43:33 -0700 (PDT)
+        with ESMTP id S235492AbiEEExJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 00:53:09 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB15C3F88A
+        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 21:49:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=BRX/b7WsH3HNGmbJ+2rIqvOFIUs2R+FFWw4QT0YzVUQ=; b=mN6Mcgv957YLd+KM+sarSGn95j
-        vU1iqVcPgCbrH+myt47ohG8h2Dkm/LFxHZL+EiEH0SgH9czhBqVHkmJR2dtVUYDBDaaZgR1lSx+37
-        LfGhbgfISQ6n1+ADs6W4GL2CVwcvXeP7td+X2U+/ZPTOwbYD0ixdLu4QUMhzcThIJM335mye+NqWl
-        fjjiesuyUpT0J7J93CtAl70Lanr1ZaZ1bS76CoxluUrv50bHhYV1Prxd+84XCccrFp0vkrhA/eJGY
-        9RReWidJT4luI1xxlaTi/g/rZVTSUxKEJrZidGOqu1pmC8A63x3R8cNoUKqygyief0E8CukjSBv+D
-        q8BamqfQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nmTKo-00BGnW-Jr; Thu, 05 May 2022 04:43:27 +0000
-Message-ID: <7628c3d7-9b5a-f3b1-1a05-a348e701c171@infradead.org>
-Date:   Wed, 4 May 2022 21:43:04 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=kLCBVCmT5KkJQLwDEkVNu+Ri0GbKXrf5Pqq5oqmV3ZA=; b=pPEWQrlw+uQQXrDZm1Yp/VMtIA
+        M8BXeLRh1y9vEGPoY3gqZzUXDQhjtw08XRD6mN3YW+/wpu8XLz0lFp9Ull5MFSdal4u290x2H+4S+
+        goFz7i/iF+BdpWaQb48QH0JHMd8U6tG7qUWm/sxO4z699Od8IEiBlE6ruBm76uKrJ3Hi71JUc8z/9
+        ZHg9nL3cGyOmZxgBL34bMKmN97N93jm6tFx0NzzV649CGQOaZH2nwcIN7JqgFxi3F4CF1nysk9Sjy
+        IUk8sGWbxjHYXpKh1A4lwb/33Zov0k8pOAkEPdwlPWxu7KmB8moH1h54nqynaaLppyf/aEhwx6FfT
+        C4xCR9Eg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nmTQa-00HGql-7Y; Thu, 05 May 2022 04:49:24 +0000
+Date:   Thu, 5 May 2022 05:49:24 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     John Hubbard <jhubbard@nvidia.com>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org
 Subject: Re: [PATCH] mm,doc: Add new documentation structure
-Content-Language: en-US
-To:     Matthew Wilcox <willy@infradead.org>,
-        John Hubbard <jhubbard@nvidia.com>
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org
+Message-ID: <YnNXVAr5RFtoA8Y3@casper.infradead.org>
 References: <20220503063032.3680308-1-willy@infradead.org>
  <20c73284-66e5-8e3a-aa78-01f982720aea@nvidia.com>
  <YnLiKnVdBFYLtCJe@casper.infradead.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <YnLiKnVdBFYLtCJe@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <7628c3d7-9b5a-f3b1-1a05-a348e701c171@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7628c3d7-9b5a-f3b1-1a05-a348e701c171@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 5/4/22 13:29, Matthew Wilcox wrote:
-> On Wed, May 04, 2022 at 06:12:09AM -0700, John Hubbard wrote:
->> This needs to be properly merged with the existing index. Otherwise
->> the result here is very confusing because there are two summaries
->> and no explanation of what is going on here.
->>
->> If I get a moment today, I'll take a quick shot at at merging them,
->> and post some suggestions here, but just wanted to point that out
->> before this goes in as-is.
+On Wed, May 04, 2022 at 09:43:04PM -0700, Randy Dunlap wrote:
 > 
-> John and I have chatted to understand what he was getting at here,
-> but haven't had a chance to review this change in-person yet.
 > 
-> +++ b/Documentation/vm/index.rst
-> @@ -2,6 +2,9 @@
->  Linux Memory Management Documentation
->  =====================================
+> On 5/4/22 13:29, Matthew Wilcox wrote:
+> > On Wed, May 04, 2022 at 06:12:09AM -0700, John Hubbard wrote:
+> >> This needs to be properly merged with the existing index. Otherwise
+> >> the result here is very confusing because there are two summaries
+> >> and no explanation of what is going on here.
+> >>
+> >> If I get a moment today, I'll take a quick shot at at merging them,
+> >> and post some suggestions here, but just wanted to point that out
+> >> before this goes in as-is.
+> > 
+> > John and I have chatted to understand what he was getting at here,
+> > but haven't had a chance to review this change in-person yet.
+> > 
+> > +++ b/Documentation/vm/index.rst
+> > @@ -2,6 +2,9 @@
+> >  Linux Memory Management Documentation
+> >  =====================================
+> > 
+> > +Memory Management Guide
+> > +=======================
+> > +
+> >  This is a guide to understanding the memory management subsystem
+> >  of Linux.  If you are looking for advice on simply allocating memory,
+> >  see the :ref:`memory_allocation`.  For controlling and tuning guides,
+> > @@ -24,10 +27,14 @@ see the :doc:`admin guide <../admin-guide/mm/index>`.
+> >     shmfs
+> >     oom
+> >  
+> > -This is a collection of documents about the Linux memory management (mm)
+> > -subsystem internals with different level of details ranging from notes and
+> > -mailing list responses for elaborating descriptions of data structures and
+> > -algorithms.
+> > +Legacy Documentation
+> > +====================
+> > +
+> > +This is a collection of older documents about the Linux memory management
+> > +(mm) subsystem internals with different level of details ranging from
 > 
-> +Memory Management Guide
-> +=======================
-> +
->  This is a guide to understanding the memory management subsystem
->  of Linux.  If you are looking for advice on simply allocating memory,
->  see the :ref:`memory_allocation`.  For controlling and tuning guides,
-> @@ -24,10 +27,14 @@ see the :doc:`admin guide <../admin-guide/mm/index>`.
->     shmfs
->     oom
->  
-> -This is a collection of documents about the Linux memory management (mm)
-> -subsystem internals with different level of details ranging from notes and
-> -mailing list responses for elaborating descriptions of data structures and
-> -algorithms.
-> +Legacy Documentation
-> +====================
-> +
-> +This is a collection of older documents about the Linux memory management
-> +(mm) subsystem internals with different level of details ranging from
+> I prefer (MM).
+> Otherwise LGTM.
 
-I prefer (MM).
-Otherwise LGTM.
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-
-> +notes and mailing list responses for elaborating descriptions of data
-> +structures and algorithms.  It should all be integrated nicely into the
-> +above structured documentation, or deleted if it has served its purpose.
->  
->  .. toctree::
->     :maxdepth: 1
-> 
-
--- 
-~Randy
+Heh, I just moved that around; it's how it was before.  I have no
+preference here, so I'll just change it to be the way you like it.
+Thanks!
