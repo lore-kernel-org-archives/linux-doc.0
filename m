@@ -2,230 +2,249 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A40EC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 03:02:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4296EC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 03:36:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240331AbiEEDFr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 4 May 2022 23:05:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38478 "EHLO
+        id S231627AbiEEDkK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 4 May 2022 23:40:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240322AbiEEDFp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 23:05:45 -0400
-X-Greylist: delayed 80 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 04 May 2022 20:02:02 PDT
-Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [170.10.133.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1306D252A9
-        for <linux-doc@vger.kernel.org>; Wed,  4 May 2022 20:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651719720;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=kXbvduo1+pXP2xsQyJhB2ESjMhg7t8jVXPIOUihsXiA=;
-        b=Y2+TZ4zm/QBSuiwkFQB9N+kwWRrZMvFrhFoqSHJDMD8kg2WOgDVGuszkMK7UF0Ei9wK6Mb
-        OD9mGUVOSJFveKTxhsULThswpqdPkKeZLkKozubE2aq0jKHZUMzTuejGIb50XAfuchZAn6
-        AxRDiSELb6bpcU8BUdD7dgUxsOqG5Rc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-352-2UwQDUfUOkCZSKV-5UDNDQ-1; Wed, 04 May 2022 23:00:25 -0400
-X-MC-Unique: 2UwQDUfUOkCZSKV-5UDNDQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6FF7038041C1;
-        Thu,  5 May 2022 03:00:24 +0000 (UTC)
-Received: from localhost (ovpn-12-197.pek2.redhat.com [10.72.12.197])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id C29EF40D2822;
-        Thu,  5 May 2022 03:00:22 +0000 (UTC)
-Date:   Thu, 5 May 2022 11:00:19 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v22 5/9] arm64: kdump: Reimplement crashkernel=X
-Message-ID: <YnM9w69l5dbE+k15@MiWiFi-R3L-srv>
-References: <Ymk34NsIFqUgfk3b@arm.com>
- <ae7211ad-e2ac-f5b1-5aa0-701802132e73@huawei.com>
- <YmlphvZVMsGfFksp@arm.com>
- <YmoMvV1wzHT5V1aw@MiWiFi-R3L-srv>
- <YmoPhvkXQFZQOcIO@MiWiFi-R3L-srv>
- <3fc41a94-4247-40f3-14e7-f11e3001ec33@huawei.com>
- <YmtaiJhwIgP6m2Sk@MiWiFi-R3L-srv>
- <a9c736a0-f2b3-5b8a-94d9-80742ccd2700@huawei.com>
- <23e2dcf4-4e9a-5298-d5d8-8761b0bbbe21@huawei.com>
- <YnGmCwaWkvCrJoU2@arm.com>
+        with ESMTP id S241538AbiEEDkG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 May 2022 23:40:06 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA9714A3CA;
+        Wed,  4 May 2022 20:36:28 -0700 (PDT)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 244Nl8PD030007;
+        Thu, 5 May 2022 03:36:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=4imIRbOUcq6sxIkvtRiWtTHNxuvtIQN1giBALvpfGOQ=;
+ b=Fm1yc+jdCUaxWL3AESNGw24ouFBVQfYY7FDrguAHcB9WNv/R1lH2tFqo8vmoLe0Dus/d
+ 9pUkDRSv6ZhmnxWHZJDAjS4rlQpsppPbEbLivK6UQDAXNXM16a2cfrfLxPko8id/AIZi
+ ZRFboxHU1QQEhAr6nHjlPpfa3pDGLmve7eqet8aaieseIwebC8dxQOhDRRZkeCr5eOUB
+ YFANI1LsEDDgYozbVx5HynfbJI/uJG+M7P+q9kA4k8xs4aFpBZmJ6NxNQyeGteNzfNfH
+ bVsiqPQbc6UPPnt954sV21eILsqf5THASu9UMyXqid9dDReYuRetzCO8p+SqjtxVv92e gA== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fruq0j7wg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 05 May 2022 03:36:06 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 2453ZTPT010710;
+        Thu, 5 May 2022 03:36:05 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2047.outbound.protection.outlook.com [104.47.66.47])
+        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3fs1a6e82n-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 05 May 2022 03:36:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jCRYe74qn2E/3eZuQ/iGslu1BekwgjmXIpYiK/KRNOeywIzgHHxjB5oZYWoZaO9vPLHvRJDGm6fCBNL1uxyzrtjv5Pb3l5SS1E6l75IY+wxoY6JQMxmltPnNB2tciKibuYF+0xul+CIcCdEnAYO7y+dONUewncdMAGjSJp4IOwrht/lobtnTugNdsPLIEiv8GEFRpr4VX6H9s/pvBRw5ekMHBhOfr+Z9FMbsC/J8dhvWGKKD6JR9vS9u4Usvnx22YbKitJpuDJkqBJBdRCN0Rea2Ig0p5f2KfqJla3eTkHHj2Zjtx74JuTE9qlrsPjxQSqpWjD2RNevJoMIkonojog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4imIRbOUcq6sxIkvtRiWtTHNxuvtIQN1giBALvpfGOQ=;
+ b=YWms58TajKQ2LstrFBqEVTCWUJiIitCHqDbbsadQL9jnSOgKiseouBOXooqTcOFjfKBU5PRTSt7G23PUcJcQ2+BbdTIn1aG/BdDhLdqVzNHPEfgMbninc1HxKXn3YtWCEwB0bB5rBbM4flz15cUPq4y/E65N3pvWgIK9lo3V5SqVFBdA/Ux5NkX7vpu/RcJJcMulN56+ytKhZ2zPbjf+TbfJePjHrbZCx2MUCbuxESVjWPmIsjGWrnpp6g38Yx042hzII/+WPJ9ju0EN+U612oo3MnoYU7voepRgwd+sTN+NAKX/YDl2hOh04pHK+hduivOvVI6SAcIyqKZfMzn4oA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4imIRbOUcq6sxIkvtRiWtTHNxuvtIQN1giBALvpfGOQ=;
+ b=y1nyBOODtEzfCjG6uBMgy92wR7mjaaLWNIU9ynQ9Tc2QCLnjJhEatLryRn2wMYouPBs90ZGeV9Y8F+8fBWuPsamm6MrM6jP0y/aOKm9j6AH4lBzNT1Nv1LcOtczwRgmttNvRbIhrWDleMXm33R/S22a5MlzAOQtKO7yprbjHe6k=
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
+ by BN7PR10MB2674.namprd10.prod.outlook.com (2603:10b6:406:ca::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.24; Thu, 5 May
+ 2022 03:36:03 +0000
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::9d76:7926:9b76:f461]) by BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::9d76:7926:9b76:f461%7]) with mapi id 15.20.5206.024; Thu, 5 May 2022
+ 03:36:02 +0000
+Message-ID: <f77412f1-ffe5-659d-8a7d-578e0e8c5e2c@oracle.com>
+Date:   Wed, 4 May 2022 20:36:00 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v9 4/4] mm: hugetlb_vmemmap: add hugetlb_optimize_vmemmap
+ sysctl
+Content-Language: en-US
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, akpm@linux-foundation.org, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
+        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+References: <20220429121816.37541-1-songmuchun@bytedance.com>
+ <20220429121816.37541-5-songmuchun@bytedance.com>
+ <eadec7de-2e1a-2fb3-3317-c7b492a84e2b@oracle.com>
+ <YnM4DRFhdD6iZIs1@FVFYT0MHHV2J.googleapis.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+In-Reply-To: <YnM4DRFhdD6iZIs1@FVFYT0MHHV2J.googleapis.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0314.namprd03.prod.outlook.com
+ (2603:10b6:303:dd::19) To BY5PR10MB4196.namprd10.prod.outlook.com
+ (2603:10b6:a03:20d::23)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YnGmCwaWkvCrJoU2@arm.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1870a15b-d7b7-4983-ed6f-08da2e4860fc
+X-MS-TrafficTypeDiagnostic: BN7PR10MB2674:EE_
+X-Microsoft-Antispam-PRVS: <BN7PR10MB2674A7EE59B3C46910E81838E2C29@BN7PR10MB2674.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vGS/xdby4x/lhJidVIV9VETeS7BEhc2npFfe2XWwEH/QmgQC6NwCgse0DNhlZ0VasFGaR9zSHFuSEDodU0+5NOdCBR+uR7hc+XB8SHpDV4KguvcfchloZqF+qOwIZamaOO6lr/AskdUQrln+yeDgvxkmeMZUkCKAaAiX5HAk0oTMIg2bg9AJHQpfnlulWgNtWaD6ExC/6VQ+XONxaRQN5hAP/WM1ac9rz7i2Z2BLtTZOEfsxC/Vl9Cqt6L6xWlFC9kNxu4Yq6qPV9gnqgpuy32xRkpUsS9DfqtM6/3TtlAfUiMc5lqaQsXnyU9W0Aw1lhezwr2qfLm43gejLc9PEZPSwmRK6Re76dr2xSbJcM/guWAQTkZ8bKfpIZ9YaATVVNGd4zPuzDbfjsfHMFLv7U9HCdI4GlhJvL/zs7NtMQns3DDPwts4ELHTa+gxHfh8Apw4L6e/3ewm3mgct8LXPGoqwAll3MNJJeGzvjGTtIwnvV/y+tiQ+tX5ugEYxWAx18Az1tSzKR5IzFcOLgCxdu2HoGwpE0wobM6zlVXjiXr9LL4rNIKBeXqfrqGSMOwBXE8wD5imAxQ9fmk83OKtKEuy49FsBmhf5eLg6L8UUsOnv/9flbwgN02p9iFhB7U/JYbpbxs2h76+8RcACb0WEccghKgkk0nzNvcIA7sFhp9pESkI2lHbqqJK2qZNwAD2eeXAraNxi0xcB6Tl3qOVaqc5GXWmNC3VyML8X4Rei4PKviO1nSfVYSV3k4XIgwn2Zc9DmPkM+9NoDHbINkUqWEeJ2LAiO83+99RcizXzH0M3MeFKell+InZlt80ezvUfMGQG/syn7TaGpkpZ20W3CvQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(4326008)(8676002)(6486002)(966005)(38100700002)(38350700002)(2616005)(508600001)(8936002)(186003)(44832011)(66556008)(83380400001)(31696002)(5660300002)(7416002)(2906002)(66476007)(6512007)(36756003)(31686004)(86362001)(26005)(52116002)(53546011)(6506007)(6916009)(316002)(66946007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cnZUM3dtaytGYXh5UVFKeVVLNlIrdFFXQ2JCc0U4UHhqMHgza2NoY2JDS2Jo?=
+ =?utf-8?B?cEhKdFZYZ05CS1h0VTZiRHdWbTZOUER2OWNPdnpTTXMvSlU4YUE2NHVWREI2?=
+ =?utf-8?B?bkhSWERZWStLTTdNQkc2M1BWS0xFUzNmcUduWW5OWGFTQzRrdDZOd2ZjMVND?=
+ =?utf-8?B?K29hbjRORysrUm9EMjkydk94bVlqT1kyYkpzUGVOemowZHZpNTdUUGZsYUo5?=
+ =?utf-8?B?bVpBbVp0bmh1bk1pdzlyV0xJSEp6MCt4U1lWb2xEQWhRUjM5N0YyT3ErSkdP?=
+ =?utf-8?B?K1p1cmNPaGV5bjZXaDZIT1JmeWlsOGNMRUh5WVN1M0FhUjlvQU5zNHlEeGdT?=
+ =?utf-8?B?OEhjcVc1dWh6QSs0bExWT3BLLzRQZEp5djR5aGxzbHM3anNiY2ZZV3VIQUw1?=
+ =?utf-8?B?V3pNbnE5MDB6R0pGWW9QY0g4SjBPaDB4eFEzMEVJQ0JQdHBTTXV6TW41Uyt4?=
+ =?utf-8?B?T3plT2VieWpBZGZMYXhMUDlhZWl3RmRFUDAxZkE1NXJscjMvcDBSWHZpMU9L?=
+ =?utf-8?B?SkRDd0tqcHlHc2R0bFN6ZElsa2s1NjBVUUNpSExMYkZwTkgvTGUwM25ySy9O?=
+ =?utf-8?B?Nm8wbWttOXhZNWV5RUFjUHNsOUVESVJ5eVdLb2NybFAzb29XRGEvYzlCekFC?=
+ =?utf-8?B?a2FKQTUwZUdvaWJEVDcwRzVuRjNNSEtmOTI5STYxSy96aWpIYUMxMnVHTkNM?=
+ =?utf-8?B?TWxJZFNoTE5LK0Y4ZU5KS2NuRkU3TE4zZStMSjk2NmhINi9GNzJqc1JEb3dl?=
+ =?utf-8?B?N254T0VGUjNEZFJCdjZ0clk2YWhlc2NJUHFtTEorTkhDQXpSbEg5eU0wTWl1?=
+ =?utf-8?B?NHhBb1dPUExTSzdIRi9UL2tnVVJGb1laN0VRc2NIcG1HN0g0WmV4cXdvTkVl?=
+ =?utf-8?B?VitaaVA2bnJvYzJiZnJuWUd5UTVTSzZXaDVOZjIwZVY0Zmd6REdIVGVSbkVG?=
+ =?utf-8?B?c1dOUVdyVThZOUl3UWZwbW9ZdUdZaGN3dkJaeTJMdmhhTzNxclpjUitMcVJp?=
+ =?utf-8?B?T2U2akQvWllwY1NDY0RnNDJ1VngyN1dQeTFzMWJaaTdUY3dSaThnV0RlTGJM?=
+ =?utf-8?B?b1UrVE8rWFJ6TWRSWU5tOEl1QnBUdHJIand2OTBHcTVnSkZXK0pZb2VJUCs2?=
+ =?utf-8?B?cUxCcjhkSEVGN0Z4cGFtOXdabjI0d2F6dEpaTHQ1YTg0U3QyZVdRRTFpcVlX?=
+ =?utf-8?B?UVZCWFJPN3RXTzVFUFZDUzRRSFYrL0JOa3hpSWt0MGJCbmdiODNlTEZPa205?=
+ =?utf-8?B?cGt3SXJkcW4rN0FLbGh5b05qT2pRNVJJSTZNaGxvdlg4M29FUCtINXVpYVhr?=
+ =?utf-8?B?bU0vQTBqL01DV09IKzR0TUNBL0pOU3pmbVpjS3c5RnBFMFVZb0h5VjhIdEsz?=
+ =?utf-8?B?YzBMV0h4bzJqR3RFM1BhRGNJdzk2YzFCWjQ0NFArQlRpMDA5VzdWU0w4VzY1?=
+ =?utf-8?B?b1hHWmx4TWN2ekFwNjNKeVhBUmZMdFAxeDJERjlPNUgzL0tQcmE3b0RPb3lh?=
+ =?utf-8?B?YUhaNTRMVk16T214UHpncEpYZlhWK2JzandVcEdiVWJJR0JXTEEwL1lEVDE2?=
+ =?utf-8?B?NFBHSHBjOHBBWkJvSTkxcUlHMmpvOWhnaHBmbGJtUlFobEdPTUx1Z0ErbmFX?=
+ =?utf-8?B?NGtERDRBZnBZUE9tblMrblVWWC9FZ0U2UjBERlhIYXc0V0tIMVZKZXVSV1c4?=
+ =?utf-8?B?SU50bHcxTDFERExHRS9ZYmZlcm1oT3htVFdRazFYRGhodXlpNml2bHJSY3Z4?=
+ =?utf-8?B?RTZTTjFmT1VWYlcyczc1RUROTE10UzdWb0FkTm5wRzFsbmxXMGFIcjI0cjJ1?=
+ =?utf-8?B?SnBOODB0UWZYbDlmUHcxSDgzcGVlMjZrYTA5cWJIRFpRRHdWMWl3QW0wUFpG?=
+ =?utf-8?B?cXo3WVVFS3JTeUE1ZElNK2M0YnJJMmh4dFVFdHZWeVJ4NFN0YnhablkraC9a?=
+ =?utf-8?B?dnV2ekdhdWtyeHNwU1ZrOCtPbHdWS3NoYkR1eGtoS1Z6VXN3WHczQWlZSTFR?=
+ =?utf-8?B?U2FjNXdTdDhsUWc1QXNFdW5jUTdVZkFqU3hBN2xibXhCb1htcTNDek5JWkpC?=
+ =?utf-8?B?T0htMmVjcjh2cWpmMDNtR2xmTXZnb21QOW5ucDdyaXptc2FvY2U3YVByZG1H?=
+ =?utf-8?B?N2dyQXUzM280bTJBQ2dqN1Y2RVRwZmdrdGdmTEFQYVlZSmlRKzRMRkVSSFNY?=
+ =?utf-8?B?bTFLOHhzUnNOY2U1VGVRTjVLV2xxQ1lJSENoMDJvb1krcEdZSVhFaDc0dEFy?=
+ =?utf-8?B?K05qbDZzNjNlYlppWEhzdnh2cHdpMnVxb1U0WnJjbnRGQ1dncVlKV3RXd01B?=
+ =?utf-8?B?QnQ1SjNUVlgvcXp5VHFBVkhsQnF6VjRLVXFlRXN6bHVESXIwajRTa0F1MzRC?=
+ =?utf-8?Q?SAQZjVI/i9pDUZeA=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1870a15b-d7b7-4983-ed6f-08da2e4860fc
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2022 03:36:02.7932
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +HNi0IDj8SdYmN6MkOqgVnJafhIgYJTLHj9Ijn1AD5NTBdtBMlFJRvQtr89swhJflGf72DqgkonfQwxQXDoeJA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR10MB2674
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.858
+ definitions=2022-05-05_01:2022-05-04,2022-05-05 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 malwarescore=0
+ spamscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2205050025
+X-Proofpoint-ORIG-GUID: euVHL2JYeDTGUL8vCGJP-229MK4IzCi9
+X-Proofpoint-GUID: euVHL2JYeDTGUL8vCGJP-229MK4IzCi9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/03/22 at 11:00pm, Catalin Marinas wrote:
-> On Fri, Apr 29, 2022 at 04:25:37PM +0800, Leizhen (ThunderTown) wrote:
-> > On 2022/4/29 16:02, Leizhen (ThunderTown) wrote:
-> > > On 2022/4/29 11:24, Baoquan He wrote:
-> > >> On 04/28/22 at 05:33pm, Leizhen (ThunderTown) wrote:
-> > >>> On 2022/4/28 11:52, Baoquan He wrote:
-> > >>>> On 04/28/22 at 11:40am, Baoquan He wrote:
-> > >>>>> On 04/27/22 at 05:04pm, Catalin Marinas wrote:
-> > >>>>>> There will be some difference as the 4G limit doesn't always hold for
-> > >>>>>> arm64 (though it's true in most cases). Anyway, we can probably simplify
-> > >>>>>> things a bit while following the documented behaviour:
-> > >>>>>>
-> > >>>>>> 	crashkernel=Y		- current behaviour within ZONE_DMA
-> > >>>>>> 	crashkernel=Y,high	- allocate from above ZONE_DMA
-> > >>>>>> 	crashkernel=Y,low	- allocate within ZONE_DMA
-> [...]
-> > >>>>> Sorry to interrupt. Seems the ,high ,low and fallback are main concerns
-> > >>>>> about this version. And I have the same concerns about them which comes
-> > >>>>> from below points:
-> > >>>>> 1) we may need to take best effort to keep ,high, ,low behaviour
-> > >>>>> consistent on all ARCHes. Otherwise user/admin may be confused when they
-> > >>>>> deploy/configure kdump on different machines of different ARCHes in the
-> > >>>>> same LAB. I think we should try to avoid the confusion.
+On 5/4/22 19:35, Muchun Song wrote:
+> On Wed, May 04, 2022 at 03:12:39PM -0700, Mike Kravetz wrote:
+>> On 4/29/22 05:18, Muchun Song wrote:
+>>> +static void vmemmap_optimize_mode_switch(enum vmemmap_optimize_mode to)
+>>> +{
+>>> +	if (vmemmap_optimize_mode == to)
+>>> +		return;
+>>> +
+>>> +	if (to == VMEMMAP_OPTIMIZE_OFF)
+>>> +		static_branch_dec(&hugetlb_optimize_vmemmap_key);
+>>> +	else
+>>> +		static_branch_inc(&hugetlb_optimize_vmemmap_key);
+>>> +	vmemmap_optimize_mode = to;
+>>> +}
+>>> +
+>>>  static int __init hugetlb_vmemmap_early_param(char *buf)
+>>>  {
+>>>  	bool enable;
+>>> +	enum vmemmap_optimize_mode mode;
+>>>  
+>>>  	if (kstrtobool(buf, &enable))
+>>>  		return -EINVAL;
+>>>  
+>>> -	if (enable)
+>>> -		static_branch_enable(&hugetlb_optimize_vmemmap_key);
+>>> -	else
+>>> -		static_branch_disable(&hugetlb_optimize_vmemmap_key);
+>>> +	mode = enable ? VMEMMAP_OPTIMIZE_ON : VMEMMAP_OPTIMIZE_OFF;
+>>> +	vmemmap_optimize_mode_switch(mode);
+>>>  
+>>>  	return 0;
+>>>  }
+>>> @@ -60,6 +80,8 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
+>>>  	vmemmap_end	= vmemmap_addr + (vmemmap_pages << PAGE_SHIFT);
+>>>  	vmemmap_reuse	= vmemmap_addr - PAGE_SIZE;
+>>>  
+>>> +	VM_BUG_ON_PAGE(!vmemmap_pages, head);
+>>> +
+>>>  	/*
+>>>  	 * The pages which the vmemmap virtual address range [@vmemmap_addr,
+>>>  	 * @vmemmap_end) are mapped to are freed to the buddy allocator, and
+>>> @@ -69,8 +91,10 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
+>>>  	 */
+>>>  	ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
+>>>  				  GFP_KERNEL | __GFP_NORETRY | __GFP_THISNODE);
+>>> -	if (!ret)
+>>> +	if (!ret) {
+>>>  		ClearHPageVmemmapOptimized(head);
+>>> +		static_branch_dec(&hugetlb_optimize_vmemmap_key);
+>>> +	}
+>>>  
+>>>  	return ret;
+>>>  }
+>>> @@ -84,6 +108,8 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
+>>>  	if (!vmemmap_pages)
+>>>  		return;
+>>>  
+>>> +	static_branch_inc(&hugetlb_optimize_vmemmap_key);
+>>
+>> Can you explain the reasoning behind doing the static_branch_inc here in free,
+>> and static_branch_dec in alloc?
+>> IIUC, they may not be absolutely necessary but you could use the count to
+>> know how many optimized pages are in use?  Or, I may just be missing
+>> something.
+>>
 > 
-> I guess by all arches you mean just x86 here. Since the code is not
-> generic, all arches do their own stuff.
-
-Right. Since currently only x86 has crashkernel,high|low support. From
-the distros and customer's point of view, we would like to see the same
-feature has the same or similar behaviour. This will ease operation and
-maintaining. E.g on the cloud platform, the base of it could be any
-ARCH, x86, arm64. The inconsistent behaviour could cause confusion.
-Certainly, the underlying implementation may be different.
-
-Surely, if arm64 has its own manner because of reasons, we can
-add document to note that.
-
+> Partly right. One 'count' is not enough. I have implemented this with similar
+> approach in v6 [1]. Except the 'count', we also need a lock to do synchronization.
+> However, both count and synchronization are included in static_key_inc/dec
+> infrastructure. It is simpler to use static_key_inc/dec directly, right? 
 > 
-> > > OK, I plan to remove optimization, fallback and default low size, to follow the
-> > > suggestion of Catalin first. But there's one minor point of contention.
-> > > 
-> > > 1)    Both "crashkernel=X,high" and "crashkernel=X,low" must be present.
-> > > 2)    Both "crashkernel=X,high" and "crashkernel=X,low" are present.
-> > >    or
-> > >       Allow "crashkernel=X,high" to be present alone. Unlike x86, the default low size is zero.
-> > > 
-> > > I prefer 2), how about you?
-> 
-> (2) works for me as well. We keep these simple as "expert" options and
-> allow crashkernel= to fall back to 'high' if not sufficient memory in
-> ZONE_DMA. That would be a slight change from the current behaviour but,
-> as Zhen Lei said, with the old tools it's just moving the error around,
-> the crashkernel wouldn't be available in either case.
-> 
-> > >>>>> 2) Fallback behaviour is important to our distros. The reason is we will
-> > >>>>> provide default value with crashkernel=xxxM along kernel of distros. In
-> > >>>>> this case, we hope the reservation will succeed by all means. The ,high
-> > >>>>> and ,low is an option if customer likes to take with expertise.
-> 
-> OK, that's good feedback.
-> 
-> So, to recap, IIUC you are fine with:
-> 
-> 	crashkernel=Y		- allocate within ZONE_DMA with fallback
-> 				  above with a default in ZONE_DMA (like
-> 				  x86, 256M or swiotlb size)
-                                  
-        Ack to this one. 
-
-
-> 	crashkernel=Y,high	- allocate from above ZONE_DMA
-                                  
-        Not exactly. If there's only ZONE_DMA, crashkernel,high will
-        be reserved in ZONE_DMA, and crashkernel,low will be ignored.
-        Other than this, ack.
-
-> 	crashkernel=Y,low	- allocate within ZONE_DMA
-
-        Ack to this one.
-> 
-> 'crashkernel' overrides the high and low while the latter two can be
-> passed independently.
-
-        crashkernel=,high can be passed independently, then a crashkernel=,low
-        is needed implicitly. If people don't want crashkernel=,low
-        explicitly, crashkernel=0,low need be specified.
-
-        An independent crashkernel=,low makes no sense. Crashkernel=,low
-        should be paird with crashkernel=,high.
-        
-        My personal opinion according to the existed senmantics on x86.
-        Otherwise, the guidance of crashkernel= |,high|,low reservation
-        will be complicated to write.
-
-> 
-> > >>>>> After going through arm64 memory init code, I got below summary about
-> > >>>>> arm64_dma_phys_limit which is the first zone's upper limit. I think we
-> > >>>>> can make use of it to facilitate to simplify code.
-> > >>>>> ================================================================================
-> > >>>>>                         DMA                      DMA32                    NORMAL
-> > >>>>> 1)Raspberry Pi4         0~1G                     3G~4G                    (above 4G)
-> > >>>>> 2)Normal machine        0~4G                     0                        (above 4G)
-> > >>>>> 3)Special machine       (above 4G)~MAX
-> > >>>>> 4)No DMA|DMA32                                                            (above 4G)~MAX
-> > >>>
-> > >>> arm64_memblock_init()
-> > >>> 	reserve_crashkernel()        ---------------   0a30c53573b0 ("arm64: mm: Move reserve_crashkernel() into mem_init()")
-> > >> We don't need different code for this place of reservation as you are
-> > >> doing in this patchset, since arm64_dma_phys_limit is initialized as 
-> > >> below. In fact, in arm64_memblock_init(), we have made memblock ready,
-> > >> we can initialize arm64_dma_phys_limit as memblock_end_of_DRAM(). And if
-> > >> memblock_start_of_DRAM() is bigger than 4G, we possibly can call
-> > >> reserve_crashkernel() here too.
-> > > 
-> > > Yes. Maybe all the devices in this environment are 64-bit. One way I
-> > > know of allowing 32-bit devices to access high memory without SMMU
-> > > is: Set a fixed value for the upper 32 bits. In this case, the DMA
-> > > zone should be [phys_start, phys_start + 4G).
-> 
-> We decided that this case doesn't really exists for arm64 platforms (no
-> need for special ZONE_DMA).
-> 
-> > I just read the message of commit 791ab8b2e3 ("arm64: Ignore any DMA
-> > offsets in the max_zone_phys() calculation")
-> > 
-> >     Currently, the kernel assumes that if RAM starts above 32-bit (or
-> >     zone_bits), there is still a ZONE_DMA/DMA32 at the bottom of the RAM and
-> >     such constrained devices have a hardwired DMA offset. In practice, we
-> >     haven't noticed any such hardware so let's assume that we can expand
-> >     ZONE_DMA32 to the available memory if no RAM below 4GB. Similarly,
-> >     ZONE_DMA is expanded to the 4GB limit if no RAM addressable by
-> >     zone_bits.
-> 
-> I think the above log is slightly confusing. If the DRAM starts above
-> 4G, ZONE_DMA goes to the end of DRAM. If the DRAM starts below 4G but
-> above the zone_bits for ZONE_DMA as specified in DT/ACPI, it pushes
-> ZONE_DMA to 4G. I don't remember why we did this last part, maybe in
-> case we get incorrect firmware tables, otherwise we could have extended
-> ZONE_DMA to end of DRAM.
-> 
-> Zhen Lei, if we agreed on the crashkernel behaviour, could you please
-> post a series that does the above parsing allocation? Ignore the
-> optimisations, we can look at them afterwards.
-> 
-> Thanks.
-> 
-> -- 
-> Catalin
+> [1] https://lore.kernel.org/all/20220330153745.20465-5-songmuchun@bytedance.com/
 > 
 
+Sorry, but I am a little confused.
+
+vmemmap_optimize_mode_switch will static_key_inc to enable and static_key_dec
+to disable.  In addition each time we optimize (allocate) a hugetlb page after
+enabling we will static_key_inc.
+
+Suppose we have 1 hugetlb page optimized.  So static count == 2 IIUC.
+The someone turns off optimization via sysctl.  static count == 1 ???
+If we then add another hugetlb page via nr_hugepages it seems that it
+would be optimized as static count == 1.  Is that correct?  Do we need
+to free all hugetlb pages with optimization before we can add new pages
+without optimization?
+
+-- 
+Mike Kravetz
