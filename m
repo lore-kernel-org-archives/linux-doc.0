@@ -2,131 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD4F3C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 13:11:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C92C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 13:27:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379163AbiEENOk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 09:14:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57410 "EHLO
+        id S1378824AbiEENbP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 09:31:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378957AbiEENOc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 09:14:32 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96F4827B2C;
-        Thu,  5 May 2022 06:10:52 -0700 (PDT)
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 245CGhvZ009854;
-        Thu, 5 May 2022 13:10:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=ElSZxIsrxBk2eEn+rr4POU3JFqC0nkzQM+g0zJEmCIw=;
- b=tex5xeEf6eSGZWkhju2AVLT9mhUU1aO1j3j85EPOIISlcquaxECydAmcHS3jdovf6jYd
- 3kOV4dKN9fbvu1Uhu7RnMnptxwiYzsISbGRjs6b0NtywX/D0bPABFqLRgLZrenA+8hmf
- fr1WpCFooqrZAZR/0wPiz5/1uVc6enulvqyV/2VYsIdwRV+8AmHESuRonoemIQW9rRQb
- bxCjQTmLmyP01WheE9xrhnQPZXI2HsiCRlj/Ozi+cnrldwBbGXhT4D4y1uoA3flsucCx
- EH+EoiMghYlywD1O2U3nGZaHoNRJQKggDiOfXTManpKiQlo68FJuMDAL4rprKgLqnzMf Ow== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fveess5vq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 05 May 2022 13:10:49 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 245CW4nW027456;
-        Thu, 5 May 2022 13:10:48 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fveess5u1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 05 May 2022 13:10:48 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-        by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 245D3NVQ005923;
-        Thu, 5 May 2022 13:10:44 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
-        by ppma03ams.nl.ibm.com with ESMTP id 3ftp7fv3ht-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 05 May 2022 13:10:44 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 245DAeh747251728
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 5 May 2022 13:10:41 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D8FA64C04A;
-        Thu,  5 May 2022 13:10:40 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B99994C040;
-        Thu,  5 May 2022 13:10:39 +0000 (GMT)
-Received: from [9.171.71.237] (unknown [9.171.71.237])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Thu,  5 May 2022 13:10:39 +0000 (GMT)
-Message-ID: <02b06642-4bc4-e388-1dd7-6b28a85458c7@linux.ibm.com>
-Date:   Thu, 5 May 2022 15:10:39 +0200
+        with ESMTP id S1344383AbiEENbN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 09:31:13 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B205F396BA;
+        Thu,  5 May 2022 06:27:33 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id d6so5190634ede.8;
+        Thu, 05 May 2022 06:27:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:from:to:cc:subject:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=nHOoHEGsmze3npyTXqLAhhEQTXnphFtBEWTNzFPda74=;
+        b=Mezhonl9s+ngmGDudy8k86Kn3eW+tkU56/ONzMQ0K1mLP0MqNx3preIJZowyjqcsw3
+         yBRue7jog50Vz3BTGKfNsAhQTGkkBmh6KAcE5xNAEmbctW+N1FlQXDNQXKs3G0nNEbxt
+         /ymfB10N5xaUYFQEbEt+OJDJhXdM0hTQAfrxmKC/8j1f/etEEvfp/2HnZex9MB3SY1CQ
+         n9FeskcHJEkGFnyuOlODQbSmVfIEXQMiy1FyEHsf5c7HLS3kQz5JpbP/X5h0Eoi06bDV
+         QIjXGOzPWTeXDizrkoP41OW+o9OhGhxrFobiFTntRCxjGPNbWAbIcInJ0CuL3fwneTZ7
+         jcwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:from:to:cc:subject:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=nHOoHEGsmze3npyTXqLAhhEQTXnphFtBEWTNzFPda74=;
+        b=irLusaEin5Vl62ysrn+Rf8v4a7sJkCkhJ7/7iTZ33vCN6TyOjFOP5ehLCXDwsIRFS9
+         FVTYpZ298F6gGXwXF8z8HRggYQgfEhqPiHRYWF4ZbnucZSHixOCkwvRTUbSZ7HeaLacU
+         5eAPbmKqpftNcgrWyJH3KxLM6QVDF22vMCsmQb9n4TNZYRe4sOTXgth9Z0diiEOSfPSi
+         l4IjiIIYfhDA8mbH8PBPCZ4kb/pUp1rEUd/yR/F3D6BAKdTloMmKMCgtNFaIZ+RC2bnG
+         3jVRcIvE4FQi20XPPEixZzgEitLYLFROf1b5CNe7fkHShXg9zBevKls+r1sLpMdLsaBQ
+         /vFw==
+X-Gm-Message-State: AOAM530Zm75q9SAnVkZj46SKrAWLbQFvo08hmL0iB8lnKcYPgei1sC6Y
+        pUQhuAFZ9+RKkidk3t/vkol6m1RXP30=
+X-Google-Smtp-Source: ABdhPJyROXA8t7WlzuCAbTu5ISI005y3+7V4ktHxtr1SiTWSmxdCqv8qejbuNsoqSXhvOSfggPcevQ==
+X-Received: by 2002:a05:6402:430f:b0:427:d034:295b with SMTP id m15-20020a056402430f00b00427d034295bmr19307387edc.126.1651757252134;
+        Thu, 05 May 2022 06:27:32 -0700 (PDT)
+Received: from Ansuel-xps. (93-42-70-190.ip85.fastwebnet.it. [93.42.70.190])
+        by smtp.gmail.com with ESMTPSA id p21-20020a17090653d500b006f3ef214e3csm717924ejo.162.2022.05.05.06.27.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 May 2022 06:27:31 -0700 (PDT)
+Message-ID: <6273d0c3.1c69fb81.19fc.3eaf@mx.google.com>
+X-Google-Original-Message-ID: <YnPQwaynVpFOsJfX@Ansuel-xps.>
+Date:   Thu, 5 May 2022 15:27:29 +0200
+From:   Ansuel Smith <ansuelsmth@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [RFC PATCH v6 06/11] leds: trigger: netdev: add hardware control
+ support
+References: <20220503151633.18760-1-ansuelsmth@gmail.com>
+ <20220503151633.18760-7-ansuelsmth@gmail.com>
+ <YnMhk1F0LrIMK5hp@lunn.ch>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v6 13/21] KVM: s390: mechanism to enable guest zPCI
- Interpretation
-Content-Language: en-US
-To:     Matthew Rosato <mjrosato@linux.ibm.com>, linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        jgg@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220426200842.98655-1-mjrosato@linux.ibm.com>
- <20220426200842.98655-14-mjrosato@linux.ibm.com>
-From:   Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <20220426200842.98655-14-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: yx-3cSgWWCAKSQtvokFj3v12gVTA7-dE
-X-Proofpoint-GUID: TWEIl9H1ORpbnlKr0kOj9mq5FCixO5LU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-05_05,2022-05-05_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- mlxlogscore=999 impostorscore=0 adultscore=0 priorityscore=1501
- bulkscore=0 phishscore=0 mlxscore=0 clxscore=1015 spamscore=0
- suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2202240000 definitions=main-2205050095
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YnMhk1F0LrIMK5hp@lunn.ch>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 26.04.22 um 22:08 schrieb Matthew Rosato:
+On Thu, May 05, 2022 at 03:00:03AM +0200, Andrew Lunn wrote:
+> > +struct netdev_led_attr_detail {
+> > +	char *name;
+> > +	bool hardware_only;
+> > +	enum led_trigger_netdev_modes bit;
+> > +};
+> > +
+> > +static struct netdev_led_attr_detail attr_details[] = {
+> > +	{ .name = "link", .bit = TRIGGER_NETDEV_LINK},
+> > +	{ .name = "tx", .bit = TRIGGER_NETDEV_TX},
+> > +	{ .name = "rx", .bit = TRIGGER_NETDEV_RX},
+> 
+> hardware_only is never set. Maybe it is used in a later patch? If so,
+> please introduce it there.
+>
 
-Reviewed-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+Is it better to introduce the hardware_only bool in the patch where the
+additional "hardware only" modes are added?
 
+> >  static void set_baseline_state(struct led_netdev_data *trigger_data)
+> >  {
+> > +	int i;
+> >  	int current_brightness;
+> > +	struct netdev_led_attr_detail *detail;
+> >  	struct led_classdev *led_cdev = trigger_data->led_cdev;
+> 
+> This file mostly keeps with reverse christmas tree, probably because
+> it was written by a netdev developer. It is probably not required for
+> the LED subsystem, but it would be nice to keep the file consistent.
+> 
 
+The order is a bit mixed as you notice. Ok will stick to reverse
+christmas.
 
-> +/* Must be called with kvm->lock held */
+> > @@ -100,10 +195,15 @@ static ssize_t device_name_store(struct device *dev,
+> >  				 size_t size)
+> >  {
+> >  	struct led_netdev_data *trigger_data = led_trigger_get_drvdata(dev);
+> > +	struct net_device *old_net = trigger_data->net_dev;
+> > +	char old_device_name[IFNAMSIZ];
+> >  
+> >  	if (size >= IFNAMSIZ)
+> >  		return -EINVAL;
+> >  
+> > +	/* Backup old device name */
+> > +	memcpy(old_device_name, trigger_data->device_name, IFNAMSIZ);
+> > +
+> >  	cancel_delayed_work_sync(&trigger_data->work);
+> >  
+> >  	spin_lock_bh(&trigger_data->lock);
+> > @@ -122,6 +222,19 @@ static ssize_t device_name_store(struct device *dev,
+> >  		trigger_data->net_dev =
+> >  		    dev_get_by_name(&init_net, trigger_data->device_name);
+> >  
+> > +	if (!validate_baseline_state(trigger_data)) {
+> 
+> You probably want to validate trigger_data->net_dev is not NULL first. The current code
+> is a little odd with that, 
+> 
 
-maybe lockdep_assert_held?
+The thing is that net_dev can be NULL and actually is a requirement for
+hardware_mode to be triggered. (net_dev must be NULL or software mode is
+forced)
 
-> +void kvm_s390_vcpu_pci_enable_interp(struct kvm *kvm)
-> +{
-> +	struct kvm_vcpu *vcpu;
-> +	unsigned long i;
-> +
-> +	/*
-> +	 * If host is configured for PCI and the necessary facilities are
-> +	 * available, turn on interpretation for the life of this guest
-> +	 */
-> +	if (!kvm_s390_pci_interp_allowed())
-> +		return;
-> +
-> +	kvm->arch.use_zpci_interp = 1;
-> +
-> +	kvm_s390_vcpu_block_all(kvm);
-> +
-> +	kvm_for_each_vcpu(i, vcpu, kvm) {
-> +		kvm_s390_vcpu_pci_setup(vcpu);
-> +		kvm_s390_sync_request(KVM_REQ_VSIE_RESTART, vcpu);
-> +	}
-> +
-> +	kvm_s390_vcpu_unblock_all(kvm);
-> +}
+> > +		/* Restore old net_dev and device_name */
+> > +		if (trigger_data->net_dev)
+> > +			dev_put(trigger_data->net_dev);
+> > +
+> > +		dev_hold(old_net);
+> 
+> This dev_hold() looks wrong. It is trying to undo a dev_put()
+> somewhere? You should not actually do a put until you know you really
+> do not old_net, otherwise there is a danger it disappears and you
+> cannot undo.
+> 
+
+Yes if you notice some lines above, the first thing done is to dev_put
+the current net_dev set. So on validation fail we restore the old state
+with holding the old_net again and restoring the device_name.
+
+But thanks for poiting it out... I should check if old_net is not NULL.
+Also should i change the logic and just dev_put if all goes well? (for
+example before the return size?) That way I should be able to skip this
+additional dev_hold.
+
+> > @@ -228,13 +349,22 @@ static ssize_t interval_store(struct device *dev,
+> >  		return ret;
+> >  
+> >  	/* impose some basic bounds on the timer interval */
+> > -	if (value >= 5 && value <= 10000) {
+> > -		cancel_delayed_work_sync(&trigger_data->work);
+> > +	if (value < 5 || value > 10000)
+> > +		return -EINVAL;
+> > +
+> > +	cancel_delayed_work_sync(&trigger_data->work);
+> > +
+> > +	atomic_set(&trigger_data->interval, msecs_to_jiffies(value));
+> >  
+> > -		atomic_set(&trigger_data->interval, msecs_to_jiffies(value));
+> > -		set_baseline_state(trigger_data);	/* resets timer */
+> > +	if (!validate_baseline_state(trigger_data)) {
+> > +		/* Restore old interval on validation error */
+> > +		atomic_set(&trigger_data->interval, old_interval);
+> > +		trigger_data->mode = old_mode;
+> 
+> I think you need to schedule the work again, since you cancelled
+> it. It is at the end of the work that the next work is scheduled, and
+> so it will not self recover.
+> 
+
+Ok I assume the correct way to handle this is to return error and still
+use the set_baseline_state... Or Also move the validate_baseline_state
+up before the cancel_delayed_work_sync. But considering we require
+atomic_set for the validation to work I think the right way is to
+set_baseline_state even with errors (as it will reschedule the work)
+
+>    Andrew
+
+-- 
+	Ansuel
