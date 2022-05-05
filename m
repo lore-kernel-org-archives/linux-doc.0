@@ -2,115 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 516C0C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 05:57:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB4CC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 07:34:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243985AbiEEGAr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 02:00:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52182 "EHLO
+        id S1345191AbiEEHiA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 03:38:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230024AbiEEGAq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 02:00:46 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 495F629C86;
-        Wed,  4 May 2022 22:57:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=0RNEm5+NEN7w925eokqd3iQQhIS/p5lgAQiqOzj0AqU=; b=bpPQHauP0GZlNt0nhaYRYMQd3o
-        CKwArj2r5bWsVVV9QTcAiG640anvOGmiyynASSWVxl3B6LE3yjbdxrni2KF08ELfEiIU9p+fd2jhQ
-        1uNxD6vkdcF0lNf9uZnIqkV41MItkS79TmI1DpdTe91eW9whq3bJiO84G7oWQhAaerHBwaouRZ0PW
-        A3N/Ebz6NiCFh77/rTSM+cA1+fXt6IYH7WR2bKL6ingkU6mjQs3ayUmt2/uSOtxjx5GQTLFKr1jIv
-        KJjHmEbxT1y81iSSe7ucdPTSF8sYqHUp4rFia8UxOMbMcSQVx+gFtsN2noS6D3Tw1B6bRT50i3mPS
-        Pnh6VbXA==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nmUU0-00E7Vg-Tl; Thu, 05 May 2022 05:57:00 +0000
-Date:   Wed, 4 May 2022 22:57:00 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Daniel Latypov <dlatypov@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     David Gow <davidgow@google.com>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2] kunit: Taint kernel if any tests run
-Message-ID: <YnNnLIZDxkNwECv+@bombadil.infradead.org>
-References: <20220429043913.626647-1-davidgow@google.com>
- <20220430030019.803481-1-davidgow@google.com>
- <Ym7P7mCoMiQq99EM@bombadil.infradead.org>
- <Ym7QXOMK3fLQ+b6t@bombadil.infradead.org>
- <CABVgOSmXyN3SrDkUt4y_TaKPvEGVJgbuE3ycrVDa-Kt1NFGH7g@mail.gmail.com>
- <YnKS3MwNxvEi73OP@bombadil.infradead.org>
- <CAGS_qxrz1WoUd5oGa7p1-H2mQVbkRxSTEbqnCG=aBj=xnMu1zQ@mail.gmail.com>
- <YnLJ6dJQBTYjBRHZ@bombadil.infradead.org>
- <CAGS_qxoFECVJD3Jby1eTWG741hBWuotuEM78PU-qfyvp-nLV7Q@mail.gmail.com>
- <YnLsPgbQ7CHiannN@bombadil.infradead.org>
+        with ESMTP id S235142AbiEEHh7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 03:37:59 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87609488AA;
+        Thu,  5 May 2022 00:34:20 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id z2so5483456ejj.3;
+        Thu, 05 May 2022 00:34:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3J1208WPQ4jno3J/uykQTL89a7eLGDMeF5YveJlEzDs=;
+        b=S78SIfXfk2AKH1/DmhfhwODqbNeadxZX0FAVXnAnkEm6si5fxgcBYmwi4u0eOSalAu
+         3/BurbYRXdysgUV9NhwhO4OR+B6/u6w3kaetOVLGz0jDZOm6/p6tv8VCrd5y0dx+0D4O
+         qD2i6qkY1F14UHRMvTlAF8mpAx3q6gbCr7mNWPHF5MbYbIkt0by+93IEmz3f+AvH065R
+         hMPgvsSSbkpkcZ30GGY9mmyEO8kr5OlnZ720U6dMfxYQ7uZV3Pqu+LDdKwQfhUcrJHZ+
+         SyE/DH1xarFajb7IiT42GvtIbqtm6FSmn/5OD15oVKaE0aN3pecsdzMoL+iJgEB+lBqo
+         wFqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3J1208WPQ4jno3J/uykQTL89a7eLGDMeF5YveJlEzDs=;
+        b=k8LaBVfb0mCxdzMYxUPoOTENgOWpsaqu9B6pqqpzoN5EPK08FaDbjhKUsGuiBSFbxK
+         5oYCIaOtZMQjRcQJyEmW75V8gzGVBlA6SToI0GSRrHmthcBl/vlt5Q3t04kOkoMCBZT3
+         oD5himFFMOQo00DC1Q+Uhzd7yWdgsruhEt18dBrEMPKlIk+bj3m+dEKTtxSSPke4x+Lm
+         fZbtR9FrdxtMiovLzCKpaih4XJzFJTnehHvjpsMvvmaNc7Rysgte7Yjl7Y9WLKzInQs+
+         yD+xygOl8Wxvh5p9rKpd+SxrhFj0xJBkw5y6vBIXItf4n4aBUs6pMw99ul/qX3vhkkZQ
+         86kg==
+X-Gm-Message-State: AOAM532wJmFhKdfmuhkU5o9D8NIAV0plhlypTTns9MObNwAMZoZuOrsZ
+        FG4jHVYPO6TkhPGpdO+9qAI=
+X-Google-Smtp-Source: ABdhPJw025Btub/yVDtZYX9TuyPMCGQ444n5wDrt1oQXpxmbeOFzK9MviShruWUWDTtZ2kzd89eCqA==
+X-Received: by 2002:a17:906:eb82:b0:6f3:9044:5fba with SMTP id mh2-20020a170906eb8200b006f390445fbamr24240010ejb.715.1651736058913;
+        Thu, 05 May 2022 00:34:18 -0700 (PDT)
+Received: from tiger.museclub.art (p200300cf9f27690001ea8a0258c36e97.dip0.t-ipconnect.de. [2003:cf:9f27:6900:1ea:8a02:58c3:6e97])
+        by smtp.googlemail.com with ESMTPSA id og21-20020a1709071dd500b006f3ef214df8sm297592ejc.94.2022.05.05.00.34.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 May 2022 00:34:18 -0700 (PDT)
+From:   Eugene Shalygin <eugene.shalygin@gmail.com>
+To:     eugene.shalygin@gmail.com
+Cc:     Debabrata Banerjee <dbavatar@gmail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] hwmon: (asus-ec-sensors) add ROG STRIX X570-E GAMING WIFI II
+Date:   Thu,  5 May 2022 09:33:51 +0200
+Message-Id: <20220505073351.123753-1-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YnLsPgbQ7CHiannN@bombadil.infradead.org>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 04, 2022 at 02:12:30PM -0700, Luis Chamberlain wrote:
-> On Wed, May 04, 2022 at 02:19:59PM -0500, Daniel Latypov wrote:
-> > On Wed, May 4, 2022 at 1:46 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> > > OK so, we can just skip tainting considerations for selftests which
-> > > don't use modules for now. There may be selftests which do wonky
-> > > things in userspace but indeed I agree the userspace taint would
-> > > be better for those but I don't think it may be worth bother
-> > > worrying about those at this point in time.
-> > >
-> > > But my point in that sharing a taint between kunit / selftests modules
-> > > does make sense and is easily possible. The unfortunate aspect is just
-> > 
-> > Yes, I 100% agree that we should share a taint for kernelspace testing
-> > from both kunit/kselftest.
-> > Someone running the system won't care what framework was used.
-> 
-> OK do you mind doing the nasty work of manually adding the new
-> MODULE_TAINT() to the selftests as part of your effort?
-> 
-> *Alternatively*, if we *moved* all sefltests modules to a new
-> lib/debug/selftests/ directory or something like that then t would
-> seem modpost *could* add the taint flag automagically for us without
-> having to edit or require it on new drivers. We have similar type of
-> taint for staging, see add_staging_flag().
-> 
-> I would *highly* prefer this approach, event though it is more work,
-> because I think this is a step we should take anyway.
-> 
-> However, I just checked modules on lib/ and well, some of them are
-> already in their own directory, like lib/math/test_div64.c. So not
-> sure, maybe just move a few modules which are just in lib/*.c for now
-> and then just sprinkle the MODULE_TAINT() to the others?
+From: Debabrata Banerjee <dbavatar@gmail.com>
 
-I *think* we could just pull this off with a much easier approach,
-simply looking for the substrings in the module name in modpost.c:
+Adds support for the ROG STRIX X570-E GAMING WIFI II board and
+simplifies formatting for the list of supported models.
 
-  * "_test." || "-test."
-  * ^"test_" || ^"test-"
+Signed-off-by: Debabrata Banerjee <dbavatar@gmail.com>
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+---
+ Documentation/hwmon/asus_ec_sensors.rst | 23 ++++++++++++-----------
+ drivers/hwmon/asus-ec-sensors.c         |  8 ++++++++
+ 2 files changed, 20 insertions(+), 11 deletions(-)
 
-An issue with this of course is a vendor $FOO with an out of tree
-test driver may end up with the taint. Perhaps we don't care.
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index 1700fe619597..78ca69eda877 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -4,19 +4,20 @@ Kernel driver asus_ec_sensors
+ =================================
+ 
+ Supported boards:
+- * PRIME X470-PRO,
+- * PRIME X570-PRO,
+- * Pro WS X570-ACE,
++ * PRIME X470-PRO
++ * PRIME X570-PRO
++ * Pro WS X570-ACE
+  * ProArt X570-CREATOR WIFI
+- * ROG CROSSHAIR VIII DARK HERO,
++ * ROG CROSSHAIR VIII DARK HERO
+  * ROG CROSSHAIR VIII HERO (WI-FI)
+- * ROG CROSSHAIR VIII FORMULA,
+- * ROG CROSSHAIR VIII HERO,
+- * ROG CROSSHAIR VIII IMPACT,
+- * ROG STRIX B550-E GAMING,
+- * ROG STRIX B550-I GAMING,
+- * ROG STRIX X570-E GAMING,
+- * ROG STRIX X570-F GAMING,
++ * ROG CROSSHAIR VIII FORMULA
++ * ROG CROSSHAIR VIII HERO
++ * ROG CROSSHAIR VIII IMPACT
++ * ROG STRIX B550-E GAMING
++ * ROG STRIX B550-I GAMING
++ * ROG STRIX X570-E GAMING
++ * ROG STRIX X570-E GAMING WIFI II
++ * ROG STRIX X570-F GAMING
+  * ROG STRIX X570-I GAMING
+ 
+ Authors:
+diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+index 998d49d6b799..611e897429b1 100644
+--- a/drivers/hwmon/asus-ec-sensors.c
++++ b/drivers/hwmon/asus-ec-sensors.c
+@@ -315,6 +315,14 @@ static const struct ec_board_info board_info[] = {
+ 		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+ 		.family = family_amd_500_series,
+ 	},
++	{
++		.board_names = {"ROG STRIX X570-E GAMING WIFI II"},
++		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
++			SENSOR_TEMP_T_SENSOR | SENSOR_CURR_CPU |
++			SENSOR_IN_CPU_CORE,
++		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
++		.family = family_amd_500_series,
++	},
+ 	{
+ 		.board_names = {"ROG STRIX X570-F GAMING"},
+ 		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+-- 
+2.35.1
 
-That means moving selftests to its own directory is not needed at this
-point in time.
-
-  Luis
