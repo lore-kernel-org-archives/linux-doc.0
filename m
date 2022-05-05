@@ -2,119 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D49FFC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 14:20:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F548C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 14:21:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380568AbiEEOYM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 10:24:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49016 "EHLO
+        id S238040AbiEEOZR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 10:25:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240498AbiEEOYL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 10:24:11 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9558915A2D;
-        Thu,  5 May 2022 07:20:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D6F82B82D81;
-        Thu,  5 May 2022 14:20:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55907C385A4;
-        Thu,  5 May 2022 14:20:22 +0000 (UTC)
-Date:   Thu, 5 May 2022 15:20:18 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Baoquan He <bhe@redhat.com>
-Cc:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v22 5/9] arm64: kdump: Reimplement crashkernel=X
-Message-ID: <YnPdIvOktZBQYLjg@arm.com>
-References: <ae7211ad-e2ac-f5b1-5aa0-701802132e73@huawei.com>
- <YmlphvZVMsGfFksp@arm.com>
- <YmoMvV1wzHT5V1aw@MiWiFi-R3L-srv>
- <YmoPhvkXQFZQOcIO@MiWiFi-R3L-srv>
- <3fc41a94-4247-40f3-14e7-f11e3001ec33@huawei.com>
- <YmtaiJhwIgP6m2Sk@MiWiFi-R3L-srv>
- <a9c736a0-f2b3-5b8a-94d9-80742ccd2700@huawei.com>
- <23e2dcf4-4e9a-5298-d5d8-8761b0bbbe21@huawei.com>
- <YnGmCwaWkvCrJoU2@arm.com>
- <YnM9w69l5dbE+k15@MiWiFi-R3L-srv>
+        with ESMTP id S232948AbiEEOZQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 10:25:16 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 128AE1AF34;
+        Thu,  5 May 2022 07:21:37 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id p4so5421977edx.0;
+        Thu, 05 May 2022 07:21:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:to:cc:references
+         :from:in-reply-to:content-transfer-encoding;
+        bh=uGwNvCukPKt5KAQuzs31ksMVk3XSI3SIHYayYJ4DWVY=;
+        b=WWQMyoa/m9OntHX7muyAMEMDG2bYFsVfOLRK7TNHzgaxLF3C1M+93LSzz1zEX6+hmY
+         iCeo1KnKWUyIBM+9C6K4xX2BM93C0n94VpGY7XYCUMWLnpSMaQVVGIg9ltI9v4D/2KoQ
+         nasoI3dJTEz0QM+izEobsfCWIHWjZyWmFjJ8uuO11vXQJsvX76yduzng3pU87SG711ln
+         InsZHaHuJuoikXNEnzwijd7TU5uPYZR9ZUctgWEqb1yOgfEUoP/H0FTydtrKD/CqeO9q
+         0nz3G8Kd//xPi/Y0v18qc57dZnSMRyJZoH4Obqsbecrm2Ya9cbSFPzLPhOzxvRD2A7EP
+         PPOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :to:cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=uGwNvCukPKt5KAQuzs31ksMVk3XSI3SIHYayYJ4DWVY=;
+        b=IqUAv8iw08DOiozGlTGsNqu3TDosgVxAtqmdkIpAwa1IeyuczQM+M70p1GYYiAuxB2
+         +6FUsJNz2vhHzD5ov5fB/qLO8d0V47hWDVwIw0T58MsNOha5+EjfW5r6mhSma9UH5ggT
+         rQ/HqHB/4O1O/S/muxezTnDSFQ4AOywIyqi7S4YJSsQxi/NK/6ut5l80cu1myb3/IpNc
+         kunQovv/piPxNhfXMzu+GrdxOIQtTsCbl1mA2SBSrxFd5MQZwjXODT1HA+sYIdQ2uHJ8
+         FnqRQQAttITHPtwtUOxzQcHuMgVXJ7CY92PDgAlxgL2Jxth6maQ3j+ZDZzJiFaWfPQjl
+         H3ag==
+X-Gm-Message-State: AOAM532R4nMuvSuvIvPDmJJPcSDq16Ivz+3qAwob7YO0WpUkrWmgN5h4
+        gu7Zc4lw9ON+7c53AEE+LDo=
+X-Google-Smtp-Source: ABdhPJwxXRp+klyB4r5bfDnlD02Sfhwzq69K52d+xQh42GTTQ4osTHucxjSDxQ1lJweWXodvb27pgw==
+X-Received: by 2002:a05:6402:364:b0:425:f88d:7d4a with SMTP id s4-20020a056402036400b00425f88d7d4amr30252039edw.68.1651760495661;
+        Thu, 05 May 2022 07:21:35 -0700 (PDT)
+Received: from [192.168.26.149] (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
+        by smtp.googlemail.com with ESMTPSA id v16-20020a17090690d000b006f3ef214da8sm820652ejw.14.2022.05.05.07.21.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 May 2022 07:21:35 -0700 (PDT)
+Message-ID: <b9ef7ce4-2a9d-9ecb-0aee-3f671c25d13f@gmail.com>
+Date:   Thu, 5 May 2022 16:21:33 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YnM9w69l5dbE+k15@MiWiFi-R3L-srv>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101
+ Thunderbird/96.0
+Subject: Re: [PATCH RESEND 0/5] dt-bindings: support Ethernet devices as LED
+ triggers
+To:     Ansuel Smith <ansuelsmth@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org, netdev@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com, andrew@lunn.ch,
+        vivien.didelot@gmail.com, Vladimir Oltean <olteanv@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        John Crispin <john@phrozen.org>, linux-doc@vger.kernel.org,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+References: <20220505135512.3486-1-zajec5@gmail.com>
+ <6273d900.1c69fb81.fbc61.4680@mx.google.com>
+From:   =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+In-Reply-To: <6273d900.1c69fb81.fbc61.4680@mx.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 05, 2022 at 11:00:19AM +0800, Baoquan He wrote:
-> On 05/03/22 at 11:00pm, Catalin Marinas wrote:
-> > So, to recap, IIUC you are fine with:
-> > 
-> > 	crashkernel=Y		- allocate within ZONE_DMA with fallback
-> > 				  above with a default in ZONE_DMA (like
-> > 				  x86, 256M or swiotlb size)
+On 5.05.2022 16:02, Ansuel Smith wrote:
+> On Thu, May 05, 2022 at 03:55:07PM +0200, Rafał Miłecki wrote:
+>> From: Rafał Miłecki <rafal@milecki.pl>
+>>
+>> Some LEDs are designed to represent a state of another device. That may
+>> be USB port, Ethernet interface, CPU, hard drive and more.
+>>
+>> We already have support for LEDs that are designed to indicate USB port
+>> (e.g. light on when USB device gets connected). There is DT binding for
+>> that and Linux implementation in USB trigger.
+>>
+>> This patchset adds support for describing LEDs that should react to
+>> Ethernet interface status. That is commonly used in routers. They often
+>> have LED to display state and activity of selected physical port. It's
+>> also common to have multiple LEDs, each reacting to a specific link
+>> speed.
+>>
 > 
->         Ack to this one.
-> 
-> 
-> > 	crashkernel=Y,high	- allocate from above ZONE_DMA
-> 
->         Not exactly. If there's only ZONE_DMA, crashkernel,high will
->         be reserved in ZONE_DMA, and crashkernel,low will be ignored.
->         Other than this, ack.
+> I notice this is specific to ethernet speed... I wonder if we should
+> expand this also to other thing like duplex state or even rx/tx.
 
-Yes, that's fine.
+I didn't see any router with separated Rx/Tx LEDs, but it still sounds
+like a valid case.
 
-> > 	crashkernel=Y,low	- allocate within ZONE_DMA
-> 
->         Ack to this one.
-> > 
-> > 'crashkernel' overrides the high and low while the latter two can be
-> > passed independently.
-> 
->         crashkernel=,high can be passed independently, then a crashkernel=,low
->         is needed implicitly. If people don't want crashkernel=,low
->         explicitly, crashkernel=0,low need be specified.
+We could add flags for that in proposed field like:
+trigger-sources = <&port (SPEED_1000 | LINK | TX)>;
 
-I find this complicating the interface. I don't know the background to
-the x86 implementation but we diverge already on arm64 since we talk
-about ZONE_DMA rather than 4G limit (though for most platforms these
-would be the same).
+Or add separated field for non-speed flags like:
+trigger-sources = <&port SPEED_1000 (LINK | TX)>;
 
-I guess we could restate the difference between crashkernel= and
-crashkernel=,high as the hint to go for allocation above ZONE_DMA first.
-
->         An independent crashkernel=,low makes no sense. Crashkernel=,low
->         should be paird with crashkernel=,high.
-
-You could argue that crashkernel=,low gives the current crashkernel=
-behaviour, i.e. either all within ZONE_DMA or fail to allocate. So it
-may have some value on its own.
-
->         My personal opinion according to the existed senmantics on x86.
->         Otherwise, the guidance of crashkernel= |,high|,low reservation
->         will be complicated to write.
-
-It's more that I find the current semantics unnecessarily confusing. But
-even reading the x86_64 text it's not that clear. For example the
-default low allocation for crashkernel= and crashkernel=,high is only
-mentioned in the crashkernel=,low description.
-
--- 
-Catalin
+Let's see what DT experts say about it.
