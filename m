@@ -2,190 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AD60C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 18:39:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 952A0C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 19:06:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384022AbiEESmv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 14:42:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49738 "EHLO
+        id S234315AbiEETJt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 15:09:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1383127AbiEESmo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 14:42:44 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68FE766FAE;
-        Thu,  5 May 2022 11:32:06 -0700 (PDT)
+        with ESMTP id S234595AbiEETJs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 15:09:48 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0D124A3CC
+        for <linux-doc@vger.kernel.org>; Thu,  5 May 2022 12:06:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651775526; x=1683311526;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qIOFndILJT/RTQCAijUPdDLm6tWk5rI8wqnqOSA8lFw=;
-  b=SsHNPhOK4Q6OjfRtOJQRD5vplIv4ZjZEDSdlPiH8NBi5My9/z5WLISWo
-   2VcSqEwqM+AT4soZAlXbK8XnoUOaG1ddRX+sRlRJduRnCv2tt7Ql+7p9y
-   VL1jHqvG0Nqe1aq7ThZkUrImG8p0QK8hQ76Ay25HqhhOf98JmUm/ImoBL
-   tX7s+/BoHYeDrmQ6+fpjK8cbxY1vCg1/BuBs2EpCDQZzcyewm9xmf2Rg7
-   qUm+TD02FXCk6HKsGHtuC3pAHLCJEIXPmleLiZhVozSmBlEb3DXaRMUYX
-   OeCyD854RHRQFzVQM7XV9T68ucXqR0fcTCbuzL604dyt9MDJGxO48Pzlc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="265807023"
+  t=1651777567; x=1683313567;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=g5OoGBxii9JSs7clLCkA+yvXJktICHOeLJoss3U1pG8=;
+  b=HNhddz7tsPZNYiKIeaHPQGsceia+bBBJ2g/PihGz348/8U7yUdKpJPBe
+   eKNhIaehuM1+5PrRkY/5QsuG3m9Myx9JzI/30qgyk8GGBStqUbo5mo6oY
+   agNHviq/rXIf1NizlR7O+Lkrn/AF5AVuzLjyDkGHJr35ahMrYOJa5ERic
+   vOJny0WQX6AsSPWKT0YcmJUNEEDjWz3doEOVHa4BGz5lNEmkqMmIsKRWy
+   3/Fe6Vlqk+uhL55yLio6oNOtkhJwfQ1S9EYrjZOtwP7cLa7zT8eJAS8ma
+   AJk6AL5pxqg477mGoRbc4sGNaBkXzJ9rTa9CgJ+UBE5aSlAYl/JNqQtyd
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="250211011"
 X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; 
-   d="scan'208";a="265807023"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 11:32:06 -0700
+   d="scan'208";a="250211011"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 12:06:07 -0700
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; 
-   d="scan'208";a="621427891"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 11:32:05 -0700
-Date:   Thu, 5 May 2022 11:32:04 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Peter Zijlstra <peterz@infradead.org>, hdegoede@redhat.com,
-        markgross@kernel.org, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        corbet@lwn.net, gregkh@linuxfoundation.org,
-        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
-        ashok.raj@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
-        ravi.v.shankar@intel.com
-Subject: Re: [PATCH v5 07/10] platform/x86/intel/ifs: Add scan test support
-Message-ID: <YnQYJIVC0scuL7D7@agluck-desk3.sc.intel.com>
-References: <20220422200219.2843823-1-tony.luck@intel.com>
- <20220428153849.295779-1-tony.luck@intel.com>
- <20220428153849.295779-8-tony.luck@intel.com>
- <87r159jxaq.ffs@tglx>
- <YnLLekoripdY2oQU@agluck-desk3.sc.intel.com>
- <87tua4j3es.ffs@tglx>
- <20220505082824.GD2501@worktop.programming.kicks-ass.net>
- <87bkwcic9k.ffs@tglx>
+   d="scan'208";a="517655756"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 05 May 2022 12:06:05 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nmgnc-000Cg4-R2;
+        Thu, 05 May 2022 19:06:04 +0000
+Date:   Fri, 6 May 2022 03:05:09 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Oliver Upton <oupton@google.com>
+Cc:     kbuild-all@lists.01.org, linux-arm-kernel@lists.infradead.org,
+        Marc Zyngier <maz@kernel.org>,
+        Reiji Watanabe <reijiw@google.com>, linux-doc@vger.kernel.org
+Subject: [arm-platforms:kvm-arm64/psci-suspend 7/13] htmldocs:
+ Documentation/virt/kvm/api.rst:6049: (SEVERE/4) Title level inconsistent:
+Message-ID: <202205060209.NeOKC7Mb-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87bkwcic9k.ffs@tglx>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 05, 2022 at 11:01:27AM +0200, Thomas Gleixner wrote:
-> On Thu, May 05 2022 at 10:28, Peter Zijlstra wrote:
-> > On Thu, May 05, 2022 at 01:15:07AM +0200, Thomas Gleixner wrote:
-> >> We don't have stomp_cpumask() today, but that's trivial enough to
-> >> implement.
-> >
-> > I don't think we want to gift people a random cpumask stop_machine(),
-> 
-> Fair enough.
-> 
-> > but here's one that stops a core. It runs the @fn on every cpu since I
-> > thought to have understood that was the requirement for this muck.
-> 
-> Yes.
-> 
-> > *completely* untestededed.
-> 
-> Looks about right neverthelessesseess.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/psci-suspend
+head:   582eb04e05ddd234ca32083c8457c6d409fd7b6a
+commit: bfbab44568779e1682bc6f63688bb9c965f0e74a [7/13] KVM: arm64: Implement PSCI SYSTEM_SUSPEND
+reproduce: make htmldocs
 
-Close enough. I made these changes:
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-1) Added EXPORT_SYMBOL_GPL()
-2) Added protoype in <linux/stop_machine.h>
-3) Moved the kerneldoc comment to the header (for some reason
-   the other stop* functions document there).
-4) Edited that kerneldoc a bit <<<< NEEDS REVIEW  >>>
-5) Changed a ';' to a ',' to make it compile.
+Note: the arm-platforms/kvm-arm64/psci-suspend HEAD 582eb04e05ddd234ca32083c8457c6d409fd7b6a builds fine.
+      It only hurts bisectability.
 
-With that it works, and will do exactly what I need (with less code
-in the IFS driver by the look of things).
+All errors (new ones prefixed by >>):
 
-A couple of thousand tests shows it works. The two threads
-arrive within 20 TSC cycles of each other 60% of the time,
-but I have some outliers up to 654 cycles ... which is plenty
-close enough.
+>> Documentation/virt/kvm/api.rst:6049: (SEVERE/4) Title level inconsistent:
 
-Patch now looks like this. Author credit to Peter ... are you willing
-to add a Signed-off-by to stop checkpatch from whining at me?
+vim +6049 Documentation/virt/kvm/api.rst
 
-There isn't a "Something-similar-suggested-by:" tag to credit Thomas
-with this.  Perhaps "Inspired-by:"?
+  6031	
+  6032	 - KVM_SYSTEM_EVENT_SHUTDOWN -- the guest has requested a shutdown of the
+  6033	   VM. Userspace is not obliged to honour this, and if it does honour
+  6034	   this does not need to destroy the VM synchronously (ie it may call
+  6035	   KVM_RUN again before shutdown finally occurs).
+  6036	 - KVM_SYSTEM_EVENT_RESET -- the guest has requested a reset of the VM.
+  6037	   As with SHUTDOWN, userspace can choose to ignore the request, or
+  6038	   to schedule the reset to occur in the future and may call KVM_RUN again.
+  6039	 - KVM_SYSTEM_EVENT_CRASH -- the guest crash occurred and the guest
+  6040	   has requested a crash condition maintenance. Userspace can choose
+  6041	   to ignore the request, or to gather VM memory core dump and/or
+  6042	   reset/shutdown of the VM.
+  6043	 - KVM_SYSTEM_EVENT_WAKEUP -- the exiting vCPU is in a suspended state and
+  6044	   KVM has recognized a wakeup event. Userspace may honor this event by
+  6045	   marking the exiting vCPU as runnable, or deny it and call KVM_RUN again.
+  6046	 - KVM_SYSTEM_EVENT_SUSPEND -- the guest has requested a suspension of
+  6047	   the VM.
+  6048	
+> 6049	For arm/arm64:
+  6050	^^^^^^^^^^^^^^
+  6051	
+  6052	   KVM_SYSTEM_EVENT_SUSPEND exits are enabled with the
+  6053	   KVM_CAP_ARM_SYSTEM_SUSPEND VM capability. If a guest invokes the PSCI
+  6054	   SYSTEM_SUSPEND function, KVM will exit to userspace with this event
+  6055	   type.
+  6056	
+  6057	   It is the sole responsibility of userspace to implement the PSCI
+  6058	   SYSTEM_SUSPEND call according to ARM DEN0022D.b 5.19 "SYSTEM_SUSPEND".
+  6059	   KVM does not change the vCPU's state before exiting to userspace, so
+  6060	   the call parameters are left in-place in the vCPU registers.
+  6061	
+  6062	   Userspace is _required_ to take action for such an exit. It must
+  6063	   either:
+  6064	
+  6065	    - Honor the guest request to suspend the VM. Userspace can request
+  6066	      in-kernel emulation of suspension by setting the calling vCPU's
+  6067	      state to KVM_MP_STATE_SUSPENDED. Userspace must configure the vCPU's
+  6068	      state according to the parameters passed to the PSCI function when
+  6069	      the calling vCPU is resumed. See ARM DEN0022D.b 5.19.1 "Intended use"
+  6070	      for details on the function parameters.
+  6071	
+  6072	    - Deny the guest request to suspend the VM. See ARM DEN0022D.b 5.19.2
+  6073	      "Caller responsibilities" for possible return values.
+  6074	
 
--Tony
-
-
-From df5ca8024997d3d782978d154cfbff5147f451ad Mon Sep 17 00:00:00 2001
-From: Peter Zijlstra <peterz@infradead.org>
-Date: Thu, 5 May 2022 08:55:09 -0700
-Subject: [PATCH] stop_machine: Add stop_core_cpuslocked() for per-core
- operations
-
-Hardware core level testing features require near simultaneous execution
-of WRMSR instructions on all threads of a core to initiate a test.
-
-Provide a customized cut down version of stop_machine_cpuslocked() that
-just operates on the threads of a single core.
-
-Signed-off-by: Tony Luck <tony.luck@intel.com>
----
- include/linux/stop_machine.h | 16 ++++++++++++++++
- kernel/stop_machine.c        | 19 +++++++++++++++++++
- 2 files changed, 35 insertions(+)
-
-diff --git a/include/linux/stop_machine.h b/include/linux/stop_machine.h
-index 46fb3ebdd16e..ea7a74ea7389 100644
---- a/include/linux/stop_machine.h
-+++ b/include/linux/stop_machine.h
-@@ -124,6 +124,22 @@ int stop_machine(cpu_stop_fn_t fn, void *data, const struct cpumask *cpus);
-  */
- int stop_machine_cpuslocked(cpu_stop_fn_t fn, void *data, const struct cpumask *cpus);
- 
-+/**
-+ * stop_core_cpuslocked: - stop all threads on just one core
-+ * @cpu: any cpu in the targeted core
-+ * @fn: the function to run
-+ * @data: the data ptr for @fn()
-+ *
-+ * Same as above, but instead of every CPU, only the logical CPUs of a
-+ * single core are affected.
-+ *
-+ * Context: Must be called from within a cpus_read_lock() protected region.
-+ *
-+ * Return: 0 if all executions of @fn returned 0, any non zero return
-+ * value if any returned non zero.
-+ */
-+int stop_core_cpuslocked(unsigned int cpu, cpu_stop_fn_t fn, void *data);
-+
- int stop_machine_from_inactive_cpu(cpu_stop_fn_t fn, void *data,
- 				   const struct cpumask *cpus);
- #else	/* CONFIG_SMP || CONFIG_HOTPLUG_CPU */
-diff --git a/kernel/stop_machine.c b/kernel/stop_machine.c
-index cbc30271ea4d..579761729836 100644
---- a/kernel/stop_machine.c
-+++ b/kernel/stop_machine.c
-@@ -633,6 +633,25 @@ int stop_machine(cpu_stop_fn_t fn, void *data, const struct cpumask *cpus)
- }
- EXPORT_SYMBOL_GPL(stop_machine);
- 
-+int stop_core_cpuslocked(unsigned int cpu, cpu_stop_fn_t fn, void *data)
-+{
-+	const struct cpumask *smt_mask = cpu_smt_mask(cpu);
-+
-+	struct multi_stop_data msdata = {
-+		.fn = fn,
-+		.data = data,
-+		.num_threads = cpumask_weight(smt_mask),
-+		.active_cpus = smt_mask,
-+	};
-+
-+	lockdep_assert_cpus_held();
-+
-+	/* Set the initial state and stop all online cpus. */
-+	set_state(&msdata, MULTI_STOP_PREPARE);
-+	return stop_cpus(smt_mask, multi_cpu_stop, &msdata);
-+}
-+EXPORT_SYMBOL_GPL(stop_core_cpuslocked);
-+
- /**
-  * stop_machine_from_inactive_cpu - stop_machine() from inactive CPU
-  * @fn: the function to run
 -- 
-2.35.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
