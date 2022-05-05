@@ -2,75 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 780ABC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 14:11:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D49FFC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 14:20:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344310AbiEEOPa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 10:15:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40446 "EHLO
+        id S1380568AbiEEOYM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 10:24:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377567AbiEEOP3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 10:15:29 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BACA7580E6;
-        Thu,  5 May 2022 07:11:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=E4jsY0uAPE+nMpUAcq/anRC7ZLLjgF7r9Wt9SH2W6Kc=; b=iDdeA7mkqnPRQQVropF3wQJL+9
-        xeru26CIl+pG4mE0r5Z7fWhw/pEUF6P+Ej7QHkDQx58x4gRG3t2Ygh8eipwf+9jkflXPlWKnHa9rr
-        yki6b4vbe8f/MNVzcP5/OJOTUQ0dNoEcN/vlZ5TECO1sqIkXDsU8la4BiuStgEvdi38I=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1nmcCQ-001N5Y-D5; Thu, 05 May 2022 16:11:22 +0200
-Date:   Thu, 5 May 2022 16:11:22 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        devicetree@vger.kernel.org, netdev@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        John Crispin <john@phrozen.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/4] dt-bindings: net: add bitfield defines for Ethernet
- speeds
-Message-ID: <YnPbCor/hObN0zuT@lunn.ch>
-References: <20220503153613.15320-1-zajec5@gmail.com>
- <235aa025-7c12-f7e1-d788-9a2ef97f664f@gmail.com>
- <YnPASLy4oWJ6BJDq@lunn.ch>
- <47bafeae-34fb-fc55-3758-d248bd9706af@gmail.com>
+        with ESMTP id S240498AbiEEOYL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 10:24:11 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9558915A2D;
+        Thu,  5 May 2022 07:20:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D6F82B82D81;
+        Thu,  5 May 2022 14:20:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55907C385A4;
+        Thu,  5 May 2022 14:20:22 +0000 (UTC)
+Date:   Thu, 5 May 2022 15:20:18 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Baoquan He <bhe@redhat.com>
+Cc:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v22 5/9] arm64: kdump: Reimplement crashkernel=X
+Message-ID: <YnPdIvOktZBQYLjg@arm.com>
+References: <ae7211ad-e2ac-f5b1-5aa0-701802132e73@huawei.com>
+ <YmlphvZVMsGfFksp@arm.com>
+ <YmoMvV1wzHT5V1aw@MiWiFi-R3L-srv>
+ <YmoPhvkXQFZQOcIO@MiWiFi-R3L-srv>
+ <3fc41a94-4247-40f3-14e7-f11e3001ec33@huawei.com>
+ <YmtaiJhwIgP6m2Sk@MiWiFi-R3L-srv>
+ <a9c736a0-f2b3-5b8a-94d9-80742ccd2700@huawei.com>
+ <23e2dcf4-4e9a-5298-d5d8-8761b0bbbe21@huawei.com>
+ <YnGmCwaWkvCrJoU2@arm.com>
+ <YnM9w69l5dbE+k15@MiWiFi-R3L-srv>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <47bafeae-34fb-fc55-3758-d248bd9706af@gmail.com>
+In-Reply-To: <YnM9w69l5dbE+k15@MiWiFi-R3L-srv>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > Please look at the LED binding.
+On Thu, May 05, 2022 at 11:00:19AM +0800, Baoquan He wrote:
+> On 05/03/22 at 11:00pm, Catalin Marinas wrote:
+> > So, to recap, IIUC you are fine with:
+> > 
+> > 	crashkernel=Y		- allocate within ZONE_DMA with fallback
+> > 				  above with a default in ZONE_DMA (like
+> > 				  x86, 256M or swiotlb size)
 > 
-> My binding or Ansuel's binding?
+>         Ack to this one.
+> 
+> 
+> > 	crashkernel=Y,high	- allocate from above ZONE_DMA
+> 
+>         Not exactly. If there's only ZONE_DMA, crashkernel,high will
+>         be reserved in ZONE_DMA, and crashkernel,low will be ignored.
+>         Other than this, ack.
 
-Ansuels binding is using the LED binding.
+Yes, that's fine.
 
-> I was planning to base my work on top of Ansuel's one. I'll send proof
-> on concept meanwhile without asking for it to be applied.
+> > 	crashkernel=Y,low	- allocate within ZONE_DMA
+> 
+>         Ack to this one.
+> > 
+> > 'crashkernel' overrides the high and low while the latter two can be
+> > passed independently.
+> 
+>         crashkernel=,high can be passed independently, then a crashkernel=,low
+>         is needed implicitly. If people don't want crashkernel=,low
+>         explicitly, crashkernel=0,low need be specified.
 
-Great. The more testing Ansuel work gets the better.
+I find this complicating the interface. I don't know the background to
+the x86 implementation but we diverge already on arm64 since we talk
+about ZONE_DMA rather than 4G limit (though for most platforms these
+would be the same).
 
-	Thanks
-		Andrew
+I guess we could restate the difference between crashkernel= and
+crashkernel=,high as the hint to go for allocation above ZONE_DMA first.
+
+>         An independent crashkernel=,low makes no sense. Crashkernel=,low
+>         should be paird with crashkernel=,high.
+
+You could argue that crashkernel=,low gives the current crashkernel=
+behaviour, i.e. either all within ZONE_DMA or fail to allocate. So it
+may have some value on its own.
+
+>         My personal opinion according to the existed senmantics on x86.
+>         Otherwise, the guidance of crashkernel= |,high|,low reservation
+>         will be complicated to write.
+
+It's more that I find the current semantics unnecessarily confusing. But
+even reading the x86_64 text it's not that clear. For example the
+default low allocation for crashkernel= and crashkernel=,high is only
+mentioned in the crashkernel=,low description.
+
+-- 
+Catalin
