@@ -2,144 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB149C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 08:29:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8407CC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 08:34:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348963AbiEEIdS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 04:33:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44480 "EHLO
+        id S1343578AbiEEIhl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 04:37:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349307AbiEEIdQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 04:33:16 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C7AA48E7F;
-        Thu,  5 May 2022 01:29:31 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id x12so3113880pgj.7;
-        Thu, 05 May 2022 01:29:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=I8iVQ2ATolZdL4GQyg4h1Y4q3ydgZAtJB0uwbzpCqt4=;
-        b=GTcOdExtfyRJhz8aDfh5mhtDoBS1Y93kgUCo55M4c/Z/BFRCdXjjdn6gPL6QFeM0Ly
-         4iiHVpkQGFHhtr31Y0TNHbicHkQl1oM0iDRNduxdnxg7gLbIaaHHRjHXrmEJZbFZGOfX
-         15eoI5xaKxuUAmiOuc2S215pU/T9qw9swnGFNlxXnaBrDdObLu0A/zTp8LjeQvQpFhr2
-         Fpfb2qnC55dZa80kryYCU5b8bomWevgM39MXd4kdtmHAXuxgNPBPr/MiB2NmJrZ1VYt+
-         iHdWUc3mI4IxtoCPrO0j6idWhQMzAsXC9QKneRgMaLXXeJINpNpDr7bM66Y/E0ui3qfM
-         5kXA==
+        with ESMTP id S234567AbiEEIhk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 04:37:40 -0400
+X-Greylist: delayed 102 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 05 May 2022 01:34:01 PDT
+Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [170.10.133.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CDD7E4833C
+        for <linux-doc@vger.kernel.org>; Thu,  5 May 2022 01:34:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1651739640;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=S96mA4Ie3bRtv9R+1bbKD4AnGf5O4BhFOs7D+b38OJQ=;
+        b=QCmbO0ue5lCzZeJsfylz6b7o1VWq07Y5Z5P4KHnFoswngp4y0DlGg061m0VmRtmmMZH1Yd
+        cceZzU2VWXczbz8rB+c7jhUFmOyCkBPLB1Wy/In9c1p3VLbTV+XXQR6zO2yEyKbV/X8Xll
+        f/FYsUavfdu2GY3ikBBi//Iu8klJQAE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-28-UNwxVUWDOZeDx7EcVP9PDA-1; Thu, 05 May 2022 04:32:17 -0400
+X-MC-Unique: UNwxVUWDOZeDx7EcVP9PDA-1
+Received: by mail-wm1-f70.google.com with SMTP id k5-20020a05600c0b4500b003941ca130f9so1451268wmr.0
+        for <linux-doc@vger.kernel.org>; Thu, 05 May 2022 01:32:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=I8iVQ2ATolZdL4GQyg4h1Y4q3ydgZAtJB0uwbzpCqt4=;
-        b=6xqPxasQ5jWUWulVxH8eGjAoMCBCgHbqvula8mNa++4CSLCIw9G3DhzmcHM+lIUqOn
-         YzNXyjNcn06ryyW2XU7PplycfTZUu8RA7aqIuEnyXnqHkjCKqvwEyCCIs5xFnjY/Vmtx
-         7MO9pFzxmuWOwR38ZnId/s2QejSblTcJXIhjmtP8yyndCjD2vf2wFDdhTx6gHRkwouna
-         HujYZnh8dvGsv7Hl8DAtM8A98XJFONv6fwchbOaNUp5eUB4dJfbefKKQemt1rRMFozCW
-         t3+pJYun2KRmZ7+6jP+ogqIEiTgNv6c7zl6d0hjVgsU6DodBk7bin2tZxInn70whiNau
-         b/2Q==
-X-Gm-Message-State: AOAM532NWiBSw3zrme2LfcGgDsalYK0WZAq22qiRVZtDFl9pS1WIwIqO
-        Rak7rmZeFBW+hdaAd+MQNeu2n6GAIg0=
-X-Google-Smtp-Source: ABdhPJwc55yYRNJ/FOrc+sUPpxXfL1QM4Xm2y7Gqhl3HqNsK60zzWpWzqeracH/TkfTiOGUFQzzLKA==
-X-Received: by 2002:aa7:848a:0:b0:510:44da:223d with SMTP id u10-20020aa7848a000000b0051044da223dmr6083466pfn.66.1651739370043;
-        Thu, 05 May 2022 01:29:30 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-73.three.co.id. [180.214.233.73])
-        by smtp.gmail.com with ESMTPSA id x3-20020a17090aa38300b001cd4989febcsm4761861pjp.8.2022.05.05.01.29.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 01:29:29 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Ben Greear <greearb@candelatech.com>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>, netdev@vger.kernel.org,
-        linux-next@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v2] net/core: use ReST block quote in __dev_queue_xmit() comment
-Date:   Thu,  5 May 2022 15:29:07 +0700
-Message-Id: <20220505082907.42393-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.36.0
+        bh=S96mA4Ie3bRtv9R+1bbKD4AnGf5O4BhFOs7D+b38OJQ=;
+        b=PWLe8d7DkzkPNGGuVinqBpf2fmojphaK2I3s8rBceczFakRx5GTfvcOjIUMvttDCUT
+         RaSgeMwAcD2DE9XYPrxsSJmnkIuVafZWUyDsk1uM2jzqQsZDNysELcibm81HSOVYUu/t
+         fPRqCtqjqE3S3nePW3kWbx7Bbh7byH/3kuVBOWuP7wcWkmgn1URqMq+unSM3Z9bHW5Ek
+         LZHnQn6QRNKM6SrdKQzpe14Z460jcAm+kk8osKeo1tuz3vvf7iw0YJwBqAgqtr8AhAjm
+         sWfSBQuYkc7d5utIeGdJCYuw4h3reulmaw/jxMdmAB5ePsMe1nfDQvN1CjB1fa7uEAIU
+         fdbg==
+X-Gm-Message-State: AOAM532AawAm5JB0TZIQWr9PTkzjQzqZ24StsjQ/PEYA0sUmAGcP5eD4
+        MnTw+UIGRLuJZ9oqAxf21V3moMBLT6UYkyiSV06MTvnUxe7ZF/QayLxgGU73aOEPlnuyDzGtz6S
+        DMjuY4X6SUzQgYaHEwHNC
+X-Received: by 2002:adf:dc42:0:b0:20a:cf97:f1b7 with SMTP id m2-20020adfdc42000000b0020acf97f1b7mr19626857wrj.200.1651739535721;
+        Thu, 05 May 2022 01:32:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy3Wtm4DgnIJxwRdiMAj0etcbY/FRx4Rofh1acsbZWYdXjyJBptet2S8gRODazb7sgMUh1mFA==
+X-Received: by 2002:adf:dc42:0:b0:20a:cf97:f1b7 with SMTP id m2-20020adfdc42000000b0020acf97f1b7mr19626837wrj.200.1651739535431;
+        Thu, 05 May 2022 01:32:15 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id k9-20020adfe3c9000000b0020c5253d8eesm678310wrm.58.2022.05.05.01.32.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 May 2022 01:32:14 -0700 (PDT)
+Message-ID: <d3e60b09-caf1-d62a-c764-eb7976450ef2@redhat.com>
+Date:   Thu, 5 May 2022 10:32:13 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] drm/todo: Add entry for using kunit in the subsystem
+Content-Language: en-US
+To:     linux-kernel@vger.kernel.org
+Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+References: <20220504080212.713275-1-javierm@redhat.com>
+From:   Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220504080212.713275-1-javierm@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When merging net-next for linux-next tree, Stephen Rothwell reported
-htmldocs warning:
+On 5/4/22 10:02, Javier Martinez Canillas wrote:
+> The Kernel Unit Testing (KUnit) framework provides a common framework for
+> unit tests within the Linux kernel. Having a test suite would allow to
+> identify regressions earlier.
+> 
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
 
-Documentation/networking/kapi:92: net/core/dev.c:4101: WARNING: Missing matching underline for section title overline.
+Pushed to drm-misc (drm-misc-next). Thanks all!
 
------------------------------------------------------------------------------------
-     I notice this method can also return errors from the queue disciplines,
-     including NET_XMIT_DROP, which is a positive value.  So, errors can also
-
-The warning is due to comment quote by Ben from commit af191367a75262
-("[NET]: Document ->hard_start_xmit() locking in comments.") interacts
-with commit c526fd8f9f4f21 ("net: inline dev_queue_xmit()").
-
-Fix the warning by using ReST block quote syntax for the comment quote.
-Note that the actual description for the method will be rendered above
-"Description" section instead of below of it. However, preserve the
-comment quote for now.
-
-Fixes: c526fd8f9f4f21 ("net: inline dev_queue_xmit()")
-Link: https://lore.kernel.org/linux-next/20220503073420.6d3f135d@canb.auug.org.au/
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Ben Greear <greearb@candelatech.com>
-Cc: Pavel Begunkov <asml.silence@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Akira Yokosawa <akiyks@gmail.com>
-Cc: netdev@vger.kernel.org
-Cc: linux-next@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Changes since v1 [1]:
-   - Use ReST block quote instead of deleting the comment quote
-   - Mention the originating commit that introduces the quote
-
- [1]: https://lore.kernel.org/linux-doc/20220503072949.27336-1-bagasdotme@gmail.com/
- net/core/dev.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
-
-diff --git a/net/core/dev.c b/net/core/dev.c
-index c2d73595a7c369..bcb47b889f5857 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -4099,17 +4099,18 @@ struct netdev_queue *netdev_core_pick_tx(struct net_device *dev,
-  *	to congestion or traffic shaping.
-  *
-  * -----------------------------------------------------------------------------------
-- *      I notice this method can also return errors from the queue disciplines,
-- *      including NET_XMIT_DROP, which is a positive value.  So, errors can also
-- *      be positive.
-  *
-- *      Regardless of the return value, the skb is consumed, so it is currently
-- *      difficult to retry a send to this method.  (You can bump the ref count
-- *      before sending to hold a reference for retry if you are careful.)
-+ *        I notice this method can also return errors from the queue disciplines,
-+ *        including NET_XMIT_DROP, which is a positive value.  So, errors can also
-+ *        be positive.
-  *
-- *      When calling this method, interrupts MUST be enabled.  This is because
-- *      the BH enable code must have IRQs enabled so that it will not deadlock.
-- *          --BLG
-+ *        Regardless of the return value, the skb is consumed, so it is currently
-+ *        difficult to retry a send to this method.  (You can bump the ref count
-+ *        before sending to hold a reference for retry if you are careful.)
-+ *
-+ *        When calling this method, interrupts MUST be enabled.  This is because
-+ *        the BH enable code must have IRQs enabled so that it will not deadlock.
-+ *        --BLG
-  */
- int __dev_queue_xmit(struct sk_buff *skb, struct net_device *sb_dev)
- {
-
-base-commit: 4950b6990e3b1efae64a5f6fc5738d25e3b816b3
 -- 
-An old man doll... just what I always wanted! - Clara
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
