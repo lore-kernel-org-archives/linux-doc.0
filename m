@@ -2,135 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB4CC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 07:34:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D143AC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 08:02:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345191AbiEEHiA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 03:38:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45758 "EHLO
+        id S1346189AbiEEIGP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 04:06:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235142AbiEEHh7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 03:37:59 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87609488AA;
-        Thu,  5 May 2022 00:34:20 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id z2so5483456ejj.3;
-        Thu, 05 May 2022 00:34:20 -0700 (PDT)
+        with ESMTP id S1346224AbiEEIGP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 04:06:15 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33972338A4
+        for <linux-doc@vger.kernel.org>; Thu,  5 May 2022 01:02:36 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id j14so3697919plx.3
+        for <linux-doc@vger.kernel.org>; Thu, 05 May 2022 01:02:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3J1208WPQ4jno3J/uykQTL89a7eLGDMeF5YveJlEzDs=;
-        b=S78SIfXfk2AKH1/DmhfhwODqbNeadxZX0FAVXnAnkEm6si5fxgcBYmwi4u0eOSalAu
-         3/BurbYRXdysgUV9NhwhO4OR+B6/u6w3kaetOVLGz0jDZOm6/p6tv8VCrd5y0dx+0D4O
-         qD2i6qkY1F14UHRMvTlAF8mpAx3q6gbCr7mNWPHF5MbYbIkt0by+93IEmz3f+AvH065R
-         hMPgvsSSbkpkcZ30GGY9mmyEO8kr5OlnZ720U6dMfxYQ7uZV3Pqu+LDdKwQfhUcrJHZ+
-         SyE/DH1xarFajb7IiT42GvtIbqtm6FSmn/5OD15oVKaE0aN3pecsdzMoL+iJgEB+lBqo
-         wFqQ==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=PShkJzVucYzHmTWOWA19iZ2R7/CUl/du8x+v8/m6eak=;
+        b=rXiO+G2RVXc79XKg+DxGCyvWynPSvXSf5jHVcLN6vb8WTIXeDgIGVT9fXj2f7csWGP
+         hgBzSRld+vHsk8GHK0BCXG0OTatp1gKjEN/+drDy44zoWmUKOJbZtYd3W32uXzIebLrJ
+         LZLVxRpSkwc7TfRK/qKQLZos1PlfwEQv7hC14IxjPLY00C0+JbHSwcR6BettVHJLH8jJ
+         0mHVxHwTyPXk8yqvjcCLskCITBkRQo2vU1Yqpo+pSNugqCxyjcfn2cG1cFaVw4k5Or4v
+         YKTDltG7pWJ99XQ9JeSowH8FY4RaAoyI2zSRNCxXgchnAnAp4beFlmJROU1f//FlC1bN
+         3tAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3J1208WPQ4jno3J/uykQTL89a7eLGDMeF5YveJlEzDs=;
-        b=k8LaBVfb0mCxdzMYxUPoOTENgOWpsaqu9B6pqqpzoN5EPK08FaDbjhKUsGuiBSFbxK
-         5oYCIaOtZMQjRcQJyEmW75V8gzGVBlA6SToI0GSRrHmthcBl/vlt5Q3t04kOkoMCBZT3
-         oD5himFFMOQo00DC1Q+Uhzd7yWdgsruhEt18dBrEMPKlIk+bj3m+dEKTtxSSPke4x+Lm
-         fZbtR9FrdxtMiovLzCKpaih4XJzFJTnehHvjpsMvvmaNc7Rysgte7Yjl7Y9WLKzInQs+
-         yD+xygOl8Wxvh5p9rKpd+SxrhFj0xJBkw5y6vBIXItf4n4aBUs6pMw99ul/qX3vhkkZQ
-         86kg==
-X-Gm-Message-State: AOAM532wJmFhKdfmuhkU5o9D8NIAV0plhlypTTns9MObNwAMZoZuOrsZ
-        FG4jHVYPO6TkhPGpdO+9qAI=
-X-Google-Smtp-Source: ABdhPJw025Btub/yVDtZYX9TuyPMCGQ444n5wDrt1oQXpxmbeOFzK9MviShruWUWDTtZ2kzd89eCqA==
-X-Received: by 2002:a17:906:eb82:b0:6f3:9044:5fba with SMTP id mh2-20020a170906eb8200b006f390445fbamr24240010ejb.715.1651736058913;
-        Thu, 05 May 2022 00:34:18 -0700 (PDT)
-Received: from tiger.museclub.art (p200300cf9f27690001ea8a0258c36e97.dip0.t-ipconnect.de. [2003:cf:9f27:6900:1ea:8a02:58c3:6e97])
-        by smtp.googlemail.com with ESMTPSA id og21-20020a1709071dd500b006f3ef214df8sm297592ejc.94.2022.05.05.00.34.17
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PShkJzVucYzHmTWOWA19iZ2R7/CUl/du8x+v8/m6eak=;
+        b=PXJgLr+OqJqqHW8BhUOXOi4zKPJ9Nn8omGnon++EnYgBPigKGd0JXZmUBzyg1jDI2V
+         zCrfSI+cG8CscZ5o3PGPeiRkmT3+DtwPf0DokoOeX42GMBVej9hqfF1LYSjayJB00eHn
+         HZlnMdhn22sueWP9GjkvF1SC5dMB70CXPbXt2DKnBKEoPsHYQQ7uLiw93Y21+OHypaaq
+         KNGFs1NjJ8hSTulpKxejyfX1MLNp8lZTs8HrB3mhVa6JtW84+TGRaBDYQ63PYMtjS8wA
+         n1aMwmdkNvcXvOTdYGNJPBtAz1drRZUeVZIL18SGNjZ4gM4sLiui1U+6W8w0XZk1LFeD
+         6PYQ==
+X-Gm-Message-State: AOAM530v7kftNBa/S+dz+vWeuhNE9J8T/8/CByrWkJ/jZzzAmuoS2SLx
+        anmkPh15N1P8sbj4zGv3NAzdVw==
+X-Google-Smtp-Source: ABdhPJzcmP/gFjk5XJNOBaDdYfBOx/5hGLiE7KzRJVfV8g6ITCklmhjuG/AU1KnZXR3qk8hUmvtw3g==
+X-Received: by 2002:a17:902:e494:b0:15a:4b81:1c16 with SMTP id i20-20020a170902e49400b0015a4b811c16mr26803407ple.10.1651737755636;
+        Thu, 05 May 2022 01:02:35 -0700 (PDT)
+Received: from localhost ([139.177.225.234])
+        by smtp.gmail.com with ESMTPSA id p9-20020a170902a40900b0015e8d4eb2acsm793721plq.246.2022.05.05.01.02.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 00:34:18 -0700 (PDT)
-From:   Eugene Shalygin <eugene.shalygin@gmail.com>
-To:     eugene.shalygin@gmail.com
-Cc:     Debabrata Banerjee <dbavatar@gmail.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (asus-ec-sensors) add ROG STRIX X570-E GAMING WIFI II
-Date:   Thu,  5 May 2022 09:33:51 +0200
-Message-Id: <20220505073351.123753-1-eugene.shalygin@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        Thu, 05 May 2022 01:02:35 -0700 (PDT)
+Date:   Thu, 5 May 2022 16:02:31 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     corbet@lwn.net, akpm@linux-foundation.org, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
+        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v9 4/4] mm: hugetlb_vmemmap: add hugetlb_optimize_vmemmap
+ sysctl
+Message-ID: <YnOEl6Qwp5jp7RHp@FVFYT0MHHV2J>
+References: <20220429121816.37541-1-songmuchun@bytedance.com>
+ <20220429121816.37541-5-songmuchun@bytedance.com>
+ <eadec7de-2e1a-2fb3-3317-c7b492a84e2b@oracle.com>
+ <YnM4DRFhdD6iZIs1@FVFYT0MHHV2J.googleapis.com>
+ <f77412f1-ffe5-659d-8a7d-578e0e8c5e2c@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f77412f1-ffe5-659d-8a7d-578e0e8c5e2c@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Debabrata Banerjee <dbavatar@gmail.com>
+On Wed, May 04, 2022 at 08:36:00PM -0700, Mike Kravetz wrote:
+> On 5/4/22 19:35, Muchun Song wrote:
+> > On Wed, May 04, 2022 at 03:12:39PM -0700, Mike Kravetz wrote:
+> >> On 4/29/22 05:18, Muchun Song wrote:
+> >>> +static void vmemmap_optimize_mode_switch(enum vmemmap_optimize_mode to)
+> >>> +{
+> >>> +	if (vmemmap_optimize_mode == to)
+> >>> +		return;
+> >>> +
+> >>> +	if (to == VMEMMAP_OPTIMIZE_OFF)
+> >>> +		static_branch_dec(&hugetlb_optimize_vmemmap_key);
+> >>> +	else
+> >>> +		static_branch_inc(&hugetlb_optimize_vmemmap_key);
+> >>> +	vmemmap_optimize_mode = to;
+> >>> +}
+> >>> +
+> >>>  static int __init hugetlb_vmemmap_early_param(char *buf)
+> >>>  {
+> >>>  	bool enable;
+> >>> +	enum vmemmap_optimize_mode mode;
+> >>>  
+> >>>  	if (kstrtobool(buf, &enable))
+> >>>  		return -EINVAL;
+> >>>  
+> >>> -	if (enable)
+> >>> -		static_branch_enable(&hugetlb_optimize_vmemmap_key);
+> >>> -	else
+> >>> -		static_branch_disable(&hugetlb_optimize_vmemmap_key);
+> >>> +	mode = enable ? VMEMMAP_OPTIMIZE_ON : VMEMMAP_OPTIMIZE_OFF;
+> >>> +	vmemmap_optimize_mode_switch(mode);
+> >>>  
+> >>>  	return 0;
+> >>>  }
+> >>> @@ -60,6 +80,8 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
+> >>>  	vmemmap_end	= vmemmap_addr + (vmemmap_pages << PAGE_SHIFT);
+> >>>  	vmemmap_reuse	= vmemmap_addr - PAGE_SIZE;
+> >>>  
+> >>> +	VM_BUG_ON_PAGE(!vmemmap_pages, head);
+> >>> +
+> >>>  	/*
+> >>>  	 * The pages which the vmemmap virtual address range [@vmemmap_addr,
+> >>>  	 * @vmemmap_end) are mapped to are freed to the buddy allocator, and
+> >>> @@ -69,8 +91,10 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
+> >>>  	 */
+> >>>  	ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
+> >>>  				  GFP_KERNEL | __GFP_NORETRY | __GFP_THISNODE);
+> >>> -	if (!ret)
+> >>> +	if (!ret) {
+> >>>  		ClearHPageVmemmapOptimized(head);
+> >>> +		static_branch_dec(&hugetlb_optimize_vmemmap_key);
+> >>> +	}
+> >>>  
+> >>>  	return ret;
+> >>>  }
+> >>> @@ -84,6 +108,8 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
+> >>>  	if (!vmemmap_pages)
+> >>>  		return;
+> >>>  
+> >>> +	static_branch_inc(&hugetlb_optimize_vmemmap_key);
+> >>
+> >> Can you explain the reasoning behind doing the static_branch_inc here in free,
+> >> and static_branch_dec in alloc?
+> >> IIUC, they may not be absolutely necessary but you could use the count to
+> >> know how many optimized pages are in use?  Or, I may just be missing
+> >> something.
+> >>
+> > 
+> > Partly right. One 'count' is not enough. I have implemented this with similar
+> > approach in v6 [1]. Except the 'count', we also need a lock to do synchronization.
+> > However, both count and synchronization are included in static_key_inc/dec
+> > infrastructure. It is simpler to use static_key_inc/dec directly, right? 
+> > 
+> > [1] https://lore.kernel.org/all/20220330153745.20465-5-songmuchun@bytedance.com/
+> > 
+> 
+> Sorry, but I am a little confused.
+> 
+> vmemmap_optimize_mode_switch will static_key_inc to enable and static_key_dec
+> to disable.  In addition each time we optimize (allocate) a hugetlb page after
+> enabling we will static_key_inc.
+> 
+> Suppose we have 1 hugetlb page optimized.  So static count == 2 IIUC.
+> The someone turns off optimization via sysctl.  static count == 1 ???
 
-Adds support for the ROG STRIX X570-E GAMING WIFI II board and
-simplifies formatting for the list of supported models.
+Definitely right.
 
-Signed-off-by: Debabrata Banerjee <dbavatar@gmail.com>
-Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
----
- Documentation/hwmon/asus_ec_sensors.rst | 23 ++++++++++++-----------
- drivers/hwmon/asus-ec-sensors.c         |  8 ++++++++
- 2 files changed, 20 insertions(+), 11 deletions(-)
+> If we then add another hugetlb page via nr_hugepages it seems that it
+> would be optimized as static count == 1.  Is that correct?  Do we need
 
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-index 1700fe619597..78ca69eda877 100644
---- a/Documentation/hwmon/asus_ec_sensors.rst
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -4,19 +4,20 @@ Kernel driver asus_ec_sensors
- =================================
+I'm wrong.
+
+> to free all hugetlb pages with optimization before we can add new pages
+> without optimization?
+>
+
+My bad. I think the following code would fix this.
+
+Thanks for your review carefully.
+
+diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+index 5820a681a724..997e192aeed7 100644
+--- a/mm/hugetlb_vmemmap.c
++++ b/mm/hugetlb_vmemmap.c
+@@ -105,7 +105,7 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
+        unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
+
+        vmemmap_pages = hugetlb_optimize_vmemmap_pages(h);
+-       if (!vmemmap_pages)
++       if (!vmemmap_pages || READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
+                return;
+
+        static_branch_inc(&hugetlb_optimize_vmemmap_key);
  
- Supported boards:
-- * PRIME X470-PRO,
-- * PRIME X570-PRO,
-- * Pro WS X570-ACE,
-+ * PRIME X470-PRO
-+ * PRIME X570-PRO
-+ * Pro WS X570-ACE
-  * ProArt X570-CREATOR WIFI
-- * ROG CROSSHAIR VIII DARK HERO,
-+ * ROG CROSSHAIR VIII DARK HERO
-  * ROG CROSSHAIR VIII HERO (WI-FI)
-- * ROG CROSSHAIR VIII FORMULA,
-- * ROG CROSSHAIR VIII HERO,
-- * ROG CROSSHAIR VIII IMPACT,
-- * ROG STRIX B550-E GAMING,
-- * ROG STRIX B550-I GAMING,
-- * ROG STRIX X570-E GAMING,
-- * ROG STRIX X570-F GAMING,
-+ * ROG CROSSHAIR VIII FORMULA
-+ * ROG CROSSHAIR VIII HERO
-+ * ROG CROSSHAIR VIII IMPACT
-+ * ROG STRIX B550-E GAMING
-+ * ROG STRIX B550-I GAMING
-+ * ROG STRIX X570-E GAMING
-+ * ROG STRIX X570-E GAMING WIFI II
-+ * ROG STRIX X570-F GAMING
-  * ROG STRIX X570-I GAMING
- 
- Authors:
-diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-index 998d49d6b799..611e897429b1 100644
---- a/drivers/hwmon/asus-ec-sensors.c
-+++ b/drivers/hwmon/asus-ec-sensors.c
-@@ -315,6 +315,14 @@ static const struct ec_board_info board_info[] = {
- 		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
- 		.family = family_amd_500_series,
- 	},
-+	{
-+		.board_names = {"ROG STRIX X570-E GAMING WIFI II"},
-+		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
-+			SENSOR_TEMP_T_SENSOR | SENSOR_CURR_CPU |
-+			SENSOR_IN_CPU_CORE,
-+		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
-+		.family = family_amd_500_series,
-+	},
- 	{
- 		.board_names = {"ROG STRIX X570-F GAMING"},
- 		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
--- 
-2.35.1
-
