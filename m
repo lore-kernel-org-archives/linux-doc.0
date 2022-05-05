@@ -2,91 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2494FC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 20:03:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D32A5C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 20:25:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385537AbiEEUGu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 16:06:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54856 "EHLO
+        id S1385820AbiEEU3F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 16:29:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244961AbiEEUGr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 16:06:47 -0400
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DD895EDF4;
-        Thu,  5 May 2022 13:03:07 -0700 (PDT)
-Received: by mail-ot1-f44.google.com with SMTP id m6-20020a05683023a600b0060612720715so3632937ots.10;
-        Thu, 05 May 2022 13:03:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Pyq/2vKiCJeafLAKrLbpew+3CjQ+qVQC3K8MNbXKH7s=;
-        b=R9OswNI/bjFONSGVJ3EPs/rftmN7CfKjqkvnGdapZ3Yt76VwIySaNj1j26EsqRicsc
-         c7JkMC71ipXEveZ7ee6YjS7YK0NxvDDVjxw67hf3TtBK57qgMCsw79Hu0TMfPUGmT58S
-         j3CHsdYOKd52+QfXaXJV+i5KKEKQAymILzykTBBgTz+zkoVaWCMm+3/Sd/89if7iSn61
-         RbNBZ5NWNT696fQungArPHZU6hYMQcA4O6U2btd3ZUP/ymzFbyvdL1llisNrZ3ygGptI
-         /GbdY4wEIFz4VqE9KMaDY0r2nb9LqyJSUMyNNQOk+CBRqD883s/KxOuQUkuiQxlJLZiI
-         hEow==
-X-Gm-Message-State: AOAM5338TbvCu9kfb+M+MCvbjDNFcM36aSd6b9sKQvHPitpqJs3w0VoR
-        Ka7/9qMniJZyB3laSqLgLwZbyvmVrw==
-X-Google-Smtp-Source: ABdhPJzs1asTZTmKLXNMh0PXTiEvLAWMuCmzpJCTeiBCudCzgeCyMfW7UzBRQJMYiJSe1XEvIayZnQ==
-X-Received: by 2002:a9d:6ac7:0:b0:5e6:ec48:d882 with SMTP id m7-20020a9d6ac7000000b005e6ec48d882mr9872300otq.274.1651780986171;
-        Thu, 05 May 2022 13:03:06 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id a32-20020a9d2623000000b006060322123csm935981otb.12.2022.05.05.13.03.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 13:03:05 -0700 (PDT)
-Received: (nullmailer pid 100851 invoked by uid 1000);
-        Thu, 05 May 2022 20:03:03 -0000
-Date:   Thu, 5 May 2022 15:03:03 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Baoquan He <bhe@redhat.com>, devicetree@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
-        Will Deacon <will@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, Vivek Goyal <vgoyal@redhat.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>, kexec@lists.infradead.org,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
-        Ingo Molnar <mingo@redhat.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Eric Biederman <ebiederm@xmission.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Dave Young <dyoung@redhat.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>,
-        "H . Peter Anvin" <hpa@zytor.com>
-Subject: Re: [PATCH v23 5/6] of: Support more than one crash kernel regions
- for kexec -s
-Message-ID: <YnQtd5+iSXj+R5X/@robh.at.kernel.org>
-References: <20220505091845.167-1-thunder.leizhen@huawei.com>
- <20220505091845.167-6-thunder.leizhen@huawei.com>
+        with ESMTP id S1385817AbiEEU27 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 16:28:59 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 873FBDC2;
+        Thu,  5 May 2022 13:25:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=g9KS680sylr141Y7EFEPAHf/H7cuGajRNWijrXb2NGk=; b=ABt4kLuOw6w/JeQBMYDB1HqmPh
+        7LsM4idgjz8oEiH/lY4uWKnQbA8np9cAnGRSKVNzlcsZkMbXq8JMvJn23/GczC3WY4ph+1yf4PiR9
+        tl4PfCCQNTvpNKzM9gGyT7W5J8g39grZu8Q0P+yXo97p7YY7kD5bYctzi1BDZk8pu/YcsuLW3wVXi
+        ZoOoplw8mH6uB2sSZGIudCJN9DfeCYKe6qSTFZnNAzgw1Z73dq69CM6uF1MQZgwuhCqDzX+t0c4rk
+        RHk0ldr8EoeFvIq46Y550Rdbp/kG0p9RLHBlZBqO/cZqV4m49cVgPKOGRr4vRKi/MUcvV/FXDP2/7
+        14S7i+8Q==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nmhz0-00BSux-7P; Thu, 05 May 2022 20:22:47 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 68A7A980EF5; Thu,  5 May 2022 22:21:52 +0200 (CEST)
+Date:   Thu, 5 May 2022 22:21:52 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Luck, Tony" <tony.luck@intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>, hdegoede@redhat.com,
+        markgross@kernel.org, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        corbet@lwn.net, gregkh@linuxfoundation.org,
+        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
+        ashok.raj@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
+        ravi.v.shankar@intel.com
+Subject: Re: [PATCH v5 07/10] platform/x86/intel/ifs: Add scan test support
+Message-ID: <20220505202152.GF2501@worktop.programming.kicks-ass.net>
+References: <20220422200219.2843823-1-tony.luck@intel.com>
+ <20220428153849.295779-1-tony.luck@intel.com>
+ <20220428153849.295779-8-tony.luck@intel.com>
+ <87r159jxaq.ffs@tglx>
+ <YnLLekoripdY2oQU@agluck-desk3.sc.intel.com>
+ <87tua4j3es.ffs@tglx>
+ <20220505082824.GD2501@worktop.programming.kicks-ass.net>
+ <87bkwcic9k.ffs@tglx>
+ <YnQYJIVC0scuL7D7@agluck-desk3.sc.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220505091845.167-6-thunder.leizhen@huawei.com>
+In-Reply-To: <YnQYJIVC0scuL7D7@agluck-desk3.sc.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 05 May 2022 17:18:44 +0800, Zhen Lei wrote:
-> When "crashkernel=X,high" is used, there may be two crash regions:
-> high=crashk_res and low=crashk_low_res. But now the syscall
-> kexec_file_load() only add crashk_res into "linux,usable-memory-range",
-> this may cause the second kernel to have no available dma memory.
-> 
-> Fix it like kexec tool do for option -c, add both 'high' and 'low' regions
-> into the dtb.
-> 
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> ---
->  drivers/of/kexec.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
+On Thu, May 05, 2022 at 11:32:04AM -0700, Luck, Tony wrote:
 
-Acked-by: Rob Herring <robh@kernel.org>
+> Patch now looks like this. Author credit to Peter ... are you willing
+> to add a Signed-off-by to stop checkpatch from whining at me?
+
+sure, see below.
+
+> There isn't a "Something-similar-suggested-by:" tag to credit Thomas
+> with this.  Perhaps "Inspired-by:"?
+
+I'm all for creative one off tags, there's some marvelous ones in the
+tree, but we always need more :-)
+
+> -Tony
+> 
+> 
+> From df5ca8024997d3d782978d154cfbff5147f451ad Mon Sep 17 00:00:00 2001
+> From: Peter Zijlstra <peterz@infradead.org>
+> Date: Thu, 5 May 2022 08:55:09 -0700
+> Subject: [PATCH] stop_machine: Add stop_core_cpuslocked() for per-core
+>  operations
+> 
+> Hardware core level testing features require near simultaneous execution
+> of WRMSR instructions on all threads of a core to initiate a test.
+> 
+> Provide a customized cut down version of stop_machine_cpuslocked() that
+> just operates on the threads of a single core.
+> 
+Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> Signed-off-by: Tony Luck <tony.luck@intel.com>
+> ---
+>  include/linux/stop_machine.h | 16 ++++++++++++++++
+>  kernel/stop_machine.c        | 19 +++++++++++++++++++
+>  2 files changed, 35 insertions(+)
+> 
+> diff --git a/include/linux/stop_machine.h b/include/linux/stop_machine.h
+> index 46fb3ebdd16e..ea7a74ea7389 100644
+> --- a/include/linux/stop_machine.h
+> +++ b/include/linux/stop_machine.h
+> @@ -124,6 +124,22 @@ int stop_machine(cpu_stop_fn_t fn, void *data, const struct cpumask *cpus);
+>   */
+>  int stop_machine_cpuslocked(cpu_stop_fn_t fn, void *data, const struct cpumask *cpus);
+>  
+> +/**
+> + * stop_core_cpuslocked: - stop all threads on just one core
+> + * @cpu: any cpu in the targeted core
+> + * @fn: the function to run
+> + * @data: the data ptr for @fn()
+> + *
+> + * Same as above, but instead of every CPU, only the logical CPUs of a
+> + * single core are affected.
+> + *
+> + * Context: Must be called from within a cpus_read_lock() protected region.
+> + *
+> + * Return: 0 if all executions of @fn returned 0, any non zero return
+> + * value if any returned non zero.
+> + */
+> +int stop_core_cpuslocked(unsigned int cpu, cpu_stop_fn_t fn, void *data);
+> +
+>  int stop_machine_from_inactive_cpu(cpu_stop_fn_t fn, void *data,
+>  				   const struct cpumask *cpus);
+>  #else	/* CONFIG_SMP || CONFIG_HOTPLUG_CPU */
+> diff --git a/kernel/stop_machine.c b/kernel/stop_machine.c
+> index cbc30271ea4d..579761729836 100644
+> --- a/kernel/stop_machine.c
+> +++ b/kernel/stop_machine.c
+> @@ -633,6 +633,25 @@ int stop_machine(cpu_stop_fn_t fn, void *data, const struct cpumask *cpus)
+>  }
+>  EXPORT_SYMBOL_GPL(stop_machine);
+>  
+> +int stop_core_cpuslocked(unsigned int cpu, cpu_stop_fn_t fn, void *data)
+> +{
+> +	const struct cpumask *smt_mask = cpu_smt_mask(cpu);
+> +
+> +	struct multi_stop_data msdata = {
+> +		.fn = fn,
+> +		.data = data,
+> +		.num_threads = cpumask_weight(smt_mask),
+> +		.active_cpus = smt_mask,
+> +	};
+> +
+> +	lockdep_assert_cpus_held();
+> +
+> +	/* Set the initial state and stop all online cpus. */
+> +	set_state(&msdata, MULTI_STOP_PREPARE);
+> +	return stop_cpus(smt_mask, multi_cpu_stop, &msdata);
+> +}
+> +EXPORT_SYMBOL_GPL(stop_core_cpuslocked);
+> +
+>  /**
+>   * stop_machine_from_inactive_cpu - stop_machine() from inactive CPU
+>   * @fn: the function to run
+> -- 
+> 2.35.1
+> 
