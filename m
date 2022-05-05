@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AA75C4167D
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 13:55:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAC5EC3527E
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 13:55:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380269AbiEEN7R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 09:59:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48480 "EHLO
+        id S1380370AbiEEN7S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 09:59:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380360AbiEEN7L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 09:59:11 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 345631834B;
-        Thu,  5 May 2022 06:55:32 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id b24so5291411edu.10;
-        Thu, 05 May 2022 06:55:32 -0700 (PDT)
+        with ESMTP id S1380276AbiEEN7R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 09:59:17 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8F071EEDE;
+        Thu,  5 May 2022 06:55:37 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id g23so5294141edy.13;
+        Thu, 05 May 2022 06:55:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JuRsVVqEUdtcZTaqe1dOvQJoNCUAzBZXwnxfkTQiX94=;
-        b=W/5UaXxDAqcyJs7vU252H7GvKSWg0c/fiI5EtvVqQfvbbPoDgxZeoXXz2Bgk//+mch
-         8qTUnwBd0j2CIEhPg/aS4YTarFuuVfBGllA8yzs84ycZDVCyOTpXIptNc42tOPCz4bJ5
-         G4qBDcunfd4lFqKQXpcXd1p7ZPDRbz1YTdnhFD3UVZsw0EdVd6t6mOQkTvUbFeuyyhi+
-         KBPyzJUQv7RpdP7/H9jVZW+yKVEZfCeDO9cmF157c2iIt02b+3+CtN86kfjCVVC1+ZVw
-         LS+UMchVLfARzZsy9nsMQoagGcQ5TlLJ6F9G12/UQkZ3H9uRyUhbgGQJpWvM+/y93GgN
-         l/Ag==
+        bh=W4OY/JvmasUugHSn3rUmXaSkS514QXA0AsYyOrhfQQg=;
+        b=H8Ao8D+HKPoqzvyk98XDDUx5ZI7tA1FociIFIuzl17MmQWY+/ne9onYEyJ0AYfrm6M
+         WBl8sG1lg7rLJT+ffPgm8+ERj97fPvTeSbCsqbV/h6YlsCvpNUU/SH7E4nWQHwQU8Y0H
+         fQhXJQemxVsnGX6dt0rvSKqm47LDBgg9ByAAs+3RMv0Ot3YFjq3hLRfsG2DPniS3t4tp
+         WhEqGTIecb+TAtoJ4goXvh/SbiMP9gwzm/uIIgPQNy116BtfzSDWWjEaRdRfeoc2C1Te
+         o5Mry/99pzA8YkYpAYviJKCNP97gqiItOI+NtsW6Ppnw9ndyiGrdPcpP2ZSxG1ufiQh+
+         +Aig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JuRsVVqEUdtcZTaqe1dOvQJoNCUAzBZXwnxfkTQiX94=;
-        b=b/l3ej1DiCFCdYFM7rr6P/R1+zRtYRGMNX3mjOEBDaexQFs2ImN8Yin+6MTcLhpjEw
-         lDvEfJznOKkUL+m3vjNO5PO3BIX/2f33gXwLP2G8iWDNpETvirK1CVj/R/pMWWaszA5i
-         GvmoM/BpySOq82BmFd7u74tivPmsR9HMZHJRaypo91EpiRaoNOiSI6xWIu4KqVMWl4FV
-         UaErHHnkVYH+Qox6Lar3p6hZS+Pq8Q7zn1i2H690mXmiv5evYWv9xBTxD7ZJTWYHTc21
-         9kv973BXyzAYknaPb91XCnbdB9WCNgyIKwtRLO/+kR43BromnrnKHrbqrsjKCSbb+AA4
-         LbyQ==
-X-Gm-Message-State: AOAM530L+tXXK6sCg7nWzyXLgi2vuAruYKZ8c3pJwIoWR9huMtlhBDxN
-        RFSSe47qzZHk/uKtyo1rxOc=
-X-Google-Smtp-Source: ABdhPJzTLEuqMS0XXlAUBVlv48aIfbTihrqnsUKYIVW/6h2dIhYSa6hS2trVlUxvL1OW4mGnO/lzDw==
-X-Received: by 2002:a05:6402:f25:b0:427:bf59:ad72 with SMTP id i37-20020a0564020f2500b00427bf59ad72mr23149749eda.231.1651758930769;
-        Thu, 05 May 2022 06:55:30 -0700 (PDT)
+        bh=W4OY/JvmasUugHSn3rUmXaSkS514QXA0AsYyOrhfQQg=;
+        b=tDfJn+YuPVgaAmVyWZe9n82wFVcEnDpCX+it73cjRR17en3oTWOZxUDwkMsuX0NESr
+         vBqTx11eaPig5HP1RTIk5G4L2yquAqR9eUhhFzcARqAHYv9yd2FGxQNcglOMId3ZLW0Q
+         +XeYpk8Tc36nE0pzDebJPbYbT0FV+1ixP8zoph7p119lUu1ALbMS3l8vNjAO8k8UCnij
+         qcbS4KWDQNs07qsomy26s2SeupEUEotGIc0Wl58LuvLm8fzV5PViPbqYcxUuZTy1Ez6j
+         6LZIK2o+vtkLWIx2Ki55TKerJXMss/7GuvByNtl2TOh1I8NGK7vBWhBibEJ1xIR3ZP9o
+         SzvQ==
+X-Gm-Message-State: AOAM530JLQeWaONohBV7JkkCV9V9eMw0VEgNIJxxMIhcmfhLaP9woxPb
+        vgTkNMxActh+OshNjWGWXKQ=
+X-Google-Smtp-Source: ABdhPJxZtO2nEF1yJ6MjoitOsoR6NiKa4vbJTd4fTbtfyjCPOSo9zQI9bOEoP434SL7qulITdqNiPQ==
+X-Received: by 2002:a05:6402:2741:b0:41f:69dc:9bcd with SMTP id z1-20020a056402274100b0041f69dc9bcdmr30258922edd.239.1651758936244;
+        Thu, 05 May 2022 06:55:36 -0700 (PDT)
 Received: from localhost.lan (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
-        by smtp.gmail.com with ESMTPSA id e15-20020a50e44f000000b0042617ba63c7sm877949edm.81.2022.05.05.06.55.28
+        by smtp.gmail.com with ESMTPSA id e15-20020a50e44f000000b0042617ba63c7sm877949edm.81.2022.05.05.06.55.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 06:55:30 -0700 (PDT)
+        Thu, 05 May 2022 06:55:35 -0700 (PDT)
 From:   =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
@@ -66,9 +66,9 @@ Cc:     Pavel Machek <pavel@ucw.cz>,
         Jonathan Corbet <corbet@lwn.net>,
         John Crispin <john@phrozen.org>, linux-doc@vger.kernel.org,
         =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>
-Subject: [PATCH RESEND 3/5] dt-bindings: leds: add Ethernet triggered LEDs to example
-Date:   Thu,  5 May 2022 15:55:10 +0200
-Message-Id: <20220505135512.3486-4-zajec5@gmail.com>
+Subject: [PATCH RESEND PoC] leds: trigger: netdev: support DT "trigger-sources" property
+Date:   Thu,  5 May 2022 15:55:12 +0200
+Message-Id: <20220505135512.3486-6-zajec5@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220505135512.3486-1-zajec5@gmail.com>
 References: <20220505135512.3486-1-zajec5@gmail.com>
@@ -81,55 +81,68 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Rafał Miłecki <rafal@milecki.pl>
 
-This adds 3 entries to existing example:
-1. LED triggered by switch port in 10 / 100 Mbps link state
-2. LED triggered by switch port in 1000 Mbps link
-3. LED triggered by Ethernet interface (any speed)
+Parse "trigger-sources", find referenced netdev & use it as default
+trigger source.
 
 Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
 ---
- .../devicetree/bindings/leds/common.yaml      | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
+This is a proof on concept, please don't apply this patch. I'll rework
+this on top of Ansuel's netdev trigger refactoring once it gets accepted
+----
+ drivers/leds/trigger/ledtrig-netdev.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index 328952d7acbb..6c72121a1656 100644
---- a/Documentation/devicetree/bindings/leds/common.yaml
-+++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -168,6 +168,7 @@ examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
-     #include <dt-bindings/leds/common.h>
-+    #include <dt-bindings/net/eth.h>
+diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+index d5e774d83021..c036a3671773 100644
+--- a/drivers/leds/trigger/ledtrig-netdev.c
++++ b/drivers/leds/trigger/ledtrig-netdev.c
+@@ -20,6 +20,8 @@
+ #include <linux/list.h>
+ #include <linux/module.h>
+ #include <linux/netdevice.h>
++#include <linux/of.h>
++#include <linux/of_net.h>
+ #include <linux/spinlock.h>
+ #include <linux/timer.h>
+ #include "../leds.h"
+@@ -389,6 +391,28 @@ static void netdev_trig_work(struct work_struct *work)
+ 			(atomic_read(&trigger_data->interval)*2));
+ }
  
-     led-controller {
-         compatible = "gpio-leds";
-@@ -183,6 +184,26 @@ examples:
-             gpios = <&gpio0 1 GPIO_ACTIVE_HIGH>;
-             trigger-sources = <&ohci_port1>, <&ehci_port1>;
-         };
++static void netdev_trig_of_init(struct led_classdev *led_cdev)
++{
++	struct device *dev = led_cdev->dev;
++	struct device_node *np = dev->of_node;
++	struct of_phandle_args args;
++	struct net_device *netdev;
++	int err;
 +
-+        led-2 {
-+            function = LED_FUNCTION_WAN;
-+            color = <LED_COLOR_ID_AMBER>;
-+            gpios = <&gpio0 2 GPIO_ACTIVE_LOW>;
-+            trigger-sources = <&wan_port (SPEED_10 | SPEED_100)>;
-+        };
++	err = of_parse_phandle_with_args(np, "trigger-sources", "#trigger-source-cells", 0, &args);
++	if (err || WARN_ON(!args.np)) {
++		dev_err(dev, "Failed to get trigger source phandle: %d\n", err);
++		return;
++	}
 +
-+        led-3 {
-+            function = LED_FUNCTION_WAN;
-+            color = <LED_COLOR_ID_GREEN>;
-+            gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
-+            trigger-sources = <&wan_port SPEED_1000>;
-+        };
++	netdev = of_find_net_device_by_node(args.np);
++	if (netdev) {
++		device_name_store(dev, NULL, netdev->name, strlen(netdev->name) + 1);
++	}
 +
-+        led-4 {
-+            function = LED_FUNCTION_LAN;
-+            gpios = <&gpio0 4 GPIO_ACTIVE_LOW>;
-+            trigger-sources = <&gmac 0>;
-+        };
-     };
++	of_node_put(args.np);
++}
++
+ static int netdev_trig_activate(struct led_classdev *led_cdev)
+ {
+ 	struct led_netdev_data *trigger_data;
+@@ -415,6 +439,8 @@ static int netdev_trig_activate(struct led_classdev *led_cdev)
  
-   - |
+ 	led_set_trigger_data(led_cdev, trigger_data);
+ 
++	netdev_trig_of_init(led_cdev);
++
+ 	rc = register_netdevice_notifier(&trigger_data->notifier);
+ 	if (rc)
+ 		kfree(trigger_data);
 -- 
 2.34.1
 
