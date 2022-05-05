@@ -2,62 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B326C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 13:46:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41D23C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 13:55:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380033AbiEENtw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 09:49:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34274 "EHLO
+        id S1380051AbiEEN7O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 09:59:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380032AbiEENtu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 09:49:50 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D8244C425;
-        Thu,  5 May 2022 06:46:10 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id g6so8859978ejw.1;
-        Thu, 05 May 2022 06:46:10 -0700 (PDT)
+        with ESMTP id S1380347AbiEEN7J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 09:59:09 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4A5F1834B;
+        Thu,  5 May 2022 06:55:29 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id i19so8873989eja.11;
+        Thu, 05 May 2022 06:55:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:to:cc:references
-         :from:in-reply-to:content-transfer-encoding;
-        bh=CmoyTtPjJebV46XUr6LOOtlTzAOsGOF3XhLcusYZkKo=;
-        b=qkGXMkTe1Qn7XTDKJ0umXoiwPn5bieN4DnmYFJMb0AnzSptY+nMg2rpWw6JMaL1OoG
-         /DmLSgpjm7MTwRJtjaClvGnTmV9avpKaOzL4JwgchJQXsbEbbq1WoOmBs1dGdvuYH0cw
-         inHqyIGCCglhWykXXAqimkc7JaV6VWFJtuf9teARjR2/gEULg7V+1YHzSL/6RDCh2R2h
-         uK8jNTKOcTmFfTGT/HSoudWCyH7ZiuXg4EIR507WDjsx4C1DpHRB6AKvzhW5muD7P0ML
-         wpqBiQ95OHuXkC31U+b8SfaeNJaMQAEQJDcfBSCwQ8VOBtuLwm2m/1QfrjZca9MJxk/u
-         d/XQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ahkARIN+8V3yBAvDKNOhMu072AYtqbFU/lpjoQxJ3Ks=;
+        b=gyhScaHs263fn2FMoFIaeIpmB1OR6lK4hIvTWKMnoqsCeTC4u7f5XlTXbu1qDGT80A
+         7fcgacj4FhqraB8kY6V759+NYx4cX2hkWcGvb32qC9sVoAGgT0c4dRd6y7e+IOJSFnNl
+         PHH4QW2DAEqWANTXLaKCgcW6G7rVVLpcz1Y9yRu2BHdODLKSj7bnvTA+PdIgmneIxKQn
+         oC0YfGZpHfaQqXIvYNm6WzICki7T1sEtt3tFgVSroKZ0jNV5NchrvnoWG+0aocWXlN2T
+         BarZsb5ZxvXwki1O9/qbU1o/HM708vc56H6LtIseoYFnr1ECso98W2oRXzZ4Y6JD/N+5
+         dK2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :to:cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=CmoyTtPjJebV46XUr6LOOtlTzAOsGOF3XhLcusYZkKo=;
-        b=T4/HRi7c24q1FZqblkLM0D2fZqwiUqAB90osK27OoCFTLiewLF0Awnws6w3Y6DvGZe
-         m0zHJuLDHFEq85KWVk5kdHSHAZBcLnYOXAIllS5Hh6+/0BNHCmXlcC3SRu42Xzw//q6Z
-         f3XUR3lWT2HPRQ75Kb8KR4jOuAgz77arqILe0rh/c+fjjyaFzsIGY81UqE8/A9fly03f
-         65XMF2//BncNUfBW8DTF4Q4ozuBngeQ01Gsn+pZpMCujxX7K3cgKG8PJZR5XNwRSk2kg
-         EaWvY1RrgiYpUpNij4YReWsGXzisjrb7UBpVCurfDMKFmN/HPBTykICcEJEWgUmK/Cad
-         Pfng==
-X-Gm-Message-State: AOAM531XwkhsG3TONXY2aodTRmlUBwM4Jupnlc3k74bPfw+KjQ+HOI9K
-        EFwYoj+4n+GLwnvPsTq/V0x8Si9xcI00iw==
-X-Google-Smtp-Source: ABdhPJz/S7duDzv1qxhCsbjUa4Gc3wRiKALN4dKxHxOaNoCS//xTIyD2dmAu/BorcD1LheMMIkbTAQ==
-X-Received: by 2002:a17:906:2883:b0:6e8:7012:4185 with SMTP id o3-20020a170906288300b006e870124185mr8852264ejd.204.1651758368873;
-        Thu, 05 May 2022 06:46:08 -0700 (PDT)
-Received: from [192.168.26.149] (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
-        by smtp.googlemail.com with ESMTPSA id s19-20020aa7c553000000b0042617ba63c1sm837838edr.75.2022.05.05.06.46.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 May 2022 06:46:08 -0700 (PDT)
-Message-ID: <47bafeae-34fb-fc55-3758-d248bd9706af@gmail.com>
-Date:   Thu, 5 May 2022 15:46:03 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101
- Thunderbird/96.0
-Subject: Re: [PATCH 1/4] dt-bindings: net: add bitfield defines for Ethernet
- speeds
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ahkARIN+8V3yBAvDKNOhMu072AYtqbFU/lpjoQxJ3Ks=;
+        b=D4u2Bx7nQGaPPfrDj3pV00Lmfdiw/k60rB5PoCdnO62pcg9svUDiMyxJO5KZCHoziD
+         kXTcAf0PuHML6/rerD111Bls12pBQEKXC14WCH+nswz4PtiwMrKXwEAHESV03Oe1oncC
+         1JbxO7aVcqoGM0uQLFtHYqU0fqKzPHHEqDvsixxwzmXIsLAimxBbe+1UycAzlxxXTH3W
+         N58PCQQCUM4fOcokmNsoqL6d/ES3tnc+XiHp2ahG5d67nFPG97NzDtpkXtxBuwEnjjZC
+         W5NdspzxS/ccCYLmpUtedlNoF8UiZwx+S2cMW13ztJrynCUtLZEeSES+0l6EMrAgfOtb
+         W3Ng==
+X-Gm-Message-State: AOAM530qkHmiNA+u5cJAL+qMkR0iJ+fele4w1jWwkh8va5ml/G+StHDh
+        IJ6zVwMCtErq0SCwjfJKiq8=
+X-Google-Smtp-Source: ABdhPJzi3vKiAPWHMT0W9f/YUPiDcbp8oCkahrkdy1du7Mdl6X0NgMbhUvQRlzLOh3T78kfW8HG0HA==
+X-Received: by 2002:a17:906:2646:b0:6d5:d889:c92b with SMTP id i6-20020a170906264600b006d5d889c92bmr27143703ejc.696.1651758928315;
+        Thu, 05 May 2022 06:55:28 -0700 (PDT)
+Received: from localhost.lan (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
+        by smtp.gmail.com with ESMTPSA id e15-20020a50e44f000000b0042617ba63c7sm877949edm.81.2022.05.05.06.55.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 May 2022 06:55:27 -0700 (PDT)
+From:   =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
         "David S . Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
@@ -67,63 +60,49 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         devicetree@vger.kernel.org, netdev@vger.kernel.org,
         linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
+        bcm-kernel-feedback-list@broadcom.com, ansuelsmth@gmail.com,
+        andrew@lunn.ch, vivien.didelot@gmail.com,
         Vladimir Oltean <olteanv@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        John Crispin <john@phrozen.org>, linux-doc@vger.kernel.org
-References: <20220503153613.15320-1-zajec5@gmail.com>
- <235aa025-7c12-f7e1-d788-9a2ef97f664f@gmail.com> <YnPASLy4oWJ6BJDq@lunn.ch>
-From:   =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-In-Reply-To: <YnPASLy4oWJ6BJDq@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        John Crispin <john@phrozen.org>, linux-doc@vger.kernel.org,
+        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>
+Subject: [PATCH RESEND 2/5] dt-bindings: net: allow Ethernet devices as LED triggers
+Date:   Thu,  5 May 2022 15:55:09 +0200
+Message-Id: <20220505135512.3486-3-zajec5@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220505135512.3486-1-zajec5@gmail.com>
+References: <20220505135512.3486-1-zajec5@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I don't understand anything from below, I'm sorry. Could you clarify,
-please?
+From: Rafał Miłecki <rafal@milecki.pl>
 
-On 5.05.2022 14:17, Andrew Lunn wrote:
-> On Thu, May 05, 2022 at 07:19:41AM +0200, Rafał Miłecki wrote:
->> On 3.05.2022 17:36, Rafał Miłecki wrote:
->>> From: Rafał Miłecki <rafal@milecki.pl>
->>>
->>> This allows specifying multiple Ethernet speeds in a single DT uint32
->>> value.
->>>
->>> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
->>
->> Ansuel please check if my patchset conflicts in any way with your work.
->>
->> Andrew suggested to combine both but right now I don't see it as
->> necessary.
->>
->> I'd still appreciate your review of my work. Such binding may be
->> required for some hardware controlled LEDs setup too I guess.
+This allows specifying Ethernet interfaces and switch ports as triggers
+for LEDs activity.
 
+Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+---
+ Documentation/devicetree/bindings/net/ethernet-controller.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
- > Please look at the LED binding.
+diff --git a/Documentation/devicetree/bindings/net/ethernet-controller.yaml b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+index 4f15463611f8..ebeb4446d253 100644
+--- a/Documentation/devicetree/bindings/net/ethernet-controller.yaml
++++ b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+@@ -232,6 +232,9 @@ properties:
+           required:
+             - speed
+ 
++allOf:
++  - $ref: /schemas/leds/trigger-source.yaml
++
+ additionalProperties: true
+ 
+ ...
+-- 
+2.34.1
 
-My binding or Ansuel's binding?
-
-
- > It is an LED you are trying to control, so that is the binding you should be using.
-
-Well, of course, LED setup requires DT binding.
-
-
- > How do you describe this functionality using that binding.
-
-I allow describing trigger source network device by using
-"trigger-sources" property referencing network device. That is an
-extension or what we already use for describing USB port that are
-trigger sources.
-
-
- > Ansuel code will give you the framework to actually do the implementation within.
-
-I was planning to base my work on top of Ansuel's one. I'll send proof
-on concept meanwhile without asking for it to be applied.
