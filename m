@@ -2,185 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D143AC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 08:02:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A389C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 08:29:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346189AbiEEIGP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 04:06:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38262 "EHLO
+        id S1348741AbiEEIcr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 04:32:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346224AbiEEIGP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 04:06:15 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33972338A4
-        for <linux-doc@vger.kernel.org>; Thu,  5 May 2022 01:02:36 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id j14so3697919plx.3
-        for <linux-doc@vger.kernel.org>; Thu, 05 May 2022 01:02:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=PShkJzVucYzHmTWOWA19iZ2R7/CUl/du8x+v8/m6eak=;
-        b=rXiO+G2RVXc79XKg+DxGCyvWynPSvXSf5jHVcLN6vb8WTIXeDgIGVT9fXj2f7csWGP
-         hgBzSRld+vHsk8GHK0BCXG0OTatp1gKjEN/+drDy44zoWmUKOJbZtYd3W32uXzIebLrJ
-         LZLVxRpSkwc7TfRK/qKQLZos1PlfwEQv7hC14IxjPLY00C0+JbHSwcR6BettVHJLH8jJ
-         0mHVxHwTyPXk8yqvjcCLskCITBkRQo2vU1Yqpo+pSNugqCxyjcfn2cG1cFaVw4k5Or4v
-         YKTDltG7pWJ99XQ9JeSowH8FY4RaAoyI2zSRNCxXgchnAnAp4beFlmJROU1f//FlC1bN
-         3tAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=PShkJzVucYzHmTWOWA19iZ2R7/CUl/du8x+v8/m6eak=;
-        b=PXJgLr+OqJqqHW8BhUOXOi4zKPJ9Nn8omGnon++EnYgBPigKGd0JXZmUBzyg1jDI2V
-         zCrfSI+cG8CscZ5o3PGPeiRkmT3+DtwPf0DokoOeX42GMBVej9hqfF1LYSjayJB00eHn
-         HZlnMdhn22sueWP9GjkvF1SC5dMB70CXPbXt2DKnBKEoPsHYQQ7uLiw93Y21+OHypaaq
-         KNGFs1NjJ8hSTulpKxejyfX1MLNp8lZTs8HrB3mhVa6JtW84+TGRaBDYQ63PYMtjS8wA
-         n1aMwmdkNvcXvOTdYGNJPBtAz1drRZUeVZIL18SGNjZ4gM4sLiui1U+6W8w0XZk1LFeD
-         6PYQ==
-X-Gm-Message-State: AOAM530v7kftNBa/S+dz+vWeuhNE9J8T/8/CByrWkJ/jZzzAmuoS2SLx
-        anmkPh15N1P8sbj4zGv3NAzdVw==
-X-Google-Smtp-Source: ABdhPJzcmP/gFjk5XJNOBaDdYfBOx/5hGLiE7KzRJVfV8g6ITCklmhjuG/AU1KnZXR3qk8hUmvtw3g==
-X-Received: by 2002:a17:902:e494:b0:15a:4b81:1c16 with SMTP id i20-20020a170902e49400b0015a4b811c16mr26803407ple.10.1651737755636;
-        Thu, 05 May 2022 01:02:35 -0700 (PDT)
-Received: from localhost ([139.177.225.234])
-        by smtp.gmail.com with ESMTPSA id p9-20020a170902a40900b0015e8d4eb2acsm793721plq.246.2022.05.05.01.02.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 01:02:35 -0700 (PDT)
-Date:   Thu, 5 May 2022 16:02:31 +0800
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
-        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v9 4/4] mm: hugetlb_vmemmap: add hugetlb_optimize_vmemmap
- sysctl
-Message-ID: <YnOEl6Qwp5jp7RHp@FVFYT0MHHV2J>
-References: <20220429121816.37541-1-songmuchun@bytedance.com>
- <20220429121816.37541-5-songmuchun@bytedance.com>
- <eadec7de-2e1a-2fb3-3317-c7b492a84e2b@oracle.com>
- <YnM4DRFhdD6iZIs1@FVFYT0MHHV2J.googleapis.com>
- <f77412f1-ffe5-659d-8a7d-578e0e8c5e2c@oracle.com>
+        with ESMTP id S1348951AbiEEIco (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 04:32:44 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A205E366BE;
+        Thu,  5 May 2022 01:29:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=we+pAHqfCL1HrPHWKdp8u/GbNSzdRAevWAngCc03fN8=; b=TVABNaAxngnB0uwZp5oPcegIj+
+        9eBlOfM5JnxFBnJVZyaha8SVflbybX2X7+bHwaS2M8O8eAyllYorc1XsoLyq4rwePjIB//4SdoMNz
+        iscl0WZuQnSaGdBkeescihMp0NoPl5QmMgq/VFCwkG5K1KtXNbmg9aHaf6aOZP6zl7hpLfwJtLxm1
+        pBwHgLYVaWbd8AkW3CGiEiP8jgGlqvE2rCbDCGLPBJ/GlrclNDinHAsNUqh6NoPtnyr9SeqNFlGOZ
+        mn1MQRQhSGsVJ6WD5v4BOpfODZ/TAOv9zkWa3OBGadLaITiw3sxaVnAyGBcsxM9Oy5qik39RPiYxY
+        SDHAfmuA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nmWqY-00BJut-Ai; Thu, 05 May 2022 08:28:26 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 42061980FA2; Thu,  5 May 2022 10:28:24 +0200 (CEST)
+Date:   Thu, 5 May 2022 10:28:24 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     "Luck, Tony" <tony.luck@intel.com>, hdegoede@redhat.com,
+        markgross@kernel.org, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        corbet@lwn.net, gregkh@linuxfoundation.org,
+        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
+        ashok.raj@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
+        ravi.v.shankar@intel.com
+Subject: Re: [PATCH v5 07/10] platform/x86/intel/ifs: Add scan test support
+Message-ID: <20220505082824.GD2501@worktop.programming.kicks-ass.net>
+References: <20220422200219.2843823-1-tony.luck@intel.com>
+ <20220428153849.295779-1-tony.luck@intel.com>
+ <20220428153849.295779-8-tony.luck@intel.com>
+ <87r159jxaq.ffs@tglx>
+ <YnLLekoripdY2oQU@agluck-desk3.sc.intel.com>
+ <87tua4j3es.ffs@tglx>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f77412f1-ffe5-659d-8a7d-578e0e8c5e2c@oracle.com>
+In-Reply-To: <87tua4j3es.ffs@tglx>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 04, 2022 at 08:36:00PM -0700, Mike Kravetz wrote:
-> On 5/4/22 19:35, Muchun Song wrote:
-> > On Wed, May 04, 2022 at 03:12:39PM -0700, Mike Kravetz wrote:
-> >> On 4/29/22 05:18, Muchun Song wrote:
-> >>> +static void vmemmap_optimize_mode_switch(enum vmemmap_optimize_mode to)
-> >>> +{
-> >>> +	if (vmemmap_optimize_mode == to)
-> >>> +		return;
-> >>> +
-> >>> +	if (to == VMEMMAP_OPTIMIZE_OFF)
-> >>> +		static_branch_dec(&hugetlb_optimize_vmemmap_key);
-> >>> +	else
-> >>> +		static_branch_inc(&hugetlb_optimize_vmemmap_key);
-> >>> +	vmemmap_optimize_mode = to;
-> >>> +}
-> >>> +
-> >>>  static int __init hugetlb_vmemmap_early_param(char *buf)
-> >>>  {
-> >>>  	bool enable;
-> >>> +	enum vmemmap_optimize_mode mode;
-> >>>  
-> >>>  	if (kstrtobool(buf, &enable))
-> >>>  		return -EINVAL;
-> >>>  
-> >>> -	if (enable)
-> >>> -		static_branch_enable(&hugetlb_optimize_vmemmap_key);
-> >>> -	else
-> >>> -		static_branch_disable(&hugetlb_optimize_vmemmap_key);
-> >>> +	mode = enable ? VMEMMAP_OPTIMIZE_ON : VMEMMAP_OPTIMIZE_OFF;
-> >>> +	vmemmap_optimize_mode_switch(mode);
-> >>>  
-> >>>  	return 0;
-> >>>  }
-> >>> @@ -60,6 +80,8 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
-> >>>  	vmemmap_end	= vmemmap_addr + (vmemmap_pages << PAGE_SHIFT);
-> >>>  	vmemmap_reuse	= vmemmap_addr - PAGE_SIZE;
-> >>>  
-> >>> +	VM_BUG_ON_PAGE(!vmemmap_pages, head);
-> >>> +
-> >>>  	/*
-> >>>  	 * The pages which the vmemmap virtual address range [@vmemmap_addr,
-> >>>  	 * @vmemmap_end) are mapped to are freed to the buddy allocator, and
-> >>> @@ -69,8 +91,10 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
-> >>>  	 */
-> >>>  	ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
-> >>>  				  GFP_KERNEL | __GFP_NORETRY | __GFP_THISNODE);
-> >>> -	if (!ret)
-> >>> +	if (!ret) {
-> >>>  		ClearHPageVmemmapOptimized(head);
-> >>> +		static_branch_dec(&hugetlb_optimize_vmemmap_key);
-> >>> +	}
-> >>>  
-> >>>  	return ret;
-> >>>  }
-> >>> @@ -84,6 +108,8 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
-> >>>  	if (!vmemmap_pages)
-> >>>  		return;
-> >>>  
-> >>> +	static_branch_inc(&hugetlb_optimize_vmemmap_key);
-> >>
-> >> Can you explain the reasoning behind doing the static_branch_inc here in free,
-> >> and static_branch_dec in alloc?
-> >> IIUC, they may not be absolutely necessary but you could use the count to
-> >> know how many optimized pages are in use?  Or, I may just be missing
-> >> something.
-> >>
-> > 
-> > Partly right. One 'count' is not enough. I have implemented this with similar
-> > approach in v6 [1]. Except the 'count', we also need a lock to do synchronization.
-> > However, both count and synchronization are included in static_key_inc/dec
-> > infrastructure. It is simpler to use static_key_inc/dec directly, right? 
-> > 
-> > [1] https://lore.kernel.org/all/20220330153745.20465-5-songmuchun@bytedance.com/
-> > 
-> 
-> Sorry, but I am a little confused.
-> 
-> vmemmap_optimize_mode_switch will static_key_inc to enable and static_key_dec
-> to disable.  In addition each time we optimize (allocate) a hugetlb page after
-> enabling we will static_key_inc.
-> 
-> Suppose we have 1 hugetlb page optimized.  So static count == 2 IIUC.
-> The someone turns off optimization via sysctl.  static count == 1 ???
+On Thu, May 05, 2022 at 01:15:07AM +0200, Thomas Gleixner wrote:
+> We don't have stomp_cpumask() today, but that's trivial enough to
+> implement.
 
-Definitely right.
+I don't think we want to gift people a random cpumask stop_machine(),
+but here's one that stops a core. It runs the @fn on every cpu since I
+thought to have understood that was the requirement for this muck.
 
-> If we then add another hugetlb page via nr_hugepages it seems that it
-> would be optimized as static count == 1.  Is that correct?  Do we need
+*completely* untestededed.
 
-I'm wrong.
-
-> to free all hugetlb pages with optimization before we can add new pages
-> without optimization?
->
-
-My bad. I think the following code would fix this.
-
-Thanks for your review carefully.
-
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 5820a681a724..997e192aeed7 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -105,7 +105,7 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
-        unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
-
-        vmemmap_pages = hugetlb_optimize_vmemmap_pages(h);
--       if (!vmemmap_pages)
-+       if (!vmemmap_pages || READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
-                return;
-
-        static_branch_inc(&hugetlb_optimize_vmemmap_key);
+diff --git a/kernel/stop_machine.c b/kernel/stop_machine.c
+index 6da7b91af353..2e7324e44e38 100644
+--- a/kernel/stop_machine.c
++++ b/kernel/stop_machine.c
+@@ -631,6 +631,34 @@ int stop_machine(cpu_stop_fn_t fn, void *data, const struct cpumask *cpus)
+ }
+ EXPORT_SYMBOL_GPL(stop_machine);
  
++/*
++ * stop_core_cpuslocked - stop_machine a core
++ * @cpu: any cpu in the targeted core
++ * @fn: the function to run
++ * @data: the data ptr for @fn()
++ *
++ * RETURNS:
++ * 0 if all executions of @fn returned 0, any non zero return value if any
++ * returned non zero.
++ */
++int stop_core_cpuslocked(unsigned int cpu, cpu_stop_fn_t fn, void *data)
++{
++	const struct cpumask *smt_mask = cpu_smt_mask(cpu);
++
++	struct multi_stop_data msdata = {
++		.fn = fn,
++		.data = data,
++		.num_threads = cpumask_weight(smt_mask);
++		.active_cpus = smt_mask,
++	};
++
++	lockdep_assert_cpus_held();
++
++	/* Set the initial state and stop all online cpus. */
++	set_state(&msdata, MULTI_STOP_PREPARE);
++	return stop_cpus(smt_mask, multi_cpu_stop, &msdata);
++}
++
+ /**
+  * stop_machine_from_inactive_cpu - stop_machine() from inactive CPU
+  * @fn: the function to run
