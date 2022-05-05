@@ -2,134 +2,250 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE607C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 14:43:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5270BC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 16:07:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358490AbiEEOra (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 10:47:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38876 "EHLO
+        id S237355AbiEEQLG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 12:11:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232677AbiEEOr3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 10:47:29 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55A1756F98;
-        Thu,  5 May 2022 07:43:49 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id y3so9120868ejo.12;
-        Thu, 05 May 2022 07:43:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:from:to:cc:subject:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Kq7x0iDA7TltEgWIVyJIVQzjWE+OkQEjaVsIe6ZS4Ao=;
-        b=E5w5ThkWzWHdHiANATxpXQPoCQYWruSW9bUtwe/DD+19o5bVlmRPjugZ9g5gY4CpV4
-         +WZjTL+smXPm4544qoIoKJo16QKfwBZmoQfZKEzDLkLpCrTVDjLkQhWw3E7Le9q7SiUA
-         1qwkU5ivdlBYmDvvHPhJmtvLtV2qQDACHnMhYEUcA3QGBSmifpbx5RI416Y+8i4eeT8H
-         Me35vSAeRIRmFoes64+5prFJ7auN7ID+wN5YF3QBS9QrbPCZliOATskun5bkEQWIraUj
-         hDTlK7ngJ3NH/i9dAzR6Ctr6tWz9h77CYdV49/ow5R9O1/lfBi3b0l+zruwchO3KHhwf
-         2AYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:from:to:cc:subject:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Kq7x0iDA7TltEgWIVyJIVQzjWE+OkQEjaVsIe6ZS4Ao=;
-        b=XdO8k5hoVbLVQ/TyxKXXO7zh98u0YUnnQIAZHn3xWcKVyTBo35k8Xw+b6Pm6RKXc1h
-         WJ6fuQT7cVdKCHK+eNM7EUxenlcI1NNlTBDxQkclEaj5uG++o0T/pvSpD69uglk7doBr
-         +ht1BfEHI4lNoQyYX7mXyLwxfGRf+gZpvCq4o2ZjnzuQ0VztdQiTVQJKse7qOpGlKkCU
-         8mPjQOpvyQ0FQWXiNIqg3vZ8qijkfzI9B5cZ099p1GXn/15GqsenWqYjkdUW8CIReb9z
-         sVAjWcehh2G60H2q5i18TZLqd7Pm8+wnXPXbFP02P+ujyAwvkkZnaHp9VG6MSSke01Yo
-         iKrg==
-X-Gm-Message-State: AOAM533TZdQo6hVnhRB4Dkff/i+G2P4doPHk/TpVr3Llo36oMTFEXBT4
-        SXmWUJ5u0Wu1AbmZzSm3bVA=
-X-Google-Smtp-Source: ABdhPJzWi8bjq3X8ViNmZsgDBf1lKrWOyD2iZKjeIia+Ghh7CmycDZx1bK+OORnEBd+nFrKCxrEtmQ==
-X-Received: by 2002:a17:906:5d04:b0:6db:7262:570e with SMTP id g4-20020a1709065d0400b006db7262570emr27108890ejt.8.1651761827682;
-        Thu, 05 May 2022 07:43:47 -0700 (PDT)
-Received: from Ansuel-xps. (93-42-70-190.ip85.fastwebnet.it. [93.42.70.190])
-        by smtp.gmail.com with ESMTPSA id jz11-20020a17090775eb00b006f3ef214e51sm793855ejc.183.2022.05.05.07.43.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 07:43:47 -0700 (PDT)
-Message-ID: <6273e2a3.1c69fb81.55947.477f@mx.google.com>
-X-Google-Original-Message-ID: <YnPioTGgjQd/PyRG@Ansuel-xps.>
-Date:   Thu, 5 May 2022 16:43:45 +0200
-From:   Ansuel Smith <ansuelsmth@gmail.com>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [RFC PATCH v6 07/11] leds: trigger: netdev: use mutex instead of
- spinlocks
-References: <20220503151633.18760-1-ansuelsmth@gmail.com>
- <20220503151633.18760-8-ansuelsmth@gmail.com>
- <YnMj/SY8BhJuebFO@lunn.ch>
- <6273d126.1c69fb81.7d047.4a30@mx.google.com>
- <YnPdglC+QJ4Gw81C@lunn.ch>
+        with ESMTP id S235722AbiEEQLD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 12:11:03 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34C425C363;
+        Thu,  5 May 2022 09:07:23 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D8DCBB82DF2;
+        Thu,  5 May 2022 16:07:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACC19C385A4;
+        Thu,  5 May 2022 16:07:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1651766840;
+        bh=ZoySQFMuCXYihBFhKAzzBX3l7fodRNeWMI02GDfbZQw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=K3riGR+bMXMgjRKxY4Oo55cEBqmqh8DssLcnM44PbokWHE4FEUC6cYNR51UunBe35
+         tZaTcPmZ1QkzG1bl7bkW/5MGuUlKpJZTgFvps2WHWV8/mNhPPnek4QXYDn0VuxYYzZ
+         gpLTnqSCXn3FDj3ptspoWSMc2ukDcOFG8Df1n98TCKqzq1wIp7WvvXAW1xQKjR8354
+         KrD7MUOMMOIfQAjfODPzLmcRoqCuv9i0Z3kbqtvVBMGFIS+B8o3s9P6s+YbR3skyLC
+         SSWKtiu8QEnN2i+8Gzjnw2oucom/ogJ4SgsvRtm6Mf2TF7BPQB5a2JRy3d73+paqK+
+         +9vI90EgIysXA==
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org
+Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-trace-devel@vger.kernel.org
+Subject: [RFC V3 00/20] The Runtime Verification (RV) interface
+Date:   Thu,  5 May 2022 18:06:40 +0200
+Message-Id: <cover.1651766361.git.bristot@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YnPdglC+QJ4Gw81C@lunn.ch>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 05, 2022 at 04:21:54PM +0200, Andrew Lunn wrote:
-> On Thu, May 05, 2022 at 03:29:09PM +0200, Ansuel Smith wrote:
-> > On Thu, May 05, 2022 at 03:10:21AM +0200, Andrew Lunn wrote:
-> > > > @@ -400,7 +400,7 @@ static int netdev_trig_notify(struct notifier_block *nb,
-> > > >  
-> > > >  	cancel_delayed_work_sync(&trigger_data->work);
-> > > >  
-> > > > -	spin_lock_bh(&trigger_data->lock);
-> > > > +	mutex_lock(&trigger_data->lock);
-> > > 
-> > > I'm not sure you can convert a spin_lock_bh() in a mutex_lock().
-> > > 
-> > > Did you check this? What context is the notifier called in?
-> > > 
-> > >     Andrew
-> > 
-> > I had to do this because qca8k use completion to set the value and that
-> > can sleep... Mhhh any idea how to handle this?
-> 
-> First step is to define what the lock is protecting. Once you know
-> that, you should be able to see what you can do without actually
-> holding the lock.
-> 
+Over the last years, I've been exploring the possibility of
+verifying the Linux kernel behavior using Runtime Verification.
 
-From what I can see in the code, the lock is really used for the
-work. It there to handle the device_name store/show and to not remove
-the dev while a work is in progress...
+Runtime Verification (RV) is a lightweight (yet rigorous) method that
+complements classical exhaustive verification techniques (such as model
+checking and theorem proving) with a more practical approach for complex
+systems.
 
-But I can also see that on store and on netdev_trig the work is
-cancelled, so in theory the problem of "removing dev while a work is in
-progress" should never happen (as we cancel the work before anyway).
+Instead of relying on a fine-grained model of a system (e.g., a
+re-implementation a instruction level), RV works by analyzing the trace of the
+system's actual execution, comparing it against a formal specification of
+the system behavior.
 
-So I see the only real use for the lock is the device_name_show. 
+The usage of deterministic automaton for RV is a well-established
+approach. In the specific case of the Linux kernel, you can check how
+to model complex behavior of the Linux kernel with this paper:
 
-> Do you need the lock when actually setting the LED?
-> 
-> Or is the lock protecting state information inside trigger_data?
-> 
-> Can you make a copy of what you need from trigger_data while holding
-> the lock, release it and then set the LED?
-> 
-> Maybe a nested mutex and a spin lock? The spin lock protecting
-> trigger_data, and the mutex protecting setting the LED?
+  DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo Silva.
+  *Efficient formal verification for the Linux kernel.* In: International
+  Conference on Software Engineering and Formal Methods. Springer, Cham, 2019.
+  p. 315-332.
 
-I need to check what can I do to move the configuration phase outside
-the lock.
-Just to make sure the spinlock ot mutex conversion is not doable cause
-we are locking unter a netdev notify or for other reason?
+And how efficient is this approach here:
 
-> 
-> 	      Andrew
+  DE OLIVEIRA, Daniel B.; DE OLIVEIRA, Romulo S.; CUCINOTTA, Tommaso. *A thread
+  synchronization model for the PREEMPT_RT Linux kernel.* Journal of Systems
+  Architecture, 2020, 107: 101729.
+
+tlrd: it is possible to model complex behaviors in a modular way, with
+an acceptable overhead (even for production systems). See this
+presentation at 2019's ELCE: https://www.youtube.com/watch?v=BfTuEHafNgg
+
+Here I am proposing a more practical approach for the usage of deterministic
+automata for runtime verification, and it includes:
+
+	- An interface for controlling the verification;
+	- A tool and set of headers that enables the automatic code
+	  generation of the RV monitor (Monitor Synthesis);
+	- Sample monitors to evaluate the interface;
+	- A sample monitor developed in the context of the Elisa Project
+	  demonstrating how to use RV in the context of safety-critical
+	  systems.
+
+Given that RV is a tracing consumer, the code is being placed inside the
+tracing subsystem (Steven and I have been talking about it for a while).
+
+Changes from v2:
+	- Tons of checkpatch and kernel test robot
+	- Moved files to better places
+	- Adjusted watchdog tracepoints patch (Guenter Roeck)
+	- Added pretimeout watchdog events (Peter Enderborg) 
+	- Used task struct to store per-task monitors (Peter Zijlstra)
+	- Changed the instrumentation to use internal definition of tracepoint
+	  and check the callback signature (Steven Rostedt)
+	- Used printk_deferred() and removed the comment about deadlocks
+	  (Shuah Khan/John Ogness)
+	- Some simplifications:
+		- Removed the safe watchdog nowayout for now (myself)
+		- Removed export symbols for now (myself)
+Changes from V1:
+	- rebased to the latest kernel;
+	- code cleanup;
+	- the watchdog dev monitor;
+	- safety app;
+
+Things kept for a second moment (after this patchset):
+	- Add a reactor tha enables the visualization of the visited
+	  states via KCOV (Marco Elver & Dmitry Vyukov)
+	- Add a CRC method to check from user-space if the values
+	  exported by the monitor were not corrupted by any other
+	  kernel task (Gabriele Paoloni)
+	- Export symbols for external modules
+Daniel Bristot de Oliveira (20):
+  rv: Add Runtime Verification (RV) interface
+  rv: Add runtime reactors interface
+  rv/include: Add helper functions for deterministic automata
+  rv/include: Add deterministic automata monitor definition via C macros
+  rv/include: Add instrumentation helper functions
+  tools/rv: Add dot2c
+  tools/rv: Add dot2k
+  rv/monitor: Add the wip monitor skeleton created by dot2k
+  rv/monitor: wip instrumentation and Makefile/Kconfig entries
+  rv/monitor: Add the wwnr monitor skeleton created by dot2k
+  rv/monitor: wwnr instrumentation and Makefile/Kconfig entries
+  rv/reactor: Add the printk reactor
+  rv/reactor: Add the panic reactor
+  Documentation/rv: Add a basic documentation
+  Documentation/rv: Add deterministic automata monitor synthesis
+    documentation
+  Documentation/rv: Add deterministic automata instrumentation
+    documentation
+  watchdog/dev: Add tracepoints
+  rv/monitor: Add safe watchdog monitor
+  rv/safety_app: Add an safety_app sample
+  Documentation/rv: Add watchdog-monitor documentation
+
+ Documentation/trace/index.rst                 |   1 +
+ .../trace/rv/da_monitor_instrumentation.rst   | 223 ++++++
+ .../trace/rv/da_monitor_synthesis.rst         | 286 +++++++
+ Documentation/trace/rv/index.rst              |   9 +
+ .../trace/rv/runtime-verification.rst         | 233 ++++++
+ Documentation/trace/rv/watchdog-monitor.rst   | 250 ++++++
+ drivers/watchdog/watchdog_dev.c               |  43 +-
+ drivers/watchdog/watchdog_pretimeout.c        |   2 +
+ include/linux/rv.h                            |  36 +
+ include/linux/sched.h                         |  11 +
+ include/linux/watchdog.h                      |   7 +-
+ include/rv/automata.h                         |  49 ++
+ include/rv/da_monitor.h                       | 421 ++++++++++
+ include/rv/instrumentation.h                  |  23 +
+ include/rv/rv.h                               |  32 +
+ include/trace/events/watchdog.h               | 101 +++
+ kernel/fork.c                                 |  14 +
+ kernel/trace/Kconfig                          |   2 +
+ kernel/trace/Makefile                         |   2 +
+ kernel/trace/rv/Kconfig                       |  68 ++
+ kernel/trace/rv/Makefile                      |   9 +
+ kernel/trace/rv/monitor_safe_wtd/model.h      |  84 ++
+ kernel/trace/rv/monitor_safe_wtd/safe_wtd.c   | 302 +++++++
+ kernel/trace/rv/monitor_safe_wtd/safe_wtd.h   |  64 ++
+ kernel/trace/rv/monitor_wip/model.h           |  38 +
+ kernel/trace/rv/monitor_wip/wip.c             | 112 +++
+ kernel/trace/rv/monitor_wip/wip.h             |  64 ++
+ kernel/trace/rv/monitor_wwnr/model.h          |  38 +
+ kernel/trace/rv/monitor_wwnr/wwnr.c           | 110 +++
+ kernel/trace/rv/monitor_wwnr/wwnr.h           |  70 ++
+ kernel/trace/rv/reactor_panic.c               |  44 +
+ kernel/trace/rv/reactor_printk.c              |  43 +
+ kernel/trace/rv/rv.c                          | 752 ++++++++++++++++++
+ kernel/trace/rv/rv.h                          |  54 ++
+ kernel/trace/trace.c                          |   4 +
+ kernel/trace/trace.h                          |   2 +
+ tools/tracing/rv/dot2/Makefile                |  26 +
+ tools/tracing/rv/dot2/automata.py             | 179 +++++
+ tools/tracing/rv/dot2/dot2c                   |  30 +
+ tools/tracing/rv/dot2/dot2c.py                | 240 ++++++
+ tools/tracing/rv/dot2/dot2k                   |  46 ++
+ tools/tracing/rv/dot2/dot2k.py                | 188 +++++
+ .../rv/dot2/dot2k_templates/main_global.c     |  97 +++
+ .../rv/dot2/dot2k_templates/main_global.h     |  64 ++
+ .../rv/dot2/dot2k_templates/main_per_cpu.c    |  97 +++
+ .../rv/dot2/dot2k_templates/main_per_cpu.h    |  64 ++
+ .../rv/dot2/dot2k_templates/main_per_task.c   |  97 +++
+ .../rv/dot2/dot2k_templates/main_per_task.h   |  70 ++
+ tools/tracing/rv/safety_app/Makefile          |  51 ++
+ tools/tracing/rv/safety_app/safety_app.c      | 645 +++++++++++++++
+ 50 files changed, 5487 insertions(+), 10 deletions(-)
+ create mode 100644 Documentation/trace/rv/da_monitor_instrumentation.rst
+ create mode 100644 Documentation/trace/rv/da_monitor_synthesis.rst
+ create mode 100644 Documentation/trace/rv/index.rst
+ create mode 100644 Documentation/trace/rv/runtime-verification.rst
+ create mode 100644 Documentation/trace/rv/watchdog-monitor.rst
+ create mode 100644 include/linux/rv.h
+ create mode 100644 include/rv/automata.h
+ create mode 100644 include/rv/da_monitor.h
+ create mode 100644 include/rv/instrumentation.h
+ create mode 100644 include/rv/rv.h
+ create mode 100644 include/trace/events/watchdog.h
+ create mode 100644 kernel/trace/rv/Kconfig
+ create mode 100644 kernel/trace/rv/Makefile
+ create mode 100644 kernel/trace/rv/monitor_safe_wtd/model.h
+ create mode 100644 kernel/trace/rv/monitor_safe_wtd/safe_wtd.c
+ create mode 100644 kernel/trace/rv/monitor_safe_wtd/safe_wtd.h
+ create mode 100644 kernel/trace/rv/monitor_wip/model.h
+ create mode 100644 kernel/trace/rv/monitor_wip/wip.c
+ create mode 100644 kernel/trace/rv/monitor_wip/wip.h
+ create mode 100644 kernel/trace/rv/monitor_wwnr/model.h
+ create mode 100644 kernel/trace/rv/monitor_wwnr/wwnr.c
+ create mode 100644 kernel/trace/rv/monitor_wwnr/wwnr.h
+ create mode 100644 kernel/trace/rv/reactor_panic.c
+ create mode 100644 kernel/trace/rv/reactor_printk.c
+ create mode 100644 kernel/trace/rv/rv.c
+ create mode 100644 kernel/trace/rv/rv.h
+ create mode 100644 tools/tracing/rv/dot2/Makefile
+ create mode 100644 tools/tracing/rv/dot2/automata.py
+ create mode 100644 tools/tracing/rv/dot2/dot2c
+ create mode 100644 tools/tracing/rv/dot2/dot2c.py
+ create mode 100644 tools/tracing/rv/dot2/dot2k
+ create mode 100644 tools/tracing/rv/dot2/dot2k.py
+ create mode 100644 tools/tracing/rv/dot2/dot2k_templates/main_global.c
+ create mode 100644 tools/tracing/rv/dot2/dot2k_templates/main_global.h
+ create mode 100644 tools/tracing/rv/dot2/dot2k_templates/main_per_cpu.c
+ create mode 100644 tools/tracing/rv/dot2/dot2k_templates/main_per_cpu.h
+ create mode 100644 tools/tracing/rv/dot2/dot2k_templates/main_per_task.c
+ create mode 100644 tools/tracing/rv/dot2/dot2k_templates/main_per_task.h
+ create mode 100644 tools/tracing/rv/safety_app/Makefile
+ create mode 100644 tools/tracing/rv/safety_app/safety_app.c
 
 -- 
-	Ansuel
+2.35.1
+
