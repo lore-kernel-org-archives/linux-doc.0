@@ -2,83 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C361DC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 19:18:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2494FC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 20:03:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384956AbiEETV4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 15:21:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37418 "EHLO
+        id S1385537AbiEEUGu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 16:06:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1384953AbiEETVz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 15:21:55 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A87D5506CC
-        for <linux-doc@vger.kernel.org>; Thu,  5 May 2022 12:18:14 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id m23so6804975ljb.8
-        for <linux-doc@vger.kernel.org>; Thu, 05 May 2022 12:18:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=88e8YZNFZYblGW8T1vgvVrAcy4UJU9R/Uy+Mu/G/Bqs=;
-        b=TO3jyCFIIWVak12/dNoncxn6wvPf/lF2QQMHoR/hglxIq6oe3bqG/dbiW4yCRojMI2
-         UJUPqSoGDCbPqPO7zYcVzNDDmbh6XyBuJ2QFnVo5CMhpB3e9ygNVXSKKE8xfnn6WBlR1
-         SD8cWkUr5oZMuRTeWsehuddfgXymLLGw29JRWkNpJYBQk7HhyF+PFsIumqMIyK+DEV00
-         mAm5Nt8OJXcxjjAhhKoahg2nSrgXalRjyYdT4CfFx2kHXrQ8pC1kxcla6djH6LnN6N/2
-         4lCMt3lPJqQN1LtGMWYnd7gWQhgmOmJRGinoMk8pNHQItkQFqe9KHoe3FJUXNooEW4Vi
-         Gccw==
+        with ESMTP id S244961AbiEEUGr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 16:06:47 -0400
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DD895EDF4;
+        Thu,  5 May 2022 13:03:07 -0700 (PDT)
+Received: by mail-ot1-f44.google.com with SMTP id m6-20020a05683023a600b0060612720715so3632937ots.10;
+        Thu, 05 May 2022 13:03:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=88e8YZNFZYblGW8T1vgvVrAcy4UJU9R/Uy+Mu/G/Bqs=;
-        b=15ajgZLYKlUFMCCJvGepoLz/Qm+h8P3ARAGlmM655s7Dq8IWEyZikU9rttWUX0433Z
-         VNfMTHuhMKMAxwYwPuSWpMteNe+ARfz+JmJ2TTjqzoqcz/G8n0aq9EnLbHFqDYubCAb3
-         HsDMWFWFKKakSMMDGJ4Fv7FZpfQ684G+4zmuOrqnMygX3+eRk9Jit0GcFCrMRxmApnUl
-         dy7Jy9wShG641kf0+V8YzC8JedICjo0s3fR4gYP3le6rsSJA1RZ8VGWDN0zLDzIw9R1/
-         cTK4U/uek0SnLb0Gkp7p1Nsizqu2XKCqWZJbb7lHVSAeIIf6ghVW5A/9mvMRPqV7liD6
-         drAQ==
-X-Gm-Message-State: AOAM531yWaXFtd46h4dN1cK4KCnGLrhowrtQ9P7eyDIXFENh6bimQjAi
-        sSIz/UPZoFi7yDWiFC5d7TjvtntZb+FK0tYVwHx2KA==
-X-Google-Smtp-Source: ABdhPJw8bFxetL9G7iKV3TXNBVJ9NKY7omc4nRH7Cv4Fu/gNPcy2p0+MKX+ThfcLhOVe88M0JGGhP4vzjrxX/Zwe9KY=
-X-Received: by 2002:a2e:5cc1:0:b0:24b:112f:9b36 with SMTP id
- q184-20020a2e5cc1000000b0024b112f9b36mr17625108ljb.337.1651778292546; Thu, 05
- May 2022 12:18:12 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Pyq/2vKiCJeafLAKrLbpew+3CjQ+qVQC3K8MNbXKH7s=;
+        b=R9OswNI/bjFONSGVJ3EPs/rftmN7CfKjqkvnGdapZ3Yt76VwIySaNj1j26EsqRicsc
+         c7JkMC71ipXEveZ7ee6YjS7YK0NxvDDVjxw67hf3TtBK57qgMCsw79Hu0TMfPUGmT58S
+         j3CHsdYOKd52+QfXaXJV+i5KKEKQAymILzykTBBgTz+zkoVaWCMm+3/Sd/89if7iSn61
+         RbNBZ5NWNT696fQungArPHZU6hYMQcA4O6U2btd3ZUP/ymzFbyvdL1llisNrZ3ygGptI
+         /GbdY4wEIFz4VqE9KMaDY0r2nb9LqyJSUMyNNQOk+CBRqD883s/KxOuQUkuiQxlJLZiI
+         hEow==
+X-Gm-Message-State: AOAM5338TbvCu9kfb+M+MCvbjDNFcM36aSd6b9sKQvHPitpqJs3w0VoR
+        Ka7/9qMniJZyB3laSqLgLwZbyvmVrw==
+X-Google-Smtp-Source: ABdhPJzs1asTZTmKLXNMh0PXTiEvLAWMuCmzpJCTeiBCudCzgeCyMfW7UzBRQJMYiJSe1XEvIayZnQ==
+X-Received: by 2002:a9d:6ac7:0:b0:5e6:ec48:d882 with SMTP id m7-20020a9d6ac7000000b005e6ec48d882mr9872300otq.274.1651780986171;
+        Thu, 05 May 2022 13:03:06 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id a32-20020a9d2623000000b006060322123csm935981otb.12.2022.05.05.13.03.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 May 2022 13:03:05 -0700 (PDT)
+Received: (nullmailer pid 100851 invoked by uid 1000);
+        Thu, 05 May 2022 20:03:03 -0000
+Date:   Thu, 5 May 2022 15:03:03 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Baoquan He <bhe@redhat.com>, devicetree@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        Will Deacon <will@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, Vivek Goyal <vgoyal@redhat.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>, kexec@lists.infradead.org,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+        Ingo Molnar <mingo@redhat.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Eric Biederman <ebiederm@xmission.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Dave Young <dyoung@redhat.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>,
+        "H . Peter Anvin" <hpa@zytor.com>
+Subject: Re: [PATCH v23 5/6] of: Support more than one crash kernel regions
+ for kexec -s
+Message-ID: <YnQtd5+iSXj+R5X/@robh.at.kernel.org>
+References: <20220505091845.167-1-thunder.leizhen@huawei.com>
+ <20220505091845.167-6-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-References: <202205060209.NeOKC7Mb-lkp@intel.com>
-In-Reply-To: <202205060209.NeOKC7Mb-lkp@intel.com>
-From:   Oliver Upton <oupton@google.com>
-Date:   Thu, 5 May 2022 12:18:01 -0700
-Message-ID: <CAOQ_QshO4F-QymwcxB01rG8e5JqaWe=pads5A5vPmjSV+Fc3Rg@mail.gmail.com>
-Subject: Re: [arm-platforms:kvm-arm64/psci-suspend 7/13] htmldocs:
- Documentation/virt/kvm/api.rst:6049: (SEVERE/4) Title level inconsistent:
-To:     kernel test robot <lkp@intel.com>
-Cc:     kbuild-all@lists.01.org, linux-arm-kernel@lists.infradead.org,
-        Marc Zyngier <maz@kernel.org>,
-        Reiji Watanabe <reijiw@google.com>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220505091845.167-6-thunder.leizhen@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 5, 2022 at 12:06 PM kernel test robot <lkp@intel.com> wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/psci-suspend
-> head:   582eb04e05ddd234ca32083c8457c6d409fd7b6a
-> commit: bfbab44568779e1682bc6f63688bb9c965f0e74a [7/13] KVM: arm64: Implement PSCI SYSTEM_SUSPEND
-> reproduce: make htmldocs
->
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
->
-> Note: the arm-platforms/kvm-arm64/psci-suspend HEAD 582eb04e05ddd234ca32083c8457c6d409fd7b6a builds fine.
->       It only hurts bisectability.
->
-> All errors (new ones prefixed by >>):
->
-> >> Documentation/virt/kvm/api.rst:6049: (SEVERE/4) Title level inconsistent:
+On Thu, 05 May 2022 17:18:44 +0800, Zhen Lei wrote:
+> When "crashkernel=X,high" is used, there may be two crash regions:
+> high=crashk_res and low=crashk_low_res. But now the syscall
+> kexec_file_load() only add crashk_res into "linux,usable-memory-range",
+> this may cause the second kernel to have no available dma memory.
+> 
+> Fix it like kexec tool do for option -c, add both 'high' and 'low' regions
+> into the dtb.
+> 
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+> ---
+>  drivers/of/kexec.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
 
-Shame on me for reading my documentation in plaintext :) Same as what
-Stephen reported, so the fix is:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git/commit/?h=kvm-arm64/psci-suspend&id=582eb04e05ddd234ca32083c8457c6d409fd7b6a
+Acked-by: Rob Herring <robh@kernel.org>
