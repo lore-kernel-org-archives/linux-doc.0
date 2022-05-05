@@ -2,131 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92B33C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 10:16:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A86DC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  5 May 2022 10:42:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355296AbiEEKUS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 06:20:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57516 "EHLO
+        id S241278AbiEEKqP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 06:46:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355580AbiEEKUO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 06:20:14 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8306553A6A;
-        Thu,  5 May 2022 03:16:30 -0700 (PDT)
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2459LWbS013230;
-        Thu, 5 May 2022 10:16:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=UdSj0Q24RTJ90Jlwr+Fj+QZMhcxvHd/jy1an4cse1OY=;
- b=f7OjRjs+idKg1g3autBXxMYSlpGBQf2ORGk9Ut7PATGiHQ5cm6hO+vT0NDNwDLJNpNvh
- QgRnompaRRyipoYAjidhiHocncuT8/lGV0+NGPxHv3e84IwQxQXARhuCFwY//ostjJar
- NZE2H3oBOzAW87r1Db7sE+rjtVWu4EyewdeZzuyguM56zHMrr12dAccc6sABVR02PbN4
- 6UlvYnOn/F9HKUY1WYednbK+Yql88kXSI660IusxIyIussChtdgMKVFm4zYnV6F2oUF/
- Ohw42Zv6aBbgsLBjVW6zoTuoT+mrbBh7S5NZw7wEaq1i77NYe71CO+tgxGDiwCZvTcXP EQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fvbvnrxrk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 05 May 2022 10:16:28 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 245AGR7o001564;
-        Thu, 5 May 2022 10:16:27 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fvbvnrxr3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 05 May 2022 10:16:27 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 245ACkku009262;
-        Thu, 5 May 2022 10:16:25 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
-        by ppma04ams.nl.ibm.com with ESMTP id 3frvr8y188-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 05 May 2022 10:16:25 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 245AGLaV33751438
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 5 May 2022 10:16:21 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C4F714C040;
-        Thu,  5 May 2022 10:16:21 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BF8824C046;
-        Thu,  5 May 2022 10:16:20 +0000 (GMT)
-Received: from [9.171.71.237] (unknown [9.171.71.237])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Thu,  5 May 2022 10:16:20 +0000 (GMT)
-Message-ID: <f1d3896e-d6a5-e90f-c633-e670834d1765@linux.ibm.com>
-Date:   Thu, 5 May 2022 12:16:20 +0200
+        with ESMTP id S1352217AbiEEKqL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 06:46:11 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AF5353716;
+        Thu,  5 May 2022 03:42:32 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id q4so1125144plr.11;
+        Thu, 05 May 2022 03:42:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=VwJgS7EQVPINql3/IWkqXNQpE3klGJYH+DfKyFv2JQY=;
+        b=KScEbK/eLpYZn24jwF/V+qYRxX8O/bC1VEZvrmcsUkkJu4xqN8E5HS5Qvwka7XPO49
+         5or89yjGgo9Yn5/NV+02Q5SNhQIyCDWey8hzkvXBh5WygVRjT5xAy+FGXRp7Zw6VjIqV
+         7yLhmcTbdrmz9jNKLeHbn9tZhP/LZTsFJ2CoGkyfP2YnUhsSHoSlinnudG2p9F73Fo7a
+         7qqAZBw+wMLobNXMovDXCTZ7k67QmS96xA7OnpIjPqRm+xN+4RJBV+RkUKSKK5rgY6Bd
+         KRcweSrM3/OHbqzTseBZX1mG3A811JeVF3+3SaCo83JpRLR0J4x/n+b6sBgctJgm/9kg
+         fORA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=VwJgS7EQVPINql3/IWkqXNQpE3klGJYH+DfKyFv2JQY=;
+        b=eKKpsNp/eKTXKgMga182+RHIfmPcSmzX/Y7Ptu954QISrcItUYhZm5C7noLWCa0lw9
+         aWS8DAlINh8JTTZKG1xlLrrH5VGRwS/V3hto3HQ1RsnbzHh+bfZ442h+3nzwzC1O4HRF
+         3AoPVrxQjFz1YBP3Wuvyeix5A29sRmrtse495O7yKeTCUWneBMGJ4Y7RQNCMbsF3PKlk
+         WWukw0UmROe0zsr86NEdubO+NbYaMbEXSBRjRJe+Coymh5uQlajgV0LOpShD6vvEy+9i
+         BXh+0PvPfyivtr6mriY3IyVjdx9DTc7hclJHGM1klJ3ghZ7HIfhOi6kVk/B5eSKQJJvS
+         L1kA==
+X-Gm-Message-State: AOAM531hgjgzdAfDYyKwzk8Oz75iRNZqy1W/pdWWBGEN8A5U8R5h6lyO
+        5ASUvVeboBeNNiUUl/mcFEtiAju6W2s=
+X-Google-Smtp-Source: ABdhPJzwPf1b02txXmiAhAdw7c4vm2/gjm8vTxHsLDx9RjanrKorKqFZ30wz0saply+QWDTItl3umg==
+X-Received: by 2002:a17:90b:1d83:b0:1dc:4362:61bd with SMTP id pf3-20020a17090b1d8300b001dc436261bdmr5338472pjb.126.1651747352073;
+        Thu, 05 May 2022 03:42:32 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id d20-20020a056a00199400b0050dc7628156sm1098222pfl.48.2022.05.05.03.42.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 May 2022 03:42:31 -0700 (PDT)
+Message-ID: <c7a501cc-0a09-9f3d-8200-50fc3a854853@gmail.com>
+Date:   Thu, 5 May 2022 19:42:26 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v6 11/21] KVM: s390: pci: do initial setup for AEN
- interpretation
+ Thunderbird/91.8.1
+Subject: Re: [PATCH net-next v2] net/core: use ReST block quote in
+ __dev_queue_xmit() comment
 Content-Language: en-US
-To:     Matthew Rosato <mjrosato@linux.ibm.com>, linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        jgg@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Ben Greear <greearb@candelatech.com>,
+        Pavel Begunkov <asml.silence@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        linux-next@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-References: <20220426200842.98655-1-mjrosato@linux.ibm.com>
- <20220426200842.98655-12-mjrosato@linux.ibm.com>
-From:   Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <20220426200842.98655-12-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20220505082907.42393-1-bagasdotme@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20220505082907.42393-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 57De0f8BErD5dXeOxosoubLHqjQQEktq
-X-Proofpoint-ORIG-GUID: wvYuKOXpGw49XJWt7jGThtvR75Dr9pXc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-05_04,2022-05-05_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 phishscore=0 malwarescore=0 clxscore=1011 priorityscore=1501
- suspectscore=0 spamscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205050071
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 26.04.22 um 22:08 schrieb Matthew Rosato:
-[...]
-> +/* Caller must hold the aift lock before calling this function */
+On 2022/05/05 17:29,
+Bagas Sanjaya wrote:
+> When merging net-next for linux-next tree, Stephen Rothwell reported
+> htmldocs warning:
+> 
+> Documentation/networking/kapi:92: net/core/dev.c:4101: WARNING: Missing matching underline for section title overline.
+> 
+> -----------------------------------------------------------------------------------
+>      I notice this method can also return errors from the queue disciplines,
+>      including NET_XMIT_DROP, which is a positive value.  So, errors can also
+> 
+> The warning is due to comment quote by Ben from commit af191367a75262
+> ("[NET]: Document ->hard_start_xmit() locking in comments.") interacts
+> with commit c526fd8f9f4f21 ("net: inline dev_queue_xmit()").
 
-When you do a next round, maybe use lockdep_assert_help instead of this comment
+I don't see why the change in commit c526fd8f9f4f21 caused the new
+warning.
+Please explain.  Just saying "interacts with" does not explain
+anything.
 
-> +void kvm_s390_pci_aen_exit(void)
-> +{
-> +	unsigned long flags;
-> +	struct kvm_zdev **gait_kzdev;
-> +
-> +	/*
-> +	 * Contents of the aipb remain registered for the life of the host
-> +	 * kernel, the information preserved in zpci_aipb and zpci_aif_sbv
-> +	 * in case we insert the KVM module again later.  Clear the AIFT
-> +	 * information and free anything not registered with underlying
-> +	 * firmware.
-> +	 */
-> +	spin_lock_irqsave(&aift->gait_lock, flags);
-> +	gait_kzdev = aift->kzdev;
-> +	aift->gait = 0;
-> +	aift->sbv = 0;
-> +	aift->kzdev = 0;
-> +	spin_unlock_irqrestore(&aift->gait_lock, flags);
-> +
-> +	kfree(gait_kzdev);
-> +}
-> +
+        Thanks, Akria
 
-Otherwise,
-
-Reviewed-by: Christian Borntraeger <borntraeger@linux.ibm.com>
-
+> 
+> Fix the warning by using ReST block quote syntax for the comment quote.
+> Note that the actual description for the method will be rendered above
+> "Description" section instead of below of it. However, preserve the
+> comment quote for now.
+> 
+> Fixes: c526fd8f9f4f21 ("net: inline dev_queue_xmit()")
+> Link: https://lore.kernel.org/linux-next/20220503073420.6d3f135d@canb.auug.org.au/
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Cc: Ben Greear <greearb@candelatech.com>
+> Cc: Pavel Begunkov <asml.silence@gmail.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Akira Yokosawa <akiyks@gmail.com>
+> Cc: netdev@vger.kernel.org
+> Cc: linux-next@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Changes since v1 [1]:
+>    - Use ReST block quote instead of deleting the comment quote
+>    - Mention the originating commit that introduces the quote
+> 
+>  [1]: https://lore.kernel.org/linux-doc/20220503072949.27336-1-bagasdotme@gmail.com/
+>  net/core/dev.c | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
+> 
+> diff --git a/net/core/dev.c b/net/core/dev.c
+> index c2d73595a7c369..bcb47b889f5857 100644
+> --- a/net/core/dev.c
+> +++ b/net/core/dev.c
+> @@ -4099,17 +4099,18 @@ struct netdev_queue *netdev_core_pick_tx(struct net_device *dev,
+>   *	to congestion or traffic shaping.
+>   *
+>   * -----------------------------------------------------------------------------------
+> - *      I notice this method can also return errors from the queue disciplines,
+> - *      including NET_XMIT_DROP, which is a positive value.  So, errors can also
+> - *      be positive.
+>   *
+> - *      Regardless of the return value, the skb is consumed, so it is currently
+> - *      difficult to retry a send to this method.  (You can bump the ref count
+> - *      before sending to hold a reference for retry if you are careful.)
+> + *        I notice this method can also return errors from the queue disciplines,
+> + *        including NET_XMIT_DROP, which is a positive value.  So, errors can also
+> + *        be positive.
+>   *
+> - *      When calling this method, interrupts MUST be enabled.  This is because
+> - *      the BH enable code must have IRQs enabled so that it will not deadlock.
+> - *          --BLG
+> + *        Regardless of the return value, the skb is consumed, so it is currently
+> + *        difficult to retry a send to this method.  (You can bump the ref count
+> + *        before sending to hold a reference for retry if you are careful.)
+> + *
+> + *        When calling this method, interrupts MUST be enabled.  This is because
+> + *        the BH enable code must have IRQs enabled so that it will not deadlock.
+> + *        --BLG
+>   */
+>  int __dev_queue_xmit(struct sk_buff *skb, struct net_device *sb_dev)
+>  {
+> 
+> base-commit: 4950b6990e3b1efae64a5f6fc5738d25e3b816b3
