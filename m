@@ -2,177 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6045C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 13:30:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9680C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 14:20:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1441832AbiEFNe2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 09:34:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33134 "EHLO
+        id S1442017AbiEFOXr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 10:23:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1392614AbiEFNeR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 09:34:17 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 546BADEFF;
-        Fri,  6 May 2022 06:30:32 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1651843830;
+        with ESMTP id S1442013AbiEFOXq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 10:23:46 -0400
+Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [170.10.133.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6205468FB3
+        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 07:20:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1651846800;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=wZT4vpKjh29qyIrnPoc3fuhpC7Rcupj4xp4jJbaitm0=;
-        b=lyxMJI1c7/bjcUC/0uaoPfrBDisjmcy1aRbtVcCUe6jpvyqZHJ+GJQrLENoe/pP6ncW2c7
-        Kc4G8e56XxkYdHFGvIkaVRECgrnS4YpoTsGvQralepmfGpDBMEwpd8xCqjfIUFJsbRXKTk
-        4yOrW/Dx9bRWOesgwhTLoiJ8fD6AYpm1QwwYbjBzN/EN4sfzqbcr5NaKkfUKFMCuPYB16P
-        P6Sxwp8Bh9bali6WmcfkHJxKIrmURPZKmrYQPhX/TFRdI0q5EdI01y9PQAr9KyF5N72wIy
-        5KOACG4W6wOSeJzT3gfwX3CDcPgYifckyM8ppFWWQKqxcP6un1C1lSYwOyrEYw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1651843830;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wZT4vpKjh29qyIrnPoc3fuhpC7Rcupj4xp4jJbaitm0=;
-        b=y14yn9YwzJ+hhYfkB0MjQdCOMV74S1yrsUYx4GjRmexAl8grOu5L+7DELCDn8g4FMCqTGw
-        AREyL5xsCBUtO3Ag==
-To:     Tony Luck <tony.luck@intel.com>, hdegoede@redhat.com,
-        markgross@kernel.org
-Cc:     mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        bh=Doqk7KhGyk0EBDANXsBv2tmfDD+hT1qhKftthfkS7cs=;
+        b=dVyvu8tf/ND4M/FbzZX4900Wei1CVqLT33jOFyc08Qw1jpdYDxyWVIr07m6iE7+vuYPJDw
+        iE/hnzdH6woeBOMPbY0uDb7XDH5m0ELdG/P8PSVcbeS8ycdPJR5bykbk9le+4XZdrnEsgZ
+        tM+jIvPkvfc/6nJUsh+/850f0LdrApc=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-588-a5Yfj_0WM7mrxa7mvXF-hw-1; Fri, 06 May 2022 10:19:59 -0400
+X-MC-Unique: a5Yfj_0WM7mrxa7mvXF-hw-1
+Received: by mail-ej1-f71.google.com with SMTP id qa15-20020a170907868f00b006f4c89bf2e3so4304979ejc.9
+        for <linux-doc@vger.kernel.org>; Fri, 06 May 2022 07:19:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Doqk7KhGyk0EBDANXsBv2tmfDD+hT1qhKftthfkS7cs=;
+        b=ajgDCyyrlDnWJpGBkgo5RqPH7YQlvaL9xfPSDqyEOUX9w3I0g5tBnsW0hhliB91tmu
+         0KmvFUn8cesAFazfUpya3OKVizC0KibnO80WyPVSU0D1UGwj45Cf/Clv0bUC27q1iIMY
+         ukciHyc9/Sfuw5sng4lAsBbkjOPBEHAbfMwTRWx8Ahh7GG1Bcgb9A9Zwr5B8apw9GXtr
+         YSnovI66JpfAkTbrwqtLD6CmVMbUlO7SmPAF5Cf3fbFWhmxRlBOWhYNgBlQ65NYmr2w8
+         aJ9ZgLR3HwvIKesViPSZtEkrJllhMWBziV3b9mCZkPe604AtbDrKsnJ3ghnHzFnrs0xL
+         LAtQ==
+X-Gm-Message-State: AOAM5315BcYFO/ZTvGOHpbIH5ZNPJgwrsMmFUGQATlRygzcCcd0EJ3XJ
+        k00c9nMwwKjrAh68NcowuRoA2kc5b4wtYvrg2yZemGCSrd78ifufW0e4a+m/ZTxgsQhWzaJgJcE
+        EIBviVkU0tufx/MXimuIJ
+X-Received: by 2002:a17:906:4fc4:b0:6da:b4c6:fadb with SMTP id i4-20020a1709064fc400b006dab4c6fadbmr3276502ejw.282.1651846797995;
+        Fri, 06 May 2022 07:19:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw6Rvy2dRSgaYN9vdv1LxcPQ7MR9GWZ/uPHsWuJrOXf9xFz9COe4Lt6mC4M6ylDEUxRJ5N9zA==
+X-Received: by 2002:a17:906:4fc4:b0:6da:b4c6:fadb with SMTP id i4-20020a1709064fc400b006dab4c6fadbmr3276491ejw.282.1651846797855;
+        Fri, 06 May 2022 07:19:57 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6? (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
+        by smtp.gmail.com with ESMTPSA id r4-20020aa7d144000000b0042617ba63a4sm2300790edo.46.2022.05.06.07.19.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 May 2022 07:19:57 -0700 (PDT)
+Message-ID: <b18234d7-a1f4-d5a4-e59b-f5439c38c2d0@redhat.com>
+Date:   Fri, 6 May 2022 16:19:56 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v5 00/10] Introduce In Field Scan driver
+Content-Language: en-US
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Tony Luck <tony.luck@intel.com>, markgross@kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
         x86@kernel.org, hpa@zytor.com, corbet@lwn.net,
         gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
-        jithu.joseph@intel.com, ashok.raj@intel.com, tony.luck@intel.com,
-        rostedt@goodmis.org, dan.j.williams@intel.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
-        ravi.v.shankar@intel.com
-Subject: Re: [PATCH v6 08/11] platform/x86/intel/ifs: Add scan test support
-In-Reply-To: <20220506014035.1173578-9-tony.luck@intel.com>
-References: <20220428153849.295779-1-tony.luck@intel.com>
- <20220506014035.1173578-1-tony.luck@intel.com>
- <20220506014035.1173578-9-tony.luck@intel.com>
-Date:   Fri, 06 May 2022 15:30:30 +0200
-Message-ID: <87r156hjpl.ffs@tglx>
-MIME-Version: 1.0
-Content-Type: text/plain
+        jithu.joseph@intel.com, ashok.raj@intel.com, rostedt@goodmis.org,
+        dan.j.williams@intel.com, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        patches@lists.linux.dev, ravi.v.shankar@intel.com
+References: <20220422200219.2843823-1-tony.luck@intel.com>
+ <20220428153849.295779-1-tony.luck@intel.com>
+ <13054c5c-ed48-b7a2-a800-25b9b1b1ab0d@redhat.com> <YnFK+gXFx0jQB1dz@zn.tnic>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <YnFK+gXFx0jQB1dz@zn.tnic>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 05 2022 at 18:40, Tony Luck wrote:
-> +/*
-> + * Note all code and data in this file is protected by
-> + * ifs_sem. On HT systems all threads on a core will
-> + * execute together, but only the first thread on the
-> + * core will update results of the test.
-> + */
-> +struct workqueue_struct *ifs_wq;
+Hi,
 
-Seems to be unused.
+On 5/3/22 17:32, Borislav Petkov wrote:
+> On Mon, May 02, 2022 at 05:15:39PM +0200, Hans de Goede wrote:
+>> I'm fine with this entire series getting merged through the TIP
+>> tree,
+> 
+> Hmm, so looking at the diffstat - the majority of that is
+> drivers/platform/x86/ so I guess your tree would be better suited for
+> it...
 
-> +static bool oscan_enabled = true;
+Ok, that also works for me and I see that the few arch/x86 already have
+Ack-s / Reviewed-by-s from you / tglx .
 
-What changes this?
+I'll give it some more time for review for v6 and then pick up v6
+(or v7 if review leads to more changes).
 
-> +static void message_not_tested(struct device *dev, int cpu, union ifs_status status)
-> +{
-> +	if (status.error_code < ARRAY_SIZE(scan_test_status))
+Regards,
 
-Please add curly brackets as these are not one-line statements.
+Hans
 
-> +		dev_info(dev, "CPU(s) %*pbl: SCAN operation did not start. %s\n",
-> +			 cpumask_pr_args(topology_sibling_cpumask(cpu)),
-> +			 scan_test_status[status.error_code]);
-> +/*
-> + * Execute the scan. Called "simultaneously" on all threads of a core
-> + * at high priority using the stop_cpus mechanism.
-> + */
-> +static int doscan(void *data)
-> +{
-> +	int cpu = smp_processor_id();
-> +	u64 *msrs = data;
-> +	int first;
-> +
-> +	/* Only the first logical CPU on a core reports result */
-> +	first = cpumask_first(topology_sibling_cpumask(cpu));
-
-Shouldn't that be cpu_smt_mask()?
-
-> +	/*
-> +	 * This WRMSR will wait for other HT threads to also write
-> +	 * to this MSR (at most for activate.delay cycles). Then it
-> +	 * starts scan of each requested chunk. The core scan happens
-> +	 * during the "execution" of the WRMSR. This instruction can
-> +	 * take up to 200 milliseconds before it retires.
-
-200ms per test chunk?
-
-> +	 */
-> +	wrmsrl(MSR_ACTIVATE_SCAN, msrs[0]);
-> +
-
-> +	while (activate.start <= activate.stop) {
-> +		if (time_after(jiffies, timeout)) {
-> +			status.error_code = IFS_SW_TIMEOUT;
-> +			break;
-> +		}
-> +
-> +		msrvals[0] = activate.data;
-> +		stop_core_cpuslocked(cpu, doscan, msrvals);
-> +
-> +		status.data = msrvals[1];
-> +
-> +		/* Some cases can be retried, give up for others */
-> +		if (!can_restart(status))
-> +			break;
-> +
-> +		if (status.chunk_num == activate.start) {
-> +			/* Check for forward progress */
-> +			if (retries-- == 0) {
-> +				if (status.error_code == IFS_NO_ERROR)
-> +					status.error_code = IFS_SW_PARTIAL_COMPLETION;
-> +				break;
-> +			}
-> +		} else {
-> +			retries = MAX_IFS_RETRIES;
-> +			activate.start = status.chunk_num;
-> +		}
-> +	}
-
-Looks way better now.
-
-> +}
-> +/*
-> + * Initiate per core test. It wakes up work queue threads on the target cpu and
-> + * its sibling cpu. Once all sibling threads wake up, the scan test gets executed and
-> + * wait for all sibling threads to finish the scan test.
-> + */
-> +int do_core_test(int cpu, struct device *dev)
-> +{
-> +	int ret = 0;
-> +
-> +	if (!scan_enabled)
-> +		return -ENXIO;
-> +
-> +	/* Prevent CPUs from being taken offline during the scan test */
-> +	cpus_read_lock();
-> +
-> +	if (!cpu_online(cpu)) {
-> +		dev_info(dev, "cannot test on the offline cpu %d\n", cpu);
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-
-Coming back to my points from the previous round:
-
-1) How is that supposed to work on a system which has HT enabled in BIOS,
-   but disabled on the kernel command line or via /sys/..../smt/control or
-   when a HT sibling is offlined temporarily?
-
-   I assume it cannot work, but I can't see anything which handles those
-   cases.
-
-2) That documentation for the admin/user got eaten by the gremlins in
-   the intertubes again.
-
-Thanks,
-
-        tglx
