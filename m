@@ -2,72 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04256C4167B
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 08:24:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAF72C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 11:06:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1390093AbiEFI1n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 04:27:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44278 "EHLO
+        id S1389792AbiEFLKP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 07:10:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1390103AbiEFI1l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 04:27:41 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5705B68F9C;
-        Fri,  6 May 2022 01:23:56 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1651825434;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=770rOCEglJcTn6tOCmhg2DWqxE2dENlNOc6UvMrWrn0=;
-        b=SWdlPTx50Sth51PvJ895RJTrT4U24BL4jUAFpr4iLPHiAGZqSnszudzX19JIt0rBwORvW3
-        ln9dKTaD7e5bdN9HhwZW5AuVU8kpBDN/Zf+Qp2D7P//NP0vxRiLhfrB55uXMNnMk95IQST
-        RZzjuDfS3O3YMH65RtEkxPX821YxIClVWuMvwbBt494vVZ00B+wyWbJ/Jkv2llZsm7jDeC
-        V8YIzlYWLaA5aW2RAgVsM3OMkER8elfU/FqfdJcq5hQxoo1jutEacwxDQO1JalB9NFvS05
-        JWSaPxdmnw01ddtTlx+F6tx2EkpZaV5YGyXadPsrOYGJX2PC481JPpEhAYoj5g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1651825434;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=770rOCEglJcTn6tOCmhg2DWqxE2dENlNOc6UvMrWrn0=;
-        b=UhQ+wS469qIUvvXkeMoQ2z5tuJDuxrtHGkFcCGrgMQ8u1/Wh2cDAchumGeta7jwV0+SXE0
-        j/73GWMjRB3BwWCA==
-To:     Tony Luck <tony.luck@intel.com>, hdegoede@redhat.com,
-        markgross@kernel.org
-Cc:     mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
-        jithu.joseph@intel.com, ashok.raj@intel.com, tony.luck@intel.com,
-        rostedt@goodmis.org, dan.j.williams@intel.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
-        ravi.v.shankar@intel.com
-Subject: Re: [PATCH v6 04/11] platform/x86/intel/ifs: Add stub driver for
- In-Field Scan
-In-Reply-To: <20220506014035.1173578-5-tony.luck@intel.com>
-References: <20220428153849.295779-1-tony.luck@intel.com>
- <20220506014035.1173578-1-tony.luck@intel.com>
- <20220506014035.1173578-5-tony.luck@intel.com>
-Date:   Fri, 06 May 2022 10:23:54 +0200
-Message-ID: <87tua3gjc5.ffs@tglx>
+        with ESMTP id S233719AbiEFLKO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 07:10:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6274051E57;
+        Fri,  6 May 2022 04:06:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EF96161DEC;
+        Fri,  6 May 2022 11:06:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AA7FC385AA;
+        Fri,  6 May 2022 11:06:26 +0000 (UTC)
+Date:   Fri, 6 May 2022 12:06:22 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v23 3/6] arm64: kdump: Reimplement crashkernel=X
+Message-ID: <YnUBLgUiZDhRPMzU@arm.com>
+References: <20220505091845.167-1-thunder.leizhen@huawei.com>
+ <20220505091845.167-4-thunder.leizhen@huawei.com>
+ <YnQC44KVKirH0vyB@arm.com>
+ <189f24a8-9e9b-b3e9-7ac5-935433ea575b@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <189f24a8-9e9b-b3e9-7ac5-935433ea575b@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 05 2022 at 18:40, Tony Luck wrote:
-> +#include <asm/cpu_device_id.h>
-> +
-> +#define X86_MATCH(model)				\
-> +	X86_MATCH_VENDOR_FAM_MODEL_FEATURE(INTEL, 6,	\
-> +		INTEL_FAM6_##model, X86_FEATURE_CORE_CAPABILITIES, NULL)
-> +
-> +static const struct x86_cpu_id ifs_cpu_ids[] __initconst = {
-> +	X86_MATCH(SAPPHIRERAPIDS_X),
+On Fri, May 06, 2022 at 11:22:51AM +0800, Leizhen (ThunderTown) wrote:
+> On 2022/5/6 1:01, Catalin Marinas wrote:
+> > On Thu, May 05, 2022 at 05:18:42PM +0800, Zhen Lei wrote:
+> >> From: Chen Zhou <chenzhou10@huawei.com>
+> >>
+> >> There are following issues in arm64 kdump:
+> >> 1. We use crashkernel=X to reserve crashkernel in DMA zone, which
+> >> will fail when there is not enough low memory.
+> >> 2. If reserving crashkernel above DMA zone, in this case, crash dump
+> >> kernel will fail to boot because there is no low memory available
+> >> for allocation.
+> >>
+> >> To solve these issues, introduce crashkernel=X,[high,low].
+> >> The "crashkernel=X,high" is used to select a region above DMA zone, and
+> >> the "crashkernel=Y,low" is used to allocate specified size low memory.
+> > 
+> > Thanks for posting the simplified version, though the discussion with
+> > Baoquan is still ongoing. AFAICT there is no fallback if crashkernel=
+> > fails. The advantage with this series is cleaner code, we set the limits
+> > during parsing and don't have to adjust them if some of the first
+> > allocation failed.
+> 
+> Yes, I'm currently implementing it in the simplest version, providing only
+> the most basic functions. Because the conclusions of this part of the discussion
+> are clear. I think I can send the fallback, default low size, and mapping optimization
+> patches separately after this basic version is merged. These three functions can
+> be discussed separately.
 
-I still hate this with a passion. Nevertheless:
+This works for me. If we decide to go for fallbacks, it can be done as a
+separate patch.
 
-Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+> >> +		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
+> >> +		if (ret || !crash_size)
+> >> +			return;
+> >> +
+> >> +		/*
+> >> +		 * crashkernel=Y,low can be specified or not, but invalid value
+> >> +		 * is not allowed.
+> >> +		 */
+> >> +		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
+> >> +		if (ret && (ret != -ENOENT))
+> >> +			return;
+> >> +
+> >> +		crash_max = CRASH_ADDR_HIGH_MAX;
+> >> +	}
+> >>  
+> >>  	crash_size = PAGE_ALIGN(crash_size);
+> >>  
+> >> @@ -118,8 +159,7 @@ static void __init reserve_crashkernel(void)
+> >>  	if (crash_base)
+> >>  		crash_max = crash_base + crash_size;
+> >>  
+> >> -	/* Current arm64 boot protocol requires 2MB alignment */
+> >> -	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
+> >> +	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+> >>  					       crash_base, crash_max);
+> >>  	if (!crash_base) {
+> >>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+> > 
+> > I personally like this but let's see how the other thread goes. I guess
+> 
+> Me too. This fallback complicates code logic more than just a little.
+> I'm not sure why someone would rather add fallback than change the bootup
+> options to crashkernel=X,[high|low]. Perhaps fallback to high/low is a better
+> compatible and extended mode when crashkernel=X fails to reserve memory. And
+> the code logic will be much clearer.
+> 
+> //parse crashkernel=X		//To simplify the discussion, Ignore [@offset]
+> crash_base = memblock_phys_alloc_range()
+> if (!crash_base || /* crashkernel=X is not specified */) {
+> 	//parse crashkernel=X,[high,low]
+> 	//reserve high/low memory
+> }
+> 
+> So that, the following three modes are supported:
+> 1) crashkernel=X[@offset]
+> 2) crashkernel=X,high crashkernel=X,low
+> 3) crashkernel=X[@offset] crashkernel=X,high [crashkernel=Y,low]
+
+The whole interface isn't great but if we add fall-back options, I'd
+rather stick close to what x86 does. IOW, if crashkernel=X is provided,
+ignore explicit high/low (so 3 does not exist).
+
+(if I had added it from the beginning, I'd have removed 'high'
+completely and allow crashkernel=X to fall-back to 'high' with an
+optional explicit 'low' or 'dma' if the default is not sufficient; but I
+think there's too much bikeshedding already)
+
+> > if we want a fallback, it would come just before the check the above:
+> > 
+> > 	if (!crash_base && crash_max != CRASH_ADDR_HIGH_MAX) {
+> > 		/* attempt high allocation with default low */
+> > 		if (!crash_low_size)
+> > 			crash_low_size = some default;
+> > 		crash_max = CRASH_ADDR_LOW_MAX;
+> 
+> crash_max = CRASH_ADDR_HIGH_MAX; We should fallback to high memory now.
+
+Yes, that's the idea.
+
+Anyway, please post the current series with the minor updates I
+mentioned and we can add a fallback patch (or two) on top.
+
+Thanks.
+
+-- 
+Catalin
