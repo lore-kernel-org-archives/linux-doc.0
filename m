@@ -2,114 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F7A1C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 19:06:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DAFFC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 21:11:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354931AbiEFTKW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 15:10:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48864 "EHLO
+        id S1377509AbiEFVPY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 17:15:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245289AbiEFTKV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 15:10:21 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC262FD1A;
-        Fri,  6 May 2022 12:06:34 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1651863992;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wxjZwQifAYdhM0J4VQYq2cjp3Wo71QrUD1AE1URfaSg=;
-        b=vOcUd/lmDHJJL+Wjm7RLEdKcEcChnT4ZknvyLz64mOH/YEleSdhoaACEWCfVrpMZf3A2am
-        Xyd7ivGV3f4PUKlHc9Z46RGJK4DMUAkgmDEBZlybFFaob76fScq/QSdbFGudmcwauravCz
-        vOS6gK9DMgTuoGviLkslDRGocC6PWKDkn9qxcoCnBMeKj/g0sbk8LAkGdlMH/YL2PQ9UUD
-        xxd/1a/oiEv1Af2UivDg66d0eQ1XtEAIZ8ljQT9SfOwCdbCyPpdsoWol7rd2OyC3LRe1WC
-        xhs30NLrjE0Ac4eiJCcLyftkzVrZzu7TdS8Nq0nhaHAxhMNBR+0UlZvSWdD+PQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1651863992;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wxjZwQifAYdhM0J4VQYq2cjp3Wo71QrUD1AE1URfaSg=;
-        b=p8bHn1UkvG9MTT6yYjW8yIhIvMPQ05zlVK7KctnyNqRnOmtOfthHCPxamNZoKpTvMHi0N8
-        /B8gZ//KBFrmRQDg==
-To:     "Luck, Tony" <tony.luck@intel.com>
-Cc:     hdegoede@redhat.com, markgross@kernel.org, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, corbet@lwn.net, gregkh@linuxfoundation.org,
-        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
-        ashok.raj@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
-        ravi.v.shankar@intel.com
-Subject: Re: [PATCH v6 08/11] platform/x86/intel/ifs: Add scan test support
-In-Reply-To: <YnVtvJgWU5KDnGSl@agluck-desk3.sc.intel.com>
-References: <20220428153849.295779-1-tony.luck@intel.com>
- <20220506014035.1173578-1-tony.luck@intel.com>
- <20220506014035.1173578-9-tony.luck@intel.com> <87r156hjpl.ffs@tglx>
- <YnVtvJgWU5KDnGSl@agluck-desk3.sc.intel.com>
-Date:   Fri, 06 May 2022 21:06:32 +0200
-Message-ID: <87ee16h45j.ffs@tglx>
+        with ESMTP id S234769AbiEFVPX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 17:15:23 -0400
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 179D06EC7B
+        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 14:11:39 -0700 (PDT)
+Received: by mail-qv1-xf2c.google.com with SMTP id kl21so6269375qvb.9
+        for <linux-doc@vger.kernel.org>; Fri, 06 May 2022 14:11:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=mDV8DfRAfy7rdHB2lGgr61RBfkcSTbKg06tN5HiDgPY=;
+        b=LgdPRxHNHfL4LGiCf4uxJj/T2UPUONvsuIV8YvPds2oE0fdnlSIArMrIEjMx3AibuE
+         70d76Rxvz++8IHAIwY0QTJW93xAp3wtIN9o6gNIQ2+Uxb26OmkT9QvS92mIV6eceEwWm
+         H3nDI+bbGjH+w8qe9o+45hjNb8TEKABN1Rd5UbvOrEoXtbtXMiuQhx4LkhPH1R8p+zvK
+         nqbGEnMdaxAU82UkiksTFe275NUJLyHI+7TfwrSVYSVfu5YdA0ac05ZwXhBtL9am/wOf
+         4OubWfazMLl3/upH39Crr5v0cKvfdVHxHLwIupse2AtJ9i7S5m3QV7k+QWhm911nN3Kj
+         rWeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mDV8DfRAfy7rdHB2lGgr61RBfkcSTbKg06tN5HiDgPY=;
+        b=DRStQjPLvU7y8/DsuI6NN2jEQOfQE5Y+9nvFkLczYTrZcVditEUDNi/6C5u2RDDU9G
+         tP/qq1ptkmsSs4qAKXjdVYQnA/qKVoqYz2WVBlmHl4UnjxBgrmh6FMC6j3pcAve3oWqe
+         YMAHqjlS9vsTWN72NhOq5a/UOEfsiisNWKp//rN249FCJ7CB2t9D/vU3dsfsEm9v4+xu
+         4aaqP3vj4M7R8TqNZdMt/j2y34KTpCPHXYNF/HujvVqMIJB5OJB6KO+2BV1hGqZEBT5T
+         Z/Ypr/+EpjJaMDFEGfJ+GegoQX6AKWlFGgdAmuY+gUGZkhZ7f9V71nGWMWtOvt8Tq4Nt
+         augQ==
+X-Gm-Message-State: AOAM530NO110JNiNiWgFG2KDPyYtrUjg23AR0qMv+WwsoW9iPhyX6Ktr
+        pTAecsIfj9kS/5SPduUdTb8pY0h1BLmUjA==
+X-Google-Smtp-Source: ABdhPJwv3MfrFWDQdfinKjk+57JhKPepoa+NdvBQRayOjalvLwaPsqOXoq2YAJwM9ta9VeRLaQ9tqQ==
+X-Received: by 2002:a05:6214:508f:b0:45a:bab4:c7dd with SMTP id kk15-20020a056214508f00b0045abab4c7ddmr4003986qvb.34.1651871498193;
+        Fri, 06 May 2022 14:11:38 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:480::1:538c])
+        by smtp.gmail.com with ESMTPSA id 2-20020a370a02000000b0069fc13ce243sm2783765qkk.116.2022.05.06.14.11.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 May 2022 14:11:37 -0700 (PDT)
+Date:   Fri, 6 May 2022 17:10:42 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] mm,doc: Add new documentation structure
+Message-ID: <YnWO0gNbjzucDyCe@cmpxchg.org>
+References: <20220503063032.3680308-1-willy@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220503063032.3680308-1-willy@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 06 2022 at 11:49, Luck, Tony wrote:
-> On Fri, May 06, 2022 at 03:30:30PM +0200, Thomas Gleixner wrote:
->> 1) How is that supposed to work on a system which has HT enabled in BIOS,
->>    but disabled on the kernel command line or via /sys/..../smt/control or
->>    when a HT sibling is offlined temporarily?
->> 
->>    I assume it cannot work, but I can't see anything which handles those
->>    cases.
->
-> Correct. If HT is disabled in BIOS, then there is no other thread, so
-> core tests just use a single thread.
->
-> If a logical CPU is "offline" due to Linux actions, then core test will
-> fail. In an earlier version we did attempt to detect this before trying
-> to run the test. But we didn't find a simple way to determine that a
-> core has one thread online, and another offline. Rather than a bunch of
-> code to detect an operator error it seemed better to let it run &
-> fail.
+On Tue, May 03, 2022 at 07:30:32AM +0100, Matthew Wilcox (Oracle) wrote:
+> Closely following the outline of Mel Gorman's book "Understanding the
+> Linux Virtual Memory Manager", add a new outline.  Preserve the current
+> contents of the mm underneath the new outline so we can transition those
+> documents to a more sensible place later.
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-Fair enough.
-
-> GregKH wasn't a fan of this itty bitty driver cluttering up
-> Documentation/x86. He said:
->
->    I don't know which is better, it's just that creating a whole new
->    documentation file for a single tiny driver feels very odd as it will
->    get out of date and is totally removed from the driver itself.
->
->    I'd prefer that drivers be self-contained, including the documentation,
->    as it is much more obvious what is happening with that.  Spreading stuff
->    around the tree only causes stuff to get out of sync easier.
-
-Well, I agree to some extent, but the documentation which I want to see
-is documentation for admins. I'm not sure whether we want them to search
-the code. Those are consumers of Documentation/ AFAICT.
-
-> So the documentation patch was dropped after v3. Last version here:
->
-> https://lore.kernel.org/r/20220419163859.2228874-3-tony.luck@intel.com
->
-> That doc would need pathnames updated to match the move from a platform
-> device to a virtual misc device. But otherwise seems still accurate.
->
-> Does that cover what you want from documentation for this driver
-> (wherever it gets located in the tree)? Are you looking for more?
-
-It's pretty detailed on the inner workings, but lacks a big fat warning
-for the admin vs. the impact, i.e. that it makes the core go out for
-lunch for a while, which has consequences on workloads and interrupts
-directed at that core. Plus some explanation vs. the HT (SMT=off, soft
-offline) case above. Similar to what we have e.g. for buslocks.
-
-Thanks,
-
-        tglx
-
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
