@@ -2,76 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69A5EC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 15:44:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD82EC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 15:54:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1443113AbiEFPsH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 11:48:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44312 "EHLO
+        id S1443087AbiEFP5n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 11:57:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1443109AbiEFPsG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 11:48:06 -0400
-Received: from mr85p00im-ztdg06011101.me.com (mr85p00im-ztdg06011101.me.com [17.58.23.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0976A6D4DC
-        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 08:44:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
-        t=1651851862; bh=+CCBnZzUUMptTEB5E31LJJ2qM8kVspBxIFEt8rpQAWM=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version;
-        b=AArtFYBMwG7CWnZExqc3XKE8kFfPy7L0UitCaXx+DOM8QjELFmgfXMtYb0Rsehqzh
-         wIym9qEDfPWhP2uYHVi4LqRqbM6uUDiGCiLaM05acnGKB0IKcHl9F0vVsP5j/64vCi
-         ttBH2b9fYdOGlwMASdssX9e0nbpnG9m+pziCKcWTvD3w9a6C2K2sIoqe/tVNIA/JhA
-         Q5UiaFz6N6C+F7fGbmH1C8PAWkaj0ECF+Hcb0dTUeQ+O4FvurBdQ9UrXTZvIggP2y2
-         LpFy+5hzaXUcGp3N0UvGg6Lfa82q39iL9dZA52sEYsXit708lkclf0t9bNIX6Pp5a8
-         mUrAnaXDXvWLQ==
-Received: from hitch.danm.net (mr38p00im-dlb-asmtp-mailmevip.me.com [17.57.152.18])
-        by mr85p00im-ztdg06011101.me.com (Postfix) with ESMTPSA id 05797DA0504;
-        Fri,  6 May 2022 15:44:21 +0000 (UTC)
-From:   Dan Moulding <dmoulding@me.com>
-To:     pavel@ucw.cz
-Cc:     akpm@linux-foundation.org, corbet@lwn.net, dmoulding@me.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tglx@linutronix.de
-Subject: Re: [PATCH v2 0/1] Allow setting hostname before userspace starts
-Date:   Fri,  6 May 2022 09:44:20 -0600
-Message-Id: <20220506154420.26456-1-dmoulding@me.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220506072322.GA3925@amd>
-References: <20220506072322.GA3925@amd>
+        with ESMTP id S1391204AbiEFP5m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 11:57:42 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FFB868F93;
+        Fri,  6 May 2022 08:53:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651852439; x=1683388439;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=b8YvVwwiHGF9H0n+2KLSOuiyjG1C33LqDP8DdORMsgM=;
+  b=Dfv4058Dm0bIA9jdRy2EAvB3cr1I/kr4GR52QjVqxj+EBOInarRrjnoY
+   kVBdxMGWW0wy+ZxmH671XXDFG3n1TFxNTx4VDYRW+A/5DpuWMxR/lCO7z
+   jM9H6ThHteUzDzWZqc7xr0UX4Erv3RXbSnOx0JfdyZLxdBsVhnLX123fL
+   CJIJ7Q4ScK1V1Ajjf2oBrOG62F+yc/lobvku7KVFPxhzc0s6/NtLbYiZ+
+   VpR4EZ+ONlE4NTHYjPw8w3TO69TXSCy/h81K9ZHpn5vpYQPMivpbRecwt
+   wHDYh8Q2tFSyK8q+gyX6Ob8wRbgoOxUczDvdaqlyLRnRo02TpjSQhYwBs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10339"; a="331492319"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; 
+   d="scan'208";a="331492319"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2022 08:53:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; 
+   d="scan'208";a="549916619"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga002.jf.intel.com with ESMTP; 06 May 2022 08:53:58 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Fri, 6 May 2022 08:53:57 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Fri, 6 May 2022 08:53:57 -0700
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
+ Fri, 6 May 2022 08:53:57 -0700
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>, Borislav Petkov <bp@alien8.de>
+CC:     "markgross@kernel.org" <markgross@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "Joseph, Jithu" <jithu.joseph@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
+Subject: RE: [PATCH v5 00/10] Introduce In Field Scan driver
+Thread-Topic: [PATCH v5 00/10] Introduce In Field Scan driver
+Thread-Index: AQHYWxYVdsKdZt61BUSHj1qB1cqAT60MLiKAgAGW8wCABKLQAP//o/BA
+Date:   Fri, 6 May 2022 15:53:56 +0000
+Message-ID: <15cca88b82cd46a3a2a98b7cf336a6ed@intel.com>
+References: <20220422200219.2843823-1-tony.luck@intel.com>
+ <20220428153849.295779-1-tony.luck@intel.com>
+ <13054c5c-ed48-b7a2-a800-25b9b1b1ab0d@redhat.com> <YnFK+gXFx0jQB1dz@zn.tnic>
+ <b18234d7-a1f4-d5a4-e59b-f5439c38c2d0@redhat.com>
+In-Reply-To: <b18234d7-a1f4-d5a4-e59b-f5439c38c2d0@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.401.20
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: vhIztAh_zrA-Bqk8Qdgy362NLq39rH8I
-X-Proofpoint-GUID: vhIztAh_zrA-Bqk8Qdgy362NLq39rH8I
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.816,17.0.605.474.0000000_definitions?=
- =?UTF-8?Q?=3D2022-01-18=5F01:2022-01-14=5F01,2022-01-18=5F01,2020-01-23?=
- =?UTF-8?Q?=5F02_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
- clxscore=1015 mlxlogscore=316 mlxscore=0 adultscore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205060083
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On May 6, 2022, at 1:23 AM, Pavel Machek <pavel@ucw.cz> wrote:
-
-> init gets passed command line parameters kernel did not use. So init
-> can do that easily.
-
-I agree this is a problem that *can* be delegated to init to solve.
-But is it *better* to do that? Why have the kernel pass the the hostname
-to the init system, just so that the init system has to pass it back to the
-kernel later?
-
-> Plus, there's initrd.
-
-This to me is a reason why it's better for the kernel to do this. If left up
-to the init system, it must be sure it gets done correctly both when an
-initramfs is used, and when one is not.
-
-P.S. Apologies to anyone who received this twice, my first reply was
-bounced by the list servers.
-
-Cheers,
-
-  -- Dan
+PiBJJ2xsIGdpdmUgaXQgc29tZSBtb3JlIHRpbWUgZm9yIHJldmlldyBmb3IgdjYgYW5kIHRoZW4g
+cGljayB1cCB2Ng0KPiAob3IgdjcgaWYgcmV2aWV3IGxlYWRzIHRvIG1vcmUgY2hhbmdlcykuDQoN
+CkhhbnMsDQoNClRob21hcyBoYXMgZm91bmQgb25lIHN1YnN0YW50aXZlIHByb2JsZW0sIGFuZCBh
+IGZldyBtaW5vciB0aGluZ3MgKHNvIGZhciAuLi4gaGUNCnN0aWxsIHNlZW1zIHRvIGJlIHdvcmtp
+bmcgdGhyb3VnaCB2NikuIA0KDQpTbyB0aGVyZSB3aWxsIGJlIGEgdjcuIExpa2VseSBlYXJseSBu
+ZXh0IHdlZWsuIElzIHRoYXQgT0s/IERvIHlvdSBzdGlsbCB0YWtlIHBhdGNoZXMgYWZ0ZXIgLXJj
+Nj8NCg0KLVRvbnkNCg==
