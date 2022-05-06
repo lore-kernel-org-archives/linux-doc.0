@@ -2,213 +2,245 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 447F8C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 02:50:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20D2AC433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 03:23:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240164AbiEFCxl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 22:53:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57498 "EHLO
+        id S1388512AbiEFD0u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 23:26:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239598AbiEFCxk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 22:53:40 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E127A5C759
-        for <linux-doc@vger.kernel.org>; Thu,  5 May 2022 19:49:58 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id l11-20020a17090a49cb00b001d923a9ca99so5741201pjm.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 May 2022 19:49:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=stPISc2iVOTrkVyZNKG7JLMVggqEFJ4NiZq00z+cHsE=;
-        b=gE/nuUHAhcDJQN3EZYN6feAehm7KCsihVT/r/sh+0Hz0ho+0dbgcD7W1PWV27Cv5dK
-         1avL6eXfGegY/KtPCt7K+VegUYGNC5E/7afq55pRaj570x5cKYO5oSCwL1+8mebW+J8t
-         achpeJ0YYOJam4b2sKPhBgwb9YKKGCs+S/OEEO3l6Iq5NuZCaLizEAmXWc44Q0F50cYr
-         WhRTlirDR0FEvSUDP7Va8A4i+HS/ZMhw1EipoS5zEe+kmC+MlH61SQP8x1zeFDDOtk7e
-         pmx/FPkQPSaZFYmurBRoZjoEc1LvrYtD0kRFdmZKAzvQ7x07muPWeDfL1RON6n2+vIe2
-         DmSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=stPISc2iVOTrkVyZNKG7JLMVggqEFJ4NiZq00z+cHsE=;
-        b=sYL8qdNtXXu+CIFKqO0V9Ly+Uc1a2xao3yizSYBonfwKfRW8QYEXDdleeZiIyyKv/b
-         bMYTUQAMZfssPx9fGex0G7oBLN/gstOQSm200Zfkh3hr3FEAP5VXPQcQt8qIhStYD8WM
-         nnXErXXbT1wBbXv3K13+PG4Wv06Y0AcVBPfHHmMm0G3f6DOFATdgmpMUB6685a/AQg8p
-         8kpIW5VJUczw9VIOA1DjljkXbnCgfEFF78hCDtZ4xAl4ambu2JNCaGbSpz0ohLZkL714
-         Xz9p1IxjVHC8GbET6IHO+5NYe8q/4/tToux9tJjV3C5JBn8s8H7at1rfCf7DSLrVfqTj
-         tJFg==
-X-Gm-Message-State: AOAM530nnMAb6rXFCTjsszwELrd/tjRQOMJLKc6ZQtjLaib8wewlvM5y
-        /4/WwLs6J7enktpUziO0KsihKw==
-X-Google-Smtp-Source: ABdhPJyMVCLds+L8GtrgygvTohfA9Xrqr1VFkzEF58ywVmq17fAPyaoO5ITK3cIWURZ/fRCtnAw1BA==
-X-Received: by 2002:a17:90a:d818:b0:1dc:9b3a:a74d with SMTP id a24-20020a17090ad81800b001dc9b3aa74dmr1638223pjv.35.1651805398389;
-        Thu, 05 May 2022 19:49:58 -0700 (PDT)
-Received: from localhost ([2408:8207:18da:2310:3921:3664:64f7:6cac])
-        by smtp.gmail.com with ESMTPSA id u2-20020a17090341c200b0015e8d4eb25esm344056ple.168.2022.05.05.19.49.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 19:49:57 -0700 (PDT)
-Date:   Fri, 6 May 2022 10:49:53 +0800
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
-        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v9 4/4] mm: hugetlb_vmemmap: add hugetlb_optimize_vmemmap
- sysctl
-Message-ID: <YnSM0Wd/lEc9wnwJ@FVFYT0MHHV2J.googleapis.com>
-References: <20220429121816.37541-1-songmuchun@bytedance.com>
- <20220429121816.37541-5-songmuchun@bytedance.com>
- <eadec7de-2e1a-2fb3-3317-c7b492a84e2b@oracle.com>
- <YnM4DRFhdD6iZIs1@FVFYT0MHHV2J.googleapis.com>
- <f77412f1-ffe5-659d-8a7d-578e0e8c5e2c@oracle.com>
- <YnOEl6Qwp5jp7RHp@FVFYT0MHHV2J>
- <a0c54e91-dcb2-debd-a1ef-b4906fed8ab1@oracle.com>
+        with ESMTP id S1388507AbiEFD0s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 23:26:48 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF6E05EDD5;
+        Thu,  5 May 2022 20:23:05 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.57])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KvbV05frpzhYqf;
+        Fri,  6 May 2022 11:22:32 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 6 May 2022 11:23:04 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 6 May 2022 11:23:02 +0800
+Subject: Re: [PATCH v23 3/6] arm64: kdump: Reimplement crashkernel=X
+To:     Catalin Marinas <catalin.marinas@arm.com>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>, Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        "John Donnelly" <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+References: <20220505091845.167-1-thunder.leizhen@huawei.com>
+ <20220505091845.167-4-thunder.leizhen@huawei.com> <YnQC44KVKirH0vyB@arm.com>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <189f24a8-9e9b-b3e9-7ac5-935433ea575b@huawei.com>
+Date:   Fri, 6 May 2022 11:22:51 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a0c54e91-dcb2-debd-a1ef-b4906fed8ab1@oracle.com>
+In-Reply-To: <YnQC44KVKirH0vyB@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 05, 2022 at 09:48:34AM -0700, Mike Kravetz wrote:
-> On 5/5/22 01:02, Muchun Song wrote:
-> > On Wed, May 04, 2022 at 08:36:00PM -0700, Mike Kravetz wrote:
-> >> On 5/4/22 19:35, Muchun Song wrote:
-> >>> On Wed, May 04, 2022 at 03:12:39PM -0700, Mike Kravetz wrote:
-> >>>> On 4/29/22 05:18, Muchun Song wrote:
-> >>>>> +static void vmemmap_optimize_mode_switch(enum vmemmap_optimize_mode to)
-> >>>>> +{
-> >>>>> +	if (vmemmap_optimize_mode == to)
-> >>>>> +		return;
-> >>>>> +
-> >>>>> +	if (to == VMEMMAP_OPTIMIZE_OFF)
-> >>>>> +		static_branch_dec(&hugetlb_optimize_vmemmap_key);
-> >>>>> +	else
-> >>>>> +		static_branch_inc(&hugetlb_optimize_vmemmap_key);
-> >>>>> +	vmemmap_optimize_mode = to;
-> >>>>> +}
-> >>>>> +
-> >>>>>  static int __init hugetlb_vmemmap_early_param(char *buf)
-> >>>>>  {
-> >>>>>  	bool enable;
-> >>>>> +	enum vmemmap_optimize_mode mode;
-> >>>>>  
-> >>>>>  	if (kstrtobool(buf, &enable))
-> >>>>>  		return -EINVAL;
-> >>>>>  
-> >>>>> -	if (enable)
-> >>>>> -		static_branch_enable(&hugetlb_optimize_vmemmap_key);
-> >>>>> -	else
-> >>>>> -		static_branch_disable(&hugetlb_optimize_vmemmap_key);
-> >>>>> +	mode = enable ? VMEMMAP_OPTIMIZE_ON : VMEMMAP_OPTIMIZE_OFF;
-> >>>>> +	vmemmap_optimize_mode_switch(mode);
-> >>>>>  
-> >>>>>  	return 0;
-> >>>>>  }
-> >>>>> @@ -60,6 +80,8 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
-> >>>>>  	vmemmap_end	= vmemmap_addr + (vmemmap_pages << PAGE_SHIFT);
-> >>>>>  	vmemmap_reuse	= vmemmap_addr - PAGE_SIZE;
-> >>>>>  
-> >>>>> +	VM_BUG_ON_PAGE(!vmemmap_pages, head);
-> >>>>> +
-> >>>>>  	/*
-> >>>>>  	 * The pages which the vmemmap virtual address range [@vmemmap_addr,
-> >>>>>  	 * @vmemmap_end) are mapped to are freed to the buddy allocator, and
-> >>>>> @@ -69,8 +91,10 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
-> >>>>>  	 */
-> >>>>>  	ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
-> >>>>>  				  GFP_KERNEL | __GFP_NORETRY | __GFP_THISNODE);
-> >>>>> -	if (!ret)
-> >>>>> +	if (!ret) {
-> >>>>>  		ClearHPageVmemmapOptimized(head);
-> >>>>> +		static_branch_dec(&hugetlb_optimize_vmemmap_key);
-> >>>>> +	}
-> >>>>>  
-> >>>>>  	return ret;
-> >>>>>  }
-> >>>>> @@ -84,6 +108,8 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
-> >>>>>  	if (!vmemmap_pages)
-> >>>>>  		return;
-> >>>>>  
-> >>>>> +	static_branch_inc(&hugetlb_optimize_vmemmap_key);
-> >>>>
-> >>>> Can you explain the reasoning behind doing the static_branch_inc here in free,
-> >>>> and static_branch_dec in alloc?
-> >>>> IIUC, they may not be absolutely necessary but you could use the count to
-> >>>> know how many optimized pages are in use?  Or, I may just be missing
-> >>>> something.
-> >>>>
-> >>>
-> >>> Partly right. One 'count' is not enough. I have implemented this with similar
-> >>> approach in v6 [1]. Except the 'count', we also need a lock to do synchronization.
-> >>> However, both count and synchronization are included in static_key_inc/dec
-> >>> infrastructure. It is simpler to use static_key_inc/dec directly, right? 
-> >>>
-> >>> [1] https://lore.kernel.org/all/20220330153745.20465-5-songmuchun@bytedance.com/
-> >>>
-> >>
-> >> Sorry, but I am a little confused.
-> >>
-> >> vmemmap_optimize_mode_switch will static_key_inc to enable and static_key_dec
-> >> to disable.  In addition each time we optimize (allocate) a hugetlb page after
-> >> enabling we will static_key_inc.
-> >>
-> >> Suppose we have 1 hugetlb page optimized.  So static count == 2 IIUC.
-> >> The someone turns off optimization via sysctl.  static count == 1 ???
-> > 
-> > Definitely right.
-> > 
-> >> If we then add another hugetlb page via nr_hugepages it seems that it
-> >> would be optimized as static count == 1.  Is that correct?  Do we need
-> > 
-> > I'm wrong.
-> > 
-> >> to free all hugetlb pages with optimization before we can add new pages
-> >> without optimization?
-> >>
-> > 
-> > My bad. I think the following code would fix this.
-> > 
-> > Thanks for your review carefully.
-> > 
-> > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> > index 5820a681a724..997e192aeed7 100644
-> > --- a/mm/hugetlb_vmemmap.c
-> > +++ b/mm/hugetlb_vmemmap.c
-> > @@ -105,7 +105,7 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
-> >         unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
-> > 
-> >         vmemmap_pages = hugetlb_optimize_vmemmap_pages(h);
-> > -       if (!vmemmap_pages)
-> > +       if (!vmemmap_pages || READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
-> >                 return;
-> > 
-> >         static_branch_inc(&hugetlb_optimize_vmemmap_key);
-> >  
+
+
+On 2022/5/6 1:01, Catalin Marinas wrote:
+> On Thu, May 05, 2022 at 05:18:42PM +0800, Zhen Lei wrote:
+>> From: Chen Zhou <chenzhou10@huawei.com>
+>>
+>> There are following issues in arm64 kdump:
+>> 1. We use crashkernel=X to reserve crashkernel in DMA zone, which
+>> will fail when there is not enough low memory.
+>> 2. If reserving crashkernel above DMA zone, in this case, crash dump
+>> kernel will fail to boot because there is no low memory available
+>> for allocation.
+>>
+>> To solve these issues, introduce crashkernel=X,[high,low].
+>> The "crashkernel=X,high" is used to select a region above DMA zone, and
+>> the "crashkernel=Y,low" is used to allocate specified size low memory.
 > 
-> If vmemmap_optimize_mode == VMEMMAP_OPTIMIZE_OFF is sufficient for turning
-> off optimizations, do we really need to static_branch_inc/dev for each
-> hugetlb page?
->
+> Thanks for posting the simplified version, though the discussion with
+> Baoquan is still ongoing. AFAICT there is no fallback if crashkernel=
+> fails. The advantage with this series is cleaner code, we set the limits
+> during parsing and don't have to adjust them if some of the first
+> allocation failed.
 
-static_branch_inc/dec is necessary since the user could change
-vmemmap_optimize_mode to off after the 'if' judgement.
+Yes, I'm currently implementing it in the simplest version, providing only
+the most basic functions. Because the conclusions of this part of the discussion
+are clear. I think I can send the fallback, default low size, and mapping optimization
+patches separately after this basic version is merged. These three functions can
+be discussed separately.
 
-CPU0:				CPU1:
-// Assume vmemmap_optimize_mode == 1
-// and static_key_count == 1
-if (vmemmap_optimize_mode == VMEMMAP_OPTIMIZE_OFF)
-	return;
-				hugetlb_optimize_vmemmap_handler();
-					vmemmap_optimize_mode = 0;
-					static_branch_dec();
-					// static_key_count == 0
-// Enable static_key if necessary
-static_branch_inc();
+> 
+>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+>> index 51863f1448c6989..11406f3e1443168 100644
+>> --- a/arch/arm64/mm/init.c
+>> +++ b/arch/arm64/mm/init.c
+>> @@ -90,6 +90,32 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit;
+>>  phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
+>>  #endif
+>>  
+>> +/* Current arm64 boot protocol requires 2MB alignment */
+>> +#define CRASH_ALIGN			SZ_2M
+>> +
+>> +#define CRASH_ADDR_LOW_MAX		arm64_dma_phys_limit
+>> +#define CRASH_ADDR_HIGH_MAX		memblock.current_limit
+> 
+> Better use memblock_get_current_limit() if you need to or just
+> MEMBLOCK_ALLOC_ANYWHERE, memblock.current_limit is just a memblock
+> internal. But I think we can go for (PHYS_MASK + 1) if you need
+> something other than MEMBLOCK_ALLOC_ANYWHERE, memblock knows what to
+> allocate anyway.
 
-Does this make sense for you?
+Yes, it would be better to use (PHYS_MASK + 1).
 
-Thanks.
+> 
+>> +static int __init reserve_crashkernel_low(unsigned long long low_size)
+>> +{
+>> +	unsigned long long low_base;
+>> +
+>> +	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, 0, CRASH_ADDR_LOW_MAX);
+>> +	if (!low_base) {
+>> +		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
+>> +		return -ENOMEM;
+>> +	}
+>> +
+>> +	pr_info("crashkernel low memory reserved: 0x%08llx - 0x%08llx (%lld MB)\n",
+>> +		low_base, low_base + low_size, low_size >> 20);
+>> +
+>> +	crashk_low_res.start = low_base;
+>> +	crashk_low_res.end   = low_base + low_size - 1;
+>> +	insert_resource(&iomem_resource, &crashk_low_res);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  /*
+>>   * reserve_crashkernel() - reserves memory for crash kernel
+>>   *
+>> @@ -100,17 +126,32 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
+>>  static void __init reserve_crashkernel(void)
+>>  {
+>>  	unsigned long long crash_base, crash_size;
+>> -	unsigned long long crash_max = arm64_dma_phys_limit;
+>> +	unsigned long long crash_low_size = 0;
+>> +	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+>> +	char *cmdline = boot_command_line;
+>>  	int ret;
+>>  
+>>  	if (!IS_ENABLED(CONFIG_KEXEC_CORE))
+>>  		return;
+>>  
+>> -	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+>> +	/* crashkernel=X[@offset] */
+>> +	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
+>>  				&crash_size, &crash_base);
+>> -	/* no crashkernel= or invalid value specified */
+>> -	if (ret || !crash_size)
+>> -		return;
+>> +	if (ret || !crash_size) {
+> 
+> I think we should check for ret == -ENOENT only. If the crashkernel=
+> exists but is malformed or the size is 0, we shouldn't bother with
+> high/low at all.
+
+That's right.
+
+> 
+>> +		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
+>> +		if (ret || !crash_size)
+>> +			return;
+>> +
+>> +		/*
+>> +		 * crashkernel=Y,low can be specified or not, but invalid value
+>> +		 * is not allowed.
+>> +		 */
+>> +		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
+>> +		if (ret && (ret != -ENOENT))
+>> +			return;
+>> +
+>> +		crash_max = CRASH_ADDR_HIGH_MAX;
+>> +	}
+>>  
+>>  	crash_size = PAGE_ALIGN(crash_size);
+>>  
+>> @@ -118,8 +159,7 @@ static void __init reserve_crashkernel(void)
+>>  	if (crash_base)
+>>  		crash_max = crash_base + crash_size;
+>>  
+>> -	/* Current arm64 boot protocol requires 2MB alignment */
+>> -	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
+>> +	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+>>  					       crash_base, crash_max);
+>>  	if (!crash_base) {
+>>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+> 
+> I personally like this but let's see how the other thread goes. I guess
+
+Me too. This fallback complicates code logic more than just a little.
+I'm not sure why someone would rather add fallback than change the bootup
+options to crashkernel=X,[high|low]. Perhaps fallback to high/low is a better
+compatible and extended mode when crashkernel=X fails to reserve memory. And
+the code logic will be much clearer.
+
+//parse crashkernel=X		//To simplify the discussion, Ignore [@offset]
+crash_base = memblock_phys_alloc_range()
+if (!crash_base || /* crashkernel=X is not specified */) {
+	//parse crashkernel=X,[high,low]
+	//reserve high/low memory
+}
+
+So that, the following three modes are supported:
+1) crashkernel=X[@offset]
+2) crashkernel=X,high crashkernel=X,low
+3) crashkernel=X[@offset] crashkernel=X,high [crashkernel=Y,low]
+
+For case 3), try "crashkernel=X[@offset]" first, if it can not work, fallback
+to "crashkernel=X,high crashkernel=X,low". This looks better than the old "crashkernel=X"
+fallback ---- Select a region under 4G first, and fall back to reserve region above 4G.
+
+Note: when the X of crashkernel=X and crashkernel=X,high are the same, It's equivalent
+to the old "crashkernel=X" fallback.
+
+> if we want a fallback, it would come just before the check the above:
+> 
+> 	if (!crash_base && crash_max != CRASH_ADDR_HIGH_MAX) {
+> 		/* attempt high allocation with default low */
+> 		if (!crash_low_size)
+> 			crash_low_size = some default;
+> 		crash_max = CRASH_ADDR_LOW_MAX;
+
+crash_max = CRASH_ADDR_HIGH_MAX; We should fallback to high memory now.
+
+> 		crash_base = memblock_phys_alloc_range();
+> 	}
+> 
+> Well, I guess we end up with your earlier proposal but I think I
+> understand it better now ;).
+> 
+
+-- 
+Regards,
+  Zhen Lei
