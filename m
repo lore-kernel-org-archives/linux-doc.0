@@ -2,102 +2,274 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAE46C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 16:09:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A401C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 16:10:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1443644AbiEFQN2 convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 12:13:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44590 "EHLO
+        id S1443625AbiEFQNp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 12:13:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1443595AbiEFQM7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 12:12:59 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8652712ACE;
-        Fri,  6 May 2022 09:09:04 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 3209C1C0BCD; Fri,  6 May 2022 18:09:03 +0200 (CEST)
-Date:   Fri, 6 May 2022 18:09:01 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Doug Anderson <dianders@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
-Message-ID: <20220506160901.GA1199@bug>
-References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
- <20220303214300.59468-2-bjorn.andersson@linaro.org>
- <20220504073009.GC8204@duo.ucw.cz>
- <YnKTAvQc6eDxTl14@ripper>
+        with ESMTP id S1443586AbiEFQNe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 12:13:34 -0400
+Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [45.157.188.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD38B6EB28
+        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 09:09:49 -0700 (PDT)
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4KvwWF60pkzMqHNm;
+        Fri,  6 May 2022 18:09:45 +0200 (CEST)
+Received: from localhost (unknown [23.97.221.149])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4KvwWF3whBzlhSLy;
+        Fri,  6 May 2022 18:09:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1651853385;
+        bh=L3EhBQuZ8JSyRKEViKbnN85U/wm7/nFg67YALqmghu8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=JOza7zG25EY3L8hBE9WNhYxxfBMlXYdNrGY8ol46Kw7FJ085yeaSuzXiNbpAWJ1P5
+         qj8sI6X3ivCDev5JQuMpz3L8leRicjZzeGCr4PkRPqul2caZViwhoR0j2sFYnhU6Y4
+         FBW/n/cVgXPlSZLu0r7j2pZ6k5xuZaZG0/q9njfI=
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jann Horn <jannh@google.com>,
+        John Johansen <john.johansen@canonical.com>,
+        Kees Cook <keescook@chromium.org>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: [PATCH v3 10/12] landlock: Document LANDLOCK_ACCESS_FS_REFER and ABI versioning
+Date:   Fri,  6 May 2022 18:11:00 +0200
+Message-Id: <20220506161102.525323-11-mic@digikod.net>
+In-Reply-To: <20220506161102.525323-1-mic@digikod.net>
+References: <20220506161102.525323-1-mic@digikod.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
-In-Reply-To: <YnKTAvQc6eDxTl14@ripper>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi!
+Add LANDLOCK_ACCESS_FS_REFER in the example and properly check to only
+use it if the current kernel support it thanks to the Landlock ABI
+version.
 
-> > > +    "255 500 0 500"
-> > > +
-> > > +        ^
-> > > +        |
-> > > +    255 +----+    +----+
-> > > +        |    |    |    |      ...
-> > > +      0 |    +----+    +----
-> > > +        +---------------------->
-> > > +        0    5   10   15     time (100ms)
-> > > +
-> > > +The LPG supports specifying a longer hold-time for the first and last element
-> > > +in the pattern, the so called "low pause" and "high pause".
-> > 
-> > Please see
-> > Documentation/devicetree/bindings/leds/leds-trigger-pattern.txt . This
-> > should really be compatible.
-> 
-> Unfortunately the LPG hardware only supports fixed duration (except for
-> the ability to hold/extend the first and last duration in the pattern)
-> and it also does not support gradual transition between the brightness
-> levels.
+Move the file renaming and linking limitation to a new "Previous
+limitations" section.
 
-Ok.
+Improve documentation about the backward and forward compatibility,
+including the rational for ruleset's handled_access_fs.
 
-> As such the pattern sequence provided to hw_pattern looks to be the
-> smae, but I don't see that it can be made compatible.
-> 
-> > Can I get either patch to disable pattern infrastructure for now or to
-> > get it compatible?
-> > 
-> 
-> I'd be happy to get this updated to your liking, but this was one of the
-> drivers we discussed when we introduced the pattern trigger and led to
-> the conclusion that we need the ability to do hw-specific patterns.
-> 
-> As such this document provides the hardware specific documentation, as
-> we describe under "hw_pattern" in
-> Documentation/ABI/testing/sysfs-class-led-trigger-pattern.
-> 
-> Please advice on what you would like me to do.
+Update the document date.
 
-I'd like you to use same format leds-trigger-pattern describes.
+Reviewed-by: Paul Moore <paul@paul-moore.com>
+Signed-off-by: Mickaël Salaün <mic@digikod.net>
+Link: https://lore.kernel.org/r/20220506161102.525323-11-mic@digikod.net
+---
 
-If someone passes "255 500 0 500", that's requesting gradual transitions and
-your hw can not do that. You return -EINVAL.
+Changes since v2:
+* Fix spelling spotted by Paul.
+* Explain a bit more the renaming and linking constraint alternative
+  (previous limitations), which is implemented with
+  LANDLOCK_ACCESS_FS_REFER.
+* Update date.
 
-If someone wants that kind of blinking, they need to pass "255 0 255 500 0 0 0 500".
+Changes since v1:
+* Add Reviewed-by: Paul Moore.
+* Update date.
+---
+ Documentation/userspace-api/landlock.rst | 126 +++++++++++++++++++----
+ 1 file changed, 106 insertions(+), 20 deletions(-)
 
-Best regards,
-									Pavel
+diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
+index b68e7a51009f..ae2aea986aa6 100644
+--- a/Documentation/userspace-api/landlock.rst
++++ b/Documentation/userspace-api/landlock.rst
+@@ -8,7 +8,7 @@ Landlock: unprivileged access control
+ =====================================
+ 
+ :Author: Mickaël Salaün
+-:Date: March 2021
++:Date: May 2022
+ 
+ The goal of Landlock is to enable to restrict ambient rights (e.g. global
+ filesystem access) for a set of processes.  Because Landlock is a stackable
+@@ -29,14 +29,15 @@ the thread enforcing it, and its future children.
+ Defining and enforcing a security policy
+ ----------------------------------------
+ 
+-We first need to create the ruleset that will contain our rules.  For this
++We first need to define the ruleset that will contain our rules.  For this
+ example, the ruleset will contain rules that only allow read actions, but write
+ actions will be denied.  The ruleset then needs to handle both of these kind of
+-actions.
++actions.  This is required for backward and forward compatibility (i.e. the
++kernel and user space may not know each other's supported restrictions), hence
++the need to be explicit about the denied-by-default access rights.
+ 
+ .. code-block:: c
+ 
+-    int ruleset_fd;
+     struct landlock_ruleset_attr ruleset_attr = {
+         .handled_access_fs =
+             LANDLOCK_ACCESS_FS_EXECUTE |
+@@ -51,9 +52,34 @@ actions.
+             LANDLOCK_ACCESS_FS_MAKE_SOCK |
+             LANDLOCK_ACCESS_FS_MAKE_FIFO |
+             LANDLOCK_ACCESS_FS_MAKE_BLOCK |
+-            LANDLOCK_ACCESS_FS_MAKE_SYM,
++            LANDLOCK_ACCESS_FS_MAKE_SYM |
++            LANDLOCK_ACCESS_FS_REFER,
+     };
+ 
++Because we may not know on which kernel version an application will be
++executed, it is safer to follow a best-effort security approach.  Indeed, we
++should try to protect users as much as possible whatever the kernel they are
++using.  To avoid binary enforcement (i.e. either all security features or
++none), we can leverage a dedicated Landlock command to get the current version
++of the Landlock ABI and adapt the handled accesses.  Let's check if we should
++remove the `LANDLOCK_ACCESS_FS_REFER` access right which is only supported
++starting with the second version of the ABI.
++
++.. code-block:: c
++
++    int abi;
++
++    abi = landlock_create_ruleset(NULL, 0, LANDLOCK_CREATE_RULESET_VERSION);
++    if (abi < 2) {
++        ruleset_attr.handled_access_fs &= ~LANDLOCK_ACCESS_FS_REFER;
++    }
++
++This enables to create an inclusive ruleset that will contain our rules.
++
++.. code-block:: c
++
++    int ruleset_fd;
++
+     ruleset_fd = landlock_create_ruleset(&ruleset_attr, sizeof(ruleset_attr), 0);
+     if (ruleset_fd < 0) {
+         perror("Failed to create a ruleset");
+@@ -92,6 +118,11 @@ descriptor.
+         return 1;
+     }
+ 
++It may also be required to create rules following the same logic as explained
++for the ruleset creation, by filtering access rights according to the Landlock
++ABI version.  In this example, this is not required because
++`LANDLOCK_ACCESS_FS_REFER` is not allowed by any rule.
++
+ We now have a ruleset with one rule allowing read access to ``/usr`` while
+ denying all other handled accesses for the filesystem.  The next step is to
+ restrict the current thread from gaining more privileges (e.g. thanks to a SUID
+@@ -192,6 +223,56 @@ To be allowed to use :manpage:`ptrace(2)` and related syscalls on a target
+ process, a sandboxed process should have a subset of the target process rules,
+ which means the tracee must be in a sub-domain of the tracer.
+ 
++Compatibility
++=============
++
++Backward and forward compatibility
++----------------------------------
++
++Landlock is designed to be compatible with past and future versions of the
++kernel.  This is achieved thanks to the system call attributes and the
++associated bitflags, particularly the ruleset's `handled_access_fs`.  Making
++handled access right explicit enables the kernel and user space to have a clear
++contract with each other.  This is required to make sure sandboxing will not
++get stricter with a system update, which could break applications.
++
++Developers can subscribe to the `Landlock mailing list
++<https://subspace.kernel.org/lists.linux.dev.html>`_ to knowingly update and
++test their applications with the latest available features.  In the interest of
++users, and because they may use different kernel versions, it is strongly
++encouraged to follow a best-effort security approach by checking the Landlock
++ABI version at runtime and only enforcing the supported features.
++
++Landlock ABI versions
++---------------------
++
++The Landlock ABI version can be read with the sys_landlock_create_ruleset()
++system call:
++
++.. code-block:: c
++
++    int abi;
++
++    abi = landlock_create_ruleset(NULL, 0, LANDLOCK_CREATE_RULESET_VERSION);
++    if (abi < 0) {
++        switch (errno) {
++        case ENOSYS:
++            printf("Landlock is not supported by the current kernel.\n");
++            break;
++        case EOPNOTSUPP:
++            printf("Landlock is currently disabled.\n");
++            break;
++        }
++        return 0;
++    }
++    if (abi >= 2) {
++        printf("Landlock supports LANDLOCK_ACCESS_FS_REFER.\n");
++    }
++
++The following kernel interfaces are implicitly supported by the first ABI
++version.  Features only supported from a specific version are explicitly marked
++as such.
++
+ Kernel interface
+ ================
+ 
+@@ -228,21 +309,6 @@ Enforcing a ruleset
+ Current limitations
+ ===================
+ 
+-File renaming and linking
+--------------------------
+-
+-Because Landlock targets unprivileged access controls, it is needed to properly
+-handle composition of rules.  Such property also implies rules nesting.
+-Properly handling multiple layers of ruleset, each one of them able to restrict
+-access to files, also implies to inherit the ruleset restrictions from a parent
+-to its hierarchy.  Because files are identified and restricted by their
+-hierarchy, moving or linking a file from one directory to another implies to
+-propagate the hierarchy constraints.  To protect against privilege escalations
+-through renaming or linking, and for the sake of simplicity, Landlock currently
+-limits linking and renaming to the same directory.  Future Landlock evolutions
+-will enable more flexibility for renaming and linking, with dedicated ruleset
+-flags.
+-
+ Filesystem topology modification
+ --------------------------------
+ 
+@@ -281,6 +347,26 @@ Memory usage
+ Kernel memory allocated to create rulesets is accounted and can be restricted
+ by the Documentation/admin-guide/cgroup-v1/memory.rst.
+ 
++Previous limitations
++====================
++
++File renaming and linking (ABI 1)
++---------------------------------
++
++Because Landlock targets unprivileged access controls, it needs to properly
++handle composition of rules.  Such property also implies rules nesting.
++Properly handling multiple layers of rulesets, each one of them able to
++restrict access to files, also implies inheritance of the ruleset restrictions
++from a parent to its hierarchy.  Because files are identified and restricted by
++their hierarchy, moving or linking a file from one directory to another implies
++propagation of the hierarchy constraints, or restriction of these actions
++according to the potentially lost constraints.  To protect against privilege
++escalations through renaming or linking, and for the sake of simplicity,
++Landlock previously limited linking and renaming to the same directory.
++Starting with the Landlock ABI version 2, it is now possible to securely
++control renaming and linking thanks to the new `LANDLOCK_ACCESS_FS_REFER`
++access right.
++
+ Questions and answers
+ =====================
+ 
+-- 
+2.35.1
 
-
--- (english) http://www.livejournal.com/~pavelmachek (cesky, pictures) 
-http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
