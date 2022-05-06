@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CE6AC4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 11:45:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9D06C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 11:45:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1391479AbiEFLtP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 07:49:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45532 "EHLO
+        id S1391488AbiEFLtR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 07:49:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1391466AbiEFLs6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 07:48:58 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BCD162BF7;
-        Fri,  6 May 2022 04:45:15 -0700 (PDT)
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KvpdP3zhVzhYps;
-        Fri,  6 May 2022 19:44:41 +0800 (CST)
+        with ESMTP id S1391472AbiEFLtD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 07:49:03 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 667B458E40;
+        Fri,  6 May 2022 04:45:17 -0700 (PDT)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Kvpcn4C1mzfbJg;
+        Fri,  6 May 2022 19:44:09 +0800 (CST)
 Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 6 May 2022 19:45:13 +0800
+ 15.1.2375.24; Fri, 6 May 2022 19:45:15 +0800
 Received: from thunder-town.china.huawei.com (10.174.178.55) by
  dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 6 May 2022 19:45:12 +0800
+ 15.1.2375.24; Fri, 6 May 2022 19:45:14 +0800
 From:   Zhen Lei <thunder.leizhen@huawei.com>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -47,9 +47,9 @@ CC:     Zhen Lei <thunder.leizhen@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>,
         "John Donnelly" <John.p.donnelly@oracle.com>,
         Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: [PATCH v24 4/6] of: fdt: Add memory for devices by DT property "linux,usable-memory-range"
-Date:   Fri, 6 May 2022 19:44:00 +0800
-Message-ID: <20220506114402.365-5-thunder.leizhen@huawei.com>
+Subject: [PATCH v24 6/6] docs: kdump: Update the crashkernel description for arm64
+Date:   Fri, 6 May 2022 19:44:02 +0800
+Message-ID: <20220506114402.365-7-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 In-Reply-To: <20220506114402.365-1-thunder.leizhen@huawei.com>
 References: <20220506114402.365-1-thunder.leizhen@huawei.com>
@@ -64,92 +64,49 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Chen Zhou <chenzhou10@huawei.com>
+Now arm64 has added support for "crashkernel=X,high" and
+"crashkernel=Y,low". Unlike x86, crash low memory is not allocated if
+"crashkernel=Y,low" is not specified.
 
-When reserving crashkernel in high memory, some low memory is reserved
-for crash dump kernel devices and never mapped by the first kernel.
-This memory range is advertised to crash dump kernel via DT property
-under /chosen,
-        linux,usable-memory-range = <BASE1 SIZE1 [BASE2 SIZE2]>
-
-We reused the DT property linux,usable-memory-range and made the low
-memory region as the second range "BASE2 SIZE2", which keeps compatibility
-with existing user-space and older kdump kernels.
-
-Crash dump kernel reads this property at boot time and call memblock_add()
-to add the low memory region after memblock_cap_memory_range() has been
-called.
-
-Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-Co-developed-by: Zhen Lei <thunder.leizhen@huawei.com>
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>
 ---
- drivers/of/fdt.c | 33 +++++++++++++++++++++++----------
- 1 file changed, 23 insertions(+), 10 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
-index ec315b060cd50d2..2f248d0acc04830 100644
---- a/drivers/of/fdt.c
-+++ b/drivers/of/fdt.c
-@@ -973,16 +973,24 @@ static void __init early_init_dt_check_for_elfcorehdr(unsigned long node)
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 3f1cc5e317ed4a5..aa44c61114aa4b8 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -808,7 +808,7 @@
+ 			Documentation/admin-guide/kdump/kdump.rst for an example.
  
- static unsigned long chosen_node_offset = -FDT_ERR_NOTFOUND;
+ 	crashkernel=size[KMG],high
+-			[KNL, X86-64] range could be above 4G. Allow kernel
++			[KNL, X86-64, ARM64] range could be above 4G. Allow kernel
+ 			to allocate physical memory region from top, so could
+ 			be above 4G if system have more than 4G ram installed.
+ 			Otherwise memory region will be allocated below 4G, if
+@@ -821,7 +821,7 @@
+ 			that require some amount of low memory, e.g. swiotlb
+ 			requires at least 64M+32K low memory, also enough extra
+ 			low memory is needed to make sure DMA buffers for 32-bit
+-			devices won't run out. Kernel would try to allocate at
++			devices won't run out. Kernel would try to allocate
+ 			at least 256M below 4G automatically.
+ 			This one let user to specify own low range under 4G
+ 			for second kernel instead.
+@@ -829,6 +829,11 @@
+ 			It will be ignored when crashkernel=X,high is not used
+ 			or memory reserved is below 4G.
  
-+/*
-+ * The main usage of linux,usable-memory-range is for crash dump kernel.
-+ * Originally, the number of usable-memory regions is one. Now there may
-+ * be two regions, low region and high region.
-+ * To make compatibility with existing user-space and older kdump, the low
-+ * region is always the last range of linux,usable-memory-range if exist.
-+ */
-+#define MAX_USABLE_RANGES		2
++			[KNL, ARM64] range in low memory.
++			This one let user to specify a low range in DMA zone for
++			crash dump kernel.
++			It will be ignored when crashkernel=X,high is not used.
 +
- /**
-  * early_init_dt_check_for_usable_mem_range - Decode usable memory range
-  * location from flat tree
-  */
- void __init early_init_dt_check_for_usable_mem_range(void)
- {
--	const __be32 *prop;
--	int len;
--	phys_addr_t cap_mem_addr;
--	phys_addr_t cap_mem_size;
-+	struct memblock_region rgn[MAX_USABLE_RANGES] = {0};
-+	const __be32 *prop, *endp;
-+	int len, i;
- 	unsigned long node = chosen_node_offset;
+ 	cryptomgr.notests
+ 			[KNL] Disable crypto self-tests
  
- 	if ((long)node < 0)
-@@ -991,16 +999,21 @@ void __init early_init_dt_check_for_usable_mem_range(void)
- 	pr_debug("Looking for usable-memory-range property... ");
- 
- 	prop = of_get_flat_dt_prop(node, "linux,usable-memory-range", &len);
--	if (!prop || (len < (dt_root_addr_cells + dt_root_size_cells)))
-+	if (!prop || (len % (dt_root_addr_cells + dt_root_size_cells)))
- 		return;
- 
--	cap_mem_addr = dt_mem_next_cell(dt_root_addr_cells, &prop);
--	cap_mem_size = dt_mem_next_cell(dt_root_size_cells, &prop);
-+	endp = prop + (len / sizeof(__be32));
-+	for (i = 0; i < MAX_USABLE_RANGES && prop < endp; i++) {
-+		rgn[i].base = dt_mem_next_cell(dt_root_addr_cells, &prop);
-+		rgn[i].size = dt_mem_next_cell(dt_root_size_cells, &prop);
- 
--	pr_debug("cap_mem_start=%pa cap_mem_size=%pa\n", &cap_mem_addr,
--		 &cap_mem_size);
-+		pr_debug("cap_mem_regions[%d]: base=%pa, size=%pa\n",
-+			 i, &rgn[i].base, &rgn[i].size);
-+	}
- 
--	memblock_cap_memory_range(cap_mem_addr, cap_mem_size);
-+	memblock_cap_memory_range(rgn[0].base, rgn[0].size);
-+	for (i = 1; i < MAX_USABLE_RANGES && rgn[i].size; i++)
-+		memblock_add(rgn[i].base, rgn[i].size);
- }
- 
- #ifdef CONFIG_SERIAL_EARLYCON
 -- 
 2.25.1
 
