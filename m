@@ -2,191 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACB38C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 13:10:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8062DC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 13:16:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384705AbiEFNNz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 09:13:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35374 "EHLO
+        id S1392290AbiEFNUB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 09:20:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1392266AbiEFNNa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 09:13:30 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7F8B69496;
-        Fri,  6 May 2022 06:09:38 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id g8so6217781pfh.5;
-        Fri, 06 May 2022 06:09:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:from:subject:to:cc
-         :content-language:content-transfer-encoding;
-        bh=730230Vo8kmZKuX3J8vSRodOD61MMfJ0qibRzQlh44w=;
-        b=nLAKnOkGT6kyGPOjiY6PmkE+lQCREgWvD7EXQehVZwSl68+4NgGsFR+VUsozP8WMr9
-         kbkpvfp0Q8TzPW+VcdT/mIzDGoghbdO+Si8YMbyNk6ntj5z5KkIeIZF8jvcmJZ2Hqf+s
-         ElJYdygoqS4g2oI4gkH2osb7OUVr3IgU1rwis48xZfdy825+VQ2RKaTlHmoxhmNHmrTe
-         TVap6oZ/bW0u57iQeeAgWaRIEnBeR6TXO4RGbqe6GjWQN7m3MXZVwkHelwZ6jn8xpjlt
-         txyepkpmKoEChPB6dIG/TWjTzZ3JkPCZ42ToheaF7nAvWe9EmRSYnxJIwOzjBYj8e55i
-         bUHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
-         :subject:to:cc:content-language:content-transfer-encoding;
-        bh=730230Vo8kmZKuX3J8vSRodOD61MMfJ0qibRzQlh44w=;
-        b=1s0a9q9YMJM8RQAq6X1NFQCAcBaL/FAnY5N3AucyOIopTjxvOC0U3U4ra31jlSCks1
-         8by5Xcs8bY5BbvdDgJ0ZieL16pNqF2llFcJ8T5PCtEW5pnaEaPuNVYcJH22pJ5xFh8Nf
-         xQHf1khv6ogch/HguyZHNrHlILHzOnNmxkjbNQ3VYP5usXWYpgjaeDGHo8ynTlR/sq4O
-         6oLcaOuZd6HbTh3rwSIeMEdpS4fLIlxrIIuTScp312w7Y7p9n1QTgr7yA4xfD6sXt2qT
-         YCInF+XguFXd0gfRdokORKiUOhMafqxlRmjIPqgW0d0rRTEwgE4aXlxmJdJATuWRyc3G
-         TfEA==
-X-Gm-Message-State: AOAM530xkAYwS80bcBs3Ygl+h2p88XWfTIZbmHp9Cjz+rYxsRv+/QZxd
-        OtzSsEUrrXGNOwVu1IwTT+4=
-X-Google-Smtp-Source: ABdhPJxAvb3r62U6mvX4eZGsPzJ77W2YGDQosacfQtNy6rjh1ILYEH/UsquGh3yM55fD3D53rrgplA==
-X-Received: by 2002:aa7:970f:0:b0:50d:301e:e6ce with SMTP id a15-20020aa7970f000000b0050d301ee6cemr3492354pfg.61.1651842577916;
-        Fri, 06 May 2022 06:09:37 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id 6-20020a170902c24600b0015e8d4eb20dsm1667412plg.87.2022.05.06.06.09.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 May 2022 06:09:37 -0700 (PDT)
-Message-ID: <fdfecc82-d41e-6d8a-738d-4beb6faa27fb@gmail.com>
-Date:   Fri, 6 May 2022 22:09:31 +0900
+        with ESMTP id S1392289AbiEFNUB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 09:20:01 -0400
+Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [170.10.129.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 798B063502
+        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 06:16:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1651842977;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=8wPDA2gsA8PtLts/9kHE8ZGbzgkULXlMPGcav5wmzQU=;
+        b=EgczeQqo1C6cLs/nFOfS/3eCBdQw5fgtVB4jfohiKCLgp/lwntpERTR9UEmlrDrX/JRcD3
+        aVyd1jvW6H02/pBUSo4+d8yqUurl+OnsmOA35Da06Uxdm+pUjxPIN1+72boqZAM3WHYney
+        ua+D5nsJPFKDpZhbbrqwULt0bTBb6EA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-583-j9olosgBNA2Z3YsZN10Vzw-1; Fri, 06 May 2022 09:16:14 -0400
+X-MC-Unique: j9olosgBNA2Z3YsZN10Vzw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7D9F8803E2E;
+        Fri,  6 May 2022 13:16:13 +0000 (UTC)
+Received: from localhost (ovpn-13-105.pek2.redhat.com [10.72.13.105])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id A3EAD463EDC;
+        Fri,  6 May 2022 13:16:11 +0000 (UTC)
+Date:   Fri, 6 May 2022 21:16:08 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v23 3/6] arm64: kdump: Reimplement crashkernel=X
+Message-ID: <YnUfmMmON2c1FZrx@MiWiFi-R3L-srv>
+References: <20220505091845.167-1-thunder.leizhen@huawei.com>
+ <20220505091845.167-4-thunder.leizhen@huawei.com>
+ <YnQC44KVKirH0vyB@arm.com>
+ <189f24a8-9e9b-b3e9-7ac5-935433ea575b@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -next] docs: vm/page_owner: Tweak literal block in STANDARD
- FORMAT SPECIFIERS
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Shenghong Han <hanshenghong2019@email.szu.edu.cn>,
-        Jiajian Ye <yejiajian2018@email.szu.edu.cn>,
-        Chongxi Zhao <zhaochongxi2019@email.szu.edu.cn>,
-        Yinan Zhang <zhangyinan2019@email.szu.edu.cn>,
-        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>,
-        Yongqiang Liu <liuyongqiang13@huawei.com>,
-        Yuhong Feng <yuhongf@szu.edu.cn>,
-        Haowen Bai <baihaowen@meizu.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <189f24a8-9e9b-b3e9-7ac5-935433ea575b@huawei.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A semantic conflict between commit 5603f9bdea68 ("docs: vm/page_owner:
-use literal blocks for param description") and a change queued for v5.19
-authored by Jiajian Ye ("tools/vm/page_owner_sort.c: support sorting
-blocks by multiple keys") results in a warning from "make htmldocs"
-saying:
+On 05/06/22 at 11:22am, Leizhen (ThunderTown) wrote:
+......  
+> >> @@ -118,8 +159,7 @@ static void __init reserve_crashkernel(void)
+> >>  	if (crash_base)
+> >>  		crash_max = crash_base + crash_size;
+> >>  
+> >> -	/* Current arm64 boot protocol requires 2MB alignment */
+> >> -	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
+> >> +	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+> >>  					       crash_base, crash_max);
+> >>  	if (!crash_base) {
+> >>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+> > 
+> > I personally like this but let's see how the other thread goes. I guess
+> 
+> Me too. This fallback complicates code logic more than just a little.
+> I'm not sure why someone would rather add fallback than change the bootup
+> options to crashkernel=X,[high|low]. Perhaps fallback to high/low is a better
+> compatible and extended mode when crashkernel=X fails to reserve memory. And
+> the code logic will be much clearer.
 
-  [...]/vm/page_owner.rst:176: WARNING: Literal block expected; none foun=
-d.
+The fallback does complicates code, while it was not made at the
+beginning, but added later. The original crahskernel=xM can only reserve
+low memory under 896M on x86 to be back compatible with the case in which
+normal kernel is x86_64, while kdump kernel could be i386. Then customer
+complained why crashkernel=xM can't be put anywhere so that they don't
+need to know the details of limited low memory and huge high memory fact 
+in system.
 
-This is because a literal block in ReST ends at a line which has the
-same indent as the paragraph preceding it.  In this case the one with
-no indent.
+The implementation of fallback is truly complicated, but its use is
+quite simple. And it makes crashkernel reservation setting simple.
+Most of users don't need to know crashkernel=,high, ,low things, unless
+the crashkernel region is too big. Nobody wants to take away 1G or more
+from low memory for kdump just in case bad thing happens, while normal
+kernel itself is seriously impacted by limited low memory.
 
-Indent the two "For --xxxx option:" lines by two columns and make the
-whole section a literal block.
+> 
+> //parse crashkernel=X		//To simplify the discussion, Ignore [@offset]
+> crash_base = memblock_phys_alloc_range()
+> if (!crash_base || /* crashkernel=X is not specified */) {
+> 	//parse crashkernel=X,[high,low]
+> 	//reserve high/low memory
+> }
+> 
+> So that, the following three modes are supported:
+> 1) crashkernel=X[@offset]
+> 2) crashkernel=X,high crashkernel=X,low
+> 3) crashkernel=X[@offset] crashkernel=X,high [crashkernel=Y,low]
+> 
+> For case 3), try "crashkernel=X[@offset]" first, if it can not work, fallback
+> to "crashkernel=X,high crashkernel=X,low". This looks better than the old "crashkernel=X"
+> fallback ---- Select a region under 4G first, and fall back to reserve region above 4G.
 
-While at it, fix indents by white spaces of "ator" keys.
+Don't get it. Aren't they the same?
 
-Reported-by: Shenghong Han <hanshenghong2019@email.szu.edu.cn>
-Signed-of-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jiajian Ye <yejiajian2018@email.szu.edu.cn>
-Cc: Chongxi Zhao <zhaochongxi2019@email.szu.edu.cn>
-Cc: Yinan Zhang <zhangyinan2019@email.szu.edu.cn>
-Cc: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-Cc: Yongqiang Liu <liuyongqiang13@huawei.com>
-Cc: Yuhong Feng <yuhongf@szu.edu.cn>
-Cc: Haowen Bai <baihaowen@meizu.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
----
-Hi Andrew,
-
-This is kind of a follow-up fix of commit 5603f9bdea68 ("docs:
-vm/page_owner: use literal blocks for param description"), which I
-sent the other day [1] as a fix against v5.18-rc1 and merged into
-v5.18-rc5.
-
-The fix in mainline results in a minor semantic conflict with your
-tree destined for v5.19, and causes another warning from "make html".
-Shenghong Han submitted a patch around the key lists using the ReST
-table construct [2] based on Haowen Bai's earlier attempt [3], but
-it seems the effort has stalled.
-
-Hence I'm submitting this patch against your tree as a resolution
-of the semantic conflict, with additional indent fixes as were done
-in [2].
-
-[1]: https://lore.kernel.org/r/cfd3bcc0-b51d-0c68-c065-ca1c4c202447@gmail=
-=2Ecom/
-[2]: https://lore.kernel.org/r/20220429181926.10658-1-hanshenghong2019@em=
-ail.szu.edu.cn/
-[3]: https://lore.kernel.org/r/1650956829-31013-3-git-send-email-baihaowe=
-n@meizu.com/
-
-Note: By making the whole section a literal block, excessive inline
-literal markers around --sort and --curl options can be avoided.
-
-For example, in a normal ReST paragraph,
-
-  For --sort option:
-
-will be converted by Sphinx to
-
-  For =E2=80=93sort option:
-
-in HTML, where the "=E2=80=93" is an "endash" symbol.
-
-Such conversions could be prevented by putting inline literal markers
-around:
-
-  For ``--sort`` option:
-
-However, it would degrade the readability of the .rst file as
-plain-text.  In this particular case, making the whole section
-a literal block should be a better option, at long as the section
-consists only of those key lists.
-
-        Thanks, Akira
---
- Documentation/vm/page_owner.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owne=
-r.rst
-index 25622c715823..f5c954afe97c 100644
---- a/Documentation/vm/page_owner.rst
-+++ b/Documentation/vm/page_owner.rst
-@@ -173,7 +173,7 @@ STANDARD FORMAT SPECIFIERS
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
- ::
-=20
--For --sort option:
-+  For --sort option:
-=20
- 	KEY		LONG		DESCRIPTION
- 	p		pid		process ID
-@@ -183,9 +183,9 @@ For --sort option:
- 	T		txt		full text of block
- 	ft		free_ts		timestamp of the page when it was released
- 	at		alloc_ts	timestamp of the page when it was allocated
--        ator            allocator       memory allocator for pages
-+	ator		allocator	memory allocator for pages
-=20
--For --curl option:
-+  For --curl option:
-=20
- 	KEY		LONG		DESCRIPTION
- 	p		pid		process ID
-@@ -193,4 +193,4 @@ For --curl option:
- 	n		name		task command name
- 	f		free		whether the page has been released or not
- 	st		stacktrace	stack trace of the page allocation
--        ator            allocator       memory allocator for pages
-+	ator		allocator	memory allocator for pages
---=20
-2.25.1
+> 
+> Note: when the X of crashkernel=X and crashkernel=X,high are the same, It's equivalent
+> to the old "crashkernel=X" fallback.
+> 
+> > if we want a fallback, it would come just before the check the above:
+> > 
+> > 	if (!crash_base && crash_max != CRASH_ADDR_HIGH_MAX) {
+> > 		/* attempt high allocation with default low */
+> > 		if (!crash_low_size)
+> > 			crash_low_size = some default;
+> > 		crash_max = CRASH_ADDR_LOW_MAX;
+> 
+> crash_max = CRASH_ADDR_HIGH_MAX; We should fallback to high memory now.
+> 
+> > 		crash_base = memblock_phys_alloc_range();
+> > 	}
+> > 
+> > Well, I guess we end up with your earlier proposal but I think I
+> > understand it better now ;).
+> > 
+> 
+> -- 
+> Regards,
+>   Zhen Lei
+> 
 
