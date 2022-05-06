@@ -2,117 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C270CC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 00:52:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C074C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 01:40:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352227AbiEFAzz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 20:55:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55416 "EHLO
+        id S1387978AbiEFBo1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 21:44:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241986AbiEFAzz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 20:55:55 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 172BE1EEEA;
-        Thu,  5 May 2022 17:52:14 -0700 (PDT)
+        with ESMTP id S1387983AbiEFBo0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 21:44:26 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E1D457131;
+        Thu,  5 May 2022 18:40:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651798334; x=1683334334;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RXBway8aqei9K09kwNWoZBifM54ZYmb3DHugyR1DrrE=;
-  b=SSYRXYOv/dsqv8NAe25PQB2ZqVMsK/dKt4WbJ2P2aEXkHERSoW0a+bLW
-   nllkvgmnzOKpyacYp8vkR/2KLn/knxK4OR+HAx5doqF3sflh1lVSTSrqs
-   HbUvL/wLOJDgrx991P9OhqJarxCly/hWkSnpQfEBO/1J1Q/p9vBhR1fQB
-   5Rub0NLigmY2ixHoNCJMALUSyfu9VLWXz3PwfZ+YctnA8yS+iLWxQi7Rx
-   wW5SGskzuoTxChxEUnIoKLtXdlftUGWZfJZl/NNOJszKMsJNsDKh21aVr
-   Ahrm2SwNJqo3ZPjy9SdD8EU7A0fhj+s1bbD3JDsiFKZIiJFbNxbQofEcU
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="268201722"
+  t=1651801244; x=1683337244;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=RLvHL8anf2YkJtlMQuHsQJoDiZbnI5hToTtaX6fMmgM=;
+  b=hRJlILKZJueGB3gryV2JQByW7DQRT/DePilbnfjHBejW7C8/uxxoB+ax
+   TnziYG7bUO8Z2sAqttN9V9bSHsXUs2jdkFHCU7//Egppfech6ERX4CBF6
+   VdcWqVzeUF3O8W+MnaF8gBU0qCcueQoi6I/qK4+0THxUsVs6HrfMaCLGd
+   QmZ0vmMFw6HLspKnI4oXouGbLZt3ouOLPVA/L8YptMIkesDW+RKZqkLEk
+   t2kVItYtGbLnHwgBnUe63/5I5tRt2OX8V9SIZE6MjhQG2H5ZbFjdMsB06
+   OHqO0zPpdeEauTVgMrrop55+L804bsDdqxFH8wyc+VsRVcokt9yd4Ckg+
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="293519422"
 X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; 
-   d="scan'208";a="268201722"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 17:52:13 -0700
-X-ExtLoop1: 1
+   d="scan'208";a="293519422"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 18:40:44 -0700
 X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; 
-   d="scan'208";a="585667620"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 05 May 2022 17:52:11 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nmmCZ-000CtK-7u;
-        Fri, 06 May 2022 00:52:11 +0000
-Date:   Fri, 6 May 2022 08:51:44 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dan Moulding <dmoulding@me.com>, linux-kernel@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, linux-doc@vger.kernel.org,
-        tglx@linutronix.de, akpm@linux-foundation.org, corbet@lwn.net,
-        Dan Moulding <dmoulding@me.com>
-Subject: Re: [PATCH 1/1] init: Add "hostname" kernel parameter
-Message-ID: <202205060821.6KCNxZBf-lkp@intel.com>
-References: <20220505180651.22849-2-dmoulding@me.com>
+   d="scan'208";a="537645006"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 18:40:43 -0700
+From:   Tony Luck <tony.luck@intel.com>
+To:     hdegoede@redhat.com, markgross@kernel.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        corbet@lwn.net, gregkh@linuxfoundation.org,
+        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
+        ashok.raj@intel.com, tony.luck@intel.com, rostedt@goodmis.org,
+        dan.j.williams@intel.com, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        patches@lists.linux.dev, ravi.v.shankar@intel.com
+Subject: [PATCH v6 00/11] Introduce In Field Scan driver
+Date:   Thu,  5 May 2022 18:40:24 -0700
+Message-Id: <20220506014035.1173578-1-tony.luck@intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220428153849.295779-1-tony.luck@intel.com>
+References: <20220428153849.295779-1-tony.luck@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220505180651.22849-2-dmoulding@me.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Dan,
+TL;DR this driver loads scan test files that can check whether silicon
+in a CPU core is still running correctly. It is expected that these tests
+would be run several times per day to catch problems as silicon ages.
 
-Thank you for the patch! Perhaps something to improve:
+Changes since v5:
 
-[auto build test WARNING on linux/master]
-[also build test WARNING on hnaz-mm/master linus/master v5.18-rc5 next-20220505]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Added various Reviewed tags. If anyone wants to take one or more
+back in the light of changes listed below, please speak up.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Moulding/Allow-setting-hostname-before-userspace-starts/20220506-023146
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 107c948d1d3e61d10aee9d0f7c3d81bbee9842af
-config: riscv-randconfig-r042-20220505 (https://download.01.org/0day-ci/archive/20220506/202205060821.6KCNxZBf-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1071875b349d9b8307eb0f4d23dda06a2301fe03
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Dan-Moulding/Allow-setting-hostname-before-userspace-starts/20220506-023146
-        git checkout 1071875b349d9b8307eb0f4d23dda06a2301fe03
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+Thomas Gleixner
+---------------
+03 "So checking for Intel Fam6 ANYMODEL and X86_FEATURE_CORE_CAPABILITIES is
+ sufficient, no?"
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Longer explanation in earlier e-mail ... but the family/model/stepping
+check is needed. No change.
 
-All warnings (new ones prefixed by >>):
+04 "Why is ifs_load_firmware() not returning an error to the caller?"
 
-   init/version.c: In function 'early_hostname':
->> init/version.c:45:9: warning: 'strncpy' specified bound 65 equals destination size [-Wstringop-truncation]
-      45 |         strncpy(init_uts_ns.name.nodename, arg, bufsize);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In most cases the return isn't useful. But this did prompt a change
+to make sure "echo 1 > reload" does give an error if the load fails.
+
+05 "The above struct is nicely tabular. Can we have that here too please?"
+
+Added <TAB>s to ifs_data structure to make it equally pretty.
+
+06 "Setting the authenticated indicator _before_ actually doing the
+authentication is just wrong. It does not matter in this case, but it's
+still making my eyes bleed."
+
+Moved indicator to after success has been checked.
+
+06 "Why has this to be a smp function call? Just because it's conveniant?
+This is nothing urgent and no hotpath, so this really can use
+queue_work_on()."
+
+Even simpler is schedule_work_on() [since other changes mean that
+the driver no longer allocates a work queue.
 
 
-vim +/strncpy +45 init/version.c
+07 "Waiting for a second with preemption disabled? Seriously?"
+   "Plus another half a second with preemption disabled. That's just insane."
+   "That local_irq_disable() solves what?"
+   "Why cpu_hotplug_disable()? Why is cpus_read_lock() not sufficient here?"
+   "Why does this need GFP_NOWAIT?"
+   "I put that into the wishful thinking realm"
+   "The real question is why you try to rendevouz CPUs via work queues."
+   "pseudo-code to use stomp_machine()"
 
-    39	
-    40	static int __init early_hostname(char *arg)
-    41	{
-    42		size_t bufsize = sizeof(init_uts_ns.name.nodename);
-    43		size_t maxlen  = bufsize - 1;
-    44	
-  > 45		strncpy(init_uts_ns.name.nodename, arg, bufsize);
-    46		if (strlen(arg) > maxlen) {
-    47			pr_warn("hostname parameter exceeds %zd characters and will be truncated",
-    48				maxlen);
-    49			init_uts_ns.name.nodename[maxlen] = '\0';
-    50		}
-    51		return 0;
-    52	}
-    53	early_param("hostname", early_hostname);
-    54	
+PeterZ contributed a neatly tailored for this usage "stop_core_cpuslocked()"
+function that works beautifully. See part 0003 of this new series. That
+meant all of the code that triggered the above comments has gone.
 
+Tony Luck
+---------
+Noticed unnecessary casts from u8 to u32 in the checksum calculation
+in load.c. Fixed.
+
+Changed the tracepoint to include the CPU number of the core being
+tested (the tracepoint otherwise just tells you which CPU is executing
+the driver code and executing "stop_core_cpuslocked()" to do the actual
+work on the target CPUs.
+
+Dropped the msec_to_tsc() function that was used to initialize
+activate.delay. Just use a #define of 100000 cycles (two orders
+of magnitude bigger than I saw for the slew between the two threads
+executing the "stop_core_cpuslocked()" target function ... but not
+too insane so if the threads do not sync, we give up quickly).
+
+
+
+Jithu Joseph (7):
+  x86/microcode/intel: Expose collect_cpu_info_early() for IFS
+  platform/x86/intel/ifs: Read IFS firmware image
+  platform/x86/intel/ifs: Check IFS Image sanity
+  platform/x86/intel/ifs: Authenticate and copy to secured memory
+  platform/x86/intel/ifs: Add scan test support
+  platform/x86/intel/ifs: Add IFS sysfs interface
+  platform/x86/intel/ifs: add ABI documentation for IFS
+
+Peter Zijlstra (1):
+  stop_machine: Add stop_core_cpuslocked() for per-core operations
+
+Tony Luck (3):
+  x86/msr-index: Define INTEGRITY_CAPABILITIES MSR
+  platform/x86/intel/ifs: Add stub driver for In-Field Scan
+  trace: platform/x86/intel/ifs: Add trace point to track Intel IFS
+    operations
+
+ .../ABI/testing/sysfs-platform-intel-ifs      |  39 +++
+ MAINTAINERS                                   |   8 +
+ arch/x86/include/asm/cpu.h                    |  18 ++
+ arch/x86/include/asm/msr-index.h              |   7 +
+ arch/x86/kernel/cpu/intel.c                   |  32 +++
+ arch/x86/kernel/cpu/microcode/intel.c         |  59 +---
+ drivers/platform/x86/intel/Kconfig            |   1 +
+ drivers/platform/x86/intel/Makefile           |   1 +
+ drivers/platform/x86/intel/ifs/Kconfig        |  13 +
+ drivers/platform/x86/intel/ifs/Makefile       |   3 +
+ drivers/platform/x86/intel/ifs/core.c         |  74 +++++
+ drivers/platform/x86/intel/ifs/ifs.h          | 124 ++++++++
+ drivers/platform/x86/intel/ifs/load.c         | 266 ++++++++++++++++++
+ drivers/platform/x86/intel/ifs/runtest.c      | 255 +++++++++++++++++
+ drivers/platform/x86/intel/ifs/sysfs.c        | 149 ++++++++++
+ include/linux/stop_machine.h                  |  16 ++
+ include/trace/events/intel_ifs.h              |  41 +++
+ kernel/stop_machine.c                         |  19 ++
+ 18 files changed, 1073 insertions(+), 52 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-platform-intel-ifs
+ create mode 100644 drivers/platform/x86/intel/ifs/Kconfig
+ create mode 100644 drivers/platform/x86/intel/ifs/Makefile
+ create mode 100644 drivers/platform/x86/intel/ifs/core.c
+ create mode 100644 drivers/platform/x86/intel/ifs/ifs.h
+ create mode 100644 drivers/platform/x86/intel/ifs/load.c
+ create mode 100644 drivers/platform/x86/intel/ifs/runtest.c
+ create mode 100644 drivers/platform/x86/intel/ifs/sysfs.c
+ create mode 100644 include/trace/events/intel_ifs.h
+
+
+base-commit: 672c0c5173427e6b3e2a9bbb7be51ceeec78093a
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.1
+
