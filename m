@@ -2,154 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8062DC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 13:16:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DBD0C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 13:21:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1392290AbiEFNUB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 09:20:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41990 "EHLO
+        id S1392346AbiEFNYt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 09:24:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1392289AbiEFNUB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 09:20:01 -0400
-Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [170.10.129.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 798B063502
-        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 06:16:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651842977;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=8wPDA2gsA8PtLts/9kHE8ZGbzgkULXlMPGcav5wmzQU=;
-        b=EgczeQqo1C6cLs/nFOfS/3eCBdQw5fgtVB4jfohiKCLgp/lwntpERTR9UEmlrDrX/JRcD3
-        aVyd1jvW6H02/pBUSo4+d8yqUurl+OnsmOA35Da06Uxdm+pUjxPIN1+72boqZAM3WHYney
-        ua+D5nsJPFKDpZhbbrqwULt0bTBb6EA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-583-j9olosgBNA2Z3YsZN10Vzw-1; Fri, 06 May 2022 09:16:14 -0400
-X-MC-Unique: j9olosgBNA2Z3YsZN10Vzw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7D9F8803E2E;
-        Fri,  6 May 2022 13:16:13 +0000 (UTC)
-Received: from localhost (ovpn-13-105.pek2.redhat.com [10.72.13.105])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A3EAD463EDC;
-        Fri,  6 May 2022 13:16:11 +0000 (UTC)
-Date:   Fri, 6 May 2022 21:16:08 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v23 3/6] arm64: kdump: Reimplement crashkernel=X
-Message-ID: <YnUfmMmON2c1FZrx@MiWiFi-R3L-srv>
-References: <20220505091845.167-1-thunder.leizhen@huawei.com>
- <20220505091845.167-4-thunder.leizhen@huawei.com>
- <YnQC44KVKirH0vyB@arm.com>
- <189f24a8-9e9b-b3e9-7ac5-935433ea575b@huawei.com>
+        with ESMTP id S1392347AbiEFNYr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 09:24:47 -0400
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28E2366FBB;
+        Fri,  6 May 2022 06:21:01 -0700 (PDT)
+Received: by mail-vs1-xe30.google.com with SMTP id v139so7173642vsv.0;
+        Fri, 06 May 2022 06:21:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ov/2s8L5gt/KlpinanE/9NpBhE3fk6VnsmvlXmdq/tA=;
+        b=HVOjmBsa8kBJNSGcp8KgsSBEbZqqaI7zDGE7jxIHn5y9/M+EbLZT05sakERciInCNa
+         bpaf948KuVtXAbBuuHvpV52Qi5sRvPZ8OEpfvZFfwSa/DrFo9xViw9bWDmh3MB/eX1zN
+         WjYq2uaw1JL80Q+PE92wayWOwBLlQqWF7OZ3/64idHgI3i+GXC7MVA3Y0DmRDgrbLarU
+         xsTJxgXi7BDnMn4KKSkW+bZTu1Sp2ffaWt7CxmTnXfofBTeJgU0jEX/z8DhkxSbQ7gMP
+         5ZwUcRF7izU535xyZ9K6wyWuDmUDY/pYs67HlhgvufmetPivMYncaOghg2KFMKtsxciZ
+         KB/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ov/2s8L5gt/KlpinanE/9NpBhE3fk6VnsmvlXmdq/tA=;
+        b=sPlV8bPUGQvbTcgB6eC/MbirSuAg6X/Hb5dv8or3z/tShnBv/3AXPggBSZiCltshuo
+         6pAFJE7/fV9KKwVcaJFwbno+Zl9nHndl98OfZRdZm8SkXHYYVBde+2E1aNcSlsKwFyC2
+         qARmth1urZgEi1GtAVTRbZs8MNQqh9Cy47cdCqpq+cSmWQ1YQ63E6nrRpYyS1dePGfBt
+         BbswgWV8xDxF5yQDoLjOCUFW0ERmJLR7ccKTeOvUEPPUJHaPVobKEjYvb+17iHMzNFAZ
+         ohUEGkR/hpPjcUrhLLcEA929KA1u0iOR/+Yj9QT4RygYzb2EPuPzx7XrYeBPtQjMcHu5
+         I2Hg==
+X-Gm-Message-State: AOAM5320curBc33DnTfDxhuggdk4S8SCr+UdjbRMUoZUJWd5Sw0yQaWy
+        MrkBhw7ENk2ZLD0b4kvwzZ+3GeL0FP10pNU6s4E=
+X-Google-Smtp-Source: ABdhPJxzza0kPCqwV0BQbh/O77ndFbUKI+dODtzckIUOeQJQnROXd0zi5cGUpautfsp5ngXXQ46R0Oidd5fJ9+BauDE=
+X-Received: by 2002:a67:2e91:0:b0:32c:df82:9ad3 with SMTP id
+ u139-20020a672e91000000b0032cdf829ad3mr955748vsu.40.1651843260252; Fri, 06
+ May 2022 06:21:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <189f24a8-9e9b-b3e9-7ac5-935433ea575b@huawei.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
+ <20220430090518.3127980-21-chenhuacai@loongson.cn> <CAK8P3a2SPTLLrZtSz0LT0LqMpq4SKCScD4vLvr+DJn+u5W_CdA@mail.gmail.com>
+ <CAMj1kXEDpJwLDD4ZGLwzdo1KcJG_90iD9MnBVamCK06YKF7BdA@mail.gmail.com>
+ <CAAhV-H4eR5YvhABp9L4FBmofWwH+XM3V_nOjatQTV_M7Gihs7g@mail.gmail.com>
+ <CAMj1kXFD8_CuijJFgQbrxvY4MVBLmKQKFKmYhD1NBFLn3v=+FQ@mail.gmail.com>
+ <a6afaa3f-cb9f-2086-0e02-5ec21ba535d4@xen0n.name> <CAK8P3a0xuh1aAM7iwE-jiBbR-OOF5YVfhmU0Nygbpviso3tmbQ@mail.gmail.com>
+In-Reply-To: <CAK8P3a0xuh1aAM7iwE-jiBbR-OOF5YVfhmU0Nygbpviso3tmbQ@mail.gmail.com>
+From:   Huacai Chen <chenhuacai@gmail.com>
+Date:   Fri, 6 May 2022 21:20:49 +0800
+Message-ID: <CAAhV-H5FbA5DJvPwygiUyBrzq9M5R=Fr06rHAHLR31uu6ZLmkQ@mail.gmail.com>
+Subject: Re: [PATCH V9 20/24] LoongArch: Add efistub booting support
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     WANG Xuerui <kernel@xen0n.name>, Ard Biesheuvel <ardb@kernel.org>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/06/22 at 11:22am, Leizhen (ThunderTown) wrote:
-......  
-> >> @@ -118,8 +159,7 @@ static void __init reserve_crashkernel(void)
-> >>  	if (crash_base)
-> >>  		crash_max = crash_base + crash_size;
-> >>  
-> >> -	/* Current arm64 boot protocol requires 2MB alignment */
-> >> -	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
-> >> +	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
-> >>  					       crash_base, crash_max);
-> >>  	if (!crash_base) {
-> >>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
-> > 
-> > I personally like this but let's see how the other thread goes. I guess
-> 
-> Me too. This fallback complicates code logic more than just a little.
-> I'm not sure why someone would rather add fallback than change the bootup
-> options to crashkernel=X,[high|low]. Perhaps fallback to high/low is a better
-> compatible and extended mode when crashkernel=X fails to reserve memory. And
-> the code logic will be much clearer.
+Hi, Ard, Arnd and Xuerui,
 
-The fallback does complicates code, while it was not made at the
-beginning, but added later. The original crahskernel=xM can only reserve
-low memory under 896M on x86 to be back compatible with the case in which
-normal kernel is x86_64, while kdump kernel could be i386. Then customer
-complained why crashkernel=xM can't be put anywhere so that they don't
-need to know the details of limited low memory and huge high memory fact 
-in system.
+On Fri, May 6, 2022 at 7:41 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Fri, May 6, 2022 at 1:26 PM WANG Xuerui <kernel@xen0n.name> wrote:
+> > On 5/6/22 16:14, Ard Biesheuvel wrote:
+>
+> > Or is there compatibility at all?
+> >
+> > It turns out that this port is already incompatible with shipped
+> > systems, in other ways, at least since the March revision or so.
+>
+> I think we can treat user space compatibility separately from firmware
+> compatibility.
+>
+> > So, in effect, this port is starting from scratch, and taking the chance
+> > to fix early mistakes and oversights all over; hence my opinion is,
+> > better do the Right Thing (tm) and give the generic codepath a chance.
+> >
+> > For the Loongson devs: at least, declare the struct boot_params flow
+> > deprecated from day one, then work to eliminate it from future products,
+> > if you really don't want to delay merging even further (it's already
+> > unlikely to land in 5.19, given the discussion happening in LKML [3]).
+> > It's not embarrassing to admit mistakes; we all make mistakes, and
+> > what's important is to learn from them so we don't collectively repeat
+> > ourselves.
+>
+> Agreed. I think there can be limited compatibility support for old
+> firmware though, at least to help with the migration: As long as
+> the interface between grub and linux has a proper definition following
+> the normal UEFI standard, there can be both a modern grub
+> that is booted using the same protocol and a backwards-compatible
+> grub that can be booted from existing firmware and that is able
+> to boot the kernel.
+>
+> The compatibility version of grub can be retired after the firmware
+> itself is able to speak the normal boot protocol.
+After an internal discussion, we decide to use the generic stub, and
+we have a draft version of generic stub now[1]. I hope V10 can solve
+all problems. :)
+[1] https://github.com/loongson/linux/tree/loongarch-next-generic-stub
 
-The implementation of fallback is truly complicated, but its use is
-quite simple. And it makes crashkernel reservation setting simple.
-Most of users don't need to know crashkernel=,high, ,low things, unless
-the crashkernel region is too big. Nobody wants to take away 1G or more
-from low memory for kdump just in case bad thing happens, while normal
-kernel itself is seriously impacted by limited low memory.
-
-> 
-> //parse crashkernel=X		//To simplify the discussion, Ignore [@offset]
-> crash_base = memblock_phys_alloc_range()
-> if (!crash_base || /* crashkernel=X is not specified */) {
-> 	//parse crashkernel=X,[high,low]
-> 	//reserve high/low memory
-> }
-> 
-> So that, the following three modes are supported:
-> 1) crashkernel=X[@offset]
-> 2) crashkernel=X,high crashkernel=X,low
-> 3) crashkernel=X[@offset] crashkernel=X,high [crashkernel=Y,low]
-> 
-> For case 3), try "crashkernel=X[@offset]" first, if it can not work, fallback
-> to "crashkernel=X,high crashkernel=X,low". This looks better than the old "crashkernel=X"
-> fallback ---- Select a region under 4G first, and fall back to reserve region above 4G.
-
-Don't get it. Aren't they the same?
-
-> 
-> Note: when the X of crashkernel=X and crashkernel=X,high are the same, It's equivalent
-> to the old "crashkernel=X" fallback.
-> 
-> > if we want a fallback, it would come just before the check the above:
-> > 
-> > 	if (!crash_base && crash_max != CRASH_ADDR_HIGH_MAX) {
-> > 		/* attempt high allocation with default low */
-> > 		if (!crash_low_size)
-> > 			crash_low_size = some default;
-> > 		crash_max = CRASH_ADDR_LOW_MAX;
-> 
-> crash_max = CRASH_ADDR_HIGH_MAX; We should fallback to high memory now.
-> 
-> > 		crash_base = memblock_phys_alloc_range();
-> > 	}
-> > 
-> > Well, I guess we end up with your earlier proposal but I think I
-> > understand it better now ;).
-> > 
-> 
-> -- 
-> Regards,
->   Zhen Lei
-> 
-
+Huacai
+>
+>        Arnd
