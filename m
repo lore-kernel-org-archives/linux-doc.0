@@ -2,190 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F07C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 16:15:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D7D7C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 16:25:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1443680AbiEFQTk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 12:19:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56364 "EHLO
+        id S1348275AbiEFQ2m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 12:28:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350965AbiEFQTb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 12:19:31 -0400
-Received: from smtp-8fac.mail.infomaniak.ch (smtp-8fac.mail.infomaniak.ch [83.166.143.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4487B1C91B
-        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 09:15:28 -0700 (PDT)
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4KvwW75PktzMqM7f;
-        Fri,  6 May 2022 18:09:39 +0200 (CEST)
-Received: from localhost (unknown [23.97.221.149])
-        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4KvwW73WLgzlhMCP;
-        Fri,  6 May 2022 18:09:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1651853379;
-        bh=WWNRQ19+3mWgBHmkLRtmrX/2h9OEiGSjuF8l6CdIuqg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ShBFszEd2forAEhIC9IH6Djm9WePPqIizgdn54EFEml8yiBQeyU4eoFXnlIsRsR+X
-         VRsJTlXoLaBiBNpz4kFED2kmUn43rf9OIkdAsIHubad0Ul6n7VwnciI6swntXSAAvY
-         hy2SSoZHsA0HlIiVWmNeoJxXV0HwJbtAEFrMDxLE=
-From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>
-Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jann Horn <jannh@google.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Kees Cook <keescook@chromium.org>,
-        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: [PATCH v3 02/12] landlock: Reduce the maximum number of layers to 16
-Date:   Fri,  6 May 2022 18:10:52 +0200
-Message-Id: <20220506161102.525323-3-mic@digikod.net>
-In-Reply-To: <20220506161102.525323-1-mic@digikod.net>
-References: <20220506161102.525323-1-mic@digikod.net>
+        with ESMTP id S1443771AbiEFQ2k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 12:28:40 -0400
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B4156EB13
+        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 09:24:56 -0700 (PDT)
+Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-ee1e7362caso3595524fac.10
+        for <linux-doc@vger.kernel.org>; Fri, 06 May 2022 09:24:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=MJNi1mbSdob7+bt9cuYWkkcjxTPYJe7q5XVeyN3mbE0=;
+        b=hxbKsuJmP/J8sgmfTX8++VCbHxMkma3TtffIjfk/un+FrHSMF/iF8j5Ass5FMe/NBi
+         nPb4sbJeG7pvEDbr5U2Z1uLMlkQ4CXen/ReSeNCjpjj46WW1MKMZyU1unDGH6JZDUzPt
+         5HH1O5CXOIjZqPst9/Vvf6ZSQt7KHZSbZHWPUL53o3tQ8Ra+qG0bUQ3o+64XOEpQ/Vti
+         CHj8Xc5vLsVd6+225+OrnS6K6CPUPIqzTc+tVXwKj6mKDEg+AAh3kkrKe/ez9Xy6gGND
+         6+NdBlwjQXW5yNdLIwICdIUw7JXpLg2YvwXdDfNI1Z6ZhiA8p5tMJCEBw/G6xHYEZ057
+         aT2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=MJNi1mbSdob7+bt9cuYWkkcjxTPYJe7q5XVeyN3mbE0=;
+        b=yZDFXdZAk00Zy1oWRmzCmnHLpc60rF706BQY/Z1wJyX4KzElTBMzh1pZoqwbOxEQDE
+         mTTUOWZqPHZooxs5kS0f5d2uqTZIm90A3HSTldierGn5HDrGR7S8HDoqzKpPeAjcp1Jk
+         LPLPb1rAwOkQ7PZHePBpRM2EvGMP8WxQDQTO2TfOVjyfTXBkZnriYKKvprlQhpiXfbzW
+         foSAx/tOU14RT839/4f8gRFRxlBDtQXUuA8WpivNmLGEM5YKd+dBlHhbBUB3H8dMydwE
+         Tr9l3D8vU6i1Klf3/BY4aNdnFn0AZ3n9BB0ZIWhqBDMnD33lGGXlJbnMijmSxFylPANP
+         j3eA==
+X-Gm-Message-State: AOAM532OI5kEhsupkTjQBb3Xqw1oj/aDUWh7ehf3kXnPscbqj6cQp7O9
+        0RMifsuFvRI2RFPTvKHrqq7VUA==
+X-Google-Smtp-Source: ABdhPJzRPABBMXOCHct7MUr2JDfjknHPxMsUWZxuLfH7VhK2lkNZtaisjFtIeEQ941TOXMLluM+umQ==
+X-Received: by 2002:a05:6870:414d:b0:ed:5585:7436 with SMTP id r13-20020a056870414d00b000ed55857436mr1682804oad.29.1651854295970;
+        Fri, 06 May 2022 09:24:55 -0700 (PDT)
+Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id a204-20020acab1d5000000b00325643bce40sm1832260oif.0.2022.05.06.09.24.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 May 2022 09:24:55 -0700 (PDT)
+Date:   Fri, 6 May 2022 09:27:29 -0700
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
+        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Doug Anderson <dianders@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
+Message-ID: <YnVMcaRV86jZslhd@ripper>
+References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
+ <20220303214300.59468-2-bjorn.andersson@linaro.org>
+ <20220504073009.GC8204@duo.ucw.cz>
+ <YnKTAvQc6eDxTl14@ripper>
+ <20220506160901.GA1199@bug>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220506160901.GA1199@bug>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The maximum number of nested Landlock domains is currently 64.  Because
-of the following fix and to help reduce the stack size, let's reduce it
-to 16.  This seems large enough for a lot of use cases (e.g. sandboxed
-init service, spawning a sandboxed SSH service, in nested sandboxed
-containers).  Reducing the number of nested domains may also help to
-discover misuse of Landlock (e.g. creating a domain per rule).
+On Fri 06 May 09:09 PDT 2022, Pavel Machek wrote:
 
-Add and use a dedicated layer_mask_t typedef to fit with the number of
-layers.  This might be useful when changing it and to keep it consistent
-with the maximum number of layers.
+> Hi!
+> 
+> > > > +    "255 500 0 500"
+> > > > +
+> > > > +        ^
+> > > > +        |
+> > > > +    255 +----+    +----+
+> > > > +        |    |    |    |      ...
+> > > > +      0 |    +----+    +----
+> > > > +        +---------------------->
+> > > > +        0    5   10   15     time (100ms)
+> > > > +
+> > > > +The LPG supports specifying a longer hold-time for the first and last element
+> > > > +in the pattern, the so called "low pause" and "high pause".
+> > > 
+> > > Please see
+> > > Documentation/devicetree/bindings/leds/leds-trigger-pattern.txt . This
+> > > should really be compatible.
+> > 
+> > Unfortunately the LPG hardware only supports fixed duration (except for
+> > the ability to hold/extend the first and last duration in the pattern)
+> > and it also does not support gradual transition between the brightness
+> > levels.
+> 
+> Ok.
+> 
+> > As such the pattern sequence provided to hw_pattern looks to be the
+> > smae, but I don't see that it can be made compatible.
+> > 
+> > > Can I get either patch to disable pattern infrastructure for now or to
+> > > get it compatible?
+> > > 
+> > 
+> > I'd be happy to get this updated to your liking, but this was one of the
+> > drivers we discussed when we introduced the pattern trigger and led to
+> > the conclusion that we need the ability to do hw-specific patterns.
+> > 
+> > As such this document provides the hardware specific documentation, as
+> > we describe under "hw_pattern" in
+> > Documentation/ABI/testing/sysfs-class-led-trigger-pattern.
+> > 
+> > Please advice on what you would like me to do.
+> 
+> I'd like you to use same format leds-trigger-pattern describes.
+> 
+> If someone passes "255 500 0 500", that's requesting gradual transitions and
+> your hw can not do that. You return -EINVAL.
+> 
+> If someone wants that kind of blinking, they need to pass "255 0 255 500 0 0 0 500".
+> 
 
-Reviewed-by: Paul Moore <paul@paul-moore.com>
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Link: https://lore.kernel.org/r/20220506161102.525323-3-mic@digikod.net
----
+So the section under hw_pattern in sysfs-class-led-trigger-pattern that
+says:
 
-Changes since v2:
-* Format with clang-format and rebase.
+"Since different LED hardware can have different semantics of
+hardware patterns, each driver is expected to provide its own
+description for the hardware patterns in their documentation
+file at Documentation/leds/."
 
-Changes since v1:
-* Add Reviewed-by: Paul Moore.
-* Update documentation to reflect this change.
----
- Documentation/userspace-api/landlock.rst   |  4 ++--
- security/landlock/fs.c                     | 17 +++++++----------
- security/landlock/limits.h                 |  2 +-
- security/landlock/ruleset.h                |  4 ++++
- tools/testing/selftests/landlock/fs_test.c |  2 +-
- 5 files changed, 15 insertions(+), 14 deletions(-)
+That doesn't apply to this piece of hardware & driver?
 
-diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-index f35552ff19ba..b68e7a51009f 100644
---- a/Documentation/userspace-api/landlock.rst
-+++ b/Documentation/userspace-api/landlock.rst
-@@ -267,8 +267,8 @@ restrict such paths with dedicated ruleset flags.
- Ruleset layers
- --------------
- 
--There is a limit of 64 layers of stacked rulesets.  This can be an issue for a
--task willing to enforce a new ruleset in complement to its 64 inherited
-+There is a limit of 16 layers of stacked rulesets.  This can be an issue for a
-+task willing to enforce a new ruleset in complement to its 16 inherited
- rulesets.  Once this limit is reached, sys_landlock_restrict_self() returns
- E2BIG.  It is then strongly suggested to carefully build rulesets once in the
- life of a thread, especially for applications able to launch other applications
-diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-index d4006add8bdf..f48c0a3b1e75 100644
---- a/security/landlock/fs.c
-+++ b/security/landlock/fs.c
-@@ -183,10 +183,10 @@ int landlock_append_fs_rule(struct landlock_ruleset *const ruleset,
- 
- /* Access-control management */
- 
--static inline u64 unmask_layers(const struct landlock_ruleset *const domain,
--				const struct path *const path,
--				const access_mask_t access_request,
--				u64 layer_mask)
-+static inline layer_mask_t
-+unmask_layers(const struct landlock_ruleset *const domain,
-+	      const struct path *const path, const access_mask_t access_request,
-+	      layer_mask_t layer_mask)
- {
- 	const struct landlock_rule *rule;
- 	const struct inode *inode;
-@@ -212,11 +212,11 @@ static inline u64 unmask_layers(const struct landlock_ruleset *const domain,
- 	 */
- 	for (i = 0; i < rule->num_layers; i++) {
- 		const struct landlock_layer *const layer = &rule->layers[i];
--		const u64 layer_level = BIT_ULL(layer->level - 1);
-+		const layer_mask_t layer_bit = BIT_ULL(layer->level - 1);
- 
- 		/* Checks that the layer grants access to the full request. */
- 		if ((layer->access & access_request) == access_request) {
--			layer_mask &= ~layer_level;
-+			layer_mask &= ~layer_bit;
- 
- 			if (layer_mask == 0)
- 				return layer_mask;
-@@ -231,12 +231,9 @@ static int check_access_path(const struct landlock_ruleset *const domain,
- {
- 	bool allowed = false;
- 	struct path walker_path;
--	u64 layer_mask;
-+	layer_mask_t layer_mask;
- 	size_t i;
- 
--	/* Make sure all layers can be checked. */
--	BUILD_BUG_ON(BITS_PER_TYPE(layer_mask) < LANDLOCK_MAX_NUM_LAYERS);
--
- 	if (!access_request)
- 		return 0;
- 	if (WARN_ON_ONCE(!domain || !path))
-diff --git a/security/landlock/limits.h b/security/landlock/limits.h
-index 41372f22837f..17c2a2e7fe1e 100644
---- a/security/landlock/limits.h
-+++ b/security/landlock/limits.h
-@@ -15,7 +15,7 @@
- 
- /* clang-format off */
- 
--#define LANDLOCK_MAX_NUM_LAYERS		64
-+#define LANDLOCK_MAX_NUM_LAYERS		16
- #define LANDLOCK_MAX_NUM_RULES		U32_MAX
- 
- #define LANDLOCK_LAST_ACCESS_FS		LANDLOCK_ACCESS_FS_MAKE_SYM
-diff --git a/security/landlock/ruleset.h b/security/landlock/ruleset.h
-index 8d5717594931..521af2848951 100644
---- a/security/landlock/ruleset.h
-+++ b/security/landlock/ruleset.h
-@@ -23,6 +23,10 @@ typedef u16 access_mask_t;
- /* Makes sure all filesystem access rights can be stored. */
- static_assert(BITS_PER_TYPE(access_mask_t) >= LANDLOCK_NUM_ACCESS_FS);
- 
-+typedef u16 layer_mask_t;
-+/* Makes sure all layers can be checked. */
-+static_assert(BITS_PER_TYPE(layer_mask_t) >= LANDLOCK_MAX_NUM_LAYERS);
-+
- /**
-  * struct landlock_layer - Access rights for a given layer
-  */
-diff --git a/tools/testing/selftests/landlock/fs_test.c b/tools/testing/selftests/landlock/fs_test.c
-index a8f54c4462eb..e13f046a172a 100644
---- a/tools/testing/selftests/landlock/fs_test.c
-+++ b/tools/testing/selftests/landlock/fs_test.c
-@@ -1159,7 +1159,7 @@ TEST_F_FORK(layout1, max_layers)
- 	const int ruleset_fd = create_ruleset(_metadata, ACCESS_RW, rules);
- 
- 	ASSERT_LE(0, ruleset_fd);
--	for (i = 0; i < 64; i++)
-+	for (i = 0; i < 16; i++)
- 		enforce_ruleset(_metadata, ruleset_fd);
- 
- 	for (i = 0; i < 2; i++) {
--- 
-2.35.1
 
+Or is the sysfs documentation simply not reflecting what has been
+decided of how this interface should look like?
+
+Regards,
+Bjorn
