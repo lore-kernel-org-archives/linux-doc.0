@@ -2,144 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D7D7C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 16:25:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A895C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 16:29:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348275AbiEFQ2m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 12:28:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34656 "EHLO
+        id S1348771AbiEFQdj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 12:33:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1443771AbiEFQ2k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 12:28:40 -0400
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B4156EB13
-        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 09:24:56 -0700 (PDT)
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-ee1e7362caso3595524fac.10
-        for <linux-doc@vger.kernel.org>; Fri, 06 May 2022 09:24:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=MJNi1mbSdob7+bt9cuYWkkcjxTPYJe7q5XVeyN3mbE0=;
-        b=hxbKsuJmP/J8sgmfTX8++VCbHxMkma3TtffIjfk/un+FrHSMF/iF8j5Ass5FMe/NBi
-         nPb4sbJeG7pvEDbr5U2Z1uLMlkQ4CXen/ReSeNCjpjj46WW1MKMZyU1unDGH6JZDUzPt
-         5HH1O5CXOIjZqPst9/Vvf6ZSQt7KHZSbZHWPUL53o3tQ8Ra+qG0bUQ3o+64XOEpQ/Vti
-         CHj8Xc5vLsVd6+225+OrnS6K6CPUPIqzTc+tVXwKj6mKDEg+AAh3kkrKe/ez9Xy6gGND
-         6+NdBlwjQXW5yNdLIwICdIUw7JXpLg2YvwXdDfNI1Z6ZhiA8p5tMJCEBw/G6xHYEZ057
-         aT2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=MJNi1mbSdob7+bt9cuYWkkcjxTPYJe7q5XVeyN3mbE0=;
-        b=yZDFXdZAk00Zy1oWRmzCmnHLpc60rF706BQY/Z1wJyX4KzElTBMzh1pZoqwbOxEQDE
-         mTTUOWZqPHZooxs5kS0f5d2uqTZIm90A3HSTldierGn5HDrGR7S8HDoqzKpPeAjcp1Jk
-         LPLPb1rAwOkQ7PZHePBpRM2EvGMP8WxQDQTO2TfOVjyfTXBkZnriYKKvprlQhpiXfbzW
-         foSAx/tOU14RT839/4f8gRFRxlBDtQXUuA8WpivNmLGEM5YKd+dBlHhbBUB3H8dMydwE
-         Tr9l3D8vU6i1Klf3/BY4aNdnFn0AZ3n9BB0ZIWhqBDMnD33lGGXlJbnMijmSxFylPANP
-         j3eA==
-X-Gm-Message-State: AOAM532OI5kEhsupkTjQBb3Xqw1oj/aDUWh7ehf3kXnPscbqj6cQp7O9
-        0RMifsuFvRI2RFPTvKHrqq7VUA==
-X-Google-Smtp-Source: ABdhPJzRPABBMXOCHct7MUr2JDfjknHPxMsUWZxuLfH7VhK2lkNZtaisjFtIeEQ941TOXMLluM+umQ==
-X-Received: by 2002:a05:6870:414d:b0:ed:5585:7436 with SMTP id r13-20020a056870414d00b000ed55857436mr1682804oad.29.1651854295970;
-        Fri, 06 May 2022 09:24:55 -0700 (PDT)
-Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id a204-20020acab1d5000000b00325643bce40sm1832260oif.0.2022.05.06.09.24.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 May 2022 09:24:55 -0700 (PDT)
-Date:   Fri, 6 May 2022 09:27:29 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Doug Anderson <dianders@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
-Message-ID: <YnVMcaRV86jZslhd@ripper>
-References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
- <20220303214300.59468-2-bjorn.andersson@linaro.org>
- <20220504073009.GC8204@duo.ucw.cz>
- <YnKTAvQc6eDxTl14@ripper>
- <20220506160901.GA1199@bug>
+        with ESMTP id S236383AbiEFQdi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 12:33:38 -0400
+Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc0a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 031426E8CF;
+        Fri,  6 May 2022 09:29:54 -0700 (PDT)
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4KvwyT4LLBzMpt82;
+        Fri,  6 May 2022 18:29:53 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4KvwyS25M7zlhRVT;
+        Fri,  6 May 2022 18:29:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1651854593;
+        bh=5oj7hdI4Rj2ExwGYaOYEvvUzEy2tnYUuMitHlfxtsZs=;
+        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+        b=eti4l+QSiv/912WPo99HWiKwdLRXF7I+vnsJ8P71DmSJkPUK5qdYZjhpVZ2qHvkWp
+         QOF62IJbqEhi3Lyi46H0spdGplVO0Xhch7bo/QNYPYA8KQ6BDy2XX1JhhLMFVxp5Sn
+         lg1uCApeKQEZBKS/+hAkimmuhDoHbgik4Alg1eKU=
+Message-ID: <d6a6d963-a8d3-0f21-c35e-9d430c6f19ea@digikod.net>
+Date:   Fri, 6 May 2022 18:31:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220506160901.GA1199@bug>
+User-Agent: 
+Content-Language: en-US
+To:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>, Jann Horn <jannh@google.com>,
+        John Johansen <john.johansen@canonical.com>,
+        Kees Cook <keescook@chromium.org>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+References: <20220506161102.525323-1-mic@digikod.net>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Subject: Re: [PATCH v3 00/12] Landlock: file linking and renaming support
+In-Reply-To: <20220506161102.525323-1-mic@digikod.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 06 May 09:09 PDT 2022, Pavel Machek wrote:
+The four related patch series are available here: 
+https://git.kernel.org/pub/scm/linux/kernel/git/mic/linux.git/log/?h=landlock-wip
 
-> Hi!
+On 06/05/2022 18:10, Mickaël Salaün wrote:
+> Hi,
 > 
-> > > > +    "255 500 0 500"
-> > > > +
-> > > > +        ^
-> > > > +        |
-> > > > +    255 +----+    +----+
-> > > > +        |    |    |    |      ...
-> > > > +      0 |    +----+    +----
-> > > > +        +---------------------->
-> > > > +        0    5   10   15     time (100ms)
-> > > > +
-> > > > +The LPG supports specifying a longer hold-time for the first and last element
-> > > > +in the pattern, the so called "low pause" and "high pause".
-> > > 
-> > > Please see
-> > > Documentation/devicetree/bindings/leds/leds-trigger-pattern.txt . This
-> > > should really be compatible.
-> > 
-> > Unfortunately the LPG hardware only supports fixed duration (except for
-> > the ability to hold/extend the first and last duration in the pattern)
-> > and it also does not support gradual transition between the brightness
-> > levels.
+> This third patch series is mostly a rebase with some whitespace changes
+> because of clang-format.  There is also some new "unlikely()" calls and
+> minor code cleanup.
 > 
-> Ok.
+> Test coverage for security/landlock was 94.4% of 504 lines (with the
+> previous patch series), and it is now 95.4% of 604 lines according to
+> gcc/gcov-11.
 > 
-> > As such the pattern sequence provided to hw_pattern looks to be the
-> > smae, but I don't see that it can be made compatible.
-> > 
-> > > Can I get either patch to disable pattern infrastructure for now or to
-> > > get it compatible?
-> > > 
-> > 
-> > I'd be happy to get this updated to your liking, but this was one of the
-> > drivers we discussed when we introduced the pattern trigger and led to
-> > the conclusion that we need the ability to do hw-specific patterns.
-> > 
-> > As such this document provides the hardware specific documentation, as
-> > we describe under "hw_pattern" in
-> > Documentation/ABI/testing/sysfs-class-led-trigger-pattern.
-> > 
-> > Please advice on what you would like me to do.
+> Problem
+> =======
 > 
-> I'd like you to use same format leds-trigger-pattern describes.
+> One of the most annoying limitations of Landlock is that sandboxed
+> processes can only link and rename files to the same directory (i.e.
+> file reparenting is always denied).  Indeed, because of the unprivileged
+> nature of Landlock, file hierarchy are identified thanks to ephemeral
+> inode tagging, which may cause arbitrary renaming and linking to change
+> the security policy in an unexpected way.
 > 
-> If someone passes "255 500 0 500", that's requesting gradual transitions and
-> your hw can not do that. You return -EINVAL.
+> Solution
+> ========
 > 
-> If someone wants that kind of blinking, they need to pass "255 0 255 500 0 0 0 500".
+> This patch series brings a new access right, LANDLOCK_ACCESS_FS_REFER,
+> which enables to allow safe file linking and renaming.  In a nutshell,
+> Landlock checks that the inherited access rights of a moved or renamed
+> file cannot increase but only reduce.  Eleven new test suits cover file
+> renaming and linking, which improves test coverage.
 > 
-
-So the section under hw_pattern in sysfs-class-led-trigger-pattern that
-says:
-
-"Since different LED hardware can have different semantics of
-hardware patterns, each driver is expected to provide its own
-description for the hardware patterns in their documentation
-file at Documentation/leds/."
-
-That doesn't apply to this piece of hardware & driver?
-
-
-Or is the sysfs documentation simply not reflecting what has been
-decided of how this interface should look like?
-
-Regards,
-Bjorn
+> The documentation and the tutorial is extended with this new access
+> right, along with more explanations about backward and forward
+> compatibility, good practices, and a bit about the current access
+> rights rational.
+> 
+> While developing this new feature, I also found an issue with the
+> current implementation of Landlock.  In some (rare) cases, sandboxed
+> processes may be more restricted than intended.  Indeed, because of the
+> current way to check file hierarchy access rights, composition of rules
+> may be incomplete when requesting multiple accesses at the same time.
+> This is fixed with a dedicated patch involving some refactoring.  A new
+> test suite checks relevant new edge cases.
+> 
+> As a side effect, and to limit the increased use of the stack, I reduced
+> the number of Landlock nested domains from 64 to 16.  I think this
+> should be more than enough for legitimate use cases, but feel free to
+> challenge this decision with real and legitimate use cases.
+> 
+> Additionally, a new dedicated syzkaller test has been developed to cover
+> new paths.
+> 
+> This patch series is based on and was developed with some complementary
+> new tests sent in a standalone patch series:
+> https://lore.kernel.org/r/20220506160820.524344-1-mic@digikod.net
+> 
+> Previous versions:
+> v2: https://lore.kernel.org/r/20220329125117.1393824-1-mic@digikod.net
+> v1: https://lore.kernel.org/r/20220221212522.320243-1-mic@digikod.net
+> 
+> Regards,
+> 
+> Mickaël Salaün (12):
+>    landlock: Define access_mask_t to enforce a consistent access mask
+>      size
+>    landlock: Reduce the maximum number of layers to 16
+>    landlock: Create find_rule() from unmask_layers()
+>    landlock: Fix same-layer rule unions
+>    landlock: Move filesystem helpers and add a new one
+>    LSM: Remove double path_rename hook calls for RENAME_EXCHANGE
+>    landlock: Add support for file reparenting with
+>      LANDLOCK_ACCESS_FS_REFER
+>    selftests/landlock: Add 11 new test suites dedicated to file
+>      reparenting
+>    samples/landlock: Add support for file reparenting
+>    landlock: Document LANDLOCK_ACCESS_FS_REFER and ABI versioning
+>    landlock: Document good practices about filesystem policies
+>    landlock: Add design choices documentation for filesystem access
+>      rights
+> 
+>   Documentation/security/landlock.rst          |   17 +-
+>   Documentation/userspace-api/landlock.rst     |  151 ++-
+>   include/linux/lsm_hook_defs.h                |    2 +-
+>   include/linux/lsm_hooks.h                    |    1 +
+>   include/uapi/linux/landlock.h                |   27 +-
+>   samples/landlock/sandboxer.c                 |   40 +-
+>   security/apparmor/lsm.c                      |   30 +-
+>   security/landlock/fs.c                       |  771 ++++++++++---
+>   security/landlock/fs.h                       |    2 +-
+>   security/landlock/limits.h                   |    6 +-
+>   security/landlock/ruleset.c                  |    6 +-
+>   security/landlock/ruleset.h                  |   22 +-
+>   security/landlock/syscalls.c                 |    2 +-
+>   security/security.c                          |    9 +-
+>   security/tomoyo/tomoyo.c                     |   11 +-
+>   tools/testing/selftests/landlock/base_test.c |    2 +-
+>   tools/testing/selftests/landlock/fs_test.c   | 1039 ++++++++++++++++--
+>   17 files changed, 1853 insertions(+), 285 deletions(-)
+> 
+> 
+> base-commit: 4b0cdb0cf6eefa7521322007931ccfb7edc96c53
