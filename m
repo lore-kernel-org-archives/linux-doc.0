@@ -2,40 +2,40 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07458C4167D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 618ABC4167E
 	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 01:40:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1388004AbiEFBoa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 5 May 2022 21:44:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
+        id S1388016AbiEFBob (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 5 May 2022 21:44:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387990AbiEFBo2 (ORCPT
+        with ESMTP id S1387992AbiEFBo2 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 5 May 2022 21:44:28 -0400
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD1DA57131;
-        Thu,  5 May 2022 18:40:46 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AE1B5BD36;
+        Thu,  5 May 2022 18:40:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651801246; x=1683337246;
+  t=1651801247; x=1683337247;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=DhSGJxGF7SsqY8pphIVSqqNZ4YAjw315eAisL8CT1kQ=;
-  b=fPr0kekTtZlb6ev9xVR1yxPYnLXFFJCJS7vydOlnSfHpPpY0CmBA4krx
-   HJZoL11h3fRvGZBvaDw+6BLrn3g5H3pWTe+1WbEG4BsfmnSViXwiHmCZJ
-   fZG8hzuyiW+GRahPBPqsPdbnjxhUzdBce9k9mz1Bozsq1JWxzRg2EgWxF
-   QhMR5T8lJBRlH8VVE/gueWNhZMlENyth7LsiHv8osYDoGqAyLIszj0GAa
-   TxvdrbYBChC8fM4geL+WQQRhPrbZ4tcKEKRkRxbSo86m5keRTL3Kure7I
-   iwyrWgqfUwPd/kXaqr/XqDD5ugnWYMS58TnJ2z625zWxYOxUWDGodCym8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="293519426"
+  bh=MYSh0ikaKtRZ32y+j+FGoa2BpcHcDUqd1Dhnwhabyo4=;
+  b=l3hqCpD66FXhF6J2v3l6wgKmNL8MRqt0twd+Bds8TJicGauPNqWbBQXN
+   PRbnQdsLlJQhcx50ioX9NzISKDouN5ULTcxcUyZuUPLaPvctSm6LfghG9
+   Y7VNIeoormNPK3PlGFBc21WIkuQ+ung2ggM7AsfO910rTQEAXUTLHCwsG
+   hlHlgiOtRxXEtneU5rl/gOtMJxjgPf6l2F5glDFbANuuEcWPt4a6yn/4X
+   wEsF6xZkkd6c/J+uFpsHnxhRlWHUIsVkpo63shfgzzLBc5ybDh1bjPk6r
+   JySxkNEAkFEIC/89eyiTsOBH2HCKTSuV5Sbk5JYnhDrOzV4xThKlb+iVv
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="293519431"
 X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; 
-   d="scan'208";a="293519426"
+   d="scan'208";a="293519431"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 18:40:45 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 18:40:46 -0700
 X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; 
-   d="scan'208";a="537645025"
+   d="scan'208";a="537645034"
 Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 18:40:44 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 18:40:45 -0700
 From:   Tony Luck <tony.luck@intel.com>
 To:     hdegoede@redhat.com, markgross@kernel.org
 Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
@@ -45,11 +45,10 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         ashok.raj@intel.com, tony.luck@intel.com, rostedt@goodmis.org,
         dan.j.williams@intel.com, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        patches@lists.linux.dev, ravi.v.shankar@intel.com,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: [PATCH v6 03/11] stop_machine: Add stop_core_cpuslocked() for per-core operations
-Date:   Thu,  5 May 2022 18:40:27 -0700
-Message-Id: <20220506014035.1173578-4-tony.luck@intel.com>
+        patches@lists.linux.dev, ravi.v.shankar@intel.com
+Subject: [PATCH v6 05/11] platform/x86/intel/ifs: Read IFS firmware image
+Date:   Thu,  5 May 2022 18:40:29 -0700
+Message-Id: <20220506014035.1173578-6-tony.luck@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220506014035.1173578-1-tony.luck@intel.com>
 References: <20220428153849.295779-1-tony.luck@intel.com>
@@ -60,79 +59,164 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Peter Zijlstra <peterz@infradead.org>
+From: Jithu Joseph <jithu.joseph@intel.com>
 
-Hardware core level testing features require near simultaneous execution
-of WRMSR instructions on all threads of a core to initiate a test.
+Driver probe routine allocates structure to communicate status
+and parameters between functions in the driver. Also call
+load_ifs_binary() to load the scan image file.
 
-Provide a customized cut down version of stop_machine_cpuslocked() that
-just operates on the threads of a single core.
+There is a separate scan image file for each processor family,
+model, stepping combination. This is read from the static path:
 
-Suggested-by: Thomas Gleixner <tglx@linutronix.de>
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+  /lib/firmware/intel/ifs/{ff-mm-ss}.scan
+
+Step 1 in loading is to generate the correct path and use
+request_firmware_direct() to load into memory.
+
+Subsequent patches will use the IFS MSR interfaces to copy
+the image to BIOS reserved memory and validate the SHA256
+checksums.
+
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+Signed-off-by: Jithu Joseph <jithu.joseph@intel.com>
+Co-developed-by: Tony Luck <tony.luck@intel.com>
 Signed-off-by: Tony Luck <tony.luck@intel.com>
+Acked-by: Hans de Goede <hdegoede@redhat.com>
+Reviewed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- include/linux/stop_machine.h | 16 ++++++++++++++++
- kernel/stop_machine.c        | 19 +++++++++++++++++++
- 2 files changed, 35 insertions(+)
+ drivers/platform/x86/intel/ifs/Makefile |  2 +-
+ drivers/platform/x86/intel/ifs/core.c   | 22 ++++++++++++++++++-
+ drivers/platform/x86/intel/ifs/ifs.h    | 25 ++++++++++++++++++++++
+ drivers/platform/x86/intel/ifs/load.c   | 28 +++++++++++++++++++++++++
+ 4 files changed, 75 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/platform/x86/intel/ifs/ifs.h
+ create mode 100644 drivers/platform/x86/intel/ifs/load.c
 
-diff --git a/include/linux/stop_machine.h b/include/linux/stop_machine.h
-index 46fb3ebdd16e..ea7a74ea7389 100644
---- a/include/linux/stop_machine.h
-+++ b/include/linux/stop_machine.h
-@@ -124,6 +124,22 @@ int stop_machine(cpu_stop_fn_t fn, void *data, const struct cpumask *cpus);
-  */
- int stop_machine_cpuslocked(cpu_stop_fn_t fn, void *data, const struct cpumask *cpus);
+diff --git a/drivers/platform/x86/intel/ifs/Makefile b/drivers/platform/x86/intel/ifs/Makefile
+index af904880e959..98b6fde15689 100644
+--- a/drivers/platform/x86/intel/ifs/Makefile
++++ b/drivers/platform/x86/intel/ifs/Makefile
+@@ -1,3 +1,3 @@
+ obj-$(CONFIG_INTEL_IFS)		+= intel_ifs.o
  
-+/**
-+ * stop_core_cpuslocked: - stop all threads on just one core
-+ * @cpu: any cpu in the targeted core
-+ * @fn: the function to run
-+ * @data: the data ptr for @fn()
-+ *
-+ * Same as above, but instead of every CPU, only the logical CPUs of a
-+ * single core are affected.
-+ *
-+ * Context: Must be called from within a cpus_read_lock() protected region.
-+ *
-+ * Return: 0 if all executions of @fn returned 0, any non zero return
-+ * value if any returned non zero.
-+ */
-+int stop_core_cpuslocked(unsigned int cpu, cpu_stop_fn_t fn, void *data);
+-intel_ifs-objs			:= core.o
++intel_ifs-objs			:= core.o load.o
+diff --git a/drivers/platform/x86/intel/ifs/core.c b/drivers/platform/x86/intel/ifs/core.c
+index e3623ac691b5..f62578dae8e9 100644
+--- a/drivers/platform/x86/intel/ifs/core.c
++++ b/drivers/platform/x86/intel/ifs/core.c
+@@ -6,6 +6,8 @@
+ 
+ #include <asm/cpu_device_id.h>
+ 
++#include "ifs.h"
 +
- int stop_machine_from_inactive_cpu(cpu_stop_fn_t fn, void *data,
- 				   const struct cpumask *cpus);
- #else	/* CONFIG_SMP || CONFIG_HOTPLUG_CPU */
-diff --git a/kernel/stop_machine.c b/kernel/stop_machine.c
-index cbc30271ea4d..579761729836 100644
---- a/kernel/stop_machine.c
-+++ b/kernel/stop_machine.c
-@@ -633,6 +633,25 @@ int stop_machine(cpu_stop_fn_t fn, void *data, const struct cpumask *cpus)
+ #define X86_MATCH(model)				\
+ 	X86_MATCH_VENDOR_FAM_MODEL_FEATURE(INTEL, 6,	\
+ 		INTEL_FAM6_##model, X86_FEATURE_CORE_CAPABILITIES, NULL)
+@@ -16,6 +18,17 @@ static const struct x86_cpu_id ifs_cpu_ids[] __initconst = {
+ };
+ MODULE_DEVICE_TABLE(x86cpu, ifs_cpu_ids);
+ 
++static struct ifs_device ifs_device = {
++	.data = {
++		.integrity_cap_bit = MSR_INTEGRITY_CAPS_PERIODIC_BIST_BIT,
++	},
++	.misc = {
++		.name = "intel_ifs_0",
++		.nodename = "intel_ifs/0",
++		.minor = MISC_DYNAMIC_MINOR,
++	},
++};
++
+ static int __init ifs_init(void)
+ {
+ 	const struct x86_cpu_id *m;
+@@ -34,11 +47,18 @@ static int __init ifs_init(void)
+ 	if (rdmsrl_safe(MSR_INTEGRITY_CAPS, &msrval))
+ 		return -ENODEV;
+ 
+-	return 0;
++	if ((msrval & BIT(ifs_device.data.integrity_cap_bit)) &&
++	    !misc_register(&ifs_device.misc)) {
++		ifs_load_firmware(ifs_device.misc.this_device);
++		return 0;
++	}
++
++	return -ENODEV;
  }
- EXPORT_SYMBOL_GPL(stop_machine);
  
-+int stop_core_cpuslocked(unsigned int cpu, cpu_stop_fn_t fn, void *data)
+ static void __exit ifs_exit(void)
+ {
++	misc_deregister(&ifs_device.misc);
+ }
+ 
+ module_init(ifs_init);
+diff --git a/drivers/platform/x86/intel/ifs/ifs.h b/drivers/platform/x86/intel/ifs/ifs.h
+new file mode 100644
+index 000000000000..47e5f8344fd8
+--- /dev/null
++++ b/drivers/platform/x86/intel/ifs/ifs.h
+@@ -0,0 +1,25 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/* Copyright(c) 2022 Intel Corporation. */
++
++#ifndef _IFS_H_
++#define _IFS_H_
++
++#include <linux/device.h>
++#include <linux/miscdevice.h>
++
++/**
++ * struct ifs_data - attributes related to intel IFS driver
++ * @integrity_cap_bit - MSR_INTEGRITY_CAPS bit enumerating this test
++ */
++struct ifs_data {
++	int	integrity_cap_bit;
++};
++
++struct ifs_device {
++	struct ifs_data data;
++	struct miscdevice misc;
++};
++
++void ifs_load_firmware(struct device *dev);
++
++#endif
+diff --git a/drivers/platform/x86/intel/ifs/load.c b/drivers/platform/x86/intel/ifs/load.c
+new file mode 100644
+index 000000000000..9fb71d38c819
+--- /dev/null
++++ b/drivers/platform/x86/intel/ifs/load.c
+@@ -0,0 +1,28 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/* Copyright(c) 2022 Intel Corporation. */
++
++#include <linux/firmware.h>
++
++#include "ifs.h"
++
++/*
++ * Load ifs image. Before loading ifs module, the ifs image must be located
++ * in /lib/firmware/intel/ifs and named as {family/model/stepping}.{testname}.
++ */
++void ifs_load_firmware(struct device *dev)
 +{
-+	const struct cpumask *smt_mask = cpu_smt_mask(cpu);
++	const struct firmware *fw;
++	char scan_path[32];
++	int ret;
 +
-+	struct multi_stop_data msdata = {
-+		.fn = fn,
-+		.data = data,
-+		.num_threads = cpumask_weight(smt_mask),
-+		.active_cpus = smt_mask,
-+	};
++	snprintf(scan_path, sizeof(scan_path), "intel/ifs/%02x-%02x-%02x.scan",
++		 boot_cpu_data.x86, boot_cpu_data.x86_model, boot_cpu_data.x86_stepping);
 +
-+	lockdep_assert_cpus_held();
++	ret = request_firmware_direct(&fw, scan_path, dev);
++	if (ret) {
++		dev_err(dev, "ifs file %s load failed\n", scan_path);
++		return;
++	}
 +
-+	/* Set the initial state and stop all online cpus. */
-+	set_state(&msdata, MULTI_STOP_PREPARE);
-+	return stop_cpus(smt_mask, multi_cpu_stop, &msdata);
++	release_firmware(fw);
 +}
-+EXPORT_SYMBOL_GPL(stop_core_cpuslocked);
-+
- /**
-  * stop_machine_from_inactive_cpu - stop_machine() from inactive CPU
-  * @fn: the function to run
 -- 
 2.35.1
 
