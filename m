@@ -2,173 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2352FC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 06:03:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B1DEC43217
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 06:26:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385126AbiEFGH0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 02:07:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60136 "EHLO
+        id S241519AbiEFGab (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 02:30:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1389327AbiEFGHV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 02:07:21 -0400
-Received: from mr85p00im-ztdg06021201.me.com (mr85p00im-ztdg06021201.me.com [17.58.23.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B5AC65439
-        for <linux-doc@vger.kernel.org>; Thu,  5 May 2022 23:03:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
-        t=1651817019; bh=XtLhpzlkd6IJ/iqqi4RbtOPLw8zb7OsDLf76/KNPf5g=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version;
-        b=h8awx2K+dASrHmaXy5T0q6xnChzGBuIIC/5rOlP7bNek88MChgu8EWqxcXFR9l3G/
-         dGMwvtJYaReOr4VW+u4YezYV0qQ+WsK/evokFxHSJkUMncaZh5ouvZeujjPtEuRQe0
-         aZOr4QLcq4Isattecb4XEqxomNKFfxH2ak9FaqTjkX35uT8vYmSVRiUWnr/UzxkUMM
-         S+42p1/bueLcPNqk+oLQikxbVZ1H44AVQZ+U/kyeC7fXbAP5UYIvVaC4smJbWFjzJz
-         AZBtJtNNM59TGbag/QaaMTl7OnuT4xL79+M9Z0aCo5neuNkYwgolv3Zk4FKrwE7p1s
-         Bf86G5R1Syn/A==
-Received: from hitch.danm.net (mr38p00im-dlb-asmtp-mailmevip.me.com [17.57.152.18])
-        by mr85p00im-ztdg06021201.me.com (Postfix) with ESMTPSA id 5F4183200CA;
-        Fri,  6 May 2022 06:03:38 +0000 (UTC)
-From:   Dan Moulding <dmoulding@me.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, tglx@linutronix.de,
-        akpm@linux-foundation.org, corbet@lwn.net,
-        Dan Moulding <dmoulding@me.com>
-Subject: [PATCH v2 1/1] init: Add "hostname" kernel parameter
-Date:   Fri,  6 May 2022 00:03:10 -0600
-Message-Id: <20220506060310.7495-2-dmoulding@me.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220506060310.7495-1-dmoulding@me.com>
-References: <20220506060310.7495-1-dmoulding@me.com>
+        with ESMTP id S235522AbiEFGaU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 02:30:20 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 875105E171
+        for <linux-doc@vger.kernel.org>; Thu,  5 May 2022 23:26:38 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <afa@pengutronix.de>)
+        id 1nmrPo-0005oH-Ma; Fri, 06 May 2022 08:26:13 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <afa@pengutronix.de>)
+        id 1nmrPi-000edh-C9; Fri, 06 May 2022 08:26:05 +0200
+Received: from afa by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <afa@pengutronix.de>)
+        id 1nmrPf-004Tw9-LV; Fri, 06 May 2022 08:26:03 +0200
+From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
+To:     Jarkko Sakkinen <jarkko@kernel.org>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>
+Cc:     kernel@pengutronix.de, Pankaj Gupta <pankaj.gupta@nxp.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        =?UTF-8?q?Horia=20Geant=C4=83?= <horia.geanta@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Jan Luebbe <j.luebbe@pengutronix.de>,
+        David Gstir <david@sigma-star.at>,
+        Richard Weinberger <richard@nod.at>,
+        Franck LENORMAND <franck.lenormand@nxp.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Michael Walle <michael@walle.cc>,
+        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: [PATCH v9 7/7] MAINTAINERS: add KEYS-TRUSTED-CAAM
+Date:   Fri,  6 May 2022 08:25:53 +0200
+Message-Id: <20220506062553.1068296-8-a.fatoum@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220506062553.1068296-1-a.fatoum@pengutronix.de>
+References: <20220506062553.1068296-1-a.fatoum@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: UNbv71JAqwNs_lVFvoYwPYiAmq0eu6in
-X-Proofpoint-ORIG-GUID: UNbv71JAqwNs_lVFvoYwPYiAmq0eu6in
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.572,17.0.605.474.0000000_definitions?=
- =?UTF-8?Q?=3D2022-01-14=5F01:2022-01-14=5F01,2020-02-14=5F11,2020-01-23?=
- =?UTF-8?Q?=5F02_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 suspectscore=0 bulkscore=0
- clxscore=1015 mlxlogscore=999 spamscore=0 malwarescore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205060031
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: afa@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The gethostname system call returns the hostname for the current
-machine. However, the kernel has no mechanism to initially set the
-current machine's name in such a way as to guarantee that the first
-userspace process to call gethostname will receive a meaningful
-result. It relies on some unspecified userspace process to first call
-sethostname before gethostname can produce a meaningful name.
+Create a maintainer entry for CAAM trusted keys in the Linux keyring.
 
-Traditionally the machine's hostname is set from userspace by the init
-system. The init system, in turn, often relies on a configuration file
-(say, /etc/hostname) to provide the value that it will supply in the
-call to sethostname. Consequently, the file system containing
-/etc/hostname usually must be available before the hostname will be
-set. There may, however, be earlier userspace processes that could
-call gethostname before the file system containing /etc/hostname is
-mounted. Such a process will get some other, likely meaningless, name
-from gethostname (such as "(none)", "localhost", or "darkstar").
-
-A real-world example where this can happen, and lead to undesirable
-results, is with mdadm. When assembling arrays, mdadm distinguishes
-between "local" arrays and "foreign" arrays. A local array is one that
-properly belongs to the current machine, and a foreign array is one
-that is (possibly temporarily) attached to the current machine, but
-properly belongs to some other machine. To determine if an array is
-local or foreign, mdadm may compare the "homehost" recorded on the
-array with the current hostname. If mdadm is run before the root file
-system is mounted, perhaps because the root file system itself resides
-on an md-raid array, then /etc/hostname isn't yet available and the
-init system will not yet have called sethostname, causing mdadm to
-incorrectly conclude that all of the local arrays are foreign.
-
-Solving this problem *could* be delegated to the init system. It could
-be left up to the init system (including any init system that starts
-within an initramfs, if one is in use) to ensure that sethostname is
-called before any other userspace process could possibly call
-gethostname. However, it may not always be obvious which processes
-could call gethostname (for example, udev itself might not call
-gethostname, but it could via udev rules invoke processes that
-do). Additionally, the init system has to ensure that the hostname
-configuration value is stored in some place where it will be readily
-accessible during early boot. Unfortunately, every init system will
-attempt to (or has already attempted to) solve this problem in a
-different, possibly incorrect, way. This makes getting consistently
-working configurations harder for users.
-
-I believe it is better for the kernel to provide the means by which
-the hostname may be set early, rather than making this a problem for
-the init system to solve. The option to set the hostname during early
-startup, via a kernel parameter, provides a simple, reliable way to
-solve this problem. It also could make system configuration easier for
-some embedded systems.
-
-Signed-off-by: Dan Moulding <dmoulding@me.com>
+Reviewed-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 13 +++++++++++++
- init/version.c                                  | 17 +++++++++++++++++
- 2 files changed, 30 insertions(+)
+v8 -> v9:
+  - rewrite commit message (Jarkko)
+v7 -> v8:
+  - add Pankaj's Reviewed-by
+v6 -> v7:
+  - split off as separate patch (Jarkko)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 3f1cc5e317ed..c9a76b7ca460 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1617,6 +1617,19 @@
+To: Jarkko Sakkinen <jarkko@kernel.org>
+To: James Bottomley <jejb@linux.ibm.com>
+To: Mimi Zohar <zohar@linux.ibm.com>
+To: David Howells <dhowells@redhat.com>
+Cc: James Morris <jmorris@namei.org>
+Cc: "Serge E. Hallyn" <serge@hallyn.com>
+Cc: "Horia Geantă" <horia.geanta@nxp.com>
+Cc: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Biggers <ebiggers@kernel.org>
+Cc: Jan Luebbe <j.luebbe@pengutronix.de>
+Cc: David Gstir <david@sigma-star.at>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Franck LENORMAND <franck.lenormand@nxp.com>
+Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Cc: Michael Walle <michael@walle.cc>
+Cc: Sumit Garg <sumit.garg@linaro.org>
+Cc: keyrings@vger.kernel.org
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-integrity@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-security-module@vger.kernel.org
+---
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5e8c2f611766..e58e6fc3016d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10855,6 +10855,15 @@ S:	Supported
+ F:	include/keys/trusted_tee.h
+ F:	security/keys/trusted-keys/trusted_tee.c
  
- 	hlt		[BUGS=ARM,SH]
- 
-+	hostname=	[KNL] Set the hostname (aka UTS nodename).
-+			Format: <string>
-+			This allows setting the system's hostname during early
-+			startup. This sets the name returned by gethostname.
-+			Using this parameter to set the hostname makes it
-+			possible to ensure the hostname is correctly set before
-+			any userspace processes run, avoiding the possibility
-+			that a process may call gethostname before the hostname
-+			has been explicitly set, resulting in the calling
-+			process getting an incorrect result. The string must
-+			not exceed the maximum allowed hostname length (usually
-+			64 characters) and will be truncated otherwise.
++KEYS-TRUSTED-CAAM
++M:	Ahmad Fatoum <a.fatoum@pengutronix.de>
++R:	Pengutronix Kernel Team <kernel@pengutronix.de>
++L:	linux-integrity@vger.kernel.org
++L:	keyrings@vger.kernel.org
++S:	Maintained
++F:	include/keys/trusted_caam.h
++F:	security/keys/trusted-keys/trusted_caam.c
 +
- 	hpet=		[X86-32,HPET] option to control HPET usage
- 			Format: { enable (default) | disable | force |
- 				verbose }
-diff --git a/init/version.c b/init/version.c
-index 1a356f5493e8..b7f9559d417c 100644
---- a/init/version.c
-+++ b/init/version.c
-@@ -11,6 +11,8 @@
- #include <linux/build-salt.h>
- #include <linux/elfnote-lto.h>
- #include <linux/export.h>
-+#include <linux/init.h>
-+#include <linux/printk.h>
- #include <linux/uts.h>
- #include <linux/utsname.h>
- #include <generated/utsrelease.h>
-@@ -35,6 +37,21 @@ struct uts_namespace init_uts_ns = {
- };
- EXPORT_SYMBOL_GPL(init_uts_ns);
- 
-+static int __init early_hostname(char *arg)
-+{
-+	size_t bufsize = sizeof(init_uts_ns.name.nodename);
-+	size_t maxlen  = bufsize - 1;
-+	size_t arglen;
-+
-+	arglen = strlcpy(init_uts_ns.name.nodename, arg, bufsize);
-+	if (arglen > maxlen) {
-+		pr_warn("hostname parameter exceeds %zd characters and will be truncated",
-+			maxlen);
-+	}
-+	return 0;
-+}
-+early_param("hostname", early_hostname);
-+
- /* FIXED STRINGS! Don't touch! */
- const char linux_banner[] =
- 	"Linux version " UTS_RELEASE " (" LINUX_COMPILE_BY "@"
+ KEYS/KEYRINGS
+ M:	David Howells <dhowells@redhat.com>
+ M:	Jarkko Sakkinen <jarkko@kernel.org>
 -- 
-2.35.1
+2.30.2
 
