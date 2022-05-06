@@ -2,146 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC989C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 15:35:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69A5EC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 15:44:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348171AbiEFPi4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 11:38:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33912 "EHLO
+        id S1443113AbiEFPsH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 11:48:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231357AbiEFPiz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 11:38:55 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F397F66;
-        Fri,  6 May 2022 08:35:12 -0700 (PDT)
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 246Dmvbl019354;
-        Fri, 6 May 2022 15:35:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=blLD599xWM8TsoqnVdATsyQkk63uresPs9SegCqqIJ8=;
- b=L/flva3qm311tXx/sh/kPxNxZSVMAyo8Shoq8uE+GtfAaIg2PRK2yTDmGRyIO+IygEa6
- +Ds2Z1c8Zh5Ocrh+lFb0+t1hs3rymY/O8xlwEXmdnR1JMJBZhOj/S347NL1BE82hXzvz
- 70md7lrOiuqjx/YsqzIOW/4mp2wcHTHW09uZkc7Sd1mITrw9M8RvB34kRVVOzlCwQnHG
- OzeWAOO0hHyeCaEb8TrgyUKaftfO65wre7A3xUDUkkWXbjpNS+dr/Dh/HTeJ5x659jrf
- tiJJurRAAMi8fykICZzoI7C6oFvs/BE0QMiWSY1c73xlhrJ6yZwy+A6CDKOCmNWVetCr hw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fw4w1jfm0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 06 May 2022 15:35:09 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 246FKSM1025004;
-        Fri, 6 May 2022 15:35:09 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fw4w1jfk3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 06 May 2022 15:35:09 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-        by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 246FHbY9032762;
-        Fri, 6 May 2022 15:35:06 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma03ams.nl.ibm.com with ESMTP id 3ftp7fwpaj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 06 May 2022 15:35:06 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 246FYtpC32702734
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 6 May 2022 15:34:55 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 67D87A405B;
-        Fri,  6 May 2022 15:35:03 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 588FFA4060;
-        Fri,  6 May 2022 15:35:02 +0000 (GMT)
-Received: from [9.171.60.83] (unknown [9.171.60.83])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri,  6 May 2022 15:35:02 +0000 (GMT)
-Message-ID: <28395b98-3489-342a-970a-5358e4405f22@linux.ibm.com>
-Date:   Fri, 6 May 2022 17:35:01 +0200
+        with ESMTP id S1443109AbiEFPsG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 11:48:06 -0400
+Received: from mr85p00im-ztdg06011101.me.com (mr85p00im-ztdg06011101.me.com [17.58.23.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0976A6D4DC
+        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 08:44:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
+        t=1651851862; bh=+CCBnZzUUMptTEB5E31LJJ2qM8kVspBxIFEt8rpQAWM=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version;
+        b=AArtFYBMwG7CWnZExqc3XKE8kFfPy7L0UitCaXx+DOM8QjELFmgfXMtYb0Rsehqzh
+         wIym9qEDfPWhP2uYHVi4LqRqbM6uUDiGCiLaM05acnGKB0IKcHl9F0vVsP5j/64vCi
+         ttBH2b9fYdOGlwMASdssX9e0nbpnG9m+pziCKcWTvD3w9a6C2K2sIoqe/tVNIA/JhA
+         Q5UiaFz6N6C+F7fGbmH1C8PAWkaj0ECF+Hcb0dTUeQ+O4FvurBdQ9UrXTZvIggP2y2
+         LpFy+5hzaXUcGp3N0UvGg6Lfa82q39iL9dZA52sEYsXit708lkclf0t9bNIX6Pp5a8
+         mUrAnaXDXvWLQ==
+Received: from hitch.danm.net (mr38p00im-dlb-asmtp-mailmevip.me.com [17.57.152.18])
+        by mr85p00im-ztdg06011101.me.com (Postfix) with ESMTPSA id 05797DA0504;
+        Fri,  6 May 2022 15:44:21 +0000 (UTC)
+From:   Dan Moulding <dmoulding@me.com>
+To:     pavel@ucw.cz
+Cc:     akpm@linux-foundation.org, corbet@lwn.net, dmoulding@me.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tglx@linutronix.de
+Subject: Re: [PATCH v2 0/1] Allow setting hostname before userspace starts
+Date:   Fri,  6 May 2022 09:44:20 -0600
+Message-Id: <20220506154420.26456-1-dmoulding@me.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220506072322.GA3925@amd>
+References: <20220506072322.GA3925@amd>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v6 14/21] KVM: s390: pci: provide routines for
- enabling/disabling interrupt forwarding
-Content-Language: en-US
-To:     Matthew Rosato <mjrosato@linux.ibm.com>, linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        jgg@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220426200842.98655-1-mjrosato@linux.ibm.com>
- <20220426200842.98655-15-mjrosato@linux.ibm.com>
-From:   Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <20220426200842.98655-15-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: NrU3OZfGBe5iOJbw7gkh1V-3ysVy0Ku8
-X-Proofpoint-GUID: SQ06wbn3n7KXqve90ckpJdnRS_Tu02T4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-06_04,2022-05-06_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 spamscore=0
- priorityscore=1501 adultscore=0 phishscore=0 malwarescore=0
- mlxlogscore=950 lowpriorityscore=0 suspectscore=0 mlxscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205060082
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: vhIztAh_zrA-Bqk8Qdgy362NLq39rH8I
+X-Proofpoint-GUID: vhIztAh_zrA-Bqk8Qdgy362NLq39rH8I
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.816,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-01-18=5F01:2022-01-14=5F01,2022-01-18=5F01,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
+ clxscore=1015 mlxlogscore=316 mlxscore=0 adultscore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205060083
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On May 6, 2022, at 1:23 AM, Pavel Machek <pavel@ucw.cz> wrote:
 
+> init gets passed command line parameters kernel did not use. So init
+> can do that easily.
 
-Am 26.04.22 um 22:08 schrieb Matthew Rosato:
-[...]
-> +static inline void unaccount_mem(unsigned long nr_pages)
-> +{
-> +	struct user_struct *user = get_uid(current_user());
-> +
-> +	if (user)
-> +		atomic_long_sub(nr_pages, &user->locked_vm);
-> +	if (current->mm)
-> +		atomic64_sub(nr_pages, &current->mm->pinned_vm);
-> +}
-> +
-> +static inline int account_mem(unsigned long nr_pages)
-> +{
-> +	struct user_struct *user = get_uid(current_user());
-> +	unsigned long page_limit, cur_pages, new_pages;
-> +
-> +	page_limit = rlimit(RLIMIT_MEMLOCK) >> PAGE_SHIFT;
-> +
-> +	do {
-> +		cur_pages = atomic_long_read(&user->locked_vm);
-> +		new_pages = cur_pages + nr_pages;
-> +		if (new_pages > page_limit)
-> +			return -ENOMEM;
-> +	} while (atomic_long_cmpxchg(&user->locked_vm, cur_pages,
-> +					new_pages) != cur_pages);
-> +
-> +	atomic64_add(nr_pages, &current->mm->pinned_vm);
-> +
-> +	return 0;
+I agree this is a problem that *can* be delegated to init to solve.
+But is it *better* to do that? Why have the kernel pass the the hostname
+to the init system, just so that the init system has to pass it back to the
+kernel later?
 
-user->locked_vm is not available unconditionally. Shall we add
+> Plus, there's initrd.
 
-CONFIG_S390 && CONFIG_KVM here?
+This to me is a reason why it's better for the kernel to do this. If left up
+to the init system, it must be sure it gets done correctly both when an
+initramfs is used, and when one is not.
 
-include/linux/sched/user.h
-#if defined(CONFIG_PERF_EVENTS) || defined(CONFIG_BPF_SYSCALL) || \
-     defined(CONFIG_NET) || defined(CONFIG_IO_URING)
-         atomic_long_t locked_vm;
-#endif
-Or we could get rid of the user memlock checking for now until this is more ubiquitous.
+P.S. Apologies to anyone who received this twice, my first reply was
+bounced by the list servers.
 
+Cheers,
 
-Otherwise this looks sane
-
-Reviewed-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+  -- Dan
