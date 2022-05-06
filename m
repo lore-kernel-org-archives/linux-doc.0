@@ -2,124 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B826CC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 07:08:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E48FCC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 07:23:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351449AbiEFHLq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 03:11:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59938 "EHLO
+        id S1347742AbiEFH1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 03:27:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1386803AbiEFHLq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 03:11:46 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F25C644F2;
-        Fri,  6 May 2022 00:08:02 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id bo5so5552665pfb.4;
-        Fri, 06 May 2022 00:08:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qJZVl5EvwvcXVjSPcNvmPIb3iIpc3e94gPZeNfEIGDE=;
-        b=RquPcCEtPTQ8NBVOkNpgpfhMCaOU7gI0N2vmjXVEjeXEe47eK3VzRCiPPHMYYCxLg1
-         P6CPTSsRWdUdNnPe/pRgZi+CAMTXOUW0aypCBBwy8+E+GZt1qfHSrSgiWhFOXQrDerPl
-         DatPmAPOlMB2tmNlha9NwkZVVfrkt7/5nPmmGw1r/xOKTjKETDCaCs0tDLHNU6qL6xi7
-         zAW9JgkwQRnxFAMqJeCE+U8r5dQmqbrlgs9EClh2uSa24oGIURlPYADWhRa9yFHAXrQC
-         CnveAh8yJez5ypZvu1OL+WLOuhds+4ACEz2XKq+7SS60PyrasC1F8NQ9g5oL9GzwDwCI
-         gxUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qJZVl5EvwvcXVjSPcNvmPIb3iIpc3e94gPZeNfEIGDE=;
-        b=qK1vn2nqt1Md+hdox47ytmman1cEfeu4t+wX4oFgwPxSYFqL0Cr91BAwhJVAUjzeCd
-         oJCpFatfpdUV+mIj5meHZrPPp3gLlLm8mGm5w2tDd/+3isk8y9RtDN1QH5vXeum4x/wW
-         SeZa5ohmRDSCmVsuKxI+RtH46iNAuLrOjp5RsD6IykQKgiiLTQilew/66OkeRYRv+VEz
-         /yPNjw8ZcoLtEjLPPsmqp1S3LsGZNNoD3hmd1Xq0B2epc6fzrc3tFh1PWb+wIXYvqwek
-         JOn+LQyoBUiZjgVpiDdmhFK9RGKJBRoW9WcPueevYjnYiBoGy3wyNqH4pfpV+ZhqklxO
-         3SUg==
-X-Gm-Message-State: AOAM533lWyDP9QXbS3jX3ggBZl6SRdxnfnhSUVQDOr0tarnLREPBY1nj
-        2xWwjydIgQOFW5EKMhJKvxV7+GSZ+HMtG42g
-X-Google-Smtp-Source: ABdhPJyQwhu+TLbFod80h890qcGGw9VNP9GSkzdKgcSkhgYmo6vXqdsuzS9lzJ1uVtzCOtokQbwb6A==
-X-Received: by 2002:a63:ee50:0:b0:3c5:f762:c709 with SMTP id n16-20020a63ee50000000b003c5f762c709mr1648410pgk.222.1651820881250;
-        Fri, 06 May 2022 00:08:01 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-93.three.co.id. [180.214.233.93])
-        by smtp.gmail.com with ESMTPSA id i12-20020a170902e48c00b0015e8d4eb26dsm844317ple.183.2022.05.06.00.07.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 May 2022 00:08:00 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        kernel test robot <lkp@intel.com>,
-        Suresh Warrier <warrier@linux.vnet.ibm.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Fabiano Rosas <farosas@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Alexey Kardashevskiy <aik@ozlabs.ru>,
-        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-        stable@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] KVM: powerpc: remove extraneous asterisk from rm_host_ipi_action comment
-Date:   Fri,  6 May 2022 14:07:47 +0700
-Message-Id: <20220506070747.16309-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.36.0
+        with ESMTP id S1343821AbiEFH1K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 03:27:10 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 671716129F;
+        Fri,  6 May 2022 00:23:28 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 9CBFD1C0BA6; Fri,  6 May 2022 09:23:25 +0200 (CEST)
+Date:   Fri, 6 May 2022 09:23:23 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Dan Moulding <dmoulding@me.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        tglx@linutronix.de, akpm@linux-foundation.org, corbet@lwn.net
+Subject: Re: [PATCH v2 0/1] Allow setting hostname before userspace starts
+Message-ID: <20220506072322.GA3925@amd>
+References: <20220506060310.7495-1-dmoulding@me.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="OgqxwSJOaUobr8KG"
+Content-Disposition: inline
+In-Reply-To: <20220506060310.7495-1-dmoulding@me.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kernel test robot reported kernel-doc warning for rm_host_ipi_action():
 
->> arch/powerpc/kvm/book3s_hv_rm_xics.c:887: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Host Operations poked by RM KVM
+--OgqxwSJOaUobr8KG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Since the function is static, remove the extraneous (second) asterisk at
-the head of function comment.
+Hi1
 
-Fixes: 0c2a66062470cd ("KVM: PPC: Book3S HV: Host side kick VCPU when poked by real-mode KVM")
-Link: https://lore.kernel.org/linux-doc/202204252334.Cd2IsiII-lkp@intel.com/
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Suresh Warrier <warrier@linux.vnet.ibm.com>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: Anders Roxell <anders.roxell@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Nicholas Piggin <npiggin@gmail.com>
-Cc: Fabiano Rosas <farosas@linux.ibm.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: kvm@vger.kernel.org
-Cc: stable@vger.kernel.org # v5.15, v5.17
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- arch/powerpc/kvm/book3s_hv_rm_xics.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Some userspace processes may rely on gethostname to always return the
+> correct machine name. However, the only way that the hostname may be
+> set is by some other userspace process calling sethostname
+> first. During boot, if a process that depends on gethostname runs
+> before sethostname has been called, then the process that called
+> gethostname is going to get an incorrect result.
 
-diff --git a/arch/powerpc/kvm/book3s_hv_rm_xics.c b/arch/powerpc/kvm/book3s_hv_rm_xics.c
-index 587c33fc45640f..6e16bd751c8423 100644
---- a/arch/powerpc/kvm/book3s_hv_rm_xics.c
-+++ b/arch/powerpc/kvm/book3s_hv_rm_xics.c
-@@ -883,7 +883,7 @@ long kvmppc_deliver_irq_passthru(struct kvm_vcpu *vcpu,
- 
- /*  --- Non-real mode XICS-related built-in routines ---  */
- 
--/**
-+/*
-  * Host Operations poked by RM KVM
-  */
- static void rm_host_ipi_action(int action, void *data)
+Don't do that, then? :-).
 
-base-commit: a7391ad3572431a354c927cf8896e86e50d7d0bf
--- 
-An old man doll... just what I always wanted! - Clara
+init gets passed command line parameters kernel did not use. So init
+can do that easily. Plus, there's initrd.
 
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--OgqxwSJOaUobr8KG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAmJ0zOkACgkQMOfwapXb+vJ8uQCgwMYHJBnorWMQBRCR+jErs4mV
+MtcAniM3xsBcVPVbA/dyttsqf0YECqOA
+=SgE7
+-----END PGP SIGNATURE-----
+
+--OgqxwSJOaUobr8KG--
