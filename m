@@ -2,294 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE4A3C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 11:26:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 942D5C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 11:39:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1390888AbiEFLaP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 07:30:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60930 "EHLO
+        id S1391428AbiEFLna (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 07:43:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1389782AbiEFLaO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 07:30:14 -0400
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DB4B13F7F;
-        Fri,  6 May 2022 04:26:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-        t=1651836387; bh=azHha70+GWhmg49YkWnFtTT3iKIMGLPZ6Q/jJlWPQuI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=PE/TUtgED1vC70nqwhf+4/pi1bKNCjFm19JASheRMc2lYYis/Gq7FbfKbCJCAKqk2
-         jioMj/Q1zY4ITwJA2XqesgXVGpx5IEoEUYoZ19GNjXDbysOcyx8+MBFC+N8MSQY+nb
-         LP7ylM4j2W5XZCd3j5A0I33AP35IP89CdrWvRKT4=
-Received: from [192.168.9.172] (unknown [101.88.28.48])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        with ESMTP id S1391424AbiEFLn3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 07:43:29 -0400
+Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [170.10.129.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 34BFA5E76E
+        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 04:39:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1651837186;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=OcB6fBENu4U2sOdYXIyYqxCfjv8pZ5CyuZGdAtWdXiA=;
+        b=i5mNztq16pUhD0oqg0I5WUZDHCkBmHSLjFLVRdtP5BTpXSyBFZOQKA5I2ndCqsrqcPcdmc
+        Ody8SqwuKo05jaJ5ENmqRqenPwuTNX1mYxa7B71sJTSsag5sfV+ndx24qmdOeoun92HwGA
+        3oYsjZEdxp3HH76OrjLcQvA/2ZKE31E=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-271-uUHXo2N0O4iTn2v3Yo6D1A-1; Fri, 06 May 2022 07:39:43 -0400
+X-MC-Unique: uUHXo2N0O4iTn2v3Yo6D1A-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 734406068D;
-        Fri,  6 May 2022 19:26:27 +0800 (CST)
-Message-ID: <a6afaa3f-cb9f-2086-0e02-5ec21ba535d4@xen0n.name>
-Date:   Fri, 6 May 2022 19:26:24 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.0a1
-Subject: Re: [PATCH V9 20/24] LoongArch: Add efistub booting support
-Content-Language: en-US
-To:     Ard Biesheuvel <ardb@kernel.org>,
-        Huacai Chen <chenhuacai@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Andy Lutomirski <luto@kernel.org>,
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 067A3858F14;
+        Fri,  6 May 2022 11:39:42 +0000 (UTC)
+Received: from localhost (ovpn-13-105.pek2.redhat.com [10.72.13.105])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id D80E1454A5D;
+        Fri,  6 May 2022 11:39:39 +0000 (UTC)
+Date:   Fri, 6 May 2022 19:39:36 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
- <20220430090518.3127980-21-chenhuacai@loongson.cn>
- <CAK8P3a2SPTLLrZtSz0LT0LqMpq4SKCScD4vLvr+DJn+u5W_CdA@mail.gmail.com>
- <CAMj1kXEDpJwLDD4ZGLwzdo1KcJG_90iD9MnBVamCK06YKF7BdA@mail.gmail.com>
- <CAAhV-H4eR5YvhABp9L4FBmofWwH+XM3V_nOjatQTV_M7Gihs7g@mail.gmail.com>
- <CAMj1kXFD8_CuijJFgQbrxvY4MVBLmKQKFKmYhD1NBFLn3v=+FQ@mail.gmail.com>
-From:   WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <CAMj1kXFD8_CuijJFgQbrxvY4MVBLmKQKFKmYhD1NBFLn3v=+FQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v22 5/9] arm64: kdump: Reimplement crashkernel=X
+Message-ID: <YnUI+PagSCZ/DnkL@MiWiFi-R3L-srv>
+References: <YmlphvZVMsGfFksp@arm.com>
+ <YmoMvV1wzHT5V1aw@MiWiFi-R3L-srv>
+ <YmoPhvkXQFZQOcIO@MiWiFi-R3L-srv>
+ <3fc41a94-4247-40f3-14e7-f11e3001ec33@huawei.com>
+ <YmtaiJhwIgP6m2Sk@MiWiFi-R3L-srv>
+ <a9c736a0-f2b3-5b8a-94d9-80742ccd2700@huawei.com>
+ <23e2dcf4-4e9a-5298-d5d8-8761b0bbbe21@huawei.com>
+ <YnGmCwaWkvCrJoU2@arm.com>
+ <YnM9w69l5dbE+k15@MiWiFi-R3L-srv>
+ <YnPdIvOktZBQYLjg@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YnPdIvOktZBQYLjg@arm.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On 05/05/22 at 03:20pm, Catalin Marinas wrote:
+> On Thu, May 05, 2022 at 11:00:19AM +0800, Baoquan He wrote:
+> > On 05/03/22 at 11:00pm, Catalin Marinas wrote:
+> > > So, to recap, IIUC you are fine with:
+> > > 
+> > > 	crashkernel=Y		- allocate within ZONE_DMA with fallback
+> > > 				  above with a default in ZONE_DMA (like
+> > > 				  x86, 256M or swiotlb size)
+> > 
+> >         Ack to this one.
+> > 
+> > 
+> > > 	crashkernel=Y,high	- allocate from above ZONE_DMA
+> > 
+> >         Not exactly. If there's only ZONE_DMA, crashkernel,high will
+> >         be reserved in ZONE_DMA, and crashkernel,low will be ignored.
+> >         Other than this, ack.
+> 
+> Yes, that's fine.
+> 
+> > > 	crashkernel=Y,low	- allocate within ZONE_DMA
+> > 
+> >         Ack to this one.
+> > > 
+> > > 'crashkernel' overrides the high and low while the latter two can be
+> > > passed independently.
+> > 
+> >         crashkernel=,high can be passed independently, then a crashkernel=,low
+> >         is needed implicitly. If people don't want crashkernel=,low
+> >         explicitly, crashkernel=0,low need be specified.
+> 
+> I find this complicating the interface. I don't know the background to
+> the x86 implementation but we diverge already on arm64 since we talk
+> about ZONE_DMA rather than 4G limit (though for most platforms these
+> would be the same).
+> 
+> I guess we could restate the difference between crashkernel= and
+> crashkernel=,high as the hint to go for allocation above ZONE_DMA first.
 
-On 5/6/22 16:14, Ard Biesheuvel wrote:
-> [snip]
->>>>> +
->>>>> +static efi_status_t mk_mmap(struct efi_boot_memmap *map, struct boot_params *p)
->>>>> +{
->>> Are you passing a different representation of the memory map to the
->>> core kernel? I think it would be easier just to pass the EFI memory
->>> map like other EFI arches do, and reuse all of the code that we
->>> already have.
->> Yes, this different representation is used by our "boot_params", the
->> interface between bootloader (including efistub) and the core kernel.
-> So how does the core kernel consume the EFI memory map? Only through
-> this mechanism?
->
->>>>> +       char checksum;
->>>>> +       unsigned int i;
->>>>> +       unsigned int nr_desc;
->>>>> +       unsigned int mem_type;
->>>>> +       unsigned long count;
->>>>> +       efi_memory_desc_t *mem_desc;
->>>>> +       struct loongsonlist_mem_map *mhp = NULL;
->>>>> +
->>>>> +       memset(map_entry, 0, sizeof(map_entry));
->>>>> +       memset(mmap_array, 0, sizeof(mmap_array));
->>>>> +
->>>>> +       if (!strncmp((char *)p, "BPI", 3)) {
->>>>> +               p->flags |= BPI_FLAGS_UEFI_SUPPORTED;
->>>>> +               p->systemtable = (efi_system_table_t *)efi_system_table;
->>>>> +               p->extlist_offset = sizeof(*p) + sizeof(unsigned long);
->>>>> +               mhp = (struct loongsonlist_mem_map *)((char *)p + p->extlist_offset);
->>>>> +
->>>>> +               memcpy(&mhp->header.signature, "MEM", sizeof(unsigned long));
->>>>> +               mhp->header.length = sizeof(*mhp);
->>>>> +               mhp->desc_version = *map->desc_ver;
->>>>> +               mhp->map_count = 0;
->>>>> +       }
->>>>> +       if (!(*(map->map_size)) || !(*(map->desc_size)) || !mhp) {
->>>>> +               efi_err("get memory info error\n");
->>>>> +               return EFI_INVALID_PARAMETER;
->>>>> +       }
->>>>> +       nr_desc = *(map->map_size) / *(map->desc_size);
->>>>> +
->>>>> +       /*
->>>>> +        * According to UEFI SPEC, mmap_buf is the accurate Memory Map
->>>>> +        * mmap_array now we can fill platform specific memory structure.
->>>>> +        */
->>>>> +       for (i = 0; i < nr_desc; i++) {
->>>>> +               mem_desc = (efi_memory_desc_t *)((void *)(*map->map) + (i * (*(map->desc_size))));
->>>>> +               switch (mem_desc->type) {
->>>>> +               case EFI_RESERVED_TYPE:
->>>>> +               case EFI_RUNTIME_SERVICES_CODE:
->>>>> +               case EFI_RUNTIME_SERVICES_DATA:
->>>>> +               case EFI_MEMORY_MAPPED_IO:
->>>>> +               case EFI_MEMORY_MAPPED_IO_PORT_SPACE:
->>>>> +               case EFI_UNUSABLE_MEMORY:
->>>>> +               case EFI_PAL_CODE:
->>>>> +                       mem_type = ADDRESS_TYPE_RESERVED;
->>>>> +                       break;
->>>>> +
->>>>> +               case EFI_ACPI_MEMORY_NVS:
->>>>> +                       mem_type = ADDRESS_TYPE_NVS;
->>>>> +                       break;
->>>>> +
->>>>> +               case EFI_ACPI_RECLAIM_MEMORY:
->>>>> +                       mem_type = ADDRESS_TYPE_ACPI;
->>>>> +                       break;
->>>>> +
->>>>> +               case EFI_LOADER_CODE:
->>>>> +               case EFI_LOADER_DATA:
->>>>> +               case EFI_PERSISTENT_MEMORY:
->>>>> +               case EFI_BOOT_SERVICES_CODE:
->>>>> +               case EFI_BOOT_SERVICES_DATA:
->>>>> +               case EFI_CONVENTIONAL_MEMORY:
->>>>> +                       mem_type = ADDRESS_TYPE_SYSRAM;
->>>>> +                       break;
->>>>> +
->>>>> +               default:
->>>>> +                       continue;
->>>>> +               }
->>>>> +
->>>>> +               mmap_array[mem_type][map_entry[mem_type]].mem_type = mem_type;
->>>>> +               mmap_array[mem_type][map_entry[mem_type]].mem_start =
->>>>> +                                               mem_desc->phys_addr & TO_PHYS_MASK;
->>>>> +               mmap_array[mem_type][map_entry[mem_type]].mem_size =
->>>>> +                                               mem_desc->num_pages << EFI_PAGE_SHIFT;
->>>>> +               mmap_array[mem_type][map_entry[mem_type]].attribute =
->>>>> +                                               mem_desc->attribute;
->>>>> +               map_entry[mem_type]++;
->>>>> +       }
->>>>> +
->>>>> +       count = mhp->map_count;
->>>>> +       /* Sort EFI memmap and add to BPI for kernel */
->>>>> +       for (i = 0; i < LOONGSON3_BOOT_MEM_MAP_MAX; i++) {
->>>>> +               if (!map_entry[i])
->>>>> +                       continue;
->>>>> +               count = efi_memmap_sort(mhp, count, i);
->>>>> +       }
->>>>> +
->>>>> +       mhp->map_count = count;
->>>>> +       mhp->header.checksum = 0;
->>>>> +
->>>>> +       checksum = efi_crc8((char *)mhp, mhp->header.length);
->>>>> +       mhp->header.checksum = checksum;
->>>>> +
->>>>> +       return EFI_SUCCESS;
->>>>> +}
->>>>> +
->>>>> +static efi_status_t exit_boot_func(struct efi_boot_memmap *map, void *priv)
->>>>> +{
->>>>> +       efi_status_t status;
->>>>> +       struct exit_boot_struct *p = priv;
->>>>> +
->>>>> +       status = mk_mmap(map, p->bp);
->>>>> +       if (status != EFI_SUCCESS) {
->>>>> +               efi_err("Make kernel memory map failed!\n");
->>>>> +               return status;
->>>>> +       }
->>>>> +
->>>>> +       return EFI_SUCCESS;
->>>>> +}
->>>>> +
->>>>> +static efi_status_t exit_boot_services(struct boot_params *boot_params, void *handle)
->>>>> +{
->>>>> +       unsigned int desc_version;
->>>>> +       unsigned int runtime_entry_count = 0;
->>>>> +       unsigned long map_size, key, desc_size, buff_size;
->>>>> +       efi_status_t status;
->>>>> +       efi_memory_desc_t *mem_map;
->>>>> +       struct efi_boot_memmap map;
->>>>> +       struct exit_boot_struct priv;
->>>>> +
->>>>> +       map.map                 = &mem_map;
->>>>> +       map.map_size            = &map_size;
->>>>> +       map.desc_size           = &desc_size;
->>>>> +       map.desc_ver            = &desc_version;
->>>>> +       map.key_ptr             = &key;
->>>>> +       map.buff_size           = &buff_size;
->>>>> +       status = efi_get_memory_map(&map);
->>>>> +       if (status != EFI_SUCCESS) {
->>>>> +               efi_err("Unable to retrieve UEFI memory map.\n");
->>>>> +               return status;
->>>>> +       }
->>>>> +
->>>>> +       priv.bp = boot_params;
->>>>> +       priv.runtime_entry_count = &runtime_entry_count;
->>>>> +
->>>>> +       /* Might as well exit boot services now */
->>>>> +       status = efi_exit_boot_services(handle, &map, &priv, exit_boot_func);
->>>>> +       if (status != EFI_SUCCESS)
->>>>> +               return status;
->>>>> +
->>>>> +       return EFI_SUCCESS;
->>>>> +}
->>>>> +
->>>>> +/*
->>>>> + * EFI entry point for the LoongArch EFI stub.
->>>>> + */
->>>>> +efi_status_t __efiapi efi_pe_entry(efi_handle_t handle, efi_system_table_t *sys_table)
->>> Why are you not using the generic EFI stub boot flow?
->> Hmmm, as I know, we define our own "boot_params", a interface between
->> bootloader (including efistub) and the core kernel to pass memmap,
->> cmdline and initrd information, three years ago. This method looks
->> like the X86 way, while different from the generic stub (which is
->> called arm stub before 5.8). In these years, many products have
->> already use the "boot_params" interface (including UEFI, PMON, Grub,
->> Kernel, etc., but most of them haven't be upstream). Replace
->> boot_params with FDT (i.e., the generic stub way) is difficult for us,
->> because it means a big broken of compatibility.
->>
-> OK, I understand. So using the generic stub is not possible for you.
->
-> So as long as you don't enable deprecated features such as initrd=, or
-> rely on special hacks like putting magic numbers at fixed offsets in
-> the image, I'm fine with this approach.
+Yes, rethinking about this, we can make a straightforward and simpler
+crashkernel=,high|,low on arm64, namely asking for user to clearly
+specify them.
 
-I'd like to add some relevant background: this "struct boot_params" 
-thingy is actually a Loongson corporate standard. It is available at 
-[1]; only in Chinese but should be minimally recognizable given much of 
-it is C code, and you can see this struct and its friends barely changed 
-since 2019.
+During maintenance of crashkernel= parameter in our distros, we found
+crashkernel=xM is used mostly since most of systems can be satisfied
+with 256M or a little more for kdump. While on some big end servers,
+1G or more crashkernel memory is needed. In this case, crashkernel=,high
+is taken. We don't want to reserve so much low memory during system
+running while just waiting in case rare crash happened. crashkernel=,high
+is rarely used, so making it simple and not so flexible is not so bad.
+We can improve it later with justification.
 
-The standard is in place long before inception of LoongArch (the 
-earliest spec is dated back to 2014). Back when Loongson was still doing 
-MIPS this is somewhat acceptable, due to fragmentation of the MIPS 
-world, but they didn't take the chance to re-think most of this for 
-LoongArch, instead simply porting everything over as-is. Hence the ship 
-has more-or-less already sailed, and we indeed have to support this flow 
-for keeping compatibility...
+> 
+> >         An independent crashkernel=,low makes no sense. Crashkernel=,low
+> >         should be paird with crashkernel=,high.
+> 
+> You could argue that crashkernel=,low gives the current crashkernel=
+> behaviour, i.e. either all within ZONE_DMA or fail to allocate. So it
+> may have some value on its own.
 
-Or is there compatibility at all?
+Yes, crashkernel=,low has the same behaviour as the current crashkernel=
+if we decide not to add fallback mechanism to it. The purpose of
+crahskernel=,low is to assist crashkernel=,high to get kdump kernel
+boot up with satisfing DMA allocation. While allowing independent
+crashkernel=,low will add it another mission, limiting crashkernel only
+reserved in low memory. Up to now, we don't see the need for that.
 
-It turns out that this port is already incompatible with shipped 
-systems, in other ways, at least since the March revision or so.
+> 
+> >         My personal opinion according to the existed senmantics on x86.
+> >         Otherwise, the guidance of crashkernel= |,high|,low reservation
+> >         will be complicated to write.
+> 
+> It's more that I find the current semantics unnecessarily confusing. But
+> even reading the x86_64 text it's not that clear. For example the
+> default low allocation for crashkernel= and crashkernel=,high is only
+> mentioned in the crashkernel=,low description.
 
-For one thing, the exact definition of this "struct boot_params" is 
-already incompatibly revised; this version [2] is the one actually 
-compatible with existing firmware, so people already have to write shims 
-(not started yet) or flash their firmware (not open-sourced or provided 
-by Loongson yet) to actually compile and run this port. (You haven't 
-read that wrong; indeed no one outside Loongson is able to run this 
-kernel so far.)
+Yeah, we can improve those document if insufficiency is found.
 
-For another thing, the kernel ABI and the userland (mainly glibc) are 
-also incompatible with the shipped systems with their pre-installed 
-vendor systems. Things like different NSIG, sigcontext, and glibc symbol 
-versions already ensured no binary can run in "the other world".
+By the way, with my observation, crashkernel= with fallback meet
+99% of our needs. If people really need more than 512M memory or more,
+then please consider crashkernel=,high. Basically on servers, low memory
+is limited, while high memory is very big.
 
-So, in effect, this port is starting from scratch, and taking the chance 
-to fix early mistakes and oversights all over; hence my opinion is, 
-better do the Right Thing (tm) and give the generic codepath a chance.
-
-For the Loongson devs: at least, declare the struct boot_params flow 
-deprecated from day one, then work to eliminate it from future products, 
-if you really don't want to delay merging even further (it's already 
-unlikely to land in 5.19, given the discussion happening in LKML [3]). 
-It's not embarrassing to admit mistakes; we all make mistakes, and 
-what's important is to learn from them so we don't collectively repeat 
-ourselves.
-
-
-[1]: 
-https://web.archive.org/web/20190713081851/http://www.loongson.cn/uploadfile/devsysmanual/loongson_devsys_firmware_kernel_interface_specification.pdf
-[2]: 
-https://github.com/xen0n/linux/commit/a55739f8e748dc9164c12da504696161bb8b9911
-[3]: https://lwn.net/ml/linux-kernel/87v8uk6kfa.wl-maz@kernel.org/
+So I agree with you that we can make it step by step, firstly adding
+basic crashkernel=,high and ,low support. We can add those complicated
+cases later. 
 
