@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9EFFC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 23:16:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B55C8C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 23:17:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1444939AbiEFXT6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 19:19:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52926 "EHLO
+        id S1351693AbiEFXVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 19:21:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239061AbiEFXT4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 19:19:56 -0400
+        with ESMTP id S1356111AbiEFXVi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 19:21:38 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9F82C6D959
-        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 16:16:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 609A5703E5
+        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 16:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651878970;
+        s=mimecast20190719; t=1651879073;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=rCa7eNjVeMppq8L/kUv69MDo2c/0xX5B3HNrUpKRUig=;
-        b=FrLNuDG/Ke8H1EJEt4DJsaP9G+4MRJfB6kgt9ZlABdi7b+xKuSUCZWN3VzkfhQZ2nr7FEh
-        GYbXMS5C39EDisloxGWJdsSHTd5X0MoT6A5qzGevqRDS2lGwddPNVnMdsP3UIQL99NABIW
-        f8okr2ppWDC7xdg/YiIQ9DYrySpkWzI=
+        bh=wslZBJewjz4hJp3e76dVIXzGvwXKoz3kxZZ5099+eDo=;
+        b=VmlSAAgMx/TvLnE50b3C5wWKZ1Jyq6VPr78DDJvsv95VeCeXS/P2MypkW2E95x6WI3bkLV
+        i1UmIJAyzMxkSFqdSCwCf+h7Cj9onDjJ61FJSxkbFqGybp7St85IYxOxY1zemOIhrgbWY2
+        Xy7WDI2sHcwIHPEN8ephZWFT/NfCr1I=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-290-FjaEmhX_OJa2_SLMPyjh_Q-1; Fri, 06 May 2022 19:16:07 -0400
-X-MC-Unique: FjaEmhX_OJa2_SLMPyjh_Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+ us-mta-106-RR9lHokKPZuzyx5pu4Jd9Q-1; Fri, 06 May 2022 19:17:46 -0400
+X-MC-Unique: RR9lHokKPZuzyx5pu4Jd9Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AFDAD185A794;
-        Fri,  6 May 2022 23:16:06 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 342FF101AA45;
+        Fri,  6 May 2022 23:17:45 +0000 (UTC)
 Received: from localhost (ovpn-12-33.pek2.redhat.com [10.72.12.33])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E5DE07AE3;
-        Fri,  6 May 2022 23:15:59 +0000 (UTC)
-Date:   Sat, 7 May 2022 07:15:56 +0800
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A3BE2026614;
+        Fri,  6 May 2022 23:17:41 +0000 (UTC)
+Date:   Sat, 7 May 2022 07:17:37 +0800
 From:   Baoquan He <bhe@redhat.com>
 To:     Zhen Lei <thunder.leizhen@huawei.com>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
@@ -58,112 +58,62 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Chen Zhou <dingguo.cz@antgroup.com>,
         John Donnelly <John.p.donnelly@oracle.com>,
         Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v24 4/6] of: fdt: Add memory for devices by DT property
- "linux,usable-memory-range"
-Message-ID: <20220506231556.GC122876@MiWiFi-R3L-srv>
+Subject: Re: [PATCH v24 5/6] of: Support more than one crash kernel regions
+ for kexec -s
+Message-ID: <20220506231737.GD122876@MiWiFi-R3L-srv>
 References: <20220506114402.365-1-thunder.leizhen@huawei.com>
- <20220506114402.365-5-thunder.leizhen@huawei.com>
+ <20220506114402.365-6-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220506114402.365-5-thunder.leizhen@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+In-Reply-To: <20220506114402.365-6-thunder.leizhen@huawei.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 05/06/22 at 07:44pm, Zhen Lei wrote:
-> From: Chen Zhou <chenzhou10@huawei.com>
+> When "crashkernel=X,high" is used, there may be two crash regions:
+> high=crashk_res and low=crashk_low_res. But now the syscall
+> kexec_file_load() only add crashk_res into "linux,usable-memory-range",
+> this may cause the second kernel to have no available dma memory.
 > 
-> When reserving crashkernel in high memory, some low memory is reserved
-> for crash dump kernel devices and never mapped by the first kernel.
-> This memory range is advertised to crash dump kernel via DT property
-> under /chosen,
->         linux,usable-memory-range = <BASE1 SIZE1 [BASE2 SIZE2]>
-> 
-> We reused the DT property linux,usable-memory-range and made the low
-> memory region as the second range "BASE2 SIZE2", which keeps compatibility
-> with existing user-space and older kdump kernels.
-> 
-> Crash dump kernel reads this property at boot time and call memblock_add()
-> to add the low memory region after memblock_cap_memory_range() has been
-> called.
+> Fix it like kexec tool do for option -c, add both 'high' and 'low' regions
+              ~~~~~~~~~~~~ 
+              kexec-tools does
 
-LGTM,
+Other than this, LGTM,
 
 Acked-by: Baoquan He <bhe@redhat.com>
 
+> into the dtb.
 > 
-> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-> Co-developed-by: Zhen Lei <thunder.leizhen@huawei.com>
 > Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>
+> Acked-by: Rob Herring <robh@kernel.org>
 > ---
->  drivers/of/fdt.c | 33 +++++++++++++++++++++++----------
->  1 file changed, 23 insertions(+), 10 deletions(-)
+>  drivers/of/kexec.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
-> index ec315b060cd50d2..2f248d0acc04830 100644
-> --- a/drivers/of/fdt.c
-> +++ b/drivers/of/fdt.c
-> @@ -973,16 +973,24 @@ static void __init early_init_dt_check_for_elfcorehdr(unsigned long node)
->  
->  static unsigned long chosen_node_offset = -FDT_ERR_NOTFOUND;
->  
-> +/*
-> + * The main usage of linux,usable-memory-range is for crash dump kernel.
-> + * Originally, the number of usable-memory regions is one. Now there may
-> + * be two regions, low region and high region.
-> + * To make compatibility with existing user-space and older kdump, the low
-> + * region is always the last range of linux,usable-memory-range if exist.
-> + */
-> +#define MAX_USABLE_RANGES		2
+> diff --git a/drivers/of/kexec.c b/drivers/of/kexec.c
+> index b9bd1cff179388c..8d374cc552be5f2 100644
+> --- a/drivers/of/kexec.c
+> +++ b/drivers/of/kexec.c
+> @@ -386,6 +386,15 @@ void *of_kexec_alloc_and_setup_fdt(const struct kimage *image,
+>  				crashk_res.end - crashk_res.start + 1);
+>  		if (ret)
+>  			goto out;
 > +
->  /**
->   * early_init_dt_check_for_usable_mem_range - Decode usable memory range
->   * location from flat tree
->   */
->  void __init early_init_dt_check_for_usable_mem_range(void)
->  {
-> -	const __be32 *prop;
-> -	int len;
-> -	phys_addr_t cap_mem_addr;
-> -	phys_addr_t cap_mem_size;
-> +	struct memblock_region rgn[MAX_USABLE_RANGES] = {0};
-> +	const __be32 *prop, *endp;
-> +	int len, i;
->  	unsigned long node = chosen_node_offset;
+> +		if (crashk_low_res.end) {
+> +			ret = fdt_appendprop_addrrange(fdt, 0, chosen_node,
+> +					"linux,usable-memory-range",
+> +					crashk_low_res.start,
+> +					crashk_low_res.end - crashk_low_res.start + 1);
+> +			if (ret)
+> +				goto out;
+> +		}
+>  	}
 >  
->  	if ((long)node < 0)
-> @@ -991,16 +999,21 @@ void __init early_init_dt_check_for_usable_mem_range(void)
->  	pr_debug("Looking for usable-memory-range property... ");
->  
->  	prop = of_get_flat_dt_prop(node, "linux,usable-memory-range", &len);
-> -	if (!prop || (len < (dt_root_addr_cells + dt_root_size_cells)))
-> +	if (!prop || (len % (dt_root_addr_cells + dt_root_size_cells)))
->  		return;
->  
-> -	cap_mem_addr = dt_mem_next_cell(dt_root_addr_cells, &prop);
-> -	cap_mem_size = dt_mem_next_cell(dt_root_size_cells, &prop);
-> +	endp = prop + (len / sizeof(__be32));
-> +	for (i = 0; i < MAX_USABLE_RANGES && prop < endp; i++) {
-> +		rgn[i].base = dt_mem_next_cell(dt_root_addr_cells, &prop);
-> +		rgn[i].size = dt_mem_next_cell(dt_root_size_cells, &prop);
->  
-> -	pr_debug("cap_mem_start=%pa cap_mem_size=%pa\n", &cap_mem_addr,
-> -		 &cap_mem_size);
-> +		pr_debug("cap_mem_regions[%d]: base=%pa, size=%pa\n",
-> +			 i, &rgn[i].base, &rgn[i].size);
-> +	}
->  
-> -	memblock_cap_memory_range(cap_mem_addr, cap_mem_size);
-> +	memblock_cap_memory_range(rgn[0].base, rgn[0].size);
-> +	for (i = 1; i < MAX_USABLE_RANGES && rgn[i].size; i++)
-> +		memblock_add(rgn[i].base, rgn[i].size);
->  }
->  
->  #ifdef CONFIG_SERIAL_EARLYCON
+>  	/* add bootargs */
 > -- 
 > 2.25.1
 > 
