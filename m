@@ -2,123 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E602BC4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 22:54:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5756C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 23:10:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1444858AbiEFW6R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 18:58:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35156 "EHLO
+        id S1444916AbiEFXO1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 19:14:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1444833AbiEFW6J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 18:58:09 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 876FB6D384;
-        Fri,  6 May 2022 15:54:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651877662; x=1683413662;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Y6AdNcL23AXH/PwccmO/lGBoL6djloRm+NY0sn6Dk+I=;
-  b=d3p+pljmgabS3M4D9wAHh1Dz1nvuPZkOt/zqgq7to0SdT1yJgXp4Hn9D
-   bnOa9gGtcF9qhCTLD9rMmYMo3+NJjNVCOrKmum3Rj2T2TXFDqsPF15Ic/
-   T2OXOtNPXzq0HWvFvijKnv559b0s1YEqB73Z+2jVctoTYIEyX0hAyLIpn
-   jSbKlCIFEvq68wmBQry+5gDzVBHLKAaaF1kseU25/u/IpY27peiWETwMm
-   gGP3yVhCS4t9xLEye93Fe4rIr+jLGFop6HsBFhQMwb3Pfq4Z3luFyERkC
-   Mimgmjv/O1VArCZ1yluxaY9bUpBW+zeaWDffxoKxlHSG/Ty3bnYWV2we1
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10339"; a="256080809"
-X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; 
-   d="scan'208";a="256080809"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2022 15:54:21 -0700
-X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; 
-   d="scan'208";a="695383650"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2022 15:54:21 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     hdegoede@redhat.com, markgross@kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        corbet@lwn.net, gregkh@linuxfoundation.org,
-        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
-        ashok.raj@intel.com, tony.luck@intel.com, rostedt@goodmis.org,
-        dan.j.williams@intel.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        patches@lists.linux.dev, ravi.v.shankar@intel.com
-Subject: [PATCH v7 11/12] platform/x86/intel/ifs: add ABI documentation for IFS
-Date:   Fri,  6 May 2022 15:54:09 -0700
-Message-Id: <20220506225410.1652287-12-tony.luck@intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220506225410.1652287-1-tony.luck@intel.com>
-References: <20220506014035.1173578-1-tony.luck@intel.com>
- <20220506225410.1652287-1-tony.luck@intel.com>
+        with ESMTP id S1444905AbiEFXO0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 19:14:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 20B9C6D38B
+        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 16:10:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1651878641;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=QDEUBZQi2gkd5vGN65bG0cDs8TDhy97WSz0PhVlgRoE=;
+        b=QehyvxK9vxssxcAaeIMW4ZqUmBjfWfq2Avxxo0n4VXqexANly7NPcqWmhrym3YmpoiMCOi
+        u72ukTxVDj0Pap1JVmP/D1bvz0UoZPNmkrFuYCP3v4WUAhJ54cJuf9H5geYrdO2wWk2/eq
+        YxaCku6uESjbMcvmavgWAOnfc1mZuco=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-668-TAhXEYwDNG2uu1lmYE4cTA-1; Fri, 06 May 2022 19:10:38 -0400
+X-MC-Unique: TAhXEYwDNG2uu1lmYE4cTA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0110F3C01C00;
+        Fri,  6 May 2022 23:10:37 +0000 (UTC)
+Received: from localhost (ovpn-12-33.pek2.redhat.com [10.72.12.33])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id A3ABC40CF8E8;
+        Fri,  6 May 2022 23:10:35 +0000 (UTC)
+Date:   Sat, 7 May 2022 07:10:32 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v24 3/6] arm64: kdump: Reimplement crashkernel=X
+Message-ID: <20220506231032.GA122876@MiWiFi-R3L-srv>
+References: <20220506114402.365-1-thunder.leizhen@huawei.com>
+ <20220506114402.365-4-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220506114402.365-4-thunder.leizhen@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jithu Joseph <jithu.joseph@intel.com>
+On 05/06/22 at 07:43pm, Zhen Lei wrote:
+......  
+> @@ -118,8 +162,7 @@ static void __init reserve_crashkernel(void)
+>  	if (crash_base)
+>  		crash_max = crash_base + crash_size;
+>  
+> -	/* Current arm64 boot protocol requires 2MB alignment */
+> -	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
+> +	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+>  					       crash_base, crash_max);
+>  	if (!crash_base) {
+>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+> @@ -127,6 +170,11 @@ static void __init reserve_crashkernel(void)
+>  		return;
+>  	}
+>  
 
-Add the sysfs attributes in ABI/testing for In-Field Scan.
+There's corner case missed, e.g
+1) ,high and ,low are specified, CONFIG_ZONE_DMA|DMA32 is not enabled;
+2) ,high and ,low are specified, the whole system memory is under 4G.
 
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-Signed-off-by: Jithu Joseph <jithu.joseph@intel.com>
-Co-developed-by: Tony Luck <tony.luck@intel.com>
-Signed-off-by: Tony Luck <tony.luck@intel.com>
-Acked-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- .../ABI/testing/sysfs-platform-intel-ifs      | 39 +++++++++++++++++++
- 1 file changed, 39 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-platform-intel-ifs
+Below judgement can filter them away:
+        
+	if (crash_base > arm64_dma_phys_limit && crash_low_size &&
+	    reserve_crashkernel_low(crash_low_size)) {
 
-diff --git a/Documentation/ABI/testing/sysfs-platform-intel-ifs b/Documentation/ABI/testing/sysfs-platform-intel-ifs
-new file mode 100644
-index 000000000000..486d6d2ff8a0
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-platform-intel-ifs
-@@ -0,0 +1,39 @@
-+What:		/sys/devices/virtual/misc/intel_ifs_<N>/run_test
-+Date:		April 21 2022
-+KernelVersion:	5.19
-+Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
-+Description:	Write <cpu#> to trigger IFS test for one online core.
-+		Note that the test is per core. The cpu# can be
-+		for any thread on the core. Running on one thread
-+		completes the test for the core containing that thread.
-+		Example: to test the core containing cpu5: echo 5 >
-+		/sys/devices/platform/intel_ifs.<N>/run_test
-+
-+What:		/sys/devices/virtual/misc/intel_ifs_<N>/status
-+Date:		April 21 2022
-+KernelVersion:	5.19
-+Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
-+Description:	The status of the last test. It can be one of "pass", "fail"
-+		or "untested".
-+
-+What:		/sys/devices/virtual/misc/intel_ifs_<N>/details
-+Date:		April 21 2022
-+KernelVersion:	5.19
-+Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
-+Description:	Additional information regarding the last test. The details file reports
-+		the hex value of the SCAN_STATUS MSR. Note that the error_code field
-+		may contain driver defined software code not defined in the Intel SDM.
-+
-+What:		/sys/devices/virtual/misc/intel_ifs_<N>/image_version
-+Date:		April 21 2022
-+KernelVersion:	5.19
-+Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
-+Description:	Version (hexadecimal) of loaded IFS binary image. If no scan image
-+		is loaded reports "none".
-+
-+What:		/sys/devices/virtual/misc/intel_ifs_<N>/reload
-+Date:		April 21 2022
-+KernelVersion:	5.19
-+Contact:	"Jithu Joseph" <jithu.joseph@intel.com>
-+Description:	Write "1" (or "y" or "Y") to reload the IFS image from
-+		/lib/firmware/intel/ifs/ff-mm-ss.scan.
--- 
-2.35.1
+What's your opinion? Leave it and add document to notice user, or fix it
+with code change?
+
+I would suggest merging this series, Lei can add this corner case
+handling on top. Since this is a newly added support, we don't have
+to make it one step. Doing step by step can make reviewing easier.
+
+> +	if (crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+> +		memblock_phys_free(crash_base, crash_size);
+> +		return;
+> +	}
+> +
+>  	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+>  		crash_base, crash_base + crash_size, crash_size >> 20);
+>  
+> @@ -135,6 +183,9 @@ static void __init reserve_crashkernel(void)
+>  	 * map. Inform kmemleak so that it won't try to access it.
+>  	 */
+>  	kmemleak_ignore_phys(crash_base);
+> +	if (crashk_low_res.end)
+> +		kmemleak_ignore_phys(crashk_low_res.start);
+> +
+>  	crashk_res.start = crash_base;
+>  	crashk_res.end = crash_base + crash_size - 1;
+>  	insert_resource(&iomem_resource, &crashk_res);
+> -- 
+> 2.25.1
+> 
 
