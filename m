@@ -2,85 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABD63C433FE
-	for <linux-doc@archiver.kernel.org>; Sat,  7 May 2022 19:12:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F404C4332F
+	for <linux-doc@archiver.kernel.org>; Sat,  7 May 2022 19:24:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386756AbiEGTQJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 May 2022 15:16:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33926 "EHLO
+        id S1359057AbiEGT2e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 May 2022 15:28:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbiEGTQI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 May 2022 15:16:08 -0400
+        with ESMTP id S231754AbiEGT2d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 May 2022 15:28:33 -0400
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51CE128980;
-        Sat,  7 May 2022 12:12:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC8B7193F8;
+        Sat,  7 May 2022 12:24:45 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 5DD57CE0DA3;
-        Sat,  7 May 2022 19:12:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23B27C385A5;
-        Sat,  7 May 2022 19:12:11 +0000 (UTC)
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     linux-doc@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        kexec@lists.infradead.org, devicetree@vger.kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Dave Young <dyoung@redhat.com>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>, Baoquan He <bhe@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        John Donnelly <John.p.donnelly@oracle.com>
-Subject: Re: [PATCH v24 0/6] support reserving crashkernel above 4G on arm64 kdump
-Date:   Sat,  7 May 2022 20:12:09 +0100
-Message-Id: <165195066216.355842.15333560704698747541.b4-ty@arm.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220506114402.365-1-thunder.leizhen@huawei.com>
-References: <20220506114402.365-1-thunder.leizhen@huawei.com>
+        by sin.source.kernel.org (Postfix) with ESMTPS id 494D4CE0B8E;
+        Sat,  7 May 2022 19:24:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 012C8C385A5;
+        Sat,  7 May 2022 19:24:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1651951482;
+        bh=MyfTcFDU6ZdDemzDXz07p3GqM6JlaSU35muvBx+cqsA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nWa5DFGSnHM+5qK1Nz9q8zyDg/AOASCQqnvJ0DnomLwFqMBGsfWD4eNeKL/rCg1nQ
+         EAxoVoCdfC5PO27eZDd65kbixnFzkbauOLmcNodfPZbmJODG5WHub4CKwjK72WqsK6
+         wu2DiGRWmhYqAMz+waY7xpBzGk3I3x4sGM+T53TxtWKzcSy4Wbzy+xOXyCmlDjVg4k
+         bZI69rB9yME650ZZYxdYz3DehxpM+Xoobjwd7Fw7V9a/vuwOyop0cB780iDUKRWfiv
+         rsiJirftMUIYfEmAHlpFPiAqeQq/rRWKpGFhKGgBgL5DlNytyK3XrX19/ROQKmvX94
+         TfZCxf1m/Qo/g==
+Date:   Sat, 7 May 2022 22:26:16 +0300
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc:     James Bottomley <jejb@linux.ibm.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>, kernel@pengutronix.de,
+        Pankaj Gupta <pankaj.gupta@nxp.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Jan Luebbe <j.luebbe@pengutronix.de>,
+        David Gstir <david@sigma-star.at>,
+        Richard Weinberger <richard@nod.at>,
+        Franck LENORMAND <franck.lenormand@nxp.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Michael Walle <michael@walle.cc>,
+        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v9 7/7] MAINTAINERS: add KEYS-TRUSTED-CAAM
+Message-ID: <YnbH2Fgn/JFOU3Rf@iki.fi>
+References: <20220506062553.1068296-1-a.fatoum@pengutronix.de>
+ <20220506062553.1068296-8-a.fatoum@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220506062553.1068296-8-a.fatoum@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 6 May 2022 19:43:56 +0800, Zhen Lei wrote:
-> Changes since [v23]:
-> Do two minor updates:
-> 1. Change the value of CRASH_ADDR_HIGH_MAX from memblock.current_limit to (PHYS_MASK + 1).
-> 2. The 'high' and 'low' are only take effect when crashkernel=X[@offset] does not exist.
->    If the value of crashkernel=X is invalid, the reservation of crash fails, even if 'high'
->    and 'low' are configured correctly.
+On Fri, May 06, 2022 at 08:25:53AM +0200, Ahmad Fatoum wrote:
+> Create a maintainer entry for CAAM trusted keys in the Linux keyring.
 > 
-> [...]
+> Reviewed-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> ---
+> v8 -> v9:
+>   - rewrite commit message (Jarkko)
+> v7 -> v8:
+>   - add Pankaj's Reviewed-by
+> v6 -> v7:
+>   - split off as separate patch (Jarkko)
+> 
+> To: Jarkko Sakkinen <jarkko@kernel.org>
+> To: James Bottomley <jejb@linux.ibm.com>
+> To: Mimi Zohar <zohar@linux.ibm.com>
+> To: David Howells <dhowells@redhat.com>
+> Cc: James Morris <jmorris@namei.org>
+> Cc: "Serge E. Hallyn" <serge@hallyn.com>
+> Cc: "Horia Geantă" <horia.geanta@nxp.com>
+> Cc: Pankaj Gupta <pankaj.gupta@nxp.com>
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Biggers <ebiggers@kernel.org>
+> Cc: Jan Luebbe <j.luebbe@pengutronix.de>
+> Cc: David Gstir <david@sigma-star.at>
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Franck LENORMAND <franck.lenormand@nxp.com>
+> Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> Cc: Michael Walle <michael@walle.cc>
+> Cc: Sumit Garg <sumit.garg@linaro.org>
+> Cc: keyrings@vger.kernel.org
+> Cc: linux-crypto@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-integrity@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-security-module@vger.kernel.org
+> ---
+>  MAINTAINERS | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5e8c2f611766..e58e6fc3016d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10855,6 +10855,15 @@ S:	Supported
+>  F:	include/keys/trusted_tee.h
+>  F:	security/keys/trusted-keys/trusted_tee.c
+>  
+> +KEYS-TRUSTED-CAAM
+> +M:	Ahmad Fatoum <a.fatoum@pengutronix.de>
+> +R:	Pengutronix Kernel Team <kernel@pengutronix.de>
+> +L:	linux-integrity@vger.kernel.org
+> +L:	keyrings@vger.kernel.org
+> +S:	Maintained
+> +F:	include/keys/trusted_caam.h
+> +F:	security/keys/trusted-keys/trusted_caam.c
+> +
+>  KEYS/KEYRINGS
+>  M:	David Howells <dhowells@redhat.com>
+>  M:	Jarkko Sakkinen <jarkko@kernel.org>
+> -- 
+> 2.30.2
+> 
 
-Applied to arm64 (for-next/crashkernel), finally ;). Thanks!
+Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
 
-Only patches on top please for the fall-back implementation.
-
-[1/6] kdump: return -ENOENT if required cmdline option does not exist
-      https://git.kernel.org/arm64/c/2e5920bb073a
-[2/6] arm64: Use insert_resource() to simplify code
-      https://git.kernel.org/arm64/c/e6b394425c61
-[3/6] arm64: kdump: Reimplement crashkernel=X
-      https://git.kernel.org/arm64/c/944a45abfabc
-[4/6] of: fdt: Add memory for devices by DT property "linux,usable-memory-range"
-      https://git.kernel.org/arm64/c/fb319e77a0e7
-[5/6] of: Support more than one crash kernel regions for kexec -s
-      https://git.kernel.org/arm64/c/8af6b91f5834
-[6/6] docs: kdump: Update the crashkernel description for arm64
-      https://git.kernel.org/arm64/c/5832f1ae5060
-
--- 
-Catalin
-
+BR, Jarkko
