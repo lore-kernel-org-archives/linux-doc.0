@@ -2,122 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9093FC433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  7 May 2022 06:37:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 843E0C433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  7 May 2022 08:06:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1383473AbiEGGks (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 May 2022 02:40:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47954 "EHLO
+        id S1353537AbiEGIKN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 May 2022 04:10:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229980AbiEGGks (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 May 2022 02:40:48 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39FD940E6B;
-        Fri,  6 May 2022 23:37:02 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 789541C0BA6; Sat,  7 May 2022 08:37:00 +0200 (CEST)
-Date:   Sat, 7 May 2022 08:36:59 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Doug Anderson <dianders@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
-Message-ID: <20220507063659.GA6968@amd>
-References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
- <20220303214300.59468-2-bjorn.andersson@linaro.org>
- <20220504073009.GC8204@duo.ucw.cz>
- <YnKTAvQc6eDxTl14@ripper>
- <20220506160901.GA1199@bug>
- <YnVMcaRV86jZslhd@ripper>
+        with ESMTP id S1358966AbiEGIKH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 May 2022 04:10:07 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47B9F2125B
+        for <linux-doc@vger.kernel.org>; Sat,  7 May 2022 01:06:20 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id d25so8087425pfo.10
+        for <linux-doc@vger.kernel.org>; Sat, 07 May 2022 01:06:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=aWQfnp8p3Sa/CZYziUv8sJFvgH/DhWMow1Ki0jzKInQ=;
+        b=d7sa/vJyLfF9BR72n72H6iTcORw0kbeaXS21B2+FXdbG66FYCW7FBC02LCRup2bO0T
+         VbztyRzKE447Dsr5bQyIcT/N6Q1+c4/IXMaJT3GrJsKz9ltWgOCmeIOcoalYl/8o+V6Q
+         JCxhKqmLoYC0fCUjLs/ACK38p33kuWfTfdyYo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=aWQfnp8p3Sa/CZYziUv8sJFvgH/DhWMow1Ki0jzKInQ=;
+        b=OYDdM7cng5CmmDfZJkT6GGsnjA+oiNkN88BAkBVYe2YwTxvF7wVLO6UVbCEcYoFBgb
+         X0PoiWEaLUb4pCn1tCKIdTZEefIbJZaBS9hOjHhbTAUQ/R8UkRxbviCEt9SGZIFi8kCL
+         GYYeRsO3el+W9+3Nc2CuXSc7F/ohLu82rC71XrEPCMYrRHUdUw7ucIUKKrbg5UgPf2GA
+         bLgV/CZCk8ti2ANC7rQ3u48rvQWwu/rDr0SGhCmLzkEpnzkR4ogx0/a+Py2pWc8GZkFM
+         Km3wvfcZo+V6E5aXTcRxPZOZLR76iUSEAe26n6dT55EUY9RkQ+WnZa2YDRjin4Vcg5O9
+         HHIw==
+X-Gm-Message-State: AOAM5310CJZIek+zQW3WZo7Mb+rd/cytFD1nSw4iJcWwU80+y0OjCi8K
+        CxkrhTkNjW0RzQB4yhLBbckelw==
+X-Google-Smtp-Source: ABdhPJyPh1ezOw2sy0EQ6kjmLgD1rSsrITTXAJHnhVIq/PJRePuQKh9Kel3rSaI68O428UlbxAszUg==
+X-Received: by 2002:a63:6fc4:0:b0:393:9567:16dc with SMTP id k187-20020a636fc4000000b00393956716dcmr5757855pgc.593.1651910779774;
+        Sat, 07 May 2022 01:06:19 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id j192-20020a638bc9000000b003c14af505fcsm4564376pge.20.2022.05.07.01.06.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 May 2022 01:06:19 -0700 (PDT)
+Date:   Sat, 7 May 2022 01:06:18 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Miguel Ojeda <ojeda@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        kunit-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, live-patching@vger.kernel.org
+Subject: Re: [PATCH v6 00/23] Rust support
+Message-ID: <202205070056.ACC3C3D@keescook>
+References: <20220507052451.12890-1-ojeda@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="+HP7ph2BbKc20aGI"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YnVMcaRV86jZslhd@ripper>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20220507052451.12890-1-ojeda@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, May 07, 2022 at 07:23:58AM +0200, Miguel Ojeda wrote:
+> ## Patch series status
+> 
+> The Rust support is still to be considered experimental. However,
+> support is good enough that kernel developers can start working on the
+> Rust abstractions for subsystems and write drivers and other modules.
 
---+HP7ph2BbKc20aGI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'd really like to see this landed for a few reasons:
 
-Hi!
+- It's under active development, and I'd rather review the changes
+  "normally", incrementally, etc. Right now it can be hard to re-review
+  some of the "mostly the same each version" patches in the series.
 
-> > > As such the pattern sequence provided to hw_pattern looks to be the
-> > > smae, but I don't see that it can be made compatible.
-> > >=20
-> > > > Can I get either patch to disable pattern infrastructure for now or=
- to
-> > > > get it compatible?
-> > > >=20
-> > >=20
-> > > I'd be happy to get this updated to your liking, but this was one of =
-the
-> > > drivers we discussed when we introduced the pattern trigger and led to
-> > > the conclusion that we need the ability to do hw-specific patterns.
-> > >=20
-> > > As such this document provides the hardware specific documentation, as
-> > > we describe under "hw_pattern" in
-> > > Documentation/ABI/testing/sysfs-class-led-trigger-pattern.
-> > >=20
-> > > Please advice on what you would like me to do.
-> >=20
-> > I'd like you to use same format leds-trigger-pattern describes.
-> >=20
-> > If someone passes "255 500 0 500", that's requesting gradual transition=
-s and
-> > your hw can not do that. You return -EINVAL.
-> >=20
-> > If someone wants that kind of blinking, they need to pass "255 0 255 50=
-0 0 0 0 500".
-> >=20
->=20
-> So the section under hw_pattern in sysfs-class-led-trigger-pattern that
-> says:
->=20
-> "Since different LED hardware can have different semantics of
-> hardware patterns, each driver is expected to provide its own
-> description for the hardware patterns in their documentation
-> file at Documentation/leds/."
->=20
-> That doesn't apply to this piece of hardware & driver?
+- I'd like to break the catch-22 of "ask for a new driver to be
+  written in rust but the rust support isn't landed" vs "the rust
+  support isn't landed because there aren't enough drivers". It
+  really feels like "release early, release often" is needed here;
+  it's hard to develop against -next. :)
 
-It applies: since your hardware can not do arbitrary patterns, you
-need description of what kinds of patterns it can do.
+Should we give it a try for this coming merge window?
 
-But you should still use compatible format, so that pattern that is
-valid for hw_pattern file is valid for pattern file, too, and produces
-same result.
-
-If you believe documentation implies something else, it may need to be
-clarified.
-
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---+HP7ph2BbKc20aGI
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmJ2E4sACgkQMOfwapXb+vJMFACgv1L01dasG1ImG6KRZ5gYS2iV
-eHsAn0pdBf62FwAjzmn9R2KEOJoW/1rb
-=zdUZ
------END PGP SIGNATURE-----
-
---+HP7ph2BbKc20aGI--
+-- 
+Kees Cook
