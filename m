@@ -2,261 +2,273 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D67B1C433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  7 May 2022 13:22:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F508C433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  7 May 2022 13:51:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239061AbiEGN0i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 May 2022 09:26:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49194 "EHLO
+        id S229797AbiEGNzi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 May 2022 09:55:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235180AbiEGN0h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 May 2022 09:26:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 94A3136177
-        for <linux-doc@vger.kernel.org>; Sat,  7 May 2022 06:22:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651929769;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=8e+k/+y9OcE1mgVQl5G3myG0wCTkmuqBJJIz2n+p6KI=;
-        b=YTkpQr7ssNXJiI/xHxQkdbnnVyALmNGMbLH011/VHkCngsFI4EZ+mH6DoXKfkIl8ykTpTd
-        AwzZaeTpLuP4lzi34TQYaj3+WE84W/e271jKLEuFoyV3OaHtQ+pgpHdrOknZO01S//AtRS
-        tNrZQllF4cw6oRFKw7dCrEkHfPrLS/g=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-351-y-8dsoQnOnWyX_xDm9-YPg-1; Sat, 07 May 2022 09:22:46 -0400
-X-MC-Unique: y-8dsoQnOnWyX_xDm9-YPg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9705F101AA44;
-        Sat,  7 May 2022 13:22:45 +0000 (UTC)
-Received: from localhost (ovpn-12-41.pek2.redhat.com [10.72.12.41])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E74840D2830;
-        Sat,  7 May 2022 13:22:41 +0000 (UTC)
-Date:   Sat, 7 May 2022 21:22:21 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v24 3/6] arm64: kdump: Reimplement crashkernel=X
-Message-ID: <YnZyjQJ059j8RGIe@MiWiFi-R3L-srv>
-References: <20220506114402.365-1-thunder.leizhen@huawei.com>
- <20220506114402.365-4-thunder.leizhen@huawei.com>
- <20220506231032.GA122876@MiWiFi-R3L-srv>
- <d9b21f31-6fd2-a898-9a70-c63ff4f36212@huawei.com>
- <YnXUSBcFmEpxaqBf@MiWiFi-R3L-srv>
- <9f6fdbb8-b6c5-3ca0-31b6-617175739e81@huawei.com>
- <6e892914-74ae-2b8f-954e-342aaf4be870@huawei.com>
+        with ESMTP id S1385248AbiEGNxq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 May 2022 09:53:46 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F01039BA6
+        for <linux-doc@vger.kernel.org>; Sat,  7 May 2022 06:49:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=xVjkohPbDVogphRyms3QMIkJu+GX9LDaSDeDyxKCGEM=; b=EO7sr8NL3rGefBGtCYcFaivyoL
+        u+SECC8kiLXsZ9lb8h1V5oJTHTbdE3dFGZd538SnDK/8TxFZsl9T4kkYICXD0iLfJVeRmy/jgQ1R9
+        7FdumYqWa21Nmtf/o6IiSglqx+HxRF6k3ubwS18Wx1h4sP/5uXveeCAmNgIia0du0uE1jeIH1p/ke
+        hgiFfg8gUywpmJJFU+OUnljFUti4/apNW40tDs5ZByiBIRurH0hdFgnmoOJ4OAKEMTkUEKwG0+BCS
+        p3L6MYZO10GxjkyVZ8bBlYGglxSJT/1RM6awLuCluZoA6DZ1ItG33x1YesoCzfQJa+L4VYbrZnWfL
+        ZBmQvgyw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nnKoh-001ray-8B; Sat, 07 May 2022 13:49:51 +0000
+From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To:     linux-mm@kvack.org, linux-doc@vger.kernel.org
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>
+Subject: [PATCH v2] mm,doc: Add new documentation structure
+Date:   Sat,  7 May 2022 14:49:47 +0100
+Message-Id: <20220507134947.444287-1-willy@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6e892914-74ae-2b8f-954e-342aaf4be870@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/07/22 at 05:35pm, Leizhen (ThunderTown) wrote:
-> 
-> 
-> On 2022/5/7 11:37, Leizhen (ThunderTown) wrote:
-> > 
-> > 
-> > On 2022/5/7 10:07, Baoquan He wrote:
-> >> On 05/07/22 at 09:34am, Leizhen (ThunderTown) wrote:
-> >>>
-> >>>
-> >>> On 2022/5/7 7:10, Baoquan He wrote:
-> >>>> On 05/06/22 at 07:43pm, Zhen Lei wrote:
-> >>>> ......  
-> >>>>> @@ -118,8 +162,7 @@ static void __init reserve_crashkernel(void)
-> >>>>>  	if (crash_base)
-> >>>>>  		crash_max = crash_base + crash_size;
-> >>>>>  
-> >>>>> -	/* Current arm64 boot protocol requires 2MB alignment */
-> >>>>> -	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
-> >>>>> +	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
-> >>>>>  					       crash_base, crash_max);
-> >>>>>  	if (!crash_base) {
-> >>>>>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
-> >>>>> @@ -127,6 +170,11 @@ static void __init reserve_crashkernel(void)
-> >>>>>  		return;
-> >>>>>  	}
-> >>>>>  
-> >>>>
-> >>>> There's corner case missed, e.g
-> >>>> 1) ,high and ,low are specified, CONFIG_ZONE_DMA|DMA32 is not enabled;
-> >>>> 2) ,high and ,low are specified, the whole system memory is under 4G.
-> >>>>
-> >>>> Below judgement can filter them away:
-> >>>>         
-> >>>> 	if (crash_base > arm64_dma_phys_limit && crash_low_size &&
-> >>>> 	    reserve_crashkernel_low(crash_low_size)) {
-> >>>>
-> >>>> What's your opinion? Leave it and add document to notice user, or fix it
-> >>>> with code change?
-> 
-> I decided to modify the code and document. But the code changes aren't what
-> you suggested. For the following reasons:
+Closely following the outline of Mel Gorman's book "Understanding the
+Linux Virtual Memory Manager", add a new outline.  Preserve the current
+contents of the mm underneath the new outline so we can transition those
+documents to a more sensible place later.
 
-Hi Lei,
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Reviewed-by: John Hubbard <jhubbard@nvidia.com>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+---
+ Documentation/vm/bootmem.rst         |  5 ++++
+ Documentation/vm/index.rst           | 40 +++++++++++++++++++++++-----
+ Documentation/vm/oom.rst             |  5 ++++
+ Documentation/vm/page_allocation.rst |  5 ++++
+ Documentation/vm/page_cache.rst      |  5 ++++
+ Documentation/vm/page_reclaim.rst    |  5 ++++
+ Documentation/vm/page_tables.rst     |  5 ++++
+ Documentation/vm/physical_memory.rst |  5 ++++
+ Documentation/vm/process_addrs.rst   |  5 ++++
+ Documentation/vm/shmfs.rst           |  5 ++++
+ Documentation/vm/slab.rst            |  5 ++++
+ Documentation/vm/swap.rst            |  5 ++++
+ Documentation/vm/vmalloc.rst         |  5 ++++
+ 13 files changed, 93 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/vm/bootmem.rst
+ create mode 100644 Documentation/vm/oom.rst
+ create mode 100644 Documentation/vm/page_allocation.rst
+ create mode 100644 Documentation/vm/page_cache.rst
+ create mode 100644 Documentation/vm/page_reclaim.rst
+ create mode 100644 Documentation/vm/page_tables.rst
+ create mode 100644 Documentation/vm/physical_memory.rst
+ create mode 100644 Documentation/vm/process_addrs.rst
+ create mode 100644 Documentation/vm/shmfs.rst
+ create mode 100644 Documentation/vm/slab.rst
+ create mode 100644 Documentation/vm/swap.rst
+ create mode 100644 Documentation/vm/vmalloc.rst
 
-I would say let's merge this version firstly, then add the left step
-by step. Crashkernel= is not a simple parameter, expecting to make it in
-one step is not realistic. Otherwise, we will be in a mess of all
-cases of discussion and handling. Let's slow down and get the basic
-support added.
-
-> 1. The memory allocated for 'high' may be partially under 4G. So the low
->    memory may not be enough. Of course, it's rare.
-
-No, let's forget under 4G or above 4G thing on arm64, but use
-arm64_dma_phys_limit instead. It's basically equivalent to 4G
-on x86, while will cause confusion.
-
-And I may not get what you are saying the 'high' partially under 4G
-thing, could you be more specific or give an example?
-
-> 2. The second kernel can work properly only when the high and low memory
->    are successfully applied for. For example, high=128M, low=128M, but the
->    second kernel need 256M.
-
-I may not get this either. We usually won't split our memory requirement
-into ,high and ,low region. ,high is the main place to accommadate kernel
-image, initrd, and user space program's memory allocation. ,low is for
-DMA during kernel bootup.
-
-We probably should not encourage or guide user to use like this if I got
-you correctly. That will complicate the crashkernel= usage more.
-
-> 
-> So for the cases you listed:
-> 1) ,high and ,low are specified, CONFIG_ZONE_DMA|DMA32 is not enabled;
->    --> Follow you suggestion, ignore crashkernel=Y,low, don't allocate low memory.
-> 
-> @@ -100,6 +100,14 @@ static int __init reserve_crashkernel_low(unsigned long long low_size)
->  {
->         unsigned long long low_base;
-> 
-> +       /*
-> +        * The kernel does not have any DMA zone, so the range of each DMA
-> +        * zone is unknown. Please make sure both CONFIG_ZONE_DMA and
-> +        * CONFIG_ZONE_DMA32 are also not set in the second kernel.
-> +        */
-> +       if (!IS_ENABLED(CONFIG_ZONE_DMA) && !IS_ENABLED(CONFIG_ZONE_DMA32))
-> +               return 0;
-> +
-> 
-> 2) ,high and ,low are specified, the whole system memory is under 4G.
->    --> two memory ranges will be allocated, the size is what 'high' and 'low' specified.
->    --> Yes, the memory of 'low' may be above 'high', but the 'high' just hint allocation
->    --> from top, try high memory first. Of course, this may cause kexec to fail to load.
->    --> Because the memory of 'low' with small size will be used to store Image, etc..
->    --> But the memory of 'low' above 'high' is almost impossible, we use memblock API to
->    --> allocate memory from top to bottem, 'low' above 'high' need a sizeable memory block
->    --> (128M, 256M?) to be freed at init phase.
-
-Not really. Please think about the case that crashkernel=1G,hign
-crashkernel=128M,low. memblock top down allocation find a lower position
-for 1G, but a higher position for 128M because of meomry fragmentation.
-It's easy but reasonable thing.
-
->    -->  Maybe I should add: crash_max = min(crash_base, CRASH_ADDR_LOW_MAX);
->    --> to make sure the memory of 'low' is always under 'high'
-
-I would say let's not scatter these details into different places.
-Like what I changed, it's much easier and code is more understandable.
-Let's discuss this after this series accepted. A new series can be
-posted to handle these. 
-
-> 
-> >>>
-> >>> I think maybe we can leave it unchanged. If the user configures two memory ranges,
-> >>> we'd better apply for two. Otherwise, he'll be confused when he inquires. Currently,
-> >>> crash_low_size is non-zero only when 'crashkernel=Y,low' is explicitly configured.
-> >>
-> >> Then user need know the system information, e.g how much is the high
-> >> memory, low memory, if CONFIG_ZONE_DMA|DMA32 is enabled. And we need
-> >> describe these cases in document. Any corner case or exception need
-> >> be noted if we don't handle it in code.
-> >>
-> >> Caring about this very much because we have CI with existed test cases
-> >> to run on the system, and QA will check these manually too. Support
-> >> engineer need detailed document if anything special but happened.
-> >> Anything unclear or uncovered will be reported as bug to our kernel dev.
-> >> Guess your company do the similar thing like this.
-> >>
-> >> This crashkerne,high and crashkernel,low reservation is special if we
-> >> allow ,high, ,low existing in the same zone. Imagine on system with
-> >> CONFIG_ZONE_DMA|DMA32 disabled, people copy the crashkernel=512M,high
-> >> and crashkernel=128M,low from other system, and he could get
-> >> crash_res at [5G, 5G+512M], while crash_low_res at [6G, 6G+128M]. Guess
-> >> how they will judge us.
-> > 
-> > OK, I got it.
-> > 
-> >>
-> >>>
-> >>>>
-> >>>> I would suggest merging this series, Lei can add this corner case
-> >>>> handling on top. Since this is a newly added support, we don't have
-> >>>> to make it one step. Doing step by step can make reviewing easier.
-> >>>>
-> >>>>> +	if (crash_low_size && reserve_crashkernel_low(crash_low_size)) {
-> >>>>> +		memblock_phys_free(crash_base, crash_size);
-> >>>>> +		return;
-> >>>>> +	}
-> >>>>> +
-> >>>>>  	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
-> >>>>>  		crash_base, crash_base + crash_size, crash_size >> 20);
-> >>>>>  
-> >>>>> @@ -135,6 +183,9 @@ static void __init reserve_crashkernel(void)
-> >>>>>  	 * map. Inform kmemleak so that it won't try to access it.
-> >>>>>  	 */
-> >>>>>  	kmemleak_ignore_phys(crash_base);
-> >>>>> +	if (crashk_low_res.end)
-> >>>>> +		kmemleak_ignore_phys(crashk_low_res.start);
-> >>>>> +
-> >>>>>  	crashk_res.start = crash_base;
-> >>>>>  	crashk_res.end = crash_base + crash_size - 1;
-> >>>>>  	insert_resource(&iomem_resource, &crashk_res);
-> >>>>> -- 
-> >>>>> 2.25.1
-> >>>>>
-> >>>>
-> >>>> .
-> >>>>
-> >>>
-> >>> -- 
-> >>> Regards,
-> >>>   Zhen Lei
-> >>>
-> >>
-> >> .
-> >>
-> > 
-> 
-> -- 
-> Regards,
->   Zhen Lei
-> 
+diff --git a/Documentation/vm/bootmem.rst b/Documentation/vm/bootmem.rst
+new file mode 100644
+index 000000000000..eb2b31eedfa1
+--- /dev/null
++++ b/Documentation/vm/bootmem.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===========
++Boot Memory
++===========
+diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
+index 44365c4574a3..e72736d53604 100644
+--- a/Documentation/vm/index.rst
++++ b/Documentation/vm/index.rst
+@@ -2,12 +2,39 @@
+ Linux Memory Management Documentation
+ =====================================
+ 
+-This is a collection of documents about the Linux memory management (mm)
+-subsystem internals with different level of details ranging from notes and
+-mailing list responses for elaborating descriptions of data structures and
+-algorithms.  If you are looking for advice on simply allocating memory, see the
+-:ref:`memory_allocation`.  For controlling and tuning guides, see the
+-:doc:`admin guide <../admin-guide/mm/index>`.
++Memory Management Guide
++=======================
++
++This is a guide to understanding the memory management subsystem
++of Linux.  If you are looking for advice on simply allocating memory,
++see the :ref:`memory_allocation`.  For controlling and tuning guides,
++see the :doc:`admin guide <../admin-guide/mm/index>`.
++
++.. toctree::
++   :maxdepth: 1
++
++   physical_memory
++   page_tables
++   process_addrs
++   bootmem
++   page_allocation
++   vmalloc
++   slab
++   highmem
++   page_reclaim
++   swap
++   page_cache
++   shmfs
++   oom
++
++Legacy Documentation
++====================
++
++This is a collection of older documents about the Linux memory management
++(MM) subsystem internals with different level of details ranging from
++notes and mailing list responses for elaborating descriptions of data
++structures and algorithms.  It should all be integrated nicely into the
++above structured documentation, or deleted if it has served its purpose.
+ 
+ .. toctree::
+    :maxdepth: 1
+@@ -18,7 +45,6 @@ algorithms.  If you are looking for advice on simply allocating memory, see the
+    damon/index
+    free_page_reporting
+    frontswap
+-   highmem
+    hmm
+    hwpoison
+    hugetlbfs_reserv
+diff --git a/Documentation/vm/oom.rst b/Documentation/vm/oom.rst
+new file mode 100644
+index 000000000000..18e9e40c1ec1
+--- /dev/null
++++ b/Documentation/vm/oom.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++======================
++Out Of Memory Handling
++======================
+diff --git a/Documentation/vm/page_allocation.rst b/Documentation/vm/page_allocation.rst
+new file mode 100644
+index 000000000000..d9b4495561f1
+--- /dev/null
++++ b/Documentation/vm/page_allocation.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===============
++Page Allocation
++===============
+diff --git a/Documentation/vm/page_cache.rst b/Documentation/vm/page_cache.rst
+new file mode 100644
+index 000000000000..75eba7c431b2
+--- /dev/null
++++ b/Documentation/vm/page_cache.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==========
++Page Cache
++==========
+diff --git a/Documentation/vm/page_reclaim.rst b/Documentation/vm/page_reclaim.rst
+new file mode 100644
+index 000000000000..50a30b7f8ac3
+--- /dev/null
++++ b/Documentation/vm/page_reclaim.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============
++Page Reclaim
++============
+diff --git a/Documentation/vm/page_tables.rst b/Documentation/vm/page_tables.rst
+new file mode 100644
+index 000000000000..96939571d7bc
+--- /dev/null
++++ b/Documentation/vm/page_tables.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===========
++Page Tables
++===========
+diff --git a/Documentation/vm/physical_memory.rst b/Documentation/vm/physical_memory.rst
+new file mode 100644
+index 000000000000..2ab7b8c1c863
+--- /dev/null
++++ b/Documentation/vm/physical_memory.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===============
++Physical Memory
++===============
+diff --git a/Documentation/vm/process_addrs.rst b/Documentation/vm/process_addrs.rst
+new file mode 100644
+index 000000000000..e8618fbc62c9
+--- /dev/null
++++ b/Documentation/vm/process_addrs.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=================
++Process Addresses
++=================
+diff --git a/Documentation/vm/shmfs.rst b/Documentation/vm/shmfs.rst
+new file mode 100644
+index 000000000000..8b01ebb4c30e
+--- /dev/null
++++ b/Documentation/vm/shmfs.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++========================
++Shared Memory Filesystem
++========================
+diff --git a/Documentation/vm/slab.rst b/Documentation/vm/slab.rst
+new file mode 100644
+index 000000000000..87d5a5bb172f
+--- /dev/null
++++ b/Documentation/vm/slab.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===============
++Slab Allocation
++===============
+diff --git a/Documentation/vm/swap.rst b/Documentation/vm/swap.rst
+new file mode 100644
+index 000000000000..78819bd4d745
+--- /dev/null
++++ b/Documentation/vm/swap.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++====
++Swap
++====
+diff --git a/Documentation/vm/vmalloc.rst b/Documentation/vm/vmalloc.rst
+new file mode 100644
+index 000000000000..363fe20d6b9f
+--- /dev/null
++++ b/Documentation/vm/vmalloc.rst
+@@ -0,0 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++======================================
++Virtually Contiguous Memory Allocation
++======================================
+-- 
+2.34.1
 
