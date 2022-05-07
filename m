@@ -2,166 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD7F5C4332F
-	for <linux-doc@archiver.kernel.org>; Sat,  7 May 2022 09:29:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F819C433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  7 May 2022 09:35:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1446167AbiEGJdE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 May 2022 05:33:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37998 "EHLO
+        id S1446219AbiEGJjj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 May 2022 05:39:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1446160AbiEGJdD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 May 2022 05:33:03 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5000856211
-        for <linux-doc@vger.kernel.org>; Sat,  7 May 2022 02:29:16 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id d5so13024336wrb.6
-        for <linux-doc@vger.kernel.org>; Sat, 07 May 2022 02:29:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=O46NG4I/Ehd11dycpk2RjsN/cJ86swAD+6NyN8Wu3oM=;
-        b=pEJT+rz+VfSx+i3BXIXcXBka/5Yg7AcIDPJqzI64zSkN1WUpTztaU5kum35UgrsfF9
-         DzOjJPlOXIfoUzWT5jSe26grmDrcE5y4YRZ4YR+l+KCgM4xNILwg4UsizkKWsczzl+De
-         nX6pK3uT0jQrV4KFZSgHFgFeD2qqS/Q51S4GZiQOJ4lfG8T7AE63PEcYjY2oxMoY9aqJ
-         KPWdvUwiryRluS9vjmaRgu1H83GjAAQS1C7TsJMRlMrMgQMCmzL3mmrDMbW3OJyOj5Y9
-         EQP9LAp0ElcPFJCYbA8qRiTa5YvhVwVsbiztmAuOvi5ZjZGIAm5UQjWZ/T6CG7ioVXxa
-         fe5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=O46NG4I/Ehd11dycpk2RjsN/cJ86swAD+6NyN8Wu3oM=;
-        b=PMuxkOWuH1pjFHjMpkHSpyQsVhvvnElfepIcQ3+Gdf3PdbJWUauE70gTMOx2awjQPb
-         T1sJerqRgHgqTlH7azaPRqSuFeD3zn3YJRzUyL2mPNKqln1wSGI+kgw25Niih8/ZA/Cx
-         +8Enl9SlPam6NYhFCfjoOR7qkg1aM20eFpl9KEEkCRcwnHMAQAGgQzYnhUmtIGtijzxu
-         fmS9vmmdxI8mttdIpWhxDWGY/ee++hCaUdFha77IA07obr/8YfwYxaUOt6NFb4IBMP44
-         dn+S4OI5R+lPJ1zKPR3eKqOJiYb0DZz1jJGtJ9sZVyq7VJqjXR6R2BVrhQiD8KzVegrH
-         aYzA==
-X-Gm-Message-State: AOAM533Y3YyUA3CuQkXxiQwskdjIidjVDITK5QaqF0RN1QwbUrIAE033
-        fPhNM/OqvP/CwEvrKAsr6UdStL3b84YU9at81saHEQ==
-X-Google-Smtp-Source: ABdhPJwmX5iwSt0ucutb+u1FHWUawG0af5FN3nvZMbahKeV3F7Ce0O0VSgqTSlIoIeUQl+Jhb3u7MOWpzqebYk3FohA=
-X-Received: by 2002:a5d:4307:0:b0:207:9f82:e238 with SMTP id
- h7-20020a5d4307000000b002079f82e238mr6283084wrq.430.1651915754752; Sat, 07
- May 2022 02:29:14 -0700 (PDT)
+        with ESMTP id S1446192AbiEGJje (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 May 2022 05:39:34 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3830115709;
+        Sat,  7 May 2022 02:35:47 -0700 (PDT)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.57])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4KwMck38LXzXdlk;
+        Sat,  7 May 2022 17:31:02 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sat, 7 May 2022 17:35:45 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sat, 7 May 2022 17:35:44 +0800
+Subject: Re: [PATCH v24 3/6] arm64: kdump: Reimplement crashkernel=X
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+To:     Baoquan He <bhe@redhat.com>
+CC:     Catalin Marinas <catalin.marinas@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>, Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        "John Donnelly" <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+References: <20220506114402.365-1-thunder.leizhen@huawei.com>
+ <20220506114402.365-4-thunder.leizhen@huawei.com>
+ <20220506231032.GA122876@MiWiFi-R3L-srv>
+ <d9b21f31-6fd2-a898-9a70-c63ff4f36212@huawei.com>
+ <YnXUSBcFmEpxaqBf@MiWiFi-R3L-srv>
+ <9f6fdbb8-b6c5-3ca0-31b6-617175739e81@huawei.com>
+Message-ID: <6e892914-74ae-2b8f-954e-342aaf4be870@huawei.com>
+Date:   Sat, 7 May 2022 17:35:32 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20220507052451.12890-1-ojeda@kernel.org>
-In-Reply-To: <20220507052451.12890-1-ojeda@kernel.org>
-From:   David Gow <davidgow@google.com>
-Date:   Sat, 7 May 2022 17:29:03 +0800
-Message-ID: <CABVgOSm5S2=QYnHJ+B0JbYtFYKBDRZiOhE5YMKKUKZU56d17HQ@mail.gmail.com>
-Subject: Re: [PATCH v6 00/23] Rust support
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-gpio@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-perf-users@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, live-patching@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <9f6fdbb8-b6c5-3ca0-31b6-617175739e81@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 7, 2022 at 1:25 PM Miguel Ojeda <ojeda@kernel.org> wrote:
->
-> Rust support
->
 
-<...>
 
->   - Support running documentation tests in-kernel, based on KUnit.
->
->     Rust documentation tests are typically examples of usage of any
->     item (e.g. function, struct, module...). They are very convenient
->     because they are just written alongside the documentation, e.g.:
->
->         /// Sums two numbers.
->         ///
->         /// # Examples
->         ///
->         /// ```
->         /// assert_eq!(mymod::f(10, 20), 30);
->         /// ```
->         pub fn f(a: i32, b: i32) -> i32 {
->             a + b
->         }
->
->     So far, we were compiling and running them in the host as any
->     other Rust documentation test. However, that meant we could not
->     run tests that used kernel APIs (though we were compile-testing
->     them, which was already useful to keep the documentation in sync
->     with the code).
->
->     Now, the documentation tests for the `kernel` crate are
->     transformed into a KUnit test suite during compilation and run
->     within the kernel at boot time, if enabled. This means now we can
->     run the tests that use kernel APIs.
->
->     They look like this (their name is generated by `rustdoc`, based
->     on the file and line):
->
->         [    0.581961] TAP version 14
->         [    0.582092] 1..1
->         [    0.582267]     # Subtest: rust_kernel_doctests
->         [    0.582358]     1..70
->         [    0.583626]     ok 1 - rust_kernel_doctest_build_assert_rs_12_0
->         [    0.584579]     ok 2 - rust_kernel_doctest_build_assert_rs_55_0
->         [    0.587357]     ok 3 - rust_kernel_doctest_device_rs_361_0
->         [    0.588037]     ok 4 - rust_kernel_doctest_device_rs_386_0
->
->         ...
->
->         [    0.659249]     ok 69 - rust_kernel_doctest_types_rs_445_0
->         [    0.660451]     ok 70 - rust_kernel_doctest_types_rs_509_0
->         [    0.660680] # rust_kernel_doctests: pass:70 fail:0 skip:0 total:70
->         [    0.660894] # Totals: pass:70 fail:0 skip:0 total:70
->         [    0.661135] ok 1 - rust_kernel_doctests
->
->     There are other benefits from this, such as being able to remove
->     unneeded wrapper functions (that were used to avoid running
->     some tests) as well as ensuring test code would actually compile
->     within the kernel (e.g. `alloc` used different `cfg`s).
+On 2022/5/7 11:37, Leizhen (ThunderTown) wrote:
+> 
+> 
+> On 2022/5/7 10:07, Baoquan He wrote:
+>> On 05/07/22 at 09:34am, Leizhen (ThunderTown) wrote:
+>>>
+>>>
+>>> On 2022/5/7 7:10, Baoquan He wrote:
+>>>> On 05/06/22 at 07:43pm, Zhen Lei wrote:
+>>>> ......  
+>>>>> @@ -118,8 +162,7 @@ static void __init reserve_crashkernel(void)
+>>>>>  	if (crash_base)
+>>>>>  		crash_max = crash_base + crash_size;
+>>>>>  
+>>>>> -	/* Current arm64 boot protocol requires 2MB alignment */
+>>>>> -	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
+>>>>> +	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+>>>>>  					       crash_base, crash_max);
+>>>>>  	if (!crash_base) {
+>>>>>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+>>>>> @@ -127,6 +170,11 @@ static void __init reserve_crashkernel(void)
+>>>>>  		return;
+>>>>>  	}
+>>>>>  
+>>>>
+>>>> There's corner case missed, e.g
+>>>> 1) ,high and ,low are specified, CONFIG_ZONE_DMA|DMA32 is not enabled;
+>>>> 2) ,high and ,low are specified, the whole system memory is under 4G.
+>>>>
+>>>> Below judgement can filter them away:
+>>>>         
+>>>> 	if (crash_base > arm64_dma_phys_limit && crash_low_size &&
+>>>> 	    reserve_crashkernel_low(crash_low_size)) {
+>>>>
+>>>> What's your opinion? Leave it and add document to notice user, or fix it
+>>>> with code change?
 
-It's great to see some KUnit support here!
+I decided to modify the code and document. But the code changes aren't what
+you suggested. For the following reasons:
+1. The memory allocated for 'high' may be partially under 4G. So the low
+   memory may not be enough. Of course, it's rare.
+2. The second kernel can work properly only when the high and low memory
+   are successfully applied for. For example, high=128M, low=128M, but the
+   second kernel need 256M.
 
-It's also possible to run these tests using the KUnit wrapper tool with:
-$ ./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_RUST=y
---make_options LLVM=1 --arch x86_64 'rust_kernel_doctests'
+So for the cases you listed:
+1) ,high and ,low are specified, CONFIG_ZONE_DMA|DMA32 is not enabled;
+   --> Follow you suggestion, ignore crashkernel=Y,low, don't allocate low memory.
 
-That also nicely formats the results.
+@@ -100,6 +100,14 @@ static int __init reserve_crashkernel_low(unsigned long long low_size)
+ {
+        unsigned long long low_base;
 
-(It obviously doesn't run under UML yet, though I did get it to work
-after indiscriminately hacking out everything that wasn't supported.
-Assuming we can hide the irq and iomem stuff behind the appropriate
-config options, and rework some of the architecture detection to
-either support SUBARCH or check for X86_64 instead of X86, it should
-be pretty easy to get going.)
++       /*
++        * The kernel does not have any DMA zone, so the range of each DMA
++        * zone is unknown. Please make sure both CONFIG_ZONE_DMA and
++        * CONFIG_ZONE_DMA32 are also not set in the second kernel.
++        */
++       if (!IS_ENABLED(CONFIG_ZONE_DMA) && !IS_ENABLED(CONFIG_ZONE_DMA32))
++               return 0;
++
 
-That all being said, I can't say I'm thrilled with the test names
-here: none of them are particularly descriptive, and they'll probably
-not be static (which would make it difficult to track results /
-regressions / etc between kernel versions). Neither of those are
-necessarily deal breakers, though it might make sense to hide them
-behind a kernel option (like all other KUnit tests) so that they can
-easily be excluded where they would otherwise clutter up results. (And
-if there's a way to properly name them, or maybe even split them into
-per-file or per-module suites, that would make them a bit easier to
-deal.) Additionally, there are some plans to taint the kernel[1] when
-KUnit tests run, so having a way to turn them off would be very
-useful.
+2) ,high and ,low are specified, the whole system memory is under 4G.
+   --> two memory ranges will be allocated, the size is what 'high' and 'low' specified.
+   --> Yes, the memory of 'low' may be above 'high', but the 'high' just hint allocation
+   --> from top, try high memory first. Of course, this may cause kexec to fail to load.
+   --> Because the memory of 'low' with small size will be used to store Image, etc..
+   --> But the memory of 'low' above 'high' is almost impossible, we use memblock API to
+   --> allocate memory from top to bottem, 'low' above 'high' need a sizeable memory block
+   --> (128M, 256M?) to be freed at init phase.
+   -->  Maybe I should add: crash_max = min(crash_base, CRASH_ADDR_LOW_MAX);
+   --> to make sure the memory of 'low' is always under 'high'
 
-Regardless, this is very neat, and I'm looking forward to taking a
-closer look at it.
+>>>
+>>> I think maybe we can leave it unchanged. If the user configures two memory ranges,
+>>> we'd better apply for two. Otherwise, he'll be confused when he inquires. Currently,
+>>> crash_low_size is non-zero only when 'crashkernel=Y,low' is explicitly configured.
+>>
+>> Then user need know the system information, e.g how much is the high
+>> memory, low memory, if CONFIG_ZONE_DMA|DMA32 is enabled. And we need
+>> describe these cases in document. Any corner case or exception need
+>> be noted if we don't handle it in code.
+>>
+>> Caring about this very much because we have CI with existed test cases
+>> to run on the system, and QA will check these manually too. Support
+>> engineer need detailed document if anything special but happened.
+>> Anything unclear or uncovered will be reported as bug to our kernel dev.
+>> Guess your company do the similar thing like this.
+>>
+>> This crashkerne,high and crashkernel,low reservation is special if we
+>> allow ,high, ,low existing in the same zone. Imagine on system with
+>> CONFIG_ZONE_DMA|DMA32 disabled, people copy the crashkernel=512M,high
+>> and crashkernel=128M,low from other system, and he could get
+>> crash_res at [5G, 5G+512M], while crash_low_res at [6G, 6G+128M]. Guess
+>> how they will judge us.
+> 
+> OK, I got it.
+> 
+>>
+>>>
+>>>>
+>>>> I would suggest merging this series, Lei can add this corner case
+>>>> handling on top. Since this is a newly added support, we don't have
+>>>> to make it one step. Doing step by step can make reviewing easier.
+>>>>
+>>>>> +	if (crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+>>>>> +		memblock_phys_free(crash_base, crash_size);
+>>>>> +		return;
+>>>>> +	}
+>>>>> +
+>>>>>  	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+>>>>>  		crash_base, crash_base + crash_size, crash_size >> 20);
+>>>>>  
+>>>>> @@ -135,6 +183,9 @@ static void __init reserve_crashkernel(void)
+>>>>>  	 * map. Inform kmemleak so that it won't try to access it.
+>>>>>  	 */
+>>>>>  	kmemleak_ignore_phys(crash_base);
+>>>>> +	if (crashk_low_res.end)
+>>>>> +		kmemleak_ignore_phys(crashk_low_res.start);
+>>>>> +
+>>>>>  	crashk_res.start = crash_base;
+>>>>>  	crashk_res.end = crash_base + crash_size - 1;
+>>>>>  	insert_resource(&iomem_resource, &crashk_res);
+>>>>> -- 
+>>>>> 2.25.1
+>>>>>
+>>>>
+>>>> .
+>>>>
+>>>
+>>> -- 
+>>> Regards,
+>>>   Zhen Lei
+>>>
+>>
+>> .
+>>
+> 
 
-Cheers,
--- David
-
-[1]: https://lore.kernel.org/linux-kselftest/20220429043913.626647-1-davidgow@google.com/
+-- 
+Regards,
+  Zhen Lei
