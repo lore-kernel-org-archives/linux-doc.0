@@ -2,119 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B55C8C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  6 May 2022 23:17:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 747A1C433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  7 May 2022 01:34:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351693AbiEFXVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 6 May 2022 19:21:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53632 "EHLO
+        id S1445198AbiEGBhw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 6 May 2022 21:37:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356111AbiEFXVi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 19:21:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 609A5703E5
-        for <linux-doc@vger.kernel.org>; Fri,  6 May 2022 16:17:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651879073;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wslZBJewjz4hJp3e76dVIXzGvwXKoz3kxZZ5099+eDo=;
-        b=VmlSAAgMx/TvLnE50b3C5wWKZ1Jyq6VPr78DDJvsv95VeCeXS/P2MypkW2E95x6WI3bkLV
-        i1UmIJAyzMxkSFqdSCwCf+h7Cj9onDjJ61FJSxkbFqGybp7St85IYxOxY1zemOIhrgbWY2
-        Xy7WDI2sHcwIHPEN8ephZWFT/NfCr1I=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-106-RR9lHokKPZuzyx5pu4Jd9Q-1; Fri, 06 May 2022 19:17:46 -0400
-X-MC-Unique: RR9lHokKPZuzyx5pu4Jd9Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 342FF101AA45;
-        Fri,  6 May 2022 23:17:45 +0000 (UTC)
-Received: from localhost (ovpn-12-33.pek2.redhat.com [10.72.12.33])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A3BE2026614;
-        Fri,  6 May 2022 23:17:41 +0000 (UTC)
-Date:   Sat, 7 May 2022 07:17:37 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        with ESMTP id S1389512AbiEGBhw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 May 2022 21:37:52 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AAAB5DBDD;
+        Fri,  6 May 2022 18:34:06 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.57])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Kw9164hhcz1JBsV;
+        Sat,  7 May 2022 09:32:58 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sat, 7 May 2022 09:34:05 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sat, 7 May 2022 09:34:03 +0800
+Subject: Re: [PATCH v24 3/6] arm64: kdump: Reimplement crashkernel=X
+To:     Baoquan He <bhe@redhat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
         Vivek Goyal <vgoyal@redhat.com>,
         Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
+        <kexec@lists.infradead.org>, Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
         Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        <devicetree@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
         Feng Zhou <zhoufeng.zf@bytedance.com>,
         Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
+        "Chen Zhou" <dingguo.cz@antgroup.com>,
         John Donnelly <John.p.donnelly@oracle.com>,
         Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v24 5/6] of: Support more than one crash kernel regions
- for kexec -s
-Message-ID: <20220506231737.GD122876@MiWiFi-R3L-srv>
 References: <20220506114402.365-1-thunder.leizhen@huawei.com>
- <20220506114402.365-6-thunder.leizhen@huawei.com>
+ <20220506114402.365-4-thunder.leizhen@huawei.com>
+ <20220506231032.GA122876@MiWiFi-R3L-srv>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <d9b21f31-6fd2-a898-9a70-c63ff4f36212@huawei.com>
+Date:   Sat, 7 May 2022 09:34:03 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220506114402.365-6-thunder.leizhen@huawei.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+In-Reply-To: <20220506231032.GA122876@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/06/22 at 07:44pm, Zhen Lei wrote:
-> When "crashkernel=X,high" is used, there may be two crash regions:
-> high=crashk_res and low=crashk_low_res. But now the syscall
-> kexec_file_load() only add crashk_res into "linux,usable-memory-range",
-> this may cause the second kernel to have no available dma memory.
-> 
-> Fix it like kexec tool do for option -c, add both 'high' and 'low' regions
-              ~~~~~~~~~~~~ 
-              kexec-tools does
 
-Other than this, LGTM,
 
-Acked-by: Baoquan He <bhe@redhat.com>
+On 2022/5/7 7:10, Baoquan He wrote:
+> On 05/06/22 at 07:43pm, Zhen Lei wrote:
+> ......  
+>> @@ -118,8 +162,7 @@ static void __init reserve_crashkernel(void)
+>>  	if (crash_base)
+>>  		crash_max = crash_base + crash_size;
+>>  
+>> -	/* Current arm64 boot protocol requires 2MB alignment */
+>> -	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
+>> +	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+>>  					       crash_base, crash_max);
+>>  	if (!crash_base) {
+>>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+>> @@ -127,6 +170,11 @@ static void __init reserve_crashkernel(void)
+>>  		return;
+>>  	}
+>>  
+> 
+> There's corner case missed, e.g
+> 1) ,high and ,low are specified, CONFIG_ZONE_DMA|DMA32 is not enabled;
+> 2) ,high and ,low are specified, the whole system memory is under 4G.
+> 
+> Below judgement can filter them away:
+>         
+> 	if (crash_base > arm64_dma_phys_limit && crash_low_size &&
+> 	    reserve_crashkernel_low(crash_low_size)) {
+> 
+> What's your opinion? Leave it and add document to notice user, or fix it
+> with code change?
 
-> into the dtb.
+I think maybe we can leave it unchanged. If the user configures two memory ranges,
+we'd better apply for two. Otherwise, he'll be confused when he inquires. Currently,
+crash_low_size is non-zero only when 'crashkernel=Y,low' is explicitly configured.
+
 > 
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> Acked-by: Rob Herring <robh@kernel.org>
-> ---
->  drivers/of/kexec.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
+> I would suggest merging this series, Lei can add this corner case
+> handling on top. Since this is a newly added support, we don't have
+> to make it one step. Doing step by step can make reviewing easier.
 > 
-> diff --git a/drivers/of/kexec.c b/drivers/of/kexec.c
-> index b9bd1cff179388c..8d374cc552be5f2 100644
-> --- a/drivers/of/kexec.c
-> +++ b/drivers/of/kexec.c
-> @@ -386,6 +386,15 @@ void *of_kexec_alloc_and_setup_fdt(const struct kimage *image,
->  				crashk_res.end - crashk_res.start + 1);
->  		if (ret)
->  			goto out;
-> +
-> +		if (crashk_low_res.end) {
-> +			ret = fdt_appendprop_addrrange(fdt, 0, chosen_node,
-> +					"linux,usable-memory-range",
-> +					crashk_low_res.start,
-> +					crashk_low_res.end - crashk_low_res.start + 1);
-> +			if (ret)
-> +				goto out;
-> +		}
->  	}
->  
->  	/* add bootargs */
-> -- 
-> 2.25.1
+>> +	if (crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+>> +		memblock_phys_free(crash_base, crash_size);
+>> +		return;
+>> +	}
+>> +
+>>  	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+>>  		crash_base, crash_base + crash_size, crash_size >> 20);
+>>  
+>> @@ -135,6 +183,9 @@ static void __init reserve_crashkernel(void)
+>>  	 * map. Inform kmemleak so that it won't try to access it.
+>>  	 */
+>>  	kmemleak_ignore_phys(crash_base);
+>> +	if (crashk_low_res.end)
+>> +		kmemleak_ignore_phys(crashk_low_res.start);
+>> +
+>>  	crashk_res.start = crash_base;
+>>  	crashk_res.end = crash_base + crash_size - 1;
+>>  	insert_resource(&iomem_resource, &crashk_res);
+>> -- 
+>> 2.25.1
+>>
+> 
+> .
 > 
 
+-- 
+Regards,
+  Zhen Lei
