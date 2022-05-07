@@ -2,93 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 411C4C433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  7 May 2022 18:50:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABD63C433FE
+	for <linux-doc@archiver.kernel.org>; Sat,  7 May 2022 19:12:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242301AbiEGSyS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 May 2022 14:54:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50404 "EHLO
+        id S1386756AbiEGTQJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 May 2022 15:16:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241402AbiEGSyS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 May 2022 14:54:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2798DF06;
-        Sat,  7 May 2022 11:50:30 -0700 (PDT)
+        with ESMTP id S229437AbiEGTQI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 May 2022 15:16:08 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51CE128980;
+        Sat,  7 May 2022 12:12:20 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2A4CE6142F;
-        Sat,  7 May 2022 18:50:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CE0BC385A5;
-        Sat,  7 May 2022 18:50:25 +0000 (UTC)
-Date:   Sat, 7 May 2022 19:50:21 +0100
+        by sin.source.kernel.org (Postfix) with ESMTPS id 5DD57CE0DA3;
+        Sat,  7 May 2022 19:12:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23B27C385A5;
+        Sat,  7 May 2022 19:12:11 +0000 (UTC)
 From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Baoquan He <bhe@redhat.com>
-Cc:     Zhen Lei <thunder.leizhen@huawei.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
+To:     linux-doc@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
+        linux-kernel@vger.kernel.org, x86@kernel.org,
+        kexec@lists.infradead.org, devicetree@vger.kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Dave Young <dyoung@redhat.com>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Rob Herring <robh+dt@kernel.org>, Baoquan He <bhe@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
         Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
+        Vivek Goyal <vgoyal@redhat.com>,
         linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>,
         Kefeng Wang <wangkefeng.wang@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v24 3/6] arm64: kdump: Reimplement crashkernel=X
-Message-ID: <Yna/bc2nDb7PT40r@arm.com>
+        Randy Dunlap <rdunlap@infradead.org>,
+        John Donnelly <John.p.donnelly@oracle.com>
+Subject: Re: [PATCH v24 0/6] support reserving crashkernel above 4G on arm64 kdump
+Date:   Sat,  7 May 2022 20:12:09 +0100
+Message-Id: <165195066216.355842.15333560704698747541.b4-ty@arm.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220506114402.365-1-thunder.leizhen@huawei.com>
 References: <20220506114402.365-1-thunder.leizhen@huawei.com>
- <20220506114402.365-4-thunder.leizhen@huawei.com>
- <20220506231032.GA122876@MiWiFi-R3L-srv>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220506231032.GA122876@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 07, 2022 at 07:10:32AM +0800, Baoquan He wrote:
-> On 05/06/22 at 07:43pm, Zhen Lei wrote:
-> ......  
-> > @@ -118,8 +162,7 @@ static void __init reserve_crashkernel(void)
-> >  	if (crash_base)
-> >  		crash_max = crash_base + crash_size;
-> >  
-> > -	/* Current arm64 boot protocol requires 2MB alignment */
-> > -	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
-> > +	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
-> >  					       crash_base, crash_max);
-> >  	if (!crash_base) {
-> >  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
-> > @@ -127,6 +170,11 @@ static void __init reserve_crashkernel(void)
-> >  		return;
-> >  	}
-> >  
+On Fri, 6 May 2022 19:43:56 +0800, Zhen Lei wrote:
+> Changes since [v23]:
+> Do two minor updates:
+> 1. Change the value of CRASH_ADDR_HIGH_MAX from memblock.current_limit to (PHYS_MASK + 1).
+> 2. The 'high' and 'low' are only take effect when crashkernel=X[@offset] does not exist.
+>    If the value of crashkernel=X is invalid, the reservation of crash fails, even if 'high'
+>    and 'low' are configured correctly.
 > 
-> There's corner case missed, e.g
-> 1) ,high and ,low are specified, CONFIG_ZONE_DMA|DMA32 is not enabled;
-> 2) ,high and ,low are specified, the whole system memory is under 4G.
+> [...]
 
-My view of ,low is that it should only used to override the default
-ZONE_DMA allocation if that one is not suitable. If no ZONE_DMA exists
-or everything is ZONE_DMA, ignore it altogether. That's a specialist
-case for people that know more about the memory layout, otherwise
-crashkernel=X works in most case with crashkernel=X,high as an
-alternative to allow high allocation.
+Applied to arm64 (for-next/crashkernel), finally ;). Thanks!
 
-> I would suggest merging this series, Lei can add this corner case
-> handling on top. Since this is a newly added support, we don't have
-> to make it one step. Doing step by step can make reviewing easier.
+Only patches on top please for the fall-back implementation.
 
-I agree.
+[1/6] kdump: return -ENOENT if required cmdline option does not exist
+      https://git.kernel.org/arm64/c/2e5920bb073a
+[2/6] arm64: Use insert_resource() to simplify code
+      https://git.kernel.org/arm64/c/e6b394425c61
+[3/6] arm64: kdump: Reimplement crashkernel=X
+      https://git.kernel.org/arm64/c/944a45abfabc
+[4/6] of: fdt: Add memory for devices by DT property "linux,usable-memory-range"
+      https://git.kernel.org/arm64/c/fb319e77a0e7
+[5/6] of: Support more than one crash kernel regions for kexec -s
+      https://git.kernel.org/arm64/c/8af6b91f5834
+[6/6] docs: kdump: Update the crashkernel description for arm64
+      https://git.kernel.org/arm64/c/5832f1ae5060
 
 -- 
 Catalin
+
