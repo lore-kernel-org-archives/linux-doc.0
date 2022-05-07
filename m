@@ -2,283 +2,620 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A565C433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  7 May 2022 12:20:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7750FC433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  7 May 2022 12:55:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233884AbiEGMYl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 May 2022 08:24:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60638 "EHLO
+        id S1384875AbiEGM7B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 7 May 2022 08:59:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235109AbiEGMYj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 May 2022 08:24:39 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CA1D37010;
-        Sat,  7 May 2022 05:20:52 -0700 (PDT)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4KwRHB6st8zXdmM;
-        Sat,  7 May 2022 20:16:06 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 7 May 2022 20:20:50 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 7 May 2022 20:20:49 +0800
-Subject: Re: [PATCH v24 3/6] arm64: kdump: Reimplement crashkernel=X
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-To:     Baoquan He <bhe@redhat.com>
-CC:     Catalin Marinas <catalin.marinas@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>, Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "John Donnelly" <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-References: <20220506114402.365-1-thunder.leizhen@huawei.com>
- <20220506114402.365-4-thunder.leizhen@huawei.com>
- <20220506231032.GA122876@MiWiFi-R3L-srv>
- <d9b21f31-6fd2-a898-9a70-c63ff4f36212@huawei.com>
- <YnXUSBcFmEpxaqBf@MiWiFi-R3L-srv>
- <9f6fdbb8-b6c5-3ca0-31b6-617175739e81@huawei.com>
- <6e892914-74ae-2b8f-954e-342aaf4be870@huawei.com>
- <0c7e91fb-10a3-f7e6-e856-0c865c71527b@huawei.com>
-Message-ID: <a0da4fdc-ad56-13c1-ad5d-243aa70091a3@huawei.com>
-Date:   Sat, 7 May 2022 20:20:37 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        with ESMTP id S1384913AbiEGM6v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 May 2022 08:58:51 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32F7740A0B
+        for <linux-doc@vger.kernel.org>; Sat,  7 May 2022 05:55:03 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id t6so13446413wra.4
+        for <linux-doc@vger.kernel.org>; Sat, 07 May 2022 05:55:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linexp-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2qW7EpFg+nLG6Nywn0ltS3weZ1OcAg1+DN7VidSEha4=;
+        b=DUgal0hI6q/dV/vG4Qm/Ui5A8Mtdt9gHo3wbPLyIDcqkGYnvMVJ0UI0r/bO0x52Cf+
+         AZbcdXpWQGdkPGxCzr1i/kE6xCfbqDxLnN7r9sqTbk1pjcBPONhJVImQIZaGgmDENd6j
+         9BcRbzaKvT5SRCP2H9ba5LfRcn6YmhygHJGSJx878/oodYo3p2lBLXWMUmdpUSQYpXiK
+         B490eUBYNgAARlm8lHZZDBtIPYBjIbGZ5gIal3JGgPVAk5JtgPQrght2BYseMcKm7qtY
+         y+1nmYOxXB2kik66K9XRR9HCE1MJxgDyN/EjZQYB9wWPSxNOaSlR3bJ6F7eO3T8e6Tco
+         5ncQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2qW7EpFg+nLG6Nywn0ltS3weZ1OcAg1+DN7VidSEha4=;
+        b=EVF/AcZBs7ErQQCpRb6DJA0RC+d+gg+w2U3Gj0WGSu+3Y/tpnu29HOCvR9N2e2iSZ7
+         QdF2GBq/JsuAy/A8P0j4QcFxPmVty1KTMJ/FcoHK7/LbT9nyBnfhlaiY1eVTZIjAbhZ2
+         qiYU6ZJa0YU4cm7sUXtYAgwh31Por2LwaTpEQ/noT3R57LyiuBo7fUFUfQ8SMa6VTDU/
+         FA0Nqgr7L/K6dYF/GAtp8jAocoigy+7xQUJ/hViDDTkIQmWmeA8RpG/5zXaP30j8zIcG
+         PlM4I0mCWr0DG8RB9/g0HHiwnlbjKbZO/35FaDnuqaBZikfRXOXjPzKmqn+M0hpJ1z3Y
+         kmCA==
+X-Gm-Message-State: AOAM532M0u/OXNLDtlGskWVEMPYumwTtCKf1sWwMVW3PZYzmaseIyNXn
+        Usd4G/61WjdZ0w9O2An0MRxagw==
+X-Google-Smtp-Source: ABdhPJz/8tc/51OAGSilxkiFqQAhLdZ8kqmZrfD/tldFiK7A2hCP1/g9uGjkQXY7m6O0cy51a7o0EA==
+X-Received: by 2002:a5d:5986:0:b0:20c:5844:820d with SMTP id n6-20020a5d5986000000b0020c5844820dmr6393841wri.192.1651928101605;
+        Sat, 07 May 2022 05:55:01 -0700 (PDT)
+Received: from localhost.localdomain (static-176-182-171-101.ncc.abo.bbox.fr. [176.182.171.101])
+        by smtp.gmail.com with ESMTPSA id e9-20020a05600c218900b0039453fe55a7sm10470345wme.35.2022.05.07.05.54.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 May 2022 05:55:01 -0700 (PDT)
+From:   Daniel Lezcano <daniel.lezcano@linexp.org>
+To:     daniel.lezcano@linaro.org, rafael@kernel.org
+Cc:     khilman@baylibre.com, abailon@baylibre.com,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+        Raju Rangoju <rajur@chelsio.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Ido Schimmel <idosch@nvidia.com>,
+        Petr Machata <petrm@nvidia.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Kalle Valo <kvalo@kernel.org>, Peter Kaestle <peter@piie.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Chuansheng Liu <chuansheng.liu@intel.com>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antoine Tenart <atenart@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-acpi@vger.kernel.org (open list:ACPI THERMAL DRIVER),
+        netdev@vger.kernel.org (open list:CXGB4 ETHERNET DRIVER (CXGB4)),
+        linux-wireless@vger.kernel.org (open list:INTEL WIRELESS WIFI LINK
+        (iwlwifi)),
+        platform-driver-x86@vger.kernel.org (open list:ACER ASPIRE ONE
+        TEMPERATURE AND FAN DRIVER),
+        linux-arm-kernel@lists.infradead.org (moderated list:ARM/FREESCALE IMX
+        / MXC ARM ARCHITECTURE),
+        linux-renesas-soc@vger.kernel.org (open list:RENESAS R-CAR THERMAL
+        DRIVERS)
+Subject: [PATCH v2 01/14] thermal/core: Change thermal_zone_ops to thermal_sensor_ops
+Date:   Sat,  7 May 2022 14:54:29 +0200
+Message-Id: <20220507125443.2766939-2-daniel.lezcano@linexp.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220507125443.2766939-1-daniel.lezcano@linexp.org>
+References: <20220507125443.2766939-1-daniel.lezcano@linexp.org>
 MIME-Version: 1.0
-In-Reply-To: <0c7e91fb-10a3-f7e6-e856-0c865c71527b@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+A thermal zone is software abstraction of a sensor associated with
+properties and cooling devices if any.
 
+The fact that we have thermal_zone and thermal_zone_ops mixed is
+confusing and does not clearly identify the different components
+entering in the thermal management process. A thermal zone appears to
+be a sensor while it is not.
 
-On 2022/5/7 19:49, Leizhen (ThunderTown) wrote:
-> 
-> 
-> On 2022/5/7 17:35, Leizhen (ThunderTown) wrote:
->>
->>
->> On 2022/5/7 11:37, Leizhen (ThunderTown) wrote:
->>>
->>>
->>> On 2022/5/7 10:07, Baoquan He wrote:
->>>> On 05/07/22 at 09:34am, Leizhen (ThunderTown) wrote:
->>>>>
->>>>>
->>>>> On 2022/5/7 7:10, Baoquan He wrote:
->>>>>> On 05/06/22 at 07:43pm, Zhen Lei wrote:
->>>>>> ......  
->>>>>>> @@ -118,8 +162,7 @@ static void __init reserve_crashkernel(void)
->>>>>>>  	if (crash_base)
->>>>>>>  		crash_max = crash_base + crash_size;
->>>>>>>  
->>>>>>> -	/* Current arm64 boot protocol requires 2MB alignment */
->>>>>>> -	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
->>>>>>> +	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
->>>>>>>  					       crash_base, crash_max);
->>>>>>>  	if (!crash_base) {
->>>>>>>  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
->>>>>>> @@ -127,6 +170,11 @@ static void __init reserve_crashkernel(void)
->>>>>>>  		return;
->>>>>>>  	}
->>>>>>>  
->>>>>>
->>>>>> There's corner case missed, e.g
->>>>>> 1) ,high and ,low are specified, CONFIG_ZONE_DMA|DMA32 is not enabled;
->>>>>> 2) ,high and ,low are specified, the whole system memory is under 4G.
->>>>>>
->>>>>> Below judgement can filter them away:
->>>>>>         
->>>>>> 	if (crash_base > arm64_dma_phys_limit && crash_low_size &&
->>>>>> 	    reserve_crashkernel_low(crash_low_size)) {
->>>>>>
->>>>>> What's your opinion? Leave it and add document to notice user, or fix it
->>>>>> with code change?
+In order to set the scene for multiple thermal sensors aggregated into
+a single thermal zone. Rename the thermal_zone_ops to
+thermal_sensor_ops, that will appear clearyl the thermal zone is not a
+sensor but an abstraction of one [or multiple] sensor(s).
 
-I've now got the patch ready as suggested, to be as consistent as possible
-with x86.
+Cc: Alexandre Bailon <abailon@baylibre.com>
+Cc: Kevin Hilman <khilman@baylibre.com>
+Cc; Eduardo Valentin <eduval@amazon.com>
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
+---
+ Documentation/driver-api/thermal/sysfs-api.rst            | 2 +-
+ drivers/acpi/thermal.c                                    | 6 +++---
+ drivers/net/ethernet/chelsio/cxgb4/cxgb4_thermal.c        | 2 +-
+ drivers/net/ethernet/mellanox/mlxsw/core_thermal.c        | 6 +++---
+ drivers/net/wireless/intel/iwlwifi/mvm/tt.c               | 2 +-
+ drivers/platform/x86/acerhdf.c                            | 2 +-
+ drivers/power/supply/power_supply_core.c                  | 2 +-
+ drivers/thermal/armada_thermal.c                          | 2 +-
+ drivers/thermal/da9062-thermal.c                          | 2 +-
+ drivers/thermal/dove_thermal.c                            | 2 +-
+ drivers/thermal/imx_thermal.c                             | 2 +-
+ drivers/thermal/intel/int340x_thermal/int3400_thermal.c   | 2 +-
+ .../thermal/intel/int340x_thermal/int340x_thermal_zone.c  | 6 +++---
+ .../thermal/intel/int340x_thermal/int340x_thermal_zone.h  | 4 ++--
+ .../intel/int340x_thermal/processor_thermal_device.c      | 4 ++--
+ .../intel/int340x_thermal/processor_thermal_device_pci.c  | 2 +-
+ drivers/thermal/intel/intel_pch_thermal.c                 | 2 +-
+ drivers/thermal/intel/intel_quark_dts_thermal.c           | 2 +-
+ drivers/thermal/intel/intel_soc_dts_iosf.c                | 2 +-
+ drivers/thermal/intel/x86_pkg_temp_thermal.c              | 2 +-
+ drivers/thermal/kirkwood_thermal.c                        | 2 +-
+ drivers/thermal/rcar_thermal.c                            | 4 ++--
+ drivers/thermal/spear_thermal.c                           | 2 +-
+ drivers/thermal/st/st_thermal.c                           | 2 +-
+ drivers/thermal/thermal_core.c                            | 2 +-
+ drivers/thermal/thermal_of.c                              | 4 ++--
+ include/linux/thermal.h                                   | 8 ++++----
+ 27 files changed, 40 insertions(+), 40 deletions(-)
 
-Just wait for next Monday Catalin's response: a seperate patch or v25?
-
-
-
->>
->> I decided to modify the code and document. But the code changes aren't what
->> you suggested. For the following reasons:
->> 1. The memory allocated for 'high' may be partially under 4G. So the low
->>    memory may not be enough. Of course, it's rare.
->> 2. The second kernel can work properly only when the high and low memory
->>    are successfully applied for. For example, high=128M, low=128M, but the
->>    second kernel need 256M.
->>
->> So for the cases you listed:
->> 1) ,high and ,low are specified, CONFIG_ZONE_DMA|DMA32 is not enabled;
->>    --> Follow you suggestion, ignore crashkernel=Y,low, don't allocate low memory.
->>
->> @@ -100,6 +100,14 @@ static int __init reserve_crashkernel_low(unsigned long long low_size)
->>  {
->>         unsigned long long low_base;
->>
->> +       /*
->> +        * The kernel does not have any DMA zone, so the range of each DMA
->> +        * zone is unknown. Please make sure both CONFIG_ZONE_DMA and
->> +        * CONFIG_ZONE_DMA32 are also not set in the second kernel.
->> +        */
->> +       if (!IS_ENABLED(CONFIG_ZONE_DMA) && !IS_ENABLED(CONFIG_ZONE_DMA32))
->> +               return 0;
->> +
->>
->> 2) ,high and ,low are specified, the whole system memory is under 4G.
->>    --> two memory ranges will be allocated, the size is what 'high' and 'low' specified.
->>    --> Yes, the memory of 'low' may be above 'high', but the 'high' just hint allocation
->>    --> from top, try high memory first. Of course, this may cause kexec to fail to load.
->>    --> Because the memory of 'low' with small size will be used to store Image, etc..
->>    --> But the memory of 'low' above 'high' is almost impossible, we use memblock API to
->>    --> allocate memory from top to bottem, 'low' above 'high' need a sizeable memory block
->>    --> (128M, 256M?) to be freed at init phase.
->>    -->  Maybe I should add: crash_max = min(crash_base, CRASH_ADDR_LOW_MAX);
->>    --> to make sure the memory of 'low' is always under 'high'
-> 
-> I have added the min() above.
-> 
-> Test result:
-> 1) ,high and ,low are specified, CONFIG_ZONE_DMA|DMA32 is not enabled;
-> root@localhost:~# dmesg | grep crash
-> [    0.000000] crashkernel reserved: 0x0000000420000000 - 0x0000000440000000 (512 MB)
-> [    0.000000] Kernel command line: console=ttyAMA0 root=/dev/vda rw panic_on_oops=1 oops=panic crashkernel=512M,high crashkernel=128M,low
-> 
-> 2) ,high and ,low are specified, the whole system memory is under 4G.
-> root@localhost:~# dmesg | grep crash
-> [    0.000000] crashkernel tmp reserved: 0x00000000f2800000 - 0x00000000fa800000 (128 MB)
-> [    0.000000] crashkernel low memory reserved: 0xca800000 - 0xd2800000 (128 MB)
-> [    0.000000] crashkernel reserved: 0x00000000d2800000 - 0x00000000f2800000 (512 MB)
-> [    0.000000] Kernel command line: console=ttyAMA0 root=/dev/vda rw panic_on_oops=1 oops=panic crashkernel=512M,high crashkernel=128M,low
-> 
-> test stub for 2):
-> 
-> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-> index 5cb73bbd286b100..abbde2158a0976a 100644
-> --- a/arch/arm64/mm/init.c
-> +++ b/arch/arm64/mm/init.c
-> @@ -147,6 +147,7 @@ static void __init reserve_crashkernel(void)
->         unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
->         char *cmdline = boot_command_line;
->         int ret;
-> +       unsigned long long tmp_base;
-> 
->         if (!IS_ENABLED(CONFIG_KEXEC_CORE))
->                 return;
-> @@ -179,6 +180,11 @@ static void __init reserve_crashkernel(void)
->         if (crash_base)
->                 crash_max = crash_base + crash_size;
-> 
-> +       tmp_base = memblock_phys_alloc_range(crash_low_size, CRASH_ALIGN, crash_base, crash_max);
-> +       BUG_ON(!tmp_base);
-> +       pr_info("crashkernel tmp reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
-> +               tmp_base, tmp_base + crash_low_size, crash_low_size >> 20);
-> +
->         crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
->                                                crash_base, crash_max);
->         if (!crash_base) {
-> @@ -186,6 +192,7 @@ static void __init reserve_crashkernel(void)
->                         crash_size);
->                 return;
->         }
-> +       memblock_phys_free(tmp_base, crash_low_size);
-> 
->         if (crash_low_size && reserve_crashkernel_low(crash_low_size, crash_base)) {
->                 memblock_phys_free(crash_base, crash_size);
-> 
->>
->>>>>
->>>>> I think maybe we can leave it unchanged. If the user configures two memory ranges,
->>>>> we'd better apply for two. Otherwise, he'll be confused when he inquires. Currently,
->>>>> crash_low_size is non-zero only when 'crashkernel=Y,low' is explicitly configured.
->>>>
->>>> Then user need know the system information, e.g how much is the high
->>>> memory, low memory, if CONFIG_ZONE_DMA|DMA32 is enabled. And we need
->>>> describe these cases in document. Any corner case or exception need
->>>> be noted if we don't handle it in code.
->>>>
->>>> Caring about this very much because we have CI with existed test cases
->>>> to run on the system, and QA will check these manually too. Support
->>>> engineer need detailed document if anything special but happened.
->>>> Anything unclear or uncovered will be reported as bug to our kernel dev.
->>>> Guess your company do the similar thing like this.
->>>>
->>>> This crashkerne,high and crashkernel,low reservation is special if we
->>>> allow ,high, ,low existing in the same zone. Imagine on system with
->>>> CONFIG_ZONE_DMA|DMA32 disabled, people copy the crashkernel=512M,high
->>>> and crashkernel=128M,low from other system, and he could get
->>>> crash_res at [5G, 5G+512M], while crash_low_res at [6G, 6G+128M]. Guess
->>>> how they will judge us.
->>>
->>> OK, I got it.
->>>
->>>>
->>>>>
->>>>>>
->>>>>> I would suggest merging this series, Lei can add this corner case
->>>>>> handling on top. Since this is a newly added support, we don't have
->>>>>> to make it one step. Doing step by step can make reviewing easier.
->>>>>>
->>>>>>> +	if (crash_low_size && reserve_crashkernel_low(crash_low_size)) {
->>>>>>> +		memblock_phys_free(crash_base, crash_size);
->>>>>>> +		return;
->>>>>>> +	}
->>>>>>> +
->>>>>>>  	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
->>>>>>>  		crash_base, crash_base + crash_size, crash_size >> 20);
->>>>>>>  
->>>>>>> @@ -135,6 +183,9 @@ static void __init reserve_crashkernel(void)
->>>>>>>  	 * map. Inform kmemleak so that it won't try to access it.
->>>>>>>  	 */
->>>>>>>  	kmemleak_ignore_phys(crash_base);
->>>>>>> +	if (crashk_low_res.end)
->>>>>>> +		kmemleak_ignore_phys(crashk_low_res.start);
->>>>>>> +
->>>>>>>  	crashk_res.start = crash_base;
->>>>>>>  	crashk_res.end = crash_base + crash_size - 1;
->>>>>>>  	insert_resource(&iomem_resource, &crashk_res);
->>>>>>> -- 
->>>>>>> 2.25.1
->>>>>>>
->>>>>>
->>>>>> .
->>>>>>
->>>>>
->>>>> -- 
->>>>> Regards,
->>>>>   Zhen Lei
->>>>>
->>>>
->>>> .
->>>>
->>>
->>
-> 
-
+diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
+index 2e0f79a9e2ee..6dff5e6e1166 100644
+--- a/Documentation/driver-api/thermal/sysfs-api.rst
++++ b/Documentation/driver-api/thermal/sysfs-api.rst
+@@ -41,7 +41,7 @@ temperature) and throttle appropriate devices.
+ 	struct thermal_zone_device
+ 	*thermal_zone_device_register(char *type,
+ 				      int trips, int mask, void *devdata,
+-				      struct thermal_zone_device_ops *ops,
++				      struct thermal_sensor_ops *ops,
+ 				      const struct thermal_zone_params *tzp,
+ 				      int passive_delay, int polling_delay))
+ 
+diff --git a/drivers/acpi/thermal.c b/drivers/acpi/thermal.c
+index 539660ef93c7..c2b8100f9cd8 100644
+--- a/drivers/acpi/thermal.c
++++ b/drivers/acpi/thermal.c
+@@ -774,7 +774,7 @@ acpi_thermal_unbind_cooling_device(struct thermal_zone_device *thermal,
+ 	return acpi_thermal_cooling_device_cb(thermal, cdev, false);
+ }
+ 
+-static struct thermal_zone_device_ops acpi_thermal_zone_ops = {
++static struct thermal_sensor_ops acpi_thermal_sensor_ops = {
+ 	.bind = acpi_thermal_bind_cooling_device,
+ 	.unbind	= acpi_thermal_unbind_cooling_device,
+ 	.get_temp = thermal_get_temp,
+@@ -808,13 +808,13 @@ static int acpi_thermal_register_thermal_zone(struct acpi_thermal *tz)
+ 	if (tz->trips.passive.flags.valid)
+ 		tz->thermal_zone =
+ 			thermal_zone_device_register("acpitz", trips, 0, tz,
+-						&acpi_thermal_zone_ops, NULL,
++						&acpi_thermal_sensor_ops, NULL,
+ 						     tz->trips.passive.tsp*100,
+ 						     tz->polling_frequency*100);
+ 	else
+ 		tz->thermal_zone =
+ 			thermal_zone_device_register("acpitz", trips, 0, tz,
+-						&acpi_thermal_zone_ops, NULL,
++						&acpi_thermal_sensor_ops, NULL,
+ 						0, tz->polling_frequency*100);
+ 	if (IS_ERR(tz->thermal_zone))
+ 		return -ENODEV;
+diff --git a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_thermal.c b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_thermal.c
+index 9a6d65243334..239824e90fbe 100644
+--- a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_thermal.c
++++ b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_thermal.c
+@@ -53,7 +53,7 @@ static int cxgb4_thermal_get_trip_temp(struct thermal_zone_device *tzdev,
+ 	return 0;
+ }
+ 
+-static struct thermal_zone_device_ops cxgb4_thermal_ops = {
++static struct thermal_sensor_ops cxgb4_thermal_ops = {
+ 	.get_temp = cxgb4_thermal_get_temp,
+ 	.get_trip_type = cxgb4_thermal_get_trip_type,
+ 	.get_trip_temp = cxgb4_thermal_get_trip_temp,
+diff --git a/drivers/net/ethernet/mellanox/mlxsw/core_thermal.c b/drivers/net/ethernet/mellanox/mlxsw/core_thermal.c
+index 05f54bd982c0..cf609dc39acd 100644
+--- a/drivers/net/ethernet/mellanox/mlxsw/core_thermal.c
++++ b/drivers/net/ethernet/mellanox/mlxsw/core_thermal.c
+@@ -361,7 +361,7 @@ static struct thermal_zone_params mlxsw_thermal_params = {
+ 	.no_hwmon = true,
+ };
+ 
+-static struct thermal_zone_device_ops mlxsw_thermal_ops = {
++static struct thermal_sensor_ops mlxsw_thermal_ops = {
+ 	.bind = mlxsw_thermal_bind,
+ 	.unbind = mlxsw_thermal_unbind,
+ 	.get_temp = mlxsw_thermal_get_temp,
+@@ -553,7 +553,7 @@ static int mlxsw_thermal_module_trend_get(struct thermal_zone_device *tzdev,
+ 	return 0;
+ }
+ 
+-static struct thermal_zone_device_ops mlxsw_thermal_module_ops = {
++static struct thermal_sensor_ops mlxsw_thermal_module_ops = {
+ 	.bind		= mlxsw_thermal_module_bind,
+ 	.unbind		= mlxsw_thermal_module_unbind,
+ 	.get_temp	= mlxsw_thermal_module_temp_get,
+@@ -590,7 +590,7 @@ static int mlxsw_thermal_gearbox_temp_get(struct thermal_zone_device *tzdev,
+ 	return 0;
+ }
+ 
+-static struct thermal_zone_device_ops mlxsw_thermal_gearbox_ops = {
++static struct thermal_sensor_ops mlxsw_thermal_gearbox_ops = {
+ 	.bind		= mlxsw_thermal_module_bind,
+ 	.unbind		= mlxsw_thermal_module_unbind,
+ 	.get_temp	= mlxsw_thermal_gearbox_temp_get,
+diff --git a/drivers/net/wireless/intel/iwlwifi/mvm/tt.c b/drivers/net/wireless/intel/iwlwifi/mvm/tt.c
+index 69cf3a372759..74109a7d329f 100644
+--- a/drivers/net/wireless/intel/iwlwifi/mvm/tt.c
++++ b/drivers/net/wireless/intel/iwlwifi/mvm/tt.c
+@@ -718,7 +718,7 @@ static int iwl_mvm_tzone_set_trip_temp(struct thermal_zone_device *device,
+ 	return ret;
+ }
+ 
+-static  struct thermal_zone_device_ops tzone_ops = {
++static  struct thermal_sensor_ops tzone_ops = {
+ 	.get_temp = iwl_mvm_tzone_get_temp,
+ 	.get_trip_temp = iwl_mvm_tzone_get_trip_temp,
+ 	.get_trip_type = iwl_mvm_tzone_get_trip_type,
+diff --git a/drivers/platform/x86/acerhdf.c b/drivers/platform/x86/acerhdf.c
+index 3463629f8764..b9e8f6c60714 100644
+--- a/drivers/platform/x86/acerhdf.c
++++ b/drivers/platform/x86/acerhdf.c
+@@ -469,7 +469,7 @@ static int acerhdf_get_crit_temp(struct thermal_zone_device *thermal,
+ }
+ 
+ /* bind callback functions to thermalzone */
+-static struct thermal_zone_device_ops acerhdf_dev_ops = {
++static struct thermal_sensor_ops acerhdf_dev_ops = {
+ 	.bind = acerhdf_bind,
+ 	.unbind = acerhdf_unbind,
+ 	.get_temp = acerhdf_get_ec_temp,
+diff --git a/drivers/power/supply/power_supply_core.c b/drivers/power/supply/power_supply_core.c
+index d925cb137e12..5ada4a94b4e3 100644
+--- a/drivers/power/supply/power_supply_core.c
++++ b/drivers/power/supply/power_supply_core.c
+@@ -1149,7 +1149,7 @@ static int power_supply_read_temp(struct thermal_zone_device *tzd,
+ 	return ret;
+ }
+ 
+-static struct thermal_zone_device_ops psy_tzd_ops = {
++static struct thermal_sensor_ops psy_tzd_ops = {
+ 	.get_temp = power_supply_read_temp,
+ };
+ 
+diff --git a/drivers/thermal/armada_thermal.c b/drivers/thermal/armada_thermal.c
+index c2ebfb5be4b3..703ace32a217 100644
+--- a/drivers/thermal/armada_thermal.c
++++ b/drivers/thermal/armada_thermal.c
+@@ -416,7 +416,7 @@ static int armada_get_temp_legacy(struct thermal_zone_device *thermal,
+ 	return ret;
+ }
+ 
+-static struct thermal_zone_device_ops legacy_ops = {
++static struct thermal_sensor_ops legacy_ops = {
+ 	.get_temp = armada_get_temp_legacy,
+ };
+ 
+diff --git a/drivers/thermal/da9062-thermal.c b/drivers/thermal/da9062-thermal.c
+index 180edec34e07..d29953eee39f 100644
+--- a/drivers/thermal/da9062-thermal.c
++++ b/drivers/thermal/da9062-thermal.c
+@@ -170,7 +170,7 @@ static int da9062_thermal_get_temp(struct thermal_zone_device *z,
+ 	return 0;
+ }
+ 
+-static struct thermal_zone_device_ops da9062_thermal_ops = {
++static struct thermal_sensor_ops da9062_thermal_ops = {
+ 	.get_temp	= da9062_thermal_get_temp,
+ 	.get_trip_type	= da9062_thermal_get_trip_type,
+ 	.get_trip_temp	= da9062_thermal_get_trip_temp,
+diff --git a/drivers/thermal/dove_thermal.c b/drivers/thermal/dove_thermal.c
+index 73182eb94bc0..170a1168ae38 100644
+--- a/drivers/thermal/dove_thermal.c
++++ b/drivers/thermal/dove_thermal.c
+@@ -109,7 +109,7 @@ static int dove_get_temp(struct thermal_zone_device *thermal,
+ 	return 0;
+ }
+ 
+-static struct thermal_zone_device_ops ops = {
++static struct thermal_sensor_ops ops = {
+ 	.get_temp = dove_get_temp,
+ };
+ 
+diff --git a/drivers/thermal/imx_thermal.c b/drivers/thermal/imx_thermal.c
+index 16663373b682..c57fa2029ee0 100644
+--- a/drivers/thermal/imx_thermal.c
++++ b/drivers/thermal/imx_thermal.c
+@@ -418,7 +418,7 @@ static int imx_unbind(struct thermal_zone_device *tz,
+ 	return 0;
+ }
+ 
+-static struct thermal_zone_device_ops imx_tz_ops = {
++static struct thermal_sensor_ops imx_tz_ops = {
+ 	.bind = imx_bind,
+ 	.unbind = imx_unbind,
+ 	.get_temp = imx_get_temp,
+diff --git a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
+index 4954800b9850..cad48a886888 100644
+--- a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
++++ b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
+@@ -485,7 +485,7 @@ static int int3400_thermal_change_mode(struct thermal_zone_device *thermal,
+ 	return result;
+ }
+ 
+-static struct thermal_zone_device_ops int3400_thermal_ops = {
++static struct thermal_sensor_ops int3400_thermal_ops = {
+ 	.get_temp = int3400_thermal_get_temp,
+ 	.change_mode = int3400_thermal_change_mode,
+ };
+diff --git a/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c b/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c
+index 62c0aa5d0783..d78f29208352 100644
+--- a/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c
++++ b/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c
+@@ -151,7 +151,7 @@ static void int340x_thermal_critical(struct thermal_zone_device *zone)
+ 	dev_dbg(&zone->device, "%s: critical temperature reached\n", zone->type);
+ }
+ 
+-static struct thermal_zone_device_ops int340x_thermal_zone_ops = {
++static struct thermal_sensor_ops int340x_thermal_sensor_ops = {
+ 	.get_temp       = int340x_thermal_get_zone_temp,
+ 	.get_trip_temp	= int340x_thermal_get_trip_temp,
+ 	.get_trip_type	= int340x_thermal_get_trip_type,
+@@ -217,7 +217,7 @@ static struct thermal_zone_params int340x_thermal_params = {
+ };
+ 
+ struct int34x_thermal_zone *int340x_thermal_zone_add(struct acpi_device *adev,
+-				struct thermal_zone_device_ops *override_ops)
++				struct thermal_sensor_ops *override_ops)
+ {
+ 	struct int34x_thermal_zone *int34x_thermal_zone;
+ 	acpi_status status;
+@@ -262,7 +262,7 @@ struct int34x_thermal_zone *int340x_thermal_zone_add(struct acpi_device *adev,
+ 						acpi_device_bid(adev),
+ 						trip_cnt,
+ 						trip_mask, int34x_thermal_zone,
+-						&int340x_thermal_zone_ops,
++						&int340x_thermal_sensor_ops,
+ 						&int340x_thermal_params,
+ 						0, 0);
+ 	if (IS_ERR(int34x_thermal_zone->zone)) {
+diff --git a/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.h b/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.h
+index 3b4971df1b33..a25c45e2eb66 100644
+--- a/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.h
++++ b/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.h
+@@ -29,13 +29,13 @@ struct int34x_thermal_zone {
+ 	int hot_temp;
+ 	int hot_trip_id;
+ 	struct thermal_zone_device *zone;
+-	struct thermal_zone_device_ops *override_ops;
++	struct thermal_sensor_ops *override_ops;
+ 	void *priv_data;
+ 	struct acpi_lpat_conversion_table *lpat_table;
+ };
+ 
+ struct int34x_thermal_zone *int340x_thermal_zone_add(struct acpi_device *,
+-				struct thermal_zone_device_ops *override_ops);
++				struct thermal_sensor_ops *override_ops);
+ void int340x_thermal_zone_remove(struct int34x_thermal_zone *);
+ int int340x_thermal_read_trips(struct int34x_thermal_zone *int34x_zone);
+ 
+diff --git a/drivers/thermal/intel/int340x_thermal/processor_thermal_device.c b/drivers/thermal/intel/int340x_thermal/processor_thermal_device.c
+index a8d98f1bd6c6..4b8544f72a23 100644
+--- a/drivers/thermal/intel/int340x_thermal/processor_thermal_device.c
++++ b/drivers/thermal/intel/int340x_thermal/processor_thermal_device.c
+@@ -207,7 +207,7 @@ static int proc_thermal_get_zone_temp(struct thermal_zone_device *zone,
+ 	return ret;
+ }
+ 
+-static struct thermal_zone_device_ops proc_thermal_local_ops = {
++static struct thermal_sensor_ops proc_thermal_local_ops = {
+ 	.get_temp       = proc_thermal_get_zone_temp,
+ };
+ 
+@@ -285,7 +285,7 @@ int proc_thermal_add(struct device *dev, struct proc_thermal_device *proc_priv)
+ 	struct acpi_device *adev;
+ 	acpi_status status;
+ 	unsigned long long tmp;
+-	struct thermal_zone_device_ops *ops = NULL;
++	struct thermal_sensor_ops *ops = NULL;
+ 	int ret;
+ 
+ 	adev = ACPI_COMPANION(dev);
+diff --git a/drivers/thermal/intel/int340x_thermal/processor_thermal_device_pci.c b/drivers/thermal/intel/int340x_thermal/processor_thermal_device_pci.c
+index ca40b0967cdd..5316143b09b2 100644
+--- a/drivers/thermal/intel/int340x_thermal/processor_thermal_device_pci.c
++++ b/drivers/thermal/intel/int340x_thermal/processor_thermal_device_pci.c
+@@ -200,7 +200,7 @@ static int sys_set_trip_temp(struct thermal_zone_device *tzd, int trip, int temp
+ 	return 0;
+ }
+ 
+-static struct thermal_zone_device_ops tzone_ops = {
++static struct thermal_sensor_ops tzone_ops = {
+ 	.get_temp = sys_get_curr_temp,
+ 	.get_trip_temp = sys_get_trip_temp,
+ 	.get_trip_type = sys_get_trip_type,
+diff --git a/drivers/thermal/intel/intel_pch_thermal.c b/drivers/thermal/intel/intel_pch_thermal.c
+index 527c91f5960b..e2161ab647b0 100644
+--- a/drivers/thermal/intel/intel_pch_thermal.c
++++ b/drivers/thermal/intel/intel_pch_thermal.c
+@@ -331,7 +331,7 @@ static void pch_critical(struct thermal_zone_device *tzd)
+ 	dev_dbg(&tzd->device, "%s: critical temperature reached\n", tzd->type);
+ }
+ 
+-static struct thermal_zone_device_ops tzd_ops = {
++static struct thermal_sensor_ops tzd_ops = {
+ 	.get_temp = pch_thermal_get_temp,
+ 	.get_trip_type = pch_get_trip_type,
+ 	.get_trip_temp = pch_get_trip_temp,
+diff --git a/drivers/thermal/intel/intel_quark_dts_thermal.c b/drivers/thermal/intel/intel_quark_dts_thermal.c
+index 3eafc6b0e6c3..636286dc90fc 100644
+--- a/drivers/thermal/intel/intel_quark_dts_thermal.c
++++ b/drivers/thermal/intel/intel_quark_dts_thermal.c
+@@ -313,7 +313,7 @@ static int sys_change_mode(struct thermal_zone_device *tzd,
+ 	return ret;
+ }
+ 
+-static struct thermal_zone_device_ops tzone_ops = {
++static struct thermal_sensor_ops tzone_ops = {
+ 	.get_temp = sys_get_curr_temp,
+ 	.get_trip_temp = sys_get_trip_temp,
+ 	.get_trip_type = sys_get_trip_type,
+diff --git a/drivers/thermal/intel/intel_soc_dts_iosf.c b/drivers/thermal/intel/intel_soc_dts_iosf.c
+index 342b0bb5a56d..38ce8426fc35 100644
+--- a/drivers/thermal/intel/intel_soc_dts_iosf.c
++++ b/drivers/thermal/intel/intel_soc_dts_iosf.c
+@@ -243,7 +243,7 @@ static int sys_get_curr_temp(struct thermal_zone_device *tzd,
+ 	return 0;
+ }
+ 
+-static struct thermal_zone_device_ops tzone_ops = {
++static struct thermal_sensor_ops tzone_ops = {
+ 	.get_temp = sys_get_curr_temp,
+ 	.get_trip_temp = sys_get_trip_temp,
+ 	.get_trip_type = sys_get_trip_type,
+diff --git a/drivers/thermal/intel/x86_pkg_temp_thermal.c b/drivers/thermal/intel/x86_pkg_temp_thermal.c
+index 4d8edc61a78b..047e27db72fe 100644
+--- a/drivers/thermal/intel/x86_pkg_temp_thermal.c
++++ b/drivers/thermal/intel/x86_pkg_temp_thermal.c
+@@ -220,7 +220,7 @@ static int sys_get_trip_type(struct thermal_zone_device *thermal, int trip,
+ }
+ 
+ /* Thermal zone callback registry */
+-static struct thermal_zone_device_ops tzone_ops = {
++static struct thermal_sensor_ops tzone_ops = {
+ 	.get_temp = sys_get_curr_temp,
+ 	.get_trip_temp = sys_get_trip_temp,
+ 	.get_trip_type = sys_get_trip_type,
+diff --git a/drivers/thermal/kirkwood_thermal.c b/drivers/thermal/kirkwood_thermal.c
+index 7fb6e476c82a..d8e24549428d 100644
+--- a/drivers/thermal/kirkwood_thermal.c
++++ b/drivers/thermal/kirkwood_thermal.c
+@@ -51,7 +51,7 @@ static int kirkwood_get_temp(struct thermal_zone_device *thermal,
+ 	return 0;
+ }
+ 
+-static struct thermal_zone_device_ops ops = {
++static struct thermal_sensor_ops ops = {
+ 	.get_temp = kirkwood_get_temp,
+ };
+ 
+diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
+index b49f04daaf47..a7c22e85adc6 100644
+--- a/drivers/thermal/rcar_thermal.c
++++ b/drivers/thermal/rcar_thermal.c
+@@ -327,7 +327,7 @@ static const struct thermal_zone_of_device_ops rcar_thermal_zone_of_ops = {
+ 	.get_temp	= rcar_thermal_of_get_temp,
+ };
+ 
+-static struct thermal_zone_device_ops rcar_thermal_zone_ops = {
++static struct thermal_sensor_ops rcar_thermal_sensor_ops = {
+ 	.get_temp	= rcar_thermal_get_temp,
+ 	.get_trip_type	= rcar_thermal_get_trip_type,
+ 	.get_trip_temp	= rcar_thermal_get_trip_temp,
+@@ -534,7 +534,7 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+ 			priv->zone = thermal_zone_device_register(
+ 						"rcar_thermal",
+ 						1, 0, priv,
+-						&rcar_thermal_zone_ops, NULL, 0,
++						&rcar_thermal_sensor_ops, NULL, 0,
+ 						idle);
+ 
+ 			ret = thermal_zone_device_enable(priv->zone);
+diff --git a/drivers/thermal/spear_thermal.c b/drivers/thermal/spear_thermal.c
+index ee33ed692e4f..462a8d4bd1c8 100644
+--- a/drivers/thermal/spear_thermal.c
++++ b/drivers/thermal/spear_thermal.c
+@@ -41,7 +41,7 @@ static inline int thermal_get_temp(struct thermal_zone_device *thermal,
+ 	return 0;
+ }
+ 
+-static struct thermal_zone_device_ops ops = {
++static struct thermal_sensor_ops ops = {
+ 	.get_temp = thermal_get_temp,
+ };
+ 
+diff --git a/drivers/thermal/st/st_thermal.c b/drivers/thermal/st/st_thermal.c
+index 1276b95604fe..c42d9cae5e52 100644
+--- a/drivers/thermal/st/st_thermal.c
++++ b/drivers/thermal/st/st_thermal.c
+@@ -170,7 +170,7 @@ static int st_thermal_get_trip_temp(struct thermal_zone_device *th,
+ 	return 0;
+ }
+ 
+-static struct thermal_zone_device_ops st_tz_ops = {
++static struct thermal_sensor_ops st_tz_ops = {
+ 	.get_temp	= st_thermal_get_temp,
+ 	.get_trip_type	= st_thermal_get_trip_type,
+ 	.get_trip_temp	= st_thermal_get_trip_temp,
+diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
+index 82654dc8382b..065dfc179e53 100644
+--- a/drivers/thermal/thermal_core.c
++++ b/drivers/thermal/thermal_core.c
+@@ -1184,7 +1184,7 @@ static void bind_tz(struct thermal_zone_device *tz)
+  */
+ struct thermal_zone_device *
+ thermal_zone_device_register(const char *type, int trips, int mask,
+-			     void *devdata, struct thermal_zone_device_ops *ops,
++			     void *devdata, struct thermal_sensor_ops *ops,
+ 			     struct thermal_zone_params *tzp, int passive_delay,
+ 			     int polling_delay)
+ {
+diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
+index 9233f7e74454..ef953cba3504 100644
+--- a/drivers/thermal/thermal_of.c
++++ b/drivers/thermal/thermal_of.c
+@@ -360,7 +360,7 @@ static int of_thermal_get_crit_temp(struct thermal_zone_device *tz,
+ 	return -EINVAL;
+ }
+ 
+-static struct thermal_zone_device_ops of_thermal_ops = {
++static struct thermal_sensor_ops of_thermal_ops = {
+ 	.get_trip_type = of_thermal_get_trip_type,
+ 	.get_trip_temp = of_thermal_get_trip_temp,
+ 	.set_trip_temp = of_thermal_set_trip_temp,
+@@ -1046,7 +1046,7 @@ int __init of_parse_thermal_zones(void)
+ {
+ 	struct device_node *np, *child;
+ 	struct __thermal_zone *tz;
+-	struct thermal_zone_device_ops *ops;
++	struct thermal_sensor_ops *ops;
+ 
+ 	np = of_find_node_by_name(NULL, "thermal-zones");
+ 	if (!np) {
+diff --git a/include/linux/thermal.h b/include/linux/thermal.h
+index c314893970b3..991f7bc02d51 100644
+--- a/include/linux/thermal.h
++++ b/include/linux/thermal.h
+@@ -57,7 +57,7 @@ enum thermal_notify_event {
+ 	THERMAL_EVENT_KEEP_ALIVE, /* Request for user space handler to respond */
+ };
+ 
+-struct thermal_zone_device_ops {
++struct thermal_sensor_ops {
+ 	int (*bind) (struct thermal_zone_device *,
+ 		     struct thermal_cooling_device *);
+ 	int (*unbind) (struct thermal_zone_device *,
+@@ -164,7 +164,7 @@ struct thermal_zone_device {
+ 	int prev_low_trip;
+ 	int prev_high_trip;
+ 	atomic_t need_update;
+-	struct thermal_zone_device_ops *ops;
++	struct thermal_sensor_ops *ops;
+ 	struct thermal_zone_params *tzp;
+ 	struct thermal_governor *governor;
+ 	void *governor_data;
+@@ -361,7 +361,7 @@ void devm_thermal_zone_of_sensor_unregister(struct device *dev,
+ 
+ #ifdef CONFIG_THERMAL
+ struct thermal_zone_device *thermal_zone_device_register(const char *, int, int,
+-		void *, struct thermal_zone_device_ops *,
++		void *, struct thermal_sensor_ops *,
+ 		struct thermal_zone_params *, int, int);
+ void thermal_zone_device_unregister(struct thermal_zone_device *);
+ 
+@@ -396,7 +396,7 @@ void thermal_zone_device_critical(struct thermal_zone_device *tz);
+ #else
+ static inline struct thermal_zone_device *thermal_zone_device_register(
+ 	const char *type, int trips, int mask, void *devdata,
+-	struct thermal_zone_device_ops *ops,
++	struct thermal_sensor_ops *ops,
+ 	struct thermal_zone_params *tzp,
+ 	int passive_delay, int polling_delay)
+ { return ERR_PTR(-ENODEV); }
 -- 
-Regards,
-  Zhen Lei
+2.25.1
+
