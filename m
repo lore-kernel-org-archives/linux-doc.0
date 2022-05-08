@@ -2,68 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19446C433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  7 May 2022 21:05:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBD35C433EF
+	for <linux-doc@archiver.kernel.org>; Sun,  8 May 2022 10:26:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231203AbiEGVJB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 7 May 2022 17:09:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57944 "EHLO
+        id S231190AbiEHKa3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 May 2022 06:30:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387445AbiEGVI7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 May 2022 17:08:59 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3808B23BFC;
-        Sat,  7 May 2022 14:05:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E5959B8068C;
-        Sat,  7 May 2022 21:05:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BB80C385A5;
-        Sat,  7 May 2022 21:05:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1651957509;
-        bh=qYJf6KKIw0kS7h3klkpFrLBCOJEdBYsXoDnCkBbFot8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=qxP2AP0lq9d2eXVJ8PA6dz/JiOL9xsmVaaf1clt+8Ad5mfECqtsRZDb9a5dBiJQfk
-         SOPlgf7msLNc6PhcyaPgxTLCMEI2KQvWbOUGRd333UnGei+mEEUTt2Mr9Bhbe35wXy
-         ee82ymIYse7stEUwRtebn8IQ76nJwnQD48BCeWck=
-Date:   Sat, 7 May 2022 14:05:08 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>, corbet@lwn.net,
-        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
-        osalvador@suse.de, david@redhat.com, masahiroy@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v9 2/4] mm: memory_hotplug: override memmap_on_memory
- when hugetlb_free_vmemmap=on
-Message-Id: <20220507140508.38c9e211eae4715134f9fa31@linux-foundation.org>
-In-Reply-To: <YnH1B1Al/oW3rbmu@FVFYT0MHHV2J.usts.net>
-References: <20220429121816.37541-1-songmuchun@bytedance.com>
-        <20220429121816.37541-3-songmuchun@bytedance.com>
-        <3d040faf-7fc1-80a6-c584-aafeff27af18@oracle.com>
-        <YnH1B1Al/oW3rbmu@FVFYT0MHHV2J.usts.net>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S230152AbiEHKa2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 May 2022 06:30:28 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01903DFBD;
+        Sun,  8 May 2022 03:26:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652005598; x=1683541598;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bSU9fO4lrWoDsIEUgjYMWmwmoe4o/mjHCu3zxv5muLo=;
+  b=bgLWj9Ugko7x3VrxEUt+bA8JPpASnmfAw1o6MUinh/egqAJlZVsOZsUF
+   OpPwjg74P73SVlHzQASclgOQg4JTNnba5JSvrildL03zgVBAY0p45BZdu
+   jD4Jcdduwompy3biUGjGM25k5I9iPlGJWiAkUezPkjTMKenvlgS6bISEd
+   hAX3rGbYH1z7abWiBc7ax3lWfnPHJqPaJr8+0Amxngs1cE7qFPjh9/Vu6
+   09+GnLlT86T3odBOHPQ5nDErTa+0E3TSkhS0WV1+BJR3INzkkyofOs9D7
+   rrRFI+9LzW399sOhtfVynAJgv9XUlzCK3e0SLSS3ZQuGgtQfMre4VGm3b
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10340"; a="329386548"
+X-IronPort-AV: E=Sophos;i="5.91,208,1647327600"; 
+   d="scan'208";a="329386548"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2022 03:26:37 -0700
+X-IronPort-AV: E=Sophos;i="5.91,208,1647327600"; 
+   d="scan'208";a="564569270"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2022 03:26:26 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nne7J-00DSlW-Qt;
+        Sun, 08 May 2022 13:26:21 +0300
+Date:   Sun, 8 May 2022 13:26:21 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Daniel Lezcano <daniel.lezcano@linexp.org>
+Cc:     daniel.lezcano@linaro.org, rafael@kernel.org, khilman@baylibre.com,
+        abailon@baylibre.com, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+        Raju Rangoju <rajur@chelsio.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Ido Schimmel <idosch@nvidia.com>,
+        Petr Machata <petrm@nvidia.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Kalle Valo <kvalo@kernel.org>, Peter Kaestle <peter@piie.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Chuansheng Liu <chuansheng.liu@intel.com>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antoine Tenart <atenart@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:ACPI THERMAL DRIVER" <linux-acpi@vger.kernel.org>,
+        "open list:CXGB4 ETHERNET DRIVER (CXGB4)" <netdev@vger.kernel.org>,
+        "open list:INTEL WIRELESS WIFI LINK (iwlwifi)" 
+        <linux-wireless@vger.kernel.org>,
+        "open list:ACER ASPIRE ONE TEMPERATURE AND FAN DRIVER" 
+        <platform-driver-x86@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:RENESAS R-CAR THERMAL DRIVERS" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 01/14] thermal/core: Change thermal_zone_ops to
+ thermal_sensor_ops
+Message-ID: <YneazaFEg3nONazs@smile.fi.intel.com>
+References: <20220507125443.2766939-1-daniel.lezcano@linexp.org>
+ <20220507125443.2766939-2-daniel.lezcano@linexp.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220507125443.2766939-2-daniel.lezcano@linexp.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 4 May 2022 11:37:43 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
-
-> > Freeing HugeTLB vmemmap pages is not compatible with allocating memmap on
-> > hot added memory. If "hugetlb_free_vmemmap=on" and
-> > memory_hotplug.memmap_on_memory" are both passed on the kernel command line,
-> > freeing hugetlb pages takes precedence.  However, the global variable
-> > memmap_on_memory will still be set to 1, even though we will not try to
-> > allocate memmap on hot added memory.
-> > 
-> > Not sure if that is more clear or not.
-> > 
+On Sat, May 07, 2022 at 02:54:29PM +0200, Daniel Lezcano wrote:
+> A thermal zone is software abstraction of a sensor associated with
+> properties and cooling devices if any.
 > 
-> Clearer than mine.
+> The fact that we have thermal_zone and thermal_zone_ops mixed is
+> confusing and does not clearly identify the different components
+> entering in the thermal management process. A thermal zone appears to
+> be a sensor while it is not.
+> 
+> In order to set the scene for multiple thermal sensors aggregated into
+> a single thermal zone. Rename the thermal_zone_ops to
+> thermal_sensor_ops, that will appear clearyl the thermal zone is not a
+> sensor but an abstraction of one [or multiple] sensor(s).
 
-I updated, thanks.
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+for whatever drivers in this series I have somehow been involved into.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
