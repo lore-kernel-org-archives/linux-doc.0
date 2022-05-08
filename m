@@ -2,124 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBD35C433EF
-	for <linux-doc@archiver.kernel.org>; Sun,  8 May 2022 10:26:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8C5DC433EF
+	for <linux-doc@archiver.kernel.org>; Sun,  8 May 2022 11:59:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231190AbiEHKa3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 8 May 2022 06:30:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51798 "EHLO
+        id S231280AbiEHMDW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 8 May 2022 08:03:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230152AbiEHKa2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 May 2022 06:30:28 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01903DFBD;
-        Sun,  8 May 2022 03:26:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652005598; x=1683541598;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bSU9fO4lrWoDsIEUgjYMWmwmoe4o/mjHCu3zxv5muLo=;
-  b=bgLWj9Ugko7x3VrxEUt+bA8JPpASnmfAw1o6MUinh/egqAJlZVsOZsUF
-   OpPwjg74P73SVlHzQASclgOQg4JTNnba5JSvrildL03zgVBAY0p45BZdu
-   jD4Jcdduwompy3biUGjGM25k5I9iPlGJWiAkUezPkjTMKenvlgS6bISEd
-   hAX3rGbYH1z7abWiBc7ax3lWfnPHJqPaJr8+0Amxngs1cE7qFPjh9/Vu6
-   09+GnLlT86T3odBOHPQ5nDErTa+0E3TSkhS0WV1+BJR3INzkkyofOs9D7
-   rrRFI+9LzW399sOhtfVynAJgv9XUlzCK3e0SLSS3ZQuGgtQfMre4VGm3b
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10340"; a="329386548"
-X-IronPort-AV: E=Sophos;i="5.91,208,1647327600"; 
-   d="scan'208";a="329386548"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2022 03:26:37 -0700
-X-IronPort-AV: E=Sophos;i="5.91,208,1647327600"; 
-   d="scan'208";a="564569270"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2022 03:26:26 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nne7J-00DSlW-Qt;
-        Sun, 08 May 2022 13:26:21 +0300
-Date:   Sun, 8 May 2022 13:26:21 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Daniel Lezcano <daniel.lezcano@linexp.org>
-Cc:     daniel.lezcano@linaro.org, rafael@kernel.org, khilman@baylibre.com,
-        abailon@baylibre.com, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
-        Raju Rangoju <rajur@chelsio.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Ido Schimmel <idosch@nvidia.com>,
-        Petr Machata <petrm@nvidia.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Kalle Valo <kvalo@kernel.org>, Peter Kaestle <peter@piie.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Chuansheng Liu <chuansheng.liu@intel.com>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antoine Tenart <atenart@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:ACPI THERMAL DRIVER" <linux-acpi@vger.kernel.org>,
-        "open list:CXGB4 ETHERNET DRIVER (CXGB4)" <netdev@vger.kernel.org>,
-        "open list:INTEL WIRELESS WIFI LINK (iwlwifi)" 
-        <linux-wireless@vger.kernel.org>,
-        "open list:ACER ASPIRE ONE TEMPERATURE AND FAN DRIVER" 
-        <platform-driver-x86@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:RENESAS R-CAR THERMAL DRIVERS" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 01/14] thermal/core: Change thermal_zone_ops to
- thermal_sensor_ops
-Message-ID: <YneazaFEg3nONazs@smile.fi.intel.com>
-References: <20220507125443.2766939-1-daniel.lezcano@linexp.org>
- <20220507125443.2766939-2-daniel.lezcano@linexp.org>
+        with ESMTP id S232569AbiEHLwI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 May 2022 07:52:08 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B2D5E013;
+        Sun,  8 May 2022 04:48:17 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id c14so10017399pfn.2;
+        Sun, 08 May 2022 04:48:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:from:subject:to:cc
+         :references:content-language:in-reply-to:content-transfer-encoding;
+        bh=78GiAOcDFncQpxS3zJf0oIIsYa1BfjnHtYeGhRAmaco=;
+        b=eD6eGLRe6NGh0IxAF1cXnuOGWl6JVY1GAzSEyk7VT9zSinKK0vtUfjaeC165b19kH1
+         mE2DCDKw6eLM8uF6HqdwgRjXy8kLpte6ejvwtEte0WUKzdnbTvZps2yZoMOKRYUeMW+N
+         7n0RQAWlUYZhpB0ONWgfcOUQdPWA+7J/VYGtkfaRsyeOjyZ37h4APer6qmNFFrGkAlX+
+         WHwd5rpja0fzgPsjQPlq45oKY8Q4t2UvTM7TAx1ymxylZSVFe0aSJi08R8FiTL8tqt1H
+         Ur20Gh/YZHbfo8NwdfIm3z8Muz6H/aIv3K+FO+S5R5xRcaAi9tA17EOSJV3NXB3lJxBN
+         vWjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+         :subject:to:cc:references:content-language:in-reply-to
+         :content-transfer-encoding;
+        bh=78GiAOcDFncQpxS3zJf0oIIsYa1BfjnHtYeGhRAmaco=;
+        b=4dJ5Skvw40WfkmMEn1K+dsZJix2YBm7tqS/e6BE0QUS/RMJLh5F9+1lS4v2tQ4vlc4
+         Ph/yC0UJirI4CxBDKzBApR2ic7koaxfd+ndXxk2fMX1l6abt2qv/f6kBZt2DW6UDE+P9
+         gKq8YrhuV32tfPYBHBhEFDPLNgWhsAq09MrAk8uFELSydNw2YtRqdhBDj5J29qeUYlZz
+         H8y9gVo0rSFRTMBye1r1HA868l1xSMo6TzsICBqByZzyFnD5RBFz4tu2NhS7uTH5e01t
+         FaPYRr+P6PjBni2O3blos+K1xakX7JAAN9qB7I8fE5Z55D0mNEHdCPxS6bU05xCyEuEI
+         F0Bw==
+X-Gm-Message-State: AOAM532p0POkgr45I0eo6WSSpC8TzaQWFeAxRYGW2yV3QXQcavRHxJP4
+        ErW6uMtHeZXE1dP3z9OnMxA=
+X-Google-Smtp-Source: ABdhPJxpCSfAVDVRnbHSqMuz2nPP3bs7F50tRdZX6SrsJr+n2JBZpbm4jmiquICfhPCpNS/DFbH5Qg==
+X-Received: by 2002:a05:6a00:b52:b0:510:5cbd:de94 with SMTP id p18-20020a056a000b5200b005105cbdde94mr11526599pfo.19.1652010497430;
+        Sun, 08 May 2022 04:48:17 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id gf1-20020a17090ac7c100b001cd4989fedesm10448954pjb.42.2022.05.08.04.48.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 May 2022 04:48:16 -0700 (PDT)
+Message-ID: <0cf2306a-2218-2cd5-ad54-0d73e25680a7@gmail.com>
+Date:   Sun, 8 May 2022 20:48:10 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220507125443.2766939-2-daniel.lezcano@linexp.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH net-next v3] net/core: Rephrase function description of
+ __dev_queue_xmit()
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Ben Greear <greearb@candelatech.com>,
+        Pavel Begunkov <asml.silence@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+        linux-next@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220507084643.18278-1-bagasdotme@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20220507084643.18278-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 07, 2022 at 02:54:29PM +0200, Daniel Lezcano wrote:
-> A thermal zone is software abstraction of a sensor associated with
-> properties and cooling devices if any.
-> 
-> The fact that we have thermal_zone and thermal_zone_ops mixed is
-> confusing and does not clearly identify the different components
-> entering in the thermal management process. A thermal zone appears to
-> be a sensor while it is not.
-> 
-> In order to set the scene for multiple thermal sensors aggregated into
-> a single thermal zone. Rename the thermal_zone_ops to
-> thermal_sensor_ops, that will appear clearyl the thermal zone is not a
-> sensor but an abstraction of one [or multiple] sensor(s).
+On 2022/05/07 17:46,
+Bagas Sanjaya wrote:
+> Commit c526fd8f9f4f21 ("net: inline dev_queue_xmit()") inlines
+> dev_queue_xmit() that contains comment quote from Ben Greear, which
+> originates from commit af191367a75262 ("[NET]: Document ->hard_start_xmit()
+> locking in comments.").It triggers htmldocs warning:
 
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-for whatever drivers in this series I have somehow been involved into.
+What I asked was the explanation of *why* the inlining of the
+function caused the new warning.
 
+Your explanation above tries to tell *what* the offending commit
+did, which is not what I asked.  Furthermore, your explanation
+is not accurate in that the comment block does not belong to
+dev_queue_xmit() but to __dev_queue_xmit().
+
+After seeking the answer myself, I reached a conclusion that
+it is wrong to meddle with the comment block.
+
+So, appended below is my version of the fix with the answer to
+Stephen's question, "I am not sure why this has turned up just now."
+
+Stephen, Jakub, what do you think?
+
+        Thanks, Akira
+
+----8<--------------
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -next] net/core: Hide __dev_queue_xmit()'s kernel-doc
+
+Commit c526fd8f9f4f21 ("net: inline dev_queue_xmit()") added
+export of __dev_queue_exit() to cope with inlining of its
+wrapper functions dev_queue_xmit() and dev_queue_xmit_accel().
+This made __dev_queue_exit()'s comment block visible to Sphinx
+processing in "make htmldocs" because
+Documentation/networking/kapi.rst has the directive of:
+
+    .. kernel-doc:: net/core/dev.c
+       :export:
+
+Unfortunately, the kernel-doc style comment has a number of
+issues when parsed as RestructuredText.  Stephen reported a
+new warning message from "make htmldocs" caused by one of
+such issues.
+
+The leading "__" in the function name indicates that it is an
+internal API and should not be widely used.
+Exposing documentation of such a function in HTML and PDF
+documentations does not make sense.
+
+For the time being, hide the kernel-doc style comment from Sphinx
+processing by removing the kernel-doc marker of "/**".
+
+Proper kernel-doc comments should be added to the inlined
+wrapper functions, which is deferred to those who are familiar
+with those netdev APIs.
+
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Fixes: c526fd8f9f4f21 ("net: inline dev_queue_xmit()")
+Link: https://lore.kernel.org/linux-next/20220503073420.6d3f135d@canb.auug.org.au/
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Pavel Begunkov <asml.silence@gmail.com>
+---
+ net/core/dev.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/net/core/dev.c b/net/core/dev.c
+index c2d73595a7c3..a97fd413d705 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -4085,8 +4085,7 @@ struct netdev_queue *netdev_core_pick_tx(struct net_device *dev,
+ 	return netdev_get_tx_queue(dev, queue_index);
+ }
+ 
+-/**
+- *	__dev_queue_xmit - transmit a buffer
++/*	__dev_queue_xmit - transmit a buffer
+  *	@skb: buffer to transmit
+  *	@sb_dev: suboordinate device used for L2 forwarding offload
+  *
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
