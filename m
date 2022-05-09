@@ -2,70 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69600C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 22:13:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7E5AC433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 22:20:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231368AbiEIWRU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 18:17:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41132 "EHLO
+        id S231288AbiEIWYu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 18:24:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231272AbiEIWRU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 18:17:20 -0400
+        with ESMTP id S230525AbiEIWYt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 18:24:49 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 438D5164CA2;
-        Mon,  9 May 2022 15:13:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15E8E25C68;
+        Mon,  9 May 2022 15:20:54 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E650A732;
-        Mon,  9 May 2022 22:13:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E650A732
+        by ms.lwn.net (Postfix) with ESMTPSA id A73CD732;
+        Mon,  9 May 2022 22:20:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A73CD732
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1652134405; bh=sEMrik7WYGW/7x9Mgr4lGXr3bXEO5dv8oIWWDb5ZT7U=;
+        t=1652134853; bh=8mExUUzkzmAyXrY8dedy/L10D7FiCxQzXMq6gVmHu/I=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Up8/me1vktG5QJsMclCUdE9vZdl0x/2/+g6CNBQetQ2CBiF1rzN1Gz94+ri7NEO5p
-         Bqx876vGb44nKwfLqzZAS7pvhV2WJM7Zw+6RH7Ej8amt0yNurkHOKmRwN91q93rhFE
-         +MG6tkkUwFcFUhOPGemNizVgiE47tCAEGKN/bHZhUXMw8oKt6pQR54Ezt9SCM+7nfF
-         JC5Vc86WpgH5gNXxISuAKuVXvtNaZAeE58rHB2gRob/LrB2PTojD2AsnzrpNsm9M08
-         CopFXlWfLSu172GZKUKRLdBY8g7eZlk7xJhcjVZQkPJc70YEs7OMugjyBn+ldVqTgW
-         IJw2xAYNLLt8w==
+        b=AAXoH52bpvl3xSV+0nGmwQVi/FBzyIJ1RoPHEGv26NIz6VXXdypqLQYNZsE5NDFL7
+         fqKHMxBnaS0s0lXA+LFM3bMzFrpOj9uIJTOVDf4dX/IA+IBFzTJuTtS408SEOtf/Y6
+         kKjHA0p2Z7dcDiYvpvIfpCy3XWlJ1vTTO5mj3gEOjqXhNb3lRKFCXOgm5eyJTbuT2p
+         AgLvBu1sAWZNmNHEQIvqhacCCpmy+EF7K78uy1lXFDu4St/HPHnYDN+e5OnMy1OOiG
+         2XwTWmCTEkczsYQtIA81QdwFOKfcd32Tb408Rp98LinMcB+IegXO/dz1GTzK0890yJ
+         ZeD2dbGWTOkIw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] Documentation/process: use scripts/get_maintainer.pl on
- patches
-In-Reply-To: <20220427185645.677039-1-krzysztof.kozlowski@linaro.org>
-References: <20220427185645.677039-1-krzysztof.kozlowski@linaro.org>
-Date:   Mon, 09 May 2022 16:13:24 -0600
-Message-ID: <87ee12cq2j.fsf@meer.lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Phillip Potter <phil@philpotter.co.uk>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: drop more IDE boot options and ide-cd.rst
+In-Reply-To: <20220424033701.7988-1-rdunlap@infradead.org>
+References: <20220424033701.7988-1-rdunlap@infradead.org>
+Date:   Mon, 09 May 2022 16:20:52 -0600
+Message-ID: <878rracpq3.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> writes:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> Explain that, when collecting list of people to Cc the patch,
-> scripts/get_maintainer.pl should be used on patches, not on the
-> directories.  The behavior is quite different, because with "-f" on
-> a directory, the maintainers of individual files will not be shown.
+> Drop ide-* command line options.
+> Drop cdrom/ide-cd.rst documentation.
 >
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
+> Fixes: 898ee22c32be ("Drop Documentation/ide/")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Phillip Potter <phil@philpotter.co.uk>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
 > ---
+> I missed a few things in dropping all IDE documentation.
+> Hopefully this is all of the remaining pieces.
 >
-> It seems using the script on patches is not obvious and it already
-> caused some misunderstandings.
-> ---
->  Documentation/doc-guide/contributing.rst     | 5 +++--
->  Documentation/process/3.Early-stage.rst      | 9 +++++----
->  Documentation/process/submitting-patches.rst | 7 ++++---
->  3 files changed, 12 insertions(+), 9 deletions(-)
+>  Documentation/admin-guide/kernel-parameters.txt |   20 
+>  Documentation/cdrom/ide-cd.rst                  |  538 --------------
+>  2 files changed, 558 deletions(-)
 
-I worry about trying to cram every detail into these documents; it's not
-as if their length isn't intimidating already.  But I've gone ahead and
-applied this, thanks.
+Applied, thanks.
+
+That said, it created this docs-build error:
+
+  Documentation/cdrom/index.rst:7: WARNING: toctree contains reference to nonexisting document 'cdrom/ide-cd'
+
+I made the obvious change to fix that.
 
 jon
