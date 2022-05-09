@@ -2,110 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6496C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 13:09:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 934B3C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 13:48:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235210AbiEINNB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 09:13:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49070 "EHLO
+        id S236314AbiEINw0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 09:52:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235245AbiEINNA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 09:13:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 90C772A768B
-        for <linux-doc@vger.kernel.org>; Mon,  9 May 2022 06:09:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1652101742;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=9C8drEYqngKOm3nncV9RRJ4ZJYInBOQKfqINsG0BQFA=;
-        b=WTWlWkUqRPMyTrEfzmeQjHaZBU3j8KbueY6mLhWF8iNg8r787smSwLsTQnuRBH+0Rxef7k
-        s9d8BEd8lPoKeiLE7lsBSizdEL3W9o5FfDMxjf45oIlc9AjTbGpNHe4JpjvkU0W7jJjqoZ
-        5heN4khFypWH8x7QU77gK7JWIszfUEo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-344-Qk5pzgt8NYGByeZ22Hei6A-1; Mon, 09 May 2022 09:09:01 -0400
-X-MC-Unique: Qk5pzgt8NYGByeZ22Hei6A-1
-Received: by mail-wm1-f71.google.com with SMTP id u3-20020a05600c210300b0039430c7665eso3860954wml.2
-        for <linux-doc@vger.kernel.org>; Mon, 09 May 2022 06:09:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9C8drEYqngKOm3nncV9RRJ4ZJYInBOQKfqINsG0BQFA=;
-        b=AohDYOzz2JnT32ya3hou8FrHVo4MEEG60MOtDIPCTPgx6ipQMq0OLLKDYR8YHgj7DZ
-         J95zDa2hq/R0NU6TK8Md04Dl37Ae+YpcUe6moW3b38P8zZcA4t6pZTIfS+8cSmj1XwyB
-         6wF7LxACRtlU+tz75X2KKDxQdBosNgx1+qx8fZGU90Hkr7tA9nsgnQSWzoO8I9OXmCCm
-         NbNCGAVZegGKzejBBKjSFnFwKOg6MP9MLB2iFUt6WvjFr46R2e3QJRf3lpY5yHJ91SvV
-         DWy33X8y/cKaa5PDYFCvQIrlQmuLYJy8C4AagjQovCUD0+2qv60XRXYkRXhNtoJnTZXw
-         +tyQ==
-X-Gm-Message-State: AOAM531EuE4yZC3Zokv9jgZc23nP12yt4J76BYQIuPc1m9Us3Ja2xp9B
-        g9YrQcvabJDXoUUdzBQgmGY+/KMRW8wO5ekKyQquMTBSTAAI80NdFoFFbE3lcZHYSfW2Z1sdkIU
-        FS1gdVoPMYFMaZYnUf6x5
-X-Received: by 2002:a05:6000:1869:b0:20c:5362:1295 with SMTP id d9-20020a056000186900b0020c53621295mr14079746wri.700.1652101740370;
-        Mon, 09 May 2022 06:09:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyDG6lbGPaq84WzEwCdXcOkQUQu+pRyyBz43QQu3IUWtgwSbAp0rMkkKwCQUS43pMkFMDHl0A==
-X-Received: by 2002:a05:6000:1869:b0:20c:5362:1295 with SMTP id d9-20020a056000186900b0020c53621295mr14079728wri.700.1652101740162;
-        Mon, 09 May 2022 06:09:00 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id z22-20020a05600c0a1600b003942a244eddsm13120297wmp.34.2022.05.09.06.08.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 May 2022 06:08:59 -0700 (PDT)
-From:   Javier Martinez Canillas <javierm@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Javier Martinez Canillas <javierm@redhat.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        with ESMTP id S236373AbiEINwZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 09:52:25 -0400
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 065331C0F3F;
+        Mon,  9 May 2022 06:48:29 -0700 (PDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 9A07E320092E;
+        Mon,  9 May 2022 09:48:26 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 09 May 2022 09:48:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1652104106; x=1652190506; bh=3e5pRSL4nu
+        5eGrvENtFi20xsUaRnMtdktTMgw7m0tkw=; b=H/bezbk+9aGlACifYoX0yu7ZWl
+        29qvJQLBlet1iHJ0G7SiP+ftnsCghbE2CtovDZlh+DNFY+KFFbJODpasFdSgcgfO
+        aXoIwXWc2hpUapv5iTXXpg/nTlktagah/hjJyxKBJknPMYDd/Q83b6ObAJMtchWe
+        PKRbpNwbiipwuiDLDJAIfh1V6kwdLIQcqPAdH+DLvmPsNYVIE9mslJcBYCDlemtR
+        k2oar53OC1GqAsaVz3aN+zy6LBmi2XldRhc+ifxIIUTH7XfqmtZFKIRog8YmicrJ
+        lOyDd46B2h40sQNjuRT/rnyRxFy0ORsgzg0L5t6wZn4fQjamMpMBRmxHfb0g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1652104106; x=
+        1652190506; bh=3e5pRSL4nu5eGrvENtFi20xsUaRnMtdktTMgw7m0tkw=; b=l
+        FcCQkX2JCmrmH/W03TA6qxe91G6eIskGmvFJTuVmD9eXtrcCVfDvYoBHryapx2sW
+        I7ZccsavnfG2amor6IlaZMyMiY7/3ZTdqmYV6hei/vgWst4dksQhN1wXthHT6qQr
+        7iUWfIkhmPUVsFt1xMoRjAD+bdci/u4+0RHPSLKrNDirKLy3lf2b9cIkNiXix1Oc
+        zzjqT3X1EW4L62TOAqBg0czo3Xk7RvDY0ZiLiH8YPEobjMur+o7O5K1dDIO7kJJp
+        f1fPWOdP+MqIVooX/lyc5jL2sOSFaVmR3+4NnyPBXcd6Z9ZMOjltmiyw2/BaYkaA
+        0wCb2OZIkK2dElEm56S+Q==
+X-ME-Sender: <xms:qRt5Yo_WUGbO1g2znlcjQr8lupMQPDCDT_gpXTs5fFOMJJxRQOy18Q>
+    <xme:qRt5Ygvx-Ub6Y1KFNIDD7K-5s7_MgVbI7U6rgIzpF89hkdvFckiAa5JvKu95SWTl7
+    t4kLlgJw004k1CMZKI>
+X-ME-Received: <xmr:qRt5YuDbf3518f9R_eDQjwdqaNzRds9eHessJFRaCrO7Ck5XkCaFbIzl72IoyakZmku3AzKZraCfDGMvZ72sTEWk_Jj92YF5-Nv7VUc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeelgdeikecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
+    vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:qRt5YodKX_PcbEiL9x9wTCD_xi0B_9gSaKmNH1yITl3k8msgktEuHw>
+    <xmx:qRt5YtPJPz_pXBvdqYoFoAcaNkpWZ5tSvbxi9wobfhB9eA07X5JsgA>
+    <xmx:qRt5Yikd58aSEOFC4HrD1LOYFaZ3syPNuficpEGwSpzVzONITUKcgA>
+    <xmx:qht5YgfUvUSMaJVHMNCSF0OTzq_q6Yqm5jyvfiiaYGDcn7GUkXk3Vg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 9 May 2022 09:48:24 -0400 (EDT)
+Date:   Mon, 9 May 2022 15:48:22 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Javier Martinez Canillas <javierm@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
         David Airlie <airlied@linux.ie>,
         Jonathan Corbet <corbet@lwn.net>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: [PATCH] drm/todo: Add entry for converting kselftests to kunit
-Date:   Mon,  9 May 2022 15:08:46 +0200
-Message-Id: <20220509130846.694397-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
+Subject: Re: [PATCH] drm/todo: Add entry for converting kselftests to kunit
+Message-ID: <20220509134822.dqrhjg4afp7vwla7@houat>
+References: <20220509130846.694397-1-javierm@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="r4276qbvkxdfmdmz"
+Content-Disposition: inline
+In-Reply-To: <20220509130846.694397-1-javierm@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Many of the kselftests in DRM can be converted to kunit tests instead,
-since that framework is more suitable for unit testing.
 
-Suggested-by: Maxime Ripard <maxime@cerno.tech>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+--r4276qbvkxdfmdmz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- Documentation/gpu/todo.rst | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+On Mon, May 09, 2022 at 03:08:46PM +0200, Javier Martinez Canillas wrote:
+> Many of the kselftests in DRM can be converted to kunit tests instead,
+> since that framework is more suitable for unit testing.
+>=20
+> Suggested-by: Maxime Ripard <maxime@cerno.tech>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 10bfb50908d1..513b20ccef1e 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -617,6 +617,17 @@ Contact: Javier Martinez Canillas <javierm@redhat.com>
- 
- Level: Intermediate
- 
-+Convert Kernel Selftests (kselftest) to KUnit tests when appropriate
-+--------------------------------------------------------------------
-+
-+Many of the `Kselftest <https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html>`_
-+tests in DRM could be converted to Kunit tests instead, since that framework
-+is more suitable for unit testing.
-+
-+Contact: Javier Martinez Canillas <javierm@redhat.com>
-+
-+Level: Starter
-+
- Enable trinity for DRM
- ----------------------
- 
--- 
-2.35.1
+Acked-by: Maxime Ripard <maxime@cerno.tech>
 
+Maxime
+
+--r4276qbvkxdfmdmz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYnkbpgAKCRDj7w1vZxhR
+xap/AQC8MQkqKXlju0gJmPJo9GioFfw21TN3KDNqYkauGunXmwD9G3zqCqtyF8Lc
+U5XDJOkzurG86yL9HQReimLsipvf7w8=
+=7gSU
+-----END PGP SIGNATURE-----
+
+--r4276qbvkxdfmdmz--
