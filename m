@@ -2,72 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61262C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 22:06:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AB05C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 22:08:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230381AbiEIWKh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 18:10:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45584 "EHLO
+        id S230518AbiEIWMh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 18:12:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229652AbiEIWKh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 18:10:37 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D20DE1EE0A7;
-        Mon,  9 May 2022 15:06:41 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7D0DB732;
-        Mon,  9 May 2022 22:06:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7D0DB732
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1652134001; bh=QMy1D0TjaS0SUmscSgDn3kEr8C3vCmkqenPKxihq2+o=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=XLUeiprmgfmpXzYmKVfWshBJLVx6a+FCdkyuErEXVrna/bzzrQMZIx9UA/9Qot8po
-         nVDWvP98O5UviRsvWysTByBzbXo9A+e+/V0wgwLu/fKsM9BEvQlTNi238F2EVySeTz
-         cac6uOmg3c6dlJfVvolqt5zFgaYXPapgZEuL9dawmHDmQef9sJEWFv9SgU/aVufS3/
-         8Ly1U/UI9vekR3j0h5wTpOU28Ssofor3kWMM5U+rymZ4F+XPphiFbfw7COQUmeGdsa
-         r3ek+qgiq+XXP+XTALUPgjqWMR2Bur4GPH0WSiLCRAD83e6wYKxjOr1o+fboXlj4EB
-         N158tiK85HyCQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>,
-        shibata@linuxfoundation.org
-Cc:     Kosuke Fujimoto <fujimotokosuke0@gmail.com>, akiyks@gmail.com,
-        skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5]     docs/trans/ja_JP/howto: Don't mention specific
- kernel versions
-In-Reply-To: <20220501102256.6379-1-fujimotokosuke0@gmail.com>
-References: <20220501102256.6379-1-fujimotokosuke0@gmail.com>
-Date:   Mon, 09 May 2022 16:06:40 -0600
-Message-ID: <87k0aucqdr.fsf@meer.lwn.net>
+        with ESMTP id S229652AbiEIWMh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 18:12:37 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 145CF2B4CB6
+        for <linux-doc@vger.kernel.org>; Mon,  9 May 2022 15:08:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=2BbbKZ+4e7nU8y8IBBlDD/NBX/QmJn+kOjAWFHZQ8kQ=; b=QKroCUvKHru7Jj3A6zmFifhAlk
+        8R25KZXsN8hb2N2GCxj0FZEwxEgMjyV4cq9P3XmMMRwimiJG0+X4bgSYT7eaE8QzAa9yfLdljjf/g
+        oU3JmffphO2BOfV92xS0yNZQ25+4Vp4Fpa2vOg/k522ELlo710DlLtRUP/igVmVQdt3qzDGy2ogRk
+        vicbo2Z7ynmZ3RfCdR6Ir5yVK4VlkqvKs8ofCKQwWUkzyBSTl8KE/mAvF9aQu3NA48jy3h6j1RgXS
+        tDW2b/+AnfNQWhsTB5+GaTZrgo6snrhZVlw2TIcdpFNjaEkgcXZgT+Dh+elpNCWoKw3+W539lz52I
+        i67Pwx7Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1noBYR-003ql5-LJ; Mon, 09 May 2022 22:08:35 +0000
+Date:   Mon, 9 May 2022 23:08:35 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        John Hubbard <jhubbard@nvidia.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v2] mm,doc: Add new documentation structure
+Message-ID: <YnmQ4yQMuv44n8aR@casper.infradead.org>
+References: <20220507134947.444287-1-willy@infradead.org>
+ <87sfpicr4x.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87sfpicr4x.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kosuke Fujimoto <fujimotokosuke0@gmail.com> writes:
+On Mon, May 09, 2022 at 03:50:22PM -0600, Jonathan Corbet wrote:
+> "Matthew Wilcox (Oracle)" <willy@infradead.org> writes:
+> 
+> > Closely following the outline of Mel Gorman's book "Understanding the
+> > Linux Virtual Memory Manager", add a new outline.  Preserve the current
+> > contents of the mm underneath the new outline so we can transition those
+> > documents to a more sensible place later.
+> >
+> > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> > Reviewed-by: John Hubbard <jhubbard@nvidia.com>
+> > Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> > Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+> 
+> So this seems like a good start to me.
+> 
+> What's your intended path for merging this?  You didn't copy me so I'm
+> assuming you had some other way in mind.
 
->     This change is based on commit d2b008f134b7
->     ("Documentation/process/howto: Update for 4.x -> 5.x versioning").
->
->     Replace "4.x kernel version" with generic term such as "mainline tree"
->
->     Signed-off-by: Kosuke Fujimoto <fujimotokosuke0@gmail.com>
->     Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
->     ---
->     V2: Reformatted commit log message (Yokosawa-san)
->     V3: Updated some expressions (Shibata-san)
->     - added "version number" in mainline tree section
->     - updated from "stable kernel" to "stable tree"
->     V4: Added reviewed by tag and removed extra characters (Yokosawa-san)
->   =E3=80=80V5: Removed an extra character (Shibata-san)
-> ---
->  Documentation/translations/ja_JP/howto.rst | 44 +++++++++++-----------
->  1 file changed, 21 insertions(+), 23 deletions(-)
-
-Applied, thanks.
-
-jon
+Uh, good point.  I didn't cc either you or Andrew.  I don't think it
+matters which one of you takes it.  Since you responded first, do you
+want to take it?
