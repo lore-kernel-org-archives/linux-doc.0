@@ -2,104 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3FFCC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 17:05:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E46D2C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 17:15:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239505AbiEIRJU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 13:09:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49594 "EHLO
+        id S239636AbiEIRTA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 13:19:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239513AbiEIRJS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 13:09:18 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFE752B9C8C;
-        Mon,  9 May 2022 10:05:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652115923; x=1683651923;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=3scayCu6ID1aDNn8OBm96/lJRF8vjKYB0DQAdtKYOc0=;
-  b=jj+crfWBUsSbeetSYp9V3o2a4LsL/LArIN48QWg04oc24Pw52VWmwB6F
-   ybMDS59kafVrPECltxMxO9QeXEWI68+gB7vSqmKzSZW/tJLIa3qI201Bb
-   R89PMGmGtbDzupEHwAgn4Bi9v9M3OQZiPSWDRjr0jYVsfVdmLZvspdOo9
-   hQf3n/0jiTyyvBhTHO/0yH+SD5jwo1eItIu+YQEciSuz41tkfXzQzioa2
-   sFC123eulWTYoOeNKSvJYnZwJk67jSAKhAImyy8bVYNhhDs6AgY9bM+n9
-   veBFaa7QnytAbRKYKUCTXL2PyGZft470jHrfZnEdT+LNC4mI49Ia+Fr5n
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="355538406"
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; 
-   d="scan'208";a="355538406"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2022 10:05:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; 
-   d="scan'208";a="602054410"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga001.jf.intel.com with ESMTP; 09 May 2022 10:05:22 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 9 May 2022 10:05:21 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 9 May 2022 10:05:21 -0700
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
- Mon, 9 May 2022 10:05:21 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>, Borislav Petkov <bp@alien8.de>
-CC:     "markgross@kernel.org" <markgross@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: RE: [PATCH v5 00/10] Introduce In Field Scan driver
-Thread-Topic: [PATCH v5 00/10] Introduce In Field Scan driver
-Thread-Index: AQHYWxYVdsKdZt61BUSHj1qB1cqAT60MLiKAgAGW8wCABKLQAP//o/BAgAClR4CABCX1EA==
-Date:   Mon, 9 May 2022 17:05:20 +0000
-Message-ID: <05b3c44c62a944f793b66b2e8e8c0cfe@intel.com>
-References: <20220422200219.2843823-1-tony.luck@intel.com>
- <20220428153849.295779-1-tony.luck@intel.com>
- <13054c5c-ed48-b7a2-a800-25b9b1b1ab0d@redhat.com> <YnFK+gXFx0jQB1dz@zn.tnic>
- <b18234d7-a1f4-d5a4-e59b-f5439c38c2d0@redhat.com>
- <15cca88b82cd46a3a2a98b7cf336a6ed@intel.com>
- <4fda831b-c132-53cd-cd75-4f46b45219ac@redhat.com>
-In-Reply-To: <4fda831b-c132-53cd-cd75-4f46b45219ac@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S239592AbiEIRS7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 13:18:59 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C6FBD6D;
+        Mon,  9 May 2022 10:15:03 -0700 (PDT)
+Received: from mail-yb1-f169.google.com ([209.85.219.169]) by
+ mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MDhpf-1ngiix2051-00AqF2; Mon, 09 May 2022 19:15:00 +0200
+Received: by mail-yb1-f169.google.com with SMTP id e12so26141366ybc.11;
+        Mon, 09 May 2022 10:15:00 -0700 (PDT)
+X-Gm-Message-State: AOAM530d3OIK7GJv5+EXB/DD8h/GeGrYjsEyoejzPQsNCbkbTOIUIGQl
+        RHwcA6mH8TuEOeZmT4YJTlejClyUw+lao3S/7Iw=
+X-Google-Smtp-Source: ABdhPJyHQFHeCYNt6/2XBDePebhfAxC0YGjrTQwobGsfzQ7IW7xMNDz27Uz4OVvO3KI6pi3WuaWgOmz48zp0xVuGn+o=
+X-Received: by 2002:a25:cbc9:0:b0:645:879a:cdd3 with SMTP id
+ b192-20020a25cbc9000000b00645879acdd3mr13447456ybg.550.1652116499059; Mon, 09
+ May 2022 10:14:59 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220509150130.1047016-1-kuba@kernel.org>
+In-Reply-To: <20220509150130.1047016-1-kuba@kernel.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 9 May 2022 19:14:42 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0FVM8g0LG3_mHJ1xX3Bs9cxae8ez7b9qvGOD+aJdc8Dw@mail.gmail.com>
+Message-ID: <CAK8P3a0FVM8g0LG3_mHJ1xX3Bs9cxae8ez7b9qvGOD+aJdc8Dw@mail.gmail.com>
+Subject: Re: [PATCH net-next] net: appletalk: remove Apple/Farallon LocalTalk
+ PC support
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     David Miller <davem@davemloft.net>,
+        Networking <netdev@vger.kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Doug Brown <doug@schmorgal.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:ykdNElvweSdf3ikRi4LSALSGseHFAqFUbbGcOdVmpUUzUl8AQWF
+ vg0JI+/rUvkWWP2JeYOUVD+v6jRwbRYQb6VYNFvj/1EOab5Akl1l9TM1cDaiWrlUL+WZlWC
+ xlBhGDsYxHa6xPeb1YVsyaSNSG65lhil8w1FjFFYOCP2W/MnkoKDIV7YVFEN5Xlm0V262hJ
+ n5xTNoVwrNrbq/mWrBAOQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:B3166jrh0SQ=:ZNrfK8pJTV0vBVl5DPEmHP
+ t2JnwtJcCJEMXbQyaM81ntqJD7Pay6hX6Uk3+hs/StKnwuzgy6vxif+cf07vI1LSgBvOggkbg
+ IohZ1ttBl1LoLBLIwqVMJx8TGkRZTbCW5Hnh87FLmoB7S+zI2C91bEJsyOiLP9MewzWbSCTpD
+ nZPoqvHRG5wcRCR74MbWrnkMMINuGv9BSCyWeO6YBi87cGHWH8zh/zJSzpGpaSNV1wgPHYo6j
+ 5PbPwl7XCOSHAm8ar6YBeCeKZC+mscriuoC+013zwyp79a3Inx6XFyynd9VOGnudumFIMOwSP
+ xRBdnOglF+ayISYV4OOsgdhWbWh/LJ5wtIWO1kMvBEPXHQNRUG6JWh/u/7YcZcxsfzzkP7IGe
+ LCtRj+WacgRTbv7rAFrJHjDcimrGwML4NPu8ZWtRW5WIxY2U7HXQEKKu0HxLTmFbPRzwcUeid
+ 9jWI+Fce6CdPVxYo8bUJ5twSS+Vz37qg+PTgz0W3xgqz1qcQClBC5CXZAruTb9zs0mjc3mup7
+ Ch+/LIblnxH8sHdG50zrUg88R5SCjIyBOG1KZlKG1k9Gg7QXG4b4BEL+e2dbyZr1LQycH7MCz
+ AD1vnNci2YLvnD9DYLBbtOWJYU7u75iUAPQoem/S189dY4lnvfZdPXBkImsdL+aow8+0oOOPg
+ OetJwm7ETYp+1zzRTimJcreCThYoxWWwulTFqQDJQKz9cr9O9RqqL1UrGINsSkpTY8EXhJExG
+ p9Jug7iFPYoxA4wQKjY+IR5nios7mV4BFottla38i6tf/WFZb45jH4/CHWuscFbdbxUjDNaD6
+ ztyDwE6Vks17qEgOFYmBOCOYJH7UxqFF9mopYB36OiwWhGg2ZM=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Pj4gRG8geW91IHN0aWxsIHRha2UgcGF0Y2hlcyBhZnRlciAtcmM2Pw0KPg0KPiBJZiB0aGUgcGF0
-Y2hlcyBhcmUgc2VuZCBzb29uICgxLTIgZGF5cykgYWZ0ZXIgcmM2IEkgY2FuIHN0aWxsIHRha2Ug
-dGhlbS4NCg0KSGFucywNCg0KVjcgd2FzIHBvc3RlZCBGcmlkYXkuIEl0IHN1cnZpdmVkIG15IHdl
-ZWtlbmQgdGVzdGluZywgYW5kIGFub3RoZXIgcm91bmQgb2YgdGdseCBzY3J1dGlueSAoZW5kaW5n
-IHdpdGgNCmhpcyAiUmV2aWV3ZWQtYnkiIG9uIHRoZSBsYXR0ZXIgcGFydHMgb2YgdGhlIHNlcmll
-cy4NCg0KTGV0IG1lIGtub3cgaWYgdGhlcmUgaXMgYW55dGhpbmcgZWxzZSB5b3UgbmVlZCB0byBn
-ZXQgdGhlbSBhcHBsaWVkLg0KDQpUaGFua3MNCg0KLVRvbnkNCg==
+On Mon, May 9, 2022 at 5:01 PM Jakub Kicinski <kuba@kernel.org> wrote:
+>
+> Looks like all the changes to this driver had been tree-wide
+> refactoring since git era begun. The driver is using virt_to_bus()
+> we should make it use more modern DMA APIs but since it's unlikely
+> to be getting any use these days delete it instead. We can always
+> revert to bring it back.
+>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+
+Removing this driver sounds good to me, your description makes sense
+and it gets us closer to completely removing virt_to_bus() in the future.
+
+Acked-by: Arnd Bergmann <arnd@arndb.de>
+
+I think however, if we remove this driver, we need to discuss removing the
+last remaining localtalk driver (CONFIG_COPS) and possibly the localtalk
+bits in net/appletalk along with it.
+
+Doug Brown suggested removing COPS last year for entirely different
+reasons[1] but never got a reply. I suppose that is a sign that nobody
+cared about the driver enough, but we should remove it. He also
+mentioned working on a new localtalk driver, though I don't think he
+posted that one yet.
+
+       Arnd
+
+[1] https://lore.kernel.org/netdev/6c62d7d5-5171-98a3-5287-ecb1df20f574@schmorgal.com/
