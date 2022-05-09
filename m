@@ -2,126 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAE94C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 16:44:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BF29C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 16:52:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239274AbiEIQsD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 12:48:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55988 "EHLO
+        id S239299AbiEIQzx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 12:55:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239215AbiEIQsD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 12:48:03 -0400
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE7B8201C10
-        for <linux-doc@vger.kernel.org>; Mon,  9 May 2022 09:44:08 -0700 (PDT)
-Received: by mail-vs1-xe30.google.com with SMTP id d22so11737917vsf.2
-        for <linux-doc@vger.kernel.org>; Mon, 09 May 2022 09:44:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XqWCEiFRZR6d7K91PH8ezSoYLh3BKRbhvIoPlxx9A7I=;
-        b=HUq4PANpxSIB27eIQbGcBLcJ1kMRfgia2LIbn1U/sr3tsZ29aWkap3rwOThAhgUyct
-         MW4AAxZzt0kalHcKw0VYco7ySwx5B0Q6L9DvBsfj/UbG57AwzHEN8a6JkyYUfNQ29VTC
-         pohnxIWc1viOIWSeXqW8vA+HehX4XegFte3mA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XqWCEiFRZR6d7K91PH8ezSoYLh3BKRbhvIoPlxx9A7I=;
-        b=uMUT6vpuO0dn5AYnEIHRYAo+eX5YYG+edwCNUQx+1VB76B2QqecsVkjt+SYRgWQ6MD
-         lJ3rLoBcTk5uVcUKZDsM4OzLMywz0pIaG3u5ASoub9o8S0pEUAe+PAOKYp8NYzQ33gH7
-         J8QCOO4aY6e5ninklTXU8U73ZG63iDRsa2CBNWk7cvznoHbjWqRZDR2X1OIbduPPQsMU
-         Gs1h4fS+DYeT8l8qp8jc7Yf/4XEyRTAwJmIEXbSjOpJuDNLLm8GmLtjO1ovvgmyBT6+w
-         S30QG4QPyxMd8sj3h+sO/QBNV2suJuaN8hnEuP7g3JXu7Et6j4UjFNOCE/z9uqVdVjYW
-         uX4A==
-X-Gm-Message-State: AOAM533xzhKUxRGVcGO/1Vxz2/UZk9MSHWiP97jOQohq1GNDsewXXMmA
-        FBIyofjoXXrG2LJQU60tF6CXMH997fh3qIeE
-X-Google-Smtp-Source: ABdhPJzxeBLJr/vPauWHo8kTy+q6FoeDhxztmA8qvdtIEIUCL2GUIkv+GgZiO0ppT8VXiR7lzHrRXA==
-X-Received: by 2002:a05:6102:2223:b0:32d:2ae1:412 with SMTP id d3-20020a056102222300b0032d2ae10412mr8694359vsb.6.1652114647760;
-        Mon, 09 May 2022 09:44:07 -0700 (PDT)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
-        by smtp.gmail.com with ESMTPSA id u22-20020a1fab16000000b0034e6f1fd05asm1920378vke.36.2022.05.09.09.44.07
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 May 2022 09:44:07 -0700 (PDT)
-Received: by mail-ua1-f51.google.com with SMTP id i16so5685943uat.5
-        for <linux-doc@vger.kernel.org>; Mon, 09 May 2022 09:44:07 -0700 (PDT)
-X-Received: by 2002:a9d:6953:0:b0:606:3534:168e with SMTP id
- p19-20020a9d6953000000b006063534168emr6192989oto.237.1652114636260; Mon, 09
- May 2022 09:43:56 -0700 (PDT)
+        with ESMTP id S239297AbiEIQzw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 12:55:52 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33D9A2A83E7;
+        Mon,  9 May 2022 09:51:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652115118; x=1683651118;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=ZHf1aKrJPNEzW3CkgiZfux0Tgdcjxu6YIMeTHM4FNg8=;
+  b=HqvzycxNJqhIv5kTYJJ6RtMy19OoAc83bCoeTFfdE5XW7nWOZQY2P95y
+   j8puy348guhBTWS4ZcKRqgdwCS13mImhZ+JTVN0YgIHkkknHTyCDYGexU
+   sRbfkTnqEog8r1WiS5WXLn3EToKkqilAqFq3868hQ3ThYvibgNszyeh1d
+   TtfKWi8tW7nnyM7i5+a5/tHlfIJf7gwJeS49tTZx0WGt0HHRYbgy3Xqbc
+   IjJPzakSSLcbC37/m2MOvC9taUCyLbqGdjUPxhzY6sDS+C+3z8uk5DYR1
+   KZzRLZDcn0+cJHYjE5lnQA4yGh6rBcvoByaRidf5s0E3bUD41jk/YhysE
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="249007726"
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; 
+   d="scan'208";a="249007726"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2022 09:51:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; 
+   d="scan'208";a="710610178"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga001.fm.intel.com with ESMTP; 09 May 2022 09:51:57 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Mon, 9 May 2022 09:51:57 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Mon, 9 May 2022 09:51:57 -0700
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
+ Mon, 9 May 2022 09:51:57 -0700
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     Borislav Petkov <bp@alien8.de>
+CC:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "markgross@kernel.org" <markgross@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "Joseph, Jithu" <jithu.joseph@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
+Subject: RE: [PATCH v7 06/12] platform/x86/intel/ifs: Check IFS Image sanity
+Thread-Topic: [PATCH v7 06/12] platform/x86/intel/ifs: Check IFS Image sanity
+Thread-Index: AQHYYZw4URI4jEBNME2Pw/7vY15Q9K0XNqMA//+PpSA=
+Date:   Mon, 9 May 2022 16:51:56 +0000
+Message-ID: <ddd29688b88b4176957ef5dd8731d90a@intel.com>
+References: <20220506014035.1173578-1-tony.luck@intel.com>
+ <20220506225410.1652287-1-tony.luck@intel.com>
+ <20220506225410.1652287-7-tony.luck@intel.com> <YnlB6iAp4fjM0Cw9@zn.tnic>
+In-Reply-To: <YnlB6iAp4fjM0Cw9@zn.tnic>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.401.20
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20220504232102.469959-1-evgreen@chromium.org> <20220506160807.GA1060@bug>
-In-Reply-To: <20220506160807.GA1060@bug>
-From:   Evan Green <evgreen@chromium.org>
-Date:   Mon, 9 May 2022 09:43:19 -0700
-X-Gmail-Original-Message-ID: <CAE=gft6m75T0UC2DBhfFhuSMW6TK7aatD_04sQ18WosgGVsATw@mail.gmail.com>
-Message-ID: <CAE=gft6m75T0UC2DBhfFhuSMW6TK7aatD_04sQ18WosgGVsATw@mail.gmail.com>
-Subject: Re: [PATCH 00/10] Encrypted Hibernation
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Matthew Garrett <mgarrett@aurora.tech>,
-        Daniil Lunev <dlunev@google.com>, zohar@linux.ibm.com,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        linux-integrity@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        rjw@rjwysocki.net, Gwendal Grignou <gwendal@chromium.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Len Brown <len.brown@intel.com>,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
-        keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 6, 2022 at 9:08 AM Pavel Machek <pavel@ucw.cz> wrote:
->
-> Hi!
->
-> > We are exploring enabling hibernation in some new scenarios. However,
-> > our security team has a few requirements, listed below:
-> > 1. The hibernate image must be encrypted with protection derived from
-> >    both the platform (eg TPM) and user authentication data (eg
-> >    password).
-> > 2. Hibernation must not be a vector by which a malicious userspace can
-> >    escalate to the kernel.
->
-> Can you (or your security team) explain why requirement 2. is needed?
->
-> On normal systems, trusted userspace handles kernel upgrades (for example),
-> so it can escalate to kernel priviledges.
->
-
-Our systems are a little more sealed up than a normal distro, we use
-Verified Boot [1]. To summarize, RO firmware with an embedded public
-key verifies that the kernel+commandline was signed by Google. The
-commandline includes the root hash of the rootfs as well (where the
-modules live). So when an update is applied (A/B style, including the
-whole rootfs), assuming the RO firmware stayed RO (which requires
-physical measures to defeat), we can guarantee that the kernel,
-commandline, and rootfs have not been tampered with.
-
-Verified boot gives us confidence that on each boot, we're at least
-starting from known code. This makes it more challenging for an
-attacker to persist an exploit across reboot. With the kernel and
-modules verified, we try to make it non-trivial for someone who does
-manage to gain root execution once from escalating to kernel
-execution. Hibernation would be one obvious escalation route, so we're
-hoping to find a way to enable it without handing out that easy
-primitive.
-
-[1] https://www.chromium.org/chromium-os/chromiumos-design-docs/verified-boot/
-
-> Best regards,
->                                                                         Pavel
-> --
-> (english) http://www.livejournal.com/~pavelmachek
-> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+PiBJcyB0aGUgY2hlY2tzdW0gdGhlIG9ubHkgcHJvdGVjdGlvbiBhZ2FpbnN0IHBlb3BsZSBsb2Fk
+aW5nIGFyYml0cmFyeSBJRlMNCj4gaW1hZ2VzIG9yIGFyZSB0aG9zZSB0aGluZ3Mgc2lnbmVkIG9y
+IGVuY3J5cHRlZCwganVzdCBsaWtlIHRoZSBtaWNyb2NvZGU/DQo+DQo+IEknZCBob3BlIHRoZXkg
+cGFzcyB0aGUgc2FtZSBjaGVja3MgYXMgbWljcm9jb2RlLCB3aGVuIHRoZXkgZ2V0IGxvYWRlZCwN
+Cj4gY29uc2lkZXJpbmcgdGhlIHNpbWlsYXJpdHkgb2YgaG93IHRoZXkncmUgaGFuZGxlZC4uLg0K
+DQpUaGUgY2hlY2tzdW0gaXMganVzdCBhICJkaWQgdGhpcyBmaWxlIGdldCBjb3JydXB0ZWQgY2hl
+Y2siLiBUaGUgZmlsZSBjb250YWlucw0KU0hBMjU2IGNoZWNrc3VtcyBmb3IgZWFjaCBvZiB0aGUg
+Y2h1bmtzLiBUaGVzZSBjaGVja3N1bXMgYXJlIGRpZ2l0YWxseQ0Kc2lnbmVkLiBDaGVja2luZyBv
+ZiB0aGVzZSBpcyBkb25lIGJ5IG1pY3JvY29kZSB3aGVuIHRoZSBmaWxlIGlzIGxvYWRlZCBpbnRv
+DQpCSU9TIHJlc2VydmVkIG1lbW9yeSAod2hlcmUgaXQgaXMgaW5hY2Nlc3NpYmxlIHRvIE9TIGFu
+ZCBJL08pLg0KDQotVG9ueQ0K
