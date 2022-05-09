@@ -2,162 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A3E3C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 10:08:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0237C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 10:44:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231307AbiEIKMb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 06:12:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34240 "EHLO
+        id S230043AbiEIKsp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 06:48:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233003AbiEIKM3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 06:12:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 368CF233A6A;
-        Mon,  9 May 2022 03:08:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A54AAB80D3C;
-        Mon,  9 May 2022 10:01:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 308F7C385A8;
-        Mon,  9 May 2022 10:01:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652090465;
-        bh=Xj+BxxtzqKq6ClC+lgtNkIEjRLg+0U/DyE+0EsHanR4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rVhyEI4DCCNX9EpA2cYe+oghmzpR+KJ7NQEvWTwkt57PG8e+pkVTuXwkv68g1h8ty
-         X0d530Fm1dTEXvRXxQo84SlftXYiVkh6cviQ9dYCER0QlBP6uf83H4OEoiPXZFyh/y
-         831mCcvaiHL8kyxFd9ZkztQaBJQV1AKE8sqHtYI12swbA6JHnt/fURNh7iDnXA/025
-         Zbnoj/7G6qtsBV6hdnhu3VLlfjJtadyE0ZW6ckVDMUKZvdDf2Omi4GgcMKYXtlg+W0
-         2Nny282doe/wTCMPH/Zs+Uc79huxL3X5FjzwT7h6qM4vt1n0cH0b3/qcH2hhclM/Ao
-         JOLdtch+eOtmQ==
-Date:   Mon, 9 May 2022 12:00:58 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Huacai Chen <chenhuacai@gmail.com>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH V9 13/24] LoongArch: Add system call support
-Message-ID: <20220509100058.vmrgn5fkk3ayt63v@wittgenstein>
-References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
- <20220430090518.3127980-14-chenhuacai@loongson.cn>
- <CAK8P3a0A9dW4mwJ6JHDiJxizL7vWfr4r4c5KhbjtAY0sWbZJVA@mail.gmail.com>
- <CAAhV-H4te_+AS69viO4eBz=abBUm5oQ6AfoY1Cb+nOCZyyeMdA@mail.gmail.com>
- <CAK8P3a0DqQcApv8aa2dgBS5At=tEkN7cnaskoUeXDi2-Bu9Rnw@mail.gmail.com>
- <20220507121104.7soocpgoqkvwv3gc@wittgenstein>
+        with ESMTP id S230274AbiEIKsa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 06:48:30 -0400
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F6E82D5701;
+        Mon,  9 May 2022 03:42:34 -0700 (PDT)
+Received: by mail-io1-xd35.google.com with SMTP id c125so14802290iof.9;
+        Mon, 09 May 2022 03:42:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RUbxlyQv9Rnrcr0jkzwd4nmwPYsVNPj/1DE7vk0W4dU=;
+        b=mJE0VdjpRsTxZTx6Swa30zi8jr6E8MfARPwt1GzzQ07K9cPVY0gRLQxTuuwhsP+1OE
+         Bnk1zeZmKSmjGhp7cHj2GOZb9j/rvF5Q/+W8auc7ldzjnhgL2h/jHQODIpiEFs9qh3tK
+         cP/G3iz/dTOjCdbI1hNs+lFx9ZjInX4RX6DFesdvcjvQCAQqRtWV002eNEK5VwMYcgV1
+         dc8xIeVBhUia8oQaSzQ1ckle87ZDyhAVdvL6GGKlKZvD2wUBFhIsnVxv6tjm6HgrcPKY
+         B2HGCCxzfrZ2HJmqLQsZdrEUm/jtl8bmWhI3NeRiBYEs5djhP3IsVCZshZrE7oLqePbP
+         N5/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RUbxlyQv9Rnrcr0jkzwd4nmwPYsVNPj/1DE7vk0W4dU=;
+        b=k9wC5iMbgvkbBkbKRvAphSs+IwTQDYoYT5WNG2lKrJyG6KTZRuAGt29LrxICEzBJT6
+         C1k9GAEdnB9HyDca8vFiB1m8dReG4sEaGI3fX0I3BTrja50LmbrF1mqsmeHzY114vSJ5
+         Xl3im2aOEo2gJZild6EBkwSAR1cb0pWJREoH+Ud5KI7N5/Im01I8Hnl3N9npqMhkcHsw
+         tkX68mwFhyHQ4qebGw/HplNkQCPv7rrWo9ZHYsNXlfGmyCU6syLO9Rphf0R4nz998lht
+         xVi/y9evmqQ6tpXnDm2s/tKdjEH5Nzz5jv9mR+k/nJOOY2ZXQyT+L/TmzCf7gBmJIKdc
+         qFtg==
+X-Gm-Message-State: AOAM533DtQp3K8cGD2jY+bqydX+jSnkW5mRTyGDbizmZdFYrTr++MB/9
+        RhpgaZTsCbDTQ/w4gsJIfQ2n7N36D8u1wS9sEdO11YJJ
+X-Google-Smtp-Source: ABdhPJxKzpzb9+WG2tCZaHirmDD6/FM40ugx3aBOyzAzMNEUY/Hcd40wj9X4GSSMG5tONefq4BgcVCHeqoCwpvXnjp4=
+X-Received: by 2002:a05:6602:2d90:b0:63d:b41e:e4e4 with SMTP id
+ k16-20020a0566022d9000b0063db41ee4e4mr6088084iow.172.1652092899514; Mon, 09
+ May 2022 03:41:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220507121104.7soocpgoqkvwv3gc@wittgenstein>
+References: <20220507052451.12890-19-ojeda@kernel.org> <7e9c2e77-8b70-6e15-3f3d-905ab42b0fcd@gmail.com>
+In-Reply-To: <7e9c2e77-8b70-6e15-3f3d-905ab42b0fcd@gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 9 May 2022 12:41:28 +0200
+Message-ID: <CANiq72mBVo4+htxVjY0wB1Y3GO2PEUiZjZKRYT8ddwx84-hAtg@mail.gmail.com>
+Subject: Re: [PATCH v6 18/23] docs: add Rust documentation
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Wu XiangCheng <bobwxc@email.cn>,
+        Jonathan Corbet <corbet@lwn.net>, Daniel Xu <dxu@dxuuu.xyz>,
+        Gary Guo <gary@garyguo.net>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Yuki Okushi <jtitor@2k36.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Julian Merkle <me@jvmerkle.de>, Finn Behrens <me@kloenk.de>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Wei Liu <wei.liu@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 07, 2022 at 02:11:04PM +0200, Christian Brauner wrote:
-> On Sat, Apr 30, 2022 at 12:34:52PM +0200, Arnd Bergmann wrote:
-> > On Sat, Apr 30, 2022 at 12:05 PM Huacai Chen <chenhuacai@gmail.com> wrote:
-> > > On Sat, Apr 30, 2022 at 5:45 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > > On Sat, Apr 30, 2022 at 11:05 AM Huacai Chen <chenhuacai@loongson.cn> wrote:
-> > > > >
-> > > > > This patch adds system call support and related uaccess.h for LoongArch.
-> > > > >
-> > > > > Q: Why keep __ARCH_WANT_NEW_STAT definition while there is statx:
-> > > > > A: Until the latest glibc release (2.34), statx is only used for 32-bit
-> > > > >    platforms, or 64-bit platforms with 32-bit timestamp. I.e., Most 64-
-> > > > >    bit platforms still use newstat now.
-> > > > >
-> > > > > Q: Why keep _ARCH_WANT_SYS_CLONE definition while there is clone3:
-> > > > > A: The latest glibc release (2.34) has some basic support for clone3 but
-> > > > >    it isn't complete. E.g., pthread_create() and spawni() have converted
-> > > > >    to use clone3 but fork() will still use clone. Moreover, some seccomp
-> > > > >    related applications can still not work perfectly with clone3. E.g.,
-> > > > >    Chromium sandbox cannot work at all and there is no solution for it,
-> > > > >    which is more terrible than the fork() story [1].
-> > > > >
-> > > > > [1] https://chromium-review.googlesource.com/c/chromium/src/+/2936184
-> > > >
-> > > > I still think these have to be removed. There is no mainline glibc or musl
-> > > > port yet, and neither of them should actually be required. Please remove
-> > > > them here, and modify your libc patches accordingly when you send those
-> > > > upstream.
-> > >
-> > > If this is just a problem that can be resolved by upgrading
-> > > glibc/musl, I will remove them. But the Chromium problem (or sandbox
-> > > problem in general) seems to have no solution now.
-> > 
-> > I added Christian Brauner to Cc now, maybe he has come across the
-> > sandbox problem before and has an idea for a solution.
-> 
-> (I just got back from LSFMM so I'll reply in more detail next week. I'm
-> still pretty jet-lagged.)
+Hi Akira,
 
-Right, I forgot about the EPERM/ENOSYS sandbox thread.
+On Mon, May 9, 2022 at 6:02 AM Akira Yokosawa <akiyks@gmail.com> wrote:
+>
+> I think you agreed splitting SVG part into its own patch with
+> a proper copying info, etc.  Let me see...  So, here is the link:
 
-Kees and I gave a talk about this problem at LPC 2019 (see [2]). The
-proposed solutions back then was to add basic deep argument inspection
-for first-level pointers to seccomp.
+Yes, sorry, will do (in fact, it should have been there in v5 too).
 
-There are problems with this approach such as not useable on
-second-level pointers (although we concluded that's ok) and if the input
-args are very large copying stuff from within seccomp becomes rather
-costly and in general the various approaches seemed handwavy at the
-time.
+By the way, the Linux SVG logo (used to make the one here) is pending
+in the linux-doc ML.
 
-If seccomp were to be made to support some basic form of eBPF such that
-it can still be safely called by unprivileged users then this would
-likely be easier to do (famous last words) but given that the stance has
-traditionally bee to not port seccomp it remains a tricky patch.
+> I might have missed v5 of this patch series.
+> That might be because v5's 15/20 was not accepted by linux-doc's
+> lore archive (maybe) due to its size despite it had Cc: linux-doc.
+> v6's 18/23 was also rejected.
 
-Some time after that I talked to Mathieu Desnoyers about this issue who
-used another angle of attack. The idea seems less complicated to me.
-Instead of argument inspection we introduce basic syscall argument
-checksumming for seccomp. It would only be done when seccomp is
-interested in syscall input args and checksumming would be per syscall
-argument. It would be validated within the syscall when it actually
-reads the arguments; again, only if seccomp is used. If the checksums
-mismatch an error is returned or the calling process terminated.
+Yes, a few patches get rejected in several lists. We were told this
+was fine as long as LKML gets them (the cover letter has the lists in
+Cc).
 
-There's one case that deserves mentioning: since we introduced the
-seccomp notifier we do allow advanced syscall interception and we do use
-it extensively in various projects.
+> I have some alternative ideas for table formatting in ReST.
 
-Roughly, it works by allowing a userspace process (the "supervisor") to
-listen on a seccomp fd. The seccomp fd is an fd referring to the filter
-of a target task (the "supervisee"). When the supervisee performs a
-syscall listed in the seccomp notify filter the supervisor will receive
-a notification on the seccomp fd for the filter.
+I was following the LLVM one, but it makes sense to use the other ones
+where possible. I can send a patch for that one too.
 
-I mention this because it is possible for the supervisor to e.g.
-intercept an bpf() system call and then modify/create/attach a bpf
-program for the supervisee and then update fields in the supervisee's
-bpf struct that was passed to the bpf() syscall by it. So the supervisor
-might rewrite syscall args and continue the syscall (In general, it's
-not recommeneded because of TOCTOU. But still doable in certain
-scenarios where we can guarantee that this is safe even if syscall args
-are rewritten to something else by a MIT attack.).
+> So here are a couple of alternative ways to represent the table
+>
+> * ASCII-art format:
+> * Literal block format:
 
-Arguably, the checksumming approach could even be made to work with this
-if the seccomp fd learns a new ioctl() or similar to safely update the
-checksum.
+Thanks for taking the time to format the examples, it is useful :)
 
-I can try and move a poc for this up the todo list.
+> As you see, those inline-literal markers of ``xxxx``, which are
+> distracting when the .rst file is read as plain-text, are not
+> necessary in the literal-block approach.  And you can directly
 
-Without an approach like this certain sandboxes will fallback to
-ENOSYSing system calls they can't filter. This is a generic problem
-though with clone3() being one promiment example.
+I agree, it can be better (it is one reason I find Markdown a bit more
+readable since it uses a single backquote for that instead of two).
 
-[2]: https://www.youtube.com/watch?v=PnOSPsRzVYM&list=PLVsQ_xZBEyN2Ol7y8axxhbTsG47Va3Se2
+> In my opinion, the literal-block approach should be the most
+> reasonable choice here. Of course its your call which one
+> to choose.
+
+Yeah, that sounds reasonable. I will take a look.
+
+Thanks for the review!
+
+Cheers,
+Miguel
