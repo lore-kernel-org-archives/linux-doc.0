@@ -2,82 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A6CAC433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 16:56:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D453C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 17:05:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239322AbiEIRA3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 13:00:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41888 "EHLO
+        id S239496AbiEIRJK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 13:09:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239333AbiEIRAQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 13:00:16 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 365E914043C;
-        Mon,  9 May 2022 09:56:14 -0700 (PDT)
-Received: from zn.tnic (p5de8eeb4.dip0.t-ipconnect.de [93.232.238.180])
+        with ESMTP id S239482AbiEIRJI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 13:09:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B96042D572E;
+        Mon,  9 May 2022 10:05:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 05F011EC04A9;
-        Mon,  9 May 2022 18:56:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1652115369;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=7lpb50R3zwIu2G3tyk1yvdZ54QsxXH26Abyw68QhTVY=;
-        b=kZ2vb5Dq0zLAVqs6/OU7hsQVgPdPmhmTE+pGDaSjnXrI6Y9slOcw6gqWXpuJ+0VMWDHAVO
-        vDDuIpxJGsgINtJM1RTIoAsXDDBnIlMkklVQLFUwPOGkuhSAfsm+OhpX6THsEGK5MxDYyy
-        LTCFprBt9z25m1YiEoL+ZEtIBJ8GMe8=
-Date:   Mon, 9 May 2022 18:56:15 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Luck, Tony" <tony.luck@intel.com>
-Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "markgross@kernel.org" <markgross@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: Re: [PATCH v7 06/12] platform/x86/intel/ifs: Check IFS Image sanity
-Message-ID: <YnlHr6Is7xq+cBRH@zn.tnic>
-References: <20220506014035.1173578-1-tony.luck@intel.com>
- <20220506225410.1652287-1-tony.luck@intel.com>
- <20220506225410.1652287-7-tony.luck@intel.com>
- <YnlB6iAp4fjM0Cw9@zn.tnic>
- <ddd29688b88b4176957ef5dd8731d90a@intel.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5615561549;
+        Mon,  9 May 2022 17:05:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5104FC385B1;
+        Mon,  9 May 2022 17:05:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652115913;
+        bh=hPfwttjDKS5VbKLDMyB6qPIDEclzcNRrUVoHj1607Ew=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=OTOTLYS0FB6K12s3wLdBAHatQ/gPw/URa7FMCeRwDsRqNkqJ2Vr6MVsOaYgEJfxin
+         fEa1aW13gwgFn8IaUIXGzzovKUgZFdFqT/l+nKslxvB7JK6p47YegfSNx1dKGa+yLZ
+         xapl3b3irJ7GYIs+5LTT1heyYR8yr9LrCJCI184GvvK4T0tjHzQioZSa7n+JFG3+Ua
+         CoM979nY7j+OhgUKDdvlXuEY1LKuo7WY49x3PFowJ4A/CFd8sKxZZsUjbrz2s/kgUZ
+         sXjAt40dxcmeq6ysK6ccLxSe+cme/DiTtqK1D5DEEtcxcn7TFRmTK1zH3dCMf66BOD
+         jFUUB5TZZhpBg==
+Date:   Mon, 9 May 2022 10:05:12 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Akira Yokosawa <akiyks@gmail.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Ben Greear <greearb@candelatech.com>,
+        Pavel Begunkov <asml.silence@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+        linux-next@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v3] net/core: Rephrase function description of
+ __dev_queue_xmit()
+Message-ID: <20220509100512.719f9225@kernel.org>
+In-Reply-To: <4dd26a0e-819d-8414-8b71-1783e263209c@gmail.com>
+References: <20220507084643.18278-1-bagasdotme@gmail.com>
+        <0cf2306a-2218-2cd5-ad54-0d73e25680a7@gmail.com>
+        <Yni6nBTq+0LrBvQN@debian.me>
+        <4dd26a0e-819d-8414-8b71-1783e263209c@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ddd29688b88b4176957ef5dd8731d90a@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 09, 2022 at 04:51:56PM +0000, Luck, Tony wrote:
-> The checksum is just a "did this file get corrupted check". The file contains
-> SHA256 checksums for each of the chunks. These checksums are digitally
-> signed. Checking of these is done by microcode when the file is loaded into
-> BIOS reserved memory (where it is inaccessible to OS and I/O).
+On Mon, 9 May 2022 13:59:48 +0700 Bagas Sanjaya wrote:
+> On 5/9/22 13:54, Bagas Sanjaya wrote:
+> > I'm in favor of this patch. Thanks.
+> 
+> Oops, I mean I'm in favor of your patch suggestion.
 
-That sounds like something I was hoping to hear, good. :-)
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+I think I already said what my preference was. This is a trivial
+matter, let me just send a patch myself.
