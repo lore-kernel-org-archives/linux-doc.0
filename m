@@ -2,108 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF844C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 15:48:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60969C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 16:05:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238554AbiEIPwR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 11:52:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54678 "EHLO
+        id S238794AbiEIQJC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 12:09:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238529AbiEIPwQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 11:52:16 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B92FA2D76C5;
-        Mon,  9 May 2022 08:48:22 -0700 (PDT)
+        with ESMTP id S238800AbiEIQJB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 12:09:01 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 379E5253A98;
+        Mon,  9 May 2022 09:05:06 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6B4E3B8172F;
-        Mon,  9 May 2022 15:48:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36BF9C385B1;
-        Mon,  9 May 2022 15:48:17 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 98830B81761;
+        Mon,  9 May 2022 16:05:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBD71C385AE;
+        Mon,  9 May 2022 16:05:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652111300;
-        bh=0o6i/khs9xGoGHyAd0bai2xuSS3ZhiI169q7SJoXynE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Cbu2djXI9wVzfcyzyXWhowzZSI35BvSYN9w6wCzFM8roanq/3vKuNROqDkVIBTAGu
-         eXP6CqSGs5FmDULU/Q0p4wVTAcXr5wlO+E1lFH7mqpNyRL2mVNzWp9TZI/8nfcqlAq
-         3/Stty+uMXoX+YqU8Yb4SPD8xFh/MY8VGaP+EWkN9x94aVDC6rz56H0sF74vmZ+YIj
-         H1JFQofijaLpQXKFRlhAB6F9H6h62jgTuwmobir0V23+NOnijTbwdMD0L4CUqcu80P
-         zL2uO/iqgFZn0O2I+pwBdnNrs9NhKPdRMcHaJrnjhIOj9fU/kAmvIvDKz2wHkDEWjS
-         28vSzOlWkhe2w==
-Date:   Mon, 9 May 2022 16:48:13 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     James Clark <james.clark@arm.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, german.gomez@arm.com,
-        John Garry <john.garry@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 1/6] perf: arm64: Add SVE vector granule register to
- user regs
-Message-ID: <Ynk3vTtJApO13peb@sirena.org.uk>
-References: <20220509144257.1623063-1-james.clark@arm.com>
- <20220509144257.1623063-2-james.clark@arm.com>
+        s=k20201202; t=1652112304;
+        bh=+vBONpWCk4u1dZrmvGXnFM97wN6NNBp/8qozqHNZdx4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=aNIBXW89AFHhJRGFfph+/PXwvvIVrIhcUf9Iscc8BZeB7HNrtBI0WQv46gffKVhU/
+         f+uYpQ66VZwvikK4/ydh7nCke8evY3PoYI5FrTqWdnmO6RsQuleYrUBFzA0GyPqCVe
+         dkgRPb4/XYJobJq28+SPJyJ6X+WOAhcTMLp73O4ublUlvJ8lsd1IP3EieuSyS6ACA0
+         UZiqRv9NscsglE7qQuI1Kk60zrHHdMrvJSzGqmx3v0gTwgDMKPbI8nm9ebASo5exYf
+         1Yh32LJ7vYsKUsgH8dgkSaTaVcMUwkHsKeyR5Jk4G/s9HX4Hr4CFXS5CNCb0d2+X8u
+         9JcJJPx3znCdA==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        linux-doc@vger.kernel.org, corbet@lwn.net, imagedong@tencent.com,
+        dsahern@gmail.com, talalahmad@google.com,
+        Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH net-next 0/3] docs: document some aspects of struct sk_buff
+Date:   Mon,  9 May 2022 09:04:53 -0700
+Message-Id: <20220509160456.1058940-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.34.3
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="kWHxwAIOcGn9XJL6"
-Content-Disposition: inline
-In-Reply-To: <20220509144257.1623063-2-james.clark@arm.com>
-X-Cookie: Boycott meat -- suck your thumb.
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This small set creates a place to render sk_buff documentation,
+documents one random thing (data-only skbs) and converts the big
+checksum comment to kdoc.
 
---kWHxwAIOcGn9XJL6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+RFC v2 (no changes since then):
+ - fix type reference in patch 1
+ - use "payload" and "data" more consistently
+ - add snippet with calls
+https://lore.kernel.org/r/20220324231312.2241166-1-kuba@kernel.org/
 
-On Mon, May 09, 2022 at 03:42:49PM +0100, James Clark wrote:
-> Dwarf based unwinding in a function that pushes SVE registers onto
-> the stack requires the unwinder to know the length of the SVE register
-> to calculate the stack offsets correctly. This was added to the Arm
-> specific Dwarf spec as the VG pseudo register[1].
->=20
-> Add the vector length at position 46 if it's requested by userspace and
-> SVE is supported. If it's not supported then fail to open the event.
->=20
-> The vector length must be on each sample because it can be changed
-> at runtime via a prctl or ptrace call. Also by adding it as a register
-> rather than a separate attribute, minimal changes will be required in an
-> unwinder that already indexes into the register list.
+RFC v1:
+https://lore.kernel.org/all/20220323233715.2104106-1-kuba@kernel.org/
 
-> +static u64 perf_ext_regs_value(int idx)
-> +{
-> +	switch (idx) {
-> +	case PERF_REG_ARM64_VG:
-> +		if (WARN_ON_ONCE(!system_supports_sve()))
-> +			return 0;
+Jakub Kicinski (3):
+  skbuff: add a basic intro doc
+  skbuff: rewrite the doc for data-only skbs
+  skbuff: render the checksum comment to documentation
 
-These WARN_ON_ONCE()s seem a bit loud but I do see they are idiomatic
-for this code so
+ Documentation/networking/index.rst  |   1 +
+ Documentation/networking/skbuff.rst |  37 ++++
+ include/linux/skbuff.h              | 301 ++++++++++++++++++----------
+ 3 files changed, 232 insertions(+), 107 deletions(-)
+ create mode 100644 Documentation/networking/skbuff.rst
 
-Reviewed-by: Mark Brown <broonie@kernel.org>
+-- 
+2.34.3
 
---kWHxwAIOcGn9XJL6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmJ5N70ACgkQJNaLcl1U
-h9ARVQf9G0mw/2Bx5k3Bh/9t98gHB+qEtoXMXhzgkJjMUiXzj3E9uwkUmvKNR58B
-PkM4MMWPCy3pQAP/Pc0zgLSKyOM30z54SdCucVVRP+ma8+y4+cBUnxvp5462F8x7
-mKMbLjp3E1D1vl+4y/nqCOEKctytWfJEMUvMPd36n3Hwt4fg/7gzv14wCaJzZMrk
-TZJe/W8LsNFr/pQMpPA5yKgonJKP8QCC97028L1BUq8tNWNMSWp1rtStgwDm6f7d
-ZeuCqrHHljaqY9/3QuuX5LBXMr3b3WyrzVdguH1xSDChvnKQHHUpneY0oNUvDFCh
-O7zct9SC04onTfuDNr1orFH6uAliQg==
-=TX9r
------END PGP SIGNATURE-----
-
---kWHxwAIOcGn9XJL6--
