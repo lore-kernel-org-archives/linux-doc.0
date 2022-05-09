@@ -2,86 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 852CEC43219
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 08:08:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2585EC4332F
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 09:47:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232959AbiEIIMK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 04:12:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58304 "EHLO
+        id S231532AbiEIJv3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 05:51:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236385AbiEIHvw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 03:51:52 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FF0718E23
-        for <linux-doc@vger.kernel.org>; Mon,  9 May 2022 00:48:00 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id q76so11327526pgq.10
-        for <linux-doc@vger.kernel.org>; Mon, 09 May 2022 00:48:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mYnZGAd7FuQyJH1dHzG4ymwHNLzd07B0jtRHnz1RxL8=;
-        b=Lre8Id4MjltGcSnxfGxWoQ/hLu5n3UZjAdiPPQi/7EkrV1jhNizdjkm+bkkshS7gK/
-         vcM7MfLpR/stOX03M1N1XlqAmJHotaOk0J/0ifb41k1U4R/dckkHDUDT5LbNcgVqscxw
-         686fc7NN7EB/9Ji3cABq32cTRTz3tJTLV7h31H9gBLSGZuMKQIYaXMQJPYf0VPiRghmW
-         HAqeEKrB3xTK07giQ6BuSgk3G8DHDS5ioPWS0MXPKZycmhTBe9av43U8pagGUysMF4po
-         WuIIOeNhIK6F7L1egVcGt7Gj3KDo4epZOm+0jHDhLTGbAPnuT4l/PIzksMC2CNLO38cx
-         ogcg==
+        with ESMTP id S238203AbiEIJpd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 05:45:33 -0400
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 707DD27161;
+        Mon,  9 May 2022 02:41:36 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id c190-20020a1c35c7000000b0038e37907b5bso10440034wma.0;
+        Mon, 09 May 2022 02:41:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=mYnZGAd7FuQyJH1dHzG4ymwHNLzd07B0jtRHnz1RxL8=;
-        b=0d2cE0yKJ1P6j4dJOvrQQ2epAvMkib2uigazcQlUr+VJ/dQ8tbuv6kL4LCHANl5TWW
-         38BRKFB8BqXiZjjigYdzw98ecOFdHAGsn+nvOrRUAoxkbkDWtmMmt9MxAapNJinGPfVh
-         N8RWHjrCpV+3l7PJ4Hhk+/0D1ETvICLHc15l44S3YPPMg/qQl9mUThYYhPryZXFJIgDL
-         G7kK0qJOHOvxfPdL8hgFMu9xkhdcDBjUxgigZKtXyRlKgZEUuat31Un/x8fmfgTZsgR0
-         4S86uHwB5g67AfwseX9zhKVuG+dUvf4Ng1SoAW7/rSWr+hCBqB0BSxIlT5QtG/vi1Giu
-         072A==
-X-Gm-Message-State: AOAM532q16VLRVrXHMfF7J6YYdymWIYBv1XKQ589FB6euuOoDHtjl6zr
-        rur5jLx4j98kTWjgAxmSyHI=
-X-Google-Smtp-Source: ABdhPJwwAq0UnDiUjWJSFg3vEcEvF1dIXHw/F2nZq3WsOjvCEYpOsZqe2LueAqks2zEjzHkE1vSv4g==
-X-Received: by 2002:a63:4e62:0:b0:398:cb40:19b0 with SMTP id o34-20020a634e62000000b00398cb4019b0mr12365324pgl.445.1652082479857;
-        Mon, 09 May 2022 00:47:59 -0700 (PDT)
-Received: from localhost (subs03-180-214-233-79.three.co.id. [180.214.233.79])
-        by smtp.gmail.com with ESMTPSA id r125-20020a632b83000000b003aa8b87feb5sm7951056pgr.0.2022.05.09.00.47.58
+        bh=MIo4iJaNWWiT8L0aREHccyFQKBU+YIpBaS+29bvc/oc=;
+        b=CljfGAPOH+8alNnaPgQ/ZfOeWWCyDXqWHuFhGjBWPlxXe37Lt6k538+7qYpiz24Uxh
+         wwCnpfootpzp2ttGz1SYDaY7+99KCpsz+fl5o1BG5x26uGCJl7WBi9pFJjh8xxmFF4A6
+         sfeVUHaFyqhkPTbuggUYfTosqoZ22ySb3B/8IkPYFoX6Dn/pwD0bemYob/2cu7I+NfHi
+         D424KCaeTqVKYsMI1omxqI3JViqArtz2hVFrQUv0MNcYF+W/ts0rP9ccBbXprFueBxqw
+         Vtall6hKoE7EYpGehq4xKEj3ijfm1tt/d1HlyDySG+5W0tIiDYhmM5WRzmDIlec7zksg
+         pRvQ==
+X-Gm-Message-State: AOAM533KIFwgy+QVhvkpxh3AYNikqIrIyQ27BWhMOFcfuqzwOeS77UP1
+        /bOyxv5AlGam4Z60i8hhRaI=
+X-Google-Smtp-Source: ABdhPJz/KKcTrgbBKiQDbLem0UVallm03r9n1V5yq/fpMjCoclkduFXgbKOowrI9BpO7enF+NSOlDA==
+X-Received: by 2002:a7b:c4c8:0:b0:394:26c5:b79e with SMTP id g8-20020a7bc4c8000000b0039426c5b79emr15176076wmk.15.1652089180818;
+        Mon, 09 May 2022 02:39:40 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id w7-20020adfee47000000b0020c5253d8efsm10503017wro.59.2022.05.09.02.39.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 May 2022 00:47:59 -0700 (PDT)
-Date:   Mon, 9 May 2022 14:47:56 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Yanteng Si <siyanteng01@gmail.com>
-Cc:     mpatocka@redhat.com, colin.king@canonical.com,
-        ross.zwisler@linux.intel.com, dan.carpenter@oracle.com,
-        dan.j.williams@intel.com, msnitzer@redhat.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, Yanteng Si <siyanteng@loongson.cn>
-Subject: Re: [PATCH] docs/admin-guide: Add the necessary blank lines to the
- writecache
-Message-ID: <YnjHLBhf6Z5u0Htx@debian.me>
-References: <20211209092223.561740-1-siyanteng@loongson.cn>
+        Mon, 09 May 2022 02:39:40 -0700 (PDT)
+Date:   Mon, 9 May 2022 09:39:38 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        kunit-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, live-patching@vger.kernel.org,
+        Wei Liu <wei.liu@kernel.org>
+Subject: Re: [PATCH v6 00/23] Rust support
+Message-ID: <20220509093938.fdrh5hhhreqi46wn@liuwe-devbox-debian-v2>
+References: <20220507052451.12890-1-ojeda@kernel.org>
+ <202205070056.ACC3C3D@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211209092223.561740-1-siyanteng@loongson.cn>
+In-Reply-To: <202205070056.ACC3C3D@keescook>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 09, 2021 at 05:22:23PM +0800, Yanteng Si wrote:
-> diff --git a/Documentation/admin-guide/device-mapper/writecache.rst b/Documentation/admin-guide/device-mapper/writecache.rst
-> index 10429779a91a..6bf78b0446ac 100644
-> --- a/Documentation/admin-guide/device-mapper/writecache.rst
-> +++ b/Documentation/admin-guide/device-mapper/writecache.rst
-> @@ -20,6 +20,7 @@ Constructor parameters:
->     size)
->  5. the number of optional parameters (the parameters with an argument
->     count as two)
-> +
->  	start_sector n		(default: 0)
->  		offset from the start of cache device in 512-byte sectors
->  	high_watermark n	(default: 50)
- 
-I think the paragraph before optional parameters lists should be
-terminated with colon.
+On Sat, May 07, 2022 at 01:06:18AM -0700, Kees Cook wrote:
+> On Sat, May 07, 2022 at 07:23:58AM +0200, Miguel Ojeda wrote:
+> > ## Patch series status
+> > 
+> > The Rust support is still to be considered experimental. However,
+> > support is good enough that kernel developers can start working on the
+> > Rust abstractions for subsystems and write drivers and other modules.
+> 
+> I'd really like to see this landed for a few reasons:
+> 
+> - It's under active development, and I'd rather review the changes
+>   "normally", incrementally, etc. Right now it can be hard to re-review
+>   some of the "mostly the same each version" patches in the series.
+> 
+> - I'd like to break the catch-22 of "ask for a new driver to be
+>   written in rust but the rust support isn't landed" vs "the rust
+>   support isn't landed because there aren't enough drivers". It
+>   really feels like "release early, release often" is needed here;
+>   it's hard to develop against -next. :)
 
--- 
-An old man doll... just what I always wanted! - Clara
++1 to both points. :-)
