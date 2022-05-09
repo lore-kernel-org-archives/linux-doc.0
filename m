@@ -2,97 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 365F1C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 16:13:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B236FC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 16:31:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238892AbiEIQR3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 12:17:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44578 "EHLO
+        id S238921AbiEIQfg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 12:35:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238834AbiEIQR3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 12:17:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 166C922440D;
-        Mon,  9 May 2022 09:13:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S238152AbiEIQff (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 12:35:35 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 693C62E098;
+        Mon,  9 May 2022 09:31:41 -0700 (PDT)
+Received: from zn.tnic (p5de8eeb4.dip0.t-ipconnect.de [93.232.238.180])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C6428B80D3A;
-        Mon,  9 May 2022 16:13:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1669EC385B1;
-        Mon,  9 May 2022 16:13:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652112812;
-        bh=RoFKHeqEk/geLO7SW73vbblC/hMfUQ9ReFJXxyfrtos=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=KiRwTwmJokUO5XNi1meSOLbwpdrNBYirYoPnZ+272OH8NjhRbe4McwgIav4SkxIea
-         BrDoZASN61h/aoXcvrWnkDi8OU0hWk8TtMxgLBVSe7Vvou6fFFZ11Be4GmT6qkF6bK
-         bETvvGk5p82wC7doJVDLz5DcsLeTRnVe61MXDu1CpYgE3yo0C+lAVoTbApH9G6nSub
-         kYO3AFc9IDVioDqput1awyS1G3F/4S6zQ+LrkzX0UlPE/B3dbc1RJPUtB/0z1PQHaa
-         W/gpjFF2JOCYSn5SrU4VewEijgUtS88Vm++qAOFf8GES2ru9tLoim7HjyaV1fOCoHj
-         WAOy5qgt7S1Ng==
-Date:   Mon, 9 May 2022 09:13:30 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org,
-        ilias.apalodimas@linaro.org, hawk@kernel.org, davem@davemloft.net,
-        edumazet@google.com, pabeni@redhat.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, jbrouer@redhat.com,
-        lorenzo.bianconi@redhat.com
-Subject: Re: [PATCH net-next] Documentation: update networking/page_pool.rst
- with ethtool APIs
-Message-ID: <20220509091330.4e8c6d05@kernel.org>
-In-Reply-To: <YnkIJn2BhSzyfQjh@lunn.ch>
-References: <2b0f8921096d45e1f279d1b7b99fe467f6f3dc6d.1652090091.git.lorenzo@kernel.org>
-        <YnkIJn2BhSzyfQjh@lunn.ch>
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id ADA9F1EC01D4;
+        Mon,  9 May 2022 18:31:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1652113895;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=YVZDhhuwFnG0wO9zG2gz1m1ChZD7/QsEFk2nXCEHMmY=;
+        b=rGl4Ip+PNvLTALQHSdUG89pzYor5BP8t3NYCl5ruhddTTsfk9a0w3Vx+hjAt8rPD77xcel
+        u35x0hFwVkG2cz5/8d/HDeuA70a/n7vqEwwnvRNo6drlfmU0ISJPcTrvrXG1EJw6hv8WgM
+        xY5BKcbCNji7BIHkNvD1AwirRUrRVUU=
+Date:   Mon, 9 May 2022 18:31:38 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Tony Luck <tony.luck@intel.com>
+Cc:     hdegoede@redhat.com, markgross@kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, corbet@lwn.net, gregkh@linuxfoundation.org,
+        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
+        ashok.raj@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
+        ravi.v.shankar@intel.com
+Subject: Re: [PATCH v7 06/12] platform/x86/intel/ifs: Check IFS Image sanity
+Message-ID: <YnlB6iAp4fjM0Cw9@zn.tnic>
+References: <20220506014035.1173578-1-tony.luck@intel.com>
+ <20220506225410.1652287-1-tony.luck@intel.com>
+ <20220506225410.1652287-7-tony.luck@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220506225410.1652287-7-tony.luck@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 9 May 2022 14:25:10 +0200 Andrew Lunn wrote:
-> On Mon, May 09, 2022 at 12:00:01PM +0200, Lorenzo Bianconi wrote:
-> > Update page_pool documentation with page_pool ethtool stats APIs.
-> > 
-> > Signed-off-by: Lorenzo Bianconi <lorenzo@kernel.org>
-> > ---
-> >  Documentation/networking/page_pool.rst | 23 +++++++++++++++++++++++
-> >  1 file changed, 23 insertions(+)
-> > 
-> > diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
-> > index 5db8c263b0c6..ef5e18cf7cdf 100644
-> > --- a/Documentation/networking/page_pool.rst
-> > +++ b/Documentation/networking/page_pool.rst
-> > @@ -146,6 +146,29 @@ The ``struct page_pool_recycle_stats`` has the following fields:
-> >    * ``ring_full``: page released from page pool because the ptr ring was full
-> >    * ``released_refcnt``: page released (and not recycled) because refcnt > 1
-> >  
-> > +The following APIs can be used to report page_pool stats through ethtool and
-> > +avoid code duplication in each driver:
-> > +
-> > +* page_pool_ethtool_stats_get_strings(): reports page_pool ethtool stats
-> > +  strings according to the ``struct page_pool_stats``
-> > +     * ``rx_pp_alloc_fast``
-> > +     * ``rx_pp_alloc_slow``
-> > +     * ``rx_pp_alloc_slow_ho``
-> > +     * ``rx_pp_alloc_empty``
-> > +     * ``rx_pp_alloc_refill``
-> > +     * ``rx_pp_alloc_waive``
-> > +     * ``rx_pp_recycle_cached``
-> > +     * ``rx_pp_recycle_cache_full``
-> > +     * ``rx_pp_recycle_ring``
-> > +     * ``rx_pp_recycle_ring_full``
-> > +     * ``rx_pp_recycle_released_ref``  
+On Fri, May 06, 2022 at 03:54:04PM -0700, Tony Luck wrote:
+> From: Jithu Joseph <jithu.joseph@intel.com>
 > 
-> My knowledge of Sphinx is pretty poor. Is it possible to put this list
-> next to the actual definition and cross reference it? When new
-> counters are added, they are more likely to be added to the list, if
-> the list is nearby.
+> IFS image is designed specifically for a given family, model and
+> stepping of the processor. Like Intel microcode header, the IFS image
+> has the Processor Signature, Checksum and Processor Flags that must be
+> matched with the information returned by the CPUID.
 
-We can render kdoc into documentation. Not sure what's most suitable
-here.
+Is the checksum the only protection against people loading arbitrary IFS
+images or are those things signed or encrypted, just like the microcode?
 
-BTW does ``struct xyz`` result in correct linking to the kdoc like
-:c:type:`xyz` would or I think these days also pure struct xyz?
+I'd hope they pass the same checks as microcode, when they get loaded,
+considering the similarity of how they're handled...
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
