@@ -2,78 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7E5AC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 22:20:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A673CC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 22:33:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231288AbiEIWYu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 18:24:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41708 "EHLO
+        id S231811AbiEIWhW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 18:37:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230525AbiEIWYt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 18:24:49 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15E8E25C68;
-        Mon,  9 May 2022 15:20:54 -0700 (PDT)
+        with ESMTP id S231920AbiEIWhA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 18:37:00 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 739142B9C8B;
+        Mon,  9 May 2022 15:32:41 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A73CD732;
-        Mon,  9 May 2022 22:20:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A73CD732
+        by ms.lwn.net (Postfix) with ESMTPSA id 6B9FB732;
+        Mon,  9 May 2022 22:32:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6B9FB732
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1652134853; bh=8mExUUzkzmAyXrY8dedy/L10D7FiCxQzXMq6gVmHu/I=;
+        t=1652135561; bh=HTkL9Ze4IkU4006Q8Vcgjjy6od50oft28ldpKD38Bhs=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=AAXoH52bpvl3xSV+0nGmwQVi/FBzyIJ1RoPHEGv26NIz6VXXdypqLQYNZsE5NDFL7
-         fqKHMxBnaS0s0lXA+LFM3bMzFrpOj9uIJTOVDf4dX/IA+IBFzTJuTtS408SEOtf/Y6
-         kKjHA0p2Z7dcDiYvpvIfpCy3XWlJ1vTTO5mj3gEOjqXhNb3lRKFCXOgm5eyJTbuT2p
-         AgLvBu1sAWZNmNHEQIvqhacCCpmy+EF7K78uy1lXFDu4St/HPHnYDN+e5OnMy1OOiG
-         2XwTWmCTEkczsYQtIA81QdwFOKfcd32Tb408Rp98LinMcB+IegXO/dz1GTzK0890yJ
-         ZeD2dbGWTOkIw==
+        b=O3uonuVfVJtCWD2RVlNSsfnyOcttu7utR7SmYzjdMc/k1sBtiqfE8PTepkpz2FSdz
+         MIYyj3y8l/9zLf45BoHzjyYSpP1F2olpiwXfjgjIslOyLoRik3ynw4E/FUpO1d1DJh
+         mw6i7t9/Y8qfCiGIm5Cx2B9NkunGgfZVURltzS0Q/g7rS817nX0qwkoXTTdrltmx1S
+         O8/Oy41w4/xLsFfg/edw6omQJHxRoQat3BeWuQ+Q+cXxo+as6aD5xcu6wxyEHLnQpy
+         xl0hOhszcjF3cucI2xUdf/mJ3S00Lebwz7/wpAq0bOhTkJOhH5gp0G7I62ywn9UNjr
+         CFYTtcMzduvCw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>, Jens Axboe <axboe@kernel.dk>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Phillip Potter <phil@philpotter.co.uk>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: drop more IDE boot options and ide-cd.rst
-In-Reply-To: <20220424033701.7988-1-rdunlap@infradead.org>
-References: <20220424033701.7988-1-rdunlap@infradead.org>
-Date:   Mon, 09 May 2022 16:20:52 -0600
-Message-ID: <878rracpq3.fsf@meer.lwn.net>
+To:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>,
+        Daniel Xu <dxu@dxuuu.xyz>, Julian Merkle <me@jvmerkle.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v6 18/23] docs: add Rust documentation
+In-Reply-To: <20220507052451.12890-19-ojeda@kernel.org>
+References: <20220507052451.12890-1-ojeda@kernel.org>
+ <20220507052451.12890-19-ojeda@kernel.org>
+Date:   Mon, 09 May 2022 16:32:40 -0600
+Message-ID: <875ymecp6f.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Miguel Ojeda <ojeda@kernel.org> writes:
 
-> Drop ide-* command line options.
-> Drop cdrom/ide-cd.rst documentation.
+> Most of the documentation for Rust is written within the source code
+> itself, as it is idiomatic for Rust projects. This applies to both
+> the shared infrastructure at `rust/` as well as any other Rust module
+> (e.g. drivers) written across the kernel.
 >
-> Fixes: 898ee22c32be ("Drop Documentation/ide/")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Phillip Potter <phil@philpotter.co.uk>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
-> I missed a few things in dropping all IDE documentation.
-> Hopefully this is all of the remaining pieces.
+> However, these documents contain general information that does not
+> fit particularly well in the source code, like the Quick Start guide.
 >
->  Documentation/admin-guide/kernel-parameters.txt |   20 
->  Documentation/cdrom/ide-cd.rst                  |  538 --------------
->  2 files changed, 558 deletions(-)
+> It also contains an asset (SVG logo) used for the `rustdoc` target
+> and a few other small changes elsewhere in the documentation folder.
 
-Applied, thanks.
+Trying to take a closer look this time...
 
-That said, it created this docs-build error:
+I foresee merge conflicts, but so it goes.  Trying to split this apart
+would not make a lot of sense.
 
-  Documentation/cdrom/index.rst:7: WARNING: toctree contains reference to nonexisting document 'cdrom/ide-cd'
+[...]
 
-I made the obvious change to fix that.
+> --- /dev/null
+> +++ b/Documentation/rust/arch-support.rst
+> @@ -0,0 +1,34 @@
+> +Arch Support
+> +============
+> +
+> +Currently, the Rust compiler (``rustc``) uses LLVM for code generation,
+> +which limits the supported architectures that can be targeted. In addition,
+> +support for building the kernel with LLVM/Clang varies (please see
+> +Documentation/kbuild/llvm.rst). This support is needed for ``bindgen``
+> +which uses ``libclang``.
+> +
+> +Below is a general summary of architectures that currently work. Level of
+> +support corresponds to ``S`` values in the ``MAINTAINERS`` file.
+> +
+> +.. list-table::
+> +   :widths: 10 10 10
+> +   :header-rows: 1
+
+Please use normal tables rather than list-table; this kind of thing is
+really unreadable in the source form.
+
+> +   * - Architecture
+> +     - Level of support
+> +     - Constraints
+> +   * - ``arm``
+> +     - Maintained
+> +     - ``armv6`` and compatible only, ``RUST_OPT_LEVEL >= 2``
+> +   * - ``arm64``
+> +     - Maintained
+> +     - None
+> +   * - ``powerpc``
+> +     - Maintained
+> +     - ``ppc64le`` only, ``RUST_OPT_LEVEL < 2`` requires ``CONFIG_THREAD_SHIFT=15``
+> +   * - ``riscv``
+> +     - Maintained
+> +     - ``riscv64`` only
+> +   * - ``x86``
+> +     - Maintained
+> +     - ``x86_64`` only
+> diff --git a/Documentation/rust/coding-guidelines.rst b/Documentation/rust/coding-guidelines.rst
+> new file mode 100644
+> index 000000000000..2a71fd68a06d
+> --- /dev/null
+> +++ b/Documentation/rust/coding-guidelines.rst
+> @@ -0,0 +1,214 @@
+> +Coding Guidelines
+> +=================
+> +
+> +This document describes how to write Rust code in the kernel.
+> +
+> +
+> +Style & formatting
+> +------------------
+> +
+> +The code should be formatted using ``rustfmt``. In this way, a person
+> +contributing from time to time to the kernel does not need to learn and
+> +remember one more style guide. More importantly, reviewers and maintainers
+> +do not need to spend time pointing out style issues anymore, and thus
+> +less patch roundtrips may be needed to land a change.
+
+I foresee disagreements over coding style conventions in the
+future... I don't plan to be part of that conversation :)
+
+> +.. note:: Conventions on comments and documentation are not checked by
+> +  ``rustfmt``. Thus those are still needed to be taken care of.
+> +
+> +The default settings of ``rustfmt`` are used. This means the idiomatic Rust
+> +style is followed. For instance, 4 spaces are used for indentation rather
+> +than tabs.
+> +
+> +It is convenient to instruct editors/IDEs to format while typing,
+> +when saving or at commit time. However, if for some reason reformatting
+> +the entire kernel Rust sources is needed at some point, the following can be
+> +run::
+> +
+> +	make LLVM=1 rustfmt
+
+I will ask whether we want this, though.  Why would anybody want to
+mass-reformat the entire body of kernel code?  This seems like something
+that would generate an endless stream of "helpful" patches and a lot of
+churn.
+
+Thanks,
 
 jon
