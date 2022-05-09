@@ -2,132 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F1EDC433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 14:44:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 111F1C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 14:57:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237593AbiEIOrw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 10:47:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36910 "EHLO
+        id S237783AbiEIPB2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 11:01:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237572AbiEIOru (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 10:47:50 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BA989219346;
-        Mon,  9 May 2022 07:43:56 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 95490153B;
-        Mon,  9 May 2022 07:43:56 -0700 (PDT)
-Received: from e121896.arm.com (unknown [10.57.4.213])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 435393F73D;
-        Mon,  9 May 2022 07:43:54 -0700 (PDT)
-From:   James Clark <james.clark@arm.com>
-To:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, broonie@kernel.org
-Cc:     german.gomez@arm.com, James Clark <james.clark@arm.com>,
-        John Garry <john.garry@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH v1 6/6] perf tools: arm64: Add support for VG register
-Date:   Mon,  9 May 2022 15:42:54 +0100
-Message-Id: <20220509144257.1623063-7-james.clark@arm.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20220509144257.1623063-1-james.clark@arm.com>
-References: <20220509144257.1623063-1-james.clark@arm.com>
+        with ESMTP id S237949AbiEIPBI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 11:01:08 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7693927A899;
+        Mon,  9 May 2022 07:57:09 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id x18so14082481plg.6;
+        Mon, 09 May 2022 07:57:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:from:subject:to:cc
+         :references:content-language:in-reply-to:content-transfer-encoding;
+        bh=Rv24537FAid4FkoG5vC//ersbcU5Q/QTrNuy2uhLE+c=;
+        b=YPkDSwQ5S0E7Oy1AUcGX1O14/o7qtUFAXUSXV/GU1bvmxUPafqgmsbqufLfn3pDvUz
+         KinPrlyrMM7g948dadsAtTQTbqkM0/oO4bsBTGY3Rt3uBP0jxW3EXKeWmgsguxTtOqLk
+         Ya0E4HH3YiQerNLit6T2CBwt6UPs8VV4vcP10SD/AhQpiJMwRQbR0guT8hMe9MaoMnTW
+         dzcvjEWgkvi4gdG4lVMVqzgWP7q4aghJFTwJ7qiGoR3ChpqZSSJpfu02kWGRrOw5+vwA
+         c5Esi9//CD67WHWnFWrSa8QFRdAAJ0OTP7+K8TfQ8ln4En7SfcAeJyHu4sGEOPQfmUnD
+         lN9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+         :subject:to:cc:references:content-language:in-reply-to
+         :content-transfer-encoding;
+        bh=Rv24537FAid4FkoG5vC//ersbcU5Q/QTrNuy2uhLE+c=;
+        b=N34x0eL3m+Cu9fks1aKN1puGOwwJ24UlZoEuI/onmBoW6/HmxZoDtb7Z7cgpmrupMu
+         tigkTWFEGHCdOKVk2Hly+vcZwkoKrmFLX9shm6YjFJvqCkjAWOpsbTdUsJcTR0oe4KIF
+         3bEpM7OrRvip7bVy3NfJV8xcErP2EYTRANwfZpZKPdrVPwGeGxH2oeaslzPKapc4g1qa
+         8q6+1DFmi8/Z6ifOwaFV1VEJGqck5wWNIaxfbFgiGAFNCInbu6ysGYCzdwOoQnkg574B
+         A1PUw6cU9xA6GD93lR4Xz4ns7ooAKWmjwyIx0sjA3KLm7ny6rz85b5bfdxnPwrBZ1ShR
+         yI4w==
+X-Gm-Message-State: AOAM531/l5ox8XQTrsWvu0oAa3U90fogP4UPgSo5kbtKvmsUHv43i2eo
+        vaJctF68HviASfHWVA6y+Zc=
+X-Google-Smtp-Source: ABdhPJwrkAzjNvukP+xrbe/mrqvr3+QVoCnL9nosgzjDlSCxY5RDZLM/k5624oZsIpeWrJEh6LhFcQ==
+X-Received: by 2002:a17:90b:4c10:b0:1dc:8289:7266 with SMTP id na16-20020a17090b4c1000b001dc82897266mr26873370pjb.190.1652108228929;
+        Mon, 09 May 2022 07:57:08 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id hi1-20020a17090b30c100b001da3780bfd3sm133322pjb.0.2022.05.09.07.57.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 May 2022 07:57:08 -0700 (PDT)
+Message-ID: <92a7010c-5bb2-65df-edde-0ca88e035c2e@gmail.com>
+Date:   Mon, 9 May 2022 23:56:59 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH v6 18/23] docs: add Rust documentation
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Wu XiangCheng <bobwxc@email.cn>, Daniel Xu <dxu@dxuuu.xyz>,
+        Gary Guo <gary@garyguo.net>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Yuki Okushi <jtitor@2k36.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Julian Merkle <me@jvmerkle.de>, Finn Behrens <me@kloenk.de>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Wei Liu <wei.liu@kernel.org>
+References: <20220507052451.12890-19-ojeda@kernel.org>
+ <7e9c2e77-8b70-6e15-3f3d-905ab42b0fcd@gmail.com>
+ <CANiq72mBVo4+htxVjY0wB1Y3GO2PEUiZjZKRYT8ddwx84-hAtg@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CANiq72mBVo4+htxVjY0wB1Y3GO2PEUiZjZKRYT8ddwx84-hAtg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the name of the VG register so it can be used in --user-regs
+[+To: Jon]
 
-The event will fail to open if the register is requested but not
-available so only add it to the mask if the kernel supports sve and also
-if it supports that specific register.
+On Mon, 9 May 2022 12:41:28 +0200,
+Miguel Ojeda wrote:
+> Hi Akira,
+> 
+> On Mon, May 9, 2022 at 6:02 AM Akira Yokosawa <akiyks@gmail.com> wrote:
+>>
+>> I think you agreed splitting SVG part into its own patch with
+>> a proper copying info, etc.  Let me see...  So, here is the link:
+> 
+> Yes, sorry, will do (in fact, it should have been there in v5 too).
+> 
+> By the way, the Linux SVG logo (used to make the one here) is pending
+> in the linux-doc ML.
 
-Signed-off-by: James Clark <james.clark@arm.com>
----
- tools/perf/arch/arm64/util/perf_regs.c | 34 ++++++++++++++++++++++++++
- tools/perf/util/perf_regs.c            |  2 ++
- 2 files changed, 36 insertions(+)
+So you mean the following post:
 
-diff --git a/tools/perf/arch/arm64/util/perf_regs.c b/tools/perf/arch/arm64/util/perf_regs.c
-index 476b037eea1c..c0a921512a90 100644
---- a/tools/perf/arch/arm64/util/perf_regs.c
-+++ b/tools/perf/arch/arm64/util/perf_regs.c
-@@ -2,9 +2,11 @@
- #include <errno.h>
- #include <regex.h>
- #include <string.h>
-+#include <sys/auxv.h>
- #include <linux/kernel.h>
- #include <linux/zalloc.h>
- 
-+#include "../../../perf-sys.h"
- #include "../../../util/debug.h"
- #include "../../../util/event.h"
- #include "../../../util/perf_regs.h"
-@@ -43,6 +45,7 @@ const struct sample_reg sample_reg_masks[] = {
- 	SMPL_REG(lr, PERF_REG_ARM64_LR),
- 	SMPL_REG(sp, PERF_REG_ARM64_SP),
- 	SMPL_REG(pc, PERF_REG_ARM64_PC),
-+	SMPL_REG(vg, PERF_REG_ARM64_VG),
- 	SMPL_REG_END
- };
- 
-@@ -131,3 +134,34 @@ int arch_sdt_arg_parse_op(char *old_op, char **new_op)
- 
- 	return SDT_ARG_VALID;
- }
-+
-+uint64_t arch__user_reg_mask(void)
-+{
-+	struct perf_event_attr attr = {
-+		.type                   = PERF_TYPE_HARDWARE,
-+		.config                 = PERF_COUNT_HW_CPU_CYCLES,
-+		.sample_type            = PERF_SAMPLE_REGS_USER,
-+		.disabled               = 1,
-+		.exclude_kernel         = 1,
-+		.sample_period		= 1,
-+		.sample_regs_user	= PERF_REGS_MASK
-+	};
-+	int fd;
-+
-+	if (getauxval(AT_HWCAP) & HWCAP_SVE)
-+		attr.sample_regs_user |= SMPL_REG_MASK(PERF_REG_ARM64_VG);
-+
-+	/*
-+	 * Check if the pmu supports perf extended regs, before
-+	 * returning the register mask to sample.
-+	 */
-+	if (attr.sample_regs_user != PERF_REGS_MASK) {
-+		event_attr_init(&attr);
-+		fd = sys_perf_event_open(&attr, 0, -1, -1, 0);
-+		if (fd != -1) {
-+			close(fd);
-+			return attr.sample_regs_user;
-+		}
-+	}
-+	return PERF_REGS_MASK;
-+}
-diff --git a/tools/perf/util/perf_regs.c b/tools/perf/util/perf_regs.c
-index a982e40ee5a9..872dd3d38782 100644
---- a/tools/perf/util/perf_regs.c
-+++ b/tools/perf/util/perf_regs.c
-@@ -103,6 +103,8 @@ static const char *__perf_reg_name_arm64(int id)
- 		return "lr";
- 	case PERF_REG_ARM64_PC:
- 		return "pc";
-+	case PERF_REG_ARM64_VG:
-+		return "vg";
- 	default:
- 		return NULL;
- 	}
--- 
-2.28.0
+    https://lore.kernel.org/lkml/20220207014418.GA28724@kernel.org/
 
+I'm not sure why Jon has not responded.
+
+Jon, was there any issue on this patch?
+
+> 
+>> I might have missed v5 of this patch series.
+>> That might be because v5's 15/20 was not accepted by linux-doc's
+>> lore archive (maybe) due to its size despite it had Cc: linux-doc.
+>> v6's 18/23 was also rejected.
+> 
+> Yes, a few patches get rejected in several lists. We were told this
+> was fine as long as LKML gets them (the cover letter has the lists in
+> Cc).
+> 
+>> I have some alternative ideas for table formatting in ReST.
+> 
+> I was following the LLVM one, but it makes sense to use the other ones
+> where possible. I can send a patch for that one too.
+> 
+>> So here are a couple of alternative ways to represent the table
+>>
+>> * ASCII-art format:
+>> * Literal block format:
+> 
+> Thanks for taking the time to format the examples, it is useful :)
+Glad you like it.  ;-)
+
+        Thanks, Akira
+
+> 
+>> As you see, those inline-literal markers of ``xxxx``, which are
+>> distracting when the .rst file is read as plain-text, are not
+>> necessary in the literal-block approach.  And you can directly
+> 
+> I agree, it can be better (it is one reason I find Markdown a bit more
+> readable since it uses a single backquote for that instead of two).
+> 
+>> In my opinion, the literal-block approach should be the most
+>> reasonable choice here. Of course its your call which one
+>> to choose.
+> 
+> Yeah, that sounds reasonable. I will take a look.
+> 
+> Thanks for the review!
+> 
+> Cheers,
+> Miguel
