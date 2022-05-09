@@ -2,135 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84F40C433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 06:39:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75D37C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 07:12:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbiEIGmh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 02:42:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40064 "EHLO
+        id S235067AbiEIHPu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 03:15:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233156AbiEIGdU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 02:33:20 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56F471882D1
-        for <linux-doc@vger.kernel.org>; Sun,  8 May 2022 23:29:24 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id t11-20020a17090ad50b00b001d95bf21996so16157451pju.2
-        for <linux-doc@vger.kernel.org>; Sun, 08 May 2022 23:29:24 -0700 (PDT)
+        with ESMTP id S234609AbiEIHDr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 03:03:47 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59DC2393D7;
+        Sun,  8 May 2022 23:59:54 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id j14so13008230plx.3;
+        Sun, 08 May 2022 23:59:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Q/ROXewp2cxt4q3Bz4z9TGgbOWGYmpSqNQy/66wnJeM=;
-        b=Nd+Eloii8ZKgFxPbiLDEdOiwu9gNmv7JQhUlmY18jKXPbt8GZYA3VbL+0xQKqnO/rs
-         K51O5M/mOEAHIdWaUS3TzAOe2e3rIHF2xCRpeoVqGQG8x3TyUC7H1Ku50uE2gi4opZMo
-         M7jWGEOulU2tOo6bBHGlDVgFQkHdgx/knt8Xs2cQC0MWU+7HBSFD8XiqDOyGyrChyDib
-         VDuUwsnoJA7BzYQtXPiNkbBN9NCnyJ5JZ1Mb4feFscvUpp3VVJwrSL1Q3obb5OABQZbK
-         3xtqpOUJpFYYR8AWZMuOoyrnfMzPvTGTLplK1T1ChNkqeyUzEOf6uwKDLO0mABCJtqxZ
-         tV1g==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language
+         :from:to:cc:references:in-reply-to:content-transfer-encoding;
+        bh=ukKPvUkS4+sda6n7hZd5RfiYJTJ8bOEAkMXzOtPmIYQ=;
+        b=RkZKGCXUY3WLo3y2zRC0HADNs7mY1Izvrx0xzLpIlB2hf3bjErAGfhwZoj7SpkH506
+         P5MGGJJI+9l2PmkcWbIcatsvwBsE5iDuFfT4y96sbiBzxojagNVQSZjHGvfhytDdQMdE
+         PO2kSfCjpUsTIvSOLWfa69ZR0857+HjEY2JokReKHoSyhgzfnugX9EjEQQQnKDpejEAh
+         tGUx0wD/aGNVaqW5sPkVOeVDSSAfgPrM0lWalyHC7yf85CJuSN4+Qp5dtH6muyBnhHAT
+         Fu7nSrpciTO4kz/JsFkAynPJwhmFqcu7SkyPdSmHRE2fk7a1n5ujHMPklFJ7onpRrc+r
+         0v2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:from:to:cc:references:in-reply-to
          :content-transfer-encoding;
-        bh=Q/ROXewp2cxt4q3Bz4z9TGgbOWGYmpSqNQy/66wnJeM=;
-        b=dVU9egx+tFG3JheNoMg5PZcLyAtjKyVCIpWeNYqFRlyJ+ap+PaLMJn91EyXTKGAL9X
-         DD9e3cP6C5EqDJHGBA6SBEpSHhEm5TcrD3knpuCsudOY+CXcA+XNpi1/619idZA1UaVK
-         zwRIDtqa43Xebw7D3v/XRSIk31njF1mAA6FEh8lfBCqrk2X01IRzOx3Nte5rgDkU5v+N
-         n4ezIxhWFHf2l8VI0xkksb377t4Ku24MDMsr3UC38b6NUBNIYLf/iwoOJJHfZMLZOsjk
-         T1vBY5kxpBHJpzqQZRbkkhXOlHzCvOG+T8vDXK1wegrYaFhUCg+PxhMDkhEo5lcNlT4w
-         iwvw==
-X-Gm-Message-State: AOAM531/6mu/9+iKSc8euZC1CD1rbgDo6yrb/VSclmbcUzhg6HuYmTos
-        iLfLJyHtoYHljmb/JEUNooaCuA==
-X-Google-Smtp-Source: ABdhPJxwZiwU/4zQ7JSumL48lEGxXI7GAVzr7kAz6DKM+6n6aUS++edLr7xdJqjOjuqdGRPiyXaVUw==
-X-Received: by 2002:a17:90a:cf89:b0:1d7:7055:f49c with SMTP id i9-20020a17090acf8900b001d77055f49cmr17109634pju.12.1652077756422;
-        Sun, 08 May 2022 23:29:16 -0700 (PDT)
-Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.250])
-        by smtp.gmail.com with ESMTPSA id k17-20020a170902ba9100b0015e8d4eb2c2sm6162001pls.268.2022.05.08.23.29.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 May 2022 23:29:16 -0700 (PDT)
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
-        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
-        osalvador@suse.de, david@redhat.com, masahiroy@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v10 0/4] add hugetlb_optimize_vmemmap sysctl
-Date:   Mon,  9 May 2022 14:26:59 +0800
-Message-Id: <20220509062703.64249-1-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+        bh=ukKPvUkS4+sda6n7hZd5RfiYJTJ8bOEAkMXzOtPmIYQ=;
+        b=PE7HbRkKwz+drFlSXurrTk4jcNjIV4svpgZrYSHJVFsPIJYiPYinukTiqgys0ZicY7
+         cJafQmhYOUX61mQH34ufPxeU3PrQIb0Lrw+GHC0f3sdlpBBItZDTJTbFdH5P8ygfBjYQ
+         zACsWUTGMkFCFZ8tcg9xclZuxHqYUEsBPIi1mTMdpuK4sMnpJa2yl7HiIt+qhhF8Ogse
+         l0VUGmue8HQu30+f5uudeo2Vm6ry+V6kJSqOjMImEJJFoTkj71337ROUr7ytiVWfQOZy
+         ScwGk4FGCqPhawrUNoWmQ8Dg9Lio3VwPyUM/roUzBsNmLlDT/x5c/Lukik96nTkDRH9I
+         eQsQ==
+X-Gm-Message-State: AOAM532IAKOxUqpOQP0PF16i/kFe/84plXFHUTR9qccircDTAugrq1Cb
+        K/pPSHNUUBFd5jbsx5Xcl6+oQSmIRPw=
+X-Google-Smtp-Source: ABdhPJwEWqRa848Y6b0nbhIetgmKuAHRwCdA9NXKfZeIWxhg4L+prw9ifbQbd3A3SFzUkc97mZUjXw==
+X-Received: by 2002:a17:90b:4b42:b0:1dc:15f8:821b with SMTP id mi2-20020a17090b4b4200b001dc15f8821bmr25322886pjb.131.1652079593876;
+        Sun, 08 May 2022 23:59:53 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-19.three.co.id. [116.206.28.19])
+        by smtp.gmail.com with ESMTPSA id a13-20020aa794ad000000b0050dc76281desm7840546pfl.184.2022.05.08.23.59.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 May 2022 23:59:53 -0700 (PDT)
+Message-ID: <4dd26a0e-819d-8414-8b71-1783e263209c@gmail.com>
+Date:   Mon, 9 May 2022 13:59:48 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH net-next v3] net/core: Rephrase function description of
+ __dev_queue_xmit()
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Ben Greear <greearb@candelatech.com>,
+        Pavel Begunkov <asml.silence@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+        linux-next@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220507084643.18278-1-bagasdotme@gmail.com>
+ <0cf2306a-2218-2cd5-ad54-0d73e25680a7@gmail.com> <Yni6nBTq+0LrBvQN@debian.me>
+In-Reply-To: <Yni6nBTq+0LrBvQN@debian.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series is based on next-20220428.
+On 5/9/22 13:54, Bagas Sanjaya wrote:
+> I'm in favor of this patch. Thanks.
+> 
 
-This series amis to add hugetlb_optimize_vmemmap sysctl to enable or disable
-the feature of optimizing vmemmap pages associated with HugeTLB pages.
-
-v10:
-  - Collect Reviewed-by from Mike.
-  - Remove hugetlb_optimize_vmemmap_enabled() check from
-    hugetlb_optimize_vmemmap_pages() (Mike).
-  - Add more explanation to Documentation/admin-guide/sysctl/vm.rst.
-  - Fix cannot disable the feature via hugetlb_optimize_vmemmap sysctl (Mike).
-  - Update patch 2's commit log (Mike).
-
-v9:
-  - Go back to v3 since checking the size of struct page at config time is
-    very complex.
-
-v8:
-  - Fix compilation (scripts/selinux/mdp/mdp.c) error when
-    CONFIG_SECURITY_SELINUX is selected.
-
-v7:
-  - Fix circular dependency issue reported by kernel test robot.
-  - Introduce CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP instead of
-    STRUCT_PAGE_SIZE_IS_POWER_OF_2.
-  - Add more comments into vm.rst to explain hugetlb_optimize_vmemmap (Andrew).
-  - Drop the patch "sysctl: allow to set extra1 to SYSCTL_ONE".
-  - Add a new patch "use kstrtobool for hugetlb_vmemmap param parsing".
-  - Reuse static_key's refcount to count the number of HugeTLB pages with
-    vmemmap pages optimized to simplify the lock scheme.
-
-v6:
-  - Remove "make syncconfig" from Kbuild.
-
-v5:
-  - Fix not working properly if one is workig off of a very clean build
-    reported by Luis Chamberlain.
-  - Add Suggested-by for Luis Chamberlain.
-
-v4:
-  - Introduce STRUCT_PAGE_SIZE_IS_POWER_OF_2 inspired by Luis.
-
-v3:
-  - Add pr_warn_once() (Mike).
-  - Handle the transition from enabling to disabling (Luis)
-
-v2:
-  - Fix compilation when !CONFIG_MHP_MEMMAP_ON_MEMORY reported by kernel
-    test robot <lkp@intel.com>.
-  - Move sysctl code from kernel/sysctl.c to mm/hugetlb_vmemmap.c.
-
-Muchun Song (4):
-  mm: hugetlb_vmemmap: disable hugetlb_optimize_vmemmap when struct page
-    crosses page boundaries
-  mm: memory_hotplug: override memmap_on_memory when
-    hugetlb_free_vmemmap=on
-  mm: hugetlb_vmemmap: use kstrtobool for hugetlb_vmemmap param parsing
-  mm: hugetlb_vmemmap: add hugetlb_optimize_vmemmap sysctl
-
- Documentation/admin-guide/kernel-parameters.txt |   6 +-
- Documentation/admin-guide/sysctl/vm.rst         |  39 +++++++++
- include/linux/memory_hotplug.h                  |   9 ++
- mm/hugetlb.c                                    |   3 +
- mm/hugetlb_vmemmap.c                            | 105 ++++++++++++++++++++----
- mm/memory_hotplug.c                             |  27 ++++--
- 6 files changed, 165 insertions(+), 24 deletions(-)
+Oops, I mean I'm in favor of your patch suggestion.
 
 -- 
-2.11.0
-
+An old man doll... just what I always wanted! - Clara
