@@ -2,77 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9408C433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 12:16:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1489EC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 12:25:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233957AbiEIMUT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 08:20:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33026 "EHLO
+        id S234386AbiEIM3P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 08:29:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233997AbiEIMUS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 08:20:18 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C7E02253E;
-        Mon,  9 May 2022 05:16:25 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1652098584;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qJHxy69CHJC0fW0RUic58UUaRLbHK6HeLX4XWrP5DrY=;
-        b=pgzvbJOQH8lej+TkKOsMSFhJRMJMColPNkYzFZVBBlpf/46dIROYO5vORg8k2Vf0rtSl15
-        yL21hz9LihhpHVhcQNphshrsealyrBUoDu1O7vgwgxK2ZO+heHUCuDNQkbK8lwbUsYVJrV
-        qqXkQ2xjnw+2c+CM6LMfuekiUILP6Esh45CmKwL6Le+ajHzF3vWukaITypPKTSv83oUvKj
-        CDeTrXxADtlbITbhv7GnQ+PO8+g/5xqNcPoM3CZWX+9QdUaYPcdx1TiUKEFyY55BQwXcI/
-        noTVMEUWz2Z3maEOy8hcYHAL9e7d+JtH59Ii2eINADAPcsx/eXO6C5fEzTodeg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1652098584;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qJHxy69CHJC0fW0RUic58UUaRLbHK6HeLX4XWrP5DrY=;
-        b=wNbjnljwg8nS7pLu+J1h+4gw/qT50N9VyINHaSbRy43iV2OtX9W+UKOUwZW6rx0dyuRNcY
-        JCj5N7vE0W7rdCAQ==
-To:     Tony Luck <tony.luck@intel.com>, hdegoede@redhat.com,
-        markgross@kernel.org
-Cc:     mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
-        jithu.joseph@intel.com, ashok.raj@intel.com, tony.luck@intel.com,
-        rostedt@goodmis.org, dan.j.williams@intel.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
-        ravi.v.shankar@intel.com
-Subject: Re: [PATCH v7 12/12] Documentation: In-Field Scan
-In-Reply-To: <20220506225410.1652287-13-tony.luck@intel.com>
-References: <20220506014035.1173578-1-tony.luck@intel.com>
- <20220506225410.1652287-1-tony.luck@intel.com>
- <20220506225410.1652287-13-tony.luck@intel.com>
-Date:   Mon, 09 May 2022 14:16:23 +0200
-Message-ID: <87pmkmrje0.ffs@tglx>
+        with ESMTP id S234314AbiEIM3N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 08:29:13 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E767267C0C;
+        Mon,  9 May 2022 05:25:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=yNVt9Xkogy2Y6RfStWm3MnOZ08b3XpDdi9+k9hGnieE=; b=5cWJGl4i7eE50jQ1I1NfA5x3++
+        vLiqVc54gjitP+oCDHaxOZtMK9i4aO9YiOd2nQVW7lWy/h8NinNRm5odlJgMIvIsMW9d2+H/p+BLy
+        TrezhO2zcsdNu8PYM8gVIQjKvHBzLnJ5nHIyzeRVFUNlIzHQVGHGTEavFVo+qB0aVKYk=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1no2Rq-001wMB-BQ; Mon, 09 May 2022 14:25:10 +0200
+Date:   Mon, 9 May 2022 14:25:10 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Lorenzo Bianconi <lorenzo@kernel.org>
+Cc:     netdev@vger.kernel.org, ilias.apalodimas@linaro.org,
+        hawk@kernel.org, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, jbrouer@redhat.com,
+        lorenzo.bianconi@redhat.com
+Subject: Re: [PATCH net-next] Documentation: update networking/page_pool.rst
+ with ethtool APIs
+Message-ID: <YnkIJn2BhSzyfQjh@lunn.ch>
+References: <2b0f8921096d45e1f279d1b7b99fe467f6f3dc6d.1652090091.git.lorenzo@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2b0f8921096d45e1f279d1b7b99fe467f6f3dc6d.1652090091.git.lorenzo@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 06 2022 at 15:54, Tony Luck wrote:
-> Add documentation for In-Field Scan (IFS). This documentation
-> describes the basics of IFS, the loading IFS image, chunk
-> authentication, running scan and how to check result via sysfs.
->
-> The CORE_CAPABILITIES MSR enumerates whether IFS is supported.
->
-> The full  github location for distributing the IFS images is
-> still being decided. So just a placeholder included for now
-> in the documentation.
->
-> Future CPUs will support more than one type of test. Plan for
-> that now by using a "_0" suffix on the ABI directory names.
-> Additional test types will use "_1", etc.
->
-> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Tony Luck <tony.luck@intel.com>
+On Mon, May 09, 2022 at 12:00:01PM +0200, Lorenzo Bianconi wrote:
+> Update page_pool documentation with page_pool ethtool stats APIs.
+> 
+> Signed-off-by: Lorenzo Bianconi <lorenzo@kernel.org>
+> ---
+>  Documentation/networking/page_pool.rst | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+> 
+> diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
+> index 5db8c263b0c6..ef5e18cf7cdf 100644
+> --- a/Documentation/networking/page_pool.rst
+> +++ b/Documentation/networking/page_pool.rst
+> @@ -146,6 +146,29 @@ The ``struct page_pool_recycle_stats`` has the following fields:
+>    * ``ring_full``: page released from page pool because the ptr ring was full
+>    * ``released_refcnt``: page released (and not recycled) because refcnt > 1
+>  
+> +The following APIs can be used to report page_pool stats through ethtool and
+> +avoid code duplication in each driver:
+> +
+> +* page_pool_ethtool_stats_get_strings(): reports page_pool ethtool stats
+> +  strings according to the ``struct page_pool_stats``
+> +     * ``rx_pp_alloc_fast``
+> +     * ``rx_pp_alloc_slow``
+> +     * ``rx_pp_alloc_slow_ho``
+> +     * ``rx_pp_alloc_empty``
+> +     * ``rx_pp_alloc_refill``
+> +     * ``rx_pp_alloc_waive``
+> +     * ``rx_pp_recycle_cached``
+> +     * ``rx_pp_recycle_cache_full``
+> +     * ``rx_pp_recycle_ring``
+> +     * ``rx_pp_recycle_ring_full``
+> +     * ``rx_pp_recycle_released_ref``
 
-Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+My knowledge of Sphinx is pretty poor. Is it possible to put this list
+next to the actual definition and cross reference it? When new
+counters are added, they are more likely to be added to the list, if
+the list is nearby.
+
+    Andrew
