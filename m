@@ -2,74 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B9C3C4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 22:08:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69600C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 22:13:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229652AbiEIWMi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 18:12:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52614 "EHLO
+        id S231368AbiEIWRU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 18:17:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230455AbiEIWMh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 18:12:37 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76EA02B4CB7;
-        Mon,  9 May 2022 15:08:42 -0700 (PDT)
+        with ESMTP id S231272AbiEIWRU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 18:17:20 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 438D5164CA2;
+        Mon,  9 May 2022 15:13:25 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E64D7750;
-        Mon,  9 May 2022 22:08:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E64D7750
+        by ms.lwn.net (Postfix) with ESMTPSA id E650A732;
+        Mon,  9 May 2022 22:13:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E650A732
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1652134122; bh=dO8AHAFq0RjSV9IS8lCspN2KpGKOcY8CrMNFYhJkC90=;
+        t=1652134405; bh=sEMrik7WYGW/7x9Mgr4lGXr3bXEO5dv8oIWWDb5ZT7U=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Ylbt5j/GDLnz8wIIDsRwGD8/7ph6aKtCOUgO6yRToRVEb3NTWPC6LlRpm0fAnmzTL
-         oEu6J8fVzOhp9rDGTkqx4UVMwZ1QcgwCjEgAfFHTMCXDCvIqNe1AqS2JIiKyYMaSjW
-         8kcvD8aVGckY5+0f2dPo+rw/7FLk5sibTiOTJ+9GUoq3TZL4jOioPbhmH98rXAXAGV
-         iv0jPuSm/jitdBh0kqsrn13DwdB5EODXO8Jxpn9JO5FsASQ9RvpJL3WwA++jiWVMqK
-         jI/SHWpDzOKvJG8jrG0t6r/xpywt5+eJFadw+sinNsHULpgr/J1/qpKdpYlkxbSzkF
-         XPCyAxAa0mRcQ==
+        b=Up8/me1vktG5QJsMclCUdE9vZdl0x/2/+g6CNBQetQ2CBiF1rzN1Gz94+ri7NEO5p
+         Bqx876vGb44nKwfLqzZAS7pvhV2WJM7Zw+6RH7Ej8amt0yNurkHOKmRwN91q93rhFE
+         +MG6tkkUwFcFUhOPGemNizVgiE47tCAEGKN/bHZhUXMw8oKt6pQR54Ezt9SCM+7nfF
+         JC5Vc86WpgH5gNXxISuAKuVXvtNaZAeE58rHB2gRob/LrB2PTojD2AsnzrpNsm9M08
+         CopFXlWfLSu172GZKUKRLdBY8g7eZlk7xJhcjVZQkPJc70YEs7OMugjyBn+ldVqTgW
+         IJw2xAYNLLt8w==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Tsugikazu Shibata <shibata@linuxfoundation.org>,
-        Kosuke Fujimoto <fujimotokosuke0@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Add entry for DOCUMENTATION/JAPANESE
-In-Reply-To: <7689b502-8c34-85b1-54e0-7a3b5e3c2bd1@gmail.com>
-References: <7689b502-8c34-85b1-54e0-7a3b5e3c2bd1@gmail.com>
-Date:   Mon, 09 May 2022 16:08:41 -0600
-Message-ID: <87h75ycqae.fsf@meer.lwn.net>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] Documentation/process: use scripts/get_maintainer.pl on
+ patches
+In-Reply-To: <20220427185645.677039-1-krzysztof.kozlowski@linaro.org>
+References: <20220427185645.677039-1-krzysztof.kozlowski@linaro.org>
+Date:   Mon, 09 May 2022 16:13:24 -0600
+Message-ID: <87ee12cq2j.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> writes:
 
-> Due to the lack of an entry for the Japanese translation of
-> documentation, Kosuke Fujimoto needed to ask the status of
-> its maintenance [1].
+> Explain that, when collecting list of people to Cc the patch,
+> scripts/get_maintainer.pl should be used on patches, not on the
+> directories.  The behavior is quite different, because with "-f" on
+> a directory, the maintainers of individual files will not be shown.
 >
-> Add an entry for DOCUMENTATION/JAPANESE as a sub-subsystem
-> under the DOCUMENTATION subsystem to make it easier for
-> another prospective contributor to know there is someone
-> who takes care of Japanese translation.
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 >
-> As a first step, install myself as a designated reviewer.
-> Hopefully, other interested members get accustomed to the
-> kernel-dev workflow and would get ready to be
-> (co-)maintainers/reviewers shortly.
+> ---
 >
-I've applied this, thanks.
+> It seems using the script on patches is not obvious and it already
+> caused some misunderstandings.
+> ---
+>  Documentation/doc-guide/contributing.rst     | 5 +++--
+>  Documentation/process/3.Early-stage.rst      | 9 +++++----
+>  Documentation/process/submitting-patches.rst | 7 ++++---
+>  3 files changed, 12 insertions(+), 9 deletions(-)
 
-> If there exists such a rule that every entry in MAINTAINERS is
-> required to have at least one member listed in the "M:" field,
-> I'm OK with filling the role.  Thoughts?
-
-No, reviewer-only entries are fine.
-
-Thanks,
+I worry about trying to cram every detail into these documents; it's not
+as if their length isn't intimidating already.  But I've gone ahead and
+applied this, thanks.
 
 jon
