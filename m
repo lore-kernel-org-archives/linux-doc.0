@@ -2,97 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A09DC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 10 May 2022 02:44:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 472B1C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 10 May 2022 03:15:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233220AbiEJCs2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 22:48:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36654 "EHLO
+        id S232230AbiEJDTG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 23:19:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232495AbiEJCs1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 22:48:27 -0400
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D5C627F135;
-        Mon,  9 May 2022 19:44:32 -0700 (PDT)
-Received: by mail-io1-xd36.google.com with SMTP id r27so17271941iot.1;
-        Mon, 09 May 2022 19:44:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=f8UJqGII15EUvAh7IVf71vJDer3ywxR+YC79U4WRNxg=;
-        b=IIuYSphoxM5Xe74hHyUvVMx4rZYWDgA//kqo93jCh5ZzUb94Mi486Lg/keBF+gcczl
-         x6zS5eYgw5zDwrucwJ5k7Xoa/DS7n+M11FUkyUmTK9VP5CkRGr/+lA+ogibvf5b0AQjY
-         OzHnl7dYP/ejbqslbi8R36pWk1zPihsU+x3qgOW8O3/A64Z8xvg1bfWFUzzmXlciIIAn
-         ihi1Vn3ZY4NQdPuU1Gy9Pyl29qq2Yl7+tcAfrknMJqg06GtIV3gV5Y9I5EfTgzigXlZh
-         P5nSTDH5Sgmb9WahyhINli1SoSxTPOqVP1VKYYqkMeaPv8AScouN4NyeAtWyB23aHX72
-         SG/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=f8UJqGII15EUvAh7IVf71vJDer3ywxR+YC79U4WRNxg=;
-        b=YWWDWtgpmRvBgePRuRUPehyd9ootFjKzMnE7iIeMhjk3Z1C6yGfP5Hpg9swjL9xsss
-         rLdv26eOniFotrTjrBn41LADzmUeiZGAWDfUQQ/OL33kDUWZvsnLiYL4Kr7if6A94hLX
-         p8tBk4TrG8jUJyclIC+HpOxKuHllh+gUbhxDot1MRM2DT4sIjZILtaYX9io7VUWO3rnP
-         l4P3aaAwHZVWOzs4HeZp9UEw6Ybjxd5AgUzIfGRuPh1Ss5y5F1EWfKmIdPJtr9U7CrWU
-         k7VmEdX3ZKzaPK1ggtSAsBHj1IZPkf5DQoVOBrPnuk6J6mkxe4ok554BDeFXOC1SneBc
-         4s9w==
-X-Gm-Message-State: AOAM530YjYazP47HdMDYjH8VfO79IgxDI6qFNcKJav4MNXY2A8YnlU2+
-        yVrEZBlhfFiS3xbfPWkUrBA=
-X-Google-Smtp-Source: ABdhPJyXLLuEDD9M3yW9LnoWjmZogru3bafdzoOFDyhv+X4IIHArlzC+yIAOkUzW8Ffz9vijA3fR/A==
-X-Received: by 2002:a05:6638:d0a:b0:32b:b579:6875 with SMTP id q10-20020a0566380d0a00b0032bb5796875mr8983698jaj.291.1652150671562;
-        Mon, 09 May 2022 19:44:31 -0700 (PDT)
-Received: from ?IPV6:2601:282:800:dc80:e970:4f57:6d9a:73c8? ([2601:282:800:dc80:e970:4f57:6d9a:73c8])
-        by smtp.googlemail.com with ESMTPSA id e131-20020a6bb589000000b0065a47e16f38sm3675091iof.10.2022.05.09.19.44.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 May 2022 19:44:30 -0700 (PDT)
-Message-ID: <6d8a4c78-648f-07fe-496a-4ab34891f716@gmail.com>
-Date:   Mon, 9 May 2022 20:44:28 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH net-next 0/3] docs: document some aspects of struct
- sk_buff
-Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        linux-doc@vger.kernel.org, corbet@lwn.net, imagedong@tencent.com,
-        talalahmad@google.com
-References: <20220509160456.1058940-1-kuba@kernel.org>
-From:   David Ahern <dsahern@gmail.com>
-In-Reply-To: <20220509160456.1058940-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S230294AbiEJDTE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 23:19:04 -0400
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C8B228ABAC;
+        Mon,  9 May 2022 20:15:07 -0700 (PDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id B7A573200942;
+        Mon,  9 May 2022 23:15:01 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 09 May 2022 23:15:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canishe.com; h=
+        cc:cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm2; t=1652152501; x=
+        1652238901; bh=Js/oWYE71aKyhQh1lChvQkRWgN+gDNge5zO1GV3PKcY=; b=t
+        QZieq2rBtxznoUKnPlfNoorA/ODf0wz6ELmer95hypMgqFLW51CVRaX2gnXvBTpD
+        OAnuBmtSBaiMj0qXQnuka9RFCuxiXdLH4c1cnuW0Vi2TSwRE+ArohH2/kfocp39v
+        1+pCu9WxAkHWTpf9xzDywXzt54mRRgHmojuHz77pVoiuMREF6Suum9id8n5YEHZG
+        JOPJlr3vSSgTnrIq8c3IGycl7G9xMlOU9hXuU3FvRJ9aEWzz0qUfhZ80Y6tMN/4M
+        IEhWrxv8fWuufcinxCtsHsbbVkcAQDugKsAf4F/tG8sNyilHB+r/PYCVVsEJAYNp
+        s7fe92E9kLmw94vGL6xag==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; t=1652152501; x=1652238901; bh=Js/oWYE71aKyh
+        Qh1lChvQkRWgN+gDNge5zO1GV3PKcY=; b=kyWYbdbC+5u4hU2GVabZUgaAaF2Kz
+        Pui9obWGO2y90I5gKYbuxsqBy7vwlm4e4VrrFs4XTWo6ZekxzeoTwtUEoNBsc52J
+        a+DcycTZOjrjT8bBMEDHVujqErpIntAhDwiow2NrRgfP+IA20KrNN1WUDL9cwTKz
+        z/EKnPcqXTk2jBAxPk/AUboTv8LWmpz01BCZpa2MDVlTzDcbZTUc5OfCO7SId2Qn
+        iHzYPrFy2G0tFOqf0BacjePL5X6zBGuT4xpthA+OoL5VjUZySpeJdnoEKn/zZC1a
+        lqvQ/5Tha3nN4NlOjI0mla+sL9ik7rkc8/7OmBgrIJhKVrR8qU3GAn0Hw==
+X-ME-Sender: <xms:s9h5Yt7bAvZH0ScZOUfUCuiHZfvAtG_O3KlpwfjB6gxOvB4obd6nFw>
+    <xme:s9h5Yq4tX81jHOWITqPMXdB68bzXvEYAvyzQkTUCOhoOH36tHu1RaZopbtJKfXNLH
+    MrqBu1l6YwMLPcA7Q>
+X-ME-Received: <xmr:s9h5YkcfWexYBqKXhM7YhscygrMLTEo_e91QvVopRev3VbdNvxy1UHJu8whGxxrDfYK41hE8mHcm5ZigCzmYnlOzx3F1YxGO0rj19IiBZxmG>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgdeikecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpegtggfuhfgjffevgffkfhfvofesthhqmhdthhdtjeenucfhrhhomhepifgrvghl
+    rghnucfuthgvvghlvgcuoehgsghssegtrghnihhshhgvrdgtohhmqeenucggtffrrghtth
+    gvrhhnpeehfeevtdeuudegfefhiefhgfdvvdetgfffueduvdehfeffteelveetkeegffev
+    vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgsg
+    hssegtrghnihhshhgvrdgtohhm
+X-ME-Proxy: <xmx:s9h5YmKHY2AG9UatQV372P8S06dhgbK5-caWJhDAq63m5pJcRdmzsQ>
+    <xmx:s9h5YhJ1nnx4CjXK_Q93Z-Y9PVi6E5dN2dY84nTOSxf90QxkDMK8Wg>
+    <xmx:s9h5YvygJHbYO1oYbfbj1pjcPCV8kzCCwjnLS2ruJ9eUlYjf-8c_uQ>
+    <xmx:tdh5Yh49GXViGiNc4l8ODx3i_WqLOTARAeS1VAXam99eOUcz0uLlvQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 9 May 2022 23:14:57 -0400 (EDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
+Subject: Re: [PATCH v6 18/23] docs: add Rust documentation
+From:   Gaelan Steele <gbs@canishe.com>
+In-Reply-To: <875ymecp6f.fsf@meer.lwn.net>
+Date:   Mon, 9 May 2022 20:14:54 -0700
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>,
+        Daniel Xu <dxu@dxuuu.xyz>, Julian Merkle <me@jvmerkle.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <0716311E-FD5A-489A-A17D-C427C1A0EE4E@canishe.com>
+References: <20220507052451.12890-1-ojeda@kernel.org>
+ <20220507052451.12890-19-ojeda@kernel.org> <875ymecp6f.fsf@meer.lwn.net>
+To:     Jonathan Corbet <corbet@lwn.net>
+X-Mailer: Apple Mail (2.3696.80.82.1.1)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/9/22 10:04 AM, Jakub Kicinski wrote:
-> This small set creates a place to render sk_buff documentation,
-> documents one random thing (data-only skbs) and converts the big
-> checksum comment to kdoc.
-> 
-> RFC v2 (no changes since then):
->  - fix type reference in patch 1
->  - use "payload" and "data" more consistently
->  - add snippet with calls
-> https://lore.kernel.org/r/20220324231312.2241166-1-kuba@kernel.org/
-> 
-> RFC v1:
-> https://lore.kernel.org/all/20220323233715.2104106-1-kuba@kernel.org/
-> 
-> Jakub Kicinski (3):
->   skbuff: add a basic intro doc
->   skbuff: rewrite the doc for data-only skbs
->   skbuff: render the checksum comment to documentation
-> 
->  Documentation/networking/index.rst  |   1 +
->  Documentation/networking/skbuff.rst |  37 ++++
->  include/linux/skbuff.h              | 301 ++++++++++++++++++----------
->  3 files changed, 232 insertions(+), 107 deletions(-)
->  create mode 100644 Documentation/networking/skbuff.rst
-> 
 
-Reviewed-by: David Ahern <dsahern@kernel.org>
+
+> On May 9, 2022, at 3:32 PM, Jonathan Corbet <corbet@lwn.net> wrote:
+>=20
+>> +It is convenient to instruct editors/IDEs to format while typing,
+>> +when saving or at commit time. However, if for some reason =
+reformatting
+>> +the entire kernel Rust sources is needed at some point, the =
+following can be
+>> +run::
+>> +
+>> +	make LLVM=3D1 rustfmt
+>=20
+> I will ask whether we want this, though. Why would anybody want to
+> mass-reformat the entire body of kernel code? This seems like =
+something
+> that would generate an endless stream of "helpful" patches and a lot =
+of
+> churn.
+
+That would only happen if the code diverged from rustfmt=E2=80=99s =
+output in the
+first place. Generally, in Rust projects, the source tree is always kept
+formatted with rustfmt - so running `make LLVM=3D1 rustfmt` would only
+ever touch code that you=E2=80=99d just changed.=20
+
+Gaelan=
