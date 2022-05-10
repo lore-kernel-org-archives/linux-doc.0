@@ -2,142 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3317CC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 10 May 2022 23:45:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC27EC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 10 May 2022 23:57:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238428AbiEJXpx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 May 2022 19:45:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35108 "EHLO
+        id S238610AbiEJX5C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 May 2022 19:57:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238430AbiEJXpu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 May 2022 19:45:50 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CFB0BCB8;
-        Tue, 10 May 2022 16:45:48 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id bo5so504317pfb.4;
-        Tue, 10 May 2022 16:45:48 -0700 (PDT)
+        with ESMTP id S230150AbiEJX5B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 May 2022 19:57:01 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96D7620B547
+        for <linux-doc@vger.kernel.org>; Tue, 10 May 2022 16:56:59 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 192-20020a250cc9000000b0064a5bbea6a7so413817ybm.9
+        for <linux-doc@vger.kernel.org>; Tue, 10 May 2022 16:56:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language
-         :from:to:cc:references:in-reply-to:content-transfer-encoding;
-        bh=BK8T3gjdK2roy+ApoukjEKkczl2YkXzC5XGidh4vu68=;
-        b=IaZbJCKi3P+x1DPMKKxJ9ht+8zgO35UqmV0ieKRiY29ti3DVq4/cHolNSWogcKjMoR
-         LPjAb6theVAl8O89PIxKFcpTdNnHoeA77vGVEu/gCWoHis50uG5phXBiGwqtnKmeHWfG
-         QCDJVfQp/5CUuK/jgTSVtepIEdLYjLo2v0ieO0fXLmcY6osCPFgRxXUzxscAHwlJ7GWI
-         bG8WPqBcoc7O2Z7qFpFzUDu7BthXEcoo41Mm1AsxgNFRuZxfOY4rwFXpXNAPMvBCWpec
-         o/itJpQvDxPMRMLEYhMkDUNm6WGTBbk5x3lGn+1rhga4LnoQXWzv3FgQ7C05DOKTjT1m
-         HoHw==
+        d=google.com; s=20210112;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc:content-transfer-encoding;
+        bh=4KvDBY92RR8WKuUjzgohCsuZSchRL19v0jjqGuoq0no=;
+        b=EVnDMIpZB27MCIXhHatilUnRYlxARdcdAd7PK1rHIXFEB09aYu4tovCAvBFw8cZxyT
+         gXDSSt3iUIN/1CO3fml62gvLZRGE+EMeeeLDQuSX7c4jbLENEPCC9PDIZujw5VNhH0q0
+         FNlArlRA5Ob2e7UO2kZWZMCqvsuYh5DB5yxiuRlqYM4K6p8fNfkF+nvk4AffdLlQoCVj
+         Iow7SxlzmL5Vq+/E0YXhlhfw88NjMLlc65QX53QBUS8PoggN6lNR+09aPb47Qcif87k3
+         deyEJ4awwrFwdjAObdu51OKvcIO1OpNdSGWxV/SAb3A5rkBNGUpnsa8mp82Pi0LrZ+EP
+         djEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:from:to:cc:references:in-reply-to
-         :content-transfer-encoding;
-        bh=BK8T3gjdK2roy+ApoukjEKkczl2YkXzC5XGidh4vu68=;
-        b=inQtkH3/PwkuCN1fgOLEsR4Nht8DAhIAv5HjQQxhR4Q7Mz1N5mvYm1fcIgWiPPRcJV
-         UrhwFbAZGKemEbAnSJw3D1zBgvExt8CuDiBbRIPnyR1b4h2wt89wrMbYyf/A28EILDyA
-         C58qvCsfUm9vC+Zfp7mPURLEA/fZtJtYH/sAjm8lDPYwZnfWSQv32qejfgJrFrHgbnUE
-         WtZhuBfK65dgcuYCbu7Bpusy7d3hwyCtQPJmPNNMgpTyg/PdUNesN+VXBBvwWozcz3Re
-         GaTR1NksrF0P9JimLk/c3cTrc31FOa4T2owNIAsgfJ99NNgM+cteT6nzm8aX4OpYGi5j
-         0kgQ==
-X-Gm-Message-State: AOAM531oVxbIScqcCKCvgYC3sndiPoSjg3hp5/KYgldHqW3v6kCBBQCq
-        mqIir7FY9l5pybzmAc+CgpNFO53nu4o=
-X-Google-Smtp-Source: ABdhPJwfw+X6CZliWaQWkQxeiaZ/PJ/sMBDXx2t1TsIVNkwteuolcWnhHY6lwMWLfrI19xaJ+n/ztQ==
-X-Received: by 2002:a63:2b01:0:b0:3c2:4b0b:e1c6 with SMTP id r1-20020a632b01000000b003c24b0be1c6mr18365845pgr.288.1652226347694;
-        Tue, 10 May 2022 16:45:47 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id i7-20020a170902c94700b0015edcdea308sm176645pla.233.2022.05.10.16.45.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 May 2022 16:45:47 -0700 (PDT)
-Message-ID: <5986752a-1c2a-5d64-f91d-58b1e6decd17@gmail.com>
-Date:   Wed, 11 May 2022 08:45:43 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: [PATCH net-next v2] docs: ctucanfd: Use 'kernel-figure' directive
- instead of 'figure'
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-To:     Marc Kleine-Budde <mkl@pengutronix.de>,
-        Pavel Pisa <pisa@cmp.felk.cvut.cz>
-Cc:     Martin Jerabek <martin.jerabek01@gmail.com>,
-        Ondrej Ille <ondrej.ille@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc:content-transfer-encoding;
+        bh=4KvDBY92RR8WKuUjzgohCsuZSchRL19v0jjqGuoq0no=;
+        b=NeSwkvyROoSklq9hJeT77ObdjVzxJoSB/Gd6n+7uLTjffKuy+FWAb05WHtdYYKdUsi
+         kmlV1qabOmL2zSgB8Osy9hhXJCmVBfhtwcGPXa0zBu1veyCMJlRC6jFzN3WMI38gZsR9
+         dMonWlTgz815VcNuKGVdHsJVcAGnJAxRgm62Wx5I1FQJwc7rk0gYwhUfbNk0RF8jyvNw
+         8Za7nD+lKCRR9o55f9TPIYbIkFBMc2OYPUFW8lDJUV3QrBYSwVyTo9xta0m9Zl3lLs2Y
+         2Bf+/YrhyswGPxuSgH+YjAdDi0f+Yp+BNqQBRPVSRl5j05k85lIbhYkzwe6F4mTnhEPR
+         Zjgw==
+X-Gm-Message-State: AOAM532qnYrlfFIz3htjiYj0mAZs5Wu7E3/Nmqn3qFJjaiuEfIdWrLWP
+        oeSnWkQq4VLJoNrmt4J0Jn5TUVFMB5o5PLk=
+X-Google-Smtp-Source: ABdhPJxlqpgDpJ9NusV/EqUoq7QOEUS1bEXKFWa7Ps8sG0Rk4PPsvk4A1DFBh7AwydMPg9ury9ovxi429oUOWa4=
+X-Received: from tj.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:53a])
+ (user=tjmercier job=sendgmr) by 2002:a5b:7c4:0:b0:64b:da6:cb3b with SMTP id
+ t4-20020a5b07c4000000b0064b0da6cb3bmr5590895ybq.104.1652227018683; Tue, 10
+ May 2022 16:56:58 -0700 (PDT)
+Date:   Tue, 10 May 2022 23:56:45 +0000
+In-Reply-To: <20220510235653.933868-1-tjmercier@google.com>
+Message-Id: <20220510235653.933868-2-tjmercier@google.com>
+Mime-Version: 1.0
+References: <20220510235653.933868-1-tjmercier@google.com>
+X-Mailer: git-send-email 2.36.0.512.ge40c2bad7a-goog
+Subject: [PATCH v7 1/6] gpu: rfc: Proposal for a GPU cgroup controller
+From:   "T.J. Mercier" <tjmercier@google.com>
+To:     tjmercier@google.com, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     daniel@ffwll.ch, hridya@google.com, christian.koenig@amd.com,
+        jstultz@google.com, tkjos@android.com, cmllamas@google.com,
+        surenb@google.com, kaleshsingh@google.com, Kenny.Ho@amd.com,
+        mkoutny@suse.com, skhan@linuxfoundation.org,
+        kernel-team@android.com, cgroups@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <05d491d4-c498-9bab-7085-9c892b636d68@gmail.com>
-In-Reply-To: <05d491d4-c498-9bab-7085-9c892b636d68@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Two issues were observed in the ReST doc added by commit c3a0addefbde
-("docs: ctucanfd: CTU CAN FD open-source IP core documentation.")
-with Sphinx versions 2.4.4 and 4.5.0.
+From: Hridya Valsaraju <hridya@google.com>
 
-The plain "figure" directive broke "make pdfdocs" due to a missing
-PDF figure.  For conversion of SVG -> PDF to work, the "kernel-figure"
-directive, which is an extension for kernel documentation, should
-be used instead.
+This patch adds a proposal for a new GPU cgroup controller for
+accounting/limiting GPU and GPU-related memory allocations.
+The proposed controller is based on the DRM cgroup controller[1] and
+follows the design of the RDMA cgroup controller.
 
-The directive of "code:: raw" causes a warning from both
-"make htmldocs" and "make pdfdocs", which reads:
+The new cgroup controller would:
+* Allow setting per-device limits on the total size of buffers
+  allocated by device within a cgroup.
+* Expose a per-device/allocator breakdown of the buffers charged to a
+  cgroup.
 
-    [...]/can/ctu/ctucanfd-driver.rst:75: WARNING: Pygments lexer name
-    'raw' is not known
+The prototype in the following patches is only for memory accounting
+using the GPU cgroup controller and does not implement limit setting.
 
-A plain literal-block marker should suffice where no syntax
-highlighting is intended.
+[1]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.welty@int=
+el.com/
 
-Fix the issues by using suitable directive and marker.
+Signed-off-by: Hridya Valsaraju <hridya@google.com>
+Signed-off-by: T.J. Mercier <tjmercier@google.com>
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Fixes: c3a0addefbde ("docs: ctucanfd: CTU CAN FD open-source IP core docu=
-mentation.")
-Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-Cc: Martin Jerabek <martin.jerabek01@gmail.com>
-Cc: Ondrej Ille <ondrej.ille@gmail.com>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>
 ---
-Changes in v1 -> v2
- - no change in diff
- - added explicit Sphinx versions the issues were observed
- - picked Pavel's Acked-by
+v7 changes
+Remove comment about duplicate name rejection which is not relevant to
+cgroups users per Michal Koutn=C3=BD.
 
---
- .../networking/device_drivers/can/ctu/ctucanfd-driver.rst     | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+v6 changes
+Move documentation into cgroup-v2.rst per Tejun Heo.
 
-diff --git a/Documentation/networking/device_drivers/can/ctu/ctucanfd-dri=
-ver.rst b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver=
-=2Erst
-index 2fde5551e756..40c92ea272af 100644
---- a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst=
+v5 changes
+Drop the global GPU cgroup "total" (sum of all device totals) portion
+of the design since there is no currently known use for this per
+Tejun Heo.
 
-+++ b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst=
+Update for renamed functions/variables.
 
-@@ -72,7 +72,7 @@ it is reachable (on which bus it resides) and its confi=
-guration =E2=80=93
- registers address, interrupts and so on. An example of such a device
- tree is given in .
+v3 changes
+Remove Upstreaming Plan from gpu-cgroup.rst per John Stultz.
+
+Use more common dual author commit message format per John Stultz.
+---
+ Documentation/admin-guide/cgroup-v2.rst | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-=
+guide/cgroup-v2.rst
+index 69d7a6983f78..2e1d26e327c7 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2352,6 +2352,29 @@ first, and stays charged to that cgroup until that r=
+esource is freed. Migrating
+ a process to a different cgroup does not move the charge to the destinatio=
+n
+ cgroup where the process has moved.
 =20
--.. code:: raw
-+::
-=20
-            / {
-                /* ... */
-@@ -451,7 +451,7 @@ the FIFO is maintained, together with priority rotati=
-on, is depicted in
-=20
- |
-=20
--.. figure:: fsm_txt_buffer_user.svg
-+.. kernel-figure:: fsm_txt_buffer_user.svg
-=20
-    TX Buffer states with possible transitions
++
++GPU
++---
++
++The GPU controller accounts for device and system memory allocated by the =
+GPU
++and related subsystems for graphics use. Resource limits are not currently
++supported.
++
++GPU Interface Files
++~~~~~~~~~~~~~~~~~~~~
++
++  gpu.memory.current
++	A read-only file containing memory allocations in flat-keyed format. The =
+key
++	is a string representing the device name. The value is the size of the me=
+mory
++	charged to the device in bytes. The device names are globally unique.::
++
++	  $ cat /sys/kernel/fs/cgroup1/gpu.memory.current
++	  dev1 4194304
++	  dev2 104857600
++
++	The device name string is set by a device driver when it registers with t=
+he
++	GPU cgroup controller to participate in resource accounting.
++
+ Others
+ ------
 =20
 --=20
-2.25.1
-
+2.36.0.512.ge40c2bad7a-goog
 
