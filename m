@@ -2,183 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3D4CC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 10 May 2022 23:35:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3317CC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 10 May 2022 23:45:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237988AbiEJXfG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 May 2022 19:35:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54966 "EHLO
+        id S238428AbiEJXpx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 May 2022 19:45:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233707AbiEJXfG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 May 2022 19:35:06 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E79232802F5;
-        Tue, 10 May 2022 16:35:04 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id x18so229806plg.6;
-        Tue, 10 May 2022 16:35:04 -0700 (PDT)
+        with ESMTP id S238430AbiEJXpu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 May 2022 19:45:50 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CFB0BCB8;
+        Tue, 10 May 2022 16:45:48 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id bo5so504317pfb.4;
+        Tue, 10 May 2022 16:45:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=R13jHsl0NRq2P7uupdPrQEK0knUWVCVlecfA2FHAsIY=;
-        b=i6LMAZCFD+2w5H807GfcaKA0KFBunhQMkZ4oNhifqGqedLQWS0l4oYs5yiLhDNtB9E
-         kzC8SpUjZBK3RsBeGeRG/ZfUTYH2GXeTBP8S7gqRFHFzqGvgymqfELVeW7qoPIFW4VGh
-         GceRYpMBG1+oFZRy3IFPBPuecFyUGBQvv4sHVak/ehU4VhkBIM89rJIWPUb3+TNeq55j
-         XB50sdW1SncopJC0TPQz6UVUHprqYUCSzdwZn2ahW9oaxJb6msfEQhQJt9V0wtvsAbWI
-         GhSFn8GLq4d3d5Wcy8EmmGa/z32Mhn/mstI1BryUQjsIJWyf+sIz7HU1OqpwPLtHYu5H
-         z45w==
+        h=message-id:date:mime-version:user-agent:subject:content-language
+         :from:to:cc:references:in-reply-to:content-transfer-encoding;
+        bh=BK8T3gjdK2roy+ApoukjEKkczl2YkXzC5XGidh4vu68=;
+        b=IaZbJCKi3P+x1DPMKKxJ9ht+8zgO35UqmV0ieKRiY29ti3DVq4/cHolNSWogcKjMoR
+         LPjAb6theVAl8O89PIxKFcpTdNnHoeA77vGVEu/gCWoHis50uG5phXBiGwqtnKmeHWfG
+         QCDJVfQp/5CUuK/jgTSVtepIEdLYjLo2v0ieO0fXLmcY6osCPFgRxXUzxscAHwlJ7GWI
+         bG8WPqBcoc7O2Z7qFpFzUDu7BthXEcoo41Mm1AsxgNFRuZxfOY4rwFXpXNAPMvBCWpec
+         o/itJpQvDxPMRMLEYhMkDUNm6WGTBbk5x3lGn+1rhga4LnoQXWzv3FgQ7C05DOKTjT1m
+         HoHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+         :content-language:from:to:cc:references:in-reply-to
          :content-transfer-encoding;
-        bh=R13jHsl0NRq2P7uupdPrQEK0knUWVCVlecfA2FHAsIY=;
-        b=x6r/SqwdMyu8QYk4nwwIUcwXLLmCEydGPE5gcpB4q+Pm+l3/9VfRlikOQePTBeicdz
-         TDkBolaYV8lNOFR8Is24MdTyon5Qid+V/oAI2XSib29YWOhb1vm7Ttfz2Ah/KThMU8Ig
-         jobk4GqW5+jI9LuMmHMypmunvkaIN88YM8bc3fCMX7UvH+6CHVg3NIiPRFJ+eRg78nAp
-         /NjIXHpKONJ7mrvSw2LPchsciVJp/tqm+jyZ2yzuDP78xzJgpVyQe3g1ZRmufkCAouf3
-         Hg1mVLJkayY6ohIspWB7GtZ7VoFxTFB5Js62JFVylz4De/EUT4vi3pMEdqCoKp8CxKql
-         imjw==
-X-Gm-Message-State: AOAM5334kZJFhqX6SgNF0w6JIiD+q3yL8Ve0Ka1VvdOqnDMEn3QLLRiK
-        YeWjB0pP1Mu+QsGj9nRlL8k=
-X-Google-Smtp-Source: ABdhPJxus5TmFdysSKYsoNhz5hOfAwQQ0cxSm5zp6mx6kXcl62wvePrQ8fNn1TW4Mea2M4xbAF0dKg==
-X-Received: by 2002:a17:90b:38c3:b0:1dc:b8c1:d428 with SMTP id nn3-20020a17090b38c300b001dcb8c1d428mr2216367pjb.55.1652225704431;
-        Tue, 10 May 2022 16:35:04 -0700 (PDT)
+        bh=BK8T3gjdK2roy+ApoukjEKkczl2YkXzC5XGidh4vu68=;
+        b=inQtkH3/PwkuCN1fgOLEsR4Nht8DAhIAv5HjQQxhR4Q7Mz1N5mvYm1fcIgWiPPRcJV
+         UrhwFbAZGKemEbAnSJw3D1zBgvExt8CuDiBbRIPnyR1b4h2wt89wrMbYyf/A28EILDyA
+         C58qvCsfUm9vC+Zfp7mPURLEA/fZtJtYH/sAjm8lDPYwZnfWSQv32qejfgJrFrHgbnUE
+         WtZhuBfK65dgcuYCbu7Bpusy7d3hwyCtQPJmPNNMgpTyg/PdUNesN+VXBBvwWozcz3Re
+         GaTR1NksrF0P9JimLk/c3cTrc31FOa4T2owNIAsgfJ99NNgM+cteT6nzm8aX4OpYGi5j
+         0kgQ==
+X-Gm-Message-State: AOAM531oVxbIScqcCKCvgYC3sndiPoSjg3hp5/KYgldHqW3v6kCBBQCq
+        mqIir7FY9l5pybzmAc+CgpNFO53nu4o=
+X-Google-Smtp-Source: ABdhPJwfw+X6CZliWaQWkQxeiaZ/PJ/sMBDXx2t1TsIVNkwteuolcWnhHY6lwMWLfrI19xaJ+n/ztQ==
+X-Received: by 2002:a63:2b01:0:b0:3c2:4b0b:e1c6 with SMTP id r1-20020a632b01000000b003c24b0be1c6mr18365845pgr.288.1652226347694;
+        Tue, 10 May 2022 16:45:47 -0700 (PDT)
 Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id u11-20020a17090341cb00b0015ee60ef65bsm160273ple.260.2022.05.10.16.35.01
+        by smtp.gmail.com with ESMTPSA id i7-20020a170902c94700b0015edcdea308sm176645pla.233.2022.05.10.16.45.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 May 2022 16:35:03 -0700 (PDT)
-Message-ID: <268372a9-2f6a-74f3-29ea-c51536a73dba@gmail.com>
-Date:   Wed, 11 May 2022 08:34:58 +0900
+        Tue, 10 May 2022 16:45:47 -0700 (PDT)
+Message-ID: <5986752a-1c2a-5d64-f91d-58b1e6decd17@gmail.com>
+Date:   Wed, 11 May 2022 08:45:43 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH net-next] docs: ctucanfd: Use 'kernel-figure' directive
+Subject: [PATCH net-next v2] docs: ctucanfd: Use 'kernel-figure' directive
  instead of 'figure'
 Content-Language: en-US
-To:     Pavel Pisa <pisa@cmp.felk.cvut.cz>
-Cc:     Marc Kleine-Budde <mkl@pengutronix.de>,
-        Martin Jerabek <martin.jerabek01@gmail.com>,
+From:   Akira Yokosawa <akiyks@gmail.com>
+To:     Marc Kleine-Budde <mkl@pengutronix.de>,
+        Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Cc:     Martin Jerabek <martin.jerabek01@gmail.com>,
         Ondrej Ille <ondrej.ille@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <05d491d4-c498-9bab-7085-9c892b636d68@gmail.com>
- <202205101825.15126.pisa@cmp.felk.cvut.cz>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <202205101825.15126.pisa@cmp.felk.cvut.cz>
+In-Reply-To: <05d491d4-c498-9bab-7085-9c892b636d68@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 10 May 2022 18:25:15 +0200,
-Pavel Pisa wrote:
-> Hello Akira,
->=20
-> On Tuesday 10 of May 2022 11:34:37 Akira Yokosawa wrote:
->> Two issues were observed in the ReST doc added by commit c3a0addefbde
->> ("docs: ctucanfd: CTU CAN FD open-source IP core documentation.").
->=20
-> Thanks for the fix
->=20
->> The plain "figure" directive broke "make pdfdocs" due to a missing=20
->> PDF figure.  For conversion of SVG -> PDF to work, the "kernel-figure"=
+Two issues were observed in the ReST doc added by commit c3a0addefbde
+("docs: ctucanfd: CTU CAN FD open-source IP core documentation.")
+with Sphinx versions 2.4.4 and 4.5.0.
 
->> directive, which is an extension for kernel documentations, should
->> be used instead.
->=20
-> I have not noticed that there is kernel-figure
-> option. We have setup own Sphinx 1.4.9 based build for driver
-> documentation out of the tree compilation, I am not sure if that
-> would work with this option but if not we keep this version
-> modified. There are required modification for sources location anyway..=
-=2E
->=20
-> https://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/doc/linux_driver/buil=
-d/ctucanfd-driver.html
+The plain "figure" directive broke "make pdfdocs" due to a missing
+PDF figure.  For conversion of SVG -> PDF to work, the "kernel-figure"
+directive, which is an extension for kernel documentation, should
+be used instead.
 
-You might want to see kernel's doc-guide at
+The directive of "code:: raw" causes a warning from both
+"make htmldocs" and "make pdfdocs", which reads:
 
-    https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html
+    [...]/can/ctu/ctucanfd-driver.rst:75: WARNING: Pygments lexer name
+    'raw' is not known
 
-, or its source
+A plain literal-block marker should suffice where no syntax
+highlighting is intended.
 
-    Documentation/doc-guide/sphinx.rst
+Fix the issues by using suitable directive and marker.
 
->=20
->> The directive of "code:: raw" causes a warning from both
->> "make htmldocs" and "make pdfdocs", which reads:
->>
->>     [...]/can/ctu/ctucanfd-driver.rst:75: WARNING: Pygments lexer name=
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Fixes: c3a0addefbde ("docs: ctucanfd: CTU CAN FD open-source IP core docu=
+mentation.")
+Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Cc: Martin Jerabek <martin.jerabek01@gmail.com>
+Cc: Ondrej Ille <ondrej.ille@gmail.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>
+---
+Changes in v1 -> v2
+ - no change in diff
+ - added explicit Sphinx versions the issues were observed
+ - picked Pavel's Acked-by
 
->>     'raw' is not known
->=20
-> Strange I have not seen any warning when building htmldocs
-> in my actual linux kernel tree. I have cleaned docs to be warnings
-> free, but it is possible that I have another tools versions.
-Well, I don't think "make htmldocs" runs with Sphinx 1.4.9.
+--
+ .../networking/device_drivers/can/ctu/ctucanfd-driver.rst     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-You mean 1.7.9?
+diff --git a/Documentation/networking/device_drivers/can/ctu/ctucanfd-dri=
+ver.rst b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver=
+=2Erst
+index 2fde5551e756..40c92ea272af 100644
+--- a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst=
 
-Then the above mentioned warning is not shown.
-I see the warning with Sphinx versions 2.4.4. and 4.5.0.
++++ b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst=
 
-I'll amend the changelog to mention the Sphinx versions and
-post as v2.
+@@ -72,7 +72,7 @@ it is reachable (on which bus it resides) and its confi=
+guration =E2=80=93
+ registers address, interrupts and so on. An example of such a device
+ tree is given in .
+=20
+-.. code:: raw
++::
+=20
+            / {
+                /* ... */
+@@ -451,7 +451,7 @@ the FIFO is maintained, together with priority rotati=
+on, is depicted in
+=20
+ |
+=20
+-.. figure:: fsm_txt_buffer_user.svg
++.. kernel-figure:: fsm_txt_buffer_user.svg
+=20
+    TX Buffer states with possible transitions
+=20
+--=20
+2.25.1
 
-        Thanks, Akira
 
->=20
-> Anyway thanks for cleanup.
->=20
->> A plain literal-block marker should suffice where no syntax
->> highlighting is intended.
->>
->> Fix the issues by using suitable directive and marker.
->>
->> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->> Fixes: c3a0addefbde ("docs: ctucanfd: CTU CAN FD open-source IP core
->> documentation.") Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>
->> Cc: Martin Jerabek <martin.jerabek01@gmail.com>
->> Cc: Ondrej Ille <ondrej.ille@gmail.com>
->> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
->=20
-> Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
->=20
->> ---
->>  .../networking/device_drivers/can/ctu/ctucanfd-driver.rst     | 4 ++-=
--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git
->> a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
->> b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst =
-index
->> 2fde5551e756..40c92ea272af 100644
->> --- a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.=
-rst
->> +++ b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.=
-rst
->> @@ -72,7 +72,7 @@ it is reachable (on which bus it resides) and its
->> configuration =E2=80=93 registers address, interrupts and so on. An ex=
-ample of such
->> a device tree is given in .
->>
->> -.. code:: raw
->> +::
->>
->>             / {
->>                 /* ... */
->> @@ -451,7 +451,7 @@ the FIFO is maintained, together with priority
->> rotation, is depicted in
->>
->>
->>
->> -.. figure:: fsm_txt_buffer_user.svg
->> +.. kernel-figure:: fsm_txt_buffer_user.svg
->>
->>     TX Buffer states with possible transitions
->=20
->=20
