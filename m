@@ -2,119 +2,196 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D53EC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 10 May 2022 03:19:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD41C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 10 May 2022 04:45:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235351AbiEJDXX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 23:23:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41566 "EHLO
+        id S236530AbiEJEtI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 May 2022 00:49:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235327AbiEJDWz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 23:22:55 -0400
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE1EF16A26A
-        for <linux-doc@vger.kernel.org>; Mon,  9 May 2022 20:18:59 -0700 (PDT)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-2f7b815ac06so165545257b3.3
-        for <linux-doc@vger.kernel.org>; Mon, 09 May 2022 20:18:59 -0700 (PDT)
+        with ESMTP id S236510AbiEJEtH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 May 2022 00:49:07 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F1C7293B6F
+        for <linux-doc@vger.kernel.org>; Mon,  9 May 2022 21:45:10 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id t6so22066419wra.4
+        for <linux-doc@vger.kernel.org>; Mon, 09 May 2022 21:45:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=wIYszI5bkfdGe5tod/mlKyzpchVZPxwMfZTkJQOw06Q=;
-        b=cmeWlZERK+GBHCfHIW+d1d2FfRJHXGovSQd2kA40M4bdPv2mNx1no8HcT9U8CuEr5W
-         el8KFN2Xa33npEFBH4j6P0Qrek9taWci7olg598J31pa9O0U7k4SRMC2kQR967NN7nXE
-         Hr3O/Y+COdig/FGBRY5Yjc2/Sq2mmRHSebaXcWhCepZjah03UzRbFxs02XvU8d0XKu0p
-         McmkVu688BGBQO4fN9qdqNww5v/uqluHsckvdwJZXefv2LicaWMdlMIsffdZMk6MLWQu
-         +AS6oeERc7Wv53N/VKXaBNVVkkmb3o4vdGIaE/yn2VGqvJPDrLeXSRDnZCaiOtzTfIZ9
-         kpgg==
+         :cc;
+        bh=9s1dagxJlyBeoN8vXdOpsPpdS8AD1RWVJWE0n8ehmas=;
+        b=OrctmfTVDCxyYdwcxCtO+PuFgHBDMDC7Bjk3TGUWyuOKGBhKLCCiUkxtYUOPWSujka
+         /OoqstAYhrGXcYieyOQKBFbwQ9tdHrrlfAgfjS6rNqvPEA5JdQz3D4E5NS7VzL5WOf+E
+         ppcl6vbGTOThxdSbDLD0FF3VNmQjZYs0YaRKW2LrfcKbI7iiYsOvdodP6Nf3qoZXPgQF
+         Um1ef/9fJDTkVoHV63EAahHnEkdwxgxf/Hc8y1wACrWcQPfhb2xVBIshPVinpye5CGSN
+         DoHok7Lf+NgFTiQMqtYLLj/aSoKi0RaOM3+EWbBDgDeG8Kjhw/dRvI6d3AEZbIIqfLAr
+         UHxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=wIYszI5bkfdGe5tod/mlKyzpchVZPxwMfZTkJQOw06Q=;
-        b=jIsMB5nh1aujjCfpi6jeM45nCDxvKqF6nCp3K0TcEY61mrDW1ATjTF1ssGUqlfYR2z
-         z+9m0XR3EjYlE9IA9k1ESEZ3221niluGkncE3eSMUv+CU6eqIwhGcC9WaJZ56GJAnFf/
-         VcmI7579pwV3Gprq1oHTcSTEQ79D38mwKNypnbq87r+XnHEnETBRmmpj1t5zc7CWcwk6
-         jm3exjW10TFt6zVHh6ONkphNkK1jyU0W22JDAaCf/ueA3/Kq5keSZWUb7KUV3M1I1tUM
-         6+IH3eWPqhJTV9tjFSmmoF4gChs3ufqCRT4VbNf9nmcZCjDp/Cx5gP/BWU+5x/IQ2KBP
-         ZZKw==
-X-Gm-Message-State: AOAM531eyt9PjA3MrSQLKOXC5fFc3zPYZXZiBd4oGtYGNRQmHqKLZPD1
-        W0GQzlRQgL5WyMICvr66Jlhgcffq/1w7K1e8AvU1jrqLPO+oxV5T
-X-Google-Smtp-Source: ABdhPJwWL9kM51mPWwIqyVlTw2gLlVPxKlvWLzr+l5kynvroX93xOQYUjpNHuxOcMJodw4FAHBXwV6QiXfW2F9A+Kjg=
-X-Received: by 2002:a81:73d7:0:b0:2f7:d614:1d38 with SMTP id
- o206-20020a8173d7000000b002f7d6141d38mr17555689ywc.92.1652152738897; Mon, 09
- May 2022 20:18:58 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=9s1dagxJlyBeoN8vXdOpsPpdS8AD1RWVJWE0n8ehmas=;
+        b=Gs+5xW85g5excQ3asHQHqynKw07+sMS42VmDXf7RfYHiicTctK43puCnMf21OPxqAS
+         Pqknxzourv9MhtCUkRvFQpbYAXkSfZCZ5esHEKnHtIu+a+kgXIjex5ws4XCMJCd+oZNt
+         Ixno0hv+yib+dpwpiFqFGvYyCxM2dPhPHEYd8c5b0AXtJBiZlkYarQYTOyjGXuSU5JfF
+         /9i4ksi14FnBVy1j2Bphn9PIvi0elL/2eRRLl4gzIhwd+ifSbBZp4q81maoJMfH8Qt0g
+         o3Vf+MFuSyNty6VLDuAaUM9+0+h+n11/m66amJWA95ukYEHHQMu300gdPDJZrgpFslKh
+         kHsA==
+X-Gm-Message-State: AOAM5327tCuUb6bn3/RG9po7v8hSHrg8hK0angIJqWl+ExspyDcsMEJu
+        HiKsXW+Ugu7p3IVrFWiFoKosgMFfpow32v1PdIk2Nw==
+X-Google-Smtp-Source: ABdhPJzfNwaPy5xjCTvC86K51nEH3yemeJZ1erUUa4xvtvCZqXN7MOjD5hnH0ntxxTlSOXapkot4g5ZMqXe6px9AH2Q=
+X-Received: by 2002:a5d:4806:0:b0:20a:da03:711b with SMTP id
+ l6-20020a5d4806000000b0020ada03711bmr16582569wrq.395.1652157908998; Mon, 09
+ May 2022 21:45:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220510020135.55452-1-denghuilong@cdjrlc.com>
-In-Reply-To: <20220510020135.55452-1-denghuilong@cdjrlc.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Tue, 10 May 2022 11:18:47 +0800
-Message-ID: <CAEensMwW-7emxBidNU3mnZGCdPdWLDFUMzw4osji=XTZzOhmdQ@mail.gmail.com>
-Subject: Re: [PATCH v3] docs/zh_CN: fix devicetree usage-model translation
-To:     Huilong Deng <denghuilong@cdjrlc.com>
-Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <20220507052451.12890-1-ojeda@kernel.org> <CABVgOSm5S2=QYnHJ+B0JbYtFYKBDRZiOhE5YMKKUKZU56d17HQ@mail.gmail.com>
+ <CANiq72=0ft6+QLbdwWD6cLm4FhWfv53GSg6HKEwxQ-q2N-UkOw@mail.gmail.com>
+In-Reply-To: <CANiq72=0ft6+QLbdwWD6cLm4FhWfv53GSg6HKEwxQ-q2N-UkOw@mail.gmail.com>
+From:   David Gow <davidgow@google.com>
+Date:   Tue, 10 May 2022 12:44:57 +0800
+Message-ID: <CABVgOSkrvfvA7Ay4GC5wg64S1gibvm5_U5VGBog3sw4_UFo8Cg@mail.gmail.com>
+Subject: Re: [PATCH v6 00/23] Rust support
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-perf-users@vger.kernel.org,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        live-patching@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SHVpbG9uZyBEZW5nIDxkZW5naHVpbG9uZ0BjZGpybGMuY29tPiDkuo4yMDIy5bm0NeaciDEw5pel
-5ZGo5LqMIDEwOjAy5YaZ6YGT77yaDQo+DQo+IG1hY2hpbmVfZGVzYyBpcyBhIGl0ZW0gaW4gZGV2
-aWNldHJlZSwgc2hvdWxkbid0IGJlIGhhbGYgdHJhbnNsYXRlZC4gTGV0J3MNCj4ga2VlcCBhIHdo
-b2xlIHdvcmQgdW50cmFuc2xhdGVkLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBIdWlsb25nIERlbmcg
-PGRlbmdodWlsb25nQGNkanJsYy5jb20+DQo+IC0tLQ0KV2UgbmVlZCB0byB3cml0ZSBjaGFuZ2Vs
-b2cgaGVyZSwgdGhlIGNvbnRlbnQgaXMgcHJvYmFibHkgdGhlIGNoYW5nZQ0KZnJvbSB2MSB0byB2
-MiBhbmQgdjIgdG8gdjMuDQoNCmVn77yaDQoNCnYyIC0+IHYzDQp4eHgNCg0KdjEgLT4gdjINCnh4
-eA0KDQoNCk90aGVycy4sIExHVE0uDQoNClRoYW5rcywNCllhbnRlbmcNCj4gIC4uLi90cmFuc2xh
-dGlvbnMvemhfQ04vZGV2aWNldHJlZS91c2FnZS1tb2RlbC5yc3QgICAgICAgICB8IDggKysrKy0t
-LS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQo+
-DQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9kZXZpY2V0
-cmVlL3VzYWdlLW1vZGVsLnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Rl
-dmljZXRyZWUvdXNhZ2UtbW9kZWwucnN0DQo+IGluZGV4IDMxOGEzYzZhMDExNC4uYWNjZGMzMzQ3
-NWEwIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9kZXZp
-Y2V0cmVlL3VzYWdlLW1vZGVsLnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
-cy96aF9DTi9kZXZpY2V0cmVlL3VzYWdlLW1vZGVsLnJzdA0KPiBAQCAtMTIwLDI0ICsxMjAsMjQg
-QEAgZHRfY29tcGF05YiX6KGo77yI5aaC5p6c5L2g5aW95aWH77yM6K+l5YiX6KGo5a6a5LmJ5Zyo
-YXJjaC9hcm0vaW5jbHVkZS9hc20vbWFjaC8NCj4gIOihqOekuuS7gOS5iOOAguWcqERvY3VtZW50
-YXRpb24vZGV2aWNldHJlZS9iaW5kaW5nc+S4rea3u+WKoOWFvOWuueWtl+espuS4sueahOaWh+ah
-o+OAgg0KPg0KPiAg5ZCM5qC35ZyoQVJN5LiK77yM5a+55LqO5q+P5LiqbWFjaGluZV9kZXNj77yM
-5YaF5qC45Lya5p+l55yL5piv5ZCm5pyJ5Lu75L2VZHRfY29tcGF05YiX6KGo5p2hDQo+IC3nm67l
-h7rnjrDlnKjlhbzlrrnlsZ7mgKfkuK3jgILlpoLmnpzmnInvvIzpgqPkuYjor6XmnLrlmahfZGVz
-Y+WwseaYr+mpseWKqOivpeacuuWZqOeahOWAmemAieiAheOAguWcqOaQnOe0og0KPiAr55uu5Ye6
-546w5Zyo5YW85a655bGe5oCn5Lit44CC5aaC5p6c5pyJ77yM6YKj5LmI6K+lbWFjaGluZV9kZXNj
-5bCx5piv6amx5Yqo6K+l5py65Zmo55qE5YCZ6YCJ6ICF44CC5Zyo5pCc57SiDQo+ICDkuobmlbTk
-uKptYWNoaW5lX2Rlc2Nz6KGo5LmL5ZCO77yMc2V0dXBfbWFjaGluZV9mZHQoKeagueaNruavj+S4
-qm1hY2hpbmVfZGVzYw0KPiAg5Zyo5YW85a655bGe5oCn5Lit5Yy56YWN55qE5p2h55uu77yM6L+U
-5ZueIOKAnOacgOWFvOWuueKAnSDnmoRtYWNoaW5lX2Rlc2PjgILlpoLmnpzmsqHmnInmib7liLDl
-jLnphY0NCj4gIOeahG1hY2hpbmVfZGVzY++8jOmCo+S5iOWug+Wwhui/lOWbnk5VTEzjgIINCj4N
-Cj4gIOi/meS4quaWueahiOiDjOWQjueahOWOn+WboOaYr+inguWvn+WIsO+8jOWcqOWkp+WkmuaV
-sOaDheWGteS4i++8jOWmguaenOWug+S7rOmDveS9v+eUqOebuOWQjOeahFNvQ+aIluebuOWQjA0K
-PiAt57O75YiX55qEU29D77yM5LiA5Liq5py65ZmoX2Rlc2Plj6/ku6XmlK/mjIHlpKfph4/nmoTn
-lLXot6/mnb/jgILnhLbogIzvvIzkuI3lj6/pgb/lhY3lnLDkvJrmnInkuIDkupvkvosNCj4gK+ez
-u+WIl+eahFNvQ++8jOS4gOS4qm1hY2hpbmVfZGVzY+WPr+S7peaUr+aMgeWkp+mHj+eahOeUtei3
-r+adv+OAgueEtuiAjO+8jOS4jeWPr+mBv+WFjeWcsOS8muacieS4gOS6m+S+iw0KPiAg5aSW5oOF
-5Ya177yM5Y2z54m55a6a55qE5p2/5a2Q6ZyA6KaB54m55q6K55qE6K6+572u5Luj56CB77yM6L+Z
-5Zyo5LiA6Iis5oOF5Ya15LiL5piv5rKh5pyJ55So55qE44CC54m55q6K5oOF5Ya1DQo+ICDlj6/k
-u6XpgJrov4flnKjpgJrnlKjorr7nva7ku6PnoIHkuK3mmI7noa7mo4Dmn6XmnInpl67popjnmoTm
-nb/lrZDmnaXlpITnkIbvvIzkvYblpoLmnpzotoXov4flh6DkuKrmg4XlhrXkuIvvvIwNCj4gIOi/
-meagt+WBmuW+iOW/q+WwseS8muWPmOW+l+W+iOmavueci+WSjC/miJbml6Dms5Xnu7TmiqTjgIIN
-Cj4NCj4gLeebuOWPje+8jOWFvOWuueWIl+ihqOWFgeiuuOmAmueUqOacuuWZqF9kZXNj6YCa6L+H
-5ZyoZHRfY29tcGF05YiX6KGo5Lit5oyH5a6a4oCc5LiN5aSq5YW85a654oCd55qE5YC8DQo+ICvn
-m7jlj43vvIzlhbzlrrnliJfooajlhYHorrjpgJrnlKhtYWNoaW5lX2Rlc2PpgJrov4flnKhkdF9j
-b21wYXTliJfooajkuK3mjIflrprigJzkuI3lpKrlhbzlrrnigJ3nmoTlgLwNCj4gIOadpeaPkOS+
-m+WvueW5v+azm+eahOmAmueUqOadv+eahOaUr+aMgeOAguWcqOS4iumdoueahOS+i+WtkOS4re+8
-jOmAmueUqOadv+aUr+aMgeWPr+S7peWjsOensOS4juKAnHRpLG9tcGEz4oCdDQo+ICDmiJbigJx0
-aSxvbXBhMzQ1MOKAneWFvOWuueOAguWmguaenOWcqOacgOWIneeahGJlYWdsZWJvYXJk5LiK5Y+R
-546w5LqG5LiA5LiqYnVn77yM6ZyA6KaB5ZyoDQo+ICDml6nmnJ/lkK/liqjml7bkvb/nlKjnibnm
-rornmoTlj5jpgJrku6PnoIHvvIzpgqPkuYjlj6/ku6Xmt7vliqDkuIDkuKrmlrDnmoRtYWNoaW5l
-X2Rlc2PvvIzlrp7njrDlj5jpgJrvvIwNCj4gIOW5tuS4lOWPquWcqOKAnHRpLG9tYXAzLWJlYWds
-ZWJvYXJk4oCd5LiK5Yy56YWN44CCDQo+DQo+IC1Qb3dlclBD5L2/55So5LqG5LiA5Liq56iN5b6u
-5LiN5ZCM55qE5pa55qGI77yM5a6D5LuO5q+P5Liq5py65ZmoX2Rlc2PkuK3osIPnlKgucHJvYmUo
-KemSqeWtkO+8jA0KPiArUG93ZXJQQ+S9v+eUqOS6huS4gOS4queojeW+ruS4jeWQjOeahOaWueah
-iO+8jOWug+S7juavj+S4qm1hY2hpbmVfZGVzY+S4reiwg+eUqC5wcm9iZSgp6ZKp5a2Q77yMDQo+
-ICDlubbkvb/nlKjnrKzkuIDkuKrov5Tlm55UUlVF55qE6ZKp5a2Q44CC54S26ICM77yM6L+Z56eN
-5pa55rOV5rKh5pyJ6ICD6JmR5Yiw5YW85a655YiX6KGo55qE5LyY5YWI57qn77yM5a+55LqODQo+
-ICDmlrDnmoTmnrbmnoTmlK/mjIHlj6/og73lupTor6Xpgb/lhY3jgIINCj4NCj4gLS0NCj4gMi4z
-Ni4xDQo+DQo=
+On Sat, May 7, 2022 at 11:03 PM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> Hi David,
+>
+> On Sat, May 7, 2022 at 11:29 AM David Gow <davidgow@google.com> wrote:
+> >
+> > It's great to see some KUnit support here!
+>
+> Thanks!
+>
+> > It's also possible to run these tests using the KUnit wrapper tool with:
+> > $ ./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_RUST=y
+> > --make_options LLVM=1 --arch x86_64 'rust_kernel_doctests'
+> >
+> > That also nicely formats the results.
+>
+> Indeed!
+>
+>     [16:55:52] ============ rust_kernel_doctests (70 subtests) ============
+>     [16:55:52] [PASSED] rust_kernel_doctest_build_assert_rs_12_0
+>     [16:55:52] [PASSED] rust_kernel_doctest_build_assert_rs_55_0
+>     ...
+>     [16:55:52] [PASSED] rust_kernel_doctest_types_rs_445_0
+>     [16:55:52] [PASSED] rust_kernel_doctest_types_rs_509_0
+>     [16:55:52] ============== [PASSED] rust_kernel_doctests ===============
+>     [16:55:52] ============================================================
+>     [16:55:52] Testing complete. Passed: 70, Failed: 0, Crashed: 0,
+>     Skipped: 0, Errors: 0
+>
+
+I've just sent out a pull request to get this working under UML as
+well, which would simplify running these further:
+https://github.com/Rust-for-Linux/linux/pull/766
+
+> > That all being said, I can't say I'm thrilled with the test names
+> > here: none of them are particularly descriptive, and they'll probably
+> > not be static (which would make it difficult to track results /
+> > regressions / etc between kernel versions). Neither of those are
+>
+> Yeah, the names are not great and would change from time to time
+> across kernel versions.
+>
+> We could ask example writers to give each example a name, but that
+> would make them fairly less convenient. For instance, sometimes they
+> may be very small snippets interleaved with docs' prose (where giving
+> a name may feel a bit of a burden, and people may end writing
+> `foo_example1`, `foo_example2` etc. for each small "step" of an
+> explanation). In other cases they may be very long, testing a wide API
+> surface (e.g. when describing a module or type), where it is also hard
+> to give non-generic names like `rbtree_doctest`. In those kind of
+> cases, I think we would end up with not much better names than
+> automatically generated ones.
+>
+> The other aspect is that, given they are part of the documentation,
+> the prose or how things are explained/split may change, thus the
+> doctests as well. For instance, one may need to split a very long
+> `rbtree_doctest` in pieces, and then the name would need to change
+> anyway.
+>
+> So I think we should avoid asking documentation writers to add a
+> manual name, even if that means a bit ugly test names. Also this way
+> they are consistently named. What do you think?
+
+Yeah, these are all fair points: particularly for small doctests.
+
+Maybe having an optional name, which more significant tests could use
+to override the file:line names? That could be useful for a few of the
+larger, more often referenced tests.
+
+> One idea could be giving them a name based on the hash of the content
+> and avoiding the line number, so that there is a higher chance for the
+> name to stay the same even when the file gets modified for other
+> reasons.
+
+Ugh: it's a bit ugly either way. I suspect that file:line is still
+probably better, if only because we need some way of looking up the
+test in the code if it fails. I'd hate for people to be randomly
+hashing bits of just to find out what test is failing.
+
+> > necessarily deal breakers, though it might make sense to hide them
+> > behind a kernel option (like all other KUnit tests) so that they can
+> > easily be excluded where they would otherwise clutter up results. (And
+>
+> Currently they are under `CONFIG_RUST_KERNEL_KUNIT_TEST` -- or do you
+> mean something else?
+>
+
+Oops: I missed that (one of the issues with testing this on a
+different machine which had a rust toolchain). Looks good to me.
+
+> > if there's a way to properly name them, or maybe even split them into
+> > per-file or per-module suites, that would make them a bit easier to
+> > deal.) Additionally, there are some plans to taint the kernel[1] when
+>
+> Yeah, splitting them further is definitely possible. We are also
+> likely splitting the `kernel` crate into several, which would also
+> make the suites smaller etc. so perhaps further splits may not be
+> needed.
+
+Ah: I didn't realise the plan was always to have crate-specific
+suites, and possibly to split things up.
+
+The KTAP output specification does actually support arbitrary nesting
+(though KUnit itself doesn't at the moment), which would potentially
+be an option if (e.g.) providing the complete module nesting made
+sense. I'm not convinced that'd make things easier to read, though.
+
+> > Regardless, this is very neat, and I'm looking forward to taking a
+> > closer look at it.
+>
+> Thanks again for taking a look and playing with it, I am glad you
+> liked it! (even if it is just a first approximation, and only supports
+> the `kernel` crate, etc.).
+>
+> Cheers,
+> Miguel
+
+Thanks,
+-- David
