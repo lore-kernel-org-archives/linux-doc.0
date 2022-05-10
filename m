@@ -2,78 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3EF9C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  9 May 2022 22:40:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E82CC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 10 May 2022 00:33:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229510AbiEIWot (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 18:44:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56016 "EHLO
+        id S231928AbiEJAh0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 20:37:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbiEIWot (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 18:44:49 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D91663C4
-        for <linux-doc@vger.kernel.org>; Mon,  9 May 2022 15:40:51 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0590B732;
-        Mon,  9 May 2022 22:40:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0590B732
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1652136051; bh=kjPLDyi+ZBC/pvbPNlPNDIhvTkwHwsW8VtzCYWLuBHs=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=a9casqrb2i/Q5QitDzrL+Y7oZLwEcJbFYpCu7oSprmAxQwTYaCwHm/+8olsp90TMt
-         x4PKRnJWGg6pfQAtNy5r2k7w3WpIl3w2NdbtlOJnhVsQ5yPlyNDJ2NtddRpGeDhJ3/
-         CaBMMi6EH8SAptkgdtOALoJ6W4B/zeM5+midwBXf0NB7rigZ0xeV6xaorY+AhLTFEh
-         xI7QQ0ioWylAWlQo2Vv/YqRWPFt8uXCIZaNDnUBoRCZ+Qa0ljqxpRoD9rJpLhbFL0m
-         PVqMmANV01BYyBl2NTlolq3mAqvKTdebicTHSyB1ty5SrM2ID5JhcbBnSKPIxpnqmj
-         QgoyyBbuxb9Pg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        John Hubbard <jhubbard@nvidia.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v2] mm,doc: Add new documentation structure
-In-Reply-To: <YnmQ4yQMuv44n8aR@casper.infradead.org>
-References: <20220507134947.444287-1-willy@infradead.org>
- <87sfpicr4x.fsf@meer.lwn.net> <YnmQ4yQMuv44n8aR@casper.infradead.org>
-Date:   Mon, 09 May 2022 16:40:50 -0600
-Message-ID: <87zgjqba8d.fsf@meer.lwn.net>
+        with ESMTP id S229696AbiEJAhZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 20:37:25 -0400
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F50D2AC6FD;
+        Mon,  9 May 2022 17:33:30 -0700 (PDT)
+Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-e656032735so16609871fac.0;
+        Mon, 09 May 2022 17:33:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=64L3c9mM134nU08ZcOwqqRtvzxpfpmFyW/XcEdewfog=;
+        b=DklkJSJQIzB9odhVCeZcEpjwt8ipi0M/j47TWaWuwQ1NSDqsgXr0nc5RwNyYKoJpkR
+         t4R9OhUL4HLE7gIwTV9NR7GxF9XRYzWJdVJfBTNz+UyraFdyZB+65/45NcMi59WaalUP
+         qRBKZg9naJYYv7ZdCQK3b8rE0rPv/l43QRv48LlOHAe8A7KH+cNSDb/UcEVuoYwEOCJT
+         VrwekoorWPINytaUhsfre6QB0BtQSEnowO/Pvv7q+5bUa6iCG40KKC9jUrR3/JMT/4WJ
+         USekykU4qZJ2vVI4/UDQTuH9I312O2juYGU8T+us5kwKusfZA3KLnFR5fWngeaVPlBJ4
+         olNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=64L3c9mM134nU08ZcOwqqRtvzxpfpmFyW/XcEdewfog=;
+        b=yebfwbKt3Bkxnw8sNdAvEjj7/LTQ8TN0l0Y+Aa/zOrqjRRMg/F9aNmboORurXwp4AO
+         Fh+amaMS6i9xy8Ur0BepMFqba3dfW5OfLdW4waX8wHOlY4zj6r80vWE3BIPdExZ3vjBx
+         FIS9Ia3Rdu+IAtTKuFzHnX06wUP7T+jx8O6+AxBw2a5SiC8pgUB3s4aFOXej1lT5f8nM
+         /gIADRKhIVs6JmmXcMxus5rblVNBKKFcgZc3OCvg7k4JX2LVWxr3P/qRGOuNnUFQ4lW+
+         i6L6CWNNdauYil5GVtpMAseShWe01NWusjG2/pNKuOX7kuQJOOr6AXB7j5mP+qBNP8Wq
+         bSfg==
+X-Gm-Message-State: AOAM533sNlIR41Ld99n/7syRnRaHNnBMPgMwAn6ECgUtM05UPdnxuPVW
+        NtxY8zS0bfsDF3Za+T7RxDRLZzyayFaMqw==
+X-Google-Smtp-Source: ABdhPJy377jdrFVTBfRZFBojoqd9vuoahvNrUz3dtMSIRseHPXi1/86DGlMNcjz9ZrL/wiToNlkPwA==
+X-Received: by 2002:a05:6870:1807:b0:d7:2a4c:14b8 with SMTP id t7-20020a056870180700b000d72a4c14b8mr11295005oaf.97.1652142809351;
+        Mon, 09 May 2022 17:33:29 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id n8-20020a0568080a0800b00325cda1ff8csm4980517oij.11.2022.05.09.17.33.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 May 2022 17:33:28 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 9 May 2022 17:33:27 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Eugene Shalygin <eugene.shalygin@gmail.com>
+Cc:     Debabrata Banerjee <dbavatar@gmail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (asus-ec-sensors) add ROG STRIX X570-E GAMING
+ WIFI II
+Message-ID: <20220510003327.GA1561946@roeck-us.net>
+References: <20220505073351.123753-1-eugene.shalygin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220505073351.123753-1-eugene.shalygin@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Matthew Wilcox <willy@infradead.org> writes:
+On Thu, May 05, 2022 at 09:33:51AM +0200, Eugene Shalygin wrote:
+> From: Debabrata Banerjee <dbavatar@gmail.com>
+> 
+> Adds support for the ROG STRIX X570-E GAMING WIFI II board and
+> simplifies formatting for the list of supported models.
+> 
+> Signed-off-by: Debabrata Banerjee <dbavatar@gmail.com>
+> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
 
-> On Mon, May 09, 2022 at 03:50:22PM -0600, Jonathan Corbet wrote:
->> "Matthew Wilcox (Oracle)" <willy@infradead.org> writes:
->> 
->> > Closely following the outline of Mel Gorman's book "Understanding the
->> > Linux Virtual Memory Manager", add a new outline.  Preserve the current
->> > contents of the mm underneath the new outline so we can transition those
->> > documents to a more sensible place later.
->> >
->> > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
->> > Reviewed-by: John Hubbard <jhubbard@nvidia.com>
->> > Acked-by: Randy Dunlap <rdunlap@infradead.org>
->> > Acked-by: Johannes Weiner <hannes@cmpxchg.org>
->> 
->> So this seems like a good start to me.
->> 
->> What's your intended path for merging this?  You didn't copy me so I'm
->> assuming you had some other way in mind.
->
-> Uh, good point.  I didn't cc either you or Andrew.  I don't think it
-> matters which one of you takes it.  Since you responded first, do you
-> want to take it?
-
-Will do.
+Applied.
 
 Thanks,
+Guenter
 
-jon
+> ---
+>  Documentation/hwmon/asus_ec_sensors.rst | 23 ++++++++++++-----------
+>  drivers/hwmon/asus-ec-sensors.c         |  8 ++++++++
+>  2 files changed, 20 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+> index 1700fe619597..78ca69eda877 100644
+> --- a/Documentation/hwmon/asus_ec_sensors.rst
+> +++ b/Documentation/hwmon/asus_ec_sensors.rst
+> @@ -4,19 +4,20 @@ Kernel driver asus_ec_sensors
+>  =================================
+>  
+>  Supported boards:
+> - * PRIME X470-PRO,
+> - * PRIME X570-PRO,
+> - * Pro WS X570-ACE,
+> + * PRIME X470-PRO
+> + * PRIME X570-PRO
+> + * Pro WS X570-ACE
+>   * ProArt X570-CREATOR WIFI
+> - * ROG CROSSHAIR VIII DARK HERO,
+> + * ROG CROSSHAIR VIII DARK HERO
+>   * ROG CROSSHAIR VIII HERO (WI-FI)
+> - * ROG CROSSHAIR VIII FORMULA,
+> - * ROG CROSSHAIR VIII HERO,
+> - * ROG CROSSHAIR VIII IMPACT,
+> - * ROG STRIX B550-E GAMING,
+> - * ROG STRIX B550-I GAMING,
+> - * ROG STRIX X570-E GAMING,
+> - * ROG STRIX X570-F GAMING,
+> + * ROG CROSSHAIR VIII FORMULA
+> + * ROG CROSSHAIR VIII HERO
+> + * ROG CROSSHAIR VIII IMPACT
+> + * ROG STRIX B550-E GAMING
+> + * ROG STRIX B550-I GAMING
+> + * ROG STRIX X570-E GAMING
+> + * ROG STRIX X570-E GAMING WIFI II
+> + * ROG STRIX X570-F GAMING
+>   * ROG STRIX X570-I GAMING
+>  
+>  Authors:
+> diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+> index 998d49d6b799..611e897429b1 100644
+> --- a/drivers/hwmon/asus-ec-sensors.c
+> +++ b/drivers/hwmon/asus-ec-sensors.c
+> @@ -315,6 +315,14 @@ static const struct ec_board_info board_info[] = {
+>  		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+>  		.family = family_amd_500_series,
+>  	},
+> +	{
+> +		.board_names = {"ROG STRIX X570-E GAMING WIFI II"},
+> +		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+> +			SENSOR_TEMP_T_SENSOR | SENSOR_CURR_CPU |
+> +			SENSOR_IN_CPU_CORE,
+> +		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+> +		.family = family_amd_500_series,
+> +	},
+>  	{
+>  		.board_names = {"ROG STRIX X570-F GAMING"},
+>  		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
