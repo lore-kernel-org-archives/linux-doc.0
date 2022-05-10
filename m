@@ -2,114 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43F5AC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 10 May 2022 02:34:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A09DC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 10 May 2022 02:44:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234806AbiEJCiD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 9 May 2022 22:38:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35352 "EHLO
+        id S233220AbiEJCs2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 9 May 2022 22:48:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234798AbiEJCiC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 22:38:02 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A40FB238D45
-        for <linux-doc@vger.kernel.org>; Mon,  9 May 2022 19:34:06 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id 202so13511022pgc.9
-        for <linux-doc@vger.kernel.org>; Mon, 09 May 2022 19:34:06 -0700 (PDT)
+        with ESMTP id S232495AbiEJCs1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 May 2022 22:48:27 -0400
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D5C627F135;
+        Mon,  9 May 2022 19:44:32 -0700 (PDT)
+Received: by mail-io1-xd36.google.com with SMTP id r27so17271941iot.1;
+        Mon, 09 May 2022 19:44:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=schmorgal.com; s=google;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc
-         :references:from:subject:in-reply-to:content-transfer-encoding;
-        bh=PlGbs7sRmxO6R9+ibB4UvNo21NsioKWBMQl4Fg8NMkE=;
-        b=MHB6NevCGfYuuW7u5cJ+IxPobq2VLZN45uYsLTPFywxB2CJhiXECSNn6gS0lTWLnhM
-         bDG+dfRcmKbjZw5HVwrEtMmANI6PwlJLRFErHCgqf3SXxC8D4ROdXr5LUw5SFIGWB8XK
-         jAc70wy6/Ib6VNM74+ijIBgyZMjlvnfTUtCkI=
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=f8UJqGII15EUvAh7IVf71vJDer3ywxR+YC79U4WRNxg=;
+        b=IIuYSphoxM5Xe74hHyUvVMx4rZYWDgA//kqo93jCh5ZzUb94Mi486Lg/keBF+gcczl
+         x6zS5eYgw5zDwrucwJ5k7Xoa/DS7n+M11FUkyUmTK9VP5CkRGr/+lA+ogibvf5b0AQjY
+         OzHnl7dYP/ejbqslbi8R36pWk1zPihsU+x3qgOW8O3/A64Z8xvg1bfWFUzzmXlciIIAn
+         ihi1Vn3ZY4NQdPuU1Gy9Pyl29qq2Yl7+tcAfrknMJqg06GtIV3gV5Y9I5EfTgzigXlZh
+         P5nSTDH5Sgmb9WahyhINli1SoSxTPOqVP1VKYYqkMeaPv8AScouN4NyeAtWyB23aHX72
+         SG/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:subject:in-reply-to
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=PlGbs7sRmxO6R9+ibB4UvNo21NsioKWBMQl4Fg8NMkE=;
-        b=xmXEOOjX2t++oYfk34nTdt3EgbKhWvsjS4oJizYKkDFPGAxsstXwWcxcV7jPBLg89E
-         2i4qj0KRW80WVcQGeBcMdQubQvlxb9QyE2zP7tcgu4aHOfb4aNyZpMP/+KZKo5quI3Wc
-         mGTsbcQFtVrh5WZqCxUG0lz9nIOsk/EfAFhARvrIG+Bl11/XPMNgJCJM2fviumPLgtOe
-         11W7FWuV4EDD+FQ6iBTQ9L8JdTpnUqjXMuuwhB3fsktr6oHoFBuDjzsTaGS1fMmDVCyb
-         L36mxCJpFQ1NiVtGLbFeLFagbIviE3OCeazaJCub7U2o5UnMimDCBEl6tyOEr42VDZDu
-         XoNg==
-X-Gm-Message-State: AOAM530+QW9tf0ZIz62/qLYxiwPSXRKhcJzey9uLbjDj1E1vQJ6HWeK2
-        hfgd7+gghH5KITh/VKVoVCAyYcwb6vE5QN1W8EQ=
-X-Google-Smtp-Source: ABdhPJxE3kKSfKkU5MwdRrUTbR2PApkCH7DOCTo4jgy8b7wCwX/lAuQ6qbLOtfm/aPeDVj2yTiToCg==
-X-Received: by 2002:a63:531c:0:b0:3c6:a5d7:8bae with SMTP id h28-20020a63531c000000b003c6a5d78baemr8044607pgb.505.1652150046102;
-        Mon, 09 May 2022 19:34:06 -0700 (PDT)
-Received: from [192.168.1.33] ([50.45.132.243])
-        by smtp.googlemail.com with ESMTPSA id c22-20020a17090aa61600b001cd498dc152sm1156155pjq.2.2022.05.09.19.34.05
+        bh=f8UJqGII15EUvAh7IVf71vJDer3ywxR+YC79U4WRNxg=;
+        b=YWWDWtgpmRvBgePRuRUPehyd9ootFjKzMnE7iIeMhjk3Z1C6yGfP5Hpg9swjL9xsss
+         rLdv26eOniFotrTjrBn41LADzmUeiZGAWDfUQQ/OL33kDUWZvsnLiYL4Kr7if6A94hLX
+         p8tBk4TrG8jUJyclIC+HpOxKuHllh+gUbhxDot1MRM2DT4sIjZILtaYX9io7VUWO3rnP
+         l4P3aaAwHZVWOzs4HeZp9UEw6Ybjxd5AgUzIfGRuPh1Ss5y5F1EWfKmIdPJtr9U7CrWU
+         k7VmEdX3ZKzaPK1ggtSAsBHj1IZPkf5DQoVOBrPnuk6J6mkxe4ok554BDeFXOC1SneBc
+         4s9w==
+X-Gm-Message-State: AOAM530YjYazP47HdMDYjH8VfO79IgxDI6qFNcKJav4MNXY2A8YnlU2+
+        yVrEZBlhfFiS3xbfPWkUrBA=
+X-Google-Smtp-Source: ABdhPJyXLLuEDD9M3yW9LnoWjmZogru3bafdzoOFDyhv+X4IIHArlzC+yIAOkUzW8Ffz9vijA3fR/A==
+X-Received: by 2002:a05:6638:d0a:b0:32b:b579:6875 with SMTP id q10-20020a0566380d0a00b0032bb5796875mr8983698jaj.291.1652150671562;
+        Mon, 09 May 2022 19:44:31 -0700 (PDT)
+Received: from ?IPV6:2601:282:800:dc80:e970:4f57:6d9a:73c8? ([2601:282:800:dc80:e970:4f57:6d9a:73c8])
+        by smtp.googlemail.com with ESMTPSA id e131-20020a6bb589000000b0065a47e16f38sm3675091iof.10.2022.05.09.19.44.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 May 2022 19:34:05 -0700 (PDT)
-Message-ID: <9cac4fbd-9557-b0b8-54fa-93f0290a6fb8@schmorgal.com>
-Date:   Mon, 9 May 2022 19:34:04 -0700
+        Mon, 09 May 2022 19:44:30 -0700 (PDT)
+Message-ID: <6d8a4c78-648f-07fe-496a-4ab34891f716@gmail.com>
+Date:   Mon, 9 May 2022 20:44:28 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.0
+Subject: Re: [PATCH net-next 0/3] docs: document some aspects of struct
+ sk_buff
 Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>, Arnd Bergmann <arnd@arndb.de>
-Cc:     David Miller <davem@davemloft.net>,
-        Networking <netdev@vger.kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20220509150130.1047016-1-kuba@kernel.org>
- <CAK8P3a0FVM8g0LG3_mHJ1xX3Bs9cxae8ez7b9qvGOD+aJdc8Dw@mail.gmail.com>
- <20220509103216.180be080@kernel.org>
-From:   Doug Brown <doug@schmorgal.com>
-Subject: Re: [PATCH net-next] net: appletalk: remove Apple/Farallon LocalTalk
- PC support
-In-Reply-To: <20220509103216.180be080@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        linux-doc@vger.kernel.org, corbet@lwn.net, imagedong@tencent.com,
+        talalahmad@google.com
+References: <20220509160456.1058940-1-kuba@kernel.org>
+From:   David Ahern <dsahern@gmail.com>
+In-Reply-To: <20220509160456.1058940-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/9/2022 10:32 AM, Jakub Kicinski wrote:
-> On Mon, 9 May 2022 19:14:42 +0200 Arnd Bergmann wrote:
->> I think however, if we remove this driver, we need to discuss removing the
->> last remaining localtalk driver (CONFIG_COPS) and possibly the localtalk
->> bits in net/appletalk along with it.
-> Removing COPS and appletalk makes perfect sense to me (minus what Doug
-> has plans to use, obviously).
+On 5/9/22 10:04 AM, Jakub Kicinski wrote:
+> This small set creates a place to render sk_buff documentation,
+> documents one random thing (data-only skbs) and converts the big
+> checksum comment to kdoc.
+> 
+> RFC v2 (no changes since then):
+>  - fix type reference in patch 1
+>  - use "payload" and "data" more consistently
+>  - add snippet with calls
+> https://lore.kernel.org/r/20220324231312.2241166-1-kuba@kernel.org/
+> 
+> RFC v1:
+> https://lore.kernel.org/all/20220323233715.2104106-1-kuba@kernel.org/
+> 
+> Jakub Kicinski (3):
+>   skbuff: add a basic intro doc
+>   skbuff: rewrite the doc for data-only skbs
+>   skbuff: render the checksum comment to documentation
+> 
+>  Documentation/networking/index.rst  |   1 +
+>  Documentation/networking/skbuff.rst |  37 ++++
+>  include/linux/skbuff.h              | 301 ++++++++++++++++++----------
+>  3 files changed, 232 insertions(+), 107 deletions(-)
+>  create mode 100644 Documentation/networking/skbuff.rst
+> 
 
-I also think removing the COPS driver is a great idea. I actually ended
-up buying a compatible card in the hopes of working on that driver to
-change it to load the firmware through the firmware API, but the
-licensing situation with the firmware blobs kind of brought that idea to
-a standstill. I would be very surprised if anybody is actually using
-LocalTalk ISA cards these days anyway, so it's probably not worth the
-effort to maintain it.
-
-There have been a few "modern" LocalTalk interface projects. One is
-mine, which I haven't found time to finish, but I was able to get
-working in the kernel with a lt0 network interface. I suspect I was the
-only one in the last decade to actually use the LocalTalk code in modern
-kernel versions, because it was crashing until I fixed a bug involving
-too short of a header length being allocated. There's another more
-recent LocalTalk project called TashTalk [1]. A kernel driver could be
-developed for it using serdev or a tty ldisc, but all of the current
-development seems focused on the userspace side.
-
-With that in mind, I personally wouldn't be sad to see the entire
-LocalTalk interface support stripped from the kernel, as long as
-EtherTalk support can remain. There is still a decent sized community of
-users who are using it to talk with classic Macs using netatalk 2.x.
-So most of the stuff in net/appletalk is still relevant today for us.
-
-Might as well remove CONFIG_IPDDP too. It actually -interferes- with the
-current way that people do MacIP gateways through userspace with macipgw
-[2]. I'm not aware of anyone actually using the kernel's implementation.
-
-Doug
-
-[1] https://github.com/lampmerchant/tashtalk
-[2] https://github.com/jasonking3/macipgw#kernel
-
+Reviewed-by: David Ahern <dsahern@kernel.org>
