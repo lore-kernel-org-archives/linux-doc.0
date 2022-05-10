@@ -2,144 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D9BCC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 10 May 2022 16:34:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3088C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 10 May 2022 17:26:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347481AbiEJQin (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 May 2022 12:38:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49238 "EHLO
+        id S1348118AbiEJRaC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 May 2022 13:30:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244941AbiEJQim (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 May 2022 12:38:42 -0400
-X-Greylist: delayed 557 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 10 May 2022 09:34:43 PDT
-Received: from mailgw.felk.cvut.cz (mailgw.felk.cvut.cz [147.32.82.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 891E02A3752;
-        Tue, 10 May 2022 09:34:43 -0700 (PDT)
-Received: from mailgw.felk.cvut.cz (localhost.localdomain [127.0.0.1])
-        by mailgw.felk.cvut.cz (Proxmox) with ESMTP id 4F8D8303260B;
-        Tue, 10 May 2022 18:25:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        cmp.felk.cvut.cz; h=cc:cc:content-transfer-encoding:content-type
-        :content-type:date:from:from:in-reply-to:message-id:mime-version
-        :references:reply-to:subject:subject:to:to; s=felkmail; bh=GUwmb
-        8WUz+d8rIT5s68PdvGp8OiPvyQgMToZHWTShs8=; b=anjgfRPvazXbKAMxUXKa7
-        fY6juY58etYD/ZiNtJmBdIBIdGc4KaooWeuPCcPz51tSx6dqctHVf106A4I7RPMb
-        1TEgzTFo4U/YVOyaWGs39x4NKRCTRkfoMTSOob95cXLgg+ZbOjzvnS0am3VPvL6T
-        c1bqktoZkeemT60Xy0O8S57CRqB4GFw8LJxevnYiLXmj6qnAQpwq+aMn4CZOiqQz
-        8yHC/4abCXhKR2UqR6AX8wewcPtF6LYTERJLnWiVZpqUuC4VP5MyMMNBmwPokEcO
-        SUnGfniSF6vixheoxKvEoyvX/y0yfVi5y+mNdp/NDeZWEBQxDJYejAZ7/IxUs79Z
-        g==
-Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
-        by mailgw.felk.cvut.cz (Proxmox) with ESMTPS id 77C823032609;
-        Tue, 10 May 2022 18:25:23 +0200 (CEST)
-Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
-        by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id 24AGPNgM025943;
-        Tue, 10 May 2022 18:25:23 +0200
-Received: (from pisa@localhost)
-        by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 24AGPM8X025942;
-        Tue, 10 May 2022 18:25:22 +0200
-X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to pisa@cmp.felk.cvut.cz using -f
-From:   Pavel Pisa <pisa@cmp.felk.cvut.cz>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH net-next] docs: ctucanfd: Use 'kernel-figure' directive instead of 'figure'
-Date:   Tue, 10 May 2022 18:25:15 +0200
-User-Agent: KMail/1.9.10
-Cc:     "Marc Kleine-Budde" <mkl@pengutronix.de>,
-        Martin Jerabek <martin.jerabek01@gmail.com>,
-        Ondrej Ille <ondrej.ille@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <05d491d4-c498-9bab-7085-9c892b636d68@gmail.com>
-In-Reply-To: <05d491d4-c498-9bab-7085-9c892b636d68@gmail.com>
-X-KMail-QuotePrefix: > 
+        with ESMTP id S1348119AbiEJR34 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 May 2022 13:29:56 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECA07C6F;
+        Tue, 10 May 2022 10:25:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7A02CB81E71;
+        Tue, 10 May 2022 17:25:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC696C385A6;
+        Tue, 10 May 2022 17:25:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652203544;
+        bh=E5tHulDdEyVbd8pyewc2Uh4nakVaKYnyEVavHR0gbbo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=nNclPHat4Q7+ZlM4hhZGyqFCwCyksH2rUNpBG3i2aFfAJt/+adHb/BQJSXxQUeDv5
+         amrhDziLqfE8FPKkxzcasNLJauBjiTbUDqHp1VDbKsBIplpVgYASrdrxY0cYOJ2MV0
+         enV4eotJADu7s8nb6+sIES+H5fRForV9Q6rGhmyHSTZKXCxtwWwhGT1nDF+MaS+Q6m
+         lbM/6EZ66+EJs1wIGfL9SDOhHYhlokJRfueoAspCczc+lNF9ySZYFkjkcPgpnTj8si
+         wUeuIvruTtiaHaSgmXVi1A/W3Ggr6QTW38VXPhMe/XQCSFnsKafoGBmxBGG2S/kuo7
+         2Fp7NMqDnQ3qQ==
+From:   Miguel Ojeda <ojeda@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Garrett LeSage <garrett@lesage.us>,
+        IFo Hancroft <contact@ifohancroft.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: [PATCH v1 1/2] docs: move Linux logo into a new `images` folder
+Date:   Tue, 10 May 2022 19:25:29 +0200
+Message-Id: <20220510172530.29704-1-ojeda@kernel.org>
 MIME-Version: 1.0
-Content-Type: Text/Plain;
-  charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Message-Id: <202205101825.15126.pisa@cmp.felk.cvut.cz>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Akira,
+Having assets in the top-level `Documentation` directory can make
+it harder to find the documents one needs, especially if we want
+to add more of them later on.
 
-On Tuesday 10 of May 2022 11:34:37 Akira Yokosawa wrote:
-> Two issues were observed in the ReST doc added by commit c3a0addefbde
-> ("docs: ctucanfd: CTU CAN FD open-source IP core documentation.").
+Instead, create a new `images` folder inside it that is used
+to hold assets such as logos.
 
-Thanks for the fix
+Link: https://lore.kernel.org/lkml/8735hicoy7.fsf@meer.lwn.net/
+Suggested-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+---
+ Documentation/{ => images}/COPYING-logo |   0
+ Documentation/{ => images}/logo.gif     | Bin
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ rename Documentation/{ => images}/COPYING-logo (100%)
+ rename Documentation/{ => images}/logo.gif (100%)
 
-> The plain "figure" directive broke "make pdfdocs" due to a missing=20
-> PDF figure.  For conversion of SVG -> PDF to work, the "kernel-figure"
-> directive, which is an extension for kernel documentations, should
-> be used instead.
+diff --git a/Documentation/COPYING-logo b/Documentation/images/COPYING-logo
+similarity index 100%
+rename from Documentation/COPYING-logo
+rename to Documentation/images/COPYING-logo
+diff --git a/Documentation/logo.gif b/Documentation/images/logo.gif
+similarity index 100%
+rename from Documentation/logo.gif
+rename to Documentation/images/logo.gif
 
-I have not noticed that there is kernel-figure
-option. We have setup own Sphinx 1.4.9 based build for driver
-documentation out of the tree compilation, I am not sure if that
-would work with this option but if not we keep this version
-modified. There are required modification for sources location anyway...
-
-https://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/doc/linux_driver/build/ct=
-ucanfd-driver.html
-
-> The directive of "code:: raw" causes a warning from both
-> "make htmldocs" and "make pdfdocs", which reads:
->
->     [...]/can/ctu/ctucanfd-driver.rst:75: WARNING: Pygments lexer name
->     'raw' is not known
-
-Strange I have not seen any warning when building htmldocs
-in my actual linux kernel tree. I have cleaned docs to be warnings
-free, but it is possible that I have another tools versions.
-
-Anyway thanks for cleanup.
-
-> A plain literal-block marker should suffice where no syntax
-> highlighting is intended.
->
-> Fix the issues by using suitable directive and marker.
->
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Fixes: c3a0addefbde ("docs: ctucanfd: CTU CAN FD open-source IP core
-> documentation.") Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-> Cc: Martin Jerabek <martin.jerabek01@gmail.com>
-> Cc: Ondrej Ille <ondrej.ille@gmail.com>
-> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-
-Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-
-> ---
->  .../networking/device_drivers/can/ctu/ctucanfd-driver.rst     | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git
-> a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-> b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst ind=
-ex
-> 2fde5551e756..40c92ea272af 100644
-> --- a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-> +++ b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-> @@ -72,7 +72,7 @@ it is reachable (on which bus it resides) and its
-> configuration =E2=80=93 registers address, interrupts and so on. An examp=
-le of such
-> a device tree is given in .
->
-> -.. code:: raw
-> +::
->
->             / {
->                 /* ... */
-> @@ -451,7 +451,7 @@ the FIFO is maintained, together with priority
-> rotation, is depicted in
->
->
->
-> -.. figure:: fsm_txt_buffer_user.svg
-> +.. kernel-figure:: fsm_txt_buffer_user.svg
->
->     TX Buffer states with possible transitions
-
+base-commit: c5eb0a61238dd6faf37f58c9ce61c9980aaffd7a
+-- 
+2.36.1
 
