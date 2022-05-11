@@ -2,63 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBFD6C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 19:08:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B5C2C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 19:12:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346629AbiEKTI1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 15:08:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42522 "EHLO
+        id S1345016AbiEKTMm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 15:12:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345203AbiEKTIZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 15:08:25 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39A7A6BFD6
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 12:08:24 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id dk23so5915281ejb.8
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 12:08:24 -0700 (PDT)
+        with ESMTP id S1346660AbiEKTMl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 15:12:41 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8EE777F3A
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 12:12:38 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id ba17so3699526edb.5
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 12:12:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=vmamqcS6UVefjf9ZEAc++snoGPnFlkAJ7A2gr6Hybu0=;
-        b=dBuK2lymrrDPdlannsOQHXnUcfuHTrBkOPfEbu7qkW0E5kYO5Z+bFsewwOP9kO18lS
-         Ebs/5hwuDtsE7odsW2FMFSxqELyAfsWmglvZotYHMj+VC+iTD8HgUjirJo2F71hfTMdW
-         r33xYQIIdwMLG8WV5P6snakQvBwy2w3VlziQA=
+        bh=m0rLYZTGM9tABUfYW7kAK/fqq3Ax7YNevFHH/XCjFGs=;
+        b=eCbRkCpG+1uv8o7qRy4S8ofMtbzrfrNObimViXJYOfvi54JNTAr6JFhhlnpgtpAcS+
+         VN1OH3CnIDFz9Ap8QJJbmVusIA88+j05i4dmbpolhuHRtJjOf6pV7NrV6W8AIKtloJuO
+         Epo1XPPLAfd3d4t/rIpKYoMleVpcQa62xi+gI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=vmamqcS6UVefjf9ZEAc++snoGPnFlkAJ7A2gr6Hybu0=;
-        b=ylEZfxiOkGamdupFl5QDUwcyaMT5QPCqjT8qFdgu08gfYzh/pigjbW5XFw6rbQqS1x
-         PyIsPWDCpLRFts/OvjKZGvuWXYJUAs/b1rRH37ATbcLEtjtwPPxMUtB0JxfXPOkkQHXo
-         6haBiDQbL9zT9pwDI/KQrcCBYt0RNBmLyPNXpBK572VKLb8Xh2wi0/SuOIpVKmV1UdsC
-         PuPUEHkjJsIlyuDQMe8R9JRv7PagD57q3Xxe6X9oJLzU66X9d6aj2XrnGlySnPsNNGcI
-         1b7+6EfLzzv3LNRymnfwYZgWrM8FHJViprWV0BlrmEyXxD9ovqySg0+V2tMptLhd6vTD
-         gBfA==
-X-Gm-Message-State: AOAM530oLDU5mdU1XNajbK9PRpZihBGMbZH6pjf7vYTbPpXudTG3SLI/
-        eVF9e5R7UOfPQnTyJUoBKSCcUNiG6OMxqZ5Dkes=
-X-Google-Smtp-Source: ABdhPJwhhbu55jHHIjgAFGCXCJHKyoNWPdNmmr7fVlzEISKCpoAWlXYPKBTYstMNNpXxVOjG0kjyGg==
-X-Received: by 2002:a17:907:3f9b:b0:6f4:4407:a421 with SMTP id hr27-20020a1709073f9b00b006f44407a421mr25931876ejc.557.1652296103556;
-        Wed, 11 May 2022 12:08:23 -0700 (PDT)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com. [209.85.128.45])
-        by smtp.gmail.com with ESMTPSA id s16-20020a1709060c1000b006f3ef214dd2sm1271139ejf.56.2022.05.11.12.08.19
+        bh=m0rLYZTGM9tABUfYW7kAK/fqq3Ax7YNevFHH/XCjFGs=;
+        b=n0VJvTLdPgyFA9+C2GokFHPnZGag/G6QhYRgsr5jFXMOI0T/1azmq59F+J1/IUABLJ
+         I2KVniLaWp/3mZmbrq74tlwjs1c87sWo00EkBVJqcuVCpwYv4pRaVAhsZterBEBAVZ4f
+         dlFDHN0N4a7hAs4HmIsJUDrEIhZd9fP6eIp0+hge2pyIXHseQHgnvLnr+FfPQVWrfKHH
+         MJiCPPFEi8m2h+ph3cb7qQ4i+ASsAz8n+FhQ9xkYMIDiOwH/eKBYi/RVEeFrZ8kldv/A
+         EmnX29C92ddZEUi5ONXIvYUEhXVShlrF86yHPLhiJBdTDJD5Ts3UmiPXgGE2C4VnO7zQ
+         9TPA==
+X-Gm-Message-State: AOAM532ONEJOOTvf9WSzRaGB1GZrn6RJ7E58tKYDCg7yd0FfKHxkcriE
+        v2MRblYR8vGF/PWT2IhfGDsRCdhectKY8Sli8+Q=
+X-Google-Smtp-Source: ABdhPJyfI8nUWVu7ov1tK2RpaaGwQctGtPN7N/w86jQ/qtYQIB9FNkuM05oi0UWPC9VzBkxML2EAlQ==
+X-Received: by 2002:aa7:d407:0:b0:425:f57e:7ae5 with SMTP id z7-20020aa7d407000000b00425f57e7ae5mr30331025edq.393.1652296357178;
+        Wed, 11 May 2022 12:12:37 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
+        by smtp.gmail.com with ESMTPSA id g14-20020a056402424e00b0042617ba63a2sm1625412edb.44.2022.05.11.12.12.34
         for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 May 2022 12:08:21 -0700 (PDT)
-Received: by mail-wm1-f45.google.com with SMTP id bg25so1758531wmb.4
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 12:08:19 -0700 (PDT)
-X-Received: by 2002:a05:600c:4f06:b0:394:836b:1552 with SMTP id
- l6-20020a05600c4f0600b00394836b1552mr6316930wmq.145.1652296099201; Wed, 11
- May 2022 12:08:19 -0700 (PDT)
+        Wed, 11 May 2022 12:12:35 -0700 (PDT)
+Received: by mail-wr1-f46.google.com with SMTP id a5so487426wrp.7
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 12:12:34 -0700 (PDT)
+X-Received: by 2002:a5d:6dad:0:b0:20c:4dc1:e247 with SMTP id
+ u13-20020a5d6dad000000b0020c4dc1e247mr24044515wrs.274.1652296354621; Wed, 11
+ May 2022 12:12:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220510070140.45407-1-tomeu.vizoso@collabora.com>
  <20220510141329.54414-1-tomeu.vizoso@collabora.com> <CAPM=9tzLR-wsLhg2ikGjoK06s-ju5XWa1rtPPiUpN=pwD1vgtA@mail.gmail.com>
- <CAHk-=wg8YgH1h3wrm9CtXff7rSewa+NE0Z5upb1GOE8XiTL9HA@mail.gmail.com> <CAF6AEGusO9XAqHNatJLgV+wpVoyyLg1vHtUsnSkAxJeV7n3WNg@mail.gmail.com>
-In-Reply-To: <CAF6AEGusO9XAqHNatJLgV+wpVoyyLg1vHtUsnSkAxJeV7n3WNg@mail.gmail.com>
+ <CAHk-=wg8YgH1h3wrm9CtXff7rSewa+NE0Z5upb1GOE8XiTL9HA@mail.gmail.com>
+ <CAF6AEGusO9XAqHNatJLgV+wpVoyyLg1vHtUsnSkAxJeV7n3WNg@mail.gmail.com> <CAHk-=wjbE0f2AGroB1Hy=fx2fh7cRpS0wNdB46Ybk14Mb0b5Jw@mail.gmail.com>
+In-Reply-To: <CAHk-=wjbE0f2AGroB1Hy=fx2fh7cRpS0wNdB46Ybk14Mb0b5Jw@mail.gmail.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 11 May 2022 12:08:03 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjbE0f2AGroB1Hy=fx2fh7cRpS0wNdB46Ybk14Mb0b5Jw@mail.gmail.com>
-Message-ID: <CAHk-=wjbE0f2AGroB1Hy=fx2fh7cRpS0wNdB46Ybk14Mb0b5Jw@mail.gmail.com>
+Date:   Wed, 11 May 2022 12:12:18 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjy4DY_ya8TBs9W2wLWHibBiHMQW2T43DQR1SGRkqD=gw@mail.gmail.com>
+Message-ID: <CAHk-=wjy4DY_ya8TBs9W2wLWHibBiHMQW2T43DQR1SGRkqD=gw@mail.gmail.com>
 Subject: Re: Adding CI results to the kernel tree was Re: [RFC v2] drm/msm:
  Add initial ci/ subdirectory
 To:     Rob Clark <robdclark@gmail.com>
@@ -81,20 +82,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 11, 2022 at 11:40 AM Rob Clark <robdclark@gmail.com> wrote:
+On Wed, May 11, 2022 at 12:08 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> It is missing in this revision of the RFC, but the intention is to
-> have the gitlab-ci.yml point to a specific commit SHA in the
-> gfx-ci/drm-ci[1] tree, to solve the problem of keeping the results in
-> sync with the expectations.  Ie. a kernel commit would control moving
-> to a new version of i-g-t (and eventually deqp and/or piglit), and at
-> the same time make any necessary updates in the expectations files.
+> The kernel tree might have just the expected *failures* listed, if
+> there are any. Presumably the ci tree has to have the expected results
+> anyway, so what's the advantage of listing non-failures?
 
-Wouldn't it then be better to just have the expectation files in the
-ci tree too?
+.. put another way: I think a list of "we are aware that these
+currently fail" is quite reasonable for a development tree, maybe even
+with a comment in the commit that created them about why they
+currently fail.
 
-The kernel tree might have just the expected *failures* listed, if
-there are any. Presumably the ci tree has to have the expected results
-anyway, so what's the advantage of listing non-failures?
+That also ends up being very nice if you fix a problem, and the fix
+commit might then remove the failure for the list, and that all makes
+perfect sense.
 
-                  Linus
+But having just the raw output of "these are the expected CI results"
+that is being done and specified by some other tree entirely - that
+seems pointless and just noise to me. There's no actual reason to have
+that kind of noise - and update that kind of noise - that I really
+see.
+
+                Linus
