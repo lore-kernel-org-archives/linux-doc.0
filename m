@@ -2,133 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEE07C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 02:06:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF67FC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 03:24:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239557AbiEKCGO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 10 May 2022 22:06:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49910 "EHLO
+        id S229790AbiEKDYe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 10 May 2022 23:24:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241074AbiEKCGI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 May 2022 22:06:08 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76D462EA0F
-        for <linux-doc@vger.kernel.org>; Tue, 10 May 2022 19:06:06 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id 137so530215pgb.5
-        for <linux-doc@vger.kernel.org>; Tue, 10 May 2022 19:06:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=DaOqUQVR1l6iFHmgR6ojWOiOGRT0ZXEbqPVNv0WKOWg=;
-        b=gM2FlFD45yjzMYGI0yxkGudyWBn0pdTJ21XLjHgc/eeTtFlPTdizS+F5ddfW0ZVsIv
-         mcCrkbVWEFIJqxc80Mo/bIKIyk+mkBMYT5lht2OJoh6dnqrj8iJpGhW/PeTNz+F1urs2
-         +Iis9KDgGBRhaNmCLwGYL29QjcxRexYe5gBjmEZrA6FJ1CV/nlFPfDvIMCuih9FfWPOM
-         YfXV6n49JFoVJwrsvy3V0NwIOS9GiNFgsB7zLDm82vuFxTRbF9ZEEmghgcGbko7/Km1o
-         0UcyQ/APMUmoTMgnOFP7ml83z3hnGtQrRtc4gCc8pALIKNLH3FB0p9iT/cnbFpVw/Em2
-         rGhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=DaOqUQVR1l6iFHmgR6ojWOiOGRT0ZXEbqPVNv0WKOWg=;
-        b=7Ak4ahdH1sfmYT4QuQbFtR2CrPtDX+d7wflD8oipkuVRJ6L+YftIYIyN3o2PAeYsEL
-         yl9/Q3Sb+WfVtr+em4T7i0HyCuudZKWFL9m9w5cc3XeiI67nUDS2G2UlDcCXfiIz3GMV
-         WTFiOv1aSi+u/OKHIz27Tgkr/yApRlMACabEMuHDaa3DDXEf2k/khDcm5Eho8tlfWW4G
-         E12YNsXHv6El2iVHKtc49SG9T2fp6duRjWBUI9fMBBvz0f/g6xf5PpFnve5rWnllco0H
-         82FJVHOGobjtJ6AZbjr/Xu4x8wPF4jmRkGuuioegeYlGfbYyVjnRjkyQESHaogOWEESz
-         396w==
-X-Gm-Message-State: AOAM533c9kRc9K14SENah9+++NTfZZ5w9Sobnp0p3hwoU+4ETQ+5qsse
-        V9tkkx3UX+6OwcdOW4bhilQ=
-X-Google-Smtp-Source: ABdhPJy7Y5f6zuMZbyTT9buuGH3/8IHFbGIp1uyIeMa4rEA9mhxGGH+JaBBODe8rSlWU6RhFTG93DA==
-X-Received: by 2002:a63:6c8a:0:b0:3ab:8c07:4d93 with SMTP id h132-20020a636c8a000000b003ab8c074d93mr19284646pgc.431.1652234765915;
-        Tue, 10 May 2022 19:06:05 -0700 (PDT)
-Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id np3-20020a17090b4c4300b001da160621d1sm349129pjb.45.2022.05.10.19.06.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 May 2022 19:06:05 -0700 (PDT)
-Message-ID: <c30f0524-7847-bd60-709a-8e847e87f86c@gmail.com>
-Date:   Wed, 11 May 2022 10:05:58 +0800
+        with ESMTP id S231142AbiEKDYc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 May 2022 23:24:32 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36D8560E9;
+        Tue, 10 May 2022 20:24:31 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KygDj1QKRzGpk3;
+        Wed, 11 May 2022 11:21:41 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 11 May 2022 11:24:29 +0800
+Received: from thunder-town.china.huawei.com (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 11 May 2022 11:24:28 +0800
+From:   Zhen Lei <thunder.leizhen@huawei.com>
+To:     Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>, <kexec@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+CC:     Zhen Lei <thunder.leizhen@huawei.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "Chen Zhou" <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: [PATCH] arm64: kdump: Do not allocate crash low memory if not needed
+Date:   Wed, 11 May 2022 11:20:32 +0800
+Message-ID: <20220511032033.426-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] docs/zh_CN: add devicetree changesets translation
-Content-Language: en-US
-To:     =?UTF-8?B?6ZmI5a2m5YW1?= <chenxuebing@jari.cn>, alexs@kernel.org,
-        corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org
-References: <5c04a23b.8d9.180ae707e5c.Coremail.chenxuebing@jari.cn>
-From:   Alex Shi <seakeel@gmail.com>
-In-Reply-To: <5c04a23b.8d9.180ae707e5c.Coremail.chenxuebing@jari.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+When "crashkernel=X,high" is specified, the specified "crashkernel=Y,low"
+memory is not required in the following corner cases:
+1. If both CONFIG_ZONE_DMA and CONFIG_ZONE_DMA32 are disabled, it means
+   that the devices can access any memory.
+2. If the system memory is small, the crash high memory may be allocated
+   from the DMA zones. If that happens, there's no need to allocate
+   another crash low memory because there's already one.
 
+Add condition '(crash_base >= CRASH_ADDR_LOW_MAX)' to determine whether
+the 'high' memory is allocated above DMA zones. Note: when both
+CONFIG_ZONE_DMA and CONFIG_ZONE_DMA32 are disabled, the entire physical
+memory is DMA accessible, CRASH_ADDR_LOW_MAX equals 'PHYS_MASK + 1'.
 
-On 5/10/22 22:47, 陈学兵 wrote:
-> ​Translate .../Devicetree/changesets.rst into Chinese.
-> 
-> 
-> Signed-off-by: XueBing Chen <chenxuebing@jari.cn>
-> ---
->  .../zh_CN/devicetree/changesets.rst           | 31 +++++++++++++++++++
->  1 file changed, 31 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/devicetree/changesets.rst
-> 
-> 
-> diff --git a/Documentation/translations/zh_CN/devicetree/changesets.rst b/Documentation/translations/zh_CN/devicetree/changesets.rst
-> new file mode 100644
-> index 000000000000..4aade1f26f1b
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/devicetree/changesets.rst
-> @@ -0,0 +1,31 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +:Original: Documentation/Devicetree/changesets.rst
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 5 +++--
+ arch/arm64/mm/init.c                            | 3 ++-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-Hi xuebing,
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index f6ff55840751a78..1b543c3109f4851 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -823,7 +823,7 @@
+ 			low memory is needed to make sure DMA buffers for 32-bit
+ 			devices won't run out. Kernel would try to allocate
+ 			at least 256M below 4G automatically.
+-			This one let user to specify own low range under 4G
++			This one lets the user specify own low range under 4G
+ 			for second kernel instead.
+ 			0: to disable low allocation.
+ 			It will be ignored when crashkernel=X,high is not used
+@@ -832,7 +832,8 @@
+ 			[KNL, ARM64] range in low memory.
+ 			This one lets the user specify a low range in the
+ 			DMA zone for the crash dump kernel.
+-			It will be ignored when crashkernel=X,high is not used.
++			It will be ignored when crashkernel=X,high is not used
++			or memory reserved is located in the DMA zones.
+ 
+ 	cryptomgr.notests
+ 			[KNL] Disable crypto self-tests
+diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+index 18ba66c90991ea0..ac510fb6a2c0189 100644
+--- a/arch/arm64/mm/init.c
++++ b/arch/arm64/mm/init.c
+@@ -170,7 +170,8 @@ static void __init reserve_crashkernel(void)
+ 		return;
+ 	}
+ 
+-	if (crash_low_size && reserve_crashkernel_low(crash_low_size)) {
++	if ((crash_base >= CRASH_ADDR_LOW_MAX) &&
++	     crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+ 		memblock_phys_free(crash_base, crash_size);
+ 		return;
+ 	}
+-- 
+2.25.1
 
-no this file, You'd better run 'make htmldocs', then setup a webserver
-and check if new file show correctly in web browser.
-
-
-> +
-> +:翻译:
-> +
-> + 陈学兵 XueBing Chen <chenxuebing@jari.cn>
-> +
-> +:校译:
-
-need a blank line.
-
-> +=====================
-> +Devicetree 变更集
-> +=====================
-> +
-> +Devicetree变更集是一种允许在活动树中应用变更的方法，其方式是要么应用全套变更，
-> +要么不应用任何变更。如果在应用变更集的过程中发生错误，则树将回滚到以前的状态。
-> +变更集也可以在应用后删除。
-> +
-> +应用变更集时，所有变更都会在发出 OF_RECONFIG 通知之前立即应用到树上。
-> +这是为了让接收方在接收通知程序时看到树的完整一致状态。
-> +
-> +变更集的顺序如下所示：
-> +
-> +1. of_changeset_init() - 初始化变更集
-> +
-> +2. DT树的更改需要一组调用：of_changeset_attach_node()、of_changeset_detach_node()、
-
-please take care the line width, align with your above lines, less than 80.
-
-Thanks
-Alex
-> +of_changeset_add_property()、of_changeset_remove_property 和 of_changeset_update_property()。
-> +此时不会对活动树进行任何更改。所有变更操作都记录在 of_changeset'entries'列表中。
-> +
-> +3. of_changeset_apply() - 将更改应用于树。要么应用整个变更集，要么如果出现错误，树将恢复到以前的状态。
-> +核心是通过锁来确保正确的序列化。如果需要，可以使用 __of_changeset_apply 解锁版本 。
-> +
-> +如果需要删除成功应用的变更集，可以使用 of_changeset_revert()完成。
