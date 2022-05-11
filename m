@@ -2,103 +2,206 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDAA2C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 15:20:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AA6DC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 15:52:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245743AbiEKPUH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 11:20:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56712 "EHLO
+        id S1344028AbiEKPwK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 11:52:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245733AbiEKPUF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 11:20:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A023620EE07;
-        Wed, 11 May 2022 08:20:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3047C61913;
-        Wed, 11 May 2022 15:20:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 167A1C340EE;
-        Wed, 11 May 2022 15:20:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652282403;
-        bh=GMvnWYvbccZQktGrME0uBhLf6d3GEhAgIRMMt6zfpKA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=I0GgXQ3dUxlFBEyRNuKUVqUYG6uMd2yFDSWva9G/T2PZlVOT9WDgfIg5Aw4gRrLVH
-         LKx4I4DRmD5X5d+ukbDh0BUbefKRNEti9au2j7vah7qjirqIJJYTFesBfLg9ey8LIl
-         i7GZuYMCbttNcxJZGkYMctx8CWaFGzRT8u26sCF6y9yXLHftCHCvYfVjWw8zO5bCUC
-         PtDhOpduD0WUaYXj4wSRTRODtFpy2Ic11C7NZgkYUnvmJZ7V3mxQa9v2DHPNg6LwE/
-         yuZlQfJm9mh7R4hmn1ZQzCY0rgJ0AUOUcS0UT+2rmHoSfTNSm18QcSvhdLLKWFYDSv
-         vtpwU9Do0HeIw==
-Date:   Wed, 11 May 2022 18:18:33 +0300
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc:     James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>, kernel@pengutronix.de,
-        Pankaj Gupta <pankaj.gupta@nxp.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        David Gstir <david@sigma-star.at>,
-        Richard Weinberger <richard@nod.at>,
-        Franck LENORMAND <franck.lenormand@nxp.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Michael Walle <michael@walle.cc>,
-        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v9 7/7] MAINTAINERS: add KEYS-TRUSTED-CAAM
-Message-ID: <YnvTyd8s4T+s/uAL@kernel.org>
-References: <20220506062553.1068296-1-a.fatoum@pengutronix.de>
- <20220506062553.1068296-8-a.fatoum@pengutronix.de>
- <YnbH2Fgn/JFOU3Rf@iki.fi>
- <YnbIiJynQq/tcFa2@iki.fi>
- <e49920e6-0852-ad3d-5758-604655591671@pengutronix.de>
+        with ESMTP id S1344001AbiEKPwD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 11:52:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 883DA63BFF
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 08:52:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1652284321;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8WFUC5VmX5Q36NEiF2EwlZNMFIvqDIQQRUATmgl6MsM=;
+        b=gWZy8c6jtQvOfjad9VJMnHy0qHmtuO7Fk4DO/5ULFfDnbJr/UXV2kZVpRx6ZnCMLbf2Umq
+        yrvn74PvQ0Ok7nFiGgrXeD7nfmfNQmenJOQvL63eDQj13Mrdi+IJf5jR70QsS/C9sZ6atU
+        OunIf5A3l3LZaBaMg88cO2AI44yUn4I=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-595-51_eeLa6M9eQ2cVegqf7Rg-1; Wed, 11 May 2022 11:51:59 -0400
+X-MC-Unique: 51_eeLa6M9eQ2cVegqf7Rg-1
+Received: by mail-ej1-f71.google.com with SMTP id qf19-20020a1709077f1300b006f439243355so1389230ejc.3
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 08:51:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=8WFUC5VmX5Q36NEiF2EwlZNMFIvqDIQQRUATmgl6MsM=;
+        b=x/AnpptsuwijBDyncNvXNmxsT350W99gxy4zyA8BKTfer7rpsiDNu1n+KdoTC7n3Up
+         bV80MuBhSdSWvuBOEdu1QpnVJrXLjFUxcfSCjaZT47yIXBMnmh2+qGZC7iStoLsGKimk
+         +LbZnmL4zRJj1GtIb4eHlPFW2JF5AvKBAhdDvrpuHE+gYg06Inz0nT56hapkxNhh7Q6p
+         zV4L3J8ySHwp6E04XYOUeqrsA5nqmZNV1phNSf9i+2vQ+xfvMV/Z5X+ZjUoam3jTRxOy
+         bfPGvQL5LWRCzEE4Wt8EPW67tk6fL1jkK5XF0kueSBGcc9rZIITsWSolFcNd8es985Y8
+         BWlQ==
+X-Gm-Message-State: AOAM531MGQu2ZUhd0FpMlbURV8K9ztzLwtOIKIk5pYHGmc5JFnRAaxTy
+        fuyctBbRxnaTEzc2BNsdisUQr6wPFA3U/2vQ8GtqF/79TyjXYdQrc/F3VrLo2DAEH4pxDQf3ycL
+        SyszNIX6cisCX5kjEzaLG
+X-Received: by 2002:a05:6402:1694:b0:425:ae5e:4843 with SMTP id a20-20020a056402169400b00425ae5e4843mr30291329edv.415.1652284318721;
+        Wed, 11 May 2022 08:51:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzxQrb8/5CfeZNcFbu2jomxbSGi+YkEw58M2wZqlSn4hvDjHHLrsiFQ/EfomUAfyryINR1FJg==
+X-Received: by 2002:a05:6402:1694:b0:425:ae5e:4843 with SMTP id a20-20020a056402169400b00425ae5e4843mr30291297edv.415.1652284318525;
+        Wed, 11 May 2022 08:51:58 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id g19-20020a170906c19300b006f3ef214e51sm1085645ejz.183.2022.05.11.08.51.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 May 2022 08:51:58 -0700 (PDT)
+Message-ID: <704401aa-b277-ad77-e4ee-6111d5f993c2@redhat.com>
+Date:   Wed, 11 May 2022 17:51:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e49920e6-0852-ad3d-5758-604655591671@pengutronix.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v7 00/12] Introduce In Field Scan driver
+Content-Language: en-US
+To:     Tony Luck <tony.luck@intel.com>, markgross@kernel.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        corbet@lwn.net, gregkh@linuxfoundation.org,
+        andriy.shevchenko@linux.intel.com, jithu.joseph@intel.com,
+        ashok.raj@intel.com, rostedt@goodmis.org, dan.j.williams@intel.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, patches@lists.linux.dev,
+        ravi.v.shankar@intel.com
+References: <20220506014035.1173578-1-tony.luck@intel.com>
+ <20220506225410.1652287-1-tony.luck@intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220506225410.1652287-1-tony.luck@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 11, 2022 at 12:48:53PM +0200, Ahmad Fatoum wrote:
-> On 07.05.22 21:29, Jarkko Sakkinen wrote:
-> >>> +KEYS-TRUSTED-CAAM
-> >>> +M:	Ahmad Fatoum <a.fatoum@pengutronix.de>
-> >>> +R:	Pengutronix Kernel Team <kernel@pengutronix.de>
-> >>> +L:	linux-integrity@vger.kernel.org
-> >>> +L:	keyrings@vger.kernel.org
-> >>> +S:	Maintained
-> >>> +F:	include/keys/trusted_caam.h
-> >>> +F:	security/keys/trusted-keys/trusted_caam.c
-> >>> +
-> >>>  KEYS/KEYRINGS
-> >>>  M:	David Howells <dhowells@redhat.com>
-> >>>  M:	Jarkko Sakkinen <jarkko@kernel.org>
-> >>> -- 
-> >>> 2.30.2
-> >>>
-> >>
-> >> Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
-> > 
-> > 3/7 would probably need tested-by. Other than that this starts to look
-> > good...
-> 
-> It has been tested by me on an i.MX6 (era < 10 with blobbing support)
-> and by Michael on a LS1028A (era >= 10, both with and without blobbing
-> support).
-> 
-> Cheers,
-> Ahmad
+Hi,
 
-Michael, can you give a tested-by for the corresponding patch?
+On 5/7/22 00:53, Tony Luck wrote:
+> TL;DR this driver loads scan test files that can check whether silicon
+> in a CPU core is still running correctly. It is expected that these tests
+> would be run several times per day to catch problems as silicon ages.
 
-BR, Jarkko
+Thank you for your patch-series, I've applied the series to my
+review-hans branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+
+Note it will show up in my review-hans branch once I've pushed my
+local branch there, which might take a while.
+
+Once I've run some tests on this branch the patches there will be
+added to the platform-drivers-x86/for-next branch and eventually
+will be included in the pdx86 pull-request to Linus for the next
+merge-window.
+
+Regards,
+
+Hans
+
+
+
+
+> 
+> Changes since v6
+> 
+> Thomas Gleixner
+> ---------------
+> "struct workqueue_struct *ifs_wq; Seems to be unused."
+> 
+> True. Deleted.
+> 
+> "static bool oscan_enabled = true; What changes this?"
+> 
+> Code that cleared it deleted. Drop this too.
+> 
+> "Please add curly brackets as these are not one-line statements"
+> 
+> Added
+> 
+> cpumask_first(topology_sibling_cpumask(cpu)); Shouldn't that be cpu_smt_mask()?"
+> 
+> Changed (and several other places)
+> 
+> "take up to 200 milliseconds before it retires.  200ms per test chunk?"
+> 
+> Updated comment to note that 200ms is for all chunks.
+> 
+> "Documentation lost in the intertubes"
+> 
+> Dredged up the version from v3 series and changed:
+> 1) Fixed pathnames now this is a virtual misc device instead of platform
+> device
+> 2) Put all the text into a "/** DOC:" comment section in ifs.h with just
+> a "kernel-doc:: drivers/platform/x86/intel/ifs/ifs.h" in the ifs.rst
+> file under Documentation/x86.
+> 3) Added a "big fat warning" (in all CAPS) pointing out that a core test
+> can take up to 200 milliseconds. So admins must take extra steps if they
+> are running latency sensitive workloads.
+> 4) Added note that all HT threads of a core must be online to run a
+> test.
+> 
+> Tony Luck
+> ---------
+> Off-by-one on retries check (#define set to 5, but tried 6 times). Fixed
+> Fixed kerneldoc description of "integrity_cap_bit" (was missing a ":")
+> 
+> Jithu Joseph (7):
+>   x86/microcode/intel: Expose collect_cpu_info_early() for IFS
+>   platform/x86/intel/ifs: Read IFS firmware image
+>   platform/x86/intel/ifs: Check IFS Image sanity
+>   platform/x86/intel/ifs: Authenticate and copy to secured memory
+>   platform/x86/intel/ifs: Add scan test support
+>   platform/x86/intel/ifs: Add IFS sysfs interface
+>   platform/x86/intel/ifs: add ABI documentation for IFS
+> 
+> Peter Zijlstra (1):
+>   stop_machine: Add stop_core_cpuslocked() for per-core operations
+> 
+> Tony Luck (4):
+>   x86/msr-index: Define INTEGRITY_CAPABILITIES MSR
+>   platform/x86/intel/ifs: Add stub driver for In-Field Scan
+>   trace: platform/x86/intel/ifs: Add trace point to track Intel IFS
+>     operations
+>   Documentation: In-Field Scan
+> 
+>  .../ABI/testing/sysfs-platform-intel-ifs      |  39 +++
+>  Documentation/x86/ifs.rst                     |   2 +
+>  Documentation/x86/index.rst                   |   1 +
+>  MAINTAINERS                                   |   8 +
+>  arch/x86/include/asm/cpu.h                    |  18 ++
+>  arch/x86/include/asm/msr-index.h              |   7 +
+>  arch/x86/kernel/cpu/intel.c                   |  32 +++
+>  arch/x86/kernel/cpu/microcode/intel.c         |  59 +---
+>  drivers/platform/x86/intel/Kconfig            |   1 +
+>  drivers/platform/x86/intel/Makefile           |   1 +
+>  drivers/platform/x86/intel/ifs/Kconfig        |  13 +
+>  drivers/platform/x86/intel/ifs/Makefile       |   3 +
+>  drivers/platform/x86/intel/ifs/core.c         |  73 +++++
+>  drivers/platform/x86/intel/ifs/ifs.h          | 234 +++++++++++++++
+>  drivers/platform/x86/intel/ifs/load.c         | 266 ++++++++++++++++++
+>  drivers/platform/x86/intel/ifs/runtest.c      | 252 +++++++++++++++++
+>  drivers/platform/x86/intel/ifs/sysfs.c        | 149 ++++++++++
+>  include/linux/stop_machine.h                  |  16 ++
+>  include/trace/events/intel_ifs.h              |  41 +++
+>  kernel/stop_machine.c                         |  19 ++
+>  20 files changed, 1182 insertions(+), 52 deletions(-)
+>  create mode 100644 Documentation/ABI/testing/sysfs-platform-intel-ifs
+>  create mode 100644 Documentation/x86/ifs.rst
+>  create mode 100644 drivers/platform/x86/intel/ifs/Kconfig
+>  create mode 100644 drivers/platform/x86/intel/ifs/Makefile
+>  create mode 100644 drivers/platform/x86/intel/ifs/core.c
+>  create mode 100644 drivers/platform/x86/intel/ifs/ifs.h
+>  create mode 100644 drivers/platform/x86/intel/ifs/load.c
+>  create mode 100644 drivers/platform/x86/intel/ifs/runtest.c
+>  create mode 100644 drivers/platform/x86/intel/ifs/sysfs.c
+>  create mode 100644 include/trace/events/intel_ifs.h
+> 
+> 
+> base-commit: 672c0c5173427e6b3e2a9bbb7be51ceeec78093a
+
