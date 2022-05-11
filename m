@@ -2,85 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0808C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 06:23:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3657C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 06:37:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242113AbiEKGXR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 02:23:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49258 "EHLO
+        id S235815AbiEKGhh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 02:37:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242035AbiEKGXQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 02:23:16 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFD601F8C4E;
-        Tue, 10 May 2022 23:23:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 95C73B82142;
-        Wed, 11 May 2022 06:23:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1CF1C385D1;
-        Wed, 11 May 2022 06:22:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1652250179;
-        bh=dr1sS53G4Pm1TyL5NsyZonMQdvda/MUhmA20m7oW+z0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tCHRDyaGR/wgK9C5TITSFPPM9YlIjPDgY0oE8C8NjR7J+qG1gD8mlS/Cvn8MihHwq
-         0ZuQFmf6VbMmJB/OtN3emjcuijgLE2JhdCaL24vp8q30p98Uv+lr0x960Y6+uT/Vmd
-         ERIluI0KmC+Px3sf0zdAJ+X0HzEpMgPydBrZ1Hjs=
-Date:   Wed, 11 May 2022 08:22:56 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Dave Airlie <airlied@gmail.com>
-Cc:     Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        freedreno <freedreno@lists.freedesktop.org>
-Subject: Re: Adding CI results to the kernel tree was Re: [RFC v2] drm/msm:
- Add initial ci/ subdirectory
-Message-ID: <YntWQIXSqMCd6TYV@kroah.com>
-References: <20220510070140.45407-1-tomeu.vizoso@collabora.com>
- <20220510141329.54414-1-tomeu.vizoso@collabora.com>
- <CAPM=9tzLR-wsLhg2ikGjoK06s-ju5XWa1rtPPiUpN=pwD1vgtA@mail.gmail.com>
+        with ESMTP id S234462AbiEKGhg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 02:37:36 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DFCB102754;
+        Tue, 10 May 2022 23:37:35 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id fv2so1321673pjb.4;
+        Tue, 10 May 2022 23:37:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ZfSoPNQMQ3JtFIIIzzgju0SL8LR4iC7N17yQ0q5g1Gw=;
+        b=QvBv2UfaGGwqFWNY/pqXIZh/GYk8NUG2EtFqNMhHJItgzyGdcST13XjgT+C51QFIu0
+         wVRUAFagaBzJS1NQ19RnmAjO8E1K4w1zVumajYnd6dT4tvhMTgjaIX7mVrzFjuN+MdQ6
+         AjoMhKZnuR5eE4T4wrSqyPkP3cXhfYhVrdfRL9sQmy5ouvNWLQ4VowVZn9rznHpkBK7/
+         IbTWBK86znT2+Ma8LKDyx2Et/AwRVPK/pYs0za6VXQeQA/Rk5lUCqkV6hlnQYeLCB42U
+         4R5LHx5APkIlgmoX2sHMd6JXdI4qUVaEyN4kplZmkr75KP4eCOHxu7vORlx1aPvDjwnL
+         dl9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ZfSoPNQMQ3JtFIIIzzgju0SL8LR4iC7N17yQ0q5g1Gw=;
+        b=ZUuiyiFAudULwR9dd5iPpX7P8erZv+bFFa04a7O89XUvqY4O1DJtD1XhvykXYKygW8
+         hNuB3JrrRlM/geePetWuEsQcexEHwqTjoIA1Z/1Ds5nFpRn8zPkIYYLVrIcLvLY29W9O
+         GkOY2KQI0RstTmmLeO1lvM52OBQ1jhogKvPOPBjvOrUBXTd02zpuYy/rfbLmtJU8dhvp
+         Ex90+8PLduGPwjzvcRDZse0EAQYDE7HrP/Jjs7wMaMNV0Afcc4s333qI7+TcfzPK1U5r
+         vJo/54X71FTXbM90hOKVoE/xgZv9P59HYSx1xANrBQYMhght1YopEvl19HKSlh6Fe8Zb
+         QbYg==
+X-Gm-Message-State: AOAM533UrhfNs81fidfOTIx+Pw87CdGcErBC84s49bKTi7V92xiSvzn2
+        ksJ3lBkS0+HnwL24wOZtKCI=
+X-Google-Smtp-Source: ABdhPJwgwpaW/4sIrJ2DtPGOF3tg6+/fSjpKZf+P2/qrsXRtPAFe1BSQEXPb0SCMKuAXhX1wdnAmWg==
+X-Received: by 2002:a17:90a:1509:b0:1d9:44a9:28c7 with SMTP id l9-20020a17090a150900b001d944a928c7mr3760102pja.89.1652251054890;
+        Tue, 10 May 2022 23:37:34 -0700 (PDT)
+Received: from localhost (subs02-180-214-232-26.three.co.id. [180.214.232.26])
+        by smtp.gmail.com with ESMTPSA id t67-20020a628146000000b0050dc762814asm732056pfd.36.2022.05.10.23.37.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 May 2022 23:37:34 -0700 (PDT)
+Date:   Wed, 11 May 2022 13:37:31 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Marc Kleine-Budde <mkl@pengutronix.de>,
+        Pavel Pisa <pisa@cmp.felk.cvut.cz>,
+        Martin Jerabek <martin.jerabek01@gmail.com>,
+        Ondrej Ille <ondrej.ille@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next] docs: ctucanfd: Use 'kernel-figure' directive
+ instead of 'figure'
+Message-ID: <YntZqxuLSci6f8Z+@debian.me>
+References: <05d491d4-c498-9bab-7085-9c892b636d68@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPM=9tzLR-wsLhg2ikGjoK06s-ju5XWa1rtPPiUpN=pwD1vgtA@mail.gmail.com>
+In-Reply-To: <05d491d4-c498-9bab-7085-9c892b636d68@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 11, 2022 at 03:06:47PM +1000, Dave Airlie wrote:
-> > And use it to store expectations about what the drm/msm driver is
-> > supposed to pass in the IGT test suite.
+On Tue, May 10, 2022 at 06:34:37PM +0900, Akira Yokosawa wrote:
+> Two issues were observed in the ReST doc added by commit c3a0addefbde
+> ("docs: ctucanfd: CTU CAN FD open-source IP core documentation.").
 > 
-> I wanted to loop in Linus/Greg to see if there are any issues raised
-> by adding CI results file to the tree in their minds, or if any other
-> subsystem has done this already, and it's all fine.
+> The plain "figure" directive broke "make pdfdocs" due to a missing
+> PDF figure.  For conversion of SVG -> PDF to work, the "kernel-figure"
+> directive, which is an extension for kernel documentations, should
+> be used instead.
+> 
 
-Why does the results need to be added to the tree?  Shouldn't they be
-either "all is good" or "constantly changing and a constant churn"?
+Does plain "figure" directive not currently support SVG file argument?
+Because when I see reST documentation ([1]), it doesn't explicitly
+mentioned supported image formats.
 
-> I think this is a good thing after our Mesa experience, but Mesa has a
-> lot tighter integration here, so I want to get some more opinions
-> outside the group.
+[1]: https://docutils.sourceforge.io/docs/ref/rst/directives.html#figure
 
-For systems that have "tight integration" this might make sense as proof
-that all is working for a specific commit, but I can't see how this will
-help the kernel out much.
-
-What are you going to do with these results being checked in all the
-time?
-
-thanks,
-
-greg k-h
+-- 
+An old man doll... just what I always wanted! - Clara
