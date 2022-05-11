@@ -2,75 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E57DC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 14:46:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDAA2C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 15:20:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244676AbiEKOqZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 10:46:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46230 "EHLO
+        id S245743AbiEKPUH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 11:20:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245016AbiEKOqU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 10:46:20 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1A27E5FE6;
-        Wed, 11 May 2022 07:46:17 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E7E4223A;
-        Wed, 11 May 2022 07:46:16 -0700 (PDT)
-Received: from e121896.arm.com (unknown [10.57.2.55])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3D0103F66F;
-        Wed, 11 May 2022 07:46:15 -0700 (PDT)
-From:   James Clark <james.clark@arm.com>
-To:     suzuki.poulose@arm.com, mathieu.poirier@linaro.org,
-        coresight@lists.linaro.org, mike.leach@linaro.org
-Cc:     leo.yan@linaro.com, James Clark <james.clark@arm.com>,
-        Leo Yan <leo.yan@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4/4] Documentation: coresight: Expand branch broadcast documentation
-Date:   Wed, 11 May 2022 15:46:01 +0100
-Message-Id: <20220511144601.2257870-5-james.clark@arm.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20220511144601.2257870-1-james.clark@arm.com>
-References: <20220511144601.2257870-1-james.clark@arm.com>
+        with ESMTP id S245733AbiEKPUF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 11:20:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A023620EE07;
+        Wed, 11 May 2022 08:20:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3047C61913;
+        Wed, 11 May 2022 15:20:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 167A1C340EE;
+        Wed, 11 May 2022 15:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652282403;
+        bh=GMvnWYvbccZQktGrME0uBhLf6d3GEhAgIRMMt6zfpKA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=I0GgXQ3dUxlFBEyRNuKUVqUYG6uMd2yFDSWva9G/T2PZlVOT9WDgfIg5Aw4gRrLVH
+         LKx4I4DRmD5X5d+ukbDh0BUbefKRNEti9au2j7vah7qjirqIJJYTFesBfLg9ey8LIl
+         i7GZuYMCbttNcxJZGkYMctx8CWaFGzRT8u26sCF6y9yXLHftCHCvYfVjWw8zO5bCUC
+         PtDhOpduD0WUaYXj4wSRTRODtFpy2Ic11C7NZgkYUnvmJZ7V3mxQa9v2DHPNg6LwE/
+         yuZlQfJm9mh7R4hmn1ZQzCY0rgJ0AUOUcS0UT+2rmHoSfTNSm18QcSvhdLLKWFYDSv
+         vtpwU9Do0HeIw==
+Date:   Wed, 11 May 2022 18:18:33 +0300
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc:     James Bottomley <jejb@linux.ibm.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>, kernel@pengutronix.de,
+        Pankaj Gupta <pankaj.gupta@nxp.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Jan Luebbe <j.luebbe@pengutronix.de>,
+        David Gstir <david@sigma-star.at>,
+        Richard Weinberger <richard@nod.at>,
+        Franck LENORMAND <franck.lenormand@nxp.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Michael Walle <michael@walle.cc>,
+        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v9 7/7] MAINTAINERS: add KEYS-TRUSTED-CAAM
+Message-ID: <YnvTyd8s4T+s/uAL@kernel.org>
+References: <20220506062553.1068296-1-a.fatoum@pengutronix.de>
+ <20220506062553.1068296-8-a.fatoum@pengutronix.de>
+ <YnbH2Fgn/JFOU3Rf@iki.fi>
+ <YnbIiJynQq/tcFa2@iki.fi>
+ <e49920e6-0852-ad3d-5758-604655591671@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e49920e6-0852-ad3d-5758-604655591671@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now that there is a way of enabling branch broadcast via perf, mention
-the possible use cases and known limitations.
+On Wed, May 11, 2022 at 12:48:53PM +0200, Ahmad Fatoum wrote:
+> On 07.05.22 21:29, Jarkko Sakkinen wrote:
+> >>> +KEYS-TRUSTED-CAAM
+> >>> +M:	Ahmad Fatoum <a.fatoum@pengutronix.de>
+> >>> +R:	Pengutronix Kernel Team <kernel@pengutronix.de>
+> >>> +L:	linux-integrity@vger.kernel.org
+> >>> +L:	keyrings@vger.kernel.org
+> >>> +S:	Maintained
+> >>> +F:	include/keys/trusted_caam.h
+> >>> +F:	security/keys/trusted-keys/trusted_caam.c
+> >>> +
+> >>>  KEYS/KEYRINGS
+> >>>  M:	David Howells <dhowells@redhat.com>
+> >>>  M:	Jarkko Sakkinen <jarkko@kernel.org>
+> >>> -- 
+> >>> 2.30.2
+> >>>
+> >>
+> >> Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
+> > 
+> > 3/7 would probably need tested-by. Other than that this starts to look
+> > good...
+> 
+> It has been tested by me on an i.MX6 (era < 10 with blobbing support)
+> and by Michael on a LS1028A (era >= 10, both with and without blobbing
+> support).
+> 
+> Cheers,
+> Ahmad
 
-Signed-off-by: James Clark <james.clark@arm.com>
----
- .../trace/coresight/coresight-etm4x-reference.rst   | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+Michael, can you give a tested-by for the corresponding patch?
 
-diff --git a/Documentation/trace/coresight/coresight-etm4x-reference.rst b/Documentation/trace/coresight/coresight-etm4x-reference.rst
-index 0439b4006227..fb7578fd9372 100644
---- a/Documentation/trace/coresight/coresight-etm4x-reference.rst
-+++ b/Documentation/trace/coresight/coresight-etm4x-reference.rst
-@@ -656,7 +656,18 @@ Bit assignments shown below:-
-     ETM_MODE_BB
- 
- **description:**
--    Set to enable branch broadcast if supported in hardware [IDR0].
-+    Set to enable branch broadcast if supported in hardware [IDR0]. The primary use for this feature
-+    is when code is patched dynamically at run time and the full program flow may not be able to be
-+    reconstructed using only conditional branches.
-+
-+    There is currently no support in Perf for supplying modified binaries to the decoder, so this
-+    feature is only inteded to be used for debugging purposes or with a 3rd party tool.
-+
-+    Choosing this option will result in a significant increase in the amount of trace generated -
-+    possible danger of overflows, or fewer instructions covered. Note, that this option also
-+    overrides any setting of :ref:`ETM_MODE_RETURNSTACK <coresight-return-stack>`, so where a branch
-+    broadcast range overlaps a return stack range, return stacks will not be available for that
-+    range.
- 
- .. _coresight-cycle-accurate:
- 
--- 
-2.28.0
-
+BR, Jarkko
