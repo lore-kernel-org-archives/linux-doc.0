@@ -2,96 +2,204 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04B13C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 16:17:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20C2DC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 16:43:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344590AbiEKQRm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 12:17:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39486 "EHLO
+        id S238423AbiEKQnr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 12:43:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344658AbiEKQRe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 12:17:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7C7D23BA75
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 09:17:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1652285841;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ch8AYJSR0bVojuLA0JpsnHZw3evm/2ziMe/ALgDSt0o=;
-        b=X8YfGfiPqkcDBms92WoEcjZAAQKyKJHqthBVN+/bG89z6C8EZ8f+a3e0oAG44JYNXUnws6
-        kctA0FlzcXsYyOKyOHj0G/hee8SDhPbBCHM5V4z365Pajl3OfXnyXp3QH02NghpNC+3QYF
-        yvGj5AOIg302xL6YKuYzuodhA3wPrWw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-152-gvGzGxhpO0KBaP3E_N9zzA-1; Wed, 11 May 2022 12:17:16 -0400
-X-MC-Unique: gvGzGxhpO0KBaP3E_N9zzA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C32A380418F;
-        Wed, 11 May 2022 16:17:15 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.192.194])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D295640CF8E4;
-        Wed, 11 May 2022 16:17:10 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Christian Brauner <brauner@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Huacai Chen <chenhuacai@gmail.com>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
+        with ESMTP id S236666AbiEKQnq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 12:43:46 -0400
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A1EB62BEC
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 09:43:42 -0700 (PDT)
+Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-d39f741ba0so3432514fac.13
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 09:43:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Qv5UPaNLDRk7OZesf9/OmG2IAf7szhws6U9XAPIZMsU=;
+        b=KHSscfX2VH88d4KZ8IH4882XNUx7gbxDp0H53sNZEcKHbBd0GlfHPCRJsWZAFSKulo
+         Y+i6p6Jr8+ZVY45RCmnhekz9C/ttFtLh2dTnv4xa1Q+PpWB7Gsyuf6DhDmxbKtjc9JdO
+         e2NW++2QKWi9+U6ubodpwq6eLTZOgqK/xZcJ0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Qv5UPaNLDRk7OZesf9/OmG2IAf7szhws6U9XAPIZMsU=;
+        b=Y20aXNTANVDAH0K8D12HnRyFT0sxln7I+HbhRBtT/WUSQWletnxSPNAsEImqL0LanO
+         72Pe2JgULrPkSEvTcpslKkhgSLPEO9sssEMyD8nzvinzZ0CFSpnf4O647LAJTOgyuAQq
+         TF9bnGsT2AysuZ12jh4rg/riQWzLwvi4uBXDfLj8zbzUYg9KhNZLVoPHc8y80vtBoSbi
+         1Rx5d2sfYkf1KKllam4Bp4TDuAGJwou1USnS6qVj6HZnQ09hkKykFkLzlEiuTnhMw3DE
+         ptDqiCKiykGBHm7Qt2EhhLIFH2qs2k3Y3why1ctYoNJYPNqlC6Mffi8LRDUolhSFZhCt
+         151g==
+X-Gm-Message-State: AOAM533szreHWK3vGsU7BmSjveODx+I/EcnBw4dzYpmKixyKZ/46L+Jc
+        8TuLG8ho2FNYK5kHx8unFAYpepT924mFsRa8N5uJuw==
+X-Google-Smtp-Source: ABdhPJy4VUawIZKr2RKSdWewGiu4eDM2uIznpYK2t+g0yjD/k1O8zxOEKSecLPlBSOajA0MocZ2fHlfSRQxeSPeybkM=
+X-Received: by 2002:a05:6870:b4a2:b0:ee:326e:58fb with SMTP id
+ y34-20020a056870b4a200b000ee326e58fbmr3261404oap.7.1652287420253; Wed, 11 May
+ 2022 09:43:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220510070140.45407-1-tomeu.vizoso@collabora.com>
+ <20220510141329.54414-1-tomeu.vizoso@collabora.com> <CAPM=9tzLR-wsLhg2ikGjoK06s-ju5XWa1rtPPiUpN=pwD1vgtA@mail.gmail.com>
+ <YntWQIXSqMCd6TYV@kroah.com> <1255a66a-121d-988a-19a7-316f703cb37d@mailbox.org>
+ <YnujG0nkF0U6d5kd@kroah.com> <CAF6AEGsmD-CNGj4bAE952JQpquaWA+Nxo5TGpFiHqaPK9doP-g@mail.gmail.com>
+In-Reply-To: <CAF6AEGsmD-CNGj4bAE952JQpquaWA+Nxo5TGpFiHqaPK9doP-g@mail.gmail.com>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Wed, 11 May 2022 18:43:29 +0200
+Message-ID: <CAKMK7uH8k6j5jE562yvbtBaE8EnM8JGF7zOXT4C62HdOgOs9SQ@mail.gmail.com>
+Subject: Re: [Freedreno] Adding CI results to the kernel tree was Re: [RFC v2]
+ drm/msm: Add initial ci/ subdirectory
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sean Paul <sean@poorly.run>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH V9 13/24] LoongArch: Add system call support
-References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
-        <20220430090518.3127980-14-chenhuacai@loongson.cn>
-        <CAK8P3a0A9dW4mwJ6JHDiJxizL7vWfr4r4c5KhbjtAY0sWbZJVA@mail.gmail.com>
-        <CAAhV-H4te_+AS69viO4eBz=abBUm5oQ6AfoY1Cb+nOCZyyeMdA@mail.gmail.com>
-        <CAK8P3a0DqQcApv8aa2dgBS5At=tEkN7cnaskoUeXDi2-Bu9Rnw@mail.gmail.com>
-        <20220507121104.7soocpgoqkvwv3gc@wittgenstein>
-        <20220509100058.vmrgn5fkk3ayt63v@wittgenstein>
-Date:   Wed, 11 May 2022 18:17:09 +0200
-In-Reply-To: <20220509100058.vmrgn5fkk3ayt63v@wittgenstein> (Christian
-        Brauner's message of "Mon, 9 May 2022 12:00:58 +0200")
-Message-ID: <87bkw4doxm.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        freedreno <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Christian Brauner:
+On Wed, 11 May 2022 at 15:33, Rob Clark <robdclark@gmail.com> wrote:
+> On Wed, May 11, 2022 at 4:50 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Wed, May 11, 2022 at 12:26:05PM +0200, Michel D=C3=A4nzer wrote:
+> > > On 2022-05-11 08:22, Greg Kroah-Hartman wrote:
+> > > > On Wed, May 11, 2022 at 03:06:47PM +1000, Dave Airlie wrote:
+> > > >>> And use it to store expectations about what the drm/msm driver is
+> > > >>> supposed to pass in the IGT test suite.
+> > > >>
+> > > >> I wanted to loop in Linus/Greg to see if there are any issues rais=
+ed
+> > > >> by adding CI results file to the tree in their minds, or if any ot=
+her
+> > > >> subsystem has done this already, and it's all fine.
+> > > >
+> > > > Why does the results need to be added to the tree?  Shouldn't they =
+be
+> > > > either "all is good" or "constantly changing and a constant churn"?
+> > > >
+> > > >> I think this is a good thing after our Mesa experience, but Mesa h=
+as a
+> > > >> lot tighter integration here, so I want to get some more opinions
+> > > >> outside the group.
+> > > >
+> > > > For systems that have "tight integration" this might make sense as =
+proof
+> > > > that all is working for a specific commit, but I can't see how this=
+ will
+> > > > help the kernel out much.
+> > > >
+> > > > What are you going to do with these results being checked in all th=
+e
+> > > > time?
+> > >
+> > > Having the expected results in the tree keeps them consistent with th=
+e driver code itself, and allows putting in place gating CI to prevent merg=
+ing driver changes which make any of the tests deviate from the expected re=
+sult.
+> >
+> > Shouldn't "expected result" always be "pass"?
+> >
+> > If not, then the test should be changed to be "skipped" like we have
+> > today in the kselftest tests.
+>
+> No, we want to run tests even if they are expected to fail.  This
+> prevents the scenario of a test getting fixed without being noticed
+> (for ex, developer was working on fixing test A and didn't notice that
+> the fix also fixed test B).  If a fix goes unnoticed, a later
+> regression would also go unnoticed ;-)
+>
+> I was skeptical about this approach at first with mesa CI, but having
+> used mesa CI for a while, I am now a firm believer in the approach.
+>
+> And ofc we want the expectations to be in the kernel tree because
+> there could be, for example, differences between -fixes and -next
+> branches.  (Or even stable kernel branches if/when we get to the point
+> of running CI on those.)
 
-> Without an approach like this certain sandboxes will fallback to
-> ENOSYSing system calls they can't filter. This is a generic problem
-> though with clone3() being one promiment example.
+Yeah result files in tree is kinda needed, even more so for the
+kernel. A lot of the linux-next integration testing is only done after
+patches have landed, and sometimes such breakage makes it to upstream
+and then into the subsystem/driver tree. Annotating in the backmerge
+what exactly broke and why helps a lot with tracking issues.
 
-Furthermore, for glibc (and I believe musl as well), the trick with
-in-process emulation of clone3 using SIGSYS does not work here because
-we must inhibit delivery of signals on the nascent thread, before it is
-fully set up.  This means that we have to block signals around the
-clone/clone3 system call, so that the new thread is created with all
-signals blocked.  This means that instead of calling the SIGSYS handler,
-the filtered system call simply terminates the process.
+And expecting every subsystem to run every other subsystem's tests,
+especially tests that run on hw, is just not going to scale. So there
+will be all kinds of difference in test results.
 
-(I think there have been discussions of using out-of-process filtering,
-but I don't know where we are with that.)
+> > And how about tieing this into the kselftest process as well, why would
+> > this be somehow separate from the rest of the kernel tests?
+> >
+> > > Keeping them separate inevitably results in divergence between the dr=
+iver code and the expected test results, which would result in spurious fai=
+lures of such CI.
+> >
+> > Again, "pass" should be the expected results :)
+> >
+> > > I expect the main complication for the kernel will be due to driver c=
+hanges merged via different trees, e.g. for cross-subsystem reworks. Since =
+those will not go through the same CI, they may accidentally introduce inco=
+nsistencies. The ideal solution for this IMO would be centralizing CI such =
+that the same gating tests have to pass regardless of how the code is merge=
+d. But there's likely quite a long way to go until we get there. :)
+> >
+> > We have in-kernel tests for the rest of the kernel, why can't you put
+> > your testing stuff into there as well?
+>
+> We could ofc put a lot more of the gitlab yml and scripts into the
+> kernel tree.  Probably all of i-g-t is a bit much to put in the kernel
+> tree.  Not to mention I'd like to see this expand to also run some
+> deqp and/or piglit tests, which is definitely too much to vendor into
+> the kernel tree.
+>
+> The approach of this RFC was to put only what was absolutely required
+> in the kernel tree (such as expectations), and then link out to an
+> external drm-ci tree[1] which has all the necessary scripts and yml
+> for building and running tests, to avoid having to put a whole lot
+> more in the kernel tree. (We should be specifying exact commit-sha for
+> that tree, IMO, as it controls the version of i-g-t which gets used,
+> and we need to be able to update expectations in sync with an i-g-t
+> uprev, for example when new tests are added or if a test fix caused a
+> fail->pass transition.)
 
-Thanks,
-Florian
+Yeah I think longer-term we should carry a lot more in upstream, at
+least anything that's shared across drivers wrt the ci integration (or
+build testing and running tests which are hw agnostic). Maybe even
+igt, not sure (otoh xfs-tests isn't moving into the kernel either, and
+there's lots more like that).
 
+Personally I think long-term the only thing outside should be other
+repos with tests or stuff you need to run them, and not really the
+glue to make it all work in ci. But that's maybe a bit too much
+wishful thinking if CI systems stay largely subsystem specific (which
+they currently are in many ways, with some overlap).
+
+But maybe there is enough random pieces to share here for a lot more
+in-tree to make sense, and imo the fewer extra steps and indirection
+CI testing and test updating has, the better.
+
+But like Rob says, eventually there's a limit and when you put the
+entire GL/vulkan stack + it's conformance testsuite (which is
+maintained by khronos somewhere completely different than both
+kernel.org and freedesktop.org) then it's definitely too much and wont
+work. And eventually we do want to run these things too (e.g.
+intel-gfx-ci does run mesa + piglit on every run).
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
