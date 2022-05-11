@@ -2,136 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B580FC43217
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 16:15:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04B13C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 16:17:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344470AbiEKQO7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 12:14:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57810 "EHLO
+        id S1344590AbiEKQRm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 12:17:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344457AbiEKQO5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 12:14:57 -0400
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25E176EC5D
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 09:14:56 -0700 (PDT)
-Received: by mail-oi1-x230.google.com with SMTP id j12so3303580oie.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 09:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Cf09Je3CtRN58q8NVoc2nPVu33QjMHj88UB5fSrOla4=;
-        b=CTG8yoxyViVJG9wmGrm6SLhEgFT0WuEvMoQXyZI5Kx6YkRB5j28pASLSwuZICqn0Cn
-         WUe9JQtUluE5n2n2m1EPa+FISLLmw74zubXRkCQO7+cPFnDb7SH7eHHvsAv5UmyVzyUV
-         Yg4qwAYNHpV19CvN9+QaSJdKAjMOYPnzZCA3hYz+C9nugper2Z4G1e1AGj+1SszRkaQo
-         moGjWWVVce7nK2CR/KrFugqD3XC1mwkzPeFT8lqC0rXm5ECEPIDRHLahArrblpkSEeOi
-         oarjMZfY1Bm/srauvkhyBWogv1HqzCKX1WkOEQx8b1IIsfASQoQDyYqMHU0Z+3n8xztv
-         Iymw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Cf09Je3CtRN58q8NVoc2nPVu33QjMHj88UB5fSrOla4=;
-        b=W+XnViM1wB+V7KCoBLzPa5alLkHvdLbwFe8Is/2d/OjPKj4A+UjPN4GVeP2KCXVQ4h
-         b1joKER3cVSLahCHG02jGHGSNXbFnfWcBsRoyBgouNIRLhLra24ONbJ3RUNbOZMwNGpL
-         8IPeHF2ao21ni+O04adCW08OGG9iQUS2u5l35FUzaIYhDlK6s7QY4IESYPqc4hFaA2pK
-         NY36qfpSuPyUXFEpNNxidXUIKyhOeZpE/BxFG/n46SXc2hw5ryMoir0dxKwb414oqA/J
-         ElC+t56NUK+RiMGTowzO+GoD1yquKl4zOPgr2U/kuAGARYCmTJ7Pq7qpe1IRpCCOp0jM
-         E6oQ==
-X-Gm-Message-State: AOAM530ppf/hjO7QIp8JdUY1lSna/PCkaqWIl999GzHywufX1v+T3pop
-        BI/+8WgtBxt3BdjogZt2n4c42Q==
-X-Google-Smtp-Source: ABdhPJz8wvQ3CXsSwZJgwMBRizoEDzOcZERxCvR6YfvQLmBZIZFLmiRHdvM6kGdBrvW6hOVawnGctg==
-X-Received: by 2002:a05:6808:2199:b0:326:90e2:754b with SMTP id be25-20020a056808219900b0032690e2754bmr2876267oib.227.1652285695478;
-        Wed, 11 May 2022 09:14:55 -0700 (PDT)
-Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id z18-20020a056808065200b00325cda1ffacsm861218oih.43.2022.05.11.09.14.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 May 2022 09:14:54 -0700 (PDT)
-Date:   Wed, 11 May 2022 09:17:25 -0700
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Doug Anderson <dianders@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v14 2/2] leds: Add driver for Qualcomm LPG
-Message-ID: <YnvhleAI5RW0ZvkV@ripper>
-References: <20220303214300.59468-1-bjorn.andersson@linaro.org>
- <20220303214300.59468-2-bjorn.andersson@linaro.org>
- <20220504073009.GC8204@duo.ucw.cz>
- <YnKTAvQc6eDxTl14@ripper>
- <20220506160901.GA1199@bug>
- <YnVMcaRV86jZslhd@ripper>
- <20220507063659.GA6968@amd>
+        with ESMTP id S1344658AbiEKQRe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 12:17:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7C7D23BA75
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 09:17:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1652285841;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ch8AYJSR0bVojuLA0JpsnHZw3evm/2ziMe/ALgDSt0o=;
+        b=X8YfGfiPqkcDBms92WoEcjZAAQKyKJHqthBVN+/bG89z6C8EZ8f+a3e0oAG44JYNXUnws6
+        kctA0FlzcXsYyOKyOHj0G/hee8SDhPbBCHM5V4z365Pajl3OfXnyXp3QH02NghpNC+3QYF
+        yvGj5AOIg302xL6YKuYzuodhA3wPrWw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-152-gvGzGxhpO0KBaP3E_N9zzA-1; Wed, 11 May 2022 12:17:16 -0400
+X-MC-Unique: gvGzGxhpO0KBaP3E_N9zzA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C32A380418F;
+        Wed, 11 May 2022 16:17:15 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.192.194])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id D295640CF8E4;
+        Wed, 11 May 2022 16:17:10 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Christian Brauner <brauner@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Huacai Chen <chenhuacai@gmail.com>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH V9 13/24] LoongArch: Add system call support
+References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
+        <20220430090518.3127980-14-chenhuacai@loongson.cn>
+        <CAK8P3a0A9dW4mwJ6JHDiJxizL7vWfr4r4c5KhbjtAY0sWbZJVA@mail.gmail.com>
+        <CAAhV-H4te_+AS69viO4eBz=abBUm5oQ6AfoY1Cb+nOCZyyeMdA@mail.gmail.com>
+        <CAK8P3a0DqQcApv8aa2dgBS5At=tEkN7cnaskoUeXDi2-Bu9Rnw@mail.gmail.com>
+        <20220507121104.7soocpgoqkvwv3gc@wittgenstein>
+        <20220509100058.vmrgn5fkk3ayt63v@wittgenstein>
+Date:   Wed, 11 May 2022 18:17:09 +0200
+In-Reply-To: <20220509100058.vmrgn5fkk3ayt63v@wittgenstein> (Christian
+        Brauner's message of "Mon, 9 May 2022 12:00:58 +0200")
+Message-ID: <87bkw4doxm.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220507063659.GA6968@amd>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 06 May 23:36 PDT 2022, Pavel Machek wrote:
+* Christian Brauner:
 
-> Hi!
-> 
-> > > > As such the pattern sequence provided to hw_pattern looks to be the
-> > > > smae, but I don't see that it can be made compatible.
-> > > > 
-> > > > > Can I get either patch to disable pattern infrastructure for now or to
-> > > > > get it compatible?
-> > > > > 
-> > > > 
-> > > > I'd be happy to get this updated to your liking, but this was one of the
-> > > > drivers we discussed when we introduced the pattern trigger and led to
-> > > > the conclusion that we need the ability to do hw-specific patterns.
-> > > > 
-> > > > As such this document provides the hardware specific documentation, as
-> > > > we describe under "hw_pattern" in
-> > > > Documentation/ABI/testing/sysfs-class-led-trigger-pattern.
-> > > > 
-> > > > Please advice on what you would like me to do.
-> > > 
-> > > I'd like you to use same format leds-trigger-pattern describes.
-> > > 
-> > > If someone passes "255 500 0 500", that's requesting gradual transitions and
-> > > your hw can not do that. You return -EINVAL.
-> > > 
-> > > If someone wants that kind of blinking, they need to pass "255 0 255 500 0 0 0 500".
-> > > 
-> > 
-> > So the section under hw_pattern in sysfs-class-led-trigger-pattern that
-> > says:
-> > 
-> > "Since different LED hardware can have different semantics of
-> > hardware patterns, each driver is expected to provide its own
-> > description for the hardware patterns in their documentation
-> > file at Documentation/leds/."
-> > 
-> > That doesn't apply to this piece of hardware & driver?
-> 
-> It applies: since your hardware can not do arbitrary patterns, you
-> need description of what kinds of patterns it can do.
-> 
-> But you should still use compatible format, so that pattern that is
-> valid for hw_pattern file is valid for pattern file, too, and produces
-> same result.
-> 
+> Without an approach like this certain sandboxes will fallback to
+> ENOSYSing system calls they can't filter. This is a generic problem
+> though with clone3() being one promiment example.
 
-Okay, I didn't understand that the hw_pattern needs to be a subset of
-the pattern. I will prepare a patch to require the pattern to include
-the zero-time entries as well.
+Furthermore, for glibc (and I believe musl as well), the trick with
+in-process emulation of clone3 using SIGSYS does not work here because
+we must inhibit delivery of signals on the nascent thread, before it is
+fully set up.  This means that we have to block signals around the
+clone/clone3 system call, so that the new thread is created with all
+signals blocked.  This means that instead of calling the SIGSYS handler,
+the filtered system call simply terminates the process.
 
-> If you believe documentation implies something else, it may need to be
-> clarified.
-> 
-
-I'll read it again and if needed I'll try to clarify the expectations.
+(I think there have been discussions of using out-of-process filtering,
+but I don't know where we are with that.)
 
 Thanks,
-Bjorn
+Florian
+
