@@ -2,116 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79835C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 10:52:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F9AC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 10:57:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230062AbiEKKwp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 06:52:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54832 "EHLO
+        id S232535AbiEKK5s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 06:57:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229819AbiEKKwl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 06:52:41 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B21C6FD3E;
-        Wed, 11 May 2022 03:52:40 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id a191so1474856pge.2;
-        Wed, 11 May 2022 03:52:40 -0700 (PDT)
+        with ESMTP id S231894AbiEKK5q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 06:57:46 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5FAF4665B
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 03:57:44 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id cq17-20020a17090af99100b001dc0386cd8fso1725886pjb.5
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 03:57:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:from:subject:to:cc
-         :references:content-language:in-reply-to:content-transfer-encoding;
-        bh=D69fYPxCw8BUOIfDJnOY3FdNP+e1YOgJF/XqPjbFoNo=;
-        b=dXKO8FRy1Gx9Bi+ilR6bwSQQKTQD1+W+fYClXKMXcZFbRCqU19eBjOL+zMisq48KHQ
-         p/3UmgbEy9anVL+cuX+/tcSzt9K8kR/wKnpsCqTC1cpLgubJUzRci7ub6xOZmzCnJbxW
-         oN8vabwCdI/1z6HNsxW015J8kNcdPzdnwtHmft2RyuezRS0b9HXVR/lMsYfDHge7ptEZ
-         DuZPiRHq0Ame6ledlaatKVyZ2BX5cut0fVvzrCNuazazV5p9LaNiDwFsVbd7Z8qEFk/x
-         W80BKDKKxfACVsPZ7iE7/Ihsi/AhtAp0cxDQieV/K2NTiMZWuqU22+GlZaLe2+6IcV+/
-         25Aw==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=fZDRUrJcoddOI9LUx9R90auFEIMbtfXtE02emcq85vQ=;
+        b=HzBNa9AB2P7wZpUPFsvLZ9f9YvBiLg8bA6EUO/OBrBxIMx/Bv4yQuojU1EpBcvijO3
+         P9o2RA2brlait7uMo2aEzeFwI0xmcRkL/odlVQHvtctPmP9rD++t6c41SjbhdcLll+jZ
+         Nta+CNL77iBe4TQEz21newKCgKl36svd5J9i+XS+2EhxeGvEyTakkPny1keUiEid6Ud/
+         XadIJVSMbScKOe3xiU8j29nTzURvw9o/QiGqhLvjOfEwyrHRCKxMKhasCpLt1t/EIoQ7
+         mPrJ4eOFfMZabag7NOvE6kwsK3fpovxR/sMiW3FlWjqi6oBr21GymliUDxm1gYDtC0F/
+         jR7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
-         :subject:to:cc:references:content-language:in-reply-to
-         :content-transfer-encoding;
-        bh=D69fYPxCw8BUOIfDJnOY3FdNP+e1YOgJF/XqPjbFoNo=;
-        b=VmmZ3+8g/tSHMsPc5ZD7H+LiDOz4iydZPc4mFRCjKGLfuPMb16o0q6XPj0JgMUDCIi
-         UoB4L9Kvt5VhsD+v6xLLtfoNheTR82nV+jsM0Ja85A92zxXpS4al5TLWN2tmCB/Wx44O
-         EjfwWxo2qcHDAAlJWo3fS+6sW1LMXnrq+qeX8QhZQWzUYiayffmqROcl8ti7eRMMG/I3
-         NEDelzfdD6WouQA4Ot1T5iGZXNb6Igd9eF9eBqh/vdeXmpgBK0UPl4Wh00fpKcWi0t7E
-         wnG92ZJ53Dw9QZWRbz1loSK+leWU/hHNcAlKOipikzJ6AnPcEAdJx9bwetAP4G0OvgfF
-         JrQw==
-X-Gm-Message-State: AOAM530hqm8hcIlsEi+gdj9dc3vhkGPbWRSK0W+eTClJC1fQi/vm09ga
-        lHc7kAPp++uavPT3VC//VuE=
-X-Google-Smtp-Source: ABdhPJz/1MRji99fbx2kQ84bnyYlvpn5iJ9qHzZyPRhLDMiNAH4pha7e5uayS0kg5Cyw349r6OQFcw==
-X-Received: by 2002:a05:6a00:1a49:b0:510:a1d9:7d73 with SMTP id h9-20020a056a001a4900b00510a1d97d73mr15057408pfv.53.1652266359838;
-        Wed, 11 May 2022 03:52:39 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id d5-20020a170902c18500b0015e8d4eb1d2sm1487774pld.28.2022.05.11.03.52.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 May 2022 03:52:39 -0700 (PDT)
-Message-ID: <ec431b19-520f-b202-33f6-4ba336743ee3@gmail.com>
-Date:   Wed, 11 May 2022 19:52:35 +0900
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fZDRUrJcoddOI9LUx9R90auFEIMbtfXtE02emcq85vQ=;
+        b=GfRBW7uk02dXN+I0IfgYn9WOC4JFXUNyXYKCECshTizbJbJNOkwKphDW+E3mIiyOhZ
+         63T5VtOCdcBcYW1XJ1lw6ZOwoXBbTACZlLvmYrqEqCBLWAN0mmfXgg/g9lzioASnUna6
+         nFv0C793qGvQwvBOroePcDKq9hKOkgkAuC7diCJcX3kq+bqHS2sLzeOQKGcqwUsFPOgh
+         HJ1lubv/c595Tf8GPRKdWaTowUqaU51eEDcVxDgKH/25jvR0pRgRcu0uPW8rRgbjKyEq
+         MZDP8Kk7dMl0KG2gopNhmfPNhsPB9ka6PmNVKIGDy/Fqu1eDdiAkuM3dUOhqdA/xHVKe
+         ebZg==
+X-Gm-Message-State: AOAM530vx2Z66tKqSeK52qQmcQIH7aDkGmEJTkTokxgF/O/R/om9kuUo
+        7G/MwAOpxQokFx3cIF6GwiOKfGyZgf/Qcg==
+X-Google-Smtp-Source: ABdhPJwC3JvY0yyZZKqrx8zPPlaVt1UAUQt4RbPa3XOwHux0ofuAsp5Ax5zrWKm72QJgrbiYRp7Ncw==
+X-Received: by 2002:a17:90b:4acb:b0:1dc:32dd:d51e with SMTP id mh11-20020a17090b4acb00b001dc32ddd51emr4653614pjb.5.1652266664222;
+        Wed, 11 May 2022 03:57:44 -0700 (PDT)
+Received: from localhost ([139.177.225.234])
+        by smtp.gmail.com with ESMTPSA id y64-20020a623243000000b0050dc7628195sm1396596pfy.111.2022.05.11.03.57.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 May 2022 03:57:43 -0700 (PDT)
+Date:   Wed, 11 May 2022 18:57:32 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     corbet@lwn.net, akpm@linux-foundation.org, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
+        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v10 4/4] mm: hugetlb_vmemmap: add
+ hugetlb_optimize_vmemmap sysctl
+Message-ID: <YnuWnFbb8xExKfdk@FVFYT0MHHV2J.usts.net>
+References: <20220509062703.64249-1-songmuchun@bytedance.com>
+ <20220509062703.64249-5-songmuchun@bytedance.com>
+ <970166e0-f70e-dd2a-c764-af23a8425f87@oracle.com>
+ <9d64809f-db8c-0a3e-1ae9-d4a8ab79041e@oracle.com>
+ <YnuF1c5fMOzJnNfD@FVFYT0MHHV2J.usts.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH net-next] docs: ctucanfd: Use 'kernel-figure' directive
- instead of 'figure'
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Marc Kleine-Budde <mkl@pengutronix.de>,
-        Pavel Pisa <pisa@cmp.felk.cvut.cz>,
-        Martin Jerabek <martin.jerabek01@gmail.com>,
-        Ondrej Ille <ondrej.ille@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <05d491d4-c498-9bab-7085-9c892b636d68@gmail.com>
- <YntZqxuLSci6f8Z+@debian.me>
-Content-Language: en-US
-In-Reply-To: <YntZqxuLSci6f8Z+@debian.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YnuF1c5fMOzJnNfD@FVFYT0MHHV2J.usts.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 11 May 2022 13:37:31 +0700,
-Bagas Sanjaya wrote:
-> On Tue, May 10, 2022 at 06:34:37PM +0900, Akira Yokosawa wrote:
->> Two issues were observed in the ReST doc added by commit c3a0addefbde
->> ("docs: ctucanfd: CTU CAN FD open-source IP core documentation.").
->>
->> The plain "figure" directive broke "make pdfdocs" due to a missing
->> PDF figure.  For conversion of SVG -> PDF to work, the "kernel-figure"
->> directive, which is an extension for kernel documentations, should
->> be used instead.
->>
+On Wed, May 11, 2022 at 05:45:57PM +0800, Muchun Song wrote:
+> On Tue, May 10, 2022 at 05:39:40PM -0700, Mike Kravetz wrote:
+> > On 5/10/22 14:30, Mike Kravetz wrote:
+> > > On 5/8/22 23:27, Muchun Song wrote:
+> > >> diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
+> > >> index 029fb7e26504..917112661b5c 100644
+> > >> --- a/include/linux/memory_hotplug.h
+> > >> +++ b/include/linux/memory_hotplug.h
+> > >> @@ -351,4 +351,13 @@ void arch_remove_linear_mapping(u64 start, u64 size);
+> > >>  extern bool mhp_supports_memmap_on_memory(unsigned long size);
+> > >>  #endif /* CONFIG_MEMORY_HOTPLUG */
+> > >>  
+> > >> +#ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
+> > >> +bool mhp_memmap_on_memory(void);
+> > >> +#else
+> > >> +static inline bool mhp_memmap_on_memory(void)
+> > >> +{
+> > >> +	return false;
+> > >> +}
+> > >> +#endif
+> > >> +
+> > >>  #endif /* __LINUX_MEMORY_HOTPLUG_H */
+> > >> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> > >> index 8605d7eb7f5c..86158eb9da70 100644
+> > >> --- a/mm/hugetlb.c
+> > >> +++ b/mm/hugetlb.c
+> > >> @@ -1617,6 +1617,9 @@ static DECLARE_WORK(free_hpage_work, free_hpage_workfn);
+> > >>  
+> > >>  static inline void flush_free_hpage_work(struct hstate *h)
+> > >>  {
+> > >> +	if (!hugetlb_optimize_vmemmap_enabled())
+> > >> +		return;
+> > >> +
+> > > 
+> > > Hi Muchun,
+> > > 
+> > > In v9 I was suggesting that we may be able to eliminate the static_branch_inc/dec from the vmemmap free/alloc paths.  With this patch
+> > > I believe hugetlb_optimize_vmemmap_enabled() is really checking
+> > > 'has hugetlb vmemmap optimization been enabled' OR 'are there still vmemmap
+> > > optimized hugetlb pages in the system'.  That may be confusing.
+> > > 
+> > 
+> > Sorry, I forgot about the use of hugetlb_optimize_vmemmap_enabled in
+> > page_fixed_fake_head.  We need to know if there are any vmemmap optimized
+> > hugetlb pages in the system in this performance sensitive path.  So,
+> > static_branch_inc/dec is indeed a good idea.
+> >
+> 
+> Agree.
+> 
+> > Please disregard my attempt below at removing static_branch_inc/dec.
+> > 
+> > I still find the name hugetlb_optimize_vmemmap_enabled a bit confusing as
+> > it tests two conditions (enabled and pages in use).
+> >
+> 
+> Right. It tests two conditions.
+> 
+> > You have already 'open coded' just the check for enabled in the routine
+> > hugetlb_vmemmap_free with:
+> > 
+> > 	READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF
+> > 
+> > How about having hugetlb_optimize_vmemmap_enabled() just check
+> > vmemmap_optimize_mode in a manner like above?  Then rename
+> 
+> I'm wondering is it necessary to do this? vmemmap_optimize_mode
+> is a internal state in hugetlb_vmemmap.c, at leaset now there is
+> no outside users who care about this.  Open-coding may be not
+> an issue (I guess)?  If one day someone cares it, maybe it it
+> the time to do this and rename hugetlb_optimize_vmemmap_enabled()?
+> I'm not against doing this, just expressing some of my thoughts.
+> What do you think, Mike?
+> 
+> > hugetlb_optimize_vmemmap_enabled to something like:
+> > hugetlb_optimized_vmemmap_possible().  Sorry, I can think if a great name.
+> > 
+> 
+> At least I cannot come up with an appropriate name.
+> hugetlb_optimize_vmemmap_may_enabled()? It's not easy to come
+> up with a good name.
 >
-> Does plain "figure" directive not currently support SVG file argument?
-> Because when I see reST documentation ([1]), it doesn't explicitly
-> mentioned supported image formats.
->
-> [1]: https://docutils.sourceforge.io/docs/ref/rst/directives.html#figure
->
 
-Close!
+Instead of renaming, how about remove hugetlb_optimize_vmemmap_enabled()
+directly?  I found there are only two places (mm/memory_hotplug.c and
+arch/arm64/mm/flush.c) except include/linux/page-flags.h where use this
+helper.
 
-See:
-    https://docutils.sourceforge.io/docs/ref/rst/directives.html#images
+In arch/arm64/mm/flush.c, we could replace it with
 
-There you see the compatibility table of image format vs
-output format/user agent.  The argument (URI) can be in any
-format a consumer of generated document can render.
-It's user's (read: kernel-documentation tool's) responsibility
-to prepare images in suitable formats.
+  if (PageHuge(page) && HPageVmemmapOptimized(compound_head(page)))
 
-For kernel documentation, the "kernel-figure" directive triggers
-the conversion of images depending on the output format, so that
-compatible images can be used in the generated documents.
+In mm/memory_hotplug.c, I have a plan to remove it as well (I'll
+post them out after this patch merged).
 
-Those conversions are independent of what you write in .rst files.
-If there emerges another output target which prefers a different
-image format, you can always modify the extension code in
-kfigure.py.
-
-        Thanks, Akira
+Finally, there is no outside users of it, we could remove it and squash
+it into page_fixed_fake_head(). What do you think this, Mike?
 
