@@ -2,108 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F290C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 08:24:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE304C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 08:38:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243601AbiEKIYL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 04:24:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59176 "EHLO
+        id S239443AbiEKIiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 04:38:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243621AbiEKIYL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 04:24:11 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AF3966687;
-        Wed, 11 May 2022 01:24:09 -0700 (PDT)
-Received: from mail-yb1-f181.google.com ([209.85.219.181]) by
- mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MQvL7-1nStfM0uhD-00O1RW; Wed, 11 May 2022 10:24:07 +0200
-Received: by mail-yb1-f181.google.com with SMTP id m190so2574877ybf.4;
-        Wed, 11 May 2022 01:24:06 -0700 (PDT)
-X-Gm-Message-State: AOAM530F/rs7V40kHDEiGuNXLmrG/p7lbti7GItpjdQdtPDsDX0Tf/tE
-        ZwKWpgjgof6PPdqA5c39yuZvq0kzhQ+zjD1n7gQ=
-X-Google-Smtp-Source: ABdhPJyFouUq4CPyqHhoX+wyzUMdk5CW1I4lCwx2Vb0ywqtufH4ws3JEs5ZA78mXb7f9SpKUbRnNZIcDW9YXE5YZ5Uk=
-X-Received: by 2002:a25:31c2:0:b0:641:660f:230f with SMTP id
- x185-20020a2531c2000000b00641660f230fmr21930869ybx.472.1652257445777; Wed, 11
- May 2022 01:24:05 -0700 (PDT)
+        with ESMTP id S243829AbiEKIir (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 04:38:47 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4BB6A30BB
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 01:38:45 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 447C6B82146
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 08:38:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3C2CC385DB;
+        Wed, 11 May 2022 08:38:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652258323;
+        bh=YXCJll4eqohB0nlgPp0LESWnXDewGXdVlfxDGvNC0N0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FLFq0p35TFclhNbVwN/tCuiWzBVi6jsZqw3KbWhG+0Kw9T6GYmGkMpQ1xTeJES2y3
+         NQ8wb7swMjK2yo2tt0uNW9Sns7ChFk8NtyOO53bytBLWTfub90rs7NG1y3HeYXA7vC
+         d47ufaQjyo5YIunc/OyBZLi43S17KzOXrxmOLXAB3amvd0wTNYbhXSzsXKRY1mt0f5
+         U4l3UqxcdQPMxTSaNzivoz1Yj9ndNA9dFTTipm5E7/peWuJr2QmYYP6BQLWy1ryTky
+         FYHVNHZQMQL5IJ7L0iOUBcTvp9RXXjlAHqanXo47YMYBx6GBgHmrvcuAyUDwa3vjaO
+         DwspFtRLbmayQ==
+Date:   Wed, 11 May 2022 11:38:35 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        John Hubbard <jhubbard@nvidia.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>
+Subject: Re: [PATCH v2] mm,doc: Add new documentation structure
+Message-ID: <Ynt2C0Fqm5kAQueQ@kernel.org>
+References: <20220507134947.444287-1-willy@infradead.org>
 MIME-Version: 1.0
-References: <20220509150130.1047016-1-kuba@kernel.org> <CAK8P3a0FVM8g0LG3_mHJ1xX3Bs9cxae8ez7b9qvGOD+aJdc8Dw@mail.gmail.com>
- <20220509103216.180be080@kernel.org> <9cac4fbd-9557-b0b8-54fa-93f0290a6fb8@schmorgal.com>
- <CAK8P3a1AA181LqQSxnToSVx0e5wmneUsOKfmnxVMsUNh465C_Q@mail.gmail.com> <d7076f95-b25b-3694-1ec2-9b9ff93633b7@schmorgal.com>
-In-Reply-To: <d7076f95-b25b-3694-1ec2-9b9ff93633b7@schmorgal.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 11 May 2022 10:23:49 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3Tj=aJM_-x17uw1yJ-5+DgKX6APgEaO0sa=aRBKya1XQ@mail.gmail.com>
-Message-ID: <CAK8P3a3Tj=aJM_-x17uw1yJ-5+DgKX6APgEaO0sa=aRBKya1XQ@mail.gmail.com>
-Subject: Re: [PATCH net-next] net: appletalk: remove Apple/Farallon LocalTalk
- PC support
-To:     Doug Brown <doug@schmorgal.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Jakub Kicinski <kuba@kernel.org>,
-        David Miller <davem@davemloft.net>,
-        Networking <netdev@vger.kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Paul Mackerras <paulus@samba.org>, linux-ppp@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:Z952orSfTHyBgIXeXcsCvkvztAO+z1GduLlvnq7aygZujRIllvc
- hUFlMYrOZdxt9lwEPuMJecBzlTNrib9a3u9Ow3h5lW+H3yLWs+syKF4GE3HYAHdQkuJ4/O7
- ba/OhYTIY2ccNzxU6ViK01x9kwwidCH1neRoMV1on/zCXK8wCGzETtiSh2Fp5jlKuyCekUi
- VcZfXBRPV6LPDQPr7SZgA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OTZcUvRBuKc=:WmoD9sIBRr16VnoGQSyzME
- 8RvP6ktOq78ojRnfrRfF6RDAQeDYLhgit3zM13qWaUC+DuH7foox/ulDjTsfK9ozt+TkF4ghp
- 3xLvDY/rWbsaDypIwLrhrWbHXD9fmPsqez1J4wKGplKZmd4O6N/alVmZB4zOLEHJa2jH9gpB+
- pxwJ0rEVbxPg/TIMT3T5hfgqcJFpulas+LejUOa6mAiENzYBeDNtBm0HDNYajyJ4VFR3CBb6y
- 5QwFiy7Kqx6rBDVok0uHEb2G8CXj+QA56IO9VPC6TdYB58AnfUQny7oOdpkCVoIV9UmKHbnrV
- Inig72kmNfE/kokOBnJYg7IWT4HC4ZH2bZS0mkJR1/bCSkO0WWz6OiT4EORGKYh1dK9D2jGk3
- XWyjqn508Oep5btcvIxh9UZK1gCp2a9RYrrobNznvRNgdXG+A0qwiVeBT2k4bRGxz8gHWTY2T
- l4D82Z1xDhF8iDeGwsKpcq/Le7kI70E6sU0YkoZ4xrVWPsrW+8sMGX/SA+aRhyw+nAhgYR/qg
- Iiq0lGIFLI2YD4rHfkiFei/HzH6/JJBCqukCJV+5+9+aow/azZs7AQD2mpjM7Gc4yFHNE5d3g
- th3znq+GymAL+kVwcXtWmbTyeNGC96lW1EPkBgb7tqQPtOMze4492ZDKhELkNDgHCYgjyhn7h
- h/9DeaavpwCriJM04Vqy+nQi7oJgLXaf4JnZJx9jWj9hizCgYOpF5tner/TOC7E7FwNI=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220507134947.444287-1-willy@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 11, 2022 at 2:20 AM Doug Brown <doug@schmorgal.com> wrote:
->
-> On 5/9/2022 11:48 PM, Arnd Bergmann wrote:
-> > If I understand this correct, this means we could remove all of
-> > drivers/net/appletalk/ except for the CONFIG_ATALK Kconfig entry,
-> > and also remove net/appletalk/dev.c and a few bits of net/appletalk
-> > that reference localtalk device structures and their ioctls, right?
-> Yes, I believe so. At that point, would Kconfig get moved to
-> net/appletalk instead? (Just wondering out of my own curiosity!)
-> > What about appletalk over PPP (phase1 probing in aarp.c) and
-> > ARPHRD_LOCALTLK support in drivers/net/tun.c? Are these still
-> > useful without localtalk device support?
->
-> I don't feel qualified enough to answer those ones definitively, but it
-> looks to me like the ARPHRD_LOCALTLK support in net/tun.c could be
-> stripped out, because tun_get_addr_len only gets called on a struct
-> net_device's type, and stripping out LocalTalk would make that condition
-> impossible (I think?)
+On Sat, May 07, 2022 at 02:49:47PM +0100, Matthew Wilcox (Oracle) wrote:
+> Closely following the outline of Mel Gorman's book "Understanding the
+> Linux Virtual Memory Manager", add a new outline.  Preserve the current
+> contents of the mm underneath the new outline so we can transition those
+> documents to a more sensible place later.
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Reviewed-by: John Hubbard <jhubbard@nvidia.com>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
 
-Right, I came to the same conclusion here.
+Small nit below, otherwise
 
-> The AppleTalk over PPP stuff probably allows Linux to be an AppleTalk
-> Remote Access server. I'm not aware of anyone using that capability, (or
-> if it even still works) but I would consider it distinct from LocalTalk.
+Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
 
-I dug around in the early git history for this one, but I'm also not
-sure if this is meant to still work. I see that PPPTALK support was added
-to net/appletalk by Alan Cox in linux-1.3.78 (1996), based on the localtalk
-support, and it continues to exist there along ethertalk and localtalk.
+> ---
+>  Documentation/vm/bootmem.rst         |  5 ++++
+>  Documentation/vm/index.rst           | 40 +++++++++++++++++++++++-----
+>  Documentation/vm/oom.rst             |  5 ++++
+>  Documentation/vm/page_allocation.rst |  5 ++++
+>  Documentation/vm/page_cache.rst      |  5 ++++
+>  Documentation/vm/page_reclaim.rst    |  5 ++++
+>  Documentation/vm/page_tables.rst     |  5 ++++
+>  Documentation/vm/physical_memory.rst |  5 ++++
+>  Documentation/vm/process_addrs.rst   |  5 ++++
+>  Documentation/vm/shmfs.rst           |  5 ++++
+>  Documentation/vm/slab.rst            |  5 ++++
+>  Documentation/vm/swap.rst            |  5 ++++
+>  Documentation/vm/vmalloc.rst         |  5 ++++
+>  13 files changed, 93 insertions(+), 7 deletions(-)
+>  create mode 100644 Documentation/vm/bootmem.rst
+>  create mode 100644 Documentation/vm/oom.rst
+>  create mode 100644 Documentation/vm/page_allocation.rst
+>  create mode 100644 Documentation/vm/page_cache.rst
+>  create mode 100644 Documentation/vm/page_reclaim.rst
+>  create mode 100644 Documentation/vm/page_tables.rst
+>  create mode 100644 Documentation/vm/physical_memory.rst
+>  create mode 100644 Documentation/vm/process_addrs.rst
+>  create mode 100644 Documentation/vm/shmfs.rst
+>  create mode 100644 Documentation/vm/slab.rst
+>  create mode 100644 Documentation/vm/swap.rst
+>  create mode 100644 Documentation/vm/vmalloc.rst
+> 
+> diff --git a/Documentation/vm/bootmem.rst b/Documentation/vm/bootmem.rst
+> new file mode 100644
+> index 000000000000..eb2b31eedfa1
+> --- /dev/null
+> +++ b/Documentation/vm/bootmem.rst
+> @@ -0,0 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +===========
+> +Boot Memory
+> +===========
+> diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
+> index 44365c4574a3..e72736d53604 100644
+> --- a/Documentation/vm/index.rst
+> +++ b/Documentation/vm/index.rst
+> @@ -2,12 +2,39 @@
+>  Linux Memory Management Documentation
+>  =====================================
+>  
+> -This is a collection of documents about the Linux memory management (mm)
+> -subsystem internals with different level of details ranging from notes and
+> -mailing list responses for elaborating descriptions of data structures and
+> -algorithms.  If you are looking for advice on simply allocating memory, see the
+> -:ref:`memory_allocation`.  For controlling and tuning guides, see the
+> -:doc:`admin guide <../admin-guide/mm/index>`.
+> +Memory Management Guide
+> +=======================
+> +
+> +This is a guide to understanding the memory management subsystem
+> +of Linux.  If you are looking for advice on simply allocating memory,
+> +see the :ref:`memory_allocation`.  For controlling and tuning guides,
+> +see the :doc:`admin guide <../admin-guide/mm/index>`.
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   physical_memory
+> +   page_tables
+> +   process_addrs
+> +   bootmem
+> +   page_allocation
+> +   vmalloc
+> +   slab
+> +   highmem
+> +   page_reclaim
+> +   swap
+> +   page_cache
+> +   shmfs
+> +   oom
+> +
+> +Legacy Documentation
+> +====================
+> +
+> +This is a collection of older documents about the Linux memory management
+> +(MM) subsystem internals with different level of details ranging from
+> +notes and mailing list responses for elaborating descriptions of data
 
-I also looked at the git history for the pppd user space, and I find no
-indication of appletalk ever being supported there, this all looks
-IPv4/IPv6 specific. There was support for PPP_IPX until it was
-dropped this year (the kernel side got removed in 2018), but never
-for PPP_AT.
-Adding Paul Mackerras to Cc, he might know more about it.
+"... ranging from notes and mailing list responses to elaborate description
+of data structures ..."
 
-> I would definitely be happy to test any patches to make sure that
-> EtherTalk still works with netatalk afterward!
+> +structures and algorithms.  It should all be integrated nicely into the
+> +above structured documentation, or deleted if it has served its purpose.
 
-       Arnd
+-- 
+Sincerely yours,
+Mike.
