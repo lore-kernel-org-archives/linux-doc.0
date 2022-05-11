@@ -2,115 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5462CC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 12:29:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF7DC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 13:22:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233444AbiEKM3t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 08:29:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47210 "EHLO
+        id S238743AbiEKNWD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 09:22:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242382AbiEKM3s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 08:29:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 54ADF1FD857
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 05:29:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1652272186;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FcY+Zd5XlbADrOvbXaU3QNiZrTO7S7HXtWKbPkPLOyo=;
-        b=eL0ZA7ppauucDhal33SvDyapExjHpP+HavL5S5FKdiaH8B0Q7cqRI3TCb0suhJ1DgItGhq
-        kuD10qSpZcbwQQj2c5HVF1sN0xHzKNrkPyeC3WehkxQWdzTMPETHiMOxT6Dgg00QLVZ8dt
-        nbie/W2cvX0xvZb0bJJBgyzVJF+oSzY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-675-_7MYl1rtN4aubkhjnvUVjQ-1; Wed, 11 May 2022 08:29:45 -0400
-X-MC-Unique: _7MYl1rtN4aubkhjnvUVjQ-1
-Received: by mail-wr1-f72.google.com with SMTP id w4-20020adfbac4000000b0020acba4b779so778907wrg.22
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 05:29:44 -0700 (PDT)
+        with ESMTP id S243843AbiEKNVm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 09:21:42 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B966B4507F;
+        Wed, 11 May 2022 06:20:50 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id i5so2930983wrc.13;
+        Wed, 11 May 2022 06:20:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oxBAEgkqPwjl7j2IRT0qwSbmvKmtMj9Uu/0rfJ9C3HY=;
+        b=BFtrKj/WbzGddmQvEk3VMnzWRw/Gm8bqNWgAL4/V5F5ORGU/W+I2X+NRXETzGq4amf
+         6zH2AEWErpG7i8W7RiUS4//aVUpKqlh0Sr/aMR+7ASspn0/PCyZ03Qdvt0F+2t48G/kq
+         5CCvXmXubgkQQZvMu0/F4ff5eesEhAHHwFAWhJYWcFHKLwjlOa26aQT/lAOB2i18VVYN
+         5QtKqLq4MZW7MZONTfYwK+HQBCO0oh6XpFj90Ac2Hlf8u2LliKuINKVPSPPTpyYgnm5R
+         qyl64VtVW2CszZWmkOjshlLFYkcQVOBoXLciBSPETQvRTgDhgJDodoxEzbMVqqSzhQq7
+         F7Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=FcY+Zd5XlbADrOvbXaU3QNiZrTO7S7HXtWKbPkPLOyo=;
-        b=i0KQJ5aW+aAZfkYCDYmg5ll9hqQxN97uNQZamqyeIzuM4pnPxMvvRs+b6olpez9nPI
-         npb9yVZODFhphmqtXn9EAyGYQXU3uiYeCcGLvTxpkXzbAuWwUmigOkHBuzC9R4sj/ly1
-         xXmKhAWE1H7sdndnCZY7DWbmYu/708UaPht9DlZRK3fdcudWS602ahGA86fDlCjglxe3
-         Pxa49FmyuuQbGuumsczRKR9V81GyRsIGxGv8LEeVlFEdJAKaMlep4PkW4JY6FpCX3cE0
-         myN0J3nZCLf8oAUuYVUC0w2mwYkv7vcbapD8rLbTmNchdQeVH7+SORiPjW+DAYjsySuR
-         04jQ==
-X-Gm-Message-State: AOAM533I/K1wu7/D4FrnZK/0W8lzpwrlUzOAnmLugrpsNPxC8ju8UGYO
-        neCATr4R4f1Bi5K6G0Qm7yu7h8kuAqLGQqMgJZWere793MLNdEiuYMaBulQWW21nut8rpSjQ1eA
-        7fcdEq++AMMPaHvDMp9vh
-X-Received: by 2002:a05:600c:1e23:b0:394:6133:a746 with SMTP id ay35-20020a05600c1e2300b003946133a746mr4578087wmb.17.1652272183900;
-        Wed, 11 May 2022 05:29:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwy2ou+Mk/PkR/G/eo5g55eQmz0xGQXbimhYd6JFu/Xn+JJE2bLkuI6rzG6fUa4G4ybIfW0sg==
-X-Received: by 2002:a05:600c:1e23:b0:394:6133:a746 with SMTP id ay35-20020a05600c1e2300b003946133a746mr4578064wmb.17.1652272183647;
-        Wed, 11 May 2022 05:29:43 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id n5-20020a05600c464500b0039482d95ab7sm1880616wmo.24.2022.05.11.05.29.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 May 2022 05:29:43 -0700 (PDT)
-Message-ID: <fa10ffa4-d43f-1270-acab-3d3d228e0b88@redhat.com>
-Date:   Wed, 11 May 2022 14:29:42 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oxBAEgkqPwjl7j2IRT0qwSbmvKmtMj9Uu/0rfJ9C3HY=;
+        b=4qm8l33olZrcGsnsIzuGdNiqJe0fssUC3Z0Ksa13XkMYEU36yZexRSchvNdB6TFNIG
+         mZSKLo92MecxLcKxvmYTk2GBfa795dJaNYAnXW1rVOPujh/IlBRM0T9LIRJG522gYI7X
+         GJeDKZKdckR89y/my8caoS+kfWsCkthUbnDxa+uBggDb8XOTVPsL00uD847iQlicpXtY
+         irn7yNx4IN6V08/NMlLv2yvsL2BlxtE4ZNNp6ECEpPn9RgoSp/ADwag+SKXlGHtGum+6
+         JLuXaGUi8OH1F+w3litIguEdNI/qrj4nwE4eXrwvmcFusaPGtXObFGivTY4QUk46SZ0M
+         BT0g==
+X-Gm-Message-State: AOAM530jsTnVzImicnzxCmB80j9LMPc8TbhnFp46sWFTxXFHdGgEFsRH
+        ZExa0fNc7m9zZ+gcVD1wW0Kd2YBDB6gwoep2UU8cVeSb
+X-Google-Smtp-Source: ABdhPJwMEuHOME5RAqLJg1dKTW2d5wEp9Fa+vDbBzf5cIsjIT1fvYzWr1ATGYW77vkjZEgwUvYYcJm1ccXNbRGIpIUw=
+X-Received: by 2002:a05:6000:1a87:b0:20c:687f:6d10 with SMTP id
+ f7-20020a0560001a8700b0020c687f6d10mr22188924wry.574.1652275246816; Wed, 11
+ May 2022 06:20:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v5 2/7] firmware: sysfb: Add helpers to unregister a pdev
- and disable registration
-Content-Language: en-US
-To:     Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-kernel@vger.kernel.org
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20220511112438.1251024-1-javierm@redhat.com>
- <20220511112438.1251024-3-javierm@redhat.com>
- <09cc267d-ead4-dd63-07dd-dfa347cbcee1@suse.de>
- <7d9f44e6-ae45-1747-366a-15cf2941dc2f@redhat.com>
- <8ec8d896-599e-b1ff-2b4f-077d73944705@suse.de>
-From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <8ec8d896-599e-b1ff-2b4f-077d73944705@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220510141329.54414-1-tomeu.vizoso@collabora.com> <20220511061533.56881-1-tomeu.vizoso@collabora.com>
+In-Reply-To: <20220511061533.56881-1-tomeu.vizoso@collabora.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Wed, 11 May 2022 06:20:36 -0700
+Message-ID: <CAF6AEGts6cKOrmRruo8uSXSW=Kq58VZxdPuS13Q7jVajbvga-g@mail.gmail.com>
+Subject: Re: [RFC v3] drm/msm: Add initial ci/ subdirectory
+To:     Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>, Sean Paul <sean@poorly.run>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        freedreno <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Thomas,
-
-On 5/11/22 14:05, Thomas Zimmermann wrote:
+On Tue, May 10, 2022 at 11:15 PM Tomeu Vizoso
+<tomeu.vizoso@collabora.com> wrote:
+>
+> And use it to store expectations about what the drm/msm driver is
+> supposed to pass in the IGT test suite.
+>
+> Also include a configuration file that points to the out-of-tree CI
+> scripts.
+>
+> By storing the test expectations along the code we can make sure both
+> stay in sync with each other, and so we can know when a code change
+> breaks those expectations.
+>
+> This will allow all contributors to drm/msm to reuse the infrastructure
+> already in gitlab.freedesktop.org to test the driver on several
+> generations of the hardware.
+>
+> v2:
+>   - Fix names of result expectation files to match SoC
+>   - Don't execute tests that are going to skip on all boards
+>
+> v3:
+>   - Remove tracking of dmesg output during test execution
+>
+> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> ---
+>  Documentation/gpu/msm_automated_testing.rst   |  70 +++++++++
+>  drivers/gpu/drm/msm/ci/gitlab-ci.yml          |  11 ++
+>  drivers/gpu/drm/msm/ci/msm.testlist           | 144 ++++++++++++++++++
+>  .../gpu/drm/msm/ci/msm_apq8016_results.txt    | 141 +++++++++++++++++
+>  .../gpu/drm/msm/ci/msm_apq8096_results.txt    | 141 +++++++++++++++++
+>  drivers/gpu/drm/msm/ci/msm_sc7180_results.txt | 142 +++++++++++++++++
+>  drivers/gpu/drm/msm/ci/msm_sdm845_results.txt | 142 +++++++++++++++++
+>  7 files changed, 791 insertions(+)
+>  create mode 100644 Documentation/gpu/msm_automated_testing.rst
+>  create mode 100644 drivers/gpu/drm/msm/ci/gitlab-ci.yml
+>  create mode 100644 drivers/gpu/drm/msm/ci/msm.testlist
+>  create mode 100644 drivers/gpu/drm/msm/ci/msm_apq8016_results.txt
+>  create mode 100644 drivers/gpu/drm/msm/ci/msm_apq8096_results.txt
+>  create mode 100644 drivers/gpu/drm/msm/ci/msm_sc7180_results.txt
+>  create mode 100644 drivers/gpu/drm/msm/ci/msm_sdm845_results.txt
+>
 
 [snip]
 
->>
->> Other subsystems ask you to do the opposite, to split the definition and
->> usage in separate patches. But I'm fine with merging those if you prefer.
-> 
-> Usually, I have no strong opinion on this. But in the case of this 
-> specific patchset, I have the feeling that I'm missing some important 
-> point because call and implementation are separate.  See my other 
-> replies for that.  Putting them next to each other will hopefully help. 
-> Sorry for the inconvenience.
->
+> diff --git a/drivers/gpu/drm/msm/ci/gitlab-ci.yml b/drivers/gpu/drm/msm/ci/gitlab-ci.yml
+> new file mode 100644
+> index 000000000000..9b7caa7fcab2
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/ci/gitlab-ci.yml
+> @@ -0,0 +1,11 @@
+> +variables:
+> +  # Change this to use your fork of drm-ci
+> +  DRM_CI_PROJECT_PATH: &drm-ci-project-path gfx-ci/drm-ci
+> +  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha msm
 
-No worries at all. Happy to do that change if the patches are easy to
-understand. It took me some time as well to wrap my head around all
-the race conditions and needed locking.
+btw, shouldn't we list an exact commit sha (or tag) for drm-ci, or am
+I overlooking something?  We want to be able to uprev the drm-ci
+version (and therefore igt version) in sync with any necessary updates
+to the expectations
 
-Same for patch 3/7, but I'm convinced that dropping the lock is the
-correct thing to do than calling to drivers' .remove callbacks with
-a lock held.
+BR,
+-R
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+> +
+> +include:
+> +  - project: *drm-ci-project-path
+> +    ref: *drm-ci-commit-sha
+> +    file:
+> +      - '.msm-gitlab-ci.yml'
+> +      - '.gitlab-ci.yml'
