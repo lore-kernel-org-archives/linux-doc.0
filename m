@@ -2,170 +2,193 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F9AC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 10:57:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5FC3C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 11:25:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232535AbiEKK5s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 06:57:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45286 "EHLO
+        id S240040AbiEKLZl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 07:25:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231894AbiEKK5q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 06:57:46 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5FAF4665B
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 03:57:44 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id cq17-20020a17090af99100b001dc0386cd8fso1725886pjb.5
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 03:57:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=fZDRUrJcoddOI9LUx9R90auFEIMbtfXtE02emcq85vQ=;
-        b=HzBNa9AB2P7wZpUPFsvLZ9f9YvBiLg8bA6EUO/OBrBxIMx/Bv4yQuojU1EpBcvijO3
-         P9o2RA2brlait7uMo2aEzeFwI0xmcRkL/odlVQHvtctPmP9rD++t6c41SjbhdcLll+jZ
-         Nta+CNL77iBe4TQEz21newKCgKl36svd5J9i+XS+2EhxeGvEyTakkPny1keUiEid6Ud/
-         XadIJVSMbScKOe3xiU8j29nTzURvw9o/QiGqhLvjOfEwyrHRCKxMKhasCpLt1t/EIoQ7
-         mPrJ4eOFfMZabag7NOvE6kwsK3fpovxR/sMiW3FlWjqi6oBr21GymliUDxm1gYDtC0F/
-         jR7g==
+        with ESMTP id S239836AbiEKLZD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 07:25:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A6E1F236758
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 04:24:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1652268296;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=74g0bmnivF1+sjdv/ldmbPuCRqvKL9LcvXu85lOOZDc=;
+        b=AwDFplJtljDncHhuo6rFu1NkXjL2rVrHFR1MSp1a+NOWrkzKM221k3A+hXZzcEsFlql5Fl
+        UpBg3N3pQmamFdDnKluhuU0PpIor5C5wOoO30xTgIJquJrhFT6kkv/TBytR5isurwVthWB
+        YQWtL7cC1WvoHf7tRCgCf/YNvRmRo9k=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-451-H6JyEZIZPPWG3id91xcPuw-1; Wed, 11 May 2022 07:24:55 -0400
+X-MC-Unique: H6JyEZIZPPWG3id91xcPuw-1
+Received: by mail-wm1-f71.google.com with SMTP id k35-20020a05600c1ca300b003946a9764baso2705257wms.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 04:24:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=fZDRUrJcoddOI9LUx9R90auFEIMbtfXtE02emcq85vQ=;
-        b=GfRBW7uk02dXN+I0IfgYn9WOC4JFXUNyXYKCECshTizbJbJNOkwKphDW+E3mIiyOhZ
-         63T5VtOCdcBcYW1XJ1lw6ZOwoXBbTACZlLvmYrqEqCBLWAN0mmfXgg/g9lzioASnUna6
-         nFv0C793qGvQwvBOroePcDKq9hKOkgkAuC7diCJcX3kq+bqHS2sLzeOQKGcqwUsFPOgh
-         HJ1lubv/c595Tf8GPRKdWaTowUqaU51eEDcVxDgKH/25jvR0pRgRcu0uPW8rRgbjKyEq
-         MZDP8Kk7dMl0KG2gopNhmfPNhsPB9ka6PmNVKIGDy/Fqu1eDdiAkuM3dUOhqdA/xHVKe
-         ebZg==
-X-Gm-Message-State: AOAM530vx2Z66tKqSeK52qQmcQIH7aDkGmEJTkTokxgF/O/R/om9kuUo
-        7G/MwAOpxQokFx3cIF6GwiOKfGyZgf/Qcg==
-X-Google-Smtp-Source: ABdhPJwC3JvY0yyZZKqrx8zPPlaVt1UAUQt4RbPa3XOwHux0ofuAsp5Ax5zrWKm72QJgrbiYRp7Ncw==
-X-Received: by 2002:a17:90b:4acb:b0:1dc:32dd:d51e with SMTP id mh11-20020a17090b4acb00b001dc32ddd51emr4653614pjb.5.1652266664222;
-        Wed, 11 May 2022 03:57:44 -0700 (PDT)
-Received: from localhost ([139.177.225.234])
-        by smtp.gmail.com with ESMTPSA id y64-20020a623243000000b0050dc7628195sm1396596pfy.111.2022.05.11.03.57.43
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=74g0bmnivF1+sjdv/ldmbPuCRqvKL9LcvXu85lOOZDc=;
+        b=X9FIYVR4XNyE6NZdLM2uLM5hRr+59eTGZGLDEgZ3t6AfJV5gyRNjO16HjTv4KuSSCH
+         J4A4YEbEr32uR3w0VGgprVZIYI4RKfOrr54W+a6VPqpQ0kdWV0HWTF/i/9PCbHb/OmmA
+         RTM1q+CqV4CMqR4lL8tEc6C8BTKsW9KvqniWkK5lcO0IrDzd+VhIIAC0vceP4IApOYVy
+         VKJUhKGR/Q2PhoSNxEB4QOkotYVvCEiA+d64TPWqp4IFPeEeyMDEUH2w6rStPPad6w6z
+         J3nlgyvhX4QcTbit05oSGUh+cOSM4PW3UDK2S8qXCY5reB2RpkzH+gwLg+Xgck075azO
+         7OTg==
+X-Gm-Message-State: AOAM531UonlNVOP+EPK5MvCrMbF5nOE66oe/TUlWPZUfPJtOZaU5fW1A
+        2w3N9kHGYgflyg6Mf1/EYCgQDpIthitlNUZghd584uPhkKVJ0TmwjCWKKU3+xX+FIopsbZM9iU3
+        1DN+gBQ60B++V9pFLOMrw
+X-Received: by 2002:a05:6000:1841:b0:20c:788b:9306 with SMTP id c1-20020a056000184100b0020c788b9306mr21500984wri.369.1652268294284;
+        Wed, 11 May 2022 04:24:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzqiIDFQEwbgjQPCLimkTEcDNRsKPVMAysuPiAMG2NOuNeRfcXzFKnVvUYrhq6SaYWWb2umNQ==
+X-Received: by 2002:a05:6000:1841:b0:20c:788b:9306 with SMTP id c1-20020a056000184100b0020c788b9306mr21500957wri.369.1652268294033;
+        Wed, 11 May 2022 04:24:54 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id j1-20020a5d4481000000b0020c5253d8d3sm1429174wrq.31.2022.05.11.04.24.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 May 2022 03:57:43 -0700 (PDT)
-Date:   Wed, 11 May 2022 18:57:32 +0800
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
-        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v10 4/4] mm: hugetlb_vmemmap: add
- hugetlb_optimize_vmemmap sysctl
-Message-ID: <YnuWnFbb8xExKfdk@FVFYT0MHHV2J.usts.net>
-References: <20220509062703.64249-1-songmuchun@bytedance.com>
- <20220509062703.64249-5-songmuchun@bytedance.com>
- <970166e0-f70e-dd2a-c764-af23a8425f87@oracle.com>
- <9d64809f-db8c-0a3e-1ae9-d4a8ab79041e@oracle.com>
- <YnuF1c5fMOzJnNfD@FVFYT0MHHV2J.usts.net>
+        Wed, 11 May 2022 04:24:53 -0700 (PDT)
+From:   Javier Martinez Canillas <javierm@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Helge Deller <deller@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
+        Peter Jones <pjones@redhat.com>, linux-doc@vger.kernel.org,
+        linux-fbdev@vger.kernel.org
+Subject: [PATCH v5 0/7] Fix some races between sysfb device registration and drivers probe
+Date:   Wed, 11 May 2022 13:24:31 +0200
+Message-Id: <20220511112438.1251024-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YnuF1c5fMOzJnNfD@FVFYT0MHHV2J.usts.net>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 11, 2022 at 05:45:57PM +0800, Muchun Song wrote:
-> On Tue, May 10, 2022 at 05:39:40PM -0700, Mike Kravetz wrote:
-> > On 5/10/22 14:30, Mike Kravetz wrote:
-> > > On 5/8/22 23:27, Muchun Song wrote:
-> > >> diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
-> > >> index 029fb7e26504..917112661b5c 100644
-> > >> --- a/include/linux/memory_hotplug.h
-> > >> +++ b/include/linux/memory_hotplug.h
-> > >> @@ -351,4 +351,13 @@ void arch_remove_linear_mapping(u64 start, u64 size);
-> > >>  extern bool mhp_supports_memmap_on_memory(unsigned long size);
-> > >>  #endif /* CONFIG_MEMORY_HOTPLUG */
-> > >>  
-> > >> +#ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
-> > >> +bool mhp_memmap_on_memory(void);
-> > >> +#else
-> > >> +static inline bool mhp_memmap_on_memory(void)
-> > >> +{
-> > >> +	return false;
-> > >> +}
-> > >> +#endif
-> > >> +
-> > >>  #endif /* __LINUX_MEMORY_HOTPLUG_H */
-> > >> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> > >> index 8605d7eb7f5c..86158eb9da70 100644
-> > >> --- a/mm/hugetlb.c
-> > >> +++ b/mm/hugetlb.c
-> > >> @@ -1617,6 +1617,9 @@ static DECLARE_WORK(free_hpage_work, free_hpage_workfn);
-> > >>  
-> > >>  static inline void flush_free_hpage_work(struct hstate *h)
-> > >>  {
-> > >> +	if (!hugetlb_optimize_vmemmap_enabled())
-> > >> +		return;
-> > >> +
-> > > 
-> > > Hi Muchun,
-> > > 
-> > > In v9 I was suggesting that we may be able to eliminate the static_branch_inc/dec from the vmemmap free/alloc paths.  With this patch
-> > > I believe hugetlb_optimize_vmemmap_enabled() is really checking
-> > > 'has hugetlb vmemmap optimization been enabled' OR 'are there still vmemmap
-> > > optimized hugetlb pages in the system'.  That may be confusing.
-> > > 
-> > 
-> > Sorry, I forgot about the use of hugetlb_optimize_vmemmap_enabled in
-> > page_fixed_fake_head.  We need to know if there are any vmemmap optimized
-> > hugetlb pages in the system in this performance sensitive path.  So,
-> > static_branch_inc/dec is indeed a good idea.
-> >
-> 
-> Agree.
-> 
-> > Please disregard my attempt below at removing static_branch_inc/dec.
-> > 
-> > I still find the name hugetlb_optimize_vmemmap_enabled a bit confusing as
-> > it tests two conditions (enabled and pages in use).
-> >
-> 
-> Right. It tests two conditions.
-> 
-> > You have already 'open coded' just the check for enabled in the routine
-> > hugetlb_vmemmap_free with:
-> > 
-> > 	READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF
-> > 
-> > How about having hugetlb_optimize_vmemmap_enabled() just check
-> > vmemmap_optimize_mode in a manner like above?  Then rename
-> 
-> I'm wondering is it necessary to do this? vmemmap_optimize_mode
-> is a internal state in hugetlb_vmemmap.c, at leaset now there is
-> no outside users who care about this.  Open-coding may be not
-> an issue (I guess)?  If one day someone cares it, maybe it it
-> the time to do this and rename hugetlb_optimize_vmemmap_enabled()?
-> I'm not against doing this, just expressing some of my thoughts.
-> What do you think, Mike?
-> 
-> > hugetlb_optimize_vmemmap_enabled to something like:
-> > hugetlb_optimized_vmemmap_possible().  Sorry, I can think if a great name.
-> > 
-> 
-> At least I cannot come up with an appropriate name.
-> hugetlb_optimize_vmemmap_may_enabled()? It's not easy to come
-> up with a good name.
->
+Hello,
 
-Instead of renaming, how about remove hugetlb_optimize_vmemmap_enabled()
-directly?  I found there are only two places (mm/memory_hotplug.c and
-arch/arm64/mm/flush.c) except include/linux/page-flags.h where use this
-helper.
+The patches in this series contain mostly changes suggested by Daniel Vetter
+Thomas Zimmermann. They aim to fix existing races between the Generic System
+Framebuffer (sysfb) infrastructure and the fbdev and DRM device registration.
 
-In arch/arm64/mm/flush.c, we could replace it with
+For example, it is currently possible for sysfb to register a platform
+device after a real DRM driver was registered and requested to remove the
+conflicting framebuffers. Or is possible for a simple{fb,drm} to match with
+a device previously registered by sysfb, even after a real driver is present.
 
-  if (PageHuge(page) && HPageVmemmapOptimized(compound_head(page)))
+A symptom of this issue, was worked around with the commit fb561bf9abde
+("fbdev: Prevent probing generic drivers if a FB is already registered")
+but that's really a hack and should be reverted instead.
 
-In mm/memory_hotplug.c, I have a plan to remove it as well (I'll
-post them out after this patch merged).
+This series attempt to fix it more correctly and revert the mentioned hack.
+That will also allow to make the num_registered_fb variable not visible to
+drivers anymore, since that's internal to fbdev core.
 
-Finally, there is no outside users of it, we could remove it and squash
-it into page_fixed_fake_head(). What do you think this, Mike?
+Pach 1 is just a simple cleanup in preparation for later patches.
+
+Patch 2 add a sysfb_disable() and sysfb_try_unregister() helpers to allow
+disabling sysfb and attempt to unregister registered devices respectively.
+
+Patch 3 changes how is dealt with conflicting framebuffers unregistering,
+rather than having a variable to determine if a lock should be take, it
+just drops the lock before unregistering the platform device.
+
+Patch 4 changes the fbdev core to not attempt to unregister devices that
+were registered by sysfb, let the same code doing the registration to also
+handle the unregistration.
+
+Patch 5 fixes the race that exists between sysfb devices registration and
+fbdev framebuffer devices registration, by disabling the sysfb when a DRM
+or fbdev driver requests to remove conflicting framebuffers.
+
+Patch 6 is the revert patch that was posted by Daniel before but dropped
+from his set and finally patch 7 is the one that makes num_registered_fb
+private to fbmem.c, to not allow drivers to use it anymore.
+
+The patches were tested on a rpi4 with the vc4, simpledrm and simplefb
+drivers, using different combinations of built-in and as a module.
+
+For example, having simpledrm as a module and loading it after the vc4
+driver probed would not register a DRM device, which happens now without
+the patches from this series.
+
+Best regards,
+Javier
+
+Changes in v5:
+- Move the sysfb_disable() call at conflicting framebuffers again to
+  avoid the need of a DRIVER_FIRMWARE capability flag.
+- Add Daniel Vetter's Reviewed-by tag again since reverted to the old
+  patch that he already reviewed in v2.
+- Drop patches that added a DRM_FIRMWARE capability and use them
+  since the case those prevented could be ignored (Daniel Vetter).
+
+Changes in v4:
+- Make sysfb_disable() to also attempt to unregister a device.
+- Drop call to sysfb_disable() in fbmem since is done in other places now.
+- Add patch to make registered_fb[] private.
+- Add patches that introduce the DRM_FIRMWARE capability and usage.
+
+Changes in v3:
+- Add Thomas Zimmermann's Reviewed-by tag to patch #1.
+- Call sysfb_disable() when a DRM dev and a fbdev are registered rather
+  than when conflicting framebuffers are removed (Thomas Zimmermann).
+- Call sysfb_disable() when a fbdev framebuffer is registered rather
+  than when conflicting framebuffers are removed (Thomas Zimmermann).
+- Drop Daniel Vetter's Reviewed-by tag since patch changed a lot.
+- Rebase on top of latest drm-misc-next branch.
+
+Changes in v2:
+- Rebase on top of latest drm-misc-next and fix conflicts (Daniel Vetter).
+- Add kernel-doc comments and include in other_interfaces.rst (Daniel Vetter).
+- Explain in the commit message that fbmem has to unregister the device
+  as fallback if a driver registered the device itself (Daniel Vetter).
+- Also explain that fallback in a comment in the code (Daniel Vetter).
+- Don't encode in fbmem the assumption that sysfb will always register
+  platform devices (Daniel Vetter).
+- Add a FIXME comment about drivers registering devices (Daniel Vetter).
+- Explain in the commit message that fbmem has to unregister the device
+  as fallback if a driver registered the device itself (Daniel Vetter).
+- Also explain that fallback in a comment in the code (Daniel Vetter).
+- Don't encode in fbmem the assumption that sysfb will always register
+  platform devices (Daniel Vetter).
+- Add a FIXME comment about drivers registering devices (Daniel Vetter).
+- Drop RFC prefix since patches were already reviewed by Daniel Vetter.
+- Add Daniel Reviewed-by tags to the patches.
+
+Daniel Vetter (2):
+  Revert "fbdev: Prevent probing generic drivers if a FB is already
+    registered"
+  fbdev: Make registered_fb[] private to fbmem.c
+
+Javier Martinez Canillas (5):
+  firmware: sysfb: Make sysfb_create_simplefb() return a pdev pointer
+  firmware: sysfb: Add helpers to unregister a pdev and disable
+    registration
+  fbdev: Restart conflicting fb removal loop when unregistering devices
+  fbdev: Make sysfb to unregister its own registered devices
+  fbdev: Disable sysfb device registration when removing conflicting FBs
+
+ .../driver-api/firmware/other_interfaces.rst  |  6 ++
+ drivers/firmware/sysfb.c                      | 91 +++++++++++++++++--
+ drivers/firmware/sysfb_simplefb.c             | 16 ++--
+ drivers/video/fbdev/core/fbmem.c              | 67 +++++++++++---
+ drivers/video/fbdev/efifb.c                   | 11 ---
+ drivers/video/fbdev/simplefb.c                | 11 ---
+ include/linux/fb.h                            |  8 +-
+ include/linux/sysfb.h                         | 29 +++++-
+ 8 files changed, 178 insertions(+), 61 deletions(-)
+
+-- 
+2.35.1
 
