@@ -2,159 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE304C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 08:38:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C697AC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 09:07:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239443AbiEKIiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 04:38:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54832 "EHLO
+        id S241251AbiEKJHM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 05:07:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243829AbiEKIir (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 04:38:47 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4BB6A30BB
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 01:38:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S243402AbiEKJHI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 05:07:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D9E6D3EB8B
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 02:07:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1652260021;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+6aR4G5bhHxoYCpwQyfjz1xkmAc7kDl/rLkC6zVA3qk=;
+        b=c+y7WLQE+LkUW2q1S0fGfBHWOtKmYBLt6ZKvs9KCB0qdK7p9jsIkkFCzcvXlavUKevxXuB
+        9XvMLkoBRR5J0IrB3940fAARAeYcQYuB6YEaH452dlYxICt5NS4RSzNz6+4EbJT5tANsnL
+        8AnFkeAecOl6JE1CKngTaV+ifTBYOsk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-228-WkHv9DnJMvaF9c7uYKNQ9g-1; Wed, 11 May 2022 05:06:57 -0400
+X-MC-Unique: WkHv9DnJMvaF9c7uYKNQ9g-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 447C6B82146
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 08:38:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3C2CC385DB;
-        Wed, 11 May 2022 08:38:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652258323;
-        bh=YXCJll4eqohB0nlgPp0LESWnXDewGXdVlfxDGvNC0N0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FLFq0p35TFclhNbVwN/tCuiWzBVi6jsZqw3KbWhG+0Kw9T6GYmGkMpQ1xTeJES2y3
-         NQ8wb7swMjK2yo2tt0uNW9Sns7ChFk8NtyOO53bytBLWTfub90rs7NG1y3HeYXA7vC
-         d47ufaQjyo5YIunc/OyBZLi43S17KzOXrxmOLXAB3amvd0wTNYbhXSzsXKRY1mt0f5
-         U4l3UqxcdQPMxTSaNzivoz1Yj9ndNA9dFTTipm5E7/peWuJr2QmYYP6BQLWy1ryTky
-         FYHVNHZQMQL5IJ7L0iOUBcTvp9RXXjlAHqanXo47YMYBx6GBgHmrvcuAyUDwa3vjaO
-         DwspFtRLbmayQ==
-Date:   Wed, 11 May 2022 11:38:35 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        John Hubbard <jhubbard@nvidia.com>,
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0C124804195;
+        Wed, 11 May 2022 09:06:57 +0000 (UTC)
+Received: from localhost (ovpn-12-154.pek2.redhat.com [10.72.12.154])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id CD872416539;
+        Wed, 11 May 2022 09:06:55 +0000 (UTC)
+Date:   Wed, 11 May 2022 17:06:51 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Dave Young <dyoung@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>
-Subject: Re: [PATCH v2] mm,doc: Add new documentation structure
-Message-ID: <Ynt2C0Fqm5kAQueQ@kernel.org>
-References: <20220507134947.444287-1-willy@infradead.org>
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH] arm64: kdump: Do not allocate crash low memory if not
+ needed
+Message-ID: <Ynt8qwG9WoiW4L+o@MiWiFi-R3L-srv>
+References: <20220511032033.426-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220507134947.444287-1-willy@infradead.org>
+In-Reply-To: <20220511032033.426-1-thunder.leizhen@huawei.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 07, 2022 at 02:49:47PM +0100, Matthew Wilcox (Oracle) wrote:
-> Closely following the outline of Mel Gorman's book "Understanding the
-> Linux Virtual Memory Manager", add a new outline.  Preserve the current
-> contents of the mm underneath the new outline so we can transition those
-> documents to a more sensible place later.
+On 05/11/22 at 11:20am, Zhen Lei wrote:
+> When "crashkernel=X,high" is specified, the specified "crashkernel=Y,low"
+> memory is not required in the following corner cases:
+> 1. If both CONFIG_ZONE_DMA and CONFIG_ZONE_DMA32 are disabled, it means
+>    that the devices can access any memory.
+> 2. If the system memory is small, the crash high memory may be allocated
+>    from the DMA zones. If that happens, there's no need to allocate
+>    another crash low memory because there's already one.
 > 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Reviewed-by: John Hubbard <jhubbard@nvidia.com>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
-
-Small nit below, otherwise
-
-Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
-
+> Add condition '(crash_base >= CRASH_ADDR_LOW_MAX)' to determine whether
+> the 'high' memory is allocated above DMA zones. Note: when both
+> CONFIG_ZONE_DMA and CONFIG_ZONE_DMA32 are disabled, the entire physical
+> memory is DMA accessible, CRASH_ADDR_LOW_MAX equals 'PHYS_MASK + 1'.
+> 
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 > ---
->  Documentation/vm/bootmem.rst         |  5 ++++
->  Documentation/vm/index.rst           | 40 +++++++++++++++++++++++-----
->  Documentation/vm/oom.rst             |  5 ++++
->  Documentation/vm/page_allocation.rst |  5 ++++
->  Documentation/vm/page_cache.rst      |  5 ++++
->  Documentation/vm/page_reclaim.rst    |  5 ++++
->  Documentation/vm/page_tables.rst     |  5 ++++
->  Documentation/vm/physical_memory.rst |  5 ++++
->  Documentation/vm/process_addrs.rst   |  5 ++++
->  Documentation/vm/shmfs.rst           |  5 ++++
->  Documentation/vm/slab.rst            |  5 ++++
->  Documentation/vm/swap.rst            |  5 ++++
->  Documentation/vm/vmalloc.rst         |  5 ++++
->  13 files changed, 93 insertions(+), 7 deletions(-)
->  create mode 100644 Documentation/vm/bootmem.rst
->  create mode 100644 Documentation/vm/oom.rst
->  create mode 100644 Documentation/vm/page_allocation.rst
->  create mode 100644 Documentation/vm/page_cache.rst
->  create mode 100644 Documentation/vm/page_reclaim.rst
->  create mode 100644 Documentation/vm/page_tables.rst
->  create mode 100644 Documentation/vm/physical_memory.rst
->  create mode 100644 Documentation/vm/process_addrs.rst
->  create mode 100644 Documentation/vm/shmfs.rst
->  create mode 100644 Documentation/vm/slab.rst
->  create mode 100644 Documentation/vm/swap.rst
->  create mode 100644 Documentation/vm/vmalloc.rst
+>  Documentation/admin-guide/kernel-parameters.txt | 5 +++--
+>  arch/arm64/mm/init.c                            | 3 ++-
+>  2 files changed, 5 insertions(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/vm/bootmem.rst b/Documentation/vm/bootmem.rst
-> new file mode 100644
-> index 000000000000..eb2b31eedfa1
-> --- /dev/null
-> +++ b/Documentation/vm/bootmem.rst
-> @@ -0,0 +1,5 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +===========
-> +Boot Memory
-> +===========
-> diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
-> index 44365c4574a3..e72736d53604 100644
-> --- a/Documentation/vm/index.rst
-> +++ b/Documentation/vm/index.rst
-> @@ -2,12 +2,39 @@
->  Linux Memory Management Documentation
->  =====================================
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index f6ff55840751a78..1b543c3109f4851 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -823,7 +823,7 @@
+>  			low memory is needed to make sure DMA buffers for 32-bit
+>  			devices won't run out. Kernel would try to allocate
+>  			at least 256M below 4G automatically.
+> -			This one let user to specify own low range under 4G
+> +			This one lets the user specify own low range under 4G
+                        ~ This one let users specify own low range ...
+
+Other than this nitpick, LGTM
+
+Acked-by: Baoquan He <bhe@redhat.com>
+
+>  			for second kernel instead.
+>  			0: to disable low allocation.
+>  			It will be ignored when crashkernel=X,high is not used
+> @@ -832,7 +832,8 @@
+>  			[KNL, ARM64] range in low memory.
+>  			This one lets the user specify a low range in the
+>  			DMA zone for the crash dump kernel.
+> -			It will be ignored when crashkernel=X,high is not used.
+> +			It will be ignored when crashkernel=X,high is not used
+> +			or memory reserved is located in the DMA zones.
 >  
-> -This is a collection of documents about the Linux memory management (mm)
-> -subsystem internals with different level of details ranging from notes and
-> -mailing list responses for elaborating descriptions of data structures and
-> -algorithms.  If you are looking for advice on simply allocating memory, see the
-> -:ref:`memory_allocation`.  For controlling and tuning guides, see the
-> -:doc:`admin guide <../admin-guide/mm/index>`.
-> +Memory Management Guide
-> +=======================
-> +
-> +This is a guide to understanding the memory management subsystem
-> +of Linux.  If you are looking for advice on simply allocating memory,
-> +see the :ref:`memory_allocation`.  For controlling and tuning guides,
-> +see the :doc:`admin guide <../admin-guide/mm/index>`.
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   physical_memory
-> +   page_tables
-> +   process_addrs
-> +   bootmem
-> +   page_allocation
-> +   vmalloc
-> +   slab
-> +   highmem
-> +   page_reclaim
-> +   swap
-> +   page_cache
-> +   shmfs
-> +   oom
-> +
-> +Legacy Documentation
-> +====================
-> +
-> +This is a collection of older documents about the Linux memory management
-> +(MM) subsystem internals with different level of details ranging from
-> +notes and mailing list responses for elaborating descriptions of data
+>  	cryptomgr.notests
+>  			[KNL] Disable crypto self-tests
+> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> index 18ba66c90991ea0..ac510fb6a2c0189 100644
+> --- a/arch/arm64/mm/init.c
+> +++ b/arch/arm64/mm/init.c
+> @@ -170,7 +170,8 @@ static void __init reserve_crashkernel(void)
+>  		return;
+>  	}
+>  
+> -	if (crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+> +	if ((crash_base >= CRASH_ADDR_LOW_MAX) &&
+> +	     crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+>  		memblock_phys_free(crash_base, crash_size);
+>  		return;
+>  	}
+> -- 
+> 2.25.1
+> 
 
-"... ranging from notes and mailing list responses to elaborate description
-of data structures ..."
-
-> +structures and algorithms.  It should all be integrated nicely into the
-> +above structured documentation, or deleted if it has served its purpose.
-
--- 
-Sincerely yours,
-Mike.
