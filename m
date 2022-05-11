@@ -2,61 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B0B4C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 12:24:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5462CC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 12:29:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbiEKMY3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 08:24:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53688 "EHLO
+        id S233444AbiEKM3t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 08:29:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235668AbiEKMY2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 08:24:28 -0400
+        with ESMTP id S242382AbiEKM3s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 08:29:48 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 961C01C345D
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 05:24:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 54ADF1FD857
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 05:29:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1652271866;
+        s=mimecast20190719; t=1652272186;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=StKeixQ3rsAMa6ZFGvWGBr2LGTsx9ja9jzeia2Tii80=;
-        b=CYbz11wO/adqfQko8U2ODGkHnGCEsAcWcXh3x5Q1p6cclb8nU55Icib+W/oSlQ6qk0RqSz
-        vyYKlVyWFSq5lhBsVEukWYbwLC5c1/3GWBC0lblgcE1+nZy/unIp2MtNFi+Cux/FDMGllr
-        BGmVwieVEw+DzQlQ1QY8AUk4cZGGEG8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=FcY+Zd5XlbADrOvbXaU3QNiZrTO7S7HXtWKbPkPLOyo=;
+        b=eL0ZA7ppauucDhal33SvDyapExjHpP+HavL5S5FKdiaH8B0Q7cqRI3TCb0suhJ1DgItGhq
+        kuD10qSpZcbwQQj2c5HVF1sN0xHzKNrkPyeC3WehkxQWdzTMPETHiMOxT6Dgg00QLVZ8dt
+        nbie/W2cvX0xvZb0bJJBgyzVJF+oSzY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-qimvv0ZYPOqMX0eamCynSg-1; Wed, 11 May 2022 08:24:25 -0400
-X-MC-Unique: qimvv0ZYPOqMX0eamCynSg-1
-Received: by mail-wm1-f72.google.com with SMTP id n26-20020a1c721a000000b003941ea1ced7so641503wmc.7
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 05:24:25 -0700 (PDT)
+ us-mta-675-_7MYl1rtN4aubkhjnvUVjQ-1; Wed, 11 May 2022 08:29:45 -0400
+X-MC-Unique: _7MYl1rtN4aubkhjnvUVjQ-1
+Received: by mail-wr1-f72.google.com with SMTP id w4-20020adfbac4000000b0020acba4b779so778907wrg.22
+        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 05:29:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=StKeixQ3rsAMa6ZFGvWGBr2LGTsx9ja9jzeia2Tii80=;
-        b=weqRoX6+SrhevoB4docIFeF13DIZ8r10RkIKyJb+POM+asQc+7swTrnmS+1Uug53Ee
-         8vnEU0zjhV0hh40IKDyUdKakeeOq9IJA8SncYv8+NhLBbTp9axFi/gLFFu5Hqm50jJlG
-         imoNtv3RQ7wkov7rAKG5yQSyji14T0wWz6hVOt55nyhPq41OVQnJNzSykEDMI7ofOPCA
-         OCIrxMRSE7fwiodP/m2eDMjWtCmABQSfpBpIwg2TRyJoirdX6wUGymwI56kVUmmf1RLK
-         9i8FgxyYryIQj6oMZ1Ix8ya6fm8V/nmdrdv62nlB/3OdDoQtoEIg2FHVUCsnBg08KYKf
-         SvAA==
-X-Gm-Message-State: AOAM532mCVFQuFixN70hK/iWyGzctd7qtixRg+VDce5m2DTpfUgSKh4I
-        te2Nfi8NUBU5OLAFdD19xQE8+kqpnpoUFRn9LByxwb3AsxPzVFsN6ydUlYa0mBzGLcTPPXLDyb9
-        8sNP2eqMuq9s+lsaLJ0Zt
-X-Received: by 2002:a5d:64ae:0:b0:20c:6030:d6f0 with SMTP id m14-20020a5d64ae000000b0020c6030d6f0mr22641355wrp.298.1652271864003;
-        Wed, 11 May 2022 05:24:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwj/yczfYQv2d8rR90uXHwUui4saVslbeigPoq1BVFw07uRYvJAhRqIieGGIQuhaIXCbGy9Fg==
-X-Received: by 2002:a5d:64ae:0:b0:20c:6030:d6f0 with SMTP id m14-20020a5d64ae000000b0020c6030d6f0mr22641315wrp.298.1652271863436;
-        Wed, 11 May 2022 05:24:23 -0700 (PDT)
+        bh=FcY+Zd5XlbADrOvbXaU3QNiZrTO7S7HXtWKbPkPLOyo=;
+        b=i0KQJ5aW+aAZfkYCDYmg5ll9hqQxN97uNQZamqyeIzuM4pnPxMvvRs+b6olpez9nPI
+         npb9yVZODFhphmqtXn9EAyGYQXU3uiYeCcGLvTxpkXzbAuWwUmigOkHBuzC9R4sj/ly1
+         xXmKhAWE1H7sdndnCZY7DWbmYu/708UaPht9DlZRK3fdcudWS602ahGA86fDlCjglxe3
+         Pxa49FmyuuQbGuumsczRKR9V81GyRsIGxGv8LEeVlFEdJAKaMlep4PkW4JY6FpCX3cE0
+         myN0J3nZCLf8oAUuYVUC0w2mwYkv7vcbapD8rLbTmNchdQeVH7+SORiPjW+DAYjsySuR
+         04jQ==
+X-Gm-Message-State: AOAM533I/K1wu7/D4FrnZK/0W8lzpwrlUzOAnmLugrpsNPxC8ju8UGYO
+        neCATr4R4f1Bi5K6G0Qm7yu7h8kuAqLGQqMgJZWere793MLNdEiuYMaBulQWW21nut8rpSjQ1eA
+        7fcdEq++AMMPaHvDMp9vh
+X-Received: by 2002:a05:600c:1e23:b0:394:6133:a746 with SMTP id ay35-20020a05600c1e2300b003946133a746mr4578087wmb.17.1652272183900;
+        Wed, 11 May 2022 05:29:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwy2ou+Mk/PkR/G/eo5g55eQmz0xGQXbimhYd6JFu/Xn+JJE2bLkuI6rzG6fUa4G4ybIfW0sg==
+X-Received: by 2002:a05:600c:1e23:b0:394:6133:a746 with SMTP id ay35-20020a05600c1e2300b003946133a746mr4578064wmb.17.1652272183647;
+        Wed, 11 May 2022 05:29:43 -0700 (PDT)
 Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id x6-20020adff646000000b0020cd2e8d3b1sm1614780wrp.5.2022.05.11.05.24.22
+        by smtp.gmail.com with ESMTPSA id n5-20020a05600c464500b0039482d95ab7sm1880616wmo.24.2022.05.11.05.29.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 May 2022 05:24:23 -0700 (PDT)
-Message-ID: <99a8b131-8e30-4ff1-3561-4ccbfa538a60@redhat.com>
-Date:   Wed, 11 May 2022 14:24:21 +0200
+        Wed, 11 May 2022 05:29:43 -0700 (PDT)
+Message-ID: <fa10ffa4-d43f-1270-acab-3d3d228e0b88@redhat.com>
+Date:   Wed, 11 May 2022 14:29:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
@@ -66,14 +66,16 @@ Content-Language: en-US
 To:     Thomas Zimmermann <tzimmermann@suse.de>,
         linux-kernel@vger.kernel.org
 Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        dri-devel@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 References: <20220511112438.1251024-1-javierm@redhat.com>
  <20220511112438.1251024-3-javierm@redhat.com>
- <67ed69d1-ebea-c9d0-45be-3c6c7e5ea1e5@suse.de>
+ <09cc267d-ead4-dd63-07dd-dfa347cbcee1@suse.de>
+ <7d9f44e6-ae45-1747-366a-15cf2941dc2f@redhat.com>
+ <8ec8d896-599e-b1ff-2b4f-077d73944705@suse.de>
 From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <67ed69d1-ebea-c9d0-45be-3c6c7e5ea1e5@suse.de>
+In-Reply-To: <8ec8d896-599e-b1ff-2b4f-077d73944705@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -82,90 +84,29 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hello Thomas,
 
-On 5/11/22 14:02, Thomas Zimmermann wrote:
+On 5/11/22 14:05, Thomas Zimmermann wrote:
 
 [snip]
 
->> +
->> +/**
->> + * sysfb_disable() - disable the Generic System Framebuffers support
->> + *
->> + * This disables the registration of system framebuffer devices that match the
->> + * generic drivers that make use of the system framebuffer set up by firmware.
->> + *
->> + * It also unregisters a device if this was already registered by sysfb_init().
+>>
+>> Other subsystems ask you to do the opposite, to split the definition and
+>> usage in separate patches. But I'm fine with merging those if you prefer.
 > 
-> Why? I still cannot wrap my mind around, why we need to store *pd at all 
-> and use sysfb_try_unregister() for unregistering.
+> Usually, I have no strong opinion on this. But in the case of this 
+> specific patchset, I have the feeling that I'm missing some important 
+> point because call and implementation are separate.  See my other 
+> replies for that.  Putting them next to each other will hopefully help. 
+> Sorry for the inconvenience.
 >
 
-Because on sysfb_disable(), the registered platform device has to unregistered.
+No worries at all. Happy to do that change if the patches are easy to
+understand. It took me some time as well to wrap my head around all
+the race conditions and needed locking.
 
-And sysfb has no way to know if it was unregistered already or not unless that
-stage is maintained in sysfb itself.
+Same for patch 3/7, but I'm convinced that dropping the lock is the
+correct thing to do than calling to drivers' .remove callbacks with
+a lock held.
 
-Let's have some examples assuming that we don't have this helper in sysfb
-(will use the vc4 DRM driver just to avoid typing "a real DRM driver).
-
-a) simplefb probed and then vc4
-
-   1) "simple-framebuffer" pdev is registered by sysfb
-   2) simplefb is registered and matches "simple-framebuffer"
-   3) a vc4 device is registered by OF when parsing the DTB
-   4) vc4 driver is registered, matches vc4 and probes
-   5) vc4 requests the conflicting framebuffers to be removed
-      and fbmem unregisters "simple-framebuffer"
-   6) fbmem calls sysfb_disable()
-   7) sysfb_disable() should unregister the pdev but can't
-      because has no way to know that fbmem already did that.
- 
-b) vc4 probed and then simplefb.ko module is loaded
-
-   1) "simple-framebuffer" pdev is registered by sysfb
-   2) a vc4 device is registered by OF when parsing the DTB
-   3) vc4 driver is registered, matches vc4 and probes
-   4) vc4 requests the conflicting framebuffers to be removed
-      and fbmem unregisters "simple-framebuffer"
-   5) fbmem calls sysfb_disable()
-   6) sysfb_disable() should unregister the pdev but can't
-      because has no way to know that fbmem already did that.
-   7) simplefb.ko is loaded and simplefb driver registered
-   8) simplefb matches the registered "simple-framebuffer"
-      and will wrongly probe and register a DRM device.
-
-In option (a), making sysfb_disable() to attempt to unregister the device
-that register in sysfb_init() will lead to a use-after-free if this was
-already unregistered by fbmem in remove_conflicting_framebuffers(), so
-it can't attempt to do that.
-
-Same for option (b), but sysfb_disable() can't rely on fbmem to do the
-unregistration because it only does for devices that are associated with
-an already registered fbdev.
-
-[snip]
-
->> + * Return:
->> + * * true          - the device was unregistered successfully
->> + * * false         - the device was not unregistered
->> + */
->> +bool sysfb_try_unregister(struct device *dev)
-> 
-> As it stands, I strongly object the use of this function as still don't 
-
-No worries, it's my bad since I clearly failed to explain the rationale in
-the commit message and comments.
-
-> really get the purpose. It looks like a glorified wrapper around 
-> platform_device_unregister(). Do we need disable_lock to serialize with 
-> something else?
->
-
-Yes, it has to serialize with sysfb_init() and sysfb_disable().
- 
-> Best regards
-> Thomas
-> 
-> 
 -- 
 Best regards,
 
