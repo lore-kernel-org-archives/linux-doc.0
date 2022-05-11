@@ -2,88 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3657C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 06:37:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 064C3C43217
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 07:12:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235815AbiEKGhh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 02:37:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44154 "EHLO
+        id S242687AbiEKHMU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 03:12:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234462AbiEKGhg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 02:37:36 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DFCB102754;
-        Tue, 10 May 2022 23:37:35 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id fv2so1321673pjb.4;
-        Tue, 10 May 2022 23:37:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ZfSoPNQMQ3JtFIIIzzgju0SL8LR4iC7N17yQ0q5g1Gw=;
-        b=QvBv2UfaGGwqFWNY/pqXIZh/GYk8NUG2EtFqNMhHJItgzyGdcST13XjgT+C51QFIu0
-         wVRUAFagaBzJS1NQ19RnmAjO8E1K4w1zVumajYnd6dT4tvhMTgjaIX7mVrzFjuN+MdQ6
-         AjoMhKZnuR5eE4T4wrSqyPkP3cXhfYhVrdfRL9sQmy5ouvNWLQ4VowVZn9rznHpkBK7/
-         IbTWBK86znT2+Ma8LKDyx2Et/AwRVPK/pYs0za6VXQeQA/Rk5lUCqkV6hlnQYeLCB42U
-         4R5LHx5APkIlgmoX2sHMd6JXdI4qUVaEyN4kplZmkr75KP4eCOHxu7vORlx1aPvDjwnL
-         dl9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ZfSoPNQMQ3JtFIIIzzgju0SL8LR4iC7N17yQ0q5g1Gw=;
-        b=ZUuiyiFAudULwR9dd5iPpX7P8erZv+bFFa04a7O89XUvqY4O1DJtD1XhvykXYKygW8
-         hNuB3JrrRlM/geePetWuEsQcexEHwqTjoIA1Z/1Ds5nFpRn8zPkIYYLVrIcLvLY29W9O
-         GkOY2KQI0RstTmmLeO1lvM52OBQ1jhogKvPOPBjvOrUBXTd02zpuYy/rfbLmtJU8dhvp
-         Ex90+8PLduGPwjzvcRDZse0EAQYDE7HrP/Jjs7wMaMNV0Afcc4s333qI7+TcfzPK1U5r
-         vJo/54X71FTXbM90hOKVoE/xgZv9P59HYSx1xANrBQYMhght1YopEvl19HKSlh6Fe8Zb
-         QbYg==
-X-Gm-Message-State: AOAM533UrhfNs81fidfOTIx+Pw87CdGcErBC84s49bKTi7V92xiSvzn2
-        ksJ3lBkS0+HnwL24wOZtKCI=
-X-Google-Smtp-Source: ABdhPJwgwpaW/4sIrJ2DtPGOF3tg6+/fSjpKZf+P2/qrsXRtPAFe1BSQEXPb0SCMKuAXhX1wdnAmWg==
-X-Received: by 2002:a17:90a:1509:b0:1d9:44a9:28c7 with SMTP id l9-20020a17090a150900b001d944a928c7mr3760102pja.89.1652251054890;
-        Tue, 10 May 2022 23:37:34 -0700 (PDT)
-Received: from localhost (subs02-180-214-232-26.three.co.id. [180.214.232.26])
-        by smtp.gmail.com with ESMTPSA id t67-20020a628146000000b0050dc762814asm732056pfd.36.2022.05.10.23.37.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 May 2022 23:37:34 -0700 (PDT)
-Date:   Wed, 11 May 2022 13:37:31 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Marc Kleine-Budde <mkl@pengutronix.de>,
-        Pavel Pisa <pisa@cmp.felk.cvut.cz>,
-        Martin Jerabek <martin.jerabek01@gmail.com>,
-        Ondrej Ille <ondrej.ille@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next] docs: ctucanfd: Use 'kernel-figure' directive
- instead of 'figure'
-Message-ID: <YntZqxuLSci6f8Z+@debian.me>
-References: <05d491d4-c498-9bab-7085-9c892b636d68@gmail.com>
+        with ESMTP id S241146AbiEKHMT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 03:12:19 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE1A937BF4;
+        Wed, 11 May 2022 00:12:16 -0700 (PDT)
+Received: from mail-yw1-f173.google.com ([209.85.128.173]) by
+ mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MQ5nE-1nSdOY4ADY-00M1t3; Wed, 11 May 2022 09:12:15 +0200
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-2ec42eae76bso10110447b3.10;
+        Wed, 11 May 2022 00:12:14 -0700 (PDT)
+X-Gm-Message-State: AOAM531Yn5XBTNE76A/FAw858em/l1XxmWfE5s7uVKGn+RmOjT0HQ1iQ
+        3Pj/Ok9Yspvw1GvHCwtCfUJzPtUgKpAvDf54JM0=
+X-Google-Smtp-Source: ABdhPJwX01FoB2ZgXBUIcOIxtA7Ea99HJs3NHFXbjQPgP93qP8mFm4KZw803sVc8TjQKsX7r+vkKlUYg6sohAwed5NE=
+X-Received: by 2002:a81:1697:0:b0:2fa:32f9:78c8 with SMTP id
+ 145-20020a811697000000b002fa32f978c8mr23526553yww.135.1652253133436; Wed, 11
+ May 2022 00:12:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <05d491d4-c498-9bab-7085-9c892b636d68@gmail.com>
+References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
+ <20220430090518.3127980-14-chenhuacai@loongson.cn> <CAK8P3a0A9dW4mwJ6JHDiJxizL7vWfr4r4c5KhbjtAY0sWbZJVA@mail.gmail.com>
+ <CAAhV-H4te_+AS69viO4eBz=abBUm5oQ6AfoY1Cb+nOCZyyeMdA@mail.gmail.com>
+ <CAK8P3a0DqQcApv8aa2dgBS5At=tEkN7cnaskoUeXDi2-Bu9Rnw@mail.gmail.com>
+ <20220507121104.7soocpgoqkvwv3gc@wittgenstein> <20220509100058.vmrgn5fkk3ayt63v@wittgenstein>
+In-Reply-To: <20220509100058.vmrgn5fkk3ayt63v@wittgenstein>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 11 May 2022 09:11:56 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0zmPbMNsS11aUGiAADyjOEueNUXQ8QZtVxr48M3pwAkQ@mail.gmail.com>
+Message-ID: <CAK8P3a0zmPbMNsS11aUGiAADyjOEueNUXQ8QZtVxr48M3pwAkQ@mail.gmail.com>
+Subject: Re: [PATCH V9 13/24] LoongArch: Add system call support
+To:     Christian Brauner <brauner@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Huacai Chen <chenhuacai@gmail.com>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        GNU C Library <libc-alpha@sourceware.org>,
+        musl@lists.openwall.com
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:yxwXvBeurszM3x+5iTkoGSd4Qxz4mpEWhesN486kJBN+frXxvrQ
+ mO+187/GlEbR/dArx11jPA06OyFudERdbWlPkc80hs3Rc9nTNKdl/dmhxceP57YKY9k7bA8
+ rQbUDhxIsA1SIB+q0iGzpuQC9TNxNlkaELdcCZJu9W+hKSpLNFU/qbm4tErTlEswh8mpSO6
+ 3MrqZbgc6/PYFGOYWaGgA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:sHKp8A96in0=:tGBsVkUkcIot84lHAsJyee
+ K3a1+e7tgwdaZR7rYmO9kvpvfzui14t9Bi/37YDUGMHR1JnGQqEYkTlT12ZYZ+etwb2ufrmnD
+ wTRyVkJtD4Ff1dvrj24M21W6huvEyn7zrVG1qOtKbdsz6Bb3iI1oEu03LMr6dUDd6Uj1P/UVR
+ 7CWmS5SvJUB4eF39OvgNITThNuCZ8r5V1FSBhqBmD5S5BQJ4jrCDX0QBah6xxtMoR0LtouCln
+ Uz6vXON60kQn/MY18EChsZzEd1J8ApnFKhaz3PTSXHoaI45TSaVDLUvLObzPmt+bMkQ1EAlaq
+ kvSkMoWgpTIngZsNOYsgBlrunIjsf39uDpH8FFtWCODPGJAfnRZSadc4U1R5N2xCyQ+4ZZZMf
+ UjsO7yXWsQcIIVSfalYAXTwsjF8glIONDlTX2C6ZF6aYT+cWW7v/CzPyx/FnJbyjbMawGpAVA
+ v4cJvZg+wmNJlvQw5RG/n9PfK9gCMdrwLcT7OKvXuwGAQbP3Nbb6pTsLhFu6o4heNbtPXCIlF
+ +h1dkrMqEx0WxuVzgjhhEHSlVKspPbiHhVD9TNvHwDfiT3sb2Vmev6viQ1pkVPfPxg79/KX7u
+ JQ3poUxYPRzYBR3fjqg7f49EQ+HOJ22+kelBT2fTJZl1f6kXreud2iexbtwTqG6Zrzwe2JRHX
+ JuE2eVNTvHvx8/q3GAXGFyThcXmFOx37m00IolpiuURHeSVEqCn0UOgh7FABeIt+TO4WMBzgL
+ abLWrs4OJQOo6Nqglhb83F+Wof371VbWMryjaIbuff4Uck1FuOTmoFCqdWCXaCCz0lMQ+A0Da
+ u87erz+MObZcLjfIwTIKXn+q+fAO5jiQ4s1qgNWJKUxpiFhCyirT0bYNPkf8tGezETgN1ahfd
+ VjWAdQomAmy98W14T4yg==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 10, 2022 at 06:34:37PM +0900, Akira Yokosawa wrote:
-> Two issues were observed in the ReST doc added by commit c3a0addefbde
-> ("docs: ctucanfd: CTU CAN FD open-source IP core documentation.").
-> 
-> The plain "figure" directive broke "make pdfdocs" due to a missing
-> PDF figure.  For conversion of SVG -> PDF to work, the "kernel-figure"
-> directive, which is an extension for kernel documentations, should
-> be used instead.
-> 
+On Mon, May 9, 2022 at 12:00 PM Christian Brauner <brauner@kernel.org> wrote:
+....
+> I can try and move a poc for this up the todo list.
+>
+> Without an approach like this certain sandboxes will fallback to
+> ENOSYSing system calls they can't filter. This is a generic problem
+> though with clone3() being one promiment example.
 
-Does plain "figure" directive not currently support SVG file argument?
-Because when I see reST documentation ([1]), it doesn't explicitly
-mentioned supported image formats.
+Thank you for the detailed reply. It sounds to me like this will eventually have
+to get solved anyway, so we could move ahead without clone() on loongarch,
+and just not have support for Chrome until this is fully solved.
 
-[1]: https://docutils.sourceforge.io/docs/ref/rst/directives.html#figure
+As both the glibc and musl ports are being proposed for inclusion right
+now, we should try to come to a decision so the libc ports can adjust if
+necessary. Adding both mailing lists to Cc here, the discussion is archived
+at [1].
 
--- 
-An old man doll... just what I always wanted! - Clara
+         Arnd
+
+[1] https://lore.kernel.org/linux-arch/20220509100058.vmrgn5fkk3ayt63v@wittgenstein/
