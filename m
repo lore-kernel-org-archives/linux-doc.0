@@ -2,101 +2,212 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 064C3C43217
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 07:12:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5AC7C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 07:24:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242687AbiEKHMU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 03:12:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59858 "EHLO
+        id S239956AbiEKHYc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 03:24:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241146AbiEKHMT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 03:12:19 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE1A937BF4;
-        Wed, 11 May 2022 00:12:16 -0700 (PDT)
-Received: from mail-yw1-f173.google.com ([209.85.128.173]) by
- mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MQ5nE-1nSdOY4ADY-00M1t3; Wed, 11 May 2022 09:12:15 +0200
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-2ec42eae76bso10110447b3.10;
-        Wed, 11 May 2022 00:12:14 -0700 (PDT)
-X-Gm-Message-State: AOAM531Yn5XBTNE76A/FAw858em/l1XxmWfE5s7uVKGn+RmOjT0HQ1iQ
-        3Pj/Ok9Yspvw1GvHCwtCfUJzPtUgKpAvDf54JM0=
-X-Google-Smtp-Source: ABdhPJwX01FoB2ZgXBUIcOIxtA7Ea99HJs3NHFXbjQPgP93qP8mFm4KZw803sVc8TjQKsX7r+vkKlUYg6sohAwed5NE=
-X-Received: by 2002:a81:1697:0:b0:2fa:32f9:78c8 with SMTP id
- 145-20020a811697000000b002fa32f978c8mr23526553yww.135.1652253133436; Wed, 11
- May 2022 00:12:13 -0700 (PDT)
+        with ESMTP id S242867AbiEKHY3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 03:24:29 -0400
+Received: from mailgw.felk.cvut.cz (mailgw.felk.cvut.cz [147.32.82.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FFCD1C0F25;
+        Wed, 11 May 2022 00:24:27 -0700 (PDT)
+Received: from mailgw.felk.cvut.cz (localhost.localdomain [127.0.0.1])
+        by mailgw.felk.cvut.cz (Proxmox) with ESMTP id D7A8930322EA;
+        Wed, 11 May 2022 09:23:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        cmp.felk.cvut.cz; h=cc:cc:content-transfer-encoding:content-type
+        :content-type:date:from:from:in-reply-to:message-id:mime-version
+        :references:reply-to:subject:subject:to:to; s=felkmail; bh=noksS
+        6avucQChdNExBN5UJBtftQ5wnHW8uU3NUv5UFE=; b=PE6+UwTWyGs26TfPsDLKq
+        a0T3t7uh5yN/A69uWtzKAAaKnjZwpSreGL3ooSQLpImH/Uq9EFSpkudO9f9JlK4Z
+        Vw13M+68LotaYaytGCnuqQSzvAnHL7POSZfEEolfyz2VBRDobJNVqyqZMf0sObk0
+        RB8ij9cnj+qfE4wKYZA2hMVS6J7YiXw72OMBPoCABD3U6fkOHjHobBv98lI4VS0r
+        FgnbwlVq0Eqmv4oFfdGqIzihd6gH81+QF22iwFdWMXbiUTy+wAKZLQR/vEoeFd8a
+        qBUQoB8AwFxOKGHq0iJW33FiEvNUQ9yJJtxDwm+0xKi8Gh23e88N3w5ECgQQVn2r
+        Q==
+Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
+        by mailgw.felk.cvut.cz (Proxmox) with ESMTPS id DDF8F30322D3;
+        Wed, 11 May 2022 09:23:54 +0200 (CEST)
+Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
+        by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id 24B7NsBG027064;
+        Wed, 11 May 2022 09:23:54 +0200
+Received: (from pisa@localhost)
+        by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 24B7Nshg027063;
+        Wed, 11 May 2022 09:23:54 +0200
+X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to pisa@cmp.felk.cvut.cz using -f
+From:   Pavel Pisa <pisa@cmp.felk.cvut.cz>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH net-next] docs: ctucanfd: Use 'kernel-figure' directive instead of 'figure'
+Date:   Wed, 11 May 2022 09:23:24 +0200
+User-Agent: KMail/1.9.10
+Cc:     "Marc Kleine-Budde" <mkl@pengutronix.de>,
+        Martin Jerabek <martin.jerabek01@gmail.com>,
+        Ondrej Ille <ondrej.ille@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <05d491d4-c498-9bab-7085-9c892b636d68@gmail.com> <202205101825.15126.pisa@cmp.felk.cvut.cz> <268372a9-2f6a-74f3-29ea-c51536a73dba@gmail.com>
+In-Reply-To: <268372a9-2f6a-74f3-29ea-c51536a73dba@gmail.com>
+X-KMail-QuotePrefix: > 
 MIME-Version: 1.0
-References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
- <20220430090518.3127980-14-chenhuacai@loongson.cn> <CAK8P3a0A9dW4mwJ6JHDiJxizL7vWfr4r4c5KhbjtAY0sWbZJVA@mail.gmail.com>
- <CAAhV-H4te_+AS69viO4eBz=abBUm5oQ6AfoY1Cb+nOCZyyeMdA@mail.gmail.com>
- <CAK8P3a0DqQcApv8aa2dgBS5At=tEkN7cnaskoUeXDi2-Bu9Rnw@mail.gmail.com>
- <20220507121104.7soocpgoqkvwv3gc@wittgenstein> <20220509100058.vmrgn5fkk3ayt63v@wittgenstein>
-In-Reply-To: <20220509100058.vmrgn5fkk3ayt63v@wittgenstein>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 11 May 2022 09:11:56 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0zmPbMNsS11aUGiAADyjOEueNUXQ8QZtVxr48M3pwAkQ@mail.gmail.com>
-Message-ID: <CAK8P3a0zmPbMNsS11aUGiAADyjOEueNUXQ8QZtVxr48M3pwAkQ@mail.gmail.com>
-Subject: Re: [PATCH V9 13/24] LoongArch: Add system call support
-To:     Christian Brauner <brauner@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Huacai Chen <chenhuacai@gmail.com>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        GNU C Library <libc-alpha@sourceware.org>,
-        musl@lists.openwall.com
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:yxwXvBeurszM3x+5iTkoGSd4Qxz4mpEWhesN486kJBN+frXxvrQ
- mO+187/GlEbR/dArx11jPA06OyFudERdbWlPkc80hs3Rc9nTNKdl/dmhxceP57YKY9k7bA8
- rQbUDhxIsA1SIB+q0iGzpuQC9TNxNlkaELdcCZJu9W+hKSpLNFU/qbm4tErTlEswh8mpSO6
- 3MrqZbgc6/PYFGOYWaGgA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:sHKp8A96in0=:tGBsVkUkcIot84lHAsJyee
- K3a1+e7tgwdaZR7rYmO9kvpvfzui14t9Bi/37YDUGMHR1JnGQqEYkTlT12ZYZ+etwb2ufrmnD
- wTRyVkJtD4Ff1dvrj24M21W6huvEyn7zrVG1qOtKbdsz6Bb3iI1oEu03LMr6dUDd6Uj1P/UVR
- 7CWmS5SvJUB4eF39OvgNITThNuCZ8r5V1FSBhqBmD5S5BQJ4jrCDX0QBah6xxtMoR0LtouCln
- Uz6vXON60kQn/MY18EChsZzEd1J8ApnFKhaz3PTSXHoaI45TSaVDLUvLObzPmt+bMkQ1EAlaq
- kvSkMoWgpTIngZsNOYsgBlrunIjsf39uDpH8FFtWCODPGJAfnRZSadc4U1R5N2xCyQ+4ZZZMf
- UjsO7yXWsQcIIVSfalYAXTwsjF8glIONDlTX2C6ZF6aYT+cWW7v/CzPyx/FnJbyjbMawGpAVA
- v4cJvZg+wmNJlvQw5RG/n9PfK9gCMdrwLcT7OKvXuwGAQbP3Nbb6pTsLhFu6o4heNbtPXCIlF
- +h1dkrMqEx0WxuVzgjhhEHSlVKspPbiHhVD9TNvHwDfiT3sb2Vmev6viQ1pkVPfPxg79/KX7u
- JQ3poUxYPRzYBR3fjqg7f49EQ+HOJ22+kelBT2fTJZl1f6kXreud2iexbtwTqG6Zrzwe2JRHX
- JuE2eVNTvHvx8/q3GAXGFyThcXmFOx37m00IolpiuURHeSVEqCn0UOgh7FABeIt+TO4WMBzgL
- abLWrs4OJQOo6Nqglhb83F+Wof371VbWMryjaIbuff4Uck1FuOTmoFCqdWCXaCCz0lMQ+A0Da
- u87erz+MObZcLjfIwTIKXn+q+fAO5jiQ4s1qgNWJKUxpiFhCyirT0bYNPkf8tGezETgN1ahfd
- VjWAdQomAmy98W14T4yg==
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Message-Id: <202205110923.24202.pisa@cmp.felk.cvut.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 9, 2022 at 12:00 PM Christian Brauner <brauner@kernel.org> wrote:
-....
-> I can try and move a poc for this up the todo list.
+Hello Akira,
+
+On Wednesday 11 of May 2022 01:34:58 Akira Yokosawa wrote:
+> On Tue, 10 May 2022 18:25:15 +0200,
 >
-> Without an approach like this certain sandboxes will fallback to
-> ENOSYSing system calls they can't filter. This is a generic problem
-> though with clone3() being one promiment example.
+> Pavel Pisa wrote:
+> > Hello Akira,
+=2E..
+> > I have not noticed that there is kernel-figure
+> > option. We have setup own Sphinx 1.4.9 based build for driver
+> > documentation out of the tree compilation, I am not sure if that
+> > would work with this option but if not we keep this version
+> > modified. There are required modification for sources location anyway...
+> >
+> > https://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/doc/linux_driver/buil=
+d/
+> >ctucanfd-driver.html
+>
+> You might want to see kernel's doc-guide at
+>
+>     https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html
+>
+> , or its source
+>
+>     Documentation/doc-guide/sphinx.rst
 
-Thank you for the detailed reply. It sounds to me like this will eventually have
-to get solved anyway, so we could move ahead without clone() on loongarch,
-and just not have support for Chrome until this is fully solved.
+I think I have read it in 2019 when I have managed to switch
+to kernel format documentation in out of the tree driver build
 
-As both the glibc and musl ports are being proposed for inclusion right
-now, we should try to come to a decision so the libc ports can adjust if
-necessary. Adding both mailing lists to Cc here, the discussion is archived
-at [1].
+https://gitlab.fel.cvut.cz/canbus/ctucanfd_ip_core/-/commit/09983d11ab34977=
+104d2be0b1376d4c93d9a01cb
 
-         Arnd
+Then I have enhanced documentation text and picture
+from Martin Jerabek's thesis etc..
 
-[1] https://lore.kernel.org/linux-arch/20220509100058.vmrgn5fkk3ayt63v@wittgenstein/
+> >> The directive of "code:: raw" causes a warning from both
+> >> "make htmldocs" and "make pdfdocs", which reads:
+> >>
+> >>     [...]/can/ctu/ctucanfd-driver.rst:75: WARNING: Pygments lexer name
+> >>     'raw' is not known
+> >
+> > Strange I have not seen any warning when building htmldocs
+> > in my actual linux kernel tree. I have cleaned docs to be warnings
+> > free, but it is possible that I have another tools versions.
+>
+> Well, I don't think "make htmldocs" runs with Sphinx 1.4.9.
+
+This is Sphinx version reported by out of tree documentation build.
+It can be hidden in one of dockers which are used by gitlabrunner
+for CI. When I find some time I can look for update.
+
+> You mean 1.7.9?
+
+My local net-next make htmldocs generated pages report Sphinx version 1.8.4.
+
+So this seems to be a mix, but I agree that it is important to clean
+docs in the state when it works for each not totally archaic setup.
+
+Thanks for the feedback,
+
+                Pavel
+=2D-=20
+                Pavel Pisa
+    phone:      +420 603531357
+    e-mail:     pisa@cmp.felk.cvut.cz
+    Department of Control Engineering FEE CVUT
+    Karlovo namesti 13, 121 35, Prague 2
+    university: http://control.fel.cvut.cz/
+    personal:   http://cmp.felk.cvut.cz/~pisa
+    projects:   https://www.openhub.net/accounts/ppisa
+    CAN related:http://canbus.pages.fel.cvut.cz/
+    Open Technologies Research Education and Exchange Services
+    https://gitlab.fel.cvut.cz/otrees/org/-/wikis/home
+
+=20
+
+> Then the above mentioned warning is not shown.
+> I see the warning with Sphinx versions 2.4.4. and 4.5.0.
+>
+> I'll amend the changelog to mention the Sphinx versions and
+> post as v2.
+>
+>         Thanks, Akira
+>
+> > Anyway thanks for cleanup.
+> >
+> >> A plain literal-block marker should suffice where no syntax
+> >> highlighting is intended.
+> >>
+> >> Fix the issues by using suitable directive and marker.
+> >>
+> >> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> >> Fixes: c3a0addefbde ("docs: ctucanfd: CTU CAN FD open-source IP core
+> >> documentation.") Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+> >> Cc: Martin Jerabek <martin.jerabek01@gmail.com>
+> >> Cc: Ondrej Ille <ondrej.ille@gmail.com>
+> >> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
+> >
+> > Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+> >
+> >> ---
+> >>  .../networking/device_drivers/can/ctu/ctucanfd-driver.rst     | 4 ++--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git
+> >> a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
+> >> b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
+> >> index 2fde5551e756..40c92ea272af 100644
+> >> ---
+> >> a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
+> >> +++
+> >> b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst =
+@@
+> >> -72,7 +72,7 @@ it is reachable (on which bus it resides) and its
+> >> configuration =E2=80=93 registers address, interrupts and so on. An ex=
+ample of
+> >> such a device tree is given in .
+> >>
+> >> -.. code:: raw
+> >> +::
+> >>
+> >>             / {
+> >>                 /* ... */
+> >> @@ -451,7 +451,7 @@ the FIFO is maintained, together with priority
+> >> rotation, is depicted in
+> >>
+> >>
+> >>
+> >> -.. figure:: fsm_txt_buffer_user.svg
+> >> +.. kernel-figure:: fsm_txt_buffer_user.svg
+> >>
+> >>     TX Buffer states with possible transitions
+
+
+=2D-=20
+Yours sincerely
+
+                Pavel Pisa
+    phone:      +420 603531357
+    e-mail:     pisa@cmp.felk.cvut.cz
+    Department of Control Engineering FEE CVUT
+    Karlovo namesti 13, 121 35, Prague 2
+    university: http://control.fel.cvut.cz/
+    personal:   http://cmp.felk.cvut.cz/~pisa
+    projects:   https://www.openhub.net/accounts/ppisa
+    CAN related:http://canbus.pages.fel.cvut.cz/
+    Open Technologies Research Education and Exchange Services
+    https://gitlab.fel.cvut.cz/otrees/org/-/wikis/home
+
