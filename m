@@ -2,173 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 905DBC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 13:33:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 743E7C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 13:50:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243748AbiEKNdr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 09:33:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39794 "EHLO
+        id S244140AbiEKNuG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 09:50:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239272AbiEKNdp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 09:33:45 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A100C5D8A;
-        Wed, 11 May 2022 06:33:44 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id i20-20020a05600c355400b0039456976dcaso2542409wmq.1;
-        Wed, 11 May 2022 06:33:43 -0700 (PDT)
+        with ESMTP id S244138AbiEKNuF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 09:50:05 -0400
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A2B6239782;
+        Wed, 11 May 2022 06:50:03 -0700 (PDT)
+Received: by mail-io1-xd32.google.com with SMTP id s23so2072854iog.13;
+        Wed, 11 May 2022 06:50:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ksy6PHWBR9sVN5QwB4AlZVRAOWKrGBlUQcJanMtrZ1E=;
-        b=mTDzNH2v16tSY8KR9n8XYuM9TmRFKMujDftxz6TIj6GtwaEOz1nHkwh9I23i0T3HdH
-         FkRLXEX5SaHr/3aMMMm7OL/M/d+MaFHllgpxQm/fpYTPdAYgalEfYfqkuEUtmA93LCsz
-         KTJ+dEbvn9aYPq/m/ywGmSofzC6L8X7kJ7GhdUszaeH8/X2mdeXpmjdv+8MkkdGJOkK5
-         Gy7x53+7PYcENNJD+lBQtTteeSN2J6383EG33+HODXzESWqPsDZuh/g7svvE1fImNNif
-         2mBzCB9nkBhxa2kVXx1d4gGeBI3j+8uRsqTkVokwRaI4RP3uLnVC7AdoYvSvrUEYrboU
-         /Gew==
+         :cc;
+        bh=PPfAjhXsI/sCAXElGiIAWLNhfWDNEi+ZtaHTtSxHBEQ=;
+        b=aGnZg3AT2GqkRlrytHTaN/NZj7se3UweBltQbTucUz8qfefhYRjX8D58C1r2q954R4
+         6DJFBBvHMc/JilfjHyQ5aqY01UN/ab0jVIyzAY5dvdvZIeqaRUit6kQHk967vXUAo93I
+         pB8FjpEP39N8d0YPKBUtmkAzGQERpADWAWEHzgZkXpmv8coKTSst29t7IYGwSgZONziv
+         oI4+fIjhM3bVr2+UA+VQvZRxk3miTrNxlZjLwaex+qmsOl01vetgxC5dI5YMOWpvQjc3
+         XxgpabVXskv3rcn9yXJv3653A48xMi9ZFSBhEqXtI3PP5+XcVG1qaW97tIAzZBRusZCS
+         SidQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ksy6PHWBR9sVN5QwB4AlZVRAOWKrGBlUQcJanMtrZ1E=;
-        b=Te3yLYRzB0NysHtcEWCB1gaLaCzJQhVcX2c37IM4nrcptIbn9r3dgV13XCEqIFOJRJ
-         oqYGgUiw0Ba0vfr+99c2p/uWgk1hTe6K4l+VpxbHlH7zLDxo0W25vzaLT/judCJ7HR+D
-         ZLbHXY09DHnEe/2d5HCB/CAcn50xTDTQhNFlbqkfpJ5AaEqqJV6yKEr7+Gxp4cHA1kj+
-         wW9Rj8jnsZU1WAhXwe9m4atuqrO4pxz0BTJ8YPeVCvSoVhMWqrmt5+g8OcZQhA9d2N6q
-         /fuQD7Q+SG4dQje7j2RJoGDJiDJwKWLoiC1Aqb0BpaaPkgrTmTS2fhVozV8FZ/RQYI6A
-         trcA==
-X-Gm-Message-State: AOAM533dibntHCbFS9zUh5lod72P/g6u0HTzGisCZ9cJT7vj7brDmomj
-        lxgAk1K3yGM/iLAV9D3CEOAPHeS7mCtr2oZnXC0=
-X-Google-Smtp-Source: ABdhPJx0HsNmN6aXZ/qgME3QoitJWXJwbYBVMkQDcpQpvHLbKrddWJTuykdpvOlgA7X5TIZWTNkDfYvdnRN4NLyIp6Q=
-X-Received: by 2002:a05:600c:154d:b0:394:8d64:9166 with SMTP id
- f13-20020a05600c154d00b003948d649166mr4952413wmg.102.1652276022494; Wed, 11
- May 2022 06:33:42 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=PPfAjhXsI/sCAXElGiIAWLNhfWDNEi+ZtaHTtSxHBEQ=;
+        b=Nb95y87xAS8rQvsrczlKK9ref94YMGImjeT860oZAusxTWJZCeC/7LKrvIBdnRAgku
+         +OBgPVBg8X189lH5+5WI1cKzBXyE+TBQPAoUOhCDSXsQmNcCs9zf7tIJe/5mORktkyVy
+         9ZDSIEgk5bqc7XZVIrl7bK151Wvq5L0h+98iMgpZ9uBaltOKmZYvlHenrH048G0193TM
+         qK9r4QsWMcjLxLcHQjA/SCxvNuLzScZFO1IkEQ+NCCqzuHXt2J1w6K/Cy+mSoroajxWm
+         QqWsgVzmAulJ73LVaH8X2ow6QgVi0VxzJr3doOEfE+k7pX4Z+e3svLSAOhAAABcMmuaV
+         97DA==
+X-Gm-Message-State: AOAM5302gSaDbJjhrWq6yyXyegCrGL26Wa3fQxMRaJ6n/sWw05ltk8w3
+        1zL5kd3TsWfGU0aTrFBe1M3c5JdzwmSEicY6Fio=
+X-Google-Smtp-Source: ABdhPJzjJIGp9s2bo97C4Z9816iV19iujbsRA1+GTtjaKDQ3YsQlDo9tdjEGYQ/NX+clvDAPgUUNuHpBQl2DPlIGM9A=
+X-Received: by 2002:a02:8624:0:b0:32b:397d:eeb1 with SMTP id
+ e33-20020a028624000000b0032b397deeb1mr12780202jai.264.1652277001693; Wed, 11
+ May 2022 06:50:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220510070140.45407-1-tomeu.vizoso@collabora.com>
- <20220510141329.54414-1-tomeu.vizoso@collabora.com> <CAPM=9tzLR-wsLhg2ikGjoK06s-ju5XWa1rtPPiUpN=pwD1vgtA@mail.gmail.com>
- <YntWQIXSqMCd6TYV@kroah.com> <1255a66a-121d-988a-19a7-316f703cb37d@mailbox.org>
- <YnujG0nkF0U6d5kd@kroah.com>
-In-Reply-To: <YnujG0nkF0U6d5kd@kroah.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Wed, 11 May 2022 06:33:32 -0700
-Message-ID: <CAF6AEGsmD-CNGj4bAE952JQpquaWA+Nxo5TGpFiHqaPK9doP-g@mail.gmail.com>
-Subject: Re: [Freedreno] Adding CI results to the kernel tree was Re: [RFC v2]
- drm/msm: Add initial ci/ subdirectory
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+References: <20220507052451.12890-1-ojeda@kernel.org> <20220507052451.12890-19-ojeda@kernel.org>
+ <875ymecp6f.fsf@meer.lwn.net>
+In-Reply-To: <875ymecp6f.fsf@meer.lwn.net>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Wed, 11 May 2022 15:49:50 +0200
+Message-ID: <CANiq72mpYjdhq6yZFBmy8zEo7Cjhh-WjOFc4TfKMZh+w4Fu5WA@mail.gmail.com>
+Subject: Re: [PATCH v6 18/23] docs: add Rust documentation
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Dave Airlie <airlied@gmail.com>, Sean Paul <sean@poorly.run>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>,
+        Daniel Xu <dxu@dxuuu.xyz>, Julian Merkle <me@jvmerkle.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 11, 2022 at 4:50 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+On Tue, May 10, 2022 at 12:32 AM Jonathan Corbet <corbet@lwn.net> wrote:
 >
-> On Wed, May 11, 2022 at 12:26:05PM +0200, Michel D=C3=A4nzer wrote:
-> > On 2022-05-11 08:22, Greg Kroah-Hartman wrote:
-> > > On Wed, May 11, 2022 at 03:06:47PM +1000, Dave Airlie wrote:
-> > >>> And use it to store expectations about what the drm/msm driver is
-> > >>> supposed to pass in the IGT test suite.
-> > >>
-> > >> I wanted to loop in Linus/Greg to see if there are any issues raised
-> > >> by adding CI results file to the tree in their minds, or if any othe=
-r
-> > >> subsystem has done this already, and it's all fine.
-> > >
-> > > Why does the results need to be added to the tree?  Shouldn't they be
-> > > either "all is good" or "constantly changing and a constant churn"?
-> > >
-> > >> I think this is a good thing after our Mesa experience, but Mesa has=
- a
-> > >> lot tighter integration here, so I want to get some more opinions
-> > >> outside the group.
-> > >
-> > > For systems that have "tight integration" this might make sense as pr=
-oof
-> > > that all is working for a specific commit, but I can't see how this w=
-ill
-> > > help the kernel out much.
-> > >
-> > > What are you going to do with these results being checked in all the
-> > > time?
-> >
-> > Having the expected results in the tree keeps them consistent with the =
-driver code itself, and allows putting in place gating CI to prevent mergin=
-g driver changes which make any of the tests deviate from the expected resu=
-lt.
+> Trying to take a closer look this time...
 >
-> Shouldn't "expected result" always be "pass"?
->
-> If not, then the test should be changed to be "skipped" like we have
-> today in the kselftest tests.
+> I foresee merge conflicts, but so it goes.  Trying to split this apart
+> would not make a lot of sense.
 
-No, we want to run tests even if they are expected to fail.  This
-prevents the scenario of a test getting fixed without being noticed
-(for ex, developer was working on fixing test A and didn't notice that
-the fix also fixed test B).  If a fix goes unnoticed, a later
-regression would also go unnoticed ;-)
+Is there a big change coming to docs? (there are not conflicts in
+linux-next within the docs). Or what do you mean?
 
-I was skeptical about this approach at first with mesa CI, but having
-used mesa CI for a while, I am now a firm believer in the approach.
+> Please use normal tables rather than list-table; this kind of thing is
+> really unreadable in the source form.
 
-And ofc we want the expectations to be in the kernel tree because
-there could be, for example, differences between -fixes and -next
-branches.  (Or even stable kernel branches if/when we get to the point
-of running CI on those.)
+Will do!
 
-> And how about tieing this into the kselftest process as well, why would
-> this be somehow separate from the rest of the kernel tests?
->
-> > Keeping them separate inevitably results in divergence between the driv=
-er code and the expected test results, which would result in spurious failu=
-res of such CI.
->
-> Again, "pass" should be the expected results :)
->
-> > I expect the main complication for the kernel will be due to driver cha=
-nges merged via different trees, e.g. for cross-subsystem reworks. Since th=
-ose will not go through the same CI, they may accidentally introduce incons=
-istencies. The ideal solution for this IMO would be centralizing CI such th=
-at the same gating tests have to pass regardless of how the code is merged.=
- But there's likely quite a long way to go until we get there. :)
->
-> We have in-kernel tests for the rest of the kernel, why can't you put
-> your testing stuff into there as well?
+> I foresee disagreements over coding style conventions in the
+> future... I don't plan to be part of that conversation :)
 
-We could ofc put a lot more of the gitlab yml and scripts into the
-kernel tree.  Probably all of i-g-t is a bit much to put in the kernel
-tree.  Not to mention I'd like to see this expand to also run some
-deqp and/or piglit tests, which is definitely too much to vendor into
-the kernel tree.
+Do you mean with the tool settings? I guess we may get some proposals
+about tweaking them, yeah, but one reason to stick to the defaults is
+to avoid that! :)
 
-The approach of this RFC was to put only what was absolutely required
-in the kernel tree (such as expectations), and then link out to an
-external drm-ci tree[1] which has all the necessary scripts and yml
-for building and running tests, to avoid having to put a whole lot
-more in the kernel tree. (We should be specifying exact commit-sha for
-that tree, IMO, as it controls the version of i-g-t which gets used,
-and we need to be able to update expectations in sync with an i-g-t
-uprev, for example when new tests are added or if a test fix caused a
-fail->pass transition.)
+If you mean enforcing `rustfmt`, please see below.
 
-BR,
--R
+> I will ask whether we want this, though.  Why would anybody want to
+> mass-reformat the entire body of kernel code?  This seems like something
+> that would generate an endless stream of "helpful" patches and a lot of
+> churn.
 
-[1] https://gitlab.freedesktop.org/gfx-ci/drm-ci
+So the idea is that, since everything is already formatted, the output
+of this is empty (in mainline), like Gaelan/Josh mentioned. Thus
+nobody should be sending any formatting patches since there is nothing
+to change.
 
-> thanks,
->
-> greg k-h
+Now, for those developing and not running `rustfmt` automatically in
+some way (e.g. in their editors), it can be useful to run it before
+submitting the patches: the output should only show changes to
+whatever you changed since everything else should be already
+formatted.
+
+Of course, as soon as others start submitting patches independently,
+mistakes may slip through, but we are enforcing this in our CI (and it
+could be done more centrally), so we should notice quickly.
+
+There could be, of course, bugs in the tool; and there are a few
+situations where the tool may not guarantee formatting stability, but
+hopefully those are rare and small enough so that we can keep
+enforcing this. I think it is worth trying.
+
+Cheers,
+Miguel
