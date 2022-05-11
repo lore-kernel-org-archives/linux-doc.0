@@ -2,212 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5AC7C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 07:24:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F290C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 08:24:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239956AbiEKHYc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 03:24:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45038 "EHLO
+        id S243601AbiEKIYL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 04:24:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242867AbiEKHY3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 03:24:29 -0400
-Received: from mailgw.felk.cvut.cz (mailgw.felk.cvut.cz [147.32.82.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FFCD1C0F25;
-        Wed, 11 May 2022 00:24:27 -0700 (PDT)
-Received: from mailgw.felk.cvut.cz (localhost.localdomain [127.0.0.1])
-        by mailgw.felk.cvut.cz (Proxmox) with ESMTP id D7A8930322EA;
-        Wed, 11 May 2022 09:23:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        cmp.felk.cvut.cz; h=cc:cc:content-transfer-encoding:content-type
-        :content-type:date:from:from:in-reply-to:message-id:mime-version
-        :references:reply-to:subject:subject:to:to; s=felkmail; bh=noksS
-        6avucQChdNExBN5UJBtftQ5wnHW8uU3NUv5UFE=; b=PE6+UwTWyGs26TfPsDLKq
-        a0T3t7uh5yN/A69uWtzKAAaKnjZwpSreGL3ooSQLpImH/Uq9EFSpkudO9f9JlK4Z
-        Vw13M+68LotaYaytGCnuqQSzvAnHL7POSZfEEolfyz2VBRDobJNVqyqZMf0sObk0
-        RB8ij9cnj+qfE4wKYZA2hMVS6J7YiXw72OMBPoCABD3U6fkOHjHobBv98lI4VS0r
-        FgnbwlVq0Eqmv4oFfdGqIzihd6gH81+QF22iwFdWMXbiUTy+wAKZLQR/vEoeFd8a
-        qBUQoB8AwFxOKGHq0iJW33FiEvNUQ9yJJtxDwm+0xKi8Gh23e88N3w5ECgQQVn2r
-        Q==
-Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
-        by mailgw.felk.cvut.cz (Proxmox) with ESMTPS id DDF8F30322D3;
-        Wed, 11 May 2022 09:23:54 +0200 (CEST)
-Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
-        by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id 24B7NsBG027064;
-        Wed, 11 May 2022 09:23:54 +0200
-Received: (from pisa@localhost)
-        by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 24B7Nshg027063;
-        Wed, 11 May 2022 09:23:54 +0200
-X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to pisa@cmp.felk.cvut.cz using -f
-From:   Pavel Pisa <pisa@cmp.felk.cvut.cz>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH net-next] docs: ctucanfd: Use 'kernel-figure' directive instead of 'figure'
-Date:   Wed, 11 May 2022 09:23:24 +0200
-User-Agent: KMail/1.9.10
-Cc:     "Marc Kleine-Budde" <mkl@pengutronix.de>,
-        Martin Jerabek <martin.jerabek01@gmail.com>,
-        Ondrej Ille <ondrej.ille@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <05d491d4-c498-9bab-7085-9c892b636d68@gmail.com> <202205101825.15126.pisa@cmp.felk.cvut.cz> <268372a9-2f6a-74f3-29ea-c51536a73dba@gmail.com>
-In-Reply-To: <268372a9-2f6a-74f3-29ea-c51536a73dba@gmail.com>
-X-KMail-QuotePrefix: > 
+        with ESMTP id S243621AbiEKIYL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 04:24:11 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AF3966687;
+        Wed, 11 May 2022 01:24:09 -0700 (PDT)
+Received: from mail-yb1-f181.google.com ([209.85.219.181]) by
+ mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MQvL7-1nStfM0uhD-00O1RW; Wed, 11 May 2022 10:24:07 +0200
+Received: by mail-yb1-f181.google.com with SMTP id m190so2574877ybf.4;
+        Wed, 11 May 2022 01:24:06 -0700 (PDT)
+X-Gm-Message-State: AOAM530F/rs7V40kHDEiGuNXLmrG/p7lbti7GItpjdQdtPDsDX0Tf/tE
+        ZwKWpgjgof6PPdqA5c39yuZvq0kzhQ+zjD1n7gQ=
+X-Google-Smtp-Source: ABdhPJyFouUq4CPyqHhoX+wyzUMdk5CW1I4lCwx2Vb0ywqtufH4ws3JEs5ZA78mXb7f9SpKUbRnNZIcDW9YXE5YZ5Uk=
+X-Received: by 2002:a25:31c2:0:b0:641:660f:230f with SMTP id
+ x185-20020a2531c2000000b00641660f230fmr21930869ybx.472.1652257445777; Wed, 11
+ May 2022 01:24:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: Text/Plain;
-  charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Message-Id: <202205110923.24202.pisa@cmp.felk.cvut.cz>
+References: <20220509150130.1047016-1-kuba@kernel.org> <CAK8P3a0FVM8g0LG3_mHJ1xX3Bs9cxae8ez7b9qvGOD+aJdc8Dw@mail.gmail.com>
+ <20220509103216.180be080@kernel.org> <9cac4fbd-9557-b0b8-54fa-93f0290a6fb8@schmorgal.com>
+ <CAK8P3a1AA181LqQSxnToSVx0e5wmneUsOKfmnxVMsUNh465C_Q@mail.gmail.com> <d7076f95-b25b-3694-1ec2-9b9ff93633b7@schmorgal.com>
+In-Reply-To: <d7076f95-b25b-3694-1ec2-9b9ff93633b7@schmorgal.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 11 May 2022 10:23:49 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3Tj=aJM_-x17uw1yJ-5+DgKX6APgEaO0sa=aRBKya1XQ@mail.gmail.com>
+Message-ID: <CAK8P3a3Tj=aJM_-x17uw1yJ-5+DgKX6APgEaO0sa=aRBKya1XQ@mail.gmail.com>
+Subject: Re: [PATCH net-next] net: appletalk: remove Apple/Farallon LocalTalk
+ PC support
+To:     Doug Brown <doug@schmorgal.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Jakub Kicinski <kuba@kernel.org>,
+        David Miller <davem@davemloft.net>,
+        Networking <netdev@vger.kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Paul Mackerras <paulus@samba.org>, linux-ppp@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:Z952orSfTHyBgIXeXcsCvkvztAO+z1GduLlvnq7aygZujRIllvc
+ hUFlMYrOZdxt9lwEPuMJecBzlTNrib9a3u9Ow3h5lW+H3yLWs+syKF4GE3HYAHdQkuJ4/O7
+ ba/OhYTIY2ccNzxU6ViK01x9kwwidCH1neRoMV1on/zCXK8wCGzETtiSh2Fp5jlKuyCekUi
+ VcZfXBRPV6LPDQPr7SZgA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OTZcUvRBuKc=:WmoD9sIBRr16VnoGQSyzME
+ 8RvP6ktOq78ojRnfrRfF6RDAQeDYLhgit3zM13qWaUC+DuH7foox/ulDjTsfK9ozt+TkF4ghp
+ 3xLvDY/rWbsaDypIwLrhrWbHXD9fmPsqez1J4wKGplKZmd4O6N/alVmZB4zOLEHJa2jH9gpB+
+ pxwJ0rEVbxPg/TIMT3T5hfgqcJFpulas+LejUOa6mAiENzYBeDNtBm0HDNYajyJ4VFR3CBb6y
+ 5QwFiy7Kqx6rBDVok0uHEb2G8CXj+QA56IO9VPC6TdYB58AnfUQny7oOdpkCVoIV9UmKHbnrV
+ Inig72kmNfE/kokOBnJYg7IWT4HC4ZH2bZS0mkJR1/bCSkO0WWz6OiT4EORGKYh1dK9D2jGk3
+ XWyjqn508Oep5btcvIxh9UZK1gCp2a9RYrrobNznvRNgdXG+A0qwiVeBT2k4bRGxz8gHWTY2T
+ l4D82Z1xDhF8iDeGwsKpcq/Le7kI70E6sU0YkoZ4xrVWPsrW+8sMGX/SA+aRhyw+nAhgYR/qg
+ Iiq0lGIFLI2YD4rHfkiFei/HzH6/JJBCqukCJV+5+9+aow/azZs7AQD2mpjM7Gc4yFHNE5d3g
+ th3znq+GymAL+kVwcXtWmbTyeNGC96lW1EPkBgb7tqQPtOMze4492ZDKhELkNDgHCYgjyhn7h
+ h/9DeaavpwCriJM04Vqy+nQi7oJgLXaf4JnZJx9jWj9hizCgYOpF5tner/TOC7E7FwNI=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Akira,
-
-On Wednesday 11 of May 2022 01:34:58 Akira Yokosawa wrote:
-> On Tue, 10 May 2022 18:25:15 +0200,
+On Wed, May 11, 2022 at 2:20 AM Doug Brown <doug@schmorgal.com> wrote:
 >
-> Pavel Pisa wrote:
-> > Hello Akira,
-=2E..
-> > I have not noticed that there is kernel-figure
-> > option. We have setup own Sphinx 1.4.9 based build for driver
-> > documentation out of the tree compilation, I am not sure if that
-> > would work with this option but if not we keep this version
-> > modified. There are required modification for sources location anyway...
-> >
-> > https://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/doc/linux_driver/buil=
-d/
-> >ctucanfd-driver.html
+> On 5/9/2022 11:48 PM, Arnd Bergmann wrote:
+> > If I understand this correct, this means we could remove all of
+> > drivers/net/appletalk/ except for the CONFIG_ATALK Kconfig entry,
+> > and also remove net/appletalk/dev.c and a few bits of net/appletalk
+> > that reference localtalk device structures and their ioctls, right?
+> Yes, I believe so. At that point, would Kconfig get moved to
+> net/appletalk instead? (Just wondering out of my own curiosity!)
+> > What about appletalk over PPP (phase1 probing in aarp.c) and
+> > ARPHRD_LOCALTLK support in drivers/net/tun.c? Are these still
+> > useful without localtalk device support?
 >
-> You might want to see kernel's doc-guide at
->
->     https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html
->
-> , or its source
->
->     Documentation/doc-guide/sphinx.rst
+> I don't feel qualified enough to answer those ones definitively, but it
+> looks to me like the ARPHRD_LOCALTLK support in net/tun.c could be
+> stripped out, because tun_get_addr_len only gets called on a struct
+> net_device's type, and stripping out LocalTalk would make that condition
+> impossible (I think?)
 
-I think I have read it in 2019 when I have managed to switch
-to kernel format documentation in out of the tree driver build
+Right, I came to the same conclusion here.
 
-https://gitlab.fel.cvut.cz/canbus/ctucanfd_ip_core/-/commit/09983d11ab34977=
-104d2be0b1376d4c93d9a01cb
+> The AppleTalk over PPP stuff probably allows Linux to be an AppleTalk
+> Remote Access server. I'm not aware of anyone using that capability, (or
+> if it even still works) but I would consider it distinct from LocalTalk.
 
-Then I have enhanced documentation text and picture
-from Martin Jerabek's thesis etc..
+I dug around in the early git history for this one, but I'm also not
+sure if this is meant to still work. I see that PPPTALK support was added
+to net/appletalk by Alan Cox in linux-1.3.78 (1996), based on the localtalk
+support, and it continues to exist there along ethertalk and localtalk.
 
-> >> The directive of "code:: raw" causes a warning from both
-> >> "make htmldocs" and "make pdfdocs", which reads:
-> >>
-> >>     [...]/can/ctu/ctucanfd-driver.rst:75: WARNING: Pygments lexer name
-> >>     'raw' is not known
-> >
-> > Strange I have not seen any warning when building htmldocs
-> > in my actual linux kernel tree. I have cleaned docs to be warnings
-> > free, but it is possible that I have another tools versions.
->
-> Well, I don't think "make htmldocs" runs with Sphinx 1.4.9.
+I also looked at the git history for the pppd user space, and I find no
+indication of appletalk ever being supported there, this all looks
+IPv4/IPv6 specific. There was support for PPP_IPX until it was
+dropped this year (the kernel side got removed in 2018), but never
+for PPP_AT.
+Adding Paul Mackerras to Cc, he might know more about it.
 
-This is Sphinx version reported by out of tree documentation build.
-It can be hidden in one of dockers which are used by gitlabrunner
-for CI. When I find some time I can look for update.
+> I would definitely be happy to test any patches to make sure that
+> EtherTalk still works with netatalk afterward!
 
-> You mean 1.7.9?
-
-My local net-next make htmldocs generated pages report Sphinx version 1.8.4.
-
-So this seems to be a mix, but I agree that it is important to clean
-docs in the state when it works for each not totally archaic setup.
-
-Thanks for the feedback,
-
-                Pavel
-=2D-=20
-                Pavel Pisa
-    phone:      +420 603531357
-    e-mail:     pisa@cmp.felk.cvut.cz
-    Department of Control Engineering FEE CVUT
-    Karlovo namesti 13, 121 35, Prague 2
-    university: http://control.fel.cvut.cz/
-    personal:   http://cmp.felk.cvut.cz/~pisa
-    projects:   https://www.openhub.net/accounts/ppisa
-    CAN related:http://canbus.pages.fel.cvut.cz/
-    Open Technologies Research Education and Exchange Services
-    https://gitlab.fel.cvut.cz/otrees/org/-/wikis/home
-
-=20
-
-> Then the above mentioned warning is not shown.
-> I see the warning with Sphinx versions 2.4.4. and 4.5.0.
->
-> I'll amend the changelog to mention the Sphinx versions and
-> post as v2.
->
->         Thanks, Akira
->
-> > Anyway thanks for cleanup.
-> >
-> >> A plain literal-block marker should suffice where no syntax
-> >> highlighting is intended.
-> >>
-> >> Fix the issues by using suitable directive and marker.
-> >>
-> >> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> >> Fixes: c3a0addefbde ("docs: ctucanfd: CTU CAN FD open-source IP core
-> >> documentation.") Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-> >> Cc: Martin Jerabek <martin.jerabek01@gmail.com>
-> >> Cc: Ondrej Ille <ondrej.ille@gmail.com>
-> >> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-> >
-> > Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-> >
-> >> ---
-> >>  .../networking/device_drivers/can/ctu/ctucanfd-driver.rst     | 4 ++--
-> >>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git
-> >> a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-> >> b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-> >> index 2fde5551e756..40c92ea272af 100644
-> >> ---
-> >> a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst
-> >> +++
-> >> b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.rst =
-@@
-> >> -72,7 +72,7 @@ it is reachable (on which bus it resides) and its
-> >> configuration =E2=80=93 registers address, interrupts and so on. An ex=
-ample of
-> >> such a device tree is given in .
-> >>
-> >> -.. code:: raw
-> >> +::
-> >>
-> >>             / {
-> >>                 /* ... */
-> >> @@ -451,7 +451,7 @@ the FIFO is maintained, together with priority
-> >> rotation, is depicted in
-> >>
-> >>
-> >>
-> >> -.. figure:: fsm_txt_buffer_user.svg
-> >> +.. kernel-figure:: fsm_txt_buffer_user.svg
-> >>
-> >>     TX Buffer states with possible transitions
-
-
-=2D-=20
-Yours sincerely
-
-                Pavel Pisa
-    phone:      +420 603531357
-    e-mail:     pisa@cmp.felk.cvut.cz
-    Department of Control Engineering FEE CVUT
-    Karlovo namesti 13, 121 35, Prague 2
-    university: http://control.fel.cvut.cz/
-    personal:   http://cmp.felk.cvut.cz/~pisa
-    projects:   https://www.openhub.net/accounts/ppisa
-    CAN related:http://canbus.pages.fel.cvut.cz/
-    Open Technologies Research Education and Exchange Services
-    https://gitlab.fel.cvut.cz/otrees/org/-/wikis/home
-
+       Arnd
