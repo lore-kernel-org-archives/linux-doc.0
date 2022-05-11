@@ -2,160 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14419C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 10:06:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C97AC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 10:36:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239197AbiEKKGr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 06:06:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40102 "EHLO
+        id S230393AbiEKKgR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 06:36:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239203AbiEKKGk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 06:06:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6B38D31237
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 03:06:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1652263593;
+        with ESMTP id S236068AbiEKKgR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 06:36:17 -0400
+X-Greylist: delayed 603 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 11 May 2022 03:36:16 PDT
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 622662E9F2;
+        Wed, 11 May 2022 03:36:16 -0700 (PDT)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4KyrfS4WZhz9spJ;
+        Wed, 11 May 2022 12:26:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1652264768;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=lEm7VC0oh3/NhUfb651UmDt+6Cqjy8wZb5/iCmg68tE=;
-        b=E+w3RTKGIoVZrcGgiwr5EMJLhR3GlfSV2mczUpYuhFvwXlKSIqMA6LhFbRb694EZ0FqLOm
-        z/b+0dKxw97jZBf2R0/I/bCpKsuuyGJneysPWMsKCThDEhD9U+aC3LhCqIGlOCR2Jav3rk
-        nxU7rpO2lv3c/JNETQjjw2LU5qTe+Cc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-475-R2X4UymDM5GtJrSkl4Bqgg-1; Wed, 11 May 2022 06:06:28 -0400
-X-MC-Unique: R2X4UymDM5GtJrSkl4Bqgg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D14123C138B5;
-        Wed, 11 May 2022 10:06:27 +0000 (UTC)
-Received: from localhost (ovpn-13-194.pek2.redhat.com [10.72.13.194])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id BEF18C28114;
-        Wed, 11 May 2022 10:06:26 +0000 (UTC)
-Date:   Wed, 11 May 2022 18:06:23 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Cc:     Dave Young <dyoung@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH] arm64: kdump: Do not allocate crash low memory if not
- needed
-Message-ID: <20220511100623.GF122876@MiWiFi-R3L-srv>
-References: <20220511032033.426-1-thunder.leizhen@huawei.com>
- <Ynt8qwG9WoiW4L+o@MiWiFi-R3L-srv>
- <8922e61e-ab7c-6e48-ad8c-57b75156a0f2@huawei.com>
+        bh=y/E1vKB93vrG/DjRCzLKzwqBALm4NpArvjus/ourHbI=;
+        b=k8G6LO/DA2hkLYEA4a/jti/zyEqH+lLwPnhhAIg00NLSzA8dFGBzwZhjEyddtDJLG3Vqtx
+        3Hfgh/KESeU2q0Gw3XmFYEv5SohRvJ9OmQ0KtNd+AsM/0RZ4CtNKQKLVz3qvG7MNiLRA/8
+        hV5lPw77oNCmAbG/y34GKc2R3BkkcJkYNWyp7x4MuZlJmMDy7hV6XZvhZ48GrkYg/y6kP/
+        Pe25JiyS+7TgQAiMk6Nv3aOyN9XhrIOaN1xn89Fs+TB070DOxvp+q8L1+fIyUGWK67T+KX
+        bnk1uVDGBkRI0+yZao76NBnnBcpEyLkexJXAszQCzAVpSOj9nfjih2CEcl0QKA==
+Message-ID: <1255a66a-121d-988a-19a7-316f703cb37d@mailbox.org>
+Date:   Wed, 11 May 2022 12:26:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8922e61e-ab7c-6e48-ad8c-57b75156a0f2@huawei.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Subject: Re: Adding CI results to the kernel tree was Re: [RFC v2] drm/msm:
+ Add initial ci/ subdirectory
+Content-Language: en-CA
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dave Airlie <airlied@gmail.com>
+Cc:     freedreno <freedreno@lists.freedesktop.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Jonathan Corbet <corbet@lwn.net>, Sean Paul <sean@poorly.run>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+References: <20220510070140.45407-1-tomeu.vizoso@collabora.com>
+ <20220510141329.54414-1-tomeu.vizoso@collabora.com>
+ <CAPM=9tzLR-wsLhg2ikGjoK06s-ju5XWa1rtPPiUpN=pwD1vgtA@mail.gmail.com>
+ <YntWQIXSqMCd6TYV@kroah.com>
+From:   =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <YntWQIXSqMCd6TYV@kroah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: f1u1x9t1eq9gx7t66636ikwanw7e56pm
+X-MBO-RS-ID: 8072a6e3cb6bccf98f1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/11/22 at 05:50pm, Leizhen (ThunderTown) wrote:
+On 2022-05-11 08:22, Greg Kroah-Hartman wrote:
+> On Wed, May 11, 2022 at 03:06:47PM +1000, Dave Airlie wrote:
+>>> And use it to store expectations about what the drm/msm driver is
+>>> supposed to pass in the IGT test suite.
+>>
+>> I wanted to loop in Linus/Greg to see if there are any issues raised
+>> by adding CI results file to the tree in their minds, or if any other
+>> subsystem has done this already, and it's all fine.
 > 
+> Why does the results need to be added to the tree?  Shouldn't they be
+> either "all is good" or "constantly changing and a constant churn"?
 > 
-> On 2022/5/11 17:06, Baoquan He wrote:
-> > On 05/11/22 at 11:20am, Zhen Lei wrote:
-> >> When "crashkernel=X,high" is specified, the specified "crashkernel=Y,low"
-> >> memory is not required in the following corner cases:
-> >> 1. If both CONFIG_ZONE_DMA and CONFIG_ZONE_DMA32 are disabled, it means
-> >>    that the devices can access any memory.
-> >> 2. If the system memory is small, the crash high memory may be allocated
-> >>    from the DMA zones. If that happens, there's no need to allocate
-> >>    another crash low memory because there's already one.
-> >>
-> >> Add condition '(crash_base >= CRASH_ADDR_LOW_MAX)' to determine whether
-> >> the 'high' memory is allocated above DMA zones. Note: when both
-> >> CONFIG_ZONE_DMA and CONFIG_ZONE_DMA32 are disabled, the entire physical
-> >> memory is DMA accessible, CRASH_ADDR_LOW_MAX equals 'PHYS_MASK + 1'.
-> >>
-> >> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> >> ---
-> >>  Documentation/admin-guide/kernel-parameters.txt | 5 +++--
-> >>  arch/arm64/mm/init.c                            | 3 ++-
-> >>  2 files changed, 5 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> >> index f6ff55840751a78..1b543c3109f4851 100644
-> >> --- a/Documentation/admin-guide/kernel-parameters.txt
-> >> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> >> @@ -823,7 +823,7 @@
-> >>  			low memory is needed to make sure DMA buffers for 32-bit
-> >>  			devices won't run out. Kernel would try to allocate
-> >>  			at least 256M below 4G automatically.
-> >> -			This one let user to specify own low range under 4G
-> >> +			This one lets the user specify own low range under 4G
-> >                         ~ This one let users specify own low range ...
-> > 
-> > Other than this nitpick, LGTM
+>> I think this is a good thing after our Mesa experience, but Mesa has a
+>> lot tighter integration here, so I want to get some more opinions
+>> outside the group.
 > 
-> This is Catalin's response a few days ago:
-> Slightly more correct is "This one lets the user specify..."
+> For systems that have "tight integration" this might make sense as proof
+> that all is working for a specific commit, but I can't see how this will
+> help the kernel out much.
 > 
-> I didn't googled "This one lets", but I googled "It lets". I think he wrote it right.
-> 
-> Both "the user" and "users" seem to be right.
+> What are you going to do with these results being checked in all the
+> time?
 
-Yeah, I forgot the 'this one lets' part, and I am fine too with the 'the
-use'if it's right. So please ignore the comment.
+Having the expected results in the tree keeps them consistent with the driver code itself, and allows putting in place gating CI to prevent merging driver changes which make any of the tests deviate from the expected result.
 
-> 
-> 
-> > 
-> > Acked-by: Baoquan He <bhe@redhat.com>
-> > 
-> >>  			for second kernel instead.
-> >>  			0: to disable low allocation.
-> >>  			It will be ignored when crashkernel=X,high is not used
-> >> @@ -832,7 +832,8 @@
-> >>  			[KNL, ARM64] range in low memory.
-> >>  			This one lets the user specify a low range in the
-> >>  			DMA zone for the crash dump kernel.
-> >> -			It will be ignored when crashkernel=X,high is not used.
-> >> +			It will be ignored when crashkernel=X,high is not used
-> >> +			or memory reserved is located in the DMA zones.
-> >>  
-> >>  	cryptomgr.notests
-> >>  			[KNL] Disable crypto self-tests
-> >> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-> >> index 18ba66c90991ea0..ac510fb6a2c0189 100644
-> >> --- a/arch/arm64/mm/init.c
-> >> +++ b/arch/arm64/mm/init.c
-> >> @@ -170,7 +170,8 @@ static void __init reserve_crashkernel(void)
-> >>  		return;
-> >>  	}
-> >>  
-> >> -	if (crash_low_size && reserve_crashkernel_low(crash_low_size)) {
-> >> +	if ((crash_base >= CRASH_ADDR_LOW_MAX) &&
-> >> +	     crash_low_size && reserve_crashkernel_low(crash_low_size)) {
-> >>  		memblock_phys_free(crash_base, crash_size);
-> >>  		return;
-> >>  	}
-> >> -- 
-> >> 2.25.1
-> >>
-> > 
-> > .
-> > 
-> 
-> -- 
-> Regards,
->   Zhen Lei
-> 
+Keeping them separate inevitably results in divergence between the driver code and the expected test results, which would result in spurious failures of such CI.
 
+
+I expect the main complication for the kernel will be due to driver changes merged via different trees, e.g. for cross-subsystem reworks. Since those will not go through the same CI, they may accidentally introduce inconsistencies. The ideal solution for this IMO would be centralizing CI such that the same gating tests have to pass regardless of how the code is merged. But there's likely quite a long way to go until we get there. :)
+
+
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
