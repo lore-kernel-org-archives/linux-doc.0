@@ -2,152 +2,195 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29F3EC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 22:03:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1EB0C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 23:57:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359046AbiELWD3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 18:03:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57514 "EHLO
+        id S1359671AbiELX5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 19:57:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358982AbiELWD2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 18:03:28 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7DBF2701A6
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 15:03:27 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id 129so3815372wmz.0
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 15:03:27 -0700 (PDT)
+        with ESMTP id S1359651AbiELX5h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 19:57:37 -0400
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43D38554AB
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 16:57:36 -0700 (PDT)
+Received: by mail-oi1-x22f.google.com with SMTP id y63so8332863oia.7
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 16:57:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=3Jn18d1qZKkOahd53J55xmHFXF7VdRPAAkhlV5tmYKk=;
-        b=nYmdMV2ntKt4lkJ7yOQvkzf/JRzEtl7Rf1dfsSfviFUJJ2ww0eDAbukGeZi9l1oZH4
-         Qh+b9pEWhyiFfOhaMMGX6qFfk76VfOmeYrKMbYcjTLGXrh4KWnY/2cTdkNMhcoV+M2mA
-         1HgMDAxMaUsFNtCTE6yqdg+3mfJZbh8fp7pw00PeWEKlYjK0YO7SQnBl+srCsydffv2a
-         9S4tlexQUxnNurok5tYEtz6zo7uC460tChpaSl3gTCyUowhFirAUe5nkl78F4vrE4A1I
-         EUNvvpOmqAuOw9aDSdyLe/CkgKNoiaN1YSgkuyeBakU1BmA0Xx6RjCojAIcEDN8LhVZg
-         uA7A==
+        bh=7qvuAI/LbHot+Z3zgvkne2FOb1LdGua9+c4HxvF2hBM=;
+        b=eFd/xCYa6a0vzCzsVHnwJRF3FcWjsKpaBwxGVr+x8Kljpbk1guwoVq/BIW1TmRrCTS
+         olJB7RCMwpzv8ljkm8YSQgiP/n9IIyVjyXUqfIJKB1MoZns6czGr/qBXwEt73KzEqZAJ
+         KD/QrHtZiEM8I/AS2WZAMjPXv2Dcz5MNOJMEe/CiJWMrdE1z0a4a7NBs1uB22beLr/I/
+         R5AylckCoPqjFPhax1zG3QtKqJkq8dj8xwYX0yf1e2fEmRLH63JG8f+PtAO7h30OEaxj
+         s6Li+r6vbJaqiPaJCOukutWCXWpU7q4b2zBp10r7kxFCneFhFHvMdnoaj0GqyXU3J3ol
+         igrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3Jn18d1qZKkOahd53J55xmHFXF7VdRPAAkhlV5tmYKk=;
-        b=RoPNDzPY36pCwDXiYtAtszirns+7k/2qv1CJqUAlwyicXP6xhmFLXy/3kw90FuXjnp
-         btnSiHNJqParclqmo8a/dkC42WNnSXlvpGd2MgIgrBwYYMyfJJVed1WZnwp5ZG9KIdpU
-         iQ3Awmal3mAkgFAiCefJDQAbNQD2HhPI0xMh9OahrSsYwL9WJNo0v18EufL2gCNSZQnf
-         1ZqOUcVi4+odnkY36Dep1OVG6wpx+7DLaUN0aQyStk7UPWpK301BYKejuBQqNJ2Dx0SW
-         qT+009SK6tneTo7k2W8bpWPmSnho/S9uL+PNB6B+zSrESNcZfxSBoFdxgd1E+vlk7FfT
-         FVBA==
-X-Gm-Message-State: AOAM530bv9jV71jQqPjzvtin2vf9epz1FJAEjgtC9vW5PtvgCQUrPV2Y
-        xXepHq0luux2yg7V+k1SYVSuU9Mnsn0juIC5FSJJ
-X-Google-Smtp-Source: ABdhPJwsuxnGt76AlK3oHZf22gRwtAWrjwzm8UOEjWL3AzczIKoP/A/YwUjiu7WxfneTyX6HeEVPC1M31RluJkCmwk4=
-X-Received: by 2002:a05:600c:4fd0:b0:394:7999:98ab with SMTP id
- o16-20020a05600c4fd000b00394799998abmr1607349wmq.179.1652393006170; Thu, 12
- May 2022 15:03:26 -0700 (PDT)
+        bh=7qvuAI/LbHot+Z3zgvkne2FOb1LdGua9+c4HxvF2hBM=;
+        b=x6OWt957QTRxIy7QwIP2wk3enl7dB2dky0zW+3Ro3uXEKA9KyfiEiJZk6Y8RaaiJsb
+         lTuYckdmLdFqFFD6awRBgymCoMlTXmKdQkZVfQNrhjP0PMv6Ozo+bVrQQZ6K4gdvfJVU
+         EolhaCjxO54X4AloBpPnyxYR8lZ5bUfSmd02wURO7G/fv+dP7HovXuNdW7tQ3CbfRUJl
+         hicPIqzdI6eC5J4MdLG1q/llj7kj+67AEA8j31SVRKcdyV51mWeqVdkZqQTnnen87slK
+         0o3+KdaymB8CYSgGY8Fy2lbJpUUKFIugzv14Bnd9ViHMtHytMCNqpvkiXHGMnhwqfy/t
+         9jbQ==
+X-Gm-Message-State: AOAM53212yoYB4lbCJvf/4Dl76pnA+WcjlXhYSE+zkTHMZg/2A3UeJ86
+        sMVnOq9ydcCQWzqZwAVRcmWjtIpfmN4dDxdFd45xeA==
+X-Google-Smtp-Source: ABdhPJwx3bfbhZoV/hTg74ZJlzP3iMqS5eo2UO8VN2XkVLechBYYqd+yQx3tj+myeofa5RDIl9HFskNnjHJm3tnrPHw=
+X-Received: by 2002:a05:6808:c2:b0:325:eb71:7266 with SMTP id
+ t2-20020a05680800c200b00325eb717266mr6676460oic.269.1652399855370; Thu, 12
+ May 2022 16:57:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220512120847.124822-1-mic@digikod.net>
-In-Reply-To: <20220512120847.124822-1-mic@digikod.net>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 12 May 2022 18:03:15 -0400
-Message-ID: <CAHC9VhRDYnKmSGiNzED5bsT+hGarFBO9M2qHR8v1SKj4zGqMeQ@mail.gmail.com>
-Subject: Re: [PATCH v1] landlock: Explain how to support Landlock
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Alejandro Colomar <alx.manpages@gmail.com>,
+References: <20220512184514.15742-1-jon@nutanix.com> <Yn1fjAqFoszWz500@google.com>
+ <Yn1hdHgMVuni/GEx@google.com> <07BEC8B1-469C-4E36-AE92-90BFDF93B2C4@nutanix.com>
+ <Yn1o9ZfsQutXXdQS@google.com> <CALMp9eRQv6owjfyf+UO=96Q1dkeSrJWy0i4O-=RPSaQwz0bjTQ@mail.gmail.com>
+ <C39CD5E4-3705-4D1A-A67D-43CBB7D1950B@nutanix.com>
+In-Reply-To: <C39CD5E4-3705-4D1A-A67D-43CBB7D1950B@nutanix.com>
+From:   Jim Mattson <jmattson@google.com>
+Date:   Thu, 12 May 2022 16:57:24 -0700
+Message-ID: <CALMp9eRXmWvrQ1i0V3G738ndZOZ4YezQ=BqXe-BF2b4GNo1m3Q@mail.gmail.com>
+Subject: Re: [PATCH v4] x86/speculation, KVM: remove IBPB on vCPU load
+To:     Jon Kohler <jon@nutanix.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
         Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ashok Raj <ashok.raj@intel.com>,
+        KarimAllah Ahmed <karahmed@amazon.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "kvm @ vger . kernel . org" <kvm@vger.kernel.org>,
+        Waiman Long <longman@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 12, 2022 at 8:08 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
-wrote:
+On Thu, May 12, 2022 at 1:34 PM Jon Kohler <jon@nutanix.com> wrote:
 >
-> Let's help users by documenting how to enable and check for Landlock in
-> the kernel and the running system.  The userspace-api section may not be
-> the best place for this but it still makes sense to put all the user
-> documentation at the same place.
 >
-> Cc: Paul Moore <paul@paul-moore.com>
-> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
-> Link: https://lore.kernel.org/r/20220512120847.124822-1-mic@digikod.net
-> ---
->  Documentation/userspace-api/landlock.rst | 26 ++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
 >
-> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/use=
-rspace-api/landlock.rst
-> index 7b4fe6218132..e69dbddcc191 100644
-> --- a/Documentation/userspace-api/landlock.rst
-> +++ b/Documentation/userspace-api/landlock.rst
-> @@ -388,6 +388,32 @@ Starting with the Landlock ABI version 2, it is now =
-possible to securely
->  control renaming and linking thanks to the new `LANDLOCK_ACCESS_FS_REFER=
-`
->  access right.
+> > On May 12, 2022, at 4:27 PM, Jim Mattson <jmattson@google.com> wrote:
+> >
+> > On Thu, May 12, 2022 at 1:07 PM Sean Christopherson <seanjc@google.com>=
+ wrote:
+> >>
+> >> On Thu, May 12, 2022, Jon Kohler wrote:
+> >>>
+> >>>
+> >>>> On May 12, 2022, at 3:35 PM, Sean Christopherson <seanjc@google.com>=
+ wrote:
+> >>>>
+> >>>> On Thu, May 12, 2022, Sean Christopherson wrote:
+> >>>>> On Thu, May 12, 2022, Jon Kohler wrote:
+> >>>>>> Remove IBPB that is done on KVM vCPU load, as the guest-to-guest
+> >>>>>> attack surface is already covered by switch_mm_irqs_off() ->
+> >>>>>> cond_mitigation().
+> >>>>>>
+> >>>>>> The original commit 15d45071523d ("KVM/x86: Add IBPB support") was=
+ simply
+> >>>>>> wrong in its guest-to-guest design intention. There are three scen=
+arios
+> >>>>>> at play here:
+> >>>>>
+> >>>>> Jim pointed offline that there's a case we didn't consider.  When s=
+witching between
+> >>>>> vCPUs in the same VM, an IBPB may be warranted as the tasks in the =
+VM may be in
+> >>>>> different security domains.  E.g. the guest will not get a notifica=
+tion that vCPU0 is
+> >>>>> being swapped out for vCPU1 on a single pCPU.
+> >>>>>
+> >>>>> So, sadly, after all that, I think the IBPB needs to stay.  But the=
+ documentation
+> >>>>> most definitely needs to be updated.
+> >>>>>
+> >>>>> A per-VM capability to skip the IBPB may be warranted, e.g. for con=
+tainer-like
+> >>>>> use cases where a single VM is running a single workload.
+> >>>>
+> >>>> Ah, actually, the IBPB can be skipped if the vCPUs have different mm=
+_structs,
+> >>>> because then the IBPB is fully redundant with respect to any IBPB pe=
+rformed by
+> >>>> switch_mm_irqs_off().  Hrm, though it might need a KVM or per-VM kno=
+b, e.g. just
+> >>>> because the VMM doesn't want IBPB doesn't mean the guest doesn't wan=
+t IBPB.
+> >>>>
+> >>>> That would also sidestep the largely theoretical question of whether=
+ vCPUs from
+> >>>> different VMs but the same address space are in the same security do=
+main.  It doesn't
+> >>>> matter, because even if they are in the same domain, KVM still needs=
+ to do IBPB.
+> >>>
+> >>> So should we go back to the earlier approach where we have it be only
+> >>> IBPB on always_ibpb? Or what?
+> >>>
+> >>> At minimum, we need to fix the unilateral-ness of all of this :) sinc=
+e we=E2=80=99re
+> >>> IBPB=E2=80=99ing even when the user did not explicitly tell us to.
+> >>
+> >> I think we need separate controls for the guest.  E.g. if the userspac=
+e VMM is
+> >> sufficiently hardened then it can run without "do IBPB" flag, but that=
+ doesn't
+> >> mean that the entire guest it's running is sufficiently hardened.
+> >>
+> >>> That said, since I just re-read the documentation today, it does spec=
+ifically
+> >>> suggest that if the guest wants to protect *itself* it should turn on=
+ IBPB or
+> >>> STIBP (or other mitigations galore), so I think we end up having to t=
+hink
+> >>> about what our =E2=80=9Ccontract=E2=80=9D is with users who host thei=
+r workloads on
+> >>> KVM - are they expecting us to protect them in any/all cases?
+> >>>
+> >>> Said another way, the internal guest areas of concern aren=E2=80=99t =
+something
+> >>> the kernel would always be able to A) identify far in advance and B)
+> >>> always solve on the users behalf. There is an argument to be made
+> >>> that the guest needs to deal with its own house, yea?
+> >>
+> >> The issue is that the guest won't get a notification if vCPU0 is repla=
+ced with
+> >> vCPU1 on the same physical CPU, thus the guest doesn't get an opportun=
+ity to emit
+> >> IBPB.  Since the host doesn't know whether or not the guest wants )IBP=
+B, unless the
+> >> owner of the host is also the owner of the guest workload, the safe ap=
+proach is to
+> >> assume the guest is vulnerable.
+> >
+> > Exactly. And if the guest has used taskset as its mitigation strategy,
+> > how is the host to know?
 >
-> +Landlock support
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Kernel configuration
-> +--------------------
+> Yea thats fair enough. I posed a solution on Sean=E2=80=99s response just=
+ as this email
+> came in, would love to know your thoughts (keying off MSR bitmap).
+>
 
-I would suggest changing the section name to "Kernel build
-configuration" to make it clear the instructions below need to be done
-at build time.
-
-> +Landlock can be supported since Linux 5.13 but it must be configured in =
-the
-
-I would suggest rephrasing the first part of this sentence slightly:
-
-"Landlock was first introduced in Linux v5.13 but it must be ..."
-
-> +kernel with `CONFIG_SECURITY_LANDLOCK=3Dy`, and it should be enabled at =
-boot time
-
-CONFIG_LSM is a Kconfig build time variable not a runtime command line
-variable, yes?
-
-> +with `CONFIG_LSM=3Dlandlock,[...]`.  The `[...]` must be replaced with t=
-he list
-> +of LSMs that may be useful for the running system (see the `CONFIG_LSM` =
-help).
-> +
-> +Running system configuration
-> +----------------------------
-
-This is nit-picky, but I would suggest a section name of "Kernel
-command line configuration".
-
-> +If the running kernel doesn't have `landlock` in `CONFIG_LSM`, then we c=
-an
-> +still enable it by adding `lsm=3Dlandlock,[...]` to
-> +Documentation/admin-guide/kernel-parameters.rst. The `[...]` must be rep=
-laced
-> +with the list of LSMs that may be useful for the running system (see the
-> +`CONFIG_LSM` help).
-> +
-> +Running system check
-> +--------------------
-> +
-> +We can check that Landlock is enabled by looking for "landlock: Up and r=
-unning"
-> +in kernel logs: `dmesg | grep landlock`
-
-I would suggest moving the "Running system check" section up closer to
-the top of the documentation, perhaps right before the "Landlock
-rules" section.  My thinking is that it is better to mention this as
-soon as possible in the doc so that users can verify Landlock is
-present and functioning before trying any of the code examples and
-failing.  I think it is okay to leave the "how to enable Landlock"
-sections at the bottom and simply refer to them in the "system check"
-section.
-
---=20
-paul-moore.com
+I don't believe this works. The IBPBs in cond_mitigation (static in
+arch/x86/mm/tlb.c) won't be triggered if the guest has given its
+sensitive tasks exclusive use of their cores. And, if performance is a
+concern, that is exactly what someone would do.
