@@ -2,93 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FB05C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 02:25:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FB87C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 02:54:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231157AbiELCZD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 22:25:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50240 "EHLO
+        id S244070AbiELCyU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 22:54:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229823AbiELCZB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 22:25:01 -0400
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9DA4C2E;
-        Wed, 11 May 2022 19:25:00 -0700 (PDT)
-Received: from cwcc.thunk.org (pool-108-7-220-252.bstnma.fios.verizon.net [108.7.220.252])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 24C2ObEp028012
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 11 May 2022 22:24:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-        t=1652322280; bh=VS1Wz6MTDeDEe7mFjiXRuQFi0ffsrqAX4JhdhobUr+g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=nNm5XGIRxTLkjZ9+UM/FNhm3f18Kz/55+4qIb2adh81DsdLJNfttLakxIdBFcKBz/
-         v6RcM3QlUFnreCqfGI9u0aM29E2Hajngw3eNDNzNaBwVfexhXlodmpISiMjDfCneba
-         zKOe5AGr/mkJmrvK5CQdgcbL1k5Lz3M7eFbWYe4rUMHh1E6vRf9Q4fEwhUYDFlbK5y
-         LWqOCX6pa+RkWVEdidnv1a0BZYzD3du3sS6sdLzZ/0AvpZequqUjv+mz6lB5zYAUT4
-         38DKNY31Qk0LCta6rxrZKK02UcwVWoo5XwR/bdEuCvaFs9XHUxOtFf4hqy3pynrbXw
-         6uy4GZTTcYUrA==
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-        id 67CE015C3F2A; Wed, 11 May 2022 22:24:37 -0400 (EDT)
-Date:   Wed, 11 May 2022 22:24:37 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Dave Airlie <airlied@gmail.com>, Sean Paul <sean@poorly.run>
-Subject: Re: [Freedreno] Adding CI results to the kernel tree was Re: [RFC
- v2] drm/msm: Add initial ci/ subdirectory
-Message-ID: <Ynxv5WGMd0aJYM5a@mit.edu>
-References: <20220510070140.45407-1-tomeu.vizoso@collabora.com>
- <20220510141329.54414-1-tomeu.vizoso@collabora.com>
- <CAPM=9tzLR-wsLhg2ikGjoK06s-ju5XWa1rtPPiUpN=pwD1vgtA@mail.gmail.com>
- <YntWQIXSqMCd6TYV@kroah.com>
- <1255a66a-121d-988a-19a7-316f703cb37d@mailbox.org>
- <YnujG0nkF0U6d5kd@kroah.com>
- <CAF6AEGsmD-CNGj4bAE952JQpquaWA+Nxo5TGpFiHqaPK9doP-g@mail.gmail.com>
+        with ESMTP id S244033AbiELCyT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 22:54:19 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87E4F1F92A8;
+        Wed, 11 May 2022 19:54:18 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id s14so3624000plk.8;
+        Wed, 11 May 2022 19:54:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=0ncjSUxU9ysAJVNjYh3SEKLhVjJ2NUMWUwnaCNe9M+4=;
+        b=eqhv82/YtmgTASuDpV78q7NFNrgsaQkdY6OcKvUGe4H4gveR8+OuyqYb7pJArOAyS0
+         y7AjyXTClc1mCZYP+LPN9ix/8PZTSjx2h5L7jnhz0ACJ/V/d47rUtf+exrPuP1FRL6Wf
+         rqxo80lrMJgRh/mG3+5KKpkZyA5YiH3/rRIHEvtOakBl/cSY2DukjI4sxMs9zl22lTQN
+         QH8C9SpxpBTYtQ1vkEav2VMpmMZmJGK1PgjlfzhTCZf/R3KW2wLX6p5TU78t10m86lpv
+         DEFPmLz0mgiQehyO+7h13hhoDtt8ZFvTJvosExDah2Pd9QOJjY0NA5NcPBBPpR8F9lbR
+         x83g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:from:subject:content-transfer-encoding;
+        bh=0ncjSUxU9ysAJVNjYh3SEKLhVjJ2NUMWUwnaCNe9M+4=;
+        b=t/6TAgiCP1WcJL4+1f3TPj1m7/F5T5yMdpGPcPiDlLIobbS3tm9j0D/z+1HMUEGCHm
+         SPjm53KJ+gx5eoKy1rtZ/kZ9GTiM1Xb4WBIFAp52Z8ECIOOF0aTKLFN/isboeW58OROH
+         uBiZ7JZJV4bfzK6OEnobFl5rl2zV+O/+YSbBlh5P9rTffxSZv0fPnLoMTNSvOOkm5IBG
+         bT+4DtXTbbahI/0MBKGs0nM6INzzzCQ07lOcvlFfgQy6aLjTu4JSqapuOwOMh7FSwpF0
+         krjNJGG6hCIG/DGtdjSFMm/P+ryRTmojRvZKSOOcZxO+OnLvso2QQw68S+QytiKV0aVj
+         bqIA==
+X-Gm-Message-State: AOAM530a3IaON+eQJrBGCDjfZGLCrJqajPrp05lbJG8ywvtZhk2vgGKH
+        Pw/bTpLbiFO5xbwSvweS/+8=
+X-Google-Smtp-Source: ABdhPJwMI/BS05nSm+q+R3pIxryrQGUxMNCYmzDsdtMimal9fRRdt8eLWR7v9mLY91T4i3TvSwmOeA==
+X-Received: by 2002:a17:902:ef50:b0:156:486f:b593 with SMTP id e16-20020a170902ef5000b00156486fb593mr28378992plx.104.1652324058050;
+        Wed, 11 May 2022 19:54:18 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id d15-20020a170902b70f00b0015e8d4eb21dsm2618567pls.103.2022.05.11.19.54.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 May 2022 19:54:17 -0700 (PDT)
+Message-ID: <bdb60ba3-7813-47d0-74f9-7c31dd912d95@gmail.com>
+Date:   Thu, 12 May 2022 11:54:12 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAF6AEGsmD-CNGj4bAE952JQpquaWA+Nxo5TGpFiHqaPK9doP-g@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] docs: pdfdocs: Add space for chapter counts >= 100 in TOC
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 11, 2022 at 06:33:32AM -0700, Rob Clark wrote:
-> 
-> And ofc we want the expectations to be in the kernel tree because
-> there could be, for example, differences between -fixes and -next
-> branches.  (Or even stable kernel branches if/when we get to the point
-> of running CI on those.)
+It turns out that networking.pdf has exceeded 100 chapters and
+titles of chapters >= 100 collide with their counts in its table
+of contents (TOC).
 
-There are tradeoffs both ways, whether the patches are kept separate,
-opr in the kernel tree.
+Increase relevant params by 0.6em in the preamble to avoid such
+ugly collisions.
 
-In the file system world, when we discover a bug, very often a test
-case is found to test the fix, and to protect us against regressions.
-It has one other benefit; since the tests (xfstests) are kept separate
-from the kernel, it's a useful way to identify when some patch didn't
-get automatically backported to a LTS or distro kernel.  (For example,
-because the patch didn't cherry-pick cleanly and the manual backport
-process fell through the cracks.)
+While at it, fix a typo in comment (subsection).
 
-It does make things annoying when we have bugs that can not be safely
-backported (which results in tests that fail on the LTS kernel without
-kernel-version exclude files), and/or when the expectations change
-between versions.  (Although to be honest, for us, the more common
-annoyance is when some userspace package --- e.g., bash or coreutils
-or util-linux --- changes their output, and we have to add filter
-functions to accomodate expected output differences.)
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ Documentation/sphinx/kerneldoc-preamble.sty | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-						- Ted
+diff --git a/Documentation/sphinx/kerneldoc-preamble.sty b/Documentation/sphinx/kerneldoc-preamble.sty
+index 9d0204dc38be..2a29cbe51396 100644
+--- a/Documentation/sphinx/kerneldoc-preamble.sty
++++ b/Documentation/sphinx/kerneldoc-preamble.sty
+@@ -20,13 +20,13 @@
+ %  - Indent of 2 chars is preserved for ease of comparison.
+ % Summary of changes from default params:
+ %   Width of page number (\@pnumwidth): 1.55em -> 2.7em
+-%   Width of chapter number:            1.5em  -> 1.8em
+-%   Indent of section number:           1.5em  -> 1.8em
++%   Width of chapter number:            1.5em  -> 2.4em
++%   Indent of section number:           1.5em  -> 2.4em
+ %   Width of section number:            2.6em  -> 3.2em
+-%   Indent of sebsection number:        4.1em  -> 5em
++%   Indent of subsection number:        4.1em  -> 5.6em
+ %   Width of subsection number:         3.5em  -> 4.3em
+ %
+-% These params can have 4 digit page counts, 2 digit chapter counts,
++% These params can have 4 digit page counts, 3 digit chapter counts,
+ % section counts of 4 digits + 1 period (e.g., 18.10), and subsection counts
+ % of 5 digits + 2 periods (e.g., 18.7.13).
+ \makeatletter
+@@ -37,7 +37,7 @@
+   \ifnum \c@tocdepth >\m@ne
+     \addpenalty{-\@highpenalty}%
+     \vskip 1.0em \@plus\p@
+-    \setlength\@tempdima{1.8em}%
++    \setlength\@tempdima{2.4em}%
+     \begingroup
+       \parindent \z@ \rightskip \@pnumwidth
+       \parfillskip -\@pnumwidth
+@@ -51,8 +51,8 @@
+     \endgroup
+   \fi}
+ %% Redefine \l@section and \l@subsection
+-\renewcommand*\l@section{\@dottedtocline{1}{1.8em}{3.2em}}
+-\renewcommand*\l@subsection{\@dottedtocline{2}{5em}{4.3em}}
++\renewcommand*\l@section{\@dottedtocline{1}{2.4em}{3.2em}}
++\renewcommand*\l@subsection{\@dottedtocline{2}{5.6em}{4.3em}}
+ \makeatother
+ %% Sphinx < 1.8 doesn't have \sphinxtableofcontentshook
+ \providecommand{\sphinxtableofcontentshook}{}
+
+base-commit: 4a840d5fdcfcfff55b8b22896c1193a9b26405aa
+-- 
+2.25.1
+
