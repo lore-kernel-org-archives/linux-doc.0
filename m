@@ -2,94 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0DC0C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 11 May 2022 21:29:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FB05C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 02:25:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242274AbiEKV3v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 11 May 2022 17:29:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52120 "EHLO
+        id S231157AbiELCZD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 11 May 2022 22:25:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241602AbiEKV3v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 17:29:51 -0400
-X-Greylist: delayed 1034 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 11 May 2022 14:29:50 PDT
-Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [216.12.86.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E056E8E5
-        for <linux-doc@vger.kernel.org>; Wed, 11 May 2022 14:29:49 -0700 (PDT)
-Date:   Wed, 11 May 2022 17:12:32 -0400
-From:   Rich Felker <dalias@libc.org>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
+        with ESMTP id S229823AbiELCZB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 May 2022 22:25:01 -0400
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9DA4C2E;
+        Wed, 11 May 2022 19:25:00 -0700 (PDT)
+Received: from cwcc.thunk.org (pool-108-7-220-252.bstnma.fios.verizon.net [108.7.220.252])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 24C2ObEp028012
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 11 May 2022 22:24:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1652322280; bh=VS1Wz6MTDeDEe7mFjiXRuQFi0ffsrqAX4JhdhobUr+g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=nNm5XGIRxTLkjZ9+UM/FNhm3f18Kz/55+4qIb2adh81DsdLJNfttLakxIdBFcKBz/
+         v6RcM3QlUFnreCqfGI9u0aM29E2Hajngw3eNDNzNaBwVfexhXlodmpISiMjDfCneba
+         zKOe5AGr/mkJmrvK5CQdgcbL1k5Lz3M7eFbWYe4rUMHh1E6vRf9Q4fEwhUYDFlbK5y
+         LWqOCX6pa+RkWVEdidnv1a0BZYzD3du3sS6sdLzZ/0AvpZequqUjv+mz6lB5zYAUT4
+         38DKNY31Qk0LCta6rxrZKK02UcwVWoo5XwR/bdEuCvaFs9XHUxOtFf4hqy3pynrbXw
+         6uy4GZTTcYUrA==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id 67CE015C3F2A; Wed, 11 May 2022 22:24:37 -0400 (EDT)
+Date:   Wed, 11 May 2022 22:24:37 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
+        freedreno <freedreno@lists.freedesktop.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        GNU C Library <libc-alpha@sourceware.org>,
-        musl@lists.openwall.com
-Subject: Re: [musl] Re: [PATCH V9 13/24] LoongArch: Add system call support
-Message-ID: <20220511211231.GG7074@brightrain.aerifal.cx>
-References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
- <20220430090518.3127980-14-chenhuacai@loongson.cn>
- <CAK8P3a0A9dW4mwJ6JHDiJxizL7vWfr4r4c5KhbjtAY0sWbZJVA@mail.gmail.com>
- <CAAhV-H4te_+AS69viO4eBz=abBUm5oQ6AfoY1Cb+nOCZyyeMdA@mail.gmail.com>
- <CAK8P3a0DqQcApv8aa2dgBS5At=tEkN7cnaskoUeXDi2-Bu9Rnw@mail.gmail.com>
- <20220507121104.7soocpgoqkvwv3gc@wittgenstein>
- <20220509100058.vmrgn5fkk3ayt63v@wittgenstein>
- <CAK8P3a0zmPbMNsS11aUGiAADyjOEueNUXQ8QZtVxr48M3pwAkQ@mail.gmail.com>
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Dave Airlie <airlied@gmail.com>, Sean Paul <sean@poorly.run>
+Subject: Re: [Freedreno] Adding CI results to the kernel tree was Re: [RFC
+ v2] drm/msm: Add initial ci/ subdirectory
+Message-ID: <Ynxv5WGMd0aJYM5a@mit.edu>
+References: <20220510070140.45407-1-tomeu.vizoso@collabora.com>
+ <20220510141329.54414-1-tomeu.vizoso@collabora.com>
+ <CAPM=9tzLR-wsLhg2ikGjoK06s-ju5XWa1rtPPiUpN=pwD1vgtA@mail.gmail.com>
+ <YntWQIXSqMCd6TYV@kroah.com>
+ <1255a66a-121d-988a-19a7-316f703cb37d@mailbox.org>
+ <YnujG0nkF0U6d5kd@kroah.com>
+ <CAF6AEGsmD-CNGj4bAE952JQpquaWA+Nxo5TGpFiHqaPK9doP-g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a0zmPbMNsS11aUGiAADyjOEueNUXQ8QZtVxr48M3pwAkQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <CAF6AEGsmD-CNGj4bAE952JQpquaWA+Nxo5TGpFiHqaPK9doP-g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 11, 2022 at 09:11:56AM +0200, Arnd Bergmann wrote:
-> On Mon, May 9, 2022 at 12:00 PM Christian Brauner <brauner@kernel.org> wrote:
-> .....
-> > I can try and move a poc for this up the todo list.
-> >
-> > Without an approach like this certain sandboxes will fallback to
-> > ENOSYSing system calls they can't filter. This is a generic problem
-> > though with clone3() being one promiment example.
+On Wed, May 11, 2022 at 06:33:32AM -0700, Rob Clark wrote:
 > 
-> Thank you for the detailed reply. It sounds to me like this will eventually have
-> to get solved anyway, so we could move ahead without clone() on loongarch,
-> and just not have support for Chrome until this is fully solved.
-> 
-> As both the glibc and musl ports are being proposed for inclusion right
-> now, we should try to come to a decision so the libc ports can adjust if
-> necessary. Adding both mailing lists to Cc here, the discussion is archived
-> at [1].
-> 
->          Arnd
-> 
-> [1] https://lore.kernel.org/linux-arch/20220509100058.vmrgn5fkk3ayt63v@wittgenstein/
+> And ofc we want the expectations to be in the kernel tree because
+> there could be, for example, differences between -fixes and -next
+> branches.  (Or even stable kernel branches if/when we get to the point
+> of running CI on those.)
 
-Having read about the seccomp issue, I think it's a very strong
-argument that __NR_clone should be kept permanently for all future
-archs. Otherwise, at least AIUI, it's impossible to seccomp-sandbox
-multithreaded programs (since you can't allow the creation of threads
-without also allowing other unwanted use of clone3). It sounds like
-there's some interest in extending seccomp to allow filtering of
-argument blocks like clone3 uses, but some of what I read about was
-checksum-based (thus a weak hardening measure at best, not a hard
-privilege boundary) and even if something is eventually created that
-works, it won't be available right away, and it won't be nearly as
-easy to use as just allowing thread-creating clone syscalls on
-existing archs.
+There are tradeoffs both ways, whether the patches are kept separate,
+opr in the kernel tree.
 
-Rich
+In the file system world, when we discover a bug, very often a test
+case is found to test the fix, and to protect us against regressions.
+It has one other benefit; since the tests (xfstests) are kept separate
+from the kernel, it's a useful way to identify when some patch didn't
+get automatically backported to a LTS or distro kernel.  (For example,
+because the patch didn't cherry-pick cleanly and the manual backport
+process fell through the cracks.)
+
+It does make things annoying when we have bugs that can not be safely
+backported (which results in tests that fail on the LTS kernel without
+kernel-version exclude files), and/or when the expectations change
+between versions.  (Although to be honest, for us, the more common
+annoyance is when some userspace package --- e.g., bash or coreutils
+or util-linux --- changes their output, and we have to add filter
+functions to accomodate expected output differences.)
+
+						- Ted
