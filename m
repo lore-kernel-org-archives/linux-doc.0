@@ -2,150 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5076BC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 16:40:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7305FC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 17:26:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356638AbiELQkk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 12:40:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36738 "EHLO
+        id S1346170AbiELR0j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 13:26:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356598AbiELQkY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 12:40:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6DEFF2685D1
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 09:40:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1652373618;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=NsJep5oCvE52cG8IYLZ5lNH1MW8yFZhmyzXX66loBtY=;
-        b=XoLxstCC8bh8lkxKIfPpYg/4m6wrS7Q+HFvk1vz5XUwdyFCDeg9KX26j3PMwy0oipBl4Mn
-        PyVZ1tYmGcDvW2qKbmSnB3vdFosutCODGwJ+n53k95cEbKoW/g9r8cHO5nx2ebQ43ijOiI
-        7yyphX6dIN8GXHf/GnXBb7eVTHh30mw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-402-lNHHWjlPO-2epE6RsImd_g-1; Thu, 12 May 2022 12:40:17 -0400
-X-MC-Unique: lNHHWjlPO-2epE6RsImd_g-1
-Received: by mail-wr1-f69.google.com with SMTP id l7-20020adfa387000000b0020acc61dbaeso2256659wrb.7
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 09:40:16 -0700 (PDT)
+        with ESMTP id S1356999AbiELR0h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 13:26:37 -0400
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 390CB6F498;
+        Thu, 12 May 2022 10:26:36 -0700 (PDT)
+Received: by mail-il1-x134.google.com with SMTP id l15so4023298ilh.3;
+        Thu, 12 May 2022 10:26:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=QKm3n0v8rk6VHx9tGn2YwNzy4klIX/9lzZ8DLlwYNkI=;
+        b=I6uckV0hW9685lv/BrD/CU5YywPkCnJ0C5a8IOrIceMeCqikNXqMwglMnH4UO2Ypel
+         fkhT1i+MWp5IHRefROev7XKpF0DnEhLVsGI70nW5FBnVBhfGmQNqOF79AWIszHJDLlGu
+         tOWK+iqCqn4SnBoJ+rh7yEq3L3lfqAiFdKYikc6Dzm+gPJDDmWpfjw1kMloSjdCVI+CE
+         R3TAvQQX8QoNB26QVw3LKNBSB5V+F0dBFrZZp4IJrottvsV0wmP5hYHcBj6ZAoVXleFm
+         q1bUxWf+H4MccRO8cj3SxA5vWPlaznpZGDzkc9hdG5hbw/DcAsXdEWprH8CmkrWUjslA
+         cAwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=NsJep5oCvE52cG8IYLZ5lNH1MW8yFZhmyzXX66loBtY=;
-        b=2yEMXTlIX1Es5K9LZDMj7Vznz6uAJj5IIOAI/o8RLJC2iX9xteMBptEPyumaK4mt7f
-         ZjhiR4b6tkmjs/AYbreyAp3RqolgCYu41nVdVd5H4JcghbbWkNgpXnsB40YxfMWs/jEC
-         4P99OKFMUeZHwgUGtevNqW1jQWYC/PKVzbg59MTY9pZMw+UjL4xf6RhJ35O9bPvWmLxH
-         4NWMvzEdcXbAxbtcciLExQRlNHGAdGcT50JknmvTW+rduwwpoPmIGGnRyAMbGHKBnX/A
-         Faji4mqqwgaGWKfcGXFT6uTJMwDO30RgiDqMYyXZLMYX3+zd6PxgOXGMEUWtyRDCf28S
-         LGXg==
-X-Gm-Message-State: AOAM530IoCUFB7uU6QNV3xXSoHbuN3GoNakl3IeYRK/j4pTffVF7YNWt
-        bZV3yHQJFraNtBQVR2rAI+MbKYAWKz7bYwRZCrHoJHjRLrh81NO7DRVXJdha+s03SLHU3bx9UCA
-        9RqLJ8fiLJOYBm/hfcPOz
-X-Received: by 2002:adf:e812:0:b0:20c:dd44:b06c with SMTP id o18-20020adfe812000000b0020cdd44b06cmr468982wrm.714.1652373615740;
-        Thu, 12 May 2022 09:40:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwWKc+W5dfrOdOxweNVXdTz6oJYOENyjVQGLe4xiMAybfEgwkqqsd4IYjrdjYIX8sxGYcz+PA==
-X-Received: by 2002:adf:e812:0:b0:20c:dd44:b06c with SMTP id o18-20020adfe812000000b0020cdd44b06cmr468956wrm.714.1652373615462;
-        Thu, 12 May 2022 09:40:15 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c701:d200:ee5d:1275:f171:136d? (p200300cbc701d200ee5d1275f171136d.dip0.t-ipconnect.de. [2003:cb:c701:d200:ee5d:1275:f171:136d])
-        by smtp.gmail.com with ESMTPSA id d11-20020adfa34b000000b0020c86a9f33bsm65751wrb.18.2022.05.12.09.40.14
+        bh=QKm3n0v8rk6VHx9tGn2YwNzy4klIX/9lzZ8DLlwYNkI=;
+        b=MbnN2JAjM58wZAeAPIJhcoVUQcLE3v29bOKdImKNrbM1Z+IT8BXBuLLyyPlny/ex4I
+         M51gQw37AsnYTOuzPIv23BG5+hG4KysFFbTKc1+kiagE8rQ9zRHqnewYtxTOu86PVSH0
+         c04QmWVxzJ8BAEARU2YjLowHC6ARAgiWQiTLng5Ri2c1low+HlGyhIBIo5k+F5rgYM44
+         GVgb+TzzOS5gcPQBIBz0J8N95Z05ZS+7Fso6qJqco64rAMSDK2bcpCTMIeCJyXBybCEh
+         TfCvgrGAYTspEnzxPPfS4om3htbni5EI7UVFh/bHrFgdA3ezeAYbVZlVx2nG1KRZM+QJ
+         VlWg==
+X-Gm-Message-State: AOAM530QQX6ZynvH7Rh4KawVeZyn7yGd5xZzOA0GtSR5NwYw5jAofd/+
+        x6m+7/sPSKJX+DUH8RLKIz0=
+X-Google-Smtp-Source: ABdhPJxqFWzsj34P2hAjM6BBEKPVVGCVSqoNPfvIeXNfYGWVvSx4+gSnimbShO6ArmPqcwmxb3ETJw==
+X-Received: by 2002:a05:6e02:2190:b0:2cf:8529:e291 with SMTP id j16-20020a056e02219000b002cf8529e291mr620684ila.22.1652376395589;
+        Thu, 12 May 2022 10:26:35 -0700 (PDT)
+Received: from ?IPV6:2600:1700:2442:6db0:fdf4:a10e:cb39:9b64? ([2600:1700:2442:6db0:fdf4:a10e:cb39:9b64])
+        by smtp.gmail.com with ESMTPSA id g11-20020a02b70b000000b0032b3a7817c8sm21178jam.140.2022.05.12.10.26.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 May 2022 09:40:14 -0700 (PDT)
-Message-ID: <089a4ded-636f-b0c6-0645-8220c5a785d9@redhat.com>
-Date:   Thu, 12 May 2022 18:40:13 +0200
+        Thu, 12 May 2022 10:26:35 -0700 (PDT)
+Message-ID: <5b2783a2-76bf-ce6f-89b1-d0fe05b80b82@gmail.com>
+Date:   Thu, 12 May 2022 12:26:33 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 1/2] KVM: s390: Don't indicate suppression on dirtying,
- failing memop
+ Thunderbird/91.5.0
+Subject: Re: [RFC] KTAP spec v2: prefix to KTAP data
 Content-Language: en-US
-To:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>
-Cc:     Sven Schnelle <svens@linux.ibm.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org
-References: <20220512131019.2594948-1-scgl@linux.ibm.com>
- <20220512131019.2594948-2-scgl@linux.ibm.com>
- <77f6f5e7-5945-c478-0e41-affed62252eb@redhat.com>
- <4a06e3e8-4453-9204-eb66-d435860c5714@linux.ibm.com>
- <701033df-49c5-987e-b316-40835ad83d16@redhat.com>
- <9ad7acb4-2729-15bb-7b25-eb95c4a12f09@linux.ibm.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <9ad7acb4-2729-15bb-7b25-eb95c4a12f09@linux.ibm.com>
+To:     Daniel Latypov <dlatypov@google.com>
+Cc:     David Gow <davidgow@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>, Tim.Bird@sony.com,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, rmr167@gmail.com,
+        guillaume.tucker@collabora.com, kernelci@groups.io,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <bc6e9ed7-d98b-c4da-2a59-ee0915c18f10@gmail.com>
+ <5ca35c47-6145-4ec1-6c05-3c46f436cb4d@gmail.com>
+ <CAGS_qxpE9qGsS1LqaobVGFKFgV6TwvwNLR4e9PG5zsfPACSf_Q@mail.gmail.com>
+From:   Frank Rowand <frowand.list@gmail.com>
+In-Reply-To: <CAGS_qxpE9qGsS1LqaobVGFKFgV6TwvwNLR4e9PG5zsfPACSf_Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12.05.22 18:26, Christian Borntraeger wrote:
-> 
-> 
-> Am 12.05.22 um 17:50 schrieb David Hildenbrand:
->> On 12.05.22 15:51, Christian Borntraeger wrote:
->>>
->>>
->>> Am 12.05.22 um 15:22 schrieb David Hildenbrand:
->>>> On 12.05.22 15:10, Janis Schoetterl-Glausch wrote:
->>>>> If user space uses a memop to emulate an instruction and that
->>>>> memop fails, the execution of the instruction ends.
->>>>> Instruction execution can end in different ways, one of which is
->>>>> suppression, which requires that the instruction execute like a no-op.
->>>>> A writing memop that spans multiple pages and fails due to key
->>>>> protection may have modified guest memory, as a result, the likely
->>>>> correct ending is termination. Therefore, do not indicate a
->>>>> suppressing instruction ending in this case.
->>>>
->>>> I think that is possibly problematic handling.
->>>>
->>>> In TCG we stumbled in similar issues in the past for MVC when crossing
->>>> page boundaries. Failing after modifying the first page already
->>>> seriously broke some user space, because the guest would retry the
->>>> instruction after fixing up the fault reason on the second page: if
->>>> source and destination operands overlap, you'll be in trouble because
->>>> the input parameters already changed.
->>>>
->>>> For this reason, in TCG we make sure that all accesses are valid before
->>>> starting modifications.
->>>>
->>>> See target/s390x/tcg/mem_helper.c:do_helper_mvc with access_prepare()
->>>> and friends as an example.
->>>>
->>>> Now, I don't know how to tackle that for KVM, I just wanted to raise
->>>> awareness that injecting an interrupt after modifying page content is
->>>> possible dodgy and dangerous.
->>>
->>> this is really special and only for key protection crossing pages.
->>> Its been done since the 70ies in that way on z/VM. The architecture
->>> is and was always written in a way to allow termination for this
->>> case for hypervisors.
+On 5/12/22 10:25, Daniel Latypov wrote:
+> On Wed, May 11, 2022 at 11:01 PM Frank Rowand <frowand.list@gmail.com> wrote:
+>> ================================================================================
+>> #### discussion notes:
 >>
->> Just so I understand correctly: all instructions that a hypervisor with
->> hardware virtualization is supposed to emulate are "written in a way to
->> allow termination", correct? That makes things a lot easier.
+>> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+>> PRO: minimally invasive to specification.
+>>
+>> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+>> CON:
+>>
+>> KTAP does not include any mechanism to describe the value of <prefix string>
+>> to test harnesses and test output processing programs.  The test output
+>> processing programs must infer the value of <prefix string> by detecting
+>> the <prefix string> in the "Version lines".
+>>
+>> The detection of a "Version lines" might be a match of the regex:
+>>
+>>    "^.*KTAP version 2$"
+>>
+>> This risks falsely detecting a "Version lines", but the risk is small???
 > 
-> Only for key protection. Key protection can always be terminating no matter
-> what the instruction says. This is historical baggage - key protection was
-> resulting in abends - killing the process. So it does not matter if we
-> provide the extra info as in enhanced suppression on protection as nobody
-> is making use of that (apart from debuggers maybe).
+> Agree this is a risk and also think it's probably small, but it's hard to say.
+> I think the $ anchoring the regex is probably safe enough.
+> 
+> As noted earlier, this tracks with what kunit.py already does.
+> That was necessitated by dynamic prefixes such as timestamps, etc.f
 
-Got it, makes sense then. Thanks for clarifying!
+That is a good observation.  I nearly always have the prefix timestamp
+on my console output, and thus remove the timestamp with a regex when
+processing the data.
 
--- 
-Thanks,
+-Frank
 
-David / dhildenb
+> So I think this is probably a fine risk to take.
+> 
+> I imagine we could add constraints of prefix string, e.g. must have []
+> around it, etc. if we want to try and minimize this risk.
+> But I don't know if it's necessarily worth it, given what we know right now.
+> 
+> Along those lines, I think I like this approach (Alternative 1) more
+> than Alternative 2/2b.
+> I'm not sure we need a structured way to specify metadata in KTAP yet?
+> The prefix seems like a reasonable candidate, but do others have ideas
+> of other bits of metadata we'd want to be able to declare?
+> 
+> Daniel
 
