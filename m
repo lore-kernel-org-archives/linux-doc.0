@@ -2,158 +2,186 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81E54C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 17:42:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C56AFC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 18:21:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356997AbiELRmC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 13:42:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48514 "EHLO
+        id S1357561AbiELSVg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 14:21:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357183AbiELRl5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 13:41:57 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BD2E60BAB;
-        Thu, 12 May 2022 10:41:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652377315; x=1683913315;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ZJ1onh2Zr7lWF0ZhgH2Zhxb8WH3RUU0eJg8bTS9xfQg=;
-  b=Z0xXA5C3z34Lv+yU8ibYWBBBRG0AKvZUAActEIVby6AXVjQ1fbToYRix
-   UPNfgw3vkRHySAF/v5MEVhjz1dzEkoEvvSh3Swgrm38qoKlWRdIutnJZv
-   NpKFzNd4KmK757U8k446xdtrGsGMiZPwKzos1FggpJbXPxUq4/58Trlws
-   ldosR7vUB86qzD2D4FppIs3kum1fFU0P6SYkVaUVLR+6Vil8kgFi4bKw5
-   tTyV+ck/8cXWJibq7gLU08MWqCGRhvux8MPRUw/sfpEGi7unifcw4s/Rb
-   FSQRi8BhUt+vbaUngbqfrfo5vSDqQwDFzWmv2vLkF/oJ/BUvS12XH4Zye
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="270026663"
-X-IronPort-AV: E=Sophos;i="5.91,220,1647327600"; 
-   d="scan'208";a="270026663"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2022 10:39:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,220,1647327600"; 
-   d="scan'208";a="712025245"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 12 May 2022 10:39:34 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 4609A45; Thu, 12 May 2022 20:39:33 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
+        with ESMTP id S1357552AbiELSV3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 14:21:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0C2A8473B0
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 11:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1652379688;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=VcoQlfgRlKTkG2QnFhtWwqPtuN/iCo7Oei+ZTVCbp8Q=;
+        b=MYwJCpDFNPsCAE61hguOTrE/DJOw7FLgNzWrN10Y9W92d8kjqttp6MSDJNFXnuAtzh/MT2
+        U5DehndC2zN2hPSEne16DDi5ZD9fCKbPu9Q0csWCpVvFQ7DMe0+VNcNqYz38fbhUtZNFEK
+        fn6NwrNmTQFbZdy4Exh3THlq0va78n0=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-315-v2vlP_C3N4-2DZYlefN39g-1; Thu, 12 May 2022 14:21:27 -0400
+X-MC-Unique: v2vlP_C3N4-2DZYlefN39g-1
+Received: by mail-il1-f199.google.com with SMTP id i24-20020a056e021d1800b002cf0541f514so3753624ila.13
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 11:21:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=VcoQlfgRlKTkG2QnFhtWwqPtuN/iCo7Oei+ZTVCbp8Q=;
+        b=lJe6gAksxWBixJSJIptiIUhnm9MNzeQsST2Co1zgaryh+JcVPXHElwgSramdRTMnoy
+         33GV2hPet8XrYHOHzhnckqhuIh2LMzyW+EADsDocN2GfDTCOBb8g8/uAAGJERv10CQmM
+         tvp3dCDseCCvTf7XCerGrYa5ITm4b34y3AlAmev6kw+AnUVaah3LbScRcw1AdCUTKGHi
+         7of1meI3Nb752DpdleC1eRQniClxjUT++OayCiUYiIEBbga127SiUmCmyab+bljf3NkO
+         AoETxYmdSVoZCVBENlZOXqMrCjqzXeqvQ9WmTpR593I6uhVFK1Wd70TuSW59PlzRygfL
+         83YA==
+X-Gm-Message-State: AOAM5332NATW/GIG4Ga33JjM6NEkSDZl83e0e5OJ1wILukTaUYKg+oNA
+        7SRDjmvf5dyGb7D+sjZ+qTBh/VDFMBbE3KghDibpakqhkQLt5UeEw0ohFrhDU5FVBd4A9IQR0gh
+        xwyK7NvHdIYGyZVNjhvQy
+X-Received: by 2002:a05:6638:112c:b0:32a:e187:db1c with SMTP id f12-20020a056638112c00b0032ae187db1cmr674218jar.30.1652379686425;
+        Thu, 12 May 2022 11:21:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzrRp6MP9ShOncs1HnxoZReB9N25AEJ1S9eav9CPEBe+VnbpmFQ2wHym+Hz1/03tFiw2rRYCw==
+X-Received: by 2002:a05:6638:112c:b0:32a:e187:db1c with SMTP id f12-20020a056638112c00b0032ae187db1cmr674208jar.30.1652379686238;
+        Thu, 12 May 2022 11:21:26 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239])
+        by smtp.gmail.com with ESMTPSA id t188-20020a0254c5000000b0032b3a7817d6sm53215jaa.154.2022.05.12.11.21.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 May 2022 11:21:25 -0700 (PDT)
+Date:   Thu, 12 May 2022 12:21:24 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
+        David Airlie <airlied@linux.ie>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH v1 2/5] Documentation: gpio: Advertise irqd_to_hwirq() helper in the examples
-Date:   Thu, 12 May 2022 20:39:18 +0300
-Message-Id: <20220512173921.8210-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220512173921.8210-1-andriy.shevchenko@linux.intel.com>
-References: <20220512173921.8210-1-andriy.shevchenko@linux.intel.com>
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Kevin Tian <kevin.tian@intel.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>
+Subject: Re: [PATCH v4 0/7] Make the rest of the VFIO driver interface use
+ vfio_device
+Message-ID: <20220512122124.45943a9e.alex.williamson@redhat.com>
+In-Reply-To: <0-v4-8045e76bf00b+13d-vfio_mdev_no_group_jgg@nvidia.com>
+References: <0-v4-8045e76bf00b+13d-vfio_mdev_no_group_jgg@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instead of direct dereferencing the IRQ data in order to get HW IRQ number
-use the irqd_to_hwirq() helper.
+On Thu,  5 May 2022 21:08:38 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Fixes: 5644b66a9c63 ("Documentation: Update the recommended pattern for GPIO irqchips")
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- Documentation/driver-api/gpio/driver.rst | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+> Prior series have transformed other parts of VFIO from working on struct
+> device or struct vfio_group into working directly on struct
+> vfio_device. Based on that work we now have vfio_device's readily
+> available in all the drivers.
+> 
+> Update the rest of the driver facing API to use vfio_device as an input.
+> 
+> The following are switched from struct device to struct vfio_device:
+>   vfio_register_notifier()
+>   vfio_unregister_notifier()
+>   vfio_pin_pages()
+>   vfio_unpin_pages()
+>   vfio_dma_rw()
+> 
+> The following group APIs are obsoleted and removed by just using struct
+> vfio_device with the above:
+>   vfio_group_pin_pages()
+>   vfio_group_unpin_pages()
+>   vfio_group_iommu_domain()
+>   vfio_group_get_external_user_from_dev()
+> 
+> To retain the performance of the new device APIs relative to their group
+> versions optimize how vfio_group_add_container_user() is used to avoid
+> calling it when the driver must already guarantee the device is open and
+> the container_users incrd.
+> 
+> The remaining exported VFIO group interfaces are only used by kvm, and are
+> addressed by a parallel series.
+> 
+> This series is based on Christoph's gvt rework here:
+> 
+>  https://lore.kernel.org/all/5a8b9f48-2c32-8177-1c18-e3bd7bfde558@intel.com/
+> 
+> and so will need the PR merged first.
+> 
+> I have a followup series that needs this.
+> 
+> This is also part of the iommufd work - moving the driver facing interface
+> to vfio_device provides a much cleaner path to integrate with iommufd.
+> 
+> v4:
+>  - Use 'device' as the argument name for a struct vfio_device in vfio.c
+> v3: https://lore.kernel.org/r/0-v3-e131a9b6b467+14b6-vfio_mdev_no_group_jgg@nvidia.com
+>  - Based on VFIO's gvt/iommu merge
+>  - Remove mention of mdev_legacy_get_vfio_device() from commit message
+>  - Clarify commit message for vfio_dma_rw() conversion
+>  - Talk about the open_count change in the commit message
+>  - No code change
+> v2: https://lore.kernel.org/r/0-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com
+>  - Based on Christoph's series so mdev_legacy_get_vfio_device() is removed
+>  - Reflow indenting
+>  - Use vfio_assert_device_open() and WARN_ON_ONCE instead of open coding
+>    the assertion
+> v1: https://lore.kernel.org/r/0-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com
+> 
+> Jason Gunthorpe (7):
+>   vfio: Make vfio_(un)register_notifier accept a vfio_device
+>   vfio/ccw: Remove mdev from struct channel_program
+>   vfio/mdev: Pass in a struct vfio_device * to vfio_pin/unpin_pages()
+>   vfio/mdev: Pass in a struct vfio_device * to vfio_dma_rw()
+>   drm/i915/gvt: Change from vfio_group_(un)pin_pages to
+>     vfio_(un)pin_pages
+>   vfio: Remove dead code
+>   vfio: Remove calls to vfio_group_add_container_user()
+> 
+>  .../driver-api/vfio-mediated-device.rst       |   4 +-
+>  drivers/gpu/drm/i915/gvt/gvt.h                |   5 +-
+>  drivers/gpu/drm/i915/gvt/kvmgt.c              |  51 ++-
+>  drivers/s390/cio/vfio_ccw_cp.c                |  47 +--
+>  drivers/s390/cio/vfio_ccw_cp.h                |   4 +-
+>  drivers/s390/cio/vfio_ccw_fsm.c               |   3 +-
+>  drivers/s390/cio/vfio_ccw_ops.c               |   7 +-
+>  drivers/s390/crypto/vfio_ap_ops.c             |  23 +-
+>  drivers/vfio/vfio.c                           | 299 +++---------------
+>  include/linux/vfio.h                          |  21 +-
+>  10 files changed, 109 insertions(+), 355 deletions(-)
 
-diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
-index 964d09118d17..70ff43ac4fcc 100644
---- a/Documentation/driver-api/gpio/driver.rst
-+++ b/Documentation/driver-api/gpio/driver.rst
-@@ -430,6 +430,7 @@ call into the core gpiolib code:
-   static void my_gpio_mask_irq(struct irq_data *d)
-   {
-       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-+      irq_hw_number_t hwirq = irqd_to_hwirq(d);
- 
-       /*
-        * Perform any necessary action to mask the interrupt,
-@@ -437,14 +438,15 @@ call into the core gpiolib code:
-        * state.
-        */
- 
--      gpiochip_disable_irq(gc, d->hwirq);
-+      gpiochip_disable_irq(gc, hwirq);
-   }
- 
-   static void my_gpio_unmask_irq(struct irq_data *d)
-   {
-       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-+      irq_hw_number_t hwirq = irqd_to_hwirq(d);
- 
--      gpiochip_enable_irq(gc, d->hwirq);
-+      gpiochip_enable_irq(gc, hwirq);
- 
-       /*
-        * Perform any necessary action to unmask the interrupt,
-@@ -502,6 +504,7 @@ the interrupt separately and go with it:
-   static void my_gpio_mask_irq(struct irq_data *d)
-   {
-       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-+      irq_hw_number_t hwirq = irqd_to_hwirq(d);
- 
-       /*
-        * Perform any necessary action to mask the interrupt,
-@@ -509,14 +512,15 @@ the interrupt separately and go with it:
-        * state.
-        */
- 
--      gpiochip_disable_irq(gc, d->hwirq);
-+      gpiochip_disable_irq(gc, hwirq);
-   }
- 
-   static void my_gpio_unmask_irq(struct irq_data *d)
-   {
-       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-+      irq_hw_number_t hwirq = irqd_to_hwirq(d);
- 
--      gpiochip_enable_irq(gc, d->hwirq);
-+      gpiochip_enable_irq(gc, hwirq);
- 
-       /*
-        * Perform any necessary action to unmask the interrupt,
-@@ -577,6 +581,7 @@ In this case the typical set-up will look like this:
-   static void my_gpio_mask_irq(struct irq_data *d)
-   {
-       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-+      irq_hw_number_t hwirq = irqd_to_hwirq(d);
- 
-       /*
-        * Perform any necessary action to mask the interrupt,
-@@ -584,15 +589,16 @@ In this case the typical set-up will look like this:
-        * state.
-        */
- 
--      gpiochip_disable_irq(gc, d->hwirq);
-+      gpiochip_disable_irq(gc, hwirq);
-       irq_mask_mask_parent(d);
-   }
- 
-   static void my_gpio_unmask_irq(struct irq_data *d)
-   {
-       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-+      irq_hw_number_t hwirq = irqd_to_hwirq(d);
- 
--      gpiochip_enable_irq(gc, d->hwirq);
-+      gpiochip_enable_irq(gc, hwirq);
- 
-       /*
-        * Perform any necessary action to unmask the interrupt,
--- 
-2.35.1
+Applied to vfio next branch for v5.19.  Thanks,
+
+Alex
 
