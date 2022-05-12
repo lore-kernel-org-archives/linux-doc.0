@@ -2,124 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7305FC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 17:26:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89CBAC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 17:39:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346170AbiELR0j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 13:26:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54546 "EHLO
+        id S1356977AbiELRji (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 13:39:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356999AbiELR0h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 13:26:37 -0400
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 390CB6F498;
-        Thu, 12 May 2022 10:26:36 -0700 (PDT)
-Received: by mail-il1-x134.google.com with SMTP id l15so4023298ilh.3;
-        Thu, 12 May 2022 10:26:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=QKm3n0v8rk6VHx9tGn2YwNzy4klIX/9lzZ8DLlwYNkI=;
-        b=I6uckV0hW9685lv/BrD/CU5YywPkCnJ0C5a8IOrIceMeCqikNXqMwglMnH4UO2Ypel
-         fkhT1i+MWp5IHRefROev7XKpF0DnEhLVsGI70nW5FBnVBhfGmQNqOF79AWIszHJDLlGu
-         tOWK+iqCqn4SnBoJ+rh7yEq3L3lfqAiFdKYikc6Dzm+gPJDDmWpfjw1kMloSjdCVI+CE
-         R3TAvQQX8QoNB26QVw3LKNBSB5V+F0dBFrZZp4IJrottvsV0wmP5hYHcBj6ZAoVXleFm
-         q1bUxWf+H4MccRO8cj3SxA5vWPlaznpZGDzkc9hdG5hbw/DcAsXdEWprH8CmkrWUjslA
-         cAwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=QKm3n0v8rk6VHx9tGn2YwNzy4klIX/9lzZ8DLlwYNkI=;
-        b=MbnN2JAjM58wZAeAPIJhcoVUQcLE3v29bOKdImKNrbM1Z+IT8BXBuLLyyPlny/ex4I
-         M51gQw37AsnYTOuzPIv23BG5+hG4KysFFbTKc1+kiagE8rQ9zRHqnewYtxTOu86PVSH0
-         c04QmWVxzJ8BAEARU2YjLowHC6ARAgiWQiTLng5Ri2c1low+HlGyhIBIo5k+F5rgYM44
-         GVgb+TzzOS5gcPQBIBz0J8N95Z05ZS+7Fso6qJqco64rAMSDK2bcpCTMIeCJyXBybCEh
-         TfCvgrGAYTspEnzxPPfS4om3htbni5EI7UVFh/bHrFgdA3ezeAYbVZlVx2nG1KRZM+QJ
-         VlWg==
-X-Gm-Message-State: AOAM530QQX6ZynvH7Rh4KawVeZyn7yGd5xZzOA0GtSR5NwYw5jAofd/+
-        x6m+7/sPSKJX+DUH8RLKIz0=
-X-Google-Smtp-Source: ABdhPJxqFWzsj34P2hAjM6BBEKPVVGCVSqoNPfvIeXNfYGWVvSx4+gSnimbShO6ArmPqcwmxb3ETJw==
-X-Received: by 2002:a05:6e02:2190:b0:2cf:8529:e291 with SMTP id j16-20020a056e02219000b002cf8529e291mr620684ila.22.1652376395589;
-        Thu, 12 May 2022 10:26:35 -0700 (PDT)
-Received: from ?IPV6:2600:1700:2442:6db0:fdf4:a10e:cb39:9b64? ([2600:1700:2442:6db0:fdf4:a10e:cb39:9b64])
-        by smtp.gmail.com with ESMTPSA id g11-20020a02b70b000000b0032b3a7817c8sm21178jam.140.2022.05.12.10.26.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 May 2022 10:26:35 -0700 (PDT)
-Message-ID: <5b2783a2-76bf-ce6f-89b1-d0fe05b80b82@gmail.com>
-Date:   Thu, 12 May 2022 12:26:33 -0500
+        with ESMTP id S1355439AbiELRji (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 13:39:38 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 398C6267096;
+        Thu, 12 May 2022 10:39:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652377177; x=1683913177;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=57zZUQo2XpYyqv/Fq0Q307fjDwWri2ChI3FAS8rHfMs=;
+  b=BIk7ms8iFTjQbBOZm40PjyGlMEmeSHzMZcEWwi2mGIjOhoTXxBeTeNGH
+   LBNJ45zWVBOU1kFs9zE2yNnwDe9sON8/Sg4hFBmfKprcWIHjo0Uq4BFTc
+   X4cCv6xonVfvjvkvOYOKBm2Q7Mlr0T2ea+qgc1LO7KX2MXWU404zGMOyt
+   yEECKrUH6lDbGjoLiGWy4t/S9eu3vWA7ZVoGhTmJBF6BPRirXDqGtI/4+
+   KONCCoN5EJMz0yM7hPdufBgalhNoAb9j6/9UjLxaDHx00GxOJqleZAsou
+   UiGMZiMaz6ubMC0yq8mfgRptTVEaqBhA6Mn1EXuWBpY0KCdnWhxZUffJa
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="330691118"
+X-IronPort-AV: E=Sophos;i="5.91,220,1647327600"; 
+   d="scan'208";a="330691118"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2022 10:39:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,220,1647327600"; 
+   d="scan'208";a="594787760"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga008.jf.intel.com with ESMTP; 12 May 2022 10:39:33 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 378A9CE; Thu, 12 May 2022 20:39:32 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>
+Subject: [PATCH v1 1/5] Documentation: gpio: Fix IRQ mask and unmask examples
+Date:   Thu, 12 May 2022 20:39:17 +0300
+Message-Id: <20220512173921.8210-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC] KTAP spec v2: prefix to KTAP data
-Content-Language: en-US
-To:     Daniel Latypov <dlatypov@google.com>
-Cc:     David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>, Tim.Bird@sony.com,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, rmr167@gmail.com,
-        guillaume.tucker@collabora.com, kernelci@groups.io,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <bc6e9ed7-d98b-c4da-2a59-ee0915c18f10@gmail.com>
- <5ca35c47-6145-4ec1-6c05-3c46f436cb4d@gmail.com>
- <CAGS_qxpE9qGsS1LqaobVGFKFgV6TwvwNLR4e9PG5zsfPACSf_Q@mail.gmail.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-In-Reply-To: <CAGS_qxpE9qGsS1LqaobVGFKFgV6TwvwNLR4e9PG5zsfPACSf_Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/12/22 10:25, Daniel Latypov wrote:
-> On Wed, May 11, 2022 at 11:01 PM Frank Rowand <frowand.list@gmail.com> wrote:
->> ================================================================================
->> #### discussion notes:
->>
->> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
->> PRO: minimally invasive to specification.
->>
->> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
->> CON:
->>
->> KTAP does not include any mechanism to describe the value of <prefix string>
->> to test harnesses and test output processing programs.  The test output
->> processing programs must infer the value of <prefix string> by detecting
->> the <prefix string> in the "Version lines".
->>
->> The detection of a "Version lines" might be a match of the regex:
->>
->>    "^.*KTAP version 2$"
->>
->> This risks falsely detecting a "Version lines", but the risk is small???
-> 
-> Agree this is a risk and also think it's probably small, but it's hard to say.
-> I think the $ anchoring the regex is probably safe enough.
-> 
-> As noted earlier, this tracks with what kunit.py already does.
-> That was necessitated by dynamic prefixes such as timestamps, etc.f
+After switching to immutable IRQ chips for GPIO drivers the examples become
+uncompilable due to wrong IRQ API, i.e. irq_desc_get_handler_data() in use.
+Replace it with proper irq_data_get_irq_chip_data() call where it applies.
 
-That is a good observation.  I nearly always have the prefix timestamp
-on my console output, and thus remove the timestamp with a regex when
-processing the data.
+Fixes: 5644b66a9c63 ("Documentation: Update the recommended pattern for GPIO irqchips")
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ Documentation/driver-api/gpio/driver.rst | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
--Frank
-
-> So I think this is probably a fine risk to take.
-> 
-> I imagine we could add constraints of prefix string, e.g. must have []
-> around it, etc. if we want to try and minimize this risk.
-> But I don't know if it's necessarily worth it, given what we know right now.
-> 
-> Along those lines, I think I like this approach (Alternative 1) more
-> than Alternative 2/2b.
-> I'm not sure we need a structured way to specify metadata in KTAP yet?
-> The prefix seems like a reasonable candidate, but do others have ideas
-> of other bits of metadata we'd want to be able to declare?
-> 
-> Daniel
+diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
+index a1ddefa1f55f..964d09118d17 100644
+--- a/Documentation/driver-api/gpio/driver.rst
++++ b/Documentation/driver-api/gpio/driver.rst
+@@ -429,7 +429,7 @@ call into the core gpiolib code:
+ 
+   static void my_gpio_mask_irq(struct irq_data *d)
+   {
+-      struct gpio_chip *gc = irq_desc_get_handler_data(d);
++      struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+ 
+       /*
+        * Perform any necessary action to mask the interrupt,
+@@ -442,7 +442,7 @@ call into the core gpiolib code:
+ 
+   static void my_gpio_unmask_irq(struct irq_data *d)
+   {
+-      struct gpio_chip *gc = irq_desc_get_handler_data(d);
++      struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+ 
+       gpiochip_enable_irq(gc, d->hwirq);
+ 
+@@ -501,7 +501,7 @@ the interrupt separately and go with it:
+ 
+   static void my_gpio_mask_irq(struct irq_data *d)
+   {
+-      struct gpio_chip *gc = irq_desc_get_handler_data(d);
++      struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+ 
+       /*
+        * Perform any necessary action to mask the interrupt,
+@@ -514,7 +514,7 @@ the interrupt separately and go with it:
+ 
+   static void my_gpio_unmask_irq(struct irq_data *d)
+   {
+-      struct gpio_chip *gc = irq_desc_get_handler_data(d);
++      struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+ 
+       gpiochip_enable_irq(gc, d->hwirq);
+ 
+@@ -576,7 +576,7 @@ In this case the typical set-up will look like this:
+ 
+   static void my_gpio_mask_irq(struct irq_data *d)
+   {
+-      struct gpio_chip *gc = irq_desc_get_handler_data(d);
++      struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+ 
+       /*
+        * Perform any necessary action to mask the interrupt,
+@@ -590,7 +590,7 @@ In this case the typical set-up will look like this:
+ 
+   static void my_gpio_unmask_irq(struct irq_data *d)
+   {
+-      struct gpio_chip *gc = irq_desc_get_handler_data(d);
++      struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+ 
+       gpiochip_enable_irq(gc, d->hwirq);
+ 
+-- 
+2.35.1
 
