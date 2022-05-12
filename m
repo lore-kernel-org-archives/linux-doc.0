@@ -2,88 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E8B4C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 15:37:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B71FDC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 15:40:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351554AbiELPhi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 11:37:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47592 "EHLO
+        id S1355794AbiELPkQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 11:40:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244489AbiELPhh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 11:37:37 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF13D25C28B;
-        Thu, 12 May 2022 08:37:36 -0700 (PDT)
+        with ESMTP id S1348319AbiELPkO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 11:40:14 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62A2C25C2A8
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 08:40:12 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3D9FA846;
-        Thu, 12 May 2022 15:37:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3D9FA846
+        by ms.lwn.net (Postfix) with ESMTPSA id 65888846;
+        Thu, 12 May 2022 15:40:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 65888846
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1652369856; bh=i+7cj4/G5qFWaDsvpxUy3aGMfQgj+VzEITIE6+j6oWY=;
+        t=1652370012; bh=DiW0y0LmE34i0FTng7c2jrcxbaOIyWEsGymLb6R85oE=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=kS8v5mVvFQHYeJDxgphwKw1jGH8dPoJg69tycBYgJ/pZMEY2FCbh/DTevk0G3wB2l
-         Wtx4eeXhtqc1Oc840JxIDI5fguU70OU2MIOWbHxfCnGgTX/pUQ+aHlOB9jKbk5Rpsc
-         xvhYURaUFoPYnRGN28DayN7ZpDWev6jVWEbAOR0EWSwg9Sgi7Q8SQpK2Y9HV00zkDs
-         xGgrrw8/604vRlwh5ftEfL02pO/H1At0RQ8MJ3P+p2YD4hmryjvEL2539GovNDKpDP
-         Z/O1fTcUC4/IhwGwVTHkmiv1TYUNZfvj0RGVm5+RI/Ixbr22WDwd/cWp6giXxAcDJ7
-         1LrV6yqV4nwsg==
+        b=YUN73+97vPj1kY3tDemQ8pufbrYPDyJwpHUzfNY7z0Zo5l1YHaO8gzyJK8chugLyf
+         rXeLTbo4m6sBX6Bc86eOiFCncrFgQWjjVF0LYr1t6VjVBUyIE8VjcI/IwNGk7yNk4X
+         kg13mm9LuV47V/I6Te1OpuhVMa03l/8KPgtcL+SrmUw1ATBb8VCMKjCEoFBewRNUa0
+         BP+e/Y+bYukdU6SsFMAhz/vrJQLlRsRbdR37nFAxgsQcxuxzhR/wTEmAHQ3ZLHFMJF
+         ds6jrYUBrzXccttHn8kIHpkJUx23vOazRNEFsWUxoszTBr2Cdyzjyj9iQawfHebeqW
+         lEjxXzPNNgxrg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Garrett LeSage <garrett@lesage.us>,
-        IFo Hancroft <contact@ifohancroft.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Miguel Ojeda <ojeda@kernel.org>
-Subject: Re: [PATCH v1 1/2] docs: move Linux logo into a new `images` folder
-In-Reply-To: <20220510172530.29704-1-ojeda@kernel.org>
-References: <20220510172530.29704-1-ojeda@kernel.org>
-Date:   Thu, 12 May 2022 09:37:35 -0600
-Message-ID: <87r14y4v9c.fsf@meer.lwn.net>
+To:     Alex Shi <seakeel@gmail.com>,
+        Huilong Deng <denghuilong@cdjrlc.com>, alexs@kernel.org
+Cc:     siyanteng01@gmail.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3] docs/zh_CN: fix devicetree usage-model translation
+In-Reply-To: <df5cd5b7-238e-2e12-09e8-c892f0394818@gmail.com>
+References: <20220510020135.55452-1-denghuilong@cdjrlc.com>
+ <df5cd5b7-238e-2e12-09e8-c892f0394818@gmail.com>
+Date:   Thu, 12 May 2022 09:40:11 -0600
+Message-ID: <87mtfm4v50.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Miguel Ojeda <ojeda@kernel.org> writes:
+Alex Shi <seakeel@gmail.com> writes:
 
-> Having assets in the top-level `Documentation` directory can make
-> it harder to find the documents one needs, especially if we want
-> to add more of them later on.
+> On 5/10/22 10:01, Huilong Deng wrote:
+>> machine_desc is a item in devicetree, shouldn't be half translated. Let's
+>> keep a whole word untranslated.
+>> 
+>> Signed-off-by: Huilong Deng <denghuilong@cdjrlc.com>
 >
-> Instead, create a new `images` folder inside it that is used
-> to hold assets such as logos.
->
-> Link: https://lore.kernel.org/lkml/8735hicoy7.fsf@meer.lwn.net/
-> Suggested-by: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
->  Documentation/{ => images}/COPYING-logo |   0
->  Documentation/{ => images}/logo.gif     | Bin
->  2 files changed, 0 insertions(+), 0 deletions(-)
->  rename Documentation/{ => images}/COPYING-logo (100%)
->  rename Documentation/{ => images}/logo.gif (100%)
->
-> diff --git a/Documentation/COPYING-logo b/Documentation/images/COPYING-logo
-> similarity index 100%
-> rename from Documentation/COPYING-logo
-> rename to Documentation/images/COPYING-logo
-> diff --git a/Documentation/logo.gif b/Documentation/images/logo.gif
-> similarity index 100%
-> rename from Documentation/logo.gif
-> rename to Documentation/images/logo.gif
+> Reviewed-by: Alex Shi <alexs@kernel.org>
 
-This will break scripts/spdxcheck-test.sh - which somebody might
-actually try to run one of these years.  So this patch really needs to
-update that script to follow the move.
-
-As far as I can tell, that's the only reference to logo.gif in the
-entire tree.  It makes me wonder if we need it at all.  Digging through
-the history suggests it was added in 2.1.15, but never really used for
-anything.  It's only role would appear to be to serve as testing
-material for the SPDX checker..:)
-
-Thanks,
+Applied, thanks.
 
 jon
