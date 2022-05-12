@@ -2,226 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7954C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 13:28:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 686DBC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 13:51:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351566AbiELN2Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 09:28:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38676 "EHLO
+        id S1354507AbiELNvh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 09:51:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345932AbiELN2X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 09:28:23 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89CCA606E5;
-        Thu, 12 May 2022 06:28:21 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tomeu)
-        with ESMTPSA id F379F1F4556A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1652362099;
-        bh=P6KXXhLWhwwDciwvFbZefB7qc8KqyBrUxi0cxEsXUEw=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=YezVes2VhgBEsQVdrqfBV5205Bd5u8APQWwe/hTBljiCuNKVZcLaQXnZhg7EY/jC/
-         cL7aLOZRMLwEeUy4/MRLPYa7ngAl00V7mnY9lh72DyPSRT/4YkQbMGl5HnSLALgqKX
-         n6H/xCIuu19ihP+ijGa+yJarJ2U7D4rg16cBxxl2JpwvloeYd+xWh4sjtZp8XvHWCz
-         WUC3rNj7pU4woyO3B+xCedDhGHb1G/Rj/VR8OwKzpO8s9fcsRvfctr+zWeKcr/VAPT
-         OeTwdCk7DMYhi2rMsvqH3Fs3Fz5cOn2Q9Wsiav2CpwUW3iFhCeLFNDvjWSW8EfjLvD
-         223EZVGkQDCuw==
-Subject: Re: [Freedreno] [RFC v2] drm/msm: Add initial ci/ subdirectory
-To:     Rob Clark <robdclark@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc:     Jessica Zhang <quic_jesszhan@quicinc.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>, Sean Paul <sean@poorly.run>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        freedreno <freedreno@lists.freedesktop.org>
-References: <20220510070140.45407-1-tomeu.vizoso@collabora.com>
- <20220510141329.54414-1-tomeu.vizoso@collabora.com>
- <e4e03cd8-3ebc-e5e1-e7d0-6bdc038049b5@quicinc.com>
- <CAF6AEGueadnRMiatO3MoHS+NTQ1o1sgcV0cVjJM3iu-6JUNmNw@mail.gmail.com>
- <CAKMK7uGRuCZwF6m02tcxxrgQGaijsYaNkowjxR+cw0JM3UpDkQ@mail.gmail.com>
- <CAF6AEGthpxPLxyt_i-aUFgW485hA5qw+xXcJ3gKQUJ+fM=ZBhg@mail.gmail.com>
-From:   Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Message-ID: <79d79110-9fbc-0e96-d17e-68a1f8f2c224@collabora.com>
-Date:   Thu, 12 May 2022 15:28:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        with ESMTP id S1344474AbiELNve (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 09:51:34 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B9366541F;
+        Thu, 12 May 2022 06:51:33 -0700 (PDT)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24CDN8Td010744;
+        Thu, 12 May 2022 13:51:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=s2kDKq2rLM1QKEd3r2BYZiAh3eI78iqwpoQJAzLbmug=;
+ b=N5ukWU/a1bDmPjOpAOcmyMcVvxTf4WvSKOrzF4G7nHP75Y9xm/toK1a4/jZR7JgYNWzO
+ 4zWMz5dHiLI3hGPTgTNSKLtS++zxuIkSOmWfp5pPp8eJitck6Q1/QtFG/KCSa4iXTPGz
+ hkDG/7h2N99Zs1X5o4kjasEbgJlebyqqpE/BTjV6NpEaNZcnGGu3/nbladVOIfo5WACv
+ by1xL4yJchTehXzBcHf1oTs72Y56OsIRW6UtQRn7NO1fx+UsnEqVDtaNM68bt9Y8r2EF
+ 5XvsCUC228Z13JBtXLNTp7zuxIYvnFLTjXbIG1C9Og80QykjHv5qyzsLys5b9+/1/jK0 Tw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g132urt66-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 12 May 2022 13:51:31 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24CDlU3N015069;
+        Thu, 12 May 2022 13:51:30 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g132urt5k-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 12 May 2022 13:51:30 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+        by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24CDlp2l020747;
+        Thu, 12 May 2022 13:51:28 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+        by ppma04fra.de.ibm.com with ESMTP id 3g0ma1gw8u-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 12 May 2022 13:51:28 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 24CDpPxG50397490
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 12 May 2022 13:51:25 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3929352059;
+        Thu, 12 May 2022 13:51:25 +0000 (GMT)
+Received: from [9.152.224.232] (unknown [9.152.224.232])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id BC2FD52050;
+        Thu, 12 May 2022 13:51:24 +0000 (GMT)
+Message-ID: <4a06e3e8-4453-9204-eb66-d435860c5714@linux.ibm.com>
+Date:   Thu, 12 May 2022 15:51:24 +0200
 MIME-Version: 1.0
-In-Reply-To: <CAF6AEGthpxPLxyt_i-aUFgW485hA5qw+xXcJ3gKQUJ+fM=ZBhg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 1/2] KVM: s390: Don't indicate suppression on dirtying,
+ failing memop
 Content-Language: en-US
+To:     David Hildenbrand <david@redhat.com>,
+        Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Cc:     Sven Schnelle <svens@linux.ibm.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org
+References: <20220512131019.2594948-1-scgl@linux.ibm.com>
+ <20220512131019.2594948-2-scgl@linux.ibm.com>
+ <77f6f5e7-5945-c478-0e41-affed62252eb@redhat.com>
+From:   Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <77f6f5e7-5945-c478-0e41-affed62252eb@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: kq_VLsc2Cch67QIG5wsRW5eoIlK90DKA
+X-Proofpoint-ORIG-GUID: AeBPgQQ8VBajH6WfXZ2xqDRCkTTHhqVR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-12_10,2022-05-12_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 lowpriorityscore=0 priorityscore=1501 malwarescore=0
+ bulkscore=0 mlxscore=0 clxscore=1015 adultscore=0 spamscore=0
+ mlxlogscore=846 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2202240000 definitions=main-2205120065
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/11/22 7:46 PM, Rob Clark wrote:
-> On Wed, May 11, 2022 at 10:12 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->>
->> On Tue, 10 May 2022 at 22:26, Rob Clark <robdclark@gmail.com> wrote:
->>>
->>> On Tue, May 10, 2022 at 12:39 PM Jessica Zhang
->>> <quic_jesszhan@quicinc.com> wrote:
->>>>
->>>>
->>>>
->>>> On 5/10/2022 7:13 AM, Tomeu Vizoso wrote:
->>>>> And use it to store expectations about what the drm/msm driver is
->>>>> supposed to pass in the IGT test suite.
->>>>>
->>>>> Also include a configuration file that points to the out-of-tree CI
->>>>> scripts.
->>>>>
->>>>> By storing the test expectations along the code we can make sure both
->>>>> stay in sync with each other, and so we can know when a code change
->>>>> breaks those expectations.
->>>>>
->>>>> This will allow all contributors to drm/msm to reuse the infrastructure
->>>>> already in gitlab.freedesktop.org to test the driver on several
->>>>> generations of the hardware.
->>>>>
->>>>> v2:
->>>>>     - Fix names of result expectation files to match SoC
->>>>>     - Don't execute tests that are going to skip on all boards
->>>>>
->>>>> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
->>>>> ---
->>>>>    Documentation/gpu/msm_automated_testing.rst   |  70 +++++++++
->>>>>    drivers/gpu/drm/msm/ci/gitlab-ci.yml          |  11 ++
->>>>>    drivers/gpu/drm/msm/ci/msm.testlist           | 148 ++++++++++++++++++
->>>>>    .../gpu/drm/msm/ci/msm_apq8016_results.txt    | 140 +++++++++++++++++
->>>>>    .../gpu/drm/msm/ci/msm_apq8096_results.txt    | 140 +++++++++++++++++
->>>>>    drivers/gpu/drm/msm/ci/msm_sc7180_results.txt | 141 +++++++++++++++++
->>>>>    drivers/gpu/drm/msm/ci/msm_sdm845_results.txt | 141 +++++++++++++++++
->>>>>    7 files changed, 791 insertions(+)
->>>>>    create mode 100644 Documentation/gpu/msm_automated_testing.rst
->>>>>    create mode 100644 drivers/gpu/drm/msm/ci/gitlab-ci.yml
->>>>>    create mode 100644 drivers/gpu/drm/msm/ci/msm.testlist
->>>>>    create mode 100644 drivers/gpu/drm/msm/ci/msm_apq8016_results.txt
->>>>>    create mode 100644 drivers/gpu/drm/msm/ci/msm_apq8096_results.txt
->>>>>    create mode 100644 drivers/gpu/drm/msm/ci/msm_sc7180_results.txt
->>>>>    create mode 100644 drivers/gpu/drm/msm/ci/msm_sdm845_results.txt
->>>>>
-> 
-> [snip]
-> 
->>>>> diff --git a/drivers/gpu/drm/msm/ci/msm_sc7180_results.txt b/drivers/gpu/drm/msm/ci/msm_sc7180_results.txt
->>>>> new file mode 100644
->>>>> index 000000000000..01f7b4b399b5
->>>>> --- /dev/null
->>>>> +++ b/drivers/gpu/drm/msm/ci/msm_sc7180_results.txt
->>>>> @@ -0,0 +1,141 @@
->>>>> +igt@core_auth@getclient-simple,dmesg-warn
->>>>> +igt@core_auth@getclient-master-drop,pass
->>>>> +igt@core_auth@basic-auth,pass
->>>>> +igt@core_auth@many-magics,pass
->>>>> +igt@core_getclient,pass
->>>>> +igt@core_getstats,pass
->>>>> +igt@core_getversion,pass
->>>>> +igt@core_setmaster_vs_auth,pass
->>>>> +igt@drm_read@invalid-buffer,pass
->>>>> +igt@drm_read@fault-buffer,pass
->>>>> +igt@drm_read@empty-block,pass
->>>>> +igt@drm_read@empty-nonblock,pass
->>>>> +igt@drm_read@short-buffer-block,pass
->>>>> +igt@drm_read@short-buffer-nonblock,pass
->>>>> +igt@drm_read@short-buffer-wakeup,pass
->>>>> +igt@kms_addfb_basic@unused-handle,pass
->>>>> +igt@kms_addfb_basic@unused-pitches,pass
->>>>> +igt@kms_addfb_basic@unused-offsets,pass
->>>>> +igt@kms_addfb_basic@unused-modifier,pass
->>>>> +igt@kms_addfb_basic@legacy-format,dmesg-warn
->>>>> +igt@kms_addfb_basic@no-handle,pass
->>>>> +igt@kms_addfb_basic@basic,pass
->>>>> +igt@kms_addfb_basic@bad-pitch-0,pass
->>>>> +igt@kms_addfb_basic@bad-pitch-32,pass
->>>>> +igt@kms_addfb_basic@bad-pitch-63,pass
->>>>> +igt@kms_addfb_basic@bad-pitch-128,pass
->>>>> +igt@kms_addfb_basic@bad-pitch-256,pass
->>>>> +igt@kms_addfb_basic@bad-pitch-1024,pass
->>>>> +igt@kms_addfb_basic@bad-pitch-999,pass
->>>>> +igt@kms_addfb_basic@bad-pitch-65536,pass
->>>>> +igt@kms_addfb_basic@size-max,pass
->>>>> +igt@kms_addfb_basic@too-wide,pass
->>>>> +igt@kms_addfb_basic@too-high,dmesg-warn
->>>>
->>>> For test results on Trogdor, is is possible to have them be
->>>> success/fail/skip only?
->>>>
->>>> Results such as dmesg-warn/dmesg-fail are igt_runner specific and
->>>> because there isn't support for igt_runner on ChromeOS, they will be
->>>> difficult to replicate and debug.
->>>
->>> Actually, I wonder if it would be better to just treat
->>> dmesg-warn/dmesg-fail as pass/fail?  I'd noticed some flakes on
->>> rockchip which looked just like unrelated dmesg msg which just
->>> happened to show up while the test was running.
->>
->> This is kinda the reason behind standardizing on drm dmesg logging, so
->> that we have some chances at filtering stuff out. Not sure that's a
->> good idea, since when your entire box splats and lockdep is dead, then
->> continuing to run drm tests is still fairly pointless.
-> 
-> I'm not sure if we are using it yet for drm-ci, but for mesa-ci we
-> monitor dmesg (over serial port, from the controller) for splats, so
-> we already have the tech for restarting or aborting the CI run.  We
-> don't need igt-runner to tell us.
 
-Yep, these scripts are currently being used as-is from Mesa, so we got 
-that functionality for free.
 
->> I think this is another reason why trying at least to standardize this
->> stuff over drivers would be pretty good idea.
->>
->>> Additionally, some of the tests, like msm_recovery, are *expected* to
->>> generate some dmesg spam since they are intentionally triggering GPU
->>> hangs to test the recovery mechanism.
->>
->> Uh I don't like that. It just allows userspace to spam dmesg, which
->> doesn't seem like a great idea. That's at least why i915 dumps these
->> at a lower level, and in the past had a special "I'm going to whack
->> the gpu real hard expect hangs" knob in debugfs.
->>
->> Having tests which intentionally spam dmesg above info level isn't
->> really good since then you need endless amounts of test-specific
->> encoding of what is considered a success and what not. Like when a
->> backmerge breaks a testcases which is already at dmesg-fail, is that
->> bad or not? Probably bad, but was the situation before that really
->> good or already kinda on fire?
+Am 12.05.22 um 15:22 schrieb David Hildenbrand:
+> On 12.05.22 15:10, Janis Schoetterl-Glausch wrote:
+>> If user space uses a memop to emulate an instruction and that
+>> memop fails, the execution of the instruction ends.
+>> Instruction execution can end in different ways, one of which is
+>> suppression, which requires that the instruction execute like a no-op.
+>> A writing memop that spans multiple pages and fails due to key
+>> protection may have modified guest memory, as a result, the likely
+>> correct ending is termination. Therefore, do not indicate a
+>> suppressing instruction ending in this case.
 > 
-> I guess I could add some debugfs knobs to squelch the dmesg msgs on
-> gpu hangs.  In the normal case, I'd prefer that gpu hangs are not
-> silent.. since that is something we get in feedback reports if a user
-> (or dogfooder) reports a bug.
+> I think that is possibly problematic handling.
 > 
-> The rockchip case I mentioned was some unrelated dmesg about
-> linktraining failing.. presumably because there was no display
-> attached?  IDK, I didn't look too closely.  But my point is we could
-> be getting unrelated and asynchronous dmesg spam, even from other
-> kernel subsystems.  Letting that be part of the test results just
-> sounds like asking for flakes.
-
-I think some drivers are currently a bit too buggy to behave reliably 
-under CI unless one reduces coverage (rockchip on rk3399, for example). 
-And some other drivers (in other subsystems as well) could do with a 
-review of what they print to the console. I guess these are things we 
-could and probably should fix?
-
-Cheers,
-
-Tomeu
-
-> BR,
-> -R
+> In TCG we stumbled in similar issues in the past for MVC when crossing
+> page boundaries. Failing after modifying the first page already
+> seriously broke some user space, because the guest would retry the
+> instruction after fixing up the fault reason on the second page: if
+> source and destination operands overlap, you'll be in trouble because
+> the input parameters already changed.
 > 
->> -Daniel
->>
->>> BR,
->>> -R
->>>
+> For this reason, in TCG we make sure that all accesses are valid before
+> starting modifications.
+> 
+> See target/s390x/tcg/mem_helper.c:do_helper_mvc with access_prepare()
+> and friends as an example.
+> 
+> Now, I don't know how to tackle that for KVM, I just wanted to raise
+> awareness that injecting an interrupt after modifying page content is
+> possible dodgy and dangerous.
+
+this is really special and only for key protection crossing pages.
+Its been done since the 70ies in that way on z/VM. The architecture
+is and was always written in a way to allow termination for this
+case for hypervisors.
