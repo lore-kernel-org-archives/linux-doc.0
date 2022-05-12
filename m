@@ -2,538 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47A69C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 09:43:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7211C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 11:24:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351840AbiELJnm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 05:43:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56412 "EHLO
+        id S244658AbiELLYl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 07:24:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350593AbiELJnk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 05:43:40 -0400
-Received: from zg8tmty1ljiyny4xntqumjca.icoremail.net (zg8tmty1ljiyny4xntqumjca.icoremail.net [165.227.154.27])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 0436D69703;
-        Thu, 12 May 2022 02:43:35 -0700 (PDT)
-Received: from jleng.ambarella.net (unknown [180.169.129.130])
-        by mail-app3 (Coremail) with SMTP id cC_KCgB3G7iS1nxi0gENAA--.40474S2;
-        Thu, 12 May 2022 17:42:49 +0800 (CST)
-From:   3090101217@zju.edu.cn
-To:     gregkh@linuxfoundation.org, corbet@lwn.net,
-        laurent.pinchart@ideasonboard.com, balbi@kernel.org,
-        rdunlap@infradead.org, mchehab+huawei@kernel.org, bilbao@vt.edu
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, Jing Leng <jleng@ambarella.com>
-Subject: [PATCH v2] usb: gadget: uvc: add bulk transfer support
-Date:   Thu, 12 May 2022 17:42:36 +0800
-Message-Id: <20220512094236.10937-1-3090101217@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220225070006.15090-1-3090101217@zju.edu.cn>
-References: <20220225070006.15090-1-3090101217@zju.edu.cn>
-X-CM-TRANSID: cC_KCgB3G7iS1nxi0gENAA--.40474S2
-X-Coremail-Antispam: 1UD129KBjvAXoWfXr18GrW7GFWUur4DtFW3GFg_yoW8CFW8Jo
-        WUXFs8W3W8Zr1rXFn3CF1qg3y5Ar4Ikrn8tws8Jr45W3W0v39Iq343Ja18WF43uF47JFyk
-        Gw10qrs8Was5Ka45n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUOr7k0a2IF6w4kM7kC6x804xWl14x267AKxVW8JVW5JwAFc2x0
-        x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj4
-        1l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0
-        I7IYx2IY6xkF7I0E14v26F4UJVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwV
-        C2z280aVCY1x0267AKxVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAac4AC6xC2jxv24VCS
-        YI8q64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2
-        WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkE
-        bVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwAKzVCY07xG64
-        k0F24lc2xSY4AK67AK6r4fMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
-        MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
-        AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
-        cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
-        80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
-        43ZEXa7IU5ZYFtUUUUU==
-X-CM-SenderInfo: qtqziiyqrsilo62m3hxhgxhubq/1tbiAwIIBVNG3GszGAAAsF
+        with ESMTP id S1353317AbiELLYd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 07:24:33 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D24585F27F
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 04:24:02 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id cu23-20020a17090afa9700b001d98d8e53b7so5887727pjb.0
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 04:24:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=MZUxzSSA16jHPMfnNIZTNFIVQ87TLhFgxWJeE4kOIcw=;
+        b=NVvHhWxDmgEveY5XgTLMjhIN/WeC0dzORtcZU3yCriRugu10mhKnK39HtzfAbTtN2o
+         iTVG1JQXh2n/X+jJAU4pj0uySBGDeX2s2D+lpkjOrWSfKfhn7Li5DghUPhuszF+nwR0F
+         VT2gwv11WrI1YC/ZgMVbvCXz/JjHJkQBVijSWSGx+f01HGzThnuMDodZg1Zy34ZxB8Vb
+         l/dz8CCbvhk1RsxOldgZRAxNnNZ9Y1JGkLSnSWPcwhvU8TWBNiL05dTLFK1VgEpig6In
+         SkTeNFO2cYNJivVnR9WfdodW2GCkT4hEY/rBMOAeRJRIJlxkALKvur8dnFx7gAeqDsa5
+         XGCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=MZUxzSSA16jHPMfnNIZTNFIVQ87TLhFgxWJeE4kOIcw=;
+        b=zWoQ9t4QBxHNY/M9UJ+RyjjhwB/paLnJbVZ0CPYRZ6jB31Kw4Osv0ZlsXGP9C94sLJ
+         D0YvVQ8nHArgJsz+ZhzZJv1L2Pt0jFZR0xWTblEZfIf5tWd/N93vfTFyfRsmJ8C3+v0y
+         dToXz4MI/PuD7WtPdTYcg9a9bboIafxv5mC+v9qrlNA2rNDuxI6PPAzCeAgNuo8hol3Z
+         NI4thif6EIPpSEiGGnYabioa6RLYeTG0HadIBj6Ey/Mey6qIh5v5wWwclYX4l48ckpZs
+         UvcT7YPKStqhLh2c824Z7N9KULuvemgu+htSOw4nuF02jvZy3qdi3x2bkzlBkE5CVkUa
+         UhmA==
+X-Gm-Message-State: AOAM533k5DmToMprYpXxiWAiRd79Q0iY2cr/ffSbcLP5uGl8tZ2FOBFE
+        TRZdu8i7HUTwJK0iTN42HVLLuw==
+X-Google-Smtp-Source: ABdhPJyBo8Ppm/uMJMgFCgqLtFjWMfuMu1xs6L5wv/MOpVS/NoFV+EHTkKVoWQCFUfvxY8GXBnDZcw==
+X-Received: by 2002:a17:90a:4803:b0:1dc:b4c9:1958 with SMTP id a3-20020a17090a480300b001dcb4c91958mr10259315pjh.61.1652354642336;
+        Thu, 12 May 2022 04:24:02 -0700 (PDT)
+Received: from localhost ([139.177.225.250])
+        by smtp.gmail.com with ESMTPSA id 23-20020aa79157000000b0050dc76281cbsm3506108pfi.165.2022.05.12.04.24.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 May 2022 04:24:01 -0700 (PDT)
+Date:   Thu, 12 May 2022 19:23:49 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        osalvador@suse.de, masahiroy@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v10 3/4] mm: hugetlb_vmemmap: use kstrtobool for
+ hugetlb_vmemmap param parsing
+Message-ID: <YnzuRV4LLRNykDtO@FVFYT0MHHV2J.usts.net>
+References: <20220509062703.64249-1-songmuchun@bytedance.com>
+ <20220509062703.64249-4-songmuchun@bytedance.com>
+ <21aae898-d54d-cc4b-a11f-1bb7fddcfffa@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <21aae898-d54d-cc4b-a11f-1bb7fddcfffa@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jing Leng <jleng@ambarella.com>
+On Thu, May 12, 2022 at 09:41:22AM +0200, David Hildenbrand wrote:
+> On 09.05.22 08:27, Muchun Song wrote:
+> > Use kstrtobool rather than open coding "on" and "off" parsing in
+> > mm/hugetlb_vmemmap.c,  which is more powerful to handle all kinds
+> > of parameters like 'Yy1Nn0' or [oO][NnFf] for "on" and "off".
+> > 
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > Reviewed-by: Mike Kravetz <mike.kravetz@oracle.com>
+> > ---
+> >  Documentation/admin-guide/kernel-parameters.txt |  6 +++---
+> >  mm/hugetlb_vmemmap.c                            | 10 +++++-----
+> >  2 files changed, 8 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index 308da668bbb1..43b8385073ad 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -1703,10 +1703,10 @@
+> >  			enabled.
+> >  			Allows heavy hugetlb users to free up some more
+> >  			memory (7 * PAGE_SIZE for each 2MB hugetlb page).
+> > -			Format: { on | off (default) }
+> > +			Format: { [oO][Nn]/Y/y/1 | [oO][Ff]/N/n/0 (default) }
+> 
+> Really? Can we make the syntax even harder to parse for human beings?! :)
+> 
+> Not to mention that it's partially wrong? What about "oFf" ? That would
+> have to be [oO][Ff][Ff]
+> 
+> Honestly, "on | off" is good enough. That "oN" and friends work is just
+> a "nice to have" IMHO. No need to over-complicate this description.
 
-The video data endpoint of uvc can be implemented as either an
-isochronous or a bulk endpoint.
+Got it. How about also telling users "on/1 | off/0"? Because 0 and
+1 are also widely used to disable/enable a knob.
 
-The transmission speed of bulk mode is faster than isochronous mode.
-I tested the speed with cdns3 (USB 3.2 Gen1), it's difficult to reach
-2 Gbps in the isochronous mode, and it can exceed 4 Gbps in the bulk
-mode.
+> >  
+> > -			on:  enable the feature
+> > -			off: disable the feature
+> > +			[oO][Nn]/Y/y/1: enable the feature
+> > +			[oO][Ff]/N/n/0: disable the feature
+> >  
+> >  			Built with CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON=y,
+> >  			the default is on.
+> > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> > index 6254bb2d4ae5..cc4ec752ec16 100644
+> > --- a/mm/hugetlb_vmemmap.c
+> > +++ b/mm/hugetlb_vmemmap.c
+> > @@ -28,15 +28,15 @@ EXPORT_SYMBOL(hugetlb_optimize_vmemmap_key);
+> >  
+> >  static int __init hugetlb_vmemmap_early_param(char *buf)
+> >  {
+> > -	if (!buf)
+> > +	bool enable;
+> > +
+> > +	if (kstrtobool(buf, &enable))
+> >  		return -EINVAL;
+> >  
+> > -	if (!strcmp(buf, "on"))
+> > +	if (enable)
+> >  		static_branch_enable(&hugetlb_optimize_vmemmap_key);
+> > -	else if (!strcmp(buf, "off"))
+> > -		static_branch_disable(&hugetlb_optimize_vmemmap_key);
+> >  	else
+> > -		return -EINVAL;
+> > +		static_branch_disable(&hugetlb_optimize_vmemmap_key);
+> >  
+> >  	return 0;
+> >  }
+> 
+> 
+> Apart from that
+> 
+> Acked-by: David Hildenbrand <david@redhat.com>
+>
 
-A VideoStreaming interface with isochronous endpoints must have alternate
-settings that can be used to change certain characteristics of the
-interface and underlying endpoint(s). A typical use of alternate settings
-is to provide a way to change the bandwidth requirements an active
-isochronous pipe imposes on the USB.
+Thanks.
 
-A VideoStreaming interface containing a bulk endpoint for streaming shall
-support only alternate setting zero. Additional alternate settings
-containing bulk endpoints are not permitted in a device that is compliant
-with the Video Class specification.
-
-In user space, isochronous/bulk modes are handled a little differently:
-
-1. APP prepares buffers and streams when it receives an UVC_EVENT_STREAMON
-message in the isochronous mode, but APP should do them when it receives a
-SET_CUR request of UVC_VS_COMMIT_CONTROL due to no UVC_EVENT_STREAMON
-message reported from the kernel in the bulk mode (Do them only once).
-
-2. In Addition, APP should set the value of dwMaxPayloadTransferSize to
-streaming_maxpacket in the isochronous mode or streaming_bulk_mult * 1024
-in the bulk mode.
-
-Here shows an example of the configfs differences:
-  if [ $BULK -eq 1 ]; then
-      echo 128 > functions/$FUNC/streaming_bulk_mult
-  else
-      echo 1024 > functions/$FUNC/streaming_maxpacket
-  fi
-
-Signed-off-by: Jing Leng <jleng@ambarella.com>
----
-ChangeLog v1->v2:
-- Handle imagesize in uvc_v4l2_set_format. If it's not handled,
-- switching from low resolution to high resolution will fail to play.
----
- .../ABI/testing/configfs-usb-gadget-uvc       |   1 +
- Documentation/usb/gadget-testing.rst          |   4 +
- drivers/usb/gadget/function/f_uvc.c           | 245 ++++++++++++------
- drivers/usb/gadget/function/u_uvc.h           |   1 +
- drivers/usb/gadget/function/uvc_configfs.c    |   2 +
- drivers/usb/gadget/function/uvc_queue.c       |   4 +-
- drivers/usb/gadget/function/uvc_v4l2.c        |   8 +
- 7 files changed, 183 insertions(+), 82 deletions(-)
-
-diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-index 889ed45be4ca..52ca04a619ff 100644
---- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
-+++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-@@ -7,6 +7,7 @@ Description:	UVC function directory
- 		streaming_maxburst	0..15 (ss only)
- 		streaming_maxpacket	1..1023 (fs), 1..3072 (hs/ss)
- 		streaming_interval	1..16
-+		streaming_bulk_mult	0..0x3fffffU
- 		===================	=============================
- 
- What:		/config/usb-gadget/gadget/functions/uvc.name/control
-diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-index c6d034abce3a..2cbe3e2e05c3 100644
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -787,6 +787,10 @@ The uvc function provides these attributes in its function directory:
- 	streaming_maxpacket maximum packet size this endpoint is capable of
- 			    sending or receiving when this configuration is
- 			    selected
-+	streaming_bulk_mult Multiples to configure max_payload_size. If it's
-+			    0, the transport mode is isochronous; otherwise
-+			    the transport mode is bulk and max_payload_size
-+			    is equal to streaming_bulk_mult * 1024.
- 	=================== ================================================
- 
- There are also "control" and "streaming" subdirectories, each of which contain
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 71bb5e477dba..61a05aa301ec 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -178,19 +178,19 @@ static struct usb_ss_ep_comp_descriptor uvc_ss_streaming_comp = {
- 	 */
- };
- 
--static const struct usb_descriptor_header * const uvc_fs_streaming[] = {
-+static const struct usb_descriptor_header *uvc_fs_streaming[] = {
- 	(struct usb_descriptor_header *) &uvc_streaming_intf_alt1,
- 	(struct usb_descriptor_header *) &uvc_fs_streaming_ep,
- 	NULL,
- };
- 
--static const struct usb_descriptor_header * const uvc_hs_streaming[] = {
-+static const struct usb_descriptor_header *uvc_hs_streaming[] = {
- 	(struct usb_descriptor_header *) &uvc_streaming_intf_alt1,
- 	(struct usb_descriptor_header *) &uvc_hs_streaming_ep,
- 	NULL,
- };
- 
--static const struct usb_descriptor_header * const uvc_ss_streaming[] = {
-+static const struct usb_descriptor_header *uvc_ss_streaming[] = {
- 	(struct usb_descriptor_header *) &uvc_streaming_intf_alt1,
- 	(struct usb_descriptor_header *) &uvc_ss_streaming_ep,
- 	(struct usb_descriptor_header *) &uvc_ss_streaming_comp,
-@@ -251,9 +251,12 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
- 
- void uvc_function_setup_continue(struct uvc_device *uvc)
- {
-+	struct f_uvc_opts *opts = fi_to_f_uvc_opts(uvc->func.fi);
- 	struct usb_composite_dev *cdev = uvc->func.config->cdev;
- 
--	usb_composite_setup_continue(cdev);
-+	/* delayed_status in bulk mode is 0, so it doesn't need to continue. */
-+	if (!opts->streaming_bulk_mult)
-+		usb_composite_setup_continue(cdev);
- }
- 
- static int
-@@ -278,6 +281,7 @@ uvc_function_set_alt(struct usb_function *f, unsigned interface, unsigned alt)
- 	struct usb_composite_dev *cdev = f->config->cdev;
- 	struct v4l2_event v4l2_event;
- 	struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
-+	struct f_uvc_opts *opts = fi_to_f_uvc_opts(f->fi);
- 	int ret;
- 
- 	uvcg_info(f, "%s(%u, %u)\n", __func__, interface, alt);
-@@ -310,49 +314,72 @@ uvc_function_set_alt(struct usb_function *f, unsigned interface, unsigned alt)
- 	if (interface != uvc->streaming_intf)
- 		return -EINVAL;
- 
--	/* TODO
--	if (usb_endpoint_xfer_bulk(&uvc->desc.vs_ep))
--		return alt ? -EINVAL : 0;
--	*/
-+	if (opts->streaming_bulk_mult) {
-+		switch (alt) {
-+		case 0:
-+			if (uvc->state != UVC_STATE_CONNECTED)
-+				return 0;
- 
--	switch (alt) {
--	case 0:
--		if (uvc->state != UVC_STATE_STREAMING)
--			return 0;
-+			if (!uvc->video.ep)
-+				return -EINVAL;
- 
--		if (uvc->video.ep)
-+			uvcg_info(f, "reset UVC\n");
- 			usb_ep_disable(uvc->video.ep);
- 
--		memset(&v4l2_event, 0, sizeof(v4l2_event));
--		v4l2_event.type = UVC_EVENT_STREAMOFF;
--		v4l2_event_queue(&uvc->vdev, &v4l2_event);
-+			ret = config_ep_by_speed(f->config->cdev->gadget,
-+					&(uvc->func), uvc->video.ep);
-+			if (ret)
-+				return ret;
-+			usb_ep_enable(uvc->video.ep);
- 
--		uvc->state = UVC_STATE_CONNECTED;
--		return 0;
--
--	case 1:
--		if (uvc->state != UVC_STATE_CONNECTED)
-+			memset(&v4l2_event, 0, sizeof(v4l2_event));
-+			v4l2_event.type = UVC_EVENT_STREAMOFF;
-+			v4l2_event_queue(&uvc->vdev, &v4l2_event);
- 			return 0;
- 
--		if (!uvc->video.ep)
-+		default:
- 			return -EINVAL;
-+		}
-+	} else {
-+		switch (alt) {
-+		case 0:
-+			if (uvc->state != UVC_STATE_STREAMING)
-+				return 0;
- 
--		uvcg_info(f, "reset UVC\n");
--		usb_ep_disable(uvc->video.ep);
-+			if (uvc->video.ep)
-+				usb_ep_disable(uvc->video.ep);
- 
--		ret = config_ep_by_speed(f->config->cdev->gadget,
--				&(uvc->func), uvc->video.ep);
--		if (ret)
--			return ret;
--		usb_ep_enable(uvc->video.ep);
-+			memset(&v4l2_event, 0, sizeof(v4l2_event));
-+			v4l2_event.type = UVC_EVENT_STREAMOFF;
-+			v4l2_event_queue(&uvc->vdev, &v4l2_event);
- 
--		memset(&v4l2_event, 0, sizeof(v4l2_event));
--		v4l2_event.type = UVC_EVENT_STREAMON;
--		v4l2_event_queue(&uvc->vdev, &v4l2_event);
--		return USB_GADGET_DELAYED_STATUS;
-+			uvc->state = UVC_STATE_CONNECTED;
-+			return 0;
- 
--	default:
--		return -EINVAL;
-+		case 1:
-+			if (uvc->state != UVC_STATE_CONNECTED)
-+				return 0;
-+
-+			if (!uvc->video.ep)
-+				return -EINVAL;
-+
-+			uvcg_info(f, "reset UVC\n");
-+			usb_ep_disable(uvc->video.ep);
-+
-+			ret = config_ep_by_speed(f->config->cdev->gadget,
-+					&(uvc->func), uvc->video.ep);
-+			if (ret)
-+				return ret;
-+			usb_ep_enable(uvc->video.ep);
-+
-+			memset(&v4l2_event, 0, sizeof(v4l2_event));
-+			v4l2_event.type = UVC_EVENT_STREAMON;
-+			v4l2_event_queue(&uvc->vdev, &v4l2_event);
-+			return USB_GADGET_DELAYED_STATUS;
-+
-+		default:
-+			return -EINVAL;
-+		}
- 	}
- }
- 
-@@ -598,57 +625,90 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 	uvcg_info(f, "%s()\n", __func__);
- 
- 	opts = fi_to_f_uvc_opts(f->fi);
--	/* Sanity check the streaming endpoint module parameters.
--	 */
--	opts->streaming_interval = clamp(opts->streaming_interval, 1U, 16U);
--	opts->streaming_maxpacket = clamp(opts->streaming_maxpacket, 1U, 3072U);
--	opts->streaming_maxburst = min(opts->streaming_maxburst, 15U);
--
--	/* For SS, wMaxPacketSize has to be 1024 if bMaxBurst is not 0 */
--	if (opts->streaming_maxburst &&
--	    (opts->streaming_maxpacket % 1024) != 0) {
--		opts->streaming_maxpacket = roundup(opts->streaming_maxpacket, 1024);
--		uvcg_info(f, "overriding streaming_maxpacket to %d\n",
--			  opts->streaming_maxpacket);
--	}
- 
--	/* Fill in the FS/HS/SS Video Streaming specific descriptors from the
--	 * module parameters.
--	 *
--	 * NOTE: We assume that the user knows what they are doing and won't
--	 * give parameters that their UDC doesn't support.
--	 */
--	if (opts->streaming_maxpacket <= 1024) {
--		max_packet_mult = 1;
--		max_packet_size = opts->streaming_maxpacket;
--	} else if (opts->streaming_maxpacket <= 2048) {
--		max_packet_mult = 2;
--		max_packet_size = opts->streaming_maxpacket / 2;
-+	/* Handle different transfer mode for stream endpoints */
-+	if (opts->streaming_bulk_mult) {
-+		uvc_fs_streaming_ep.bmAttributes = USB_ENDPOINT_XFER_BULK;
-+		uvc_hs_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
-+		uvc_ss_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
-+
-+		opts->streaming_maxburst = min(opts->streaming_maxburst, 15U);
-+
-+		uvc_fs_streaming_ep.wMaxPacketSize = cpu_to_le16(64);
-+		uvc_fs_streaming_ep.bInterval = 0;
-+
-+		uvc_hs_streaming_ep.wMaxPacketSize = cpu_to_le16(512);
-+		uvc_hs_streaming_ep.bInterval = 0;
-+
-+		uvc_ss_streaming_ep.wMaxPacketSize = cpu_to_le16(1024);
-+		uvc_ss_streaming_ep.bInterval = 0;
-+
-+		uvc_ss_streaming_comp.bmAttributes = 0;
-+		uvc_ss_streaming_comp.bMaxBurst = opts->streaming_maxburst;
-+		uvc_ss_streaming_comp.wBytesPerInterval = 0;
-+
-+		uvc->video.max_payload_size = opts->streaming_bulk_mult * 1024;
- 	} else {
--		max_packet_mult = 3;
--		max_packet_size = opts->streaming_maxpacket / 3;
--	}
-+		uvc_fs_streaming_ep.bmAttributes = USB_ENDPOINT_SYNC_ASYNC
-+						| USB_ENDPOINT_XFER_ISOC;
-+		uvc_hs_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
-+		uvc_ss_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
-+
-+		/* Sanity check the streaming endpoint module parameters.
-+		 */
-+		opts->streaming_interval = clamp(opts->streaming_interval, 1U, 16U);
-+		opts->streaming_maxpacket = clamp(opts->streaming_maxpacket, 1U, 3072U);
-+		opts->streaming_maxburst = min(opts->streaming_maxburst, 15U);
-+
-+		/* For SS, wMaxPacketSize has to be 1024 if bMaxBurst is not 0 */
-+		if (opts->streaming_maxburst &&
-+			(opts->streaming_maxpacket % 1024) != 0) {
-+			opts->streaming_maxpacket = roundup(opts->streaming_maxpacket, 1024);
-+			uvcg_info(f, "overriding streaming_maxpacket to %d\n",
-+				opts->streaming_maxpacket);
-+		}
- 
--	uvc_fs_streaming_ep.wMaxPacketSize =
--		cpu_to_le16(min(opts->streaming_maxpacket, 1023U));
--	uvc_fs_streaming_ep.bInterval = opts->streaming_interval;
-+		/* Fill in the FS/HS/SS Video Streaming specific descriptors from the
-+		 * module parameters.
-+		 *
-+		 * NOTE: We assume that the user knows what they are doing and won't
-+		 * give parameters that their UDC doesn't support.
-+		 */
-+
-+		if (opts->streaming_maxpacket <= 1024) {
-+			max_packet_mult = 0;
-+			max_packet_size = opts->streaming_maxpacket;
-+		} else if (opts->streaming_maxpacket <= 2048) {
-+			max_packet_mult = 1;
-+			max_packet_size = opts->streaming_maxpacket / 2;
-+		} else {
-+			max_packet_mult = 2;
-+			max_packet_size = opts->streaming_maxpacket / 3;
-+		}
- 
--	uvc_hs_streaming_ep.wMaxPacketSize =
--		cpu_to_le16(max_packet_size | ((max_packet_mult - 1) << 11));
-+		uvc_fs_streaming_ep.wMaxPacketSize =
-+			cpu_to_le16(min(opts->streaming_maxpacket, 1023U));
-+		uvc_fs_streaming_ep.bInterval = opts->streaming_interval;
- 
--	/* A high-bandwidth endpoint must specify a bInterval value of 1 */
--	if (max_packet_mult > 1)
--		uvc_hs_streaming_ep.bInterval = 1;
--	else
--		uvc_hs_streaming_ep.bInterval = opts->streaming_interval;
-+		uvc_hs_streaming_ep.wMaxPacketSize =
-+			cpu_to_le16(max_packet_size | (max_packet_mult << 11));
-+		/* A high-bandwidth endpoint must specify a bInterval value of 1 */
-+		if (max_packet_mult > 0)
-+			uvc_hs_streaming_ep.bInterval = 1;
-+		else
-+			uvc_hs_streaming_ep.bInterval = opts->streaming_interval;
-+
-+		uvc_ss_streaming_ep.wMaxPacketSize = cpu_to_le16(max_packet_size);
-+		uvc_ss_streaming_ep.bInterval = opts->streaming_interval;
- 
--	uvc_ss_streaming_ep.wMaxPacketSize = cpu_to_le16(max_packet_size);
--	uvc_ss_streaming_ep.bInterval = opts->streaming_interval;
--	uvc_ss_streaming_comp.bmAttributes = max_packet_mult - 1;
--	uvc_ss_streaming_comp.bMaxBurst = opts->streaming_maxburst;
--	uvc_ss_streaming_comp.wBytesPerInterval =
--		cpu_to_le16(max_packet_size * max_packet_mult *
--			    (opts->streaming_maxburst + 1));
-+		uvc_ss_streaming_comp.bmAttributes = max_packet_mult;
-+		uvc_ss_streaming_comp.bMaxBurst = opts->streaming_maxburst;
-+		uvc_ss_streaming_comp.wBytesPerInterval =
-+			cpu_to_le16(max_packet_size * (max_packet_mult + 1) *
-+				(opts->streaming_maxburst + 1));
-+
-+		uvc->video.max_payload_size = 0;
-+	}
- 
- 	/* Allocate endpoints. */
- 	ep = usb_ep_autoconfig(cdev->gadget, &uvc_control_ep);
-@@ -662,7 +722,7 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 		ep = usb_ep_autoconfig_ss(cdev->gadget, &uvc_ss_streaming_ep,
- 					  &uvc_ss_streaming_comp);
- 	else if (gadget_is_dualspeed(cdev->gadget))
--		ep = usb_ep_autoconfig(cdev->gadget, &uvc_hs_streaming_ep);
-+		ep = usb_ep_autoconfig_ss(cdev->gadget, &uvc_hs_streaming_ep, NULL);
- 	else
- 		ep = usb_ep_autoconfig(cdev->gadget, &uvc_fs_streaming_ep);
- 
-@@ -703,6 +763,28 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 	uvc->streaming_intf = ret;
- 	opts->streaming_interface = ret;
- 
-+	/* Handle different transfer mode for descriptors */
-+	i = 0;
-+	if (opts->streaming_bulk_mult) {
-+		uvc_streaming_intf_alt0.bNumEndpoints = 1;
-+	} else {
-+		uvc_streaming_intf_alt0.bNumEndpoints = 0;
-+
-+		uvc_fs_streaming[i] = USBDHDR(&uvc_streaming_intf_alt1);
-+		uvc_hs_streaming[i] = USBDHDR(&uvc_streaming_intf_alt1);
-+		uvc_ss_streaming[i] = USBDHDR(&uvc_streaming_intf_alt1);
-+		++i;
-+	}
-+	uvc_fs_streaming[i] = USBDHDR(&uvc_fs_streaming_ep);
-+	uvc_hs_streaming[i] = USBDHDR(&uvc_hs_streaming_ep);
-+	uvc_ss_streaming[i] = USBDHDR(&uvc_ss_streaming_ep);
-+	++i;
-+	uvc_fs_streaming[i] = NULL;
-+	uvc_hs_streaming[i] = NULL;
-+	uvc_ss_streaming[i] = USBDHDR(&uvc_ss_streaming_comp);
-+	++i;
-+	uvc_ss_streaming[i] = NULL;
-+
- 	/* Copy descriptors */
- 	f->fs_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_FULL);
- 	if (IS_ERR(f->fs_descriptors)) {
-@@ -866,6 +948,7 @@ static struct usb_function_instance *uvc_alloc_inst(void)
- 
- 	opts->streaming_interval = 1;
- 	opts->streaming_maxpacket = 1024;
-+	opts->streaming_bulk_mult = 0;
- 
- 	ret = uvcg_attach_configfs(opts);
- 	if (ret < 0) {
-diff --git a/drivers/usb/gadget/function/u_uvc.h b/drivers/usb/gadget/function/u_uvc.h
-index 9a01a7d4f17f..5607a239d55e 100644
---- a/drivers/usb/gadget/function/u_uvc.h
-+++ b/drivers/usb/gadget/function/u_uvc.h
-@@ -24,6 +24,7 @@ struct f_uvc_opts {
- 	unsigned int					streaming_interval;
- 	unsigned int					streaming_maxpacket;
- 	unsigned int					streaming_maxburst;
-+	unsigned int					streaming_bulk_mult;
- 
- 	unsigned int					control_interface;
- 	unsigned int					streaming_interface;
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index 77d64031aa9c..9b08e7b25168 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -2422,6 +2422,7 @@ UVC_ATTR(f_uvc_opts_, cname, cname)
- UVCG_OPTS_ATTR(streaming_interval, streaming_interval, 16);
- UVCG_OPTS_ATTR(streaming_maxpacket, streaming_maxpacket, 3072);
- UVCG_OPTS_ATTR(streaming_maxburst, streaming_maxburst, 15);
-+UVCG_OPTS_ATTR(streaming_bulk_mult, streaming_bulk_mult, 0x3fffffU);
- 
- #undef UVCG_OPTS_ATTR
- 
-@@ -2429,6 +2430,7 @@ static struct configfs_attribute *uvc_attrs[] = {
- 	&f_uvc_opts_attr_streaming_interval,
- 	&f_uvc_opts_attr_streaming_maxpacket,
- 	&f_uvc_opts_attr_streaming_maxburst,
-+	&f_uvc_opts_attr_streaming_bulk_mult,
- 	NULL,
- };
- 
-diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-index 2cda982f3765..98d0e933b5e1 100644
---- a/drivers/usb/gadget/function/uvc_queue.c
-+++ b/drivers/usb/gadget/function/uvc_queue.c
-@@ -135,7 +135,9 @@ int uvcg_queue_init(struct uvc_video_queue *queue, struct device *dev, enum v4l2
- 	queue->queue.buf_struct_size = sizeof(struct uvc_buffer);
- 	queue->queue.ops = &uvc_queue_qops;
- 	queue->queue.lock = lock;
--	if (cdev->gadget->sg_supported) {
-+
-+	/* UDC supports scatter gather and transfer mode isn't bulk. */
-+	if (cdev->gadget->sg_supported && !video->max_payload_size) {
- 		queue->queue.mem_ops = &vb2_dma_sg_memops;
- 		queue->use_sg = 1;
- 	} else {
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index a2c78690c5c2..767f1a2ace04 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -119,6 +119,14 @@ uvc_v4l2_set_format(struct file *file, void *fh, struct v4l2_format *fmt)
- 	bpl = format->bpp * fmt->fmt.pix.width / 8;
- 	imagesize = bpl ? bpl * fmt->fmt.pix.height : fmt->fmt.pix.sizeimage;
- 
-+	/*
-+	 * Bulk mode only allocates memory once, so user should give the
-+	 * maximum image size in all formats and kernel should not decrease
-+	 * the imagesize.
-+	 */
-+	if (video->max_payload_size && imagesize < fmt->fmt.pix.sizeimage)
-+		imagesize = fmt->fmt.pix.sizeimage;
-+
- 	video->fcc = format->fcc;
- 	video->bpp = format->bpp;
- 	video->width = fmt->fmt.pix.width;
--- 
-2.17.1
-
+> -- 
+> Thanks,
+> 
+> David / dhildenb
+> 
+> 
