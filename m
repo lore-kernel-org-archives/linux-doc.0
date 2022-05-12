@@ -2,105 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE672C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 15:25:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E8B4C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 15:37:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355895AbiELPZW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 11:25:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33008 "EHLO
+        id S1351554AbiELPhi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 11:37:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355916AbiELPZS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 11:25:18 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13B2120F4ED
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 08:25:17 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id l18so10922057ejc.7
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 08:25:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LZMxjSJmldQ3JWCoivCnvn/+FiMrBE9vcPF4uGtQz2A=;
-        b=hhzaIlWaIG4YpufqFFKKB+9c/4n/9E89t2cVHITLb/CTZiRXgM4WOJTmuW5fPTCYtC
-         c/jh9WFhKOMhx5aVbeKji3Tus8LJw4bjHpNOfXm+PqFrROCEA6/i0kitKKu49HOEzdzz
-         4sobYKpWQqGS+YoDGoLZ/xoT2+4FdIAQgU9YbMrz1boNVhux5IHe8ZdQ/dqcwgcNq1Dh
-         N9enZ/zIy58r4SEc42V6EkirsIn9CWFVD82Wfx2nk6whuMj++SmG7uYjm1wvISVRnprR
-         xXLLtQvXbWxruFV4WKCz6UeWZiYrAcJPVsvRxLuxAQvAdy+8T5CjQiLzuSqz6pUBq2wM
-         JX+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LZMxjSJmldQ3JWCoivCnvn/+FiMrBE9vcPF4uGtQz2A=;
-        b=nVXmJVRHH26uZiq+70B15hD8Cf1HOnD7opZMVTsBR5a07XTbjKa2/Bdui2YEsH9LFI
-         RsFoUhEWUlI+kZGxG2esJyknqIaJYr181ja5LGr4NQ3n36CNIQk94awDZEO2Z86qlxTC
-         bV6Dy0a7BX6mSkq5jVFoxOxXpwg2drJAKCJl9wVmNloI1FlBPWx/q+AdknHJSDXRw6i6
-         z7Np+xp+0kRhWlj4vS9zGunQk3ZclP6KWkJm5gvikttAmgT3PYd8bFHGL5gpGDdEDsrd
-         sRtBb2zbzb+iQlDq0rR1RDX4gmhSN9clb7blR7G+KwVExeY555MuKEyWKbNoV915W5Kk
-         B5VA==
-X-Gm-Message-State: AOAM531UgvRilliORzM9TH1QmoLmTNU18op1OxaPJAsiOlDOPCSdag6b
-        d4yCedUYk1OHEuUujOkNIijZzndUisXSkrmk+2PjyA==
-X-Google-Smtp-Source: ABdhPJyw52u6k4SKpOakHeWu7gjr6JuceopSOtVUJ5BHjzjLTgPQPdonUQjHuVeMJTBgwp2cRZ99WzBoL3BHUYZYrEk=
-X-Received: by 2002:a17:907:72ce:b0:6f4:5a57:320c with SMTP id
- du14-20020a17090772ce00b006f45a57320cmr389491ejc.75.1652369115386; Thu, 12
- May 2022 08:25:15 -0700 (PDT)
+        with ESMTP id S244489AbiELPhh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 11:37:37 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF13D25C28B;
+        Thu, 12 May 2022 08:37:36 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 3D9FA846;
+        Thu, 12 May 2022 15:37:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3D9FA846
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1652369856; bh=i+7cj4/G5qFWaDsvpxUy3aGMfQgj+VzEITIE6+j6oWY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=kS8v5mVvFQHYeJDxgphwKw1jGH8dPoJg69tycBYgJ/pZMEY2FCbh/DTevk0G3wB2l
+         Wtx4eeXhtqc1Oc840JxIDI5fguU70OU2MIOWbHxfCnGgTX/pUQ+aHlOB9jKbk5Rpsc
+         xvhYURaUFoPYnRGN28DayN7ZpDWev6jVWEbAOR0EWSwg9Sgi7Q8SQpK2Y9HV00zkDs
+         xGgrrw8/604vRlwh5ftEfL02pO/H1At0RQ8MJ3P+p2YD4hmryjvEL2539GovNDKpDP
+         Z/O1fTcUC4/IhwGwVTHkmiv1TYUNZfvj0RGVm5+RI/Ixbr22WDwd/cWp6giXxAcDJ7
+         1LrV6yqV4nwsg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Miguel Ojeda <ojeda@kernel.org>
+Cc:     Garrett LeSage <garrett@lesage.us>,
+        IFo Hancroft <contact@ifohancroft.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: Re: [PATCH v1 1/2] docs: move Linux logo into a new `images` folder
+In-Reply-To: <20220510172530.29704-1-ojeda@kernel.org>
+References: <20220510172530.29704-1-ojeda@kernel.org>
+Date:   Thu, 12 May 2022 09:37:35 -0600
+Message-ID: <87r14y4v9c.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <bc6e9ed7-d98b-c4da-2a59-ee0915c18f10@gmail.com> <5ca35c47-6145-4ec1-6c05-3c46f436cb4d@gmail.com>
-In-Reply-To: <5ca35c47-6145-4ec1-6c05-3c46f436cb4d@gmail.com>
-From:   Daniel Latypov <dlatypov@google.com>
-Date:   Thu, 12 May 2022 08:25:04 -0700
-Message-ID: <CAGS_qxpE9qGsS1LqaobVGFKFgV6TwvwNLR4e9PG5zsfPACSf_Q@mail.gmail.com>
-Subject: Re: [RFC] KTAP spec v2: prefix to KTAP data
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>, Tim.Bird@sony.com,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, rmr167@gmail.com,
-        guillaume.tucker@collabora.com, kernelci@groups.io,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 11, 2022 at 11:01 PM Frank Rowand <frowand.list@gmail.com> wrote:
-> ================================================================================
-> #### discussion notes:
->
-> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-> PRO: minimally invasive to specification.
->
-> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-> CON:
->
-> KTAP does not include any mechanism to describe the value of <prefix string>
-> to test harnesses and test output processing programs.  The test output
-> processing programs must infer the value of <prefix string> by detecting
-> the <prefix string> in the "Version lines".
->
-> The detection of a "Version lines" might be a match of the regex:
->
->    "^.*KTAP version 2$"
->
-> This risks falsely detecting a "Version lines", but the risk is small???
+Miguel Ojeda <ojeda@kernel.org> writes:
 
-Agree this is a risk and also think it's probably small, but it's hard to say.
-I think the $ anchoring the regex is probably safe enough.
+> Having assets in the top-level `Documentation` directory can make
+> it harder to find the documents one needs, especially if we want
+> to add more of them later on.
+>
+> Instead, create a new `images` folder inside it that is used
+> to hold assets such as logos.
+>
+> Link: https://lore.kernel.org/lkml/8735hicoy7.fsf@meer.lwn.net/
+> Suggested-by: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+>  Documentation/{ => images}/COPYING-logo |   0
+>  Documentation/{ => images}/logo.gif     | Bin
+>  2 files changed, 0 insertions(+), 0 deletions(-)
+>  rename Documentation/{ => images}/COPYING-logo (100%)
+>  rename Documentation/{ => images}/logo.gif (100%)
+>
+> diff --git a/Documentation/COPYING-logo b/Documentation/images/COPYING-logo
+> similarity index 100%
+> rename from Documentation/COPYING-logo
+> rename to Documentation/images/COPYING-logo
+> diff --git a/Documentation/logo.gif b/Documentation/images/logo.gif
+> similarity index 100%
+> rename from Documentation/logo.gif
+> rename to Documentation/images/logo.gif
 
-As noted earlier, this tracks with what kunit.py already does.
-That was necessitated by dynamic prefixes such as timestamps, etc.
-So I think this is probably a fine risk to take.
+This will break scripts/spdxcheck-test.sh - which somebody might
+actually try to run one of these years.  So this patch really needs to
+update that script to follow the move.
 
-I imagine we could add constraints of prefix string, e.g. must have []
-around it, etc. if we want to try and minimize this risk.
-But I don't know if it's necessarily worth it, given what we know right now.
+As far as I can tell, that's the only reference to logo.gif in the
+entire tree.  It makes me wonder if we need it at all.  Digging through
+the history suggests it was added in 2.1.15, but never really used for
+anything.  It's only role would appear to be to serve as testing
+material for the SPDX checker..:)
 
-Along those lines, I think I like this approach (Alternative 1) more
-than Alternative 2/2b.
-I'm not sure we need a structured way to specify metadata in KTAP yet?
-The prefix seems like a reasonable candidate, but do others have ideas
-of other bits of metadata we'd want to be able to declare?
+Thanks,
 
-Daniel
+jon
