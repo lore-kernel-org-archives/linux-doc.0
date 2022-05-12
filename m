@@ -2,227 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99689C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 06:02:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA1B0C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 07:21:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350093AbiELGCQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 02:02:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57574 "EHLO
+        id S1350911AbiELHVn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 03:21:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241825AbiELGCP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 02:02:15 -0400
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1BB566208;
-        Wed, 11 May 2022 23:02:14 -0700 (PDT)
-Received: by mail-io1-xd33.google.com with SMTP id f4so4282082iov.2;
-        Wed, 11 May 2022 23:02:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=XF/xFPtLmhC4ZgohYR62Nv8OLeVFzEOKNGwxgGsfdL8=;
-        b=YBd3ZIb1+jo23ypuHUppLf4wj5jZxNXzmo93O9MtoVI7vfDLlfJhIh+HGz78IxfHS6
-         YKcD1+1bt7PfBOSIum2q0bGEm0UMULPNdEqkV/4R45z3tGbqzfDCs/4UV9qhQk0AgSdQ
-         hmmgE4cwggI8WBXURuFFTxK+LQrm7kPJFYlvbWXHrIK4ECZ/E3Hp0UkHt98gU9BGC/bd
-         1Lt8qAbhmXY7A72ALbB9SYIo50YU0ahhNr8PCS9p4AsmWWjVoDz8DToNVhIFA0lkQ38c
-         cwuz2NZmjO2bgL5xx4XH1f50L+jSMt9VRA1cnYN3zRM9kGTEbpHWgc84jjj5OJ85U/ZD
-         micQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=XF/xFPtLmhC4ZgohYR62Nv8OLeVFzEOKNGwxgGsfdL8=;
-        b=Kph7Zh6SM/mk4s38ktCa02oFS3IZfRJU8rY02EdJZ5Ko1/XUyyJbf4dW1O7yTmVHU0
-         ntC6jXnBI5pk7IwTPDcnowQ5hMEwA93D/XrHZfgD8Ng54qwS41xx5xv/tlpZ1TBg2TYK
-         AMQPaq1RU/khV+xHCPWB8XWekDqtYq8/Z6BVDZgFXmQcYpUk0ltbfxWaBJKmZwZvZuB0
-         FzKLBvCOxQZAOPU6Hsb62AMwwBXbNaL8C0tKhGqVuXVnuQW/9pG2rOYCEcCywMtfA1oJ
-         kLy2sJeMvwOciXRIZ8mOUpR7XzmabDqOhfznW3CRmH+eV2yVGiWrRjT/dWwDJWSIRHjm
-         JaaQ==
-X-Gm-Message-State: AOAM533irUAd/BUx3TmtbuwG4bemXR3fqV8HKPatQriJYIqU81xBqajv
-        2tR0XT5SnwzY048xN0lBeKw=
-X-Google-Smtp-Source: ABdhPJwYp1zTu4Y0ygbGlCVlf7igw2pMEJCGyZlXuTWZffrmszeMkZlVNgn+J3dXbNh6l5bAlYN+GQ==
-X-Received: by 2002:a05:6638:d4b:b0:32b:ece6:a56f with SMTP id d11-20020a0566380d4b00b0032bece6a56fmr10734448jak.315.1652335334066;
-        Wed, 11 May 2022 23:02:14 -0700 (PDT)
-Received: from ?IPV6:2600:1700:2442:6db0:fdf4:a10e:cb39:9b64? ([2600:1700:2442:6db0:fdf4:a10e:cb39:9b64])
-        by smtp.gmail.com with ESMTPSA id x11-20020a92dc4b000000b002cde6e352d4sm1175261ilq.30.2022.05.11.23.02.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 May 2022 23:02:13 -0700 (PDT)
-Message-ID: <1c89133e-7bd2-862a-bd57-7fefdffb77ae@gmail.com>
-Date:   Thu, 12 May 2022 01:02:11 -0500
+        with ESMTP id S1350972AbiELHVg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 03:21:36 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 030E42C10C;
+        Thu, 12 May 2022 00:21:33 -0700 (PDT)
+Received: from mail-yb1-f173.google.com ([209.85.219.173]) by
+ mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1M2fDr-1nma1s3mxT-004CAf; Thu, 12 May 2022 09:21:32 +0200
+Received: by mail-yb1-f173.google.com with SMTP id v59so8108983ybi.12;
+        Thu, 12 May 2022 00:21:31 -0700 (PDT)
+X-Gm-Message-State: AOAM532m7bhsqYseq6xznso3H2LCu9NoI7jZNTium6OFgIlUc1uKAlzh
+        8EBUuGE/I+ym1RYNT6C2OEeWGFGN9qQIBgmT950=
+X-Google-Smtp-Source: ABdhPJx4WfEOUWv2L6bCmWT0mJB6dEDWkNIHboRAE66MHFC+PuQA7c4QPgkOpP2BhGDSQSBJfhNNN89Hg26ByytWHec=
+X-Received: by 2002:a25:cdc7:0:b0:648:f57d:c0ed with SMTP id
+ d190-20020a25cdc7000000b00648f57dc0edmr26571261ybf.480.1652340090303; Thu, 12
+ May 2022 00:21:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC] KTAP spec v2: prefix to KTAP data
-Content-Language: en-US
-To:     David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>, Tim.Bird@sony.com,
-        Brendan Higgins <brendanhiggins@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, rmr167@gmail.com,
-        guillaume.tucker@collabora.com, dlatypov@google.com,
-        kernelci@groups.io, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <bc6e9ed7-d98b-c4da-2a59-ee0915c18f10@gmail.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-In-Reply-To: <bc6e9ed7-d98b-c4da-2a59-ee0915c18f10@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
+ <20220430090518.3127980-14-chenhuacai@loongson.cn> <CAK8P3a0A9dW4mwJ6JHDiJxizL7vWfr4r4c5KhbjtAY0sWbZJVA@mail.gmail.com>
+ <CAAhV-H4te_+AS69viO4eBz=abBUm5oQ6AfoY1Cb+nOCZyyeMdA@mail.gmail.com>
+ <CAK8P3a0DqQcApv8aa2dgBS5At=tEkN7cnaskoUeXDi2-Bu9Rnw@mail.gmail.com>
+ <20220507121104.7soocpgoqkvwv3gc@wittgenstein> <20220509100058.vmrgn5fkk3ayt63v@wittgenstein>
+ <CAK8P3a0zmPbMNsS11aUGiAADyjOEueNUXQ8QZtVxr48M3pwAkQ@mail.gmail.com> <20220511211231.GG7074@brightrain.aerifal.cx>
+In-Reply-To: <20220511211231.GG7074@brightrain.aerifal.cx>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 12 May 2022 09:21:13 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a05wSVu7M9kVMw5cSqx84YUCk1394Yfd_5tweEOc2P69g@mail.gmail.com>
+Message-ID: <CAK8P3a05wSVu7M9kVMw5cSqx84YUCk1394Yfd_5tweEOc2P69g@mail.gmail.com>
+Subject: Re: [musl] Re: [PATCH V9 13/24] LoongArch: Add system call support
+To:     musl@lists.openwall.com
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Christian Brauner <brauner@kernel.org>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        GNU C Library <libc-alpha@sourceware.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:i280+8Sy6Wd4KatTn+RAGMJYY6bd4l+X6Q9g41wB0EzV5X30OO5
+ 4F/E9HIw9rH3XsYfsgDXkv8wVRdhceF7dTDTOWUf+b6zI7JZrCl1L2eHs24DhecUt0pCEbQ
+ ukUdWPXSgzAJX9qnvbH+D6DTGPfESuYxFs9qVcsdWMUjMnxleuzfZaG3jSfOI80dHooHwRL
+ ANBM/AtA2m0eggx/7I5iA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:YhzFAH8uXKs=:InJy6ZucBe+dh6L7ckj11f
+ WzhmjMZMraPlGFvP/YSsCywqfrtchUusNsSgyCdGxFrItN0vcro3UmkaEC68tugzAoBJBv9SV
+ buDkGAGUv9mHuod3qaSDHjtBNWOHkg32FiZshWt71YhZMHkZqs6t3tFddTUMo6GvkjHCa3B3p
+ 1NdQRyuHfL8sytpzGoni1yWoKkKf5AVF51+qQIwDrQuv/9KCTfIpChFshB19HptGnTNrt7gXc
+ qRF6RA3EItn8/4dxLLYOZYUss6273Io/sWYp+akYxRkpENMtboT26fZwZsIX1JgXVESnkCdE6
+ mZDiejsgESRTx/P8lVkMf3x1eLvVSTiHLidh1IDaH8FDauWiJIrGB3mqe7wP+BKQM+D1DcJ5m
+ aCcaTS88zzIQqnaX78s3QEA3IEozae65oXP0k882cEc4nyQPYaWEna6T6f0gbvEEMpN7LFO41
+ mhR43WsPBpVYS2G89k8l1Moq1+VJMvHOtVDCj6HG0hni8YSxoFkZfQzNfYUcagppRtFlDXfmj
+ o8eomH+CvzOpFhB21d13cNvMmcf/3E0XtK6ipRbWZgRfQ0b9HvBl+r4z3mp/gzUT7vd2Pmbmq
+ pjciDZRJlzngfCvuEXrfJVp6ojFbLOqaG91GZWqADrw4BKEoM2tOAsPBwVPV0fsovGHR9Gtjq
+ 9FTVn1vErqylEXHGPNKTlEvuxZRmJK4Z93J0KVZiVb/6hUQO794P0IyfuvnobVUnd7FBgDbW1
+ a0v5Ca15cWEg8+Fpvq2OwqZMtNa1rl5IgoSyRNW7EBH81aQdyXDET2v4IPGxsSfOg+/x/LQI8
+ tctzVxDP3o0Imqw+j6YmjuZmYAJ/t0FceQ03cxuBiBRK2MyNvuPobmlgwVE/uAxrqEmoNsgM8
+ Mp21AeuMcp/vIrPJm6QQ==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/12/22 00:59, Frank Rowand wrote:
-> In the middle of the "RFC - kernel test result specification (KTAP)" thread,
-> started in August 2021, Tim Bird made a suggestion to allow a prefix to the
-> KTAP data format:
-> 
->> Just as a side note, in some Fuego tests, it was very useful to include an identifier
->> in thethe prefix nested tests.  The output looked like this:
->>
->> TAP version 13
->> 1..2
->> [batch_id 4] TAP version 13
->> [batch_id 4] 1..2
->> [batch_id 4] ok 1 - cyclictest with 1000 cycles
->> [batch_id 4] # problem setting CLOCK_REALTIME
->> [batch_id 4] not ok 2 - cyclictest with CLOCK_REALTIME
->> not ok 1 - check realtime
->> [batch_id 4] TAP version 13
->> [batch_id 4] 1..1
->> [batch_id 4] ok 1 - IOZone read/write 4k blocks
->> ok 2 - check I/O performance
->>
->> Can I propose that the prefix not be fixed by the spec, but that the spec indicates that
->> whatever the prefix is on the TAP version line, that prefix must be used with the output for
->> all lines from the test (with the exception of unknown lines)?
-> 
-> The thread was discussing many other items, but this is the one that I want
-> to focus on in this new RFC thread.
-> 
-> Tim's original email was:
-> 
->    https://lore.kernel.org/r/BYAPR13MB2503A4B79074D8ED5579345DFDCB9@BYAPR13MB2503.namprd13.prod.outlook.com
-> 
-> There was one reply to this that commented on Tim's suggestion (and also many
-> other items in the thread) at:
-> 
->    https://lore.kernel.org/r/202108301226.800F3D6D4@keescook
-> 
->> Oh, interesting. This would also allow parallel (unique) test execution
->> to be parsable. That sounds workable. (Again, this needs LAVA patching
->> again...)
-> 
-> I found Tim's original suggestion to be useful, so I have come up with
-> two possible ways to modify the KTAP specification to implement what Tim
-> was thinking about.  I would not be surprised if someone else has a better
-> suggestion than mine, but I will reply to this email with my two alternatives
-> to start a discussion.  My alternatives are not in the form of patches, but
-> if discussion leads to a good result then I will create a patch for review.
-> 
-> -Frank
+On Wed, May 11, 2022 at 11:12 PM Rich Felker <dalias@libc.org> wrote:
+> On Wed, May 11, 2022 at 09:11:56AM +0200, Arnd Bergmann wrote:
+> > On Mon, May 9, 2022 at 12:00 PM Christian Brauner <brauner@kernel.org> wrote:
+> > .....
+> > > I can try and move a poc for this up the todo list.
+> > >
+> > > Without an approach like this certain sandboxes will fallback to
+> > > ENOSYSing system calls they can't filter. This is a generic problem
+> > > though with clone3() being one promiment example.
+> >
+> > Thank you for the detailed reply. It sounds to me like this will eventually have
+> > to get solved anyway, so we could move ahead without clone() on loongarch,
+> > and just not have support for Chrome until this is fully solved.
+> >
+> > As both the glibc and musl ports are being proposed for inclusion right
+> > now, we should try to come to a decision so the libc ports can adjust if
+> > necessary. Adding both mailing lists to Cc here, the discussion is archived
+> > at [1].
+> >
+> >          Arnd
+> >
+> > [1] https://lore.kernel.org/linux-arch/20220509100058.vmrgn5fkk3ayt63v@wittgenstein/
+>
+> Having read about the seccomp issue, I think it's a very strong
+> argument that __NR_clone should be kept permanently for all future
+> archs.
 
-================================================================================
-Alternative 2
-   - Add an optional <prefix string> to test output.
-   - Add "Configuration info lines", which are used to provide information
-     about the KTAP format to programs that interpret the KTAP data.  The
-     only type of "Configuration info lines" proposed provides the value
-     of <prefix string> for programs that process the KTAP output.
-   - Further types of "Configuration info lines" could be added.
+Ok, let's keep clone() around for all architectures then. We should probably
+just remove the __ARCH_WANT_SYS_CLONE macro and build the
+code into the kernel unconditionally, but at the moment there
+are still private versions for ia64 and sparc with the same name as
+the generic version. Both are also still lacking support for clone3() and
+don't have anyone actively working on them.
 
-Alternative 2b
-   - Add an optional <prefix string> to test output.
-   - Add a <prefix string> definition line of the form:
-        ok 0 <prefix string>
-     This line is essentially a phony "Test case result lines" for test 0.
+In this case, we probably don't need to change clone3() to allow the
+zero-length stack after all, and the wrapper that was added to the
+musl port should get removed again.
 
-================================================================================
-## Configuration info lines
+For the other syscalls, I think the latest musl patches already dropped
+the old-style stat() implementation, but the glibc patches still have those
+and need to drop them as well to match what the kernel will get.
 
-Occur in zero or more test case result lines, where <number> is 0 (zero),
-following the "Plan line", before any other "Test case result" line.
-
-   If there is no "Plan line" at the beginning of the test, then the
-   "Configuration info lines" follow the "Version line", before any
-   other "Test case result" line.
-
-format:
-
-   ok 0 <description> # [<directive>] [<diagnostic data>]]
-
-<result> must be "ok".
-
-The type of each "Configuration info line" is defined by the value
-of <description>.
-
-Each value of <description> used for a "Configuration info line" must be
-listed in the specification.
-
-Whether # <directive> is optional or required is defined for each type of
-"Configuration info line".
-
-#### Should '[<diagnostic data>]' be included in the format?
-
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# [output] prefix
-
-ok 0 output_prefix #<prefix string>
-
-   <prefix content is a constant string>
-   Note: there is no space between "#" and "<prefix string>".  If there is one
-   or more spaces after the "#", then there are part of the <prefix string>
-
-   ## <diagnostic data> must not exist unless there is a way to determine the
-   ## end of <prefix string>.
-   ##
-   ## Adding a way to determine the end of <prefix string> adds much complexity
-   ## to the consumers of ktap output.  For example, if the format was:
-   ##
-   ##   ok 0 output_prefix #<prefix string>[#<diagnostic data>]
-   ##
-   ## then it is not possible for <prefix string> to contain '#', unless
-   ## a method to escape '#' is provided.  E.G.:
-   ##
-   ##   ok 0 output_prefix #XXX test result \#\#\##<diagnostic data>
-   ##
-   ## would result in <prefix string> value of 'XXX test result ###'
-   ##
-   ## My recomendation: do not allow <diagnostic data> in output_prefix format.
-
-   All subsequent test lines are prefixed with the <prefix string>.
-
-   Indentation for "Nested tests" follows <prefix string>.  The indentation
-   does NOT precede <prefix string>.
-
-   "Diagnostic lines" are prefixed with the <prefix string>.
-
-   "Unknown lines" may optionally be prefixed with the <prefix string>, but
-   are not required to be prefixed with the <prefix string>.  It is allowed
-   for some "Unknown lines" to not be prefixed with the <prefix string>, even
-   if one or more other "Unknown lines" are prefixed with the <prefix string>.
-
-   #### Does prefixing begin immediately (even for a subsequent "Configuration
-   #### info line" or does it begin with the test 1 "Test case result line"
-   #### line?
-   ####
-   ####    This question might be simplified if the output_prefix line is
-   ####    required to be the last "Configuration info line".  (Or maybe even if
-   ####    required to be the first "Configuration info line".
-
-
-================================================================================
-#### discussion notes:
-
-PRO:
-   Test output processing programs can detect the value of <prefix string>
-   more deterministically than Alternative 1.
-
-CON:
-   More complex than Alternative 1.  (But alternative 2b is less complex than
-   Alternative 2.)
-
-================================================================================
-
+       Arnd
