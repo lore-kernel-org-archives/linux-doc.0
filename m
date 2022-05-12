@@ -2,92 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5181FC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 16:39:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5076BC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 16:40:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356576AbiELQjb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 12:39:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33052 "EHLO
+        id S1356638AbiELQkk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 12:40:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356573AbiELQjU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 12:39:20 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2E9A25BA63;
-        Thu, 12 May 2022 09:39:19 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id e3so5958658ios.6;
-        Thu, 12 May 2022 09:39:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QUUUj1y74Ts6z0ggwPE80glXrfxyzYtZy0EaDwtm30M=;
-        b=KNwGo5WQC+QM23k6KpFzT9+xdkeCcvMAXvQ4j/1WaWYrh6FJcUGQVrDucdM5MJtpQl
-         n13K9+H3pVcpNceuMg8vT/r9Q7mXXATIrab2YRDcg/myXBpPmobYSMlXRZ9259/iqG8L
-         FiQp8uqXntvCbRU4Qi/n2A/bqcXHFvXw9L3EkvVhIhwi24qxOl9rUctAZkT7AZnbIw8u
-         m92g1uAeDkJZ7W7kUhPHfyJSa6GM2r7WXypBJuqf3VnCUcHW0ij1kjgLhnkUHQy1Kgja
-         hJx8Ofn8+YGHAzDMCKh5sL6o7p46Os0w9oo4hLsFAwE97mh21cP7s7lmQBQsVs0mWMTb
-         faNQ==
+        with ESMTP id S1356598AbiELQkY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 12:40:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6DEFF2685D1
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 09:40:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1652373618;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=NsJep5oCvE52cG8IYLZ5lNH1MW8yFZhmyzXX66loBtY=;
+        b=XoLxstCC8bh8lkxKIfPpYg/4m6wrS7Q+HFvk1vz5XUwdyFCDeg9KX26j3PMwy0oipBl4Mn
+        PyVZ1tYmGcDvW2qKbmSnB3vdFosutCODGwJ+n53k95cEbKoW/g9r8cHO5nx2ebQ43ijOiI
+        7yyphX6dIN8GXHf/GnXBb7eVTHh30mw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-402-lNHHWjlPO-2epE6RsImd_g-1; Thu, 12 May 2022 12:40:17 -0400
+X-MC-Unique: lNHHWjlPO-2epE6RsImd_g-1
+Received: by mail-wr1-f69.google.com with SMTP id l7-20020adfa387000000b0020acc61dbaeso2256659wrb.7
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 09:40:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QUUUj1y74Ts6z0ggwPE80glXrfxyzYtZy0EaDwtm30M=;
-        b=UYe0Ph3kyGmiuRTTN4Mg4f775hGdCwgOQAl2np/2jixs/R4DNehUb4AQpqnSVUDyuG
-         P1Ve6XXO/HbqAOXMHCVW718Zrltpc9bxCteKP6xqWHUxJBUru8Um9y0RBLFHHF+lt+TL
-         Gboqb0kpgQBln4RLTbj+KvNfbsb0mCM0qpJv5yID6VKz0zDRnLZK08Q+NwZZy/fS8c7N
-         4/NxMfdg2cJ4gR0DhkbS1G2vNKybIYDqKdg5UjG3qgLDbwaScUeYbGewXUCoJOpgwOV9
-         h2K9ULZOkArR11t0zGpIkXcl0gwk7h4zeknMK/YPxbncfpS0q5nS7I8Q8f2O/9d3uqIC
-         VEbw==
-X-Gm-Message-State: AOAM533Z4pED1q3YyUknUsNK0SfCWJbDcfJvsUv/BpwT9+dLCT5/6buf
-        JydtATvF9vST8uUbsjhNfpVFYu/Wdwu2h6C4HPQ=
-X-Google-Smtp-Source: ABdhPJyWY+O694Z/yQU4QnYgU/qjwIAD3uuAlcyt4rA9PLWbtlbtx9UehZcVQGf1ZYwCL+PWL1eIeUN1cxOCxD0L+44=
-X-Received: by 2002:a05:6638:d56:b0:32b:62e4:39be with SMTP id
- d22-20020a0566380d5600b0032b62e439bemr441230jak.308.1652373559064; Thu, 12
- May 2022 09:39:19 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=NsJep5oCvE52cG8IYLZ5lNH1MW8yFZhmyzXX66loBtY=;
+        b=2yEMXTlIX1Es5K9LZDMj7Vznz6uAJj5IIOAI/o8RLJC2iX9xteMBptEPyumaK4mt7f
+         ZjhiR4b6tkmjs/AYbreyAp3RqolgCYu41nVdVd5H4JcghbbWkNgpXnsB40YxfMWs/jEC
+         4P99OKFMUeZHwgUGtevNqW1jQWYC/PKVzbg59MTY9pZMw+UjL4xf6RhJ35O9bPvWmLxH
+         4NWMvzEdcXbAxbtcciLExQRlNHGAdGcT50JknmvTW+rduwwpoPmIGGnRyAMbGHKBnX/A
+         Faji4mqqwgaGWKfcGXFT6uTJMwDO30RgiDqMYyXZLMYX3+zd6PxgOXGMEUWtyRDCf28S
+         LGXg==
+X-Gm-Message-State: AOAM530IoCUFB7uU6QNV3xXSoHbuN3GoNakl3IeYRK/j4pTffVF7YNWt
+        bZV3yHQJFraNtBQVR2rAI+MbKYAWKz7bYwRZCrHoJHjRLrh81NO7DRVXJdha+s03SLHU3bx9UCA
+        9RqLJ8fiLJOYBm/hfcPOz
+X-Received: by 2002:adf:e812:0:b0:20c:dd44:b06c with SMTP id o18-20020adfe812000000b0020cdd44b06cmr468982wrm.714.1652373615740;
+        Thu, 12 May 2022 09:40:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwWKc+W5dfrOdOxweNVXdTz6oJYOENyjVQGLe4xiMAybfEgwkqqsd4IYjrdjYIX8sxGYcz+PA==
+X-Received: by 2002:adf:e812:0:b0:20c:dd44:b06c with SMTP id o18-20020adfe812000000b0020cdd44b06cmr468956wrm.714.1652373615462;
+        Thu, 12 May 2022 09:40:15 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c701:d200:ee5d:1275:f171:136d? (p200300cbc701d200ee5d1275f171136d.dip0.t-ipconnect.de. [2003:cb:c701:d200:ee5d:1275:f171:136d])
+        by smtp.gmail.com with ESMTPSA id d11-20020adfa34b000000b0020c86a9f33bsm65751wrb.18.2022.05.12.09.40.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 May 2022 09:40:14 -0700 (PDT)
+Message-ID: <089a4ded-636f-b0c6-0645-8220c5a785d9@redhat.com>
+Date:   Thu, 12 May 2022 18:40:13 +0200
 MIME-Version: 1.0
-References: <20220510172530.29704-1-ojeda@kernel.org> <87r14y4v9c.fsf@meer.lwn.net>
-In-Reply-To: <87r14y4v9c.fsf@meer.lwn.net>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 12 May 2022 18:39:07 +0200
-Message-ID: <CANiq72nbaSxBwMegiPZwDg2MLW_SA46EV6g11C6xQyYSnbM8dw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] docs: move Linux logo into a new `images` folder
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Garrett LeSage <garrett@lesage.us>,
-        IFo Hancroft <contact@ifohancroft.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 1/2] KVM: s390: Don't indicate suppression on dirtying,
+ failing memop
+Content-Language: en-US
+To:     Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Cc:     Sven Schnelle <svens@linux.ibm.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org
+References: <20220512131019.2594948-1-scgl@linux.ibm.com>
+ <20220512131019.2594948-2-scgl@linux.ibm.com>
+ <77f6f5e7-5945-c478-0e41-affed62252eb@redhat.com>
+ <4a06e3e8-4453-9204-eb66-d435860c5714@linux.ibm.com>
+ <701033df-49c5-987e-b316-40835ad83d16@redhat.com>
+ <9ad7acb4-2729-15bb-7b25-eb95c4a12f09@linux.ibm.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <9ad7acb4-2729-15bb-7b25-eb95c4a12f09@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 12, 2022 at 5:37 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> This will break scripts/spdxcheck-test.sh - which somebody might
-> actually try to run one of these years.  So this patch really needs to
-> update that script to follow the move.
+On 12.05.22 18:26, Christian Borntraeger wrote:
+> 
+> 
+> Am 12.05.22 um 17:50 schrieb David Hildenbrand:
+>> On 12.05.22 15:51, Christian Borntraeger wrote:
+>>>
+>>>
+>>> Am 12.05.22 um 15:22 schrieb David Hildenbrand:
+>>>> On 12.05.22 15:10, Janis Schoetterl-Glausch wrote:
+>>>>> If user space uses a memop to emulate an instruction and that
+>>>>> memop fails, the execution of the instruction ends.
+>>>>> Instruction execution can end in different ways, one of which is
+>>>>> suppression, which requires that the instruction execute like a no-op.
+>>>>> A writing memop that spans multiple pages and fails due to key
+>>>>> protection may have modified guest memory, as a result, the likely
+>>>>> correct ending is termination. Therefore, do not indicate a
+>>>>> suppressing instruction ending in this case.
+>>>>
+>>>> I think that is possibly problematic handling.
+>>>>
+>>>> In TCG we stumbled in similar issues in the past for MVC when crossing
+>>>> page boundaries. Failing after modifying the first page already
+>>>> seriously broke some user space, because the guest would retry the
+>>>> instruction after fixing up the fault reason on the second page: if
+>>>> source and destination operands overlap, you'll be in trouble because
+>>>> the input parameters already changed.
+>>>>
+>>>> For this reason, in TCG we make sure that all accesses are valid before
+>>>> starting modifications.
+>>>>
+>>>> See target/s390x/tcg/mem_helper.c:do_helper_mvc with access_prepare()
+>>>> and friends as an example.
+>>>>
+>>>> Now, I don't know how to tackle that for KVM, I just wanted to raise
+>>>> awareness that injecting an interrupt after modifying page content is
+>>>> possible dodgy and dangerous.
+>>>
+>>> this is really special and only for key protection crossing pages.
+>>> Its been done since the 70ies in that way on z/VM. The architecture
+>>> is and was always written in a way to allow termination for this
+>>> case for hypervisors.
+>>
+>> Just so I understand correctly: all instructions that a hypervisor with
+>> hardware virtualization is supposed to emulate are "written in a way to
+>> allow termination", correct? That makes things a lot easier.
+> 
+> Only for key protection. Key protection can always be terminating no matter
+> what the instruction says. This is historical baggage - key protection was
+> resulting in abends - killing the process. So it does not matter if we
+> provide the extra info as in enhanced suppression on protection as nobody
+> is making use of that (apart from debuggers maybe).
 
-Ah, yes, my bad, will fix.
+Got it, makes sense then. Thanks for clarifying!
 
-> As far as I can tell, that's the only reference to logo.gif in the
-> entire tree.  It makes me wonder if we need it at all.  Digging through
-> the history suggests it was added in 2.1.15, but never really used for
-> anything.  It's only role would appear to be to serve as testing
-> material for the SPDX checker..:)
+-- 
+Thanks,
 
-If you mean removing the GIF one to replace it with the vector one, I
-can send it that way too.
+David / dhildenb
 
-If you mean removing the logo from the tree, then I think it would be
-useful to have it available in some other stable URL (so that people
-can still fetch it for other purposes), e.g. at kernel.org (not sure
-if there is such a place; in both kernel.org and LF's pages there is
-just a mention). One potential use case for the logo is to use it
-instead of the Rust logo in the Rust docs if the Rust support gets
-merged (i.e. instead of the custom one).
-
-At least I hope the Tasmanian devil got a bit of help thanks to the logo! :)
-
-Cheers,
-Miguel
