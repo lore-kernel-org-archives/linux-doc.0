@@ -2,133 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 686DBC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 13:51:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16906C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 14:00:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354507AbiELNvh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 09:51:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59724 "EHLO
+        id S1350403AbiELOAC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 10:00:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344474AbiELNve (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 09:51:34 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B9366541F;
-        Thu, 12 May 2022 06:51:33 -0700 (PDT)
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24CDN8Td010744;
-        Thu, 12 May 2022 13:51:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=s2kDKq2rLM1QKEd3r2BYZiAh3eI78iqwpoQJAzLbmug=;
- b=N5ukWU/a1bDmPjOpAOcmyMcVvxTf4WvSKOrzF4G7nHP75Y9xm/toK1a4/jZR7JgYNWzO
- 4zWMz5dHiLI3hGPTgTNSKLtS++zxuIkSOmWfp5pPp8eJitck6Q1/QtFG/KCSa4iXTPGz
- hkDG/7h2N99Zs1X5o4kjasEbgJlebyqqpE/BTjV6NpEaNZcnGGu3/nbladVOIfo5WACv
- by1xL4yJchTehXzBcHf1oTs72Y56OsIRW6UtQRn7NO1fx+UsnEqVDtaNM68bt9Y8r2EF
- 5XvsCUC228Z13JBtXLNTp7zuxIYvnFLTjXbIG1C9Og80QykjHv5qyzsLys5b9+/1/jK0 Tw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g132urt66-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 12 May 2022 13:51:31 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24CDlU3N015069;
-        Thu, 12 May 2022 13:51:30 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3g132urt5k-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 12 May 2022 13:51:30 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
-        by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24CDlp2l020747;
-        Thu, 12 May 2022 13:51:28 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
-        by ppma04fra.de.ibm.com with ESMTP id 3g0ma1gw8u-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 12 May 2022 13:51:28 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 24CDpPxG50397490
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 12 May 2022 13:51:25 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3929352059;
-        Thu, 12 May 2022 13:51:25 +0000 (GMT)
-Received: from [9.152.224.232] (unknown [9.152.224.232])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id BC2FD52050;
-        Thu, 12 May 2022 13:51:24 +0000 (GMT)
-Message-ID: <4a06e3e8-4453-9204-eb66-d435860c5714@linux.ibm.com>
-Date:   Thu, 12 May 2022 15:51:24 +0200
+        with ESMTP id S1354888AbiELN75 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 09:59:57 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB77025B07C
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 06:59:50 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id a15-20020a17090ad80f00b001dc2e23ad84so7896151pjv.4
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 06:59:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=3kOJe+H/ERTxI6v7eeqIA23qR8YVOZADC2y1mDVL6Wc=;
+        b=ITK30V0ZUC+q2vylMd4KbId4Ew0IpXXKdRnB/uGG7YT+A58FXfW/a49f3+jEpj8OLj
+         ANtE9V9zqSriZ7nDoXMGOR+o1WOd1YCUZOZQ+0jXTCIh5d0w+wPfiu7D+E60dcEn1Bfj
+         WpRdRmKZ0IypCClA3wBKR8kaS4XwaFIxUsawG8rFxliw05T5hJOQwDZ1UP1PTRTkKN6q
+         JLOhsyUwF4CsADHQAFrXQu7nHj3FYLiVcxR2ZtYAolcM7YCSNK0Sh5lqTRm+Lxl2GgDA
+         FwwiM0BzoiPCiV/y2qGsw7rRvvgD/i7s0jxPbGGmVVt+1nNsNvoiz1RDXgwb47nBaAvd
+         RheA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=3kOJe+H/ERTxI6v7eeqIA23qR8YVOZADC2y1mDVL6Wc=;
+        b=QVwXGt7SZjiupwskrDoc10OKvY2sATLWKsUPaF5kLwGfzqCAwVbhyB4vx0/C8iJr3W
+         dxMmjaXePkn5pG5snNxVD//d12c03HpQNcHz9TJga0MfWUaHtrtpYWSEaGhzxDsoR3kE
+         roblbj6PemIBw51DQh4P8kfnjejQg74A30TCsvWvwoFXMtGirS2rBhhtR1dhyZV14bPK
+         kbm2PrqKBEi12VyXc1WBRyYcpuQjAs3ETQM+9YDlMCLkxTJIWSFVQk+ZzHU2EOrQjp1u
+         AAvFmHbibPgjqZFbUOoHXFYZcJV5dINgO3Bu6cbwJRqTG0b6gsq2cVKbfqrt/eQgWXdt
+         ksrA==
+X-Gm-Message-State: AOAM532LtPa1Xqc0MdiAcbp/jwAdqta5xYxJ8MjKnUvekv9O9BoJmUnp
+        9eWfbHBWJIFeQPtc9QbpKSKilA==
+X-Google-Smtp-Source: ABdhPJx+vFO/jdauj2MQt/7gUdxpe2Sk1Zo72LFQJnNVksQfkJKJxnKxVLSTLyzoFNKL3X0NWLRj5A==
+X-Received: by 2002:a17:902:ccc2:b0:15f:4acc:f202 with SMTP id z2-20020a170902ccc200b0015f4accf202mr1778237ple.3.1652363990352;
+        Thu, 12 May 2022 06:59:50 -0700 (PDT)
+Received: from localhost ([139.177.225.234])
+        by smtp.gmail.com with ESMTPSA id a8-20020aa78e88000000b0050dc76281bfsm3748854pfr.153.2022.05.12.06.59.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 May 2022 06:59:49 -0700 (PDT)
+Date:   Thu, 12 May 2022 21:59:37 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        osalvador@suse.de, masahiroy@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v10 2/4] mm: memory_hotplug: override memmap_on_memory
+ when hugetlb_free_vmemmap=on
+Message-ID: <Yn0SyaqfS2YZ8kO/@FVFYT0MHHV2J.usts.net>
+References: <20220509062703.64249-1-songmuchun@bytedance.com>
+ <20220509062703.64249-3-songmuchun@bytedance.com>
+ <ebffd794-697b-9bf1-f41b-4b2d52c100fc@redhat.com>
+ <Yn0Ck5isxx4ghQi6@FVFYT0MHHV2J.usts.net>
+ <284eec3f-a79d-c5f0-3cd6-53b8e64100cd@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 1/2] KVM: s390: Don't indicate suppression on dirtying,
- failing memop
-Content-Language: en-US
-To:     David Hildenbrand <david@redhat.com>,
-        Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>
-Cc:     Sven Schnelle <svens@linux.ibm.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org
-References: <20220512131019.2594948-1-scgl@linux.ibm.com>
- <20220512131019.2594948-2-scgl@linux.ibm.com>
- <77f6f5e7-5945-c478-0e41-affed62252eb@redhat.com>
-From:   Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <77f6f5e7-5945-c478-0e41-affed62252eb@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: kq_VLsc2Cch67QIG5wsRW5eoIlK90DKA
-X-Proofpoint-ORIG-GUID: AeBPgQQ8VBajH6WfXZ2xqDRCkTTHhqVR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-12_10,2022-05-12_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 lowpriorityscore=0 priorityscore=1501 malwarescore=0
- bulkscore=0 mlxscore=0 clxscore=1015 adultscore=0 spamscore=0
- mlxlogscore=846 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2202240000 definitions=main-2205120065
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <284eec3f-a79d-c5f0-3cd6-53b8e64100cd@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, May 12, 2022 at 03:04:57PM +0200, David Hildenbrand wrote:
+> On 12.05.22 14:50, Muchun Song wrote:
+> > On Thu, May 12, 2022 at 09:36:15AM +0200, David Hildenbrand wrote:
+> >> On 09.05.22 08:27, Muchun Song wrote:
+> >>> Optimizing HugeTLB vmemmap pages is not compatible with allocating memmap on
+> >>> hot added memory. If "hugetlb_free_vmemmap=on" and
+> >>> memory_hotplug.memmap_on_memory" are both passed on the kernel command line,
+> >>> optimizing hugetlb pages takes precedence. 
+> >>
+> >> Why?
+> >>
+> > 
+> > Because both two features are not compatible since hugetlb_free_vmemmap cannot
+> > optimize the vmemmap pages allocated from alternative allocator (when
+> > memory_hotplug.memmap_on_memory=1). So when the feature of hugetlb_free_vmemmap
+> > is introduced, I made hugetlb_free_vmemmap take precedence.  BTW, I have a plan
+> > to remove this restriction, I'll post it out ASAP.
+> 
+> I was asking why vmemmap optimization should take precedence.
+> memmap_on_memory makes it more likely to succeed memory hotplug in
+> close-to-OOM situations -- which is IMHO more important than a vmemmap
+> optimization.
+>
 
+I thought the users who enable hugetlb_free_vmemmap value memory
+savings more, so I made a decision in commit 4bab4964a59f.  Seems
+I made a bad decision from your description.
+ 
+> But anyhow, the proper approach should most probably be to simply not
+> mess with the vmemmap if we stumble over a vmemmap that's special due to
+> memmap_on_memory. I assume that's what you're talking about sending out.
+>
 
-Am 12.05.22 um 15:22 schrieb David Hildenbrand:
-> On 12.05.22 15:10, Janis Schoetterl-Glausch wrote:
->> If user space uses a memop to emulate an instruction and that
->> memop fails, the execution of the instruction ends.
->> Instruction execution can end in different ways, one of which is
->> suppression, which requires that the instruction execute like a no-op.
->> A writing memop that spans multiple pages and fails due to key
->> protection may have modified guest memory, as a result, the likely
->> correct ending is termination. Therefore, do not indicate a
->> suppressing instruction ending in this case.
-> 
-> I think that is possibly problematic handling.
-> 
-> In TCG we stumbled in similar issues in the past for MVC when crossing
-> page boundaries. Failing after modifying the first page already
-> seriously broke some user space, because the guest would retry the
-> instruction after fixing up the fault reason on the second page: if
-> source and destination operands overlap, you'll be in trouble because
-> the input parameters already changed.
-> 
-> For this reason, in TCG we make sure that all accesses are valid before
-> starting modifications.
-> 
-> See target/s390x/tcg/mem_helper.c:do_helper_mvc with access_prepare()
-> and friends as an example.
-> 
-> Now, I don't know how to tackle that for KVM, I just wanted to raise
-> awareness that injecting an interrupt after modifying page content is
-> possible dodgy and dangerous.
+I mean I want to have hugetlb_vmemmap.c do the check whether the section
+which the HugeTLB pages belong to can be optimized instead of making
+hugetlb_free_vmemmap take precedence.  E.g. If the section's vmemmap pages
+are allocated from the added memory block itself, hugetlb_free_vmemmap will
+refuse to optimize the vmemmap, otherwise, do the optimization.  Then
+both kernel parameters are compatible.  I have done those patches, but
+haven't send them out.
 
-this is really special and only for key protection crossing pages.
-Its been done since the 70ies in that way on z/VM. The architecture
-is and was always written in a way to allow termination for this
-case for hypervisors.
+Thanks.
+
