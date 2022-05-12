@@ -2,116 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5933EC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 19:22:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9D23C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 19:27:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347472AbiELTWO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 15:22:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55682 "EHLO
+        id S1358009AbiELT1Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 15:27:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbiELTWN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 15:22:13 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5A1468F95;
-        Thu, 12 May 2022 12:22:10 -0700 (PDT)
-Received: from mail-yb1-f169.google.com ([209.85.219.169]) by
- mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1Mj8a5-1oIluv3iCL-00fElD; Thu, 12 May 2022 21:22:09 +0200
-Received: by mail-yb1-f169.google.com with SMTP id m128so11591007ybm.5;
-        Thu, 12 May 2022 12:22:08 -0700 (PDT)
-X-Gm-Message-State: AOAM5331aHptf+lw3AX9aPXN0HrSnFIWobeG8UJsbDTHryfTGoVWFcFL
-        HMTQLwEiD1BCZkGEteQN6KWwCJrZbXK4HlRqfQY=
-X-Google-Smtp-Source: ABdhPJzoF6z4JQCWRSwljX3/FJlSLwjXIkDzitEtgdhb7tvIxKk1FfPhJUdb+6KPaTTEYn0vEU7vm15YINajDJQHVl4=
-X-Received: by 2002:a25:c604:0:b0:645:d969:97a7 with SMTP id
- k4-20020a25c604000000b00645d96997a7mr1319828ybf.134.1652383327455; Thu, 12
- May 2022 12:22:07 -0700 (PDT)
+        with ESMTP id S1350422AbiELT1P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 15:27:15 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B545B49911
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 12:27:12 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id j10-20020a17090a94ca00b001dd2131159aso8785555pjw.0
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 12:27:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=WD9f8NZclyvL/TGsiBp0JtJ2J04vFPjve2IcgvH1Te0=;
+        b=TtoJf0EMG2z4xJNlFEjfpfTvKbRWMYnVfsaFF9dey7ZcDXRn6VB9ETgO30AyVeRTsM
+         smmFFyzjm9XizVirhKHZln56waUVWQlc04Y1je/FD79vJqBqbneR2v4UIjQiAy+t6ogN
+         eWqfa3xtGpC9b19Jq2oG4beo1INx6x7KF4aQpBv1htCSofsxHlzub90F7bpDfIHMMdU9
+         hkl5zyMpX801u/PY1y1i2Y1D7b29irNOOQ3/3hsJt8WFOBOcAicBYffiFZKQbsP/fC9G
+         cYLbVMQl8mvITMKWfIFWb7i4HhEHgkwVOFLQGgcyrBGhTh0AHHupOHKh+zMEZqPut3TA
+         /8fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=WD9f8NZclyvL/TGsiBp0JtJ2J04vFPjve2IcgvH1Te0=;
+        b=gt4Va1uykRbOMBtY7y7/fhV1uA7lU1yy2uJ8WQoOjpvd738YWBG5/V8LuoiKK6N6R2
+         9xnm87r0SgMrRtyom3RMqBfuCkmuYmeB/uUwXfs/jQdy2a86Fe4U1dmAWsnYNgT62bdo
+         DjSaXnFv0Xyi9KPEuEWdmlRQBs7aYvusRL0N8wQ13+b2twmabEPsF9/suizXmkTIXOW4
+         dGgyAiJ0IlxJbUbQX8ViRK2Lh4lmgdIdbV8pNnOZodMxSUQuMxub9htnQhz703MO/ktd
+         Y0F4rz3uP9tm8Mm6UeBAyRr+8bGrfM2K4IwDnlh0sKLQshiJe0s/Jsbkb1F3FCZx8z2i
+         ssQQ==
+X-Gm-Message-State: AOAM531QbWz03fyTnuKjOWaAzkjMVKYoLIbsg8amY7CYqQiZIkwzgvXR
+        GDQtwje6zv8OYCUFjyST5BXrcw==
+X-Google-Smtp-Source: ABdhPJwQhX+K4SaB/SQwYnYT492MMove7nu1ofptwA+g1lHneg+HJedyoPLLP1mnOx5J9zGXB4w3pQ==
+X-Received: by 2002:a17:902:7d93:b0:14d:d401:f59b with SMTP id a19-20020a1709027d9300b0014dd401f59bmr1389200plm.14.1652383632054;
+        Thu, 12 May 2022 12:27:12 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id e13-20020a170902ed8d00b0015e8d4eb1fcsm292912plj.70.2022.05.12.12.27.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 May 2022 12:27:11 -0700 (PDT)
+Date:   Thu, 12 May 2022 19:27:08 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Jon Kohler <jon@nutanix.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Kees Cook <keescook@chromium.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ashok Raj <ashok.raj@intel.com>,
+        KarimAllah Ahmed <karahmed@amazon.de>,
+        David Woodhouse <dwmw@amazon.co.uk>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH v4] x86/speculation, KVM: remove IBPB on vCPU load
+Message-ID: <Yn1fjAqFoszWz500@google.com>
+References: <20220512184514.15742-1-jon@nutanix.com>
 MIME-Version: 1.0
-References: <20220509150130.1047016-1-kuba@kernel.org> <CAK8P3a0FVM8g0LG3_mHJ1xX3Bs9cxae8ez7b9qvGOD+aJdc8Dw@mail.gmail.com>
- <20220509103216.180be080@kernel.org> <9cac4fbd-9557-b0b8-54fa-93f0290a6fb8@schmorgal.com>
- <CAK8P3a1AA181LqQSxnToSVx0e5wmneUsOKfmnxVMsUNh465C_Q@mail.gmail.com>
- <d7076f95-b25b-3694-1ec2-9b9ff93633b7@schmorgal.com> <CAK8P3a3Tj=aJM_-x17uw1yJ-5+DgKX6APgEaO0sa=aRBKya1XQ@mail.gmail.com>
- <0078ff43-f9fa-1deb-b64d-170d3d93ee6f@workingcode.com>
-In-Reply-To: <0078ff43-f9fa-1deb-b64d-170d3d93ee6f@workingcode.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 12 May 2022 21:21:50 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0xmXYU5iNki3BX25J73jcy+xJ=bf67G6PqAHjRwckFRA@mail.gmail.com>
-Message-ID: <CAK8P3a0xmXYU5iNki3BX25J73jcy+xJ=bf67G6PqAHjRwckFRA@mail.gmail.com>
-Subject: Re: [PATCH net-next] net: appletalk: remove Apple/Farallon LocalTalk
- PC support
-To:     James Carlson <carlsonj@workingcode.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Doug Brown <doug@schmorgal.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        David Miller <davem@davemloft.net>,
-        Networking <netdev@vger.kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Paul Mackerras <paulus@samba.org>, linux-ppp@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:5HAwyDECutgGFX3S3eiyWYePbhjvOXDKRx/s5A+2yM9OIhaG+u2
- EuseHFdgzz5T2p51sSiKYQ/Wr6HmzPHOew06e7LYCcQ/urGbshpc4DAUQrckDvE/S+fmA4L
- lymbH2NHZCztC4P22O4ZaLjLYTcBNnMd1/WQfMUJGMLS64PKPt0A5gRxHMNN2T2hVlDgRBp
- LXvmB8qOO6jqayIKyPgHA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VqJ9cU6dS1A=:2I5LodyTyEBJq0MrsjXMdi
- FIuYLPWU49B189L+E89Gbi38OyiSWad3+8gX+0yQmT/l0PN5T/BAkof6Y5tt89QaFlyiBkI7k
- ffCm/wUmBoncf2fjhkJ86STAguwFnt6sFppr30gdXecxz1CjIalUT6HTWh0xllNWYWQ8+KPyQ
- RIeAeHPFY6n0Zk3wX0agmfAychF7JHFwPLGuxb+KC2k+XdztYKcBlWopJF80SYf5zcp9QMcxQ
- HEDzniGxs1lFaWsnX6TPNoNlXWaTMlmAqyhDM1w0afkA5GIsBepnbX67zj1dXxJTDKnVleWCu
- 3o0J3oE2+ARialzCJZUoK+AkibrXYVXcq/ZOuMJRSRoxaZvHqY6J0xjNvVXgNEgLU8QafdvR3
- 1xM1IUK7SA1GsscuyZk/I623VZ6o7eMnG3nMxL6IhdVd334MSHO/ztdp7bNZ8RBeh51JH6cLd
- 4Eysvb4P4lnKcXVGxij88qwmWM8zGB3n5gnRNsyuzEzjA8vUZxh6rNMjiY6iw2gWG4EVV7o/S
- GHJxvIvFVQmFNNQSCIt+W7Y26jcZvPxkRpYFmFRbsR4LYGpgxWJXYY/Fi9wzZjKLt4lvcdYLO
- /hkeVqI01nPQu0DdbTBo0MRIFwpWSTEAFB8tT7+J/kbnbnVe6pHLDoajl6LXfA1qDZSC7FWqT
- 49zkemvtfjmOZpGoCqoUBhCXw3frJ3A66ykXXJM0cL+uUDFrJz+yPASQrWfc4bo7XeHOZ16NE
- gm5iIgDTSIM+KDG8+TeSVASOuym6+v663ihMgu16j/05pIcOUf7byrdHCRG01XqcOQa6YFyH4
- 2cDTniUAEElxitYzRH739LFH4IkSvYippwqGZR0MoKugGNiCEA=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220512184514.15742-1-jon@nutanix.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 12, 2022 at 8:11 PM James Carlson <carlsonj@workingcode.com> wrote:
->
-> On 5/11/22 04:23, Arnd Bergmann wrote:
-> > indication of appletalk ever being supported there, this all looks
-> > IPv4/IPv6 specific. There was support for PPP_IPX until it was
-> > dropped this year (the kernel side got removed in 2018), but never
-> > for PPP_AT.
-> > Adding Paul Mackerras to Cc, he might know more about it.
->
-> I waited a bit before chipping in, as I think Paul would know more.
->
-> The ATCP stuff was in at least a few vendor branches, but I don't think
-> it ever made it into the main distribution. These commits seem to be
-> where the (disabled by default) references to it first appeared:
->
-> commit 50c9469f0f683c7bf8ebad9b7f97bfc03c6a4122
-> Author: Paul Mackerras <paulus@samba.org>
-> Date:   Tue Mar 4 03:32:37 1997 +0000
->
->     add defs for appletalk
->
-> commit 01548ef15e0f41f9f6af33860fb459a7f578f004
-> Author: Paul Mackerras <paulus@samba.org>
-> Date:   Tue Mar 4 03:41:17 1997 +0000
->
->     connect time stuff gone to auth.c,
->     don't die on EINTR from opening tty,
->     ignore NCP packets during authentication,
->     fix recursive signal problem in kill_my_pg
+On Thu, May 12, 2022, Jon Kohler wrote:
+> Remove IBPB that is done on KVM vCPU load, as the guest-to-guest
+> attack surface is already covered by switch_mm_irqs_off() ->
+> cond_mitigation().
+> 
+> The original commit 15d45071523d ("KVM/x86: Add IBPB support") was simply
+> wrong in its guest-to-guest design intention. There are three scenarios
+> at play here:
 
-Right, I had seen those in the git history, but neither of them actually
-does anything with appletak.
+Jim pointed offline that there's a case we didn't consider.  When switching between
+vCPUs in the same VM, an IBPB may be warranted as the tasks in the VM may be in
+different security domains.  E.g. the guest will not get a notification that vCPU0 is
+being swapped out for vCPU1 on a single pCPU.
 
-> The disabled-by-default parts were likely support contributions for
-> those other distributions. (Very likely in BSD.)
->
-> I would've thought AppleTalk was completely gone by now, and I certainly
-> would not be sad to see the dregs removed from pppd, but there was a
-> patch release on the netatalk package just last month, so what do I know?
+So, sadly, after all that, I think the IBPB needs to stay.  But the documentation
+most definitely needs to be updated.
 
-I think netatalk 3.0 dropped all appletalk protocol stuff a long time ago and
-only supports AFP over IP.
-
-         Arnd
+A per-VM capability to skip the IBPB may be warranted, e.g. for container-like
+use cases where a single VM is running a single workload.
