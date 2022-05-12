@@ -2,186 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C56AFC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 18:21:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 335C5C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 18:35:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357561AbiELSVg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 14:21:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50564 "EHLO
+        id S1357607AbiELSfI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 14:35:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357552AbiELSV3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 14:21:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0C2A8473B0
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 11:21:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1652379688;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VcoQlfgRlKTkG2QnFhtWwqPtuN/iCo7Oei+ZTVCbp8Q=;
-        b=MYwJCpDFNPsCAE61hguOTrE/DJOw7FLgNzWrN10Y9W92d8kjqttp6MSDJNFXnuAtzh/MT2
-        U5DehndC2zN2hPSEne16DDi5ZD9fCKbPu9Q0csWCpVvFQ7DMe0+VNcNqYz38fbhUtZNFEK
-        fn6NwrNmTQFbZdy4Exh3THlq0va78n0=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-315-v2vlP_C3N4-2DZYlefN39g-1; Thu, 12 May 2022 14:21:27 -0400
-X-MC-Unique: v2vlP_C3N4-2DZYlefN39g-1
-Received: by mail-il1-f199.google.com with SMTP id i24-20020a056e021d1800b002cf0541f514so3753624ila.13
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 11:21:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=VcoQlfgRlKTkG2QnFhtWwqPtuN/iCo7Oei+ZTVCbp8Q=;
-        b=lJe6gAksxWBixJSJIptiIUhnm9MNzeQsST2Co1zgaryh+JcVPXHElwgSramdRTMnoy
-         33GV2hPet8XrYHOHzhnckqhuIh2LMzyW+EADsDocN2GfDTCOBb8g8/uAAGJERv10CQmM
-         tvp3dCDseCCvTf7XCerGrYa5ITm4b34y3AlAmev6kw+AnUVaah3LbScRcw1AdCUTKGHi
-         7of1meI3Nb752DpdleC1eRQniClxjUT++OayCiUYiIEBbga127SiUmCmyab+bljf3NkO
-         AoETxYmdSVoZCVBENlZOXqMrCjqzXeqvQ9WmTpR593I6uhVFK1Wd70TuSW59PlzRygfL
-         83YA==
-X-Gm-Message-State: AOAM5332NATW/GIG4Ga33JjM6NEkSDZl83e0e5OJ1wILukTaUYKg+oNA
-        7SRDjmvf5dyGb7D+sjZ+qTBh/VDFMBbE3KghDibpakqhkQLt5UeEw0ohFrhDU5FVBd4A9IQR0gh
-        xwyK7NvHdIYGyZVNjhvQy
-X-Received: by 2002:a05:6638:112c:b0:32a:e187:db1c with SMTP id f12-20020a056638112c00b0032ae187db1cmr674218jar.30.1652379686425;
-        Thu, 12 May 2022 11:21:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzrRp6MP9ShOncs1HnxoZReB9N25AEJ1S9eav9CPEBe+VnbpmFQ2wHym+Hz1/03tFiw2rRYCw==
-X-Received: by 2002:a05:6638:112c:b0:32a:e187:db1c with SMTP id f12-20020a056638112c00b0032ae187db1cmr674208jar.30.1652379686238;
-        Thu, 12 May 2022 11:21:26 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239])
-        by smtp.gmail.com with ESMTPSA id t188-20020a0254c5000000b0032b3a7817d6sm53215jaa.154.2022.05.12.11.21.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 May 2022 11:21:25 -0700 (PDT)
-Date:   Thu, 12 May 2022 12:21:24 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Airlie <airlied@linux.ie>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Kevin Tian <kevin.tian@intel.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>
-Subject: Re: [PATCH v4 0/7] Make the rest of the VFIO driver interface use
- vfio_device
-Message-ID: <20220512122124.45943a9e.alex.williamson@redhat.com>
-In-Reply-To: <0-v4-8045e76bf00b+13d-vfio_mdev_no_group_jgg@nvidia.com>
-References: <0-v4-8045e76bf00b+13d-vfio_mdev_no_group_jgg@nvidia.com>
-Organization: Red Hat
+        with ESMTP id S1350956AbiELSfG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 14:35:06 -0400
+X-Greylist: delayed 1320 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 May 2022 11:35:03 PDT
+Received: from carlson.workingcode.com (carlson.workingcode.com [50.78.21.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 668C569487;
+        Thu, 12 May 2022 11:35:03 -0700 (PDT)
+Received: from [50.78.21.49] (carlson [50.78.21.49])
+        (authenticated bits=0)
+        by carlson.workingcode.com (8.17.0.3/8.17.0.3/SUSE Linux 0.8) with ESMTPSA id 24CIBt8t021385
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Thu, 12 May 2022 14:11:56 -0400
+DKIM-Filter: OpenDKIM Filter v2.11.0 carlson.workingcode.com 24CIBt8t021385
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=workingcode.com;
+        s=carlson; t=1652379117;
+        bh=fRLMsd/sUWYsl3gSss7SMn/poCCV3dWb8TFq8WtRz9s=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=vuudb8HLwzFiPoaejTPIwz5siefmhEK7MK7mi9bUPAMgP4GbhqNhYO3oFjeTAyk3N
+         CDHjPiRFe4eN1TgPiKPzRA7Jk3EMwDXkELCU6x5wWdwdbH5tYtcONOqjl+5vrSK+Bh
+         CIAF5oQzSCLoAYTM1YiR+di9wfFOUmbddWc94AF4=
+Message-ID: <0078ff43-f9fa-1deb-b64d-170d3d93ee6f@workingcode.com>
+Date:   Thu, 12 May 2022 14:11:55 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH net-next] net: appletalk: remove Apple/Farallon LocalTalk
+ PC support
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@arndb.de>, Doug Brown <doug@schmorgal.com>
+Cc:     Jakub Kicinski <kuba@kernel.org>,
+        David Miller <davem@davemloft.net>,
+        Networking <netdev@vger.kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Paul Mackerras <paulus@samba.org>, linux-ppp@vger.kernel.org
+References: <20220509150130.1047016-1-kuba@kernel.org>
+ <CAK8P3a0FVM8g0LG3_mHJ1xX3Bs9cxae8ez7b9qvGOD+aJdc8Dw@mail.gmail.com>
+ <20220509103216.180be080@kernel.org>
+ <9cac4fbd-9557-b0b8-54fa-93f0290a6fb8@schmorgal.com>
+ <CAK8P3a1AA181LqQSxnToSVx0e5wmneUsOKfmnxVMsUNh465C_Q@mail.gmail.com>
+ <d7076f95-b25b-3694-1ec2-9b9ff93633b7@schmorgal.com>
+ <CAK8P3a3Tj=aJM_-x17uw1yJ-5+DgKX6APgEaO0sa=aRBKya1XQ@mail.gmail.com>
+From:   James Carlson <carlsonj@workingcode.com>
+In-Reply-To: <CAK8P3a3Tj=aJM_-x17uw1yJ-5+DgKX6APgEaO0sa=aRBKya1XQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-DCC--Metrics: carlson 1102; Body=12 Fuz1=12 Fuz2=12
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  5 May 2022 21:08:38 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+On 5/11/22 04:23, Arnd Bergmann wrote:
+> indication of appletalk ever being supported there, this all looks
+> IPv4/IPv6 specific. There was support for PPP_IPX until it was
+> dropped this year (the kernel side got removed in 2018), but never
+> for PPP_AT.
+> Adding Paul Mackerras to Cc, he might know more about it.
 
-> Prior series have transformed other parts of VFIO from working on struct
-> device or struct vfio_group into working directly on struct
-> vfio_device. Based on that work we now have vfio_device's readily
-> available in all the drivers.
-> 
-> Update the rest of the driver facing API to use vfio_device as an input.
-> 
-> The following are switched from struct device to struct vfio_device:
->   vfio_register_notifier()
->   vfio_unregister_notifier()
->   vfio_pin_pages()
->   vfio_unpin_pages()
->   vfio_dma_rw()
-> 
-> The following group APIs are obsoleted and removed by just using struct
-> vfio_device with the above:
->   vfio_group_pin_pages()
->   vfio_group_unpin_pages()
->   vfio_group_iommu_domain()
->   vfio_group_get_external_user_from_dev()
-> 
-> To retain the performance of the new device APIs relative to their group
-> versions optimize how vfio_group_add_container_user() is used to avoid
-> calling it when the driver must already guarantee the device is open and
-> the container_users incrd.
-> 
-> The remaining exported VFIO group interfaces are only used by kvm, and are
-> addressed by a parallel series.
-> 
-> This series is based on Christoph's gvt rework here:
-> 
->  https://lore.kernel.org/all/5a8b9f48-2c32-8177-1c18-e3bd7bfde558@intel.com/
-> 
-> and so will need the PR merged first.
-> 
-> I have a followup series that needs this.
-> 
-> This is also part of the iommufd work - moving the driver facing interface
-> to vfio_device provides a much cleaner path to integrate with iommufd.
-> 
-> v4:
->  - Use 'device' as the argument name for a struct vfio_device in vfio.c
-> v3: https://lore.kernel.org/r/0-v3-e131a9b6b467+14b6-vfio_mdev_no_group_jgg@nvidia.com
->  - Based on VFIO's gvt/iommu merge
->  - Remove mention of mdev_legacy_get_vfio_device() from commit message
->  - Clarify commit message for vfio_dma_rw() conversion
->  - Talk about the open_count change in the commit message
->  - No code change
-> v2: https://lore.kernel.org/r/0-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com
->  - Based on Christoph's series so mdev_legacy_get_vfio_device() is removed
->  - Reflow indenting
->  - Use vfio_assert_device_open() and WARN_ON_ONCE instead of open coding
->    the assertion
-> v1: https://lore.kernel.org/r/0-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com
-> 
-> Jason Gunthorpe (7):
->   vfio: Make vfio_(un)register_notifier accept a vfio_device
->   vfio/ccw: Remove mdev from struct channel_program
->   vfio/mdev: Pass in a struct vfio_device * to vfio_pin/unpin_pages()
->   vfio/mdev: Pass in a struct vfio_device * to vfio_dma_rw()
->   drm/i915/gvt: Change from vfio_group_(un)pin_pages to
->     vfio_(un)pin_pages
->   vfio: Remove dead code
->   vfio: Remove calls to vfio_group_add_container_user()
-> 
->  .../driver-api/vfio-mediated-device.rst       |   4 +-
->  drivers/gpu/drm/i915/gvt/gvt.h                |   5 +-
->  drivers/gpu/drm/i915/gvt/kvmgt.c              |  51 ++-
->  drivers/s390/cio/vfio_ccw_cp.c                |  47 +--
->  drivers/s390/cio/vfio_ccw_cp.h                |   4 +-
->  drivers/s390/cio/vfio_ccw_fsm.c               |   3 +-
->  drivers/s390/cio/vfio_ccw_ops.c               |   7 +-
->  drivers/s390/crypto/vfio_ap_ops.c             |  23 +-
->  drivers/vfio/vfio.c                           | 299 +++---------------
->  include/linux/vfio.h                          |  21 +-
->  10 files changed, 109 insertions(+), 355 deletions(-)
+I waited a bit before chipping in, as I think Paul would know more.
 
-Applied to vfio next branch for v5.19.  Thanks,
+The ATCP stuff was in at least a few vendor branches, but I don't think
+it ever made it into the main distribution. These commits seem to be
+where the (disabled by default) references to it first appeared:
 
-Alex
+commit 50c9469f0f683c7bf8ebad9b7f97bfc03c6a4122
+Author: Paul Mackerras <paulus@samba.org>
+Date:   Tue Mar 4 03:32:37 1997 +0000
 
+    add defs for appletalk
+
+commit 01548ef15e0f41f9f6af33860fb459a7f578f004
+Author: Paul Mackerras <paulus@samba.org>
+Date:   Tue Mar 4 03:41:17 1997 +0000
+
+    connect time stuff gone to auth.c,
+    don't die on EINTR from opening tty,
+    ignore NCP packets during authentication,
+    fix recursive signal problem in kill_my_pg
+
+The disabled-by-default parts were likely support contributions for
+those other distributions. (Very likely in BSD.)
+
+I would've thought AppleTalk was completely gone by now, and I certainly
+would not be sad to see the dregs removed from pppd, but there was a
+patch release on the netatalk package just last month, so what do I know?
+
+(The only possible reason I can see to keep any ATCP bits around at all
+is to make sure we can write nice-looking log messages -- to say we're
+rejecting "AppleTalk Control Protocol" rather than "unknown 8029." But
+that'd be a very minor feature.)
+
+-- 
+James Carlson     42.703N 71.076W FN42lq08    <carlsonj@workingcode.com>
