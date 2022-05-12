@@ -2,88 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC18AC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 12:51:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B14AAC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 13:05:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238514AbiELMvL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 08:51:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41672 "EHLO
+        id S1354110AbiELNFO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 09:05:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354127AbiELMu4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 08:50:56 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F310DCFC
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 05:50:40 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id x8so1081295pgr.4
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 05:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=A0xOx0HJGPqe65kUT8EYAv7c6q9fmHkJFCQDDmRbELQ=;
-        b=lwxhL4wAs6Qvzati4H2W524EGSAsQhuS3/nB5BZWZ4DEpD5RDkZvry5sMHYjaX/WEw
-         y3U0PGPPxvMt6oD+WQwL4AHVAjGflqpa/Bt0K+pciJmSLHe+5NVj/LUGh9Dp1uTu01RQ
-         znnBn8BAy0KGV9DBsyKUfoiT1Sy8QscSdPlY7DZUd03IdYvEkO6Y47GwahGKpBKZ4YS2
-         oTFA9xVdwzp02a3nxDkp37gCPunfyYdIN3xquEjhbu1X9zZ+YpuOgWoeAIdpYVQZgq6F
-         SqGFY/KIvGfMxFo6rKdQROw+56A0Hn0UjJNrM2h71EC59qap64VmDCAdMBoYbnUGbGLY
-         +75w==
+        with ESMTP id S1354107AbiELNFF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 09:05:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 95C5924EA26
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 06:05:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1652360703;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=efOMr3P/7pGohN9ErE4jqv2LFNSoc71Z8ICykAkWQU4=;
+        b=O6ZCx7eSYDOSlnxFG3Ud3LLrZmDPuOGHRrWR9j0anPM3w1lWfs+R7REzy/HHA2L5v9SLuL
+        6SNqLo9D5v9P+A13utg4A8ODinsjd9rnAjg4kCiUWj2lYLjxPUeufXiKJCtorXLfT1kTNU
+        T5y4EmFnU2hBXJ3R4KklFfobjuBONcA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-73-xH98nWH1NC6URmAZTZrAMA-1; Thu, 12 May 2022 09:05:02 -0400
+X-MC-Unique: xH98nWH1NC6URmAZTZrAMA-1
+Received: by mail-wr1-f72.google.com with SMTP id bj22-20020a0560001e1600b0020cccc6b25aso2060539wrb.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 06:05:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=A0xOx0HJGPqe65kUT8EYAv7c6q9fmHkJFCQDDmRbELQ=;
-        b=lcO9zIqlxLBINJ9/MzG9ZK0JwXBYyEH/m+W7ch9Vgu+bJYfdxmsW3twdvcg88kFnoe
-         muYVSpxhwR5MTqD2DdsO73AAAomlVbUnkw10bfsTyfOVPs75xqdzmxVSfkX5KqnJtILD
-         JeMS3TO70+Nbl7KgQIZgTxNe4uFeuLUzmbZnIgUuLHSGLTU0V5RHxsXSPmaNrW/OswkW
-         QOAF1g/bluOMeNcBGXEMq3cHrbVrlUvardCB85+hsbPqJN681EF/E1MFtAb6LT6hIxPd
-         hqj+wRv6p77480Lmz7wMvwojTttHEu8pUE3Ftqt8RJLVPaUELCJNnccPRMEmeAuxw2r8
-         CzIg==
-X-Gm-Message-State: AOAM5325ZJK61Wc6FZfLGLr+v+IRP/Ak2CtWdlo4Lt7CfKGIt1+rwKdV
-        18YtbMd62bgWg+VTX/yr4V648A==
-X-Google-Smtp-Source: ABdhPJzD/auBmfoLWNxs2s5aGR2dmgOFqGv/Z5slJeRepfjx/hj1IpceD0OaHmBJGL5a2oxFasebMg==
-X-Received: by 2002:a63:4549:0:b0:3db:5130:d269 with SMTP id u9-20020a634549000000b003db5130d269mr4372076pgk.101.1652359840481;
-        Thu, 12 May 2022 05:50:40 -0700 (PDT)
-Received: from localhost ([139.177.225.250])
-        by smtp.gmail.com with ESMTPSA id i21-20020a170902e49500b0015e8d4eb20dsm3758677ple.87.2022.05.12.05.50.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 May 2022 05:50:40 -0700 (PDT)
-Date:   Thu, 12 May 2022 20:50:27 +0800
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     David Hildenbrand <david@redhat.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=efOMr3P/7pGohN9ErE4jqv2LFNSoc71Z8ICykAkWQU4=;
+        b=XA/aj6PH+Zf5noZGtZADLyT+HKDya12rzBCp7FsYmRLFS7j+ehcnm/5Vlp+CM2x3Fq
+         AN5nrEJAnQ5nKS6FF57gkoaXik0KEkDhPxQxvojBkF35AZfEQczYv9wAmQkIiWAJFrPC
+         UIDmjWJ1uWPXykZpCmvEYiPFWdS8+reE6gEiy0h5eiuICLn4CEra3WIzfU9Fo3ee6T7g
+         f6cGYzJS8zYqChqR8KnYk2LNPQxlMmwH/guH1ONzzlWmtg8AWcQwSqsjUiE1GmbIvB/f
+         UDzrLgGuPBRN/327NaW+0q4qH1WVwTFEnp5pkuLPADAK3xWVY+rSfsEeNlJplHQRch1B
+         KvOA==
+X-Gm-Message-State: AOAM530rDmzmC9d0CIJpFB6C5iQevpXzY1XRuesIQNAn7vkF3nWsiIWW
+        HhChMU1ib1Db2sztaSuGsMwuD96xe5PFL0HYGRiwN+LwCDfMZI4ckS4SFuj21Ey9eQw6Mpghg+F
+        n4TokEUICx2uQe4hqUYYy
+X-Received: by 2002:a5d:5502:0:b0:20a:e0aa:90bd with SMTP id b2-20020a5d5502000000b0020ae0aa90bdmr28284045wrv.551.1652360700700;
+        Thu, 12 May 2022 06:05:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxdbDUlWFRb1WciroIQ1XDBEiFyzj/9JbtF68Ro3xbJ4jLGkiv/MQOmwWuOkoPWwT9ahyEkiw==
+X-Received: by 2002:a5d:5502:0:b0:20a:e0aa:90bd with SMTP id b2-20020a5d5502000000b0020ae0aa90bdmr28284017wrv.551.1652360700457;
+        Thu, 12 May 2022 06:05:00 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c701:d200:ee5d:1275:f171:136d? (p200300cbc701d200ee5d1275f171136d.dip0.t-ipconnect.de. [2003:cb:c701:d200:ee5d:1275:f171:136d])
+        by smtp.gmail.com with ESMTPSA id a7-20020a7bc1c7000000b0039429bfebeasm2647067wmj.2.2022.05.12.06.04.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 May 2022 06:04:59 -0700 (PDT)
+Message-ID: <284eec3f-a79d-c5f0-3cd6-53b8e64100cd@redhat.com>
+Date:   Thu, 12 May 2022 15:04:57 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v10 2/4] mm: memory_hotplug: override memmap_on_memory
+ when hugetlb_free_vmemmap=on
+Content-Language: en-US
+To:     Muchun Song <songmuchun@bytedance.com>
 Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
         mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
         osalvador@suse.de, masahiroy@kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v10 2/4] mm: memory_hotplug: override memmap_on_memory
- when hugetlb_free_vmemmap=on
-Message-ID: <Yn0Ck5isxx4ghQi6@FVFYT0MHHV2J.usts.net>
 References: <20220509062703.64249-1-songmuchun@bytedance.com>
  <20220509062703.64249-3-songmuchun@bytedance.com>
  <ebffd794-697b-9bf1-f41b-4b2d52c100fc@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ebffd794-697b-9bf1-f41b-4b2d52c100fc@redhat.com>
+ <Yn0Ck5isxx4ghQi6@FVFYT0MHHV2J.usts.net>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <Yn0Ck5isxx4ghQi6@FVFYT0MHHV2J.usts.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 12, 2022 at 09:36:15AM +0200, David Hildenbrand wrote:
-> On 09.05.22 08:27, Muchun Song wrote:
-> > Optimizing HugeTLB vmemmap pages is not compatible with allocating memmap on
-> > hot added memory. If "hugetlb_free_vmemmap=on" and
-> > memory_hotplug.memmap_on_memory" are both passed on the kernel command line,
-> > optimizing hugetlb pages takes precedence. 
+On 12.05.22 14:50, Muchun Song wrote:
+> On Thu, May 12, 2022 at 09:36:15AM +0200, David Hildenbrand wrote:
+>> On 09.05.22 08:27, Muchun Song wrote:
+>>> Optimizing HugeTLB vmemmap pages is not compatible with allocating memmap on
+>>> hot added memory. If "hugetlb_free_vmemmap=on" and
+>>> memory_hotplug.memmap_on_memory" are both passed on the kernel command line,
+>>> optimizing hugetlb pages takes precedence. 
+>>
+>> Why?
+>>
 > 
-> Why?
->
+> Because both two features are not compatible since hugetlb_free_vmemmap cannot
+> optimize the vmemmap pages allocated from alternative allocator (when
+> memory_hotplug.memmap_on_memory=1). So when the feature of hugetlb_free_vmemmap
+> is introduced, I made hugetlb_free_vmemmap take precedence.  BTW, I have a plan
+> to remove this restriction, I'll post it out ASAP.
 
-Because both two features are not compatible since hugetlb_free_vmemmap cannot
-optimize the vmemmap pages allocated from alternative allocator (when
-memory_hotplug.memmap_on_memory=1). So when the feature of hugetlb_free_vmemmap
-is introduced, I made hugetlb_free_vmemmap take precedence.  BTW, I have a plan
-to remove this restriction, I'll post it out ASAP.
+I was asking why vmemmap optimization should take precedence.
+memmap_on_memory makes it more likely to succeed memory hotplug in
+close-to-OOM situations -- which is IMHO more important than a vmemmap
+optimization.
 
-Thanks.
+But anyhow, the proper approach should most probably be to simply not
+mess with the vmemmap if we stumble over a vmemmap that's special due to
+memmap_on_memory. I assume that's what you're talking about sending out.
+
+-- 
+Thanks,
+
+David / dhildenb
 
