@@ -2,101 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D388C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 12:09:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B6BDC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 12:11:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353562AbiELMJA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 08:09:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42560 "EHLO
+        id S1353573AbiELMLj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 08:11:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353560AbiELMJA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 08:09:00 -0400
-Received: from smtp-bc0e.mail.infomaniak.ch (smtp-bc0e.mail.infomaniak.ch [45.157.188.14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F00623586D
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 05:08:57 -0700 (PDT)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4KzVtc25HczMq0p4;
-        Thu, 12 May 2022 14:08:56 +0200 (CEST)
-Received: from localhost (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4KzVtb4x74zlhRVf;
-        Thu, 12 May 2022 14:08:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1652357336;
-        bh=VAzyzqBsb5khQ9HXF8UiahInvKHtn618TZOLyFUBrQI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=bXqdqZSSqxEbbGwkmo7SIN1ptW+6/alRxTzCM5DSKNzdFLcl0L4pzPIDUkBJeBkUj
-         EE5bwIGbY6pQj/PTbpYMF7UeNUWUbfeipx8c59HBRM6uuj4VRKNPtIlCVXvgQqqFDH
-         3LaKEeot34rmTjE+d7WWKib5qqq1TapXNdXOZR1Y=
-From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To:     James Morris <jmorris@namei.org>, Paul Moore <paul@paul-moore.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>
-Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Alejandro Colomar <alx.manpages@gmail.com>,
+        with ESMTP id S1353574AbiELMLj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 08:11:39 -0400
+Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [216.12.86.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8FE83CA4C
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 05:11:33 -0700 (PDT)
+Date:   Thu, 12 May 2022 08:11:31 -0400
+From:   Rich Felker <dalias@libc.org>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     musl@lists.openwall.com, Christian Brauner <brauner@kernel.org>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: [PATCH v1] landlock: Explain how to support Landlock
-Date:   Thu, 12 May 2022 14:08:47 +0200
-Message-Id: <20220512120847.124822-1-mic@digikod.net>
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        GNU C Library <libc-alpha@sourceware.org>
+Subject: Re: [musl] Re: [PATCH V9 13/24] LoongArch: Add system call support
+Message-ID: <20220512121131.GH7074@brightrain.aerifal.cx>
+References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
+ <20220430090518.3127980-14-chenhuacai@loongson.cn>
+ <CAK8P3a0A9dW4mwJ6JHDiJxizL7vWfr4r4c5KhbjtAY0sWbZJVA@mail.gmail.com>
+ <CAAhV-H4te_+AS69viO4eBz=abBUm5oQ6AfoY1Cb+nOCZyyeMdA@mail.gmail.com>
+ <CAK8P3a0DqQcApv8aa2dgBS5At=tEkN7cnaskoUeXDi2-Bu9Rnw@mail.gmail.com>
+ <20220507121104.7soocpgoqkvwv3gc@wittgenstein>
+ <20220509100058.vmrgn5fkk3ayt63v@wittgenstein>
+ <CAK8P3a0zmPbMNsS11aUGiAADyjOEueNUXQ8QZtVxr48M3pwAkQ@mail.gmail.com>
+ <20220511211231.GG7074@brightrain.aerifal.cx>
+ <CAK8P3a05wSVu7M9kVMw5cSqx84YUCk1394Yfd_5tweEOc2P69g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a05wSVu7M9kVMw5cSqx84YUCk1394Yfd_5tweEOc2P69g@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Let's help users by documenting how to enable and check for Landlock in
-the kernel and the running system.  The userspace-api section may not be
-the best place for this but it still makes sense to put all the user
-documentation at the same place.
+On Thu, May 12, 2022 at 09:21:13AM +0200, Arnd Bergmann wrote:
+> On Wed, May 11, 2022 at 11:12 PM Rich Felker <dalias@libc.org> wrote:
+> > On Wed, May 11, 2022 at 09:11:56AM +0200, Arnd Bergmann wrote:
+> > > On Mon, May 9, 2022 at 12:00 PM Christian Brauner <brauner@kernel.org> wrote:
+> > > .....
+> > > > I can try and move a poc for this up the todo list.
+> > > >
+> > > > Without an approach like this certain sandboxes will fallback to
+> > > > ENOSYSing system calls they can't filter. This is a generic problem
+> > > > though with clone3() being one promiment example.
+> > >
+> > > Thank you for the detailed reply. It sounds to me like this will eventually have
+> > > to get solved anyway, so we could move ahead without clone() on loongarch,
+> > > and just not have support for Chrome until this is fully solved.
+> > >
+> > > As both the glibc and musl ports are being proposed for inclusion right
+> > > now, we should try to come to a decision so the libc ports can adjust if
+> > > necessary. Adding both mailing lists to Cc here, the discussion is archived
+> > > at [1].
+> > >
+> > >          Arnd
+> > >
+> > > [1] https://lore.kernel.org/linux-arch/20220509100058.vmrgn5fkk3ayt63v@wittgenstein/
+> >
+> > Having read about the seccomp issue, I think it's a very strong
+> > argument that __NR_clone should be kept permanently for all future
+> > archs.
+> 
+> Ok, let's keep clone() around for all architectures then. We should probably
+> just remove the __ARCH_WANT_SYS_CLONE macro and build the
+> code into the kernel unconditionally, but at the moment there
+> are still private versions for ia64 and sparc with the same name as
+> the generic version. Both are also still lacking support for clone3() and
+> don't have anyone actively working on them.
+> 
+> In this case, we probably don't need to change clone3() to allow the
+> zero-length stack after all, and the wrapper that was added to the
+> musl port should get removed again.
 
-Cc: Paul Moore <paul@paul-moore.com>
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Link: https://lore.kernel.org/r/20220512120847.124822-1-mic@digikod.net
----
- Documentation/userspace-api/landlock.rst | 26 ++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+I still think disallowing a zero length (unknown length with caller
+providing the start address only) stack is a gratuitous limitation on
+the clone3 interface, and would welcome leaving the change to allow
+zero-length in place. There does not seem to be any good justification
+for forbidding it, and it does pose other real-world obstruction to
+use. For example if your main thread had exited (or if you're forking
+from a non-main thread) and you wanted to create a new process using
+the old main thread stack as your stack, you would not know a
+size/lowest-address, only a starting address from which it extends
+some long (and possibly expanding) amount.
 
-diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-index 7b4fe6218132..e69dbddcc191 100644
---- a/Documentation/userspace-api/landlock.rst
-+++ b/Documentation/userspace-api/landlock.rst
-@@ -388,6 +388,32 @@ Starting with the Landlock ABI version 2, it is now possible to securely
- control renaming and linking thanks to the new `LANDLOCK_ACCESS_FS_REFER`
- access right.
- 
-+Landlock support
-+================
-+
-+Kernel configuration
-+--------------------
-+
-+Landlock can be supported since Linux 5.13 but it must be configured in the
-+kernel with `CONFIG_SECURITY_LANDLOCK=y`, and it should be enabled at boot time
-+with `CONFIG_LSM=landlock,[...]`.  The `[...]` must be replaced with the list
-+of LSMs that may be useful for the running system (see the `CONFIG_LSM` help).
-+
-+Running system configuration
-+----------------------------
-+
-+If the running kernel doesn't have `landlock` in `CONFIG_LSM`, then we can
-+still enable it by adding `lsm=landlock,[...]` to
-+Documentation/admin-guide/kernel-parameters.rst. The `[...]` must be replaced
-+with the list of LSMs that may be useful for the running system (see the
-+`CONFIG_LSM` help).
-+
-+Running system check
-+--------------------
-+
-+We can check that Landlock is enabled by looking for "landlock: Up and running"
-+in kernel logs: `dmesg | grep landlock`
-+
- Questions and answers
- =====================
- 
-
-base-commit: 67761d8181f0fb9dbd264caa5b6408dbc0d8e86a
--- 
-2.36.0
-
+Rich
