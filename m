@@ -2,261 +2,350 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F3FFC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 14:02:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5893CC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 14:48:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354697AbiELOCe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 10:02:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46158 "EHLO
+        id S1347215AbiELOsg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 10:48:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350655AbiELOCc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 10:02:32 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F419D517E6
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 07:02:30 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id v64-20020a1cac43000000b0038cfd1b3a6dso5194950wme.5
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 07:02:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Y5zEOR8a2tEkZy/r6HUczq8om3FfL9i9nYmMHgZoVJY=;
-        b=HprFLMVg4LbqJ+pbrw6wTtnHQb3AMb89BE3vhNP+EI+RbD0KiLCACPrCAyu1q2fDWw
-         kJHivbngQXjomyStmHAncejy/E/iy4Cr+uGLfgohOAciGYUTD5YZAKiKF/wZABnIH7bQ
-         jr5XdpGMMTm3GBXy5SC9VULk+3EFB9sjBTuCM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=Y5zEOR8a2tEkZy/r6HUczq8om3FfL9i9nYmMHgZoVJY=;
-        b=vWevH55JAKjWtjytNQGoaxgWMCqo2deJiBFyuskxfP3NSR1vW8Khgjim3w94akBWo/
-         IWa+1IHgM3rgH5eQdjxAZNFzV7GGCmmcBVLzZ3jtXYhaqFgfB02yONs6G58D5EyDMBR6
-         BCkUmDhryGcqSxt2i2SCvXTl+uOtjbkoIULnTIQK/NcB5TXvudgYZ9/LmQjtd2muRn9z
-         +NLx4IVVlJFPXXKboGq+FZbvmNhLOS8yoiepHywODAqwFGtDxZe4DOvG1s2sLARjQtVL
-         B5lnSC7xYXsHbavyWTglLIQ5dQT4O1Sz06Omx731o6x2DFZJMh+mW9BzaF0F59HUlRUY
-         zCAw==
-X-Gm-Message-State: AOAM5310tTXYvmh2KX3rrTvzTy98rwWJit9e2HTE50IC4+e/kWLu0VXJ
-        +AAExsAZIahDUHQgHIpQ0LnkBg==
-X-Google-Smtp-Source: ABdhPJzPtiUjtRrz1hCSkubjaMF5DK7FhphPaMUkyQlWPr7RMXTEB7eQTDkzhJR0n4ZglX3xo1X1ng==
-X-Received: by 2002:a1c:2c6:0:b0:38f:f280:caa2 with SMTP id 189-20020a1c02c6000000b0038ff280caa2mr25599wmc.87.1652364149421;
-        Thu, 12 May 2022 07:02:29 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id k5-20020adff285000000b0020c5253d8desm4241643wro.42.2022.05.12.07.02.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 May 2022 07:02:28 -0700 (PDT)
-Date:   Thu, 12 May 2022 16:02:26 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Cc:     Rob Clark <robdclark@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Jessica Zhang <quic_jesszhan@quicinc.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>, Sean Paul <sean@poorly.run>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        freedreno <freedreno@lists.freedesktop.org>
-Subject: Re: [Freedreno] [RFC v2] drm/msm: Add initial ci/ subdirectory
-Message-ID: <Yn0TcgMbOY1R0fuQ@phenom.ffwll.local>
-Mail-Followup-To: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Jessica Zhang <quic_jesszhan@quicinc.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>, Jonathan Corbet <corbet@lwn.net>,
-        Sean Paul <sean@poorly.run>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        freedreno <freedreno@lists.freedesktop.org>
-References: <20220510070140.45407-1-tomeu.vizoso@collabora.com>
- <20220510141329.54414-1-tomeu.vizoso@collabora.com>
- <e4e03cd8-3ebc-e5e1-e7d0-6bdc038049b5@quicinc.com>
- <CAF6AEGueadnRMiatO3MoHS+NTQ1o1sgcV0cVjJM3iu-6JUNmNw@mail.gmail.com>
- <CAKMK7uGRuCZwF6m02tcxxrgQGaijsYaNkowjxR+cw0JM3UpDkQ@mail.gmail.com>
- <CAF6AEGthpxPLxyt_i-aUFgW485hA5qw+xXcJ3gKQUJ+fM=ZBhg@mail.gmail.com>
- <79d79110-9fbc-0e96-d17e-68a1f8f2c224@collabora.com>
+        with ESMTP id S237704AbiELOsf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 10:48:35 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FA81246D98;
+        Thu, 12 May 2022 07:48:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652366914; x=1683902914;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SaAXxDNTM4/wVBs778uhP/NgRzJzld+NgeawXjr4R9I=;
+  b=GdDwgW8ruiiOawiF3IfShgY4+kAXiCc0V4YrAaZApmqi7Z01xRljB8a1
+   G354D+9WxGpCfRwMdMDol1qu8WSp9EPlMCFTaJTkecJiMfhKCXkRB+/nu
+   zIUa/HyqQcv9HMp7LxpZskYS0gAoM8qtLGNyCtAs4zy1bf+C3/m9FY7JJ
+   3IUXI9wgcqtQo9AIR4h6r1Toq5tzm1kfowHyd6xCcHL6X4Zdphbt96Fpn
+   5qhaiSSB9jYKHfPUgKq1AoFQDxLCZ/jR+sUEebup1brG9Jh3Ugo7Pc67U
+   BP7/vbYSLD3SOwKR2FzlukBAgiaF8ny9KZ4pSaCwIMpcSrhciEboBCXes
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="269959621"
+X-IronPort-AV: E=Sophos;i="5.91,220,1647327600"; 
+   d="scan'208";a="269959621"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2022 07:48:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,220,1647327600"; 
+   d="scan'208";a="572548826"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 12 May 2022 07:48:30 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1npA7B-000KaZ-9o;
+        Thu, 12 May 2022 14:48:29 +0000
+Date:   Thu, 12 May 2022 22:47:35 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     3090101217@zju.edu.cn, gregkh@linuxfoundation.org, corbet@lwn.net,
+        laurent.pinchart@ideasonboard.com, balbi@kernel.org,
+        rdunlap@infradead.org, mchehab+huawei@kernel.org, bilbao@vt.edu
+Cc:     kbuild-all@lists.01.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Jing Leng <jleng@ambarella.com>
+Subject: Re: [PATCH v2] usb: gadget: uvc: add bulk transfer support
+Message-ID: <202205122203.E1HlX3x5-lkp@intel.com>
+References: <20220512094236.10937-1-3090101217@zju.edu.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <79d79110-9fbc-0e96-d17e-68a1f8f2c224@collabora.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <20220512094236.10937-1-3090101217@zju.edu.cn>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 12, 2022 at 03:28:16PM +0200, Tomeu Vizoso wrote:
-> On 5/11/22 7:46 PM, Rob Clark wrote:
-> > On Wed, May 11, 2022 at 10:12 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > 
-> > > On Tue, 10 May 2022 at 22:26, Rob Clark <robdclark@gmail.com> wrote:
-> > > > 
-> > > > On Tue, May 10, 2022 at 12:39 PM Jessica Zhang
-> > > > <quic_jesszhan@quicinc.com> wrote:
-> > > > > 
-> > > > > 
-> > > > > 
-> > > > > On 5/10/2022 7:13 AM, Tomeu Vizoso wrote:
-> > > > > > And use it to store expectations about what the drm/msm driver is
-> > > > > > supposed to pass in the IGT test suite.
-> > > > > > 
-> > > > > > Also include a configuration file that points to the out-of-tree CI
-> > > > > > scripts.
-> > > > > > 
-> > > > > > By storing the test expectations along the code we can make sure both
-> > > > > > stay in sync with each other, and so we can know when a code change
-> > > > > > breaks those expectations.
-> > > > > > 
-> > > > > > This will allow all contributors to drm/msm to reuse the infrastructure
-> > > > > > already in gitlab.freedesktop.org to test the driver on several
-> > > > > > generations of the hardware.
-> > > > > > 
-> > > > > > v2:
-> > > > > >     - Fix names of result expectation files to match SoC
-> > > > > >     - Don't execute tests that are going to skip on all boards
-> > > > > > 
-> > > > > > Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> > > > > > ---
-> > > > > >    Documentation/gpu/msm_automated_testing.rst   |  70 +++++++++
-> > > > > >    drivers/gpu/drm/msm/ci/gitlab-ci.yml          |  11 ++
-> > > > > >    drivers/gpu/drm/msm/ci/msm.testlist           | 148 ++++++++++++++++++
-> > > > > >    .../gpu/drm/msm/ci/msm_apq8016_results.txt    | 140 +++++++++++++++++
-> > > > > >    .../gpu/drm/msm/ci/msm_apq8096_results.txt    | 140 +++++++++++++++++
-> > > > > >    drivers/gpu/drm/msm/ci/msm_sc7180_results.txt | 141 +++++++++++++++++
-> > > > > >    drivers/gpu/drm/msm/ci/msm_sdm845_results.txt | 141 +++++++++++++++++
-> > > > > >    7 files changed, 791 insertions(+)
-> > > > > >    create mode 100644 Documentation/gpu/msm_automated_testing.rst
-> > > > > >    create mode 100644 drivers/gpu/drm/msm/ci/gitlab-ci.yml
-> > > > > >    create mode 100644 drivers/gpu/drm/msm/ci/msm.testlist
-> > > > > >    create mode 100644 drivers/gpu/drm/msm/ci/msm_apq8016_results.txt
-> > > > > >    create mode 100644 drivers/gpu/drm/msm/ci/msm_apq8096_results.txt
-> > > > > >    create mode 100644 drivers/gpu/drm/msm/ci/msm_sc7180_results.txt
-> > > > > >    create mode 100644 drivers/gpu/drm/msm/ci/msm_sdm845_results.txt
-> > > > > > 
-> > 
-> > [snip]
-> > 
-> > > > > > diff --git a/drivers/gpu/drm/msm/ci/msm_sc7180_results.txt b/drivers/gpu/drm/msm/ci/msm_sc7180_results.txt
-> > > > > > new file mode 100644
-> > > > > > index 000000000000..01f7b4b399b5
-> > > > > > --- /dev/null
-> > > > > > +++ b/drivers/gpu/drm/msm/ci/msm_sc7180_results.txt
-> > > > > > @@ -0,0 +1,141 @@
-> > > > > > +igt@core_auth@getclient-simple,dmesg-warn
-> > > > > > +igt@core_auth@getclient-master-drop,pass
-> > > > > > +igt@core_auth@basic-auth,pass
-> > > > > > +igt@core_auth@many-magics,pass
-> > > > > > +igt@core_getclient,pass
-> > > > > > +igt@core_getstats,pass
-> > > > > > +igt@core_getversion,pass
-> > > > > > +igt@core_setmaster_vs_auth,pass
-> > > > > > +igt@drm_read@invalid-buffer,pass
-> > > > > > +igt@drm_read@fault-buffer,pass
-> > > > > > +igt@drm_read@empty-block,pass
-> > > > > > +igt@drm_read@empty-nonblock,pass
-> > > > > > +igt@drm_read@short-buffer-block,pass
-> > > > > > +igt@drm_read@short-buffer-nonblock,pass
-> > > > > > +igt@drm_read@short-buffer-wakeup,pass
-> > > > > > +igt@kms_addfb_basic@unused-handle,pass
-> > > > > > +igt@kms_addfb_basic@unused-pitches,pass
-> > > > > > +igt@kms_addfb_basic@unused-offsets,pass
-> > > > > > +igt@kms_addfb_basic@unused-modifier,pass
-> > > > > > +igt@kms_addfb_basic@legacy-format,dmesg-warn
-> > > > > > +igt@kms_addfb_basic@no-handle,pass
-> > > > > > +igt@kms_addfb_basic@basic,pass
-> > > > > > +igt@kms_addfb_basic@bad-pitch-0,pass
-> > > > > > +igt@kms_addfb_basic@bad-pitch-32,pass
-> > > > > > +igt@kms_addfb_basic@bad-pitch-63,pass
-> > > > > > +igt@kms_addfb_basic@bad-pitch-128,pass
-> > > > > > +igt@kms_addfb_basic@bad-pitch-256,pass
-> > > > > > +igt@kms_addfb_basic@bad-pitch-1024,pass
-> > > > > > +igt@kms_addfb_basic@bad-pitch-999,pass
-> > > > > > +igt@kms_addfb_basic@bad-pitch-65536,pass
-> > > > > > +igt@kms_addfb_basic@size-max,pass
-> > > > > > +igt@kms_addfb_basic@too-wide,pass
-> > > > > > +igt@kms_addfb_basic@too-high,dmesg-warn
-> > > > > 
-> > > > > For test results on Trogdor, is is possible to have them be
-> > > > > success/fail/skip only?
-> > > > > 
-> > > > > Results such as dmesg-warn/dmesg-fail are igt_runner specific and
-> > > > > because there isn't support for igt_runner on ChromeOS, they will be
-> > > > > difficult to replicate and debug.
-> > > > 
-> > > > Actually, I wonder if it would be better to just treat
-> > > > dmesg-warn/dmesg-fail as pass/fail?  I'd noticed some flakes on
-> > > > rockchip which looked just like unrelated dmesg msg which just
-> > > > happened to show up while the test was running.
-> > > 
-> > > This is kinda the reason behind standardizing on drm dmesg logging, so
-> > > that we have some chances at filtering stuff out. Not sure that's a
-> > > good idea, since when your entire box splats and lockdep is dead, then
-> > > continuing to run drm tests is still fairly pointless.
-> > 
-> > I'm not sure if we are using it yet for drm-ci, but for mesa-ci we
-> > monitor dmesg (over serial port, from the controller) for splats, so
-> > we already have the tech for restarting or aborting the CI run.  We
-> > don't need igt-runner to tell us.
-> 
-> Yep, these scripts are currently being used as-is from Mesa, so we got that
-> functionality for free.
-> 
-> > > I think this is another reason why trying at least to standardize this
-> > > stuff over drivers would be pretty good idea.
-> > > 
-> > > > Additionally, some of the tests, like msm_recovery, are *expected* to
-> > > > generate some dmesg spam since they are intentionally triggering GPU
-> > > > hangs to test the recovery mechanism.
-> > > 
-> > > Uh I don't like that. It just allows userspace to spam dmesg, which
-> > > doesn't seem like a great idea. That's at least why i915 dumps these
-> > > at a lower level, and in the past had a special "I'm going to whack
-> > > the gpu real hard expect hangs" knob in debugfs.
-> > > 
-> > > Having tests which intentionally spam dmesg above info level isn't
-> > > really good since then you need endless amounts of test-specific
-> > > encoding of what is considered a success and what not. Like when a
-> > > backmerge breaks a testcases which is already at dmesg-fail, is that
-> > > bad or not? Probably bad, but was the situation before that really
-> > > good or already kinda on fire?
-> > 
-> > I guess I could add some debugfs knobs to squelch the dmesg msgs on
-> > gpu hangs.  In the normal case, I'd prefer that gpu hangs are not
-> > silent.. since that is something we get in feedback reports if a user
-> > (or dogfooder) reports a bug.
-> > 
-> > The rockchip case I mentioned was some unrelated dmesg about
-> > linktraining failing.. presumably because there was no display
-> > attached?  IDK, I didn't look too closely.  But my point is we could
-> > be getting unrelated and asynchronous dmesg spam, even from other
-> > kernel subsystems.  Letting that be part of the test results just
-> > sounds like asking for flakes.
-> 
-> I think some drivers are currently a bit too buggy to behave reliably under
-> CI unless one reduces coverage (rockchip on rk3399, for example). And some
-> other drivers (in other subsystems as well) could do with a review of what
-> they print to the console. I guess these are things we could and probably
-> should fix?
+Hi,
 
-I think the best way for these is to still run the tests, but supress the
-results. At least if the flakiness is only in whether the test passes, and
-not in the test run outright killing the kernel/machine somehow.
+Thank you for the patch! Yet something to improve:
 
-But yeah sometimes just having an explicit run list is the way to go, and
-we have plenty of that in intel ci. But for i915 it's more a testament to
-how terrible the i915-gem tests in particular have become, largely also
-because people simply kept adding crap and never removed much at all (and
-sometimes even removed important tests, oh well).
--Daniel
+[auto build test ERROR on v5.18-rc6]
+[cannot apply to usb/usb-testing balbi-usb/testing/next next-20220512]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/3090101217-zju-edu-cn/usb-gadget-uvc-add-bulk-transfer-support/20220512-174815
+base:    c5eb0a61238dd6faf37f58c9ce61c9980aaffd7a
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20220512/202205122203.E1HlX3x5-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/39a05ac7e24c36ed8f2aa2f65e4225d75a96a894
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review 3090101217-zju-edu-cn/usb-gadget-uvc-add-bulk-transfer-support/20220512-174815
+        git checkout 39a05ac7e24c36ed8f2aa2f65e4225d75a96a894
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/usb/gadget/function/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/usb/gadget/function/f_uvc.c: In function 'uvc_function_bind':
+>> drivers/usb/gadget/function/f_uvc.c:767:9: error: 'i' undeclared (first use in this function)
+     767 |         i = 0;
+         |         ^
+   drivers/usb/gadget/function/f_uvc.c:767:9: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/usb/gadget/function/f_uvc.c:773:39: error: implicit declaration of function 'USBDHDR' [-Werror=implicit-function-declaration]
+     773 |                 uvc_fs_streaming[i] = USBDHDR(&uvc_streaming_intf_alt1);
+         |                                       ^~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/i +767 drivers/usb/gadget/function/f_uvc.c
+
+   612	
+   613	static int
+   614	uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
+   615	{
+   616		struct usb_composite_dev *cdev = c->cdev;
+   617		struct uvc_device *uvc = to_uvc(f);
+   618		struct usb_string *us;
+   619		unsigned int max_packet_mult;
+   620		unsigned int max_packet_size;
+   621		struct usb_ep *ep;
+   622		struct f_uvc_opts *opts;
+   623		int ret = -EINVAL;
+   624	
+   625		uvcg_info(f, "%s()\n", __func__);
+   626	
+   627		opts = fi_to_f_uvc_opts(f->fi);
+   628	
+   629		/* Handle different transfer mode for stream endpoints */
+   630		if (opts->streaming_bulk_mult) {
+   631			uvc_fs_streaming_ep.bmAttributes = USB_ENDPOINT_XFER_BULK;
+   632			uvc_hs_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
+   633			uvc_ss_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
+   634	
+   635			opts->streaming_maxburst = min(opts->streaming_maxburst, 15U);
+   636	
+   637			uvc_fs_streaming_ep.wMaxPacketSize = cpu_to_le16(64);
+   638			uvc_fs_streaming_ep.bInterval = 0;
+   639	
+   640			uvc_hs_streaming_ep.wMaxPacketSize = cpu_to_le16(512);
+   641			uvc_hs_streaming_ep.bInterval = 0;
+   642	
+   643			uvc_ss_streaming_ep.wMaxPacketSize = cpu_to_le16(1024);
+   644			uvc_ss_streaming_ep.bInterval = 0;
+   645	
+   646			uvc_ss_streaming_comp.bmAttributes = 0;
+   647			uvc_ss_streaming_comp.bMaxBurst = opts->streaming_maxburst;
+   648			uvc_ss_streaming_comp.wBytesPerInterval = 0;
+   649	
+   650			uvc->video.max_payload_size = opts->streaming_bulk_mult * 1024;
+   651		} else {
+   652			uvc_fs_streaming_ep.bmAttributes = USB_ENDPOINT_SYNC_ASYNC
+   653							| USB_ENDPOINT_XFER_ISOC;
+   654			uvc_hs_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
+   655			uvc_ss_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
+   656	
+   657			/* Sanity check the streaming endpoint module parameters.
+   658			 */
+   659			opts->streaming_interval = clamp(opts->streaming_interval, 1U, 16U);
+   660			opts->streaming_maxpacket = clamp(opts->streaming_maxpacket, 1U, 3072U);
+   661			opts->streaming_maxburst = min(opts->streaming_maxburst, 15U);
+   662	
+   663			/* For SS, wMaxPacketSize has to be 1024 if bMaxBurst is not 0 */
+   664			if (opts->streaming_maxburst &&
+   665				(opts->streaming_maxpacket % 1024) != 0) {
+   666				opts->streaming_maxpacket = roundup(opts->streaming_maxpacket, 1024);
+   667				uvcg_info(f, "overriding streaming_maxpacket to %d\n",
+   668					opts->streaming_maxpacket);
+   669			}
+   670	
+   671			/* Fill in the FS/HS/SS Video Streaming specific descriptors from the
+   672			 * module parameters.
+   673			 *
+   674			 * NOTE: We assume that the user knows what they are doing and won't
+   675			 * give parameters that their UDC doesn't support.
+   676			 */
+   677	
+   678			if (opts->streaming_maxpacket <= 1024) {
+   679				max_packet_mult = 0;
+   680				max_packet_size = opts->streaming_maxpacket;
+   681			} else if (opts->streaming_maxpacket <= 2048) {
+   682				max_packet_mult = 1;
+   683				max_packet_size = opts->streaming_maxpacket / 2;
+   684			} else {
+   685				max_packet_mult = 2;
+   686				max_packet_size = opts->streaming_maxpacket / 3;
+   687			}
+   688	
+   689			uvc_fs_streaming_ep.wMaxPacketSize =
+   690				cpu_to_le16(min(opts->streaming_maxpacket, 1023U));
+   691			uvc_fs_streaming_ep.bInterval = opts->streaming_interval;
+   692	
+   693			uvc_hs_streaming_ep.wMaxPacketSize =
+   694				cpu_to_le16(max_packet_size | (max_packet_mult << 11));
+   695			/* A high-bandwidth endpoint must specify a bInterval value of 1 */
+   696			if (max_packet_mult > 0)
+   697				uvc_hs_streaming_ep.bInterval = 1;
+   698			else
+   699				uvc_hs_streaming_ep.bInterval = opts->streaming_interval;
+   700	
+   701			uvc_ss_streaming_ep.wMaxPacketSize = cpu_to_le16(max_packet_size);
+   702			uvc_ss_streaming_ep.bInterval = opts->streaming_interval;
+   703	
+   704			uvc_ss_streaming_comp.bmAttributes = max_packet_mult;
+   705			uvc_ss_streaming_comp.bMaxBurst = opts->streaming_maxburst;
+   706			uvc_ss_streaming_comp.wBytesPerInterval =
+   707				cpu_to_le16(max_packet_size * (max_packet_mult + 1) *
+   708					(opts->streaming_maxburst + 1));
+   709	
+   710			uvc->video.max_payload_size = 0;
+   711		}
+   712	
+   713		/* Allocate endpoints. */
+   714		ep = usb_ep_autoconfig(cdev->gadget, &uvc_control_ep);
+   715		if (!ep) {
+   716			uvcg_info(f, "Unable to allocate control EP\n");
+   717			goto error;
+   718		}
+   719		uvc->control_ep = ep;
+   720	
+   721		if (gadget_is_superspeed(c->cdev->gadget))
+   722			ep = usb_ep_autoconfig_ss(cdev->gadget, &uvc_ss_streaming_ep,
+   723						  &uvc_ss_streaming_comp);
+   724		else if (gadget_is_dualspeed(cdev->gadget))
+   725			ep = usb_ep_autoconfig_ss(cdev->gadget, &uvc_hs_streaming_ep, NULL);
+   726		else
+   727			ep = usb_ep_autoconfig(cdev->gadget, &uvc_fs_streaming_ep);
+   728	
+   729		if (!ep) {
+   730			uvcg_info(f, "Unable to allocate streaming EP\n");
+   731			goto error;
+   732		}
+   733		uvc->video.ep = ep;
+   734	
+   735		uvc_fs_streaming_ep.bEndpointAddress = uvc->video.ep->address;
+   736		uvc_hs_streaming_ep.bEndpointAddress = uvc->video.ep->address;
+   737		uvc_ss_streaming_ep.bEndpointAddress = uvc->video.ep->address;
+   738	
+   739		us = usb_gstrings_attach(cdev, uvc_function_strings,
+   740					 ARRAY_SIZE(uvc_en_us_strings));
+   741		if (IS_ERR(us)) {
+   742			ret = PTR_ERR(us);
+   743			goto error;
+   744		}
+   745		uvc_iad.iFunction = us[UVC_STRING_CONTROL_IDX].id;
+   746		uvc_control_intf.iInterface = us[UVC_STRING_CONTROL_IDX].id;
+   747		ret = us[UVC_STRING_STREAMING_IDX].id;
+   748		uvc_streaming_intf_alt0.iInterface = ret;
+   749		uvc_streaming_intf_alt1.iInterface = ret;
+   750	
+   751		/* Allocate interface IDs. */
+   752		if ((ret = usb_interface_id(c, f)) < 0)
+   753			goto error;
+   754		uvc_iad.bFirstInterface = ret;
+   755		uvc_control_intf.bInterfaceNumber = ret;
+   756		uvc->control_intf = ret;
+   757		opts->control_interface = ret;
+   758	
+   759		if ((ret = usb_interface_id(c, f)) < 0)
+   760			goto error;
+   761		uvc_streaming_intf_alt0.bInterfaceNumber = ret;
+   762		uvc_streaming_intf_alt1.bInterfaceNumber = ret;
+   763		uvc->streaming_intf = ret;
+   764		opts->streaming_interface = ret;
+   765	
+   766		/* Handle different transfer mode for descriptors */
+ > 767		i = 0;
+   768		if (opts->streaming_bulk_mult) {
+   769			uvc_streaming_intf_alt0.bNumEndpoints = 1;
+   770		} else {
+   771			uvc_streaming_intf_alt0.bNumEndpoints = 0;
+   772	
+ > 773			uvc_fs_streaming[i] = USBDHDR(&uvc_streaming_intf_alt1);
+   774			uvc_hs_streaming[i] = USBDHDR(&uvc_streaming_intf_alt1);
+   775			uvc_ss_streaming[i] = USBDHDR(&uvc_streaming_intf_alt1);
+   776			++i;
+   777		}
+   778		uvc_fs_streaming[i] = USBDHDR(&uvc_fs_streaming_ep);
+   779		uvc_hs_streaming[i] = USBDHDR(&uvc_hs_streaming_ep);
+   780		uvc_ss_streaming[i] = USBDHDR(&uvc_ss_streaming_ep);
+   781		++i;
+   782		uvc_fs_streaming[i] = NULL;
+   783		uvc_hs_streaming[i] = NULL;
+   784		uvc_ss_streaming[i] = USBDHDR(&uvc_ss_streaming_comp);
+   785		++i;
+   786		uvc_ss_streaming[i] = NULL;
+   787	
+   788		/* Copy descriptors */
+   789		f->fs_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_FULL);
+   790		if (IS_ERR(f->fs_descriptors)) {
+   791			ret = PTR_ERR(f->fs_descriptors);
+   792			f->fs_descriptors = NULL;
+   793			goto error;
+   794		}
+   795		if (gadget_is_dualspeed(cdev->gadget)) {
+   796			f->hs_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_HIGH);
+   797			if (IS_ERR(f->hs_descriptors)) {
+   798				ret = PTR_ERR(f->hs_descriptors);
+   799				f->hs_descriptors = NULL;
+   800				goto error;
+   801			}
+   802		}
+   803		if (gadget_is_superspeed(c->cdev->gadget)) {
+   804			f->ss_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_SUPER);
+   805			if (IS_ERR(f->ss_descriptors)) {
+   806				ret = PTR_ERR(f->ss_descriptors);
+   807				f->ss_descriptors = NULL;
+   808				goto error;
+   809			}
+   810		}
+   811	
+   812		/* Preallocate control endpoint request. */
+   813		uvc->control_req = usb_ep_alloc_request(cdev->gadget->ep0, GFP_KERNEL);
+   814		uvc->control_buf = kmalloc(UVC_MAX_REQUEST_SIZE, GFP_KERNEL);
+   815		if (uvc->control_req == NULL || uvc->control_buf == NULL) {
+   816			ret = -ENOMEM;
+   817			goto error;
+   818		}
+   819	
+   820		uvc->control_req->buf = uvc->control_buf;
+   821		uvc->control_req->complete = uvc_function_ep0_complete;
+   822		uvc->control_req->context = uvc;
+   823	
+   824		if (v4l2_device_register(&cdev->gadget->dev, &uvc->v4l2_dev)) {
+   825			uvcg_err(f, "failed to register V4L2 device\n");
+   826			goto error;
+   827		}
+   828	
+   829		/* Initialise video. */
+   830		ret = uvcg_video_init(&uvc->video, uvc);
+   831		if (ret < 0)
+   832			goto v4l2_error;
+   833	
+   834		/* Register a V4L2 device. */
+   835		ret = uvc_register_video(uvc);
+   836		if (ret < 0) {
+   837			uvcg_err(f, "failed to register video device\n");
+   838			goto v4l2_error;
+   839		}
+   840	
+   841		return 0;
+   842	
+   843	v4l2_error:
+   844		v4l2_device_unregister(&uvc->v4l2_dev);
+   845	error:
+   846		if (uvc->control_req)
+   847			usb_ep_free_request(cdev->gadget->ep0, uvc->control_req);
+   848		kfree(uvc->control_buf);
+   849	
+   850		usb_free_all_descriptors(f);
+   851		return ret;
+   852	}
+   853	
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+0-DAY CI Kernel Test Service
+https://01.org/lkp
