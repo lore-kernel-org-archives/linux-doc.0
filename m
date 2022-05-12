@@ -2,109 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B6BDC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 12:11:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC18AC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 12 May 2022 12:51:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353573AbiELMLj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 08:11:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49526 "EHLO
+        id S238514AbiELMvL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 08:51:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353574AbiELMLj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 08:11:39 -0400
-Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [216.12.86.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8FE83CA4C
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 05:11:33 -0700 (PDT)
-Date:   Thu, 12 May 2022 08:11:31 -0400
-From:   Rich Felker <dalias@libc.org>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     musl@lists.openwall.com, Christian Brauner <brauner@kernel.org>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        GNU C Library <libc-alpha@sourceware.org>
-Subject: Re: [musl] Re: [PATCH V9 13/24] LoongArch: Add system call support
-Message-ID: <20220512121131.GH7074@brightrain.aerifal.cx>
-References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
- <20220430090518.3127980-14-chenhuacai@loongson.cn>
- <CAK8P3a0A9dW4mwJ6JHDiJxizL7vWfr4r4c5KhbjtAY0sWbZJVA@mail.gmail.com>
- <CAAhV-H4te_+AS69viO4eBz=abBUm5oQ6AfoY1Cb+nOCZyyeMdA@mail.gmail.com>
- <CAK8P3a0DqQcApv8aa2dgBS5At=tEkN7cnaskoUeXDi2-Bu9Rnw@mail.gmail.com>
- <20220507121104.7soocpgoqkvwv3gc@wittgenstein>
- <20220509100058.vmrgn5fkk3ayt63v@wittgenstein>
- <CAK8P3a0zmPbMNsS11aUGiAADyjOEueNUXQ8QZtVxr48M3pwAkQ@mail.gmail.com>
- <20220511211231.GG7074@brightrain.aerifal.cx>
- <CAK8P3a05wSVu7M9kVMw5cSqx84YUCk1394Yfd_5tweEOc2P69g@mail.gmail.com>
+        with ESMTP id S1354127AbiELMu4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 08:50:56 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F310DCFC
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 05:50:40 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id x8so1081295pgr.4
+        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 05:50:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=A0xOx0HJGPqe65kUT8EYAv7c6q9fmHkJFCQDDmRbELQ=;
+        b=lwxhL4wAs6Qvzati4H2W524EGSAsQhuS3/nB5BZWZ4DEpD5RDkZvry5sMHYjaX/WEw
+         y3U0PGPPxvMt6oD+WQwL4AHVAjGflqpa/Bt0K+pciJmSLHe+5NVj/LUGh9Dp1uTu01RQ
+         znnBn8BAy0KGV9DBsyKUfoiT1Sy8QscSdPlY7DZUd03IdYvEkO6Y47GwahGKpBKZ4YS2
+         oTFA9xVdwzp02a3nxDkp37gCPunfyYdIN3xquEjhbu1X9zZ+YpuOgWoeAIdpYVQZgq6F
+         SqGFY/KIvGfMxFo6rKdQROw+56A0Hn0UjJNrM2h71EC59qap64VmDCAdMBoYbnUGbGLY
+         +75w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=A0xOx0HJGPqe65kUT8EYAv7c6q9fmHkJFCQDDmRbELQ=;
+        b=lcO9zIqlxLBINJ9/MzG9ZK0JwXBYyEH/m+W7ch9Vgu+bJYfdxmsW3twdvcg88kFnoe
+         muYVSpxhwR5MTqD2DdsO73AAAomlVbUnkw10bfsTyfOVPs75xqdzmxVSfkX5KqnJtILD
+         JeMS3TO70+Nbl7KgQIZgTxNe4uFeuLUzmbZnIgUuLHSGLTU0V5RHxsXSPmaNrW/OswkW
+         QOAF1g/bluOMeNcBGXEMq3cHrbVrlUvardCB85+hsbPqJN681EF/E1MFtAb6LT6hIxPd
+         hqj+wRv6p77480Lmz7wMvwojTttHEu8pUE3Ftqt8RJLVPaUELCJNnccPRMEmeAuxw2r8
+         CzIg==
+X-Gm-Message-State: AOAM5325ZJK61Wc6FZfLGLr+v+IRP/Ak2CtWdlo4Lt7CfKGIt1+rwKdV
+        18YtbMd62bgWg+VTX/yr4V648A==
+X-Google-Smtp-Source: ABdhPJzD/auBmfoLWNxs2s5aGR2dmgOFqGv/Z5slJeRepfjx/hj1IpceD0OaHmBJGL5a2oxFasebMg==
+X-Received: by 2002:a63:4549:0:b0:3db:5130:d269 with SMTP id u9-20020a634549000000b003db5130d269mr4372076pgk.101.1652359840481;
+        Thu, 12 May 2022 05:50:40 -0700 (PDT)
+Received: from localhost ([139.177.225.250])
+        by smtp.gmail.com with ESMTPSA id i21-20020a170902e49500b0015e8d4eb20dsm3758677ple.87.2022.05.12.05.50.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 May 2022 05:50:40 -0700 (PDT)
+Date:   Thu, 12 May 2022 20:50:27 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        osalvador@suse.de, masahiroy@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v10 2/4] mm: memory_hotplug: override memmap_on_memory
+ when hugetlb_free_vmemmap=on
+Message-ID: <Yn0Ck5isxx4ghQi6@FVFYT0MHHV2J.usts.net>
+References: <20220509062703.64249-1-songmuchun@bytedance.com>
+ <20220509062703.64249-3-songmuchun@bytedance.com>
+ <ebffd794-697b-9bf1-f41b-4b2d52c100fc@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a05wSVu7M9kVMw5cSqx84YUCk1394Yfd_5tweEOc2P69g@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <ebffd794-697b-9bf1-f41b-4b2d52c100fc@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 12, 2022 at 09:21:13AM +0200, Arnd Bergmann wrote:
-> On Wed, May 11, 2022 at 11:12 PM Rich Felker <dalias@libc.org> wrote:
-> > On Wed, May 11, 2022 at 09:11:56AM +0200, Arnd Bergmann wrote:
-> > > On Mon, May 9, 2022 at 12:00 PM Christian Brauner <brauner@kernel.org> wrote:
-> > > .....
-> > > > I can try and move a poc for this up the todo list.
-> > > >
-> > > > Without an approach like this certain sandboxes will fallback to
-> > > > ENOSYSing system calls they can't filter. This is a generic problem
-> > > > though with clone3() being one promiment example.
-> > >
-> > > Thank you for the detailed reply. It sounds to me like this will eventually have
-> > > to get solved anyway, so we could move ahead without clone() on loongarch,
-> > > and just not have support for Chrome until this is fully solved.
-> > >
-> > > As both the glibc and musl ports are being proposed for inclusion right
-> > > now, we should try to come to a decision so the libc ports can adjust if
-> > > necessary. Adding both mailing lists to Cc here, the discussion is archived
-> > > at [1].
-> > >
-> > >          Arnd
-> > >
-> > > [1] https://lore.kernel.org/linux-arch/20220509100058.vmrgn5fkk3ayt63v@wittgenstein/
-> >
-> > Having read about the seccomp issue, I think it's a very strong
-> > argument that __NR_clone should be kept permanently for all future
-> > archs.
+On Thu, May 12, 2022 at 09:36:15AM +0200, David Hildenbrand wrote:
+> On 09.05.22 08:27, Muchun Song wrote:
+> > Optimizing HugeTLB vmemmap pages is not compatible with allocating memmap on
+> > hot added memory. If "hugetlb_free_vmemmap=on" and
+> > memory_hotplug.memmap_on_memory" are both passed on the kernel command line,
+> > optimizing hugetlb pages takes precedence. 
 > 
-> Ok, let's keep clone() around for all architectures then. We should probably
-> just remove the __ARCH_WANT_SYS_CLONE macro and build the
-> code into the kernel unconditionally, but at the moment there
-> are still private versions for ia64 and sparc with the same name as
-> the generic version. Both are also still lacking support for clone3() and
-> don't have anyone actively working on them.
-> 
-> In this case, we probably don't need to change clone3() to allow the
-> zero-length stack after all, and the wrapper that was added to the
-> musl port should get removed again.
+> Why?
+>
 
-I still think disallowing a zero length (unknown length with caller
-providing the start address only) stack is a gratuitous limitation on
-the clone3 interface, and would welcome leaving the change to allow
-zero-length in place. There does not seem to be any good justification
-for forbidding it, and it does pose other real-world obstruction to
-use. For example if your main thread had exited (or if you're forking
-from a non-main thread) and you wanted to create a new process using
-the old main thread stack as your stack, you would not know a
-size/lowest-address, only a starting address from which it extends
-some long (and possibly expanding) amount.
+Because both two features are not compatible since hugetlb_free_vmemmap cannot
+optimize the vmemmap pages allocated from alternative allocator (when
+memory_hotplug.memmap_on_memory=1). So when the feature of hugetlb_free_vmemmap
+is introduced, I made hugetlb_free_vmemmap take precedence.  BTW, I have a plan
+to remove this restriction, I'll post it out ASAP.
 
-Rich
+Thanks.
+
