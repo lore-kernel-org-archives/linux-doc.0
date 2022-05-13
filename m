@@ -2,116 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDA96C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 19:18:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E910C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 19:33:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1383637AbiEMTSz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 May 2022 15:18:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55432 "EHLO
+        id S1382819AbiEMTdE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 May 2022 15:33:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1383778AbiEMTS1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 15:18:27 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B83E441988;
-        Fri, 13 May 2022 12:17:26 -0700 (PDT)
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24DGoG0V004281;
-        Fri, 13 May 2022 19:17:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=90jLybUWtcFEtmbslowDYpFUqh1zgHjhv3T7pMdxGdg=;
- b=sjVs5JJks1Gw1wgwq95YSUMAJ8zG+hbZrnjE8fIoWCcZVX1DXKfBwK42fbEJ4p8PygIZ
- Dyw11sjqPxs3NPz4fXeshNmj4dMMlLgI/GLvxVXKVfbT3/mGIEond0EvS5+DcSJUxZ3l
- HG8OzXXNP6tLHmAn0CkmcG3huu5hhtSbY57orICvONgbnZNpIa78xci6tLPkJhz6hj0Y
- K8Jn7yMhyZCR7uetS6Z68vdfRW5Q/mtbgm74hLi0Xvx4PjZzz3LjXnPRRKNLmcHaUvRR
- UUmLj6pf2yh28f07mezMXpOVdRjjoCJisAZrdtltfLvXk8ptMmlu3EWjt53iGwdq1JeI Bw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g1u71ak35-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 13 May 2022 19:17:20 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24DJ3YLW024366;
-        Fri, 13 May 2022 19:17:19 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com [169.63.121.186])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g1u71ak2g-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 13 May 2022 19:17:19 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
-        by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24DJDD4F015031;
-        Fri, 13 May 2022 19:17:17 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com [9.57.198.28])
-        by ppma03wdc.us.ibm.com with ESMTP id 3fwgda4e0n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 13 May 2022 19:17:17 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com [9.57.199.107])
-        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 24DJHHht36241810
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 13 May 2022 19:17:17 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 22697124053;
-        Fri, 13 May 2022 19:17:17 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id AEBE6124052;
-        Fri, 13 May 2022 19:17:11 +0000 (GMT)
-Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown [9.211.49.28])
-        by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
-        Fri, 13 May 2022 19:17:11 +0000 (GMT)
-From:   Matthew Rosato <mjrosato@linux.ibm.com>
-To:     linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        jgg@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v7 22/22] MAINTAINERS: additional files related kvm s390 pci passthrough
-Date:   Fri, 13 May 2022 15:15:09 -0400
-Message-Id: <20220513191509.272897-23-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220513191509.272897-1-mjrosato@linux.ibm.com>
-References: <20220513191509.272897-1-mjrosato@linux.ibm.com>
+        with ESMTP id S1380583AbiEMTdE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 15:33:04 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A2805BE7B;
+        Fri, 13 May 2022 12:33:01 -0700 (PDT)
+Received: from mail-yw1-f170.google.com ([209.85.128.170]) by
+ mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MV6G0-1nNaHd3SGk-00S9SR; Fri, 13 May 2022 21:33:00 +0200
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-2ebf4b91212so100487807b3.8;
+        Fri, 13 May 2022 12:32:59 -0700 (PDT)
+X-Gm-Message-State: AOAM533EJnvtWJNshrUMN/cMhiHTKD+qmQW0y38xtp7AymAdmJyKwRUF
+        BChQ3yLjkZro08kZmNILqrvfUXCBv3IGlbPmdmo=
+X-Google-Smtp-Source: ABdhPJwCL00R0GBeDe7JbP4gBwr+dNH6R9L3x9Kf4PexSUlAVHRfICUM51HKbOE6+snkPmIgf0vzFiRTTaBIYyJk+Eo=
+X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
+ m125-20020a0dfc83000000b002e5b0f4c125mr7612521ywf.347.1652470378438; Fri, 13
+ May 2022 12:32:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: J1AvtACjSzVG5eZFwTf5V9OKilMsrJiA
-X-Proofpoint-GUID: njoq1x2KNVjEFLxuFTSd9HXpmlV6bGMF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-13_11,2022-05-13_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- mlxscore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501 spamscore=0
- phishscore=0 suspectscore=0 clxscore=1015 impostorscore=0 mlxlogscore=901
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2205130076
+References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
+ <20220430090518.3127980-21-chenhuacai@loongson.cn> <CAK8P3a2SPTLLrZtSz0LT0LqMpq4SKCScD4vLvr+DJn+u5W_CdA@mail.gmail.com>
+ <CAMj1kXEDpJwLDD4ZGLwzdo1KcJG_90iD9MnBVamCK06YKF7BdA@mail.gmail.com>
+ <CAAhV-H4eR5YvhABp9L4FBmofWwH+XM3V_nOjatQTV_M7Gihs7g@mail.gmail.com>
+ <CAMj1kXFD8_CuijJFgQbrxvY4MVBLmKQKFKmYhD1NBFLn3v=+FQ@mail.gmail.com>
+ <a6afaa3f-cb9f-2086-0e02-5ec21ba535d4@xen0n.name> <CAK8P3a0xuh1aAM7iwE-jiBbR-OOF5YVfhmU0Nygbpviso3tmbQ@mail.gmail.com>
+ <CAAhV-H5FbA5DJvPwygiUyBrzq9M5R=Fr06rHAHLR31uu6ZLmkQ@mail.gmail.com>
+In-Reply-To: <CAAhV-H5FbA5DJvPwygiUyBrzq9M5R=Fr06rHAHLR31uu6ZLmkQ@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 13 May 2022 21:32:41 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1_2DJVjZtk9XGYvH0TSbNQwST0YXD4A+rfFELBOxpDEA@mail.gmail.com>
+Message-ID: <CAK8P3a1_2DJVjZtk9XGYvH0TSbNQwST0YXD4A+rfFELBOxpDEA@mail.gmail.com>
+Subject: Re: [PATCH V9 20/24] LoongArch: Add efistub booting support
+To:     Huacai Chen <chenhuacai@gmail.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, WANG Xuerui <kernel@xen0n.name>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:sxjlWFQFhZs3joRNaNiPtLzwBQaw3DZiNtMZyNdZL4N9Nkjw+mE
+ iy6k/NWrt1xZ9nSdoWCB1AIT/KW91SjYpgFeR6Lj7a9RXZnQZx/sAeR/BDUMHzX28hvOOHN
+ l7m5VNIxPjWs5OKoNGqOw27BIBGQd1EHic9ZskKZGppT8OZW7B1VdUPQxMOkQzrXQjm+ZGg
+ NorQQ2fUOehivtcs9Q85A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IhdJcJuUJZY=:DKZDFjsDhyzTTZ4MolSQwL
+ NP6YkDnm9jyTegRc22QX6EXUJO1De+OD3AHVRJrJRUbsbfb9Gr8QKRsiVN980aMCaQ+Gf4nY8
+ TmG/AqKTGtO0RumJaO+/Hz7bOizpP+cxJuPTSCpdkErMFoBcEOFe0bMtABYA+RWPZY053Rzm1
+ fRcSTPhUgSqZXpSDhGdwJBJo0frncIREpsmQAz92igcHQlHiR+ggHeDMepLi5Iz1RffiQdm99
+ TlOEYoP0APl2FxYsRkVGsVrVwrauth5RFl9pgJlmO8vwH95tmPkrkNsoHX4GCCUfBd87Gh5Cd
+ 96x6KCowIHrTVv/PWkYRr5XK2z0iEq48Kz51lv5I90NfxP/yx7pgssHtgCpRRigqEPQuofT3a
+ utfOCV75CzBwhBnhluz40PMrqIEaWFYGurBnp/wk8mi2MQk8rk3FYDSrOc/LmGwa5NSJ/Qhaj
+ g9uKAS2ShijASCArBk436/0lEIuqO+i+dWhv2Bup5IbGiPQSIYMof6HiS+hkD5UUhcUSRDNh3
+ FS4OV4GROLbRf0P+tDlKtrbQ9j5/nOoJ/VCB5ub6oYgn1LOXZz2i3RBatdiSdTQLZQHQFOIbN
+ 3XxnU0Sb9zezkrwwFuh2OlVoJipprS7YFrGpBZlRg91Tdvf1sxniblOURmL4KQt5lORs0Robh
+ M0TMOHvH2rYsVwEOnxs3gJLnCBZuyPbJW0kbSeqD1Y9Qx/kYztgewv/O8HwB/ULxgrBI=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add entries from the s390 kvm subdirectory related to pci passthrough.
+On Fri, May 6, 2022 at 3:20 PM Huacai Chen <chenhuacai@gmail.com> wrote:
+> On Fri, May 6, 2022 at 7:41 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> >
+> > Agreed. I think there can be limited compatibility support for old
+> > firmware though, at least to help with the migration: As long as
+> > the interface between grub and linux has a proper definition following
+> > the normal UEFI standard, there can be both a modern grub
+> > that is booted using the same protocol and a backwards-compatible
+> > grub that can be booted from existing firmware and that is able
+> > to boot the kernel.
+> >
+> > The compatibility version of grub can be retired after the firmware
+> > itself is able to speak the normal boot protocol.
+> After an internal discussion, we decide to use the generic stub, and
+> we have a draft version of generic stub now[1]. I hope V10 can solve
+> all problems. :)
+> [1] https://github.com/loongson/linux/tree/loongarch-next-generic-stub
 
-Acked-by: Christian Borntraeger <borntraeger@linux.ibm.com>
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Can you post v19 to the list? As we have resolved the question on clone()
+now (I hope), and you have a prototype for the boot protocol, it sounds
+like this can make it into v5.19 after all, but we need to be sure that the
+remaining points that Xuerui Wang and Ard Biesheuvel raised are
+all addressed, and there is not much time before the merge window.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 28f809560ac9..767f93172b77 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17266,6 +17266,7 @@ M:	Eric Farman <farman@linux.ibm.com>
- L:	linux-s390@vger.kernel.org
- L:	kvm@vger.kernel.org
- S:	Supported
-+F:	arch/s390/kvm/pci*
- F:	drivers/vfio/pci/vfio_pci_zdev.c
- F:	include/uapi/linux/vfio_zdev.h
- 
--- 
-2.27.0
+I have built a gcc-12.1 based toochain at
+https://mirrors.edge.kernel.org/pub/tools/crosstool/ that now includes
+loongarch64 suport, please point to that in the cover letter for v10
+in case someone wants to start test building.
 
+I will be travelling next week, and won't be able to pull your tree
+into the asm-generic tree during that time, as I had originally planned.
+
+However, you can ask Stephen Rothwell (added to Cc) to add your
+git tree to linux-next once you think that you have addressed all of the
+remaining review comments, and posted the same version to the
+list. This will allow others to more easily test your tree in combination
+with the other work that has been queued for the 5.19 release.
+
+If there are no new show-stoppers, I can help you coordinate
+the pull request during the merge window.
+
+         Arnd
