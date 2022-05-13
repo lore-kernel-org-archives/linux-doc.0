@@ -2,380 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F7C9C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 15:42:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FC98C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 16:14:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382153AbiEMPme (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 May 2022 11:42:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60228 "EHLO
+        id S235081AbiEMQO0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 May 2022 12:14:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382234AbiEMPmb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 11:42:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5DEB62FFD6
-        for <linux-doc@vger.kernel.org>; Fri, 13 May 2022 08:42:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1652456549;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Qt51KmMEp2p5kZHKW2/GzlR6XIOdTGRJtza/WZphhNw=;
-        b=BCyCKR/BKaTTr/3Ki48uFAVrZ7bwJG1t66mH9L6PVf1twHubYyGPi/xMExh9RZICGoyQ/S
-        D+Cr7TiOftJ5VAxarIExvCeQJNVICIuhxxOC1ahOecXPlFoFQwttoT/UuiqE1DypbKt8HW
-        nf19vdqB9q1vYcQhcdWimMDEwUXg9hg=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-637-RiJ0AoOsMuunNTyL5CYFuA-1; Fri, 13 May 2022 11:42:27 -0400
-X-MC-Unique: RiJ0AoOsMuunNTyL5CYFuA-1
-Received: by mail-qt1-f199.google.com with SMTP id o16-20020ac87c50000000b002f3b8cd6a7fso6598891qtv.13
-        for <linux-doc@vger.kernel.org>; Fri, 13 May 2022 08:42:27 -0700 (PDT)
+        with ESMTP id S1381684AbiEMQNg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 12:13:36 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB9534552F;
+        Fri, 13 May 2022 09:13:27 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id i17so8371184pla.10;
+        Fri, 13 May 2022 09:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=n4Ua5qSAHgvrptVTXpgV4jY28Fp/1ApPJcGYkkazweE=;
+        b=dh+CcTt4AjCORsqV1ZODlBqFq+OvMka9auOOZykOuG9GwHD05RDvn63lEcsItiN2eH
+         nH+MkFBQ8v1tdeWUMN4BRvaW+7Q1uwmQiOctS5wPsQLKRk5Ykt9si+fUFSf6n/at1dmY
+         4JOHexwRERxmPXQVd5EWv4mWhFA3BXiW4pCX0ZdVzHtYoUWHmurH8uIA0uBpYInyofFZ
+         pNEuW8xEgDqjAmuzWH27jn+y85YMNek74F2xgDatREWDoXEvBkL4SnO/axBiM7vQgUS4
+         gbWP9yrJI2fCACw+ngKTCewWFxR85tswkrdeT3TpOZ3UiGjOL9rgao5yscsrH/9y3/bl
+         VBAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Qt51KmMEp2p5kZHKW2/GzlR6XIOdTGRJtza/WZphhNw=;
-        b=6h6DMRTAsgPXYULIbUJmmk2J61bIkkjFFIE2rouP9cSTTFTAN5Ryr5NXUw1ftDAVOK
-         SNYtImg7JWjOtSHQe5xHTSOAbgVewzq3YJNAZcllbaD1ZDuZkXL24IfuenpEMqDUst0S
-         AcleotDAaXTVIfF8ZPk2NzO8pCK65szQB4cy1ym2SgcT/QqIBfwvm0wVxrvL0eAWpXHJ
-         +ofBXHPOXe8qax3kmN6TdfQckdD7OFSWzwxeByw05pjG/hKTEkMuzZIF4oaHOJyJPE6+
-         DjZIWiVJxd/3nYGzxDQGqRCzTFBbJyzmFjQHIO1k4zOaJGc6lktsOz288wPyc8qlS/PB
-         OicQ==
-X-Gm-Message-State: AOAM530i58OTVDP28bsLPUJcs5EDFj9oeFYEWgcPXsxelYWRq7VCqYa0
-        STjcSQrPQjXhf9P8K4fZo5SLKdDKF9eDCSQO44whD3qWAsedOz7H/IIkWc/kGiRieZpi/CuCzFN
-        jeyTPDl56p2/InFsOlcfX
-X-Received: by 2002:ac8:5e0c:0:b0:2f3:adfd:bd30 with SMTP id h12-20020ac85e0c000000b002f3adfdbd30mr5067551qtx.277.1652456547225;
-        Fri, 13 May 2022 08:42:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyKaXPR/x6m9eRtDhITZ/mgkh3K8v85o3GPEiQQ767o63X5SoQJyaXZc+UC5jRKP4V4ZeURSA==
-X-Received: by 2002:ac8:5e0c:0:b0:2f3:adfd:bd30 with SMTP id h12-20020ac85e0c000000b002f3adfdbd30mr5067495qtx.277.1652456546522;
-        Fri, 13 May 2022 08:42:26 -0700 (PDT)
-Received: from [192.168.98.18] ([107.15.110.69])
-        by smtp.gmail.com with ESMTPSA id f10-20020ac8498a000000b002f39b99f6b9sm1599192qtq.83.2022.05.13.08.42.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 May 2022 08:42:25 -0700 (PDT)
-Message-ID: <d2696dab-2490-feb5-ccb2-96906fc652f0@redhat.com>
-Date:   Fri, 13 May 2022 11:42:24 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH net-next v2] bond: add mac filter option for balance-xor
-Content-Language: en-US
-To:     Nikolay Aleksandrov <razor@blackwall.org>, netdev@vger.kernel.org
-Cc:     Long Xin <lxin@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=n4Ua5qSAHgvrptVTXpgV4jY28Fp/1ApPJcGYkkazweE=;
+        b=QcsytHXlMbPTEHIYFvpnQDkGksrZ4wabpvWRsXAT2RgqsbxfmSlmSamGthRC9S/PDz
+         mmgpmAjPFz0JpDvkg9BuABJxKgKuE+l8IRaLRUCj5oFqtZLe9P9za9AJHpAr/V4Oyg3E
+         BAm2ptrGTLLFB+n/+yg4VwWeVYZfh1Uf74vSWF+Z+PW77xIVD75tk2waNk8AzGckea6L
+         hEP3Z7sIw4rRwf5ye22GhKy7ssQsCLvVJwjDZfSIBBx9QjO2pQShpv7pxWsLR9Jwq3fQ
+         gQeD7UFwkGxsGjk4bQtspjwrLp6IxFViZGlY/wNSj/e7qdM0+ssS7W31NHvUrKu+yHRv
+         qSqg==
+X-Gm-Message-State: AOAM531ktAfLKnLfVG9t7Q1On4bEYj0w7wx0itA1fhgeHk86GyWO5S4E
+        3awW5GrZ/SEDAKBVvooj4g8=
+X-Google-Smtp-Source: ABdhPJx/E0j2BSOqlsmETv4JaHt8kQAXKtx8000l3ywPW9tmB75Cv/mYY002CdT2AqHaPSsO5Oy1mQ==
+X-Received: by 2002:a17:90b:17c4:b0:1de:c92c:ad91 with SMTP id me4-20020a17090b17c400b001dec92cad91mr5642606pjb.169.1652458407026;
+        Fri, 13 May 2022 09:13:27 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::4:5607])
+        by smtp.gmail.com with ESMTPSA id ip14-20020a17090b314e00b001d81a30c437sm1796573pjb.50.2022.05.13.09.13.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 May 2022 09:13:26 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Fri, 13 May 2022 06:13:25 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Shuah Khan <shuah@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+        John Stultz <jstultz@google.com>,
+        Carlos Llamas <cmllamas@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kernel-team@android.com, cgroups@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgensen?= <toke@redhat.com>,
-        Jesper Dangaard Brouer <brouer@redhat.com>
-References: <6227427ef3b57d7de6d4d95e9dd7c9b222a37bf6.1651689665.git.jtoppins@redhat.com>
- <f85a0a66-d3b8-9d20-9abb-fc9fa5e84eab@blackwall.org>
-From:   Jonathan Toppins <jtoppins@redhat.com>
-In-Reply-To: <f85a0a66-d3b8-9d20-9abb-fc9fa5e84eab@blackwall.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
+Message-ID: <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
+References: <20220510235653.933868-1-tjmercier@google.com>
+ <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
+ <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
+ <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
+ <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Nik, thanks for the review. Responses below.
+Hello,
 
-On 5/5/22 08:14, Nikolay Aleksandrov wrote:
-> On 04/05/2022 21:47, Jonathan Toppins wrote:
->> Implement a MAC filter that prevents duplicate frame delivery when
->> handling BUM traffic. This attempts to partially replicate OvS SLB
->> Bonding[1] like functionality without requiring significant change
->> in the Linux bridging code.
->>
->> A typical network setup for this feature would be:
->>
->>              .--------------------------------------------.
->>              |         .--------------------.             |
->>              |         |                    |             |
->>         .-------------------.               |             |
->>         |    | Bond 0  |    |               |             |
->>         | .--'---. .---'--. |               |             |
->>    .----|-| eth0 |-| eth1 |-|----.    .-----+----.   .----+------.
->>    |    | '------' '------' |    |    | Switch 1 |   | Switch 2  |
->>    |    '---,---------------'    |    |          +---+           |
->>    |       /                     |    '----+-----'   '----+------'
->>    |  .---'---.    .------.      |         |              |
->>    |  |  br0  |----| VM 1 |      |      ~~~~~~~~~~~~~~~~~~~~~
->>    |  '-------'    '------'      |     (                     )
->>    |      |        .------.      |     ( Rest of Network     )
->>    |      '--------| VM # |      |     (_____________________)
->>    |               '------'      |
->>    |  Host 1                     |
->>    '-----------------------------'
->>
->> Where 'VM1' and 'VM#' are hosts connected to a Linux bridge, br0, with
->> bond0 and its associated links, eth0 & eth1, provide ingress/egress. One
->> can assume bond0, br1, and hosts VM1 to VM# are all contained in a
->> single box, as depicted. Interfaces eth0 and eth1 provide redundant
->> connections to the data center with the requirement to use all bandwidth
->> when the system is functioning normally. Switch 1 and Switch 2 are
->> physical switches that do not implement any advanced L2 management
->> features such as MLAG, Cisco's VPC, or LACP.
->>
->> Combining this feature with vlan+srcmac hash policy allows a user to
->> create an access network without the need to use expensive switches that
->> support features like Cisco's VCP.
->>
->> [1] https://docs.openvswitch.org/en/latest/topics/bonding/#slb-bonding
->>
->> Co-developed-by: Long Xin <lxin@redhat.com>
->> Signed-off-by: Long Xin <lxin@redhat.com>
->> Signed-off-by: Jonathan Toppins <jtoppins@redhat.com>
->> ---
->>
->> Notes:
->>      v2:
->>       * dropped needless abstraction functions and put code in module init
->>       * renamed variable "rc" to "ret" to stay consistent with most of the
->>         code
->>       * fixed parameter setting management, when arp-monitor is turned on
->>         this feature will be turned off similar to how miimon and arp-monitor
->>         interact
->>       * renamed bond_xor_recv to bond_mac_filter_recv for a little more
->>         clarity
->>       * it appears the implied default return code for any bonding recv probe
->>         must be `RX_HANDLER_ANOTHER`. Changed the default return code of
->>         bond_mac_filter_recv to use this return value to not break skb
->>         processing when the skb dev is switched to the bond dev:
->>           `skb->dev = bond->dev`
->>
->>   Documentation/networking/bonding.rst  |  19 +++
->>   drivers/net/bonding/Makefile          |   2 +-
->>   drivers/net/bonding/bond_mac_filter.c | 201 ++++++++++++++++++++++++++
->>   drivers/net/bonding/bond_mac_filter.h |  39 +++++
->>   drivers/net/bonding/bond_main.c       |  27 ++++
->>   drivers/net/bonding/bond_netlink.c    |  13 ++
->>   drivers/net/bonding/bond_options.c    |  86 ++++++++++-
->>   drivers/net/bonding/bonding_priv.h    |   1 +
->>   include/net/bond_options.h            |   1 +
->>   include/net/bonding.h                 |   3 +
->>   include/uapi/linux/if_link.h          |   1 +
->>   11 files changed, 390 insertions(+), 3 deletions(-)
->>   create mode 100644 drivers/net/bonding/bond_mac_filter.c
->>   create mode 100644 drivers/net/bonding/bond_mac_filter.h
->>
-> 
-> Hi Jonathan,
-> I must mention that this is easily solvable with two very simple ebpf programs, one on egress
-> to track source macs and one on ingress to filter them, it can also easily be solved by a
-> user-space agent that adds macs for filtering in many different ways, after all these VMs
-> run on the host and you don't need bond-specific knowledge to do this. Also you have no visibility
-> into what is currently being filtered, so it will be difficult to debug. With the above solutions
-> you already have that. I don't think the bond should be doing any learning or filtering, this is
-> deviating a lot from its purpose and adds unnecessary complexity.
-> That being said, if you decide to continue with the set, comments are below...
+On Thu, May 12, 2022 at 08:43:52PM -0700, T.J. Mercier wrote:
+> > I'm actually happy I've asked this question, wasn't silly after all. I think the
+> > problem here is a naming issue. What you really are monitor is "video memory",
+> > which consist of a memory segment allocated to store data used to render images
+> > (its not always images of course, GPU an VPU have specialized buffers for their
+> > purpose).
+> >
+> > Whether this should be split between what is used specifically by the GPU
+> > drivers, the display drivers, the VPU (CODEC and pre/post-processor) or camera
+> > drivers is something that should be discussed. But in the current approach, you
+> > really meant Video memory as a superset of the above. Personally, I think
+> > generically (to de-Andronized your work), en-globing all video memory is
+> > sufficient. What I fail to understand is how you will manage to distinguished
+> > DMABuf Heap allocation (which are used outside of Android btw), from Video
+> > allocation or other type of usage. I'm sure non-video usage will exist in the
+> > future (think of machine learning, compute, other high bandwidth streaming
+> > thingy ...)
+> >
+> Ok thank you for pointing out the naming issue. The naming is a
+> consequence of the initial use case, but I guess it's too specific.
+> What I want out of this change is that android can track dmabufs that
+> come out of heaps, and drm can track gpu memory. But other drivers
+> could track different resources under different names. Imagine this
+> were called a buffer cgroup controller instead of a GPU cgroup
+> controller. Then the use component ("video memory") isn't tied up with
+> the name of the controller, but it's up to the name of the bucket the
+> resource is tracked under. I think this meets the needs of the two use
+> cases I'm aware of now, while leaving the door open to other future
+> needs. Really the controller is just enabling abstract named buckets
+> for tracking and eventually limiting a type of resource.
 
-This is an excellent observation, it does appear this could likely be 
-done with eBPF. However, the delivery of such a solution to a user would 
-be the difficult part. There appears to be no standard way for attaching 
-a program to an interface, it still seems customary to write your own 
-custom loader. Where would the user run this loader? In Debian likely in 
-a post up hook with ifupdown, in Fedora one would have to write a 
-locally custom dispatcher script (assuming Network Manager) that only 
-ran the loader for a given interface. In short I do not see a reasonably 
-appropriate way to deploy an eBPF program to users with the current 
-infrastructure. Also, I am not aware of the bpf syscall supporting 
-signed program loading. Signing kernel modules seems popular with some 
-distros to identify limits of support and authentication of an 
-unmodified system. I suspect similar bpf support might be needed to 
-identify support and authentication for deployed programs.
+So, there hasn't been whole lot of discussion w/ other GPU folks and what
+comes up still seems to indicate that we're still long way away from having
+a meaningful gpu controller. For your use case, would it make sense to just
+add dmabuf as a key to the misc controller? I'm not sure it makes sense to
+push "gpu controller" forward if there's no conceptual consensus around what
+resources are.
 
-[...]
+Thanks.
 
->> diff --git a/drivers/net/bonding/bond_mac_filter.c b/drivers/net/bonding/bond_mac_filter.c
->> new file mode 100644
->> index 000000000000..e86b2b475df3
->> --- /dev/null
->> +++ b/drivers/net/bonding/bond_mac_filter.c
->> @@ -0,0 +1,201 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Filter received frames based on MAC addresses "behind" the bond.
->> + */
->> +
->> +#include "bonding_priv.h"
->> +
->> +static const struct rhashtable_params bond_rht_params = {
->> +	.head_offset         = offsetof(struct bond_mac_cache_entry, rhnode),
->> +	.key_offset          = offsetof(struct bond_mac_cache_entry, key),
->> +	.key_len             = sizeof(struct mac_addr),
->> +	.automatic_shrinking = true,
->> +};
->> +
->> +static inline unsigned long hold_time(const struct bonding *bond)
-> 
-> no inlines in .c files, let the compiler do its job
-> 
->> +{
->> +	return msecs_to_jiffies(5000);
->> +}
->> +
->> +static bool has_expired(const struct bonding *bond,
->> +			struct bond_mac_cache_entry *mac)
->> +{
->> +	return time_before_eq(mac->used + hold_time(bond), jiffies);
->> +}
->> +
->> +static void mac_delete_rcu(struct callback_head *head)
->> +{
->> +	kmem_cache_free(bond_mac_cache,
->> +			container_of(head, struct bond_mac_cache_entry, rcu));
->> +}
->> +
->> +static int mac_delete(struct bonding *bond,
->> +		      struct bond_mac_cache_entry *entry)
->> +{
->> +	int ret;
->> +
->> +	ret = rhashtable_remove_fast(bond->mac_filter_tbl,
->> +				     &entry->rhnode,
->> +				     bond->mac_filter_tbl->p);
->> +	set_bit(BOND_MAC_DEAD, &entry->flags);
-> 
-> you don't need the atomic bitops, these flags are all modified and checked
-> under the entry lock
-
-I need to keep the atomic set_bit if I remove the [use-after-free] 
-idiomatic issue later in the file.
-
-> 
->> +	call_rcu(&entry->rcu, mac_delete_rcu);
-> 
-> all of these entries are queued to be freed, what happens if we unload the bonding
-> driver before that?
-
-[...]
-
-> 
->> +
->> +	rhashtable_walk_enter(bond->mac_filter_tbl, &iter);
->> +	rhashtable_walk_start(&iter);
->> +	while ((entry = rhashtable_walk_next(&iter)) != NULL) {
->> +		if (IS_ERR(entry))
->> +			continue;
->> +
->> +		spin_lock_irqsave(&entry->lock, flags);
->> +		if (has_expired(bond, entry))
->> +			mac_delete(bond, entry);
->> +		spin_unlock_irqrestore(&entry->lock, flags);
-> 
-> deleting entries while holding their own lock is not very idiomatic
-
-[use-after-free] To fix this I made has_expired take the lock, making 
-has_expired atomic. Now there is no need to have the critical section 
-above and mac_delete can be outside the critical section. This also 
-removed the use-after-free bug that would appear if the code were not 
-using RCU and cache malloc.
-
-> 
->> +	bond->mac_filter_tbl = kzalloc(sizeof(*bond->mac_filter_tbl),
->> +				       GFP_KERNEL);
->> +	if (!bond->mac_filter_tbl)
->> +		return -ENOMEM;
->> +
->> +	ret = rhashtable_init(bond->mac_filter_tbl, &bond_rht_params);
->> +	if (ret)
->> +		kfree(bond->mac_filter_tbl);
-> 
-> on error this is freed, but the pointer is stale and on bond destruction
-> will be accessed and potentially freed again
-
-set to NULL.
-
-[...]
-
->> +static int mac_create(struct bonding *bond, const u8 *addr)
->> +{
->> +	struct bond_mac_cache_entry *entry;
->> +	int ret;
->> +
->> +	entry = kmem_cache_alloc(bond_mac_cache, GFP_ATOMIC);
->> +	if (!entry)
->> +		return -ENOMEM;
->> +	spin_lock_init(&entry->lock);
->> +	memcpy(&entry->key, addr, sizeof(entry->key));
->> +	entry->used = jiffies;
-> 
-> you must zero the old fields, otherwise you can find stale values from old
-> structs which were freed
-
-good point, have done.
-
-[...]
-
->> diff --git a/drivers/net/bonding/bond_mac_filter.h b/drivers/net/bonding/bond_mac_filter.h
->> new file mode 100644
->> index 000000000000..7c968d41b456
->> --- /dev/null
->> +++ b/drivers/net/bonding/bond_mac_filter.h
->> @@ -0,0 +1,39 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only
->> + *
->> + * Filter received frames based on MAC addresses "behind" the bond.
->> + */
->> +
->> +#ifndef _BOND_MAC_FILTER_H
->> +#define _BOND_MAC_FILTER_H
->> +#include <net/bonding.h>
->> +#include <linux/spinlock.h>
->> +#include <linux/rhashtable.h>
->> +
->> +enum {
->> +	BOND_MAC_DEAD,
->> +	BOND_MAC_LOCKED,
->> +	BOND_MAC_STATIC,
-> 
-> What are BOND_MAC_LOCKED or STATIC ? I didn't see them used anywhere.
-
-Stale, was going to use them to allow the user to manually add entries 
-but never got around to it. Removed.
-
-[...]
-
->> diff --git a/drivers/net/bonding/bond_options.c b/drivers/net/bonding/bond_options.c
->> index 64f7db2627ce..d295903a525b 100644
->> --- a/drivers/net/bonding/bond_options.c
->> +++ b/drivers/net/bonding/bond_options.c
-
-[...]
-
->> @@ -1035,6 +1075,44 @@ static int bond_option_use_carrier_set(struct bonding *bond,
->>   	return 0;
->>   }
->>   
->> +static int bond_option_mac_filter_set(struct bonding *bond,
->> +				      const struct bond_opt_value *newval)
->> +{
->> +	int rc = 0;
->> +	u8 prev = bond->params.mac_filter;
-> 
-> reverse xmas tree
-> 
->> +
->> +	if (newval->value && bond->params.arp_interval) {
-> 
-> what happens if we set arp_interval after enabling this, the table will be
-> freed while the bond is up and is using it, also the queued work is still enabled
-
-This is a good observation. To simplify the option setting I moved the 
-init/destroy of the hash table to bond_open/close respectively. This 
-allowed me to simply set the value of mac_filter. The only catch is in 
-bond_option_arp_interval_set() if mac_filter is set and the interface is 
-up, the user will receive an -EBUSY. This was the minimal amount of 
-configuration behavioral change I could think of.
-
-Thanks,
--Jon
-
+-- 
+tejun
