@@ -2,146 +2,251 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4176DC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 03:51:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABD07C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 06:10:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376744AbiEMDvQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 23:51:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48566 "EHLO
+        id S1377165AbiEMGKq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 May 2022 02:10:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376813AbiEMDuy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 23:50:54 -0400
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CC00624F
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 20:50:49 -0700 (PDT)
-Received: by mail-oo1-xc2d.google.com with SMTP id c22-20020a4ad216000000b0035f13ae7646so2504622oos.9
-        for <linux-doc@vger.kernel.org>; Thu, 12 May 2022 20:50:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=mPYVRQJ3KtRd/5hxYP29jNpNRSc6Jp59FqIYzhOqd1M=;
-        b=K4s3gtmiKAy6Wr3Hi7/dyuWMLJQ68rvmjcX+TiIHR5UrAl0xw99fjetBgRnTod5Ggv
-         +o1WIV2fdnYlnTPmvG7x3GB3WtU0V3a2jul/mAwsYZNK4XligHFDze3EzOEdk9z+pG5y
-         XzNVkL1ojJb1ROdHxH73QjcV6N7ZT3A30nRRPlPsNRvHEfCL/mu5eJCryNvLRsFA8APp
-         6UUVtz/7Xy/zoYJSasRJAZCVkQfk0t+i+SmnURivBrQ5MSUUlKBa2pYaNp186yuCFBM5
-         vrJozt6+Ks2AvyJV2Mfap3sW3o21n0DMIp11+GoWZ5Vb64TDgahD1DzeewknvUHxyIm+
-         v8VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mPYVRQJ3KtRd/5hxYP29jNpNRSc6Jp59FqIYzhOqd1M=;
-        b=mexJerzyrUtME5nv3uZyRHg2cLGayHb6wN77DeUExhzQaOZ9V26Gc+S1yH1xQp3jdD
-         qvohq5+BkfnArgaZ/ydgCX8W+YcLxhrZ03EGAeXjQbbb5hfCQWcUDrjjFxx9ov1VwFa8
-         tc9b4N6ofb1t2JPhyofCIvsgeVTzN8h1g42PkME6+XPLCg2U747mpQUwxRmMECp4JMwy
-         1sTHp+H4ZixkLPP0iKp174rYySmgejYjJFMcD6tfHbnUX/AdXlY2oT+8/OePBcPFrsk7
-         x/MRlGbdENUVrC+QqwVE0kzNcx73qIjtMz64LzlecTsmI109mp6JMhOW56JlIEANQOZR
-         1uJA==
-X-Gm-Message-State: AOAM532OtSRrY9Yx8jrw8csbUZzBtsi7kPg4HCbx7VYmM/Fqy0AeVIvw
-        rRbsXwvig6jr7iiBBwpnVHSf5QRx9eumDKEkMbYBCQ==
-X-Google-Smtp-Source: ABdhPJwICkMlcUIyQFOuifhC0oD51/apqELrYwGehKJg/6ZjGNhvWlasNEJ4mHhProIjJV5t5Z0u2vNXx1zaJapzcbc=
-X-Received: by 2002:a4a:d40d:0:b0:33a:33be:9c1e with SMTP id
- n13-20020a4ad40d000000b0033a33be9c1emr1198631oos.96.1652413847699; Thu, 12
- May 2022 20:50:47 -0700 (PDT)
+        with ESMTP id S230347AbiEMGKp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 02:10:45 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77BAF231;
+        Thu, 12 May 2022 23:10:40 -0700 (PDT)
+Received: from kwepemi100004.china.huawei.com (unknown [172.30.72.55])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KzysH52l3z1JC1B;
+        Fri, 13 May 2022 14:09:23 +0800 (CST)
+Received: from kwepemm600018.china.huawei.com (7.193.23.140) by
+ kwepemi100004.china.huawei.com (7.221.188.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 13 May 2022 14:10:38 +0800
+Received: from huawei.com (10.174.176.88) by kwepemm600018.china.huawei.com
+ (7.193.23.140) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 13 May
+ 2022 14:10:37 +0800
+From:   gaochao <gaochao49@huawei.com>
+To:     <alexs@kernel.org>, <corbet@lwn.net>
+CC:     <siyanteng01@gmail.com>, <bobwxc@email.cn>, <src.res@email.cn>,
+        <wanjiabing@vivo.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] docs/zh_CN: Add dev-tools/gdb-kernel-debugging.rst Chinese translation
+Date:   Fri, 13 May 2022 14:10:35 +0800
+Message-ID: <20220513061035.605-1-gaochao49@huawei.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-References: <20220512184514.15742-1-jon@nutanix.com> <Yn1fjAqFoszWz500@google.com>
- <Yn1hdHgMVuni/GEx@google.com> <07BEC8B1-469C-4E36-AE92-90BFDF93B2C4@nutanix.com>
- <Yn1o9ZfsQutXXdQS@google.com> <CALMp9eRQv6owjfyf+UO=96Q1dkeSrJWy0i4O-=RPSaQwz0bjTQ@mail.gmail.com>
- <C39CD5E4-3705-4D1A-A67D-43CBB7D1950B@nutanix.com> <CALMp9eRXmWvrQ1i0V3G738ndZOZ4YezQ=BqXe-BF2b4GNo1m3Q@mail.gmail.com>
- <DEF8066B-E691-4C85-A19A-9F5222D1683D@nutanix.com> <CALMp9eTwH9WVD=EuTXeu1KYAkAUuXdnmA+k9dti7OM+u=kLKHQ@mail.gmail.com>
- <CD2EB6FA-E17F-45BA-AC70-92CCB12A16C4@nutanix.com>
-In-Reply-To: <CD2EB6FA-E17F-45BA-AC70-92CCB12A16C4@nutanix.com>
-From:   Jim Mattson <jmattson@google.com>
-Date:   Thu, 12 May 2022 20:50:36 -0700
-Message-ID: <CALMp9eQAFz_wzC_SMiWD5KqP3=m+VceP=+6=RWEFbN2m7P7d+w@mail.gmail.com>
-Subject: Re: [PATCH v4] x86/speculation, KVM: remove IBPB on vCPU load
-To:     Jon Kohler <jon@nutanix.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Kees Cook <keescook@chromium.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kim Phillips <kim.phillips@amd.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ashok Raj <ashok.raj@intel.com>,
-        KarimAllah Ahmed <karahmed@amazon.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "kvm @ vger . kernel . org" <kvm@vger.kernel.org>,
-        Waiman Long <longman@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.176.88]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemm600018.china.huawei.com (7.193.23.140)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 12, 2022 at 8:19 PM Jon Kohler <jon@nutanix.com> wrote:
->
->
->
-> > On May 12, 2022, at 11:06 PM, Jim Mattson <jmattson@google.com> wrote:
-> >
-> > On Thu, May 12, 2022 at 5:50 PM Jon Kohler <jon@nutanix.com> wrote:
-> >
-> >> You mentioned if someone was concerned about performance, are you
-> >> saying they also critically care about performance, such that they are
-> >> willing to *not* use IBPB at all, and instead just use taskset and hop=
-e
-> >> nothing ever gets scheduled on there, and then hope that the hyperviso=
-r
-> >> does the job for them?
-> >
-> > I am saying that IBPB is not the only viable mitigation for
-> > cross-process indirect branch steering. Proper scheduling can also
-> > solve the problem, without the overhead of IBPB. Say that you have two
-> > security domains: trusted and untrusted. If you have a two-socket
-> > system, and you always run trusted workloads on socket#0 and untrusted
-> > workloads on socket#1, IBPB is completely superfluous. However, if the
-> > hypervisor chooses to schedule a vCPU thread from virtual socket#0
-> > after a vCPU thread from virtual socket#1 on the same logical
-> > processor, then it *must* execute an IBPB between those two vCPU
-> > threads. Otherwise, it has introduced a non-architectural
-> > vulnerability that the guest can't possibly be aware of.
-> >
-> > If you can't trust your OS to schedule tasks where you tell it to
-> > schedule them, can you really trust it to provide you with any kind of
-> > inter-process security?
->
-> Fair enough, so going forward:
-> Should this be mandatory in all cases? How this whole effort came
-> was that a user could configure their KVM host with conditional
-> IBPB, but this particular mitigation is now always on no matter what.
->
-> In our previous patch review threads, Sean and I mostly settled on making
-> this particular avenue active only when a user configures always_ibpb, su=
-ch
-> that for cases like the one you describe (and others like it that come up=
- in
-> the future) can be covered easily, but for cond_ibpb, we can document
-> that it doesn=E2=80=99t cover this case.
->
-> Would that be acceptable here?
+Translate dev-tools/gdb-kernel-debugging.rst into Chinese.
 
-That would make me unhappy. We use cond_ibpb, and I don't want to
-switch to always_ibpb, yet I do want this barrier.
+Signed-off-by: gaochao <gaochao49@huawei.com>
+---
+ .../zh_CN/dev-tools/gdb-kernel-debugging.rst  | 167 ++++++++++++++++++
+ .../translations/zh_CN/dev-tools/index.rst    |   2 +-
+ 2 files changed, 168 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
 
-> >
-> >> Would this be the expectation of just KVM? Or all hypervisors on the
-> >> market?
-> >
-> > Any hypervisor that doesn't do this is broken, but that won't keep it
-> > off the market. :-)
->
-> Very true :)
->
+diff --git a/Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst b/Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
+new file mode 100644
+index 000000000000..e1293176614a
+--- /dev/null
++++ b/Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
+@@ -0,0 +1,167 @@
++.. highlight:: none
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/dev-tools/gdb-kernel-debugging.rst
++:Translator: 高超 gao chao <gaochao49@huawei.com>
++
++通过gdb调试内核和模块
++=====================
++
++Kgdb内核调试器、QEMU等虚拟机管理程序或基于JTAG的硬件接口，支持在运行时使用gdb
++调试Linux内核及其模块。Gdb提供了一个强大的python脚本接口，内核也提供了一套
++辅助脚本以简化典型的内核调试步骤。本文档为如何启用和使用这些脚本提供了一个简要的教程。
++此教程基于QEMU/KVM虚拟机，但文中示例也适用于其他gdb stub。
++
++
++环境配置要求
++------------
++
++- gdb 7.2+ (推荐版本: 7.4+) 、使能python (通常发行版上都已支持)
++
++设置
++----
++
++- 创建一个QEMU/KVM的linux虚拟机（详情请参考 www.linux-kvm.org 和 www.qemu.org ）。
++  对于交叉开发，https://landley.net/aboriginal/bin 提供了一些镜像和工具链，
++  可以帮助搭建交叉开发环境。
++
++- 编译内核时使能CONFIG_GDB_SCRIPTS，但关闭CONFIG_DEBUG_INFO_REDUCED。
++  如果架构支持CONFIG_FRAME_POINTER，请保持使能。
++
++- 在guest环境上安装该内核。如有必要，通过在内核command line中添加“nokaslr”来关闭KASLR。
++  此外，QEMU允许通过-kernel、-append、-initrd这些命令行选项直接启动内核。
++  但这通常仅在不依赖内核模块时才有效。有关此模式的更多详细信息，请参阅QEMU文档。
++  在这种情况下，如果架构支持KASLR，应该在禁用CONFIG_RANDOMIZE_BASE的情况下构建内核。
++
++- 启用QEMU/KVM的gdb stub，可以通过如下方式实现
++
++    - 在VM启动时，通过在QEMU命令行中添加“-s”参数
++
++  或
++
++    - 在运行时通过从QEMU监视控制台发送“gdbserver”
++
++- 切换到/path/to/linux-build(内核源码编译)目录
++
++- 启动gdb：gdb vmlinux
++
++  注意：某些发行版可能会将gdb脚本的自动加载限制在已知的安全目录中。
++  如果gdb报告拒绝加载vmlinux-gdb.py（相关命令找不到），请将：
++
++    add-auto-load-safe-path /path/to/linux-build
++
++  添加到~/.gdbinit。更多详细信息，请参阅gdb帮助信息。
++
++- 连接到已启动的guest环境：
++
++    (gdb) target remote :1234
++
++
++使用Linux提供的gdb脚本的示例
++----------------------------
++
++- 加载模块（以及主内核）符号：
++
++    (gdb) lx-symbols
++    loading vmlinux
++    scanning for modules in /home/user/linux/build
++    loading @0xffffffffa0020000: /home/user/linux/build/net/netfilter/xt_tcpudp.ko
++    loading @0xffffffffa0016000: /home/user/linux/build/net/netfilter/xt_pkttype.ko
++    loading @0xffffffffa0002000: /home/user/linux/build/net/netfilter/xt_limit.ko
++    loading @0xffffffffa00ca000: /home/user/linux/build/net/packet/af_packet.ko
++    loading @0xffffffffa003c000: /home/user/linux/build/fs/fuse/fuse.ko
++    ...
++    loading @0xffffffffa0000000: /home/user/linux/build/drivers/ata/ata_generic.ko
++
++- 对一些尚未加载的模块中的函数函数设置断点，例如：
++
++    (gdb) b btrfs_init_sysfs
++    Function "btrfs_init_sysfs" not defined.
++    Make breakpoint pending on future shared library load? (y or [n]) y
++    Breakpoint 1 (btrfs_init_sysfs) pending.
++
++- 继续执行：
++
++    (gdb) c
++
++- 加载模块并且能观察到正在加载的符号以及断点命中：
++
++    loading @0xffffffffa0034000: /home/user/linux/build/lib/libcrc32c.ko
++    loading @0xffffffffa0050000: /home/user/linux/build/lib/lzo/lzo_compress.ko
++    loading @0xffffffffa006e000: /home/user/linux/build/lib/zlib_deflate/zlib_deflate.ko
++    loading @0xffffffffa01b1000: /home/user/linux/build/fs/btrfs/btrfs.ko
++
++    Breakpoint 1, btrfs_init_sysfs () at /home/user/linux/fs/btrfs/sysfs.c:36
++    36              btrfs_kset = kset_create_and_add("btrfs", NULL, fs_kobj);
++
++- 查看内核的日志缓冲区：
++
++    (gdb) lx-dmesg
++    [     0.000000] Initializing cgroup subsys cpuset
++    [     0.000000] Initializing cgroup subsys cpu
++    [     0.000000] Linux version 3.8.0-rc4-dbg+ (...
++    [     0.000000] Command line: root=/dev/sda2 resume=/dev/sda1 vga=0x314
++    [     0.000000] e820: BIOS-provided physical RAM map:
++    [     0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009fbff] usable
++    [     0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
++    ....
++
++- 查看当前task struct结构体的字段（仅x86和arm64支持）
++
++    (gdb) p $lx_current().pid
++    $1 = 4998
++    (gdb) p $lx_current().comm
++    $2 = "modprobe\000\000\000\000\000\000\000"
++
++- 对当前或指定的CPU使用per-cpu函数：
++
++    (gdb) p $lx_per_cpu("runqueues").nr_running
++    $3 = 1
++    (gdb) p $lx_per_cpu("runqueues", 2).nr_running
++    $4 = 0
++
++- 使用container_of查看更多hrtimers信息：
++
++    (gdb) set $next = $lx_per_cpu("hrtimer_bases").clock_base[0].active.next
++    (gdb) p *$container_of($next, "struct hrtimer", "node")
++    $5 = {
++      node = {
++        node = {
++          __rb_parent_color = 18446612133355256072,
++          rb_right = 0x0 <irq_stack_union>,
++          rb_left = 0x0 <irq_stack_union>
++        },
++        expires = {
++          tv64 = 1835268000000
++        }
++      },
++      _softexpires = {
++        tv64 = 1835268000000
++      },
++      function = 0xffffffff81078232 <tick_sched_timer>,
++      base = 0xffff88003fd0d6f0,
++      state = 1,
++      start_pid = 0,
++      start_site = 0xffffffff81055c1f <hrtimer_start_range_ns+20>,
++      start_comm = "swapper/2\000\000\000\000\000\000"
++    }
++
++
++命令和辅助调试功能列表
++----------------------
++
++命令和辅助调试功能可能会随着时间的推移而改进，此文显示的是初始版本的部分示例：
++
++ (gdb) apropos lx
++ function lx_current -- Return current task
++ function lx_module -- Find module by name and return the module variable
++ function lx_per_cpu -- Return per-cpu variable
++ function lx_task_by_pid -- Find Linux task by PID and return the task_struct variable
++ function lx_thread_info -- Calculate Linux thread_info from task variable
++ lx-dmesg -- Print Linux kernel log buffer
++ lx-lsmod -- List currently loaded modules
++ lx-symbols -- (Re-)load symbols of Linux kernel and currently loaded modules
++
++可以通过“help <command-name>”或“help function <function-name>”命令
++获取指定命令或指定调试功能的更多详细信息。
+diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
+index 77a8c44cdf49..02577c379007 100644
+--- a/Documentation/translations/zh_CN/dev-tools/index.rst
++++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+@@ -25,6 +25,7 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+    sparse
+    gcov
+    kasan
++   gdb-kernel-debugging
+ 
+ Todolist:
+ 
+@@ -34,7 +35,6 @@ Todolist:
+  - kmemleak
+  - kcsan
+  - kfence
+- - gdb-kernel-debugging
+  - kgdb
+  - kselftest
+  - kunit/index
+-- 
+2.17.1
+
