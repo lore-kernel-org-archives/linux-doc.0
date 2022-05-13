@@ -2,120 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E910C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 19:33:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B6F8C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 19:37:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382819AbiEMTdE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 May 2022 15:33:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34528 "EHLO
+        id S1383755AbiEMThI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 May 2022 15:37:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380583AbiEMTdE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 15:33:04 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A2805BE7B;
-        Fri, 13 May 2022 12:33:01 -0700 (PDT)
-Received: from mail-yw1-f170.google.com ([209.85.128.170]) by
- mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MV6G0-1nNaHd3SGk-00S9SR; Fri, 13 May 2022 21:33:00 +0200
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-2ebf4b91212so100487807b3.8;
-        Fri, 13 May 2022 12:32:59 -0700 (PDT)
-X-Gm-Message-State: AOAM533EJnvtWJNshrUMN/cMhiHTKD+qmQW0y38xtp7AymAdmJyKwRUF
-        BChQ3yLjkZro08kZmNILqrvfUXCBv3IGlbPmdmo=
-X-Google-Smtp-Source: ABdhPJwCL00R0GBeDe7JbP4gBwr+dNH6R9L3x9Kf4PexSUlAVHRfICUM51HKbOE6+snkPmIgf0vzFiRTTaBIYyJk+Eo=
-X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
- m125-20020a0dfc83000000b002e5b0f4c125mr7612521ywf.347.1652470378438; Fri, 13
- May 2022 12:32:58 -0700 (PDT)
+        with ESMTP id S1379948AbiEMThG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 15:37:06 -0400
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C21CC53E22
+        for <linux-doc@vger.kernel.org>; Fri, 13 May 2022 12:37:05 -0700 (PDT)
+Received: by mail-oi1-x22a.google.com with SMTP id q10so11312083oia.9
+        for <linux-doc@vger.kernel.org>; Fri, 13 May 2022 12:37:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=3RxQPTxtVrqqVoiaHfpMeR5z0m/4z2ervHUzJOsJZ9g=;
+        b=HVDFRvfchpN7PSr7N06wi5d+LNSlIIt5soxH3QJ0+gRBVr/dSg3cRv/Kfvc+wdo32N
+         pibM/02iUEue6Qxq/rOTds4X5rjrw8cvNTSdnZnzhOEgDrBLoUvFjtWAdyj7d2Fx9lmY
+         pLyD/RPmCSmos2YTVv3X/wr2j4M2h77vSHOD01u8pQyumY7R6aOwyYLtD1gUssCgTSP8
+         kU3Tupzqd99Tu0kb6YusiYStRndmJ1gpmeq27VqYWLNqjul+u3ecx0MnP2hZIVnL6x2B
+         28OLuzcm2pIx8EfHUdyyHbuZB0sHYpa7hbo4deW3vh6/bY1itk3QrppPHft2Y5zqdWrU
+         JhBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=3RxQPTxtVrqqVoiaHfpMeR5z0m/4z2ervHUzJOsJZ9g=;
+        b=o10DSjXrTeUYCjxhiJEvn+Za3NUJAOf/GhMt0gdGZsdvH91ZkocmekB8ti8DG7olkZ
+         Uou3RB8C4QCctOIfuXALGVdzslXLrljCT2W2uAL7bNjkuIITmnf0lDzQl+wvfqqQmj2d
+         XFY8KbTopAMFqxIyVhQe4iMy/KEfqWVDNNZwP12UBAmFzcRt99EoNejYuiKE1ahwn52A
+         NklXTFvO4lOw5LMlrTiw2YOCLwlHUlfebzXTVcsylZm766zT8evVx5td69ObG44SjSBM
+         sWGGDUPSm7q4NoZ5Vo3Mf7sP4d0aTHt4R6qfOcjZORFTgDd5w7BK7uM+UM48qavvnmIG
+         FyaA==
+X-Gm-Message-State: AOAM533BZdr5c4hc77k030QnRKOt/PI5mTG0ZC9GZsx3yti0+8RYJUzF
+        XAokDSHkzq8KM3VIcPFdgO11zEN0eaWtdHFNPzNzug==
+X-Google-Smtp-Source: ABdhPJxWTRI3eJZGbOSFy6qinBe+qvnKP338Acxh4EVCUelHqXY2P0KnwIfZ1lbbLdzxg/wN7GyADeKG9zIM/k3ibQM=
+X-Received: by 2002:a05:6808:2125:b0:326:b51f:bbc2 with SMTP id
+ r37-20020a056808212500b00326b51fbbc2mr8695466oiw.13.1652470624894; Fri, 13
+ May 2022 12:37:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
- <20220430090518.3127980-21-chenhuacai@loongson.cn> <CAK8P3a2SPTLLrZtSz0LT0LqMpq4SKCScD4vLvr+DJn+u5W_CdA@mail.gmail.com>
- <CAMj1kXEDpJwLDD4ZGLwzdo1KcJG_90iD9MnBVamCK06YKF7BdA@mail.gmail.com>
- <CAAhV-H4eR5YvhABp9L4FBmofWwH+XM3V_nOjatQTV_M7Gihs7g@mail.gmail.com>
- <CAMj1kXFD8_CuijJFgQbrxvY4MVBLmKQKFKmYhD1NBFLn3v=+FQ@mail.gmail.com>
- <a6afaa3f-cb9f-2086-0e02-5ec21ba535d4@xen0n.name> <CAK8P3a0xuh1aAM7iwE-jiBbR-OOF5YVfhmU0Nygbpviso3tmbQ@mail.gmail.com>
- <CAAhV-H5FbA5DJvPwygiUyBrzq9M5R=Fr06rHAHLR31uu6ZLmkQ@mail.gmail.com>
-In-Reply-To: <CAAhV-H5FbA5DJvPwygiUyBrzq9M5R=Fr06rHAHLR31uu6ZLmkQ@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 13 May 2022 21:32:41 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1_2DJVjZtk9XGYvH0TSbNQwST0YXD4A+rfFELBOxpDEA@mail.gmail.com>
-Message-ID: <CAK8P3a1_2DJVjZtk9XGYvH0TSbNQwST0YXD4A+rfFELBOxpDEA@mail.gmail.com>
-Subject: Re: [PATCH V9 20/24] LoongArch: Add efistub booting support
-To:     Huacai Chen <chenhuacai@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, WANG Xuerui <kernel@xen0n.name>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+References: <20220512184514.15742-1-jon@nutanix.com> <Yn1fjAqFoszWz500@google.com>
+ <Yn1hdHgMVuni/GEx@google.com> <07BEC8B1-469C-4E36-AE92-90BFDF93B2C4@nutanix.com>
+ <Yn1o9ZfsQutXXdQS@google.com> <CALMp9eRQv6owjfyf+UO=96Q1dkeSrJWy0i4O-=RPSaQwz0bjTQ@mail.gmail.com>
+ <C39CD5E4-3705-4D1A-A67D-43CBB7D1950B@nutanix.com> <CALMp9eRXmWvrQ1i0V3G738ndZOZ4YezQ=BqXe-BF2b4GNo1m3Q@mail.gmail.com>
+ <DEF8066B-E691-4C85-A19A-9F5222D1683D@nutanix.com> <CALMp9eTwH9WVD=EuTXeu1KYAkAUuXdnmA+k9dti7OM+u=kLKHQ@mail.gmail.com>
+ <CD2EB6FA-E17F-45BA-AC70-92CCB12A16C4@nutanix.com> <CALMp9eQAFz_wzC_SMiWD5KqP3=m+VceP=+6=RWEFbN2m7P7d+w@mail.gmail.com>
+ <73BC3891-34DC-4EB7-BD1C-5FD312A8F18A@nutanix.com>
+In-Reply-To: <73BC3891-34DC-4EB7-BD1C-5FD312A8F18A@nutanix.com>
+From:   Jim Mattson <jmattson@google.com>
+Date:   Fri, 13 May 2022 12:36:53 -0700
+Message-ID: <CALMp9eTwih5dyiZkdxR3W9fpaMGQ41YYu1qM42eDZzdhnmBi5A@mail.gmail.com>
+Subject: Re: [PATCH v4] x86/speculation, KVM: remove IBPB on vCPU load
+To:     Jon Kohler <jon@nutanix.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Kees Cook <keescook@chromium.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ashok Raj <ashok.raj@intel.com>,
+        KarimAllah Ahmed <karahmed@amazon.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "kvm @ vger . kernel . org" <kvm@vger.kernel.org>,
+        Waiman Long <longman@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:sxjlWFQFhZs3joRNaNiPtLzwBQaw3DZiNtMZyNdZL4N9Nkjw+mE
- iy6k/NWrt1xZ9nSdoWCB1AIT/KW91SjYpgFeR6Lj7a9RXZnQZx/sAeR/BDUMHzX28hvOOHN
- l7m5VNIxPjWs5OKoNGqOw27BIBGQd1EHic9ZskKZGppT8OZW7B1VdUPQxMOkQzrXQjm+ZGg
- NorQQ2fUOehivtcs9Q85A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IhdJcJuUJZY=:DKZDFjsDhyzTTZ4MolSQwL
- NP6YkDnm9jyTegRc22QX6EXUJO1De+OD3AHVRJrJRUbsbfb9Gr8QKRsiVN980aMCaQ+Gf4nY8
- TmG/AqKTGtO0RumJaO+/Hz7bOizpP+cxJuPTSCpdkErMFoBcEOFe0bMtABYA+RWPZY053Rzm1
- fRcSTPhUgSqZXpSDhGdwJBJo0frncIREpsmQAz92igcHQlHiR+ggHeDMepLi5Iz1RffiQdm99
- TlOEYoP0APl2FxYsRkVGsVrVwrauth5RFl9pgJlmO8vwH95tmPkrkNsoHX4GCCUfBd87Gh5Cd
- 96x6KCowIHrTVv/PWkYRr5XK2z0iEq48Kz51lv5I90NfxP/yx7pgssHtgCpRRigqEPQuofT3a
- utfOCV75CzBwhBnhluz40PMrqIEaWFYGurBnp/wk8mi2MQk8rk3FYDSrOc/LmGwa5NSJ/Qhaj
- g9uKAS2ShijASCArBk436/0lEIuqO+i+dWhv2Bup5IbGiPQSIYMof6HiS+hkD5UUhcUSRDNh3
- FS4OV4GROLbRf0P+tDlKtrbQ9j5/nOoJ/VCB5ub6oYgn1LOXZz2i3RBatdiSdTQLZQHQFOIbN
- 3XxnU0Sb9zezkrwwFuh2OlVoJipprS7YFrGpBZlRg91Tdvf1sxniblOURmL4KQt5lORs0Robh
- M0TMOHvH2rYsVwEOnxs3gJLnCBZuyPbJW0kbSeqD1Y9Qx/kYztgewv/O8HwB/ULxgrBI=
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 6, 2022 at 3:20 PM Huacai Chen <chenhuacai@gmail.com> wrote:
-> On Fri, May 6, 2022 at 7:41 PM Arnd Bergmann <arnd@arndb.de> wrote:
+On Fri, May 13, 2022 at 8:21 AM Jon Kohler <jon@nutanix.com> wrote:
+>
+>
+>
+> > On May 12, 2022, at 11:50 PM, Jim Mattson <jmattson@google.com> wrote:
 > >
-> > Agreed. I think there can be limited compatibility support for old
-> > firmware though, at least to help with the migration: As long as
-> > the interface between grub and linux has a proper definition following
-> > the normal UEFI standard, there can be both a modern grub
-> > that is booted using the same protocol and a backwards-compatible
-> > grub that can be booted from existing firmware and that is able
-> > to boot the kernel.
+> > On Thu, May 12, 2022 at 8:19 PM Jon Kohler <jon@nutanix.com> wrote:
+> >>
+> >>
+> >>
+> >>> On May 12, 2022, at 11:06 PM, Jim Mattson <jmattson@google.com> wrote=
+:
+> >>>
+> >>> On Thu, May 12, 2022 at 5:50 PM Jon Kohler <jon@nutanix.com> wrote:
+> >>>
+> >>>> You mentioned if someone was concerned about performance, are you
+> >>>> saying they also critically care about performance, such that they a=
+re
+> >>>> willing to *not* use IBPB at all, and instead just use taskset and h=
+ope
+> >>>> nothing ever gets scheduled on there, and then hope that the hypervi=
+sor
+> >>>> does the job for them?
+> >>>
+> >>> I am saying that IBPB is not the only viable mitigation for
+> >>> cross-process indirect branch steering. Proper scheduling can also
+> >>> solve the problem, without the overhead of IBPB. Say that you have tw=
+o
+> >>> security domains: trusted and untrusted. If you have a two-socket
+> >>> system, and you always run trusted workloads on socket#0 and untruste=
+d
+> >>> workloads on socket#1, IBPB is completely superfluous. However, if th=
+e
+> >>> hypervisor chooses to schedule a vCPU thread from virtual socket#0
+> >>> after a vCPU thread from virtual socket#1 on the same logical
+> >>> processor, then it *must* execute an IBPB between those two vCPU
+> >>> threads. Otherwise, it has introduced a non-architectural
+> >>> vulnerability that the guest can't possibly be aware of.
+> >>>
+> >>> If you can't trust your OS to schedule tasks where you tell it to
+> >>> schedule them, can you really trust it to provide you with any kind o=
+f
+> >>> inter-process security?
+> >>
+> >> Fair enough, so going forward:
+> >> Should this be mandatory in all cases? How this whole effort came
+> >> was that a user could configure their KVM host with conditional
+> >> IBPB, but this particular mitigation is now always on no matter what.
+> >>
+> >> In our previous patch review threads, Sean and I mostly settled on mak=
+ing
+> >> this particular avenue active only when a user configures always_ibpb,=
+ such
+> >> that for cases like the one you describe (and others like it that come=
+ up in
+> >> the future) can be covered easily, but for cond_ibpb, we can document
+> >> that it doesn=E2=80=99t cover this case.
+> >>
+> >> Would that be acceptable here?
 > >
-> > The compatibility version of grub can be retired after the firmware
-> > itself is able to speak the normal boot protocol.
-> After an internal discussion, we decide to use the generic stub, and
-> we have a draft version of generic stub now[1]. I hope V10 can solve
-> all problems. :)
-> [1] https://github.com/loongson/linux/tree/loongarch-next-generic-stub
+> > That would make me unhappy. We use cond_ibpb, and I don't want to
+> > switch to always_ibpb, yet I do want this barrier.
+>
+> Ok gotcha, which I think is a good point for cloud providers, since the
+> workload(s) are especially opaque.
+>
+> How about this: I could work up a v5 patch here where this was at minimum
+> a system level knob (similar to other mitigation knobs) and documented
+> In more detail. That way folks who might want more control here have the
+> basic ability to do that without recompiling the kernel. Such a =E2=80=9C=
+knob=E2=80=9D would
+> be on by default, such that there is no functional regression here.
+>
+> Would that be ok with you as a middle ground?
 
-Can you post v19 to the list? As we have resolved the question on clone()
-now (I hope), and you have a prototype for the boot protocol, it sounds
-like this can make it into v5.19 after all, but we need to be sure that the
-remaining points that Xuerui Wang and Ard Biesheuvel raised are
-all addressed, and there is not much time before the merge window.
+That would be great. Module parameter or sysctl is fine with me.
 
-I have built a gcc-12.1 based toochain at
-https://mirrors.edge.kernel.org/pub/tools/crosstool/ that now includes
-loongarch64 suport, please point to that in the cover letter for v10
-in case someone wants to start test building.
+Thanks!
 
-I will be travelling next week, and won't be able to pull your tree
-into the asm-generic tree during that time, as I had originally planned.
-
-However, you can ask Stephen Rothwell (added to Cc) to add your
-git tree to linux-next once you think that you have addressed all of the
-remaining review comments, and posted the same version to the
-list. This will allow others to more easily test your tree in combination
-with the other work that has been queued for the 5.19 release.
-
-If there are no new show-stoppers, I can help you coordinate
-the pull request during the merge window.
-
-         Arnd
+> Thanks again,
+> Jon
+>
+> >
+> >>>
+> >>>> Would this be the expectation of just KVM? Or all hypervisors on the
+> >>>> market?
+> >>>
+> >>> Any hypervisor that doesn't do this is broken, but that won't keep it
+> >>> off the market. :-)
+> >>
+> >> Very true :)
+> >>
+>
