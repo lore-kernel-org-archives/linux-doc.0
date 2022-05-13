@@ -2,120 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B48AC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 08:32:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC3B1C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 08:51:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378281AbiEMIck (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 May 2022 04:32:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33704 "EHLO
+        id S1378620AbiEMIv1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 May 2022 04:51:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378316AbiEMIcj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 04:32:39 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE5702A8076
-        for <linux-doc@vger.kernel.org>; Fri, 13 May 2022 01:32:36 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-2f7c5767f0fso66686867b3.4
-        for <linux-doc@vger.kernel.org>; Fri, 13 May 2022 01:32:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=hk5uEtV3LYTwsgSEedR4CtG2vms3qpu/B7wOj7VdRzM=;
-        b=kYsNC7Eo1NPKL0cqSlEK8e68ZyQYRtrrD4EnKB7z+KZUKXD6WFKCXPMla4tDAyiQIg
-         R1v92Ef6+EDCeojrvVKCFLPHuTXNldGmrN3nb9HL03DPkjJYrcMFg+FEzjRUKnv41p52
-         DaTPHxS5FuqN17a+jcm7VV3rkWuvNzYSRlAFDZ1WVlmZkoCNSAgwxJJ6kx1/K1dpk8UB
-         oLOfeDKbeXB/4ENa6HPZYZL19N2I5sPvx4Acjap9xrQm9O0s0oit88YP4JxMHjYgoid+
-         UzSwLRjFMOKiGSVr/IAHMiXkp3ltx/Ft57LuU27hwohf3PH9UIVrKDk0ITX5r4ZD9gmV
-         /XZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=hk5uEtV3LYTwsgSEedR4CtG2vms3qpu/B7wOj7VdRzM=;
-        b=MoEOwh3ztiK13FwuETO1NEFn8D7HpFOs8YBT+EMsPE4YOd8SJJTHMOZQmsiprIWYfd
-         ZzFjj6GRn+GCCMcbHM+M8qcBixjxZMZinfvq0NYVCas+cJHS+GtTp1bzEzNvegmRKG8U
-         AsieCyHbeLAY8UNtyYva9J/OE+XZvAlkhlVUPF+1g0seXzseb+mHAwUCkyhkudoOd+zn
-         +1yplZiYMTohMj8LRTRQe11lYTty3atga2/fCXnkLjmXb5NnHLPaY9yX80ezS4oYiob2
-         QolI9OAWf8RGjT+uqHuafwjdMbKt+4B1jwJzS8A9flvVuJFdDUSK2S2uhOfxTnLCxwtX
-         lsvw==
-X-Gm-Message-State: AOAM533jYngBECkcMYurLofciOwf9keajXuSN4q6iM3y6+dwNRQUu8o1
-        eQdqvd1mEAdxlN+in7yFTM09jmwCz4bOvw==
-X-Google-Smtp-Source: ABdhPJw+htFPIH6EdUeS8xrLV26f4EOL11gNUDqQ9wJshw5TbY2Hsc8UJKgk0N0pjRBQIDiAvH1OrXDakVEOHQ==
-X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a25:4902:0:b0:648:d1db:af83 with SMTP id
- w2-20020a254902000000b00648d1dbaf83mr3678022yba.559.1652430756152; Fri, 13
- May 2022 01:32:36 -0700 (PDT)
-Date:   Fri, 13 May 2022 16:32:13 +0800
-In-Reply-To: <20220429043913.626647-1-davidgow@google.com>
-Message-Id: <20220513083212.3537869-3-davidgow@google.com>
-Mime-Version: 1.0
-References: <20220429043913.626647-1-davidgow@google.com>
-X-Mailer: git-send-email 2.36.0.550.gb090851708-goog
-Subject: [PATCH v3 3/3] selftest: Taint kernel when test module loaded
-From:   David Gow <davidgow@google.com>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        with ESMTP id S1378617AbiEMIv0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 04:51:26 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C74E13CA27;
+        Fri, 13 May 2022 01:51:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652431884; x=1683967884;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vbiwJ3oECFneiZfDrZnlastQvaXlmzzrksRp4lU3pjo=;
+  b=IacgqthOW9r1NQKGQfu7ejX5X0s/xDrhPRDzRaCVSpePnbOPFG04c7fW
+   FBHarerNP1HCaQ2AKy2ALtla4qn3a2dnVOIVTuAiSEuUDT/cFy23SkSVZ
+   Q51qr+/kyTTNpZ2cvIHxxPyi+n0Xxv4eTonbK2qgdWP+a4pZZXRcbCUy9
+   Xbp1lFNENva0T/sgEFGyqbZuKrSc/PDZjcMYjGNuTwPCw2RgQSXr83odV
+   fz79C66cJntyodHc9JK73YZuT/TCXDPoeV4hqM+4OUrfxzHUkoeQCvdRu
+   OajucK3g658sbWbOs1t7rnpOezJkQ35+6gk+M5HSY7uPioeoJN+nP9RNZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="333290234"
+X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; 
+   d="scan'208";a="333290234"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2022 01:51:22 -0700
+X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; 
+   d="scan'208";a="740078163"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2022 01:51:18 -0700
+Received: by lahna (sSMTP sendmail emulation); Fri, 13 May 2022 11:51:16 +0300
+Date:   Fri, 13 May 2022 11:51:16 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Marc Zyngier <maz@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Cc:     David Gow <davidgow@google.com>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Andy Shevchenko <andy@kernel.org>
+Subject: Re: [PATCH v1 3/5] pinctrl: baytrail: make irq_chip immutable
+Message-ID: <Yn4cBK1/F9VhNZ1I@lahna>
+References: <20220512173921.8210-1-andriy.shevchenko@linux.intel.com>
+ <20220512173921.8210-3-andriy.shevchenko@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220512173921.8210-3-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Make any kselftest test module (using the kselftest_module framework)
-taint the kernel with TAINT_TEST on module load.
+On Thu, May 12, 2022 at 08:39:19PM +0300, Andy Shevchenko wrote:
+> Since recently, the kernel is nagging about mutable irq_chips:
+> 
+>    "not an immutable chip, please consider fixing it!"
+> 
+> Drop the unneeded copy, flag it as IRQCHIP_IMMUTABLE, add the new
+> helper functions and call the appropriate gpiolib functions.
+> 
+> While at it, switch to use hwirq variable instead of offset for
+> the sake of consistency.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Note that several selftests use kernel modules which are not based on
-the kselftest_module framework, and so will not automatically taint the
-kernel. These modules will have to be manually modified if they should
-taint the kernel this way.
-
-Similarly, selftests which do not load modules into the kernel generally
-should not taint the kernel (or possibly should only do so on failure),
-as it's assumed that testing from user-space should be safe. Regardless,
-they can write to /proc/sys/kernel/tainted if required.
-
-Signed-off-by: David Gow <davidgow@google.com>
----
- tools/testing/selftests/kselftest_module.h | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/tools/testing/selftests/kselftest_module.h b/tools/testing/selftests/kselftest_module.h
-index e2ea41de3f35..226e616b82e0 100644
---- a/tools/testing/selftests/kselftest_module.h
-+++ b/tools/testing/selftests/kselftest_module.h
-@@ -3,6 +3,7 @@
- #define __KSELFTEST_MODULE_H
- 
- #include <linux/module.h>
-+#include <linux/panic.h>
- 
- /*
-  * Test framework for writing test modules to be loaded by kselftest.
-@@ -41,6 +42,7 @@ static inline int kstm_report(unsigned int total_tests, unsigned int failed_test
- static int __init __module##_init(void)			\
- {							\
- 	pr_info("loaded.\n");				\
-+	add_taint(TAINT_KUNIT, LOCKDEP_STILL_OK);	\
- 	selftest();					\
- 	return kstm_report(total_tests, failed_tests, skipped_tests);	\
- }							\
--- 
-2.36.0.550.gb090851708-goog
-
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
