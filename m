@@ -2,103 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E1FC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 13:58:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D35D1C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 14:38:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231922AbiEMN6d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 May 2022 09:58:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45064 "EHLO
+        id S1381075AbiEMOiw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 May 2022 10:38:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229893AbiEMN6a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 09:58:30 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB0677A80F;
-        Fri, 13 May 2022 06:58:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 964D9B82EA3;
-        Fri, 13 May 2022 13:58:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50582C3411C;
-        Fri, 13 May 2022 13:58:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652450305;
-        bh=Q9uWqroQBrMhNpZ56AYK8kAafrfYjv57IuXu6ljniEI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=kP2duuHmNgNTr23wQ3jJV4ACqVDoXiHvJmOEfYJk9MtvU/pYg6PV8inmVYuf8+isB
-         OWLyTHjbPFfaEjxgSziDDit9HdhUJhWWhqRm5d2BsSBvMqiC2R4TR7y+3zJ8IjEiVG
-         WabOU9VbStlIep5W1f5eZh/z3GxAg+zdPHTSMXcFiNzrXBt07iC7jTjCXO/cCBD7Tr
-         g5R8OCcieFgvfgNaw51Kue7VWHPY/Pe4dB6Y+VHDOsIT1B/hzKlmblJJQzwBpfQCxE
-         omgpjYXMk/DBrwTM8vOrcZbjODXWEn7uaBq22v744sg/OpLNPSfRbQREn5rP1vkkil
-         WY3HkUDaQCkLg==
-Received: by mail-pj1-f49.google.com with SMTP id x88so8174301pjj.1;
-        Fri, 13 May 2022 06:58:25 -0700 (PDT)
-X-Gm-Message-State: AOAM532qMBz0C3/3yCC9Eejuwc0gZc0NULASTSCFbveL0OENFOX0+gbP
-        PyJrwqk/O1aKsOI44u7gcrbh24YKck375Ui3Iw==
-X-Google-Smtp-Source: ABdhPJzeUi/T2UXmS90oIyfTH4jE3xb7KHEsioE2ug9DOGlHySktMSjKYgLM3J6rQcaXmuC2h+ylwtxmks7pbqNurVU=
-X-Received: by 2002:a17:902:9345:b0:15f:186b:e478 with SMTP id
- g5-20020a170902934500b0015f186be478mr4834270plp.117.1652450304740; Fri, 13
- May 2022 06:58:24 -0700 (PDT)
+        with ESMTP id S1381838AbiEMOgh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 10:36:37 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C72D050E09
+        for <linux-doc@vger.kernel.org>; Fri, 13 May 2022 07:31:10 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <afa@pengutronix.de>)
+        id 1npWJe-0006ho-W9; Fri, 13 May 2022 16:30:51 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <afa@pengutronix.de>)
+        id 1npWJe-0026EN-V9; Fri, 13 May 2022 16:30:49 +0200
+Received: from afa by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <afa@pengutronix.de>)
+        id 1npWJc-008fPg-Ku; Fri, 13 May 2022 16:30:48 +0200
+From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
+To:     hpa@zytor.com, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     barebox@lists.infradead.org,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation: x86: boot: reserve type_of_loader=13 for barebox
+Date:   Fri, 13 May 2022 16:30:39 +0200
+Message-Id: <20220513143039.2065756-1-a.fatoum@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220429220933.1350374-1-saravanak@google.com>
-In-Reply-To: <20220429220933.1350374-1-saravanak@google.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 13 May 2022 08:58:11 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+2A7mRVV24XW0YcP8GkFCK_Ri4KDcqvW4e0p3TkQMWVg@mail.gmail.com>
-Message-ID: <CAL_Jsq+2A7mRVV24XW0YcP8GkFCK_Ri4KDcqvW4e0p3TkQMWVg@mail.gmail.com>
-Subject: Re: [PATCH v1] driver core: Extend deferred probe timeout on driver registration
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:THERMAL" <linux-pm@vger.kernel.org>,
-        Linux IOMMU <iommu@lists.linux-foundation.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: afa@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 29, 2022 at 5:09 PM Saravana Kannan <saravanak@google.com> wrote:
->
-> The deferred probe timer that's used for this currently starts at
-> late_initcall and runs for driver_deferred_probe_timeout seconds. The
-> assumption being that all available drivers would be loaded and
-> registered before the timer expires. This means, the
-> driver_deferred_probe_timeout has to be pretty large for it to cover the
-> worst case. But if we set the default value for it to cover the worst
-> case, it would significantly slow down the average case. For this
-> reason, the default value is set to 0.
->
-> Also, with CONFIG_MODULES=y and the current default values of
-> driver_deferred_probe_timeout=0 and fw_devlink=on, devices with missing
-> drivers will cause their consumer devices to always defer their probes.
-> This is because device links created by fw_devlink defer the probe even
-> before the consumer driver's probe() is called.
->
-> Instead of a fixed timeout, if we extend an unexpired deferred probe
-> timer on every successful driver registration, with the expectation more
-> modules would be loaded in the near future, then the default value of
-> driver_deferred_probe_timeout only needs to be as long as the worst case
-> time difference between two consecutive module loads.
->
-> So let's implement that and set the default value to 10 seconds when
-> CONFIG_MODULES=y.
+barebox built as EFI payload has been booting Linux on x86 with
+type_of_loader=0xff since v2015.09.0.
 
-We had to revert a non-zero timeout before (issue with NFS root IIRC).
-Does fw_devlink=on somehow fix that?
+Reserve 13, the next free id, so this can be used instead.
 
-Rob
+Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+---
+ Documentation/x86/boot.rst | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
+index 894a19897005..240d084782a6 100644
+--- a/Documentation/x86/boot.rst
++++ b/Documentation/x86/boot.rst
+@@ -455,6 +455,7 @@ Protocol:	2.00+
+ 	11 Minimal Linux Bootloader
+ 	   <http://sebastian-plotz.blogspot.de>
+ 	12 OVMF UEFI virtualization stack
++	13 barebox
+ 	== =======================================
+ 
+   Please contact <hpa@zytor.com> if you need a bootloader ID value assigned.
+-- 
+2.30.2
+
