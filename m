@@ -2,556 +2,280 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF59C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 00:42:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40534C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 00:51:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359751AbiEMAmz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 12 May 2022 20:42:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39468 "EHLO
+        id S1345501AbiEMAvh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 12 May 2022 20:51:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359746AbiEMAmv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 20:42:51 -0400
-Received: from zg8tmty1ljiyny4xntqumjca.icoremail.net (zg8tmty1ljiyny4xntqumjca.icoremail.net [165.227.154.27])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id E4C58606C3;
-        Thu, 12 May 2022 17:42:46 -0700 (PDT)
-Received: from jleng.ambarella.net (unknown [180.169.129.130])
-        by mail-app4 (Coremail) with SMTP id cS_KCgAnkCNbqX1ioFMWAA--.23475S2;
-        Fri, 13 May 2022 08:42:08 +0800 (CST)
-From:   3090101217@zju.edu.cn
-To:     gregkh@linuxfoundation.org, corbet@lwn.net,
-        laurent.pinchart@ideasonboard.com, balbi@kernel.org,
-        rdunlap@infradead.org, mchehab+huawei@kernel.org, bilbao@vt.edu
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, Jing Leng <jleng@ambarella.com>
-Subject: [PATCH v3] usb: gadget: uvc: add bulk transfer support
-Date:   Fri, 13 May 2022 08:42:01 +0800
-Message-Id: <20220513004201.25563-1-3090101217@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220512094236.10937-1-3090101217@zju.edu.cn>
-References: <20220512094236.10937-1-3090101217@zju.edu.cn>
-X-CM-TRANSID: cS_KCgAnkCNbqX1ioFMWAA--.23475S2
-X-Coremail-Antispam: 1UD129KBjvAXoWfXr18GrW7GFWUur4kAr1DZFb_yoW8Zr4fXo
-        WUXFs8W3W8Zr1rX3Z3Cr1vg3y5Ar4Ikrn8tws8Gr45W3W0v39Iq343Ja18WF43uF47tFyk
-        Gw10qrs8Was5Ka45n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUOr7k0a2IF6w4kM7kC6x804xWl14x267AKxVW8JVW5JwAFc2x0
-        x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj4
-        1l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0
-        I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4
-        vEx4A2jsIEc7CjxVAFwI0_GcCE3s1lnxkEFVAIw20F6cxK64vIFxWlnxkEFVCFx7IYxxCE
-        VcI25VAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7
-        xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Y
-        z7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lw4CEc2x0rV
-        AKj4xxMxkIecxEwVAFwVWDMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
-        MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
-        AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
-        cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
-        80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
-        43ZEXa7IU5_gA7UUUUU==
-X-CM-SenderInfo: qtqziiyqrsilo62m3hxhgxhubq/1tbiAwIJBVNG3GtTDQAAsx
+        with ESMTP id S241356AbiEMAvg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 May 2022 20:51:36 -0400
+Received: from mx0b-002c1b01.pphosted.com (mx0b-002c1b01.pphosted.com [148.163.155.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC36D5E77F;
+        Thu, 12 May 2022 17:51:32 -0700 (PDT)
+Received: from pps.filterd (m0127842.ppops.net [127.0.0.1])
+        by mx0b-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24CNepDS023466;
+        Thu, 12 May 2022 17:50:39 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=1eqz2cQegHK6WnFIcp1auUL+mVBkwybqvFJiM9mIWz4=;
+ b=hPgUsjYCZjNdwur1wCSsKr24s0nIc7euI5IQIWNfEwVxYYgoWNT6AGQHYrdcsFAtacCW
+ ZLqfmbhV13gyC+roilpv16JtH/wpvVwDuqGDTeaTvjgwq5MoGSKRzEClB/uU7Sb0PLG4
+ qXfmMQ6z4p4GYwLa0DG0Ef04W+sw7xSOg3Ap4pcNUgo3IMN9B21VJ/VQZQSqe/l+PLys
+ /wgqOeM6vy4SyjDu8KE20LYlSL64JZViSBVts4aPWfU1KqS8PQxUNWsgOSAB++N4DlEX
+ fgO+82MwUIuW+Crqr4Ojjg3cF297SP7jDd7cftCZ9D5B4b4VtcdXISdnHA8ZhqfSgbQO Tw== 
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam08lp2042.outbound.protection.outlook.com [104.47.73.42])
+        by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3fwr3fv89y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 12 May 2022 17:50:38 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NpT8Uz9Z3iNuoT010L+APS8Qjf0bIdoRjSFv3MI6tYHb/WCV1kPxosq6cjzplyvqiBN3U65OxK9eOZ5DGbQITAttStldxe45zY1FF+fSnKoDLPf63h6N7EoYEcYnrqQEVo1pigbucXKm5w9uPaTcxj0dApQU5/c8ykA7OOjUssNMWXgzf1CWkwBya9GJWrLkhYEFxN+f1CqzX6vZFtPOXUbpNeBYR8gEAGwfPcPT9nH/rsBXCQAE+zoVNBo7xwYCJrzmTq3VYNb3WdHB8/9I/WdIbt+m66XgVHEHUu6Er8yqCpL29PYZ54N/qjZhjlwn7TCBUw73/TGrZvSxWethaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1eqz2cQegHK6WnFIcp1auUL+mVBkwybqvFJiM9mIWz4=;
+ b=VHgS887cb8QSw4nf2+5x0mpMXm2cWTd3fbT5PXyDoEEFyEJWoOXUpQDyaU0pntkILr3bQ9eaVzJXI6kqwso8J7GcF2tbdmVi/RaZ5Bk1jpQ2hGaMO/dct4EFRZeaElpwDaPVt3Cmyr71uBXL8O5okutArTJJ7a5+YT7A4Oh235vTfxop5ziEAvJWR0k22VOfuZ83FFF7zT+tig/GfHB8hfeack66j8ePR3talv4vNhROpdrkM1kRp61lQKlnbmoBuSImx/vXTImnTjy+JB8cFWmPPGI8TuXcWEw8zdNJ3LBFS6pl2PJy+sOpoEidUP030Ilnfs02WR7P/vVr+3D45A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from BL0PR02MB4579.namprd02.prod.outlook.com (2603:10b6:208:4b::10)
+ by BL0PR02MB5682.namprd02.prod.outlook.com (2603:10b6:208:83::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.23; Fri, 13 May
+ 2022 00:50:35 +0000
+Received: from BL0PR02MB4579.namprd02.prod.outlook.com
+ ([fe80::fd14:ff80:d4d9:c81f]) by BL0PR02MB4579.namprd02.prod.outlook.com
+ ([fe80::fd14:ff80:d4d9:c81f%5]) with mapi id 15.20.5227.023; Fri, 13 May 2022
+ 00:50:35 +0000
+From:   Jon Kohler <jon@nutanix.com>
+To:     Jim Mattson <jmattson@google.com>
+CC:     Jon Kohler <jon@nutanix.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Kees Cook <keescook@chromium.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ashok Raj <ashok.raj@intel.com>,
+        KarimAllah Ahmed <karahmed@amazon.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "kvm @ vger . kernel . org" <kvm@vger.kernel.org>,
+        Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH v4] x86/speculation, KVM: remove IBPB on vCPU load
+Thread-Topic: [PATCH v4] x86/speculation, KVM: remove IBPB on vCPU load
+Thread-Index: AQHYZjCCNu0C0Uz/6UepE20RTbQUAK0boCkAgAACRQCAAARvAIAABIOAgAAFnoCAAAHEAIAAOOoAgAAO2YA=
+Date:   Fri, 13 May 2022 00:50:34 +0000
+Message-ID: <DEF8066B-E691-4C85-A19A-9F5222D1683D@nutanix.com>
+References: <20220512184514.15742-1-jon@nutanix.com>
+ <Yn1fjAqFoszWz500@google.com> <Yn1hdHgMVuni/GEx@google.com>
+ <07BEC8B1-469C-4E36-AE92-90BFDF93B2C4@nutanix.com>
+ <Yn1o9ZfsQutXXdQS@google.com>
+ <CALMp9eRQv6owjfyf+UO=96Q1dkeSrJWy0i4O-=RPSaQwz0bjTQ@mail.gmail.com>
+ <C39CD5E4-3705-4D1A-A67D-43CBB7D1950B@nutanix.com>
+ <CALMp9eRXmWvrQ1i0V3G738ndZOZ4YezQ=BqXe-BF2b4GNo1m3Q@mail.gmail.com>
+In-Reply-To: <CALMp9eRXmWvrQ1i0V3G738ndZOZ4YezQ=BqXe-BF2b4GNo1m3Q@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3693.40.0.1.81)
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 920e2482-ff1f-4beb-5463-08da347a96fc
+x-ms-traffictypediagnostic: BL0PR02MB5682:EE_
+x-microsoft-antispam-prvs: <BL0PR02MB5682F5EF4E2F685BED431AC1AFCA9@BL0PR02MB5682.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: aB6Hh91utCIgWYyQXMSMpagjmtTeHqVyGEQTDT6W4sr9i11qc2t6x00zKgbs9lYqON8H3K5z3FbkWpXqW/G5TncLmuOvcAKrGe3LUKiRe+7EPWOBn7ScFRStyZnsrugPt5eiH33RDwGTi6pu7HKcy3SyDV01vlOVynCqXU8NgY6fescieyRA7VHZY9IRZkKyauqTGevIL3FV7KHzYqyrZT16Cm9x+EPk0jX2bn/dnF2jnzRNeoXdlW3nOxDzyvN4AO/b3UEcGfGMy/7m54VCtiPCKSCoNmou5bGRsDt6NMvbuS/GSY0oYEcz67TG9P0GVgaXID7/fE2EIauWa7DJ48TdgLup9M0AL6xnWq02tt8nqjmS/4TQpInD187n2MWqDqXRUK7n8uVEsZeVB+zEGjPI3UAtJ2VRnf8WsdwhvUqiL7fUhi0tQkm2izEDZo5zaevrUW0speb9dv5Eb6QHCGSpVS1C/o5ZbJOZwWlXsKyy3KKE7h1ndKTFNxMnsqUhAvUZRksxVsFb5P5oprWv3Z7CQacuCHOnZ96pJkZESBDUludaS0RuCGKUjI1J3K/VaOF84Ucg6O6VV2T7qRJgE6I4kUM9oxEiFUPRyuMy8z0Ttb49U50StnZUWgmRpiGtNsGjKPUiSG5WGrLCNeGh+g/EAs3yvmMX0pkjTbJOw8g1cf4XuLQs49v75I7tNqaVpSeFW9+D2bd4PUtB4xF1uk/l2/slXiUsnrY3fJAprpo=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR02MB4579.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(53546011)(6506007)(8936002)(2616005)(6512007)(38100700002)(38070700005)(2906002)(186003)(86362001)(7416002)(36756003)(5660300002)(6916009)(66556008)(76116006)(4326008)(66446008)(66946007)(66476007)(8676002)(316002)(33656002)(64756008)(122000001)(508600001)(6486002)(83380400001)(54906003)(71200400001)(91956017)(45980500001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OGc1NE81N0dmNkYwd3hnZloyUklsQkk4bkFqQ3BkUzhlOTBBQ0RZbVZtVGJL?=
+ =?utf-8?B?VitVWnFkWG8xZjdmL0RFbTNrc3hUMHRxNm4vZFA3TFhPaHJCbmZWMnE1elgz?=
+ =?utf-8?B?QXlNZVFRN3FoRk5PUUZFZkFmUEQzM0xBWCtJOFVMU3E5enVXTzdlMGtjZkxO?=
+ =?utf-8?B?c0d0TU9lRW5HTjNGSmIvZ1FiZzl6VDN2b2t1dHlOVExOMkNQTTZIblpwZzdq?=
+ =?utf-8?B?MVQwQkk0SWFlRDZsTGM2RzVHanFHNHJ2OTRWeFJaZ3p2Q0VKVEJHaHNZNkVR?=
+ =?utf-8?B?N05qbG45aStxbzg4SWZMbWVxZ21ZQWZHa3hUMHZkTXVIbE8zSzJDOHc0Vll4?=
+ =?utf-8?B?WDlJTnZkZCtqdUcvcVk5MTQyTEc4NjNZYlJRODEvUXdGdHVtUVJ4aGdmMkZo?=
+ =?utf-8?B?TG5PamdBMGpLa0laYWVXeHdCUE1aWFRld2FYM2dPaUxSNjJqcW1OM2JMRWZr?=
+ =?utf-8?B?K0dWSjVYUzN6aVhaLzlwdmN0SGRYZkUrSzRDaENpUDNiQlJULzhPV3BTeFgr?=
+ =?utf-8?B?cU1KQyt3cGhXMDZibjB1SzRkd29JOHNScERHZk5rVHcvKzNqd1kwODFJOGN6?=
+ =?utf-8?B?ckhQSG4zRHY5YkZXcjB1YlVoeCt3ZFhrcVpxZlkxSmF6ckhYZ0tZRUVabWt2?=
+ =?utf-8?B?Y3FLaDdiejR3WE8wSzRrdTRIVHJSMTFEaWJkZ2VhVTA1VzJlMmhXNGJTNkpL?=
+ =?utf-8?B?MEdOTXRuLy9yNnJsRzNZQTczQUZEd01rL2RGMjk1QXVoeWxHSndTNEQ0TFZw?=
+ =?utf-8?B?VmY1c3BoUmtXZFh5VUtBeHB4TVVxSjRRUkRWdjBsM2hsNGNPVGVRUmtzZEEw?=
+ =?utf-8?B?YXNnY0IycWthZUxzOVl0V1ppTWtIS3N5Z0lCME10TEtxbmRMeXAvNy9jVm5F?=
+ =?utf-8?B?VG1xbksrQkZXM0ExMXNKUWVtZzRiRG5PSGlQa1FZelVMbW9HM1FlOW5zTDQz?=
+ =?utf-8?B?U1I5REtqNzdGai9LYy9BWC9iMGpXRkwvZ2xiVHpPR3BweEtDY2hxNzEzK054?=
+ =?utf-8?B?RUZWZXZET3BRK0cvZFVwOURXM0pwdEJRczVJZm4zQmxPb2xLbzB5WXdVNHhn?=
+ =?utf-8?B?d1UrZ2V4NVg2RTdTVkdHWlFzM0NTVzZuejlTMmI1K1p6TWlDYzF6RXllN0tL?=
+ =?utf-8?B?dVEyZnVKc1V6YXJ1WEU0YVQySThqYUFMS0RZMGlUWDlBWVVkMVEyQmZLZytp?=
+ =?utf-8?B?OFVHT0tjMk5DUnRkV09BdDEyOHhTOGRLSFpKTFpCSjhEL011TzBueXRYNlVw?=
+ =?utf-8?B?Tys2NU1BNkNzejJoQmVSV2tNWWZ3b0lERDE2dzdWOU9DZDNqUmViMkJXSElD?=
+ =?utf-8?B?UlA0UW1QVDdGbkY1UFdDMU5ENU9pUjJWRGRPYnQxdHZJTDlvUUJrN0kwZ2Z1?=
+ =?utf-8?B?NmMvdzczTHB6TVVBY29HMkVpSHhBdnY1SU5mdXhBVTVlWE43YjdObnlWZWZN?=
+ =?utf-8?B?UVBnMWN6S1hRd1M4Z3BHRlRXcXJiSHpPU2JQcVVIQkFXMUhXS2tINDhUTXRL?=
+ =?utf-8?B?bUJDUkZpY1RCNnkzakhFTXg5TjAvcXY3UXFBcDcvRnUwMGhESnBRRDFZTTZQ?=
+ =?utf-8?B?MjRGZFpKV0xuOFB5bXZqQklneE81VEFPVDJsNDJWQlpGQmFWMXdURmozZDZr?=
+ =?utf-8?B?UWRsd01HdWxIU0lHRmw0SnRCdk0zSmMwZjh5VkJhZk4zR013bFh5QTRoRWVY?=
+ =?utf-8?B?QlY3bXlGTG5oQzFOZm9XMU14Q3J2b2dnMm1jZjNLY3VIOGF6ZmwweWpnUkl3?=
+ =?utf-8?B?WWxJVngybjlVY2QrWnhBQ0RPeFp3dGFZRGs1R3UwelE4cEdDa0Zpdy83eG5v?=
+ =?utf-8?B?aFFaQVFjOUVhN0JSdUpzY25hZDhEc1hmdGs5ZVAzMW9kajZ2T3pnR0IxRlRM?=
+ =?utf-8?B?c3l2R2ZEdDU3T09QWmVUeExGUmJyUTR2T0JUSFVaazBBWFBJamlUK0tFN3Fh?=
+ =?utf-8?B?Z2dOdmlkQTFDNE1EaThEM0pmZ0Y3S2xkU3RyVkxsN091ODNaa3ZoaExjWERn?=
+ =?utf-8?B?YndPelpDc3o3N0VIa0hISEdER3c4WjlnTitBK0RyODd4ZzhrWHpSUGR5TkRx?=
+ =?utf-8?B?NVdtZXVuYy9IRWJ0b2JFTE5OOFlDWGZvQlFoY0x3RVYxaS9KczVnV0Qzb3F2?=
+ =?utf-8?B?TjdsRTZrRHQzd2czMkdtdW10dC95SDJ4WjZwNStwdGNqSWZTSjl3TThJNkpp?=
+ =?utf-8?B?QlgyVlFUK1B2M3hnYjhvN3FVNEh0VWwrSGJBUExzOTNuNGRjMU83TmFMRUwx?=
+ =?utf-8?B?S3J6S2F2clYvNmVVTFpteC9YRVk0dUJUU2ZGS0EwU0FFN0hrcHNIZ2l0Q0lV?=
+ =?utf-8?B?ZkhnK1NMRy93UzFGenMzZnJiUnBwWUx0d2cwS29GOEFPZTBVb0Q1L0RWbDlO?=
+ =?utf-8?Q?J0jJK2CjRpdszzeif3QRblYjhsNNZu7dM7q/9LnLaclnC?=
+x-ms-exchange-antispam-messagedata-1: uZbJHDFdoIaNwkXiYC8Hluzr8Pk8uRwxiIM=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <535038539A08C24D9882B03B7514BC25@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR02MB4579.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 920e2482-ff1f-4beb-5463-08da347a96fc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2022 00:50:34.9963
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7Py87YECQi7/dTBwP+/Pru77JPam2QZVoL8XngyHhhnPDsAX+kAYVhuJPmFQbOeZNcxnkk8yUfvmGBUSlLdlgFPQfCx1oP1VuDrhefJG4Kg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB5682
+X-Proofpoint-GUID: MhichCgmNVL2CK_itj3BlZWE9bCGaIUs
+X-Proofpoint-ORIG-GUID: MhichCgmNVL2CK_itj3BlZWE9bCGaIUs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-12_19,2022-05-12_01,2022-02-23_01
+X-Proofpoint-Spam-Reason: safe
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jing Leng <jleng@ambarella.com>
-
-The video data endpoint of uvc can be implemented as either an
-isochronous or a bulk endpoint.
-
-The transmission speed of bulk mode is faster than isochronous mode.
-I tested the speed with cdns3 (USB 3.2 Gen1), it's difficult to reach
-2 Gbps in the isochronous mode, and it can exceed 4 Gbps in the bulk
-mode.
-
-A VideoStreaming interface with isochronous endpoints must have alternate
-settings that can be used to change certain characteristics of the
-interface and underlying endpoint(s). A typical use of alternate settings
-is to provide a way to change the bandwidth requirements an active
-isochronous pipe imposes on the USB.
-
-A VideoStreaming interface containing a bulk endpoint for streaming shall
-support only alternate setting zero. Additional alternate settings
-containing bulk endpoints are not permitted in a device that is compliant
-with the Video Class specification.
-
-In user space, isochronous/bulk modes are handled a little differently:
-
-1. APP prepares buffers and streams when it receives an UVC_EVENT_STREAMON
-message in the isochronous mode, but APP should do them when it receives a
-SET_CUR request of UVC_VS_COMMIT_CONTROL due to no UVC_EVENT_STREAMON
-message reported from the kernel in the bulk mode (Do them only once).
-
-2. In Addition, APP should set the value of dwMaxPayloadTransferSize to
-streaming_maxpacket in the isochronous mode or streaming_bulk_mult * 1024
-in the bulk mode.
-
-Here shows an example of the configfs differences:
-  if [ $BULK -eq 1 ]; then
-      echo 128 > functions/$FUNC/streaming_bulk_mult
-  else
-      echo 1024 > functions/$FUNC/streaming_maxpacket
-  fi
-
-Signed-off-by: Jing Leng <jleng@ambarella.com>
----
-ChangeLog v2->v3:
-- Mistakenly deleted the definition of i and USBDHDR when porting from my workdir.
-- Reported-by: kernel test robot <lkp@intel.com>
-ChangeLog v1->v2:
-- Handle imagesize in uvc_v4l2_set_format. If it's not handled,
-- switching from low resolution to high resolution will fail to play.
----
- .../ABI/testing/configfs-usb-gadget-uvc       |   1 +
- Documentation/usb/gadget-testing.rst          |   4 +
- drivers/usb/gadget/function/f_uvc.c           | 248 ++++++++++++------
- drivers/usb/gadget/function/u_uvc.h           |   1 +
- drivers/usb/gadget/function/uvc_configfs.c    |   2 +
- drivers/usb/gadget/function/uvc_queue.c       |   4 +-
- drivers/usb/gadget/function/uvc_v4l2.c        |   8 +
- 7 files changed, 186 insertions(+), 82 deletions(-)
-
-diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-index 889ed45be4ca..52ca04a619ff 100644
---- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
-+++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-@@ -7,6 +7,7 @@ Description:	UVC function directory
- 		streaming_maxburst	0..15 (ss only)
- 		streaming_maxpacket	1..1023 (fs), 1..3072 (hs/ss)
- 		streaming_interval	1..16
-+		streaming_bulk_mult	0..0x3fffffU
- 		===================	=============================
- 
- What:		/config/usb-gadget/gadget/functions/uvc.name/control
-diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-index c6d034abce3a..2cbe3e2e05c3 100644
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -787,6 +787,10 @@ The uvc function provides these attributes in its function directory:
- 	streaming_maxpacket maximum packet size this endpoint is capable of
- 			    sending or receiving when this configuration is
- 			    selected
-+	streaming_bulk_mult Multiples to configure max_payload_size. If it's
-+			    0, the transport mode is isochronous; otherwise
-+			    the transport mode is bulk and max_payload_size
-+			    is equal to streaming_bulk_mult * 1024.
- 	=================== ================================================
- 
- There are also "control" and "streaming" subdirectories, each of which contain
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 71bb5e477dba..2c54b482a902 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -30,6 +30,8 @@
- #include "uvc_v4l2.h"
- #include "uvc_video.h"
- 
-+#define USBDHDR(p) ((struct usb_descriptor_header *)(p))
-+
- unsigned int uvc_gadget_trace_param;
- module_param_named(trace, uvc_gadget_trace_param, uint, 0644);
- MODULE_PARM_DESC(trace, "Trace level bitmask");
-@@ -178,19 +180,19 @@ static struct usb_ss_ep_comp_descriptor uvc_ss_streaming_comp = {
- 	 */
- };
- 
--static const struct usb_descriptor_header * const uvc_fs_streaming[] = {
-+static const struct usb_descriptor_header *uvc_fs_streaming[] = {
- 	(struct usb_descriptor_header *) &uvc_streaming_intf_alt1,
- 	(struct usb_descriptor_header *) &uvc_fs_streaming_ep,
- 	NULL,
- };
- 
--static const struct usb_descriptor_header * const uvc_hs_streaming[] = {
-+static const struct usb_descriptor_header *uvc_hs_streaming[] = {
- 	(struct usb_descriptor_header *) &uvc_streaming_intf_alt1,
- 	(struct usb_descriptor_header *) &uvc_hs_streaming_ep,
- 	NULL,
- };
- 
--static const struct usb_descriptor_header * const uvc_ss_streaming[] = {
-+static const struct usb_descriptor_header *uvc_ss_streaming[] = {
- 	(struct usb_descriptor_header *) &uvc_streaming_intf_alt1,
- 	(struct usb_descriptor_header *) &uvc_ss_streaming_ep,
- 	(struct usb_descriptor_header *) &uvc_ss_streaming_comp,
-@@ -251,9 +253,12 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
- 
- void uvc_function_setup_continue(struct uvc_device *uvc)
- {
-+	struct f_uvc_opts *opts = fi_to_f_uvc_opts(uvc->func.fi);
- 	struct usb_composite_dev *cdev = uvc->func.config->cdev;
- 
--	usb_composite_setup_continue(cdev);
-+	/* delayed_status in bulk mode is 0, so it doesn't need to continue. */
-+	if (!opts->streaming_bulk_mult)
-+		usb_composite_setup_continue(cdev);
- }
- 
- static int
-@@ -278,6 +283,7 @@ uvc_function_set_alt(struct usb_function *f, unsigned interface, unsigned alt)
- 	struct usb_composite_dev *cdev = f->config->cdev;
- 	struct v4l2_event v4l2_event;
- 	struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
-+	struct f_uvc_opts *opts = fi_to_f_uvc_opts(f->fi);
- 	int ret;
- 
- 	uvcg_info(f, "%s(%u, %u)\n", __func__, interface, alt);
-@@ -310,49 +316,72 @@ uvc_function_set_alt(struct usb_function *f, unsigned interface, unsigned alt)
- 	if (interface != uvc->streaming_intf)
- 		return -EINVAL;
- 
--	/* TODO
--	if (usb_endpoint_xfer_bulk(&uvc->desc.vs_ep))
--		return alt ? -EINVAL : 0;
--	*/
-+	if (opts->streaming_bulk_mult) {
-+		switch (alt) {
-+		case 0:
-+			if (uvc->state != UVC_STATE_CONNECTED)
-+				return 0;
- 
--	switch (alt) {
--	case 0:
--		if (uvc->state != UVC_STATE_STREAMING)
--			return 0;
-+			if (!uvc->video.ep)
-+				return -EINVAL;
- 
--		if (uvc->video.ep)
-+			uvcg_info(f, "reset UVC\n");
- 			usb_ep_disable(uvc->video.ep);
- 
--		memset(&v4l2_event, 0, sizeof(v4l2_event));
--		v4l2_event.type = UVC_EVENT_STREAMOFF;
--		v4l2_event_queue(&uvc->vdev, &v4l2_event);
--
--		uvc->state = UVC_STATE_CONNECTED;
--		return 0;
-+			ret = config_ep_by_speed(f->config->cdev->gadget,
-+					&(uvc->func), uvc->video.ep);
-+			if (ret)
-+				return ret;
-+			usb_ep_enable(uvc->video.ep);
- 
--	case 1:
--		if (uvc->state != UVC_STATE_CONNECTED)
-+			memset(&v4l2_event, 0, sizeof(v4l2_event));
-+			v4l2_event.type = UVC_EVENT_STREAMOFF;
-+			v4l2_event_queue(&uvc->vdev, &v4l2_event);
- 			return 0;
- 
--		if (!uvc->video.ep)
-+		default:
- 			return -EINVAL;
-+		}
-+	} else {
-+		switch (alt) {
-+		case 0:
-+			if (uvc->state != UVC_STATE_STREAMING)
-+				return 0;
-+
-+			if (uvc->video.ep)
-+				usb_ep_disable(uvc->video.ep);
-+
-+			memset(&v4l2_event, 0, sizeof(v4l2_event));
-+			v4l2_event.type = UVC_EVENT_STREAMOFF;
-+			v4l2_event_queue(&uvc->vdev, &v4l2_event);
- 
--		uvcg_info(f, "reset UVC\n");
--		usb_ep_disable(uvc->video.ep);
-+			uvc->state = UVC_STATE_CONNECTED;
-+			return 0;
- 
--		ret = config_ep_by_speed(f->config->cdev->gadget,
--				&(uvc->func), uvc->video.ep);
--		if (ret)
--			return ret;
--		usb_ep_enable(uvc->video.ep);
-+		case 1:
-+			if (uvc->state != UVC_STATE_CONNECTED)
-+				return 0;
- 
--		memset(&v4l2_event, 0, sizeof(v4l2_event));
--		v4l2_event.type = UVC_EVENT_STREAMON;
--		v4l2_event_queue(&uvc->vdev, &v4l2_event);
--		return USB_GADGET_DELAYED_STATUS;
-+			if (!uvc->video.ep)
-+				return -EINVAL;
- 
--	default:
--		return -EINVAL;
-+			uvcg_info(f, "reset UVC\n");
-+			usb_ep_disable(uvc->video.ep);
-+
-+			ret = config_ep_by_speed(f->config->cdev->gadget,
-+					&(uvc->func), uvc->video.ep);
-+			if (ret)
-+				return ret;
-+			usb_ep_enable(uvc->video.ep);
-+
-+			memset(&v4l2_event, 0, sizeof(v4l2_event));
-+			v4l2_event.type = UVC_EVENT_STREAMON;
-+			v4l2_event_queue(&uvc->vdev, &v4l2_event);
-+			return USB_GADGET_DELAYED_STATUS;
-+
-+		default:
-+			return -EINVAL;
-+		}
- 	}
- }
- 
-@@ -593,62 +622,96 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 	unsigned int max_packet_size;
- 	struct usb_ep *ep;
- 	struct f_uvc_opts *opts;
-+	int i = 0;
- 	int ret = -EINVAL;
- 
- 	uvcg_info(f, "%s()\n", __func__);
- 
- 	opts = fi_to_f_uvc_opts(f->fi);
--	/* Sanity check the streaming endpoint module parameters.
--	 */
--	opts->streaming_interval = clamp(opts->streaming_interval, 1U, 16U);
--	opts->streaming_maxpacket = clamp(opts->streaming_maxpacket, 1U, 3072U);
--	opts->streaming_maxburst = min(opts->streaming_maxburst, 15U);
--
--	/* For SS, wMaxPacketSize has to be 1024 if bMaxBurst is not 0 */
--	if (opts->streaming_maxburst &&
--	    (opts->streaming_maxpacket % 1024) != 0) {
--		opts->streaming_maxpacket = roundup(opts->streaming_maxpacket, 1024);
--		uvcg_info(f, "overriding streaming_maxpacket to %d\n",
--			  opts->streaming_maxpacket);
--	}
- 
--	/* Fill in the FS/HS/SS Video Streaming specific descriptors from the
--	 * module parameters.
--	 *
--	 * NOTE: We assume that the user knows what they are doing and won't
--	 * give parameters that their UDC doesn't support.
--	 */
--	if (opts->streaming_maxpacket <= 1024) {
--		max_packet_mult = 1;
--		max_packet_size = opts->streaming_maxpacket;
--	} else if (opts->streaming_maxpacket <= 2048) {
--		max_packet_mult = 2;
--		max_packet_size = opts->streaming_maxpacket / 2;
-+	/* Handle different transfer mode for stream endpoints */
-+	if (opts->streaming_bulk_mult) {
-+		uvc_fs_streaming_ep.bmAttributes = USB_ENDPOINT_XFER_BULK;
-+		uvc_hs_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
-+		uvc_ss_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
-+
-+		opts->streaming_maxburst = min(opts->streaming_maxburst, 15U);
-+
-+		uvc_fs_streaming_ep.wMaxPacketSize = cpu_to_le16(64);
-+		uvc_fs_streaming_ep.bInterval = 0;
-+
-+		uvc_hs_streaming_ep.wMaxPacketSize = cpu_to_le16(512);
-+		uvc_hs_streaming_ep.bInterval = 0;
-+
-+		uvc_ss_streaming_ep.wMaxPacketSize = cpu_to_le16(1024);
-+		uvc_ss_streaming_ep.bInterval = 0;
-+
-+		uvc_ss_streaming_comp.bmAttributes = 0;
-+		uvc_ss_streaming_comp.bMaxBurst = opts->streaming_maxburst;
-+		uvc_ss_streaming_comp.wBytesPerInterval = 0;
-+
-+		uvc->video.max_payload_size = opts->streaming_bulk_mult * 1024;
- 	} else {
--		max_packet_mult = 3;
--		max_packet_size = opts->streaming_maxpacket / 3;
--	}
-+		uvc_fs_streaming_ep.bmAttributes = USB_ENDPOINT_SYNC_ASYNC
-+						| USB_ENDPOINT_XFER_ISOC;
-+		uvc_hs_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
-+		uvc_ss_streaming_ep.bmAttributes = uvc_fs_streaming_ep.bmAttributes;
-+
-+		/* Sanity check the streaming endpoint module parameters.
-+		 */
-+		opts->streaming_interval = clamp(opts->streaming_interval, 1U, 16U);
-+		opts->streaming_maxpacket = clamp(opts->streaming_maxpacket, 1U, 3072U);
-+		opts->streaming_maxburst = min(opts->streaming_maxburst, 15U);
-+
-+		/* For SS, wMaxPacketSize has to be 1024 if bMaxBurst is not 0 */
-+		if (opts->streaming_maxburst &&
-+			(opts->streaming_maxpacket % 1024) != 0) {
-+			opts->streaming_maxpacket = roundup(opts->streaming_maxpacket, 1024);
-+			uvcg_info(f, "overriding streaming_maxpacket to %d\n",
-+				opts->streaming_maxpacket);
-+		}
- 
--	uvc_fs_streaming_ep.wMaxPacketSize =
--		cpu_to_le16(min(opts->streaming_maxpacket, 1023U));
--	uvc_fs_streaming_ep.bInterval = opts->streaming_interval;
-+		/* Fill in the FS/HS/SS Video Streaming specific descriptors from the
-+		 * module parameters.
-+		 *
-+		 * NOTE: We assume that the user knows what they are doing and won't
-+		 * give parameters that their UDC doesn't support.
-+		 */
-+
-+		if (opts->streaming_maxpacket <= 1024) {
-+			max_packet_mult = 0;
-+			max_packet_size = opts->streaming_maxpacket;
-+		} else if (opts->streaming_maxpacket <= 2048) {
-+			max_packet_mult = 1;
-+			max_packet_size = opts->streaming_maxpacket / 2;
-+		} else {
-+			max_packet_mult = 2;
-+			max_packet_size = opts->streaming_maxpacket / 3;
-+		}
- 
--	uvc_hs_streaming_ep.wMaxPacketSize =
--		cpu_to_le16(max_packet_size | ((max_packet_mult - 1) << 11));
-+		uvc_fs_streaming_ep.wMaxPacketSize =
-+			cpu_to_le16(min(opts->streaming_maxpacket, 1023U));
-+		uvc_fs_streaming_ep.bInterval = opts->streaming_interval;
- 
--	/* A high-bandwidth endpoint must specify a bInterval value of 1 */
--	if (max_packet_mult > 1)
--		uvc_hs_streaming_ep.bInterval = 1;
--	else
--		uvc_hs_streaming_ep.bInterval = opts->streaming_interval;
-+		uvc_hs_streaming_ep.wMaxPacketSize =
-+			cpu_to_le16(max_packet_size | (max_packet_mult << 11));
-+		/* A high-bandwidth endpoint must specify a bInterval value of 1 */
-+		if (max_packet_mult > 0)
-+			uvc_hs_streaming_ep.bInterval = 1;
-+		else
-+			uvc_hs_streaming_ep.bInterval = opts->streaming_interval;
-+
-+		uvc_ss_streaming_ep.wMaxPacketSize = cpu_to_le16(max_packet_size);
-+		uvc_ss_streaming_ep.bInterval = opts->streaming_interval;
- 
--	uvc_ss_streaming_ep.wMaxPacketSize = cpu_to_le16(max_packet_size);
--	uvc_ss_streaming_ep.bInterval = opts->streaming_interval;
--	uvc_ss_streaming_comp.bmAttributes = max_packet_mult - 1;
--	uvc_ss_streaming_comp.bMaxBurst = opts->streaming_maxburst;
--	uvc_ss_streaming_comp.wBytesPerInterval =
--		cpu_to_le16(max_packet_size * max_packet_mult *
--			    (opts->streaming_maxburst + 1));
-+		uvc_ss_streaming_comp.bmAttributes = max_packet_mult;
-+		uvc_ss_streaming_comp.bMaxBurst = opts->streaming_maxburst;
-+		uvc_ss_streaming_comp.wBytesPerInterval =
-+			cpu_to_le16(max_packet_size * (max_packet_mult + 1) *
-+				(opts->streaming_maxburst + 1));
-+
-+		uvc->video.max_payload_size = 0;
-+	}
- 
- 	/* Allocate endpoints. */
- 	ep = usb_ep_autoconfig(cdev->gadget, &uvc_control_ep);
-@@ -662,7 +725,7 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 		ep = usb_ep_autoconfig_ss(cdev->gadget, &uvc_ss_streaming_ep,
- 					  &uvc_ss_streaming_comp);
- 	else if (gadget_is_dualspeed(cdev->gadget))
--		ep = usb_ep_autoconfig(cdev->gadget, &uvc_hs_streaming_ep);
-+		ep = usb_ep_autoconfig_ss(cdev->gadget, &uvc_hs_streaming_ep, NULL);
- 	else
- 		ep = usb_ep_autoconfig(cdev->gadget, &uvc_fs_streaming_ep);
- 
-@@ -703,6 +766,28 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
- 	uvc->streaming_intf = ret;
- 	opts->streaming_interface = ret;
- 
-+	/* Handle different transfer mode for descriptors */
-+	i = 0;
-+	if (opts->streaming_bulk_mult) {
-+		uvc_streaming_intf_alt0.bNumEndpoints = 1;
-+	} else {
-+		uvc_streaming_intf_alt0.bNumEndpoints = 0;
-+
-+		uvc_fs_streaming[i] = USBDHDR(&uvc_streaming_intf_alt1);
-+		uvc_hs_streaming[i] = USBDHDR(&uvc_streaming_intf_alt1);
-+		uvc_ss_streaming[i] = USBDHDR(&uvc_streaming_intf_alt1);
-+		++i;
-+	}
-+	uvc_fs_streaming[i] = USBDHDR(&uvc_fs_streaming_ep);
-+	uvc_hs_streaming[i] = USBDHDR(&uvc_hs_streaming_ep);
-+	uvc_ss_streaming[i] = USBDHDR(&uvc_ss_streaming_ep);
-+	++i;
-+	uvc_fs_streaming[i] = NULL;
-+	uvc_hs_streaming[i] = NULL;
-+	uvc_ss_streaming[i] = USBDHDR(&uvc_ss_streaming_comp);
-+	++i;
-+	uvc_ss_streaming[i] = NULL;
-+
- 	/* Copy descriptors */
- 	f->fs_descriptors = uvc_copy_descriptors(uvc, USB_SPEED_FULL);
- 	if (IS_ERR(f->fs_descriptors)) {
-@@ -866,6 +951,7 @@ static struct usb_function_instance *uvc_alloc_inst(void)
- 
- 	opts->streaming_interval = 1;
- 	opts->streaming_maxpacket = 1024;
-+	opts->streaming_bulk_mult = 0;
- 
- 	ret = uvcg_attach_configfs(opts);
- 	if (ret < 0) {
-diff --git a/drivers/usb/gadget/function/u_uvc.h b/drivers/usb/gadget/function/u_uvc.h
-index 9a01a7d4f17f..5607a239d55e 100644
---- a/drivers/usb/gadget/function/u_uvc.h
-+++ b/drivers/usb/gadget/function/u_uvc.h
-@@ -24,6 +24,7 @@ struct f_uvc_opts {
- 	unsigned int					streaming_interval;
- 	unsigned int					streaming_maxpacket;
- 	unsigned int					streaming_maxburst;
-+	unsigned int					streaming_bulk_mult;
- 
- 	unsigned int					control_interface;
- 	unsigned int					streaming_interface;
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index 77d64031aa9c..9b08e7b25168 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -2422,6 +2422,7 @@ UVC_ATTR(f_uvc_opts_, cname, cname)
- UVCG_OPTS_ATTR(streaming_interval, streaming_interval, 16);
- UVCG_OPTS_ATTR(streaming_maxpacket, streaming_maxpacket, 3072);
- UVCG_OPTS_ATTR(streaming_maxburst, streaming_maxburst, 15);
-+UVCG_OPTS_ATTR(streaming_bulk_mult, streaming_bulk_mult, 0x3fffffU);
- 
- #undef UVCG_OPTS_ATTR
- 
-@@ -2429,6 +2430,7 @@ static struct configfs_attribute *uvc_attrs[] = {
- 	&f_uvc_opts_attr_streaming_interval,
- 	&f_uvc_opts_attr_streaming_maxpacket,
- 	&f_uvc_opts_attr_streaming_maxburst,
-+	&f_uvc_opts_attr_streaming_bulk_mult,
- 	NULL,
- };
- 
-diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-index 2cda982f3765..98d0e933b5e1 100644
---- a/drivers/usb/gadget/function/uvc_queue.c
-+++ b/drivers/usb/gadget/function/uvc_queue.c
-@@ -135,7 +135,9 @@ int uvcg_queue_init(struct uvc_video_queue *queue, struct device *dev, enum v4l2
- 	queue->queue.buf_struct_size = sizeof(struct uvc_buffer);
- 	queue->queue.ops = &uvc_queue_qops;
- 	queue->queue.lock = lock;
--	if (cdev->gadget->sg_supported) {
-+
-+	/* UDC supports scatter gather and transfer mode isn't bulk. */
-+	if (cdev->gadget->sg_supported && !video->max_payload_size) {
- 		queue->queue.mem_ops = &vb2_dma_sg_memops;
- 		queue->use_sg = 1;
- 	} else {
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index a2c78690c5c2..767f1a2ace04 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -119,6 +119,14 @@ uvc_v4l2_set_format(struct file *file, void *fh, struct v4l2_format *fmt)
- 	bpl = format->bpp * fmt->fmt.pix.width / 8;
- 	imagesize = bpl ? bpl * fmt->fmt.pix.height : fmt->fmt.pix.sizeimage;
- 
-+	/*
-+	 * Bulk mode only allocates memory once, so user should give the
-+	 * maximum image size in all formats and kernel should not decrease
-+	 * the imagesize.
-+	 */
-+	if (video->max_payload_size && imagesize < fmt->fmt.pix.sizeimage)
-+		imagesize = fmt->fmt.pix.sizeimage;
-+
- 	video->fcc = format->fcc;
- 	video->bpp = format->bpp;
- 	video->width = fmt->fmt.pix.width;
--- 
-2.17.1
-
+DQoNCj4gT24gTWF5IDEyLCAyMDIyLCBhdCA3OjU3IFBNLCBKaW0gTWF0dHNvbiA8am1hdHRzb25A
+Z29vZ2xlLmNvbT4gd3JvdGU6DQo+IA0KPiBPbiBUaHUsIE1heSAxMiwgMjAyMiBhdCAxOjM0IFBN
+IEpvbiBLb2hsZXIgPGpvbkBudXRhbml4LmNvbT4gd3JvdGU6DQo+PiANCj4+IA0KPj4gDQo+Pj4g
+T24gTWF5IDEyLCAyMDIyLCBhdCA0OjI3IFBNLCBKaW0gTWF0dHNvbiA8am1hdHRzb25AZ29vZ2xl
+LmNvbT4gd3JvdGU6DQo+Pj4gDQo+Pj4gT24gVGh1LCBNYXkgMTIsIDIwMjIgYXQgMTowNyBQTSBT
+ZWFuIENocmlzdG9waGVyc29uIDxzZWFuamNAZ29vZ2xlLmNvbT4gd3JvdGU6DQo+Pj4+IA0KPj4+
+PiBPbiBUaHUsIE1heSAxMiwgMjAyMiwgSm9uIEtvaGxlciB3cm90ZToNCj4+Pj4+IA0KPj4+Pj4g
+DQo+Pj4+Pj4gT24gTWF5IDEyLCAyMDIyLCBhdCAzOjM1IFBNLCBTZWFuIENocmlzdG9waGVyc29u
+IDxzZWFuamNAZ29vZ2xlLmNvbT4gd3JvdGU6DQo+Pj4+Pj4gDQo+Pj4+Pj4gT24gVGh1LCBNYXkg
+MTIsIDIwMjIsIFNlYW4gQ2hyaXN0b3BoZXJzb24gd3JvdGU6DQo+Pj4+Pj4+IE9uIFRodSwgTWF5
+IDEyLCAyMDIyLCBKb24gS29obGVyIHdyb3RlOg0KPj4+Pj4+Pj4gUmVtb3ZlIElCUEIgdGhhdCBp
+cyBkb25lIG9uIEtWTSB2Q1BVIGxvYWQsIGFzIHRoZSBndWVzdC10by1ndWVzdA0KPj4+Pj4+Pj4g
+YXR0YWNrIHN1cmZhY2UgaXMgYWxyZWFkeSBjb3ZlcmVkIGJ5IHN3aXRjaF9tbV9pcnFzX29mZigp
+IC0+DQo+Pj4+Pj4+PiBjb25kX21pdGlnYXRpb24oKS4NCj4+Pj4+Pj4+IA0KPj4+Pj4+Pj4gVGhl
+IG9yaWdpbmFsIGNvbW1pdCAxNWQ0NTA3MTUyM2QgKCJLVk0veDg2OiBBZGQgSUJQQiBzdXBwb3J0
+Iikgd2FzIHNpbXBseQ0KPj4+Pj4+Pj4gd3JvbmcgaW4gaXRzIGd1ZXN0LXRvLWd1ZXN0IGRlc2ln
+biBpbnRlbnRpb24uIFRoZXJlIGFyZSB0aHJlZSBzY2VuYXJpb3MNCj4+Pj4+Pj4+IGF0IHBsYXkg
+aGVyZToNCj4+Pj4+Pj4gDQo+Pj4+Pj4+IEppbSBwb2ludGVkIG9mZmxpbmUgdGhhdCB0aGVyZSdz
+IGEgY2FzZSB3ZSBkaWRuJ3QgY29uc2lkZXIuICBXaGVuIHN3aXRjaGluZyBiZXR3ZWVuDQo+Pj4+
+Pj4+IHZDUFVzIGluIHRoZSBzYW1lIFZNLCBhbiBJQlBCIG1heSBiZSB3YXJyYW50ZWQgYXMgdGhl
+IHRhc2tzIGluIHRoZSBWTSBtYXkgYmUgaW4NCj4+Pj4+Pj4gZGlmZmVyZW50IHNlY3VyaXR5IGRv
+bWFpbnMuICBFLmcuIHRoZSBndWVzdCB3aWxsIG5vdCBnZXQgYSBub3RpZmljYXRpb24gdGhhdCB2
+Q1BVMCBpcw0KPj4+Pj4+PiBiZWluZyBzd2FwcGVkIG91dCBmb3IgdkNQVTEgb24gYSBzaW5nbGUg
+cENQVS4NCj4+Pj4+Pj4gDQo+Pj4+Pj4+IFNvLCBzYWRseSwgYWZ0ZXIgYWxsIHRoYXQsIEkgdGhp
+bmsgdGhlIElCUEIgbmVlZHMgdG8gc3RheS4gIEJ1dCB0aGUgZG9jdW1lbnRhdGlvbg0KPj4+Pj4+
+PiBtb3N0IGRlZmluaXRlbHkgbmVlZHMgdG8gYmUgdXBkYXRlZC4NCj4+Pj4+Pj4gDQo+Pj4+Pj4+
+IEEgcGVyLVZNIGNhcGFiaWxpdHkgdG8gc2tpcCB0aGUgSUJQQiBtYXkgYmUgd2FycmFudGVkLCBl
+LmcuIGZvciBjb250YWluZXItbGlrZQ0KPj4+Pj4+PiB1c2UgY2FzZXMgd2hlcmUgYSBzaW5nbGUg
+Vk0gaXMgcnVubmluZyBhIHNpbmdsZSB3b3JrbG9hZC4NCj4+Pj4+PiANCj4+Pj4+PiBBaCwgYWN0
+dWFsbHksIHRoZSBJQlBCIGNhbiBiZSBza2lwcGVkIGlmIHRoZSB2Q1BVcyBoYXZlIGRpZmZlcmVu
+dCBtbV9zdHJ1Y3RzLA0KPj4+Pj4+IGJlY2F1c2UgdGhlbiB0aGUgSUJQQiBpcyBmdWxseSByZWR1
+bmRhbnQgd2l0aCByZXNwZWN0IHRvIGFueSBJQlBCIHBlcmZvcm1lZCBieQ0KPj4+Pj4+IHN3aXRj
+aF9tbV9pcnFzX29mZigpLiAgSHJtLCB0aG91Z2ggaXQgbWlnaHQgbmVlZCBhIEtWTSBvciBwZXIt
+Vk0ga25vYiwgZS5nLiBqdXN0DQo+Pj4+Pj4gYmVjYXVzZSB0aGUgVk1NIGRvZXNuJ3Qgd2FudCBJ
+QlBCIGRvZXNuJ3QgbWVhbiB0aGUgZ3Vlc3QgZG9lc24ndCB3YW50IElCUEIuDQo+Pj4+Pj4gDQo+
+Pj4+Pj4gVGhhdCB3b3VsZCBhbHNvIHNpZGVzdGVwIHRoZSBsYXJnZWx5IHRoZW9yZXRpY2FsIHF1
+ZXN0aW9uIG9mIHdoZXRoZXIgdkNQVXMgZnJvbQ0KPj4+Pj4+IGRpZmZlcmVudCBWTXMgYnV0IHRo
+ZSBzYW1lIGFkZHJlc3Mgc3BhY2UgYXJlIGluIHRoZSBzYW1lIHNlY3VyaXR5IGRvbWFpbi4gIEl0
+IGRvZXNuJ3QNCj4+Pj4+PiBtYXR0ZXIsIGJlY2F1c2UgZXZlbiBpZiB0aGV5IGFyZSBpbiB0aGUg
+c2FtZSBkb21haW4sIEtWTSBzdGlsbCBuZWVkcyB0byBkbyBJQlBCLg0KPj4+Pj4gDQo+Pj4+PiBT
+byBzaG91bGQgd2UgZ28gYmFjayB0byB0aGUgZWFybGllciBhcHByb2FjaCB3aGVyZSB3ZSBoYXZl
+IGl0IGJlIG9ubHkNCj4+Pj4+IElCUEIgb24gYWx3YXlzX2licGI/IE9yIHdoYXQ/DQo+Pj4+PiAN
+Cj4+Pj4+IEF0IG1pbmltdW0sIHdlIG5lZWQgdG8gZml4IHRoZSB1bmlsYXRlcmFsLW5lc3Mgb2Yg
+YWxsIG9mIHRoaXMgOikgc2luY2Ugd2XigJlyZQ0KPj4+Pj4gSUJQQuKAmWluZyBldmVuIHdoZW4g
+dGhlIHVzZXIgZGlkIG5vdCBleHBsaWNpdGx5IHRlbGwgdXMgdG8uDQo+Pj4+IA0KPj4+PiBJIHRo
+aW5rIHdlIG5lZWQgc2VwYXJhdGUgY29udHJvbHMgZm9yIHRoZSBndWVzdC4gIEUuZy4gaWYgdGhl
+IHVzZXJzcGFjZSBWTU0gaXMNCj4+Pj4gc3VmZmljaWVudGx5IGhhcmRlbmVkIHRoZW4gaXQgY2Fu
+IHJ1biB3aXRob3V0ICJkbyBJQlBCIiBmbGFnLCBidXQgdGhhdCBkb2Vzbid0DQo+Pj4+IG1lYW4g
+dGhhdCB0aGUgZW50aXJlIGd1ZXN0IGl0J3MgcnVubmluZyBpcyBzdWZmaWNpZW50bHkgaGFyZGVu
+ZWQuDQo+Pj4+IA0KPj4+Pj4gVGhhdCBzYWlkLCBzaW5jZSBJIGp1c3QgcmUtcmVhZCB0aGUgZG9j
+dW1lbnRhdGlvbiB0b2RheSwgaXQgZG9lcyBzcGVjaWZpY2FsbHkNCj4+Pj4+IHN1Z2dlc3QgdGhh
+dCBpZiB0aGUgZ3Vlc3Qgd2FudHMgdG8gcHJvdGVjdCAqaXRzZWxmKiBpdCBzaG91bGQgdHVybiBv
+biBJQlBCIG9yDQo+Pj4+PiBTVElCUCAob3Igb3RoZXIgbWl0aWdhdGlvbnMgZ2Fsb3JlKSwgc28g
+SSB0aGluayB3ZSBlbmQgdXAgaGF2aW5nIHRvIHRoaW5rDQo+Pj4+PiBhYm91dCB3aGF0IG91ciDi
+gJxjb250cmFjdOKAnSBpcyB3aXRoIHVzZXJzIHdobyBob3N0IHRoZWlyIHdvcmtsb2FkcyBvbg0K
+Pj4+Pj4gS1ZNIC0gYXJlIHRoZXkgZXhwZWN0aW5nIHVzIHRvIHByb3RlY3QgdGhlbSBpbiBhbnkv
+YWxsIGNhc2VzPw0KPj4+Pj4gDQo+Pj4+PiBTYWlkIGFub3RoZXIgd2F5LCB0aGUgaW50ZXJuYWwg
+Z3Vlc3QgYXJlYXMgb2YgY29uY2VybiBhcmVu4oCZdCBzb21ldGhpbmcNCj4+Pj4+IHRoZSBrZXJu
+ZWwgd291bGQgYWx3YXlzIGJlIGFibGUgdG8gQSkgaWRlbnRpZnkgZmFyIGluIGFkdmFuY2UgYW5k
+IEIpDQo+Pj4+PiBhbHdheXMgc29sdmUgb24gdGhlIHVzZXJzIGJlaGFsZi4gVGhlcmUgaXMgYW4g
+YXJndW1lbnQgdG8gYmUgbWFkZQ0KPj4+Pj4gdGhhdCB0aGUgZ3Vlc3QgbmVlZHMgdG8gZGVhbCB3
+aXRoIGl0cyBvd24gaG91c2UsIHllYT8NCj4+Pj4gDQo+Pj4+IFRoZSBpc3N1ZSBpcyB0aGF0IHRo
+ZSBndWVzdCB3b24ndCBnZXQgYSBub3RpZmljYXRpb24gaWYgdkNQVTAgaXMgcmVwbGFjZWQgd2l0
+aA0KPj4+PiB2Q1BVMSBvbiB0aGUgc2FtZSBwaHlzaWNhbCBDUFUsIHRodXMgdGhlIGd1ZXN0IGRv
+ZXNuJ3QgZ2V0IGFuIG9wcG9ydHVuaXR5IHRvIGVtaXQNCj4+Pj4gSUJQQi4gIFNpbmNlIHRoZSBo
+b3N0IGRvZXNuJ3Qga25vdyB3aGV0aGVyIG9yIG5vdCB0aGUgZ3Vlc3Qgd2FudHMgKUlCUEIsIHVu
+bGVzcyB0aGUNCj4+Pj4gb3duZXIgb2YgdGhlIGhvc3QgaXMgYWxzbyB0aGUgb3duZXIgb2YgdGhl
+IGd1ZXN0IHdvcmtsb2FkLCB0aGUgc2FmZSBhcHByb2FjaCBpcyB0bw0KPj4+PiBhc3N1bWUgdGhl
+IGd1ZXN0IGlzIHZ1bG5lcmFibGUuDQo+Pj4gDQo+Pj4gRXhhY3RseS4gQW5kIGlmIHRoZSBndWVz
+dCBoYXMgdXNlZCB0YXNrc2V0IGFzIGl0cyBtaXRpZ2F0aW9uIHN0cmF0ZWd5LA0KPj4+IGhvdyBp
+cyB0aGUgaG9zdCB0byBrbm93Pw0KPj4gDQo+PiBZZWEgdGhhdHMgZmFpciBlbm91Z2guIEkgcG9z
+ZWQgYSBzb2x1dGlvbiBvbiBTZWFu4oCZcyByZXNwb25zZSBqdXN0IGFzIHRoaXMgZW1haWwNCj4+
+IGNhbWUgaW4sIHdvdWxkIGxvdmUgdG8ga25vdyB5b3VyIHRob3VnaHRzIChrZXlpbmcgb2ZmIE1T
+UiBiaXRtYXApLg0KPj4gDQo+IA0KPiBJIGRvbid0IGJlbGlldmUgdGhpcyB3b3Jrcy4gVGhlIElC
+UEJzIGluIGNvbmRfbWl0aWdhdGlvbiAoc3RhdGljIGluDQo+IGFyY2gveDg2L21tL3RsYi5jKSB3
+b24ndCBiZSB0cmlnZ2VyZWQgaWYgdGhlIGd1ZXN0IGhhcyBnaXZlbiBpdHMNCj4gc2Vuc2l0aXZl
+IHRhc2tzIGV4Y2x1c2l2ZSB1c2Ugb2YgdGhlaXIgY29yZXMuIEFuZCwgaWYgcGVyZm9ybWFuY2Ug
+aXMgYQ0KPiBjb25jZXJuLCB0aGF0IGlzIGV4YWN0bHkgd2hhdCBzb21lb25lIHdvdWxkIGRvLg0K
+DQpJ4oCZbSB0YWxraW5nIGFib3V0IHdpdGhpbiB0aGUgZ3Vlc3QgaXRzZWxmLCBub3QgdGhlIGhv
+c3QgbGV2ZWwgY29uZF9taXRpZ2F0aW9uLg0KDQpUaGUgcHVycG9zZWQgaWRlYSBoZXJlIHdvdWxk
+IGJlIHRvIGxvb2sgYXQgdGhlIE1TUiBiaXRtYXAgdGhhdCBpcw0KcG9wdWxhdGVkIGZyb20gdGhl
+IGd1ZXN0IHdyaXRpbmcgSUJQQiB0byB0aGF0IHZDUFUgYXQgbGVhc3Qgb25jZQ0KaW4gaXRzIGxp
+ZmV0aW1lLCBhbmQgdGhhdCBhIHNlY3VyaXR5IG1pbmRlZCB3b3JrbG9hZCB3b3VsZCBpbmRlZWQN
+CmNvbmZpZ3VyZSBJQlBCLg0KDQpFdmVuIHdpdGggdGFza3NldCwgb25lIHdvdWxkIHRoaW5rIHRo
+YXQgYSBzZWN1cml0eSBtaW5kZWQgdXNlciB3b3VsZA0KYWxzbyBzZXR1cCBJQlBCIHRvIHByb3Rl
+Y3QgaXRzZWxmIHdpdGhpbiB0aGUgZ3Vlc3QsIHdoaWNoIGlzIGV4YWN0bHkgDQp3aGF0IHRoZSBs
+aW51eCBhZG1pbiBndWlkZSBzdWdnZXN0cyB0aGF0IHRoZXkgZG8gKGluIHNwZWN0cmUucnN0KS4N
+Cg0KVGFraW5nIGEgc3RlcCBiYWNrIGFuZCBnb2luZyBiYWNrIHRvIHRoZSBncm91bmQgZmxvb3I6
+DQpXaGF0IHdvdWxkIGJlIChvciBzaG91bGQgYmUpIHRoZSBleHBlY3RhdGlvbiBmcm9tIHRoZSBn
+dWVzdCBpbg0KdGhpcyBleGFtcGxlIGZvciB0aGVpciBvd24gc2VjdXJpdHkgY29uZmlndXJhdGlv
+bj8NCg0KaS5lLiB0aGV5IGFyZSB1c2luZyB0YXNrc2V0IHRvIGFzc2lnbiBzZWN1cml0eSBkb21h
+aW4gMCB0byB2Y3B1IDAgYW5kDQpzZWN1cml0eSBkb21haW4gMSB0byB2Y3B1IDEuIFdvdWxkIHdl
+IGV4cGVjdCB0aGVtIHRvIGFsd2F5cyBzZXQgdXANCmNvbmRfaWJwYiAoYW5kIHByY3RsL3NlY2Nv
+bXApIHRvIHByb3RlY3QgYWdhaW5zdCBvdGhlciBjYXN1YWwgdXNlcg0Kc3BhY2UgdGhyZWFkcyB0
+aGF0IGp1c3QgbWlnaHQgc28gaGFwcGVuIHRvIGdldCBzY2hlZHVsZWQgaW50byB2Y3B1MC8xPw0K
+T3IgYXJlIHdlIGV4cGVjdGluZyB0aGVtIHRvIGNvbmZpZ3VyZSBhbHdheXNfaWJwYj8NCg0KSW4g
+c3VjaCBhIHNlY3VyaXR5IG1pbmRlZCBzY2VuYXJpbywgd2hhdCB3b3VsZCBiZSB0aGUgZXhwZWN0
+YXRpb24NCm9mIGhvc3QgY29uZmlndXJhdGlvbj8NCg0KSWYgbm90aGluZyBlbHNlLCBJ4oCZZCB3
+YW50IHRvIG1ha2Ugc3VyZSB3ZSBnZXQgdGhlIGRvY3MgY29ycmVjdCA6KQ0KDQpZb3UgbWVudGlv
+bmVkIGlmIHNvbWVvbmUgd2FzIGNvbmNlcm5lZCBhYm91dCBwZXJmb3JtYW5jZSwgYXJlIHlvdQ0K
+c2F5aW5nIHRoZXkgYWxzbyBjcml0aWNhbGx5IGNhcmUgYWJvdXQgcGVyZm9ybWFuY2UsIHN1Y2gg
+dGhhdCB0aGV5IGFyZQ0Kd2lsbGluZyB0byAqbm90KiB1c2UgSUJQQiBhdCBhbGwsIGFuZCBpbnN0
+ZWFkIGp1c3QgdXNlIHRhc2tzZXQgYW5kIGhvcGUNCm5vdGhpbmcgZXZlciBnZXRzIHNjaGVkdWxl
+ZCBvbiB0aGVyZSwgYW5kIHRoZW4gaG9wZSB0aGF0IHRoZSBoeXBlcnZpc29yDQpkb2VzIHRoZSBq
+b2IgZm9yIHRoZW0/DQoNCldvdWxkIHRoaXMgYmUgdGhlIGV4cGVjdGF0aW9uIG9mIGp1c3QgS1ZN
+PyBPciBhbGwgaHlwZXJ2aXNvcnMgb24gdGhlDQptYXJrZXQ/DQoNCkFnYWluIG5vdCB0cnlpbmcg
+dG8gYmUgYSBoYXJkIGhlYWQsIGp1c3QgdHJ5aW5nIHRvIHdyYXAgbXkgb3duIGhlYWQNCmFyb3Vu
+ZCBhbGwgb2YgdGhpcy4gSSBhcHByZWNpYXRlIHRoZSB0aW1lIGZyb20gYm90aCB5b3UgYW5kIFNl
+YW4hIA0KDQpDaGVlcnMsDQpKb24NCg0K
