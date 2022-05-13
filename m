@@ -2,146 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 806C8C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 09:21:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CF1CC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 10:16:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378875AbiEMJVb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 May 2022 05:21:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49624 "EHLO
+        id S1379314AbiEMKQr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 May 2022 06:16:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378999AbiEMJV3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 05:21:29 -0400
-Received: from smtp-42a8.mail.infomaniak.ch (smtp-42a8.mail.infomaniak.ch [84.16.66.168])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7AADC5DB8
-        for <linux-doc@vger.kernel.org>; Fri, 13 May 2022 02:21:26 -0700 (PDT)
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4L036r1qHpzMpvV1;
-        Fri, 13 May 2022 11:21:24 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4L036p4zRmzlhSMk;
-        Fri, 13 May 2022 11:21:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1652433684;
-        bh=vhWMOJJmQ0zQqk31oOrGZ0Qc6PAMRdpYWWsg1Bnpdxk=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=aHq4+vMJNZ9VFh/mKuSogISjR+X1QWlGf5yu4ZfIk0s/1REV5y4XsE8cPRgi+y5Hx
-         Cqz6Zouw8Zl07y6irvWe3HH7CzZWyBRBckngcgN91iB2IY08q68ZhcXlnDsxgf04ss
-         w/fPxHqkjvGA9vIWNqxEXcMvQrCfVfWnqEA7Ng40=
-Message-ID: <26d98080-1c60-21ad-ad76-2a157a0a8390@digikod.net>
-Date:   Fri, 13 May 2022 11:21:21 +0200
+        with ESMTP id S1379055AbiEMKQr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 06:16:47 -0400
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AC73E21265;
+        Fri, 13 May 2022 03:16:45 -0700 (PDT)
+IronPort-Data: =?us-ascii?q?A9a23=3AQNL8NaA205LTVBVW/8Lhw5YqxClBgxIJ4g17XOL?=
+ =?us-ascii?q?fUwHt1j131D0GnDFNWGiPPveKamr3e4xwat+1/EkP7JGAx9UxeLYW3SszFioV8?=
+ =?us-ascii?q?6IpJjg4wn/YZnrUdouaJK5ex512huLocYZkHhcwmj/3auK79SMkjPnRLlbBILW?=
+ =?us-ascii?q?s1h5ZFFYMpBgJ2UoLd94R2uaEsPDha++/kYqaT/73ZDdJ7wVJ3lc8sMpvnv/AU?=
+ =?us-ascii?q?MPa41v0tnRmDRxCUcS3e3M9VPrzLonpR5f0rxU9IwK0ewrD5OnREmLx9BFrBM6?=
+ =?us-ascii?q?nk6rgbwsBRbu60Qqm0yIQAvb9xEMZ4HFaPqUTbZLwbW9GgjOGj5Zz2f1DqJ6xV?=
+ =?us-ascii?q?Rw0eKbLnYzxVjEBSX0kZPYfp+SvzX+X9Jb7I1f9W2fjx+VGCEAwIJEC/eB2ESd?=
+ =?us-ascii?q?C+JQwLT8XaQuYr+a3xq+rDOhqmsknasLsOes3sGlI1izCALAqTPjrR6TM+M8d0?=
+ =?us-ascii?q?DA7rt5BEOyYZMcDbzdrKhPabHVnPlYRFYJ7n+qygHT7WyNXpUjTpqct5WXXigt?=
+ =?us-ascii?q?r39DQ3HD9EjCRbZwN2B/G+SSdpCKkaiz2/ee3kVKtmk9ATMeW9c8jZL8vKQ=3D?=
+ =?us-ascii?q?=3D?=
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3A52oAfqGdTyWl+cNApLqE1MeALOsnbusQ8zAX?=
+ =?us-ascii?q?PiFKOHhom6mj+vxG88506faKslwssR0b+OxoW5PwJE80l6QFgrX5VI3KNGbbUQ?=
+ =?us-ascii?q?CTXeNfBOXZowHIKmnX8+5x8eNaebFiNduYNzNHpPe/zA6mM9tI+rW6zJw=3D?=
+X-IronPort-AV: E=Sophos;i="5.88,333,1635177600"; 
+   d="scan'208";a="124213173"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 13 May 2022 18:16:44 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+        by cn.fujitsu.com (Postfix) with ESMTP id 0A2454D1716F;
+        Fri, 13 May 2022 18:16:39 +0800 (CST)
+Received: from G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.23; Fri, 13 May 2022 18:16:39 +0800
+Received: from localhost.localdomain (10.167.215.54) by
+ G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
+ id 15.0.1497.23 via Frontend Transport; Fri, 13 May 2022 18:16:38 +0800
+From:   Xiao Yang <yangx.jy@fujitsu.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+CC:     <mgross@linux.intel.com>, <bp@suse.de>, <tglx@linutronix.de>,
+        Xiao Yang <yangx.jy@fujitsu.com>
+Subject: [PATCH] x86/speculation: Add missing srbds=off in the document of 'mitigations='
+Date:   Fri, 13 May 2022 18:16:37 +0800
+Message-ID: <20220513101637.216487-1-yangx.jy@fujitsu.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: 
-Content-Language: en-US
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
-References: <20220512120847.124822-1-mic@digikod.net>
- <CAHC9VhRDYnKmSGiNzED5bsT+hGarFBO9M2qHR8v1SKj4zGqMeQ@mail.gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Subject: Re: [PATCH v1] landlock: Explain how to support Landlock
-In-Reply-To: <CAHC9VhRDYnKmSGiNzED5bsT+hGarFBO9M2qHR8v1SKj4zGqMeQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-yoursite-MailScanner-ID: 0A2454D1716F.A79BC
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: yangx.jy@fujitsu.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Signed-off-by: Xiao Yang <yangx.jy@fujitsu.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 13/05/2022 00:03, Paul Moore wrote:
-> On Thu, May 12, 2022 at 8:08 AM Mickaël Salaün <mic@digikod.net> wrote:
->>
->> Let's help users by documenting how to enable and check for Landlock in
->> the kernel and the running system.  The userspace-api section may not be
->> the best place for this but it still makes sense to put all the user
->> documentation at the same place.
->>
->> Cc: Paul Moore <paul@paul-moore.com>
->> Signed-off-by: Mickaël Salaün <mic@digikod.net>
->> Link: https://lore.kernel.org/r/20220512120847.124822-1-mic@digikod.net
->> ---
->>   Documentation/userspace-api/landlock.rst | 26 ++++++++++++++++++++++++
->>   1 file changed, 26 insertions(+)
->>
->> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
->> index 7b4fe6218132..e69dbddcc191 100644
->> --- a/Documentation/userspace-api/landlock.rst
->> +++ b/Documentation/userspace-api/landlock.rst
->> @@ -388,6 +388,32 @@ Starting with the Landlock ABI version 2, it is now possible to securely
->>   control renaming and linking thanks to the new `LANDLOCK_ACCESS_FS_REFER`
->>   access right.
->>
->> +Landlock support
->> +================
->> +
->> +Kernel configuration
->> +--------------------
-> 
-> I would suggest changing the section name to "Kernel build
-> configuration" to make it clear the instructions below need to be done
-> at build time.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 3f1cc5e317ed..93e9b15f1cf4 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3103,6 +3103,7 @@
+ 					       mds=off [X86]
+ 					       tsx_async_abort=off [X86]
+ 					       kvm.nx_huge_pages=off [X86]
++					       srbds=off [X86,INTEL]
+ 					       no_entry_flush [PPC]
+ 					       no_uaccess_flush [PPC]
+ 
+-- 
+2.21.0
 
-That would be better indeed.
 
-[rewinding] …well, this title would go away if I merge this subsection 
-with the next one.
 
-> 
->> +Landlock can be supported since Linux 5.13 but it must be configured in the
-> 
-> I would suggest rephrasing the first part of this sentence slightly:
-> 
-> "Landlock was first introduced in Linux v5.13 but it must be ..."
-
-OK
-
-> 
->> +kernel with `CONFIG_SECURITY_LANDLOCK=y`, and it should be enabled at boot time
-> 
-> CONFIG_LSM is a Kconfig build time variable not a runtime command line
-> variable, yes?
-
-Yes. This is confusing because it sets the default value of cmdline. 
-I'll rephrase this paragraph.
-
-> 
->> +with `CONFIG_LSM=landlock,[...]`.  The `[...]` must be replaced with the list
->> +of LSMs that may be useful for the running system (see the `CONFIG_LSM` help).
->> +
->> +Running system configuration
->> +----------------------------
-> 
-> This is nit-picky, but I would suggest a section name of "Kernel
-> command line configuration".
-
-I was thinking about "Kernel boot configuration" but I'll try to merge 
-the two configuration subsections and put the check subsection earlier.
-
-> 
->> +If the running kernel doesn't have `landlock` in `CONFIG_LSM`, then we can
->> +still enable it by adding `lsm=landlock,[...]` to
->> +Documentation/admin-guide/kernel-parameters.rst. The `[...]` must be replaced
->> +with the list of LSMs that may be useful for the running system (see the
->> +`CONFIG_LSM` help).
->> +
->> +Running system check
->> +--------------------
->> +
->> +We can check that Landlock is enabled by looking for "landlock: Up and running"
->> +in kernel logs: `dmesg | grep landlock`
-> 
-> I would suggest moving the "Running system check" section up closer to
-> the top of the documentation, perhaps right before the "Landlock
-> rules" section.  My thinking is that it is better to mention this as
-> soon as possible in the doc so that users can verify Landlock is
-> present and functioning before trying any of the code examples and
-> failing.  I think it is okay to leave the "how to enable Landlock"
-> sections at the bottom and simply refer to them in the "system check"
-> section.
-> 
-
-Good idea, thanks!
