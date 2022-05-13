@@ -2,97 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48F02C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 12:58:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E1FC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 13:58:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380491AbiEMM6O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 May 2022 08:58:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47180 "EHLO
+        id S231922AbiEMN6d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 May 2022 09:58:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380493AbiEMM6N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 08:58:13 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30FF79B1A0
-        for <linux-doc@vger.kernel.org>; Fri, 13 May 2022 05:58:12 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id bg25so4751020wmb.4
-        for <linux-doc@vger.kernel.org>; Fri, 13 May 2022 05:58:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=thaX8F5YMEB8rBSpYIHSf7KiewyBMS4c1TXezvvYXWo=;
-        b=auGUYIiH8r7oJP67oOuHmzM/NOGPcdCLkLQF91WtkEgHQTmkJLUMnLAuJDyzjYn4e2
-         2t8AnU/iUvEat3vHWqybIizYNTPVY0ZILJEv2VtWYhJv4l6so1W1LFOoNYlSuXPbDREi
-         CaWD/8FR0FE/ZE//HYKE5FX42YiD7R6zQrQdllq9MeLOMcL/PmTY9bEtbPaGwG1GUk8I
-         YXfqv/Clz9P/mcGMzzMu65NpEzl6n5AizJbkoffXPxU2NidzoyAY9tD0kyqBJW+cV6Yo
-         L2XUKHbPY5DKUYM1pS6eoC+6qn9GDVlPBM5mHQ4SaO+Ed5OW841882ELq1gSprMqGPzV
-         8sFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=thaX8F5YMEB8rBSpYIHSf7KiewyBMS4c1TXezvvYXWo=;
-        b=yTN9TuZH4SMn7FtS+xMXguqLcqKqES3DrNBElAJ8ubJjj1FdkWi5vctIeIF5L3VgLm
-         OVb65BX+a0Occqyhl2vKHL7ZAOhHHvoa79L6v+Ap4Qqi5eu1DVMhEJH3VD5HTj4TzyGg
-         4+wwwKOIVGxTFlgyB8IsnHSYQpByddGAjPUxQ+WKr+xXiusV5AI0xym0zvllysZa+wQn
-         +Jki6prGSewPxinHeslvKnP+p+HyFHsPRBRaQWakVmDj/170ZBD3Yd03nAKoBmCR92WI
-         44iV0iRF/G9YU2uw+MXfkA6Sj7fikEUsdKja/DFjXqUhE/dDPTTr1Qk3DtbW+ZeMkrko
-         fgKA==
-X-Gm-Message-State: AOAM533U2sib6h4KZ3X0vDIi4pejhMpn5/S8UzBIniTY7GwC+bOu1+ph
-        Xtp27/KKNIGn+e3wmvE8XgvJY0YwejPmvMX2DqlI
-X-Google-Smtp-Source: ABdhPJyuPrauqU//BMVcgTUuAktKz5n/8NYQebKBmgF7eFtX+zbGS3ouW2oyFE/TlzAylCXCC9SYX/nSdl005MFElIs=
-X-Received: by 2002:a05:600c:4fd0:b0:394:7999:98ab with SMTP id
- o16-20020a05600c4fd000b00394799998abmr4378959wmq.179.1652446690471; Fri, 13
- May 2022 05:58:10 -0700 (PDT)
+        with ESMTP id S229893AbiEMN6a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 09:58:30 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB0677A80F;
+        Fri, 13 May 2022 06:58:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 964D9B82EA3;
+        Fri, 13 May 2022 13:58:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50582C3411C;
+        Fri, 13 May 2022 13:58:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652450305;
+        bh=Q9uWqroQBrMhNpZ56AYK8kAafrfYjv57IuXu6ljniEI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=kP2duuHmNgNTr23wQ3jJV4ACqVDoXiHvJmOEfYJk9MtvU/pYg6PV8inmVYuf8+isB
+         OWLyTHjbPFfaEjxgSziDDit9HdhUJhWWhqRm5d2BsSBvMqiC2R4TR7y+3zJ8IjEiVG
+         WabOU9VbStlIep5W1f5eZh/z3GxAg+zdPHTSMXcFiNzrXBt07iC7jTjCXO/cCBD7Tr
+         g5R8OCcieFgvfgNaw51Kue7VWHPY/Pe4dB6Y+VHDOsIT1B/hzKlmblJJQzwBpfQCxE
+         omgpjYXMk/DBrwTM8vOrcZbjODXWEn7uaBq22v744sg/OpLNPSfRbQREn5rP1vkkil
+         WY3HkUDaQCkLg==
+Received: by mail-pj1-f49.google.com with SMTP id x88so8174301pjj.1;
+        Fri, 13 May 2022 06:58:25 -0700 (PDT)
+X-Gm-Message-State: AOAM532qMBz0C3/3yCC9Eejuwc0gZc0NULASTSCFbveL0OENFOX0+gbP
+        PyJrwqk/O1aKsOI44u7gcrbh24YKck375Ui3Iw==
+X-Google-Smtp-Source: ABdhPJzeUi/T2UXmS90oIyfTH4jE3xb7KHEsioE2ug9DOGlHySktMSjKYgLM3J6rQcaXmuC2h+ylwtxmks7pbqNurVU=
+X-Received: by 2002:a17:902:9345:b0:15f:186b:e478 with SMTP id
+ g5-20020a170902934500b0015f186be478mr4834270plp.117.1652450304740; Fri, 13
+ May 2022 06:58:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220513112743.156414-1-mic@digikod.net>
-In-Reply-To: <20220513112743.156414-1-mic@digikod.net>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Fri, 13 May 2022 08:57:59 -0400
-Message-ID: <CAHC9VhQS1mNAzC2Qo2+rxUs5BERA6Y9FyzapdRQ65g5FY1Mwtw@mail.gmail.com>
-Subject: Re: [PATCH v2] landlock: Explain how to support Landlock
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
+References: <20220429220933.1350374-1-saravanak@google.com>
+In-Reply-To: <20220429220933.1350374-1-saravanak@google.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Fri, 13 May 2022 08:58:11 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+2A7mRVV24XW0YcP8GkFCK_Ri4KDcqvW4e0p3TkQMWVg@mail.gmail.com>
+Message-ID: <CAL_Jsq+2A7mRVV24XW0YcP8GkFCK_Ri4KDcqvW4e0p3TkQMWVg@mail.gmail.com>
+Subject: Re: [PATCH v1] driver core: Extend deferred probe timeout on driver registration
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Will Deacon <will@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:THERMAL" <linux-pm@vger.kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 13, 2022 at 7:27 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
-wrote:
+On Fri, Apr 29, 2022 at 5:09 PM Saravana Kannan <saravanak@google.com> wrote:
 >
-> Let's help users by documenting how to enable and check for Landlock in
-> the kernel and the running system.  The userspace-api section may not be
-> the best place for this but it still makes sense to put all the user
-> documentation at the same place.
+> The deferred probe timer that's used for this currently starts at
+> late_initcall and runs for driver_deferred_probe_timeout seconds. The
+> assumption being that all available drivers would be loaded and
+> registered before the timer expires. This means, the
+> driver_deferred_probe_timeout has to be pretty large for it to cover the
+> worst case. But if we set the default value for it to cover the worst
+> case, it would significantly slow down the average case. For this
+> reason, the default value is set to 0.
 >
-> Cc: Paul Moore <paul@paul-moore.com>
-> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
-> Link: https://lore.kernel.org/r/20220513112743.156414-1-mic@digikod.net
-> ---
+> Also, with CONFIG_MODULES=y and the current default values of
+> driver_deferred_probe_timeout=0 and fw_devlink=on, devices with missing
+> drivers will cause their consumer devices to always defer their probes.
+> This is because device links created by fw_devlink defer the probe even
+> before the consumer driver's probe() is called.
 >
-> Changes since v1:
-> * Move the checking subsection at the beginning (suggested by Paul
->   Moore) and merge the two configuration subsections.
-> * Use both dmesg and journalctl to handle cases where journald is not
->   installed or when the kernel log buffer is full.
-> * Add reference to the syscall check (ABI section).
-> * Improve explanations.
-> * Update copyright date.
-> ---
->  Documentation/userspace-api/landlock.rst | 29 +++++++++++++++++++++++-
->  1 file changed, 28 insertions(+), 1 deletion(-)
+> Instead of a fixed timeout, if we extend an unexpired deferred probe
+> timer on every successful driver registration, with the expectation more
+> modules would be loaded in the near future, then the default value of
+> driver_deferred_probe_timeout only needs to be as long as the worst case
+> time difference between two consecutive module loads.
+>
+> So let's implement that and set the default value to 10 seconds when
+> CONFIG_MODULES=y.
 
-Looks good to me.
+We had to revert a non-zero timeout before (issue with NFS root IIRC).
+Does fw_devlink=on somehow fix that?
 
-Reviewed-by: Paul Moore <paul@paul-moore.com>
-
---=20
-paul-moore.com
+Rob
