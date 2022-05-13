@@ -2,101 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3F30C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 12:49:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48F02C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 13 May 2022 12:58:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380415AbiEMMtF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 May 2022 08:49:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57906 "EHLO
+        id S1380491AbiEMM6O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 May 2022 08:58:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359455AbiEMMtC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 08:49:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB4593A703;
-        Fri, 13 May 2022 05:49:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1E2F161F8C;
-        Fri, 13 May 2022 12:49:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66AD9C34100;
-        Fri, 13 May 2022 12:48:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652446139;
-        bh=N6Gs27VquaPY/jfyx7p+uW0mYzfGY1yrIjK7gsqoh7Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aElnBzI2wZCSK/U/Wnscmm/Sf1R+M1wGzU0SZHNmsLcyeDhrq6q7+ygyC0z9PfHR5
-         N/ajNj3N6eZZfZ+EylMuobL3/Y77JbKMylxyKVAO5DnQMabg8vlXq614hAoTU0zLlP
-         OwxUFo7FINvs9ZH8/v/9RcNsiTStBmfaPbsDNWYzSFyQqCJ8+C/75GEEudBLaGfq4J
-         bnunuVr6Fks8yOQ82W/lBrSSdtVf3jiVDNx4x+cTtr61rJzRf4F5t1QVXaCdkXm3XX
-         ZH1pPSQmTMHTphNJscauUHBAScWkKa5e5mlFYP/mp6JtlmMiYdidrd9ND6ZcmCSi7H
-         WxgHFkTrgee9g==
-Date:   Fri, 13 May 2022 13:48:51 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rob Herring <robh@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
-        iommu@lists.linux-foundation.org, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] driver core: Extend deferred probe timeout on driver
- registration
-Message-ID: <Yn5Ts1+56rBip8Mc@sirena.org.uk>
-References: <20220429220933.1350374-1-saravanak@google.com>
+        with ESMTP id S1380493AbiEMM6N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 08:58:13 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30FF79B1A0
+        for <linux-doc@vger.kernel.org>; Fri, 13 May 2022 05:58:12 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id bg25so4751020wmb.4
+        for <linux-doc@vger.kernel.org>; Fri, 13 May 2022 05:58:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=thaX8F5YMEB8rBSpYIHSf7KiewyBMS4c1TXezvvYXWo=;
+        b=auGUYIiH8r7oJP67oOuHmzM/NOGPcdCLkLQF91WtkEgHQTmkJLUMnLAuJDyzjYn4e2
+         2t8AnU/iUvEat3vHWqybIizYNTPVY0ZILJEv2VtWYhJv4l6so1W1LFOoNYlSuXPbDREi
+         CaWD/8FR0FE/ZE//HYKE5FX42YiD7R6zQrQdllq9MeLOMcL/PmTY9bEtbPaGwG1GUk8I
+         YXfqv/Clz9P/mcGMzzMu65NpEzl6n5AizJbkoffXPxU2NidzoyAY9tD0kyqBJW+cV6Yo
+         L2XUKHbPY5DKUYM1pS6eoC+6qn9GDVlPBM5mHQ4SaO+Ed5OW841882ELq1gSprMqGPzV
+         8sFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=thaX8F5YMEB8rBSpYIHSf7KiewyBMS4c1TXezvvYXWo=;
+        b=yTN9TuZH4SMn7FtS+xMXguqLcqKqES3DrNBElAJ8ubJjj1FdkWi5vctIeIF5L3VgLm
+         OVb65BX+a0Occqyhl2vKHL7ZAOhHHvoa79L6v+Ap4Qqi5eu1DVMhEJH3VD5HTj4TzyGg
+         4+wwwKOIVGxTFlgyB8IsnHSYQpByddGAjPUxQ+WKr+xXiusV5AI0xym0zvllysZa+wQn
+         +Jki6prGSewPxinHeslvKnP+p+HyFHsPRBRaQWakVmDj/170ZBD3Yd03nAKoBmCR92WI
+         44iV0iRF/G9YU2uw+MXfkA6Sj7fikEUsdKja/DFjXqUhE/dDPTTr1Qk3DtbW+ZeMkrko
+         fgKA==
+X-Gm-Message-State: AOAM533U2sib6h4KZ3X0vDIi4pejhMpn5/S8UzBIniTY7GwC+bOu1+ph
+        Xtp27/KKNIGn+e3wmvE8XgvJY0YwejPmvMX2DqlI
+X-Google-Smtp-Source: ABdhPJyuPrauqU//BMVcgTUuAktKz5n/8NYQebKBmgF7eFtX+zbGS3ouW2oyFE/TlzAylCXCC9SYX/nSdl005MFElIs=
+X-Received: by 2002:a05:600c:4fd0:b0:394:7999:98ab with SMTP id
+ o16-20020a05600c4fd000b00394799998abmr4378959wmq.179.1652446690471; Fri, 13
+ May 2022 05:58:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ZVbyQANSq1izx04U"
-Content-Disposition: inline
-In-Reply-To: <20220429220933.1350374-1-saravanak@google.com>
-X-Cookie: You have taken yourself too seriously.
+References: <20220513112743.156414-1-mic@digikod.net>
+In-Reply-To: <20220513112743.156414-1-mic@digikod.net>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Fri, 13 May 2022 08:57:59 -0400
+Message-ID: <CAHC9VhQS1mNAzC2Qo2+rxUs5BERA6Y9FyzapdRQ65g5FY1Mwtw@mail.gmail.com>
+Subject: Re: [PATCH v2] landlock: Explain how to support Landlock
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Alejandro Colomar <alx.manpages@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, May 13, 2022 at 7:27 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
+>
+> Let's help users by documenting how to enable and check for Landlock in
+> the kernel and the running system.  The userspace-api section may not be
+> the best place for this but it still makes sense to put all the user
+> documentation at the same place.
+>
+> Cc: Paul Moore <paul@paul-moore.com>
+> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
+> Link: https://lore.kernel.org/r/20220513112743.156414-1-mic@digikod.net
+> ---
+>
+> Changes since v1:
+> * Move the checking subsection at the beginning (suggested by Paul
+>   Moore) and merge the two configuration subsections.
+> * Use both dmesg and journalctl to handle cases where journald is not
+>   installed or when the kernel log buffer is full.
+> * Add reference to the syscall check (ABI section).
+> * Improve explanations.
+> * Update copyright date.
+> ---
+>  Documentation/userspace-api/landlock.rst | 29 +++++++++++++++++++++++-
+>  1 file changed, 28 insertions(+), 1 deletion(-)
 
---ZVbyQANSq1izx04U
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Looks good to me.
 
-On Fri, Apr 29, 2022 at 03:09:32PM -0700, Saravana Kannan wrote:
-> The deferred probe timer that's used for this currently starts at
-> late_initcall and runs for driver_deferred_probe_timeout seconds. The
-> assumption being that all available drivers would be loaded and
-> registered before the timer expires. This means, the
-> driver_deferred_probe_timeout has to be pretty large for it to cover the
-> worst case. But if we set the default value for it to cover the worst
-> case, it would significantly slow down the average case. For this
-> reason, the default value is set to 0.
+Reviewed-by: Paul Moore <paul@paul-moore.com>
 
-This makes sense to me.
-
-Reviewed-by: Mark Brown <broonie@kernel.org>
-
---ZVbyQANSq1izx04U
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmJ+U7MACgkQJNaLcl1U
-h9AJrQf+O34uAf+WJTRmMJA0R5+muU/Q3+PYEKAnTQ3EJ1R3EpYCuFYr1FlCDe3g
-OIg2rZyCYxhlgQ/k1CRFZbdK+R94KNZ5rv47uV1Kt8aC1uY7Rizh+e04jjgYSIOc
-TVn7quNTCXOPaNwuz95cURa8W7X4GFXDkdppjmpcYeMaaNsOU4z3Pw9drORQTArc
-Vb8M63Rn2/hazrGdt7xRTUU+/UvyOu3R63NeqkBcvvVo+tLXgOFaRsciYs+xMI6t
-Lg347Izlc1kBmpHhg5e/tAl5zEj3cZgc6a6gTg69f7i90AnxZw64vwFiv9grHK5S
-HLh2BNII8I1elceOYfqYDh3c1Apcww==
-=vDHz
------END PGP SIGNATURE-----
-
---ZVbyQANSq1izx04U--
+--=20
+paul-moore.com
