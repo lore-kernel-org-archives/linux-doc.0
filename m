@@ -2,160 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECD28C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 14 May 2022 19:25:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7403BC433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 14 May 2022 20:55:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234882AbiENTZl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 14 May 2022 15:25:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47944 "EHLO
+        id S230259AbiENUzN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 14 May 2022 16:55:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234864AbiENTZk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 May 2022 15:25:40 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D273835862
-        for <linux-doc@vger.kernel.org>; Sat, 14 May 2022 12:25:37 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id m20so21844842ejj.10
-        for <linux-doc@vger.kernel.org>; Sat, 14 May 2022 12:25:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ODXxWmmCbDSJu9NbGvrzBEWYJrCam31kj3DAUIrULPw=;
-        b=fydf+4K2rqGXwV3YKkzV4MrpkLE5d7dWboE2/FY3razdRSAu9OymabboDHlXrq3En1
-         CKVAYd3Ge1g3CpmRjUTOyPrsGFCnR5uRzZM0s7UxpYrN5r+5syrchhLVkCq7ULNUXiFh
-         +SpuwS9z6aRBLkqL/gh8bEA2aPSuf1GoXtcoezfrIt81w00+SWcuNjSY4wVPLW+aJpI1
-         01/wqHa7zwDei+3LiIfINf7awqSMIFL5rgfkTks2tXIywZeimnBDmXTnh74sonfBcu1O
-         dndLK8JkKX5yjd9ZHhIEpoQLGBlRp/l/raGZ+/ZkizKdTiT1EiMLAJEmxzk338hn/09o
-         MxTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ODXxWmmCbDSJu9NbGvrzBEWYJrCam31kj3DAUIrULPw=;
-        b=oTTBWMHVXeFrtnTabT2ekOCi8H82/03j0Eia2t3acUYe1xf+PODhCceciqOWcdfU1b
-         LodTRNFlfkQKFNyGkWmZ+wWldXjXb8+fXgRNpVX/FtbZiRzw2NF1yax6X543mfqc6o8e
-         bCeZf6BXgjR1G5OClO/w3hWk4qTBhAqUvFsEiDCtu4xsrUt38HrVK5hUSML1CgWEv0LP
-         o+O83bS5iYqaq66pSKID9B48peD9PF0Do4QH5agYiqchScyrChppuVH/nb+WP7Balz/g
-         Wnf2c2nE3Jju2Nj8GnR+2uXS+OMz1Q+877TpNg+ebKSJCs/QdEXjLOM4GC5Be9rAe3T9
-         WgTw==
-X-Gm-Message-State: AOAM531hjqfUdwTDuX2kzKyALi6YTxGGQw7jUJRwdPt4EdB8JHEMatrA
-        b2NOMbZtQRoiaeDJ31VnJRTf0ZEJ7O+J9aRGo1ur0g==
-X-Google-Smtp-Source: ABdhPJyDXaJyFKNP0WsvC7wn818jvoG0MDOEUSzLY6ezaPoiApXLhg4SheqGpl5SEXAgmkc3ufxJfZGsLwE8pFf2jn8=
-X-Received: by 2002:a17:907:72ce:b0:6f4:5a57:320c with SMTP id
- du14-20020a17090772ce00b006f45a57320cmr9176463ejc.75.1652556336145; Sat, 14
- May 2022 12:25:36 -0700 (PDT)
+        with ESMTP id S229710AbiENUzN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 May 2022 16:55:13 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69C1D403DB;
+        Sat, 14 May 2022 13:55:10 -0700 (PDT)
+Received: from mail-yw1-f175.google.com ([209.85.128.175]) by
+ mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MZCOl-1oL8aj1fSD-00V5zn; Sat, 14 May 2022 22:55:08 +0200
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-2fb965b34easo120183737b3.1;
+        Sat, 14 May 2022 13:55:08 -0700 (PDT)
+X-Gm-Message-State: AOAM530C4aEcGR9rEbOUJJhmVsVLUXfab0msFJB2+Am9qS2xQPDsnrGo
+        3AAkZulzSV3nll1YZciRxigy1lgCZRA9viLUH9o=
+X-Google-Smtp-Source: ABdhPJzpLGyXsVrNJlvP7WL6o5iccD8hLd/+gg4Ia1m634qB7o2qs/9CBGsnf3lGCXzpz3Yzv4xbyGW7DIkrBKCLkYg=
+X-Received: by 2002:a81:456:0:b0:2fe:dee5:fbbc with SMTP id
+ 83-20020a810456000000b002fedee5fbbcmr1569021ywe.249.1652561707006; Sat, 14
+ May 2022 13:55:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220429043913.626647-1-davidgow@google.com> <20220513083212.3537869-2-davidgow@google.com>
- <CAGS_qxr54nYThsj6UhqX54JO5WnyJXVQURnNF1eCzGB+4GCKLA@mail.gmail.com> <CABVgOS=gTznLFBTZbmNH7AFDnr7O70mWR9v4q6sDA7q04fKT=Q@mail.gmail.com>
-In-Reply-To: <CABVgOS=gTznLFBTZbmNH7AFDnr7O70mWR9v4q6sDA7q04fKT=Q@mail.gmail.com>
-From:   Daniel Latypov <dlatypov@google.com>
-Date:   Sat, 14 May 2022 12:25:24 -0700
-Message-ID: <CAGS_qxqFEcw=28FxbMMtEcjqcsgFHXV6Td+uTgDj32Z=PiQJkA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] kunit: Taint the kernel when KUnit tests are run
-To:     David Gow <davidgow@google.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+References: <20220514080402.2650181-1-chenhuacai@loongson.cn>
+In-Reply-To: <20220514080402.2650181-1-chenhuacai@loongson.cn>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Sat, 14 May 2022 22:54:50 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2Xu79zzJ=c3WJJEXAmcL2RT6NBZy-dd7s-Kz3Yk4yJzw@mail.gmail.com>
+Message-ID: <CAK8P3a2Xu79zzJ=c3WJJEXAmcL2RT6NBZy-dd7s-Kz3Yk4yJzw@mail.gmail.com>
+Subject: Re: [PATCH V10 00/22] arch: Add basic LoongArch support
+To:     Huacai Chen <chenhuacai@loongson.cn>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:RLYdBQMRfs0VRj5YvnHzqR4SnCvb0gHg6NTSCuHKS9abTBY9hIR
+ 58Uou5At376gsaqKdwPLbXCruy8o3YAznEIwam+m4xLDQ0YZuPborKftLL+rOEbZlwmqFoD
+ LrWsqauIcg9QWP4OZi/9PagjESYz9ttVTG2O9YrVrYmdieN087fAyBBtLGnIJ4IJN354TdG
+ XUChB7hhKme9GFNBQWbzw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:x5w9uFk6R6Y=:pBWg+zbZvsCoPRzXDDv9ZI
+ 4E/87Pq6on7G0qjNejfd+N4bmWxGAqylE2uCD13SfV+MHRUroa14oujr3P72qaGHC9/O4PDir
+ UMbE9tNqsOiSBwkFFL2oTHYTpixbf2UThwjHR0UFLClGZ+PXg+SezzABTtW/08wzNYhmZccgo
+ BprPq+EdMN48KQ75z1UOYXa3JyyuQ1RKMBc57CNGWAmNFNi8P8T5Rj8/VEtG4CciKQglDaxTG
+ yV8wUc5gDNC1Q19GP3D2my8SbgGWtd4yjhGV2TPmUQG5CCnW38uR9MhT05fadlsdgsT6ak+El
+ DZIyC4nM5W4dHbALWvSiuy7yKmGOlyU8hEXe7fwpv0Tksd4h8KJGdhEeRkyjSVKjxte2puwhc
+ sgCebLD/ze/vV7Ypt53sLoFnazLOdGOgXjk41rgRZ5iRuwNVdq7BA49GdWHABSXtXVtglFdo9
+ FRcj82xsQsD8/xf45XT+vWreF0OSv7/wqPo7pAvntZ7WoJ4IhsD4h52qwkISknNCg/nbrSu0U
+ SZahSILzY5P1tHCxz7+6XKxlaeijBJjSUiMIjcC1viqno1tCPA7gP+6RXenCpzYkbRPjUHE+1
+ ZgJd3a5V3ts5wqG0LJjzABD9yxYKMPjOBouAA6ZrrgLzqPI8rdiwA+1VSAtnnzcTPug8i8PJn
+ 7a6P2qRj9RjVzGRTDh2AGuVBS12bYLJo6xxHuqrMv856xrbUydJ63+Wc/rqO04mzQWmyQVbc4
+ 7BIz/GhpFZmysUeL3HH3vNHGLiSK+A8P813mxILRnOyDNVwO3+FuXQiSZ8sbc7oU958OAbhGM
+ m3GKZZo5lJwxufH+5wsRAPAtQ7VcO9IMy//TfYib2nXocWIOiPa4deYyIjNFh8A0sm3Cn5r+W
+ aID1LsnKSlp7HhuCV8lg==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 13, 2022 at 8:04 PM David Gow <davidgow@google.com> wrote:
-> Hmm... thinking about it, I think it might be worth not tainting if 0
-> suites run, but tainting if 0 tests run.
->
-> If we taint even if there are no suites present, that'll make things
-> awkward for the "build KUnit in, but not any tests" case: the kernel
-> would be tainted regardless. Given Android might be having the KUnit
+On Sat, May 14, 2022 at 10:03 AM Huacai Chen <chenhuacai@loongson.cn> wrote:
+> Cross-compile tool chain to build kernel:
+> https://github.com/loongson/build-tools/releases/download/2021.12.21/loongarch64-clfs-2022-03-03-cross-tools-gcc-glibc.tar.xz
 
-Actually, this is what the code does right now. I was wrong.
-If there are 0 suites => not tainted.
-If there are 0 tests in the suites => tainted.
+I also uploaded a clean build of gcc-12.1 with loongarch64 in the
+https://mirrors.edge.kernel.org/pub/tools/crosstool/ builds.
+I have not tried it yet.
 
-For kunit being built in, it first goes through this func
-   206  static void kunit_exec_run_tests(struct suite_set *suite_set)
-   207  {
-   208          struct kunit_suite * const * const *suites;
-   209
-   210          kunit_print_tap_header(suite_set);
-   211
-   212          for (suites = suite_set->start; suites <
-suite_set->end; suites++)
-   213                  __kunit_test_suites_init(*suites);
-   214  }
+> This patchset is adding basic LoongArch support in mainline kernel, we
+> can see a complete snapshot here:
+> https://github.com/loongson/linux/tree/loongarch-next
 
-So for the "build KUnit in, but not any tests" case, you'll never
-enter that for-loop.
-Thus you'll never call __kunit_test_suites_init() => kunit_run_tests().
+Note: I have pulled in the generic ticket lock series into the asm-generic tree.
+Please rebase your series on top of
+git://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux
+generic-ticket-spinlocks-v6
+to avoid duplicating the commits. As long as you are based on top of the
+9282d0996936 commit, that should be fine.
 
-For module-based tests, we have the same behavior.
-If there's 0 test suites, we never enter the second loop, so we never taint.
-But if there's >0 suites, then we will, regardless of the # of test cases.
+> V9 -> V10:
+> 1, Rebased on 5.18-rc6;
+> 2, Use generic efi stub;
+> 3, Use generic string library;
+> 4, Use generic ticket spinlock;
+> 5, Use more meaningful macro naming;
+> 6, Remove the zboot patch;
+> 7, Fix commit message and documentations;
+> 8, Some other minor fixes and improvements.
 
-   570  int __kunit_test_suites_init(struct kunit_suite * const * const suites)
-   571  {
-   572          unsigned int i;
-   573
-   574          for (i = 0; suites[i] != NULL; i++) {
-   575                  kunit_init_suite(suites[i]);
-   576                  kunit_run_tests(suites[i]);
-   577          }
-   578          return 0;
-   579  }
+I think with this you have addressed the comments that I had in the past.
+Xuerui Wang and some others had additional comments that of course
+need to be addressed, but this is looking good to me.
 
-So this change should already work as intended.
-
-> execution stuff built-in (but using modules for tests), it's probably
-> worth not tainting there. (Though I think they have a separate way of
-> disabling KUnit as well, so it's probably not a complete
-> deal-breaker).
->
-> The case of having suites but no tests should still taint the kernel,
-> as suite_init functions could still run.
-
-Yes, suite_init functions are the concern. I agree we should taint if
-there are >0 suites but 0 test cases.
-
-I don't think it's worth trying to be fancy and tainting iff there >0
-test cases or a suite_init/exit function ran.
-
->
-> Assuming that seems sensible, I'll send out a v4 with that changed.
-
-Just to be clear: that shouldn't be necessary.
-
->
-> > I wasn't quite sure where this applied, but I manually applied the changes here.
-> > Without this patch, this command exits fine:
-> > $ ./tools/testing/kunit/kunit.py run --kernel_args=panic_on_taint=0x40000
-> >
-> > With it, I get
-> > [12:03:31] Kernel panic - not syncing: panic_on_taint set ...
-> > [12:03:31] CPU: 0 PID: 1 Comm: swapper Tainted: G                 N
->
-> This is showing both 'G' and 'N' ('G' being the character for GPL --
-
-I just somehow missed the fact there was an 'N' at the end there.
-Thanks, I thought I was going crazy. I guess I was just going blind.
-
-
-Daniel
+       Arnd
