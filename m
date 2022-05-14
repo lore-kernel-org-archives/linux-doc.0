@@ -2,141 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD2F0C433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 14 May 2022 03:04:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0BE1C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 14 May 2022 03:28:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230336AbiENDEq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 13 May 2022 23:04:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60636 "EHLO
+        id S231536AbiEND2P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 13 May 2022 23:28:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230200AbiENDEp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 23:04:45 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A59B32E07FD
-        for <linux-doc@vger.kernel.org>; Fri, 13 May 2022 20:04:40 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id q20so5695938wmq.1
-        for <linux-doc@vger.kernel.org>; Fri, 13 May 2022 20:04:40 -0700 (PDT)
+        with ESMTP id S231506AbiEND2N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 May 2022 23:28:13 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 196964ECC3;
+        Fri, 13 May 2022 20:28:12 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id b12so326179pju.3;
+        Fri, 13 May 2022 20:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UoAT8pjpOFcRyIaX+ZhbsdRFzNEAyY56dcHcgCnxySo=;
-        b=edjiyqrDP2iLrGQci5HqJboHVDFmTJ/F0cVt2hEhqmcmZ1Bk3naqPevsH50aZD4bgL
-         uBgAhlV9Rj0RBJ56NenEvJKuGc6772MbvBrXXNbzVOP+EC1sBTEu+10lN8/8axj7fG1N
-         vk97VTRaDsfr5aMeV0pBT5JNUKtnKH5L6QaFyXYcbvuHq5NHIerSyN4yyEtubLhbHgUj
-         IIBX/JBXVmbeHvA8pLO/5tUmzYZ2pkRoQwfskzITXr4dHOmkfxhcL42inxRIGVbqhEe7
-         iQc1vYNPhvt+x0PWly/ZBGnxlxc2VJ/wpp56ADg9gnyrloSquEsApgEvgYEUFNnORcv/
-         Ll4g==
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2AYMjQ0FPtZrX3yrJlm16kLXC3jsNpv/dpUcXlVmXW8=;
+        b=o4m2kFqfe35zknd+nm4pxEbQkwGchn4189T5GM+ZT99qaHIcTcBMVWhGjt6T/2j1Kp
+         yXemAuRhBStnkDvCP/4Y/L/wFvM7LhxqFN0/2lWHpzTAJZ1LlKfEjTF2E2x8xkL3Cxr1
+         7PdHgKpWzP7Q2u9zeqCynK7flnTNK2S7J/mixUvVpoLeWM46mTtPkTAu0y9DE1GYj+sB
+         IxLjBIxu9kJzlmYccyw5nfruZJw/9VFuLZQGF/3z/nrtgq7LIi+gDW4zX5CApK312Wzx
+         vWq1cAMYUlZ2Lu4MYJa6oT2JGxIChL2gBsDUu8ko0Qt/+RC5TYq1G9FU/rVkZwQA89Lo
+         u3Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UoAT8pjpOFcRyIaX+ZhbsdRFzNEAyY56dcHcgCnxySo=;
-        b=ZrzA7sOxbd4Ph6WMLM/yLcHbY1IVCMp8et6kyMKOkMi+NMviVHDQHRLlosavXRkVRL
-         78nCfWCrbOxBYtz6Nz5/7NZd9E1XfnDX/ap6Nd8mYeRlXPboQ/jaYD8pXOkRpro12pSg
-         lynYCs1Bf/MDYZVphD7wfmSZR5IK7d7I/DKNjTCn8MyIMA0fdXR53G+QbBbzmT8p7Pes
-         1HtvgpGzFjYa2FyWbnlmJZkLgnn0WpcarlKUz6KfjPxXODdvqyuEGOtkO1elJd+SUZR1
-         IvZt0TRopG/t9JzKU3mW6akrANgdYIqwgVheNImG/K/7IEO2GzbzJ5T8QX6XoWaxj/S+
-         smDw==
-X-Gm-Message-State: AOAM532KLwOPmW0KNIO2ts2/cDySuOx5477Jz/Da/d28moVFiMSGvTr9
-        UT/wzQGwl3zJu2wf7gJl6FL5Cs+qus2PoAOTUK7UyQ==
-X-Google-Smtp-Source: ABdhPJyqMTuCvPq2xupVijryWNy90M9KW5CbLPjYdKU/0lgqe+OXIfvdq3TgEH84h6n59TOZr0qbmIWNpw3XU3CMz+w=
-X-Received: by 2002:a05:600c:264e:b0:394:2c56:eeb5 with SMTP id
- 14-20020a05600c264e00b003942c56eeb5mr7208280wmy.6.1652497479045; Fri, 13 May
- 2022 20:04:39 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2AYMjQ0FPtZrX3yrJlm16kLXC3jsNpv/dpUcXlVmXW8=;
+        b=DBGwYYsnoi5uWgFmD0x+eh5fPA/vpUaHvzEg5Ob0ctvz6n0ERn2WLJgQ8L8lgMJDZk
+         aKByqCehBxdSg65JbXbqfXWIt/cr0c+9lsD6rR9A5LOfKiMd54yxrJ6Tm1sMksuQpLdm
+         nHsY4+6yXaLEyABMgCyHzPW43JbWDHZBvP7svl5frNxNHhsl8b1w1VUgrtbFU2B7hfMe
+         VgrPR9cywlm1HzYKcwsEwm7YxPBOfnSLlg47v2XEu1b2+wkrRkXDNx9EMIaFJZsKiMgM
+         dEC8B1gWLOIEXWBKzzhpXl/CePoRwx/dAOMuGdOICoBlbd3ufgS4oCbiMXqDn9SRq2kK
+         GpJw==
+X-Gm-Message-State: AOAM530WasYL8RcetGyqVGDeCh2M8SPPbHHWXqMqjk88P7AARkpWxtte
+        K+x+NAovZz3gn2YfwQmFei+kl+ymNY0lp1E=
+X-Google-Smtp-Source: ABdhPJz/FT3B6Q6HpcRJed2meVLe750dPnJn1O3VXeQ2Hq3kPkL1U0bOr5FOSkWvOiwKA/PcaY27DA==
+X-Received: by 2002:a17:90a:e7d2:b0:1dc:3762:c72d with SMTP id kb18-20020a17090ae7d200b001dc3762c72dmr19426320pjb.243.1652498891618;
+        Fri, 13 May 2022 20:28:11 -0700 (PDT)
+Received: from octoberrain (p0109759-vcngn.kngw.nt.ngn.ppp.ocn.ne.jp. [61.210.74.190])
+        by smtp.gmail.com with ESMTPSA id a8-20020a170902710800b0015f2d625f4bsm2507410pll.274.2022.05.13.20.28.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 May 2022 20:28:11 -0700 (PDT)
+Date:   Sat, 14 May 2022 12:28:04 +0900
+From:   Robert Eckelmann <longnoserob@gmail.com>
+To:     johan@kernel.org, gregkh@linuxfoundation.org, corbet@lwn.net,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: serial: io_ti: Adding Agilent E5805A support
+Message-ID: <20220514122804.05c69987@octoberrain>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20220429043913.626647-1-davidgow@google.com> <20220513083212.3537869-2-davidgow@google.com>
- <CAGS_qxr54nYThsj6UhqX54JO5WnyJXVQURnNF1eCzGB+4GCKLA@mail.gmail.com>
-In-Reply-To: <CAGS_qxr54nYThsj6UhqX54JO5WnyJXVQURnNF1eCzGB+4GCKLA@mail.gmail.com>
-From:   David Gow <davidgow@google.com>
-Date:   Sat, 14 May 2022 11:04:27 +0800
-Message-ID: <CABVgOS=gTznLFBTZbmNH7AFDnr7O70mWR9v4q6sDA7q04fKT=Q@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] kunit: Taint the kernel when KUnit tests are run
-To:     Daniel Latypov <dlatypov@google.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 14, 2022 at 3:09 AM Daniel Latypov <dlatypov@google.com> wrote:
->
-> On Fri, May 13, 2022 at 1:32 AM David Gow <davidgow@google.com> wrote:
-> >
-> > Make KUnit trigger the new TAINT_TEST taint when any KUnit test is run.
-> > Due to KUnit tests not being intended to run on production systems, and
-> > potentially causing problems (or security issues like leaking kernel
-> > addresses), the kernel's state should not be considered safe for
-> > production use after KUnit tests are run.
-> >
-> > Signed-off-by: David Gow <davidgow@google.com>
->
-> Tested-by: Daniel Latypov <dlatypov@google.com>
->
-> Looks good to me.
->
-> There's an edge case where we might have 0 suites or 0 tests and we
-> still taint the kernel, but I don't think we need to deal with that.
-> At the start of kunit_run_tests() is the cleanest place to do this.
+Hello Johan,
 
-Hmm... thinking about it, I think it might be worth not tainting if 0
-suites run, but tainting if 0 tests run.
+Below is a small patch regarding the io_ti driver.
+This patch enables the use of the Agilent E5805A USB-RS232(x4) adapter.
+It is a relabeled Inside Out Networks Edgeport with OEM USB-ID.
 
-If we taint even if there are no suites present, that'll make things
-awkward for the "build KUnit in, but not any tests" case: the kernel
-would be tainted regardless. Given Android might be having the KUnit
-execution stuff built-in (but using modules for tests), it's probably
-worth not tainting there. (Though I think they have a separate way of
-disabling KUnit as well, so it's probably not a complete
-deal-breaker).
 
-The case of having suites but no tests should still taint the kernel,
-as suite_init functions could still run.
 
-Assuming that seems sensible, I'll send out a v4 with that changed.
+Signed-off-by: Robert Eckelmann <longnoserob@gmail.com>
+---
+ Documentation/usb/usb-serial.rst | 4 ++++
+ drivers/usb/serial/io_ti.c       | 2 ++
+ drivers/usb/serial/io_usbvend.h  | 2 +-
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
-> I wasn't quite sure where this applied, but I manually applied the changes here.
-> Without this patch, this command exits fine:
-> $ ./tools/testing/kunit/kunit.py run --kernel_args=panic_on_taint=0x40000
->
-> With it, I get
-> [12:03:31] Kernel panic - not syncing: panic_on_taint set ...
-> [12:03:31] CPU: 0 PID: 1 Comm: swapper Tainted: G                 N
+diff --git a/Documentation/usb/usb-serial.rst b/Documentation/usb/usb-serial.rst
+index 69586aeb60bb..d9cfb6cb2d07 100644
+--- a/Documentation/usb/usb-serial.rst
++++ b/Documentation/usb/usb-serial.rst
+@@ -412,6 +412,10 @@ Inside Out Networks Edgeport Driver
+        - Edgeport/4 DIN
+        - Edgeport/16 Dual
 
-This is showing both 'G' and 'N' ('G' being the character for GPL --
-i.e. the kernel is not tainted by proprietary modules: 'P').
++  This dirver now also includes the Agilent E5805A usb-to-RS232 adapter device,
++  as this is a rebranded Edgeport device.
++
++
+   For any questions or problems with this driver, please contact Greg
+   Kroah-Hartman at greg@kroah.com
 
-Jani did suggest a better way of printing these in the v1 discussion
-(printing the actual names of taints present), which I might do in a
-follow-up.
+diff --git a/drivers/usb/serial/io_ti.c b/drivers/usb/serial/io_ti.c
+index a7b3c15957ba..2810cefa628d 100644
+--- a/drivers/usb/serial/io_ti.c
++++ b/drivers/usb/serial/io_ti.c
+@@ -166,6 +166,7 @@ static const struct usb_device_id edgeport_2port_id_table[] = {
+	{ USB_DEVICE(USB_VENDOR_ID_ION, ION_DEVICE_ID_TI_EDGEPORT_8S) },
+	{ USB_DEVICE(USB_VENDOR_ID_ION, ION_DEVICE_ID_TI_EDGEPORT_416) },
+	{ USB_DEVICE(USB_VENDOR_ID_ION, ION_DEVICE_ID_TI_EDGEPORT_416B) },
++	{ USB_DEVICE(USB_VENDOR_ID_ION, ION_DEVICE_ID_E5805A)},
+	{ }
+ };
 
-> 5.17.0-00001-gea9ee5e7aed8-dirty #60
->
-> I'm a bit surprised that it prints 'G' and not 'N', but this does seem
-> to be the right mask
-> $ python3 -c 'print(hex(1<<18))'
-> 0x40000
-> and it only takes effect when this patch is applied.
-> I'll chalk that up to my ignorance of how taint works.
+@@ -204,6 +205,7 @@ static const struct usb_device_id id_table_combined[] = {
+	{ USB_DEVICE(USB_VENDOR_ID_ION, ION_DEVICE_ID_TI_EDGEPORT_8S) },
+	{ USB_DEVICE(USB_VENDOR_ID_ION, ION_DEVICE_ID_TI_EDGEPORT_416) },
+	{ USB_DEVICE(USB_VENDOR_ID_ION, ION_DEVICE_ID_TI_EDGEPORT_416B) },
++	{ USB_DEVICE(USB_VENDOR_ID_ION, ION_DEVICE_ID_E5805A)},
+	{ }
+ };
 
--- David
+diff --git a/drivers/usb/serial/io_usbvend.h b/drivers/usb/serial/io_usbvend.h
+index 52cbc353051f..3be6bce15d97 100644
+--- a/drivers/usb/serial/io_usbvend.h
++++ b/drivers/usb/serial/io_usbvend.h
+@@ -212,7 +212,7 @@
+ //
+ // Definitions for other product IDs
+ #define ION_DEVICE_ID_MT4X56USB			0x1403	// OEM device
+-
++#define ION_DEVICE_ID_E5805A			0x1A01  // OEM device (internals based on Edgeport/4?)
+
+ #define	GENERATION_ID_FROM_USB_PRODUCT_ID(ProductId)				\
+			((__u16) ((ProductId >> 8) & (ION_GENERATION_MASK)))
+--
+2.36.0
