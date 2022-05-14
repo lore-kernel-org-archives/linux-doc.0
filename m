@@ -2,175 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5350EC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 14 May 2022 08:26:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A939C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 14 May 2022 08:34:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230009AbiENI0e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 14 May 2022 04:26:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54202 "EHLO
+        id S230148AbiENIej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 14 May 2022 04:34:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230038AbiENI02 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 May 2022 04:26:28 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3BF611E
-        for <linux-doc@vger.kernel.org>; Sat, 14 May 2022 01:26:26 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id j25so13068642wrc.9
-        for <linux-doc@vger.kernel.org>; Sat, 14 May 2022 01:26:26 -0700 (PDT)
+        with ESMTP id S230117AbiENIeh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 May 2022 04:34:37 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A34918F
+        for <linux-doc@vger.kernel.org>; Sat, 14 May 2022 01:34:36 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id n6-20020a05600c3b8600b0039492b44ce7so5860420wms.5
+        for <linux-doc@vger.kernel.org>; Sat, 14 May 2022 01:34:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fGSNjX7FWQgS0zAf5uzD98exN773UqLJMyTQST6/uq8=;
-        b=kr+ZoQoZymx9R0c+QUc/iRMK7yM5RJMiYBaDp29vkbzqN7JsQvW7P8dRIHD0OC0Sgb
-         9h/gegiLUJbI2vnd3FLgX/zT8QIDEDZvJUA5QItCnKwonX2DhnCre7aNN6WHzCDzmyt9
-         I43ecBElIP+jlg58xhiDXPtcOBYbhytGBFnZvjsNIMRdASSJKRAZTUQGh0isW83j8WGg
-         Sgo3kHAinNsrc10w18UGp+2+V3MWOlL6bdQIvB21UOUXeuHPZi5B9FJke2Ga09IJAWOf
-         idRiJm/YgtYOTc9+JCdRb0RTl+6EiIAhcysqwgchztbk2NwBxnCWA8lFPS2WLVfqKrqn
-         2JqA==
+        bh=Wqqxn5+q5xmPpZtFRIbD60XulpYnUc5+LRYDs7jEaLY=;
+        b=BRlzdhTV9zT8+bxHgq0iD5R/JhGL/k8jAR9b7CiU8hDeCgzVWFrrjTP0aHZq5tQ8XX
+         3pYNl+Xbb81AWFyTev3K9GimQzlDxKm5/ng/W1WSUjRhKZN93OQN0hDCuANEnE1eNUL6
+         +aUzBtR+QI4bADN71NUFlQC83QglUyIurXGuydMevh73G+uVG3TYo/sIvqErTRAzb58h
+         nzGFgjXKmB/RG2aqyyKCKKFmMioLSkKXxX9GlafBjaZm1KrP7Lw/OTZCsI8ACoMpACYq
+         Rphk6LNz2/OeuYMnsUUf1WipjrlSd1VS+CWBrGJUgfc8Muq8FPXmuSTbP+VZ/Q+iIMod
+         U5zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fGSNjX7FWQgS0zAf5uzD98exN773UqLJMyTQST6/uq8=;
-        b=J/jGgYt7yafg+fo8lMz6jCoe+DCcqgMGZcHbfYg+dM2vnv20zL2ex5pKxYjPBCVkPJ
-         Ki4xMvBtapC0KG841N9rwA3GBbnw8aLkJskHmxQh8lePaMX7GfuqiLZMA8q89yfcYII0
-         fSwwTvOg6DcHQMbircKCi2TC6qQjYWtCyUKNE/9Diteo9oeElkl4c+HLf6FkmOZPMKj2
-         KGqRJvDL9N5hrUidk2+GPilfI0gfw25nnTeu8XR/B6I28V2BtzFiWVuuFPxvbDra6O2A
-         W80Dbikd/2Lmg4UBWhZwL/p7KVoqOr3yIIghPKfKD+H5P1/W7KzXfjgTZrg9AsBIlHrX
-         K/jw==
-X-Gm-Message-State: AOAM531Qqs4xyyUF3KGBrkKiA6F2oX1EkMCSpILqvrT7vlrjTZIHlqck
-        6zESPeVc/NqKgIj2q6ZEHyt7x6bpQA6z17rXHNYg1w==
-X-Google-Smtp-Source: ABdhPJxd2yAOrMDx1kyKIycTBHNDuUPoF3izxQpqfG9Ebu0UFmB15wKbKgzL/O8DbbD6u5O1U1bgna6lzZ1eJnpLVQs=
-X-Received: by 2002:a5d:6651:0:b0:20a:df2f:8027 with SMTP id
- f17-20020a5d6651000000b0020adf2f8027mr6968835wrw.269.1652516785016; Sat, 14
- May 2022 01:26:25 -0700 (PDT)
+        bh=Wqqxn5+q5xmPpZtFRIbD60XulpYnUc5+LRYDs7jEaLY=;
+        b=DXBErIedjFKnjbNwHakQo+V3yG0QJ0znbbBmsyHYtYJEGgBSz3cjZmWzWUkPeP3vC+
+         T3m+FCWG9msBys3cBV+hkIw83ZYSjys0aUtoGnmDsE9xY/Jx3o7LCAW8SaYsIsrn+MPJ
+         dr8QQx4wwvieTgAl+JA+qIWLCjMS8QUIMJ8ZdnQrzruGzyvVFIT+BjKtKHqrOt1qBN4J
+         /IgFKPAz4N8yeIBOW+y/UnbUmFluSLByGQf74QoAmEdi8Qbs5qf8TLAhQ4wtRvbEleIO
+         qecgTpC+YyeFZqR/EIoCVKYvkG6UQ8VIGBEoWim5bEjetunMCtQXAIw3nE12M50BB9bj
+         CAnw==
+X-Gm-Message-State: AOAM531qw+0rxqdcgo0Jd8VyNuU8tlyiLQJpwagQOGoDGTJDJo2WjoZe
+        UsAng9uEWm5k826qjaCPjS3inl9dLvr3EWWwcfhSLA==
+X-Google-Smtp-Source: ABdhPJw8xpJdudoWgJ+1Jx86Q9PASwEwAJPZhccKtWf1cQJ07oWyo0/CpzTe9bNFHE+Eixp2zZJuUPINfVgMRPZ/+Bw=
+X-Received: by 2002:a05:600c:1d9f:b0:394:7a51:cb8b with SMTP id
+ p31-20020a05600c1d9f00b003947a51cb8bmr8040011wms.163.1652517274539; Sat, 14
+ May 2022 01:34:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <bc6e9ed7-d98b-c4da-2a59-ee0915c18f10@gmail.com>
- <5ca35c47-6145-4ec1-6c05-3c46f436cb4d@gmail.com> <CAGS_qxpE9qGsS1LqaobVGFKFgV6TwvwNLR4e9PG5zsfPACSf_Q@mail.gmail.com>
- <5b2783a2-76bf-ce6f-89b1-d0fe05b80b82@gmail.com>
-In-Reply-To: <5b2783a2-76bf-ce6f-89b1-d0fe05b80b82@gmail.com>
+References: <20220429043913.626647-1-davidgow@google.com> <20220513083212.3537869-3-davidgow@google.com>
+ <Yn57d1e6k8uv2uQj@bombadil.infradead.org>
+In-Reply-To: <Yn57d1e6k8uv2uQj@bombadil.infradead.org>
 From:   David Gow <davidgow@google.com>
-Date:   Sat, 14 May 2022 16:26:13 +0800
-Message-ID: <CABVgOS=XcaheGrJ+n2DPUuE=MrJwDn5UWYcdQmfhZfHx2MDazg@mail.gmail.com>
-Subject: Re: [RFC] KTAP spec v2: prefix to KTAP data
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     Daniel Latypov <dlatypov@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
+Date:   Sat, 14 May 2022 16:34:23 +0800
+Message-ID: <CABVgOSkhr6xfgXZWW6UdbU4MpAvqsDOsqVP0THsH0gVB949HjA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] selftest: Taint kernel when test module loaded
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Kees Cook <keescook@chromium.org>,
-        "Bird, Tim" <Tim.Bird@sony.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, Rae Moar <rmr167@gmail.com>,
-        Guillaume Tucker <guillaume.tucker@collabora.com>,
-        kernelci@groups.io, KUnit Development <kunit-dev@googlegroups.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        KUnit Development <kunit-dev@googlegroups.com>,
         "open list:KERNEL SELFTEST FRAMEWORK" 
         <linux-kselftest@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 13, 2022 at 1:26 AM Frank Rowand <frowand.list@gmail.com> wrote:
+On Fri, May 13, 2022 at 11:38 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
 >
-> On 5/12/22 10:25, Daniel Latypov wrote:
-> > On Wed, May 11, 2022 at 11:01 PM Frank Rowand <frowand.list@gmail.com> wrote:
-> >> ================================================================================
-> >> #### discussion notes:
-> >>
-> >> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-> >> PRO: minimally invasive to specification.
-> >>
-> >> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-> >> CON:
-> >>
-> >> KTAP does not include any mechanism to describe the value of <prefix string>
-> >> to test harnesses and test output processing programs.  The test output
-> >> processing programs must infer the value of <prefix string> by detecting
-> >> the <prefix string> in the "Version lines".
-> >>
-> >> The detection of a "Version lines" might be a match of the regex:
-> >>
-> >>    "^.*KTAP version 2$"
-> >>
-> >> This risks falsely detecting a "Version lines", but the risk is small???
+> On Fri, May 13, 2022 at 04:32:13PM +0800, David Gow wrote:
+> > Make any kselftest test module (using the kselftest_module framework)
+> > taint the kernel with TAINT_TEST on module load.
 > >
-> > Agree this is a risk and also think it's probably small, but it's hard to say.
-> > I think the $ anchoring the regex is probably safe enough.
+> > Note that several selftests use kernel modules which are not based on
+> > the kselftest_module framework, and so will not automatically taint the
+> > kernel. These modules will have to be manually modified if they should
+> > taint the kernel this way.
 > >
-> > As noted earlier, this tracks with what kunit.py already does.
-> > That was necessitated by dynamic prefixes such as timestamps, etc.f
+> > Similarly, selftests which do not load modules into the kernel generally
+> > should not taint the kernel (or possibly should only do so on failure),
+> > as it's assumed that testing from user-space should be safe. Regardless,
+> > they can write to /proc/sys/kernel/tainted if required.
+> >
+> > Signed-off-by: David Gow <davidgow@google.com>
 >
-> That is a good observation.  I nearly always have the prefix timestamp
-> on my console output, and thus remove the timestamp with a regex when
-> processing the data.
+> Not all selftest modules use KSTM_MODULE_LOADERS() so I'd like to see a
+> modpost target as well, otherwise this just covers a sliver of
+> selftests.
 >
 
-Yeah: the use of a prefix length for timestamps (and similar 'dynamic
-prefixes') works really well as a way to automatically find KTAP
-output in the kernel log.
-It's definitely less useful as a way of disambiguating several
-(potentially interleaved) KTAP streams, though.
+My personal feeling is that the ideal way of solving this is actually
+to port those modules which aren't using KSTM_MODULE_LOADERS() (or
+KUnit, or some other system) to do so, or to otherwise manually tag
+them as selftests and/or make them taint the kernel.
 
-Personally, my conception of KTAP is that the prefix is not a part of
-the format, but a way (possibly one we should recommend in the spec)
-to isolate KTAP output from (e.g.) the kernel log.
-So, in theory, the processing pipeline for log -> result is:
-[dmesg] ---<remove prefix>--> [KTAP] ---<parse>---> [results]
+That being said, we can gain a bit my making the module-loading
+helpers in kselftest/module.sh manually taint the kernel with
+/proc/sys/kernel/tainted, which will catch quite a few of them (even
+if tainting from userspace before they're loaded is suboptimal).
 
-I wouldn't object to having the prefix be a part of KTAP if it were
-particularly useful to anyone, though, and definitely agree we should
-note ways to do it.
+I've also started experimenting with a "test" MODULE_INFO field, which
+modpost would add with the -t option. That still requires sprinkling
+MODULE_INFO() everwhere, or the '-t' option to a bunch of makefiles,
+or doing something more drastic to set it automatically for modules in
+a given directory / makefile. Or the staging thing of checking the
+directory / prefix in modpost.
 
-Either way, we do end up with two (slightly conflicting) uses of prefixes:
-a) To isolate tests from a log.
-b) To allow multiple concurrent tests.
-
-For a), Alternative 1 seems obviously correct to me, since whatever
-module is being used might not know what random prefixes are being
-added to its log lines.
-For b), either would work, but we do potentially get conflicts with a)
-if we're trying to do both. So maybe alternative 2 makes sense for
-that.
-
->
-> > So I think this is probably a fine risk to take.
-> >
-> > I imagine we could add constraints of prefix string, e.g. must have []
-> > around it, etc. if we want to try and minimize this risk.
-> > But I don't know if it's necessarily worth it, given what we know right now.
-> >
-> > Along those lines, I think I like this approach (Alternative 1) more
-> > than Alternative 2/2b.
-
-I agree, though note that we might need both if we want two separate
-types of prefix as mentioned above.
-
-> > I'm not sure we need a structured way to specify metadata in KTAP yet?
-> > The prefix seems like a reasonable candidate, but do others have ideas
-> > of other bits of metadata we'd want to be able to declare?
-> >
-
-That's the important takeaway from Alternative 2: some generic way of
-having metadata could be quite handy. (Of them, Alternative 2b feels a
-little more like a hack than I'd prefer, albeit a clever one. I'd
-prefer a cleaner "configuration info line" personally, though if
-reusing the test results for test 0 makes parsing significantly easier
-for others, it may nevertheless be worth doing.)
-
-As for other pieces of metadata, there are all sorts of useful
-information about the test which could be useful to store alongside
-the results (what tool generated it, kernel version, etc), though
-those might be more useful when saving results elsewhere than embedded
-into the kernel output.
-
-Equally, if we extended these configuration/info lines to individual
-test/subtests, things like test size, originating module, etc could
-potentially be stored. Suite/test init functions could potentially add
-useful metadata, too (e.g., number of cores/threads for kcsan, etc).
-
-None of those are, I think, quite compelling enough individually to
-add a config system, though. If we already had one for the prefix, and
-other things which are necessary for parsing, maybe...
+I'll play around some more and have something to show in v4. (If we
+have a MODULE_INFO field, we should use it for KUnit modules, but we'd
+still have to taint the kernel manually for built-in tests anyway, so
+it'd be redundant...)
 
 -- David
