@@ -2,222 +2,259 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AC78C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 14 May 2022 08:50:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85654C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 14 May 2022 10:00:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229897AbiENIuN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 14 May 2022 04:50:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43502 "EHLO
+        id S231604AbiENKAz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 14 May 2022 06:00:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229733AbiENIuL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 May 2022 04:50:11 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4903826E9
-        for <linux-doc@vger.kernel.org>; Sat, 14 May 2022 01:50:09 -0700 (PDT)
-Received: from localhost.localdomain (unknown [112.20.109.92])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axutg5bX9iX2oVAA--.5166S4;
-        Sat, 14 May 2022 16:50:04 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        siyanteng01@gmail.com
-Subject: [PATCH v2 2/2] docs/zh_CN: add vm vmalloced-kernel-stacks translation
-Date:   Sat, 14 May 2022 16:51:29 +0800
-Message-Id: <21883948be45d892f82eea8037ce9f1329bf4d1b.1652517913.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1652517913.git.siyanteng@loongson.cn>
-References: <cover.1652517913.git.siyanteng@loongson.cn>
+        with ESMTP id S231580AbiENKAx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 May 2022 06:00:53 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 534A7AE60;
+        Sat, 14 May 2022 03:00:51 -0700 (PDT)
+Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4L0gxF6pPdzgZ14;
+        Sat, 14 May 2022 18:00:17 +0800 (CST)
+Received: from kwepemm600018.china.huawei.com (7.193.23.140) by
+ kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sat, 14 May 2022 18:00:49 +0800
+Received: from huawei.com (10.174.176.88) by kwepemm600018.china.huawei.com
+ (7.193.23.140) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Sat, 14 May
+ 2022 18:00:48 +0800
+From:   gaochao <gaochao49@huawei.com>
+To:     <alexs@kernel.org>, <corbet@lwn.net>
+CC:     <siyanteng01@gmail.com>, <bobwxc@email.cn>, <src.res@email.cn>,
+        <wanjiabing@vivo.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 -next] docs/zh_CN: Add dev-tools/gdb-kernel-debugging.rst Chinese translation
+Date:   Sat, 14 May 2022 18:00:46 +0800
+Message-ID: <20220514100046.1683-1-gaochao49@huawei.com>
+X-Mailer: git-send-email 2.28.0.windows.1
+In-Reply-To: <20220513061035.605-1-gaochao49@huawei.com>
+References: <20220513061035.605-1-gaochao49@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Axutg5bX9iX2oVAA--.5166S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxKw4xZw17Ary5Cr48JF1fZwb_yoW3GFyUpF
-        93CryfGF1Yy345A34F9w48CFyUJws7Cr45C3Z7W3Zaqrn0yrW8tr1Y9rWrWa93X348AFWU
-        XrWFy3ySkrn0k3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUBm14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
-        x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-        Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
-        8EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4U
-        JwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
-        IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
-        M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_GFyl42
-        xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
-        GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI4
-        8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4U
-        MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
-        8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU1yCJDUUUU
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Originating-IP: [10.174.176.88]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemm600018.china.huawei.com (7.193.23.140)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate .../vm/vmalloced-kernel-stacks.rst into Chinese.
+Translate dev-tools/gdb-kernel-debugging.rst into Chinese.
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Signed-off-by: gaochao <gaochao49@huawei.com>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
 ---
- Documentation/translations/zh_CN/vm/index.rst |   2 +-
- .../zh_CN/vm/vmalloced-kernel-stacks.rst      | 133 ++++++++++++++++++
- 2 files changed, 134 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/vm/vmalloced-kernel-stacks.rst
+v2:
+- change : to ::
+- change 使能 to 开启
+---
+ .../zh_CN/dev-tools/gdb-kernel-debugging.rst  | 167 ++++++++++++++++++
+ .../translations/zh_CN/dev-tools/index.rst    |   2 +-
+ 2 files changed, 168 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
 
-diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-index 551f58bf7b55..d9ac73159dbc 100644
---- a/Documentation/translations/zh_CN/vm/index.rst
-+++ b/Documentation/translations/zh_CN/vm/index.rst
-@@ -41,6 +41,7 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
-    page_table_check
-    remap_file_pages
-    split_page_table_lock
-+   vmalloced-kernel-stacks
-    z3fold
-    zsmalloc
- 
-@@ -51,4 +52,3 @@ TODOLIST:
- * slub
- * transhuge
- * unevictable-lru
--* vmalloced-kernel-stacks
-diff --git a/Documentation/translations/zh_CN/vm/vmalloced-kernel-stacks.rst b/Documentation/translations/zh_CN/vm/vmalloced-kernel-stacks.rst
+diff --git a/Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst b/Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
 new file mode 100644
-index 000000000000..7d1ea4b33699
+index 000000000000..17b5ce85a90c
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/vm/vmalloced-kernel-stacks.rst
-@@ -0,0 +1,133 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
+@@ -0,0 +1,167 @@
++.. highlight:: none
++
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/vm/vmalloced-kernel-stacks.rst
++:Original: Documentation/dev-tools/gdb-kernel-debugging.rst
++:Translator: 高超 gao chao <gaochao49@huawei.com>
 +
-+:翻译:
++通过gdb调试内核和模块
++=====================
 +
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
++Kgdb内核调试器、QEMU等虚拟机管理程序或基于JTAG的硬件接口，支持在运行时使用gdb
++调试Linux内核及其模块。Gdb提供了一个强大的python脚本接口，内核也提供了一套
++辅助脚本以简化典型的内核调试步骤。本文档为如何启用和使用这些脚本提供了一个简要的教程。
++此教程基于QEMU/KVM虚拟机，但文中示例也适用于其他gdb stub。
 +
-+:校译:
 +
-+====================
-+支持虚拟映射的内核栈
-+====================
-+
-+:作者: Shuah Khan <skhan@linuxfoundation.org>
-+
-+.. contents:: :local:
-+
-+概览
-+----
-+
-+这是介绍 `虚拟映射内核栈功能 <https://lwn.net/Articles/694348/>` 的代码
-+和原始补丁系列的信息汇总。
-+
-+简介
-+----
-+
-+内核堆栈溢出通常难以调试，并使内核容易被利用。问题可能在稍后的时间出现，使其难以
-+隔离和究其根本原因。
-+
-+带有保护页的虚拟映射内核堆栈如果溢出，会被立即捕获，而不会放任其导致难以诊断的损
-+坏。
-+
-+HAVE_ARCH_VMAP_STACK和VMAP_STACK配置选项能够支持带有保护页的虚拟映射堆栈。
-+当堆栈溢出时，这个特性会引发可靠的异常。溢出后堆栈跟踪的可用性以及对溢出本身的
-+响应取决于架构。
-+
-+.. note::
-+        截至本文撰写时， arm64, powerpc, riscv, s390, um, and x86 支持VMAP_STACK。
-+
-+HAVE_ARCH_VMAP_STACK
-+--------------------
-+
-+能够支持虚拟映射内核栈的架构应该启用这个bool配置选项。要求是:
-+
-+- vmalloc空间必须大到足以容纳许多内核堆栈。这可能排除了许多32位架构。
-+- vmalloc空间的堆栈需要可靠地工作。例如，如果vmap页表是按需创建的，当堆栈指向
-+  具有未填充页表的虚拟地址时，这种机制需要工作，或者架构代码（switch_to()和
-+  switch_mm()，很可能）需要确保堆栈的页表项在可能未填充的堆栈上运行之前已经填
-+  充。
-+- 如果堆栈溢出到一个保护页，就应该发生一些合理的事情。“合理”的定义是灵活的，但
-+  在没有记录任何东西的情况下立即重启是不友好的。
-+
-+VMAP_STACK
-+----------
-+
-+VMAP_STACK bool配置选项在启用时分配虚拟映射的任务栈。这个选项依赖于
-+HAVE_ARCH_VMAP_STACK。
-+
-+- 如果你想使用带有保护页的虚拟映射的内核堆栈，请启用该选项。这将导致内核栈溢出
-+  被立即捕获，而不是导致难以诊断的损坏。
-+
-+.. note::
-+
-+        使用KASAN的这个功能需要架构支持用真实的影子内存来支持虚拟映射，并且
-+        必须启用KASAN_VMALLOC。
-+
-+.. note::
-+
-+        启用VMAP_STACK时，不可能在堆栈分配的数据上运行DMA。
-+
-+内核配置选项和依赖性不断变化。请参考最新的代码库:
-+
-+`Kconfig <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/Kconfig>`
-+
-+分配方法
-+--------
-+
-+当一个新的内核线程被创建时，线程堆栈是由页级分配器分配的实际连续的内存页组成。这
-+些页面被映射到有PAGE_KERNEL保护的连续的内核虚拟空间。
-+
-+alloc_thread_stack_node()调用__vmalloc_node_range()来分配带有PAGE_KERNEL
-+保护的栈。
-+
-+- 分配的堆栈被缓存起来，以后会被新的线程重用，所以在分配/释放堆栈给任务时，要手动
-+  进行memcg核算。因此，__vmalloc_node_range被调用时没有__GFP_ACCOUNT。
-+- vm_struct被缓存起来，以便能够找到在中断上下文中启动的空闲线程。 free_thread_stack()
-+  可以在中断上下文中调用。
-+- 在arm64上，所有VMAP的堆栈都需要有相同的对齐方式，以确保VMAP的堆栈溢出检测正常
-+  工作。架构特定的vmap堆栈分配器照顾到了这个细节。
-+- 这并不涉及中断堆栈--参考原始补丁
-+
-+线程栈分配是由clone()、fork()、vfork()、kernel_thread()通过kernel_clone()
-+启动的。留下一些提示，以便搜索代码库，了解线程栈何时以及如何分配。
-+
-+大量的代码是在:
-+`kernel/fork.c <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/fork.c>`.
-+
-+task_struct中的stack_vm_area指针可以跟踪虚拟分配的堆栈，一个非空的stack_vm_area
-+指针可以表明虚拟映射的内核堆栈已经启用。
-+
-+::
-+
-+        struct vm_struct *stack_vm_area;
-+
-+堆栈溢出处理
++环境配置要求
 +------------
 +
-+前守护页和后守护页有助于检测堆栈溢出。当堆栈溢出到守护页时，处理程序必须小心不要再
-+次溢出堆栈。当处理程序被调用时，很可能只留下很少的堆栈空间。
++- gdb 7.2+ (推荐版本: 7.4+) 且开启python支持 (通常发行版上都已支持)
 +
-+在x86上，这是通过处理表明内核堆栈溢出的双异常堆栈的缺页异常来实现的。
-+
-+用守护页测试VMAP分配
-+--------------------
-+
-+我们如何确保VMAP_STACK在分配时确实有前守护页和后守护页的保护？下面的 lkdtm 测试
-+可以帮助检测任何退步。
-+
-+::
-+
-+        void lkdtm_STACK_GUARD_PAGE_LEADING()
-+        void lkdtm_STACK_GUARD_PAGE_TRAILING()
-+
-+结论
++设置
 +----
 +
-+- vmalloced堆栈的percpu缓存似乎比高阶堆栈分配要快一些，至少在缓存命中时是这样。
-+- THREAD_INFO_IN_TASK完全摆脱了arch-specific thread_info，并简单地将
-+  thread_info（仅包含标志）和'int cpu'嵌入task_struct中。
-+- 一旦任务死亡，线程栈就可以被释放（无需等待RCU），然后，如果使用vmapped栈，就
-+  可以将整个栈缓存起来，以便在同一cpu上重复使用。
++- 创建一个QEMU/KVM的linux虚拟机（详情请参考 www.linux-kvm.org 和 www.qemu.org ）。
++  对于交叉开发，https://landley.net/aboriginal/bin 提供了一些镜像和工具链，
++  可以帮助搭建交叉开发环境。
++
++- 编译内核时开启CONFIG_GDB_SCRIPTS，关闭CONFIG_DEBUG_INFO_REDUCED。
++  如果架构支持CONFIG_FRAME_POINTER，请保持开启。
++
++- 在guest环境上安装该内核。如有必要，通过在内核command line中添加“nokaslr”来关闭KASLR。
++  此外，QEMU允许通过-kernel、-append、-initrd这些命令行选项直接启动内核。
++  但这通常仅在不依赖内核模块时才有效。有关此模式的更多详细信息，请参阅QEMU文档。
++  在这种情况下，如果架构支持KASLR，应该在禁用CONFIG_RANDOMIZE_BASE的情况下构建内核。
++
++- 启用QEMU/KVM的gdb stub，可以通过如下方式实现
++
++    - 在VM启动时，通过在QEMU命令行中添加“-s”参数
++
++  或
++
++    - 在运行时通过从QEMU监视控制台发送“gdbserver”
++
++- 切换到/path/to/linux-build(内核源码编译)目录
++
++- 启动gdb：gdb vmlinux
++
++  注意：某些发行版可能会将gdb脚本的自动加载限制在已知的安全目录中。
++  如果gdb报告拒绝加载vmlinux-gdb.py（相关命令找不到），请将::
++
++    add-auto-load-safe-path /path/to/linux-build
++
++  添加到~/.gdbinit。更多详细信息，请参阅gdb帮助信息。
++
++- 连接到已启动的guest环境::
++
++    (gdb) target remote :1234
++
++
++使用Linux提供的gdb脚本的示例
++----------------------------
++
++- 加载模块（以及主内核）符号::
++
++    (gdb) lx-symbols
++    loading vmlinux
++    scanning for modules in /home/user/linux/build
++    loading @0xffffffffa0020000: /home/user/linux/build/net/netfilter/xt_tcpudp.ko
++    loading @0xffffffffa0016000: /home/user/linux/build/net/netfilter/xt_pkttype.ko
++    loading @0xffffffffa0002000: /home/user/linux/build/net/netfilter/xt_limit.ko
++    loading @0xffffffffa00ca000: /home/user/linux/build/net/packet/af_packet.ko
++    loading @0xffffffffa003c000: /home/user/linux/build/fs/fuse/fuse.ko
++    ...
++    loading @0xffffffffa0000000: /home/user/linux/build/drivers/ata/ata_generic.ko
++
++- 对一些尚未加载的模块中的函数函数设置断点，例如::
++
++    (gdb) b btrfs_init_sysfs
++    Function "btrfs_init_sysfs" not defined.
++    Make breakpoint pending on future shared library load? (y or [n]) y
++    Breakpoint 1 (btrfs_init_sysfs) pending.
++
++- 继续执行::
++
++    (gdb) c
++
++- 加载模块并且能观察到正在加载的符号以及断点命中::
++
++    loading @0xffffffffa0034000: /home/user/linux/build/lib/libcrc32c.ko
++    loading @0xffffffffa0050000: /home/user/linux/build/lib/lzo/lzo_compress.ko
++    loading @0xffffffffa006e000: /home/user/linux/build/lib/zlib_deflate/zlib_deflate.ko
++    loading @0xffffffffa01b1000: /home/user/linux/build/fs/btrfs/btrfs.ko
++
++    Breakpoint 1, btrfs_init_sysfs () at /home/user/linux/fs/btrfs/sysfs.c:36
++    36              btrfs_kset = kset_create_and_add("btrfs", NULL, fs_kobj);
++
++- 查看内核的日志缓冲区::
++
++    (gdb) lx-dmesg
++    [     0.000000] Initializing cgroup subsys cpuset
++    [     0.000000] Initializing cgroup subsys cpu
++    [     0.000000] Linux version 3.8.0-rc4-dbg+ (...
++    [     0.000000] Command line: root=/dev/sda2 resume=/dev/sda1 vga=0x314
++    [     0.000000] e820: BIOS-provided physical RAM map:
++    [     0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009fbff] usable
++    [     0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
++    ....
++
++- 查看当前task struct结构体的字段（仅x86和arm64支持）::
++
++    (gdb) p $lx_current().pid
++    $1 = 4998
++    (gdb) p $lx_current().comm
++    $2 = "modprobe\000\000\000\000\000\000\000"
++
++- 对当前或指定的CPU使用per-cpu函数::
++
++    (gdb) p $lx_per_cpu("runqueues").nr_running
++    $3 = 1
++    (gdb) p $lx_per_cpu("runqueues", 2).nr_running
++    $4 = 0
++
++- 使用container_of查看更多hrtimers信息::
++
++    (gdb) set $next = $lx_per_cpu("hrtimer_bases").clock_base[0].active.next
++    (gdb) p *$container_of($next, "struct hrtimer", "node")
++    $5 = {
++      node = {
++        node = {
++          __rb_parent_color = 18446612133355256072,
++          rb_right = 0x0 <irq_stack_union>,
++          rb_left = 0x0 <irq_stack_union>
++        },
++        expires = {
++          tv64 = 1835268000000
++        }
++      },
++      _softexpires = {
++        tv64 = 1835268000000
++      },
++      function = 0xffffffff81078232 <tick_sched_timer>,
++      base = 0xffff88003fd0d6f0,
++      state = 1,
++      start_pid = 0,
++      start_site = 0xffffffff81055c1f <hrtimer_start_range_ns+20>,
++      start_comm = "swapper/2\000\000\000\000\000\000"
++    }
++
++
++命令和辅助调试功能列表
++----------------------
++
++命令和辅助调试功能可能会随着时间的推移而改进，此文显示的是初始版本的部分示例::
++
++ (gdb) apropos lx
++ function lx_current -- Return current task
++ function lx_module -- Find module by name and return the module variable
++ function lx_per_cpu -- Return per-cpu variable
++ function lx_task_by_pid -- Find Linux task by PID and return the task_struct variable
++ function lx_thread_info -- Calculate Linux thread_info from task variable
++ lx-dmesg -- Print Linux kernel log buffer
++ lx-lsmod -- List currently loaded modules
++ lx-symbols -- (Re-)load symbols of Linux kernel and currently loaded modules
++
++可以通过“help <command-name>”或“help function <function-name>”命令
++获取指定命令或指定调试功能的更多详细信息。
+diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
+index 77a8c44cdf49..02577c379007 100644
+--- a/Documentation/translations/zh_CN/dev-tools/index.rst
++++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+@@ -25,6 +25,7 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+    sparse
+    gcov
+    kasan
++   gdb-kernel-debugging
+ 
+ Todolist:
+ 
+@@ -34,7 +35,6 @@ Todolist:
+  - kmemleak
+  - kcsan
+  - kfence
+- - gdb-kernel-debugging
+  - kgdb
+  - kselftest
+  - kunit/index
 -- 
-2.27.0
+2.17.1
 
