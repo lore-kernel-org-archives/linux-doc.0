@@ -2,107 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 069B6C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 16 May 2022 12:04:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 747CBC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 16 May 2022 13:10:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231383AbiEPMEA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 May 2022 08:04:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37428 "EHLO
+        id S238258AbiEPNK2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 May 2022 09:10:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230437AbiEPMD5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 08:03:57 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC9571EC63
-        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 05:03:53 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id q18so14186542pln.12
-        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 05:03:53 -0700 (PDT)
+        with ESMTP id S230259AbiEPNK1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 09:10:27 -0400
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4195013E83;
+        Mon, 16 May 2022 06:10:26 -0700 (PDT)
+Received: by mail-oi1-x22d.google.com with SMTP id l16so18519550oil.6;
+        Mon, 16 May 2022 06:10:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=R84IxflJzQsjcs6liOC1xGi2RLfZVO/J/zvMOYtMBKI=;
-        b=W7DK2qATwEyfvh21pVCPdp+fSj3B28j0KvO+lqsOPxPZIH7RUOgXti2vLaZX56uPLi
-         Zf54oYdtq6IyZAvY5uSVv4DttuV81ENkrczCOrwjaDIK6BuZ9TEuvUnmtPYCDQda5SK1
-         2UJO3Wpu94Gdhwd/Yp8g9Rz4sXJ3VK/C2xxsZHY0ElYNMbFV7cttoOT3unYS/7uyE5ZQ
-         PCp8z3w4j1eNrioDSgF9sfHye+GKmDpwe/cqZLfIukhxqI9gEH+uocUTdY3ZuzdW8+Rr
-         8/PJoYZ+p6cGNJWT50couq1k2JPjXlYhEQyNWCCb7k0tVbkNVfl77lsAuuK09mYxx+sm
-         4Ttw==
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=CaF92eBKzl8YhqaTS1Tzg7cnBN+wgBVFhVH+tqOT7PI=;
+        b=q0OW4Ll0d1esJg4Bsi1gSdlTXNns+dyRXpjhWwy3TYP4n4qr8/NV4nZJZKjjduBKRi
+         cA/1ac5Z/Sme7x9B3srXyZPtmX5SKG2ovm3cO9mWg1RmnkOoPJ3oT1jhhOpvYVxSxOtK
+         EETC7rAwge3lFdAza0DWk9nk5BgdUO+u4Mgw7bEh4ZYJNK3Aeh9oPPg2Ig7eRjDoosqU
+         UzYV1++XIwCfe0WO0MlnNE9IF9nupMaem9yK2ia5n1v/9WBmbIxEnxV0yjVXGEaFXtPd
+         F/Q36d9JPkZFcTSysTH5PQ0es9AeN0p4TfoGPkBlB9oAT02H+Hc1mjA9INBnW3qT0TLE
+         TCwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=R84IxflJzQsjcs6liOC1xGi2RLfZVO/J/zvMOYtMBKI=;
-        b=p035jT8Euaz0DaAomGo9i2ucq0v9ol2uCj46gV1Cc1fn4tWu+y4Ye8ElMdBkN4fK4D
-         YlAQ/+cWW1MExuwG3jYn1jA4NLhktpdgxOF1m8UvdGUTV0SltS2OEepfA5baGZ0fjeEr
-         /lKx2Uk3IqbN+64E9DcSHYWAOFURtn1z2RtM5JUsTKY8/tOg/k7v8xQ0yMoG8bSyz48j
-         CAb8VSnOrFCqUVwa22L0W99jdhRPUdBSJg5u2IR4i7kjyP6wmVORqCvDOdWAbizsg7aZ
-         o3w5Gd3yPmFvjWfJuUmOiWNEjoP3FHFKP1Tg/WoBnEbtx04fmUM3TP4Xk+VRJfvxMEZJ
-         bDzA==
-X-Gm-Message-State: AOAM533Vx3W79+I37O7eQ4Hiz/QbLVXyQlKqVfYS3n//dyKVGs/yITrA
-        9ejYo9JPwogObYvmOwzw2ugtLg==
-X-Google-Smtp-Source: ABdhPJzxfHYjLSn309uprN3vFeZ39gfOTL/8yBip6LIvpYKa3y23U3WenfTaxzCyUzgFpLJTj7UIKw==
-X-Received: by 2002:a17:90b:48d1:b0:1df:4fc8:c2d7 with SMTP id li17-20020a17090b48d100b001df4fc8c2d7mr5686526pjb.45.1652702633331;
-        Mon, 16 May 2022 05:03:53 -0700 (PDT)
-Received: from localhost ([139.177.225.234])
-        by smtp.gmail.com with ESMTPSA id n22-20020a056a0007d600b0050dc7628139sm7015117pfu.19.2022.05.16.05.03.52
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=CaF92eBKzl8YhqaTS1Tzg7cnBN+wgBVFhVH+tqOT7PI=;
+        b=7TmJduZbUEHSqwC6DA75Om5r7KUL4xteBvFna1nsjVqNcEvNXsfw2eoDswjTK8JOsC
+         n1HTVKPZbgpS9KCGTxtfhw7dcVVnKTV4Scrmawb9dFIXNUyGrqtzvoVymeKKpQ60M3tz
+         JjyVhsdr7LyHudh8PdrrQejIUiJTZwZi/4oy/nnE88PhmhgAuktM+WYpTs8gJskOjbF4
+         ciWFS8OnVk2L9yAMH6/RlJ0TOj0P796XFI6NE1El0LvMI2nRrlKninTVOBFEGvWLZzTJ
+         mCT5uA7OSNsaYsq79HTlrz9Ao3PSpAYXr8nf/jjeu7QC06XaOYjr2ixHgw+8S4iVjLpL
+         PyeA==
+X-Gm-Message-State: AOAM533T1UxYQtBz0aW5iXGa2TXNWdyISHGp2k8/vs1LuVX9bERFbpyx
+        Ec1FDzvWJ+B0SJ68AvbmRfs=
+X-Google-Smtp-Source: ABdhPJzuSlHddEfPdlSooNCiKn9gKqW9iethwrrpTKVRacgUq5xfLq0fJvrzlLVkrWbJmB72AUE4Hw==
+X-Received: by 2002:a05:6808:148a:b0:326:c71a:f33c with SMTP id e10-20020a056808148a00b00326c71af33cmr12758233oiw.153.1652706625572;
+        Mon, 16 May 2022 06:10:25 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id r3-20020acac103000000b00325cda1ff95sm3795450oif.20.2022.05.16.06.10.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 05:03:52 -0700 (PDT)
-Date:   Mon, 16 May 2022 20:03:49 +0800
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
-        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
-        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v12 4/7] mm: hotplug: introduce
- SECTION_CANNOT_OPTIMIZE_VMEMMAP
-Message-ID: <YoI9pdLzB/V9Kw1y@FVFYT0MHHV2J.usts.net>
-References: <20220516102211.41557-1-songmuchun@bytedance.com>
- <20220516102211.41557-5-songmuchun@bytedance.com>
- <YoIptjs65NgT1/ed@localhost.localdomain>
+        Mon, 16 May 2022 06:10:24 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 16 May 2022 06:10:23 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
+        Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-arm-kernel@lists.infradead.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+        linux-btrfs@vger.kernel.org
+Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+Message-ID: <20220516131023.GA2329080@roeck-us.net>
+References: <20220228103142.3301082-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YoIptjs65NgT1/ed@localhost.localdomain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220228103142.3301082-1-arnd@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 16, 2022 at 12:38:46PM +0200, Oscar Salvador wrote:
-> On Mon, May 16, 2022 at 06:22:08PM +0800, Muchun Song wrote:
-> > --- a/mm/sparse.c
-> > +++ b/mm/sparse.c
-> > @@ -913,6 +913,13 @@ int __meminit sparse_add_section(int nid, unsigned long start_pfn,
-> >  	ms = __nr_to_section(section_nr);
-> >  	set_section_nid(section_nr, nid);
-> >  	__section_mark_present(ms, section_nr);
-> > +	/*
-> > +	 * Mark whole section as non-optimizable once there is a subsection
-> > +	 * whose vmemmap pages are allocated from alternative allocator. The
-> > +	 * early section is always optimizable.
-> > +	 */
-> > +	if (!early_section(ms) && altmap)
-> > +		section_mark_cannot_optimize_vmemmap(ms);
+On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Because no one expects those sections to be removed?
-> IIRC, early_section + altmap only happened in case of sub-section pmem
-> scenario?
+> During a patch discussion, Linus brought up the option of changing
+> the C standard version from gnu89 to gnu99, which allows using variable
+> declaration inside of a for() loop. While the C99, C11 and later standards
+> introduce many other features, most of these are already available in
+> gnu89 as GNU extensions as well.
 
-Right. The commit ba72b4c8cf60 ("mm/sparsemem: support sub-section hotplug")
-has more information.
+The downside is that backporting affected patches to older kernel branches
+now fails with error messages such as
 
-> I guess my question is: can we really have early_sections coming
-> from alternative allocator?
->
+mm/kfence/core.c: In function ‘kfence_init_pool’:
+mm/kfence/core.c:595:2: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
 
-We can't. The early section does not consider partially being
-populated currently.
+Just something to keep in mind when writing patches.
 
-> I think this should be spelled out more.
-
-I think you mean add some comments here to describe the case
-of early_section + altmap, right?
-
-Thanks.
-
+Guenter
