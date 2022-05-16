@@ -2,109 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A647FC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 16 May 2022 10:18:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2563FC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 16 May 2022 10:23:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242321AbiEPKSp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 May 2022 06:18:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54532 "EHLO
+        id S242562AbiEPKXS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 May 2022 06:23:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242357AbiEPKSn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 06:18:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8FE87DEBB
-        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 03:18:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1652696319;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=OACVO52ZlkJLVKrD7n6wC0HSWrpeefnl2+wSjxpBQF0=;
-        b=RePW0bzPnv32eDsJ78i9V5brt7bnPmM18+/F6qSmd9DQgQeLvBJfkH/dh43H5U2WJSkF0e
-        x0/TpQYqLNzwiqR1PpOwh/Md+Z3JHxmtLnLKuVE3E2rGqJdF8XsaKWFGS/9lBQXbzlIfWb
-        RwEaMMsK55L6BOGiXnTPQEypD7CKF00=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-391-5FgaF31bMqCwkkbpoO-JrA-1; Mon, 16 May 2022 06:18:38 -0400
-X-MC-Unique: 5FgaF31bMqCwkkbpoO-JrA-1
-Received: by mail-wm1-f72.google.com with SMTP id 205-20020a1c02d6000000b003928cd3853aso10111677wmc.9
-        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 03:18:38 -0700 (PDT)
+        with ESMTP id S233014AbiEPKXQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 06:23:16 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E4C5DF13
+        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 03:23:03 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id v10so13645728pgl.11
+        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 03:23:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wM6Azq4KvZFXPTLv4RjX04U+2mm1UIR+U1KSQ2B9MTI=;
+        b=8H8QXlCOxjBgjGZh3+z6KHLhzw4I/ccGgMza3sUfGcJ+ykdaqDuU7NJXywJqXBmZvm
+         PPb9ZKan1kfrxhDdsKPryMHGMax0yEKcyFZcEs3baaX23BtrzlOgvT3ijDwn92aNcYVT
+         rIY1UjeWjfnn6WsbW+NJ4GczWjtYtJr5qOjrk12P4s6qHql7WRb0/RrPSoUEw/VTfiNY
+         1e7zhvlatMu3Kj6s3Q8WciSzxWO4jZjeBuLtzoa/5+/MKSd8/BwwrpTJ5+16BO81hVxX
+         WeK3JkMVs8MK6NyaFCm0yMZkQ8f5Q4hs/2fEqv96Mtp5NUA5hRTOO9IQdg7bW1JxFo+6
+         tSQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=OACVO52ZlkJLVKrD7n6wC0HSWrpeefnl2+wSjxpBQF0=;
-        b=3bFuGG4lZU8MYHUFRZ3Zlk5GKNIhryWO+g8V+HxUcZL47NQTiJ7ewQz03ukXQzvqMX
-         7dl0MBqq8IiP3Optr/t1n7d5c/ClBDVLF7MoknbZWvse2Ta3PGh3I9l2Q17As5lypJgV
-         w0dKBheTiiv7jgI5YYKvqcIIEa3GNifnJpUo3rqFblUosyQ6q04mGW87PRGPGq7fHXDn
-         zyYVxTuMuQP2vE7uCQGmm49L3Xo09U+aK0iw+6XqL5JMX6qu3bW1935sD/e9gABc0Kfw
-         G8+1WFoUWlXmkl4hlxcRds2zy4Qu3tCvbrMSaVgqOrw4Dd8ARTLezC+Tjo1uJAByJpJI
-         x+8A==
-X-Gm-Message-State: AOAM530dXXpAbeNNv/eEktx6KPModYDxae4P3PGox3trXqwvW8e5pZdo
-        7u0zrV+EBs4msy6HM8SjMve1KF1f6Jc+cvzEmJSw+wMYWurEFwVhNZ0F7PvQ6B5UF/PuWcbdWI1
-        9XlTKYcs6NIUTZ3av+88l
-X-Received: by 2002:a7b:c5d0:0:b0:355:482a:6f44 with SMTP id n16-20020a7bc5d0000000b00355482a6f44mr15891220wmk.58.1652696317257;
-        Mon, 16 May 2022 03:18:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSQwk16SVnaahPaNGx+BespB0LTg4zYLJuuHiR6B6yKfb6IpUnFfwvGw90G+5SaudWYJ2Tlw==
-X-Received: by 2002:a7b:c5d0:0:b0:355:482a:6f44 with SMTP id n16-20020a7bc5d0000000b00355482a6f44mr15891198wmk.58.1652696317047;
-        Mon, 16 May 2022 03:18:37 -0700 (PDT)
-Received: from [192.168.0.2] (ip-109-43-178-142.web.vodafone.de. [109.43.178.142])
-        by smtp.gmail.com with ESMTPSA id p19-20020a05600c1d9300b003942a244ed1sm9612438wms.22.2022.05.16.03.18.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 May 2022 03:18:36 -0700 (PDT)
-Message-ID: <96d0a6a5-e50f-429e-9616-178ac1d9883a@redhat.com>
-Date:   Mon, 16 May 2022 12:18:34 +0200
+        bh=wM6Azq4KvZFXPTLv4RjX04U+2mm1UIR+U1KSQ2B9MTI=;
+        b=NCAD/tZyBp2M42+nMrsBkf28ebhWeXiyimn6CKH3tZGUvSpc+Z/CvBC5ZraO+FOa3N
+         d85rQISiRau3IT0GfYQ9FKlFG2Osxk5F3xXnFEv2U4geVtOhniWY9nLYd8tZP/+TGtqw
+         cRLvPg5PDWGwWCIPL/rS4RGLw9wBUgOt1OJ4lAPRvA9u9iKSbcwcSG+giHRy2EpCQ/Yd
+         PQ24oNo/AqGnhr0ZS83c1eG0B/ga3ipVeizE+FTVUl+qqrVGuvfSXwRnGVQZuM9Ztj0D
+         PWHQ1JCyBrcwrTf+tAGwaqYSoMM+pyE+iXTGKyqQEPHEfWh2qnimEwjCK6+fDELKKIZZ
+         q52Q==
+X-Gm-Message-State: AOAM530PUGv7fXBesnk2357fUefQMUNd8adtrENtlQiJ/FIzeenq/giD
+        h4etT72jEo8USpKPTycPwmcM6A==
+X-Google-Smtp-Source: ABdhPJwA0KYogIQnhHX+aOs8Ju/cjBq8V+xpTctszclbnMr/9fG5BJnPxGY5TbdCQtotKncPsTpNvQ==
+X-Received: by 2002:a63:89c7:0:b0:3da:ee16:c84 with SMTP id v190-20020a6389c7000000b003daee160c84mr14940129pgd.320.1652696582639;
+        Mon, 16 May 2022 03:23:02 -0700 (PDT)
+Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.234])
+        by smtp.gmail.com with ESMTPSA id i9-20020aa79089000000b0050dc76281e4sm6472731pfa.190.2022.05.16.03.22.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 May 2022 03:23:02 -0700 (PDT)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        osalvador@suse.de, david@redhat.com, masahiroy@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH v12 0/7] add hugetlb_optimize_vmemmap sysctl
+Date:   Mon, 16 May 2022 18:22:04 +0800
+Message-Id: <20220516102211.41557-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v7 06/22] s390/airq: allow for airq structure that uses an
- input vector
-Content-Language: en-US
-To:     Matthew Rosato <mjrosato@linux.ibm.com>, linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, pasic@linux.ibm.com,
-        pbonzini@redhat.com, corbet@lwn.net, jgg@nvidia.com,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220513191509.272897-1-mjrosato@linux.ibm.com>
- <20220513191509.272897-7-mjrosato@linux.ibm.com>
-From:   Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220513191509.272897-7-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 13/05/2022 21.14, Matthew Rosato wrote:
-> When doing device passthrough where interrupts are being forwarded from
-> host to guest, we wish to use a pinned section of guest memory as the
-> vector (the same memory used by the guest as the vector). To accomplish
-> this, add a new parameter for airq_iv_create which allows passing an
-> existing vector to be used instead of allocating a new one. The caller
-> is responsible for ensuring the vector is pinned in memory as well as for
-> unpinning the memory when the vector is no longer needed.
-> 
-> A subsequent patch will use this new parameter for zPCI interpretation.
-> 
-> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
-> Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-> Acked-by: Cornelia Huck <cohuck@redhat.com>
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> ---
->   arch/s390/include/asm/airq.h     |  4 +++-
->   arch/s390/pci/pci_irq.c          |  8 ++++----
->   drivers/s390/cio/airq.c          | 10 +++++++---
->   drivers/s390/virtio/virtio_ccw.c |  2 +-
->   4 files changed, 15 insertions(+), 9 deletions(-)
+This series is based on next-20220428.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+This series amis to add hugetlb_optimize_vmemmap sysctl to enable or disable
+the feature of optimizing vmemmap pages associated with HugeTLB pages.
+
+v12:
+  - Add patch 3 and patch 4 to handle the coexistence of hugetlb_free_vmemmap
+    and memory_hotplug.memmap_on_memory (David).
+  - Remove Reviewed-by from Mike in the last parch since it is changed.
+
+v11:
+  - Collect Reviewed-by from Mike.
+  - Remove hugetlb_optimize_vmemmap_enabled() check from flush_free_hpage_work().
+
+v10:
+  - Collect Reviewed-by from Mike.
+  - Remove hugetlb_optimize_vmemmap_enabled() check from
+    hugetlb_optimize_vmemmap_pages() (Mike).
+  - Add more explanation to Documentation/admin-guide/sysctl/vm.rst.
+  - Fix cannot disable the feature via hugetlb_optimize_vmemmap sysctl (Mike).
+  - Update patch 2's commit log (Mike).
+
+v9:
+  - Go back to v3 since checking the size of struct page at config time is
+    very complex.
+
+v8:
+  - Fix compilation (scripts/selinux/mdp/mdp.c) error when
+    CONFIG_SECURITY_SELINUX is selected.
+
+v7:
+  - Fix circular dependency issue reported by kernel test robot.
+  - Introduce CONFIG_HUGETLB_PAGE_HAS_OPTIMIZE_VMEMMAP instead of
+    STRUCT_PAGE_SIZE_IS_POWER_OF_2.
+  - Add more comments into vm.rst to explain hugetlb_optimize_vmemmap (Andrew).
+  - Drop the patch "sysctl: allow to set extra1 to SYSCTL_ONE".
+  - Add a new patch "use kstrtobool for hugetlb_vmemmap param parsing".
+  - Reuse static_key's refcount to count the number of HugeTLB pages with
+    vmemmap pages optimized to simplify the lock scheme.
+
+v6:
+  - Remove "make syncconfig" from Kbuild.
+
+v5:
+  - Fix not working properly if one is workig off of a very clean build
+    reported by Luis Chamberlain.
+  - Add Suggested-by for Luis Chamberlain.
+
+v4:
+  - Introduce STRUCT_PAGE_SIZE_IS_POWER_OF_2 inspired by Luis.
+
+v3:
+  - Add pr_warn_once() (Mike).
+  - Handle the transition from enabling to disabling (Luis)
+
+v2:
+  - Fix compilation when !CONFIG_MHP_MEMMAP_ON_MEMORY reported by kernel
+    test robot <lkp@intel.com>.
+  - Move sysctl code from kernel/sysctl.c to mm/hugetlb_vmemmap.c.
+
+Muchun Song (7):
+  mm: hugetlb_vmemmap: disable hugetlb_optimize_vmemmap when struct page
+    crosses page boundaries
+  mm: hugetlb_vmemmap: use kstrtobool for hugetlb_vmemmap param parsing
+  mm: memory_hotplug: enumerate all supported section flags
+  mm: hotplug: introduce SECTION_CANNOT_OPTIMIZE_VMEMMAP
+  mm: hugetlb_vmemmap: remove hugetlb_optimize_vmemmap_enabled()
+  sysctl: handle table->maxlen properly for proc_dobool
+  mm: hugetlb_vmemmap: add hugetlb_optimize_vmemmap sysctl
+
+ Documentation/admin-guide/kernel-parameters.txt | 22 +++----
+ Documentation/admin-guide/sysctl/vm.rst         | 38 ++++++++++++
+ arch/arm64/mm/flush.c                           | 13 +---
+ fs/lockd/svc.c                                  |  2 +-
+ include/linux/kconfig.h                         |  1 +
+ include/linux/mmzone.h                          | 54 +++++++++++++---
+ include/linux/page-flags.h                      | 16 +----
+ kernel/sysctl.c                                 | 22 ++++---
+ mm/hugetlb_vmemmap.c                            | 82 ++++++++++++++++++-------
+ mm/memory_hotplug.c                             |  7 ++-
+ mm/sparse.c                                     |  7 +++
+ 11 files changed, 186 insertions(+), 78 deletions(-)
+
+-- 
+2.11.0
 
