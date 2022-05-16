@@ -2,114 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A709BC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 16 May 2022 13:51:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE8E8C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 16 May 2022 14:06:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244686AbiEPNve (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 May 2022 09:51:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37476 "EHLO
+        id S233895AbiEPOGm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 May 2022 10:06:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240567AbiEPNuS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 09:50:18 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F9F13A5DA;
-        Mon, 16 May 2022 06:49:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A62F9B81216;
-        Mon, 16 May 2022 13:49:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 618BAC3411A;
-        Mon, 16 May 2022 13:49:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652708957;
-        bh=Z1XATC9uFabr/cJUUJjAm1EmvJAVsCV0ZzQGqjrP+zA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Z+GBZ3HlMnS5S30k9vIXcOgsZZ9s2NTFIiE1HhvkWvPHy1bjZ00LgZTijr0M8KGmr
-         STXCnHM85F+TIeIvpPTpG9lJp1vA2Dm/Llye5llcupfFc3DrhRP+8bTa1WAu66TGeA
-         j/DsK4XK2TUXXSmd4/EUmmfxHNWV6eBhb+iN8YrybsUGbavpI8spHpzmskqUGIvWti
-         bNesjElLh27daCKCjj83GRo5P9odygoLEUSbXWLeoVpn5VGXa0/BMtY5u5Z+8Zq3Yz
-         Dxa7iXnhmdyqASNVfz96SqOorM96PaPLHL4R1RBqW+eHT3/L6di0va0g0SOjYdn1qn
-         w4pbcCKlq/PAQ==
-Received: by mail-ed1-f51.google.com with SMTP id y21so18436156edo.2;
-        Mon, 16 May 2022 06:49:17 -0700 (PDT)
-X-Gm-Message-State: AOAM533ImvKH7a3KRENUQ2DkkfvR+4Qv5+fQI6y0XwDSBU7tzQraS5D/
-        fUWvmZXYcs/aGL6LLJerI/dYOGPh3kc0naJ5Jw==
-X-Google-Smtp-Source: ABdhPJzHJM/87Poo6lwZbFjNTMwh5WnjP4kK2zZNYqsvkYOJYJ8e9tfRTKjYaXJU+LODgXXZ2NtySTJTP3q9QRcur+c=
-X-Received: by 2002:a05:6402:35c7:b0:427:d231:3740 with SMTP id
- z7-20020a05640235c700b00427d2313740mr13373747edc.40.1652708955614; Mon, 16
- May 2022 06:49:15 -0700 (PDT)
+        with ESMTP id S244438AbiEPOGV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 10:06:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AC2023A71A
+        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 07:06:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1652709978;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=C02Jr/UCyAq1WaiVEroFuXNF23GLqP5faeBDBUBpdVo=;
+        b=FYd4oOq1031xF62p6SX+lGlgzK0q5kOG+GQTYmAmpKs2mNexR5Iw/DCErqB7gObKZQLqKa
+        UNIGAiwE/B+41p1KefWXlMMhlliGyKM0VXjkinFVz0FZuXjTJng6jHSejkVn9Kr7gI9b8V
+        tM6Ilf46UYZOmSPlAkfc67kClF6WKns=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-507-foEemo2wOPyR9VjoS-Iypw-1; Mon, 16 May 2022 10:06:17 -0400
+X-MC-Unique: foEemo2wOPyR9VjoS-Iypw-1
+Received: by mail-qv1-f69.google.com with SMTP id kl11-20020a056214518b00b0045a9af67efbso12202795qvb.18
+        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 07:06:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=C02Jr/UCyAq1WaiVEroFuXNF23GLqP5faeBDBUBpdVo=;
+        b=Jepj1Jt/OYIC2Ja/mqVBPxOQN1qSPDGgYWNhMepImAUvb9gvb4JTGdpbMoXoNqYS7l
+         ZawwPMZnpXAcxfxR7CvUNmtC7TDVb7K1dyBwgYo+hq+pzfyKZHg/MZoXEYDzNsdL+l9z
+         4wRkq/x0eOTEqoXjmVSvwR9xkZHdLzp+80mKrFBGxmi0CdYbMTXGthzXBwApbreEbjbM
+         wMslBqJZ42anR+hJmPbt6t576ikBMH+v/8dbvuPQiOFsFDqBI/42wJQgCD+SDJcu5tq+
+         OJTcFhY7dcMt/NViwcDpjMRF4TzQu2gU9nLwwuPx37MNOlCEAK5GbJ+XTEe60C3K341H
+         Eq8A==
+X-Gm-Message-State: AOAM530hRR7KSuJ8zNIPSYhxoNwQ06+oY4IvfBC/eOJM4RvkUCOPyMbz
+        F6YYB1QXTjpFDbMLROVZ1BOi1j3dgZSdzqvyAmaIZoB5Hdca46EInoilIg//gvkBljwAki/uvUP
+        7zOA32MVPANBMY+/vsgmz
+X-Received: by 2002:ad4:5dc5:0:b0:45a:82c0:bc4a with SMTP id m5-20020ad45dc5000000b0045a82c0bc4amr15306796qvh.82.1652709977048;
+        Mon, 16 May 2022 07:06:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzeK4bI4hwRVpDCN8+j2vIlpM3R4Nn0BJi7TfSN2Dqsq24DwAdv9J6x56912JHzM7MP3DkjJA==
+X-Received: by 2002:ad4:5dc5:0:b0:45a:82c0:bc4a with SMTP id m5-20020ad45dc5000000b0045a82c0bc4amr15306748qvh.82.1652709976709;
+        Mon, 16 May 2022 07:06:16 -0700 (PDT)
+Received: from [192.168.98.18] ([107.12.98.143])
+        by smtp.gmail.com with ESMTPSA id p18-20020ac87412000000b002f3d23cf87esm5991936qtq.27.2022.05.16.07.06.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 May 2022 07:06:15 -0700 (PDT)
+Message-ID: <6431569f-fb09-096e-7a89-284a71aa5c0f@redhat.com>
+Date:   Mon, 16 May 2022 10:06:14 -0400
 MIME-Version: 1.0
-References: <20220429220933.1350374-1-saravanak@google.com>
- <CAL_Jsq+2A7mRVV24XW0YcP8GkFCK_Ri4KDcqvW4e0p3TkQMWVg@mail.gmail.com> <CAGETcx8=ZX+Pb4ioMVb7LfuF9c3HNP8g1+WMqZR=Pq7-9=DUCA@mail.gmail.com>
-In-Reply-To: <CAGETcx8=ZX+Pb4ioMVb7LfuF9c3HNP8g1+WMqZR=Pq7-9=DUCA@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Mon, 16 May 2022 08:49:03 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+Y9p2UEgQ=ctFjcsHG9M6iXuGFY-N6uMAqhPM5KLwDjA@mail.gmail.com>
-Message-ID: <CAL_Jsq+Y9p2UEgQ=ctFjcsHG9M6iXuGFY-N6uMAqhPM5KLwDjA@mail.gmail.com>
-Subject: Re: [PATCH v1] driver core: Extend deferred probe timeout on driver registration
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:THERMAL" <linux-pm@vger.kernel.org>,
-        Linux IOMMU <iommu@lists.linux-foundation.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH net-next v3] bond: add mac filter option for balance-xor
+Content-Language: en-US
+To:     Nikolay Aleksandrov <razor@blackwall.org>, netdev@vger.kernel.org
+Cc:     toke@redhat.com, Long Xin <lxin@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <b32eb6656d5a54c0cde6277e9fc5c249c63489ca.1652463336.git.jtoppins@redhat.com>
+ <4c9db6ac-aa24-2ca2-3e44-18cfb23ac1bc@blackwall.org>
+ <da6bbb3b-344c-f032-fe03-5e8c8ac3c388@blackwall.org>
+From:   Jonathan Toppins <jtoppins@redhat.com>
+In-Reply-To: <da6bbb3b-344c-f032-fe03-5e8c8ac3c388@blackwall.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 13, 2022 at 12:26 PM Saravana Kannan <saravanak@google.com> wrote:
->
-> On Fri, May 13, 2022 at 6:58 AM Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Fri, Apr 29, 2022 at 5:09 PM Saravana Kannan <saravanak@google.com> wrote:
-> > >
-> > > The deferred probe timer that's used for this currently starts at
-> > > late_initcall and runs for driver_deferred_probe_timeout seconds. The
-> > > assumption being that all available drivers would be loaded and
-> > > registered before the timer expires. This means, the
-> > > driver_deferred_probe_timeout has to be pretty large for it to cover the
-> > > worst case. But if we set the default value for it to cover the worst
-> > > case, it would significantly slow down the average case. For this
-> > > reason, the default value is set to 0.
-> > >
-> > > Also, with CONFIG_MODULES=y and the current default values of
-> > > driver_deferred_probe_timeout=0 and fw_devlink=on, devices with missing
-> > > drivers will cause their consumer devices to always defer their probes.
-> > > This is because device links created by fw_devlink defer the probe even
-> > > before the consumer driver's probe() is called.
-> > >
-> > > Instead of a fixed timeout, if we extend an unexpired deferred probe
-> > > timer on every successful driver registration, with the expectation more
-> > > modules would be loaded in the near future, then the default value of
-> > > driver_deferred_probe_timeout only needs to be as long as the worst case
-> > > time difference between two consecutive module loads.
-> > >
-> > > So let's implement that and set the default value to 10 seconds when
-> > > CONFIG_MODULES=y.
-> >
-> > We had to revert a non-zero timeout before (issue with NFS root IIRC).
-> > Does fw_devlink=on somehow fix that?
->
-> If it's the one where ip autoconfig was timing out, then John Stultz
-> fixed it by fixing wait_for_device_probe().
-> https://lore.kernel.org/all/20200422203245.83244-4-john.stultz@linaro.org/
+On 5/15/22 02:32, Nikolay Aleksandrov wrote:
+> On 15/05/2022 00:41, Nikolay Aleksandrov wrote:
+>> On 13/05/2022 20:43, Jonathan Toppins wrote:
+>>> Implement a MAC filter that prevents duplicate frame delivery when
+>>> handling BUM traffic. This attempts to partially replicate OvS SLB
+>>> Bonding[1] like functionality without requiring significant change
+>>> in the Linux bridging code.
+>>>
+>>> A typical network setup for this feature would be:
+>>>
+>>>              .--------------------------------------------.
+>>>              |         .--------------------.             |
+>>>              |         |                    |             |
+>>>         .-------------------.               |             |
+>>>         |    | Bond 0  |    |               |             |
+>>>         | .--'---. .---'--. |               |             |
+>>>    .----|-| eth0 |-| eth1 |-|----.    .-----+----.   .----+------.
+>>>    |    | '------' '------' |    |    | Switch 1 |   | Switch 2  |
+>>>    |    '---,---------------'    |    |          +---+           |
+>>>    |       /                     |    '----+-----'   '----+------'
+>>>    |  .---'---.    .------.      |         |              |
+>>>    |  |  br0  |----| VM 1 |      |      ~~~~~~~~~~~~~~~~~~~~~
+>>>    |  '-------'    '------'      |     (                     )
+>>>    |      |        .------.      |     ( Rest of Network     )
+>>>    |      '--------| VM # |      |     (_____________________)
+>>>    |               '------'      |
+>>>    |  Host 1                     |
+>>>    '-----------------------------'
+>>>
+>>> Where 'VM1' and 'VM#' are hosts connected to a Linux bridge, br0, with
+>>> bond0 and its associated links, eth0 & eth1, provide ingress/egress. One
+>>> can assume bond0, br1, and hosts VM1 to VM# are all contained in a
+>>> single box, as depicted. Interfaces eth0 and eth1 provide redundant
+>>> connections to the data center with the requirement to use all bandwidth
+>>> when the system is functioning normally. Switch 1 and Switch 2 are
+>>> physical switches that do not implement any advanced L2 management
+>>> features such as MLAG, Cisco's VPC, or LACP.
+>>>
+>>> Combining this feature with vlan+srcmac hash policy allows a user to
+>>> create an access network without the need to use expensive switches that
+>>> support features like Cisco's VCP.
+>>>
+>>> [1] https://docs.openvswitch.org/en/latest/topics/bonding/#slb-bonding
+>>>
+>>> Co-developed-by: Long Xin <lxin@redhat.com>
+>>> Signed-off-by: Long Xin <lxin@redhat.com>
+>>> Signed-off-by: Jonathan Toppins <jtoppins@redhat.com>
+>>> ---
+>>>
+>>> Notes:
+>>>      v2:
+>>>       * dropped needless abstraction functions and put code in module init
+>>>       * renamed variable "rc" to "ret" to stay consistent with most of the
+>>>         code
+>>>       * fixed parameter setting management, when arp-monitor is turned on
+>>>         this feature will be turned off similar to how miimon and arp-monitor
+>>>         interact
+>>>       * renamed bond_xor_recv to bond_mac_filter_recv for a little more
+>>>         clarity
+>>>       * it appears the implied default return code for any bonding recv probe
+>>>         must be `RX_HANDLER_ANOTHER`. Changed the default return code of
+>>>         bond_mac_filter_recv to use this return value to not break skb
+>>>         processing when the skb dev is switched to the bond dev:
+>>>           `skb->dev = bond->dev`
+>>>      
+>>>      v3: Nik's comments
+>>>       * clarified documentation
+>>>       * fixed inline and basic reverse Christmas tree formatting
+>>>       * zero'ed entry in mac_create
+>>>       * removed read_lock taking in bond_mac_filter_recv
+>>>       * made has_expired() atomic and removed critical sections
+>>>         surrounding calls to has_expired(), this also removed the
+>>>         use-after-free that would have occurred:
+>>>             spin_lock_irqsave(&entry->lock, flags);
+>>>                 if (has_expired(bond, entry))
+>>>                     mac_delete(bond, entry);
+>>>             spin_unlock_irqrestore(&entry->lock, flags); <---
+>>>       * moved init/destroy of mac_filter_tbl to bond_open/bond_close
+>>>         this removed the complex option dependencies, the only behavioural
+>>>         change the user will see is if the bond is up and mac_filter is
+>>>         enabled if they try and set arp_interval they will receive -EBUSY
+>>>       * in bond_changelink moved processing of mac_filter option just below
+>>>         mode processing
+>>>
+>>>   Documentation/networking/bonding.rst  |  20 +++
+>>>   drivers/net/bonding/Makefile          |   2 +-
+>>>   drivers/net/bonding/bond_mac_filter.c | 201 ++++++++++++++++++++++++++
+>>>   drivers/net/bonding/bond_mac_filter.h |  37 +++++
+>>>   drivers/net/bonding/bond_main.c       |  30 ++++
+>>>   drivers/net/bonding/bond_netlink.c    |  13 ++
+>>>   drivers/net/bonding/bond_options.c    |  81 +++++++++--
+>>>   drivers/net/bonding/bonding_priv.h    |   1 +
+>>>   include/net/bond_options.h            |   1 +
+>>>   include/net/bonding.h                 |   3 +
+>>>   include/uapi/linux/if_link.h          |   1 +
+>>>   11 files changed, 373 insertions(+), 17 deletions(-)
+>>>   create mode 100644 drivers/net/bonding/bond_mac_filter.c
+>>>   create mode 100644 drivers/net/bonding/bond_mac_filter.h
+>>>
+>>
+> [snip]
+> 
+> The same problem solved using a few nftables rules (in case you don't want to load eBPF):
+> $ nft 'add table netdev nt'
+> $ nft 'add chain netdev nt bond0EgressFilter { type filter hook egress device bond0 priority 0; }'
+> $ nft 'add chain netdev nt bond0IngressFilter { type filter hook ingress device bond0 priority 0; }'
+> $ nft 'add set netdev nt macset { type ether_addr; flags timeout; }'
+> $ nft 'add rule netdev nt bond0EgressFilter set update ether saddr timeout 5s @macset'
+> $ nft 'add rule netdev nt bond0IngressFilter ether saddr @macset counter drop'
+> 
 
-Yeah, that was it.
+I get the following when trying to apply this on a fedora 35 install.
 
-Acked-by: Rob Herring <robh@kernel.org>
+root@fedora ~]# ip link add bond0 type bond mode balance-xor 
+xmit_hash_policy vlan+srcmac
+[root@fedora ~]# nft 'add table netdev nt'
+[root@fedora ~]# nft 'add chain netdev nt bond0EgressFilter { type 
+filter hook egress device bond0 priority 0; }'
+Error: unknown chain hook
+add chain netdev nt bond0EgressFilter { type filter hook egress device 
+bond0 priority 0; }
+                                                          ^^^^^^
+[root@fedora ~]# uname -a
+Linux fedora 5.17.5-200.fc35.x86_64 #1 SMP PREEMPT Thu Apr 28 15:41:41 
+UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+
