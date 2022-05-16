@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7F60C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 16 May 2022 10:23:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FBC4C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 16 May 2022 10:23:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242554AbiEPKXZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 May 2022 06:23:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36492 "EHLO
+        id S242566AbiEPKXb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 May 2022 06:23:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242503AbiEPKXV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 06:23:21 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A60DDEEA
-        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 03:23:20 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id d17so14021626plg.0
-        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 03:23:20 -0700 (PDT)
+        with ESMTP id S242560AbiEPKXS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 06:23:18 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8804EE012
+        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 03:23:08 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id p8so13605472pfh.8
+        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 03:23:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=304UY58xJZ+d2CkQooSXCSWWtYW1Q2iHG2puQFFW3wk=;
-        b=TVrqS+L9G/q2rbodkQRoJPGzhMf2BPdNYw7FBBOap7cujZkLJN/HgS00hqAD+4eiNx
-         TwFVPXjnc1k87mNghh6HMrJ7ZRmjtxW3Sz8Y1egdbjz1iK13UVUtSo9PN4r3MfqVFM9W
-         sGzOpiwNENmW4tNkb3El0KH+0HgCAjqrPDbWGQoKxx/ZKitejeBHdR0UJd4al+Q05o/b
-         mpw4b4hPBJPQ8mQgGhBou3w5oZ9DX/XHrNdE2lVytllAzl9yV+BZQXoAsFLeVi4o2QlI
-         +LCoVhg+HfjgFKqq1mm5OCS06/Ivfxdz7EDPWGWl+0CEnQvCMo49R/0pes1f1a9EF9M2
-         6iZA==
+        bh=E1HA7mTkokdfUBOTOx/UT/zRHvpwkRZMgaF2tqkC7Lc=;
+        b=I0/JeIClQwBorAMPSgPnbRPgkEOQC7Mr3Pms0T10DCu0fw6VhfTLuxj7jOtLphdp95
+         2qMARSAiX5pBAbL4qdkFvFE3g3Mx2OLrOD61gNNw6loxErIQzZWg3y9F4UGd6h2GccgH
+         BmINNSNVBA9veX8ta2i94KfzCly2VD/huBZRwQEtAveOHwDk4R3SeBoO2NUUarW9PqKG
+         EEf5fPmZDyWYHJBD4VCbMznNow+dRJL5kc9OAiFvqAIbycA0Tf2lPHNw0UPuCPu0GVmJ
+         zX33ayCnncNEV7Zu+mW3ITLLR9kOnBrXxJNprV2Oqql25YtAlOAzqgZqziQwIrhRKC3s
+         Ke7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=304UY58xJZ+d2CkQooSXCSWWtYW1Q2iHG2puQFFW3wk=;
-        b=3OtQtV2gxXmq2dABJQRXMa5BOJosXWW17RyA94Sq/7yUe9XBjOpiiv//psHmqpHd9P
-         01i92V+8LLzLqyJitzc7UOKtSqrap4GRY/d9lSGSbgfSOml+pxKJOwIxOReI2Fd1ksla
-         OJVedA2bKb8K8xa7u7zw01vkwFUPZKHoLGr/yRGGtw+yrmnHVpikqvzvbQvETVe8DLdy
-         pM3YkXS5oq4s4tUkG6HRrVdZuLgg3qUP3GwrmGDBnp4FkYlxdf5q37D9B4wlrwMamgVP
-         kPFnEDBmz1s09Xwdb59m45k1zk1R2pnvvQWP/nFHWeTP7kZRagw46T4YBsFrL/q+T47s
-         ZJCA==
-X-Gm-Message-State: AOAM531Ss409h2EipQ+2Zk5pOh0T97jDTtAMexy7J+mD0GY7hZNCtwwH
-        bxFFVBS44pMo+bPLUF5MLRfcXg==
-X-Google-Smtp-Source: ABdhPJzLO2sspgSF1GMFuqfn3V6NhOrHC6osoIFEG23hv3578fqx7SBZnJ4T/3rONCHLN0+TuozGow==
-X-Received: by 2002:a17:902:a9ca:b0:161:54a6:af3f with SMTP id b10-20020a170902a9ca00b0016154a6af3fmr9856256plr.48.1652696599775;
-        Mon, 16 May 2022 03:23:19 -0700 (PDT)
+        bh=E1HA7mTkokdfUBOTOx/UT/zRHvpwkRZMgaF2tqkC7Lc=;
+        b=x5P2uSgXsLCsX6J9SaLUQOCQ4sDr8cN2mPCPCWcwlABudmBCF4iULHXBlqJL1JxbNZ
+         EHDAdWSJvJNfQO7Q1M3tvJj3DIINiQrOMk6o2CuewjKpH47jkFJ1hzS9b+NiSCV66bVZ
+         Qe0aP0ODZW1ngPBVhKlMbZ8vRnjbGIlC1ynK0kjFvhmhtk4zkSV8+1sTvHq2R4WZKPwm
+         aULNQsI16ZTpmxyFt4VF++IxBKyfN9RKFQ0ISm9gzth+Px/iSpS/Uhw+Su1q/Fcq3mVJ
+         eQD7Tw5BJ/BizOwp/uoL9oyBRw3qnqNkwsE9N+0Ipxqkd7YGaXMOmgUTHG7PsXguJKPN
+         JaQA==
+X-Gm-Message-State: AOAM530lPz8162AjyUkVRkCrLJSnYc/3vlOEXBpKGQ2uz8ak9J0lZ8ku
+        gmpX8UecTEBUJh+jh3XaD04Okg==
+X-Google-Smtp-Source: ABdhPJx+le9SIrFuAU5RA8TqPnUWh9duy4U2Dkz5aeGmIOp6I4BVYjVIVE/iqBYV3UcV8r9rt34QsA==
+X-Received: by 2002:a05:6a00:1492:b0:50e:11ae:f62f with SMTP id v18-20020a056a00149200b0050e11aef62fmr17044341pfu.43.1652696588092;
+        Mon, 16 May 2022 03:23:08 -0700 (PDT)
 Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.234])
-        by smtp.gmail.com with ESMTPSA id i9-20020aa79089000000b0050dc76281e4sm6472731pfa.190.2022.05.16.03.23.14
+        by smtp.gmail.com with ESMTPSA id i9-20020aa79089000000b0050dc76281e4sm6472731pfa.190.2022.05.16.03.23.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 03:23:19 -0700 (PDT)
+        Mon, 16 May 2022 03:23:07 -0700 (PDT)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
         mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
@@ -54,9 +54,9 @@ To:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
         Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v12 3/7] mm: memory_hotplug: enumerate all supported section flags
-Date:   Mon, 16 May 2022 18:22:07 +0800
-Message-Id: <20220516102211.41557-4-songmuchun@bytedance.com>
+Subject: [PATCH v12 1/7] mm: hugetlb_vmemmap: disable hugetlb_optimize_vmemmap when struct page crosses page boundaries
+Date:   Mon, 16 May 2022 18:22:05 +0800
+Message-Id: <20220516102211.41557-2-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 In-Reply-To: <20220516102211.41557-1-songmuchun@bytedance.com>
 References: <20220516102211.41557-1-songmuchun@bytedance.com>
@@ -66,108 +66,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We are almost running out of free slots, only one bit is available in the
-worst case (powerpc with 256k pages).  However, there are still some free
-slots on other architectures (e.g. x86_64 has 10 bits available, arm64
-has 8 bits available with worst case of 64K pages).  We have hard coded
-those numbers in code, it is inconvenient to use those bits on other
-architectures except powerpc.  So transfer those section flags to
-enumeration to make it easy to add new section flags in the future. Also,
-move SECTION_TAINT_ZONE_DEVICE into the scope of CONFIG_ZONE_DEVICE
-to save a bit on non-zone-device case.
+If the size of "struct page" is not the power of two but with the feature
+of minimizing overhead of struct page associated with each HugeTLB is
+enabled, then the vmemmap pages of HugeTLB will be corrupted after
+remapping (panic is about to happen in theory).  But this only exists when
+!CONFIG_MEMCG && !CONFIG_SLUB on x86_64.  However, it is not a conventional
+configuration nowadays.  So it is not a real word issue, just the result
+of a code review.
+
+But we cannot prevent anyone from configuring that combined configure.
+This hugetlb_optimize_vmemmap should be disable in this case to fix this
+issue.
 
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+Reviewed-by: Mike Kravetz <mike.kravetz@oracle.com>
+Acked-by: David Hildenbrand <david@redhat.com>
 ---
- include/linux/kconfig.h |  1 +
- include/linux/mmzone.h  | 37 +++++++++++++++++++++++++++++--------
- mm/memory_hotplug.c     |  6 ++++++
- 3 files changed, 36 insertions(+), 8 deletions(-)
+ mm/hugetlb_vmemmap.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/kconfig.h b/include/linux/kconfig.h
-index 20d1079e92b4..7044032b9f42 100644
---- a/include/linux/kconfig.h
-+++ b/include/linux/kconfig.h
-@@ -10,6 +10,7 @@
- #define __LITTLE_ENDIAN 1234
- #endif
+diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+index 29554c6ef2ae..6254bb2d4ae5 100644
+--- a/mm/hugetlb_vmemmap.c
++++ b/mm/hugetlb_vmemmap.c
+@@ -28,12 +28,6 @@ EXPORT_SYMBOL(hugetlb_optimize_vmemmap_key);
  
-+#define __ARG_PLACEHOLDER_ 0,
- #define __ARG_PLACEHOLDER_1 0,
- #define __take_second_arg(__ignored, val, ...) val
- 
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index aab70355d64f..af057e20b9d7 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -1418,16 +1418,37 @@ extern size_t mem_section_usage_size(void);
-  *      (equal SECTION_SIZE_BITS - PAGE_SHIFT), and the
-  *      worst combination is powerpc with 256k pages,
-  *      which results in PFN_SECTION_SHIFT equal 6.
-- * To sum it up, at least 6 bits are available.
-+ * To sum it up, at least 6 bits are available on all architectures.
-+ * However, we can exceed 6 bits on some other architectures except
-+ * powerpc (e.g. 15 bits are available on x86_64, 13 bits are available
-+ * with the worst case of 64K pages on arm64) if we make sure the
-+ * exceeded bit is not applicable to powerpc.
-  */
--#define SECTION_MARKED_PRESENT		(1UL<<0)
--#define SECTION_HAS_MEM_MAP		(1UL<<1)
--#define SECTION_IS_ONLINE		(1UL<<2)
--#define SECTION_IS_EARLY		(1UL<<3)
--#define SECTION_TAINT_ZONE_DEVICE	(1UL<<4)
--#define SECTION_MAP_LAST_BIT		(1UL<<5)
-+#define ENUM_SECTION_FLAG(MAPPER)						\
-+	MAPPER(MARKED_PRESENT)							\
-+	MAPPER(HAS_MEM_MAP)							\
-+	MAPPER(IS_ONLINE)							\
-+	MAPPER(IS_EARLY)							\
-+	MAPPER(TAINT_ZONE_DEVICE, CONFIG_ZONE_DEVICE)				\
-+	MAPPER(MAP_LAST_BIT)
-+
-+#define __SECTION_SHIFT_FLAG_MAPPER_0(x)
-+#define __SECTION_SHIFT_FLAG_MAPPER_1(x)	SECTION_##x##_SHIFT,
-+#define __SECTION_SHIFT_FLAG_MAPPER(x, ...)	\
-+	__PASTE(__SECTION_SHIFT_FLAG_MAPPER_, IS_ENABLED(__VA_ARGS__))(x)
-+
-+#define __SECTION_FLAG_MAPPER_0(x)
-+#define __SECTION_FLAG_MAPPER_1(x)		SECTION_##x = BIT(SECTION_##x##_SHIFT),
-+#define __SECTION_FLAG_MAPPER(x, ...)		\
-+	__PASTE(__SECTION_FLAG_MAPPER_, IS_ENABLED(__VA_ARGS__))(x)
-+
-+enum {
-+	ENUM_SECTION_FLAG(__SECTION_SHIFT_FLAG_MAPPER)
-+	ENUM_SECTION_FLAG(__SECTION_FLAG_MAPPER)
-+};
-+
- #define SECTION_MAP_MASK		(~(SECTION_MAP_LAST_BIT-1))
--#define SECTION_NID_SHIFT		6
-+#define SECTION_NID_SHIFT		SECTION_MAP_LAST_BIT_SHIFT
- 
- static inline struct page *__section_mem_map_addr(struct mem_section *section)
+ static int __init hugetlb_vmemmap_early_param(char *buf)
  {
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 111684878fd9..aef3f041dec7 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -655,12 +655,18 @@ static void __meminit resize_pgdat_range(struct pglist_data *pgdat, unsigned lon
+-	/* We cannot optimize if a "struct page" crosses page boundaries. */
+-	if (!is_power_of_2(sizeof(struct page))) {
+-		pr_warn("cannot free vmemmap pages because \"struct page\" crosses page boundaries\n");
+-		return 0;
+-	}
+-
+ 	if (!buf)
+ 		return -EINVAL;
  
- }
+@@ -119,6 +113,12 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
+ 	if (!hugetlb_optimize_vmemmap_enabled())
+ 		return;
  
-+#ifdef CONFIG_ZONE_DEVICE
- static void section_taint_zone_device(unsigned long pfn)
- {
- 	struct mem_section *ms = __pfn_to_section(pfn);
- 
- 	ms->section_mem_map |= SECTION_TAINT_ZONE_DEVICE;
- }
-+#else
-+static inline void section_taint_zone_device(unsigned long pfn)
-+{
-+}
-+#endif
- 
- /*
-  * Associate the pfn range with the given zone, initializing the memmaps
++	if (!is_power_of_2(sizeof(struct page))) {
++		pr_warn_once("cannot optimize vmemmap pages because \"struct page\" crosses page boundaries\n");
++		static_branch_disable(&hugetlb_optimize_vmemmap_key);
++		return;
++	}
++
+ 	vmemmap_pages = (nr_pages * sizeof(struct page)) >> PAGE_SHIFT;
+ 	/*
+ 	 * The head page is not to be freed to buddy allocator, the other tail
 -- 
 2.11.0
 
