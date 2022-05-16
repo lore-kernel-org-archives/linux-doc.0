@@ -2,178 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B66C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 16 May 2022 02:41:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2615C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 16 May 2022 03:17:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236884AbiEPCls (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 15 May 2022 22:41:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55406 "EHLO
+        id S239585AbiEPDRJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 15 May 2022 23:17:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236837AbiEPClr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 May 2022 22:41:47 -0400
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D42A42CDF1;
-        Sun, 15 May 2022 19:41:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-        t=1652668902; bh=7PghzBnaY7l+/iyB8x/83XEVoKFLqJ7Go7b3gh2Nsjc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=OfAOjW+ygtQNAH0aRS6uBVxWWb0Xp8ylFCY/h1Lc/MvN3vZxBtj2lmpRTDOIrV47G
-         wJowd+Hvixdd37B36UPU/I0WbdO6CiOt0APUerRuWoGcJ8KBpD4Z/arNS3K+pI/DDi
-         6ZoXSWW+u0nFOn1k/Gju3Uv2NW78tYyrJCcamokY=
-Received: from [192.168.9.172] (unknown [101.88.28.48])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 26C44600B5;
-        Mon, 16 May 2022 10:41:42 +0800 (CST)
-Message-ID: <204b9bcf-07d3-1870-a7bb-ba8af7b27362@xen0n.name>
-Date:   Mon, 16 May 2022 10:41:41 +0800
+        with ESMTP id S238156AbiEPDRI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 May 2022 23:17:08 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DDF111C18;
+        Sun, 15 May 2022 20:17:07 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.57])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4L1ksZ6DQlzgYHC;
+        Mon, 16 May 2022 11:15:46 +0800 (CST)
+Received: from dggpemm500002.china.huawei.com (7.185.36.229) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 16 May 2022 11:17:05 +0800
+Received: from localhost.localdomain (10.175.112.125) by
+ dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 16 May 2022 11:17:05 +0800
+From:   Chen Wandun <chenwandun@huawei.com>
+To:     <linux-kernel@vger.kernel.org>, <hannes@cmpxchg.org>,
+        <surenb@google.com>, <alexs@kernel.org>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH 1/2] psi: add support for multi level pressure stall trigger
+Date:   Mon, 16 May 2022 11:35:23 +0800
+Message-ID: <20220516033524.3130816-1-chenwandun@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.0a1
-Subject: Re: [PATCH V10 09/22] LoongArch: Add boot and setup routines
-Content-Language: en-US
-To:     Huacai Chen <chenhuacai@gmail.com>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>
-References: <20220514080402.2650181-1-chenhuacai@loongson.cn>
- <20220514080402.2650181-10-chenhuacai@loongson.cn>
- <e7616076-d8b1-defc-5762-b8ee91cb89fc@xen0n.name>
- <CAAhV-H6yUKgew018Dj=9AyxYu0ofbBpG9vO3yjmyWSZ9S77BAA@mail.gmail.com>
-From:   WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <CAAhV-H6yUKgew018Dj=9AyxYu0ofbBpG9vO3yjmyWSZ9S77BAA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.112.125]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500002.china.huawei.com (7.185.36.229)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Nowadays, psi events are triggered when stall time exceed
+stall threshold, but no any different between these events.
 
-On 5/15/22 20:38, Huacai Chen wrote:
->>> diff --git a/arch/loongarch/kernel/head.S b/arch/loongarch/kernel/head.S
->>> new file mode 100644
->>> index 000000000000..f0b3e76bb762
->>> --- /dev/null
->>> +++ b/arch/loongarch/kernel/head.S
->>> @@ -0,0 +1,97 @@
->>> +/* SPDX-License-Identifier: GPL-2.0 */
->>> +/*
->>> + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
->>> + */
->>> +#include <linux/init.h>
->>> +#include <linux/threads.h>
->>> +
->>> +#include <asm/addrspace.h>
->>> +#include <asm/asm.h>
->>> +#include <asm/asmmacro.h>
->>> +#include <asm/regdef.h>
->>> +#include <asm/loongarch.h>
->>> +#include <asm/stackframe.h>
->>> +#include <generated/compile.h>
->>> +#include <generated/utsrelease.h>
->>> +
->>> +#ifdef CONFIG_EFI_STUB
->>> +
->>> +#include "efi-header.S"
->>> +
->>> +     __HEAD
->>> +
->>> +_head:
->>> +     .word   MZ_MAGIC                /* "MZ", MS-DOS header */
->>> +     .org    0x28
->>> +     .ascii  "Loongson\0"            /* Magic number for BootLoader */
->> If you must use a magic number, "Loongson" is not recommended, because
->> this string lacks uniqueness in the Loongson/LoongArch world. Too many
->> things are called "Loongson foo" right now, and the string is so
->> ordinary people don't immediately think of it as "magic".
->>
->> I recommended using some other interesting text (and encoding) for the
->> magic number, in a different communication venue, but I think that
->> proposal got ignored by you without any explanation whatsoever. For now
->> I'll just repeat myself:
->>
->> For an interesting magic number related to Loongson/LoongArch/Loong
->> (like dragons but not exactly the same, let's not expand on that front)
->> in general, it's perhaps better to use GB18030-encoded four-character
->> dragon-related idioms. It's GB18030 because one Chinese character is 2
->> bytes in this encoding, and being non-UTF-8 it's unlikely any user input
->> would accidentally resemble it. So we get 8 bytes that appear as huge
->> negative numbers if cast into C long, and random enough that collisions
->> are highly unlikely.
->>
->> For example, I chose 4 famous dragon-related phrases from the I Ching,
->> in both simplified and traditional characters:
->>
->> 潜龙勿用: 0xc7b1c1facef0d3c3
->> 见龙在田: 0xbcfbc1fad4daccef
->> 飞龙在天: 0xb7c9c1fad4daccec
->> 亢龙有悔: 0xbfbac1fad3d0bbda
->> 潛龍勿用: 0x9d93fd88cef0d3c3
->> 見龍在田: 0xd28afd88d4daccef
->> 飛龍在天: 0xef77fd88d4daccec
->> 亢龍有悔: 0xbfbafd88d3d0bbda
->>
->> and I think each of them is better than "Loongson".
-> ARM64_IMAGE_MAGIC is "ARM64", RISCV_IMAGE_MAGIC is "RISCV", so I think
-> we use "Loongson" as a magic is just OK.
+Actually, events can be divide into multi level, each level
+represent a different stall pressure, that is help to identify
+pressure information more accurately.
 
-Actually you made a good point here, that I failed to check for myself 
-earlier.
+echo "some 150000 350000 1000000" > /proc/pressure/memory would
+add [150ms, 350ms) threshold for partial memory stall measured
+within 1sec time window.
 
-Looking at the arm64 and riscv image header code more closely, it seems 
-loongarch is trying to follow the now deprecated riscv-specific practice 
-of using 8-byte magic (deprecated as of commit 474efecb65dce ("riscv: 
-modify the Image header to improve compatibility with the ARM64 
-header")). In doing this they also changed the offset of the magic: on 
-riscv it's at 0x30, while here it's at 0x28 (riscv's "res2" field). This 
-is just the exact kind of "proliferation of image header formats" that 
-we would want to avoid.
+Signed-off-by: Chen Wandun <chenwandun@huawei.com>
+---
+ include/linux/psi_types.h |  3 ++-
+ kernel/sched/psi.c        | 19 +++++++++++++------
+ 2 files changed, 15 insertions(+), 7 deletions(-)
 
-Now for some additional but important bikeshedding...
-
-The current arm64 and riscv magic numbers are all 4-byte long, at offset 
-0x38, and they are cute little strings identifying their origin: 
-"ARM\x64" and "RSC\x05" respectively. Thus, for loongarch, we probably 
-want to do the same -- 4-byte nice little strings with a hint of 
-LoongArch/Loong. Considering UTF-8 uses 3 bytes for most Chinese 
-characters, and 4 bytes for characters outside of BMP, we could use a 
-little bit of creativity here:
-
-- "LA64", the "dullest" version with only ASCII characters, but I don't 
-know if future LA32 systems will want to use the same image header format;
-- "\xe9\xbe\x99\x64" ("龙\x64") or "\xe9\xbe\x8d\x64" ("龍\x64") -- 龙/龍 
-means "loong/dragon", hence a variant of the above;
-- "\xf0\x9f\x90\xb2" ("🐲") or "\xf0\x9f\x90\x89" ("🐉") -- the 
-loong/dragon emoji, taking full advantage of the 4 bytes available while 
-not mentioning bitness.
-
-A case might be made for pure-ASCII magic numbers, that they're easier 
-for naked-eye inspection, but (1) this is already not the case for the 
-new riscv magic, and (2) given all other interesting fields are in 
-binary it's already necessary to use hex editors for any task more 
-complex than mere identification.
-
-So, I think the bottom line is: don't use the 8-byte magic at offset 
-0x28, switch to 4-byte magic at offset 0x38 to keep consistent with 
-everyone else. I don't actually have a preference, but personally I'd 
-prefer some freshness in the low-level land, if that doesn't hamper 
-people's flows. ;-)
+diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
+index c7fe7c089718..2b1393c8bf90 100644
+--- a/include/linux/psi_types.h
++++ b/include/linux/psi_types.h
+@@ -119,7 +119,8 @@ struct psi_trigger {
+ 	enum psi_states state;
+ 
+ 	/* User-spacified threshold in ns */
+-	u64 threshold;
++	u64 min_threshold;
++	u64 max_threshold;
+ 
+ 	/* List node inside triggers list */
+ 	struct list_head node;
+diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+index 6f9533c95b0a..17dd233b533a 100644
+--- a/kernel/sched/psi.c
++++ b/kernel/sched/psi.c
+@@ -541,7 +541,7 @@ static u64 update_triggers(struct psi_group *group, u64 now)
+ 
+ 			/* Calculate growth since last update */
+ 			growth = window_update(&t->win, now, total[t->state]);
+-			if (growth < t->threshold)
++			if (growth < t->min_threshold || growth >= t->max_threshold)
+ 				continue;
+ 
+ 			t->pending_event = true;
+@@ -1087,15 +1087,18 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
+ {
+ 	struct psi_trigger *t;
+ 	enum psi_states state;
+-	u32 threshold_us;
++	u32 min_threshold_us;
++	u32 max_threshold_us;
+ 	u32 window_us;
+ 
+ 	if (static_branch_likely(&psi_disabled))
+ 		return ERR_PTR(-EOPNOTSUPP);
+ 
+-	if (sscanf(buf, "some %u %u", &threshold_us, &window_us) == 2)
++	if (sscanf(buf, "some %u %u %u", &min_threshold_us,
++				&max_threshold_us, &window_us) == 3)
+ 		state = PSI_IO_SOME + res * 2;
+-	else if (sscanf(buf, "full %u %u", &threshold_us, &window_us) == 2)
++	else if (sscanf(buf, "full %u %u %u", &min_threshold_us,
++				&max_threshold_us, &window_us) == 3)
+ 		state = PSI_IO_FULL + res * 2;
+ 	else
+ 		return ERR_PTR(-EINVAL);
+@@ -1107,8 +1110,11 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
+ 		window_us > WINDOW_MAX_US)
+ 		return ERR_PTR(-EINVAL);
+ 
++	if (min_threshold_us >= max_threshold_us)
++		return ERR_PTR(-EINVAL);
++
+ 	/* Check threshold */
+-	if (threshold_us == 0 || threshold_us > window_us)
++	if (max_threshold_us > window_us)
+ 		return ERR_PTR(-EINVAL);
+ 
+ 	t = kmalloc(sizeof(*t), GFP_KERNEL);
+@@ -1117,7 +1123,8 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
+ 
+ 	t->group = group;
+ 	t->state = state;
+-	t->threshold = threshold_us * NSEC_PER_USEC;
++	t->min_threshold = min_threshold_us * NSEC_PER_USEC;
++	t->max_threshold = max_threshold_us * NSEC_PER_USEC;
+ 	t->win.size = window_us * NSEC_PER_USEC;
+ 	window_reset(&t->win, 0, 0, 0);
+ 
+-- 
+2.25.1
 
