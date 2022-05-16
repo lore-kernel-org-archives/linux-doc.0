@@ -2,150 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51579C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 16 May 2022 11:25:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 069B6C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 16 May 2022 12:04:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243121AbiEPLZL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 May 2022 07:25:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44442 "EHLO
+        id S231383AbiEPMEA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 May 2022 08:04:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243140AbiEPLY5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 07:24:57 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E7A038BD2;
-        Mon, 16 May 2022 04:24:56 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id oe17-20020a17090b395100b001df77d29587so166585pjb.2;
-        Mon, 16 May 2022 04:24:56 -0700 (PDT)
+        with ESMTP id S230437AbiEPMD5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 08:03:57 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC9571EC63
+        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 05:03:53 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id q18so14186542pln.12
+        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 05:03:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language
-         :from:to:cc:references:in-reply-to:content-transfer-encoding;
-        bh=4jjOAwHVMxYy5ucNab2gGnGo0JwjZSdIbHnye9ibPOM=;
-        b=Kuf+HQig6vaPQ7iYeZ+JJhv3sy+/ijEgl4GZuDhQ2hJtX6AkSJ+HROPwC3GP3qoyZO
-         ZjBg5zAHBvIiV70K6h1Uk9xOW10UD6rsUzRDs73CbjFNheozeGfGeaqG0oyl0/v+WRwZ
-         aL+pHMtBqBOUL8dfH1V7jP9KgHZ4CY9E3cVOM/td+JgGrCAfoxPZCwHEhZnkCMsKpfFD
-         wzNxDBSd1IOWTKONYz9K9DWSYBnQa6TlEiPp7PyZAAXqDruiVb+ReDjT759S7pxEgr7t
-         J41+J6PHzYCf3EnYZR+8DqzUDNwkIs6wRI8ZcveR8GM5XNF3f+OpfvgyY/ANgmKjnMaS
-         q4ig==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=R84IxflJzQsjcs6liOC1xGi2RLfZVO/J/zvMOYtMBKI=;
+        b=W7DK2qATwEyfvh21pVCPdp+fSj3B28j0KvO+lqsOPxPZIH7RUOgXti2vLaZX56uPLi
+         Zf54oYdtq6IyZAvY5uSVv4DttuV81ENkrczCOrwjaDIK6BuZ9TEuvUnmtPYCDQda5SK1
+         2UJO3Wpu94Gdhwd/Yp8g9Rz4sXJ3VK/C2xxsZHY0ElYNMbFV7cttoOT3unYS/7uyE5ZQ
+         PCp8z3w4j1eNrioDSgF9sfHye+GKmDpwe/cqZLfIukhxqI9gEH+uocUTdY3ZuzdW8+Rr
+         8/PJoYZ+p6cGNJWT50couq1k2JPjXlYhEQyNWCCb7k0tVbkNVfl77lsAuuK09mYxx+sm
+         4Ttw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:from:to:cc:references:in-reply-to
-         :content-transfer-encoding;
-        bh=4jjOAwHVMxYy5ucNab2gGnGo0JwjZSdIbHnye9ibPOM=;
-        b=ur5qXVBfnyortc9guzP2kbzdrZBes0F28dnVHr7C1jFu0UyHSUyNfjSVLRHmAuViQm
-         s01c1IYts9F5OU1MWLRO4s76VCCCnFdd+SWP/dZAVVaE5RGX85o8e/FK3bT4EWos7/M1
-         87X4PCOhGQN83eCmzIwm0DuxLP7z0AUosw6R6A3Zfsq0B/VjPKzlwJJV64GdgW0D4Fb5
-         S7Z9otSfS2mHVZpTGRbwFfuE3RouM2uygHFU3Vi6l22Mn/oVcd4Dpr6so/xKKyT5HsEd
-         hd1Mlc6RrRr849hrQ6Em5k/DnJSE3XeUPEWt7upMk34nWhoXcKu0r75r5HNQsJjdnuPA
-         zSOA==
-X-Gm-Message-State: AOAM5334nsns1j2SjKigS544e0F8It+mR7UJNMx9TapzEybrp0LGiPsY
-        +c6/YX2cNFCKgSHn+1wNHz8=
-X-Google-Smtp-Source: ABdhPJx/nDODDK1IUaPyjRIH8x6zAaX/zb3uVRaCMQzS0aoWglarxRPXOehA7y9krIPlpJrt1fU2kA==
-X-Received: by 2002:a17:903:2288:b0:15e:8da2:fcc0 with SMTP id b8-20020a170903228800b0015e8da2fcc0mr17530332plh.125.1652700295981;
-        Mon, 16 May 2022 04:24:55 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id q17-20020a656851000000b003e4580cf645sm4758479pgt.17.2022.05.16.04.24.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 May 2022 04:24:55 -0700 (PDT)
-Message-ID: <38d102ab-d0b6-3467-4dce-4a9d4aa9e39d@gmail.com>
-Date:   Mon, 16 May 2022 20:24:49 +0900
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=R84IxflJzQsjcs6liOC1xGi2RLfZVO/J/zvMOYtMBKI=;
+        b=p035jT8Euaz0DaAomGo9i2ucq0v9ol2uCj46gV1Cc1fn4tWu+y4Ye8ElMdBkN4fK4D
+         YlAQ/+cWW1MExuwG3jYn1jA4NLhktpdgxOF1m8UvdGUTV0SltS2OEepfA5baGZ0fjeEr
+         /lKx2Uk3IqbN+64E9DcSHYWAOFURtn1z2RtM5JUsTKY8/tOg/k7v8xQ0yMoG8bSyz48j
+         CAb8VSnOrFCqUVwa22L0W99jdhRPUdBSJg5u2IR4i7kjyP6wmVORqCvDOdWAbizsg7aZ
+         o3w5Gd3yPmFvjWfJuUmOiWNEjoP3FHFKP1Tg/WoBnEbtx04fmUM3TP4Xk+VRJfvxMEZJ
+         bDzA==
+X-Gm-Message-State: AOAM533Vx3W79+I37O7eQ4Hiz/QbLVXyQlKqVfYS3n//dyKVGs/yITrA
+        9ejYo9JPwogObYvmOwzw2ugtLg==
+X-Google-Smtp-Source: ABdhPJzxfHYjLSn309uprN3vFeZ39gfOTL/8yBip6LIvpYKa3y23U3WenfTaxzCyUzgFpLJTj7UIKw==
+X-Received: by 2002:a17:90b:48d1:b0:1df:4fc8:c2d7 with SMTP id li17-20020a17090b48d100b001df4fc8c2d7mr5686526pjb.45.1652702633331;
+        Mon, 16 May 2022 05:03:53 -0700 (PDT)
+Received: from localhost ([139.177.225.234])
+        by smtp.gmail.com with ESMTPSA id n22-20020a056a0007d600b0050dc7628139sm7015117pfu.19.2022.05.16.05.03.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 May 2022 05:03:52 -0700 (PDT)
+Date:   Mon, 16 May 2022 20:03:49 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v12 4/7] mm: hotplug: introduce
+ SECTION_CANNOT_OPTIMIZE_VMEMMAP
+Message-ID: <YoI9pdLzB/V9Kw1y@FVFYT0MHHV2J.usts.net>
+References: <20220516102211.41557-1-songmuchun@bytedance.com>
+ <20220516102211.41557-5-songmuchun@bytedance.com>
+ <YoIptjs65NgT1/ed@localhost.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH net-next v2] docs: ctucanfd: Use 'kernel-figure' directive
- instead of 'figure'
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-To:     Marc Kleine-Budde <mkl@pengutronix.de>,
-        Pavel Pisa <pisa@cmp.felk.cvut.cz>, netdev@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     Martin Jerabek <martin.jerabek01@gmail.com>,
-        Ondrej Ille <ondrej.ille@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <05d491d4-c498-9bab-7085-9c892b636d68@gmail.com>
- <5986752a-1c2a-5d64-f91d-58b1e6decd17@gmail.com>
-In-Reply-To: <5986752a-1c2a-5d64-f91d-58b1e6decd17@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YoIptjs65NgT1/ed@localhost.localdomain>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 11 May 2022 08:45:43 +0900, Akira Yokosawa wrote:
-> Two issues were observed in the ReST doc added by commit c3a0addefbde
-> ("docs: ctucanfd: CTU CAN FD open-source IP core documentation.")
-> with Sphinx versions 2.4.4 and 4.5.0.
->=20
-> The plain "figure" directive broke "make pdfdocs" due to a missing
-> PDF figure.  For conversion of SVG -> PDF to work, the "kernel-figure"
-> directive, which is an extension for kernel documentation, should
-> be used instead.
->=20
-> The directive of "code:: raw" causes a warning from both
-> "make htmldocs" and "make pdfdocs", which reads:
->=20
->     [...]/can/ctu/ctucanfd-driver.rst:75: WARNING: Pygments lexer name
->     'raw' is not known
->=20
-> A plain literal-block marker should suffice where no syntax
-> highlighting is intended.
->=20
-> Fix the issues by using suitable directive and marker.
->=20
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Fixes: c3a0addefbde ("docs: ctucanfd: CTU CAN FD open-source IP core do=
-cumentation.")
-> Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-> Cc: Martin Jerabek <martin.jerabek01@gmail.com>
-> Cc: Ondrej Ille <ondrej.ille@gmail.com>
-> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-> ---
-> Changes in v1 -> v2
->  - no change in diff
->  - added explicit Sphinx versions the issues were observed
->  - picked Pavel's Acked-by
->=20
-Gentle ping to netdev maintainers.
+On Mon, May 16, 2022 at 12:38:46PM +0200, Oscar Salvador wrote:
+> On Mon, May 16, 2022 at 06:22:08PM +0800, Muchun Song wrote:
+> > --- a/mm/sparse.c
+> > +++ b/mm/sparse.c
+> > @@ -913,6 +913,13 @@ int __meminit sparse_add_section(int nid, unsigned long start_pfn,
+> >  	ms = __nr_to_section(section_nr);
+> >  	set_section_nid(section_nr, nid);
+> >  	__section_mark_present(ms, section_nr);
+> > +	/*
+> > +	 * Mark whole section as non-optimizable once there is a subsection
+> > +	 * whose vmemmap pages are allocated from alternative allocator. The
+> > +	 * early section is always optimizable.
+> > +	 */
+> > +	if (!early_section(ms) && altmap)
+> > +		section_mark_cannot_optimize_vmemmap(ms);
+> 
+> Because no one expects those sections to be removed?
+> IIRC, early_section + altmap only happened in case of sub-section pmem
+> scenario?
 
-I believe this one should go upstream together with the
-offending commit.
+Right. The commit ba72b4c8cf60 ("mm/sparsemem: support sub-section hotplug")
+has more information.
 
-If there is something I can do better, please let me know.
+> I guess my question is: can we really have early_sections coming
+> from alternative allocator?
+>
 
-        Thanks, Akira
+We can't. The early section does not consider partially being
+populated currently.
 
-> --
->  .../networking/device_drivers/can/ctu/ctucanfd-driver.rst     | 4 ++--=
+> I think this should be spelled out more.
 
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/Documentation/networking/device_drivers/can/ctu/ctucanfd-d=
-river.rst b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driv=
-er.rst
-> index 2fde5551e756..40c92ea272af 100644
-> --- a/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.r=
-st
-> +++ b/Documentation/networking/device_drivers/can/ctu/ctucanfd-driver.r=
-st
-> @@ -72,7 +72,7 @@ it is reachable (on which bus it resides) and its con=
-figuration =E2=80=93
->  registers address, interrupts and so on. An example of such a device
->  tree is given in .
-> =20
-> -.. code:: raw
-> +::
-> =20
->             / {
->                 /* ... */
-> @@ -451,7 +451,7 @@ the FIFO is maintained, together with priority rota=
-tion, is depicted in
-> =20
->  |
-> =20
-> -.. figure:: fsm_txt_buffer_user.svg
-> +.. kernel-figure:: fsm_txt_buffer_user.svg
-> =20
->     TX Buffer states with possible transitions
-> =20
+I think you mean add some comments here to describe the case
+of early_section + altmap, right?
+
+Thanks.
+
