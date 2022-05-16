@@ -2,140 +2,240 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84A69C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 16 May 2022 17:00:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81905C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 16 May 2022 17:22:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237074AbiEPRAT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 May 2022 13:00:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37698 "EHLO
+        id S1343532AbiEPRWr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 May 2022 13:22:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344022AbiEPQ76 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 12:59:58 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on20610.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe59::610])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41DFD195;
-        Mon, 16 May 2022 09:59:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XgsfVUhWBdNM+b5vsHJA4gJozRhYW+CC5q2mF2oZd3OJd/8gzgurSKU/wtIpBGUnsfSt5rZQ0JCVV4Pp1TMa3t7kE/NckLATs3HL4icdqc24fCkLzQmU3b5qEUokNhK0tOHs7wXnb3tBxE0TSvoz28PE2+eLeb+dwJ2bt8g/wOj34wzjas1+oNNM/deRrJFLjTX97QV3tmUH0X7yUgTl2vDoAquGZpQ17M/EbO0zffkTygr+NDHEGRBx8KGdKCuqwRq+YMgXsSruY1gngxYCu20z482otNGuXPib6K8DnjZbkA/9OVIjRhqhQen1fLJYtSgesaXDtxHJKTikU3sT4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2mAOYcMq8OCkJgkd6R3Q8j7itX5XE6KWxYNsDJi8A3U=;
- b=D4B9+lNslT/7qyTL5hcqFNJP+H+LUVG+1PcH9smQJ5Wrno+5TMrMGrDh9+IPG+jaF1Kg2oJ+HzsfqJ8Qc1MKth+Om4bpAjwKw4JHYi11t9Eb4PARyEJXefAakkukroxaik2cmvzFs17wYf2C04C9dLcX7p3qf6qCqz76vHY7Ju6qh0tMkDlbgJ09LDdvzVYxHop1G/O3qZw2JDAL0gz2n0Hlyxl3i/lnHUzuKAI9i4U3Bd4B/Wo4gm0mkTuaOo2o5i4O5v9UgH8Ldbe7zsuI+P09RctBpf1D2bdYE+MhppE5D03whaalD5ZdwoeoDHIpZfS4mac2meyDdceFVey0Jw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2mAOYcMq8OCkJgkd6R3Q8j7itX5XE6KWxYNsDJi8A3U=;
- b=evkOy4jS45nIuifpi+LH1eoEXF9EuYyK7zWPSz43bU0xhSvoqL34iNtHt0Dp34/5LGXLL26WhUWwEMtHRl2qvBTAr7xHx4UHacrMHhTv+t+U34sK8ThAnk3PVpV44SdS6XICQrRu0pExvHBIHSZ3Fd/zUifLc6XbKj2/x1+2oloNkVYXaqyNpig7kVEXsaFD6AYEfF+GpVCMGGW9q96+g163eicfFRVtX9Jjzg9AXLv3uUIsqU1N29xUcokJSfOvZetfRGWZ1F9qahlbnMRH5ApmXgj7drcLMg2UvIzPebf3j1V7vYo7Eh0hzCT2OjHHYRTGGuNa78uXin85MSyVwA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by MN2PR12MB4048.namprd12.prod.outlook.com (2603:10b6:208:1d5::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.14; Mon, 16 May
- 2022 16:59:55 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2%5]) with mapi id 15.20.5250.018; Mon, 16 May 2022
- 16:59:55 +0000
-Date:   Mon, 16 May 2022 13:59:53 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Matthew Rosato <mjrosato@linux.ibm.com>
-Cc:     linux-s390@vger.kernel.org, alex.williamson@redhat.com,
-        cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
-        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
-        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
-        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
-        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 10/22] vfio/pci: introduce CONFIG_VFIO_PCI_ZDEV_KVM
-Message-ID: <20220516165953.GD1343366@nvidia.com>
-References: <20220513191509.272897-1-mjrosato@linux.ibm.com>
- <20220513191509.272897-11-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220513191509.272897-11-mjrosato@linux.ibm.com>
-X-ClientProxiedBy: BLAPR03CA0021.namprd03.prod.outlook.com
- (2603:10b6:208:32b::26) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+        with ESMTP id S229695AbiEPRWq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 13:22:46 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 173F6E0B
+        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 10:22:44 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id i40so4254371eda.7
+        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 10:22:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=blackwall-org.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=4VmwZEvEe/v2B8OMNtqQ8l5ayC8KoHdt1Ef7RxfFIL8=;
+        b=LJ+mNikuaHaNKJvOJMh9rpCqRP1y6TjBckuTAr6JMud7x28k17v9zbGZpD6CRrnHzx
+         R5X+y0tBWMpEdFLo+W41gCjItEWDXzwjHOQnuedI6Ji0YXezUsG94IhfZ7y++4ZdTLQ7
+         zIsKNHenylNpwKlWS0MVYbVPJ5DxI1jKSSQdLsakggI8c8bjlf1F0+rQrHd1JRD7aEXw
+         PKozw6K9KKG3975twn3efJp7KbraPV2bkNYCTgd1Z+p8c6/YANHKawFM1N1pA2x/egal
+         3wn559I/0SFlifOfBQwdER60qotGtdSgTqfOc2TVyaxOqaLqLHUpgIV4ejIswUBIXB/w
+         K7GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=4VmwZEvEe/v2B8OMNtqQ8l5ayC8KoHdt1Ef7RxfFIL8=;
+        b=scx7oyLa9Buy7mcRFR4A/gFEM/E081J3Rymh88pHmidJlaH5o2U7/ZxcXnelnPedSq
+         cqPnNtOG1Ly6PrE0bGiK9XlRyOvegTwGHrUmpk4ewFhkvV5mdq0VynXxoaWktGsVLsRf
+         Z7RwB4l+G36/a+KzwE0PHZj/0A8unS0oCJJ/2VX4OK8xwgM1/gS3TsMgVTol79MNmtaB
+         4VYFGMlmQ5IkXIwjk/VzbvW8yT+TXThj2Cl0tE5MSi4t9DrddeVMesj5IwODlr4cB2eU
+         ENhedX2WxRlnjiAtFzcxy596Z++W83DT3C4CFh6bxR6Wrxue/XPC/uqa0o2OSlmHEFgs
+         KoHQ==
+X-Gm-Message-State: AOAM533BEQDZzn/IAbLDkOUyxEDxoXGvy9SRU5UcUB6eFf+XQvv6fGmD
+        dcxjibf2aRo/B+19V6YY+lZX2g==
+X-Google-Smtp-Source: ABdhPJxRMNuLI59FgZnt5iT2sirPav31XcyPTNLRyM1IK89SXDAXHLBwAuYLy+zcHofTh3YW+jyJoA==
+X-Received: by 2002:a05:6402:3326:b0:426:4883:60a with SMTP id e38-20020a056402332600b004264883060amr14677604eda.310.1652721762438;
+        Mon, 16 May 2022 10:22:42 -0700 (PDT)
+Received: from [192.168.0.111] (87-243-81-1.ip.btc-net.bg. [87.243.81.1])
+        by smtp.gmail.com with ESMTPSA id eb8-20020a170907280800b006f3ef214e53sm28785ejc.185.2022.05.16.10.22.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 May 2022 10:22:42 -0700 (PDT)
+Message-ID: <53357187-aedf-20dd-a331-bc501aa0484e@blackwall.org>
+Date:   Mon, 16 May 2022 20:22:40 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8b8b77f6-9825-4ce8-69f1-08da375d8039
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4048:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4048813731FB90F24141E61DC2CF9@MN2PR12MB4048.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: k0k0fj8D15z+WxHT3yRyaR3Nhn/B2Jfn8PdvbHrXOSOs0gG/hyrNHuvXyUyVAdiWnhViecOcFtpPb0ArR48C5T7Yc9ieHp5osCG89UVBV+qLQAj73sCyDxu6wOoJTx80OAgYoMHzEeFxLDqtilv2kbeEFgMMGe2cI1Yc9sjZvy6PEldoUzk+vbuOIqqh1IZTN/LbwU7svzEpQt9pnelbSkuCr2fUmv+lWeWtZo8PA4fFtA/emcyDM5BZOzvcwP54HpbIM9KS1N37vXyO/KW4hGLQC6bENjhGv69GXU/etK9KnyompH0STwMePdyVWbaQz2P8dFSG6pYJPvlp2HDusH2hQKhvcD7hhqh8SX82kPyWP89/bISV7/i5s0XdpiSTUfFInom2eJTcG14OleJmOI9wM4cmYJB5GFIXcVBQkievt/gfwikqnYmf11sGSRuvlwM62WvqtPACoP01XAi2qoLgf6DjEe8TmYlPtBIMtabXySPjFDr0VzEe30WMGkISfRuve1vbe5+1s2XZq12+GV9xIViEfOEJNTa6pwp1PU6B64s8PodoFT81bwzb3ZZH5ZJwwgJKayu6zJQPEBrxBCgxUo35h1wiA3QGMJTLHI2T59S55EdksJV4/gnPCZ0G8Rbt9LycCtHxApBbvb6iRA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(36756003)(4326008)(26005)(86362001)(38100700002)(8676002)(6916009)(2616005)(186003)(1076003)(316002)(6512007)(33656002)(2906002)(5660300002)(6506007)(4744005)(8936002)(6486002)(66476007)(66946007)(66556008)(508600001)(7416002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1DpdXgoaar3TJ4I0Bb0PivE32YDWg71B3vVH5Ii+aIfp+GophRDUkxEkH6ZL?=
- =?us-ascii?Q?uy/OgGzIMsgGDp42kmbiwS/9RN/P7qIqVOi+Ph35Ckqwsy0vyfMYMOC5sGuT?=
- =?us-ascii?Q?aA7+jcI3fkVF0tLB/R8m7CrgKIN7P6hibjCuFQn2qhYX76TOOvZvH3HSCpvM?=
- =?us-ascii?Q?l3I5tdCaIxTuomOinLEXKIkDQwHUD+zjafM5BdHG9WaiVQcdca/bNBhQfbqu?=
- =?us-ascii?Q?gsubhjAiY/ksmXd8Pmfzd6E7uGm/WYLnRiaDWiJreNpYj6CVKLFdJqm9zNaX?=
- =?us-ascii?Q?spdZTwGwvBQagP2UaCfgcGSb5zSh1+t62LoILbtvVyzP4t05Nnd2Ln3BuDPN?=
- =?us-ascii?Q?5yqr3iiUkXp+31U34+S5rdjSJsRXUTNI4+JHzWI0Nzk7z0fsK7HR6ELXKpqK?=
- =?us-ascii?Q?wkqRT4KBCqImz1jseu3g6+5REI41JTvSRp6PQcBTGYI4Y3wD3WSX1PIR+QTj?=
- =?us-ascii?Q?hl436D/DVXLFwydaOvxrzJWWbGb30JPcCUO98bSosmpDlNK/N5b9/hRVGwew?=
- =?us-ascii?Q?Q29o67jF+5WFLq6cHKSCAifLaEb2/A2EzZDdWsmu/A8s03y0Q5TvT5T1nBFm?=
- =?us-ascii?Q?y7JZUunpd6APObfQYo6CyKLy1Qvdko2gKEaQeQ+ouPjZCGCED5EHq84NjSjG?=
- =?us-ascii?Q?v/35cXQzwx86TkWZqCfwP04C0FRZJ9WgCsYM86U5ViKgf2kT93Rf0QDabwlk?=
- =?us-ascii?Q?ue1b9OPWBJe8uk9i9It9fSAdli3rfPE8GNqisc/J7jx4DX85b1QWd7w7Tb/9?=
- =?us-ascii?Q?mla0G7ZQ3IimHBSGHquXtWOqGXQh/0SVUE0dSDM00sjgN3wcbJIEaqglWysB?=
- =?us-ascii?Q?o/NIcrUOYuPR7wqeZIY23NztLxtOn4rRMj4Ya0ciRS0EyTKvQ9/2poGuBd2L?=
- =?us-ascii?Q?sRpj6+E1dt/T/qnxiE1Wk9zdxAS4aQvm0VYl2UsBYKBOlSeaXXHpE4wIu8wq?=
- =?us-ascii?Q?flIH+YRQo2aNA70xPW6oa/Upkx1g4e12nSDDjpgdoND4wTt7MfJZ64JSCIni?=
- =?us-ascii?Q?fKeFIFNosQw14U2GzZZ9SchcCotyoq/T1ZJ3k78LPYLawHSSjFN1TkzOX8+W?=
- =?us-ascii?Q?3XLpzcUq4hpcQERM4/RVxSNSnsiMfGGjCbPprFVIsfXkIvDNFeb8OROhxnYC?=
- =?us-ascii?Q?6PfOshByARTs0sX7Ma7v0XqWSpoJkvbLaJhR3cv9VRhNzW4R3DN0Wn3BUhE9?=
- =?us-ascii?Q?1Kflnjbcok9UDSWe+kI/68b9+Qfe3bY4rRbHo9O/Yx3RrFCzrgyi6YRJmI2B?=
- =?us-ascii?Q?YnL0jyrce2oBm8RiZ/H3PGeZSvUUnf1bHV9JYSlvW5+oFYKmBT647W9CAQuR?=
- =?us-ascii?Q?v03/1+3WqzenoP46h5NJKC7HhEyd7UFBoW1tRsHO5xAwtXOSBsN4G3uyCqWm?=
- =?us-ascii?Q?3OHy2i+RjNRSTZmYcVOXRzPGwvOpKd2JCyjLSG2xRhYZq34+fub3YSMxexX2?=
- =?us-ascii?Q?kJib9YAl65wzIAQLMGH+DaJLD4pKHOr+dFQliDDAuwaxEVWLXZR5dqQXO4rO?=
- =?us-ascii?Q?6GfI6BYf59twdCRpiSt/eoFz3YM4TkgFPcR+9u/RQkf7N8hhVKA3pCzIxu7r?=
- =?us-ascii?Q?Iu4uxExYlyuydZOZfbXF2FnT+DtmhYmIZmQLsHvQaAHRPflv4y2RsH1559gn?=
- =?us-ascii?Q?PkOoK8Rf9b73y//vblSTR1+3Tei74AxOEyrWAJ7Xi4nDmflE3e7wrNN0GaC0?=
- =?us-ascii?Q?JKLHDMQO3ZfmFWgS4hsJ2JH9bkWdOT2g/Z5e/lEaM89LUIofxOHw62wGDNrX?=
- =?us-ascii?Q?w8Zo8cuQ9g=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b8b77f6-9825-4ce8-69f1-08da375d8039
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2022 16:59:55.0485
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t6K2i9C2ngFJuacYchhH9LeOOqs3l1psLUgQkuLZ3KZyUTbJS3yG8y81h4Cs8Tv2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4048
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH net-next v3] bond: add mac filter option for balance-xor
+Content-Language: en-US
+To:     Jonathan Toppins <jtoppins@redhat.com>, netdev@vger.kernel.org
+Cc:     toke@redhat.com, Long Xin <lxin@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <b32eb6656d5a54c0cde6277e9fc5c249c63489ca.1652463336.git.jtoppins@redhat.com>
+ <4c9db6ac-aa24-2ca2-3e44-18cfb23ac1bc@blackwall.org>
+ <da6bbb3b-344c-f032-fe03-5e8c8ac3c388@blackwall.org>
+ <6431569f-fb09-096e-7a89-284a71aa5c0f@redhat.com>
+From:   Nikolay Aleksandrov <razor@blackwall.org>
+In-Reply-To: <6431569f-fb09-096e-7a89-284a71aa5c0f@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 13, 2022 at 03:14:57PM -0400, Matthew Rosato wrote:
-> diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
-> index 4da1914425e1..ac1290d484e1 100644
-> +++ b/drivers/vfio/pci/Kconfig
-> @@ -44,6 +44,17 @@ config VFIO_PCI_IGD
->  	  To enable Intel IGD assignment through vfio-pci, say Y.
->  endif
->  
-> +config VFIO_PCI_ZDEV_KVM
-> +	bool "VFIO PCI extensions for s390x KVM passthrough"
-> +	depends on S390 && KVM
-> +	default y
-> +	help
-> +	  Support s390x-specific extensions to enable support for enhancements
-> +	  to KVM passthrough capabilities, such as interpretive execution of
-> +	  zPCI instructions.
-> +
-> +	  To enable s390x KVM vfio-pci extensions, say
+On 16/05/2022 17:06, Jonathan Toppins wrote:
+> On 5/15/22 02:32, Nikolay Aleksandrov wrote:
+>> On 15/05/2022 00:41, Nikolay Aleksandrov wrote:
+>>> On 13/05/2022 20:43, Jonathan Toppins wrote:
+>>>> Implement a MAC filter that prevents duplicate frame delivery when
+>>>> handling BUM traffic. This attempts to partially replicate OvS SLB
+>>>> Bonding[1] like functionality without requiring significant change
+>>>> in the Linux bridging code.
+>>>>
+>>>> A typical network setup for this feature would be:
+>>>>
+>>>>              .--------------------------------------------.
+>>>>              |         .--------------------.             |
+>>>>              |         |                    |             |
+>>>>         .-------------------.               |             |
+>>>>         |    | Bond 0  |    |               |             |
+>>>>         | .--'---. .---'--. |               |             |
+>>>>    .----|-| eth0 |-| eth1 |-|----.    .-----+----.   .----+------.
+>>>>    |    | '------' '------' |    |    | Switch 1 |   | Switch 2  |
+>>>>    |    '---,---------------'    |    |          +---+           |
+>>>>    |       /                     |    '----+-----'   '----+------'
+>>>>    |  .---'---.    .------.      |         |              |
+>>>>    |  |  br0  |----| VM 1 |      |      ~~~~~~~~~~~~~~~~~~~~~
+>>>>    |  '-------'    '------'      |     (                     )
+>>>>    |      |        .------.      |     ( Rest of Network     )
+>>>>    |      '--------| VM # |      |     (_____________________)
+>>>>    |               '------'      |
+>>>>    |  Host 1                     |
+>>>>    '-----------------------------'
+>>>>
+>>>> Where 'VM1' and 'VM#' are hosts connected to a Linux bridge, br0, with
+>>>> bond0 and its associated links, eth0 & eth1, provide ingress/egress. One
+>>>> can assume bond0, br1, and hosts VM1 to VM# are all contained in a
+>>>> single box, as depicted. Interfaces eth0 and eth1 provide redundant
+>>>> connections to the data center with the requirement to use all bandwidth
+>>>> when the system is functioning normally. Switch 1 and Switch 2 are
+>>>> physical switches that do not implement any advanced L2 management
+>>>> features such as MLAG, Cisco's VPC, or LACP.
+>>>>
+>>>> Combining this feature with vlan+srcmac hash policy allows a user to
+>>>> create an access network without the need to use expensive switches that
+>>>> support features like Cisco's VCP.
+>>>>
+>>>> [1] https://docs.openvswitch.org/en/latest/topics/bonding/#slb-bonding
+>>>>
+>>>> Co-developed-by: Long Xin <lxin@redhat.com>
+>>>> Signed-off-by: Long Xin <lxin@redhat.com>
+>>>> Signed-off-by: Jonathan Toppins <jtoppins@redhat.com>
+>>>> ---
+>>>>
+>>>> Notes:
+>>>>      v2:
+>>>>       * dropped needless abstraction functions and put code in module init
+>>>>       * renamed variable "rc" to "ret" to stay consistent with most of the
+>>>>         code
+>>>>       * fixed parameter setting management, when arp-monitor is turned on
+>>>>         this feature will be turned off similar to how miimon and arp-monitor
+>>>>         interact
+>>>>       * renamed bond_xor_recv to bond_mac_filter_recv for a little more
+>>>>         clarity
+>>>>       * it appears the implied default return code for any bonding recv probe
+>>>>         must be `RX_HANDLER_ANOTHER`. Changed the default return code of
+>>>>         bond_mac_filter_recv to use this return value to not break skb
+>>>>         processing when the skb dev is switched to the bond dev:
+>>>>           `skb->dev = bond->dev`
+>>>>           v3: Nik's comments
+>>>>       * clarified documentation
+>>>>       * fixed inline and basic reverse Christmas tree formatting
+>>>>       * zero'ed entry in mac_create
+>>>>       * removed read_lock taking in bond_mac_filter_recv
+>>>>       * made has_expired() atomic and removed critical sections
+>>>>         surrounding calls to has_expired(), this also removed the
+>>>>         use-after-free that would have occurred:
+>>>>             spin_lock_irqsave(&entry->lock, flags);
+>>>>                 if (has_expired(bond, entry))
+>>>>                     mac_delete(bond, entry);
+>>>>             spin_unlock_irqrestore(&entry->lock, flags); <---
+>>>>       * moved init/destroy of mac_filter_tbl to bond_open/bond_close
+>>>>         this removed the complex option dependencies, the only behavioural
+>>>>         change the user will see is if the bond is up and mac_filter is
+>>>>         enabled if they try and set arp_interval they will receive -EBUSY
+>>>>       * in bond_changelink moved processing of mac_filter option just below
+>>>>         mode processing
+>>>>
+>>>>   Documentation/networking/bonding.rst  |  20 +++
+>>>>   drivers/net/bonding/Makefile          |   2 +-
+>>>>   drivers/net/bonding/bond_mac_filter.c | 201 ++++++++++++++++++++++++++
+>>>>   drivers/net/bonding/bond_mac_filter.h |  37 +++++
+>>>>   drivers/net/bonding/bond_main.c       |  30 ++++
+>>>>   drivers/net/bonding/bond_netlink.c    |  13 ++
+>>>>   drivers/net/bonding/bond_options.c    |  81 +++++++++--
+>>>>   drivers/net/bonding/bonding_priv.h    |   1 +
+>>>>   include/net/bond_options.h            |   1 +
+>>>>   include/net/bonding.h                 |   3 +
+>>>>   include/uapi/linux/if_link.h          |   1 +
+>>>>   11 files changed, 373 insertions(+), 17 deletions(-)
+>>>>   create mode 100644 drivers/net/bonding/bond_mac_filter.c
+>>>>   create mode 100644 drivers/net/bonding/bond_mac_filter.h
+>>>>
+>>>
+>> [snip]
+>>
+>> The same problem solved using a few nftables rules (in case you don't want to load eBPF):
+>> $ nft 'add table netdev nt'
+>> $ nft 'add chain netdev nt bond0EgressFilter { type filter hook egress device bond0 priority 0; }'
+>> $ nft 'add chain netdev nt bond0IngressFilter { type filter hook ingress device bond0 priority 0; }'
+>> $ nft 'add set netdev nt macset { type ether_addr; flags timeout; }'
+>> $ nft 'add rule netdev nt bond0EgressFilter set update ether saddr timeout 5s @macset'
+>> $ nft 'add rule netdev nt bond0IngressFilter ether saddr @macset counter drop'
+>>
+> 
+> I get the following when trying to apply this on a fedora 35 install.
+> 
+> root@fedora ~]# ip link add bond0 type bond mode balance-xor xmit_hash_policy vlan+srcmac
+> [root@fedora ~]# nft 'add table netdev nt'
+> [root@fedora ~]# nft 'add chain netdev nt bond0EgressFilter { type filter hook egress device bond0 priority 0; }'
+> Error: unknown chain hook
+> add chain netdev nt bond0EgressFilter { type filter hook egress device bond0 priority 0; }
+>                                                          ^^^^^^
+> [root@fedora ~]# uname -a
+> Linux fedora 5.17.5-200.fc35.x86_64 #1 SMP PREEMPT Thu Apr 28 15:41:41 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+> 
 
-"say Y"
+Well, take it up with the Fedora nftables package maintainer. :) 
+
+Your nftables version is old (I'd guess <1.0.1):
+ commit 510c4fad7e78
+ Author: Lukas Wunner <lukas@wunner.de>
+ Date:   Wed Mar 11 13:20:06 2020 +0100
+
+     src: Support netdev egress hook
+
+$ git tag --contains 510c4fad7e78f
+v1.0.1
+v1.0.2
+
+I just tested it[1] on Linux 5.16.18-200.fc35.x86_64 #1 SMP PREEMPT Mon Mar 28 14:10:07 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+
+Cheers,
+ Nik
+
+[1] You can clearly see the dynamically learned mac on egress (52:54:00:23:5f:13) and traffic
+    with that source is now blocked on ingress.
+
+$ nft -a list table netdev nt
+	set macset { # handle 10
+		type ether_addr
+		size 65535
+		flags timeout
+		elements = { 52:54:00:23:5f:13 timeout 5s expires 4s192ms }
+	}
+
+	chain bond0EgressFilter { # handle 8
+		type filter hook egress device "bond0" priority filter; policy accept;
+		update @macset { ether saddr timeout 5s } # handle 11
+	}
+
+	chain bond0IngressFilter { # handle 9
+		type filter hook ingress device "bond0" priority filter; policy accept;
+	}
+
