@@ -2,75 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F6A9C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 06:21:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73C61C43217
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 07:36:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237127AbiEQGVY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 02:21:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36536 "EHLO
+        id S241405AbiEQHgl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 03:36:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234922AbiEQGVY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 02:21:24 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4642F3EAB8;
-        Mon, 16 May 2022 23:21:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=CFELpoLm/T5bCWScTqAlgx1Rhso0AgfMtDUILvVD5Tg=; b=Ert0PJDqria2bGBH515+4RdK3V
-        k+JtKPX5RybqvZ0ZJOosCf6K+4egaua0MGLR7MNJVRO4S7soYpMJdvWzd/s6wTCSGwNqZoiCTv30i
-        /ONPxsQHJp8tLb9VFvfmDuqk9s5o1NBLa+16Mfmlgec+N0xyWoM0Jb4ir3xTDfHt6zlm2Ot22sRf7
-        RXl1GD7L0D8ucd3+LorFuGrXa9JqDOv8TGZ0lbLLBX9FKck83HgYmCPO0fveeh6LbYt+eCxBg+UfD
-        lee/RAdY/nKAnsxLM7GmKNUf9wIjaKXZkuSS9A+/uz630QxRVDdXsmY3qWnCiTaIGi0R68673bDVN
-        ZeFyfamw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nqqa7-00Bn0U-T9; Tue, 17 May 2022 06:21:19 +0000
-Date:   Mon, 16 May 2022 23:21:19 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Matthew Rosato <mjrosato@linux.ibm.com>,
-        linux-s390@vger.kernel.org, alex.williamson@redhat.com,
-        cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
-        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
-        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
-        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
-        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 17/22] vfio-pci/zdev: add open/close device hooks
-Message-ID: <YoM+3z6+9yMeLMJn@infradead.org>
-References: <20220513191509.272897-1-mjrosato@linux.ibm.com>
- <20220513191509.272897-18-mjrosato@linux.ibm.com>
- <20220516172734.GE1343366@nvidia.com>
+        with ESMTP id S241814AbiEQHft (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 03:35:49 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 540CE48889;
+        Tue, 17 May 2022 00:34:56 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 0F0A4220E4;
+        Tue, 17 May 2022 07:34:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1652772895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=J1KjVE0wHNwP3/mTNkJ0TblpbUqdNrFgJOI9ondDKTg=;
+        b=YUevUczAacH+9aLfJ9cL8rkSgdKZsoDdA5JzHX7uxPFz1UEnANG0qTEqGhdX1VQsWUZZYL
+        4FAWNpczOkRRX4jjyjpw4iF84Vzb0LAd2ilYeOiIJiIZ0cj5gN5Uroc20IXNrx1JEa6Fw5
+        DCobOFu3k/3n9hQi+4aoQBbGDFDL2+0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1652772895;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=J1KjVE0wHNwP3/mTNkJ0TblpbUqdNrFgJOI9ondDKTg=;
+        b=f8ddPe5eIGU5Z3eU1wOrwxLWrE+9w35kzWYcySynKAyDzb0Ri6XNByG7zSiinsOLCBzw4/
+        SznTLHqPjf7/TvCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 383B613305;
+        Tue, 17 May 2022 07:34:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id A6IECx5Qg2IGeQAAMHmgww
+        (envelope-from <osalvador@suse.de>); Tue, 17 May 2022 07:34:54 +0000
+Date:   Tue, 17 May 2022 09:34:52 +0200
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v12 1/7] mm: hugetlb_vmemmap: disable
+ hugetlb_optimize_vmemmap when struct page crosses page boundaries
+Message-ID: <YoNQHOKEzqFKQV6+@localhost.localdomain>
+References: <20220516102211.41557-1-songmuchun@bytedance.com>
+ <20220516102211.41557-2-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220516172734.GE1343366@nvidia.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20220516102211.41557-2-songmuchun@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 16, 2022 at 02:27:34PM -0300, Jason Gunthorpe wrote:
-> Normally you'd want to do what is kvm_s390_pci_register_kvm() here,
-> where a failure can be propogated but then you have a race condition
-> with the kvm.
+On Mon, May 16, 2022 at 06:22:05PM +0800, Muchun Song wrote:
+> If the size of "struct page" is not the power of two but with the feature
+> of minimizing overhead of struct page associated with each HugeTLB is
+> enabled, then the vmemmap pages of HugeTLB will be corrupted after
+> remapping (panic is about to happen in theory).  But this only exists when
+> !CONFIG_MEMCG && !CONFIG_SLUB on x86_64.  However, it is not a conventional
+> configuration nowadays.  So it is not a real word issue, just the result
+> of a code review.
 > 
-> Blech, maybe it is time to just fix this race condition permanently,
-> what do you think? (I didn't even compile it)
+> But we cannot prevent anyone from configuring that combined configure.
+> This hugetlb_optimize_vmemmap should be disable in this case to fix this
+> issue.
+> 
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Reviewed-by: Mike Kravetz <mike.kravetz@oracle.com>
+> Acked-by: David Hildenbrand <david@redhat.com>
 
-This is roughly were I was planning to get to, with one difference:
-I don't think we need or even want the VFIO_DEVICE_NEEDS_KVM flag.
-Instead just propagation ->kvm to the device whenever it is set and
-let drivers that have a hard requirements on it like gvt fail if it
-isn't there.  This could still allow using vfio for userspace PCI
-drivers on s390 for example or in general allow expressing a soft
-requirement, just without the whole notifier mess.
+Reviewed-by: Oscar Salvador <osalvador@suse.de>
 
-The other question is if we even need an extra reference per device,
-can't we hold the group reference until all devices are gone
-anyway?  That would remove the need to include kvm_host.h in the
-vfio code.
+-- 
+Oscar Salvador
+SUSE Labs
