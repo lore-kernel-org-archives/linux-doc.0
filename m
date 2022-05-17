@@ -2,150 +2,228 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31BF0C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 17:35:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 046E1C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 17:36:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351472AbiEQRfA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 13:35:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51102 "EHLO
+        id S238294AbiEQRgR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 13:36:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229938AbiEQRe6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 13:34:58 -0400
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 103793A18E
-        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 10:34:57 -0700 (PDT)
-Received: by mail-ot1-x331.google.com with SMTP id m15-20020a9d608f000000b00606a788887aso12644469otj.0
-        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 10:34:57 -0700 (PDT)
+        with ESMTP id S1351522AbiEQRgB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 13:36:01 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DB416323
+        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 10:35:58 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id t26so311504ybt.3
+        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 10:35:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eg7EH5Vrvb2fKjVFmkcCg9Zq9x2kct9i+zNiZ3Rb9nE=;
-        b=e1JvkQ93rAtCK7sn488U3SuJf4AoUESglxHXrKJTTMMkNeQNcU7i/nTgft7PxtzV81
-         JTZb2e0ArclXtYmdxk/G5BmXdnm+y8WTIxYFtmcmGcWKgMQy1d7RhscLPElAzT1nXsHj
-         Xd2uFtRkYUUKQb5Cxhh1Wdfsp9NSTDDMoVQRs=
+         :cc:content-transfer-encoding;
+        bh=wwzgUHRsCLggIkC5NC+EPo9MpFcIXu4w5MPrf4BKUlQ=;
+        b=ZUEK3diX7JRmLbiOD6/vWVJxyxr5ezSp/7armWAMQNq4tDG6T6+z0OwteUIewQjJl4
+         R7LU+AyfSoU8ngyTtnE0YIvQCeT5XPZHKNMWbMo4V6nMQ3YK9ydnR44oGrY+TlhWVdUD
+         hFwRaPNu8cJGyd0qMMTpFadxmB7wKFx6/6o6LIu3koy7t/g0AVU9rjfWiTweDZpm2PdJ
+         OH2ai0gpCod3AdT//km24qJcTkXcjFJdD/PU7Hm2KB4aJ0nlIlH65gkHzLBG/AiwSWBB
+         jHnWpjMBc8I8aWJNnDEQyabPvae+kMsZ+fxu+9/MK56LchHkuTejruaBTXjvq7TdQ7zs
+         FW8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eg7EH5Vrvb2fKjVFmkcCg9Zq9x2kct9i+zNiZ3Rb9nE=;
-        b=Ny3+6L6MhAhKMIESBH8dFvBx6T/GDglYSnErQd4aiDPzqWpE30Dq5pG1pFvCt0nf3+
-         8YHpRr702RAqVkv/KVBs6LwVCukYq2rUqbTWVzPTtU6vkFL6oZj+62yNbrFwHS/Sox72
-         JM0WK54LUbiq7Z2oEA58u8rb1KiJ0MFwaOw43C7mRt+P9qRDcmZSRJny+6uYckcfbf/y
-         Mq3jipHsCIBxmVNPAxr9lJ4IK8CWCri1fOZjE4QP76E1w2igc5Xpgz+akvUgaMqBsSZe
-         VnS/5Ny780qdrLkFtDPM+rH1dl5wT+7CfQdx54NkXEsS5YAfLMjDNqGTL1RKOpK/MCao
-         GXsQ==
-X-Gm-Message-State: AOAM532bEufEG7xiw9bRWkvptcDqMRhyzUUMH6WI8NoIXob3+v7K0ugA
-        YSPDD9fzDdgtf6LdHwlHEfkkp1ZyzMDWhg==
-X-Google-Smtp-Source: ABdhPJzOAXR0vInThffUnE80FkNNuZSNyW3yvfnfrmryQ1kmUzS4qnVwtcO60gkUrZd+tKQ7dTlPLA==
-X-Received: by 2002:a9d:491c:0:b0:605:c207:1f6b with SMTP id e28-20020a9d491c000000b00605c2071f6bmr8660720otf.41.1652808895633;
-        Tue, 17 May 2022 10:34:55 -0700 (PDT)
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com. [209.85.160.47])
-        by smtp.gmail.com with ESMTPSA id p127-20020acaf185000000b00325cda1ffb5sm22945oih.52.2022.05.17.10.34.54
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 May 2022 10:34:54 -0700 (PDT)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-e93bbb54f9so25014950fac.12
-        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 10:34:54 -0700 (PDT)
-X-Received: by 2002:a05:6808:d52:b0:328:acfc:d274 with SMTP id
- w18-20020a0568080d5200b00328acfcd274mr11183218oik.174.1652808882898; Tue, 17
- May 2022 10:34:42 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=wwzgUHRsCLggIkC5NC+EPo9MpFcIXu4w5MPrf4BKUlQ=;
+        b=fFRmQiEXIxUtBb5eyBQgVVqlVtanDSldrtrVxnNStykiYUqe0U1X1cIS1Av/2YnNy7
+         fHCZdlkscd8MN4EDn+j0nx9hJhtJ/OGYN0XK4Pj7/prJUaxWrqiRpyVCUoqO0D/WO/zs
+         lSookezoxJc35dAyN9V2ik1CaHjQAJkxGC1zlU9rnqWRUifux494ZWnHPqWoHVQf4tMK
+         DG7/vfVbYneESbMnUEw9RZklo/fQ9SqdlxxnTbwCH83/L4CnL2rRcv4S7iQVC80da9px
+         T0314l1xu/Xp+1wSQBZ1Sm6LDoFeE4I5O/gtM4gXl+eJnKHMhTtXDm0LNPAdFcP1gj/T
+         Wx8w==
+X-Gm-Message-State: AOAM533css9PKQaXwoPVyqXbpY0r8NSKo5eMjCzW8wVR1mxKxUYidv5T
+        04totAQCWNQs9DTjK7E/QiJVFOhgWPI16DtsKnMBBA==
+X-Google-Smtp-Source: ABdhPJxhyiaejWmLfL0jcBQwk14D6Er/zZaFi5HAmRIBCWwGMNufopHvkzlyDGI4jyZWsYY8P7MjE6LUGDo5qD+2Py4=
+X-Received: by 2002:a25:1c0b:0:b0:64d:6b11:6a32 with SMTP id
+ c11-20020a251c0b000000b0064d6b116a32mr17131995ybc.441.1652808956948; Tue, 17
+ May 2022 10:35:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220504232102.469959-1-evgreen@chromium.org> <20220506160807.GA1060@bug>
- <CAE=gft6m75T0UC2DBhfFhuSMW6TK7aatD_04sQ18WosgGVsATw@mail.gmail.com> <CAJZ5v0gxq=EA_WWUiCR_w8o87iTHDR7OC5wi=GRBaAQS2ofd5w@mail.gmail.com>
-In-Reply-To: <CAJZ5v0gxq=EA_WWUiCR_w8o87iTHDR7OC5wi=GRBaAQS2ofd5w@mail.gmail.com>
-From:   Evan Green <evgreen@chromium.org>
-Date:   Tue, 17 May 2022 10:34:05 -0700
-X-Gmail-Original-Message-ID: <CAE=gft6V6RLc-d4AOuRUVU2u1jMGghDRSrFqiCqMCLxemui8Pw@mail.gmail.com>
-Message-ID: <CAE=gft6V6RLc-d4AOuRUVU2u1jMGghDRSrFqiCqMCLxemui8Pw@mail.gmail.com>
-Subject: Re: [PATCH 00/10] Encrypted Hibernation
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, LKML <linux-kernel@vger.kernel.org>,
-        Matthew Garrett <mgarrett@aurora.tech>,
-        Daniil Lunev <dlunev@google.com>, zohar@linux.ibm.com,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        linux-integrity@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Len Brown <len.brown@intel.com>,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
-        keyrings@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-security-module@vger.kernel.org
+References: <20220516033524.3130816-1-chenwandun@huawei.com>
+ <30b37eeb-e77b-882e-fc24-3367321a8ca3@gmail.com> <CAJuCfpE7fBsp8ntYVeLsW7Cd0Z09OmxN75X9Az_Qco0GJrz3Wg@mail.gmail.com>
+ <CAJuCfpH-BDqsft1YvGFhkbR60VC0TJgfXKRVN+80e0iqQdhxpA@mail.gmail.com> <3a31521f-a68a-b2a9-baae-9a458ee17033@huawei.com>
+In-Reply-To: <3a31521f-a68a-b2a9-baae-9a458ee17033@huawei.com>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Tue, 17 May 2022 10:35:46 -0700
+Message-ID: <CAJuCfpF4pdREUYvhU6zDB67fjZ2R-wn9XQbA3k7u7_e_jMr7xw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] psi: add support for multi level pressure stall trigger
+To:     Chen Wandun <chenwandun@huawei.com>
+Cc:     Alex Shi <seakeel@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rafael,
-
-On Tue, May 17, 2022 at 9:06 AM Rafael J. Wysocki <rafael@kernel.org> wrote:
+On Tue, May 17, 2022 at 5:46 AM Chen Wandun <chenwandun@huawei.com> wrote:
 >
-> On Mon, May 9, 2022 at 6:44 PM Evan Green <evgreen@chromium.org> wrote:
-> >
-> > On Fri, May 6, 2022 at 9:08 AM Pavel Machek <pavel@ucw.cz> wrote:
-> > >
-> > > Hi!
-> > >
-> > > > We are exploring enabling hibernation in some new scenarios. However,
-> > > > our security team has a few requirements, listed below:
-> > > > 1. The hibernate image must be encrypted with protection derived from
-> > > >    both the platform (eg TPM) and user authentication data (eg
-> > > >    password).
-> > > > 2. Hibernation must not be a vector by which a malicious userspace can
-> > > >    escalate to the kernel.
-> > >
-> > > Can you (or your security team) explain why requirement 2. is needed?
-> > >
-> > > On normal systems, trusted userspace handles kernel upgrades (for example),
-> > > so it can escalate to kernel priviledges.
-> > >
-> >
-> > Our systems are a little more sealed up than a normal distro, we use
-> > Verified Boot [1]. To summarize, RO firmware with an embedded public
-> > key verifies that the kernel+commandline was signed by Google. The
-> > commandline includes the root hash of the rootfs as well (where the
-> > modules live). So when an update is applied (A/B style, including the
-> > whole rootfs), assuming the RO firmware stayed RO (which requires
-> > physical measures to defeat), we can guarantee that the kernel,
-> > commandline, and rootfs have not been tampered with.
-> >
-> > Verified boot gives us confidence that on each boot, we're at least
-> > starting from known code. This makes it more challenging for an
-> > attacker to persist an exploit across reboot. With the kernel and
-> > modules verified, we try to make it non-trivial for someone who does
-> > manage to gain root execution once from escalating to kernel
-> > execution. Hibernation would be one obvious escalation route, so we're
-> > hoping to find a way to enable it without handing out that easy
-> > primitive.
-> >
-> > [1] https://www.chromium.org/chromium-os/chromiumos-design-docs/verified-boot/
 >
-> So I guess this really is an RFC.
+>
+> =E5=9C=A8 2022/5/16 16:43, Suren Baghdasaryan =E5=86=99=E9=81=93:
+> > On Mon, May 16, 2022 at 1:21 AM Suren Baghdasaryan <surenb@google.com> =
+wrote:
+> >> On Sun, May 15, 2022 at 11:20 PM Alex Shi <seakeel@gmail.com> wrote:
+> >>>
+> >>>
+> >>> On 5/16/22 11:35, Chen Wandun wrote:
+> >>>> Nowadays, psi events are triggered when stall time exceed
+> >>>> stall threshold, but no any different between these events.
+> >>>>
+> >>>> Actually, events can be divide into multi level, each level
+> >>>> represent a different stall pressure, that is help to identify
+> >>>> pressure information more accurately.
+> >> IIUC by defining min and max, you want the trigger to activate when
+> >> the stall is between min and max thresholds. But I don't see why you
+> >> would need that. If you want to have several levels, you can create
+> >> multiple triggers and monitor them separately. For your example, that
+> >> would be:
+> >>
+> >> echo "some 150000 1000000" > /proc/pressure/memory
+> >> echo "some 350000 1000000" > /proc/pressure/memory
+> >>
+> >> Your first trigger will fire whenever the stall exceeds 150ms within
+> >> each 1sec and the second one will trigger when it exceeds 350ms. It is
+> >> true that if the stall jumps sharply above 350ms, you would get both
+> >> triggers firing. I'm guessing that's why you want this functionality
+> >> so that 150ms trigger does not fire when 350ms one is firing but why
+> >> is that a problem? Can't userspace pick the highest level one and
+> >> ignore all the lower ones when this happens? Or are you addressing
+> >> some other requirement?
+> >>
+> >>>> echo "some 150000 350000 1000000" > /proc/pressure/memory would
+> >>> This breaks the old ABI. And why you need this new function?
+> >> Both great points.
+> > BTW, I think the additional max_threshold parameter could be
+> > implemented in a backward compatible way so that the old API is not
+> > broken:
+> >
+> > arg_count =3D sscanf(buf, "some %u %u %u", &min_threshold_us,  &arg2, &=
+arg3);
+> > if (arg_count < 2) return ERR_PTR(-EINVAL);
+> > if (arg_count < 3) {
+> >      max_threshold_us =3D INT_MAX;
+> >      window_us =3D arg2;
+> > } else {
+> >      max_threshold_us =3D arg2;
+> >      window_us =3D arg3;
+> > }
+> OK
+>
+> Thanks.
+> > But again, the motivation still needs to be explained.
+> we want do different operation for different stall level,
+> just as prev email explain, multi trigger is also OK in old
+> ways, but it is a litter complex.
 
-Yes, I suppose it is.
+Ok, so the issue can be dealt with in the userspace but would make it
+simpler if max_threashold is supported by the kernel. I can buy this
+argument if the kernel implementation is not complex and max_threshold
+is added in a way that does not break current users. I believe both
+conditions can be met.
 
 >
-> Honestly, I need more time to go through this and there are pieces of
-> it that need to be looked at other people (like the TPM-related
-> changes).
-
-No problem, thanks for the reply to let me know. I expect some back
-and forth in terms of what should be hidden behind abstractions and
-where exactly things should live. But I wanted to get this out to
-upstream as early as I could, just to get initial reactions on the
-overall concept and design. Looking forward to hearing your thoughts
-when you get a chance, and let me know if there are others I should be
-adding that I've missed.
-
--Evan
-
+> >
+> >>> Thanks
+> >>>
+> >>>> add [150ms, 350ms) threshold for partial memory stall measured
+> >>>> within 1sec time window.
+> >>>>
+> >>>> Signed-off-by: Chen Wandun <chenwandun@huawei.com>
+> >>>> ---
+> >>>>   include/linux/psi_types.h |  3 ++-
+> >>>>   kernel/sched/psi.c        | 19 +++++++++++++------
+> >>>>   2 files changed, 15 insertions(+), 7 deletions(-)
+> >>>>
+> >>>> diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
+> >>>> index c7fe7c089718..2b1393c8bf90 100644
+> >>>> --- a/include/linux/psi_types.h
+> >>>> +++ b/include/linux/psi_types.h
+> >>>> @@ -119,7 +119,8 @@ struct psi_trigger {
+> >>>>        enum psi_states state;
+> >>>>
+> >>>>        /* User-spacified threshold in ns */
+> >>>> -     u64 threshold;
+> >>>> +     u64 min_threshold;
+> >>>> +     u64 max_threshold;
+> >>>>
+> >>>>        /* List node inside triggers list */
+> >>>>        struct list_head node;
+> >>>> diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+> >>>> index 6f9533c95b0a..17dd233b533a 100644
+> >>>> --- a/kernel/sched/psi.c
+> >>>> +++ b/kernel/sched/psi.c
+> >>>> @@ -541,7 +541,7 @@ static u64 update_triggers(struct psi_group *gro=
+up, u64 now)
+> >>>>
+> >>>>                        /* Calculate growth since last update */
+> >>>>                        growth =3D window_update(&t->win, now, total[=
+t->state]);
+> >>>> -                     if (growth < t->threshold)
+> >>>> +                     if (growth < t->min_threshold || growth >=3D t=
+->max_threshold)
+> >>>>                                continue;
+> >>>>
+> >>>>                        t->pending_event =3D true;
+> >>>> @@ -1087,15 +1087,18 @@ struct psi_trigger *psi_trigger_create(struc=
+t psi_group *group,
+> >>>>   {
+> >>>>        struct psi_trigger *t;
+> >>>>        enum psi_states state;
+> >>>> -     u32 threshold_us;
+> >>>> +     u32 min_threshold_us;
+> >>>> +     u32 max_threshold_us;
+> >>>>        u32 window_us;
+> >>>>
+> >>>>        if (static_branch_likely(&psi_disabled))
+> >>>>                return ERR_PTR(-EOPNOTSUPP);
+> >>>>
+> >>>> -     if (sscanf(buf, "some %u %u", &threshold_us, &window_us) =3D=
+=3D 2)
+> >>>> +     if (sscanf(buf, "some %u %u %u", &min_threshold_us,
+> >>>> +                             &max_threshold_us, &window_us) =3D=3D =
+3)
+> >>>>                state =3D PSI_IO_SOME + res * 2;
+> >>>> -     else if (sscanf(buf, "full %u %u", &threshold_us, &window_us) =
+=3D=3D 2)
+> >>>> +     else if (sscanf(buf, "full %u %u %u", &min_threshold_us,
+> >>>> +                             &max_threshold_us, &window_us) =3D=3D =
+3)
+> >>>>                state =3D PSI_IO_FULL + res * 2;
+> >>>>        else
+> >>>>                return ERR_PTR(-EINVAL);
+> >>>> @@ -1107,8 +1110,11 @@ struct psi_trigger *psi_trigger_create(struct=
+ psi_group *group,
+> >>>>                window_us > WINDOW_MAX_US)
+> >>>>                return ERR_PTR(-EINVAL);
+> >>>>
+> >>>> +     if (min_threshold_us >=3D max_threshold_us)
+> >>>> +             return ERR_PTR(-EINVAL);
+> >>>> +
+> >>>>        /* Check threshold */
+> >>>> -     if (threshold_us =3D=3D 0 || threshold_us > window_us)
+> >>>> +     if (max_threshold_us > window_us)
+> >>>>                return ERR_PTR(-EINVAL);
+> >>>>
+> >>>>        t =3D kmalloc(sizeof(*t), GFP_KERNEL);
+> >>>> @@ -1117,7 +1123,8 @@ struct psi_trigger *psi_trigger_create(struct =
+psi_group *group,
+> >>>>
+> >>>>        t->group =3D group;
+> >>>>        t->state =3D state;
+> >>>> -     t->threshold =3D threshold_us * NSEC_PER_USEC;
+> >>>> +     t->min_threshold =3D min_threshold_us * NSEC_PER_USEC;
+> >>>> +     t->max_threshold =3D max_threshold_us * NSEC_PER_USEC;
+> >>>>        t->win.size =3D window_us * NSEC_PER_USEC;
+> >>>>        window_reset(&t->win, 0, 0, 0);
+> >>>>
+> > .
 >
-> Thanks!
