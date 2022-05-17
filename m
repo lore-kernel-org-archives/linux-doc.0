@@ -2,115 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3168BC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 16:07:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60BFBC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 16:51:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350758AbiEQQG6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 12:06:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56092 "EHLO
+        id S1347947AbiEQQvR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 12:51:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350676AbiEQQG5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 12:06:57 -0400
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70A63369E5;
-        Tue, 17 May 2022 09:06:56 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id i11so33157487ybq.9;
-        Tue, 17 May 2022 09:06:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=T+Y0T0by6V75JyhkkKhy6aaHysUDsmwlgU76NEv5hWY=;
-        b=JTxWjsc1g9aYb/foqfiAq6EqRuWOzjuVWT97j4hei0KotI2fGZLoyk5H9k2vpFVABK
-         2gMsAP0otZsp+mk4lMAGh5XYJwdaXjJoz80VaExDriCUo+A3xY8XODKIDdwx5p18pPUQ
-         a79VdvzuaLIqj7ePYQqWL3ltFlobmmcsUXkTK16aBZNP/jNyitdFGU1TkiZDemdu5EsA
-         8Fi83f/O6anK8/sqbNSQwnkPiUtuJCD7cQPLa7QkjqinCLfNzWPo9z3j5A7g3ADyELE4
-         9S2kwN74Xkh074fXE7Mzs60WyKzUKTnfuGprrBd12erZl9WIBPz4akLvqw3XGoYMz2LX
-         5cXA==
-X-Gm-Message-State: AOAM5304AGrVtug+HToZCE+wR33fjbyUtDZYx3YvC6ghQNl6CkbNe1AC
-        KpDRUclLkwOy0fMtVPDqu2oZVjTI/cKT/WlHqws/ufhe
-X-Google-Smtp-Source: ABdhPJy1LGg4mJVH0m9Pwfdn7gwx0zv22rx74oJyN/QFQI66KeJQrMvIuDw13YQMm1Z5ZZyzAnUAXdJqmdCaaW/IMyc=
-X-Received: by 2002:a25:1145:0:b0:64d:d6be:c741 with SMTP id
- 66-20020a251145000000b0064dd6bec741mr8135761ybr.137.1652803615502; Tue, 17
- May 2022 09:06:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220504232102.469959-1-evgreen@chromium.org> <20220506160807.GA1060@bug>
- <CAE=gft6m75T0UC2DBhfFhuSMW6TK7aatD_04sQ18WosgGVsATw@mail.gmail.com>
-In-Reply-To: <CAE=gft6m75T0UC2DBhfFhuSMW6TK7aatD_04sQ18WosgGVsATw@mail.gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 17 May 2022 18:06:44 +0200
-Message-ID: <CAJZ5v0gxq=EA_WWUiCR_w8o87iTHDR7OC5wi=GRBaAQS2ofd5w@mail.gmail.com>
-Subject: Re: [PATCH 00/10] Encrypted Hibernation
-To:     Evan Green <evgreen@chromium.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, LKML <linux-kernel@vger.kernel.org>,
-        Matthew Garrett <mgarrett@aurora.tech>,
-        Daniil Lunev <dlunev@google.com>, zohar@linux.ibm.com,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        linux-integrity@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
+        with ESMTP id S1351207AbiEQQu7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 12:50:59 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E5AE2BE7;
+        Tue, 17 May 2022 09:50:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652806257; x=1684342257;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=9E/vttDFy0EFq5zSJDnsg0HX9OScE43/QxlsTcLOYjs=;
+  b=UJP/OC/2KaLR5AWSQouaN1Gn86vjq8OiJlF4rj4czHPCzl1W20K28/yj
+   E48d3/mnsQq9MGhMPHzQhwRhrS6Y9ylFqNVpHBMnlQzakcyonIljuzsw2
+   /Wlm3MGAXM1oMtPb2hLe8UQuNX3atEIBNZ9vkcedVhvpUGBy4ergUvyFX
+   USfbcdLREcD1wZsXsiZkkCqkqs3CEOdeqtxwb/KkLBc1nYuLP1tD28tAR
+   WclN2XblDZRwtPIi/cwTw74EfMRQWhqcVg5SJNkZoebwdvVUp/h9Mi/k8
+   UV1rn/PnmsWXLJovpJLIVBzc1DbLDpUNsAlV4eHBj+wSiX16F1JMgMiJl
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="271371030"
+X-IronPort-AV: E=Sophos;i="5.91,233,1647327600"; 
+   d="scan'208";a="271371030"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2022 09:50:57 -0700
+X-IronPort-AV: E=Sophos;i="5.91,233,1647327600"; 
+   d="scan'208";a="672939443"
+Received: from abhuwalk-mobl1.amr.corp.intel.com (HELO spandruv-desk1.amr.corp.intel.com) ([10.212.246.60])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2022 09:50:55 -0700
+Message-ID: <7b1a9f3b5b5087f47bf4839858c7bfebdb60aa2f.camel@linux.intel.com>
+Subject: Re: [PATCH v2 01/14] thermal/core: Change thermal_zone_ops to
+ thermal_sensor_ops
+From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linexp.org>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Alexandre Bailon <abailon@baylibre.com>,
         Linux PM <linux-pm@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Len Brown <len.brown@intel.com>,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
-        keyrings@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+        Raju Rangoju <rajur@chelsio.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Ido Schimmel <idosch@nvidia.com>,
+        Petr Machata <petrm@nvidia.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Kalle Valo <kvalo@kernel.org>, Peter Kaestle <peter@piie.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Chuansheng Liu <chuansheng.liu@intel.com>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antoine Tenart <atenart@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-security-module@vger.kernel.org
+        "open list:ACPI THERMAL DRIVER" <linux-acpi@vger.kernel.org>,
+        "open list:CXGB4 ETHERNET DRIVER (CXGB4)" <netdev@vger.kernel.org>,
+        "open list:INTEL WIRELESS WIFI LINK (iwlwifi)" 
+        <linux-wireless@vger.kernel.org>,
+        "open list:ACER ASPIRE ONE TEMPERATURE AND FAN DRIVER" 
+        <platform-driver-x86@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:RENESAS R-CAR THERMAL DRIVERS" 
+        <linux-renesas-soc@vger.kernel.org>
+Date:   Tue, 17 May 2022 09:50:54 -0700
+In-Reply-To: <CAJZ5v0ik_JQ4Awtw7iR68W4-9ZL8FRDsDd-kWmL-n09fgg3reg@mail.gmail.com>
+References: <20220507125443.2766939-1-daniel.lezcano@linexp.org>
+         <20220507125443.2766939-2-daniel.lezcano@linexp.org>
+         <CAJZ5v0ik_JQ4Awtw7iR68W4-9ZL8FRDsDd-kWmL-n09fgg3reg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 9, 2022 at 6:44 PM Evan Green <evgreen@chromium.org> wrote:
->
-> On Fri, May 6, 2022 at 9:08 AM Pavel Machek <pavel@ucw.cz> wrote:
-> >
-> > Hi!
-> >
-> > > We are exploring enabling hibernation in some new scenarios. However,
-> > > our security team has a few requirements, listed below:
-> > > 1. The hibernate image must be encrypted with protection derived from
-> > >    both the platform (eg TPM) and user authentication data (eg
-> > >    password).
-> > > 2. Hibernation must not be a vector by which a malicious userspace can
-> > >    escalate to the kernel.
-> >
-> > Can you (or your security team) explain why requirement 2. is needed?
-> >
-> > On normal systems, trusted userspace handles kernel upgrades (for example),
-> > so it can escalate to kernel priviledges.
-> >
->
-> Our systems are a little more sealed up than a normal distro, we use
-> Verified Boot [1]. To summarize, RO firmware with an embedded public
-> key verifies that the kernel+commandline was signed by Google. The
-> commandline includes the root hash of the rootfs as well (where the
-> modules live). So when an update is applied (A/B style, including the
-> whole rootfs), assuming the RO firmware stayed RO (which requires
-> physical measures to defeat), we can guarantee that the kernel,
-> commandline, and rootfs have not been tampered with.
->
-> Verified boot gives us confidence that on each boot, we're at least
-> starting from known code. This makes it more challenging for an
-> attacker to persist an exploit across reboot. With the kernel and
-> modules verified, we try to make it non-trivial for someone who does
-> manage to gain root execution once from escalating to kernel
-> execution. Hibernation would be one obvious escalation route, so we're
-> hoping to find a way to enable it without handing out that easy
-> primitive.
->
-> [1] https://www.chromium.org/chromium-os/chromiumos-design-docs/verified-boot/
+On Tue, 2022-05-17 at 17:42 +0200, Rafael J. Wysocki wrote:
+> On Sat, May 7, 2022 at 2:55 PM Daniel Lezcano
+> <daniel.lezcano@linexp.org> wrote:
+> > 
+> > A thermal zone is software abstraction of a sensor associated with
+> > properties and cooling devices if any.
+> > 
+> > The fact that we have thermal_zone and thermal_zone_ops mixed is
+> > confusing and does not clearly identify the different components
+> > entering in the thermal management process. A thermal zone appears
+> > to
+> > be a sensor while it is not.
+> 
+> Well, the majority of the operations in thermal_zone_ops don't apply
+> to thermal sensors.  For example, ->set_trips(), ->get_trip_type(),
+> ->get_trip_temp().
+> 
+In past we discussed adding thermal sensor sysfs with threshold to
+notify temperature.
 
-So I guess this really is an RFC.
+So sensor can have set/get_threshold() functions instead of the
+set/get_trip for zones.
 
-Honestly, I need more time to go through this and there are pieces of
-it that need to be looked at other people (like the TPM-related
-changes).
+Like we have /sys/class/thermal_zone* we can have
+/sys/class/thermal_sensor*.
 
-Thanks!
+Thermal sensor(s) are bound to  thermal zones. This can also include
+multiple sensors in a zone and can create a virtual sensor also.
+
+Thanks,
+Srinivas
+
+> > In order to set the scene for multiple thermal sensors aggregated
+> > into
+> > a single thermal zone. Rename the thermal_zone_ops to
+> > thermal_sensor_ops, that will appear clearyl the thermal zone is
+> > not a
+> > sensor but an abstraction of one [or multiple] sensor(s).
+> 
+> So I'm not convinced that the renaming mentioned above is
+> particularly
+> clean either.
+> 
+> IMV the way to go would be to split the thermal sensor operations,
+> like ->get_temp(), out of thermal_zone_ops.
+> 
+> But then it is not clear what a thermal zone with multiple sensors in
+> it really means.  I guess it would require an aggregation function to
+> combine the thermal sensors in it that would produce an effective
+> temperature to check against the trip points.
+> 
+> Honestly, I don't think that setting a separate set of trips for each
+> sensor in a thermal zone would make a lot of sense.
+
