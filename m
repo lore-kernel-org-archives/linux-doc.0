@@ -2,104 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA9FC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 15:38:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4413C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 15:44:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350359AbiEQPiL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 11:38:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41830 "EHLO
+        id S1350775AbiEQPon (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 11:44:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350412AbiEQPiA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 11:38:00 -0400
-Received: from out02.mta.xmission.com (out02.mta.xmission.com [166.70.13.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D06955047D;
-        Tue, 17 May 2022 08:37:04 -0700 (PDT)
-Received: from in01.mta.xmission.com ([166.70.13.51]:55038)
-        by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1nqzFo-00HUt8-UL; Tue, 17 May 2022 09:36:56 -0600
-Received: from ip68-227-174-4.om.om.cox.net ([68.227.174.4]:38510 helo=email.froward.int.ebiederm.org.xmission.com)
-        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1nqzFn-00CCn9-VR; Tue, 17 May 2022 09:36:56 -0600
-From:   "Eric W. Biederman" <ebiederm@xmission.com>
-To:     Huacai Chen <chenhuacai@gmail.com>
-Cc:     WANG Xuerui <kernel@xen0n.name>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "<linux-arch@vger.kernel.org>" <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Al Viro <viro@zeniv.linux.org.uk>
-References: <20220514080402.2650181-1-chenhuacai@loongson.cn>
-        <20220514080402.2650181-15-chenhuacai@loongson.cn>
-        <ef37e578-d843-6a2f-2108-2a26dc54bece@xen0n.name>
-        <CAAhV-H7UwLJLiMtjkW0xxfsBBaCPXqkQ-d+ZW4rm+=igvVP6ew@mail.gmail.com>
-        <b30e5b28-2a3a-f3a6-1bb1-592323f6eadd@xen0n.name>
-        <87bkvxd12b.fsf@email.froward.int.ebiederm.org>
-        <CAAhV-H7R4hioE-dHVxAnPmeJJ-eqiWkdmZWxNDfLesuvURCLcw@mail.gmail.com>
-Date:   Tue, 17 May 2022 10:36:48 -0500
-In-Reply-To: <CAAhV-H7R4hioE-dHVxAnPmeJJ-eqiWkdmZWxNDfLesuvURCLcw@mail.gmail.com>
-        (Huacai Chen's message of "Tue, 17 May 2022 10:08:18 +0800")
-Message-ID: <87v8u49nn3.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        with ESMTP id S1350495AbiEQPof (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 11:44:35 -0400
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EDA1517C3;
+        Tue, 17 May 2022 08:42:54 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-2fefb051547so63696677b3.5;
+        Tue, 17 May 2022 08:42:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ih99ClvoAeqjGYS9QU/k2msQKrRE+HtIf5pCOCjsnKg=;
+        b=S6HykbWBR44YSkt63OB0vtxiaDCWfdeP5wg0lwRiIuqjr3bX/MR6hXjUdJsPdybzyY
+         219k87DDTBACyKpPjkOmwBZv8Wq1wKm4mrcRxgdvjNLplnJDK+Q35XX3p/nMQ6MG6QmN
+         zMU9D++gs0erEkMI2dUC8qThSxsAIwU/nthfg51LQJCRQZziwtL8eFRFkR7PWo/mPQWn
+         qkzWIjE9tXBuu0bk9shZKBkZifbZWKCuqsEkt9HKeascLL3DhHuW4kAG6zFi7UzUCGxJ
+         Q2I7EY1JdbTXXFCUNrkUU3Wy4zq0SjjL7ZoX89LNl9/VdDGm3HNYxSz5lS/VB/E6LIDx
+         CxMA==
+X-Gm-Message-State: AOAM531QS6lz5g4SwRl6gUYKS0bokiVh299knPqAEMhHxvPIMf0eoBCp
+        MdfjZqWjQBTh66K7+WOdOtKyDzvRi8Mi+Kc5B2Q=
+X-Google-Smtp-Source: ABdhPJw+IFfD9QLRka+RlaDlPyTO9zp9vrwr4b9R/6wrJEYajaNeGitZUWVkuCAg7gGsuxWz7+CRNZCCFawuylcycrc=
+X-Received: by 2002:a81:91d4:0:b0:2fe:e300:3581 with SMTP id
+ i203-20020a8191d4000000b002fee3003581mr14868030ywg.7.1652802159726; Tue, 17
+ May 2022 08:42:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1nqzFn-00CCn9-VR;;;mid=<87v8u49nn3.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.174.4;;;frm=ebiederm@xmission.com;;;spf=softfail
-X-XM-AID: U2FsdGVkX1/z8zdXGiWLxn4UIls5cu+131SNiPOvwrA=
-X-SA-Exim-Connect-IP: 68.227.174.4
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [PATCH V10 14/22] LoongArch: Add signal handling support
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+References: <20220507125443.2766939-1-daniel.lezcano@linexp.org> <20220507125443.2766939-2-daniel.lezcano@linexp.org>
+In-Reply-To: <20220507125443.2766939-2-daniel.lezcano@linexp.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 17 May 2022 17:42:28 +0200
+Message-ID: <CAJZ5v0ik_JQ4Awtw7iR68W4-9ZL8FRDsDd-kWmL-n09fgg3reg@mail.gmail.com>
+Subject: Re: [PATCH v2 01/14] thermal/core: Change thermal_zone_ops to thermal_sensor_ops
+To:     Daniel Lezcano <daniel.lezcano@linexp.org>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Alexandre Bailon <abailon@baylibre.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+        Raju Rangoju <rajur@chelsio.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Ido Schimmel <idosch@nvidia.com>,
+        Petr Machata <petrm@nvidia.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Kalle Valo <kvalo@kernel.org>, Peter Kaestle <peter@piie.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Chuansheng Liu <chuansheng.liu@intel.com>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antoine Tenart <atenart@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:ACPI THERMAL DRIVER" <linux-acpi@vger.kernel.org>,
+        "open list:CXGB4 ETHERNET DRIVER (CXGB4)" <netdev@vger.kernel.org>,
+        "open list:INTEL WIRELESS WIFI LINK (iwlwifi)" 
+        <linux-wireless@vger.kernel.org>,
+        "open list:ACER ASPIRE ONE TEMPERATURE AND FAN DRIVER" 
+        <platform-driver-x86@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:RENESAS R-CAR THERMAL DRIVERS" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Huacai Chen <chenhuacai@gmail.com> writes:
-
-> Hi, Eric,
+On Sat, May 7, 2022 at 2:55 PM Daniel Lezcano <daniel.lezcano@linexp.org> wrote:
 >
-> On Mon, May 16, 2022 at 10:07 PM Eric W. Biederman
-> <ebiederm@xmission.com> wrote:
->>
->> I can understand exporting these values but the names aren't very
->> well namespaced at all.  Which means they could accidentially
->> conflict with things.
->>
->> It would probably be better to do:
->> SC_USED_FP
->> SC_ADDRERR_RD
->> SC_ADDRERR_WR
-> SC_ prefix is good, but ADRERR_RD/ADRERR_WR is used together with
-> SIGSEGV/SIGBUS, so I want to keep the same as BUS_ADRERR (a single D)
-> if possible.
+> A thermal zone is software abstraction of a sensor associated with
+> properties and cooling devices if any.
+>
+> The fact that we have thermal_zone and thermal_zone_ops mixed is
+> confusing and does not clearly identify the different components
+> entering in the thermal management process. A thermal zone appears to
+> be a sensor while it is not.
 
-Fair enough about the single D.  Please add the prefix in the next
-version. Especially for kabi symbols in a namespace is a very good idea.
+Well, the majority of the operations in thermal_zone_ops don't apply
+to thermal sensors.  For example, ->set_trips(), ->get_trip_type(),
+->get_trip_temp().
 
+> In order to set the scene for multiple thermal sensors aggregated into
+> a single thermal zone. Rename the thermal_zone_ops to
+> thermal_sensor_ops, that will appear clearyl the thermal zone is not a
+> sensor but an abstraction of one [or multiple] sensor(s).
 
->> Given that neither lsx_context nor lasx_context are used in the kernel
->> code yet I would very much prefer that their inclusion wait until there
->> is actual code that needs them.
->>
->> If nothing else that will put the definitions in context so people can
->> more easily see the big picture and understand how the pieces fit.
-> OK, I will remove lsx_context/lasx_context in the next version.
+So I'm not convinced that the renaming mentioned above is particularly
+clean either.
 
-Thanks,
-Eric
+IMV the way to go would be to split the thermal sensor operations,
+like ->get_temp(), out of thermal_zone_ops.
+
+But then it is not clear what a thermal zone with multiple sensors in
+it really means.  I guess it would require an aggregation function to
+combine the thermal sensors in it that would produce an effective
+temperature to check against the trip points.
+
+Honestly, I don't think that setting a separate set of trips for each
+sensor in a thermal zone would make a lot of sense.
