@@ -2,236 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF508C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 03:27:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93EF6C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 04:00:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238148AbiEQD1m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 May 2022 23:27:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59672 "EHLO
+        id S231331AbiEQEAa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 00:00:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235078AbiEQD1l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 23:27:41 -0400
-Received: from email.cn (m218-153.88.com [110.43.218.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 587093FBE4
-        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 20:27:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=pEDOZ+XwAvuooVHJXmoXk2lGhxhchHMN4sn/i
-        j3hOZs=; b=duV1q5lAjtnVqdwf4KQ4UtzJPwPLTGoObVSCMxRx8YHYuiVOHaDdh
-        qaZpm3hlkzxSDpXiLlV/60Ew9OcwrI85rSSx5CuUqkfdNswznCDwisy05MWnMFcd
-        qeEGyF5MnOSyui2Ej/VZ+egfkROH+JyoZIMMR5liHNAwaZWoCGu2Hw=
-Received: from bobwxc.mipc (unknown [120.242.69.144])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgC3o4sdFoNi+5aVAA--.36476S2;
-        Tue, 17 May 2022 11:27:26 +0800 (CST)
-Date:   Tue, 17 May 2022 11:27:25 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com,
-        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com
-Subject: Re: [PATCH v3 2/2] docs/zh_CN: add vm vmalloced-kernel-stacks
- translation
-Message-ID: <YoMWHYtpBnugOfC6@bobwxc.mipc>
-References: <cover.1652713779.git.siyanteng@loongson.cn>
- <ef2baddb668403ed68e97e4e77eef35817287180.1652713779.git.siyanteng@loongson.cn>
+        with ESMTP id S230145AbiEQEA3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 00:00:29 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B17CA45070
+        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 21:00:28 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id o130so14838048ybc.8
+        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 21:00:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=dwTAXS78pYnOlXuDbtKAG3T1yWfngYWkL6ZzLmsn0Ro=;
+        b=JWSGug+XZX67ByUw12tmsddIq1B6g1W2Q53YOwippq800chjouVf2gO1fB/rTw7CnA
+         9Rq06L0sHtzQi15Jgx5mOVrcyi4qc8LeIAmLith7tSeHgCgb8ts7cSPzo4RhIKrjYiG+
+         Up5Za5+rFkJj7U2/frlUBiHR9daAPB+GoQTjRuzsU4NUIUnFcgB8jOhEeOlNDpQwXGm1
+         fv8lN8pzlG5QsIGO8jejDYkuGfXQ2e00j6OLK+Y2ddUMS2FQYl+zKX5w1/opcjrmMNI+
+         /F8+uJDR1qIB9LzOGgL233hOwGy62HGOD1a+X5RIfMWAyieyauZ4CZOWzJuOHcDHbdNq
+         SQdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=dwTAXS78pYnOlXuDbtKAG3T1yWfngYWkL6ZzLmsn0Ro=;
+        b=lDhsHPPNxb/LqUiYBarIBu/ACTaasLl3BcLswnVEyetsnaA6JE5/RTL7udSYwBKCNe
+         yksY8Xotqry55ep45Q4fvOtykxCAa4n1aKVJ4eH6Yzele2X7jedDmoEr1P1S4mvLw+g/
+         WA8rE0Uz8olheJVmcC7ODQJ28RK++CQShMYENRSHgDnsTXX1gvVbkXl71dW6WL2FJD8q
+         Nxfo6QtHrA6cMBJeEoWamYaCY2LywRs3dO6+wGGKD+HyRjTCkurmGsm0+fwFxrG9xyZY
+         R58YR85mNJW9+zimxJd68trpuVmCla2G6Vqv2YMNHbmJB9xTf+Q/oJD7Wfh1nv3zxguK
+         VwAQ==
+X-Gm-Message-State: AOAM530Xmw0b8vsqMfcWeOPGKuepi0R2qIOfXrL9K3MV4L0AvhxtLau/
+        H/7WQjmCkdX+kXQF3ua/GZk8o6D2rKLRGYNm4ac=
+X-Google-Smtp-Source: ABdhPJzz4hbBrigiG6eDnDLqKsgfKEckD+sZ1MDS1F9XXWnWBezImz7/oVJ6HmfUqqtAHWCuz6C81ph9tRD3vVrmd88=
+X-Received: by 2002:a5b:481:0:b0:649:d872:d521 with SMTP id
+ n1-20020a5b0481000000b00649d872d521mr20726369ybp.73.1652760027878; Mon, 16
+ May 2022 21:00:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ef2baddb668403ed68e97e4e77eef35817287180.1652713779.git.siyanteng@loongson.cn>
-X-CM-TRANSID: GiKnCgC3o4sdFoNi+5aVAA--.36476S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxKw43ur13KFyDXryxtr45Awb_yoW3ArykpF
-        93KryfGF1Fy343A34S9w48Cr1UAw4xCF48CFn7X3Zaqrn0yrW7tr1Y9FWrWa93X340yrWD
-        XrW0vayakrnxua7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgIb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
-        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
-        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY02Avz4vE14v_Gr4l42xK82
-        IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8
-        JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
-        AFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
-        jxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
-        A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU
-        0xZFpf9x07U38n5UUUUU=
-X-Originating-IP: [120.242.69.144]
-X-CM-SenderInfo: pere453f6hztlloou0/
+References: <cover.1652713779.git.siyanteng@loongson.cn> <2c85bf903171b61d69aea0345913c89a740f1a86.1652713779.git.siyanteng@loongson.cn>
+ <YoMVgfGXMSyLdCPK@bobwxc.mipc>
+In-Reply-To: <YoMVgfGXMSyLdCPK@bobwxc.mipc>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Tue, 17 May 2022 12:00:16 +0800
+Message-ID: <CAEensMxPx2LswcW8UGg0JdufgaJLpCd2urJVWAXo=JB03dxtbQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] docs/zh_CN: add vm page_migration translation
+To:     "Wu X.C." <bobwxc@email.cn>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Alex Shi <seakeel@gmail.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 16, 2022 at 11:56:32PM +0800, Yanteng Si wrote:
-> Translate .../vm/vmalloced-kernel-stacks.rst into Chinese.
-> 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
-
-Thanks,
-	Wu
-
-> ---
->  Documentation/translations/zh_CN/vm/index.rst |   2 +-
->  .../zh_CN/vm/vmalloced-kernel-stacks.rst      | 133 ++++++++++++++++++
->  2 files changed, 134 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/vm/vmalloced-kernel-stacks.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-> index 551f58bf7b55..d9ac73159dbc 100644
-> --- a/Documentation/translations/zh_CN/vm/index.rst
-> +++ b/Documentation/translations/zh_CN/vm/index.rst
-> @@ -41,6 +41,7 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
->     page_table_check
->     remap_file_pages
->     split_page_table_lock
-> +   vmalloced-kernel-stacks
->     z3fold
->     zsmalloc
->  
-> @@ -51,4 +52,3 @@ TODOLIST:
->  * slub
->  * transhuge
->  * unevictable-lru
-> -* vmalloced-kernel-stacks
-> diff --git a/Documentation/translations/zh_CN/vm/vmalloced-kernel-stacks.rst b/Documentation/translations/zh_CN/vm/vmalloced-kernel-stacks.rst
-> new file mode 100644
-> index 000000000000..ad23f274f6d7
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/vmalloced-kernel-stacks.rst
-> @@ -0,0 +1,133 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/vm/vmalloced-kernel-stacks.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +====================
-> +支持虚拟映射的内核栈
-> +====================
-> +
-> +:作者: Shuah Khan <skhan@linuxfoundation.org>
-> +
-> +.. contents:: :local:
-> +
-> +概览
-> +----
-> +
-> +这是介绍 `虚拟映射内核栈功能 <https://lwn.net/Articles/694348/>` 的代码
-> +和原始补丁系列的信息汇总。
-> +
-> +简介
-> +----
-> +
-> +内核堆栈溢出通常难以调试，并使内核容易被（恶意）利用。问题可能在稍后的时间出现，使其难以
-> +隔离和究其根本原因。
-> +
-> +带有保护页的虚拟映射内核堆栈如果溢出，会被立即捕获，而不会放任其导致难以诊断的损
-> +坏。
-> +
-> +HAVE_ARCH_VMAP_STACK和VMAP_STACK配置选项能够支持带有保护页的虚拟映射堆栈。
-> +当堆栈溢出时，这个特性会引发可靠的异常。溢出后堆栈跟踪的可用性以及对溢出本身的
-> +响应取决于架构。
-> +
-> +.. note::
-> +        截至本文撰写时， arm64, powerpc, riscv, s390, um, 和 x86 支持VMAP_STACK。
-> +
-> +HAVE_ARCH_VMAP_STACK
-> +--------------------
-> +
-> +能够支持虚拟映射内核栈的架构应该启用这个bool配置选项。要求是:
-> +
-> +- vmalloc空间必须大到足以容纳许多内核堆栈。这可能排除了许多32位架构。
-> +- vmalloc空间的堆栈需要可靠地工作。例如，如果vmap页表是按需创建的，当堆栈指向
-> +  具有未填充页表的虚拟地址时，这种机制需要工作，或者架构代码（switch_to()和
-> +  switch_mm()，很可能）需要确保堆栈的页表项在可能未填充的堆栈上运行之前已经填
-> +  充。
-> +- 如果堆栈溢出到一个保护页，就应该发生一些合理的事情。“合理”的定义是灵活的，但
-> +  在没有记录任何东西的情况下立即重启是不友好的。
-> +
-> +VMAP_STACK
-> +----------
-> +
-> +VMAP_STACK bool配置选项在启用时分配虚拟映射的任务栈。这个选项依赖于
-> +HAVE_ARCH_VMAP_STACK。
-> +
-> +- 如果你想使用带有保护页的虚拟映射的内核堆栈，请启用该选项。这将导致内核栈溢出
-> +  被立即捕获，而不是难以诊断的损坏。
-> +
-> +.. note::
-> +
-> +        使用KASAN的这个功能需要架构支持用真实的影子内存来支持虚拟映射，并且
-> +        必须启用KASAN_VMALLOC。
-> +
-> +.. note::
-> +
-> +        启用VMAP_STACK时，无法在堆栈分配的数据上运行DMA。
-> +
-> +内核配置选项和依赖性不断变化。请参考最新的代码库:
-> +
-> +`Kconfig <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/Kconfig>`
-> +
-> +分配方法
-> +--------
-> +
-> +当一个新的内核线程被创建时，线程堆栈是由页级分配器分配的虚拟连续的内存页组成。这
-> +些页面被映射到有PAGE_KERNEL保护的连续的内核虚拟空间。
-> +
-> +alloc_thread_stack_node()调用__vmalloc_node_range()来分配带有PAGE_KERNEL
-> +保护的栈。
-> +
-> +- 分配的堆栈被缓存起来，以后会被新的线程重用，所以在分配/释放堆栈给任务时，要手动
-> +  进行memcg核算。因此，__vmalloc_node_range被调用时没有__GFP_ACCOUNT。
-> +- vm_struct被缓存起来，以便能够找到在中断上下文中启动的空闲线程。 free_thread_stack()
-> +  可以在中断上下文中调用。
-> +- 在arm64上，所有VMAP的堆栈都需要有相同的对齐方式，以确保VMAP的堆栈溢出检测正常
-> +  工作。架构特定的vmap堆栈分配器照顾到了这个细节。
-> +- 这并不涉及中断堆栈--参考原始补丁
-> +
-> +线程栈分配是由clone()、fork()、vfork()、kernel_thread()通过kernel_clone()
-> +启动的。留点提示在这，以便搜索代码库，了解线程栈何时以及如何分配。
-> +
-> +大量的代码是在:
-> +`kernel/fork.c <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/fork.c>`.
-> +
-> +task_struct中的stack_vm_area指针可以跟踪虚拟分配的堆栈，一个非空的stack_vm_area
-> +指针可以表明虚拟映射的内核堆栈已经启用。
-> +
-> +::
-> +
-> +        struct vm_struct *stack_vm_area;
-> +
-> +堆栈溢出处理
-> +------------
-> +
-> +前守护页和后守护页有助于检测堆栈溢出。当堆栈溢出到守护页时，处理程序必须小心不要再
-> +次溢出堆栈。当处理程序被调用时，很可能只留下很少的堆栈空间。
-> +
-> +在x86上，这是通过处理表明内核堆栈溢出的双异常堆栈的缺页异常来实现的。
-> +
-> +用守护页测试VMAP分配
-> +--------------------
-> +
-> +我们如何确保VMAP_STACK在分配时确实有前守护页和后守护页的保护？下面的 lkdtm 测试
-> +可以帮助检测任何回归。
-> +
-> +::
-> +
-> +        void lkdtm_STACK_GUARD_PAGE_LEADING()
-> +        void lkdtm_STACK_GUARD_PAGE_TRAILING()
-> +
-> +结论
-> +----
-> +
-> +- vmalloced堆栈的percpu缓存似乎比高阶堆栈分配要快一些，至少在缓存命中时是这样。
-> +- THREAD_INFO_IN_TASK完全摆脱了arch-specific thread_info，并简单地将
-> +  thread_info（仅包含标志）和'int cpu'嵌入task_struct中。
-> +- 一旦任务死亡，线程栈就可以被释放（无需等待RCU），然后，如果使用vmapped栈，就
-> +  可以将整个栈缓存起来，以便在同一cpu上重复使用。
-> -- 
-> 2.27.0
-
+V3UgWC5DLiA8Ym9id3hjQGVtYWlsLmNuPiDkuo4yMDIy5bm0NeaciDE35pel5ZGo5LqMIDExOjI1
+5YaZ6YGT77yaDQo+DQo+IE9uIE1vbiwgTWF5IDE2LCAyMDIyIGF0IDExOjU2OjMxUE0gKzA4MDAs
+IFlhbnRlbmcgU2kgd3JvdGU6DQo+ID4gVHJhbnNsYXRlIC4uLi92bS9wYWdlX21pZ3JhdGlvbi5y
+c3QgaW50byBDaGluZXNlLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogWWFudGVuZyBTaSA8c2l5
+YW50ZW5nQGxvb25nc29uLmNuPg0KPiA+IC0tLQ0KPiA+ICBEb2N1bWVudGF0aW9uL3RyYW5zbGF0
+aW9ucy96aF9DTi92bS9pbmRleC5yc3QgfCAgIDIgKy0NCj4gPiAgLi4uL3RyYW5zbGF0aW9ucy96
+aF9DTi92bS9wYWdlX21pZ3JhdGlvbi5yc3QgIHwgMjI4ICsrKysrKysrKysrKysrKysrKw0KPiA+
+ICAyIGZpbGVzIGNoYW5nZWQsIDIyOSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4g
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9w
+YWdlX21pZ3JhdGlvbi5yc3QNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3Ry
+YW5zbGF0aW9ucy96aF9DTi92bS9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
+cy96aF9DTi92bS9pbmRleC5yc3QNCj4gPiBpbmRleCBhMWM2ZDUyOWI2ZmYuLjU1MWY1OGJmN2I1
+NSAxMDA2NDQNCj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9p
+bmRleC5yc3QNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9p
+bmRleC5yc3QNCj4gPiBAQCAtMzYsNiArMzYsNyBAQCBUT0RPOuW+heW8leeUqOaWh+aho+mbhuii
+q+e/u+ivkeWujOavleWQjuivt+WPiuaXtuS/ruaUueatpOWkhO+8iQ0KPiA+ICAgICBudW1hDQo+
+ID4gICAgIG92ZXJjb21taXQtYWNjb3VudGluZw0KPiA+ICAgICBwYWdlX2ZyYWdzDQo+ID4gKyAg
+IHBhZ2VfbWlncmF0aW9uDQo+ID4gICAgIHBhZ2Vfb3duZXINCj4gPiAgICAgcGFnZV90YWJsZV9j
+aGVjaw0KPiA+ICAgICByZW1hcF9maWxlX3BhZ2VzDQo+ID4gQEAgLTQ3LDcgKzQ4LDYgQEAgVE9E
+T0xJU1Q6DQo+ID4gICogYXJjaF9wZ3RhYmxlX2hlbHBlcnMNCj4gPiAgKiBmcmVlX3BhZ2VfcmVw
+b3J0aW5nDQo+ID4gICogaHVnZXRsYmZzX3Jlc2Vydg0KPiA+IC0qIHBhZ2VfbWlncmF0aW9uDQo+
+ID4gICogc2x1Yg0KPiA+ICAqIHRyYW5zaHVnZQ0KPiA+ICAqIHVuZXZpY3RhYmxlLWxydQ0KPiA+
+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9wYWdlX21p
+Z3JhdGlvbi5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9wYWdlX21p
+Z3JhdGlvbi5yc3QNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAw
+MDAwMC4uNDE3ODYxZmJjM2UwDQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL0RvY3VtZW50
+YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL3BhZ2VfbWlncmF0aW9uLnJzdA0KPiBbLi4uXQ0K
+PiA+ICsNCj4gPiAr6Z2eTFJV6aG16Z2i6L+B56e7DQo+ID4gKz09PT09PT09PT09PT0NCj4gPiAr
+DQo+ID4gK+Wwveeuoei/geenu+acgOWIneeahOebrueahOaYr+S4uuS6huWHj+WwkU5VTUHnmoTl
+hoXlrZjorr/pl67lu7bov5/vvIzkvYbljovnvKnkuZ/kvb/nlKjov4Hnp7vmnaXliJvlu7rpq5jp
+mLbpobXpnaLjgIINCj4gPiArDQo+ID4gK+ebruWJjeWunueOsOeahOmXrumimOaYr++8jOWug+ii
+q+iuvuiuoeS4uuWPqui/geenuypMUlUq6aG144CC54S26ICM77yM5pyJ5LiA5Lqb5r2c5Zyo55qE
+6Z2eTFJV6aG16Z2i5Y+v5Lul5Zyo6amx5Yqo5LitDQo+ID4gK+iiq+i/geenu++8jOS+i+Wmgu+8
+jHpzbWFsbG9j77yMdmlydGlvLWJhbGxvb27pobXpnaLjgIINCj4gPiArDQo+ID4gK+WvueS6jnZp
+cnRpby1iYWxsb29u6aG16Z2i77yM6L+B56e75Luj56CB6Lev5b6E55qE5p+Q5Lqb6YOo5YiG5bey
+57uP6KKr6ZKp5L2P77yM5bm25re75Yqg5LqGdmlydGlvLWJhbGxvb24NCj4gPiAr55qE54m55a6a
+5Ye95pWw5p2l5oum5oiq6L+B56e76YC76L6R44CC6L+Z5a+55LiA5Liq6amx5Yqo5p2l6K+05aSq
+54m55q6K5LqG77yM5omA5Lul5YW25LuW5oOz6K6p6Ieq5bex55qE6aG16Z2i5Y+v56e75Yqo55qE
+6amxDQo+ID4gK+WKqOWwseW/hemhu+WcqOi/geenu+i3r+W+hOS4rea3u+WKoOiHquW3seeahOeJ
+ueWumumSqeWtkOOAgg0KPiA+ICsNCj4gPiAr5Li65LqG5YWL5pyN6L+Z5Liq6Zeu6aKY77yMVk3m
+lK/mjIHpnZ5MUlXpobXpnaLov4Hnp7vvvIzlroPkuLrpnZ5MUlXlj6/np7vliqjpobXpnaLmj5Dk
+vpvkuobpgJrnlKjlh73mlbDvvIzogIzlnKjov4Hnp7sNCj4gPiAr6Lev5b6E5Lit5rKh5pyJ54m5
+5a6a55qE6amx5Yqo56iL5bqP6ZKp5a2Q44CCDQo+ID4gKw0KPiA+ICvlpoLmnpzkuIDkuKrpqbHl
+iqjnqIvluo/mg7PorqnlroPnmoTpobXpnaLlj6/np7vliqjvvIzlroPlupTor6XlrprkuYnkuInk
+uKrlh73mlbDvvIzov5nkupvlh73mlbDmmK8NCj4gPiArc3RydWN0IGFkZHJlc3Nfc3BhY2Vfb3Bl
+cmF0aW9uc+eahOWHveaVsOaMh+mSiOOAgg0KPiA+ICsNCj4gPiArMS4gYGBib29sICgqaXNvbGF0
+ZV9wYWdlKSAoc3RydWN0IHBhZ2UgKnBhZ2UsIGlzb2xhdGVfbW9kZV90IG1vZGUpO2BgDQo+ID4g
+Kw0KPiA+ICsgICBWTeWvuempseWKqOeahGlzb2xhdGVfcGFnZSgp5Ye95pWw55qE5pyf5pyb5piv
+77yM5aaC5p6c6amx5Yqo5oiQ5Yqf6ZqU56a75LqG6K+l6aG177yM5YiZ6L+U5Zuew5d0cnVlw5fj
+gIINCj4NCj4gKnRydWUqDQpPSyENCj4NCj4gPiArICAg6L+U5ZuedHJ1ZeWQju+8jFZN5Lya5bCG
+6K+l6aG15qCH6K6w5Li6UEdfaXNvbGF0ZWTvvIzov5nmoLflpJrkuKpDUFXnmoTlubblj5HpmpTn
+prvlsLHkvJrot7Pov4for6UNCj4gPiArICAg6aG16L+b6KGM6ZqU56a744CC5aaC5p6c6amx5Yqo
+56iL5bqP5LiN6IO96ZqU56a76K+l6aG177yM5a6D5bqU6K+l6L+U5ZueKmZhbHNlKuOAgg0KPiA+
+ICsNCj4gPiBbLi4uXQ0KPiA+ICsNCj4gPiArICAgKiBQR19pc29sYXRlZA0KPiA+ICsNCj4gPiAr
+ICAgICDkuLrkuobpmLLmraLlh6DkuKpDUFXlkIzml7bov5vooYzpmpTnprvvvIxWTeWcqGxvY2tf
+cGFnZSgp5LiL5bCG6ZqU56a755qE6aG16Z2i5qCH6K6w5Li6UEdfaXNvbGF0ZWTjgIINCj4gPiAr
+ICAgICDlm6DmraTvvIzlpoLmnpzkuIDkuKpDUFXpgYfliLBQR19pc29sYXRlZOmdnkxSVeWPr+en
+u+WKqOmhtemdou+8jOWug+WPr+S7pei3s+i/h+Wug+OAgumpseWKqOeoi+W6j+S4jemcgOimgQ0K
+PiA+ICsgICAgIOaTjeS9nOi/meS4quagh+W/l++8jOWboOS4ulZN5Lya6Ieq5Yqo6K6+572uL+a4
+hemZpOWug+OAguivt+iusOS9j++8jOWmguaenOmpseWKqOeoi+W6j+eci+WIsFBHX2lzb2xhdGVk
+6aG177yMDQo+ID4gKyAgICAg6L+Z5oSP5ZGz552AVk3lt7Lnu4/ooqvomZrmi5/mnLrpmpTnprvv
+vIzmiYDku6XlroPkuI3lupTor6XnorBwYWdlLmxydeWtl+auteOAglBHX2lzb2xhdGVk5qCH5b+X
+5LiODQo+DQo+IEVtbW0sIEkgbWVhbiDomZrmi5/mnLogLT4gVk0NCk9LIQ0KDQpUaGFua3MsDQpZ
+YW50ZW5nDQo+IFNvcnJ5IGZvciB0aGUgbWlzcyBsZWFkaW5nLCBzZWVtaXMgb25seSBzdHJpY3Qg
+bW9ubyBmb250IGNvdWxkIHVuZGVyc3RhbmQNCj4gaXQuDQo+DQo+IFBsZWFzZSBmaXggdGhlc2Ug
+dHdvLCBhbmQgcGljayBteSByZXZpZXctYnkgOikNCj4NCj4gVGhhbmtzLA0KPiAgICAgICAgIFd1
+DQo+DQo+ID4gKyAgICAgUEdfcmVjbGFpbeagh+W/l+aYr+WQjOS5ieeahO+8jOaJgOS7pempseWK
+qOeoi+W6j+S4jeW6lOivpeS4uuiHquW3seeahOebrueahOS9v+eUqFBHX2lzb2xhdGVk44CCDQo+
+ID4gKw0KPiA+IFsuLi5dDQo+DQo=
