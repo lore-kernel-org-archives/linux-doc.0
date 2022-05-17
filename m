@@ -2,163 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 372FEC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 12:01:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5751AC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 12:26:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345664AbiEQMBj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 08:01:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52774 "EHLO
+        id S1346054AbiEQM0G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 08:26:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346352AbiEQMBX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 08:01:23 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2062.outbound.protection.outlook.com [40.107.236.62])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7272403DE;
-        Tue, 17 May 2022 05:01:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=epX0ArgfEn8Jv3DapfO6lzXI1W9Omq7e7704YZ/zXRxN5De5l4iZyBXL2mG/Zl7Kcwpljdp3DUXR07avCsC+CjAK445heylYzzMg2cou45AcXHfTFov2xhHSGTSo+15JmBoUML3lrwruw96NFKvt4dAp2N30vbc4iFcUOLdeOG6cXkLV6xfewaylwptv9wdKpbGtT19vD8iWR2OOqYUdrvgoSAHr2cbyBjVpD99yZJsRns87k1RNkurXF6nB2eb4gxJgBNbZLVCU3iBLEMElMQ92xHofB+gQrBSfdOOg41FXtQMkdCW05QDxEfI2tXdbU6O0sGjABMtEKXcv097TIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e15/Vfv+/l+o17HK9zvaOr7RLLrFBjxHQSAXcpN6JjQ=;
- b=VfRf3PU7OpXl3bl8qZwO36xcY4U8fCqpVqPgwp8hKtDzOhvl6wAfsXtvcmP9U+WaDKu7O38aOBWHPZNIyM+RnV4edG1nDO/R2IsRjZM5rhBkP4O739UvIfUVW2yugJ9f66np3xADlByzqtyhxGxzioEIOPUmSrxip6u8O09mzxJteQl4TKR2R7UxoaMcBF7Cgu/C9jbpFbqrkHoWsCCtVt3w3CqC9KGI+w18FFRjz018vMFlvnpNnogbFnW+XrgQ2zKZ+vxxKBRo7IxRrcknZQ+v98c17A2ZBfFk7wYKbZPyVueOWZ2GBXJFshH5nAm4uTeCKN9NLcT/oUs/tZ4zRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e15/Vfv+/l+o17HK9zvaOr7RLLrFBjxHQSAXcpN6JjQ=;
- b=OMZ4s6VMoIp6SrzqYAk490sSYC8BGpykiz4hX8dOTB2FBC9KU4kxkWZTRNudqPC7EmHMnboO/c6vzR7OcxewjcE4O3aXUfBj5ejldya8kcBF686SX402TesNwjnZWemxnEbPQ4vXJBGZMoSXiek4k39rBUX48KOf59qO/PgStOCOUl4TuHAm6llQ8DwQ5U/OFxOSsc3R+BmassQGsTQNxwHD2NpY+DWJjcanOZubCoAS7W3qmSCaTmrN/jLbitxRIaZQTTA6APkOjgw+Ou3LkxqSSY7LfX/mu3jVbEG1p2dK7nCXfan8BgxsSpO64HaGNngUwvag81T66sCjqjPz2Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by BYAPR12MB2693.namprd12.prod.outlook.com (2603:10b6:a03:6a::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.14; Tue, 17 May
- 2022 12:01:12 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2%5]) with mapi id 15.20.5250.018; Tue, 17 May 2022
- 12:01:12 +0000
-Date:   Tue, 17 May 2022 09:01:10 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Matthew Rosato <mjrosato@linux.ibm.com>,
-        linux-s390@vger.kernel.org, alex.williamson@redhat.com,
-        cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
-        pmorel@linux.ibm.com, borntraeger@linux.ibm.com, hca@linux.ibm.com,
-        gor@linux.ibm.com, gerald.schaefer@linux.ibm.com,
-        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
-        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 17/22] vfio-pci/zdev: add open/close device hooks
-Message-ID: <20220517120110.GS1343366@nvidia.com>
-References: <20220513191509.272897-1-mjrosato@linux.ibm.com>
- <20220513191509.272897-18-mjrosato@linux.ibm.com>
- <20220516172734.GE1343366@nvidia.com>
- <YoM+3z6+9yMeLMJn@infradead.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YoM+3z6+9yMeLMJn@infradead.org>
-X-ClientProxiedBy: BL1P223CA0007.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:208:2c4::12) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+        with ESMTP id S241282AbiEQMZw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 08:25:52 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F36CAE51;
+        Tue, 17 May 2022 05:25:51 -0700 (PDT)
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24HBgX2R032681;
+        Tue, 17 May 2022 12:25:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=R1tKSxZl9gqfSFrD213WYHRgCG+ZGkINoOHaj/GHjCU=;
+ b=epzHAacwmyfsTBr/rJIx+L9el1wHSG173ubvrg2a8JbefsfPrd/mLxuZBCTdXsvbtKxt
+ KOFOMtlmzB94WpMlXrhX+P3ZlTCpQ1lInpM7o06s6IJBIF/93BChwtaYTZp8scEzch5Q
+ jeTo/XAkaG9LUazZf8Xa+4VxQN0om7YNo25APm5CASBLDBge4V4aGISUh2fxWwEDNpOt
+ tzs2drCEKsa4CABw0CivreqjmyPeDiiTOYvzDp67jTb+Pc6qWtUvxu7DmPjSHVt8dcT3
+ GeHEgFTU49/x5RYWGKR0c7aHP5FBElrFLbljoEE0Lxk/IMX03yWPSvxSRhtPTEKXAiiM YA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g4b2h8y38-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 17 May 2022 12:25:51 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24HBi0ND007147;
+        Tue, 17 May 2022 12:25:50 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g4b2h8y27-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 17 May 2022 12:25:50 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+        by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24HCNJ6c015395;
+        Tue, 17 May 2022 12:25:47 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+        by ppma03fra.de.ibm.com with ESMTP id 3g2428ubga-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 17 May 2022 12:25:47 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 24HCPiJL47907214
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 17 May 2022 12:25:44 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 858D052050;
+        Tue, 17 May 2022 12:25:44 +0000 (GMT)
+Received: from [9.171.49.46] (unknown [9.171.49.46])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id E1DE75204E;
+        Tue, 17 May 2022 12:25:43 +0000 (GMT)
+Message-ID: <55c5780a-de9c-a4d3-8c77-691242085076@linux.ibm.com>
+Date:   Tue, 17 May 2022 14:25:43 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5d4c7c51-988e-4b7e-3e08-08da37fcefdc
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2693:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB26937098EBEBCFA0EC689E0BC2CE9@BYAPR12MB2693.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yzQ2a8wvRTgH79hRB/lClggrVlDuhnYQZuxmeWsNebFUyN/GEWIyI8lJV01rKarR8V5QmLaYs/PE5P8ScGwzeHcmnkpHBiUaHcjiccIVr3wGiJh9tyohjIDiAIzvATfaD8yIuZ/CcPceuJZdJcB3Wi4I7WLzby7TvACZtSyakKlpaHXNUKDl7ITL/fq88ddiOvWXIXP0YKbD0OsfZow6XQDnXXbXuFpjdplvxI+B8W0unUajSCbD0aAQO6JT6hVG0aFHbqJeYyGRVJi9lLJkV8OypMYzoKuMc0WAQC3lMbP+cVfExm+RIjEIZfLL1j4I5EgXxn+uIGM/HdlbJ3FtvlWoTO0KCO4yYvPsNwHaizs0yXO+4GZNDoXPzY09bR6pmXriTZV2U7cycoSlfZI4s8aUL0HWrBo1lcLs/2GMtEKOvE/S2BTk8wAOKXKjtrt+Zb29qoB8xrg/XsWbxeUzPvvsBmd82qE6N8x1aSBd71GSkTmh64MnsFPOdOOzl1Itj99AThRNPaeSbnYh42Enhh4f4xFwqGbsu/MQZUBLfzLwMC1R8AkPRgSxwtLNNPMbw1kuZpjAQvC2DgWb1XaHvJAztUNgYwdt605nRRtq/iDSTEOBHYMMsmjyicclafwyJWe261O1RYWyCsAH78dPUdPosURhiKbdIYEwPCfITgEkZvVpxBJYlIjKG+gWkWau0Mh1wwYOD5oXcDxTv2c8gHtoO/W1YG1FMjV+T2GzcUs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8676002)(66556008)(66476007)(6506007)(66946007)(4326008)(2906002)(38100700002)(33656002)(2616005)(83380400001)(7416002)(508600001)(6486002)(966005)(5660300002)(6916009)(6512007)(26005)(186003)(1076003)(36756003)(86362001)(316002)(8936002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XbniLP5N1UU3Csb/HcpxhcCaC+BCdIzQGQ/b9iG/LStXoDD6Ws8CBzgzJZVr?=
- =?us-ascii?Q?MF6xEqKbULiDPp2lp6m3NA1UaQf5PcP1XbNFbG8YDZMj6ewQstyIOx9CLObY?=
- =?us-ascii?Q?BHHdcTMQkg1NbbSz2Th7uY523SFGP8CYAxAvIuRHW9Aw9WMz2hn9tbBIYQHQ?=
- =?us-ascii?Q?p7M72kgIV8UqjkK3K3rSBCjn/gYkJV3WKh0RxCOeNiOQjS4jhJPgECr1UJuz?=
- =?us-ascii?Q?o7GmiEZ7VpCp1o3/E8amfng4cdlE/+FyH5y+uAjdh8K5qwr/w6shUNmGyDFr?=
- =?us-ascii?Q?1R/PzENSXlNljNRn7Yuyy5FgqeqbBg82ESG96qvcUJplSAv9+Vras+UEWVBX?=
- =?us-ascii?Q?vx+rPmgKjuJaZQHLcvHkMlRalh3thjacXr7C4hzZxVQaiqyeSpVh3VmRT50C?=
- =?us-ascii?Q?5NvG+JTHSDRpwu2tAVKMRoV15QRQ6OvHkBNEDKxD4SPiTNcJxpAtvNeY19iJ?=
- =?us-ascii?Q?EXXJvTKc0CkVXcxczkHKOP6hoJ5iuLlUHp9aTheyxtJxFEqkNaWo0mIywiDN?=
- =?us-ascii?Q?1KboflvwrmYS3i4lnGuNXtzrvYt6pxVY1W/sYjNUp0ScbaiuuEc8ppcu8vog?=
- =?us-ascii?Q?as3aQXSNbjxn+H/lFVxpZPCvJWwOuuOoXa9gnSCIXtrko/cP6T7EOp7XPjMm?=
- =?us-ascii?Q?Z31A49h6xQw+g9KWi+M2WZVuXp0ZQuz2QJQC91p1ye7iYE6AuYqydWXEz1SH?=
- =?us-ascii?Q?GXTuP6CMWspKf48nt/nEbhUYs4o+4mq/RXwMLLvBmNSweIyfp9ef7YS45xLt?=
- =?us-ascii?Q?XJ9Wf66+IryauGoslc2u3FoYRd9sNG8hqxVZBymrNy2Z+tlFvnvui+MM0Ffs?=
- =?us-ascii?Q?AtDRV8JBqeFSE+Tm7sJ8jRtCUHh0XO9AM3BzCdqWCpaCzmXKGKwioHOZQjxR?=
- =?us-ascii?Q?NMJgMzZJDoXfmrqHSUQgHqouoOGrLsb5jf4pjCwcBIyAmviTjKFrTsfiEFIh?=
- =?us-ascii?Q?zk3PjmZnZQk3n9NQ20FJ+u4QFrVgGmmelhZRqTRdOM6y3rzBsG5PNUUQINl5?=
- =?us-ascii?Q?kRj8RVOU/ocdiWZczsK7MFUfqLx7KNX/ydYoFvkWo6Xc78K3+iUYK0UasHiB?=
- =?us-ascii?Q?TTMWX2deTzvuTxFrnJkkFvZn78ffbK2lyKHdAKLGGjRB9nZX+fRu7MCIyghX?=
- =?us-ascii?Q?gL65nS3qatjSBJ1h1dJn9R3YvxS+lHRckuIdHECYfCY7zptPPC1gCjgbr7YF?=
- =?us-ascii?Q?eu7aJSssl33KMztACjJw6vn4DsVOMOkVZ69MBK8eesYFlBPY248N48+K1tiH?=
- =?us-ascii?Q?guOZcm2A9UH3/o6dKx2EQbjBTtyYmZdab1F5YfJkP2Bj/ePxU00rY+u+019P?=
- =?us-ascii?Q?S98igaeCABqjGzsVjKwYl1cMhzlKB1ggOymxkp7g6IAjLfgYYg39cVK36jHc?=
- =?us-ascii?Q?vcUe/K12wJVGG7+aNY/9YgTXEitz+ws7x5aFhjsWKqCJ/QFfw+oqEHPAtitI?=
- =?us-ascii?Q?h/lhQF30pSV4XWtEaaqIODnW/N13TTcgnFyosu3d2S8gfdO63GA5JRpXMF/E?=
- =?us-ascii?Q?FQiivsSfeeY0TUxL/3EJkCk30J64YBrzOVtgBLXUCmXQIC0Yu0gDmBlJK0fX?=
- =?us-ascii?Q?US2kvobWnBvdqsfo7n0QlUYZhmegWV77a4anwXbdA6u/P1t/1km32icYaYEU?=
- =?us-ascii?Q?Og91UKwY/kJMB+qf6caOko13A9FrxUY3UsHnBzus1tzcdc5Q2YDXFuJy8eu8?=
- =?us-ascii?Q?BYj4exzHGrOwy8IWuZM3BS8/ZLuWiODDjBzRQ6n3eBVWAyhe5dzRCZ7EZztQ?=
- =?us-ascii?Q?sM05PkuZpA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d4c7c51-988e-4b7e-3e08-08da37fcefdc
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2022 12:01:12.3551
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zlAH+dQ6v1nACd9T4mjuZs9sM9FZd910ygUETfYTPxVftOX/FOvOeWzuORQjY9th
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2693
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 1/2] KVM: s390: Don't indicate suppression on dirtying,
+ failing memop
+Content-Language: en-US
+To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Sven Schnelle <svens@linux.ibm.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org
+References: <20220512131019.2594948-1-scgl@linux.ibm.com>
+ <20220512131019.2594948-2-scgl@linux.ibm.com>
+From:   Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20220512131019.2594948-2-scgl@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: c0mFL0rtz00ZoG-niShLrUldbLBgntha
+X-Proofpoint-ORIG-GUID: gYW-wVEJRJZf68u3J8LhJMBkQh3u4aeI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-17_02,2022-05-17_02,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 spamscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0
+ suspectscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999 clxscore=1015
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205170073
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 16, 2022 at 11:21:19PM -0700, Christoph Hellwig wrote:
-> On Mon, May 16, 2022 at 02:27:34PM -0300, Jason Gunthorpe wrote:
-> > Normally you'd want to do what is kvm_s390_pci_register_kvm() here,
-> > where a failure can be propogated but then you have a race condition
-> > with the kvm.
-> > 
-> > Blech, maybe it is time to just fix this race condition permanently,
-> > what do you think? (I didn't even compile it)
+
+
+Am 12.05.22 um 15:10 schrieb Janis Schoetterl-Glausch:
+> If user space uses a memop to emulate an instruction and that
+> memop fails, the execution of the instruction ends.
+> Instruction execution can end in different ways, one of which is
+> suppression, which requires that the instruction execute like a no-op.
+> A writing memop that spans multiple pages and fails due to key
+> protection may have modified guest memory, as a result, the likely
+> correct ending is termination. Therefore, do not indicate a
+> suppressing instruction ending in this case.
 > 
-> This is roughly were I was planning to get to, with one difference:
-> I don't think we need or even want the VFIO_DEVICE_NEEDS_KVM flag.
-> Instead just propagation ->kvm to the device whenever it is set and
-> let drivers that have a hard requirements on it like gvt fail if it
-> isn't there.
+> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
 
-I did it so we didn't uselessly hold a ref on the kvm object, but
-maybe that is not relevant.
+Reviewed-by: Christian Borntraeger <borntraeger@linux.ibm.com>
 
-> The other question is if we even need an extra reference per device,
-> can't we hold the group reference until all devices are gone
-> anyway?  That would remove the need to include kvm_host.h in the
-> vfio code.
-
-The device does now hold a reference on the group fd after this patch
-series:
-
-https://lore.kernel.org/r/0-v2-d035a1842d81+1bf-vfio_group_locking_jgg@nvidia.com
-
-However the group does not hold a reference on the KVM, it has a
-set/remove interface toward KVM and can have its group->kvm pointer
-NULL'd via an ioctl at any time.
-
-So, the semantic here is that the KVM is captured when the device FD
-opens and then is immutable for the lifetime of that device FD even if
-the group FD's KVM is reassigned or removed.
-
-And I realize that it is all botched, this needs to check and respect
-the open_count which requires nesting the locks..
-
-Jason
+> ---
+>   Documentation/virt/kvm/api.rst |  6 ++++++
+>   arch/s390/kvm/gaccess.c        | 22 ++++++++++++++++++----
+>   2 files changed, 24 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 4a900cdbc62e..b6aba4f50db7 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -3754,12 +3754,18 @@ in case of KVM_S390_MEMOP_F_CHECK_ONLY), the ioctl returns a positive
+>   error number indicating the type of exception. This exception is also
+>   raised directly at the corresponding VCPU if the flag
+>   KVM_S390_MEMOP_F_INJECT_EXCEPTION is set.
+> +On protection exceptions, unless specified otherwise, the injected
+> +translation-exception identifier (TEID) indicates suppression.
+>   
+>   If the KVM_S390_MEMOP_F_SKEY_PROTECTION flag is set, storage key
+>   protection is also in effect and may cause exceptions if accesses are
+>   prohibited given the access key designated by "key"; the valid range is 0..15.
+>   KVM_S390_MEMOP_F_SKEY_PROTECTION is available if KVM_CAP_S390_MEM_OP_EXTENSION
+>   is > 0.
+> +Since the accessed memory may span multiple pages and those pages might have
+> +different storage keys, it is possible that a protection exception occurs
+> +after memory has been modified. In this case, if the exception is injected,
+> +the TEID does not indicate suppression.
+>   
+>   Absolute read/write:
+>   ^^^^^^^^^^^^^^^^^^^^
+> diff --git a/arch/s390/kvm/gaccess.c b/arch/s390/kvm/gaccess.c
+> index d53a183c2005..227ed0009354 100644
+> --- a/arch/s390/kvm/gaccess.c
+> +++ b/arch/s390/kvm/gaccess.c
+> @@ -491,8 +491,8 @@ enum prot_type {
+>   	PROT_TYPE_IEP  = 4,
+>   };
+>   
+> -static int trans_exc(struct kvm_vcpu *vcpu, int code, unsigned long gva,
+> -		     u8 ar, enum gacc_mode mode, enum prot_type prot)
+> +static int trans_exc_ending(struct kvm_vcpu *vcpu, int code, unsigned long gva, u8 ar,
+> +			    enum gacc_mode mode, enum prot_type prot, bool terminate)
+>   {
+>   	struct kvm_s390_pgm_info *pgm = &vcpu->arch.pgm;
+>   	struct trans_exc_code_bits *tec;
+> @@ -520,6 +520,11 @@ static int trans_exc(struct kvm_vcpu *vcpu, int code, unsigned long gva,
+>   			tec->b61 = 1;
+>   			break;
+>   		}
+> +		if (terminate) {
+> +			tec->b56 = 0;
+> +			tec->b60 = 0;
+> +			tec->b61 = 0;
+> +		}
+>   		fallthrough;
+>   	case PGM_ASCE_TYPE:
+>   	case PGM_PAGE_TRANSLATION:
+> @@ -552,6 +557,12 @@ static int trans_exc(struct kvm_vcpu *vcpu, int code, unsigned long gva,
+>   	return code;
+>   }
+>   
+> +static int trans_exc(struct kvm_vcpu *vcpu, int code, unsigned long gva, u8 ar,
+> +		     enum gacc_mode mode, enum prot_type prot)
+> +{
+> +	return trans_exc_ending(vcpu, code, gva, ar, mode, prot, false);
+> +}
+> +
+>   static int get_vcpu_asce(struct kvm_vcpu *vcpu, union asce *asce,
+>   			 unsigned long ga, u8 ar, enum gacc_mode mode)
+>   {
+> @@ -1109,8 +1120,11 @@ int access_guest_with_key(struct kvm_vcpu *vcpu, unsigned long ga, u8 ar,
+>   		data += fragment_len;
+>   		ga = kvm_s390_logical_to_effective(vcpu, ga + fragment_len);
+>   	}
+> -	if (rc > 0)
+> -		rc = trans_exc(vcpu, rc, ga, ar, mode, prot);
+> +	if (rc > 0) {
+> +		bool terminate = (mode == GACC_STORE) && (idx > 0);
+> +
+> +		rc = trans_exc_ending(vcpu, rc, ga, ar, mode, prot, terminate);
+> +	}
+>   out_unlock:
+>   	if (need_ipte_lock)
+>   		ipte_unlock(vcpu);
