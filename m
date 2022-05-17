@@ -2,83 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D508EC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 19:28:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47F9BC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 19:29:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237401AbiEQT2D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 15:28:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36152 "EHLO
+        id S1352721AbiEQT3f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 15:29:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241252AbiEQT2D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 15:28:03 -0400
+        with ESMTP id S1352718AbiEQT3c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 15:29:32 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34A4D5046B;
-        Tue, 17 May 2022 12:27:59 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AFC9506F6;
+        Tue, 17 May 2022 12:29:31 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C179A2ED;
-        Tue, 17 May 2022 19:27:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C179A2ED
+        by ms.lwn.net (Postfix) with ESMTPSA id EEBF76D6;
+        Tue, 17 May 2022 19:29:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EEBF76D6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1652815678; bh=/QzBE1g3FDUveDZep0WhdgVTjtDbJx6LIIH7y88Rjyg=;
+        t=1652815771; bh=wH+Dyew/Mz6z59CEKxy9UMuLYVJ1OJ1JMnurh2ah8t4=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=cj15ruyVLknmP2PklVx+SA+wLZbz+wm3OnA8eaUHkpmYcYtdOKGors2xmsBzuqiBt
-         si95mKBRRt8D92DQpm7NTOH7tbyI9pG+pnMOV5ANBSVxZpvUokq5YUSZtWsuRcrjY7
-         TAGP81xNGktgPfw2Q6qiT3VPNnNqLAklFck1n/rFese9KR5QoHUfow6Qze4zT0ms4u
-         TqgsofH10kb+awNWnGjaTdp78UiD9DW0z8ZpX+JgpBE0iPbVi6zrMPjHieMLGT0N0h
-         6NUkM1Ti21IfR46hCVtigDT9gCLu9e8kgXzu1Br6rGJU4TQqJtvQda2r7M7M+aCEM+
-         ozL9qA876g8Hw==
+        b=QPeSmljy02nGrrxIcgVDxrYO8oz/LYrKjeXuKNOwlYxswHcV4eo1u3FF4lx6vBgXW
+         h2p4YKlqXi6Mbd1zSDxgyM5DCjYVbZ41pL5b2TZ0OJESj0OUbPEk8nDAtJtpzLccPs
+         qsOAoDxO3QKj461y+Gxn3cDQiTpop0WYk8z1AiMZ0bke2RRquXaD9M58NmBH1ESnE5
+         UcT7UQutXetSGVqY+FFOAkTVhjyXisbVnqqoTqRX9+NvrOaSaQePY0kSttuf24GLS4
+         QJoB6dqZdTpME+Dy21/sIPuKmz5FWmNwdY/zOeIAJRXpk0ZsCc3jaY23VjGbKAjX+r
+         /Y+ouLFHjdv6Q==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
-        seakeel@gmail.com, bobwxc@email.cn, tangyeechou@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, siyanteng01@gmail.com
-Subject: Re: [PATCH v2 1/1] MAINTAINERS: Become the docs/zh_CN maintainer
-In-Reply-To: <b0c1324d1d63846d700ab354446a6deaf30754c0.1652712771.git.siyanteng@loongson.cn>
-References: <cover.1652712771.git.siyanteng@loongson.cn>
- <b0c1324d1d63846d700ab354446a6deaf30754c0.1652712771.git.siyanteng@loongson.cn>
-Date:   Tue, 17 May 2022 13:27:58 -0600
-Message-ID: <8735h8vu0x.fsf@meer.lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Cc:     patches@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH] input: Docs: correct atarikbd.rst typos
+In-Reply-To: <20220516002055.12000-1-rdunlap@infradead.org>
+References: <20220516002055.12000-1-rdunlap@infradead.org>
+Date:   Tue, 17 May 2022 13:29:30 -0600
+Message-ID: <87y1z0ufdx.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yanteng Si <siyanteng@loongson.cn> writes:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> It's time to become a maintainer of Chinese documentation, and Yanteng's plan
-> is to help everyone with the utmost enthusiasm and patience.
+> Fix 2 "MOSE" typos in atarikbd.rst (found with 'codespell').
+> a. s/MOSE/MODE/
+> b. s/MOSE/MOUSE/
 >
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> Reviewed-by: Alex Shi <alexs@kernel.org>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: linux-input@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
 > ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
+>  Documentation/input/devices/atarikbd.rst |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9ce78f2275dc..ff1364d9f7cc 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -4649,6 +4649,7 @@ F:	Documentation/dev-tools/checkpatch.rst
+> --- a/Documentation/input/devices/atarikbd.rst
+> +++ b/Documentation/input/devices/atarikbd.rst
+> @@ -288,7 +288,7 @@ between 0 and large positive numbers. Ex
+>  command sets the maximum positive value that can be attained in the scaled
+>  coordinate system. Motion beyond that value is also ignored.
 >  
->  CHINESE DOCUMENTATION
->  M:	Alex Shi <alexs@kernel.org>
-> +M:	Yanteng Si <siyanteng@loongson.cn>
->  S:	Maintained
->  F:	Documentation/translations/zh_CN/
+> -SET MOUSE KEYCODE MOSE
+> +SET MOUSE KEYCODE MODE
+>  ----------------------
+>  
+>  ::
+> @@ -333,7 +333,7 @@ occur before the internally maintained c
+>  (independently scaled for each axis). Remember that the mouse position
+>  information is available only by interrogating the ikbd in the ABSOLUTE MOUSE
+>  POSITIONING mode unless the ikbd has been commanded to report on button press
+> -or release (see SET MOSE BUTTON ACTION).
+> +or release (see SET MOUSE BUTTON ACTION).
+>  
 
-I've applied this.  I am curious, though: what is your sense for what
-being designated a "maintainer" means?  Do you envision something beyond
-reviewing patches (for which an "R:" entry would be most appropriate)?
-
-In any case, you help with the documentation is appreciated!
-
-Thanks,
+Applied, thanks.
 
 jon
-
-P.S. There is normally no need to send a new version of a patch just to
-pick up a tag; b4 makes that just work.
