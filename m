@@ -2,166 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F51C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 08:32:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0A20C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 08:41:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243197AbiEQIcq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 04:32:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39582 "EHLO
+        id S242225AbiEQIla (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 04:41:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243140AbiEQIcp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 04:32:45 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9E1C43480
-        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 01:32:44 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id a11so16289450pff.1
-        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 01:32:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mHd014Sv/cZzHNLl2XS0FcsPOA0F2xVdYa0mHdLVxOQ=;
-        b=bnrJcO344X5t3ZkCt1ZSG/l5aQuFvZZdLCAlhxNnakNoSpxHL5HM+DMwnDoU4CHJCB
-         QkuMDMy4fOR7yRqoeOxfQ7j5vGr7gW9SbHVTOsimcI1crpe1/hEmg0HaTGncvG3L4hTt
-         P4vkZVhKl8G3Fgm1u4fK2AAguZHp2ZGN72vipCDJWn6LJWhQWl9SOfUkqvh3bOjbOgoJ
-         olrBNI1wZoL4/dP1/vvBdp/eNuM+jGIaE/blJP5lRsKgp6pOZYLj2kyLaqv93x9+bmvY
-         fZeBT9cYNkKq23IRbYx74A/w+llEKW3TTYTdLVNWe5R/PKUSV+2hftRwoqdFvMaf69Cv
-         y5Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mHd014Sv/cZzHNLl2XS0FcsPOA0F2xVdYa0mHdLVxOQ=;
-        b=XuM7iigirBSp330tX6zvmoH+KUNh9GB1HDa7a/kY4WsO+3W50QGUrqelvjBw3ZIQG2
-         gO1BOEAEbZp+lGhf+wzkgYiCO5xz2SiSihytJ82mkCEBxDTk7e1/MPDMqrN3WSFom9Hx
-         y76DQo6IUXbrJYs6IenPdIJL5y+xJGbHRoJi+I9lWY1PiRbdfANPLfkG1j/0MFDTurqx
-         HxfsNji6wddBIs9yPPgsCqz5FU+g/341++KXgIyje9dUYQMRCPJU7FPWM2HQmKIJmOEP
-         OFupmmxS5ozuJZQNJVcuHLp2Gf+ONRiO8wD2TnUOwCFbr9Ovj4txaaRDAgq9l4BY/P1T
-         yYmg==
-X-Gm-Message-State: AOAM530VjeV5Kuq91w6j/OC153nBdh6TqICxse+v9djZPObjRl9YC8B5
-        1nXCR/+dW3Ulk2OwIwTKrc0fAQ==
-X-Google-Smtp-Source: ABdhPJyUwVJJgbOX1VtpusM6TC4Bf0yY494nRFSWFy8ynRdzsv0O2gko9OPqVETRQWTXBoDxFmhhow==
-X-Received: by 2002:a63:7d48:0:b0:3db:33fd:b227 with SMTP id m8-20020a637d48000000b003db33fdb227mr19178856pgn.194.1652776364095;
-        Tue, 17 May 2022 01:32:44 -0700 (PDT)
-Received: from localhost ([139.177.225.234])
-        by smtp.gmail.com with ESMTPSA id d4-20020a170903230400b0015e8d4eb22bsm8936923plh.117.2022.05.17.01.32.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 01:32:43 -0700 (PDT)
-Date:   Tue, 17 May 2022 16:32:40 +0800
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
-        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
-        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v12 3/7] mm: memory_hotplug: enumerate all supported
- section flags
-Message-ID: <YoNdqCz/yYlBNQyM@FVFYT0MHHV2J.usts.net>
-References: <20220516102211.41557-1-songmuchun@bytedance.com>
- <20220516102211.41557-4-songmuchun@bytedance.com>
- <YoNTJNfhUO7/oUrn@localhost.localdomain>
+        with ESMTP id S243787AbiEQIlU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 04:41:20 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D1B33E0DE;
+        Tue, 17 May 2022 01:41:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652776877; x=1684312877;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6evQhJLdtsPwWBLl9ZvCL+G/aYzA0wun6Lh5rUzCR/k=;
+  b=BKZYEb1ciuYJwAZywT77sbXWuQDhrKuJX/kMQZpqd4PHGcdSeFyTX49Q
+   7BurNWjfMI3pYzEtkIw8bvpQftTdW3bPOIfjdtdeRWuFOIhLKZOYybpWu
+   lyMulhc/INKyfgXSq2cq7euBoMWGf4qvXPa/23GY8ZfCV74ma7flmcMzJ
+   zgMNoTNAuMdrQY3x0UuIUULnl9HZH/dMiP3dFiWqsJTMnUEzn9PcyG4m5
+   AUcuY3Sbzcsj5HIt2RoC8Rr4NpoALxjPqoGYh2f+MpWQvE4euGVBUH3Qw
+   THTAm96D+xXGoJYjXFGXORgjIHLTZXi+wLDv7VYiKdZ/jJVnUfT2gCxxi
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="251626213"
+X-IronPort-AV: E=Sophos;i="5.91,232,1647327600"; 
+   d="scan'208";a="251626213"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2022 01:41:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,232,1647327600"; 
+   d="scan'208";a="660517135"
+Received: from pglc1026.png.intel.com ([172.30.19.132])
+  by FMSMGA003.fm.intel.com with ESMTP; 17 May 2022 01:41:14 -0700
+From:   adrian.ho.yin.ng@intel.com
+To:     Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+        Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
+        Adrian Ng Ho Yin <adrian.ho.yin.ng@intel.com>
+Subject: [PATCH 0/3] fpga: fpga-mgr: Add support for DebugFS for FPGA Manager Framework
+Date:   Tue, 17 May 2022 16:41:08 +0800
+Message-Id: <20220517084108.1516-1-adrian.ho.yin.ng@intel.com>
+X-Mailer: git-send-email 2.19.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YoNTJNfhUO7/oUrn@localhost.localdomain>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 17, 2022 at 09:47:48AM +0200, Oscar Salvador wrote:
-> On Mon, May 16, 2022 at 06:22:07PM +0800, Muchun Song wrote:
-> > We are almost running out of free slots, only one bit is available in the
-> 
-> I would be more precise about what are we running out of. Free slots of
-> what?
-> 
-> > worst case (powerpc with 256k pages).  However, there are still some free
-> > slots on other architectures (e.g. x86_64 has 10 bits available, arm64
-> > has 8 bits available with worst case of 64K pages).  We have hard coded
-> > those numbers in code, it is inconvenient to use those bits on other
-> > architectures except powerpc.  So transfer those section flags to
-> > enumeration to make it easy to add new section flags in the future. Also,
-> > move SECTION_TAINT_ZONE_DEVICE into the scope of CONFIG_ZONE_DEVICE
-> > to save a bit on non-zone-device case.
-> > 
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> ...
-> > --- a/include/linux/mmzone.h
-> > +++ b/include/linux/mmzone.h
-> > @@ -1418,16 +1418,37 @@ extern size_t mem_section_usage_size(void);
-> >   *      (equal SECTION_SIZE_BITS - PAGE_SHIFT), and the
-> >   *      worst combination is powerpc with 256k pages,
-> >   *      which results in PFN_SECTION_SHIFT equal 6.
-> > - * To sum it up, at least 6 bits are available.
-> > + * To sum it up, at least 6 bits are available on all architectures.
-> > + * However, we can exceed 6 bits on some other architectures except
-> > + * powerpc (e.g. 15 bits are available on x86_64, 13 bits are available
-> > + * with the worst case of 64K pages on arm64) if we make sure the
-> > + * exceeded bit is not applicable to powerpc.
-> >   */
-> > -#define SECTION_MARKED_PRESENT		(1UL<<0)
-> > -#define SECTION_HAS_MEM_MAP		(1UL<<1)
-> > -#define SECTION_IS_ONLINE		(1UL<<2)
-> > -#define SECTION_IS_EARLY		(1UL<<3)
-> > -#define SECTION_TAINT_ZONE_DEVICE	(1UL<<4)
-> > -#define SECTION_MAP_LAST_BIT		(1UL<<5)
-> > +#define ENUM_SECTION_FLAG(MAPPER)						\
-> > +	MAPPER(MARKED_PRESENT)							\
-> > +	MAPPER(HAS_MEM_MAP)							\
-> > +	MAPPER(IS_ONLINE)							\
-> > +	MAPPER(IS_EARLY)							\
-> > +	MAPPER(TAINT_ZONE_DEVICE, CONFIG_ZONE_DEVICE)				\
-> > +	MAPPER(MAP_LAST_BIT)
-> > +
-> > +#define __SECTION_SHIFT_FLAG_MAPPER_0(x)
-> > +#define __SECTION_SHIFT_FLAG_MAPPER_1(x)	SECTION_##x##_SHIFT,
-> > +#define __SECTION_SHIFT_FLAG_MAPPER(x, ...)	\
-> > +	__PASTE(__SECTION_SHIFT_FLAG_MAPPER_, IS_ENABLED(__VA_ARGS__))(x)
-> > +
-> > +#define __SECTION_FLAG_MAPPER_0(x)
-> > +#define __SECTION_FLAG_MAPPER_1(x)		SECTION_##x = BIT(SECTION_##x##_SHIFT),
-> > +#define __SECTION_FLAG_MAPPER(x, ...)		\
-> > +	__PASTE(__SECTION_FLAG_MAPPER_, IS_ENABLED(__VA_ARGS__))(x)
-> > +
-> > +enum {
-> > +	ENUM_SECTION_FLAG(__SECTION_SHIFT_FLAG_MAPPER)
-> > +	ENUM_SECTION_FLAG(__SECTION_FLAG_MAPPER)
-> > +};
-> > +
-> >  #define SECTION_MAP_MASK		(~(SECTION_MAP_LAST_BIT-1))
-> > -#define SECTION_NID_SHIFT		6
-> > +#define SECTION_NID_SHIFT		SECTION_MAP_LAST_BIT_SHIFT
-> 
-> Is this really worth the extra code? And it might be me that I am not
-> familiar with all this magic, but it looks overcomplicated.
-> Maybe some comments here and there help clarifying what it is going on
-> here.
->
+From: Adrian Ng Ho Yin <adrian.ho.yin.ng@intel.com>
 
-Yeah, it's a little complicated. All the magic aims to generate
-two enumeration from one MAPPER(xxx, config), one is SECTION_xxx_SHIFT,
-another is SECTION_xxx = BIT(SECTION_xxx_SHIFT) if the 'config' is
-configured. If we want to add a new flag, like the follow patch, just
-one line could do that.
+Hi,
 
-  MAPPER(CANNOT_OPTIMIZE_VMEMMAP, CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP)
+A DebugFS for the FPGA Manager Framework is implemented which supports 
+read/write functionality for the FPGA image firmware file to program for 
+debugging purposes. To facilitate in usage a documentation for debugFS is 
+added. A debugFS interface is extended for setting the maximum time in 
+microseconds for the FPGA to go to the operating state after the region 
+has been programmed.
 
-Without those magic, we have to add 4 lines like follows to do the
-similar thing.
+Adrian Ng Ho Yin (1):
+  fpga: Implement DebugFS for FPGA Manager Framework
 
-  #ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
-  	SECTION_CANNOT_OPTIMIZE_VMEMMAP_SHIFT,
-  #define SECTION_CANNOT_OPTIMIZE_VMEMMAP BIT(SECTION_CANNOT_OPTIMIZE_VMEMMAP_SHIFT)
-  #endif
+Alan Tull (1):
+  fpga: doc: documentation for FPGA debugfs
 
-I admit it is more clear but not simplified as above approach.
+Matthew Gerlach (1):
+  add debugfs interface for fpga config complete timeout
 
-Both two approaches are fine to me. If we choose the simplified
-one, I agree with you I should add more comments to explain
-what happens here.
+ Documentation/fpga/debugfs.txt  |  39 +++++++
+ drivers/fpga/Kconfig            |   7 ++
+ drivers/fpga/Makefile           |   1 +
+ drivers/fpga/fpga-mgr-debugfs.c | 188 ++++++++++++++++++++++++++++++++
+ drivers/fpga/fpga-mgr-debugfs.h |  32 ++++++
+ drivers/fpga/fpga-mgr.c         |   8 ++
+ include/linux/fpga/fpga-mgr.h   |   3 +
+ 7 files changed, 278 insertions(+)
+ create mode 100644 Documentation/fpga/debugfs.txt
+ create mode 100644 drivers/fpga/fpga-mgr-debugfs.c
+ create mode 100644 drivers/fpga/fpga-mgr-debugfs.h
 
-Thanks.
+-- 
+2.26.2
 
- 
