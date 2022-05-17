@@ -2,66 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B70FAC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 19:24:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D508EC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 19:28:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349120AbiEQTYd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 15:24:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56634 "EHLO
+        id S237401AbiEQT2D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 15:28:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241252AbiEQTYc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 15:24:32 -0400
+        with ESMTP id S241252AbiEQT2D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 15:28:03 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B92542ED0
-        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 12:24:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34A4D5046B;
+        Tue, 17 May 2022 12:27:59 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id AF3E06D6;
-        Tue, 17 May 2022 19:24:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AF3E06D6
+        by ms.lwn.net (Postfix) with ESMTPSA id C179A2ED;
+        Tue, 17 May 2022 19:27:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C179A2ED
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1652815470; bh=AH3h+xG6S1UxZts7MM4Lbl1Q2bHxyw36LloElg4QbMY=;
+        t=1652815678; bh=/QzBE1g3FDUveDZep0WhdgVTjtDbJx6LIIH7y88Rjyg=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=lp55WB7BfyirtKSVDyGKX1DwDS4bdbzFAkpKnFkhylVyIPJe2m4VhamgskemEisrl
-         lohRZb3QZ0q0QDNKL97M8aSKnkgYzTpRu7qO/cbWvcsgIGbIJayrH88RyGGuZywT4r
-         uREhGFP8sGzFxbqgE3sPOpoMDj8BWY/K2eSrYeJ/Z2IyIfaZhDBA39JYVAhdiLw8H8
-         AS2GSuE6xgfgDw+vCYDlnpmzATY+JgeRMszKXM8xrSN2rjUtayZ7Yb5515ADLGuWX7
-         Wlcchi5LR4P5d6KDcriaVRNegOkdDV70xq6qI8wdkR+E80U6gLA0Xln+vzZOS23AhX
-         t3oMDoH/nH8PQ==
+        b=cj15ruyVLknmP2PklVx+SA+wLZbz+wm3OnA8eaUHkpmYcYtdOKGors2xmsBzuqiBt
+         si95mKBRRt8D92DQpm7NTOH7tbyI9pG+pnMOV5ANBSVxZpvUokq5YUSZtWsuRcrjY7
+         TAGP81xNGktgPfw2Q6qiT3VPNnNqLAklFck1n/rFese9KR5QoHUfow6Qze4zT0ms4u
+         TqgsofH10kb+awNWnGjaTdp78UiD9DW0z8ZpX+JgpBE0iPbVi6zrMPjHieMLGT0N0h
+         6NUkM1Ti21IfR46hCVtigDT9gCLu9e8kgXzu1Br6rGJU4TQqJtvQda2r7M7M+aCEM+
+         ozL9qA876g8Hw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Wu XiangCheng <bobwxc@email.cn>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/2] docs/zh_CN: sync reporting-issues.rst to 247097e2bbff4
-In-Reply-To: <cover.1652792205.git.bobwxc@email.cn>
-References: <cover.1652792205.git.bobwxc@email.cn>
-Date:   Tue, 17 May 2022 13:24:30 -0600
-Message-ID: <877d6kvu6p.fsf@meer.lwn.net>
+To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
+        seakeel@gmail.com, bobwxc@email.cn, tangyeechou@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, siyanteng01@gmail.com
+Subject: Re: [PATCH v2 1/1] MAINTAINERS: Become the docs/zh_CN maintainer
+In-Reply-To: <b0c1324d1d63846d700ab354446a6deaf30754c0.1652712771.git.siyanteng@loongson.cn>
+References: <cover.1652712771.git.siyanteng@loongson.cn>
+ <b0c1324d1d63846d700ab354446a6deaf30754c0.1652712771.git.siyanteng@loongson.cn>
+Date:   Tue, 17 May 2022 13:27:58 -0600
+Message-ID: <8735h8vu0x.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wu XiangCheng <bobwxc@email.cn> writes:
+Yanteng Si <siyanteng@loongson.cn> writes:
 
-> sync zh_CN/admin-guide/reporting-issues.rst to newest version
-> (commit 247097e2bbff4)
+> It's time to become a maintainer of Chinese documentation, and Yanteng's plan
+> is to help everyone with the utmost enthusiasm and patience.
 >
-> There are two patches in the same name, the first acturally been
-> reviewed by Alex and Yanteng last year , see <https://lore.kernel.org/linux-doc/CAMU9jJor_V_G6wG1vWnDvgQADeXaPxg9E47w27nk_sBNGJpuEg@mail.gmail.com/>,
-> but not been picked up yet. So I rebase it to newest docs-next and resend
-> it. Then bring a new sync commit.
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> Reviewed-by: Alex Shi <alexs@kernel.org>
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9ce78f2275dc..ff1364d9f7cc 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -4649,6 +4649,7 @@ F:	Documentation/dev-tools/checkpatch.rst
+>  
+>  CHINESE DOCUMENTATION
+>  M:	Alex Shi <alexs@kernel.org>
+> +M:	Yanteng Si <siyanteng@loongson.cn>
+>  S:	Maintained
+>  F:	Documentation/translations/zh_CN/
 
-I'm not quite sure what happened with that patch, but I do know that
-posting multiple patches with the same subject line is a recipe for
-confusion; please don't do that.
+I've applied this.  I am curious, though: what is your sense for what
+being designated a "maintainer" means?  Do you envision something beyond
+reviewing patches (for which an "R:" entry would be most appropriate)?
 
-In this case, is there any reason to not just merge those two patches
-together?  Then make the subject line read something like "Update the
-translation of reporting-issues.rst to 5.18" or something like that.
+In any case, you help with the documentation is appreciated!
 
 Thanks,
 
 jon
+
+P.S. There is normally no need to send a new version of a patch just to
+pick up a tag; b4 makes that just work.
