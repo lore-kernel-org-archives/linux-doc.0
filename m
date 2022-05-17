@@ -2,87 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67E6BC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 20:59:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3AB9C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 23:30:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353100AbiEQU7I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 16:59:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58394 "EHLO
+        id S231591AbiEQXav (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 19:30:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353161AbiEQU7F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 16:59:05 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA3B153725
-        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 13:58:55 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id i9so461203edr.8
-        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 13:58:55 -0700 (PDT)
+        with ESMTP id S231721AbiEQXat (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 19:30:49 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3749B7645
+        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 16:30:42 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id f9so703063ejc.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 16:30:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mJNZLXvniwh5rhRoMfxsg0LACZj75fWMWBcFFN9Ud7U=;
-        b=jvPhqs610qrOEyE8f42MTnA4RzTw/Pt/Df2bbw/BFU+9CW6MqLgzQVLENRGW/J99+6
-         LcaN49zv/QOUlpnrGUXB13f8h5VWwh1PC1caDhmmhEcaRLsLBRKIZ2KovBYmW72MxRqa
-         HHZuQVwBgCQ8MUPGXFMcYrFb0IFC5Y9mYG0S9XBmegVQQ6uzQN+OMQPGiRPT121DrzrD
-         VyzaPSwBecsyLVfmpWnSzLzysqW9sR3h2IL0Iai41NKLS5J9TUETOv3C46yYGtQJkjOh
-         bgB/Oo68I2rP7tax9WZDwlpO4bEw+jgY/io04iBC5CpY9Rw2bYtbMdSzIIjkFwQRfB+y
-         T+wQ==
+        bh=kje1fxePklyTYdwuahnUd7jrh3kjOYPr65ooSYjVE44=;
+        b=BZgE0jkbkeLVvFmb8ruOV8av8A5Vi/cJesgkFUe7yW3/UIFp5JuLCAIksYmq6dxaPC
+         UTmFxH4fn4hS3/gzRePwOA9Zgz2QoeR/e7KsL6wHOQMvCBYOzvoW2yP96YAu1wlsdo/W
+         OYW4HOnAUXA1JVGJiazKgXoK/bUipg6BPRZaPd0iU4I6XDCU9CWewInibc8sy+vWJYxb
+         GbGtI+anWZDqWuOTylV0pzWc9p1n+hpH4zF0jqzCG43N/eDSdV5LLd69UT0bGeoGyGse
+         0mKYTvfzrYVwqtPqL3gqbyjVL7SFmO6Pfdv96YRbeDf3urkh47YcrQa2GcXbFgbNtfr9
+         LXxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mJNZLXvniwh5rhRoMfxsg0LACZj75fWMWBcFFN9Ud7U=;
-        b=bnLNrkunCzmnK6X0edVBhm85frkxIyilAnBhTAEouBEqKaaBDs1MxpKfbezcbutN/K
-         hBm9bOuZKumsgk2JZTQjqjyq+I027TeYjGFKe4/gwCGjJiTXK3A+ACNrmhIrPHEs+sXD
-         UoVvp4W3S4q5RiulLMR+EmCEt5FsCU7qluolDkjj/BjyeAD34Q98vtLhvRyfXfNIzfSr
-         W2XFMTCtjyvxWkAfgpJijPpWHwYi1/9mNaAqg3YdS013mtOIy7Ha0+gHcVdPWs0L4dNu
-         8DXPmI5Yie3RrKsdoNyosZL5T7Dvv2Ht7dyE2fdZTIv/6oTik1WH5tdG+B12wWWBYnuA
-         N3xA==
-X-Gm-Message-State: AOAM533wjWU0vKfCv8tqHnpyYDsT4dR3f7G04LRS70zDDFLG30LCbUzR
-        BzS8Zm8JNfDgPX+Mg99E2u7nkSNIN//y1nGFZGqI2g==
-X-Google-Smtp-Source: ABdhPJyO965/kAFcmCyrfqOUnmxcE0pY92GCVjcVNdVFa0hROg67M/SxMUfL1A5S/FmX1edEAxbul1vHvxHhk3aTfHM=
-X-Received: by 2002:a05:6402:28b2:b0:42a:e63d:880f with SMTP id
- eg50-20020a05640228b200b0042ae63d880fmr354880edb.279.1652821134203; Tue, 17
- May 2022 13:58:54 -0700 (PDT)
+        bh=kje1fxePklyTYdwuahnUd7jrh3kjOYPr65ooSYjVE44=;
+        b=KxAqpqb9JZuRADRNZtm109oVjlKZW7xHLQRO+K7gykqk3YuHDvyX//xpbPZm5og9aY
+         ZpEc7vcMnewMW7N3RI7l6kMOemQq9i4jXSQEl6DqOYidtiYjwqPSclwqszdlOZMH1V9O
+         pno73PAaZFIp54yDW6eYTbEsrIvmssnC0haHX6Ss0H9fiiOjQodW/Ii2uAnGNhuKss/A
+         wz1x8IXO6odPQ7Tf3PNjk4YdOe6UA5QoeqHfscwGrRLZbgBJxb/yM+QSTXVnUNFviwI+
+         fUQMMTL93JcYY5kNOlm8EhFRQHxZ57/WRknhF715LfsJYcGiMKesG983SvaTTfK1P0PE
+         Krpw==
+X-Gm-Message-State: AOAM533GwWTtAlov1FixjomLClWuVqizaG1njrlRsF2ou1v2mKI5vRRT
+        m4JjyE5sFbbQo82W7WnELGRpsXfioK1MYbkSnz5U9w==
+X-Google-Smtp-Source: ABdhPJynpuiODXlilJ4ccPPw09Oypx2Cww6BUXEGpKKQ1/r4bC3SNcHdzpBPpWcDWLBl7XOueU5+lIF135DZSaWqEEs=
+X-Received: by 2002:a17:906:6a10:b0:6f5:5e4:9d5 with SMTP id
+ qw16-20020a1709066a1000b006f505e409d5mr21615657ejc.122.1652830241187; Tue, 17
+ May 2022 16:30:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220429043913.626647-1-davidgow@google.com> <20220513083212.3537869-2-davidgow@google.com>
-In-Reply-To: <20220513083212.3537869-2-davidgow@google.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 17 May 2022 16:58:43 -0400
-Message-ID: <CAFd5g44aUoZgXgyZQVdzQrfrH5fm2TCPxM3Wm+FmkfN5ky1g7Q@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] kunit: Taint the kernel when KUnit tests are run
-To:     David Gow <davidgow@google.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+References: <20220510235653.933868-1-tjmercier@google.com> <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
+ <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
+ <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
+ <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com> <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
+In-Reply-To: <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Tue, 17 May 2022 16:30:29 -0700
+Message-ID: <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Shuah Khan <shuah@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+        John Stultz <jstultz@google.com>,
+        Carlos Llamas <cmllamas@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        kernel-team@android.com, cgroups@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 13, 2022 at 4:32 AM David Gow <davidgow@google.com> wrote:
+On Fri, May 13, 2022 at 9:13 AM Tejun Heo <tj@kernel.org> wrote:
 >
-> Make KUnit trigger the new TAINT_TEST taint when any KUnit test is run.
-> Due to KUnit tests not being intended to run on production systems, and
-> potentially causing problems (or security issues like leaking kernel
-> addresses), the kernel's state should not be considered safe for
-> production use after KUnit tests are run.
+> Hello,
 >
-> Signed-off-by: David Gow <davidgow@google.com>
+> On Thu, May 12, 2022 at 08:43:52PM -0700, T.J. Mercier wrote:
+> > > I'm actually happy I've asked this question, wasn't silly after all. I think the
+> > > problem here is a naming issue. What you really are monitor is "video memory",
+> > > which consist of a memory segment allocated to store data used to render images
+> > > (its not always images of course, GPU an VPU have specialized buffers for their
+> > > purpose).
+> > >
+> > > Whether this should be split between what is used specifically by the GPU
+> > > drivers, the display drivers, the VPU (CODEC and pre/post-processor) or camera
+> > > drivers is something that should be discussed. But in the current approach, you
+> > > really meant Video memory as a superset of the above. Personally, I think
+> > > generically (to de-Andronized your work), en-globing all video memory is
+> > > sufficient. What I fail to understand is how you will manage to distinguished
+> > > DMABuf Heap allocation (which are used outside of Android btw), from Video
+> > > allocation or other type of usage. I'm sure non-video usage will exist in the
+> > > future (think of machine learning, compute, other high bandwidth streaming
+> > > thingy ...)
+> > >
+> > Ok thank you for pointing out the naming issue. The naming is a
+> > consequence of the initial use case, but I guess it's too specific.
+> > What I want out of this change is that android can track dmabufs that
+> > come out of heaps, and drm can track gpu memory. But other drivers
+> > could track different resources under different names. Imagine this
+> > were called a buffer cgroup controller instead of a GPU cgroup
+> > controller. Then the use component ("video memory") isn't tied up with
+> > the name of the controller, but it's up to the name of the bucket the
+> > resource is tracked under. I think this meets the needs of the two use
+> > cases I'm aware of now, while leaving the door open to other future
+> > needs. Really the controller is just enabling abstract named buckets
+> > for tracking and eventually limiting a type of resource.
+>
+> So, there hasn't been whole lot of discussion w/ other GPU folks and what
+> comes up still seems to indicate that we're still long way away from having
+> a meaningful gpu controller.
+>
+Yes, and I would still be happy to collaborate.
 
-Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+> For your use case, would it make sense to just
+> add dmabuf as a key to the misc controller?
+>
+Thanks for your suggestion. This almost works. "dmabuf" as a key could
+work, but I'd actually like to account for each heap. Since heaps can
+be dynamically added, I can't accommodate every potential heap name by
+hardcoding registrations in the misc controller.
+
+> I'm not sure it makes sense to
+> push "gpu controller" forward if there's no conceptual consensus around what
+> resources are.
+>
+> Thanks.
+>
+> --
+> tejun
