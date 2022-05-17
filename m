@@ -2,160 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F553C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 08:30:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F51C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 08:32:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229565AbiEQIas (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 04:30:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33422 "EHLO
+        id S243197AbiEQIcq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 04:32:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233170AbiEQIar (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 04:30:47 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 116D32715
-        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 01:30:43 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id n8so16726915plh.1
-        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 01:30:43 -0700 (PDT)
+        with ESMTP id S243140AbiEQIcp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 04:32:45 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9E1C43480
+        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 01:32:44 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id a11so16289450pff.1
+        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 01:32:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=2robtToebhCJsj//+rjVAeUiUWyJBEWRWL7VlRXuVdw=;
-        b=sRixCFeTMkU8HP8osRxeH2iWC/3m6kqziSLu2JTGTSwIzIPoNfPMa4aj4W7jCDPLhV
-         2m0mT+0Hk4yrgEUN+arz8BVGLhHFhpaaUnCDmBj3XUEUQzg+7d+Qj924AoSmZGAHMiBp
-         kmPid0yZqL/cHNQJdJSa5b0ohBkhk3mhm7OKryJB77nt5YMXN06zqJ3aoAn7asNyBK6I
-         K1lOxbu/I/e4LhLe8qiGDcobBnMqYY7PK2+yww38QH6+bG0R3NMVzbCGwU/wsQ+NLrGD
-         NoVqvWvvVm0Q4o/qtBW2Ah7hktpdY+yGIK9hclRbc/O3X+STjmyizT8Rzyk+WuSs9OQg
-         ghNw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=mHd014Sv/cZzHNLl2XS0FcsPOA0F2xVdYa0mHdLVxOQ=;
+        b=bnrJcO344X5t3ZkCt1ZSG/l5aQuFvZZdLCAlhxNnakNoSpxHL5HM+DMwnDoU4CHJCB
+         QkuMDMy4fOR7yRqoeOxfQ7j5vGr7gW9SbHVTOsimcI1crpe1/hEmg0HaTGncvG3L4hTt
+         P4vkZVhKl8G3Fgm1u4fK2AAguZHp2ZGN72vipCDJWn6LJWhQWl9SOfUkqvh3bOjbOgoJ
+         olrBNI1wZoL4/dP1/vvBdp/eNuM+jGIaE/blJP5lRsKgp6pOZYLj2kyLaqv93x9+bmvY
+         fZeBT9cYNkKq23IRbYx74A/w+llEKW3TTYTdLVNWe5R/PKUSV+2hftRwoqdFvMaf69Cv
+         y5Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=2robtToebhCJsj//+rjVAeUiUWyJBEWRWL7VlRXuVdw=;
-        b=CP4pSVeimgnXt/98BAFKEN1s4rSBOkrDulgxrFAXctb51DqiVQwTx9HpckBjqHGmqL
-         b9CmXg4QkxX0mrFMvIX3SgkmTpotWcR9om2MDeFex16EE4d8IscfgNoorpM/h9fyHTxH
-         wwZ9pFHlEgnOJ6/vLLwT0OUELyHXpDl1+mY6Jd9XvaTmVuzS1p9IxU/I6n6j3jLWpmrP
-         t5gD15hMnRUwClhh59s0Fc1oZd2eDf/sOt6D68faGuuw9XJStNz0lKV3NiRXC/JQmufH
-         4zv2jZRdRU06RY29z8vJZHut3NuGGYr/Ip/m67uRCmvl+3ZeefXEnzdUroPO8ylnyufP
-         I86w==
-X-Gm-Message-State: AOAM532LoZzAff0XnTbSU93u4k+wenFYgjkpoyGLUtXkhFIfpHtcNw5A
-        I8R6lrdD/XhUHLfEE/4ZoUvtHQ==
-X-Google-Smtp-Source: ABdhPJy80COtDL5kaZEPgNnbz2MiEgHlQL5wffg2ZGBCyQPaSpadFLGKrn78jo1eoyr2Mhl8etg1iw==
-X-Received: by 2002:a17:90a:2a48:b0:1df:42e6:ff21 with SMTP id d8-20020a17090a2a4800b001df42e6ff21mr11726788pjg.209.1652776242582;
-        Tue, 17 May 2022 01:30:42 -0700 (PDT)
-Received: from [10.254.206.69] ([139.177.225.231])
-        by smtp.gmail.com with ESMTPSA id p26-20020a62b81a000000b00517de3dc3c6sm3663017pfe.84.2022.05.17.01.30.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 May 2022 01:30:41 -0700 (PDT)
-Message-ID: <8c51d9ae-5a8e-74a9-ddc2-70b5fcd38427@bytedance.com>
-Date:   Tue, 17 May 2022 16:30:35 +0800
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mHd014Sv/cZzHNLl2XS0FcsPOA0F2xVdYa0mHdLVxOQ=;
+        b=XuM7iigirBSp330tX6zvmoH+KUNh9GB1HDa7a/kY4WsO+3W50QGUrqelvjBw3ZIQG2
+         gO1BOEAEbZp+lGhf+wzkgYiCO5xz2SiSihytJ82mkCEBxDTk7e1/MPDMqrN3WSFom9Hx
+         y76DQo6IUXbrJYs6IenPdIJL5y+xJGbHRoJi+I9lWY1PiRbdfANPLfkG1j/0MFDTurqx
+         HxfsNji6wddBIs9yPPgsCqz5FU+g/341++KXgIyje9dUYQMRCPJU7FPWM2HQmKIJmOEP
+         OFupmmxS5ozuJZQNJVcuHLp2Gf+ONRiO8wD2TnUOwCFbr9Ovj4txaaRDAgq9l4BY/P1T
+         yYmg==
+X-Gm-Message-State: AOAM530VjeV5Kuq91w6j/OC153nBdh6TqICxse+v9djZPObjRl9YC8B5
+        1nXCR/+dW3Ulk2OwIwTKrc0fAQ==
+X-Google-Smtp-Source: ABdhPJyUwVJJgbOX1VtpusM6TC4Bf0yY494nRFSWFy8ynRdzsv0O2gko9OPqVETRQWTXBoDxFmhhow==
+X-Received: by 2002:a63:7d48:0:b0:3db:33fd:b227 with SMTP id m8-20020a637d48000000b003db33fdb227mr19178856pgn.194.1652776364095;
+        Tue, 17 May 2022 01:32:44 -0700 (PDT)
+Received: from localhost ([139.177.225.234])
+        by smtp.gmail.com with ESMTPSA id d4-20020a170903230400b0015e8d4eb22bsm8936923plh.117.2022.05.17.01.32.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 May 2022 01:32:43 -0700 (PDT)
+Date:   Tue, 17 May 2022 16:32:40 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v12 3/7] mm: memory_hotplug: enumerate all supported
+ section flags
+Message-ID: <YoNdqCz/yYlBNQyM@FVFYT0MHHV2J.usts.net>
+References: <20220516102211.41557-1-songmuchun@bytedance.com>
+ <20220516102211.41557-4-songmuchun@bytedance.com>
+ <YoNTJNfhUO7/oUrn@localhost.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [RFC PATCH 00/18] Try to free user PTE page table pages
-Content-Language: en-US
-To:     david@redhat.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, songmuchun@bytedance.com,
-        zhouchengming@bytedance.com, akpm@linux-foundation.org,
-        tglx@linutronix.de, kirill.shutemov@linux.intel.com,
-        jgg@nvidia.com, tj@kernel.org, dennis@kernel.org,
-        ming.lei@redhat.com
-References: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
-From:   Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YoNTJNfhUO7/oUrn@localhost.localdomain>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2022/4/29 9:35 PM, Qi Zheng wrote:
-> Hi,
+On Tue, May 17, 2022 at 09:47:48AM +0200, Oscar Salvador wrote:
+> On Mon, May 16, 2022 at 06:22:07PM +0800, Muchun Song wrote:
+> > We are almost running out of free slots, only one bit is available in the
 > 
-> This patch series aims to try to free user PTE page table pages when no one is
-> using it.
+> I would be more precise about what are we running out of. Free slots of
+> what?
 > 
-> The beginning of this story is that some malloc libraries(e.g. jemalloc or
-> tcmalloc) usually allocate the amount of VAs by mmap() and do not unmap those
-> VAs. They will use madvise(MADV_DONTNEED) to free physical memory if they want.
-> But the page tables do not be freed by madvise(), so it can produce many
-> page tables when the process touches an enormous virtual address space.
+> > worst case (powerpc with 256k pages).  However, there are still some free
+> > slots on other architectures (e.g. x86_64 has 10 bits available, arm64
+> > has 8 bits available with worst case of 64K pages).  We have hard coded
+> > those numbers in code, it is inconvenient to use those bits on other
+> > architectures except powerpc.  So transfer those section flags to
+> > enumeration to make it easy to add new section flags in the future. Also,
+> > move SECTION_TAINT_ZONE_DEVICE into the scope of CONFIG_ZONE_DEVICE
+> > to save a bit on non-zone-device case.
+> > 
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> ...
+> > --- a/include/linux/mmzone.h
+> > +++ b/include/linux/mmzone.h
+> > @@ -1418,16 +1418,37 @@ extern size_t mem_section_usage_size(void);
+> >   *      (equal SECTION_SIZE_BITS - PAGE_SHIFT), and the
+> >   *      worst combination is powerpc with 256k pages,
+> >   *      which results in PFN_SECTION_SHIFT equal 6.
+> > - * To sum it up, at least 6 bits are available.
+> > + * To sum it up, at least 6 bits are available on all architectures.
+> > + * However, we can exceed 6 bits on some other architectures except
+> > + * powerpc (e.g. 15 bits are available on x86_64, 13 bits are available
+> > + * with the worst case of 64K pages on arm64) if we make sure the
+> > + * exceeded bit is not applicable to powerpc.
+> >   */
+> > -#define SECTION_MARKED_PRESENT		(1UL<<0)
+> > -#define SECTION_HAS_MEM_MAP		(1UL<<1)
+> > -#define SECTION_IS_ONLINE		(1UL<<2)
+> > -#define SECTION_IS_EARLY		(1UL<<3)
+> > -#define SECTION_TAINT_ZONE_DEVICE	(1UL<<4)
+> > -#define SECTION_MAP_LAST_BIT		(1UL<<5)
+> > +#define ENUM_SECTION_FLAG(MAPPER)						\
+> > +	MAPPER(MARKED_PRESENT)							\
+> > +	MAPPER(HAS_MEM_MAP)							\
+> > +	MAPPER(IS_ONLINE)							\
+> > +	MAPPER(IS_EARLY)							\
+> > +	MAPPER(TAINT_ZONE_DEVICE, CONFIG_ZONE_DEVICE)				\
+> > +	MAPPER(MAP_LAST_BIT)
+> > +
+> > +#define __SECTION_SHIFT_FLAG_MAPPER_0(x)
+> > +#define __SECTION_SHIFT_FLAG_MAPPER_1(x)	SECTION_##x##_SHIFT,
+> > +#define __SECTION_SHIFT_FLAG_MAPPER(x, ...)	\
+> > +	__PASTE(__SECTION_SHIFT_FLAG_MAPPER_, IS_ENABLED(__VA_ARGS__))(x)
+> > +
+> > +#define __SECTION_FLAG_MAPPER_0(x)
+> > +#define __SECTION_FLAG_MAPPER_1(x)		SECTION_##x = BIT(SECTION_##x##_SHIFT),
+> > +#define __SECTION_FLAG_MAPPER(x, ...)		\
+> > +	__PASTE(__SECTION_FLAG_MAPPER_, IS_ENABLED(__VA_ARGS__))(x)
+> > +
+> > +enum {
+> > +	ENUM_SECTION_FLAG(__SECTION_SHIFT_FLAG_MAPPER)
+> > +	ENUM_SECTION_FLAG(__SECTION_FLAG_MAPPER)
+> > +};
+> > +
+> >  #define SECTION_MAP_MASK		(~(SECTION_MAP_LAST_BIT-1))
+> > -#define SECTION_NID_SHIFT		6
+> > +#define SECTION_NID_SHIFT		SECTION_MAP_LAST_BIT_SHIFT
 > 
-> The following figures are a memory usage snapshot of one process which actually
-> happened on our server:
-> 
->          VIRT:  55t
->          RES:   590g
->          VmPTE: 110g
-> 
-> As we can see, the PTE page tables size is 110g, while the RES is 590g. In
-> theory, the process only need 1.2g PTE page tables to map those physical
-> memory. The reason why PTE page tables occupy a lot of memory is that
-> madvise(MADV_DONTNEED) only empty the PTE and free physical memory but
-> doesn't free the PTE page table pages. So we can free those empty PTE page
-> tables to save memory. In the above cases, we can save memory about 108g(best
-> case). And the larger the difference between the size of VIRT and RES, the
-> more memory we save.
-> 
-> In this patch series, we add a pte_ref field to the struct page of page table
-> to track how many users of user PTE page table. Similar to the mechanism of page
-> refcount, the user of PTE page table should hold a refcount to it before
-> accessing. The user PTE page table page may be freed when the last refcount is
-> dropped.
-> 
-> Different from the idea of another patchset of mine before[1], the pte_ref
-> becomes a struct percpu_ref type, and we switch it to atomic mode only in cases
-> such as MADV_DONTNEED and MADV_FREE that may clear the user PTE page table
-> entryies, and then release the user PTE page table page when checking that
-> pte_ref is 0. The advantage of this is that there is basically no performance
-> overhead in percpu mode, but it can also free the empty PTEs. In addition, the
-> code implementation of this patchset is much simpler and more portable than the
-> another patchset[1].
+> Is this really worth the extra code? And it might be me that I am not
+> familiar with all this magic, but it looks overcomplicated.
+> Maybe some comments here and there help clarifying what it is going on
+> here.
+>
 
-Hi David,
+Yeah, it's a little complicated. All the magic aims to generate
+two enumeration from one MAPPER(xxx, config), one is SECTION_xxx_SHIFT,
+another is SECTION_xxx = BIT(SECTION_xxx_SHIFT) if the 'config' is
+configured. If we want to add a new flag, like the follow patch, just
+one line could do that.
 
-I learned from the LWN article[1] that you led a session at the LSFMM on
-the problems posed by the lack of page-table reclaim (And thank you very
-much for mentioning some of my work in this direction). So I want to
-know, what are the further plans of the community for this problem?
+  MAPPER(CANNOT_OPTIMIZE_VMEMMAP, CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP)
 
-For the way of adding pte_ref to each PTE page table page, I currently
-posted two versions: atomic count version[2] and percpu_ref version(This
-patchset).
+Without those magic, we have to add 4 lines like follows to do the
+similar thing.
 
-For the atomic count version:
-- Advantage: PTE pages can be freed as soon as the reference count drops
-              to 0.
-- Disadvantage: The addition and subtraction of pte_ref are atomic
-                 operations, which have a certain performance overhead,
-                 but should not become a performance bottleneck until the
-                 mmap_lock contention problem is resolved.
+  #ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
+  	SECTION_CANNOT_OPTIMIZE_VMEMMAP_SHIFT,
+  #define SECTION_CANNOT_OPTIMIZE_VMEMMAP BIT(SECTION_CANNOT_OPTIMIZE_VMEMMAP_SHIFT)
+  #endif
 
-For the percpu_ref version:
-- Advantage: In the percpu mode, the addition and subtraction of the
-              pte_ref are all operations on local cpu variables, there
-              is basically no performance overhead.
-Disadvantage: Need to explicitly convert the pte_ref to atomic mode so
-               that the unused PTE pages can be freed.
+I admit it is more clear but not simplified as above approach.
 
-There are still many places to optimize the code implementation of these
-two versions. But before I do further work, I would like to hear your
-and the community's views and suggestions on these two versions.
+Both two approaches are fine to me. If we choose the simplified
+one, I agree with you I should add more comments to explain
+what happens here.
 
-Thanks,
-Qi
+Thanks.
 
-[1]: https://lwn.net/Articles/893726 (Ways to reclaim unused page-table 
-pages)
-[2]: 
-https://lore.kernel.org/lkml/20211110105428.32458-1-zhengqi.arch@bytedance.com/
-
-> 
-
--- 
-Thanks,
-Qi
+ 
