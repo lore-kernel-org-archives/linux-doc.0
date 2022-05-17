@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73C61C43217
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 07:36:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 184B7C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 07:37:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241405AbiEQHgl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 03:36:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37038 "EHLO
+        id S241579AbiEQHhN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 03:37:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241814AbiEQHft (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 03:35:49 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 540CE48889;
-        Tue, 17 May 2022 00:34:56 -0700 (PDT)
+        with ESMTP id S241583AbiEQHg6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 03:36:58 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5727048889;
+        Tue, 17 May 2022 00:36:57 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 0F0A4220E4;
-        Tue, 17 May 2022 07:34:55 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 0A34C1FBB6;
+        Tue, 17 May 2022 07:36:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1652772895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1652773016; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=J1KjVE0wHNwP3/mTNkJ0TblpbUqdNrFgJOI9ondDKTg=;
-        b=YUevUczAacH+9aLfJ9cL8rkSgdKZsoDdA5JzHX7uxPFz1UEnANG0qTEqGhdX1VQsWUZZYL
-        4FAWNpczOkRRX4jjyjpw4iF84Vzb0LAd2ilYeOiIJiIZ0cj5gN5Uroc20IXNrx1JEa6Fw5
-        DCobOFu3k/3n9hQi+4aoQBbGDFDL2+0=
+        bh=5k0bGOWkmGL1ogvQ/PreqJMh1U1K6c4WBr2eA6nTSAM=;
+        b=k1hgAxLHcPwk3vEQCWus51vT4+BvTaLYR+QHOAK3xVmdoQKgPHeTu+DfO+WesNLefN3po0
+        R9NLCarCPlMgTyosDYGCmIU+OFXfYoedIUeJqf22LVR7R7WTOJIFAY9q5u3r9V4b43Ynpm
+        HwcHrcODHBHUS8nc5lhJa/98sGVBFMo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1652772895;
+        s=susede2_ed25519; t=1652773016;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=J1KjVE0wHNwP3/mTNkJ0TblpbUqdNrFgJOI9ondDKTg=;
-        b=f8ddPe5eIGU5Z3eU1wOrwxLWrE+9w35kzWYcySynKAyDzb0Ri6XNByG7zSiinsOLCBzw4/
-        SznTLHqPjf7/TvCg==
+        bh=5k0bGOWkmGL1ogvQ/PreqJMh1U1K6c4WBr2eA6nTSAM=;
+        b=Z7Cu/hEg/PUSiAGDXraTHHfvdp/4d1ELwywNgsiUNKfH1qhjPTS9AIU7zlSRB73PQws//V
+        lEnTbGxt5LhUgrBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 383B613305;
-        Tue, 17 May 2022 07:34:54 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2B88A13305;
+        Tue, 17 May 2022 07:36:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id A6IECx5Qg2IGeQAAMHmgww
-        (envelope-from <osalvador@suse.de>); Tue, 17 May 2022 07:34:54 +0000
-Date:   Tue, 17 May 2022 09:34:52 +0200
+        id ueW0BpdQg2LmeQAAMHmgww
+        (envelope-from <osalvador@suse.de>); Tue, 17 May 2022 07:36:55 +0000
+Date:   Tue, 17 May 2022 09:36:53 +0200
 From:   Oscar Salvador <osalvador@suse.de>
 To:     Muchun Song <songmuchun@bytedance.com>
 Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
@@ -54,37 +54,30 @@ Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
         david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v12 1/7] mm: hugetlb_vmemmap: disable
- hugetlb_optimize_vmemmap when struct page crosses page boundaries
-Message-ID: <YoNQHOKEzqFKQV6+@localhost.localdomain>
+Subject: Re: [PATCH v12 2/7] mm: hugetlb_vmemmap: use kstrtobool for
+ hugetlb_vmemmap param parsing
+Message-ID: <YoNQlbaaUE+3+zE8@localhost.localdomain>
 References: <20220516102211.41557-1-songmuchun@bytedance.com>
- <20220516102211.41557-2-songmuchun@bytedance.com>
+ <20220516102211.41557-3-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220516102211.41557-2-songmuchun@bytedance.com>
+In-Reply-To: <20220516102211.41557-3-songmuchun@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 16, 2022 at 06:22:05PM +0800, Muchun Song wrote:
-> If the size of "struct page" is not the power of two but with the feature
-> of minimizing overhead of struct page associated with each HugeTLB is
-> enabled, then the vmemmap pages of HugeTLB will be corrupted after
-> remapping (panic is about to happen in theory).  But this only exists when
-> !CONFIG_MEMCG && !CONFIG_SLUB on x86_64.  However, it is not a conventional
-> configuration nowadays.  So it is not a real word issue, just the result
-> of a code review.
-> 
-> But we cannot prevent anyone from configuring that combined configure.
-> This hugetlb_optimize_vmemmap should be disable in this case to fix this
-> issue.
+On Mon, May 16, 2022 at 06:22:06PM +0800, Muchun Song wrote:
+> Use kstrtobool rather than open coding "on" and "off" parsing in
+> mm/hugetlb_vmemmap.c,  which is more powerful to handle all kinds
+> of parameters like 'Yy1Nn0' or [oO][NnFf] for "on" and "off".
 > 
 > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 > Reviewed-by: Mike Kravetz <mike.kravetz@oracle.com>
 > Acked-by: David Hildenbrand <david@redhat.com>
 
 Reviewed-by: Oscar Salvador <osalvador@suse.de>
+
 
 -- 
 Oscar Salvador
