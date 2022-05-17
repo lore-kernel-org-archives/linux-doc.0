@@ -2,157 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08EBAC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 09:11:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FC37C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 09:16:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237954AbiEQJK4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 05:10:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35282 "EHLO
+        id S242104AbiEQJQx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 05:16:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244151AbiEQJKc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 05:10:32 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE6F94B86F;
-        Tue, 17 May 2022 02:08:47 -0700 (PDT)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4L2Vct2Mtjz1JCB9;
-        Tue, 17 May 2022 17:07:26 +0800 (CST)
-Received: from dggpemm500002.china.huawei.com (7.185.36.229) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 17 May 2022 17:08:46 +0800
-Received: from [10.174.178.178] (10.174.178.178) by
- dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 17 May 2022 17:08:45 +0800
-Message-ID: <0db235d3-7aa8-7b4d-af99-c6e3364738de@huawei.com>
-Date:   Tue, 17 May 2022 17:08:45 +0800
+        with ESMTP id S244794AbiEQJQT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 05:16:19 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87747632D
+        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 02:16:15 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id i8so2863806plr.13
+        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 02:16:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=onNloPT2vOHeOV/PSAtr8Uk19Uz1c04GpqkHIaBzWIY=;
+        b=ZyE57yWZL+SFAnt+RCxLDdFdvh/Ti2hIPUBotwr6QjEtQZ6l+iylAXCbEacALkbQjL
+         VvDYdcDpxNWpvmCuw5V6kkBxIerpdJ1it39e1AcUARaymO6JLB+O9Q2if8mkrwmK3JxQ
+         pP8r9pMKAMaTlidnbgZyBS3sDVguddEuzS3BrrAdAjJCAVpsmfQu99GPH+e/3GfF+ZRw
+         gr8Kgwnq/h6eSIkM7JunuCmfFQFqRSgzPd37lqeuYAcsHpE9d6raEHZyBAU16UlMgGD2
+         KyHaf/GpDUjppELMMCFtwNgH+yIEj+lXLFGEaWxdZ+pqQ4MZ0CDr4gHHnGe3vaQSc5kE
+         P+Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=onNloPT2vOHeOV/PSAtr8Uk19Uz1c04GpqkHIaBzWIY=;
+        b=WaMMq4rfL/JZhvlcyxpLiDftmNwUn5sLrkoebbOY/7+WoxR2StPrqthDI8vqakt/0K
+         1MyRGAT3aypo0EoERu1rPXHYI3AtyXOx9yR4cCq1IQesllug/n0rIkJfpbJYHvTgfDil
+         xJqky0TNMVXlUwIhdfDyYL7qdo7O6Z0lajDBbKEeAgT+VGIiEjVlbstJzro6OtMO2IqC
+         LiMIeNo1b9PSoogBLFSL+3FuHl6CrSuqe76mlYphdObirFb2mHI8eCo79Cv7Y/Moqy9J
+         a4PSwyAbF2pw5LAFFr4QNeAlCyaiLA2mLvxI20Xj3dKqn+m7A7XxbZ8gPR0bWK+eDUE7
+         1Zpg==
+X-Gm-Message-State: AOAM5330GANFYHHmqdGdpX0+RL5PlWfB088Lcm0n+wC5oqdqStAmEHIc
+        izS4dIe1zYFVk5My46m4fWBllw==
+X-Google-Smtp-Source: ABdhPJzuvNI99GDvviBh8Cb0S0VbIbzNldV4sCEMh/Ae6AtvyqRplmKR8tJnUOPkZJWORgAZgncEPQ==
+X-Received: by 2002:a17:903:2d0:b0:14d:8a8d:cb1 with SMTP id s16-20020a17090302d000b0014d8a8d0cb1mr21430704plk.50.1652778975070;
+        Tue, 17 May 2022 02:16:15 -0700 (PDT)
+Received: from localhost ([139.177.225.250])
+        by smtp.gmail.com with ESMTPSA id jc13-20020a17090325cd00b001618b4d86b3sm2978176plb.180.2022.05.17.02.16.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 May 2022 02:16:14 -0700 (PDT)
+Date:   Tue, 17 May 2022 17:16:11 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        mcgrof@kernel.org, keescook@chromium.org, yzaikin@google.com,
+        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v12 7/7] mm: hugetlb_vmemmap: add
+ hugetlb_optimize_vmemmap sysctl
+Message-ID: <YoNn2+8VG7XxQ20Y@FVFYT0MHHV2J.usts.net>
+References: <20220516102211.41557-1-songmuchun@bytedance.com>
+ <20220516102211.41557-8-songmuchun@bytedance.com>
+ <YoNXm2c5fJq8luqf@localhost.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.3
-Subject: Re: [PATCH 1/2] psi: add support for multi level pressure stall
- trigger
-To:     Alex Shi <seakeel@gmail.com>, <linux-kernel@vger.kernel.org>,
-        <hannes@cmpxchg.org>, <surenb@google.com>, <alexs@kernel.org>,
-        <corbet@lwn.net>, <linux-doc@vger.kernel.org>
-References: <20220516033524.3130816-1-chenwandun@huawei.com>
- <30b37eeb-e77b-882e-fc24-3367321a8ca3@gmail.com>
-From:   Chen Wandun <chenwandun@huawei.com>
-In-Reply-To: <30b37eeb-e77b-882e-fc24-3367321a8ca3@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.178]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500002.china.huawei.com (7.185.36.229)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YoNXm2c5fJq8luqf@localhost.localdomain>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, May 17, 2022 at 10:06:51AM +0200, Oscar Salvador wrote:
+> On Mon, May 16, 2022 at 06:22:11PM +0800, Muchun Song wrote:
+> > We must add hugetlb_free_vmemmap=on (or "off") to the boot cmdline and
+> > reboot the server to enable or disable the feature of optimizing vmemmap
+> > pages associated with HugeTLB pages.  However, rebooting usually takes a
+> > long time.  So add a sysctl to enable or disable the feature at runtime
+> > without rebooting.  Why we need this?  There are 3 use cases.
+> > 
+> > 1) The feature of minimizing overhead of struct page associated with each
+> > HugeTLB is disabled by default without passing "hugetlb_free_vmemmap=on"
+> > to the boot cmdline. When we (ByteDance) deliver the servers to the
+> > users who want to enable this feature, they have to configure the grub
+> > (change boot cmdline) and reboot the servers, whereas rebooting usually
+> > takes a long time (we have thousands of servers).  It's a very bad
+> > experience for the users.  So we need a approach to enable this feature
+> > after rebooting. This is a use case in our practical environment.
+> > 
+> > 2) Some use cases are that HugeTLB pages are allocated 'on the fly'
+> > instead of being pulled from the HugeTLB pool, those workloads would be
+> > affected with this feature enabled.  Those workloads could be identified
+> > by the characteristics of they never explicitly allocating huge pages
+> > with 'nr_hugepages' but only set 'nr_overcommit_hugepages' and then let
+> > the pages be allocated from the buddy allocator at fault time.  We can
+> > confirm it is a real use case from the commit 099730d67417.  For those
+> > workloads, the page fault time could be ~2x slower than before. We
+> > suspect those users want to disable this feature if the system has enabled
+> > this before and they don't think the memory savings benefit is enough to
+> > make up for the performance drop.
+> > 
+> > 3) If the workload which wants vmemmap pages to be optimized and the
+> > workload which wants to set 'nr_overcommit_hugepages' and does not want
+> > the extera overhead at fault time when the overcommitted pages be
+> > allocated from the buddy allocator are deployed in the same server.
+> > The user could enable this feature and set 'nr_hugepages' and
+> > 'nr_overcommit_hugepages', then disable the feature.  In this case,
+> > the overcommited HugeTLB pages will not encounter the extra overhead
+> > at fault time.
+> 
+> I am having issues parsing point 3), specially the first part.
+> IIUC, you are saying we have two kind of different workloads:
+> 
+> - one that wants to have hugetlb vmemmap pages optimized
+> - one that wants to allocate hugetlb pages at fault time rather than
+>   allocating them via /proc/..., but does not want to suffer the
+>   overhead of optimizing the vmemmap pages when faulting them
 
+I need to clarify this workload, the one that does not want to
+suffer the overhead of optimizing the vmemmap pages when faulting
+them instead of wanting to allocate hugetlb pages at fault time.
+It is different from the one in the case 2). This one usually
+configures 'nr_overcommit_hugepages' as well as 'nr_hugepages',
+if it does not want to suffer the overhead of optimizing the
+vmemmap pages when faulting pages (must be overcommitted pages),
+then they could follow the steps mentioned above.
 
-在 2022/5/16 14:20, Alex Shi 写道:
+> 
+> Then you say the user could enable the optimization and allocate
+> those pages via nr_hugepages, and then disable the feature.
+> So, when we fault in those pages, the pages are already in the
+> pool, right? And are already optimized.
 >
-> On 5/16/22 11:35, Chen Wandun wrote:
->> Nowadays, psi events are triggered when stall time exceed
->> stall threshold, but no any different between these events.
->>
->> Actually, events can be divide into multi level, each level
->> represent a different stall pressure, that is help to identify
->> pressure information more accurately.
->>
->> echo "some 150000 350000 1000000" > /proc/pressure/memory would
-> This breaks the old ABI. And why you need this new function?
-We want to do different measures according to different stall levels,
 
-In small stall case, maybe only low level warning is needed,  In big
+I mean the overcommitted pages (it could be allocated at fault
+time) as explained above.
 
-stall case, maybe aggressive memory reclaim is needed.
-
-so it is necessary to distinguish different levels.
->
-> Thanks
->
->> add [150ms, 350ms) threshold for partial memory stall measured
->> within 1sec time window.
->>
->> Signed-off-by: Chen Wandun <chenwandun@huawei.com>
->> ---
->>   include/linux/psi_types.h |  3 ++-
->>   kernel/sched/psi.c        | 19 +++++++++++++------
->>   2 files changed, 15 insertions(+), 7 deletions(-)
->>
->> diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
->> index c7fe7c089718..2b1393c8bf90 100644
->> --- a/include/linux/psi_types.h
->> +++ b/include/linux/psi_types.h
->> @@ -119,7 +119,8 @@ struct psi_trigger {
->>   	enum psi_states state;
->>   
->>   	/* User-spacified threshold in ns */
->> -	u64 threshold;
->> +	u64 min_threshold;
->> +	u64 max_threshold;
->>   
->>   	/* List node inside triggers list */
->>   	struct list_head node;
->> diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
->> index 6f9533c95b0a..17dd233b533a 100644
->> --- a/kernel/sched/psi.c
->> +++ b/kernel/sched/psi.c
->> @@ -541,7 +541,7 @@ static u64 update_triggers(struct psi_group *group, u64 now)
->>   
->>   			/* Calculate growth since last update */
->>   			growth = window_update(&t->win, now, total[t->state]);
->> -			if (growth < t->threshold)
->> +			if (growth < t->min_threshold || growth >= t->max_threshold)
->>   				continue;
->>   
->>   			t->pending_event = true;
->> @@ -1087,15 +1087,18 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
->>   {
->>   	struct psi_trigger *t;
->>   	enum psi_states state;
->> -	u32 threshold_us;
->> +	u32 min_threshold_us;
->> +	u32 max_threshold_us;
->>   	u32 window_us;
->>   
->>   	if (static_branch_likely(&psi_disabled))
->>   		return ERR_PTR(-EOPNOTSUPP);
->>   
->> -	if (sscanf(buf, "some %u %u", &threshold_us, &window_us) == 2)
->> +	if (sscanf(buf, "some %u %u %u", &min_threshold_us,
->> +				&max_threshold_us, &window_us) == 3)
->>   		state = PSI_IO_SOME + res * 2;
->> -	else if (sscanf(buf, "full %u %u", &threshold_us, &window_us) == 2)
->> +	else if (sscanf(buf, "full %u %u %u", &min_threshold_us,
->> +				&max_threshold_us, &window_us) == 3)
->>   		state = PSI_IO_FULL + res * 2;
->>   	else
->>   		return ERR_PTR(-EINVAL);
->> @@ -1107,8 +1110,11 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
->>   		window_us > WINDOW_MAX_US)
->>   		return ERR_PTR(-EINVAL);
->>   
->> +	if (min_threshold_us >= max_threshold_us)
->> +		return ERR_PTR(-EINVAL);
->> +
->>   	/* Check threshold */
->> -	if (threshold_us == 0 || threshold_us > window_us)
->> +	if (max_threshold_us > window_us)
->>   		return ERR_PTR(-EINVAL);
->>   
->>   	t = kmalloc(sizeof(*t), GFP_KERNEL);
->> @@ -1117,7 +1123,8 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
->>   
->>   	t->group = group;
->>   	t->state = state;
->> -	t->threshold = threshold_us * NSEC_PER_USEC;
->> +	t->min_threshold = min_threshold_us * NSEC_PER_USEC;
->> +	t->max_threshold = max_threshold_us * NSEC_PER_USEC;
->>   	t->win.size = window_us * NSEC_PER_USEC;
->>   	window_reset(&t->win, 0, 0, 0);
->>   
-> .
-
+Thanks.
