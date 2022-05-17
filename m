@@ -2,197 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C032C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 12:46:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1181C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 13:16:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243543AbiEQMqw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 08:46:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40220 "EHLO
+        id S238363AbiEQNQe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 09:16:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346314AbiEQMqt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 08:46:49 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6399936E0C;
-        Tue, 17 May 2022 05:46:48 -0700 (PDT)
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.57])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4L2bQd02d2zGpgN;
-        Tue, 17 May 2022 20:43:53 +0800 (CST)
-Received: from dggpemm500002.china.huawei.com (7.185.36.229) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 17 May 2022 20:46:46 +0800
-Received: from [10.174.178.178] (10.174.178.178) by
- dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 17 May 2022 20:46:46 +0800
-Message-ID: <3a31521f-a68a-b2a9-baae-9a458ee17033@huawei.com>
-Date:   Tue, 17 May 2022 20:46:45 +0800
+        with ESMTP id S1347636AbiEQNQ2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 09:16:28 -0400
+Received: from email.cn (m218-171.88.com [110.43.218.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5357C15
+        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 06:16:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=h5+AHg7GKGRU5YmPBN+4Rd5gnU4UY8p5DeTyH
+        FO1K/c=; b=eDwCox3+vcVO69ssDIy7fFFjkIh3E65caiLtuU23meTeWntYpHDL4
+        1CyJvM4mn6FKTzuOxW1h/Ab3g+81Upe0aOIkS0fDKnAAZoThxbTm/SEEvtSzPW2S
+        wCk2gc8hL9SJx4JbaSzUvG2JscNe9zdteQGvAAbcTewXpch1AFYA3Q=
+Received: from bobwxc.mipc (unknown [120.242.69.144])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgAHbb0goINiz8WGAA--.8018S2;
+        Tue, 17 May 2022 21:16:17 +0800 (CST)
+Date:   Tue, 17 May 2022 21:16:15 +0800
+From:   Wu XiangCheng <bobwxc@email.cn>
+To:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 0/2] docs/zh_CN: sync reporting-issues.rst to 247097e2bbff4
+Message-ID: <cover.1652792205.git.bobwxc@email.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.3
-Subject: Re: [PATCH 1/2] psi: add support for multi level pressure stall
- trigger
-To:     Suren Baghdasaryan <surenb@google.com>,
-        Alex Shi <seakeel@gmail.com>
-CC:     LKML <linux-kernel@vger.kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20220516033524.3130816-1-chenwandun@huawei.com>
- <30b37eeb-e77b-882e-fc24-3367321a8ca3@gmail.com>
- <CAJuCfpE7fBsp8ntYVeLsW7Cd0Z09OmxN75X9Az_Qco0GJrz3Wg@mail.gmail.com>
- <CAJuCfpH-BDqsft1YvGFhkbR60VC0TJgfXKRVN+80e0iqQdhxpA@mail.gmail.com>
-From:   Chen Wandun <chenwandun@huawei.com>
-In-Reply-To: <CAJuCfpH-BDqsft1YvGFhkbR60VC0TJgfXKRVN+80e0iqQdhxpA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.178]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500002.china.huawei.com (7.185.36.229)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+X-CM-TRANSID: LCKnCgAHbb0goINiz8WGAA--.8018S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZry7Xr1kAryrXr1ruF45KFg_yoWxZFc_u3
+        95Was3trWxCa4rtFW8WF1YvrZ09w43C34F9w4Uta93Gr4fXrsxWwn5GF90q345XFW7AFy7
+        G3yUXws7KrnrWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbY8YjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+        8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E
+        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcV
+        Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWxJr1U
+        JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc2xSY4AK67AK6ry8MxAIw28Icx
+        kI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l
+        x2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14
+        v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IY
+        x2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87
+        Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIF
+        yTuYvjxU1_MaUUUUU
+X-Originating-IP: [120.242.69.144]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+sync zh_CN/admin-guide/reporting-issues.rst to newest version
+(commit 247097e2bbff4)
 
+There are two patches in the same name, the first acturally been
+reviewed by Alex and Yanteng last year , see <https://lore.kernel.org/linux-doc/CAMU9jJor_V_G6wG1vWnDvgQADeXaPxg9E47w27nk_sBNGJpuEg@mail.gmail.com/>,
+but not been picked up yet. So I rebase it to newest docs-next and resend
+it. Then bring a new sync commit.
 
-在 2022/5/16 16:43, Suren Baghdasaryan 写道:
-> On Mon, May 16, 2022 at 1:21 AM Suren Baghdasaryan <surenb@google.com> wrote:
->> On Sun, May 15, 2022 at 11:20 PM Alex Shi <seakeel@gmail.com> wrote:
->>>
->>>
->>> On 5/16/22 11:35, Chen Wandun wrote:
->>>> Nowadays, psi events are triggered when stall time exceed
->>>> stall threshold, but no any different between these events.
->>>>
->>>> Actually, events can be divide into multi level, each level
->>>> represent a different stall pressure, that is help to identify
->>>> pressure information more accurately.
->> IIUC by defining min and max, you want the trigger to activate when
->> the stall is between min and max thresholds. But I don't see why you
->> would need that. If you want to have several levels, you can create
->> multiple triggers and monitor them separately. For your example, that
->> would be:
->>
->> echo "some 150000 1000000" > /proc/pressure/memory
->> echo "some 350000 1000000" > /proc/pressure/memory
->>
->> Your first trigger will fire whenever the stall exceeds 150ms within
->> each 1sec and the second one will trigger when it exceeds 350ms. It is
->> true that if the stall jumps sharply above 350ms, you would get both
->> triggers firing. I'm guessing that's why you want this functionality
->> so that 150ms trigger does not fire when 350ms one is firing but why
->> is that a problem? Can't userspace pick the highest level one and
->> ignore all the lower ones when this happens? Or are you addressing
->> some other requirement?
->>
->>>> echo "some 150000 350000 1000000" > /proc/pressure/memory would
->>> This breaks the old ABI. And why you need this new function?
->> Both great points.
-> BTW, I think the additional max_threshold parameter could be
-> implemented in a backward compatible way so that the old API is not
-> broken:
->
-> arg_count = sscanf(buf, "some %u %u %u", &min_threshold_us,  &arg2, &arg3);
-> if (arg_count < 2) return ERR_PTR(-EINVAL);
-> if (arg_count < 3) {
->      max_threshold_us = INT_MAX;
->      window_us = arg2;
-> } else {
->      max_threshold_us = arg2;
->      window_us = arg3;
-> }
-OK
+Thanks!
 
-Thanks.
-> But again, the motivation still needs to be explained.
-we want do different operation for different stall level,
-just as prev email explain, multi trigger is also OK in old
-ways, but it is a litter complex.
+Wu XiangCheng (2):
+  docs/zh_CN: sync reporting-issues.rst
+  docs/zh_CN: sync reporting-issues.rst
 
->
->>> Thanks
->>>
->>>> add [150ms, 350ms) threshold for partial memory stall measured
->>>> within 1sec time window.
->>>>
->>>> Signed-off-by: Chen Wandun <chenwandun@huawei.com>
->>>> ---
->>>>   include/linux/psi_types.h |  3 ++-
->>>>   kernel/sched/psi.c        | 19 +++++++++++++------
->>>>   2 files changed, 15 insertions(+), 7 deletions(-)
->>>>
->>>> diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
->>>> index c7fe7c089718..2b1393c8bf90 100644
->>>> --- a/include/linux/psi_types.h
->>>> +++ b/include/linux/psi_types.h
->>>> @@ -119,7 +119,8 @@ struct psi_trigger {
->>>>        enum psi_states state;
->>>>
->>>>        /* User-spacified threshold in ns */
->>>> -     u64 threshold;
->>>> +     u64 min_threshold;
->>>> +     u64 max_threshold;
->>>>
->>>>        /* List node inside triggers list */
->>>>        struct list_head node;
->>>> diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
->>>> index 6f9533c95b0a..17dd233b533a 100644
->>>> --- a/kernel/sched/psi.c
->>>> +++ b/kernel/sched/psi.c
->>>> @@ -541,7 +541,7 @@ static u64 update_triggers(struct psi_group *group, u64 now)
->>>>
->>>>                        /* Calculate growth since last update */
->>>>                        growth = window_update(&t->win, now, total[t->state]);
->>>> -                     if (growth < t->threshold)
->>>> +                     if (growth < t->min_threshold || growth >= t->max_threshold)
->>>>                                continue;
->>>>
->>>>                        t->pending_event = true;
->>>> @@ -1087,15 +1087,18 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
->>>>   {
->>>>        struct psi_trigger *t;
->>>>        enum psi_states state;
->>>> -     u32 threshold_us;
->>>> +     u32 min_threshold_us;
->>>> +     u32 max_threshold_us;
->>>>        u32 window_us;
->>>>
->>>>        if (static_branch_likely(&psi_disabled))
->>>>                return ERR_PTR(-EOPNOTSUPP);
->>>>
->>>> -     if (sscanf(buf, "some %u %u", &threshold_us, &window_us) == 2)
->>>> +     if (sscanf(buf, "some %u %u %u", &min_threshold_us,
->>>> +                             &max_threshold_us, &window_us) == 3)
->>>>                state = PSI_IO_SOME + res * 2;
->>>> -     else if (sscanf(buf, "full %u %u", &threshold_us, &window_us) == 2)
->>>> +     else if (sscanf(buf, "full %u %u %u", &min_threshold_us,
->>>> +                             &max_threshold_us, &window_us) == 3)
->>>>                state = PSI_IO_FULL + res * 2;
->>>>        else
->>>>                return ERR_PTR(-EINVAL);
->>>> @@ -1107,8 +1110,11 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
->>>>                window_us > WINDOW_MAX_US)
->>>>                return ERR_PTR(-EINVAL);
->>>>
->>>> +     if (min_threshold_us >= max_threshold_us)
->>>> +             return ERR_PTR(-EINVAL);
->>>> +
->>>>        /* Check threshold */
->>>> -     if (threshold_us == 0 || threshold_us > window_us)
->>>> +     if (max_threshold_us > window_us)
->>>>                return ERR_PTR(-EINVAL);
->>>>
->>>>        t = kmalloc(sizeof(*t), GFP_KERNEL);
->>>> @@ -1117,7 +1123,8 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
->>>>
->>>>        t->group = group;
->>>>        t->state = state;
->>>> -     t->threshold = threshold_us * NSEC_PER_USEC;
->>>> +     t->min_threshold = min_threshold_us * NSEC_PER_USEC;
->>>> +     t->max_threshold = max_threshold_us * NSEC_PER_USEC;
->>>>        t->win.size = window_us * NSEC_PER_USEC;
->>>>        window_reset(&t->win, 0, 0, 0);
->>>>
-> .
+ .../zh_CN/admin-guide/reporting-issues.rst    | 125 +++++++++++-------
+ 1 file changed, 79 insertions(+), 46 deletions(-)
+
+-- 
+2.30.2
 
