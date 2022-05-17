@@ -2,146 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EB0AC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 03:25:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DF17C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 03:26:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238146AbiEQDZJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 16 May 2022 23:25:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52862 "EHLO
+        id S231372AbiEQD0p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 16 May 2022 23:26:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233454AbiEQDZH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 23:25:07 -0400
-Received: from email.cn (m218-153.88.com [110.43.218.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD7EA45539
-        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 20:25:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=/8vfYOiAMKVI1M/MLTGFb7KPdV3be7y5Ohdqd
-        l4dAbg=; b=XkfOWGZ7Q8rmiy+BTNUYv90tIIFmU0FO7ASLeKQPdgnAA7xyCBJB+
-        5p4vCuGEppoNrJ76vIT/I5DSCjetIHL6bSgoJ36L0/i3xoh9Y/H/45Nc3ALTm4SW
-        lwJfvvJVA0XhYLVeLj9kAHXAm5Cq3n+VxDL5OlNl4HgNo4yYoJEUmo=
-Received: from bobwxc.mipc (unknown [120.242.69.144])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgB3Y4uDFYNiRJaVAA--.28888S2;
-        Tue, 17 May 2022 11:24:53 +0800 (CST)
-Date:   Tue, 17 May 2022 11:24:49 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com,
-        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com
-Subject: Re: [PATCH v3 1/2] docs/zh_CN: add vm page_migration translation
-Message-ID: <YoMVgfGXMSyLdCPK@bobwxc.mipc>
-References: <cover.1652713779.git.siyanteng@loongson.cn>
- <2c85bf903171b61d69aea0345913c89a740f1a86.1652713779.git.siyanteng@loongson.cn>
+        with ESMTP id S230359AbiEQD0o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 May 2022 23:26:44 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1DED37004
+        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 20:26:42 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id h24so10530511pgh.12
+        for <linux-doc@vger.kernel.org>; Mon, 16 May 2022 20:26:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=kM0s53Ym3shV8W020VlmwK4XjayyE5Z6Itqi9ef83fY=;
+        b=Ed3d1GbhYTnueBxnNdwRguiR2+KwqD3IaQZOOOMRdgBxOJ2uc9YS3brkPM5p8vbLhZ
+         dZQ4JkQ5yK3nqltYlB02RXsFu2Boi9pa7/5iLRN1cziQt3q0XzyUV/0UwcRRo8939IS7
+         tMqwZ2ILL/2wG1mIe0otRp1gaINOnPIAPfRmqn/FaaaSPmUtRKE8y+Por4DiYvYIqdin
+         i5wHcOPcf10kjO1GKgfqreYUXpxp709ngqLkrxYrIzsqjj8cWeLRa3QpvEIEdrNqgHYq
+         ALQoWcowLg8bte1bd8EQOr2sMmx3VsL9VlWHPKKvAGfqRZDS33ZAufp8Z+4TewEonEIR
+         viDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kM0s53Ym3shV8W020VlmwK4XjayyE5Z6Itqi9ef83fY=;
+        b=utcn0QylPnKvTwCfMLmx3VYV6Do/6ASsEQwwBpGT9Y62fR5Jq54+Rh11WMiV7wtjhl
+         uWYMbHiW0fo+cmxqu1E8kDfn9GqX4IV2dGoZIURpUr2Q+Hq3koqtiRP7VGVyWc83FkTG
+         b+SlywblbMD/p10kg9xuxJATvdLS8hJBrStLOIc4glNvYATNepFGqpVnLJlUzhfNstVI
+         00vPzHi4uuRIyR4Lb22ahJZ8O6X5MCjz0xe6Uq4UFEXmYxMsFO4LH26drvLqN/HHX9Xj
+         UwGoYukomRtqSCHPzuz9rxSvNdSai4TlVKwwSeglwpk5555EtPH+byo4Jv+EEf+6WR+9
+         XrkQ==
+X-Gm-Message-State: AOAM530DBD3MfrNi4Bu4RrNt2PL0TgI3nXBkHlltqRLgDW5la3X8mOMX
+        uCrNigRP4BUI1PhyyhMHMKS0/A==
+X-Google-Smtp-Source: ABdhPJyiACufKLkXw5HSHpjJQDow0PPAWQUvFlkBN0Isoz5oOTkjrAZ3n31R0YhFOo82OtQER7qhKg==
+X-Received: by 2002:a63:4b5e:0:b0:3f2:3f20:6fc9 with SMTP id k30-20020a634b5e000000b003f23f206fc9mr12545370pgl.454.1652758002181;
+        Mon, 16 May 2022 20:26:42 -0700 (PDT)
+Received: from localhost ([139.177.225.234])
+        by smtp.gmail.com with ESMTPSA id w8-20020a170902e88800b0015e8d4eb28fsm7773177plg.217.2022.05.16.20.26.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 May 2022 20:26:41 -0700 (PDT)
+Date:   Tue, 17 May 2022 11:26:38 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com, osalvador@suse.de,
+        david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v12 0/7] add hugetlb_optimize_vmemmap sysctl
+Message-ID: <YoMV7jhf6jKwTvDQ@FVFYT0MHHV2J.usts.net>
+References: <20220516102211.41557-1-songmuchun@bytedance.com>
+ <20220516114620.d4d85cb35690b4c8265953d6@linux-foundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2c85bf903171b61d69aea0345913c89a740f1a86.1652713779.git.siyanteng@loongson.cn>
-X-CM-TRANSID: GiKnCgB3Y4uDFYNiRJaVAA--.28888S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAFW5CrWrWFWfGryrurWxJFb_yoWrXr4UpF
-        92kayIga17Aw1jyw12gF4UXw15JryfWF47Gr1kW3Waqwn3XFZFkr45KasFvrZ3Jry0kFWU
-        XF4rKF429r10k3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUg2b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
-        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
-        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY02Avz4vE14v_Gr4l42xK82
-        IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8
-        JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
-        AFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
-        jxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
-        A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI
-        43ZEXa7IUjU3ktUUUUU==
-X-Originating-IP: [120.242.69.144]
-X-CM-SenderInfo: pere453f6hztlloou0/
+In-Reply-To: <20220516114620.d4d85cb35690b4c8265953d6@linux-foundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 16, 2022 at 11:56:31PM +0800, Yanteng Si wrote:
-> Translate .../vm/page_migration.rst into Chinese.
+On Mon, May 16, 2022 at 11:46:20AM -0700, Andrew Morton wrote:
+> On Mon, 16 May 2022 18:22:04 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
 > 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  Documentation/translations/zh_CN/vm/index.rst |   2 +-
->  .../translations/zh_CN/vm/page_migration.rst  | 228 ++++++++++++++++++
->  2 files changed, 229 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/vm/page_migration.rst
+> > This series amis to add hugetlb_optimize_vmemmap sysctl to enable or disable
+> > the feature of optimizing vmemmap pages associated with HugeTLB pages.
+> > 
+> > v12:
+> >   - Add patch 3 and patch 4 to handle the coexistence of hugetlb_free_vmemmap
+> >     and memory_hotplug.memmap_on_memory (David).
+> >   - Remove Reviewed-by from Mike in the last parch since it is changed.
 > 
-> diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-> index a1c6d529b6ff..551f58bf7b55 100644
-> --- a/Documentation/translations/zh_CN/vm/index.rst
-> +++ b/Documentation/translations/zh_CN/vm/index.rst
-> @@ -36,6 +36,7 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
->     numa
->     overcommit-accounting
->     page_frags
-> +   page_migration
->     page_owner
->     page_table_check
->     remap_file_pages
-> @@ -47,7 +48,6 @@ TODOLIST:
->  * arch_pgtable_helpers
->  * free_page_reporting
->  * hugetlbfs_reserv
-> -* page_migration
->  * slub
->  * transhuge
->  * unevictable-lru
-> diff --git a/Documentation/translations/zh_CN/vm/page_migration.rst b/Documentation/translations/zh_CN/vm/page_migration.rst
-> new file mode 100644
-> index 000000000000..417861fbc3e0
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/page_migration.rst
-[...]
-> +
-> +非LRU页面迁移
-> +=============
-> +
-> +尽管迁移最初的目的是为了减少NUMA的内存访问延迟，但压缩也使用迁移来创建高阶页面。
-> +
-> +目前实现的问题是，它被设计为只迁移*LRU*页。然而，有一些潜在的非LRU页面可以在驱动中
-> +被迁移，例如，zsmalloc，virtio-balloon页面。
-> +
-> +对于virtio-balloon页面，迁移代码路径的某些部分已经被钩住，并添加了virtio-balloon
-> +的特定函数来拦截迁移逻辑。这对一个驱动来说太特殊了，所以其他想让自己的页面可移动的驱
-> +动就必须在迁移路径中添加自己的特定钩子。
-> +
-> +为了克服这个问题，VM支持非LRU页面迁移，它为非LRU可移动页面提供了通用函数，而在迁移
-> +路径中没有特定的驱动程序钩子。
-> +
-> +如果一个驱动程序想让它的页面可移动，它应该定义三个函数，这些函数是
-> +struct address_space_operations的函数指针。
-> +
-> +1. ``bool (*isolate_page) (struct page *page, isolate_mode_t mode);``
-> +
-> +   VM对驱动的isolate_page()函数的期望是，如果驱动成功隔离了该页，则返回×true×。
+> v11 is in mm-stable now, so please send patches against that.  AFAICT
+> that will be quite straightforward.
+>
 
-*true*
+IIUC, the mm-stable is introduced recently, and we consider those commits
+in mm-stable are stable (meanning the commit sha1 is stable as well).
+I'll send a new patchset based on mm-stable.
 
-> +   返回true后，VM会将该页标记为PG_isolated，这样多个CPU的并发隔离就会跳过该
-> +   页进行隔离。如果驱动程序不能隔离该页，它应该返回*false*。
-> +
-> [...]
-> +
-> +   * PG_isolated
-> +
-> +     为了防止几个CPU同时进行隔离，VM在lock_page()下将隔离的页面标记为PG_isolated。
-> +     因此，如果一个CPU遇到PG_isolated非LRU可移动页面，它可以跳过它。驱动程序不需要
-> +     操作这个标志，因为VM会自动设置/清除它。请记住，如果驱动程序看到PG_isolated页，
-> +     这意味着VM已经被虚拟机隔离，所以它不应该碰page.lru字段。PG_isolated标志与
-
-Emmm, I mean 虚拟机 -> VM
-Sorry for the miss leading, seemis only strict mono font could understand
-it.
-
-Please fix these two, and pick my review-by :)
-
-Thanks,
-	Wu
-
-> +     PG_reclaim标志是同义的，所以驱动程序不应该为自己的目的使用PG_isolated。
-> +
-> [...]
+Thanks.
 
