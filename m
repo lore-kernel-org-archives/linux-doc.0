@@ -2,185 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC17CC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 09:38:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D66F0C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 10:12:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237619AbiEQJib (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 05:38:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57762 "EHLO
+        id S237132AbiEQKL5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 06:11:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244916AbiEQJiY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 05:38:24 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F390844A02;
-        Tue, 17 May 2022 02:38:19 -0700 (PDT)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4L2WGy2RZjz1JCD8;
-        Tue, 17 May 2022 17:36:58 +0800 (CST)
-Received: from dggpemm500002.china.huawei.com (7.185.36.229) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 17 May 2022 17:38:18 +0800
-Received: from [10.174.178.178] (10.174.178.178) by
- dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 17 May 2022 17:38:17 +0800
-Message-ID: <3bbb684d-e5b2-ee22-bf74-e4ffe6ab89e1@huawei.com>
-Date:   Tue, 17 May 2022 17:38:17 +0800
+        with ESMTP id S1343855AbiEQKKg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 06:10:36 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0BB404B439;
+        Tue, 17 May 2022 03:09:04 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C355D1063;
+        Tue, 17 May 2022 03:09:03 -0700 (PDT)
+Received: from e121896.warwick.arm.com (e121896.warwick.arm.com [10.32.33.49])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B07E43F66F;
+        Tue, 17 May 2022 03:09:01 -0700 (PDT)
+From:   James Clark <james.clark@arm.com>
+To:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, broonie@kernel.org,
+        acme@kernel.org
+Cc:     german.gomez@arm.com, leo.yan@linaro.org,
+        mathieu.poirier@linaro.org, john.garry@huawei.com,
+        James Clark <james.clark@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org
+Subject: [PATCH v2 1/2] perf: arm64: Add SVE vector granule register to user regs
+Date:   Tue, 17 May 2022 11:07:42 +0100
+Message-Id: <20220517100743.3020667-2-james.clark@arm.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20220517100743.3020667-1-james.clark@arm.com>
+References: <20220517100743.3020667-1-james.clark@arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.3
-Subject: Re: [PATCH 1/2] psi: add support for multi level pressure stall
- trigger
-To:     Suren Baghdasaryan <surenb@google.com>,
-        Alex Shi <seakeel@gmail.com>
-CC:     LKML <linux-kernel@vger.kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20220516033524.3130816-1-chenwandun@huawei.com>
- <30b37eeb-e77b-882e-fc24-3367321a8ca3@gmail.com>
- <CAJuCfpE7fBsp8ntYVeLsW7Cd0Z09OmxN75X9Az_Qco0GJrz3Wg@mail.gmail.com>
-From:   Chen Wandun <chenwandun@huawei.com>
-In-Reply-To: <CAJuCfpE7fBsp8ntYVeLsW7Cd0Z09OmxN75X9Az_Qco0GJrz3Wg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.178]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500002.china.huawei.com (7.185.36.229)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Dwarf based unwinding in a function that pushes SVE registers onto
+the stack requires the unwinder to know the length of the SVE register
+to calculate the stack offsets correctly. This was added to the Arm
+specific Dwarf spec as the VG pseudo register[1].
 
+Add the vector length at position 46 if it's requested by userspace and
+SVE is supported. If it's not supported then fail to open the event.
 
-在 2022/5/16 16:21, Suren Baghdasaryan 写道:
-> On Sun, May 15, 2022 at 11:20 PM Alex Shi <seakeel@gmail.com> wrote:
->>
->>
->> On 5/16/22 11:35, Chen Wandun wrote:
->>> Nowadays, psi events are triggered when stall time exceed
->>> stall threshold, but no any different between these events.
->>>
->>> Actually, events can be divide into multi level, each level
->>> represent a different stall pressure, that is help to identify
->>> pressure information more accurately.
-> IIUC by defining min and max, you want the trigger to activate when
-> the stall is between min and max thresholds. But I don't see why you
-> would need that. If you want to have several levels, you can create
-> multiple triggers and monitor them separately. For your example, that
-> would be:
->
-> echo "some 150000 1000000" > /proc/pressure/memory
-> echo "some 350000 1000000" > /proc/pressure/memory
->
-> Your first trigger will fire whenever the stall exceeds 150ms within
-> each 1sec and the second one will trigger when it exceeds 350ms. It is
-> true that if the stall jumps sharply above 350ms, you would get both
-> triggers firing. I'm guessing that's why you want this functionality
-> so that 150ms trigger does not fire when 350ms one is firing but why
-Yes, if stall time above 350ms, I hope only one trigger fire.
-> is that a problem? Can't userspace pick the highest level one and
-> ignore all the lower ones when this happens? Or are you addressing
-> some other requirement?
-Userspace can pick the higest level, but more triggers fire, actually one
-trigger fire is enough in this case, and userspace  become more complex.
+The vector length must be on each sample because it can be changed
+at runtime via a prctl or ptrace call. Also by adding it as a register
+rather than a separate attribute, minimal changes will be required in an
+unwinder that already indexes into the register list.
 
-new trigger is compatible with old.
+[1]: https://github.com/ARM-software/abi-aa/blob/main/aadwarf64/aadwarf64.rst
 
-echo "some 150000 1000000 1000000 " > /proc/pressure/memory
+Reviewed-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: James Clark <james.clark@arm.com>
+---
+ arch/arm64/include/uapi/asm/perf_regs.h |  7 +++++-
+ arch/arm64/kernel/perf_regs.c           | 30 +++++++++++++++++++++++--
+ drivers/perf/arm_pmu.c                  |  2 +-
+ 3 files changed, 35 insertions(+), 4 deletions(-)
 
-can achieve the same goal with
-
-echo "some 150000 1000000 " > /proc/pressure/memory
->
->>> echo "some 150000 350000 1000000" > /proc/pressure/memory would
->> This breaks the old ABI. And why you need this new function?
-> Both great points.
->
->> Thanks
->>
->>> add [150ms, 350ms) threshold for partial memory stall measured
->>> within 1sec time window.
->>>
->>> Signed-off-by: Chen Wandun <chenwandun@huawei.com>
->>> ---
->>>   include/linux/psi_types.h |  3 ++-
->>>   kernel/sched/psi.c        | 19 +++++++++++++------
->>>   2 files changed, 15 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
->>> index c7fe7c089718..2b1393c8bf90 100644
->>> --- a/include/linux/psi_types.h
->>> +++ b/include/linux/psi_types.h
->>> @@ -119,7 +119,8 @@ struct psi_trigger {
->>>        enum psi_states state;
->>>
->>>        /* User-spacified threshold in ns */
->>> -     u64 threshold;
->>> +     u64 min_threshold;
->>> +     u64 max_threshold;
->>>
->>>        /* List node inside triggers list */
->>>        struct list_head node;
->>> diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
->>> index 6f9533c95b0a..17dd233b533a 100644
->>> --- a/kernel/sched/psi.c
->>> +++ b/kernel/sched/psi.c
->>> @@ -541,7 +541,7 @@ static u64 update_triggers(struct psi_group *group, u64 now)
->>>
->>>                        /* Calculate growth since last update */
->>>                        growth = window_update(&t->win, now, total[t->state]);
->>> -                     if (growth < t->threshold)
->>> +                     if (growth < t->min_threshold || growth >= t->max_threshold)
->>>                                continue;
->>>
->>>                        t->pending_event = true;
->>> @@ -1087,15 +1087,18 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
->>>   {
->>>        struct psi_trigger *t;
->>>        enum psi_states state;
->>> -     u32 threshold_us;
->>> +     u32 min_threshold_us;
->>> +     u32 max_threshold_us;
->>>        u32 window_us;
->>>
->>>        if (static_branch_likely(&psi_disabled))
->>>                return ERR_PTR(-EOPNOTSUPP);
->>>
->>> -     if (sscanf(buf, "some %u %u", &threshold_us, &window_us) == 2)
->>> +     if (sscanf(buf, "some %u %u %u", &min_threshold_us,
->>> +                             &max_threshold_us, &window_us) == 3)
->>>                state = PSI_IO_SOME + res * 2;
->>> -     else if (sscanf(buf, "full %u %u", &threshold_us, &window_us) == 2)
->>> +     else if (sscanf(buf, "full %u %u %u", &min_threshold_us,
->>> +                             &max_threshold_us, &window_us) == 3)
->>>                state = PSI_IO_FULL + res * 2;
->>>        else
->>>                return ERR_PTR(-EINVAL);
->>> @@ -1107,8 +1110,11 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
->>>                window_us > WINDOW_MAX_US)
->>>                return ERR_PTR(-EINVAL);
->>>
->>> +     if (min_threshold_us >= max_threshold_us)
->>> +             return ERR_PTR(-EINVAL);
->>> +
->>>        /* Check threshold */
->>> -     if (threshold_us == 0 || threshold_us > window_us)
->>> +     if (max_threshold_us > window_us)
->>>                return ERR_PTR(-EINVAL);
->>>
->>>        t = kmalloc(sizeof(*t), GFP_KERNEL);
->>> @@ -1117,7 +1123,8 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
->>>
->>>        t->group = group;
->>>        t->state = state;
->>> -     t->threshold = threshold_us * NSEC_PER_USEC;
->>> +     t->min_threshold = min_threshold_us * NSEC_PER_USEC;
->>> +     t->max_threshold = max_threshold_us * NSEC_PER_USEC;
->>>        t->win.size = window_us * NSEC_PER_USEC;
->>>        window_reset(&t->win, 0, 0, 0);
->>>
-> .
+diff --git a/arch/arm64/include/uapi/asm/perf_regs.h b/arch/arm64/include/uapi/asm/perf_regs.h
+index d54daafa89e3..fd157f46727e 100644
+--- a/arch/arm64/include/uapi/asm/perf_regs.h
++++ b/arch/arm64/include/uapi/asm/perf_regs.h
+@@ -36,6 +36,11 @@ enum perf_event_arm_regs {
+ 	PERF_REG_ARM64_LR,
+ 	PERF_REG_ARM64_SP,
+ 	PERF_REG_ARM64_PC,
+-	PERF_REG_ARM64_MAX,
++
++	/* Extended/pseudo registers */
++	PERF_REG_ARM64_VG = 46, // SVE Vector Granule
++
++	PERF_REG_ARM64_MAX = PERF_REG_ARM64_PC + 1,
++	PERF_REG_ARM64_EXTENDED_MAX = PERF_REG_ARM64_VG + 1
+ };
+ #endif /* _ASM_ARM64_PERF_REGS_H */
+diff --git a/arch/arm64/kernel/perf_regs.c b/arch/arm64/kernel/perf_regs.c
+index f6f58e6265df..b4eece3eb17d 100644
+--- a/arch/arm64/kernel/perf_regs.c
++++ b/arch/arm64/kernel/perf_regs.c
+@@ -9,9 +9,27 @@
+ #include <asm/perf_regs.h>
+ #include <asm/ptrace.h>
+ 
++static u64 perf_ext_regs_value(int idx)
++{
++	switch (idx) {
++	case PERF_REG_ARM64_VG:
++		if (WARN_ON_ONCE(!system_supports_sve()))
++			return 0;
++
++		/*
++		 * Vector granule is current length in bits of SVE registers
++		 * divided by 64.
++		 */
++		return (task_get_sve_vl(current) * 8) / 64;
++	default:
++		WARN_ON_ONCE(true);
++		return 0;
++	}
++}
++
+ u64 perf_reg_value(struct pt_regs *regs, int idx)
+ {
+-	if (WARN_ON_ONCE((u32)idx >= PERF_REG_ARM64_MAX))
++	if (WARN_ON_ONCE((u32)idx >= PERF_REG_ARM64_EXTENDED_MAX))
+ 		return 0;
+ 
+ 	/*
+@@ -51,6 +69,9 @@ u64 perf_reg_value(struct pt_regs *regs, int idx)
+ 	if ((u32)idx == PERF_REG_ARM64_PC)
+ 		return regs->pc;
+ 
++	if ((u32)idx >= PERF_REG_ARM64_MAX)
++		return perf_ext_regs_value(idx);
++
+ 	return regs->regs[idx];
+ }
+ 
+@@ -58,7 +79,12 @@ u64 perf_reg_value(struct pt_regs *regs, int idx)
+ 
+ int perf_reg_validate(u64 mask)
+ {
+-	if (!mask || mask & REG_RESERVED)
++	u64 reserved_mask = REG_RESERVED;
++
++	if (system_supports_sve())
++		reserved_mask &= ~(1ULL << PERF_REG_ARM64_VG);
++
++	if (!mask || mask & reserved_mask)
+ 		return -EINVAL;
+ 
+ 	return 0;
+diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
+index 59d3980b8ca2..3f07df5a7e95 100644
+--- a/drivers/perf/arm_pmu.c
++++ b/drivers/perf/arm_pmu.c
+@@ -894,7 +894,7 @@ static struct arm_pmu *__armpmu_alloc(gfp_t flags)
+ 		 * pmu::filter_match callback and pmu::event_init group
+ 		 * validation).
+ 		 */
+-		.capabilities	= PERF_PMU_CAP_HETEROGENEOUS_CPUS,
++		.capabilities	= PERF_PMU_CAP_HETEROGENEOUS_CPUS | PERF_PMU_CAP_EXTENDED_REGS,
+ 	};
+ 
+ 	pmu->attr_groups[ARMPMU_ATTR_GROUP_COMMON] =
+-- 
+2.28.0
 
