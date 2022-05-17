@@ -2,69 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B3C0C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 13:20:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 977A3C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 14:09:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347502AbiEQNUG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 09:20:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51950 "EHLO
+        id S1348374AbiEQOJC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 10:09:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344741AbiEQNUE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 09:20:04 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 910AA41F94;
-        Tue, 17 May 2022 06:20:02 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:3d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S233493AbiEQOJB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 10:09:01 -0400
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36B673E0D0
+        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 07:09:00 -0700 (PDT)
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com [209.85.218.69])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id AF4512ED;
-        Tue, 17 May 2022 13:20:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AF4512ED
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1652793601; bh=DJOZJLYA1yyhX9firYLLzDoQKmaoGsbueo8T2NVcZA0=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=eT+aTSeeUcGfy69B3SJ3LA7+bRXcSQhUi4gE9PaLZ//fNCSAEzr4PLMbOv/TpRnZr
-         JWkgsVGG6WPjbm1OZG1p7Ui9FUUILCOJurFcIXJYlVWIEtC4L4nlSAC+4sRon5eQNW
-         bMMQH+spSOQU35hHAuUKjVy0AV+ZCxYnPVjxyijdMY5XLUdCofDr06X47msFXjBuNn
-         bHRpP+xY89PTEJvEYl9D1Aaieqcq8BaFZHLD7Td8B5iZh4oSfHDdyjgkNGgrqAqlDB
-         RQ5C2NYwczyp9IOQVGH2bSTKZRGgQdp7RpIepWVH/fV42VXj34KIPCSlgK+41owxuq
-         x57LMNoeJ4t1g==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     adrian.ho.yin.ng@intel.com, Moritz Fischer <mdf@kernel.org>,
-        Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
-        Tom Rix <trix@redhat.com>
-Cc:     linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        Alan Tull <atull@opensource.altera.com>
-Subject: Re: [PATCH 2/3] fpga: doc: documentation for FPGA debugfs
-In-Reply-To: <20220517084136.3529-1-adrian.ho.yin.ng@intel.com>
-References: <20220517084136.3529-1-adrian.ho.yin.ng@intel.com>
-Date:   Tue, 17 May 2022 07:20:00 -0600
-Message-ID: <874k1oz473.fsf@meer.lwn.net>
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id CFC503F313
+        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 14:08:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1652796538;
+        bh=GLFhrP4NfgvKwES0IYdhlf4jTzua4+FN2bOojDda/Ag=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+        b=oaMfXNU3DMQ9wGy/+CdxGeYhG5pVAqWaufIciQwVnbXXlREmDMFihpSMsAnZIF0yA
+         oPK9nNm4K5Epdg1zR6zms47OhSzrUGSMTFJlRuaFbRFdAPYVrBoayDe9NyTP0j81F4
+         gwgtZhubUKup0DItHuRbCK2f4SE+v3G/BdD668oaLD98sYotUarvuSLhBiSoBbqKl0
+         AShv9l2zWiDT1V76Ri3YOTV20VvGK+cUu58ulNdkNGoWYcLx5gUdVtWGTH+lBIhKBq
+         CD01LXCUJho9KbNp9X9GyCLcV0gJQNT2+NLtnecOrqMvVOooRfk9sZZFsY3oyahHwj
+         7ZYerTrv5X68w==
+Received: by mail-ej1-f69.google.com with SMTP id bk16-20020a170906b0d000b006fe34a2e598so2480149ejb.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 07:08:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GLFhrP4NfgvKwES0IYdhlf4jTzua4+FN2bOojDda/Ag=;
+        b=WvO2gID262L0kb2xtLB+09wuGSVVNzNGZBOrQQJfejhUsQcI4QIAd/3/Al6WYw/RI/
+         7S1CxoaW4W87qVTc7CZplPNHV8ChbPSsSO3WymSCEYalwBMK0ZH1X48J/as6pM+h2Oet
+         /+O98oltALLLECBSKnfwTqUO8KurcxtQCeWhC9QkK0dPjWkPcAWmDcY5D1q52KVsDDnu
+         UoE3BLkP32Lz08fqEEI1bAQSIlTXhOaMqyxydfbwpJx/RP6Vi2tONhZqaIxVF/ciUVTC
+         d1aIGmF35TgHhawQf2l0qkcb4aTBq9+mAGp1X2bWPdYJc1lTOpwlF409ygZLMJU7t2Vm
+         MUoQ==
+X-Gm-Message-State: AOAM532RyKCazdLc+dcO/PVEcdgUN90k5e6ou7enxBvjv4x8vSAc3sqJ
+        ixlWscn4uEQ1Ip+VhjXY8FG5zIOU2T0nxHE+Cy2TIFFBUAQxN1/5lyMPOD7RVB9a8YLilMjWjXn
+        thJsBOMuQzwdesKsYy/YS1qqC5jIGvcfR2F8isw==
+X-Received: by 2002:a50:ee18:0:b0:42a:b57c:2532 with SMTP id g24-20020a50ee18000000b0042ab57c2532mr9583517eds.169.1652796538457;
+        Tue, 17 May 2022 07:08:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxNn4Ob9niSyUEl6kjfeQsKqfZjbdlcECh6PVd4S8sy4qJjQVSdVyZXPiFAUZ+/rvXOQrv9uQ==
+X-Received: by 2002:a50:ee18:0:b0:42a:b57c:2532 with SMTP id g24-20020a50ee18000000b0042ab57c2532mr9583496eds.169.1652796538250;
+        Tue, 17 May 2022 07:08:58 -0700 (PDT)
+Received: from gollum.fritz.box ([194.191.244.86])
+        by smtp.gmail.com with ESMTPSA id w12-20020aa7da4c000000b0042ab649183asm2871263eds.35.2022.05.17.07.08.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 May 2022 07:08:57 -0700 (PDT)
+From:   Juerg Haefliger <juerg.haefliger@canonical.com>
+X-Google-Original-From: Juerg Haefliger <juergh@canonical.com>
+To:     corbet@lwn.net, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Juerg Haefliger <juergh@canonical.com>
+Subject: [PATCH] docs: Kconfig: Fix help text indentation
+Date:   Tue, 17 May 2022 16:08:37 +0200
+Message-Id: <20220517140837.331298-1-juergh@canonical.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-adrian.ho.yin.ng@intel.com writes:
+The convention for help text indentation seems to be a single tab followed
+by two whitespaces. Do that.
 
-> From: Alan Tull <atull@opensource.altera.com>
->
-> Document the DebugFS interface for the core FPGA Manager
-> framework.
->
-> Signed-off-by: Alan Tull <atull@opensource.altera.com>
-> ---
->  Documentation/fpga/debugfs.txt | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
->  create mode 100644 Documentation/fpga/debugfs.txt
+While at it, remove a stray empty line.
 
-If you add a new documentation file, you need to add it to index.rst as
-well so that it is part of the kernel docs build.
+Signed-off-by: Juerg Haefliger <juergh@canonical.com>
+---
+ Documentation/Kconfig | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-Honestly, though, this looks like it might be better placed in the
-user-space API manual...?
+diff --git a/Documentation/Kconfig b/Documentation/Kconfig
+index e549a61f4d96..252bfc164dbd 100644
+--- a/Documentation/Kconfig
++++ b/Documentation/Kconfig
+@@ -1,23 +1,22 @@
+ config WARN_MISSING_DOCUMENTS
+-
+ 	bool "Warn if there's a missing documentation file"
+ 	depends on COMPILE_TEST
+ 	help
+-	   It is not uncommon that a document gets renamed.
+-	   This option makes the Kernel to check for missing dependencies,
+-	   warning when something is missing. Works only if the Kernel
+-	   is built from a git tree.
++	  It is not uncommon that a document gets renamed.
++	  This option makes the Kernel to check for missing dependencies,
++	  warning when something is missing. Works only if the Kernel
++	  is built from a git tree.
+ 
+-	   If unsure, select 'N'.
++	  If unsure, select 'N'.
+ 
+ config WARN_ABI_ERRORS
+ 	bool "Warn if there are errors at ABI files"
+ 	depends on COMPILE_TEST
+ 	help
+-	   The files under Documentation/ABI should follow what's
+-	   described at Documentation/ABI/README. Yet, as they're manually
+-	   written, it would be possible that some of those files would
+-	   have errors that would break them for being parsed by
+-	   scripts/get_abi.pl. Add a check to verify them.
++	  The files under Documentation/ABI should follow what's
++	  described at Documentation/ABI/README. Yet, as they're manually
++	  written, it would be possible that some of those files would
++	  have errors that would break them for being parsed by
++	  scripts/get_abi.pl. Add a check to verify them.
+ 
+-	   If unsure, select 'N'.
++	  If unsure, select 'N'.
+-- 
+2.32.0
 
-Thanks,
-
-jon
