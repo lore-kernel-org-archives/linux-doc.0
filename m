@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4CFBC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 07:47:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A78DC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 07:52:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231460AbiEQHr5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 03:47:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41354 "EHLO
+        id S233909AbiEQHwl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 03:52:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229797AbiEQHr4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 03:47:56 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 486242ED76;
-        Tue, 17 May 2022 00:47:53 -0700 (PDT)
+        with ESMTP id S231824AbiEQHwl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 03:52:41 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 952813336C;
+        Tue, 17 May 2022 00:52:40 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id D2EE51F383;
-        Tue, 17 May 2022 07:47:51 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 096EA21F58;
+        Tue, 17 May 2022 07:52:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1652773671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1652773959; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=ghycn6t5xJ3FJyT4xCbUwPxtWo84lq0XciIN7RNaQPw=;
-        b=i868hRhnCUZBdkwQJa44Asp8b1Nc0V/TynvKKK44LKL3NafC+P3RNwyXMfDY3KbBG+R/Na
-        QdJYGCO+I4wuL88+HbcyfHGK2GjIZhYTN7K/FceKkrk0akPVhVfISw3W42ziV+/uv2tpu8
-        brVz8X3/ql+x4n1JTJm778CHu2zXdBY=
+        bh=/Ld3gfS/GkRdwRqnbgW3T6n5zLeUyB6RrpS/DHnDz9I=;
+        b=yembhjILv7EzLAVzkuhekIlyZw8FSiu18w6aWNDYb9qjtPjCvk6EavjIOduCYKcIxeltBT
+        24vuYynDeGNim7Qx+kS8hvBH/1N4R7jSf/u0xSID/ChWtewkAXJD4NQMZnBDN6jqILEDQe
+        BAMM/3dtgzmmq83eFo69woW6YHgdP5g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1652773671;
+        s=susede2_ed25519; t=1652773959;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=ghycn6t5xJ3FJyT4xCbUwPxtWo84lq0XciIN7RNaQPw=;
-        b=Q9pVjJenIkTEi5h+JnIgeYZNGJuWpAXJulbLyZhBh6PUEVTplPxsxls8rVimwa1DseFClU
-        x/giIQLPPpKrznAg==
+        bh=/Ld3gfS/GkRdwRqnbgW3T6n5zLeUyB6RrpS/DHnDz9I=;
+        b=1vDhTW5q004P0rbkJDzYq0PtFSUKwj2JDXPGvVt/C9GJs8r6Y4mxsGaiHqrTCJaiI5OsI/
+        EZ9+GC2K3D0wG0Ag==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 391BD13305;
-        Tue, 17 May 2022 07:47:50 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3B0E613305;
+        Tue, 17 May 2022 07:52:38 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id xvtrCiZTg2ILfwAAMHmgww
-        (envelope-from <osalvador@suse.de>); Tue, 17 May 2022 07:47:50 +0000
-Date:   Tue, 17 May 2022 09:47:48 +0200
+        id rruwC0ZUg2LEAgAAMHmgww
+        (envelope-from <osalvador@suse.de>); Tue, 17 May 2022 07:52:38 +0000
+Date:   Tue, 17 May 2022 09:52:36 +0200
 From:   Oscar Salvador <osalvador@suse.de>
 To:     Muchun Song <songmuchun@bytedance.com>
 Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
@@ -54,117 +54,54 @@ Cc:     corbet@lwn.net, mike.kravetz@oracle.com, akpm@linux-foundation.org,
         david@redhat.com, masahiroy@kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v12 3/7] mm: memory_hotplug: enumerate all supported
- section flags
-Message-ID: <YoNTJNfhUO7/oUrn@localhost.localdomain>
+Subject: Re: [PATCH v12 4/7] mm: hotplug: introduce
+ SECTION_CANNOT_OPTIMIZE_VMEMMAP
+Message-ID: <YoNURLcKtffT+5BH@localhost.localdomain>
 References: <20220516102211.41557-1-songmuchun@bytedance.com>
- <20220516102211.41557-4-songmuchun@bytedance.com>
+ <20220516102211.41557-5-songmuchun@bytedance.com>
+ <YoIptjs65NgT1/ed@localhost.localdomain>
+ <YoI9pdLzB/V9Kw1y@FVFYT0MHHV2J.usts.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220516102211.41557-4-songmuchun@bytedance.com>
+In-Reply-To: <YoI9pdLzB/V9Kw1y@FVFYT0MHHV2J.usts.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 16, 2022 at 06:22:07PM +0800, Muchun Song wrote:
-> We are almost running out of free slots, only one bit is available in the
-
-I would be more precise about what are we running out of. Free slots of
-what?
-
-> worst case (powerpc with 256k pages).  However, there are still some free
-> slots on other architectures (e.g. x86_64 has 10 bits available, arm64
-> has 8 bits available with worst case of 64K pages).  We have hard coded
-> those numbers in code, it is inconvenient to use those bits on other
-> architectures except powerpc.  So transfer those section flags to
-> enumeration to make it easy to add new section flags in the future. Also,
-> move SECTION_TAINT_ZONE_DEVICE into the scope of CONFIG_ZONE_DEVICE
-> to save a bit on non-zone-device case.
+On Mon, May 16, 2022 at 08:03:49PM +0800, Muchun Song wrote:
+> On Mon, May 16, 2022 at 12:38:46PM +0200, Oscar Salvador wrote:
+> > On Mon, May 16, 2022 at 06:22:08PM +0800, Muchun Song wrote:
+> > > --- a/mm/sparse.c
+> > > +++ b/mm/sparse.c
+> > > @@ -913,6 +913,13 @@ int __meminit sparse_add_section(int nid, unsigned long start_pfn,
+> > >  	ms = __nr_to_section(section_nr);
+> > >  	set_section_nid(section_nr, nid);
+> > >  	__section_mark_present(ms, section_nr);
+> > > +	/*
+> > > +	 * Mark whole section as non-optimizable once there is a subsection
+> > > +	 * whose vmemmap pages are allocated from alternative allocator. The
+> > > +	 * early section is always optimizable.
+> > > +	 */
+> > > +	if (!early_section(ms) && altmap)
+> > > +		section_mark_cannot_optimize_vmemmap(ms);
+> > 
+> > Because no one expects those sections to be removed?
+> > IIRC, early_section + altmap only happened in case of sub-section pmem
+> > scenario?
 > 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
-...
-> --- a/include/linux/mmzone.h
-> +++ b/include/linux/mmzone.h
-> @@ -1418,16 +1418,37 @@ extern size_t mem_section_usage_size(void);
->   *      (equal SECTION_SIZE_BITS - PAGE_SHIFT), and the
->   *      worst combination is powerpc with 256k pages,
->   *      which results in PFN_SECTION_SHIFT equal 6.
-> - * To sum it up, at least 6 bits are available.
-> + * To sum it up, at least 6 bits are available on all architectures.
-> + * However, we can exceed 6 bits on some other architectures except
-> + * powerpc (e.g. 15 bits are available on x86_64, 13 bits are available
-> + * with the worst case of 64K pages on arm64) if we make sure the
-> + * exceeded bit is not applicable to powerpc.
->   */
-> -#define SECTION_MARKED_PRESENT		(1UL<<0)
-> -#define SECTION_HAS_MEM_MAP		(1UL<<1)
-> -#define SECTION_IS_ONLINE		(1UL<<2)
-> -#define SECTION_IS_EARLY		(1UL<<3)
-> -#define SECTION_TAINT_ZONE_DEVICE	(1UL<<4)
-> -#define SECTION_MAP_LAST_BIT		(1UL<<5)
-> +#define ENUM_SECTION_FLAG(MAPPER)						\
-> +	MAPPER(MARKED_PRESENT)							\
-> +	MAPPER(HAS_MEM_MAP)							\
-> +	MAPPER(IS_ONLINE)							\
-> +	MAPPER(IS_EARLY)							\
-> +	MAPPER(TAINT_ZONE_DEVICE, CONFIG_ZONE_DEVICE)				\
-> +	MAPPER(MAP_LAST_BIT)
-> +
-> +#define __SECTION_SHIFT_FLAG_MAPPER_0(x)
-> +#define __SECTION_SHIFT_FLAG_MAPPER_1(x)	SECTION_##x##_SHIFT,
-> +#define __SECTION_SHIFT_FLAG_MAPPER(x, ...)	\
-> +	__PASTE(__SECTION_SHIFT_FLAG_MAPPER_, IS_ENABLED(__VA_ARGS__))(x)
-> +
-> +#define __SECTION_FLAG_MAPPER_0(x)
-> +#define __SECTION_FLAG_MAPPER_1(x)		SECTION_##x = BIT(SECTION_##x##_SHIFT),
-> +#define __SECTION_FLAG_MAPPER(x, ...)		\
-> +	__PASTE(__SECTION_FLAG_MAPPER_, IS_ENABLED(__VA_ARGS__))(x)
-> +
-> +enum {
-> +	ENUM_SECTION_FLAG(__SECTION_SHIFT_FLAG_MAPPER)
-> +	ENUM_SECTION_FLAG(__SECTION_FLAG_MAPPER)
-> +};
-> +
->  #define SECTION_MAP_MASK		(~(SECTION_MAP_LAST_BIT-1))
-> -#define SECTION_NID_SHIFT		6
-> +#define SECTION_NID_SHIFT		SECTION_MAP_LAST_BIT_SHIFT
-
-Is this really worth the extra code? And it might be me that I am not
-familiar with all this magic, but it looks overcomplicated.
-Maybe some comments here and there help clarifying what it is going on
-here.
-
->  static inline struct page *__section_mem_map_addr(struct mem_section *section)
->  {
-> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-> index 111684878fd9..aef3f041dec7 100644
-> --- a/mm/memory_hotplug.c
-> +++ b/mm/memory_hotplug.c
-> @@ -655,12 +655,18 @@ static void __meminit resize_pgdat_range(struct pglist_data *pgdat, unsigned lon
->  
->  }
->  
-> +#ifdef CONFIG_ZONE_DEVICE
->  static void section_taint_zone_device(unsigned long pfn)
->  {
->  	struct mem_section *ms = __pfn_to_section(pfn);
->  
->  	ms->section_mem_map |= SECTION_TAINT_ZONE_DEVICE;
->  }
-> +#else
-> +static inline void section_taint_zone_device(unsigned long pfn)
-> +{
-> +}
-> +#endif
->  
->  /*
->   * Associate the pfn range with the given zone, initializing the memmaps
-> -- 
-> 2.11.0
+> Right. The commit ba72b4c8cf60 ("mm/sparsemem: support sub-section hotplug")
+> has more information.
 > 
+> > I guess my question is: can we really have early_sections coming
+> > from alternative allocator?
+> >
 > 
+> We can't. The early section does not consider partially being
+> populated currently.
+
+Then, IIUC, we can forget about the early_section() check?
+
 
 -- 
 Oscar Salvador
