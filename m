@@ -2,127 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85FA3C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 07:46:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9D53C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 07:49:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232410AbiERHqw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 03:46:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42630 "EHLO
+        id S232495AbiERHtE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 03:49:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232399AbiERHqu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 03:46:50 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA950165BD;
-        Wed, 18 May 2022 00:46:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7E1C1B81EC1;
-        Wed, 18 May 2022 07:46:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 362CDC34118;
-        Wed, 18 May 2022 07:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652860005;
-        bh=KUl7JvGgqkc1DfGhPQMhcKNc6+xW1iqiAC34dWUYIYI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=dkK2VuiRazUYy/0raeMMGlNR4Tax1p2NGjBr/nBjKum21oFxmslWmUCU0VzoRu+cO
-         HmrzPveZdQjdv+cTPBR2V9tak/jiomNUfYBj5sw2dX2dKoC9xH7uM57L8jH4xYiIuM
-         08YqMdtOguRYHRonbNsRBlTLvM52Q+3TpvkwtUExXHPUUphUHyK569lWDbMs10HDjU
-         DyH3Js5U9VM/fgDmVN0asWG655mirLaZZDwLq2xvJajzBmBVBbWSRTWp5U0pCUQtsS
-         fyTFbdmkyAv0lZigt1Yr/42MgLcInpjxDL0ApYmAeUaT9QZgryC0kOix45ZHLnTsUi
-         zGfw+Eb+H8wvA==
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-2fee010f509so14978097b3.11;
-        Wed, 18 May 2022 00:46:45 -0700 (PDT)
-X-Gm-Message-State: AOAM530UikuK8/lBMYbxrkcX4CWLjCqv0vKRM1/+WSkWIIezy26JRWRm
-        0yD6bdVCRNHTy2+CCBvOglHafjI+rEsUr+uV6lA=
-X-Google-Smtp-Source: ABdhPJyhm2Dj408LoUWWmvAqhkBhAYE1RnSkeixOEh3zciq1RMr7OwAYsEs1iONJHOBW1KRcCiA1jSuvrZOus+J3c4c=
-X-Received: by 2002:a0d:cd06:0:b0:2f8:f39c:4cfc with SMTP id
- p6-20020a0dcd06000000b002f8f39c4cfcmr29636586ywd.495.1652860004199; Wed, 18
- May 2022 00:46:44 -0700 (PDT)
+        with ESMTP id S232493AbiERHtD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 03:49:03 -0400
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA26C16594;
+        Wed, 18 May 2022 00:49:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1652860143; x=1684396143;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=FFmn27BmEvRPFt+EeFCTjSFHWGKsjOHO+ZSlgAAGdKc=;
+  b=sZn14dB8UT/oGLlyxLJGmK08ERAcPVTV5z4exdmaGvvz8NXHHPPMFrwy
+   9CEHmkmo8g25qi3FqPVE1e57SkNLByBmDqWXX6qtGAUn84jL205ei318h
+   ep9WBr4CRyvyO3IPpD4bfzyd9PK8dGBnC5y7yf6hDbQoK3/y3zP0gkjcq
+   o=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 18 May 2022 00:49:02 -0700
+X-QCInternal: smtphost
+Received: from unknown (HELO nasanex01a.na.qualcomm.com) ([10.52.223.231])
+  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 00:49:01 -0700
+Received: from blr-ubuntu-185.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 18 May 2022 00:48:52 -0700
+From:   Vivek Kumar <quic_vivekuma@quicinc.com>
+To:     <corbet@lwn.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
+        <tglx@linutronix.de>, <maz@kernel.org>, <axboe@kernel.dk>,
+        <rafael@kernel.org>, <akpm@linux-foundation.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-block@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+        <linux-mm@kvack.org>
+CC:     <len.brown@intel.com>, <pavel@ucw.cz>, <paulmck@kernel.org>,
+        <bp@suse.de>, <keescook@chromium.org>, <songmuchun@bytedance.com>,
+        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
+        <pasha.tatashin@soleen.com>, <tabba@google.com>, <ardb@kernel.org>,
+        <tsoni@quicinc.com>, <quic_psodagud@quicinc.com>,
+        <quic_svaddagi@quicinc.com>,
+        Vivek Kumar <quic_vivekuma@quicinc.com>
+Subject: [RFC 0/6] Bootloader based hibernation
+Date:   Wed, 18 May 2022 13:18:35 +0530
+Message-ID: <1652860121-24092-1-git-send-email-quic_vivekuma@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20220228103142.3301082-1-arnd@kernel.org> <20220516131023.GA2329080@roeck-us.net>
- <YoJSF8T5K9pPx3Ap@kroah.com> <9510474d-5555-42b3-5a9c-90e3078df499@roeck-us.net>
-In-Reply-To: <9510474d-5555-42b3-5a9c-90e3078df499@roeck-us.net>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Wed, 18 May 2022 08:46:45 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1GmRqPTXFCoLH9h1sP76a-bVRsGYP-YvczoXM4Na3OVQ@mail.gmail.com>
-Message-ID: <CAK8P3a1GmRqPTXFCoLH9h1sP76a-bVRsGYP-YvczoXM4Na3OVQ@mail.gmail.com>
-Subject: Re: [greybus-dev] Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        clang-built-linux <llvm@lists.linux.dev>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Intel Graphics <intel-gfx@lists.freedesktop.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-        linux-btrfs <linux-btrfs@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 16, 2022 at 3:19 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> On 5/16/22 06:31, Greg KH wrote:
-> > On Mon, May 16, 2022 at 06:10:23AM -0700, Guenter Roeck wrote:
-> >> On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
-> >>> From: Arnd Bergmann <arnd@arndb.de>
-> >>>
-> >>> During a patch discussion, Linus brought up the option of changing
-> >>> the C standard version from gnu89 to gnu99, which allows using variab=
-le
-> >>> declaration inside of a for() loop. While the C99, C11 and later stan=
-dards
-> >>> introduce many other features, most of these are already available in
-> >>> gnu89 as GNU extensions as well.
-> >>
-> >> The downside is that backporting affected patches to older kernel bran=
-ches
-> >> now fails with error messages such as
-> >>
-> >> mm/kfence/core.c: In function =E2=80=98kfence_init_pool=E2=80=99:
-> >> mm/kfence/core.c:595:2: error: =E2=80=98for=E2=80=99 loop initial decl=
-arations are only allowed in C99 or C11 mode
-> >>
-> >> Just something to keep in mind when writing patches.
-> >
-> > I just ran across this very issue on this commit.  It's an easy fixup
-> > for 5.17.y to make this work, so I did that in my tree.  If this gets t=
-o
-> > be too much, we might need to reconsider adding c11 to older stable
-> > kernels.
-> >
->
-> I think I'll do just that for ChromeOS; I don't want to have to deal
-> with the backports, and we are using recent compilers anyway.
+Kernel Hibernation
 
-I think it would be better not to have the --std=3Dgnu11 change in the olde=
-r
-stable kernels by default, as this has introduced build warnings and other
-smaller issues, as well as raising the minimum compiler version.
+Linux Kernel has been already supporting hibernation, a process which
+involves freezing of all userspace tasks, followed by quiescing of all
+kernel device drivers and then a DDR snapshot is taken which is saved
+to disc-swap partition, after the save, the system can either shutdown
+or continue further. Generally during the next power cycle when kernel
+boots and after probing almost all of the drivers, in the late_init()
+part, it checks if a hibernation image is present in the specified swap
+slot, if a valid hibernation image is found, it superimposes the currently
+executing Kernel with an older kernel from the snapshot, moving further,
+it calls the restore of the drivers and unfreezes the userspace tasks.
+CONFIG_HIBERNATION and a designated swap partition needs to be present
+for to enable Hibernation.
 
-The users that are stuck on older kernels for some reason tend to
-overlap with those on older compilers. One example here is Android,
-which used to ship with a gcc-4.9 build as the only non-clang toolchain,
-and was using this for building their kernels. If someone wants to
-pull in stable updates into an older Android, this would fail with
--std=3Dgnu11. Others may be in the same situation.
+Bootloader Based Hibernation:
 
-Changing some of the 5.x stable branches to -std=3Dgnu11 is probably
-less of a problem, but I would not know where to draw the line exactly.
-Maybe check with the Android team to see what the newest kernel is
-that they expect to be built with the old gcc-4.9.
+Automotive usecases require better boot KPIs, Hence we are proposing a
+bootloader based hibernation restore. Purpose of bootloader based
+hibernation is to improve the overall boot time till the first display
+frame is seen on the screen or a camera application can be launched from
+userspace after the power on reset key is pressed. This RFC patchset
+implements a slightly tweaked version of hibernation in which the
+restoration of an older snapshot into DDR is being carried out from the
+bootloader (ABL) itself, by doing this we are saving some time
+(1 second measured on msm-4.14 Kernel) by not running a
+temporary kernel and figuring out the hibernation image at late_init().
+In order to achieve the same bootloader checks for the hibernation
+image at a very early stage from swap partition, it parses the image and
+loads it in the DDR instead of loading boot image form boot partition.
+Since we are not running the temporary kernel,which would have done some
+basic ARM related setup like, MMU enablement, EL2 setup, CPU setup etc,
+entry point into hibernation snapshot image directly from bootloader is
+different, on similar lines, all device drivers are now re-programming
+the IO-mapped registers as part of the restore callback (which is
+triggered from the hibernation framework) to bring back the HW/SW sync.
 
-         Arnd
+Other factors like, read-speed of the secondary storage device and
+organization of the hibernation image in the swap partition effects the
+total image restore time and the overall boot time. In our current
+implementation we have serialized the allocation of swap-partition's slots
+in kernel, so when hibernation image is being saved to disc, each page is
+not scattered across various swap-slot offsets, rather it in a serial
+manner. For example, if a DDR page at Page frame number 0x8005 is
+located at a swap-slot offset 50, the next valid DDR page at PFN 0x8005
+will be preset at the swap-slot offset 51. With this optimization in
+place, bootloader can utilize the max capacity of issuing a disc-read
+for reading a bigger chunk (~50 MBs at once) from the swap slot,
+and also parsing of the image becomes simpler as it is available
+contiguously.
+
+
+
+Vivek Kumar (6):
+  arm64: hibernate: Introduce new entry point to kernel
+  PM: Hibernate: Add option to disable disk offset randomization
+  block: gendisk: Add a new genhd capability flag
+  mm: swap: Add randomization check for swapon/off calls
+  Hibernate: Add check for pte_valid in saveable page
+  irqchip/gic-v3: Re-init GIC hardware upon hibernation restore
+
+ Documentation/admin-guide/kernel-parameters.txt |  11 ++
+ arch/arm64/kernel/hibernate.c                   |   9 ++
+ drivers/irqchip/irq-gic-v3.c                    | 138 ++++++++++++++++-
+ include/linux/blkdev.h                          |   1 +
+ kernel/power/snapshot.c                         |  43 ++++++++
+ kernel/power/swap.c                             |  12 +++
+ mm/swapfile.c                                   |   6 +-
+ 7 files changed, 216 insertions(+), 4 deletions(-)
+
+-- 
+2.7.4
+
