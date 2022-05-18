@@ -2,66 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B385C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 16:13:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7AF9C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 16:40:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239974AbiERQNl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 12:13:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48624 "EHLO
+        id S240353AbiERQkO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 12:40:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239961AbiERQNg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 12:13:36 -0400
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52D191E011D;
-        Wed, 18 May 2022 09:13:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-        t=1652890408; bh=JZ/umXW1BGSt1/z+uE4svncYRr0FcuqSnCI25i7a5Ho=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=dnSn784KVjHWto1/GJceQf4qHrnCdSxrLcdinanIGqOVulpmfmIGWzChrJ+jhhzgC
-         2FyM6lSRIVz1QqfWF3s5pi3gz5rd3fyALs0WoFCHOHqS3jEv3IC4l47Wx1lGBPHSrY
-         ZtQPX/XQhhDBfEhTXFEac0caIXRkuU6b/qbP0O+k=
-Received: from [192.168.9.172] (unknown [101.88.28.48])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 2914A60691;
-        Thu, 19 May 2022 00:13:28 +0800 (CST)
-Message-ID: <739ba6e4-d11b-44a0-c5fc-6fb430d10d5a@xen0n.name>
-Date:   Thu, 19 May 2022 00:13:27 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.0a1
-Subject: Re: [PATCH V11 14/22] LoongArch: Add signal handling support
-Content-Language: en-US
-To:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
+        with ESMTP id S240398AbiERQkK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 12:40:10 -0400
+Received: from out01.mta.xmission.com (out01.mta.xmission.com [166.70.13.231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2B51FB574;
+        Wed, 18 May 2022 09:40:03 -0700 (PDT)
+Received: from in01.mta.xmission.com ([166.70.13.51]:40784)
+        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1nrMiN-000aXg-N2; Wed, 18 May 2022 10:39:59 -0600
+Received: from ip68-227-174-4.om.om.cox.net ([68.227.174.4]:38670 helo=email.froward.int.ebiederm.org.xmission.com)
+        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1nrMiM-000int-IO; Wed, 18 May 2022 10:39:59 -0600
+From:   "Eric W. Biederman" <ebiederm@xmission.com>
+To:     Huacai Chen <chenhuacai@loongson.cn>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Peter Zijlstra <peterz@infradead.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         David Airlie <airlied@linux.ie>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
         Yanteng Si <siyanteng@loongson.cn>,
         Huacai Chen <chenhuacai@gmail.com>,
         Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
         Stephen Rothwell <sfr@canb.auug.org.au>,
-        Eric Biederman <ebiederm@xmission.com>,
         Al Viro <viro@zeniv.linux.org.uk>
 References: <20220518092619.1269111-1-chenhuacai@loongson.cn>
- <20220518092619.1269111-15-chenhuacai@loongson.cn>
-From:   WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <20220518092619.1269111-15-chenhuacai@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        <20220518092619.1269111-15-chenhuacai@loongson.cn>
+Date:   Wed, 18 May 2022 11:39:51 -0500
+In-Reply-To: <20220518092619.1269111-15-chenhuacai@loongson.cn> (Huacai Chen's
+        message of "Wed, 18 May 2022 17:26:11 +0800")
+Message-ID: <87ilq294mg.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-XM-SPF: eid=1nrMiM-000int-IO;;;mid=<87ilq294mg.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.174.4;;;frm=ebiederm@xmission.com;;;spf=softfail
+X-XM-AID: U2FsdGVkX1/loKgiIQkjiUDPfvi+iuLWDLAFJas94Fw=
+X-SA-Exim-Connect-IP: 68.227.174.4
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCH V11 14/22] LoongArch: Add signal handling support
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/18/22 17:26, Huacai Chen wrote:
+Huacai Chen <chenhuacai@loongson.cn> writes:
+
 > Add ucontext/sigcontext definition and signal handling support for
 > LoongArch.
 >
@@ -69,15 +70,15 @@ On 5/18/22 17:26, Huacai Chen wrote:
 > Cc: Al Viro <viro@zeniv.linux.org.uk>
 > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 > ---
->   arch/loongarch/include/uapi/asm/sigcontext.h |  44 ++
->   arch/loongarch/include/uapi/asm/signal.h     |  13 +
->   arch/loongarch/include/uapi/asm/ucontext.h   |  35 ++
->   arch/loongarch/kernel/signal.c               | 566 +++++++++++++++++++
->   4 files changed, 658 insertions(+)
->   create mode 100644 arch/loongarch/include/uapi/asm/sigcontext.h
->   create mode 100644 arch/loongarch/include/uapi/asm/signal.h
->   create mode 100644 arch/loongarch/include/uapi/asm/ucontext.h
->   create mode 100644 arch/loongarch/kernel/signal.c
+>  arch/loongarch/include/uapi/asm/sigcontext.h |  44 ++
+>  arch/loongarch/include/uapi/asm/signal.h     |  13 +
+>  arch/loongarch/include/uapi/asm/ucontext.h   |  35 ++
+>  arch/loongarch/kernel/signal.c               | 566 +++++++++++++++++++
+>  4 files changed, 658 insertions(+)
+>  create mode 100644 arch/loongarch/include/uapi/asm/sigcontext.h
+>  create mode 100644 arch/loongarch/include/uapi/asm/signal.h
+>  create mode 100644 arch/loongarch/include/uapi/asm/ucontext.h
+>  create mode 100644 arch/loongarch/kernel/signal.c
 >
 > diff --git a/arch/loongarch/include/uapi/asm/sigcontext.h b/arch/loongarch/include/uapi/asm/sigcontext.h
 > new file mode 100644
@@ -104,16 +105,27 @@ On 5/18/22 17:26, Huacai Chen wrote:
 > +#define SC_ADDRERR_RD		(1 << 30)
 > +/* Address error was due to memory store */
 > +#define SC_ADDRERR_WR		(1 << 31)
+> +
+> +struct sigcontext {
+> +	__u64	sc_pc;
+> +	__u64	sc_regs[32];
+> +	__u32	sc_flags;
+> +	__u64	sc_extcontext[0] __attribute__((__aligned__(16)));
+> +};
+> +
+> +#define CONTEXT_INFO_ALIGN	16
+> +struct _ctxinfo {
+> +	__u32	magic;
+> +	__u32	size;
+> +	__u64	padding;	/* padding to 16 bytes */
+> +};
 
-Looks nice.
+This is probably something I a missing but what is struct _ctxinfo and
+why is it in a uapi header?
 
-BTW: following some communication it appears that the SC_ADDRERR_* 
-constants are not tightly coupled to BUS_ADRERR after all, so the 
-spelling is "fixed".
+I don't see anything else in the uapi implementation using it.
 
-I don't have anything more to comment, because the rest are either 
-reviewed or non-userspace-ABI that don't exactly require getting right 
-from the beginning. (Not to say they're flawed.)
+Symbols that start with an underscore "_" are reserved and should not
+be used in general, and especially not in uapi header files.
 
-Reviewed-by: WANG Xuerui <git@xen0n.name>
-
+Eric
