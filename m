@@ -2,73 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74ACCC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 11:57:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F5F3C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 12:19:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235969AbiERL5A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 07:57:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38480 "EHLO
+        id S236324AbiERMTt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 08:19:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235879AbiERL47 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 07:56:59 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD14F45;
-        Wed, 18 May 2022 04:56:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E909EB81F93;
-        Wed, 18 May 2022 11:56:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71455C385AA;
-        Wed, 18 May 2022 11:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652875014;
-        bh=9vOoc0v+BIYkpytw8iBPivZ+HzNBFguqZOXNLAw6pLI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Irbz9HalufQgGqTpCt8jY8Xm1siWggiektz9izx5891iEwNqN+DXa2Lu7Hwz/yMgM
-         7AjzcF1Wv0whPCL1zeMQkL8a/R21522q487O5jeyHJAlPKveanVPxAbeBfCI7vL+qP
-         EgPyXb6pgvfARMWftzyE/11KCHVPcUjXofl0GqZzbAmtTbDgwcM36nRkYTEHgF04wC
-         O+vLlTlKQEEhW8QD8Q+EjqR20fM3NzFISDbB7K376Juo+VNDh6pl4dtFVqHqYMXECp
-         UTouosNDQQ1BlRF5gsdStQtZx4TBAn6Hrgogn6ILgm3J4v8moGLtqaEN7JOAh/17+e
-         i0TLaJ5G63Hpg==
-Date:   Wed, 18 May 2022 19:56:50 +0800
-From:   Tzung-Bi Shih <tzungbi@kernel.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org, Benson Leung <bleung@google.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: Re: [PATCH v2 0/2] Documentation update for Chrome OS ACPI
-Message-ID: <YoTfArGLd85jaG2Y@google.com>
-References: <20220518083524.37380-1-bagasdotme@gmail.com>
+        with ESMTP id S236253AbiERMTs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 08:19:48 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7409A5B88B;
+        Wed, 18 May 2022 05:19:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=kQKtiTZ0LH/w5S3uWV2zXb3ODADItlkkeofFb+AnfrE=; b=Wv5U2pmuhaGCoLOzHzJK+Nq6cQ
+        EGJBrHRoJFiP/8QEBn6R+hA6bbpRr8oLNh5EVEtnLyyKpJePXmTEnVYtGLqGDlyKTwfy0WSbgi6My
+        iSvOJjjGqikleFr50AmwdM1qnWFvIi3QyjQ786H9g1LQOYSReGILeRYHV25ojKWRg7h4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1nrIeB-003K0L-QZ; Wed, 18 May 2022 14:19:23 +0200
+Date:   Wed, 18 May 2022 14:19:23 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Vivek Kumar <quic_vivekuma@quicinc.com>
+Cc:     corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
+        tglx@linutronix.de, maz@kernel.org, axboe@kernel.dk,
+        rafael@kernel.org, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-mm@kvack.org, len.brown@intel.com,
+        pavel@ucw.cz, paulmck@kernel.org, bp@suse.de,
+        keescook@chromium.org, songmuchun@bytedance.com,
+        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
+        pasha.tatashin@soleen.com, tabba@google.com, ardb@kernel.org,
+        tsoni@quicinc.com, quic_psodagud@quicinc.com,
+        quic_svaddagi@quicinc.com,
+        Prasanna Kumar <quic_kprasan@quicinc.com>
+Subject: Re: [RFC 2/6] PM: Hibernate: Add option to disable disk offset
+ randomization
+Message-ID: <YoTkSx96vt1NTdZ/@lunn.ch>
+References: <1652860121-24092-1-git-send-email-quic_vivekuma@quicinc.com>
+ <1652860121-24092-3-git-send-email-quic_vivekuma@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220518083524.37380-1-bagasdotme@gmail.com>
+In-Reply-To: <1652860121-24092-3-git-send-email-quic_vivekuma@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 18, 2022 at 03:35:22PM +0700, Bagas Sanjaya wrote:
-> Two documentation patches touching Chrome OS ACPI sysfs.
+On Wed, May 18, 2022 at 01:18:37PM +0530, Vivek Kumar wrote:
+> Add a kernel parameter to disable the disk offset randomization
+> for SSD devices in which such feature is available at the
+> firmware level. This is helpful in improving hibernation
+> resume time.
 > 
->   1. Patch [1/2] fixes htmldocs warning reported in linux-next and should
->      be merged before upcoming merge window.
->   2. Patch [2/2] rewrites symbol descriptions to use imperative mood. It
->      can be merged when appropriate, independent of previous patch
->      above.
+> Signed-off-by: Vivek Kumar <quic_vivekuma@quicinc.com>
+> Signed-off-by: Prasanna Kumar <quic_kprasan@quicinc.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 11 +++++++++++
+>  kernel/power/swap.c                             |  9 +++++++++
+>  2 files changed, 20 insertions(+)
 > 
-> [...]
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 666ade9..06b4f10 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -5192,6 +5192,17 @@
+>  			Useful for devices that are detected asynchronously
+>  			(e.g. USB and MMC devices).
+>  
+> +	noswap_randomize
+> +			Kernel uses random disk offsets to help with wear-levelling
+> +			of SSD devices, while saving the hibernation snapshot image to
+> +			disk. Use this parameter to disable this feature for SSD
+> +			devices in scenarios when, such randomization is addressed at
+> +			the firmware level and hibenration image is not re-generated
+> +			frequently.
+> +			(Useful for improving hibernation resume time as snapshot pages
+> +			are available in disk serially and can be read in bigger chunks
+> +			without seeking)
 
-Applied, thanks!
+Seeking is a NOP for SSD, so it seems odd you mentioned that. Is the
+real problem here that the bootloader driver is very simple, it does
+not queue multiple reads to the hardware, but does it one block at a
+time?
 
-[1/2] platform/chrome: Use tables for values lists of ChromeOS ACPI sysfs ABI
-      commit: 596cbc6ab0abd18206b3247aaeaa225788afaf8c
-[2/2] platform/chrome: Use imperative mood for ChromeOS ACPI sysfs ABI descriptions
-      commit: 7bff62406671dd89e9d1a7bf00169197f2833c41
+Do you have performance numbers for both the bootloader and Linux?
+Does Linux performance reading the snapshot increase as much as for
+the bootloader?
+
+	Andrew
