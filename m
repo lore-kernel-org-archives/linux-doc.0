@@ -2,81 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8206EC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 11:27:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74ACCC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 11:57:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235569AbiERL1s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 07:27:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38296 "EHLO
+        id S235969AbiERL5A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 07:57:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235637AbiERL1r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 07:27:47 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C815C166455;
-        Wed, 18 May 2022 04:27:45 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: usama.anjum)
-        with ESMTPSA id 545681F449B3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1652873264;
-        bh=rBbCjdKWBmSyC6DxT/Ml286Uzl18qmi9zuCiDKlWOYc=;
-        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-        b=hxETIbvhCXlF07VtM55O17KnEffGaMX0AFK2f/GIVWDG85eLSv1sKOYhVYZ5YtezQ
-         6TiPUkUn21A7yKRS/tu+jQBMDeA+8JXttz9J8r5z06zYzwG8vGM3WniTpiP6ccSB2r
-         CiXnGzUAZAX1MnhUAg9NYoZcQyNQ7qQAY4LK9BkP/S6iMVYW3HjoIOvAZW2ehHIMJn
-         0xadwx32BRSsO+goqBa+Q1FFplkxgh55p/735ifSr9kFOA2d8rv32sSb6vyBVkz6P/
-         5CNeGIeVEIf/Ifd1yMcI4moFLbHGN+RQOSgP9BFDpy9xTaaoJ7/zgPfKvIRD6Lp4QZ
-         zNXZ3Wh/ky7UQ==
-Message-ID: <890ae132-cf86-8c82-8280-291869183f5f@collabora.com>
-Date:   Wed, 18 May 2022 16:27:35 +0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Cc:     usama.anjum@collabora.com, Benson Leung <bleung@google.com>,
+        with ESMTP id S235879AbiERL47 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 07:56:59 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD14F45;
+        Wed, 18 May 2022 04:56:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E909EB81F93;
+        Wed, 18 May 2022 11:56:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71455C385AA;
+        Wed, 18 May 2022 11:56:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652875014;
+        bh=9vOoc0v+BIYkpytw8iBPivZ+HzNBFguqZOXNLAw6pLI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Irbz9HalufQgGqTpCt8jY8Xm1siWggiektz9izx5891iEwNqN+DXa2Lu7Hwz/yMgM
+         7AjzcF1Wv0whPCL1zeMQkL8a/R21522q487O5jeyHJAlPKveanVPxAbeBfCI7vL+qP
+         EgPyXb6pgvfARMWftzyE/11KCHVPcUjXofl0GqZzbAmtTbDgwcM36nRkYTEHgF04wC
+         O+vLlTlKQEEhW8QD8Q+EjqR20fM3NzFISDbB7K376Juo+VNDh6pl4dtFVqHqYMXECp
+         UTouosNDQQ1BlRF5gsdStQtZx4TBAn6Hrgogn6ILgm3J4v8moGLtqaEN7JOAh/17+e
+         i0TLaJ5G63Hpg==
+Date:   Wed, 18 May 2022 19:56:50 +0800
+From:   Tzung-Bi Shih <tzungbi@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-doc@vger.kernel.org, Benson Leung <bleung@google.com>,
         Guenter Roeck <groeck@chromium.org>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Tzung-Bi Shih <tzungbi@kernel.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Muhammad Usama Anjum <usama.anjum@collabora.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] platform/chrome: Use imperative mood for ChromeOS
- ACPI sysfs ABI descriptions
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] Documentation update for Chrome OS ACPI
+Message-ID: <YoTfArGLd85jaG2Y@google.com>
 References: <20220518083524.37380-1-bagasdotme@gmail.com>
- <20220518083524.37380-3-bagasdotme@gmail.com>
-From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <20220518083524.37380-3-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220518083524.37380-1-bagasdotme@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/18/22 1:35 PM, Bagas Sanjaya wrote:
-> The current descriptions all begin with ("This file shows something")
-> clause, which is incorrect wording since these mean return value from
-> sysfs.
+On Wed, May 18, 2022 at 03:35:22PM +0700, Bagas Sanjaya wrote:
+> Two documentation patches touching Chrome OS ACPI sysfs.
 > 
-> Use imperative mood ("Returns something") instead, in line with
-> corresponding ACPI documentation at firmware-guide/.
+>   1. Patch [1/2] fixes htmldocs warning reported in linux-next and should
+>      be merged before upcoming merge window.
+>   2. Patch [2/2] rewrites symbol descriptions to use imperative mood. It
+>      can be merged when appropriate, independent of previous patch
+>      above.
 > 
-> Cc: Benson Leung <bleung@google.com>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
-> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-> Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-> Cc: Linux Next Mailing List <linux-next@vger.kernel.org>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> [...]
 
-Reviewed-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Applied, thanks!
 
--- 
-Muhammad Usama Anjum
+[1/2] platform/chrome: Use tables for values lists of ChromeOS ACPI sysfs ABI
+      commit: 596cbc6ab0abd18206b3247aaeaa225788afaf8c
+[2/2] platform/chrome: Use imperative mood for ChromeOS ACPI sysfs ABI descriptions
+      commit: 7bff62406671dd89e9d1a7bf00169197f2833c41
