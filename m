@@ -2,84 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 976B7C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 08:27:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AC85C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 08:35:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233066AbiERI10 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 04:27:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54416 "EHLO
+        id S233243AbiERIfl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 04:35:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233092AbiERI1W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 04:27:22 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BEE7E277F;
-        Wed, 18 May 2022 01:27:10 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id gg20so1327306pjb.1;
-        Wed, 18 May 2022 01:27:10 -0700 (PDT)
+        with ESMTP id S233312AbiERIfk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 04:35:40 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42E2A4ECCB;
+        Wed, 18 May 2022 01:35:39 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id l14so1343343pjk.2;
+        Wed, 18 May 2022 01:35:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6uhcCD9Q9c+zxCoqwp1SKWrlds09Ui+hTejJMadUYQ8=;
-        b=knwLeeGs2uTSf5TwdhIm5ljqftyq1jOVfMGjDCVCBvz+83z5bXFaX8traenYQKYQ8C
-         brZkSLz9KC2b8krw58NkVoJw7Ud89iYQwNAzPkIkOaQktOoSYrP6j4rCZhGuWN8TxEgN
-         ramS9v19nXbCk8S71Wts7wJEb9/2SrRWIpcr/0kCAGD3cFI3+/6f26O729X1Jvv3O6c/
-         errWLCITazNz03uyIZJu3618L0T9aO6RxfqzsuLLL3JSWeS+K80KJAvYlXERe1U787PE
-         UJ7F/Mxg69KsqzhDiUwXkBXCrIplFXzYI3RGlELI/deqFj874rIBdROFxc2c0uUqVqxD
-         vyuQ==
+        bh=fP2fbOCLOJBQ4ZmPFu380tszq7XyGeACGdg9Wxs7b6o=;
+        b=pSFmTzZIFnrcw2fal89T3gmAqy5brVXf4T3ueXyCgI5iaaqddc4YvjjZ3/MprJ+lj/
+         asTRvgaVph7wKEuajTO0Y2TFTrCZzah4TedzrPk2SX8B71fIbmBWNYzCjFwiKwc84AHd
+         vsk2yM1whBiAZSuzsETaTtY+MsvzCvw99bWMEGcEi/ve5ZCJ4rMv2sp9TbaHXA/2PovF
+         lBVk6bBjbX+o+VJ31SdJt9o/hj3bxXRIMVetnjdOqE8AEd62nrDWaXO+kBrb0MZ24hvM
+         8ociGDH6kj74sNnvU68rbBj8ptiKo8QXCKyTrFTjyTsoiImKQrDM84dsPtDuCrUCrcKX
+         Jf4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6uhcCD9Q9c+zxCoqwp1SKWrlds09Ui+hTejJMadUYQ8=;
-        b=yDdSXrpKZVV9TMkXSGgKPdVhxB2WhxxTfm7/QDdNqkO4oetzljGburtAuASaJ7gkDD
-         wtPK74GCJH5b62pYNz5j0pkEL6RQgEH0w/olDAgf2jp7wRyjLlToFVbDkv4VSo9/Ky6M
-         FG+W6Xo9Ks3znO6sWOg7LAOVXtPHGb9yOgAfrElBi0o2TFgxdMAvBDMd4pxLNVM+3VxU
-         2bIYS3lUyB3FEJDxO4rPxxxY+9Za1+f1uWFQX60XjqJg5rg30eW+Auv0fWWUxNTrAEh5
-         ssLwuzV1r+EyBZZ/pYJ9zB/sgm9/lP0XP5cwL5McaS6el12gBFFMjCuSvqf0UdubTGuF
-         Tbgg==
-X-Gm-Message-State: AOAM530r8VASqmGkBjZy+Npjo98ZzL8gdO3EZzFxTuYznwmMzCECl/Dn
-        Fmwrdrlh9W99YnmKPY9WsgI=
-X-Google-Smtp-Source: ABdhPJzNcgMOvUnJ/r2cIpDRhf/x+W2Y7fPUMs3R1jptn1Ppwt0PjAo2/lB6RnG7YaR7+yNBtgjoxA==
-X-Received: by 2002:a17:902:7781:b0:161:c85a:8fff with SMTP id o1-20020a170902778100b00161c85a8fffmr1444679pll.97.1652862424843;
-        Wed, 18 May 2022 01:27:04 -0700 (PDT)
-Received: from ip-172-31-7-97.ap-south-1.compute.internal (ec2-15-207-112-74.ap-south-1.compute.amazonaws.com. [15.207.112.74])
-        by smtp.gmail.com with ESMTPSA id s26-20020a056a001c5a00b005180ea859d7sm1206643pfw.123.2022.05.18.01.27.02
+        bh=fP2fbOCLOJBQ4ZmPFu380tszq7XyGeACGdg9Wxs7b6o=;
+        b=RlD9cc2lXbQYg7fEqb2skStALfaNnLy9nWAkoqYK0G+Aqu472UFoOOKkiD4uZS8dI0
+         qLLIC/P6nKMk+u7RxR80N1d5XrdkDaS/n7D7pNoKyGrE3VB+gqEi/sQczOv0UtBlsQqT
+         YLYRn1sDbVYwIzL5NQvBcjcEFf2WS2E9ZAW2lfB7bi4TBydAQ8BVcLgBGAYlCejDnJ/Z
+         PZYAonH6AGd+k9N4iJ1x6pOYRqHmeDhkZV9ysIs9jRU6jhznDvnifBy4nvfvxvxbr0yi
+         /4jLNGtn9j/2aG0FiBHfa5Z/rwYyo6+oU9nUUYINAY6p8QyHRN4h2CF9KbgFNTEM01IP
+         059w==
+X-Gm-Message-State: AOAM532STFw/GUbWXyhiqsyjqPgJFJd0z2+GVbRfslz/NB06/qDtJC8L
+        VGGKWe13QJA/K7wLnM92RFhdLa+xCKM=
+X-Google-Smtp-Source: ABdhPJz6YKcuquMaQGW6SbulhPY0jRLE8ZoBzgdNAHmDuzlfS5pP1Gae450qtbDHl949zNgMORmsfA==
+X-Received: by 2002:a17:90b:3a86:b0:1dc:228f:6a1f with SMTP id om6-20020a17090b3a8600b001dc228f6a1fmr40671731pjb.230.1652862938273;
+        Wed, 18 May 2022 01:35:38 -0700 (PDT)
+Received: from debian.me (subs32-116-206-28-58.three.co.id. [116.206.28.58])
+        by smtp.gmail.com with ESMTPSA id gc10-20020a17090b310a00b001df313f6628sm3029837pjb.21.2022.05.18.01.35.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 01:27:04 -0700 (PDT)
-From:   Praghadeesh T K S <praghadeeshthevendria@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        "GitAuthor: Praghadeesh T K S" <praghadeeshthevendria@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     skhan@linuxfoundation.org, praghadeeshtks@zohomail.in
-Subject: [PATCH] Fixed 'make htmldocs' warning: Documentation/admin-guide/perf/hisi-pcie-pmu.rst: WARNING: document isn't included in any toctree
-Date:   Wed, 18 May 2022 08:26:27 +0000
-Message-Id: <20220518082627.9144-1-praghadeeshthevendria@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Wed, 18 May 2022 01:35:37 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Benson Leung <bleung@google.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        Tzung-Bi Shih <tzungbi@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: [PATCH v2 0/2] Documentation update for Chrome OS ACPI
+Date:   Wed, 18 May 2022 15:35:22 +0700
+Message-Id: <20220518083524.37380-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Signed-off-by: Praghadeesh T K S <praghadeeshthevendria@gmail.com>
----
- Documentation/admin-guide/perf/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+Two documentation patches touching Chrome OS ACPI sysfs.
 
-diff --git a/Documentation/admin-guide/perf/index.rst b/Documentation/admin-guide/perf/index.rst
-index 5a8f252..69b23f0 100644
---- a/Documentation/admin-guide/perf/index.rst
-+++ b/Documentation/admin-guide/perf/index.rst
-@@ -8,6 +8,7 @@ Performance monitor support
-    :maxdepth: 1
- 
-    hisi-pmu
-+   hisi-pcie-pmu
-    imx-ddr
-    qcom_l2_pmu
-    qcom_l3_pmu
+  1. Patch [1/2] fixes htmldocs warning reported in linux-next and should
+     be merged before upcoming merge window.
+  2. Patch [2/2] rewrites symbol descriptions to use imperative mood. It
+     can be merged when appropriate, independent of previous patch
+     above.
+
+Changes since v1 [1]:
+  - Firmware typofix
+
+Range-diff against v1 [1]:
+1:  88fa56e47fd5ad ! 1:  10eface6e5ad4e platform/chrome: Use tables for values lists of ChromeOS ACPI sysfs ABI
+    @@ Documentation/ABI/testing/sysfs-driver-chromeos-acpi: KernelVersion:	5.19
+     -		  * 32  - Developer switch was enabled when firmware booted.
+     -		  * 512 - Firmware write protection was disabled when firmware
+     -			  booted.
+    -+		hardware switches when the firmare is booted.
+    ++		hardware switches when the firmware is booted.
+     +
+     +		==== ===========================================
+     +		0    No changes.
+2:  9b4751a2cefc7a ! 2:  17d581296f6dfb platform/chrome: Use imperative mood for ChromeOS ACPI sysfs ABI descriptions
+    @@ Documentation/ABI/testing/sysfs-driver-chromeos-acpi: What:		/sys/bus/platform/d
+      KernelVersion:	5.19
+      Description:
+     -		This file shows the switch position for the Chrome OS specific
+    --		hardware switches when the firmare is booted.
+    +-		hardware switches when the firmware is booted.
+     +		Returns switch position for Chrome OS specific hardware
+    -+		switches when the firmare is booted (integer).
+    ++		switches when the firmware is booted (integer).
+      
+      		==== ===========================================
+      		0    No changes.
+
+[1]: https://lore.kernel.org/linux-doc/20220518031750.21923-1-bagasdotme@gmail.com/
+
+Cc: Benson Leung <bleung@google.com>
+Cc: Guenter Roeck <groeck@chromium.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>
+
+Bagas Sanjaya (2):
+  platform/chrome: Use tables for values lists of ChromeOS ACPI sysfs
+    ABI
+  platform/chrome: Use imperative mood for ChromeOS ACPI sysfs ABI
+    descriptions
+
+ .../ABI/testing/sysfs-driver-chromeos-acpi    | 113 ++++++++++--------
+ 1 file changed, 62 insertions(+), 51 deletions(-)
+
+
+base-commit: 0a4cad9c11ad46662ede48d94f08ecb7cd9f6916
 -- 
-2.34.1
+An old man doll... just what I always wanted! - Clara
 
