@@ -2,146 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D0AC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 14:05:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01F81C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 14:07:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238392AbiEROFn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 10:05:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35688 "EHLO
+        id S238448AbiEROHl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 10:07:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231747AbiEROFn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 10:05:43 -0400
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04B09187DAC;
-        Wed, 18 May 2022 07:05:42 -0700 (PDT)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-2fee9fe48c2so25773907b3.3;
-        Wed, 18 May 2022 07:05:41 -0700 (PDT)
+        with ESMTP id S238446AbiEROHi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 10:07:38 -0400
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9531B6A06C;
+        Wed, 18 May 2022 07:07:36 -0700 (PDT)
+Received: by mail-oi1-x236.google.com with SMTP id w123so2754323oiw.5;
+        Wed, 18 May 2022 07:07:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Pg9cHDfOmQbKA6sIGv2JPMMr6K3pv/vo5Tu+jGJ0f+A=;
-        b=e6/AhQfYrT8846Hg+aIPVzaVNoSL5XsanMKp811Mrs9WvxdjaycBT017rBix3zEiGm
-         TlvUgokaIm0K6peenTPOV5Ao6qQL5/D+u/4MWTUKSpxKnpuBEt3BR9axyNsMFMyrZj+v
-         ey+zthjQY63V86f9OZHFh+GpFlqMdOfccOiv7C+pzQJbWG3tRMkDFCQqFYLfcODly9NM
-         j7Pkzpo9rEAIxXDdu+xQeuP5y7iE7HC9oidLejvRrPNl8OgpjI2UoXjr4ItMpnam5NUy
-         JJapsiATGADzMGfya24pgCtEJo/LSp/aPzQpJvTvuErsZhuoYCREpg4lcUHMH9s3UJ/t
-         oBJg==
+        h=sender:message-id:date:mime-version:user-agent:content-language:to
+         :cc:references:from:subject:in-reply-to:content-transfer-encoding;
+        bh=44Xgt+EUBiutauBulnIHgR1NZC7VLz+1d73CrLpoSuA=;
+        b=EE+Ok5Q3AOQEWrEsMLQ8bJwxLj5JWKC0uRQavySm46LGHksaEXSJblszKsh1MvsIVQ
+         sDPRJcb4u60eXiklTNwE2U+LD49Wb+WD9qcumnXXeQJnMUEh+Cprmc8yCFMWDDAx/laZ
+         tSGFznxKpbQzHqnKFUn6Obmd3DZeEhLOmDwgdK5v2kgO5opVsh+5I61QnC6uyCbqRb+P
+         h2C/Fnjhf4h05p6b5Q8AMg4jSgBqBTEFQHak8Fh8GP7YqlfCZ9bfj2PBgjyDMGe6fFi6
+         v1tCilE06OSMQ2Ap/40R6GV7SfyLOFpw0XtrB50yxlMyw4CFBhcTVnu1K1CJBROjIYsQ
+         b0Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Pg9cHDfOmQbKA6sIGv2JPMMr6K3pv/vo5Tu+jGJ0f+A=;
-        b=DprFq9kExwc1QyirZTH8cVen0FMwZX/+VB3wgJdYlnUeKkcbQZjxoHbKB0mgxtHL76
-         u0U3IeABez4ad89gOohTBIdJrO9+p4z80hnZ+nUWr4457VkdrNPQq4apnYnpJOq8X4fq
-         Bmyl3ema0O6rxWHywqpL2+IndzZB9JiUfT/EFXd88ibVl1GSJrDTkMBmAk7rDE2qNfNf
-         lBz+yDuho5+FnluLxiuLeMU7lyN8owmfDhRkeRfU+0UOdJRBhoQ1pxcntgqya1mUC0mu
-         mpmBaMfqE34jul1h9IdfDzt2/oVoMcncrh3EbIT2ESaIZNiUSqkOKPxHgbON1biFlIMm
-         Tv0g==
-X-Gm-Message-State: AOAM532JNqRBOko1nzcERMNRMCErb4ZBfLrX+UeBtdoAlZUArOh40pff
-        HqFK+Tz71/DZDXZ3thPqc8aGkq8eAoWQ2q/IY78=
-X-Google-Smtp-Source: ABdhPJxEmLouzj7heJFGZupA9PDoDM88xPg6Yc39MR+Z8uhjn/4fz1Pwv8qxww7dqmcsrzi9Z+H4+RDs0k2WOPNJi4I=
-X-Received: by 2002:a81:4f0b:0:b0:2ff:2770:c267 with SMTP id
- d11-20020a814f0b000000b002ff2770c267mr8566295ywb.212.1652882741213; Wed, 18
- May 2022 07:05:41 -0700 (PDT)
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:subject:in-reply-to
+         :content-transfer-encoding;
+        bh=44Xgt+EUBiutauBulnIHgR1NZC7VLz+1d73CrLpoSuA=;
+        b=UvfdYzjaYNc11S6u5pZoZfkmF/3HNP2jxVLuKGEQJVMnQoa+MW2GEQ9MMyNUkY+Beh
+         AJpCWk83cmRQY4KVLLhvTmXGxF4/jWaTrcZFs6dwjsmiOCYMNDifYk5+KFYPK9li20xS
+         I3SHfizt58K4XB+7BEYZbGDv8wUdG2Y5uQxWmsq2AetTH6L5VtSQVKmamYrygKvX0Upd
+         ehPXl40FAFzdPuIBdGINGXEMmozi8gmLC0CB6IeIoJEn/d8pfDWxvdTFKjmek3jL1CtO
+         vMtAieiQ+SjClo9GEne2eV1BVxLd+zbZGfKub0UnjOOscpAb1yylTb/hTGdtM7gbZI31
+         IeWw==
+X-Gm-Message-State: AOAM531toroo+wgroA7WY1g/hs9utoSpfBOQK+aNJ7lyFbD/R5UHexPd
+        CroNBrkDLgVB6sXEVvuT00Y=
+X-Google-Smtp-Source: ABdhPJyXPBsJSPb3qsIt30kakP/1viqje/dN0om/JEDZ69uJP4Erfc4CCzg7BfUTauTabr0j1dC5fA==
+X-Received: by 2002:a05:6808:23d2:b0:326:979a:46f3 with SMTP id bq18-20020a05680823d200b00326979a46f3mr12917oib.207.1652882855862;
+        Wed, 18 May 2022 07:07:35 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id v8-20020a056830140800b0060603221267sm782203otp.55.2022.05.18.07.07.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 May 2022 07:07:34 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <47c64195-6629-ba2b-4533-b0fe37518da0@roeck-us.net>
+Date:   Wed, 18 May 2022 07:07:31 -0700
 MIME-Version: 1.0
-References: <cover.1652712771.git.siyanteng@loongson.cn> <b0c1324d1d63846d700ab354446a6deaf30754c0.1652712771.git.siyanteng@loongson.cn>
- <8735h8vu0x.fsf@meer.lwn.net>
-In-Reply-To: <8735h8vu0x.fsf@meer.lwn.net>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Wed, 18 May 2022 22:05:29 +0800
-Message-ID: <CAEensMzjCR+LWXw-xS95xMOea20yxUJ8c-f7EmYgP7EkpUePaw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] MAINTAINERS: Become the docs/zh_CN maintainer
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <seakeel@gmail.com>, Wu XiangCheng <bobwxc@email.cn>,
-        Yeechou Tang <tangyeechou@gmail.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        clang-built-linux <llvm@lists.linux.dev>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Intel Graphics <intel-gfx@lists.freedesktop.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+        linux-btrfs <linux-btrfs@vger.kernel.org>
+References: <20220228103142.3301082-1-arnd@kernel.org>
+ <20220516131023.GA2329080@roeck-us.net> <YoJSF8T5K9pPx3Ap@kroah.com>
+ <9510474d-5555-42b3-5a9c-90e3078df499@roeck-us.net>
+ <CAK8P3a1GmRqPTXFCoLH9h1sP76a-bVRsGYP-YvczoXM4Na3OVQ@mail.gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [greybus-dev] Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+In-Reply-To: <CAK8P3a1GmRqPTXFCoLH9h1sP76a-bVRsGYP-YvczoXM4Na3OVQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2022=E5=B9=B45=E6=9C=8818=E6=97=
-=A5=E5=91=A8=E4=B8=89 03:28=E5=86=99=E9=81=93=EF=BC=9A
->
-> Yanteng Si <siyanteng@loongson.cn> writes:
->
-> > It's time to become a maintainer of Chinese documentation, and Yanteng'=
-s plan
-> > is to help everyone with the utmost enthusiasm and patience.
-> >
-> > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> > Reviewed-by: Alex Shi <alexs@kernel.org>
-> > ---
-> >  MAINTAINERS | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 9ce78f2275dc..ff1364d9f7cc 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -4649,6 +4649,7 @@ F:      Documentation/dev-tools/checkpatch.rst
-> >
-> >  CHINESE DOCUMENTATION
-> >  M:   Alex Shi <alexs@kernel.org>
-> > +M:   Yanteng Si <siyanteng@loongson.cn>
-> >  S:   Maintained
-> >  F:   Documentation/translations/zh_CN/
->
-> I've applied this.  I am curious, though: what is your sense for what
-> being designated a "maintainer" means?  Do you envision something beyond
-> reviewing patches (for which an "R:" entry would be most appropriate)?
->
-> In any case, you help with the documentation is appreciated!
+On 5/18/22 00:46, Arnd Bergmann wrote:
+> On Mon, May 16, 2022 at 3:19 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>> On 5/16/22 06:31, Greg KH wrote:
+>>> On Mon, May 16, 2022 at 06:10:23AM -0700, Guenter Roeck wrote:
+>>>> On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
+>>>>> From: Arnd Bergmann <arnd@arndb.de>
+>>>>>
+>>>>> During a patch discussion, Linus brought up the option of changing
+>>>>> the C standard version from gnu89 to gnu99, which allows using variable
+>>>>> declaration inside of a for() loop. While the C99, C11 and later standards
+>>>>> introduce many other features, most of these are already available in
+>>>>> gnu89 as GNU extensions as well.
+>>>>
+>>>> The downside is that backporting affected patches to older kernel branches
+>>>> now fails with error messages such as
+>>>>
+>>>> mm/kfence/core.c: In function ‘kfence_init_pool’:
+>>>> mm/kfence/core.c:595:2: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+>>>>
+>>>> Just something to keep in mind when writing patches.
+>>>
+>>> I just ran across this very issue on this commit.  It's an easy fixup
+>>> for 5.17.y to make this work, so I did that in my tree.  If this gets to
+>>> be too much, we might need to reconsider adding c11 to older stable
+>>> kernels.
+>>>
+>>
+>> I think I'll do just that for ChromeOS; I don't want to have to deal
+>> with the backports, and we are using recent compilers anyway.
+> 
+> I think it would be better not to have the --std=gnu11 change in the older
+> stable kernels by default, as this has introduced build warnings and other
+> smaller issues, as well as raising the minimum compiler version.
+> 
+> The users that are stuck on older kernels for some reason tend to
+> overlap with those on older compilers. One example here is Android,
+> which used to ship with a gcc-4.9 build as the only non-clang toolchain,
+> and was using this for building their kernels. If someone wants to
+> pull in stable updates into an older Android, this would fail with
+> -std=gnu11. Others may be in the same situation.
+> 
+> Changing some of the 5.x stable branches to -std=gnu11 is probably
+> less of a problem, but I would not know where to draw the line exactly.
+> Maybe check with the Android team to see what the newest kernel is
+> that they expect to be built with the old gcc-4.9.
+> 
 
-Jonathan Corbet, Alex Shi, and guys in the mail list.
+I don't think they still build anything with gcc. We (ChromeOS) only
+need it for test builds of chromeos-4.4 (sigh), and that will hopefully
+be gone in a couple of months.
 
-We, all kernel developers who love Chinese documentation, are now
-involved in a very interesting project: the localization of kernel
-documentation into Chinese.
+We already enabled -std=gnu11 in chromeos-5.10 and chromeos-5.15.
+We'll see if that is possible with chromeos-5.4 as well.
+We won't bother with older kernel branches, but those should not
+get many patches from upstream outside stable release merges,
+so it is less of a problem.
 
-For a long time, we have been working on translating as much of the
-English documentation into Chinese as possible, while neglecting to
-maintain the growing amount of Chinese documentation, which is
-becoming progressively more difficult to maintain. It's not just the
-quantity that is difficult, but also the time. For example, if a
-document is not updated in a timely manner, developers who have
-difficulty with English will get old or even wrong guidelines, which
-is not only a waste of time and effort for developers, but may also
-result in the kernel not getting the code contributed by developers in
-a timely manner.
-
-During the translation, we found ourselves disagree on the translation
-of some terms from time to time, especially on terms being translated
-into Chinese for the first time; and sometimes it might not be easy to
-reach agreement on such circumstances and provide a translation that
-is trustworthy, up-to-date, and elegant in a short time.
-
-At the same time, I've noticed that the translating kernel
-documentations is a great entry point to  many newbies, which is a
-good thing, but adds to the burden of reviewing Chinese documentation
-patches, as most of them tend to have great enthusiasm but are
-unfamiliar with the patch creation and submission process. Of course,
-we have very detailed documentation guidelines and they are translated
-into Chinese, but they still need some help from us in their practice
-process.
-
-But that is the past. And now we are looking only to the future.
-
-I will do my best to keep all the Chinese documentation as up-to-date
-as the English documentation, and I will keep an eye on the latest
-changes to each original document and quickly sync them to the Chinese
-documentation. At the same time, I will work to move forward with a
-plan to produce a glossary of terms, and to revise the current
-documentation where a single English word is translated into multiple
-Chinese words. Finally, I will provide every developer with as much
-help as I can with my utmost enthusiasm and patience.
-
-
-Thanks,
-Yanteng
+Guenter
