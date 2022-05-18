@@ -2,252 +2,208 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E921C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 08:35:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2351BC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 09:19:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233408AbiERIfz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 04:35:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59744 "EHLO
+        id S233977AbiERJTz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 05:19:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233406AbiERIfx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 04:35:53 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A126257;
-        Wed, 18 May 2022 01:35:48 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id fw21-20020a17090b129500b001df9f62edd6so1938172pjb.0;
-        Wed, 18 May 2022 01:35:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2ppoMSrki7vTgR8buo+eu8ZqwsgOb0nzv0Nzh6/tvLE=;
-        b=MUXls19MCfOtDr+YslsnhSlPzk3rA03NjMVYwF3yeblofrGCWUZS9YyenKZn2HlBbz
-         FlaaL8RJ588WElHK2XvmaAcMjlU5b3nWJniNcd/CQh6611m5FFBQkky8HmcdGlT9cnSc
-         L/P1NZ8GNWlBAQTyzYCME7kIcy5QCZ7MFfym8wJOSUzOZrKJlUJyMveXSv+9nZfNXfu8
-         meS57mi1+QHkbctqOdpwvlBNAChzifYZoYLc7Gqu7BcF+cgEmuUnOsaOK8C9OlEbavic
-         eC3hzcNy7acYTmXA/GzvVH7Hdn2Br3m9w69Jz/3vEwSJCmoVd2A5zPpd/VG4S9+Tpeds
-         6mzQ==
+        with ESMTP id S233975AbiERJTx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 05:19:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E4EC81498EA
+        for <linux-doc@vger.kernel.org>; Wed, 18 May 2022 02:19:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1652865592;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=FfQDoCx9YIWbfG5ICgqi0/8r2euHWDbQ6lJ6poxNOJI=;
+        b=cUMhdmi/9VpBqvV+kpIndrA1jewCjqD7XB26+yZjjKRIxRymxyucKmK+UUsABcJ90lELCm
+        uO7hi1p+Q9PWzBYExkUoiuHOo8Zx2M7oK7Hnw6SzsvPCVICDmC5IOHlLP8YIYjmU4SGvok
+        a+VINSu+SNdbZPFwQjgfRmUbb/Qtx8E=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-395-jtDzplGOPk-DJTZmCLia7A-1; Wed, 18 May 2022 05:19:50 -0400
+X-MC-Unique: jtDzplGOPk-DJTZmCLia7A-1
+Received: by mail-wm1-f70.google.com with SMTP id z23-20020a05600c221700b003942fd37764so2605779wml.8
+        for <linux-doc@vger.kernel.org>; Wed, 18 May 2022 02:19:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2ppoMSrki7vTgR8buo+eu8ZqwsgOb0nzv0Nzh6/tvLE=;
-        b=mcM1uHeK9LBhYcxOlVs3NgytKDu3PYm8fzjUMBzf1hfkWjH2Wp4jqFnrCnxv5JJdB1
-         KiH3ohW7sfrNmcpxN+FKBTUnX3WKHVa7SB5iWJpqGpBZaf/r4gqmMlT+J+jRNYbsYOiz
-         k7QHaqvE1MvwCElViXFWWsjsBh+PpBH+rZXObsCKFk1zqI1CmCSg1bbDgE7Q32C2gK4M
-         eKeUDutNBm715fLzsGkNGFQO2YOdd2niCkHKS6SqlELytATPrgX9qeewm1pTcMP/ufmQ
-         /CxLNoOXt52Aoc93ZCtNWy1XXsJuav5uuACkD00tap7tYRMs3mF7GTB0+jLhpEv1JeGt
-         8c4w==
-X-Gm-Message-State: AOAM5325eWSkTvVlCXWUdspwTOoERn6zLteTCgwzWIubujICL61PvoJB
-        pScieOflNk7CQ+JTQQ0gKS14gvDQoRE=
-X-Google-Smtp-Source: ABdhPJx5Soze/0Y1QQTiKDEf+v4AxiQoBfUuzFyA3qMbnRfr3bWNvjCY0L2/Wfg8QLANpeUFB3pV0Q==
-X-Received: by 2002:a17:902:e989:b0:15f:1545:326d with SMTP id f9-20020a170902e98900b0015f1545326dmr26485856plb.119.1652862947607;
-        Wed, 18 May 2022 01:35:47 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-58.three.co.id. [116.206.28.58])
-        by smtp.gmail.com with ESMTPSA id gc10-20020a17090b310a00b001df313f6628sm3029837pjb.21.2022.05.18.01.35.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 01:35:46 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Benson Leung <bleung@google.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Tzung-Bi Shih <tzungbi@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: [PATCH v2 2/2] platform/chrome: Use imperative mood for ChromeOS ACPI sysfs ABI descriptions
-Date:   Wed, 18 May 2022 15:35:24 +0700
-Message-Id: <20220518083524.37380-3-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20220518083524.37380-1-bagasdotme@gmail.com>
-References: <20220518083524.37380-1-bagasdotme@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=FfQDoCx9YIWbfG5ICgqi0/8r2euHWDbQ6lJ6poxNOJI=;
+        b=dhPfpugCIcRMOOfaZ40+H8srHVDpMlGlFQwj017OZ+7mKwiyzWcwaiq94XzsnXoSS5
+         mxGW0Rly7K/K9dFz/hipZxG1HP1D0Mq+g+5ULUIFlDxKt5+O73a0vs7Up2zooIh7kCtH
+         cQfUNqGZj8HJt/3xWW1u0s/MAqlRArgAknQ1nMbesJE81lsnF6XkxErz0cMrTfHKvFMR
+         U3xYVQEIDl8NFy/OvP1tB4UrvifNrCaBcuS9aGivMq58b++1Utgv1haDqM9P8EsM6vdg
+         LEmiBSJ6T7k+6A8gJDDtk+TpVOIxcUrxeNuFwM/qvVZrjdveG4Vnwj5uko+oxp+QtAn7
+         Kp6w==
+X-Gm-Message-State: AOAM531lTHMMvTKlEMpnOXL5DtmzK78iCgjqXgCXyt6FHQZEQ3t4ew73
+        yWbwQXU3a8PU6ipadU6DqsRHMukI8zj4GgO2pYAiEGsY3nR+93Ei+PmQYxTBkVtIFLW4wOHDQaQ
+        jri5RswMlGSGSs2PYZPZO
+X-Received: by 2002:a5d:620c:0:b0:20c:f50a:dafa with SMTP id y12-20020a5d620c000000b0020cf50adafamr19134859wru.460.1652865589423;
+        Wed, 18 May 2022 02:19:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzHrtbhj492w0kHpkAlu6o5m/V/peik9KAB4tIG5515RWJkzoHRSpTFHl1FPFzCrDotK9xN7A==
+X-Received: by 2002:a5d:620c:0:b0:20c:f50a:dafa with SMTP id y12-20020a5d620c000000b0020cf50adafamr19134831wru.460.1652865589144;
+        Wed, 18 May 2022 02:19:49 -0700 (PDT)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+        by smtp.gmail.com with ESMTPSA id p14-20020a05600c1d8e00b0039456fb80b3sm3774686wms.43.2022.05.18.02.19.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 May 2022 02:19:48 -0700 (PDT)
+Message-ID: <a44b1bd2-db54-6c8a-d80f-e2cc645207b2@redhat.com>
+Date:   Wed, 18 May 2022 11:19:47 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v7 20/22] KVM: s390: add KVM_S390_ZPCI_OP to manage guest
+ zPCI devices
+Content-Language: en-US
+To:     Matthew Rosato <mjrosato@linux.ibm.com>, linux-s390@vger.kernel.org
+Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
+        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
+        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
+        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
+        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, pasic@linux.ibm.com,
+        pbonzini@redhat.com, corbet@lwn.net, jgg@nvidia.com,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220513191509.272897-1-mjrosato@linux.ibm.com>
+ <20220513191509.272897-21-mjrosato@linux.ibm.com>
+ <7b13aca2-fb3e-3b84-8d3d-e94966fac5f2@redhat.com>
+ <0c6a4f7b-f43a-8f4c-49bb-db10ca010f1f@linux.ibm.com>
+From:   Thomas Huth <thuth@redhat.com>
+In-Reply-To: <0c6a4f7b-f43a-8f4c-49bb-db10ca010f1f@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current descriptions all begin with ("This file shows something")
-clause, which is incorrect wording since these mean return value from
-sysfs.
+On 16/05/2022 17.35, Matthew Rosato wrote:
+> On 5/16/22 5:52 AM, Thomas Huth wrote:
+>> On 13/05/2022 21.15, Matthew Rosato wrote:
+>>> The KVM_S390_ZPCI_OP ioctl provides a mechanism for managing
+>>> hardware-assisted virtualization features for s390X zPCI passthrough.
+>>
+>> s/s390X/s390x/
+>>
+>>> Add the first 2 operations, which can be used to enable/disable
+>>> the specified device for Adapter Event Notification interpretation.
+>>>
+>>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>>> ---
+>>>   Documentation/virt/kvm/api.rst | 45 +++++++++++++++++++
+>>>   arch/s390/kvm/kvm-s390.c       | 23 ++++++++++
+>>>   arch/s390/kvm/pci.c            | 81 ++++++++++++++++++++++++++++++++++
+>>>   arch/s390/kvm/pci.h            |  2 +
+>>>   include/uapi/linux/kvm.h       | 31 +++++++++++++
+>>>   5 files changed, 182 insertions(+)
+>>>
+>>> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+>>> index 4a900cdbc62e..a7cd5ebce031 100644
+>>> --- a/Documentation/virt/kvm/api.rst
+>>> +++ b/Documentation/virt/kvm/api.rst
+>>> @@ -5645,6 +5645,51 @@ enabled with ``arch_prctl()``, but this may change 
+>>> in the future.
+>>>   The offsets of the state save areas in struct kvm_xsave follow the 
+>>> contents
+>>>   of CPUID leaf 0xD on the host.
+>>> +4.135 KVM_S390_ZPCI_OP
+>>> +--------------------
+>>> +
+>>> +:Capability: KVM_CAP_S390_ZPCI_OP
+>>> +:Architectures: s390
+>>> +:Type: vcpu ioctl
+>>
+>> vcpu? ... you're wiring it up in  kvm_arch_vm_ioctl() later, so I assume 
+>> it's rather a VM ioctl?
+> 
+> Yup, VM ioctl, bad copy/paste job...
+> 
+>>
+>>> +:Parameters: struct kvm_s390_zpci_op (in)
+>>> +:Returns: 0 on success, <0 on error
+>>> +
+>>> +Used to manage hardware-assisted virtualization features for zPCI devices.
+>>> +
+>>> +Parameters are specified via the following structure::
+>>> +
+>>> +  struct kvm_s390_zpci_op {
+>>> +    /* in */
+>>
+>> If all is "in", why is there a copy_to_user() in the code later?
+>>
+> 
+> Oh no, this is a leftover from a prior version...  Good catch.  There should 
+> no longer be a copy_to_user.
+> 
+>>> +    __u32 fh;        /* target device */
+>>> +    __u8  op;        /* operation to perform */
+>>> +    __u8  pad[3];
+>>> +    union {
+>>> +        /* for KVM_S390_ZPCIOP_REG_AEN */
+>>> +        struct {
+>>> +            __u64 ibv;    /* Guest addr of interrupt bit vector */
+>>> +            __u64 sb;    /* Guest addr of summary bit */
+>>
+>> If this is really a vcpu ioctl, what kind of addresses are you talking 
+>> about here? virtual addresses? real addresses? absolute addresses?
+> 
+> It's a VM ioctl.  These are guest kernel physical addresses that are later 
+> pinned in arch/s390/kvm/pci.c:kvm_s390_pci_aif_enable() as part of handling 
+> the ioctl.
+> 
+>>
+>>> +            __u32 flags;
+>>> +            __u32 noi;    /* Number of interrupts */
+>>> +            __u8 isc;    /* Guest interrupt subclass */
+>>> +            __u8 sbo;    /* Offset of guest summary bit vector */
+>>> +            __u16 pad;
+>>> +        } reg_aen;
+>>> +        __u64 reserved[8];
+>>> +    } u;
+>>> +  };
+>>> +
+>>> +The type of operation is specified in the "op" field.
+>>> +KVM_S390_ZPCIOP_REG_AEN is used to register the VM for adapter event
+>>> +notification interpretation, which will allow firmware delivery of adapter
+>>> +events directly to the vm, with KVM providing a backup delivery mechanism;
+>>> +KVM_S390_ZPCIOP_DEREG_AEN is used to subsequently disable interpretation of
+>>> +adapter event notifications.
+>>> +
+>>> +The target zPCI function must also be specified via the "fh" field. For the
+>>> +KVM_S390_ZPCIOP_REG_AEN operation, additional information to establish 
+>>> firmware
+>>> +delivery must be provided via the "reg_aen" struct.
+>>> +
+>>> +The "reserved" field is meant for future extensions.
+>>
+>> Maybe also mention the "pad" fields? And add should these also be 
+>> initialized to 0 by the calling userspace program?
+> 
+> Sure, I can mention them.  And yes, I agree that userspace should initialize 
+> them to 0, I'll update the QEMU series accordingly.
 
-Use imperative mood ("Returns something") instead, in line with
-corresponding ACPI documentation at firmware-guide/.
+I just spotted the corresponding patch in the QEMU series, and I think it 
+should already be fine there, since you're using "= { ... }" while declaring 
+the variables:
 
-Cc: Benson Leung <bleung@google.com>
-Cc: Guenter Roeck <groeck@chromium.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- .../ABI/testing/sysfs-driver-chromeos-acpi    | 63 +++++++++----------
- 1 file changed, 30 insertions(+), 33 deletions(-)
++int s390_pci_kvm_aif_disable(S390PCIBusDevice *pbdev)
++{
++    struct kvm_s390_zpci_op args = {
++        .fh = pbdev->fh,
++        .op = KVM_S390_ZPCIOP_DEREG_AEN
++    };
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi b/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
-index cce45395170079..c308926e1568a7 100644
---- a/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
-+++ b/Documentation/ABI/testing/sysfs-driver-chromeos-acpi
-@@ -2,8 +2,7 @@ What:		/sys/bus/platform/devices/GGL0001:*/BINF.2
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This file shows information about the current boot of
--		the active EC firmware.
-+		Returns active EC firmware of current boot (boolean).
- 
- 		== ===============================
- 		0  Read only (recovery) firmware.
-@@ -14,8 +13,7 @@ What:		/sys/bus/platform/devices/GGL0001:*/BINF.3
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This file shows information about the current boot of
--		the active main	firmware type.
-+		Returns main firmware type for current boot (integer).
- 
- 		== =====================================
- 		0  Recovery.
-@@ -28,8 +26,8 @@ What:		/sys/bus/platform/devices/GGL0001:*/CHSW
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This file shows the switch position for the Chrome OS specific
--		hardware switches when the firmware is booted.
-+		Returns switch position for Chrome OS specific hardware
-+		switches when the firmware is booted (integer).
- 
- 		==== ===========================================
- 		0    No changes.
-@@ -43,29 +41,29 @@ What:		/sys/bus/platform/devices/GGL0001:*/FMAP
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This file shows the physical memory address of the start of
--		the main processor firmware flashmap.
-+		Returns physical memory address of the start of the main
-+		processor firmware flashmap.
- 
- What:		/sys/bus/platform/devices/GGL0001:*/FRID
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This file shows the firmware version for the read-only portion
--		of the main processor firmware.
-+		Returns firmware version for the read-only portion of the
-+		main processor firmware.
- 
- What:		/sys/bus/platform/devices/GGL0001:*/FWID
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This file shows the firmware version for the rewritable portion
--		of the main processor firmware.
-+		Returns firmware version for the rewritable portion of the
-+		main processor firmware.
- 
- What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.0
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This file shows the type of the GPIO signal for the Chrome OS
--		specific GPIO assignments.
-+		Returns type of the GPIO signal for the Chrome OS specific
-+		GPIO assignments (integer).
- 
- 		=========== ==================================
- 		1           Recovery button.
-@@ -78,7 +76,7 @@ What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.1
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This file shows the signal attributes of the GPIO signal.
-+		Returns signal attributes of the GPIO signal (integer bitfield).
- 
- 		== =======================
- 		0  Signal is active low.
-@@ -89,52 +87,51 @@ What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.2
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This file shows the GPIO number on the specified GPIO
-+		Returns the GPIO number on the specified GPIO
- 		controller.
- 
- What:		/sys/bus/platform/devices/GGL0001:*/GPIO.X/GPIO.3
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This file shows the name of the GPIO controller.
-+		Returns name of the GPIO controller.
- 
- What:		/sys/bus/platform/devices/GGL0001:*/HWID
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This file shows the hardware ID for the Chromebook.
-+		Returns hardware ID for the Chromebook.
- 
- What:		/sys/bus/platform/devices/GGL0001:*/MECK
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This binary file returns the SHA-1 or SHA-256 hash that is
--		read out of the Management Engine extended registers during
--		boot. The hash is exported vi ACPI so the OS can verify that
--		the Management Engine firmware has not changed. If Management
--		Engine is not present, or if the firmware was unable to read the
--		extended registers, this buffer size can be zero.
-+		Returns the SHA-1 or SHA-256 hash that is read out of the
-+		Management Engine extended registers during boot. The hash
-+		is exported via ACPI so the OS can verify that the Management
-+		Engine firmware has not changed. If Management Engine is not
-+		present, or if the firmware was unable to read the extended registers, this buffer size can be zero.
- 
- What:		/sys/bus/platform/devices/GGL0001:*/VBNV.0
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This file shows the offset in CMOS bank 0 of the verified boot
--		non-volatile storage block, counting from the first writable
--		CMOS byte (that is, 'offset = 0' is the byte following the 14
--		bytes of clock data).
-+		Returns offset in CMOS bank 0 of the verified boot non-volatile
-+		storage block, counting from the first writable CMOS byte
-+		(that is, 'offset = 0' is the byte following the 14 bytes of
-+		clock data).
- 
- What:		/sys/bus/platform/devices/GGL0001:*/VBNV.1
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This file shows the size in bytes of the verified boot
--		non-volatile storage block.
-+		Return the size in bytes of the verified boot non-volatile
-+		storage block.
- 
- What:		/sys/bus/platform/devices/GGL0001:*/VDAT
- Date:		May 2022
- KernelVersion:	5.19
- Description:
--		This binary file returns the verified boot data block shared
--		between the firmware verification step and the kernel
--		verification step.
-+		Returns the verified boot data block shared between the
-+		firmware verification step and the kernel verification step
-+		(binary).
--- 
-An old man doll... just what I always wanted! - Clara
+That means unspecified fields will be set to 0 by the compiler already, as 
+far as I know.
+
+  Thomas
 
