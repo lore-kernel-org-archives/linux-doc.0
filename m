@@ -2,266 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A42BC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 20:22:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 593E2C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 20:59:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242504AbiERUWT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 16:22:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37240 "EHLO
+        id S242818AbiERU7j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 16:59:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242488AbiERUWS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 16:22:18 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA0C6B8BD1
-        for <linux-doc@vger.kernel.org>; Wed, 18 May 2022 13:22:16 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id pq9-20020a17090b3d8900b001df622bf81dso3169227pjb.3
-        for <linux-doc@vger.kernel.org>; Wed, 18 May 2022 13:22:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MgCA3HhvCAXdmpcrypetaNA0L9iEcnT799fYDKq1FeY=;
-        b=eUyPQoUqfSD8xsDhA/B0vZLSwHoojYBvJnnLjVlugAxl3OcR1hp5mtTsL6x0DgAzjf
-         ewwSD6kN9Pz8wGhV7maiFqWQ+njNzpaPjLGOjIl9tm8a5xMbSz1Eo1CnoLqJu+qkhpOE
-         wQfEGMkesuPusTPpvsODQ3YOnyZkYPHvJPUu4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MgCA3HhvCAXdmpcrypetaNA0L9iEcnT799fYDKq1FeY=;
-        b=oFM3Brbjb18+iVaqahIkQ+8UsZyvT4XpEUlhBNU8+SzchlnoXw4hOJCy2vNUUWZfx4
-         R0lf+iEmIj4PGnSw0QaJCJvTfVd4lwxLVL0VN6Y9fJPcaxdTQI0MVwKMAZoj/VGSdZQH
-         zUysJzyxebRk4oMGWfrUSbxxZz54WeS00IOIQofy8BYg/0vWhluf/HAdpwjMedwTFLOt
-         ko8+YwAjOEwiDbBEuDzZHfeUae0j97hdTufA6uS8Va6stGyceDIDgElX7jHdfBEwBLVo
-         X4tEmH+pWbaK9P6dF7tSMtSYGoRVKODx3Wr+23TDZ2qpU5DIJwW19K3F0wzebkoIkMHI
-         cNoQ==
-X-Gm-Message-State: AOAM532WoNnVbBl4kQX7uNGKIUPl9TpI01EZEWSl7Xc0b/Fz5eoK4xS8
-        hKui5mJ4sRyVokNFoSxKT8xH0Q==
-X-Google-Smtp-Source: ABdhPJznrLPyYbV5bbR8+4C6C1cVQu0Yq1fBrFhg67MPULK6ma0ssZNbmRiDeip1c6RHqNbq54OS2w==
-X-Received: by 2002:a17:90b:4c48:b0:1dc:a631:e353 with SMTP id np8-20020a17090b4c4800b001dca631e353mr1217248pjb.218.1652905336439;
-        Wed, 18 May 2022 13:22:16 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id a18-20020a170902ecd200b0015e8d4eb1b6sm10837plh.0.2022.05.18.13.22.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 13:22:16 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     Jeff Layton <jlayton@kernel.org>,
-        David Howells <dhowells@redhat.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Eric Van Hensbergen <ericvh@gmail.com>,
-        Latchesar Ionkov <lucho@ionkov.net>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Christian Schoenebeck <linux_oss@crudebyte.com>,
-        Marc Dionne <marc.dionne@auristor.com>,
-        Xiubo Li <xiubli@redhat.com>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Steve French <sfrench@samba.org>,
-        William Kucharski <william.kucharski@oracle.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        v9fs-developer@lists.sourceforge.net,
-        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
-        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-        linux-hardening@vger.kernel.org
-Subject: [PATCH v2] netfs: Use container_of() for offset casting
-Date:   Wed, 18 May 2022 13:22:12 -0700
-Message-Id: <20220518202212.2322058-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.32.0
+        with ESMTP id S242803AbiERU7i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 16:59:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6150B2265EB
+        for <linux-doc@vger.kernel.org>; Wed, 18 May 2022 13:59:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1652907576;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=bdXZF7hJLZXmO2O05XdZLuUQ0VoAMlOFXmkOZbjXtSI=;
+        b=PLzXbb17H5qljjKlffH9DreNBN6JTJPnDygh8oaFYhtK5AyYiJOgQOp3b+PA80RW3G1hvH
+        zWHHcJXAhR22vbzSl9UTxOkntW9/KkdT0NqQgEtTC9QzMzG8H6bC1En9pyT2AY2uHU5WXR
+        v/myJhDz7ey/5GS/G79brOYrmyqHOdY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-541-TubvXEPFPX2YkucnXM8Arw-1; Wed, 18 May 2022 16:59:32 -0400
+X-MC-Unique: TubvXEPFPX2YkucnXM8Arw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 01E603801FE1;
+        Wed, 18 May 2022 20:59:31 +0000 (UTC)
+Received: from plouf.redhat.com (unknown [10.39.192.58])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9906B2166B25;
+        Wed, 18 May 2022 20:59:26 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH bpf-next v5 00/17] Introduce eBPF support for HID devices
+Date:   Wed, 18 May 2022 22:59:07 +0200
+Message-Id: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7332; h=from:subject; bh=qJGxhml2rFK2BJJgAS/PiywVQK/xYAr077qKmK7SVGo=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBihVVzlUQF9SKJKoYvrOpMzfZ8CGJau/PDLX18DAD6 bCJQ1zqJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYoVVcwAKCRCJcvTf3G3AJlOGD/ 9kStftzMAF20n6V/iNDvJkfn96gEB/daLj6GWvY57giVsimoJCLOI4v+zZOus/nBPo0qEEbNZgjvma gr49UkgcThdX7m8bzkZUdifBScyaaOSYgXSuwSBJsyfMeHQutcw8IuCSomLejuLb8temYWMOzs9Bvb 37J2FabV8XTmGRTVfMrtgpVio7W2ZlNc7X+j8u1UiSUgYfsLG3Xj4qZdXsVBBUZFOtYnIqd8lvYfDT qFhL1MY8PURQAmrQOLZ7P72DJo76E5OR5CaSvUU/7NS/wZ38ojRUZ6/5vxwUODS9CLbJS6UlnyK2Gq p18x4qwXVfW79GTyCDTSX3unMTIkonUQbvOe4HG6LbINLtv84zpDaRHGasJfUisifaz+7s2gx2MzIC ENd4cRmetR/pHomBvpa0v8peH9TiigpTEMS6x0seW87HoedV6wL3QO/vQhQ35h5iD4ytOA6dow4dQM qddyT1tV8P1h902HdPf6uzMR+SoCQJaYDRkiJuJTwqeL/Hc9L0Gv4DqT9YVkCsBUy39/3kn7KIhRWg cQDqgCrf/fgX8qvQo+mBN64MiWcQIZZqeMEYFuMLqBvqtzmjXeBRH/cm5DF5PhRNzkMcnbvUpHg+Wm vWqs0Zb1xlTfnJaSA6VMpeXxoq9bRLehaMLryh9eQbe8PbcxQLPJsU7VFGaw==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While randstruct was satisfied with using an open-coded "void *" offset
-cast for the netfs_i_context <-> inode casting, __builtin_object_size()
-as used by FORTIFY_SOURCE was not as easily fooled. Switch to using
-an internally defined netfs_i_context/inode struct for doing a full
-container_of() casting. This keeps both randstruct and __bos() happy
-under GCC 12. Silences:
+Hi,
 
-In file included from ./include/linux/string.h:253,
-                 from ./include/linux/ceph/ceph_debug.h:7,
-                 from fs/ceph/inode.c:2:
-In function ‘fortify_memset_chk’,
-    inlined from ‘netfs_i_context_init’ at ./include/linux/netfs.h:326:2,
-    inlined from ‘ceph_alloc_inode’ at fs/ceph/inode.c:463:2:
-./include/linux/fortify-string.h:242:25: warning: call to ‘__write_overflow_field’ declared with attribute warning:
-detected write beyond size of field (1st parameter); maybe use struct_group()? [-Wattribute-warning]
-  242 |                         __write_overflow_field(p_size_field, size);
-      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+And here comes the v5 of the HID-BPF series.
 
-Reported-by: Jeff Layton <jlayton@kernel.org>
-Link: https://lore.kernel.org/lkml/d2ad3a3d7bdd794c6efb562d2f2b655fb67756b9.camel@kernel.org
-Cc: Jeff Layton <jlayton@kernel.org>
-Cc: David Howells <dhowells@redhat.com>
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
-v1: https://lore.kernel.org/lkml/20220517210230.864239-1-keescook@chromium.org
-v2:
- - Add macro for keeping all netfs users on the same page
- - Update documentation and each netfs user
----
- Documentation/filesystems/netfs_library.rst | 12 ++++------
- fs/9p/v9fs.h                                |  7 ++----
- fs/afs/internal.h                           |  7 +-----
- fs/ceph/super.h                             |  7 ++----
- fs/cifs/cifsglob.h                          |  7 ++----
- include/linux/netfs.h                       | 26 +++++++++++++++++++--
- 6 files changed, 36 insertions(+), 30 deletions(-)
+I managed to achive the same functionalities than v3 this time.
+Handling per-device BPF program was "interesting" to say the least,
+but I don't know if we can have a generic BPF way of handling such
+situation.
 
-diff --git a/Documentation/filesystems/netfs_library.rst b/Documentation/filesystems/netfs_library.rst
-index 69f00179fdfe..8024d442833e 100644
---- a/Documentation/filesystems/netfs_library.rst
-+++ b/Documentation/filesystems/netfs_library.rst
-@@ -43,15 +43,13 @@ structure is defined::
- 	};
- 
- A network filesystem that wants to use netfs lib must place one of these
--directly after the VFS ``struct inode`` it allocates, usually as part of its
--own struct.  This can be done in a way similar to the following::
-+directly after the VFS ``struct inode`` it allocates, either by using
-+``struct netfs_i_c_pair`` or by using the ``DECLARE_NETFS_INODE()`` helper,
-+which arranges ``struct inode`` and ``struct netfs_i_context`` together
-+without a struct namespace::
- 
- 	struct my_inode {
--		struct {
--			/* These must be contiguous */
--			struct inode		vfs_inode;
--			struct netfs_i_context  netfs_ctx;
--		};
-+		DECLARE_NETFS_INODE(vfs_inode, netfs_ctx);
- 		...
- 	};
- 
-diff --git a/fs/9p/v9fs.h b/fs/9p/v9fs.h
-index ec0e8df3b2eb..595add687ac6 100644
---- a/fs/9p/v9fs.h
-+++ b/fs/9p/v9fs.h
-@@ -109,11 +109,8 @@ struct v9fs_session_info {
- #define V9FS_INO_INVALID_ATTR 0x01
- 
- struct v9fs_inode {
--	struct {
--		/* These must be contiguous */
--		struct inode	vfs_inode;	/* the VFS's inode record */
--		struct netfs_i_context netfs_ctx; /* Netfslib context */
--	};
-+	/* the VFS's inode record and the Netfslib context */
-+	DECLARE_NETFS_INODE(vfs_inode, netfs_ctx);
- 	struct p9_qid qid;
- 	unsigned int cache_validity;
- 	struct p9_fid *writeback_fid;
-diff --git a/fs/afs/internal.h b/fs/afs/internal.h
-index 7b7ef945dc78..e2cb94196828 100644
---- a/fs/afs/internal.h
-+++ b/fs/afs/internal.h
-@@ -619,12 +619,7 @@ enum afs_lock_state {
-  * leak from one inode to another.
-  */
- struct afs_vnode {
--	struct {
--		/* These must be contiguous */
--		struct inode	vfs_inode;	/* the VFS's inode record */
--		struct netfs_i_context netfs_ctx; /* Netfslib context */
--	};
--
-+	DECLARE_NETFS_INODE(vfs_inode, netfs_ctx); /* VFS inode and Netfslib context */
- 	struct afs_volume	*volume;	/* volume on which vnode resides */
- 	struct afs_fid		fid;		/* the file identifier for this inode */
- 	struct afs_file_status	status;		/* AFS status info for this file */
-diff --git a/fs/ceph/super.h b/fs/ceph/super.h
-index 20ceab74e871..7c36623bb42c 100644
---- a/fs/ceph/super.h
-+++ b/fs/ceph/super.h
-@@ -316,11 +316,8 @@ struct ceph_inode_xattrs_info {
-  * Ceph inode.
-  */
- struct ceph_inode_info {
--	struct {
--		/* These must be contiguous */
--		struct inode vfs_inode;
--		struct netfs_i_context netfs_ctx; /* Netfslib context */
--	};
-+	/* the VFS's inode record and the Netfslib context */
-+	DECLARE_NETFS_INODE(vfs_inode, netfs_ctx);
- 	struct ceph_vino i_vino;   /* ceph ino + snap */
- 
- 	spinlock_t i_ceph_lock;
-diff --git a/fs/cifs/cifsglob.h b/fs/cifs/cifsglob.h
-index 8de977c359b1..4a36dad99e32 100644
---- a/fs/cifs/cifsglob.h
-+++ b/fs/cifs/cifsglob.h
-@@ -1405,11 +1405,8 @@ void cifsFileInfo_put(struct cifsFileInfo *cifs_file);
-  */
- 
- struct cifsInodeInfo {
--	struct {
--		/* These must be contiguous */
--		struct inode	vfs_inode;	/* the VFS's inode record */
--		struct netfs_i_context netfs_ctx; /* Netfslib context */
--	};
-+	/* the VFS's inode record and the Netfslib context */
-+	DECLARE_NETFS_INODE(vfs_inode, netfs_ctx);
- 	bool can_cache_brlcks;
- 	struct list_head llist;	/* locks helb by this inode */
- 	/*
-diff --git a/include/linux/netfs.h b/include/linux/netfs.h
-index 0c33b715cbfd..7facb11c9ac7 100644
---- a/include/linux/netfs.h
-+++ b/include/linux/netfs.h
-@@ -286,6 +286,28 @@ extern void netfs_put_subrequest(struct netfs_io_subrequest *subreq,
- 				 bool was_async, enum netfs_sreq_ref_trace what);
- extern void netfs_stats_show(struct seq_file *);
- 
-+/*
-+ * The struct netfs_i_context instance must always follow the VFS inode, so
-+ * struct netfs_i_c_pair enforces this. However, netfs users may want to
-+ * avoid a sub-struct namespace, so they can alternatively use the
-+ * DECLARE_NETFS_INODE macro to provide an anonymous union/struct wrapper,
-+ * allowing netfs internals to still correctly use container_of() against
-+ * the struct netfs_i_c_pair for casting between vfs_inode and netfs_ctx.
-+ */
-+struct netfs_i_c_pair {
-+	struct inode		vfs_inode;
-+	struct netfs_i_context	netfs_ctx;
-+};
-+
-+#define DECLARE_NETFS_INODE(_inode, _ctx)			\
-+	union {							\
-+		struct {					\
-+			struct inode		_inode;		\
-+			struct netfs_i_context	_ctx;		\
-+		};						\
-+		struct netfs_i_c_pair		netfs_inode;	\
-+	}
-+
- /**
-  * netfs_i_context - Get the netfs inode context from the inode
-  * @inode: The inode to query
-@@ -295,7 +317,7 @@ extern void netfs_stats_show(struct seq_file *);
-  */
- static inline struct netfs_i_context *netfs_i_context(struct inode *inode)
- {
--	return (void *)inode + sizeof(*inode);
-+	return &container_of(inode, struct netfs_i_c_pair, vfs_inode)->netfs_ctx;
- }
- 
- /**
-@@ -307,7 +329,7 @@ static inline struct netfs_i_context *netfs_i_context(struct inode *inode)
-  */
- static inline struct inode *netfs_inode(struct netfs_i_context *ctx)
- {
--	return (void *)ctx - sizeof(struct inode);
-+	return &container_of(ctx, struct netfs_i_c_pair, netfs_ctx)->vfs_inode;
- }
- 
- /**
+The interesting bits is that now the BPF core changes are rather small,
+and I am mostly using existing facilities.
+I didn't managed to write selftests for the RET_PTR_TO_MEM kfunc,
+because I can not call kmalloc while in a SEC("tc") program to match
+what the other kfunc tests are doing.
+And AFAICT, the most interesting bits would be to implement verifier
+selftests, which are way out of my league, given that they are
+implemented as plain bytecode.
+
+The logic is the following (see also the last patch for some more
+documentation):
+- hid-bpf first preloads a BPF program in the kernel that does a few
+  things:
+   * find out which attach_btf_id are associated with our trace points
+   * adds a bpf_tail_call() BPF program that I can use to "call" any
+     other BPF program stored into a jump table
+   * monitors the releases of struct bpf_prog, and when there are no
+     other users than us, detach the bpf progs from the HID devices
+- users then declare their tracepoints and then call
+  hid_bpf_attach_prog() in a SEC("syscall") program
+- hid-bpf then calls multiple time the bpf_tail_call() program with a
+  different index in the jump table whenever there is an event coming
+  from a matching HID device
+
+Note that I am tempted to pin an "attach_hid_program" in the bpffs so
+that users don't need to declare one, but I am afraid this will be one
+more API to handle, so maybe not.
+
+I am also wondering if I should not strip out hid_bpf_jmp_table of most
+of its features and implement everything as a BPF program. This might
+remove the need to add the kernel light skeleton implementations of map
+modifications, and might also possibly be more re-usable for other
+subsystems. But every plan I do in my head involves a lot of back and
+forth between the kernel and BPF to achieve the same, which doesn't feel
+right. The tricky part is the RCU list of programs that is stored in each
+device and also the global state of the jump table.
+Anyway, something to look for in a next version if there is a push for it.
+
+FWIW, patch 1 is something I'd like to get merged sooner. With 2
+colleagues, we are also working on supporting the "revoke" functionality
+of a fd for USB and for hidraw. While hidraw can be emulated with the
+current features, we need the syscall kfuncs for USB, because when we
+revoke a USB access, we also need to kick out the user, and for that, we
+need to actually execute code in the kernel from a userspace event.
+
+Anyway, happy reviewing.
+
+Cheers,
+Benjamin
+
+[Patch series based on commit 68084a136420 ("selftests/bpf: Fix building bpf selftests statically")
+in the bpf-next tree]
+
+Benjamin Tissoires (17):
+  bpf/btf: also allow kfunc in tracing and syscall programs
+  bpf/verifier: allow kfunc to return an allocated mem
+  bpf: prepare for more bpf syscall to be used from kernel and user
+    space.
+  libbpf: add map_get_fd_by_id and map_delete_elem in light skeleton
+  HID: core: store the unique system identifier in hid_device
+  HID: export hid_report_type to uapi
+  HID: initial BPF implementation
+  selftests/bpf: add tests for the HID-bpf initial implementation
+  HID: bpf: allocate data memory for device_event BPF programs
+  selftests/bpf/hid: add test to change the report size
+  HID: bpf: introduce hid_hw_request()
+  selftests/bpf: add tests for bpf_hid_hw_request
+  HID: bpf: allow to change the report descriptor
+  selftests/bpf: add report descriptor fixup tests
+  samples/bpf: add new hid_mouse example
+  selftests/bpf: Add a test for BPF_F_INSERT_HEAD
+  Documentation: add HID-BPF docs
+
+ Documentation/hid/hid-bpf.rst                 | 528 ++++++++++
+ Documentation/hid/index.rst                   |   1 +
+ drivers/hid/Kconfig                           |   2 +
+ drivers/hid/Makefile                          |   2 +
+ drivers/hid/bpf/Kconfig                       |  19 +
+ drivers/hid/bpf/Makefile                      |  11 +
+ drivers/hid/bpf/entrypoints/Makefile          |  88 ++
+ drivers/hid/bpf/entrypoints/README            |   4 +
+ drivers/hid/bpf/entrypoints/entrypoints.bpf.c |  78 ++
+ .../hid/bpf/entrypoints/entrypoints.lskel.h   | 782 ++++++++++++++
+ drivers/hid/bpf/hid_bpf_dispatch.c            | 565 ++++++++++
+ drivers/hid/bpf/hid_bpf_dispatch.h            |  28 +
+ drivers/hid/bpf/hid_bpf_jmp_table.c           | 587 +++++++++++
+ drivers/hid/hid-core.c                        |  43 +-
+ include/linux/btf.h                           |   7 +
+ include/linux/hid.h                           |  29 +-
+ include/linux/hid_bpf.h                       | 144 +++
+ include/uapi/linux/hid.h                      |  12 +
+ include/uapi/linux/hid_bpf.h                  |  25 +
+ kernel/bpf/btf.c                              |  47 +-
+ kernel/bpf/syscall.c                          |  10 +-
+ kernel/bpf/verifier.c                         |  72 +-
+ samples/bpf/.gitignore                        |   1 +
+ samples/bpf/Makefile                          |  23 +
+ samples/bpf/hid_mouse.bpf.c                   | 134 +++
+ samples/bpf/hid_mouse.c                       | 157 +++
+ tools/lib/bpf/skel_internal.h                 |  23 +
+ tools/testing/selftests/bpf/config            |   3 +
+ tools/testing/selftests/bpf/prog_tests/hid.c  | 990 ++++++++++++++++++
+ tools/testing/selftests/bpf/progs/hid.c       | 222 ++++
+ 30 files changed, 4593 insertions(+), 44 deletions(-)
+ create mode 100644 Documentation/hid/hid-bpf.rst
+ create mode 100644 drivers/hid/bpf/Kconfig
+ create mode 100644 drivers/hid/bpf/Makefile
+ create mode 100644 drivers/hid/bpf/entrypoints/Makefile
+ create mode 100644 drivers/hid/bpf/entrypoints/README
+ create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.bpf.c
+ create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.lskel.h
+ create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.c
+ create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.h
+ create mode 100644 drivers/hid/bpf/hid_bpf_jmp_table.c
+ create mode 100644 include/linux/hid_bpf.h
+ create mode 100644 include/uapi/linux/hid_bpf.h
+ create mode 100644 samples/bpf/hid_mouse.bpf.c
+ create mode 100644 samples/bpf/hid_mouse.c
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
+ create mode 100644 tools/testing/selftests/bpf/progs/hid.c
+
 -- 
-2.32.0
+2.36.1
 
