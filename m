@@ -2,58 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 404A4C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 08:08:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 976B7C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 08:27:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232661AbiERIIs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 04:08:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39210 "EHLO
+        id S233066AbiERI10 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 04:27:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232660AbiERIIr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 04:08:47 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B65FE2CDD5;
-        Wed, 18 May 2022 01:08:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=mdeU/OBoZsa66bUz1IFOKaDDTSfpPDuGaocim/rl7HI=; b=mfRjpAdI5vkAnryw319sIBAE4u
-        PwvmShN8PR984Iy5Osaw4xlkH4BIUi90zaIyYRvmoZHEa98kfh2qeMwXrfQMbXW9a0Iq0TKbV2Edl
-        /BgduzF53HGN/EUN4XRG/Yw7xONhItulcrpo7EwBziCMxJWfwjhHW6XAJt+/vfdRl+/WjRNZU62RX
-        58EfjWNJ4s+esrs0h6twDPEtbgxhOjDdvbh9OMdM2aoKZPoW8cyzGuTVOxK8fJSYFamFsn7VorOpA
-        ziwLSLezeVQPctq98OGjupG392rCA2+wBQHBVRzrxVKAhxb/N5zStJhQt1KckXzszyMYMtFIEw1T4
-        PYzVnNtA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nrEjU-000Oxi-5R; Wed, 18 May 2022 08:08:36 +0000
-Date:   Wed, 18 May 2022 01:08:36 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Vivek Kumar <quic_vivekuma@quicinc.com>
-Cc:     corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
-        tglx@linutronix.de, maz@kernel.org, axboe@kernel.dk,
-        rafael@kernel.org, akpm@linux-foundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-mm@kvack.org, len.brown@intel.com,
-        pavel@ucw.cz, paulmck@kernel.org, bp@suse.de,
-        keescook@chromium.org, songmuchun@bytedance.com,
-        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
-        pasha.tatashin@soleen.com, tabba@google.com, ardb@kernel.org,
-        tsoni@quicinc.com, quic_psodagud@quicinc.com,
-        quic_svaddagi@quicinc.com,
-        Prasanna Kumar <quic_kprasan@quicinc.com>
-Subject: Re: [RFC 3/6] block: gendisk: Add a new genhd capability flag
-Message-ID: <YoSphB1u4yIwb8rs@infradead.org>
-References: <1652860121-24092-1-git-send-email-quic_vivekuma@quicinc.com>
- <1652860121-24092-4-git-send-email-quic_vivekuma@quicinc.com>
+        with ESMTP id S233092AbiERI1W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 04:27:22 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BEE7E277F;
+        Wed, 18 May 2022 01:27:10 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id gg20so1327306pjb.1;
+        Wed, 18 May 2022 01:27:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6uhcCD9Q9c+zxCoqwp1SKWrlds09Ui+hTejJMadUYQ8=;
+        b=knwLeeGs2uTSf5TwdhIm5ljqftyq1jOVfMGjDCVCBvz+83z5bXFaX8traenYQKYQ8C
+         brZkSLz9KC2b8krw58NkVoJw7Ud89iYQwNAzPkIkOaQktOoSYrP6j4rCZhGuWN8TxEgN
+         ramS9v19nXbCk8S71Wts7wJEb9/2SrRWIpcr/0kCAGD3cFI3+/6f26O729X1Jvv3O6c/
+         errWLCITazNz03uyIZJu3618L0T9aO6RxfqzsuLLL3JSWeS+K80KJAvYlXERe1U787PE
+         UJ7F/Mxg69KsqzhDiUwXkBXCrIplFXzYI3RGlELI/deqFj874rIBdROFxc2c0uUqVqxD
+         vyuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6uhcCD9Q9c+zxCoqwp1SKWrlds09Ui+hTejJMadUYQ8=;
+        b=yDdSXrpKZVV9TMkXSGgKPdVhxB2WhxxTfm7/QDdNqkO4oetzljGburtAuASaJ7gkDD
+         wtPK74GCJH5b62pYNz5j0pkEL6RQgEH0w/olDAgf2jp7wRyjLlToFVbDkv4VSo9/Ky6M
+         FG+W6Xo9Ks3znO6sWOg7LAOVXtPHGb9yOgAfrElBi0o2TFgxdMAvBDMd4pxLNVM+3VxU
+         2bIYS3lUyB3FEJDxO4rPxxxY+9Za1+f1uWFQX60XjqJg5rg30eW+Auv0fWWUxNTrAEh5
+         ssLwuzV1r+EyBZZ/pYJ9zB/sgm9/lP0XP5cwL5McaS6el12gBFFMjCuSvqf0UdubTGuF
+         Tbgg==
+X-Gm-Message-State: AOAM530r8VASqmGkBjZy+Npjo98ZzL8gdO3EZzFxTuYznwmMzCECl/Dn
+        Fmwrdrlh9W99YnmKPY9WsgI=
+X-Google-Smtp-Source: ABdhPJzNcgMOvUnJ/r2cIpDRhf/x+W2Y7fPUMs3R1jptn1Ppwt0PjAo2/lB6RnG7YaR7+yNBtgjoxA==
+X-Received: by 2002:a17:902:7781:b0:161:c85a:8fff with SMTP id o1-20020a170902778100b00161c85a8fffmr1444679pll.97.1652862424843;
+        Wed, 18 May 2022 01:27:04 -0700 (PDT)
+Received: from ip-172-31-7-97.ap-south-1.compute.internal (ec2-15-207-112-74.ap-south-1.compute.amazonaws.com. [15.207.112.74])
+        by smtp.gmail.com with ESMTPSA id s26-20020a056a001c5a00b005180ea859d7sm1206643pfw.123.2022.05.18.01.27.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 May 2022 01:27:04 -0700 (PDT)
+From:   Praghadeesh T K S <praghadeeshthevendria@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        "GitAuthor: Praghadeesh T K S" <praghadeeshthevendria@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     skhan@linuxfoundation.org, praghadeeshtks@zohomail.in
+Subject: [PATCH] Fixed 'make htmldocs' warning: Documentation/admin-guide/perf/hisi-pcie-pmu.rst: WARNING: document isn't included in any toctree
+Date:   Wed, 18 May 2022 08:26:27 +0000
+Message-Id: <20220518082627.9144-1-praghadeeshthevendria@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1652860121-24092-4-git-send-email-quic_vivekuma@quicinc.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This has abslutely nothing to do with the block layer, and should not
-abuse the gendisk.
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Signed-off-by: Praghadeesh T K S <praghadeeshthevendria@gmail.com>
+---
+ Documentation/admin-guide/perf/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/admin-guide/perf/index.rst b/Documentation/admin-guide/perf/index.rst
+index 5a8f252..69b23f0 100644
+--- a/Documentation/admin-guide/perf/index.rst
++++ b/Documentation/admin-guide/perf/index.rst
+@@ -8,6 +8,7 @@ Performance monitor support
+    :maxdepth: 1
+ 
+    hisi-pmu
++   hisi-pcie-pmu
+    imx-ddr
+    qcom_l2_pmu
+    qcom_l3_pmu
+-- 
+2.34.1
+
