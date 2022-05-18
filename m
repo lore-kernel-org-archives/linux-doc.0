@@ -2,64 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B127C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 12:27:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97428C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 12:29:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236575AbiERM1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 08:27:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47636 "EHLO
+        id S236725AbiERM3S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 08:29:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236482AbiERM1Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 08:27:16 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38AE1AFAC7;
-        Wed, 18 May 2022 05:27:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=QJsVQym+xL0e9ZE8cs4o3sRq3C2RnAjl/FhXvupRFQ0=; b=D/Bh+Gmzw2BN6pBNp567gS2D0/
-        VKxeDUt7MYxt68TtoX3genmgLQ2oeiNNKiP0kGjaIGmiJfJjrDvbEDObjF99Cs6dMhZ6RnHqXVH7+
-        ssMEbATCPWp8/NOivDUP4Rv4NAL42rgZGvDejwV1CjptmTPve2x2GjNuMuzzwvPD0tOg=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1nrIld-003K4e-Dv; Wed, 18 May 2022 14:27:05 +0200
-Date:   Wed, 18 May 2022 14:27:05 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Vivek Kumar <quic_vivekuma@quicinc.com>
-Cc:     corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
-        tglx@linutronix.de, maz@kernel.org, axboe@kernel.dk,
-        rafael@kernel.org, akpm@linux-foundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-mm@kvack.org, len.brown@intel.com,
-        pavel@ucw.cz, paulmck@kernel.org, bp@suse.de,
-        keescook@chromium.org, songmuchun@bytedance.com,
-        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
-        pasha.tatashin@soleen.com, tabba@google.com, ardb@kernel.org,
-        tsoni@quicinc.com, quic_psodagud@quicinc.com,
-        quic_svaddagi@quicinc.com,
-        Prasanna Kumar <quic_kprasan@quicinc.com>
-Subject: Re: [RFC 4/6] mm: swap: Add randomization check for swapon/off calls
-Message-ID: <YoTmGREvHTpTeeUH@lunn.ch>
-References: <1652860121-24092-1-git-send-email-quic_vivekuma@quicinc.com>
- <1652860121-24092-5-git-send-email-quic_vivekuma@quicinc.com>
+        with ESMTP id S236728AbiERM2Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 08:28:24 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2523C16D49A;
+        Wed, 18 May 2022 05:27:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CA9B36147D;
+        Wed, 18 May 2022 12:27:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 454DBC36AEA;
+        Wed, 18 May 2022 12:27:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652876866;
+        bh=vck1sxQuINJLtEffACLVYoU+epqqYfT3LqQdONy1Zyc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=V+tSXncx1kiub2uWL7HMsT/qDzr9hlCRGAVUKI62pBKKyXpfytd5LPHAbx1V1r038
+         bWG7t9Cb/f8qmYma7t8j96fuxNdcZ4gy/3CgYp8fGBcY4JioY2OLB6bkU/QqxbLqFz
+         kRTEveeLTyXsadvB4FmXFHMIKsoMGa0qGDgz/BR+mfA8cwIbTnJcCSya1Kx2quP0We
+         dr2u8xji9j+ITpveUllrLCYAKtlrXZxGFVdlK4FL6c3nIizvY3l9cYmqAMNlLEXpND
+         T9Ds3+sm9hmdUDKhmD9b4vGLLkw7gcSYimZ3VT5AMoz1tUkB2P7XjVkGQNLkf6oBsb
+         IJBRTJm5AWlYg==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Shreyas K K <quic_shrekk@quicinc.com>,
+        Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
+        Will Deacon <will@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        catalin.marinas@arm.com, corbet@lwn.net, suzuki.poulose@arm.com,
+        anshuman.khandual@arm.com, mathieu.poirier@linaro.org,
+        james.morse@arm.com, maz@kernel.org, lcherian@marvell.com,
+        arnd@arndb.de, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.17 22/23] arm64: Enable repeat tlbi workaround on KRYO4XX gold CPUs
+Date:   Wed, 18 May 2022 08:26:35 -0400
+Message-Id: <20220518122641.342120-22-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220518122641.342120-1-sashal@kernel.org>
+References: <20220518122641.342120-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1652860121-24092-5-git-send-email-quic_vivekuma@quicinc.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 18, 2022 at 01:18:39PM +0530, Vivek Kumar wrote:
-> Add addtional check on swapon/swapoff sycalls to disable
-> randomization of swap offsets if GENHD_FL_NO_RANDOMIZE
-> flag is passed.
+From: Shreyas K K <quic_shrekk@quicinc.com>
 
-Is there already a flag in the image header which tells you if the
-image is randomozied or not? I assume the bootloader needs to know,
-doing a linear read of a randomized image is not going to end well.
+[ Upstream commit 51f559d66527e238f9a5f82027bff499784d4eac ]
 
-      Andrew
+Add KRYO4XX gold/big cores to the list of CPUs that need the
+repeat TLBI workaround. Apply this to the affected
+KRYO4XX cores (rcpe to rfpe).
+
+The variant and revision bits are implementation defined and are
+different from the their Cortex CPU counterparts on which they are
+based on, i.e., (r0p0 to r3p0) is equivalent to (rcpe to rfpe).
+
+Signed-off-by: Shreyas K K <quic_shrekk@quicinc.com>
+Reviewed-by: Sai Prakash Ranjan <quic_saipraka@quicinc.com>
+Link: https://lore.kernel.org/r/20220512110134.12179-1-quic_shrekk@quicinc.com
+Signed-off-by: Will Deacon <will@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/arm64/silicon-errata.rst | 3 +++
+ arch/arm64/kernel/cpu_errata.c         | 2 ++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
+index ea281dd75517..29b136849d30 100644
+--- a/Documentation/arm64/silicon-errata.rst
++++ b/Documentation/arm64/silicon-errata.rst
+@@ -189,6 +189,9 @@ stable kernels.
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Qualcomm Tech. | Kryo4xx Silver  | N/A             | ARM64_ERRATUM_1024718       |
+ +----------------+-----------------+-----------------+-----------------------------+
++| Qualcomm Tech. | Kryo4xx Gold    | N/A             | ARM64_ERRATUM_1286807       |
+++----------------+-----------------+-----------------+-----------------------------+
++
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Fujitsu        | A64FX           | E#010001        | FUJITSU_ERRATUM_010001      |
+ +----------------+-----------------+-----------------+-----------------------------+
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 146fa2e76834..10c865e311a0 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -208,6 +208,8 @@ static const struct arm64_cpu_capabilities arm64_repeat_tlbi_list[] = {
+ #ifdef CONFIG_ARM64_ERRATUM_1286807
+ 	{
+ 		ERRATA_MIDR_RANGE(MIDR_CORTEX_A76, 0, 0, 3, 0),
++		/* Kryo4xx Gold (rcpe to rfpe) => (r0p0 to r3p0) */
++		ERRATA_MIDR_RANGE(MIDR_QCOM_KRYO_4XX_GOLD, 0xc, 0xe, 0xf, 0xe),
+ 	},
+ #endif
+ 	{},
+-- 
+2.35.1
+
