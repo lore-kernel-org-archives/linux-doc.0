@@ -2,381 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79168C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 22:20:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EADC4C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 22:36:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229808AbiERWUK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 18:20:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58004 "EHLO
+        id S230026AbiERWgf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 18:36:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229612AbiERWUJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 18:20:09 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D25F20AE42;
-        Wed, 18 May 2022 15:20:08 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id ev18so3399821pjb.4;
-        Wed, 18 May 2022 15:20:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=VwE9Qv6IKkjBX1e4sCqGZ4bsr3fI/uT1M+ABoKKo8qo=;
-        b=gDD4pSc8J3iojUjtK/Eu82BxkxagtmJnMgajp7oCQHSYLpwjPgVlybcRvRj6t9IjVR
-         P5HtrFz1fo2jmICwSKdpjG0zVQcO05al3UQEKTPIMHzvNriNxGnfzWsimi0C7y/2MzmW
-         FeElVQviYTfVomrVMDG92/OnylF/k8OaGsGdlqV9UmuvK0XkKx9cqBJtIkcF0GUXu5FH
-         LoSAwgfbkcR5atgZHs9BV+kaIIyAvWFTYziX6cx3ip5ctwufTje0qaxx0RbIwogNi5O0
-         R1C/4xnIZzkgks58qG1UFJDH8SXsR42jqKPpnhAjdEYJ36XniONlxBYVWmm85HyKcOiq
-         DTYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VwE9Qv6IKkjBX1e4sCqGZ4bsr3fI/uT1M+ABoKKo8qo=;
-        b=hahr1jcW8slNTxNL5Mm9KndTBiA9CDFkjXipV0P5TByxYGBdV9Tuw8p45EQjauUay2
-         8X/H0esfFCQtHIsrBssRNRkSp2/JKRH/QjWbQJop0yG5pQMBDZ/W2QFMf6prc0sPZK6r
-         rLSEmZboYZzaQVFv+5fxTv5xZflF5owDfOKZhYBJUM0ZTj4qoT4VF8w2RnJ4bq5kgO3o
-         PewsWaRyhuGfZSGt947PwZPX9aEm8LOn6r5h5LE3pctkO0TjtaRh03ShqViASlXvnOG8
-         gAGAHSTTESF+5Abhu7cbOkMvLLOXsNIG/6mYFiNP2Bw2yAKX3rRBO5sts2/MkW5EoK0h
-         Eqeg==
-X-Gm-Message-State: AOAM533YkhDQpV7ROOY1HkjP29vP+Vt73762BfXqK0EMeWKpYjRAuZHr
-        BSseQSTfDliAH0oJ09KYKgI=
-X-Google-Smtp-Source: ABdhPJwPlrhl618q06NdACiWqssuqDAkkFFZimvqSh++ACcaJsPmfML8kiQ8jMpB/mvPGHHXdJBaHw==
-X-Received: by 2002:a17:903:2445:b0:161:d47e:88cf with SMTP id l5-20020a170903244500b00161d47e88cfmr1475958pls.67.1652912407390;
-        Wed, 18 May 2022 15:20:07 -0700 (PDT)
-Received: from localhost ([157.51.69.231])
-        by smtp.gmail.com with ESMTPSA id w184-20020a6362c1000000b003c622195ecasm2026643pgb.3.2022.05.18.15.20.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 15:20:07 -0700 (PDT)
-Date:   Thu, 19 May 2022 03:50:55 +0530
-From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf-next v5 12/17] selftests/bpf: add tests for
- bpf_hid_hw_request
-Message-ID: <20220518222055.zh7hvexbqlctvotw@apollo.legion>
-References: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
- <20220518205924.399291-13-benjamin.tissoires@redhat.com>
+        with ESMTP id S229603AbiERWge (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 18:36:34 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EBC64ECCB;
+        Wed, 18 May 2022 15:36:32 -0700 (PDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4L3SWr2vmXz4xVM;
+        Thu, 19 May 2022 08:36:23 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+        s=201702; t=1652913387;
+        bh=caT6jEYUNwfBW50T3+33ARca6ETe9j5GqS/aXUUr1AE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=qQMSfNC30Tq3ei9+dT1sAmYh0aHvuUlcvO5IOuH75E5U94d09oiaMeYu0cybtv2m0
+         T1u75Dg0z9eCpdnzNEuV5NKXDTEigZeWEPVw2IQdUJV/T/Nkf1FQz0N/2KKBoauvPm
+         GVfXjzaAHbJCEEj+D49SscX5u3nt0VpOL/qTgJJbP+YWT0VVjCPuYA1zfJlDbvB7JR
+         ul4kzXIeE9fxBkkqQRnhflNMDiRjcKyB0Aw7ewo95189vaMpuALonAg2fZtXvjxpQr
+         Dp10x8H7QhF6xe0/OqtmCxqFla5nmN1IWbh80KI6xK50rXYiZsSQCBLocYfXA5hZh9
+         u05/efLpuXAcQ==
+Date:   Thu, 19 May 2022 08:36:21 +1000
+From:   Stephen Rothwell <sfr@canb.auug.org.au>
+To:     Huacai Chen <chenhuacai@loongson.cn>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH V11 00/22] arch: Add basic LoongArch support
+Message-ID: <20220519083621.4f81cac9@canb.auug.org.au>
+In-Reply-To: <CAK8P3a15oQNZvST56v0AvtC1oZP4iDHy-QMLwZuDAg30gq-+4A@mail.gmail.com>
+References: <20220518092619.1269111-1-chenhuacai@loongson.cn>
+        <CAK8P3a15oQNZvST56v0AvtC1oZP4iDHy-QMLwZuDAg30gq-+4A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220518205924.399291-13-benjamin.tissoires@redhat.com>
+Content-Type: multipart/signed; boundary="Sig_/+ysQkiTEflTmaoBUlaX9AyU";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 19, 2022 at 02:29:19AM IST, Benjamin Tissoires wrote:
-> Add tests for the newly implemented function.
-> We test here only the GET_REPORT part because the other calls are pure
-> HID protocol and won't infer the result of the test of the bpf hook.
->
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
->
-> ---
->
-> changes in v5:
-> - use the new hid_bpf_allocate_context() API
-> - remove the need for ctx_in for syscall TEST_RUN
->
-> changes in v3:
-> - use the new hid_get_data API
-> - directly use HID_FEATURE_REPORT and HID_REQ_GET_REPORT from uapi
->
-> changes in v2:
-> - split the series by bpf/libbpf/hid/selftests and samples
-> ---
->  tools/testing/selftests/bpf/prog_tests/hid.c | 114 ++++++++++++++++---
->  tools/testing/selftests/bpf/progs/hid.c      |  59 ++++++++++
->  2 files changed, 155 insertions(+), 18 deletions(-)
->
-> diff --git a/tools/testing/selftests/bpf/prog_tests/hid.c b/tools/testing/selftests/bpf/prog_tests/hid.c
-> index 47bc0a30c275..54c0a0fcd54d 100644
-> --- a/tools/testing/selftests/bpf/prog_tests/hid.c
-> +++ b/tools/testing/selftests/bpf/prog_tests/hid.c
-> @@ -77,12 +77,23 @@ static unsigned char rdesc[] = {
->  	0xc0,			/* END_COLLECTION */
->  };
->
-> +static u8 feature_data[] = { 1, 2 };
-> +
->  struct attach_prog_args {
->  	int prog_fd;
->  	unsigned int hid;
->  	int retval;
->  };
->
-> +struct hid_hw_request_syscall_args {
-> +	__u8 data[10];
-> +	unsigned int hid;
-> +	int retval;
-> +	size_t size;
-> +	enum hid_report_type type;
-> +	__u8 request_type;
-> +};
-> +
->  static pthread_mutex_t uhid_started_mtx = PTHREAD_MUTEX_INITIALIZER;
->  static pthread_cond_t uhid_started = PTHREAD_COND_INITIALIZER;
->
-> @@ -142,7 +153,7 @@ static void destroy(int fd)
->
->  static int uhid_event(int fd)
->  {
-> -	struct uhid_event ev;
-> +	struct uhid_event ev, answer;
->  	ssize_t ret;
->
->  	memset(&ev, 0, sizeof(ev));
-> @@ -183,6 +194,15 @@ static int uhid_event(int fd)
->  		break;
->  	case UHID_GET_REPORT:
->  		fprintf(stderr, "UHID_GET_REPORT from uhid-dev\n");
-> +
-> +		answer.type = UHID_GET_REPORT_REPLY;
-> +		answer.u.get_report_reply.id = ev.u.get_report.id;
-> +		answer.u.get_report_reply.err = ev.u.get_report.rnum == 1 ? 0 : -EIO;
-> +		answer.u.get_report_reply.size = sizeof(feature_data);
-> +		memcpy(answer.u.get_report_reply.data, feature_data, sizeof(feature_data));
-> +
-> +		uhid_write(fd, &answer);
-> +
->  		break;
->  	case UHID_SET_REPORT:
->  		fprintf(stderr, "UHID_SET_REPORT from uhid-dev\n");
-> @@ -391,6 +411,7 @@ static int open_hidraw(int dev_id)
->  struct test_params {
->  	struct hid *skel;
->  	int hidraw_fd;
-> +	int hid_id;
->  };
->
->  static int prep_test(int dev_id, const char *prog_name, struct test_params *test_data)
-> @@ -419,27 +440,33 @@ static int prep_test(int dev_id, const char *prog_name, struct test_params *test
->  	if (!ASSERT_OK_PTR(hid_skel, "hid_skel_open"))
->  		goto cleanup;
->
-> -	prog = bpf_object__find_program_by_name(*hid_skel->skeleton->obj, prog_name);
-> -	if (!ASSERT_OK_PTR(prog, "find_prog_by_name"))
-> -		goto cleanup;
-> +	if (prog_name) {
-> +		prog = bpf_object__find_program_by_name(*hid_skel->skeleton->obj, prog_name);
-> +		if (!ASSERT_OK_PTR(prog, "find_prog_by_name"))
-> +			goto cleanup;
->
-> -	bpf_program__set_autoload(prog, true);
-> +		bpf_program__set_autoload(prog, true);
->
-> -	err = hid__load(hid_skel);
-> -	if (!ASSERT_OK(err, "hid_skel_load"))
-> -		goto cleanup;
-> +		err = hid__load(hid_skel);
-> +		if (!ASSERT_OK(err, "hid_skel_load"))
-> +			goto cleanup;
->
-> -	attach_fd = bpf_program__fd(hid_skel->progs.attach_prog);
-> -	if (!ASSERT_GE(attach_fd, 0, "locate attach_prog")) {
-> -		err = attach_fd;
-> -		goto cleanup;
-> -	}
-> +		attach_fd = bpf_program__fd(hid_skel->progs.attach_prog);
-> +		if (!ASSERT_GE(attach_fd, 0, "locate attach_prog")) {
-> +			err = attach_fd;
-> +			goto cleanup;
-> +		}
->
-> -	args.prog_fd = bpf_program__fd(prog);
-> -	err = bpf_prog_test_run_opts(attach_fd, &tattr);
-> -	snprintf(buf, sizeof(buf), "attach_hid(%s)", prog_name);
-> -	if (!ASSERT_EQ(args.retval, 0, buf))
-> -		goto cleanup;
-> +		args.prog_fd = bpf_program__fd(prog);
-> +		err = bpf_prog_test_run_opts(attach_fd, &tattr);
-> +		snprintf(buf, sizeof(buf), "attach_hid(%s)", prog_name);
-> +		if (!ASSERT_EQ(args.retval, 0, buf))
-> +			goto cleanup;
-> +	} else {
-> +		err = hid__load(hid_skel);
-> +		if (!ASSERT_OK(err, "hid_skel_load"))
-> +			goto cleanup;
-> +	}
->
->  	hidraw_fd = open_hidraw(dev_id);
->  	if (!ASSERT_GE(hidraw_fd, 0, "open_hidraw"))
-> @@ -447,6 +474,7 @@ static int prep_test(int dev_id, const char *prog_name, struct test_params *test
->
->  	test_data->skel = hid_skel;
->  	test_data->hidraw_fd = hidraw_fd;
-> +	test_data->hid_id = hid_id;
->
->  	return 0;
->
-> @@ -693,6 +721,54 @@ static int test_hid_change_report(int uhid_fd, int dev_id)
->  	return ret;
->  }
->
-> +/*
-> + * Attach hid_user_raw_request to the given uhid device,
-> + * call the bpf program from userspace
-> + * check that the program is called and does the expected.
-> + */
-> +static int test_hid_user_raw_request_call(int uhid_fd, int dev_id)
-> +{
-> +	struct test_params params;
-> +	int err, prog_fd;
-> +	int ret = -1;
-> +	struct hid_hw_request_syscall_args args = {
-> +		.retval = -1,
-> +		.type = HID_FEATURE_REPORT,
-> +		.request_type = HID_REQ_GET_REPORT,
-> +		.size = 10,
-> +	};
-> +	DECLARE_LIBBPF_OPTS(bpf_test_run_opts, tattrs,
-> +			    .ctx_in = &args,
-> +			    .ctx_size_in = sizeof(args),
-> +	);
-> +
-> +	err = prep_test(dev_id, NULL, &params);
-> +	if (!ASSERT_EQ(err, 0, "prep_test()"))
-> +		goto cleanup;
-> +
-> +	args.hid = params.hid_id;
-> +	args.data[0] = 1; /* report ID */
-> +
-> +	prog_fd = bpf_program__fd(params.skel->progs.hid_user_raw_request);
-> +
-> +	err = bpf_prog_test_run_opts(prog_fd, &tattrs);
-> +	if (!ASSERT_EQ(err, 0, "bpf_prog_test_run_opts"))
-> +		goto cleanup;
-> +
-> +	if (!ASSERT_EQ(args.retval, 2, "bpf_prog_test_run_opts_retval"))
-> +		goto cleanup;
-> +
-> +	if (!ASSERT_EQ(args.data[1], 2, "hid_user_raw_request_check_in"))
-> +		goto cleanup;
-> +
-> +	ret = 0;
-> +
-> +cleanup:
-> +	cleanup_test(&params);
-> +
-> +	return ret;
-> +}
-> +
->  void serial_test_hid_bpf(void)
->  {
->  	int err, uhid_fd;
-> @@ -720,6 +796,8 @@ void serial_test_hid_bpf(void)
->  	ASSERT_OK(err, "hid_attach_detach");
->  	err = test_hid_change_report(uhid_fd, dev_id);
->  	ASSERT_OK(err, "hid_change_report");
-> +	err = test_hid_user_raw_request_call(uhid_fd, dev_id);
-> +	ASSERT_OK(err, "hid_change_report");
->
->  	destroy(uhid_fd);
->
-> diff --git a/tools/testing/selftests/bpf/progs/hid.c b/tools/testing/selftests/bpf/progs/hid.c
-> index ee7529c47ad8..e3444d444303 100644
-> --- a/tools/testing/selftests/bpf/progs/hid.c
-> +++ b/tools/testing/selftests/bpf/progs/hid.c
-> @@ -10,6 +10,13 @@ extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx,
->  			      unsigned int offset,
->  			      const size_t __sz) __ksym;
->  extern int hid_bpf_attach_prog(unsigned int hid_id, int prog_fd, u32 flags) __ksym;
-> +extern struct hid_bpf_ctx *hid_bpf_allocate_context(unsigned int hid_id) __ksym;
-> +extern void hid_bpf_release_context(struct hid_bpf_ctx *ctx) __ksym;
-> +extern int hid_bpf_hw_request(struct hid_bpf_ctx *ctx,
-> +			      __u8 *data,
-> +			      size_t len,
-> +			      enum hid_report_type type,
-> +			      int reqtype) __ksym;
->
->  struct attach_prog_args {
->  	int prog_fd;
-> @@ -56,3 +63,55 @@ int attach_prog(struct attach_prog_args *ctx)
->  					  0);
->  	return 0;
->  }
-> +
-> +struct hid_hw_request_syscall_args {
-> +	/* data needs to come at offset 0 so we can do a memcpy into it */
-> +	__u8 data[10];
-> +	unsigned int hid;
-> +	int retval;
-> +	size_t size;
-> +	enum hid_report_type type;
-> +	__u8 request_type;
-> +};
-> +
-> +SEC("syscall")
-> +int hid_user_raw_request(struct hid_hw_request_syscall_args *args)
-> +{
-> +	struct hid_bpf_ctx *ctx;
-> +	int i, ret = 0;
-> +	__u8 *data;
-> +
-> +	ctx = hid_bpf_allocate_context(args->hid);
-> +	if (!ctx)
-> +		return 0; /* EPERM check */
-> +
-> +	/* We can not use the context data memory directly in the hid_bpf call,
-> +	 * so we rely on the PTR_TO_MEM allocated in the hid_bpf_context
-> +	 */
-> +	data = hid_bpf_get_data(ctx, 0 /* offset */, 10 /* size */);
-> +	if (!data)
-> +		goto out; /* EPERM check */
-> +
+--Sig_/+ysQkiTEflTmaoBUlaX9AyU
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-If I'm reading this right, you need more than just returning PTR_TO_MEM. Since
-this points into allocated ctx, nothing prevents user from accessing data after
-we do hid_bpf_release_context.
+Hi Arnd,
 
-The ref_obj_id of ctx needs to be transferred to R0.ref_obj_id, and R0.id needs
-to be assigned another id distinct from the ref_obj_id.
-
-My idea would be to give this type of function a new set, and handle this case
-of transferring ref_obj_id into R0. See is_ptr_cast_function in verifier.c.
-Shouldn't be too much code. You could even use the bpf_kfunc_arg_meta to store
-the ref_obj_id (and ensure only one referenced register exists among the 5
-arguments).
-
-> +	__builtin_memcpy(data, args->data, sizeof(args->data));
-> +
-> +	if (args->size <= sizeof(args->data)) {
-> +		ret = hid_bpf_hw_request(ctx,
-> +					 data,
-> +					 args->size,
-> +					 args->type,
-> +					 args->request_type);
-> +		args->retval = ret;
-> +		if (ret < 0)
-> +			goto out;
-> +	} else {
-> +		ret = -7; /* -E2BIG */
-> +		goto out;
-> +	}
-> +
-> +	__builtin_memcpy(args->data, data, sizeof(args->data));
-> +
-> + out:
-> +	hid_bpf_release_context(ctx);
-> +
-> +	return ret;
-> +}
-> --
-> 2.36.1
+On Wed, 18 May 2022 14:42:07 +0100 Arnd Bergmann <arnd@arndb.de> wrote:
 >
+> On Wed, May 18, 2022 at 10:25 AM Huacai Chen <chenhuacai@loongson.cn> wro=
+te:
+> >
+> > LoongArch is a new RISC ISA, which is a bit like MIPS or RISC-V.
+> > LoongArch includes a reduced 32-bit version (LA32R), a standard 32-bit
+> > version (LA32S) and a 64-bit version (LA64). LoongArch use ACPI as its
+> > boot protocol LoongArch-specific interrupt controllers (similar to APIC)
+> > are already added in the next revision of ACPI Specification (current
+> > revision is 6.4).
+> >
+> > This patchset is adding basic LoongArch support in mainline kernel, we
+> > can see a complete snapshot here:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongs=
+on.git/log/?h=3Dloongarch-next =20
+>=20
+> Stephen, can you add this branch to the linux-next tree?
 
---
-Kartikeya
+Added from today.  I have called it "loongarch" and it will be merged
+among the other architecture trees after the asm-generic tree.
+Currently Huacai Chen is the only contact listed.
+
+I note that there is no new entry in MAINTAINERS in this tree.
+
+> I see there are still comments coming in, but at some point this has
+> to just be considered good enough that any further changes can be address=
+ed
+> with patches on top rather than rebasing.
+
+That should be fine.
+
+Thanks for adding your subsystem tree as a participant of linux-next.  As
+you may know, this is not a judgement of your code.  The purpose of
+linux-next is for integration testing and to lower the impact of
+conflicts between subsystems in the next merge window.=20
+
+You will need to ensure that the patches/commits in your tree/series have
+been:
+     * submitted under GPL v2 (or later) and include the Contributor's
+        Signed-off-by,
+     * posted to the relevant mailing list,
+     * reviewed by you (or another maintainer of your subsystem tree),
+     * successfully unit tested, and=20
+     * destined for the current or next Linux merge window.
+
+Basically, this should be just what you would send to Linus (or ask him
+to fetch).  It is allowed to be rebased if you deem it necessary.
+
+--=20
+Cheers,
+Stephen Rothwell=20
+sfr@canb.auug.org.au
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/+ysQkiTEflTmaoBUlaX9AyU
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmKFdOYACgkQAVBC80lX
+0Gxj6AgAih0bFdl2KpBa8AsehwFxTb/5dJyOjHgyZfF8LC5pOt1Qp7KNd18c+iXk
+hB8/hl0SHl3TRUb1k2YKxjYIb1pG0KDkZcPysDBNKYleOSMbhyvpHSTLAJQ2zZHb
+m0x922HSgva7cX/xrEqL3XZCVzOYBsfXzVfn/Mm6+5PT+SaniI7sv5wMuVS1vs2O
+yjlmyHSz9/RENRFmbjJoHvILB2WDgR4MGry4X+CrpsAe5kWB17JpyNnUid01HYib
+ViKwomFBgAEL3T+GC/UTXgtWJEAJWlRlewneSoGh51aMGdQFYTM82++CBjVi5WSP
+kD0cIIMLHRvJMzL2GHWHijQnuRcx2w==
+=w4jJ
+-----END PGP SIGNATURE-----
+
+--Sig_/+ysQkiTEflTmaoBUlaX9AyU--
