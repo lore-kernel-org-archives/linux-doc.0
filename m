@@ -2,147 +2,377 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3AB9C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 17 May 2022 23:30:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 888E9C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 01:46:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231591AbiEQXav (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 17 May 2022 19:30:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42916 "EHLO
+        id S233792AbiERBq6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 17 May 2022 21:46:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231721AbiEQXat (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 19:30:49 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3749B7645
-        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 16:30:42 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id f9so703063ejc.0
-        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 16:30:42 -0700 (PDT)
+        with ESMTP id S233787AbiERBq5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 May 2022 21:46:57 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40F3B37022
+        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 18:46:55 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2fedd52e3c7so8081577b3.15
+        for <linux-doc@vger.kernel.org>; Tue, 17 May 2022 18:46:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kje1fxePklyTYdwuahnUd7jrh3kjOYPr65ooSYjVE44=;
-        b=BZgE0jkbkeLVvFmb8ruOV8av8A5Vi/cJesgkFUe7yW3/UIFp5JuLCAIksYmq6dxaPC
-         UTmFxH4fn4hS3/gzRePwOA9Zgz2QoeR/e7KsL6wHOQMvCBYOzvoW2yP96YAu1wlsdo/W
-         OYW4HOnAUXA1JVGJiazKgXoK/bUipg6BPRZaPd0iU4I6XDCU9CWewInibc8sy+vWJYxb
-         GbGtI+anWZDqWuOTylV0pzWc9p1n+hpH4zF0jqzCG43N/eDSdV5LLd69UT0bGeoGyGse
-         0mKYTvfzrYVwqtPqL3gqbyjVL7SFmO6Pfdv96YRbeDf3urkh47YcrQa2GcXbFgbNtfr9
-         LXxQ==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=ZmoWSmzC2GAtrislVdva/8n0FQjVu78FIz32UfcvjD4=;
+        b=HEet0C5+YuJWGTl9iSZn0Wel/aM6H/wj/xTO3fQhaC4cz767qzP/t0JrfZ+St9+zgX
+         EKB+TOqqmWIDonjg4sgBAmyCt9Ha1tzsPoFQ/YguTaNnoxKukZjWsQH5KIIl87eW/QwN
+         kgrIIsjtvrpKIQ1Sk9IlbtjWmmqGaQmpBvnxI+mP/tVvMOkG79giU3FtXhwciLYjGAp2
+         B0qIyxpBRc5mM9t65d2K+a5/v3eZdS//HbliFJoVVqVfeq2pYtN3lywNaZZShuoguQUS
+         luQejvXeBlOkw4YWmfQzbE1MmpUC7GmlIli4yc1mkVoEMZoYv5i2IwBAtDOpoVF0ucPH
+         XxXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kje1fxePklyTYdwuahnUd7jrh3kjOYPr65ooSYjVE44=;
-        b=KxAqpqb9JZuRADRNZtm109oVjlKZW7xHLQRO+K7gykqk3YuHDvyX//xpbPZm5og9aY
-         ZpEc7vcMnewMW7N3RI7l6kMOemQq9i4jXSQEl6DqOYidtiYjwqPSclwqszdlOZMH1V9O
-         pno73PAaZFIp54yDW6eYTbEsrIvmssnC0haHX6Ss0H9fiiOjQodW/Ii2uAnGNhuKss/A
-         wz1x8IXO6odPQ7Tf3PNjk4YdOe6UA5QoeqHfscwGrRLZbgBJxb/yM+QSTXVnUNFviwI+
-         fUQMMTL93JcYY5kNOlm8EhFRQHxZ57/WRknhF715LfsJYcGiMKesG983SvaTTfK1P0PE
-         Krpw==
-X-Gm-Message-State: AOAM533GwWTtAlov1FixjomLClWuVqizaG1njrlRsF2ou1v2mKI5vRRT
-        m4JjyE5sFbbQo82W7WnELGRpsXfioK1MYbkSnz5U9w==
-X-Google-Smtp-Source: ABdhPJynpuiODXlilJ4ccPPw09Oypx2Cww6BUXEGpKKQ1/r4bC3SNcHdzpBPpWcDWLBl7XOueU5+lIF135DZSaWqEEs=
-X-Received: by 2002:a17:906:6a10:b0:6f5:5e4:9d5 with SMTP id
- qw16-20020a1709066a1000b006f505e409d5mr21615657ejc.122.1652830241187; Tue, 17
- May 2022 16:30:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220510235653.933868-1-tjmercier@google.com> <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
- <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
- <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
- <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com> <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
-In-Reply-To: <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Tue, 17 May 2022 16:30:29 -0700
-Message-ID: <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
-Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Zefan Li <lizefan.x@bytedance.com>,
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=ZmoWSmzC2GAtrislVdva/8n0FQjVu78FIz32UfcvjD4=;
+        b=6eWuS5619Nc2mr63RXOYllEzxOpb2wMsyxqyZeSgFNY5s6HLcvJNxz3jKxisvfRaX1
+         XRIUInZ0OrAbE9jbibPZzWw1Z8vLfPG0vg5K7iliQEMY/8hHzEsUPFUKBkKFC4uPmxJu
+         NMf2/K5z9ccCbPN3APtn9IPs062PxAP/O8ICtYQewb53SFQGspeFaJbu6O/ekGrLLDSv
+         4nZDwplItjbh3iABsW75LlGrN7ABGSfJrStrUcwAxq0lEliKIaL8IP+fX53A+Y9Gu7Xj
+         MrU+0tHlR/v+tVDmAvOOQbd3s8Ox71cbP+9kDL3up7fMQdnJxEiAP1gCTuPP80ube/i1
+         sP/g==
+X-Gm-Message-State: AOAM533zhB6nuGsZR06xmabnfqpny6KtTwqOKOIK/yTtEDaFAy/NsRtd
+        p8qxFdgMRbd2lvKIXuYa7PpIxHGhQ3I=
+X-Google-Smtp-Source: ABdhPJyhqHKPaxwohLdOaBo0hlMZevQhUevmWQBO3KJPWKmQDj2EtRCbH09Ef+hSgPA+oKzMD3wYD/Zgycs=
+X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:f7bc:90c9:d86e:4ea8])
+ (user=yuzhao job=sendgmr) by 2002:a81:2188:0:b0:2f5:1b53:9141 with SMTP id
+ h130-20020a812188000000b002f51b539141mr27941987ywh.504.1652838414385; Tue, 17
+ May 2022 18:46:54 -0700 (PDT)
+Date:   Tue, 17 May 2022 19:46:19 -0600
+Message-Id: <20220518014632.922072-1-yuzhao@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.36.0.550.gb090851708-goog
+Subject: [PATCH v11 00/14] Multi-Gen LRU Framework
+From:   Yu Zhao <yuzhao@google.com>
+To:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Shuah Khan <shuah@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
-        John Stultz <jstultz@google.com>,
-        Carlos Llamas <cmllamas@google.com>,
-        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        kernel-team@android.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, x86@kernel.org,
+        page-reclaim@google.com, Yu Zhao <yuzhao@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 13, 2022 at 9:13 AM Tejun Heo <tj@kernel.org> wrote:
->
-> Hello,
->
-> On Thu, May 12, 2022 at 08:43:52PM -0700, T.J. Mercier wrote:
-> > > I'm actually happy I've asked this question, wasn't silly after all. I think the
-> > > problem here is a naming issue. What you really are monitor is "video memory",
-> > > which consist of a memory segment allocated to store data used to render images
-> > > (its not always images of course, GPU an VPU have specialized buffers for their
-> > > purpose).
-> > >
-> > > Whether this should be split between what is used specifically by the GPU
-> > > drivers, the display drivers, the VPU (CODEC and pre/post-processor) or camera
-> > > drivers is something that should be discussed. But in the current approach, you
-> > > really meant Video memory as a superset of the above. Personally, I think
-> > > generically (to de-Andronized your work), en-globing all video memory is
-> > > sufficient. What I fail to understand is how you will manage to distinguished
-> > > DMABuf Heap allocation (which are used outside of Android btw), from Video
-> > > allocation or other type of usage. I'm sure non-video usage will exist in the
-> > > future (think of machine learning, compute, other high bandwidth streaming
-> > > thingy ...)
-> > >
-> > Ok thank you for pointing out the naming issue. The naming is a
-> > consequence of the initial use case, but I guess it's too specific.
-> > What I want out of this change is that android can track dmabufs that
-> > come out of heaps, and drm can track gpu memory. But other drivers
-> > could track different resources under different names. Imagine this
-> > were called a buffer cgroup controller instead of a GPU cgroup
-> > controller. Then the use component ("video memory") isn't tied up with
-> > the name of the controller, but it's up to the name of the bucket the
-> > resource is tracked under. I think this meets the needs of the two use
-> > cases I'm aware of now, while leaving the door open to other future
-> > needs. Really the controller is just enabling abstract named buckets
-> > for tracking and eventually limiting a type of resource.
->
-> So, there hasn't been whole lot of discussion w/ other GPU folks and what
-> comes up still seems to indicate that we're still long way away from having
-> a meaningful gpu controller.
->
-Yes, and I would still be happy to collaborate.
+TLDR
+====
+The current page reclaim is too expensive in terms of CPU usage and it
+often makes poor choices about what to evict. This patchset offers an
+alternative solution that is performant, versatile and
+straightforward.
 
-> For your use case, would it make sense to just
-> add dmabuf as a key to the misc controller?
->
-Thanks for your suggestion. This almost works. "dmabuf" as a key could
-work, but I'd actually like to account for each heap. Since heaps can
-be dynamically added, I can't accommodate every potential heap name by
-hardcoding registrations in the misc controller.
+Patchset overview
+=================
+The design and implementation overview is in patch 14:
+https://lore.kernel.org/r/20220518014632.922072-15-yuzhao@google.com/
 
-> I'm not sure it makes sense to
-> push "gpu controller" forward if there's no conceptual consensus around what
-> resources are.
->
-> Thanks.
->
-> --
-> tejun
+01. mm: x86, arm64: add arch_has_hw_pte_young()
+02. mm: x86: add CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG
+Take advantage of hardware features when trying to clear the accessed
+bit in many PTEs.
+
+03. mm/vmscan.c: refactor shrink_node()
+04. Revert "include/linux/mm_inline.h: fold __update_lru_size() into
+    its sole caller"
+Minor refactors to improve readability for the following patches.
+
+05. mm: multi-gen LRU: groundwork
+Adds the basic data structure and the functions that insert pages to
+and remove pages from the multi-gen LRU (MGLRU) lists.
+
+06. mm: multi-gen LRU: minimal implementation
+A minimal implementation without optimizations.
+
+07. mm: multi-gen LRU: exploit locality in rmap
+Exploits spatial locality to improve efficiency when using the rmap.
+
+08. mm: multi-gen LRU: support page table walks
+Further exploits spatial locality by optionally scanning page tables.
+
+09. mm: multi-gen LRU: optimize multiple memcgs
+Optimizes the overall performance for multiple memcgs running mixed
+types of workloads.
+
+10. mm: multi-gen LRU: kill switch
+Adds a kill switch to enable or disable MGLRU at runtime.
+
+11. mm: multi-gen LRU: thrashing prevention
+12. mm: multi-gen LRU: debugfs interface
+Provide userspace with features like thrashing prevention, working set
+estimation and proactive reclaim.
+
+13. mm: multi-gen LRU: admin guide
+14. mm: multi-gen LRU: design doc
+Add an admin guide and a design doc.
+
+Benchmark results
+=================
+Independent lab results
+-----------------------
+Based on the popularity of searches [01] and the memory usage in
+Google's public cloud, the most popular open-source memory-hungry
+applications, in alphabetical order, are:
+      Apache Cassandra      Memcached
+      Apache Hadoop         MongoDB
+      Apache Spark          PostgreSQL
+      MariaDB (MySQL)       Redis
+
+An independent lab evaluated MGLRU with the most widely used benchmark
+suites for the above applications. They posted 960 data points along
+with kernel metrics and perf profiles collected over more than 500
+hours of total benchmark time. Their final reports show that, with 95%
+confidence intervals (CIs), the above applications all performed
+significantly better for at least part of their benchmark matrices.
+
+On 5.14:
+1. Apache Spark [02] took 95% CIs [9.28, 11.19]% and [12.20, 14.93]%
+   less wall time to sort three billion random integers, respectively,
+   under the medium- and the high-concurrency conditions, when
+   overcommitting memory. There were no statistically significant
+   changes in wall time for the rest of the benchmark matrix.
+2. MariaDB [03] achieved 95% CIs [5.24, 10.71]% and [20.22, 25.97]%
+   more transactions per minute (TPM), respectively, under the medium-
+   and the high-concurrency conditions, when overcommitting memory.
+   There were no statistically significant changes in TPM for the rest
+   of the benchmark matrix.
+3. Memcached [04] achieved 95% CIs [23.54, 32.25]%, [20.76, 41.61]%
+   and [21.59, 30.02]% more operations per second (OPS), respectively,
+   for sequential access, random access and Gaussian (distribution)
+   access, when THP=always; 95% CIs [13.85, 15.97]% and
+   [23.94, 29.92]% more OPS, respectively, for random access and
+   Gaussian access, when THP=never. There were no statistically
+   significant changes in OPS for the rest of the benchmark matrix.
+4. MongoDB [05] achieved 95% CIs [2.23, 3.44]%, [6.97, 9.73]% and
+   [2.16, 3.55]% more operations per second (OPS), respectively, for
+   exponential (distribution) access, random access and Zipfian
+   (distribution) access, when underutilizing memory; 95% CIs
+   [8.83, 10.03]%, [21.12, 23.14]% and [5.53, 6.46]% more OPS,
+   respectively, for exponential access, random access and Zipfian
+   access, when overcommitting memory.
+
+On 5.15:
+5. Apache Cassandra [06] achieved 95% CIs [1.06, 4.10]%, [1.94, 5.43]%
+   and [4.11, 7.50]% more operations per second (OPS), respectively,
+   for exponential (distribution) access, random access and Zipfian
+   (distribution) access, when swap was off; 95% CIs [0.50, 2.60]%,
+   [6.51, 8.77]% and [3.29, 6.75]% more OPS, respectively, for
+   exponential access, random access and Zipfian access, when swap was
+   on.
+6. Apache Hadoop [07] took 95% CIs [5.31, 9.69]% and [2.02, 7.86]%
+   less average wall time to finish twelve parallel TeraSort jobs,
+   respectively, under the medium- and the high-concurrency
+   conditions, when swap was on. There were no statistically
+   significant changes in average wall time for the rest of the
+   benchmark matrix.
+7. PostgreSQL [08] achieved 95% CI [1.75, 6.42]% more transactions per
+   minute (TPM) under the high-concurrency condition, when swap was
+   off; 95% CIs [12.82, 18.69]% and [22.70, 46.86]% more TPM,
+   respectively, under the medium- and the high-concurrency
+   conditions, when swap was on. There were no statistically
+   significant changes in TPM for the rest of the benchmark matrix.
+8. Redis [09] achieved 95% CIs [0.58, 5.94]%, [6.55, 14.58]% and
+   [11.47, 19.36]% more total operations per second (OPS),
+   respectively, for sequential access, random access and Gaussian
+   (distribution) access, when THP=always; 95% CIs [1.27, 3.54]%,
+   [10.11, 14.81]% and [8.75, 13.64]% more total OPS, respectively,
+   for sequential access, random access and Gaussian access, when
+   THP=never.
+
+Our lab results
+---------------
+To supplement the above results, we ran the following benchmark suites
+on 5.16-rc7 and found no regressions [10].
+      fs_fio_bench_hdd_mq      pft
+      fs_lmbench               pgsql-hammerdb
+      fs_parallelio            redis
+      fs_postmark              stream
+      hackbench                sysbenchthread
+      kernbench                tpcc_spark
+      memcached                unixbench
+      multichase               vm-scalability
+      mutilate                 will-it-scale
+      nginx
+
+[01] https://trends.google.com
+[02] https://lore.kernel.org/r/20211102002002.92051-1-bot@edi.works/
+[03] https://lore.kernel.org/r/20211009054315.47073-1-bot@edi.works/
+[04] https://lore.kernel.org/r/20211021194103.65648-1-bot@edi.works/
+[05] https://lore.kernel.org/r/20211109021346.50266-1-bot@edi.works/
+[06] https://lore.kernel.org/r/20211202062806.80365-1-bot@edi.works/
+[07] https://lore.kernel.org/r/20211209072416.33606-1-bot@edi.works/
+[08] https://lore.kernel.org/r/20211218071041.24077-1-bot@edi.works/
+[09] https://lore.kernel.org/r/20211122053248.57311-1-bot@edi.works/
+[10] https://lore.kernel.org/r/20220104202247.2903702-1-yuzhao@google.com/
+
+Read-world applications
+=======================
+Third-party testimonials
+------------------------
+Konstantin reported [11]:
+   I have Archlinux with 8G RAM + zswap + swap. While developing, I
+   have lots of apps opened such as multiple LSP-servers for different
+   langs, chats, two browsers, etc... Usually, my system gets quickly
+   to a point of SWAP-storms, where I have to kill LSP-servers,
+   restart browsers to free memory, etc, otherwise the system lags
+   heavily and is barely usable.
+   
+   1.5 day ago I migrated from 5.11.15 kernel to 5.12 + the LRU
+   patchset, and I started up by opening lots of apps to create memory
+   pressure, and worked for a day like this. Till now I had not a
+   single SWAP-storm, and mind you I got 3.4G in SWAP. I was never
+   getting to the point of 3G in SWAP before without a single
+   SWAP-storm.
+
+Vaibhav from IBM reported [12]:
+   In a synthetic MongoDB Benchmark, seeing an average of ~19%
+   throughput improvement on POWER10(Radix MMU + 64K Page Size) with
+   MGLRU patches on top of v5.16 kernel for MongoDB + YCSB across
+   three different request distributions, namely, Exponential, Uniform
+   and Zipfan.
+
+Shuang from U of Rochester reported [13]:
+   With the MGLRU, fio achieved 95% CIs [38.95, 40.26]%, [4.12, 6.64]%
+   and [9.26, 10.36]% higher throughput, respectively, for random
+   access, Zipfian (distribution) access and Gaussian (distribution)
+   access, when the average number of jobs per CPU is 1; 95% CIs
+   [42.32, 49.15]%, [9.44, 9.89]% and [20.99, 22.86]% higher
+   throughput, respectively, for random access, Zipfian access and
+   Gaussian access, when the average number of jobs per CPU is 2.
+
+Daniel from Michigan Tech reported [14]:
+   With Memcached allocating ~100GB of byte-addressable Optante,
+   performance improvement in terms of throughput (measured as queries
+   per second) was about 10% for a series of workloads.
+
+Large-scale deployments
+-----------------------
+The downstream kernels that have been using MGLRU include:
+1. Android [15]
+2. Arch Linux Zen [16]
+3. Chrome OS [17]
+4. Liquorix [18]
+5. post-factum [19]
+6. XanMod [20]
+
+We've rolled out MGLRU to tens of millions of Chrome OS users and
+about a million Android users. Google's fleetwide profiling [21] shows
+an overall 40% decrease in kswapd CPU usage, in addition to
+improvements in other UX metrics, e.g., an 85% decrease in the number
+of low-memory kills at the 75th percentile and an 18% decrease in
+app launch time at the 50th percentile.
+
+[11] https://lore.kernel.org/r/140226722f2032c86301fbd326d91baefe3d7d23.camel@yandex.ru/
+[12] https://lore.kernel.org/r/87czj3mux0.fsf@vajain21.in.ibm.com/
+[13] https://lore.kernel.org/r/20220105024423.26409-1-szhai2@cs.rochester.edu/
+[14] https://lore.kernel.org/r/CA+4-3vksGvKd18FgRinxhqHetBS1hQekJE2gwco8Ja-bJWKtFw@mail.gmail.com/
+[15] https://android.com
+[16] https://archlinux.org
+[17] https://chromium.org
+[18] https://liquorix.net
+[19] https://gitlab.com/post-factum/pf-kernel/
+[20] https://xanmod.org
+[21] https://research.google/pubs/pub44271/
+
+Summery
+=======
+The facts are:
+1. The independent lab results and the real-world applications
+   indicate substantial improvements; there are no known regressions.
+2. Thrashing prevention, working set estimation and proactive reclaim
+   work out of the box; there are no equivalent solutions.
+3. There is a lot of new code; no one has demonstrated smaller changes
+   with similar effects.
+
+Our options, accordingly, are:
+1. Given the amount of evidence, the reported improvements will likely
+   materialize for a wide range of workloads.
+2. Gauging the interest from the past discussions, the new features
+   will likely be put to use for both personal computers and data
+   centers.
+3. Based on Google's track record, the new code will likely be well
+   maintained in the long term. It'd be more difficult if not
+   impossible to achieve similar effects with other alternatives.
+
+Yu Zhao (14):
+  mm: x86, arm64: add arch_has_hw_pte_young()
+  mm: x86: add CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG
+  mm/vmscan.c: refactor shrink_node()
+  Revert "include/linux/mm_inline.h: fold __update_lru_size() into its
+    sole caller"
+  mm: multi-gen LRU: groundwork
+  mm: multi-gen LRU: minimal implementation
+  mm: multi-gen LRU: exploit locality in rmap
+  mm: multi-gen LRU: support page table walks
+  mm: multi-gen LRU: optimize multiple memcgs
+  mm: multi-gen LRU: kill switch
+  mm: multi-gen LRU: thrashing prevention
+  mm: multi-gen LRU: debugfs interface
+  mm: multi-gen LRU: admin guide
+  mm: multi-gen LRU: design doc
+
+ Documentation/admin-guide/mm/index.rst        |    1 +
+ Documentation/admin-guide/mm/multigen_lru.rst |  156 +
+ Documentation/vm/index.rst                    |    1 +
+ Documentation/vm/multigen_lru.rst             |  159 +
+ arch/Kconfig                                  |    8 +
+ arch/arm64/include/asm/pgtable.h              |   14 +-
+ arch/x86/Kconfig                              |    1 +
+ arch/x86/include/asm/pgtable.h                |    9 +-
+ arch/x86/mm/pgtable.c                         |    5 +-
+ fs/exec.c                                     |    2 +
+ fs/fuse/dev.c                                 |    3 +-
+ include/linux/cgroup.h                        |   15 +-
+ include/linux/memcontrol.h                    |   36 +
+ include/linux/mm.h                            |    7 +
+ include/linux/mm_inline.h                     |  233 +-
+ include/linux/mm_types.h                      |   77 +
+ include/linux/mmzone.h                        |  216 ++
+ include/linux/nodemask.h                      |    1 +
+ include/linux/page-flags-layout.h             |   16 +-
+ include/linux/page-flags.h                    |    4 +-
+ include/linux/pgtable.h                       |   17 +-
+ include/linux/sched.h                         |    4 +
+ include/linux/swap.h                          |    4 +
+ kernel/bounds.c                               |    7 +
+ kernel/cgroup/cgroup-internal.h               |    1 -
+ kernel/exit.c                                 |    1 +
+ kernel/fork.c                                 |    9 +
+ kernel/sched/core.c                           |    1 +
+ mm/Kconfig                                    |   26 +
+ mm/huge_memory.c                              |    3 +-
+ mm/internal.h                                 |    1 +
+ mm/memcontrol.c                               |   28 +
+ mm/memory.c                                   |   39 +-
+ mm/mm_init.c                                  |    6 +-
+ mm/mmzone.c                                   |    2 +
+ mm/rmap.c                                     |    7 +
+ mm/swap.c                                     |   52 +-
+ mm/vmscan.c                                   | 2888 ++++++++++++++++-
+ mm/workingset.c                               |  110 +-
+ 39 files changed, 4017 insertions(+), 153 deletions(-)
+ create mode 100644 Documentation/admin-guide/mm/multigen_lru.rst
+ create mode 100644 Documentation/vm/multigen_lru.rst
+
+-- 
+2.36.0.550.gb090851708-goog
+
