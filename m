@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EBEAC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 12:33:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 915F2C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 12:33:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237076AbiERMd0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 08:33:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49276 "EHLO
+        id S236628AbiERMdb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 08:33:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236983AbiERMcz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 08:32:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D4B960A8B;
-        Wed, 18 May 2022 05:29:24 -0700 (PDT)
+        with ESMTP id S237005AbiERMdJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 08:33:09 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05DA8115CAD;
+        Wed, 18 May 2022 05:29:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BB0F86164C;
-        Wed, 18 May 2022 12:29:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F600C36AE2;
-        Wed, 18 May 2022 12:29:22 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3F638B81FB8;
+        Wed, 18 May 2022 12:28:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DDE2C385A5;
+        Wed, 18 May 2022 12:28:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652876964;
-        bh=9RWIWCvzw+luvshpZOAHRIXd41n81v/delU1wx/HP5I=;
+        s=k20201202; t=1652876917;
+        bh=bmNDXt0dhhCHvZC50SZNQe0bZ4XDsvewzFJ1e8Dm0K0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EgMD9d9CLHUeRbPJrdX5livRw/SLuoZuy+CA4hhgeDhQpxONjLQ0MEH/n6yNuULu1
-         o1fHtg7BNpv4xZm8hG2UVle5EGz157P05TJh+81sOOBuK/Y7UjqT2kf7natbH8aS2B
-         kibrFJwtOH1leP03l3nGAF4p9nrMayRb7SdWxYe9N5BCS03ktbQk19dWlJvQn3N3bG
-         8iIGhqzQ5QHayOkUE2X2w2H+A3gFZVR8eN+BP9tXgiuVRlifp2gKXMkPpH35ZAWCO9
-         3ZoxYa+o92PKiqaKVGLMgX3nTfgwgpttJfXHl7enwJw8uFIafJlz1YEr4X6mHi/ro5
-         8L9rezlU92tqw==
+        b=m8bue/yyLBC0cbGjkjP0wCmVfY13c088dqmnuandPg1YJu1jJofIlj8paojZIlXQo
+         6px7iMnbugbaNAwnCW1gooVKKaKLswXIioULnuHFAF7Kl4nDy/J3GLK1ze4Z2IBbAG
+         hy/5OF+YQePXgoIVoxwMTDXoGHNfFpBZvacvXIM5xmsu3DsUL5t7gpr86JABRGuSiB
+         W4WO2yJm1792k4gQmrnk66coMB1zIEUSHjJaRbn06XyBYouw2AFmtIg2Yo9V+K0tvc
+         YZ3furQ1pP3Wj0pEDHcHzFW1kXiD7KcVTF0N+OAHB8IStebKFAGiSYhwsVl+qmW4A4
+         UneyNoGljeSEA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Shreyas K K <quic_shrekk@quicinc.com>,
@@ -38,14 +38,15 @@ Cc:     Shreyas K K <quic_shrekk@quicinc.com>,
         Will Deacon <will@kernel.org>, Sasha Levin <sashal@kernel.org>,
         catalin.marinas@arm.com, corbet@lwn.net, anshuman.khandual@arm.com,
         suzuki.poulose@arm.com, mathieu.poirier@linaro.org,
-        james.morse@arm.com, arnd@arndb.de, lcherian@marvell.com,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 12/13] arm64: Enable repeat tlbi workaround on KRYO4XX gold CPUs
-Date:   Wed, 18 May 2022 08:28:43 -0400
-Message-Id: <20220518122844.343220-12-sashal@kernel.org>
+        james.morse@arm.com, lcherian@marvell.com, maz@kernel.org,
+        arnd@arndb.de, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 16/17] arm64: Enable repeat tlbi workaround on KRYO4XX gold CPUs
+Date:   Wed, 18 May 2022 08:27:50 -0400
+Message-Id: <20220518122753.342758-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220518122844.343220-1-sashal@kernel.org>
-References: <20220518122844.343220-1-sashal@kernel.org>
+In-Reply-To: <20220518122753.342758-1-sashal@kernel.org>
+References: <20220518122753.342758-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -77,10 +78,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 5 insertions(+)
 
 diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index 719510247292..f01eed0ee23a 100644
+index d410a47ffa57..7c1750bcc5bd 100644
 --- a/Documentation/arm64/silicon-errata.rst
 +++ b/Documentation/arm64/silicon-errata.rst
-@@ -160,6 +160,9 @@ stable kernels.
+@@ -163,6 +163,9 @@ stable kernels.
  +----------------+-----------------+-----------------+-----------------------------+
  | Qualcomm Tech. | Kryo4xx Silver  | N/A             | ARM64_ERRATUM_1024718       |
  +----------------+-----------------+-----------------+-----------------------------+
@@ -91,10 +92,10 @@ index 719510247292..f01eed0ee23a 100644
  | Fujitsu        | A64FX           | E#010001        | FUJITSU_ERRATUM_010001      |
  +----------------+-----------------+-----------------+-----------------------------+
 diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index 533559c7d2b3..ca42d58e8c82 100644
+index a33d7b8f3b93..c67c19d70159 100644
 --- a/arch/arm64/kernel/cpu_errata.c
 +++ b/arch/arm64/kernel/cpu_errata.c
-@@ -220,6 +220,8 @@ static const struct arm64_cpu_capabilities arm64_repeat_tlbi_list[] = {
+@@ -208,6 +208,8 @@ static const struct arm64_cpu_capabilities arm64_repeat_tlbi_list[] = {
  #ifdef CONFIG_ARM64_ERRATUM_1286807
  	{
  		ERRATA_MIDR_RANGE(MIDR_CORTEX_A76, 0, 0, 3, 0),
