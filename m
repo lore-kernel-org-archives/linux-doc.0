@@ -2,271 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7264AC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 07:49:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 404A4C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 08:08:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232617AbiERHty (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 03:49:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54152 "EHLO
+        id S232661AbiERIIs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 04:08:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232600AbiERHtw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 03:49:52 -0400
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0AC21207F0;
-        Wed, 18 May 2022 00:49:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1652860191; x=1684396191;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=YXZfjMQjUYv74UOxyPEdQftsBYoYCO06rHvgPycGMF8=;
-  b=ZAvNySM6n3yl2pZeG1iXhTqolcDLZaADSHpvy3vuynfXl/faTsnXvTAW
-   9dYy498KbpKXU2t4bxZ5yBApZyWpfAVS11h2a6re6tcPbsnmG86W+IrGZ
-   aID367ji8W1AhFCNt2YXWmv931bK5OejVxrKjvYE8Dqvewi0z7wx/+3GS
-   c=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 18 May 2022 00:49:50 -0700
-X-QCInternal: smtphost
-Received: from unknown (HELO nasanex01a.na.qualcomm.com) ([10.52.223.231])
-  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 00:49:50 -0700
-Received: from blr-ubuntu-185.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 18 May 2022 00:49:41 -0700
-From:   Vivek Kumar <quic_vivekuma@quicinc.com>
-To:     <corbet@lwn.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
-        <tglx@linutronix.de>, <maz@kernel.org>, <axboe@kernel.dk>,
-        <rafael@kernel.org>, <akpm@linux-foundation.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-block@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-        <linux-mm@kvack.org>
-CC:     <len.brown@intel.com>, <pavel@ucw.cz>, <paulmck@kernel.org>,
-        <bp@suse.de>, <keescook@chromium.org>, <songmuchun@bytedance.com>,
-        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
-        <pasha.tatashin@soleen.com>, <tabba@google.com>, <ardb@kernel.org>,
-        <tsoni@quicinc.com>, <quic_psodagud@quicinc.com>,
-        <quic_svaddagi@quicinc.com>,
-        Vivek Kumar <quic_vivekuma@quicinc.com>,
+        with ESMTP id S232660AbiERIIr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 04:08:47 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B65FE2CDD5;
+        Wed, 18 May 2022 01:08:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=mdeU/OBoZsa66bUz1IFOKaDDTSfpPDuGaocim/rl7HI=; b=mfRjpAdI5vkAnryw319sIBAE4u
+        PwvmShN8PR984Iy5Osaw4xlkH4BIUi90zaIyYRvmoZHEa98kfh2qeMwXrfQMbXW9a0Iq0TKbV2Edl
+        /BgduzF53HGN/EUN4XRG/Yw7xONhItulcrpo7EwBziCMxJWfwjhHW6XAJt+/vfdRl+/WjRNZU62RX
+        58EfjWNJ4s+esrs0h6twDPEtbgxhOjDdvbh9OMdM2aoKZPoW8cyzGuTVOxK8fJSYFamFsn7VorOpA
+        ziwLSLezeVQPctq98OGjupG392rCA2+wBQHBVRzrxVKAhxb/N5zStJhQt1KckXzszyMYMtFIEw1T4
+        PYzVnNtA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nrEjU-000Oxi-5R; Wed, 18 May 2022 08:08:36 +0000
+Date:   Wed, 18 May 2022 01:08:36 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Vivek Kumar <quic_vivekuma@quicinc.com>
+Cc:     corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
+        tglx@linutronix.de, maz@kernel.org, axboe@kernel.dk,
+        rafael@kernel.org, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-mm@kvack.org, len.brown@intel.com,
+        pavel@ucw.cz, paulmck@kernel.org, bp@suse.de,
+        keescook@chromium.org, songmuchun@bytedance.com,
+        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
+        pasha.tatashin@soleen.com, tabba@google.com, ardb@kernel.org,
+        tsoni@quicinc.com, quic_psodagud@quicinc.com,
+        quic_svaddagi@quicinc.com,
         Prasanna Kumar <quic_kprasan@quicinc.com>
-Subject: [RFC 6/6] irqchip/gic-v3: Re-init GIC hardware upon hibernation restore
-Date:   Wed, 18 May 2022 13:18:41 +0530
-Message-ID: <1652860121-24092-7-git-send-email-quic_vivekuma@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1652860121-24092-1-git-send-email-quic_vivekuma@quicinc.com>
+Subject: Re: [RFC 3/6] block: gendisk: Add a new genhd capability flag
+Message-ID: <YoSphB1u4yIwb8rs@infradead.org>
 References: <1652860121-24092-1-git-send-email-quic_vivekuma@quicinc.com>
+ <1652860121-24092-4-git-send-email-quic_vivekuma@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1652860121-24092-4-git-send-email-quic_vivekuma@quicinc.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Code added in this patch takes backup of different set of
-registers during hibernation suspend. On receiving hibernation
-restore callback, it restores register values from backup. This
-ensures state of hardware to be same just before hibernation and
-after restore.
-
-Signed-off-by: Vivek Kumar <quic_vivekuma@quicinc.com>
-Signed-off-by: Prasanna Kumar <quic_kprasan@quicinc.com>
----
- drivers/irqchip/irq-gic-v3.c | 138 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 136 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
-index 2be8dea..442d32f 100644
---- a/drivers/irqchip/irq-gic-v3.c
-+++ b/drivers/irqchip/irq-gic-v3.c
-@@ -29,6 +29,10 @@
- #include <asm/smp_plat.h>
- #include <asm/virt.h>
- 
-+#include <linux/syscore_ops.h>
-+#include <linux/suspend.h>
-+#include <linux/notifier.h>
-+
- #include "irq-gic-common.h"
- 
- #define GICD_INT_NMI_PRI	(GICD_INT_DEF_PRI & ~0x80)
-@@ -56,6 +60,14 @@ struct gic_chip_data {
- 	bool			has_rss;
- 	unsigned int		ppi_nr;
- 	struct partition_desc	**ppi_descs;
-+#ifdef CONFIG_HIBERNATION
-+	unsigned int enabled_irqs[32];
-+	unsigned int active_irqs[32];
-+	unsigned int irq_edg_lvl[64];
-+	unsigned int ppi_edg_lvl;
-+	unsigned int enabled_sgis;
-+	unsigned int pending_sgis;
-+#endif
- };
- 
- static struct gic_chip_data gic_data __read_mostly;
-@@ -170,6 +182,9 @@ static enum gic_intid_range get_intid_range(struct irq_data *d)
- 	return __get_intid_range(d->hwirq);
- }
- 
-+static void gic_dist_init(void);
-+static void gic_cpu_init(void);
-+
- static inline unsigned int gic_irq(struct irq_data *d)
- {
- 	return d->hwirq;
-@@ -828,7 +843,7 @@ static bool gic_has_group0(void)
- 	return val != 0;
- }
- 
--static void __init gic_dist_init(void)
-+static void gic_dist_init(void)
- {
- 	unsigned int i;
- 	u64 affinity;
-@@ -1399,6 +1414,120 @@ static void gic_cpu_pm_init(void)
- static inline void gic_cpu_pm_init(void) { }
- #endif /* CONFIG_CPU_PM */
- 
-+#ifdef CONFIG_PM
-+#ifdef CONFIG_HIBERNATION
-+extern int in_suspend;
-+static bool hibernation;
-+
-+static int gic_suspend_notifier(struct notifier_block *nb,
-+				unsigned long event,
-+				void *dummy)
-+{
-+	if (event == PM_HIBERNATION_PREPARE)
-+		hibernation = true;
-+	else if (event == PM_POST_HIBERNATION)
-+		hibernation = false;
-+	return NOTIFY_OK;
-+}
-+
-+static struct notifier_block gic_notif_block = {
-+	.notifier_call = gic_suspend_notifier,
-+};
-+
-+static void gic_hibernation_suspend(void)
-+{
-+	int i;
-+	void __iomem *base = gic_data.dist_base;
-+	void __iomem *rdist_base = gic_data_rdist_sgi_base();
-+
-+	gic_data.enabled_sgis = readl_relaxed(rdist_base + GICD_ISENABLER);
-+	gic_data.pending_sgis = readl_relaxed(rdist_base + GICD_ISPENDR);
-+	/* Store edge level for PPIs by reading GICR_ICFGR1 */
-+	gic_data.ppi_edg_lvl = readl_relaxed(rdist_base + GICR_ICFGR0 + 4);
-+
-+	for (i = 0; i * 32 < GIC_LINE_NR; i++) {
-+		gic_data.enabled_irqs[i] = readl_relaxed(base +
-+						GICD_ISENABLER + i * 4);
-+		gic_data.active_irqs[i] = readl_relaxed(base +
-+						GICD_ISPENDR + i * 4);
-+	}
-+
-+	for (i = 2; i < GIC_LINE_NR / 16; i++)
-+		gic_data.irq_edg_lvl[i] = readl_relaxed(base +
-+						GICD_ICFGR + i * 4);
-+}
-+#endif
-+
-+static int gic_suspend(void)
-+{
-+#ifdef CONFIG_HIBERNATION
-+	if (unlikely(hibernation))
-+		gic_hibernation_suspend();
-+#endif
-+	return 0;
-+}
-+
-+void gic_resume(void)
-+{
-+#ifdef CONFIG_HIBERNATION
-+	int i;
-+	void __iomem *base = gic_data.dist_base;
-+	void __iomem *rdist_base = gic_data_rdist_sgi_base();
-+
-+	/*
-+	 * in_suspend is defined in hibernate.c and will be 0 during
-+	 * hibernation restore case. Also it willl be 0 for suspend to ram case
-+	 * and similar cases. Underlying code will not get executed in regular
-+	 * cases and will be executed only for hibernation restore.
-+	 */
-+	if (unlikely((in_suspend == 0 && hibernation))) {
-+		pr_info("Re-initializing gic in hibernation restore\n");
-+		gic_dist_init();
-+		gic_cpu_init();
-+		/* Activate and enable SGIs and PPIs */
-+		writel_relaxed(gic_data.enabled_sgis,
-+			       rdist_base + GICD_ISENABLER);
-+		writel_relaxed(gic_data.pending_sgis,
-+			       rdist_base + GICD_ISPENDR);
-+		/* Restore edge and level triggers for PPIs from GICR_ICFGR1 */
-+		writel_relaxed(gic_data.ppi_edg_lvl,
-+			       rdist_base + GICR_ICFGR0 + 4);
-+
-+		/* Restore edge and level triggers */
-+		for (i = 2; i < GIC_LINE_NR / 16; i++)
-+			writel_relaxed(gic_data.irq_edg_lvl[i],
-+					base + GICD_ICFGR + i * 4);
-+		gic_dist_wait_for_rwp();
-+
-+		/* Activate and enable interrupts from backup */
-+		for (i = 0; i * 32 < GIC_LINE_NR; i++) {
-+			writel_relaxed(gic_data.active_irqs[i],
-+				       base + GICD_ISPENDR + i * 4);
-+
-+			writel_relaxed(gic_data.enabled_irqs[i],
-+				       base + GICD_ISENABLER + i * 4);
-+		}
-+		gic_dist_wait_for_rwp();
-+	}
-+#endif
-+}
-+EXPORT_SYMBOL_GPL(gic_resume);
-+
-+static struct syscore_ops gic_syscore_ops = {
-+	.suspend = gic_suspend,
-+	.resume = gic_resume,
-+};
-+
-+static void gic_syscore_init(void)
-+{
-+	register_syscore_ops(&gic_syscore_ops);
-+}
-+
-+#else
-+static inline void gic_syscore_init(void) { }
-+void gic_resume(void) { }
-+#endif
-+
- static struct irq_chip gic_chip = {
- 	.name			= "GICv3",
- 	.irq_mask		= gic_mask_irq,
-@@ -1887,6 +2016,7 @@ static int __init gic_init_bases(void __iomem *dist_base,
- 	gic_cpu_init();
- 	gic_smp_init();
- 	gic_cpu_pm_init();
-+	gic_syscore_init();
- 
- 	if (gic_dist_supports_lpis()) {
- 		its_init(handle, &gic_data.rdists, gic_data.domain);
-@@ -2092,7 +2222,11 @@ static int __init gic_of_init(struct device_node *node, struct device_node *pare
- 			     redist_stride, &node->fwnode);
- 	if (err)
- 		goto out_unmap_rdist;
--
-+#ifdef CONFIG_HIBERNATION
-+	err = register_pm_notifier(&gic_notif_block);
-+	if (err)
-+		goto out_unmap_rdist;
-+#endif
- 	gic_populate_ppi_partitions(node);
- 
- 	if (static_branch_likely(&supports_deactivate_key))
--- 
-2.7.4
-
+This has abslutely nothing to do with the block layer, and should not
+abuse the gendisk.
