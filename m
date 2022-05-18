@@ -2,171 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C9EAC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 14:51:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AEF1C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 14:56:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239028AbiEROv1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 10:51:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57788 "EHLO
+        id S239036AbiERO43 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 10:56:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239090AbiEROvU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 10:51:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D8C21140E7
-        for <linux-doc@vger.kernel.org>; Wed, 18 May 2022 07:51:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1652885477;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qb8my2fczKVu20tRdn0IXcPprd3BkcG8GVQrCiJBFwI=;
-        b=Cvq55359mLAdNsAPLmzKVCoOv8NBKd1RG355ihJ5ImjY0pQ6504CpKuxTlbu5R50KG2PG1
-        prI0iJdODp5aIE2DkY/Z+WdwYNToVLBibKNUcAyeWHOg1Doj2iiHr0mg7cl+zXmES/bdH2
-        2BXSRKgoLG6tmudWqCstD2owc1m7V8s=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-450-_ZnwILosMCu-cwZSup3reQ-1; Wed, 18 May 2022 10:51:16 -0400
-X-MC-Unique: _ZnwILosMCu-cwZSup3reQ-1
-Received: by mail-ed1-f72.google.com with SMTP id h11-20020aa7c60b000000b0042ab2287015so1776715edq.3
-        for <linux-doc@vger.kernel.org>; Wed, 18 May 2022 07:51:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:organization:subject
-         :in-reply-to:content-transfer-encoding;
-        bh=qb8my2fczKVu20tRdn0IXcPprd3BkcG8GVQrCiJBFwI=;
-        b=OzfO3BupsnMP5Eh9RCLWxQSVJRIQTz+MvvHTcxyzfBWAua2zgdQ727huxZ9s63C0yk
-         K7UzRmtfRH+Zv/6JB5ApwuELD6AAvVAZcbCaxq9IGL8QJjmjl5JV+UbH5+2fkOI3Ie5Q
-         862sJl0bCG4qUBgbaDJKpqfgkoJLRVLI43iPmmkAPw0MfgH1JXvP3jo9X6TS9VjAKqLU
-         qe5nXt7jHfEMNFR3I2tqYNW6ZF9v0atb69IUD22s6T5Ex6eBjGMMLtETBJhpU3I0ydqe
-         Ebhw/X8LhoHDyqU19OfzsI2hFp0fnl78Em4aZyb/OvuSALeSPsmV6PUEUb7qhshc/auU
-         yFIA==
-X-Gm-Message-State: AOAM530JeQekxvUFgyW/3GXibgBfKwolFB1OuMAxRD1dBgevsYHo7Fxs
-        OUILY3ftqBJHzqcRAoxdg/xDr8KNnFXkOepvouL2JYi8kj9aO0H/Hb0nR9sD39xlIpo6YDWIDKF
-        1XIGk5WJl5MRPMIy++y/d
-X-Received: by 2002:a17:906:c109:b0:6f4:d700:2e66 with SMTP id do9-20020a170906c10900b006f4d7002e66mr25007081ejc.738.1652885474588;
-        Wed, 18 May 2022 07:51:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzmzs57k/68Qokor/FvHbio0zYGP5h1PlDbp4XTszFDGA6dpLXKw1qKh1lZMzCBSxCvDlIUFg==
-X-Received: by 2002:a17:906:c109:b0:6f4:d700:2e66 with SMTP id do9-20020a170906c10900b006f4d7002e66mr25007055ejc.738.1652885474283;
-        Wed, 18 May 2022 07:51:14 -0700 (PDT)
-Received: from [172.29.4.249] ([45.90.93.190])
-        by smtp.gmail.com with ESMTPSA id hy11-20020a1709068a6b00b006f3ef214e75sm994119ejc.219.2022.05.18.07.51.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 May 2022 07:51:13 -0700 (PDT)
-Message-ID: <37055be1-05af-f7ef-c33e-27f90fa0f9ca@redhat.com>
-Date:   Wed, 18 May 2022 16:51:06 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Content-Language: en-US
-To:     Qi Zheng <zhengqi.arch@bytedance.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, songmuchun@bytedance.com,
-        zhouchengming@bytedance.com, akpm@linux-foundation.org,
-        tglx@linutronix.de, kirill.shutemov@linux.intel.com,
-        jgg@nvidia.com, tj@kernel.org, dennis@kernel.org,
-        ming.lei@redhat.com
+        with ESMTP id S239045AbiERO41 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 10:56:27 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4E3016F913;
+        Wed, 18 May 2022 07:56:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=4Is6VMKTGS6Q+REIPQaUhYHAbJCVB2LMBP9f+Vwnyr0=; b=ZicRzH8+hsKxFUFZUGV7uh6rsr
+        liYqq1jo/NJPjFOq45aL15fhGeuMBVY2fPnZKIydDip+x+51BJs5NLmaGT8oWGbYZbNY+K0Pyrkef
+        6rtOzeBsy0dtcUJ9XhADYUN1Y2oy9oXlw62lJz3I3InUErp1+tH7/lFyOSmAivKaDcxFU8jfS3PYX
+        5/inIxpdAkkRzXjoVhil+5k58vn049Ny8S6eWbnS3PYIDvtdMiaokBA2YBm3sYTd/JNaiZ0Wbl7n9
+        ZDo+9nTYLRaDzeaIcwzrVzxX+7iFsugHlQtmCGx0J+QdfouNf4S/mZbzCdefd3KPIBkiWnP0vWdHc
+        TOCI2+AQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nrL61-00Bsxi-6p; Wed, 18 May 2022 14:56:17 +0000
+Date:   Wed, 18 May 2022 15:56:17 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Qi Zheng <zhengqi.arch@bytedance.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        songmuchun@bytedance.com, zhouchengming@bytedance.com,
+        akpm@linux-foundation.org, tglx@linutronix.de,
+        kirill.shutemov@linux.intel.com, jgg@nvidia.com, tj@kernel.org,
+        dennis@kernel.org, ming.lei@redhat.com
+Subject: Re: [RFC PATCH 00/18] Try to free user PTE page table pages
+Message-ID: <YoUJEZU9JcfMlhRO@casper.infradead.org>
 References: <20220429133552.33768-1-zhengqi.arch@bytedance.com>
  <8c51d9ae-5a8e-74a9-ddc2-70b5fcd38427@bytedance.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [RFC PATCH 00/18] Try to free user PTE page table pages
-In-Reply-To: <8c51d9ae-5a8e-74a9-ddc2-70b5fcd38427@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <37055be1-05af-f7ef-c33e-27f90fa0f9ca@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <37055be1-05af-f7ef-c33e-27f90fa0f9ca@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17.05.22 10:30, Qi Zheng wrote:
-> 
-> 
-> On 2022/4/29 9:35 PM, Qi Zheng wrote:
->> Hi,
->>
->> This patch series aims to try to free user PTE page table pages when no one is
->> using it.
->>
->> The beginning of this story is that some malloc libraries(e.g. jemalloc or
->> tcmalloc) usually allocate the amount of VAs by mmap() and do not unmap those
->> VAs. They will use madvise(MADV_DONTNEED) to free physical memory if they want.
->> But the page tables do not be freed by madvise(), so it can produce many
->> page tables when the process touches an enormous virtual address space.
->>
->> The following figures are a memory usage snapshot of one process which actually
->> happened on our server:
->>
->>          VIRT:  55t
->>          RES:   590g
->>          VmPTE: 110g
->>
->> As we can see, the PTE page tables size is 110g, while the RES is 590g. In
->> theory, the process only need 1.2g PTE page tables to map those physical
->> memory. The reason why PTE page tables occupy a lot of memory is that
->> madvise(MADV_DONTNEED) only empty the PTE and free physical memory but
->> doesn't free the PTE page table pages. So we can free those empty PTE page
->> tables to save memory. In the above cases, we can save memory about 108g(best
->> case). And the larger the difference between the size of VIRT and RES, the
->> more memory we save.
->>
->> In this patch series, we add a pte_ref field to the struct page of page table
->> to track how many users of user PTE page table. Similar to the mechanism of page
->> refcount, the user of PTE page table should hold a refcount to it before
->> accessing. The user PTE page table page may be freed when the last refcount is
->> dropped.
->>
->> Different from the idea of another patchset of mine before[1], the pte_ref
->> becomes a struct percpu_ref type, and we switch it to atomic mode only in cases
->> such as MADV_DONTNEED and MADV_FREE that may clear the user PTE page table
->> entryies, and then release the user PTE page table page when checking that
->> pte_ref is 0. The advantage of this is that there is basically no performance
->> overhead in percpu mode, but it can also free the empty PTEs. In addition, the
->> code implementation of this patchset is much simpler and more portable than the
->> another patchset[1].
-> 
-> Hi David,
-> 
-> I learned from the LWN article[1] that you led a session at the LSFMM on
-> the problems posed by the lack of page-table reclaim (And thank you very
-> much for mentioning some of my work in this direction). So I want to
-> know, what are the further plans of the community for this problem?
+On Wed, May 18, 2022 at 04:51:06PM +0200, David Hildenbrand wrote:
+> yes, I talked about the involved challenges, especially, how malicious
+> user space can trigger allocation of almost elusively page tables and
+> essentially consume a lot of unmovable+unswappable memory and even store
+> secrets in the page table structure.
 
-Hi,
-
-yes, I talked about the involved challenges, especially, how malicious
-user space can trigger allocation of almost elusively page tables and
-essentially consume a lot of unmovable+unswappable memory and even store
-secrets in the page table structure.
-
-Empty PTE tables is one such case we care about, but there is more. Even
-with your approach, we can still end up with many page tables that are
-allocated on higher levels (e.g., PMD tables) or page tables that are
-not empty (especially, filled with the shared zeropage).
-
-Ideally, we'd have some mechanism that can reclaim also other
-reclaimable page tables (e.g., filled with shared zeropage). One idea
-was to add reclaimable page tables to the LRU list and to then
-scan+reclaim them on demand. There are multiple challenges involved,
-obviously. One is how to synchronize against concurrent page table
-walkers, another one is how to invalidate MMU notifiers from reclaim
-context. It would most probably involve storing required information in
-the memmap to be able to lock+synchronize.
-
-Having that said, adding infrastructure that might not be easy to extend
-to the more general case of reclaiming other reclaimable page tables on
-multiple levels (esp PMD tables) might not be what we want. OTOH, it
-gets the job done for once case we care about.
-
-It's really hard to tell what to do because reclaiming page tables and
-eventually handling malicious user space correctly is far from trivial :)
-
-I'll be on vacation until end of May, I'll come back to this mail once
-I'm back.
-
--- 
-Thanks,
-
-David / dhildenb
+There are a lot of ways for userspace to consume a large amount of
+kernel memory.  For example, one can open a file and set file locks on
+alternate bytes.  We generally handle this by accounting the memory to
+the process and let the OOM killer, rlimits, memcg or other mechanism
+take care of it.  Just because page tables are (generally) reclaimable
+doesn't mean we need to treat them specially.
 
