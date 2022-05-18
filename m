@@ -2,104 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B4FAC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 13:42:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D0AC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 14:05:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238069AbiERNmO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 09:42:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33684 "EHLO
+        id S238392AbiEROFn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 10:05:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238051AbiERNmN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 09:42:13 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30EF419C754;
-        Wed, 18 May 2022 06:42:11 -0700 (PDT)
-Received: from mail-yb1-f171.google.com ([209.85.219.171]) by
- mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MV6G0-1oH3kl3tqA-00S6Df; Wed, 18 May 2022 15:42:10 +0200
-Received: by mail-yb1-f171.google.com with SMTP id r1so3710132ybo.7;
-        Wed, 18 May 2022 06:42:09 -0700 (PDT)
-X-Gm-Message-State: AOAM532mwljm7QhGog1Ozi2+BC37XdWVkLs5vEXCzi1oFCrLmllXo2TN
-        87jkvsRRnMe0jZ1FHCJ/tDYd9qrHc4Z0eH+0cJ0=
-X-Google-Smtp-Source: ABdhPJwF48jLhG/+AfxWmCnEeiKLqJ8UZuTJC+Pw8l97uOFrR22mgsXO3Z5XrirQNf54YIn4ndeQ8Y4a8mWoYzhJzfI=
-X-Received: by 2002:a25:d607:0:b0:64d:bbc4:5bcf with SMTP id
- n7-20020a25d607000000b0064dbbc45bcfmr12694971ybg.550.1652881328511; Wed, 18
- May 2022 06:42:08 -0700 (PDT)
+        with ESMTP id S231747AbiEROFn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 10:05:43 -0400
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04B09187DAC;
+        Wed, 18 May 2022 07:05:42 -0700 (PDT)
+Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-2fee9fe48c2so25773907b3.3;
+        Wed, 18 May 2022 07:05:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Pg9cHDfOmQbKA6sIGv2JPMMr6K3pv/vo5Tu+jGJ0f+A=;
+        b=e6/AhQfYrT8846Hg+aIPVzaVNoSL5XsanMKp811Mrs9WvxdjaycBT017rBix3zEiGm
+         TlvUgokaIm0K6peenTPOV5Ao6qQL5/D+u/4MWTUKSpxKnpuBEt3BR9axyNsMFMyrZj+v
+         ey+zthjQY63V86f9OZHFh+GpFlqMdOfccOiv7C+pzQJbWG3tRMkDFCQqFYLfcODly9NM
+         j7Pkzpo9rEAIxXDdu+xQeuP5y7iE7HC9oidLejvRrPNl8OgpjI2UoXjr4ItMpnam5NUy
+         JJapsiATGADzMGfya24pgCtEJo/LSp/aPzQpJvTvuErsZhuoYCREpg4lcUHMH9s3UJ/t
+         oBJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Pg9cHDfOmQbKA6sIGv2JPMMr6K3pv/vo5Tu+jGJ0f+A=;
+        b=DprFq9kExwc1QyirZTH8cVen0FMwZX/+VB3wgJdYlnUeKkcbQZjxoHbKB0mgxtHL76
+         u0U3IeABez4ad89gOohTBIdJrO9+p4z80hnZ+nUWr4457VkdrNPQq4apnYnpJOq8X4fq
+         Bmyl3ema0O6rxWHywqpL2+IndzZB9JiUfT/EFXd88ibVl1GSJrDTkMBmAk7rDE2qNfNf
+         lBz+yDuho5+FnluLxiuLeMU7lyN8owmfDhRkeRfU+0UOdJRBhoQ1pxcntgqya1mUC0mu
+         mpmBaMfqE34jul1h9IdfDzt2/oVoMcncrh3EbIT2ESaIZNiUSqkOKPxHgbON1biFlIMm
+         Tv0g==
+X-Gm-Message-State: AOAM532JNqRBOko1nzcERMNRMCErb4ZBfLrX+UeBtdoAlZUArOh40pff
+        HqFK+Tz71/DZDXZ3thPqc8aGkq8eAoWQ2q/IY78=
+X-Google-Smtp-Source: ABdhPJxEmLouzj7heJFGZupA9PDoDM88xPg6Yc39MR+Z8uhjn/4fz1Pwv8qxww7dqmcsrzi9Z+H4+RDs0k2WOPNJi4I=
+X-Received: by 2002:a81:4f0b:0:b0:2ff:2770:c267 with SMTP id
+ d11-20020a814f0b000000b002ff2770c267mr8566295ywb.212.1652882741213; Wed, 18
+ May 2022 07:05:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220518092619.1269111-1-chenhuacai@loongson.cn>
-In-Reply-To: <20220518092619.1269111-1-chenhuacai@loongson.cn>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 18 May 2022 14:42:07 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a15oQNZvST56v0AvtC1oZP4iDHy-QMLwZuDAg30gq-+4A@mail.gmail.com>
-Message-ID: <CAK8P3a15oQNZvST56v0AvtC1oZP4iDHy-QMLwZuDAg30gq-+4A@mail.gmail.com>
-Subject: Re: [PATCH V11 00/22] arch: Add basic LoongArch support
-To:     Huacai Chen <chenhuacai@loongson.cn>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+References: <cover.1652712771.git.siyanteng@loongson.cn> <b0c1324d1d63846d700ab354446a6deaf30754c0.1652712771.git.siyanteng@loongson.cn>
+ <8735h8vu0x.fsf@meer.lwn.net>
+In-Reply-To: <8735h8vu0x.fsf@meer.lwn.net>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Wed, 18 May 2022 22:05:29 +0800
+Message-ID: <CAEensMzjCR+LWXw-xS95xMOea20yxUJ8c-f7EmYgP7EkpUePaw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] MAINTAINERS: Become the docs/zh_CN maintainer
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        Alex Shi <seakeel@gmail.com>, Wu XiangCheng <bobwxc@email.cn>,
+        Yeechou Tang <tangyeechou@gmail.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:yzzh/Bvedw1+TODKA9j8JOP/sQBxZOile5/C/Y0YZ0ViizDVn7H
- zIG0Sd5N8Lr15LiqqD3BZ4Gdyt1YyLT1K5z4cL6mEyhk1lwr6pF5m3Jp90wh++A7/RIHL/O
- ej1eIS6oKS6RrgSIsbqU6/hzNn571shxP+Uj7SS41s1hwwF6+zsU14xkhPmkIJCr9pnU7Pj
- 4315fH2NSeIVl6UkSAe7A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ar4lpxslaLs=:HH5jRpRN0EVqYyceucHww2
- p1zaqKDdMxBZHsI/knQfqdYOzYC9b/6nVQrIJBsauYsog9/IDLloPVCu41/rgF/F/x69D9X3Z
- m3RIFfRHohDpRaKKkvgxZlegarYzWZbm2e1N2JJ+SdzVXIMMfi1zFAgnEGHlHNOPXeV3TFdQV
- O0KwFcRhDIOwacMgmic5KEBxxDUwiPNS21UJR7/U+UUXwT1yi1FrvFQY0KSOGEEiBkEQoGwRF
- CBgizukNFiCCDeA2T9Vj5IF6S+Os/moTWcFGY5J6ghmaHJSBAE6NhUFzjx9XUzZjp84UG9Gvf
- AiX+S0x/z2JW/pjTIChjm9G7uygw6fiV9N6kQDX4ndWXuKe1PPsfxqZEz0FNM0IsNf8alTaSZ
- PE7YHZERKzY4i4n7dPNT2WqdrlE90CHkDTiCtwcZVVoCO86tVuHtfkNnEHdM0O61ZsOjBFTh1
- xubkVQXU5bkgfXfml+HfAppw4mt0OKSRRsmYtzTZ2grgugaHWxZDjt+wtjo+VTfG2HfEzCC/K
- NQHpFr+DjxNYG5FJG8zIVVxpkD9EnW5vYngaheUp0HNO2bVi3c3lTeemgnLfD0kd1yx0ZSSiY
- QKW876zQFJBsA9BACXdzSGmBso2myWCuk6QEk94IroWkXdlQpCnBepMY873hFQwtfV1dlWzhp
- k+HjuIr2xvphdxFZdMooQRAuvksGEhsyLjUPKNOn3Xynh9xx+FBso4xlE7h/uqz7rm8P8cRFk
- fYg9A5ImS59uUweTeqcfbWbM+6MojKfzzZbbzmJsBM2QgKQaSy9Lr9DxLxF1BwaRK9iX6rdJa
- 5oJh1C83vrdPCg3nBy4UedJG3GB+GXSSp9B6m7n7s3sy86quw/7dEGFEgG3BU8GyeUA1j2urU
- gMlKVBDe7E+Bax8ku7iw==
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 18, 2022 at 10:25 AM Huacai Chen <chenhuacai@loongson.cn> wrote:
+Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2022=E5=B9=B45=E6=9C=8818=E6=97=
+=A5=E5=91=A8=E4=B8=89 03:28=E5=86=99=E9=81=93=EF=BC=9A
 >
-> LoongArch is a new RISC ISA, which is a bit like MIPS or RISC-V.
-> LoongArch includes a reduced 32-bit version (LA32R), a standard 32-bit
-> version (LA32S) and a 64-bit version (LA64). LoongArch use ACPI as its
-> boot protocol LoongArch-specific interrupt controllers (similar to APIC)
-> are already added in the next revision of ACPI Specification (current
-> revision is 6.4).
+> Yanteng Si <siyanteng@loongson.cn> writes:
 >
-> This patchset is adding basic LoongArch support in mainline kernel, we
-> can see a complete snapshot here:
-> https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson.git/log/?h=loongarch-next
+> > It's time to become a maintainer of Chinese documentation, and Yanteng'=
+s plan
+> > is to help everyone with the utmost enthusiasm and patience.
+> >
+> > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> > Reviewed-by: Alex Shi <alexs@kernel.org>
+> > ---
+> >  MAINTAINERS | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 9ce78f2275dc..ff1364d9f7cc 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -4649,6 +4649,7 @@ F:      Documentation/dev-tools/checkpatch.rst
+> >
+> >  CHINESE DOCUMENTATION
+> >  M:   Alex Shi <alexs@kernel.org>
+> > +M:   Yanteng Si <siyanteng@loongson.cn>
+> >  S:   Maintained
+> >  F:   Documentation/translations/zh_CN/
+>
+> I've applied this.  I am curious, though: what is your sense for what
+> being designated a "maintainer" means?  Do you envision something beyond
+> reviewing patches (for which an "R:" entry would be most appropriate)?
+>
+> In any case, you help with the documentation is appreciated!
 
-Stephen, can you add this branch to the linux-next tree?
+Jonathan Corbet, Alex Shi, and guys in the mail list.
 
-I see there are still comments coming in, but at some point this has
-to just be considered good enough that any further changes can be addressed
-with patches on top rather than rebasing.
+We, all kernel developers who love Chinese documentation, are now
+involved in a very interesting project: the localization of kernel
+documentation into Chinese.
 
-> V10 -> V11:
-> 1, Rebased on asm-generic tree;
+For a long time, we have been working on translating as much of the
+English documentation into Chinese as possible, while neglecting to
+maintain the growing amount of Chinese documentation, which is
+becoming progressively more difficult to maintain. It's not just the
+quantity that is difficult, but also the time. For example, if a
+document is not updated in a timely manner, developers who have
+difficulty with English will get old or even wrong guidelines, which
+is not only a waste of time and effort for developers, but may also
+result in the kernel not getting the code contributed by developers in
+a timely manner.
 
-I was expecting that you'd base this on just the spinlock changes from Palmer's
-tree that are part of the asm-generic tree rather than all of what I have.
+During the translation, we found ourselves disagree on the translation
+of some terms from time to time, especially on terms being translated
+into Chinese for the first time; and sometimes it might not be easy to
+reach agreement on such circumstances and provide a translation that
+is trustworthy, up-to-date, and elegant in a short time.
 
-Can you rebase it once more? If there are conflicts against the h8300 removal
-series that is also in asm-generic, leaving it on top of that may be
-easier though.
+At the same time, I've noticed that the translating kernel
+documentations is a great entry point to  many newbies, which is a
+good thing, but adds to the burden of reviewing Chinese documentation
+patches, as most of them tend to have great enthusiasm but are
+unfamiliar with the patch creation and submission process. Of course,
+we have very detailed documentation guidelines and they are translated
+into Chinese, but they still need some help from us in their practice
+process.
 
-        Arnd
+But that is the past. And now we are looking only to the future.
+
+I will do my best to keep all the Chinese documentation as up-to-date
+as the English documentation, and I will keep an eye on the latest
+changes to each original document and quickly sync them to the Chinese
+documentation. At the same time, I will work to move forward with a
+plan to produce a glossary of terms, and to revise the current
+documentation where a single English word is translated into multiple
+Chinese words. Finally, I will provide every developer with as much
+help as I can with my utmost enthusiasm and patience.
+
+
+Thanks,
+Yanteng
