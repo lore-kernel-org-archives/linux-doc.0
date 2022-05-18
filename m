@@ -2,108 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 915F2C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 12:33:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7730C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 13:00:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236628AbiERMdb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 08:33:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54776 "EHLO
+        id S237430AbiERNAm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 09:00:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237005AbiERMdJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 08:33:09 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05DA8115CAD;
-        Wed, 18 May 2022 05:29:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3F638B81FB8;
-        Wed, 18 May 2022 12:28:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DDE2C385A5;
-        Wed, 18 May 2022 12:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652876917;
-        bh=bmNDXt0dhhCHvZC50SZNQe0bZ4XDsvewzFJ1e8Dm0K0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=m8bue/yyLBC0cbGjkjP0wCmVfY13c088dqmnuandPg1YJu1jJofIlj8paojZIlXQo
-         6px7iMnbugbaNAwnCW1gooVKKaKLswXIioULnuHFAF7Kl4nDy/J3GLK1ze4Z2IBbAG
-         hy/5OF+YQePXgoIVoxwMTDXoGHNfFpBZvacvXIM5xmsu3DsUL5t7gpr86JABRGuSiB
-         W4WO2yJm1792k4gQmrnk66coMB1zIEUSHjJaRbn06XyBYouw2AFmtIg2Yo9V+K0tvc
-         YZ3furQ1pP3Wj0pEDHcHzFW1kXiD7KcVTF0N+OAHB8IStebKFAGiSYhwsVl+qmW4A4
-         UneyNoGljeSEA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Shreyas K K <quic_shrekk@quicinc.com>,
-        Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
-        Will Deacon <will@kernel.org>, Sasha Levin <sashal@kernel.org>,
-        catalin.marinas@arm.com, corbet@lwn.net, anshuman.khandual@arm.com,
-        suzuki.poulose@arm.com, mathieu.poirier@linaro.org,
-        james.morse@arm.com, lcherian@marvell.com, maz@kernel.org,
-        arnd@arndb.de, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 16/17] arm64: Enable repeat tlbi workaround on KRYO4XX gold CPUs
-Date:   Wed, 18 May 2022 08:27:50 -0400
-Message-Id: <20220518122753.342758-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220518122753.342758-1-sashal@kernel.org>
-References: <20220518122753.342758-1-sashal@kernel.org>
+        with ESMTP id S237425AbiERNAl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 09:00:41 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 512A01A6AE4;
+        Wed, 18 May 2022 06:00:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=6rvVpjtewErevwtzxVWgKanKatH+lil9XQiGaNTaboY=; b=ThnAz/oFIZap4IArJner1pmcW3
+        6MJb8LhZ5nlzG/AhKU5YUmwufgHp2bWyyb94yxcxXrUBTN7Cl0dmA2z8CKpyzIK8v7TkyezC8WKNP
+        p4BAlJjvwr25/AOq/K3pzMeuO66nCKb7HsqmmbeQtweeDVpo+my1JeYHtcVeuNXIzNV1wVA5LVb5o
+        6IoZcDm+xiE6JtFyotUMSu++E2VWulFO3SodIndd8ca0TPhnop8eZO2XeBJR+m96h41AWDR0iv+y0
+        ELyJaeXYcmM7NBeIeWyQVoyNbNex/DPS2tNs3gXLZ9tQfqQMbbiHixzQycBM9ELWJsqZeII6s0y3p
+        CacIyhmg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nrJHs-002CUG-Vm; Wed, 18 May 2022 13:00:25 +0000
+Date:   Wed, 18 May 2022 06:00:24 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Vivek Kumar <quic_vivekuma@quicinc.com>
+Cc:     corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
+        tglx@linutronix.de, maz@kernel.org, axboe@kernel.dk,
+        rafael@kernel.org, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-mm@kvack.org, len.brown@intel.com,
+        pavel@ucw.cz, paulmck@kernel.org, bp@suse.de,
+        keescook@chromium.org, songmuchun@bytedance.com,
+        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
+        pasha.tatashin@soleen.com, tabba@google.com, ardb@kernel.org,
+        tsoni@quicinc.com, quic_psodagud@quicinc.com,
+        quic_svaddagi@quicinc.com,
+        Prasanna Kumar <quic_kprasan@quicinc.com>
+Subject: Re: [RFC 2/6] PM: Hibernate: Add option to disable disk offset
+ randomization
+Message-ID: <YoTt6C5ymvmMcmWw@infradead.org>
+References: <1652860121-24092-1-git-send-email-quic_vivekuma@quicinc.com>
+ <1652860121-24092-3-git-send-email-quic_vivekuma@quicinc.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1652860121-24092-3-git-send-email-quic_vivekuma@quicinc.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Shreyas K K <quic_shrekk@quicinc.com>
+On Wed, May 18, 2022 at 01:18:37PM +0530, Vivek Kumar wrote:
+> Add a kernel parameter to disable the disk offset randomization
+> for SSD devices in which such feature is available at the
+> firmware level. This is helpful in improving hibernation
+> resume time.
 
-[ Upstream commit 51f559d66527e238f9a5f82027bff499784d4eac ]
+This patch just adds a global variable which is then entirely
+igored.
 
-Add KRYO4XX gold/big cores to the list of CPUs that need the
-repeat TLBI workaround. Apply this to the affected
-KRYO4XX cores (rcpe to rfpe).
-
-The variant and revision bits are implementation defined and are
-different from the their Cortex CPU counterparts on which they are
-based on, i.e., (r0p0 to r3p0) is equivalent to (rcpe to rfpe).
-
-Signed-off-by: Shreyas K K <quic_shrekk@quicinc.com>
-Reviewed-by: Sai Prakash Ranjan <quic_saipraka@quicinc.com>
-Link: https://lore.kernel.org/r/20220512110134.12179-1-quic_shrekk@quicinc.com
-Signed-off-by: Will Deacon <will@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/arm64/silicon-errata.rst | 3 +++
- arch/arm64/kernel/cpu_errata.c         | 2 ++
- 2 files changed, 5 insertions(+)
-
-diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index d410a47ffa57..7c1750bcc5bd 100644
---- a/Documentation/arm64/silicon-errata.rst
-+++ b/Documentation/arm64/silicon-errata.rst
-@@ -163,6 +163,9 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | Qualcomm Tech. | Kryo4xx Silver  | N/A             | ARM64_ERRATUM_1024718       |
- +----------------+-----------------+-----------------+-----------------------------+
-+| Qualcomm Tech. | Kryo4xx Gold    | N/A             | ARM64_ERRATUM_1286807       |
-++----------------+-----------------+-----------------+-----------------------------+
-+
- +----------------+-----------------+-----------------+-----------------------------+
- | Fujitsu        | A64FX           | E#010001        | FUJITSU_ERRATUM_010001      |
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index a33d7b8f3b93..c67c19d70159 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -208,6 +208,8 @@ static const struct arm64_cpu_capabilities arm64_repeat_tlbi_list[] = {
- #ifdef CONFIG_ARM64_ERRATUM_1286807
- 	{
- 		ERRATA_MIDR_RANGE(MIDR_CORTEX_A76, 0, 0, 3, 0),
-+		/* Kryo4xx Gold (rcpe to rfpe) => (r0p0 to r3p0) */
-+		ERRATA_MIDR_RANGE(MIDR_QCOM_KRYO_4XX_GOLD, 0xc, 0xe, 0xf, 0xe),
- 	},
- #endif
- 	{},
--- 
-2.35.1
-
+But the idea of "randomizing" offsets on SSDs sounds like complete BS to
+start with.  The whole job of the SSD is to remap from a random writable
+block device to difference physical blocks to deal with erases and wear
+leveling.  In other words it really doesn't matter what offset your
+write to.  That being said I could not actually find any code that does
+this randomization to start with, but that might just be my lack of grep
+skills.
