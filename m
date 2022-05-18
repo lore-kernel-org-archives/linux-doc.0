@@ -2,189 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2602CC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 22:47:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 363A7C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 18 May 2022 23:14:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230045AbiERWrF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 18 May 2022 18:47:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33596 "EHLO
+        id S230488AbiERXOE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 18 May 2022 19:14:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbiERWrD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 18:47:03 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7848C146764
-        for <linux-doc@vger.kernel.org>; Wed, 18 May 2022 15:47:02 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id i20-20020a05600c355400b0039456976dcaso2882688wmq.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 May 2022 15:47:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=r+OwTFSdR2gyZK543TiqztKo53GHODJ6up3IJF4FH3Q=;
-        b=CY2hT2cxVOa7I78OfBysSpF9QWMDtFJDTVA6Kviy4R8WS6Q+xuv7RL32PUKyj08vHJ
-         W9YxtXiwKZFnDQs2tR6hUO4o3ocvYURJJyKo9nVHOMS51dxTMtOawzWdYQUZc+xBm6Xn
-         LjDh1ZVIU4bzckrIbwCaO2p6u36PePUrb9MC6CInbOZrHQzPNs0oGYvcLJVgkMjakB0O
-         OyUW3U5sDbP6PPxnF1K1q50LHcNxbExmQcgU9RT3jr8z9akdx8x3L3Rm5vAZqD/2PuDR
-         E4ZJU/fHyBOTenVywrCMzIWtJbM98O67Au4c5ciSUf15NW1AAOCRuPMnv5L6YAtQgMQE
-         SCMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=r+OwTFSdR2gyZK543TiqztKo53GHODJ6up3IJF4FH3Q=;
-        b=KDi433is80iBtqc7oRRd1bEUFfUjjmwS7dontd/298XrCdBnpxG9OPkzaPVqa615KJ
-         E4cUAaqX0yaWD3QiIvV2x8z0R6+LIFj+KOzz7fRXum+xG6PDMOQOWspZXFRkTuBisUEo
-         uE7taUAP0niJOcviU50kPDF8uVolKnIrgr4hiLSaiphq2kiOlGf6vFRV6amz57lbTV7T
-         8nEWKKitaE2RXq9TKZw9ii0D0H4CD6KfU79tVLJ4GDzJV8m0uJ4PMaMmjCA3YIYp/2cm
-         BubNMRNfkKzaCso/laf/vyjxi/40OeTXLijWReqMuJXFArQ2NFOD5uGfwgdSXCSkfBrW
-         bleQ==
-X-Gm-Message-State: AOAM530u78erP5Y5wWHbkywihdoX2dyrUSBZDvrdNuXkFqIBA5UFznmL
-        ZDlj8THV5pUlfAUffsSea5CwERQmbUyiDg31dogbdw==
-X-Google-Smtp-Source: ABdhPJxKqoB9/iLAS1FfPSmYtqbu9F561aCoMfcSeQltohNa5RLDczPdtqjlZNYM0PtMB+QNjrD1JMn7fmP6e3RI6PY=
-X-Received: by 2002:a05:600c:1c84:b0:394:5de0:2475 with SMTP id
- k4-20020a05600c1c8400b003945de02475mr1268968wms.27.1652914020870; Wed, 18 May
- 2022 15:47:00 -0700 (PDT)
+        with ESMTP id S230325AbiERXOD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 May 2022 19:14:03 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E817C1BF1B1;
+        Wed, 18 May 2022 16:13:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652915640; x=1684451640;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+7xC5Q1BjsTKNBVhZVtbzNmmX8AWYp8Ft3lMIBj1NRY=;
+  b=Ax5zVSZI2szv4bngM+GS+WFJ5jf5fYQA8rdZrlWXNxAKg+thdu17fA98
+   ahkijLxD4SyRtvbeaDIxq+TanPSalquWkOqkmD3f5Q6MIoVXYsGWSNygN
+   J8+tGh9BLOjTc0Z14sQvzOUjZ4qHs1z/b3N+O8kKny56mrInoUkpY/ZiY
+   JzbzdC+2Ax5ZcXPr7m1Wyo/Z4PBY/zMZh7Up99vODIb5iRB7y49CjdfAx
+   sLLZceRkhFvfkg9LPHCW4He5qw6yf0WTjXX4CWZ2l1lp/H0wT1nokBZXC
+   JJ4W46j+p/GSJjodNWedccgMo59LlfaUTHx4ukz8s2cQawc+0BvwC+iZX
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="358339175"
+X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; 
+   d="scan'208";a="358339175"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2022 16:13:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; 
+   d="scan'208";a="898481096"
+Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 18 May 2022 16:13:54 -0700
+Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nrSrZ-0002l7-Hr;
+        Wed, 18 May 2022 23:13:53 +0000
+Date:   Thu, 19 May 2022 07:13:26 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Greg KH <greg@kroah.com>, Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>
+Cc:     kbuild-all@lists.01.org, Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH bpf-next v5 09/17] HID: bpf: allocate data memory for
+ device_event BPF programs
+Message-ID: <202205190720.TIuHyCp6-lkp@intel.com>
+References: <20220518205924.399291-10-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-References: <20220518223815.809858-1-vaibhav@linux.ibm.com>
-In-Reply-To: <20220518223815.809858-1-vaibhav@linux.ibm.com>
-From:   Yosry Ahmed <yosryahmed@google.com>
-Date:   Wed, 18 May 2022 15:46:24 -0700
-Message-ID: <CAJD7tkZSgRs6T60Gv4dZR5xBemxgCB_2s8hz8zB0F_nakN5aTQ@mail.gmail.com>
-Subject: Re: [PATCH] memcg: provide reclaim stats via 'memory.reclaim'
-To:     Vaibhav Jain <vaibhav@linux.ibm.com>
-Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
-        Shakeel Butt <shakeelb@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220518205924.399291-10-benjamin.tissoires@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 18, 2022 at 3:38 PM Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
->
-> [1] Provides a way for user-space to trigger proactive reclaim by introducing
-> a write-only memcg file 'memory.reclaim'. However reclaim stats like number
-> of pages scanned and reclaimed is still not directly available to the
-> user-space.
->
-> This patch proposes to extend [1] to make the memcg file 'memory.reclaim'
-> readable which returns the number of pages scanned / reclaimed during the
-> reclaim process from 'struct vmpressure' associated with each memcg. This should
-> let user-space asses how successful proactive reclaim triggered from memcg
-> 'memory.reclaim' was ?
+Hi Benjamin,
 
-Isn't this a racy read? struct vmpressure can be changed between the
-write and read by other reclaim operations, right?
+I love your patch! Yet something to improve:
 
-I was actually planning to send a patch that does not updated
-vmpressure for user-controller reclaim, similar to how PSI is handled.
+[auto build test ERROR on bpf-next/master]
 
-The interface currently returns -EBUSY if the entire amount was not
-reclaimed, so isn't this enough to figure out if it was successful or
-not? If not, we can store the scanned / reclaim counts of the last
-memory.reclaim invocation for the sole purpose of memory.reclaim
-reads. Maybe it is actually more intuitive to users to just read the
-amount of memory read? In a format that is similar to the one written?
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Tissoires/Introduce-eBPF-support-for-HID-devices/20220519-050506
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20220519/202205190720.TIuHyCp6-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/ce32a9c683e801ac875c4e4eece32778040ed5cc
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Benjamin-Tissoires/Introduce-eBPF-support-for-HID-devices/20220519-050506
+        git checkout ce32a9c683e801ac875c4e4eece32778040ed5cc
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
 
-i.e
-echo "10M" > memory.reclaim
-cat memory.reclaim
-9M
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
->
-> With the patch following command flow is expected:
->
->  # echo "1M" > memory.reclaim
->
->  # cat memory.reclaim
->    scanned 76
->    reclaimed 32
->
-> [1]:  https://lore.kernel.org/r/20220425190040.2475377-1-yosryahmed@google.com
->
-> Cc: Shakeel Butt <shakeelb@google.com>
-> Cc: Yosry Ahmed <yosryahmed@google.com>
-> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> ---
->  Documentation/admin-guide/cgroup-v2.rst | 15 ++++++++++++---
->  mm/memcontrol.c                         | 14 ++++++++++++++
->  2 files changed, 26 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 27ebef2485a3..44610165261d 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1209,18 +1209,27 @@ PAGE_SIZE multiple when read back.
->         utility is limited to providing the final safety net.
->
->    memory.reclaim
-> -       A write-only nested-keyed file which exists for all cgroups.
-> +       A nested-keyed file which exists for all cgroups.
->
-> -       This is a simple interface to trigger memory reclaim in the
-> -       target cgroup.
-> +       This is a simple interface to trigger memory reclaim and retrieve
-> +       reclaim stats in the target cgroup.
->
->         This file accepts a single key, the number of bytes to reclaim.
->         No nested keys are currently supported.
->
-> +       Reading the file returns number of pages scanned and number of
-> +       pages reclaimed from the memcg. This information fetched from
-> +       vmpressure info associated with each cgroup.
-> +
->         Example::
->
->           echo "1G" > memory.reclaim
->
-> +         cat memory.reclaim
-> +
-> +         scanned 78
-> +         reclaimed 30
-> +
->         The interface can be later extended with nested keys to
->         configure the reclaim behavior. For example, specify the
->         type of memory to reclaim from (anon, file, ..).
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index 2e2bfbed4717..9e43580a8726 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -6423,6 +6423,19 @@ static ssize_t memory_oom_group_write(struct kernfs_open_file *of,
->         return nbytes;
->  }
->
-> +static int memory_reclaim_show(struct seq_file *m, void *v)
-> +{
-> +       struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
-> +       struct vmpressure *vmpr = memcg_to_vmpressure(memcg);
-> +
-> +       spin_lock(&vmpr->sr_lock);
-> +       seq_printf(m, "scanned %lu\nreclaimed %lu\n",
-> +                  vmpr->scanned, vmpr->reclaimed);
-> +       spin_unlock(&vmpr->sr_lock);
-> +
-> +       return 0;
-> +}
-> +
->  static ssize_t memory_reclaim(struct kernfs_open_file *of, char *buf,
->                               size_t nbytes, loff_t off)
->  {
-> @@ -6525,6 +6538,7 @@ static struct cftype memory_files[] = {
->                 .name = "reclaim",
->                 .flags = CFTYPE_NS_DELEGATABLE,
->                 .write = memory_reclaim,
-> +               .seq_show  = memory_reclaim_show,
->         },
->         { }     /* terminate */
->  };
-> --
-> 2.35.1
->
+All errors (new ones prefixed by >>):
+
+   /usr/bin/ld: drivers/hid/hid-core.o: in function `hid_destroy_device':
+   hid-core.c:(.text+0x10c0): undefined reference to `hid_bpf_destroy_device'
+   /usr/bin/ld: drivers/hid/hid-core.o: in function `hid_allocate_device':
+   hid-core.c:(.text+0x15c6): undefined reference to `hid_bpf_device_init'
+   /usr/bin/ld: drivers/hid/hid-core.o: in function `hid_input_report':
+   hid-core.c:(.text+0x22f7): undefined reference to `dispatch_hid_bpf_device_event'
+   /usr/bin/ld: drivers/hid/hid-core.o: in function `hid_connect':
+>> hid-core.c:(.text+0x25da): undefined reference to `hid_bpf_connect_device'
+   /usr/bin/ld: drivers/hid/hid-core.o: in function `hid_disconnect':
+>> hid-core.c:(.text+0xca1): undefined reference to `hid_bpf_disconnect_device'
+   /usr/bin/ld: drivers/hid/hid-core.o: in function `hid_exit':
+   hid-core.c:(.exit.text+0x7): undefined reference to `hid_bpf_ops'
+   /usr/bin/ld: drivers/hid/hid-core.o: in function `hid_init':
+   hid-core.c:(.init.text+0x35): undefined reference to `hid_bpf_ops'
+   collect2: error: ld returned 1 exit status
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
