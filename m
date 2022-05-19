@@ -2,136 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AEF6C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 06:15:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C9BAC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 07:34:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232350AbiESGPj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 02:15:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48104 "EHLO
+        id S230234AbiESHe4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 03:34:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229654AbiESGPh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 02:15:37 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A4D88CB38;
-        Wed, 18 May 2022 23:15:36 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id x143so4230642pfc.11;
-        Wed, 18 May 2022 23:15:36 -0700 (PDT)
+        with ESMTP id S230488AbiESHez (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 03:34:55 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF98D939E0;
+        Thu, 19 May 2022 00:34:54 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id p12so4453637pfn.0;
+        Thu, 19 May 2022 00:34:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=GM2DilYnUlbpl9c8YbSsfo3PD4EXIuNCsM/7fLpZMbk=;
-        b=ZgWtyXFcN42Su4w/dRiLt//+1HTaLTF0NYjXRAkxuvqe+tSlBwTFp/PV4/Zoe5oH2w
-         QpQjeihipmITPEWD0+r3qzjVi73UN784Lpf0rRZqtY1xu1DZjgTjyJDeD3dkyNMEJtVq
-         kLENc+N5nuaNZ/IFO2KOwoMLkE0S9GtXzrbPF2ncePgEKONKiOOVUeC5XK64Jgs4PxkN
-         4g8NO8bDZqMtEVUc7P0Hfk2ukxEFq9XdhiuWYi47Gk8+iT0f+FplQlzFWtjzrCe7wkg8
-         4rb/OzSrQHFPfBTvFr/a/qse3AP8nAUKhTc00A1Yd13mqGS3PfFNkCX9Vhsd99fcp6tA
-         HmIA==
+        bh=+YvGchU2DWnacdHZ8YXfbhTutS2B3ifrEudePvwfb/A=;
+        b=F105/nO//lUKNQdbEVPPJtf4UiN0Dpe4AhFvrF2atwPhUJRjs9cIbNZS7JmWT7bHIC
+         WH5VUE/wi4XlgzpqCuAFlNiEESKO5L6y2oAutIgqqo20VBEAI6ZQPAKHy9P9zRHoqAi5
+         esp+iJMGIRcpsije9YwIjnm/7i4ETyAM3N8mVDn2nt/Zk2yPpsssvjWdV4oKF4v8Pn3j
+         7qv8/x6dVuo3mJlfYiw005V+zUTtz8rDNGJ7V/wNojrQFqsMrsn1u5ph9NhmnorddmxR
+         ncan1LOhxq6nDfVhESnqC2vlFdceJLI9asmvavqWPV/wOBofZWNIH82QwVkAE6a59SuC
+         MAuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=GM2DilYnUlbpl9c8YbSsfo3PD4EXIuNCsM/7fLpZMbk=;
-        b=O3riVZWYwTyhsT4TiOmftytn/Xa3PUb98bY4OqvS1KVu0I+ucoSh4tzRFX9DM61U/N
-         +Jo0OI9a8Vsf/7mFRky/bEj4xwd+Sdtb42PXU3QBwY44BwGy+MOEmv3vpgaVlIClnyDs
-         OwpR95pxi4LRh9FXFWM/ZLEGSAFbGrn123IqHYhaGxIKUeGPX3yJQFhi7HwY9fpGJAyA
-         Vp4yZ2SBSFwHN1EZ7WLHjk+RlNAFSJPpunyWnmwaUdnGxsb67yDWSO+3vSDhZPIyUXAH
-         hDNg75IkLFD19dnQmOZw8sow9pnjj21PAAvYMX50wXwxxSaRUhlVS7NqLypdOUv4siKK
-         UueQ==
-X-Gm-Message-State: AOAM532KwEWJjBLQnVYzaiPG6NGvgIfEtQUxYhI5KNvmFTOxPgSnu6rL
-        loNG/splCFdWbK5sI+OaIdY=
-X-Google-Smtp-Source: ABdhPJzP+YquqdsWg1hwqj8EvjvRXcdk1HrEyT49vwaBOgDIvC7lsbT7Hl57goCwnXHPUImn1Ergvg==
-X-Received: by 2002:a05:6a00:cd5:b0:510:7f58:267b with SMTP id b21-20020a056a000cd500b005107f58267bmr3115337pfv.67.1652940935821;
-        Wed, 18 May 2022 23:15:35 -0700 (PDT)
-Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id t15-20020a17090ae50f00b001dc1e6db7c2sm4661938pjy.57.2022.05.18.23.15.32
+        bh=+YvGchU2DWnacdHZ8YXfbhTutS2B3ifrEudePvwfb/A=;
+        b=lkC0vdXwMTzZUVIaA1D76MT2UPozS8BPYTwMEbI0/7hZ85GZLZRKkOcz6q/HlhxhGi
+         i73bUKblyT5G5MBWxery6eanDcdTdb8EjAx+sQN2V+BpktbVGMkKxBSwUUd+q3JDiQUw
+         9qyiXYcaU8HwouUzrrdMN+S7zu2vmnkTihV+6H332WPCg8GxMxHj8rar6YH18f89bXJX
+         oSP5HC7FALaO2olTD+orjbJmtGLacERcvI6/Smnad2imxNoqGGjTLj8hfngKuHrI/XeS
+         PJik0sbiL39DNCUweIwmIBCRhYVdNpwrojUGyHDI0ylZRmfqGKa68/6b3Kom2NxPJhLy
+         jKuQ==
+X-Gm-Message-State: AOAM533KCs5ASrIH0i1Qqs6lcDF5MFwdckMdgHNvgj9634sTn58ORpGx
+        yZ3KU9FOcAe3dYlp9JYQHnc=
+X-Google-Smtp-Source: ABdhPJyqsw1Lepw7anG+yYgDCfEZWYUotjEUoqobDngdtwvvKu2CEO6uDhZzL5/MeI9LM5czrC6kDg==
+X-Received: by 2002:a63:1c4e:0:b0:3f2:6da7:5d90 with SMTP id c14-20020a631c4e000000b003f26da75d90mr2922991pgm.429.1652945694272;
+        Thu, 19 May 2022 00:34:54 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-3.three.co.id. [180.214.232.3])
+        by smtp.gmail.com with ESMTPSA id l30-20020a635b5e000000b003c5e836eddasm2746463pgm.94.2022.05.19.00.34.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 May 2022 23:15:35 -0700 (PDT)
-Message-ID: <29d66a46-d141-2d02-45dd-a8931786588e@gmail.com>
-Date:   Thu, 19 May 2022 14:15:21 +0800
+        Thu, 19 May 2022 00:34:53 -0700 (PDT)
+Message-ID: <08117fbe-e547-733f-89d5-802c4f2e2816@gmail.com>
+Date:   Thu, 19 May 2022 14:34:50 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 1/2] psi: add support for multi level pressure stall
- trigger
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] Fixed 'make htmldocs' warning:
+ Documentation/admin-guide/perf/hisi-pcie-pmu.rst: WARNING: document isn't
+ included in any toctree
 Content-Language: en-US
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Chen Wandun <chenwandun@huawei.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20220516033524.3130816-1-chenwandun@huawei.com>
- <30b37eeb-e77b-882e-fc24-3367321a8ca3@gmail.com>
- <CAJuCfpE7fBsp8ntYVeLsW7Cd0Z09OmxN75X9Az_Qco0GJrz3Wg@mail.gmail.com>
- <CAJuCfpH-BDqsft1YvGFhkbR60VC0TJgfXKRVN+80e0iqQdhxpA@mail.gmail.com>
- <3a31521f-a68a-b2a9-baae-9a458ee17033@huawei.com>
- <070fe87d-43a0-5e4f-e4c7-c44782c2c195@gmail.com>
- <CAJuCfpH1mTxe5hmzZTe+AbPFse9heenx8uhGzCXE6fAh5G8SzA@mail.gmail.com>
-From:   Alex Shi <seakeel@gmail.com>
-In-Reply-To: <CAJuCfpH1mTxe5hmzZTe+AbPFse9heenx8uhGzCXE6fAh5G8SzA@mail.gmail.com>
+To:     Praghadeesh T K S <praghadeeshthevendria@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     skhan@linuxfoundation.org, praghadeeshtks@zohomail.in
+References: <20220518082627.9144-1-praghadeeshthevendria@gmail.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220518082627.9144-1-praghadeeshthevendria@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 5/19/22 05:38, Suren Baghdasaryan wrote:
-> On Wed, May 18, 2022 at 3:29 AM Alex Shi <seakeel@gmail.com> wrote:
->>
->>
->>
->> On 5/17/22 20:46, Chen Wandun wrote:
->>>>>> This breaks the old ABI. And why you need this new function?
->>>>> Both great points.
->>>> BTW, I think the additional max_threshold parameter could be
->>>> implemented in a backward compatible way so that the old API is not
->>>> broken:
->>>>
->>>> arg_count = sscanf(buf, "some %u %u %u", &min_threshold_us,  &arg2, &arg3);
->>>> if (arg_count < 2) return ERR_PTR(-EINVAL);
->>>> if (arg_count < 3) {
->>>>      max_threshold_us = INT_MAX;
->>>>      window_us = arg2;
->>>> } else {
->>>>      max_threshold_us = arg2;
->>>>      window_us = arg3;
->>>> }
->>> OK
->>>
->>> Thanks.
->>>> But again, the motivation still needs to be explained.
->>> we want do different operation for different stall level,
->>> just as prev email explain, multi trigger is also OK in old
->>> ways, but it is a litter complex.
->>
->> In fact, I am not keen for this solution, the older and newer
->> interface is easy to be confused by users, for some resolvable
->> unclear issues. It's not a good idea.
+On 5/18/22 15:26, Praghadeesh T K S wrote:
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Signed-off-by: Praghadeesh T K S <praghadeeshthevendria@gmail.com>
+> ---
+>  Documentation/admin-guide/perf/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Maybe adding the max_threshold as an optional last argument will be
-> less confusing? Smth like this:
-> 
-> some/full min_threshold window_size [max_threshold]
+> diff --git a/Documentation/admin-guide/perf/index.rst b/Documentation/admin-guide/perf/index.rst
+> index 5a8f252..69b23f0 100644
+> --- a/Documentation/admin-guide/perf/index.rst
+> +++ b/Documentation/admin-guide/perf/index.rst
+> @@ -8,6 +8,7 @@ Performance monitor support
+>     :maxdepth: 1
+>  
+>     hisi-pmu
+> +   hisi-pcie-pmu
+>     imx-ddr
+>     qcom_l2_pmu
+>     qcom_l3_pmu
 
-It's already confused enough. :)
-BTW, I still don't see the strong reason for the pressure range.
+Hi,
 
-> > Also, if we do decide to add it, there should be a warning in the
-> documentation that max_threshold usage might lead to a stall being
-> missed completely. In your example:
-> 
-> echo "some 150000 350000 1000000" > /proc/pressure/memory
-> 
-> If there is a stall of more than 350ms within a given window, that
-> trigger will not fire at all.
+This has been fixed in [1] and applied. Thanks anyway.
 
-Right. 
-And what if others propose more pressure combinations?
-Maybe leave them to user space is more likely workable?
+[1]: https://lore.kernel.org/linux-doc/20220228031700.1669086-1-wanjiabing@vivo.com/
 
-Thanks
-Alex
+-- 
+An old man doll... just what I always wanted! - Clara
