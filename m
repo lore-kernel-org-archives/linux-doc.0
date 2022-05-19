@@ -2,92 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 740BDC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 09:42:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C497C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 09:57:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233974AbiESJmG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 05:42:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38914 "EHLO
+        id S234933AbiESJ5N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 05:57:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231214AbiESJmF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 05:42:05 -0400
+        with ESMTP id S234279AbiESJ5M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 05:57:12 -0400
 Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9083C68F82;
-        Thu, 19 May 2022 02:42:04 -0700 (PDT)
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24J9CQhj012521;
-        Thu, 19 May 2022 09:41:52 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19D8C92D32;
+        Thu, 19 May 2022 02:57:11 -0700 (PDT)
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24J9mmV3001105;
+        Thu, 19 May 2022 09:57:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
  : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=OJteXu18Mv+sn23pdhZQcdzdXFdGcyM9JOV5loEpHpk=;
- b=E9lrofY1GFhlXL1u+ccKtgGozb6tczzv0sXWdh/8z6/sni2D8WKZRbk+0xxqC6PREdA5
- hKqVML5YJKrLG+zKyTMibSol3ByZI1nr4W12Pfpv6NnaooTQSXZ7dF6xvrvlXpS73iJR
- yB++dUCc/JPs3iAxZ9WsW20lk3vXBXN2RyBWC8ZvNOZfs2pu/Y2gkQWl0MmJqVDr0zky
- R8zvAb7CQd86cowK+wiiBgzSRN/vyM4A6BLducb3c8++bD/wnICsW0mlNF2c+nMJtJ/d
- brGN+fNw25c1SWpEMLnCpJE4x2ckWxqRb5yJ0ItgxH+ZijcSntbNSLCueXr8TGnlM9nQ jg== 
+ content-type; s=pp1; bh=cKPPLtUhn1Zdq9Oika82pAtq/kD+uaRcTWRlgTUcvuE=;
+ b=ZpDHUadAU6pwtWhT2zKhV4nm6iGq0zAoMYSHrl73AwJTteBFxmJJYaILbI9rtcLcWqBU
+ bIAl6pQAVHsaKYFmRmwUu9fE7CP0+GSveQRjj39PiBoxvCR1+0YgwHNZYmTD1OrmOzu5
+ O2bNplUCc/SwPgB9ggkYMmrICTV+wBkadCYbWkQYDDxHnq7qqWwY4AMOITe+Xd6PXgOZ
+ dglAMLKOzl+eiR9Yhkl6ElvIDu5EZNIRK53EpzHNSsEi3roZHlWTIHE1itLeFHlP8k32
+ 7KyPMKAc0asMSl2i8NUw3UlZa0z9aBgClpna8ftcc8bIQhbJwshLs7nrlHqz7dmgSjsN 5A== 
 Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g5k25rkxb-1
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g5kkc84vh-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 19 May 2022 09:41:52 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24J9fq0L015293;
-        Thu, 19 May 2022 09:41:52 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g5k25rkwc-1
+        Thu, 19 May 2022 09:57:04 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24J9rDSK011040;
+        Thu, 19 May 2022 09:57:04 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g5kkc84us-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 19 May 2022 09:41:52 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-        by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24J9Slkf014816;
-        Thu, 19 May 2022 09:41:49 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-        by ppma06ams.nl.ibm.com with ESMTP id 3g23pjf1u7-1
+        Thu, 19 May 2022 09:57:04 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24J9qSfk011879;
+        Thu, 19 May 2022 09:57:01 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+        by ppma04ams.nl.ibm.com with ESMTP id 3g2429f2fy-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 19 May 2022 09:41:49 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 24J9RqVS46399838
+        Thu, 19 May 2022 09:57:01 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 24J9uwUg38207958
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 19 May 2022 09:27:53 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3A58B11C04C;
-        Thu, 19 May 2022 09:41:47 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C18E511C050;
-        Thu, 19 May 2022 09:41:42 +0000 (GMT)
+        Thu, 19 May 2022 09:56:58 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9518FA405B;
+        Thu, 19 May 2022 09:56:58 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E6F66A4054;
+        Thu, 19 May 2022 09:56:53 +0000 (GMT)
 Received: from vajain21.in.ibm.com (unknown [9.43.20.227])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
-        Thu, 19 May 2022 09:41:42 +0000 (GMT)
-Received: by vajain21.in.ibm.com (sSMTP sendmail emulation); Thu, 19 May 2022 15:11:41 +0530
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
+        Thu, 19 May 2022 09:56:53 +0000 (GMT)
+Received: by vajain21.in.ibm.com (sSMTP sendmail emulation); Thu, 19 May 2022 15:26:52 +0530
 From:   Vaibhav Jain <vaibhav@linux.ibm.com>
-To:     Shakeel Butt <shakeelb@google.com>
-Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+To:     Greg Thelen <gthelen@google.com>, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Michal Hocko <mhocko@kernel.org>,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
+        Shakeel Butt <shakeelb@google.com>,
         Yosry Ahmed <yosryahmed@google.com>
 Subject: Re: [PATCH] memcg: provide reclaim stats via 'memory.reclaim'
-In-Reply-To: <20220519050835.ebpiukexgiys6t57@google.com>
+In-Reply-To: <xr937d6ic5qk.fsf@gthelen2.svl.corp.google.com>
 References: <20220518223815.809858-1-vaibhav@linux.ibm.com>
- <20220519050835.ebpiukexgiys6t57@google.com>
-Date:   Thu, 19 May 2022 15:11:41 +0530
-Message-ID: <875ym1hnai.fsf@vajain21.in.ibm.com>
+ <xr937d6ic5qk.fsf@gthelen2.svl.corp.google.com>
+Date:   Thu, 19 May 2022 15:26:52 +0530
+Message-ID: <8735h5hml7.fsf@vajain21.in.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: w9gfG1UIEqtLgIyzzT7XtvqSo6EaqHG1
-X-Proofpoint-ORIG-GUID: UnqzvSwZfeeq5_Jio2nJQgQmTtH6NjIF
+X-Proofpoint-ORIG-GUID: 52ju57apf4Eux7cGM7kXvW_O-BDPKUUI
+X-Proofpoint-GUID: i_wj5J-0QfvOAm51WZkh71nEImRo5w5x
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
  definitions=2022-05-19_02,2022-05-19_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=802
- clxscore=1015 malwarescore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0
- suspectscore=0 adultscore=0 impostorscore=0 spamscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2205190055
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
+ spamscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
+ malwarescore=0 lowpriorityscore=0 mlxscore=0 phishscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205190055
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -96,56 +97,46 @@ Hi,
 
 Thanks for looking into this patch,
 
-Shakeel Butt <shakeelb@google.com> writes:
+Greg Thelen <gthelen@google.com> writes:
 
-> On Thu, May 19, 2022 at 04:08:15AM +0530, Vaibhav Jain wrote:
+> Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
+>
 >> [1] Provides a way for user-space to trigger proactive reclaim by introducing
 >> a write-only memcg file 'memory.reclaim'. However reclaim stats like number
 >> of pages scanned and reclaimed is still not directly available to the
 >> user-space.
->> 
+>>
 >> This patch proposes to extend [1] to make the memcg file 'memory.reclaim'
 >> readable which returns the number of pages scanned / reclaimed during the
 >> reclaim process from 'struct vmpressure' associated with each memcg. This should
 >> let user-space asses how successful proactive reclaim triggered from memcg
 >> 'memory.reclaim' was ?
->> 
+>>
 >> With the patch following command flow is expected:
->> 
+>>
 >>  # echo "1M" > memory.reclaim
->> 
+>>
 >>  # cat memory.reclaim
 >>    scanned 76
 >>    reclaimed 32
->> 
 >
-> Yosry already mentioned the race issue with the implementation and I
-> would prefer we don't create any new dependency on vmpressure which I
-> think we should deprecate.
-Ok,
-
+> I certainly appreciate the ability for shell scripts to demonstrate
+> cgroup operations with textual interfaces, but such interface seem like
+> they are optimized for ease of use by developers.
 >
-> Anyways my question is how are you planning to use these metrics i.e.
-> scanned & reclaimed? I wonder if the data you are interested in can be
-> extracted without a stable interface. Have you tried BPF way to get
-> these metrics? We already have a tracepoint in vmscan tracing the
-> scanned and reclaimed. 
->
-Agree that there are enough static trace_mm_vmscan_ tracepoints in
-vmscan to get that info.
+Agree that directly exposing nr_scanned/reclaimed might not be a useful
+for users and certainly looks like a dev interface
 
-Also agree that exposing nr_scanned/nr_reclaimed directly to userspace may not
-be a good idea but knowing the amount of memory reclaimed might be
-useful.
+> I wonder if for runtime production use an ioctl or netlink interface has
+> been considered for cgroup? I don't think there are any yet, but such
+> approaches seem like a more straightforward ways to get nontrivial
+> input/outputs from a single call (e.g. like this proposal). And they
+> have the benefit of not requiring ascii serialization/parsing overhead.
 
-With user-space triggered proactive reclaim user-space code can try to
-write a certain value to "memory.reclaim" in a loop till it returns
-'-EBUSY'.
+I think to a large degree eBPF and existing static tracepoints in vmscan
+can provide access to these metrics as Shakeel Bhat pointed to earlier.
 
-Right now there is no direct way for it to get feedback on the progress
-of the requested reclaim. Providing a stable interface to ascertain the
-progress of reclaim lets that userspace provide smaller values for
-proactive reclaim 
+<snip>
 
 -- 
 Cheers
