@@ -2,81 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7E53C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 11:03:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FDECC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 11:09:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232465AbiESLDC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 07:03:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52484 "EHLO
+        id S237306AbiESLJ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 07:09:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237185AbiESLDC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 07:03:02 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ADBE5C347;
-        Thu, 19 May 2022 04:03:01 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 0B522219AD;
-        Thu, 19 May 2022 11:03:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1652958180; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=IzXgw0a74dIiLsfsgpX507bbTu4KgqdYCg8XDacIqHw=;
-        b=p6eg7yMBMmZI2a2JOGfaZfOHUgEOzr0pYRni8ATdIoJyZhzflN3bAt8hpReN3HD8VnJ9qZ
-        EOq6iF/jJF96GHnLG2V2n1ZpPZntJNxjElw0yW8Q29RCIQOzEe40LqFOlEuEEvCAxCHZz+
-        iR5Y6RjT79txDZA425cVGDkX0PR58WM=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 37F412C141;
-        Thu, 19 May 2022 11:02:59 +0000 (UTC)
-Date:   Thu, 19 May 2022 13:02:58 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Vaibhav Jain <vaibhav@linux.ibm.com>
-Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Yosry Ahmed <yosryahmed@google.com>
-Subject: Re: [PATCH] memcg: provide reclaim stats via 'memory.reclaim'
-Message-ID: <YoYj4sLJfGke5IGT@dhcp22.suse.cz>
-References: <20220518223815.809858-1-vaibhav@linux.ibm.com>
+        with ESMTP id S237168AbiESLJY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 07:09:24 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD0DFB0429;
+        Thu, 19 May 2022 04:09:22 -0700 (PDT)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4L3nCd4PfdzjWwl;
+        Thu, 19 May 2022 19:08:29 +0800 (CST)
+Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 19 May 2022 19:09:20 +0800
+Received: from [10.174.178.120] (10.174.178.120) by
+ dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 19 May 2022 19:09:19 +0800
+Message-ID: <7058b8d8-c0cb-108e-0db9-2fdf5fb154cf@huawei.com>
+Date:   Thu, 19 May 2022 19:09:18 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220518223815.809858-1-vaibhav@linux.ibm.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 0/2] Add support to relocate kernel image to mirrored
+ region
+To:     <ardb@kernel.org>
+CC:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <corbet@lwn.net>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <dvhart@infradead.org>, <andy@infradead.org>,
+        <rppt@kernel.org>, <paulmck@kernel.org>, <peterz@infradead.org>,
+        <jroedel@suse.de>, <songmuchun@bytedance.com>, <macro@orcam.me.uk>,
+        <frederic@kernel.org>, <W_Armin@gmx.de>, <john.garry@huawei.com>,
+        <seanjc@google.com>, <tsbogend@alpha.franken.de>,
+        <anshuman.khandual@arm.com>, <chenhuacai@kernel.org>,
+        <david@redhat.com>, <gpiccoli@igalia.com>, <mark.rutland@arm.com>,
+        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-efi@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>, <linux-mm@kvack.org>,
+        <mawupeng1@huawei.com>
+References: <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
+ <20220419070150.254377-1-mawupeng1@huawei.com>
+ <CAMj1kXHr2RdYSPor1st1ZnL=O42c8N6e=bNG+eFhatfefWLUrw@mail.gmail.com>
+ <c65d22b4-f654-21aa-bd5f-d4f8b0939a25@huawei.com>
+From:   mawupeng <mawupeng1@huawei.com>
+In-Reply-To: <c65d22b4-f654-21aa-bd5f-d4f8b0939a25@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.120]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500014.china.huawei.com (7.185.36.153)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 19-05-22 04:08:15, Vaibhav Jain wrote:
-> [1] Provides a way for user-space to trigger proactive reclaim by introducing
-> a write-only memcg file 'memory.reclaim'. However reclaim stats like number
-> of pages scanned and reclaimed is still not directly available to the
-> user-space.
-> 
-> This patch proposes to extend [1] to make the memcg file 'memory.reclaim'
-> readable which returns the number of pages scanned / reclaimed during the
-> reclaim process from 'struct vmpressure' associated with each memcg. This should
-> let user-space asses how successful proactive reclaim triggered from memcg
-> 'memory.reclaim' was ?
-> 
-> With the patch following command flow is expected:
-> 
->  # echo "1M" > memory.reclaim
-> 
->  # cat memory.reclaim
->    scanned 76
->    reclaimed 32
 
-Why cannot you use memory.stat? Sure it would require to iterate over
-the reclaimed hierarchy but the information about scanned and reclaimed
-pages as well as other potentially useful stats is there.
--- 
-Michal Hocko
-SUSE Labs
+
+在 2022/5/7 17:28, mawupeng 写道:
+> 
+> 
+> 在 2022/5/3 17:58, Ard Biesheuvel 写道:
+>> On Tue, 19 Apr 2022 at 08:43, Wupeng Ma <mawupeng1@huawei.com> wrote:
+>>>
+>>> From: Ma Wupeng <mawupeng1@huawei.com>
+>>>
+>>> Now system image will perfer to be located to mirrored regions both KASLR
+>>> on and off.
+>>>
+>>
+>> Hello Ma Wupeng,
+>>
+>> I wonder if we could simplify this as follows:
+>> - ignore the non-KASLR case for now, and rely on the bootloader  > load the image into mirrored memory if it exists;
+> 
+> In grub, memory for static image is allocated via the following path:
+> 
+> grub_cmd_linux
+>    kernel = grub_malloc(filelen)
+>    kernel_alloc_addr = grub_efi_allocate_any_pages (kernel_alloc_pages)
+>    grub_memcpy (kernel_addr, kernel, grub_min(filelen, kernel_size))
+>     grub_loader_set (grub_linux_boot, grub_linux_unload, 0)
+> 
+> Can we get memory from mirrored region by the following steps:
+> 1. get memory map by calling grub_efi_get_memory_map()
+> 2. iter all memory map to find a suitable mirrored memory area
+> 3. locate kernel image to this area
+> 
+> So, if kaslr is not enabled
+>   - grub will load kernel into mirrored region
+> else
+>   - arm64-stub.c will relocate kernel image to mirrored region
+> 
+> Is this feasible?
+
+Is this a feasible proposal to relocate the static kernel image itself
+into more reliable memory?
+
+> 
+>> - simplify the KASLR case to the below.
+> 
+> Yes, we can certainly do this. I will remove my code and use yours.
+> 
+>>
+>> I think this is reasonable, because it means we take mirrored memory
+>> into account when we decide to move the image anyway, but expect the
+>> boot chain to take care of this if there is no need to move the image.
+>>
+>> -------------8<------------------
+>> --- a/drivers/firmware/efi/libstub/randomalloc.c
+>> +++ b/drivers/firmware/efi/libstub/randomalloc.c
+>> @@ -56,6 +56,7 @@ efi_status_t efi_random_alloc(unsigned long size,
+>>                                unsigned long random_seed)
+>>   {
+>>          unsigned long map_size, desc_size, total_slots = 0, target_slot;
+>> +       unsigned long total_mirrored_slots = 0;
+>>          unsigned long buff_size;
+>>          efi_status_t status;
+>>          efi_memory_desc_t *memory_map;
+>> @@ -86,8 +87,14 @@ efi_status_t efi_random_alloc(unsigned long size,
+>>                  slots = get_entry_num_slots(md, size, ilog2(align));
+>>                  MD_NUM_SLOTS(md) = slots;
+>>                  total_slots += slots;
+>> +               if (md->attribute & EFI_MEMORY_MORE_RELIABLE)
+>> +                       total_mirrored_slots += slots;
+>>          }
+>>
+>> +       /* only consider mirrored slots for randomization if any exist */
+>> +       if (total_mirrored_slots > 0)
+>> +               total_slots = total_mirrored_slots;
+>> +
+>>          /* find a random number between 0 and total_slots */
+>>          target_slot = (total_slots * (u64)(random_seed & U32_MAX)) >> 32;
+>>
+>> @@ -107,6 +114,10 @@ efi_status_t efi_random_alloc(unsigned long size,
+>>                  efi_physical_addr_t target;
+>>                  unsigned long pages;
+>>
+>> +               if (total_mirrored_slots > 0 &&
+>> +                   !(md->attribute & EFI_MEMORY_MORE_RELIABLE))
+>> +                       continue;
+>> +
+>>                  if (target_slot >= MD_NUM_SLOTS(md)) {
+>>                          target_slot -= MD_NUM_SLOTS(md);
+>>                          continue;
+>> .
