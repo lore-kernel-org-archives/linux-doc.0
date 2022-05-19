@@ -2,179 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF8CBC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 07:59:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B788FC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 08:00:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234264AbiESH7w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 03:59:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40410 "EHLO
+        id S235089AbiESIAH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 04:00:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231144AbiESH7v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 03:59:51 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3533393CB
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 00:59:50 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2fed8245a03so40359827b3.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 00:59:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=5ASte9vGYV8NmyufWXTtDt+wnTToG5G7bVCsDgy4Kpg=;
-        b=gwTVGnSBCH1OItkK8408hxAE3H+3MOivih34m7SBHEGT0+6hAZOMLNPptS8SIvLmuk
-         dn2y46gEkcFMT6rDddZ+v7a37E4u+yB8m9HWh7XNQNIo8o+qpgOH/q9QPz/KwdaFOIVV
-         Nq6tzQ02jiflJjryDeixn4W/tNmMMnumKiTZ36ZxRroI3RPCmJHaY4M7pNq/lV3jccpO
-         rZPjU/9DuAsZ2bqhz0zyrw8D0P4kaiQK7kHNRTbeHzkIcduFAaVBVEqNoXOd8BJqnfd4
-         NYrOoQgzKjbdFMCsMqLS1DyP1f9llOtIzlwbiTSrOq7EO3K9qk7QpbKFIsyOkuDu1TuB
-         Mt5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=5ASte9vGYV8NmyufWXTtDt+wnTToG5G7bVCsDgy4Kpg=;
-        b=sWtr9tTZy//oEiKzvSMde9dWgq9cx1bW/3VOD4LVlg8sIuFAJaqK44cuZ/HBxxz2nj
-         Uek8sdafVqBfrMyGhY7AcJvyjjmcCUrGkI/A4R+jPy9mtdSAi9V3E9amrAKHugYn5aIi
-         6AfhNAWuRMY1ZNIZn8kepYEUMWNapKA6iHrfl3fPuISAE55hOt4O6I5ccOtpIYL2XEDc
-         wE9bNICj1LOQvvqiJb2PJA7Lvghqjm5blD3ZA08Hp+7HlXUuPVGJYq8bpcya910DOqEa
-         V5gkwh9tj7QGlkxf5pGF+TdXBQkRAKFx99X5yC4ciWwaxHUtL6o871he6REa3ydamq6l
-         XvfQ==
-X-Gm-Message-State: AOAM530EzgWINFwnQzLN+OtqMIji8dhUUZuk8E++VlL1xA5tXGb2cHJ0
-        iio46vXFVwJ6esd8QcjtVmGVFC0EGWBf
-X-Google-Smtp-Source: ABdhPJyhbw5GxCRJe6VzVh23QB1TgeiIWMOLDn0KJ5/UuVta6ydkueOGGL6ATX6pdbrz+U5Okt1rkGQXziIr
-X-Received: from gthelen2.svl.corp.google.com ([2620:15c:2cd:202:d3bc:20ba:fd8e:8208])
- (user=gthelen job=sendgmr) by 2002:a25:4bc6:0:b0:64d:efe1:a7d1 with SMTP id
- y189-20020a254bc6000000b0064defe1a7d1mr3156185yba.70.1652947189788; Thu, 19
- May 2022 00:59:49 -0700 (PDT)
-Date:   Thu, 19 May 2022 00:59:47 -0700
-In-Reply-To: <20220518223815.809858-1-vaibhav@linux.ibm.com>
-Message-Id: <xr937d6ic5qk.fsf@gthelen2.svl.corp.google.com>
-Mime-Version: 1.0
-References: <20220518223815.809858-1-vaibhav@linux.ibm.com>
-Subject: Re: [PATCH] memcg: provide reclaim stats via 'memory.reclaim'
-From:   Greg Thelen <gthelen@google.com>
-To:     Vaibhav Jain <vaibhav@linux.ibm.com>, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Cc:     Vaibhav Jain <vaibhav@linux.ibm.com>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Yosry Ahmed <yosryahmed@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S235108AbiESIAF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 04:00:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32C83983C;
+        Thu, 19 May 2022 01:00:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C07DC6168D;
+        Thu, 19 May 2022 08:00:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F996C34100;
+        Thu, 19 May 2022 08:00:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652947200;
+        bh=iKXW78pxSl8QpjoS8FErvoGCH4L/pjL+JqIqYVBLIQY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=NDg/mHX5CcWMfPFXokoFfMue+AV2uI+MQRwObYZI04jDAAkv7mlCw4z1mI3C3ymqr
+         t4cmJoxon58/O5LcmYTL/84y9kRbsc7On4irBHPLFShCkA36XWD1OuisZnRJmxjbfz
+         HI9MsSfUONNXDkjn6I2V8Po/BIIO5H8qKLHmMUIo/JLWpHT0iN+Sy2DJ/1DxbsallN
+         kRrAW52XK8wHr8v0cnSlZg0sD7U1geJW0C3CfLy7yqvst0lOPsnYaHjU0qk8Bv1tbj
+         1tdGw5h7M/gIMt7rQ2prXz0iHYI06h1+AKg3SwN16lXK7wUVTgmrFE5zzRRpvGi1lm
+         q2r8lcOiCX8jA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1nrb4f-00CM9g-JL; Thu, 19 May 2022 08:59:57 +0100
+Date:   Thu, 19 May 2022 08:59:57 +0100
+Message-ID: <87ee0q54w2.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Vivek Kumar <quic_vivekuma@quicinc.com>
+Cc:     <corbet@lwn.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
+        <tglx@linutronix.de>, <axboe@kernel.dk>, <rafael@kernel.org>,
+        <akpm@linux-foundation.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-block@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+        <linux-mm@kvack.org>, <len.brown@intel.com>, <pavel@ucw.cz>,
+        <paulmck@kernel.org>, <bp@suse.de>, <keescook@chromium.org>,
+        <songmuchun@bytedance.com>, <rdunlap@infradead.org>,
+        <damien.lemoal@opensource.wdc.com>, <pasha.tatashin@soleen.com>,
+        <tabba@google.com>, <ardb@kernel.org>, <tsoni@quicinc.com>,
+        <quic_psodagud@quicinc.com>, <quic_svaddagi@quicinc.com>,
+        Prasanna Kumar <quic_kprasan@quicinc.com>
+Subject: Re: [RFC 6/6] irqchip/gic-v3: Re-init GIC hardware upon hibernation restore
+In-Reply-To: <1652860121-24092-7-git-send-email-quic_vivekuma@quicinc.com>
+References: <1652860121-24092-1-git-send-email-quic_vivekuma@quicinc.com>
+        <1652860121-24092-7-git-send-email-quic_vivekuma@quicinc.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: quic_vivekuma@quicinc.com, corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org, tglx@linutronix.de, axboe@kernel.dk, rafael@kernel.org, akpm@linux-foundation.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, linux-pm@vger.kernel.org, linux-mm@kvack.org, len.brown@intel.com, pavel@ucw.cz, paulmck@kernel.org, bp@suse.de, keescook@chromium.org, songmuchun@bytedance.com, rdunlap@infradead.org, damien.lemoal@opensource.wdc.com, pasha.tatashin@soleen.com, tabba@google.com, ardb@kernel.org, tsoni@quicinc.com, quic_psodagud@quicinc.com, quic_svaddagi@quicinc.com, quic_kprasan@quicinc.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
+Hi Vivek,
 
-> [1] Provides a way for user-space to trigger proactive reclaim by introducing
-> a write-only memcg file 'memory.reclaim'. However reclaim stats like number
-> of pages scanned and reclaimed is still not directly available to the
-> user-space.
->
-> This patch proposes to extend [1] to make the memcg file 'memory.reclaim'
-> readable which returns the number of pages scanned / reclaimed during the
-> reclaim process from 'struct vmpressure' associated with each memcg. This should
-> let user-space asses how successful proactive reclaim triggered from memcg
-> 'memory.reclaim' was ?
->
-> With the patch following command flow is expected:
->
->  # echo "1M" > memory.reclaim
->
->  # cat memory.reclaim
->    scanned 76
->    reclaimed 32
-
-I certainly appreciate the ability for shell scripts to demonstrate
-cgroup operations with textual interfaces, but such interface seem like
-they are optimized for ease of use by developers.
-
-I wonder if for runtime production use an ioctl or netlink interface has
-been considered for cgroup? I don't think there are any yet, but such
-approaches seem like a more straightforward ways to get nontrivial
-input/outputs from a single call (e.g. like this proposal). And they
-have the benefit of not requiring ascii serialization/parsing overhead.
-
-> [1]:  https://lore.kernel.org/r/20220425190040.2475377-1-yosryahmed@google.com
->
-> Cc: Shakeel Butt <shakeelb@google.com>
-> Cc: Yosry Ahmed <yosryahmed@google.com>
-> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+On Wed, 18 May 2022 08:48:41 +0100,
+Vivek Kumar <quic_vivekuma@quicinc.com> wrote:
+> 
+> Code added in this patch takes backup of different set of
+> registers during hibernation suspend. On receiving hibernation
+> restore callback, it restores register values from backup. This
+> ensures state of hardware to be same just before hibernation and
+> after restore.
+> 
+> Signed-off-by: Vivek Kumar <quic_vivekuma@quicinc.com>
+> Signed-off-by: Prasanna Kumar <quic_kprasan@quicinc.com>
 > ---
->  Documentation/admin-guide/cgroup-v2.rst | 15 ++++++++++++---
->  mm/memcontrol.c                         | 14 ++++++++++++++
->  2 files changed, 26 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 27ebef2485a3..44610165261d 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1209,18 +1209,27 @@ PAGE_SIZE multiple when read back.
->  	utility is limited to providing the final safety net.
+>  drivers/irqchip/irq-gic-v3.c | 138 ++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 136 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/irqchip/irq-gic-v3.c b/drivers/irqchip/irq-gic-v3.c
+> index 2be8dea..442d32f 100644
+> --- a/drivers/irqchip/irq-gic-v3.c
+> +++ b/drivers/irqchip/irq-gic-v3.c
+> @@ -29,6 +29,10 @@
+>  #include <asm/smp_plat.h>
+>  #include <asm/virt.h>
 >  
->    memory.reclaim
-> -	A write-only nested-keyed file which exists for all cgroups.
-> +	A nested-keyed file which exists for all cgroups.
->  
-> -	This is a simple interface to trigger memory reclaim in the
-> -	target cgroup.
-> +	This is a simple interface to trigger memory reclaim and retrieve
-> +	reclaim stats in the target cgroup.
->  
->  	This file accepts a single key, the number of bytes to reclaim.
->  	No nested keys are currently supported.
->  
-> +	Reading the file returns number of pages scanned and number of
-> +	pages reclaimed from the memcg. This information fetched from
-> +	vmpressure info associated with each cgroup.
+> +#include <linux/syscore_ops.h>
+> +#include <linux/suspend.h>
+> +#include <linux/notifier.h>
 > +
->  	Example::
+>  #include "irq-gic-common.h"
 >  
->  	  echo "1G" > memory.reclaim
->  
-> +	  cat memory.reclaim
-> +
-> +	  scanned 78
-> +	  reclaimed 30
-> +
->  	The interface can be later extended with nested keys to
->  	configure the reclaim behavior. For example, specify the
->  	type of memory to reclaim from (anon, file, ..).
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index 2e2bfbed4717..9e43580a8726 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -6423,6 +6423,19 @@ static ssize_t memory_oom_group_write(struct kernfs_open_file *of,
->  	return nbytes;
->  }
->  
-> +static int memory_reclaim_show(struct seq_file *m, void *v)
-> +{
-> +	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
-> +	struct vmpressure *vmpr = memcg_to_vmpressure(memcg);
-> +
-> +	spin_lock(&vmpr->sr_lock);
-> +	seq_printf(m, "scanned %lu\nreclaimed %lu\n",
-> +		   vmpr->scanned, vmpr->reclaimed);
-> +	spin_unlock(&vmpr->sr_lock);
-> +
-> +	return 0;
-> +}
-> +
->  static ssize_t memory_reclaim(struct kernfs_open_file *of, char *buf,
->  			      size_t nbytes, loff_t off)
->  {
-> @@ -6525,6 +6538,7 @@ static struct cftype memory_files[] = {
->  		.name = "reclaim",
->  		.flags = CFTYPE_NS_DELEGATABLE,
->  		.write = memory_reclaim,
-> +		.seq_show  = memory_reclaim_show,
->  	},
->  	{ }	/* terminate */
->  };
+>  #define GICD_INT_NMI_PRI	(GICD_INT_DEF_PRI & ~0x80)
+> @@ -56,6 +60,14 @@ struct gic_chip_data {
+>  	bool			has_rss;
+>  	unsigned int		ppi_nr;
+>  	struct partition_desc	**ppi_descs;
+> +#ifdef CONFIG_HIBERNATION
+> +	unsigned int enabled_irqs[32];
+> +	unsigned int active_irqs[32];
+> +	unsigned int irq_edg_lvl[64];
+> +	unsigned int ppi_edg_lvl;
+> +	unsigned int enabled_sgis;
+> +	unsigned int pending_sgis;
+> +#endif
+
+This is either way too much, or way too little. Just restoring these
+registers is nowhere near enough, as you are completely ignoring the
+ITS, so this will leave the machine broken for anything that requires
+LPIs.
+
+But If the bootloader is supposed to replace the kernel to put the HW
+in a state where the GIC is usable again, why do we need any of this?
+
+Hibernation relies on a basic promise: the secondary kernel is entered
+with the HW in a reasonable state, and the basic infrastructure
+(specially for stuff that can be only programmed once per boot such as
+the RD tables) is already available. If the bootloader is going to do
+the work of the initial kernel, then it must do it fully, and not
+require this sort of random sprinkling all over the shop.
+
+Effectively, there is an ABI between the primary kernel and the
+secondary, and I don't see why this interface should change to paper
+over what I see as the deficiencies of the bootloader.
+
+Am I missing anything?
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
