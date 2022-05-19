@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B582C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 15:42:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B023C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 15:43:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241107AbiESPmV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 11:42:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44012 "EHLO
+        id S241515AbiESPmZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 11:42:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241206AbiESPlI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 11:41:08 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C95AB11165;
-        Thu, 19 May 2022 08:41:02 -0700 (PDT)
+        with ESMTP id S241311AbiESPlf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 11:41:35 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6050B1D0E6;
+        Thu, 19 May 2022 08:41:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652974862; x=1684510862;
+  t=1652974893; x=1684510893;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=49mb/GltcH6nA8QEGlkGIdXHf0vHEoxsK6D1ddR+MDc=;
-  b=Qlz8yMViL2m7NXNYBIcSYLIREMPWeEYW0+2Ql+QvL4bG5UAKY6mTmDQS
-   YaFlL9pQRXa0p3Z16PrkhQyHPHo2J8jDL/aR3y7zPIbIRMG1vwIY1N3Y8
-   0MeDCiKJvJxDovjph/5V59WNxUR/RnOL/dhnDCddVxfRpr3srTKP4s0xK
-   cV6YA+PkWKtHqZdNdqfx69UmMaKXwKho+/pmGBN0yhMsRw6kbrkXhGYXO
-   qopCQ9ToCO+tBA/TgAYuz8YP+d5nDlqrmHcSc8AoJnxgmC2Biw0UrhC0D
-   PdgqMkGAWCCiH0UZ1urINBK7COVummZ74WPImHfWLSN9dekSHrqsJkJ+p
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="271071667"
+  bh=FuITxsubo/0d+TgGyZwJzSfUuFmVrb3iu+Hq/HA4cm0=;
+  b=cBdAGg4vDShEjSuZtt6qcbg3m/JcAIQt3pLwknhFoUeapLQld2fjmQW+
+   Xs0AxMn8/PV7Ve2RjrAqG0vY4V6olmA9gPhjISLTxC6cI26NsTvBHXoxW
+   MQi/0YH48IeObatJ+wiiHoHPWrwjfhP990h3ll4JwXaE61tq8tDhM2CLt
+   sZYnPwPnVPtgFgber6CtPvgr66LR5ageiV2jBXu2YyDsRf0hZPX/ebwL9
+   K40RmWPG37vRba0fSCXJhlwwhQJjBtXvdnScOzAf/lRna63HevGS+aE0r
+   0cSHXV1VvwO7tOOLCx2iKMcr952dchk9CFCLYDgHSBsyrCi3kV+75U63x
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="269837649"
 X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; 
-   d="scan'208";a="271071667"
+   d="scan'208";a="269837649"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2022 08:41:02 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2022 08:41:32 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; 
-   d="scan'208";a="598635041"
+   d="scan'208";a="598635250"
 Received: from chaop.bj.intel.com ([10.240.192.101])
-  by orsmga008.jf.intel.com with ESMTP; 19 May 2022 08:40:51 -0700
+  by orsmga008.jf.intel.com with ESMTP; 19 May 2022 08:41:22 -0700
 From:   Chao Peng <chao.p.peng@linux.intel.com>
 To:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
@@ -69,9 +69,9 @@ Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         ddutile@redhat.com, dhildenb@redhat.com,
         Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: [PATCH v6 1/8] mm: Introduce memfile_notifier
-Date:   Thu, 19 May 2022 23:37:06 +0800
-Message-Id: <20220519153713.819591-2-chao.p.peng@linux.intel.com>
+Subject: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based private memory
+Date:   Thu, 19 May 2022 23:37:09 +0800
+Message-Id: <20220519153713.819591-5-chao.p.peng@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
 References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
@@ -81,316 +81,342 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch introduces memfile_notifier facility so existing memory file
-subsystems (e.g. tmpfs/hugetlbfs) can provide memory pages to allow a
-third kernel component to make use of memory bookmarked in the memory
-file and gets notified when the pages in the memory file become
-allocated/invalidated.
+Extend the memslot definition to provide guest private memory through a
+file descriptor(fd) instead of userspace_addr(hva). Such guest private
+memory(fd) may never be mapped into userspace so no userspace_addr(hva)
+can be used. Instead add another two new fields
+(private_fd/private_offset), plus the existing memory_size to represent
+the private memory range. Such memslot can still have the existing
+userspace_addr(hva). When use, a single memslot can maintain both
+private memory through private fd(private_fd/private_offset) and shared
+memory through hva(userspace_addr). A GPA is considered private by KVM
+if the memslot has private fd and that corresponding page in the private
+fd is populated, otherwise, it's shared.
 
-It will be used for KVM to use a file descriptor as the guest memory
-backing store and KVM will use this memfile_notifier interface to
-interact with memory file subsystems. In the future there might be other
-consumers (e.g. VFIO with encrypted device memory).
+Since there is no userspace mapping for private fd so we cannot
+rely on get_user_pages() to get the pfn in KVM, instead we add a new
+memfile_notifier in the memslot and rely on it to get pfn by interacting
+its callbacks from memory backing store with the fd/offset.
 
-It consists below components:
- - memfile_backing_store: Each supported memory file subsystem can be
-   implemented as a memory backing store which bookmarks memory and
-   provides callbacks for other kernel systems (memfile_notifier
-   consumers) to interact with.
- - memfile_notifier: memfile_notifier consumers defines callbacks and
-   associate them to a file using memfile_register_notifier().
- - memfile_node: A memfile_node is associated with the file (inode) from
-   the backing store and includes feature flags and a list of registered
-   memfile_notifier for notifying.
+This new extension is indicated by a new flag KVM_MEM_PRIVATE. At
+compile time, a new config HAVE_KVM_PRIVATE_MEM is added and right now
+it is selected on X86_64 for Intel TDX usage.
 
-Userspace is in charge of guest memory lifecycle: it first allocates
-pages in memory backing store and then passes the fd to KVM and lets KVM
-register memory slot to memory backing store via memfile_register_notifier.
+To make KVM easy, internally we use a binary compatible struct
+kvm_user_mem_region to handle both the normal and the '_ext' variants.
 
-Co-developed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
 Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 ---
- include/linux/memfile_notifier.h |  99 ++++++++++++++++++++++
- mm/Kconfig                       |   4 +
- mm/Makefile                      |   1 +
- mm/memfile_notifier.c            | 137 +++++++++++++++++++++++++++++++
- 4 files changed, 241 insertions(+)
- create mode 100644 include/linux/memfile_notifier.h
- create mode 100644 mm/memfile_notifier.c
+ Documentation/virt/kvm/api.rst   | 38 ++++++++++++++++++++++++++------
+ arch/mips/include/asm/kvm_host.h |  2 +-
+ arch/x86/include/asm/kvm_host.h  |  2 +-
+ arch/x86/kvm/Kconfig             |  2 ++
+ arch/x86/kvm/x86.c               |  2 +-
+ include/linux/kvm_host.h         | 19 +++++++++++-----
+ include/uapi/linux/kvm.h         | 24 ++++++++++++++++++++
+ virt/kvm/Kconfig                 |  3 +++
+ virt/kvm/kvm_main.c              | 33 +++++++++++++++++++++------
+ 9 files changed, 103 insertions(+), 22 deletions(-)
 
-diff --git a/include/linux/memfile_notifier.h b/include/linux/memfile_notifier.h
-new file mode 100644
-index 000000000000..dcb3ee6ed626
---- /dev/null
-+++ b/include/linux/memfile_notifier.h
-@@ -0,0 +1,99 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _LINUX_MEMFILE_NOTIFIER_H
-+#define _LINUX_MEMFILE_NOTIFIER_H
-+
-+#include <linux/pfn_t.h>
-+#include <linux/rculist.h>
-+#include <linux/spinlock.h>
-+#include <linux/srcu.h>
-+#include <linux/fs.h>
-+
-+
-+#define MEMFILE_F_USER_INACCESSIBLE	BIT(0)	/* memory allocated in the file is inaccessible from userspace (e.g. read/write/mmap) */
-+#define MEMFILE_F_UNMOVABLE		BIT(1)	/* memory allocated in the file is unmovable (e.g. via pagemigration)*/
-+#define MEMFILE_F_UNRECLAIMABLE		BIT(2)	/* memory allocated in the file is unreclaimable (e.g. via kswapd) */
-+
-+#define MEMFILE_F_ALLOWED_MASK		(MEMFILE_F_USER_INACCESSIBLE | \
-+					MEMFILE_F_UNMOVABLE | \
-+					MEMFILE_F_UNRECLAIMABLE)
-+
-+struct memfile_node {
-+	struct list_head	notifiers;	/* registered memfile_notifier list on the file */
-+	unsigned long		flags;		/* MEMFILE_F_* flags */
-+};
-+
-+struct memfile_backing_store {
-+	struct list_head list;
-+	spinlock_t lock;
-+	struct memfile_node* (*lookup_memfile_node)(struct file *file);
-+	int (*get_lock_pfn)(struct file *file, pgoff_t offset, pfn_t *pfn,
-+			    int *order);
-+	void (*put_unlock_pfn)(pfn_t pfn);
-+};
-+
-+struct memfile_notifier;
-+struct memfile_notifier_ops {
-+	void (*populate)(struct memfile_notifier *notifier,
-+			 pgoff_t start, pgoff_t end);
-+	void (*invalidate)(struct memfile_notifier *notifier,
-+			   pgoff_t start, pgoff_t end);
-+};
-+
-+struct memfile_notifier {
-+	struct list_head list;
-+	struct memfile_notifier_ops *ops;
-+	struct memfile_backing_store *bs;
-+};
-+
-+static inline void memfile_node_init(struct memfile_node *node)
-+{
-+	INIT_LIST_HEAD(&node->notifiers);
-+	node->flags = 0;
-+}
-+
-+#ifdef CONFIG_MEMFILE_NOTIFIER
-+/* APIs for backing stores */
-+extern void memfile_register_backing_store(struct memfile_backing_store *bs);
-+extern int memfile_node_set_flags(struct file *file, unsigned long flags);
-+extern void memfile_notifier_populate(struct memfile_node *node,
-+				      pgoff_t start, pgoff_t end);
-+extern void memfile_notifier_invalidate(struct memfile_node *node,
-+					pgoff_t start, pgoff_t end);
-+/*APIs for notifier consumers */
-+extern int memfile_register_notifier(struct file *file, unsigned long flags,
-+				     struct memfile_notifier *notifier);
-+extern void memfile_unregister_notifier(struct memfile_notifier *notifier);
-+
-+#else /* !CONFIG_MEMFILE_NOTIFIER */
-+static void memfile_register_backing_store(struct memfile_backing_store *bs)
-+{
-+}
-+
-+static int memfile_node_set_flags(struct file *file, unsigned long flags)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static void memfile_notifier_populate(struct memfile_node *node,
-+				      pgoff_t start, pgoff_t end)
-+{
-+}
-+
-+static void memfile_notifier_invalidate(struct memfile_node *node,
-+					pgoff_t start, pgoff_t end)
-+{
-+}
-+
-+static int memfile_register_notifier(struct file *file, flags,
-+				     struct memfile_notifier *notifier)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static void memfile_unregister_notifier(struct memfile_notifier *notifier)
-+{
-+}
-+
-+#endif /* CONFIG_MEMFILE_NOTIFIER */
-+
-+#endif /* _LINUX_MEMFILE_NOTIFIER_H */
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 034d87953600..e551e99cd42a 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -909,6 +909,10 @@ config ANON_VMA_NAME
- 	  area from being merged with adjacent virtual memory areas due to the
- 	  difference in their name.
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 23baf7fce038..b959445b64cc 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -1311,7 +1311,7 @@ yet and must be cleared on entry.
+ :Capability: KVM_CAP_USER_MEMORY
+ :Architectures: all
+ :Type: vm ioctl
+-:Parameters: struct kvm_userspace_memory_region (in)
++:Parameters: struct kvm_userspace_memory_region(_ext) (in)
+ :Returns: 0 on success, -1 on error
  
-+config MEMFILE_NOTIFIER
-+	bool
-+	select SRCU
-+
- source "mm/damon/Kconfig"
+ ::
+@@ -1324,9 +1324,18 @@ yet and must be cleared on entry.
+ 	__u64 userspace_addr; /* start of the userspace allocated memory */
+   };
  
- endmenu
-diff --git a/mm/Makefile b/mm/Makefile
-index 4cc13f3179a5..261a5cb315f9 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -133,3 +133,4 @@ obj-$(CONFIG_PAGE_REPORTING) += page_reporting.o
- obj-$(CONFIG_IO_MAPPING) += io-mapping.o
- obj-$(CONFIG_HAVE_BOOTMEM_INFO_NODE) += bootmem_info.o
- obj-$(CONFIG_GENERIC_IOREMAP) += ioremap.o
-+obj-$(CONFIG_MEMFILE_NOTIFIER) += memfile_notifier.o
-diff --git a/mm/memfile_notifier.c b/mm/memfile_notifier.c
-new file mode 100644
-index 000000000000..ab9461cb874e
---- /dev/null
-+++ b/mm/memfile_notifier.c
-@@ -0,0 +1,137 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ *  linux/mm/memfile_notifier.c
-+ *
-+ *  Copyright (C) 2022  Intel Corporation.
-+ *             Chao Peng <chao.p.peng@linux.intel.com>
-+ */
++  struct kvm_userspace_memory_region_ext {
++	struct kvm_userspace_memory_region region;
++	__u64 private_offset;
++	__u32 private_fd;
++	__u32 pad1;
++	__u64 pad2[14];
++};
 +
+   /* for kvm_memory_region::flags */
+   #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
+   #define KVM_MEM_READONLY	(1UL << 1)
++  #define KVM_MEM_PRIVATE		(1UL << 2)
+ 
+ This ioctl allows the user to create, modify or delete a guest physical
+ memory slot.  Bits 0-15 of "slot" specify the slot id and this value
+@@ -1357,12 +1366,27 @@ It is recommended that the lower 21 bits of guest_phys_addr and userspace_addr
+ be identical.  This allows large pages in the guest to be backed by large
+ pages in the host.
+ 
+-The flags field supports two flags: KVM_MEM_LOG_DIRTY_PAGES and
+-KVM_MEM_READONLY.  The former can be set to instruct KVM to keep track of
+-writes to memory within the slot.  See KVM_GET_DIRTY_LOG ioctl to know how to
+-use it.  The latter can be set, if KVM_CAP_READONLY_MEM capability allows it,
+-to make a new slot read-only.  In this case, writes to this memory will be
+-posted to userspace as KVM_EXIT_MMIO exits.
++kvm_userspace_memory_region_ext includes all the kvm_userspace_memory_region
++fields. It also includes additional fields for some specific features. See
++below description of flags field for more information. It's recommended to use
++kvm_userspace_memory_region_ext in new userspace code.
++
++The flags field supports below flags:
++
++- KVM_MEM_LOG_DIRTY_PAGES can be set to instruct KVM to keep track of writes to
++  memory within the slot.  See KVM_GET_DIRTY_LOG ioctl to know how to use it.
++
++- KVM_MEM_READONLY can be set, if KVM_CAP_READONLY_MEM capability allows it, to
++  make a new slot read-only.  In this case, writes to this memory will be posted
++  to userspace as KVM_EXIT_MMIO exits.
++
++- KVM_MEM_PRIVATE can be set to indicate a new slot has private memory backed by
++  a file descirptor(fd) and the content of the private memory is invisible to
++  userspace. In this case, userspace should use private_fd/private_offset in
++  kvm_userspace_memory_region_ext to instruct KVM to provide private memory to
++  guest. Userspace should guarantee not to map the same pfn indicated by
++  private_fd/private_offset to different gfns with multiple memslots. Failed to
++  do this may result undefined behavior.
+ 
+ When the KVM_CAP_SYNC_MMU capability is available, changes in the backing of
+ the memory region are automatically reflected into the guest.  For example, an
+diff --git a/arch/mips/include/asm/kvm_host.h b/arch/mips/include/asm/kvm_host.h
+index 717716cc51c5..45a978c805bc 100644
+--- a/arch/mips/include/asm/kvm_host.h
++++ b/arch/mips/include/asm/kvm_host.h
+@@ -85,7 +85,7 @@
+ 
+ #define KVM_MAX_VCPUS		16
+ /* memory slots that does not exposed to userspace */
+-#define KVM_PRIVATE_MEM_SLOTS	0
++#define KVM_INTERNAL_MEM_SLOTS	0
+ 
+ #define KVM_HALT_POLL_NS_DEFAULT 500000
+ 
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index c59fea4bdb6e..3f5e81ef77c8 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -53,7 +53,7 @@
+ #define KVM_MAX_VCPU_IDS (KVM_MAX_VCPUS * KVM_VCPU_ID_RATIO)
+ 
+ /* memory slots that are not exposed to userspace */
+-#define KVM_PRIVATE_MEM_SLOTS 3
++#define KVM_INTERNAL_MEM_SLOTS 3
+ 
+ #define KVM_HALT_POLL_NS_DEFAULT 200000
+ 
+diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
+index e3cbd7706136..1f160801e2a7 100644
+--- a/arch/x86/kvm/Kconfig
++++ b/arch/x86/kvm/Kconfig
+@@ -48,6 +48,8 @@ config KVM
+ 	select SRCU
+ 	select INTERVAL_TREE
+ 	select HAVE_KVM_PM_NOTIFIER if PM
++	select HAVE_KVM_PRIVATE_MEM if X86_64
++	select MEMFILE_NOTIFIER if HAVE_KVM_PRIVATE_MEM
+ 	help
+ 	  Support hosting fully virtualized guest machines using hardware
+ 	  virtualization extensions.  You will need a fairly recent
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 8ee8c91fa762..d873ae56b01a 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -11910,7 +11910,7 @@ void __user * __x86_set_memory_region(struct kvm *kvm, int id, gpa_t gpa,
+ 	}
+ 
+ 	for (i = 0; i < KVM_ADDRESS_SPACE_NUM; i++) {
+-		struct kvm_userspace_memory_region m;
++		struct kvm_user_mem_region m;
+ 
+ 		m.slot = id | (i << 16);
+ 		m.flags = 0;
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index f94f72bbd2d3..3fd168972ecd 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -44,6 +44,7 @@
+ 
+ #include <asm/kvm_host.h>
+ #include <linux/kvm_dirty_ring.h>
 +#include <linux/memfile_notifier.h>
-+#include <linux/pagemap.h>
-+#include <linux/srcu.h>
-+
-+DEFINE_STATIC_SRCU(memfile_srcu);
-+static __ro_after_init LIST_HEAD(backing_store_list);
-+
-+void memfile_notifier_populate(struct memfile_node *node,
-+			       pgoff_t start, pgoff_t end)
+ 
+ #ifndef KVM_MAX_VCPU_IDS
+ #define KVM_MAX_VCPU_IDS KVM_MAX_VCPUS
+@@ -573,8 +574,16 @@ struct kvm_memory_slot {
+ 	u32 flags;
+ 	short id;
+ 	u16 as_id;
++	struct file *private_file;
++	loff_t private_offset;
++	struct memfile_notifier notifier;
+ };
+ 
++static inline bool kvm_slot_is_private(const struct kvm_memory_slot *slot)
 +{
-+	struct memfile_notifier *notifier;
-+	int id;
-+
-+	id = srcu_read_lock(&memfile_srcu);
-+	list_for_each_entry_srcu(notifier, &node->notifiers, list,
-+				 srcu_read_lock_held(&memfile_srcu)) {
-+		if (notifier->ops->populate)
-+			notifier->ops->populate(notifier, start, end);
-+	}
-+	srcu_read_unlock(&memfile_srcu, id);
++	return slot && (slot->flags & KVM_MEM_PRIVATE);
 +}
 +
-+void memfile_notifier_invalidate(struct memfile_node *node,
-+				 pgoff_t start, pgoff_t end)
-+{
-+	struct memfile_notifier *notifier;
-+	int id;
+ static inline bool kvm_slot_dirty_track_enabled(const struct kvm_memory_slot *slot)
+ {
+ 	return slot->flags & KVM_MEM_LOG_DIRTY_PAGES;
+@@ -653,12 +662,12 @@ struct kvm_irq_routing_table {
+ };
+ #endif
+ 
+-#ifndef KVM_PRIVATE_MEM_SLOTS
+-#define KVM_PRIVATE_MEM_SLOTS 0
++#ifndef KVM_INTERNAL_MEM_SLOTS
++#define KVM_INTERNAL_MEM_SLOTS 0
+ #endif
+ 
+ #define KVM_MEM_SLOTS_NUM SHRT_MAX
+-#define KVM_USER_MEM_SLOTS (KVM_MEM_SLOTS_NUM - KVM_PRIVATE_MEM_SLOTS)
++#define KVM_USER_MEM_SLOTS (KVM_MEM_SLOTS_NUM - KVM_INTERNAL_MEM_SLOTS)
+ 
+ #ifndef __KVM_VCPU_MULTIPLE_ADDRESS_SPACE
+ static inline int kvm_arch_vcpu_memslots_id(struct kvm_vcpu *vcpu)
+@@ -1087,9 +1096,9 @@ enum kvm_mr_change {
+ };
+ 
+ int kvm_set_memory_region(struct kvm *kvm,
+-			  const struct kvm_userspace_memory_region *mem);
++			  const struct kvm_user_mem_region *mem);
+ int __kvm_set_memory_region(struct kvm *kvm,
+-			    const struct kvm_userspace_memory_region *mem);
++			    const struct kvm_user_mem_region *mem);
+ void kvm_arch_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot);
+ void kvm_arch_memslots_updated(struct kvm *kvm, u64 gen);
+ int kvm_arch_prepare_memory_region(struct kvm *kvm,
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index e10d131edd80..28cacd3656d4 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -103,6 +103,29 @@ struct kvm_userspace_memory_region {
+ 	__u64 userspace_addr; /* start of the userspace allocated memory */
+ };
+ 
++struct kvm_userspace_memory_region_ext {
++	struct kvm_userspace_memory_region region;
++	__u64 private_offset;
++	__u32 private_fd;
++	__u32 pad1;
++	__u64 pad2[14];
++};
 +
-+	id = srcu_read_lock(&memfile_srcu);
-+	list_for_each_entry_srcu(notifier, &node->notifiers, list,
-+				 srcu_read_lock_held(&memfile_srcu)) {
-+		if (notifier->ops->invalidate)
-+			notifier->ops->invalidate(notifier, start, end);
-+	}
-+	srcu_read_unlock(&memfile_srcu, id);
-+}
++#ifdef __KERNEL__
++/* Internal helper, the layout must match above user visible structures */
++struct kvm_user_mem_region {
++	__u32 slot;
++	__u32 flags;
++	__u64 guest_phys_addr;
++	__u64 memory_size;
++	__u64 userspace_addr;
++	__u64 private_offset;
++	__u32 private_fd;
++	__u32 pad1;
++	__u64 pad2[14];
++};
++#endif
 +
-+void __init memfile_register_backing_store(struct memfile_backing_store *bs)
-+{
-+	spin_lock_init(&bs->lock);
-+	list_add_tail(&bs->list, &backing_store_list);
-+}
+ /*
+  * The bit 0 ~ bit 15 of kvm_memory_region::flags are visible for userspace,
+  * other bits are reserved for kvm internal use which are defined in
+@@ -110,6 +133,7 @@ struct kvm_userspace_memory_region {
+  */
+ #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
+ #define KVM_MEM_READONLY	(1UL << 1)
++#define KVM_MEM_PRIVATE		(1UL << 2)
+ 
+ /* for KVM_IRQ_LINE */
+ struct kvm_irq_level {
+diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
+index a8c5c9f06b3c..ccaff13cc5b8 100644
+--- a/virt/kvm/Kconfig
++++ b/virt/kvm/Kconfig
+@@ -72,3 +72,6 @@ config KVM_XFER_TO_GUEST_WORK
+ 
+ config HAVE_KVM_PM_NOTIFIER
+        bool
 +
-+static void memfile_node_update_flags(struct file *file, unsigned long flags)
-+{
-+	struct address_space *mapping = file_inode(file)->i_mapping;
-+	gfp_t gfp;
++config HAVE_KVM_PRIVATE_MEM
++       bool
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index e089db822c12..db9d39a2d3a6 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -1830,7 +1830,7 @@ static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
+  * Must be called holding kvm->slots_lock for write.
+  */
+ int __kvm_set_memory_region(struct kvm *kvm,
+-			    const struct kvm_userspace_memory_region *mem)
++			    const struct kvm_user_mem_region *mem)
+ {
+ 	struct kvm_memory_slot *old, *new;
+ 	struct kvm_memslots *slots;
+@@ -1934,7 +1934,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
+ EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
+ 
+ int kvm_set_memory_region(struct kvm *kvm,
+-			  const struct kvm_userspace_memory_region *mem)
++			  const struct kvm_user_mem_region *mem)
+ {
+ 	int r;
+ 
+@@ -1946,7 +1946,7 @@ int kvm_set_memory_region(struct kvm *kvm,
+ EXPORT_SYMBOL_GPL(kvm_set_memory_region);
+ 
+ static int kvm_vm_ioctl_set_memory_region(struct kvm *kvm,
+-					  struct kvm_userspace_memory_region *mem)
++					  struct kvm_user_mem_region *mem)
+ {
+ 	if ((u16)mem->slot >= KVM_USER_MEM_SLOTS)
+ 		return -EINVAL;
+@@ -4500,14 +4500,33 @@ static long kvm_vm_ioctl(struct file *filp,
+ 		break;
+ 	}
+ 	case KVM_SET_USER_MEMORY_REGION: {
+-		struct kvm_userspace_memory_region kvm_userspace_mem;
++		struct kvm_user_mem_region mem;
++		unsigned long size;
++		u32 flags;
 +
-+	gfp = mapping_gfp_mask(mapping);
-+	if (flags & MEMFILE_F_UNMOVABLE)
-+		gfp &= ~__GFP_MOVABLE;
-+	else
-+		gfp |= __GFP_MOVABLE;
-+	mapping_set_gfp_mask(mapping, gfp);
++		memset(&mem, 0, sizeof(mem));
+ 
+ 		r = -EFAULT;
+-		if (copy_from_user(&kvm_userspace_mem, argp,
+-						sizeof(kvm_userspace_mem)))
 +
-+	if (flags & MEMFILE_F_UNRECLAIMABLE)
-+		mapping_set_unevictable(mapping);
-+	else
-+		mapping_clear_unevictable(mapping);
-+}
++		if (get_user(flags,
++			(u32 __user *)(argp + offsetof(typeof(mem), flags))))
++			goto out;
 +
-+int memfile_node_set_flags(struct file *file, unsigned long flags)
-+{
-+	struct memfile_backing_store *bs;
-+	struct memfile_node *node;
-+
-+	if (flags & ~MEMFILE_F_ALLOWED_MASK)
-+		return -EINVAL;
-+
-+	list_for_each_entry(bs, &backing_store_list, list) {
-+		node = bs->lookup_memfile_node(file);
-+		if (node) {
-+			spin_lock(&bs->lock);
-+			node->flags = flags;
-+			spin_unlock(&bs->lock);
-+			memfile_node_update_flags(file, flags);
-+			return 0;
++		if (flags & KVM_MEM_PRIVATE) {
++			r = -EINVAL;
++			goto out;
 +		}
-+	}
 +
-+	return -EOPNOTSUPP;
-+}
++		size = sizeof(struct kvm_userspace_memory_region);
 +
-+int memfile_register_notifier(struct file *file, unsigned long flags,
-+			      struct memfile_notifier *notifier)
-+{
-+	struct memfile_backing_store *bs;
-+	struct memfile_node *node;
-+	struct list_head *list;
++		if (copy_from_user(&mem, argp, size))
++			goto out;
 +
-+	if (!file || !notifier || !notifier->ops)
-+		return -EINVAL;
-+	if (flags & ~MEMFILE_F_ALLOWED_MASK)
-+		return -EINVAL;
-+
-+	list_for_each_entry(bs, &backing_store_list, list) {
-+		node = bs->lookup_memfile_node(file);
-+		if (node) {
-+			list = &node->notifiers;
-+			notifier->bs = bs;
-+
-+			spin_lock(&bs->lock);
-+			if (list_empty(list))
-+				node->flags = flags;
-+			else if (node->flags ^ flags) {
-+				spin_unlock(&bs->lock);
-+				return -EINVAL;
-+			}
-+
-+			list_add_rcu(&notifier->list, list);
-+			spin_unlock(&bs->lock);
-+			memfile_node_update_flags(file, flags);
-+			return 0;
-+		}
-+	}
-+
-+	return -EOPNOTSUPP;
-+}
-+EXPORT_SYMBOL_GPL(memfile_register_notifier);
-+
-+void memfile_unregister_notifier(struct memfile_notifier *notifier)
-+{
-+	spin_lock(&notifier->bs->lock);
-+	list_del_rcu(&notifier->list);
-+	spin_unlock(&notifier->bs->lock);
-+
-+	synchronize_srcu(&memfile_srcu);
-+}
-+EXPORT_SYMBOL_GPL(memfile_unregister_notifier);
++		r = -EINVAL;
++		if ((flags ^ mem.flags) & KVM_MEM_PRIVATE)
+ 			goto out;
+ 
+-		r = kvm_vm_ioctl_set_memory_region(kvm, &kvm_userspace_mem);
++		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
+ 		break;
+ 	}
+ 	case KVM_GET_DIRTY_LOG: {
 -- 
 2.25.1
 
