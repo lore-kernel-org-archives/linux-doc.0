@@ -2,118 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19869C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 08:03:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD676C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 08:11:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231538AbiESIDk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 04:03:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47394 "EHLO
+        id S235220AbiESILJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 04:11:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235145AbiESIDi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 04:03:38 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E51B15717A;
-        Thu, 19 May 2022 01:03:25 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id bh5so4104448plb.6;
-        Thu, 19 May 2022 01:03:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=KeXnbaKJnGx6CxOBxq1EdGG+BzLXP0puOQzJvH7BluU=;
-        b=AV2+qspzF8P1AKthUwMJ/5NkNWHujoMeP+vXvs6C5vYe8NDhgU2BCw+v5aNx9perC/
-         ivKI7gtVbg+SgQbXC9sHTvWtlQiTOJg36B12tSNDiOgJa2PoD6I32AdOf+B0sdofxlwL
-         AgtOIIHw0JySvbekQ/UKHB3zaJvYvwF0VS3WexOdvz6BtdtGY1VLFy0+BcuHzxY6c0Nn
-         JCRzks5b/OPj90wfdT5w0sMdTMwUuqs9ovoH2PrDkGTvugbukqYEiOH7LVv6xYsi/5wI
-         X+W4nd5kpceZWCqtyUtXSrrhgEUiSiQWtnZpTNgGvLA0hDQXuus9C9jU6USChvE82zYg
-         Leig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=KeXnbaKJnGx6CxOBxq1EdGG+BzLXP0puOQzJvH7BluU=;
-        b=I8xZqtj2kBflYcahObqGgX21BsrBr6zIOo2XKXRsYclxw3O9KbxeFHXb2LRlFKdJ75
-         ix2qtZmNNqVX494kDSQ8aCy5UD1kepn0aOtujkuXPbkKhlzfrRVa4rKvpDYTateE8dtm
-         PIb94A7wn9jeWzZ7yn6sC43LvdUuu9LeqsuigXd2yF5GTcriTkXl7YWyCvERTA/F/x05
-         l/aX8MWJDrGm7xySrCmdzyYMiVWHgS+pEqJmcZM3QpODpTol+o4+9ZXTc/LkDKtd7JXD
-         EdaKl9K2budG8ADjc/3bmkZDNCmtueIqHR96IlSzBXVPReYiDq33aRYwUx5naIGJwPZ+
-         zlrQ==
-X-Gm-Message-State: AOAM5323wIKNof3gfeCq3KVHYyZ61GYJ99xSHitqstqf+eLONh0LdVcg
-        6rJupFLMVvDBiXVo86MdzKU=
-X-Google-Smtp-Source: ABdhPJxk3BnUOeOGCFa19Vd8sL3A2PKRDakiJVd3iG+DNRN9ods95VZOlZerRiEWkaF2gsHJ70nFXw==
-X-Received: by 2002:a17:902:e94e:b0:158:91e6:501 with SMTP id b14-20020a170902e94e00b0015891e60501mr3577819pll.29.1652947405403;
-        Thu, 19 May 2022 01:03:25 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-16.three.co.id. [180.214.232.16])
-        by smtp.gmail.com with ESMTPSA id x21-20020a170902b41500b00161996b9a66sm3040382plr.233.2022.05.19.01.03.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 May 2022 01:03:24 -0700 (PDT)
-Message-ID: <3a5e3080-c1ab-a5c9-f9e7-355975fadc49@gmail.com>
-Date:   Thu, 19 May 2022 15:03:20 +0700
+        with ESMTP id S235207AbiESILF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 04:11:05 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F2FA32ED4;
+        Thu, 19 May 2022 01:11:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=P7hBfgfR5V/lg9pLTdIBC/hWy6eM9dq7h/FVFtkFAq8=; b=rdosXHdo2i8UPLrk/NfgCsQQXa
+        NceHcHgDpc15rlXcvlJlOrvKZ07wttU2W4xYEEJ6/rwixNTeoFQGrtYIfP88p3Ebs08aAqDTCIgNz
+        pLdQx96nbRVquBG/2pxsNXQCMYj08yyvHjs1NkoW9tWhq0aCFNmUPZVm0RT+FxOycqrOLtkimO1gU
+        qVdbj5lP7g6hJLzWrzaga1BFb3fwvsbBm6/6U5xAB3UEw/VdGyTJZ6qYAs7dAErfDL0kHi1ZTR5jm
+        OpDM/iSINt2WRl+K0pmS1DIg6BnDkcGe3O+dUNeHJrXrDUtyifs6d74AsrJbhyhbCDXwNL+hCKQCR
+        CXtb89mQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nrbFA-005iMY-O2; Thu, 19 May 2022 08:10:48 +0000
+Date:   Thu, 19 May 2022 01:10:48 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v5 00/17] Introduce eBPF support for HID devices
+Message-ID: <YoX7iHddAd4FkQRQ@infradead.org>
+References: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 2/3] fpga: doc: documentation for FPGA debugfs
-Content-Language: en-US
-To:     adrian.ho.yin.ng@intel.com, Moritz Fischer <mdf@kernel.org>,
-        Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
-        Tom Rix <trix@redhat.com>, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        Alan Tull <atull@opensource.altera.com>
-References: <20220517084136.3529-1-adrian.ho.yin.ng@intel.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220517084136.3529-1-adrian.ho.yin.ng@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/17/22 15:41, adrian.ho.yin.ng@intel.com wrote:
-> diff --git a/Documentation/fpga/debugfs.txt b/Documentation/fpga/debugfs.txt
-> new file mode 100644
-> index 000000000000..1b34d5460d5d
-> --- /dev/null
-> +++ b/Documentation/fpga/debugfs.txt
-> @@ -0,0 +1,33 @@
-> +FPGA Manager DebugFS interface for FPGA reprogramming.
-> +
-> +Alan Tull 2016
-> +
+> The logic is the following (see also the last patch for some more
+> documentation):
+> - hid-bpf first preloads a BPF program in the kernel that does a few
+>   things:
+>    * find out which attach_btf_id are associated with our trace points
+>    * adds a bpf_tail_call() BPF program that I can use to "call" any
+>      other BPF program stored into a jump table
+>    * monitors the releases of struct bpf_prog, and when there are no
+>      other users than us, detach the bpf progs from the HID devices
+> - users then declare their tracepoints and then call
+>   hid_bpf_attach_prog() in a SEC("syscall") program
+> - hid-bpf then calls multiple time the bpf_tail_call() program with a
+>   different index in the jump table whenever there is an event coming
+>   from a matching HID device
 
-Missing (c).
+So driver abstractions like UDI are now perfectly fine as long as they
+are written using a hip new VM?
 
-> +Each FPGA gets its own directory such as <debugfs>/fpga_manager/fpga0 and
-> +three files:
-> +
-> + - [RW] flags:          flags as defined in fpga-mgr.h.  For example:
-> +
-> +   $ echo 1 > /sys/kernel/debug/fpga_manager/fpga0/flags
-> +
-> + - [RW] firmware_name:  Name of an FPGA image firmware file.  Writing initiates
-> +                        a complete FPGA programming cycle.  Note that the image
-> +                        file must be in a directory on the firmware search path
-> +                        such as /lib/firmware.
-> +
-> +   $ echo image.rbf > /sys/kernel/debug/fpga_manager/fpga0/firmware_name
-> +
-> + - [WO] image:          Raw FPGA image data.  Writing the FPGA image data will
-> +                        initiate a complete FPGA programming cycle.  Data must
-> +                        be written in one chunk, for example:
-> +
-> +   $ dd bs=10M if=./image.rbf of=/sys/kernel/debug/fpga_manager/fpga0/image
-> +    (where image.rbf < 10M)
-> +
-> +To program the FPGA, write the flags (if needed), then use either the
-> +firmware_name or image file to program.
-> +
-> +This interface does not handle bridges or loading/unloading of soft IP device
-> +drivers.  This makes it really easy to mess things up by doing things like
-> +reprogramming the hardware out from under a driver or reprogramming while a
-> +bridge is enabled, causing gunk to go out on a cpu bus.  It should go without
-> +saying that this interface is for debug only.  Not intended for production use.
+This whole idea seems like a bad idea, against the Linux spirit and
+now actually useful - it is totally trivial to write a new HID
+driver alreay, and if it isn't in some cases we need to fix that.
 
-Use .rst for writing docs in Documentation/ (and fix any warnings found).
-
--- 
-An old man doll... just what I always wanted! - Clara
+So a big fat NAK to the idea of using eBPF for actual driver logic.
