@@ -2,220 +2,250 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70777C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 19:14:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B202C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 21:40:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244390AbiESTOk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 15:14:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51506 "EHLO
+        id S238128AbiESVkf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 17:40:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244525AbiESTOI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 15:14:08 -0400
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D31C8C03AE
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 12:13:54 -0700 (PDT)
-Received: by mail-io1-xd2a.google.com with SMTP id i74so65840ioa.4
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 12:13:54 -0700 (PDT)
+        with ESMTP id S235382AbiESVkf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 17:40:35 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EA89939EA
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 14:40:33 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2ff17535eabso56028977b3.20
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 14:40:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6/y06+DLzN/eyg4fXfBHtcLRTnFYxYLYCPqBTJsbH6s=;
-        b=Hr7YTVx/XDlLAKxrqvGt3HM8lkbQ7yU2d3o62RUBreCJgrHoA8OSdL53fbQ3KLFiO2
-         /1vHpfewwHUWgXcLIj3wMgTZ5sGELoRatnJpC5h8N64AtjuyzTrKNDDMAgk+T9w7cCeF
-         Wg4EpROQ9lznY84WpbrXLJWghT/JB4bwz2w3PVWYuRB3zMZAcBIpkH5LdEYGfnVJpdOt
-         BfSvIidMaMzxVrCEapVPuz5jtfaWcxAdLMsxpucS1Nk1ppff19DluwXMBAn4FJlGa24U
-         mln4eXx0GXrxxAde1IcxQBsW5gzB/5zTgmkb5K81Vk8Gua1sTGxvoARNWc84yLIwalG9
-         /3sg==
+        h=date:message-id:mime-version:subject:from:cc;
+        bh=zuGBAgFMIoOSwoUwGfoJUnP1fJqCzNy1j+Zti0iP+ZM=;
+        b=IHIAjtp3yuP+65qTq0KG8dpflrO1+4q1eQKEYue6Hu5/7/JvfpRpxvQUs5El0hevSE
+         1tuWFQgcd35rB//lFiwc+bfUwqddQK3/kyWp//JoHUCft6UppiI+gEtisDfWD2K1tCxU
+         C/nVZimKPg7Ayt6s6x1QQnk1gQj0TnjPeC17W7FRGQrsa0gEdxwUBn6HaT7bcseJjgUs
+         0Em1Di29bEHCUQ38GVgzZ+ew189o+OpDCp8CgGHwYiHsXFo7t2OFHNUr1IwIV4Wm/4wO
+         Jez9ria/XhLsKZkm+bCWqOfdzNu7twDuBHPKptuhFf8MIpLxMY4K9O35jsZ2yiyWrgwo
+         ah5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6/y06+DLzN/eyg4fXfBHtcLRTnFYxYLYCPqBTJsbH6s=;
-        b=6dKjy+BBH34eaxw3NflVp85w2/Ap5TOJqoAUAyK0BPR143rnIgTg7zO9uE+fZ28D4w
-         oJZAQ+OmncfMwcboTv58cdlJMaI5B56xucPSFL+eQEGRf0pA7qQw3Vpiism895iTrrV0
-         xC9i+qoOZpZgZjGu/Y43r+4KgmcH+KYL4fZk8wLLp6iCHFg595qfF+z3+JDt3lQfs5+Z
-         x+JjohbUJSk7P1Et0sGdjE7gMcXL9o2ShmfaJH/ul4qHjLeRa8Lp5w5i0OXzBKVPHFXW
-         IV+eyiGClXCADvE4Z0LkOLqWVk+q7vRuXPcUm2NuKOEjoqUcdjxMMYgCIZfBS/s7bjHJ
-         x77Q==
-X-Gm-Message-State: AOAM533+4mavHKHZNP+1SkneHXFpFBBQCdByBrkwRJDuETetNPcyUZLQ
-        O7W2xDbBgXqj6ruRKDmagao7Z3hh45gLlrUFcO8jXg==
-X-Google-Smtp-Source: ABdhPJy0GdftMdljZ/DggUvp858hbLHvZ0ZTwbMCuqHX0TPJ3QqmV+8xMprTqaPj1WirWbD9+n0Ce98OwaQRgHhTvhY=
-X-Received: by 2002:a05:6638:1693:b0:32b:96d6:5fc0 with SMTP id
- f19-20020a056638169300b0032b96d65fc0mr3499533jat.167.1652987633996; Thu, 19
- May 2022 12:13:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220422212945.2227722-1-axelrasmussen@google.com>
- <20220422212945.2227722-6-axelrasmussen@google.com> <bceb4b77-24fa-7654-0c59-fc858bea096a@linuxfoundation.org>
-In-Reply-To: <bceb4b77-24fa-7654-0c59-fc858bea096a@linuxfoundation.org>
-From:   Axel Rasmussen <axelrasmussen@google.com>
-Date:   Thu, 19 May 2022 12:13:18 -0700
-Message-ID: <CAJHvVcj8FnOAQ7HqrgiXiN+k2=XbXPerLZy6QBG1mDMW3=7ewA@mail.gmail.com>
-Subject: Re: [PATCH v2 5/6] userfaultfd: selftests: make /dev/userfaultfd
- testing configurable
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Charan Teja Reddy <charante@codeaurora.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:cc;
+        bh=zuGBAgFMIoOSwoUwGfoJUnP1fJqCzNy1j+Zti0iP+ZM=;
+        b=Xg5K2x/30mNWuI7gAvvvVFsPmQjiV5KmCN60cbRLwyiRI8Vi8/9/RaEnHDH+ngod72
+         KPsXBpAssWawpDze+ANbH/7wL6jVPUVp2YqdZcfz/4ovO3XkMUahDAQhMP1oXKK7u4Ho
+         yS3KwLzcITmFJZA96kxaxyoa8gcgiw1UiHmiJpb24DHp5lEBcBt7ILg+COhdo13UWzGZ
+         tZS5ItWlDzgw1APlDnOCV4uVy/rx7eJhTGQeesWSN9aK2E+fvCbE7J6dubZQZkfiCLKq
+         XmXAKdURFodfGnS5vziD6IFkKMhrySk6w7JKEP5xzLPs+N6Myqr3sCmxLHRa8WZlh9yY
+         jNlw==
+X-Gm-Message-State: AOAM533CgVE3Mod1sgur+DVEbbA6cfoT3jsf8dbS8/Cc2LtuKvk0WNgl
+        tGH0YfAAPXL5u5VrknnykXnlFINadL/zuh915A==
+X-Google-Smtp-Source: ABdhPJx4D0SEHOAjIttsmn42abQzuazkEeLC6F+ySQrARTkf0sslpCpaOFkHDaCUqhJIC32vG+HNE2dUVJKb6mGqUg==
+X-Received: from kaleshsingh.mtv.corp.google.com ([2620:15c:211:200:f1b:a195:3f95:6a6f])
+ (user=kaleshsingh job=sendgmr) by 2002:a05:6902:120e:b0:634:6f29:6b84 with
+ SMTP id s14-20020a056902120e00b006346f296b84mr6656617ybu.604.1652996432268;
+ Thu, 19 May 2022 14:40:32 -0700 (PDT)
+Date:   Thu, 19 May 2022 14:40:15 -0700
+Message-Id: <20220519214021.3572840-1-kaleshsingh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
+Subject: [RFC PATCH] procfs: Add file path and size to /proc/<pid>/fdinfo
+From:   Kalesh Singh <kaleshsingh@google.com>
+Cc:     ilkos@google.com, tjmercier@google.com, surenb@google.com,
+        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
-        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        zhangyi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Linuxkselftest <linux-kselftest@vger.kernel.org>
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Colin Cross <ccross@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 Content-Type: text/plain; charset="UTF-8"
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 9:56 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
->
-> On 4/22/22 3:29 PM, Axel Rasmussen wrote:
-> > Instead of always testing both userfaultfd(2) and /dev/userfaultfd,
-> > let the user choose which to test.
-> >
-> > As with other test features, change the behavior based on a new
-> > command line flag. Introduce the idea of "test mods", which are
-> > generic (not specific to a test type) modifications to the behavior of
-> > the test. This is sort of borrowed from this RFC patch series [1], but
-> > simplified a bit.
-> >
-> > The benefit is, in "typical" configurations this test is somewhat slow
-> > (say, 30sec or something). Testing both clearly doubles it, so it may
-> > not always be desirable, as users are likely to use one or the other,
-> > but never both, in the "real world".
-> >
-> > [1]: https://patchwork.kernel.org/project/linux-mm/patch/20201129004548.1619714-14-namit@vmware.com/
-> >
-> > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
-> > ---
-> >   tools/testing/selftests/vm/userfaultfd.c | 41 +++++++++++++++++-------
-> >   1 file changed, 30 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/tools/testing/selftests/vm/userfaultfd.c b/tools/testing/selftests/vm/userfaultfd.c
-> > index 12ae742a9981..274522704e40 100644
-> > --- a/tools/testing/selftests/vm/userfaultfd.c
-> > +++ b/tools/testing/selftests/vm/userfaultfd.c
-> > @@ -142,8 +142,17 @@ static void usage(void)
-> >   {
-> >       fprintf(stderr, "\nUsage: ./userfaultfd <test type> <MiB> <bounces> "
-> >               "[hugetlbfs_file]\n\n");
-> > +
->
-> Remove the extra blank line here.
->
-> >       fprintf(stderr, "Supported <test type>: anon, hugetlb, "
-> >               "hugetlb_shared, shmem\n\n");
-> > +
->
-> Remove the extra blank line here.
->
-> > +     fprintf(stderr, "'Test mods' can be joined to the test type string with a ':'. "
-> > +             "Supported mods:\n");
-> > +     fprintf(stderr, "\tdev - Use /dev/userfaultfd instead of userfaultfd(2)\n");
-> > +     fprintf(stderr, "\nExample test mod usage:\n");
-> > +     fprintf(stderr, "# Run anonymous memory test with /dev/userfaultfd:\n");
-> > +     fprintf(stderr, "./userfaultfd anon:dev 100 99999\n\n");
-> > +
-> >       fprintf(stderr, "Examples:\n\n");
-> >       fprintf(stderr, "%s", examples);
->
-> Update examples above with new test cases if any.
+Processes can pin shared memory by keeping a handle to it through a
+file descriptor; for instance dmabufs, memfd, and ashsmem (in Android).
 
-Will fix the above comments in v3.
+In the case of a memory leak, to identify the process pinning the
+memory, userspace needs to:
+  - Iterate the /proc/<pid>/fd/* for each process
+  - Do a readlink on each entry to identify the type of memory from
+    the file path.
+  - stat() each entry to get the size of the memory.
 
->
-> >       exit(1);
-> > @@ -1610,8 +1619,6 @@ unsigned long default_huge_page_size(void)
-> >
-> >   static void set_test_type(const char *type)
-> >   {
-> > -     uint64_t features = UFFD_API_FEATURES;
-> > -
-> >       if (!strcmp(type, "anon")) {
-> >               test_type = TEST_ANON;
-> >               uffd_test_ops = &anon_uffd_test_ops;
-> > @@ -1631,10 +1638,28 @@ static void set_test_type(const char *type)
-> >               test_type = TEST_SHMEM;
-> >               uffd_test_ops = &shmem_uffd_test_ops;
-> >               test_uffdio_minor = true;
-> > -     } else {
-> > -             err("Unknown test type: %s", type);
-> > +     }
->
-> At this point, it might make it so much easier and maintainable if
-> we were to use getopt instead of parsing options.
+The file permissions on /proc/<pid>/fd/* only allows for the owner
+or root to perform the operations above; and so is not suitable for
+capturing the system-wide state in a production environment.
 
-Agreed, I'd like that as well. But, since it's a bigger refactor that
-affects all test types, I think it may be cleaner to leave it for a
-follow-up series.
+This issue was addressed for dmabufs by making /proc/*/fdinfo/*
+accessible to a process with PTRACE_MODE_READ_FSCREDS credentials[1]
+To allow the same kind of tracking for other types of shared memory,
+add the following fields to /proc/<pid>/fdinfo/<fd>:
 
->
-> > +}
-> > +
-> > +static void parse_test_type_arg(const char *raw_type)
-> > +{
-> > +     char *buf = strdup(raw_type);
-> > +     uint64_t features = UFFD_API_FEATURES;
-> > +
-> > +     while (buf) {
-> > +             const char *token = strsep(&buf, ":");
-> > +
-> > +             if (!test_type)
-> > +                     set_test_type(token);
-> > +             else if (!strcmp(token, "dev"))
-> > +                     test_dev_userfaultfd = true;
-> > +             else
-> > +                     err("unrecognized test mod '%s'", token);
-> >       }
-> >
-> > +     if (!test_type)
-> > +             err("failed to parse test type argument: '%s'", raw_type);
-> > +
-> >       if (test_type == TEST_HUGETLB)
-> >               page_size = default_huge_page_size();
-> >       else
-> > @@ -1681,7 +1706,7 @@ int main(int argc, char **argv)
-> >               err("failed to arm SIGALRM");
-> >       alarm(ALARM_INTERVAL_SECS);
-> >
-> > -     set_test_type(argv[1]);
-> > +     parse_test_type_arg(argv[1]);
-> >
-> >       nr_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-> >       nr_pages_per_cpu = atol(argv[2]) * 1024*1024 / page_size /
-> > @@ -1719,12 +1744,6 @@ int main(int argc, char **argv)
-> >       }
-> >       printf("nr_pages: %lu, nr_pages_per_cpu: %lu\n",
-> >              nr_pages, nr_pages_per_cpu);
-> > -
-> > -     test_dev_userfaultfd = false;
-> > -     if (userfaultfd_stress())
-> > -             return 1;
-> > -
-> > -     test_dev_userfaultfd = true;
-> >       return userfaultfd_stress();
-> >   }
-> >
-> >
->
-> Same comments as before on fail vs. skip conditions to watch out
-> for and report them correctly.
+path - This allows identifying the type of memory based on common
+       prefixes: e.g. "/memfd...", "/dmabuf...", "/dev/ashmem..."
 
-I think in v3 things will be correct. Basically, in the skip cases we
-just exit(KSFT_SKIP) directly, instead of relying on the return value
-here. I'll take a pass and double check though before sending v3.
+       This was not an issued when dmabuf tracking was introduced
+       because the exp_name field of dmabuf fdinfo could be used
+       to distinguish dmabuf fds from other types.
 
->
-> thanks,
-> -- Shuah
->
+size - To track the amount of memory that is being pinned.
+
+       dmabufs expose size as an additional field in fdinfo. Remove
+       this and make it a common field for all fds.
+
+Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCREDS
+-- the same as for /proc/<pid>/maps which also exposes the path and
+size for mapped memory regions.
+
+This allows for a system process with PTRACE_MODE_READ_FSCREDS to
+account the pinned per-process memory via fdinfo.
+
+[1] https://lore.kernel.org/lkml/20210308170651.919148-1-kaleshsingh@google.com/
+
+Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+---
+ Documentation/filesystems/proc.rst | 22 ++++++++++++++++++++--
+ drivers/dma-buf/dma-buf.c          |  1 -
+ fs/proc/fd.c                       |  9 +++++++--
+ 3 files changed, 27 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 061744c436d9..ad66d78aca51 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1922,13 +1922,16 @@ if precise results are needed.
+ 3.8	/proc/<pid>/fdinfo/<fd> - Information about opened file
+ ---------------------------------------------------------------
+ This file provides information associated with an opened file. The regular
+-files have at least four fields -- 'pos', 'flags', 'mnt_id' and 'ino'.
++files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino', 'size',
++and 'path'.
++
+ The 'pos' represents the current offset of the opened file in decimal
+ form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask the
+ file has been created with [see open(2) for details] and 'mnt_id' represents
+ mount ID of the file system containing the opened file [see 3.5
+ /proc/<pid>/mountinfo for details]. 'ino' represents the inode number of
+-the file.
++the file, 'size' represents the size of the file in bytes, and 'path'
++represents the file path.
+ 
+ A typical output is::
+ 
+@@ -1936,6 +1939,8 @@ A typical output is::
+ 	flags:	0100002
+ 	mnt_id:	19
+ 	ino:	63107
++        size:   0
++        path:   /dev/null
+ 
+ All locks associated with a file descriptor are shown in its fdinfo too::
+ 
+@@ -1953,6 +1958,8 @@ Eventfd files
+ 	flags:	04002
+ 	mnt_id:	9
+ 	ino:	63107
++        size:   0
++        path:   anon_inode:[eventfd]
+ 	eventfd-count:	5a
+ 
+ where 'eventfd-count' is hex value of a counter.
+@@ -1966,6 +1973,8 @@ Signalfd files
+ 	flags:	04002
+ 	mnt_id:	9
+ 	ino:	63107
++        size:   0
++        path:   anon_inode:[signalfd]
+ 	sigmask:	0000000000000200
+ 
+ where 'sigmask' is hex value of the signal mask associated
+@@ -1980,6 +1989,8 @@ Epoll files
+ 	flags:	02
+ 	mnt_id:	9
+ 	ino:	63107
++        size:   0
++        path:   anon_inode:[eventpoll]
+ 	tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:61af sdev:7
+ 
+ where 'tfd' is a target file descriptor number in decimal form,
+@@ -1998,6 +2009,8 @@ For inotify files the format is the following::
+ 	flags:	02000000
+ 	mnt_id:	9
+ 	ino:	63107
++        size:   0
++        path:   anon_inode:inotify
+ 	inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
+ 
+ where 'wd' is a watch descriptor in decimal form, i.e. a target file
+@@ -2021,6 +2034,8 @@ For fanotify files the format is::
+ 	flags:	02
+ 	mnt_id:	9
+ 	ino:	63107
++        size:   0
++        path:   anon_inode:[fanotify]
+ 	fanotify flags:10 event-flags:0
+ 	fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
+ 	fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
+@@ -2046,6 +2061,8 @@ Timerfd files
+ 	flags:	02
+ 	mnt_id:	9
+ 	ino:	63107
++        size:   0
++        path:   anon_inode:[timerfd]
+ 	clockid: 0
+ 	ticks: 0
+ 	settime flags: 01
+@@ -2070,6 +2087,7 @@ DMA Buffer files
+ 	mnt_id:	9
+ 	ino:	63107
+ 	size:   32768
++        path:   /dmabuf:
+ 	count:  2
+ 	exp_name:  system-heap
+ 
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index b1e25ae98302..d61183ff3c30 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -377,7 +377,6 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+ {
+ 	struct dma_buf *dmabuf = file->private_data;
+ 
+-	seq_printf(m, "size:\t%zu\n", dmabuf->size);
+ 	/* Don't count the temporary reference taken inside procfs seq_show */
+ 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+ 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+index 913bef0d2a36..a8a968bc58f0 100644
+--- a/fs/proc/fd.c
++++ b/fs/proc/fd.c
+@@ -54,10 +54,15 @@ static int seq_show(struct seq_file *m, void *v)
+ 	if (ret)
+ 		return ret;
+ 
+-	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\n",
++	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\nsize:\t%zu\n",
+ 		   (long long)file->f_pos, f_flags,
+ 		   real_mount(file->f_path.mnt)->mnt_id,
+-		   file_inode(file)->i_ino);
++		   file_inode(file)->i_ino,
++		   file_inode(file)->i_size);
++
++	seq_puts(m, "path:\t");
++	seq_file_path(m, file, "\n");
++	seq_putc(m, '\n');
+ 
+ 	/* show_fd_locks() never deferences files so a stale value is safe */
+ 	show_fd_locks(m, file, files);
+
+base-commit: b015dcd62b86d298829990f8261d5d154b8d7af5
+-- 
+2.36.1.124.g0e6072fb45-goog
+
