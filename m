@@ -2,190 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B11B6C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 21:53:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35707C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 22:31:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245224AbiESVxR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 17:53:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57284 "EHLO
+        id S234968AbiESWbP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 18:31:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245243AbiESVxQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 17:53:16 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3984E5534C
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 14:53:14 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id w4so8969156wrg.12
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 14:53:14 -0700 (PDT)
+        with ESMTP id S233817AbiESWbO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 18:31:14 -0400
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A954A9FD2;
+        Thu, 19 May 2022 15:31:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TX5ubsOE693MmLyfmpEsKA9kTxG9wuZlKhY/Lmx1Dcg=;
-        b=mMPPPEU4Yx+mtS5aVcwwgLsWwhqGNX6yCnKkNTj4avhRkEw8A6Uq0MGgn3uQNfBa4e
-         vKCS7kRRTVqExk6sdIA7WNd2XVzEBGzO6kLyAOKv+b2hbCz6VpydFzHqeK97GrH1obED
-         DUm111fatIa2ZI2LUM5nXCzufj0xA3ubSlq4VJ8aYUAJR0lPkN5DVMzKQ/gJrn6cj34F
-         odcg+YbyZm37Rud7oZtAmoSRH9hQqreI+3js+Zc+mcbTKeS+u55W21Q2CbVCLpNx+ndK
-         YqGwZpkbe4mSYOv1KvetzgMDp3pD3nmNNlapjgV5N81c47T4qaPui2JXENarJTeGL/Cw
-         m0Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TX5ubsOE693MmLyfmpEsKA9kTxG9wuZlKhY/Lmx1Dcg=;
-        b=fYCN2FiyavpCABzm+6F2Rvkq6WhgN1mWGkbm5n4TBcJo/D7DVROHiW+tFOdWX1E2Ur
-         4yotTB39Avu8BYIHVLq2LOZ4OJy1uYlmepUX02vkOrytqBJM0ydje2BvYY/SDjfOlBm6
-         qpotLF6buYxjo2CRGsymdDGKq6tN3WKQo6sZP3TTykMEraQZj5UPldC1bJYCr1+lXwBB
-         aNTMI1NgRPx7Kvs6ped45Xvf42r5FtH1Vi2VcUXvzEmPH83dBH7XzSp5jswjkx9bX+TV
-         yGpWwA7QWTP3+b6/qsxxw4iphawE8rLFQZvxAkPhQj7tZsyrQTHE9cvTdvxRjvAE2zE/
-         /rXA==
-X-Gm-Message-State: AOAM532myMXKPbfFZq065oAYWA+eWHKn0hD0xA5yBFSvskBz5EGyGtKE
-        lH9fTCI3yHKKhfNZintRK2YbzpWhndMXG7Sqh3ve0Q==
-X-Google-Smtp-Source: ABdhPJwyK6HC08N5s3/SWMPE4w7rlvJoGjiBpOl0jarvJYl0fFzmbkJPfCqqscfznim8I5RGFl/dzkYSwMyaE/2gLhc=
-X-Received: by 2002:a5d:6c68:0:b0:20c:b69f:cbd0 with SMTP id
- r8-20020a5d6c68000000b0020cb69fcbd0mr6016090wrz.500.1652997192512; Thu, 19
- May 2022 14:53:12 -0700 (PDT)
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1652999472; x=1684535472;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=bDLidO+uz/WxZLgd7T0KPUs7o3mI46xraJxkCn7ZFMc=;
+  b=L3bmzxmvKv0afo4OS0Cl3vprFCz4ygPt8+5thrqcpI0TsSTFMv/tB3GB
+   Ra84KiwHRxeIvkx8knnfaOROkXK/WC3FfEgcB9A+jbGxHB6Ac96R/UtPC
+   qRp3vOnmALkUpMyLH/tnDSBNduAwtNtIAHkcEZkybHN/ECzglUQo4Wj6L
+   k=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 19 May 2022 15:31:10 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2022 15:31:09 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 19 May 2022 15:30:38 -0700
+Received: from [10.110.88.175] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 19 May
+ 2022 15:30:37 -0700
+Message-ID: <27515993-18f3-8891-4835-9b6a8d7f86b0@quicinc.com>
+Date:   Thu, 19 May 2022 15:30:37 -0700
 MIME-Version: 1.0
-References: <20220519214021.3572840-1-kaleshsingh@google.com> <01c1e280-eec4-4f04-553b-670ae1376c33@infradead.org>
-In-Reply-To: <01c1e280-eec4-4f04-553b-670ae1376c33@infradead.org>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Thu, 19 May 2022 14:53:01 -0700
-Message-ID: <CAC_TJvcA8CEG7M1KZpbdTz6_2jZHG0+Ui4Ug5qmbLYiemoLegw@mail.gmail.com>
-Subject: Re: [RFC PATCH] procfs: Add file path and size to /proc/<pid>/fdinfo
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Ioannis Ilkos <ilkos@google.com>,
-        "T.J. Mercier" <tjmercier@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Colin Cross <ccross@google.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6] dt-bindings: power: reset: qcom-pon: update "reg"
+ property details
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>
+CC:     <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <sre@kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <bjorn.andersson@linaro.org>,
+        <swboyd@chromium.org>, <linux-doc@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        David Collins <quic_collinsd@quicinc.com>
+References: <20220422191239.6271-1-quic_amelende@quicinc.com>
+ <20220422191239.6271-2-quic_amelende@quicinc.com>
+ <YmcWZLp2X8UYOVas@robh.at.kernel.org>
+From:   Anjelique Melendez <quic_amelende@quicinc.com>
+In-Reply-To: <YmcWZLp2X8UYOVas@robh.at.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 19, 2022 at 2:47 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Hi--
->
-> On 5/19/22 14:40, Kalesh Singh wrote:
-> > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> > index 061744c436d9..ad66d78aca51 100644
-> > --- a/Documentation/filesystems/proc.rst
-> > +++ b/Documentation/filesystems/proc.rst
-> > @@ -1922,13 +1922,16 @@ if precise results are needed.
-> >  3.8  /proc/<pid>/fdinfo/<fd> - Information about opened file
-> >  ---------------------------------------------------------------
-> >  This file provides information associated with an opened file. The regular
-> > -files have at least four fields -- 'pos', 'flags', 'mnt_id' and 'ino'.
-> > +files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino', 'size',
-> > +and 'path'.
-> > +
-> >  The 'pos' represents the current offset of the opened file in decimal
-> >  form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask the
-> >  file has been created with [see open(2) for details] and 'mnt_id' represents
-> >  mount ID of the file system containing the opened file [see 3.5
-> >  /proc/<pid>/mountinfo for details]. 'ino' represents the inode number of
-> > -the file.
-> > +the file, 'size' represents the size of the file in bytes, and 'path'
-> > +represents the file path.
-> >
-> >  A typical output is::
-> >
-> > @@ -1936,6 +1939,8 @@ A typical output is::
-> >       flags:  0100002
-> >       mnt_id: 19
-> >       ino:    63107
-> > +        size:   0
-> > +        path:   /dev/null
-> >
-> >  All locks associated with a file descriptor are shown in its fdinfo too::
-> >
-> > @@ -1953,6 +1958,8 @@ Eventfd files
-> >       flags:  04002
-> >       mnt_id: 9
-> >       ino:    63107
-> > +        size:   0
-> > +        path:   anon_inode:[eventfd]
-> >       eventfd-count:  5a
-> >
-> >  where 'eventfd-count' is hex value of a counter.
-> > @@ -1966,6 +1973,8 @@ Signalfd files
-> >       flags:  04002
-> >       mnt_id: 9
-> >       ino:    63107
-> > +        size:   0
-> > +        path:   anon_inode:[signalfd]
-> >       sigmask:        0000000000000200
-> >
-> >  where 'sigmask' is hex value of the signal mask associated
-> > @@ -1980,6 +1989,8 @@ Epoll files
-> >       flags:  02
-> >       mnt_id: 9
-> >       ino:    63107
-> > +        size:   0
-> > +        path:   anon_inode:[eventpoll]
-> >       tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:61af sdev:7
-> >
-> >  where 'tfd' is a target file descriptor number in decimal form,
-> > @@ -1998,6 +2009,8 @@ For inotify files the format is the following::
-> >       flags:  02000000
-> >       mnt_id: 9
-> >       ino:    63107
-> > +        size:   0
-> > +        path:   anon_inode:inotify
-> >       inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
-> >
-> >  where 'wd' is a watch descriptor in decimal form, i.e. a target file
-> > @@ -2021,6 +2034,8 @@ For fanotify files the format is::
-> >       flags:  02
-> >       mnt_id: 9
-> >       ino:    63107
-> > +        size:   0
-> > +        path:   anon_inode:[fanotify]
-> >       fanotify flags:10 event-flags:0
-> >       fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
-> >       fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
-> > @@ -2046,6 +2061,8 @@ Timerfd files
-> >       flags:  02
-> >       mnt_id: 9
-> >       ino:    63107
-> > +        size:   0
-> > +        path:   anon_inode:[timerfd]
-> >       clockid: 0
-> >       ticks: 0
-> >       settime flags: 01
-> > @@ -2070,6 +2087,7 @@ DMA Buffer files
-> >       mnt_id: 9
-> >       ino:    63107
-> >       size:   32768
-> > +        path:   /dmabuf:
-> >       count:  2
-> >       exp_name:  system-heap
->
-> All of these added lines should be indented with a tab instead of spaces.
 
-Ahh. Thanks for catching it. WIll update in the next version.
 
--Kalesh
+On 4/25/2022 2:45 PM, Rob Herring wrote:
+> On Fri, Apr 22, 2022 at 12:12:38PM -0700, Anjelique Melendez wrote:
+>> From: David Collins <collinsd@quicinc.com>
+>>
+>> Update the description of "reg" property to add the PON_PBS base
+>> address along with PON_HLOS base address.  Also add "reg-names"
+>> property description.
+>>
+>> Signed-off-by: David Collins <quic_collinsd@quicinc.com>
+>> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+>> ---
+>>  .../bindings/power/reset/qcom,pon.yaml | 19 ++++++++++++++++++-
+>>  1 file changed, 18 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+>> index 353f155d..65ec8197 100644
+>> --- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+>> +++ b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+>> @@ -26,7 +26,24 @@ properties:
+>>        - qcom,pm8998-pon
+>>  
+>>    reg:
+>> -    maxItems: 1
+>> +    description: |
+>> +      Specifies the SPMI base address for the PON (power-on) peripheral.  For
+>> +      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
+>> +      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
+>> +      peripherals.  In that case, the PON_PBS address needs to be specified to
+>> +      facilitate software debouncing on some PMICs.
+>> +    minItems: 1
+>> +    maxItems: 2
+>> +
+>> +  reg-names:
+>> +    description: |
+>> +      For PON GEN1 and GEN2, it should be "pon".  For PON GEN3 it should include
+>> +      "pon_hlos" and optionally "pon_pbs".
+>> +    minItems: 1
+>> +    items:
+>> +      - const: pon_hlos
+>> +      - const: pon_pbs
+>> +      - const: pon
+> 
+> Did you test that 'reg-names = "pon";' works? It doesn't. The schema 
+> says 'pon' is the 3rd entry in reg-names.
+> 
+> As 'reg-names' is new I thin this should be:
+> 
+> items:
+>   - const: hlos
+>   - const: pbs
+> 
+> And if there's 1 entry, then 'reg-names' should not be there.
+> 
+> Rob
 
->
-> thanks.
-> --
-> ~Randy
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
->
+currently reg-names is not consumed by the pm8941 driver but rather for users to understand
+what each reg address is associated with. 
+With this being the case would the following be acceptable?
+	minItems: 1
+	maxItems: 2
+	items:
+    	    anyOf:
+     	      - const: pon_hlos
+     	      - const: pon_pbs
+     	      - const: pon
+
+If not we would be ok with getting rid of the reg-name property.
