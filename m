@@ -2,156 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FDECC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 11:09:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55064C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 11:46:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237306AbiESLJ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 07:09:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40542 "EHLO
+        id S237131AbiESLqs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 07:46:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237168AbiESLJY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 07:09:24 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD0DFB0429;
-        Thu, 19 May 2022 04:09:22 -0700 (PDT)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4L3nCd4PfdzjWwl;
-        Thu, 19 May 2022 19:08:29 +0800 (CST)
-Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 19 May 2022 19:09:20 +0800
-Received: from [10.174.178.120] (10.174.178.120) by
- dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 19 May 2022 19:09:19 +0800
-Message-ID: <7058b8d8-c0cb-108e-0db9-2fdf5fb154cf@huawei.com>
-Date:   Thu, 19 May 2022 19:09:18 +0800
+        with ESMTP id S237536AbiESLqi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 07:46:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DB5BE60A96
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 04:46:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1652960793;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GSpkaZjpG+wr9/klHZRZ2SJRW1tcfr1HJfk966Tzpq8=;
+        b=OLe8A5nmF45CHu9F560R5KMoJMuMVa5+SSAJxO94FCsAXAYI6UujmpHw81Jij5WiiU7lHg
+        F5CLeFO2JyoZ1Da/IpLKkBbDGSNuQo23WZLZ0SJO3hAJf/cuyqNKJ2EhVsbi/JbckGDqKH
+        VYPhPM94BvylVR7WdTN3BSqqF83CqAo=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-455-mfWotVJNMxmqQreNnCIkcA-1; Thu, 19 May 2022 07:46:32 -0400
+X-MC-Unique: mfWotVJNMxmqQreNnCIkcA-1
+Received: by mail-pj1-f71.google.com with SMTP id r14-20020a17090a1bce00b001df665a2f8bso2899421pjr.4
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 04:46:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GSpkaZjpG+wr9/klHZRZ2SJRW1tcfr1HJfk966Tzpq8=;
+        b=mADaKiekJI1eLZ4s14OGjbpmQlwDGzIyWVW0sEz91Z1FmghysUY5a104+mIpwIJN/t
+         CaUF9dznDU3/dx9Tjq413WtrN01Wkme5GSBQeZPlKeUw6YlYRO4qbbfEsq1Gf3h9TZTT
+         OYli3MrI+ynrqhI7yfE2Z+ZGSkrJxv1JDHhRh6DAkNXA7wPxg7o86n5pKW8i48kpBBjU
+         OiTtWqecuFgIn+c4VZQgkxiiKBt0ts0WMJlLXLE5/6ExMEe/yamjiMuC50sSpMbJU7rK
+         kJhLB8xK+COsJnzcPOaRFbGrVoO5lcJ4PhbdDOP+jMxLGaQ2Vhqz27WiKajRLJCgpBRW
+         jZtA==
+X-Gm-Message-State: AOAM530IwpDko+UQ/902wPApxFqIzT1v1BUOXDru5Kao6ClChFAJb3nz
+        R9/3imjO1mjthi0nCvAYptIKRIygCRZYJz3e4qKfFZtTFBSbuEMHVs+fMVXwPLOSx5GeJYBgp2q
+        juGdOIxc454L1pV1++VhaxoK1EKPP4shXuzu+
+X-Received: by 2002:a17:903:22c6:b0:15f:14e1:1518 with SMTP id y6-20020a17090322c600b0015f14e11518mr4389726plg.116.1652960791504;
+        Thu, 19 May 2022 04:46:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzioMf82ETXq8PfZUw04Ya3sdzxwtRppBH/zQS6f6PkiKtChfcyE8u9CczNO3BytCe9N5VvBeRF1NwdZOPfyio=
+X-Received: by 2002:a17:903:22c6:b0:15f:14e1:1518 with SMTP id
+ y6-20020a17090322c600b0015f14e11518mr4389693plg.116.1652960791232; Thu, 19
+ May 2022 04:46:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 0/2] Add support to relocate kernel image to mirrored
- region
-To:     <ardb@kernel.org>
-CC:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <corbet@lwn.net>, <tglx@linutronix.de>,
-        <mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <dvhart@infradead.org>, <andy@infradead.org>,
-        <rppt@kernel.org>, <paulmck@kernel.org>, <peterz@infradead.org>,
-        <jroedel@suse.de>, <songmuchun@bytedance.com>, <macro@orcam.me.uk>,
-        <frederic@kernel.org>, <W_Armin@gmx.de>, <john.garry@huawei.com>,
-        <seanjc@google.com>, <tsbogend@alpha.franken.de>,
-        <anshuman.khandual@arm.com>, <chenhuacai@kernel.org>,
-        <david@redhat.com>, <gpiccoli@igalia.com>, <mark.rutland@arm.com>,
-        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-efi@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>, <linux-mm@kvack.org>,
-        <mawupeng1@huawei.com>
-References: <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
- <20220419070150.254377-1-mawupeng1@huawei.com>
- <CAMj1kXHr2RdYSPor1st1ZnL=O42c8N6e=bNG+eFhatfefWLUrw@mail.gmail.com>
- <c65d22b4-f654-21aa-bd5f-d4f8b0939a25@huawei.com>
-From:   mawupeng <mawupeng1@huawei.com>
-In-Reply-To: <c65d22b4-f654-21aa-bd5f-d4f8b0939a25@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.120]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500014.china.huawei.com (7.185.36.153)
-X-CFilter-Loop: Reflected
+References: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
+ <YoX7iHddAd4FkQRQ@infradead.org> <YoX904CAFOAfWeJN@kroah.com>
+ <YoYCIhYhzLmhIGxe@infradead.org> <YoYcw5a6EOvVPzay@kroah.com>
+In-Reply-To: <YoYcw5a6EOvVPzay@kroah.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 19 May 2022 13:46:19 +0200
+Message-ID: <CAO-hwJK0VAu9kAVzqQrcApZok3UGhACzoVamUH3N2PeyDWZnoQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v5 00/17] Introduce eBPF support for HID devices
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, May 19, 2022 at 12:32 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, May 19, 2022 at 01:38:58AM -0700, Christoph Hellwig wrote:
+> > On Thu, May 19, 2022 at 10:20:35AM +0200, Greg KH wrote:
+> > > > are written using a hip new VM?
+> > >
+> > > Ugh, don't mention UDI, that's a bad flashback...
+> >
+> > But that is very much what we are doing here.
+> >
+> > > I thought the goal here was to move a lot of the quirk handling and
+> > > "fixup the broken HID decriptors in this device" out of kernel .c code
+> > > and into BPF code instead, which this patchset would allow.
+> > >
+> > > So that would just be exception handling.  I don't think you can write a
+> > > real HID driver here at all, but I could be wrong as I have not read the
+> > > new patchset (older versions of this series could not do that.)
+> >
+> > And that "exception handling" is most of the driver.
+>
+> For a number of "small" drivers, yes, that's all there is as the
+> hardware is "broken" and needs to be fixed up in order to work properly
+> with the hid core code.  An example of that would be hid-samsung.c which
+> rewrites the descriptors to be sane and maps the mouse buttons properly.
+>
+> But that's it, after initialization that driver gets out of the way and
+> doesn't actually control anything.  From what I can tell, this patchset
+> would allow us to write those "fixup the mappings and reports before the
+> HID driver takes over" into ebpf programs.
+>
+> It would not replace "real" HID drivers like hid-rmi.c that has to
+> handle the events and do other "real" work here.
+>
+> Or I could be reading this code all wrong, Benjamin?
 
+You get it right. hid-rmi is a good example of something that can not
+sanely be done with eBPF.
+We can do some filtering on the events (dropping one event, changing
+one other), but anything outside that would not be possible. This
+driver does a lot of scheduling, synchronisation, and various setup
+that would require a lot of back and forth between userspace and
+BPF/kernel, which makes it definitively not fit for a BPF
+implementation.
 
-在 2022/5/7 17:28, mawupeng 写道:
-> 
-> 
-> 在 2022/5/3 17:58, Ard Biesheuvel 写道:
->> On Tue, 19 Apr 2022 at 08:43, Wupeng Ma <mawupeng1@huawei.com> wrote:
->>>
->>> From: Ma Wupeng <mawupeng1@huawei.com>
->>>
->>> Now system image will perfer to be located to mirrored regions both KASLR
->>> on and off.
->>>
->>
->> Hello Ma Wupeng,
->>
->> I wonder if we could simplify this as follows:
->> - ignore the non-KASLR case for now, and rely on the bootloader  > load the image into mirrored memory if it exists;
-> 
-> In grub, memory for static image is allocated via the following path:
-> 
-> grub_cmd_linux
->    kernel = grub_malloc(filelen)
->    kernel_alloc_addr = grub_efi_allocate_any_pages (kernel_alloc_pages)
->    grub_memcpy (kernel_addr, kernel, grub_min(filelen, kernel_size))
->     grub_loader_set (grub_linux_boot, grub_linux_unload, 0)
-> 
-> Can we get memory from mirrored region by the following steps:
-> 1. get memory map by calling grub_efi_get_memory_map()
-> 2. iter all memory map to find a suitable mirrored memory area
-> 3. locate kernel image to this area
-> 
-> So, if kaslr is not enabled
->   - grub will load kernel into mirrored region
-> else
->   - arm64-stub.c will relocate kernel image to mirrored region
-> 
-> Is this feasible?
+>
+> But even if it would allow us to write HID drivers as ebpf, what is
+> wrong with that?  It's not a licensing issue (this api is only allowed
+> for GPL ebpf programs), it should allow us to move a bunch of in-kernel
+> drivers into smaller ebpf programs instead.
 
-Is this a feasible proposal to relocate the static kernel image itself
-into more reliable memory?
+The one thing I also like with eBPF is that it is safe. When you
+declare an array of bytes, the verifier enforces we don't go outside
+of the boundaries.
+I know rust is coming, but compared to plain C, that is much better,
+even if more restrictive.
+And it will also prevent some potential bugs where we have a report
+fixup that writes outside of the reserved memory.
 
-> 
->> - simplify the KASLR case to the below.
-> 
-> Yes, we can certainly do this. I will remove my code and use yours.
-> 
->>
->> I think this is reasonable, because it means we take mirrored memory
->> into account when we decide to move the image anyway, but expect the
->> boot chain to take care of this if there is no need to move the image.
->>
->> -------------8<------------------
->> --- a/drivers/firmware/efi/libstub/randomalloc.c
->> +++ b/drivers/firmware/efi/libstub/randomalloc.c
->> @@ -56,6 +56,7 @@ efi_status_t efi_random_alloc(unsigned long size,
->>                                unsigned long random_seed)
->>   {
->>          unsigned long map_size, desc_size, total_slots = 0, target_slot;
->> +       unsigned long total_mirrored_slots = 0;
->>          unsigned long buff_size;
->>          efi_status_t status;
->>          efi_memory_desc_t *memory_map;
->> @@ -86,8 +87,14 @@ efi_status_t efi_random_alloc(unsigned long size,
->>                  slots = get_entry_num_slots(md, size, ilog2(align));
->>                  MD_NUM_SLOTS(md) = slots;
->>                  total_slots += slots;
->> +               if (md->attribute & EFI_MEMORY_MORE_RELIABLE)
->> +                       total_mirrored_slots += slots;
->>          }
->>
->> +       /* only consider mirrored slots for randomization if any exist */
->> +       if (total_mirrored_slots > 0)
->> +               total_slots = total_mirrored_slots;
->> +
->>          /* find a random number between 0 and total_slots */
->>          target_slot = (total_slots * (u64)(random_seed & U32_MAX)) >> 32;
->>
->> @@ -107,6 +114,10 @@ efi_status_t efi_random_alloc(unsigned long size,
->>                  efi_physical_addr_t target;
->>                  unsigned long pages;
->>
->> +               if (total_mirrored_slots > 0 &&
->> +                   !(md->attribute & EFI_MEMORY_MORE_RELIABLE))
->> +                       continue;
->> +
->>                  if (target_slot >= MD_NUM_SLOTS(md)) {
->>                          target_slot -= MD_NUM_SLOTS(md);
->>                          continue;
->> .
+>
+> It's not like this ebpf HID driver would actually work on any other
+> operating system, right?  I guess Microsoft could create a gpl-licensed
+> ebpf HID layer as well?  As Windows allows vendors to do all of this
+> horrible HID fixups in userspace today anyway, I strongly doubt they
+> would go through the effort to add a new api like this for no valid
+> reason.
+
+OTOH, managing to push Microsoft to implement HID-BPF would be some
+achievement :) (just kidding).
+
+Cheers,
+Benjamin
+
