@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5084C4707E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A89C5C4332F
 	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 15:43:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233567AbiESPmX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 11:42:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44364 "EHLO
+        id S241536AbiESPm0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 11:42:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241245AbiESPlQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 11:41:16 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F30EA12A82;
-        Thu, 19 May 2022 08:41:12 -0700 (PDT)
+        with ESMTP id S241462AbiESPmF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 11:42:05 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5866A5C755;
+        Thu, 19 May 2022 08:42:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652974873; x=1684510873;
+  t=1652974924; x=1684510924;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=bRcbOpClngbVMiu+0GkVBqXH3D1nHdRIvvjiJPwzM5U=;
-  b=Ovcyk7lajrWzlKyvlb6Go8n+kyVcJp38MJ7dRkB1Ihlb1mCvnqAGqhf5
-   cqW/xG9qoB+0eAZkUnwTfy3FWOiztz72CNq2nhmrHZ+aCd0jnWBQxR6Rc
-   nK2NXuDqCGX5wvD3dX9zrV7Yap8L+c4Afu6MsiwmJBS5WRlGnXCUayr3t
-   BkCMBim4agTxUxzkVAcvLoxREV7BGZ5kQxVrhx1s4vK4N33G57Kr2zRDr
-   tKEc7X7ADSnXNiSxXXOzCBVIao/CeoHdnVrE7EpfL/fvOpqdV9tlkIs1b
-   bmL3Z3qQGG9VKJ8xw9Zvy8EVf665wgV5kjsEvM+LBEkQJsJn/E6t4HZoP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="259828045"
+  bh=XNQbqAIKiaRmaWRPdxk1Vbrl7jFMm+MnDgt+/EH9OEE=;
+  b=ZNJoz0T5OKQyO9oQNwtUKDpl5WI8AgBJ0ooHn5oSYi388LLHDp6K49dp
+   J2k3jW+46vO9TQW36O4ePyq1rYlGv9+IgKA+n7vUa8ujUQoOffnyRSm3x
+   0r0T9+dPica0fpUK5WSCAez3OMh0d6PYNy2W75B5ssgW6fjz3f1jvpS/x
+   Gd+Y11FT9iCHTbVe7In9+/mR2j3cJi9k4he3TlVyO/JfC3MdfG7u/ntTx
+   CctlmQVTi8bGd+WkwIReGyxJMO5Htv80JtKswQ3S8hxMUD34hyyWGt4p/
+   6p8jiR3ArlXGtXf5LqO1xfrz4TZYWTdj9Z/ByEdMPd+gZuHKV6V+E1bwE
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="252143352"
 X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; 
-   d="scan'208";a="259828045"
+   d="scan'208";a="252143352"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2022 08:41:12 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2022 08:42:03 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; 
-   d="scan'208";a="598635123"
+   d="scan'208";a="598635481"
 Received: from chaop.bj.intel.com ([10.240.192.101])
-  by orsmga008.jf.intel.com with ESMTP; 19 May 2022 08:41:02 -0700
+  by orsmga008.jf.intel.com with ESMTP; 19 May 2022 08:41:53 -0700
 From:   Chao Peng <chao.p.peng@linux.intel.com>
 To:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
@@ -69,9 +69,9 @@ Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         ddutile@redhat.com, dhildenb@redhat.com,
         Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: [PATCH v6 2/8] mm/shmem: Support memfile_notifier
-Date:   Thu, 19 May 2022 23:37:07 +0800
-Message-Id: <20220519153713.819591-3-chao.p.peng@linux.intel.com>
+Subject: [PATCH v6 7/8] KVM: Enable and expose KVM_MEM_PRIVATE
+Date:   Thu, 19 May 2022 23:37:12 +0800
+Message-Id: <20220519153713.819591-8-chao.p.peng@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
 References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
@@ -81,269 +81,284 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Register private memslot to fd-based memory backing store and handle the
+memfile notifiers to zap the existing mappings.
 
-Implement shmem as a memfile_notifier backing store. Essentially it
-interacts with the memfile_notifier feature flags for userspace
-access/page migration/page reclaiming and implements the necessary
-memfile_backing_store callbacks.
+Currently the register is happened at memslot creating time and the
+initial support does not include page migration/swap.
 
-Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+KVM_MEM_PRIVATE is not exposed by default, architecture code can turn
+on it by implementing kvm_arch_private_mem_supported().
+
+A 'kvm' reference is added in memslot structure since in
+memfile_notifier callbacks we can only obtain a memslot reference while
+kvm is need to do the zapping. The zapping itself reuses code from
+existing mmu notifier handling.
+
+Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
 Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 ---
- include/linux/shmem_fs.h |   2 +
- mm/shmem.c               | 120 ++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 121 insertions(+), 1 deletion(-)
+ include/linux/kvm_host.h |  10 ++-
+ virt/kvm/kvm_main.c      | 132 ++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 131 insertions(+), 11 deletions(-)
 
-diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-index ab51d3cd39bd..a8e98bdd121e 100644
---- a/include/linux/shmem_fs.h
-+++ b/include/linux/shmem_fs.h
-@@ -9,6 +9,7 @@
- #include <linux/percpu_counter.h>
- #include <linux/xattr.h>
- #include <linux/fs_parser.h>
-+#include <linux/memfile_notifier.h>
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index b0a7910505ed..00efb4b96bc7 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -246,7 +246,7 @@ bool kvm_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
+ int kvm_async_pf_wakeup_all(struct kvm_vcpu *vcpu);
+ #endif
  
- /* inode in-kernel data */
- 
-@@ -25,6 +26,7 @@ struct shmem_inode_info {
- 	struct simple_xattrs	xattrs;		/* list of xattrs */
- 	atomic_t		stop_eviction;	/* hold when working on inode */
- 	struct timespec64	i_crtime;	/* file creation time */
-+	struct memfile_node	memfile_node;	/* memfile node */
- 	struct inode		vfs_inode;
+-#ifdef KVM_ARCH_WANT_MMU_NOTIFIER
++#if defined(KVM_ARCH_WANT_MMU_NOTIFIER) || defined(CONFIG_MEMFILE_NOTIFIER)
+ struct kvm_gfn_range {
+ 	struct kvm_memory_slot *slot;
+ 	gfn_t start;
+@@ -577,6 +577,7 @@ struct kvm_memory_slot {
+ 	struct file *private_file;
+ 	loff_t private_offset;
+ 	struct memfile_notifier notifier;
++	struct kvm *kvm;
  };
  
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 529c9ad3e926..f97ae328c87a 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -905,6 +905,24 @@ static struct folio *shmem_get_partial_folio(struct inode *inode, pgoff_t index)
- 	return page ? page_folio(page) : NULL;
- }
+ static inline bool kvm_slot_is_private(const struct kvm_memory_slot *slot)
+@@ -769,9 +770,13 @@ struct kvm {
+ 	struct hlist_head irq_ack_notifier_list;
+ #endif
  
-+static void notify_populate(struct inode *inode, pgoff_t start, pgoff_t end)
-+{
-+	struct shmem_inode_info *info = SHMEM_I(inode);
-+
-+	memfile_notifier_populate(&info->memfile_node, start, end);
-+}
-+
-+static void notify_invalidate(struct inode *inode, struct folio *folio,
-+				   pgoff_t start, pgoff_t end)
-+{
-+	struct shmem_inode_info *info = SHMEM_I(inode);
-+
-+	start = max(start, folio->index);
-+	end = min(end, folio->index + folio_nr_pages(folio));
-+
-+	memfile_notifier_invalidate(&info->memfile_node, start, end);
-+}
-+
- /*
-  * Remove range of pages and swap entries from page cache, and free them.
-  * If !unfalloc, truncate or punch hole; if unfalloc, undo failed fallocate.
-@@ -948,6 +966,8 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, loff_t lend,
- 			}
- 			index += folio_nr_pages(folio) - 1;
- 
-+			notify_invalidate(inode, folio, start, end);
-+
- 			if (!unfalloc || !folio_test_uptodate(folio))
- 				truncate_inode_folio(mapping, folio);
- 			folio_unlock(folio);
-@@ -1021,6 +1041,9 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, loff_t lend,
- 					index--;
- 					break;
- 				}
-+
-+				notify_invalidate(inode, folio, start, end);
-+
- 				VM_BUG_ON_FOLIO(folio_test_writeback(folio),
- 						folio);
- 				truncate_inode_folio(mapping, folio);
-@@ -1092,6 +1115,13 @@ static int shmem_setattr(struct user_namespace *mnt_userns,
- 		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
- 			return -EPERM;
- 
-+		if (info->memfile_node.flags & MEMFILE_F_USER_INACCESSIBLE) {
-+			if(oldsize)
-+				return -EPERM;
-+			if (!PAGE_ALIGNED(newsize))
-+				return -EINVAL;
-+		}
-+
- 		if (newsize != oldsize) {
- 			error = shmem_reacct_size(SHMEM_I(inode)->flags,
- 					oldsize, newsize);
-@@ -1340,6 +1370,8 @@ static int shmem_writepage(struct page *page, struct writeback_control *wbc)
- 		goto redirty;
- 	if (!total_swap_pages)
- 		goto redirty;
-+	if (info->memfile_node.flags & MEMFILE_F_UNRECLAIMABLE)
-+		goto redirty;
- 
- 	/*
- 	 * Our capabilities prevent regular writeback or sync from ever calling
-@@ -2234,6 +2266,9 @@ static int shmem_mmap(struct file *file, struct vm_area_struct *vma)
- 	if (ret)
- 		return ret;
- 
-+	if (info->memfile_node.flags & MEMFILE_F_USER_INACCESSIBLE)
-+		return -EPERM;
-+
- 	/* arm64 - allow memory tagging on RAM-based files */
- 	vma->vm_flags |= VM_MTE_ALLOWED;
- 
-@@ -2274,6 +2309,7 @@ static struct inode *shmem_get_inode(struct super_block *sb, const struct inode
- 		info->i_crtime = inode->i_mtime;
- 		INIT_LIST_HEAD(&info->shrinklist);
- 		INIT_LIST_HEAD(&info->swaplist);
-+		memfile_node_init(&info->memfile_node);
- 		simple_xattrs_init(&info->xattrs);
- 		cache_no_acl(inode);
- 		mapping_set_large_folios(inode->i_mapping);
-@@ -2442,6 +2478,8 @@ shmem_write_begin(struct file *file, struct address_space *mapping,
- 		if ((info->seals & F_SEAL_GROW) && pos + len > inode->i_size)
- 			return -EPERM;
- 	}
-+	if (unlikely(info->memfile_node.flags & MEMFILE_F_USER_INACCESSIBLE))
-+		return -EPERM;
- 
- 	ret = shmem_getpage(inode, index, pagep, SGP_WRITE);
- 
-@@ -2518,6 +2556,13 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 		end_index = i_size >> PAGE_SHIFT;
- 		if (index > end_index)
- 			break;
-+
-+		if (SHMEM_I(inode)->memfile_node.flags &
-+				MEMFILE_F_USER_INACCESSIBLE) {
-+			error = -EPERM;
-+			break;
-+		}
-+
- 		if (index == end_index) {
- 			nr = i_size & ~PAGE_MASK;
- 			if (nr <= offset)
-@@ -2649,6 +2694,12 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
- 			goto out;
- 		}
- 
-+		if ((info->memfile_node.flags & MEMFILE_F_USER_INACCESSIBLE) &&
-+		    (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))) {
-+			error = -EINVAL;
-+			goto out;
-+		}
-+
- 		shmem_falloc.waitq = &shmem_falloc_waitq;
- 		shmem_falloc.start = (u64)unmap_start >> PAGE_SHIFT;
- 		shmem_falloc.next = (unmap_end + 1) >> PAGE_SHIFT;
-@@ -2768,6 +2819,7 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
- 	if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + len > inode->i_size)
- 		i_size_write(inode, offset + len);
- 	inode->i_ctime = current_time(inode);
-+	notify_populate(inode, start, end);
- undone:
- 	spin_lock(&inode->i_lock);
- 	inode->i_private = NULL;
-@@ -3754,6 +3806,20 @@ static int shmem_error_remove_page(struct address_space *mapping,
- 	return 0;
- }
- 
-+#ifdef CONFIG_MIGRATION
-+static int shmem_migrate_page(struct address_space *mapping,
-+			      struct page *newpage, struct page *page,
-+			      enum migrate_mode mode)
-+{
-+	struct inode *inode = mapping->host;
-+	struct shmem_inode_info *info = SHMEM_I(inode);
-+
-+	if (info->memfile_node.flags & MEMFILE_F_UNMOVABLE)
-+		return -ENOTSUPP;
-+	return migrate_page(mapping, newpage, page, mode);
-+}
++#if (defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)) ||\
++	defined(CONFIG_MEMFILE_NOTIFIER)
++	unsigned long mmu_notifier_seq;
 +#endif
 +
- const struct address_space_operations shmem_aops = {
- 	.writepage	= shmem_writepage,
- 	.dirty_folio	= noop_dirty_folio,
-@@ -3762,7 +3828,7 @@ const struct address_space_operations shmem_aops = {
- 	.write_end	= shmem_write_end,
- #endif
- #ifdef CONFIG_MIGRATION
--	.migratepage	= migrate_page,
-+	.migratepage	= shmem_migrate_page,
- #endif
- 	.error_remove_page = shmem_error_remove_page,
- };
-@@ -3879,6 +3945,54 @@ static struct file_system_type shmem_fs_type = {
- 	.fs_flags	= FS_USERNS_MOUNT,
- };
+ #if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
+ 	struct mmu_notifier mmu_notifier;
+-	unsigned long mmu_notifier_seq;
+ 	long mmu_notifier_count;
+ 	unsigned long mmu_notifier_range_start;
+ 	unsigned long mmu_notifier_range_end;
+@@ -1438,6 +1443,7 @@ bool kvm_arch_dy_has_pending_interrupt(struct kvm_vcpu *vcpu);
+ int kvm_arch_post_init_vm(struct kvm *kvm);
+ void kvm_arch_pre_destroy_vm(struct kvm *kvm);
+ int kvm_arch_create_vm_debugfs(struct kvm *kvm);
++bool kvm_arch_private_mem_supported(struct kvm *kvm);
  
-+#ifdef CONFIG_MEMFILE_NOTIFIER
-+static struct memfile_node* shmem_lookup_memfile_node(struct file *file)
+ #ifndef __KVM_HAVE_ARCH_VM_ALLOC
+ /*
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index db9d39a2d3a6..f93ac7cdfb53 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -843,6 +843,73 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
+ 
+ #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
+ 
++#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
++static void kvm_private_mem_notifier_handler(struct memfile_notifier *notifier,
++					     pgoff_t start, pgoff_t end)
 +{
-+	struct inode *inode = file_inode(file);
++	int idx;
++	struct kvm_memory_slot *slot = container_of(notifier,
++						    struct kvm_memory_slot,
++						    notifier);
++	struct kvm_gfn_range gfn_range = {
++		.slot		= slot,
++		.start		= start - (slot->private_offset >> PAGE_SHIFT),
++		.end		= end - (slot->private_offset >> PAGE_SHIFT),
++		.may_block 	= true,
++	};
++	struct kvm *kvm = slot->kvm;
 +
-+	if (!shmem_mapping(inode->i_mapping))
-+		return NULL;
++	gfn_range.start = slot->base_gfn + gfn_range.start;
++	gfn_range.end = slot->base_gfn + min((unsigned long)gfn_range.end, slot->npages);
 +
-+	return  &SHMEM_I(inode)->memfile_node;
-+}
-+
-+
-+static int shmem_get_lock_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
-+			      int *order)
-+{
-+	struct page *page;
-+	int ret;
-+
-+	ret = shmem_getpage(file_inode(file), offset, &page, SGP_NOALLOC);
-+	if (ret)
-+		return ret;
-+
-+	*pfn = page_to_pfn_t(page);
-+	*order = thp_order(compound_head(page));
-+	return 0;
-+}
-+
-+static void shmem_put_unlock_pfn(pfn_t pfn)
-+{
-+	struct page *page = pfn_t_to_page(pfn);
-+
-+	if (!page)
++	if (WARN_ON_ONCE(gfn_range.start >= gfn_range.end))
 +		return;
 +
-+	VM_BUG_ON_PAGE(!PageLocked(page), page);
-+
-+	set_page_dirty(page);
-+	unlock_page(page);
-+	put_page(page);
++	idx = srcu_read_lock(&kvm->srcu);
++	KVM_MMU_LOCK(kvm);
++	if (kvm_unmap_gfn_range(kvm, &gfn_range))
++		kvm_flush_remote_tlbs(kvm);
++	kvm->mmu_notifier_seq++;
++	KVM_MMU_UNLOCK(kvm);
++	srcu_read_unlock(&kvm->srcu, idx);
 +}
 +
-+static struct memfile_backing_store shmem_backing_store = {
-+	.lookup_memfile_node = shmem_lookup_memfile_node,
-+	.get_lock_pfn = shmem_get_lock_pfn,
-+	.put_unlock_pfn = shmem_put_unlock_pfn,
++static struct memfile_notifier_ops kvm_private_mem_notifier_ops = {
++	.populate = kvm_private_mem_notifier_handler,
++	.invalidate = kvm_private_mem_notifier_handler,
 +};
-+#endif /* CONFIG_MEMFILE_NOTIFIER */
 +
- int __init shmem_init(void)
++#define KVM_MEMFILE_FLAGS MEMFILE_F_USER_INACCESSIBLE | \
++			  MEMFILE_F_UNMOVABLE | \
++			  MEMFILE_F_UNRECLAIMABLE
++
++static inline int kvm_private_mem_register(struct kvm_memory_slot *slot)
++{
++	slot->notifier.ops = &kvm_private_mem_notifier_ops;
++	return memfile_register_notifier(slot->private_file, KVM_MEMFILE_FLAGS,
++					 &slot->notifier);
++}
++
++static inline void kvm_private_mem_unregister(struct kvm_memory_slot *slot)
++{
++	memfile_unregister_notifier(&slot->notifier);
++}
++
++#else /* !CONFIG_HAVE_KVM_PRIVATE_MEM */
++
++static inline int kvm_private_mem_register(struct kvm_memory_slot *slot)
++{
++	WARN_ON_ONCE(1);
++	return -EOPNOTSUPP;
++}
++
++static inline void kvm_private_mem_unregister(struct kvm_memory_slot *slot)
++{
++	WARN_ON_ONCE(1);
++}
++
++#endif /* CONFIG_HAVE_KVM_PRIVATE_MEM */
++
+ #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
+ static int kvm_pm_notifier_call(struct notifier_block *bl,
+ 				unsigned long state,
+@@ -887,6 +954,11 @@ static void kvm_destroy_dirty_bitmap(struct kvm_memory_slot *memslot)
+ /* This does not remove the slot from struct kvm_memslots data structures */
+ static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot)
  {
- 	int error;
-@@ -3904,6 +4018,10 @@ int __init shmem_init(void)
- 	else
- 		shmem_huge = SHMEM_HUGE_NEVER; /* just in case it was patched */
- #endif
++	if (slot->flags & KVM_MEM_PRIVATE) {
++		kvm_private_mem_unregister(slot);
++		fput(slot->private_file);
++	}
 +
-+#ifdef CONFIG_MEMFILE_NOTIFIER
-+	memfile_register_backing_store(&shmem_backing_store);
-+#endif
- 	return 0;
+ 	kvm_destroy_dirty_bitmap(slot);
  
- out1:
+ 	kvm_arch_free_memslot(kvm, slot);
+@@ -1437,10 +1509,21 @@ static void kvm_replace_memslot(struct kvm *kvm,
+ 	}
+ }
+ 
+-static int check_memory_region_flags(const struct kvm_userspace_memory_region *mem)
++bool __weak kvm_arch_private_mem_supported(struct kvm *kvm)
++{
++	return false;
++}
++
++static int check_memory_region_flags(struct kvm *kvm,
++				     const struct kvm_user_mem_region *mem)
+ {
+ 	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
+ 
++#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
++	if (kvm_arch_private_mem_supported(kvm))
++		valid_flags |= KVM_MEM_PRIVATE;
++#endif
++
+ #ifdef __KVM_HAVE_READONLY_MEM
+ 	valid_flags |= KVM_MEM_READONLY;
+ #endif
+@@ -1516,6 +1599,12 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
+ {
+ 	int r;
+ 
++	if (change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE) {
++		r = kvm_private_mem_register(new);
++		if (r)
++			return r;
++	}
++
+ 	/*
+ 	 * If dirty logging is disabled, nullify the bitmap; the old bitmap
+ 	 * will be freed on "commit".  If logging is enabled in both old and
+@@ -1544,6 +1633,9 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
+ 	if (r && new && new->dirty_bitmap && old && !old->dirty_bitmap)
+ 		kvm_destroy_dirty_bitmap(new);
+ 
++	if (r && change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
++	    kvm_private_mem_unregister(new);
++
+ 	return r;
+ }
+ 
+@@ -1840,7 +1932,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
+ 	int as_id, id;
+ 	int r;
+ 
+-	r = check_memory_region_flags(mem);
++	r = check_memory_region_flags(kvm, mem);
+ 	if (r)
+ 		return r;
+ 
+@@ -1859,6 +1951,10 @@ int __kvm_set_memory_region(struct kvm *kvm,
+ 	     !access_ok((void __user *)(unsigned long)mem->userspace_addr,
+ 			mem->memory_size))
+ 		return -EINVAL;
++	if (mem->flags & KVM_MEM_PRIVATE &&
++		(mem->private_offset & (PAGE_SIZE - 1) ||
++		 mem->private_offset > U64_MAX - mem->memory_size))
++		return -EINVAL;
+ 	if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
+ 		return -EINVAL;
+ 	if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
+@@ -1897,6 +1993,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
+ 		if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
+ 			return -EINVAL;
+ 	} else { /* Modify an existing slot. */
++		/* Private memslots are immutable, they can only be deleted. */
++		if (mem->flags & KVM_MEM_PRIVATE)
++			return -EINVAL;
+ 		if ((mem->userspace_addr != old->userspace_addr) ||
+ 		    (npages != old->npages) ||
+ 		    ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
+@@ -1925,10 +2024,27 @@ int __kvm_set_memory_region(struct kvm *kvm,
+ 	new->npages = npages;
+ 	new->flags = mem->flags;
+ 	new->userspace_addr = mem->userspace_addr;
++	if (mem->flags & KVM_MEM_PRIVATE) {
++		new->private_file = fget(mem->private_fd);
++		if (!new->private_file) {
++			r = -EINVAL;
++			goto out;
++		}
++		new->private_offset = mem->private_offset;
++	}
++
++	new->kvm = kvm;
+ 
+ 	r = kvm_set_memslot(kvm, old, new, change);
+ 	if (r)
+-		kfree(new);
++		goto out;
++
++	return 0;
++
++out:
++	if (new->private_file)
++		fput(new->private_file);
++	kfree(new);
+ 	return r;
+ }
+ EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
+@@ -4512,12 +4628,10 @@ static long kvm_vm_ioctl(struct file *filp,
+ 			(u32 __user *)(argp + offsetof(typeof(mem), flags))))
+ 			goto out;
+ 
+-		if (flags & KVM_MEM_PRIVATE) {
+-			r = -EINVAL;
+-			goto out;
+-		}
+-
+-		size = sizeof(struct kvm_userspace_memory_region);
++		if (flags & KVM_MEM_PRIVATE)
++			size = sizeof(struct kvm_userspace_memory_region_ext);
++		else
++			size = sizeof(struct kvm_userspace_memory_region);
+ 
+ 		if (copy_from_user(&mem, argp, size))
+ 			goto out;
 -- 
 2.25.1
 
