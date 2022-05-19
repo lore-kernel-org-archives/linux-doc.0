@@ -2,137 +2,240 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EBDCC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 18:34:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61F38C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 18:59:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243112AbiESSev (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 14:34:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37706 "EHLO
+        id S243512AbiESS7F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 14:59:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234204AbiESSet (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 14:34:49 -0400
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9638D5640F
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 11:34:48 -0700 (PDT)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-2ff155c239bso66008867b3.2
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 11:34:48 -0700 (PDT)
+        with ESMTP id S239461AbiESS7E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 14:59:04 -0400
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9248ABF49
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 11:59:02 -0700 (PDT)
+Received: by mail-il1-x136.google.com with SMTP id i5so4298823ilv.0
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 11:59:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=4sHh+aeOcshksAeWEKoIXMy64MvU5klwb4zgLRhptiQ=;
-        b=phgG1zFV85lfVsNRqOlr+jqMp71gt6ziGjyYLUM90kApzwoI3ReHJeVLTkcgWezVjx
-         gVB7DMH9h0mBSpxc1/BQhfTOtgAyoK7sf6Nf3Mn8Jy+70R+fQa+6G/7S48XE1qo2kpOy
-         U+y6b+r8NCjPB824HZfUKnodEa1yZ2vSLeMNUqKROIhqjIH4+ufXIzfm2S5Km+nHrk3q
-         2VqysAjw4rgxaLfPmG8vWXFghm7732u591qv51EvCe1UMYb6EUwfmDoP/3k4Un32bK1B
-         2vIR2hnSYAbE4fwcPPKWXwycuacHkZPR1GKD2cg4LbVoHhridUCWwHwSBCq0ddoDyI6X
-         d4oQ==
+        bh=WtXD347NgGS/+YijWWiRuBafqv4C6u9VlK5CEu8TAEA=;
+        b=eQti3jrkdY7scusFOxnuKhJ5Vf4Z+DDvEqC+qVkSzJirkfUkUo5yo7/PzJFKP1AnQd
+         EOXByCNcv+7E3dhF7/eAZlUtc4Ds73cawnE2aCgg30dI7mHPxjhBBOoH1YSJQFqNtOr1
+         R6LZoXW729dcASQMsmmF3k/+wo+sYd4kz14Sa2qe+rZR083fhb8vmsk7nO+eI7I5+46r
+         B1WqKIZ6hq+/H8JAv3J/ab4RVaL/KfqCAbC/76TQsnKpljZd0qDTXT5ChI6MnY24iwgb
+         lnWLpnhJC+QTbOm2LnMQ7SPKSoLPf/ImHkqspMRV5ORcKQKsElyIaKIG7d4X6ohSIUeO
+         KuBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4sHh+aeOcshksAeWEKoIXMy64MvU5klwb4zgLRhptiQ=;
-        b=Y4uLmSweyBMrU1eG7zW1KVSwvP+m6Wn+6l39WXKE0r/yE6C3axE2YBwiOgYiVCLmlU
-         fvvkJyFQ+ib0YtjLdv+NnkWUfDwoNGjcNiu3GGdN4+TGXyRaA9cNaR/T4Lj0Ktug9bxY
-         YouPGOjd136d+PRK5Vt56bbluuqmRRpRwZJo+dv8/aIzgScJK1eFhbfm4ECv5+AqQVYh
-         0zsIXvQsY2QzJScnMqVPQyuu00KoUwJXBl+tWVUXz89bl6KFM46NkLbSnTs7QW0wZRYk
-         YPXvOQ5rvPJpjWlxgNh0CHrrpInTeRui7fJEBq8azWnvpunHhkC3dqVqD6Xi63UK94Ew
-         YgbA==
-X-Gm-Message-State: AOAM533PuVwr0wUkpJjdwsHsjmnS+mXRfevvRTXilVCFcP/XEheH9JGV
-        GSZPJSLavYxy4w/kaUukPYV3AGHIM/4G5nlVziu6ZiKZ8pjd6g==
-X-Google-Smtp-Source: ABdhPJxYVtAEG2Zu0y7At+Od5LAp6r0pSbqx60CulpdFDToh9gVC+6wU0Df8LKe6cewfujtI9pE+iWwdmx14f9qISvM=
-X-Received: by 2002:a81:990f:0:b0:2f8:c347:d11a with SMTP id
- q15-20020a81990f000000b002f8c347d11amr5910848ywg.507.1652985287640; Thu, 19
- May 2022 11:34:47 -0700 (PDT)
+        bh=WtXD347NgGS/+YijWWiRuBafqv4C6u9VlK5CEu8TAEA=;
+        b=dAiPdiPfgUwDhHPiaNVDg3ds62uU/+NR4nr1yyMYkeGzrS6Vlg5y+9gvBAeRu9Ir0D
+         aL5IS7xAWeWmWwGs12PQdmiuzSjIAa3SbjrMNDsnieOogiv73jog4crZEZslLyQcnBVG
+         iLvp4QwL1TrkfIrLniPyXc8CiUS3exwLTFcmrr17gzJ+DusYbasL9X5FhSl3OwfCY2vr
+         A9irxlOCwt5IIHpPSXvuf4MW1/G4o11aFbbEi1BJxGQ3z2onCxaK3eDn6g1re82ToT3Z
+         Ot9BBUOjMyVFxrEPTpYzYfVGBntpW5DyYRFnp8eG4lyMeF23xWLxbVsxkCxFg8CpUezu
+         Vx1Q==
+X-Gm-Message-State: AOAM530/mK9z6Yg48dAPNnRLKo7QBBytUcfjMh5GFqRw0TvuBOKINc72
+        ACidEhGvpAUJOJdsBYwH8efSmImVj+DYhHeXG33dmQ==
+X-Google-Smtp-Source: ABdhPJxroZKPAtKdyjG/WvTdRj8QijwwaYZoKH+fVYQqNh/ZqMiSWs7lA9A9PN2uIxTVX6Z0QHBF2y1TIkugRbTRbhE=
+X-Received: by 2002:a92:da0c:0:b0:2cf:9e8e:d9d8 with SMTP id
+ z12-20020a92da0c000000b002cf9e8ed9d8mr3662939ilm.192.1652986741747; Thu, 19
+ May 2022 11:59:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220516033524.3130816-1-chenwandun@huawei.com>
- <30b37eeb-e77b-882e-fc24-3367321a8ca3@gmail.com> <CAJuCfpE7fBsp8ntYVeLsW7Cd0Z09OmxN75X9Az_Qco0GJrz3Wg@mail.gmail.com>
- <CAJuCfpH-BDqsft1YvGFhkbR60VC0TJgfXKRVN+80e0iqQdhxpA@mail.gmail.com>
- <3a31521f-a68a-b2a9-baae-9a458ee17033@huawei.com> <070fe87d-43a0-5e4f-e4c7-c44782c2c195@gmail.com>
- <CAJuCfpH1mTxe5hmzZTe+AbPFse9heenx8uhGzCXE6fAh5G8SzA@mail.gmail.com> <29d66a46-d141-2d02-45dd-a8931786588e@gmail.com>
-In-Reply-To: <29d66a46-d141-2d02-45dd-a8931786588e@gmail.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Thu, 19 May 2022 11:34:36 -0700
-Message-ID: <CAJuCfpHpntz-viUQ+hAAWAkSSow7-TStr+yB3UEvqQ1WhAR22g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] psi: add support for multi level pressure stall trigger
-To:     Alex Shi <seakeel@gmail.com>
-Cc:     Chen Wandun <chenwandun@huawei.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20220422212945.2227722-1-axelrasmussen@google.com>
+ <20220422212945.2227722-5-axelrasmussen@google.com> <fc320218-bef1-c373-e6a6-afa2f6c4b56c@linuxfoundation.org>
+In-Reply-To: <fc320218-bef1-c373-e6a6-afa2f6c4b56c@linuxfoundation.org>
+From:   Axel Rasmussen <axelrasmussen@google.com>
+Date:   Thu, 19 May 2022 11:58:25 -0700
+Message-ID: <CAJHvVcgiHzHcGr8++TMW4+D0PHJRzwL=B2OGOncWArZnUa0pwg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] userfaultfd: update documentation to describe /dev/userfaultfd
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Charan Teja Reddy <charante@codeaurora.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
+        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        zhangyi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Linuxkselftest <linux-kselftest@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 18, 2022 at 11:15 PM Alex Shi <seakeel@gmail.com> wrote:
+On Tue, Apr 26, 2022 at 9:46 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
 >
->
->
-> On 5/19/22 05:38, Suren Baghdasaryan wrote:
-> > On Wed, May 18, 2022 at 3:29 AM Alex Shi <seakeel@gmail.com> wrote:
-> >>
-> >>
-> >>
-> >> On 5/17/22 20:46, Chen Wandun wrote:
-> >>>>>> This breaks the old ABI. And why you need this new function?
-> >>>>> Both great points.
-> >>>> BTW, I think the additional max_threshold parameter could be
-> >>>> implemented in a backward compatible way so that the old API is not
-> >>>> broken:
-> >>>>
-> >>>> arg_count = sscanf(buf, "some %u %u %u", &min_threshold_us,  &arg2, &arg3);
-> >>>> if (arg_count < 2) return ERR_PTR(-EINVAL);
-> >>>> if (arg_count < 3) {
-> >>>>      max_threshold_us = INT_MAX;
-> >>>>      window_us = arg2;
-> >>>> } else {
-> >>>>      max_threshold_us = arg2;
-> >>>>      window_us = arg3;
-> >>>> }
-> >>> OK
-> >>>
-> >>> Thanks.
-> >>>> But again, the motivation still needs to be explained.
-> >>> we want do different operation for different stall level,
-> >>> just as prev email explain, multi trigger is also OK in old
-> >>> ways, but it is a litter complex.
-> >>
-> >> In fact, I am not keen for this solution, the older and newer
-> >> interface is easy to be confused by users, for some resolvable
-> >> unclear issues. It's not a good idea.
+> On 4/22/22 3:29 PM, Axel Rasmussen wrote:
+> > Explain the different ways to create a new userfaultfd, and how access
+> > control works for each way.
 > >
-> > Maybe adding the max_threshold as an optional last argument will be
-> > less confusing? Smth like this:
+> > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+> > ---
+> >   Documentation/admin-guide/mm/userfaultfd.rst | 38 ++++++++++++++++++--
+> >   Documentation/admin-guide/sysctl/vm.rst      |  3 ++
+> >   2 files changed, 39 insertions(+), 2 deletions(-)
 > >
-> > some/full min_threshold window_size [max_threshold]
->
-> It's already confused enough. :)
-> BTW, I still don't see the strong reason for the pressure range.
->
-> > > Also, if we do decide to add it, there should be a warning in the
-> > documentation that max_threshold usage might lead to a stall being
-> > missed completely. In your example:
+> > diff --git a/Documentation/admin-guide/mm/userfaultfd.rst b/Documentation/admin-guide/mm/userfaultfd.rst
+> > index 6528036093e1..4c079b5377d4 100644
+> > --- a/Documentation/admin-guide/mm/userfaultfd.rst
+> > +++ b/Documentation/admin-guide/mm/userfaultfd.rst
+> > @@ -17,7 +17,10 @@ of the ``PROT_NONE+SIGSEGV`` trick.
+> >   Design
+> >   ======
 > >
-> > echo "some 150000 350000 1000000" > /proc/pressure/memory
-> >
-> > If there is a stall of more than 350ms within a given window, that
-> > trigger will not fire at all.
+> > -Userfaults are delivered and resolved through the ``userfaultfd`` syscall.
 >
-> Right.
-> And what if others propose more pressure combinations?
-> Maybe leave them to user space is more likely workable?
+> Please keep this sentence in there and rephrase it to indicate how it was
+> done in the past.
+>
+> Also explain here why this new approach is better than the syscall approach
+> before getting into the below details.
 
-Ok, sounds like userspace can handle the situation of multiple
-triggers firing. Let's keep it simple as it is now, until we see a
-strong need or convincing performance numbers for adding this new
-trigger attribute.
-Chen, if you can provide reasons why a userspace solution would be
-prohibitive I would be happy to reconsider.
-Thanks,
-Suren.
+Hmm, so the old sentence I think was incorrect already. Notifications
+of *the faults* aren't delivered and resolved through the syscall.
+Rather, the syscall just gives you a file descriptor, and then
+notification / resolution of faults happens though the file
+descriptor, not through the syscall. So I think it needs to be
+reworded in any case.
+
+I think the overall structure of the doc as-is makes the most sense as
+well - first explain how this will be used at a very high level, and
+then go into the details (first how to create a userfaultfd, then how
+to use it).
+
+So, in the end I reworded the "Creating a userfaultfd" section, to
+cover the two things you mentioned:
+
+- Which is the "older" way and which is the "newer" way
+- What the benefit of the newer way is
+
+Hopefully this addresses the comment? I can tweak it more if needed.
+In any case, thanks for taking a look at this series!
 
 >
-> Thanks
-> Alex
+> > +Userspace creates a new userfaultfd, initializes it, and registers one or more
+> > +regions of virtual memory with it. Then, any page faults which occur within the
+> > +region(s) result in a message being delivered to the userfaultfd, notifying
+> > +userspace of the fault.
+> >
+> >   The ``userfaultfd`` (aside from registering and unregistering virtual
+> >   memory ranges) provides two primary functionalities:
+> > @@ -39,7 +42,7 @@ Vmas are not suitable for page- (or hugepage) granular fault tracking
+> >   when dealing with virtual address spaces that could span
+> >   Terabytes. Too many vmas would be needed for that.>
+> > -The ``userfaultfd`` once opened by invoking the syscall, can also be
+> > +The ``userfaultfd``, once created, can also be
+>
+> This is sentence is too short and would look odd. Combine the sentences
+> so it renders well in the generated doc.
+
+Not 100% sure I understood the concern, but I do think it makes sense
+to move "Vmas are not suitable ..." up into the same paragraph with
+the other sentence about scalability. I'll do this in v3 as it looks a
+bit nicer. This leaves the "The userfaultfd, once created, ..." part
+alone, though. I think s/once opened by invoking the syscall/once
+created/ is correct, since there are now various ways to create it. I
+also think that second comma technically should have been there even
+in the previous version.
+
+>
+> >   passed using unix domain sockets to a manager process, so the same
+> >   manager process could handle the userfaults of a multitude of
+> >   different processes without them being aware about what is going on
+> > @@ -50,6 +53,37 @@ is a corner case that would currently return ``-EBUSY``).
+> >   API
+> >   ===
+> >
+> > +Creating a userfaultfd
+> > +----------------------
+> > +
+> > +There are two mechanisms to create a userfaultfd. There are various ways to
+> > +restrict this too, since userfaultfds which handle kernel page faults have
+> > +historically been a useful tool for exploiting the kernel.
+> > +
+> > +The first is the userfaultfd(2) syscall. Access to this is controlled in several
+> > +ways:
+> > +
+> > +- By default, the userfaultfd will be able to handle kernel page faults. This
+> > +  can be disabled by passing in UFFD_USER_MODE_ONLY.
+> > +
+> > +- If vm.unprivileged_userfaultfd is 0, then the caller must *either* have
+> > +  CAP_SYS_PTRACE, or pass in UFFD_USER_MODE_ONLY.
+> > +
+> > +- If vm.unprivileged_userfaultfd is 1, then no particular privilege is needed to
+> > +  use this syscall, even if UFFD_USER_MODE_ONLY is *not* set.
+> > +
+> > +Alternatively, userfaultfds can be created by opening /dev/userfaultfd, and
+> > +issuing a USERFAULTFD_IOC_NEW ioctl to this device. Access to this device is
+>
+> New ioctl? I thought we are moving away from using ioctls?
+
+Hmm, looking at alternatives [1] am not sure I see a viable one:
+
+We could have defined a new "userfaultfdfs" filesystem, but it seems
+to me to be overkill for this feature.
+
+We could have used a syscall instead and supported fine-grained access
+control with a new capability, but this approach was rejected [2]
+generally because we prefer to avoid adding capabilities, and this new
+capability's scope (just userfaultfd) was considered too narrow.
+
+So, I'm not sure of another better way to do this. I suppose one could
+argue that the dislike of ioctls outweighs the usefulness of this
+feature, but to me at least the tradeoff seems worth it. :)
+
+[1]: https://www.kernel.org/doc/html/latest/driver-api/ioctl.html#alternatives-to-ioctl
+[2]: https://lkml.org/lkml/2022/2/24/1012
+
+>
+> > +controlled via normal filesystem permissions (user/group/mode for example) - no
+> > +additional permission (capability/sysctl) is needed to be able to handle kernel
+> > +faults this way. This is useful because it allows e.g. a specific user or group
+> > +to be able to create kernel-fault-handling userfaultfds, without allowing it
+> > +more broadly, or granting more privileges in addition to that particular ability
+> > +(CAP_SYS_PTRACE). In other words, it allows permissions to be minimized.
+> > +
+> > +Initializing up a userfaultfd
+> > +------------------------
+> > +
+>
+> This will generate doc warn very likley - extend the dashes to the
+> entire length of the subtitle.
+
+I'll fix this in v3.
+
+>
+> >   When first opened the ``userfaultfd`` must be enabled invoking the
+> >   ``UFFDIO_API`` ioctl specifying a ``uffdio_api.api`` value set to ``UFFD_API`` (or
+> >   a later API version) which will specify the ``read/POLLIN`` protocol
+> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+> > index f4804ce37c58..8682d5fbc8ea 100644
+> > --- a/Documentation/admin-guide/sysctl/vm.rst
+> > +++ b/Documentation/admin-guide/sysctl/vm.rst
+> > @@ -880,6 +880,9 @@ calls without any restrictions.
+> >
+> >   The default value is 0.
+> >
+> > +An alternative to this sysctl / the userfaultfd(2) syscall is to create
+> > +userfaultfds via /dev/userfaultfd. See
+> > +Documentation/admin-guide/mm/userfaultfd.rst.
+> >
+> >   user_reserve_kbytes
+> >   ===================
+> >
+>
+> thanks,
+> -- Shuah
