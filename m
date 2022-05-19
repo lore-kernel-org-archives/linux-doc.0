@@ -2,214 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBCDBC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 15:52:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC90C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 17:57:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241345AbiESPwx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 11:52:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50964 "EHLO
+        id S243390AbiESR5Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 13:57:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240167AbiESPwu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 11:52:50 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 881B980208;
-        Thu, 19 May 2022 08:52:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652975569; x=1684511569;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BdIcZ28kMML4JTbMVnqd6Nbq0SV8x9x9A1cu4p4O3hU=;
-  b=YEtgoOGHIuXPdNd0sJI8advn11leef/vcHBEnUu80ismfV9rzcjYfLDo
-   FUuBnIJB4GH7aMYvEqITTfvw7shBJbgIeaShDb2S11g+V8iuawMh7hEEt
-   Jadv7SYIGENeNvQM1yQlEu5STfvOdqscRGgj0J12F61fI9Jt+Xu5bKK6C
-   +sxLcGjNG0RRPHPRSqqgkmDOeDxcukEJQoLGLb+h1s4mPvPyowD2Cgj++
-   9E2qqSVy5fTZHtP+RWHt45/IUlDBsdrb9eAJfo2lUPJsO3uwkQBf4sKrM
-   EyOTopJZxDQihoUXqGYnMKwLk/JOjOxj1Ry/nYWeVmL8/7Sqzfj9IK79l
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="259832383"
-X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; 
-   d="scan'208";a="259832383"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2022 08:52:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; 
-   d="scan'208";a="742984853"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 19 May 2022 08:52:42 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nriSA-0003hv-6e;
-        Thu, 19 May 2022 15:52:42 +0000
-Date:   Thu, 19 May 2022 23:51:56 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        mike.kravetz@oracle.com, osalvador@suse.de, david@redhat.com
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH 1/2] mm: memory_hotplug: enumerate all supported section
- flags
-Message-ID: <202205192323.hAhv52wX-lkp@intel.com>
-References: <20220519124632.92091-2-songmuchun@bytedance.com>
+        with ESMTP id S242244AbiESR5L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 13:57:11 -0400
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88A17CFE11
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 10:57:09 -0700 (PDT)
+Received: by mail-io1-xd30.google.com with SMTP id e194so6527632iof.11
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 10:57:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nTvwJwfDzauPQ+of5JXtLLkQatXip/21hHhzryuEKQA=;
+        b=j3LimxuhjsDMbf3h7pgM2pWwYSD4AVDqwr9ip1QCctj49RKDncQaqTHeIyXLl50zzU
+         4LG3je7shHcDY1r8jzTsxpcHjD9pp0lfGzlQqhuk55gzgWRRU5pqfxpRJbcJFKW03pa3
+         LLtD7ehpQwpgyXa+eY0hUTZk4ioiKf7glMqpvtARWpYoJpPWD8StCBp85+mKbJnmGOEO
+         TBKLipGuUQdEgRWPXm1GzIGIFeMe5N0+DDsTrPgxpZj900S2UeEVlLAND2cbavGFIQGt
+         CTjt5zWmLaAZRopYq3odW6ZOoq4jz7+VypCEx0y6zLBALPoGbIsN3k2WOTSsu3sefi7x
+         DLGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nTvwJwfDzauPQ+of5JXtLLkQatXip/21hHhzryuEKQA=;
+        b=XiNdIX1f5lPrjwIMTJowjpjKs9O7/W0WGKN+kBmxu76l3YrCMSoUAxAfceu0wCE2O/
+         5iqbRN6ewiTnkAd13ETiYgvAKzuCXkTgIKGuMr9F1d7WTEGKN1hurnUwB6ECiRsBasLh
+         dY88kNInNREw9PG/TRwUeqLiYTC3hC10+76xsiMCUzcKKCZTc8qzo6LbMCgwwCVO38yO
+         LFyEmRFuahuLb4fSpundRLtcp3GMrweQqCxcE3lWAJT1yLv7UVMGrhEuH5DSbEJg0i+I
+         iSSKQlh0Yz+ocGQvLPwCZdBC5kOJSXcNVsYGxt5qR8Vnpp3EwpT5BhVAPIp5BwrlwP8f
+         NhSw==
+X-Gm-Message-State: AOAM530nEIeDYWMgs7omQi6qsNLtdnV6dIXNDZhy4f8kABi3h5M5ygcn
+        0UbzC52dIabi1C4HOSk+4blVWXYOhhEd45uGc+Fd9w==
+X-Google-Smtp-Source: ABdhPJxLnLPad++snwSrGlFPy2lO2WAmvA7axVeAQ6DyfojYPDblWdyjk16yhcxDogtbfCy3V2mwhAIveq3XhTsBM0Y=
+X-Received: by 2002:a5d:94c2:0:b0:60b:bd34:bb6f with SMTP id
+ y2-20020a5d94c2000000b0060bbd34bb6fmr3044953ior.32.1652983028426; Thu, 19 May
+ 2022 10:57:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220519124632.92091-2-songmuchun@bytedance.com>
+References: <20220422212945.2227722-1-axelrasmussen@google.com>
+ <20220422212945.2227722-4-axelrasmussen@google.com> <a6f7ff80-ea77-75d0-2454-99d14f164708@linuxfoundation.org>
+In-Reply-To: <a6f7ff80-ea77-75d0-2454-99d14f164708@linuxfoundation.org>
+From:   Axel Rasmussen <axelrasmussen@google.com>
+Date:   Thu, 19 May 2022 10:56:32 -0700
+Message-ID: <CAJHvVciqx17ERazHNLyyFDGV6Fh0K=SyZ78DTO62xL4rqOTdgw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] userfaultfd: selftests: modify selftest to use /dev/userfaultfd
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Charan Teja Reddy <charante@codeaurora.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
+        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        zhangyi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Linuxkselftest <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Muchun,
+On Tue, Apr 26, 2022 at 9:16 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
+>
+> On 4/22/22 3:29 PM, Axel Rasmussen wrote:
+> > We clearly want to ensure both userfaultfd(2) and /dev/userfaultfd keep
+> > working into the future, so just run the test twice, using each
+> > interface.
+> >
+> > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+> > ---
+> >   tools/testing/selftests/vm/userfaultfd.c | 31 ++++++++++++++++++++++--
+> >   1 file changed, 29 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/tools/testing/selftests/vm/userfaultfd.c b/tools/testing/selftests/vm/userfaultfd.c
+> > index 92a4516f8f0d..12ae742a9981 100644
+> > --- a/tools/testing/selftests/vm/userfaultfd.c
+> > +++ b/tools/testing/selftests/vm/userfaultfd.c
+> > @@ -77,6 +77,9 @@ static int bounces;
+> >   #define TEST_SHMEM  3
+> >   static int test_type;
+> >
+> > +/* test using /dev/userfaultfd, instead of userfaultfd(2) */
+> > +static bool test_dev_userfaultfd;
+> > +
+> >   /* exercise the test_uffdio_*_eexist every ALARM_INTERVAL_SECS */
+> >   #define ALARM_INTERVAL_SECS 10
+> >   static volatile bool test_uffdio_copy_eexist = true;
+> > @@ -383,13 +386,31 @@ static void assert_expected_ioctls_present(uint64_t mode, uint64_t ioctls)
+> >       }
+> >   }
+> >
+> > +static void __userfaultfd_open_dev(void)
+> > +{
+> > +     int fd;
+> > +
+> > +     uffd = -1;
+> > +     fd = open("/dev/userfaultfd", O_RDWR | O_CLOEXEC);
+> > +     if (fd < 0)
+> > +             return;
+> > +
+> > +     uffd = ioctl(fd, USERFAULTFD_IOC_NEW,
+> > +                  O_CLOEXEC | O_NONBLOCK | UFFD_USER_MODE_ONLY);
+> > +     close(fd);
+> > +}
+> > +
+> >   static void userfaultfd_open(uint64_t *features)
+> >   {
+> >       struct uffdio_api uffdio_api;
+> >
+> > -     uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK | UFFD_USER_MODE_ONLY);
+> > +     if (test_dev_userfaultfd)
+> > +             __userfaultfd_open_dev();
+> > +     else
+> > +             uffd = syscall(__NR_userfaultfd,
+> > +                            O_CLOEXEC | O_NONBLOCK | UFFD_USER_MODE_ONLY);
+> >       if (uffd < 0)
+> > -             err("userfaultfd syscall not available in this kernel");
+> > +             err("creating userfaultfd failed");
+>
+> This isn't an error as in test failure. This will be a skip because of
+> unmet dependencies. Also if this test requires root access, please check
+> for that and make that a skip as well.
 
-I love your patch! Yet something to improve:
+Testing with the userfaultfd syscall doesn't require any special
+permissions (root or otherwise).
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linux/master linus/master v5.18-rc7 next-20220519]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+But testing with /dev/userfaultfd will require access to that device
+node, which is root:root by default, but the system administrator may
+have changed this. In general I think this will only fail due to a)
+lack of kernel support or b) lack of permissions though, so always
+exiting with KSFT_SKIP here seems reasonable. I'll make that change in
+v3.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Muchun-Song/make-hugetlb_optimize_vmemmap-compatible-with-memmap_on_memory/20220519-204849
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-config: x86_64-randconfig-a016 (https://download.01.org/0day-ci/archive/20220519/202205192323.hAhv52wX-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e00cbbec06c08dc616a0d52a20f678b8fbd4e304)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/94ab57cfaebf53ff1c57cc6c8b3ecc48bef31c5e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Muchun-Song/make-hugetlb_optimize_vmemmap-compatible-with-memmap_on_memory/20220519-204849
-        git checkout 94ab57cfaebf53ff1c57cc6c8b3ecc48bef31c5e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 prepare
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:20:
-   In file included from include/linux/slab.h:15:
-   In file included from include/linux/gfp.h:6:
->> include/linux/mmzone.h:1506:44: error: use of undeclared identifier 'SECTION_TAINT_ZONE_DEVICE'
-           unsigned long flags = SECTION_IS_ONLINE | SECTION_TAINT_ZONE_DEVICE;
-                                                     ^
-   In file included from arch/x86/kernel/asm-offsets.c:13:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return (set->sig[3] | set->sig[2] |
-                           ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:13:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return (set->sig[3] | set->sig[2] |
-                                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:13:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:4: warning: array index 1 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                           set->sig[1] | set->sig[0]) == 0;
-                           ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:13:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:100:11: warning: array index 1 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return (set->sig[1] | set->sig[0]) == 0;
-                           ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:13:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return  (set1->sig[3] == set2->sig[3]) &&
-                            ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:13:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:113:27: warning: array index 3 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return  (set1->sig[3] == set2->sig[3]) &&
-                                            ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:13:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-
-
-vim +/SECTION_TAINT_ZONE_DEVICE +1506 include/linux/mmzone.h
-
-2d070eab2e8270 Michal Hocko 2017-07-06  1503  
-1f90a3477df3ff Dan Williams 2021-02-25  1504  static inline int online_device_section(struct mem_section *section)
-1f90a3477df3ff Dan Williams 2021-02-25  1505  {
-1f90a3477df3ff Dan Williams 2021-02-25 @1506  	unsigned long flags = SECTION_IS_ONLINE | SECTION_TAINT_ZONE_DEVICE;
-1f90a3477df3ff Dan Williams 2021-02-25  1507  
-1f90a3477df3ff Dan Williams 2021-02-25  1508  	return section && ((section->section_mem_map & flags) == flags);
-1f90a3477df3ff Dan Williams 2021-02-25  1509  }
-1f90a3477df3ff Dan Williams 2021-02-25  1510  
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+>
+> >       uffd_flags = fcntl(uffd, F_GETFD, NULL);
+> >
+> >       uffdio_api.api = UFFD_API;
+> > @@ -1698,6 +1719,12 @@ int main(int argc, char **argv)
+> >       }
+> >       printf("nr_pages: %lu, nr_pages_per_cpu: %lu\n",
+> >              nr_pages, nr_pages_per_cpu);
+> > +
+> > +     test_dev_userfaultfd = false;
+> > +     if (userfaultfd_stress())
+> > +             return 1;
+> > +
+> > +     test_dev_userfaultfd = true;
+> >       return userfaultfd_stress();
+> >   }
+> >
+> >
+>
+> thanks,
+> -- Shuah
