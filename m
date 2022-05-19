@@ -2,162 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FCC8C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 18:23:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EBDCC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 18:34:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243712AbiESSXa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 14:23:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43536 "EHLO
+        id S243112AbiESSev (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 14:34:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241524AbiESSX3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 14:23:29 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A96C45AE2
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 11:23:27 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id h5so7207928wrb.11
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 11:23:27 -0700 (PDT)
+        with ESMTP id S234204AbiESSet (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 14:34:49 -0400
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9638D5640F
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 11:34:48 -0700 (PDT)
+Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-2ff155c239bso66008867b3.2
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 11:34:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=69aaD4QPBI9GdAKDBus5t7k/zTxSvsdipve2TR2Ob64=;
-        b=GkrWqpjb2yzPqkTVz9B3AF1h6LM7P8OXxi4jhC4daSBHKirsPkAj/SnhCBRObr6hEA
-         WiRe4Wva0Ozk3jVncq2kBHskGsms1JYwqHmXoWzPjEPybLXpd46qdKbASSPGfdxi63vy
-         LJQH7E7ZG4EQo1NMjCDQ0C21BbsohR5OpwSvd5tXaRitjNYoejlK5W2ozBG9NWI+9HsO
-         5EE6MfloqEZZ2bWuw2IDjRbqk6NiHnUWnmQgkFaiD6UyO98KHexuzXwqXY6gYRjB37Lv
-         EhtgEtqHenGlbGslS2t3DXNV3YJTqWgMMvu0VwKxEOxEdNtIkE+6JtzxqyJGaKb+J7tA
-         hXMA==
+        bh=4sHh+aeOcshksAeWEKoIXMy64MvU5klwb4zgLRhptiQ=;
+        b=phgG1zFV85lfVsNRqOlr+jqMp71gt6ziGjyYLUM90kApzwoI3ReHJeVLTkcgWezVjx
+         gVB7DMH9h0mBSpxc1/BQhfTOtgAyoK7sf6Nf3Mn8Jy+70R+fQa+6G/7S48XE1qo2kpOy
+         U+y6b+r8NCjPB824HZfUKnodEa1yZ2vSLeMNUqKROIhqjIH4+ufXIzfm2S5Km+nHrk3q
+         2VqysAjw4rgxaLfPmG8vWXFghm7732u591qv51EvCe1UMYb6EUwfmDoP/3k4Un32bK1B
+         2vIR2hnSYAbE4fwcPPKWXwycuacHkZPR1GKD2cg4LbVoHhridUCWwHwSBCq0ddoDyI6X
+         d4oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=69aaD4QPBI9GdAKDBus5t7k/zTxSvsdipve2TR2Ob64=;
-        b=KHTVh7kbJC06pdWsmzt998hx7hdvKJTgxQdPDDIQuVPhwhki6bhDluBN25XITffYkT
-         2LitAdOrsHQGM+yTsCBWzUWWWvK8YtHqAcDR8j7vZL+CbyMEi9DTgkWbx2K4C+lCFws9
-         qL2frOVkhrnTaETSwjECi0injfdOHDlt8673JOZ4z4nT6N7x/CipF8xhQCNsynyNfgBs
-         hSUUaWD/3V5Oi9anlvF+MzFAM55tvs4lzW9XyIIHX4XKexwONCiB1kQPIs8JY+eU+/Pb
-         APT3hdUcu5vwJz3BHUZkt0zYCK4U/khZmvA4Sr9T5kKOLKG3uv2zCcuaWvwrT/9X2oKv
-         5fpQ==
-X-Gm-Message-State: AOAM531rZyMxRK2r6Iu6G+hjllqV59XYhm31Tga39BVe7XaPyT9fa/6J
-        Ba/VgEqF5ahSoAahBveAanFW8hcgKYYO33P+ptc8/g==
-X-Google-Smtp-Source: ABdhPJzgiRnXFN6S2gC1fKKXjzhLgZufzaMOa157G/FFVNR/qTjRPbeyyLcMCUrWvBY7gjwJ1/H59Sfaq//qqD7qEOk=
-X-Received: by 2002:adf:fb05:0:b0:20a:e113:8f3f with SMTP id
- c5-20020adffb05000000b0020ae1138f3fmr5325035wrr.534.1652984605773; Thu, 19
- May 2022 11:23:25 -0700 (PDT)
+        bh=4sHh+aeOcshksAeWEKoIXMy64MvU5klwb4zgLRhptiQ=;
+        b=Y4uLmSweyBMrU1eG7zW1KVSwvP+m6Wn+6l39WXKE0r/yE6C3axE2YBwiOgYiVCLmlU
+         fvvkJyFQ+ib0YtjLdv+NnkWUfDwoNGjcNiu3GGdN4+TGXyRaA9cNaR/T4Lj0Ktug9bxY
+         YouPGOjd136d+PRK5Vt56bbluuqmRRpRwZJo+dv8/aIzgScJK1eFhbfm4ECv5+AqQVYh
+         0zsIXvQsY2QzJScnMqVPQyuu00KoUwJXBl+tWVUXz89bl6KFM46NkLbSnTs7QW0wZRYk
+         YPXvOQ5rvPJpjWlxgNh0CHrrpInTeRui7fJEBq8azWnvpunHhkC3dqVqD6Xi63UK94Ew
+         YgbA==
+X-Gm-Message-State: AOAM533PuVwr0wUkpJjdwsHsjmnS+mXRfevvRTXilVCFcP/XEheH9JGV
+        GSZPJSLavYxy4w/kaUukPYV3AGHIM/4G5nlVziu6ZiKZ8pjd6g==
+X-Google-Smtp-Source: ABdhPJxYVtAEG2Zu0y7At+Od5LAp6r0pSbqx60CulpdFDToh9gVC+6wU0Df8LKe6cewfujtI9pE+iWwdmx14f9qISvM=
+X-Received: by 2002:a81:990f:0:b0:2f8:c347:d11a with SMTP id
+ q15-20020a81990f000000b002f8c347d11amr5910848ywg.507.1652985287640; Thu, 19
+ May 2022 11:34:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220518223815.809858-1-vaibhav@linux.ibm.com>
- <CAJD7tkZSgRs6T60Gv4dZR5xBemxgCB_2s8hz8zB0F_nakN5aTQ@mail.gmail.com> <878rqxhpn1.fsf@vajain21.in.ibm.com>
-In-Reply-To: <878rqxhpn1.fsf@vajain21.in.ibm.com>
-From:   Yosry Ahmed <yosryahmed@google.com>
-Date:   Thu, 19 May 2022 11:22:49 -0700
-Message-ID: <CAJD7tkb+MESXcx4P5VfJqWfdQRbDD+FJ1o5vUtvomqJ-T9BGcw@mail.gmail.com>
-Subject: Re: [PATCH] memcg: provide reclaim stats via 'memory.reclaim'
-To:     Vaibhav Jain <vaibhav@linux.ibm.com>
-Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
+References: <20220516033524.3130816-1-chenwandun@huawei.com>
+ <30b37eeb-e77b-882e-fc24-3367321a8ca3@gmail.com> <CAJuCfpE7fBsp8ntYVeLsW7Cd0Z09OmxN75X9Az_Qco0GJrz3Wg@mail.gmail.com>
+ <CAJuCfpH-BDqsft1YvGFhkbR60VC0TJgfXKRVN+80e0iqQdhxpA@mail.gmail.com>
+ <3a31521f-a68a-b2a9-baae-9a458ee17033@huawei.com> <070fe87d-43a0-5e4f-e4c7-c44782c2c195@gmail.com>
+ <CAJuCfpH1mTxe5hmzZTe+AbPFse9heenx8uhGzCXE6fAh5G8SzA@mail.gmail.com> <29d66a46-d141-2d02-45dd-a8931786588e@gmail.com>
+In-Reply-To: <29d66a46-d141-2d02-45dd-a8931786588e@gmail.com>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Thu, 19 May 2022 11:34:36 -0700
+Message-ID: <CAJuCfpHpntz-viUQ+hAAWAkSSow7-TStr+yB3UEvqQ1WhAR22g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] psi: add support for multi level pressure stall trigger
+To:     Alex Shi <seakeel@gmail.com>
+Cc:     Chen Wandun <chenwandun@huawei.com>,
+        LKML <linux-kernel@vger.kernel.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
-        Shakeel Butt <shakeelb@google.com>
+        Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 19, 2022 at 1:51 AM Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
+On Wed, May 18, 2022 at 11:15 PM Alex Shi <seakeel@gmail.com> wrote:
 >
-> Hi,
 >
-> Thanks for looking into this patch,
 >
-> Yosry Ahmed <yosryahmed@google.com> writes:
->
-> > On Wed, May 18, 2022 at 3:38 PM Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
+> On 5/19/22 05:38, Suren Baghdasaryan wrote:
+> > On Wed, May 18, 2022 at 3:29 AM Alex Shi <seakeel@gmail.com> wrote:
 > >>
-> >> [1] Provides a way for user-space to trigger proactive reclaim by introducing
-> >> a write-only memcg file 'memory.reclaim'. However reclaim stats like number
-> >> of pages scanned and reclaimed is still not directly available to the
-> >> user-space.
 > >>
-> >> This patch proposes to extend [1] to make the memcg file 'memory.reclaim'
-> >> readable which returns the number of pages scanned / reclaimed during the
-> >> reclaim process from 'struct vmpressure' associated with each memcg. This should
-> >> let user-space asses how successful proactive reclaim triggered from memcg
-> >> 'memory.reclaim' was ?
+> >>
+> >> On 5/17/22 20:46, Chen Wandun wrote:
+> >>>>>> This breaks the old ABI. And why you need this new function?
+> >>>>> Both great points.
+> >>>> BTW, I think the additional max_threshold parameter could be
+> >>>> implemented in a backward compatible way so that the old API is not
+> >>>> broken:
+> >>>>
+> >>>> arg_count = sscanf(buf, "some %u %u %u", &min_threshold_us,  &arg2, &arg3);
+> >>>> if (arg_count < 2) return ERR_PTR(-EINVAL);
+> >>>> if (arg_count < 3) {
+> >>>>      max_threshold_us = INT_MAX;
+> >>>>      window_us = arg2;
+> >>>> } else {
+> >>>>      max_threshold_us = arg2;
+> >>>>      window_us = arg3;
+> >>>> }
+> >>> OK
+> >>>
+> >>> Thanks.
+> >>>> But again, the motivation still needs to be explained.
+> >>> we want do different operation for different stall level,
+> >>> just as prev email explain, multi trigger is also OK in old
+> >>> ways, but it is a litter complex.
+> >>
+> >> In fact, I am not keen for this solution, the older and newer
+> >> interface is easy to be confused by users, for some resolvable
+> >> unclear issues. It's not a good idea.
 > >
-> > Isn't this a racy read? struct vmpressure can be changed between the
-> > write and read by other reclaim operations, right?
-> Read/write of vmpr stats is always done in context of vmpr->sr_lock
-> which is also the case for this patch. So not sure how the read is racy
-> ?.
-
-I didn't mean that you can read the value while it is being changed. I
-meant that between writing to memory.reclaim and reading from it,
-another reclaim operation could modify memcg vmpressure. A sequence
-like this:
-1) Write to memory.reclaim
-2) Kernel coincidentally runs reclaim on that memcg
-3) Read from memory.reclaim
-
-The result would be that you are reading the stats of another reclaim
-operation, not the one invoked by writing to memory.reclaim.
-
->
+> > Maybe adding the max_threshold as an optional last argument will be
+> > less confusing? Smth like this:
 > >
-> > I was actually planning to send a patch that does not updated
-> > vmpressure for user-controller reclaim, similar to how PSI is handled.
+> > some/full min_threshold window_size [max_threshold]
+>
+> It's already confused enough. :)
+> BTW, I still don't see the strong reason for the pressure range.
+>
+> > > Also, if we do decide to add it, there should be a warning in the
+> > documentation that max_threshold usage might lead to a stall being
+> > missed completely. In your example:
 > >
-> Ok, not sure if I am inferring correctly as to how how that would be
-> useful. Can you please provide some more context.
-
-IIUC vmpressure is used as an indicator for memory pressure. In my
-opinion it makes sense if vmpressure is not changed on reclaim
-operations directly invoked by the user, as they are not directly
-related to whether the system is under memory pressure or not. PSI is
-handled in a similar way. See e22c6ed90aa9 ("mm: memcontrol: don't
-count limit-setting reclaim as
-memory pressure").
-
->
-> The primary motivation for this patch was to expose the vmpressure stats
-> to user space that are available with cgroup-v1 but not with cgroup-v2
-> AFAIK
-
-If the main goal is exposing vmpressure, regardless of proactive
-reclaim, this is something else. AFAIK vmpressure is not popular
-anymore and PSI is the more recent/better indicator.
-
->
-> > The interface currently returns -EBUSY if the entire amount was not
-> > reclaimed, so isn't this enough to figure out if it was successful or
-> > not?
-> Userspace may very well want to know the amount of memory that was
-> partially reclaimed even though write to "memory.reclaim" returned
-> '-EBUSY'. This feedback can be useful info for implementing a retry
-> loop.
->
-> > If not, we can store the scanned / reclaim counts of the last
-> > memory.reclaim invocation for the sole purpose of memory.reclaim
-> > reads.
-> Sure sounds reasonable to me.
->
-> > Maybe it is actually more intuitive to users to just read the
-> > amount of memory read? In a format that is similar to the one written?
+> > echo "some 150000 350000 1000000" > /proc/pressure/memory
 > >
-> > i.e
-> > echo "10M" > memory.reclaim
-> > cat memory.reclaim
-> > 9M
-> >
-> Agree, I will address that in v2.
+> > If there is a stall of more than 350ms within a given window, that
+> > trigger will not fire at all.
 >
-> <snip>
+> Right.
+> And what if others propose more pressure combinations?
+> Maybe leave them to user space is more likely workable?
+
+Ok, sounds like userspace can handle the situation of multiple
+triggers firing. Let's keep it simple as it is now, until we see a
+strong need or convincing performance numbers for adding this new
+trigger attribute.
+Chen, if you can provide reasons why a userspace solution would be
+prohibitive I would be happy to reconsider.
+Thanks,
+Suren.
+
 >
-> --
-> Cheers
-> ~ Vaibhav
+> Thanks
+> Alex
