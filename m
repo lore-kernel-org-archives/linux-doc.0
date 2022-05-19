@@ -2,136 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35707C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 22:31:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78C92C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 23:51:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234968AbiESWbP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 18:31:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34650 "EHLO
+        id S1343784AbiESXvc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 19:51:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233817AbiESWbO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 18:31:14 -0400
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A954A9FD2;
-        Thu, 19 May 2022 15:31:10 -0700 (PDT)
+        with ESMTP id S1343794AbiESXvb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 19:51:31 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D30663F896
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 16:51:27 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id p8so6370387pfh.8
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 16:51:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1652999472; x=1684535472;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=bDLidO+uz/WxZLgd7T0KPUs7o3mI46xraJxkCn7ZFMc=;
-  b=L3bmzxmvKv0afo4OS0Cl3vprFCz4ygPt8+5thrqcpI0TsSTFMv/tB3GB
-   Ra84KiwHRxeIvkx8knnfaOROkXK/WC3FfEgcB9A+jbGxHB6Ac96R/UtPC
-   qRp3vOnmALkUpMyLH/tnDSBNduAwtNtIAHkcEZkybHN/ECzglUQo4Wj6L
-   k=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 19 May 2022 15:31:10 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2022 15:31:09 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 19 May 2022 15:30:38 -0700
-Received: from [10.110.88.175] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 19 May
- 2022 15:30:37 -0700
-Message-ID: <27515993-18f3-8891-4835-9b6a8d7f86b0@quicinc.com>
-Date:   Thu, 19 May 2022 15:30:37 -0700
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O68zOwYSR6b5bIhMSQfgIGQAc/cdqbvjZPUOTjfh09U=;
+        b=gfq/frvCvea+Jl6JVCs1ZnXx5YZ0mp2A2abNlzF2s1fF+s7AzqcGazJmmNCb0KNec1
+         SEy2fOrPkGUDjf4hzrsvvImF+GP4koXcKJDVLDEZW3cy9mDDq8vBNdh3K8GxLU+l48SL
+         uY3ACHgkzO5q9VYZ5ncO9sHAMFGRBHXLhaB60=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O68zOwYSR6b5bIhMSQfgIGQAc/cdqbvjZPUOTjfh09U=;
+        b=5PIhz6mlk7dLi9h7ltRwJVb1jEDWCkJMzhWoBx3gKHybBbSxbFOxVPEjsprkYiNHhN
+         MN71KO+c3gskFb8hzONhiyMrt+GfUe0DcHtj4flmFRrMCPtZBWD1Atoa/VwlKrBbu5ri
+         P8RSDcecez1HfZCAC4FnlZi4qX2ZKos1MENyCnjsROvhPDRsOJn53B42TS577sf0pN4f
+         fPXUjydWgjUGHkf1mPg2x/nAa0ImaJVFKcA0AdBq4pbmCpsDBfcjUHOmvDNGeIpc+6lE
+         DERUVePOTWaQw3LqValHB+NdAoj8m2TqvrFhz/lReG88kHdjWiaGk78dWdGKQGfzvFLG
+         ZZRg==
+X-Gm-Message-State: AOAM532cM+L4jSf8dVlq3tqzaWFswhUNTf7AC9bn4Jh8rBxPU3Oe1g9M
+        zXywfHJSi1296n5z4VR14Khz1A==
+X-Google-Smtp-Source: ABdhPJyamfEkeHtpOdtcg6ZxrEdQGZCexKa9myBcRzDRrg9mGVcijU6CctbM2iy+F++LJtTegbPK0A==
+X-Received: by 2002:aa7:83d0:0:b0:50c:eb2b:8e8a with SMTP id j16-20020aa783d0000000b0050ceb2b8e8amr6950116pfn.31.1653004287251;
+        Thu, 19 May 2022 16:51:27 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:201:e45f:1f3c:299b:4d86])
+        by smtp.gmail.com with ESMTPSA id m2-20020a6545c2000000b003c18ab7389asm4128992pgr.36.2022.05.19.16.51.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 May 2022 16:51:26 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Andy Gross <agross@kernel.org>,
+        Alexandru M Stan <amstan@chromium.org>,
+        "Joseph S . Barrera III" <joebar@chromium.org>,
+        patches@lists.linux.dev, devicetree@vger.kernel.org,
+        Rajendra Nayak <quic_rjendra@quicinc.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Julius Werner <jwerner@chromium.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/5] dt-bindings: Document how Chromebooks with depthcharge boot
+Date:   Thu, 19 May 2022 16:51:05 -0700
+Message-Id: <20220519164914.v3.1.I71e42c6174f1cec17da3024c9f73ba373263b9b6@changeid>
+X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6] dt-bindings: power: reset: qcom-pon: update "reg"
- property details
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-CC:     <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <sre@kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <bjorn.andersson@linaro.org>,
-        <swboyd@chromium.org>, <linux-doc@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        David Collins <quic_collinsd@quicinc.com>
-References: <20220422191239.6271-1-quic_amelende@quicinc.com>
- <20220422191239.6271-2-quic_amelende@quicinc.com>
- <YmcWZLp2X8UYOVas@robh.at.kernel.org>
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-In-Reply-To: <YmcWZLp2X8UYOVas@robh.at.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This documents how many Chromebooks pick the device tree that will be
+passed to the OS and can help understand the revisions / skus listed
+as the top-level "compatible" in many Chromebooks.
 
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+In my opinion this could land through the Qualcomm dts64 tree, mostly
+because I want to land bindings patches in that tree that refer to
+it. Since it's a new file it seems like there ought to be few
+objections?
 
-On 4/25/2022 2:45 PM, Rob Herring wrote:
-> On Fri, Apr 22, 2022 at 12:12:38PM -0700, Anjelique Melendez wrote:
->> From: David Collins <collinsd@quicinc.com>
->>
->> Update the description of "reg" property to add the PON_PBS base
->> address along with PON_HLOS base address.  Also add "reg-names"
->> property description.
->>
->> Signed-off-by: David Collins <quic_collinsd@quicinc.com>
->> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
->> ---
->>  .../bindings/power/reset/qcom,pon.yaml | 19 ++++++++++++++++++-
->>  1 file changed, 18 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
->> index 353f155d..65ec8197 100644
->> --- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
->> +++ b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
->> @@ -26,7 +26,24 @@ properties:
->>        - qcom,pm8998-pon
->>  
->>    reg:
->> -    maxItems: 1
->> +    description: |
->> +      Specifies the SPMI base address for the PON (power-on) peripheral.  For
->> +      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
->> +      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
->> +      peripherals.  In that case, the PON_PBS address needs to be specified to
->> +      facilitate software debouncing on some PMICs.
->> +    minItems: 1
->> +    maxItems: 2
->> +
->> +  reg-names:
->> +    description: |
->> +      For PON GEN1 and GEN2, it should be "pon".  For PON GEN3 it should include
->> +      "pon_hlos" and optionally "pon_pbs".
->> +    minItems: 1
->> +    items:
->> +      - const: pon_hlos
->> +      - const: pon_pbs
->> +      - const: pon
-> 
-> Did you test that 'reg-names = "pon";' works? It doesn't. The schema 
-> says 'pon' is the 3rd entry in reg-names.
-> 
-> As 'reg-names' is new I thin this should be:
-> 
-> items:
->   - const: hlos
->   - const: pbs
-> 
-> And if there's 1 entry, then 'reg-names' should not be there.
-> 
-> Rob
+Changes in v3:
+- Fix up typos as per Matthias.
+- Move under Documentation/arm/google/ as per Krzysztof.
+- Add missing newline at end of file.
 
-currently reg-names is not consumed by the pm8941 driver but rather for users to understand
-what each reg address is associated with. 
-With this being the case would the following be acceptable?
-	minItems: 1
-	maxItems: 2
-	items:
-    	    anyOf:
-     	      - const: pon_hlos
-     	      - const: pon_pbs
-     	      - const: pon
+Changes in v2:
+- ("Document how Chromebooks with depthcharge boot") new for v2.
 
-If not we would be ok with getting rid of the reg-name property.
+ .../arm/google/chromebook-boot-flow.rst       | 63 +++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+ create mode 100644 Documentation/arm/google/chromebook-boot-flow.rst
+
+diff --git a/Documentation/arm/google/chromebook-boot-flow.rst b/Documentation/arm/google/chromebook-boot-flow.rst
+new file mode 100644
+index 000000000000..92d8a658ceaa
+--- /dev/null
++++ b/Documentation/arm/google/chromebook-boot-flow.rst
+@@ -0,0 +1,63 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++======================================
++Chromebook Boot Flow
++======================================
++
++Most recent Chromebooks that use device tree are using the opensource
++depthcharge bootloader. Depthcharge expects the OS to be packaged as a "FIT
++Image" which contains an OS image as well as a collection of device trees. It
++is up to depthcharge to pick the right device tree from the FIT Image and
++provide it to the OS.
++
++The scheme that depthcharge uses to pick the device tree takes into account
++three variables:
++- Board name, specified at compile time.
++- Board revision number, read from GPIO strappings at boot time.
++- SKU number, read from GPIO strappings at boot time.
++
++For recent Chromebooks, depthcharge creates a match list that looks like this:
++- google,$(BOARD)-rev$(REV)-sku$(SKU)
++- google,$(BOARD)-rev$(REV)
++- google,$(BOARD)-sku$(SKU)
++- google,$(BOARD)
++
++Note that some older Chromebooks use a slightly different list that may
++not include sku matching or may prioritize sku/rev differently.
++
++Note that for some boards there may be extra board-specific logic to inject
++extra compatibles into the list, but this is uncommon.
++
++Depthcharge will look through all device trees in the FIT image trying to
++find one that matches the most specific compatible. It will then look
++through all device trees in the FIT image trying to find the one that
++matches the _second most_ specific compatible, etc.
++
++When searching for a device tree, depthcharge doesn't care where the
++compatible falls within a given device tree. As an example, if we're on
++board "lazor", rev 4, sku 0 and we have two device trees:
++- "google,lazor-rev5-sku0", "google,lazor-rev4-sku0", "qcom,sc7180"
++- "google,lazor", "qcom,sc7180"
++
++Then depthcharge will pick the first device tree even though
++"google,lazor-rev4-sku0" was the second compatible listed in that device tree.
++This is because it is a more specific compatible than "google,lazor".
++
++It should be noted that depthcharge does not have any smarts to try to
++match board or SKU revisions that are "close by". That is to say that
++if depthcharge knows it's on "rev4" of a board but there is no "rev4"
++device tree then depthcharge _won't_ look for a "rev3" device tree.
++
++In general when any significant changes are made to a board the board
++revision number is increased even if none of those changes need to
++be reflected in the device tree. Thus it's fairly common to see device
++trees with multiple revisions.
++
++It should be noted that, taking into account the above system that
++depthcharge has, the most flexibility is achieved if the device tree
++supporting the newest revision(s) of a board omits the "-rev{REV}"
++compatible strings. When this is done then if you get a new board
++revision and try to run old software on it then we'll at pick the most
++reasonable device tree. If it turns out that the new revision actually
++has no device-tree visible changes then we'll not only pick the most
++reasonable device tree, we'll pick the exact right one.
+-- 
+2.36.1.124.g0e6072fb45-goog
+
