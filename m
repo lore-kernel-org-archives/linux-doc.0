@@ -2,142 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C497C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 09:57:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 462D4C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 10:20:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234933AbiESJ5N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 05:57:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38622 "EHLO
+        id S229992AbiESKUS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 06:20:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234279AbiESJ5M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 05:57:12 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19D8C92D32;
-        Thu, 19 May 2022 02:57:11 -0700 (PDT)
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24J9mmV3001105;
-        Thu, 19 May 2022 09:57:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=cKPPLtUhn1Zdq9Oika82pAtq/kD+uaRcTWRlgTUcvuE=;
- b=ZpDHUadAU6pwtWhT2zKhV4nm6iGq0zAoMYSHrl73AwJTteBFxmJJYaILbI9rtcLcWqBU
- bIAl6pQAVHsaKYFmRmwUu9fE7CP0+GSveQRjj39PiBoxvCR1+0YgwHNZYmTD1OrmOzu5
- O2bNplUCc/SwPgB9ggkYMmrICTV+wBkadCYbWkQYDDxHnq7qqWwY4AMOITe+Xd6PXgOZ
- dglAMLKOzl+eiR9Yhkl6ElvIDu5EZNIRK53EpzHNSsEi3roZHlWTIHE1itLeFHlP8k32
- 7KyPMKAc0asMSl2i8NUw3UlZa0z9aBgClpna8ftcc8bIQhbJwshLs7nrlHqz7dmgSjsN 5A== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g5kkc84vh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 19 May 2022 09:57:04 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24J9rDSK011040;
-        Thu, 19 May 2022 09:57:04 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g5kkc84us-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 19 May 2022 09:57:04 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24J9qSfk011879;
-        Thu, 19 May 2022 09:57:01 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
-        by ppma04ams.nl.ibm.com with ESMTP id 3g2429f2fy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 19 May 2022 09:57:01 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 24J9uwUg38207958
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 19 May 2022 09:56:58 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9518FA405B;
-        Thu, 19 May 2022 09:56:58 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E6F66A4054;
-        Thu, 19 May 2022 09:56:53 +0000 (GMT)
-Received: from vajain21.in.ibm.com (unknown [9.43.20.227])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
-        Thu, 19 May 2022 09:56:53 +0000 (GMT)
-Received: by vajain21.in.ibm.com (sSMTP sendmail emulation); Thu, 19 May 2022 15:26:52 +0530
-From:   Vaibhav Jain <vaibhav@linux.ibm.com>
-To:     Greg Thelen <gthelen@google.com>, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Yosry Ahmed <yosryahmed@google.com>
-Subject: Re: [PATCH] memcg: provide reclaim stats via 'memory.reclaim'
-In-Reply-To: <xr937d6ic5qk.fsf@gthelen2.svl.corp.google.com>
-References: <20220518223815.809858-1-vaibhav@linux.ibm.com>
- <xr937d6ic5qk.fsf@gthelen2.svl.corp.google.com>
-Date:   Thu, 19 May 2022 15:26:52 +0530
-Message-ID: <8735h5hml7.fsf@vajain21.in.ibm.com>
+        with ESMTP id S235493AbiESKUQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 06:20:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3415652E53
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 03:20:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1652955614;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=uTf4UazsnqFm1w0j9PjtulisgMFh6QzykfXouIHj8FI=;
+        b=UHQEavkCYQ2B+KYfbRWaIYLMVNERwWKvnVBrkSywqBUXRYctQO84g2CjEucUEiXdYJQ6jN
+        G8VN6P7+SZMQJP0fDox14t3Vn+vaiuAjgd8gf5sUKQZQ2LAiPk2aqU3g62CtWT/10BBrjt
+        w6TRbRVVTk1y9V75aTTIWzq3wdrPyoQ=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-435-IIqkTAhkM2y5SCG4vuWs3w-1; Thu, 19 May 2022 06:20:13 -0400
+X-MC-Unique: IIqkTAhkM2y5SCG4vuWs3w-1
+Received: by mail-pf1-f200.google.com with SMTP id a37-20020a056a001d2500b005103aab8d65so2494985pfx.16
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 03:20:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uTf4UazsnqFm1w0j9PjtulisgMFh6QzykfXouIHj8FI=;
+        b=lhyAqrEUIDUkk//z5yX72VHU+B4U8GjzRidtiQqHUP/ssJB1CuWoFPJ2RzcB/kKY4D
+         fOL4ANq8zBh3BlcGJ+ZG8FRV5YYkwNhcyXtTBcFfOm6/7VcjXgg7pJPyjUdixfsxmUMG
+         HChMj42u/3SjBd/GUYK6ZfZclHAj6hVPhVyYcn35rYLKEp8Ow3IBGqxpeUALPnGkObgb
+         r32uudwEv1I3PRHK++4qAtDJyBa1e99aHkL+ckH9PsAbxf3/7LD5XYZSZ9KX7FBv+2gn
+         y2ZqlEGATUhAsKrkbfsdLrZhBBq0yET5jyamQ/bDMksGgmg98Mw/KpnFpQ0OcHVZUuM8
+         cTqA==
+X-Gm-Message-State: AOAM532z/IcT00vLPyQUsxk4qU0V2eigZyZBnIKBpPMtb8aAJCK2UG6L
+        P+ZAlR36mw766CopXbJx1311JZNHc8CsvMTyqk3kxgYAO7WSF5f0aaUoBnSvZy3adlhzy6c+yXb
+        2r0nfwDAYUYPq4wAfhTygRKvTfhIt1lsbEuNZ
+X-Received: by 2002:a17:903:22c6:b0:15f:14e1:1518 with SMTP id y6-20020a17090322c600b0015f14e11518mr4080913plg.116.1652955612076;
+        Thu, 19 May 2022 03:20:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyu2Gf5VTzOz90w3/G1De6zt6if/VLekZLdOYdtToYtFikUFmLdwo0CCwN8PGggiEKvMyPvE0o9jU6G39mZwzo=
+X-Received: by 2002:a17:903:22c6:b0:15f:14e1:1518 with SMTP id
+ y6-20020a17090322c600b0015f14e11518mr4080890plg.116.1652955611775; Thu, 19
+ May 2022 03:20:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 52ju57apf4Eux7cGM7kXvW_O-BDPKUUI
-X-Proofpoint-GUID: i_wj5J-0QfvOAm51WZkh71nEImRo5w5x
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-19_02,2022-05-19_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- spamscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
- malwarescore=0 lowpriorityscore=0 mlxscore=0 phishscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205190055
+References: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
+ <YoX7iHddAd4FkQRQ@infradead.org> <YoX904CAFOAfWeJN@kroah.com> <YoYCIhYhzLmhIGxe@infradead.org>
+In-Reply-To: <YoYCIhYhzLmhIGxe@infradead.org>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 19 May 2022 12:20:00 +0200
+Message-ID: <CAO-hwJL4Pj4JaRquoXD1AtegcKnh22_T0Z0VY_peZ8FRko3kZw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v5 00/17] Introduce eBPF support for HID devices
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-Thanks for looking into this patch,
-
-Greg Thelen <gthelen@google.com> writes:
-
-> Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
+On Thu, May 19, 2022 at 10:39 AM Christoph Hellwig <hch@infradead.org> wrote:
 >
->> [1] Provides a way for user-space to trigger proactive reclaim by introducing
->> a write-only memcg file 'memory.reclaim'. However reclaim stats like number
->> of pages scanned and reclaimed is still not directly available to the
->> user-space.
->>
->> This patch proposes to extend [1] to make the memcg file 'memory.reclaim'
->> readable which returns the number of pages scanned / reclaimed during the
->> reclaim process from 'struct vmpressure' associated with each memcg. This should
->> let user-space asses how successful proactive reclaim triggered from memcg
->> 'memory.reclaim' was ?
->>
->> With the patch following command flow is expected:
->>
->>  # echo "1M" > memory.reclaim
->>
->>  # cat memory.reclaim
->>    scanned 76
->>    reclaimed 32
+> On Thu, May 19, 2022 at 10:20:35AM +0200, Greg KH wrote:
+> > > are written using a hip new VM?
+> >
+> > Ugh, don't mention UDI, that's a bad flashback...
 >
-> I certainly appreciate the ability for shell scripts to demonstrate
-> cgroup operations with textual interfaces, but such interface seem like
-> they are optimized for ease of use by developers.
+> But that is very much what we are doing here.
 >
-Agree that directly exposing nr_scanned/reclaimed might not be a useful
-for users and certainly looks like a dev interface
+> > I thought the goal here was to move a lot of the quirk handling and
+> > "fixup the broken HID decriptors in this device" out of kernel .c code
+> > and into BPF code instead, which this patchset would allow.
 
-> I wonder if for runtime production use an ioctl or netlink interface has
-> been considered for cgroup? I don't think there are any yet, but such
-> approaches seem like a more straightforward ways to get nontrivial
-> input/outputs from a single call (e.g. like this proposal). And they
-> have the benefit of not requiring ascii serialization/parsing overhead.
+Yes, quirks are a big motivation for this work. Right now half of the
+HID drivers are less than 100 lines of code, and are just trivial
+fixes (one byte in the report descriptor, one key mapping, etc...).
+Using eBPF for those would simplify the process from the user point of
+view: you drop a "firmware fix" as an eBPF program in your system and
+you can continue working on your existing kernel.
 
-I think to a large degree eBPF and existing static tracepoints in vmscan
-can provide access to these metrics as Shakeel Bhat pointed to earlier.
+The other important aspect is being able to do filtering on the event
+streams themselves.
+This would mean for instance that you allow some applications to have
+access to part of the device features and you reject some of them. The
+main use case I have is to prevent applications to switch a device
+into its bootloader mode and mess up with the firmware.
 
-<snip>
+> >
+> > So that would just be exception handling.  I don't think you can write a
+> > real HID driver here at all, but I could be wrong as I have not read the
+> > new patchset (older versions of this series could not do that.)
 
--- 
-Cheers
-~ Vaibhav
+Well, to be fair, yes and no.
+HID-BPF can only talk HID, and so we only act on arrays of bytes. You
+can mess up with the report descriptor or the events themselves, but
+you don't have access to other kernel APIs.
+So no, you can not write a HID-BPF driver that would manually create
+LEDs sysfs endpoints, input endpoints and battery endpoints.
+
+However, HID is very versatile in how you can describe a device. And
+the kernel now supports a lot of those features. So if you really
+want, you can entirely change the look of the device (its report
+descriptor), and rely on hid-core to export those LEDs, inputs and
+battery endpoints.
+
+But we already have this available by making use of hidraw+uhid. This
+involves userspace and there are already projects (for handling
+Corsair keyboard for example) which are doing exactly that, with a big
+security whole in the middle because the application is reading *all*
+events as they are flowing.
+
+One of the most important things here is that this work allows for
+context driven behavior. We can now control how a device is behaving
+depending on the actual application without having to design and
+maintain forever kernel APIs.
+For example, the Surface Dial is a puck that can have some haptic
+feedback when you turn it. However, when you enable the haptic
+feedback you have to reduce the resolution to one event every 5
+degrees or the haptic feedback feels just wrong. But the device is
+capable of sub-degrees of event notifications. Which means you want
+the high resolution mode without haptic, and low res with haptic.
+
+Of course, you can use some new FF capabilities to enable/disable
+haptic, but we have nothing to change the resolution on the fly of a
+HID device, so we'll likely have to create another kernel API through
+a sysfs node or a kernel parameter. But then we need to teach
+userspace to use it and this kernel API is not standard, so it won't
+be used outside of this particular device.
+BPF in that case allows the application which needs it to do the
+changes it requires depending on the context. And when I say
+application, it is mostly either the compositor or a daemon, not gimp.
+
+>
+> And that "exception handling" is most of the driver.
+>
+
+Well, it depends. If hardware makers would not make crappy decisions
+based on the fact that it somehow works under Windows, we wouldn't
+have to do anything to support those devices.
+But for half of the drivers, we are doing dumb things to fix those
+devices in the kernel.
+
+On the other hand, we do have generic protocols in HID that can not be
+replaced by BPF.
+For the exercise, I tried to think about what it would take to rewrite
+the multitouch logic in eBPF, and trust me, you don't want that. The
+code would be a lot of spaghetti and would require access to many
+kernel APIs to handle it properly.
+
+Cheers,
+Benjamin
+
