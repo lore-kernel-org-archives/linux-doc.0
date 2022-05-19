@@ -2,99 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22C64C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 05:08:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AEF6C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 06:15:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233904AbiESFIl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 01:08:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40000 "EHLO
+        id S232350AbiESGPj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 02:15:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233896AbiESFIk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 01:08:40 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A271B92D32
-        for <linux-doc@vger.kernel.org>; Wed, 18 May 2022 22:08:39 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-2fee45054e4so37717687b3.3
-        for <linux-doc@vger.kernel.org>; Wed, 18 May 2022 22:08:39 -0700 (PDT)
+        with ESMTP id S229654AbiESGPh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 02:15:37 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A4D88CB38;
+        Wed, 18 May 2022 23:15:36 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id x143so4230642pfc.11;
+        Wed, 18 May 2022 23:15:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=ssVw9Fz9ZtI8VSN2PnnCy16Ie6cjZqhXq7jkPcwK+VI=;
-        b=p1NA6cOyXSw5ouGNdhysoNKwpC+u544fyrDYu0KRc2c2e3ge13jLIY2R6C9yI7FNxq
-         lvhOpidQwLWrlHfaI75+qsSfVYwYmwzwxfCSsYuVmW20p+OGVFMJ11n4krPvP+4y4yQ3
-         ArzvvSz0qUdPdAjWkkkdSdgrgz6lcxZrq3hcwLXfVX1xbuRBis2dKkf871l1prfl+BVv
-         o7GhGIaYR4wz+MT62Ioh36TOJ/bKjcTPUZdj+8zF3R3erlBHaKgbD6RpGxh8SAEJFC1I
-         DBj+/pEpHKZXlI9DEH4YqWzNp7m8KXD40ml1jejz/hE/UOXcup3+tYdHpbBarswgdd+m
-         TrBw==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=GM2DilYnUlbpl9c8YbSsfo3PD4EXIuNCsM/7fLpZMbk=;
+        b=ZgWtyXFcN42Su4w/dRiLt//+1HTaLTF0NYjXRAkxuvqe+tSlBwTFp/PV4/Zoe5oH2w
+         QpQjeihipmITPEWD0+r3qzjVi73UN784Lpf0rRZqtY1xu1DZjgTjyJDeD3dkyNMEJtVq
+         kLENc+N5nuaNZ/IFO2KOwoMLkE0S9GtXzrbPF2ncePgEKONKiOOVUeC5XK64Jgs4PxkN
+         4g8NO8bDZqMtEVUc7P0Hfk2ukxEFq9XdhiuWYi47Gk8+iT0f+FplQlzFWtjzrCe7wkg8
+         4rb/OzSrQHFPfBTvFr/a/qse3AP8nAUKhTc00A1Yd13mqGS3PfFNkCX9Vhsd99fcp6tA
+         HmIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=ssVw9Fz9ZtI8VSN2PnnCy16Ie6cjZqhXq7jkPcwK+VI=;
-        b=kcN7l1TPUawN/J9sgTwu53Moqn5hlo3ZjP8hLg2dpCCeIQ20wB4TaQ2N3WFjqyNHYc
-         5JYhJq1lxL4urz+BUMSBE9miedSc5n0EyV1gP30BFn9gMtjcNqcRGMubSDWNkGp7Xuhx
-         SBL2ydTFa5qXblWlBKGLdyY2tQ6HMw+zZOEj4bsBQN5G1rZ5308JJ6TZs97Hk5CTqakI
-         PuSQpNCwNWBNPXOw7vfpctne7vAUJoT7nmUR6KhmQOuMij3XMo6MQm2TopOXVpS/J2BP
-         SokgmgWB/445CcXo8HtJNIdmRl0Kwg5n9/BDlWkGxnFCJfjQ49eka1cFiCClHL28y5mI
-         +uxQ==
-X-Gm-Message-State: AOAM531Q8sbnBanDFmt5zpO3IWWyYsK23Y3wpSP6opnK5PQYfOLe0Nj5
-        r5Nd9Q1QY6ihes0YRMT1yVns0K0djkFUjA==
-X-Google-Smtp-Source: ABdhPJy6egbvWliClWw+tkL9hQFg8B3U3tLKaSMVV5VHERLmykIYj5eKmwucruUJqbwmeTA+EslCfrpd5FE0hQ==
-X-Received: from shakeelb.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:28b])
- (user=shakeelb job=sendgmr) by 2002:a25:8c0c:0:b0:64e:a4ce:62db with SMTP id
- k12-20020a258c0c000000b0064ea4ce62dbmr2743231ybl.294.1652936918833; Wed, 18
- May 2022 22:08:38 -0700 (PDT)
-Date:   Thu, 19 May 2022 05:08:35 +0000
-In-Reply-To: <20220518223815.809858-1-vaibhav@linux.ibm.com>
-Message-Id: <20220519050835.ebpiukexgiys6t57@google.com>
-Mime-Version: 1.0
-References: <20220518223815.809858-1-vaibhav@linux.ibm.com>
-Subject: Re: [PATCH] memcg: provide reclaim stats via 'memory.reclaim'
-From:   Shakeel Butt <shakeelb@google.com>
-To:     Vaibhav Jain <vaibhav@linux.ibm.com>
-Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=GM2DilYnUlbpl9c8YbSsfo3PD4EXIuNCsM/7fLpZMbk=;
+        b=O3riVZWYwTyhsT4TiOmftytn/Xa3PUb98bY4OqvS1KVu0I+ucoSh4tzRFX9DM61U/N
+         +Jo0OI9a8Vsf/7mFRky/bEj4xwd+Sdtb42PXU3QBwY44BwGy+MOEmv3vpgaVlIClnyDs
+         OwpR95pxi4LRh9FXFWM/ZLEGSAFbGrn123IqHYhaGxIKUeGPX3yJQFhi7HwY9fpGJAyA
+         Vp4yZ2SBSFwHN1EZ7WLHjk+RlNAFSJPpunyWnmwaUdnGxsb67yDWSO+3vSDhZPIyUXAH
+         hDNg75IkLFD19dnQmOZw8sow9pnjj21PAAvYMX50wXwxxSaRUhlVS7NqLypdOUv4siKK
+         UueQ==
+X-Gm-Message-State: AOAM532KwEWJjBLQnVYzaiPG6NGvgIfEtQUxYhI5KNvmFTOxPgSnu6rL
+        loNG/splCFdWbK5sI+OaIdY=
+X-Google-Smtp-Source: ABdhPJzP+YquqdsWg1hwqj8EvjvRXcdk1HrEyT49vwaBOgDIvC7lsbT7Hl57goCwnXHPUImn1Ergvg==
+X-Received: by 2002:a05:6a00:cd5:b0:510:7f58:267b with SMTP id b21-20020a056a000cd500b005107f58267bmr3115337pfv.67.1652940935821;
+        Wed, 18 May 2022 23:15:35 -0700 (PDT)
+Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
+        by smtp.gmail.com with ESMTPSA id t15-20020a17090ae50f00b001dc1e6db7c2sm4661938pjy.57.2022.05.18.23.15.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 May 2022 23:15:35 -0700 (PDT)
+Message-ID: <29d66a46-d141-2d02-45dd-a8931786588e@gmail.com>
+Date:   Thu, 19 May 2022 14:15:21 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 1/2] psi: add support for multi level pressure stall
+ trigger
+Content-Language: en-US
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Chen Wandun <chenwandun@huawei.com>,
+        LKML <linux-kernel@vger.kernel.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
-        Yosry Ahmed <yosryahmed@google.com>
-Content-Type: text/plain; charset="us-ascii"
+        Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20220516033524.3130816-1-chenwandun@huawei.com>
+ <30b37eeb-e77b-882e-fc24-3367321a8ca3@gmail.com>
+ <CAJuCfpE7fBsp8ntYVeLsW7Cd0Z09OmxN75X9Az_Qco0GJrz3Wg@mail.gmail.com>
+ <CAJuCfpH-BDqsft1YvGFhkbR60VC0TJgfXKRVN+80e0iqQdhxpA@mail.gmail.com>
+ <3a31521f-a68a-b2a9-baae-9a458ee17033@huawei.com>
+ <070fe87d-43a0-5e4f-e4c7-c44782c2c195@gmail.com>
+ <CAJuCfpH1mTxe5hmzZTe+AbPFse9heenx8uhGzCXE6fAh5G8SzA@mail.gmail.com>
+From:   Alex Shi <seakeel@gmail.com>
+In-Reply-To: <CAJuCfpH1mTxe5hmzZTe+AbPFse9heenx8uhGzCXE6fAh5G8SzA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 19, 2022 at 04:08:15AM +0530, Vaibhav Jain wrote:
-> [1] Provides a way for user-space to trigger proactive reclaim by introducing
-> a write-only memcg file 'memory.reclaim'. However reclaim stats like number
-> of pages scanned and reclaimed is still not directly available to the
-> user-space.
-> 
-> This patch proposes to extend [1] to make the memcg file 'memory.reclaim'
-> readable which returns the number of pages scanned / reclaimed during the
-> reclaim process from 'struct vmpressure' associated with each memcg. This should
-> let user-space asses how successful proactive reclaim triggered from memcg
-> 'memory.reclaim' was ?
-> 
-> With the patch following command flow is expected:
-> 
->  # echo "1M" > memory.reclaim
-> 
->  # cat memory.reclaim
->    scanned 76
->    reclaimed 32
-> 
 
-Yosry already mentioned the race issue with the implementation and I
-would prefer we don't create any new dependency on vmpressure which I
-think we should deprecate.
 
-Anyways my question is how are you planning to use these metrics i.e.
-scanned & reclaimed? I wonder if the data you are interested in can be
-extracted without a stable interface. Have you tried BPF way to get
-these metrics? We already have a tracepoint in vmscan tracing the
-scanned and reclaimed. 
+On 5/19/22 05:38, Suren Baghdasaryan wrote:
+> On Wed, May 18, 2022 at 3:29 AM Alex Shi <seakeel@gmail.com> wrote:
+>>
+>>
+>>
+>> On 5/17/22 20:46, Chen Wandun wrote:
+>>>>>> This breaks the old ABI. And why you need this new function?
+>>>>> Both great points.
+>>>> BTW, I think the additional max_threshold parameter could be
+>>>> implemented in a backward compatible way so that the old API is not
+>>>> broken:
+>>>>
+>>>> arg_count = sscanf(buf, "some %u %u %u", &min_threshold_us,  &arg2, &arg3);
+>>>> if (arg_count < 2) return ERR_PTR(-EINVAL);
+>>>> if (arg_count < 3) {
+>>>>      max_threshold_us = INT_MAX;
+>>>>      window_us = arg2;
+>>>> } else {
+>>>>      max_threshold_us = arg2;
+>>>>      window_us = arg3;
+>>>> }
+>>> OK
+>>>
+>>> Thanks.
+>>>> But again, the motivation still needs to be explained.
+>>> we want do different operation for different stall level,
+>>> just as prev email explain, multi trigger is also OK in old
+>>> ways, but it is a litter complex.
+>>
+>> In fact, I am not keen for this solution, the older and newer
+>> interface is easy to be confused by users, for some resolvable
+>> unclear issues. It's not a good idea.
+> 
+> Maybe adding the max_threshold as an optional last argument will be
+> less confusing? Smth like this:
+> 
+> some/full min_threshold window_size [max_threshold]
+
+It's already confused enough. :)
+BTW, I still don't see the strong reason for the pressure range.
+
+> > Also, if we do decide to add it, there should be a warning in the
+> documentation that max_threshold usage might lead to a stall being
+> missed completely. In your example:
+> 
+> echo "some 150000 350000 1000000" > /proc/pressure/memory
+> 
+> If there is a stall of more than 350ms within a given window, that
+> trigger will not fire at all.
+
+Right. 
+And what if others propose more pressure combinations?
+Maybe leave them to user space is more likely workable?
+
+Thanks
+Alex
