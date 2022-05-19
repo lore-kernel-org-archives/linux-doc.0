@@ -2,327 +2,420 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 711E0C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 12:47:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 847E7C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 12:51:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238051AbiESMre (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 08:47:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49560 "EHLO
+        id S238164AbiESMvR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 08:51:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238057AbiESMra (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 08:47:30 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A1AEBA999
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 05:47:29 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id fw21-20020a17090b129500b001df9f62edd6so4398571pjb.0
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 05:47:29 -0700 (PDT)
+        with ESMTP id S238253AbiESMu5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 08:50:57 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8EC82EA1E;
+        Thu, 19 May 2022 05:50:44 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id s14so4695078plk.8;
+        Thu, 19 May 2022 05:50:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=WcILqSPKpKM1ieuMAubHYoA522zDgq1QGQHfQOO5iAo=;
-        b=i1EyqSfj/2Rf2GZjBE0D5AHT22mui/DxsSLYkSsV6duNTJQGnVGukkA7Rcx/ETyL9I
-         UlYMu/n2MJiw7ATW2+xEPGyaECqjwrllgZvMAh3ywgeNEITrUuHBNtQrs7PSeVFgAaH5
-         2qHNGcHjLwqeoicf0AiEARUlKlPVWVvfiAKPHwFsQcEzOGjz1i8weV+jz7+UBEPYJol8
-         //9+gtyhkolAdCAlbYJ4J/r81HOHdQqFI0a3Y6djuO14419ozkFTg5cjYvANM8E5PiD9
-         qFTGXhfidzthTtm+EiIPW2GETwwJGzg8F5EOaRByxlVafSvCo4eZFZHwJewdHcp9S+Lm
-         aJRw==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=EW4kz6CXBaV3ibI8sRiKBbNSrNIU2gGAvOl1c9GCA5A=;
+        b=NXOEMpN8VHSSxuzD8OhheRfA/nO6/F5NanEvkm6nGdpKu7KUTxlSa6+BaqHdgrXw/L
+         CjOUvFf+WisM0vdaTsghojO4vHXYW+v2bzY4MJdce1Q6EKvllM46XOFk4P2tQuMrEWd0
+         irfumm565ohtetRB1oZ3tTXAWKLZudq5+yQnKiiibpfOTIXu8O1UnwHPIo2qgul3+Gy9
+         TvlTfXRu3J7Vr/srKqw4Jv/ieBHUn5puZOfw3pAriSAGnKjCRIOM38KpD7Ldp0blBtC+
+         bXK/Rhwcz7T0lgWuQ5GFMhU14b4cqEcU3My2oQn7E7sTGAXNMM88I2yM8IV/J7JdLrBK
+         KAqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WcILqSPKpKM1ieuMAubHYoA522zDgq1QGQHfQOO5iAo=;
-        b=Y9ONmg7MTq8o/3BStN1aeQ13LSDiCSzRb1cKF9RBv8brgMENRJPHuB4TmKUOmLReIt
-         F4L2vD0lslgOiRnofsIc+YjW7b5Qy1DkiNx2gfbklYl0/XhhegYW3QFNLTWnWNUn4Sbu
-         wcKisxOZS4JA+McSO5bUsVYVvA6Hxc8SgVvdM6SkwlqWpzDB8KLHWDwcHohU9ksW6d0o
-         4X+XjkELc3O19tOI1rq4gK2gpU4D8/P/z2jS7HogZ4rQbHzy1a0SYCHmhuvkOTUBZqwz
-         HUfhtcTjiT/Aohcm+OCHxLkyxC4dC7iR3T4P18jrTC38QXFl7dZRi4aLHmhgETuwOfU6
-         GnrA==
-X-Gm-Message-State: AOAM533QJ6rtXF5THJ1OREPNpMe+JWva3iHqVzneOlk+qbhCPhjFMDiF
-        9hTQeb/KW87CEporM6c6iXFkxmlLzXpDyA==
-X-Google-Smtp-Source: ABdhPJxeIAsHF8VyN+llpWr8cC7jI+2ytsBJoR2SYlXRLrxfN9MtF+R3b28WkAJdzDYYKR7ktvffJg==
-X-Received: by 2002:a17:90a:6ac5:b0:1df:77a0:a72f with SMTP id b5-20020a17090a6ac500b001df77a0a72fmr5499840pjm.125.1652964448573;
-        Thu, 19 May 2022 05:47:28 -0700 (PDT)
-Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.234])
-        by smtp.gmail.com with ESMTPSA id t5-20020a17090ad14500b001d960eaed66sm3441296pjw.42.2022.05.19.05.47.23
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=EW4kz6CXBaV3ibI8sRiKBbNSrNIU2gGAvOl1c9GCA5A=;
+        b=3l1OKJGuUObjXHC+kNxUXFmnmfw1TCUKbj4Q9nN57A/ugKm1bttcHk6ZzOpK5tF8Yb
+         UF5Uab5s1mNEYnXkQXYQe9OD9uI3OnmWSlpRkaVd9N/hFCKE5p2GQL6wU5fuSbEJHAqW
+         a1a8MPiVWZ+ykmlcsA8ZztjcoavYlSiZSShNGrLXeeADIKyYwGxs9g18sE17lFCNtu9s
+         92UIbPzwOMCU9JKL48Q9RyRTT126VS4KipUT7DtDgBV9EpjipzfhrDSssit+5TRe8GbO
+         yHasKHbH9EgqM9timVk/iXkSK5fS6zybFVursQDQE6m16IPK6LOOJ3Ogc7gYARLxzs8A
+         TZJQ==
+X-Gm-Message-State: AOAM530CWQK2j/0gCCWyavqvFEMLfV1INeTGpt9bJTdNgWP0mTgi09Cr
+        2SgL0ItD3X/WhSbSgvOL5xw=
+X-Google-Smtp-Source: ABdhPJwuecxu64WFzoeLRc5BKxhGfxJe/o1QjJj1lLqRZNzps7/YHljclBGtgCml19XlLCSDFqpuxw==
+X-Received: by 2002:a17:90a:e388:b0:1df:ac20:df7d with SMTP id b8-20020a17090ae38800b001dfac20df7dmr5699859pjz.208.1652964643884;
+        Thu, 19 May 2022 05:50:43 -0700 (PDT)
+Received: from localhost ([14.139.187.71])
+        by smtp.gmail.com with ESMTPSA id c15-20020a63ea0f000000b003c14af50615sm3485750pgi.45.2022.05.19.05.50.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 May 2022 05:47:28 -0700 (PDT)
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     corbet@lwn.net, akpm@linux-foundation.org, paulmck@kernel.org,
-        mike.kravetz@oracle.com, osalvador@suse.de, david@redhat.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH 2/2] mm: memory_hotplug: introduce SECTION_CANNOT_OPTIMIZE_VMEMMAP
-Date:   Thu, 19 May 2022 20:46:32 +0800
-Message-Id: <20220519124632.92091-3-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.32.1 (Apple Git-133)
-In-Reply-To: <20220519124632.92091-1-songmuchun@bytedance.com>
-References: <20220519124632.92091-1-songmuchun@bytedance.com>
+        Thu, 19 May 2022 05:50:43 -0700 (PDT)
+Date:   Thu, 19 May 2022 18:21:32 +0530
+From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH bpf-next v5 12/17] selftests/bpf: add tests for
+ bpf_hid_hw_request
+Message-ID: <20220519125132.lm4ztduemzyvystf@apollo.legion>
+References: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
+ <20220518205924.399291-13-benjamin.tissoires@redhat.com>
+ <20220518222055.zh7hvexbqlctvotw@apollo.legion>
+ <CAO-hwJLxqYC9AUrfjMX1sPdSrt7EguWt9diwadJ9UZe-XGKFJw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAO-hwJLxqYC9AUrfjMX1sPdSrt7EguWt9diwadJ9UZe-XGKFJw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For now, the feature of hugetlb_free_vmemmap is not compatible with the
-feature of memory_hotplug.memmap_on_memory, and hugetlb_free_vmemmap
-takes precedence over memory_hotplug.memmap_on_memory. However, someone
-wants to make memory_hotplug.memmap_on_memory takes precedence over
-hugetlb_free_vmemmap since memmap_on_memory makes it more likely to
-succeed memory hotplug in close-to-OOM situations.  So the decision
-of making hugetlb_free_vmemmap take precedence is not wise and elegant.
-The proper approach is to have hugetlb_vmemmap.c do the check whether
-the section which the HugeTLB pages belong to can be optimized.  If
-the section's vmemmap pages are allocated from the added memory block
-itself, hugetlb_free_vmemmap should refuse to optimize the vmemmap,
-otherwise, do the optimization.  Then both kernel parameters are
-compatible.  So this patch introduces SECTION_CANNOT_OPTIMIZE_VMEMMAP
-to indicate whether the section could be optimized.
+On Thu, May 19, 2022 at 05:42:40PM IST, Benjamin Tissoires wrote:
+> On Thu, May 19, 2022 at 12:20 AM Kumar Kartikeya Dwivedi
+> <memxor@gmail.com> wrote:
+> >
+> > On Thu, May 19, 2022 at 02:29:19AM IST, Benjamin Tissoires wrote:
+> > > Add tests for the newly implemented function.
+> > > We test here only the GET_REPORT part because the other calls are pure
+> > > HID protocol and won't infer the result of the test of the bpf hook.
+> > >
+> > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > >
+> > > ---
+> > >
+> > > changes in v5:
+> > > - use the new hid_bpf_allocate_context() API
+> > > - remove the need for ctx_in for syscall TEST_RUN
+> > >
+> > > changes in v3:
+> > > - use the new hid_get_data API
+> > > - directly use HID_FEATURE_REPORT and HID_REQ_GET_REPORT from uapi
+> > >
+> > > changes in v2:
+> > > - split the series by bpf/libbpf/hid/selftests and samples
+> > > ---
+> > >  tools/testing/selftests/bpf/prog_tests/hid.c | 114 ++++++++++++++++---
+> > >  tools/testing/selftests/bpf/progs/hid.c      |  59 ++++++++++
+> > >  2 files changed, 155 insertions(+), 18 deletions(-)
+> > >
+> > > diff --git a/tools/testing/selftests/bpf/prog_tests/hid.c b/tools/testing/selftests/bpf/prog_tests/hid.c
+> > > index 47bc0a30c275..54c0a0fcd54d 100644
+> > > --- a/tools/testing/selftests/bpf/prog_tests/hid.c
+> > > +++ b/tools/testing/selftests/bpf/prog_tests/hid.c
+> > > @@ -77,12 +77,23 @@ static unsigned char rdesc[] = {
+> > >       0xc0,                   /* END_COLLECTION */
+> > >  };
+> > >
+> > > +static u8 feature_data[] = { 1, 2 };
+> > > +
+> > >  struct attach_prog_args {
+> > >       int prog_fd;
+> > >       unsigned int hid;
+> > >       int retval;
+> > >  };
+> > >
+> > > +struct hid_hw_request_syscall_args {
+> > > +     __u8 data[10];
+> > > +     unsigned int hid;
+> > > +     int retval;
+> > > +     size_t size;
+> > > +     enum hid_report_type type;
+> > > +     __u8 request_type;
+> > > +};
+> > > +
+> > >  static pthread_mutex_t uhid_started_mtx = PTHREAD_MUTEX_INITIALIZER;
+> > >  static pthread_cond_t uhid_started = PTHREAD_COND_INITIALIZER;
+> > >
+> > > @@ -142,7 +153,7 @@ static void destroy(int fd)
+> > >
+> > >  static int uhid_event(int fd)
+> > >  {
+> > > -     struct uhid_event ev;
+> > > +     struct uhid_event ev, answer;
+> > >       ssize_t ret;
+> > >
+> > >       memset(&ev, 0, sizeof(ev));
+> > > @@ -183,6 +194,15 @@ static int uhid_event(int fd)
+> > >               break;
+> > >       case UHID_GET_REPORT:
+> > >               fprintf(stderr, "UHID_GET_REPORT from uhid-dev\n");
+> > > +
+> > > +             answer.type = UHID_GET_REPORT_REPLY;
+> > > +             answer.u.get_report_reply.id = ev.u.get_report.id;
+> > > +             answer.u.get_report_reply.err = ev.u.get_report.rnum == 1 ? 0 : -EIO;
+> > > +             answer.u.get_report_reply.size = sizeof(feature_data);
+> > > +             memcpy(answer.u.get_report_reply.data, feature_data, sizeof(feature_data));
+> > > +
+> > > +             uhid_write(fd, &answer);
+> > > +
+> > >               break;
+> > >       case UHID_SET_REPORT:
+> > >               fprintf(stderr, "UHID_SET_REPORT from uhid-dev\n");
+> > > @@ -391,6 +411,7 @@ static int open_hidraw(int dev_id)
+> > >  struct test_params {
+> > >       struct hid *skel;
+> > >       int hidraw_fd;
+> > > +     int hid_id;
+> > >  };
+> > >
+> > >  static int prep_test(int dev_id, const char *prog_name, struct test_params *test_data)
+> > > @@ -419,27 +440,33 @@ static int prep_test(int dev_id, const char *prog_name, struct test_params *test
+> > >       if (!ASSERT_OK_PTR(hid_skel, "hid_skel_open"))
+> > >               goto cleanup;
+> > >
+> > > -     prog = bpf_object__find_program_by_name(*hid_skel->skeleton->obj, prog_name);
+> > > -     if (!ASSERT_OK_PTR(prog, "find_prog_by_name"))
+> > > -             goto cleanup;
+> > > +     if (prog_name) {
+> > > +             prog = bpf_object__find_program_by_name(*hid_skel->skeleton->obj, prog_name);
+> > > +             if (!ASSERT_OK_PTR(prog, "find_prog_by_name"))
+> > > +                     goto cleanup;
+> > >
+> > > -     bpf_program__set_autoload(prog, true);
+> > > +             bpf_program__set_autoload(prog, true);
+> > >
+> > > -     err = hid__load(hid_skel);
+> > > -     if (!ASSERT_OK(err, "hid_skel_load"))
+> > > -             goto cleanup;
+> > > +             err = hid__load(hid_skel);
+> > > +             if (!ASSERT_OK(err, "hid_skel_load"))
+> > > +                     goto cleanup;
+> > >
+> > > -     attach_fd = bpf_program__fd(hid_skel->progs.attach_prog);
+> > > -     if (!ASSERT_GE(attach_fd, 0, "locate attach_prog")) {
+> > > -             err = attach_fd;
+> > > -             goto cleanup;
+> > > -     }
+> > > +             attach_fd = bpf_program__fd(hid_skel->progs.attach_prog);
+> > > +             if (!ASSERT_GE(attach_fd, 0, "locate attach_prog")) {
+> > > +                     err = attach_fd;
+> > > +                     goto cleanup;
+> > > +             }
+> > >
+> > > -     args.prog_fd = bpf_program__fd(prog);
+> > > -     err = bpf_prog_test_run_opts(attach_fd, &tattr);
+> > > -     snprintf(buf, sizeof(buf), "attach_hid(%s)", prog_name);
+> > > -     if (!ASSERT_EQ(args.retval, 0, buf))
+> > > -             goto cleanup;
+> > > +             args.prog_fd = bpf_program__fd(prog);
+> > > +             err = bpf_prog_test_run_opts(attach_fd, &tattr);
+> > > +             snprintf(buf, sizeof(buf), "attach_hid(%s)", prog_name);
+> > > +             if (!ASSERT_EQ(args.retval, 0, buf))
+> > > +                     goto cleanup;
+> > > +     } else {
+> > > +             err = hid__load(hid_skel);
+> > > +             if (!ASSERT_OK(err, "hid_skel_load"))
+> > > +                     goto cleanup;
+> > > +     }
+> > >
+> > >       hidraw_fd = open_hidraw(dev_id);
+> > >       if (!ASSERT_GE(hidraw_fd, 0, "open_hidraw"))
+> > > @@ -447,6 +474,7 @@ static int prep_test(int dev_id, const char *prog_name, struct test_params *test
+> > >
+> > >       test_data->skel = hid_skel;
+> > >       test_data->hidraw_fd = hidraw_fd;
+> > > +     test_data->hid_id = hid_id;
+> > >
+> > >       return 0;
+> > >
+> > > @@ -693,6 +721,54 @@ static int test_hid_change_report(int uhid_fd, int dev_id)
+> > >       return ret;
+> > >  }
+> > >
+> > > +/*
+> > > + * Attach hid_user_raw_request to the given uhid device,
+> > > + * call the bpf program from userspace
+> > > + * check that the program is called and does the expected.
+> > > + */
+> > > +static int test_hid_user_raw_request_call(int uhid_fd, int dev_id)
+> > > +{
+> > > +     struct test_params params;
+> > > +     int err, prog_fd;
+> > > +     int ret = -1;
+> > > +     struct hid_hw_request_syscall_args args = {
+> > > +             .retval = -1,
+> > > +             .type = HID_FEATURE_REPORT,
+> > > +             .request_type = HID_REQ_GET_REPORT,
+> > > +             .size = 10,
+> > > +     };
+> > > +     DECLARE_LIBBPF_OPTS(bpf_test_run_opts, tattrs,
+> > > +                         .ctx_in = &args,
+> > > +                         .ctx_size_in = sizeof(args),
+> > > +     );
+> > > +
+> > > +     err = prep_test(dev_id, NULL, &params);
+> > > +     if (!ASSERT_EQ(err, 0, "prep_test()"))
+> > > +             goto cleanup;
+> > > +
+> > > +     args.hid = params.hid_id;
+> > > +     args.data[0] = 1; /* report ID */
+> > > +
+> > > +     prog_fd = bpf_program__fd(params.skel->progs.hid_user_raw_request);
+> > > +
+> > > +     err = bpf_prog_test_run_opts(prog_fd, &tattrs);
+> > > +     if (!ASSERT_EQ(err, 0, "bpf_prog_test_run_opts"))
+> > > +             goto cleanup;
+> > > +
+> > > +     if (!ASSERT_EQ(args.retval, 2, "bpf_prog_test_run_opts_retval"))
+> > > +             goto cleanup;
+> > > +
+> > > +     if (!ASSERT_EQ(args.data[1], 2, "hid_user_raw_request_check_in"))
+> > > +             goto cleanup;
+> > > +
+> > > +     ret = 0;
+> > > +
+> > > +cleanup:
+> > > +     cleanup_test(&params);
+> > > +
+> > > +     return ret;
+> > > +}
+> > > +
+> > >  void serial_test_hid_bpf(void)
+> > >  {
+> > >       int err, uhid_fd;
+> > > @@ -720,6 +796,8 @@ void serial_test_hid_bpf(void)
+> > >       ASSERT_OK(err, "hid_attach_detach");
+> > >       err = test_hid_change_report(uhid_fd, dev_id);
+> > >       ASSERT_OK(err, "hid_change_report");
+> > > +     err = test_hid_user_raw_request_call(uhid_fd, dev_id);
+> > > +     ASSERT_OK(err, "hid_change_report");
+> > >
+> > >       destroy(uhid_fd);
+> > >
+> > > diff --git a/tools/testing/selftests/bpf/progs/hid.c b/tools/testing/selftests/bpf/progs/hid.c
+> > > index ee7529c47ad8..e3444d444303 100644
+> > > --- a/tools/testing/selftests/bpf/progs/hid.c
+> > > +++ b/tools/testing/selftests/bpf/progs/hid.c
+> > > @@ -10,6 +10,13 @@ extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx,
+> > >                             unsigned int offset,
+> > >                             const size_t __sz) __ksym;
+> > >  extern int hid_bpf_attach_prog(unsigned int hid_id, int prog_fd, u32 flags) __ksym;
+> > > +extern struct hid_bpf_ctx *hid_bpf_allocate_context(unsigned int hid_id) __ksym;
+> > > +extern void hid_bpf_release_context(struct hid_bpf_ctx *ctx) __ksym;
+> > > +extern int hid_bpf_hw_request(struct hid_bpf_ctx *ctx,
+> > > +                           __u8 *data,
+> > > +                           size_t len,
+> > > +                           enum hid_report_type type,
+> > > +                           int reqtype) __ksym;
+> > >
+> > >  struct attach_prog_args {
+> > >       int prog_fd;
+> > > @@ -56,3 +63,55 @@ int attach_prog(struct attach_prog_args *ctx)
+> > >                                         0);
+> > >       return 0;
+> > >  }
+> > > +
+> > > +struct hid_hw_request_syscall_args {
+> > > +     /* data needs to come at offset 0 so we can do a memcpy into it */
+> > > +     __u8 data[10];
+> > > +     unsigned int hid;
+> > > +     int retval;
+> > > +     size_t size;
+> > > +     enum hid_report_type type;
+> > > +     __u8 request_type;
+> > > +};
+> > > +
+> > > +SEC("syscall")
+> > > +int hid_user_raw_request(struct hid_hw_request_syscall_args *args)
+> > > +{
+> > > +     struct hid_bpf_ctx *ctx;
+> > > +     int i, ret = 0;
+> > > +     __u8 *data;
+> > > +
+> > > +     ctx = hid_bpf_allocate_context(args->hid);
+> > > +     if (!ctx)
+> > > +             return 0; /* EPERM check */
+> > > +
+> > > +     /* We can not use the context data memory directly in the hid_bpf call,
+> > > +      * so we rely on the PTR_TO_MEM allocated in the hid_bpf_context
+> > > +      */
+> > > +     data = hid_bpf_get_data(ctx, 0 /* offset */, 10 /* size */);
+> > > +     if (!data)
+> > > +             goto out; /* EPERM check */
+> > > +
+> >
+> > If I'm reading this right, you need more than just returning PTR_TO_MEM. Since
+> > this points into allocated ctx, nothing prevents user from accessing data after
+> > we do hid_bpf_release_context.
+>
+> oops. I missed that point.
+>
+> TBH, ideally I wanted to directly pass args->data into
+> hid_bpf_hw_request(). But because args is seen as the context of the
+> program, I can not pass it to the kfunc arguments.
+> I would happily prevent getting a data pointer for a manually
+> allocated context if I could solve that issue. This would save me from
+> calling twice  __builtin_memcpy.
 
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 22 +++++++++----------
- Documentation/admin-guide/sysctl/vm.rst         |  5 ++---
- include/linux/memory_hotplug.h                  |  9 --------
- include/linux/mmzone.h                          | 17 +++++++++++++++
- mm/hugetlb_vmemmap.c                            | 28 ++++++++++++++++++-------
- mm/memory_hotplug.c                             | 22 +++++++------------
- mm/sparse.c                                     |  8 +++++++
- 7 files changed, 66 insertions(+), 45 deletions(-)
+Oh, is that why you need to do this? So if you were able to pass args->data, you
+wouldn't need this hid_bpf_get_data? kfunc does support taking PTR_TO_CTX (i.e.
+args in your case), I am not sure why you're not passing it in directly then.
+Did you encounter any errors when trying to do so? The only requirement is that
+args offset must be 0 (i.e. passed as is without increment).
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index c087f578d9d8..5359ffb04a84 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1730,9 +1730,11 @@
- 			Built with CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON=y,
- 			the default is on.
- 
--			This is not compatible with memory_hotplug.memmap_on_memory.
--			If both parameters are enabled, hugetlb_free_vmemmap takes
--			precedence over memory_hotplug.memmap_on_memory.
-+			Note that the vmemmap pages may be allocated from the added
-+			memory block itself when memory_hotplug.memmap_on_memory is
-+			enabled, those vmemmap pages cannot be optimized even if this
-+			feature is enabled.  Other vmemmap pages not allocated from
-+			the added memory block itself do not be affected.
- 
- 	hung_task_panic=
- 			[KNL] Should the hung task detector generate panics.
-@@ -3077,10 +3079,12 @@
- 			[KNL,X86,ARM] Boolean flag to enable this feature.
- 			Format: {on | off (default)}
- 			When enabled, runtime hotplugged memory will
--			allocate its internal metadata (struct pages)
--			from the hotadded memory which will allow to
--			hotadd a lot of memory without requiring
--			additional memory to do so.
-+			allocate its internal metadata (struct pages,
-+			those vmemmap pages cannot be optimized even
-+			if hugetlb_free_vmemmap is enabled) from the
-+			hotadded memory which will allow to hotadd a
-+			lot of memory without requiring additional
-+			memory to do so.
- 			This feature is disabled by default because it
- 			has some implication on large (e.g. GB)
- 			allocations in some configurations (e.g. small
-@@ -3090,10 +3094,6 @@
- 			Note that even when enabled, there are a few cases where
- 			the feature is not effective.
- 
--			This is not compatible with hugetlb_free_vmemmap. If
--			both parameters are enabled, hugetlb_free_vmemmap takes
--			precedence over memory_hotplug.memmap_on_memory.
--
- 	memtest=	[KNL,X86,ARM,M68K,PPC,RISCV] Enable memtest
- 			Format: <integer>
- 			default : 0 <disable>
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 5c9aa171a0d3..d7374a1e8ac9 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -565,9 +565,8 @@ See Documentation/admin-guide/mm/hugetlbpage.rst
- hugetlb_optimize_vmemmap
- ========================
- 
--This knob is not available when memory_hotplug.memmap_on_memory (kernel parameter)
--is configured or the size of 'struct page' (a structure defined in
--include/linux/mm_types.h) is not power of two (an unusual system config could
-+This knob is not available when the size of 'struct page' (a structure defined
-+in include/linux/mm_types.h) is not power of two (an unusual system config could
- result in this).
- 
- Enable (set to 1) or disable (set to 0) the feature of optimizing vmemmap pages
-diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
-index 20d7edf62a6a..e0b2209ab71c 100644
---- a/include/linux/memory_hotplug.h
-+++ b/include/linux/memory_hotplug.h
-@@ -351,13 +351,4 @@ void arch_remove_linear_mapping(u64 start, u64 size);
- extern bool mhp_supports_memmap_on_memory(unsigned long size);
- #endif /* CONFIG_MEMORY_HOTPLUG */
- 
--#ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
--bool mhp_memmap_on_memory(void);
--#else
--static inline bool mhp_memmap_on_memory(void)
--{
--	return false;
--}
--#endif
--
- #endif /* __LINUX_MEMORY_HOTPLUG_H */
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index e0b7618d7212..3f73f24f394c 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -1434,6 +1434,7 @@ extern size_t mem_section_usage_size(void);
- 	MAPPER(IS_ONLINE)							\
- 	MAPPER(IS_EARLY)							\
- 	MAPPER(TAINT_ZONE_DEVICE, CONFIG_ZONE_DEVICE)				\
-+	MAPPER(CANNOT_OPTIMIZE_VMEMMAP, CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP)	\
- 	MAPPER(MAP_LAST_BIT)
- 
- #define __SECTION_SHIFT_FLAG_MAPPER_0(x)
-@@ -1471,6 +1472,22 @@ static inline struct page *__section_mem_map_addr(struct mem_section *section)
- 	return (struct page *)map;
- }
- 
-+#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
-+static inline void section_mark_cannot_optimize_vmemmap(struct mem_section *ms)
-+{
-+	ms->section_mem_map |= SECTION_CANNOT_OPTIMIZE_VMEMMAP;
-+}
-+
-+static inline int section_cannot_optimize_vmemmap(struct mem_section *ms)
-+{
-+	return (ms && (ms->section_mem_map & SECTION_CANNOT_OPTIMIZE_VMEMMAP));
-+}
-+#else
-+static inline void section_mark_cannot_optimize_vmemmap(struct mem_section *ms)
-+{
-+}
-+#endif
-+
- static inline int present_section(struct mem_section *section)
- {
- 	return (section && (section->section_mem_map & SECTION_MARKED_PRESENT));
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index fcd9f7872064..f12170520337 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -97,18 +97,32 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
- 	return ret;
- }
- 
-+static unsigned int optimizable_vmemmap_pages(struct hstate *h,
-+					      struct page *head)
-+{
-+	unsigned long pfn = page_to_pfn(head);
-+	unsigned long end = pfn + pages_per_huge_page(h);
-+
-+	if (READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
-+		return 0;
-+
-+	for (; pfn < end; pfn += PAGES_PER_SECTION) {
-+		if (section_cannot_optimize_vmemmap(__pfn_to_section(pfn)))
-+			return 0;
-+	}
-+
-+	return hugetlb_optimize_vmemmap_pages(h);
-+}
-+
- void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
- {
- 	unsigned long vmemmap_addr = (unsigned long)head;
- 	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
- 
--	vmemmap_pages = hugetlb_optimize_vmemmap_pages(h);
-+	vmemmap_pages = optimizable_vmemmap_pages(h, head);
- 	if (!vmemmap_pages)
- 		return;
- 
--	if (READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
--		return;
--
- 	static_branch_inc(&hugetlb_optimize_vmemmap_key);
- 
- 	vmemmap_addr	+= RESERVE_VMEMMAP_SIZE;
-@@ -199,10 +213,10 @@ static struct ctl_table hugetlb_vmemmap_sysctls[] = {
- static __init int hugetlb_vmemmap_sysctls_init(void)
- {
- 	/*
--	 * If "memory_hotplug.memmap_on_memory" is enabled or "struct page"
--	 * crosses page boundaries, the vmemmap pages cannot be optimized.
-+	 * If "struct page" crosses page boundaries, the vmemmap pages cannot
-+	 * be optimized.
- 	 */
--	if (!mhp_memmap_on_memory() && is_power_of_2(sizeof(struct page)))
-+	if (is_power_of_2(sizeof(struct page)))
- 		register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
- 
- 	return 0;
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 3b360eda933f..7309694c4dee 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -43,30 +43,22 @@
- #include "shuffle.h"
- 
- #ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
--static int memmap_on_memory_set(const char *val, const struct kernel_param *kp)
--{
--	if (hugetlb_optimize_vmemmap_enabled())
--		return 0;
--	return param_set_bool(val, kp);
--}
--
--static const struct kernel_param_ops memmap_on_memory_ops = {
--	.flags	= KERNEL_PARAM_OPS_FL_NOARG,
--	.set	= memmap_on_memory_set,
--	.get	= param_get_bool,
--};
--
- /*
-  * memory_hotplug.memmap_on_memory parameter
-  */
- static bool memmap_on_memory __ro_after_init;
--module_param_cb(memmap_on_memory, &memmap_on_memory_ops, &memmap_on_memory, 0444);
-+module_param(memmap_on_memory, bool, 0444);
- MODULE_PARM_DESC(memmap_on_memory, "Enable memmap on memory for memory hotplug");
- 
--bool mhp_memmap_on_memory(void)
-+static inline bool mhp_memmap_on_memory(void)
- {
- 	return memmap_on_memory;
- }
-+#else
-+static inline bool mhp_memmap_on_memory(void)
-+{
-+	return false;
-+}
- #endif
- 
- enum {
-diff --git a/mm/sparse.c b/mm/sparse.c
-index cb3bfae64036..1f353bf9ea6b 100644
---- a/mm/sparse.c
-+++ b/mm/sparse.c
-@@ -913,6 +913,14 @@ int __meminit sparse_add_section(int nid, unsigned long start_pfn,
- 	ms = __nr_to_section(section_nr);
- 	set_section_nid(section_nr, nid);
- 	__section_mark_present(ms, section_nr);
-+	/*
-+	 * Mark whole section as non-optimizable once there is a subsection
-+	 * whose vmemmap pages are allocated from alternative allocator. The
-+	 * early section is always optimizable since the early section's
-+	 * vmemmap pages do not consider partially being populated.
-+	 */
-+	if (!early_section(ms) && altmap)
-+		section_mark_cannot_optimize_vmemmap(ms);
- 
- 	/* Align memmap to section boundary in the subsection case */
- 	if (section_nr_to_pfn(section_nr) != start_pfn)
--- 
-2.11.0
+>
+> That doesn't change the fact that you are correct and the PTR_TO_MEM
+> in kfunc code should be fixed.
+> But right now, I am not sure what you mean below and I'll need a
+> little bit more time to process it.
+>
+> Cheers,
+> Benjamin
+>
+> >
+> > The ref_obj_id of ctx needs to be transferred to R0.ref_obj_id, and R0.id needs
+> > to be assigned another id distinct from the ref_obj_id.
+> >
+> > My idea would be to give this type of function a new set, and handle this case
+> > of transferring ref_obj_id into R0. See is_ptr_cast_function in verifier.c.
+> > Shouldn't be too much code. You could even use the bpf_kfunc_arg_meta to store
+> > the ref_obj_id (and ensure only one referenced register exists among the 5
+> > arguments).
+> >
+> > > +     __builtin_memcpy(data, args->data, sizeof(args->data));
+> > > +
+> > > +     if (args->size <= sizeof(args->data)) {
+> > > +             ret = hid_bpf_hw_request(ctx,
+> > > +                                      data,
+> > > +                                      args->size,
+> > > +                                      args->type,
+> > > +                                      args->request_type);
+> > > +             args->retval = ret;
+> > > +             if (ret < 0)
+> > > +                     goto out;
+> > > +     } else {
+> > > +             ret = -7; /* -E2BIG */
+> > > +             goto out;
+> > > +     }
+> > > +
+> > > +     __builtin_memcpy(args->data, data, sizeof(args->data));
+> > > +
+> > > + out:
+> > > +     hid_bpf_release_context(ctx);
+> > > +
+> > > +     return ret;
+> > > +}
+> > > --
+> > > 2.36.1
+> > >
+> >
+> > --
+> > Kartikeya
+> >
+>
 
+--
+Kartikeya
