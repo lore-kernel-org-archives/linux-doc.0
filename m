@@ -2,170 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC90C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 17:57:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FCC8C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 18:23:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243390AbiESR5Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 13:57:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41778 "EHLO
+        id S243712AbiESSXa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 14:23:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242244AbiESR5L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 13:57:11 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88A17CFE11
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 10:57:09 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id e194so6527632iof.11
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 10:57:09 -0700 (PDT)
+        with ESMTP id S241524AbiESSX3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 14:23:29 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A96C45AE2
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 11:23:27 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id h5so7207928wrb.11
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 11:23:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=nTvwJwfDzauPQ+of5JXtLLkQatXip/21hHhzryuEKQA=;
-        b=j3LimxuhjsDMbf3h7pgM2pWwYSD4AVDqwr9ip1QCctj49RKDncQaqTHeIyXLl50zzU
-         4LG3je7shHcDY1r8jzTsxpcHjD9pp0lfGzlQqhuk55gzgWRRU5pqfxpRJbcJFKW03pa3
-         LLtD7ehpQwpgyXa+eY0hUTZk4ioiKf7glMqpvtARWpYoJpPWD8StCBp85+mKbJnmGOEO
-         TBKLipGuUQdEgRWPXm1GzIGIFeMe5N0+DDsTrPgxpZj900S2UeEVlLAND2cbavGFIQGt
-         CTjt5zWmLaAZRopYq3odW6ZOoq4jz7+VypCEx0y6zLBALPoGbIsN3k2WOTSsu3sefi7x
-         DLGQ==
+        bh=69aaD4QPBI9GdAKDBus5t7k/zTxSvsdipve2TR2Ob64=;
+        b=GkrWqpjb2yzPqkTVz9B3AF1h6LM7P8OXxi4jhC4daSBHKirsPkAj/SnhCBRObr6hEA
+         WiRe4Wva0Ozk3jVncq2kBHskGsms1JYwqHmXoWzPjEPybLXpd46qdKbASSPGfdxi63vy
+         LJQH7E7ZG4EQo1NMjCDQ0C21BbsohR5OpwSvd5tXaRitjNYoejlK5W2ozBG9NWI+9HsO
+         5EE6MfloqEZZ2bWuw2IDjRbqk6NiHnUWnmQgkFaiD6UyO98KHexuzXwqXY6gYRjB37Lv
+         EhtgEtqHenGlbGslS2t3DXNV3YJTqWgMMvu0VwKxEOxEdNtIkE+6JtzxqyJGaKb+J7tA
+         hXMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nTvwJwfDzauPQ+of5JXtLLkQatXip/21hHhzryuEKQA=;
-        b=XiNdIX1f5lPrjwIMTJowjpjKs9O7/W0WGKN+kBmxu76l3YrCMSoUAxAfceu0wCE2O/
-         5iqbRN6ewiTnkAd13ETiYgvAKzuCXkTgIKGuMr9F1d7WTEGKN1hurnUwB6ECiRsBasLh
-         dY88kNInNREw9PG/TRwUeqLiYTC3hC10+76xsiMCUzcKKCZTc8qzo6LbMCgwwCVO38yO
-         LFyEmRFuahuLb4fSpundRLtcp3GMrweQqCxcE3lWAJT1yLv7UVMGrhEuH5DSbEJg0i+I
-         iSSKQlh0Yz+ocGQvLPwCZdBC5kOJSXcNVsYGxt5qR8Vnpp3EwpT5BhVAPIp5BwrlwP8f
-         NhSw==
-X-Gm-Message-State: AOAM530nEIeDYWMgs7omQi6qsNLtdnV6dIXNDZhy4f8kABi3h5M5ygcn
-        0UbzC52dIabi1C4HOSk+4blVWXYOhhEd45uGc+Fd9w==
-X-Google-Smtp-Source: ABdhPJxLnLPad++snwSrGlFPy2lO2WAmvA7axVeAQ6DyfojYPDblWdyjk16yhcxDogtbfCy3V2mwhAIveq3XhTsBM0Y=
-X-Received: by 2002:a5d:94c2:0:b0:60b:bd34:bb6f with SMTP id
- y2-20020a5d94c2000000b0060bbd34bb6fmr3044953ior.32.1652983028426; Thu, 19 May
- 2022 10:57:08 -0700 (PDT)
+        bh=69aaD4QPBI9GdAKDBus5t7k/zTxSvsdipve2TR2Ob64=;
+        b=KHTVh7kbJC06pdWsmzt998hx7hdvKJTgxQdPDDIQuVPhwhki6bhDluBN25XITffYkT
+         2LitAdOrsHQGM+yTsCBWzUWWWvK8YtHqAcDR8j7vZL+CbyMEi9DTgkWbx2K4C+lCFws9
+         qL2frOVkhrnTaETSwjECi0injfdOHDlt8673JOZ4z4nT6N7x/CipF8xhQCNsynyNfgBs
+         hSUUaWD/3V5Oi9anlvF+MzFAM55tvs4lzW9XyIIHX4XKexwONCiB1kQPIs8JY+eU+/Pb
+         APT3hdUcu5vwJz3BHUZkt0zYCK4U/khZmvA4Sr9T5kKOLKG3uv2zCcuaWvwrT/9X2oKv
+         5fpQ==
+X-Gm-Message-State: AOAM531rZyMxRK2r6Iu6G+hjllqV59XYhm31Tga39BVe7XaPyT9fa/6J
+        Ba/VgEqF5ahSoAahBveAanFW8hcgKYYO33P+ptc8/g==
+X-Google-Smtp-Source: ABdhPJzgiRnXFN6S2gC1fKKXjzhLgZufzaMOa157G/FFVNR/qTjRPbeyyLcMCUrWvBY7gjwJ1/H59Sfaq//qqD7qEOk=
+X-Received: by 2002:adf:fb05:0:b0:20a:e113:8f3f with SMTP id
+ c5-20020adffb05000000b0020ae1138f3fmr5325035wrr.534.1652984605773; Thu, 19
+ May 2022 11:23:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220422212945.2227722-1-axelrasmussen@google.com>
- <20220422212945.2227722-4-axelrasmussen@google.com> <a6f7ff80-ea77-75d0-2454-99d14f164708@linuxfoundation.org>
-In-Reply-To: <a6f7ff80-ea77-75d0-2454-99d14f164708@linuxfoundation.org>
-From:   Axel Rasmussen <axelrasmussen@google.com>
-Date:   Thu, 19 May 2022 10:56:32 -0700
-Message-ID: <CAJHvVciqx17ERazHNLyyFDGV6Fh0K=SyZ78DTO62xL4rqOTdgw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/6] userfaultfd: selftests: modify selftest to use /dev/userfaultfd
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Charan Teja Reddy <charante@codeaurora.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+References: <20220518223815.809858-1-vaibhav@linux.ibm.com>
+ <CAJD7tkZSgRs6T60Gv4dZR5xBemxgCB_2s8hz8zB0F_nakN5aTQ@mail.gmail.com> <878rqxhpn1.fsf@vajain21.in.ibm.com>
+In-Reply-To: <878rqxhpn1.fsf@vajain21.in.ibm.com>
+From:   Yosry Ahmed <yosryahmed@google.com>
+Date:   Thu, 19 May 2022 11:22:49 -0700
+Message-ID: <CAJD7tkb+MESXcx4P5VfJqWfdQRbDD+FJ1o5vUtvomqJ-T9BGcw@mail.gmail.com>
+Subject: Re: [PATCH] memcg: provide reclaim stats via 'memory.reclaim'
+To:     Vaibhav Jain <vaibhav@linux.ibm.com>
+Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
-        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        zhangyi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Linuxkselftest <linux-kselftest@vger.kernel.org>
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
+        Shakeel Butt <shakeelb@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 9:16 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
+On Thu, May 19, 2022 at 1:51 AM Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
 >
-> On 4/22/22 3:29 PM, Axel Rasmussen wrote:
-> > We clearly want to ensure both userfaultfd(2) and /dev/userfaultfd keep
-> > working into the future, so just run the test twice, using each
-> > interface.
-> >
-> > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
-> > ---
-> >   tools/testing/selftests/vm/userfaultfd.c | 31 ++++++++++++++++++++++--
-> >   1 file changed, 29 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/tools/testing/selftests/vm/userfaultfd.c b/tools/testing/selftests/vm/userfaultfd.c
-> > index 92a4516f8f0d..12ae742a9981 100644
-> > --- a/tools/testing/selftests/vm/userfaultfd.c
-> > +++ b/tools/testing/selftests/vm/userfaultfd.c
-> > @@ -77,6 +77,9 @@ static int bounces;
-> >   #define TEST_SHMEM  3
-> >   static int test_type;
-> >
-> > +/* test using /dev/userfaultfd, instead of userfaultfd(2) */
-> > +static bool test_dev_userfaultfd;
-> > +
-> >   /* exercise the test_uffdio_*_eexist every ALARM_INTERVAL_SECS */
-> >   #define ALARM_INTERVAL_SECS 10
-> >   static volatile bool test_uffdio_copy_eexist = true;
-> > @@ -383,13 +386,31 @@ static void assert_expected_ioctls_present(uint64_t mode, uint64_t ioctls)
-> >       }
-> >   }
-> >
-> > +static void __userfaultfd_open_dev(void)
-> > +{
-> > +     int fd;
-> > +
-> > +     uffd = -1;
-> > +     fd = open("/dev/userfaultfd", O_RDWR | O_CLOEXEC);
-> > +     if (fd < 0)
-> > +             return;
-> > +
-> > +     uffd = ioctl(fd, USERFAULTFD_IOC_NEW,
-> > +                  O_CLOEXEC | O_NONBLOCK | UFFD_USER_MODE_ONLY);
-> > +     close(fd);
-> > +}
-> > +
-> >   static void userfaultfd_open(uint64_t *features)
-> >   {
-> >       struct uffdio_api uffdio_api;
-> >
-> > -     uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK | UFFD_USER_MODE_ONLY);
-> > +     if (test_dev_userfaultfd)
-> > +             __userfaultfd_open_dev();
-> > +     else
-> > +             uffd = syscall(__NR_userfaultfd,
-> > +                            O_CLOEXEC | O_NONBLOCK | UFFD_USER_MODE_ONLY);
-> >       if (uffd < 0)
-> > -             err("userfaultfd syscall not available in this kernel");
-> > +             err("creating userfaultfd failed");
+> Hi,
 >
-> This isn't an error as in test failure. This will be a skip because of
-> unmet dependencies. Also if this test requires root access, please check
-> for that and make that a skip as well.
+> Thanks for looking into this patch,
+>
+> Yosry Ahmed <yosryahmed@google.com> writes:
+>
+> > On Wed, May 18, 2022 at 3:38 PM Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
+> >>
+> >> [1] Provides a way for user-space to trigger proactive reclaim by introducing
+> >> a write-only memcg file 'memory.reclaim'. However reclaim stats like number
+> >> of pages scanned and reclaimed is still not directly available to the
+> >> user-space.
+> >>
+> >> This patch proposes to extend [1] to make the memcg file 'memory.reclaim'
+> >> readable which returns the number of pages scanned / reclaimed during the
+> >> reclaim process from 'struct vmpressure' associated with each memcg. This should
+> >> let user-space asses how successful proactive reclaim triggered from memcg
+> >> 'memory.reclaim' was ?
+> >
+> > Isn't this a racy read? struct vmpressure can be changed between the
+> > write and read by other reclaim operations, right?
+> Read/write of vmpr stats is always done in context of vmpr->sr_lock
+> which is also the case for this patch. So not sure how the read is racy
+> ?.
 
-Testing with the userfaultfd syscall doesn't require any special
-permissions (root or otherwise).
+I didn't mean that you can read the value while it is being changed. I
+meant that between writing to memory.reclaim and reading from it,
+another reclaim operation could modify memcg vmpressure. A sequence
+like this:
+1) Write to memory.reclaim
+2) Kernel coincidentally runs reclaim on that memcg
+3) Read from memory.reclaim
 
-But testing with /dev/userfaultfd will require access to that device
-node, which is root:root by default, but the system administrator may
-have changed this. In general I think this will only fail due to a)
-lack of kernel support or b) lack of permissions though, so always
-exiting with KSFT_SKIP here seems reasonable. I'll make that change in
-v3.
+The result would be that you are reading the stats of another reclaim
+operation, not the one invoked by writing to memory.reclaim.
 
 >
-> >       uffd_flags = fcntl(uffd, F_GETFD, NULL);
 > >
-> >       uffdio_api.api = UFFD_API;
-> > @@ -1698,6 +1719,12 @@ int main(int argc, char **argv)
-> >       }
-> >       printf("nr_pages: %lu, nr_pages_per_cpu: %lu\n",
-> >              nr_pages, nr_pages_per_cpu);
-> > +
-> > +     test_dev_userfaultfd = false;
-> > +     if (userfaultfd_stress())
-> > +             return 1;
-> > +
-> > +     test_dev_userfaultfd = true;
-> >       return userfaultfd_stress();
-> >   }
+> > I was actually planning to send a patch that does not updated
+> > vmpressure for user-controller reclaim, similar to how PSI is handled.
 > >
-> >
+> Ok, not sure if I am inferring correctly as to how how that would be
+> useful. Can you please provide some more context.
+
+IIUC vmpressure is used as an indicator for memory pressure. In my
+opinion it makes sense if vmpressure is not changed on reclaim
+operations directly invoked by the user, as they are not directly
+related to whether the system is under memory pressure or not. PSI is
+handled in a similar way. See e22c6ed90aa9 ("mm: memcontrol: don't
+count limit-setting reclaim as
+memory pressure").
+
 >
-> thanks,
-> -- Shuah
+> The primary motivation for this patch was to expose the vmpressure stats
+> to user space that are available with cgroup-v1 but not with cgroup-v2
+> AFAIK
+
+If the main goal is exposing vmpressure, regardless of proactive
+reclaim, this is something else. AFAIK vmpressure is not popular
+anymore and PSI is the more recent/better indicator.
+
+>
+> > The interface currently returns -EBUSY if the entire amount was not
+> > reclaimed, so isn't this enough to figure out if it was successful or
+> > not?
+> Userspace may very well want to know the amount of memory that was
+> partially reclaimed even though write to "memory.reclaim" returned
+> '-EBUSY'. This feedback can be useful info for implementing a retry
+> loop.
+>
+> > If not, we can store the scanned / reclaim counts of the last
+> > memory.reclaim invocation for the sole purpose of memory.reclaim
+> > reads.
+> Sure sounds reasonable to me.
+>
+> > Maybe it is actually more intuitive to users to just read the
+> > amount of memory read? In a format that is similar to the one written?
+> >
+> > i.e
+> > echo "10M" > memory.reclaim
+> > cat memory.reclaim
+> > 9M
+> >
+> Agree, I will address that in v2.
+>
+> <snip>
+>
+> --
+> Cheers
+> ~ Vaibhav
