@@ -2,99 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C9BAC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 07:34:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C10DC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 07:54:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230234AbiESHe4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 03:34:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39140 "EHLO
+        id S233482AbiESHyF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 03:54:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230488AbiESHez (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 03:34:55 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF98D939E0;
-        Thu, 19 May 2022 00:34:54 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id p12so4453637pfn.0;
-        Thu, 19 May 2022 00:34:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=+YvGchU2DWnacdHZ8YXfbhTutS2B3ifrEudePvwfb/A=;
-        b=F105/nO//lUKNQdbEVPPJtf4UiN0Dpe4AhFvrF2atwPhUJRjs9cIbNZS7JmWT7bHIC
-         WH5VUE/wi4XlgzpqCuAFlNiEESKO5L6y2oAutIgqqo20VBEAI6ZQPAKHy9P9zRHoqAi5
-         esp+iJMGIRcpsije9YwIjnm/7i4ETyAM3N8mVDn2nt/Zk2yPpsssvjWdV4oKF4v8Pn3j
-         7qv8/x6dVuo3mJlfYiw005V+zUTtz8rDNGJ7V/wNojrQFqsMrsn1u5ph9NhmnorddmxR
-         ncan1LOhxq6nDfVhESnqC2vlFdceJLI9asmvavqWPV/wOBofZWNIH82QwVkAE6a59SuC
-         MAuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=+YvGchU2DWnacdHZ8YXfbhTutS2B3ifrEudePvwfb/A=;
-        b=lkC0vdXwMTzZUVIaA1D76MT2UPozS8BPYTwMEbI0/7hZ85GZLZRKkOcz6q/HlhxhGi
-         i73bUKblyT5G5MBWxery6eanDcdTdb8EjAx+sQN2V+BpktbVGMkKxBSwUUd+q3JDiQUw
-         9qyiXYcaU8HwouUzrrdMN+S7zu2vmnkTihV+6H332WPCg8GxMxHj8rar6YH18f89bXJX
-         oSP5HC7FALaO2olTD+orjbJmtGLacERcvI6/Smnad2imxNoqGGjTLj8hfngKuHrI/XeS
-         PJik0sbiL39DNCUweIwmIBCRhYVdNpwrojUGyHDI0ylZRmfqGKa68/6b3Kom2NxPJhLy
-         jKuQ==
-X-Gm-Message-State: AOAM533KCs5ASrIH0i1Qqs6lcDF5MFwdckMdgHNvgj9634sTn58ORpGx
-        yZ3KU9FOcAe3dYlp9JYQHnc=
-X-Google-Smtp-Source: ABdhPJyqsw1Lepw7anG+yYgDCfEZWYUotjEUoqobDngdtwvvKu2CEO6uDhZzL5/MeI9LM5czrC6kDg==
-X-Received: by 2002:a63:1c4e:0:b0:3f2:6da7:5d90 with SMTP id c14-20020a631c4e000000b003f26da75d90mr2922991pgm.429.1652945694272;
-        Thu, 19 May 2022 00:34:54 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-3.three.co.id. [180.214.232.3])
-        by smtp.gmail.com with ESMTPSA id l30-20020a635b5e000000b003c5e836eddasm2746463pgm.94.2022.05.19.00.34.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 May 2022 00:34:53 -0700 (PDT)
-Message-ID: <08117fbe-e547-733f-89d5-802c4f2e2816@gmail.com>
-Date:   Thu, 19 May 2022 14:34:50 +0700
+        with ESMTP id S229741AbiESHyE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 03:54:04 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8499E33A29;
+        Thu, 19 May 2022 00:54:00 -0700 (PDT)
+Received: from kwepemi100022.china.huawei.com (unknown [172.30.72.56])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4L3hsc1550z1JCBr;
+        Thu, 19 May 2022 15:52:36 +0800 (CST)
+Received: from kwepemm600018.china.huawei.com (7.193.23.140) by
+ kwepemi100022.china.huawei.com (7.221.188.126) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 19 May 2022 15:53:58 +0800
+Received: from [10.174.176.88] (10.174.176.88) by
+ kwepemm600018.china.huawei.com (7.193.23.140) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 19 May 2022 15:53:57 +0800
+Message-ID: <4aa8c53d-fe4e-e34f-5843-359c331e680e@huawei.com>
+Date:   Thu, 19 May 2022 15:53:56 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH] Fixed 'make htmldocs' warning:
- Documentation/admin-guide/perf/hisi-pcie-pmu.rst: WARNING: document isn't
- included in any toctree
-Content-Language: en-US
-To:     Praghadeesh T K S <praghadeeshthevendria@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     skhan@linuxfoundation.org, praghadeeshtks@zohomail.in
-References: <20220518082627.9144-1-praghadeeshthevendria@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220518082627.9144-1-praghadeeshthevendria@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 -next] docs/zh_CN: Add
+ dev-tools/gdb-kernel-debugging.rst Chinese translation
+To:     Jonathan Corbet <corbet@lwn.net>, <alexs@kernel.org>
+CC:     <siyanteng01@gmail.com>, <bobwxc@email.cn>, <src.res@email.cn>,
+        <wanjiabing@vivo.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20220513061035.605-1-gaochao49@huawei.com>
+ <20220514100046.1683-1-gaochao49@huawei.com> <87lev0ueuz.fsf@meer.lwn.net>
+From:   "gaochao (L)" <gaochao49@huawei.com>
+In-Reply-To: <87lev0ueuz.fsf@meer.lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.176.88]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemm600018.china.huawei.com (7.193.23.140)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/18/22 15:26, Praghadeesh T K S wrote:
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Signed-off-by: Praghadeesh T K S <praghadeeshthevendria@gmail.com>
-> ---
->  Documentation/admin-guide/perf/index.rst | 1 +
->  1 file changed, 1 insertion(+)
+Thanks,
+I'll make sure that in future patches
+
+在 2022/5/18 3:40, Jonathan Corbet 写道:
+> gaochao <gaochao49@huawei.com> writes:
 > 
-> diff --git a/Documentation/admin-guide/perf/index.rst b/Documentation/admin-guide/perf/index.rst
-> index 5a8f252..69b23f0 100644
-> --- a/Documentation/admin-guide/perf/index.rst
-> +++ b/Documentation/admin-guide/perf/index.rst
-> @@ -8,6 +8,7 @@ Performance monitor support
->     :maxdepth: 1
->  
->     hisi-pmu
-> +   hisi-pcie-pmu
->     imx-ddr
->     qcom_l2_pmu
->     qcom_l3_pmu
-
-Hi,
-
-This has been fixed in [1] and applied. Thanks anyway.
-
-[1]: https://lore.kernel.org/linux-doc/20220228031700.1669086-1-wanjiabing@vivo.com/
-
--- 
-An old man doll... just what I always wanted! - Clara
+>> Translate dev-tools/gdb-kernel-debugging.rst into Chinese.
+> 
+> I've applied this, but one potential concern:
+> 
+>> Signed-off-by: gaochao <gaochao49@huawei.com>
+>> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+>> Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+> 
+> When you posted this, XiangCheng's Reviewed-by had not been seen in any
+> public place.  It was later offered, so no harm done here, but please be
+> sure not to add such tags unless they have been explicitly given to you.
+> 
+> Thanks,
+> 
+> jon
+> .
