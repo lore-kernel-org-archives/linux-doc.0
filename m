@@ -2,76 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49828C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 08:39:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A48F0C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 19 May 2022 08:51:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235353AbiESIjI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 04:39:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52910 "EHLO
+        id S234073AbiESIvb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 04:51:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234771AbiESIjH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 04:39:07 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F34577F12;
-        Thu, 19 May 2022 01:39:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=g/oPe5bXk7tsbULLyYHhkrNj6UcyM44d11Xk1/aVMmY=; b=q6yzGmnt5k0dWGLzN+N/7kJIII
-        I5rTrvru7kLRG3wr+UYoaPMbB1e2Qri5xfzHb5GHqQAVfJc0R0WXnphvur5nbLmog9nSj7S5VODIC
-        sO5QfAA8o9UkWgXl/5J/j2kNOzfqSIgmy7QCmFnSb9oSdFELbAe3z+Sacpp58JSL8HkDNcuE3+ulW
-        AZ/s/TuiUpNOlmr0HsAa2zOCXXQ+HBa6jpT1U1KxML/b5CvAsaaNFikomYd91zIfALWMsNiPMk2tD
-        Vo4f9CAN3kDjtwf32oJIsYG/G8fwB8d1m7JQ93m85cJJGH0PE94C6Xn6GuF2bkhuINisDCuFcZG3l
-        dB4HBWPA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nrbgQ-005uXP-BN; Thu, 19 May 2022 08:38:58 +0000
-Date:   Thu, 19 May 2022 01:38:58 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf-next v5 00/17] Introduce eBPF support for HID devices
-Message-ID: <YoYCIhYhzLmhIGxe@infradead.org>
-References: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
- <YoX7iHddAd4FkQRQ@infradead.org>
- <YoX904CAFOAfWeJN@kroah.com>
+        with ESMTP id S235778AbiESIvT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 04:51:19 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12DB61EC64;
+        Thu, 19 May 2022 01:51:18 -0700 (PDT)
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24J8g0aX019006;
+        Thu, 19 May 2022 08:51:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=socf21ni5+/NQUYujP3bagP571P0CjAgkZfi4zqTir0=;
+ b=rOOUDQo6Z5DXAI+f5cS5iGTGJzMRZyIRzmWkNu71yV7sKQxRXsWTSEcyeyxcYNydQ4b5
+ XbwjLz1qisOMWuvioTimZXTepinPvHY9rzzO2sH8ZfkB8pecgk7eh4r1IxxVHBeRgNHz
+ OOuOSzQJOEVpj2cp7j3EbX2hD8hTmdnWlgT6dYAExBKmxdRTuZ4yiNIf48B8Ovhbslch
+ eZtu7VDXImH7JjzzlX9EsfVgqRx5xzoeqskeAoYC4BW47TIebBulVTczHk5DRO06d/eT
+ cRNpeczwkdGwpkpFEEQbAxq13FBds9Fa9/spo7XenH4fp4GPeAOlBsc4dTmkPy8iyLy2 ug== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g5jkxr6m3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 19 May 2022 08:51:12 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24J8gnox020872;
+        Thu, 19 May 2022 08:51:11 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g5jkxr6j4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 19 May 2022 08:51:09 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24J8oC0F016289;
+        Thu, 19 May 2022 08:51:07 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+        by ppma04ams.nl.ibm.com with ESMTP id 3g2429exwq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 19 May 2022 08:51:06 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 24J8p4qc48103836
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 19 May 2022 08:51:04 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C60825204F;
+        Thu, 19 May 2022 08:51:04 +0000 (GMT)
+Received: from vajain21.in.ibm.com (unknown [9.43.20.227])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 5CCAD5204E;
+        Thu, 19 May 2022 08:51:00 +0000 (GMT)
+Received: by vajain21.in.ibm.com (sSMTP sendmail emulation); Thu, 19 May 2022 14:20:58 +0530
+From:   Vaibhav Jain <vaibhav@linux.ibm.com>
+To:     Yosry Ahmed <yosryahmed@google.com>
+Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
+        Shakeel Butt <shakeelb@google.com>
+Subject: Re: [PATCH] memcg: provide reclaim stats via 'memory.reclaim'
+In-Reply-To: <CAJD7tkZSgRs6T60Gv4dZR5xBemxgCB_2s8hz8zB0F_nakN5aTQ@mail.gmail.com>
+References: <20220518223815.809858-1-vaibhav@linux.ibm.com>
+ <CAJD7tkZSgRs6T60Gv4dZR5xBemxgCB_2s8hz8zB0F_nakN5aTQ@mail.gmail.com>
+Date:   Thu, 19 May 2022 14:20:58 +0530
+Message-ID: <878rqxhpn1.fsf@vajain21.in.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YoX904CAFOAfWeJN@kroah.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: vvo-JFnOjIqVRaGtOVrFtRpNmEHvUHhd
+X-Proofpoint-GUID: _U42p40mTk_VCPyg3m7n7K6jfuXG3VUg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-19_01,2022-05-19_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ suspectscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 phishscore=0 malwarescore=0
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205190049
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 19, 2022 at 10:20:35AM +0200, Greg KH wrote:
-> > are written using a hip new VM?
-> 
-> Ugh, don't mention UDI, that's a bad flashback...
+Hi,
 
-But that is very much what we are doing here.
+Thanks for looking into this patch,
 
-> I thought the goal here was to move a lot of the quirk handling and
-> "fixup the broken HID decriptors in this device" out of kernel .c code
-> and into BPF code instead, which this patchset would allow.
-> 
-> So that would just be exception handling.  I don't think you can write a
-> real HID driver here at all, but I could be wrong as I have not read the
-> new patchset (older versions of this series could not do that.)
+Yosry Ahmed <yosryahmed@google.com> writes:
 
-And that "exception handling" is most of the driver.
+> On Wed, May 18, 2022 at 3:38 PM Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
+>>
+>> [1] Provides a way for user-space to trigger proactive reclaim by introducing
+>> a write-only memcg file 'memory.reclaim'. However reclaim stats like number
+>> of pages scanned and reclaimed is still not directly available to the
+>> user-space.
+>>
+>> This patch proposes to extend [1] to make the memcg file 'memory.reclaim'
+>> readable which returns the number of pages scanned / reclaimed during the
+>> reclaim process from 'struct vmpressure' associated with each memcg. This should
+>> let user-space asses how successful proactive reclaim triggered from memcg
+>> 'memory.reclaim' was ?
+>
+> Isn't this a racy read? struct vmpressure can be changed between the
+> write and read by other reclaim operations, right?
+Read/write of vmpr stats is always done in context of vmpr->sr_lock
+which is also the case for this patch. So not sure how the read is racy
+?.
+
+>
+> I was actually planning to send a patch that does not updated
+> vmpressure for user-controller reclaim, similar to how PSI is handled.
+>
+Ok, not sure if I am inferring correctly as to how how that would be
+useful. Can you please provide some more context.
+
+The primary motivation for this patch was to expose the vmpressure stats
+to user space that are available with cgroup-v1 but not with cgroup-v2
+AFAIK
+
+> The interface currently returns -EBUSY if the entire amount was not
+> reclaimed, so isn't this enough to figure out if it was successful or
+> not?
+Userspace may very well want to know the amount of memory that was
+partially reclaimed even though write to "memory.reclaim" returned
+'-EBUSY'. This feedback can be useful info for implementing a retry
+loop.
+
+> If not, we can store the scanned / reclaim counts of the last
+> memory.reclaim invocation for the sole purpose of memory.reclaim
+> reads.
+Sure sounds reasonable to me.
+
+> Maybe it is actually more intuitive to users to just read the
+> amount of memory read? In a format that is similar to the one written?
+>
+> i.e
+> echo "10M" > memory.reclaim
+> cat memory.reclaim
+> 9M
+>
+Agree, I will address that in v2.
+
+<snip>
+
+-- 
+Cheers
+~ Vaibhav
