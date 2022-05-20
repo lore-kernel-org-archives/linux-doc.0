@@ -2,140 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CB4FC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 11:14:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EE7BC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 12:02:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348109AbiETLOk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 May 2022 07:14:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48586 "EHLO
+        id S232398AbiETMCC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 May 2022 08:02:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241462AbiETLOi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 07:14:38 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 025709E9C7;
-        Fri, 20 May 2022 04:14:36 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.54])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4L4PDp6dbNzQk8V;
-        Fri, 20 May 2022 19:11:38 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 20 May 2022 19:14:35 +0800
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 20 May 2022 19:14:34 +0800
-Message-ID: <641b4f4f-9786-d11c-e264-daaf0d564b7c@huawei.com>
-Date:   Fri, 20 May 2022 19:14:33 +0800
+        with ESMTP id S1348941AbiETMB5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 08:01:57 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2EEF56202;
+        Fri, 20 May 2022 05:01:56 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id w17-20020a17090a529100b001db302efed6so7712981pjh.4;
+        Fri, 20 May 2022 05:01:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=HUR71Busz7rHoO3kdum5ovbPXwWOHM0ZF312TuUbImQ=;
+        b=gVyVvvBuan5PEI1TjD1XRfgPqU/5F2N75ycvOiIj4TNN2P7evdLgDgd96wcdLzT9fX
+         LJuUMz6Bvm8PceIlm/FVNC1aLDL0bci/4S+m4OcxNw4+6wn4m9c9CJjQiinKJym8PRBh
+         5vwZAWWM6qbw56jceZQd+woeD5T6sCXDfij2M6YU9iHvL0VmWZUR87hNh4Z8xB5/yvLT
+         V0t0Y4lWwXnGnPr65L2KGpXyd5w3qLYLiIgVFLmwePpYteO1nxJ8Y5xjaUooQkzxPQjm
+         3d4oYoBGixGVTnTABorwFFx8OneqiLrgw+9o24ckScevIJiolzTxCMBt5tzD8wvWWlpV
+         Vaow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=HUR71Busz7rHoO3kdum5ovbPXwWOHM0ZF312TuUbImQ=;
+        b=jz0J7Z0JJF8Lx6GU18V5jYHrT6vLhTbGZtbJKUhITsR0b1LDmNFfSwijUoLrEZa6R3
+         tuTDyyAe4g80RzfwMGdrIjCaFgcjbviXKmzBGBG/ya+Z5UUNrersfpIMpY6y0Ro0DytI
+         4Nt0TEx26k7AJIXQtg48Zbob9RCWZeyBRq7rwciBQAYwr8IOlgtyH/CVavuBqO7LuR7e
+         MfBR9bfxfJQgHjfov872S9bpiey66DIWO1UyTH+oLbWUBmglqziTFZXh27tny6pBgZZ/
+         /USYH8kbENdBnDGlM45+9wS+dJye124T41uQzFba4xafHaTQ0izAfcgfrI9liOLtv4yZ
+         0t7g==
+X-Gm-Message-State: AOAM5307tjYPy/sYbMTfpoYNIuFkVFE7zLGhPQE+DekEnAvDTBs/aa6w
+        SP5mh1UrymZzbdZP2eb90uQ=
+X-Google-Smtp-Source: ABdhPJxjrwzxzkeGGI2NEtVC0Txs8wwcKKyycde8qmg0K4hIXxUZGT1Zm0b/5rqdiT03fBEazffe5Q==
+X-Received: by 2002:a17:90a:930b:b0:1bf:ac1f:6585 with SMTP id p11-20020a17090a930b00b001bfac1f6585mr10500025pjo.88.1653048115442;
+        Fri, 20 May 2022 05:01:55 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-24.three.co.id. [180.214.232.24])
+        by smtp.gmail.com with ESMTPSA id m10-20020a170902768a00b0015e8d4eb1d8sm5486794pll.34.2022.05.20.05.01.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 May 2022 05:01:54 -0700 (PDT)
+Message-ID: <4752814a-091c-9dd5-762c-6fd1a476c4bb@gmail.com>
+Date:   Fri, 20 May 2022 19:01:50 +0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v2 1/2] Documentation/barriers: Add memory barrier
- dma_mb()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] arm64: Unify vertical spacing in HWCAPS
 Content-Language: en-US
-To:     Marco Elver <elver@google.com>
-CC:     <catalin.marinas@arm.com>, <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>
-References: <20220520031548.175582-1-wangkefeng.wang@huawei.com>
- <20220520031548.175582-2-wangkefeng.wang@huawei.com>
- <YodouVpl26890QfU@elver.google.com>
-From:   Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <YodouVpl26890QfU@elver.google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To:     =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>,
+        linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net
+References: <b95b3128-f010-dcba-1f6a-1a85dd2d20a5@suse.cz>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <b95b3128-f010-dcba-1f6a-1a85dd2d20a5@suse.cz>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 5/20/22 13:55, Martin Liška wrote:
+> Unify vertical spacing so that same font weight
+> is used by Sphinx.
+> 
+> Signed-off-by: Martin Liska <mliska@suse.cz>
+> ---
+>  Documentation/arm64/elf_hwcaps.rst | 23 -----------------------
+>  1 file changed, 23 deletions(-)
+> 
+> diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
+> index a8f30963e550..1e79044f51a2 100644
+> --- a/Documentation/arm64/elf_hwcaps.rst
+> +++ b/Documentation/arm64/elf_hwcaps.rst
+> @@ -171,96 +171,73 @@ HWCAP_PACG
+>      Documentation/arm64/pointer-authentication.rst.
+>  
+>  HWCAP2_DCPODP
+> -
+>      Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.
+>  
+>  HWCAP2_SVE2
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.SVEVer == 0b0001.
+>  
+>  HWCAP2_SVEAES
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0001.
+>  
+>  HWCAP2_SVEPMULL
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0010.
+>  
+>  HWCAP2_SVEBITPERM
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.BitPerm == 0b0001.
+>  
+>  HWCAP2_SVESHA3
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.SHA3 == 0b0001.
+>  
+>  HWCAP2_SVESM4
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.SM4 == 0b0001.
+>  
+>  HWCAP2_FLAGM2
+> -
+>      Functionality implied by ID_AA64ISAR0_EL1.TS == 0b0010.
+>  
+>  HWCAP2_FRINT
+> -
+>      Functionality implied by ID_AA64ISAR1_EL1.FRINTTS == 0b0001.
+>  
+>  HWCAP2_SVEI8MM
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.I8MM == 0b0001.
+>  
+>  HWCAP2_SVEF32MM
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.F32MM == 0b0001.
+>  
+>  HWCAP2_SVEF64MM
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.F64MM == 0b0001.
+>  
+>  HWCAP2_SVEBF16
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.BF16 == 0b0001.
+>  
+>  HWCAP2_I8MM
+> -
+>      Functionality implied by ID_AA64ISAR1_EL1.I8MM == 0b0001.
+>  
+>  HWCAP2_BF16
+> -
+>      Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0001.
+>  
+>  HWCAP2_DGH
+> -
+>      Functionality implied by ID_AA64ISAR1_EL1.DGH == 0b0001.
+>  
+>  HWCAP2_RNG
+> -
+>      Functionality implied by ID_AA64ISAR0_EL1.RNDR == 0b0001.
+>  
+>  HWCAP2_BTI
+> -
+>      Functionality implied by ID_AA64PFR0_EL1.BT == 0b0001.
+>  
+>  HWCAP2_MTE
+> -
+>      Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0010, as described
+>      by Documentation/arm64/memory-tagging-extension.rst.
+>  
+>  HWCAP2_ECV
+> -
+>      Functionality implied by ID_AA64MMFR0_EL1.ECV == 0b0001.
+>  
+>  HWCAP2_AFP
+> -
+>      Functionality implied by ID_AA64MFR1_EL1.AFP == 0b0001.
+>  
+>  HWCAP2_RPRES
+> -
+>      Functionality implied by ID_AA64ISAR2_EL1.RPRES == 0b0001.
+>  
+>  HWCAP2_MTE3
+> -
+>      Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0011, as described
+>      by Documentation/arm64/memory-tagging-extension.rst.
+>  
 
-On 2022/5/20 18:08, Marco Elver wrote:
-> On Fri, May 20, 2022 at 11:15AM +0800, Kefeng Wang wrote:
->> The memory barrier dma_mb() is introduced by commit a76a37777f2c
->> ("iommu/arm-smmu-v3: Ensure queue is read after updating prod pointer"),
->> which is used to ensure that prior (both reads and writes) accesses to
->> memory by a CPU are ordered w.r.t. a subsequent MMIO write.
->>
->> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
->> ---
->>   Documentation/memory-barriers.txt | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
->> index b12df9137e1c..1eabcc0e4eca 100644
->> --- a/Documentation/memory-barriers.txt
->> +++ b/Documentation/memory-barriers.txt
->> @@ -1894,10 +1894,13 @@ There are some more advanced barrier functions:
->>   
->>    (*) dma_wmb();
->>    (*) dma_rmb();
->> + (*) dma_mb();
->>   
->>        These are for use with consistent memory to guarantee the ordering
->>        of writes or reads of shared memory accessible to both the CPU and a
->> -     DMA capable device.
->> +     DMA capable device, in the case of ensure the prior (both reads and
->> +     writes) accesses to memory by a CPU are ordered w.r.t. a subsequent
->> +     MMIO write, dma_mb().
->>   
-> I think this is out of place; this explanation here is not yet
-> elaborating on either. Elaboration on dma_mb() should go where
-> dma_rmb() and dma_wmb() are explained.
->
-> Something like this:
->
-> ------ >8 ------
->
-> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-> index b12df9137e1c..fb322b6cce70 100644
-> --- a/Documentation/memory-barriers.txt
-> +++ b/Documentation/memory-barriers.txt
-> @@ -1894,6 +1894,7 @@ There are some more advanced barrier functions:
->   
->    (*) dma_wmb();
->    (*) dma_rmb();
-> + (*) dma_mb();
->   
->        These are for use with consistent memory to guarantee the ordering
->        of writes or reads of shared memory accessible to both the CPU and a
-> @@ -1925,11 +1926,11 @@ There are some more advanced barrier functions:
->        The dma_rmb() allows us guarantee the device has released ownership
->        before we read the data from the descriptor, and the dma_wmb() allows
->        us to guarantee the data is written to the descriptor before the device
-> -     can see it now has ownership.  Note that, when using writel(), a prior
-> -     wmb() is not needed to guarantee that the cache coherent memory writes
-> -     have completed before writing to the MMIO region.  The cheaper
-> -     writel_relaxed() does not provide this guarantee and must not be used
-> -     here.
-> +     can see it now has ownership.  The dma_mb() implies both a dma_rmb() and a
-> +     dma_wmb().  Note that, when using writel(), a prior wmb() is not needed to
-> +     guarantee that the cache coherent memory writes have completed before
-> +     writing to the MMIO region.  The cheaper writel_relaxed() does not provide
-> +     this guarantee and must not be used here.
->   
->        See the subsection "Kernel I/O barrier effects" for more information on
->        relaxed I/O accessors and the Documentation/core-api/dma-api.rst file for
->
-> ------ >8 ------
-Thanks， will use above explanation.
-> Also, now that you're making dma_mb() part of the official API, it might
-> need a generic definition in include/asm-generic/barrier.h, because
-> as-is it's only available in arm64 builds.
+Did you mean the font weight is heading? Something like promoting headings
+by removing intermediate blank lines?
 
-Ok, it's good to add the dma_mb() and __dma_mb  definition with a 
-separate patch
-
-into include/asm-generic/barrier.h.
-
->
-> Thoughts?
->
-> Thanks,
-> -- Marco
-> .
+-- 
+An old man doll... just what I always wanted! - Clara
