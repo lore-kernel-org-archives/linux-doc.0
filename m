@@ -2,152 +2,942 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C81A6C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 17:57:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 912D8C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 18:15:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352083AbiETR5r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 May 2022 13:57:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42008 "EHLO
+        id S1346869AbiETSPG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 May 2022 14:15:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236711AbiETR5q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 13:57:46 -0400
+        with ESMTP id S238817AbiETSPG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 14:15:06 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6113A185C90;
-        Fri, 20 May 2022 10:57:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A11151900D7;
+        Fri, 20 May 2022 11:15:03 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DA4D860EE3;
-        Fri, 20 May 2022 17:57:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABACEC385A9;
-        Fri, 20 May 2022 17:57:42 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 29A9860EE7;
+        Fri, 20 May 2022 18:15:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D723C3411A;
+        Fri, 20 May 2022 18:15:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653069464;
-        bh=zWCwftlejUqTmbDmnupK8x4rMoq86l14ym8GOJl1Vus=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=JxH9rJ90e0wDL/jdzIjTJxmZhEpDMrRjJIMUx2sa6kb221GDAtu2VbFDQOBj59hCr
-         guVOEe1jNrYERLB4NBxjj/KFnQkO8Z/84oeszUfZSb8VnnSpRPy8yMRtGAPYe7ZS1A
-         D3XFII/b4mizSxjM9c8yeG1DZsawt5/OzqQa5d/0OhDiwpiip9YrglBMwCNwJ3A81X
-         sxEk+YBXvT0hWRhvycNKDkxKxBiyFwlGXVZ8EQU6g/oTseuSwwSJC/oJMAdmfEEV7X
-         +65DZBOwtR9GL41sAgm1wqyIqsd1PNs/HNHB+xOU3bqYhNak20Fsr3iWeaiGKqm0VQ
-         gvoN3AIWAdrug==
-Message-ID: <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
-Date:   Fri, 20 May 2022 10:57:41 -0700
+        s=k20201202; t=1653070502;
+        bh=1hwHj/ClvX1uTATaGrTpEfWV5CVtWtCoqZ6E9N6fizY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=gXG4SokBnQu5tIEUeOpPJuwtV6RzDnOUXMhvEiDDjsUI3qPV8z9oz+uy7BXYC0C0t
+         6GKSs4VL0q9dPl+eK7a/vF7yigJGLL+ae8vIsP7d2r3jtB2e2U/4HIK1pS9C2MSYJe
+         xuNPrSH3drx4keDJaltBXB+HnwddmxjDnxUd/qvNvSymhJH8DjRTGu/XxUkXPij2te
+         XKtxxjoJmDJF2rlRDExhI78f2k5KKdcB/cMrglViFKDWQOHZsAwS0Z8wFx/Hf/qtWn
+         YF+Wn5Gg7X0/QMNyLroJ7JFH01JU8h+ivnlg+qOCl0lzUU0V+88HZHyHjVmUdjlhAe
+         fefO4pe0TpvIg==
+Received: by mail-vs1-f53.google.com with SMTP id i186so9110439vsc.9;
+        Fri, 20 May 2022 11:15:02 -0700 (PDT)
+X-Gm-Message-State: AOAM533mXGnNvA6MVkOm1nCCY6H/NBbwyZ+L4Hw8MO2q7jzieFpR5xso
+        AjwZ5fR+PGOsmlYtcQl5oKe5DYRXRxH42Fmxib0=
+X-Google-Smtp-Source: ABdhPJyq3ZKecdUze2eLYYF0QznvHzXWqVeeosdEmrf1rxEq6n1Bh/7G9mLa2hYswRBOFBgW3t3j4lbmvIJ9Wg5I9H4=
+X-Received: by 2002:a67:c89c:0:b0:335:d83b:df76 with SMTP id
+ v28-20020a67c89c000000b00335d83bdf76mr4405171vsk.51.1653070501130; Fri, 20
+ May 2022 11:15:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
- private memory
-Content-Language: en-US
-To:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
+References: <20220518092619.1269111-1-chenhuacai@loongson.cn>
+ <20220518092619.1269111-8-chenhuacai@loongson.cn> <CAJF2gTTokRNksuE_5c+T80GW47v-mOOtHqhSC_MkZM7VkqucmQ@mail.gmail.com>
+ <CAAhV-H7ks=uOqM5kaD15-f--sx_F0fGMLe=ng2b93X+yi_DsvQ@mail.gmail.com>
+In-Reply-To: <CAAhV-H7ks=uOqM5kaD15-f--sx_F0fGMLe=ng2b93X+yi_DsvQ@mail.gmail.com>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Sat, 21 May 2022 02:14:50 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTRv+Zw5Fyxo-yo6hVy=R6P09KO6OCG8seaXMb7rFZUxmg@mail.gmail.com>
+Message-ID: <CAJF2gTRv+Zw5Fyxo-yo6hVy=R6P09KO6OCG8seaXMb7rFZUxmg@mail.gmail.com>
+Subject: Re: [PATCH V11 07/22] LoongArch: Add atomic/locking headers
+To:     Huacai Chen <chenhuacai@gmail.com>
+Cc:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
+        Peter Zijlstra <peterz@infradead.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-5-chao.p.peng@linux.intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-In-Reply-To: <20220519153713.819591-5-chao.p.peng@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/19/22 08:37, Chao Peng wrote:
-> Extend the memslot definition to provide guest private memory through a
-> file descriptor(fd) instead of userspace_addr(hva). Such guest private
-> memory(fd) may never be mapped into userspace so no userspace_addr(hva)
-> can be used. Instead add another two new fields
-> (private_fd/private_offset), plus the existing memory_size to represent
-> the private memory range. Such memslot can still have the existing
-> userspace_addr(hva). When use, a single memslot can maintain both
-> private memory through private fd(private_fd/private_offset) and shared
-> memory through hva(userspace_addr). A GPA is considered private by KVM
-> if the memslot has private fd and that corresponding page in the private
-> fd is populated, otherwise, it's shared.
-> 
+On Fri, May 20, 2022 at 5:50 PM Huacai Chen <chenhuacai@gmail.com> wrote:
+>
+> Hi, Ren,
+>
+> On Fri, May 20, 2022 at 3:54 PM Guo Ren <guoren@kernel.org> wrote:
+> >
+> > On Wed, May 18, 2022 at 5:34 PM Huacai Chen <chenhuacai@loongson.cn> wrote:
+> > >
+> > > Add common headers (atomic, bitops, barrier and locking) for basic
+> > > LoongArch support.
+> > >
+> > > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> > > ---
+> > >  arch/loongarch/include/asm/atomic.h  | 358 +++++++++++++++++++++++++++
+> > >  arch/loongarch/include/asm/barrier.h |  51 ++++
+> > >  arch/loongarch/include/asm/bitops.h  |  33 +++
+> > >  arch/loongarch/include/asm/bitrev.h  |  34 +++
+> > >  arch/loongarch/include/asm/cmpxchg.h | 121 +++++++++
+> > >  arch/loongarch/include/asm/local.h   | 138 +++++++++++
+> > >  arch/loongarch/include/asm/percpu.h  |  20 ++
+> > >  7 files changed, 755 insertions(+)
+> > >  create mode 100644 arch/loongarch/include/asm/atomic.h
+> > >  create mode 100644 arch/loongarch/include/asm/barrier.h
+> > >  create mode 100644 arch/loongarch/include/asm/bitops.h
+> > >  create mode 100644 arch/loongarch/include/asm/bitrev.h
+> > >  create mode 100644 arch/loongarch/include/asm/cmpxchg.h
+> > >  create mode 100644 arch/loongarch/include/asm/local.h
+> > >  create mode 100644 arch/loongarch/include/asm/percpu.h
+> > >
+> > > diff --git a/arch/loongarch/include/asm/atomic.h b/arch/loongarch/include/asm/atomic.h
+> > > new file mode 100644
+> > > index 000000000000..932352342b12
+> > > --- /dev/null
+> > > +++ b/arch/loongarch/include/asm/atomic.h
+> > > @@ -0,0 +1,358 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * Atomic operations.
+> > > + *
+> > > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > > + */
+> > > +#ifndef _ASM_ATOMIC_H
+> > > +#define _ASM_ATOMIC_H
+> > > +
+> > > +#include <linux/types.h>
+> > > +#include <asm/barrier.h>
+> > > +#include <asm/cmpxchg.h>
+> > > +#include <asm/compiler.h>
+> > > +
+> > > +#if __SIZEOF_LONG__ == 4
+> > > +#define __LL           "ll.w   "
+> > > +#define __SC           "sc.w   "
+> > > +#define __AMADD                "amadd.w        "
+> > > +#define __AMAND_DB     "amand_db.w     "
+> > > +#define __AMOR_DB      "amor_db.w      "
+> > > +#define __AMXOR_DB     "amxor_db.w     "
+> > > +#elif __SIZEOF_LONG__ == 8
+> > > +#define __LL           "ll.d   "
+> > > +#define __SC           "sc.d   "
+> > > +#define __AMADD                "amadd.d        "
+> > > +#define __AMAND_DB     "amand_db.d     "
+> > > +#define __AMOR_DB      "amor_db.d      "
+> > > +#define __AMXOR_DB     "amxor_db.d     "
+> > > +#endif
+> > > +
+> > > +#define ATOMIC_INIT(i)   { (i) }
+> > > +
+> > > +/*
+> > > + * arch_atomic_read - read atomic variable
+> > > + * @v: pointer of type atomic_t
+> > > + *
+> > > + * Atomically reads the value of @v.
+> > > + */
+> > > +#define arch_atomic_read(v)    READ_ONCE((v)->counter)
+> > > +
+> > > +/*
+> > > + * arch_atomic_set - set atomic variable
+> > > + * @v: pointer of type atomic_t
+> > > + * @i: required value
+> > > + *
+> > > + * Atomically sets the value of @v to @i.
+> > > + */
+> > > +#define arch_atomic_set(v, i)  WRITE_ONCE((v)->counter, (i))
+> > > +
+> > > +#define ATOMIC_OP(op, I, asm_op)                                       \
+> > > +static inline void arch_atomic_##op(int i, atomic_t *v)                        \
+> > > +{                                                                      \
+> > > +       __asm__ __volatile__(                                           \
+> > > +       "am"#asm_op"_db.w" " $zero, %1, %0      \n"                     \
+> > > +       : "+ZB" (v->counter)                                            \
+> > > +       : "r" (I)                                                       \
+> > > +       : "memory");                                                    \
+> > > +}
+> > > +
+> > > +#define ATOMIC_OP_RETURN(op, I, asm_op, c_op)                          \
+> > > +static inline int arch_atomic_##op##_return_relaxed(int i, atomic_t *v)        \
+> > > +{                                                                      \
+> > > +       int result;                                                     \
+> > > +                                                                       \
+> > > +       __asm__ __volatile__(                                           \
+> > > +       "am"#asm_op"_db.w" " %1, %2, %0         \n"                     \
+> > > +       : "+ZB" (v->counter), "=&r" (result)                            \
+> > > +       : "r" (I)                                                       \
+> > > +       : "memory");                                                    \
+> > > +                                                                       \
+> > > +       return result c_op I;                                           \
+> > > +}
+> > > +
+> > > +#define ATOMIC_FETCH_OP(op, I, asm_op)                                 \
+> > > +static inline int arch_atomic_fetch_##op##_relaxed(int i, atomic_t *v) \
+> > > +{                                                                      \
+> > > +       int result;                                                     \
+> > > +                                                                       \
+> > > +       __asm__ __volatile__(                                           \
+> > > +       "am"#asm_op"_db.w" " %1, %2, %0         \n"                     \
+> > > +       : "+ZB" (v->counter), "=&r" (result)                            \
+> > > +       : "r" (I)                                                       \
+> > > +       : "memory");                                                    \
+> > > +                                                                       \
+> > > +       return result;                                                  \
+> > > +}
+> > > +
+> > > +#define ATOMIC_OPS(op, I, asm_op, c_op)                                        \
+> > > +       ATOMIC_OP(op, I, asm_op)                                        \
+> > > +       ATOMIC_OP_RETURN(op, I, asm_op, c_op)                           \
+> > > +       ATOMIC_FETCH_OP(op, I, asm_op)
+> > > +
+> > > +ATOMIC_OPS(add, i, add, +)
+> > > +ATOMIC_OPS(sub, -i, add, +)
+> > > +
+> > > +#define arch_atomic_add_return_relaxed arch_atomic_add_return_relaxed
+> > > +#define arch_atomic_sub_return_relaxed arch_atomic_sub_return_relaxed
+> > > +#define arch_atomic_fetch_add_relaxed  arch_atomic_fetch_add_relaxed
+> > > +#define arch_atomic_fetch_sub_relaxed  arch_atomic_fetch_sub_relaxed
+> > > +
+> > > +#undef ATOMIC_OPS
+> > > +
+> > > +#define ATOMIC_OPS(op, I, asm_op)                                      \
+> > > +       ATOMIC_OP(op, I, asm_op)                                        \
+> > > +       ATOMIC_FETCH_OP(op, I, asm_op)
+> > > +
+> > > +ATOMIC_OPS(and, i, and)
+> > > +ATOMIC_OPS(or, i, or)
+> > > +ATOMIC_OPS(xor, i, xor)
+> > > +
+> > > +#define arch_atomic_fetch_and_relaxed  arch_atomic_fetch_and_relaxed
+> > > +#define arch_atomic_fetch_or_relaxed   arch_atomic_fetch_or_relaxed
+> > > +#define arch_atomic_fetch_xor_relaxed  arch_atomic_fetch_xor_relaxed
+> > > +
+> > > +#undef ATOMIC_OPS
+> > > +#undef ATOMIC_FETCH_OP
+> > > +#undef ATOMIC_OP_RETURN
+> > > +#undef ATOMIC_OP
+> > > +
+> > > +static inline int arch_atomic_fetch_add_unless(atomic_t *v, int a, int u)
+> > > +{
+> > > +       int prev, rc;
+> > > +
+> > > +       __asm__ __volatile__ (
+> > We need __WEAK_LLSC_MB here, to prevent previous access after sc.w.
+> LoongArch's ll and sc has implied memory barrier. :)
+
+But why do you put __WEAK_LLSC_MB after sc ?
+
+>
+> >
+> > > +               "0:     ll.w    %[p],  %[c]\n"
+> > > +               "       beq     %[p],  %[u], 1f\n"
+> > > +               "       add.w   %[rc], %[p], %[a]\n"
+> > > +               "       sc.w    %[rc], %[c]\n"
+> > > +               "       beqz    %[rc], 0b\n"
+> > > +               "       b       2f\n"
+> > > +               "1:\n"
+> > > +               __WEAK_LLSC_MB
+> > > +               "2:\n"
+> > > +               : [p]"=&r" (prev), [rc]"=&r" (rc),
+> > > +                 [c]"=ZB" (v->counter)
+> > > +               : [a]"r" (a), [u]"r" (u)
+> > > +               : "memory");
+> > > +
+> > > +       return prev;
+> > > +}
+> > > +#define arch_atomic_fetch_add_unless arch_atomic_fetch_add_unless
+> > > +
+> > > +/*
+> > > + * arch_atomic_sub_if_positive - conditionally subtract integer from atomic variable
+> > > + * @i: integer value to subtract
+> > > + * @v: pointer of type atomic_t
+> > > + *
+> > > + * Atomically test @v and subtract @i if @v is greater or equal than @i.
+> > > + * The function returns the old value of @v minus @i.
+> > > + */
+> > > +static inline int arch_atomic_sub_if_positive(int i, atomic_t *v)
+> > > +{
+> > > +       int result;
+> > > +       int temp;
+> > > +
+> > > +       if (__builtin_constant_p(i)) {
+> > > +               __asm__ __volatile__(
+> > Ditto.
+> > > +               "1:     ll.w    %1, %2          # atomic_sub_if_positive\n"
+> > > +               "       addi.w  %0, %1, %3                              \n"
+> > > +               "       or      %1, %0, $zero                           \n"
+> > > +               "       blt     %0, $zero, 2f                           \n"
+> > > +               "       sc.w    %1, %2                                  \n"
+> > > +               "       beq     $zero, %1, 1b                           \n"
+> > Need               __WEAK_LLSC_MB ?
+> > > +               "2:                                                     \n"
+> > > +               : "=&r" (result), "=&r" (temp),
+> > > +                 "+" GCC_OFF_SMALL_ASM() (v->counter)
+> > > +               : "I" (-i));
+> > > +       } else {
+> > > +               __asm__ __volatile__(
+> > Ditto.
+> > > +               "1:     ll.w    %1, %2          # atomic_sub_if_positive\n"
+> > > +               "       sub.w   %0, %1, %3                              \n"
+> > > +               "       or      %1, %0, $zero                           \n"
+> > > +               "       blt     %0, $zero, 2f                           \n"
+> > > +               "       sc.w    %1, %2                                  \n"
+> > Need               __WEAK_LLSC_MB ?
+> > > +               "       beq     $zero, %1, 1b                           \n"
+> > > +               "2:                                                     \n"
+> > > +               : "=&r" (result), "=&r" (temp),
+> > > +                 "+" GCC_OFF_SMALL_ASM() (v->counter)
+> > > +               : "r" (i));
+> > > +       }
+> > > +
+> > > +       return result;
+> > > +}
+> > > +
+> > > +#define arch_atomic_cmpxchg(v, o, n) (arch_cmpxchg(&((v)->counter), (o), (n)))
+> > > +#define arch_atomic_xchg(v, new) (arch_xchg(&((v)->counter), (new)))
+> > > +
+> > > +/*
+> > > + * arch_atomic_dec_if_positive - decrement by 1 if old value positive
+> > > + * @v: pointer of type atomic_t
+> > > + */
+> > > +#define arch_atomic_dec_if_positive(v) arch_atomic_sub_if_positive(1, v)
+> > > +
+> > > +#ifdef CONFIG_64BIT
+> > > +
+> > > +#define ATOMIC64_INIT(i)    { (i) }
+> > > +
+> > > +/*
+> > > + * arch_atomic64_read - read atomic variable
+> > > + * @v: pointer of type atomic64_t
+> > > + *
+> > > + */
+> > > +#define arch_atomic64_read(v)  READ_ONCE((v)->counter)
+> > > +
+> > > +/*
+> > > + * arch_atomic64_set - set atomic variable
+> > > + * @v: pointer of type atomic64_t
+> > > + * @i: required value
+> > > + */
+> > > +#define arch_atomic64_set(v, i)        WRITE_ONCE((v)->counter, (i))
+> > > +
+> > > +#define ATOMIC64_OP(op, I, asm_op)                                     \
+> > > +static inline void arch_atomic64_##op(long i, atomic64_t *v)           \
+> > > +{                                                                      \
+> > > +       __asm__ __volatile__(                                           \
+> > > +       "am"#asm_op"_db.d " " $zero, %1, %0     \n"                     \
+> > > +       : "+ZB" (v->counter)                                            \
+> > > +       : "r" (I)                                                       \
+> > > +       : "memory");                                                    \
+> > > +}
+> > > +
+> > > +#define ATOMIC64_OP_RETURN(op, I, asm_op, c_op)                                        \
+> > > +static inline long arch_atomic64_##op##_return_relaxed(long i, atomic64_t *v)  \
+> > > +{                                                                              \
+> > > +       long result;                                                            \
+> > > +       __asm__ __volatile__(                                                   \
+> > > +       "am"#asm_op"_db.d " " %1, %2, %0                \n"                     \
+> > > +       : "+ZB" (v->counter), "=&r" (result)                                    \
+> > > +       : "r" (I)                                                               \
+> > > +       : "memory");                                                            \
+> > > +                                                                               \
+> > > +       return result c_op I;                                                   \
+> > > +}
+> > > +
+> > > +#define ATOMIC64_FETCH_OP(op, I, asm_op)                                       \
+> > > +static inline long arch_atomic64_fetch_##op##_relaxed(long i, atomic64_t *v)   \
+> > > +{                                                                              \
+> > > +       long result;                                                            \
+> > > +                                                                               \
+> > > +       __asm__ __volatile__(                                                   \
+> > > +       "am"#asm_op"_db.d " " %1, %2, %0                \n"                     \
+> > > +       : "+ZB" (v->counter), "=&r" (result)                                    \
+> > > +       : "r" (I)                                                               \
+> > > +       : "memory");                                                            \
+> > > +                                                                               \
+> > > +       return result;                                                          \
+> > > +}
+> > > +
+> > > +#define ATOMIC64_OPS(op, I, asm_op, c_op)                                    \
+> > > +       ATOMIC64_OP(op, I, asm_op)                                            \
+> > > +       ATOMIC64_OP_RETURN(op, I, asm_op, c_op)                               \
+> > > +       ATOMIC64_FETCH_OP(op, I, asm_op)
+> > > +
+> > > +ATOMIC64_OPS(add, i, add, +)
+> > > +ATOMIC64_OPS(sub, -i, add, +)
+> > > +
+> > > +#define arch_atomic64_add_return_relaxed       arch_atomic64_add_return_relaxed
+> > > +#define arch_atomic64_sub_return_relaxed       arch_atomic64_sub_return_relaxed
+> > > +#define arch_atomic64_fetch_add_relaxed                arch_atomic64_fetch_add_relaxed
+> > > +#define arch_atomic64_fetch_sub_relaxed                arch_atomic64_fetch_sub_relaxed
+> > > +
+> > > +#undef ATOMIC64_OPS
+> > > +
+> > > +#define ATOMIC64_OPS(op, I, asm_op)                                          \
+> > > +       ATOMIC64_OP(op, I, asm_op)                                            \
+> > > +       ATOMIC64_FETCH_OP(op, I, asm_op)
+> > > +
+> > > +ATOMIC64_OPS(and, i, and)
+> > > +ATOMIC64_OPS(or, i, or)
+> > > +ATOMIC64_OPS(xor, i, xor)
+> > > +
+> > > +#define arch_atomic64_fetch_and_relaxed        arch_atomic64_fetch_and_relaxed
+> > > +#define arch_atomic64_fetch_or_relaxed arch_atomic64_fetch_or_relaxed
+> > > +#define arch_atomic64_fetch_xor_relaxed        arch_atomic64_fetch_xor_relaxed
+> > > +
+> > > +#undef ATOMIC64_OPS
+> > > +#undef ATOMIC64_FETCH_OP
+> > > +#undef ATOMIC64_OP_RETURN
+> > > +#undef ATOMIC64_OP
+> > > +
+> > > +static inline long arch_atomic64_fetch_add_unless(atomic64_t *v, long a, long u)
+> > > +{
+> > > +       long prev, rc;
+> > > +
+> > > +       __asm__ __volatile__ (
+> > Ditto
+> > > +               "0:     ll.d    %[p],  %[c]\n"
+> > > +               "       beq     %[p],  %[u], 1f\n"
+> > > +               "       add.d   %[rc], %[p], %[a]\n"
+> > > +               "       sc.d    %[rc], %[c]\n"
+> > > +               "       beqz    %[rc], 0b\n"
+> > Ditto
+> > > +               "       b       2f\n"
+> > > +               "1:\n"
+> > > +               __WEAK_LLSC_MB
+> > > +               "2:\n"
+> > > +               : [p]"=&r" (prev), [rc]"=&r" (rc),
+> > > +                 [c] "=ZB" (v->counter)
+> > > +               : [a]"r" (a), [u]"r" (u)
+> > > +               : "memory");
+> > > +
+> > > +       return prev;
+> > > +}
+> > > +#define arch_atomic64_fetch_add_unless arch_atomic64_fetch_add_unless
+> > > +
+> > > +/*
+> > > + * arch_atomic64_sub_if_positive - conditionally subtract integer from atomic variable
+> > > + * @i: integer value to subtract
+> > > + * @v: pointer of type atomic64_t
+> > > + *
+> > > + * Atomically test @v and subtract @i if @v is greater or equal than @i.
+> > > + * The function returns the old value of @v minus @i.
+> > > + */
+> > > +static inline long arch_atomic64_sub_if_positive(long i, atomic64_t *v)
+> > > +{
+> > > +       long result;
+> > > +       long temp;
+> > > +
+> > > +       if (__builtin_constant_p(i)) {
+> > > +               __asm__ __volatile__(
+> > Ditto
+> > > +               "1:     ll.d    %1, %2  # atomic64_sub_if_positive      \n"
+> > > +               "       addi.d  %0, %1, %3                              \n"
+> > > +               "       or      %1, %0, $zero                           \n"
+> > > +               "       blt     %0, $zero, 2f                           \n"
+> > > +               "       sc.d    %1, %2                                  \n"
+> > Ditto
+> > > +               "       beq     %1, $zero, 1b                           \n"
+> > > +               "2:                                                     \n"
+> > > +               : "=&r" (result), "=&r" (temp),
+> > > +                 "+" GCC_OFF_SMALL_ASM() (v->counter)
+> > > +               : "I" (-i));
+> > > +       } else {
+> > > +               __asm__ __volatile__(
+> > Ditto
+> > > +               "1:     ll.d    %1, %2  # atomic64_sub_if_positive      \n"
+> > > +               "       sub.d   %0, %1, %3                              \n"
+> > > +               "       or      %1, %0, $zero                           \n"
+> > > +               "       blt     %0, $zero, 2f                           \n"
+> > > +               "       sc.d    %1, %2                                  \n"
+> > Ditto
+> > > +               "       beq     %1, $zero, 1b                           \n"
+> > > +               "2:                                                     \n"
+> > > +               : "=&r" (result), "=&r" (temp),
+> > > +                 "+" GCC_OFF_SMALL_ASM() (v->counter)
+> > > +               : "r" (i));
+> > > +       }
+> > > +
+> > > +       return result;
+> > > +}
+> > > +
+> > > +#define arch_atomic64_cmpxchg(v, o, n) \
+> > > +       ((__typeof__((v)->counter))arch_cmpxchg(&((v)->counter), (o), (n)))
+> > > +#define arch_atomic64_xchg(v, new) (arch_xchg(&((v)->counter), (new)))
+> > > +
+> > > +/*
+> > > + * arch_atomic64_dec_if_positive - decrement by 1 if old value positive
+> > > + * @v: pointer of type atomic64_t
+> > > + */
+> > > +#define arch_atomic64_dec_if_positive(v)       arch_atomic64_sub_if_positive(1, v)
+> > > +
+> > > +#endif /* CONFIG_64BIT */
+> > > +
+> > > +#endif /* _ASM_ATOMIC_H */
+> > > diff --git a/arch/loongarch/include/asm/barrier.h b/arch/loongarch/include/asm/barrier.h
+> > > new file mode 100644
+> > > index 000000000000..e57571bcaf4f
+> > > --- /dev/null
+> > > +++ b/arch/loongarch/include/asm/barrier.h
+> > > @@ -0,0 +1,51 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > > + */
+> > > +#ifndef __ASM_BARRIER_H
+> > > +#define __ASM_BARRIER_H
+> > > +
+> > > +#define __sync()       __asm__ __volatile__("dbar 0" : : : "memory")
+> > > +
+> > > +#define fast_wmb()     __sync()
+> > > +#define fast_rmb()     __sync()
+> > > +#define fast_mb()      __sync()
+> > > +#define fast_iob()     __sync()
+> > > +#define wbflush()      __sync()
+> > > +
+> > > +#define wmb()          fast_wmb()
+> > > +#define rmb()          fast_rmb()
+> > > +#define mb()           fast_mb()
+> > > +#define iob()          fast_iob()
+> > > +
+> > > +/**
+> > > + * array_index_mask_nospec() - generate a ~0 mask when index < size, 0 otherwise
+> > > + * @index: array element index
+> > > + * @size: number of elements in array
+> > > + *
+> > > + * Returns:
+> > > + *     0 - (@index < @size)
+> > > + */
+> > > +#define array_index_mask_nospec array_index_mask_nospec
+> > > +static inline unsigned long array_index_mask_nospec(unsigned long index,
+> > > +                                                   unsigned long size)
+> > > +{
+> > > +       unsigned long mask;
+> > > +
+> > > +       __asm__ __volatile__(
+> > > +               "sltu   %0, %1, %2\n\t"
+> > > +#if (__SIZEOF_LONG__ == 4)
+> > > +               "sub.w  %0, $r0, %0\n\t"
+> > > +#elif (__SIZEOF_LONG__ == 8)
+> > > +               "sub.d  %0, $r0, %0\n\t"
+> > > +#endif
+> > > +               : "=r" (mask)
+> > > +               : "r" (index), "r" (size)
+> > > +               :);
+> > > +
+> > > +       return mask;
+> > > +}
+> > > +
+> > > +#include <asm-generic/barrier.h>
+> > > +
+> > > +#endif /* __ASM_BARRIER_H */
+> > > diff --git a/arch/loongarch/include/asm/bitops.h b/arch/loongarch/include/asm/bitops.h
+> > > new file mode 100644
+> > > index 000000000000..69e00f8d8034
+> > > --- /dev/null
+> > > +++ b/arch/loongarch/include/asm/bitops.h
+> > > @@ -0,0 +1,33 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > > + */
+> > > +#ifndef _ASM_BITOPS_H
+> > > +#define _ASM_BITOPS_H
+> > > +
+> > > +#include <linux/compiler.h>
+> > > +
+> > > +#ifndef _LINUX_BITOPS_H
+> > > +#error only <linux/bitops.h> can be included directly
+> > > +#endif
+> > > +
+> > > +#include <asm/barrier.h>
+> > > +
+> > > +#include <asm-generic/bitops/builtin-ffs.h>
+> > > +#include <asm-generic/bitops/builtin-fls.h>
+> > > +#include <asm-generic/bitops/builtin-__ffs.h>
+> > > +#include <asm-generic/bitops/builtin-__fls.h>
+> > > +
+> > > +#include <asm-generic/bitops/ffz.h>
+> > > +#include <asm-generic/bitops/fls64.h>
+> > > +
+> > > +#include <asm-generic/bitops/sched.h>
+> > > +#include <asm-generic/bitops/hweight.h>
+> > > +
+> > > +#include <asm-generic/bitops/atomic.h>
+> > > +#include <asm-generic/bitops/non-atomic.h>
+> > > +#include <asm-generic/bitops/lock.h>
+> > > +#include <asm-generic/bitops/le.h>
+> > > +#include <asm-generic/bitops/ext2-atomic.h>
+> > > +
+> > > +#endif /* _ASM_BITOPS_H */
+> > > diff --git a/arch/loongarch/include/asm/bitrev.h b/arch/loongarch/include/asm/bitrev.h
+> > > new file mode 100644
+> > > index 000000000000..46f275b9cdf7
+> > > --- /dev/null
+> > > +++ b/arch/loongarch/include/asm/bitrev.h
+> > > @@ -0,0 +1,34 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > > + */
+> > > +#ifndef __LOONGARCH_ASM_BITREV_H__
+> > > +#define __LOONGARCH_ASM_BITREV_H__
+> > > +
+> > > +#include <linux/swab.h>
+> > > +
+> > > +static __always_inline __attribute_const__ u32 __arch_bitrev32(u32 x)
+> > > +{
+> > > +       u32 ret;
+> > > +
+> > > +       asm("bitrev.4b  %0, %1" : "=r"(ret) : "r"(__swab32(x)));
+> > > +       return ret;
+> > > +}
+> > > +
+> > > +static __always_inline __attribute_const__ u16 __arch_bitrev16(u16 x)
+> > > +{
+> > > +       u16 ret;
+> > > +
+> > > +       asm("bitrev.4b  %0, %1" : "=r"(ret) : "r"(__swab16(x)));
+> > > +       return ret;
+> > > +}
+> > > +
+> > > +static __always_inline __attribute_const__ u8 __arch_bitrev8(u8 x)
+> > > +{
+> > > +       u8 ret;
+> > > +
+> > > +       asm("bitrev.4b  %0, %1" : "=r"(ret) : "r"(x));
+> > > +       return ret;
+> > > +}
+> > > +
+> > > +#endif /* __LOONGARCH_ASM_BITREV_H__ */
+> > > diff --git a/arch/loongarch/include/asm/cmpxchg.h b/arch/loongarch/include/asm/cmpxchg.h
+> > > new file mode 100644
+> > > index 000000000000..699925b8ff27
+> > > --- /dev/null
+> > > +++ b/arch/loongarch/include/asm/cmpxchg.h
+> > > @@ -0,0 +1,121 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > > + */
+> > > +#ifndef __ASM_CMPXCHG_H
+> > > +#define __ASM_CMPXCHG_H
+> > > +
+> > > +#include <linux/build_bug.h>
+> > > +
+> > > +#define __xchg_asm(amswap_db, m, val)          \
+> > > +({                                             \
+> > > +               __typeof(val) __ret;            \
+> > > +                                               \
+> > > +               __asm__ __volatile__ (          \
+> > > +               " "amswap_db" %1, %z2, %0 \n"   \
+> > > +               : "+ZB" (*m), "=&r" (__ret)     \
+> > > +               : "Jr" (val)                    \
+> > > +               : "memory");                    \
+> > > +                                               \
+> > > +               __ret;                          \
+> > > +})
+> > > +
+> > > +static inline unsigned long __xchg(volatile void *ptr, unsigned long x,
+> > relaxed ?
+> >
+> > > +                                  int size)
+> > > +{
+> > > +       switch (size) {
+> > > +       case 4:
+> > > +               return __xchg_asm("amswap_db.w", (volatile u32 *)ptr, (u32)x);
+> > Your amswap_db don't have any implicit acquire/release, right?
+> amswap don't have implicit acquire/release, but amswap_db has.
+>
+> Huacai
+> >
+> > > +
+> > > +       case 8:
+> > > +               return __xchg_asm("amswap_db.d", (volatile u64 *)ptr, (u64)x);
+> > > +
+> > > +       default:
+> > > +               BUILD_BUG();
+> > > +       }
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +#define arch_xchg(ptr, x)                                              \
+> > > +({                                                                     \
+> > > +       __typeof__(*(ptr)) __res;                                       \
+> > > +                                                                       \
+> > > +       __res = (__typeof__(*(ptr)))                                    \
+> > > +               __xchg((ptr), (unsigned long)(x), sizeof(*(ptr)));      \
+> > > +                                                                       \
+> > > +       __res;                                                          \
+> > > +})
+> > > +
+> > > +#define __cmpxchg_asm(ld, st, m, old, new)                             \
+> > > +({                                                                     \
+> > > +       __typeof(old) __ret;                                            \
+> > > +                                                                       \
+> > > +       __asm__ __volatile__(                                           \
+> > > +       "1:     " ld "  %0, %2          # __cmpxchg_asm \n"             \
+> > > +       "       bne     %0, %z3, 2f                     \n"             \
+> > > +       "       or      $t0, %z4, $zero                 \n"             \
+> > > +       "       " st "  $t0, %1                         \n"             \
+> > > +       "       beq     $zero, $t0, 1b                  \n"             \
+> > > +       "2:                                             \n"             \
+> > > +       : "=&r" (__ret), "=ZB"(*m)                                      \
+> > > +       : "ZB"(*m), "Jr" (old), "Jr" (new)                              \
+> > > +       : "t0", "memory");                                              \
+> > > +                                                                       \
+> > > +       __ret;                                                          \
+> > > +})
+> > > +
+> > > +static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
+> > > +                                     unsigned long new, unsigned int size)
+> > > +{
+> > > +       switch (size) {
+> > > +       case 4:
+> > > +               return __cmpxchg_asm("ll.w", "sc.w", (volatile u32 *)ptr,
+> > > +                                    (u32)old, new);
+> > > +
+> > > +       case 8:
+> > > +               return __cmpxchg_asm("ll.d", "sc.d", (volatile u64 *)ptr,
+> > > +                                    (u64)old, new);
+> > > +
+> > > +       default:
+> > > +               BUILD_BUG();
+> > > +       }
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +#define arch_cmpxchg_local(ptr, old, new)                              \
+> > > +       ((__typeof__(*(ptr)))                                           \
+> > > +               __cmpxchg((ptr),                                        \
+> > > +                         (unsigned long)(__typeof__(*(ptr)))(old),     \
+> > > +                         (unsigned long)(__typeof__(*(ptr)))(new),     \
+> > > +                         sizeof(*(ptr))))
+> > > +
+> > > +#define arch_cmpxchg(ptr, old, new)                                    \
+> > Ditto, it's a relaxed implementation, right?
+> > > +({                                                                     \
+> > > +       __typeof__(*(ptr)) __res;                                       \
+> > > +                                                                       \
+> > > +       __res = arch_cmpxchg_local((ptr), (old), (new));                \
+> > > +                                                                       \
+> > > +       __res;                                                          \
+> > > +})
+> > > +
+> > > +#ifdef CONFIG_64BIT
+> > > +#define arch_cmpxchg64_local(ptr, o, n)                                        \
+> > > +  ({                                                                   \
+> > > +       BUILD_BUG_ON(sizeof(*(ptr)) != 8);                              \
+> > > +       arch_cmpxchg_local((ptr), (o), (n));                            \
+> > > +  })
+> > > +
+> > > +#define arch_cmpxchg64(ptr, o, n)                                      \
+> > > +  ({                                                                   \
+> > > +       BUILD_BUG_ON(sizeof(*(ptr)) != 8);                              \
+> > > +       arch_cmpxchg((ptr), (o), (n));                                  \
+> > > +  })
+> > > +#else
+> > > +#include <asm-generic/cmpxchg-local.h>
+> > > +#define arch_cmpxchg64_local(ptr, o, n) __generic_cmpxchg64_local((ptr), (o), (n))
+> > > +#define arch_cmpxchg64(ptr, o, n) arch_cmpxchg64_local((ptr), (o), (n))
+> > > +#endif
+> > > +
+> > > +#endif /* __ASM_CMPXCHG_H */
+> > > diff --git a/arch/loongarch/include/asm/local.h b/arch/loongarch/include/asm/local.h
+> > > new file mode 100644
+> > > index 000000000000..2052a2267337
+> > > --- /dev/null
+> > > +++ b/arch/loongarch/include/asm/local.h
+> > > @@ -0,0 +1,138 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > > + */
+> > > +#ifndef _ARCH_LOONGARCH_LOCAL_H
+> > > +#define _ARCH_LOONGARCH_LOCAL_H
+> > > +
+> > > +#include <linux/percpu.h>
+> > > +#include <linux/bitops.h>
+> > > +#include <linux/atomic.h>
+> > > +#include <asm/cmpxchg.h>
+> > > +#include <asm/compiler.h>
+> > > +
+> > > +typedef struct {
+> > > +       atomic_long_t a;
+> > > +} local_t;
+> > > +
+> > > +#define LOCAL_INIT(i)  { ATOMIC_LONG_INIT(i) }
+> > > +
+> > > +#define local_read(l)  atomic_long_read(&(l)->a)
+> > > +#define local_set(l, i) atomic_long_set(&(l)->a, (i))
+> > > +
+> > > +#define local_add(i, l) atomic_long_add((i), (&(l)->a))
+> > > +#define local_sub(i, l) atomic_long_sub((i), (&(l)->a))
+> > > +#define local_inc(l)   atomic_long_inc(&(l)->a)
+> > > +#define local_dec(l)   atomic_long_dec(&(l)->a)
+> > > +
+> > > +/*
+> > > + * Same as above, but return the result value
+> > > + */
+> > > +static inline long local_add_return(long i, local_t *l)
+> > > +{
+> > > +       unsigned long result;
+> > > +
+> > > +       __asm__ __volatile__(
+> > > +       "   " __AMADD " %1, %2, %0      \n"
+> > > +       : "+ZB" (l->a.counter), "=&r" (result)
+> > > +       : "r" (i)
+> > > +       : "memory");
+> > > +       result = result + i;
+> > > +
+> > > +       return result;
+> > > +}
+> > > +
+> > > +static inline long local_sub_return(long i, local_t *l)
+> > > +{
+> > > +       unsigned long result;
+> > > +
+> > > +       __asm__ __volatile__(
+> > > +       "   " __AMADD "%1, %2, %0       \n"
+> > > +       : "+ZB" (l->a.counter), "=&r" (result)
+> > > +       : "r" (-i)
+> > > +       : "memory");
+> > > +
+> > > +       result = result - i;
+> > > +
+> > > +       return result;
+> > > +}
+> > > +
+> > > +#define local_cmpxchg(l, o, n) \
+> > > +       ((long)cmpxchg_local(&((l)->a.counter), (o), (n)))
+> > > +#define local_xchg(l, n) (atomic_long_xchg((&(l)->a), (n)))
+> > > +
+> > > +/**
+> > > + * local_add_unless - add unless the number is a given value
+> > > + * @l: pointer of type local_t
+> > > + * @a: the amount to add to l...
+> > > + * @u: ...unless l is equal to u.
+> > > + *
+> > > + * Atomically adds @a to @l, so long as it was not @u.
+> > > + * Returns non-zero if @l was not @u, and zero otherwise.
+> > > + */
+> > > +#define local_add_unless(l, a, u)                              \
+> > > +({                                                             \
+> > > +       long c, old;                                            \
+> > > +       c = local_read(l);                                      \
+> > > +       while (c != (u) && (old = local_cmpxchg((l), c, c + (a))) != c) \
+> > > +               c = old;                                        \
+> > > +       c != (u);                                               \
+> > > +})
+> > > +#define local_inc_not_zero(l) local_add_unless((l), 1, 0)
+> > > +
+> > > +#define local_dec_return(l) local_sub_return(1, (l))
+> > > +#define local_inc_return(l) local_add_return(1, (l))
+> > > +
+> > > +/*
+> > > + * local_sub_and_test - subtract value from variable and test result
+> > > + * @i: integer value to subtract
+> > > + * @l: pointer of type local_t
+> > > + *
+> > > + * Atomically subtracts @i from @l and returns
+> > > + * true if the result is zero, or false for all
+> > > + * other cases.
+> > > + */
+> > > +#define local_sub_and_test(i, l) (local_sub_return((i), (l)) == 0)
+> > > +
+> > > +/*
+> > > + * local_inc_and_test - increment and test
+> > > + * @l: pointer of type local_t
+> > > + *
+> > > + * Atomically increments @l by 1
+> > > + * and returns true if the result is zero, or false for all
+> > > + * other cases.
+> > > + */
+> > > +#define local_inc_and_test(l) (local_inc_return(l) == 0)
+> > > +
+> > > +/*
+> > > + * local_dec_and_test - decrement by 1 and test
+> > > + * @l: pointer of type local_t
+> > > + *
+> > > + * Atomically decrements @l by 1 and
+> > > + * returns true if the result is 0, or false for all other
+> > > + * cases.
+> > > + */
+> > > +#define local_dec_and_test(l) (local_sub_return(1, (l)) == 0)
+> > > +
+> > > +/*
+> > > + * local_add_negative - add and test if negative
+> > > + * @l: pointer of type local_t
+> > > + * @i: integer value to add
+> > > + *
+> > > + * Atomically adds @i to @l and returns true
+> > > + * if the result is negative, or false when
+> > > + * result is greater than or equal to zero.
+> > > + */
+> > > +#define local_add_negative(i, l) (local_add_return(i, (l)) < 0)
+> > > +
+> > > +/* Use these for per-cpu local_t variables: on some archs they are
+> > > + * much more efficient than these naive implementations.  Note they take
+> > > + * a variable, not an address.
+> > > + */
+> > > +
+> > > +#define __local_inc(l)         ((l)->a.counter++)
+> > > +#define __local_dec(l)         ((l)->a.counter++)
+> > > +#define __local_add(i, l)      ((l)->a.counter += (i))
+> > > +#define __local_sub(i, l)      ((l)->a.counter -= (i))
+> > > +
+> > > +#endif /* _ARCH_LOONGARCH_LOCAL_H */
+> > > diff --git a/arch/loongarch/include/asm/percpu.h b/arch/loongarch/include/asm/percpu.h
+> > > new file mode 100644
+> > > index 000000000000..7d5b22ebd834
+> > > --- /dev/null
+> > > +++ b/arch/loongarch/include/asm/percpu.h
+> > > @@ -0,0 +1,20 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+> > > + */
+> > > +#ifndef __ASM_PERCPU_H
+> > > +#define __ASM_PERCPU_H
+> > > +
+> > > +/* Use r21 for fast access */
+> > > +register unsigned long __my_cpu_offset __asm__("$r21");
+> > > +
+> > > +static inline void set_my_cpu_offset(unsigned long off)
+> > > +{
+> > > +       __my_cpu_offset = off;
+> > > +       csr_writeq(off, PERCPU_BASE_KS);
+> > > +}
+> > > +#define __my_cpu_offset __my_cpu_offset
+> > > +
+> > > +#include <asm-generic/percpu.h>
+> > > +
+> > > +#endif /* __ASM_PERCPU_H */
+> > > --
+> > > 2.27.0
+> > >
+> >
+> >
+> > --
+> > Best Regards
+> >  Guo Ren
+> >
+> > ML: https://lore.kernel.org/linux-csky/
 
 
-So this is a strange API and, IMO, a layering violation.  I want to make 
-sure that we're all actually on board with making this a permanent part 
-of the Linux API.  Specifically, we end up with a multiplexing situation 
-as you have described. For a given GPA, there are *two* possible host 
-backings: an fd-backed one (from the fd, which is private for now might 
-might end up potentially shared depending on future extensions) and a 
-VMA-backed one.  The selection of which one backs the address is made 
-internally by whatever backs the fd.
 
-This, IMO, a clear layering violation.  Normally, an fd has an 
-associated address space, and pages in that address space can have 
-contents, can be holes that appear to contain all zeros, or could have 
-holes that are inaccessible.  If you try to access a hole, you get 
-whatever is in the hole.
+-- 
+Best Regards
+ Guo Ren
 
-But now, with this patchset, the fd is more of an overlay and you get 
-*something else* if you try to access through the hole.
-
-This results in operations on the fd bubbling up to the KVM mapping in 
-what is, IMO, a strange way.  If the user punches a hole, KVM has to 
-modify its mappings such that the GPA goes to whatever VMA may be there. 
-  (And update the RMP, the hypervisor's tables, or whatever else might 
-actually control privateness.)  Conversely, if the user does fallocate 
-to fill a hole, the guest mapping *to an unrelated page* has to be 
-zapped so that the fd's page shows up.  And the RMP needs updating, etc.
-
-I am lukewarm on this for a few reasons.
-
-1. This is weird.  AFAIK nothing else works like this.  Obviously this 
-is subjecting, but "weird" and "layering violation" sometimes translate 
-to "problematic locking".
-
-2. fd-backed private memory can't have normal holes.  If I make a memfd, 
-punch a hole in it, and mmap(MAP_SHARED) it, I end up with a page that 
-reads as zero.  If I write to it, the page gets allocated.  But with 
-this new mechanism, if I punch a hole and put it in a memslot, reads and 
-writes go somewhere else.  So what if I actually wanted lazily allocated 
-private zeros?
-
-2b. For a hypothetical future extension in which an fd can also have 
-shared pages (for conversion, for example, or simply because the fd 
-backing might actually be more efficient than indirecting through VMAs 
-and therefore get used for shared memory or entirely-non-confidential 
-VMs), lazy fd-backed zeros sound genuinely useful.
-
-3. TDX hardware capability is not fully exposed.  TDX can have a private 
-page and a shared page at GPAs that differ only by the private bit. 
-Sure, no one plans to use this today, but baking this into the user ABI 
-throws away half the potential address space.
-
-3b. Any software solution that works like TDX (which IMO seems like an 
-eminently reasonable design to me) has the same issue.
-
-
-The alternative would be to have some kind of separate table or bitmap 
-(part of the memslot?) that tells KVM whether a GPA should map to the fd.
-
-What do you all think?
+ML: https://lore.kernel.org/linux-csky/
