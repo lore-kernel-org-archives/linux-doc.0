@@ -2,177 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DCD5C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 21:38:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6837CC4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 23:30:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353704AbiETVi4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 May 2022 17:38:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54530 "EHLO
+        id S1354082AbiETXaX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 May 2022 19:30:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232937AbiETViz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 17:38:55 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 281B5179C3D
-        for <linux-doc@vger.kernel.org>; Fri, 20 May 2022 14:38:54 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id q76so8756395pgq.10
-        for <linux-doc@vger.kernel.org>; Fri, 20 May 2022 14:38:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JY2yFL0uwa0h1jwIIpYY9zlYj6tua2HV5MA+NWkzrlM=;
-        b=VKf459qgtfIN2nwURKwdzW9/x2MsK2XhWFkIQpwhoxQ8B5sQdZZgm7CeI51WyA1W8i
-         bjiZRrIlXQ35qjT+7Fa/pZWRw9ZTLZ6PtWfv9obMY1QnNlnruEZ141wZD3m34+6puxNG
-         uvZJ/F6VbPYrW+4mXStLdi94M3px/tar/ZhFE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JY2yFL0uwa0h1jwIIpYY9zlYj6tua2HV5MA+NWkzrlM=;
-        b=reKLZt3O6+uwY2niS6mc9K/IZMiXdZV+OZpqL/LXdDs8YEPZQEd/fcfrG1QYB1OOru
-         k5trUvjSfxoib1OWVTcOZpk4KE+LUYhHvMrmE5xWl7T6Pg4A7VETzuiJpe+D6J8BLwJz
-         MxsVrunRqknR+DLxhRnbyn8Wvn46NHBJi7heG6zw/u00UmA0rCsAxrb0itQRvMtuYW99
-         hagrh3dTLhjEI8SN/QZV1hJUMaJw+gGf8J/RkmLt83/+l8iH+lzXgQ4lVITUsbV44RlA
-         K557R4YzwL7CgE/6KDGFk2yq16FLD2ost6bejsqgZlo7zjcYswUcgqqHslxKeGaznBio
-         WmuA==
-X-Gm-Message-State: AOAM530YRCI7yQt60cJxG+yFyRgMigLzF9KVKLhARaWoC/CNEKN7nNoY
-        YgUIS/rNIU059of+aH179o0ZxQ==
-X-Google-Smtp-Source: ABdhPJyQ7sTZ4EOkBnkyPfFAtpjkbiEhqkikYoQc6iCiuVDywMgjCXw9CxDj9gsimAlD7Cxsu5AJnA==
-X-Received: by 2002:a63:2b11:0:b0:3f6:5f7f:9e67 with SMTP id r17-20020a632b11000000b003f65f7f9e67mr6384417pgr.492.1653082733609;
-        Fri, 20 May 2022 14:38:53 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com ([2620:15c:202:201:b090:3896:c312:c4df])
-        by smtp.gmail.com with ESMTPSA id u13-20020a17090a450d00b001df955c28f6sm2070864pjg.37.2022.05.20.14.38.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 May 2022 14:38:52 -0700 (PDT)
-From:   Douglas Anderson <dianders@chromium.org>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Matthias Kaehlcke <mka@chromium.org>,
-        Alexandru M Stan <amstan@chromium.org>,
-        patches@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        Julius Werner <jwerner@chromium.org>,
-        Andy Gross <agross@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Rajendra Nayak <quic_rjendra@quicinc.com>,
-        "Joseph S . Barrera III" <joebar@chromium.org>,
-        devicetree@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4 1/5] dt-bindings: Document how Chromebooks with depthcharge boot
-Date:   Fri, 20 May 2022 14:38:41 -0700
-Message-Id: <20220520143502.v4.1.I71e42c6174f1cec17da3024c9f73ba373263b9b6@changeid>
-X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
+        with ESMTP id S229733AbiETXaU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 19:30:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC0251A6ADF;
+        Fri, 20 May 2022 16:30:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6C83461E4A;
+        Fri, 20 May 2022 23:30:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97C0FC385A9;
+        Fri, 20 May 2022 23:30:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653089417;
+        bh=P2DRkR32s1NsMQQYdV69P9AP9FWKxnSxvUzmxP2UTfM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LFVuDPyLOIgq5/gp0vFI0m4iG1e6x7YD5eJ2kPMDn/VIcatZdMgpdluKZy2mBMZtX
+         knxjLbbEso3dCFrNebOOFKdAI8LwT4dJgGhOJm0J9UDgxgEz0TEd6Jbl2o+xbR3CUS
+         25aFWx7YU6EJrRjgiTdkw6hIHgKn4pMbqEhrnhPT3lr1XZem18X+i9CJYpSUqAo2MR
+         lSj3XRTDdBM2zh5y66b3X4FnmTZdSgYfXMYP341H0lCORsBOqduq79NwUbybfr11V8
+         8W6wKgpEo+Jk4S0RbRD+kqLMWsMdtEdrl2+TNQ53v8kkyvD4do9AgaQYwRbchQS+wS
+         p3UuzRLAmIJEw==
+Date:   Fri, 20 May 2022 16:30:14 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rob Herring <robh@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Will Deacon <will@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
+        iommu@lists.linux-foundation.org, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org
+Subject: Re: [PATCH v1] driver core: Extend deferred probe timeout on driver
+ registration
+Message-ID: <YogkhvFGVcjNQ21Z@dev-arch.thelio-3990X>
+References: <20220429220933.1350374-1-saravanak@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220429220933.1350374-1-saravanak@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This documents how many Chromebooks pick the device tree that will be
-passed to the OS and can help understand the revisions / SKUs listed
-as the top-level "compatible" in many Chromebooks.
+Hi Saravana,
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-In my opinion this could land through the Qualcomm dts64 tree, mostly
-because I want to land bindings patches in that tree that refer to
-it. Since it's a new file it seems like there ought to be few
-objections?
+On Fri, Apr 29, 2022 at 03:09:32PM -0700, Saravana Kannan wrote:
+> The deferred probe timer that's used for this currently starts at
+> late_initcall and runs for driver_deferred_probe_timeout seconds. The
+> assumption being that all available drivers would be loaded and
+> registered before the timer expires. This means, the
+> driver_deferred_probe_timeout has to be pretty large for it to cover the
+> worst case. But if we set the default value for it to cover the worst
+> case, it would significantly slow down the average case. For this
+> reason, the default value is set to 0.
+> 
+> Also, with CONFIG_MODULES=y and the current default values of
+> driver_deferred_probe_timeout=0 and fw_devlink=on, devices with missing
+> drivers will cause their consumer devices to always defer their probes.
+> This is because device links created by fw_devlink defer the probe even
+> before the consumer driver's probe() is called.
+> 
+> Instead of a fixed timeout, if we extend an unexpired deferred probe
+> timer on every successful driver registration, with the expectation more
+> modules would be loaded in the near future, then the default value of
+> driver_deferred_probe_timeout only needs to be as long as the worst case
+> time difference between two consecutive module loads.
+> 
+> So let's implement that and set the default value to 10 seconds when
+> CONFIG_MODULES=y.
+> 
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Ulf Hansson <ulf.hansson@linaro.org>
+> Cc: Kevin Hilman <khilman@kernel.org>
+> Cc: Thierry Reding <treding@nvidia.com>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Cc: linux-gpio@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: iommu@lists.linux-foundation.org
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
 
-Changes in v4:
-- Add reference to depthcharge and FIT Image.
-- A few rst syntax fixups found by using a different rst preview.
-- Updated wording as per Stephen.
+I bisected a boot hang with ARCH=s390 defconfig in QEMU down to this
+change as commit 2b28a1a84a0e ("driver core: Extend deferred probe
+timeout on driver registration") in next-20220520 (bisect log below).
 
-Changes in v3:
-- Fix up typos as per Matthias.
-- Move under Documentation/arm/google/ as per Krzysztof.
-- Add missing newline at end of file.
+$ make -skj"$(nproc)" ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- defconfig bzImage
 
-Changes in v2:
-- ("Document how Chromebooks with depthcharge boot") new for v2.
+$ timeout --foreground 15m stdbuf -oL -eL \
+qemu-system-s390x \
+-initrd ... \
+-M s390-ccw-virtio \
+-display none \
+-kernel arch/s390/boot/bzImage \
+-m 512m \
+-nodefaults \
+-serial mon:stdio
+...
+[    2.077303] In-situ OAM (IOAM) with IPv6
+[    2.077639] NET: Registered PF_PACKET protocol family
+[    2.078063] bridge: filtering via arp/ip/ip6tables is no longer available by default. Update your scripts to load br_netfilter if you need this.
+[    2.078795] Key type dns_resolver registered
+[    2.079317] cio: Channel measurement facility initialized using format extended (mode autodetected)
+[    2.081494] Discipline DIAG cannot be used without z/VM
+[  260.626363] random: crng init done
+qemu-system-s390x: terminating on signal 15 from pid 3815762 (timeout)
 
- .../arm/google/chromebook-boot-flow.rst       | 69 +++++++++++++++++++
- 1 file changed, 69 insertions(+)
- create mode 100644 Documentation/arm/google/chromebook-boot-flow.rst
+We have a simple rootfs available if necessary:
 
-diff --git a/Documentation/arm/google/chromebook-boot-flow.rst b/Documentation/arm/google/chromebook-boot-flow.rst
-new file mode 100644
-index 000000000000..36da77684bba
---- /dev/null
-+++ b/Documentation/arm/google/chromebook-boot-flow.rst
-@@ -0,0 +1,69 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================================
-+Chromebook Boot Flow
-+======================================
-+
-+Most recent Chromebooks that use device tree are using the opensource
-+depthcharge_ bootloader. Depthcharge_ expects the OS to be packaged as a `FIT
-+Image`_ which contains an OS image as well as a collection of device trees. It
-+is up to depthcharge_ to pick the right device tree from the `FIT Image`_ and
-+provide it to the OS.
-+
-+The scheme that depthcharge_ uses to pick the device tree takes into account
-+three variables:
-+
-+- Board name, specified at depthcharge_ compile time. This is $(BOARD) below.
-+- Board revision number, determined at runtime (perhaps by reading GPIO
-+  strappings, perhaps via some other method). This is $(REV) below.
-+- SKU number, read from GPIO strappings at boot time. This is $(SKU) below.
-+
-+For recent Chromebooks, depthcharge_ creates a match list that looks like this:
-+
-+- google,$(BOARD)-rev$(REV)-sku$(SKU)
-+- google,$(BOARD)-rev$(REV)
-+- google,$(BOARD)-sku$(SKU)
-+- google,$(BOARD)
-+
-+Note that some older Chromebooks use a slightly different list that may
-+not include SKU matching or may prioritize SKU/rev differently.
-+
-+Note that for some boards there may be extra board-specific logic to inject
-+extra compatibles into the list, but this is uncommon.
-+
-+Depthcharge_ will look through all device trees in the `FIT Image`_ trying to
-+find one that matches the most specific compatible. It will then look
-+through all device trees in the `FIT Image`_ trying to find the one that
-+matches the *second most* specific compatible, etc.
-+
-+When searching for a device tree, depthcharge_ doesn't care where the
-+compatible string falls within a device tree's root compatible string array.
-+As an example, if we're on board "lazor", rev 4, SKU 0 and we have two device
-+trees:
-+
-+- "google,lazor-rev5-sku0", "google,lazor-rev4-sku0", "qcom,sc7180"
-+- "google,lazor", "qcom,sc7180"
-+
-+Then depthcharge_ will pick the first device tree even though
-+"google,lazor-rev4-sku0" was the second compatible listed in that device tree.
-+This is because it is a more specific compatible than "google,lazor".
-+
-+It should be noted that depthcharge_ does not have any smarts to try to
-+match board or SKU revisions that are "close by". That is to say that
-+if depthcharge_ knows it's on "rev4" of a board but there is no "rev4"
-+device tree then depthcharge_ *won't* look for a "rev3" device tree.
-+
-+In general when any significant changes are made to a board the board
-+revision number is increased even if none of those changes need to
-+be reflected in the device tree. Thus it's fairly common to see device
-+trees with multiple revisions.
-+
-+It should be noted that, taking into account the above system that
-+depthcharge_ has, the most flexibility is achieved if the device tree
-+supporting the newest revision(s) of a board omits the "-rev{REV}"
-+compatible strings. When this is done then if you get a new board
-+revision and try to run old software on it then we'll at pick the
-+newest device tree we know about.
-+
-+.. _depthcharge: https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/depthcharge/
-+.. _`FIT Image`: https://doc.coreboot.org/lib/payloads/fit.html
--- 
-2.36.1.124.g0e6072fb45-goog
+https://github.com/ClangBuiltLinux/boot-utils/raw/bc0d17785eb67f1edd0ee0a134970a807895f741/images/s390/rootfs.cpio.zst
 
+If there is any other information I can provide, please let me know!
+
+Cheers,
+Nathan
+
+# bad: [18ecd30af1a8402c162cca1bd58771c0e5be7815] Add linux-next specific files for 20220520
+# good: [b015dcd62b86d298829990f8261d5d154b8d7af5] Merge tag 'for-5.18/parisc-4' of git://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux
+git bisect start '18ecd30af1a8402c162cca1bd58771c0e5be7815' 'b015dcd62b86d298829990f8261d5d154b8d7af5'
+# good: [f9b63740b666dd9887eb0282d21b5f65bb0cadd0] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git
+git bisect good f9b63740b666dd9887eb0282d21b5f65bb0cadd0
+# good: [1f5eb3e76303572f0318e8c50da51c516580aa03] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+git bisect good 1f5eb3e76303572f0318e8c50da51c516580aa03
+# bad: [4c1d9cc0363691893ef94fa0d798faca013e27d3] Merge branch 'staging-next' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
+git bisect bad 4c1d9cc0363691893ef94fa0d798faca013e27d3
+# bad: [dcb68304485c0ba5f84f1a54687c751b68263d93] Merge branch 'usb-next' of git://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git
+git bisect bad dcb68304485c0ba5f84f1a54687c751b68263d93
+# good: [61271996dc46aecb40fd26f89a4ec0a6bd8f3a8f] Merge branch 'next' of git://git.kernel.org/pub/scm/virt/kvm/kvm.git
+git bisect good 61271996dc46aecb40fd26f89a4ec0a6bd8f3a8f
+# good: [d4db45a71f56032b552e161968bb0e5fdd2767f8] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git
+git bisect good d4db45a71f56032b552e161968bb0e5fdd2767f8
+# good: [d090c7a2ab84663185e4abda21d7d83880937c8a] USB / dwc3: Fix a checkpatch warning in core.c
+git bisect good d090c7a2ab84663185e4abda21d7d83880937c8a
+# bad: [b232b02bf3c205b13a26dcec08e53baddd8e59ed] driver core: fix deadlock in __device_attach
+git bisect bad b232b02bf3c205b13a26dcec08e53baddd8e59ed
+# good: [4c32174a24759d5ac6dc42b508fcec2afb8b9602] Documentation: dd: Use ReST lists for return values of driver_deferred_probe_check_state()
+git bisect good 4c32174a24759d5ac6dc42b508fcec2afb8b9602
+# good: [38ea74eb8fc1b82b39e13a6527095a0036539117] rpmsg: use local 'dev' variable
+git bisect good 38ea74eb8fc1b82b39e13a6527095a0036539117
+# good: [1f7ff11ca68f464b6a9a71b8fbe9e5219e7cac57] driver core: location: Add "back" as a possible output for panel
+git bisect good 1f7ff11ca68f464b6a9a71b8fbe9e5219e7cac57
+# good: [6ee60e9c9f2f83ad218159af6a175c57a395ae69] MAINTAINERS: add Russ Weight as a firmware loader maintainer
+git bisect good 6ee60e9c9f2f83ad218159af6a175c57a395ae69
+# bad: [15f214f9bdb7c1f560b4bf863c5a72ff53b442a4] topology: Remove unused cpu_cluster_mask()
+git bisect bad 15f214f9bdb7c1f560b4bf863c5a72ff53b442a4
+# bad: [2b28a1a84a0eb3412bad1a2d5cce2bb4addec626] driver core: Extend deferred probe timeout on driver registration
+git bisect bad 2b28a1a84a0eb3412bad1a2d5cce2bb4addec626
+# first bad commit: [2b28a1a84a0eb3412bad1a2d5cce2bb4addec626] driver core: Extend deferred probe timeout on driver registration
