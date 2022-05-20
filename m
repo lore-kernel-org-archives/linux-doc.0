@@ -2,87 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC1C9C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 10:41:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CB4FC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 11:14:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348231AbiETKk5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 May 2022 06:40:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49122 "EHLO
+        id S1348109AbiETLOk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 May 2022 07:14:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239447AbiETKk4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 06:40:56 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A386DE94;
-        Fri, 20 May 2022 03:40:53 -0700 (PDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4L4NYD43MVz4xXj;
-        Fri, 20 May 2022 20:40:48 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1653043251;
-        bh=kLvXGUJ3/ReQbtc7FZG4S2UHVHzM/605lq9b6IyiY5M=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=pMWZBKi2JiSg+r6at1yci6wwlaKqROcHmumy1qm2oKAprlF7OjcdtRnL4YzJI0ww7
-         sD2U1Ve/WujuCckOohm/ghb7M2rTLRAwbRVbneALWNRVCOFweOj4Zqw+AiW9Qd6YZ5
-         W8BcHWFaEuMsjmgGl/FVfHm//aeurxvN5nPWIZtI1sM70KGr6t0eNoNv7Jklm+Psb0
-         uWvsjppTeHZvH5lbRxbKW7wZyqx2ocpwCpyz87TjsFA6JEPD90EbiYrFICy2ODn2bl
-         Dty+eeRKILrhrPZyMVQ2MjxpU8FQLn9KXVqel0TNRihZ+MlyNDRF0C2Afqo96JN5nC
-         hHtsMOodRK9Mg==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
-        tsbogend@alpha.franken.de, benh@kernel.crashing.org,
-        paulus@samba.org, sburla@marvell.com, vburru@marvell.com,
-        aayarekar@marvell.com, arnd@arndb.de, zhangyue1@kylinos.cn,
-        linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-parisc@vger.kernel.org
-Subject: Re: [PATCH net-next] eth: de4x5: remove support for Generic DECchip
- & DIGITAL EtherWORKS PCI/EISA
-In-Reply-To: <20220519031345.2134401-1-kuba@kernel.org>
-References: <20220519031345.2134401-1-kuba@kernel.org>
-Date:   Fri, 20 May 2022 20:40:48 +1000
-Message-ID: <87o7zsmqq7.fsf@mpe.ellerman.id.au>
+        with ESMTP id S241462AbiETLOi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 07:14:38 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 025709E9C7;
+        Fri, 20 May 2022 04:14:36 -0700 (PDT)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.54])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4L4PDp6dbNzQk8V;
+        Fri, 20 May 2022 19:11:38 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 20 May 2022 19:14:35 +0800
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 20 May 2022 19:14:34 +0800
+Message-ID: <641b4f4f-9786-d11c-e264-daaf0d564b7c@huawei.com>
+Date:   Fri, 20 May 2022 19:14:33 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v2 1/2] Documentation/barriers: Add memory barrier
+ dma_mb()
+Content-Language: en-US
+To:     Marco Elver <elver@google.com>
+CC:     <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>
+References: <20220520031548.175582-1-wangkefeng.wang@huawei.com>
+ <20220520031548.175582-2-wangkefeng.wang@huawei.com>
+ <YodouVpl26890QfU@elver.google.com>
+From:   Kefeng Wang <wangkefeng.wang@huawei.com>
+In-Reply-To: <YodouVpl26890QfU@elver.google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.243]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
-> Looks like almost all changes to this driver had been tree-wide
-> refactoring since git era begun. There is one commit from Al
-> 15 years ago which could potentially be fixing a real bug.
->
-> The driver is using virt_to_bus() and is a real magnet for pointless
-> cleanups. It seems unlikely to have real users. Let's try to shed
-> this maintenance burden.
->
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> CC: corbet@lwn.net
-> CC: tsbogend@alpha.franken.de
-> CC: mpe@ellerman.id.au
-> CC: benh@kernel.crashing.org
-> CC: paulus@samba.org
-> CC: sburla@marvell.com
-> CC: vburru@marvell.com
-> CC: aayarekar@marvell.com
-> CC: arnd@arndb.de
-> CC: zhangyue1@kylinos.cn
-> CC: linux-doc@vger.kernel.org
-> CC: linux-mips@vger.kernel.org
-> CC: linuxppc-dev@lists.ozlabs.org
-> CC: linux-parisc@vger.kernel.org
-> ---
->  .../device_drivers/ethernet/dec/de4x5.rst     |  189 -
->  .../device_drivers/ethernet/index.rst         |    1 -
->  arch/mips/configs/mtx1_defconfig              |    1 -
->  arch/powerpc/configs/chrp32_defconfig         |    1 -
->  arch/powerpc/configs/ppc6xx_defconfig         |    1 -
 
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
+On 2022/5/20 18:08, Marco Elver wrote:
+> On Fri, May 20, 2022 at 11:15AM +0800, Kefeng Wang wrote:
+>> The memory barrier dma_mb() is introduced by commit a76a37777f2c
+>> ("iommu/arm-smmu-v3: Ensure queue is read after updating prod pointer"),
+>> which is used to ensure that prior (both reads and writes) accesses to
+>> memory by a CPU are ordered w.r.t. a subsequent MMIO write.
+>>
+>> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+>> ---
+>>   Documentation/memory-barriers.txt | 5 ++++-
+>>   1 file changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+>> index b12df9137e1c..1eabcc0e4eca 100644
+>> --- a/Documentation/memory-barriers.txt
+>> +++ b/Documentation/memory-barriers.txt
+>> @@ -1894,10 +1894,13 @@ There are some more advanced barrier functions:
+>>   
+>>    (*) dma_wmb();
+>>    (*) dma_rmb();
+>> + (*) dma_mb();
+>>   
+>>        These are for use with consistent memory to guarantee the ordering
+>>        of writes or reads of shared memory accessible to both the CPU and a
+>> -     DMA capable device.
+>> +     DMA capable device, in the case of ensure the prior (both reads and
+>> +     writes) accesses to memory by a CPU are ordered w.r.t. a subsequent
+>> +     MMIO write, dma_mb().
+>>   
+> I think this is out of place; this explanation here is not yet
+> elaborating on either. Elaboration on dma_mb() should go where
+> dma_rmb() and dma_wmb() are explained.
+>
+> Something like this:
+>
+> ------ >8 ------
+>
+> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+> index b12df9137e1c..fb322b6cce70 100644
+> --- a/Documentation/memory-barriers.txt
+> +++ b/Documentation/memory-barriers.txt
+> @@ -1894,6 +1894,7 @@ There are some more advanced barrier functions:
+>   
+>    (*) dma_wmb();
+>    (*) dma_rmb();
+> + (*) dma_mb();
+>   
+>        These are for use with consistent memory to guarantee the ordering
+>        of writes or reads of shared memory accessible to both the CPU and a
+> @@ -1925,11 +1926,11 @@ There are some more advanced barrier functions:
+>        The dma_rmb() allows us guarantee the device has released ownership
+>        before we read the data from the descriptor, and the dma_wmb() allows
+>        us to guarantee the data is written to the descriptor before the device
+> -     can see it now has ownership.  Note that, when using writel(), a prior
+> -     wmb() is not needed to guarantee that the cache coherent memory writes
+> -     have completed before writing to the MMIO region.  The cheaper
+> -     writel_relaxed() does not provide this guarantee and must not be used
+> -     here.
+> +     can see it now has ownership.  The dma_mb() implies both a dma_rmb() and a
+> +     dma_wmb().  Note that, when using writel(), a prior wmb() is not needed to
+> +     guarantee that the cache coherent memory writes have completed before
+> +     writing to the MMIO region.  The cheaper writel_relaxed() does not provide
+> +     this guarantee and must not be used here.
+>   
+>        See the subsection "Kernel I/O barrier effects" for more information on
+>        relaxed I/O accessors and the Documentation/core-api/dma-api.rst file for
+>
+> ------ >8 ------
+Thanks， will use above explanation.
+> Also, now that you're making dma_mb() part of the official API, it might
+> need a generic definition in include/asm-generic/barrier.h, because
+> as-is it's only available in arm64 builds.
 
-cheers
+Ok, it's good to add the dma_mb() and __dma_mb  definition with a 
+separate patch
+
+into include/asm-generic/barrier.h.
+
+>
+> Thoughts?
+>
+> Thanks,
+> -- Marco
+> .
