@@ -2,175 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88E94C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 06:55:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C418DC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 07:20:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238692AbiETGzn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 May 2022 02:55:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51114 "EHLO
+        id S1346297AbiETHUJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 May 2022 03:20:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231716AbiETGzl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 02:55:41 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0655C14E2E8;
-        Thu, 19 May 2022 23:55:40 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id AB3C61FD76;
-        Fri, 20 May 2022 06:55:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1653029738; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=8opWnZNch32Zkmsa9alltAHULO52/yIuQNB9QASw+1M=;
-        b=o/cu7XrPJAid//aZbBVBTVWdH75iFn3NEqZc/9zKzMMh3RDM1WE9+PqMNATFHMMq3KZNZJ
-        nifwzGtrADISAQ1WBbof0sAYaEIELQs9oJxZAHfD7dCqJ9ht8Z2aGvzRKTXBnsXOWmdEZG
-        qa39MjyYsBMu3gqNY+EUDxT2/6chxZY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1653029738;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=8opWnZNch32Zkmsa9alltAHULO52/yIuQNB9QASw+1M=;
-        b=IPRWZBWPWYoVbL2rzbGbyVVQkgYVm67KRcLaAYo0Dix5pL7rU1cYnuNwSQ0gU4Fyet8k1g
-        ks7UikocFhgWzpAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9391A13A5F;
-        Fri, 20 May 2022 06:55:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id ry+mImo7h2KEIgAAMHmgww
-        (envelope-from <mliska@suse.cz>); Fri, 20 May 2022 06:55:38 +0000
-Message-ID: <b95b3128-f010-dcba-1f6a-1a85dd2d20a5@suse.cz>
-Date:   Fri, 20 May 2022 08:55:38 +0200
+        with ESMTP id S1346276AbiETHUI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 03:20:08 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C37E14641F
+        for <linux-doc@vger.kernel.org>; Fri, 20 May 2022 00:20:06 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id ds11so7333922pjb.0
+        for <linux-doc@vger.kernel.org>; Fri, 20 May 2022 00:20:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arista.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hsjxg2lV0kHqZ2OGp1MCfh1/3ZpmNndhrm6POUvbWnI=;
+        b=AKX0ckYf8ZI5edSV7TwmJosTcQGnse4e+Vfl3LK2R7eqMpRtDtl8Na08m5VXAih5aK
+         dseNsN0Djff0CXnEculuh4Eot/g2q6qhnfP31n5M4x3ArLW8/LXF3jeBV35v8NvNigks
+         F5mHYmZwECadQRhawkRNff09rvzeXeyaEQmusx2Jz/ptC9J7Q8Vb/sOzWHyhyBN58jZe
+         N7gK9xtyZwOxUMjjpbng0EQssqvWXGfQ0N7MKFAYyRxDieRtLGxk86LMtFc7izsXbRTw
+         npZn7rovM35L5l0Cncar9XdfVs1KDKBWUKdxkrkie181C43sm500hGDexJt8Y65SJNQk
+         t5GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hsjxg2lV0kHqZ2OGp1MCfh1/3ZpmNndhrm6POUvbWnI=;
+        b=n5wjUOCnKCW+AYpyYdJ1Zz398hsbTugPZtKnzPKegvnQnsp77W0Oup6NMLSEFPlxVY
+         dyUudld22qcniqEdEN/IZFitdYOHj9Z6AZZrWgkHbqus+MWtVpC/0+f2amZzcjkZEaXu
+         RiofqpBIpekU2z5ZE7B2FzE/rd2hSMd1Vhq2sTvfn0+Qub1UKISQM3kia8fLNYGZnIX+
+         +16+hgRA5zy/d1IjPGVH/fMAHQgES6FrBWeXHpgputgnviuBsDtyttqlShDiswm7nMTd
+         pUBu4ih9a6VEsIeNE8eINL9BZ/9mQNJQd0/5SC56roXuERbMKB/punABj2W7Uz1km3/w
+         /T0g==
+X-Gm-Message-State: AOAM533i8I7484ITDr3+gCyeJqCCMaXRVlG998JPNXJtxU3Co4EFC4Fv
+        PXRdTf4KnyjP/ATLGo52vy1uA2t+pd/dSRF21hisOw==
+X-Google-Smtp-Source: ABdhPJy0P1kA+Qi9bbiBnljc+PhkQb8M4k3s68fhoc6cGxqUck1kCUXPWO9AJTe2PlCORCf0F51fQhfrkGhq7qT/CU4=
+X-Received: by 2002:a17:902:d043:b0:161:e9f7:2afe with SMTP id
+ l3-20020a170902d04300b00161e9f72afemr4025914pll.29.1653031205457; Fri, 20 May
+ 2022 00:20:05 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-From:   =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>
-Subject: [PATCH] arm64: Unify vertical spacing in HWCAPS
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220413143434.527-1-aajith@arista.com> <350f6a02-2975-ac1b-1c9d-ab738722a9fe@kernel.org>
+In-Reply-To: <350f6a02-2975-ac1b-1c9d-ab738722a9fe@kernel.org>
+From:   Arun Ajith S <aajith@arista.com>
+Date:   Fri, 20 May 2022 12:49:53 +0530
+Message-ID: <CAOvjArTAce_68CkoUff_=Hi+mr731dsWcQdEbaev4xaMDFZNug@mail.gmail.com>
+Subject: Re: [PATCH net-next v3] net/ipv6: Introduce accept_unsolicited_na
+ knob to implement router-side changes for RFC9131
+To:     David Ahern <dsahern@kernel.org>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        yoshfuji@linux-ipv6.org, kuba@kernel.org, pabeni@redhat.com,
+        corbet@lwn.net, prestwoj@gmail.com, gilligan@arista.com,
+        noureddine@arista.com, gk@arista.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Unify vertical spacing so that same font weight
-is used by Sphinx.
+On Thu, Apr 14, 2022 at 3:37 AM David Ahern <dsahern@kernel.org> wrote:
+>
+> On 4/13/22 8:34 AM, Arun Ajith S wrote:
+> > diff --git a/tools/testing/selftests/net/ndisc_unsolicited_na_test.py b/tools/testing/selftests/net/ndisc_unsolicited_na_test.py
+> > new file mode 100755
+> > index 000000000000..f508657ee126
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/net/ndisc_unsolicited_na_test.py
+> > @@ -0,0 +1,255 @@
+> > +#!/bin/bash
+>
+> that file name suffix should be .sh since it is a bash script; not .py
+>
+> other than that looks good to me.
+>
+> Reviewed-by: David Ahern <dsahern@kernel.org>
 
-Signed-off-by: Martin Liska <mliska@suse.cz>
----
- Documentation/arm64/elf_hwcaps.rst | 23 -----------------------
- 1 file changed, 23 deletions(-)
+Hi David,
 
-diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
-index a8f30963e550..1e79044f51a2 100644
---- a/Documentation/arm64/elf_hwcaps.rst
-+++ b/Documentation/arm64/elf_hwcaps.rst
-@@ -171,96 +171,73 @@ HWCAP_PACG
-     Documentation/arm64/pointer-authentication.rst.
- 
- HWCAP2_DCPODP
--
-     Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.
- 
- HWCAP2_SVE2
--
-     Functionality implied by ID_AA64ZFR0_EL1.SVEVer == 0b0001.
- 
- HWCAP2_SVEAES
--
-     Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0001.
- 
- HWCAP2_SVEPMULL
--
-     Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0010.
- 
- HWCAP2_SVEBITPERM
--
-     Functionality implied by ID_AA64ZFR0_EL1.BitPerm == 0b0001.
- 
- HWCAP2_SVESHA3
--
-     Functionality implied by ID_AA64ZFR0_EL1.SHA3 == 0b0001.
- 
- HWCAP2_SVESM4
--
-     Functionality implied by ID_AA64ZFR0_EL1.SM4 == 0b0001.
- 
- HWCAP2_FLAGM2
--
-     Functionality implied by ID_AA64ISAR0_EL1.TS == 0b0010.
- 
- HWCAP2_FRINT
--
-     Functionality implied by ID_AA64ISAR1_EL1.FRINTTS == 0b0001.
- 
- HWCAP2_SVEI8MM
--
-     Functionality implied by ID_AA64ZFR0_EL1.I8MM == 0b0001.
- 
- HWCAP2_SVEF32MM
--
-     Functionality implied by ID_AA64ZFR0_EL1.F32MM == 0b0001.
- 
- HWCAP2_SVEF64MM
--
-     Functionality implied by ID_AA64ZFR0_EL1.F64MM == 0b0001.
- 
- HWCAP2_SVEBF16
--
-     Functionality implied by ID_AA64ZFR0_EL1.BF16 == 0b0001.
- 
- HWCAP2_I8MM
--
-     Functionality implied by ID_AA64ISAR1_EL1.I8MM == 0b0001.
- 
- HWCAP2_BF16
--
-     Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0001.
- 
- HWCAP2_DGH
--
-     Functionality implied by ID_AA64ISAR1_EL1.DGH == 0b0001.
- 
- HWCAP2_RNG
--
-     Functionality implied by ID_AA64ISAR0_EL1.RNDR == 0b0001.
- 
- HWCAP2_BTI
--
-     Functionality implied by ID_AA64PFR0_EL1.BT == 0b0001.
- 
- HWCAP2_MTE
--
-     Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0010, as described
-     by Documentation/arm64/memory-tagging-extension.rst.
- 
- HWCAP2_ECV
--
-     Functionality implied by ID_AA64MMFR0_EL1.ECV == 0b0001.
- 
- HWCAP2_AFP
--
-     Functionality implied by ID_AA64MFR1_EL1.AFP == 0b0001.
- 
- HWCAP2_RPRES
--
-     Functionality implied by ID_AA64ISAR2_EL1.RPRES == 0b0001.
- 
- HWCAP2_MTE3
--
-     Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0011, as described
-     by Documentation/arm64/memory-tagging-extension.rst.
- 
--- 
-2.36.1
+It has been pointed out to me that I might have read RFC9131 in a
+narrower sense than what was intended.
+The behavior of adding a new entry in the neighbour cache on receiving
+a NA if none exists presently
+shouldn't be limited to unsolicited NAs like in my original patch,
+rather it should extend to all NAs.
 
+I am quoting from the RFC below
+
+   |  When a valid Neighbor Advertisement is received (either solicited
+   |  or unsolicited), the Neighbor Cache is searched for the target's
+   |  entry.  If no entry exists:
+   |
+   |  *  Hosts SHOULD silently discard the advertisement.  There is no
+   |     need to create an entry if none exists, since the recipient has
+   |     apparently not initiated any communication with the target.
+   |
+   |  *  Routers SHOULD create a new entry for the target address with
+   |     the link-layer address set to the Target Link-Layer Address
+   |     Option (if supplied).  The entry's reachability state MUST be
+   |     set to STALE.  If the received Neighbor Advertisement does not
+   |     contain the Target Link-Layer Address Option, the advertisement
+   |     SHOULD be silently discarded.
+
+I want to fix this, but this would mean the sysctl name
+accept_unsolicited_na is no longer appropriate
+I see that the net-next window for 5.19 is still open and changing the
+sysctl name
+wouldn't mean changing an existing interface.
+I was thinking of renaming the sysctl to accept_untracked_na to
+highlight that we are accepting NAs even if there is
+no corresponding entry tracked in the neighbor cache.
+
+Also, there's an error in my comment, where I say "pass up the stack"
+as we don't pass NAs up the stack.
+The comment can be updated as:
+        /* RFC 9131 updates original Neighbour Discovery RFC 4861.
+         * NAs with Target LL Address option without a corresponding
+         * entry in the neighbour cache can now create a STALE neighbour
+         * cache entry on routers.
+         *
+         *   entry accept  fwding  solicited        behaviour
+         * ------- ------  ------  ---------    ----------------------
+         * present      X       X         0     Set state to STALE
+         * present      X       X         1     Set state to REACHABLE
+         *  absent      0       X         X     Do nothing
+         *  absent      1       0         X     Do nothing
+         *  absent      1       1         X     Add a new STALE entry
+         */
+
+In summary
+1. accept=0 keeps original(5.18) behavior for all cases.
+2. accept=1 changes original behavior for entry=asbent, fwding=1 case
+provided the NA had specified target link-layer address.
+
+Please let me know what you think.
+
+Thanks,
+Arun
