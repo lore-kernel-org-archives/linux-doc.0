@@ -2,118 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FEC7C4321E
-	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 18:31:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E21CDC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 18:34:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352695AbiETSbR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 May 2022 14:31:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38610 "EHLO
+        id S1347042AbiETSen (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 May 2022 14:34:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352723AbiETSbK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 14:31:10 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 264EF13DD6
-        for <linux-doc@vger.kernel.org>; Fri, 20 May 2022 11:31:07 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id a38so5547581pgl.9
-        for <linux-doc@vger.kernel.org>; Fri, 20 May 2022 11:31:07 -0700 (PDT)
+        with ESMTP id S1343952AbiETSen (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 14:34:43 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26CD65FF06;
+        Fri, 20 May 2022 11:34:42 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id w4so12575953wrg.12;
+        Fri, 20 May 2022 11:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/D44zTPGmOvqCz58NoXY7GJ7Oz3KVoVYsKXMavYtIGY=;
-        b=hXnBtM8ClLBza+ZRSfpaH9QJs4e70zsjGGwXTB768f+j3vqY+PwjCmxCHfgcbOWUIo
-         WkA4z40qGEeH8ye8nA+9vKsDvo6jzo3aKNFN66eMopiC5L5Nz2Rul1xe3uZjLa1NNsDS
-         u417yZ070yvLbJ7u7T7AavZQoAUrK7xIHezbfLj969JZM7ZTkx89y4HMQ1l2TNDF2Sq2
-         0LpzAaltp9AMFcI6xh0jpic9+djmA9wPzf6w2Yikovx4w7ogKachx1moE40EDvrT0Jd+
-         1BUoZb8r51kRFW2pPCxPq3BYf2iYgtUzn0y36Ygbn7Tx0RaCNfgu370pJo+mNPyz2DS+
-         NhRQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3Bvgb2lQC/lXU1/Ce5R2fdk8VVqr9ldd55Cmvb2FG04=;
+        b=Tnva1bxMWOKs2UqctZ678Ff8MWwyt7pQaseYZ2MDJ+3GyUDgF5viImh1detkoBd1B6
+         YKxC2awW4A830XVPDuHwTJzGCWo5E0WuetPzvkDotXPqQoIQQ2R01ix3CfOo5IJRIBqP
+         XSSHC7PvHXaXIlGLSs5ynFI6qWX6T6z4PULIstgeURmE66hXexdQ5grYvSjjTtrIRuOC
+         vr0vjR/KZ9jN8yNIsgbWc2iC9BuqA9A1DTbdNpTw1mlifrqOOYzwn5qLjnwf+vOVSzEB
+         KIA4LEsDxpaKCsAi1DrvxKEuxCWB9S2GpwicMCBI8uO+RxCEbwhA/o/Gic7TRjNO0lLn
+         ELIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/D44zTPGmOvqCz58NoXY7GJ7Oz3KVoVYsKXMavYtIGY=;
-        b=b0GT6t3p3DwK7pOTi+uJgEWkX7o1s3yZ7ZJFQ3Z0oUvDTqtu2EwiHMl3X3QtrL66+U
-         pqxmdbsmHyu/wxM/LDXe/cqfuynBf1HX61Q9x1de2aCIxtGDIRaom8syuLJw8t7pVNcX
-         vnB3FmjEurx6u9fh0YMuwFW6AKnNiefXKcg7Ncwkki3jIlB+/kFKIciZHxk+Bsm2gSqd
-         LVqSNNIo+b06JlUruKMLflwliBKlOaneSpOvsrd803qKjlJRSt0hB2O6N3ifSs2yBXnI
-         ttLEmfYFJ2EbaKJA5OlqVmYEME0UEdSBQNkxPj6QfWtObOVf1tgwuXF8JblEOeBZO7JU
-         e51g==
-X-Gm-Message-State: AOAM532ZnYGNpwqmhTEH8OSITh/OaEp0Yx6XPVj+6AAAmSGMhY4z54up
-        ERQnp04clZG2BxKewwGZzFELOQ==
-X-Google-Smtp-Source: ABdhPJyXfnLY4U/z7B1YcpHIUBMTDAqIQuWt14grJnUQKMT9mxPH1mHBF0sFVeaMIPjRZNdy0Y/CKw==
-X-Received: by 2002:a63:8243:0:b0:3f9:6c94:5112 with SMTP id w64-20020a638243000000b003f96c945112mr2534146pgd.173.1653071466429;
-        Fri, 20 May 2022 11:31:06 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id a201-20020a621ad2000000b0050dc76281e9sm2105316pfa.195.2022.05.20.11.31.05
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3Bvgb2lQC/lXU1/Ce5R2fdk8VVqr9ldd55Cmvb2FG04=;
+        b=YDRJafk1kipNmVZul7qw7uvFARymDtoa2U53yjfB/WZAkwTlOBt5OVEngO99VRwyVN
+         kuUuSIT5BSg7+D5kq9M2XR49qOXJ3KII5/AwsNeCT8ttUNZ7YYC1xgMY3Egse2uswxxT
+         jluIvRqt+zsheema38J3bJ4Sj4TtdtTI+QJZym6B5ew/KpSxtovNDk+yACRnM1uAjZxP
+         1moSjgtFQdXpYZSCBNmqp4QJEBxSzODn4tcr5fc/tty+fusP9bR0j84VxcTn5sFCR+Sk
+         i75oT3c2W0pBqL79CQd73VNSz9G7ZXwHF2/JyHz0Uop9UOYpqFhFUk3ecEyLbMBeeZe5
+         rYvQ==
+X-Gm-Message-State: AOAM5303IbthLmJKhwyYCLuQmUBdFtYN19m919MC0GNqIv5IDybyGN/6
+        S3cGZ7sSqLbhDE6upkBZ190=
+X-Google-Smtp-Source: ABdhPJzBFOybRHQwepl7PhKKrktyPRT15xK3/W3FnElF3Q2IZ9Mk0too/QOoL1RiYQkCDtTGxdHPOw==
+X-Received: by 2002:a5d:68cf:0:b0:20c:ff58:37b with SMTP id p15-20020a5d68cf000000b0020cff58037bmr9412390wrw.448.1653071680604;
+        Fri, 20 May 2022 11:34:40 -0700 (PDT)
+Received: from xws.localdomain (pd9e5a9fe.dip0.t-ipconnect.de. [217.229.169.254])
+        by smtp.gmail.com with ESMTPSA id r9-20020adfa149000000b0020e62feca05sm3252081wrr.32.2022.05.20.11.34.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 May 2022 11:31:05 -0700 (PDT)
-Date:   Fri, 20 May 2022 18:31:02 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        Fri, 20 May 2022 11:34:40 -0700 (PDT)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <YofeZps9YXgtP3f1@google.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-5-chao.p.peng@linux.intel.com>
- <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
+        platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 00/10] platform/surface: aggregator: Add support for client hot-removal
+Date:   Fri, 20 May 2022 20:34:12 +0200
+Message-Id: <20220520183422.7185-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 20, 2022, Andy Lutomirski wrote:
-> The alternative would be to have some kind of separate table or bitmap (part
-> of the memslot?) that tells KVM whether a GPA should map to the fd.
-> 
-> What do you all think?
+This series adds support for the type cover of the Surface Pro 8. On the
+Pro 8, the type cover is (unlike on previous generations) handled via
+the Surface System Aggregator Module (SSAM). As the type cover is
+detachable, care needs to be taken and the respective SSAM (HID) client
+devices need to be properly removed when detached and re-initialized
+when attached.
 
-My original proposal was to have expolicit shared vs. private memslots, and punch
-holes in KVM's memslots on conversion, but due to the way KVM (and userspace)
-handle memslot updates, conversions would be painfully slow.  That's how we ended
-up with the current propsoal.
+Therefore, this series does three things:
 
-But a dedicated KVM ioctl() to add/remove shared ranges would be easy to implement
-and wouldn't necessarily even need to interact with the memslots.  It could be a
-consumer of memslots, e.g. if we wanted to disallow registering regions without an
-associated memslot, but I think we'd want to avoid even that because things will
-get messy during memslot updates, e.g. if dirty logging is toggled or a shared
-memory region is temporarily removed then we wouldn't want to destroy the tracking.
+ 1. Improve hot-removal support for SSAM client devices. When
+    hot-removing clients, subsequent communication may time out.
 
-I don't think we'd want to use a bitmap, e.g. for a well-behaved guest, XArray
-should be far more efficient.
+    In the worst case, this can lead to problems when devices are
+    detached and re-attached quickly, before we can remove their
+    respective kernel representations. This can then lead to devices
+    being in an uninitialized state, preventing, for example, touchpad
+    gestures from working properly as the required HID feature report
+    has not been sent.
 
-One benefit to explicitly tracking this in KVM is that it might be useful for
-software-only protected VMs, e.g. KVM could mark a region in the XArray as "pending"
-based on guest hypercalls to share/unshare memory, and then complete the transaction
-when userspace invokes the ioctl() to complete the share/unshare.
+    Therefore, handle hot-removal of devices more gracefully by avoiding
+    communication once it has been detected and ensure that devices are
+    actually removed.
+ 
+ 2. Generify SSAM subsystem hubs and add a KIP hub. On the Surface Pro
+    8, the KIP subsystem (only that abbreviation is known) is
+    responsible for managing type-cover devices. This hub acts as the
+    controller for device removal similar to the BAS (detachable base)
+    subsystem hub on the Surface Book 3 (therefore we can share most of
+    the code between them).
+
+ 3. Add the (HID) type-cover clients of the Surface Pro 8 to the
+    aggregator registry.
+
+Regards,
+Max
+
+
+Maximilian Luz (10):
+  platform/surface: aggregator: Allow devices to be marked as
+    hot-removed
+  platform/surface: aggregator: Allow notifiers to avoid communication
+    on unregistering
+  platform/surface: aggregator_registry: Use client device wrappers for
+    notifier registration
+  power/supply: surface_charger: Use client device wrappers for notifier
+    registration
+  power/supply: surface_battery: Use client device wrappers for notifier
+    registration
+  HID: surface-hid: Add support for hot-removal
+  platform/surface: aggregator: Add comment for KIP subsystem category
+  platform/surface: aggregator_registry: Generify subsystem hub
+    functionality
+  platform/surface: aggregator_registry: Add KIP device hub
+  platform/surface: aggregator_registry: Add support for keyboard cover
+    on Surface Pro 8
+
+ .../driver-api/surface_aggregator/client.rst  |   6 +-
+ drivers/hid/surface-hid/surface_hid_core.c    |  38 +-
+ .../platform/surface/aggregator/controller.c  |  53 ++-
+ .../surface/surface_aggregator_registry.c     | 401 +++++++++++++-----
+ drivers/power/supply/surface_battery.c        |   4 +-
+ drivers/power/supply/surface_charger.c        |   4 +-
+ include/linux/surface_aggregator/controller.h |  24 +-
+ include/linux/surface_aggregator/device.h     | 114 ++++-
+ include/linux/surface_aggregator/serial_hub.h |   2 +-
+ 9 files changed, 501 insertions(+), 145 deletions(-)
+
+-- 
+2.36.1
+
