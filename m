@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1517C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 10:09:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED09C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 10:14:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229809AbiETKJI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 May 2022 06:09:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50720 "EHLO
+        id S1344271AbiETKOp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 May 2022 06:14:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347925AbiETKJH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 06:09:07 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6C7FDFF6A
-        for <linux-doc@vger.kernel.org>; Fri, 20 May 2022 03:09:05 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id 67-20020a1c1946000000b00397382b44f4so884444wmz.2
-        for <linux-doc@vger.kernel.org>; Fri, 20 May 2022 03:09:05 -0700 (PDT)
+        with ESMTP id S239213AbiETKOo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 06:14:44 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89AFD67D12
+        for <linux-doc@vger.kernel.org>; Fri, 20 May 2022 03:14:43 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id k26so4291556wms.1
+        for <linux-doc@vger.kernel.org>; Fri, 20 May 2022 03:14:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=2CPVeVY4qdJoTLOZfRTk2rSUnY1KMS5MbsQ8/Hgrd+w=;
-        b=oIoFyFouf7ftBKUDUWiBpXNbka+ahkLFi5oXe4Tz0H+aZazK6/Oq+MARZE63IZ2Lqg
-         HrlC09a1/lojg6HSseBHtp7++bWAUMADyGICFWcXPB70Ba/qMxVCHNuEDYyREPXK09Eb
-         iMZC/GO6Ee5DtrLvI49nepP9sUTedG+qho73UpEZXhG4YuPlLEKim9vMAOS+orELVLI1
-         fEInsTTLqGzUsY8xkQIwew5ahsE4hOHjaCIv0PgyGzTCh8jb4ZDYWUzLhmiEw4IcVjP/
-         jqVrDJCh4T5AZ6ZivhhgxOu0NaCQAqTwonIzJOKK1wlK/gCf5DMPaEFBDa1k0NWBPZv7
-         qn1g==
+        bh=YI47hgicQMxxxQU8hmpn8OChFvZfMABxIXxG9XMziXU=;
+        b=B6xXaCz/9Z8jPhpJ6mtVdO7hkOOPdVdMi4Br/t/hDUB+YC8X9ZDwbJcR3ju1QawwHc
+         EswtRNZ1IyK730pTuQhP3uAIu9sl/aCUWNw1WVi85nReMaIiw4D2JWW86ZUw0V5wYXOx
+         4Z0Y3Mt+ahHo87vwo5C0i9ZVJWisUBEfAa2QnaLah4lDH0c7EIGC7ZqysxMUe2qP6j3x
+         Uqsrvwd3l1d2x9uUZtKQDfyQeHKP/UxjXk1ZRU6ajJpnqm85U2GZVHLR0RXsa0KzS2ku
+         zH0OtdW1ZZHLanRQNX1zPCrWEeu5wIBsvVdYCinOA0tWAHV1et6tTYklCa9GNKvYdxCJ
+         ohjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2CPVeVY4qdJoTLOZfRTk2rSUnY1KMS5MbsQ8/Hgrd+w=;
-        b=rymm0JzntHZ7eJGckmJnFddRhTyfVwfWXIoRd8aE2EwsAdx9D9vevBaF4pFCofqGRv
-         LfndtYYfa4I9NNrHoVe+NtoASUrWitTSiysysqfzWhHwmJgz1xQ2uRQy3bZ79jVLKI10
-         wpRcTBuFk1Bd1Yx4d9QVwjIGrH8e2IoKRhma0joFbzTKCQCVCSRc83Ow0DzuzmFTu29H
-         ua+1kggiLqlcUbUJVFHL/+EovKwIAjJ4XxecHG9XzLv79ZidQC60KwuidUNg6d68OxkI
-         17/YP38TBW2p6C0c2L6nDbtaSxR7U+u1RuwQJgVlUn1igrjvva0VukxPXGJr+BLgLlS6
-         g8zQ==
-X-Gm-Message-State: AOAM530hckWRYDq7JcoDr0y+/t/X7NNQEJ+to9jN2m1sq+j64GC2/DlI
-        0dQuJGsBPcGq/nnTYmtrKtP0xQ==
-X-Google-Smtp-Source: ABdhPJzLd/eA2CYC2y5nNLjrjT9MIpioYwS82PuvIPnbCSI3FgMUvoPjkpAUs58F1BBsMJbFYOPIhA==
-X-Received: by 2002:a05:600c:3b06:b0:397:3d4f:9846 with SMTP id m6-20020a05600c3b0600b003973d4f9846mr404320wms.40.1653041344046;
-        Fri, 20 May 2022 03:09:04 -0700 (PDT)
+        bh=YI47hgicQMxxxQU8hmpn8OChFvZfMABxIXxG9XMziXU=;
+        b=Mg6+oq8X76O33/spUvRsfPaWLmFUiFg7kxH9FuBuOVHhFFIeGQzVAa8YlCHSHyfXKU
+         mE/DfcR5dw+CYoomMrDq1/zrBmlfAtgbSHLfEp3zJOX9EFPKQRDm/UF8wNqoRpmg2Sx6
+         xUr/GHT3P9TGOQVIeMuts5KL93OMbAKFr0YFik1bNBAmYRQ7Xzvy4cFQ+hh06OOukY6j
+         ea6lbRl6LcfvhYmRs76ddOn5pF/NG1As90B4C18sRrKQAZsvX4EG05fUNLGFQN4DZw5k
+         lWqwfZx9JUjCL248Bp6nt7EsVe0FU3j3LdliJnsOv0farv8u741NDAvcv1QlAdDNC72d
+         70pA==
+X-Gm-Message-State: AOAM5300Hj0+bFFpTqQ5d8D1UyKeoCC03/hXTmGfqBeLKNVwVrtdxtdP
+        dMwpc+bE3efdN0h48Rf0rTQ1VuRj1L+lSA==
+X-Google-Smtp-Source: ABdhPJw/Nl2hbEXYtjhjRz+i2/tfpFrVP4oUqSoMpKliGp2zwr3AlxitGZj40hxVFsRnsfmruCJAeQ==
+X-Received: by 2002:a05:600c:a53:b0:394:7a51:cb71 with SMTP id c19-20020a05600c0a5300b003947a51cb71mr8314724wmq.148.1653041681893;
+        Fri, 20 May 2022 03:14:41 -0700 (PDT)
 Received: from elver.google.com ([2a00:79e0:15:13:bae2:f132:a26:fae2])
-        by smtp.gmail.com with ESMTPSA id o8-20020a1c7508000000b003942a244f2fsm1673578wmc.8.2022.05.20.03.09.03
+        by smtp.gmail.com with ESMTPSA id c11-20020adfa30b000000b0020d0b2de858sm2167642wrb.33.2022.05.20.03.14.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 May 2022 03:09:03 -0700 (PDT)
-Date:   Fri, 20 May 2022 12:08:57 +0200
+        Fri, 20 May 2022 03:14:41 -0700 (PDT)
+Date:   Fri, 20 May 2022 12:14:35 +0200
 From:   Marco Elver <elver@google.com>
 To:     Kefeng Wang <wangkefeng.wang@huawei.com>
 Cc:     catalin.marinas@arm.com, will@kernel.org,
@@ -55,94 +55,85 @@ Cc:     catalin.marinas@arm.com, will@kernel.org,
         mark.rutland@arm.com, Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org, paulmck@kernel.org,
         Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH v2 1/2] Documentation/barriers: Add memory barrier
- dma_mb()
-Message-ID: <YodouVpl26890QfU@elver.google.com>
+Subject: Re: [PATCH v2 2/2] arm64: kcsan: Support detecting more missing
+ memory barriers
+Message-ID: <YodqC/HKVJLAjpQY@elver.google.com>
 References: <20220520031548.175582-1-wangkefeng.wang@huawei.com>
- <20220520031548.175582-2-wangkefeng.wang@huawei.com>
+ <20220520031548.175582-3-wangkefeng.wang@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220520031548.175582-2-wangkefeng.wang@huawei.com>
+In-Reply-To: <20220520031548.175582-3-wangkefeng.wang@huawei.com>
 User-Agent: Mutt/2.1.4 (2021-12-11)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Fri, May 20, 2022 at 11:15AM +0800, Kefeng Wang wrote:
-> The memory barrier dma_mb() is introduced by commit a76a37777f2c
-> ("iommu/arm-smmu-v3: Ensure queue is read after updating prod pointer"),
-> which is used to ensure that prior (both reads and writes) accesses to
-> memory by a CPU are ordered w.r.t. a subsequent MMIO write.
+> As "kcsan: Support detecting a subset of missing memory barriers"[1]
+> introduced KCSAN_STRICT/KCSAN_WEAK_MEMORY which make kcsan detects
+> more missing memory barrier, but arm64 don't have KCSAN instrumentation
+> for barriers, so the new selftest test_barrier() and test cases for
+> memory barrier instrumentation in kcsan_test module will fail, even
+> panic on selftest.
 > 
+> Let's prefix all barriers with __ on arm64, as asm-generic/barriers.h
+> defined the final instrumented version of these barriers, which will
+> fix the above issues.
+> 
+> Note, barrier instrumentation that can be disabled via __no_kcsan with
+> appropriate compiler-support (and not just with objtool help), see
+> commit bd3d5bd1a0ad ("kcsan: Support WEAK_MEMORY with Clang where no
+> objtool support exists"), it adds disable_sanitizer_instrumentation to
+> __no_kcsan attribute which will remove all sanitizer instrumentation fully
+> (with Clang 14.0). Meanwhile, GCC does the same thing with no_sanitize.
+> 
+> [1] https://lore.kernel.org/linux-mm/20211130114433.2580590-1-elver@google.com/
 > Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 > ---
->  Documentation/memory-barriers.txt | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  arch/arm64/include/asm/barrier.h | 12 ++++++------
+>  include/asm-generic/barrier.h    |  4 ++++
+>  2 files changed, 10 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-> index b12df9137e1c..1eabcc0e4eca 100644
-> --- a/Documentation/memory-barriers.txt
-> +++ b/Documentation/memory-barriers.txt
-> @@ -1894,10 +1894,13 @@ There are some more advanced barrier functions:
+> diff --git a/arch/arm64/include/asm/barrier.h b/arch/arm64/include/asm/barrier.h
+> index 9f3e2c3d2ca0..2cfc4245d2e2 100644
+> --- a/arch/arm64/include/asm/barrier.h
+> +++ b/arch/arm64/include/asm/barrier.h
+> @@ -50,13 +50,13 @@
+>  #define pmr_sync()	do {} while (0)
+>  #endif
 >  
->   (*) dma_wmb();
->   (*) dma_rmb();
-> + (*) dma_mb();
+> -#define mb()		dsb(sy)
+> -#define rmb()		dsb(ld)
+> -#define wmb()		dsb(st)
+> +#define __mb()		dsb(sy)
+> +#define __rmb()		dsb(ld)
+> +#define __wmb()		dsb(st)
 >  
->       These are for use with consistent memory to guarantee the ordering
->       of writes or reads of shared memory accessible to both the CPU and a
-> -     DMA capable device.
-> +     DMA capable device, in the case of ensure the prior (both reads and
-> +     writes) accesses to memory by a CPU are ordered w.r.t. a subsequent
-> +     MMIO write, dma_mb().
+> -#define dma_mb()	dmb(osh)
+> -#define dma_rmb()	dmb(oshld)
+> -#define dma_wmb()	dmb(oshst)
+> +#define __dma_mb()	dmb(osh)
+> +#define __dma_rmb()	dmb(oshld)
+> +#define __dma_wmb()	dmb(oshst)
 >  
+>  #define io_stop_wc()	dgh()
+>  
+> diff --git a/include/asm-generic/barrier.h b/include/asm-generic/barrier.h
+> index fd7e8fbaeef1..18863c50e9ce 100644
+> --- a/include/asm-generic/barrier.h
+> +++ b/include/asm-generic/barrier.h
+> @@ -38,6 +38,10 @@
+>  #define wmb()	do { kcsan_wmb(); __wmb(); } while (0)
+>  #endif
+>  
+> +#ifdef __dma_mb
+> +#define dma_mb()	do { kcsan_mb(); __dma_mb(); } while (0)
+> +#endif
 
-I think this is out of place; this explanation here is not yet
-elaborating on either. Elaboration on dma_mb() should go where
-dma_rmb() and dma_wmb() are explained. 
-
-Something like this:
-
------- >8 ------
-
-diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-index b12df9137e1c..fb322b6cce70 100644
---- a/Documentation/memory-barriers.txt
-+++ b/Documentation/memory-barriers.txt
-@@ -1894,6 +1894,7 @@ There are some more advanced barrier functions:
- 
-  (*) dma_wmb();
-  (*) dma_rmb();
-+ (*) dma_mb();
- 
-      These are for use with consistent memory to guarantee the ordering
-      of writes or reads of shared memory accessible to both the CPU and a
-@@ -1925,11 +1926,11 @@ There are some more advanced barrier functions:
-      The dma_rmb() allows us guarantee the device has released ownership
-      before we read the data from the descriptor, and the dma_wmb() allows
-      us to guarantee the data is written to the descriptor before the device
--     can see it now has ownership.  Note that, when using writel(), a prior
--     wmb() is not needed to guarantee that the cache coherent memory writes
--     have completed before writing to the MMIO region.  The cheaper
--     writel_relaxed() does not provide this guarantee and must not be used
--     here.
-+     can see it now has ownership.  The dma_mb() implies both a dma_rmb() and a
-+     dma_wmb().  Note that, when using writel(), a prior wmb() is not needed to
-+     guarantee that the cache coherent memory writes have completed before
-+     writing to the MMIO region.  The cheaper writel_relaxed() does not provide
-+     this guarantee and must not be used here.
- 
-      See the subsection "Kernel I/O barrier effects" for more information on
-      relaxed I/O accessors and the Documentation/core-api/dma-api.rst file for
-
------- >8 ------
-
-Also, now that you're making dma_mb() part of the official API, it might
-need a generic definition in include/asm-generic/barrier.h, because
-as-is it's only available in arm64 builds.
-
-Thoughts?
+The asm-generic changes might want to go into a separate patch, along
+with the generic definition of dma_mb() if there's no __dma_mb, as
+mentioned in the other email.
 
 Thanks,
 -- Marco
