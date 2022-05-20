@@ -2,76 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF061C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 01:50:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 421D3C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 02:23:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344606AbiETBuT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 21:50:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45546 "EHLO
+        id S1344715AbiETCW7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 22:22:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344616AbiETBuR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 21:50:17 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F7E9E64FC;
-        Thu, 19 May 2022 18:50:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AB527B82975;
-        Fri, 20 May 2022 01:50:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6B0FCC34118;
-        Fri, 20 May 2022 01:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653011413;
-        bh=E7GBdROqZCjUR1kXWz8yrJhSyZpblJjxjJD7JLC3ErY=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=aF/KeaYTVVkN8nxWfBZIGq5NzT1sxRb1miWyePEMl7Ne/DptwiKRrW0F6TfkiRGRv
-         iU5q4UOu3MvVmgxUl+CDne5G7PZAe5w0LjNkdHmEHT4nczyjiyXuPRLN8C+oNaLgbJ
-         GxMmTnTuHtNH66N3/gc1DTm1nmFgdB7IN4K08vP8kpokT/mZU+QhVhLa8LjPqooogv
-         jfmrShcnbagwwG5FVfXg5rplmuyMrfA0eNDPDNMFNP7oWpZk7qby7uSsQ/RbcoKYKC
-         sFKlpp9tJFR5pNkZesVSU0mYDgSDCyi4jllJFawEwHpfIBFEewQ0Q34PRVaMk/22kg
-         2JOoK2TRqr8ZQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4C1A6F0393C;
-        Fri, 20 May 2022 01:50:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S238831AbiETCW6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 22:22:58 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0638D1312B0;
+        Thu, 19 May 2022 19:22:57 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4L49T850zgz1JCH4;
+        Fri, 20 May 2022 10:21:32 +0800 (CST)
+Received: from huawei.com (10.113.189.238) by canpemm500009.china.huawei.com
+ (7.192.105.203) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 20 May
+ 2022 10:22:55 +0800
+From:   Wang Jianjian <wangjianjian3@huawei.com>
+To:     <linux-ext4@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH 1/2] ext4: Fix incorrect comment
+Date:   Fri, 20 May 2022 10:22:54 +0800
+Message-ID: <20220520022255.2120576-1-wangjianjian3@huawei.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] docs: change the title of networking docs
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165301141330.6731.10364509102017328968.git-patchwork-notify@kernel.org>
-Date:   Fri, 20 May 2022 01:50:13 +0000
-References: <20220518234346.2088436-1-kuba@kernel.org>
-In-Reply-To: <20220518234346.2088436-1-kuba@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.113.189.238]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Signed-off-by: Wang Jianjian <wangjianjian3@huawei.com>
+---
+ fs/ext4/page-io.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This patch was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Wed, 18 May 2022 16:43:46 -0700 you wrote:
-> The current title of our section of the documentation is
-> Linux Networking Documentation. Since we're describing
-> a section of Linux Documentation repeating those two
-> words seems redundant.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next] docs: change the title of networking docs
-    https://git.kernel.org/netdev/net-next/c/7ebe52f555de
-
-You are awesome, thank you!
+diff --git a/fs/ext4/page-io.c b/fs/ext4/page-io.c
+index 8385939eeb48..97fa7b4c645f 100644
+--- a/fs/ext4/page-io.c
++++ b/fs/ext4/page-io.c
+@@ -465,7 +465,7 @@ int ext4_bio_write_page(struct ext4_io_submit *io,
+ 	/*
+ 	 * In the first loop we prepare and mark buffers to submit. We have to
+ 	 * mark all buffers in the page before submitting so that
+-	 * end_page_writeback() cannot be called from ext4_end_io_end() when IO
++	 * end_page_writeback() cannot be called from ext4_end_bio() when IO
+ 	 * on the first buffer finishes and we are still working on submitting
+ 	 * the second buffer.
+ 	 */
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.32.0
 
