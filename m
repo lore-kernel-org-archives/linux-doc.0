@@ -2,176 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D58C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 00:17:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D1DEC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 01:50:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343901AbiETARd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 20:17:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55348 "EHLO
+        id S1344589AbiETBuD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 19 May 2022 21:50:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233411AbiETARc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 20:17:32 -0400
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 221864BFC3
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 17:17:30 -0700 (PDT)
-Received: by mail-oi1-x22b.google.com with SMTP id w130so8391993oig.0
-        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 17:17:30 -0700 (PDT)
+        with ESMTP id S229994AbiETBuC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 21:50:02 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2EDAD682D
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 18:50:00 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id a23-20020a17090acb9700b001df4e9f4870so6714247pju.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 18:50:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=g5XiutTaPMay4BnFO9HfDcF8oQ/jkp6cQRv3bNCI4Wk=;
-        b=ZbXX/m2bMNzaPjDqUcHkf28qmML3E+inml+E4xWFcG6dWRG+iyU0G+nYA0hHqe8msV
-         C3bKASpniuAGaIIK/TMUbijx1V+sTDrUTHjffZQzMaZzcVTldTK3Z8ckPpdTB6cypJ6b
-         AavISvju5ob6s267fr3mtH5wFeSQhAuQ7bg48=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=bSYkUjPvAsu074e/VjNGWfjNftItgD9OU7BKxmchNu0=;
+        b=IctWEQwULe+HOgPbU7d0NJ3bNOOh3R/ed9A6ET0Gs/piG+Bes/Utvzo/JOuyGD8RRU
+         RcDWQ8n8fK3gVNdg7zOFFUdQGbLx/Yeu4mzOrLYeaNU76aARYW0jjqtvRRXuDmBVfrna
+         g7qU8icOdLj7kU6hSvSdtAKN4mYIBgh28Dejc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=g5XiutTaPMay4BnFO9HfDcF8oQ/jkp6cQRv3bNCI4Wk=;
-        b=DDIrtXSLZNJVN9YV6trKacYVHx24vJdwq5384VcAWSZTpX3dqkB+yhIzICCkB9y5NS
-         7dwDtxvhV/Ef2tlantyzw1WFeEwO41uJl4A955rJcETyks1ZuxUNeihMa/LyCOhTGVV8
-         IYA2/nubW7PMqcp/CnAsTRClJSKIy2fEmQ9sII9Vf0PZ5Mt3XwVZ1zmV8WuBILDewH1I
-         UitPRfYbuayRaPzoX4nBDsQCdVQ7FzpNMl8jP6neRpKfg3eY5IOgUfg2MznKzrwKLLty
-         GF4YM4vtxOaQ0N+FS/FpX6wXL0hVKqanaj+An7nWglUOS1bgg9LxZutNftoYzDNvS0s1
-         6whA==
-X-Gm-Message-State: AOAM533Amqfh6L5qxjBSL/z4Lf0X0+7OV9jlEhgiX2Jdmp8kBKZaUL99
-        InY7XHIh5ppppj1sk3v2avUcw1vvLxKE0YhRz1u1SA==
-X-Google-Smtp-Source: ABdhPJyd13g7t+WPRnOquoFOd12gHlNQp38Z6Pf/XC3ZP6Ibo0ugtzK1MsJaWRsxBjjPvfeDyKXwrkCZvHva8m8e/r8=
-X-Received: by 2002:a05:6808:14c2:b0:326:c129:d308 with SMTP id
- f2-20020a05680814c200b00326c129d308mr3784257oiw.193.1653005849460; Thu, 19
- May 2022 17:17:29 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 19 May 2022 17:17:29 -0700
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=bSYkUjPvAsu074e/VjNGWfjNftItgD9OU7BKxmchNu0=;
+        b=amc7hEOMIZZpXjYrqdYBtpoyT1QeuYwtFzzyHzmyBnKdyVul6bt6Y3wMIdMa0b4uGA
+         6tw2K07Bh0Akc/WmjbHOUBZuAcdUbeVaR2izCYYiNN7bgtG/buvV6dFVlmXLTU/Qs2Br
+         Awdct3qX6F0N/MFhExskVX8A7iU1ZwNPV0Rz+kQb5NqlxSoHH4BR94j5ghykAdKZj3o7
+         KoCg4KJ4eYldWwGl+ovOLxJpok4CCixk0/TGPB43/dKCcmDsEJN9e8KGOO1Qz800ddE1
+         fcfkqP46o0Op9nmlnQJJrb1e2T04AMSgtJXftLh5lQ9j+/Nkahekic7GP0E5IIaE2QDl
+         Uv0A==
+X-Gm-Message-State: AOAM530wrhWJV/U4TzLq3G92dTyKFgfmFKI5/pQ5/YPJvLzDEXpllbf3
+        iVnkmnMARwHy+Fw06XVM4sSELQ==
+X-Google-Smtp-Source: ABdhPJxYCaKfJrQpyhnMwy4bw/c5zkQ+q174lh8wbUasjk9l4ZAUxrQCXZ8SzukBnlB3+yq5G+ayIg==
+X-Received: by 2002:a17:902:9887:b0:151:6e1c:7082 with SMTP id s7-20020a170902988700b001516e1c7082mr7427960plp.162.1653011400364;
+        Thu, 19 May 2022 18:50:00 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id a23-20020a056a001d1700b0050dc76281ddsm329776pfx.183.2022.05.19.18.49.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 May 2022 18:50:00 -0700 (PDT)
+Date:   Thu, 19 May 2022 18:49:59 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Kalesh Singh <kaleshsingh@google.com>
+Cc:     ilkos@google.com, tjmercier@google.com, surenb@google.com,
+        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+        Mike Rapoport <rppt@kernel.org>,
+        Colin Cross <ccross@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [RFC PATCH] procfs: Add file path and size to /proc/<pid>/fdinfo
+Message-ID: <202205191848.DEE05F6@keescook>
+References: <20220519214021.3572840-1-kaleshsingh@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20220519164914.v3.1.I71e42c6174f1cec17da3024c9f73ba373263b9b6@changeid>
-References: <20220519164914.v3.1.I71e42c6174f1cec17da3024c9f73ba373263b9b6@changeid>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date:   Thu, 19 May 2022 17:17:29 -0700
-Message-ID: <CAE-0n51g-G=ZoJmrvm3PeL3hk4CaBoo123MHa=yq251-yAsbQA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] dt-bindings: Document how Chromebooks with
- depthcharge boot
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-arm-msm@vger.kernel.org,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Andy Gross <agross@kernel.org>,
-        Alexandru M Stan <amstan@chromium.org>,
-        "Joseph S . Barrera III" <joebar@chromium.org>,
-        patches@lists.linux.dev, devicetree@vger.kernel.org,
-        Rajendra Nayak <quic_rjendra@quicinc.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Julius Werner <jwerner@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220519214021.3572840-1-kaleshsingh@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Douglas Anderson (2022-05-19 16:51:05)
-> diff --git a/Documentation/arm/google/chromebook-boot-flow.rst b/Documentation/arm/google/chromebook-boot-flow.rst
-> new file mode 100644
-> index 000000000000..92d8a658ceaa
-> --- /dev/null
-> +++ b/Documentation/arm/google/chromebook-boot-flow.rst
-> @@ -0,0 +1,63 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +======================================
-> +Chromebook Boot Flow
-> +======================================
-> +
-> +Most recent Chromebooks that use device tree are using the opensource
-> +depthcharge bootloader. Depthcharge expects the OS to be packaged as a "FIT
+On Thu, May 19, 2022 at 02:40:15PM -0700, Kalesh Singh wrote:
+> [...]
+> +	seq_file_path(m, file, "\n");
+> +	seq_putc(m, '\n');
+>  
+>  	/* show_fd_locks() never deferences files so a stale value is safe */
+>  	show_fd_locks(m, file, files);
 
-Is there a reference for depthcharge? I guess there's source browser[2] but
-I was hoping for some README or something.
+This comment implies "file" might be stale? Does that mean anything for
+the above seq_file_path()?
 
-> +Image" which contains an OS image as well as a collection of device trees. It
-
-Reference coreboot docs[1]?
-
-
-> +is up to depthcharge to pick the right device tree from the FIT Image and
-> +provide it to the OS.
-> +
-> +The scheme that depthcharge uses to pick the device tree takes into account
-> +three variables:
-> +- Board name, specified at compile time.
-
-Which compile time? depthcharge compile time? Also mention "BOARD"
-somehow so it corresponds to the list below.
-
-> +- Board revision number, read from GPIO strappings at boot time.
-
-Maybe just say "determined at runtime" as who knows if it may change
-from GPIO to something else. Also mention "REV" somehow so it
-corresponds to the list below.
-
-> +- SKU number, read from GPIO strappings at boot time.
-> +
-> +For recent Chromebooks, depthcharge creates a match list that looks like this:
-> +- google,$(BOARD)-rev$(REV)-sku$(SKU)
-> +- google,$(BOARD)-rev$(REV)
-> +- google,$(BOARD)-sku$(SKU)
-> +- google,$(BOARD)
-> +
-> +Note that some older Chromebooks use a slightly different list that may
-> +not include sku matching or may prioritize sku/rev differently.
-
-s/sku/SKU/g
-
-> +
-> +Note that for some boards there may be extra board-specific logic to inject
-> +extra compatibles into the list, but this is uncommon.
-> +
-> +Depthcharge will look through all device trees in the FIT image trying to
-> +find one that matches the most specific compatible. It will then look
-> +through all device trees in the FIT image trying to find the one that
-> +matches the _second most_ specific compatible, etc.
-> +
-> +When searching for a device tree, depthcharge doesn't care where the
-> +compatible falls within a given device tree. As an example, if we're on
-
-where the compatible string falls within a device tree's root compatible
-string array?
-
-> +board "lazor", rev 4, sku 0 and we have two device trees:
-> +- "google,lazor-rev5-sku0", "google,lazor-rev4-sku0", "qcom,sc7180"
-> +- "google,lazor", "qcom,sc7180"
-> +
-> +Then depthcharge will pick the first device tree even though
-> +"google,lazor-rev4-sku0" was the second compatible listed in that device tree.
-> +This is because it is a more specific compatible than "google,lazor".
-> +
-> +It should be noted that depthcharge does not have any smarts to try to
-> +match board or SKU revisions that are "close by". That is to say that
-> +if depthcharge knows it's on "rev4" of a board but there is no "rev4"
-> +device tree then depthcharge _won't_ look for a "rev3" device tree.
-> +
-> +In general when any significant changes are made to a board the board
-> +revision number is increased even if none of those changes need to
-> +be reflected in the device tree. Thus it's fairly common to see device
-> +trees with multiple revisions.
-> +
-> +It should be noted that, taking into account the above system that
-> +depthcharge has, the most flexibility is achieved if the device tree
-> +supporting the newest revision(s) of a board omits the "-rev{REV}"
-> +compatible strings. When this is done then if you get a new board
-> +revision and try to run old software on it then we'll at pick the most
-
-then we'll pick the most? These last two sentences confuse me.
-
-> +reasonable device tree. If it turns out that the new revision actually
-> +has no device-tree visible changes then we'll not only pick the most
-
-There's 'device tree' and 'device-tree', please pick one, or use a new
-one like 'devicetree'.
-
-> +reasonable device tree, we'll pick the exact right one.
-
-[1] https://doc.coreboot.org/lib/payloads/fit.html
-[2] https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/depthcharge/
+-- 
+Kees Cook
