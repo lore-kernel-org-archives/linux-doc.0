@@ -2,184 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EE7BC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 12:02:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0702CC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 12:31:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232398AbiETMCC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 May 2022 08:02:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53546 "EHLO
+        id S1349180AbiETMbS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 May 2022 08:31:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348941AbiETMB5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 08:01:57 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2EEF56202;
-        Fri, 20 May 2022 05:01:56 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id w17-20020a17090a529100b001db302efed6so7712981pjh.4;
-        Fri, 20 May 2022 05:01:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=HUR71Busz7rHoO3kdum5ovbPXwWOHM0ZF312TuUbImQ=;
-        b=gVyVvvBuan5PEI1TjD1XRfgPqU/5F2N75ycvOiIj4TNN2P7evdLgDgd96wcdLzT9fX
-         LJuUMz6Bvm8PceIlm/FVNC1aLDL0bci/4S+m4OcxNw4+6wn4m9c9CJjQiinKJym8PRBh
-         5vwZAWWM6qbw56jceZQd+woeD5T6sCXDfij2M6YU9iHvL0VmWZUR87hNh4Z8xB5/yvLT
-         V0t0Y4lWwXnGnPr65L2KGpXyd5w3qLYLiIgVFLmwePpYteO1nxJ8Y5xjaUooQkzxPQjm
-         3d4oYoBGixGVTnTABorwFFx8OneqiLrgw+9o24ckScevIJiolzTxCMBt5tzD8wvWWlpV
-         Vaow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=HUR71Busz7rHoO3kdum5ovbPXwWOHM0ZF312TuUbImQ=;
-        b=jz0J7Z0JJF8Lx6GU18V5jYHrT6vLhTbGZtbJKUhITsR0b1LDmNFfSwijUoLrEZa6R3
-         tuTDyyAe4g80RzfwMGdrIjCaFgcjbviXKmzBGBG/ya+Z5UUNrersfpIMpY6y0Ro0DytI
-         4Nt0TEx26k7AJIXQtg48Zbob9RCWZeyBRq7rwciBQAYwr8IOlgtyH/CVavuBqO7LuR7e
-         MfBR9bfxfJQgHjfov872S9bpiey66DIWO1UyTH+oLbWUBmglqziTFZXh27tny6pBgZZ/
-         /USYH8kbENdBnDGlM45+9wS+dJye124T41uQzFba4xafHaTQ0izAfcgfrI9liOLtv4yZ
-         0t7g==
-X-Gm-Message-State: AOAM5307tjYPy/sYbMTfpoYNIuFkVFE7zLGhPQE+DekEnAvDTBs/aa6w
-        SP5mh1UrymZzbdZP2eb90uQ=
-X-Google-Smtp-Source: ABdhPJxjrwzxzkeGGI2NEtVC0Txs8wwcKKyycde8qmg0K4hIXxUZGT1Zm0b/5rqdiT03fBEazffe5Q==
-X-Received: by 2002:a17:90a:930b:b0:1bf:ac1f:6585 with SMTP id p11-20020a17090a930b00b001bfac1f6585mr10500025pjo.88.1653048115442;
-        Fri, 20 May 2022 05:01:55 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-24.three.co.id. [180.214.232.24])
-        by smtp.gmail.com with ESMTPSA id m10-20020a170902768a00b0015e8d4eb1d8sm5486794pll.34.2022.05.20.05.01.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 May 2022 05:01:54 -0700 (PDT)
-Message-ID: <4752814a-091c-9dd5-762c-6fd1a476c4bb@gmail.com>
-Date:   Fri, 20 May 2022 19:01:50 +0700
+        with ESMTP id S241416AbiETMbR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 08:31:17 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6146447568;
+        Fri, 20 May 2022 05:31:13 -0700 (PDT)
+Received: from mail-yb1-f172.google.com ([209.85.219.172]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1N3KDM-1nidun1Y1a-010L21; Fri, 20 May 2022 14:31:11 +0200
+Received: by mail-yb1-f172.google.com with SMTP id r1so13919589ybo.7;
+        Fri, 20 May 2022 05:31:10 -0700 (PDT)
+X-Gm-Message-State: AOAM533XICYSchr83/2dnnvlXYJ4p8DurUidGgS1IQc22J1Xjhw4Rq8S
+        ggohQQS/MAC5kuY3vi/H1bpfmpgzzMs77SmJ3i4=
+X-Google-Smtp-Source: ABdhPJzM0/g+q1PRwguziGorhB8SDUsN9iEFZbR/3vnqE9X6zeZuqHYx8uEJ7JXjS9vB4zG423aFir2s+dxjeU1ONqo=
+X-Received: by 2002:a25:31c2:0:b0:641:660f:230f with SMTP id
+ x185-20020a2531c2000000b00641660f230fmr9208955ybx.472.1653049869839; Fri, 20
+ May 2022 05:31:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] arm64: Unify vertical spacing in HWCAPS
-Content-Language: en-US
-To:     =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net
-References: <b95b3128-f010-dcba-1f6a-1a85dd2d20a5@suse.cz>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <b95b3128-f010-dcba-1f6a-1a85dd2d20a5@suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220519031345.2134401-1-kuba@kernel.org>
+In-Reply-To: <20220519031345.2134401-1-kuba@kernel.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 20 May 2022 13:30:50 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3_4fNQV51V0-QUnuTr4dK0-S_ffeFzfA8vG1uGh8vyhg@mail.gmail.com>
+Message-ID: <CAK8P3a3_4fNQV51V0-QUnuTr4dK0-S_ffeFzfA8vG1uGh8vyhg@mail.gmail.com>
+Subject: Re: [PATCH net-next] eth: de4x5: remove support for Generic DECchip &
+ DIGITAL EtherWORKS PCI/EISA
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, corbet@lwn.net, tsbogend@alpha.franken.de,
+        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
+        sburla@marvell.com, vburru@marvell.com, aayarekar@marvell.com,
+        arnd@arndb.de, zhangyue1@kylinos.cn, linux-doc@vger.kernel.org,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-parisc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:RxidTNlQXTP5LyaUmtNAetv6uI1NVNaDYJwJVsMWQ7BOLaI5KHE
+ BtANPl6/Mpb7IMmupUSDX+IsM35n8hWFOMNOYw+0YgSgKQA2FDDwU3YK4lDZQcZZlJmaAvo
+ SZV9v5sCdIrOTEIPAKcGMViiGmdUCw1NuunYTM5JMQxgHn6zNKtV7QRkg8i+MLpW5EhFOmi
+ b6RNeMTv+G71tkjVyMk8A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:e/tDl3btj98=:gvOYMsp+h25Jgb6dzhVdva
+ 0DyHnXDqjhtjeu4Pk1OZ7FZJJ0bWPdC7LgJPFm2pUoYTY1F0VUqKRRLkBeGRiXqHGPanmkBd+
+ aBFbqZ1AH/5ZyPSmzjB4Hda9TFjuZ9/G4+47e4Ia4AYmjPQt1jzcvc4NmsqYvL6oCYvwdHnY6
+ kDxgSXfGtcSRfBhgFpnzK59seeAPmZZ21ChXfu7UN5MxNYv1Oabmsaxc9HbvSARXxsZEGkET4
+ JPlTMGSQfO8EQ7JwPs8E/EqpcxgY6LhsO5bQj7su6dveLB2o0P9NoEUxs+tSxloGZf0dBZm0V
+ w6zMWKM2cbpW4nMJvsFnCyYOUzDIQCHcnjiqmffej7ibOqrcOmphjBGin276Nqs3gIvv+b48r
+ 5wQwolelaftPAGlEgFefW4ygh72SVpzU8pllcGBxxUqgtJ0Wl/0VdpAnIIaH+bWzbLF/K6VGA
+ aO9SMtfT8BK4nploXjRUy2cAOYCVd/f8nfJRn2B3smFoS/5bxcR2dgS3nywOTAqVE8+FhoqvL
+ doSY0NqYBY+V6MYhXUNYUHOOw2FW1SQnTwGBRh9NP6L3nvkrq5FIMm3ZHFYJ0pSM/AZRzeI58
+ 9XpJMw4OKijWCak2SAMy8yI5K1eHIx3dOkt9fLY8w1ClnwAOsXDpujOVyX+MHeN62xpsgX/s8
+ WNtT3MNIhnjSQp1mwux3EHkbsArd/vYRfGujMyo48otmyeNLK7DdNRLAxWCwJ1U5ziJ+DQ1Tl
+ aRQKRUuEWzdY+gEyN2VlWys8iHRjxTpid1Joig==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/20/22 13:55, Martin Liška wrote:
-> Unify vertical spacing so that same font weight
-> is used by Sphinx.
-> 
-> Signed-off-by: Martin Liska <mliska@suse.cz>
+On Thu, May 19, 2022 at 4:13 AM Jakub Kicinski <kuba@kernel.org> wrote:
+>
+> Looks like almost all changes to this driver had been tree-wide
+> refactoring since git era begun. There is one commit from Al
+> 15 years ago which could potentially be fixing a real bug.
+>
+> The driver is using virt_to_bus() and is a real magnet for pointless
+> cleanups. It seems unlikely to have real users. Let's try to shed
+> this maintenance burden.
+>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 > ---
->  Documentation/arm64/elf_hwcaps.rst | 23 -----------------------
->  1 file changed, 23 deletions(-)
-> 
-> diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
-> index a8f30963e550..1e79044f51a2 100644
-> --- a/Documentation/arm64/elf_hwcaps.rst
-> +++ b/Documentation/arm64/elf_hwcaps.rst
-> @@ -171,96 +171,73 @@ HWCAP_PACG
->      Documentation/arm64/pointer-authentication.rst.
->  
->  HWCAP2_DCPODP
-> -
->      Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.
->  
->  HWCAP2_SVE2
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.SVEVer == 0b0001.
->  
->  HWCAP2_SVEAES
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0001.
->  
->  HWCAP2_SVEPMULL
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0010.
->  
->  HWCAP2_SVEBITPERM
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.BitPerm == 0b0001.
->  
->  HWCAP2_SVESHA3
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.SHA3 == 0b0001.
->  
->  HWCAP2_SVESM4
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.SM4 == 0b0001.
->  
->  HWCAP2_FLAGM2
-> -
->      Functionality implied by ID_AA64ISAR0_EL1.TS == 0b0010.
->  
->  HWCAP2_FRINT
-> -
->      Functionality implied by ID_AA64ISAR1_EL1.FRINTTS == 0b0001.
->  
->  HWCAP2_SVEI8MM
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.I8MM == 0b0001.
->  
->  HWCAP2_SVEF32MM
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.F32MM == 0b0001.
->  
->  HWCAP2_SVEF64MM
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.F64MM == 0b0001.
->  
->  HWCAP2_SVEBF16
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.BF16 == 0b0001.
->  
->  HWCAP2_I8MM
-> -
->      Functionality implied by ID_AA64ISAR1_EL1.I8MM == 0b0001.
->  
->  HWCAP2_BF16
-> -
->      Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0001.
->  
->  HWCAP2_DGH
-> -
->      Functionality implied by ID_AA64ISAR1_EL1.DGH == 0b0001.
->  
->  HWCAP2_RNG
-> -
->      Functionality implied by ID_AA64ISAR0_EL1.RNDR == 0b0001.
->  
->  HWCAP2_BTI
-> -
->      Functionality implied by ID_AA64PFR0_EL1.BT == 0b0001.
->  
->  HWCAP2_MTE
-> -
->      Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0010, as described
->      by Documentation/arm64/memory-tagging-extension.rst.
->  
->  HWCAP2_ECV
-> -
->      Functionality implied by ID_AA64MMFR0_EL1.ECV == 0b0001.
->  
->  HWCAP2_AFP
-> -
->      Functionality implied by ID_AA64MFR1_EL1.AFP == 0b0001.
->  
->  HWCAP2_RPRES
-> -
->      Functionality implied by ID_AA64ISAR2_EL1.RPRES == 0b0001.
->  
->  HWCAP2_MTE3
-> -
->      Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0011, as described
->      by Documentation/arm64/memory-tagging-extension.rst.
->  
+> CC: corbet@lwn.net
+> CC: tsbogend@alpha.franken.de
+> CC: mpe@ellerman.id.au
+> CC: benh@kernel.crashing.org
+> CC: paulus@samba.org
+> CC: sburla@marvell.com
+> CC: vburru@marvell.com
+> CC: aayarekar@marvell.com
+> CC: arnd@arndb.de
 
-Did you mean the font weight is heading? Something like promoting headings
-by removing intermediate blank lines?
+Acked-by: Arnd Bergmann <arnd@arndb.de>
 
--- 
-An old man doll... just what I always wanted! - Clara
+> ---
+>  .../device_drivers/ethernet/dec/de4x5.rst     |  189 -
+>  .../device_drivers/ethernet/index.rst         |    1 -
+>  arch/mips/configs/mtx1_defconfig              |    1 -
+>  arch/powerpc/configs/chrp32_defconfig         |    1 -
+>  arch/powerpc/configs/ppc6xx_defconfig         |    1 -
+>  drivers/net/ethernet/dec/tulip/Kconfig        |   15 -
+>  drivers/net/ethernet/dec/tulip/Makefile       |    1 -
+>  drivers/net/ethernet/dec/tulip/de4x5.c        | 5591 -----------------
+>  drivers/net/ethernet/dec/tulip/de4x5.h        | 1017 ---
+
+
+I checked the defconfig files to make sure we are not removing the
+last ethernet driver from
+one of them. mtx1 has built-in networking and no PCI slot, so this is
+definitely fine.
+the ppc32 configs are for machines with PCI slots and also enable
+multiple drivers but I saw
+nothing specifically needing this card.
+
+       Arnd
