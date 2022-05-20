@@ -2,117 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85DDFC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 03:05:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEA74C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 04:01:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241390AbiETDFu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 19 May 2022 23:05:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58512 "EHLO
+        id S233544AbiETEBy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 May 2022 00:01:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344969AbiETDFu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 May 2022 23:05:50 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF2BBCB;
-        Thu, 19 May 2022 20:05:45 -0700 (PDT)
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.57])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4L4BKt3K7CzCstc;
-        Fri, 20 May 2022 11:00:18 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 20 May 2022 11:05:15 +0800
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 20 May 2022 11:05:14 +0800
-From:   Kefeng Wang <wangkefeng.wang@huawei.com>
-To:     <elver@google.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     <linux-doc@vger.kernel.org>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: [PATCH v2 2/2] arm64: kcsan: Support detecting more missing memory barriers
-Date:   Fri, 20 May 2022 11:15:48 +0800
-Message-ID: <20220520031548.175582-3-wangkefeng.wang@huawei.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220520031548.175582-1-wangkefeng.wang@huawei.com>
-References: <20220520031548.175582-1-wangkefeng.wang@huawei.com>
+        with ESMTP id S231637AbiETEBx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 00:01:53 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 650F414A26B
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 21:01:52 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id h5so8639792wrb.11
+        for <linux-doc@vger.kernel.org>; Thu, 19 May 2022 21:01:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lX20NL3YNPaKjNecI4oDdq3acoU2kOL0ZbPMHMv9mB0=;
+        b=QUhqUNwjiYBBL+Gfy7USDRKlfhCB5po25WZwgPlSiSkUXf8omWvdSvXZzxRV41w1tT
+         d5C/MVpxWJNzqMqMn4BsGlEqIb6rOVIxP+yf5DJ3CcD/CMFR7a+o3Nxfo0tiHS41+QJx
+         1G0voWhXE97nNh8TDu9IYnnRSfvefCogP4VsB5M0y74VMQ5qGopMDi1VQqUGm6PnvD78
+         YluERYOhs/tCKgwebfwVE2yQreNBgLUaB4ZY4z6xzZTQ7LXJk9AbCoT54oExEPxtuCAM
+         DF3gvipca18rnRT53tde7E+gUZik7VP0hR/Z6h4m5Gl7iRVkpIrQcRhWqQ2jBr0jnUJX
+         zgOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lX20NL3YNPaKjNecI4oDdq3acoU2kOL0ZbPMHMv9mB0=;
+        b=JNLVkMMjjqjEZ8DxjqOOk+KNMPE4476siDpdk7Cr07iFgEVGLmPiJCRVYZ/w71LC0/
+         pUXYfFuGPpiIVG9/AoUMTCR4UPGyKsAX28MIwpvuTS4gIghsaOXjTJ6sAg3wvJ/SuLXp
+         iaXGIf2Py9lwoU3T9jBa/5o2QMbgp1yZq6UNkiwU6x5JkxSPmLSwktSQQyDIXcsW5ynS
+         SdzdIRhFO8yoK2lBda4bKe8WX99y2mRBR9hMMuKpSjIFdYRTahzx70s7waYrcDoxS5AA
+         JBjLqfegMHWf4ljDoScMiG4LGbxtkXFwEJxZbbnIIvHpU9SFOkpfbmzBsKMX3N+tSaHW
+         xnLw==
+X-Gm-Message-State: AOAM532MnfnMiLskif5ONu8wfWxMw5tfjaQPIy2QXkKGyZU3fkAmOmWI
+        PDycZ8s7e3DugUCND0XzTB9lGaxmnpihx66Bkdu0BA==
+X-Google-Smtp-Source: ABdhPJzdvVJxxqGLhr1D82HU8Nge0YZ/NcyQRTLRKVqI4Jh/02FF2nx30JgW9qrXm/uIf/Cxvut3pYr3QoTiG9nq0a4=
+X-Received: by 2002:a5d:5846:0:b0:20c:7407:5fa1 with SMTP id
+ i6-20020a5d5846000000b0020c74075fa1mr6448325wrf.116.1653019310813; Thu, 19
+ May 2022 21:01:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.25]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
+References: <20220519214021.3572840-1-kaleshsingh@google.com> <202205191848.DEE05F6@keescook>
+In-Reply-To: <202205191848.DEE05F6@keescook>
+From:   Kalesh Singh <kaleshsingh@google.com>
+Date:   Thu, 19 May 2022 21:01:39 -0700
+Message-ID: <CAC_TJve0iyPU0uKoKOi_qcwgxPkgNKgirBcMJ=oYBqhRC3a_+Q@mail.gmail.com>
+Subject: Re: [RFC PATCH] procfs: Add file path and size to /proc/<pid>/fdinfo
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Ioannis Ilkos <ilkos@google.com>,
+        "T.J. Mercier" <tjmercier@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+        Mike Rapoport <rppt@kernel.org>,
+        Colin Cross <ccross@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As "kcsan: Support detecting a subset of missing memory barriers"[1]
-introduced KCSAN_STRICT/KCSAN_WEAK_MEMORY which make kcsan detects
-more missing memory barrier, but arm64 don't have KCSAN instrumentation
-for barriers, so the new selftest test_barrier() and test cases for
-memory barrier instrumentation in kcsan_test module will fail, even
-panic on selftest.
+On Thu, May 19, 2022 at 6:50 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Thu, May 19, 2022 at 02:40:15PM -0700, Kalesh Singh wrote:
+> > [...]
+> > +     seq_file_path(m, file, "\n");
+> > +     seq_putc(m, '\n');
+> >
+> >       /* show_fd_locks() never deferences files so a stale value is safe */
+> >       show_fd_locks(m, file, files);
+>
+> This comment implies "file" might be stale? Does that mean anything for
+> the above seq_file_path()?
 
-Let's prefix all barriers with __ on arm64, as asm-generic/barriers.h
-defined the final instrumented version of these barriers, which will
-fix the above issues.
+Hi Kees.
 
-Note, barrier instrumentation that can be disabled via __no_kcsan with
-appropriate compiler-support (and not just with objtool help), see
-commit bd3d5bd1a0ad ("kcsan: Support WEAK_MEMORY with Clang where no
-objtool support exists"), it adds disable_sanitizer_instrumentation to
-__no_kcsan attribute which will remove all sanitizer instrumentation fully
-(with Clang 14.0). Meanwhile, GCC does the same thing with no_sanitize.
+Thanks for taking a look. The comment above says the "files" pointer
+can be stale. It doesn't affect our use of "file" here. seq_show()
+takes the reference with get_file() so "file" wouldn't be destroyed
+from under us.
 
-[1] https://lore.kernel.org/linux-mm/20211130114433.2580590-1-elver@google.com/
-Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
----
- arch/arm64/include/asm/barrier.h | 12 ++++++------
- include/asm-generic/barrier.h    |  4 ++++
- 2 files changed, 10 insertions(+), 6 deletions(-)
-
-diff --git a/arch/arm64/include/asm/barrier.h b/arch/arm64/include/asm/barrier.h
-index 9f3e2c3d2ca0..2cfc4245d2e2 100644
---- a/arch/arm64/include/asm/barrier.h
-+++ b/arch/arm64/include/asm/barrier.h
-@@ -50,13 +50,13 @@
- #define pmr_sync()	do {} while (0)
- #endif
- 
--#define mb()		dsb(sy)
--#define rmb()		dsb(ld)
--#define wmb()		dsb(st)
-+#define __mb()		dsb(sy)
-+#define __rmb()		dsb(ld)
-+#define __wmb()		dsb(st)
- 
--#define dma_mb()	dmb(osh)
--#define dma_rmb()	dmb(oshld)
--#define dma_wmb()	dmb(oshst)
-+#define __dma_mb()	dmb(osh)
-+#define __dma_rmb()	dmb(oshld)
-+#define __dma_wmb()	dmb(oshst)
- 
- #define io_stop_wc()	dgh()
- 
-diff --git a/include/asm-generic/barrier.h b/include/asm-generic/barrier.h
-index fd7e8fbaeef1..18863c50e9ce 100644
---- a/include/asm-generic/barrier.h
-+++ b/include/asm-generic/barrier.h
-@@ -38,6 +38,10 @@
- #define wmb()	do { kcsan_wmb(); __wmb(); } while (0)
- #endif
- 
-+#ifdef __dma_mb
-+#define dma_mb()	do { kcsan_mb(); __dma_mb(); } while (0)
-+#endif
-+
- #ifdef __dma_rmb
- #define dma_rmb()	do { kcsan_rmb(); __dma_rmb(); } while (0)
- #endif
--- 
-2.35.3
-
+Thanks,
+Kalesh
+>
+> --
+> Kees Cook
