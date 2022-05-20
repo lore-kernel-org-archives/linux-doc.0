@@ -2,109 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0702CC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 12:31:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD0A3C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 14:01:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349180AbiETMbS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 May 2022 08:31:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49358 "EHLO
+        id S1350057AbiETOBj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 May 2022 10:01:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241416AbiETMbR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 08:31:17 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6146447568;
-        Fri, 20 May 2022 05:31:13 -0700 (PDT)
-Received: from mail-yb1-f172.google.com ([209.85.219.172]) by
- mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1N3KDM-1nidun1Y1a-010L21; Fri, 20 May 2022 14:31:11 +0200
-Received: by mail-yb1-f172.google.com with SMTP id r1so13919589ybo.7;
-        Fri, 20 May 2022 05:31:10 -0700 (PDT)
-X-Gm-Message-State: AOAM533XICYSchr83/2dnnvlXYJ4p8DurUidGgS1IQc22J1Xjhw4Rq8S
-        ggohQQS/MAC5kuY3vi/H1bpfmpgzzMs77SmJ3i4=
-X-Google-Smtp-Source: ABdhPJzM0/g+q1PRwguziGorhB8SDUsN9iEFZbR/3vnqE9X6zeZuqHYx8uEJ7JXjS9vB4zG423aFir2s+dxjeU1ONqo=
-X-Received: by 2002:a25:31c2:0:b0:641:660f:230f with SMTP id
- x185-20020a2531c2000000b00641660f230fmr9208955ybx.472.1653049869839; Fri, 20
- May 2022 05:31:09 -0700 (PDT)
+        with ESMTP id S236471AbiETOBi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 10:01:38 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ADF433EA4;
+        Fri, 20 May 2022 07:01:35 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 3E04B21C11;
+        Fri, 20 May 2022 14:01:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1653055294; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+ifkBDPmstF/lxN/46BBzeV0w6iyELzk8Cp7r/DoBMk=;
+        b=ff6uaV5nbJXi5BDCVjly6dPlTd1fGKv+bhX0dZMjXppP/a4WhLHsJ6W2RXxNdlU1POVOCi
+        hNhJpqlYeLA86gx15m8+MJVG0bBpZ9lchs7KMyFXJkyM7eesCxZ1aC97HAy32leyhxTwuu
+        6ROY3xQ6Vy5kmDW1CP8IsYX7wWmXOJQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1653055294;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+ifkBDPmstF/lxN/46BBzeV0w6iyELzk8Cp7r/DoBMk=;
+        b=2AKVElWEM6IV++eMGKjmx53sInFEebgFzT04J6E7IPUeOKRlMwYs9JA0vN512o+8fkUOCY
+        9IiKqzGetf0RWsDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 261A013A5F;
+        Fri, 20 May 2022 14:01:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id KGVtCD6fh2IzcwAAMHmgww
+        (envelope-from <mliska@suse.cz>); Fri, 20 May 2022 14:01:34 +0000
+Message-ID: <e3921517-f903-3ad5-afa4-d7959051e5dd@suse.cz>
+Date:   Fri, 20 May 2022 16:01:33 +0200
 MIME-Version: 1.0
-References: <20220519031345.2134401-1-kuba@kernel.org>
-In-Reply-To: <20220519031345.2134401-1-kuba@kernel.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 20 May 2022 13:30:50 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3_4fNQV51V0-QUnuTr4dK0-S_ffeFzfA8vG1uGh8vyhg@mail.gmail.com>
-Message-ID: <CAK8P3a3_4fNQV51V0-QUnuTr4dK0-S_ffeFzfA8vG1uGh8vyhg@mail.gmail.com>
-Subject: Re: [PATCH net-next] eth: de4x5: remove support for Generic DECchip &
- DIGITAL EtherWORKS PCI/EISA
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, corbet@lwn.net, tsbogend@alpha.franken.de,
-        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
-        sburla@marvell.com, vburru@marvell.com, aayarekar@marvell.com,
-        arnd@arndb.de, zhangyue1@kylinos.cn, linux-doc@vger.kernel.org,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-parisc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:RxidTNlQXTP5LyaUmtNAetv6uI1NVNaDYJwJVsMWQ7BOLaI5KHE
- BtANPl6/Mpb7IMmupUSDX+IsM35n8hWFOMNOYw+0YgSgKQA2FDDwU3YK4lDZQcZZlJmaAvo
- SZV9v5sCdIrOTEIPAKcGMViiGmdUCw1NuunYTM5JMQxgHn6zNKtV7QRkg8i+MLpW5EhFOmi
- b6RNeMTv+G71tkjVyMk8A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:e/tDl3btj98=:gvOYMsp+h25Jgb6dzhVdva
- 0DyHnXDqjhtjeu4Pk1OZ7FZJJ0bWPdC7LgJPFm2pUoYTY1F0VUqKRRLkBeGRiXqHGPanmkBd+
- aBFbqZ1AH/5ZyPSmzjB4Hda9TFjuZ9/G4+47e4Ia4AYmjPQt1jzcvc4NmsqYvL6oCYvwdHnY6
- kDxgSXfGtcSRfBhgFpnzK59seeAPmZZ21ChXfu7UN5MxNYv1Oabmsaxc9HbvSARXxsZEGkET4
- JPlTMGSQfO8EQ7JwPs8E/EqpcxgY6LhsO5bQj7su6dveLB2o0P9NoEUxs+tSxloGZf0dBZm0V
- w6zMWKM2cbpW4nMJvsFnCyYOUzDIQCHcnjiqmffej7ibOqrcOmphjBGin276Nqs3gIvv+b48r
- 5wQwolelaftPAGlEgFefW4ygh72SVpzU8pllcGBxxUqgtJ0Wl/0VdpAnIIaH+bWzbLF/K6VGA
- aO9SMtfT8BK4nploXjRUy2cAOYCVd/f8nfJRn2B3smFoS/5bxcR2dgS3nywOTAqVE8+FhoqvL
- doSY0NqYBY+V6MYhXUNYUHOOw2FW1SQnTwGBRh9NP6L3nvkrq5FIMm3ZHFYJ0pSM/AZRzeI58
- 9XpJMw4OKijWCak2SAMy8yI5K1eHIx3dOkt9fLY8w1ClnwAOsXDpujOVyX+MHeN62xpsgX/s8
- WNtT3MNIhnjSQp1mwux3EHkbsArd/vYRfGujMyo48otmyeNLK7DdNRLAxWCwJ1U5ziJ+DQ1Tl
- aRQKRUuEWzdY+gEyN2VlWys8iHRjxTpid1Joig==
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+From:   =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>
+Subject: [PATCH] arm64: Unify vertical spacing in HWCAPS
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net, bagasdotme@gmail.com
+References: <4752814a-091c-9dd5-762c-6fd1a476c4bb@gmail.com>
+Content-Language: en-US
+In-Reply-To: <4752814a-091c-9dd5-762c-6fd1a476c4bb@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 19, 2022 at 4:13 AM Jakub Kicinski <kuba@kernel.org> wrote:
->
-> Looks like almost all changes to this driver had been tree-wide
-> refactoring since git era begun. There is one commit from Al
-> 15 years ago which could potentially be fixing a real bug.
->
-> The driver is using virt_to_bus() and is a real magnet for pointless
-> cleanups. It seems unlikely to have real users. Let's try to shed
-> this maintenance burden.
->
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> CC: corbet@lwn.net
-> CC: tsbogend@alpha.franken.de
-> CC: mpe@ellerman.id.au
-> CC: benh@kernel.crashing.org
-> CC: paulus@samba.org
-> CC: sburla@marvell.com
-> CC: vburru@marvell.com
-> CC: aayarekar@marvell.com
-> CC: arnd@arndb.de
+Promote headings by removing intermediate blank lines.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Martin Liska <mliska@suse.cz>
+---
+ Documentation/arm64/elf_hwcaps.rst | 23 -----------------------
+ 1 file changed, 23 deletions(-)
 
-> ---
->  .../device_drivers/ethernet/dec/de4x5.rst     |  189 -
->  .../device_drivers/ethernet/index.rst         |    1 -
->  arch/mips/configs/mtx1_defconfig              |    1 -
->  arch/powerpc/configs/chrp32_defconfig         |    1 -
->  arch/powerpc/configs/ppc6xx_defconfig         |    1 -
->  drivers/net/ethernet/dec/tulip/Kconfig        |   15 -
->  drivers/net/ethernet/dec/tulip/Makefile       |    1 -
->  drivers/net/ethernet/dec/tulip/de4x5.c        | 5591 -----------------
->  drivers/net/ethernet/dec/tulip/de4x5.h        | 1017 ---
+diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
+index a8f30963e550..1e79044f51a2 100644
+--- a/Documentation/arm64/elf_hwcaps.rst
++++ b/Documentation/arm64/elf_hwcaps.rst
+@@ -171,96 +171,73 @@ HWCAP_PACG
+     Documentation/arm64/pointer-authentication.rst.
+ 
+ HWCAP2_DCPODP
+-
+     Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.
+ 
+ HWCAP2_SVE2
+-
+     Functionality implied by ID_AA64ZFR0_EL1.SVEVer == 0b0001.
+ 
+ HWCAP2_SVEAES
+-
+     Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0001.
+ 
+ HWCAP2_SVEPMULL
+-
+     Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0010.
+ 
+ HWCAP2_SVEBITPERM
+-
+     Functionality implied by ID_AA64ZFR0_EL1.BitPerm == 0b0001.
+ 
+ HWCAP2_SVESHA3
+-
+     Functionality implied by ID_AA64ZFR0_EL1.SHA3 == 0b0001.
+ 
+ HWCAP2_SVESM4
+-
+     Functionality implied by ID_AA64ZFR0_EL1.SM4 == 0b0001.
+ 
+ HWCAP2_FLAGM2
+-
+     Functionality implied by ID_AA64ISAR0_EL1.TS == 0b0010.
+ 
+ HWCAP2_FRINT
+-
+     Functionality implied by ID_AA64ISAR1_EL1.FRINTTS == 0b0001.
+ 
+ HWCAP2_SVEI8MM
+-
+     Functionality implied by ID_AA64ZFR0_EL1.I8MM == 0b0001.
+ 
+ HWCAP2_SVEF32MM
+-
+     Functionality implied by ID_AA64ZFR0_EL1.F32MM == 0b0001.
+ 
+ HWCAP2_SVEF64MM
+-
+     Functionality implied by ID_AA64ZFR0_EL1.F64MM == 0b0001.
+ 
+ HWCAP2_SVEBF16
+-
+     Functionality implied by ID_AA64ZFR0_EL1.BF16 == 0b0001.
+ 
+ HWCAP2_I8MM
+-
+     Functionality implied by ID_AA64ISAR1_EL1.I8MM == 0b0001.
+ 
+ HWCAP2_BF16
+-
+     Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0001.
+ 
+ HWCAP2_DGH
+-
+     Functionality implied by ID_AA64ISAR1_EL1.DGH == 0b0001.
+ 
+ HWCAP2_RNG
+-
+     Functionality implied by ID_AA64ISAR0_EL1.RNDR == 0b0001.
+ 
+ HWCAP2_BTI
+-
+     Functionality implied by ID_AA64PFR0_EL1.BT == 0b0001.
+ 
+ HWCAP2_MTE
+-
+     Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0010, as described
+     by Documentation/arm64/memory-tagging-extension.rst.
+ 
+ HWCAP2_ECV
+-
+     Functionality implied by ID_AA64MMFR0_EL1.ECV == 0b0001.
+ 
+ HWCAP2_AFP
+-
+     Functionality implied by ID_AA64MFR1_EL1.AFP == 0b0001.
+ 
+ HWCAP2_RPRES
+-
+     Functionality implied by ID_AA64ISAR2_EL1.RPRES == 0b0001.
+ 
+ HWCAP2_MTE3
+-
+     Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0011, as described
+     by Documentation/arm64/memory-tagging-extension.rst.
+ 
+-- 
+2.36.1
 
-
-I checked the defconfig files to make sure we are not removing the
-last ethernet driver from
-one of them. mtx1 has built-in networking and no PCI slot, so this is
-definitely fine.
-the ppc32 configs are for machines with PCI slots and also enable
-multiple drivers but I saw
-nothing specifically needing this card.
-
-       Arnd
