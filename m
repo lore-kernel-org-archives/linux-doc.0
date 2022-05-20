@@ -2,140 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1CB4C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 16:43:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F89C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 20 May 2022 16:47:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351761AbiETQni (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 May 2022 12:43:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48590 "EHLO
+        id S1351902AbiETQrR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 20 May 2022 12:47:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbiETQng (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 12:43:36 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 57B7117855A;
-        Fri, 20 May 2022 09:43:35 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 077B91477;
-        Fri, 20 May 2022 09:43:35 -0700 (PDT)
-Received: from FVFF77S0Q05N (unknown [10.57.7.188])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CF25E3F73D;
-        Fri, 20 May 2022 09:43:30 -0700 (PDT)
-Date:   Fri, 20 May 2022 17:43:26 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Vivek Kumar <quic_vivekuma@quicinc.com>
-Cc:     corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
-        tglx@linutronix.de, maz@kernel.org, axboe@kernel.dk,
-        rafael@kernel.org, akpm@linux-foundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-mm@kvack.org, len.brown@intel.com,
-        pavel@ucw.cz, paulmck@kernel.org, bp@suse.de,
-        keescook@chromium.org, songmuchun@bytedance.com,
-        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
-        pasha.tatashin@soleen.com, tabba@google.com, ardb@kernel.org,
-        tsoni@quicinc.com, quic_psodagud@quicinc.com,
-        quic_svaddagi@quicinc.com
-Subject: Re: [RFC 0/6] Bootloader based hibernation
-Message-ID: <YofFLih8LML9U5rc@FVFF77S0Q05N>
-References: <1652860121-24092-1-git-send-email-quic_vivekuma@quicinc.com>
+        with ESMTP id S1351863AbiETQrD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 12:47:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CF6DD4F467
+        for <linux-doc@vger.kernel.org>; Fri, 20 May 2022 09:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1653065218;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ojbIKgxOqxnHAzNXDbRdq8vthjOu4oruqFZ3uDQUp9g=;
+        b=bd6BnebELhQpRnejDmUjRhKVg+DYcDGmhN7ZXazytbUslFm0egTO0TFWk+UTx+ehEb8blU
+        wDQ6Sws4oTAnpANk0gqwb+/jD0IXthItYR6N5r5FAJ1Xy7HO37eZjuW+a6TCCe/1g2XOk3
+        gF/hNdndywYKurFqO0YtCQQjncFVS7A=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-172-xn3Swnx1M9u2BvhAO2TVkw-1; Fri, 20 May 2022 12:46:54 -0400
+X-MC-Unique: xn3Swnx1M9u2BvhAO2TVkw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6976529AB3F8;
+        Fri, 20 May 2022 16:46:53 +0000 (UTC)
+Received: from [10.22.32.226] (unknown [10.22.32.226])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 677297AD5;
+        Fri, 20 May 2022 16:46:52 +0000 (UTC)
+Message-ID: <75d31caf-2d26-9fcc-13fb-e8be2f2ad8e5@redhat.com>
+Date:   Fri, 20 May 2022 12:46:52 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1652860121-24092-1-git-send-email-quic_vivekuma@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v11 0/8] cgroup/cpuset: cpu partition code enhancements
+Content-Language: en-US
+To:     Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
+References: <20220510153413.400020-1-longman@redhat.com>
+ <Yoe7FOkZpUwwTTQW@linutronix.de>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <Yoe7FOkZpUwwTTQW@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On 5/20/22 12:00, Sebastian Andrzej Siewior wrote:
+> On 2022-05-10 11:34:05 [-0400], Waiman Long wrote:
+>> v11:
+>>   - Fix incorrect spacing in patch 7 and include documentation suggestions
+>>     by Michal.
+>>   - Move partition_is_populated() check to the last one in list of
+>>     conditions to be checked.
+> If I follow this correctly, then this is the latest version of the
+> isolcpus= replacement with cgroup's cpusets, correct?
+>
+> Sebastian
 
-On Wed, May 18, 2022 at 01:18:35PM +0530, Vivek Kumar wrote:
-> Kernel Hibernation
-> 
-> Linux Kernel has been already supporting hibernation, a process which
-> involves freezing of all userspace tasks, followed by quiescing of all
-> kernel device drivers and then a DDR snapshot is taken which is saved
-> to disc-swap partition, after the save, the system can either shutdown
-> or continue further. Generally during the next power cycle when kernel
-> boots and after probing almost all of the drivers, in the late_init()
-> part, it checks if a hibernation image is present in the specified swap
-> slot, if a valid hibernation image is found, it superimposes the currently
-> executing Kernel with an older kernel from the snapshot, moving further,
-> it calls the restore of the drivers and unfreezes the userspace tasks.
-> CONFIG_HIBERNATION and a designated swap partition needs to be present
-> for to enable Hibernation.
-> 
-> Bootloader Based Hibernation:
-> 
-> Automotive usecases require better boot KPIs, Hence we are proposing a
-> bootloader based hibernation restore.
+It is just the beginning, there is still a lot of work to do before 
+isolcpus= can be completely replaced.
 
-At a high-level, I'm not a fan of adding new ways to enter the kernel, and for
-the same reasons that the existing hibernate handover is deliberately *not* a
-stable ABI, I don't think we should add an ABI for this. This is not going to
-remain maintainable or compatible over time as the kernel evolves.
+Cheers,
+Longman
 
-> Purpose of bootloader based hibernation is to improve the overall boot time
-> till the first display frame is seen on the screen or a camera application
-> can be launched from userspace after the power on reset key is pressed.
-
-Can you break down the time taken for that today?
-
-What does a cold boot look like?
-
-What *exactly* are you trying to skip by using hibernation?
-
-Thanks,
-Mark.
-
-> This RFC patchset
-> implements a slightly tweaked version of hibernation in which the
-> restoration of an older snapshot into DDR is being carried out from the
-> bootloader (ABL) itself, by doing this we are saving some time
-> (1 second measured on msm-4.14 Kernel) by not running a
-> temporary kernel and figuring out the hibernation image at late_init().
-> In order to achieve the same bootloader checks for the hibernation
-> image at a very early stage from swap partition, it parses the image and
-> loads it in the DDR instead of loading boot image form boot partition.
-> Since we are not running the temporary kernel,which would have done some
-> basic ARM related setup like, MMU enablement, EL2 setup, CPU setup etc,
-> entry point into hibernation snapshot image directly from bootloader is
-> different, on similar lines, all device drivers are now re-programming
-> the IO-mapped registers as part of the restore callback (which is
-> triggered from the hibernation framework) to bring back the HW/SW sync.
-> 
-> Other factors like, read-speed of the secondary storage device and
-> organization of the hibernation image in the swap partition effects the
-> total image restore time and the overall boot time. In our current
-> implementation we have serialized the allocation of swap-partition's slots
-> in kernel, so when hibernation image is being saved to disc, each page is
-> not scattered across various swap-slot offsets, rather it in a serial
-> manner. For example, if a DDR page at Page frame number 0x8005 is
-> located at a swap-slot offset 50, the next valid DDR page at PFN 0x8005
-> will be preset at the swap-slot offset 51. With this optimization in
-> place, bootloader can utilize the max capacity of issuing a disc-read
-> for reading a bigger chunk (~50 MBs at once) from the swap slot,
-> and also parsing of the image becomes simpler as it is available
-> contiguously.
-> 
-> 
-> 
-> Vivek Kumar (6):
->   arm64: hibernate: Introduce new entry point to kernel
->   PM: Hibernate: Add option to disable disk offset randomization
->   block: gendisk: Add a new genhd capability flag
->   mm: swap: Add randomization check for swapon/off calls
->   Hibernate: Add check for pte_valid in saveable page
->   irqchip/gic-v3: Re-init GIC hardware upon hibernation restore
-> 
->  Documentation/admin-guide/kernel-parameters.txt |  11 ++
->  arch/arm64/kernel/hibernate.c                   |   9 ++
->  drivers/irqchip/irq-gic-v3.c                    | 138 ++++++++++++++++-
->  include/linux/blkdev.h                          |   1 +
->  kernel/power/snapshot.c                         |  43 ++++++++
->  kernel/power/swap.c                             |  12 +++
->  mm/swapfile.c                                   |   6 +-
->  7 files changed, 216 insertions(+), 4 deletions(-)
-> 
-> -- 
-> 2.7.4
-> 
