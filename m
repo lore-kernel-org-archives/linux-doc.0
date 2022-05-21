@@ -2,282 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 619E4C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 09:59:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D465EC433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 10:13:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233573AbiEUJ7T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 May 2022 05:59:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49384 "EHLO
+        id S230263AbiEUKNW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 May 2022 06:13:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229808AbiEUJ7S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 05:59:18 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A3CD13CA2C
-        for <linux-doc@vger.kernel.org>; Sat, 21 May 2022 02:59:17 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id fw21-20020a17090b129500b001df9f62edd6so7864877pjb.0
-        for <linux-doc@vger.kernel.org>; Sat, 21 May 2022 02:59:17 -0700 (PDT)
+        with ESMTP id S229759AbiEUKNU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 06:13:20 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFB0D91573;
+        Sat, 21 May 2022 03:13:16 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id u15so9608678pfi.3;
+        Sat, 21 May 2022 03:13:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=OtU8FziZb/lC8t0C+7jzgpt3U+UNsyu0kRLIQ0lPe0s=;
-        b=cipNdOcr5e6amCVEH4sAyMOFAE+nhxW5iFNqajomV15aejoLx7Jnirv/AVOLQVic3o
-         uYnI1adzxWJHbMmIiCY4I+9ZwtPfBZMpZmFyeSszm72XGrhkmj779m1rpJPq9FS/LE3F
-         V6nvsyNYjppOXJrUlaTKCyNBqIXvVx8Vhtj/6HGrnKHjBAXiPY2bzz4w1+UfXree8dto
-         SqHPVafLNOtAOeIQBeuvihB/K0lEqUmTeu/WtAtP2l2/IUQB/i/fJVWRqElsmz80PWBk
-         6RQthr8pYutfxLsRU62N71UlAmTSqnTNvdB0oobm8EISAwtJHYA4T8g0qiEQCF/GSKPH
-         0B0w==
+        bh=Imk5U5o4qb9sYPb2hIJEDe8z3zcnedsiK3xTbIv0nfU=;
+        b=FT2vm54FSlZrbqao1nMBjWXhfOd77eLy3UPGaRLiR2ILowj6K8EXbDyi6kWwXWyt97
+         6PYxlHKsXU7nUy1UTwfr6ArN1nfazB8TFElN7MGqd2p1PA8sF6A0DSQkgHl5URDkxCS7
+         GlazLPfDggaPVtTvmOUVevU63SyxR9lMHsU78Fp20sOerH/rREbQySWBlpvQP5xiBZMW
+         mrIflN1LtUIsWzjwpo+E0PKqfaIYaQ5O2t13s7JkGbll8B0jrh/IugccISy5Hi2S9H4w
+         lIX5Go7lWSp+IMeRcVb9QQ7DddHwM5DmPEJFaOq+bCHWYWdq3zwksraW3fvbdfVbZ73m
+         kzbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=OtU8FziZb/lC8t0C+7jzgpt3U+UNsyu0kRLIQ0lPe0s=;
-        b=5WsCFSd+ovhIev5WTov7+/0M2lqLbaMuFYAcNYgbs/nnOe2uTKq1fL6jnq1tOj6VhH
-         rbj4gfzigZJ0tNeUXn0UYA/rS6cVAWKi4Sm1YgbJOd6ORdF6bMuo3+lUr73KNO2IRPeB
-         de63H6kGcNPuA0Viqo6t7fOJrP7XT4jPXUbI8MrxBWtWA/T9Xf5zPso4tAvoCru9kkk7
-         pwTUYkClUKTMC34JNaUpLnjL2Z7IVg4AmocxSJHZ4E7PrKkkoLwLaClNGA8TN7dc/X39
-         8YPTPqXNJYtnVa3Ul9HrsBpAaX+SbR5H9dlSnO2QwR24SndY0ldYXdDZepnGHpsLGhCJ
-         74ow==
-X-Gm-Message-State: AOAM531Q/cxgZEF4214nZPODBFkh+TdKre/Cn9y8aRa/TR/z/07ZisSc
-        NV7YlTWCqy/syCosv7Uzzxg=
-X-Google-Smtp-Source: ABdhPJxjz8JnSCl7uDf7Q4gmhJRxnIo+xJttBfZ24kZwdk3SWd715y3qi2bgdEYRTZumPZA+7VPqTQ==
-X-Received: by 2002:a17:90a:4f0a:b0:1df:b37b:75b1 with SMTP id p10-20020a17090a4f0a00b001dfb37b75b1mr16307748pjh.199.1653127156523;
-        Sat, 21 May 2022 02:59:16 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id d6-20020a17090a7bc600b001df4c27e5a5sm3316956pjl.35.2022.05.21.02.59.14
+        bh=Imk5U5o4qb9sYPb2hIJEDe8z3zcnedsiK3xTbIv0nfU=;
+        b=3BPXIWqzx2WCiqMtglmjAFzq7Ukhvn9QJqgCamdP0mhFXX9zE5ipCde34Oia9qZWGP
+         wBx6O1Dq1Kw6Y/sGGXTSY2lf1P80LnUb6TAUfOT/WGVVZHmgB/ipxqmF79JcX9U17RTo
+         Y4Uf7lT1+LqxhAbuMas3px5uqOrpk+0LID6fCSAP2xng7/ee6YR9RVhpezyY7QTNxNmI
+         ptunJhmttwFzumA8538g9sL852Q4W8LpknN/sKEr8keRn9beroXo7+/A9cN5XOLWUZ6j
+         jLOLInDNrkQ4BfDDkPpIcgrrJ0Se3JePyxAJ4s5mVhBA1uw2eNm7IwuCyGNfUkdDC0GM
+         ZYoQ==
+X-Gm-Message-State: AOAM533PB5aNkSEsx8/VK0upcEMVb8z/yfs0DVocI8t7zjLqyavPJ8fa
+        5aQkD3zAGlA1XegQ9rqNSms=
+X-Google-Smtp-Source: ABdhPJyyVSDvdHIMl+TO/kI7Mu4SCG5/wcN6WFi3HbUvpHpvu5mNdQYPPPiLCbMML+0nofmv5IBa4Q==
+X-Received: by 2002:a63:5a01:0:b0:3d8:22cb:9224 with SMTP id o1-20020a635a01000000b003d822cb9224mr12074800pgb.548.1653127996412;
+        Sat, 21 May 2022 03:13:16 -0700 (PDT)
+Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
+        by smtp.gmail.com with ESMTPSA id i18-20020a170902c95200b0015e8d4eb287sm1221001pla.209.2022.05.21.03.13.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 May 2022 02:59:15 -0700 (PDT)
-Message-ID: <c03f546e-aef2-f53c-4037-54f3715db799@gmail.com>
-Date:   Sat, 21 May 2022 18:59:10 +0900
+        Sat, 21 May 2022 03:13:15 -0700 (PDT)
+Message-ID: <475ccf8e-5238-6924-0a37-c45bc2c98b69@gmail.com>
+Date:   Sat, 21 May 2022 18:13:09 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: "WARNING: Duplicate C declaration" from recent Sphinx (was Re:
- [PATCH] docs: sphinx/requirements: Limit jinja2<3.1)
+Subject: Re: [PATCH 1/2] psi: add support for multi level pressure stall
+ trigger
 Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
- <871qyk7p28.fsf@meer.lwn.net> <20220330022534.10ac0a50@coco.lan>
- <ed2690db-84ae-5c85-f65d-e08021f5f562@gmail.com>
- <20220330190724.1596e01a@coco.lan>
- <edf80179-4776-773d-0c4a-e75a1824bfba@gmail.com>
- <564cbd05-8788-9223-1ecc-59e7fc41b46a@gmail.com>
- <20220521114629.6ee9fc06@coco.lan>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220521114629.6ee9fc06@coco.lan>
+To:     Chen Wandun <chenwandun@huawei.com>,
+        Suren Baghdasaryan <surenb@google.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20220516033524.3130816-1-chenwandun@huawei.com>
+ <30b37eeb-e77b-882e-fc24-3367321a8ca3@gmail.com>
+ <CAJuCfpE7fBsp8ntYVeLsW7Cd0Z09OmxN75X9Az_Qco0GJrz3Wg@mail.gmail.com>
+ <CAJuCfpH-BDqsft1YvGFhkbR60VC0TJgfXKRVN+80e0iqQdhxpA@mail.gmail.com>
+ <3a31521f-a68a-b2a9-baae-9a458ee17033@huawei.com>
+ <070fe87d-43a0-5e4f-e4c7-c44782c2c195@gmail.com>
+ <CAJuCfpH1mTxe5hmzZTe+AbPFse9heenx8uhGzCXE6fAh5G8SzA@mail.gmail.com>
+ <29d66a46-d141-2d02-45dd-a8931786588e@gmail.com>
+ <9fc88a71-b484-c471-66cd-a4d87d8c02c4@huawei.com>
+From:   Alex Shi <seakeel@gmail.com>
+In-Reply-To: <9fc88a71-b484-c471-66cd-a4d87d8c02c4@huawei.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/05/21 18:46,
-Mauro Carvalho Chehab wrote:
-> Em Sat, 21 May 2022 16:58:45 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
+
+
+On 5/21/22 15:23, Chen Wandun wrote:
 > 
->> On Thu, 31 Mar 2022 23:32:41 +0900,
->> Akira Yokosawa wrote:
->>> On Wed, 30 Mar 2022 19:07:24 +0200,
->>> Mauro Carvalho Chehab wrote:  
->>>> Em Wed, 30 Mar 2022 23:59:05 +0900
->>>> Akira Yokosawa <akiyks@gmail.com> escreveu:
->>>>  
->>>>> Hi Mauro,
+> 
+> 在 2022/5/19 14:15, Alex Shi 写道:
+>>
+>> On 5/19/22 05:38, Suren Baghdasaryan wrote:
+>>> On Wed, May 18, 2022 at 3:29 AM Alex Shi <seakeel@gmail.com> wrote:
+>>>>
+>>>>
+>>>> On 5/17/22 20:46, Chen Wandun wrote:
+>>>>>>>> This breaks the old ABI. And why you need this new function?
+>>>>>>> Both great points.
+>>>>>> BTW, I think the additional max_threshold parameter could be
+>>>>>> implemented in a backward compatible way so that the old API is not
+>>>>>> broken:
+>>>>>>
+>>>>>> arg_count = sscanf(buf, "some %u %u %u", &min_threshold_us,  &arg2, &arg3);
+>>>>>> if (arg_count < 2) return ERR_PTR(-EINVAL);
+>>>>>> if (arg_count < 3) {
+>>>>>>       max_threshold_us = INT_MAX;
+>>>>>>       window_us = arg2;
+>>>>>> } else {
+>>>>>>       max_threshold_us = arg2;
+>>>>>>       window_us = arg3;
+>>>>>> }
+>>>>> OK
 >>>>>
->>>>> On Wed, 30 Mar 2022 02:25:34 +0200,
->>>>> Mauro Carvalho Chehab wrote:
->>>>> [...]  
->>>>>> We need to verify both PDF and html generation, though, as I remember
->>>>>> that some 4.x versions had/(have?) issues with the C domain and duplicate
->>>>>> symbols detection.    
->>>>>
->>>>> Can you elaborate on the issue you observed?
->>>>> In which document did you see it?  
->>>>
->>>> Sorry, it was on Sphinx 3.x, although the most complete fix got
->>>> merged on 4.0, I guess. This patch is related to it:
->>>>
->>>> 	b34b86d7a418 ("docs: conf.py: fix c:function support with Sphinx 3.x")
->>>>
->>>> Basically, the Sphinx maintainer for the C domain rewrote the code,
->>>> causing all references generated by kernel-doc to be broken, and
->>>> almost all references at the media docs as well. Before the changes,
->>>> there were just one domain for C code references, used for functions,
->>>> structs, enums, etc. After the change, each one requires a different
->>>> tag. The kerneldoc script has gained support for Sphinx version when
->>>> such issue was addressed.
->>>>
->>>> Another consequence of such change is that you can't have more than
->>>> one "read()" function inside the entire Kernel. While this makes
->>>> sense on userspace, It doesn't at Kernelspace, as different subsystems
->>>> may handle read/write/ioctl/... syscalls on their particular ways.
->>>> So, building docs were causing warnings about duplicated symbols.
->>>>
->>>> There were some changes that went on 4.x to fix it, when 
->>>> ".. c:namespace::" got merged. I don't remember when it was added.  
+>>>>> Thanks.
+>>>>>> But again, the motivation still needs to be explained.
+>>>>> we want do different operation for different stall level,
+>>>>> just as prev email explain, multi trigger is also OK in old
+>>>>> ways, but it is a litter complex.
+>>>> In fact, I am not keen for this solution, the older and newer
+>>>> interface is easy to be confused by users, for some resolvable
+>>>> unclear issues. It's not a good idea.
+>>> Maybe adding the max_threshold as an optional last argument will be
+>>> less confusing? Smth like this:
 >>>
->>> Thank you for the detailed explanation.
->>>
->>> So I compared logs from "make SPHINXDIRS=driver-api htmldocs" with
->>> Sphinx 2.4.4 and 4.5.0 on current docs-next.
->>>
->>> There are 8 more lines in the log from 4.5.0 than from 2.4.4, give
->>> or take minor format differences.
->>>
->>> Here are those extra 8 lines (long lines are kept):
->>>
->>> ----
->>> /wk/Documentation/driver-api/usb/usb.rst:967: WARNING: Duplicate C declaration, also defined at usb/gadget:775.
->>> Declaration is '.. c:struct:: usb_string'.
->>> /wk/Documentation/driver-api/miscellaneous:48: ./drivers/pwm/core.c:679: WARNING: Duplicate C declaration, also defined at miscellaneous:305.
->>> Declaration is '.. c:function:: int pwm_capture (struct pwm_device *pwm, struct pwm_capture *result, unsigned long timeout)'.
->>> /wk/Documentation/driver-api/surface_aggregator/client-api:25: ./drivers/platform/surface/aggregator/controller.c:1689: WARNING: Duplicate C declaration, also defined at surface_aggregator/client-api:105.
->>> Declaration is '.. c:function:: int ssam_request_sync (struct ssam_controller *ctrl, const struct ssam_request *spec, struct ssam_response *rsp)'.
->>> /wk/Documentation/driver-api/80211/mac80211:109: ./include/net/mac80211.h:4811: WARNING: Duplicate C declaration, also defined at 80211/mac80211:1024.
->>> Declaration is '.. c:function:: void ieee80211_tx_status (struct ieee80211_hw *hw, struct sk_buff *skb)'.
->>> ----
->>>
->>> So those "WARNING: Duplicate C declaration" messages are what you
->>> mentioned earlier, aren't they?
->>>   
->>
->> So, I think I have figured out what causes those "WARNING: Duplicate
->> C declaration".
-> 
-> Basically there are two places defining the same function. This could
-> either be:
-> 
-> 1. because the same header/c file is included on multiple places with
->    kernel-doc directives;
-> 2. because both *.c and *.h files declare the same function and both
->    are included via kernel-doc directives;
-> 3. because they use different namespaces;
-> 4. because they're documenting system calls.
-> 
-> For (1) and (2) the solution is to fix the kernel-doc includes and/or
-> the header/c files;
-> 
-> For (3) and (4) the solution is to define a c namespace via
-> 	.. c:namespace:: foo
-> meta-tags.
-> 
->> When you have kernel-doc comments for both struct and function
->> of the same name, recent Sphinx emits this warning.
-> 
-> Yes.
-> 
->>
->> Although Sphinx versions 1.7.9 and 2.4.4 don't complain, the result
->> is the same with Sphinx 3.x and 4.x (with the fix to kernel-doc Mauro
->> mentioned above).
-> 
-> True, it doesn't complain, but the generated documents have issues.
-> 
->> I have no idea which version of Sphinx is employed for building pages at
->> https://www.kernel.org/doc/html/latest/driver-api/80211/mac80211.html,
->> but the cross reference to the ieee80211_tx_status() function in the
->> description of ieee80211_rx_ni() points to struct ieee80211_tx_status,
->> which is not an expected behavior.
->>
->> In this case, it seems to me that both the struct and function
->> kernel-doc comments are included by the kernel-doc directive
->>
->> .. kernel-doc:: include/net/mac80211.h
->>    :functions:
->> 	ieee80211_rx_status
->>         [...]
->>
->> at Documentation/driver-api/80211/mac80211.rst:109.
->>
->> As the :functions: option is identical to :identifiers:, both of
->> kernel-doc comments in mac80211.h, namely:
->>
->>     include/net/mac80211.h:1148: * struct ieee80211_tx_status - extended tx status info for rate control
->>
->>     include/net/mac80211.h:4813: * ieee80211_tx_status - transmit status callback
->>
->> are extracted by the kerneldoc extension (or the kernel-doc script).
-> 
-> The Kernel-doc extension should create two separate references for newer Kernels,
-> depending on the version.
-> 
-> With older versions of Sphinx, it generates:
-> 
-> 	$ ./scripts/kernel-doc -sphinx-version 2.1 include/net/mac80211.h|grep "c:.*ieee80211_tx_status\b"
-> 	.. c:type:: struct ieee80211_tx_status
-> 	.. c:function:: void ieee80211_tx_status (struct ieee80211_hw *hw, struct sk_buff *skb)
-> 	.. c:function:: void ieee80211_tx_status_ext (struct ieee80211_hw *hw, struct ieee80211_tx_status *status)
-> 
-> Here, there's just a single namespace, so both function and type will be
-> considered as the same thing. No warnings are generated, though.
-> 
-> Versions 3.1 and above:
-> 
-> 	$ ./scripts/kernel-doc -sphinx-version 3.1 include/net/mac80211.h|grep "c:.*ieee80211_tx_status\b"
-> 	.. c:struct:: ieee80211_tx_status
-> 	.. c:function:: void ieee80211_tx_status (struct ieee80211_hw *hw, struct sk_buff *skb)
-> 	.. c:function:: void ieee80211_tx_status_ext (struct ieee80211_hw *hw, struct ieee80211_tx_status *status)
-> 
-> This works since version 3.0, but only on version 4.0 namespace tags
-> started to work.
-> 
-> As far as I know:
-> 
-> Sphinx < 3: there's a single namespace. It doesn't check duplicated
-> refs. So, cross-references there will be plain broken on symbols with
-> identical names.
-> 
-> Sphinx 3.0: Although it uses different tags, there's still a single
-> namespace. It will warn about duplicate symbols. Building docs with
-> such version will generate lots of warnings that should not be fixed.
-> 
-> This is a version that we don't support well.
-> 
-> Sphinx 3.1 and above: structs, enums, functions, typedefs, etc have their
-> own separate namespaces. So, it is possible to have struct with the same
-> name as a function.
-> 
-> Yet, it will complain about duplicated symbols for system calls. I guess
-> we added a hack somethere to avoid too much noise on versions between
-> 3.1 and 4.0.
-> 
-> Sphinx 4.0 and above: it is now possible to add a namespace. This allows
-> fixing things like read() system calls that have different meanings on
-> different subsystems.
-> 
-> On other words, only with Sphinx 4.0 and above, the cross-references
-> for C domain symbols should all be OK.
-> 
->>
->> Mauro, does your earlier comment:
->>>> Another consequence of such change is that you can't have more than
->>>> one "read()" function inside the entire Kernel.   
->>
->> apply to those struct and functions of the identical name?
->>
->> I just want to know what is the expected behavior in this case.
-> 
-> Yes, that's the case for versions < 4.0. On 4.0, we need to specify a
-> c namespace to document them.
-> 
-> You can se such things if you do a:
-> 
-> 	$ git grep c:namespace Documentation/userspace-api/
-> 
-> The media uAPI documentation has separate documentation for syscalls,
-> depending on being CEC, V4L or one of the DVB APIs.
+>>> some/full min_threshold window_size [max_threshold]
+>> It's already confused enough. :)
+> which point make you confused？
+> Interface suggest by Suren is compatible with current version,
+> I think it is more reasonable and there is no difficuty to understand it.
 
-Mauro, many thanks for the quick and detailed explanation.
-I think it will take a little while for me to digest all of this, but
-when I do, I'll try and see if I can fix the offending docs by proper
-uses of namespaces for Sphinx >= 4.0.
+Your 3rd parameter has different meaning depends on the exists or non-exist
+4th one. It's not a good design. 
 
-        Thanks, Akira
-
+>> BTW, I still don't see the strong reason for the pressure range.
+> Considering this case:
+> I divide pressure into multi levels, and each level corresponds to a
+> hander,  I have to register multi triggers and wait for fire events,
+> nowadays, these trigger is something like:
+> echo “some 150000 1000000” > /proc/pressure/memory
+> echo “some 350000 1000000” > /proc/pressure/memory
+> echo “some 550000 1000000” > /proc/pressure/memory
+> echo “some 750000 1000000” > /proc/pressure/memory
 > 
-> Thanks,
-> Mauro
+> In the best case, stall pressure between 150000 and 350000,
+> only one trigger fire, and only one wakeup.
+> 
+> In any other case,  multi triggers fire and multi wakeup, but it
+> indeed is no need.
+> 
+
+Could you give more details info to show what detailed problem
+which your propose could address, but current code cannot?
+
+
+Thanks
+Alex
+
+> New implement make the fire and wakeup more precise,
+> userspace code will be more simple, no confusing fire event,
+> no need to filter fire event anymore, maybe minor performance
+> improved.
+> 
+> Thanks.
+>>
+>>>> Also, if we do decide to add it, there should be a warning in the
+>>> documentation that max_threshold usage might lead to a stall being
+>>> missed completely. In your example:
+>>>
+>>> echo "some 150000 350000 1000000" > /proc/pressure/memory
+>>>
+>>> If there is a stall of more than 350ms within a given window, that
+>>> trigger will not fire at all.
+>> Right.
+>> And what if others propose more pressure combinations?
+>> Maybe leave them to user space is more likely workable?
+>>
+>> Thanks
+>> Alex
+>> .
+> 
