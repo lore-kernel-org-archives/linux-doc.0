@@ -2,149 +2,252 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2E1DC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 09:44:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7578DC433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 09:46:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230156AbiEUJoH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 May 2022 05:44:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49686 "EHLO
+        id S235042AbiEUJqg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 May 2022 05:46:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbiEUJn7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 05:43:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 723FD5C853
-        for <linux-doc@vger.kernel.org>; Sat, 21 May 2022 02:43:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1653126237;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=dQakkrlXQRKntd0RRpdtvvmaPsTow/BNKvunF/X2S4o=;
-        b=jI3jDKx+TTxxZ9N/Kn2j4CQfYOqxHKMHhKOmpY57w5WAF20DUwJFm5PASFWyZq7PmEQItz
-        1F8xXjPT6PWFPcVxasx1resesq8WhOfrpo/5bi+GIY2z5AiircYkrwws1+NKqtGmb/j6+J
-        GSdlCXBPQ/ORQg8IJfFj/RcEc2Kih5Q=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-GROAOERxO8CTTqNKq-eI2g-1; Sat, 21 May 2022 05:43:51 -0400
-X-MC-Unique: GROAOERxO8CTTqNKq-eI2g-1
-Received: by mail-wm1-f72.google.com with SMTP id e9-20020a05600c4e4900b00394779649b1so7466362wmq.3
-        for <linux-doc@vger.kernel.org>; Sat, 21 May 2022 02:43:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=dQakkrlXQRKntd0RRpdtvvmaPsTow/BNKvunF/X2S4o=;
-        b=gPv0RT4QeM3jHyEQ8qr73wf/clI/cTU1/7uTBXvLeuK1TpMsxhGgaJsDkx3k73DnHG
-         t1soWwWQsS/4tafYPgFIWCyXICtD3Wjv9Qq+qamreT3RQAsA8C6BP59txvtjhJ5jqdKX
-         oiv/WdZlNSueXk9MMKYUNVrXscqw15EIuGn1SkQEOCctX8L7k27rUUBfgtrQ6cvfT/z9
-         mfBQKMVKs0GiYDsNkLCbPfqWsdSh8GIoMB5YIOZ9IVS7vJM5G5LUZzvxqSJ8xm1moAvo
-         xrVWitJfXm4OIbBoK/m2XrpaW8e39WuvxLF7tAombSQvQrB/IP1UhtDfYFp3cA7k/LP7
-         fOBA==
-X-Gm-Message-State: AOAM531Iflug29/88tvCeaSDranxFJJHFdeb/cnszosrrWeNwLCS0CmH
-        +5S9sRf/BkzHutsRD3pqjobX5KIyO8bCBAMJboRF88ogTFIRzcvvKkbr6+nYntVDBPeVK8MLRb4
-        1UFMd6b+SlgmoX5E+co93
-X-Received: by 2002:a05:6000:144e:b0:20e:6719:c376 with SMTP id v14-20020a056000144e00b0020e6719c376mr11371527wrx.715.1653126230199;
-        Sat, 21 May 2022 02:43:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyNY4l0J3NU0fU5ldjpTVsJKjUF0HOYrRkkJ7veXmwkg/db0qArtoiGUueey/Ksa0YlGIw9oQ==
-X-Received: by 2002:a05:6000:144e:b0:20e:6719:c376 with SMTP id v14-20020a056000144e00b0020e6719c376mr11371508wrx.715.1653126229992;
-        Sat, 21 May 2022 02:43:49 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id d21-20020adf9b95000000b0020d06e7c16fsm4529325wrc.84.2022.05.21.02.43.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 May 2022 02:43:49 -0700 (PDT)
-Message-ID: <20bde9a2-592d-30a8-8cdc-03bdf1bf3e93@redhat.com>
-Date:   Sat, 21 May 2022 11:43:48 +0200
+        with ESMTP id S234199AbiEUJqf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 05:46:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6452D2F006
+        for <linux-doc@vger.kernel.org>; Sat, 21 May 2022 02:46:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CC1FA6111C
+        for <linux-doc@vger.kernel.org>; Sat, 21 May 2022 09:46:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 567B9C385A5;
+        Sat, 21 May 2022 09:46:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653126393;
+        bh=Ef1Ofi2vWDabAfToSsNeZYYiOyAqSxpfOsHsO55wis0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=pZbmE3BmfYjgJ+ONqcsFdPbS2CWPOknm3sL+THZf8KCtcgG9DHZNClYvLBvE0kjY8
+         GRx+y7KwPMHdCFiqdpanZCPbofXe45L1NslLluatXWDUf6BqdNdzIrIUJbRFq3zZhq
+         Tdne6fLd4rv8IGP6DdiJcGq8we/NNx5CDfPPkKOjtuo5ngczndRCivp5aII1+NRx1B
+         OJw28yHaIhfSN6oFtPzuLwjGR9s1VM3fvHL3TzhFT1VTFk5Eg3tRGS/JuHqMq7Y+ic
+         R0jdp06cIkoOBOURbnTjP+6qpDUEgX/9ZD9XJ/sYOrW4EnrG3klmUnYhjJ4F1dooUj
+         6y/Ox5Q0RSx6g==
+Date:   Sat, 21 May 2022 11:46:29 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: "WARNING: Duplicate C declaration" from recent Sphinx (was Re:
+ [PATCH] docs: sphinx/requirements: Limit jinja2<3.1)
+Message-ID: <20220521114629.6ee9fc06@coco.lan>
+In-Reply-To: <564cbd05-8788-9223-1ecc-59e7fc41b46a@gmail.com>
+References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
+        <871qyk7p28.fsf@meer.lwn.net>
+        <20220330022534.10ac0a50@coco.lan>
+        <ed2690db-84ae-5c85-f65d-e08021f5f562@gmail.com>
+        <20220330190724.1596e01a@coco.lan>
+        <edf80179-4776-773d-0c4a-e75a1824bfba@gmail.com>
+        <564cbd05-8788-9223-1ecc-59e7fc41b46a@gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH V11 09/22] LoongArch: Add boot and setup routines
-Content-Language: en-US
-To:     Huacai Chen <chenhuacai@gmail.com>
-Cc:     Ard Biesheuvel <ardb@kernel.org>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-efi <linux-efi@vger.kernel.org>
-References: <20220518092619.1269111-1-chenhuacai@loongson.cn>
- <20220518092619.1269111-10-chenhuacai@loongson.cn>
- <CAMj1kXEBVWi2ZdR5Le5-G0DA43u-AMxmSO=pVt39qwN=PkzQfw@mail.gmail.com>
- <0bae0df1-48ae-d02f-bce4-d1f69acf269e@redhat.com>
- <CAAhV-H5dqNiecER3fChkBjQUGGszj6gwcpOFM1b4Kaax5vz27g@mail.gmail.com>
- <cdbb002a-9f0a-caa9-445e-4ba20328171a@redhat.com>
- <CAAhV-H7yKVWaiU_VKnc2YnCSeZPOwedRWMY8ZTS-VWwk+vE0AA@mail.gmail.com>
- <256e0b82-5d0f-cf40-87c6-c2505d2a6d3b@redhat.com>
- <CAAhV-H7bJv5V5UKJCWgEbOdOWZhnma3_3eAXbbY1MX_uKodjgg@mail.gmail.com>
- <859d5489-9361-3db0-1da4-1417ed2fad6c@redhat.com>
- <CAAhV-H4UxkyHr=NQGFAAjCXwXHXDLsN_CV-tSCn6oonOSSjb0A@mail.gmail.com>
- <7caec251-20e7-4a8c-93ee-b28558ec580f@redhat.com>
- <CAAhV-H6pfv4OQ5PhSfzG9YM_q5DYdgZ0DHVT7Aac9sppXGgnaA@mail.gmail.com>
-From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAAhV-H6pfv4OQ5PhSfzG9YM_q5DYdgZ0DHVT7Aac9sppXGgnaA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Huacai,
+Em Sat, 21 May 2022 16:58:45 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-On 5/21/22 11:13, Huacai Chen wrote:
-> Hi, Javier,
+> On Thu, 31 Mar 2022 23:32:41 +0900,
+> Akira Yokosawa wrote:
+> > On Wed, 30 Mar 2022 19:07:24 +0200,
+> > Mauro Carvalho Chehab wrote:  
+> >> Em Wed, 30 Mar 2022 23:59:05 +0900
+> >> Akira Yokosawa <akiyks@gmail.com> escreveu:
+> >>  
+> >>> Hi Mauro,
+> >>>
+> >>> On Wed, 30 Mar 2022 02:25:34 +0200,
+> >>> Mauro Carvalho Chehab wrote:
+> >>> [...]  
+> >>>> We need to verify both PDF and html generation, though, as I remember
+> >>>> that some 4.x versions had/(have?) issues with the C domain and duplicate
+> >>>> symbols detection.    
+> >>>
+> >>> Can you elaborate on the issue you observed?
+> >>> In which document did you see it?  
+> >>
+> >> Sorry, it was on Sphinx 3.x, although the most complete fix got
+> >> merged on 4.0, I guess. This patch is related to it:
+> >>
+> >> 	b34b86d7a418 ("docs: conf.py: fix c:function support with Sphinx 3.x")
+> >>
+> >> Basically, the Sphinx maintainer for the C domain rewrote the code,
+> >> causing all references generated by kernel-doc to be broken, and
+> >> almost all references at the media docs as well. Before the changes,
+> >> there were just one domain for C code references, used for functions,
+> >> structs, enums, etc. After the change, each one requires a different
+> >> tag. The kerneldoc script has gained support for Sphinx version when
+> >> such issue was addressed.
+> >>
+> >> Another consequence of such change is that you can't have more than
+> >> one "read()" function inside the entire Kernel. While this makes
+> >> sense on userspace, It doesn't at Kernelspace, as different subsystems
+> >> may handle read/write/ioctl/... syscalls on their particular ways.
+> >> So, building docs were causing warnings about duplicated symbols.
+> >>
+> >> There were some changes that went on 4.x to fix it, when 
+> >> ".. c:namespace::" got merged. I don't remember when it was added.  
+> > 
+> > Thank you for the detailed explanation.
+> > 
+> > So I compared logs from "make SPHINXDIRS=driver-api htmldocs" with
+> > Sphinx 2.4.4 and 4.5.0 on current docs-next.
+> > 
+> > There are 8 more lines in the log from 4.5.0 than from 2.4.4, give
+> > or take minor format differences.
+> > 
+> > Here are those extra 8 lines (long lines are kept):
+> > 
+> > ----
+> > /wk/Documentation/driver-api/usb/usb.rst:967: WARNING: Duplicate C declaration, also defined at usb/gadget:775.
+> > Declaration is '.. c:struct:: usb_string'.
+> > /wk/Documentation/driver-api/miscellaneous:48: ./drivers/pwm/core.c:679: WARNING: Duplicate C declaration, also defined at miscellaneous:305.
+> > Declaration is '.. c:function:: int pwm_capture (struct pwm_device *pwm, struct pwm_capture *result, unsigned long timeout)'.
+> > /wk/Documentation/driver-api/surface_aggregator/client-api:25: ./drivers/platform/surface/aggregator/controller.c:1689: WARNING: Duplicate C declaration, also defined at surface_aggregator/client-api:105.
+> > Declaration is '.. c:function:: int ssam_request_sync (struct ssam_controller *ctrl, const struct ssam_request *spec, struct ssam_response *rsp)'.
+> > /wk/Documentation/driver-api/80211/mac80211:109: ./include/net/mac80211.h:4811: WARNING: Duplicate C declaration, also defined at 80211/mac80211:1024.
+> > Declaration is '.. c:function:: void ieee80211_tx_status (struct ieee80211_hw *hw, struct sk_buff *skb)'.
+> > ----
+> > 
+> > So those "WARNING: Duplicate C declaration" messages are what you
+> > mentioned earlier, aren't they?
+> >   
 > 
-> On Sat, May 21, 2022 at 5:06 PM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->>
->> Hello Huacai,
->>
->> On 5/21/22 09:37, Huacai Chen wrote:
->>
->> [snip]
->>
->>>>
->>>> A problem with moving to subsys_initcall_sync() is that this will delay
->>>> more when a display is available in the system, and just to cope up with
->>>> a corner case (as mentioned the common case is native drivers as module).
->>> OK, your method seems better, but I think moving to
->>> subsys_initcall_sync() can make the screen display as early as
->>> possible.
->>>
->>
->> But it doesn't cover all cases. For example, you will get the same error
->> if for example your native driver is built-in and efifb built as module.
->>
->> So my opinion is that instead of playing with the init call levels, is
->> just better for you to build your native driver as a module instead of
->> making it built-in.
-> I mean moving to subsys_initcall_sync() on top of your patchset, not
-> replacing them (Just for display earlier).
->
+> So, I think I have figured out what causes those "WARNING: Duplicate
+> C declaration".
 
-Ah, I see what you mean. Yes, that makes sense indeed.
+Basically there are two places defining the same function. This could
+either be:
 
-Feel free to post a patch proposing that. If you do, please also include
-Thomas Zimmermann <tzimmermann@suse.de> to the Cc list. Thanks!
+1. because the same header/c file is included on multiple places with
+   kernel-doc directives;
+2. because both *.c and *.h files declare the same function and both
+   are included via kernel-doc directives;
+3. because they use different namespaces;
+4. because they're documenting system calls.
 
--- 
-Best regards,
+For (1) and (2) the solution is to fix the kernel-doc includes and/or
+the header/c files;
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+For (3) and (4) the solution is to define a c namespace via
+	.. c:namespace:: foo
+meta-tags.
 
+> When you have kernel-doc comments for both struct and function
+> of the same name, recent Sphinx emits this warning.
+
+Yes.
+
+> 
+> Although Sphinx versions 1.7.9 and 2.4.4 don't complain, the result
+> is the same with Sphinx 3.x and 4.x (with the fix to kernel-doc Mauro
+> mentioned above).
+
+True, it doesn't complain, but the generated documents have issues.
+
+> I have no idea which version of Sphinx is employed for building pages at
+> https://www.kernel.org/doc/html/latest/driver-api/80211/mac80211.html,
+> but the cross reference to the ieee80211_tx_status() function in the
+> description of ieee80211_rx_ni() points to struct ieee80211_tx_status,
+> which is not an expected behavior.
+> 
+> In this case, it seems to me that both the struct and function
+> kernel-doc comments are included by the kernel-doc directive
+> 
+> .. kernel-doc:: include/net/mac80211.h
+>    :functions:
+> 	ieee80211_rx_status
+>         [...]
+> 
+> at Documentation/driver-api/80211/mac80211.rst:109.
+> 
+> As the :functions: option is identical to :identifiers:, both of
+> kernel-doc comments in mac80211.h, namely:
+> 
+>     include/net/mac80211.h:1148: * struct ieee80211_tx_status - extended tx status info for rate control
+> 
+>     include/net/mac80211.h:4813: * ieee80211_tx_status - transmit status callback
+> 
+> are extracted by the kerneldoc extension (or the kernel-doc script).
+
+The Kernel-doc extension should create two separate references for newer Kernels,
+depending on the version.
+
+With older versions of Sphinx, it generates:
+
+	$ ./scripts/kernel-doc -sphinx-version 2.1 include/net/mac80211.h|grep "c:.*ieee80211_tx_status\b"
+	.. c:type:: struct ieee80211_tx_status
+	.. c:function:: void ieee80211_tx_status (struct ieee80211_hw *hw, struct sk_buff *skb)
+	.. c:function:: void ieee80211_tx_status_ext (struct ieee80211_hw *hw, struct ieee80211_tx_status *status)
+
+Here, there's just a single namespace, so both function and type will be
+considered as the same thing. No warnings are generated, though.
+
+Versions 3.1 and above:
+
+	$ ./scripts/kernel-doc -sphinx-version 3.1 include/net/mac80211.h|grep "c:.*ieee80211_tx_status\b"
+	.. c:struct:: ieee80211_tx_status
+	.. c:function:: void ieee80211_tx_status (struct ieee80211_hw *hw, struct sk_buff *skb)
+	.. c:function:: void ieee80211_tx_status_ext (struct ieee80211_hw *hw, struct ieee80211_tx_status *status)
+
+This works since version 3.0, but only on version 4.0 namespace tags
+started to work.
+
+As far as I know:
+
+Sphinx < 3: there's a single namespace. It doesn't check duplicated
+refs. So, cross-references there will be plain broken on symbols with
+identical names.
+
+Sphinx 3.0: Although it uses different tags, there's still a single
+namespace. It will warn about duplicate symbols. Building docs with
+such version will generate lots of warnings that should not be fixed.
+
+This is a version that we don't support well.
+
+Sphinx 3.1 and above: structs, enums, functions, typedefs, etc have their
+own separate namespaces. So, it is possible to have struct with the same
+name as a function.
+
+Yet, it will complain about duplicated symbols for system calls. I guess
+we added a hack somethere to avoid too much noise on versions between
+3.1 and 4.0.
+
+Sphinx 4.0 and above: it is now possible to add a namespace. This allows
+fixing things like read() system calls that have different meanings on
+different subsystems.
+
+On other words, only with Sphinx 4.0 and above, the cross-references
+for C domain symbols should all be OK.
+
+> 
+> Mauro, does your earlier comment:
+> >> Another consequence of such change is that you can't have more than
+> >> one "read()" function inside the entire Kernel.   
+> 
+> apply to those struct and functions of the identical name?
+> 
+> I just want to know what is the expected behavior in this case.
+
+Yes, that's the case for versions < 4.0. On 4.0, we need to specify a
+c namespace to document them.
+
+You can se such things if you do a:
+
+	$ git grep c:namespace Documentation/userspace-api/
+
+The media uAPI documentation has separate documentation for syscalls,
+depending on being CEC, V4L or one of the DVB APIs.
+
+Thanks,
+Mauro
