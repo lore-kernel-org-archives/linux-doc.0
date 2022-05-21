@@ -2,121 +2,276 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F0F8C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 09:13:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8696C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 09:22:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232240AbiEUJNz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 May 2022 05:13:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33614 "EHLO
+        id S232926AbiEUJWP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 May 2022 05:22:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230144AbiEUJNy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 05:13:54 -0400
-Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51F3354198;
-        Sat, 21 May 2022 02:13:53 -0700 (PDT)
-Received: by mail-ua1-x92d.google.com with SMTP id 63so3687795uaw.10;
-        Sat, 21 May 2022 02:13:53 -0700 (PDT)
+        with ESMTP id S230144AbiEUJWO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 05:22:14 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07A11562C0;
+        Sat, 21 May 2022 02:22:12 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id g184so9638295pgc.1;
+        Sat, 21 May 2022 02:22:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xLfza2d9jzWSXETuWGWxHMn70hKxdLj4BEKjI+ZN4KU=;
-        b=oSIMjo+HBdeabEZsbQ2Tknmp8ML4BwyqlGIQbOvpgvEgNmn7vZeTww6VUJqw9sLz37
-         a3uXXO18DxKzzA8bTJazl+uJ6rFE9nZTMhXdFWl3LJRDhADCRszXzAHbhw1cWIrc+xIi
-         5jSjPrkpKkJ5hZoNeB86u1oZDgOphLkh7CCZdoO3job5/1ffzcxGIZeQGbQ4xCOax/hl
-         8yXkFoVSN36VhJ0BsrwsxrHoh183yVltVm39xSwrooDgDtgMPj+JGD/EQQC9AHGOUXbM
-         4cKbJOwhWlGiH36Xqbe65bsdyQac0gTbpDYYR3w/Qonby0sGWeRtx5Wy0wejprXd1qT7
-         qibQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=eVwXSEcM8+RBhdBEqFU8SHdsjcjqQ0piyTZmYlpvgv8=;
+        b=FrbzxtqI3XnSH1ZKqSIHEUFu3S3YmFm91+WFgC24lWj/eX6XmO4c9aXP4IOCuGxKPN
+         FOHIGN0QJsOenvchZOmLM+nhVXKkLGkp9kji1nPPPbntW953AlYuTXixLYCcuF6GenFk
+         ZA8qqGWzu/9XlfskmIE4opoqhHH81b25NXtmDVL0CNiEclIrevx85xHTAs4tn0R9UU5R
+         Drt9oOKh1b4i9hKDK6isYcavVtqkHI+umn/nHJdlgxaIAG3j3AlRDLQiKsFVDPINX3NX
+         Lzcdl5ybSSw9LhaR7eAH99Eq++PSd+mcyon0oyt2IFEl80OkIS/cNtArkKjJXehHq46D
+         7SAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xLfza2d9jzWSXETuWGWxHMn70hKxdLj4BEKjI+ZN4KU=;
-        b=fWbFIdo869+PVN6F/yjoP9OjxUNzeKDYfZevgk7cEGYDfYY2unleGqadXYlqbyfPsr
-         Ub8FHB7qPPIE38UPnN0wFg/nnxH9gWlFkzBZ+tt0/G/vGgpYEIenseGP1s4eMoaZXm/A
-         4tTkImQ31YvdmV6zdQwBhqVawKwKxbLPT6L5xyLuyeq7c+hSnzuTD/Bc86YzXif0ppTF
-         +R5seXbP+v1cydnh1ED+i1QAYSYpr63QXP1gbbYTSaI0ah5u/17KaBwwROCoyCTb8rZR
-         EL5FXo8XsrYHnlJYLubS8mLXbk74m+SJuzArzq2w2F6tWhuNFhtNZWOgr2U05QRSe5vo
-         9o6A==
-X-Gm-Message-State: AOAM531HQSLKNRsbV9u0Yf61MqhcVm4rfeLY2pnwvinw/EKW4fQN3Tte
-        sPikxymcTkxWX7u2tJCoYdvOdaaR8bXfkfGgGY4=
-X-Google-Smtp-Source: ABdhPJyhyvWZH9qrdJngswSfpnin3gAydt0836+qEP+NLvaL1+4syh6qaBPTfW5wDBLc4t4TyTFHx0CWjQq10QuKJUo=
-X-Received: by 2002:a9f:354f:0:b0:368:c2c0:f2b5 with SMTP id
- o73-20020a9f354f000000b00368c2c0f2b5mr5086632uao.96.1653124432029; Sat, 21
- May 2022 02:13:52 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=eVwXSEcM8+RBhdBEqFU8SHdsjcjqQ0piyTZmYlpvgv8=;
+        b=ocwKHj6j9/8he0J90aaXBZ6pDM+NtPGXeN6eN6Zi9GvalYuQYVMwQMTf3pOAIhE4h5
+         Dfz9NGczYPoCJA7Q3rkFJPWRsMOaDsWRTyoqT9DrIJ75QpZwnY4UcEkG4+NKIkY+c26E
+         cDucqkh6wZWGU3mJYNz6IRqZy1fvOvb9zdEbYUaxgAOvskOCzYLrh3OG+OAJbKNkiU5b
+         bV3a/vdHzdEymhjDKlszg2GeTPcR+nQ2erUSPVSZQfoHFSWjdBJLvFSFks1ck0CjkZKC
+         ojtub28Vz1K8M8aad8rP7H0qj9emo/E8i11O9q7DxWTTzCrn7zPL5yDdv5I9NBVheKgn
+         7J4Q==
+X-Gm-Message-State: AOAM533e5jLA8gZKjNAHoUWKFg3Bc9XizU5kj2FDbFDOHvSyVCUp+2mS
+        CrpQuQLi0GDEodrr7IY5vzQ=
+X-Google-Smtp-Source: ABdhPJwPjKksW38Ww2pukzKZutD2as5QPONASQrrXNAUvBkhwf1IVt0HFlydQXEHCRXBlEphR7RApQ==
+X-Received: by 2002:a05:6a00:1784:b0:50d:d8cb:7a4f with SMTP id s4-20020a056a00178400b0050dd8cb7a4fmr14004963pfg.23.1653124931472;
+        Sat, 21 May 2022 02:22:11 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id k21-20020a170902761500b0015e8d4eb2a9sm1122482pll.243.2022.05.21.02.22.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 May 2022 02:22:10 -0700 (PDT)
+Message-ID: <0846c96d-62fa-555f-b0ab-1f5ec33fd5fb@gmail.com>
+Date:   Sat, 21 May 2022 18:22:06 +0900
 MIME-Version: 1.0
-References: <20220518092619.1269111-1-chenhuacai@loongson.cn>
- <20220518092619.1269111-10-chenhuacai@loongson.cn> <CAMj1kXEBVWi2ZdR5Le5-G0DA43u-AMxmSO=pVt39qwN=PkzQfw@mail.gmail.com>
- <0bae0df1-48ae-d02f-bce4-d1f69acf269e@redhat.com> <CAAhV-H5dqNiecER3fChkBjQUGGszj6gwcpOFM1b4Kaax5vz27g@mail.gmail.com>
- <cdbb002a-9f0a-caa9-445e-4ba20328171a@redhat.com> <CAAhV-H7yKVWaiU_VKnc2YnCSeZPOwedRWMY8ZTS-VWwk+vE0AA@mail.gmail.com>
- <256e0b82-5d0f-cf40-87c6-c2505d2a6d3b@redhat.com> <CAAhV-H7bJv5V5UKJCWgEbOdOWZhnma3_3eAXbbY1MX_uKodjgg@mail.gmail.com>
- <859d5489-9361-3db0-1da4-1417ed2fad6c@redhat.com> <CAAhV-H4UxkyHr=NQGFAAjCXwXHXDLsN_CV-tSCn6oonOSSjb0A@mail.gmail.com>
- <7caec251-20e7-4a8c-93ee-b28558ec580f@redhat.com>
-In-Reply-To: <7caec251-20e7-4a8c-93ee-b28558ec580f@redhat.com>
-From:   Huacai Chen <chenhuacai@gmail.com>
-Date:   Sat, 21 May 2022 17:13:45 +0800
-Message-ID: <CAAhV-H6pfv4OQ5PhSfzG9YM_q5DYdgZ0DHVT7Aac9sppXGgnaA@mail.gmail.com>
-Subject: Re: [PATCH V11 09/22] LoongArch: Add boot and setup routines
-To:     Javier Martinez Canillas <javierm@redhat.com>
-Cc:     Ard Biesheuvel <ardb@kernel.org>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-efi <linux-efi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] arm64: Unify vertical spacing in HWCAPS
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org
+References: <4752814a-091c-9dd5-762c-6fd1a476c4bb@gmail.com>
+ <e3921517-f903-3ad5-afa4-d7959051e5dd@suse.cz> <YoieFI7hdJPJW5qy@debian.me>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <YoieFI7hdJPJW5qy@debian.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Javier,
+[+Cc: arm64 maintainers]
+Hi Martin,
 
-On Sat, May 21, 2022 at 5:06 PM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
->
-> Hello Huacai,
->
-> On 5/21/22 09:37, Huacai Chen wrote:
->
-> [snip]
->
-> >>
-> >> A problem with moving to subsys_initcall_sync() is that this will delay
-> >> more when a display is available in the system, and just to cope up with
-> >> a corner case (as mentioned the common case is native drivers as module).
-> > OK, your method seems better, but I think moving to
-> > subsys_initcall_sync() can make the screen display as early as
-> > possible.
-> >
->
-> But it doesn't cover all cases. For example, you will get the same error
-> if for example your native driver is built-in and efifb built as module.
->
-> So my opinion is that instead of playing with the init call levels, is
-> just better for you to build your native driver as a module instead of
-> making it built-in.
-I mean moving to subsys_initcall_sync() on top of your patchset, not
-replacing them (Just for display earlier).
+On 2022/05/21 17:08,
+Bagas Sanjaya wrote:
+> On Fri, May 20, 2022 at 04:01:33PM +0200, Martin Li=C5=A1ka wrote:
+>> Promote headings by removing intermediate blank lines.
+>>
+>> Signed-off-by: Martin Liska <mliska@suse.cz>
+>> ---
+>>  Documentation/arm64/elf_hwcaps.rst | 23 -----------------------
+>>  1 file changed, 23 deletions(-)
+>>
+>> diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/=
+elf_hwcaps.rst
+>> index a8f30963e550..1e79044f51a2 100644
+>> --- a/Documentation/arm64/elf_hwcaps.rst
+>> +++ b/Documentation/arm64/elf_hwcaps.rst
+>> @@ -171,96 +171,73 @@ HWCAP_PACG
+>>      Documentation/arm64/pointer-authentication.rst.
+>> =20
+>>  HWCAP2_DCPODP
+>> -
+>>      Functionality implied by ID_AA64ISAR1_EL1.DPB =3D=3D 0b0010.
+>> =20
+>>  HWCAP2_SVE2
+>> -
+>>      Functionality implied by ID_AA64ZFR0_EL1.SVEVer =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_SVEAES
+>> -
+>>      Functionality implied by ID_AA64ZFR0_EL1.AES =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_SVEPMULL
+>> -
+>>      Functionality implied by ID_AA64ZFR0_EL1.AES =3D=3D 0b0010.
+>> =20
+>>  HWCAP2_SVEBITPERM
+>> -
+>>      Functionality implied by ID_AA64ZFR0_EL1.BitPerm =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_SVESHA3
+>> -
+>>      Functionality implied by ID_AA64ZFR0_EL1.SHA3 =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_SVESM4
+>> -
+>>      Functionality implied by ID_AA64ZFR0_EL1.SM4 =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_FLAGM2
+>> -
+>>      Functionality implied by ID_AA64ISAR0_EL1.TS =3D=3D 0b0010.
+>> =20
+>>  HWCAP2_FRINT
+>> -
+>>      Functionality implied by ID_AA64ISAR1_EL1.FRINTTS =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_SVEI8MM
+>> -
+>>      Functionality implied by ID_AA64ZFR0_EL1.I8MM =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_SVEF32MM
+>> -
+>>      Functionality implied by ID_AA64ZFR0_EL1.F32MM =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_SVEF64MM
+>> -
+>>      Functionality implied by ID_AA64ZFR0_EL1.F64MM =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_SVEBF16
+>> -
+>>      Functionality implied by ID_AA64ZFR0_EL1.BF16 =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_I8MM
+>> -
+>>      Functionality implied by ID_AA64ISAR1_EL1.I8MM =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_BF16
+>> -
+>>      Functionality implied by ID_AA64ISAR1_EL1.BF16 =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_DGH
+>> -
+>>      Functionality implied by ID_AA64ISAR1_EL1.DGH =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_RNG
+>> -
+>>      Functionality implied by ID_AA64ISAR0_EL1.RNDR =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_BTI
+>> -
+>>      Functionality implied by ID_AA64PFR0_EL1.BT =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_MTE
+>> -
+>>      Functionality implied by ID_AA64PFR1_EL1.MTE =3D=3D 0b0010, as de=
+scribed
+>>      by Documentation/arm64/memory-tagging-extension.rst.
+>> =20
+>>  HWCAP2_ECV
+>> -
+>>      Functionality implied by ID_AA64MMFR0_EL1.ECV =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_AFP
+>> -
+>>      Functionality implied by ID_AA64MFR1_EL1.AFP =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_RPRES
+>> -
+>>      Functionality implied by ID_AA64ISAR2_EL1.RPRES =3D=3D 0b0001.
+>> =20
+>>  HWCAP2_MTE3
+>> -
+>>      Functionality implied by ID_AA64PFR1_EL1.MTE =3D=3D 0b0011, as de=
+scribed
+>>      by Documentation/arm64/memory-tagging-extension.rst.
+>> =20
+>> --=20
+>> 2.36.1
+>>
+>=20
+> Hi,
+>=20
+> Sorry for misunderstanding of this topic on my reply at [1].
+>=20
+> After applying this patch and doing htmldocs build, I see the HTML
+> diff below.
 
-Huacai
->
-> --
-> Best regards,
->
-> Javier Martinez Canillas
-> Linux Engineering
-> Red Hat
->
+Hey Bagas, please don't speak in HTML diffs.
+Let's talk about ReST formatting.
+
+So, the earlier part of the lists read:
+
+----
+HWCAP_FP
+    Functionality implied by ID_AA64PFR0_EL1.FP =3D=3D 0b0000.
+
+HWCAP_ASIMD
+    Functionality implied by ID_AA64PFR0_EL1.AdvSIMD =3D=3D 0b0000.
+
+HWCAP_EVTSTRM
+    The generic timer is configured to generate events at a frequency of
+    approximately 10KHz.
+[...]
+-----
+
+I see that what Martin wants is the consistency of the format of the list=
+s.
+I think the change is quite reasonable.
+
+The list construct is called "Definition lists" in ReST. See:
+https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#defini=
+tion-lists
+
+This construct makes the defined terms be rendered in bolder
+face.  On the other hand, similar looking existing lists:
+
+----
+HWCAP2_DCPODP
+
+    Functionality implied by ID_AA64ISAR1_EL1.DPB =3D=3D 0b0010.
+
+HWCAP2_SVE2
+
+    Functionality implied by ID_AA64ZFR0_EL1.SVEVer =3D=3D 0b0001.
+
+[...]
+----
+
+are not recognized as "Definition lists" and rendered differently.
+Actually speaking, they are not in any list format.
+
+So my suggestion of the title would be:
+
+  "docs/arm64: elf_hwcaps: Unify HWCAP lists as description lists"
+
+[...]
+> Also, when submitting next iterations of your patch series, don't forge=
+t
+> to pass -v <number> to git-format-patch(1) so that the patch subject
+> prefix contains the correct version numbers. I gave that advice because=
+
+> I don't see that this patch is sent as v2 of [2].
+>=20
+> CCing Akira to help reviewing.
+>=20
+> [1]: https://lore.kernel.org/linux-doc/4752814a-091c-9dd5-762c-6fd1a476=
+c4bb@gmail.com/
+> [2]: https://lore.kernel.org/linux-doc/b95b3128-f010-dcba-1f6a-1a85dd2d=
+20a5@suse.cz/
+>=20
+
+Yeah, please post the next version as a v3.
+
+Also, please note that this document belongs to the ARM64 PORT
+(AARCH64 ARCHITECTURE) subsystem.
+So please consult the entry in MAINTAINERS and prepare a
+patch against its tree at:
+
+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
+
+and CC to the maintainers and the list of the subsystem.
+
+        Thanks, Akira
