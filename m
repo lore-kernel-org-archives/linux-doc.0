@@ -2,163 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7E37C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 10:34:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9F38C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 12:48:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232593AbiEUKeV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 May 2022 06:34:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43402 "EHLO
+        id S235765AbiEUMsB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 May 2022 08:48:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232555AbiEUKeT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 06:34:19 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4219162A07;
-        Sat, 21 May 2022 03:34:17 -0700 (PDT)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4L50LS5ylvzhYl4;
-        Sat, 21 May 2022 18:33:36 +0800 (CST)
-Received: from dggpemm500002.china.huawei.com (7.185.36.229) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 21 May 2022 18:34:15 +0800
-Received: from [10.174.178.178] (10.174.178.178) by
- dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 21 May 2022 18:34:15 +0800
-Message-ID: <7e6fab31-8606-a3c7-eddb-d165bcf6b486@huawei.com>
-Date:   Sat, 21 May 2022 18:34:14 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.3
-Subject: Re: [PATCH 1/2] psi: add support for multi level pressure stall
- trigger
-To:     Alex Shi <seakeel@gmail.com>,
-        Suren Baghdasaryan <surenb@google.com>
-CC:     LKML <linux-kernel@vger.kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20220516033524.3130816-1-chenwandun@huawei.com>
- <30b37eeb-e77b-882e-fc24-3367321a8ca3@gmail.com>
- <CAJuCfpE7fBsp8ntYVeLsW7Cd0Z09OmxN75X9Az_Qco0GJrz3Wg@mail.gmail.com>
- <CAJuCfpH-BDqsft1YvGFhkbR60VC0TJgfXKRVN+80e0iqQdhxpA@mail.gmail.com>
- <3a31521f-a68a-b2a9-baae-9a458ee17033@huawei.com>
- <070fe87d-43a0-5e4f-e4c7-c44782c2c195@gmail.com>
- <CAJuCfpH1mTxe5hmzZTe+AbPFse9heenx8uhGzCXE6fAh5G8SzA@mail.gmail.com>
- <29d66a46-d141-2d02-45dd-a8931786588e@gmail.com>
- <9fc88a71-b484-c471-66cd-a4d87d8c02c4@huawei.com>
- <475ccf8e-5238-6924-0a37-c45bc2c98b69@gmail.com>
-From:   Chen Wandun <chenwandun@huawei.com>
-In-Reply-To: <475ccf8e-5238-6924-0a37-c45bc2c98b69@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.178]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500002.china.huawei.com (7.185.36.229)
-X-CFilter-Loop: Reflected
+        with ESMTP id S231550AbiEUMsA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 08:48:00 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAF8C47540
+        for <linux-doc@vger.kernel.org>; Sat, 21 May 2022 05:47:57 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id e2so3072596wrc.1
+        for <linux-doc@vger.kernel.org>; Sat, 21 May 2022 05:47:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=norberthealth-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=xajSckGUllAsiw/fxcToNZh6oIkhT7E2nmZO0iNe+14=;
+        b=tsR+x6Ql3TCCA9l9Oy4cvSfowhUYX9KT4B+ORuUAtDdpqrOnzElf5vDEJzs+FA+aYK
+         OAa3Q6ChOLtkq9rhyOC02IYZDsZfwHBZnJkZidzrZ6O+INPBsn5hyM/WZ4q8WPpRs9yD
+         TWPQ4flPKHz22yLnPEN/wmFqpSTXb5brX0l0o/3LKYXddIH7GyPP3JGuppgQQSRXjw02
+         ns1fZp38CtkzJ4HjfFcVJAjZUrzs2wIvAtWEJSFl+Ybj9LSkZAq8E4QSo8ufCFQSdHRe
+         t4czwy0AAiFr+IWLFHtr2on4UGNh1UGs6LUFRufJHszl1VNyho6VXbCdYQctzS0T2flY
+         vV1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=xajSckGUllAsiw/fxcToNZh6oIkhT7E2nmZO0iNe+14=;
+        b=XU4sN+A8gzkEZCErayqz70k7LeO14moXOfHd2kjNmvYWxE9K04GYbNUkHDTuR7jLbV
+         lTk0gNxKuZKpOiaRVtb+rGwYBdkXxZrkxUdXd2ROi8XAEt8O7l37ZAXFaLxsc3kC1JP6
+         fnZhW4fSLg67LZzJMc698tOrYf5rveDWU7n3Sxc6XdLXs7bjNOnQ8dug0kAhen2Bdjho
+         qAox6jjYqTVmmFUwyxb/pzyATgjSKL2PxPD5Kxyxea5V1ysSmr9gCVE8Gl9I4GgBsWXU
+         4kJRU8+kGSlOJwsdocOdACDV4EhOegI1WNmkLtqJjibaDcOFCKuxsVeBCNGPuX5l5B8M
+         YCiQ==
+X-Gm-Message-State: AOAM530wDjv6KEuy1LTNilUPQ9vORTzXKxTZ9lUupkhMq9IfT8GWKk+R
+        lCN43s9GPs5ZhoK9vlySJ1npNA==
+X-Google-Smtp-Source: ABdhPJxAU6b7F9I1ezcwxBkQ2hg19YDaNsi/bsMSHDitaBssg6ytkOUJtXZAu4jNAoaGxRa5cZoqxA==
+X-Received: by 2002:a5d:5848:0:b0:20d:122c:a058 with SMTP id i8-20020a5d5848000000b0020d122ca058mr11941876wrf.719.1653137276341;
+        Sat, 21 May 2022 05:47:56 -0700 (PDT)
+Received: from localhost.localdomain (156.120.26.93.rev.sfr.net. [93.26.120.156])
+        by smtp.gmail.com with ESMTPSA id s9-20020a7bc389000000b0039482d95ab7sm4194251wmj.24.2022.05.21.05.47.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 May 2022 05:47:55 -0700 (PDT)
+From:   Roger Knecht <roger@norberthealth.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Roger Knecht <roger@norberthealth.com>
+Subject: [PATCH v5] crc-itu-t: Fix typo in CRC ITU-T polynom comment
+Date:   Sat, 21 May 2022 14:47:45 +0200
+Message-Id: <20220521124745.8747-1-roger@norberthealth.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The code comment says that the polynom is x^16 + x^12 + x^15 + 1, but the
+correct polynom is x^16 + x^12 + x^5 + 1.
 
+Quote from page 2 in the ITU-T V.41 specification:
+  "2 Encoding and checking process
 
-在 2022/5/21 18:13, Alex Shi 写道:
->
-> On 5/21/22 15:23, Chen Wandun wrote:
->>
->> 在 2022/5/19 14:15, Alex Shi 写道:
->>> On 5/19/22 05:38, Suren Baghdasaryan wrote:
->>>> On Wed, May 18, 2022 at 3:29 AM Alex Shi <seakeel@gmail.com> wrote:
->>>>>
->>>>> On 5/17/22 20:46, Chen Wandun wrote:
->>>>>>>>> This breaks the old ABI. And why you need this new function?
->>>>>>>> Both great points.
->>>>>>> BTW, I think the additional max_threshold parameter could be
->>>>>>> implemented in a backward compatible way so that the old API is not
->>>>>>> broken:
->>>>>>>
->>>>>>> arg_count = sscanf(buf, "some %u %u %u", &min_threshold_us,  &arg2, &arg3);
->>>>>>> if (arg_count < 2) return ERR_PTR(-EINVAL);
->>>>>>> if (arg_count < 3) {
->>>>>>>        max_threshold_us = INT_MAX;
->>>>>>>        window_us = arg2;
->>>>>>> } else {
->>>>>>>        max_threshold_us = arg2;
->>>>>>>        window_us = arg3;
->>>>>>> }
->>>>>> OK
->>>>>>
->>>>>> Thanks.
->>>>>>> But again, the motivation still needs to be explained.
->>>>>> we want do different operation for different stall level,
->>>>>> just as prev email explain, multi trigger is also OK in old
->>>>>> ways, but it is a litter complex.
->>>>> In fact, I am not keen for this solution, the older and newer
->>>>> interface is easy to be confused by users, for some resolvable
->>>>> unclear issues. It's not a good idea.
->>>> Maybe adding the max_threshold as an optional last argument will be
->>>> less confusing? Smth like this:
->>>>
->>>> some/full min_threshold window_size [max_threshold]
->>> It's already confused enough. :)
->> which point make you confused？
->> Interface suggest by Suren is compatible with current version,
->> I think it is more reasonable and there is no difficuty to understand it.
-> Your 3rd parameter has different meaning depends on the exists or non-exist
-> 4th one. It's not a good design.
->
-some/full min_threshold window_size [max_threshold]
+  The service bits and information bits, taken in conjunction, correspond
+  to the coefficients of a message polynomial having terms from x^(n-1)
+  (n = total number of bits in a block or sequence) down to x^16. This
+  polynomial is divided, modulo 2, by the generating polynomial
+  x^16 + x^12 + x^5 + 1. [...]"
 
-In this format, the meaning of 3rd parameter keep unchanged.
-This format is compatible with current version.
+Source: https://www.itu.int/rec/T-REC-V.41-198811-I/en)
+The hex polynom 0x1021 and CRC code implementation are correct.
 
->>> BTW, I still don't see the strong reason for the pressure range.
->> Considering this case:
->> I divide pressure into multi levels, and each level corresponds to a
->> hander,  I have to register multi triggers and wait for fire events,
->> nowadays, these trigger is something like:
->> echo “some 150000 1000000” > /proc/pressure/memory
->> echo “some 350000 1000000” > /proc/pressure/memory
->> echo “some 550000 1000000” > /proc/pressure/memory
->> echo “some 750000 1000000” > /proc/pressure/memory
->>
->> In the best case, stall pressure between 150000 and 350000,
->> only one trigger fire, and only one wakeup.
->>
->> In any other case,  multi triggers fire and multi wakeup, but it
->> indeed is no need.
->>
-> Could you give more details info to show what detailed problem
-> which your propose could address, but current code cannot?
-Current code also can handle this, but thing become complex，jsut
-as explained above.
+Signed-off-by: Roger Knecht <roger@norberthealth.com>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Changes:
+v5: Clean up patch description and added acked-by
+v4: Changed comment from /** to /* (the comment is not a kernel doc comment)
+v3: Moved "changes and thanks" out of the commit message.
+v2: Extended patch description
 
-Thanks
-Wandun
->
-> Thanks
-> Alex
->
->> New implement make the fire and wakeup more precise,
->> userspace code will be more simple, no confusing fire event,
->> no need to filter fire event anymore, maybe minor performance
->> improved.
->>
->> Thanks.
->>>>> Also, if we do decide to add it, there should be a warning in the
->>>> documentation that max_threshold usage might lead to a stall being
->>>> missed completely. In your example:
->>>>
->>>> echo "some 150000 350000 1000000" > /proc/pressure/memory
->>>>
->>>> If there is a stall of more than 350ms within a given window, that
->>>> trigger will not fire at all.
->>> Right.
->>> And what if others propose more pressure combinations?
->>> Maybe leave them to user space is more likely workable?
->>>
->>> Thanks
->>> Alex
->>> .
-> .
+ include/linux/crc-itu-t.h | 2 +-
+ lib/crc-itu-t.c           | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/crc-itu-t.h b/include/linux/crc-itu-t.h
+index a4367051e192..2f991a427ade 100644
+--- a/include/linux/crc-itu-t.h
++++ b/include/linux/crc-itu-t.h
+@@ -4,7 +4,7 @@
+  *
+  * Implements the standard CRC ITU-T V.41:
+  *   Width 16
+- *   Poly  0x1021 (x^16 + x^12 + x^15 + 1)
++ *   Poly  0x1021 (x^16 + x^12 + x^5 + 1)
+  *   Init  0
+  */
+ 
+diff --git a/lib/crc-itu-t.c b/lib/crc-itu-t.c
+index 1974b355c148..1d26a1647da5 100644
+--- a/lib/crc-itu-t.c
++++ b/lib/crc-itu-t.c
+@@ -7,7 +7,7 @@
+ #include <linux/module.h>
+ #include <linux/crc-itu-t.h>
+ 
+-/** CRC table for the CRC ITU-T V.41 0x1021 (x^16 + x^12 + x^15 + 1) */
++/* CRC table for the CRC ITU-T V.41 0x1021 (x^16 + x^12 + x^5 + 1) */
+ const u16 crc_itu_t_table[256] = {
+ 	0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5, 0x60c6, 0x70e7,
+ 	0x8108, 0x9129, 0xa14a, 0xb16b, 0xc18c, 0xd1ad, 0xe1ce, 0xf1ef,
+-- 
+2.17.1
 
