@@ -2,187 +2,360 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5290C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 07:58:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7320AC433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 08:08:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241152AbiEUH6y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 May 2022 03:58:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59922 "EHLO
+        id S233183AbiEUII6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 May 2022 04:08:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232035AbiEUH6x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 03:58:53 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2E4F15E619
-        for <linux-doc@vger.kernel.org>; Sat, 21 May 2022 00:58:51 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id l14so9822265pjk.2
-        for <linux-doc@vger.kernel.org>; Sat, 21 May 2022 00:58:51 -0700 (PDT)
+        with ESMTP id S231968AbiEUII5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 04:08:57 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2CDA1611C1;
+        Sat, 21 May 2022 01:08:56 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id a38so6671622pgl.9;
+        Sat, 21 May 2022 01:08:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Qm6HSPIHUTwPKUolPZdLpJ9PaJfrtNscjhrJVq4GoOA=;
-        b=p+zMr05ftDo6uu/xYZF5v7vmC3kxn5z8VYASgm8Tv1AaK/riMZHHYpWughq11ejWSi
-         pCEPyTFT88FQ9K5p8/4QgRdJ0C1juwZJXNujjmjKXu1pPLywGLQqBN660ygpntGtXO8t
-         sX5Hc0lm1Sjn/5ZyLucPdPBBPO7hEsGTjJ+yOZF7jhXVA35SoRM1AYdQ/5w53y4l4yCC
-         +Xggg1VnkqhTpLaRCkdbloZq7TsqSmfogjcWlW5b4WgRJcjAfTZ3ZpkP/4lC76hn6WU/
-         5c8yQxAagyS3giunwLgr4pFkq35q7OQ2ynlOMebmBuQJw0fdnP17QSvO2mq8IbDdoBlA
-         2PDQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=c7ATnEiBWxzHBgmdH+iHVOAqIrrFmswpu1N0IujH5qE=;
+        b=L3s20sPVxmFAGVEfovbCZpePdPnhRolUkvviaRi5nvHWkviVMX4JKwLeFCaJ714wqn
+         12DZRJVnvXTjVsywI8Cq5r/TYEh4+f/wPpWjIYFxjwcrGTOyaS0YHwjoIfWVhofLDN3h
+         eDCUyZcsqZg5OQd9DAtsPoBSkiOltFUNO7b0z5tfEwnRIT1l8rR+cf2Iw36OC1g70sBZ
+         5YWM1V+zcpTKJsVJN7fwvFkmvLYPAtRzpQxL0Z50oJZidOxjz5Z28F8+ys5o+QSzVaOB
+         aC7z6PcbuMk3ti/L9Afj1tegj/R4Hfa7doISxn+KRyXIX8G+OOAhzuVuuECll3L86x/8
+         WXEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Qm6HSPIHUTwPKUolPZdLpJ9PaJfrtNscjhrJVq4GoOA=;
-        b=OmQsWE0U7kDxnmd0kKmPZwUxsTqhEBs1scsOyw/LpE57MMaZAQVIvVY6yFC/lZNbKB
-         PA8ZeYpC6HKKIliwPdOuf0IRlvqrd1oUQVWLGhb/ABjFdfHVlq/x5vVtmvEgol4PxEGo
-         ek8KB78O3Uu927h9rINtV0ylSyVRFwCprp0Iu5E2RPHxS+uB9V+N5MoW/J4Gv61Fngce
-         02TfW+rSgxbo9GUtMXbenMMhFFM0Q+bjnXvoP8ti6z35CQnb8He8ADcV5NNOiQEaBxOq
-         inJbBwvXh1aQw59wLXKStlqdBoBeILGt/g4vn7pZm+iEjNRI5gcbrB68oOYpCyOcV1Nj
-         LU7A==
-X-Gm-Message-State: AOAM530rf5NsoOdXniCEPozziVlbggKTU0SLN4x2he2NbxwuaMoACPcM
-        cXQBTAznPPCaSUF41QmU3hxWD6NJOnc=
-X-Google-Smtp-Source: ABdhPJwOFi5MCGfRzoL7Wjc33Qw8/+fv2/vsVZXQzh+4eqAwfPyef7mTHGCFXa4UE/nb/oC9neqIhQ==
-X-Received: by 2002:a17:90b:33ce:b0:1dc:690e:acef with SMTP id lk14-20020a17090b33ce00b001dc690eacefmr15433055pjb.121.1653119931421;
-        Sat, 21 May 2022 00:58:51 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id jb4-20020a170903258400b0015e8d4eb282sm947225plb.204.2022.05.21.00.58.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 May 2022 00:58:50 -0700 (PDT)
-Message-ID: <564cbd05-8788-9223-1ecc-59e7fc41b46a@gmail.com>
-Date:   Sat, 21 May 2022 16:58:45 +0900
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=c7ATnEiBWxzHBgmdH+iHVOAqIrrFmswpu1N0IujH5qE=;
+        b=sFt4ozS0Ix6A0dM/ihiI/1YTno56ikuet887EmQxw+vYZjaFr84Si5iiFsmBL49wI+
+         dlhdXcI5I+xYSi3aTDKolCqucQnfkGwX9g2ApQklbyXOoMhLCETHMcPTfhc9o8m2DNc3
+         5ppH34TwnGCAlvigy7Y/g9wviphA9mDQpYmyeS09vOp/ZqgV54HLrIoVIp5EDVY8okEv
+         6jxD3vvM1bhzfM2FFaryVIubPyFwL5Y/RTI2LP9MPOBNCVOt7EghpHP85dPSOln9aQIT
+         1V7vpqPYka4t4dZu+dFH9Xw/PUgd2hiLArdhTwmW/JzJoncsyTceKKcCdkuHURe7TsOs
+         dfrg==
+X-Gm-Message-State: AOAM533IePZ3XGEP9O3zFgdHG3AEyD+zth3wiWyBWW/nDLx1PDxFYyyv
+        OKM4j2TRcVCCkLQ8MzhCb1A=
+X-Google-Smtp-Source: ABdhPJyXqBazkLVfBEQYtRi13M1WwhHu1omCI7n4jN6NC/g25BcVpG+LEaDshheGjeO2TtVp0AKqug==
+X-Received: by 2002:a65:6c06:0:b0:3f5:f29d:e030 with SMTP id y6-20020a656c06000000b003f5f29de030mr11703403pgu.22.1653120536150;
+        Sat, 21 May 2022 01:08:56 -0700 (PDT)
+Received: from localhost (subs02-180-214-232-90.three.co.id. [180.214.232.90])
+        by smtp.gmail.com with ESMTPSA id z71-20020a63334a000000b003db68cb9d6esm1006167pgz.9.2022.05.21.01.08.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 May 2022 01:08:55 -0700 (PDT)
+Date:   Sat, 21 May 2022 15:08:52 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Martin =?utf-8?B?TGnFoWth?= <mliska@suse.cz>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] arm64: Unify vertical spacing in HWCAPS
+Message-ID: <YoieFI7hdJPJW5qy@debian.me>
+References: <4752814a-091c-9dd5-762c-6fd1a476c4bb@gmail.com>
+ <e3921517-f903-3ad5-afa4-d7959051e5dd@suse.cz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: "WARNING: Duplicate C declaration" from recent Sphinx (was Re:
- [PATCH] docs: sphinx/requirements: Limit jinja2<3.1)
-Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
- <871qyk7p28.fsf@meer.lwn.net> <20220330022534.10ac0a50@coco.lan>
- <ed2690db-84ae-5c85-f65d-e08021f5f562@gmail.com>
- <20220330190724.1596e01a@coco.lan>
- <edf80179-4776-773d-0c4a-e75a1824bfba@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <edf80179-4776-773d-0c4a-e75a1824bfba@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e3921517-f903-3ad5-afa4-d7959051e5dd@suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 31 Mar 2022 23:32:41 +0900,
-Akira Yokosawa wrote:
-> On Wed, 30 Mar 2022 19:07:24 +0200,
-> Mauro Carvalho Chehab wrote:
->> Em Wed, 30 Mar 2022 23:59:05 +0900
->> Akira Yokosawa <akiyks@gmail.com> escreveu:
->>
->>> Hi Mauro,
->>>
->>> On Wed, 30 Mar 2022 02:25:34 +0200,
->>> Mauro Carvalho Chehab wrote:
->>> [...]
->>>> We need to verify both PDF and html generation, though, as I remember
->>>> that some 4.x versions had/(have?) issues with the C domain and duplicate
->>>> symbols detection.  
->>>
->>> Can you elaborate on the issue you observed?
->>> In which document did you see it?
->>
->> Sorry, it was on Sphinx 3.x, although the most complete fix got
->> merged on 4.0, I guess. This patch is related to it:
->>
->> 	b34b86d7a418 ("docs: conf.py: fix c:function support with Sphinx 3.x")
->>
->> Basically, the Sphinx maintainer for the C domain rewrote the code,
->> causing all references generated by kernel-doc to be broken, and
->> almost all references at the media docs as well. Before the changes,
->> there were just one domain for C code references, used for functions,
->> structs, enums, etc. After the change, each one requires a different
->> tag. The kerneldoc script has gained support for Sphinx version when
->> such issue was addressed.
->>
->> Another consequence of such change is that you can't have more than
->> one "read()" function inside the entire Kernel. While this makes
->> sense on userspace, It doesn't at Kernelspace, as different subsystems
->> may handle read/write/ioctl/... syscalls on their particular ways.
->> So, building docs were causing warnings about duplicated symbols.
->>
->> There were some changes that went on 4.x to fix it, when 
->> ".. c:namespace::" got merged. I don't remember when it was added.
+On Fri, May 20, 2022 at 04:01:33PM +0200, Martin Liška wrote:
+> Promote headings by removing intermediate blank lines.
 > 
-> Thank you for the detailed explanation.
+> Signed-off-by: Martin Liska <mliska@suse.cz>
+> ---
+>  Documentation/arm64/elf_hwcaps.rst | 23 -----------------------
+>  1 file changed, 23 deletions(-)
 > 
-> So I compared logs from "make SPHINXDIRS=driver-api htmldocs" with
-> Sphinx 2.4.4 and 4.5.0 on current docs-next.
+> diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
+> index a8f30963e550..1e79044f51a2 100644
+> --- a/Documentation/arm64/elf_hwcaps.rst
+> +++ b/Documentation/arm64/elf_hwcaps.rst
+> @@ -171,96 +171,73 @@ HWCAP_PACG
+>      Documentation/arm64/pointer-authentication.rst.
+>  
+>  HWCAP2_DCPODP
+> -
+>      Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.
+>  
+>  HWCAP2_SVE2
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.SVEVer == 0b0001.
+>  
+>  HWCAP2_SVEAES
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0001.
+>  
+>  HWCAP2_SVEPMULL
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0010.
+>  
+>  HWCAP2_SVEBITPERM
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.BitPerm == 0b0001.
+>  
+>  HWCAP2_SVESHA3
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.SHA3 == 0b0001.
+>  
+>  HWCAP2_SVESM4
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.SM4 == 0b0001.
+>  
+>  HWCAP2_FLAGM2
+> -
+>      Functionality implied by ID_AA64ISAR0_EL1.TS == 0b0010.
+>  
+>  HWCAP2_FRINT
+> -
+>      Functionality implied by ID_AA64ISAR1_EL1.FRINTTS == 0b0001.
+>  
+>  HWCAP2_SVEI8MM
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.I8MM == 0b0001.
+>  
+>  HWCAP2_SVEF32MM
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.F32MM == 0b0001.
+>  
+>  HWCAP2_SVEF64MM
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.F64MM == 0b0001.
+>  
+>  HWCAP2_SVEBF16
+> -
+>      Functionality implied by ID_AA64ZFR0_EL1.BF16 == 0b0001.
+>  
+>  HWCAP2_I8MM
+> -
+>      Functionality implied by ID_AA64ISAR1_EL1.I8MM == 0b0001.
+>  
+>  HWCAP2_BF16
+> -
+>      Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0001.
+>  
+>  HWCAP2_DGH
+> -
+>      Functionality implied by ID_AA64ISAR1_EL1.DGH == 0b0001.
+>  
+>  HWCAP2_RNG
+> -
+>      Functionality implied by ID_AA64ISAR0_EL1.RNDR == 0b0001.
+>  
+>  HWCAP2_BTI
+> -
+>      Functionality implied by ID_AA64PFR0_EL1.BT == 0b0001.
+>  
+>  HWCAP2_MTE
+> -
+>      Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0010, as described
+>      by Documentation/arm64/memory-tagging-extension.rst.
+>  
+>  HWCAP2_ECV
+> -
+>      Functionality implied by ID_AA64MMFR0_EL1.ECV == 0b0001.
+>  
+>  HWCAP2_AFP
+> -
+>      Functionality implied by ID_AA64MFR1_EL1.AFP == 0b0001.
+>  
+>  HWCAP2_RPRES
+> -
+>      Functionality implied by ID_AA64ISAR2_EL1.RPRES == 0b0001.
+>  
+>  HWCAP2_MTE3
+> -
+>      Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0011, as described
+>      by Documentation/arm64/memory-tagging-extension.rst.
+>  
+> -- 
+> 2.36.1
 > 
-> There are 8 more lines in the log from 4.5.0 than from 2.4.4, give
-> or take minor format differences.
-> 
-> Here are those extra 8 lines (long lines are kept):
-> 
-> ----
-> /wk/Documentation/driver-api/usb/usb.rst:967: WARNING: Duplicate C declaration, also defined at usb/gadget:775.
-> Declaration is '.. c:struct:: usb_string'.
-> /wk/Documentation/driver-api/miscellaneous:48: ./drivers/pwm/core.c:679: WARNING: Duplicate C declaration, also defined at miscellaneous:305.
-> Declaration is '.. c:function:: int pwm_capture (struct pwm_device *pwm, struct pwm_capture *result, unsigned long timeout)'.
-> /wk/Documentation/driver-api/surface_aggregator/client-api:25: ./drivers/platform/surface/aggregator/controller.c:1689: WARNING: Duplicate C declaration, also defined at surface_aggregator/client-api:105.
-> Declaration is '.. c:function:: int ssam_request_sync (struct ssam_controller *ctrl, const struct ssam_request *spec, struct ssam_response *rsp)'.
-> /wk/Documentation/driver-api/80211/mac80211:109: ./include/net/mac80211.h:4811: WARNING: Duplicate C declaration, also defined at 80211/mac80211:1024.
-> Declaration is '.. c:function:: void ieee80211_tx_status (struct ieee80211_hw *hw, struct sk_buff *skb)'.
-> ----
-> 
-> So those "WARNING: Duplicate C declaration" messages are what you
-> mentioned earlier, aren't they?
-> 
 
-So, I think I have figured out what causes those "WARNING: Duplicate
-C declaration".
+Hi,
 
-When you have kernel-doc comments for both struct and function
-of the same name, recent Sphinx emits this warning.
+Sorry for misunderstanding of this topic on my reply at [1].
 
-Although Sphinx versions 1.7.9 and 2.4.4 don't complain, the result
-is the same with Sphinx 3.x and 4.x (with the fix to kernel-doc Mauro
-mentioned above).
+After applying this patch and doing htmldocs build, I see the HTML
+diff below.
 
-I have no idea which version of Sphinx is employed for building pages at
-https://www.kernel.org/doc/html/latest/driver-api/80211/mac80211.html,
-but the cross reference to the ieee80211_tx_status() function in the
-description of ieee80211_rx_ni() points to struct ieee80211_tx_status,
-which is not an expected behavior.
+diff --git a/tmp/elf_hwcaps.html b/tmp/elf_hwcaps.patched.html
+index 8b0b0f83ca4f9e..d13f49faebf297 100644
+--- a/tmp/elf_hwcaps.html
++++ b/tmp/elf_hwcaps.patched.html
+@@ -320,101 +320,55 @@ ID_AA64ISAR1_EL1.API == 0b0001, as described by
+ ID_AA64ISAR1_EL1.GPI == 0b0001, as described by
+  <a class="reference internal" href="pointer-authentication.html"><span class="doc">Pointer authentication in AArch64 Linux</span></a>.</p>
+   </dd>
+   -</dl>
+   -<p>HWCAP2_DCPODP</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_SVE2</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.SVEVer == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_SVEAES</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_SVEPMULL</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0010.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_SVEBITPERM</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.BitPerm == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_SVESHA3</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.SHA3 == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_SVESM4</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.SM4 == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_FLAGM2</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ISAR0_EL1.TS == 0b0010.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_FRINT</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ISAR1_EL1.FRINTTS == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_SVEI8MM</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.I8MM == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_SVEF32MM</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.F32MM == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_SVEF64MM</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.F64MM == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_SVEBF16</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.BF16 == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_I8MM</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ISAR1_EL1.I8MM == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_BF16</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_DGH</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ISAR1_EL1.DGH == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_RNG</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64ISAR0_EL1.RNDR == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_BTI</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64PFR0_EL1.BT == 0b0001.</p>
+   -</div></blockquote>
+   -<p>HWCAP2_MTE</p>
+   -<blockquote>
+   -<div><p>Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0010, as described
+   +<dt>HWCAP2_DCPODP</dt><dd><p>Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.</p>
+   +</dd>
+   +<dt>HWCAP2_SVE2</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.SVEVer == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_SVEAES</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_SVEPMULL</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0010.</p>
+   +</dd>
+   +<dt>HWCAP2_SVEBITPERM</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.BitPerm == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_SVESHA3</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.SHA3 == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_SVESM4</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.SM4 == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_FLAGM2</dt><dd><p>Functionality implied by ID_AA64ISAR0_EL1.TS == 0b0010.</p>
+   +</dd>
+   +<dt>HWCAP2_FRINT</dt><dd><p>Functionality implied by ID_AA64ISAR1_EL1.FRINTTS == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_SVEI8MM</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.I8MM == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_SVEF32MM</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.F32MM == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_SVEF64MM</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.F64MM == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_SVEBF16</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.BF16 == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_I8MM</dt><dd><p>Functionality implied by ID_AA64ISAR1_EL1.I8MM == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_BF16</dt><dd><p>Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_DGH</dt><dd><p>Functionality implied by ID_AA64ISAR1_EL1.DGH == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_RNG</dt><dd><p>Functionality implied by ID_AA64ISAR0_EL1.RNDR == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_BTI</dt><dd><p>Functionality implied by ID_AA64PFR0_EL1.BT == 0b0001.</p>
+   +</dd>
+   +<dt>HWCAP2_MTE</dt><dd><p>Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0010, as described
+    by <a class="reference internal" href="memory-tagging-extension.html"><span class="doc">Memory Tagging Extension (MTE) in AArch64 Linux</span></a>.</p>
+    -</div></blockquote>
+    -<p>HWCAP2_ECV</p>
+    -<blockquote>
+    -<div><p>Functionality implied by ID_AA64MMFR0_EL1.ECV == 0b0001.</p>
+    -</div></blockquote>
+    -<p>HWCAP2_AFP</p>
+    -<blockquote>
+    -<div><p>Functionality implied by ID_AA64MFR1_EL1.AFP == 0b0001.</p>
+    -</div></blockquote>
+    -<p>HWCAP2_RPRES</p>
+    -<blockquote>
+    -<div><p>Functionality implied by ID_AA64ISAR2_EL1.RPRES == 0b0001.</p>
+    -</div></blockquote>
+    -<p>HWCAP2_MTE3</p>
+    -<blockquote>
+    -<div><p>Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0011, as described
+    +</dd>
+    +<dt>HWCAP2_ECV</dt><dd><p>Functionality implied by ID_AA64MMFR0_EL1.ECV == 0b0001.</p>
+    +</dd>
+    +<dt>HWCAP2_AFP</dt><dd><p>Functionality implied by ID_AA64MFR1_EL1.AFP == 0b0001.</p>
+    +</dd>
+    +<dt>HWCAP2_RPRES</dt><dd><p>Functionality implied by ID_AA64ISAR2_EL1.RPRES == 0b0001.</p>
+    +</dd>
+    +<dt>HWCAP2_MTE3</dt><dd><p>Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0011, as described
+     by <a class="reference internal" href="memory-tagging-extension.html"><span class="doc">Memory Tagging Extension (MTE) in AArch64 Linux</span></a>.</p>
+     -</div></blockquote>
+     +</dd>
+     +</dl>
+      </section>
+       <section id="unused-at-hwcap-bits">
+        <h2>4. Unused AT_HWCAP bits<a class="headerlink" href="#unused-at-hwcap-bits" title="Permalink to this headline">¶</a></h2>
 
-In this case, it seems to me that both the struct and function
-kernel-doc comments are included by the kernel-doc directive
+So basically this doesn't promotes HWCAP2_* as headings, but rather changes
+HTML element used by them from <div> & <p> to <dl> & <dd>. Otherwise I don't
+see any visual differences.
 
-.. kernel-doc:: include/net/mac80211.h
-   :functions:
-	ieee80211_rx_status
-        [...]
+Regarding the patch subject, I don't know what unifying the vertical spacing
+is, so I can't tell whether the patch is correct on this context or not.
 
-at Documentation/driver-api/80211/mac80211.rst:109.
+Also, when submitting next iterations of your patch series, don't forget
+to pass -v <number> to git-format-patch(1) so that the patch subject
+prefix contains the correct version numbers. I gave that advice because
+I don't see that this patch is sent as v2 of [2].
 
-As the :functions: option is identical to :identifiers:, both of
-kernel-doc comments in mac80211.h, namely:
+CCing Akira to help reviewing.
 
-    include/net/mac80211.h:1148: * struct ieee80211_tx_status - extended tx status info for rate control
+[1]: https://lore.kernel.org/linux-doc/4752814a-091c-9dd5-762c-6fd1a476c4bb@gmail.com/
+[2]: https://lore.kernel.org/linux-doc/b95b3128-f010-dcba-1f6a-1a85dd2d20a5@suse.cz/
 
-    include/net/mac80211.h:4813: * ieee80211_tx_status - transmit status callback
-
-are extracted by the kerneldoc extension (or the kernel-doc script).
-
-Mauro, does your earlier comment:
->> Another consequence of such change is that you can't have more than
->> one "read()" function inside the entire Kernel. 
-
-apply to those struct and functions of the identical name?
-
-I just want to know what is the expected behavior in this case.
-
-Note: Line counts in this mail are those of v5.18-rc7.
-
-        Thanks, Akira
-
-[...]
+-- 
+An old man doll... just what I always wanted! - Clara
