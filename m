@@ -2,59 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91F3EC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 03:00:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C12E9C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 07:02:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239841AbiEUDAb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 20 May 2022 23:00:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35878 "EHLO
+        id S234174AbiEUHCJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 May 2022 03:02:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239452AbiEUDAa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 May 2022 23:00:30 -0400
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F0A51195936;
-        Fri, 20 May 2022 20:00:29 -0700 (PDT)
-Received: from ip6-localhost (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 24L2lVGD004361;
-        Fri, 20 May 2022 21:47:32 -0500
-Message-ID: <f84c4cb17eebe385fe22c3fc4563645742269d46.camel@kernel.crashing.org>
-Subject: Re: [PATCH net-next] eth: de4x5: remove support for Generic DECchip
- & DIGITAL EtherWORKS PCI/EISA
-From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        corbet@lwn.net, tsbogend@alpha.franken.de, mpe@ellerman.id.au,
-        paulus@samba.org, sburla@marvell.com, vburru@marvell.com,
-        aayarekar@marvell.com, arnd@arndb.de, zhangyue1@kylinos.cn,
-        linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-parisc@vger.kernel.org
-Date:   Sat, 21 May 2022 12:47:31 +1000
-In-Reply-To: <20220519031345.2134401-1-kuba@kernel.org>
-References: <20220519031345.2134401-1-kuba@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        with ESMTP id S232213AbiEUHCI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 03:02:08 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D5575711C;
+        Sat, 21 May 2022 00:02:07 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: usama.anjum)
+        with ESMTPSA id 498B91F46903
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1653116526;
+        bh=sH7UfRS3UIUyKaHG2wGRnh4xyDEGveCZlyH381jkeBM=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=VqS6LSySAqQZ3JKakpXk+RNPCsmH3C7OVYMrB/92uFJ2zD9lZGicwJbUnhLbrbEny
+         lV1p9o/Vu9eHZsk76jzZkBMPekXuXeOn9Osopfy5FF2psSm/hbcELr4r1Nn6Rzf+Qw
+         O+bmZmYJEngCSbE7qTQuQFdGM2xxFyTfvD1z1ITr3gNWnfmc+QN6xlUDYv+D6memeb
+         0uOqog9QwCNfCeo5O62e0ObCvgyCWeOkVklcu58yGGziqUv22gTivgYRVinWnqWrRx
+         2XnqPEtzblh2s+3egs6y2KZUJJnIvmvkwXGSGZTjVfArlbO9jQKus0AUNdofGEYrFJ
+         a4zW7FMJe7hTg==
+Message-ID: <3dfca666-21b7-f5fd-a22e-54562e9215f6@collabora.com>
+Date:   Sat, 21 May 2022 12:02:00 +0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Cc:     usama.anjum@collabora.com, kernel@collabora.com,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/kselftest: add more guidelines for adding new tests
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+References: <20220317172758.582690-1-usama.anjum@collabora.com>
+ <07033c8a-fe1a-f97e-49b3-48d1da1e0413@gmail.com>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <07033c8a-fe1a-f97e-49b3-48d1da1e0413@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2022-05-18 at 20:13 -0700, Jakub Kicinski wrote:
-> Looks like almost all changes to this driver had been tree-wide
-> refactoring since git era begun. There is one commit from Al
-> 15 years ago which could potentially be fixing a real bug.
+On 3/18/22 9:50 AM, Bagas Sanjaya wrote:
+>> + * Use lib.mk instead of writing Makefile from sratch. Specify flags and
+>> +   binaries generation flags on need basis before including lib.mk. ::
+>> +
+>> +    CFLAGS = $(KHDR_INCLUDES)
+>> +    TEST_GEN_PROGS := close_range_test
+>> +    include ../lib.mk
+>> +
 > 
-> The driver is using virt_to_bus() and is a real magnet for pointless
-> cleanups. It seems unlikely to have real users. Let's try to shed
-> this maintenance burden.
+> I think what you mean is "In your Makefile, use facilities from lib.mk by
+> including it instead of reinventing the wheel.", right?
+Yes, right.
+
 > 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+>> + * Add new test name in TARGETS in selftests/Makefile::
+>> +
+>> +    TARGETS += android
+>> +
+>> + * All of the following build commands should be successful
+>> +
+>> +   - Same directory build of kselftests::
+>> +
+>> +      make kselftest-all
+>> +      make kselftest-install
+>> +      make kselftest-clean
+>> +      make kselftest-gen_tar
+>> +
+>> +   - Build with absolute output directory path::
+>> +
+>> +      make kselftest-all O=/abs_build_path
+>> +      make kselftest-install O=/abs_build_path
+>> +      make kselftest-clean O=/abs_build_path
+>> +      make kselftest-gen_tar O=/abs_build_path
+>> +
+>> +   - Build with relative output directory path::
+>> +
+>> +      make kselftest-all O=relative_path
+>> +      make kselftest-install O=relative_path
+>> +      make kselftest-clean O=relative_path
+>> +      make kselftest-gen_tar O=relative_path
+>> +
+>> +   - Build from Makefile of selftests directly::
+>> +
+>> +      make -C tools/testing/selftests
+>> +      make -C tools/testing/selftests O=/abs_build_path
+>> +      make -C tools/testing/selftests O=relative_path
+>> +
+> 
+> For simplicity, we can say "All changes should pass
+> kselftest-{all,install,clean,gen_tar} builds."
+We (me and maintainer) want a list of commands to run before patch
+submission. I'll use the {...} short hand method and update.
 
-Removing this driver will kill support for some rather old PowerMac
-models (some PowerBooks I think, paulus would know). No objection on my
-part, though. I doubt people still use these things with new kernels
-but ... who knows ? :-)
+> You don't need to spell out full command-line in the guideline unless
+> absolutely necessary, in general.
+> 
 
-Cheers,
-Ben.
-
+-- 
+Muhammad Usama Anjum
