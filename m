@@ -2,360 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7320AC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 08:08:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DBC8C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 09:06:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233183AbiEUII6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 May 2022 04:08:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46764 "EHLO
+        id S240364AbiEUJGh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 May 2022 05:06:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231968AbiEUII5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 04:08:57 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2CDA1611C1;
-        Sat, 21 May 2022 01:08:56 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id a38so6671622pgl.9;
-        Sat, 21 May 2022 01:08:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=c7ATnEiBWxzHBgmdH+iHVOAqIrrFmswpu1N0IujH5qE=;
-        b=L3s20sPVxmFAGVEfovbCZpePdPnhRolUkvviaRi5nvHWkviVMX4JKwLeFCaJ714wqn
-         12DZRJVnvXTjVsywI8Cq5r/TYEh4+f/wPpWjIYFxjwcrGTOyaS0YHwjoIfWVhofLDN3h
-         eDCUyZcsqZg5OQd9DAtsPoBSkiOltFUNO7b0z5tfEwnRIT1l8rR+cf2Iw36OC1g70sBZ
-         5YWM1V+zcpTKJsVJN7fwvFkmvLYPAtRzpQxL0Z50oJZidOxjz5Z28F8+ys5o+QSzVaOB
-         aC7z6PcbuMk3ti/L9Afj1tegj/R4Hfa7doISxn+KRyXIX8G+OOAhzuVuuECll3L86x/8
-         WXEw==
+        with ESMTP id S241473AbiEUJGb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 05:06:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3106436E1B
+        for <linux-doc@vger.kernel.org>; Sat, 21 May 2022 02:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1653123989;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=e9LHz14wFa2/WI+cnfgVklfc1muOyIoWusP/XZeOz08=;
+        b=G61ppPe9bCIcgByqMTHb3Z/ukq5fPNoBlsV02XYnK7GaolbrHjJaJAFEM8GN/QKZ90rvZh
+        B2E6aROlHvG6au2JRo7ZaAU0B/ltoGfWTlIem3QLATkVnBjG7EHBhXfhonBC1v0NRH8ddz
+        9ClXGZoPt8kaKq8PZKud62hrKOtGOHI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-26-9ApT3jU1OyC5aFi3mRQirg-1; Sat, 21 May 2022 05:06:24 -0400
+X-MC-Unique: 9ApT3jU1OyC5aFi3mRQirg-1
+Received: by mail-wr1-f70.google.com with SMTP id l14-20020a05600012ce00b0020d06e7152cso3092001wrx.11
+        for <linux-doc@vger.kernel.org>; Sat, 21 May 2022 02:06:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=c7ATnEiBWxzHBgmdH+iHVOAqIrrFmswpu1N0IujH5qE=;
-        b=sFt4ozS0Ix6A0dM/ihiI/1YTno56ikuet887EmQxw+vYZjaFr84Si5iiFsmBL49wI+
-         dlhdXcI5I+xYSi3aTDKolCqucQnfkGwX9g2ApQklbyXOoMhLCETHMcPTfhc9o8m2DNc3
-         5ppH34TwnGCAlvigy7Y/g9wviphA9mDQpYmyeS09vOp/ZqgV54HLrIoVIp5EDVY8okEv
-         6jxD3vvM1bhzfM2FFaryVIubPyFwL5Y/RTI2LP9MPOBNCVOt7EghpHP85dPSOln9aQIT
-         1V7vpqPYka4t4dZu+dFH9Xw/PUgd2hiLArdhTwmW/JzJoncsyTceKKcCdkuHURe7TsOs
-         dfrg==
-X-Gm-Message-State: AOAM533IePZ3XGEP9O3zFgdHG3AEyD+zth3wiWyBWW/nDLx1PDxFYyyv
-        OKM4j2TRcVCCkLQ8MzhCb1A=
-X-Google-Smtp-Source: ABdhPJyXqBazkLVfBEQYtRi13M1WwhHu1omCI7n4jN6NC/g25BcVpG+LEaDshheGjeO2TtVp0AKqug==
-X-Received: by 2002:a65:6c06:0:b0:3f5:f29d:e030 with SMTP id y6-20020a656c06000000b003f5f29de030mr11703403pgu.22.1653120536150;
-        Sat, 21 May 2022 01:08:56 -0700 (PDT)
-Received: from localhost (subs02-180-214-232-90.three.co.id. [180.214.232.90])
-        by smtp.gmail.com with ESMTPSA id z71-20020a63334a000000b003db68cb9d6esm1006167pgz.9.2022.05.21.01.08.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 May 2022 01:08:55 -0700 (PDT)
-Date:   Sat, 21 May 2022 15:08:52 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Martin =?utf-8?B?TGnFoWth?= <mliska@suse.cz>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] arm64: Unify vertical spacing in HWCAPS
-Message-ID: <YoieFI7hdJPJW5qy@debian.me>
-References: <4752814a-091c-9dd5-762c-6fd1a476c4bb@gmail.com>
- <e3921517-f903-3ad5-afa4-d7959051e5dd@suse.cz>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=e9LHz14wFa2/WI+cnfgVklfc1muOyIoWusP/XZeOz08=;
+        b=cURNGSm5UHfI5gW5F9i32pvf4BR045P+U0zlBURkVeFjFMn8TZBUKkxef0FEPbKwyB
+         xV4w5pJqJOCAdTvk0Xn2vbvOC+Vw99IIupb9C25dnUPP8yvXvPBRk2u4JHo1sRTw15cZ
+         yvt8xHItLOAVvjgZbsMeEh28KaPDYyFCvR7LDw5xPRler0PT0sS6t0hTpJaHJZU5oNb6
+         VByWOefQ8T++rH5dyGefwdOznNJcd1eG9sxx/k7O1U4I60AXzp2RLYo+1aQkxwzyzbg2
+         XyjUMzNTl6QHk30zCYv7DMvpa4WHlvP0ARwGJpqFafUtmjmsSIzcT8F/4NcRBIJGxWcM
+         PuuA==
+X-Gm-Message-State: AOAM533I9F7CYzGTL4AK9iQp7uI0bhmW158BXOyQSggkVvZzEKyX6jSG
+        xz5DYEOV1FbGL+KKsGiFSGMKGU+6OxR/QDt6aDYo5kYexQvAeg4kt3QTg/IiM0xJlr7spT8J+o7
+        2l8RPJ1v5nYaG7jEvSaRx
+X-Received: by 2002:a05:600c:1986:b0:394:867f:984c with SMTP id t6-20020a05600c198600b00394867f984cmr12146593wmq.20.1653123983682;
+        Sat, 21 May 2022 02:06:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxTeDbWSfdAJKkl4YczGM0UAl7TEZvciQfkOJv5cOIeHM43M+qHKKLXGP9/j3dj+RKra7iq3w==
+X-Received: by 2002:a05:600c:1986:b0:394:867f:984c with SMTP id t6-20020a05600c198600b00394867f984cmr12146563wmq.20.1653123983458;
+        Sat, 21 May 2022 02:06:23 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id z13-20020a7bc7cd000000b0039456fb80b3sm3750711wmk.43.2022.05.21.02.06.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 May 2022 02:06:23 -0700 (PDT)
+Message-ID: <7caec251-20e7-4a8c-93ee-b28558ec580f@redhat.com>
+Date:   Sat, 21 May 2022 11:06:21 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e3921517-f903-3ad5-afa4-d7959051e5dd@suse.cz>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH V11 09/22] LoongArch: Add boot and setup routines
+Content-Language: en-US
+To:     Huacai Chen <chenhuacai@gmail.com>
+Cc:     Ard Biesheuvel <ardb@kernel.org>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-efi <linux-efi@vger.kernel.org>
+References: <20220518092619.1269111-1-chenhuacai@loongson.cn>
+ <20220518092619.1269111-10-chenhuacai@loongson.cn>
+ <CAMj1kXEBVWi2ZdR5Le5-G0DA43u-AMxmSO=pVt39qwN=PkzQfw@mail.gmail.com>
+ <0bae0df1-48ae-d02f-bce4-d1f69acf269e@redhat.com>
+ <CAAhV-H5dqNiecER3fChkBjQUGGszj6gwcpOFM1b4Kaax5vz27g@mail.gmail.com>
+ <cdbb002a-9f0a-caa9-445e-4ba20328171a@redhat.com>
+ <CAAhV-H7yKVWaiU_VKnc2YnCSeZPOwedRWMY8ZTS-VWwk+vE0AA@mail.gmail.com>
+ <256e0b82-5d0f-cf40-87c6-c2505d2a6d3b@redhat.com>
+ <CAAhV-H7bJv5V5UKJCWgEbOdOWZhnma3_3eAXbbY1MX_uKodjgg@mail.gmail.com>
+ <859d5489-9361-3db0-1da4-1417ed2fad6c@redhat.com>
+ <CAAhV-H4UxkyHr=NQGFAAjCXwXHXDLsN_CV-tSCn6oonOSSjb0A@mail.gmail.com>
+From:   Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <CAAhV-H4UxkyHr=NQGFAAjCXwXHXDLsN_CV-tSCn6oonOSSjb0A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 20, 2022 at 04:01:33PM +0200, Martin Liška wrote:
-> Promote headings by removing intermediate blank lines.
-> 
-> Signed-off-by: Martin Liska <mliska@suse.cz>
-> ---
->  Documentation/arm64/elf_hwcaps.rst | 23 -----------------------
->  1 file changed, 23 deletions(-)
-> 
-> diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
-> index a8f30963e550..1e79044f51a2 100644
-> --- a/Documentation/arm64/elf_hwcaps.rst
-> +++ b/Documentation/arm64/elf_hwcaps.rst
-> @@ -171,96 +171,73 @@ HWCAP_PACG
->      Documentation/arm64/pointer-authentication.rst.
->  
->  HWCAP2_DCPODP
-> -
->      Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.
->  
->  HWCAP2_SVE2
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.SVEVer == 0b0001.
->  
->  HWCAP2_SVEAES
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0001.
->  
->  HWCAP2_SVEPMULL
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0010.
->  
->  HWCAP2_SVEBITPERM
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.BitPerm == 0b0001.
->  
->  HWCAP2_SVESHA3
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.SHA3 == 0b0001.
->  
->  HWCAP2_SVESM4
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.SM4 == 0b0001.
->  
->  HWCAP2_FLAGM2
-> -
->      Functionality implied by ID_AA64ISAR0_EL1.TS == 0b0010.
->  
->  HWCAP2_FRINT
-> -
->      Functionality implied by ID_AA64ISAR1_EL1.FRINTTS == 0b0001.
->  
->  HWCAP2_SVEI8MM
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.I8MM == 0b0001.
->  
->  HWCAP2_SVEF32MM
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.F32MM == 0b0001.
->  
->  HWCAP2_SVEF64MM
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.F64MM == 0b0001.
->  
->  HWCAP2_SVEBF16
-> -
->      Functionality implied by ID_AA64ZFR0_EL1.BF16 == 0b0001.
->  
->  HWCAP2_I8MM
-> -
->      Functionality implied by ID_AA64ISAR1_EL1.I8MM == 0b0001.
->  
->  HWCAP2_BF16
-> -
->      Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0001.
->  
->  HWCAP2_DGH
-> -
->      Functionality implied by ID_AA64ISAR1_EL1.DGH == 0b0001.
->  
->  HWCAP2_RNG
-> -
->      Functionality implied by ID_AA64ISAR0_EL1.RNDR == 0b0001.
->  
->  HWCAP2_BTI
-> -
->      Functionality implied by ID_AA64PFR0_EL1.BT == 0b0001.
->  
->  HWCAP2_MTE
-> -
->      Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0010, as described
->      by Documentation/arm64/memory-tagging-extension.rst.
->  
->  HWCAP2_ECV
-> -
->      Functionality implied by ID_AA64MMFR0_EL1.ECV == 0b0001.
->  
->  HWCAP2_AFP
-> -
->      Functionality implied by ID_AA64MFR1_EL1.AFP == 0b0001.
->  
->  HWCAP2_RPRES
-> -
->      Functionality implied by ID_AA64ISAR2_EL1.RPRES == 0b0001.
->  
->  HWCAP2_MTE3
-> -
->      Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0011, as described
->      by Documentation/arm64/memory-tagging-extension.rst.
->  
-> -- 
-> 2.36.1
-> 
+Hello Huacai,
 
-Hi,
+On 5/21/22 09:37, Huacai Chen wrote:
 
-Sorry for misunderstanding of this topic on my reply at [1].
+[snip]
 
-After applying this patch and doing htmldocs build, I see the HTML
-diff below.
+>>
+>> A problem with moving to subsys_initcall_sync() is that this will delay
+>> more when a display is available in the system, and just to cope up with
+>> a corner case (as mentioned the common case is native drivers as module).
+> OK, your method seems better, but I think moving to
+> subsys_initcall_sync() can make the screen display as early as
+> possible.
+>
 
-diff --git a/tmp/elf_hwcaps.html b/tmp/elf_hwcaps.patched.html
-index 8b0b0f83ca4f9e..d13f49faebf297 100644
---- a/tmp/elf_hwcaps.html
-+++ b/tmp/elf_hwcaps.patched.html
-@@ -320,101 +320,55 @@ ID_AA64ISAR1_EL1.API == 0b0001, as described by
- ID_AA64ISAR1_EL1.GPI == 0b0001, as described by
-  <a class="reference internal" href="pointer-authentication.html"><span class="doc">Pointer authentication in AArch64 Linux</span></a>.</p>
-   </dd>
-   -</dl>
-   -<p>HWCAP2_DCPODP</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_SVE2</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.SVEVer == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_SVEAES</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_SVEPMULL</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0010.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_SVEBITPERM</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.BitPerm == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_SVESHA3</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.SHA3 == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_SVESM4</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.SM4 == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_FLAGM2</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ISAR0_EL1.TS == 0b0010.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_FRINT</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ISAR1_EL1.FRINTTS == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_SVEI8MM</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.I8MM == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_SVEF32MM</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.F32MM == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_SVEF64MM</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.F64MM == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_SVEBF16</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ZFR0_EL1.BF16 == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_I8MM</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ISAR1_EL1.I8MM == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_BF16</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_DGH</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ISAR1_EL1.DGH == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_RNG</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64ISAR0_EL1.RNDR == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_BTI</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64PFR0_EL1.BT == 0b0001.</p>
-   -</div></blockquote>
-   -<p>HWCAP2_MTE</p>
-   -<blockquote>
-   -<div><p>Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0010, as described
-   +<dt>HWCAP2_DCPODP</dt><dd><p>Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.</p>
-   +</dd>
-   +<dt>HWCAP2_SVE2</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.SVEVer == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_SVEAES</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_SVEPMULL</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0010.</p>
-   +</dd>
-   +<dt>HWCAP2_SVEBITPERM</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.BitPerm == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_SVESHA3</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.SHA3 == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_SVESM4</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.SM4 == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_FLAGM2</dt><dd><p>Functionality implied by ID_AA64ISAR0_EL1.TS == 0b0010.</p>
-   +</dd>
-   +<dt>HWCAP2_FRINT</dt><dd><p>Functionality implied by ID_AA64ISAR1_EL1.FRINTTS == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_SVEI8MM</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.I8MM == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_SVEF32MM</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.F32MM == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_SVEF64MM</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.F64MM == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_SVEBF16</dt><dd><p>Functionality implied by ID_AA64ZFR0_EL1.BF16 == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_I8MM</dt><dd><p>Functionality implied by ID_AA64ISAR1_EL1.I8MM == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_BF16</dt><dd><p>Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_DGH</dt><dd><p>Functionality implied by ID_AA64ISAR1_EL1.DGH == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_RNG</dt><dd><p>Functionality implied by ID_AA64ISAR0_EL1.RNDR == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_BTI</dt><dd><p>Functionality implied by ID_AA64PFR0_EL1.BT == 0b0001.</p>
-   +</dd>
-   +<dt>HWCAP2_MTE</dt><dd><p>Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0010, as described
-    by <a class="reference internal" href="memory-tagging-extension.html"><span class="doc">Memory Tagging Extension (MTE) in AArch64 Linux</span></a>.</p>
-    -</div></blockquote>
-    -<p>HWCAP2_ECV</p>
-    -<blockquote>
-    -<div><p>Functionality implied by ID_AA64MMFR0_EL1.ECV == 0b0001.</p>
-    -</div></blockquote>
-    -<p>HWCAP2_AFP</p>
-    -<blockquote>
-    -<div><p>Functionality implied by ID_AA64MFR1_EL1.AFP == 0b0001.</p>
-    -</div></blockquote>
-    -<p>HWCAP2_RPRES</p>
-    -<blockquote>
-    -<div><p>Functionality implied by ID_AA64ISAR2_EL1.RPRES == 0b0001.</p>
-    -</div></blockquote>
-    -<p>HWCAP2_MTE3</p>
-    -<blockquote>
-    -<div><p>Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0011, as described
-    +</dd>
-    +<dt>HWCAP2_ECV</dt><dd><p>Functionality implied by ID_AA64MMFR0_EL1.ECV == 0b0001.</p>
-    +</dd>
-    +<dt>HWCAP2_AFP</dt><dd><p>Functionality implied by ID_AA64MFR1_EL1.AFP == 0b0001.</p>
-    +</dd>
-    +<dt>HWCAP2_RPRES</dt><dd><p>Functionality implied by ID_AA64ISAR2_EL1.RPRES == 0b0001.</p>
-    +</dd>
-    +<dt>HWCAP2_MTE3</dt><dd><p>Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0011, as described
-     by <a class="reference internal" href="memory-tagging-extension.html"><span class="doc">Memory Tagging Extension (MTE) in AArch64 Linux</span></a>.</p>
-     -</div></blockquote>
-     +</dd>
-     +</dl>
-      </section>
-       <section id="unused-at-hwcap-bits">
-        <h2>4. Unused AT_HWCAP bits<a class="headerlink" href="#unused-at-hwcap-bits" title="Permalink to this headline">¶</a></h2>
-
-So basically this doesn't promotes HWCAP2_* as headings, but rather changes
-HTML element used by them from <div> & <p> to <dl> & <dd>. Otherwise I don't
-see any visual differences.
-
-Regarding the patch subject, I don't know what unifying the vertical spacing
-is, so I can't tell whether the patch is correct on this context or not.
-
-Also, when submitting next iterations of your patch series, don't forget
-to pass -v <number> to git-format-patch(1) so that the patch subject
-prefix contains the correct version numbers. I gave that advice because
-I don't see that this patch is sent as v2 of [2].
-
-CCing Akira to help reviewing.
-
-[1]: https://lore.kernel.org/linux-doc/4752814a-091c-9dd5-762c-6fd1a476c4bb@gmail.com/
-[2]: https://lore.kernel.org/linux-doc/b95b3128-f010-dcba-1f6a-1a85dd2d20a5@suse.cz/
+But it doesn't cover all cases. For example, you will get the same error
+if for example your native driver is built-in and efifb built as module.
+ 
+So my opinion is that instead of playing with the init call levels, is
+just better for you to build your native driver as a module instead of
+making it built-in.
 
 -- 
-An old man doll... just what I always wanted! - Clara
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
