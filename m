@@ -2,140 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D510C433FE
-	for <linux-doc@archiver.kernel.org>; Sun, 22 May 2022 04:03:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB9FAC433FE
+	for <linux-doc@archiver.kernel.org>; Sun, 22 May 2022 04:18:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231986AbiEVEDe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 May 2022 00:03:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53128 "EHLO
+        id S234923AbiEVESi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 May 2022 00:18:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229545AbiEVEDb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 May 2022 00:03:31 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32DF93E5CD;
-        Sat, 21 May 2022 21:03:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229545AbiEVESh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 May 2022 00:18:37 -0400
+Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C79942EF9;
+        Sat, 21 May 2022 21:18:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
+        t=1653193110; bh=gg8YddmRkOsQykiQRV5c6FjMjg21WjjVj3sWpwCECMg=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Iam6Cd7xPBBS7liumcmuG+p/7fi/TUEoxf1Z0lGNbt0OKopUbTr8AxPUDslwgvpgG
+         MVU8gidpp8Pdyxwko6M3Cgy1k8zt/aS+eWhguH/ddGWeHcHN6HYjZOrWBphqbwnlbz
+         lPHJ85GHyzr+4zMo9gonHR4OG8Ijsn0AfiXzGHs8=
+Received: from [192.168.9.172] (unknown [101.88.28.48])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 74D05B80AC0;
-        Sun, 22 May 2022 04:03:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 279FEC34116;
-        Sun, 22 May 2022 04:03:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653192207;
-        bh=H8VxeRRGU1YvvB/gDGQdsDIur//wMHZ+GBccWBSTA4s=;
-        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-        b=ogO7bURGMZjZY7Se7Ca+PlvmooeylSGOcmEVhlOvBfxQ6eNBOuYSlc7lye/lzX1gw
-         oSZpH68lcUNhCGBQPbOoCPttQczz9lqiGvLSS7zpjlBVCKhlvLJT8sgEYqFORXxr88
-         LMa7WENGD63Rs+0T7UBliYzNh0naPxCDjvfVYxbFM53JAyW+3GAlREGLSiBfnCMvU1
-         LRmIXsOvNqqm3Z7p8jDzMg8ntEJaWd8QxCHVKjPWh48mnpAzrD3Va7p6rC5eMABYu0
-         X/VekAVyZqB/w/yNgdEOTq2RhTUrVFjxKVBv0le1cPXUJ6sXoz0egBoAsTMe93KYsW
-         vVtz8zIpWIjmw==
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailauth.nyi.internal (Postfix) with ESMTP id E57B027C0054;
-        Sun, 22 May 2022 00:03:24 -0400 (EDT)
-Received: from imap48 ([10.202.2.98])
-  by compute2.internal (MEProxy); Sun, 22 May 2022 00:03:24 -0400
-X-ME-Sender: <xms:C7aJYqXjGfM4wQuodo607NjCU7PYVCu2Nf4CmUoeKrg1BJLSx7XzZg>
-    <xme:C7aJYmlHnv72dQ8EoYnKirE_LOZ3kTXO40X-kdOe5RXnWn49nNecmEywlY7yQopLh
-    28ExrBKGpBdj_3Cstk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrieejgdejjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetnhgu
-    hicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenucggtf
-    frrghtthgvrhhnpedvhfeuvddthfdufffhkeekffetgffhledtleegffetheeugeejffdu
-    hefgteeihfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedukeeh
-    ieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinhhugi
-    drlhhuthhordhush
-X-ME-Proxy: <xmx:C7aJYuYVuXc6-n2rtnHJr-4hXRuGMt2-n6Fi-6i-PRQbwWRrklD5pQ>
-    <xmx:C7aJYhVjZixJLh_aI5dYUZ-ppl2q-9UUAw-iaNwXiutFsbo6JXT1jg>
-    <xmx:C7aJYknSPK7hrO2kEN3oZsQQWBSL9WHgDO8QD1SQXxvC326OwMbEKA>
-    <xmx:DLaJYuvHWMkfc_q-57cYIYJF2SXVodDLkZm9p2keZbWlQiDzjMXLE8biMqU>
-Feedback-ID: ieff94742:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 3F6EB31A005D; Sun, 22 May 2022 00:03:23 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-591-gfe6c3a2700-fm-20220427.001-gfe6c3a27
-Mime-Version: 1.0
-Message-Id: <f0f9c66d-ae94-4eb1-b7e5-6a0a9f0d4798@www.fastmail.com>
-In-Reply-To: <YofeZps9YXgtP3f1@google.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-5-chao.p.peng@linux.intel.com>
- <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
- <YofeZps9YXgtP3f1@google.com>
-Date:   Sat, 21 May 2022 21:03:01 -0700
-From:   "Andy Lutomirski" <luto@kernel.org>
-To:     "Sean Christopherson" <seanjc@google.com>
-Cc:     "Chao Peng" <chao.p.peng@linux.intel.com>,
-        "kvm list" <kvm@vger.kernel.org>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        "Linux API" <linux-api@vger.kernel.org>, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, "Paolo Bonzini" <pbonzini@redhat.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Vitaly Kuznetsov" <vkuznets@redhat.com>,
-        "Wanpeng Li" <wanpengli@tencent.com>,
-        "Jim Mattson" <jmattson@google.com>,
-        "Joerg Roedel" <joro@8bytes.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Hugh Dickins" <hughd@google.com>,
-        "Jeff Layton" <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        "Mike Rapoport" <rppt@kernel.org>,
-        "Steven Price" <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        "Vlastimil Babka" <vbabka@suse.cz>,
-        "Vishal Annapurve" <vannapurve@google.com>,
-        "Yu Zhang" <yu.c.zhang@linux.intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Nakajima, Jun" <jun.nakajima@intel.com>,
-        "Dave Hansen" <dave.hansen@intel.com>,
-        "Andi Kleen" <ak@linux.intel.com>,
-        "David Hildenbrand" <david@redhat.com>, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        "Quentin Perret" <qperret@google.com>,
-        "Michael Roth" <michael.roth@amd.com>,
-        "Michal Hocko" <mhocko@suse.com>
-Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based private memory
-Content-Type: text/plain
+        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 6400860074;
+        Sun, 22 May 2022 12:18:30 +0800 (CST)
+Message-ID: <bb9536df-748d-5fc6-bc04-78cfd28a24e0@xen0n.name>
+Date:   Sun, 22 May 2022 12:18:29 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.0a1
+Subject: Re: [PATCH V11 00/22] arch: Add basic LoongArch support
+To:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20220518092619.1269111-1-chenhuacai@loongson.cn>
+Content-Language: en-US
+From:   WANG Xuerui <kernel@xen0n.name>
+In-Reply-To: <20220518092619.1269111-1-chenhuacai@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On Fri, May 20, 2022, at 11:31 AM, Sean Christopherson wrote:
-
-> But a dedicated KVM ioctl() to add/remove shared ranges would be easy 
-> to implement
-> and wouldn't necessarily even need to interact with the memslots.  It 
-> could be a
-> consumer of memslots, e.g. if we wanted to disallow registering regions 
-> without an
-> associated memslot, but I think we'd want to avoid even that because 
-> things will
-> get messy during memslot updates, e.g. if dirty logging is toggled or a 
-> shared
-> memory region is temporarily removed then we wouldn't want to destroy 
-> the tracking.
+On 5/18/22 17:25, Huacai Chen wrote:
+> [snip]
 >
-> I don't think we'd want to use a bitmap, e.g. for a well-behaved guest, XArray
-> should be far more efficient.
->
-> One benefit to explicitly tracking this in KVM is that it might be 
-> useful for
-> software-only protected VMs, e.g. KVM could mark a region in the XArray 
-> as "pending"
-> based on guest hypercalls to share/unshare memory, and then complete 
-> the transaction
-> when userspace invokes the ioctl() to complete the share/unshare.
+> V10 -> V11:
+> 1, Rebased on asm-generic tree;
+> 2, Fix fpreg macros definition;
+> 3, Fix ELF ABI macros definition;
+> 4, Fix magic number definition in efi header;
+> 5, Remove unneeded swab.h, bitfield.h and rtc.c;
+> 6, Remove __ARCH_WANT_NEW_STAT (glibc need update);
 
-That makes sense.
+Regarding the syscall ABI change taking out fstat and newfstatat, I've 
+done the following to ensure a clean path forward:
 
-If KVM goes this route, perhaps there the allowed states for a GPA should include private, shared, and also private-and-shared.  Then anyone who wanted to use the same masked GPA for shared and private on TDX could do so if they wanted to.
+- Sent glibc patch [1] for upstream review;
+- Filed [2] on Loongson's glibc fork for them to test, and incorporate 
+the 2nd patch in their port;
+- Updated my tool [3] for the small number of end users already on the 
+previous ABI (me included, actually), to easily check if their systems 
+are compatible before moving to newer kernels.
+
+[1]: https://sourceware.org/pipermail/libc-alpha/2022-May/138958.html
+[2]: https://github.com/loongson/glibc/pull/29
+[3]: https://github.com/xen0n/shengloong
+
+> 7, Improve documents as WANG Xuerui suggested;
+> 8, Some other minor fixes and improvements.
