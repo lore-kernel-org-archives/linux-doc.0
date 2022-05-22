@@ -2,116 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C1E3C433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 21 May 2022 15:44:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA67C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 22 May 2022 00:58:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234697AbiEUPov (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 21 May 2022 11:44:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34886 "EHLO
+        id S233451AbiEVA6L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 21 May 2022 20:58:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230091AbiEUPou (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 11:44:50 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7533F5DBDF;
-        Sat, 21 May 2022 08:44:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=N2cvmr5qgix9dsJyM3EfaeMcwlENDUG0UMFYTRsjfQ4=; b=CLKUW997PJmzXpkLm8NkNDEmp3
-        finCe4jD1sKqY1neC9/6XkIiPNSsxDy0iBsVPQwzSWlltXaeh7nhLFxziihweE+QzM8wS9R2wLPKb
-        /N/FNPVabP5+g0pY9VT4+6PRMxJOL66gkwobhTz0t1Cry2ccrs+sG143dimrT18QYfD1RFHquN3WH
-        VsNhe9mmCxGCnWUERc7cLv6p4fhBPQ33RK+WoHVPmTpIzlQOlW5KiBHGO2YbRYFu9wUB3o29PESiu
-        zns3936IaAkjg65aj0w440+XrUERAZ9AZJTPc2u46m7tFNRASa5vdeJJB2oEIyLU9YKeid1qAwFB0
-        o2P1KDXQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nsRHZ-00Ek1R-7r; Sat, 21 May 2022 15:44:45 +0000
-Message-ID: <a728cf17-4866-1151-0740-56b06257c917@infradead.org>
-Date:   Sat, 21 May 2022 08:44:41 -0700
+        with ESMTP id S232208AbiEVA6L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 21 May 2022 20:58:11 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 102B43981F
+        for <linux-doc@vger.kernel.org>; Sat, 21 May 2022 17:57:54 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id u15so10676450pfi.3
+        for <linux-doc@vger.kernel.org>; Sat, 21 May 2022 17:57:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=VQk3iHJz5YzBOwbJjjMdVBcGwhylgMc6KxZSUtV2HhM=;
+        b=RL9vEdRI10zeD9tpKZSen51zZf5gp50J0Li6VExFsC2/3ebQaRbetYRdsJDHjXi+ex
+         cVQrPilTRoERO2nkLZMvKllEozvkswglCUz2lY5PvHZuvqoJCPMZZ078zSHqbzCaH255
+         IHWFP7dZPuQudMCIxZd7PDvoO9Vn+lAJ9dW4TubQBtHxUe/UWHYwMfYMxtCvuPVrwcvv
+         LUBQ9QF8TTJ1hAQ1aSo7FQxFH6iFRGd66IZBD6u62J45EZrWSR6jYrcV8XnEIYRr3Zs4
+         JDRtARtOvz3c5rjK74eGykFPdI62L0Se0hahWQSpkL3bb4w+zJlu42iIaRyQWZ6HROkv
+         K0Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=VQk3iHJz5YzBOwbJjjMdVBcGwhylgMc6KxZSUtV2HhM=;
+        b=Muce9bIRq5dJyyOkgrj0VBcR60y0bMZAxQFUTb72TJFAmEBdavBDc3eSEXfjGWCBQ4
+         XbTpRMMLl2KXzqwT6iCH41j9fQtAoAm1qAM/t04EBd6Z7TduuZXxcO1RcqsdrJRbNxSP
+         s2fW8f8R174RCLjd2NPOs6a6tE1aUqNUjdo2DxDudKP5dnqIFpUw6sqd3WnMZJpbwb2n
+         OOlbQMcLerSG5lqk5BK5H4KS+kZJzcb1tEEZICoddSPXCJibYL5UVgIhdeMW5qBoqGLm
+         zz0sEwtPIfthkrGx1M6BfxrMuxhOiaPv7bCxNHn73F074OCcCh+ED7D6nWhOrO+U2K+R
+         2i7Q==
+X-Gm-Message-State: AOAM5323kOGAcGVYC0XuG9ifJO9UZnkWKEL34r9sf+2fVhKvdw+JTq9c
+        sANNkkgLXYEJJZj8IoKrJuy1gjYDqf0=
+X-Google-Smtp-Source: ABdhPJymHypptV0fqcP2FxXHTlHHvUwiwLbwhZhw7SZrWlZpEvINuaBjZbKEtB/B+aUQRMxjnGtxDA==
+X-Received: by 2002:a63:581:0:b0:3f2:6b21:4733 with SMTP id 123-20020a630581000000b003f26b214733mr14654902pgf.90.1653181073535;
+        Sat, 21 May 2022 17:57:53 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id m2-20020a170902768200b0015e8d4eb2cdsm2164375pll.279.2022.05.21.17.57.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 May 2022 17:57:52 -0700 (PDT)
+Message-ID: <6476f6e7-0fc9-a55a-cafc-7b2fc31f6d51@gmail.com>
+Date:   Sun, 22 May 2022 09:57:45 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v5] crc-itu-t: Fix typo in CRC ITU-T polynom comment
+ Thunderbird/91.9.1
+Subject: Re: "WARNING: Duplicate C declaration" from recent Sphinx (was Re:
+ [PATCH] docs: sphinx/requirements: Limit jinja2<3.1)
 Content-Language: en-US
-To:     Roger Knecht <roger@norberthealth.com>,
-        linux-kernel@vger.kernel.org, Ivo van Doorn <IvDoorn@gmail.com>
-Cc:     kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org,
-        Kristian Hoegsberg <krh@redhat.com>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>
-References: <20220521124745.8747-1-roger@norberthealth.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220521124745.8747-1-roger@norberthealth.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+References: <7dbff8a0-f4ff-34a0-71c7-1987baf471f9@gmail.com>
+ <871qyk7p28.fsf@meer.lwn.net> <20220330022534.10ac0a50@coco.lan>
+ <ed2690db-84ae-5c85-f65d-e08021f5f562@gmail.com>
+ <20220330190724.1596e01a@coco.lan>
+ <edf80179-4776-773d-0c4a-e75a1824bfba@gmail.com>
+ <564cbd05-8788-9223-1ecc-59e7fc41b46a@gmail.com>
+ <20220521114629.6ee9fc06@coco.lan>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20220521114629.6ee9fc06@coco.lan>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Roger,
+On Sat, 21 May 2022 11:46:29 +0200,
+Mauro Carvalho Chehab wrote:
+[...]
+> 
+> Sphinx 4.0 and above: it is now possible to add a namespace. This allows
+> fixing things like read() system calls that have different meanings on
+> different subsystems.
+> 
+> On other words, only with Sphinx 4.0 and above, the cross-references
+> for C domain symbols should all be OK.
 
-On 5/21/22 05:47, Roger Knecht wrote:
-> The code comment says that the polynom is x^16 + x^12 + x^15 + 1, but the
-> correct polynom is x^16 + x^12 + x^5 + 1.
-> 
-> Quote from page 2 in the ITU-T V.41 specification:
->   "2 Encoding and checking process
-> 
->   The service bits and information bits, taken in conjunction, correspond
->   to the coefficients of a message polynomial having terms from x^(n-1)
->   (n = total number of bits in a block or sequence) down to x^16. This
->   polynomial is divided, modulo 2, by the generating polynomial
->   x^16 + x^12 + x^5 + 1. [...]"
-> 
-> Source: https://www.itu.int/rec/T-REC-V.41-198811-I/en)
-> The hex polynom 0x1021 and CRC code implementation are correct.
-> 
-> Signed-off-by: Roger Knecht <roger@norberthealth.com>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+So, I noticed there is a PR at https://github.com/sphinx-doc/sphinx/pull/8313
+which is still open.
 
-I don't know which maintainer will merge this since no one is Cc:ed on it.
-You will probably need to choose some maintainer to send the patch to.
+This PR is supposed to resolve "WARNING: Duplicate C declaration"
+due to struct and function with the same name, isn't it?
 
-But let's add the people who merged the header file in the first place
-for their comments/review. (done)
+Are you sure the issue is resolved in Sphinx 4.0 and later?
 
-> ---
-> Changes:
-> v5: Clean up patch description and added acked-by
-> v4: Changed comment from /** to /* (the comment is not a kernel doc comment)
-> v3: Moved "changes and thanks" out of the commit message.
-> v2: Extended patch description
-> 
->  include/linux/crc-itu-t.h | 2 +-
->  lib/crc-itu-t.c           | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/crc-itu-t.h b/include/linux/crc-itu-t.h
-> index a4367051e192..2f991a427ade 100644
-> --- a/include/linux/crc-itu-t.h
-> +++ b/include/linux/crc-itu-t.h
-> @@ -4,7 +4,7 @@
->   *
->   * Implements the standard CRC ITU-T V.41:
->   *   Width 16
-> - *   Poly  0x1021 (x^16 + x^12 + x^15 + 1)
-> + *   Poly  0x1021 (x^16 + x^12 + x^5 + 1)
->   *   Init  0
->   */
->  
-> diff --git a/lib/crc-itu-t.c b/lib/crc-itu-t.c
-> index 1974b355c148..1d26a1647da5 100644
-> --- a/lib/crc-itu-t.c
-> +++ b/lib/crc-itu-t.c
-> @@ -7,7 +7,7 @@
->  #include <linux/module.h>
->  #include <linux/crc-itu-t.h>
->  
-> -/** CRC table for the CRC ITU-T V.41 0x1021 (x^16 + x^12 + x^15 + 1) */
-> +/* CRC table for the CRC ITU-T V.41 0x1021 (x^16 + x^12 + x^5 + 1) */
->  const u16 crc_itu_t_table[256] = {
->  	0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5, 0x60c6, 0x70e7,
->  	0x8108, 0x9129, 0xa14a, 0xb16b, 0xc18c, 0xd1ad, 0xe1ce, 0xf1ef,
+        Thanks, Akira
 
--- 
-~Randy
