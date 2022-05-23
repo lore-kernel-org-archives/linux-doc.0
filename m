@@ -2,110 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38555C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 14:18:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97878C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 14:42:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237068AbiEWOSU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 May 2022 10:18:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42680 "EHLO
+        id S237281AbiEWOmP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 May 2022 10:42:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237054AbiEWOSQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 10:18:16 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 465215A088;
-        Mon, 23 May 2022 07:18:15 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AAC7D1063;
-        Mon, 23 May 2022 07:18:14 -0700 (PDT)
-Received: from FVFF77S0Q05N (unknown [10.57.9.63])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0904A3F70D;
-        Mon, 23 May 2022 07:18:12 -0700 (PDT)
-Date:   Mon, 23 May 2022 15:16:35 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc:     elver@google.com, catalin.marinas@arm.com, will@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        arnd@arndb.de
-Subject: Re: [PATCH v4 2/2] arm64: kcsan: Support detecting more missing
- memory barriers
-Message-ID: <YouXQ+XX8CrgM5QX@FVFF77S0Q05N>
-References: <20220523113126.171714-1-wangkefeng.wang@huawei.com>
- <20220523113126.171714-3-wangkefeng.wang@huawei.com>
+        with ESMTP id S237280AbiEWOmO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 10:42:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FBB126AFB;
+        Mon, 23 May 2022 07:42:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CB989611E3;
+        Mon, 23 May 2022 14:42:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36000C3411C;
+        Mon, 23 May 2022 14:42:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653316931;
+        bh=+pn/Aag3Y2GhS2+/HoXWr9nr1Lt0Lmr9+7jaO0VvYuo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=qjvyhsayW0yHC6C3Z5GhrrVaWktvr8ASpC9Olc1tkAMJAij5GQY58GuMcrLFNW/9A
+         C1JZzzjUTOjbY5sZwjkUowiJxSLMFNh8CbOvLRCiPsdrZExkCaahITJqIt0MsC4cO/
+         1/hPHMUppuqcI6KFdmdvfsBG2c9hwzCqjJdqHfbVf+moydsrWg3YUYScIS+3Uyv1Uc
+         Q3hDIucWEQpEmvlFo04X8piythLawYiFP/yJrO/aaxOhChVzd6y4imeoZWXJ1DxRlM
+         eUOJGB7+bFZF3nT+fChRSoQJ1/oUpWimV9wlZG4fjj+jC7LE9HsxVXxzAxxjPzV16V
+         Jt4ogDhn+fSPQ==
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-e93bbb54f9so18680543fac.12;
+        Mon, 23 May 2022 07:42:11 -0700 (PDT)
+X-Gm-Message-State: AOAM533d6axMe3YHv3xOX0YZqXF+RnCjcVqcWQuZKSg7mFdw5BHfT3Ey
+        nFLHVHjaTbLmueRCe46iyG9BAPo3jt5wSQe0d9A=
+X-Google-Smtp-Source: ABdhPJxNPJQumGg2r2267lmg4ZuxwjhwAj2wPi6tOvIo735VqndOP4syN/jAR+ON3DwuLvxLZIdsdol8ceNwEmlZYRk=
+X-Received: by 2002:a05:6870:f112:b0:f1:f1e9:e8f1 with SMTP id
+ k18-20020a056870f11200b000f1f1e9e8f1mr11327387oac.126.1653316930318; Mon, 23
+ May 2022 07:42:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220523113126.171714-3-wangkefeng.wang@huawei.com>
+References: <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
+ <20220419070150.254377-1-mawupeng1@huawei.com> <CAMj1kXHr2RdYSPor1st1ZnL=O42c8N6e=bNG+eFhatfefWLUrw@mail.gmail.com>
+ <c65d22b4-f654-21aa-bd5f-d4f8b0939a25@huawei.com> <7058b8d8-c0cb-108e-0db9-2fdf5fb154cf@huawei.com>
+ <CAMj1kXHnL12j6FPGtEeSQB2-kHzoVF+LJMUF9YBq43Yi1UntDg@mail.gmail.com> <7a1ce182-343a-75f9-5447-f7ca12cb0c36@huawei.com>
+In-Reply-To: <7a1ce182-343a-75f9-5447-f7ca12cb0c36@huawei.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Mon, 23 May 2022 16:41:58 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXE_xc4FvdOLqfK+awqTqoGje=Gy7bmVUFTZY_hjw1K9=w@mail.gmail.com>
+Message-ID: <CAMj1kXE_xc4FvdOLqfK+awqTqoGje=Gy7bmVUFTZY_hjw1K9=w@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Add support to relocate kernel image to mirrored region
+To:     mawupeng <mawupeng1@huawei.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        X86 ML <x86@kernel.org>, Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Joerg Roedel <jroedel@suse.de>, songmuchun@bytedance.com,
+        macro@orcam.me.uk, Frederic Weisbecker <frederic@kernel.org>,
+        W_Armin@gmx.de, John Garry <john.garry@huawei.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        chenhuacai@kernel.org, David Hildenbrand <david@redhat.com>,
+        gpiccoli@igalia.com, Mark Rutland <mark.rutland@arm.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        linux-ia64@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 23, 2022 at 07:31:26PM +0800, Kefeng Wang wrote:
-> As "kcsan: Support detecting a subset of missing memory barriers"[1]
-> introduced KCSAN_STRICT/KCSAN_WEAK_MEMORY which make kcsan detects
-> more missing memory barrier, but arm64 don't have KCSAN instrumentation
-> for barriers, so the new selftest test_barrier() and test cases for
-> memory barrier instrumentation in kcsan_test module will fail, even
-> panic on selftest.
-> 
-> Let's prefix all barriers with __ on arm64, as asm-generic/barriers.h
-> defined the final instrumented version of these barriers, which will
-> fix the above issues.
-> 
-> Note, barrier instrumentation that can be disabled via __no_kcsan with
-> appropriate compiler-support (and not just with objtool help), see
-> commit bd3d5bd1a0ad ("kcsan: Support WEAK_MEMORY with Clang where no
-> objtool support exists"), it adds disable_sanitizer_instrumentation to
-> __no_kcsan attribute which will remove all sanitizer instrumentation fully
-> (with Clang 14.0). Meanwhile, GCC does the same thing with no_sanitize.
-> 
-> [1] https://lore.kernel.org/linux-mm/20211130114433.2580590-1-elver@google.com/
-> 
-> Acked-by: Marco Elver <elver@google.com>
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+On Mon, 23 May 2022 at 03:18, mawupeng <mawupeng1@huawei.com> wrote:
+>
+>
+>
+> =E5=9C=A8 2022/5/20 14:52, Ard Biesheuvel =E5=86=99=E9=81=93:
+> > On Thu, 19 May 2022 at 13:09, mawupeng <mawupeng1@huawei.com> wrote:
+> >>
+> >>
+> >>
+> >> =E5=9C=A8 2022/5/7 17:28, mawupeng =E5=86=99=E9=81=93:
+> >>>
+> >>>
+> >>> =E5=9C=A8 2022/5/3 17:58, Ard Biesheuvel =E5=86=99=E9=81=93:
+> >>>> On Tue, 19 Apr 2022 at 08:43, Wupeng Ma <mawupeng1@huawei.com> wrote=
+:
+> >>>>>
+> >>>>> From: Ma Wupeng <mawupeng1@huawei.com>
+> >>>>>
+> >>>>> Now system image will perfer to be located to mirrored regions both=
+ KASLR
+> >>>>> on and off.
+> >>>>>
+> >>>>
+> >>>> Hello Ma Wupeng,
+> >>>>
+> >>>> I wonder if we could simplify this as follows:
+> >>>> - ignore the non-KASLR case for now, and rely on the bootloader  > l=
+oad the image into mirrored memory if it exists;
+> >>>
+> >>> In grub, memory for static image is allocated via the following path:
+> >>>
+> >>> grub_cmd_linux
+> >>>     kernel =3D grub_malloc(filelen)
+> >>>     kernel_alloc_addr =3D grub_efi_allocate_any_pages (kernel_alloc_p=
+ages)
+> >>>     grub_memcpy (kernel_addr, kernel, grub_min(filelen, kernel_size))
+> >>>      grub_loader_set (grub_linux_boot, grub_linux_unload, 0)
+> >>>
+> >>> Can we get memory from mirrored region by the following steps:
+> >>> 1. get memory map by calling grub_efi_get_memory_map()
+> >>> 2. iter all memory map to find a suitable mirrored memory area
+> >>> 3. locate kernel image to this area
+> >>>
+> >>> So, if kaslr is not enabled
+> >>>    - grub will load kernel into mirrored region
+> >>> else
+> >>>    - arm64-stub.c will relocate kernel image to mirrored region
+> >>>
+> >>> Is this feasible?
+> >>
+> >> Is this a feasible proposal to relocate the static kernel image itself
+> >> into more reliable memory?
+> >>
+> >
+> > I'm not sure, it all depends on the firmware.
+> >
+> > When GRUB calls LoadImage(), the firmware will reallocate the image
+> > and unpack it there. So it is really the firmware's job to ensure that
+> > the image is loaded into a suitable location.
+> >
+> > I have some code here that implements a EFI based decompressor, and
+> > which loads the kernel image into mirrored memory if it exists,
+> > without the need to move it again. It could trivially be modified to
+> > deal with non-randomized loads as well.
+> >
+> > But the bottom line is that UEFI should expose the ability to target
+> > mirrored memory, hacking around it like this is not a sustainable
+> > approach.
+>
+> Since firmware is responsible for put kernel static image into mirrored
+> region and kernel is responsible for relocate this image into mirrored
+> region if kaslr is enabled. There is no conflict between these two.
+>
+> Can we integrate the kernel part(introduce mirrored support to arm64) fir=
+st?
+>
 
-Having built this with GCC 12.1.0 and LLVM 14.0.0, I think this patch itself
-doesn't introduce any new problems, and logically makes sense. With that in
-mind:
-
-  Acked-by: Mark Rutland <mark.rutland@arm.com>
-
-As an aside, having scanned the resulting vmlinux with objdump, there are
-plenty of latent issues where we get KCSAN instrumentation where we don't want
-it (e.g. early/late in arm64's entry-common.o). The bulk of those are due to
-missing `nonistr` or `__always_inline`, which we'll need to fix up.
-
-Thanks,
-Mark.
-
-> ---
->  arch/arm64/include/asm/barrier.h | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/arch/arm64/include/asm/barrier.h b/arch/arm64/include/asm/barrier.h
-> index 9f3e2c3d2ca0..2cfc4245d2e2 100644
-> --- a/arch/arm64/include/asm/barrier.h
-> +++ b/arch/arm64/include/asm/barrier.h
-> @@ -50,13 +50,13 @@
->  #define pmr_sync()	do {} while (0)
->  #endif
->  
-> -#define mb()		dsb(sy)
-> -#define rmb()		dsb(ld)
-> -#define wmb()		dsb(st)
-> +#define __mb()		dsb(sy)
-> +#define __rmb()		dsb(ld)
-> +#define __wmb()		dsb(st)
->  
-> -#define dma_mb()	dmb(osh)
-> -#define dma_rmb()	dmb(oshld)
-> -#define dma_wmb()	dmb(oshst)
-> +#define __dma_mb()	dmb(osh)
-> +#define __dma_rmb()	dmb(oshld)
-> +#define __dma_wmb()	dmb(oshst)
->  
->  #define io_stop_wc()	dgh()
->  
-> -- 
-> 2.35.3
-> 
+Yes. If you drop the changes related to fake memmap and rebase, please
+resend them after -rc1 is released.
