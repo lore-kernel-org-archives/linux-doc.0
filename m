@@ -2,162 +2,213 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFEBAC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 22:51:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8759C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 23:34:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231720AbiEWWvQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 May 2022 18:51:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56316 "EHLO
+        id S230283AbiEWXeo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 May 2022 19:34:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231693AbiEWWvP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 18:51:15 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CCDE2BD2
-        for <linux-doc@vger.kernel.org>; Mon, 23 May 2022 15:51:12 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id u27so22468907wru.8
-        for <linux-doc@vger.kernel.org>; Mon, 23 May 2022 15:51:12 -0700 (PDT)
+        with ESMTP id S229691AbiEWXen (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 19:34:43 -0400
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com [IPv6:2001:4860:4864:20::35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D97787890F
+        for <linux-doc@vger.kernel.org>; Mon, 23 May 2022 16:34:42 -0700 (PDT)
+Received: by mail-oa1-x35.google.com with SMTP id 586e51a60fabf-f16a3e0529so20403593fac.2
+        for <linux-doc@vger.kernel.org>; Mon, 23 May 2022 16:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tNZwUkKZtlmZ14jNWylohEgLi2zUCj6Z0VWU+7uDZNM=;
-        b=r+jnJOIBusH635WqI8fbwufkzACI9oCjiSIfKUDvHLseBJPHh9vUSZlWtwSH8Sydl+
-         p0/3xnIcp17otnrYR/qZYEtr6fCmmo/gji7kOUYPP6UyvM1lhwAZhAh+PfEezkRw1I+b
-         0l+aqABzU+E1xxYyggSXp2yt3nt7hQt8aIVYsfT0XMAZIcoUsbXMGNq3dYHqcSyQidme
-         Y+uNXLp/WE5SR/6z9aJrefZIBRRQrknYRS8H+rvGVbIqlCI6X3PKndf5zmU9QieV6U0v
-         r4hmfFl33JKtb0OxMQi2LHy5P1cGQYOlOTDCinO58dnFAPIIEWMTyKmgebufRzp65StN
-         2U6g==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uCt+2GrPkkLQuFQd0ysOIrD9v5YRb1ycOqk25ZHe6EU=;
+        b=QiH/msiZeAyInxGvrGwUEfSdbKWbaTyNEd961BMevyc/brAfOZXgi6lzt3hdJoSy3O
+         D7jK/2O+Y+VfhvOBtk5qhQqIrqsCf3gQybmgwlZiixutgdC1qWv5XxT0HVaH6akBQ1Tf
+         e6mRuuCc15D3YjhR25FHwzr7yWiUme0C3xul6WXXLLY3Q/MGwl33YwUxm6/WlaT28v8r
+         x2wCg+pKkoMMtTEXFxDOrkZFcuiu0Wrb2j6zbWoRn+6bat1mXf6KjCumlGIPbdd3vZdY
+         fMKN7RgEZsClQg6a3DV0VLbwBXRavf2qODQtJtFIb0MmS8UaSlPdyvKxEcWUnP/owuEF
+         porg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tNZwUkKZtlmZ14jNWylohEgLi2zUCj6Z0VWU+7uDZNM=;
-        b=xNCVt9Rtop7EsNq79wOst7l90vZvGnHTlBNukonajPsN9fxJHLSkQyX0psmTqVnlhJ
-         cEyDAiCCxw9fZgAiueX7Ys+A3gnt3RmlNZRcKrSEtQBzy3fNKHsPtn37zzz9oAwquztA
-         B52qeoiqlUIxv8XGo63MaxjaEu7+5vSYIas/ZC60yN4/ST03SBfYfDgRLy6chwlmPL92
-         0Vn8nEeUMG7oBGI/9C3fITN4FvSHu0bo9z2CgloZK1YyBIHDNIHtZS6Yi+3Zm/vBSFN7
-         Z+u3V0OhXdmIfiJ3lwP2gv/hRWVRqMeGCcS9O/fQeRKjg2vP2jB7wxnSZfEmvtmccp5L
-         4psg==
-X-Gm-Message-State: AOAM532FFYEffRGnpBNMRRLHOQUXZ6kHLZv+flZ7bJ9s6JAkQvsDjMF6
-        rItusFbWc5tHss7g8AFZB3nV7Jg01owkc7NPSlmoOQ==
-X-Google-Smtp-Source: ABdhPJwNWihoJDJtk6stNWiKlnvaBN9W1TfY/EaTKT4C/wu5BxD5tfoShvs5v+/05rendS8OylZaKLqH68mkRbWu7qY=
-X-Received: by 2002:a05:6000:1548:b0:20f:c4bb:defd with SMTP id
- 8-20020a056000154800b0020fc4bbdefdmr11656246wry.210.1653346270703; Mon, 23
- May 2022 15:51:10 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uCt+2GrPkkLQuFQd0ysOIrD9v5YRb1ycOqk25ZHe6EU=;
+        b=s2DQoHFTgEbSFwTk0kDyhOS2GX0nKGgoxxa40EYOYApCgk5U4nRgfzJENI4JyQ/cSv
+         7qw6l3KhzAJrnEDCOwQsIZvKn8Hz2jWPfJ4gQoA+mviL3cqImOEyr5Dn399NoCmuvVJo
+         RpPvo/lRZ+wC6Zcz9mj77v9NyNi1dVfVm8rXYLS49TqGAljHxVdt/uS5ERrvZDglhK80
+         ZjWv3C+wZ2ewyPSnrazcV2c3K12sTKh4Cbyr0AEF00Tc3qC1X1ZUZPMGq/prNaO1RVUZ
+         icOXgKDqZTR3Vj75u9PwgUmpbxqoq4cf3c9bvtUY8C0wOoSd9zIb6Oo2a7/ifxZE/3p7
+         feWQ==
+X-Gm-Message-State: AOAM533rcN/krCjSXscp/kd+USVC986lOyBSm7RJmDa5n2J7VIrhnmQb
+        k/8C1Fc+kI48z1Srvu4H8+Vn9g==
+X-Google-Smtp-Source: ABdhPJw26M92bveFTTnyDoAXwGBWyIiwm4i/MAtr6dmWYCraDZxguamiLCnyIxrpYoDR+rzsD0Htdg==
+X-Received: by 2002:a05:6870:960d:b0:f1:28b4:41ff with SMTP id d13-20020a056870960d00b000f128b441ffmr881447oaq.51.1653348881457;
+        Mon, 23 May 2022 16:34:41 -0700 (PDT)
+Received: from ripper.. (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id i4-20020a056870044400b000f15ca674b2sm4305696oak.52.2022.05.23.16.34.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 May 2022 16:34:40 -0700 (PDT)
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        Marijn Suijten <marijn.suijten@somainline.org>
+Cc:     Matthias Kaehlcke <mka@chromium.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Satya Priya <quic_c_skakit@quicinc.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: [PATCH] leds: qcom-lpg: Require pattern to follow documentation
+Date:   Mon, 23 May 2022 16:37:19 -0700
+Message-Id: <20220523233719.1496297-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220518223815.809858-1-vaibhav@linux.ibm.com>
- <YoYj4sLJfGke5IGT@dhcp22.suse.cz> <87zgjcg4xs.fsf@vajain21.in.ibm.com> <YodDaFVeU33bu7yQ@dhcp22.suse.cz>
-In-Reply-To: <YodDaFVeU33bu7yQ@dhcp22.suse.cz>
-From:   Yosry Ahmed <yosryahmed@google.com>
-Date:   Mon, 23 May 2022 15:50:34 -0700
-Message-ID: <CAJD7tkYwv2LDZeV2F5pxuniw7LCNjBapDCm3WuRhzwTH-jN3PA@mail.gmail.com>
-Subject: Re: [PATCH] memcg: provide reclaim stats via 'memory.reclaim'
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
-        Shakeel Butt <shakeelb@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 20, 2022 at 12:29 AM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Fri 20-05-22 10:45:43, Vaibhav Jain wrote:
-> >
-> > Thanks for looking into this patch Michal,
-> >
-> > Michal Hocko <mhocko@suse.com> writes:
-> >
-> > > On Thu 19-05-22 04:08:15, Vaibhav Jain wrote:
-> > >> [1] Provides a way for user-space to trigger proactive reclaim by introducing
-> > >> a write-only memcg file 'memory.reclaim'. However reclaim stats like number
-> > >> of pages scanned and reclaimed is still not directly available to the
-> > >> user-space.
-> > >>
-> > >> This patch proposes to extend [1] to make the memcg file 'memory.reclaim'
-> > >> readable which returns the number of pages scanned / reclaimed during the
-> > >> reclaim process from 'struct vmpressure' associated with each memcg. This should
-> > >> let user-space asses how successful proactive reclaim triggered from memcg
-> > >> 'memory.reclaim' was ?
-> > >>
-> > >> With the patch following command flow is expected:
-> > >>
-> > >>  # echo "1M" > memory.reclaim
-> > >>
-> > >>  # cat memory.reclaim
-> > >>    scanned 76
-> > >>    reclaimed 32
-> > >
-> > > Why cannot you use memory.stat? Sure it would require to iterate over
-> > > the reclaimed hierarchy but the information about scanned and reclaimed
-> > > pages as well as other potentially useful stats is there.
-> >
-> > Agree that "memory.stat" is more suitable for scanned/reclaimed stats as
-> > it already is exposing bunch of other stats.
-> >
-> > The discussion on this patch however seems to have split into two parts:
-> >
-> > 1. Is it a good idea to expose nr_scanned/nr_reclaimed to users-space
-> > and if yes how ?
-> >
-> > IMHO, I think it will be better to expose this info via 'memory.stat' as it
-> > can be useful insight into the reclaim efficiency  and vmpressure.
->
-> We already do that with some more metrics
-> pgrefill 9801926
-> pgscan 27329762
-> pgsteal 22715987
-> pgactivate 250691267
-> pgdeactivate 9521843
-> pglazyfree 0
-> pglazyfreed 0
->
-> > 2. Will it be useful to provide feedback to userspace when it writes to
-> > 'memory.reclaim' on how much memory has been reclaimed ?
-> >
-> > IMHO, this will be a useful feeback to userspace to better adjust future
-> > proactive reclaim requests via 'memory.reclaim'
->
-> How precise this information should be? A very simplistic approach would
-> be
-> cp memory.stat stats.before
-> echo $WHATEVER > memory.reclaim
-> cp memory.stat stats.after
->
-> This will obviously contain also activity outside of the explicitly
-> triggered reclaim (racing background/direct reclaim) but isn't that what
-> actually matters? Are there any cases where the only metric you care
-> about is the triggered reclaim in isolation?
+The leds-trigger-pattern documentation describes how the brightness of
+the LED should transition linearly from one brightness value to the
+next, over the given delta_t.
 
-I think it might be useful to have a dedicated entry in memory.stat
-for proactively reclaimed memory. A case where this would be useful is
-tuning and evaluating userspace proactive reclaimers. For instance, if
-a userspace agent is asking the kernel to reclaim 100M, but it could
-only reclaim 10M, then most probably the proactive reclaimer is not
-using a good methodology to figure out how much memory do we need to
-reclaim.
+But the pattern engine in the Qualcomm LPG hardware only supports
+holding the brightness for each entry for the period.
+This subset of patterns can be represented in the leds-trigger-pattern
+by injecting zero-time transitions after each entry in the pattern,
+resulting in a pattern that pattern that can be rendered by the LPG.
 
-IMO this is more useful, and a superset of just reading the last
-reclaim request status through memory.reclaim (read stat before and
-after).
+Rework LPG pattern interface to require these zero-time transitions, to
+make it comply with this subset of patterns and reject the patterns it
+can't render.
 
-Additionally, things get complicated if the userspace agent is
-multi-threaded. For a cumulative entry in memory.stat, it shouldn't
-matter by a lot as we are looking at the total for all threads
-cumulatively anyway. If we are only reading the memory reclaimed in
-the last request (through memory.reclaim), then we can easily get the
-results of a request that happened on a different thread.
+Fixes: 24e2d05d1b68 ("leds: Add driver for Qualcomm LPG")
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
+ Documentation/leds/leds-qcom-lpg.rst |  8 ++++--
+ drivers/leds/rgb/leds-qcom-lpg.c     | 43 ++++++++++++++++++++++++----
+ 2 files changed, 43 insertions(+), 8 deletions(-)
 
->
-> --
-> Michal Hocko
-> SUSE Labs
+diff --git a/Documentation/leds/leds-qcom-lpg.rst b/Documentation/leds/leds-qcom-lpg.rst
+index f12416f02dd8..de7ceead9337 100644
+--- a/Documentation/leds/leds-qcom-lpg.rst
++++ b/Documentation/leds/leds-qcom-lpg.rst
+@@ -35,11 +35,13 @@ Specify a hardware pattern for a Qualcomm LPG LED.
+ The pattern is a series of brightness and hold-time pairs, with the hold-time
+ expressed in milliseconds. The hold time is a property of the pattern and must
+ therefor be identical for each element in the pattern (except for the pauses
+-described below).
++described below). As the LPG hardware is not able to perform the linear
++transitions expected by the leds-trigger-pattern format, each entry in the
++pattern must be followed a zero-length entry of the same brightness.
+ 
+ Simple pattern::
+ 
+-    "255 500 0 500"
++    "255 500 255 0 0 500 0 0"
+ 
+         ^
+         |
+@@ -54,7 +56,7 @@ in the pattern, the so called "low pause" and "high pause".
+ 
+ Low-pause pattern::
+ 
+-    "255 1000 0 500 255 500 0 500"
++    "255 1000 255 0 0 500 0 0 255 500 255 0 0 500 0 0"
+ 
+         ^
+         |
+diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+index cfa3362b2457..02f51cc61837 100644
+--- a/drivers/leds/rgb/leds-qcom-lpg.c
++++ b/drivers/leds/rgb/leds-qcom-lpg.c
+@@ -704,11 +704,12 @@ static int lpg_blink_mc_set(struct led_classdev *cdev,
+ 	return ret;
+ }
+ 
+-static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *pattern,
++static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *led_pattern,
+ 			   u32 len, int repeat)
+ {
+ 	struct lpg_channel *chan;
+ 	struct lpg *lpg = led->lpg;
++	struct led_pattern *pattern;
+ 	unsigned int brightness_a;
+ 	unsigned int brightness_b;
+ 	unsigned int actual_len;
+@@ -719,18 +720,48 @@ static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *pattern,
+ 	unsigned int hi_idx;
+ 	unsigned int i;
+ 	bool ping_pong = true;
+-	int ret;
++	int ret = -EINVAL;
+ 
+ 	/* Hardware only support oneshot or indefinite loops */
+ 	if (repeat != -1 && repeat != 1)
+ 		return -EINVAL;
+ 
++	/*
++	 * The standardized leds-trigger-pattern format defines that the
++	 * brightness of the LED follows a linear transition from one entry
++	 * in the pattern to the next, over the given delta_t time. It
++	 * describes that the way to perform instant transitions a zero-length
++	 * entry should be added following a pattern entry.
++	 *
++	 * The LPG hardware is only able to perform the latter (no linear
++	 * transitions), so require each entry in the pattern to be followed by
++	 * a zero-length transition.
++	 */
++	if (len % 2)
++		return -EINVAL;
++
++	pattern = kcalloc(len / 2, sizeof(*pattern), GFP_KERNEL);
++	if (!pattern)
++		return -ENOMEM;
++
++	for (i = 0; i < len; i += 2) {
++		if (led_pattern[i].brightness != led_pattern[i + 1].brightness)
++			goto out_free_pattern;
++		if (led_pattern[i + 1].delta_t != 0)
++			goto out_free_pattern;
++
++		pattern[i / 2].brightness = led_pattern[i].brightness;
++		pattern[i / 2].delta_t = led_pattern[i].delta_t;
++	}
++
++	len /= 2;
++
+ 	/*
+ 	 * Specifying a pattern of length 1 causes the hardware to iterate
+ 	 * through the entire LUT, so prohibit this.
+ 	 */
+ 	if (len < 2)
+-		return -EINVAL;
++		goto out_free_pattern;
+ 
+ 	/*
+ 	 * The LPG plays patterns with at a fixed pace, a "low pause" can be
+@@ -781,13 +812,13 @@ static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *pattern,
+ 			 * specify hi pause. Reject other variations.
+ 			 */
+ 			if (i != actual_len - 1)
+-				return -EINVAL;
++				goto out_free_pattern;
+ 		}
+ 	}
+ 
+ 	/* LPG_RAMP_DURATION_REG is a 9bit */
+ 	if (delta_t >= BIT(9))
+-		return -EINVAL;
++		goto out_free_pattern;
+ 
+ 	/* Find "low pause" and "high pause" in the pattern */
+ 	lo_pause = pattern[0].delta_t;
+@@ -814,6 +845,8 @@ static int lpg_pattern_set(struct lpg_led *led, struct led_pattern *pattern,
+ 
+ out_unlock:
+ 	mutex_unlock(&lpg->lock);
++out_free_pattern:
++	kfree(pattern);
+ 
+ 	return ret;
+ }
+-- 
+2.35.1
+
