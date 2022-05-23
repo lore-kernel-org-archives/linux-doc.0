@@ -2,138 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BB3FC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 01:18:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F48EC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 01:50:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232993AbiEWBSn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 22 May 2022 21:18:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47976 "EHLO
+        id S238352AbiEWBu1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 22 May 2022 21:50:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230072AbiEWBSm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 May 2022 21:18:42 -0400
+        with ESMTP id S231439AbiEWBu1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 22 May 2022 21:50:27 -0400
 Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E491B63;
-        Sun, 22 May 2022 18:18:41 -0700 (PDT)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.56])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4L5zvX1KQDz1JC5q;
-        Mon, 23 May 2022 09:17:12 +0800 (CST)
-Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3E871400B;
+        Sun, 22 May 2022 18:50:25 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.54])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4L60c85LpNz1JByS;
+        Mon, 23 May 2022 09:48:56 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
  dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 23 May 2022 09:18:39 +0800
-Received: from [10.174.178.120] (10.174.178.120) by
- dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
+ 15.1.2375.24; Mon, 23 May 2022 09:50:24 +0800
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 23 May 2022 09:18:37 +0800
-Message-ID: <7a1ce182-343a-75f9-5447-f7ca12cb0c36@huawei.com>
-Date:   Mon, 23 May 2022 09:18:37 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 0/2] Add support to relocate kernel image to mirrored
- region
-To:     <ardb@kernel.org>
-CC:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <corbet@lwn.net>, <tglx@linutronix.de>,
-        <mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <dvhart@infradead.org>, <andy@infradead.org>,
-        <rppt@kernel.org>, <paulmck@kernel.org>, <peterz@infradead.org>,
-        <jroedel@suse.de>, <songmuchun@bytedance.com>, <macro@orcam.me.uk>,
-        <frederic@kernel.org>, <W_Armin@gmx.de>, <john.garry@huawei.com>,
-        <seanjc@google.com>, <tsbogend@alpha.franken.de>,
-        <anshuman.khandual@arm.com>, <chenhuacai@kernel.org>,
-        <david@redhat.com>, <gpiccoli@igalia.com>, <mark.rutland@arm.com>,
-        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
+ 15.1.2375.24; Mon, 23 May 2022 09:50:23 +0800
+From:   Kefeng Wang <wangkefeng.wang@huawei.com>
+To:     <elver@google.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
-        <linux-efi@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>, <linux-mm@kvack.org>,
-        <mawupeng1@huawei.com>
-References: <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
- <20220419070150.254377-1-mawupeng1@huawei.com>
- <CAMj1kXHr2RdYSPor1st1ZnL=O42c8N6e=bNG+eFhatfefWLUrw@mail.gmail.com>
- <c65d22b4-f654-21aa-bd5f-d4f8b0939a25@huawei.com>
- <7058b8d8-c0cb-108e-0db9-2fdf5fb154cf@huawei.com>
- <CAMj1kXHnL12j6FPGtEeSQB2-kHzoVF+LJMUF9YBq43Yi1UntDg@mail.gmail.com>
-From:   mawupeng <mawupeng1@huawei.com>
-In-Reply-To: <CAMj1kXHnL12j6FPGtEeSQB2-kHzoVF+LJMUF9YBq43Yi1UntDg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.120]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500014.china.huawei.com (7.185.36.153)
+        <linux-kernel@vger.kernel.org>, <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     <linux-doc@vger.kernel.org>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: [PATCH v3 0/2] arm64: Fix kcsan test_barrier fail and panic
+Date:   Mon, 23 May 2022 10:00:49 +0800
+Message-ID: <20220523020051.141460-1-wangkefeng.wang@huawei.com>
+X-Mailer: git-send-email 2.35.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.25]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
 X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Fix selftest and kcsan_test() module fail when KCSAN_STRICT
+and KCSAN_WEAK_MEMORY enabled on ARM64.
 
+v3:
+- update dma_mb()'s description and add the generic definition,
+  also asm-generic change is moved into patch1, suggested by Marco.
+v2:
+- Add documents about dma_mb(), suggested by Mike and Will.
+- drop Fixes tag and update changlog, suggested by Mike.
 
-在 2022/5/20 14:52, Ard Biesheuvel 写道:
-> On Thu, 19 May 2022 at 13:09, mawupeng <mawupeng1@huawei.com> wrote:
->>
->>
->>
->> 在 2022/5/7 17:28, mawupeng 写道:
->>>
->>>
->>> 在 2022/5/3 17:58, Ard Biesheuvel 写道:
->>>> On Tue, 19 Apr 2022 at 08:43, Wupeng Ma <mawupeng1@huawei.com> wrote:
->>>>>
->>>>> From: Ma Wupeng <mawupeng1@huawei.com>
->>>>>
->>>>> Now system image will perfer to be located to mirrored regions both KASLR
->>>>> on and off.
->>>>>
->>>>
->>>> Hello Ma Wupeng,
->>>>
->>>> I wonder if we could simplify this as follows:
->>>> - ignore the non-KASLR case for now, and rely on the bootloader  > load the image into mirrored memory if it exists;
->>>
->>> In grub, memory for static image is allocated via the following path:
->>>
->>> grub_cmd_linux
->>>     kernel = grub_malloc(filelen)
->>>     kernel_alloc_addr = grub_efi_allocate_any_pages (kernel_alloc_pages)
->>>     grub_memcpy (kernel_addr, kernel, grub_min(filelen, kernel_size))
->>>      grub_loader_set (grub_linux_boot, grub_linux_unload, 0)
->>>
->>> Can we get memory from mirrored region by the following steps:
->>> 1. get memory map by calling grub_efi_get_memory_map()
->>> 2. iter all memory map to find a suitable mirrored memory area
->>> 3. locate kernel image to this area
->>>
->>> So, if kaslr is not enabled
->>>    - grub will load kernel into mirrored region
->>> else
->>>    - arm64-stub.c will relocate kernel image to mirrored region
->>>
->>> Is this feasible?
->>
->> Is this a feasible proposal to relocate the static kernel image itself
->> into more reliable memory?
->>
-> 
-> I'm not sure, it all depends on the firmware.
-> 
-> When GRUB calls LoadImage(), the firmware will reallocate the image
-> and unpack it there. So it is really the firmware's job to ensure that
-> the image is loaded into a suitable location.
-> 
-> I have some code here that implements a EFI based decompressor, and
-> which loads the kernel image into mirrored memory if it exists,
-> without the need to move it again. It could trivially be modified to
-> deal with non-randomized loads as well.
-> 
-> But the bottom line is that UEFI should expose the ability to target
-> mirrored memory, hacking around it like this is not a sustainable
-> approach.
+Kefeng Wang (2):
+  asm-generic: Add memory barrier dma_mb()
+  arm64: kcsan: Support detecting more missing memory barriers
 
-Since firmware is responsible for put kernel static image into mirrored
-region and kernel is responsible for relocate this image into mirrored
-region if kaslr is enabled. There is no conflict between these two.
+ Documentation/memory-barriers.txt | 11 ++++++-----
+ arch/arm64/include/asm/barrier.h  | 12 ++++++------
+ include/asm-generic/barrier.h     |  8 ++++++++
+ 3 files changed, 20 insertions(+), 11 deletions(-)
 
-Can we integrate the kernel part(introduce mirrored support to arm64) first?
+-- 
+2.35.3
 
-> .
