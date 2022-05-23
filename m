@@ -2,180 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0733C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 15:17:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B325AC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 15:22:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237568AbiEWPRW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 May 2022 11:17:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44924 "EHLO
+        id S237734AbiEWPWn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 May 2022 11:22:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237564AbiEWPRV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 11:17:21 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC0645AFA;
-        Mon, 23 May 2022 08:17:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id EFE12B81170;
-        Mon, 23 May 2022 15:17:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 805EDC385AA;
-        Mon, 23 May 2022 15:17:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653319037;
-        bh=CkdrHOJbqrYgqtlzU2t1gwW8LyMTW1lRhpgrRcERREY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UQ4C2SBU00YISTyG/4Kii6b9dKw5B4OgQjrQIfVb+h/D0JIHrQtmvSZqGSz6RH5cf
-         eIRmFAn+a4sMuMRYarKkRLzHiyxIcLNNIpxDpJVIfaCPK0+6Od2vuqpGcci4z+3Gmf
-         q8w2ex+5NLwAvVS8C8oslhibKtEUbJWST3P57jAT5DYi9e/ECQgtuQv2e5J9JxYOT2
-         3smHTffI64ixT+yst/sdrc98yApf3DpzTd9tYGqcpdnqm3KS/FrJnsVWxdoe4uxgQh
-         Y8+M/YGY+KqbTtSUh3zFrpS7Wu54pKVWW96Fv7ydJJATq2h9XwmvzCakn15AosS6QT
-         E7/8VBw1H16Ig==
-Date:   Mon, 23 May 2022 08:17:14 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rob Herring <robh@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
-        iommu@lists.linux-foundation.org, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org
-Subject: Re: [PATCH v1] driver core: Extend deferred probe timeout on driver
- registration
-Message-ID: <Youleo3Ganxbc1sq@dev-arch.thelio-3990X>
-References: <20220429220933.1350374-1-saravanak@google.com>
- <YogkhvFGVcjNQ21Z@dev-arch.thelio-3990X>
- <CAGETcx9nvBs1b4M=2hBhrLX_2-rzLtAmV9WfTXu0MC7JnsBvwA@mail.gmail.com>
- <YogsiMCDupNUhMgL@dev-fedora.thelio-3990X>
- <CAGETcx-JyWwoGA3o8eep7E29Cm4DcVT6D1JFJh72jLcqm_mjCQ@mail.gmail.com>
+        with ESMTP id S237769AbiEWPWj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 11:22:39 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C1CE5DD02
+        for <linux-doc@vger.kernel.org>; Mon, 23 May 2022 08:22:37 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id m12so13412466plb.4
+        for <linux-doc@vger.kernel.org>; Mon, 23 May 2022 08:22:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=alhazuhH7tTd8Xd528vjQZhEVIVEKAWK4HCLXZDJ228=;
+        b=FY+eaeQn0QSUHoJZ1pIFqwwhEngjriob9gD9u/B6V7NGsK628vXfe9OaR7V+ivQcG7
+         oUq06I8eW7HBIntiAx8hVuSzVcI4o08UOO8rnlQzh+q3k/m/WbEVxbdOUyjyOCwOE937
+         A487RWEuR49BgO5YHvoZXJYj8YibiJbikPaMzwoJU6XjJBkkBT4zo6LA0wUkZ+xe+wVv
+         u/5J4TUl1BPNy5wFyQRJj+jpLzLFkAgws5kcfohn0eOOtgmxkfKFRb1vx4U7mxSjIxMa
+         n0m0TkhMSmH3C563bTiPkClwsxB2JnwTw2UxQ027A0jTP2RpKPm9+cBoqaLh2XhDQs3i
+         KbEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=alhazuhH7tTd8Xd528vjQZhEVIVEKAWK4HCLXZDJ228=;
+        b=oMWZ+yemkkFreXPoVOnRA+IsKO4S71e1RbpMQYWgVqlKVIDpe+CpcFt+KmiBpy26AF
+         ergHaw+a9bQJNPPq7a39RtKUjBiHXbLTSzi8w4+0W/mECP/tnfb/lpLM5FOrgEHS7t+c
+         qhxU/cnlyqgQodADQGqG1Xnk6hnF+RR91vdNCVCSwn5EyiatnH2ab54F0Is/2T3yUqMS
+         flTdKu7E4dokDslAhVNnleIknC6iO5AsrBTv0GGc2/GSsl/yJ1v2s47bHX9oweXD/6k5
+         Q4Harhvq5Yy+KkcdtAVLE2B5qDGImmIcW2Qs/FXSEqMyZ5e6v6ZUINsDWIPL6DpsPNvs
+         jvFA==
+X-Gm-Message-State: AOAM531TUeJgvDXxYaJ1E85wZJDiDdLm+6UYcOh8K+WKjHnN/e1Bvtzx
+        aaBguWBQvM5PCKs+It8a0NnliA==
+X-Google-Smtp-Source: ABdhPJxMnuGcLeXNmgvjCrimkV9tdjgzm2jljb8i5xr1qPYZt2WYeIGCUhIkYo7TSWGZfmskKdgJKg==
+X-Received: by 2002:a17:90b:3884:b0:1df:db8a:1fcf with SMTP id mu4-20020a17090b388400b001dfdb8a1fcfmr24013896pjb.217.1653319356845;
+        Mon, 23 May 2022 08:22:36 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id q22-20020a170902789600b0016230703ca3sm1655647pll.231.2022.05.23.08.22.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 May 2022 08:22:36 -0700 (PDT)
+Date:   Mon, 23 May 2022 15:22:32 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Andy Lutomirski <luto@kernel.org>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <YoumuHUmgM6TH20S@google.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-5-chao.p.peng@linux.intel.com>
+ <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
+ <YofeZps9YXgtP3f1@google.com>
+ <20220523132154.GA947536@chaop.bj.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAGETcx-JyWwoGA3o8eep7E29Cm4DcVT6D1JFJh72jLcqm_mjCQ@mail.gmail.com>
+In-Reply-To: <20220523132154.GA947536@chaop.bj.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 20, 2022 at 05:15:55PM -0700, Saravana Kannan wrote:
-> On Fri, May 20, 2022 at 5:04 PM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > On Fri, May 20, 2022 at 04:49:48PM -0700, Saravana Kannan wrote:
-> > > On Fri, May 20, 2022 at 4:30 PM Nathan Chancellor <nathan@kernel.org> wrote:
-> > > >
-> > > > Hi Saravana,
-> > > >
-> > > > On Fri, Apr 29, 2022 at 03:09:32PM -0700, Saravana Kannan wrote:
-> > > > > The deferred probe timer that's used for this currently starts at
-> > > > > late_initcall and runs for driver_deferred_probe_timeout seconds. The
-> > > > > assumption being that all available drivers would be loaded and
-> > > > > registered before the timer expires. This means, the
-> > > > > driver_deferred_probe_timeout has to be pretty large for it to cover the
-> > > > > worst case. But if we set the default value for it to cover the worst
-> > > > > case, it would significantly slow down the average case. For this
-> > > > > reason, the default value is set to 0.
-> > > > >
-> > > > > Also, with CONFIG_MODULES=y and the current default values of
-> > > > > driver_deferred_probe_timeout=0 and fw_devlink=on, devices with missing
-> > > > > drivers will cause their consumer devices to always defer their probes.
-> > > > > This is because device links created by fw_devlink defer the probe even
-> > > > > before the consumer driver's probe() is called.
-> > > > >
-> > > > > Instead of a fixed timeout, if we extend an unexpired deferred probe
-> > > > > timer on every successful driver registration, with the expectation more
-> > > > > modules would be loaded in the near future, then the default value of
-> > > > > driver_deferred_probe_timeout only needs to be as long as the worst case
-> > > > > time difference between two consecutive module loads.
-> > > > >
-> > > > > So let's implement that and set the default value to 10 seconds when
-> > > > > CONFIG_MODULES=y.
-> > > > >
-> > > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > > Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-> > > > > Cc: Rob Herring <robh@kernel.org>
-> > > > > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > > > > Cc: Will Deacon <will@kernel.org>
-> > > > > Cc: Ulf Hansson <ulf.hansson@linaro.org>
-> > > > > Cc: Kevin Hilman <khilman@kernel.org>
-> > > > > Cc: Thierry Reding <treding@nvidia.com>
-> > > > > Cc: Mark Brown <broonie@kernel.org>
-> > > > > Cc: Pavel Machek <pavel@ucw.cz>
-> > > > > Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > > > Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > > > Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > > Cc: linux-gpio@vger.kernel.org
-> > > > > Cc: linux-pm@vger.kernel.org
-> > > > > Cc: iommu@lists.linux-foundation.org
-> > > > > Signed-off-by: Saravana Kannan <saravanak@google.com>
-> > > >
-> > > > I bisected a boot hang with ARCH=s390 defconfig in QEMU down to this
-> > > > change as commit 2b28a1a84a0e ("driver core: Extend deferred probe
-> > > > timeout on driver registration") in next-20220520 (bisect log below).
-> > > >
-> > > > $ make -skj"$(nproc)" ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- defconfig bzImage
-> > > >
-> > > > $ timeout --foreground 15m stdbuf -oL -eL \
-> > > > qemu-system-s390x \
-> > > > -initrd ... \
-> > > > -M s390-ccw-virtio \
-> > > > -display none \
-> > > > -kernel arch/s390/boot/bzImage \
-> > > > -m 512m \
-> > > > -nodefaults \
-> > > > -serial mon:stdio
-> > > > ...
-> > > > [    2.077303] In-situ OAM (IOAM) with IPv6
-> > > > [    2.077639] NET: Registered PF_PACKET protocol family
-> > > > [    2.078063] bridge: filtering via arp/ip/ip6tables is no longer available by default. Update your scripts to load br_netfilter if you need this.
-> > > > [    2.078795] Key type dns_resolver registered
-> > > > [    2.079317] cio: Channel measurement facility initialized using format extended (mode autodetected)
-> > > > [    2.081494] Discipline DIAG cannot be used without z/VM
-> > > > [  260.626363] random: crng init done
-> > > > qemu-system-s390x: terminating on signal 15 from pid 3815762 (timeout)
-> > > >
-> > > > We have a simple rootfs available if necessary:
-> > > >
-> > > > https://github.com/ClangBuiltLinux/boot-utils/raw/bc0d17785eb67f1edd0ee0a134970a807895f741/images/s390/rootfs.cpio.zst
-> > > >
-> > > > If there is any other information I can provide, please let me know!
-> > >
-> > > Hmm... strange. Can you please try the following command line options
-> > > and tell me which of these has the issue and which don't?
-> >
-> > Sure thing!
-> >
-> > > 1) deferred_probe_timeout=0
-> >
-> > No issue.
-> >
-> > > 2) deferred_probe_timeout=1
-> > > 3) deferred_probe_timeout=300
-> >
-> > Both of these appear to hang in the same way, I let each sit for five
-> > minutes.
+On Mon, May 23, 2022, Chao Peng wrote:
+> On Fri, May 20, 2022 at 06:31:02PM +0000, Sean Christopherson wrote:
+> > On Fri, May 20, 2022, Andy Lutomirski wrote:
+> > > The alternative would be to have some kind of separate table or bitmap (part
+> > > of the memslot?) that tells KVM whether a GPA should map to the fd.
+> > > 
+> > > What do you all think?
+> > 
+> > My original proposal was to have expolicit shared vs. private memslots, and punch
+> > holes in KVM's memslots on conversion, but due to the way KVM (and userspace)
+> > handle memslot updates, conversions would be painfully slow.  That's how we ended
+> > up with the current propsoal.
+> > 
+> > But a dedicated KVM ioctl() to add/remove shared ranges would be easy to implement
+> > and wouldn't necessarily even need to interact with the memslots.  It could be a
+> > consumer of memslots, e.g. if we wanted to disallow registering regions without an
+> > associated memslot, but I think we'd want to avoid even that because things will
+> > get messy during memslot updates, e.g. if dirty logging is toggled or a shared
+> > memory region is temporarily removed then we wouldn't want to destroy the tracking.
 > 
-> Strange that a sufficiently large timeout isn't helping. Is it trying
-> to boot off a network mount? I'll continue looking into this next
-> week.
+> Even we don't tight that to memslots, that info can only be effective
+> for private memslot, right? Setting this ioctl to memory ranges defined
+> in a traditional non-private memslots just makes no sense, I guess we can
+> comment that in the API document.
 
-I don't think so, it seems like doing that requires some extra flags
-that we do not have:
+Hrm, applying it universally would be funky, e.g. emulated MMIO would need to be
+declared "shared".  But, applying it selectively would arguably be worse, e.g.
+letting userspace map memory into the guest as shared for a region that's registered
+as private...
 
-https://wiki.qemu.org/Features/S390xNetworkBoot
+On option to that mess would be to make memory shared by default, and so userspace
+must declare regions that are private.  Then there's no weirdness with emulated MMIO
+or "legacy" memslots.
 
-If you need any additional information or want something tested, please
-let me know!
+On page fault, KVM does a lookup to see if the GPA is shared or private.  If the
+GPA is private, but there is no memslot or the memslot doesn't have a private fd,
+KVM exits to userspace.  If there's a memslot with a private fd, the shared/private
+flag is used to resolve the 
 
-Cheers,
-Nathan
+And to handle the ioctl(), KVM can use kvm_zap_gfn_range(), which will bump the
+notifier sequence, i.e. force the page fault to retry if the GPA may have been
+(un)registered between checking the type and acquiring mmu_lock.
+
+> > I don't think we'd want to use a bitmap, e.g. for a well-behaved guest, XArray
+> > should be far more efficient.
+> 
+> What about the mis-behaved guest? I don't want to design for the worst
+> case, but people may raise concern on the attack from such guest.
+
+That's why cgroups exist.  E.g. a malicious/broken L1 can similarly abuse nested
+EPT/NPT to generate a large number of shadow page tables.
+
+> > One benefit to explicitly tracking this in KVM is that it might be useful for
+> > software-only protected VMs, e.g. KVM could mark a region in the XArray as "pending"
+> > based on guest hypercalls to share/unshare memory, and then complete the transaction
+> > when userspace invokes the ioctl() to complete the share/unshare.
+> 
+> OK, then this can be another field of states/flags/attributes. Let me
+> dig up certain level of details:
+> 
+> First, introduce below KVM ioctl
+> 
+> KVM_SET_MEMORY_ATTR
+
+Actually, if the semantics are that userspace declares memory as private, then we
+can reuse KVM_MEMORY_ENCRYPT_REG_REGION and KVM_MEMORY_ENCRYPT_UNREG_REGION.  It'd
+be a little gross because we'd need to slightly redefine the semantics for TDX, SNP,
+and software-protected VM types, e.g. the ioctls() currently require a pre-exisitng
+memslot.  But I think it'd work...
+
+I'll think more on this...
