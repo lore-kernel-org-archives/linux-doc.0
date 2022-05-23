@@ -2,166 +2,336 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B325AC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 15:22:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2AF8C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 15:44:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237734AbiEWPWn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 May 2022 11:22:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56378 "EHLO
+        id S235054AbiEWPoi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 May 2022 11:44:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237769AbiEWPWj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 11:22:39 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C1CE5DD02
-        for <linux-doc@vger.kernel.org>; Mon, 23 May 2022 08:22:37 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id m12so13412466plb.4
-        for <linux-doc@vger.kernel.org>; Mon, 23 May 2022 08:22:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=alhazuhH7tTd8Xd528vjQZhEVIVEKAWK4HCLXZDJ228=;
-        b=FY+eaeQn0QSUHoJZ1pIFqwwhEngjriob9gD9u/B6V7NGsK628vXfe9OaR7V+ivQcG7
-         oUq06I8eW7HBIntiAx8hVuSzVcI4o08UOO8rnlQzh+q3k/m/WbEVxbdOUyjyOCwOE937
-         A487RWEuR49BgO5YHvoZXJYj8YibiJbikPaMzwoJU6XjJBkkBT4zo6LA0wUkZ+xe+wVv
-         u/5J4TUl1BPNy5wFyQRJj+jpLzLFkAgws5kcfohn0eOOtgmxkfKFRb1vx4U7mxSjIxMa
-         n0m0TkhMSmH3C563bTiPkClwsxB2JnwTw2UxQ027A0jTP2RpKPm9+cBoqaLh2XhDQs3i
-         KbEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=alhazuhH7tTd8Xd528vjQZhEVIVEKAWK4HCLXZDJ228=;
-        b=oMWZ+yemkkFreXPoVOnRA+IsKO4S71e1RbpMQYWgVqlKVIDpe+CpcFt+KmiBpy26AF
-         ergHaw+a9bQJNPPq7a39RtKUjBiHXbLTSzi8w4+0W/mECP/tnfb/lpLM5FOrgEHS7t+c
-         qhxU/cnlyqgQodADQGqG1Xnk6hnF+RR91vdNCVCSwn5EyiatnH2ab54F0Is/2T3yUqMS
-         flTdKu7E4dokDslAhVNnleIknC6iO5AsrBTv0GGc2/GSsl/yJ1v2s47bHX9oweXD/6k5
-         Q4Harhvq5Yy+KkcdtAVLE2B5qDGImmIcW2Qs/FXSEqMyZ5e6v6ZUINsDWIPL6DpsPNvs
-         jvFA==
-X-Gm-Message-State: AOAM531TUeJgvDXxYaJ1E85wZJDiDdLm+6UYcOh8K+WKjHnN/e1Bvtzx
-        aaBguWBQvM5PCKs+It8a0NnliA==
-X-Google-Smtp-Source: ABdhPJxMnuGcLeXNmgvjCrimkV9tdjgzm2jljb8i5xr1qPYZt2WYeIGCUhIkYo7TSWGZfmskKdgJKg==
-X-Received: by 2002:a17:90b:3884:b0:1df:db8a:1fcf with SMTP id mu4-20020a17090b388400b001dfdb8a1fcfmr24013896pjb.217.1653319356845;
-        Mon, 23 May 2022 08:22:36 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id q22-20020a170902789600b0016230703ca3sm1655647pll.231.2022.05.23.08.22.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 08:22:36 -0700 (PDT)
-Date:   Mon, 23 May 2022 15:22:32 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Andy Lutomirski <luto@kernel.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <YoumuHUmgM6TH20S@google.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-5-chao.p.peng@linux.intel.com>
- <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
- <YofeZps9YXgtP3f1@google.com>
- <20220523132154.GA947536@chaop.bj.intel.com>
+        with ESMTP id S234711AbiEWPoh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 11:44:37 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0709C278;
+        Mon, 23 May 2022 08:44:35 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:35::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 83D2B60A;
+        Mon, 23 May 2022 15:44:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 83D2B60A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1653320675; bh=Pezguya57mcluySYXOgTZYvFTKZlX9uOeM5VmJ/iztk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=M2ArEgZ4r4e0rcTazppVqrncIalsA3VzxkSqBxesemPQvlnHs08q60GqpVa5Se9uY
+         yywBg+NZJ0rehPTS1fVmM8C57SrzNEcZFXpUJyfDLZHo0B47EWD7n0HuWxAsIIppaG
+         vRJf90RyrutQr4eJI1R9LPvC1StQQA7NdxY2bDwUydF4MSvHb/jcV08prMPV2lLIfH
+         dJrkBodP5reNRQ8csuoZg14I5L3uVSfoSYtfTci+K+SRWWX9PVuVLHHtY1pAMxnX1E
+         V036gobK80JXCbyeL3tOleSm18TiAUrSclTYQb4fp3nJqxLrpCcWBiXS0PZwa7tuxK
+         VCNmPn0EbHo+A==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Documentation for 5.19
+Date:   Mon, 23 May 2022 09:44:34 -0600
+Message-ID: <87wnecgsnx.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220523132154.GA947536@chaop.bj.intel.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 23, 2022, Chao Peng wrote:
-> On Fri, May 20, 2022 at 06:31:02PM +0000, Sean Christopherson wrote:
-> > On Fri, May 20, 2022, Andy Lutomirski wrote:
-> > > The alternative would be to have some kind of separate table or bitmap (part
-> > > of the memslot?) that tells KVM whether a GPA should map to the fd.
-> > > 
-> > > What do you all think?
-> > 
-> > My original proposal was to have expolicit shared vs. private memslots, and punch
-> > holes in KVM's memslots on conversion, but due to the way KVM (and userspace)
-> > handle memslot updates, conversions would be painfully slow.  That's how we ended
-> > up with the current propsoal.
-> > 
-> > But a dedicated KVM ioctl() to add/remove shared ranges would be easy to implement
-> > and wouldn't necessarily even need to interact with the memslots.  It could be a
-> > consumer of memslots, e.g. if we wanted to disallow registering regions without an
-> > associated memslot, but I think we'd want to avoid even that because things will
-> > get messy during memslot updates, e.g. if dirty logging is toggled or a shared
-> > memory region is temporarily removed then we wouldn't want to destroy the tracking.
-> 
-> Even we don't tight that to memslots, that info can only be effective
-> for private memslot, right? Setting this ioctl to memory ranges defined
-> in a traditional non-private memslots just makes no sense, I guess we can
-> comment that in the API document.
+The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
 
-Hrm, applying it universally would be funky, e.g. emulated MMIO would need to be
-declared "shared".  But, applying it selectively would arguably be worse, e.g.
-letting userspace map memory into the guest as shared for a region that's registered
-as private...
+  Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
 
-On option to that mess would be to make memory shared by default, and so userspace
-must declare regions that are private.  Then there's no weirdness with emulated MMIO
-or "legacy" memslots.
+are available in the Git repository at:
 
-On page fault, KVM does a lookup to see if the GPA is shared or private.  If the
-GPA is private, but there is no memslot or the memslot doesn't have a private fd,
-KVM exits to userspace.  If there's a memslot with a private fd, the shared/private
-flag is used to resolve the 
+  git://git.lwn.net/linux.git tags/docs-5.19
 
-And to handle the ioctl(), KVM can use kvm_zap_gfn_range(), which will bump the
-notifier sequence, i.e. force the page fault to retry if the GPA may have been
-(un)registered between checking the type and acquiring mmu_lock.
+for you to fetch changes up to b86f46d5ce3e7497930be931a9a9e57480f0baff:
 
-> > I don't think we'd want to use a bitmap, e.g. for a well-behaved guest, XArray
-> > should be far more efficient.
-> 
-> What about the mis-behaved guest? I don't want to design for the worst
-> case, but people may raise concern on the attack from such guest.
+  docs: pdfdocs: Add space for chapter counts >= 100 in TOC (2022-05-17 13:41:26 -0600)
 
-That's why cgroups exist.  E.g. a malicious/broken L1 can similarly abuse nested
-EPT/NPT to generate a large number of shadow page tables.
+----------------------------------------------------------------
+It was a moderately busy cycle for documentation; highlights include:
 
-> > One benefit to explicitly tracking this in KVM is that it might be useful for
-> > software-only protected VMs, e.g. KVM could mark a region in the XArray as "pending"
-> > based on guest hypercalls to share/unshare memory, and then complete the transaction
-> > when userspace invokes the ioctl() to complete the share/unshare.
-> 
-> OK, then this can be another field of states/flags/attributes. Let me
-> dig up certain level of details:
-> 
-> First, introduce below KVM ioctl
-> 
-> KVM_SET_MEMORY_ATTR
+ - After a long period of inactivity, the Japanese translations are seeing
+   some much-needed maintenance and updating.
 
-Actually, if the semantics are that userspace declares memory as private, then we
-can reuse KVM_MEMORY_ENCRYPT_REG_REGION and KVM_MEMORY_ENCRYPT_UNREG_REGION.  It'd
-be a little gross because we'd need to slightly redefine the semantics for TDX, SNP,
-and software-protected VM types, e.g. the ioctls() currently require a pre-exisitng
-memslot.  But I think it'd work...
+ - Reworked IOMMU documentation
 
-I'll think more on this...
+ - Some new documentation for static-analysis tools
+
+ - A new overall structure for the memory-management documentation.  This
+   is an LSFMM outcome that, it is hoped, will help encourage developers to
+   fill in the many gaps.  Optimism is eternal...but hopefully it will
+   work.
+
+ - More Chinese translations.
+
+Plus the usual typo fixes, updates, etc.
+
+Expect a conflict in Documentation/process/embargoed-hardware-issues.rst; 
+Greg added a patch I had accepted as well, but did so differently; just
+drop the duplicate line for Catalin.  There will also be a small
+conflict with the tip tree in kernel-parameters.txt; the linux-next
+resolution is good.
+
+----------------------------------------------------------------
+Akihiko Odaki (1):
+      x86/efi: Remove references of EFI earlyprintk from documentation
+
+Akira Yokosawa (9):
+      docs: driver-api/thermal/intel_dptf: Use copyright symbol
+      docs: submitting-patches: Fix crossref to 'The canonical patch format'
+      docs/ja_JP/SubmittingPatches: Update GregKH links
+      docs/ja_JP/SubmittingPatches: Suggest the use of scripts/get_maintainer.pl
+      docs/ja_JP/SubmittingPatches: Randy has moved
+      docs/ja_JP/SubmittingPatches: Add Suggested-by as a standard signature
+      docs/ja_JP/SubmittingPatches: Request summaries for commit references
+      MAINTAINERS: Add entry for DOCUMENTATION/JAPANESE
+      docs: pdfdocs: Add space for chapter counts >= 100 in TOC
+
+Alex Deucher (1):
+      Documentation: x86: rework IOMMU documentation
+
+Andreas-Christian Hagau (1):
+      Documentation: kunit: change complete_and_exit to kthread_complete_and_exit
+
+Bagas Sanjaya (3):
+      Documentation: kernel-doc: Promote two chapter headings to page title
+      Documentation: sphinx: replace "Introduction" chapter heading with page title
+      Documentation: arch_pgtable_helpers: demote pgtable list headings
+
+Bruno Moreira-Guedes (2):
+      Docs: Add cpio requirement to changes.rst
+      Docs: Replace version by 'current' in changes.rst
+
+Catalin Marinas (1):
+      Documentation/process: Update ARM contact for embargoed hardware issues
+
+Chin En Lin (1):
+      Documentation: x86: Fix obsolete name of page fault handler
+
+Chunguang Xu (1):
+      docs/scheduler: Change unit of cpu_time and rq_time to nanoseconds
+
+Dylan Yudaken (1):
+      docs: fault-injection: fix defaults
+
+Frank Rowand (1):
+      Documentation: dev-tools: use literal block instead of code-block
+
+Huilong Deng (1):
+      docs/zh_CN: fix devicetree usage-model translation
+
+Joel Savitz (2):
+      Documentation: add missing angle bracket in cgroup-v2 doc
+      Documentation/sysctl: document max_rcu_stall_to_panic
+
+Johan Hovold (1):
+      Documentation: devres: fix typo in interface list
+
+Jui-Tse Huang (1):
+      docs/scheduler: fix unit error
+
+Konstantin Ryabitsev (1):
+      Documentation: kernel-hacking: minor edits for style
+
+Kosuke Fujimoto (2):
+      docs/ja_JP/index: update section title in Japanese
+      docs/trans/ja_JP/howto: Don't mention specific kernel versions
+
+Krzysztof Kozlowski (2):
+      Documentation/process: mention patch changelog in review process
+      Documentation/process: use scripts/get_maintainer.pl on patches
+
+Marcelo Schmitt (2):
+      Documentation: dev-tools: Add a section for static analysis tools
+      Documentation: dev-tools: Enhance static analysis section with discussion
+
+Markus Reichl (1):
+      w1: w1_therm: Document Maxim MAX31850 thermoelement IF.
+
+Matthew Wilcox (Oracle) (1):
+      mm,doc: Add new documentation structure
+
+Randy Dunlap (9):
+      Docs: admin/kernel-parameters: edit a few boot options
+      Docs/admin: alphabetize some kernel-parameters (part 1)
+      docs/admin: alphabetize parts of kernel-parameters.txt (part 2)
+      Drop Documentation/ide/
+      rtla: Documentation: fix email addresses
+      Documentation: move watch_queue to core-api
+      Documentation: drop more IDE boot options and ide-cd.rst
+      input: Docs: correct atarikbd.rst typos
+      input: Docs: correct ntrig.rst typo
+
+Tang Yizhou (4):
+      docs/zh_CN: Add sched-debug Chinese translation
+      docs/zh_CN: Add schedutil Chinese translation
+      docs/zh_CN: Add locking/index Chinese translation
+      docs/zh_CN: Add spinlocks Chinese translation
+
+Yanteng Si (19):
+      docs/zh_CN/damon: update outdated term 'regions update interval'
+      docs/zh_CN/damon: add sysfs interface
+      docs/zh_CN/damon: typo fix
+      docs/zh_CN: add vm frontswap translation
+      docs/zh_CN: add vm hwpoison translation
+      docs/zh_CN: add vm memory-model translation
+      docs/zh_CN: add vm mmu_notifier translation
+      docs/zh_CN: add vm overcommit-accounting translation
+      docs/zh_CN: add vm page_frags translation
+      docs/zh_CN: add vm page_owner translation
+      docs/zh_CN: add vm page_table_check translation
+      docs/zh_CN: add vm remap_file_pages translation
+      docs/zh_CN: add vm split_page_table_lock translation
+      docs/zh_CN: add vm z3fold translation
+      docs/zh_CN: add vm zsmalloc translation
+      docs/zh_CN: add vm hugetlbfs_reserv translation
+      docs/zh_CN: add vm hmm translation
+      docs/zh_CN: add vm numa translation
+      MAINTAINERS: Become the docs/zh_CN maintainer
+
+Zhou Yuheng (1):
+      docs/zh_CN: Fix typo in process/howto.rst
+
+gaochao (1):
+      docs/zh_CN: Add dev-tools/gdb-kernel-debugging.rst Chinese translation
+
+ Documentation/admin-guide/cgroup-v2.rst            |   2 +-
+ Documentation/admin-guide/kernel-parameters.rst    |  11 +-
+ Documentation/admin-guide/kernel-parameters.txt    | 338 ++++++-------
+ Documentation/admin-guide/sysctl/kernel.rst        |   7 +
+ Documentation/cdrom/ide-cd.rst                     | 538 ---------------------
+ Documentation/cdrom/index.rst                      |   1 -
+ Documentation/core-api/index.rst                   |   1 +
+ Documentation/{ => core-api}/watch_queue.rst       |   0
+ Documentation/dev-tools/ktap.rst                   |  18 +-
+ Documentation/dev-tools/kunit/architecture.rst     |   2 +-
+ Documentation/dev-tools/testing-overview.rst       |  63 +++
+ Documentation/doc-guide/contributing.rst           |   5 +-
+ Documentation/doc-guide/kernel-doc.rst             |   2 +
+ Documentation/doc-guide/sphinx.rst                 |   5 +-
+ Documentation/driver-api/driver-model/devres.rst   |   2 +-
+ Documentation/driver-api/thermal/intel_dptf.rst    |   2 +-
+ Documentation/fault-injection/fault-injection.rst  |  14 +-
+ Documentation/ide/ChangeLog.ide-cd.1994-2004       | 268 ----------
+ Documentation/ide/ChangeLog.ide-floppy.1996-2002   |  63 ---
+ Documentation/ide/ChangeLog.ide-tape.1995-2002     | 257 ----------
+ Documentation/ide/changelogs.rst                   |  17 -
+ Documentation/ide/ide-tape.rst                     |  68 ---
+ Documentation/ide/ide.rst                          | 265 ----------
+ Documentation/ide/index.rst                        |  21 -
+ Documentation/ide/warm-plug-howto.rst              |  18 -
+ Documentation/index.rst                            |   2 -
+ Documentation/input/devices/atarikbd.rst           |   4 +-
+ Documentation/input/devices/ntrig.rst              |   2 +-
+ Documentation/kernel-hacking/hacking.rst           |  36 +-
+ Documentation/kernel-hacking/locking.rst           |   5 +-
+ Documentation/process/3.Early-stage.rst            |   9 +-
+ Documentation/process/changes.rst                  |   8 +-
+ .../process/embargoed-hardware-issues.rst          |   2 +-
+ Documentation/process/submitting-patches.rst       |  14 +-
+ Documentation/scheduler/sched-stats.rst            |   8 +-
+ Documentation/sphinx/kerneldoc-preamble.sty        |  14 +-
+ Documentation/tools/rtla/common_appendix.rst       |   3 +-
+ Documentation/translations/ja_JP/SubmittingPatches |  36 +-
+ Documentation/translations/ja_JP/howto.rst         |  44 +-
+ Documentation/translations/ja_JP/index.rst         |   2 +-
+ .../zh_CN/admin-guide/mm/damon/reclaim.rst         |   4 +-
+ .../zh_CN/admin-guide/mm/damon/usage.rst           | 291 ++++++++++-
+ .../zh_CN/dev-tools/gdb-kernel-debugging.rst       | 167 +++++++
+ .../translations/zh_CN/dev-tools/index.rst         |   2 +-
+ .../translations/zh_CN/devicetree/usage-model.rst  |   8 +-
+ Documentation/translations/zh_CN/index.rst         |   2 +-
+ Documentation/translations/zh_CN/locking/index.rst |  42 ++
+ .../translations/zh_CN/locking/spinlocks.rst       | 149 ++++++
+ Documentation/translations/zh_CN/process/howto.rst |   2 +-
+ .../translations/zh_CN/scheduler/index.rst         |   2 +
+ .../translations/zh_CN/scheduler/sched-debug.rst   |  51 ++
+ .../translations/zh_CN/scheduler/schedutil.rst     | 165 +++++++
+ .../translations/zh_CN/vm/damon/design.rst         |   7 +-
+ Documentation/translations/zh_CN/vm/frontswap.rst  | 196 ++++++++
+ Documentation/translations/zh_CN/vm/hmm.rst        | 361 ++++++++++++++
+ .../translations/zh_CN/vm/hugetlbfs_reserv.rst     | 436 +++++++++++++++++
+ Documentation/translations/zh_CN/vm/hwpoison.rst   | 166 +++++++
+ Documentation/translations/zh_CN/vm/index.rst      |  29 +-
+ .../translations/zh_CN/vm/memory-model.rst         | 135 ++++++
+ .../translations/zh_CN/vm/mmu_notifier.rst         |  97 ++++
+ Documentation/translations/zh_CN/vm/numa.rst       | 101 ++++
+ .../zh_CN/vm/overcommit-accounting.rst             |  86 ++++
+ Documentation/translations/zh_CN/vm/page_frags.rst |  38 ++
+ Documentation/translations/zh_CN/vm/page_owner.rst | 116 +++++
+ .../translations/zh_CN/vm/page_table_check.rst     |  56 +++
+ .../translations/zh_CN/vm/remap_file_pages.rst     |  32 ++
+ .../zh_CN/vm/split_page_table_lock.rst             |  96 ++++
+ Documentation/translations/zh_CN/vm/z3fold.rst     |  31 ++
+ Documentation/translations/zh_CN/vm/zsmalloc.rst   |  78 +++
+ Documentation/vm/arch_pgtable_helpers.rst          |  10 +-
+ Documentation/vm/bootmem.rst                       |   5 +
+ Documentation/vm/index.rst                         |  40 +-
+ Documentation/vm/oom.rst                           |   5 +
+ Documentation/vm/page_allocation.rst               |   5 +
+ Documentation/vm/page_cache.rst                    |   5 +
+ Documentation/vm/page_reclaim.rst                  |   5 +
+ Documentation/vm/page_tables.rst                   |   5 +
+ Documentation/vm/physical_memory.rst               |   5 +
+ Documentation/vm/process_addrs.rst                 |   5 +
+ Documentation/vm/shmfs.rst                         |   5 +
+ Documentation/vm/slab.rst                          |   5 +
+ Documentation/vm/swap.rst                          |   5 +
+ Documentation/vm/vmalloc.rst                       |   5 +
+ Documentation/w1/slaves/w1_therm.rst               |   9 +-
+ Documentation/x86/exception-tables.rst             |  23 +-
+ Documentation/x86/index.rst                        |   2 +-
+ Documentation/x86/intel-iommu.rst                  | 115 -----
+ Documentation/x86/iommu.rst                        | 151 ++++++
+ MAINTAINERS                                        |   7 +
+ 89 files changed, 3567 insertions(+), 1973 deletions(-)
+ delete mode 100644 Documentation/cdrom/ide-cd.rst
+ rename Documentation/{ => core-api}/watch_queue.rst (100%)
+ delete mode 100644 Documentation/ide/ChangeLog.ide-cd.1994-2004
+ delete mode 100644 Documentation/ide/ChangeLog.ide-floppy.1996-2002
+ delete mode 100644 Documentation/ide/ChangeLog.ide-tape.1995-2002
+ delete mode 100644 Documentation/ide/changelogs.rst
+ delete mode 100644 Documentation/ide/ide-tape.rst
+ delete mode 100644 Documentation/ide/ide.rst
+ delete mode 100644 Documentation/ide/index.rst
+ delete mode 100644 Documentation/ide/warm-plug-howto.rst
+ create mode 100644 Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
+ create mode 100644 Documentation/translations/zh_CN/locking/index.rst
+ create mode 100644 Documentation/translations/zh_CN/locking/spinlocks.rst
+ create mode 100644 Documentation/translations/zh_CN/scheduler/sched-debug.rst
+ create mode 100644 Documentation/translations/zh_CN/scheduler/schedutil.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/frontswap.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/hmm.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/hugetlbfs_reserv.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/hwpoison.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/memory-model.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/mmu_notifier.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/numa.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/overcommit-accounting.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/page_frags.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/page_owner.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/page_table_check.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/remap_file_pages.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/split_page_table_lock.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/z3fold.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/zsmalloc.rst
+ create mode 100644 Documentation/vm/bootmem.rst
+ create mode 100644 Documentation/vm/oom.rst
+ create mode 100644 Documentation/vm/page_allocation.rst
+ create mode 100644 Documentation/vm/page_cache.rst
+ create mode 100644 Documentation/vm/page_reclaim.rst
+ create mode 100644 Documentation/vm/page_tables.rst
+ create mode 100644 Documentation/vm/physical_memory.rst
+ create mode 100644 Documentation/vm/process_addrs.rst
+ create mode 100644 Documentation/vm/shmfs.rst
+ create mode 100644 Documentation/vm/slab.rst
+ create mode 100644 Documentation/vm/swap.rst
+ create mode 100644 Documentation/vm/vmalloc.rst
+ delete mode 100644 Documentation/x86/intel-iommu.rst
+ create mode 100644 Documentation/x86/iommu.rst
