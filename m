@@ -2,164 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97878C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 14:42:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0733C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 15:17:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237281AbiEWOmP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 May 2022 10:42:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56482 "EHLO
+        id S237568AbiEWPRW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 May 2022 11:17:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237280AbiEWOmO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 10:42:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FBB126AFB;
-        Mon, 23 May 2022 07:42:12 -0700 (PDT)
+        with ESMTP id S237564AbiEWPRV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 11:17:21 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC0645AFA;
+        Mon, 23 May 2022 08:17:20 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CB989611E3;
-        Mon, 23 May 2022 14:42:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36000C3411C;
-        Mon, 23 May 2022 14:42:11 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id EFE12B81170;
+        Mon, 23 May 2022 15:17:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 805EDC385AA;
+        Mon, 23 May 2022 15:17:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653316931;
-        bh=+pn/Aag3Y2GhS2+/HoXWr9nr1Lt0Lmr9+7jaO0VvYuo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=qjvyhsayW0yHC6C3Z5GhrrVaWktvr8ASpC9Olc1tkAMJAij5GQY58GuMcrLFNW/9A
-         C1JZzzjUTOjbY5sZwjkUowiJxSLMFNh8CbOvLRCiPsdrZExkCaahITJqIt0MsC4cO/
-         1/hPHMUppuqcI6KFdmdvfsBG2c9hwzCqjJdqHfbVf+moydsrWg3YUYScIS+3Uyv1Uc
-         Q3hDIucWEQpEmvlFo04X8piythLawYiFP/yJrO/aaxOhChVzd6y4imeoZWXJ1DxRlM
-         eUOJGB7+bFZF3nT+fChRSoQJ1/oUpWimV9wlZG4fjj+jC7LE9HsxVXxzAxxjPzV16V
-         Jt4ogDhn+fSPQ==
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-e93bbb54f9so18680543fac.12;
-        Mon, 23 May 2022 07:42:11 -0700 (PDT)
-X-Gm-Message-State: AOAM533d6axMe3YHv3xOX0YZqXF+RnCjcVqcWQuZKSg7mFdw5BHfT3Ey
-        nFLHVHjaTbLmueRCe46iyG9BAPo3jt5wSQe0d9A=
-X-Google-Smtp-Source: ABdhPJxNPJQumGg2r2267lmg4ZuxwjhwAj2wPi6tOvIo735VqndOP4syN/jAR+ON3DwuLvxLZIdsdol8ceNwEmlZYRk=
-X-Received: by 2002:a05:6870:f112:b0:f1:f1e9:e8f1 with SMTP id
- k18-20020a056870f11200b000f1f1e9e8f1mr11327387oac.126.1653316930318; Mon, 23
- May 2022 07:42:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
- <20220419070150.254377-1-mawupeng1@huawei.com> <CAMj1kXHr2RdYSPor1st1ZnL=O42c8N6e=bNG+eFhatfefWLUrw@mail.gmail.com>
- <c65d22b4-f654-21aa-bd5f-d4f8b0939a25@huawei.com> <7058b8d8-c0cb-108e-0db9-2fdf5fb154cf@huawei.com>
- <CAMj1kXHnL12j6FPGtEeSQB2-kHzoVF+LJMUF9YBq43Yi1UntDg@mail.gmail.com> <7a1ce182-343a-75f9-5447-f7ca12cb0c36@huawei.com>
-In-Reply-To: <7a1ce182-343a-75f9-5447-f7ca12cb0c36@huawei.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Mon, 23 May 2022 16:41:58 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXE_xc4FvdOLqfK+awqTqoGje=Gy7bmVUFTZY_hjw1K9=w@mail.gmail.com>
-Message-ID: <CAMj1kXE_xc4FvdOLqfK+awqTqoGje=Gy7bmVUFTZY_hjw1K9=w@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Add support to relocate kernel image to mirrored region
-To:     mawupeng <mawupeng1@huawei.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
+        s=k20201202; t=1653319037;
+        bh=CkdrHOJbqrYgqtlzU2t1gwW8LyMTW1lRhpgrRcERREY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UQ4C2SBU00YISTyG/4Kii6b9dKw5B4OgQjrQIfVb+h/D0JIHrQtmvSZqGSz6RH5cf
+         eIRmFAn+a4sMuMRYarKkRLzHiyxIcLNNIpxDpJVIfaCPK0+6Od2vuqpGcci4z+3Gmf
+         q8w2ex+5NLwAvVS8C8oslhibKtEUbJWST3P57jAT5DYi9e/ECQgtuQv2e5J9JxYOT2
+         3smHTffI64ixT+yst/sdrc98yApf3DpzTd9tYGqcpdnqm3KS/FrJnsVWxdoe4uxgQh
+         Y8+M/YGY+KqbTtSUh3zFrpS7Wu54pKVWW96Fv7ydJJATq2h9XwmvzCakn15AosS6QT
+         E7/8VBw1H16Ig==
+Date:   Mon, 23 May 2022 08:17:14 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rob Herring <robh@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Joerg Roedel <jroedel@suse.de>, songmuchun@bytedance.com,
-        macro@orcam.me.uk, Frederic Weisbecker <frederic@kernel.org>,
-        W_Armin@gmx.de, John Garry <john.garry@huawei.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        chenhuacai@kernel.org, David Hildenbrand <david@redhat.com>,
-        gpiccoli@igalia.com, Mark Rutland <mark.rutland@arm.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        linux-ia64@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
+        iommu@lists.linux-foundation.org, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org
+Subject: Re: [PATCH v1] driver core: Extend deferred probe timeout on driver
+ registration
+Message-ID: <Youleo3Ganxbc1sq@dev-arch.thelio-3990X>
+References: <20220429220933.1350374-1-saravanak@google.com>
+ <YogkhvFGVcjNQ21Z@dev-arch.thelio-3990X>
+ <CAGETcx9nvBs1b4M=2hBhrLX_2-rzLtAmV9WfTXu0MC7JnsBvwA@mail.gmail.com>
+ <YogsiMCDupNUhMgL@dev-fedora.thelio-3990X>
+ <CAGETcx-JyWwoGA3o8eep7E29Cm4DcVT6D1JFJh72jLcqm_mjCQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGETcx-JyWwoGA3o8eep7E29Cm4DcVT6D1JFJh72jLcqm_mjCQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 23 May 2022 at 03:18, mawupeng <mawupeng1@huawei.com> wrote:
->
->
->
-> =E5=9C=A8 2022/5/20 14:52, Ard Biesheuvel =E5=86=99=E9=81=93:
-> > On Thu, 19 May 2022 at 13:09, mawupeng <mawupeng1@huawei.com> wrote:
-> >>
-> >>
-> >>
-> >> =E5=9C=A8 2022/5/7 17:28, mawupeng =E5=86=99=E9=81=93:
-> >>>
-> >>>
-> >>> =E5=9C=A8 2022/5/3 17:58, Ard Biesheuvel =E5=86=99=E9=81=93:
-> >>>> On Tue, 19 Apr 2022 at 08:43, Wupeng Ma <mawupeng1@huawei.com> wrote=
-:
-> >>>>>
-> >>>>> From: Ma Wupeng <mawupeng1@huawei.com>
-> >>>>>
-> >>>>> Now system image will perfer to be located to mirrored regions both=
- KASLR
-> >>>>> on and off.
-> >>>>>
-> >>>>
-> >>>> Hello Ma Wupeng,
-> >>>>
-> >>>> I wonder if we could simplify this as follows:
-> >>>> - ignore the non-KASLR case for now, and rely on the bootloader  > l=
-oad the image into mirrored memory if it exists;
-> >>>
-> >>> In grub, memory for static image is allocated via the following path:
-> >>>
-> >>> grub_cmd_linux
-> >>>     kernel =3D grub_malloc(filelen)
-> >>>     kernel_alloc_addr =3D grub_efi_allocate_any_pages (kernel_alloc_p=
-ages)
-> >>>     grub_memcpy (kernel_addr, kernel, grub_min(filelen, kernel_size))
-> >>>      grub_loader_set (grub_linux_boot, grub_linux_unload, 0)
-> >>>
-> >>> Can we get memory from mirrored region by the following steps:
-> >>> 1. get memory map by calling grub_efi_get_memory_map()
-> >>> 2. iter all memory map to find a suitable mirrored memory area
-> >>> 3. locate kernel image to this area
-> >>>
-> >>> So, if kaslr is not enabled
-> >>>    - grub will load kernel into mirrored region
-> >>> else
-> >>>    - arm64-stub.c will relocate kernel image to mirrored region
-> >>>
-> >>> Is this feasible?
-> >>
-> >> Is this a feasible proposal to relocate the static kernel image itself
-> >> into more reliable memory?
-> >>
+On Fri, May 20, 2022 at 05:15:55PM -0700, Saravana Kannan wrote:
+> On Fri, May 20, 2022 at 5:04 PM Nathan Chancellor <nathan@kernel.org> wrote:
 > >
-> > I'm not sure, it all depends on the firmware.
+> > On Fri, May 20, 2022 at 04:49:48PM -0700, Saravana Kannan wrote:
+> > > On Fri, May 20, 2022 at 4:30 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> > > >
+> > > > Hi Saravana,
+> > > >
+> > > > On Fri, Apr 29, 2022 at 03:09:32PM -0700, Saravana Kannan wrote:
+> > > > > The deferred probe timer that's used for this currently starts at
+> > > > > late_initcall and runs for driver_deferred_probe_timeout seconds. The
+> > > > > assumption being that all available drivers would be loaded and
+> > > > > registered before the timer expires. This means, the
+> > > > > driver_deferred_probe_timeout has to be pretty large for it to cover the
+> > > > > worst case. But if we set the default value for it to cover the worst
+> > > > > case, it would significantly slow down the average case. For this
+> > > > > reason, the default value is set to 0.
+> > > > >
+> > > > > Also, with CONFIG_MODULES=y and the current default values of
+> > > > > driver_deferred_probe_timeout=0 and fw_devlink=on, devices with missing
+> > > > > drivers will cause their consumer devices to always defer their probes.
+> > > > > This is because device links created by fw_devlink defer the probe even
+> > > > > before the consumer driver's probe() is called.
+> > > > >
+> > > > > Instead of a fixed timeout, if we extend an unexpired deferred probe
+> > > > > timer on every successful driver registration, with the expectation more
+> > > > > modules would be loaded in the near future, then the default value of
+> > > > > driver_deferred_probe_timeout only needs to be as long as the worst case
+> > > > > time difference between two consecutive module loads.
+> > > > >
+> > > > > So let's implement that and set the default value to 10 seconds when
+> > > > > CONFIG_MODULES=y.
+> > > > >
+> > > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > > Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+> > > > > Cc: Rob Herring <robh@kernel.org>
+> > > > > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > > > > Cc: Will Deacon <will@kernel.org>
+> > > > > Cc: Ulf Hansson <ulf.hansson@linaro.org>
+> > > > > Cc: Kevin Hilman <khilman@kernel.org>
+> > > > > Cc: Thierry Reding <treding@nvidia.com>
+> > > > > Cc: Mark Brown <broonie@kernel.org>
+> > > > > Cc: Pavel Machek <pavel@ucw.cz>
+> > > > > Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> > > > > Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > > > Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > > > Cc: linux-gpio@vger.kernel.org
+> > > > > Cc: linux-pm@vger.kernel.org
+> > > > > Cc: iommu@lists.linux-foundation.org
+> > > > > Signed-off-by: Saravana Kannan <saravanak@google.com>
+> > > >
+> > > > I bisected a boot hang with ARCH=s390 defconfig in QEMU down to this
+> > > > change as commit 2b28a1a84a0e ("driver core: Extend deferred probe
+> > > > timeout on driver registration") in next-20220520 (bisect log below).
+> > > >
+> > > > $ make -skj"$(nproc)" ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- defconfig bzImage
+> > > >
+> > > > $ timeout --foreground 15m stdbuf -oL -eL \
+> > > > qemu-system-s390x \
+> > > > -initrd ... \
+> > > > -M s390-ccw-virtio \
+> > > > -display none \
+> > > > -kernel arch/s390/boot/bzImage \
+> > > > -m 512m \
+> > > > -nodefaults \
+> > > > -serial mon:stdio
+> > > > ...
+> > > > [    2.077303] In-situ OAM (IOAM) with IPv6
+> > > > [    2.077639] NET: Registered PF_PACKET protocol family
+> > > > [    2.078063] bridge: filtering via arp/ip/ip6tables is no longer available by default. Update your scripts to load br_netfilter if you need this.
+> > > > [    2.078795] Key type dns_resolver registered
+> > > > [    2.079317] cio: Channel measurement facility initialized using format extended (mode autodetected)
+> > > > [    2.081494] Discipline DIAG cannot be used without z/VM
+> > > > [  260.626363] random: crng init done
+> > > > qemu-system-s390x: terminating on signal 15 from pid 3815762 (timeout)
+> > > >
+> > > > We have a simple rootfs available if necessary:
+> > > >
+> > > > https://github.com/ClangBuiltLinux/boot-utils/raw/bc0d17785eb67f1edd0ee0a134970a807895f741/images/s390/rootfs.cpio.zst
+> > > >
+> > > > If there is any other information I can provide, please let me know!
+> > >
+> > > Hmm... strange. Can you please try the following command line options
+> > > and tell me which of these has the issue and which don't?
 > >
-> > When GRUB calls LoadImage(), the firmware will reallocate the image
-> > and unpack it there. So it is really the firmware's job to ensure that
-> > the image is loaded into a suitable location.
+> > Sure thing!
 > >
-> > I have some code here that implements a EFI based decompressor, and
-> > which loads the kernel image into mirrored memory if it exists,
-> > without the need to move it again. It could trivially be modified to
-> > deal with non-randomized loads as well.
+> > > 1) deferred_probe_timeout=0
 > >
-> > But the bottom line is that UEFI should expose the ability to target
-> > mirrored memory, hacking around it like this is not a sustainable
-> > approach.
->
-> Since firmware is responsible for put kernel static image into mirrored
-> region and kernel is responsible for relocate this image into mirrored
-> region if kaslr is enabled. There is no conflict between these two.
->
-> Can we integrate the kernel part(introduce mirrored support to arm64) fir=
-st?
->
+> > No issue.
+> >
+> > > 2) deferred_probe_timeout=1
+> > > 3) deferred_probe_timeout=300
+> >
+> > Both of these appear to hang in the same way, I let each sit for five
+> > minutes.
+> 
+> Strange that a sufficiently large timeout isn't helping. Is it trying
+> to boot off a network mount? I'll continue looking into this next
+> week.
 
-Yes. If you drop the changes related to fake memmap and rebase, please
-resend them after -rc1 is released.
+I don't think so, it seems like doing that requires some extra flags
+that we do not have:
+
+https://wiki.qemu.org/Features/S390xNetworkBoot
+
+If you need any additional information or want something tested, please
+let me know!
+
+Cheers,
+Nathan
