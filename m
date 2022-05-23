@@ -2,139 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FC18C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 11:48:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 074ADC43217
+	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 11:56:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234980AbiEWLsj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 May 2022 07:48:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41084 "EHLO
+        id S235206AbiEWL42 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 May 2022 07:56:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234914AbiEWLsi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 07:48:38 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B71150E29;
-        Mon, 23 May 2022 04:48:37 -0700 (PDT)
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4L6FtM0ZgVzfZNG;
-        Mon, 23 May 2022 19:47:07 +0800 (CST)
-Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+        with ESMTP id S235177AbiEWL42 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 07:56:28 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7108921BA;
+        Mon, 23 May 2022 04:56:23 -0700 (PDT)
+Received: from fraeml735-chm.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4L6G0N6q73z67njv;
+        Mon, 23 May 2022 19:52:20 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml735-chm.china.huawei.com (10.206.15.216) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 23 May 2022 19:48:35 +0800
-Received: from [10.174.178.120] (10.174.178.120) by
- dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 23 May 2022 19:48:33 +0800
-Message-ID: <2a8cc751-dd72-6fe7-9a33-d6f24769f57d@huawei.com>
-Date:   Mon, 23 May 2022 19:48:33 +0800
+ 15.1.2375.24; Mon, 23 May 2022 13:56:20 +0200
+Received: from [10.47.87.6] (10.47.87.6) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 23 May
+ 2022 12:56:19 +0100
+Message-ID: <42350b3a-193f-a1a0-3ef7-13643e1101f0@huawei.com>
+Date:   Mon, 23 May 2022 12:56:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 0/2] Add support to relocate kernel image to mirrored
- region
-To:     <ardb@kernel.org>
-CC:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <corbet@lwn.net>, <tglx@linutronix.de>,
-        <mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <dvhart@infradead.org>, <andy@infradead.org>,
-        <rppt@kernel.org>, <paulmck@kernel.org>, <peterz@infradead.org>,
-        <jroedel@suse.de>, <songmuchun@bytedance.com>, <macro@orcam.me.uk>,
-        <frederic@kernel.org>, <W_Armin@gmx.de>, <john.garry@huawei.com>,
-        <seanjc@google.com>, <tsbogend@alpha.franken.de>,
-        <anshuman.khandual@arm.com>, <chenhuacai@kernel.org>,
-        <david@redhat.com>, <gpiccoli@igalia.com>, <mark.rutland@arm.com>,
-        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-efi@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>, <linux-mm@kvack.org>,
-        <mawupeng1@huawei.com>
-References: <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
- <20220419070150.254377-1-mawupeng1@huawei.com>
- <CAMj1kXHr2RdYSPor1st1ZnL=O42c8N6e=bNG+eFhatfefWLUrw@mail.gmail.com>
- <c65d22b4-f654-21aa-bd5f-d4f8b0939a25@huawei.com>
- <7058b8d8-c0cb-108e-0db9-2fdf5fb154cf@huawei.com>
- <CAMj1kXHnL12j6FPGtEeSQB2-kHzoVF+LJMUF9YBq43Yi1UntDg@mail.gmail.com>
- <CAMj1kXFP9kA_rJ8DfP1Ln=W++xL1Rvdojb8ZuNLoOJx2mLkysA@mail.gmail.com>
-From:   mawupeng <mawupeng1@huawei.com>
-In-Reply-To: <CAMj1kXFP9kA_rJ8DfP1Ln=W++xL1Rvdojb8ZuNLoOJx2mLkysA@mail.gmail.com>
+ Thunderbird/91.6.1
+Subject: Re: [PATCH 3/4] scsi: core: Cap shost max_sectors according to DMA
+ optimum mapping limits
+To:     Dan Carpenter <dan.carpenter@oracle.com>, <kbuild@lists.01.org>,
+        <damien.lemoal@opensource.wdc.com>, <joro@8bytes.org>,
+        <will@kernel.org>, <jejb@linux.ibm.com>,
+        <martin.petersen@oracle.com>, <hch@lst.de>,
+        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>
+CC:     <lkp@intel.com>, <kbuild-all@lists.01.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-ide@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <linux-scsi@vger.kernel.org>, <liyihang6@hisilicon.com>,
+        <chenxiang66@hisilicon.com>, <thunder.leizhen@huawei.com>
+References: <202205210545.gkS834ds-lkp@intel.com>
+From:   John Garry <john.garry@huawei.com>
+In-Reply-To: <202205210545.gkS834ds-lkp@intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.120]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500014.china.huawei.com (7.185.36.153)
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.87.6]
+X-ClientProxiedBy: lhreml748-chm.china.huawei.com (10.201.108.198) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
 X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 23/05/2022 12:08, Dan Carpenter wrote:
 
+Thanks for the report
 
-在 2022/5/20 14:52, Ard Biesheuvel 写道:
-> On Fri, 20 May 2022 at 08:52, Ard Biesheuvel <ardb@kernel.org> wrote:
->>
->> On Thu, 19 May 2022 at 13:09, mawupeng <mawupeng1@huawei.com> wrote:
->>>
->>>
->>>
->>> 在 2022/5/7 17:28, mawupeng 写道:
->>>>
->>>>
->>>> 在 2022/5/3 17:58, Ard Biesheuvel 写道:
->>>>> On Tue, 19 Apr 2022 at 08:43, Wupeng Ma <mawupeng1@huawei.com> wrote:
->>>>>>
->>>>>> From: Ma Wupeng <mawupeng1@huawei.com>
->>>>>>
->>>>>> Now system image will perfer to be located to mirrored regions both KASLR
->>>>>> on and off.
->>>>>>
->>>>>
->>>>> Hello Ma Wupeng,
->>>>>
->>>>> I wonder if we could simplify this as follows:
->>>>> - ignore the non-KASLR case for now, and rely on the bootloader  > load the image into mirrored memory if it exists;
->>>>
->>>> In grub, memory for static image is allocated via the following path:
->>>>
->>>> grub_cmd_linux
->>>>     kernel = grub_malloc(filelen)
->>>>     kernel_alloc_addr = grub_efi_allocate_any_pages (kernel_alloc_pages)
->>>>     grub_memcpy (kernel_addr, kernel, grub_min(filelen, kernel_size))
->>>>      grub_loader_set (grub_linux_boot, grub_linux_unload, 0)
->>>>
->>>> Can we get memory from mirrored region by the following steps:
->>>> 1. get memory map by calling grub_efi_get_memory_map()
->>>> 2. iter all memory map to find a suitable mirrored memory area
->>>> 3. locate kernel image to this area
->>>>
->>>> So, if kaslr is not enabled
->>>>    - grub will load kernel into mirrored region
->>>> else
->>>>    - arm64-stub.c will relocate kernel image to mirrored region
->>>>
->>>> Is this feasible?
->>>
->>> Is this a feasible proposal to relocate the static kernel image itself
->>> into more reliable memory?
->>>
->>
->> I'm not sure, it all depends on the firmware.
->>
->> When GRUB calls LoadImage(), the firmware will reallocate the image
->> and unpack it there. So it is really the firmware's job to ensure that
->> the image is loaded into a suitable location.
->>
->> I have some code here that implements a EFI based decompressor, and
->> which loads the kernel image into mirrored memory if it exists,
->> without the need to move it again. It could trivially be modified to
->> deal with non-randomized loads as well.
->>
+> 50b6cb3516365c Dexuan Cui        2021-10-07  224  	/* Use min_t(int, ...) in case shost->can_queue exceeds SHRT_MAX */
+> 50b6cb3516365c Dexuan Cui        2021-10-07  225  	shost->cmd_per_lun = min_t(int, shost->cmd_per_lun,
+> ea2f0f77538c50 John Garry        2021-05-19  226  				   shost->can_queue);
+> ea2f0f77538c50 John Garry        2021-05-19  227
+> 2ad7ba6ca08593 John Garry        2022-05-20 @228  	if (dma_dev->dma_mask) {
+>                                                              ^^^^^^^^^^^^^^^^^
+
+I knew that we fixed up dma_dev to be non-NULL, but I thought it was 
+earlier in this function...
+
+> The patch adds a new unchecked dereference
 > 
-> Code is here
-> https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/log/?h=efi-decompressor-v2
+> 2ad7ba6ca08593 John Garry        2022-05-20  229  		shost->max_sectors = min_t(unsigned int, shost->max_sectors,
+> 2ad7ba6ca08593 John Garry        2022-05-20  230  				dma_opt_mapping_size(dma_dev) >> SECTOR_SHIFT);
+> 2ad7ba6ca08593 John Garry        2022-05-20  231  	}
+> 2ad7ba6ca08593 John Garry        2022-05-20  232
+> 0a6ac4ee7c2109 Christoph Hellwig 2017-01-03  233  	error = scsi_init_sense_cache(shost);
+> 0a6ac4ee7c2109 Christoph Hellwig 2017-01-03  234  	if (error)
+> 0a6ac4ee7c2109 Christoph Hellwig 2017-01-03  235  		goto fail;
+> 0a6ac4ee7c2109 Christoph Hellwig 2017-01-03  236
+> d285203cf647d7 Christoph Hellwig 2014-01-17  237  	error = scsi_mq_setup_tags(shost);
+> 542bd1377a9630 James Bottomley   2008-04-21  238  	if (error)
+> 542bd1377a9630 James Bottomley   2008-04-21  239  		goto fail;
+> d285203cf647d7 Christoph Hellwig 2014-01-17  240
+> ^1da177e4c3f41 Linus Torvalds    2005-04-16  241  	if (!shost->shost_gendev.parent)
+> ^1da177e4c3f41 Linus Torvalds    2005-04-16  242  		shost->shost_gendev.parent = dev ? dev : &platform_bus;
+> 3c8d9a957d0ae6 James Bottomley   2012-05-04 @243  	if (!dma_dev)
+>                                                              ^^^^^^^^
 
-I will test this later.
-
-Thanks.
-
-> .
+Cheers,
+John
