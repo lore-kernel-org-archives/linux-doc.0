@@ -2,70 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0F89C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 12:00:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E0FC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 12:18:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235215AbiEWMAO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 May 2022 08:00:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35246 "EHLO
+        id S235270AbiEWMSJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 May 2022 08:18:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235029AbiEWMAN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 08:00:13 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1C6F52526;
-        Mon, 23 May 2022 05:00:11 -0700 (PDT)
-Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.200])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4L6G4n5HfQz67xMg;
-        Mon, 23 May 2022 19:56:09 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 23 May 2022 14:00:09 +0200
-Received: from [10.47.87.6] (10.47.87.6) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 23 May
- 2022 13:00:08 +0100
-Message-ID: <b756a30e-9fb1-ad0e-a55d-3fd3354b8517@huawei.com>
-Date:   Mon, 23 May 2022 13:00:07 +0100
+        with ESMTP id S235301AbiEWMSJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 08:18:09 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4599219005;
+        Mon, 23 May 2022 05:18:08 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 01C8D1F8BE;
+        Mon, 23 May 2022 12:18:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1653308287; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=B0qnrRinaC3F4JUVaGGq2M9nBMqIOMymX1KLqQ5hWL4=;
+        b=xLv7ViaCFvoX6Zk6EFp59EDHmQurp9hgKcRToy8fIVK920P7wxXZ8qu7PYL6fRnJ8dXU0K
+        +3sJu6bKb56SIiJLyjC6BIj/DJ1v8KutNS7sWS9rU18j0a6FUtqJnk7cPpbExXKLpceveU
+        f3R+vp8UnQmB/oOl3t7ajiQ7mZpzlWI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1653308287;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=B0qnrRinaC3F4JUVaGGq2M9nBMqIOMymX1KLqQ5hWL4=;
+        b=7pz37GRwpYXcWrfrugejAbXMulvvJxbFKRWkjGTSE1VfQTYUoPgAPxSns1dcNNbotSJPGP
+        RVQ1oms0Iw1remDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B5F7013AA5;
+        Mon, 23 May 2022 12:18:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id fAz5Kn57i2LiNgAAMHmgww
+        (envelope-from <mliska@suse.cz>); Mon, 23 May 2022 12:18:06 +0000
+Message-ID: <d0e576ab-6121-b7d7-da5b-7750f05ca7f4@suse.cz>
+Date:   Mon, 23 May 2022 14:18:06 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 0/4] DMA mapping changes for SCSI core
-To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Christoph Hellwig <hch@lst.de>
-CC:     <joro@8bytes.org>, <will@kernel.org>, <jejb@linux.ibm.com>,
-        <martin.petersen@oracle.com>, <m.szyprowski@samsung.com>,
-        <robin.murphy@arm.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-        <iommu@lists.linux-foundation.org>, <linux-scsi@vger.kernel.org>,
-        <liyihang6@hisilicon.com>, <chenxiang66@hisilicon.com>,
-        <thunder.leizhen@huawei.com>
-References: <1653035003-70312-1-git-send-email-john.garry@huawei.com>
- <20220522131345.GB25785@lst.de>
- <15f94ea2-fa97-3122-60dd-a87a3dd8a7db@opensource.wdc.com>
-From:   John Garry <john.garry@huawei.com>
-In-Reply-To: <15f94ea2-fa97-3122-60dd-a87a3dd8a7db@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+From:   =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>
+Subject: [PATCH v3] docs/arm64: elf_hwcaps: Unify HWCAP lists as description
+ lists
+To:     akiyks@gmail.com
+Cc:     bagasdotme@gmail.com, catalin.marinas@arm.com, corbet@lwn.net,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mliska@suse.cz, will@kernel.org
+References: <0846c96d-62fa-555f-b0ab-1f5ec33fd5fb@gmail.com>
+Content-Language: en-US
+In-Reply-To: <0846c96d-62fa-555f-b0ab-1f5ec33fd5fb@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.87.6]
-X-ClientProxiedBy: lhreml748-chm.china.huawei.com (10.201.108.198) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22/05/2022 23:22, Damien Le Moal wrote:
-> On 2022/05/22 22:13, Christoph Hellwig wrote:
->> The whole series looks fine to me.  I'll happily queue it up in the
->> dma-mapping tree if the SCSI and ATA maintainers are ok with that.
->>
-> 
-> Fine with me. I sent an acked-by for the libata bit.
-> 
+Signed-off-by: Martin Liska <mliska@suse.cz>
+---
+ Documentation/arm64/elf_hwcaps.rst | 23 -----------------------
+ 1 file changed, 23 deletions(-)
 
-Thanks, I'm going to have to post a v2 and I figure that with the timing 
-that I'll have to wait for v5.20 now.
+diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
+index a8f30963e550..1e79044f51a2 100644
+--- a/Documentation/arm64/elf_hwcaps.rst
++++ b/Documentation/arm64/elf_hwcaps.rst
+@@ -171,96 +171,73 @@ HWCAP_PACG
+     Documentation/arm64/pointer-authentication.rst.
+ 
+ HWCAP2_DCPODP
+-
+     Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.
+ 
+ HWCAP2_SVE2
+-
+     Functionality implied by ID_AA64ZFR0_EL1.SVEVer == 0b0001.
+ 
+ HWCAP2_SVEAES
+-
+     Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0001.
+ 
+ HWCAP2_SVEPMULL
+-
+     Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0010.
+ 
+ HWCAP2_SVEBITPERM
+-
+     Functionality implied by ID_AA64ZFR0_EL1.BitPerm == 0b0001.
+ 
+ HWCAP2_SVESHA3
+-
+     Functionality implied by ID_AA64ZFR0_EL1.SHA3 == 0b0001.
+ 
+ HWCAP2_SVESM4
+-
+     Functionality implied by ID_AA64ZFR0_EL1.SM4 == 0b0001.
+ 
+ HWCAP2_FLAGM2
+-
+     Functionality implied by ID_AA64ISAR0_EL1.TS == 0b0010.
+ 
+ HWCAP2_FRINT
+-
+     Functionality implied by ID_AA64ISAR1_EL1.FRINTTS == 0b0001.
+ 
+ HWCAP2_SVEI8MM
+-
+     Functionality implied by ID_AA64ZFR0_EL1.I8MM == 0b0001.
+ 
+ HWCAP2_SVEF32MM
+-
+     Functionality implied by ID_AA64ZFR0_EL1.F32MM == 0b0001.
+ 
+ HWCAP2_SVEF64MM
+-
+     Functionality implied by ID_AA64ZFR0_EL1.F64MM == 0b0001.
+ 
+ HWCAP2_SVEBF16
+-
+     Functionality implied by ID_AA64ZFR0_EL1.BF16 == 0b0001.
+ 
+ HWCAP2_I8MM
+-
+     Functionality implied by ID_AA64ISAR1_EL1.I8MM == 0b0001.
+ 
+ HWCAP2_BF16
+-
+     Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0001.
+ 
+ HWCAP2_DGH
+-
+     Functionality implied by ID_AA64ISAR1_EL1.DGH == 0b0001.
+ 
+ HWCAP2_RNG
+-
+     Functionality implied by ID_AA64ISAR0_EL1.RNDR == 0b0001.
+ 
+ HWCAP2_BTI
+-
+     Functionality implied by ID_AA64PFR0_EL1.BT == 0b0001.
+ 
+ HWCAP2_MTE
+-
+     Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0010, as described
+     by Documentation/arm64/memory-tagging-extension.rst.
+ 
+ HWCAP2_ECV
+-
+     Functionality implied by ID_AA64MMFR0_EL1.ECV == 0b0001.
+ 
+ HWCAP2_AFP
+-
+     Functionality implied by ID_AA64MFR1_EL1.AFP == 0b0001.
+ 
+ HWCAP2_RPRES
+-
+     Functionality implied by ID_AA64ISAR2_EL1.RPRES == 0b0001.
+ 
+ HWCAP2_MTE3
+-
+     Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0011, as described
+     by Documentation/arm64/memory-tagging-extension.rst.
+ 
+-- 
+2.36.1
 
-Cheers,
-John
