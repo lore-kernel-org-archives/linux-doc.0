@@ -2,83 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BABA8C4321E
-	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 10:50:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 765DBC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 11:05:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234304AbiEWKuV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 May 2022 06:50:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34440 "EHLO
+        id S234464AbiEWLFj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 May 2022 07:05:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234343AbiEWKuQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 06:50:16 -0400
+        with ESMTP id S234451AbiEWLFj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 07:05:39 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 539774CD5A;
-        Mon, 23 May 2022 03:50:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADA8117E33;
+        Mon, 23 May 2022 04:05:37 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B8D70B81032;
-        Mon, 23 May 2022 10:50:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 64358C34116;
-        Mon, 23 May 2022 10:50:12 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4726AB80F1A;
+        Mon, 23 May 2022 11:05:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D4DFC385A9;
+        Mon, 23 May 2022 11:05:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653303012;
-        bh=RLHeGFzVSDV11EwgnKw/aguWyzZ0qKFGVx4BKotalhQ=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=O8ti3r6uJUFy8dfOhEOy6P1H6Op4O7M1vLHPJMCAZ9TZXpvamhD3Wu+rfaTuyaI1g
-         pqIInk2M5nusQ1TvCAWViS+tbNM2JDgYSVoTEcZu4f1MbGK12m3WYn+P67Zkpp/AQX
-         U7H8Ap020mgKB31JfFBJPb/ANG5gh3WnEjoqwklT6w2S8nlk+2vg1rtwvY4Zf/eMhz
-         wusL14kllR3jsIIg5QOadHSLTXYWGzGbCqp0aGqcKWTEBnJRX2BuZq5BuZVNWbhT6a
-         JnRDTqOjfXFfY9hCaJrOAcU8pXxK0HiS5lq8z+Q124slpW87roZnRwG3bZwokK+YqF
-         8TSp3gVdIXIGg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4A8B9F03943;
-        Mon, 23 May 2022 10:50:12 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        s=k20201202; t=1653303935;
+        bh=EdLcKfbCVThSAKV/Z0YYk7oUaXDqnxKSmBb3mVYsWUE=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=LAHnKRPIkbkfMVNjbAyfzyBGCdi2KgHR9Hk21uKh5rihEuvZS73c5L0mfGt0ucm7C
+         cueg4jQS56PHv16C855VGL/+3WwpoUBquCXt/dM9L8motbs7R1uZAzh2zvBQ5Z4tNM
+         ehS3+qSQ+H2QZvBJdHf+Rexpb+vkHupp9+p90ctoOrXkv5V0UBeLy7zNpI2WYGj5m8
+         ICzukBSSGbTSVoiy6SRD/xP4usqk3sQEppvYkY04GvA7MTr/O3kezVFU9SI5n7x8KQ
+         n1LoOx7Ete/Rb6ZvfbwaHETb2AY7VCyQdaiRjgwYv6Xza70EnVloWYW5X/zxQOScwN
+         BZA0HmWFceqrw==
+Message-ID: <e4fcdf88a9b35a9f1ca6e75fdf75ad469f824380.camel@kernel.org>
+Subject: Re: [PATCH v2] netfs: Fix gcc-12 warning by embedding vfs inode in
+ netfs_i_context
+From:   Jeff Layton <jlayton@kernel.org>
+To:     David Howells <dhowells@redhat.com>
+Cc:     keescook@chromium.org, Jonathan Corbet <corbet@lwn.net>,
+        Eric Van Hensbergen <ericvh@gmail.com>,
+        Latchesar Ionkov <lucho@ionkov.net>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Christian Schoenebeck <linux_oss@crudebyte.com>,
+        Marc Dionne <marc.dionne@auristor.com>,
+        Xiubo Li <xiubli@redhat.com>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Steve French <smfrench@gmail.com>,
+        William Kucharski <william.kucharski@oracle.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-doc@vger.kernel.org, v9fs-developer@lists.sourceforge.net,
+        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
+        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+        linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Mon, 23 May 2022 07:05:31 -0400
+In-Reply-To: <658391.1653302817@warthog.procyon.org.uk>
+References: <1b5daa4695b62795b617049e32c784052deabad4.camel@kernel.org>
+         <165305805651.4094995.7763502506786714216.stgit@warthog.procyon.org.uk>
+         <658391.1653302817@warthog.procyon.org.uk>
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] eth: de4x5: remove support for Generic DECchip &
- DIGITAL EtherWORKS PCI/EISA
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165330301230.7594.1301485592206225247.git-patchwork-notify@kernel.org>
-Date:   Mon, 23 May 2022 10:50:12 +0000
-References: <20220519031345.2134401-1-kuba@kernel.org>
-In-Reply-To: <20220519031345.2134401-1-kuba@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, corbet@lwn.net, tsbogend@alpha.franken.de,
-        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
-        sburla@marvell.com, vburru@marvell.com, aayarekar@marvell.com,
-        arnd@arndb.de, zhangyue1@kylinos.cn, linux-doc@vger.kernel.org,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-parisc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+On Mon, 2022-05-23 at 11:46 +0100, David Howells wrote:
+> Jeff Layton <jlayton@kernel.org> wrote:
+>=20
+> >=20
+> > Note that there are some conflicts between this patch and some of the
+> > patches in the current ceph-client/testing branch. Depending on the
+> > order of merge, one or the other will need to be fixed.
+>=20
+> Do you think it could be taken through the ceph tree?
+>=20
+> David
+>=20
 
-This patch was applied to netdev/net-next.git (master)
-by David S. Miller <davem@davemloft.net>:
+Since this touches a lot of non-ceph code, it may be best to just plan
+to merge it ASAP, and we'll just base our merge branch on top of it.
 
-On Wed, 18 May 2022 20:13:45 -0700 you wrote:
-> Looks like almost all changes to this driver had been tree-wide
-> refactoring since git era begun. There is one commit from Al
-> 15 years ago which could potentially be fixing a real bug.
-> 
-> The driver is using virt_to_bus() and is a real magnet for pointless
-> cleanups. It seems unlikely to have real users. Let's try to shed
-> this maintenance burden.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next] eth: de4x5: remove support for Generic DECchip & DIGITAL EtherWORKS PCI/EISA
-    https://git.kernel.org/netdev/net-next/c/32c53420d2a0
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Ilya/Xiubo, do you have an opinion here?
+=20
+--=20
+Jeff Layton <jlayton@kernel.org>
