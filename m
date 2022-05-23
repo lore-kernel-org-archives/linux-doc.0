@@ -2,80 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18CC4C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 07:52:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D640C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 08:23:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231336AbiEWHwy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 May 2022 03:52:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50364 "EHLO
+        id S231758AbiEWIXS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 May 2022 04:23:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231365AbiEWHww (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 03:52:52 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E93631BE8F;
-        Mon, 23 May 2022 00:52:49 -0700 (PDT)
-Received: from kwepemi500020.china.huawei.com (unknown [172.30.72.54])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4L66GV4dQ7zQk2C;
-        Mon, 23 May 2022 14:04:02 +0800 (CST)
-Received: from kwepemm600018.china.huawei.com (7.193.23.140) by
- kwepemi500020.china.huawei.com (7.221.188.8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 23 May 2022 14:07:01 +0800
-Received: from huawei.com (10.174.176.88) by kwepemm600018.china.huawei.com
- (7.193.23.140) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 23 May
- 2022 14:07:00 +0800
-From:   gaochao <gaochao49@huawei.com>
-To:     <alexs@kernel.org>, <corbet@lwn.net>
-CC:     <siyanteng01@gmail.com>, <bobwxc@email.cn>, <src.res@email.cn>,
-        <wanjiabing@vivo.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <zhengbin13@huawei.com>
-Subject: [PATCH -next] drm/panel: Fix build error when CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20=y && CONFIG_DRM_DISPLAY_HELPER=m
-Date:   Mon, 23 May 2022 14:06:58 +0800
-Message-ID: <20220523060658.737-1-gaochao49@huawei.com>
-X-Mailer: git-send-email 2.28.0.windows.1
+        with ESMTP id S231615AbiEWIXR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 04:23:17 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17632220EC
+        for <linux-doc@vger.kernel.org>; Mon, 23 May 2022 01:23:15 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id t26so24067795ybt.3
+        for <linux-doc@vger.kernel.org>; Mon, 23 May 2022 01:23:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UTcOGuIxOzrfJcXVclrxF1J8paB+UsOUzDwAJnZBxCw=;
+        b=Om1eS4LrLfjIeZEVD09q/hvEeaaaOAuHb7mlZ3HTSboDAjw8oakTY57guTKQEBGrlA
+         5EYmfzEfP2o1vUaq/GdqX4DWhMMaLZMgMnIUIbBlDqwID8hNwPerRzMznOzm2MqxgPaL
+         h9f6QaLW1qyo0wrKeOKgWB2sRwVd0/TUiAQGYoivnQenINLTVFHfSDL8Je8zHjaekmSb
+         clcvBJ+fZUY2fro8bTMMcGLOZZc1MJ9Uy4NT3PC9kmwk3Ihq6Rb63Nu6NTjPzgO+Au+6
+         bIt383T34CzIn/yiZS020gth2C05695pqFnWCQNy2f3TG+on2pRf48Y6MrcxS+RayX22
+         bE0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UTcOGuIxOzrfJcXVclrxF1J8paB+UsOUzDwAJnZBxCw=;
+        b=OT4bUwSei4RSnX4fj4MnHpDLN9DwZUqzyzTImhbt11i5u8JtI8Q9s858CD7kQqHSV3
+         b6ZGWRn64vcTneuLivsAXZjN623boMAsd8IBRCuFqdLUbpF1VioIfXAorcThFKyieTkq
+         lpl6pxCVP8P0V2P67S4HBpSbg1z0o5vubWbI1XaM05aSLaxJnwyCO6wYmSRU+D88+3Hp
+         GKlzcgo1Bn4po09Ifq2gDVOO7HZN7jHAvEZ7m2Y5T/EK8mHifaLagQtg/yj0A0yjHQbx
+         rki1GHXvOlHnVpifARQ60mAtk1EpflJZMzAPSWx9rp9sxuBEHu0A7lvZwAYVFUuKL4Qg
+         vy5A==
+X-Gm-Message-State: AOAM532fQJpnu8zkNFwF4Zjp8LpJx4OI76beaKWWI85QDUjwFNO8vbv4
+        yaThJQkJpQ54/Reea/Mm8mLeveqb1n8cijRTg2CcDX7+G/o=
+X-Google-Smtp-Source: ABdhPJy6cvTczDvpCgMLRVi68Dl2KEDEmWHBsDSjxv25IIzYMQNPJEh5wpFfDJpeRPxWYkV8OQWVROOrVe8ig99AbMY=
+X-Received: by 2002:a25:2d4b:0:b0:64d:a722:b4ae with SMTP id
+ s11-20020a252d4b000000b0064da722b4aemr19995657ybe.87.1653294194134; Mon, 23
+ May 2022 01:23:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.174.176.88]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemm600018.china.huawei.com (7.193.23.140)
-X-CFilter-Loop: Reflected
+References: <20220523020051.141460-1-wangkefeng.wang@huawei.com> <20220523020051.141460-2-wangkefeng.wang@huawei.com>
+In-Reply-To: <20220523020051.141460-2-wangkefeng.wang@huawei.com>
+From:   Marco Elver <elver@google.com>
+Date:   Mon, 23 May 2022 10:22:38 +0200
+Message-ID: <CANpmjNMxmRsWVvqe=30JEhCqPdGvUcKUgLoe2VjfMbKfHwFyaA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] asm-generic: Add memory barrier dma_mb()
+To:     Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc:     catalin.marinas@arm.com, will@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        mark.rutland@arm.com, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20=y && CONFIG_DRM_DISPLAY_HELPER=m,
-bulding fails:
+On Mon, 23 May 2022 at 03:50, Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
+>
+> The memory barrier dma_mb() is introduced by commit a76a37777f2c
+> ("iommu/arm-smmu-v3: Ensure queue is read after updating prod pointer"),
+> which is used to ensure that prior (both reads and writes) accesses
+> to memory by a CPU are ordered w.r.t. a subsequent MMIO write, this
+> is only defined on arm64, but it is a generic memory barrier, let's
+> add dma_mb() into documentation and include/asm-generic/barrier.h.
+>
+> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+> ---
+>  Documentation/memory-barriers.txt | 11 ++++++-----
+>  include/asm-generic/barrier.h     |  8 ++++++++
+>  2 files changed, 14 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+> index b12df9137e1c..07a8b8e1b12a 100644
+> --- a/Documentation/memory-barriers.txt
+> +++ b/Documentation/memory-barriers.txt
+> @@ -1894,6 +1894,7 @@ There are some more advanced barrier functions:
+>
+>   (*) dma_wmb();
+>   (*) dma_rmb();
+> + (*) dma_mb();
+>
+>       These are for use with consistent memory to guarantee the ordering
+>       of writes or reads of shared memory accessible to both the CPU and a
+> @@ -1925,11 +1926,11 @@ There are some more advanced barrier functions:
+>       The dma_rmb() allows us guarantee the device has released ownership
+>       before we read the data from the descriptor, and the dma_wmb() allows
+>       us to guarantee the data is written to the descriptor before the device
+> -     can see it now has ownership.  Note that, when using writel(), a prior
+> -     wmb() is not needed to guarantee that the cache coherent memory writes
+> -     have completed before writing to the MMIO region.  The cheaper
+> -     writel_relaxed() does not provide this guarantee and must not be used
+> -     here.
+> +     can see it now has ownership. The dma_mb() implies both a dma_rmb() and
+> +     a dma_wmb().  Note that, when using writel(), a prior wmb() is not needed
+> +     to guarantee that the cache coherent memory writes have completed before
+> +     writing to the MMIO region. The cheaper writel_relaxed() does not provide
+> +     this guarantee and must not be used here.
 
-drivers/gpu/drm/panel/panel-samsung-atna33xc20.o: In function `atana33xc20_probe':
-panel-samsung-atna33xc20.c:(.text+0x744): undefined reference to
- `drm_panel_dp_aux_backlight'
-make: *** [vmlinux] Error 1
+It seems you've changed that spacing. This document uses 2 spaces
+after a sentence-ending '.'. (My original suggestion included the 2
+spaces after dots.)
 
-Let CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20 select DRM_DISPLAY_DP_HELPER and
-CONFIG_DRM_DISPLAY_HELPER to fix this error.
+Otherwise it all looks fine to me.
 
-Fixes: 32ce3b320343 ("drm/panel: atna33xc20: Introduce the Samsung ATNA33XC20 panel")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: gaochao <gaochao49@huawei.com>
----
- drivers/gpu/drm/panel/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 38799effd00a..4f1f004b3c54 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -438,6 +438,8 @@ config DRM_PANEL_SAMSUNG_ATNA33XC20
- 	depends on OF
- 	depends on BACKLIGHT_CLASS_DEVICE
- 	depends on PM
-+	select DRM_DISPLAY_DP_HELPER
-+	select DRM_DISPLAY_HELPER
- 	select DRM_DP_AUX_BUS
- 	help
- 	  DRM panel driver for the Samsung ATNA33XC20 panel. This panel can't
---
-2.17.1
-
+Thanks,
+-- Marco
