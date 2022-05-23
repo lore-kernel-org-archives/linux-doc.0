@@ -2,179 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E0FC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 12:18:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7234C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 13:25:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235270AbiEWMSJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 May 2022 08:18:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36344 "EHLO
+        id S236220AbiEWNZm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 May 2022 09:25:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235301AbiEWMSJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 08:18:09 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4599219005;
-        Mon, 23 May 2022 05:18:08 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 01C8D1F8BE;
-        Mon, 23 May 2022 12:18:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1653308287; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=B0qnrRinaC3F4JUVaGGq2M9nBMqIOMymX1KLqQ5hWL4=;
-        b=xLv7ViaCFvoX6Zk6EFp59EDHmQurp9hgKcRToy8fIVK920P7wxXZ8qu7PYL6fRnJ8dXU0K
-        +3sJu6bKb56SIiJLyjC6BIj/DJ1v8KutNS7sWS9rU18j0a6FUtqJnk7cPpbExXKLpceveU
-        f3R+vp8UnQmB/oOl3t7ajiQ7mZpzlWI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1653308287;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=B0qnrRinaC3F4JUVaGGq2M9nBMqIOMymX1KLqQ5hWL4=;
-        b=7pz37GRwpYXcWrfrugejAbXMulvvJxbFKRWkjGTSE1VfQTYUoPgAPxSns1dcNNbotSJPGP
-        RVQ1oms0Iw1remDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B5F7013AA5;
-        Mon, 23 May 2022 12:18:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id fAz5Kn57i2LiNgAAMHmgww
-        (envelope-from <mliska@suse.cz>); Mon, 23 May 2022 12:18:06 +0000
-Message-ID: <d0e576ab-6121-b7d7-da5b-7750f05ca7f4@suse.cz>
-Date:   Mon, 23 May 2022 14:18:06 +0200
+        with ESMTP id S236213AbiEWNZd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 09:25:33 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF0803586F;
+        Mon, 23 May 2022 06:25:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653312332; x=1684848332;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=EW9q/Cvw2jkobQ73y88ztoczGNs8Sdg5pZ9/RmN9nZs=;
+  b=DshTQ/kTyQv0uT1tcBo4W3SOvUTPKJ7nLWQUgJB8Cicb2qDIwsmBgIV6
+   Ku0yn3jN6TZ2oO7bwFCOwwWddj31eJJnaJAMfPARPV40P4ym4/fPupuDw
+   J5qZT0tZu8L8XndvyhIN2z0/UC6iFKtxc8t2wnmIi+JTJ5SXry1QlP1Zt
+   SDJVuodSeSIUpYocgwOhdtiNr8Ny88toa7NVUywN8mBuKqmClOOYUPmDk
+   BymNq9i0BZ6iTE18/s3yw+rIb32kIR/Y5NSZ44omKJdzSdDrbQL+fEbwl
+   O3MnP5r7JxqE3fLFFYchJSXGwigWO8RmE2HeDzSX1hQq+DbpD1SqXke08
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10355"; a="272940238"
+X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; 
+   d="scan'208";a="272940238"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2022 06:25:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; 
+   d="scan'208";a="608195288"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+  by orsmga001.jf.intel.com with ESMTP; 23 May 2022 06:25:20 -0700
+Date:   Mon, 23 May 2022 21:21:54 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Andy Lutomirski <luto@kernel.org>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <20220523132154.GA947536@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-5-chao.p.peng@linux.intel.com>
+ <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
+ <YofeZps9YXgtP3f1@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-From:   =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>
-Subject: [PATCH v3] docs/arm64: elf_hwcaps: Unify HWCAP lists as description
- lists
-To:     akiyks@gmail.com
-Cc:     bagasdotme@gmail.com, catalin.marinas@arm.com, corbet@lwn.net,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mliska@suse.cz, will@kernel.org
-References: <0846c96d-62fa-555f-b0ab-1f5ec33fd5fb@gmail.com>
-Content-Language: en-US
-In-Reply-To: <0846c96d-62fa-555f-b0ab-1f5ec33fd5fb@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YofeZps9YXgtP3f1@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Martin Liska <mliska@suse.cz>
----
- Documentation/arm64/elf_hwcaps.rst | 23 -----------------------
- 1 file changed, 23 deletions(-)
+On Fri, May 20, 2022 at 06:31:02PM +0000, Sean Christopherson wrote:
+> On Fri, May 20, 2022, Andy Lutomirski wrote:
+> > The alternative would be to have some kind of separate table or bitmap (part
+> > of the memslot?) that tells KVM whether a GPA should map to the fd.
+> > 
+> > What do you all think?
+> 
+> My original proposal was to have expolicit shared vs. private memslots, and punch
+> holes in KVM's memslots on conversion, but due to the way KVM (and userspace)
+> handle memslot updates, conversions would be painfully slow.  That's how we ended
+> up with the current propsoal.
+> 
+> But a dedicated KVM ioctl() to add/remove shared ranges would be easy to implement
+> and wouldn't necessarily even need to interact with the memslots.  It could be a
+> consumer of memslots, e.g. if we wanted to disallow registering regions without an
+> associated memslot, but I think we'd want to avoid even that because things will
+> get messy during memslot updates, e.g. if dirty logging is toggled or a shared
+> memory region is temporarily removed then we wouldn't want to destroy the tracking.
 
-diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
-index a8f30963e550..1e79044f51a2 100644
---- a/Documentation/arm64/elf_hwcaps.rst
-+++ b/Documentation/arm64/elf_hwcaps.rst
-@@ -171,96 +171,73 @@ HWCAP_PACG
-     Documentation/arm64/pointer-authentication.rst.
- 
- HWCAP2_DCPODP
--
-     Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.
- 
- HWCAP2_SVE2
--
-     Functionality implied by ID_AA64ZFR0_EL1.SVEVer == 0b0001.
- 
- HWCAP2_SVEAES
--
-     Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0001.
- 
- HWCAP2_SVEPMULL
--
-     Functionality implied by ID_AA64ZFR0_EL1.AES == 0b0010.
- 
- HWCAP2_SVEBITPERM
--
-     Functionality implied by ID_AA64ZFR0_EL1.BitPerm == 0b0001.
- 
- HWCAP2_SVESHA3
--
-     Functionality implied by ID_AA64ZFR0_EL1.SHA3 == 0b0001.
- 
- HWCAP2_SVESM4
--
-     Functionality implied by ID_AA64ZFR0_EL1.SM4 == 0b0001.
- 
- HWCAP2_FLAGM2
--
-     Functionality implied by ID_AA64ISAR0_EL1.TS == 0b0010.
- 
- HWCAP2_FRINT
--
-     Functionality implied by ID_AA64ISAR1_EL1.FRINTTS == 0b0001.
- 
- HWCAP2_SVEI8MM
--
-     Functionality implied by ID_AA64ZFR0_EL1.I8MM == 0b0001.
- 
- HWCAP2_SVEF32MM
--
-     Functionality implied by ID_AA64ZFR0_EL1.F32MM == 0b0001.
- 
- HWCAP2_SVEF64MM
--
-     Functionality implied by ID_AA64ZFR0_EL1.F64MM == 0b0001.
- 
- HWCAP2_SVEBF16
--
-     Functionality implied by ID_AA64ZFR0_EL1.BF16 == 0b0001.
- 
- HWCAP2_I8MM
--
-     Functionality implied by ID_AA64ISAR1_EL1.I8MM == 0b0001.
- 
- HWCAP2_BF16
--
-     Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0001.
- 
- HWCAP2_DGH
--
-     Functionality implied by ID_AA64ISAR1_EL1.DGH == 0b0001.
- 
- HWCAP2_RNG
--
-     Functionality implied by ID_AA64ISAR0_EL1.RNDR == 0b0001.
- 
- HWCAP2_BTI
--
-     Functionality implied by ID_AA64PFR0_EL1.BT == 0b0001.
- 
- HWCAP2_MTE
--
-     Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0010, as described
-     by Documentation/arm64/memory-tagging-extension.rst.
- 
- HWCAP2_ECV
--
-     Functionality implied by ID_AA64MMFR0_EL1.ECV == 0b0001.
- 
- HWCAP2_AFP
--
-     Functionality implied by ID_AA64MFR1_EL1.AFP == 0b0001.
- 
- HWCAP2_RPRES
--
-     Functionality implied by ID_AA64ISAR2_EL1.RPRES == 0b0001.
- 
- HWCAP2_MTE3
--
-     Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0011, as described
-     by Documentation/arm64/memory-tagging-extension.rst.
- 
--- 
-2.36.1
+Even we don't tight that to memslots, that info can only be effective
+for private memslot, right? Setting this ioctl to memory ranges defined
+in a traditional non-private memslots just makes no sense, I guess we can
+comment that in the API document.
 
+> 
+> I don't think we'd want to use a bitmap, e.g. for a well-behaved guest, XArray
+> should be far more efficient.
+
+What about the mis-behaved guest? I don't want to design for the worst
+case, but people may raise concern on the attack from such guest.
+
+> 
+> One benefit to explicitly tracking this in KVM is that it might be useful for
+> software-only protected VMs, e.g. KVM could mark a region in the XArray as "pending"
+> based on guest hypercalls to share/unshare memory, and then complete the transaction
+> when userspace invokes the ioctl() to complete the share/unshare.
+
+OK, then this can be another field of states/flags/attributes. Let me
+dig up certain level of details:
+
+First, introduce below KVM ioctl
+
+KVM_SET_MEMORY_ATTR
+
+struct kvm_memory_attr {
+	__u64 addr;	/* page aligned */
+	__u64 size;	/* page aligned */
+#define KVM_MEMORY_ATTR_SHARED		(1 << 0)
+#define KVM_MEMORY_ATTR_PRIVATE		(1 << 1)
+	__u64 flags;
+}
+
+Second, check the KVM maintained guest memory attributes in page fault
+handler (instead of checking memory existence in private fd)
+
+Third, the memfile_notifier_ops (populate/invalidate) will be removed
+from current code, the old mapping zapping can be directly handled in
+this new KVM ioctl().
+ 
+Thought?
+
+Since this info is stored in KVM, which I think is reasonable. But for
+other potential memfile_notifier users like VFIO, some KVM-to-VFIO APIs
+might be needed depends on the implementaion.
+
+It is also possible to maintain this info purely in userspace. The only
+trick bit is implicit conversion support that has to be checked in KVM
+page fault handler and is in the fast path.
+
+Thanks,
+Chao
