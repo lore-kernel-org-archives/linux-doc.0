@@ -2,121 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FD0BC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 11:38:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FC18C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 11:48:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234918AbiEWLih (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 May 2022 07:38:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50492 "EHLO
+        id S234980AbiEWLsj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 May 2022 07:48:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234883AbiEWLig (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 07:38:36 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EB2F743AC2;
-        Mon, 23 May 2022 04:38:35 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A09DD11FB;
-        Mon, 23 May 2022 04:38:35 -0700 (PDT)
-Received: from FVFF77S0Q05N (unknown [10.57.9.63])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 297CE3F73D;
-        Mon, 23 May 2022 04:38:34 -0700 (PDT)
-Date:   Mon, 23 May 2022 12:38:28 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc:     elver@google.com, catalin.marinas@arm.com, will@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        arnd@arndb.de
-Subject: Re: [PATCH v4 1/2] asm-generic: Add memory barrier dma_mb()
-Message-ID: <YotyNJeTxQMk/eat@FVFF77S0Q05N>
-References: <20220523113126.171714-1-wangkefeng.wang@huawei.com>
- <20220523113126.171714-2-wangkefeng.wang@huawei.com>
+        with ESMTP id S234914AbiEWLsi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 07:48:38 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B71150E29;
+        Mon, 23 May 2022 04:48:37 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.56])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4L6FtM0ZgVzfZNG;
+        Mon, 23 May 2022 19:47:07 +0800 (CST)
+Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 23 May 2022 19:48:35 +0800
+Received: from [10.174.178.120] (10.174.178.120) by
+ dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 23 May 2022 19:48:33 +0800
+Message-ID: <2a8cc751-dd72-6fe7-9a33-d6f24769f57d@huawei.com>
+Date:   Mon, 23 May 2022 19:48:33 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220523113126.171714-2-wangkefeng.wang@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 0/2] Add support to relocate kernel image to mirrored
+ region
+To:     <ardb@kernel.org>
+CC:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <corbet@lwn.net>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <dvhart@infradead.org>, <andy@infradead.org>,
+        <rppt@kernel.org>, <paulmck@kernel.org>, <peterz@infradead.org>,
+        <jroedel@suse.de>, <songmuchun@bytedance.com>, <macro@orcam.me.uk>,
+        <frederic@kernel.org>, <W_Armin@gmx.de>, <john.garry@huawei.com>,
+        <seanjc@google.com>, <tsbogend@alpha.franken.de>,
+        <anshuman.khandual@arm.com>, <chenhuacai@kernel.org>,
+        <david@redhat.com>, <gpiccoli@igalia.com>, <mark.rutland@arm.com>,
+        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-efi@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>, <linux-mm@kvack.org>,
+        <mawupeng1@huawei.com>
+References: <CAMj1kXGSStDgj9ABmUaTLnBmpQFksh3wx4tx=mJohum4GQe3Gg@mail.gmail.com>
+ <20220419070150.254377-1-mawupeng1@huawei.com>
+ <CAMj1kXHr2RdYSPor1st1ZnL=O42c8N6e=bNG+eFhatfefWLUrw@mail.gmail.com>
+ <c65d22b4-f654-21aa-bd5f-d4f8b0939a25@huawei.com>
+ <7058b8d8-c0cb-108e-0db9-2fdf5fb154cf@huawei.com>
+ <CAMj1kXHnL12j6FPGtEeSQB2-kHzoVF+LJMUF9YBq43Yi1UntDg@mail.gmail.com>
+ <CAMj1kXFP9kA_rJ8DfP1Ln=W++xL1Rvdojb8ZuNLoOJx2mLkysA@mail.gmail.com>
+From:   mawupeng <mawupeng1@huawei.com>
+In-Reply-To: <CAMj1kXFP9kA_rJ8DfP1Ln=W++xL1Rvdojb8ZuNLoOJx2mLkysA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.120]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500014.china.huawei.com (7.185.36.153)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 23, 2022 at 07:31:25PM +0800, Kefeng Wang wrote:
-> The memory barrier dma_mb() is introduced by commit a76a37777f2c
-> ("iommu/arm-smmu-v3: Ensure queue is read after updating prod pointer"),
-> which is used to ensure that prior (both reads and writes) accesses
-> to memory by a CPU are ordered w.r.t. a subsequent MMIO write.
+
+
+在 2022/5/20 14:52, Ard Biesheuvel 写道:
+> On Fri, 20 May 2022 at 08:52, Ard Biesheuvel <ardb@kernel.org> wrote:
+>>
+>> On Thu, 19 May 2022 at 13:09, mawupeng <mawupeng1@huawei.com> wrote:
+>>>
+>>>
+>>>
+>>> 在 2022/5/7 17:28, mawupeng 写道:
+>>>>
+>>>>
+>>>> 在 2022/5/3 17:58, Ard Biesheuvel 写道:
+>>>>> On Tue, 19 Apr 2022 at 08:43, Wupeng Ma <mawupeng1@huawei.com> wrote:
+>>>>>>
+>>>>>> From: Ma Wupeng <mawupeng1@huawei.com>
+>>>>>>
+>>>>>> Now system image will perfer to be located to mirrored regions both KASLR
+>>>>>> on and off.
+>>>>>>
+>>>>>
+>>>>> Hello Ma Wupeng,
+>>>>>
+>>>>> I wonder if we could simplify this as follows:
+>>>>> - ignore the non-KASLR case for now, and rely on the bootloader  > load the image into mirrored memory if it exists;
+>>>>
+>>>> In grub, memory for static image is allocated via the following path:
+>>>>
+>>>> grub_cmd_linux
+>>>>     kernel = grub_malloc(filelen)
+>>>>     kernel_alloc_addr = grub_efi_allocate_any_pages (kernel_alloc_pages)
+>>>>     grub_memcpy (kernel_addr, kernel, grub_min(filelen, kernel_size))
+>>>>      grub_loader_set (grub_linux_boot, grub_linux_unload, 0)
+>>>>
+>>>> Can we get memory from mirrored region by the following steps:
+>>>> 1. get memory map by calling grub_efi_get_memory_map()
+>>>> 2. iter all memory map to find a suitable mirrored memory area
+>>>> 3. locate kernel image to this area
+>>>>
+>>>> So, if kaslr is not enabled
+>>>>    - grub will load kernel into mirrored region
+>>>> else
+>>>>    - arm64-stub.c will relocate kernel image to mirrored region
+>>>>
+>>>> Is this feasible?
+>>>
+>>> Is this a feasible proposal to relocate the static kernel image itself
+>>> into more reliable memory?
+>>>
+>>
+>> I'm not sure, it all depends on the firmware.
+>>
+>> When GRUB calls LoadImage(), the firmware will reallocate the image
+>> and unpack it there. So it is really the firmware's job to ensure that
+>> the image is loaded into a suitable location.
+>>
+>> I have some code here that implements a EFI based decompressor, and
+>> which loads the kernel image into mirrored memory if it exists,
+>> without the need to move it again. It could trivially be modified to
+>> deal with non-randomized loads as well.
+>>
 > 
-> Reviewed-by: Arnd Bergmann <arnd@arndb.de> # for asm-generic
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+> Code is here
+> https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/log/?h=efi-decompressor-v2
 
-FWIW, this looks sane to me so:
+I will test this later.
 
-  Acked-by: Mark Rutland <mark.rutland@arm.com>
+Thanks.
 
-I'll leave the final say to Will, as I assume this'll go via the arm64 tree and
-he'll be the one picking this.
-
-Mark.
-
-> ---
->  Documentation/memory-barriers.txt | 11 ++++++-----
->  include/asm-generic/barrier.h     |  8 ++++++++
->  2 files changed, 14 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-> index b12df9137e1c..832b5d36e279 100644
-> --- a/Documentation/memory-barriers.txt
-> +++ b/Documentation/memory-barriers.txt
-> @@ -1894,6 +1894,7 @@ There are some more advanced barrier functions:
->  
->   (*) dma_wmb();
->   (*) dma_rmb();
-> + (*) dma_mb();
->  
->       These are for use with consistent memory to guarantee the ordering
->       of writes or reads of shared memory accessible to both the CPU and a
-> @@ -1925,11 +1926,11 @@ There are some more advanced barrier functions:
->       The dma_rmb() allows us guarantee the device has released ownership
->       before we read the data from the descriptor, and the dma_wmb() allows
->       us to guarantee the data is written to the descriptor before the device
-> -     can see it now has ownership.  Note that, when using writel(), a prior
-> -     wmb() is not needed to guarantee that the cache coherent memory writes
-> -     have completed before writing to the MMIO region.  The cheaper
-> -     writel_relaxed() does not provide this guarantee and must not be used
-> -     here.
-> +     can see it now has ownership.  The dma_mb() implies both a dma_rmb() and
-> +     a dma_wmb().  Note that, when using writel(), a prior wmb() is not needed
-> +     to guarantee that the cache coherent memory writes have completed before
-> +     writing to the MMIO region.  The cheaper writel_relaxed() does not provide
-> +     this guarantee and must not be used here.
->  
->       See the subsection "Kernel I/O barrier effects" for more information on
->       relaxed I/O accessors and the Documentation/core-api/dma-api.rst file for
-> diff --git a/include/asm-generic/barrier.h b/include/asm-generic/barrier.h
-> index fd7e8fbaeef1..961f4d88f9ef 100644
-> --- a/include/asm-generic/barrier.h
-> +++ b/include/asm-generic/barrier.h
-> @@ -38,6 +38,10 @@
->  #define wmb()	do { kcsan_wmb(); __wmb(); } while (0)
->  #endif
->  
-> +#ifdef __dma_mb
-> +#define dma_mb()	do { kcsan_mb(); __dma_mb(); } while (0)
-> +#endif
-> +
->  #ifdef __dma_rmb
->  #define dma_rmb()	do { kcsan_rmb(); __dma_rmb(); } while (0)
->  #endif
-> @@ -65,6 +69,10 @@
->  #define wmb()	mb()
->  #endif
->  
-> +#ifndef dma_mb
-> +#define dma_mb()	mb()
-> +#endif
-> +
->  #ifndef dma_rmb
->  #define dma_rmb()	rmb()
->  #endif
-> -- 
-> 2.35.3
-> 
+> .
