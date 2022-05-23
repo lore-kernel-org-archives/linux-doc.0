@@ -2,109 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F51CC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 20:50:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EADEDC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 23 May 2022 21:10:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231918AbiEWUuO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 May 2022 16:50:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38322 "EHLO
+        id S229486AbiEWVKo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 May 2022 17:10:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230007AbiEWUuN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 16:50:13 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7551B7093A;
-        Mon, 23 May 2022 13:50:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=MWvG6nn3a+gK5OQ89UpHcVMgSWbGiApDZs43xBQyuAQ=; b=jZ5RgpQGKwUBBbA0ZdHQ3ge2qv
-        JhwcNDKoPemRk3s77IzW6EO20sjiH1DhUcQ13atArXRcjCq0UM02GOejd3Q5xBsgEugT/I+hhy26g
-        4Kp9xy0YpjBsbEAuJddwANSqj37eNk6MehElmYHZpY+r2ZMG1vaI7/wkpjX3+xH/NYxJmJIondBxy
-        +L7c2izCVNz9zitq/KvvNVVHICfXgJqfGbyRzpjzJ7bubMHZhDrfYYFQCgURue0HEBat23MdvOREc
-        3z+1BAGrSOmTcM4wcSbOnvWlt1BKGcar/IW/Rcxxp0HY1QQwDxgmUoJQtCuEiZZ0jCSqL0x6HUy2v
-        oOGiBiMw==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ntEzs-00GXI2-R3; Mon, 23 May 2022 20:49:49 +0000
-Message-ID: <f99153be-2636-60a3-2630-c592cc230b53@infradead.org>
-Date:   Mon, 23 May 2022 13:49:38 -0700
+        with ESMTP id S229484AbiEWVKn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 May 2022 17:10:43 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CECA7982A;
+        Mon, 23 May 2022 14:10:42 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1653340238;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZiVLOut3toqD/VOTDgtnLvcL3HaiWUE+iIrgXPs3fck=;
+        b=c3xRM8BH9Olb3zo+EHl+YVEpqVm6bGScYMJUGfIGnmSSVq9otqBzkMmMG132AUma2Zq2Wc
+        EcaI0Ebw/ET7Z5YQNSugJ7I/WxJecSEIy7SJPn0x/QPGXLqNe0Oxbju8NsrFcrD2s7cDx/
+        1piEDwsaIHw2R62SEy3bg8WeyfWE7nJi+jrCe+ZHctir9aULZPTj7KfVlMansHOFOq1o/x
+        qwbtxlkXYF3WPMu/+wcJmOLX/dVsTJWwpk77jkpw47YHf/hdekUCFATcXwiXnO+KmKPew9
+        aguhprY1Txgt2x0G0UOyviVs/9CixjlAGTXPI+X3FxtRPw2KNj2oghBc0a3jQA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1653340238;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZiVLOut3toqD/VOTDgtnLvcL3HaiWUE+iIrgXPs3fck=;
+        b=dV8zH4VID1ptGJGwhN5Y2lQR7fsJwIrvQcdP2100QjG7n57FMo1WzxnJS02b79c3qvrFWc
+        Gjd+55byU2+1SHCw==
+To:     Luis Chamberlain <mcgrof@kernel.org>, tj@kernel.org,
+        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
+        jeyu@kernel.org, shuah@kernel.org
+Cc:     bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
+        mcgrof@kernel.org, keescook@chromium.org, rostedt@goodmis.org,
+        minchan@kernel.org, linux-spdx@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Goldwyn Rodrigues <rgoldwyn@suse.com>,
+        Kuno Woudt <kuno@frob.nl>,
+        Richard Fontana <fontana@sharpeleven.org>,
+        copyleft-next@lists.fedorahosted.org,
+        Ciaran Farrell <Ciaran.Farrell@suse.com>,
+        Christopher De Nicolo <Christopher.DeNicolo@suse.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v9 1/6] LICENSES: Add the copyleft-next-0.3.1 license
+In-Reply-To: <20211029184500.2821444-2-mcgrof@kernel.org>
+References: <20211029184500.2821444-1-mcgrof@kernel.org>
+ <20211029184500.2821444-2-mcgrof@kernel.org>
+Date:   Mon, 23 May 2022 23:10:37 +0200
+Message-ID: <87h75g0xbm.ffs@tglx>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [RFC 2/6] PM: Hibernate: Add option to disable disk offset
- randomization
-Content-Language: en-US
-To:     Vivek Kumar <quic_vivekuma@quicinc.com>, corbet@lwn.net,
-        catalin.marinas@arm.com, will@kernel.org, tglx@linutronix.de,
-        maz@kernel.org, axboe@kernel.dk, rafael@kernel.org,
-        akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-block@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-mm@kvack.org
-Cc:     len.brown@intel.com, pavel@ucw.cz, paulmck@kernel.org, bp@suse.de,
-        keescook@chromium.org, songmuchun@bytedance.com,
-        damien.lemoal@opensource.wdc.com, pasha.tatashin@soleen.com,
-        tabba@google.com, ardb@kernel.org, tsoni@quicinc.com,
-        quic_psodagud@quicinc.com, quic_svaddagi@quicinc.com,
-        Prasanna Kumar <quic_kprasan@quicinc.com>
-References: <1652860121-24092-1-git-send-email-quic_vivekuma@quicinc.com>
- <1652860121-24092-3-git-send-email-quic_vivekuma@quicinc.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <1652860121-24092-3-git-send-email-quic_vivekuma@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Oct 29 2021 at 11:44, Luis Chamberlain wrote:
+> preferred. A summary of benefits why projects outside of Linux might
+> prefer to use copyleft-next >= 0.3.1 over GPLv2:
+>
+<snip>
+>
+> o copyleft-next has a 'built-in or-later' provision
 
+Not convinced that this is a benefit under all circumstances, but that's
+a philosopical problem. The real problem is this:
 
-On 5/18/22 00:48, Vivek Kumar wrote:
-> Add a kernel parameter to disable the disk offset randomization
-> for SSD devices in which such feature is available at the
-> firmware level. This is helpful in improving hibernation
-> resume time.
-> 
-> Signed-off-by: Vivek Kumar <quic_vivekuma@quicinc.com>
-> Signed-off-by: Prasanna Kumar <quic_kprasan@quicinc.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 11 +++++++++++
->  kernel/power/swap.c                             |  9 +++++++++
->  2 files changed, 20 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 666ade9..06b4f10 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5192,6 +5192,17 @@
->  			Useful for devices that are detected asynchronously
->  			(e.g. USB and MMC devices).
->  
-> +	noswap_randomize
-> +			Kernel uses random disk offsets to help with wear-levelling
+> +Valid-License-Identifier: copyleft-next-0.3.1
 
-			                                             wear-leveling
+and
 
-> +			of SSD devices, while saving the hibernation snapshot image to
-> +			disk. Use this parameter to disable this feature for SSD
-> +			devices in scenarios when, such randomization is addressed at
-
-			               no comma  ^
-
-> +			the firmware level and hibenration image is not re-generated
-
-			                       hibernation
-
-> +			frequently.
-> +			(Useful for improving hibernation resume time as snapshot pages
-> +			are available in disk serially and can be read in bigger chunks
-> +			without seeking)
+> +11. Later License Versions
 > +
->  	retain_initrd	[RAM] Keep initrd memory after extraction
->  
->  	rfkill.default_state=
+> +    The Copyleft-Next Project may release new versions of copyleft-next,
+> +    designated by a distinguishing version number ("Later Versions").
+> +    Unless I explicitly remove the option of Distributing Covered Works
+> +    under Later Versions, You may Distribute Covered Works under any Later
+> +    Version.
 
+If I want to remove this option, then how do I express this with a SPDX
+license identifier?
 
--- 
-~Randy
+Sigh!
+
+        tglx
