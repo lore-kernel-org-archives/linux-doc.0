@@ -2,85 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D108FC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 24 May 2022 16:48:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DF2CC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 24 May 2022 17:47:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239751AbiEXQsO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 May 2022 12:48:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56146 "EHLO
+        id S240064AbiEXRrb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 May 2022 13:47:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239636AbiEXQsO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 May 2022 12:48:14 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53B2766FB0;
-        Tue, 24 May 2022 09:48:13 -0700 (PDT)
-Date:   Tue, 24 May 2022 18:48:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1653410891;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+n2TeC63xBP9JcIIeIV1gUKizH+Y+lAFAohJMPfDSoc=;
-        b=pWWP3msM6ICsdl2XG/L1Kk7BT7Kz8igPK9fm7BhaTk22EkNfv16BnjJoAQyz+zJeXVOELR
-        apWDvp6IEgg7o0TFbKkX5MNz5iZejRxEhNuIxQYYyLkwTnIqFbU9+durOHCp/L+oAsdG8O
-        OgI+/DmVASIjQzfRI4+Dj3/Uqc4zlxef5mz6JJpESBbbChHqhkhinOEcHq+9dS0tUW0E/V
-        lR2X7/rzDxyj/BNc6FET/4tbz92+bDkY50fLTcuQ0RnlD6d1j2r9NTH0qbtzOz4JjvKkAH
-        IiFjEvCplzzhF/dI1GRxCVyRGxNOUVKnPX4oF0trW5jZ/VK8ofUIEAGO98ID/A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1653410891;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+n2TeC63xBP9JcIIeIV1gUKizH+Y+lAFAohJMPfDSoc=;
-        b=7xRUXMgXMXv57nfU9kviAhVtxJ+a+EKZYQEc+3ccFWHfLVgToQy8lChbsT6TPS6uSYfdmk
-        eKW1UWc6HbKj6VCA==
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-Subject: Re: [PATCH v11 0/8] cgroup/cpuset: cpu partition code enhancements
-Message-ID: <Yo0MSnl/xowWz4PQ@linutronix.de>
-References: <20220510153413.400020-1-longman@redhat.com>
- <Yoe7FOkZpUwwTTQW@linutronix.de>
- <75d31caf-2d26-9fcc-13fb-e8be2f2ad8e5@redhat.com>
+        with ESMTP id S239772AbiEXRr1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 May 2022 13:47:27 -0400
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5DCE5D661
+        for <linux-doc@vger.kernel.org>; Tue, 24 May 2022 10:47:26 -0700 (PDT)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-2ec42eae76bso189761447b3.10
+        for <linux-doc@vger.kernel.org>; Tue, 24 May 2022 10:47:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=e6VPETmeyZX5JOF6lrU6bxZMJd0n0GPwABfSqTucdjs=;
+        b=bZjveAEaUMpvjHfz1Cch8bK+pwqo5wReSl7Ni1ySDkX7vgB+ELyVHAsXpIXDy/NzwQ
+         F/baQeyilKuLVyVSZ3e3AFkWzCGjLP/qgdKtUY8I6Yt9r3cYFnDW2ohFYoNsEKr6MYS5
+         lTj9Ai76LjkVrc+uNTqmiubbz+0pmokn7RIRVfhrsz/Hy9byfa+AQQHsnVEgdDlwIs+L
+         /MVtlD/qzhhotKGBMHeGk5luHST+bgqa6sQdqklFRiQXgo7W6TChKNkAQk57YkYZePEG
+         mNoW/y/qBqR0twFm26Kyrx/dG4oRQ86aObRbtuGaU8bvLjKWJQHgSKYtBQFQLNzrfScW
+         bbcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=e6VPETmeyZX5JOF6lrU6bxZMJd0n0GPwABfSqTucdjs=;
+        b=yZV2HKLVsohLUMYuZ1Py5x50TB+OxCLxyRz0VAagcELi8xOSxS1H0a6VG91InoUuxd
+         2gknpGf2/BPSiD3cCj9lY47WcF0yH9h5eW07ZmKxjQ0K5X0Ml61/idaTXSP9ZfHkGxGH
+         SgUjlC8JA9Frnxj5JCvc/uGENFJ94UFfT6FNLUGvXaX95uQbsw/0hJL91YPWxkkYoHty
+         k8ufk33UXZaQ2rNVmQ7OHX01In4a3NtWt/1j69sXaiMsvz2g5+VVCVSJdawoB3Qt6SOm
+         yEJsqSys7MeCH0MLsS/olzdPHOtAIYauG9WcVCom16Rt+Iyw/TYy3jnNeMkBiWAbANT/
+         fsbg==
+X-Gm-Message-State: AOAM532Ioc7zOsDbRqxkXlUytCISEApsuIh6VKFdbIyr00vWq8h8fnaB
+        BioJ86KeHN7CROn7xPQWSLUaFN1ApAjUhYCWzrIrSg==
+X-Google-Smtp-Source: ABdhPJywyPDKCAP33MtzxfXuYMCC6HltN18smuTT+NiEjrolMWs5gH6m5KLHG22tADmM3eKx+ae1gKCOsi42FnXISCA=
+X-Received: by 2002:a0d:e903:0:b0:2ff:43a3:90c8 with SMTP id
+ s3-20020a0de903000000b002ff43a390c8mr29118839ywe.455.1653414445758; Tue, 24
+ May 2022 10:47:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <75d31caf-2d26-9fcc-13fb-e8be2f2ad8e5@redhat.com>
+References: <20220429220933.1350374-1-saravanak@google.com>
+ <YogkhvFGVcjNQ21Z@dev-arch.thelio-3990X> <CAGETcx9nvBs1b4M=2hBhrLX_2-rzLtAmV9WfTXu0MC7JnsBvwA@mail.gmail.com>
+ <YogsiMCDupNUhMgL@dev-fedora.thelio-3990X> <CAGETcx-JyWwoGA3o8eep7E29Cm4DcVT6D1JFJh72jLcqm_mjCQ@mail.gmail.com>
+ <Youleo3Ganxbc1sq@dev-arch.thelio-3990X> <CAGETcx-sL08h2toEyxY6ztc6xNuJiPok6iDEeuJ1mOA3nvE+vA@mail.gmail.com>
+ <YowHNo4sBjr9ijZr@dev-arch.thelio-3990X> <CAGETcx91_WgpmwEA7mBSvUdyJV0a8ymfaNKTmXq=mAJYAjzq1A@mail.gmail.com>
+ <Yo0KyWx+3oX3cMCS@linutronix.de>
+In-Reply-To: <Yo0KyWx+3oX3cMCS@linutronix.de>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Tue, 24 May 2022 10:46:49 -0700
+Message-ID: <CAGETcx_qTLwbjzMruLThLYV+MZD5W2Ox-QwLFQeW=eQgxzq-Hw@mail.gmail.com>
+Subject: Re: [PATCH v1] driver core: Extend deferred probe timeout on driver registration
+To:     Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rob Herring <robh@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Will Deacon <will@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
+        iommu@lists.linux-foundation.org, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org, John Stultz <jstultz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-05-20 12:46:52 [-0400], Waiman Long wrote:
-> On 5/20/22 12:00, Sebastian Andrzej Siewior wrote:
-> > On 2022-05-10 11:34:05 [-0400], Waiman Long wrote:
-> > > v11:
-> > >   - Fix incorrect spacing in patch 7 and include documentation suggestions
-> > >     by Michal.
-> > >   - Move partition_is_populated() check to the last one in list of
-> > >     conditions to be checked.
-> > If I follow this correctly, then this is the latest version of the
-> > isolcpus= replacement with cgroup's cpusets, correct?
-> > 
-> > Sebastian
-> 
-> It is just the beginning, there is still a lot of work to do before
-> isolcpus= can be completely replaced.
+On Tue, May 24, 2022 at 9:41 AM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+>
+> On 2022-05-23 20:43:06 [-0700], Saravana Kannan wrote:
+> =E2=80=A6
+> > Thanks for all the help. I think I know what's going on.
+>
+> I, too got here because my boot recently was extended by 10 seconds and
+> bisected to that commit in question.
+>
+> > If you revert the following commit, then you'll see that your device
+> > no longer hangs with my changes.
+> > 35a672363ab3 driver core: Ensure wait_for_device_probe() waits until
+> > the deferred_probe_timeout fires
+>
+> Removing probe_timeout_waitqueue (as suggested) or setting the timeout
+> to 0 avoids the delay.
 
-Okay. Thanks.
+In your case, I think it might be working as intended? Curious, what
+was the call stack in your case where it was blocked?
 
-> Cheers,
-> Longman
-
-Sebastian
+-Saravana
