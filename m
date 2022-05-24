@@ -2,133 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10888C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 24 May 2022 19:02:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B3E4C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 24 May 2022 19:03:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240694AbiEXTCB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 May 2022 15:02:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54750 "EHLO
+        id S240654AbiEXTDY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 May 2022 15:03:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240972AbiEXTBP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 May 2022 15:01:15 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 816158BD18;
-        Tue, 24 May 2022 12:00:38 -0700 (PDT)
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24OIIWWB028627;
-        Tue, 24 May 2022 19:00:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=5Slx5FLdPNpExytNsZYr6fPsZUMWp2bLsUYnydB9xKg=;
- b=KUzISkoxgezcDirfa5DHQ34zrLQbj/WA9t9Kl7gWSfAMzTHf6JJAcVSwCLShm41Dh48t
- Ls2N7glOkNF/OlJKw7/ho3HuDU9DsnHWHgcPkMYMgZAZSR9/Z+19Zoxt91bPkD4yEA0E
- TCoCEW4WXF4q0mm2ChJ0ras2Oo2fSWRGeHRE39peuitFXeOLSu4w+VKYmNSBtJu35/x5
- 4iwG2j5hZRvpq/ewheF9sWIyAgoWfooRQ5Rdg81Dtbb3iMOWysmMtf2wCO26+g1lj0n3
- 1iCxBflpadkNZOWFJI50tOka6p0N76XYRj4vgBi9V7sRCXjZCYWBahW7UuYo+YW6hpcB 6g== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g94hd0ps4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 24 May 2022 19:00:05 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24OIi6mi001117;
-        Tue, 24 May 2022 19:00:05 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3g94hd0prd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 24 May 2022 19:00:04 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
-        by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 24OIs6eH021750;
-        Tue, 24 May 2022 19:00:03 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
-        by ppma01wdc.us.ibm.com with ESMTP id 3g93uu8hcy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 24 May 2022 19:00:03 +0000
-Received: from b03ledav005.gho.boulder.ibm.com (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
-        by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 24OJ02Wm29360534
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 24 May 2022 19:00:02 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 71C10BE05A;
-        Tue, 24 May 2022 19:00:02 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4694DBE056;
-        Tue, 24 May 2022 19:00:00 +0000 (GMT)
-Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown [9.163.3.233])
-        by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Tue, 24 May 2022 19:00:00 +0000 (GMT)
-From:   Matthew Rosato <mjrosato@linux.ibm.com>
-To:     linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        jgg@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v8 21/22] KVM: s390: introduce CPU feature for zPCI Interpretation
-Date:   Tue, 24 May 2022 14:59:06 -0400
-Message-Id: <20220524185907.140285-22-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220524185907.140285-1-mjrosato@linux.ibm.com>
-References: <20220524185907.140285-1-mjrosato@linux.ibm.com>
+        with ESMTP id S240805AbiEXTDL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 May 2022 15:03:11 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EE759D4F9
+        for <linux-doc@vger.kernel.org>; Tue, 24 May 2022 12:01:44 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id z15so3191473wrg.11
+        for <linux-doc@vger.kernel.org>; Tue, 24 May 2022 12:01:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zPoBKVvC2etY1rrj+YwE9RcWhQO3Aeb8jFG7VSlxgGE=;
+        b=eShZOTIUQ93TOWjEzr249Q2WlZgXfVBXRXVkiPqqzxHc3weu9dWI5q3Ho56xWalhYm
+         DNCo2rp9rMlgNBrK8z0XY/wW3LtOYML1vS+M+JPqvzdBIyhIp4u0EN07gBXsnOV6nri8
+         362c3np7lTLklsZKcOFMwfRRupNLAPynTYIAwR6xjCdZj/A/gIhF1Qfk1QwtUz1zpdDg
+         OwP1XDrZlsnRRXavqft/ReWGqQnEA11Wn1yavd6amKib47Nc170P/orJbWp9qtErNk/7
+         CisGNh6vWRjQoZRymrDq8S4Qa8rADzUXLl566tiu679wuf5A6NCGy//TjeVsXiZq3cdx
+         FakQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zPoBKVvC2etY1rrj+YwE9RcWhQO3Aeb8jFG7VSlxgGE=;
+        b=moe0sQRjTgGvA9uOLC15S0sBu9Qrg1FT3YhnoYgCqbPcgpqmIF0VAfpZkAxfqdA5Y8
+         4OkVYBl2oHhWAMtuHY+9mlp4gTXxN/8RhSOEX8MzCgM8gmqtjHILWS/L3/8E41zeNw46
+         WUXdcKWcMCjLiilGYEfNRVoMQ8gw5hVdrMzsLsyrRpUCr49CRIRRteBrf1HZlVPX8kC8
+         kQtSY9bvxcn7ZbYQdtu7xWOA/pAF1AU9Q0Wv2u0xslp2iXmYd9d6Rv9cvlvliUIECtXn
+         4gxY4uniM2ZC6QBVR2U2xg9tuA5IjRV26dyoXc37bLhqykbWsTW0aIloAJ8Sm5ScdZgb
+         DW8A==
+X-Gm-Message-State: AOAM533XWFeYOdpGLBUmdmjtpvqh899a3eOSxMxBZQcSIiZEvqgA2LNN
+        b66SQHeXH4NH64hW3DIxPjwba2FZgAgd7MaAO9mrFw==
+X-Google-Smtp-Source: ABdhPJzPKmJrseAx4/O0R9Tr5Y5Yi3+iPsfVW2jq7/OFy7Iu3Ypo1SokZ9tOrFY3enB09mHuuuvffQ2Sa5Fxer4lfaM=
+X-Received: by 2002:a05:6000:1548:b0:20f:c4bb:defd with SMTP id
+ 8-20020a056000154800b0020fc4bbdefdmr15202675wry.210.1653418898448; Tue, 24
+ May 2022 12:01:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: -hbfx28MxMgcA8gbg0hzUpt7gu72IonE
-X-Proofpoint-GUID: G6Pnv6nd3GWaMpfEzQrdzqYhbiDTalwv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-24_09,2022-05-23_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
- priorityscore=1501 mlxscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- adultscore=0 phishscore=0 mlxlogscore=863 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2205240090
+References: <20220518223815.809858-1-vaibhav@linux.ibm.com>
+ <YoYj4sLJfGke5IGT@dhcp22.suse.cz> <87zgjcg4xs.fsf@vajain21.in.ibm.com>
+ <YodDaFVeU33bu7yQ@dhcp22.suse.cz> <CAJD7tkYwv2LDZeV2F5pxuniw7LCNjBapDCm3WuRhzwTH-jN3PA@mail.gmail.com>
+ <YozFZI2euSjWPgDb@cmpxchg.org>
+In-Reply-To: <YozFZI2euSjWPgDb@cmpxchg.org>
+From:   Yosry Ahmed <yosryahmed@google.com>
+Date:   Tue, 24 May 2022 12:01:01 -0700
+Message-ID: <CAJD7tkZxvmnrrjc4yAe5mC+SL-MZqMkn21yjetiLYyq0B=AhtA@mail.gmail.com>
+Subject: Re: [PATCH] memcg: provide reclaim stats via 'memory.reclaim'
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        David Rientjes <rientjes@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-KVM_S390_VM_CPU_FEAT_ZPCI_INTERP relays whether zPCI interpretive
-execution is possible based on the available hardware facilities.
+On Tue, May 24, 2022 at 4:45 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
+>
+> On Mon, May 23, 2022 at 03:50:34PM -0700, Yosry Ahmed wrote:
+> > I think it might be useful to have a dedicated entry in memory.stat
+> > for proactively reclaimed memory. A case where this would be useful is
+> > tuning and evaluating userspace proactive reclaimers. For instance, if
+> > a userspace agent is asking the kernel to reclaim 100M, but it could
+> > only reclaim 10M, then most probably the proactive reclaimer is not
+> > using a good methodology to figure out how much memory do we need to
+> > reclaim.
+> >
+> > IMO this is more useful, and a superset of just reading the last
+> > reclaim request status through memory.reclaim (read stat before and
+> > after).
+>
+> +1
 
-Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- arch/s390/include/uapi/asm/kvm.h | 1 +
- arch/s390/kvm/kvm-s390.c         | 4 ++++
- 2 files changed, 5 insertions(+)
+It might also be useful to have a breakdown of this by memory type:
+file, anon, or shrinkers.
 
-diff --git a/arch/s390/include/uapi/asm/kvm.h b/arch/s390/include/uapi/asm/kvm.h
-index 7a6b14874d65..ed06458a871f 100644
---- a/arch/s390/include/uapi/asm/kvm.h
-+++ b/arch/s390/include/uapi/asm/kvm.h
-@@ -130,6 +130,7 @@ struct kvm_s390_vm_cpu_machine {
- #define KVM_S390_VM_CPU_FEAT_PFMFI	11
- #define KVM_S390_VM_CPU_FEAT_SIGPIF	12
- #define KVM_S390_VM_CPU_FEAT_KSS	13
-+#define KVM_S390_VM_CPU_FEAT_ZPCI_INTERP 14
- struct kvm_s390_vm_cpu_feat {
- 	__u64 feat[16];
- };
-diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
-index af96b613d7e7..9da833a330f8 100644
---- a/arch/s390/kvm/kvm-s390.c
-+++ b/arch/s390/kvm/kvm-s390.c
-@@ -433,6 +433,10 @@ static void kvm_s390_cpu_feat_init(void)
- 	if (test_facility(151)) /* DFLTCC */
- 		__insn32_query(INSN_DFLTCC, kvm_s390_available_subfunc.dfltcc);
- 
-+	/* zPCI Interpretation */
-+	if (kvm_s390_pci_interp_allowed())
-+		allow_cpu_feat(KVM_S390_VM_CPU_FEAT_ZPCI_INTERP);
-+
- 	if (MACHINE_HAS_ESOP)
- 		allow_cpu_feat(KVM_S390_VM_CPU_FEAT_ESOP);
- 	/*
--- 
-2.27.0
-
+It would also fit in nicely with a potential type=file/anon/shrinker
+argument to memory.reclaim. Thoughts on this?
