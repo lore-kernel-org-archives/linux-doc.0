@@ -2,86 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32911C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 24 May 2022 08:35:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2104C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 24 May 2022 09:51:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229470AbiEXIfV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 May 2022 04:35:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49726 "EHLO
+        id S235902AbiEXJvN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 May 2022 05:51:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231989AbiEXIfT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 May 2022 04:35:19 -0400
-X-Greylist: delayed 477 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 24 May 2022 01:35:17 PDT
-Received: from xry111.site (xry111.site [89.208.246.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0F3E633AE;
-        Tue, 24 May 2022 01:35:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
-        s=default; t=1653380839;
-        bh=f86+du3NLa/SaLRfDIDrohJYCgyKaooMgS3GQURiRxE=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=kruEWImlOIAaMsrf6ecSXnkopnnhQNB9Fygb9CS2ZNnu1BJdO2oY6yKbCPMkRJjwI
-         BTm8Ib0ZuDPkEm+g2a8xdV2cYTO0a7KRZrw108aTxMheezVj/dx+986hrEkb682nvD
-         SlqDR5UaOvmxS7cZJCXDzuxLJYHWF/SPGaJlEcA8=
-Received: from localhost.localdomain (xry111.site [IPv6:2001:470:683e::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
-        (Client did not present a certificate)
-        (Authenticated sender: xry111@xry111.site)
-        by xry111.site (Postfix) with ESMTPSA id CE237668FE;
-        Tue, 24 May 2022 04:27:14 -0400 (EDT)
-Message-ID: <14f922495a09898017e4db3baed5b434acadac12.camel@xry111.site>
-Subject: Re: [PATCH V11 09/22] LoongArch: Add boot and setup routines
-From:   Xi Ruoyao <xry111@xry111.site>
-To:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-efi@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
-Date:   Tue, 24 May 2022 16:27:13 +0800
-In-Reply-To: <20220518092619.1269111-10-chenhuacai@loongson.cn>
-References: <20220518092619.1269111-1-chenhuacai@loongson.cn>
-         <20220518092619.1269111-10-chenhuacai@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1 
+        with ESMTP id S234309AbiEXJvK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 May 2022 05:51:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CEC5DB488
+        for <linux-doc@vger.kernel.org>; Tue, 24 May 2022 02:51:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1653385867;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HROxCg3THyAWJg+stBN26H1YCc49DJ6h7IjqQesEu3w=;
+        b=d5S1PqZE2PsAmxmE+QKoUpaO3U1yDdyBdtEvrsr66oLzUM7lWvOBMexNAh0nDiI3VjoD46
+        m/Jdrsopj2TG9QI2rqSqJI/npv0GR1mWe7OvKgKQ7LY0RZ3SvpCGPp38KG9PSP9E7qDXuW
+        t2FMnKX1TbgpkpQcyxa7Yt2ZwXWUl68=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-628-NsCFOFLDPEWz_K_fewDRIA-1; Tue, 24 May 2022 05:51:06 -0400
+X-MC-Unique: NsCFOFLDPEWz_K_fewDRIA-1
+Received: by mail-pf1-f197.google.com with SMTP id c4-20020aa79524000000b005180f331899so7521661pfp.11
+        for <linux-doc@vger.kernel.org>; Tue, 24 May 2022 02:51:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=HROxCg3THyAWJg+stBN26H1YCc49DJ6h7IjqQesEu3w=;
+        b=dYUYOLg50tVYYCcx5ZyHza8o/WI+xp1QFXSbnHUKxKCbZKTyDh4NN52lVVlGON/Eds
+         fPH0VPyi5PN+JmYWUQuLcoTldfQsQbkaFOPLebo+q6zssyDv5mgnqCJv/vv8mBqZSrWD
+         VEkNgoaAnlOb9gLHg7QDzlnttrRISx3wnbMWuXvbGSRD0PzYDPjCbKk4+gCHyRwJXYHQ
+         S5gK7kpR082z2f5KEl3Mr6tmvjLZQ2xHYP2FPMdroo7oD5gMGCeIM32+rsNaZc+R88Ip
+         R/Hk0sBgLKTKXFV1C0xVR91AdZP8XsIqLO3dEJF+3r5vk1X0EfFmyGFhNig+ZZIO5TKw
+         2Srg==
+X-Gm-Message-State: AOAM531bSWD26gQiI310P82VpxNSqy9C78dz1Lk7pHgq1tHFbFwCVLM9
+        8JM0UV/0ceKbY5Gs+QGxrBHWPzgcmbYLX2BuEBCMaskJJyAryg9gzHjDUCNCakldUvg/JwlYelW
+        ZrmrsMRuUEExl2cXAxmkz
+X-Received: by 2002:a17:90a:c682:b0:1df:c4a8:5db6 with SMTP id n2-20020a17090ac68200b001dfc4a85db6mr3684397pjt.43.1653385865313;
+        Tue, 24 May 2022 02:51:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxdBOH+gVDMrgyZ041wJ5jZ+2lLXtmmTzIxw/fZE8mPGpSF9hC5I1Teh6Xt19AWnXqr7+s+0w==
+X-Received: by 2002:a17:90a:c682:b0:1df:c4a8:5db6 with SMTP id n2-20020a17090ac68200b001dfc4a85db6mr3684372pjt.43.1653385865116;
+        Tue, 24 May 2022 02:51:05 -0700 (PDT)
+Received: from [10.72.12.81] ([209.132.188.80])
+        by smtp.gmail.com with ESMTPSA id z12-20020a17090a7b8c00b001df2f8f0a45sm1308834pjc.1.2022.05.24.02.50.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 May 2022 02:51:04 -0700 (PDT)
+Subject: Re: [PATCH v2] netfs: Fix gcc-12 warning by embedding vfs inode in
+ netfs_i_context
+To:     Jeff Layton <jlayton@kernel.org>,
+        David Howells <dhowells@redhat.com>
+Cc:     keescook@chromium.org, Jonathan Corbet <corbet@lwn.net>,
+        Eric Van Hensbergen <ericvh@gmail.com>,
+        Latchesar Ionkov <lucho@ionkov.net>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Christian Schoenebeck <linux_oss@crudebyte.com>,
+        Marc Dionne <marc.dionne@auristor.com>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Steve French <smfrench@gmail.com>,
+        William Kucharski <william.kucharski@oracle.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-doc@vger.kernel.org, v9fs-developer@lists.sourceforge.net,
+        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
+        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+        linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1b5daa4695b62795b617049e32c784052deabad4.camel@kernel.org>
+ <165305805651.4094995.7763502506786714216.stgit@warthog.procyon.org.uk>
+ <658391.1653302817@warthog.procyon.org.uk>
+ <e4fcdf88a9b35a9f1ca6e75fdf75ad469f824380.camel@kernel.org>
+From:   Xiubo Li <xiubli@redhat.com>
+Message-ID: <9945711f-c786-2300-9854-ee7734024a2c@redhat.com>
+Date:   Tue, 24 May 2022 17:50:54 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <e4fcdf88a9b35a9f1ca6e75fdf75ad469f824380.camel@kernel.org>
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2022-05-18 at 17:26 +0800, Huacai Chen wrote:
-> Currently an existing interface between the kernel and the bootloader
-> is=C2=A0 implemented. Kernel gets 2 values from the bootloader, passed in
-> registers a0 and a1; a0 is an "EFI boot flag" distinguishing UEFI and
-> non-UEFI firmware, while a1 is a pointer to an FDT with systable,
-> memmap, cmdline and initrd information.
 
-If I understand this correctly, we can:
+On 5/23/22 7:05 PM, Jeff Layton wrote:
+> On Mon, 2022-05-23 at 11:46 +0100, David Howells wrote:
+>> Jeff Layton <jlayton@kernel.org> wrote:
+>>
+>>> Note that there are some conflicts between this patch and some of the
+>>> patches in the current ceph-client/testing branch. Depending on the
+>>> order of merge, one or the other will need to be fixed.
+>> Do you think it could be taken through the ceph tree?
+>>
+>> David
+>>
+> Since this touches a lot of non-ceph code, it may be best to just plan
+> to merge it ASAP, and we'll just base our merge branch on top of it.
+>
+> Ilya/Xiubo, do you have an opinion here?
+>   
 
-- set a0 to 0
-- set a1 a pointer (virtual address or physical address?) to the FDT
-with these information
+Yeah, agree with Jeff.
 
-in the bootloader before invoking the kernel, then it will be possible
-to boot this kernel w/o firmware update?
 
-I'd prefer to receive a firmware update anyway, but we need an
-alternative if some vendor just say "no way, our customized distro works
-fine and you should use it".  (I'm not accusing LoongArch: such annoying
-behavior is common among vendors of all architectures, and even worse
-with x86 because they often say "just use Windoge".)
---=20
-Xi Ruoyao <xry111@xry111.site>
-School of Aerospace Science and Technology, Xidian University
