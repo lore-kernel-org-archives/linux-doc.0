@@ -2,116 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70BB1C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 24 May 2022 11:00:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 825FAC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 24 May 2022 11:45:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233509AbiEXK77 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 May 2022 06:59:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52260 "EHLO
+        id S234556AbiEXLpp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 May 2022 07:45:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233493AbiEXK76 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 May 2022 06:59:58 -0400
-Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2FF76FA39;
-        Tue, 24 May 2022 03:59:57 -0700 (PDT)
-Received: by mail-ua1-x92d.google.com with SMTP id k13so3578976uad.0;
-        Tue, 24 May 2022 03:59:57 -0700 (PDT)
+        with ESMTP id S233273AbiEXLpo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 May 2022 07:45:44 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 635B91137
+        for <linux-doc@vger.kernel.org>; Tue, 24 May 2022 04:45:43 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id r84so3378196qke.10
+        for <linux-doc@vger.kernel.org>; Tue, 24 May 2022 04:45:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OyNGMzB8eRzvXkgcGkGr6qv15WPNXqDuFiVrIoJC1xE=;
-        b=hl+MbcoLRG5p6f0tyPfx9hEebKnCInbyfKFlgIhrxiMaZxGo75slJlOpukMI+qmtY4
-         vKs6XkrY6enhD9LKHO5yaO5a0YSYrFD8s/80jGcTSCC7zmgoGrXDXaJNVa4gpvJ/DQvk
-         DB0DDXIkGH3Oc5mRDsPmISjVD6gCQ0S2fZXivHEKGv/ccLLdlQ6CoX/2cASy2OKUOMoi
-         z0LF9lDmcO39Z7WoVQTxyPUk0SMPgoo4VZj0YbXMDaGNwyLLQvqIc1xH5UNs8Gt8TJPw
-         PImI4UvFCmWNvCjQbvPp0d0c802Bq6aHQpZ4xcpuupIgfwrXENlxhvuCQjAywT2pxv/A
-         3cWg==
+        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=CR09yeXsFtoUOg9OMladANfYR85/7BwnLnQK+uR1N0Y=;
+        b=fvqp9+cdKj6LUnqaiDF1ifg3kW67yhA7mfjWX6ZFH2sG5F8ll4k55tNdNMuoB1M4to
+         Z1AV36+WHxVDjTPLY6bzHrbo5yJXPiJYOceulRYWs7upkmVU3JGKtI50rd0LWM/Pmo91
+         Z65P8xlljk+pDOkEJB58JvWaTZZdZ5QPbzT38ZFoJGHl/G+l2Jz7Limq9k4aafPrTBoO
+         VQeW7Q/M2I8PndKg6WFmKst0Pc3oRyJmlwI0SCBvP/h9UWXS8S2mRljTo/QRrsFQH+/T
+         7FlXtbCY5LpzOlJWW9Vrj3DkOYOFXiz3oUu1znM50xY05BDXckQpGZUkOI6gWeA7kRD+
+         P8Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OyNGMzB8eRzvXkgcGkGr6qv15WPNXqDuFiVrIoJC1xE=;
-        b=0XnFRP9du1+hNVfTPdU+uei3hKlS+DHjOKZqSLxDwqZfuAw5BVTMg2VbyA1IW9Ex7M
-         dSyg62ZljkKGnmsX01TofECUFHE4fxUA9FU4GPjebegxclDu2RCvktYaXD5hTwy5IXWC
-         8027Pwt9VJCikJvHnxpyx1qmAfYJTO37Hov2lmyuxpJX6zZ9X1v9Sbt04h5cTJtA31ml
-         ReZCLJQjKidbpgsL5mPeRfB4ebijXaodedbP2H+t0v1H6vbEX2/8fFhB/8EVcbvpKrhD
-         5lyZ6EV86QqOVsGwKWGlZ+gRsfmI/AqslB+gWK3wRwxI66Pu6W8k9kwfDIYhg1ANpor2
-         k8kQ==
-X-Gm-Message-State: AOAM530m1N4+gQpfgZ5I3B0W3hlITLYxFgTg++2JSmtCSUJvunndMhAZ
-        qL0Knt1xDGmSje8kaa6bMGIAp6D1pujVvdtPEWg8tfAl8IC9t/RH
-X-Google-Smtp-Source: ABdhPJzjHep8EeU03Bdx8UMpAopw7ydL9VNQPgVLtJw/4rEwY7HBf0Z0i+/xdekLJoG+9rVYRDr7nM0cHPOyFMNEYeg=
-X-Received: by 2002:ab0:6999:0:b0:368:a1e8:74c9 with SMTP id
- t25-20020ab06999000000b00368a1e874c9mr8496825uaq.21.1653389996991; Tue, 24
- May 2022 03:59:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220518092619.1269111-1-chenhuacai@loongson.cn>
- <20220518092619.1269111-10-chenhuacai@loongson.cn> <14f922495a09898017e4db3baed5b434acadac12.camel@xry111.site>
-In-Reply-To: <14f922495a09898017e4db3baed5b434acadac12.camel@xry111.site>
-From:   Huacai Chen <chenhuacai@gmail.com>
-Date:   Tue, 24 May 2022 18:59:50 +0800
-Message-ID: <CAAhV-H4BHUTshe2w-KnJ3hLveaFWRJihyDwnOnAbSYWDV_18LA@mail.gmail.com>
-Subject: Re: [PATCH V11 09/22] LoongArch: Add boot and setup routines
-To:     Xi Ruoyao <xry111@xry111.site>, lichao@loongson.cn
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CR09yeXsFtoUOg9OMladANfYR85/7BwnLnQK+uR1N0Y=;
+        b=DFSKpscPl4hPd5sCzwI05O9G71iS5T4TLp6NTiCyD7V9A8L4oQF4E2bPCnsxVcjhpQ
+         Gb0ItyK4fhuFzTR/XP7M31SZQeIGhG6tcXY7zp8D1RQoOkVQC6gFs7d/W9wW8/ZkQuVt
+         vzf8ccZmbnlmz/8KTTMwBXMJyvNZ8XmPwa7MkY2mHhk51BbRyKFuDu6KozFPMaIgSTDp
+         x84rKCqMLfXerGxKeIEXW7QzHK8UWnT3MuW2Y1aaMvLOKURY7Pfmfr20Wefgvs3rZ15Q
+         R3dg/L/na2M8jJJ5rRfI8rIn2mpf3GZzZEGNS5a5dmiQapoNyV+mt9YuqKRx+5AqTYsd
+         sQ7w==
+X-Gm-Message-State: AOAM532e+TiscIeN9AcMLtODPO0cXGh5fBh57JPqN0n0NEBZu8f5EhmT
+        p9Fn+ROJTYKznwLb3n2mXzgSuA==
+X-Google-Smtp-Source: ABdhPJy+mRmOWARy6q76pkXL/ov/YwM3Sjk6bTK9qOTgTtk/PBNAMmayhuzsas+dwXg1UhhNSG9LBQ==
+X-Received: by 2002:a05:620a:bc6:b0:67c:ce55:d2d4 with SMTP id s6-20020a05620a0bc600b0067cce55d2d4mr17064770qki.175.1653392742579;
+        Tue, 24 May 2022 04:45:42 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:480::1:741f])
+        by smtp.gmail.com with ESMTPSA id cg7-20020a05622a408700b002f9050bb622sm5988169qtb.69.2022.05.24.04.45.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 May 2022 04:45:42 -0700 (PDT)
+Date:   Tue, 24 May 2022 07:45:40 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Yosry Ahmed <yosryahmed@google.com>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
+        Shakeel Butt <shakeelb@google.com>
+Subject: Re: [PATCH] memcg: provide reclaim stats via 'memory.reclaim'
+Message-ID: <YozFZI2euSjWPgDb@cmpxchg.org>
+References: <20220518223815.809858-1-vaibhav@linux.ibm.com>
+ <YoYj4sLJfGke5IGT@dhcp22.suse.cz>
+ <87zgjcg4xs.fsf@vajain21.in.ibm.com>
+ <YodDaFVeU33bu7yQ@dhcp22.suse.cz>
+ <CAJD7tkYwv2LDZeV2F5pxuniw7LCNjBapDCm3WuRhzwTH-jN3PA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJD7tkYwv2LDZeV2F5pxuniw7LCNjBapDCm3WuRhzwTH-jN3PA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Ruoyao,
+On Mon, May 23, 2022 at 03:50:34PM -0700, Yosry Ahmed wrote:
+> I think it might be useful to have a dedicated entry in memory.stat
+> for proactively reclaimed memory. A case where this would be useful is
+> tuning and evaluating userspace proactive reclaimers. For instance, if
+> a userspace agent is asking the kernel to reclaim 100M, but it could
+> only reclaim 10M, then most probably the proactive reclaimer is not
+> using a good methodology to figure out how much memory do we need to
+> reclaim.
+> 
+> IMO this is more useful, and a superset of just reading the last
+> reclaim request status through memory.reclaim (read stat before and
+> after).
 
-On Tue, May 24, 2022 at 4:27 PM Xi Ruoyao <xry111@xry111.site> wrote:
->
-> On Wed, 2022-05-18 at 17:26 +0800, Huacai Chen wrote:
-> > Currently an existing interface between the kernel and the bootloader
-> > is  implemented. Kernel gets 2 values from the bootloader, passed in
-> > registers a0 and a1; a0 is an "EFI boot flag" distinguishing UEFI and
-> > non-UEFI firmware, while a1 is a pointer to an FDT with systable,
-> > memmap, cmdline and initrd information.
->
-> If I understand this correctly, we can:
->
-> - set a0 to 0
-> - set a1 a pointer (virtual address or physical address?) to the FDT
-> with these information
->
-> in the bootloader before invoking the kernel, then it will be possible
-> to boot this kernel w/o firmware update?
-Unfortunately, there is no released firmware for you since we recently
-changed the interface again and again. :(
-You can contact with Li Chao (lichao@loongson.cn), I think he can
-provide help as much as possible (at least provide temporary firmwares
-for developers).
-We will also provide qemu-system and virtual machine's firmware as
-soon as possible.
-
-Huacai
-
->
-> I'd prefer to receive a firmware update anyway, but we need an
-> alternative if some vendor just say "no way, our customized distro works
-> fine and you should use it".  (I'm not accusing LoongArch: such annoying
-> behavior is common among vendors of all architectures, and even worse
-> with x86 because they often say "just use Windoge".)
-> --
-> Xi Ruoyao <xry111@xry111.site>
-> School of Aerospace Science and Technology, Xidian University
++1
