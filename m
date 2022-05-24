@@ -2,97 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C00F8C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 24 May 2022 16:41:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D108FC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 24 May 2022 16:48:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238980AbiEXQl4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 May 2022 12:41:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45502 "EHLO
+        id S239751AbiEXQsO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 May 2022 12:48:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239552AbiEXQlx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 May 2022 12:41:53 -0400
+        with ESMTP id S239636AbiEXQsO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 May 2022 12:48:14 -0400
 Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56629369E3;
-        Tue, 24 May 2022 09:41:51 -0700 (PDT)
-Date:   Tue, 24 May 2022 18:41:45 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53B2766FB0;
+        Tue, 24 May 2022 09:48:13 -0700 (PDT)
+Date:   Tue, 24 May 2022 18:48:10 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1653410507;
+        s=2020; t=1653410891;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=YK2eEOx7qW4qJHtFCm6AqFTk2cYYBK5VN6M5h7/LPJY=;
-        b=RpxUjmeXaoO/cBMYYtR+W0dgahHZXn+pWhavM1CLX7ZfQbTpfWIlyVxXP2YkVVmh2rwFni
-        oLUkOWEklbTTdrrQ7EBqMg9VljxqAkk2RMpDM3IceQGLMwRX/iWplU9ypzMYYcF6rIsNq5
-        gEQ4o1/jjw0KCo+cUaPASqE1n/pDEduI0UjFZDyXV0oSZG/MAsghi4jn0Q2Rgd5KSWzxGx
-        bQvfZfriHlwfgaQV7kIhJvTA4aJo6Sat/396ZLjHmqW288KyLlFNIavuowjRfXYfA7qDR7
-        byhLkWlIiN/whQv1P/8pn5vO4+sDy2ImQNzEoKhEtwkvfwviQyVSr29nT72Agg==
+        bh=+n2TeC63xBP9JcIIeIV1gUKizH+Y+lAFAohJMPfDSoc=;
+        b=pWWP3msM6ICsdl2XG/L1Kk7BT7Kz8igPK9fm7BhaTk22EkNfv16BnjJoAQyz+zJeXVOELR
+        apWDvp6IEgg7o0TFbKkX5MNz5iZejRxEhNuIxQYYyLkwTnIqFbU9+durOHCp/L+oAsdG8O
+        OgI+/DmVASIjQzfRI4+Dj3/Uqc4zlxef5mz6JJpESBbbChHqhkhinOEcHq+9dS0tUW0E/V
+        lR2X7/rzDxyj/BNc6FET/4tbz92+bDkY50fLTcuQ0RnlD6d1j2r9NTH0qbtzOz4JjvKkAH
+        IiFjEvCplzzhF/dI1GRxCVyRGxNOUVKnPX4oF0trW5jZ/VK8ofUIEAGO98ID/A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1653410507;
+        s=2020e; t=1653410891;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=YK2eEOx7qW4qJHtFCm6AqFTk2cYYBK5VN6M5h7/LPJY=;
-        b=/mpKm9K+KmM77y1Sv2U9sqow5FiO6MRm6Pw38G0V5vb80cMf3MtUbFzjWo6JzMqnXUz52M
-        Ak5KSCUA8QKj4tCw==
+        bh=+n2TeC63xBP9JcIIeIV1gUKizH+Y+lAFAohJMPfDSoc=;
+        b=7xRUXMgXMXv57nfU9kviAhVtxJ+a+EKZYQEc+3ccFWHfLVgToQy8lChbsT6TPS6uSYfdmk
+        eKW1UWc6HbKj6VCA==
 From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rob Herring <robh@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
-        iommu@lists.linux-foundation.org, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, John Stultz <jstultz@google.com>
-Subject: Re: [PATCH v1] driver core: Extend deferred probe timeout on driver
- registration
-Message-ID: <Yo0KyWx+3oX3cMCS@linutronix.de>
-References: <20220429220933.1350374-1-saravanak@google.com>
- <YogkhvFGVcjNQ21Z@dev-arch.thelio-3990X>
- <CAGETcx9nvBs1b4M=2hBhrLX_2-rzLtAmV9WfTXu0MC7JnsBvwA@mail.gmail.com>
- <YogsiMCDupNUhMgL@dev-fedora.thelio-3990X>
- <CAGETcx-JyWwoGA3o8eep7E29Cm4DcVT6D1JFJh72jLcqm_mjCQ@mail.gmail.com>
- <Youleo3Ganxbc1sq@dev-arch.thelio-3990X>
- <CAGETcx-sL08h2toEyxY6ztc6xNuJiPok6iDEeuJ1mOA3nvE+vA@mail.gmail.com>
- <YowHNo4sBjr9ijZr@dev-arch.thelio-3990X>
- <CAGETcx91_WgpmwEA7mBSvUdyJV0a8ymfaNKTmXq=mAJYAjzq1A@mail.gmail.com>
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+Subject: Re: [PATCH v11 0/8] cgroup/cpuset: cpu partition code enhancements
+Message-ID: <Yo0MSnl/xowWz4PQ@linutronix.de>
+References: <20220510153413.400020-1-longman@redhat.com>
+ <Yoe7FOkZpUwwTTQW@linutronix.de>
+ <75d31caf-2d26-9fcc-13fb-e8be2f2ad8e5@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAGETcx91_WgpmwEA7mBSvUdyJV0a8ymfaNKTmXq=mAJYAjzq1A@mail.gmail.com>
+In-Reply-To: <75d31caf-2d26-9fcc-13fb-e8be2f2ad8e5@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-05-23 20:43:06 [-0700], Saravana Kannan wrote:
-=E2=80=A6
-> Thanks for all the help. I think I know what's going on.
+On 2022-05-20 12:46:52 [-0400], Waiman Long wrote:
+> On 5/20/22 12:00, Sebastian Andrzej Siewior wrote:
+> > On 2022-05-10 11:34:05 [-0400], Waiman Long wrote:
+> > > v11:
+> > >   - Fix incorrect spacing in patch 7 and include documentation suggestions
+> > >     by Michal.
+> > >   - Move partition_is_populated() check to the last one in list of
+> > >     conditions to be checked.
+> > If I follow this correctly, then this is the latest version of the
+> > isolcpus= replacement with cgroup's cpusets, correct?
+> > 
+> > Sebastian
+> 
+> It is just the beginning, there is still a lot of work to do before
+> isolcpus= can be completely replaced.
 
-I, too got here because my boot recently was extended by 10 seconds and
-bisected to that commit in question.
+Okay. Thanks.
 
-> If you revert the following commit, then you'll see that your device
-> no longer hangs with my changes.
-> 35a672363ab3 driver core: Ensure wait_for_device_probe() waits until
-> the deferred_probe_timeout fires
-
-Removing probe_timeout_waitqueue (as suggested) or setting the timeout
-to 0 avoids the delay.
-
-> -Saravana
+> Cheers,
+> Longman
 
 Sebastian
