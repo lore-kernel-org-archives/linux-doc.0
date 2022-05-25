@@ -2,128 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3685CC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 16:05:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C37D6C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 16:32:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232929AbiEYQFq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 May 2022 12:05:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58286 "EHLO
+        id S234485AbiEYQcE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 May 2022 12:32:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245423AbiEYQFn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 12:05:43 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 651E2B82DD;
-        Wed, 25 May 2022 09:05:41 -0700 (PDT)
+        with ESMTP id S242219AbiEYQcE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 12:32:04 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F2D44ECD3;
+        Wed, 25 May 2022 09:32:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653494741; x=1685030741;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Qtq8NsRkQ5MXSb0vyxgaVhO2wTrtOk/ncJF+4DTDLd0=;
-  b=kqSUtIo2wPCFYn4p+/jtSY6S/rBxpsOcxc2Hk+ECeVmxy1AJGp10s2fF
-   3g6NW8v6L2W+KzXXB4fXfA/Tr5JcMcXXneYd1/EbcR6ouw+r47Wfms8qR
-   GtfAElqRpitPHnA9q38go1b7QdiYWc+UzNob65yvNs0c7Ep776dMide6W
-   KrbulRLY4jMNvdLTUOTkg4Pkn0wWmRZStJImcqIAoWFBskaUM6Ir0y0E+
-   +Ilssh8JxZlzswKcueFT3/EzJPhLCch3uFdqivvYSho77QkKV7BJnLHPU
-   ODpXdtRgW2Duoq5HG0vi4dYfAzGyVit45Iapebu+HX3YHg/U8STMyxFpS
+  t=1653496323; x=1685032323;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dP4IHy/R3fOL3p1GqQYg4uQt9SXLTkI03WsLyvMU4lo=;
+  b=Pysnr2QSPIWYy/X0nk8T1pKMOvDuJ18tv2pfplGrxKbbhqF3meAjwLQ+
+   0UdaE01qhDHqN3BGdK9/lY0wdEc72AV1+G+0A/QRXAWgg9awzEX9ZXW4t
+   VwVVRcIN3wFHQ86fbnCjLgVay+KWI7MB84bFEJ91vVFvd2c1jxuPoqc6U
+   TGQ/y0xEDDYodedx6Z6tofz2/T9MDl4VLd1qagf/QyGHI1EzASU481C+J
+   NxbwJv/KOEFMxghao9dY5VDNX0kVGjubLd11XGAs3kvXAbcdtE+SGGzPM
+   n3C4FP5rnrFUBFiWXwm6OqmFBLkbuQjuC251Eq+IAQiNrrMEEiP6iOVfh
    w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="273855084"
+X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="272678160"
 X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; 
-   d="scan'208";a="273855084"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2022 09:03:13 -0700
+   d="scan'208";a="272678160"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2022 09:32:02 -0700
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; 
-   d="scan'208";a="601970811"
-Received: from vlpathak-mobl.amr.corp.intel.com (HELO localhost) ([10.212.116.219])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2022 09:03:12 -0700
-Date:   Wed, 25 May 2022 09:03:12 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Collingbourne <pcc@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        outreachy@lists.linux.dev,
-        "Acked-by : Mike Rapoport" <rppt@linux.ibm.com>
-Subject: Re: [PATCH v2 1/4] mm/highmem: Fix kernel-doc warnings in highmem*.h
-Message-ID: <Yo5TQOByKbMbvE8m@iweiny-desk3>
-References: <20220425162400.11334-1-fmdefrancesco@gmail.com>
- <20220425162400.11334-2-fmdefrancesco@gmail.com>
- <YmeYzKT8Ikq5SfdE@linutronix.de>
- <YmwLXvtSgl2BA2mC@iweiny-desk3>
- <Yo34GGK62yVkPzZy@linutronix.de>
+   d="scan'208";a="559757373"
+Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 25 May 2022 09:32:01 -0700
+Received: from kbuild by db63a1be7222 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nttvU-00038H-9s;
+        Wed, 25 May 2022 16:32:00 +0000
+Date:   Thu, 26 May 2022 00:31:02 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Filipe Manana <fdmanana@suse.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        David Sterba <dsterba@suse.com>, linux-doc@vger.kernel.org
+Subject: fs/btrfs/tree-log.c:6792: warning: This comment starts with '/**',
+ but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202205260024.TLEp6Pj2-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yo34GGK62yVkPzZy@linutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 25, 2022 at 11:34:16AM +0200, Sebastian Andrzej Siewior wrote:
-> On 2022-04-29 08:59:26 [-0700], Ira Weiny wrote:
-> > I think some discussion needs to happen around this API.
-> > 
-> > Highmem has little use.  I don't think anyone disagrees with Linus there.
-> > (Although I think there are still a few users out there.)
-> 
-> arm32 is still built and they have sometimes 1 - 2 GiB of memory.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fdaf9a5840acaab18694a19e0eb0aa51162eeeed
+commit: d5f5bd546552a94eefd68c42f40f778c40a89d2c btrfs: pass the dentry to btrfs_log_new_name() instead of the inode
+date:   2 months ago
+config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20220526/202205260024.TLEp6Pj2-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d5f5bd546552a94eefd68c42f40f778c40a89d2c
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d5f5bd546552a94eefd68c42f40f778c40a89d2c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-Yep :-) I was thinking of arm when I said this.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-> 
-> > kmap may be a poor name for an API without the highmem functionality.  But
-> > perhaps not.  One could interpret it to mean simply getting the kernel mapping
-> > of the page rather than creating one.  After all that is what 64bit has done
-> > all along.
-> > 
-> > This interpretation helps when you consider features which attempt to layer the
-> > direct map with additional protections like PKS.[1]  Those protections mean
-> > that a simple page_address() is insufficient to access the direct map.
-> > 
-> > As far as calling kmap() and kmap_atomic() deprecated I'm ok with that if the
-> > community is.
-> > 
-> > The current kmap() call sites need work and Fabio's work on auditing them is
-> > extremely helpful.  That said, if we officially deprecate kmap_atomic() then
-> > those sites could be added to the list for rework.
-> 
-> Maybe I oversee something obvious but there is no problem with removing
-> kmap_atomic*() and keeping only kmap_local*() around, is there?
+All warnings (new ones prefixed by >>):
 
-No there is not.  But some kmap_atomic() sites may have to open code the
-preempt_disable() while others may not.
+>> fs/btrfs/tree-log.c:6792: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Update the log after adding a new name for an inode.
 
-I have not done a full audit of the kmap_atomic() sites but I suspect most
-don't really need the preempt_disable() but many may need to.  I just don't
-know.
 
-Regardless marking it deprecated can stop the growth of kmap_atomic() calls.
+vim +6792 fs/btrfs/tree-log.c
 
-> I never intended to deprecated kmap(), only kmap_atomic*() in favour of
-> kmap_local*().
+  6790	
+  6791	/**
+> 6792	 * Update the log after adding a new name for an inode.
+  6793	 *
+  6794	 * @trans:              Transaction handle.
+  6795	 * @old_dentry:         The dentry associated with the old name and the old
+  6796	 *                      parent directory.
+  6797	 * @old_dir:            The inode of the previous parent directory for the case
+  6798	 *                      of a rename. For a link operation, it must be NULL.
+  6799	 * @parent:             The dentry associated with the directory under which the
+  6800	 *                      new name is located.
+  6801	 *
+  6802	 * Call this after adding a new name for an inode, as a result of a link or
+  6803	 * rename operation, and it will properly update the log to reflect the new name.
+  6804	 */
+  6805	void btrfs_log_new_name(struct btrfs_trans_handle *trans,
+  6806				struct dentry *old_dentry, struct btrfs_inode *old_dir,
+  6807				struct dentry *parent)
+  6808	{
+  6809		struct btrfs_inode *inode = BTRFS_I(d_inode(old_dentry));
+  6810		struct btrfs_log_ctx ctx;
+  6811	
+  6812		/*
+  6813		 * this will force the logging code to walk the dentry chain
+  6814		 * up for the file
+  6815		 */
+  6816		if (!S_ISDIR(inode->vfs_inode.i_mode))
+  6817			inode->last_unlink_trans = trans->transid;
+  6818	
+  6819		/*
+  6820		 * if this inode hasn't been logged and directory we're renaming it
+  6821		 * from hasn't been logged, we don't need to log it
+  6822		 */
+  6823		if (!inode_logged(trans, inode) &&
+  6824		    (!old_dir || !inode_logged(trans, old_dir)))
+  6825			return;
+  6826	
+  6827		/*
+  6828		 * If we are doing a rename (old_dir is not NULL) from a directory that
+  6829		 * was previously logged, make sure the next log attempt on the directory
+  6830		 * is not skipped and logs the inode again. This is because the log may
+  6831		 * not currently be authoritative for a range including the old
+  6832		 * BTRFS_DIR_INDEX_KEY key, so we want to make sure after a log replay we
+  6833		 * do not end up with both the new and old dentries around (in case the
+  6834		 * inode is a directory we would have a directory with two hard links and
+  6835		 * 2 inode references for different parents). The next log attempt of
+  6836		 * old_dir will happen at btrfs_log_all_parents(), called through
+  6837		 * btrfs_log_inode_parent() below, because we have previously set
+  6838		 * inode->last_unlink_trans to the current transaction ID, either here or
+  6839		 * at btrfs_record_unlink_dir() in case the inode is a directory.
+  6840		 */
+  6841		if (old_dir)
+  6842			old_dir->logged_trans = 0;
+  6843	
+  6844		btrfs_init_log_ctx(&ctx, &inode->vfs_inode);
+  6845		ctx.logging_new_name = true;
+  6846		/*
+  6847		 * We don't care about the return value. If we fail to log the new name
+  6848		 * then we know the next attempt to sync the log will fallback to a full
+  6849		 * transaction commit (due to a call to btrfs_set_log_full_commit()), so
+  6850		 * we don't need to worry about getting a log committed that has an
+  6851		 * inconsistent state after a rename operation.
+  6852		 */
+  6853		btrfs_log_inode_parent(trans, inode, parent, LOG_INODE_EXISTS, &ctx);
+  6854	}
+  6855	
 
-Ok.  But I do want to see kmap() use removed.  The PKS code can't work with
-kmap() and in general we are seeing more and more restrictions on the direct
-map which may or may not be compatible with kmap().  What I presented at LSFmm
-was to turn the kmap* interfaces into a more generic 'get me a temp kernel
-address' interface instead of a highmem interface.
-
-Any user who needs a long term address will need something other than kmap().
-To that end there was some discussion on making vmap() more efficient or other
-alternatives.
-
-First we need to focus on reducing the kmap() call sites.  This documentation
-change, making kmap() deprecated, will help ensure the kernel does not grow
-more of them.
-
-Ira
-
-> 
-> > Ira
-> 
-> Sebastian
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
