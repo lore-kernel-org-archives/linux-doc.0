@@ -2,91 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B71FDC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 08:59:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 247B4C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 09:34:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234291AbiEYI7W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 May 2022 04:59:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44040 "EHLO
+        id S233034AbiEYJeX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 May 2022 05:34:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229752AbiEYI7W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 04:59:22 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DB916FA2C;
-        Wed, 25 May 2022 01:59:20 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 019C41F905;
-        Wed, 25 May 2022 08:59:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1653469159; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        with ESMTP id S230165AbiEYJeW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 05:34:22 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B28218A326;
+        Wed, 25 May 2022 02:34:20 -0700 (PDT)
+Date:   Wed, 25 May 2022 11:34:16 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1653471258;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=AdJCYZHOyhpjXySt6nTPMBOK5Q7ap+5mhsb0yD0IbJk=;
-        b=aiV6xLIl8yHWP30wU/K3GtbE85ZdBM0U1BgBzJcKlHVA+4+eXIlhgfUdcIjT7dEY9LCayY
-        qdR0ughVWk+eDMKIj1MpdBpoaBSWF8+Uz2ja25zdBKLZBcBtbHqJdJEWm2SbGqjXX7AsZz
-        UMe64oVsol7td+qJimhHkcqUGFKpgnI=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 7B3F12C142;
-        Wed, 25 May 2022 08:59:18 +0000 (UTC)
-Date:   Wed, 25 May 2022 10:59:18 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Yosry Ahmed <yosryahmed@google.com>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        bh=3BDuC1M83okFLvS1+Asx6My6EAgtEJl/fGn/qK8yy/g=;
+        b=OGX1WV45bkvE5/HLctakku/QnFGGlxFmrDE89NZh2h/+AgW3yKIMbGkk0+oaILwP+fEEfL
+        ss4sCljtOrbb0tBkvaueEOnKZHvo/uxNAeMwyVHG0fkM3R2pZuQ79wBw4ywsuCD1jyEL71
+        mVPnujD4GT80b7ZoWy7KZjQo+G1taafoMb8KObT0PBSIdu6wNnBiNYge0U11LN04fs3Onh
+        qhXvoSxivTj+mC8kX2GZrEnZj0wjbwEb9KMbs8ANyzYSSaVtcyA6cJ/kFppswPIr3CTMpw
+        fX5yX8DEXP6kk9ezmd/jIdcnyMZ+qxpKwCMO2jb0D05KrIabjjWy0/rzQ9t4yw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1653471258;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=3BDuC1M83okFLvS1+Asx6My6EAgtEJl/fGn/qK8yy/g=;
+        b=ezgKY9Z5IoxbTrMK1PmZCuUtUK2dBS8xPqNlDTOSSY7eKcDOeP75DkrhUHFHje1x44zL3I
+        pvTxMSjSobVHDBCg==
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     Ira Weiny <ira.weiny@intel.com>
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        David Rientjes <rientjes@google.com>
-Subject: Re: [PATCH] memcg: provide reclaim stats via 'memory.reclaim'
-Message-ID: <Yo3v5k8UBNHF6QRi@dhcp22.suse.cz>
-References: <20220518223815.809858-1-vaibhav@linux.ibm.com>
- <YoYj4sLJfGke5IGT@dhcp22.suse.cz>
- <87zgjcg4xs.fsf@vajain21.in.ibm.com>
- <YodDaFVeU33bu7yQ@dhcp22.suse.cz>
- <CAJD7tkYwv2LDZeV2F5pxuniw7LCNjBapDCm3WuRhzwTH-jN3PA@mail.gmail.com>
- <YozFZI2euSjWPgDb@cmpxchg.org>
- <CAJD7tkZxvmnrrjc4yAe5mC+SL-MZqMkn21yjetiLYyq0B=AhtA@mail.gmail.com>
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        outreachy@lists.linux.dev,
+        "Acked-by : Mike Rapoport" <rppt@linux.ibm.com>
+Subject: Re: [PATCH v2 1/4] mm/highmem: Fix kernel-doc warnings in highmem*.h
+Message-ID: <Yo34GGK62yVkPzZy@linutronix.de>
+References: <20220425162400.11334-1-fmdefrancesco@gmail.com>
+ <20220425162400.11334-2-fmdefrancesco@gmail.com>
+ <YmeYzKT8Ikq5SfdE@linutronix.de>
+ <YmwLXvtSgl2BA2mC@iweiny-desk3>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAJD7tkZxvmnrrjc4yAe5mC+SL-MZqMkn21yjetiLYyq0B=AhtA@mail.gmail.com>
+In-Reply-To: <YmwLXvtSgl2BA2mC@iweiny-desk3>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 24-05-22 12:01:01, Yosry Ahmed wrote:
-> On Tue, May 24, 2022 at 4:45 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
-> >
-> > On Mon, May 23, 2022 at 03:50:34PM -0700, Yosry Ahmed wrote:
-> > > I think it might be useful to have a dedicated entry in memory.stat
-> > > for proactively reclaimed memory. A case where this would be useful is
-> > > tuning and evaluating userspace proactive reclaimers. For instance, if
-> > > a userspace agent is asking the kernel to reclaim 100M, but it could
-> > > only reclaim 10M, then most probably the proactive reclaimer is not
-> > > using a good methodology to figure out how much memory do we need to
-> > > reclaim.
-> > >
-> > > IMO this is more useful, and a superset of just reading the last
-> > > reclaim request status through memory.reclaim (read stat before and
-> > > after).
-> >
-> > +1
+On 2022-04-29 08:59:26 [-0700], Ira Weiny wrote:
+> I think some discussion needs to happen around this API.
 > 
-> It might also be useful to have a breakdown of this by memory type:
-> file, anon, or shrinkers.
-> 
-> It would also fit in nicely with a potential type=file/anon/shrinker
-> argument to memory.reclaim. Thoughts on this?
+> Highmem has little use.  I don't think anyone disagrees with Linus there.
+> (Although I think there are still a few users out there.)
 
-Can we start simple and see what real usecases actually will need? 
--- 
-Michal Hocko
-SUSE Labs
+arm32 is still built and they have sometimes 1 - 2 GiB of memory.
+
+> kmap may be a poor name for an API without the highmem functionality.  But
+> perhaps not.  One could interpret it to mean simply getting the kernel mapping
+> of the page rather than creating one.  After all that is what 64bit has done
+> all along.
+> 
+> This interpretation helps when you consider features which attempt to layer the
+> direct map with additional protections like PKS.[1]  Those protections mean
+> that a simple page_address() is insufficient to access the direct map.
+> 
+> As far as calling kmap() and kmap_atomic() deprecated I'm ok with that if the
+> community is.
+> 
+> The current kmap() call sites need work and Fabio's work on auditing them is
+> extremely helpful.  That said, if we officially deprecate kmap_atomic() then
+> those sites could be added to the list for rework.
+
+Maybe I oversee something obvious but there is no problem with removing
+kmap_atomic*() and keeping only kmap_local*() around, is there?
+I never intended to deprecated kmap(), only kmap_atomic*() in favour of
+kmap_local*().
+
+> Ira
+
+Sebastian
