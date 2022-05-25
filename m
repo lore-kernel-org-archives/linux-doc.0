@@ -2,108 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6501C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 13:50:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBD56C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 14:34:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229779AbiEYNuR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 May 2022 09:50:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46824 "EHLO
+        id S229707AbiEYOeO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 May 2022 10:34:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244596AbiEYNuQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 09:50:16 -0400
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACEA03584D;
-        Wed, 25 May 2022 06:50:15 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-300628e76f3so8260657b3.12;
-        Wed, 25 May 2022 06:50:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=D7pNBXTzwb2NC+1B3pkw6XahPKXPrihCDQqGfh0Wnzo=;
-        b=UDr7JM9Zp9EaPbB6flSIhtvB2rBN91LXcTY6rg/XNnEmkypBFmx8VaTIPQWW7V8ljq
-         wo0gjJ8H82RLcuAuAp61ucpo/HIOlDaFBawgJ97i/2HsqrfRjL9czqv5LJDN0NmSwaQM
-         Fzz7epy4GXkt3VAR36Jb+cAbHG4vkJDiUjSnw588eCXVvbFMo43fkZd7K97uY5S3VU7T
-         bCUNYDZbsjmD5a49QjGwRayassCze0fNleUcVCuSgR1vNt5cNbGeA19EQoXkjCYqUFzw
-         vZLKNq5tnPuEX03Mijp75rOZ+5QG3KPuKjO2QLLbfG4l7Xq3EtFGNyVKRR9xkwXaDZ56
-         AHAg==
-X-Gm-Message-State: AOAM532xuiA1s+IhedFnUiIIb/k6AvbWzyRRzdLLPJxt5JqOpzPELD/D
-        awreOjGkSXDody8TroDrslNsU1tLqzuAXdBwspkY56N+
-X-Google-Smtp-Source: ABdhPJweqWSCLXeXw+r+GeogMl1WGgJ5ajSlE51Ud/iUBvqvwf0bA2VMSP4GcN/QX3cCdkBu3ImXYBXI9ubr+DisxJk=
-X-Received: by 2002:a81:87c4:0:b0:2ff:c5dc:72b9 with SMTP id
- x187-20020a8187c4000000b002ffc5dc72b9mr19519391ywf.19.1653486614968; Wed, 25
- May 2022 06:50:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220523181655.2352470-1-srinivas.pandruvada@linux.intel.com>
-In-Reply-To: <20220523181655.2352470-1-srinivas.pandruvada@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 25 May 2022 15:50:04 +0200
-Message-ID: <CAJZ5v0je=rTPG+y-CSd=mi4RTbOq2zni7-1SdKmbNadhUUihCA@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: admin-guide: pm: Add Out of Band mode
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        with ESMTP id S237558AbiEYOeN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 10:34:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F498A7E20;
+        Wed, 25 May 2022 07:34:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F419F6195D;
+        Wed, 25 May 2022 14:34:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22B91C385B8;
+        Wed, 25 May 2022 14:34:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653489251;
+        bh=jKMXS9Z2wSf/iYiPIqP+VUf/M/S8DyVS0usjv1+qV2c=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=ltGVKF9ILk+J3qDoXXxbOxuefxDlIeGH5cypEsKhRPY5BnK8naQBWLrJn1aWrkPny
+         HcqttzfzqxJilDJv+SOlZl4pTjpU+vwO5RCUmd9Yw+yQaOCjZ6W9AH+7VXbI8X2X2p
+         hwem9EMNKPwJ3vW+IW0uTscg+pY1KKTtZp5TIceRFt6eNSzGW+UZsiCt22qcRP+OV/
+         eZLIAszeyj+0rWh0zPUPkwZySV7RgtOxnHt+hYHF+ggHwtWIMSq7Gb4XbUwAfNVaSI
+         chxWV3rYlzngrCzUkeOZvYKJMHmjz4L9L9t1wmTuyCS3c7vfToXNFBM9TDRP8yOSaJ
+         QSjcECuuOlYew==
+Date:   Wed, 25 May 2022 09:34:09 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Jiri Slaby <jirislaby@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>, Len Brown <lenb@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Prarit Bhargava <prarit@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "Michael S . Tsirkin" <mst@redhat.com>, llvm@lists.linux.dev,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bjorn Helgaas <bhelgaas@google.com>
+Subject: Re: [PATCH v2 1/2] linux/types.h: Remove unnecessary __bitwise__
+Message-ID: <20220525143409.GA292780@bhelgaas>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b5c0a68d-8387-4909-beea-f70ab9e6e3d5@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 23, 2022 at 8:17 PM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> Update documentation for using the tool to support performance level
-> change via OOB (Out of Band) interface.
->
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> ---
-> v2:
-> As suggested by Jonathan
-> - Indent literal block
-> - Show output of command
->
->  .../admin-guide/pm/intel-speed-select.rst     | 22 +++++++++++++++++++
->  1 file changed, 22 insertions(+)
->
-> diff --git a/Documentation/admin-guide/pm/intel-speed-select.rst b/Documentation/admin-guide/pm/intel-speed-select.rst
-> index 0a1fbdb54bfe..a2bfb971654f 100644
-> --- a/Documentation/admin-guide/pm/intel-speed-select.rst
-> +++ b/Documentation/admin-guide/pm/intel-speed-select.rst
-> @@ -262,6 +262,28 @@ Which shows that the base frequency now increased from 2600 MHz at performance
->  level 0 to 2800 MHz at performance level 4. As a result, any workload, which can
->  use fewer CPUs, can see a boost of 200 MHz compared to performance level 0.
->
-> +Changing performance level via BMC Interface
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +It is possible to change SST-PP level using out of band (OOB) agent (Via some
-> +remote management console, through BMC "Baseboard Management Controller"
-> +interface). This mode is supported from the Sapphire Rapids processor
-> +generation. The kernel and tool change to support this mode is added to Linux
-> +kernel version 5.18. To enable this feature, kernel config
-> +"CONFIG_INTEL_HFI_THERMAL" is required. The minimum version of the tool
-> +is "v1.12" to support this feature, which is part of Linux kernel version 5.18.
-> +
-> +To support such configuration, this tool can be used as a daemon. Add
-> +a command line option --oob::
-> +
-> + # intel-speed-select --oob
-> + Intel(R) Speed Select Technology
-> + Executing on CPU model:143[0x8f]
-> + OOB mode is enabled and will run as daemon
-> +
-> +In this mode the tool will online/offline CPUs based on the new performance
-> +level.
-> +
->  Check presence of other Intel(R) SST features
->  ---------------------------------------------
->
-> --
+On Wed, May 25, 2022 at 08:51:29AM +0200, Jiri Slaby wrote:
+> On 15. 03. 22, 16:30, Bjorn Helgaas wrote:
+> > From: Bjorn Helgaas <bhelgaas@google.com>
+> > 
+> > There are no users of "__bitwise__" except the definition of "__bitwise".
+> > Remove __bitwise__ and define __bitwise directly.
+> > 
+> > This is a follow-up to 05de97003c77 ("linux/types.h: enable endian checks
+> > for all sparse builds").
+> > 
+> > Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+> > Cc: Michael S. Tsirkin <mst@redhat.com>
+> > ---
+> >   include/uapi/linux/types.h  | 5 ++---
+> >   tools/include/linux/types.h | 5 ++---
+> >   2 files changed, 4 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/include/uapi/linux/types.h b/include/uapi/linux/types.h
+> > index f6d2f83cbe29..71696f424ac8 100644
+> > --- a/include/uapi/linux/types.h
+> > +++ b/include/uapi/linux/types.h
+> > @@ -20,11 +20,10 @@
+> >    */
+> >   #ifdef __CHECKER__
+> > -#define __bitwise__ __attribute__((bitwise))
+> > +#define __bitwise	__attribute__((bitwise))
+> >   #else
+> > -#define __bitwise__
+> > +#define __bitwise
+> >   #endif
+> > -#define __bitwise __bitwise__
+> 
+> Hi,
+> 
+> this broke userspace, like open-iscsi:
+> > [   34s] In file included from session_info.h:9,
+> > [   34s]                  from iscsi_util.c:38:
+> > [   34s] ../include/iscsi_proto.h:66:30: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'itt_t'
+> > [   34s]    66 | typedef uint32_t __bitwise__ itt_t;
+> > [   34s]       |                              ^~~~~
+> 
+> It looks like we need __bitwise__ back.
 
-Applied as 5.19-rc material, thanks!
+Crap, sorry.  I don't know why I thought it would be safe to remove
+something from uapi.  I'll send a revert.
+
+Bjorn
