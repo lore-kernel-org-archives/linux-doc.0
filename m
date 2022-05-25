@@ -2,110 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D72B7C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 06:51:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31162C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 07:12:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233403AbiEYGvl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 May 2022 02:51:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42530 "EHLO
+        id S244269AbiEYHM0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 May 2022 03:12:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243504AbiEYGve (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 02:51:34 -0400
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B476252A6;
-        Tue, 24 May 2022 23:51:33 -0700 (PDT)
-Received: by mail-wr1-f52.google.com with SMTP id f2so28752790wrc.0;
-        Tue, 24 May 2022 23:51:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=qIXc7ckxpaycTNNbZsrqsqmLIc4KjcKf1nyaCXgDayU=;
-        b=uL12SN4RH3iInFIny8QWfzSS2oI2DLQt15tNAqna5tkEyTJgJbWPi8ubPUABYk0aWQ
-         6UYA+HdNGhXrf3m00xvfuUlkLtSJxjy7/9jUo9ITcsjZpUbYnShI6w+4tee/Wvb707Vj
-         Kf855Wgqc2wpEzewM7slRBOWgzuYN7Z5gVnk1a4wctPGMMDCWf2tCkP930X4hFFvUF3B
-         aL70Dzbqq0fmly+53gEIRUd+2cYE+BUhH1YVpiH3gVxHQ1jNw+PpchuFA7zsRV08v8GO
-         SRBYhfiCELdHPMdWbdQkqrExixY3yMD+o45ja//6TTQ870XL69B8wATsVM+Cahts8l6Y
-         tdQQ==
-X-Gm-Message-State: AOAM531RHl/bDF4I3knEP+7Gu3NsGCjIZ8vbnc2Gch5jeKAgcDtinylI
-        VPlBtkI5K1eIFR8x/NNKhNMRbqU0C6KVjw==
-X-Google-Smtp-Source: ABdhPJzjgBw8F3g0LVeI/WFTG/JhCJXju5CTp4OT98sW0FAjmZZeiN2PfdDBVCtCtRFQm0oaJnvsew==
-X-Received: by 2002:a05:6000:1861:b0:20f:c91e:bd3b with SMTP id d1-20020a056000186100b0020fc91ebd3bmr15504720wri.705.1653461491247;
-        Tue, 24 May 2022 23:51:31 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
-        by smtp.gmail.com with ESMTPSA id l8-20020a05600002a800b0020cd8f1d25csm1471671wry.8.2022.05.24.23.51.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 May 2022 23:51:30 -0700 (PDT)
-Message-ID: <b5c0a68d-8387-4909-beea-f70ab9e6e3d5@kernel.org>
-Date:   Wed, 25 May 2022 08:51:29 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 1/2] linux/types.h: Remove unnecessary __bitwise__
-Content-Language: en-US
-To:     Bjorn Helgaas <helgaas@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
+        with ESMTP id S238372AbiEYHMF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 03:12:05 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCBA95FDB;
+        Wed, 25 May 2022 00:12:03 -0700 (PDT)
+Date:   Wed, 25 May 2022 09:11:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1653462718;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+orsWNjWtAwiggB87niLJ7T2vo66GNbCnC4aWo769UQ=;
+        b=tXIaQWvesmewK1SQvqwWgjKsyAyyIrLjEanwcNAy2h/P5FMGq/kJgWZClGgDeKmANuYAkW
+        6I7SL146oVeYMmgPOm/K/5ULiZwNsVMQKo5zuy5USu5ms+bQvLeomBnv/Y7RF7ep6r43Fg
+        yrE+GteNpeB84vc7KB5yHCiGDGSLxpJF9n26BehK7VVK2KwTS1qiOtnBNXBBg3s07zq9LZ
+        QuC90oOJFyjhHJqpIG4b7pe7LqIsPAYDmbR2tbrm4G6CKN84jA5eTlcpkoSp3W47VVgETh
+        utsXLbJ9WiKBewsE1+4q4+5PmLVYRznaktasLTJPtcPFwgqlSj1UxEdIbhT9hg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1653462718;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+orsWNjWtAwiggB87niLJ7T2vo66GNbCnC4aWo769UQ=;
+        b=1vNUO3Dakuo2lI9Z/n9vsWIZ8Loex9gUHN2zaefzYBYblmfryFJ25az2ZrOSX+XZBIv9t6
+        eUlvctYCzDyGwvCQ==
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     Saravana Kannan <saravanak@google.com>
 Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>, llvm@lists.linux.dev,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rob Herring <robh@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Will Deacon <will@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
+        iommu@lists.linux-foundation.org, kernel-team@android.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>
-References: <20220315153048.621328-1-helgaas@kernel.org>
- <20220315153048.621328-2-helgaas@kernel.org>
-From:   Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <20220315153048.621328-2-helgaas@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        linux-s390@vger.kernel.org, John Stultz <jstultz@google.com>
+Subject: Re: [PATCH v1] driver core: Extend deferred probe timeout on driver
+ registration
+Message-ID: <Yo3WvGnNk3LvLb7R@linutronix.de>
+References: <YogkhvFGVcjNQ21Z@dev-arch.thelio-3990X>
+ <CAGETcx9nvBs1b4M=2hBhrLX_2-rzLtAmV9WfTXu0MC7JnsBvwA@mail.gmail.com>
+ <YogsiMCDupNUhMgL@dev-fedora.thelio-3990X>
+ <CAGETcx-JyWwoGA3o8eep7E29Cm4DcVT6D1JFJh72jLcqm_mjCQ@mail.gmail.com>
+ <Youleo3Ganxbc1sq@dev-arch.thelio-3990X>
+ <CAGETcx-sL08h2toEyxY6ztc6xNuJiPok6iDEeuJ1mOA3nvE+vA@mail.gmail.com>
+ <YowHNo4sBjr9ijZr@dev-arch.thelio-3990X>
+ <CAGETcx91_WgpmwEA7mBSvUdyJV0a8ymfaNKTmXq=mAJYAjzq1A@mail.gmail.com>
+ <Yo0KyWx+3oX3cMCS@linutronix.de>
+ <CAGETcx_qTLwbjzMruLThLYV+MZD5W2Ox-QwLFQeW=eQgxzq-Hw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAGETcx_qTLwbjzMruLThLYV+MZD5W2Ox-QwLFQeW=eQgxzq-Hw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15. 03. 22, 16:30, Bjorn Helgaas wrote:
-> From: Bjorn Helgaas <bhelgaas@google.com>
-> 
-> There are no users of "__bitwise__" except the definition of "__bitwise".
-> Remove __bitwise__ and define __bitwise directly.
-> 
-> This is a follow-up to 05de97003c77 ("linux/types.h: enable endian checks
-> for all sparse builds").
-> 
-> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> ---
->   include/uapi/linux/types.h  | 5 ++---
->   tools/include/linux/types.h | 5 ++---
->   2 files changed, 4 insertions(+), 6 deletions(-)
-> 
-> diff --git a/include/uapi/linux/types.h b/include/uapi/linux/types.h
-> index f6d2f83cbe29..71696f424ac8 100644
-> --- a/include/uapi/linux/types.h
-> +++ b/include/uapi/linux/types.h
-> @@ -20,11 +20,10 @@
->    */
->   
->   #ifdef __CHECKER__
-> -#define __bitwise__ __attribute__((bitwise))
-> +#define __bitwise	__attribute__((bitwise))
->   #else
-> -#define __bitwise__
-> +#define __bitwise
->   #endif
-> -#define __bitwise __bitwise__
+On 2022-05-24 10:46:49 [-0700], Saravana Kannan wrote:
+> > Removing probe_timeout_waitqueue (as suggested) or setting the timeout
+> > to 0 avoids the delay.
+>=20
+> In your case, I think it might be working as intended? Curious, what
+> was the call stack in your case where it was blocked?
 
-Hi,
+Why is then there 10sec delay during boot? The backtrace is
+|------------[ cut here ]------------
+|WARNING: CPU: 4 PID: 1 at drivers/base/dd.c:742 wait_for_device_probe+0x30=
+/0x110
+|Modules linked in:
+|CPU: 4 PID: 1 Comm: swapper/0 Not tainted 5.18.0-rc5+ #154
+|RIP: 0010:wait_for_device_probe+0x30/0x110
+|Call Trace:
+| <TASK>
+| prepare_namespace+0x2b/0x160
+| kernel_init_freeable+0x2b3/0x2dd
+| kernel_init+0x11/0x110
+| ret_from_fork+0x22/0x30
+| </TASK>
 
-this broke userspace, like open-iscsi:
-> [   34s] In file included from session_info.h:9,
-> [   34s]                  from iscsi_util.c:38:
-> [   34s] ../include/iscsi_proto.h:66:30: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'itt_t'
-> [   34s]    66 | typedef uint32_t __bitwise__ itt_t;
-> [   34s]       |                              ^~~~~
+Looking closer, it can't access init. This in particular box boots
+directly the kernel without an initramfs so the kernel later mounts
+/dev/sda1 and everything is good.  So that seems to be the reason=E2=80=A6
+My other machine with an initramfs does not show this problem.
 
-It looks like we need __bitwise__ back.
+> -Saravana
 
-thanks,
--- 
-js
-suse labs
+Sebastian
