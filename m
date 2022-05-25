@@ -2,93 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 247B4C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 09:34:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40830C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 10:06:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233034AbiEYJeX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 May 2022 05:34:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43442 "EHLO
+        id S231149AbiEYKGS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 May 2022 06:06:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230165AbiEYJeW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 05:34:22 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B28218A326;
-        Wed, 25 May 2022 02:34:20 -0700 (PDT)
-Date:   Wed, 25 May 2022 11:34:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1653471258;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3BDuC1M83okFLvS1+Asx6My6EAgtEJl/fGn/qK8yy/g=;
-        b=OGX1WV45bkvE5/HLctakku/QnFGGlxFmrDE89NZh2h/+AgW3yKIMbGkk0+oaILwP+fEEfL
-        ss4sCljtOrbb0tBkvaueEOnKZHvo/uxNAeMwyVHG0fkM3R2pZuQ79wBw4ywsuCD1jyEL71
-        mVPnujD4GT80b7ZoWy7KZjQo+G1taafoMb8KObT0PBSIdu6wNnBiNYge0U11LN04fs3Onh
-        qhXvoSxivTj+mC8kX2GZrEnZj0wjbwEb9KMbs8ANyzYSSaVtcyA6cJ/kFppswPIr3CTMpw
-        fX5yX8DEXP6kk9ezmd/jIdcnyMZ+qxpKwCMO2jb0D05KrIabjjWy0/rzQ9t4yw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1653471258;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3BDuC1M83okFLvS1+Asx6My6EAgtEJl/fGn/qK8yy/g=;
-        b=ezgKY9Z5IoxbTrMK1PmZCuUtUK2dBS8xPqNlDTOSSY7eKcDOeP75DkrhUHFHje1x44zL3I
-        pvTxMSjSobVHDBCg==
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To:     Ira Weiny <ira.weiny@intel.com>
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Collingbourne <pcc@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        outreachy@lists.linux.dev,
-        "Acked-by : Mike Rapoport" <rppt@linux.ibm.com>
-Subject: Re: [PATCH v2 1/4] mm/highmem: Fix kernel-doc warnings in highmem*.h
-Message-ID: <Yo34GGK62yVkPzZy@linutronix.de>
-References: <20220425162400.11334-1-fmdefrancesco@gmail.com>
- <20220425162400.11334-2-fmdefrancesco@gmail.com>
- <YmeYzKT8Ikq5SfdE@linutronix.de>
- <YmwLXvtSgl2BA2mC@iweiny-desk3>
+        with ESMTP id S230271AbiEYKGR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 06:06:17 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0A7CE18B10;
+        Wed, 25 May 2022 03:06:17 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B72851FB;
+        Wed, 25 May 2022 03:06:16 -0700 (PDT)
+Received: from [10.57.38.12] (unknown [10.57.38.12])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 103723F73D;
+        Wed, 25 May 2022 03:06:14 -0700 (PDT)
+Message-ID: <8fed7c83-40ad-065a-847f-1faa491d44a0@arm.com>
+Date:   Wed, 25 May 2022 11:06:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YmwLXvtSgl2BA2mC@iweiny-desk3>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.0
+Subject: Re: [PATCH v3 0/4] coresight: Add config flag to enable branch
+ broadcast
+To:     James Clark <james.clark@arm.com>, mathieu.poirier@linaro.org,
+        coresight@lists.linaro.org, mike.leach@linaro.org
+Cc:     leo.yan@linaro.com, Leo Yan <leo.yan@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220511144601.2257870-1-james.clark@arm.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20220511144601.2257870-1-james.clark@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-04-29 08:59:26 [-0700], Ira Weiny wrote:
-> I think some discussion needs to happen around this API.
+Hi James,
+
+
+
+On 11/05/2022 15:45, James Clark wrote:
+> Apologies for the delay.
 > 
-> Highmem has little use.  I don't think anyone disagrees with Linus there.
-> (Although I think there are still a few users out there.)
-
-arm32 is still built and they have sometimes 1 - 2 GiB of memory.
-
-> kmap may be a poor name for an API without the highmem functionality.  But
-> perhaps not.  One could interpret it to mean simply getting the kernel mapping
-> of the page rather than creating one.  After all that is what 64bit has done
-> all along.
+> Changes since v2:
 > 
-> This interpretation helps when you consider features which attempt to layer the
-> direct map with additional protections like PKS.[1]  Those protections mean
-> that a simple page_address() is insufficient to access the direct map.
+>   * Pick up some of Mike's review tags
+>   * Add a comment explaining rationale for not opening the event when BB isn't
+>     supported
+>   * Extend docs to say that Perf doesn't support decode when binaries are
+>     modified
+>   * Drop Perf side patches that were already merged
 > 
-> As far as calling kmap() and kmap_atomic() deprecated I'm ok with that if the
-> community is.
+> Thanks
+> James
 > 
-> The current kmap() call sites need work and Fabio's work on auditing them is
-> extremely helpful.  That said, if we officially deprecate kmap_atomic() then
-> those sites could be added to the list for rework.
+> James Clark (4):
+>    coresight: Add config flag to enable branch broadcast
+>    Documentation: coresight: Turn numbered subsections into real
+>      subsections
+>    Documentation: coresight: Link config options to existing
+>      documentation
+>    Documentation: coresight: Expand branch broadcast documentation
 
-Maybe I oversee something obvious but there is no problem with removing
-kmap_atomic*() and keeping only kmap_local*() around, is there?
-I never intended to deprecated kmap(), only kmap_atomic*() in favour of
-kmap_local*().
 
-> Ira
+The series looks good to me. Apologies, this missed the 5.19 window.
+I will queue this for 5.20 at -rc1.
 
-Sebastian
+
+Suzuki
+
+> 
+>   .../coresight/coresight-etm4x-reference.rst   | 17 +++++-
+>   Documentation/trace/coresight/coresight.rst   | 56 +++++++++++++++++--
+>   .../hwtracing/coresight/coresight-etm-perf.c  |  2 +
+>   .../coresight/coresight-etm4x-core.c          | 14 +++++
+>   include/linux/coresight-pmu.h                 |  2 +
+>   5 files changed, 85 insertions(+), 6 deletions(-)
+> 
+
