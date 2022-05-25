@@ -2,110 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31162C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 07:12:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4C17C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 08:18:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244269AbiEYHM0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 May 2022 03:12:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54450 "EHLO
+        id S229680AbiEYISB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 May 2022 04:18:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238372AbiEYHMF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 03:12:05 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCBA95FDB;
-        Wed, 25 May 2022 00:12:03 -0700 (PDT)
-Date:   Wed, 25 May 2022 09:11:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1653462718;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=+orsWNjWtAwiggB87niLJ7T2vo66GNbCnC4aWo769UQ=;
-        b=tXIaQWvesmewK1SQvqwWgjKsyAyyIrLjEanwcNAy2h/P5FMGq/kJgWZClGgDeKmANuYAkW
-        6I7SL146oVeYMmgPOm/K/5ULiZwNsVMQKo5zuy5USu5ms+bQvLeomBnv/Y7RF7ep6r43Fg
-        yrE+GteNpeB84vc7KB5yHCiGDGSLxpJF9n26BehK7VVK2KwTS1qiOtnBNXBBg3s07zq9LZ
-        QuC90oOJFyjhHJqpIG4b7pe7LqIsPAYDmbR2tbrm4G6CKN84jA5eTlcpkoSp3W47VVgETh
-        utsXLbJ9WiKBewsE1+4q4+5PmLVYRznaktasLTJPtcPFwgqlSj1UxEdIbhT9hg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1653462718;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=+orsWNjWtAwiggB87niLJ7T2vo66GNbCnC4aWo769UQ=;
-        b=1vNUO3Dakuo2lI9Z/n9vsWIZ8Loex9gUHN2zaefzYBYblmfryFJ25az2ZrOSX+XZBIv9t6
-        eUlvctYCzDyGwvCQ==
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rob Herring <robh@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
-        iommu@lists.linux-foundation.org, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, John Stultz <jstultz@google.com>
-Subject: Re: [PATCH v1] driver core: Extend deferred probe timeout on driver
- registration
-Message-ID: <Yo3WvGnNk3LvLb7R@linutronix.de>
-References: <YogkhvFGVcjNQ21Z@dev-arch.thelio-3990X>
- <CAGETcx9nvBs1b4M=2hBhrLX_2-rzLtAmV9WfTXu0MC7JnsBvwA@mail.gmail.com>
- <YogsiMCDupNUhMgL@dev-fedora.thelio-3990X>
- <CAGETcx-JyWwoGA3o8eep7E29Cm4DcVT6D1JFJh72jLcqm_mjCQ@mail.gmail.com>
- <Youleo3Ganxbc1sq@dev-arch.thelio-3990X>
- <CAGETcx-sL08h2toEyxY6ztc6xNuJiPok6iDEeuJ1mOA3nvE+vA@mail.gmail.com>
- <YowHNo4sBjr9ijZr@dev-arch.thelio-3990X>
- <CAGETcx91_WgpmwEA7mBSvUdyJV0a8ymfaNKTmXq=mAJYAjzq1A@mail.gmail.com>
- <Yo0KyWx+3oX3cMCS@linutronix.de>
- <CAGETcx_qTLwbjzMruLThLYV+MZD5W2Ox-QwLFQeW=eQgxzq-Hw@mail.gmail.com>
+        with ESMTP id S229469AbiEYISB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 04:18:01 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2258721E26
+        for <linux-doc@vger.kernel.org>; Wed, 25 May 2022 01:18:00 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ntmDN-0003yz-PR; Wed, 25 May 2022 10:17:57 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ntmDN-004QdI-JR; Wed, 25 May 2022 10:17:56 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ntmDL-00BzPy-Kv; Wed, 25 May 2022 10:17:55 +0200
+Date:   Wed, 25 May 2022 10:17:54 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@pengutronix.de,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2] clk: expand clk_ignore_unused mechanism to keep only
+ a few clks on
+Message-ID: <20220525081754.5uj5fpwloq4gdi6o@pengutronix.de>
+References: <20210819121403.337833-1-u.kleine-koenig@pengutronix.de>
+ <20210922081549.kit3lsek7lh6w6ji@pengutronix.de>
+ <20211014154307.eb3y3sh5lca4426t@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="n6ctod4vy3mwlh6p"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAGETcx_qTLwbjzMruLThLYV+MZD5W2Ox-QwLFQeW=eQgxzq-Hw@mail.gmail.com>
+In-Reply-To: <20211014154307.eb3y3sh5lca4426t@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-05-24 10:46:49 [-0700], Saravana Kannan wrote:
-> > Removing probe_timeout_waitqueue (as suggested) or setting the timeout
-> > to 0 avoids the delay.
+
+--n6ctod4vy3mwlh6p
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Oct 14, 2021 at 05:43:07PM +0200, Uwe Kleine-K=F6nig wrote:
+> Hello,
 >=20
-> In your case, I think it might be working as intended? Curious, what
-> was the call stack in your case where it was blocked?
+> On Wed, Sep 22, 2021 at 10:15:49AM +0200, Uwe Kleine-K=F6nig wrote:
+> > On Thu, Aug 19, 2021 at 02:14:03PM +0200, Uwe Kleine-K=F6nig wrote:
+> > > Allow to pass an integer n that results in only keeping n unused cloc=
+ks
+> > > enabled.
+> > >=20
+> > > This helps to debug the problem if you only know that clk_ignore_unus=
+ed
+> > > helps but you have no clue yet which clock is the culprit.
+> > >=20
+> > > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> >=20
+> > I consider this patch really helpful, it helped me to debug a clk issue
+> > without having to recompile the kernel for each bisection step.
+> >=20
+> > On #kernelnewbies I got some positive feedback for it (1629304050 < j_e=
+y>
+> > ukleinek: nice clk_ignore_unused patch, I added a pr_err there recently
+> > to print the clocks that were being disabled).
+>=20
+> Any thoughts on this patch? Would be great if it makes it into the next
+> merge window.
 
-Why is then there 10sec delay during boot? The backtrace is
-|------------[ cut here ]------------
-|WARNING: CPU: 4 PID: 1 at drivers/base/dd.c:742 wait_for_device_probe+0x30=
-/0x110
-|Modules linked in:
-|CPU: 4 PID: 1 Comm: swapper/0 Not tainted 5.18.0-rc5+ #154
-|RIP: 0010:wait_for_device_probe+0x30/0x110
-|Call Trace:
-| <TASK>
-| prepare_namespace+0x2b/0x160
-| kernel_init_freeable+0x2b3/0x2dd
-| kernel_init+0x11/0x110
-| ret_from_fork+0x22/0x30
-| </TASK>
+Back then I thought this patch could make it into 5.16, now 5.18 is
+released and i didn't get any feedback on this patch :-\
 
-Looking closer, it can't access init. This in particular box boots
-directly the kernel without an initramfs so the kernel later mounts
-/dev/sda1 and everything is good.  So that seems to be the reason=E2=80=A6
-My other machine with an initramfs does not show this problem.
+Best regards
+Uwe
 
-> -Saravana
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-Sebastian
+--n6ctod4vy3mwlh6p
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmKN5i8ACgkQwfwUeK3K
+7AljkQgAkPxmkCdzTrx38aQWmo1FA+3qUcUz8DlV8cCwaFxuSht+xuJfE0b7PSVQ
+7su58e+3KOCnsieaz49PnIK4+fa4PyW/If478cipJ043z7/u/GWz/ec1R1eDNl6u
+HWXlQlfRZX2v5QfDjwGkrSUsCLIVUw+m3vGBh1plrbzdMwselcj75J1xYx9fEUvU
+bpNEU3oAygvw6EzZFcNaCQugPrENtXtFCNgeezs86PCqwiIH7PbjGa/y/HXn4ZLe
+8X+Xm0QYTDG+JfVXjSf4Rssz9r5Xfo9pz3/f/dT1HSG33c9vG4sk9XgxfrK8yfE8
+uT8U678+a/zjYYMt6v++Lj3FwT10bg==
+=NN6A
+-----END PGP SIGNATURE-----
+
+--n6ctod4vy3mwlh6p--
