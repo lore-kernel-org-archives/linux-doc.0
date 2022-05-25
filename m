@@ -2,130 +2,286 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DA26C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 24 May 2022 22:51:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 044A0C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 01:07:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242482AbiEXWvA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 May 2022 18:51:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54402 "EHLO
+        id S241483AbiEYBHZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 May 2022 21:07:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241404AbiEXWuw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 May 2022 18:50:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 956AC663CC
-        for <linux-doc@vger.kernel.org>; Tue, 24 May 2022 15:50:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1653432650;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=BCd+QNLniNzlF6W7H/ca6kckSQBoa9VguXTAzz3osLE=;
-        b=Z7vLg+zV1JtJ9V3YcMKs/fnuwR4PZNKdNO35HkE7SkNZFG46Rf8uc2rEzNFRa3eO5k19Jb
-        6bvWpZGRklaNrgfy4Wq4XZftH1qcPduQnXbNP2Z6ISPlD6SoS6wt0jNHQj+h7YxYmiSF8T
-        TmkomxbAgetFQpUSqy3Adyjv3jjH4jA=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-631-pNP2-A4SNYa__UvuxTxVEw-1; Tue, 24 May 2022 18:50:49 -0400
-X-MC-Unique: pNP2-A4SNYa__UvuxTxVEw-1
-Received: by mail-io1-f70.google.com with SMTP id l3-20020a05660227c300b0065a8c141580so10631964ios.19
-        for <linux-doc@vger.kernel.org>; Tue, 24 May 2022 15:50:49 -0700 (PDT)
+        with ESMTP id S242960AbiEYBHZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 May 2022 21:07:25 -0400
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE5706EC7B;
+        Tue, 24 May 2022 18:07:23 -0700 (PDT)
+Received: by mail-oi1-x22c.google.com with SMTP id i66so23411478oia.11;
+        Tue, 24 May 2022 18:07:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=akyJ3eMCAM3VOmRdshXQ/0n8kw50DGr5XbOrDQl6ss4=;
+        b=JVTSo8shoRUGLP+njlNZ0/EcvVOb/hJ/S/tl8AZNMShjpwy+gYzjzxIkXzgmDBv+ao
+         JYQxGq00n3V3J6O4lKUGaMxic7QPJ6tY3qzlkza0oF9LBsquK1ddCQPfYTz3UNZ9xW3n
+         G8y2SCfTys2c39WV4h5h7H1/yujJnWVnLg4YhgW/0f8crOE9Mi60PFoRDiFqAKDjKrOI
+         arVkKw1P1BOIj4ScxticVXb47UCJitj17j4WlAo0R04eIqK93T0cHINd8ywhHS1q0j5l
+         22qkQonu2FLvng/cfrv+v1PEBr3vXL5vE/Mt/ny6UKDjdsX05DByhbiQwM85qMjCcnuQ
+         ZiJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=BCd+QNLniNzlF6W7H/ca6kckSQBoa9VguXTAzz3osLE=;
-        b=ApQ4FwHr/ezG3UkN9/UL9raDB6nsVg4M3lm6YsRLAo1slKpStK27jk7F0zdmXOUaAo
-         pSnaHmOQDfrUoApmf8ccNvIkXQcjN4HQqZkRpnYWm7AvPjjqSh/PPctq5XGw6RwZe5hA
-         sw2Xe7+3pNpk1XKp16eEDzQsVfGvoh+cvpZo+qfI6K1GrU2Ypbgw5P5BS/ph9jGNB1MJ
-         G/gQZrD8IsODyGtxaYXXea79U1uZFCw93jObjSplvWGZsGeHP0sfSI0SNm+nST3yBh2n
-         1YJ/AUW1rGNtX1VdLSuG3gxp81yrlHi97+mS7CrXCIs6GWldi7nMIy2Yu1pfBDaxhSTw
-         Rd3w==
-X-Gm-Message-State: AOAM532jkpZucGEHl3OEyB1plDYQDN8f19NO9CVH060ayyTJlLcBkbTQ
-        1RHdWXPpYS8Y2sUprJLkuoo4APtg7VIj/yjxWa6JT93hd8Ub2XMj0owY10/7TL1jixrmhA97GWg
-        4ITBYDcFhhRmnWb4yptax
-X-Received: by 2002:a02:bb19:0:b0:32e:8618:9f92 with SMTP id y25-20020a02bb19000000b0032e86189f92mr14374583jan.320.1653432648748;
-        Tue, 24 May 2022 15:50:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJznIk1GBgvr8+3XKsMI2OkYQ8lU6GD289skiZVi1Gf2Iw+kqvEFVkFnHIn2gX38ZBn0oWVREQ==
-X-Received: by 2002:a02:bb19:0:b0:32e:8618:9f92 with SMTP id y25-20020a02bb19000000b0032e86189f92mr14374574jan.320.1653432648498;
-        Tue, 24 May 2022 15:50:48 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239])
-        by smtp.gmail.com with ESMTPSA id q46-20020a027b2e000000b0032e43cb7344sm3731662jac.146.2022.05.24.15.50.47
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=akyJ3eMCAM3VOmRdshXQ/0n8kw50DGr5XbOrDQl6ss4=;
+        b=H00WpXd1miQyqlUeRoZPmUfvgYXOKmEH75McUh5AkGD1tHj01J0qMh5XpOJuLp1Ok5
+         Ub0RVQRdBHqdZDgt47/g4ftGv+6pK1D2AWToIBuIrcsqXQwZeqNWK+irbFf7Ng3SbWSB
+         rzpiDeDDwIB5fX741e2fan/ZECfVKxuQjbejGE+vwTqIi2bv10cpH+rmx+M7QUDoRId8
+         6PmFNeSxMiPU2CPekXwsxuNn+fAZdJSZQj2ed4GEqi9Kr1i+NYxM1fQGCdKtUrAuM/RT
+         pKpygpV1TJIZghxo/evVlvSozaWiWjHRLDGfC8LA+IQO30Ci3aJrsksAyL+3VYp8+rMA
+         PhwA==
+X-Gm-Message-State: AOAM5334nv7vj0nYc/6v1HCklgnGxjJ52+u0MgZ8kVLgSV8FipTe69k4
+        tz7oIsO+ndCa1fy85UH4OPdvFzZqQxm/wA==
+X-Google-Smtp-Source: ABdhPJzfI4edgskSY0YWZEB9GYX2e8QW3zPtN40pwAUC/qJh9p+hMaZV000flkkbD38TCwAiJP8VCA==
+X-Received: by 2002:a05:6808:344:b0:32a:f6d8:82cc with SMTP id j4-20020a056808034400b0032af6d882ccmr4008457oie.200.1653440842804;
+        Tue, 24 May 2022 18:07:22 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id bb6-20020a056820160600b0040e8c09f99dsm3096134oob.23.2022.05.24.18.07.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 May 2022 15:50:48 -0700 (PDT)
-Date:   Tue, 24 May 2022 16:50:46 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Matthew Rosato <mjrosato@linux.ibm.com>
-Cc:     linux-s390@vger.kernel.org, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        jgg@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 11/22] KVM: s390: pci: add basic kvm_zdev structure
-Message-ID: <20220524165046.69f0d84a.alex.williamson@redhat.com>
-In-Reply-To: <20220524185907.140285-12-mjrosato@linux.ibm.com>
-References: <20220524185907.140285-1-mjrosato@linux.ibm.com>
-        <20220524185907.140285-12-mjrosato@linux.ibm.com>
-Organization: Red Hat
+        Tue, 24 May 2022 18:07:22 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     linux-hwmon@vger.kernel.org
+Cc:     Jean Delvare <jdelvare@suse.com>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH v2 1/3] hwmon: (pmbus) Add IEEE 754 half precision support to PMBus core
+Date:   Tue, 24 May 2022 18:07:15 -0700
+Message-Id: <20220525010717.4000736-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 24 May 2022 14:58:56 -0400
-Matthew Rosato <mjrosato@linux.ibm.com> wrote:
-> diff --git a/arch/s390/kvm/pci.c b/arch/s390/kvm/pci.c
-> new file mode 100644
-> index 000000000000..21c2be5c2713
-> --- /dev/null
-> +++ b/arch/s390/kvm/pci.c
-> @@ -0,0 +1,36 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * s390 kvm PCI passthrough support
-> + *
-> + * Copyright IBM Corp. 2022
-> + *
-> + *    Author(s): Matthew Rosato <mjrosato@linux.ibm.com>
-> + */
-> +
-> +#include <linux/kvm_host.h>
-> +#include <linux/pci.h>
-> +#include "pci.h"
-> +
-> +static int kvm_s390_pci_dev_open(struct zpci_dev *zdev)
-> +{
-> +	struct kvm_zdev *kzdev;
-> +
-> +	kzdev = kzalloc(sizeof(struct kvm_zdev), GFP_KERNEL);
-> +	if (!kzdev)
-> +		return -ENOMEM;
-> +
-> +	kzdev->zdev = zdev;
-> +	zdev->kzdev = kzdev;
-> +
-> +	return 0;
-> +}
-> +
-> +static void kvm_s390_pci_dev_release(struct zpci_dev *zdev)
-> +{
-> +	struct kvm_zdev *kzdev;
-> +
-> +	kzdev = zdev->kzdev;
-> +	WARN_ON(kzdev->zdev != zdev);
-> +	zdev->kzdev = 0;
+Add support for the IEEE 754 half precision data format as specified
+in PMBus v1.3.1.
 
-I imagine this should be s/0/NULL/, right?  I feel like there was a
-recent similar discussion, but I can't think of any unique search terms
-to sort it out of my inbox.  Thanks,
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+v2: Rebased to v5.18+
 
-Alex
+ drivers/hwmon/pmbus/pmbus.h      |   2 +-
+ drivers/hwmon/pmbus/pmbus_core.c | 142 ++++++++++++++++++++++++++++++-
+ 2 files changed, 139 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
+index c031a9700ace..c708b60c1b48 100644
+--- a/drivers/hwmon/pmbus/pmbus.h
++++ b/drivers/hwmon/pmbus/pmbus.h
+@@ -406,7 +406,7 @@ enum pmbus_sensor_classes {
+ #define PMBUS_PHASE_VIRTUAL	BIT(30)	/* Phases on this page are virtual */
+ #define PMBUS_PAGE_VIRTUAL	BIT(31)	/* Page is virtual */
+ 
+-enum pmbus_data_format { linear = 0, direct, vid };
++enum pmbus_data_format { linear = 0, ieee754, direct, vid };
+ enum vrm_version { vr11 = 0, vr12, vr13, imvp9, amd625mv };
+ 
+ struct pmbus_driver_info {
+diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
+index e670b868e74b..bb21f1e79289 100644
+--- a/drivers/hwmon/pmbus/pmbus_core.c
++++ b/drivers/hwmon/pmbus/pmbus_core.c
+@@ -611,6 +611,66 @@ static void pmbus_update_sensor_data(struct i2c_client *client, struct pmbus_sen
+ 						     sensor->phase, sensor->reg);
+ }
+ 
++/*
++ * Convert ieee754 sensor values to milli- or micro-units
++ * depending on sensor type.
++ *
++ * ieee754 data format:
++ *	bit 15:		sign
++ *	bit 10..14:	exponent
++ *	bit 0..9:	mantissa
++ * exponent=0:
++ *	v=(−1)^signbit * 2^(−14) * 0.significantbits
++ * exponent=1..30:
++ *	v=(−1)^signbit * 2^(exponent - 15) * 1.significantbits
++ * exponent=31:
++ *	v=NaN
++ *
++ * Add the number mantissa bits into the calculations for simplicity.
++ * To do that, add '10' to the exponent. By doing that, we can just add
++ * 0x400 to normal values and get the expected result.
++ */
++static long pmbus_reg2data_ieee754(struct pmbus_data *data,
++				   struct pmbus_sensor *sensor)
++{
++	int exponent;
++	bool sign;
++	long val;
++
++	/* only support half precision for now */
++	sign = sensor->data & 0x8000;
++	exponent = (sensor->data >> 10) & 0x1f;
++	val = sensor->data & 0x3ff;
++
++	if (exponent == 0) {			/* subnormal */
++		exponent = -(14 + 10);
++	} else if (exponent ==  0x1f) {		/* NaN, convert to min/max */
++		exponent = 0;
++		val = 65504;
++	} else {
++		exponent -= (15 + 10);		/* normal */
++		val |= 0x400;
++	}
++
++	/* scale result to milli-units for all sensors except fans */
++	if (sensor->class != PSC_FAN)
++		val = val * 1000L;
++
++	/* scale result to micro-units for power sensors */
++	if (sensor->class == PSC_POWER)
++		val = val * 1000L;
++
++	if (exponent >= 0)
++		val <<= exponent;
++	else
++		val >>= -exponent;
++
++	if (sign)
++		val = -val;
++
++	return val;
++}
++
+ /*
+  * Convert linear sensor values to milli- or micro-units
+  * depending on sensor type.
+@@ -741,6 +801,9 @@ static s64 pmbus_reg2data(struct pmbus_data *data, struct pmbus_sensor *sensor)
+ 	case vid:
+ 		val = pmbus_reg2data_vid(data, sensor);
+ 		break;
++	case ieee754:
++		val = pmbus_reg2data_ieee754(data, sensor);
++		break;
+ 	case linear:
+ 	default:
+ 		val = pmbus_reg2data_linear(data, sensor);
+@@ -749,8 +812,72 @@ static s64 pmbus_reg2data(struct pmbus_data *data, struct pmbus_sensor *sensor)
+ 	return val;
+ }
+ 
+-#define MAX_MANTISSA	(1023 * 1000)
+-#define MIN_MANTISSA	(511 * 1000)
++#define MAX_IEEE_MANTISSA	(0x7ff * 1000)
++#define MIN_IEEE_MANTISSA	(0x400 * 1000)
++
++static u16 pmbus_data2reg_ieee754(struct pmbus_data *data,
++				  struct pmbus_sensor *sensor, long val)
++{
++	u16 exponent = (15 + 10);
++	long mantissa;
++	u16 sign = 0;
++
++	/* simple case */
++	if (val == 0)
++		return 0;
++
++	if (val < 0) {
++		sign = 0x8000;
++		val = -val;
++	}
++
++	/* Power is in uW. Convert to mW before converting. */
++	if (sensor->class == PSC_POWER)
++		val = DIV_ROUND_CLOSEST(val, 1000L);
++
++	/*
++	 * For simplicity, convert fan data to milli-units
++	 * before calculating the exponent.
++	 */
++	if (sensor->class == PSC_FAN)
++		val = val * 1000;
++
++	/* Reduce large mantissa until it fits into 10 bit */
++	while (val > MAX_IEEE_MANTISSA && exponent < 30) {
++		exponent++;
++		val >>= 1;
++	}
++	/*
++	 * Increase small mantissa to generate valid 'normal'
++	 * number
++	 */
++	while (val < MIN_IEEE_MANTISSA && exponent > 1) {
++		exponent--;
++		val <<= 1;
++	}
++
++	/* Convert mantissa from milli-units to units */
++	mantissa = DIV_ROUND_CLOSEST(val, 1000);
++
++	/*
++	 * Ensure that the resulting number is within range.
++	 * Valid range is 0x400..0x7ff, where bit 10 reflects
++	 * the implied high bit in normalized ieee754 numbers.
++	 * Set the range to 0x400..0x7ff to reflect this.
++	 * The upper bit is then removed by the mask against
++	 * 0x3ff in the final assignment.
++	 */
++	if (mantissa > 0x7ff)
++		mantissa = 0x7ff;
++	else if (mantissa < 0x400)
++		mantissa = 0x400;
++
++	/* Convert to sign, 5 bit exponent, 10 bit mantissa */
++	return sign | (mantissa & 0x3ff) | ((exponent << 10) & 0x7c00);
++}
++
++#define MAX_LIN_MANTISSA	(1023 * 1000)
++#define MIN_LIN_MANTISSA	(511 * 1000)
+ 
+ static u16 pmbus_data2reg_linear(struct pmbus_data *data,
+ 				 struct pmbus_sensor *sensor, s64 val)
+@@ -796,12 +923,12 @@ static u16 pmbus_data2reg_linear(struct pmbus_data *data,
+ 		val = val * 1000LL;
+ 
+ 	/* Reduce large mantissa until it fits into 10 bit */
+-	while (val >= MAX_MANTISSA && exponent < 15) {
++	while (val >= MAX_LIN_MANTISSA && exponent < 15) {
+ 		exponent++;
+ 		val >>= 1;
+ 	}
+ 	/* Increase small mantissa to improve precision */
+-	while (val < MIN_MANTISSA && exponent > -15) {
++	while (val < MIN_LIN_MANTISSA && exponent > -15) {
+ 		exponent--;
+ 		val <<= 1;
+ 	}
+@@ -875,6 +1002,9 @@ static u16 pmbus_data2reg(struct pmbus_data *data,
+ 	case vid:
+ 		regval = pmbus_data2reg_vid(data, sensor, val);
+ 		break;
++	case ieee754:
++		regval = pmbus_data2reg_ieee754(data, sensor, val);
++		break;
+ 	case linear:
+ 	default:
+ 		regval = pmbus_data2reg_linear(data, sensor, val);
+@@ -2369,6 +2499,10 @@ static int pmbus_identify_common(struct i2c_client *client,
+ 			if (data->info->format[PSC_VOLTAGE_OUT] != direct)
+ 				return -ENODEV;
+ 			break;
++		case 3:	/* ieee 754 half precision */
++			if (data->info->format[PSC_VOLTAGE_OUT] != ieee754)
++				return -ENODEV;
++			break;
+ 		default:
+ 			return -ENODEV;
+ 		}
+-- 
+2.35.1
 
