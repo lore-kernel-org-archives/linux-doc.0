@@ -2,116 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 184FDC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 16:02:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3685CC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 16:05:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238290AbiEYQCo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 May 2022 12:02:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56038 "EHLO
+        id S232929AbiEYQFq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 May 2022 12:05:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236553AbiEYQCn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 12:02:43 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1652C93993
-        for <linux-doc@vger.kernel.org>; Wed, 25 May 2022 09:02:42 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id gh17so29557904ejc.6
-        for <linux-doc@vger.kernel.org>; Wed, 25 May 2022 09:02:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lb8jI+HgCwwCo9V7MBgxPMSbhS6L6pVhhain2dWQdfw=;
-        b=SrcSxh5jk6TjzFY/hFo4GziSI+tKwhTA+Bvj+vAZBzjRzoe5Yq5yUQ8S6OgM7ow5UA
-         I1rF2QLtzS87ewjkBnw11tZEocdxf3LdCJ+RmmexCCKPZsRw7wjUq4DXjoL498yjLWPZ
-         rYUCkLMUhIDW61u3uDHvosCrwx9NoPonecdyQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lb8jI+HgCwwCo9V7MBgxPMSbhS6L6pVhhain2dWQdfw=;
-        b=CsBMq4qdd/b8+6K+eqgGpK502FrIQectFUUu2pTTSK3flRATCTEm0Wp/rxXMEgo4uj
-         uXPH/6cOaCSZ4nzeQPj+s35rvLQ2XdSUHLFm+HfII2XzApN97CQnBLMeCdgXu/3LEtVl
-         DfPI3Zac6m/hOi0C1bUzJJ2fzZvnMClDwRYtH9eN3MdAcz+y5Xae0TiJIhWbli7/jqNI
-         gzOMp6bI8yCiplSV6GH1bQpqkcgVwEnZJkOLWd2qBVx0Zc8JsyJUFsullhruGYOBKG01
-         XRBKR2Ilf248ZSavS6GDB9Kh1fWltPI257BG2ANl2euHau/t4t8HJZsVosvNGx/9KgyZ
-         XDrA==
-X-Gm-Message-State: AOAM531WPBIHMgHR/Mx2Rwm/XEOT1Tp3aVRRtUs5jzyQ2SuNenoyV/8Y
-        mh3Ok03HEbSuZ7Tfzuvu3RdtsHqkSMMk461m
-X-Google-Smtp-Source: ABdhPJy79YuOWOZyqekbPF3tbbtshLIyuDA5UUo4wOKyMK/IZkjhvXmvNYAEV/TTCfRcV2SXTrM15g==
-X-Received: by 2002:a17:907:7e90:b0:6fe:c5bc:d391 with SMTP id qb16-20020a1709077e9000b006fec5bcd391mr17521983ejc.747.1653494560177;
-        Wed, 25 May 2022 09:02:40 -0700 (PDT)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
-        by smtp.gmail.com with ESMTPSA id z20-20020aa7c654000000b0042ae4dea360sm10798944edr.63.2022.05.25.09.02.36
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 May 2022 09:02:37 -0700 (PDT)
-Received: by mail-wr1-f51.google.com with SMTP id z15so6923114wrg.11
-        for <linux-doc@vger.kernel.org>; Wed, 25 May 2022 09:02:36 -0700 (PDT)
-X-Received: by 2002:a5d:59ac:0:b0:20e:6fd6:88c1 with SMTP id
- p12-20020a5d59ac000000b0020e6fd688c1mr25406709wrr.442.1653494556145; Wed, 25
- May 2022 09:02:36 -0700 (PDT)
+        with ESMTP id S245423AbiEYQFn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 12:05:43 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 651E2B82DD;
+        Wed, 25 May 2022 09:05:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653494741; x=1685030741;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Qtq8NsRkQ5MXSb0vyxgaVhO2wTrtOk/ncJF+4DTDLd0=;
+  b=kqSUtIo2wPCFYn4p+/jtSY6S/rBxpsOcxc2Hk+ECeVmxy1AJGp10s2fF
+   3g6NW8v6L2W+KzXXB4fXfA/Tr5JcMcXXneYd1/EbcR6ouw+r47Wfms8qR
+   GtfAElqRpitPHnA9q38go1b7QdiYWc+UzNob65yvNs0c7Ep776dMide6W
+   KrbulRLY4jMNvdLTUOTkg4Pkn0wWmRZStJImcqIAoWFBskaUM6Ir0y0E+
+   +Ilssh8JxZlzswKcueFT3/EzJPhLCch3uFdqivvYSho77QkKV7BJnLHPU
+   ODpXdtRgW2Duoq5HG0vi4dYfAzGyVit45Iapebu+HX3YHg/U8STMyxFpS
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="273855084"
+X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; 
+   d="scan'208";a="273855084"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2022 09:03:13 -0700
+X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; 
+   d="scan'208";a="601970811"
+Received: from vlpathak-mobl.amr.corp.intel.com (HELO localhost) ([10.212.116.219])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2022 09:03:12 -0700
+Date:   Wed, 25 May 2022 09:03:12 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        outreachy@lists.linux.dev,
+        "Acked-by : Mike Rapoport" <rppt@linux.ibm.com>
+Subject: Re: [PATCH v2 1/4] mm/highmem: Fix kernel-doc warnings in highmem*.h
+Message-ID: <Yo5TQOByKbMbvE8m@iweiny-desk3>
+References: <20220425162400.11334-1-fmdefrancesco@gmail.com>
+ <20220425162400.11334-2-fmdefrancesco@gmail.com>
+ <YmeYzKT8Ikq5SfdE@linutronix.de>
+ <YmwLXvtSgl2BA2mC@iweiny-desk3>
+ <Yo34GGK62yVkPzZy@linutronix.de>
 MIME-Version: 1.0
-References: <20220525144638.293934-1-helgaas@kernel.org>
-In-Reply-To: <20220525144638.293934-1-helgaas@kernel.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 25 May 2022 09:02:19 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whk=ygWsxt=1HhndCwjtXdga9sPmkxFGby5PJWRk5yx9Q@mail.gmail.com>
-Message-ID: <CAHk-=whk=ygWsxt=1HhndCwjtXdga9sPmkxFGby5PJWRk5yx9Q@mail.gmail.com>
-Subject: Re: [PATCH] Revert "linux/types.h: remove unnecessary __bitwise__"
-To:     Bjorn Helgaas <helgaas@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>, llvm@lists.linux.dev,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yo34GGK62yVkPzZy@linutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 25, 2022 at 7:46 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> This reverts commit c724c866bb70cb8c607081a26823a1f0ebde4387.
->
-> Jiri Slaby reported that c724c866bb70 ("linux/types.h: remove unnecessary
-> __bitwise__") broke userspace, including open-iscsi, because it uses
-> __bitwise__.
->
-> Restore the __bitwise__ definition.
+On Wed, May 25, 2022 at 11:34:16AM +0200, Sebastian Andrzej Siewior wrote:
+> On 2022-04-29 08:59:26 [-0700], Ira Weiny wrote:
+> > I think some discussion needs to happen around this API.
+> > 
+> > Highmem has little use.  I don't think anyone disagrees with Linus there.
+> > (Although I think there are still a few users out there.)
+> 
+> arm32 is still built and they have sometimes 1 - 2 GiB of memory.
 
-Hmm.
+Yep :-) I was thinking of arm when I said this.
 
-Presumably it's only the uapi case that actually wants to re-instate it.
+> 
+> > kmap may be a poor name for an API without the highmem functionality.  But
+> > perhaps not.  One could interpret it to mean simply getting the kernel mapping
+> > of the page rather than creating one.  After all that is what 64bit has done
+> > all along.
+> > 
+> > This interpretation helps when you consider features which attempt to layer the
+> > direct map with additional protections like PKS.[1]  Those protections mean
+> > that a simple page_address() is insufficient to access the direct map.
+> > 
+> > As far as calling kmap() and kmap_atomic() deprecated I'm ok with that if the
+> > community is.
+> > 
+> > The current kmap() call sites need work and Fabio's work on auditing them is
+> > extremely helpful.  That said, if we officially deprecate kmap_atomic() then
+> > those sites could be added to the list for rework.
+> 
+> Maybe I oversee something obvious but there is no problem with removing
+> kmap_atomic*() and keeping only kmap_local*() around, is there?
 
-And I'd rather make that "__bitwise__" case explicitly special, with a
-comment about why it exists when the kernel itself doesn't use it.
+No there is not.  But some kmap_atomic() sites may have to open code the
+preempt_disable() while others may not.
 
-IOW, rather than the revert, maybe something like the below
-(whitespace-damaged) instead?
+I have not done a full audit of the kmap_atomic() sites but I suspect most
+don't really need the preempt_disable() but many may need to.  I just don't
+know.
 
-Jiri, does something like this work for you?
+Regardless marking it deprecated can stop the growth of kmap_atomic() calls.
 
-                 Linus
+> I never intended to deprecated kmap(), only kmap_atomic*() in favour of
+> kmap_local*().
 
----
- include/uapi/linux/types.h | 3 +++
- 1 file changed, 3 insertions(+)
+Ok.  But I do want to see kmap() use removed.  The PKS code can't work with
+kmap() and in general we are seeing more and more restrictions on the direct
+map which may or may not be compatible with kmap().  What I presented at LSFmm
+was to turn the kmap* interfaces into a more generic 'get me a temp kernel
+address' interface instead of a highmem interface.
 
-diff --git a/include/uapi/linux/types.h b/include/uapi/linux/types.h
-index c4dc597f3dcf..308433be33c2 100644
---- a/include/uapi/linux/types.h
-+++ b/include/uapi/linux/types.h
-@@ -26,6 +26,9 @@
- #define __bitwise
- #endif
+Any user who needs a long term address will need something other than kmap().
+To that end there was some discussion on making vmap() more efficient or other
+alternatives.
 
-+/* The kernel doesn't use this legacy form, but user space does */
-+#define __bitwise__ __bitwise
-+
- typedef __u16 __bitwise __le16;
- typedef __u16 __bitwise __be16;
- typedef __u32 __bitwise __le32;
+First we need to focus on reducing the kmap() call sites.  This documentation
+change, making kmap() deprecated, will help ensure the kernel does not grow
+more of them.
+
+Ira
+
+> 
+> > Ira
+> 
+> Sebastian
