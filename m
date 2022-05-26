@@ -2,128 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D165C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 25 May 2022 23:55:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEF88C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 26 May 2022 04:40:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345441AbiEYXy7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 May 2022 19:54:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34418 "EHLO
+        id S230475AbiEZEj5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 May 2022 00:39:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345035AbiEYXy5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 May 2022 19:54:57 -0400
-X-Greylist: delayed 7465 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 25 May 2022 16:54:56 PDT
-Received: from mx1.supremebox.com (mx2.supremebox.com [198.23.53.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C91369D070;
-        Wed, 25 May 2022 16:54:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jilayne.com
-        ; s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=TqucRm9Dg5uQc0lXNeeQRLwX8YON2kIDkDZmFacymJY=; b=fZ40LqRrXVlxCFWC9k9qJlmFy2
-        r4P8w3C1HmYxhdFmJKdwUovESGYAPtZu7BE7Po5tZGjBrDap7oYpDu9lPYQoMlExFqWhDNhXwhN7B
-        dEQaTT/Zh+gU3LEwqFeh2NOcXjc8ArWnVeNLw6N1dfiPazNCJWdYHgRUnLYgNBSHC+PM=;
-Received: from 75-166-140-231.hlrn.qwest.net ([75.166.140.231] helo=[192.168.0.91])
-        by mx1.supremebox.com with esmtpa (Exim 4.92)
-        (envelope-from <opensource@jilayne.com>)
-        id 1ntytc-0000Pc-UT; Wed, 25 May 2022 21:50:25 +0000
-Message-ID: <a8c4636b-707c-2563-c521-2455ac08237c@jilayne.com>
-Date:   Wed, 25 May 2022 15:50:23 -0600
+        with ESMTP id S239088AbiEZEjz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 May 2022 00:39:55 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8AFF8B0AC;
+        Wed, 25 May 2022 21:39:54 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id j21so384895pga.13;
+        Wed, 25 May 2022 21:39:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UCUt8Yc7zYDUiimWIGThGkhoILZPhzLlu5O82zOXa38=;
+        b=aV/SUigznehnPw3+KhLvXP9GGdbe7fXa3SEr7LmCQRdtBP1BGoPTF7nhfMxRJRPvLG
+         chrrAoNA9agcxvcBgPFG7SgaCthYTU1/oVj4DGy2iMzEnAergMIGbGyEMwoCxBQ2TvjF
+         vPKWfpoekXDqedNzarkKZrLTHsyLPK5mmiWOMPUTuEDD1HGzjcy71qKbf3WlOCNc78Cy
+         3Kfw2xwprpLWqp0Nitvj4/CcrAlhwAwPmhqPu778ox9eTnevytu/90q+Va8eSNv3Juk/
+         QIPJSzMM7OlUu35Zn5Vxe1ZHcU52ABuljc0HLW/rhvbTONxloZUyUp17j5oQiW8I6o8M
+         +nkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UCUt8Yc7zYDUiimWIGThGkhoILZPhzLlu5O82zOXa38=;
+        b=aBO/pGdb7Hg/1LpHORlHl8THhh+JNIOTjIQT7OoYo9/Lebwsl1zk7aBc/oymhmMdVR
+         M2Yf+BEQ90wuqfEVrZPBV/V9hLau/48Puss+fJBV6rsDxx7//UKOpYDg/ZR+j0LSS89b
+         IqS/Z21rrYI7FBMCxLgnu9kK2H0n6a50Ial1KW6xttcb+6jgWvSjPH4uXLhmrnIZlOBn
+         F20yS2h3fs6pvkadVnee4I87YYXAEWlb5xInvILN8XR5bLsQLt9q7kGGNrImogX5BWmG
+         KvaSDOVII1LN47j03ek8Vt+0d4VIUvXlPbtKzI/Q7jy1xZOSTF/ZW1wGny/np9D7Wc6S
+         2yFw==
+X-Gm-Message-State: AOAM5333sWgvntKiwsoJI8CH4Tqq1O5Y16CLfq4JfxRhaWuDBkpc3x99
+        17wscPTvLbmaCxDsOAk18SBCaJJv8eyJzw==
+X-Google-Smtp-Source: ABdhPJwPQn33e+P+y+ZoWsJAfI6MEG3HH+rRAybs8v8pNTXPZeJyfPF5jt7DA0zh5OepjFLZPdXIRg==
+X-Received: by 2002:a63:225b:0:b0:3fa:beab:211d with SMTP id t27-20020a63225b000000b003fabeab211dmr8387174pgm.350.1653539993959;
+        Wed, 25 May 2022 21:39:53 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-22.three.co.id. [180.214.232.22])
+        by smtp.gmail.com with ESMTPSA id 200-20020a6304d1000000b003f9eacd0684sm450834pge.3.2022.05.25.21.39.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 May 2022 21:39:53 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Filipe Manana <fdmanana@suse.com>, Chris Mason <clm@fb.com>,
+        Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] btrfs: add missing function name in btrfs_log_new_name() kernel-doc comment
+Date:   Thu, 26 May 2022 11:39:33 +0700
+Message-Id: <20220526043933.315937-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH v9 1/6] LICENSES: Add the copyleft-next-0.3.1 license
-Content-Language: en-US
-To:     "Bradley M. Kuhn" <bkuhn@ebb.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        copyleft-next@lists.fedorahosted.org
-Cc:     Luis Chamberlain <mcgrof@kernel.org>, tj@kernel.org,
-        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
-        jeyu@kernel.org, shuah@kernel.org, bvanassche@acm.org,
-        dan.j.williams@intel.com, joe@perches.com, keescook@chromium.org,
-        rostedt@goodmis.org, minchan@kernel.org,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Goldwyn Rodrigues <rgoldwyn@suse.com>,
-        Kuno Woudt <kuno@frob.nl>,
-        Richard Fontana <fontana@sharpeleven.org>,
-        Ciaran Farrell <Ciaran.Farrell@suse.com>,
-        Christopher De Nicolo <Christopher.DeNicolo@suse.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thorsten Leemhuis <linux@leemhuis.info>
-References: <20211029184500.2821444-1-mcgrof@kernel.org>
- <20211029184500.2821444-2-mcgrof@kernel.org> <87h75g0xbm.ffs@tglx>
- <87y1yph1cm.fsf@ebb.org>
-From:   J Lovejoy <opensource@jilayne.com>
-In-Reply-To: <87y1yph1cm.fsf@ebb.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Sender-Ident-agJab5osgicCis: opensource@jilayne.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+kernel test robot reported kernel-doc warning:
 
+>> fs/btrfs/tree-log.c:6792: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Update the log after adding a new name for an inode.
 
-On 5/25/22 1:13 PM, Bradley M. Kuhn wrote:
-> In answering Thomas' question …
->
-> Thomas Gleixner wrote at 14:10 (PDT) on Monday:
->> If I want to remove this option, then how do I express this with a SPDX
->> license identifier?
-> … some licensing/SPDX background is in order.  (I apologize in advance for a
-> few paragraphs of license-splaining, as I know that many on this thread know
-> these points already, but I suspect most only have only vague familiarity
-> with this issue.)
->
-> copyleft-next 0.3.1 reads:
->>> +11. Later License Versions
->>> +    The Copyleft-Next Project may release new versions of copyleft-next,
->>> +    designated by a distinguishing version number ("Later Versions").
-> Many don't realize that GPL is (or was, pre-copyleft-next) unique in
-> structure among copyleft licenses in that the -or-later clause of all
-> licenses in the GPL family is configurable.  That yields the complex forms
-> of: GPLv1-only, GPLv1-or-later, GPLv2-only, GPLv2-or-later, etc.  GPLv3 even
-> added the proxy upgrade clause (— a formulation SPDX can't handle at all).
->
-> Other non-trivial FOSS licenses — such as Mozilla Public License (MPL),
-> Common Development and Distribution License (CDDL), and Eclipse Public
-> License (EPL) (as just three examples) — all have “automatic -or-later”.
-> Thus, “MPLv2.0” *always* means “MPLv2.0-or-later”, so if you use the SPDX
-> moniker for that (“MPL-2.0”), it really is akin to using “GPLv2-or-later”.
-> Meanwhile, there is no *actual* way to license code under “MPLv2-only” — the
-> license text itself prohibits it.
-A few folks on the SPDX legal team did a summary chart of all the 
-nuances and while I'm not going to go down that road again, suffice to 
-say, the "or later" clauses have more variation than most people would 
-think (which is probably b/c most people don't need to pay attention to 
-it). The "+" operator is always available if someone so chooses to apply 
-it as needed.
->
-> All that's to say: the GPL has (historically) always been a huge FOSS
-> licensing special-case because of the complex configurability of its
-> “-or-later” clause.
-Agreed.
->
-> One of the last activities I did with SPDX (in late 2017) was to help
-> negotiate a solution on reworking the GPL identifiers to deal with this
-> special case.  The solution was a classic political compromise — where
-> *everyone* left unhappy — but that's what led to the deprecation of SPDX's
-> “GPL-2.0” identifier in favor of “GPL-2.0-or-later” and “GPL-2.0-only”.
-I would agree with this characterization, except this was the outcome 
-the FSF wanted, so ostensibly they were happy (and you forgot that 
-GPL-2.0+ ).
-(And to give credit where credit is due, Bradley's input during that 
-challenging "negotiation" was very helpful. :)
->
-> So, this problem that Thomas notes above is definitely an error by the SPDX
-> project, *just like* the one that exists for the deprecated “GPL-2.0”
-To be clear, the GPL-2.0 identifier was never an error by the SPDX team 
-- we were always very clear as to what it meant/means. It was that the 
-FSF didn't like it. That is clearly explained in the blog post on the 
-SPDX website, as well as the post on the FSF site on the subject.
+This has side-effect warning when invoking kernel-doc script directly:
 
-Jilayne
+fs/btrfs/tree-log.c:6957: warning: missing initial short description on line:
+ * Update the log after adding a new name for an inode.
+
+These warnings above are caused by missing function name in the kernel-doc
+comment of btrfs_log_new_name().
+
+Fix these by adding the function name into short description on the comment
+block.
+
+Link: https://lore.kernel.org/linux-doc/202205260024.TLEp6Pj2-lkp@intel.com/
+Fixes: d5f5bd546552a9 ("btrfs: pass the dentry to btrfs_log_new_name() instead of the inode")
+Cc: Filipe Manana <fdmanana@suse.com>
+Cc: Chris Mason <clm@fb.com>
+Cc: Josef Bacik <josef@toxicpanda.com>
+Cc: David Sterba <dsterba@suse.com>
+Cc: linux-btrfs@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ fs/btrfs/tree-log.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/btrfs/tree-log.c b/fs/btrfs/tree-log.c
+index 370388fadf960a..d25cbe61fdb669 100644
+--- a/fs/btrfs/tree-log.c
++++ b/fs/btrfs/tree-log.c
+@@ -6954,7 +6954,7 @@ void btrfs_record_snapshot_destroy(struct btrfs_trans_handle *trans,
+ }
+ 
+ /**
+- * Update the log after adding a new name for an inode.
++ * btrfs_log_new_name() - Update the log after adding a new name for an inode.
+  *
+  * @trans:              Transaction handle.
+  * @old_dentry:         The dentry associated with the old name and the old
+
+base-commit: babf0bb978e3c9fce6c4eba6b744c8754fd43d8e
+-- 
+An old man doll... just what I always wanted! - Clara
+
