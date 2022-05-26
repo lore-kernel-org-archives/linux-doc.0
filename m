@@ -2,81 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDBB9C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 26 May 2022 16:42:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE20EC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 26 May 2022 18:20:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344527AbiEZQmf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 May 2022 12:42:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48658 "EHLO
+        id S1349190AbiEZSUS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 May 2022 14:20:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239430AbiEZQme (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 May 2022 12:42:34 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3C0D25EBB
-        for <linux-doc@vger.kernel.org>; Thu, 26 May 2022 09:42:33 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id fd25so2487244edb.3
-        for <linux-doc@vger.kernel.org>; Thu, 26 May 2022 09:42:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CS+0C9116uvsXBY7Qgz+7y8K9WB8FdT9j6xZ5iT4ego=;
-        b=La+B/5HOPMqeQ2jcp0ah8wbzOcZKyNemQaHwQ4VCK7IBBU57xfK48vqU0oScXSzYwP
-         5FnoG3FzyCWct1+Ebttkf5m6Z2FAUua2Tu7YIIk+bRLhRZQRZZpI0mB4N9bHIjQHTMOA
-         Fnw2mLEgcWV/Qt2LRpttaqkCrTmAhUxy6QssE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CS+0C9116uvsXBY7Qgz+7y8K9WB8FdT9j6xZ5iT4ego=;
-        b=s0Fbmc8PdZdJIqrY4zc0Mt9cTJLZphUPY/8/ItNZZ4LWDEO/zBXeaPVoUOpfrNn4Og
-         1POd9bTVkBfc59LkFFMkip8ETRepeuxjvngkXB0gsK2LqdW+tS54C1igAyqEatX5y82H
-         vzGcY876jeTAudxnTjPCowzAb9QhAxWIIqHcOv0vHuylt1TE4YMaMXeEmRnKaMB9l6db
-         mudwMdCyGSn4ARIxl6lMdk6TxXm3ZWiD/Tf56/3dsVA4UVCJRwJuyKZNbndy+vMGZxjC
-         E2//oCYwsFlaRl52GO3W5H6uj8ZGOVlI8pmfSmLUVXHa1LKKKULSYdci/dTuLqUw53qK
-         7Tng==
-X-Gm-Message-State: AOAM533yjwavuSzwH8KqbGg7b7vPd26lj/O3NnYqzgeEZEGiTTaMHGHZ
-        Q9oy/F757bJZzaJ1NIEK9LrRZiYhkEq6fXyHY2c=
-X-Google-Smtp-Source: ABdhPJxMssx79zQZxBXOMQPFzF2LaZZy8KORc09fWzW6oi/5PE6tSdeVX9cONZ6IoBObR9UB0MK2mw==
-X-Received: by 2002:aa7:c999:0:b0:42b:def5:86e4 with SMTP id c25-20020aa7c999000000b0042bdef586e4mr3017276edt.163.1653583352182;
-        Thu, 26 May 2022 09:42:32 -0700 (PDT)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com. [209.85.221.52])
-        by smtp.gmail.com with ESMTPSA id c23-20020a50f617000000b0042b765c2448sm982195edn.80.2022.05.26.09.42.30
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 May 2022 09:42:30 -0700 (PDT)
-Received: by mail-wr1-f52.google.com with SMTP id s28so2822900wrb.7
-        for <linux-doc@vger.kernel.org>; Thu, 26 May 2022 09:42:30 -0700 (PDT)
-X-Received: by 2002:a5d:6da6:0:b0:20f:bc8a:9400 with SMTP id
- u6-20020a5d6da6000000b0020fbc8a9400mr25553633wrs.274.1653583349904; Thu, 26
- May 2022 09:42:29 -0700 (PDT)
+        with ESMTP id S1349222AbiEZSUB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 May 2022 14:20:01 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 651E8C03BA;
+        Thu, 26 May 2022 11:20:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C5D87B821AA;
+        Thu, 26 May 2022 18:19:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B857C34114;
+        Thu, 26 May 2022 18:19:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653589198;
+        bh=AV4sY7+ADpxJuDw9fhgadxalbn8NdBDUPKkU22h8dpc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iBVjaBWPP4FxfPd7GkRuTMDBV97IYTJ5n80HP2s5dFhMIGt6JTf6Pu7cn0BvAokB+
+         9Qg0Gj+LURkGJRn+bxSRWRd5SqMx0Y2EzihGgs2VGxnFNS8DGfKbctxsU0XgAGmKEO
+         U47chmUOStAD7VJfP50KagsW24iOYLfghC4sLI0Izh0Bj/2LMjdMbe0DQhzo3ZorDg
+         +rMGscAxcLeDnHp434izJcP2EefRi7gIHYSHEsa8Fcis1E+HjrQ/15otCnmmwUv3x0
+         bkAZu/JioqqAHRPCPt6Ddw392y176gYkiBLybLEBxdiba8VTkjXqsGW3cjPEfUX49v
+         14LjZJkmwiOeg==
+Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
+        id BED1F4036D; Thu, 26 May 2022 15:19:54 -0300 (-03)
+Date:   Thu, 26 May 2022 15:19:54 -0300
+From:   Arnaldo Carvalho de Melo <acme@kernel.org>
+To:     James Clark <james.clark@arm.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, broonie@kernel.org,
+        german.gomez@arm.com, John Garry <john.garry@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 4/6] perf tools: Use dynamic register set for Dwarf
+ unwind
+Message-ID: <Yo/EytFDKnOEiWCa@kernel.org>
+References: <20220509144257.1623063-1-james.clark@arm.com>
+ <20220509144257.1623063-5-james.clark@arm.com>
+ <Yo+gYbLNnYGOPzGs@kernel.org>
 MIME-Version: 1.0
-References: <20220526151706.331557-1-helgaas@kernel.org>
-In-Reply-To: <20220526151706.331557-1-helgaas@kernel.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 26 May 2022 09:42:13 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whP4fH1_ZyWFAvzBjG_Qa1U0+iAnT-iJsmM9DwvNEtWdw@mail.gmail.com>
-Message-ID: <CAHk-=whP4fH1_ZyWFAvzBjG_Qa1U0+iAnT-iJsmM9DwvNEtWdw@mail.gmail.com>
-Subject: Re: [PATCH v2] linux/types.h: Restore __bitwise__ definition
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Jiri Slaby <jirislaby@kernel.org>, llvm@lists.linux.dev,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yo+gYbLNnYGOPzGs@kernel.org>
+X-Url:  http://acmel.wordpress.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 26, 2022 at 8:17 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> Restore the __bitwise__ definition.
+Em Thu, May 26, 2022 at 12:44:33PM -0300, Arnaldo Carvalho de Melo escreveu:
+> Em Mon, May 09, 2022 at 03:42:52PM +0100, James Clark escreveu:
+> > Architectures can detect availability of extra registers at
+> > runtime so use this more complete set for unwinding. This
+> > will include the VG register on arm64 in a later commit.
+> > 
+> > If the function isn't implemented then PERF_REGS_MASK is
+> > returned and there is no change.
+> 
+> Committer notes:
+> 
+> Added util/perf_regs.c to tools/perf/util/python-ext-sources so that
+> 'perf test python' passes, i.e. the perf python binding has all the
+> symbols it needs, addressing:
+> 
+>   $ perf test -v python
+>    19: 'import perf' in python                                         :
+>   --- start ---
+>   test child forked, pid 2037817
+>   python usage test: "echo "import sys ; sys.path.append('/tmp/build/perf/python'); import perf" | '/usr/bin/python3' "
+>   Traceback (most recent call last):
+>     File "<stdin>", line 1, in <module>
+>   ImportError: /tmp/build/perf/python/perf.cpython-310-x86_64-linux-gnu.so: undefined symbol: arch__user_reg_mask
+>   test child finished with -1
+>   ---- end ----
+>   'import perf' in python: FAILED!
+>   $
 
-Thanks, but I already ended up applying this yesterday,
+Too old to support?
 
-                   Linus
+  69     7.19 ubuntu:16.04-x-arm64          : FAIL gcc version 5.4.0 20160609 (Ubuntu/Linaro 5.4.0-6ubuntu1~16.04.9)
+    arch/arm64/util/perf_regs.c: In function 'arch__user_reg_mask':
+    arch/arm64/util/perf_regs.c:151:28: error: 'HWCAP_SVE' undeclared (first use in this function)
+      if (getauxval(AT_HWCAP) & HWCAP_SVE)
+                                ^
+    arch/arm64/util/perf_regs.c:151:28: note: each undeclared identifier is reported only once for each function it appears in
+    /git/perf-5.18.0/tools/build/Makefile.build:139: recipe for target 'util' failed
+    make[5]: *** [util] Error 2
+    /git/perf-5.18.0/tools/build/Makefile.build:139: recipe for target 'arm64' failed
+    make[4]: *** [arm64] Error 2
+    /git/perf-5.18.0/tools/build/Makefile.build:139: recipe for target 'arch' failed
+    make[3]: *** [arch] Error 2
+
+
+⬢[acme@toolbox perf]$ find . -name "*.h" | xargs grep -w HWCAP_SVE
+./arch/arm64/include/uapi/asm/hwcap.h:#define HWCAP_SVE		(1 << 22)
+⬢[acme@toolbox perf]$ 
+
+  
+> > Signed-off-by: James Clark <james.clark@arm.com>
+> > ---
+> >  tools/perf/util/evsel.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/tools/perf/util/evsel.c b/tools/perf/util/evsel.c
+> > index d38722560e80..a881784da966 100644
+> > --- a/tools/perf/util/evsel.c
+> > +++ b/tools/perf/util/evsel.c
+> > @@ -875,7 +875,7 @@ static void __evsel__config_callchain(struct evsel *evsel, struct record_opts *o
+> >  					   "specifying a subset with --user-regs may render DWARF unwinding unreliable, "
+> >  					   "so the minimal registers set (IP, SP) is explicitly forced.\n");
+> >  			} else {
+> > -				attr->sample_regs_user |= PERF_REGS_MASK;
+> > +				attr->sample_regs_user |= arch__user_reg_mask();
+> >  			}
+> >  			attr->sample_stack_user = param->dump_size;
+> >  			attr->exclude_callchain_user = 1;
+> > -- 
+> > 2.28.0
+> 
+> -- 
+> 
+> - Arnaldo
+
+-- 
+
+- Arnaldo
