@@ -2,108 +2,206 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4918C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 16:08:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF586C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 17:01:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349472AbiE0QIt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 May 2022 12:08:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51120 "EHLO
+        id S237545AbiE0RBx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 May 2022 13:01:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349586AbiE0QIt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 12:08:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 747B01498FA;
-        Fri, 27 May 2022 09:08:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1024F61DCE;
-        Fri, 27 May 2022 16:08:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 466E1C385A9;
-        Fri, 27 May 2022 16:08:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653667727;
-        bh=OlBI8wVCIAxvvfasLZa9UH7nUKu5dc9htrYEpiULe6M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=j8y6/wrgqMG5Oat+epe7h7DytEaI14sZ2BQgUoEE4PpE+UZoDrLkh1p0wzQnlS+Rn
-         hl/EJzYILmBt5XtutCUugflcd316cr3XKq8rns0GY/VXwsxaS4gCRxFLAxN+ft3wum
-         9vOfyJmi4YXWzAK88Dmd6Vs1RYhzTrk9XXXQPkzoX8xK2Hdzu/39EM+xb52mQUqSon
-         bR2sn31VpNjPTWq7gKVfKS1lmhokpmpXAOKTg7nf1dHoa7KXNZHvQNNerAJyCseEDc
-         PbDMhTsXYsKqKTJF8WJyO7rhFY6I2X6yRRjJtRP6IsuBgO1KeMFan/5fCW0cGgTdAn
-         Ixih7UrR73guQ==
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-        id CFB2D4036D; Fri, 27 May 2022 13:08:43 -0300 (-03)
-Date:   Fri, 27 May 2022 13:08:43 -0300
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
-To:     Leo Yan <leo.yan@linaro.org>
-Cc:     James Clark <james.clark@arm.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, broonie@kernel.org,
-        german.gomez@arm.com, John Garry <john.garry@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 4/6] perf tools: Use dynamic register set for Dwarf
- unwind
-Message-ID: <YpD3i2prgA8ESb7Q@kernel.org>
-References: <20220509144257.1623063-1-james.clark@arm.com>
- <20220509144257.1623063-5-james.clark@arm.com>
- <Yo+gYbLNnYGOPzGs@kernel.org>
- <Yo/EytFDKnOEiWCa@kernel.org>
- <20220527061854.GA829807@leoy-ThinkPad-X240s>
+        with ESMTP id S240823AbiE0RBv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 13:01:51 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 963B912FEFE;
+        Fri, 27 May 2022 10:01:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653670910; x=1685206910;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BdDeiQFwZ1xXaQfqDjb+Gm9LS0kjkErg8VaAhvHaTQU=;
+  b=hfZu4QquL1V/601FjgmMz1UHY27znw7DBQHfAZf1oiA9MVEihUBex555
+   8h4/dvMQxc/a4GfMynB0tLaRm+nHott31vkGYPdWvea4+8jlTEVX7+4p6
+   j5vHwnHt6hirfbMvi6Y8D1qCjEpy4Z9xYPr8sX89OBj+EvxcUSGx49grH
+   ngQjYlXzosUXdlUs1+tTfjU1wrhEoeX7UyCqcDcarkXpjpkBc4bAp6oVu
+   oW9Q5mpRKxVaQaW0tZJ1VmeJR3jhqyZgIc6xEdyJtYzVf1nKJFoAbfRuF
+   UkMsvZJSUo9+65b5RTKQSoW/2nrJmrOabKkqseCMvQTb7NuOK5m2Fgv4x
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10360"; a="262146502"
+X-IronPort-AV: E=Sophos;i="5.91,256,1647327600"; 
+   d="scan'208";a="262146502"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2022 10:01:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,256,1647327600"; 
+   d="scan'208";a="528199319"
+Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 27 May 2022 10:01:46 -0700
+Received: from kbuild by db63a1be7222 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nudLN-0004xh-M6;
+        Fri, 27 May 2022 17:01:45 +0000
+Date:   Sat, 28 May 2022 01:00:57 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Zhang Yuchen <zhangyuchen.lcr@bytedance.com>,
+        akpm@linux-foundation.org, david@redhat.com, peterz@infradead.org,
+        mingo@redhat.com, ast@kernel.org
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-api@vger.kernel.org, fam.zheng@bytedance.com,
+        Zhang Yuchen <zhangyuchen.lcr@bytedance.com>
+Subject: Re: [PATCH] procfs: add syscall statistics
+Message-ID: <202205280044.z43jIWts-lkp@intel.com>
+References: <20220527110959.54559-1-zhangyuchen.lcr@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220527061854.GA829807@leoy-ThinkPad-X240s>
-X-Url:  http://acmel.wordpress.com
+In-Reply-To: <20220527110959.54559-1-zhangyuchen.lcr@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, May 27, 2022 at 02:18:54PM +0800, Leo Yan escreveu:
-> On Thu, May 26, 2022 at 03:19:54PM -0300, Arnaldo Carvalho de Melo wrote:
-> 
-> [...]
-> 
-> > Too old to support?
-> > 
-> >   69     7.19 ubuntu:16.04-x-arm64          : FAIL gcc version 5.4.0 20160609 (Ubuntu/Linaro 5.4.0-6ubuntu1~16.04.9)
-> >     arch/arm64/util/perf_regs.c: In function 'arch__user_reg_mask':
-> >     arch/arm64/util/perf_regs.c:151:28: error: 'HWCAP_SVE' undeclared (first use in this function)
-> >       if (getauxval(AT_HWCAP) & HWCAP_SVE)
-> >                                 ^
-> >     arch/arm64/util/perf_regs.c:151:28: note: each undeclared identifier is reported only once for each function it appears in
-> >     /git/perf-5.18.0/tools/build/Makefile.build:139: recipe for target 'util' failed
-> >     make[5]: *** [util] Error 2
-> >     /git/perf-5.18.0/tools/build/Makefile.build:139: recipe for target 'arm64' failed
-> >     make[4]: *** [arm64] Error 2
-> >     /git/perf-5.18.0/tools/build/Makefile.build:139: recipe for target 'arch' failed
-> >     make[3]: *** [arch] Error 2
-> > 
-> > 
-> > ⬢[acme@toolbox perf]$ find . -name "*.h" | xargs grep -w HWCAP_SVE
-> > ./arch/arm64/include/uapi/asm/hwcap.h:#define HWCAP_SVE		(1 << 22)
-> > ⬢[acme@toolbox perf]$ 
-> 
-> I tested aarch64 GCC-7.4.1 which doesn't support HWCAP_SVE, but
-> aarch64 GCC-8.3.0 and GCC-9.4.0 support it.
-> 
-> Either we can add below code:
-> 
->   #ifndef HWCAP_SVE
->   #define HWCAP_SVE		(1 << 22)
->   #endif
-> 
-> Or directly include header file <.../asm/hwcap.h>.
-> 
-> Not sure which method is preferred.  Maybe the first approach can be
-> de-couple with Linux kernel code?
+Hi Zhang,
 
-Lets go KISS and just define it if not present, as you suggested above,
-will test now.
+Thank you for the patch! Yet something to improve:
 
-- Arnaldo
+[auto build test ERROR on linus/master]
+[also build test ERROR on next-20220527]
+[cannot apply to akpm-mm/mm-everything arm64/for-next/core s390/features tip/x86/core v5.18]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Yuchen/procfs-add-syscall-statistics/20220527-191241
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 7e284070abe53d448517b80493863595af4ab5f0
+config: csky-randconfig-r002-20220526 (https://download.01.org/0day-ci/archive/20220528/202205280044.z43jIWts-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/979bf5b1b085588caab1cbdce55e40e823c12db9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Zhang-Yuchen/procfs-add-syscall-statistics/20220527-191241
+        git checkout 979bf5b1b085588caab1cbdce55e40e823c12db9
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash arch/csky/kernel/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> arch/csky/kernel/syscall_table.c:11:14: error: conflicting types for 'sys_call_table'; have 'void * const[451]'
+      11 | void * const sys_call_table[__NR_syscalls] __page_aligned_data = {
+         |              ^~~~~~~~~~~~~~
+   In file included from include/linux/syscalls.h:89,
+                    from arch/csky/kernel/syscall_table.c:4:
+   arch/csky/include/asm/syscall.h:11:14: note: previous declaration of 'sys_call_table' with type 'void *[]'
+      11 | extern void *sys_call_table[];
+         |              ^~~~~~~~~~~~~~
+   arch/csky/kernel/syscall_table.c:8:35: warning: initialized field overwritten [-Woverride-init]
+       8 | #define __SYSCALL(nr, call)[nr] = (call),
+         |                                   ^
+   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
+      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
+         |                                     ^~~~~~~~~
+   include/uapi/asm-generic/unistd.h:34:1: note: in expansion of macro '__SC_COMP'
+      34 | __SC_COMP(__NR_io_setup, sys_io_setup, compat_sys_io_setup)
+         | ^~~~~~~~~
+   arch/csky/kernel/syscall_table.c:8:35: note: (near initialization for 'sys_call_table[0]')
+       8 | #define __SYSCALL(nr, call)[nr] = (call),
+         |                                   ^
+   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
+      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
+         |                                     ^~~~~~~~~
+   include/uapi/asm-generic/unistd.h:34:1: note: in expansion of macro '__SC_COMP'
+      34 | __SC_COMP(__NR_io_setup, sys_io_setup, compat_sys_io_setup)
+         | ^~~~~~~~~
+   arch/csky/kernel/syscall_table.c:8:35: warning: initialized field overwritten [-Woverride-init]
+       8 | #define __SYSCALL(nr, call)[nr] = (call),
+         |                                   ^
+   include/uapi/asm-generic/unistd.h:36:1: note: in expansion of macro '__SYSCALL'
+      36 | __SYSCALL(__NR_io_destroy, sys_io_destroy)
+         | ^~~~~~~~~
+   arch/csky/kernel/syscall_table.c:8:35: note: (near initialization for 'sys_call_table[1]')
+       8 | #define __SYSCALL(nr, call)[nr] = (call),
+         |                                   ^
+   include/uapi/asm-generic/unistd.h:36:1: note: in expansion of macro '__SYSCALL'
+      36 | __SYSCALL(__NR_io_destroy, sys_io_destroy)
+         | ^~~~~~~~~
+   arch/csky/kernel/syscall_table.c:8:35: warning: initialized field overwritten [-Woverride-init]
+       8 | #define __SYSCALL(nr, call)[nr] = (call),
+         |                                   ^
+   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
+      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
+         |                                     ^~~~~~~~~
+   include/uapi/asm-generic/unistd.h:38:1: note: in expansion of macro '__SC_COMP'
+      38 | __SC_COMP(__NR_io_submit, sys_io_submit, compat_sys_io_submit)
+         | ^~~~~~~~~
+   arch/csky/kernel/syscall_table.c:8:35: note: (near initialization for 'sys_call_table[2]')
+       8 | #define __SYSCALL(nr, call)[nr] = (call),
+         |                                   ^
+   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
+      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
+         |                                     ^~~~~~~~~
+   include/uapi/asm-generic/unistd.h:38:1: note: in expansion of macro '__SC_COMP'
+      38 | __SC_COMP(__NR_io_submit, sys_io_submit, compat_sys_io_submit)
+         | ^~~~~~~~~
+   arch/csky/kernel/syscall_table.c:8:35: warning: initialized field overwritten [-Woverride-init]
+       8 | #define __SYSCALL(nr, call)[nr] = (call),
+         |                                   ^
+   include/uapi/asm-generic/unistd.h:40:1: note: in expansion of macro '__SYSCALL'
+      40 | __SYSCALL(__NR_io_cancel, sys_io_cancel)
+         | ^~~~~~~~~
+   arch/csky/kernel/syscall_table.c:8:35: note: (near initialization for 'sys_call_table[3]')
+       8 | #define __SYSCALL(nr, call)[nr] = (call),
+         |                                   ^
+   include/uapi/asm-generic/unistd.h:40:1: note: in expansion of macro '__SYSCALL'
+      40 | __SYSCALL(__NR_io_cancel, sys_io_cancel)
+         | ^~~~~~~~~
+   arch/csky/kernel/syscall_table.c:8:35: warning: initialized field overwritten [-Woverride-init]
+       8 | #define __SYSCALL(nr, call)[nr] = (call),
+         |                                   ^
+   include/uapi/asm-generic/unistd.h:20:34: note: in expansion of macro '__SYSCALL'
+      20 | #define __SC_3264(_nr, _32, _64) __SYSCALL(_nr, _32)
+         |                                  ^~~~~~~~~
+   include/uapi/asm-generic/unistd.h:43:1: note: in expansion of macro '__SC_3264'
+      43 | __SC_3264(__NR_io_getevents, sys_io_getevents_time32, sys_io_getevents)
+         | ^~~~~~~~~
+   arch/csky/kernel/syscall_table.c:8:35: note: (near initialization for 'sys_call_table[4]')
+       8 | #define __SYSCALL(nr, call)[nr] = (call),
+         |                                   ^
+   include/uapi/asm-generic/unistd.h:20:34: note: in expansion of macro '__SYSCALL'
+      20 | #define __SC_3264(_nr, _32, _64) __SYSCALL(_nr, _32)
+         |                                  ^~~~~~~~~
+   include/uapi/asm-generic/unistd.h:43:1: note: in expansion of macro '__SC_3264'
+      43 | __SC_3264(__NR_io_getevents, sys_io_getevents_time32, sys_io_getevents)
+         | ^~~~~~~~~
+   arch/csky/kernel/syscall_table.c:8:35: warning: initialized field overwritten [-Woverride-init]
+       8 | #define __SYSCALL(nr, call)[nr] = (call),
+         |                                   ^
+   include/uapi/asm-generic/unistd.h:48:1: note: in expansion of macro '__SYSCALL'
+      48 | __SYSCALL(__NR_setxattr, sys_setxattr)
+         | ^~~~~~~~~
+   arch/csky/kernel/syscall_table.c:8:35: note: (near initialization for 'sys_call_table[5]')
+       8 | #define __SYSCALL(nr, call)[nr] = (call),
+         |                                   ^
+   include/uapi/asm-generic/unistd.h:48:1: note: in expansion of macro '__SYSCALL'
+      48 | __SYSCALL(__NR_setxattr, sys_setxattr)
+         | ^~~~~~~~~
+   arch/csky/kernel/syscall_table.c:8:35: warning: initialized field overwritten [-Woverride-init]
+       8 | #define __SYSCALL(nr, call)[nr] = (call),
+         |                                   ^
+
+
+vim +11 arch/csky/kernel/syscall_table.c
+
+4859bfca11c7d6 Guo Ren 2018-09-05   9  
+4859bfca11c7d6 Guo Ren 2018-09-05  10  #define sys_fadvise64_64 sys_csky_fadvise64_64
+4859bfca11c7d6 Guo Ren 2018-09-05 @11  void * const sys_call_table[__NR_syscalls] __page_aligned_data = {
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
