@@ -2,140 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13FA3C4321E
-	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 20:05:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B09E3C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 20:45:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234561AbiE0UFp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 May 2022 16:05:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42972 "EHLO
+        id S1354628AbiE0UpL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 May 2022 16:45:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345102AbiE0UFn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 16:05:43 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C37946151
-        for <linux-doc@vger.kernel.org>; Fri, 27 May 2022 13:05:39 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id f23-20020a7bcc17000000b003972dda143eso5183834wmh.3
-        for <linux-doc@vger.kernel.org>; Fri, 27 May 2022 13:05:39 -0700 (PDT)
+        with ESMTP id S1350587AbiE0UpJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 16:45:09 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 471A01339E1
+        for <linux-doc@vger.kernel.org>; Fri, 27 May 2022 13:45:07 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id c2so5101386plh.2
+        for <linux-doc@vger.kernel.org>; Fri, 27 May 2022 13:45:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3hDs5pMehEzS9JtBcciO3du/140ZEedg4Xg+u6dsQZw=;
-        b=oihAaWbcG7Yr9p0y5ULTKT7tU46NohvPTW+4VGetJ03GHSZRqq4LU+CPKg0Z2PrH5R
-         b7AoPxPSIySEEsBuGcjzbeg273gPzUDiuDgPQe8t+O97X7MaFFmZxPWkqR1LY9W4beoO
-         n00RsO520VB1zU12ITOAw5pKWroS+wVFZbCpC2euQgZwg2TwOVdcJe/hm29p06XZbpk9
-         Sux3vMrXw4iwBHlCbOLNQjWoRtlyXEU5R6srtHjt5qRoh4UhA0D6F4jCnsUI6KqRNPOo
-         yBXjUTB2xOyeoHGBTQdQEu/248CfGEyYoUye03xA0p2HIRWz4ulUElW6T5at8G4x+QOH
-         iljg==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=+uKoFrA1MB7Px4Hceb9HtqBEm7hxyzDunzaSFZdZ65E=;
+        b=JpMHO7nYYfFDaaxxq/wzIXsc4I/Z9xgwdZE0rzhnywmrdGZcUtKA/KrIyU0IeU6GnG
+         6cD89RcSRO+j9Xoo1ueLijOKuYZGA2nzUwHP9WwPfga0WnX/xc0QfCNn6vNII/OoLrWD
+         KIRjgDhUVv807X+e9rHfxUjNc4U8RMrb5BBBA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3hDs5pMehEzS9JtBcciO3du/140ZEedg4Xg+u6dsQZw=;
-        b=Df+L54z9p79rXTkIdSsYdCZ09x4sEi5Me+1a7AfDgqrcjgtEsMABmN3WtORi5d/qzv
-         0Wddn169v/6JY0ABgTDu/zpiBUp43XZpDpxhl5jB+E2Y7U1AmwZoQtbH+BUiAFETJKm7
-         2+3zqnT0SWHnPgb/RApIYK167uV+iS+WzGizh7QK4V5kyaAh7LzT7L2Xj6UJ0t/6Ilr9
-         ZAfX3EROVktZxHuGAhFcfO1yLMQoOF4PrEqETNdpVesoeLX4jx2TWCc6Fa0/AfOlCoI7
-         v43RhtcwYiFZ6XefRJkMKyiZExHTDyBgnrL6E+Nkiu594UWjJmFH25X381g709fBcW4G
-         KCFQ==
-X-Gm-Message-State: AOAM531QnnSWr1PTQun/zLrMVLTbsYguE9Vl+M4qEDKVUlw4BSjA2q7M
-        aci9PZcBWDlAZzMnqCbvXHXa+GdoYBhox0t5aGOp
-X-Google-Smtp-Source: ABdhPJzSQiwbwdo8FqZ111McYTLFv4bwIxxTTbHCjxtpHRnG+P00gPgVzRWa/5Bdb55lusFwlbu3a5oOnOFQ3+tgAU8=
-X-Received: by 2002:a05:600c:3b05:b0:397:54ce:896 with SMTP id
- m5-20020a05600c3b0500b0039754ce0896mr8458182wms.3.1653681937794; Fri, 27 May
- 2022 13:05:37 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+uKoFrA1MB7Px4Hceb9HtqBEm7hxyzDunzaSFZdZ65E=;
+        b=LM2BH99g8q2xmfUFo7vmaTn21rjORbAknsTXPOZrU2ACxLQldIgWGjXOwUJONf1oIC
+         Jl+xZ+7uPHQhkGMmxpkWMRgstv4KnhFFxsJK14pfzrc8CUOE4Ds+zehJDc8dZ5Jbw5Zu
+         SO1fD5yB8K4BJZZfQPzkgmLRr4LBYaPiTPOiz9kVEKkQ5I6sRbNYsZFx9LeEllIBw68X
+         k5i+tE/TeaL5RJOpMLRQRhPwxxgKl/UpOA6PHuodjXwpxj6Rg3hUdsoZ4uE3TVqmoDgP
+         2POP12yDE6HQBPrjtDfpqJDs5/wqwjXbJq0SqyHff2Q0Br8YvgLAc1ThluXJsY44vzBd
+         WTQQ==
+X-Gm-Message-State: AOAM531vvR3f+zwLk2Kl5Yux/S9hyjwqYonoA0yte8Pev1hLZkHRYD5K
+        HATxkAhjKsf1gpiZKwBzbBxMhQ==
+X-Google-Smtp-Source: ABdhPJwQP43RMakt2LwIAl78pe4ca3GgoTmEwDTY2EZSPcZfvlKlZeVTUOXcUXS3K+fJrEcGQhpsnQ==
+X-Received: by 2002:a17:90b:1c8f:b0:1b8:c6dc:ca61 with SMTP id oo15-20020a17090b1c8f00b001b8c6dcca61mr10068623pjb.13.1653684306778;
+        Fri, 27 May 2022 13:45:06 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id o1-20020a170902d4c100b0015e8d4eb20esm141656plg.88.2022.05.27.13.45.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 May 2022 13:45:06 -0700 (PDT)
+Date:   Fri, 27 May 2022 13:45:05 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     David Howells <dhowells@redhat.com>
+Cc:     jlayton@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Eric Van Hensbergen <ericvh@gmail.com>,
+        Latchesar Ionkov <lucho@ionkov.net>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Christian Schoenebeck <linux_oss@crudebyte.com>,
+        Marc Dionne <marc.dionne@auristor.com>,
+        Xiubo Li <xiubli@redhat.com>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Steve French <smfrench@gmail.com>,
+        William Kucharski <william.kucharski@oracle.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-doc@vger.kernel.org, v9fs-developer@lists.sourceforge.net,
+        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
+        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+        linux-fsdevek@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] netfs: Fix gcc-12 warning by embedding vfs inode in
+ netfs_i_context
+Message-ID: <202205271344.75AC356A5@keescook>
+References: <202205190704.1DC660E5E@keescook>
+ <165296786831.3591209.12111293034669289733.stgit@warthog.procyon.org.uk>
+ <3598052.1653654453@warthog.procyon.org.uk>
 MIME-Version: 1.0
-References: <20220525183703.466936-1-fred@cloudflare.com>
-In-Reply-To: <20220525183703.466936-1-fred@cloudflare.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Fri, 27 May 2022 16:05:26 -0400
-Message-ID: <CAHC9VhS=_RvB66J9D5AZ+XnyDKupvTQpFzni2uvz348REPUT5A@mail.gmail.com>
-Subject: Re: [PATCH v2] cred: Propagate security_prepare_creds() error code
-To:     Frederick Lawler <fred@cloudflare.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-cachefs@redhat.com, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org, linux-mm@kvack.org,
-        linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-        linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
-        keyrings@vger.kernel.org, selinux@vger.kernel.org,
-        serge@hallyn.com, amir73il@gmail.com, kernel-team@cloudflare.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3598052.1653654453@warthog.procyon.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 25, 2022 at 2:37 PM Frederick Lawler <fred@cloudflare.com> wrote:
->
-> While experimenting with the security_prepare_creds() LSM hook, we
-> noticed that our EPERM error code was not propagated up the callstack.
-> Instead ENOMEM is always returned.  As a result, some tools may send a
-> confusing error message to the user:
->
-> $ unshare -rU
-> unshare: unshare failed: Cannot allocate memory
->
-> A user would think that the system didn't have enough memory, when
-> instead the action was denied.
->
-> This problem occurs because prepare_creds() and prepare_kernel_cred()
-> return NULL when security_prepare_creds() returns an error code. Later,
-> functions calling prepare_creds() and prepare_kernel_cred() return
-> ENOMEM because they assume that a NULL meant there was no memory
-> allocated.
->
-> Fix this by propagating an error code from security_prepare_creds() up
-> the callstack.
->
-> Signed-off-by: Frederick Lawler <fred@cloudflare.com>
->
-> ---
-> Changes since v1:
-> - Revert style churn in ovl_create_or_link() noted by Amir
-> - Revert style churn in prepare_nsset() noted by Serge
-> - Update documentation for prepare_creds()
-> - Set ofs->creator_cred in ovl_fill_super() and req->creds in aio_fsync()
->   to NULL on error noted by Amir
-> ---
->  Documentation/security/credentials.rst |  6 +++---
->  fs/aio.c                               |  9 +++++++--
->  fs/cachefiles/security.c               |  8 ++++----
->  fs/cifs/cifs_spnego.c                  |  4 ++--
->  fs/cifs/cifsacl.c                      |  4 ++--
->  fs/coredump.c                          |  2 +-
->  fs/exec.c                              | 14 ++++++++-----
->  fs/ksmbd/smb_common.c                  |  4 ++--
->  fs/nfs/flexfilelayout/flexfilelayout.c |  7 +++++--
->  fs/nfs/nfs4idmap.c                     |  4 ++--
->  fs/nfsd/auth.c                         |  4 ++--
->  fs/nfsd/nfs4callback.c                 | 10 ++++-----
->  fs/nfsd/nfs4recover.c                  |  4 ++--
->  fs/nfsd/nfsfh.c                        |  4 ++--
->  fs/open.c                              |  8 ++++----
->  fs/overlayfs/dir.c                     |  6 ++++--
->  fs/overlayfs/super.c                   |  6 ++++--
->  kernel/capability.c                    |  4 ++--
->  kernel/cred.c                          | 28 +++++++++++++++-----------
->  kernel/groups.c                        |  4 ++--
->  kernel/nsproxy.c                       |  9 ++++++++-
->  kernel/sys.c                           | 28 +++++++++++++-------------
->  kernel/trace/trace_events_user.c       |  4 ++--
->  kernel/umh.c                           |  5 +++--
->  kernel/user_namespace.c                |  6 ++++--
->  net/dns_resolver/dns_key.c             |  4 ++--
->  security/apparmor/task.c               | 12 +++++------
->  security/commoncap.c                   | 20 +++++++++---------
->  security/keys/keyctl.c                 |  8 ++++----
->  security/keys/process_keys.c           | 16 +++++++--------
->  security/landlock/syscalls.c           |  4 ++--
->  security/selinux/hooks.c               |  8 ++++----
->  security/smack/smack_lsm.c             |  8 ++++----
->  security/smack/smackfs.c               |  4 ++--
->  34 files changed, 153 insertions(+), 123 deletions(-)
+On Fri, May 27, 2022 at 01:27:33PM +0100, David Howells wrote:
+> Hi Kees,
+> 
+> Is v2 good for you?  I realise I left your R-b attached to it when I posted
+> it, but I can remove that if you don't have time to review it.
 
-The SELinux bits look fine to me.
+Oh! Yes, it's good. Since you kept the R-b, I didn't reply. It looks
+good to me. Thanks!
 
-Acked-by: Paul Moore <paul@paul-moore.com> (SELinux)
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -- 
-paul-moore.com
+Kees Cook
