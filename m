@@ -2,138 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C67DC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 14:24:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4918C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 16:08:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240075AbiE0OYL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 May 2022 10:24:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51050 "EHLO
+        id S1349472AbiE0QIt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 May 2022 12:08:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235867AbiE0OYK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 10:24:10 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E615C1207E4;
-        Fri, 27 May 2022 07:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653661449; x=1685197449;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8EpuGnusmRkbVa3/ggOWrpg5luflE/dlqIUDi652zT4=;
-  b=LQvWsZtuLPjcvRpFj3BPgWw2/cmVdWKJy/SQqWGpWi3jLlrpinOzXNzC
-   Gvl8pwkHv8noz+d/+ME3aBextokGjzIVdD1eS6PY8XQW4LEp02+KN5RYV
-   uIGzh0QtzG9XjywzU1K3Ob9z7bViAXOh/N4ertSKqx1pCnr5/EZwNZbkG
-   fVF4xd07OagOioefHI7rPtkVDlFtA0e+G4ftFP4bAZ7NBwQSmX/XUtKf4
-   oJCxrx3FfV40TXaeotFgiJx1ND/qS1NjJGQxZl39JN4lkrAtwOpVhA+Zx
-   XU7/NdhEbpys8m9beGf3n1AqzPaexpy1QBNy5ks5XWBjhJFcihxuzmg4k
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10359"; a="360878303"
-X-IronPort-AV: E=Sophos;i="5.91,255,1647327600"; 
-   d="scan'208";a="360878303"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2022 07:24:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,255,1647327600"; 
-   d="scan'208";a="574857026"
-Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 27 May 2022 07:24:06 -0700
-Received: from kbuild by db63a1be7222 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nuasn-0004qu-Bg;
-        Fri, 27 May 2022 14:24:05 +0000
-Date:   Fri, 27 May 2022 22:23:55 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Zhang Yuchen <zhangyuchen.lcr@bytedance.com>,
-        akpm@linux-foundation.org, david@redhat.com, mingo@redhat.com,
-        ast@kernel.org
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-api@vger.kernel.org, fam.zheng@bytedance.com,
-        Zhang Yuchen <zhangyuchen.lcr@bytedance.com>
-Subject: Re: [PATCH] procfs: add syscall statistics
-Message-ID: <202205272216.w7dE4biW-lkp@intel.com>
-References: <20220527110959.54559-1-zhangyuchen.lcr@bytedance.com>
+        with ESMTP id S1349586AbiE0QIt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 12:08:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 747B01498FA;
+        Fri, 27 May 2022 09:08:48 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1024F61DCE;
+        Fri, 27 May 2022 16:08:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 466E1C385A9;
+        Fri, 27 May 2022 16:08:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653667727;
+        bh=OlBI8wVCIAxvvfasLZa9UH7nUKu5dc9htrYEpiULe6M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=j8y6/wrgqMG5Oat+epe7h7DytEaI14sZ2BQgUoEE4PpE+UZoDrLkh1p0wzQnlS+Rn
+         hl/EJzYILmBt5XtutCUugflcd316cr3XKq8rns0GY/VXwsxaS4gCRxFLAxN+ft3wum
+         9vOfyJmi4YXWzAK88Dmd6Vs1RYhzTrk9XXXQPkzoX8xK2Hdzu/39EM+xb52mQUqSon
+         bR2sn31VpNjPTWq7gKVfKS1lmhokpmpXAOKTg7nf1dHoa7KXNZHvQNNerAJyCseEDc
+         PbDMhTsXYsKqKTJF8WJyO7rhFY6I2X6yRRjJtRP6IsuBgO1KeMFan/5fCW0cGgTdAn
+         Ixih7UrR73guQ==
+Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
+        id CFB2D4036D; Fri, 27 May 2022 13:08:43 -0300 (-03)
+Date:   Fri, 27 May 2022 13:08:43 -0300
+From:   Arnaldo Carvalho de Melo <acme@kernel.org>
+To:     Leo Yan <leo.yan@linaro.org>
+Cc:     James Clark <james.clark@arm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, broonie@kernel.org,
+        german.gomez@arm.com, John Garry <john.garry@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 4/6] perf tools: Use dynamic register set for Dwarf
+ unwind
+Message-ID: <YpD3i2prgA8ESb7Q@kernel.org>
+References: <20220509144257.1623063-1-james.clark@arm.com>
+ <20220509144257.1623063-5-james.clark@arm.com>
+ <Yo+gYbLNnYGOPzGs@kernel.org>
+ <Yo/EytFDKnOEiWCa@kernel.org>
+ <20220527061854.GA829807@leoy-ThinkPad-X240s>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220527110959.54559-1-zhangyuchen.lcr@bytedance.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220527061854.GA829807@leoy-ThinkPad-X240s>
+X-Url:  http://acmel.wordpress.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Zhang,
+Em Fri, May 27, 2022 at 02:18:54PM +0800, Leo Yan escreveu:
+> On Thu, May 26, 2022 at 03:19:54PM -0300, Arnaldo Carvalho de Melo wrote:
+> 
+> [...]
+> 
+> > Too old to support?
+> > 
+> >   69     7.19 ubuntu:16.04-x-arm64          : FAIL gcc version 5.4.0 20160609 (Ubuntu/Linaro 5.4.0-6ubuntu1~16.04.9)
+> >     arch/arm64/util/perf_regs.c: In function 'arch__user_reg_mask':
+> >     arch/arm64/util/perf_regs.c:151:28: error: 'HWCAP_SVE' undeclared (first use in this function)
+> >       if (getauxval(AT_HWCAP) & HWCAP_SVE)
+> >                                 ^
+> >     arch/arm64/util/perf_regs.c:151:28: note: each undeclared identifier is reported only once for each function it appears in
+> >     /git/perf-5.18.0/tools/build/Makefile.build:139: recipe for target 'util' failed
+> >     make[5]: *** [util] Error 2
+> >     /git/perf-5.18.0/tools/build/Makefile.build:139: recipe for target 'arm64' failed
+> >     make[4]: *** [arm64] Error 2
+> >     /git/perf-5.18.0/tools/build/Makefile.build:139: recipe for target 'arch' failed
+> >     make[3]: *** [arch] Error 2
+> > 
+> > 
+> > ⬢[acme@toolbox perf]$ find . -name "*.h" | xargs grep -w HWCAP_SVE
+> > ./arch/arm64/include/uapi/asm/hwcap.h:#define HWCAP_SVE		(1 << 22)
+> > ⬢[acme@toolbox perf]$ 
+> 
+> I tested aarch64 GCC-7.4.1 which doesn't support HWCAP_SVE, but
+> aarch64 GCC-8.3.0 and GCC-9.4.0 support it.
+> 
+> Either we can add below code:
+> 
+>   #ifndef HWCAP_SVE
+>   #define HWCAP_SVE		(1 << 22)
+>   #endif
+> 
+> Or directly include header file <.../asm/hwcap.h>.
+> 
+> Not sure which method is preferred.  Maybe the first approach can be
+> de-couple with Linux kernel code?
 
-Thank you for the patch! Perhaps something to improve:
+Lets go KISS and just define it if not present, as you suggested above,
+will test now.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on next-20220527]
-[cannot apply to akpm-mm/mm-everything arm64/for-next/core s390/features tip/x86/core v5.18]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Yuchen/procfs-add-syscall-statistics/20220527-191241
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 7e284070abe53d448517b80493863595af4ab5f0
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20220527/202205272216.w7dE4biW-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/979bf5b1b085588caab1cbdce55e40e823c12db9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Zhang-Yuchen/procfs-add-syscall-statistics/20220527-191241
-        git checkout 979bf5b1b085588caab1cbdce55e40e823c12db9
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash fs/proc/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> fs/proc/syscall.c:13:5: warning: no previous prototype for 'show_syscalls' [-Wmissing-prototypes]
-      13 | int show_syscalls(struct seq_file *p, void *v)
-         |     ^~~~~~~~~~~~~
-
-
-vim +/show_syscalls +13 fs/proc/syscall.c
-
-    12	
-  > 13	int show_syscalls(struct seq_file *p, void *v)
-    14	{
-    15		int i = *(loff_t *)v, j;
-    16		static int prec;
-    17		const char *syscall_name = get_syscall_name(i);
-    18	
-    19		if (i > NR_syscalls)
-    20			return 0;
-    21	
-    22		/* print header and calculate the width of the first column */
-    23		if (i == 0) {
-    24			for (prec = 3, j = 1000; prec < 10 && j <= NR_syscalls; ++prec)
-    25				j *= 10;
-    26			seq_printf(p, "%*s", prec + 8, "");
-    27			for_each_online_cpu(j)
-    28				seq_printf(p, "CPU%-8d", j);
-    29			seq_putc(p, '\n');
-    30		}
-    31	
-    32		if (syscall_name == NULL)
-    33			return 0;
-    34	
-    35		seq_printf(p, "%*d: ", prec, i);
-    36		for_each_online_cpu(j)
-    37			seq_printf(p, "%10llu ",
-    38				   per_cpu(__per_cpu_syscall_count, j)[i]);
-    39		seq_printf(p, "  %s", syscall_name);
-    40		seq_putc(p, '\n');
-    41	
-    42		return 0;
-    43	}
-    44	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+- Arnaldo
