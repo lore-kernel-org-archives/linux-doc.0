@@ -2,219 +2,385 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26201C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 07:26:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4548C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 07:31:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235703AbiE0H0M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 May 2022 03:26:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60628 "EHLO
+        id S231388AbiE0Hb2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 May 2022 03:31:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230051AbiE0H0K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 03:26:10 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42F04ED712;
-        Fri, 27 May 2022 00:26:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653636369; x=1685172369;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=m9FnLkDwI5TzcSgqoWXZ2q0oPNaLPL+CBbjsM4Rg7Ew=;
-  b=M0RUyGG0tEjDgD1EYBOB59FHKDtWf0vWya8YXIgw33vYDt4V84YEioc1
-   3WfRIPtGGeGjLZQ4rR4Lf3rCxU5KfyTdCvFjE57tLEFxCsh3G9778g312
-   FvvG9EJFs1So7QYJgu0FQ8Ws4a4k93G8V1kIy4WrQz3CUlfWfcZwcT4cR
-   gymGWRvVf+PQ4gqzryk/ddugYsHcXHxcONClGlh8MP6IevF6XlMrBtql+
-   ERSehEETe2+pISRONEeMUs25HZHsgPPC2C11O8Pl3KhytOFq15y4XnKAK
-   pkPJMCCvm4dlC9I86fCD8/Oi7IGn1V75kMTEdancpCN99yX8ToJ6pMD6A
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10359"; a="274134971"
-X-IronPort-AV: E=Sophos;i="5.91,254,1647327600"; 
-   d="scan'208";a="274134971"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2022 00:26:08 -0700
-X-IronPort-AV: E=Sophos;i="5.91,254,1647327600"; 
-   d="scan'208";a="718734751"
-Received: from rrubin1x-mobl.amr.corp.intel.com (HELO [10.252.55.90]) ([10.252.55.90])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2022 00:26:03 -0700
-Message-ID: <799ae406-ce12-f0d4-d213-4dd455236e49@linux.intel.com>
-Date:   Fri, 27 May 2022 10:26:01 +0300
+        with ESMTP id S240252AbiE0Hb0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 03:31:26 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4F344B421
+        for <linux-doc@vger.kernel.org>; Fri, 27 May 2022 00:31:23 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id l20-20020a17090a409400b001dd2a9d555bso3685703pjg.0
+        for <linux-doc@vger.kernel.org>; Fri, 27 May 2022 00:31:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arista.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=G4tRmGXGBZTY1FKs0ZLTl+xBxrZfEUU1PXr/8QqRl/U=;
+        b=XmyG++mkj5kGjgPxRXG1GuZXBnfkl/PtfvD0sirak+IkeQXEWykg5nAyy0z2OOCVqa
+         yZc1jMVb2/jPhrWzaYQdTrPhyIEddEsuI2oEZ+JGUoZ+jOp1XWv9hDHUlu0vsQ7E3ari
+         y3gMz9r++bpqmcT61jZ9LPlhy908csCzhY66ej3ec7a4JPV3+ivAXDdF5nYiK0grBQnd
+         qj0xEhssNAcIZ5+aWCljoIc4yhWDgPBcw48QJAkd1MJxvqeIeqtPCbOlxG5HToUAsqkL
+         AHk7TldhvljwGzlcg5DU2AjnN9nsRGyRGKitLfXf5RitsqUjtJuQWoFlPa4Enzp75+3I
+         P6SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=G4tRmGXGBZTY1FKs0ZLTl+xBxrZfEUU1PXr/8QqRl/U=;
+        b=1zCSxwFppNH3PYrkjwO/vL6QaryFOzwH2cHDj4LKMosdE7Dtk2nqujksq/M/lImKW2
+         nfsVpkFupZ9zlI1urKd2WBbTNliW8UP5OVKrVLHNFov7lx8lMPXTXwT5OHNFstiUwWK1
+         4e/gyO7WY/D0Cjkmv4olV1w2txo2CpFWyK+MLiBfg2ynRmBndIHfl7UZBAFgJs2F4GsR
+         5FmldKdcVpVOJ2D+CJxUsf6KYegZ2f2BwfkU5wXqY9wX7uBjDiN2sPWKdEx4MmJbbSAQ
+         aZ1ua6N8nDSgFKPLdIMTGbPsi1p/Ah0l8kejyIAibxDtd2QeIvCWI7aaVhHkFo+V/SD8
+         ZPvw==
+X-Gm-Message-State: AOAM532asOqebPjEEaPSccnxnHPAq8Bazxq3DRybLjb0q/ELqy5dgHqE
+        QGkQRS3+TJ5Fs/xYiox8naS8ZQ==
+X-Google-Smtp-Source: ABdhPJxGQuWv0hRAJF4SEBa31y/4Ie3cpAxSuj6s9l/Q1+E+7pZ85IbdFKXv4g33cygCp3BjitrGfg==
+X-Received: by 2002:a17:902:7c0c:b0:161:ef0f:9da8 with SMTP id x12-20020a1709027c0c00b00161ef0f9da8mr5194041pll.147.1653636683095;
+        Fri, 27 May 2022 00:31:23 -0700 (PDT)
+Received: from localhost.localdomain ([49.37.162.84])
+        by smtp.gmail.com with ESMTPSA id l5-20020a170902f68500b0015e8d4eb1d3sm3025632plg.29.2022.05.27.00.31.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 May 2022 00:31:21 -0700 (PDT)
+From:   Arun Ajith S <aajith@arista.com>
+To:     netdev@vger.kernel.org
+Cc:     davem@davemloft.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, dsahern@kernel.org,
+        bagasdotme@gmail.com, yoshfuji@linux-ipv6.org, kuba@kernel.org,
+        pabeni@redhat.com, aajith@arista.com, gilligan@arista.com,
+        noureddine@arista.com, gk@arista.com
+Subject: [PATCH net] net/ipv6: Change accept_unsolicited_na to accept_untracked_na
+Date:   Fri, 27 May 2022 07:31:11 +0000
+Message-Id: <20220527073111.14336-1-aajith@arista.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH bpf-next v5 00/17] Introduce eBPF support for HID devices
-Content-Language: en-US
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
-From:   Tero Kristo <tero.kristo@linux.intel.com>
-In-Reply-To: <20220518205924.399291-1-benjamin.tissoires@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Benjamin,
+RFC 9131 changes default behavior of handling RX of NA messages when the
+corresponding entry is absent in the neighbour cache. The current
+implementation is limited to accept just unsolicited NAs. However, the
+RFC is more generic where it also accepts solicited NAs. Both types
+should result in adding a STALE entry for this case.
 
-I noticed a couple of issues with this series, but was able to 
-fix/workaround them locally and got my USI program working with it.
+This change expands the current implementation to match the RFC. The
+sysctl knob is also renamed to accept_untracked_na to better reflect the
+implementation.
 
-1) You seem to be missing tools/include/uapi/linux/hid_bpf.h from index, 
-I wasn't able to compile the selftests (or my own program) without 
-adding this. It is included from 
-tools/testing/selftests/bpf/prog_tests/hid.c: #include <linux/hid_bpf.h>
+Signed-off-by: Arun Ajith S <aajith@arista.com>
+---
+This change updates the accept_unsolicited_na feature that merged to net-next
+for v5.19 to be better compliant with the RFC. It also involves renaming the sysctl
+knob to accept_untracked_na before shipping in a release.
 
-2) The limitation of needing to hardcode the size for hid_bpf_get_data() 
-seems somewhat worrying, especially as the kernel side limits this to 
-the ctx->allocated_size. I used a sufficiently large number for my 
-purposes for now (256) which seems to work, but how should I handle my 
-case where I basically need to read the whole input report and parse 
-certain portions of it? How does the HID subsystem select the size of 
-the ctx->allocated_size?
+ Documentation/networking/ip-sysctl.rst        |  18 +---
+ include/linux/ipv6.h                          |   2 +-
+ include/uapi/linux/ipv6.h                     |   2 +-
+ net/ipv6/addrconf.c                           |   6 +-
+ net/ipv6/ndisc.c                              | 101 ++++++++++--------
+ .../net/ndisc_unsolicited_na_test.sh          |  23 ++--
+ 6 files changed, 75 insertions(+), 77 deletions(-)
 
--Tero
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index b882d4238581..2f8a0d01a4bb 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -2474,21 +2474,13 @@ drop_unsolicited_na - BOOLEAN
+ 
+ 	By default this is turned off.
+ 
+-accept_unsolicited_na - BOOLEAN
++accept_untracked_na - BOOLEAN
+ 	Add a new neighbour cache entry in STALE state for routers on receiving an
+-	unsolicited neighbour advertisement with target link-layer address option
+-	specified. This is as per router-side behavior documented in RFC9131.
+-	This has lower precedence than drop_unsolicited_na.
++	neighbour advertisement with target link-layer address option specified
++	if a corresponding entry is not already present.
++	This is as per router-side behavior documented in RFC9131.
+ 
+-	 ====   ======  ======  ==============================================
+-	 drop   accept  fwding                   behaviour
+-	 ----   ------  ------  ----------------------------------------------
+-	    1        X       X  Drop NA packet and don't pass up the stack
+-	    0        0       X  Pass NA packet up the stack, don't update NC
+-	    0        1       0  Pass NA packet up the stack, don't update NC
+-	    0        1       1  Pass NA packet up the stack, and add a STALE
+-	                        NC entry
+-	 ====   ======  ======  ==============================================
++	This has lower precedence than drop_unsolicited_na.
+ 
+ 	This will optimize the return path for the initial off-link communication
+ 	that is initiated by a directly connected host, by ensuring that
+diff --git a/include/linux/ipv6.h b/include/linux/ipv6.h
+index 38c8203d52cb..37dfdcfcdd54 100644
+--- a/include/linux/ipv6.h
++++ b/include/linux/ipv6.h
+@@ -61,7 +61,7 @@ struct ipv6_devconf {
+ 	__s32		suppress_frag_ndisc;
+ 	__s32		accept_ra_mtu;
+ 	__s32		drop_unsolicited_na;
+-	__s32		accept_unsolicited_na;
++	__s32		accept_untracked_na;
+ 	struct ipv6_stable_secret {
+ 		bool initialized;
+ 		struct in6_addr secret;
+diff --git a/include/uapi/linux/ipv6.h b/include/uapi/linux/ipv6.h
+index 549ddeaf788b..03cdbe798fe3 100644
+--- a/include/uapi/linux/ipv6.h
++++ b/include/uapi/linux/ipv6.h
+@@ -194,7 +194,7 @@ enum {
+ 	DEVCONF_IOAM6_ID,
+ 	DEVCONF_IOAM6_ID_WIDE,
+ 	DEVCONF_NDISC_EVICT_NOCARRIER,
+-	DEVCONF_ACCEPT_UNSOLICITED_NA,
++	DEVCONF_ACCEPT_UNTRACKED_NA,
+ 	DEVCONF_MAX
+ };
+ 
+diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
+index ca0aa744593e..1b1932502e9e 100644
+--- a/net/ipv6/addrconf.c
++++ b/net/ipv6/addrconf.c
+@@ -5586,7 +5586,7 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
+ 	array[DEVCONF_IOAM6_ID] = cnf->ioam6_id;
+ 	array[DEVCONF_IOAM6_ID_WIDE] = cnf->ioam6_id_wide;
+ 	array[DEVCONF_NDISC_EVICT_NOCARRIER] = cnf->ndisc_evict_nocarrier;
+-	array[DEVCONF_ACCEPT_UNSOLICITED_NA] = cnf->accept_unsolicited_na;
++	array[DEVCONF_ACCEPT_UNTRACKED_NA] = cnf->accept_untracked_na;
+ }
+ 
+ static inline size_t inet6_ifla6_size(void)
+@@ -7038,8 +7038,8 @@ static const struct ctl_table addrconf_sysctl[] = {
+ 		.extra2		= (void *)SYSCTL_ONE,
+ 	},
+ 	{
+-		.procname	= "accept_unsolicited_na",
+-		.data		= &ipv6_devconf.accept_unsolicited_na,
++		.procname	= "accept_untracked_na",
++		.data		= &ipv6_devconf.accept_untracked_na,
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
+index 254addad0dd3..adbae7a58513 100644
+--- a/net/ipv6/ndisc.c
++++ b/net/ipv6/ndisc.c
+@@ -979,7 +979,9 @@ static void ndisc_recv_na(struct sk_buff *skb)
+ 	struct inet6_dev *idev = __in6_dev_get(dev);
+ 	struct inet6_ifaddr *ifp;
+ 	struct neighbour *neigh;
+-	bool create_neigh;
++	u8 old_flags;
++	struct net *net;
++	u8 new_state;
+ 
+ 	if (skb->len < sizeof(struct nd_msg)) {
+ 		ND_PRINTK(2, warn, "NA: packet too short\n");
+@@ -1000,7 +1002,6 @@ static void ndisc_recv_na(struct sk_buff *skb)
+ 	/* For some 802.11 wireless deployments (and possibly other networks),
+ 	 * there will be a NA proxy and unsolicitd packets are attacks
+ 	 * and thus should not be accepted.
+-	 * drop_unsolicited_na takes precedence over accept_unsolicited_na
+ 	 */
+ 	if (!msg->icmph.icmp6_solicited && idev &&
+ 	    idev->cnf.drop_unsolicited_na)
+@@ -1041,61 +1042,67 @@ static void ndisc_recv_na(struct sk_buff *skb)
+ 		in6_ifa_put(ifp);
+ 		return;
+ 	}
++
++	neigh = neigh_lookup(&nd_tbl, &msg->target, dev);
++
+ 	/* RFC 9131 updates original Neighbour Discovery RFC 4861.
+-	 * An unsolicited NA can now create a neighbour cache entry
+-	 * on routers if it has Target LL Address option.
++	 * NAs with Target LL Address option without a corresponding
++	 * entry in the neighbour cache can now create a STALE neighbour
++	 * cache entry on routers.
+ 	 *
+-	 * drop   accept  fwding                   behaviour
+-	 * ----   ------  ------  ----------------------------------------------
+-	 *    1        X       X  Drop NA packet and don't pass up the stack
+-	 *    0        0       X  Pass NA packet up the stack, don't update NC
+-	 *    0        1       0  Pass NA packet up the stack, don't update NC
+-	 *    0        1       1  Pass NA packet up the stack, and add a STALE
+-	 *                          NC entry
+-	 * Note that we don't do a (daddr == all-routers-mcast) check.
++	 *   entry accept  fwding  solicited        behaviour
++	 * ------- ------  ------  ---------    ----------------------
++	 * present      X       X         0     Set state to STALE
++	 * present      X       X         1     Set state to REACHABLE
++	 *  absent      0       X         X     Do nothing
++	 *  absent      1       0         X     Do nothing
++	 *  absent      1       1         X     Add a new STALE entry
+ 	 */
+-	create_neigh = !msg->icmph.icmp6_solicited && lladdr &&
+-		       idev && idev->cnf.forwarding &&
+-		       idev->cnf.accept_unsolicited_na;
+-	neigh = __neigh_lookup(&nd_tbl, &msg->target, dev, create_neigh);
++	new_state = msg->icmph.icmp6_solicited ? NUD_REACHABLE : NUD_STALE;
++	if (!neigh && lladdr &&
++	    idev && idev->cnf.forwarding &&
++	    idev->cnf.accept_untracked_na) {
++		neigh = neigh_create(&nd_tbl, &msg->target, dev);
++		new_state = NUD_STALE;
++	}
+ 
+-	if (neigh) {
+-		u8 old_flags = neigh->flags;
+-		struct net *net = dev_net(dev);
++	if (IS_ERR(neigh) || !neigh)
++		return;
+ 
+-		if (neigh->nud_state & NUD_FAILED)
+-			goto out;
++	old_flags = neigh->flags;
++	net = dev_net(dev);
++
++	if (neigh->nud_state & NUD_FAILED)
++		goto out;
++
++	/* Don't update the neighbor cache entry on a proxy NA from
++	 * ourselves because either the proxied node is off link or it
++	 * has already sent a NA to us.
++	 */
++	if (lladdr && !memcmp(lladdr, dev->dev_addr, dev->addr_len) &&
++	    net->ipv6.devconf_all->forwarding && net->ipv6.devconf_all->proxy_ndp &&
++	    pneigh_lookup(&nd_tbl, net, &msg->target, dev, 0)) {
++		/* XXX: idev->cnf.proxy_ndp */
++		goto out;
++	}
++
++	ndisc_update(dev, neigh, lladdr,
++		     new_state,
++		     NEIGH_UPDATE_F_WEAK_OVERRIDE |
++		     (msg->icmph.icmp6_override ? NEIGH_UPDATE_F_OVERRIDE : 0) |
++		     NEIGH_UPDATE_F_OVERRIDE_ISROUTER |
++		     (msg->icmph.icmp6_router ? NEIGH_UPDATE_F_ISROUTER : 0),
++		     NDISC_NEIGHBOUR_ADVERTISEMENT, &ndopts);
+ 
++	if ((old_flags & ~neigh->flags) & NTF_ROUTER) {
+ 		/*
+-		 * Don't update the neighbor cache entry on a proxy NA from
+-		 * ourselves because either the proxied node is off link or it
+-		 * has already sent a NA to us.
++		 * Change: router to host
+ 		 */
+-		if (lladdr && !memcmp(lladdr, dev->dev_addr, dev->addr_len) &&
+-		    net->ipv6.devconf_all->forwarding && net->ipv6.devconf_all->proxy_ndp &&
+-		    pneigh_lookup(&nd_tbl, net, &msg->target, dev, 0)) {
+-			/* XXX: idev->cnf.proxy_ndp */
+-			goto out;
+-		}
+-
+-		ndisc_update(dev, neigh, lladdr,
+-			     msg->icmph.icmp6_solicited ? NUD_REACHABLE : NUD_STALE,
+-			     NEIGH_UPDATE_F_WEAK_OVERRIDE|
+-			     (msg->icmph.icmp6_override ? NEIGH_UPDATE_F_OVERRIDE : 0)|
+-			     NEIGH_UPDATE_F_OVERRIDE_ISROUTER|
+-			     (msg->icmph.icmp6_router ? NEIGH_UPDATE_F_ISROUTER : 0),
+-			     NDISC_NEIGHBOUR_ADVERTISEMENT, &ndopts);
+-
+-		if ((old_flags & ~neigh->flags) & NTF_ROUTER) {
+-			/*
+-			 * Change: router to host
+-			 */
+-			rt6_clean_tohost(dev_net(dev),  saddr);
+-		}
++		rt6_clean_tohost(dev_net(dev),  saddr);
++	}
+ 
+ out:
+-		neigh_release(neigh);
+-	}
++	neigh_release(neigh);
+ }
+ 
+ static void ndisc_recv_rs(struct sk_buff *skb)
+diff --git a/tools/testing/selftests/net/ndisc_unsolicited_na_test.sh b/tools/testing/selftests/net/ndisc_unsolicited_na_test.sh
+index f508657ee126..86e621b7b9c7 100755
+--- a/tools/testing/selftests/net/ndisc_unsolicited_na_test.sh
++++ b/tools/testing/selftests/net/ndisc_unsolicited_na_test.sh
+@@ -1,15 +1,14 @@
+ #!/bin/bash
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-# This test is for the accept_unsolicited_na feature to
++# This test is for the accept_untracked_na feature to
+ # enable RFC9131 behaviour. The following is the test-matrix.
+ # drop   accept  fwding                   behaviour
+ # ----   ------  ------  ----------------------------------------------
+-#    1        X       X  Drop NA packet and don't pass up the stack
+-#    0        0       X  Pass NA packet up the stack, don't update NC
+-#    0        1       0  Pass NA packet up the stack, don't update NC
+-#    0        1       1  Pass NA packet up the stack, and add a STALE
+-#                           NC entry
++#    1        X       X  Don't update NC
++#    0        0       X  Don't update NC
++#    0        1       0  Don't update NC
++#    0        1       1  Add a STALE NC entry
+ 
+ ret=0
+ # Kselftest framework requirement - SKIP code is 4.
+@@ -72,7 +71,7 @@ setup()
+ 	set -e
+ 
+ 	local drop_unsolicited_na=$1
+-	local accept_unsolicited_na=$2
++	local accept_untracked_na=$2
+ 	local forwarding=$3
+ 
+ 	# Setup two namespaces and a veth tunnel across them.
+@@ -93,7 +92,7 @@ setup()
+ 	${IP_ROUTER_EXEC} sysctl -qw \
+                 ${ROUTER_CONF}.drop_unsolicited_na=${drop_unsolicited_na}
+ 	${IP_ROUTER_EXEC} sysctl -qw \
+-                ${ROUTER_CONF}.accept_unsolicited_na=${accept_unsolicited_na}
++                ${ROUTER_CONF}.accept_untracked_na=${accept_untracked_na}
+ 	${IP_ROUTER_EXEC} sysctl -qw ${ROUTER_CONF}.disable_ipv6=0
+ 	${IP_ROUTER} addr add ${ROUTER_ADDR_WITH_MASK} dev ${ROUTER_INTF}
+ 
+@@ -144,13 +143,13 @@ link_up() {
+ 
+ verify_ndisc() {
+ 	local drop_unsolicited_na=$1
+-	local accept_unsolicited_na=$2
++	local accept_untracked_na=$2
+ 	local forwarding=$3
+ 
+ 	neigh_show_output=$(${IP_ROUTER} neigh show \
+                 to ${HOST_ADDR} dev ${ROUTER_INTF} nud stale)
+ 	if [ ${drop_unsolicited_na} -eq 0 ] && \
+-			[ ${accept_unsolicited_na} -eq 1 ] && \
++			[ ${accept_untracked_na} -eq 1 ] && \
+ 			[ ${forwarding} -eq 1 ]; then
+ 		# Neighbour entry expected to be present for 011 case
+ 		[[ ${neigh_show_output} ]]
+@@ -179,14 +178,14 @@ test_unsolicited_na_combination() {
+ 	test_unsolicited_na_common $1 $2 $3
+ 	test_msg=("test_unsolicited_na: "
+ 		"drop_unsolicited_na=$1 "
+-		"accept_unsolicited_na=$2 "
++		"accept_untracked_na=$2 "
+ 		"forwarding=$3")
+ 	log_test $? 0 "${test_msg[*]}"
+ 	cleanup
+ }
+ 
+ test_unsolicited_na_combinations() {
+-	# Args: drop_unsolicited_na accept_unsolicited_na forwarding
++	# Args: drop_unsolicited_na accept_untracked_na forwarding
+ 
+ 	# Expect entry
+ 	test_unsolicited_na_combination 0 1 1
+-- 
+2.27.0
 
-On 18/05/2022 23:59, Benjamin Tissoires wrote:
-> Hi,
->
-> And here comes the v5 of the HID-BPF series.
->
-> I managed to achive the same functionalities than v3 this time.
-> Handling per-device BPF program was "interesting" to say the least,
-> but I don't know if we can have a generic BPF way of handling such
-> situation.
->
-> The interesting bits is that now the BPF core changes are rather small,
-> and I am mostly using existing facilities.
-> I didn't managed to write selftests for the RET_PTR_TO_MEM kfunc,
-> because I can not call kmalloc while in a SEC("tc") program to match
-> what the other kfunc tests are doing.
-> And AFAICT, the most interesting bits would be to implement verifier
-> selftests, which are way out of my league, given that they are
-> implemented as plain bytecode.
->
-> The logic is the following (see also the last patch for some more
-> documentation):
-> - hid-bpf first preloads a BPF program in the kernel that does a few
->    things:
->     * find out which attach_btf_id are associated with our trace points
->     * adds a bpf_tail_call() BPF program that I can use to "call" any
->       other BPF program stored into a jump table
->     * monitors the releases of struct bpf_prog, and when there are no
->       other users than us, detach the bpf progs from the HID devices
-> - users then declare their tracepoints and then call
->    hid_bpf_attach_prog() in a SEC("syscall") program
-> - hid-bpf then calls multiple time the bpf_tail_call() program with a
->    different index in the jump table whenever there is an event coming
->    from a matching HID device
->
-> Note that I am tempted to pin an "attach_hid_program" in the bpffs so
-> that users don't need to declare one, but I am afraid this will be one
-> more API to handle, so maybe not.
->
-> I am also wondering if I should not strip out hid_bpf_jmp_table of most
-> of its features and implement everything as a BPF program. This might
-> remove the need to add the kernel light skeleton implementations of map
-> modifications, and might also possibly be more re-usable for other
-> subsystems. But every plan I do in my head involves a lot of back and
-> forth between the kernel and BPF to achieve the same, which doesn't feel
-> right. The tricky part is the RCU list of programs that is stored in each
-> device and also the global state of the jump table.
-> Anyway, something to look for in a next version if there is a push for it.
->
-> FWIW, patch 1 is something I'd like to get merged sooner. With 2
-> colleagues, we are also working on supporting the "revoke" functionality
-> of a fd for USB and for hidraw. While hidraw can be emulated with the
-> current features, we need the syscall kfuncs for USB, because when we
-> revoke a USB access, we also need to kick out the user, and for that, we
-> need to actually execute code in the kernel from a userspace event.
->
-> Anyway, happy reviewing.
->
-> Cheers,
-> Benjamin
->
-> [Patch series based on commit 68084a136420 ("selftests/bpf: Fix building bpf selftests statically")
-> in the bpf-next tree]
->
-> Benjamin Tissoires (17):
->    bpf/btf: also allow kfunc in tracing and syscall programs
->    bpf/verifier: allow kfunc to return an allocated mem
->    bpf: prepare for more bpf syscall to be used from kernel and user
->      space.
->    libbpf: add map_get_fd_by_id and map_delete_elem in light skeleton
->    HID: core: store the unique system identifier in hid_device
->    HID: export hid_report_type to uapi
->    HID: initial BPF implementation
->    selftests/bpf: add tests for the HID-bpf initial implementation
->    HID: bpf: allocate data memory for device_event BPF programs
->    selftests/bpf/hid: add test to change the report size
->    HID: bpf: introduce hid_hw_request()
->    selftests/bpf: add tests for bpf_hid_hw_request
->    HID: bpf: allow to change the report descriptor
->    selftests/bpf: add report descriptor fixup tests
->    samples/bpf: add new hid_mouse example
->    selftests/bpf: Add a test for BPF_F_INSERT_HEAD
->    Documentation: add HID-BPF docs
->
->   Documentation/hid/hid-bpf.rst                 | 528 ++++++++++
->   Documentation/hid/index.rst                   |   1 +
->   drivers/hid/Kconfig                           |   2 +
->   drivers/hid/Makefile                          |   2 +
->   drivers/hid/bpf/Kconfig                       |  19 +
->   drivers/hid/bpf/Makefile                      |  11 +
->   drivers/hid/bpf/entrypoints/Makefile          |  88 ++
->   drivers/hid/bpf/entrypoints/README            |   4 +
->   drivers/hid/bpf/entrypoints/entrypoints.bpf.c |  78 ++
->   .../hid/bpf/entrypoints/entrypoints.lskel.h   | 782 ++++++++++++++
->   drivers/hid/bpf/hid_bpf_dispatch.c            | 565 ++++++++++
->   drivers/hid/bpf/hid_bpf_dispatch.h            |  28 +
->   drivers/hid/bpf/hid_bpf_jmp_table.c           | 587 +++++++++++
->   drivers/hid/hid-core.c                        |  43 +-
->   include/linux/btf.h                           |   7 +
->   include/linux/hid.h                           |  29 +-
->   include/linux/hid_bpf.h                       | 144 +++
->   include/uapi/linux/hid.h                      |  12 +
->   include/uapi/linux/hid_bpf.h                  |  25 +
->   kernel/bpf/btf.c                              |  47 +-
->   kernel/bpf/syscall.c                          |  10 +-
->   kernel/bpf/verifier.c                         |  72 +-
->   samples/bpf/.gitignore                        |   1 +
->   samples/bpf/Makefile                          |  23 +
->   samples/bpf/hid_mouse.bpf.c                   | 134 +++
->   samples/bpf/hid_mouse.c                       | 157 +++
->   tools/lib/bpf/skel_internal.h                 |  23 +
->   tools/testing/selftests/bpf/config            |   3 +
->   tools/testing/selftests/bpf/prog_tests/hid.c  | 990 ++++++++++++++++++
->   tools/testing/selftests/bpf/progs/hid.c       | 222 ++++
->   30 files changed, 4593 insertions(+), 44 deletions(-)
->   create mode 100644 Documentation/hid/hid-bpf.rst
->   create mode 100644 drivers/hid/bpf/Kconfig
->   create mode 100644 drivers/hid/bpf/Makefile
->   create mode 100644 drivers/hid/bpf/entrypoints/Makefile
->   create mode 100644 drivers/hid/bpf/entrypoints/README
->   create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.bpf.c
->   create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.lskel.h
->   create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.c
->   create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.h
->   create mode 100644 drivers/hid/bpf/hid_bpf_jmp_table.c
->   create mode 100644 include/linux/hid_bpf.h
->   create mode 100644 include/uapi/linux/hid_bpf.h
->   create mode 100644 samples/bpf/hid_mouse.bpf.c
->   create mode 100644 samples/bpf/hid_mouse.c
->   create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
->   create mode 100644 tools/testing/selftests/bpf/progs/hid.c
->
