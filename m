@@ -2,77 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B25B6C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 00:28:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EAC5C43217
+	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 02:35:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229881AbiE0A2e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 May 2022 20:28:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47040 "EHLO
+        id S233346AbiE0CfF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 May 2022 22:35:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbiE0A2d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 May 2022 20:28:33 -0400
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 113736A044;
-        Thu, 26 May 2022 17:28:32 -0700 (PDT)
-Received: from ip6-localhost (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 24R0GV21032451;
-        Thu, 26 May 2022 19:16:32 -0500
-Message-ID: <6c5d22c3f3743cf5dfe5eac1d52211942dc2fff8.camel@kernel.crashing.org>
-Subject: Re: [PATCH net-next] eth: de4x5: remove support for Generic DECchip
- & DIGITAL EtherWORKS PCI/EISA
-From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
-        netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        corbet@lwn.net, tsbogend@alpha.franken.de, mpe@ellerman.id.au,
-        paulus@samba.org, sburla@marvell.com, vburru@marvell.com,
-        aayarekar@marvell.com, arnd@arndb.de, zhangyue1@kylinos.cn,
-        linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-parisc@vger.kernel.org
-Date:   Fri, 27 May 2022 10:16:30 +1000
-In-Reply-To: <alpine.DEB.2.22.394.2205260933520.394690@ramsan.of.borg>
-References: <20220519031345.2134401-1-kuba@kernel.org>
-         <f84c4cb17eebe385fe22c3fc4563645742269d46.camel@kernel.crashing.org>
-         <alpine.DEB.2.22.394.2205260933520.394690@ramsan.of.borg>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        with ESMTP id S230160AbiE0CfE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 May 2022 22:35:04 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4227E7300;
+        Thu, 26 May 2022 19:35:03 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id gh17so6234482ejc.6;
+        Thu, 26 May 2022 19:35:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=RiwrNA996kdWGzH1MFQCP6Boy6kdU7mqM1tXmvyfu78=;
+        b=Bjy3/VOMa2WGazW9CrIGuJsrXU9/WeLHaMbqeji/+j+QLKTxoGnGEJ7ButNmyGECxU
+         tv1zLCFQO4tgho7tC/+ZzwY/fO998WIvDxygnYBMMd7wokmd35FuX2jScZ/5YB4jjymV
+         C+QnnB/Qpw3bfbqclkFxjFdr6rcksh1itEU4WJjDQpPEj33LIgUtheYaQnY07uuntGCV
+         gP2JbZJiFHyYR3vWydWmSvTexzR4xlmsFYj9fRE9qyXUdLKoIt7ldUgP/Y7aztXvMP3E
+         LvrQm4NHh90K128qYRKgWrP8ngwaI8JzXrqehUNifXdcZZndZ23/VZhyV43bm5m1go+J
+         enhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=RiwrNA996kdWGzH1MFQCP6Boy6kdU7mqM1tXmvyfu78=;
+        b=5Z8mCtIqQhiRBk4521kHoV1vHsk0Mk6pREVhQM+nGluLKz+eN9Q8oJrWqSoCsNHc1v
+         B3uTebm4hmZjDF483wrIbb6DzaqNF3QnXZAxFSEBJklvq/DuiFHUNppJRolhcTPQcD1F
+         yMOEpGxsKcVlowAUTwQt3cl0RJoh8PyDfQRdFXRFwdscLwGanSg66fK+azJIpiNMN2SM
+         TJVbrfaPHkHT23B7SV2Nkj2UUnLYGMk4Gka03T4h3fOr4X2LTo08WnBq9Z28HKdzToTi
+         EaYXt+/WSPBnGukA856KfXEc6MN+OeTZalzjdNu+Zgbipq4HnH6Fxk1Nu5J7zKN5RW8e
+         D5rw==
+X-Gm-Message-State: AOAM533WJgJgwYNswQfgmjCbBCE7l9ife1MER4aRyxaoeb4OAjaco0R8
+        fQeeiTqM5uklxROYTpoEavw=
+X-Google-Smtp-Source: ABdhPJzNCqnYPBOIYDXjV2MahCglVI6qk1f6JmrLebb19YURq1ha3mx5age0zNCh6HcR53bip51sqg==
+X-Received: by 2002:a17:907:3f8c:b0:6fa:8b15:66fe with SMTP id hr12-20020a1709073f8c00b006fa8b1566femr36452843ejc.142.1653618902228;
+        Thu, 26 May 2022 19:35:02 -0700 (PDT)
+Received: from xws.localdomain ([37.120.217.83])
+        by smtp.gmail.com with ESMTPSA id qn12-20020a170907210c00b006fe89cafc42sm1025167ejb.172.2022.05.26.19.35.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 May 2022 19:35:01 -0700 (PDT)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+        Maximilian Luz <luzmaximilian@gmail.com>
+Subject: [PATCH v2 01/12] platform/surface: aggregator: Allow is_ssam_device() to be used when CONFIG_SURFACE_AGGREGATOR_BUS is disabled
+Date:   Fri, 27 May 2022 04:34:36 +0200
+Message-Id: <20220527023447.2460025-2-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220527023447.2460025-1-luzmaximilian@gmail.com>
+References: <20220527023447.2460025-1-luzmaximilian@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2022-05-26 at 09:43 +0200, Geert Uytterhoeven wrote:
->  	Hi Ben,
-> 
-> On Sat, 21 May 2022, Benjamin Herrenschmidt wrote:
-> > On Wed, 2022-05-18 at 20:13 -0700, Jakub Kicinski wrote:
-> > > Looks like almost all changes to this driver had been tree-wide
-> > > refactoring since git era begun. There is one commit from Al
-> > > 15 years ago which could potentially be fixing a real bug.
-> > > 
-> > > The driver is using virt_to_bus() and is a real magnet for pointless
-> > > cleanups. It seems unlikely to have real users. Let's try to shed
-> > > this maintenance burden.
-> > > 
-> > > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> > 
-> > Removing this driver will kill support for some rather old PowerMac
-> > models (some PowerBooks I think, paulus would know). No objection on my
-> > part, though. I doubt people still use these things with new kernels
-> > but ... who knows ? :-)
-> 
-> Aren't these PCI, and thus working fine with the PCI-only DE2104X
-> (dc2104x) or TULIP (dc2114x) drivers?
-> 
-> IIRC, I've initially used the de4x5 driver on Alpha (UDB/Multia) or PPC
-> (CHRP), but switched to the TULIP driver later (that was before the
-> dc2104x/dc2114x driver split, hence a loooong time ago).
+In SSAM subsystem drivers that handle both ACPI and SSAM-native client
+devices, we may want to check whether we have a SSAM (native) client
+device. Further, we may want to do this even when instantiation thereof
+cannot happen due to CONFIG_SURFACE_AGGREGATOR_BUS=n. Currently, doing
+so causes an error due to an undefined reference error due to
+ssam_device_type being placed in the bus source unit.
 
-I'm pretty sure there were some old Macs who worked with de4x5 and not
-tulip but I wouldn't rememeber the details and I'm not sure any of this
-hardware still exist in the field nor matters.
+Therefore, if CONFIG_SURFACE_AGGREGATOR_BUS is not defined, simply let
+is_ssam_device() return false to prevent this error.
 
-Cheers,
-Ben.
+Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+---
+
+Changes in v2:
+ - Introduce this patch to fix a build issue later on.
+
+---
+ include/linux/surface_aggregator/device.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/include/linux/surface_aggregator/device.h b/include/linux/surface_aggregator/device.h
+index cc257097eb05..62b38b4487eb 100644
+--- a/include/linux/surface_aggregator/device.h
++++ b/include/linux/surface_aggregator/device.h
+@@ -177,6 +177,8 @@ struct ssam_device_driver {
+ 	void (*remove)(struct ssam_device *sdev);
+ };
+ 
++#ifdef CONFIG_SURFACE_AGGREGATOR_BUS
++
+ extern struct bus_type ssam_bus_type;
+ extern const struct device_type ssam_device_type;
+ 
+@@ -193,6 +195,15 @@ static inline bool is_ssam_device(struct device *d)
+ 	return d->type == &ssam_device_type;
+ }
+ 
++#else /* CONFIG_SURFACE_AGGREGATOR_BUS */
++
++static inline bool is_ssam_device(struct device *d)
++{
++	return false;
++}
++
++#endif /* CONFIG_SURFACE_AGGREGATOR_BUS */
++
+ /**
+  * to_ssam_device() - Casts the given device to a SSAM client device.
+  * @d: The device to cast.
+-- 
+2.36.1
 
