@@ -2,153 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4180C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 11:31:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF9CC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 12:13:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349733AbiE0LbD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 May 2022 07:31:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40044 "EHLO
+        id S230337AbiE0MNW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 May 2022 08:13:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236784AbiE0LbB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 07:31:01 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 698675BE74
-        for <linux-doc@vger.kernel.org>; Fri, 27 May 2022 04:31:00 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id 137so3709753pgb.5
-        for <linux-doc@vger.kernel.org>; Fri, 27 May 2022 04:31:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4E04CxCdVI/MP/+iazhHDXvfGTIP9PStXJYRvfIEhjI=;
-        b=YnlYyxCzqR7xfKb3VRR2mNSXpgVuyOSTuSlkdqYkxcxcFvxLT+O/FwUjqzbBfKhP/e
-         ovagfSSkYPyFOvO5iqne2Fd+y1mirPQMZp+NMNFG7FsxCK5staW24K4uwNN+srfWSXfj
-         PzfdgrcY9jSci8uCXt8QnM8PeRsDzBOUF+xjfhhJreydGBLPVctleiba3iQf3AiGjAdI
-         WvPs/I/Y4dyN8xiG4kcgs7M7bG4Pql17cz/VjgXBkGl5Y9CUk5ArYZsGzZydngj6t5OR
-         vNjuaaa8JAl+sbQqvX2Q6aEBhVBSiWIcTc6NMDiYZs7qtEnX+YiHSjj6JCduYc6m7Q5Q
-         z7mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4E04CxCdVI/MP/+iazhHDXvfGTIP9PStXJYRvfIEhjI=;
-        b=Rkstlj9QaZKl7CR1ywyieewSUj80TwNbcL7/hJWmG/rkwUZv0m1yViRGeV71gZOIir
-         uTHTu+C7gqvOwTgGBva39ssR/N0M21DqkNNIU9Ks4PZW8ZTqD8dA6fSoSXcEeDH2t5Jc
-         7tM0jkm+yZk9JDeWAfc6Q6Z8rqnTtVI5cvZlKS0MdgcOds5wUP8FriYS8YerW2vmPaYw
-         GPNPWHtG3+mH/3YbS6US2UUko9j3aKb8L3A6GGvdNAaaI6opIavx7FQQLJJhKf9SE1ry
-         hxbPwqPT+tj3KQ4XFmflDjNda+U6oBzkA1Mx8GYaUO3kdoO2nys1mvwWmkAEO257ARmn
-         TkLw==
-X-Gm-Message-State: AOAM533Eyfmh4+zcLUVGoFjrfSfIp+pHd+ZRge85Lzj3PI7jdUbcarM/
-        ol/zT58d4Tr/uQfl7/9QCtv8Wa5oTB2+dZVYget25g==
-X-Google-Smtp-Source: ABdhPJzW0axHx0xUVC7lrXuhPEy1Kjiuu5xYWgplY0TOS/xjkBkio5x/Uq8QTBCG3MxicRbC/lbfYbxEJAWAPq6IgcI=
-X-Received: by 2002:a63:2601:0:b0:3fa:3b85:11a6 with SMTP id
- m1-20020a632601000000b003fa3b8511a6mr22577729pgm.99.1653651059864; Fri, 27
- May 2022 04:30:59 -0700 (PDT)
+        with ESMTP id S1345614AbiE0MLz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 08:11:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB2A715A768;
+        Fri, 27 May 2022 04:58:56 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 227D161E2A;
+        Fri, 27 May 2022 11:58:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3CA1C385A9;
+        Fri, 27 May 2022 11:58:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1653652735;
+        bh=8Xvx2MIcxZDbHjwzkoQfpdoBGzgQWatAXhXPa8e5VS4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NxrpKW7mg//pPsL6j290DqQ/0N6GhSBhKSII4E0w0OISVoHPKMcFtW9UVLfi3r7NK
+         isd/D24Ta81ZcCsYDR7tMr5wAfy6aadELVtckgKiuz+vscBNtlg1oL7jnQHxlkj0BI
+         fn8YkSVONlR49C1VEoo3EOXKIEWGaEI7OV2D/v20=
+Date:   Fri, 27 May 2022 13:49:16 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Zhang Yuchen <zhangyuchen.lcr@bytedance.com>
+Cc:     akpm@linux-foundation.org, david@redhat.com, peterz@infradead.org,
+        mingo@redhat.com, ast@kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-api@vger.kernel.org, fam.zheng@bytedance.com
+Subject: Re: [PATCH] procfs: add syscall statistics
+Message-ID: <YpC6vAKILgsugi+B@kroah.com>
+References: <20220527110959.54559-1-zhangyuchen.lcr@bytedance.com>
 MIME-Version: 1.0
-References: <20220527073111.14336-1-aajith@arista.com> <4ef24dae-bad0-9641-7eb9-7d8207d198be@gmail.com>
-In-Reply-To: <4ef24dae-bad0-9641-7eb9-7d8207d198be@gmail.com>
-From:   Arun Ajith S <aajith@arista.com>
-Date:   Fri, 27 May 2022 17:00:48 +0530
-Message-ID: <CAOvjArSHVV81nhzK=4PVps47v5==kXOZ8OxTS+kxh93fwJYH1w@mail.gmail.com>
-Subject: Re: [PATCH net] net/ipv6: Change accept_unsolicited_na to accept_untracked_na
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     netdev@vger.kernel.org, davem@davemloft.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        dsahern@kernel.org, yoshfuji@linux-ipv6.org, kuba@kernel.org,
-        pabeni@redhat.com, gilligan@arista.com, noureddine@arista.com,
-        gk@arista.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220527110959.54559-1-zhangyuchen.lcr@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 27, 2022 at 3:00 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> On 5/27/22 14:31, Arun Ajith S wrote:
-> > This change expands the current implementation to match the RFC. The
-> > sysctl knob is also renamed to accept_untracked_na to better reflect the
-> > implementation.
-> >
->
-> Say in imperative, "Expand and rename accept_unsolicited na to
-> accept_untracked_na" in both commit/patch subject and message.
->
-Okay, I will fix this.
+On Fri, May 27, 2022 at 07:09:59PM +0800, Zhang Yuchen wrote:
+> Add /proc/syscalls to display percpu syscall count.
+> 
+> We need a less resource-intensive way to count syscall per cpu
+> for system problem location.
 
-> > -accept_unsolicited_na - BOOLEAN
-> > +accept_untracked_na - BOOLEAN
-> >       Add a new neighbour cache entry in STALE state for routers on receiving an
-> > -     unsolicited neighbour advertisement with target link-layer address option
-> > -     specified. This is as per router-side behavior documented in RFC9131.
-> > -     This has lower precedence than drop_unsolicited_na.
-> > +     neighbour advertisement with target link-layer address option specified
-> > +     if a corresponding entry is not already present.
-> > +     This is as per router-side behavior documented in RFC9131.
-> >
-> > -      ====   ======  ======  ==============================================
-> > -      drop   accept  fwding                   behaviour
-> > -      ----   ------  ------  ----------------------------------------------
-> > -         1        X       X  Drop NA packet and don't pass up the stack
-> > -         0        0       X  Pass NA packet up the stack, don't update NC
-> > -         0        1       0  Pass NA packet up the stack, don't update NC
-> > -         0        1       1  Pass NA packet up the stack, and add a STALE
-> > -                             NC entry
-> > -      ====   ======  ======  ==============================================
-> > +     This has lower precedence than drop_unsolicited_na.
-> >
->
-> I think you should have made similar logical expansion of drop_unsolicited_na to
-> drop_untracked_na. Otherwise, ...
->
-drop_unsolicited_na is a separate feature which is pre-existing in linux-5.18.
+Why?
 
-> >       /* RFC 9131 updates original Neighbour Discovery RFC 4861.
-> > -      * An unsolicited NA can now create a neighbour cache entry
-> > -      * on routers if it has Target LL Address option.
-> > +      * NAs with Target LL Address option without a corresponding
-> > +      * entry in the neighbour cache can now create a STALE neighbour
-> > +      * cache entry on routers.
-> >        *
-> > -      * drop   accept  fwding                   behaviour
-> > -      * ----   ------  ------  ----------------------------------------------
-> > -      *    1        X       X  Drop NA packet and don't pass up the stack
-> > -      *    0        0       X  Pass NA packet up the stack, don't update NC
-> > -      *    0        1       0  Pass NA packet up the stack, don't update NC
-> > -      *    0        1       1  Pass NA packet up the stack, and add a STALE
-> > -      *                          NC entry
-> > -      * Note that we don't do a (daddr == all-routers-mcast) check.
-> > +      *   entry accept  fwding  solicited        behaviour
-> > +      * ------- ------  ------  ---------    ----------------------
-> > +      * present      X       X         0     Set state to STALE
-> > +      * present      X       X         1     Set state to REACHABLE
-> > +      *  absent      0       X         X     Do nothing
-> > +      *  absent      1       0         X     Do nothing
-> > +      *  absent      1       1         X     Add a new STALE entry
-> >        */
->
-> The Documentation/ diff above drops behavior table but in the code comment
-> it is updated. Why didn't update in Documentation/ instead?
->
+How is this less resource intensive than perf?
 
-In the documentation, I skipped the table and mentioned the behavior in words.
-1. drop_unsolicited_na takes precedence over accept_untracked_na.
-2. The feature applies only for routers (fwding=1) and when target
-link-layer address
-     option is specified.
+> There is a similar utility syscount in the BCC project, but syscount
+> has a high performance cost.
 
-Some of the behavior mentioned in the table is existing behavior and
-didn't want to
-document under this feature. I thought it best to skip the table in
-Documentation as
-it is more for code-readability.
+What is that cost?
 
-> And my nitpick: for consistency, prefer en-US words over en-UK or mixed
-> varieties when writing (s/behaviour/behavior/gc, s/neighbour/neighbor/gc).
->
-Sure, I tried to use UK-en since the code uses that, but I might have mixed
-it up unintentionally.  I'll make it uniform in the next version of the patch.
+> The following is a comparison on the same machine, using UnixBench
+> System Call Overhead:
+> 
+>     ┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━┓
+>     ┃ Change        ┃ Unixbench Score ┃ Loss   ┃
+>     ┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━┩
+>     │ no change     │ 1072.6          │ ---    │
+>     │ syscall count │ 982.5           │ 8.40%  │
+>     │ bpf syscount  │ 614.2           │ 42.74% │
+>     └───────────────┴─────────────────┴────────┘
 
-> --
-> An old man doll... just what I always wanted! - Clara
+Again, what about perf?
 
-I accidentally replied in HTML earlier. Fixing it to be plaintext.
+> UnixBench System Call Use sys_gettid to test, this system call only reads
+> one variable, so the performance penalty seems large. When tested with
+> fork, the test scores were almost the same.
+> 
+> So the conclusion is that it does not have a significant impact on system
+> call performance.
+
+8% is huge for a system-wide decrease in performance.  Who would ever
+use this?
+
+> This function depends on CONFIG_FTRACE_SYSCALLS because the system call
+> number is stored in syscall_metadata.
+> 
+> Signed-off-by: Zhang Yuchen <zhangyuchen.lcr@bytedance.com>
+> ---
+>  Documentation/filesystems/proc.rst       | 28 +++++++++
+>  arch/arm64/include/asm/syscall_wrapper.h |  2 +-
+>  arch/s390/include/asm/syscall_wrapper.h  |  4 +-
+>  arch/x86/include/asm/syscall_wrapper.h   |  2 +-
+>  fs/proc/Kconfig                          |  7 +++
+>  fs/proc/Makefile                         |  1 +
+>  fs/proc/syscall.c                        | 79 ++++++++++++++++++++++++
+>  include/linux/syscalls.h                 | 51 +++++++++++++--
+>  8 files changed, 165 insertions(+), 9 deletions(-)
+>  create mode 100644 fs/proc/syscall.c
+> 
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 1bc91fb8c321..80394a98a192 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -686,6 +686,7 @@ files are there, and which are missing.
+>   fs 	      File system parameters, currently nfs/exports	(2.4)
+>   ide          Directory containing info about the IDE subsystem
+>   interrupts   Interrupt usage
+> + syscalls     Syscall count for each cpu
+>   iomem 	      Memory map					(2.4)
+>   ioports      I/O port usage
+>   irq 	      Masks for irq to cpu affinity			(2.4)(smp?)
+> @@ -1225,6 +1226,33 @@ Provides counts of softirq handlers serviced since boot time, for each CPU.
+>      HRTIMER:         0          0          0          0
+>  	RCU:      1678       1769       2178       2250
+>  
+> +syscalls
+> +~~~~~~~~
+> +
+> +Provides counts of syscall since boot time, for each cpu.
+> +
+> +::
+> +
+> +    > cat /proc/syscalls
+> +               CPU0       CPU1       CPU2       CPU3
+> +      0:       3743       3099       3770       3242   sys_read
+> +      1:        222        559        822        522   sys_write
+> +      2:          0          0          0          0   sys_open
+> +      3:       6481      18754      12077       7349   sys_close
+> +      4:      11362      11120      11343      10665   sys_newstat
+> +      5:       5224      13880       8578       5971   sys_newfstat
+> +      6:       1228       1269       1459       1508   sys_newlstat
+> +      7:         90         43         64         67   sys_poll
+> +      8:       1635       1000       2071       1161   sys_lseek
+> +    .... omit the middle line ....
+> +    441:          0          0          0          0   sys_epoll_pwait2
+> +    442:          0          0          0          0   sys_mount_setattr
+> +    443:          0          0          0          0   sys_quotactl_fd
+> +    447:          0          0          0          0   sys_memfd_secret
+> +    448:          0          0          0          0   sys_process_mrelease
+> +    449:          0          0          0          0   sys_futex_waitv
+> +    450:          0          0          0          0   sys_set_mempolicy_home_node
+
+So for systems with large numbers of CPUs, these are huge lines?  Have
+you tested this on large systems?  If so, how big?
+
+thanks,
+
+greg k-h
