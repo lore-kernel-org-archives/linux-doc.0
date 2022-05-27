@@ -2,80 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4834AC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 12:40:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0325C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 12:44:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349571AbiE0MkV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 May 2022 08:40:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54410 "EHLO
+        id S1352958AbiE0Mon (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 May 2022 08:44:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352117AbiE0Mjz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 08:39:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 29E4D11CA34
-        for <linux-doc@vger.kernel.org>; Fri, 27 May 2022 05:27:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1653654463;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=RJxrf4ooyTqpiAItg7I/Q/q7XnsebEkQQNQ2A5YOD9I=;
-        b=Co1tSshUMCi3FjIl3T0V4I6phbN7o0O2EuWQrOy5KdBQr8SAi7iiToXeOpmgclAAIo5ko+
-        ofRWtrkEW6pdyB2gdAOoNTWGKCQ9gurXP9Kozl2pDcRPQezKhzPnVlyUxx/VbDeNljka0D
-        qeWs5+0w7ZzZ4l72Be4JkHUr9aOEPC8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-251-jXjVmR17Pi2O2lmDWrKoXw-1; Fri, 27 May 2022 08:27:38 -0400
-X-MC-Unique: jXjVmR17Pi2O2lmDWrKoXw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 29875101AA45;
-        Fri, 27 May 2022 12:27:37 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.33.36.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2504E1410DD5;
-        Fri, 27 May 2022 12:27:34 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <202205190704.1DC660E5E@keescook>
-References: <202205190704.1DC660E5E@keescook> <165296786831.3591209.12111293034669289733.stgit@warthog.procyon.org.uk>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     dhowells@redhat.com, jlayton@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Eric Van Hensbergen <ericvh@gmail.com>,
-        Latchesar Ionkov <lucho@ionkov.net>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Christian Schoenebeck <linux_oss@crudebyte.com>,
-        Marc Dionne <marc.dionne@auristor.com>,
-        Xiubo Li <xiubli@redhat.com>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Steve French <smfrench@gmail.com>,
-        William Kucharski <william.kucharski@oracle.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        linux-doc@vger.kernel.org, v9fs-developer@lists.sourceforge.net,
-        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
-        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-        linux-fsdevek@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] netfs: Fix gcc-12 warning by embedding vfs inode in netfs_i_context
+        with ESMTP id S1353211AbiE0MoX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 08:44:23 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D303E6389;
+        Fri, 27 May 2022 05:42:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653655376; x=1685191376;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RBf+BVce7/Id2br5aNIEC3LrdxmWWWm7Yn0rzxyk54w=;
+  b=QiaJlbFwvrWW+u65DqT9mPhsfSk2LDwIAId/665aBYatg6ErY8yju9AG
+   lzAAsduU5HrJmo8baB/O42E8lcscJWONTZ4Nni+MU60E2uPLiUXb/lLU4
+   1orNEzN/dlucSVgSuIWTX3CRbmfUMAXhaWsi2DWbchZ7uk+b1HEUpZG99
+   C9w0NGrMclcqyJJlJ5685RxBacb82auEsu7OpSkuR56eo4bBHmKLXmSRM
+   izrUsfM6gh9N3yR5Jv+RHeQUkDkLwYWVzduZK4JJ5DkyBHRrXIt/W2jum
+   cDg9xowYdRagK+nSedvHaEJwvcFEDaduTsYxsgPsC9lodyGublHXvVk1s
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10359"; a="272042475"
+X-IronPort-AV: E=Sophos;i="5.91,255,1647327600"; 
+   d="scan'208";a="272042475"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2022 05:42:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,255,1647327600"; 
+   d="scan'208";a="528104020"
+Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 27 May 2022 05:42:53 -0700
+Received: from kbuild by db63a1be7222 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nuZIq-0004kQ-TI;
+        Fri, 27 May 2022 12:42:52 +0000
+Date:   Fri, 27 May 2022 20:41:55 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Nikolai Kondrashov <spbnick@gmail.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org, Jiri Kosina <jkosina@suse.cz>,
+        =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+        linux-doc@vger.kernel.org
+Subject: drivers/hid/hid-uclogic-params.c:48: warning: This comment starts
+ with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202205272033.XFYlYj8k-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <3598051.1653654453.1@warthog.procyon.org.uk>
-Date:   Fri, 27 May 2022 13:27:33 +0100
-Message-ID: <3598052.1653654453@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Kees,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7e284070abe53d448517b80493863595af4ab5f0
+commit: a228809fa6f39c3fa46ac6b929024686750f7a09 HID: uclogic: Move param printing to a function
+date:   2 weeks ago
+config: i386-randconfig-a002 (https://download.01.org/0day-ci/archive/20220527/202205272033.XFYlYj8k-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 134d7f9a4b97e9035150d970bd9e376043c4577e)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a228809fa6f39c3fa46ac6b929024686750f7a09
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a228809fa6f39c3fa46ac6b929024686750f7a09
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hid/
 
-Is v2 good for you?  I realise I left your R-b attached to it when I posted
-it, but I can remove that if you don't have time to review it.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-David
+All warnings (new ones prefixed by >>):
 
+>> drivers/hid/hid-uclogic-params.c:48: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+   drivers/hid/hid-uclogic-params.c:80: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Dump tablet interface frame parameters with hid_dbg(), indented with two
+   drivers/hid/hid-uclogic-params.c:105: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Dump tablet interface parameters with hid_dbg().
+
+
+vim +48 drivers/hid/hid-uclogic-params.c
+
+    46	
+    47	/**
+  > 48	 * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+    49	 *
+    50	 * @hdev:	The HID device the pen parameters describe.
+    51	 * @pen:	The pen parameters to dump.
+    52	 */
+    53	static void uclogic_params_pen_hid_dbg(const struct hid_device *hdev,
+    54						const struct uclogic_params_pen *pen)
+    55	{
+    56		size_t i;
+    57	
+    58		hid_dbg(hdev, "\t.usage_invalid = %s\n",
+    59			(pen->usage_invalid ? "true" : "false"));
+    60		hid_dbg(hdev, "\t.desc_ptr = %p\n", pen->desc_ptr);
+    61		hid_dbg(hdev, "\t.desc_size = %u\n", pen->desc_size);
+    62		hid_dbg(hdev, "\t.id = %u\n", pen->id);
+    63		hid_dbg(hdev, "\t.subreport_list = {\n");
+    64		for (i = 0; i < ARRAY_SIZE(pen->subreport_list); i++) {
+    65			hid_dbg(hdev, "\t\t{0x%02hhx, %hhu}%s\n",
+    66				pen->subreport_list[i].value,
+    67				pen->subreport_list[i].id,
+    68				i < (ARRAY_SIZE(pen->subreport_list) - 1) ? "," : "");
+    69		}
+    70		hid_dbg(hdev, "\t}\n");
+    71		hid_dbg(hdev, "\t.inrange = %s\n",
+    72			uclogic_params_pen_inrange_to_str(pen->inrange));
+    73		hid_dbg(hdev, "\t.fragmented_hires = %s\n",
+    74			(pen->fragmented_hires ? "true" : "false"));
+    75		hid_dbg(hdev, "\t.tilt_y_flipped = %s\n",
+    76			(pen->tilt_y_flipped ? "true" : "false"));
+    77	}
+    78	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
