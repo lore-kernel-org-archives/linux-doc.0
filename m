@@ -2,128 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0325C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 12:44:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0BA4C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 14:14:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352958AbiE0Mon (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 May 2022 08:44:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59378 "EHLO
+        id S1350400AbiE0OOM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 May 2022 10:14:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353211AbiE0MoX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 08:44:23 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D303E6389;
-        Fri, 27 May 2022 05:42:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653655376; x=1685191376;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RBf+BVce7/Id2br5aNIEC3LrdxmWWWm7Yn0rzxyk54w=;
-  b=QiaJlbFwvrWW+u65DqT9mPhsfSk2LDwIAId/665aBYatg6ErY8yju9AG
-   lzAAsduU5HrJmo8baB/O42E8lcscJWONTZ4Nni+MU60E2uPLiUXb/lLU4
-   1orNEzN/dlucSVgSuIWTX3CRbmfUMAXhaWsi2DWbchZ7uk+b1HEUpZG99
-   C9w0NGrMclcqyJJlJ5685RxBacb82auEsu7OpSkuR56eo4bBHmKLXmSRM
-   izrUsfM6gh9N3yR5Jv+RHeQUkDkLwYWVzduZK4JJ5DkyBHRrXIt/W2jum
-   cDg9xowYdRagK+nSedvHaEJwvcFEDaduTsYxsgPsC9lodyGublHXvVk1s
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10359"; a="272042475"
-X-IronPort-AV: E=Sophos;i="5.91,255,1647327600"; 
-   d="scan'208";a="272042475"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2022 05:42:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,255,1647327600"; 
-   d="scan'208";a="528104020"
-Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 27 May 2022 05:42:53 -0700
-Received: from kbuild by db63a1be7222 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nuZIq-0004kQ-TI;
-        Fri, 27 May 2022 12:42:52 +0000
-Date:   Fri, 27 May 2022 20:41:55 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Nikolai Kondrashov <spbnick@gmail.com>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, Jiri Kosina <jkosina@suse.cz>,
-        =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
-        linux-doc@vger.kernel.org
-Subject: drivers/hid/hid-uclogic-params.c:48: warning: This comment starts
- with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202205272033.XFYlYj8k-lkp@intel.com>
+        with ESMTP id S236208AbiE0OOL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 10:14:11 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9DB75AA4A;
+        Fri, 27 May 2022 07:14:08 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id wh22so9067983ejb.7;
+        Fri, 27 May 2022 07:14:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mDpmMrX6ZAj99tYsLUoYw7iDnZGlJpEI/3VF/4/WHsM=;
+        b=hmiV/2279z7xlKaFk+GxCbmDFupUyDQeF53CqctYwc3ylvA1+g67fm9AYwf3aJD52U
+         2Y0VNqCIPfJbF0YC3jT9aXfuCTHrZQH0zxRrdU5jcN1U1Kr3Xyjgnel+Kg8sZAH6ee2U
+         0dRC/R9cIcfp4pxd3fmznfBJMykLh8g3O16PpM3SZgOtK4GcYkW2MzmtU5DshhyBsBBf
+         3dKOBekLlhYbIn1nXTFG8IGd4yeaLAs2b4LMzjf8mjbboq9RHjfL3e/PH9gzng8YZQoR
+         wqBZqmfZxrzbCTzS+9/EGH3SBeLUcCO/TOjFgUVkrnmnGi4VHBCbnbAcC3eLlGOH/cDk
+         d4rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mDpmMrX6ZAj99tYsLUoYw7iDnZGlJpEI/3VF/4/WHsM=;
+        b=XWvs1OzpyEqn2rhMU2sOJAnRMC9Qb0KkWrQvEEpybCDANviWERnMzdKTzV8aiyBUGn
+         HfqcPxGd+loh56t7alMhH3Q0ezryCE1SoGoUud6dfyt939qEQ4TrgjxJjr4BEoNWPvNZ
+         nmKroZJUnPRTnYy980ah4Ud0Ta9/Ccdh3twtCIZrU/dqNDrlTKjQK/GZPi6iKeX3sY0f
+         gWEXI5FzA9O12F2/E7cSft5VY1WiOxWEv4rVUMWSCqIdp44M+qyDKeZR/WAONDI2BG8v
+         K2gQVHlJ3wEXPjZyQtzfG1xN+aWXYySc4QaQiaVBdXQ5mtkDd1o6ca2HmJVlmG6XPbT9
+         ePnA==
+X-Gm-Message-State: AOAM5320hwJ+ArNo4XFq8NN+JwUKClRz+yG1JczUhHhT/Y10LQMQqysQ
+        wQRha3zL6V8EzSfVax4KAaQES3v6XH5Ksu67WVk=
+X-Google-Smtp-Source: ABdhPJzu+h5wDUX4t7z5kJNxgp3+mHRNUPXxSn4d+Qux7XVdKfp9P59rjLYvyQHCXOcEAGyObqTC+BjeidAUXP/vTKc=
+X-Received: by 2002:a17:907:7da5:b0:6fe:d818:ee49 with SMTP id
+ oz37-20020a1709077da500b006fed818ee49mr24958685ejc.58.1653660847121; Fri, 27
+ May 2022 07:14:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20220527110959.54559-1-zhangyuchen.lcr@bytedance.com>
+In-Reply-To: <20220527110959.54559-1-zhangyuchen.lcr@bytedance.com>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Fri, 27 May 2022 07:13:54 -0700
+Message-ID: <CAADnVQL69J8MWhaNzNG=ANL_i8_QqABON+pWJDuqRTkFGPJYUQ@mail.gmail.com>
+Subject: Re: [PATCH] procfs: add syscall statistics
+To:     Zhang Yuchen <zhangyuchen.lcr@bytedance.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        David Hildenbrand <david@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>, fam.zheng@bytedance.com,
+        bpf <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7e284070abe53d448517b80493863595af4ab5f0
-commit: a228809fa6f39c3fa46ac6b929024686750f7a09 HID: uclogic: Move param printing to a function
-date:   2 weeks ago
-config: i386-randconfig-a002 (https://download.01.org/0day-ci/archive/20220527/202205272033.XFYlYj8k-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 134d7f9a4b97e9035150d970bd9e376043c4577e)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a228809fa6f39c3fa46ac6b929024686750f7a09
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a228809fa6f39c3fa46ac6b929024686750f7a09
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hid/
+On Fri, May 27, 2022 at 4:10 AM Zhang Yuchen
+<zhangyuchen.lcr@bytedance.com> wrote:
+>
+> Add /proc/syscalls to display percpu syscall count.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+I second Peter's nack.
+We don't add debug features to the production kernel.
 
-All warnings (new ones prefixed by >>):
+> We need a less resource-intensive way to count syscall per cpu
+> for system problem location.
+>
+> There is a similar utility syscount in the BCC project, but syscount
+> has a high performance cost.
 
->> drivers/hid/hid-uclogic-params.c:48: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
-   drivers/hid/hid-uclogic-params.c:80: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Dump tablet interface frame parameters with hid_dbg(), indented with two
-   drivers/hid/hid-uclogic-params.c:105: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Dump tablet interface parameters with hid_dbg().
+There are two syscount tools in BCC:
+tools/syscount
+libbpf-tools/syscount
 
+Which one has this 42% overhead?
 
-vim +48 drivers/hid/hid-uclogic-params.c
+The former tool is obsolete though.
+It was written in the days when bpf had 1/10 of
+the features it has today.
+Both tools can be optimized.
+They attach to raw_syscalls tracepoint.
+tracepoints are not cheap.
+In terms of overhead:
+tracepoint > raw_tracepoint > fentry.
+bpf can attach to all three.
 
-    46	
-    47	/**
-  > 48	 * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
-    49	 *
-    50	 * @hdev:	The HID device the pen parameters describe.
-    51	 * @pen:	The pen parameters to dump.
-    52	 */
-    53	static void uclogic_params_pen_hid_dbg(const struct hid_device *hdev,
-    54						const struct uclogic_params_pen *pen)
-    55	{
-    56		size_t i;
-    57	
-    58		hid_dbg(hdev, "\t.usage_invalid = %s\n",
-    59			(pen->usage_invalid ? "true" : "false"));
-    60		hid_dbg(hdev, "\t.desc_ptr = %p\n", pen->desc_ptr);
-    61		hid_dbg(hdev, "\t.desc_size = %u\n", pen->desc_size);
-    62		hid_dbg(hdev, "\t.id = %u\n", pen->id);
-    63		hid_dbg(hdev, "\t.subreport_list = {\n");
-    64		for (i = 0; i < ARRAY_SIZE(pen->subreport_list); i++) {
-    65			hid_dbg(hdev, "\t\t{0x%02hhx, %hhu}%s\n",
-    66				pen->subreport_list[i].value,
-    67				pen->subreport_list[i].id,
-    68				i < (ARRAY_SIZE(pen->subreport_list) - 1) ? "," : "");
-    69		}
-    70		hid_dbg(hdev, "\t}\n");
-    71		hid_dbg(hdev, "\t.inrange = %s\n",
-    72			uclogic_params_pen_inrange_to_str(pen->inrange));
-    73		hid_dbg(hdev, "\t.fragmented_hires = %s\n",
-    74			(pen->fragmented_hires ? "true" : "false"));
-    75		hid_dbg(hdev, "\t.tilt_y_flipped = %s\n",
-    76			(pen->tilt_y_flipped ? "true" : "false"));
-    77	}
-    78	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Please profile libbpf-tools/syscount tool
+with perf and unixbench, understand where overhead
+comes from and then optimize the tool.
