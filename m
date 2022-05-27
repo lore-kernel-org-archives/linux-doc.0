@@ -2,150 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0302FC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 07:35:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C209C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 09:30:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232238AbiE0HfQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 May 2022 03:35:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52014 "EHLO
+        id S239691AbiE0JaT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 May 2022 05:30:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346326AbiE0HfP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 03:35:15 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36635F7495
-        for <linux-doc@vger.kernel.org>; Fri, 27 May 2022 00:35:14 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id cv10so3867598pjb.4
-        for <linux-doc@vger.kernel.org>; Fri, 27 May 2022 00:35:14 -0700 (PDT)
+        with ESMTP id S232733AbiE0JaT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 05:30:19 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55596B7D2;
+        Fri, 27 May 2022 02:30:18 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id f21so3880280pfa.3;
+        Fri, 27 May 2022 02:30:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Gb3zDFV9H+CHGG21xlS3jy0JJ5srdRQ7fNU8vIFlsFk=;
-        b=IyLxRp1mE9Et2lxydx1HPhnWe6DCL7WQy7D5A4YpMUnrflrb5Hiq2ncgVKQXaeUG0P
-         OvI2Jh0vueBWfpXSdRpYFTufDrmHUwIn+L0htDonTuGb+6wTiDbWSP1QEM/0vSZhg//L
-         e/fesYXFPVmRUZcAwt6RYGO/iMF1BYVNS47r131t8pJofG0lvbO2fDqABq5hFYO3g7ku
-         OThkgLBzZzr6BjYTYAokDR5eMHWU9tYlolgm+UhX0JuSeEcZwQNIeaUxiYXNS1QzSFdM
-         7HMNCnDf4AJQl+lmc6Ig6aZpdecCj5f2K5C6NjpgLwzQTRCNzophenbmQn/JlyRb2mHZ
-         nwyQ==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Kb85+2Sd4OjNt+4J6/Cs/eNfwpCKX3GUphCee7XFrA0=;
+        b=dRA5kKlB4Vxde9Kn5agHxoJaXKC90MjU4QDOC+rZq4NLGVzOcNe9EKFibNOB1rPk5T
+         nl2pRDtCiHcdTQDz88k04+KJds+1OdZBIf2XJmViwOYUqIZ/MtRM4xzL2WIpzWVPKoWg
+         a9ahqPsBfneglleaPSt8iRTCBqKiN4QoA4reGENx5hugwB4qrUNK8a5KDQy2LqTysWgy
+         80ns+RyQVtTuv1KGWAOXqtEqGM8J/s4uGOchCsP4s9rgyu79tQyEFIVBNKM1PzI58bhu
+         pfIFqSkrKGl21TtR/UZkJzAnpiOakY0kE3v1ZltbS5HwUDlbxfr/qbNP46ItsiNi+BLF
+         wW9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Gb3zDFV9H+CHGG21xlS3jy0JJ5srdRQ7fNU8vIFlsFk=;
-        b=EpPT2K96rv8ZulzGL8DPiZudjpQMLz3OdxDHC0v9hBHu4OYaH2H4HNev1poulzI3ac
-         NIOUNtWe1mj227wxIgWtOxhoJZyqEigS1sNx3SEBBDqg32lKprGHIbyeHEXF9OmGMvau
-         clsU2a3ynG1RvfRitJ2m9KniDkIMkncKN7nzeps0bvbz1vJUfhZj2RrZEBAbKWCyTyOs
-         6RvjaNSWKPwjw0D3D8wtIAhfgJ3EILlfYzAzsM6DYpLr8XKoK/+JrMUV5tU06bER3zM5
-         mwKvgQZpi5mVIap2yXuEZcrAVbv2x/O3sckblMx2abfHCP6y/ZMzm629kNI3wDsbUhIM
-         4jTg==
-X-Gm-Message-State: AOAM530YuoV0s4OdLtLhz2ualbWHIN7jII1K9DkyndQzLyJN+g1qIpNx
-        SP37hgPFbauKUvCo0vFLHCtT2t7lImMMQJEZInwYgw==
-X-Google-Smtp-Source: ABdhPJw62TEM52pirxa8VD09mT1OBlEzVQWoJlfF2xpk/wGrpzAjxoAYWL4kPHvBmJ5aNWUYCtrIJHogrA12d6+IRHo=
-X-Received: by 2002:a17:902:ee52:b0:161:96bc:da8f with SMTP id
- 18-20020a170902ee5200b0016196bcda8fmr41431829plo.25.1653636913616; Fri, 27
- May 2022 00:35:13 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Kb85+2Sd4OjNt+4J6/Cs/eNfwpCKX3GUphCee7XFrA0=;
+        b=cXM0D5DKOTpzyr3GB5FQbj8P6c5gd09RnaPLp05v/vT8/ga1QKpPGOFJdXqiMtTT/z
+         UiNNsy5I1HRqUb7zv8eW66Lxjms4OmSQUKHlHDE05SVwlMPv3jdwuXhTEB2Znzqn6uDN
+         SF68BeYqyX4dKL3/K2aRKF8FJKW3xtGYaCPG8n0RAfcTP4PqZeM2W0/MOzOZg3LGDQYX
+         c4OTumAvSZP13n1d/Hd9mPmlXjoJYxIFKM70/nfLb5dx+3nI6z/BZaDNMbH4d5H/Z5br
+         yn2tm8n4bvsnbbyDX7ogS7EA4EKk9BkZMdOVIa5GkGTTt81ffx3AeLf4HadGOKADRAPP
+         iG0g==
+X-Gm-Message-State: AOAM533XPBZjrPyiSTkHfuYCn9j0af51CZx212wIbA9qUJoM18iQRI3F
+        STq9q2tWJ15yZFnWn6SK14/Pzr8a0ks=
+X-Google-Smtp-Source: ABdhPJxv3qbdZEQ+ZKYas5PE5Hw73EwjZbafG3koZF/0HUt4zVxZ1LvuI7uC/m+PGHV93tlQTJuj4Q==
+X-Received: by 2002:a65:6a15:0:b0:3f6:1815:f540 with SMTP id m21-20020a656a15000000b003f61815f540mr35560176pgu.45.1653643817739;
+        Fri, 27 May 2022 02:30:17 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-49.three.co.id. [116.206.28.49])
+        by smtp.gmail.com with ESMTPSA id k71-20020a63844a000000b003db7de758besm3042313pgd.5.2022.05.27.02.30.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 May 2022 02:30:16 -0700 (PDT)
+Message-ID: <4ef24dae-bad0-9641-7eb9-7d8207d198be@gmail.com>
+Date:   Fri, 27 May 2022 16:30:11 +0700
 MIME-Version: 1.0
-References: <20220413143434.527-1-aajith@arista.com> <350f6a02-2975-ac1b-1c9d-ab738722a9fe@kernel.org>
- <CAOvjArTAce_68CkoUff_=Hi+mr731dsWcQdEbaev4xaMDFZNug@mail.gmail.com> <5f189615-8701-e2ca-d9a6-d6037f8799aa@kernel.org>
-In-Reply-To: <5f189615-8701-e2ca-d9a6-d6037f8799aa@kernel.org>
-From:   Arun Ajith S <aajith@arista.com>
-Date:   Fri, 27 May 2022 13:05:01 +0530
-Message-ID: <CAOvjArT+0Os_LBcAoZ778OYXZCw3N6WhbPG8ANnNGV=Ms-QStQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v3] net/ipv6: Introduce accept_unsolicited_na
- knob to implement router-side changes for RFC9131
-To:     David Ahern <dsahern@kernel.org>
-Cc:     netdev@vger.kernel.org, davem@davemloft.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH net] net/ipv6: Change accept_unsolicited_na to
+ accept_untracked_na
+Content-Language: en-US
+To:     Arun Ajith S <aajith@arista.com>, netdev@vger.kernel.org
+Cc:     davem@davemloft.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, dsahern@kernel.org,
         yoshfuji@linux-ipv6.org, kuba@kernel.org, pabeni@redhat.com,
-        corbet@lwn.net, prestwoj@gmail.com, gilligan@arista.com,
-        noureddine@arista.com, gk@arista.com
-Content-Type: text/plain; charset="UTF-8"
+        gilligan@arista.com, noureddine@arista.com, gk@arista.com
+References: <20220527073111.14336-1-aajith@arista.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220527073111.14336-1-aajith@arista.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 21, 2022 at 7:30 AM David Ahern <dsahern@kernel.org> wrote:
+On 5/27/22 14:31, Arun Ajith S wrote:
+> This change expands the current implementation to match the RFC. The
+> sysctl knob is also renamed to accept_untracked_na to better reflect the
+> implementation.
 >
-> On 5/20/22 1:19 AM, Arun Ajith S wrote:
-> > On Thu, Apr 14, 2022 at 3:37 AM David Ahern <dsahern@kernel.org> wrote:
-> >>
-> >> On 4/13/22 8:34 AM, Arun Ajith S wrote:
-> >>> diff --git a/tools/testing/selftests/net/ndisc_unsolicited_na_test.py b/tools/testing/selftests/net/ndisc_unsolicited_na_test.py
-> >>> new file mode 100755
-> >>> index 000000000000..f508657ee126
-> >>> --- /dev/null
-> >>> +++ b/tools/testing/selftests/net/ndisc_unsolicited_na_test.py
-> >>> @@ -0,0 +1,255 @@
-> >>> +#!/bin/bash
-> >>
-> >> that file name suffix should be .sh since it is a bash script; not .py
-> >>
-> >> other than that looks good to me.
-> >>
-> >> Reviewed-by: David Ahern <dsahern@kernel.org>
-> >
-> > Hi David,
-> >
-> > It has been pointed out to me that I might have read RFC9131 in a
-> > narrower sense than what was intended.
-> > The behavior of adding a new entry in the neighbour cache on receiving
-> > a NA if none exists presently
-> > shouldn't be limited to unsolicited NAs like in my original patch,
-> > rather it should extend to all NAs.
-> >
-> > I am quoting from the RFC below
-> >
-> >    |  When a valid Neighbor Advertisement is received (either solicited
-> >    |  or unsolicited), the Neighbor Cache is searched for the target's
-> >    |  entry.  If no entry exists:
-> >    |
-> >    |  *  Hosts SHOULD silently discard the advertisement.  There is no
-> >    |     need to create an entry if none exists, since the recipient has
-> >    |     apparently not initiated any communication with the target.
-> >    |
-> >    |  *  Routers SHOULD create a new entry for the target address with
-> >    |     the link-layer address set to the Target Link-Layer Address
-> >    |     Option (if supplied).  The entry's reachability state MUST be
-> >    |     set to STALE.  If the received Neighbor Advertisement does not
-> >    |     contain the Target Link-Layer Address Option, the advertisement
-> >    |     SHOULD be silently discarded.
-> >
-> > I want to fix this, but this would mean the sysctl name
-> > accept_unsolicited_na is no longer appropriate
-> > I see that the net-next window for 5.19 is still open and changing the
-> > sysctl name
-> > wouldn't mean changing an existing interface.
-> > I was thinking of renaming the sysctl to accept_untracked_na to
-> > highlight that we are accepting NAs even if there is
-> > no corresponding entry tracked in the neighbor cache.
-> >
-> > Also, there's an error in my comment, where I say "pass up the stack"
-> > as we don't pass NAs up the stack.
-> > The comment can be updated as:
-> >         /* RFC 9131 updates original Neighbour Discovery RFC 4861.
-> >          * NAs with Target LL Address option without a corresponding
-> >          * entry in the neighbour cache can now create a STALE neighbour
-> >          * cache entry on routers.
-> >          *
-> >          *   entry accept  fwding  solicited        behaviour
-> >          * ------- ------  ------  ---------    ----------------------
-> >          * present      X       X         0     Set state to STALE
-> >          * present      X       X         1     Set state to REACHABLE
-> >          *  absent      0       X         X     Do nothing
-> >          *  absent      1       0         X     Do nothing
-> >          *  absent      1       1         X     Add a new STALE entry
-> >          */
-> >
-> > In summary
-> > 1. accept=0 keeps original(5.18) behavior for all cases.
-> > 2. accept=1 changes original behavior for entry=asbent, fwding=1 case
-> > provided the NA had specified target link-layer address.
-> >
-> > Please let me know what you think.
-> >
->
-> Changes can be made until it is in a released kernel to users. This
-> feature has many weeks before it hits that level.
 
-Thanks, I have made the proposed changes here:
-https://patchwork.kernel.org/project/netdevbpf/patch/20220527073111.14336-1-aajith@arista.com/
+Say in imperative, "Expand and rename accept_unsolicited na to
+accept_untracked_na" in both commit/patch subject and message.
+
+> -accept_unsolicited_na - BOOLEAN
+> +accept_untracked_na - BOOLEAN
+>  	Add a new neighbour cache entry in STALE state for routers on receiving an
+> -	unsolicited neighbour advertisement with target link-layer address option
+> -	specified. This is as per router-side behavior documented in RFC9131.
+> -	This has lower precedence than drop_unsolicited_na.
+> +	neighbour advertisement with target link-layer address option specified
+> +	if a corresponding entry is not already present.
+> +	This is as per router-side behavior documented in RFC9131.
+>  
+> -	 ====   ======  ======  ==============================================
+> -	 drop   accept  fwding                   behaviour
+> -	 ----   ------  ------  ----------------------------------------------
+> -	    1        X       X  Drop NA packet and don't pass up the stack
+> -	    0        0       X  Pass NA packet up the stack, don't update NC
+> -	    0        1       0  Pass NA packet up the stack, don't update NC
+> -	    0        1       1  Pass NA packet up the stack, and add a STALE
+> -	                        NC entry
+> -	 ====   ======  ======  ==============================================
+> +	This has lower precedence than drop_unsolicited_na.
+>  
+
+I think you should have made similar logical expansion of drop_unsolicited_na to
+drop_untracked_na. Otherwise, ...
+
+>  	/* RFC 9131 updates original Neighbour Discovery RFC 4861.
+> -	 * An unsolicited NA can now create a neighbour cache entry
+> -	 * on routers if it has Target LL Address option.
+> +	 * NAs with Target LL Address option without a corresponding
+> +	 * entry in the neighbour cache can now create a STALE neighbour
+> +	 * cache entry on routers.
+>  	 *
+> -	 * drop   accept  fwding                   behaviour
+> -	 * ----   ------  ------  ----------------------------------------------
+> -	 *    1        X       X  Drop NA packet and don't pass up the stack
+> -	 *    0        0       X  Pass NA packet up the stack, don't update NC
+> -	 *    0        1       0  Pass NA packet up the stack, don't update NC
+> -	 *    0        1       1  Pass NA packet up the stack, and add a STALE
+> -	 *                          NC entry
+> -	 * Note that we don't do a (daddr == all-routers-mcast) check.
+> +	 *   entry accept  fwding  solicited        behaviour
+> +	 * ------- ------  ------  ---------    ----------------------
+> +	 * present      X       X         0     Set state to STALE
+> +	 * present      X       X         1     Set state to REACHABLE
+> +	 *  absent      0       X         X     Do nothing
+> +	 *  absent      1       0         X     Do nothing
+> +	 *  absent      1       1         X     Add a new STALE entry
+>  	 */
+
+The Documentation/ diff above drops behavior table but in the code comment
+it is updated. Why didn't update in Documentation/ instead?
+
+And my nitpick: for consistency, prefer en-US words over en-UK or mixed
+varieties when writing (s/behaviour/behavior/gc, s/neighbour/neighbor/gc).
+
+-- 
+An old man doll... just what I always wanted! - Clara
