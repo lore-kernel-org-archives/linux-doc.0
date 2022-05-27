@@ -2,89 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 970FAC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 12:36:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4834AC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 12:40:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352434AbiE0MgL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 May 2022 08:36:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49866 "EHLO
+        id S1349571AbiE0MkV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 May 2022 08:40:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353021AbiE0MgA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 08:36:00 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A58266542D;
-        Fri, 27 May 2022 05:18:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=geAMsSyauLMOVPX6W6eghzalquulsdZss1iC62RITD4=; b=OXBSZOwIzEo0nW3OGXNYDNcso7
-        cSVBDSeUyodCUGjW0kjEI72x26/sZY5G+halPOjMqHW/csefH0Qc0ACDbcJZWOM0C9aigW5ZLORDm
-        RYg+7mO8/e9EueIsvDw+GKz19plfEHQ2UZuRXBz6+rI7XgUQOZstvPajG8UOVVgRIagN6NWkQSVTR
-        XNOJw6mMu6xvqKpm0T7KzjyoMmQrDk8MNY5VChOS/kM+87zJvSTzJXoN1cAMoxjkMBxrV7gJsbDj1
-        0FdOWr3Qp9iK5HFfqvrXQJLS5gs0S1zcj/zvA2wwzyCWwn9NVEh6NXN1+myb1Ow7VJaqxyGrqR3bl
-        yobvkScw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nuYv9-00255Z-AA; Fri, 27 May 2022 12:18:23 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 2463B300327;
-        Fri, 27 May 2022 14:18:20 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id C06992026D29A; Fri, 27 May 2022 14:18:20 +0200 (CEST)
-Date:   Fri, 27 May 2022 14:18:20 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Zhang Yuchen <zhangyuchen.lcr@bytedance.com>
-Cc:     akpm@linux-foundation.org, david@redhat.com, mingo@redhat.com,
-        ast@kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-api@vger.kernel.org, fam.zheng@bytedance.com
-Subject: Re: [PATCH] procfs: add syscall statistics
-Message-ID: <YpDBjDTpS4evca3F@hirez.programming.kicks-ass.net>
-References: <20220527110959.54559-1-zhangyuchen.lcr@bytedance.com>
+        with ESMTP id S1352117AbiE0Mjz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 08:39:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 29E4D11CA34
+        for <linux-doc@vger.kernel.org>; Fri, 27 May 2022 05:27:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1653654463;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=RJxrf4ooyTqpiAItg7I/Q/q7XnsebEkQQNQ2A5YOD9I=;
+        b=Co1tSshUMCi3FjIl3T0V4I6phbN7o0O2EuWQrOy5KdBQr8SAi7iiToXeOpmgclAAIo5ko+
+        ofRWtrkEW6pdyB2gdAOoNTWGKCQ9gurXP9Kozl2pDcRPQezKhzPnVlyUxx/VbDeNljka0D
+        qeWs5+0w7ZzZ4l72Be4JkHUr9aOEPC8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-251-jXjVmR17Pi2O2lmDWrKoXw-1; Fri, 27 May 2022 08:27:38 -0400
+X-MC-Unique: jXjVmR17Pi2O2lmDWrKoXw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 29875101AA45;
+        Fri, 27 May 2022 12:27:37 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.33.36.8])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2504E1410DD5;
+        Fri, 27 May 2022 12:27:34 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <202205190704.1DC660E5E@keescook>
+References: <202205190704.1DC660E5E@keescook> <165296786831.3591209.12111293034669289733.stgit@warthog.procyon.org.uk>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     dhowells@redhat.com, jlayton@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Eric Van Hensbergen <ericvh@gmail.com>,
+        Latchesar Ionkov <lucho@ionkov.net>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Christian Schoenebeck <linux_oss@crudebyte.com>,
+        Marc Dionne <marc.dionne@auristor.com>,
+        Xiubo Li <xiubli@redhat.com>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Steve French <smfrench@gmail.com>,
+        William Kucharski <william.kucharski@oracle.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-doc@vger.kernel.org, v9fs-developer@lists.sourceforge.net,
+        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
+        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+        linux-fsdevek@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] netfs: Fix gcc-12 warning by embedding vfs inode in netfs_i_context
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220527110959.54559-1-zhangyuchen.lcr@bytedance.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3598051.1653654453.1@warthog.procyon.org.uk>
+Date:   Fri, 27 May 2022 13:27:33 +0100
+Message-ID: <3598052.1653654453@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 27, 2022 at 07:09:59PM +0800, Zhang Yuchen wrote:
-> Add /proc/syscalls to display percpu syscall count.
-> 
-> We need a less resource-intensive way to count syscall per cpu
-> for system problem location.
-> 
-> There is a similar utility syscount in the BCC project, but syscount
-> has a high performance cost.
-> 
-> The following is a comparison on the same machine, using UnixBench
-> System Call Overhead:
-> 
->     ┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━┓
->     ┃ Change        ┃ Unixbench Score ┃ Loss   ┃
->     ┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━┩
->     │ no change     │ 1072.6          │ ---    │
->     │ syscall count │ 982.5           │ 8.40%  │
->     │ bpf syscount  │ 614.2           │ 42.74% │
->     └───────────────┴─────────────────┴────────┘
-> 
-> UnixBench System Call Use sys_gettid to test, this system call only reads
-> one variable, so the performance penalty seems large. When tested with
-> fork, the test scores were almost the same.
-> 
-> So the conclusion is that it does not have a significant impact on system
-> call performance.
-> 
-> This function depends on CONFIG_FTRACE_SYSCALLS because the system call
-> number is stored in syscall_metadata.
+Hi Kees,
 
-Death by a thousand cuts. 99% of people won't ever use this.
+Is v2 good for you?  I realise I left your R-b attached to it when I posted
+it, but I can remove that if you don't have time to review it.
 
-NAK
+David
+
