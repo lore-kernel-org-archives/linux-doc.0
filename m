@@ -2,166 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44018C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 02:35:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 896BBC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 27 May 2022 06:19:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236258AbiE0CfV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 May 2022 22:35:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34146 "EHLO
+        id S244898AbiE0GTE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 May 2022 02:19:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235956AbiE0CfS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 May 2022 22:35:18 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37017E7300;
-        Thu, 26 May 2022 19:35:17 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id rq11so6245344ejc.4;
-        Thu, 26 May 2022 19:35:17 -0700 (PDT)
+        with ESMTP id S244816AbiE0GTD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 May 2022 02:19:03 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A1EB674FA
+        for <linux-doc@vger.kernel.org>; Thu, 26 May 2022 23:19:01 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id q92-20020a17090a17e500b001e0817e77f6so6281717pja.5
+        for <linux-doc@vger.kernel.org>; Thu, 26 May 2022 23:19:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=WFOZ0wSJDgueU2ApWnB4MpwbpRX3WdE3tzmT7S9PvJc=;
-        b=G1mmGNRNUl74FG9g/HTs0FcH4PgdmnI+yMm7v3YoIvZhY0kXOVkSMheJ7OQEJ/dqw4
-         PR4HShdnxC4NA/bL5UQmnrWn+TyYHOFQMZLKuLFKV+804h6enijYWIZObpWeflPdcRKP
-         wKCln0LjYNtxPq6s/w+Zp7LTEGouQlQIYAotylhQ5mz+I9rzybev74gb6Lh6rpk/2/r5
-         d6lMcgmOdl5IXDg+6+E9cNxp/KJMd0ke6UY0Ay6nip8bOtT8ejfyzSViLgr2Kko3rnm5
-         1SSNdQJzqNNxerRdAB8v1+4OVGFgGP3XxCK+aPWYi9wBfkGelaIRHqQnQ4/cwC7i1DN4
-         mODQ==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=YmwNb7GmrMj+Aj35yVXxyxMSFu/WwxZF0+SnvsJ3ZBc=;
+        b=FzUlge1dsiQ6u9tgG56Pfq2xP/PEWoglv6yK0nFxU8GkPm7H/d8o3U5dM9cYHb4B67
+         +dfLCEGA2ux9VbPFR4jvktJK7Xk8temg1Ueb2KBaK0/HqHpIFgiMJJfWvoPmoLs3DCJ+
+         AXp6969Vphe4sM0QHM4A21a8UUt+O4XcgwkjxGgyDZpSV5cCUHAS7M8599NmAEaVOpjK
+         SB/l5mCHtxYBppDKeTjEh6JahyN7NnT3AbE1i+8pY6ZMR5XcjGtGU/XGdJW2+Qe1cYnn
+         ReN+KxESb/+a0AuE2xXATd4lYeGRk+HcY9yqpgQefmLAvGQPZpyTtizW9oFy7WQiOsoO
+         a0WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WFOZ0wSJDgueU2ApWnB4MpwbpRX3WdE3tzmT7S9PvJc=;
-        b=pa8XZ3PP3rzAYfd4YGXZpGc9u0dIONuAULlPcXbwXfq2kpcEeQ7RcYCAFyutkyF8dW
-         FcLwWaVrRo/QDd1JW1NaAmIic7fRG7m1eTnzvJvQyy1WopgmnBhfHinhbWYorpUFWKDe
-         XbqX0KfNEuvMmKA8neHvzIB0bxrgVlmh1CJ4ANCZUbl9KfgqNjP3LrOwhApjONIZzwx4
-         k9xwohnHhRpuGmNL3BEoDf+k0KbfC0YlfpXVw5AqiFTyFJPtsq1RMhYDK3PpWc5B2ld+
-         vsz/S11GCIRltx/kWQudjkecO8aaS2Nm782tfUstB3zzEY2cNSacMwXNA9tZj0adi4f0
-         cGpw==
-X-Gm-Message-State: AOAM533nnWCSkKjKfahLPNVPFjUbvH8I8TFzDcU4u4gYrPVxBnShj3ma
-        HHpOrP7z8cndZtuq4+nLPSp/3qq9VFg=
-X-Google-Smtp-Source: ABdhPJzo0N5ai7blH/ekrgVvA9G5UhSkdgGbol1Xwnud+CzDevIEuF0Ljy43o56zR0FB0XKVhtaWXg==
-X-Received: by 2002:a17:907:7f26:b0:6ff:ab8:e85 with SMTP id qf38-20020a1709077f2600b006ff0ab80e85mr12677292ejc.281.1653618916823;
-        Thu, 26 May 2022 19:35:16 -0700 (PDT)
-Received: from xws.localdomain ([37.120.217.83])
-        by smtp.gmail.com with ESMTPSA id qn12-20020a170907210c00b006fe89cafc42sm1025167ejb.172.2022.05.26.19.35.15
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=YmwNb7GmrMj+Aj35yVXxyxMSFu/WwxZF0+SnvsJ3ZBc=;
+        b=iYg9NYjb5hJknCzMXk0+4wxcePRy2pWcltmz86sjLwG3Z5Bv3+T/aD+qjsjTYk3xM/
+         BkIaZe0sBPWsDLqTq2/pNc+3JgE8AOdvSV535DQ01MCHzpF6qTllHiaUSbdZ57st+TD/
+         r58Q0pg9GPfJJPP02kFDRw0dzxamGiwTxETXEYCTqvYT1OxIgnVBVLV4y8jKOEWNFMNL
+         rYNrcyqFq66rIVeeTazvqh6WM4ACDhpj22zxI441gC3xqLMrUkYl0WXWQn5g3/EibyWW
+         GCLytzIkra5gCnWN31LIPtjga+iYXK351txHxgYKFK2JdoGAeEwGSREmsrfgui4jcBVA
+         syEw==
+X-Gm-Message-State: AOAM5331ZGZnOCo9u7ZCcMEGJiFLJpBIMgc0U3Gy86WLgYxktEH1+is2
+        AZw7m9hsq6OFyRGqqeeJWJ+X0Q==
+X-Google-Smtp-Source: ABdhPJwqhqEGd9W8CmvrTs80ShemtIPeUuS1DxDxJentbUWgEs/zUXhACYfIaks1ckbEKdUM/Z1qTA==
+X-Received: by 2002:a17:902:7004:b0:161:f216:4f3f with SMTP id y4-20020a170902700400b00161f2164f3fmr34842103plk.98.1653632341007;
+        Thu, 26 May 2022 23:19:01 -0700 (PDT)
+Received: from leoy-ThinkPad-X240s (n058152048195.netvigator.com. [58.152.48.195])
+        by smtp.gmail.com with ESMTPSA id p6-20020a62ab06000000b0051843980605sm2550902pff.181.2022.05.26.23.18.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 May 2022 19:35:16 -0700 (PDT)
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-        Maximilian Luz <luzmaximilian@gmail.com>
-Subject: [PATCH v2 12/12] platform/surface: aggregator_registry: Add support for keyboard cover on Surface Pro 8
-Date:   Fri, 27 May 2022 04:34:47 +0200
-Message-Id: <20220527023447.2460025-13-luzmaximilian@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220527023447.2460025-1-luzmaximilian@gmail.com>
-References: <20220527023447.2460025-1-luzmaximilian@gmail.com>
+        Thu, 26 May 2022 23:19:00 -0700 (PDT)
+Date:   Fri, 27 May 2022 14:18:54 +0800
+From:   Leo Yan <leo.yan@linaro.org>
+To:     Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc:     James Clark <james.clark@arm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, broonie@kernel.org,
+        german.gomez@arm.com, John Garry <john.garry@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 4/6] perf tools: Use dynamic register set for Dwarf
+ unwind
+Message-ID: <20220527061854.GA829807@leoy-ThinkPad-X240s>
+References: <20220509144257.1623063-1-james.clark@arm.com>
+ <20220509144257.1623063-5-james.clark@arm.com>
+ <Yo+gYbLNnYGOPzGs@kernel.org>
+ <Yo/EytFDKnOEiWCa@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yo/EytFDKnOEiWCa@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for the detachable keyboard cover on the Surface Pro 8.
+On Thu, May 26, 2022 at 03:19:54PM -0300, Arnaldo Carvalho de Melo wrote:
 
-The keyboard cover on the Surface Pro 8 is, unlike the keyboard covers
-of earlier Surface Pro generations, handled via the Surface System
-Aggregator Module (SSAM). The keyboard and touchpad (as well as other
-HID input devices) of this cover are standard SSAM HID client devices
-(just like keyboard and touchpad on e.g. the Surface Laptop 3 and 4),
-however, some care needs to be taken as they can be physically detached
-(similarly to the Surface Book 3). Specifically, the respective SSAM
-client devices need to be removed when the keyboard cover has been
-detached and (re-)initialized when the keyboard cover has been
-(re-)attached.
+[...]
 
-On the Surface Pro 8, detachment of the keyboard cover (and by extension
-its devices) is managed via the KIP subsystem. Therefore, said devices
-need to be registered under the KIP device hub, which in turn will
-remove and re-create/re-initialize those devices as needed.
+> Too old to support?
+> 
+>   69     7.19 ubuntu:16.04-x-arm64          : FAIL gcc version 5.4.0 20160609 (Ubuntu/Linaro 5.4.0-6ubuntu1~16.04.9)
+>     arch/arm64/util/perf_regs.c: In function 'arch__user_reg_mask':
+>     arch/arm64/util/perf_regs.c:151:28: error: 'HWCAP_SVE' undeclared (first use in this function)
+>       if (getauxval(AT_HWCAP) & HWCAP_SVE)
+>                                 ^
+>     arch/arm64/util/perf_regs.c:151:28: note: each undeclared identifier is reported only once for each function it appears in
+>     /git/perf-5.18.0/tools/build/Makefile.build:139: recipe for target 'util' failed
+>     make[5]: *** [util] Error 2
+>     /git/perf-5.18.0/tools/build/Makefile.build:139: recipe for target 'arm64' failed
+>     make[4]: *** [arm64] Error 2
+>     /git/perf-5.18.0/tools/build/Makefile.build:139: recipe for target 'arch' failed
+>     make[3]: *** [arch] Error 2
+> 
+> 
+> ⬢[acme@toolbox perf]$ find . -name "*.h" | xargs grep -w HWCAP_SVE
+> ./arch/arm64/include/uapi/asm/hwcap.h:#define HWCAP_SVE		(1 << 22)
+> ⬢[acme@toolbox perf]$ 
 
-Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
----
+I tested aarch64 GCC-7.4.1 which doesn't support HWCAP_SVE, but
+aarch64 GCC-8.3.0 and GCC-9.4.0 support it.
 
-Changes in v2:
-  - Change order of KIP and BAS hub definitions to reflect IDs.
+Either we can add below code:
 
----
- .../surface/surface_aggregator_registry.c     | 37 ++++++++++++++++++-
- 1 file changed, 36 insertions(+), 1 deletion(-)
+  #ifndef HWCAP_SVE
+  #define HWCAP_SVE		(1 << 22)
+  #endif
 
-diff --git a/drivers/platform/surface/surface_aggregator_registry.c b/drivers/platform/surface/surface_aggregator_registry.c
-index f15cef60630f..bf3303f1aa71 100644
---- a/drivers/platform/surface/surface_aggregator_registry.c
-+++ b/drivers/platform/surface/surface_aggregator_registry.c
-@@ -41,6 +41,12 @@ static const struct software_node ssam_node_root = {
- 	.name = "ssam_platform_hub",
- };
- 
-+/* KIP device hub (connects keyboard cover devices on Surface Pro 8). */
-+static const struct software_node ssam_node_hub_kip = {
-+	.name = "ssam:00:00:01:0e:00",
-+	.parent = &ssam_node_root,
-+};
-+
- /* Base device hub (devices attached to Surface Book 3 base). */
- static const struct software_node ssam_node_hub_base = {
- 	.name = "ssam:00:00:02:11:00",
-@@ -155,6 +161,30 @@ static const struct software_node ssam_node_hid_base_iid6 = {
- 	.parent = &ssam_node_hub_base,
- };
- 
-+/* HID keyboard (KIP hub). */
-+static const struct software_node ssam_node_hid_kip_keyboard = {
-+	.name = "ssam:01:15:02:01:00",
-+	.parent = &ssam_node_hub_kip,
-+};
-+
-+/* HID pen stash (KIP hub; pen taken / stashed away evens). */
-+static const struct software_node ssam_node_hid_kip_penstash = {
-+	.name = "ssam:01:15:02:02:00",
-+	.parent = &ssam_node_hub_kip,
-+};
-+
-+/* HID touchpad (KIP hub). */
-+static const struct software_node ssam_node_hid_kip_touchpad = {
-+	.name = "ssam:01:15:02:03:00",
-+	.parent = &ssam_node_hub_kip,
-+};
-+
-+/* HID device instance 5 (KIP hub, unknown HID device). */
-+static const struct software_node ssam_node_hid_kip_iid5 = {
-+	.name = "ssam:01:15:02:05:00",
-+	.parent = &ssam_node_hub_kip,
-+};
-+
- /*
-  * Devices for 5th- and 6th-generations models:
-  * - Surface Book 2,
-@@ -230,10 +260,15 @@ static const struct software_node *ssam_node_group_sp7[] = {
- 
- static const struct software_node *ssam_node_group_sp8[] = {
- 	&ssam_node_root,
-+	&ssam_node_hub_kip,
- 	&ssam_node_bat_ac,
- 	&ssam_node_bat_main,
- 	&ssam_node_tmp_pprof,
--	/* TODO: Add support for keyboard cover. */
-+	&ssam_node_hid_kip_keyboard,
-+	&ssam_node_hid_kip_penstash,
-+	&ssam_node_hid_kip_touchpad,
-+	&ssam_node_hid_kip_iid5,
-+	/* TODO: Add support for tablet mode switch. */
- 	NULL,
- };
- 
--- 
-2.36.1
+Or directly include header file <.../asm/hwcap.h>.
 
+Not sure which method is preferred.  Maybe the first approach can be
+de-couple with Linux kernel code?
+
+Thanks,
+Leo
