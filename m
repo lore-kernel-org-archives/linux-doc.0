@@ -2,105 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E0DEC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 28 May 2022 09:14:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20364C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 28 May 2022 13:57:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232395AbiE1JOo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 May 2022 05:14:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57014 "EHLO
+        id S236202AbiE1N5Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 May 2022 09:57:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232350AbiE1JOn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 May 2022 05:14:43 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 084365FB0;
-        Sat, 28 May 2022 02:14:41 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id y1so6306188pfr.6;
-        Sat, 28 May 2022 02:14:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2cmreXVkKeTuS3iLda3uDJCEUdvooYyM7QNARThfArQ=;
-        b=VTRt1uLhMTgIvoICyNK1K4DvISkrJto6QUdz42wHaQhFckzhegvbpDenZo1DkDOsuP
-         lECoEOynKmg/Ze93ddslExgRDFXN9ZEbbT1sN8I3ZE3dxVWd4hlEJojzEDtVC5S2ybDx
-         O3M+kDI7BSFLOBRuRtDow343Wthn0enWane8a0D/6JK/s/DByaq1I/aGT/qZjQ7apeCh
-         Ha8lnoT/XUfmfTN1KsCGh6lhI7O9pEP+07R/QL6uVc0mJWjbA7+kJsDHxnynuIKyVGN2
-         THFWA0HQz1gfwdpeePJEmsooJz2NNv2A39aBeDwiGXjIAuwoq8++Fuw5S7FjQsgxaBM2
-         fLCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2cmreXVkKeTuS3iLda3uDJCEUdvooYyM7QNARThfArQ=;
-        b=I3zhliva6ngHBRPLd07FeJIx0YSD5BNEHZYkg16Y0IVNthuQlXrckA40YGWDy21CtI
-         tGJ0UCAXkvsj1r1BHsMSEn54QPjdarr7makFXtI6Z5ZbokxIOWSIAYVxmT/0Ss2vX10X
-         gzLo6l60K7YDramKWhGu9wQOCZyKjzCwRu9XGKiodYfmO2YpKqY0AMFy7w+5NH832gjH
-         PxNxWGuW9oXFZSQ7taKN/JlGG1I/hKiPevA2LEkyC/LoWoGBCJgppYiTIYd6ipxe8AkC
-         oR0JhxwWcI3ILk34XAVbN/q+WPFxQfd5Ux0fTXCOvOsUcCvy9US7vzMNsefHKJoOEbM5
-         bdZg==
-X-Gm-Message-State: AOAM533F6jXlcsiJZjCRJ8x5XB0nI9TyxkfC1xwQqIgltKwM2m3aDz8X
-        UY9L3QHegzQYMvGNNeVUTtykz0iu+OzkSjbh
-X-Google-Smtp-Source: ABdhPJxTZ3//L0+n/S1b5h79f4IEubXD+U1hWPngiQJyYJKXN7Cu3aGrFpYqFoZGccOa0dTRsa6SPA==
-X-Received: by 2002:a05:6a00:15c5:b0:518:9848:4915 with SMTP id o5-20020a056a0015c500b0051898484915mr30768636pfu.62.1653729280076;
-        Sat, 28 May 2022 02:14:40 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-83.three.co.id. [180.214.232.83])
-        by smtp.gmail.com with ESMTPSA id l12-20020a170902f68c00b0016198062800sm5320179plg.161.2022.05.28.02.14.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 May 2022 02:14:39 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Nikolai Kondrashov <spbnick@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
-        llvm@lists.linux.dev, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] HID: uclogic: add missing function name in uclogic_params_hid_dbg() kernel-doc comment
-Date:   Sat, 28 May 2022 16:14:03 +0700
-Message-Id: <20220528091403.160169-3-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20220528091403.160169-1-bagasdotme@gmail.com>
-References: <20220528091403.160169-1-bagasdotme@gmail.com>
+        with ESMTP id S236229AbiE1N5Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 May 2022 09:57:24 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id EB18EB4A7
+        for <linux-doc@vger.kernel.org>; Sat, 28 May 2022 06:57:19 -0700 (PDT)
+Received: (qmail 126261 invoked by uid 1000); 28 May 2022 09:57:19 -0400
+Date:   Sat, 28 May 2022 09:57:19 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH -lkmm] docs/memory-barriers: Fix inconsistent name of
+ 'data dependency barrier'
+Message-ID: <YpIqP2CiLa6Y4BnG@rowland.harvard.edu>
+References: <cc2c7885-ac75-24f3-e18a-e77f97c91b4c@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cc2c7885-ac75-24f3-e18a-e77f97c91b4c@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-uclogic_params_hid_dbg() is public void function. The comment for
-kernel-doc, however, lack its function name on short description, thus
-triggers "missing initial short description" warning.
+On Sat, May 28, 2022 at 01:15:30PM +0900, Akira Yokosawa wrote:
+> The term "data dependency barrier", which has been in
+> memory-barriers.txt ever since it was first authored by David Howells,
+> has become confusing due to the fact that in LKMM's explanations.txt
+> and elsewhere, "data dependency" is used mostly for load-to-store data
+> dependency.
+> 
+> To prevent further confusions, do the following changes:
+> 
+>   - substitute "address-dependency barrier" for "data dependency barrier";
+>   - add note on the removal of kernel APIs for explicit address-
+>     dependency barriers in kernel release v5.9;
+>   - add note on the section title rename;
+>   - use READ_ONCE_OLD() for READ_ONCE() of pre-4.15 (no address-
+>     dependency implication) in code snippets;
+>   - fix number of CPU memory barrier APIs;
+>   - and a few more context adjustments.
+> 
+> Note: Line break cleanups are deferred to a follow-up patch.
+> 
+> Reported-by: "Michael S. Tsirkin" <mst@redhat.com>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: "Paul E. McKenney" <paulmck@linux.ibm.com>
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Boqun Feng <boqun.feng@gmail.com>
+> Cc: Andrea Parri <parri.andrea@gmail.com>
+> Cc: Nicholas Piggin <npiggin@gmail.com>
+> Cc: David Howells <dhowells@redhat.com>
+> Cc: Daniel Lustig <dlustig@nvidia.com>
+> Cc: Joel Fernandes <joel@joelfernandes.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> ---
+> This is a response to Michael's report back in last November [1].
+> 
+> [1]: "data dependency naming inconsistency":
+>      https://lore.kernel.org/r/20211011064233-mutt-send-email-mst@kernel.org/
+> 
+> In the thread, I suggested removing all the explanations of "data dependency
+> barriers", which Paul thought was reasonable.
+> 
+> However, such removals would require rewriting the notoriously
+> hard-to-grasp document, which I'm not quite up to.
+> I have become more inclined to just substitute "address-dependency
+> barrier" for "data dependency barrier" considering the fact that
+> READ_ONCE() has an implicit memory barrier for Alpha.
+> 
+> This RFC patch is the result of such an attempt.
+> 
+> Note: I made a mistake in the thread above. Kernel APIs for explicit data
+> dependency barriers were removed in v5.9.
+> I confused the removal with the addition of the barrier to Alpha's
+> READ_ONCE() in v4.15.
+> 
+> Any feedback is welcome!
+> 
+>         Thanks, Akira
 
-Add the function name to fix the warning.
+This looks great!  Thanks a lot for working on it.  The way
+memory-barriers.txt misuses "data dependency" to mean "address
+dependency" has bothered me for a long time; I'm very glad that it
+will finally get cleaned up.
 
-Fixes: a228809fa6f39c ("HID: uclogic: Move param printing to a function")
-Cc: Nikolai Kondrashov <spbnick@gmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: "José Expósito" <jose.exposito89@gmail.com>
-Cc: llvm@lists.linux.dev
-Cc: linux-input@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- drivers/hid/hid-uclogic-params.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
-index 71501453de12e4..0319e3f1527f1d 100644
---- a/drivers/hid/hid-uclogic-params.c
-+++ b/drivers/hid/hid-uclogic-params.c
-@@ -102,7 +102,7 @@ static void uclogic_params_frame_hid_dbg(
- }
- 
- /**
-- * Dump tablet interface parameters with hid_dbg().
-+ * uclogic_params_hid_dbg - Dump tablet interface parameters with hid_dbg().
-  *
-  * @hdev:	The HID device the parameters describe.
-  * @params:	The parameters to dump.
--- 
-An old man doll... just what I always wanted! - Clara
-
+Alan
