@@ -2,108 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20364C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 28 May 2022 13:57:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82C13C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 28 May 2022 15:31:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236202AbiE1N5Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 May 2022 09:57:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48628 "EHLO
+        id S237571AbiE1Pbs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 May 2022 11:31:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236229AbiE1N5Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 May 2022 09:57:24 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id EB18EB4A7
-        for <linux-doc@vger.kernel.org>; Sat, 28 May 2022 06:57:19 -0700 (PDT)
-Received: (qmail 126261 invoked by uid 1000); 28 May 2022 09:57:19 -0400
-Date:   Sat, 28 May 2022 09:57:19 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH -lkmm] docs/memory-barriers: Fix inconsistent name of
- 'data dependency barrier'
-Message-ID: <YpIqP2CiLa6Y4BnG@rowland.harvard.edu>
-References: <cc2c7885-ac75-24f3-e18a-e77f97c91b4c@gmail.com>
+        with ESMTP id S233773AbiE1Pbs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 May 2022 11:31:48 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4623117AAA;
+        Sat, 28 May 2022 08:31:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8889960F22;
+        Sat, 28 May 2022 15:31:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92CB9C34100;
+        Sat, 28 May 2022 15:31:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653751905;
+        bh=OhZh+NCXc1blY5tIY8ybxiGzNOl9XBbqHxmEXxQG9TI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qEgyafTY41siNa2emFWjR2HdOAJF49//bEVPKV8viMir+Pn+eWJbKGKw8e7FnTHuj
+         8w1nrj/2B7Fv7YAl8tu/J94+Je4/oBtKb3jNYuwSs3hJU2gNmCEPMTFM+L2w9Divv1
+         YlmfrwlObs0Z7EppV5RAX3uuAzg4AEi2UTC3ZxefsZu2RX+CvXVxtLOtsX0+hKM1TY
+         ySOfaC1rZP9Fug+tzn2dQY0RTfk/a9itZmqvBNkRQOVnWvFUus+rNQwHpcvKw0k8pH
+         wb7K8+rkPzZYJEonqAzPysqGMrst1gzqbp5OM82FdRD7N8t22EItrP4V4KhXrrohdt
+         ui9UID28/rW5Q==
+From:   Miguel Ojeda <ojeda@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Garrett LeSage <garrett@lesage.us>,
+        IFo Hancroft <contact@ifohancroft.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: [PATCH v2 1/2] docs: move Linux logo into a new `images` folder
+Date:   Sat, 28 May 2022 17:31:31 +0200
+Message-Id: <20220528153132.8636-1-ojeda@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cc2c7885-ac75-24f3-e18a-e77f97c91b4c@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 28, 2022 at 01:15:30PM +0900, Akira Yokosawa wrote:
-> The term "data dependency barrier", which has been in
-> memory-barriers.txt ever since it was first authored by David Howells,
-> has become confusing due to the fact that in LKMM's explanations.txt
-> and elsewhere, "data dependency" is used mostly for load-to-store data
-> dependency.
-> 
-> To prevent further confusions, do the following changes:
-> 
->   - substitute "address-dependency barrier" for "data dependency barrier";
->   - add note on the removal of kernel APIs for explicit address-
->     dependency barriers in kernel release v5.9;
->   - add note on the section title rename;
->   - use READ_ONCE_OLD() for READ_ONCE() of pre-4.15 (no address-
->     dependency implication) in code snippets;
->   - fix number of CPU memory barrier APIs;
->   - and a few more context adjustments.
-> 
-> Note: Line break cleanups are deferred to a follow-up patch.
-> 
-> Reported-by: "Michael S. Tsirkin" <mst@redhat.com>
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Cc: "Paul E. McKenney" <paulmck@linux.ibm.com>
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Boqun Feng <boqun.feng@gmail.com>
-> Cc: Andrea Parri <parri.andrea@gmail.com>
-> Cc: Nicholas Piggin <npiggin@gmail.com>
-> Cc: David Howells <dhowells@redhat.com>
-> Cc: Daniel Lustig <dlustig@nvidia.com>
-> Cc: Joel Fernandes <joel@joelfernandes.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> ---
-> This is a response to Michael's report back in last November [1].
-> 
-> [1]: "data dependency naming inconsistency":
->      https://lore.kernel.org/r/20211011064233-mutt-send-email-mst@kernel.org/
-> 
-> In the thread, I suggested removing all the explanations of "data dependency
-> barriers", which Paul thought was reasonable.
-> 
-> However, such removals would require rewriting the notoriously
-> hard-to-grasp document, which I'm not quite up to.
-> I have become more inclined to just substitute "address-dependency
-> barrier" for "data dependency barrier" considering the fact that
-> READ_ONCE() has an implicit memory barrier for Alpha.
-> 
-> This RFC patch is the result of such an attempt.
-> 
-> Note: I made a mistake in the thread above. Kernel APIs for explicit data
-> dependency barriers were removed in v5.9.
-> I confused the removal with the addition of the barrier to Alpha's
-> READ_ONCE() in v4.15.
-> 
-> Any feedback is welcome!
-> 
->         Thanks, Akira
+Having assets in the top-level `Documentation` directory can make
+it harder to find the documents one needs, especially if we want
+to add more of them later on.
 
-This looks great!  Thanks a lot for working on it.  The way
-memory-barriers.txt misuses "data dependency" to mean "address
-dependency" has bothered me for a long time; I'm very glad that it
-will finally get cleaned up.
+Instead, create a new `images` folder inside it that is used
+to hold assets such as logos.
 
-Alan
+In addition, update the reference in `scripts/spdxcheck-test.sh`.
+
+Link: https://lore.kernel.org/lkml/8735hicoy7.fsf@meer.lwn.net/
+Suggested-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+---
+v1: https://lore.kernel.org/lkml/20220510172530.29704-1-ojeda@kernel.org/
+v2:
+  - Added the `scripts/spdxcheck-test.sh` reference update, as noticed
+    by Jonathan Corbet.
+
+ Documentation/{ => images}/COPYING-logo |   0
+ Documentation/{ => images}/logo.gif     | Bin
+ scripts/spdxcheck-test.sh               |   2 +-
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename Documentation/{ => images}/COPYING-logo (100%)
+ rename Documentation/{ => images}/logo.gif (100%)
+
+diff --git a/Documentation/COPYING-logo b/Documentation/images/COPYING-logo
+similarity index 100%
+rename from Documentation/COPYING-logo
+rename to Documentation/images/COPYING-logo
+diff --git a/Documentation/logo.gif b/Documentation/images/logo.gif
+similarity index 100%
+rename from Documentation/logo.gif
+rename to Documentation/images/logo.gif
+diff --git a/scripts/spdxcheck-test.sh b/scripts/spdxcheck-test.sh
+index cb76324756bd..9f6d1a74da6e 100644
+--- a/scripts/spdxcheck-test.sh
++++ b/scripts/spdxcheck-test.sh
+@@ -1,7 +1,7 @@
+ #!/bin/sh
+ 
+ # run check on a text and a binary file
+-for FILE in Makefile Documentation/logo.gif; do
++for FILE in Makefile Documentation/images/logo.gif; do
+ 	python3 scripts/spdxcheck.py $FILE
+ 	python3 scripts/spdxcheck.py - < $FILE
+ done
+
+base-commit: 4b0986a3613c92f4ec1bdc7f60ec66fea135991f
+-- 
+2.36.1
+
