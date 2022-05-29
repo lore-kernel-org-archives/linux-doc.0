@@ -2,71 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1E7EC433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 29 May 2022 14:27:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38D83C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 29 May 2022 15:02:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230025AbiE2O1r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 29 May 2022 10:27:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43054 "EHLO
+        id S230226AbiE2PCy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 29 May 2022 11:02:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229923AbiE2O1q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 29 May 2022 10:27:46 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EE0F5E156;
-        Sun, 29 May 2022 07:27:45 -0700 (PDT)
+        with ESMTP id S229907AbiE2PCx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 29 May 2022 11:02:53 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 406CA939A7;
+        Sun, 29 May 2022 08:02:51 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8852B49B;
-        Sun, 29 May 2022 14:27:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8852B49B
+        by ms.lwn.net (Postfix) with ESMTPSA id A1F9E4B7;
+        Sun, 29 May 2022 15:02:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A1F9E4B7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1653834465; bh=50sOo+ZraqVyLzLvKXx59grImfKSYAwBnI+Uwy3gnPI=;
+        t=1653836570; bh=prfaPouyOR+h3OLn6aM3uj1MK/ywudByeFsbG2uZEBk=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=H9rxojD+HWuaNLl5INayviDksw0eEMogvk7K3jIyadQ/KSbtAuwJAXZ9hXzwGoojz
-         veQO8xgbRREDNh+8eWFSlLZ9ujRCENMyn2b0tABwuDBvIGowUMQV9oYH2+CBRLtVLr
-         V+KNl8N0kV+zGc+9MbBWH2nHOmM/WG/DpWjkDDih2g0jD2aduzHs/dom5m7V3YY1Oy
-         tIuDgdJ/dF0j7+Ud48gq41onxs79zzX+r3/nPZMQF2TbAE0LSGbW0C+uaxOzoLK53d
-         jGnwglKizC5e/Lf7KC1vIWBOej38szkCm7L0/+2xkujwjJup9brrnPO9CZh9ML8ebC
-         f7v7/JL/Za0WQ==
+        b=jDwL7ar7WO12Ocu9dHfPV7mvCf3la5OQj0lH43MGiZAU5r+c+kGhOr3Vv/paus2RG
+         jwdHU2GrkIIaOTUdsV4lg19YqsUa2AWM8nV99048dXHQll20XJ0z6XXYyXHHa7ykXj
+         5v/FCGN80wEBco05UGVKz9VP+VkJ+0CE3+lpUOPD9b/taubZcgc4/z+11lkoHx4jln
+         rpHCeGzwhRJGoQJMwBENyeUe3azTumzr4DKbAZoC9rXrh64Em0/3e853XBBWZ4iEP9
+         XlXdUe8kGBt4Ut9xeuvHUyccFQDTaZDD3pLb8J+u5EqIpcl/pVluGS2oZZbiNInR9p
+         d0k3HIEtAoAuA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>
-Cc:     Garrett LeSage <garrett@lesage.us>,
-        IFo Hancroft <contact@ifohancroft.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] docs: move Linux logo into a new `images` folder
-In-Reply-To: <135d2b02-a888-f3ae-ee16-ef30ab80e529@gmail.com>
-References: <20220528153132.8636-1-ojeda@kernel.org>
- <135d2b02-a888-f3ae-ee16-ef30ab80e529@gmail.com>
-Date:   Sun, 29 May 2022 08:27:51 -0600
-Message-ID: <8735gs9zx4.fsf@meer.lwn.net>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        kernel test robot <lkp@intel.com>,
+        Nikolai Kondrashov <spbnick@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        =?utf-8?Q?Jos=C3=A9?= =?utf-8?Q?_Exp=C3=B3sito?= 
+        <jose.exposito89@gmail.com>, llvm@lists.linux.dev,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] HID: uclogic: remove extraneous asterisk on
+ uclogic_params_* static functions comments
+In-Reply-To: <20220528091403.160169-2-bagasdotme@gmail.com>
+References: <20220528091403.160169-1-bagasdotme@gmail.com>
+ <20220528091403.160169-2-bagasdotme@gmail.com>
+Date:   Sun, 29 May 2022 09:02:56 -0600
+Message-ID: <87tu988jq7.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-> On 5/28/22 22:31, Miguel Ojeda wrote:
->> Having assets in the top-level `Documentation` directory can make
->> it harder to find the documents one needs, especially if we want
->> to add more of them later on.
->> 
->> Instead, create a new `images` folder inside it that is used
->> to hold assets such as logos.
->> 
+> *uclogic_params_pen_inrange_to_str(), uclogic_params_pen_hid_dbg(), and
+> uclogic_params_frame_hid_dbg() are static functions but contain
+> double-asterisk (/** */) comment, which confuses kernel-doc as public
+> function for generating documentation.
 >
-> Do assets include CSS and JS files?
+> Remove the extraneous asterisk from these comments.
+
+So there is nothing wrong with making kerneldoc comments for static
+functions, that is not where the problem lies.
+
+> Link: https://lore.kernel.org/linux-doc/202205272033.XFYlYj8k-lkp@intel.c=
+om/
+> Fixes: a228809fa6f39c ("HID: uclogic: Move param printing to a function")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Cc: Nikolai Kondrashov <spbnick@gmail.com>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: "Jos=C3=A9 Exp=C3=B3sito" <jose.exposito89@gmail.com>
+> Cc: llvm@lists.linux.dev
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  drivers/hid/hid-uclogic-params.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> And if we plan to add non-image assets to images/, that directory will
-> be misleading. I suggest to name the directory as assets/.
+> diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-p=
+arams.c
+> index db838f16282d64..71501453de12e4 100644
+> --- a/drivers/hid/hid-uclogic-params.c
+> +++ b/drivers/hid/hid-uclogic-params.c
+> @@ -20,7 +20,7 @@
+>  #include <linux/ctype.h>
+>  #include <asm/unaligned.h>
+>=20=20
+> -/**
+> +/*
+>   * uclogic_params_pen_inrange_to_str() - Convert a pen in-range reportin=
+g type
+>   *                                       to a string.
+>   *
 
-Can you please point out any CSS or JavaScript files in the kernel tree,
-or any that we might expect to have there anytime soon?  I don't think
-this is a case we need to be worried about.
+A more likely problem here is the blank between the function intro and
+the parameter description.
 
-Thanks,
+> @@ -44,7 +44,7 @@ static const char *uclogic_params_pen_inrange_to_str(
+>  	}
+>  }
+>=20=20
+> -/**
+> +/*
+>   * Dump tablet interface pen parameters with hid_dbg(), indented with on=
+e tab.
+>   *
+
+Here too
+
+>   * @hdev:	The HID device the pen parameters describe.
+> @@ -76,7 +76,7 @@ static void uclogic_params_pen_hid_dbg(const struct hid=
+_device *hdev,
+>  		(pen->tilt_y_flipped ? "true" : "false"));
+>  }
+>=20=20
+> -/**
+> +/*
+>   * Dump tablet interface frame parameters with hid_dbg(), indented with =
+two
+>   * tabs.
+>   *
+
+Here, instead, this needs to be formatted as a proper kerneldoc comment
+with the function name.
 
 jon
