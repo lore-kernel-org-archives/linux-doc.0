@@ -2,98 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82C13C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 28 May 2022 15:31:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 195C4C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 29 May 2022 00:24:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237571AbiE1Pbs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 May 2022 11:31:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49518 "EHLO
+        id S229567AbiE2AYJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 May 2022 20:24:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233773AbiE1Pbs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 May 2022 11:31:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4623117AAA;
-        Sat, 28 May 2022 08:31:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8889960F22;
-        Sat, 28 May 2022 15:31:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92CB9C34100;
-        Sat, 28 May 2022 15:31:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653751905;
-        bh=OhZh+NCXc1blY5tIY8ybxiGzNOl9XBbqHxmEXxQG9TI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=qEgyafTY41siNa2emFWjR2HdOAJF49//bEVPKV8viMir+Pn+eWJbKGKw8e7FnTHuj
-         8w1nrj/2B7Fv7YAl8tu/J94+Je4/oBtKb3jNYuwSs3hJU2gNmCEPMTFM+L2w9Divv1
-         YlmfrwlObs0Z7EppV5RAX3uuAzg4AEi2UTC3ZxefsZu2RX+CvXVxtLOtsX0+hKM1TY
-         ySOfaC1rZP9Fug+tzn2dQY0RTfk/a9itZmqvBNkRQOVnWvFUus+rNQwHpcvKw0k8pH
-         wb7K8+rkPzZYJEonqAzPysqGMrst1gzqbp5OM82FdRD7N8t22EItrP4V4KhXrrohdt
-         ui9UID28/rW5Q==
-From:   Miguel Ojeda <ojeda@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
+        with ESMTP id S229472AbiE2AYI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 May 2022 20:24:08 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0810069706;
+        Sat, 28 May 2022 17:24:07 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id m14-20020a17090a414e00b001df77d29587so10235656pjg.2;
+        Sat, 28 May 2022 17:24:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=WhyhhW2mjLf1hCJA50iP2y9QqdqAFuhCJnlod5WW0i4=;
+        b=oblHbcRwHTpJ79jYSwkOP0uPrKEULYr7GZNCWZAgiJxgcWJRKC/opAygbuWCxaKTxl
+         v/TAECoDC9JiK5SKjIHzlVlE9A0ZEd+ASLYP+TyN6pd864E6NQ3tTqaR3hdWWTtAEmDW
+         iLd4H+thPZ8R37899q0Few2/jJUCi1uaILEkgdRp0B6ymHRsMOKyNk/w2La/Th1/LU8M
+         1qGMLkMR9a7SprUQ1Xj17q5pSWe48Qt3JaNie9p7dp3AaQeow+/eZvLy+650F/Wlcuu0
+         9HfXVO5rVkLnjKga3h3rzkr43NHmOQ7BtyZ8DQQ/S+VhtWfoMnC+ZTeUaDlWVuGv2tlM
+         S4tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=WhyhhW2mjLf1hCJA50iP2y9QqdqAFuhCJnlod5WW0i4=;
+        b=AOvbfVxQmWuBIA92RbpRl1x5uJkD05827d5tN+TjtYSv1Dz5nMVL7loWSG8YYVvHl5
+         5i2Y/zxnPrTcZrXqvgGBJ4t1SprvXVU4O0Su+c+ChH0fDI6gnpdc460pY+0mtrlUg7xV
+         DBk1zXt0gLIvsICcK9KTcrRZHm2IZIBrs30BnqPfez5nl60xJrmBfDbagG1E0wcd2H1p
+         HoVZ+wcHwYSSykx/7c+gyobvCUv1DC72So8zhJHZdcLuJq8OcBqxfDNBuF4GLxHWZV9M
+         OIazP6jAxIhXmtQavXCeD6VXH/wjJ4V6k3IuVjTlA1pmhHGbYeTbmnVqQmeiPFEtDjXh
+         shUQ==
+X-Gm-Message-State: AOAM5329KwgD8gmzAeiTA2/HioJGu3mC8dm8nMsbzG13GUalsSpMTzK0
+        CKZ2ybVj/x2H7Vbk5DhI0+XACV6zFG71GA==
+X-Google-Smtp-Source: ABdhPJxLMPgu43tY0eBAKBOnyufnu4z94Emg04N3tivGoaKuFGjnd364ljcNuRk7YjI5SKTh7su2Tg==
+X-Received: by 2002:a17:90b:314c:b0:1e0:35e9:e6b with SMTP id ip12-20020a17090b314c00b001e035e90e6bmr15522545pjb.25.1653783845347;
+        Sat, 28 May 2022 17:24:05 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-69.three.co.id. [180.214.232.69])
+        by smtp.gmail.com with ESMTPSA id p11-20020a170903248b00b001624b1e1a7bsm6152165plw.250.2022.05.28.17.24.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 28 May 2022 17:24:04 -0700 (PDT)
+Message-ID: <135d2b02-a888-f3ae-ee16-ef30ab80e529@gmail.com>
+Date:   Sun, 29 May 2022 07:24:00 +0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 1/2] docs: move Linux logo into a new `images` folder
+Content-Language: en-US
+To:     Miguel Ojeda <ojeda@kernel.org>, Jonathan Corbet <corbet@lwn.net>
 Cc:     Garrett LeSage <garrett@lesage.us>,
         IFo Hancroft <contact@ifohancroft.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Miguel Ojeda <ojeda@kernel.org>
-Subject: [PATCH v2 1/2] docs: move Linux logo into a new `images` folder
-Date:   Sat, 28 May 2022 17:31:31 +0200
-Message-Id: <20220528153132.8636-1-ojeda@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220528153132.8636-1-ojeda@kernel.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220528153132.8636-1-ojeda@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Having assets in the top-level `Documentation` directory can make
-it harder to find the documents one needs, especially if we want
-to add more of them later on.
+On 5/28/22 22:31, Miguel Ojeda wrote:
+> Having assets in the top-level `Documentation` directory can make
+> it harder to find the documents one needs, especially if we want
+> to add more of them later on.
+> 
+> Instead, create a new `images` folder inside it that is used
+> to hold assets such as logos.
+> 
 
-Instead, create a new `images` folder inside it that is used
-to hold assets such as logos.
+Do assets include CSS and JS files?
 
-In addition, update the reference in `scripts/spdxcheck-test.sh`.
+And if we plan to add non-image assets to images/, that directory will
+be misleading. I suggest to name the directory as assets/.
 
-Link: https://lore.kernel.org/lkml/8735hicoy7.fsf@meer.lwn.net/
-Suggested-by: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
-v1: https://lore.kernel.org/lkml/20220510172530.29704-1-ojeda@kernel.org/
-v2:
-  - Added the `scripts/spdxcheck-test.sh` reference update, as noticed
-    by Jonathan Corbet.
-
- Documentation/{ => images}/COPYING-logo |   0
- Documentation/{ => images}/logo.gif     | Bin
- scripts/spdxcheck-test.sh               |   2 +-
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename Documentation/{ => images}/COPYING-logo (100%)
- rename Documentation/{ => images}/logo.gif (100%)
-
-diff --git a/Documentation/COPYING-logo b/Documentation/images/COPYING-logo
-similarity index 100%
-rename from Documentation/COPYING-logo
-rename to Documentation/images/COPYING-logo
-diff --git a/Documentation/logo.gif b/Documentation/images/logo.gif
-similarity index 100%
-rename from Documentation/logo.gif
-rename to Documentation/images/logo.gif
-diff --git a/scripts/spdxcheck-test.sh b/scripts/spdxcheck-test.sh
-index cb76324756bd..9f6d1a74da6e 100644
---- a/scripts/spdxcheck-test.sh
-+++ b/scripts/spdxcheck-test.sh
-@@ -1,7 +1,7 @@
- #!/bin/sh
- 
- # run check on a text and a binary file
--for FILE in Makefile Documentation/logo.gif; do
-+for FILE in Makefile Documentation/images/logo.gif; do
- 	python3 scripts/spdxcheck.py $FILE
- 	python3 scripts/spdxcheck.py - < $FILE
- done
-
-base-commit: 4b0986a3613c92f4ec1bdc7f60ec66fea135991f
 -- 
-2.36.1
-
+An old man doll... just what I always wanted! - Clara
