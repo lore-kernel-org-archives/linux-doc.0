@@ -2,326 +2,348 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA45C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 30 May 2022 05:00:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BB4CC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 30 May 2022 07:17:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232479AbiE3FAV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 May 2022 01:00:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54186 "EHLO
+        id S233411AbiE3HRR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 May 2022 03:17:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231426AbiE3FAU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 May 2022 01:00:20 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 858DA70938
-        for <linux-doc@vger.kernel.org>; Sun, 29 May 2022 22:00:18 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id f34so4141505ybj.6
-        for <linux-doc@vger.kernel.org>; Sun, 29 May 2022 22:00:18 -0700 (PDT)
+        with ESMTP id S233404AbiE3HRP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 May 2022 03:17:15 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEC746FD27
+        for <linux-doc@vger.kernel.org>; Mon, 30 May 2022 00:17:12 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id c2so9573109plh.2
+        for <linux-doc@vger.kernel.org>; Mon, 30 May 2022 00:17:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=S+03JWP8LqFizkdu8BAr30l+13Hx2X9LWKbjZC6DUoo=;
-        b=lw4v6BmxbvzBFhrCE0UETLXyDdPq0f4xwoieXuRfzg4qhI+w8B7o1IohItK3JzWvDu
-         lNLGsH36sgnQkJsJuhpN2oo4wrlJeKff8KpxwxnItQQrZlfErA8j8dX1NsE0mn7P4zca
-         hjH4QVDEf4cjeXCla+S7g+OtvPd+WIBvWalufpHVA7BN3ru0V8icIhHV1yCp4zvZh5LI
-         LgDThkR3HKwwh438shwHrAJmDYIetcHR4u3scAdWu+tJNicj1U66MIzdCJqtWhvSyz4O
-         5PxiJEAU3ApOLX5H3FoYQOmqpkOXQdYLys3ZESIUgSkv4AlDmyWRku5bd6YnlAXqXC/Q
-         3qOg==
+        d=arista.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6SyAFe8yiRS+xJf7v92sSCs8jgpttKvVsYzEwlwQFS4=;
+        b=ZOeRe7U0XN51BGptO4ulac6NQI0nCMB9cTNM1vtwVSsEuo+Y57HJ/rVD289kTpOuNA
+         BqgcfBDZ6o+pHimdt0qhyNgUMPKNtGaJ4DIIVLMPWjBQk4H+qMmshEjyRqTIWPlntKk9
+         GUpuvW++NU3UYHPd2RcmrAHdIMTiwCGxM/wmpU6/fC//bJt80kCyfSh0p+NPsxNGzAYQ
+         iwWRKdj5cuyVsncgOsZpANMHNeqFdOHigS/lALVQ1LrxcNRJgm1eZBrj2VO/qQBUrtgX
+         ok85n1NSwUYI5ten6ARtJGpj4NiQZtY0YAk4bOv4ffCsfa5Fa1ffSzRIUq9kYmAY5vy6
+         Odmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=S+03JWP8LqFizkdu8BAr30l+13Hx2X9LWKbjZC6DUoo=;
-        b=pDXQViYBEucZ7zGf79HJJdZoYCHbusn38XCX9BydFY08JcYx2dy3v7+knTRcWuPlus
-         FbkpwscYbozS1JwQJeB4ff0Kmivmj18L3NHWXrlNfzifMPyl08DSo7qESCp0huGtsdne
-         2O3MoXkisoWM8xzVkIFsTlUhENlxNe72Z6d6Zha+UfyZPvcP5LCjGt/kng+XPTTJsHE7
-         w42x+Wb6+wpBQR5EXU45ykCZw0wP7m2E/kjltI3s/xCuw5kHVzudP2BcPaCbeAFRh94Z
-         BorF3Q/NiwE8c3byScoCd6CJBiRcJv7PMQNSMkApQfsVq6zzHeXdm7POultwdiFu/Hlt
-         GSPg==
-X-Gm-Message-State: AOAM532z+kw1Z/shYKfNRZLcPf07DEbSDykGBC+ZcKpB9AJnbq7GK41U
-        0v2xm7CLzzQkhEsR5mAExva2JaTqbbajT7g3Rfx0Hw==
-X-Google-Smtp-Source: ABdhPJwPRUUf5U1aqUPaZTY1gOwSQ19UWn0xveiElXnhR3CF6ZITgEcqC+Ddb+k6yigJAG+0/KxPFQs9KDfrzOte1r4=
-X-Received: by 2002:a25:8d83:0:b0:65c:e76f:a4d7 with SMTP id
- o3-20020a258d83000000b0065ce76fa4d7mr2684932ybl.80.1653886817303; Sun, 29 May
- 2022 22:00:17 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6SyAFe8yiRS+xJf7v92sSCs8jgpttKvVsYzEwlwQFS4=;
+        b=ABD9CMbblRQOUde1T6lGuUpDAUdPGYeGSF/TuamYCCyMRy9P0Yw3DonVTQhIssWPYu
+         PmVM8BRcDYM4GwH66WoK7eEXqPMSEaHJtnRJWYO1Ht54jCeKWv8z64G71Xxo53Tgi1bP
+         S3gdJfk4tGyeogXrRGtUSf3vMZPbZWZ/36fRBEHkFcsLRQnTLLdSgztHJRjY/Iqh1JaF
+         nv6AVUoEqI4F8nU/D+4VWAFO63mE2F83AJuHkQXXCMzLP+iCm8vJxh3VmaSQ1E9xifUL
+         r4gWmE/mezjhKFfsnqtA3nYKl/75Y2R7y1CPwBNDlnCuECRpqIYefX2TuzxMo17+3QLH
+         NnQQ==
+X-Gm-Message-State: AOAM531BI1l4LMvHcvPDazeUODWPKUCjToGtzfXpwk9tIfLOKsKoDKBv
+        I7jklHx4foMoMcO7Rs6tvP4mUQ==
+X-Google-Smtp-Source: ABdhPJy5m/fEfM/HgnPEeOcyxwTjHUpQZCqLSOeoiRXgi/yKZgASya8AZr9lUSqPGzHVqkTH6fSOjg==
+X-Received: by 2002:a17:90a:690f:b0:1df:336d:5533 with SMTP id r15-20020a17090a690f00b001df336d5533mr21802608pjj.222.1653895032082;
+        Mon, 30 May 2022 00:17:12 -0700 (PDT)
+Received: from localhost.localdomain ([49.37.162.84])
+        by smtp.gmail.com with ESMTPSA id a1-20020a170902900100b0015e9d4a5d27sm8355503plp.23.2022.05.30.00.17.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 May 2022 00:17:10 -0700 (PDT)
+From:   Arun Ajith S <aajith@arista.com>
+To:     netdev@vger.kernel.org
+Cc:     davem@davemloft.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        dsahern@kernel.org, bagasdotme@gmail.com, yoshfuji@linux-ipv6.org,
+        kuba@kernel.org, pabeni@redhat.com, prestwoj@gmail.com,
+        corbet@lwn.net, justin.iurman@uliege.be, edumazet@google.com,
+        shuah@kernel.org, aajith@arista.com, gilligan@arista.com,
+        noureddine@arista.com, gk@arista.com
+Subject: [PATCH net v2] net/ipv6: Expand and rename accept_unsolicited_na to accept_untracked_na
+Date:   Mon, 30 May 2022 07:17:00 +0000
+Message-Id: <20220530071700.12237-1-aajith@arista.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <YogsiMCDupNUhMgL@dev-fedora.thelio-3990X> <CAGETcx-JyWwoGA3o8eep7E29Cm4DcVT6D1JFJh72jLcqm_mjCQ@mail.gmail.com>
- <Youleo3Ganxbc1sq@dev-arch.thelio-3990X> <CAGETcx-sL08h2toEyxY6ztc6xNuJiPok6iDEeuJ1mOA3nvE+vA@mail.gmail.com>
- <YowHNo4sBjr9ijZr@dev-arch.thelio-3990X> <CAGETcx91_WgpmwEA7mBSvUdyJV0a8ymfaNKTmXq=mAJYAjzq1A@mail.gmail.com>
- <Yo0KyWx+3oX3cMCS@linutronix.de> <CAGETcx_qTLwbjzMruLThLYV+MZD5W2Ox-QwLFQeW=eQgxzq-Hw@mail.gmail.com>
- <Yo3WvGnNk3LvLb7R@linutronix.de> <CAGETcx84ja_w_=vXKDOZnM8EVEcuAg1tX9Kqy57PTkDb1=H4FA@mail.gmail.com>
- <YpMv/QRaY/KV0oxY@x1-carbon>
-In-Reply-To: <YpMv/QRaY/KV0oxY@x1-carbon>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Sun, 29 May 2022 21:59:41 -0700
-Message-ID: <CAGETcx8+fQsouyg64Af_rdtezAOB6s_Yj2rOG36BwceCDVjYrQ@mail.gmail.com>
-Subject: Re: [PATCH v1] driver core: Extend deferred probe timeout on driver registration
-To:     Niklas Cassel <Niklas.Cassel@wdc.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rob Herring <robh@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "kernel-team@android.com" <kernel-team@android.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        John Stultz <jstultz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, May 29, 2022 at 1:34 AM 'Niklas Cassel' via kernel-team
-<kernel-team@android.com> wrote:
->
-> On Wed, May 25, 2022 at 12:49:00PM -0700, Saravana Kannan wrote:
-> > On Wed, May 25, 2022 at 12:12 AM Sebastian Andrzej Siewior
-> > <bigeasy@linutronix.de> wrote:
-> > >
-> > > On 2022-05-24 10:46:49 [-0700], Saravana Kannan wrote:
-> > > > > Removing probe_timeout_waitqueue (as suggested) or setting the ti=
-meout
-> > > > > to 0 avoids the delay.
-> > > >
-> > > > In your case, I think it might be working as intended? Curious, wha=
-t
-> > > > was the call stack in your case where it was blocked?
-> > >
-> > > Why is then there 10sec delay during boot? The backtrace is
-> > > |------------[ cut here ]------------
-> > > |WARNING: CPU: 4 PID: 1 at drivers/base/dd.c:742 wait_for_device_prob=
-e+0x30/0x110
-> > > |Modules linked in:
-> > > |CPU: 4 PID: 1 Comm: swapper/0 Not tainted 5.18.0-rc5+ #154
-> > > |RIP: 0010:wait_for_device_probe+0x30/0x110
-> > > |Call Trace:
-> > > | <TASK>
-> > > | prepare_namespace+0x2b/0x160
-> > > | kernel_init_freeable+0x2b3/0x2dd
-> > > | kernel_init+0x11/0x110
-> > > | ret_from_fork+0x22/0x30
-> > > | </TASK>
-> > >
-> > > Looking closer, it can't access init. This in particular box boots
-> > > directly the kernel without an initramfs so the kernel later mounts
-> > > /dev/sda1 and everything is good.  So that seems to be the reason=E2=
-=80=A6
-> >
->
-> Hello there,
->
-> My (QEMU) boot times were recently extended by 10 seconds.
-> Looking at the timestamps, it looks like nothing is being done for 10 who=
-le
-> seconds.
->
-> A git bisect landed me at the patch in $subject:
-> 2b28a1a84a0e ("driver core: Extend deferred probe timeout on driver regis=
-tration")
->
-> Adding a WARN_ON(1) in wait_for_device_probe(), as requested by the patch
-> author from the others seeing a regression with this patch, gives two dif=
-ferent
-> stacktraces during boot:
+RFC 9131 changes default behaviour of handling RX of NA messages when the
+corresponding entry is absent in the neighbour cache. The current
+implementation is limited to accept just unsolicited NAs. However, the
+RFC is more generic where it also accepts solicited NAs. Both types
+should result in adding a STALE entry for this case.
 
-Thanks for the report. My patch was exposing an existing issue. I
-already sent a fix for that a few days ago. Waiting for it to get
-picked up.
+Expand accept_untracked_na behaviour to also accept solicited NAs to
+be compliant with the RFC and rename the sysctl knob to
+accept_untracked_na.
 
--Saravana
+Fixes: f9a2fb73318e ("net/ipv6: Introduce accept_unsolicited_na knob to implement router-side changes for RFC9131")
+Signed-off-by: Arun Ajith S <aajith@arista.com>
+---
+This change updates the accept_unsolicited_na feature that merged to net-next
+for v5.19 to be better compliant with the RFC. It also involves renaming the sysctl
+knob to accept_untracked_na before shipping in a release.
 
->
-> [    0.459633] printk: console [netcon0] enabled
-> [    0.459636] printk: console [netcon0] printing thread started
-> [    0.459637] netconsole: network logging started
-> [    0.459896] cfg80211: Loading compiled-in X.509 certificates for regul=
-atory database
-> [    0.460230] kworker/u8:6 (105) used greatest stack depth: 14744 bytes =
-left
-> [    0.461031] cfg80211: Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
-> [    0.461077] platform regulatory.0: Direct firmware load for regulatory=
-.db failed with error -2
-> [    0.461085] cfg80211: failed to load regulatory.db
-> [    0.461113] ALSA device list:
-> [    0.461116]   No soundcards found.
-> [    0.461614] ------------[ cut here ]------------
-> [    0.461615] WARNING: CPU: 2 PID: 1 at drivers/base/dd.c:741 wait_for_d=
-evice_probe+0x1a/0x160
-> [    0.485809] Modules linked in:
-> [    0.486089] CPU: 2 PID: 1 Comm: swapper/0 Not tainted 5.18.0-next-2022=
-0526-00004-g74f936013b08-dirty #20
-> [    0.486842] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS r=
-el-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
-> [    0.487707] RIP: 0010:wait_for_device_probe+0x1a/0x160
-> [    0.488103] Code: 00 e8 fa e4 b5 ff 8b 44 24 04 48 83 c4 08 5b c3 0f 1=
-f 44 00 00 53 48 83 ec 30 65 48 8b 04 25 28 00 00 00 48 89 44 24 28 31 c0 <=
-0f> 0b e8 1f ac 57 00 8b 15 f1 b3 24 01 85 d2 75 3d 48 c7 c7 60 2f
-> [    0.489539] RSP: 0000:ffff9c7900013ed8 EFLAGS: 00010246
-> [    0.489965] RAX: 0000000000000000 RBX: 0000000000000008 RCX: 000000000=
-0000d02
-> [    0.490597] RDX: 0000000000000cc2 RSI: 0000000000000000 RDI: 000000000=
-002e990
-> [    0.491181] RBP: 0000000000000214 R08: 000000000000000f R09: 000000000=
-0000064
-> [    0.491788] R10: ffff9c7900013c6c R11: 0000000000000000 R12: ffff8964c=
-0343640
-> [    0.492384] R13: ffffffff9e51791c R14: 0000000000000000 R15: 000000000=
-0000000
-> [    0.492960] FS:  0000000000000000(0000) GS:ffff896637d00000(0000) knlG=
-S:0000000000000000
-> [    0.493658] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [    0.494501] CR2: 0000000000000000 CR3: 00000001ed20c001 CR4: 000000000=
-0370ee0
-> [    0.495621] Call Trace:
-> [    0.496059]  <TASK>
-> [    0.496266]  ? init_eaccess+0x3b/0x76
-> [    0.496657]  prepare_namespace+0x30/0x16a
-> [    0.497016]  kernel_init_freeable+0x207/0x212
-> [    0.497407]  ? rest_init+0xc0/0xc0
-> [    0.497714]  kernel_init+0x16/0x120
-> [    0.498250]  ret_from_fork+0x1f/0x30
-> [    0.498898]  </TASK>
-> [    0.499307] ---[ end trace 0000000000000000 ]---
-> [    0.748413] ata2: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
-> [    0.749053] ata1: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
-> [    0.749461] ata2.00: ATA-7: QEMU HARDDISK, version, max UDMA/100
-> [    0.749470] ata2.00: 732 sectors, multi 16: LBA48 NCQ (depth 32)
-> [    0.749479] ata2.00: applying bridge limits
-> [    0.750915] ata4: SATA link down (SStatus 0 SControl 300)
-> [    0.752110] ata5: SATA link down (SStatus 0 SControl 300)
-> [    0.753424] ata6: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
-> [    0.754877] ata3: SATA link down (SStatus 0 SControl 300)
-> [    0.755342] ata1.00: ATA-7: QEMU HARDDISK, version, max UDMA/100
-> [    0.755377] ata1.00: 268435456 sectors, multi 16: LBA48 NCQ (depth 32)
-> [    0.755387] ata1.00: applying bridge limits
-> [    0.755486] ata6.00: ATA-7: QEMU HARDDISK, version, max UDMA/100
-> [    0.755492] ata6.00: 8388608 sectors, multi 16: LBA48 NCQ (depth 32)
-> [    0.755500] ata6.00: applying bridge limits
-> [    0.757330] ata1.00: configured for UDMA/100
-> [    0.757441] ata6.00: configured for UDMA/100
-> [    0.757505] ata2.00: configured for UDMA/100
-> [    0.758015] scsi 0:0:0:0: Direct-Access     ATA      QEMU HARDDISK    =
-ion  PQ: 0 ANSI: 5
-> [    0.760542] sd 0:0:0:0: Attached scsi generic sg0 type 0
-> [    0.760669] sd 0:0:0:0: [sda] 268435456 512-byte logical blocks: (137 =
-GB/128 GiB)
-> [    0.760778] sd 0:0:0:0: [sda] Write Protect is off
-> [    0.760787] sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
-> [    0.760847] sd 0:0:0:0: [sda] Write cache: enabled, read cache: enable=
-d, doesn't support DPO or FUA
-> [    0.760981] sd 0:0:0:0: [sda] Preferred minimum I/O size 512 bytes
-> [    0.761319] scsi 1:0:0:0: Direct-Access     ATA      QEMU HARDDISK    =
-ion  PQ: 0 ANSI: 5
-> [    0.762808] sd 1:0:0:0: Attached scsi generic sg1 type 0
-> [    0.763004] sd 1:0:0:0: [sdb] 732 512-byte logical blocks: (375 kB/366=
- KiB)
-> [    0.763649] sd 1:0:0:0: [sdb] Write Protect is off
-> [    0.763661] sd 1:0:0:0: [sdb] Mode Sense: 00 3a 00 00
-> [    0.763965] sd 1:0:0:0: [sdb] Write cache: enabled, read cache: enable=
-d, doesn't support DPO or FUA
-> [    0.764026] sd 1:0:0:0: [sdb] Preferred minimum I/O size 512 bytes
-> [    0.765923] scsi 5:0:0:0: Direct-Access     ATA      QEMU HARDDISK    =
-ion  PQ: 0 ANSI: 5
-> [    0.767987] sd 5:0:0:0: Attached scsi generic sg2 type 0
-> [    0.768626] sd 5:0:0:0: [sdc] 8388608 512-byte logical blocks: (4.29 G=
-B/4.00 GiB)
-> [    0.769909] sd 5:0:0:0: [sdc] Write Protect is off
-> [    0.769920] sd 5:0:0:0: [sdc] Mode Sense: 00 3a 00 00
-> [    0.770515] sd 1:0:0:0: [sdb] Attached SCSI disk
-> [    0.770900] sd 5:0:0:0: [sdc] Write cache: enabled, read cache: enable=
-d, doesn't support DPO or FUA
-> [    0.771782] sd 5:0:0:0: [sdc] Preferred minimum I/O size 512 bytes
-> [    0.773900]  sda: sda1 sda14 sda15
-> [    0.774499] sd 5:0:0:0: [sdc] Attached SCSI disk
-> [    0.774907] sd 0:0:0:0: [sda] Attached SCSI disk
-> [    1.084011] input: ImExPS/2 Generic Explorer Mouse as /devices/platfor=
-m/i8042/serio1/input/input3
-> [   10.887350] md: Waiting for all devices to be available before autodet=
-ect
-> [   10.887395] md: If you don't use raid, use raid=3Dnoautodetect
-> [   10.887445] ------------[ cut here ]------------
-> [   10.887448] WARNING: CPU: 1 PID: 1 at drivers/base/dd.c:741 wait_for_d=
-evice_probe+0x1a/0x160
-> [   10.893987] Modules linked in:
-> [   10.894314] CPU: 1 PID: 1 Comm: swapper/0 Tainted: G        W         =
-5.18.0-next-20220526-00004-g74f936013b08-dirty #20
-> [   10.895389] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS r=
-el-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
-> [   10.896590] RIP: 0010:wait_for_device_probe+0x1a/0x160
-> [   10.897215] Code: 00 e8 fa e4 b5 ff 8b 44 24 04 48 83 c4 08 5b c3 0f 1=
-f 44 00 00 53 48 83 ec 30 65 48 8b 04 25 28 00 00 00 48 89 44 24 28 31 c0 <=
-0f> 0b e8 1f ac 57 00 8b 15 f1 b3 24 01 85 d2 75 3d 48 c7 c7 60 2f
-> [   10.899269] RSP: 0000:ffff9c7900013ec8 EFLAGS: 00010246
-> [   10.899762] RAX: 0000000000000000 RBX: 0000000000000008 RCX: 000000000=
-0000000
-> [   10.900424] RDX: 0000000000000000 RSI: ffffffff9d998089 RDI: 00000000f=
-fffffff
-> [   10.901060] RBP: 0000000000000214 R08: 80000000ffffe1ca R09: ffff9c790=
-0013ea8
-> [   10.901839] R10: 3fffffffffffffff R11: 0000000000000000 R12: ffff8964c=
-0343640
-> [   10.902615] R13: ffffffff9e51791c R14: 0000000000000000 R15: 000000000=
-0000000
-> [   10.903371] FS:  0000000000000000(0000) GS:ffff896637c80000(0000) knlG=
-S:0000000000000000
-> [   10.904188] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   10.904721] CR2: 0000000000000000 CR3: 00000001ed20c001 CR4: 000000000=
-0370ee0
-> [   10.905340] Call Trace:
-> [   10.905558]  <TASK>
-> [   10.905739]  md_run_setup+0x3c/0x6a
-> [   10.906036]  prepare_namespace+0x35/0x16a
-> [   10.906391]  kernel_init_freeable+0x207/0x212
-> [   10.906748]  ? rest_init+0xc0/0xc0
-> [   10.907021]  kernel_init+0x16/0x120
-> [   10.907312]  ret_from_fork+0x1f/0x30
-> [   10.907617]  </TASK>
-> [   10.907796] ---[ end trace 0000000000000000 ]---
-> [   10.908159] md: Autodetecting RAID arrays.
-> [   10.908160] md: autorun ...
-> [   10.908160] md: ... autorun DONE.
-> [   10.911301] EXT4-fs (sda1): INFO: recovery required on readonly filesy=
-stem
-> [   10.911303] EXT4-fs (sda1): write access will be enabled during recove=
-ry
-> [   11.038001] EXT4-fs (sda1): orphan cleanup on readonly fs
-> [   11.038466] EXT4-fs (sda1): 2 orphan inodes deleted
-> [   11.038475] EXT4-fs (sda1): recovery complete
-> [   11.053033] EXT4-fs (sda1): mounted filesystem with ordered data mode.=
- Quota mode: none.
-> [   11.053074] VFS: Mounted root (ext4 filesystem) readonly on device 8:1=
-.
-> [   11.053175] devtmpfs: mounted
-> [   11.061921] Freeing unused kernel image (initmem) memory: 1680K
-> [   11.061930] Write protecting the kernel read-only data: 24576k
-> [   11.071108] Freeing unused kernel image (text/rodata gap) memory: 2032=
-K
-> [   11.073596] Freeing unused kernel image (rodata/data gap) memory: 924K
-> [   11.073609] Run /sbin/init as init process
->
->
-> Kind regards,
-> Niklas
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to kernel-team+unsubscribe@android.com.
->
+Note that the behaviour table has been modifed in the code comments,
+but dropped from the Documentation. This is because the table 
+documents behaviour that is not unique to the knob, and it is more
+relevant to understanding the code. The documentation has been updated
+to be unambiguous even without the table.
+
+v2:
+  1. Changed commit message and subject as suggested.
+  2. Added Fixes tag.
+  3. Used en-uk spellings consistently.
+  4. Added a couple of missing comments.
+  5. Refactored patch to be smaller by avoiding early return.
+  6. Made the documentation more clearer.
+
+ Documentation/networking/ip-sysctl.rst        | 23 ++++-------
+ include/linux/ipv6.h                          |  2 +-
+ include/uapi/linux/ipv6.h                     |  2 +-
+ net/ipv6/addrconf.c                           |  6 +--
+ net/ipv6/ndisc.c                              | 41 +++++++++++--------
+ .../net/ndisc_unsolicited_na_test.sh          | 23 +++++------
+ 6 files changed, 49 insertions(+), 48 deletions(-)
+
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index b882d4238581..04216564a03c 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -2474,21 +2474,16 @@ drop_unsolicited_na - BOOLEAN
+ 
+ 	By default this is turned off.
+ 
+-accept_unsolicited_na - BOOLEAN
+-	Add a new neighbour cache entry in STALE state for routers on receiving an
+-	unsolicited neighbour advertisement with target link-layer address option
+-	specified. This is as per router-side behavior documented in RFC9131.
+-	This has lower precedence than drop_unsolicited_na.
++accept_untracked_na - BOOLEAN
++	Add a new neighbour cache entry in STALE state for routers on receiving a
++	neighbour advertisement (either solicited or unsolicited) with target
++	link-layer address option specified if no neighbour entry is already
++	present for the advertised IPv6 address. Without this knob, NAs received
++	for untracked addresses (absent in neighbour cache) are silently ignored.
++
++	This is as per router-side behaviour documented in RFC9131.
+ 
+-	 ====   ======  ======  ==============================================
+-	 drop   accept  fwding                   behaviour
+-	 ----   ------  ------  ----------------------------------------------
+-	    1        X       X  Drop NA packet and don't pass up the stack
+-	    0        0       X  Pass NA packet up the stack, don't update NC
+-	    0        1       0  Pass NA packet up the stack, don't update NC
+-	    0        1       1  Pass NA packet up the stack, and add a STALE
+-	                        NC entry
+-	 ====   ======  ======  ==============================================
++	This has lower precedence than drop_unsolicited_na.
+ 
+ 	This will optimize the return path for the initial off-link communication
+ 	that is initiated by a directly connected host, by ensuring that
+diff --git a/include/linux/ipv6.h b/include/linux/ipv6.h
+index 38c8203d52cb..37dfdcfcdd54 100644
+--- a/include/linux/ipv6.h
++++ b/include/linux/ipv6.h
+@@ -61,7 +61,7 @@ struct ipv6_devconf {
+ 	__s32		suppress_frag_ndisc;
+ 	__s32		accept_ra_mtu;
+ 	__s32		drop_unsolicited_na;
+-	__s32		accept_unsolicited_na;
++	__s32		accept_untracked_na;
+ 	struct ipv6_stable_secret {
+ 		bool initialized;
+ 		struct in6_addr secret;
+diff --git a/include/uapi/linux/ipv6.h b/include/uapi/linux/ipv6.h
+index 549ddeaf788b..03cdbe798fe3 100644
+--- a/include/uapi/linux/ipv6.h
++++ b/include/uapi/linux/ipv6.h
+@@ -194,7 +194,7 @@ enum {
+ 	DEVCONF_IOAM6_ID,
+ 	DEVCONF_IOAM6_ID_WIDE,
+ 	DEVCONF_NDISC_EVICT_NOCARRIER,
+-	DEVCONF_ACCEPT_UNSOLICITED_NA,
++	DEVCONF_ACCEPT_UNTRACKED_NA,
+ 	DEVCONF_MAX
+ };
+ 
+diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
+index ca0aa744593e..1b1932502e9e 100644
+--- a/net/ipv6/addrconf.c
++++ b/net/ipv6/addrconf.c
+@@ -5586,7 +5586,7 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
+ 	array[DEVCONF_IOAM6_ID] = cnf->ioam6_id;
+ 	array[DEVCONF_IOAM6_ID_WIDE] = cnf->ioam6_id_wide;
+ 	array[DEVCONF_NDISC_EVICT_NOCARRIER] = cnf->ndisc_evict_nocarrier;
+-	array[DEVCONF_ACCEPT_UNSOLICITED_NA] = cnf->accept_unsolicited_na;
++	array[DEVCONF_ACCEPT_UNTRACKED_NA] = cnf->accept_untracked_na;
+ }
+ 
+ static inline size_t inet6_ifla6_size(void)
+@@ -7038,8 +7038,8 @@ static const struct ctl_table addrconf_sysctl[] = {
+ 		.extra2		= (void *)SYSCTL_ONE,
+ 	},
+ 	{
+-		.procname	= "accept_unsolicited_na",
+-		.data		= &ipv6_devconf.accept_unsolicited_na,
++		.procname	= "accept_untracked_na",
++		.data		= &ipv6_devconf.accept_untracked_na,
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
+index 254addad0dd3..ed0bbe87e345 100644
+--- a/net/ipv6/ndisc.c
++++ b/net/ipv6/ndisc.c
+@@ -979,7 +979,6 @@ static void ndisc_recv_na(struct sk_buff *skb)
+ 	struct inet6_dev *idev = __in6_dev_get(dev);
+ 	struct inet6_ifaddr *ifp;
+ 	struct neighbour *neigh;
+-	bool create_neigh;
+ 
+ 	if (skb->len < sizeof(struct nd_msg)) {
+ 		ND_PRINTK(2, warn, "NA: packet too short\n");
+@@ -1000,7 +999,7 @@ static void ndisc_recv_na(struct sk_buff *skb)
+ 	/* For some 802.11 wireless deployments (and possibly other networks),
+ 	 * there will be a NA proxy and unsolicitd packets are attacks
+ 	 * and thus should not be accepted.
+-	 * drop_unsolicited_na takes precedence over accept_unsolicited_na
++	 * drop_unsolicited_na takes precedence over accept_untracked_na
+ 	 */
+ 	if (!msg->icmph.icmp6_solicited && idev &&
+ 	    idev->cnf.drop_unsolicited_na)
+@@ -1041,25 +1040,33 @@ static void ndisc_recv_na(struct sk_buff *skb)
+ 		in6_ifa_put(ifp);
+ 		return;
+ 	}
++
++	neigh = neigh_lookup(&nd_tbl, &msg->target, dev);
++
+ 	/* RFC 9131 updates original Neighbour Discovery RFC 4861.
+-	 * An unsolicited NA can now create a neighbour cache entry
+-	 * on routers if it has Target LL Address option.
++	 * NAs with Target LL Address option without a corresponding
++	 * entry in the neighbour cache can now create a STALE neighbour
++	 * cache entry on routers.
++	 *
++	 *   entry accept  fwding  solicited        behaviour
++	 * ------- ------  ------  ---------    ----------------------
++	 * present      X       X         0     Set state to STALE
++	 * present      X       X         1     Set state to REACHABLE
++	 *  absent      0       X         X     Do nothing
++	 *  absent      1       0         X     Do nothing
++	 *  absent      1       1         X     Add a new STALE entry
+ 	 *
+-	 * drop   accept  fwding                   behaviour
+-	 * ----   ------  ------  ----------------------------------------------
+-	 *    1        X       X  Drop NA packet and don't pass up the stack
+-	 *    0        0       X  Pass NA packet up the stack, don't update NC
+-	 *    0        1       0  Pass NA packet up the stack, don't update NC
+-	 *    0        1       1  Pass NA packet up the stack, and add a STALE
+-	 *                          NC entry
+ 	 * Note that we don't do a (daddr == all-routers-mcast) check.
+ 	 */
+-	create_neigh = !msg->icmph.icmp6_solicited && lladdr &&
+-		       idev && idev->cnf.forwarding &&
+-		       idev->cnf.accept_unsolicited_na;
+-	neigh = __neigh_lookup(&nd_tbl, &msg->target, dev, create_neigh);
++	new_state = msg->icmph.icmp6_solicited ? NUD_REACHABLE : NUD_STALE;
++	if (!neigh && lladdr &&
++	    idev && idev->cnf.forwarding &&
++	    idev->cnf.accept_untracked_na) {
++		neigh = neigh_create(&nd_tbl, &msg->target, dev);
++		new_state = NUD_STALE;
++	}
+ 
+-	if (neigh) {
++	if (neigh && !IS_ERR(neigh)) {
+ 		u8 old_flags = neigh->flags;
+ 		struct net *net = dev_net(dev);
+ 
+@@ -1079,7 +1086,7 @@ static void ndisc_recv_na(struct sk_buff *skb)
+ 		}
+ 
+ 		ndisc_update(dev, neigh, lladdr,
+-			     msg->icmph.icmp6_solicited ? NUD_REACHABLE : NUD_STALE,
++			     new_state,
+ 			     NEIGH_UPDATE_F_WEAK_OVERRIDE|
+ 			     (msg->icmph.icmp6_override ? NEIGH_UPDATE_F_OVERRIDE : 0)|
+ 			     NEIGH_UPDATE_F_OVERRIDE_ISROUTER|
+diff --git a/tools/testing/selftests/net/ndisc_unsolicited_na_test.sh b/tools/testing/selftests/net/ndisc_unsolicited_na_test.sh
+index f508657ee126..86e621b7b9c7 100755
+--- a/tools/testing/selftests/net/ndisc_unsolicited_na_test.sh
++++ b/tools/testing/selftests/net/ndisc_unsolicited_na_test.sh
+@@ -1,15 +1,14 @@
+ #!/bin/bash
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-# This test is for the accept_unsolicited_na feature to
++# This test is for the accept_untracked_na feature to
+ # enable RFC9131 behaviour. The following is the test-matrix.
+ # drop   accept  fwding                   behaviour
+ # ----   ------  ------  ----------------------------------------------
+-#    1        X       X  Drop NA packet and don't pass up the stack
+-#    0        0       X  Pass NA packet up the stack, don't update NC
+-#    0        1       0  Pass NA packet up the stack, don't update NC
+-#    0        1       1  Pass NA packet up the stack, and add a STALE
+-#                           NC entry
++#    1        X       X  Don't update NC
++#    0        0       X  Don't update NC
++#    0        1       0  Don't update NC
++#    0        1       1  Add a STALE NC entry
+ 
+ ret=0
+ # Kselftest framework requirement - SKIP code is 4.
+@@ -72,7 +71,7 @@ setup()
+ 	set -e
+ 
+ 	local drop_unsolicited_na=$1
+-	local accept_unsolicited_na=$2
++	local accept_untracked_na=$2
+ 	local forwarding=$3
+ 
+ 	# Setup two namespaces and a veth tunnel across them.
+@@ -93,7 +92,7 @@ setup()
+ 	${IP_ROUTER_EXEC} sysctl -qw \
+                 ${ROUTER_CONF}.drop_unsolicited_na=${drop_unsolicited_na}
+ 	${IP_ROUTER_EXEC} sysctl -qw \
+-                ${ROUTER_CONF}.accept_unsolicited_na=${accept_unsolicited_na}
++                ${ROUTER_CONF}.accept_untracked_na=${accept_untracked_na}
+ 	${IP_ROUTER_EXEC} sysctl -qw ${ROUTER_CONF}.disable_ipv6=0
+ 	${IP_ROUTER} addr add ${ROUTER_ADDR_WITH_MASK} dev ${ROUTER_INTF}
+ 
+@@ -144,13 +143,13 @@ link_up() {
+ 
+ verify_ndisc() {
+ 	local drop_unsolicited_na=$1
+-	local accept_unsolicited_na=$2
++	local accept_untracked_na=$2
+ 	local forwarding=$3
+ 
+ 	neigh_show_output=$(${IP_ROUTER} neigh show \
+                 to ${HOST_ADDR} dev ${ROUTER_INTF} nud stale)
+ 	if [ ${drop_unsolicited_na} -eq 0 ] && \
+-			[ ${accept_unsolicited_na} -eq 1 ] && \
++			[ ${accept_untracked_na} -eq 1 ] && \
+ 			[ ${forwarding} -eq 1 ]; then
+ 		# Neighbour entry expected to be present for 011 case
+ 		[[ ${neigh_show_output} ]]
+@@ -179,14 +178,14 @@ test_unsolicited_na_combination() {
+ 	test_unsolicited_na_common $1 $2 $3
+ 	test_msg=("test_unsolicited_na: "
+ 		"drop_unsolicited_na=$1 "
+-		"accept_unsolicited_na=$2 "
++		"accept_untracked_na=$2 "
+ 		"forwarding=$3")
+ 	log_test $? 0 "${test_msg[*]}"
+ 	cleanup
+ }
+ 
+ test_unsolicited_na_combinations() {
+-	# Args: drop_unsolicited_na accept_unsolicited_na forwarding
++	# Args: drop_unsolicited_na accept_untracked_na forwarding
+ 
+ 	# Expect entry
+ 	test_unsolicited_na_combination 0 1 1
+-- 
+2.27.0
+
