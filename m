@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BB4CC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 30 May 2022 07:17:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61BE0C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 30 May 2022 10:14:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233411AbiE3HRR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 May 2022 03:17:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46696 "EHLO
+        id S233163AbiE3KOd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 May 2022 06:14:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233404AbiE3HRP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 May 2022 03:17:15 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEC746FD27
-        for <linux-doc@vger.kernel.org>; Mon, 30 May 2022 00:17:12 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id c2so9573109plh.2
-        for <linux-doc@vger.kernel.org>; Mon, 30 May 2022 00:17:12 -0700 (PDT)
+        with ESMTP id S235164AbiE3KOb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 May 2022 06:14:31 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23C807B9EE
+        for <linux-doc@vger.kernel.org>; Mon, 30 May 2022 03:14:29 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id l7-20020a17090aaa8700b001dd1a5b9965so10306545pjq.2
+        for <linux-doc@vger.kernel.org>; Mon, 30 May 2022 03:14:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=arista.com; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6SyAFe8yiRS+xJf7v92sSCs8jgpttKvVsYzEwlwQFS4=;
-        b=ZOeRe7U0XN51BGptO4ulac6NQI0nCMB9cTNM1vtwVSsEuo+Y57HJ/rVD289kTpOuNA
-         BqgcfBDZ6o+pHimdt0qhyNgUMPKNtGaJ4DIIVLMPWjBQk4H+qMmshEjyRqTIWPlntKk9
-         GUpuvW++NU3UYHPd2RcmrAHdIMTiwCGxM/wmpU6/fC//bJt80kCyfSh0p+NPsxNGzAYQ
-         iwWRKdj5cuyVsncgOsZpANMHNeqFdOHigS/lALVQ1LrxcNRJgm1eZBrj2VO/qQBUrtgX
-         ok85n1NSwUYI5ten6ARtJGpj4NiQZtY0YAk4bOv4ffCsfa5Fa1ffSzRIUq9kYmAY5vy6
-         Odmw==
+        bh=kdhDMm58x5s/7UFfJZf6SmUgAhS+Yr/zFOHfXp+0uHQ=;
+        b=AfvjEKwucRiOk9T1zOP2r8CfIUb57TVmjY6S5ageXy+p4604d8QTjlgpFDWCSwMLzf
+         p9Lm6FB0rimoZniVcmxWyQel7eT3B01cFbRNEPuwHObfVj8bbW8xH8QxgLS3AxzgWym1
+         Fc8kVUh/cIr0tFiXCkIKhEl1k6RmTMlLg5fIO9gLD+z8wtHdfFKoVboiUYyUUN3A+Ilp
+         uhBpyiMdUhlH0ROnIrd3sIBmFh16LFrMCA1mHyjhiVxLayZ1+VAB60a2fHMuTfmRoSWC
+         qZQ+lTuVwEbA2Hb8XhZYzy0T/ZzWqzpFZy29nszesa6E5PRqLEzs0ASddzMP5z/KWbCn
+         TEUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6SyAFe8yiRS+xJf7v92sSCs8jgpttKvVsYzEwlwQFS4=;
-        b=ABD9CMbblRQOUde1T6lGuUpDAUdPGYeGSF/TuamYCCyMRy9P0Yw3DonVTQhIssWPYu
-         PmVM8BRcDYM4GwH66WoK7eEXqPMSEaHJtnRJWYO1Ht54jCeKWv8z64G71Xxo53Tgi1bP
-         S3gdJfk4tGyeogXrRGtUSf3vMZPbZWZ/36fRBEHkFcsLRQnTLLdSgztHJRjY/Iqh1JaF
-         nv6AVUoEqI4F8nU/D+4VWAFO63mE2F83AJuHkQXXCMzLP+iCm8vJxh3VmaSQ1E9xifUL
-         r4gWmE/mezjhKFfsnqtA3nYKl/75Y2R7y1CPwBNDlnCuECRpqIYefX2TuzxMo17+3QLH
-         NnQQ==
-X-Gm-Message-State: AOAM531BI1l4LMvHcvPDazeUODWPKUCjToGtzfXpwk9tIfLOKsKoDKBv
-        I7jklHx4foMoMcO7Rs6tvP4mUQ==
-X-Google-Smtp-Source: ABdhPJy5m/fEfM/HgnPEeOcyxwTjHUpQZCqLSOeoiRXgi/yKZgASya8AZr9lUSqPGzHVqkTH6fSOjg==
-X-Received: by 2002:a17:90a:690f:b0:1df:336d:5533 with SMTP id r15-20020a17090a690f00b001df336d5533mr21802608pjj.222.1653895032082;
-        Mon, 30 May 2022 00:17:12 -0700 (PDT)
+        bh=kdhDMm58x5s/7UFfJZf6SmUgAhS+Yr/zFOHfXp+0uHQ=;
+        b=atB7SobEvyQqnzrZ5eW8LYP9GXne0pGP5hD13tzI3Hnks3aWTt9mlCBsrouUywtw9r
+         VjWOK0JzCVLE/f38szEwjLz56MB5QRydpwT7rG7u2HfL3hxY4onfRpKGKZrsUz8E9Z51
+         FUvJRBAIJ/nMueWWNFs0JpDoVBD2ud4WzDhOzqxV5PuCQU7Sa+IVHBYljki6hBkigLSC
+         auqRWMiBBX4rsvkNRQoscF0RigIDJvM04LUTdyDj6XqSVEwsEto2FJpUSUwIaMhgQfmz
+         9/7CEVaI9WtNYUniZKBtSAg4legNpa3mp5ObpaDVQNcqZYy3qMXMDucGr0OEV4K0KtfA
+         /DaQ==
+X-Gm-Message-State: AOAM5317zxjMhVVGBhpMnA4o8D27aj+zWqIilqFkQeILCeLAHW/nzoLn
+        wjq0NbMPaX18vD0y6Mcr6o6NpA==
+X-Google-Smtp-Source: ABdhPJwTz7tYTBe0TAArza2tUWRhF3bMHHy7mbzZrv3T2NVVoBGMVXzbK1nderIDtgIM6nIgfHhyJA==
+X-Received: by 2002:a17:90b:4c8f:b0:1e0:5b0e:eddc with SMTP id my15-20020a17090b4c8f00b001e05b0eeddcmr22515732pjb.23.1653905668534;
+        Mon, 30 May 2022 03:14:28 -0700 (PDT)
 Received: from localhost.localdomain ([49.37.162.84])
-        by smtp.gmail.com with ESMTPSA id a1-20020a170902900100b0015e9d4a5d27sm8355503plp.23.2022.05.30.00.17.06
+        by smtp.gmail.com with ESMTPSA id q18-20020aa79832000000b0050dc7628162sm8509378pfl.60.2022.05.30.03.14.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 May 2022 00:17:10 -0700 (PDT)
+        Mon, 30 May 2022 03:14:26 -0700 (PDT)
 From:   Arun Ajith S <aajith@arista.com>
 To:     netdev@vger.kernel.org
 Cc:     davem@davemloft.net, linux-kernel@vger.kernel.org,
@@ -56,9 +56,9 @@ Cc:     davem@davemloft.net, linux-kernel@vger.kernel.org,
         corbet@lwn.net, justin.iurman@uliege.be, edumazet@google.com,
         shuah@kernel.org, aajith@arista.com, gilligan@arista.com,
         noureddine@arista.com, gk@arista.com
-Subject: [PATCH net v2] net/ipv6: Expand and rename accept_unsolicited_na to accept_untracked_na
-Date:   Mon, 30 May 2022 07:17:00 +0000
-Message-Id: <20220530071700.12237-1-aajith@arista.com>
+Subject: [PATCH net v3] net/ipv6: Expand and rename accept_unsolicited_na to accept_untracked_na
+Date:   Mon, 30 May 2022 10:14:14 +0000
+Message-Id: <20220530101414.65439-1-aajith@arista.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -97,13 +97,16 @@ v2:
   5. Refactored patch to be smaller by avoiding early return.
   6. Made the documentation more clearer.
 
- Documentation/networking/ip-sysctl.rst        | 23 ++++-------
+v3:
+  1. Fixed build issue. (Verified make defconfig && make && make htmldocs SPHINXDIRS=networking)
+
+ Documentation/networking/ip-sysctl.rst        | 23 ++++------
  include/linux/ipv6.h                          |  2 +-
  include/uapi/linux/ipv6.h                     |  2 +-
  net/ipv6/addrconf.c                           |  6 +--
- net/ipv6/ndisc.c                              | 41 +++++++++++--------
- .../net/ndisc_unsolicited_na_test.sh          | 23 +++++------
- 6 files changed, 49 insertions(+), 48 deletions(-)
+ net/ipv6/ndisc.c                              | 42 +++++++++++--------
+ .../net/ndisc_unsolicited_na_test.sh          | 23 +++++-----
+ 6 files changed, 50 insertions(+), 48 deletions(-)
 
 diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
 index b882d4238581..04216564a03c 100644
@@ -191,18 +194,19 @@ index ca0aa744593e..1b1932502e9e 100644
  		.mode		= 0644,
  		.proc_handler	= proc_dointvec_minmax,
 diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
-index 254addad0dd3..ed0bbe87e345 100644
+index 254addad0dd3..b0dfe97ea4ee 100644
 --- a/net/ipv6/ndisc.c
 +++ b/net/ipv6/ndisc.c
-@@ -979,7 +979,6 @@ static void ndisc_recv_na(struct sk_buff *skb)
+@@ -979,7 +979,7 @@ static void ndisc_recv_na(struct sk_buff *skb)
  	struct inet6_dev *idev = __in6_dev_get(dev);
  	struct inet6_ifaddr *ifp;
  	struct neighbour *neigh;
 -	bool create_neigh;
++	u8 new_state;
  
  	if (skb->len < sizeof(struct nd_msg)) {
  		ND_PRINTK(2, warn, "NA: packet too short\n");
-@@ -1000,7 +999,7 @@ static void ndisc_recv_na(struct sk_buff *skb)
+@@ -1000,7 +1000,7 @@ static void ndisc_recv_na(struct sk_buff *skb)
  	/* For some 802.11 wireless deployments (and possibly other networks),
  	 * there will be a NA proxy and unsolicitd packets are attacks
  	 * and thus should not be accepted.
@@ -211,7 +215,7 @@ index 254addad0dd3..ed0bbe87e345 100644
  	 */
  	if (!msg->icmph.icmp6_solicited && idev &&
  	    idev->cnf.drop_unsolicited_na)
-@@ -1041,25 +1040,33 @@ static void ndisc_recv_na(struct sk_buff *skb)
+@@ -1041,25 +1041,33 @@ static void ndisc_recv_na(struct sk_buff *skb)
  		in6_ifa_put(ifp);
  		return;
  	}
@@ -259,7 +263,7 @@ index 254addad0dd3..ed0bbe87e345 100644
  		u8 old_flags = neigh->flags;
  		struct net *net = dev_net(dev);
  
-@@ -1079,7 +1086,7 @@ static void ndisc_recv_na(struct sk_buff *skb)
+@@ -1079,7 +1087,7 @@ static void ndisc_recv_na(struct sk_buff *skb)
  		}
  
  		ndisc_update(dev, neigh, lladdr,
