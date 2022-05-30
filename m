@@ -2,178 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13135C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 30 May 2022 13:41:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46033C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 30 May 2022 13:41:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237374AbiE3Njt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 May 2022 09:39:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57128 "EHLO
+        id S237124AbiE3NlZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 May 2022 09:41:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238150AbiE3NgI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 May 2022 09:36:08 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74894985AF;
-        Mon, 30 May 2022 06:29:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653917391; x=1685453391;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=I21a6ClKGB+lq1NfhYRQ0tz6+Os23OEzwGczNY+MKwY=;
-  b=HpvNlcVINhWSmF2Khe79cHcXMHlqq8MD2pq5h//KORGzneoTvxjrwGOC
-   lUFqvSjakeEsFY4cAqT5ep1vHYaIhzrACuH9QR96Wdzi74dG2pH9neXJJ
-   1EPbdyEkxENjnVyAtmRK1ruUw1XeLGarOY1IgXCkVoEYe6HgjbKQ+JRPU
-   HxL/PtL7Kb8/ckE1FPkj7mmMHx5BUNKbGGYAfrPI1wjQRDKvGxs2DStk2
-   niuShl40ewrDrlfLvWcZMus1mGjAgSmYHUAlA+3IIhnFcklnQEyH17o2f
-   ZAc2tldND5vrR2yrGUFOwiHujWmUsLDqS6GT4Jrjc+JyP0GmKqQmEWixg
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10362"; a="273813992"
-X-IronPort-AV: E=Sophos;i="5.91,263,1647327600"; 
-   d="scan'208";a="273813992"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2022 06:29:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,263,1647327600"; 
-   d="scan'208";a="529175229"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
-  by orsmga003.jf.intel.com with ESMTP; 30 May 2022 06:29:39 -0700
-Date:   Mon, 30 May 2022 21:26:13 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Andy Lutomirski <luto@kernel.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <20220530132613.GA1200843@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-5-chao.p.peng@linux.intel.com>
- <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
- <YofeZps9YXgtP3f1@google.com>
- <20220523132154.GA947536@chaop.bj.intel.com>
- <YoumuHUmgM6TH20S@google.com>
+        with ESMTP id S237774AbiE3NiI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 May 2022 09:38:08 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 875688BD36;
+        Mon, 30 May 2022 06:31:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id F062EB80DB1;
+        Mon, 30 May 2022 13:31:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D554FC341C4;
+        Mon, 30 May 2022 13:31:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653917473;
+        bh=Bpw6Qm6IaCPjexmO1xXZD3Zk0B/+hGZOu1QhVZlvP9E=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ncfKnxcTKN08/84iGMUeXxdaoljEHAV0GRhuvaz0q8gqDAaeZ0l5IaPGeWCr3EEZq
+         G7Nqc3iOIU4ixyZphWao87sX8d/wzuj6pZrsV009N75gcLxaP9uv/oChAL2ns5n7Yf
+         wPzpZck1eA9TlXNsgW0dhAvnDKUBtoiZi/POn/0pxuWBXiZKmZ/1l18t7Ukd4odPjQ
+         BWdONsMl06P1ohRPpQGI8AFNvOV6LB+0xRh8XvahG5lSv3nN2CgMk/LhBb5y8dueKK
+         pUcCEGDa6PFJMTVRWUzSg+7TdbG0G8MX0iuvRNVgE64MQkwR9Wjp8JvMVCFyknbQlK
+         HFcfx66SBlsyQ==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Sasha Levin <sashal@kernel.org>, jdelvare@suse.com,
+        corbet@lwn.net, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.18 151/159] hwmon: Make chip parameter for with_info API mandatory
+Date:   Mon, 30 May 2022 09:24:16 -0400
+Message-Id: <20220530132425.1929512-151-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220530132425.1929512-1-sashal@kernel.org>
+References: <20220530132425.1929512-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YoumuHUmgM6TH20S@google.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 23, 2022 at 03:22:32PM +0000, Sean Christopherson wrote:
-> On Mon, May 23, 2022, Chao Peng wrote:
-> > On Fri, May 20, 2022 at 06:31:02PM +0000, Sean Christopherson wrote:
-> > > On Fri, May 20, 2022, Andy Lutomirski wrote:
-> > > > The alternative would be to have some kind of separate table or bitmap (part
-> > > > of the memslot?) that tells KVM whether a GPA should map to the fd.
-> > > > 
-> > > > What do you all think?
-> > > 
-> > > My original proposal was to have expolicit shared vs. private memslots, and punch
-> > > holes in KVM's memslots on conversion, but due to the way KVM (and userspace)
-> > > handle memslot updates, conversions would be painfully slow.  That's how we ended
-> > > up with the current propsoal.
-> > > 
-> > > But a dedicated KVM ioctl() to add/remove shared ranges would be easy to implement
-> > > and wouldn't necessarily even need to interact with the memslots.  It could be a
-> > > consumer of memslots, e.g. if we wanted to disallow registering regions without an
-> > > associated memslot, but I think we'd want to avoid even that because things will
-> > > get messy during memslot updates, e.g. if dirty logging is toggled or a shared
-> > > memory region is temporarily removed then we wouldn't want to destroy the tracking.
-> > 
-> > Even we don't tight that to memslots, that info can only be effective
-> > for private memslot, right? Setting this ioctl to memory ranges defined
-> > in a traditional non-private memslots just makes no sense, I guess we can
-> > comment that in the API document.
-> 
-> Hrm, applying it universally would be funky, e.g. emulated MMIO would need to be
-> declared "shared".  But, applying it selectively would arguably be worse, e.g.
-> letting userspace map memory into the guest as shared for a region that's registered
-> as private...
-> 
-> On option to that mess would be to make memory shared by default, and so userspace
-> must declare regions that are private.  Then there's no weirdness with emulated MMIO
-> or "legacy" memslots.
-> 
-> On page fault, KVM does a lookup to see if the GPA is shared or private.  If the
-> GPA is private, but there is no memslot or the memslot doesn't have a private fd,
-> KVM exits to userspace.  If there's a memslot with a private fd, the shared/private
-> flag is used to resolve the 
-> 
-> And to handle the ioctl(), KVM can use kvm_zap_gfn_range(), which will bump the
-> notifier sequence, i.e. force the page fault to retry if the GPA may have been
-> (un)registered between checking the type and acquiring mmu_lock.
+From: Guenter Roeck <linux@roeck-us.net>
 
-Yeah, that makes sense.
+[ Upstream commit ddaefa209c4ac791c1262e97c9b2d0440c8ef1d5 ]
 
-> 
-> > > I don't think we'd want to use a bitmap, e.g. for a well-behaved guest, XArray
-> > > should be far more efficient.
-> > 
-> > What about the mis-behaved guest? I don't want to design for the worst
-> > case, but people may raise concern on the attack from such guest.
-> 
-> That's why cgroups exist.  E.g. a malicious/broken L1 can similarly abuse nested
-> EPT/NPT to generate a large number of shadow page tables.
+Various attempts were made recently to "convert" the old
+hwmon_device_register() API to devm_hwmon_device_register_with_info()
+by just changing the function name without actually converting the
+driver. Prevent this from happening by making the 'chip' parameter of
+devm_hwmon_device_register_with_info() mandatory.
 
-I havn't seen we had that in KVM. Is there any plan/discussion to add that?
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/hwmon/hwmon-kernel-api.rst |  2 +-
+ drivers/hwmon/hwmon.c                    | 16 +++++++---------
+ 2 files changed, 8 insertions(+), 10 deletions(-)
 
-> 
-> > > One benefit to explicitly tracking this in KVM is that it might be useful for
-> > > software-only protected VMs, e.g. KVM could mark a region in the XArray as "pending"
-> > > based on guest hypercalls to share/unshare memory, and then complete the transaction
-> > > when userspace invokes the ioctl() to complete the share/unshare.
-> > 
-> > OK, then this can be another field of states/flags/attributes. Let me
-> > dig up certain level of details:
-> > 
-> > First, introduce below KVM ioctl
-> > 
-> > KVM_SET_MEMORY_ATTR
-> 
-> Actually, if the semantics are that userspace declares memory as private, then we
-> can reuse KVM_MEMORY_ENCRYPT_REG_REGION and KVM_MEMORY_ENCRYPT_UNREG_REGION.  It'd
-> be a little gross because we'd need to slightly redefine the semantics for TDX, SNP,
-> and software-protected VM types, e.g. the ioctls() currently require a pre-exisitng
-> memslot.  But I think it'd work...
+diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
+index c41eb6108103..23f27fe78e37 100644
+--- a/Documentation/hwmon/hwmon-kernel-api.rst
++++ b/Documentation/hwmon/hwmon-kernel-api.rst
+@@ -72,7 +72,7 @@ hwmon_device_register_with_info is the most comprehensive and preferred means
+ to register a hardware monitoring device. It creates the standard sysfs
+ attributes in the hardware monitoring core, letting the driver focus on reading
+ from and writing to the chip instead of having to bother with sysfs attributes.
+-The parent device parameter cannot be NULL with non-NULL chip info. Its
++The parent device parameter as well as the chip parameter must not be NULL. Its
+ parameters are described in more detail below.
+ 
+ devm_hwmon_device_register_with_info is similar to
+diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
+index 989e2c8496dd..187212988b6c 100644
+--- a/drivers/hwmon/hwmon.c
++++ b/drivers/hwmon/hwmon.c
+@@ -886,11 +886,12 @@ EXPORT_SYMBOL_GPL(hwmon_device_register_with_groups);
+ 
+ /**
+  * hwmon_device_register_with_info - register w/ hwmon
+- * @dev: the parent device
+- * @name: hwmon name attribute
+- * @drvdata: driver data to attach to created device
+- * @chip: pointer to hwmon chip information
++ * @dev: the parent device (mandatory)
++ * @name: hwmon name attribute (mandatory)
++ * @drvdata: driver data to attach to created device (optional)
++ * @chip: pointer to hwmon chip information (mandatory)
+  * @extra_groups: pointer to list of additional non-standard attribute groups
++ *	(optional)
+  *
+  * hwmon_device_unregister() must be called when the device is no
+  * longer needed.
+@@ -903,13 +904,10 @@ hwmon_device_register_with_info(struct device *dev, const char *name,
+ 				const struct hwmon_chip_info *chip,
+ 				const struct attribute_group **extra_groups)
+ {
+-	if (!name)
+-		return ERR_PTR(-EINVAL);
+-
+-	if (chip && (!chip->ops || !chip->ops->is_visible || !chip->info))
++	if (!dev || !name || !chip)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	if (chip && !dev)
++	if (!chip->ops || !chip->ops->is_visible || !chip->info)
+ 		return ERR_PTR(-EINVAL);
+ 
+ 	return __hwmon_device_register(dev, name, drvdata, chip, extra_groups);
+-- 
+2.35.1
 
-These existing ioctls looks good for TDX and probably SNP as well. For
-softrware-protected VM types, it may not be enough. Maybe for the first
-step we can reuse this for all hardware based solutions and invent new
-interface when software-protected solution gets really supported.
-
-There is semantics difference for fd-based private memory. Current above
-two ioctls() use userspace addreess(hva) while for fd-based it should be
-fd+offset, and probably it's better to use gpa in this case. Then we
-will need change existing semantics and break backward-compatibility.
-
-Chao
-
-> 
-> I'll think more on this...
