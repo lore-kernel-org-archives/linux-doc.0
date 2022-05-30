@@ -2,264 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA67DC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 30 May 2022 12:10:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13135C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 30 May 2022 13:41:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232574AbiE3MKL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 May 2022 08:10:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50620 "EHLO
+        id S237374AbiE3Njt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 May 2022 09:39:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236060AbiE3MKG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 May 2022 08:10:06 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E2A460DB0;
-        Mon, 30 May 2022 05:10:04 -0700 (PDT)
-Received: from dggpeml500026.china.huawei.com (unknown [172.30.72.56])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4LBZ3P164czDqfB;
-        Mon, 30 May 2022 20:09:53 +0800 (CST)
-Received: from localhost.localdomain (10.175.112.125) by
- dggpeml500026.china.huawei.com (7.185.36.106) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 30 May 2022 20:10:01 +0800
-From:   Yuanzheng Song <songyuanzheng@huawei.com>
-To:     <alexs@kernel.org>, <siyanteng@loongson.cn>, <corbet@lwn.net>,
-        <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
-        <aou@eecs.berkeley.edu>, <nathan@kernel.org>,
-        <ndesaulniers@google.com>, <trix@redhat.com>, <maskray@google.com>,
-        <wanjiabing@vivo.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <llvm@lists.linux.dev>,
-        Yuanzheng Song <songyuanzheng@huawei.com>
-Subject: [PATCH] docs/zh_CN: update the kasan.rst documentation
-Date:   Mon, 30 May 2022 12:31:23 +0000
-Message-ID: <20220530123123.3994731-1-songyuanzheng@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S238150AbiE3NgI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 May 2022 09:36:08 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74894985AF;
+        Mon, 30 May 2022 06:29:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653917391; x=1685453391;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=I21a6ClKGB+lq1NfhYRQ0tz6+Os23OEzwGczNY+MKwY=;
+  b=HpvNlcVINhWSmF2Khe79cHcXMHlqq8MD2pq5h//KORGzneoTvxjrwGOC
+   lUFqvSjakeEsFY4cAqT5ep1vHYaIhzrACuH9QR96Wdzi74dG2pH9neXJJ
+   1EPbdyEkxENjnVyAtmRK1ruUw1XeLGarOY1IgXCkVoEYe6HgjbKQ+JRPU
+   HxL/PtL7Kb8/ckE1FPkj7mmMHx5BUNKbGGYAfrPI1wjQRDKvGxs2DStk2
+   niuShl40ewrDrlfLvWcZMus1mGjAgSmYHUAlA+3IIhnFcklnQEyH17o2f
+   ZAc2tldND5vrR2yrGUFOwiHujWmUsLDqS6GT4Jrjc+JyP0GmKqQmEWixg
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10362"; a="273813992"
+X-IronPort-AV: E=Sophos;i="5.91,263,1647327600"; 
+   d="scan'208";a="273813992"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2022 06:29:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,263,1647327600"; 
+   d="scan'208";a="529175229"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+  by orsmga003.jf.intel.com with ESMTP; 30 May 2022 06:29:39 -0700
+Date:   Mon, 30 May 2022 21:26:13 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Andy Lutomirski <luto@kernel.org>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <20220530132613.GA1200843@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-5-chao.p.peng@linux.intel.com>
+ <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
+ <YofeZps9YXgtP3f1@google.com>
+ <20220523132154.GA947536@chaop.bj.intel.com>
+ <YoumuHUmgM6TH20S@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.112.125]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500026.china.huawei.com (7.185.36.106)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YoumuHUmgM6TH20S@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update the kasan.rst documentation according to
-c2ec0c8f6877 ("kasan: update documentation") and
-ca89f2a2e66d ("kasan: move boot parameters section in documentation").
+On Mon, May 23, 2022 at 03:22:32PM +0000, Sean Christopherson wrote:
+> On Mon, May 23, 2022, Chao Peng wrote:
+> > On Fri, May 20, 2022 at 06:31:02PM +0000, Sean Christopherson wrote:
+> > > On Fri, May 20, 2022, Andy Lutomirski wrote:
+> > > > The alternative would be to have some kind of separate table or bitmap (part
+> > > > of the memslot?) that tells KVM whether a GPA should map to the fd.
+> > > > 
+> > > > What do you all think?
+> > > 
+> > > My original proposal was to have expolicit shared vs. private memslots, and punch
+> > > holes in KVM's memslots on conversion, but due to the way KVM (and userspace)
+> > > handle memslot updates, conversions would be painfully slow.  That's how we ended
+> > > up with the current propsoal.
+> > > 
+> > > But a dedicated KVM ioctl() to add/remove shared ranges would be easy to implement
+> > > and wouldn't necessarily even need to interact with the memslots.  It could be a
+> > > consumer of memslots, e.g. if we wanted to disallow registering regions without an
+> > > associated memslot, but I think we'd want to avoid even that because things will
+> > > get messy during memslot updates, e.g. if dirty logging is toggled or a shared
+> > > memory region is temporarily removed then we wouldn't want to destroy the tracking.
+> > 
+> > Even we don't tight that to memslots, that info can only be effective
+> > for private memslot, right? Setting this ioctl to memory ranges defined
+> > in a traditional non-private memslots just makes no sense, I guess we can
+> > comment that in the API document.
+> 
+> Hrm, applying it universally would be funky, e.g. emulated MMIO would need to be
+> declared "shared".  But, applying it selectively would arguably be worse, e.g.
+> letting userspace map memory into the guest as shared for a region that's registered
+> as private...
+> 
+> On option to that mess would be to make memory shared by default, and so userspace
+> must declare regions that are private.  Then there's no weirdness with emulated MMIO
+> or "legacy" memslots.
+> 
+> On page fault, KVM does a lookup to see if the GPA is shared or private.  If the
+> GPA is private, but there is no memslot or the memslot doesn't have a private fd,
+> KVM exits to userspace.  If there's a memslot with a private fd, the shared/private
+> flag is used to resolve the 
+> 
+> And to handle the ioctl(), KVM can use kvm_zap_gfn_range(), which will bump the
+> notifier sequence, i.e. force the page fault to retry if the GPA may have been
+> (un)registered between checking the type and acquiring mmu_lock.
 
-Signed-off-by: Yuanzheng Song <songyuanzheng@huawei.com>
----
- .../translations/zh_CN/dev-tools/kasan.rst    | 143 +++++++++++-------
- 1 file changed, 88 insertions(+), 55 deletions(-)
+Yeah, that makes sense.
 
-diff --git a/Documentation/translations/zh_CN/dev-tools/kasan.rst b/Documentation/translations/zh_CN/dev-tools/kasan.rst
-index 23db9d419047..6f3e8c4b24b4 100644
---- a/Documentation/translations/zh_CN/dev-tools/kasan.rst
-+++ b/Documentation/translations/zh_CN/dev-tools/kasan.rst
-@@ -11,34 +11,64 @@
- 概述
- ----
- 
--KernelAddressSANitizer(KASAN)是一种动态内存安全错误检测工具，主要功能是
--检查内存越界访问和使用已释放内存的问题。KASAN有三种模式:
-+Kernel Address Sanitizer (KASAN)是一种动态内存安全错误检测工具，主要功能是
-+检查内存越界访问和使用已释放内存的问题。
- 
--1. 通用KASAN（与用户空间的ASan类似）
--2. 基于软件标签的KASAN（与用户空间的HWASan类似）
--3. 基于硬件标签的KASAN（基于硬件内存标签）
-+KASAN有三种模式:
- 
--由于通用KASAN的内存开销较大，通用KASAN主要用于调试。基于软件标签的KASAN
--可用于dogfood测试，因为它具有较低的内存开销，并允许将其用于实际工作量。
--基于硬件标签的KASAN具有较低的内存和性能开销，因此可用于生产。同时可用于
--检测现场内存问题或作为安全缓解措施。
-+1. 通用KASAN
-+2. 基于软件标签的KASAN
-+3. 基于硬件标签的KASAN
- 
--软件KASAN模式（#1和#2）使用编译时工具在每次内存访问之前插入有效性检查，
--因此需要一个支持它的编译器版本。
-+通用KASAN，由CONFIG_KASAN_GENERIC配置开启，属于调试模式，类似于用户空间的ASan。
-+在很多CPU架构上都支持这种模式，但它具有较大的性能和内存开销。
- 
--通用KASAN在GCC和Clang受支持。GCC需要8.3.0或更高版本。任何受支持的Clang
--版本都是兼容的，但从Clang 11才开始支持检测全局变量的越界访问。
-+基于软件标签的KASAN或SW_TAGS KASAN，由CONFIG_KASAN_SW_TAGS配置开启，
-+该模式被用来调试和dogfood测试，类似于用户空间的HWASan。这种模式仅在arm64上支持，
-+由于它具有中等的内存开销，因此允许在具有实际工作负载的内存受限设备上使用。
- 
--基于软件标签的KASAN模式仅在Clang中受支持。
-+基于硬件标签的KASAN或HW_TAGS KASAN，由CONFIG_KASAN_HW_TAGS配置开启，
-+这种模式可用于检测现场内存问题或作为安全缓解措施。这种模式仅在支持
-+MTE（Memory Tagging Extension）的ARM64上支持，但是这种模式具有较低的内存和
-+性能的开销，因此可以在生产中使用。
- 
--硬件KASAN模式（#3）依赖硬件来执行检查，但仍需要支持内存标签指令的编译器
--版本。GCC 10+和Clang 11+支持此模式。
-+有关每种KASAN模式对内存和性能的影响细节，请参考相应Kconfig选项的说明。
- 
--两种软件KASAN模式都适用于SLUB和SLAB内存分配器，而基于硬件标签的KASAN目前
--仅支持SLUB。
-+通用模式和基于软件标签的模式通常称为软件模式。基于软件标签和基于硬件标签的模式
-+称为基于标签的模式。
- 
--目前x86_64、arm、arm64、xtensa、s390、riscv架构支持通用KASAN模式，仅
--arm64架构支持基于标签的KASAN模式。
-+支持
-+----
-+
-+架构
-+~~~~
-+
-+x86_64、arm、arm64、powerpc、riscv、s390、xtensa架构支持通用KASAN模式，
-+仅arm64架构支持基于标签模式的KASAN模式。
-+
-+编译器
-+~~~~~~
-+
-+软件KASAN模式使用编译时检测在每次内存访问之前插入有效性检查，因此需要提供支持的
-+编译器版本。基于硬件标签的模式依赖于硬件来执行这些检查，但仍然需要支持内存标记
-+指令的编译器版本。
-+
-+通用KASAN需要GCC 8.3.0版本或更高版本或内核支持的任何Clang版本。
-+
-+基于软件标签的KASAN需要GCC 11+或内核支持的任何Clang版本。
-+
-+基于硬件标签的KASAN需要GCC 10+或Clang 12+。
-+
-+内存类型
-+~~~~~~~~
-+
-+通用KASAN支持在所有slab、page_alloc、vmap、vmalloc、stack和全局内存中查找错误。
-+
-+基于软件标签的KASAN支持slab、page_alloc、vmalloc和栈内存。
-+
-+基于硬件标签的KASAN支持slab、page_alloc和不可执行的vmalloc内存。
-+
-+对于slab，两种软件KASAN模式都支持SLUB和SLAB分配器，而基于硬件标记的KASAN仅支持SLUB。
- 
- 用法
- ----
-@@ -48,17 +78,49 @@ arm64架构支持基于标签的KASAN模式。
- 	  CONFIG_KASAN=y
- 
- 同时在 ``CONFIG_KASAN_GENERIC`` (启用通用KASAN模式)， ``CONFIG_KASAN_SW_TAGS``
--(启用基于硬件标签的KASAN模式)，和 ``CONFIG_KASAN_HW_TAGS`` (启用基于硬件标签
-+(启用基于软件标签的KASAN模式)，和 ``CONFIG_KASAN_HW_TAGS`` (启用基于硬件标签
- 的KASAN模式)之间进行选择。
- 
- 对于软件模式，还可以在 ``CONFIG_KASAN_OUTLINE`` 和 ``CONFIG_KASAN_INLINE``
- 之间进行选择。outline和inline是编译器插桩类型。前者产生较小的二进制文件，
--而后者快1.1-2倍。
-+而后者快2倍。
- 
- 要将受影响的slab对象的alloc和free堆栈跟踪包含到报告中，请启用
- ``CONFIG_STACKTRACE`` 。要包括受影响物理页面的分配和释放堆栈跟踪的话，
- 请启用 ``CONFIG_PAGE_OWNER`` 并使用 ``page_owner=on`` 进行引导。
- 
-+启动参数
-+~~~~~~~~
-+
-+KASAN受通用 ``panic_on_warn`` 命令行参数的影响。启用该功能后，KASAN在打印错误
-+报告后会引起内核恐慌。
-+
-+默认情况下，KASAN只为第一次无效内存访问打印错误报告。使用 ``kasan_multi_shot`` ，
-+KASAN会针对每个无效访问打印报告。这有效地禁用了KASAN报告的 ``panic_on_warn`` 。
-+
-+或者，独立于 ``panic_on_warn``，``kasan.fault=`` 启动参数可用于控制恐慌和报告
-+的行为。
-+
-+- ``kasan.fault=report`` 或 ``=panic`` 控制是只打印KASAN报告还是同时使内核恐慌
-+  (默认: ``report`` )。即使启用了 ``kasan_multi_shot`` ，也会发生内核恐慌。
-+
-+基于硬件标签的KASAN模式（请参阅下面有关各种模式的部分）旨在在生产中用作安全缓解
-+措施。因此，它支持允许禁用KASAN或控制其功能的引导参数。
-+
-+- ``kasan=off`` 或 ``=on`` 控制KASAN是否启用 (默认: ``on`` )。
-+
-+- ``kasan.mode=sync`` 或 ``=async`` 或 ``=asymm`` 控制KASAN是否配置为同步，
-+  异步执行或非对称模式(默认:``sync`` )。
-+  同步模式：当标签检查错误发生时，立即检测到错误访问。
-+  异步模式：延迟错误访问检测。当标签检查错误发生时，信息存储在硬件中（在arm64的
-+  TFSR_EL1寄存器中）。内核会定期检查硬件，并且仅在这些检查期间报告标签错误。
-+  非对称模式：读取时同步检测错误访问，写入时异步检测错误访问。
-+
-+- ``kasan.vmalloc=off`` 或 ``=on`` 禁用或启用vmalloc分配的标记 (默认: ``on``)。
-+
-+- ``kasan.stacktrace=off`` 或 ``=on`` 禁用或启用alloc和free堆栈跟踪收集
-+  (默认: ``on`` )。
-+
- 错误报告
- ~~~~~~~~
- 
-@@ -163,31 +225,6 @@ slab对象的描述以及关于访问的内存页的信息。
- 通用KASAN还报告两个辅助调用堆栈跟踪。这些堆栈跟踪指向代码中与对象交互但不直接
- 出现在错误访问堆栈跟踪中的位置。目前，这包括 call_rcu() 和排队的工作队列。
- 
--启动参数
--~~~~~~~~
--
--KASAN受通用 ``panic_on_warn`` 命令行参数的影响。启用该功能后，KASAN在打印错误
--报告后会引起内核恐慌。
--
--默认情况下，KASAN只为第一次无效内存访问打印错误报告。使用 ``kasan_multi_shot`` ，
--KASAN会针对每个无效访问打印报告。这有效地禁用了KASAN报告的 ``panic_on_warn`` 。
--
--基于硬件标签的KASAN模式（请参阅下面有关各种模式的部分）旨在在生产中用作安全缓解
--措施。因此，它支持允许禁用KASAN或控制其功能的引导参数。
--
--- ``kasan=off`` 或 ``=on`` 控制KASAN是否启用 (默认: ``on`` )。
--
--- ``kasan.mode=sync`` 或 ``=async`` 控制KASAN是否配置为同步或异步执行模式(默认:
--  ``sync`` )。同步模式：当标签检查错误发生时，立即检测到错误访问。异步模式：
--  延迟错误访问检测。当标签检查错误发生时，信息存储在硬件中（在arm64的
--  TFSR_EL1寄存器中）。内核会定期检查硬件，并且仅在这些检查期间报告标签错误。
--
--- ``kasan.stacktrace=off`` 或 ``=on`` 禁用或启用alloc和free堆栈跟踪收集
--  (默认: ``on`` )。
--
--- ``kasan.fault=report`` 或 ``=panic`` 控制是只打印KASAN报告还是同时使内核恐慌
--  (默认: ``report`` )。即使启用了 ``kasan_multi_shot`` ，也会发生内核恐慌。
--
- 实施细则
- --------
- 
-@@ -244,8 +281,6 @@ KASAN会针对每个无效访问打印报告。这有效地禁用了KASAN报告
- 基于软件标签的KASAN使用0xFF作为匹配所有指针标签（不检查通过带有0xFF指针标签
- 的指针进行的访问）。值0xFE当前保留用于标记已释放的内存区域。
- 
--基于软件标签的KASAN目前仅支持对Slab和page_alloc内存进行标记。
--
- 基于硬件标签的KASAN模式
- ~~~~~~~~~~~~~~~~~~~~~~~
- 
-@@ -262,8 +297,6 @@ KASAN会针对每个无效访问打印报告。这有效地禁用了KASAN报告
- 基于硬件标签的KASAN使用0xFF作为匹配所有指针标签（不检查通过带有0xFF指针标签的
- 指针进行的访问）。值0xFE当前保留用于标记已释放的内存区域。
- 
--基于硬件标签的KASAN目前仅支持对Slab和page_alloc内存进行标记。
--
- 如果硬件不支持MTE（ARMv8.5之前），则不会启用基于硬件标签的KASAN。在这种情况下，
- 所有KASAN引导参数都将被忽略。
- 
-@@ -349,10 +382,10 @@ KASAN连接到vmap基础架构以懒清理未使用的影子内存。
- ``kasan_disable_current()``/``kasan_enable_current()`` 部分注释这部分代码。
- 这也会禁用通过函数调用发生的间接访问的报告。
- 
--对于基于标签的KASAN模式（包括硬件模式），要禁用访问检查，请使用
--``kasan_reset_tag()`` 或 ``page_kasan_tag_reset()`` 。请注意，通过
--``page_kasan_tag_reset()`` 临时禁用访问检查需要通过 ``page_kasan_tag``
--/ ``page_kasan_tag_set`` 保存和恢复每页KASAN标签。
-+对于基于标签的KASAN模式，要禁用访问检查，请使用 ``kasan_reset_tag()``
-+或 ``page_kasan_tag_reset()`` 。请注意，通过 ``page_kasan_tag_reset()``
-+临时禁用访问检查需要通过 ``page_kasan_tag`` / ``page_kasan_tag_set``
-+保存和恢复每页KASAN标签。
- 
- 测试
- ~~~~
--- 
-2.25.1
+> 
+> > > I don't think we'd want to use a bitmap, e.g. for a well-behaved guest, XArray
+> > > should be far more efficient.
+> > 
+> > What about the mis-behaved guest? I don't want to design for the worst
+> > case, but people may raise concern on the attack from such guest.
+> 
+> That's why cgroups exist.  E.g. a malicious/broken L1 can similarly abuse nested
+> EPT/NPT to generate a large number of shadow page tables.
 
+I havn't seen we had that in KVM. Is there any plan/discussion to add that?
+
+> 
+> > > One benefit to explicitly tracking this in KVM is that it might be useful for
+> > > software-only protected VMs, e.g. KVM could mark a region in the XArray as "pending"
+> > > based on guest hypercalls to share/unshare memory, and then complete the transaction
+> > > when userspace invokes the ioctl() to complete the share/unshare.
+> > 
+> > OK, then this can be another field of states/flags/attributes. Let me
+> > dig up certain level of details:
+> > 
+> > First, introduce below KVM ioctl
+> > 
+> > KVM_SET_MEMORY_ATTR
+> 
+> Actually, if the semantics are that userspace declares memory as private, then we
+> can reuse KVM_MEMORY_ENCRYPT_REG_REGION and KVM_MEMORY_ENCRYPT_UNREG_REGION.  It'd
+> be a little gross because we'd need to slightly redefine the semantics for TDX, SNP,
+> and software-protected VM types, e.g. the ioctls() currently require a pre-exisitng
+> memslot.  But I think it'd work...
+
+These existing ioctls looks good for TDX and probably SNP as well. For
+softrware-protected VM types, it may not be enough. Maybe for the first
+step we can reuse this for all hardware based solutions and invent new
+interface when software-protected solution gets really supported.
+
+There is semantics difference for fd-based private memory. Current above
+two ioctls() use userspace addreess(hva) while for fd-based it should be
+fd+offset, and probably it's better to use gpa in this case. Then we
+will need change existing semantics and break backward-compatibility.
+
+Chao
+
+> 
+> I'll think more on this...
