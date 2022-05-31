@@ -2,109 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7E79C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 31 May 2022 19:15:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CDA1C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 31 May 2022 21:25:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346698AbiEaTPQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 May 2022 15:15:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41866 "EHLO
+        id S1347989AbiEaVZe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 31 May 2022 17:25:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346970AbiEaTPP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 May 2022 15:15:15 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C27FD6C540
-        for <linux-doc@vger.kernel.org>; Tue, 31 May 2022 12:15:13 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id bo5so14068112pfb.4
-        for <linux-doc@vger.kernel.org>; Tue, 31 May 2022 12:15:13 -0700 (PDT)
+        with ESMTP id S1348016AbiEaVZc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 May 2022 17:25:32 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A63F9E9E7
+        for <linux-doc@vger.kernel.org>; Tue, 31 May 2022 14:25:28 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id j2-20020a2597c2000000b0064b3e54191aso12918771ybo.20
+        for <linux-doc@vger.kernel.org>; Tue, 31 May 2022 14:25:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9LEQ/FAYXiOycH5Pgki0a9z4cyO6Zt9xfMoijJMruHE=;
-        b=aoYECPuBKU7Lwlucej90ckQ541ZhjI9tXfhwwrKcylKXIDWfCbS506NUkmQoPpFtjp
-         SxY2BDwXcLrnVWuj1tlKZZFXX3boTF7L4/UbiNTvLgRbtbDkTU4iJj5rlChLdWN+AXW9
-         /8uU6E9xZwRmy7lGao0XRqc/MNAqTYJl5P/hqXTOYZPGOYjzn/bAAgwSrZzoRfJDN/cT
-         SuEfeHBBPefKlsfPtsSVZxWgXtnCDoM36KPdTqy2nZJEgrImggnACjHpxleCCtC3++o9
-         yxDwtO9/7vBZwXZmJ1VhyZ/Ls48fokKREiBfE3hRzy/o9DlM+JugKxkM4Tz9Yq/hcS03
-         4NUg==
+        h=date:message-id:mime-version:subject:from:cc;
+        bh=L5daPTOP8huWXGF9zZZ/YOQgC5+YhUKYKEYEGgJKuXI=;
+        b=ni+vDj4JsvkDI6uQO/dBS970cz6dZc8DyFe2Zer4xTkNxkSHvK+9iWBnPWmPFlu+yM
+         GldK8tXmwDcVnPqD5rTmrw1O/5Fx84SqlvyYy1O+NdSXpTGCmxmOP42PbCZEsmapK/pI
+         LdPWt3eWdMCmmsdUAyhxzJwSk4K/f3XFD8JLMQDfFMKoV7yl3wD7c0YEyQZkVTKpKRls
+         bQIXSiUx6bvVEbfIXw2C31CtGBGyRZKnhhZI0oqDXke/z5Cd5Z5SAktEbZN0415/W9kX
+         oeGofIRzd3K6V4+k9c5ZaCl6y2CNVM4tUzcRZzthBuZX0q0DdV2YxdbJ4DLgGVowVllW
+         //UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9LEQ/FAYXiOycH5Pgki0a9z4cyO6Zt9xfMoijJMruHE=;
-        b=eNDy9v6PEAajhwr9KAYaII/+Drh/tNzBtamtwhYG7el01Stdf1cAlJAoOKCPO2BMmP
-         tsU5sixtjw9Aq7fPUJWt13eFXN5kKTXcxK+F4LGD5uzjzEOK3dogvpefWbniOw4QhBCt
-         ZL7+PLZaeRcmKQ40mTvAcReegtuH7oCvX7HIB+SmqmvCxCQEzdNThRq3+CkgrmQM6jD1
-         mdBJNJcrf7sJbFuanaWtJ1ACoCwULlbl0UC0wzhMwuXBuj/54yIMz6oisVGJBzA2hgOH
-         G2XpRVz5171exVwFXT2NQVgH1Rmu0WfJ+HsRTRmPxViwGjTpxPpRmtMjh+YlYJUA+cj8
-         AARA==
-X-Gm-Message-State: AOAM532ztVjOF3utl3hDq1DIm7Uk3XtPjB7VYUBC9YSx+FsZDnaYU27G
-        r3/q8ZeqbZGj3huQ5KHrm48oIstLdsUhV2rHqySOsw==
-X-Google-Smtp-Source: ABdhPJxAPLjjLuJnMkOUKZFNo6VjJcW6gX615tv0A0PeV8j4hPGz6HEz6HuE5g9ZfRLMUWFpXLfK3l0Q4MwhwgPaQrE=
-X-Received: by 2002:a63:2ad6:0:b0:3f9:d9fa:2713 with SMTP id
- q205-20020a632ad6000000b003f9d9fa2713mr44449690pgq.512.1654024511581; Tue, 31
- May 2022 12:15:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com> <20220519153713.819591-4-chao.p.peng@linux.intel.com>
-In-Reply-To: <20220519153713.819591-4-chao.p.peng@linux.intel.com>
-From:   Vishal Annapurve <vannapurve@google.com>
-Date:   Tue, 31 May 2022 12:15:00 -0700
-Message-ID: <CAGtprH8EMsPMMoOEzjRu0SMVKT0RqmkLk=n+6uXkBA6-wiRtUA@mail.gmail.com>
-Subject: Re: [PATCH v6 3/8] mm/memfd: Introduce MFD_INACCESSIBLE flag
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:cc;
+        bh=L5daPTOP8huWXGF9zZZ/YOQgC5+YhUKYKEYEGgJKuXI=;
+        b=IUDoIafnTilWN4668193TbH54scm01BNTZugf5Fl3lbNwTjCFezdW2HnGWLDIPmrJc
+         NtxTWv+kL06k8b7HbEvTWI+ippYEwoukpvwl3BHbX5AvreYt67nUtE4Rqf0e5bKDMfZ6
+         VP8ZSbjJP2bqBDwdoQs/bHPotYsb6zCK2U6/be2Byzb6Zzl/EfnFX4EwRX5/05lZiSn8
+         3PZ50svMD1qoyfj9no10Rl9PwQGFCbXgbOrIuaEwlcabH8xHA+QwW6rg2IAiTWhUiOBc
+         qS55gR8elmKP4h9JZsa+u8UtqmAsdyzSmXIKQyjRkGKOVQL+mDmXUBza1brMkOhQHPb0
+         x0QQ==
+X-Gm-Message-State: AOAM530vxQvbE10RLphW/Ws0E+4/wpxuMaP8EgfZSfrHNiS05rR/5Fvx
+        9+E8fQkNxAQoTgdN/Oh9YgJ0VLiH5unYYEIxRw==
+X-Google-Smtp-Source: ABdhPJxWIiQFRYynwXQQYY0IBjtnA6j7FHVKcbmfGUIrmeVszzJonKHXPDCnsP8F5SOq9IOCJF3wUkeCrypYAVu4VA==
+X-Received: from kaleshsingh.mtv.corp.google.com ([2620:15c:211:200:a3c0:2a66:b25c:16df])
+ (user=kaleshsingh job=sendgmr) by 2002:a25:6588:0:b0:65d:57b9:c470 with SMTP
+ id z130-20020a256588000000b0065d57b9c470mr4071204ybb.142.1654032327734; Tue,
+ 31 May 2022 14:25:27 -0700 (PDT)
+Date:   Tue, 31 May 2022 14:25:13 -0700
+Message-Id: <20220531212521.1231133-1-kaleshsingh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
+Subject: [PATCH 0/2] procfs: Add file path and size to /proc/<pid>/fdinfo
+From:   Kalesh Singh <kaleshsingh@google.com>
+Cc:     ilkos@google.com, tjmercier@google.com, surenb@google.com,
+        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
         Andrew Morton <akpm@linux-foundation.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        David Hildenbrand <david@redhat.com>,
+        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
         Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 Content-Type: text/plain; charset="UTF-8"
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 19, 2022 at 8:41 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> Introduce a new memfd_create() flag indicating the content of the
-> created memfd is inaccessible from userspace through ordinary MMU
-> access (e.g., read/write/mmap). However, the file content can be
-> accessed via a different mechanism (e.g. KVM MMU) indirectly.
->
+Processes can pin shared memory by keeping a handle to it through a
+file descriptor; for instance dmabufs, memfd, and ashmem (in Android).
 
-SEV, TDX, pkvm and software-only VMs seem to have usecases to set up
-initial guest boot memory with the needed blobs.
-TDX already supports a KVM IOCTL to transfer contents to private
-memory using the TDX module but rest of the implementations will need
-to invent
-a way to do this.
+In the case of a memory leak, to identify the process pinning the
+memory, userspace needs to:
+  - Iterate the /proc/<pid>/fd/* for each process
+  - Do a readlink on each entry to identify the type of memory from
+    the file path.
+  - stat() each entry to get the size of the memory.
 
-Is there a plan to support a common implementation for either allowing
-initial write access from userspace to private fd or adding a KVM
-IOCTL to transfer contents to such a file,
-as part of this series through future revisions?
+The file permissions on /proc/<pid>/fd/* only allows for the owner
+or root to perform the operations above; and so is not suitable for
+capturing the system-wide state in a production environment.
 
-Regards,
-Vishal
+This issue was addressed for dmabufs by making /proc/*/fdinfo/*
+accessible to a process with PTRACE_MODE_READ_FSCREDS credentials[1]
+To allow the same kind of tracking for other types of shared memory,
+add the following fields to /proc/<pid>/fdinfo/<fd>:
+
+path - This allows identifying the type of memory based on common
+       prefixes: e.g. "/memfd...", "/dmabuf...", "/dev/ashmem..."
+
+       This was not an issued when dmabuf tracking was introduced
+       because the exp_name field of dmabuf fdinfo could be used
+       to distinguish dmabuf fds from other types.
+
+size - To track the amount of memory that is being pinned.
+
+       dmabufs expose size as an additional field in fdinfo. Remove
+       this and make it a common field for all fds.
+
+Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCREDS
+-- the same as for /proc/<pid>/maps which also exposes the path and
+size for mapped memory regions.
+
+This allows for a system process with PTRACE_MODE_READ_FSCREDS to
+account the pinned per-process memory via fdinfo.
+
+-----
+
+There was some concern about exposing the file path in the RFC[2], to that
+effect the change was split into separte patches. Also retrieving the file
+path from fdinfo is guarded by the same capability (PTRACE_MODE_READ) as
+/proc/<pid>/maps which also exposes file path, so this may not be an issue.
+
+[1] https://lore.kernel.org/r/20210308170651.919148-1-kaleshsingh@google.com/
+[2] https://lore.kernel.org/r/20220519214021.3572840-1-kaleshsingh@google.com/
+
+
+Kalesh Singh (2):
+  procfs: Add 'size' to /proc/<pid>/fdinfo/
+  procfs: Add 'path' to /proc/<pid>/fdinfo/
+
+ Documentation/filesystems/proc.rst | 22 ++++++++++++++++++++--
+ drivers/dma-buf/dma-buf.c          |  1 -
+ fs/proc/fd.c                       | 13 +++++++++----
+ 3 files changed, 29 insertions(+), 7 deletions(-)
+
+
+base-commit: 8ab2afa23bd197df47819a87f0265c0ac95c5b6a
+-- 
+2.36.1.255.ge46751e96f-goog
+
