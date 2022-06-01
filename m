@@ -2,86 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4F64C43334
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 18:00:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33089CCA47B
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 19:30:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350328AbiFASAo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jun 2022 14:00:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54454 "EHLO
+        id S229562AbiFATan (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jun 2022 15:30:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240470AbiFASAo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 14:00:44 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CCBD9CCBC;
-        Wed,  1 Jun 2022 11:00:42 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id e2so3424529wrc.1;
-        Wed, 01 Jun 2022 11:00:42 -0700 (PDT)
+        with ESMTP id S229605AbiFATal (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 15:30:41 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2347017C6AF;
+        Wed,  1 Jun 2022 12:28:42 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id b5so2646622plx.10;
+        Wed, 01 Jun 2022 12:28:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=CoU8GVZ5QzWnprLeTKVABcCEkI0ltZArlMqYKwDo3Jk=;
-        b=eiGrPPMO/FkatlkjR2iOWoIe0VCkBmffsNhWiePJUaROY4DpBokMA1QM8e3CbKZDOI
-         p98M92aROj5kXxOugBb/2hyur2hIhpter+GHtvfFSdYwwOenmpLDsznSzfQhBsblstii
-         UYUTjWU2a1K7MlqtaZUvn9sdMECwHXrmXR3E6WyLLKNDvmseRSW5y+3cFdYgLrUOjQrC
-         GevQ3WXd6YbGgmB/fYpquaIpn/hhf7BQ4+UWXLgn0AdmMxcWSBNv8/A3mBdbI3TeFWVD
-         T6CSZjEtqcq+sc+3G491IASex6sLNTcofM0m2MQiA3rkK7KDr7Ayi/TT/jZvmTVmakvM
-         t4Mw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MwFYe8vG1hgF//coAlXZoNBBVbmnrkPi8xOD0rdFVts=;
+        b=KF2QzfcpN134OIsXyk3kBy72OtuSNqbJHaRvlqkAGA0kbj0Phrwf5K3xBxwidYkUPG
+         bJLJl3OjKYDIu8We1CSIRj89bkJWaPAS4LgNgc+eFD3nd7lncagoR28dNSEZsF2gr+qV
+         QtTWORwt+ry+x+RIOznMukILrX1XWqyCPsIdq+3O1AVHRR9hoIAoqHnWn19+CqUU3b6e
+         ht1Yty84Qu0f1N8QPJmld5ipZgWipzdIBsyTXZe8GDxgAEzY1Ic9Sv+lJL6inUqWJ1b4
+         /IMuJbDxT8M1ogwnWI0/Uw5PL76LSXDEJF/2DnKE2lsiLYAFqovXPYhDRYUR3zXGfr6p
+         FS5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=CoU8GVZ5QzWnprLeTKVABcCEkI0ltZArlMqYKwDo3Jk=;
-        b=xvwbh1xPenQrWxxu4V/9I5ToYKJfHjemznVMtITQcN24caEvVP2u4A2X3Vw0iLtohh
-         UsC/XVOqIApw4rCASdHxVnQEZye0y2itzQo6dPOzGt9Vi8b8ZE6gSa7F1Gx509xom9Lv
-         5U5/Wjj/eRWZiA/Cw3rn4FeYegD+6aUoETMEmCshj2yWe8cA16lrJ/qWXySbWRT746/M
-         MhIwbuCh8ISRIJAFZ2y1/xLh9RtCiU5cRoxHvQ6BhRvIwXDKeVRdpL4C2yqrVyoHIrIi
-         lws7Qsteq8ZB/ycDRL1yj2RSqAuPu5f5IifMIyVl2pp4cu7QtOB+LTte4P5eLJkagFBk
-         jpzA==
-X-Gm-Message-State: AOAM533hN5p2YbYeh/wGitap1waUl7uGJZGt3KBDL9RbpeJ4DlWQr6rC
-        4/AqBT1klsbOxBBrDUuWKL4=
-X-Google-Smtp-Source: ABdhPJzBsvEb5f2h37s48HV3fj6wUsJ0ac7NlXfHiaHg103/YAhIvUdHAYW2wVLlFLLz/9dmYaUl0Q==
-X-Received: by 2002:a5d:5181:0:b0:20f:fc49:6b88 with SMTP id k1-20020a5d5181000000b0020ffc496b88mr512525wrv.596.1654106441043;
-        Wed, 01 Jun 2022 11:00:41 -0700 (PDT)
-Received: from elementary ([94.73.36.128])
-        by smtp.gmail.com with ESMTPSA id t17-20020adfeb91000000b0021031c894d3sm2480739wrn.94.2022.06.01.11.00.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jun 2022 11:00:40 -0700 (PDT)
-Date:   Wed, 1 Jun 2022 20:00:37 +0200
-From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org,
-        kernel test robot <lkp@intel.com>,
-        Nikolai Kondrashov <spbnick@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        llvm@lists.linux.dev, stable@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] HID: uclogic: properly format kernel-doc comment for
- hid_dbg() wrappers
-Message-ID: <20220601180037.GA26165@elementary>
-References: <20220531092817.13894-1-bagasdotme@gmail.com>
- <3995c3d8-395a-bd39-eebc-370bd1fca09c@infradead.org>
- <YpcU7qeOtShFx8xR@debian.me>
- <053f756b-fafa-e07a-4308-0a5de8dda595@infradead.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MwFYe8vG1hgF//coAlXZoNBBVbmnrkPi8xOD0rdFVts=;
+        b=zPueRMssRFimdoyRa0L1gvyouQmKC8WeoOEGwjcPQepp4A1fTEDFgieIrCttG6xAMc
+         q18gGVbvORL6Sx6q9tJeqm7XT8NC+Ejfsuw52GeHDZr2dlGKZCcEBA9p3P15fwsR2zpF
+         GOoHUT5ywRRSU80xyti2Dh+ealU2UAFEXFRqxdvj29hw/xhBXyzR4/A0J/LiDYGpEHpH
+         LZQz865gplPXSNVwPyk0xJxpXqAwIqCwC9yWNEmEhiwZCXTHrMHkpf6jlT5RO4jPwKVG
+         UDcxTCir8pywenKcEw+7TY0t2qMrfO6HeSNay+PHAJnueyWARjsuu6esFJpEJ9tV+vnV
+         TAyw==
+X-Gm-Message-State: AOAM531HhaUzHsZS1otP9QbrVWPzA+dWV+kDLyZeIxZJNuS9qqCOWsFR
+        H9FMzAOdEdGa2me7i1aNYdZGKYiyPrcJif+D1oE=
+X-Google-Smtp-Source: ABdhPJyDA6C5DQXioXg31Wj9TMeGFjgKh185K1zYFg2Gp28lZkR0rLJ5Az2Ahuku4Ke5Wjt3PdFq+l9pcuaeBfBBob8=
+X-Received: by 2002:a17:90b:23d8:b0:1e2:e3cb:ac08 with SMTP id
+ md24-20020a17090b23d800b001e2e3cbac08mr967331pjb.35.1654111697802; Wed, 01
+ Jun 2022 12:28:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <053f756b-fafa-e07a-4308-0a5de8dda595@infradead.org>
+References: <Yh0+9cFyAfnsXqxI@kernel.org> <05df964f-552e-402e-981c-a8bea11c555c@www.fastmail.com>
+ <YiEZyTT/UBFZd6Am@kernel.org> <CALCETrWacW8SC2tpPxQSaLtxsOXfXHueyuwLcXpNF4aG-0ZvhA@mail.gmail.com>
+ <fb7d6e4da58ae77be2c6321ee3f3487485b2886c.camel@intel.com>
+ <40a3500c-835a-60b0-15bf-40c6622ad013@kernel.org> <YiZVbPwlgSFnhadv@kernel.org>
+ <CAMe9rOrSLPKdL2gL=yx84zrs-u6ch1AVvjk3oqUe3thR5ZD=dQ@mail.gmail.com>
+ <YpYDKVjMEYVlV6Ya@kernel.org> <d0c94eed6e3c7f35b78bab3f00aadebd960ee0d8.camel@intel.com>
+ <YpZEDjxSPxUfMxDZ@kernel.org> <7c637f729e14f03d0df744568800fc986542e33d.camel@intel.com>
+ <CAMe9rOpctH-FQZH_5e=f17Ma7Ev0u9jiXap5bgqFyhLfsx102g@mail.gmail.com> <172310e1b8fcc78fca786f9ea7966f58dd93ff93.camel@intel.com>
+In-Reply-To: <172310e1b8fcc78fca786f9ea7966f58dd93ff93.camel@intel.com>
+From:   "H.J. Lu" <hjl.tools@gmail.com>
+Date:   Wed, 1 Jun 2022 12:27:41 -0700
+Message-ID: <CAMe9rOqwueSXjhkyPfv4+UDbBwf5jtsVjKqm_aD-htkh8k99Rg@mail.gmail.com>
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "adrian@lisas.de" <adrian@lisas.de>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "avagin@gmail.com" <avagin@gmail.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "dave.martin@arm.com" <dave.martin@arm.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> On 6/1/22 00:27, Bagas Sanjaya wrote:
-> Running kernel-doc script on drivers/hid/hid-uclogic-params.c, it found
-> 6 warnings for hid_dbg() wrapper functions below:
-> [...]
+On Wed, Jun 1, 2022 at 10:27 AM Edgecombe, Rick P
+<rick.p.edgecombe@intel.com> wrote:
+>
+> On Tue, 2022-05-31 at 11:00 -0700, H.J. Lu wrote:
+> > > The glibc logic seems wrong to me also, because shadow stack or IBT
+> > > could be force-disabled via glibc tunables. I don't see why the elf
+> > > header bit should exclusively control the feature locking. Or why
+> > > both
+> > > should be locked if only one is in the header.
+> >
+> > glibc locks SHSTK and IBT only if they are enabled at run-time.
+>
+> It's not what I saw in the code. Somehow Mike saw something different
+> as well.
 
-Hi Bagas,
+The current glibc cet branch:
 
-Thanks a lot for fixing these warnings. I compiled it and I can
-confirm that the sparse warning is also fixed.
+https://gitlab.com/x86-glibc/glibc/-/commits/users/hjl/cet/master
 
-Tested-by: José Expósito <jose.exposito89@gmail.com>
+locks only available CET features.  Since only SHSTK is available, I
+saw
+
+arch_prctl(0x3003 /* ARCH_??? */, 0x2)  = 0
+
+CET features are always enabled early in ld.so to allow function
+calls in the CET enabled ld.so.   ld.so always locks CET features
+even if they are disabled when the program or a dependency
+library isn't CET enabled.
+
+> >  It doesn't
+> > enable/disable/lock WRSS at the moment.  If WRSS can be enabled
+> > via arch_prctl at any time, we can't lock it.  If WRSS should be
+> > locked early,
+> > how should it be enabled in application?  Also can WRSS be enabled
+> > from a dlopened object?
+>
+> I think in the past we discussed having another elf header bit that
+> behaved differently (OR vs AND).
+
+We should have a complete list of use cases and design a way to
+support them.
+
+-- 
+H.J.
