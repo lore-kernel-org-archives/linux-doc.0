@@ -2,88 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFCF6C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 07:20:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61457C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 07:27:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239854AbiFAHUN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jun 2022 03:20:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37414 "EHLO
+        id S1345538AbiFAH1s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jun 2022 03:27:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350314AbiFAHTx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 03:19:53 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA1ED4E3BB
-        for <linux-doc@vger.kernel.org>; Wed,  1 Jun 2022 00:19:52 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id hv24-20020a17090ae41800b001e33eebdb5dso2657268pjb.0
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jun 2022 00:19:52 -0700 (PDT)
+        with ESMTP id S1344886AbiFAH1r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 03:27:47 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C6995E174;
+        Wed,  1 Jun 2022 00:27:46 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id c196so1201764pfb.1;
+        Wed, 01 Jun 2022 00:27:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Ehmnh5o3IwHBRSsUSxPjjuDsdbTNtmJR0VrxqS97vnM=;
-        b=cNyBPN8fNWwg+AYKgN+IAe82T4aEHlnYHKDgiYl9jMmdetIxgRISIgyxrAzW9F1taH
-         l6zEZk1Jc1lbj53j6/0fDK+WZMVO4XjHwiDiwvF2szfaSd8tyXoiJY8jhqr/KAxvKPMy
-         IEztXYM8P5nUULj57yZm1EwV8Ib+CyQpiDg/Ctf8Wb+P7rEdzq6BMBfQwrHYENLe3pLH
-         jeS2BtsiACFHz0G33QHhF60zd4/qcaaJQ4YeFJq6RiZRto2G5dAPgP4HHX+ITEKzmD1I
-         yd81hkrjIE9/enkhTcNE6wFPw2QISOTk37830bfHG9CJOXgcNjkmiCGKl6uqOM7HGByf
-         OlqQ==
+        bh=eMeA/fqvYZU6vrSiCnNJA0sstC2+T/rmbcmFof3BR34=;
+        b=Ve/MDQjVQ36HEHc3RKBr36SX9I68T1b4706XRvOHxHRgDsEzn3JOnjpOjtHXaFBlaE
+         5sKBR5xf0pwoFavEKOjpPGC+XjnBihHNbZG+Shi+XCMgIzx6OXcZAAqI9y/pFOAv6OJk
+         TYwI4uyqOG/3HWq0jJQ3LeYVHTfwsp/ylK+2Fvn9+AQTOFCCVboUB2IldBbynyw5F+68
+         1Lkz3GjBIqDCp2v04ZbG9Eh5biTPgCosHS2Kv3LvfXxCabp2AxUB60JM3j6HTz4UhJpd
+         B9Tq8YCUVg0SaKQI9UeErLNPGiL7bjX8DaO9Yp5sDidUQ+RsNOytfGbCqOD90Zi8gCk+
+         /ovg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Ehmnh5o3IwHBRSsUSxPjjuDsdbTNtmJR0VrxqS97vnM=;
-        b=wtbjzEbnsaygTqwAfiLZaFdoxKD++FM5fxewuLVUBh04lN0xyOyZkobHgZ4MRR56mA
-         ByjIVpKnvSIpBKHW2KuoKIEn4ja3IHjMUINsguleFtr2RP84ZOEyjUZxUoysIL64NRqh
-         rvPJBnpCJ42rGDx2IK/yWpu+QtvOEb62Yk57YtcTGOq7oNflLhBrLVUzyUxsH4XBGVxY
-         SqfDPAjAAk+xVGb/nQVWkKzHCK0MPxFLbqCZtFA/Z3P2uB4nUOW40ctfoDkizyYtpl6q
-         an/NrsAK2bYiX1D395pKINw4SKvF3JUe4hxiroiRTr3kfW5AnHlpkfJdKbBLHQLtDABq
-         PAUA==
-X-Gm-Message-State: AOAM530bNms9fPWhrHe5NTyqVWLEMBObGrqWLPy3QnyRQX96Bfzsp56W
-        TWzhGIWpaegWsdRBs+rGDQSiPJOvDUXZwA==
-X-Google-Smtp-Source: ABdhPJyWpkcR2rX+fmTzbVW1DTtfIUABTzp5Slv/biCve8tT+x+1NPzuzArax0s5uCexrX/zLcE29A==
-X-Received: by 2002:a17:90b:1e04:b0:1e0:2e0b:20de with SMTP id pg4-20020a17090b1e0400b001e02e0b20demr32848814pjb.100.1654067992221;
-        Wed, 01 Jun 2022 00:19:52 -0700 (PDT)
+        bh=eMeA/fqvYZU6vrSiCnNJA0sstC2+T/rmbcmFof3BR34=;
+        b=HYrEk30N/RNCZERlsTzh4oWloZH5ykH8XWqyRUUjInDZD4fZQBkEl1TMdS+KRS167k
+         mw9QNvW3QSxVMqie6OOPZZ9y9/g9Z0dqy+CdhfT7VtWNl4X9+5ufujjIcvhunjjFmqza
+         RrHcD24OGgPzDx0eGH5gc1AQxOVE5kzvaE2ReJNxnCIFqrho1NCkxTj+gk8EJUSRA7vV
+         trBjWEi3oZmwQuxyrwzOXYr2FODVfDTgMUtCWp95BTh7X9QmsYtUQZON+y5+C7osolZd
+         xW8xC5kYb3wAiO2A5WLFubaDJEzDq+ZE9ko8eJPMog1EwfUO5U0/HfPwZDXa6yqjyH+n
+         VbGA==
+X-Gm-Message-State: AOAM532WMBjx9qx4iiZZkOG0by0I12iQzEx64DrS69pu8M5Cgmv4Cv7a
+        PtyjPPJDOooTsy/veUsMsY9yVZwvwIUPxA==
+X-Google-Smtp-Source: ABdhPJzncNVm9JEdvzWZ/WJX8rZD6Uc3eyRjjE+e9aLdBHmlkh2N+ra6ix7Phl7ZYouz3tV5tJAaCQ==
+X-Received: by 2002:a05:6a00:1d8e:b0:518:87e7:db00 with SMTP id z14-20020a056a001d8e00b0051887e7db00mr52648703pfw.84.1654068465543;
+        Wed, 01 Jun 2022 00:27:45 -0700 (PDT)
 Received: from localhost (subs02-180-214-232-26.three.co.id. [180.214.232.26])
-        by smtp.gmail.com with ESMTPSA id c1-20020a17090ab28100b001cd4989ff47sm689175pjr.14.2022.06.01.00.19.51
+        by smtp.gmail.com with ESMTPSA id gn1-20020a17090ac78100b001df82551cf2sm650434pjb.44.2022.06.01.00.27.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jun 2022 00:19:51 -0700 (PDT)
-Date:   Wed, 1 Jun 2022 14:19:48 +0700
+        Wed, 01 Jun 2022 00:27:44 -0700 (PDT)
+Date:   Wed, 1 Jun 2022 14:27:42 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Joel Colledge <joel.colledge@linbit.com>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Alexandre Bounine <alex.bou9@gmail.com>,
-        Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH] docs: blockdev: change title to match section content
-Message-ID: <YpcTFNbAWF2EHAda@debian.me>
-References: <20220530142849.717-1-joel.colledge@linbit.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, kernel test robot <lkp@intel.com>,
+        Nikolai Kondrashov <spbnick@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+        llvm@lists.linux.dev, stable@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] HID: uclogic: properly format kernel-doc comment for
+ hid_dbg() wrappers
+Message-ID: <YpcU7qeOtShFx8xR@debian.me>
+References: <20220531092817.13894-1-bagasdotme@gmail.com>
+ <3995c3d8-395a-bd39-eebc-370bd1fca09c@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220530142849.717-1-joel.colledge@linbit.com>
+In-Reply-To: <3995c3d8-395a-bd39-eebc-370bd1fca09c@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 30, 2022 at 04:28:49PM +0200, Joel Colledge wrote:
-> This index.rst was added in commit
-> 39443104c7d3 docs: blockdev: convert to ReST
+> One note (nit) below:
 > 
-> It appears that the title from the RapidIO index page was copied. This
-> title does not match the content of this directory. Change it to match.
+> >  drivers/hid/hid-uclogic-params.c | 24 ++++++++++++++----------
+> >  1 file changed, 14 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
+> > index db838f16282d64..647bbd3e000e2f 100644
+> > --- a/drivers/hid/hid-uclogic-params.c
+> > +++ b/drivers/hid/hid-uclogic-params.c
+> > @@ -23,11 +23,11 @@
+> >  /**
+> >   * uclogic_params_pen_inrange_to_str() - Convert a pen in-range reporting type
+> >   *                                       to a string.
+> > - *
+> >   * @inrange:	The in-range reporting type to convert.
+> >   *
+> > - * Returns:
+> > - *	The string representing the type, or NULL if the type is unknown.
+> > + * Return:
+> > + * * The string representing the type, or
+> > + * * NULL if the type is unknown.
 > 
-> Signed-off-by: Joel Colledge <joel.colledge@linbit.com>
+>         %NULL
+> would be better here, but not required.
+> 
 
-Aha! The patch makes sense, since blockdev/index.rst isn't about
-RapidIO, but block layer subsystem.
+Hi Randy,
 
-Anyway, what about adding Fixes: 39443104c7d3 ("docs: blockdev: convert to ReST") 
-tag and Cc: stable@vger.kernel.org so that this patch can be included
-for stable trees?
-
-Ccing RapidIO and block layer subsystem maintainers for opinion.
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+I don't see %NULL in Documentation/ (I git-grep-ed it but none found).
+What should I do when I have to explain NULL in Return: section of
+kernel-doc comment?
 
 -- 
 An old man doll... just what I always wanted! - Clara
