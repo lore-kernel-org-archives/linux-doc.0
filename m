@@ -2,107 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BFDDC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 14:34:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FB21CCA473
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 14:56:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350692AbiFAOeL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jun 2022 10:34:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34276 "EHLO
+        id S1353329AbiFAO4m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jun 2022 10:56:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242256AbiFAOeL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 10:34:11 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 417F7222BA
-        for <linux-doc@vger.kernel.org>; Wed,  1 Jun 2022 07:34:10 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id b135so2137835pfb.12
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jun 2022 07:34:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=SAXgCg0st95zS3LWjriYbqgNd9aWBfHtI9hRnLmW6kI=;
-        b=ioMldlGQBPK0jr4pBdrFkyNC89s+B0FLrDcYZi/etFa4xHmHMPqWi4zej8rdvWP4rT
-         CIU8E7b0ebg+bWawo10HP01ZWKzjdiSZ/BeTYA3g7beZ3HXpqWV+DV4WMV0w3TgWhN6r
-         Go3dJvDnSmMOym3jbAARse8pPLeaLmg163egpjbbL2B2WXswyDc6M8XLKgkpmUJlIrNB
-         9XQ9mQVX286GNLdXSaQZRoyTujmv9dIUTpmhwIszVlm8sJKG/qrKt6Rz1RawrMEmkVCO
-         5G9My2PrWOblCfy3Soqt/r7C23yFw6MxDLUBnV4A2FcQW+X6b6VugUAK6b6hpe5la5n/
-         0FNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:from:subject:content-transfer-encoding;
-        bh=SAXgCg0st95zS3LWjriYbqgNd9aWBfHtI9hRnLmW6kI=;
-        b=dJxDTJPGGTHk1rvKC0wy9ZezBuUqoovH8oqHddrEJCbvhvlzklTd3nAMIBtBQpkWEk
-         2EeTHiRxplJIhQXJzXSYpdxmD5kzzMZqutN4AFggRRyy3sxMARXS7ii5WUW20RNg0WOl
-         GQ+IP3tLZWhfvzawMWKhkx5hlVydswzzcsXf9R9HO0FPe/sK2ObAVFge7QCDQjQtbFdb
-         asfUPG1EZu5MesMtX9Gwb6foBx8ennbegv+w4oUDS6iR21IbsN1qJuTOpWgoCWczAWRs
-         bGAh8evVGoU14ObgF3XSWohHDwlaFeud/P4REC3K+wrwh+Bqwhyw4lZQ5bd/WsvDkUdc
-         dzYQ==
-X-Gm-Message-State: AOAM531UoDOuiESQwAK/TflMGZ810nTqxz2xfiQ5YpriRd3ygbggKA45
-        htR8PoPy8r5xMZLfbgH0kJ4vRolJ9G8=
-X-Google-Smtp-Source: ABdhPJxk8OsGBz/GteOZn2ROZgIo782UjFkhG76JWqm/h91cS6JANKpN4xJCdn+q4qaMa+dH9yeTGg==
-X-Received: by 2002:a63:5760:0:b0:3fc:4001:a2f2 with SMTP id h32-20020a635760000000b003fc4001a2f2mr248444pgm.34.1654094049621;
-        Wed, 01 Jun 2022 07:34:09 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id u14-20020a170902714e00b0015e8d4eb1f9sm1666016plm.67.2022.06.01.07.34.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jun 2022 07:34:09 -0700 (PDT)
-Message-ID: <bd0c2ddc-2401-03cb-4526-79ca664e1cbe@gmail.com>
-Date:   Wed, 1 Jun 2022 23:34:06 +0900
+        with ESMTP id S241149AbiFAO4m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 10:56:42 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 914DF1A0;
+        Wed,  1 Jun 2022 07:56:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 30561B81B9D;
+        Wed,  1 Jun 2022 14:56:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A31F6C385B8;
+        Wed,  1 Jun 2022 14:56:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654095397;
+        bh=tFJMRsa1oK1XN1rTTucNDNSPNTxVk9Tt9GgcBYnt2k8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=SnirSTJy/ElaX05FWkLlnBDhOlYKLzNlcuysXwsS6DwfoRRAJtrx10OVjyWwq9XPa
+         T9E6H/5ROFf7DEw41KyOCR6imsT9ineblfLmCIjPKkROVicDjYiymmfZdDuJu4qjQ6
+         PqDk6NY1cELnTYOhGuVVpEgQySwSIO0fRU8S5lzLGPYAuWn5T1/jWlglJP7d9OZRxW
+         whyJn32QEIXoiTzFIv5tgGvBiIjRvVUzf3xfA0AQ/jnUhnDSltQBeCwjpbhzAXPU5g
+         s58zR8+ZjE/omNigYieterbNdjvi/YriFiC3gMFg0VQnaAjg7g0poCaTN10k3NQ5lg
+         G8hZIRG+m/+kA==
+Received: by mail-ua1-f46.google.com with SMTP id l12so654975uan.5;
+        Wed, 01 Jun 2022 07:56:37 -0700 (PDT)
+X-Gm-Message-State: AOAM531Z/w4FMwQQE6zt4h7MYd8eqwmbfD6075yeDe57pjPy2yEDcKL3
+        ns0Jo2DS4vxRAS6WwBre1co1eRtZ1xnaM4FBjg8=
+X-Google-Smtp-Source: ABdhPJymxDAuPOMQkZwFFaw8OHs6paDEyKWLtYFrlsLGqgyiowwRz+CgTMyaafamSqSo8HkagBMfVgWrE1r2uO3vHJw=
+X-Received: by 2002:a05:6130:90:b0:362:891c:edef with SMTP id
+ x16-20020a056130009000b00362891cedefmr23919588uaf.106.1654095396587; Wed, 01
+ Jun 2022 07:56:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] docs/conf.py: Cope with removal of language=None in Sphinx
- 5.0.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220601100005.2989022-1-chenhuacai@loongson.cn>
+ <20220601100005.2989022-25-chenhuacai@loongson.cn> <cc1bae30-ff29-48c0-90c5-817b2320cbb6@www.fastmail.com>
+In-Reply-To: <cc1bae30-ff29-48c0-90c5-817b2320cbb6@www.fastmail.com>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Wed, 1 Jun 2022 22:56:25 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTR4w1a15jK+Wh_r5c32-c7YsiXw=6d0q5v7_KyMM36zdg@mail.gmail.com>
+Message-ID: <CAJF2gTR4w1a15jK+Wh_r5c32-c7YsiXw=6d0q5v7_KyMM36zdg@mail.gmail.com>
+Subject: Re: [PATCH V12 24/24] MAINTAINERS: Add maintainer information for LoongArch
+To:     Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Xuerui Wang <kernel@xen0n.name>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        WANG Xuerui <git@xen0n.name>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-One of the changes in Sphinx 5.0.0 [1] says [sic]:
+Cheers
 
-    5.0.0 final
+Reviewed-by: Guo Ren <guoren@kernel.org>
 
-     - #10474: language does not accept None as it value.
-       The default value of language becomes to 'en' now.
+On Wed, Jun 1, 2022 at 8:35 PM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
+>
+>
+>
+> =E5=9C=A82022=E5=B9=B46=E6=9C=881=E6=97=A5=E5=85=AD=E6=9C=88 =E4=B8=8A=E5=
+=8D=8811:00=EF=BC=8CHuacai Chen=E5=86=99=E9=81=93=EF=BC=9A
+> > Add the maintainer information for the LoongArch (LA or LArch for short=
+)
+> > architecture.
+> >
+> > Signed-off-by: WANG Xuerui <git@xen0n.name>
+> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+>
+> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>
+> You guys deserve it.
+>
+> Thanks.
+>
+> > ---
+> >  MAINTAINERS | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index f1b4b77daa5f..3e592ea84557 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -11544,6 +11544,16 @@ S:   Maintained
+> >  F:   Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.=
+yaml
+> >  F:   drivers/gpu/drm/bridge/lontium-lt8912b.c
+> >
+> > +LOONGARCH
+> > +M:   Huacai Chen <chenhuacai@kernel.org>
+> > +R:   WANG Xuerui <kernel@xen0n.name>
+> > +S:   Maintained
+> > +T:   git
+> > git://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson=
+.git
+> > +F:   arch/loongarch/
+> > +F:   drivers/*/*loongarch*
+> > +F:   Documentation/loongarch/
+> > +F:   Documentation/translations/zh_CN/loongarch/
+> > +
+> >  LSILOGIC MPT FUSION DRIVERS (FC/SAS/SPI)
+> >  M:   Sathya Prakash <sathya.prakash@broadcom.com>
+> >  M:   Sreekanth Reddy <sreekanth.reddy@broadcom.com>
+> > --
+> > 2.27.0
+>
+> --
+> - Jiaxun
 
-[1]: https://www.sphinx-doc.org/en/master/changes.html#release-5-0-0-released-may-30-2022
 
-It results in a new warning from Sphinx 5.0.0 [sic]:
 
-    WARNING: Invalid configuration value found: 'language = None'.
-    Update your configuration to a valid langauge code. Falling
-    back to 'en' (English).
+--=20
+Best Regards
+ Guo Ren
 
-Silence the warning by using 'en'.
-It works with all the Sphinx versions required for building
-kernel documentation (1.7.9 or later).
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- Documentation/conf.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 072ee31a301d..934727e23e0e 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -161,7 +161,7 @@ finally:
- #
- # This is also used if you do content translation via gettext catalogs.
- # Usually you set "language" from the command line for these cases.
--language = None
-+language = 'en'
- 
- # There are two options for replacing |today|: either, you set today to some
- # non-false value, then it is used:
-
-base-commit: b86f46d5ce3e7497930be931a9a9e57480f0baff
--- 
-2.25.1
-
+ML: https://lore.kernel.org/linux-csky/
