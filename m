@@ -2,178 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CDBEC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 03:14:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFCF6C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 07:20:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349225AbiFADOf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 31 May 2022 23:14:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46280 "EHLO
+        id S239854AbiFAHUN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jun 2022 03:20:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235209AbiFADOe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 31 May 2022 23:14:34 -0400
-Received: from 1wt.eu (wtarreau.pck.nerim.net [62.212.114.60])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 558569155F;
-        Tue, 31 May 2022 20:14:32 -0700 (PDT)
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 2513CsXI026442;
-        Wed, 1 Jun 2022 05:12:54 +0200
-Date:   Wed, 1 Jun 2022 05:12:54 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Vegard Nossum <vegard.nossum@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Amit Shah <aams@amazon.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Kees Cook <keescook@chromium.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Solar Designer <solar@openwall.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Tyler Hicks <tyhicks@canonical.com>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH] Documentation/security-bugs: overhaul
-Message-ID: <20220601031254.GB26318@1wt.eu>
-References: <20220531230309.9290-1-vegard.nossum@oracle.com>
+        with ESMTP id S1350314AbiFAHTx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 03:19:53 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA1ED4E3BB
+        for <linux-doc@vger.kernel.org>; Wed,  1 Jun 2022 00:19:52 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id hv24-20020a17090ae41800b001e33eebdb5dso2657268pjb.0
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jun 2022 00:19:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Ehmnh5o3IwHBRSsUSxPjjuDsdbTNtmJR0VrxqS97vnM=;
+        b=cNyBPN8fNWwg+AYKgN+IAe82T4aEHlnYHKDgiYl9jMmdetIxgRISIgyxrAzW9F1taH
+         l6zEZk1Jc1lbj53j6/0fDK+WZMVO4XjHwiDiwvF2szfaSd8tyXoiJY8jhqr/KAxvKPMy
+         IEztXYM8P5nUULj57yZm1EwV8Ib+CyQpiDg/Ctf8Wb+P7rEdzq6BMBfQwrHYENLe3pLH
+         jeS2BtsiACFHz0G33QHhF60zd4/qcaaJQ4YeFJq6RiZRto2G5dAPgP4HHX+ITEKzmD1I
+         yd81hkrjIE9/enkhTcNE6wFPw2QISOTk37830bfHG9CJOXgcNjkmiCGKl6uqOM7HGByf
+         OlqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Ehmnh5o3IwHBRSsUSxPjjuDsdbTNtmJR0VrxqS97vnM=;
+        b=wtbjzEbnsaygTqwAfiLZaFdoxKD++FM5fxewuLVUBh04lN0xyOyZkobHgZ4MRR56mA
+         ByjIVpKnvSIpBKHW2KuoKIEn4ja3IHjMUINsguleFtr2RP84ZOEyjUZxUoysIL64NRqh
+         rvPJBnpCJ42rGDx2IK/yWpu+QtvOEb62Yk57YtcTGOq7oNflLhBrLVUzyUxsH4XBGVxY
+         SqfDPAjAAk+xVGb/nQVWkKzHCK0MPxFLbqCZtFA/Z3P2uB4nUOW40ctfoDkizyYtpl6q
+         an/NrsAK2bYiX1D395pKINw4SKvF3JUe4hxiroiRTr3kfW5AnHlpkfJdKbBLHQLtDABq
+         PAUA==
+X-Gm-Message-State: AOAM530bNms9fPWhrHe5NTyqVWLEMBObGrqWLPy3QnyRQX96Bfzsp56W
+        TWzhGIWpaegWsdRBs+rGDQSiPJOvDUXZwA==
+X-Google-Smtp-Source: ABdhPJyWpkcR2rX+fmTzbVW1DTtfIUABTzp5Slv/biCve8tT+x+1NPzuzArax0s5uCexrX/zLcE29A==
+X-Received: by 2002:a17:90b:1e04:b0:1e0:2e0b:20de with SMTP id pg4-20020a17090b1e0400b001e02e0b20demr32848814pjb.100.1654067992221;
+        Wed, 01 Jun 2022 00:19:52 -0700 (PDT)
+Received: from localhost (subs02-180-214-232-26.three.co.id. [180.214.232.26])
+        by smtp.gmail.com with ESMTPSA id c1-20020a17090ab28100b001cd4989ff47sm689175pjr.14.2022.06.01.00.19.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jun 2022 00:19:51 -0700 (PDT)
+Date:   Wed, 1 Jun 2022 14:19:48 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Joel Colledge <joel.colledge@linbit.com>
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Alexandre Bounine <alex.bou9@gmail.com>,
+        Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH] docs: blockdev: change title to match section content
+Message-ID: <YpcTFNbAWF2EHAda@debian.me>
+References: <20220530142849.717-1-joel.colledge@linbit.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220531230309.9290-1-vegard.nossum@oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20220530142849.717-1-joel.colledge@linbit.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Vegard,
-
-On Wed, Jun 01, 2022 at 01:03:09AM +0200, Vegard Nossum wrote:
-> The current instructions for reporting security vulnerabilities in the
-> kernel are not clear enough, in particular the process of disclosure
-> and requesting CVEs, and what the roles of the different lists are and
-> how exactly to report to each of them.
+On Mon, May 30, 2022 at 04:28:49PM +0200, Joel Colledge wrote:
+> This index.rst was added in commit
+> 39443104c7d3 docs: blockdev: convert to ReST
 > 
-> Let's give this document an overhaul. Goals are stated as a comment at
-> the top of the document itself (these will not appear in the rendered
-> document).
+> It appears that the title from the RapidIO index page was copied. This
+> title does not match the content of this directory. Change it to match.
+> 
+> Signed-off-by: Joel Colledge <joel.colledge@linbit.com>
 
-Thanks for working on this, I'm having a few comments below.
+Aha! The patch makes sense, since blockdev/index.rst isn't about
+RapidIO, but block layer subsystem.
 
-> +Linux kernel security team at security@kernel.org, henceforth "the
-> +security list". This is a closed list of trusted developers who will
-> +help verify the bug report and develop a patch.
+Anyway, what about adding Fixes: 39443104c7d3 ("docs: blockdev: convert to ReST") 
+tag and Cc: stable@vger.kernel.org so that this patch can be included
+for stable trees?
 
-+ "in case none was already proposed".
+Ccing RapidIO and block layer subsystem maintainers for opinion.
 
-There's indeed recently a tendency on the list to get a lot of first-time
-reports from individuals showing that some work was done trying to make
-some code parts fail, but no effort was made to try to figure how these
-ought to be addressed, and that costs a lot of time, because once the
-analysis was done, the person who knows best about the problem and how
-to fix it is the reporter, and we must absolutely encourage that the
-work is finished and a candidate patch is proposed. Usually, returning
-reporters propose patches, so I think they understand the value in doing
-the work properly, which makes me think that we just don't make that
-obvious enough from the rules. It's also possible that many reporters
-are not used to working with OSS projects and imagine it's inappropriate
-of them to propose a fix. But the question that's the most commonly
-asked on the list is "do you have a patch for this?".
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Overall it seems that reporters are willing to do their best but that
-it's never easy to engage in such a bug disclosure process which may
-involve short times, and that it can be stressful for the reporters
-who forget to do a lot of the parts they would do for more regular
-bugs.
-
-> +While the security list is closed, the security team may bring in
-> +extra help from the relevant maintainers to understand and fix the
-> +security vulnerability.
-> +
-> +Note that the main interest of the kernel security list is in getting
-> +bugs fixed; CVE assignment, disclosure to distributions, and public
-> +disclosure happens on different lists with different people.
-
-I think it's also important to explain that sometimes some patches may
-be merged ASAP to plug a hole and let them flow to stable branches,
-while letting the reporter deal with the full disclosure once they
-consider that enough time has elapsed. The recent "dirty pipe" fix was
-one of the best examples of a report that went smoothly and allowed the
-reporter to work on a nice description of the problem:
-
-    https://dirtypipe.cm4all.com/
-
-There's always this gray area between getting a fix merged and disclosing
-all the details of the bug. A bug indeed becomes public once the fix is
-merged, but that doesn't mean that all the details are shared, so the
-reporter still has the opportunity to write their story about it. The
-reporter must only understand that it's only a matter of time between
-the merge of a fix and the moment someone will understand how to exploit
-the bug and publish about it.
-
-> +Here is a quick overview of the various lists:
-> +
-> +.. list-table::
-> +   :widths: 35 10 20 35
-> +   :header-rows: 1
-> +
-> +   * - List address
-> +     - Open?
-> +     - Purpose
-> +     - Members
-> +   * - security@kernel.org
-> +     - Closed
-> +     - Reporting; patch development
-> +     - Trusted kernel developers
-> +   * - linux-distros@vs.openwall.org
-> +     - Closed
-> +     - Coordination; CVE assignment; patch development, testing, and backporting
-> +     - Linux distribution representatives
-> +   * - oss-security@lists.openwall.com
-> +     - Public
-> +     - Disclosure
-> +     - General public
-
-While this part renders well on your HTML version, I'm afraid it's totally
-unreadable here in the text version, and this document is supposed to be
-the one reporters will use. I suggest to try again with an item list
-instead of a table.
-
-> +**Disclosure.** The security list prefers to merge fixes into the
-> +appropriate public git repository as soon as they become available.
-> +However, you or an affected party may request that the patch be
-> +withheld for up to 7 calendar days from the availability of the patch,
-> +with an exceptional extension to 14 calendar days if it is agreed that
-> +the bug is critical enough to warrant more time. The only valid reason
-> +for deferring the publication of a fix is to accommodate the logistics
-> +of QA and large scale rollouts which require release coordination.
-
-I'm still having an issue here. Originally it was something along "up
-to 5 days if there's a really compelling reason". Then it was extended
-to 7 days in order to better match the tuesday-to-thursday range. Then
-"up to 14 days" for exceptional cases (i.e. hopefully never). But the
-wording tends to make all reporters think that asking for 7 days is
-normal. We really need to make it even clearer that:
-  - the default is no embargo
-
-  - if there is a *really compelling reason* (that has to be justified
-    by the reporter), it may reach *up to 7 days*
-
-  - in exceptional cases (the bug-of-the-year with a risk of massive
-    exploitation requiring coordination) it may be extended to 14 days
-
-  - "I already contacted this or that list so you must respect THEIR
-    embargo" is NOT a valid justification to withhold a fix
-
-  - dealing with embargoes is a pain, a withheld patch risks to be
-    forgotten or confused with a previous version of the patch that
-    appeared in discussions, it's difficult to synchronize stable
-    and mainline, and the risk that it leaks by accident grows with
-    time and with the number of participants in a discussion.
-
-Just my two cents.
-Willy
+-- 
+An old man doll... just what I always wanted! - Clara
