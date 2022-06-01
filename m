@@ -2,99 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D476C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 15:40:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D39BCCA473
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 15:48:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345941AbiFAPkj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jun 2022 11:40:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38426 "EHLO
+        id S1354843AbiFAPs3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jun 2022 11:48:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355773AbiFAPkj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 11:40:39 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A81F83150C
-        for <linux-doc@vger.kernel.org>; Wed,  1 Jun 2022 08:40:37 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-142-DSHN-KKLM6GbHo2KcEfAdg-1; Wed, 01 Jun 2022 16:40:34 +0100
-X-MC-Unique: DSHN-KKLM6GbHo2KcEfAdg-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.36; Wed, 1 Jun 2022 16:40:31 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.036; Wed, 1 Jun 2022 16:40:31 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Kalesh Singh' <kaleshsingh@google.com>,
-        Stephen Brennan <stephen.s.brennan@oracle.com>
-CC:     Ioannis Ilkos <ilkos@google.com>,
-        "T.J. Mercier" <tjmercier@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "David Hildenbrand" <david@redhat.com>,
-        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Colin Cross <ccross@google.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        "Paul Gortmaker" <paul.gortmaker@windriver.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Subject: RE: [PATCH 2/2] procfs: Add 'path' to /proc/<pid>/fdinfo/
-Thread-Topic: [PATCH 2/2] procfs: Add 'path' to /proc/<pid>/fdinfo/
-Thread-Index: AQHYdT4SWIJvIUraZkitA/0m2+WPZq06r6HA
-Date:   Wed, 1 Jun 2022 15:40:31 +0000
-Message-ID: <959b0495a90e45b9816bb9f25d76a8f9@AcuMS.aculab.com>
-References: <20220531212521.1231133-1-kaleshsingh@google.com>
- <20220531212521.1231133-3-kaleshsingh@google.com>
- <14f85d24-a9de-9706-32f0-30be4999c71c@oracle.com>
- <CAC_TJveDzDaYQKmuLSkGWpnuCW+gvrqdVJqq=wbzoTRjw4OoFw@mail.gmail.com>
-In-Reply-To: <CAC_TJveDzDaYQKmuLSkGWpnuCW+gvrqdVJqq=wbzoTRjw4OoFw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S1355820AbiFAPsZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 11:48:25 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13ACBA5A90;
+        Wed,  1 Jun 2022 08:48:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=VXYr3ATzNWQCnRCt+pdqql8XBT4Y9x24RSawilp3c7g=; b=PCBwW45dCyoYbCgGK8uDmSQpHv
+        r68xn3QcmUPMkNrYThktGCr9gEjwQlaFp+7FQraLZGPD710WJCe0SwYTApjklaOP5CJMVxdpFP8hc
+        vtKwBXCwCrXyFGU6u4s6YZB/VZyHVwDOAKMji435HNR4o3OtnfFbJOmz54HZymfO+Y71OHMD0rMTB
+        FLUoqwmygi+1xQhfjBB1wuxwjfdYeu3ahhGFnhpMkSoMMgAeKNums3DHq6bFOfDmqxdBS0gRP2rzm
+        GnqQvzxcDGskSYgXjeLAfwT5zSkzgOuOEE8yTZw6IOSrs9I/5yMmGctDOIctZdk029uwxEF3Qpk6V
+        O+O1pJTA==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nwQZh-003p4F-So; Wed, 01 Jun 2022 15:47:59 +0000
+Message-ID: <ddf17a99-5c68-4be9-d073-124538b9d51e@infradead.org>
+Date:   Wed, 1 Jun 2022 08:47:50 -0700
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH V12 07/24] LoongArch: Add build infrastructure
 Content-Language: en-US
+To:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        WANG Xuerui <git@xen0n.name>
+References: <20220601100005.2989022-1-chenhuacai@loongson.cn>
+ <20220601100005.2989022-8-chenhuacai@loongson.cn>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220601100005.2989022-8-chenhuacai@loongson.cn>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-RnJvbTogS2FsZXNoIFNpbmdoDQo+IFNlbnQ6IDMxIE1heSAyMDIyIDIzOjMwDQouLi4NCj4gPiBG
-aWxlIHBhdGhzIGNhbiBjb250YWluIGZ1biBjaGFyYWN0ZXJzIGxpa2UgbmV3bGluZXMgb3IgY29s
-b25zLCB3aGljaA0KPiA+IGNvdWxkIG1ha2UgcGFyc2luZyBvdXQgZmlsZW5hbWVzIGluIHRoaXMg
-dGV4dCBmaWxlLi4uIGZ1bi4gSG93IHdvdWxkIHlvdXINCj4gPiB1c2Vyc3BhY2UgcGFyc2luZyBs
-b2dpYyBoYW5kbGUgIi9ob21lL3N0ZXBoZW4vZmlsZW5hbWVcbnNpemU6XHQ0MDk2Ij8gVGhlDQo+
-ID4gcmVhZGxpbmsoMikgQVBJIG1ha2VzIHRoYXQgZWFzeSBhbHJlYWR5Lg0KPiANCj4gSSB0aGlu
-ayBzaW5jZSB3ZSBoYXZlIGVzY2FwZWQgdGhlICJcbiIgKHNlcV9maWxlX3BhdGgobSwgZmlsZSwg
-IlxuIikpLA0KPiB0aGVuIHVzZXIgc3BhY2UgbWlnaHQgcGFyc2UgdGhpcyBsaW5lIGxpa2U6DQo+
-IA0KPiBpZiAoc3RybmNtcChsaW5lLCAicGF0aDpcdCIsIDYpID09IDApDQo+ICAgICAgICAgY2hh
-ciogcGF0aCA9IGxpbmUgKyA2Ow0KDQpUaGUgcmVhbCBhbm5veWFuY2UgaXMgb3RoZXIgdGhpbmdz
-IGRvaW5nIHNjYW5zIG9mIHRoZSBmaWxlc3lzdGVtDQp0aGF0IGFjY2lkZW50YWxseSAnYnVtcCBp
-bnRvJyBzdHJhbmdlIG5hbWVzLg0KDQpXaGlsZSBhbnl0aGluZyBzZXJpb3VzIHByb2JhYmx5IGdl
-dHMgaXQgcmlnaHQgaG93IG1hbnkgdGltZXMNCkRvIHlvdSBydW4gJ2ZpbmQnIHRvIHF1aWNrbHkg
-c2VhcmNoIGZvciBzb21ldGhpbmc/DQoNClNwYWNlcyBpbiBmaWxlbmFtZXMgKHBvcHVsYXJpc2Vk
-IGJ5IHNvbWUgb3RoZXIgb3MpIGFyZSBhIFBJVEEuDQpOb3QgdG8gbWVudGlvbiBsZWFkaW5nIGFu
-ZCB0cmFpbGluZyBzcGFjZXMhDQpBbnlvbmUgdXNpbmcgZmlsZW5hbWVzIHRoYXQgb25seSBjb250
-YWluIHNwYWNlcyBkb2VzIG5lZWQgc2hvb3RpbmcuDQoNCkRlbGliZXJhdGVseSBhZGRpbmcgbm9u
-LXByaW50YWJsZXMgaXNuJ3QgcmVhbGx5IGEgZ29vZCBpZGVhLg0KDQoJRGF2aWQNCg0KLQ0KUmVn
-aXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRv
-biBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
+Hi--
 
+On 6/1/22 02:59, Huacai Chen wrote:
+> +config 32BIT
+> +	bool
+> +
+> +config 64BIT
+> +	def_bool y
+> +
+
+I don't see a way to set (enable) 32BIT.
+Please explain how to do that.
+
+thanks.
+-- 
+~Randy
