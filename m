@@ -2,138 +2,243 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FB21CCA473
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 14:56:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3850BC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 14:58:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353329AbiFAO4m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jun 2022 10:56:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53098 "EHLO
+        id S230345AbiFAO6e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jun 2022 10:58:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241149AbiFAO4m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 10:56:42 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 914DF1A0;
-        Wed,  1 Jun 2022 07:56:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 30561B81B9D;
-        Wed,  1 Jun 2022 14:56:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A31F6C385B8;
-        Wed,  1 Jun 2022 14:56:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654095397;
-        bh=tFJMRsa1oK1XN1rTTucNDNSPNTxVk9Tt9GgcBYnt2k8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=SnirSTJy/ElaX05FWkLlnBDhOlYKLzNlcuysXwsS6DwfoRRAJtrx10OVjyWwq9XPa
-         T9E6H/5ROFf7DEw41KyOCR6imsT9ineblfLmCIjPKkROVicDjYiymmfZdDuJu4qjQ6
-         PqDk6NY1cELnTYOhGuVVpEgQySwSIO0fRU8S5lzLGPYAuWn5T1/jWlglJP7d9OZRxW
-         whyJn32QEIXoiTzFIv5tgGvBiIjRvVUzf3xfA0AQ/jnUhnDSltQBeCwjpbhzAXPU5g
-         s58zR8+ZjE/omNigYieterbNdjvi/YriFiC3gMFg0VQnaAjg7g0poCaTN10k3NQ5lg
-         G8hZIRG+m/+kA==
-Received: by mail-ua1-f46.google.com with SMTP id l12so654975uan.5;
-        Wed, 01 Jun 2022 07:56:37 -0700 (PDT)
-X-Gm-Message-State: AOAM531Z/w4FMwQQE6zt4h7MYd8eqwmbfD6075yeDe57pjPy2yEDcKL3
-        ns0Jo2DS4vxRAS6WwBre1co1eRtZ1xnaM4FBjg8=
-X-Google-Smtp-Source: ABdhPJymxDAuPOMQkZwFFaw8OHs6paDEyKWLtYFrlsLGqgyiowwRz+CgTMyaafamSqSo8HkagBMfVgWrE1r2uO3vHJw=
-X-Received: by 2002:a05:6130:90:b0:362:891c:edef with SMTP id
- x16-20020a056130009000b00362891cedefmr23919588uaf.106.1654095396587; Wed, 01
- Jun 2022 07:56:36 -0700 (PDT)
+        with ESMTP id S229507AbiFAO6a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 10:58:30 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E3A557B09
+        for <linux-doc@vger.kernel.org>; Wed,  1 Jun 2022 07:58:28 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id e2so2758177wrc.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jun 2022 07:58:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=bcxJZOoEGdj9HHyfjULCcOOxYPoZGRjHpoFm81lNVOs=;
+        b=P+A7Ep4P+FL+NTqEOtoX8UyZXTOoMsHDrPThvBn0p2XBWcLvNZFCRF7csyce5aJIgC
+         /9J8TqZFKIKxg2L9BWSFt0+g/QdglYWeGwGr9vBpkG6lvUtwe24zixvQnaVAwqK2LTTw
+         1epOyxU982uVJ8EcAUJAU6U9HLFl24Deyae4kvazM0NpvT9iCnL1FaKKzMmKp4f/M2Cf
+         KtruZqQI5Mxe/3mT8Qb8rfG3YG75gK3bweRHBCVUOlHWwTfHTMSj3dbyzs0XWy9/z5XF
+         jQKHq1dd7J3P8yVThLPD9s+w3k5yM1y6Z2oMhGM33BXvo/V2LfUPw0tyLQzHiaLK66HC
+         0syg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=bcxJZOoEGdj9HHyfjULCcOOxYPoZGRjHpoFm81lNVOs=;
+        b=RbDK44eIils7LkNcbwk8XK+8N23+CdXaHtH26/cJ07e39PVjcZHByn6Lt8RR/Ta6Eu
+         YIcVZ8iDs5NcP9xoEv4DKe/eCVWdoueyWNFT5EwvyQkV76JOi46eHr1OFM1NqzUScVhR
+         2GFC8wAi2zLR7LY31ESTcLLkESCTuWBsmErdCDL0UTWeSrJLFeTN1496oJ8jB+FIvfHr
+         p2TgjunWSuz7NpDkt+p+uWFBJWKhrJiNRzKMecq8v2CI0OhDzNWczap40HVc0/Ovujuj
+         +o7s6PseqrVrS7EZOdoIdZoBiZoPWY1avdL4RJSfGHBn5DqQuqUtXebUUQOvTPG7tmIT
+         PC9A==
+X-Gm-Message-State: AOAM530OfZV4vTOcLZC+hFklAa92r6xgoEN8gD+jDlywepSquR6rYgwp
+        JLBq8ruaVsz7zNP2+D9v7V6eK7k+TAvTTRP/p/wPfA==
+X-Google-Smtp-Source: ABdhPJwGBhJdLWicc8l4yIAJBeULOWR4YtzFjOWhqpz0EB4Y0mtAJ7jVfp5UnN5oAyj8L/4fmel35fvjSN1Ws9Bq2yA=
+X-Received: by 2002:a05:6000:71b:b0:20e:ed96:e976 with SMTP id
+ bs27-20020a056000071b00b0020eed96e976mr178409wrb.500.1654095506747; Wed, 01
+ Jun 2022 07:58:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220601100005.2989022-1-chenhuacai@loongson.cn>
- <20220601100005.2989022-25-chenhuacai@loongson.cn> <cc1bae30-ff29-48c0-90c5-817b2320cbb6@www.fastmail.com>
-In-Reply-To: <cc1bae30-ff29-48c0-90c5-817b2320cbb6@www.fastmail.com>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Wed, 1 Jun 2022 22:56:25 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTR4w1a15jK+Wh_r5c32-c7YsiXw=6d0q5v7_KyMM36zdg@mail.gmail.com>
-Message-ID: <CAJF2gTR4w1a15jK+Wh_r5c32-c7YsiXw=6d0q5v7_KyMM36zdg@mail.gmail.com>
-Subject: Re: [PATCH V12 24/24] MAINTAINERS: Add maintainer information for LoongArch
-To:     Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
+References: <20220531212521.1231133-1-kaleshsingh@google.com>
+ <20220531212521.1231133-2-kaleshsingh@google.com> <78efbada-6dd5-ead7-fc10-38b5e1e92fc5@amd.com>
+In-Reply-To: <78efbada-6dd5-ead7-fc10-38b5e1e92fc5@amd.com>
+From:   Kalesh Singh <kaleshsingh@google.com>
+Date:   Wed, 1 Jun 2022 07:58:15 -0700
+Message-ID: <CAC_TJve6CTA-ssG9zJm2_=MJqRhCqV7Bwgz1YiSH7RVVy+pg4g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] procfs: Add 'size' to /proc/<pid>/fdinfo/
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Ioannis Ilkos <ilkos@google.com>,
+        "T.J. Mercier" <tjmercier@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Xuerui Wang <kernel@xen0n.name>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        WANG Xuerui <git@xen0n.name>
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Hildenbrand <david@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Cheers
-
-Reviewed-by: Guo Ren <guoren@kernel.org>
-
-On Wed, Jun 1, 2022 at 8:35 PM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
+On Wed, Jun 1, 2022 at 6:55 AM Christian K=C3=B6nig <christian.koenig@amd.c=
+om> wrote:
 >
->
->
-> =E5=9C=A82022=E5=B9=B46=E6=9C=881=E6=97=A5=E5=85=AD=E6=9C=88 =E4=B8=8A=E5=
-=8D=8811:00=EF=BC=8CHuacai Chen=E5=86=99=E9=81=93=EF=BC=9A
-> > Add the maintainer information for the LoongArch (LA or LArch for short=
-)
-> > architecture.
+> Am 31.05.22 um 23:25 schrieb Kalesh Singh:
+> > To be able to account the amount of memory a process is keeping pinned
+> > by open file descriptors add a 'size' field to fdinfo output.
 > >
-> > Signed-off-by: WANG Xuerui <git@xen0n.name>
-> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> > dmabufs fds already expose a 'size' field for this reason, remove this
+> > and make it a common field for all fds. This allows tracking of
+> > other types of memory (e.g. memfd and ashmem in Android).
+> >
+> > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
 >
-> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> At least for the DMA-buf part feel free to add an Reviewed-by: Christian
+> K=C3=B6nig <christian.koenig@amd.com> for this.
+
+Thanks for the review, Christian.
+
+--Kalesh
+
 >
-> You guys deserve it.
->
-> Thanks.
+> Regards,
+> Christian.
 >
 > > ---
-> >  MAINTAINERS | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
 > >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index f1b4b77daa5f..3e592ea84557 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -11544,6 +11544,16 @@ S:   Maintained
-> >  F:   Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.=
-yaml
-> >  F:   drivers/gpu/drm/bridge/lontium-lt8912b.c
+> > Changes from rfc:
+> >    - Split adding 'size' and 'path' into a separate patches, per Christ=
+ian
+> >    - Split fdinfo seq_printf into separate lines, per Christian
+> >    - Fix indentation (use tabs) in documentaion, per Randy
 > >
-> > +LOONGARCH
-> > +M:   Huacai Chen <chenhuacai@kernel.org>
-> > +R:   WANG Xuerui <kernel@xen0n.name>
-> > +S:   Maintained
-> > +T:   git
-> > git://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson=
-.git
-> > +F:   arch/loongarch/
-> > +F:   drivers/*/*loongarch*
-> > +F:   Documentation/loongarch/
-> > +F:   Documentation/translations/zh_CN/loongarch/
+> >   Documentation/filesystems/proc.rst | 12 ++++++++++--
+> >   drivers/dma-buf/dma-buf.c          |  1 -
+> >   fs/proc/fd.c                       |  9 +++++----
+> >   3 files changed, 15 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesys=
+tems/proc.rst
+> > index 1bc91fb8c321..779c05528e87 100644
+> > --- a/Documentation/filesystems/proc.rst
+> > +++ b/Documentation/filesystems/proc.rst
+> > @@ -1886,13 +1886,14 @@ if precise results are needed.
+> >   3.8 /proc/<pid>/fdinfo/<fd> - Information about opened file
+> >   ---------------------------------------------------------------
+> >   This file provides information associated with an opened file. The re=
+gular
+> > -files have at least four fields -- 'pos', 'flags', 'mnt_id' and 'ino'.
+> > +files have at least five fields -- 'pos', 'flags', 'mnt_id', 'ino', an=
+d 'size'.
 > > +
-> >  LSILOGIC MPT FUSION DRIVERS (FC/SAS/SPI)
-> >  M:   Sathya Prakash <sathya.prakash@broadcom.com>
-> >  M:   Sreekanth Reddy <sreekanth.reddy@broadcom.com>
-> > --
-> > 2.27.0
+> >   The 'pos' represents the current offset of the opened file in decimal
+> >   form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask=
+ the
+> >   file has been created with [see open(2) for details] and 'mnt_id' rep=
+resents
+> >   mount ID of the file system containing the opened file [see 3.5
+> >   /proc/<pid>/mountinfo for details]. 'ino' represents the inode number=
+ of
+> > -the file.
+> > +the file, and 'size' represents the size of the file in bytes.
+> >
+> >   A typical output is::
+> >
+> > @@ -1900,6 +1901,7 @@ A typical output is::
+> >       flags:  0100002
+> >       mnt_id: 19
+> >       ino:    63107
+> > +     size:   0
+> >
+> >   All locks associated with a file descriptor are shown in its fdinfo t=
+oo::
+> >
+> > @@ -1917,6 +1919,7 @@ Eventfd files
+> >       flags:  04002
+> >       mnt_id: 9
+> >       ino:    63107
+> > +     size:   0
+> >       eventfd-count:  5a
+> >
+> >   where 'eventfd-count' is hex value of a counter.
+> > @@ -1930,6 +1933,7 @@ Signalfd files
+> >       flags:  04002
+> >       mnt_id: 9
+> >       ino:    63107
+> > +     size:   0
+> >       sigmask:        0000000000000200
+> >
+> >   where 'sigmask' is hex value of the signal mask associated
+> > @@ -1944,6 +1948,7 @@ Epoll files
+> >       flags:  02
+> >       mnt_id: 9
+> >       ino:    63107
+> > +     size:   0
+> >       tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:6=
+1af sdev:7
+> >
+> >   where 'tfd' is a target file descriptor number in decimal form,
+> > @@ -1962,6 +1967,7 @@ For inotify files the format is the following::
+> >       flags:  02000000
+> >       mnt_id: 9
+> >       ino:    63107
+> > +     size:   0
+> >       inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fha=
+ndle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
+> >
+> >   where 'wd' is a watch descriptor in decimal form, i.e. a target file
+> > @@ -1985,6 +1991,7 @@ For fanotify files the format is::
+> >       flags:  02
+> >       mnt_id: 9
+> >       ino:    63107
+> > +     size:   0
+> >       fanotify flags:10 event-flags:0
+> >       fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
+> >       fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:4000=
+0000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
+> > @@ -2010,6 +2017,7 @@ Timerfd files
+> >       flags:  02
+> >       mnt_id: 9
+> >       ino:    63107
+> > +     size:   0
+> >       clockid: 0
+> >       ticks: 0
+> >       settime flags: 01
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 32f55640890c..5f2ae38c960f 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -378,7 +378,6 @@ static void dma_buf_show_fdinfo(struct seq_file *m,=
+ struct file *file)
+> >   {
+> >       struct dma_buf *dmabuf =3D file->private_data;
+> >
+> > -     seq_printf(m, "size:\t%zu\n", dmabuf->size);
+> >       /* Don't count the temporary reference taken inside procfs seq_sh=
+ow */
+> >       seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+> >       seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+> > diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+> > index 913bef0d2a36..464bc3f55759 100644
+> > --- a/fs/proc/fd.c
+> > +++ b/fs/proc/fd.c
+> > @@ -54,10 +54,11 @@ static int seq_show(struct seq_file *m, void *v)
+> >       if (ret)
+> >               return ret;
+> >
+> > -     seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\n"=
+,
+> > -                (long long)file->f_pos, f_flags,
+> > -                real_mount(file->f_path.mnt)->mnt_id,
+> > -                file_inode(file)->i_ino);
+> > +     seq_printf(m, "pos:\t%lli\n", (long long)file->f_pos);
+> > +     seq_printf(m, "flags:\t0%o\n", f_flags);
+> > +     seq_printf(m, "mnt_id:\t%i\n", real_mount(file->f_path.mnt)->mnt_=
+id);
+> > +     seq_printf(m, "ino:\t%lu\n", file_inode(file)->i_ino);
+> > +     seq_printf(m, "size:\t%lli\n", (long long)file_inode(file)->i_siz=
+e);
+> >
+> >       /* show_fd_locks() never deferences files so a stale value is saf=
+e */
+> >       show_fd_locks(m, file, files);
 >
-> --
-> - Jiaxun
-
-
-
---=20
-Best Regards
- Guo Ren
-
-ML: https://lore.kernel.org/linux-csky/
