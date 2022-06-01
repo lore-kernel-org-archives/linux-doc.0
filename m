@@ -2,94 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41CACCCA473
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 16:02:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82D1DC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 16:58:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237860AbiFAQCe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jun 2022 12:02:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51834 "EHLO
+        id S1344440AbiFAQ6q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jun 2022 12:58:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355949AbiFAQC2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 12:02:28 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52F3135274;
-        Wed,  1 Jun 2022 09:02:24 -0700 (PDT)
-Received: from mail-yb1-f169.google.com ([209.85.219.169]) by
- mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MtfRv-1nf1hg15eJ-00v4pu; Wed, 01 Jun 2022 18:02:23 +0200
-Received: by mail-yb1-f169.google.com with SMTP id h75so3728550ybg.4;
-        Wed, 01 Jun 2022 09:02:22 -0700 (PDT)
-X-Gm-Message-State: AOAM53108KG6iiqKAualLgD4qXUEQ+1v7Jcd0CuhJeZhkOV5ystJH0zO
-        XZTuC7mBR03nWpXD/GJ1J7ejo0Lmj24iHh+B8ok=
-X-Google-Smtp-Source: ABdhPJxXBt6t9Kpb18+45Z/4gGcabfaHsQkc7yNqpiwzF/WmyhE92OTDPGbAW+JZrCLtodw8qttgNxuQpK4z7UBz8ME=
-X-Received: by 2002:a25:1209:0:b0:65d:63f9:e10a with SMTP id
- 9-20020a251209000000b0065d63f9e10amr453686ybs.480.1654099341931; Wed, 01 Jun
- 2022 09:02:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220601100005.2989022-1-chenhuacai@loongson.cn>
- <20220601100005.2989022-8-chenhuacai@loongson.cn> <ddf17a99-5c68-4be9-d073-124538b9d51e@infradead.org>
-In-Reply-To: <ddf17a99-5c68-4be9-d073-124538b9d51e@infradead.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 1 Jun 2022 18:02:05 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3j1h2h_yWN7oaBPx7Z-WaJs-rMupWo3Q4UUTAi2m3tqQ@mail.gmail.com>
-Message-ID: <CAK8P3a3j1h2h_yWN7oaBPx7Z-WaJs-rMupWo3Q4UUTAi2m3tqQ@mail.gmail.com>
-Subject: Re: [PATCH V12 07/24] LoongArch: Add build infrastructure
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S1354317AbiFAQ6p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 12:58:45 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98E2284A0B;
+        Wed,  1 Jun 2022 09:58:41 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C3F8D2C3;
+        Wed,  1 Jun 2022 16:58:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C3F8D2C3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1654102720; bh=iM1gTdQgfAuBfQa3sOYlXR+O5U2vnXeo1TB17L2Db6I=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=WJ7QNIqSlBYZsXHKuPOyYrcBHyL2dlZgIShiNGRfYmN768mLEcpGGz192/jNlVdnt
+         wGKSFbB9nRmX16KFjSw/yuExh8g8aJebpskqT6ezPhrFr23xp2mnAw5kbwCIEmj2Il
+         m0QNUtjgoxIp2QEKgTbX9je2ZX2SSGpeHr00tzfSQwU71/0htsHItnZHfvPUapoLSJ
+         VYWwmN8XYWaImIeI6lromuZ0/eHAJ9BM/JbTpq9VgkmGw6xOkbuuQ3DA8CTnkgpDuM
+         fX6iqBuS1dkVmFhB5Tc7ik7yyCdHpkKSG8PlxS6u0wMLLxiEQFoQnuibDy1peoRmTg
+         ZuiKD9txUL2bw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Vegard Nossum <vegard.nossum@oracle.com>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Amit Shah <aams@amazon.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Kees Cook <keescook@chromium.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        WANG Xuerui <git@xen0n.name>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:BnZSg9eP17vALy19M2awOWIxYR0CHSN2wN9tVTWraj70vTg7PDz
- 5jBCc0CvVUjRqX2arSMKOyJUhsaUaqT0ZXy2B0NFFfprFlrsGJN2RLFwkHb5LHgzlu2jVTR
- uan3XtADusSD5xIOuzWTtXg5GmPHGqXnncQO9lO6+uXIqu+sW0oFslEWFQM97Ae9x1hg3UO
- v0709KNMn6xVBVGouiyIA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xqQ1xqz9yt0=:h+mWvQkrrAW4wJnju2cd4X
- QC0/D2jjFnn9AmEZBkBwfPfc560lzeCKoiS/JOatuaxOQwP9w4gnwuIW7a/IMqIUWtfjteWAQ
- xL0e4SsT88Spk6jqzSJRDVityxj43JyiednDwFfV8wHC6tpuqLv2uR1hlJqy+lwAwk4mryIGA
- NY5kk5lnviqA+buxefNgJSIgTn1/ISkQFqi5AS/6xkvTskIFUb/cxzIEqYPDvKfdhIoHJq79s
- HqX0JGjZsCPz0l60Co6Sk21DNAdyGlXvYFFhjDj1eRTyux6fAt9k4alGVWMCZqGBYljNao0sF
- BOSbY/mCXOqBwWzeXffUxEpm4QKVSl6dGVVp0eHZ8BitCDEVaBdonLP4Y2ks7Fa1UgxDMBF4t
- 6Fhd6qhJTWB7FGrBs/RzOPgc/hAN2iMcuq1A6HHCABcXEuLMmBeN+X95dT6rLJflyPPalvTPI
- eI1F5pIokoDWxWHWyKtj474sSRr4dsO1IJt1ap1qoKyoWC5Paryn6xJV6F+Dk4t4dezIS5vMQ
- swXymtE1JvkArm1yUMlAYx4kkwFFEqEHFM2iKhExzibzYS3ZTWrLAJlCL2nB9l9z8zAZ+6OXa
- +6AK6fyVe9kiqYhLIFCNpqgMYlTMRGI368ETn2o1U7CWe+r+PHFkVg6Vy+1a6XD6Y6erKqMXC
- oDlOg2sKZ8vH9AMfSnwNUncM3q0XDjwaNxO7o4bDsSBnz+Jact96T4zKh86P0HHoFvKkeR2d+
- 0utV9DRqJX4rjZ8+LVrS0IPve41grQw2AzcNPw==
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Solar Designer <solar@openwall.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Will Deacon <will@kernel.org>, Willy Tarreau <w@1wt.eu>
+Subject: Re: [PATCH] Documentation/security-bugs: overhaul
+In-Reply-To: <20220531230309.9290-1-vegard.nossum@oracle.com>
+References: <20220531230309.9290-1-vegard.nossum@oracle.com>
+Date:   Wed, 01 Jun 2022 10:58:50 -0600
+Message-ID: <87fsko48xh.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 1, 2022 at 5:47 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Hi--
->
-> On 6/1/22 02:59, Huacai Chen wrote:
-> > +config 32BIT
-> > +     bool
-> > +
-> > +config 64BIT
-> > +     def_bool y
-> > +
->
-> I don't see a way to set (enable) 32BIT.
-> Please explain how to do that.
+Vegard Nossum <vegard.nossum@oracle.com> writes:
 
-It can't be enabled at the moment, but support is planned for a future release.
-There are remnants of the 32-bit support in various places of the codebase,
-but removing those just to add them back later does not seem too important.
+> The current instructions for reporting security vulnerabilities in the
+> kernel are not clear enough, in particular the process of disclosure
+> and requesting CVEs, and what the roles of the different lists are and
+> how exactly to report to each of them.
+>
+> Let's give this document an overhaul. Goals are stated as a comment at
+> the top of the document itself (these will not appear in the rendered
+> document).
 
-         Arnd
+OK, some other thoughts...
+
+[...]
+
+> +Linux kernel security team at security@kernel.org, henceforth "the
+> +security list". This is a closed list of trusted developers who will
+> +help verify the bug report and develop a patch.
+> +
+> +While the security list is closed, the security team may bring in
+> +extra help from the relevant maintainers to understand and fix the
+> +security vulnerability.
+> +
+> +Note that the main interest of the kernel security list is in getting
+> +bugs fixed; CVE assignment, disclosure to distributions, and public
+> +disclosure happens on different lists with different people.
+
+Adding "as described below" or some such might be helpful for readers
+who are mostly interested in those things.  
+
+> +Here is a quick overview of the various lists:
+> +
+> +.. list-table::
+> +   :widths: 35 10 20 35
+> +   :header-rows: 1
+> +
+> +   * - List address
+> +     - Open?
+> +     - Purpose
+> +     - Members
+> +   * - security@kernel.org
+> +     - Closed
+> +     - Reporting; patch development
+> +     - Trusted kernel developers
+> +   * - linux-distros@vs.openwall.org
+> +     - Closed
+> +     - Coordination; CVE assignment; patch development, testing, and backporting
+> +     - Linux distribution representatives
+> +   * - oss-security@lists.openwall.com
+> +     - Public
+> +     - Disclosure
+> +     - General public
+
+Please don't use list-table, that's totally unreadable in the plain-text
+format.  How about something like:
+
+ =============================== ===== ================= ===============
+ List address                    Open? Purpose           Members
+ =============================== ===== ================= ===============
+ security@kernel.org                no Reporting         Trusted kernel
+                                                         developers
+                                       Patch development
+ linux-distros@vs.openwall.org      no Coordination      Distribution 
+                                                         representatives
+                                       CVE assignment
+                                       Patch development
+                                       Testing
+                                       Backporting
+ oss-security@lists.openwall.com   yes Disclosure        General public
+ =============================== ===== ================= ===============
+
+(Note I haven't tried to format this, there's probably an error in there
+somewhere). 
+
+> +The following sections give a step-by-step guide to reporting and
+> +disclosure.
+> +
+> +Contacting the security list
+> +----------------------------
+> +
+> +As it is with any bug, the more information provided the easier it will
+> +be to diagnose and fix; please review the procedure outlined in
+> +Documentation/admin-guide/reporting-issues.rst if you are unclear about
+> +what information is helpful. Any exploit code is very helpful and will
+> +not be released without consent from the reporter unless it has already
+> +been made public.
+> +
+> +The security team does not assign CVEs, nor does it require them
+> +for reports or fixes. CVEs may be requested when the issue is reported to
+> +the linux-distros list.
+> +
+> +**Disclosure.** The security list prefers to merge fixes into the
+> +appropriate public git repository as soon as they become available.
+
+More to the point, the idea is to get *review attention* onto the
+patches, presumably before they are commited to some repo, right?
+That's my understanding from the oss-security discussion, anyway.  So
+the first disclosure may not be when it shows up in a repo, as suggested
+here. 
+
+[...]
+
+> +Once a patch has been developed, you are encouraged to contact the
+> +linux-distros list; see below.
+
+Nit: "see below" seems unnecessary when "below" is the next line down
+
+> +Contacting the linux-distros list
+> +---------------------------------
+> +
+> +Fixes for particularly sensitive bugs (such as those that might lead to
+> +privilege escalations) may need to be coordinated with the private
+> +linux-distros mailing list (linux-distros@vs.openwall.org) so that
+> +distribution vendors are well prepared to release a fixed kernel as soon
+> +as possible after the public disclosure of the upstream fix. This
+> +includes verifying the reported issue, testing proposed fixes,
+> +developing a fix (if none is known yet), and backporting to older kernels
+> +and other versions.
+> +
+> +The linux-distros list can also help with assigning a CVE for your issue.
+> +
+> +**Disclosure.** The linux-distros list has a strict policy of requiring
+> +reporters to post about the security issue on oss-security within 14 days
+> +of the list being contacted regardless of whether a patch is available or
+> +not. It is therefore preferable that you don't send your initial bug
+> +report to the linux-distros list unless you already have a patch for the
+> +issue.
+> +
+> +**List rules.** The main rules to be aware of when contacting the
+> +linux-distros list are:
+
+So this seems certain to go out of date when the other list's rules
+change.  I wonder if it would be better just to tell readers they need
+to be aware of that list's rules and give a pointer?
+
+Thanks,
+
+jon
