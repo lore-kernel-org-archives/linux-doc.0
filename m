@@ -2,127 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89365C43217
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 12:45:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5B2DC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 13:38:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353007AbiFAMpG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jun 2022 08:45:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57370 "EHLO
+        id S1349217AbiFANh7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jun 2022 09:37:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353091AbiFAMo7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 08:44:59 -0400
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0790750052;
-        Wed,  1 Jun 2022 05:44:56 -0700 (PDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 8B90E5C0276;
-        Wed,  1 Jun 2022 08:44:53 -0400 (EDT)
-Received: from imap44 ([10.202.2.94])
-  by compute4.internal (MEProxy); Wed, 01 Jun 2022 08:44:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-        cc:cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm2; t=1654087493; x=
-        1654173893; bh=ub+c6okPZwdQLkIW5lMu7hQ1gS1h1Ff56ZsM8OV2VO4=; b=v
-        OqtjAVU8xRqiUC+PxkOe5oem6WnQC7gCDtAfL5i+pqaMu+jNIqHZz0h5YYgnvvMP
-        EiAJftkitrYwf55KHLQsj3YbS/tmMI9t56/ncBu4MZBA4bmXaAAKbz8OBYMA5xJH
-        1LXIg60eTiKCSFQiMWIsCgfupeMnRyd5o8SV+BM51Uza+hCn1JnusviUcjdq2qWK
-        Uu+VsX6Nxumj2YRqpQyAmyyH9o1jSsvx1OoU7ZMcAH0ADNHm0ckpRxpFsmgJvZbM
-        kVEyWFgOZPUsMWTph/i7Zy+MHWJkcJqrXeEdYjE1l1aYHfftXnX8oe069yoNV+Rs
-        CYyrQoqKn2Ezwg+e2TEGA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1654087493; x=
-        1654173893; bh=ub+c6okPZwdQLkIW5lMu7hQ1gS1h1Ff56ZsM8OV2VO4=; b=I
-        Fl7RJvKobbryZfYJapdV68pyUr3ygTLE/cgiNTIrYWYSljpPRRlbToJpeb9UO88Z
-        hcD+I0SDhPmT+Vzr53T4WPSoa4XBVuWU9Amr1k+J70lrZEcXYdSxv6qyX7vgsmwJ
-        IPNqJFSTO9qyUPZQ3QOx4C1rppQsbvigGLzfeyPb0psag9MSanLEzlk8X59Y1UQY
-        h7FCFr6PTtPGy0n2Bu7NK8eAFvApqDTPU7Q4OAJRsgsKSKUvr7qsp5u9kkCGe2FQ
-        LU7O8Ps/TIHF8PjB7HoSCWxv4dEhcKYhajpI0m+HJ5MgshCLhToiPG7nfilxPFgG
-        SMz2HOerunFJzADKkKbUw==
-X-ME-Sender: <xms:RF-XYv7rIKl12oTZCAX0eaJ_rYiFwT8wWqzhaomzDDG0Zzr3iiVQNw>
-    <xme:RF-XYk7LKLHLNLTSGJ__rRxbT13sONW68kyIYMI9GqC2trKB7XRwk1OWCnoSVrVG0
-    x6B4h5wQdsrOe1qbS8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrledtgdehhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
-    rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-    eqnecuggftrfgrthhtvghrnhepudefgeeftedugeehffdtheefgfevffelfefghefhjeeu
-    geevtefhudduvdeihefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:RF-XYmf8Thyw4HD_IE231ADPfsUfb6ixsfJdM5RLZn_UoX_JPI8MzQ>
-    <xmx:RF-XYgJuPUrjLjU9M2GqmA-nrlSWxww6fgod_rTRauYocyz7j7sNcQ>
-    <xmx:RF-XYjJnGS9YfkjcdheEQT5m386HJ_7mSwVoT1DVVJeuuvbAajGB6w>
-    <xmx:RV-XYk6o3dQokokW8sL6mtBNAbrltL1loa9JphRu2jvoG2qxr8_5Vw>
-Feedback-ID: ifd894703:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id D413436A006F; Wed,  1 Jun 2022 08:44:52 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-591-gfe6c3a2700-fm-20220427.001-gfe6c3a27
-Mime-Version: 1.0
-Message-Id: <2c21b163-9eea-4221-b92c-afe471853add@www.fastmail.com>
-In-Reply-To: <20220601100005.2989022-1-chenhuacai@loongson.cn>
-References: <20220601100005.2989022-1-chenhuacai@loongson.cn>
-Date:   Wed, 01 Jun 2022 13:44:32 +0100
-From:   "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To:     "Huacai Chen" <chenhuacai@loongson.cn>,
-        "Arnd Bergmann" <arnd@arndb.de>,
-        "Andy Lutomirski" <luto@kernel.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        "David Airlie" <airlied@linux.ie>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Linus Torvalds" <torvalds@linux-foundation.org>
-Cc:     linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, "Xuefeng Li" <lixuefeng@loongson.cn>,
-        "Yanteng Si" <siyanteng@loongson.cn>,
-        "Huacai Chen" <chenhuacai@gmail.com>,
-        "Guo Ren" <guoren@kernel.org>, "Xuerui Wang" <kernel@xen0n.name>,
-        "Stephen Rothwell" <sfr@canb.auug.org.au>
-Subject: Re: [PATCH V12 00/24] arch: Add basic LoongArch support
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S240364AbiFANh6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 09:37:58 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BEB55DBC3;
+        Wed,  1 Jun 2022 06:37:56 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 9C2F7723;
+        Wed,  1 Jun 2022 13:37:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9C2F7723
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1654090675; bh=CCyKZaTM8cScZ+FvD4o5tkWic0mc4WYiquvF86vt/9s=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=PYnjYLYiNnXb5BtrzwaY8VjScATB8FXb0qV68vyWL3ZYAiBRYd/4hZ3kunTyeBHZ6
+         brg1zsGRX1hfURW2AUDJYJHTWZpd1DAdVsdyXBXDEMfXoh8u8vM/EUBwMACxFVRqxa
+         o9uNVwSNwLR9pYR1mp3WS0GQ6NPkQhDKzrAmKbGpien5GjZsDJ1+9HntOnnygfPJki
+         vSKZv5M4jodGaAVU6K/9orrduBQvVBUYixGM3u8S3b5y3rk56QpvC1Ptxw0Fo2GKsf
+         v/HtyTRTtA16qJTA5Vo6Rv4Csjgj1EZuxM4Ov4BF9wcKfZIGyRPZfbVqTCqNpDBkn+
+         vt3FiUYtQZP9w==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Vegard Nossum <vegard.nossum@oracle.com>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Amit Shah <aams@amazon.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Kees Cook <keescook@chromium.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Solar Designer <solar@openwall.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Tyler Hicks <tyhicks@canonical.com>,
+        Will Deacon <will@kernel.org>, Willy Tarreau <w@1wt.eu>
+Subject: Re: [PATCH] Documentation/security-bugs: overhaul
+In-Reply-To: <20220531230309.9290-1-vegard.nossum@oracle.com>
+References: <20220531230309.9290-1-vegard.nossum@oracle.com>
+Date:   Wed, 01 Jun 2022 07:38:05 -0600
+Message-ID: <87ilpk5wsi.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Vegard Nossum <vegard.nossum@oracle.com> writes:
 
-
-=E5=9C=A82022=E5=B9=B46=E6=9C=881=E6=97=A5=E5=85=AD=E6=9C=88 =E4=B8=8A=E5=
-=8D=8810:59=EF=BC=8CHuacai Chen=E5=86=99=E9=81=93=EF=BC=9A
-> LoongArch is a new RISC ISA, which is a bit like MIPS or RISC-V.
-> LoongArch includes a reduced 32-bit version (LA32R), a standard 32-bit
-> version (LA32S) and a 64-bit version (LA64). LoongArch use ACPI as its
-> boot protocol LoongArch-specific interrupt controllers (similar to API=
-C)
-> are already added in the next revision of ACPI Specification (current
-> revision is 6.4).
+> The current instructions for reporting security vulnerabilities in the
+> kernel are not clear enough, in particular the process of disclosure
+> and requesting CVEs, and what the roles of the different lists are and
+> how exactly to report to each of them.
 >
+> Let's give this document an overhaul. Goals are stated as a comment at
+> the top of the document itself (these will not appear in the rendered
+> document).
 
-I=E2=80=99ve been reviewing all LA changes in past week and now I=E2=80=99=
-m giving out R-b
-for every patch I had reviewed in detail. (I don=E2=80=99t really now an=
-ything about
- mm and processes so I just leave them).
+...but they do appear in the plain-text document, which must also be
+readable.  Thus...
 
-I also tried to run the kernel on my machine with Huacai=E2=80=99s next =
-tree and
-Xuerui=E2=80=99s BPI patch.
+[...]
 
-I watched the =E2=80=9CNew World=E2=80=9D of LoongArch grow up from scra=
-tch. And I must
-say it=E2=80=99s a epic work showing the collaboration between community=
- and Loongson
-company. Especially Xuerui who invested numerous days and nights without=
- any
-return.
+> diff --git a/Documentation/admin-guide/security-bugs.rst b/Documentation/admin-guide/security-bugs.rst
+> index 82e29837d5898..5f37b3f1e77dc 100644
+> --- a/Documentation/admin-guide/security-bugs.rst
+> +++ b/Documentation/admin-guide/security-bugs.rst
+> @@ -1,96 +1,175 @@
+> +..
+> +    If you modify this document, please consider the following:
+> +    
+> +    1) The most important information should be at the top (preferably in
+> +    the opening paragraph). This means contacting <security@kernel.org>;
+> +    if somebody doesn't read any further than that, at least the security
+> +    team will have the report.
 
-Thanks to all people involved.
+I submit that you are breaking your own rule by putting this stuff at
+the top of the document.  I'm not really convinced that you need it at
+all - we don't normally include these sort of instructions - but if it
+has to be here I would put it at the end.
 
-- Jiaxun
+[Haven't had a chance to look at the real material yet]
 
+Thanks,
+
+jon
