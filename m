@@ -2,61 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2914C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 15:34:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D476C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 15:40:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348810AbiFAPem (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jun 2022 11:34:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57784 "EHLO
+        id S1345941AbiFAPkj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jun 2022 11:40:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348132AbiFAPem (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 11:34:42 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61DC6A3090;
-        Wed,  1 Jun 2022 08:34:41 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E98C4723;
-        Wed,  1 Jun 2022 15:34:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E98C4723
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1654097681; bh=AMNnxu+yFDxeOhiDrKZjLH3xOBEGLJL3HDWk2TyQV8w=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=iLnHdmITIUmdrHQkV3R9TVwF4RLXbY6OE/G4kOBO10emFIMPGwYGoPet/nbR8SuSQ
-         mUZOa7vEynqCS/tuKtXIRL1XRPoqnOiIuqESVJhrGuNXnkrCKLWb8A1ycmmBdjm2cF
-         CkvKeDn1I9Er7LpodUphZ4EW6RCMMzyuvd1VLGfVJOHnY+YMXjT/1vvgLHGNSk5K/g
-         p5VqklZ0Nx7Bt5pOK9zZ6k5S1C7b7TYfBghhOwingSmOQwDYr8xw8HCQVWEmx67lxh
-         ALI6U/7WNh3R3yGE2W6KKWi9x77tkuvWsmzXDXAvfjQJhTJ0wkIMeIYr/z2UZ6Ebdl
-         hovbNSXXztpWQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Nelson Penn <nelsonapenn@protonmail.com>
-Cc:     linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Nelson Penn <nelsonapenn@protonmail.com>
-Subject: Re: [PATCH] documentation: Format button_dev as a pointer.
-In-Reply-To: <20220522194953.12097-1-nelsonapenn@protonmail.com>
-References: <20220522194953.12097-1-nelsonapenn@protonmail.com>
-Date:   Wed, 01 Jun 2022 09:34:50 -0600
-Message-ID: <87wne04cth.fsf@meer.lwn.net>
+        with ESMTP id S1355773AbiFAPkj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 11:40:39 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A81F83150C
+        for <linux-doc@vger.kernel.org>; Wed,  1 Jun 2022 08:40:37 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-142-DSHN-KKLM6GbHo2KcEfAdg-1; Wed, 01 Jun 2022 16:40:34 +0100
+X-MC-Unique: DSHN-KKLM6GbHo2KcEfAdg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.36; Wed, 1 Jun 2022 16:40:31 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.036; Wed, 1 Jun 2022 16:40:31 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Kalesh Singh' <kaleshsingh@google.com>,
+        Stephen Brennan <stephen.s.brennan@oracle.com>
+CC:     Ioannis Ilkos <ilkos@google.com>,
+        "T.J. Mercier" <tjmercier@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "David Hildenbrand" <david@redhat.com>,
+        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Colin Cross <ccross@google.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        "Paul Gortmaker" <paul.gortmaker@windriver.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Subject: RE: [PATCH 2/2] procfs: Add 'path' to /proc/<pid>/fdinfo/
+Thread-Topic: [PATCH 2/2] procfs: Add 'path' to /proc/<pid>/fdinfo/
+Thread-Index: AQHYdT4SWIJvIUraZkitA/0m2+WPZq06r6HA
+Date:   Wed, 1 Jun 2022 15:40:31 +0000
+Message-ID: <959b0495a90e45b9816bb9f25d76a8f9@AcuMS.aculab.com>
+References: <20220531212521.1231133-1-kaleshsingh@google.com>
+ <20220531212521.1231133-3-kaleshsingh@google.com>
+ <14f85d24-a9de-9706-32f0-30be4999c71c@oracle.com>
+ <CAC_TJveDzDaYQKmuLSkGWpnuCW+gvrqdVJqq=wbzoTRjw4OoFw@mail.gmail.com>
+In-Reply-To: <CAC_TJveDzDaYQKmuLSkGWpnuCW+gvrqdVJqq=wbzoTRjw4OoFw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Nelson Penn <nelsonapenn@protonmail.com> writes:
+RnJvbTogS2FsZXNoIFNpbmdoDQo+IFNlbnQ6IDMxIE1heSAyMDIyIDIzOjMwDQouLi4NCj4gPiBG
+aWxlIHBhdGhzIGNhbiBjb250YWluIGZ1biBjaGFyYWN0ZXJzIGxpa2UgbmV3bGluZXMgb3IgY29s
+b25zLCB3aGljaA0KPiA+IGNvdWxkIG1ha2UgcGFyc2luZyBvdXQgZmlsZW5hbWVzIGluIHRoaXMg
+dGV4dCBmaWxlLi4uIGZ1bi4gSG93IHdvdWxkIHlvdXINCj4gPiB1c2Vyc3BhY2UgcGFyc2luZyBs
+b2dpYyBoYW5kbGUgIi9ob21lL3N0ZXBoZW4vZmlsZW5hbWVcbnNpemU6XHQ0MDk2Ij8gVGhlDQo+
+ID4gcmVhZGxpbmsoMikgQVBJIG1ha2VzIHRoYXQgZWFzeSBhbHJlYWR5Lg0KPiANCj4gSSB0aGlu
+ayBzaW5jZSB3ZSBoYXZlIGVzY2FwZWQgdGhlICJcbiIgKHNlcV9maWxlX3BhdGgobSwgZmlsZSwg
+IlxuIikpLA0KPiB0aGVuIHVzZXIgc3BhY2UgbWlnaHQgcGFyc2UgdGhpcyBsaW5lIGxpa2U6DQo+
+IA0KPiBpZiAoc3RybmNtcChsaW5lLCAicGF0aDpcdCIsIDYpID09IDApDQo+ICAgICAgICAgY2hh
+ciogcGF0aCA9IGxpbmUgKyA2Ow0KDQpUaGUgcmVhbCBhbm5veWFuY2UgaXMgb3RoZXIgdGhpbmdz
+IGRvaW5nIHNjYW5zIG9mIHRoZSBmaWxlc3lzdGVtDQp0aGF0IGFjY2lkZW50YWxseSAnYnVtcCBp
+bnRvJyBzdHJhbmdlIG5hbWVzLg0KDQpXaGlsZSBhbnl0aGluZyBzZXJpb3VzIHByb2JhYmx5IGdl
+dHMgaXQgcmlnaHQgaG93IG1hbnkgdGltZXMNCkRvIHlvdSBydW4gJ2ZpbmQnIHRvIHF1aWNrbHkg
+c2VhcmNoIGZvciBzb21ldGhpbmc/DQoNClNwYWNlcyBpbiBmaWxlbmFtZXMgKHBvcHVsYXJpc2Vk
+IGJ5IHNvbWUgb3RoZXIgb3MpIGFyZSBhIFBJVEEuDQpOb3QgdG8gbWVudGlvbiBsZWFkaW5nIGFu
+ZCB0cmFpbGluZyBzcGFjZXMhDQpBbnlvbmUgdXNpbmcgZmlsZW5hbWVzIHRoYXQgb25seSBjb250
+YWluIHNwYWNlcyBkb2VzIG5lZWQgc2hvb3RpbmcuDQoNCkRlbGliZXJhdGVseSBhZGRpbmcgbm9u
+LXByaW50YWJsZXMgaXNuJ3QgcmVhbGx5IGEgZ29vZCBpZGVhLg0KDQoJRGF2aWQNCg0KLQ0KUmVn
+aXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRv
+biBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
-> The docs on creating an input device driver have an example in which
-> button_dev is a pointer to an input_dev struct. However, in two code
-> snippets below, button_dev is used as if it is not a pointer. Make these
-> occurrences of button_dev reflect that it is a pointer.
->
-> Signed-off-by: Nelson Penn <nelsonapenn@protonmail.com>
-> ---
->  Documentation/input/input-programming.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-
-Applied, thanks.
-
-jon
