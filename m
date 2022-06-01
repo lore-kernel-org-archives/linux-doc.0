@@ -2,25 +2,25 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32777C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 10:05:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C24CAC4167D
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 10:05:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351725AbiFAKFk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jun 2022 06:05:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45340 "EHLO
+        id S1351756AbiFAKFm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jun 2022 06:05:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352019AbiFAKFG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 06:05:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2141FFD37;
-        Wed,  1 Jun 2022 03:04:47 -0700 (PDT)
+        with ESMTP id S1352006AbiFAKFT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 06:05:19 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 343A3101FD;
+        Wed,  1 Jun 2022 03:05:17 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A4B6460FA9;
-        Wed,  1 Jun 2022 10:04:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09B9DC385B8;
-        Wed,  1 Jun 2022 10:04:40 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AF979B81747;
+        Wed,  1 Jun 2022 10:05:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46D0CC385A5;
+        Wed,  1 Jun 2022 10:05:09 +0000 (UTC)
 From:   Huacai Chen <chenhuacai@loongson.cn>
 To:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -38,9 +38,9 @@ Cc:     linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         Huacai Chen <chenhuacai@loongson.cn>,
         WANG Xuerui <git@xen0n.name>
-Subject: [PATCH V12 18/24] LoongArch: Add misc common routines
-Date:   Wed,  1 Jun 2022 17:59:59 +0800
-Message-Id: <20220601100005.2989022-19-chenhuacai@loongson.cn>
+Subject: [PATCH V12 20/24] LoongArch: Add VDSO and VSYSCALL support
+Date:   Wed,  1 Jun 2022 18:00:01 +0800
+Message-Id: <20220601100005.2989022-21-chenhuacai@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220601100005.2989022-1-chenhuacai@loongson.cn>
 References: <20220601100005.2989022-1-chenhuacai@loongson.cn>
@@ -50,805 +50,760 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add some misc common routines for LoongArch, including: asm-offsets
-routines, futex functions, i/o memory access functions, frame-buffer
-functions, procfs information display, etc.
+Add VDSO and VSYSCALL support (sigreturn, gettimeofday and its friends)
+for LoongArch.
 
 Reviewed-by: WANG Xuerui <git@xen0n.name>
 Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 ---
- arch/loongarch/include/asm/asm-offsets.h |   5 +
- arch/loongarch/include/asm/fb.h          |  23 ++
- arch/loongarch/include/asm/futex.h       | 107 ++++++++++
- arch/loongarch/include/asm/io.h          | 129 ++++++++++++
- arch/loongarch/kernel/asm-offsets.c      | 254 +++++++++++++++++++++++
- arch/loongarch/kernel/io.c               |  94 +++++++++
- arch/loongarch/kernel/proc.c             | 122 +++++++++++
- 7 files changed, 734 insertions(+)
- create mode 100644 arch/loongarch/include/asm/asm-offsets.h
- create mode 100644 arch/loongarch/include/asm/fb.h
- create mode 100644 arch/loongarch/include/asm/futex.h
- create mode 100644 arch/loongarch/include/asm/io.h
- create mode 100644 arch/loongarch/kernel/asm-offsets.c
- create mode 100644 arch/loongarch/kernel/io.c
- create mode 100644 arch/loongarch/kernel/proc.c
+ arch/loongarch/include/asm/vdso.h             |  38 +++++
+ arch/loongarch/include/asm/vdso/clocksource.h |   8 +
+ .../loongarch/include/asm/vdso/gettimeofday.h |  99 +++++++++++++
+ arch/loongarch/include/asm/vdso/processor.h   |  14 ++
+ arch/loongarch/include/asm/vdso/vdso.h        |  30 ++++
+ arch/loongarch/include/asm/vdso/vsyscall.h    |  27 ++++
+ arch/loongarch/kernel/time.c                  |   1 +
+ arch/loongarch/kernel/vdso.c                  | 138 ++++++++++++++++++
+ arch/loongarch/vdso/Makefile                  |  96 ++++++++++++
+ arch/loongarch/vdso/elf.S                     |  15 ++
+ arch/loongarch/vdso/gen_vdso_offsets.sh       |  13 ++
+ arch/loongarch/vdso/sigreturn.S               |  24 +++
+ arch/loongarch/vdso/vdso.S                    |  22 +++
+ arch/loongarch/vdso/vdso.lds.S                |  72 +++++++++
+ arch/loongarch/vdso/vgettimeofday.c           |  25 ++++
+ 15 files changed, 622 insertions(+)
+ create mode 100644 arch/loongarch/include/asm/vdso.h
+ create mode 100644 arch/loongarch/include/asm/vdso/clocksource.h
+ create mode 100644 arch/loongarch/include/asm/vdso/gettimeofday.h
+ create mode 100644 arch/loongarch/include/asm/vdso/processor.h
+ create mode 100644 arch/loongarch/include/asm/vdso/vdso.h
+ create mode 100644 arch/loongarch/include/asm/vdso/vsyscall.h
+ create mode 100644 arch/loongarch/kernel/vdso.c
+ create mode 100644 arch/loongarch/vdso/Makefile
+ create mode 100644 arch/loongarch/vdso/elf.S
+ create mode 100755 arch/loongarch/vdso/gen_vdso_offsets.sh
+ create mode 100644 arch/loongarch/vdso/sigreturn.S
+ create mode 100644 arch/loongarch/vdso/vdso.S
+ create mode 100644 arch/loongarch/vdso/vdso.lds.S
+ create mode 100644 arch/loongarch/vdso/vgettimeofday.c
 
-diff --git a/arch/loongarch/include/asm/asm-offsets.h b/arch/loongarch/include/asm/asm-offsets.h
+diff --git a/arch/loongarch/include/asm/vdso.h b/arch/loongarch/include/asm/vdso.h
 new file mode 100644
-index 000000000000..d9ad88d293e7
+index 000000000000..8f8a0f9a4953
 --- /dev/null
-+++ b/arch/loongarch/include/asm/asm-offsets.h
-@@ -0,0 +1,5 @@
++++ b/arch/loongarch/include/asm/vdso.h
+@@ -0,0 +1,38 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
++ * Author: Huacai Chen <chenhuacai@loongson.cn>
 + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
 + */
-+#include <generated/asm-offsets.h>
-diff --git a/arch/loongarch/include/asm/fb.h b/arch/loongarch/include/asm/fb.h
-new file mode 100644
-index 000000000000..3116bde8772d
---- /dev/null
-+++ b/arch/loongarch/include/asm/fb.h
-@@ -0,0 +1,23 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
-+ */
-+#ifndef _ASM_FB_H_
-+#define _ASM_FB_H_
 +
-+#include <linux/fb.h>
-+#include <linux/fs.h>
-+#include <asm/page.h>
++#ifndef __ASM_VDSO_H
++#define __ASM_VDSO_H
 +
-+static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
-+				unsigned long off)
-+{
-+	vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
-+}
++#include <linux/mm_types.h>
++#include <vdso/datapage.h>
 +
-+static inline int fb_is_primary_device(struct fb_info *info)
-+{
-+	return 0;
-+}
-+
-+#endif /* _ASM_FB_H_ */
-diff --git a/arch/loongarch/include/asm/futex.h b/arch/loongarch/include/asm/futex.h
-new file mode 100644
-index 000000000000..b27d55f92db7
---- /dev/null
-+++ b/arch/loongarch/include/asm/futex.h
-@@ -0,0 +1,107 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
-+ */
-+#ifndef _ASM_FUTEX_H
-+#define _ASM_FUTEX_H
-+
-+#include <linux/futex.h>
-+#include <linux/uaccess.h>
 +#include <asm/barrier.h>
-+#include <asm/compiler.h>
-+#include <asm/errno.h>
 +
-+#define __futex_atomic_op(insn, ret, oldval, uaddr, oparg)		\
-+{									\
-+	__asm__ __volatile__(						\
-+	"1:	ll.w	%1, %4 # __futex_atomic_op\n"		\
-+	"	" insn	"				\n"	\
-+	"2:	sc.w	$t0, %2				\n"	\
-+	"	beq	$t0, $zero, 1b			\n"	\
-+	"3:						\n"	\
-+	"	.section .fixup,\"ax\"			\n"	\
-+	"4:	li.w	%0, %6				\n"	\
-+	"	b	3b				\n"	\
-+	"	.previous				\n"	\
-+	"	.section __ex_table,\"a\"		\n"	\
-+	"	"__UA_ADDR "\t1b, 4b			\n"	\
-+	"	"__UA_ADDR "\t2b, 4b			\n"	\
-+	"	.previous				\n"	\
-+	: "=r" (ret), "=&r" (oldval),				\
-+	  "=ZC" (*uaddr)					\
-+	: "0" (0), "ZC" (*uaddr), "Jr" (oparg),			\
-+	  "i" (-EFAULT)						\
-+	: "memory", "t0");					\
-+}
++/*
++ * struct loongarch_vdso_info - Details of a VDSO image.
++ * @vdso: Pointer to VDSO image (page-aligned).
++ * @size: Size of the VDSO image (page-aligned).
++ * @off_rt_sigreturn: Offset of the rt_sigreturn() trampoline.
++ * @code_mapping: Special mapping structure for vdso code.
++ * @code_mapping: Special mapping structure for vdso data.
++ *
++ * This structure contains details of a VDSO image, including the image data
++ * and offsets of certain symbols required by the kernel. It is generated as
++ * part of the VDSO build process, aside from the mapping page array, which is
++ * populated at runtime.
++ */
++struct loongarch_vdso_info {
++	void *vdso;
++	unsigned long size;
++	unsigned long offset_sigreturn;
++	struct vm_special_mapping code_mapping;
++	struct vm_special_mapping data_mapping;
++};
 +
-+static inline int
-+arch_futex_atomic_op_inuser(int op, int oparg, int *oval, u32 __user *uaddr)
++extern struct loongarch_vdso_info vdso_info;
++
++#endif /* __ASM_VDSO_H */
+diff --git a/arch/loongarch/include/asm/vdso/clocksource.h b/arch/loongarch/include/asm/vdso/clocksource.h
+new file mode 100644
+index 000000000000..13cd580d406d
+--- /dev/null
++++ b/arch/loongarch/include/asm/vdso/clocksource.h
+@@ -0,0 +1,8 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++#ifndef __ASM_VDSOCLOCKSOURCE_H
++#define __ASM_VDSOCLOCKSOURCE_H
++
++#define VDSO_ARCH_CLOCKMODES	\
++	VDSO_CLOCKMODE_CPU
++
++#endif /* __ASM_VDSOCLOCKSOURCE_H */
+diff --git a/arch/loongarch/include/asm/vdso/gettimeofday.h b/arch/loongarch/include/asm/vdso/gettimeofday.h
+new file mode 100644
+index 000000000000..7b2cd37641e2
+--- /dev/null
++++ b/arch/loongarch/include/asm/vdso/gettimeofday.h
+@@ -0,0 +1,99 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Author: Huacai Chen <chenhuacai@loongson.cn>
++ *
++ * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
++ */
++#ifndef __ASM_VDSO_GETTIMEOFDAY_H
++#define __ASM_VDSO_GETTIMEOFDAY_H
++
++#ifndef __ASSEMBLY__
++
++#include <asm/unistd.h>
++#include <asm/vdso/vdso.h>
++
++#define VDSO_HAS_CLOCK_GETRES		1
++
++static __always_inline long gettimeofday_fallback(
++				struct __kernel_old_timeval *_tv,
++				struct timezone *_tz)
 +{
-+	int oldval = 0, ret = 0;
++	register struct __kernel_old_timeval *tv asm("a0") = _tv;
++	register struct timezone *tz asm("a1") = _tz;
++	register long nr asm("a7") = __NR_gettimeofday;
++	register long ret asm("a0");
 +
-+	pagefault_disable();
-+
-+	switch (op) {
-+	case FUTEX_OP_SET:
-+		__futex_atomic_op("move $t0, %z5", ret, oldval, uaddr, oparg);
-+		break;
-+	case FUTEX_OP_ADD:
-+		__futex_atomic_op("add.w $t0, %1, %z5", ret, oldval, uaddr, oparg);
-+		break;
-+	case FUTEX_OP_OR:
-+		__futex_atomic_op("or	$t0, %1, %z5", ret, oldval, uaddr, oparg);
-+		break;
-+	case FUTEX_OP_ANDN:
-+		__futex_atomic_op("and	$t0, %1, %z5", ret, oldval, uaddr, ~oparg);
-+		break;
-+	case FUTEX_OP_XOR:
-+		__futex_atomic_op("xor	$t0, %1, %z5", ret, oldval, uaddr, oparg);
-+		break;
-+	default:
-+		ret = -ENOSYS;
-+	}
-+
-+	pagefault_enable();
-+
-+	if (!ret)
-+		*oval = oldval;
++	asm volatile(
++	"       syscall 0\n"
++	: "+r" (ret)
++	: "r" (nr), "r" (tv), "r" (tz)
++	: "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7",
++	  "$t8", "memory");
 +
 +	return ret;
 +}
 +
-+static inline int
-+futex_atomic_cmpxchg_inatomic(u32 *uval, u32 __user *uaddr, u32 oldval, u32 newval)
++static __always_inline long clock_gettime_fallback(
++					clockid_t _clkid,
++					struct __kernel_timespec *_ts)
 +{
-+	int ret = 0;
-+	u32 val = 0;
++	register clockid_t clkid asm("a0") = _clkid;
++	register struct __kernel_timespec *ts asm("a1") = _ts;
++	register long nr asm("a7") = __NR_clock_gettime;
++	register long ret asm("a0");
 +
-+	if (!access_ok(uaddr, sizeof(u32)))
-+		return -EFAULT;
++	asm volatile(
++	"       syscall 0\n"
++	: "+r" (ret)
++	: "r" (nr), "r" (clkid), "r" (ts)
++	: "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7",
++	  "$t8", "memory");
++
++	return ret;
++}
++
++static __always_inline int clock_getres_fallback(
++					clockid_t _clkid,
++					struct __kernel_timespec *_ts)
++{
++	register clockid_t clkid asm("a0") = _clkid;
++	register struct __kernel_timespec *ts asm("a1") = _ts;
++	register long nr asm("a7") = __NR_clock_getres;
++	register long ret asm("a0");
++
++	asm volatile(
++	"       syscall 0\n"
++	: "+r" (ret)
++	: "r" (nr), "r" (clkid), "r" (ts)
++	: "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7",
++	  "$t8", "memory");
++
++	return ret;
++}
++
++static __always_inline u64 __arch_get_hw_counter(s32 clock_mode,
++						 const struct vdso_data *vd)
++{
++	uint64_t count;
 +
 +	__asm__ __volatile__(
-+	"# futex_atomic_cmpxchg_inatomic			\n"
-+	"1:	ll.w	%1, %3					\n"
-+	"	bne	%1, %z4, 3f				\n"
-+	"	or	$t0, %z5, $zero				\n"
-+	"2:	sc.w	$t0, %2					\n"
-+	"	beq	$zero, $t0, 1b				\n"
-+	"3:							\n"
-+	"	.section .fixup,\"ax\"				\n"
-+	"4:	li.d	%0, %6					\n"
-+	"	b	3b					\n"
-+	"	.previous					\n"
-+	"	.section __ex_table,\"a\"			\n"
-+	"	"__UA_ADDR "\t1b, 4b				\n"
-+	"	"__UA_ADDR "\t2b, 4b				\n"
-+	"	.previous					\n"
-+	: "+r" (ret), "=&r" (val), "=" GCC_OFF_SMALL_ASM() (*uaddr)
-+	: GCC_OFF_SMALL_ASM() (*uaddr), "Jr" (oldval), "Jr" (newval),
-+	  "i" (-EFAULT)
-+	: "memory", "t0");
++	"	rdtime.d %0, $zero\n"
++	: "=r" (count));
 +
-+	*uval = val;
-+
-+	return ret;
++	return count;
 +}
 +
-+#endif /* _ASM_FUTEX_H */
-diff --git a/arch/loongarch/include/asm/io.h b/arch/loongarch/include/asm/io.h
++static inline bool loongarch_vdso_hres_capable(void)
++{
++	return true;
++}
++#define __arch_vdso_hres_capable loongarch_vdso_hres_capable
++
++static __always_inline const struct vdso_data *__arch_get_vdso_data(void)
++{
++	return get_vdso_data();
++}
++
++#endif /* !__ASSEMBLY__ */
++
++#endif /* __ASM_VDSO_GETTIMEOFDAY_H */
+diff --git a/arch/loongarch/include/asm/vdso/processor.h b/arch/loongarch/include/asm/vdso/processor.h
 new file mode 100644
-index 000000000000..884599739b36
+index 000000000000..ef5770b343a0
 --- /dev/null
-+++ b/arch/loongarch/include/asm/io.h
-@@ -0,0 +1,129 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
++++ b/arch/loongarch/include/asm/vdso/processor.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
 + */
-+#ifndef _ASM_IO_H
-+#define _ASM_IO_H
++#ifndef __ASM_VDSO_PROCESSOR_H
++#define __ASM_VDSO_PROCESSOR_H
 +
-+#define ARCH_HAS_IOREMAP_WC
++#ifndef __ASSEMBLY__
 +
-+#include <linux/compiler.h>
-+#include <linux/kernel.h>
-+#include <linux/types.h>
++#define cpu_relax()	barrier()
 +
-+#include <asm/addrspace.h>
-+#include <asm/bug.h>
-+#include <asm/byteorder.h>
-+#include <asm/cpu.h>
++#endif /* __ASSEMBLY__ */
++
++#endif /* __ASM_VDSO_PROCESSOR_H */
+diff --git a/arch/loongarch/include/asm/vdso/vdso.h b/arch/loongarch/include/asm/vdso/vdso.h
+new file mode 100644
+index 000000000000..5a01643a65b3
+--- /dev/null
++++ b/arch/loongarch/include/asm/vdso/vdso.h
+@@ -0,0 +1,30 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Author: Huacai Chen <chenhuacai@loongson.cn>
++ * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
++ */
++
++#ifndef __ASSEMBLY__
++
++#include <asm/asm.h>
 +#include <asm/page.h>
-+#include <asm/pgtable-bits.h>
-+#include <asm/string.h>
 +
-+/*
-+ * On LoongArch, I/O ports mappring is following:
-+ *
-+ *              |         ....          |
-+ *              |-----------------------|
-+ *              | pci io ports(64K~32M) |
-+ *              |-----------------------|
-+ *              | isa io ports(0  ~16K) |
-+ * PCI_IOBASE ->|-----------------------|
-+ *              |         ....          |
-+ */
-+#define PCI_IOBASE	((void __iomem *)(vm_map_base + (2 * PAGE_SIZE)))
-+#define PCI_IOSIZE	SZ_32M
-+#define ISA_IOSIZE	SZ_16K
-+#define IO_SPACE_LIMIT	(PCI_IOSIZE - 1)
-+
-+/*
-+ * Change "struct page" to physical address.
-+ */
-+#define page_to_phys(page)	((phys_addr_t)page_to_pfn(page) << PAGE_SHIFT)
-+
-+extern void __init __iomem *early_ioremap(u64 phys_addr, unsigned long size);
-+extern void __init early_iounmap(void __iomem *addr, unsigned long size);
-+
-+#define early_memremap early_ioremap
-+#define early_memunmap early_iounmap
-+
-+static inline void __iomem *ioremap_prot(phys_addr_t offset, unsigned long size,
-+					 unsigned long prot_val)
++static inline unsigned long get_vdso_base(void)
 +{
-+	if (prot_val == _CACHE_CC)
-+		return (void __iomem *)(unsigned long)(CACHE_BASE + offset);
-+	else
-+		return (void __iomem *)(unsigned long)(UNCACHE_BASE + offset);
++	unsigned long addr;
++
++	__asm__(
++	" la.pcrel %0, _start\n"
++	: "=r" (addr)
++	:
++	:);
++
++	return addr;
 +}
 +
-+/*
-+ * ioremap -   map bus memory into CPU space
-+ * @offset:    bus address of the memory
-+ * @size:      size of the resource to map
-+ *
-+ * ioremap performs a platform specific sequence of operations to
-+ * make bus memory CPU accessible via the readb/readw/readl/writeb/
-+ * writew/writel functions and the other mmio helpers. The returned
-+ * address is not guaranteed to be usable directly as a virtual
-+ * address.
-+ */
-+#define ioremap(offset, size)					\
-+	ioremap_prot((offset), (size), _CACHE_SUC)
-+
-+/*
-+ * ioremap_wc - map bus memory into CPU space
-+ * @offset:     bus address of the memory
-+ * @size:       size of the resource to map
-+ *
-+ * ioremap_wc performs a platform specific sequence of operations to
-+ * make bus memory CPU accessible via the readb/readw/readl/writeb/
-+ * writew/writel functions and the other mmio helpers. The returned
-+ * address is not guaranteed to be usable directly as a virtual
-+ * address.
-+ *
-+ * This version of ioremap ensures that the memory is marked uncachable
-+ * but accelerated by means of write-combining feature. It is specifically
-+ * useful for PCIe prefetchable windows, which may vastly improve a
-+ * communications performance. If it was determined on boot stage, what
-+ * CPU CCA doesn't support WUC, the method shall fall-back to the
-+ * _CACHE_SUC option (see cpu_probe() method).
-+ */
-+#define ioremap_wc(offset, size)				\
-+	ioremap_prot((offset), (size), _CACHE_WUC)
-+
-+/*
-+ * ioremap_cache -  map bus memory into CPU space
-+ * @offset:	    bus address of the memory
-+ * @size:	    size of the resource to map
-+ *
-+ * ioremap_cache performs a platform specific sequence of operations to
-+ * make bus memory CPU accessible via the readb/readw/readl/writeb/
-+ * writew/writel functions and the other mmio helpers. The returned
-+ * address is not guaranteed to be usable directly as a virtual
-+ * address.
-+ *
-+ * This version of ioremap ensures that the memory is marked cachable by
-+ * the CPU.  Also enables full write-combining.	 Useful for some
-+ * memory-like regions on I/O busses.
-+ */
-+#define ioremap_cache(offset, size)				\
-+	ioremap_prot((offset), (size), _CACHE_CC)
-+
-+static inline void iounmap(const volatile void __iomem *addr)
++static inline const struct vdso_data *get_vdso_data(void)
 +{
++	return (const struct vdso_data *)(get_vdso_base() - PAGE_SIZE);
 +}
 +
-+#define mmiowb() asm volatile ("dbar 0" ::: "memory")
-+
-+/*
-+ * String version of I/O memory access operations.
-+ */
-+extern void __memset_io(volatile void __iomem *dst, int c, size_t count);
-+extern void __memcpy_toio(volatile void __iomem *to, const void *from, size_t count);
-+extern void __memcpy_fromio(void *to, const volatile void __iomem *from, size_t count);
-+#define memset_io(c, v, l)     __memset_io((c), (v), (l))
-+#define memcpy_fromio(a, c, l) __memcpy_fromio((a), (c), (l))
-+#define memcpy_toio(c, a, l)   __memcpy_toio((c), (a), (l))
-+
-+#include <asm-generic/io.h>
-+
-+#endif /* _ASM_IO_H */
-diff --git a/arch/loongarch/kernel/asm-offsets.c b/arch/loongarch/kernel/asm-offsets.c
++#endif /* __ASSEMBLY__ */
+diff --git a/arch/loongarch/include/asm/vdso/vsyscall.h b/arch/loongarch/include/asm/vdso/vsyscall.h
 new file mode 100644
-index 000000000000..3531e3c60a6e
+index 000000000000..5de615383a22
 --- /dev/null
-+++ b/arch/loongarch/kernel/asm-offsets.c
-@@ -0,0 +1,254 @@
++++ b/arch/loongarch/include/asm/vdso/vsyscall.h
+@@ -0,0 +1,27 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef __ASM_VDSO_VSYSCALL_H
++#define __ASM_VDSO_VSYSCALL_H
++
++#ifndef __ASSEMBLY__
++
++#include <linux/timekeeper_internal.h>
++#include <vdso/datapage.h>
++
++extern struct vdso_data *vdso_data;
++
++/*
++ * Update the vDSO data page to keep in sync with kernel timekeeping.
++ */
++static __always_inline
++struct vdso_data *__loongarch_get_k_vdso_data(void)
++{
++	return vdso_data;
++}
++#define __arch_get_k_vdso_data __loongarch_get_k_vdso_data
++
++/* The asm-generic header needs to be included after the definitions above */
++#include <asm-generic/vdso/vsyscall.h>
++
++#endif /* !__ASSEMBLY__ */
++
++#endif /* __ASM_VDSO_VSYSCALL_H */
+diff --git a/arch/loongarch/kernel/time.c b/arch/loongarch/kernel/time.c
+index b2bb14844f01..fe6823875895 100644
+--- a/arch/loongarch/kernel/time.c
++++ b/arch/loongarch/kernel/time.c
+@@ -183,6 +183,7 @@ static struct clocksource clocksource_const = {
+ 	.read = read_const_counter,
+ 	.mask = CLOCKSOURCE_MASK(64),
+ 	.flags = CLOCK_SOURCE_IS_CONTINUOUS,
++	.vdso_clock_mode = VDSO_CLOCKMODE_CPU,
+ };
+ 
+ int __init constant_clocksource_init(void)
+diff --git a/arch/loongarch/kernel/vdso.c b/arch/loongarch/kernel/vdso.c
+new file mode 100644
+index 000000000000..e20c8ca87473
+--- /dev/null
++++ b/arch/loongarch/kernel/vdso.c
+@@ -0,0 +1,138 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * asm-offsets.c: Calculate pt_regs and task_struct offsets.
-+ *
++ * Author: Huacai Chen <chenhuacai@loongson.cn>
 + * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
 + */
-+#include <linux/types.h>
-+#include <linux/sched.h>
-+#include <linux/mm.h>
-+#include <linux/kbuild.h>
-+#include <linux/suspend.h>
-+#include <asm/cpu-info.h>
-+#include <asm/ptrace.h>
-+#include <asm/processor.h>
 +
-+void output_ptreg_defines(void)
-+{
-+	COMMENT("LoongArch pt_regs offsets.");
-+	OFFSET(PT_R0, pt_regs, regs[0]);
-+	OFFSET(PT_R1, pt_regs, regs[1]);
-+	OFFSET(PT_R2, pt_regs, regs[2]);
-+	OFFSET(PT_R3, pt_regs, regs[3]);
-+	OFFSET(PT_R4, pt_regs, regs[4]);
-+	OFFSET(PT_R5, pt_regs, regs[5]);
-+	OFFSET(PT_R6, pt_regs, regs[6]);
-+	OFFSET(PT_R7, pt_regs, regs[7]);
-+	OFFSET(PT_R8, pt_regs, regs[8]);
-+	OFFSET(PT_R9, pt_regs, regs[9]);
-+	OFFSET(PT_R10, pt_regs, regs[10]);
-+	OFFSET(PT_R11, pt_regs, regs[11]);
-+	OFFSET(PT_R12, pt_regs, regs[12]);
-+	OFFSET(PT_R13, pt_regs, regs[13]);
-+	OFFSET(PT_R14, pt_regs, regs[14]);
-+	OFFSET(PT_R15, pt_regs, regs[15]);
-+	OFFSET(PT_R16, pt_regs, regs[16]);
-+	OFFSET(PT_R17, pt_regs, regs[17]);
-+	OFFSET(PT_R18, pt_regs, regs[18]);
-+	OFFSET(PT_R19, pt_regs, regs[19]);
-+	OFFSET(PT_R20, pt_regs, regs[20]);
-+	OFFSET(PT_R21, pt_regs, regs[21]);
-+	OFFSET(PT_R22, pt_regs, regs[22]);
-+	OFFSET(PT_R23, pt_regs, regs[23]);
-+	OFFSET(PT_R24, pt_regs, regs[24]);
-+	OFFSET(PT_R25, pt_regs, regs[25]);
-+	OFFSET(PT_R26, pt_regs, regs[26]);
-+	OFFSET(PT_R27, pt_regs, regs[27]);
-+	OFFSET(PT_R28, pt_regs, regs[28]);
-+	OFFSET(PT_R29, pt_regs, regs[29]);
-+	OFFSET(PT_R30, pt_regs, regs[30]);
-+	OFFSET(PT_R31, pt_regs, regs[31]);
-+	OFFSET(PT_CRMD, pt_regs, csr_crmd);
-+	OFFSET(PT_PRMD, pt_regs, csr_prmd);
-+	OFFSET(PT_EUEN, pt_regs, csr_euen);
-+	OFFSET(PT_ECFG, pt_regs, csr_ecfg);
-+	OFFSET(PT_ESTAT, pt_regs, csr_estat);
-+	OFFSET(PT_ERA, pt_regs, csr_era);
-+	OFFSET(PT_BVADDR, pt_regs, csr_badvaddr);
-+	OFFSET(PT_ORIG_A0, pt_regs, orig_a0);
-+	DEFINE(PT_SIZE, sizeof(struct pt_regs));
-+	BLANK();
-+}
-+
-+void output_task_defines(void)
-+{
-+	COMMENT("LoongArch task_struct offsets.");
-+	OFFSET(TASK_STATE, task_struct, __state);
-+	OFFSET(TASK_THREAD_INFO, task_struct, stack);
-+	OFFSET(TASK_FLAGS, task_struct, flags);
-+	OFFSET(TASK_MM, task_struct, mm);
-+	OFFSET(TASK_PID, task_struct, pid);
-+	DEFINE(TASK_STRUCT_SIZE, sizeof(struct task_struct));
-+	BLANK();
-+}
-+
-+void output_thread_info_defines(void)
-+{
-+	COMMENT("LoongArch thread_info offsets.");
-+	OFFSET(TI_TASK, thread_info, task);
-+	OFFSET(TI_FLAGS, thread_info, flags);
-+	OFFSET(TI_TP_VALUE, thread_info, tp_value);
-+	OFFSET(TI_CPU, thread_info, cpu);
-+	OFFSET(TI_PRE_COUNT, thread_info, preempt_count);
-+	OFFSET(TI_REGS, thread_info, regs);
-+	DEFINE(_THREAD_SIZE, THREAD_SIZE);
-+	DEFINE(_THREAD_MASK, THREAD_MASK);
-+	DEFINE(_IRQ_STACK_SIZE, IRQ_STACK_SIZE);
-+	DEFINE(_IRQ_STACK_START, IRQ_STACK_START);
-+	BLANK();
-+}
-+
-+void output_thread_defines(void)
-+{
-+	COMMENT("LoongArch specific thread_struct offsets.");
-+	OFFSET(THREAD_REG01, task_struct, thread.reg01);
-+	OFFSET(THREAD_REG03, task_struct, thread.reg03);
-+	OFFSET(THREAD_REG22, task_struct, thread.reg22);
-+	OFFSET(THREAD_REG23, task_struct, thread.reg23);
-+	OFFSET(THREAD_REG24, task_struct, thread.reg24);
-+	OFFSET(THREAD_REG25, task_struct, thread.reg25);
-+	OFFSET(THREAD_REG26, task_struct, thread.reg26);
-+	OFFSET(THREAD_REG27, task_struct, thread.reg27);
-+	OFFSET(THREAD_REG28, task_struct, thread.reg28);
-+	OFFSET(THREAD_REG29, task_struct, thread.reg29);
-+	OFFSET(THREAD_REG30, task_struct, thread.reg30);
-+	OFFSET(THREAD_REG31, task_struct, thread.reg31);
-+	OFFSET(THREAD_CSRCRMD, task_struct,
-+	       thread.csr_crmd);
-+	OFFSET(THREAD_CSRPRMD, task_struct,
-+	       thread.csr_prmd);
-+	OFFSET(THREAD_CSREUEN, task_struct,
-+	       thread.csr_euen);
-+	OFFSET(THREAD_CSRECFG, task_struct,
-+	       thread.csr_ecfg);
-+
-+	OFFSET(THREAD_SCR0, task_struct, thread.scr0);
-+	OFFSET(THREAD_SCR1, task_struct, thread.scr1);
-+	OFFSET(THREAD_SCR2, task_struct, thread.scr2);
-+	OFFSET(THREAD_SCR3, task_struct, thread.scr3);
-+
-+	OFFSET(THREAD_EFLAGS, task_struct, thread.eflags);
-+
-+	OFFSET(THREAD_FPU, task_struct, thread.fpu);
-+
-+	OFFSET(THREAD_BVADDR, task_struct, \
-+	       thread.csr_badvaddr);
-+	OFFSET(THREAD_ECODE, task_struct, \
-+	       thread.error_code);
-+	OFFSET(THREAD_TRAPNO, task_struct, thread.trap_nr);
-+	BLANK();
-+}
-+
-+void output_thread_fpu_defines(void)
-+{
-+	OFFSET(THREAD_FPR0, loongarch_fpu, fpr[0]);
-+	OFFSET(THREAD_FPR1, loongarch_fpu, fpr[1]);
-+	OFFSET(THREAD_FPR2, loongarch_fpu, fpr[2]);
-+	OFFSET(THREAD_FPR3, loongarch_fpu, fpr[3]);
-+	OFFSET(THREAD_FPR4, loongarch_fpu, fpr[4]);
-+	OFFSET(THREAD_FPR5, loongarch_fpu, fpr[5]);
-+	OFFSET(THREAD_FPR6, loongarch_fpu, fpr[6]);
-+	OFFSET(THREAD_FPR7, loongarch_fpu, fpr[7]);
-+	OFFSET(THREAD_FPR8, loongarch_fpu, fpr[8]);
-+	OFFSET(THREAD_FPR9, loongarch_fpu, fpr[9]);
-+	OFFSET(THREAD_FPR10, loongarch_fpu, fpr[10]);
-+	OFFSET(THREAD_FPR11, loongarch_fpu, fpr[11]);
-+	OFFSET(THREAD_FPR12, loongarch_fpu, fpr[12]);
-+	OFFSET(THREAD_FPR13, loongarch_fpu, fpr[13]);
-+	OFFSET(THREAD_FPR14, loongarch_fpu, fpr[14]);
-+	OFFSET(THREAD_FPR15, loongarch_fpu, fpr[15]);
-+	OFFSET(THREAD_FPR16, loongarch_fpu, fpr[16]);
-+	OFFSET(THREAD_FPR17, loongarch_fpu, fpr[17]);
-+	OFFSET(THREAD_FPR18, loongarch_fpu, fpr[18]);
-+	OFFSET(THREAD_FPR19, loongarch_fpu, fpr[19]);
-+	OFFSET(THREAD_FPR20, loongarch_fpu, fpr[20]);
-+	OFFSET(THREAD_FPR21, loongarch_fpu, fpr[21]);
-+	OFFSET(THREAD_FPR22, loongarch_fpu, fpr[22]);
-+	OFFSET(THREAD_FPR23, loongarch_fpu, fpr[23]);
-+	OFFSET(THREAD_FPR24, loongarch_fpu, fpr[24]);
-+	OFFSET(THREAD_FPR25, loongarch_fpu, fpr[25]);
-+	OFFSET(THREAD_FPR26, loongarch_fpu, fpr[26]);
-+	OFFSET(THREAD_FPR27, loongarch_fpu, fpr[27]);
-+	OFFSET(THREAD_FPR28, loongarch_fpu, fpr[28]);
-+	OFFSET(THREAD_FPR29, loongarch_fpu, fpr[29]);
-+	OFFSET(THREAD_FPR30, loongarch_fpu, fpr[30]);
-+	OFFSET(THREAD_FPR31, loongarch_fpu, fpr[31]);
-+
-+	OFFSET(THREAD_FCSR, loongarch_fpu, fcsr);
-+	OFFSET(THREAD_FCC,  loongarch_fpu, fcc);
-+	OFFSET(THREAD_VCSR, loongarch_fpu, vcsr);
-+	BLANK();
-+}
-+
-+void output_mm_defines(void)
-+{
-+	COMMENT("Size of struct page");
-+	DEFINE(STRUCT_PAGE_SIZE, sizeof(struct page));
-+	BLANK();
-+	COMMENT("Linux mm_struct offsets.");
-+	OFFSET(MM_USERS, mm_struct, mm_users);
-+	OFFSET(MM_PGD, mm_struct, pgd);
-+	OFFSET(MM_CONTEXT, mm_struct, context);
-+	BLANK();
-+	DEFINE(_PGD_T_SIZE, sizeof(pgd_t));
-+	DEFINE(_PMD_T_SIZE, sizeof(pmd_t));
-+	DEFINE(_PTE_T_SIZE, sizeof(pte_t));
-+	BLANK();
-+	DEFINE(_PGD_T_LOG2, PGD_T_LOG2);
-+#ifndef __PAGETABLE_PMD_FOLDED
-+	DEFINE(_PMD_T_LOG2, PMD_T_LOG2);
-+#endif
-+	DEFINE(_PTE_T_LOG2, PTE_T_LOG2);
-+	BLANK();
-+	DEFINE(_PGD_ORDER, PGD_ORDER);
-+#ifndef __PAGETABLE_PMD_FOLDED
-+	DEFINE(_PMD_ORDER, PMD_ORDER);
-+#endif
-+	DEFINE(_PTE_ORDER, PTE_ORDER);
-+	BLANK();
-+	DEFINE(_PMD_SHIFT, PMD_SHIFT);
-+	DEFINE(_PGDIR_SHIFT, PGDIR_SHIFT);
-+	BLANK();
-+	DEFINE(_PTRS_PER_PGD, PTRS_PER_PGD);
-+	DEFINE(_PTRS_PER_PMD, PTRS_PER_PMD);
-+	DEFINE(_PTRS_PER_PTE, PTRS_PER_PTE);
-+	BLANK();
-+	DEFINE(_PAGE_SHIFT, PAGE_SHIFT);
-+	DEFINE(_PAGE_SIZE, PAGE_SIZE);
-+	BLANK();
-+}
-+
-+void output_sc_defines(void)
-+{
-+	COMMENT("Linux sigcontext offsets.");
-+	OFFSET(SC_REGS, sigcontext, sc_regs);
-+	OFFSET(SC_PC, sigcontext, sc_pc);
-+	BLANK();
-+}
-+
-+void output_signal_defines(void)
-+{
-+	COMMENT("Linux signal numbers.");
-+	DEFINE(_SIGHUP, SIGHUP);
-+	DEFINE(_SIGINT, SIGINT);
-+	DEFINE(_SIGQUIT, SIGQUIT);
-+	DEFINE(_SIGILL, SIGILL);
-+	DEFINE(_SIGTRAP, SIGTRAP);
-+	DEFINE(_SIGIOT, SIGIOT);
-+	DEFINE(_SIGABRT, SIGABRT);
-+	DEFINE(_SIGFPE, SIGFPE);
-+	DEFINE(_SIGKILL, SIGKILL);
-+	DEFINE(_SIGBUS, SIGBUS);
-+	DEFINE(_SIGSEGV, SIGSEGV);
-+	DEFINE(_SIGSYS, SIGSYS);
-+	DEFINE(_SIGPIPE, SIGPIPE);
-+	DEFINE(_SIGALRM, SIGALRM);
-+	DEFINE(_SIGTERM, SIGTERM);
-+	DEFINE(_SIGUSR1, SIGUSR1);
-+	DEFINE(_SIGUSR2, SIGUSR2);
-+	DEFINE(_SIGCHLD, SIGCHLD);
-+	DEFINE(_SIGPWR, SIGPWR);
-+	DEFINE(_SIGWINCH, SIGWINCH);
-+	DEFINE(_SIGURG, SIGURG);
-+	DEFINE(_SIGIO, SIGIO);
-+	DEFINE(_SIGSTOP, SIGSTOP);
-+	DEFINE(_SIGTSTP, SIGTSTP);
-+	DEFINE(_SIGCONT, SIGCONT);
-+	DEFINE(_SIGTTIN, SIGTTIN);
-+	DEFINE(_SIGTTOU, SIGTTOU);
-+	DEFINE(_SIGVTALRM, SIGVTALRM);
-+	DEFINE(_SIGPROF, SIGPROF);
-+	DEFINE(_SIGXCPU, SIGXCPU);
-+	DEFINE(_SIGXFSZ, SIGXFSZ);
-+	BLANK();
-+}
-diff --git a/arch/loongarch/kernel/io.c b/arch/loongarch/kernel/io.c
-new file mode 100644
-index 000000000000..cb85bda5a6ad
---- /dev/null
-+++ b/arch/loongarch/kernel/io.c
-@@ -0,0 +1,94 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
-+ */
-+#include <linux/export.h>
-+#include <linux/types.h>
-+#include <linux/io.h>
-+
-+/*
-+ * Copy data from IO memory space to "real" memory space.
-+ */
-+void __memcpy_fromio(void *to, const volatile void __iomem *from, size_t count)
-+{
-+	while (count && !IS_ALIGNED((unsigned long)from, 8)) {
-+		*(u8 *)to = __raw_readb(from);
-+		from++;
-+		to++;
-+		count--;
-+	}
-+
-+	while (count >= 8) {
-+		*(u64 *)to = __raw_readq(from);
-+		from += 8;
-+		to += 8;
-+		count -= 8;
-+	}
-+
-+	while (count) {
-+		*(u8 *)to = __raw_readb(from);
-+		from++;
-+		to++;
-+		count--;
-+	}
-+}
-+EXPORT_SYMBOL(__memcpy_fromio);
-+
-+/*
-+ * Copy data from "real" memory space to IO memory space.
-+ */
-+void __memcpy_toio(volatile void __iomem *to, const void *from, size_t count)
-+{
-+	while (count && !IS_ALIGNED((unsigned long)to, 8)) {
-+		__raw_writeb(*(u8 *)from, to);
-+		from++;
-+		to++;
-+		count--;
-+	}
-+
-+	while (count >= 8) {
-+		__raw_writeq(*(u64 *)from, to);
-+		from += 8;
-+		to += 8;
-+		count -= 8;
-+	}
-+
-+	while (count) {
-+		__raw_writeb(*(u8 *)from, to);
-+		from++;
-+		to++;
-+		count--;
-+	}
-+}
-+EXPORT_SYMBOL(__memcpy_toio);
-+
-+/*
-+ * "memset" on IO memory space.
-+ */
-+void __memset_io(volatile void __iomem *dst, int c, size_t count)
-+{
-+	u64 qc = (u8)c;
-+
-+	qc |= qc << 8;
-+	qc |= qc << 16;
-+	qc |= qc << 32;
-+
-+	while (count && !IS_ALIGNED((unsigned long)dst, 8)) {
-+		__raw_writeb(c, dst);
-+		dst++;
-+		count--;
-+	}
-+
-+	while (count >= 8) {
-+		__raw_writeq(qc, dst);
-+		dst += 8;
-+		count -= 8;
-+	}
-+
-+	while (count) {
-+		__raw_writeb(c, dst);
-+		dst++;
-+		count--;
-+	}
-+}
-+EXPORT_SYMBOL(__memset_io);
-diff --git a/arch/loongarch/kernel/proc.c b/arch/loongarch/kernel/proc.c
-new file mode 100644
-index 000000000000..d25592a29196
---- /dev/null
-+++ b/arch/loongarch/kernel/proc.c
-@@ -0,0 +1,122 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
-+ */
-+#include <linux/delay.h>
++#include <linux/binfmts.h>
++#include <linux/elf.h>
++#include <linux/err.h>
++#include <linux/init.h>
++#include <linux/ioport.h>
 +#include <linux/kernel.h>
++#include <linux/mm.h>
++#include <linux/random.h>
 +#include <linux/sched.h>
-+#include <linux/seq_file.h>
-+#include <asm/bootinfo.h>
-+#include <asm/cpu.h>
-+#include <asm/cpu-features.h>
-+#include <asm/idle.h>
-+#include <asm/processor.h>
-+#include <asm/time.h>
++#include <linux/slab.h>
++#include <linux/timekeeper_internal.h>
 +
-+/*
-+ * No lock; only written during early bootup by CPU 0.
-+ */
-+static RAW_NOTIFIER_HEAD(proc_cpuinfo_chain);
++#include <asm/page.h>
++#include <asm/vdso.h>
++#include <vdso/helpers.h>
++#include <vdso/vsyscall.h>
++#include <generated/vdso-offsets.h>
 +
-+int __ref register_proc_cpuinfo_notifier(struct notifier_block *nb)
++extern char vdso_start[], vdso_end[];
++
++/* Kernel-provided data used by the VDSO. */
++static union loongarch_vdso_data {
++	u8 page[PAGE_SIZE];
++	struct vdso_data data[CS_BASES];
++} loongarch_vdso_data __page_aligned_data;
++struct vdso_data *vdso_data = loongarch_vdso_data.data;
++static struct page *vdso_pages[] = { NULL };
++
++static int vdso_mremap(const struct vm_special_mapping *sm, struct vm_area_struct *new_vma)
 +{
-+	return raw_notifier_chain_register(&proc_cpuinfo_chain, nb);
-+}
-+
-+int proc_cpuinfo_notifier_call_chain(unsigned long val, void *v)
-+{
-+	return raw_notifier_call_chain(&proc_cpuinfo_chain, val, v);
-+}
-+
-+static int show_cpuinfo(struct seq_file *m, void *v)
-+{
-+	unsigned long n = (unsigned long) v - 1;
-+	unsigned int version = cpu_data[n].processor_id & 0xff;
-+	unsigned int fp_version = cpu_data[n].fpu_vers;
-+	struct proc_cpuinfo_notifier_args proc_cpuinfo_notifier_args;
-+
-+	/*
-+	 * For the first processor also print the system type
-+	 */
-+	if (n == 0)
-+		seq_printf(m, "system type\t\t: %s\n\n", get_system_type());
-+
-+	seq_printf(m, "processor\t\t: %ld\n", n);
-+	seq_printf(m, "package\t\t\t: %d\n", cpu_data[n].package);
-+	seq_printf(m, "core\t\t\t: %d\n", cpu_data[n].core);
-+	seq_printf(m, "CPU Family\t\t: %s\n", __cpu_family[n]);
-+	seq_printf(m, "Model Name\t\t: %s\n", __cpu_full_name[n]);
-+	seq_printf(m, "CPU Revision\t\t: 0x%02x\n", version);
-+	seq_printf(m, "FPU Revision\t\t: 0x%02x\n", fp_version);
-+	seq_printf(m, "CPU MHz\t\t\t: %llu.%02llu\n",
-+		      cpu_clock_freq / 1000000, (cpu_clock_freq / 10000) % 100);
-+	seq_printf(m, "BogoMIPS\t\t: %llu.%02llu\n",
-+		      (lpj_fine * cpu_clock_freq / const_clock_freq) / (500000/HZ),
-+		      ((lpj_fine * cpu_clock_freq / const_clock_freq) / (5000/HZ)) % 100);
-+	seq_printf(m, "TLB Entries\t\t: %d\n", cpu_data[n].tlbsize);
-+	seq_printf(m, "Address Sizes\t\t: %d bits physical, %d bits virtual\n",
-+		      cpu_pabits + 1, cpu_vabits + 1);
-+
-+	seq_printf(m, "ISA\t\t\t:");
-+	if (cpu_has_loongarch32)
-+		seq_printf(m, " loongarch32");
-+	if (cpu_has_loongarch64)
-+		seq_printf(m, " loongarch64");
-+	seq_printf(m, "\n");
-+
-+	seq_printf(m, "Features\t\t:");
-+	if (cpu_has_cpucfg)	seq_printf(m, " cpucfg");
-+	if (cpu_has_lam)	seq_printf(m, " lam");
-+	if (cpu_has_ual)	seq_printf(m, " ual");
-+	if (cpu_has_fpu)	seq_printf(m, " fpu");
-+	if (cpu_has_lsx)	seq_printf(m, " lsx");
-+	if (cpu_has_lasx)	seq_printf(m, " lasx");
-+	if (cpu_has_complex)	seq_printf(m, " complex");
-+	if (cpu_has_crypto)	seq_printf(m, " crypto");
-+	if (cpu_has_lvz)	seq_printf(m, " lvz");
-+	if (cpu_has_lbt_x86)	seq_printf(m, " lbt_x86");
-+	if (cpu_has_lbt_arm)	seq_printf(m, " lbt_arm");
-+	if (cpu_has_lbt_mips)	seq_printf(m, " lbt_mips");
-+	seq_printf(m, "\n");
-+
-+	seq_printf(m, "Hardware Watchpoint\t: %s",
-+		      cpu_has_watch ? "yes, " : "no\n");
-+	if (cpu_has_watch) {
-+		seq_printf(m, "iwatch count: %d, dwatch count: %d\n",
-+		      cpu_data[n].watch_ireg_count, cpu_data[n].watch_dreg_count);
-+	}
-+
-+	proc_cpuinfo_notifier_args.m = m;
-+	proc_cpuinfo_notifier_args.n = n;
-+
-+	raw_notifier_call_chain(&proc_cpuinfo_chain, 0,
-+				&proc_cpuinfo_notifier_args);
-+
-+	seq_printf(m, "\n");
++	current->mm->context.vdso = (void *)(new_vma->vm_start);
 +
 +	return 0;
 +}
 +
-+static void *c_start(struct seq_file *m, loff_t *pos)
-+{
-+	unsigned long i = *pos;
-+
-+	return i < NR_CPUS ? (void *)(i + 1) : NULL;
-+}
-+
-+static void *c_next(struct seq_file *m, void *v, loff_t *pos)
-+{
-+	++*pos;
-+	return c_start(m, pos);
-+}
-+
-+static void c_stop(struct seq_file *m, void *v)
-+{
-+}
-+
-+const struct seq_operations cpuinfo_op = {
-+	.start	= c_start,
-+	.next	= c_next,
-+	.stop	= c_stop,
-+	.show	= show_cpuinfo,
++struct loongarch_vdso_info vdso_info = {
++	.vdso = vdso_start,
++	.size = PAGE_SIZE,
++	.code_mapping = {
++		.name = "[vdso]",
++		.pages = vdso_pages,
++		.mremap = vdso_mremap,
++	},
++	.data_mapping = {
++		.name = "[vvar]",
++	},
++	.offset_sigreturn = vdso_offset_sigreturn,
 +};
++
++static int __init init_vdso(void)
++{
++	unsigned long i, pfn;
++
++	BUG_ON(!PAGE_ALIGNED(vdso_info.vdso));
++	BUG_ON(!PAGE_ALIGNED(vdso_info.size));
++
++	pfn = __phys_to_pfn(__pa_symbol(vdso_info.vdso));
++	for (i = 0; i < vdso_info.size / PAGE_SIZE; i++)
++		vdso_info.code_mapping.pages[i] = pfn_to_page(pfn + i);
++
++	return 0;
++}
++subsys_initcall(init_vdso);
++
++static unsigned long vdso_base(void)
++{
++	unsigned long base = STACK_TOP;
++
++	if (current->flags & PF_RANDOMIZE) {
++		base += get_random_int() & (VDSO_RANDOMIZE_SIZE - 1);
++		base = PAGE_ALIGN(base);
++	}
++
++	return base;
++}
++
++int arch_setup_additional_pages(struct linux_binprm *bprm, int uses_interp)
++{
++	int ret;
++	unsigned long vvar_size, size, data_addr, vdso_addr;
++	struct mm_struct *mm = current->mm;
++	struct vm_area_struct *vma;
++	struct loongarch_vdso_info *info = current->thread.vdso;
++
++	if (mmap_write_lock_killable(mm))
++		return -EINTR;
++
++	/*
++	 * Determine total area size. This includes the VDSO data itself
++	 * and the data page.
++	 */
++	vvar_size = PAGE_SIZE;
++	size = vvar_size + info->size;
++
++	data_addr = get_unmapped_area(NULL, vdso_base(), size, 0, 0);
++	if (IS_ERR_VALUE(data_addr)) {
++		ret = data_addr;
++		goto out;
++	}
++	vdso_addr = data_addr + PAGE_SIZE;
++
++	vma = _install_special_mapping(mm, data_addr, vvar_size,
++				       VM_READ | VM_MAYREAD,
++				       &info->data_mapping);
++	if (IS_ERR(vma)) {
++		ret = PTR_ERR(vma);
++		goto out;
++	}
++
++	/* Map VDSO data page. */
++	ret = remap_pfn_range(vma, data_addr,
++			      virt_to_phys(vdso_data) >> PAGE_SHIFT,
++			      PAGE_SIZE, PAGE_READONLY);
++	if (ret)
++		goto out;
++
++	/* Map VDSO code page. */
++	vma = _install_special_mapping(mm, vdso_addr, info->size,
++				       VM_READ | VM_EXEC | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC,
++				       &info->code_mapping);
++	if (IS_ERR(vma)) {
++		ret = PTR_ERR(vma);
++		goto out;
++	}
++
++	mm->context.vdso = (void *)vdso_addr;
++	ret = 0;
++
++out:
++	mmap_write_unlock(mm);
++	return ret;
++}
+diff --git a/arch/loongarch/vdso/Makefile b/arch/loongarch/vdso/Makefile
+new file mode 100644
+index 000000000000..6b6e16732c60
+--- /dev/null
++++ b/arch/loongarch/vdso/Makefile
+@@ -0,0 +1,96 @@
++# SPDX-License-Identifier: GPL-2.0
++# Objects to go into the VDSO.
++
++# Absolute relocation type $(ARCH_REL_TYPE_ABS) needs to be defined before
++# the inclusion of generic Makefile.
++ARCH_REL_TYPE_ABS := R_LARCH_32|R_LARCH_64|R_LARCH_MARK_LA|R_LARCH_JUMP_SLOT
++include $(srctree)/lib/vdso/Makefile
++
++obj-vdso-y := elf.o vgettimeofday.o sigreturn.o
++
++# Common compiler flags between ABIs.
++ccflags-vdso := \
++	$(filter -I%,$(KBUILD_CFLAGS)) \
++	$(filter -E%,$(KBUILD_CFLAGS)) \
++	$(filter -march=%,$(KBUILD_CFLAGS)) \
++	$(filter -m%-float,$(KBUILD_CFLAGS)) \
++	-D__VDSO__
++
++ifeq ($(cc-name),clang)
++ccflags-vdso += $(filter --target=%,$(KBUILD_CFLAGS))
++endif
++
++cflags-vdso := $(ccflags-vdso) \
++	$(filter -W%,$(filter-out -Wa$(comma)%,$(KBUILD_CFLAGS))) \
++	-O2 -g -fno-strict-aliasing -fno-common -fno-builtin -G0 \
++	-fno-stack-protector -fno-jump-tables -DDISABLE_BRANCH_PROFILING \
++	$(call cc-option, -fno-asynchronous-unwind-tables) \
++	$(call cc-option, -fno-stack-protector)
++aflags-vdso := $(ccflags-vdso) \
++	-D__ASSEMBLY__ -Wa,-gdwarf-2
++
++ifneq ($(c-gettimeofday-y),)
++  CFLAGS_vgettimeofday.o += -include $(c-gettimeofday-y)
++endif
++
++# VDSO linker flags.
++ldflags-y := -Bsymbolic --no-undefined -soname=linux-vdso.so.1 \
++	$(filter -E%,$(KBUILD_CFLAGS)) -nostdlib -shared \
++	--hash-style=sysv --build-id -T
++
++GCOV_PROFILE := n
++
++#
++# Shared build commands.
++#
++
++quiet_cmd_vdsold_and_vdso_check = LD      $@
++      cmd_vdsold_and_vdso_check = $(cmd_ld); $(cmd_vdso_check)
++
++quiet_cmd_vdsoas_o_S = AS       $@
++      cmd_vdsoas_o_S = $(CC) $(a_flags) -c -o $@ $<
++
++# Generate VDSO offsets using helper script
++gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
++quiet_cmd_vdsosym = VDSOSYM $@
++      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
++
++include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
++	$(call if_changed,vdsosym)
++
++#
++# Build native VDSO.
++#
++
++native-abi := $(filter -mabi=%,$(KBUILD_CFLAGS))
++
++targets += $(obj-vdso-y)
++targets += vdso.lds vdso.so.dbg vdso.so
++
++obj-vdso := $(obj-vdso-y:%.o=$(obj)/%.o)
++
++$(obj-vdso): KBUILD_CFLAGS := $(cflags-vdso) $(native-abi)
++$(obj-vdso): KBUILD_AFLAGS := $(aflags-vdso) $(native-abi)
++
++$(obj)/vdso.lds: KBUILD_CPPFLAGS := $(ccflags-vdso) $(native-abi)
++
++$(obj)/vdso.so.dbg: $(obj)/vdso.lds $(obj-vdso) FORCE
++	$(call if_changed,vdsold_and_vdso_check)
++
++$(obj)/vdso.so: OBJCOPYFLAGS := -S
++$(obj)/vdso.so: $(obj)/vdso.so.dbg FORCE
++	$(call if_changed,objcopy)
++
++obj-y += vdso.o
++
++$(obj)/vdso.o : $(obj)/vdso.so
++
++# install commands for the unstripped file
++quiet_cmd_vdso_install = INSTALL $@
++      cmd_vdso_install = cp $(obj)/$@.dbg $(MODLIB)/vdso/$@
++
++vdso.so: $(obj)/vdso.so.dbg
++	@mkdir -p $(MODLIB)/vdso
++	$(call cmd,vdso_install)
++
++vdso_install: vdso.so
+diff --git a/arch/loongarch/vdso/elf.S b/arch/loongarch/vdso/elf.S
+new file mode 100644
+index 000000000000..9bb21b9f9583
+--- /dev/null
++++ b/arch/loongarch/vdso/elf.S
+@@ -0,0 +1,15 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Author: Huacai Chen <chenhuacai@loongson.cn>
++ *
++ * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
++ */
++
++#include <asm/vdso/vdso.h>
++
++#include <linux/elfnote.h>
++#include <linux/version.h>
++
++ELFNOTE_START(Linux, 0, "a")
++	.long LINUX_VERSION_CODE
++ELFNOTE_END
+diff --git a/arch/loongarch/vdso/gen_vdso_offsets.sh b/arch/loongarch/vdso/gen_vdso_offsets.sh
+new file mode 100755
+index 000000000000..1bb4e12642ff
+--- /dev/null
++++ b/arch/loongarch/vdso/gen_vdso_offsets.sh
+@@ -0,0 +1,13 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++
++#
++# Derived from RISC-V and ARM64:
++# Author: Will Deacon <will.deacon@arm.com>
++#
++# Match symbols in the DSO that look like VDSO_*; produce a header file
++# of constant offsets into the shared object.
++#
++
++LC_ALL=C sed -n -e 's/^00*/0/' -e \
++'s/^\([0-9a-fA-F]*\) . VDSO_\([a-zA-Z0-9_]*\)$/\#define vdso_offset_\2\t0x\1/p'
+diff --git a/arch/loongarch/vdso/sigreturn.S b/arch/loongarch/vdso/sigreturn.S
+new file mode 100644
+index 000000000000..9cb3c58fad03
+--- /dev/null
++++ b/arch/loongarch/vdso/sigreturn.S
+@@ -0,0 +1,24 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Author: Huacai Chen <chenhuacai@loongson.cn>
++ *
++ * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
++ */
++
++#include <asm/vdso/vdso.h>
++
++#include <linux/linkage.h>
++#include <uapi/asm/unistd.h>
++
++#include <asm/regdef.h>
++#include <asm/asm.h>
++
++	.section	.text
++	.cfi_sections	.debug_frame
++
++SYM_FUNC_START(__vdso_rt_sigreturn)
++
++	li.w	a7, __NR_rt_sigreturn
++	syscall	0
++
++SYM_FUNC_END(__vdso_rt_sigreturn)
+diff --git a/arch/loongarch/vdso/vdso.S b/arch/loongarch/vdso/vdso.S
+new file mode 100644
+index 000000000000..46789bade6ff
+--- /dev/null
++++ b/arch/loongarch/vdso/vdso.S
+@@ -0,0 +1,22 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
++ *
++ * Derived from RISC-V:
++ * Copyright (C) 2014 Regents of the University of California
++ */
++
++#include <linux/init.h>
++#include <linux/linkage.h>
++#include <asm/page.h>
++
++	__PAGE_ALIGNED_DATA
++
++	.globl vdso_start, vdso_end
++	.balign PAGE_SIZE
++vdso_start:
++	.incbin "arch/loongarch/vdso/vdso.so"
++	.balign PAGE_SIZE
++vdso_end:
++
++	.previous
+diff --git a/arch/loongarch/vdso/vdso.lds.S b/arch/loongarch/vdso/vdso.lds.S
+new file mode 100644
+index 000000000000..955f02de4a2d
+--- /dev/null
++++ b/arch/loongarch/vdso/vdso.lds.S
+@@ -0,0 +1,72 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Author: Huacai Chen <chenhuacai@loongson.cn>
++ * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
++ */
++
++OUTPUT_FORMAT("elf64-loongarch", "elf64-loongarch", "elf64-loongarch")
++
++OUTPUT_ARCH(loongarch)
++
++SECTIONS
++{
++	PROVIDE(_start = .);
++	. = SIZEOF_HEADERS;
++
++	.hash		: { *(.hash) }			:text
++	.gnu.hash	: { *(.gnu.hash) }
++	.dynsym		: { *(.dynsym) }
++	.dynstr		: { *(.dynstr) }
++	.gnu.version	: { *(.gnu.version) }
++	.gnu.version_d	: { *(.gnu.version_d) }
++	.gnu.version_r	: { *(.gnu.version_r) }
++
++	.note		: { *(.note.*) }		:text :note
++
++	.text		: { *(.text*) }			:text
++	PROVIDE (__etext = .);
++	PROVIDE (_etext = .);
++	PROVIDE (etext = .);
++
++	.eh_frame_hdr	: { *(.eh_frame_hdr) }		:text :eh_frame_hdr
++	.eh_frame	: { KEEP (*(.eh_frame)) }	:text
++
++	.dynamic	: { *(.dynamic) }		:text :dynamic
++
++	.rodata		: { *(.rodata*) }		:text
++
++	_end = .;
++	PROVIDE(end = .);
++
++	/DISCARD/	: {
++		*(.gnu.attributes)
++		*(.note.GNU-stack)
++		*(.data .data.* .gnu.linkonce.d.* .sdata*)
++		*(.bss .sbss .dynbss .dynsbss)
++	}
++}
++
++PHDRS
++{
++	text		PT_LOAD		FLAGS(5) FILEHDR PHDRS; /* PF_R|PF_X */
++	dynamic		PT_DYNAMIC	FLAGS(4);		/* PF_R */
++	note		PT_NOTE		FLAGS(4);		/* PF_R */
++	eh_frame_hdr	PT_GNU_EH_FRAME;
++}
++
++VERSION
++{
++	LINUX_5.10 {
++	global:
++		__vdso_clock_getres;
++		__vdso_clock_gettime;
++		__vdso_gettimeofday;
++		__vdso_rt_sigreturn;
++	local: *;
++	};
++}
++
++/*
++ * Make the sigreturn code visible to the kernel.
++ */
++VDSO_sigreturn		= __vdso_rt_sigreturn;
+diff --git a/arch/loongarch/vdso/vgettimeofday.c b/arch/loongarch/vdso/vgettimeofday.c
+new file mode 100644
+index 000000000000..b1f4548dae92
+--- /dev/null
++++ b/arch/loongarch/vdso/vgettimeofday.c
+@@ -0,0 +1,25 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * LoongArch userspace implementations of gettimeofday() and similar.
++ *
++ * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
++ */
++#include <linux/types.h>
++
++int __vdso_clock_gettime(clockid_t clock,
++			 struct __kernel_timespec *ts)
++{
++	return __cvdso_clock_gettime(clock, ts);
++}
++
++int __vdso_gettimeofday(struct __kernel_old_timeval *tv,
++			struct timezone *tz)
++{
++	return __cvdso_gettimeofday(tv, tz);
++}
++
++int __vdso_clock_getres(clockid_t clock_id,
++			struct __kernel_timespec *res)
++{
++	return __cvdso_clock_getres(clock_id, res);
++}
 -- 
 2.27.0
 
