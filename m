@@ -2,74 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1A4DC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 15:31:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDAB2C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 15:32:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344874AbiFAPbB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jun 2022 11:31:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51764 "EHLO
+        id S1344745AbiFAPc6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jun 2022 11:32:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344745AbiFAPbB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 11:31:01 -0400
+        with ESMTP id S231749AbiFAPc5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 11:32:57 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 918BB57B27
-        for <linux-doc@vger.kernel.org>; Wed,  1 Jun 2022 08:31:00 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F3DFA3085;
+        Wed,  1 Jun 2022 08:32:56 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 45CF0723;
-        Wed,  1 Jun 2022 15:31:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 45CF0723
+        by ms.lwn.net (Postfix) with ESMTPSA id 216D92C3;
+        Wed,  1 Jun 2022 15:32:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 216D92C3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1654097460; bh=CfeB3kU5usGm0zqDG5CsWTnfroR8Gg+gcVcXKsOATsY=;
+        t=1654097576; bh=1LkC4KBB+n4gWoH4zaqMyei5vIAn42/01o1vUxBV35A=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=r3g5ylBKcvn6nyuIuIdoNhil3AlzxQtpMh2Df4nHIxcOvwQlgoaInTS3a37hdpQ+R
-         1fTJRDL3UYSZBqilyKvbGInqALV5xahldI6I2BcDVmLJmcsHJRRGh40RtBG7dhr0uC
-         V0Ba2F/6UgPP7rIaMsqspxv5elldmnU25oJ+n2UjIGjeWfIUjpCVvPJM/M5WTDIV5U
-         ksXzFUbUCIaO2Ilp/XEJPG4nA7aBvrBsGTLv5ZtKQOpqMZ+clO8vDv1Bvf0ENYQ4qm
-         NhXQy9RhOmfWA+SDU6elkHkyEk0Z6sXy/xAPAITjbngrQq7XFIfQ8IfA4DDvpa+esG
-         cNsenRMBVzTtw==
+        b=rHE+zeqQrlMmd5TLzW9fUVRP9wdV9+rQ0uq2kHMSWXsrZrA/LZJBLv6dUyCmLze9q
+         BwTx0AeXkaK76i9hvS4fjtU8y8oU1TYlU508z2LJsS6pur/XkR5g7L65SCjHNH7ssa
+         OKuHewEsmGlUQnLfJfmlaihEdscU7bmIkNk/llzDMbCQFQ+j2xJRhwbr0KHYaxowa5
+         hkbWkNd+D4siI1GJ7FwlxzNp5olRJBRB/ssYunXGAK+KGLpKzt9dS5dK7EqzxPyN3K
+         UsdM8KWMPMK/5lLtMoHOF/xEisjc2i4+nQzVSmWnYE+Xzse/Gff959kHs1oMQgiO8r
+         ZT5OByurcOJAQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Joel Colledge <joel.colledge@linbit.com>, linux-doc@vger.kernel.org
-Cc:     Joel Colledge <joel.colledge@linbit.com>
-Subject: Re: [PATCH] docs: blockdev: change title to match section content
-In-Reply-To: <20220530142849.717-1-joel.colledge@linbit.com>
-References: <20220530142849.717-1-joel.colledge@linbit.com>
-Date:   Wed, 01 Jun 2022 09:31:10 -0600
-Message-ID: <875ylk5rk1.fsf@meer.lwn.net>
+To:     Miguel Ojeda <ojeda@kernel.org>
+Cc:     Garrett LeSage <garrett@lesage.us>,
+        IFo Hancroft <contact@ifohancroft.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: Re: [PATCH v2 1/2] docs: move Linux logo into a new `images` folder
+In-Reply-To: <20220528153132.8636-1-ojeda@kernel.org>
+References: <20220528153132.8636-1-ojeda@kernel.org>
+Date:   Wed, 01 Jun 2022 09:33:06 -0600
+Message-ID: <871qw85rgt.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Joel Colledge <joel.colledge@linbit.com> writes:
+Miguel Ojeda <ojeda@kernel.org> writes:
 
-> This index.rst was added in commit
-> 39443104c7d3 docs: blockdev: convert to ReST
+> Having assets in the top-level `Documentation` directory can make
+> it harder to find the documents one needs, especially if we want
+> to add more of them later on.
 >
-> It appears that the title from the RapidIO index page was copied. This
-> title does not match the content of this directory. Change it to match.
->
-> Signed-off-by: Joel Colledge <joel.colledge@linbit.com>
-> ---
->  Documentation/admin-guide/blockdev/index.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/admin-guide/blockdev/index.rst b/Documentation/admin-guide/blockdev/index.rst
-> index b903cf152091..957ccf617797 100644
-> --- a/Documentation/admin-guide/blockdev/index.rst
-> +++ b/Documentation/admin-guide/blockdev/index.rst
-> @@ -1,8 +1,8 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
-> -===========================
-> -The Linux RapidIO Subsystem
-> -===========================
-> +=============
-> +Block Devices
-> +=============
+> Instead, create a new `images` folder inside it that is used
+> to hold assets such as logos.
 
-Applied, thanks.
+Both patches applied, thanks.
 
 jon
