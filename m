@@ -2,47 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 233CDCCA468
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 13:57:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F28CCA470
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Jun 2022 14:01:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353846AbiFAN5b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jun 2022 09:57:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59396 "EHLO
+        id S1354049AbiFAOBw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jun 2022 10:01:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353735AbiFAN4n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 09:56:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 531A49BAE8;
-        Wed,  1 Jun 2022 06:55:01 -0700 (PDT)
+        with ESMTP id S1354917AbiFAOBG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 10:01:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65A434E3A0;
+        Wed,  1 Jun 2022 06:57:34 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A8DEE61598;
-        Wed,  1 Jun 2022 13:54:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE08DC34119;
-        Wed,  1 Jun 2022 13:54:56 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6D67B615B9;
+        Wed,  1 Jun 2022 13:56:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AAB2C385A5;
+        Wed,  1 Jun 2022 13:56:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654091698;
-        bh=FsnhM5PT/E5Fpk+dkdwL4mlsa9gXKVZzJ8yZXv4wNXk=;
+        s=k20201202; t=1654091807;
+        bh=fDG575ttLgWbeLrePzoV7rDswfiDL4S0LUn1GVNsufA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HHrLug/WjjWmFbZW2IMsROUlhuYuwXtUgKrGbt9/0Jji/5kXhwAbP80esShA314wt
-         wfKGqNgezz57vh7S59yBHFVxvL1OcxniI91Wl5KX+hF3kw9GjH2g4UlZZbZ+N7KeOe
-         ioZFhJMyQQuxERRccZeooGYA7e5+wDbN35WciR38eDGasp38JNtRh2MA9tCFXBEldf
-         4P9U5OaDYSQFa1uQ3tuOIuGhJNxiFMTHn6lRS2fsLtNEhWfZqsAwIz3Agp7WbPz9z9
-         2E+cLw+utgQJDCGOVlwlY4QT4LhmG0BxjQyvuimKD7vt8qyKxkHNLbyt/q0Ebwz4a+
-         UPBSxDvF72z/Q==
+        b=XQ3ibUjysyhYFRwV0Xdo/ZvgJW06POU12BPuSAqHblDT8U4+u+qwnk1MeWGFyuQIH
+         eJIl5oJBWB8OYelPoS2crGdR0Tz5/MjP/g5eVu/MlCTyIPQFXc7ae2IQ3zXTdqkQnU
+         CPRuI5c9RtEBKgh0cMhwkYnU3EAmCcVWOpEVuGBVkpbzn3pMXwPJt3upolw8Ov1idB
+         Z5YEhqHze6YorwWPsPw1mRIlnyFgX+owRw1kztDTCeC4FX9pkqKJNZCdiUJYvMy23R
+         WsVFnOSO+2A0oMwQjnFHeeOUyRj9baC9FkagqQukVDbz/P7A8gF/GdtM8Vx2SUBgPz
+         ruXI8LWO6YIsg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Takashi Iwai <tiwai@suse.de>, Sasha Levin <sashal@kernel.org>,
         perex@perex.cz, tiwai@suse.com, corbet@lwn.net,
-        matteomartelli3@gmail.com, geraldogabriel@gmail.com, bp@suse.de,
+        geraldogabriel@gmail.com, matteomartelli3@gmail.com, bp@suse.de,
         alsa-devel@alsa-project.org, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 16/48] ALSA: usb-audio: Add quirk bits for enabling/disabling generic implicit fb
-Date:   Wed,  1 Jun 2022 09:53:49 -0400
-Message-Id: <20220601135421.2003328-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 13/37] ALSA: usb-audio: Add quirk bits for enabling/disabling generic implicit fb
+Date:   Wed,  1 Jun 2022 09:55:58 -0400
+Message-Id: <20220601135622.2003939-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220601135421.2003328-1-sashal@kernel.org>
-References: <20220601135421.2003328-1-sashal@kernel.org>
+In-Reply-To: <20220601135622.2003939-1-sashal@kernel.org>
+References: <20220601135622.2003939-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -71,10 +71,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
-index 34888d4fc4a8..21ab5e6f7062 100644
+index 65f61695f561..5d093fb4896b 100644
 --- a/Documentation/sound/alsa-configuration.rst
 +++ b/Documentation/sound/alsa-configuration.rst
-@@ -2246,7 +2246,7 @@ implicit_fb
+@@ -2237,7 +2237,7 @@ implicit_fb
      Apply the generic implicit feedback sync mode.  When this is set
      and the playback stream sync mode is ASYNC, the driver tries to
      tie an adjacent ASYNC capture stream as the implicit feedback
@@ -83,7 +83,7 @@ index 34888d4fc4a8..21ab5e6f7062 100644
  use_vmalloc
      Use vmalloc() for allocations of the PCM buffers (default: yes).
      For architectures with non-coherent memory like ARM or MIPS, the
-@@ -2288,6 +2288,8 @@ quirk_flags
+@@ -2279,6 +2279,8 @@ quirk_flags
          * bit 14: Ignore errors for mixer access
          * bit 15: Support generic DSD raw U32_BE format
          * bit 16: Set up the interface at first like UAC1
