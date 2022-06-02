@@ -2,102 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18DDACCA478
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jun 2022 09:13:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C9EAC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jun 2022 09:22:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232786AbiFBJNo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jun 2022 05:13:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36970 "EHLO
+        id S232948AbiFBJWf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jun 2022 05:22:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229895AbiFBJNo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jun 2022 05:13:44 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5237011142;
-        Thu,  2 Jun 2022 02:13:43 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id 129so4266511pgc.2;
-        Thu, 02 Jun 2022 02:13:43 -0700 (PDT)
+        with ESMTP id S232944AbiFBJWe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jun 2022 05:22:34 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 652A3A1B7;
+        Thu,  2 Jun 2022 02:22:32 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id 129so4283785pgc.2;
+        Thu, 02 Jun 2022 02:22:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BnJoYZjA/4b43P3Pawo+kmZRrFz/s9PrqOsAvadZtNM=;
-        b=YKavzFI7bZlV0cIASU9nzmlObdBqUB8MOir6DIbkiyubVM1gqZg4lEygKki6iUqjk5
-         Cev82mKhSNAr1eZP29RaitupnkM1kyp8p8lIOtUr+MvYPn3Zq8BiNQ4I7fhE02pQ4yYE
-         1rIyrRp1bfx5WYFcipm8KPfkqzlrlCD8VwE1FGvbVm2yLYPyF0DPVGrOM4qaFQEMOKw4
-         69fTu1RZEIv+gC7pvrxro7+tofbPtKngpywa/dkOQqvwQOVVCREAIiLAqIKUhW178zD8
-         ZTowoewYRWQlclwXm7vgGB9AE7i5ysj2JhgOUt6fxRxUAwoLr6AIlfjmmrEW7NEca0GP
-         AYow==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=KeRV9VlhwIAyg6EUqX0Fszd3cElW50+A7dVuut11Ql8=;
+        b=T+n7HgqhezIBE0FWmfDqATn2184KpAXP/iUBPS/aT4g74LaP8h6NlWCDFhbPl8mpRJ
+         R2yGxiwiyV8JqcpCwXj7EqCXJCPx22zf0k73jDaeWTk7K10kUeLuKEuLyuBLeBwxELq1
+         j/aQGP/heKZ3lRsUTybuy+Q7zwjfB7TVvuXxZBNZVq15Q62NuqXrA2RriidzxWRpzvIZ
+         Wyj2i2HlHc7IwTbPUdXr+RtwmfJo8gSmsrpknYgo0TQNyK1eCEug1LynaOtwjUYzc/YR
+         wguayKEzzLIrTNXMPjiVKAUDzMXLboQZn52dz3F3z3KdETWWarbsMWMd7FXWvzIGUBFT
+         2TtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BnJoYZjA/4b43P3Pawo+kmZRrFz/s9PrqOsAvadZtNM=;
-        b=WNbKSIpmOCr1GlOUdf4u2ixOKXgWsgcy6wxCfcLm9fOdpAtk4ts0XUis3w9ofbohbq
-         DodV/6xl9mNYzCpiGz66dRQpONh6YqBx4J69Re0EQp3MH9NGX9Ak2PUn37RIWTfmT1ZO
-         mU4fh8vVlqazRvoekkIhCiaM1MZQw/98XhvGT+H0I/Ty71AB2ohHeNYJ2FbMSqX6o8dL
-         qO2tADq0HfwQikOeWS9fKMVxT5C3aaDolzY/BSkYw9inLWRfiVlheoIiYdB9/dain5RV
-         rQawsg4p457jKFpGr6Aw7hRrASGbKirPYsiwr+7g4y6d5MRawnUQHZC2tAKUfM0Nt/tX
-         YTeg==
-X-Gm-Message-State: AOAM530WEgCzOt8gr5hpi0gYMwIvpGoLNTGXrTgvloowbfB+pwjaZqee
-        CGwywEek7EhnxZ1+s+BcHD4=
-X-Google-Smtp-Source: ABdhPJxky6cAMNOEzhcAehlSp4DH4JPBTsmSJrQjyQWPkOf4W7b8tuVS6qW3+f0uHz2DvOIPl3hklA==
-X-Received: by 2002:a65:6c07:0:b0:3f2:5efb:6c7 with SMTP id y7-20020a656c07000000b003f25efb06c7mr3458478pgu.496.1654161222925;
-        Thu, 02 Jun 2022 02:13:42 -0700 (PDT)
-Received: from localhost (subs02-180-214-232-24.three.co.id. [180.214.232.24])
-        by smtp.gmail.com with ESMTPSA id z28-20020aa79e5c000000b005184af1d72fsm3019273pfq.15.2022.06.02.02.13.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jun 2022 02:13:42 -0700 (PDT)
-Date:   Thu, 2 Jun 2022 16:13:39 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Huacai Chen <chenhuacai@loongson.cn>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        WANG Xuerui <git@xen0n.name>
-Subject: Re: [PATCH V12 03/24] Documentation: LoongArch: Add basic
- documentations
-Message-ID: <Yph/Q+szVkhDPg4a@debian.me>
-References: <20220601100005.2989022-1-chenhuacai@loongson.cn>
- <20220601100005.2989022-4-chenhuacai@loongson.cn>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=KeRV9VlhwIAyg6EUqX0Fszd3cElW50+A7dVuut11Ql8=;
+        b=P12mx1FeyMGq1KKmYTvxtCWe46oryaVt1dH6j4PYVwCNTBYW9juraZgq7aaDHBIs7n
+         6NgFsn71Mf7hdeRGGs/Kf9CeUaDrAbVgrlGaOHgt/z7LS/bmMEsTAAJ4Raz4ZqxDj0ln
+         C/UhioIB9BBEX1jCJ/o62wRknTsfMEchhJfQNWpKTIv2ieL/mnb/dRQfsGV1qx5YV5Xq
+         0ffBT4dG8yh4Y1AMi7MNkgFUZAbfqcNetsyf56En5k8lpFq/pb+aXrnhuYJSBpxu1aT7
+         679kAF545AQQIjcGCdfYS90yW9dPcoG7CYu0kerDLkAAX5ppxrAIyCYgqW/gB2JKV5bP
+         7oUg==
+X-Gm-Message-State: AOAM5302kGoaonuJ6uryBDSNBJyxPrH9OhauiHzMjQQlC6+7+V2050Vh
+        JARgoWVaK43UxyLb9TJpRUs=
+X-Google-Smtp-Source: ABdhPJxElJXyhXOh8nC4t31hIdIX4SCbS/dv8nLykVgt//DQhqD96RDYfw60Gxl+zsBbBK6OuVKtcg==
+X-Received: by 2002:a63:65c7:0:b0:3fc:85b5:30c0 with SMTP id z190-20020a6365c7000000b003fc85b530c0mr3497048pgb.165.1654161751927;
+        Thu, 02 Jun 2022 02:22:31 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-24.three.co.id. [180.214.232.24])
+        by smtp.gmail.com with ESMTPSA id 129-20020a621787000000b005180c127200sm2946985pfx.24.2022.06.02.02.22.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Jun 2022 02:22:30 -0700 (PDT)
+Message-ID: <7f1c7301-e622-f177-70ac-d64046347613@gmail.com>
+Date:   Thu, 2 Jun 2022 16:22:25 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220601100005.2989022-4-chenhuacai@loongson.cn>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3] HID: uclogic: properly format kernel-doc comment for
+ hid_dbg() wrappers
+Content-Language: en-US
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-doc@vger.kernel.org, kernel test robot <lkp@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+        Nikolai Kondrashov <spbnick@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        llvm@lists.linux.dev, stable@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220602082321.313143-1-bagasdotme@gmail.com>
+ <Yph09N8w4g7+d9ER@kroah.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <Yph09N8w4g7+d9ER@kroah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 01, 2022 at 05:59:44PM +0800, Huacai Chen wrote:
+On 6/2/22 15:29, Greg KH wrote:
+> None of this is needed for stable kernels releases as no code is being
+> modified.
+> 
+> thanks,
+> 
+> greg k-h
 
-> +Note: The register ``$r21`` is reserved in the ELF psABI, but used by the Linux
-> +kernel for storing the percpu base address. It normally has no ABI name, but is
-> +called ``$u0`` in the kernel. You may also see ``$v0`` or ``$v1`` in some old code,
-> +they are deprecated aliases of ``$a0`` and ``$a1`` respectively.
+Hi Greg,
 
-A nitpick: instead of just comma (,), also use "however" conjunction, that
-is "You may also see ..., however they ... ."
+That's right, however because I don't see any kernel-doc warnings for
+hid-uclogic-params.c on linux-5.18.y. These warnings appear only on
+mainline.
 
-> +
-> +Note: You may see ``$fv0`` or ``$fv1`` in some old code, they are deprecated
-> +aliases of ``$fa0`` and ``$fa1`` respectively.
-> +
-
-The nitpick above also applies here, too.
-
-Otherwise, htmldocs built successfully without any new warnings.
-
-Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Thanks for reminding me.
 
 -- 
 An old man doll... just what I always wanted! - Clara
