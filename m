@@ -2,327 +2,260 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF97C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jun 2022 03:31:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70A82C43334
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jun 2022 03:44:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233528AbiFBDbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Jun 2022 23:31:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42524 "EHLO
+        id S229498AbiFBDoG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Jun 2022 23:44:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233598AbiFBDbV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 23:31:21 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563062789BE
-        for <linux-doc@vger.kernel.org>; Wed,  1 Jun 2022 20:31:18 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id r129so1922528wmr.3
-        for <linux-doc@vger.kernel.org>; Wed, 01 Jun 2022 20:31:18 -0700 (PDT)
+        with ESMTP id S229456AbiFBDoD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Jun 2022 23:44:03 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEDB3140849
+        for <linux-doc@vger.kernel.org>; Wed,  1 Jun 2022 20:44:00 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id 7so2864986pga.12
+        for <linux-doc@vger.kernel.org>; Wed, 01 Jun 2022 20:44:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=NtKZM7ZzL0kZiBk9fCkTs8IIiGvurk+lCaFLvy6F9KM=;
-        b=raUrDavqbUtfHUyTsuvpI3JJKenCcbQI1C91oKXMoIo0hS6fi+YXCZvOeeg2MEQNX1
-         dJ6bd3Ce4GTPVs0QEn79KZs2VPt6QKmzQP0Nwiu/KPgJO8R4RFx7GRPptekvllGm36QP
-         H1pTmzWRB1hHlS2eYOLCpjjFjyKzuVbWEWizG0E7Rh1GH62aQKt6rMy5q1V0iSdjlXRg
-         oTlWVwC1Vm733kv5iBJpVdPKqQ7NyLd0YOcyeLw1ZfsP2dkqPLzYSAtFTezRtt9x1fyy
-         WIXyado7VheTdhisXzaAk8sUkFbrRcuVKr0JJs9M+ijZAS3yhpw2MvnhzE+WK3dWox07
-         Y6Tw==
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=41Cix8/wz/98CXmQSSNUVoc/eGMSQu30WNS71XR8dIw=;
+        b=xlIUxlaBeKYzS7iUqyyVg/FYULyNn8vEmUTA5PcIHuIOtLrrU7nbkXrOKP9Lg6mqiK
+         W5/9UgFSa3Alf1969E1hbz1M5DB1P5ur5GONVnGfG//sbT+TiORVPZiRTZi5KK4w7bJ+
+         pZtm0lUbV42MuWDuh+RlzKGoAVZ8GKtMcfkihTJrye/Nj4Z5HAWOnfKNs7IVmk3cCWey
+         ROVwkByRLmZjiOLtcjmmWDuU+1lSkucqYjL6LEafERcG9yUMdkV00JL4uO8flM/XkiLQ
+         ya2K1hW0u7leuQU71+7MsxCIP2xAbwHayNxOkSNT9fSUqUwPxMYp3R0LzC5Od+CIBSzI
+         ZF6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=NtKZM7ZzL0kZiBk9fCkTs8IIiGvurk+lCaFLvy6F9KM=;
-        b=1cqA7vgLvVnceevNe0dvPNR0gxiYIMDRuZxSJH5+9OOm05Xq/riZJQtRfTqTDBG9qQ
-         5eD4wHRh8JoK7JDvTTyBQEK7cfhWyZa3yAwTVSeZY/weqmKIkspawqqTVo6GZoNC/nis
-         p6iXIYYrSCcCpYSJfSGgiTni9Ak+t8eoIen9XkYSPRaCTmnWsg5ifk5mgoH/AgT2V3Nb
-         xmCP+ZR95m5Hq0AJcCCryrsWi3VREFwQ4hrDZ/RdZjuJpetG1R3vdfGNz3UdA0sA4ri9
-         sxi3WRM50bx7WsPkq7UnTlhSEe1OvvbjY3Mg65AkRUc4ysOcvPGq/RLYjUmPCsMuzUSf
-         8J+g==
-X-Gm-Message-State: AOAM530wlIYNDpiGOBlDuD5fpLcVj7siZVjBCKheh990umvQucx1XAb7
-        jpgDFczZyYEAu+HirxIVGV9iwkpUZMY2fo+n8ihRIg==
-X-Google-Smtp-Source: ABdhPJwr9ksMbCqrYTe/BLeOa2HUtPjrOYz7Ly9AqSwbBXJ4IHGSxO1O40n+EYK78Sm55YfS5gAcIIlyabDnSvyGU9g=
-X-Received: by 2002:a05:600c:3547:b0:39c:1606:17c5 with SMTP id
- i7-20020a05600c354700b0039c160617c5mr2125479wmq.61.1654140676586; Wed, 01 Jun
- 2022 20:31:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220531212521.1231133-1-kaleshsingh@google.com>
- <20220531212521.1231133-3-kaleshsingh@google.com> <14f85d24-a9de-9706-32f0-30be4999c71c@oracle.com>
- <CAC_TJveDzDaYQKmuLSkGWpnuCW+gvrqdVJqq=wbzoTRjw4OoFw@mail.gmail.com>
- <875yll1fp1.fsf@stepbren-lnx.us.oracle.com> <4b79c2ea-dd1a-623d-e5b4-faa732c1a42d@gmail.com>
-In-Reply-To: <4b79c2ea-dd1a-623d-e5b4-faa732c1a42d@gmail.com>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Wed, 1 Jun 2022 20:31:05 -0700
-Message-ID: <CAC_TJvdU=bhaeJACz70JOAL34W846Bk=EmvkXL8ccfoALJdaOQ@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH 2/2] procfs: Add 'path' to /proc/<pid>/fdinfo/
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-Cc:     Stephen Brennan <stephen.s.brennan@oracle.com>,
-        Ioannis Ilkos <ilkos@google.com>,
-        "T.J. Mercier" <tjmercier@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Colin Cross <ccross@google.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=41Cix8/wz/98CXmQSSNUVoc/eGMSQu30WNS71XR8dIw=;
+        b=utM06hQEdxvLe/JH3/u3VgOfqYQcWc7DuJe74NnxpXtK3f1jXPyAUPGz3GOuyESN0x
+         UZFX5Ruzy2OZpdcCAhWJEG4q3KVy7LHSdvns99/Pud/u44FCoWDw/hzeR8J4PUHA/u6S
+         4uFw0zj0Tyb+wN4k/xJWBtHQW71W2CzFhq2nap0i5vF1aECMbNgcRRV4tSxRHpMk2+Vx
+         h3wLoopAEMT2YoYDipmjWY0HmhnL5hNHGeMSmisDvUkPUECB1LD9weJMOEl4DUQhl+qA
+         Eq+r9RjpkWp4GCIGA+mcoEeXCZ/KSpyTyphyBcu0RKRpuqzeq63kom+jpOe4a5Tate3Z
+         gwrw==
+X-Gm-Message-State: AOAM532Od/q1Q/hX067EvEFZDGQwQB1+5ZudgssO7Q4hILIjNCwutnD8
+        nBX8VfsQr2UqPaAY8fYB3YH9dg==
+X-Google-Smtp-Source: ABdhPJwj8pNW5zGNYm4XHNrU/V+RpEOW+y5QQGSkxJYkaR5O97+HdBnk7f1z0+QUbeTv16fOV5xp7A==
+X-Received: by 2002:a63:6b02:0:b0:3fb:da5e:42a1 with SMTP id g2-20020a636b02000000b003fbda5e42a1mr2388919pgc.273.1654141439808;
+        Wed, 01 Jun 2022 20:43:59 -0700 (PDT)
+Received: from localhost ([12.3.194.138])
+        by smtp.gmail.com with ESMTPSA id g2-20020aa79f02000000b005185407eda5sm2254092pfr.44.2022.06.01.20.43.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jun 2022 20:43:59 -0700 (PDT)
+Date:   Wed, 01 Jun 2022 20:43:59 -0700 (PDT)
+X-Google-Original-Date: Wed, 01 Jun 2022 20:40:23 PDT (-0700)
+Subject:     Re: [PATCH v3 00/13] Introduce sv48 support without relocatable kernel
+In-Reply-To: <mhng-f386a42e-77d9-4644-914f-552a8e721f5c@palmer-ri-x1c9>
+CC:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, zong.li@sifive.com, anup@brainfault.org,
+        Atish.Patra@rivosinc.com, Christoph Hellwig <hch@lst.de>,
+        ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
+        dvyukov@google.com, ardb@kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        keescook@chromium.org, guoren@linux.alibaba.com,
+        heinrich.schuchardt@canonical.com, mchitale@ventanamicro.com,
+        panqinglin2020@iscas.ac.cn, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
+        linux-arch@vger.kernel.org
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     alexandre.ghiti@canonical.com
+Message-ID: <mhng-2ff855c7-1f97-46c9-b692-84ea3735eb05@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 1, 2022 at 8:02 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
+On Fri, 22 Apr 2022 18:50:47 PDT (-0700), Palmer Dabbelt wrote:
+> On Fri, 01 Apr 2022 05:56:30 PDT (-0700), alexandre.ghiti@canonical.com wrote:
+>> On Fri, Feb 18, 2022 at 11:45 AM Alexandre Ghiti
+>> <alexandre.ghiti@canonical.com> wrote:
+>>>
+>>> Hi Palmer,
+>>>
+>>> On Thu, Jan 20, 2022 at 11:05 AM Alexandre Ghiti
+>>> <alexandre.ghiti@canonical.com> wrote:
+>>> >
+>>> > On Thu, Jan 20, 2022 at 8:30 AM Alexandre Ghiti
+>>> > <alexandre.ghiti@canonical.com> wrote:
+>>> > >
+>>> > > On Thu, Jan 20, 2022 at 5:18 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+>>> > > >
+>>> > > > On Mon, 06 Dec 2021 02:46:44 PST (-0800), alexandre.ghiti@canonical.com wrote:
+>>> > > > > * Please note notable changes in memory layouts and kasan population *
+>>> > > > >
+>>> > > > > This patchset allows to have a single kernel for sv39 and sv48 without
+>>> > > > > being relocatable.
+>>> > > > >
+>>> > > > > The idea comes from Arnd Bergmann who suggested to do the same as x86,
+>>> > > > > that is mapping the kernel to the end of the address space, which allows
+>>> > > > > the kernel to be linked at the same address for both sv39 and sv48 and
+>>> > > > > then does not require to be relocated at runtime.
+>>> > > > >
+>>> > > > > This implements sv48 support at runtime. The kernel will try to
+>>> > > > > boot with 4-level page table and will fallback to 3-level if the HW does not
+>>> > > > > support it. Folding the 4th level into a 3-level page table has almost no
+>>> > > > > cost at runtime.
+>>> > > > >
+>>> > > > > Note that kasan region had to be moved to the end of the address space
+>>> > > > > since its location must be known at compile-time and then be valid for
+>>> > > > > both sv39 and sv48 (and sv57 that is coming).
+>>> > > > >
+>>> > > > > Tested on:
+>>> > > > >   - qemu rv64 sv39: OK
+>>> > > > >   - qemu rv64 sv48: OK
+>>> > > > >   - qemu rv64 sv39 + kasan: OK
+>>> > > > >   - qemu rv64 sv48 + kasan: OK
+>>> > > > >   - qemu rv32: OK
+>>> > > > >
+>>> > > > > Changes in v3:
+>>> > > > >   - Fix SZ_1T, thanks to Atish
+>>> > > > >   - Fix warning create_pud_mapping, thanks to Atish
+>>> > > > >   - Fix k210 nommu build, thanks to Atish
+>>> > > > >   - Fix wrong rebase as noted by Samuel
+>>> > > > >   - * Downgrade to sv39 is only possible if !KASAN (see commit changelog) *
+>>> > > > >   - * Move KASAN next to the kernel: virtual layouts changed and kasan population *
+>>> > > > >
+>>> > > > > Changes in v2:
+>>> > > > >   - Rebase onto for-next
+>>> > > > >   - Fix KASAN
+>>> > > > >   - Fix stack canary
+>>> > > > >   - Get completely rid of MAXPHYSMEM configs
+>>> > > > >   - Add documentation
+>>> > > > >
+>>> > > > > Alexandre Ghiti (13):
+>>> > > > >   riscv: Move KASAN mapping next to the kernel mapping
+>>> > > > >   riscv: Split early kasan mapping to prepare sv48 introduction
+>>> > > > >   riscv: Introduce functions to switch pt_ops
+>>> > > > >   riscv: Allow to dynamically define VA_BITS
+>>> > > > >   riscv: Get rid of MAXPHYSMEM configs
+>>> > > > >   asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
+>>> > > > >   riscv: Implement sv48 support
+>>> > > > >   riscv: Use pgtable_l4_enabled to output mmu_type in cpuinfo
+>>> > > > >   riscv: Explicit comment about user virtual address space size
+>>> > > > >   riscv: Improve virtual kernel memory layout dump
+>>> > > > >   Documentation: riscv: Add sv48 description to VM layout
+>>> > > > >   riscv: Initialize thread pointer before calling C functions
+>>> > > > >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
+>>> > > > >
+>>> > > > >  Documentation/riscv/vm-layout.rst             |  48 ++-
+>>> > > > >  arch/riscv/Kconfig                            |  37 +-
+>>> > > > >  arch/riscv/configs/nommu_k210_defconfig       |   1 -
+>>> > > > >  .../riscv/configs/nommu_k210_sdcard_defconfig |   1 -
+>>> > > > >  arch/riscv/configs/nommu_virt_defconfig       |   1 -
+>>> > > > >  arch/riscv/include/asm/csr.h                  |   3 +-
+>>> > > > >  arch/riscv/include/asm/fixmap.h               |   1
+>>> > > > >  arch/riscv/include/asm/kasan.h                |  11 +-
+>>> > > > >  arch/riscv/include/asm/page.h                 |  20 +-
+>>> > > > >  arch/riscv/include/asm/pgalloc.h              |  40 ++
+>>> > > > >  arch/riscv/include/asm/pgtable-64.h           | 108 ++++-
+>>> > > > >  arch/riscv/include/asm/pgtable.h              |  47 +-
+>>> > > > >  arch/riscv/include/asm/sparsemem.h            |   6 +-
+>>> > > > >  arch/riscv/kernel/cpu.c                       |  23 +-
+>>> > > > >  arch/riscv/kernel/head.S                      |   4 +-
+>>> > > > >  arch/riscv/mm/context.c                       |   4 +-
+>>> > > > >  arch/riscv/mm/init.c                          | 408 ++++++++++++++----
+>>> > > > >  arch/riscv/mm/kasan_init.c                    | 250 ++++++++---
+>>> > > > >  drivers/firmware/efi/libstub/efi-stub.c       |   2
+>>> > > > >  drivers/pci/controller/pci-xgene.c            |   2 +-
+>>> > > > >  include/asm-generic/pgalloc.h                 |  24 +-
+>>> > > > >  include/linux/sizes.h                         |   1
+>>> > > > >  22 files changed, 833 insertions(+), 209 deletions(-)
+>>> > > >
+>>> > > > Sorry this took a while.  This is on for-next, with a bit of juggling: a
+>>> > > > handful of trivial fixes for configs that were failing to build/boot and
+>>> > > > some merge issues.  I also pulled out that MAXPHYSMEM fix to the top, so
+>>> > > > it'd be easier to backport.  This is bigger than something I'd normally like to
+>>> > > > take late in the cycle, but given there's a lot of cleanups, likely some fixes,
+>>> > > > and it looks like folks have been testing this I'm just going to go with it.
+>>> > > >
+>>> > >
+>>> > > Yes yes yes! That's fantastic news :)
+>>> > >
+>>> > > > Let me know if there's any issues with the merge, it was a bit hairy.
+>>> > > > Probably best to just send along a fixup patch at this point.
+>>> > >
+>>> > > I'm going to take a look at that now, and I'll fix anything that comes
+>>> > > up quickly :)
+>>> >
+>>> > I see in for-next that you did not take the following patches:
+>>> >
+>>> >   riscv: Improve virtual kernel memory layout dump
+>>> >   Documentation: riscv: Add sv48 description to VM layout
+>>> >   riscv: Initialize thread pointer before calling C functions
+>>> >   riscv: Allow user to downgrade to sv39 when hw supports sv48 if !KASAN
+>>> >
+>>> > I'm not sure this was your intention. If it was, I believe that at
+>>> > least the first 2 patches are needed in this series, the 3rd one is a
+>>> > useful fix and we can discuss the 4th if that's an issue for you.
+>>>
+>>> Can you confirm that this was intentional and maybe explain the
+>>> motivation behind it? Because I see value in those patches.
+>>
+>> Palmer,
+>>
+>> I read that you were still taking patches for 5.18, so I confirm again
+>> that the patches above are needed IMO.
 >
-> Am 01.06.22 um 00:48 schrieb Stephen Brennan:
-> > Kalesh Singh <kaleshsingh@google.com> writes:
-> >> On Tue, May 31, 2022 at 3:07 PM Stephen Brennan
-> >> <stephen.s.brennan@oracle.com> wrote:
-> >>> On 5/31/22 14:25, Kalesh Singh wrote:
-> >>>> In order to identify the type of memory a process has pinned through
-> >>>> its open fds, add the file path to fdinfo output. This allows
-> >>>> identifying memory types based on common prefixes. e.g. "/memfd...",
-> >>>> "/dmabuf...", "/dev/ashmem...".
-> >>>>
-> >>>> Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCREDS
-> >>>> the same as /proc/<pid>/maps which also exposes the file path of
-> >>>> mappings; so the security permissions for accessing path is consiste=
-nt
-> >>>> with that of /proc/<pid>/maps.
-> >>> Hi Kalesh,
-> >> Hi Stephen,
-> >>
-> >> Thanks for taking a look.
-> >>
-> >>> I think I see the value in the size field, but I'm curious about path=
-,
-> >>> which is available via readlink /proc/<pid>/fd/<n>, since those are
-> >>> symlinks to the file themselves.
-> >> This could work if we are root, but the file permissions wouldn't
-> >> allow us to do the readlink on other processes otherwise. We want to
-> >> be able to capture the system state in production environments from
-> >> some trusted process with ptrace read capability.
-> > Interesting, thanks for explaining. It seems weird to have a duplicate
-> > interface for the same information but such is life.
+> It was too late for this when it was sent (I saw it then, but just got
+> around to actually doing the work to sort it out).
 >
-> Yeah, the size change is really straight forward but for this one I'm
-> not 100% sure either.
+> It took me a while to figure out exactly what was going on here, but I
+> think I remember now: that downgrade patch (and the follow-on I just
+> sent) is broken for medlow, because mm/init.c must be built medany
+> (which we're using for the mostly-PIC qualities).  I remember being in
+> the middle of rebasing/debugging this a while ago, I must have forgotten
+> I was in the middle of that and accidentally merged the branch as-is.
+> Certainly wasn't trying to silently take half the patch set and leave
+> the rest in limbo, that's the wrong way to do things.
+>
+> I'm not sure what the right answer is here, but I just sent a patch to
+> drop support for medlow.  We'll have to talk about that, for now I
+> cleaned up some other minor issues, rearranged that docs and fix to come
+> first, and put this at palmer/riscv-sv48.  I think that fix is
+> reasonable to take the doc and fix into fixes, then the dump improvement
+> on for-next.  We'll have to see what folks think about the medany-only
+> kernels, the other option would be to build FDT as medany which seems a
+> bit awkward.
 
-The 2 concerns I think are:
-  1. Fun characters in the path names
-  2. If exposing the path is appropriate to begin with.
-
-One way I think we can address both is to only expose the path for
-anon inodes. Then we have well-known path formats and we don't expose
-much about which files a process is accessing since these aren't real
-paths.
-
-+       if (is_anon_inode(inode)) {
-+               seq_puts(m, "path:\t");
-+               seq_file_path(m, file, "\n");
-+               seq_putc(m, '\n');
-+       }
-
-Interested to hear thoughts on it.
+All but the last one are on for-next, there's some discussion on that 
+last one that pointed out some better ways to do it.
 
 >
-> Probably best to ping some core fs developer before going further with it=
-.
-
-linux-fsdevel is cc'd here. Adding Al Vrio as well. Please let me know
-if there are other parties I should include.
-
+>> Maybe even the relocatable series?
 >
-> BTW: Any preferred branch to push this upstream? If not I can take it
-> through drm-misc-next.
-
-No other dependencies for this, so drm-misc-next is good.
-
-Thanks,
-Kalesh
-
+> Do you mind giving me a pointer?  I'm not sure why I'm so drop-prone
+> with your patches, I promise I'm not doing it on purpose.
 >
-> Regards,
-> Christian.
->
-> >
-> >>> File paths can contain fun characters like newlines or colons, which
-> >>> could make parsing out filenames in this text file... fun. How would =
-your
-> >>> userspace parsing logic handle "/home/stephen/filename\nsize:\t4096"?=
- The
-> >>> readlink(2) API makes that easy already.
-> >> I think since we have escaped the "\n" (seq_file_path(m, file, "\n")),
-> > I really should have read through that function before commenting,
-> > thanks for teaching me something new :)
-> >
-> > Stephen
-> >
-> >> then user space might parse this line like:
-> >>
-> >> if (strncmp(line, "path:\t", 6) =3D=3D 0)
-> >>          char* path =3D line + 6;
-> >>
-> >>
-> >> Thanks,
-> >> Kalesh
-> >>
-> >>> Is the goal avoiding races (e.g. file descriptor 3 is closed and reop=
-ened
-> >>> to a different path between reading fdinfo and stating the fd)?
-> >>>
-> >>> Stephen
-> >>>
-> >>>> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> >>>> ---
-> >>>>
-> >>>> Changes from rfc:
-> >>>>    - Split adding 'size' and 'path' into a separate patches, per Chr=
-istian
-> >>>>    - Fix indentation (use tabs) in documentaion, per Randy
-> >>>>
-> >>>>   Documentation/filesystems/proc.rst | 14 ++++++++++++--
-> >>>>   fs/proc/fd.c                       |  4 ++++
-> >>>>   2 files changed, 16 insertions(+), 2 deletions(-)
-> >>>>
-> >>>> diff --git a/Documentation/filesystems/proc.rst b/Documentation/file=
-systems/proc.rst
-> >>>> index 779c05528e87..591f12d30d97 100644
-> >>>> --- a/Documentation/filesystems/proc.rst
-> >>>> +++ b/Documentation/filesystems/proc.rst
-> >>>> @@ -1886,14 +1886,16 @@ if precise results are needed.
-> >>>>   3.8  /proc/<pid>/fdinfo/<fd> - Information about opened file
-> >>>>   ---------------------------------------------------------------
-> >>>>   This file provides information associated with an opened file. The=
- regular
-> >>>> -files have at least five fields -- 'pos', 'flags', 'mnt_id', 'ino',=
- and 'size'.
-> >>>> +files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino', =
-'size',
-> >>>> +and 'path'.
-> >>>>
-> >>>>   The 'pos' represents the current offset of the opened file in deci=
-mal
-> >>>>   form [see lseek(2) for details], 'flags' denotes the octal O_xxx m=
-ask the
-> >>>>   file has been created with [see open(2) for details] and 'mnt_id' =
-represents
-> >>>>   mount ID of the file system containing the opened file [see 3.5
-> >>>>   /proc/<pid>/mountinfo for details]. 'ino' represents the inode num=
-ber of
-> >>>> -the file, and 'size' represents the size of the file in bytes.
-> >>>> +the file, 'size' represents the size of the file in bytes, and 'pat=
-h'
-> >>>> +represents the file path.
-> >>>>
-> >>>>   A typical output is::
-> >>>>
-> >>>> @@ -1902,6 +1904,7 @@ A typical output is::
-> >>>>        mnt_id: 19
-> >>>>        ino:    63107
-> >>>>        size:   0
-> >>>> +     path:   /dev/null
-> >>>>
-> >>>>   All locks associated with a file descriptor are shown in its fdinf=
-o too::
-> >>>>
-> >>>> @@ -1920,6 +1923,7 @@ Eventfd files
-> >>>>        mnt_id: 9
-> >>>>        ino:    63107
-> >>>>        size:   0
-> >>>> +     path:   anon_inode:[eventfd]
-> >>>>        eventfd-count:  5a
-> >>>>
-> >>>>   where 'eventfd-count' is hex value of a counter.
-> >>>> @@ -1934,6 +1938,7 @@ Signalfd files
-> >>>>        mnt_id: 9
-> >>>>        ino:    63107
-> >>>>        size:   0
-> >>>> +     path:   anon_inode:[signalfd]
-> >>>>        sigmask:        0000000000000200
-> >>>>
-> >>>>   where 'sigmask' is hex value of the signal mask associated
-> >>>> @@ -1949,6 +1954,7 @@ Epoll files
-> >>>>        mnt_id: 9
-> >>>>        ino:    63107
-> >>>>        size:   0
-> >>>> +     path:   anon_inode:[eventpoll]
-> >>>>        tfd:        5 events:       1d data: ffffffffffffffff pos:0 i=
-no:61af sdev:7
-> >>>>
-> >>>>   where 'tfd' is a target file descriptor number in decimal form,
-> >>>> @@ -1968,6 +1974,7 @@ For inotify files the format is the following:=
-:
-> >>>>        mnt_id: 9
-> >>>>        ino:    63107
-> >>>>        size:   0
-> >>>> +     path:   anon_inode:inotify
-> >>>>        inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0=
- fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
-> >>>>
-> >>>>   where 'wd' is a watch descriptor in decimal form, i.e. a target fi=
-le
-> >>>> @@ -1992,6 +1999,7 @@ For fanotify files the format is::
-> >>>>        mnt_id: 9
-> >>>>        ino:    63107
-> >>>>        size:   0
-> >>>> +     path:   anon_inode:[fanotify]
-> >>>>        fanotify flags:10 event-flags:0
-> >>>>        fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
-> >>>>        fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:=
-40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
-> >>>> @@ -2018,6 +2026,7 @@ Timerfd files
-> >>>>        mnt_id: 9
-> >>>>        ino:    63107
-> >>>>        size:   0
-> >>>> +     path:   anon_inode:[timerfd]
-> >>>>        clockid: 0
-> >>>>        ticks: 0
-> >>>>        settime flags: 01
-> >>>> @@ -2042,6 +2051,7 @@ DMA Buffer files
-> >>>>        mnt_id: 9
-> >>>>        ino:    63107
-> >>>>        size:   32768
-> >>>> +     path:   /dmabuf:
-> >>>>        count:  2
-> >>>>        exp_name:  system-heap
-> >>>>
-> >>>> diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-> >>>> index 464bc3f55759..8889a8ba09d4 100644
-> >>>> --- a/fs/proc/fd.c
-> >>>> +++ b/fs/proc/fd.c
-> >>>> @@ -60,6 +60,10 @@ static int seq_show(struct seq_file *m, void *v)
-> >>>>        seq_printf(m, "ino:\t%lu\n", file_inode(file)->i_ino);
-> >>>>        seq_printf(m, "size:\t%lli\n", (long long)file_inode(file)->i=
-_size);
-> >>>>
-> >>>> +     seq_puts(m, "path:\t");
-> >>>> +     seq_file_path(m, file, "\n");
-> >>>> +     seq_putc(m, '\n');
-> >>>> +
-> >>>>        /* show_fd_locks() never deferences files so a stale value is=
- safe */
-> >>>>        show_fd_locks(m, file, files);
-> >>>>        if (seq_has_overflowed(m))
-> >>> --
-> >>> To unsubscribe from this group and stop receiving emails from it, sen=
-d an email to kernel-team+unsubscribe@android.com.
-> >>>
-> > _______________________________________________
-> > Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> > To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
->
+>>
+>> Thanks,
+>>
+>> Alex
+>>
+>>>
+>>> Thanks,
+>>>
+>>> Alex
+>>>
+>>> >
+>>> > I tested for-next on both sv39 and sv48 successfully, I took a glance
+>>> > at the code and noticed you fixed the PTRS_PER_PGD error, thanks for
+>>> > that. Otherwise nothing obvious has popped.
+>>> >
+>>> > Thanks again,
+>>> >
+>>> > Alex
+>>> >
+>>> > >
+>>> > > Thanks!
+>>> > >
+>>> > > Alex
+>>> > >
+>>> > > >
+>>> > > > Thanks!
