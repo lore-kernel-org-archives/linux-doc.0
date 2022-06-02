@@ -2,86 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63588C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jun 2022 16:31:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ADA0CCA47A
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jun 2022 16:34:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236237AbiFBQbf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jun 2022 12:31:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55186 "EHLO
+        id S237126AbiFBQe4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jun 2022 12:34:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234043AbiFBQbf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jun 2022 12:31:35 -0400
+        with ESMTP id S237124AbiFBQe4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jun 2022 12:34:56 -0400
 Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E3762B12DC;
-        Thu,  2 Jun 2022 09:31:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B1C513CA3E;
+        Thu,  2 Jun 2022 09:34:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
         :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
         Sender:Reply-To:Content-ID:Content-Description;
-        bh=SQwGGc1qc4tP2TEm97x+HMLFr9XNhA6Mh+1eNWVjw4Q=; b=GCN2C7TdI5FtNsMs/mm90IOO8q
-        M4hakPoawHzgfPq7fokh+zr4az63lrFZ5ZSj5D8N8XMCwoCZ0cRP9zY+Q1aVMCsc6UTM/iiNPMbss
-        2wkO2LKsZsn2Nhe/vBcCWI7yhJNhyskghWP7pz2swA5emKO6m+QefsS6SOvxSv8gV7XrdKqA/3n+y
-        yTSJNugrZDo1/SxrQECgiusMDEUg6l7mGD9kL5L3RQkfwBT262PumDrGCB9v2vwmayKWqtnR8L0yZ
-        X5+5By2omiXIUnUVj8mZ5D8a0e1q7Ww45PCyFNmcb19Tu+dqqQVuaJimDRZJS8EJ01vKW46D0zX5C
-        zlCrLpAQ==;
+        bh=svPrOg1UVwIs7S0rtpWPp9k1K9FF0OCGxIhcYj8TkIQ=; b=VJc18BtxygRpXKEn5jq8wa3gzs
+        Tb1bKMXzyrjOyJ00zBlPnoMmSynEG87rNHrmR26ANwkd45ZpMzYMT77Eyk9xHLNV43/SnSVPy8m8t
+        WaHKGjAIiTNpW5cIUC1VgV5fqi0MP0x3QLSoX0lxFZe+IVCRN+uHx0sgtrykwmAdpQ7yqNVdP1rWy
+        NWUD3gUNmbUVlEGbvFFhib7vh7sTsnqm1QIsccZP+uvYOmQLpYc67lbJwwP/lsWch5c7dy7EhCuVH
+        fMIlJowdLIMGSZ6JYvXBFyq/uWTFMgaPTF/d7xCYVM16NurM2Stgy8B3IS68GuOECVf6Dk+/emBFF
+        BX2GPKkQ==;
 Received: from [2601:1c0:6280:3f0::aa0b]
         by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nwnjM-0049l3-SR; Thu, 02 Jun 2022 16:31:29 +0000
-Message-ID: <47a68855-4547-49dd-d7eb-8ef83630552c@infradead.org>
-Date:   Thu, 2 Jun 2022 09:31:24 -0700
+        id 1nwnmM-0049mu-9X; Thu, 02 Jun 2022 16:34:34 +0000
+Message-ID: <e68000bf-a271-d1f2-56a5-a9ddce2bbb7c@infradead.org>
+Date:   Thu, 2 Jun 2022 09:34:27 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v5] crc-itu-t: Fix typo in CRC ITU-T polynom comment
+Subject: Re: [PATCH V14 01/24] irqchip: Adjust Kconfig for Loongson
 Content-Language: en-US
-To:     Roger Knecht <roger@norberthealth.com>
-Cc:     linux-kernel@vger.kernel.org, Ivo van Doorn <IvDoorn@gmail.com>,
-        kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org,
-        Kristian Hoegsberg <krh@redhat.com>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        akpm@linux-foundation.org, "Jason A. Donenfeld" <Jason@zx2c4.com>
-References: <20220521124745.8747-1-roger@norberthealth.com>
- <a728cf17-4866-1151-0740-56b06257c917@infradead.org>
- <CAO_iFwrHcSWJm17fL-Q83DZ5i1xr+_dkEjh5Yt3Hxso0VtnzZw@mail.gmail.com>
+To:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Marc Zyngier <maz@kernel.org>, WANG Xuerui <git@xen0n.name>
+References: <20220602115141.3962749-1-chenhuacai@loongson.cn>
+ <20220602115141.3962749-2-chenhuacai@loongson.cn>
 From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAO_iFwrHcSWJm17fL-Q83DZ5i1xr+_dkEjh5Yt3Hxso0VtnzZw@mail.gmail.com>
+In-Reply-To: <20220602115141.3962749-2-chenhuacai@loongson.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
 
+On 6/2/22 04:51, Huacai Chen wrote:
+> diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+> index 44fb8843e80e..1cb3967fe798 100644
+> --- a/drivers/irqchip/Kconfig
+> +++ b/drivers/irqchip/Kconfig
+> @@ -557,7 +557,7 @@ config LOONGSON_LIOINTC
+>  
+>  config LOONGSON_HTPIC
+>  	bool "Loongson3 HyperTransport PIC Controller"
+> -	depends on MACH_LOONGSON64
+> +	depends on (MACH_LOONGSON64 && MIPS)
 
-On 6/2/22 07:24, Roger Knecht wrote:
-> On Sat, May 21, 2022 at 5:44 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->> I don't know which maintainer will merge this since no one is Cc:ed on it.
->> You will probably need to choose some maintainer to send the patch to.
->>
->> But let's add the people who merged the header file in the first place
->> for their comments/review. (done)
-> 
-> Thanks Randy.
-> 
-> The CRC implementation seems to be unmaintained (no entry in the
-> MAINTAINER file).
-> Any idea which maintainer I can send the patch to?
+If you ever have another patch version, please drop the unnecessary left and
+right parentheses above.
 
-Yes, the 2 people who signed off on its merger are not active AFAICT.
+	depends on MACH_LOONGSON64 && MIPS
 
-> The kernel doc mentions Andrew Morton as last resort (added to CC):
->> You should always copy the appropriate subsystem maintainer(s) on any patch to
->> code that they maintain; look through the MAINTAINERS file and the source code
->> revision history to see who those maintainers are. The script scripts/get_maintainer.pl
->> can be very useful at this step. If you cannot find a maintainer for the subsystem you
->> are working on, Andrew Morton (akpm@linux-foundation.org) serves as a maintainer
->> of last resort.
-> source: https://www.kernel.org/doc/html/latest/process/submitting-patches.html
-
-Yes, Andrew can merge it.
-Or possibly Jason (also Cc-ed).
+>  	default y
+>  	select IRQ_DOMAIN
+>  	select GENERIC_IRQ_CHIP
 
 thanks.
-
 -- 
 ~Randy
