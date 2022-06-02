@@ -2,107 +2,228 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3161BC43334
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jun 2022 09:27:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DDA4CCA478
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jun 2022 09:36:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229899AbiFBJ1H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jun 2022 05:27:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35642 "EHLO
+        id S232736AbiFBJgl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jun 2022 05:36:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233057AbiFBJ1E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jun 2022 05:27:04 -0400
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69042A46CD;
-        Thu,  2 Jun 2022 02:27:01 -0700 (PDT)
-Received: by mail-io1-xd32.google.com with SMTP id q203so4280967iod.0;
-        Thu, 02 Jun 2022 02:27:01 -0700 (PDT)
+        with ESMTP id S231890AbiFBJgk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jun 2022 05:36:40 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2121.outbound.protection.outlook.com [40.107.243.121])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70F5C2AB235;
+        Thu,  2 Jun 2022 02:36:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F5vHIl2nxDF9jb4vu5bC73kYAFaD9bgdhWwTT2+Js/LllqAXyRJjhIdMJ9tmhWLlcTjNMFPLcKqRV1MlKSVbZUpoU5otyd3RclGr+mk9iKkNzB11bB7OJssptfIQabXFJZ1e9rDn4r1hOcSz9LiNwYUd6CcmVb1Sn+3OfZaZLLlDIoCNSoNrYJE+t7KfwxHWSWztfoX67QWkdeu/8R0o6yhG1wguSmiUa9q24POQv83uKEfieDqMdfLD0AoBsAnEwGIrEImpoW1ATeYXCdwxlzAdvWwbUj3bWfpTOc2geQ5zgfWDJGtDFeOQ3GHhVjY+z2vD3NAru4GpAGioZK7OZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vsuwW5Mi7MWILTc27RLGlxmLVIZ8c/i2SDcmhEPD/5A=;
+ b=kTh0M4qmjGjfhXsS3WjqZz9c9ionO8gzHops1MwIf6b/LjnO9KTfTwR8JguJXvJ8qqFMnuAelUb/zw/Hp/YK8QHHCoY7feAmrmDpCLc4luFEXOmmPCoGWCxo5TYCXqeIRvMTFYVF1FMBbRFMQjYqec5c7Lt3WzzEfidgooy4TdjEKaY4q/hzx+6TuU2Kzf0cAVdN/0v0kZiY65BVxiD0O8sVy3BN/KeTo2I6hYxY2A2K/LG15NG7X0uuf6oCl0XCJobgYK8V2ZlZ1SiaHZr8Z+SKfO3h/69pZNN1qkgfSPK26FgxL72tEr/XUxcMwCv38Ixet3WMaQxJuA3Nu0KWFA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=C+EMAmeFZRp3TpuWkCRyv9pKB/CTk056YS87itpmWkg=;
-        b=D+SU6LNlQnSn/HNiKiYSBUr4ljM0Q/WxPuIdSALbrS/aSUy5MFA0RQcdgV/76jyqW5
-         CkMAQFqL2Ib2gRHa3G6yfytEFENO+cAnH1ucAtIRyBGKg8/WOOtmBAsZJJfGXBOoT6WR
-         oQPAYCqYm5UEDFMRTKPRr1+E0UTzWpp0MZcLZPMWNaQ0J35dgJgXeO7OK7gA9gP2G2E8
-         EJGvb0cJQAygIMGW8+0WTw7PHNiJdFQHyHMkebCT6OLpNTwkP3FxQHquGChIB9A0XoEC
-         HLIxPiOxBczJj15khy+QfouuTbFrIPZivLu3OPqNgKd3Ns8hgk7HL8O0XjdV2TPON2m2
-         Htaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=C+EMAmeFZRp3TpuWkCRyv9pKB/CTk056YS87itpmWkg=;
-        b=iGsmzZvD50F5N36PVkLC3Npq0TUANQ2XOyL3uKIRPbHw9+Q7CmTlN/HYQE9A0ypQkk
-         nPW1VEMqjGkUu8rErWWdZUikqwwEJWLQbr/WesVgAEsZFl6Y8v8k9zddRxmb5vnl6edk
-         VrEZAMSYwhdQ1yrhn2HfY2wMF3xCVVI1DJx26eJF5WstpL9V7ivEzZqr1mN2WMdFhZct
-         wYsKqvYm9XqNtLIKLKDhMzIY5pXP5qBF1/HdKzcDYi14PkX9p/sUsIrlGgMl+Ls+/8kH
-         BZsmmyOmW6VZBu2q7A7OU5RTFCojtrJh+z/8aTiTKI9Su0lCydkKSOslZc6dcCaj0iLS
-         EzDw==
-X-Gm-Message-State: AOAM532z8ecVX5fUyJWozB0ZWKXKHdjG4me3Cf7rf9DZvkN4czsQP+H1
-        U0YzdnjyOrc4HkAiMmBCmI28PTOU91SS9ysGPt0=
-X-Google-Smtp-Source: ABdhPJwlpWpdB/ytI31JwutxbVKBoDGmOXA6+bkbvuq/cwiSYf170f4WOIXhJkFkQDVZTPOv1JFevXIUlVGkIuhangg=
-X-Received: by 2002:a5d:9d8c:0:b0:664:afc8:64df with SMTP id
- ay12-20020a5d9d8c000000b00664afc864dfmr2090581iob.42.1654162021097; Thu, 02
- Jun 2022 02:27:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220601100005.2989022-1-chenhuacai@loongson.cn>
- <20220601100005.2989022-4-chenhuacai@loongson.cn> <Yph/Q+szVkhDPg4a@debian.me>
-In-Reply-To: <Yph/Q+szVkhDPg4a@debian.me>
-From:   Huacai Chen <chenhuacai@gmail.com>
-Date:   Thu, 2 Jun 2022 17:26:51 +0800
-Message-ID: <CAAhV-H4MeVyT1TVx6gfaYaPU3oNSLUyr4iJpt0-FRCNzPf=jfw@mail.gmail.com>
-Subject: Re: [PATCH V12 03/24] Documentation: LoongArch: Add basic documentations
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vsuwW5Mi7MWILTc27RLGlxmLVIZ8c/i2SDcmhEPD/5A=;
+ b=TnhVXVk2p3Nue67KsKoY8JiDYlGgJL3CUCcrmL8zr+8yBE3eWg6w25wezl86jPuQoPthABSSiLOxa065OplkdXwGLNAOlovmVg52mG/KAQWgZotBnPhrDECEUXM5dtB/l+9dUTvQq76bRQxPGQPf1MQrZXQf79FkDPS9V1HCcMc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from SJ0PR01MB7282.prod.exchangelabs.com (2603:10b6:a03:3f2::24) by
+ MW4PR01MB6500.prod.exchangelabs.com (2603:10b6:303:72::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5314.12; Thu, 2 Jun 2022 09:36:36 +0000
+Received: from SJ0PR01MB7282.prod.exchangelabs.com
+ ([fe80::e877:bfc6:92a5:d237]) by SJ0PR01MB7282.prod.exchangelabs.com
+ ([fe80::e877:bfc6:92a5:d237%7]) with mapi id 15.20.5314.013; Thu, 2 Jun 2022
+ 09:36:36 +0000
+Message-ID: <524c6acf-06a8-6e63-c9be-0bbf730fa693@os.amperecomputing.com>
+Date:   Thu, 2 Jun 2022 16:36:22 +0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH v8 3/9] misc: smpro-errmon: Add Ampere's SMpro error
+ monitor driver
+Content-Language: en-US
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        WANG Xuerui <git@xen0n.name>
-Content-Type: text/plain; charset="UTF-8"
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Thu Nguyen <thu@os.amperecomputing.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
+References: <20220422024653.2199489-1-quan@os.amperecomputing.com>
+ <20220422024653.2199489-4-quan@os.amperecomputing.com>
+ <YmJJIb1DAIq5arCw@kroah.com>
+ <4f5d7746-3747-4a4d-525a-4fb69e706cd0@os.amperecomputing.com>
+ <YpcyaTqqsfDJx7HG@kroah.com>
+From:   Quan Nguyen <quan@os.amperecomputing.com>
+In-Reply-To: <YpcyaTqqsfDJx7HG@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2P153CA0045.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::14)
+ To SJ0PR01MB7282.prod.exchangelabs.com (2603:10b6:a03:3f2::24)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7cffb52e-8892-47ba-9bef-08da447b631d
+X-MS-TrafficTypeDiagnostic: MW4PR01MB6500:EE_
+X-Microsoft-Antispam-PRVS: <MW4PR01MB650055C3194D598CA0CE2B4DF2DE9@MW4PR01MB6500.prod.exchangelabs.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jr02FCAZ8MSzCD66WU6TeqYAVKYW6nvZlvJN/on567UvC5XIvThbF+AdgUChP2vP5GRVDktUpCXIz0cRzK1vAD5aeH92DqXCP5N9ZikiD/fuy1wSalccmcdowfE7g5ITrWCoB0diWTJTclLKCJ/ffojQI3QYkgZcgq+oZ+s7fK+v04hpDdA5/gODnlx6kFsqgIzffzZATinFxAQI1SLaLoWK3OoZ1vcdtYJDnj0vgdCzFcodCqVZiFY3GZuCB3VEmz8fyHy5Uhp9AP1xx2IPa6YXjoTC9A+QAOpBl5vJJRkS3gnrfGIyxznTR3K6TZu4ZUo72cZBDLT0pRFGPaykOkZZWLbkQv8vXd+dsSKPpwpfgPHl/iUY0cENaPJ8/eHMKnd1KekMDWpFtMgPKUGZm+KjoHzN9g3UbxWLV5Ov81nWJKYaQivrTkpcJ8IPkTWjwp5w2Eo+KHm1+qmtk3va8uPo7TjQuVl/aQ631YY3EDDdBvFn2LdkS7+kKX2L5Fpj7mYBmT15+R8eQHEpyWpqOrwmzxdOoDrQR5MnzJUdJSqtFwOO4qGWlo80G7FHYJuOpppt3TJSRejlu8bhkqmf7TkH4cevpL7eHkdShdRrxyNzJN7fTLkZ+aNa0rOm3GPyr4GiRw4F+Nzu887sT/DMzxP8Nh53I0el7Q09PhE1D5GICzHRDdyIG4/UwuhsgW+NBqzys3/cryA90kIaPQmNUFHlefqLEMlMxLWuoQqn2d0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR01MB7282.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66946007)(54906003)(38350700002)(66556008)(6916009)(38100700002)(53546011)(52116002)(31686004)(4326008)(26005)(8676002)(6506007)(6666004)(6512007)(316002)(31696002)(86362001)(66476007)(8936002)(186003)(107886003)(2616005)(7416002)(508600001)(5660300002)(2906002)(6486002)(83380400001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YnM1UXdFR1lNODRyeG9uQi9CamhwZ29SVzdtdkJSUjMvTHgrOTNqYjdWM2Mv?=
+ =?utf-8?B?bitXdVlyOGtaTDdoQWNlN2E3Nm1wRHJCWVB1ZnBXMGVRZ29TaWt4SXIvcGNC?=
+ =?utf-8?B?T29BNU9ldnlKMWRuYittakt0Slk2WmxWaHYva0o2QWp1R21vdmh2NGNrK01T?=
+ =?utf-8?B?TFEvdWVEUnRFa1ZueVZYWWF4UEI0MjIrL3d2N1lWNkNSbTBpcXh5NHlQNFVK?=
+ =?utf-8?B?cmFXZDEyaEM1SGNTdEc1SFRLWjNpSVIxc1VES1BXNjZOWWd4Nmp0WlNjckd0?=
+ =?utf-8?B?aHV0Ky9jVldxb0RXeUxpaUl0eWdVWHZzYW44cnVRUUVDWTRZVGFCWmZ2T1B6?=
+ =?utf-8?B?NzltdWVTOGJWS3ZGZFpiWm9EUjVVckxzTjFMRmlwbitkWWJmNFRIUlcwY3J4?=
+ =?utf-8?B?QW51ZUIyczlwSGdlbDlBOG4vQ3dIMHQxV0NPcmZhbDhyY3FMT1E3aEExVnhU?=
+ =?utf-8?B?MWc1WjlRRXJKMEVoZlJnc2p5ZkwzTmtzN1NxWGVRK0NrbVNPV2R3bncwZFEy?=
+ =?utf-8?B?ekFkd1lJWG5XR0RnZ3I4QkRuYk9NSzJTMU5MbVN5MlQyWEpudmhuWlMzZ0Q0?=
+ =?utf-8?B?U25lZnF0VFZlWWgzMkRPMzF5Tm1CSUE1R2JQY0xuZzdackZEaTk1ZmxnVDJ3?=
+ =?utf-8?B?YU9tVWNQY0t1OEZLdEN2NnBoZkR3ZFJDL1dHTlgwUVViVmxRMWRmckdnemxz?=
+ =?utf-8?B?d3pEUkRpb2licG1qRWlOUnNrMG0wcklUQUZpNVFERmRCUUdHRnpEM0NsSjBn?=
+ =?utf-8?B?NS9oc1hkVUZTRXJ4OE1KUk5YWTFPRTFJbnkva1VIUHo1WitYRU5aYzBKZDN3?=
+ =?utf-8?B?MDJFcDlWdmdTdHNsNXZvQVp5b3lyVHNrSEpwU1FoMFVGWEJWazk4U2ZnZ2VP?=
+ =?utf-8?B?blk2N05FeHBXaVF1NktGdldSZUpyVnFGUmNUODFhQ0I4VW9zSGxkeTBSUDBr?=
+ =?utf-8?B?QUNpWCtlZXEzbXRtN0lRNG15MjhaWXNEdmFTZWo4b2g1WkVDZVZtc1dOdnBX?=
+ =?utf-8?B?bW1XQXJLU2tQWTAxUE9PN0hBMXZuQnpkZjNNM1NFcytjM2JIdVd1VUJpeEZK?=
+ =?utf-8?B?K2JhZmxlUlVWWlVUYlMxTENHem9hSEZGOXFOV0oyendLMUllRi9Ma0ZwUU1J?=
+ =?utf-8?B?d3RPeVVrYU1zeHJuaVA0VUhZdHBiZDVSSERWbnlpK3luWi9BckRIMi8xVHVY?=
+ =?utf-8?B?TFFFMTZGZUI2aEMvTkxJU3R0dlB0dWVUZkRYQnIyU3FSZXljSVZrajdmRGVP?=
+ =?utf-8?B?NHAxekVrSmR6SlVLOG1iNXRKOCtyVlEvWFU2UlhoZDdzWVBwS0lqTk5yNStj?=
+ =?utf-8?B?Q0l1NW5YWTBWZW9qMGY2bkx2N1k3aGVFNU5sdEZ5eTYrVnRmcTlMRGttclJu?=
+ =?utf-8?B?ZTg0bVV4bUVjMHRuSG95OEdZN3kvY0RIK1dwRnROMjVYQmVmdTcvRkFNQ2R5?=
+ =?utf-8?B?S2N4cSt0cVJBRXI2MVhVeG5ZUWdrTVlSajZia3lkS3lMcS95TC9yNTE3NVRi?=
+ =?utf-8?B?blYrTUl6NG9vZHRpVERBK3JBU3B2WUtOZm5hZ3QzRGc3c0RteDlVckhzSHBw?=
+ =?utf-8?B?NXFQbi9VS0txeXV6cVpoUXpmTGhUOHIzVDVBYlBXNWlwcjM5UE5YV00vRXV5?=
+ =?utf-8?B?WXJUUzNiSE5lUHIvUWdRL3BlVUxuMjRsVDJWL2ZwZFdNckFIT1dCN2J1MFow?=
+ =?utf-8?B?OVZyUFJOb2tKNEtwSzBkM1lvRjAweHhDa2QxU3ZReEZMRnRYcVV4NGZYZGxY?=
+ =?utf-8?B?NWJSanZ2V3E5WUJXVzhuODAwQlZseW9RTDRCdDQveFYwcTZKT0F6R0JNWUZs?=
+ =?utf-8?B?MG5pZW4wTDFEWmVkWEpBSUF4ZjVVcngrc2hoa0VhRkh5OWExczlEYkZCY3RD?=
+ =?utf-8?B?M3NzbjZNaXV2L2grNmhtM3lUaHpqU3ozTlRoK2JDNlJkZFMrYmRJUVFYQklr?=
+ =?utf-8?B?YnFNeS9vTTBWL2RSN1c5V1JoMStuMlRQL2tJbUtmdHM3cXlia3BGbEZWTDBL?=
+ =?utf-8?B?ejZHalNsZ0RsdzBKSGlldDZMRk5VZlRYeGJPL3pMazhLeGcyWjU3QW1zbDBS?=
+ =?utf-8?B?K0RqbmJmSFFpZzA1Z1o3bTVqdStyTzBBSU5MMXAyM2NHVVJQaEJDOWpjcS9I?=
+ =?utf-8?B?NDNaWlZVTS80a0ZuS2JrdXl4ZGdsQ2N0VGJFd1kxU2tXODVpbXhNRWFCcWhw?=
+ =?utf-8?B?SHhZN3N3WXI5dUt0UlRzRVY3TjJsTHBwUS9jbytRYlpack95LzAvUEg0dHdQ?=
+ =?utf-8?B?VFNhUXd5NVlrczNvcXRNK1JBcnZHTCtPYnl2MVJRUTFiSE1wbk9nejVaZmFT?=
+ =?utf-8?B?d28xSjNma2wraUVzbEwrZDBHVSt1WW52YlRZMWk5bUN3S3JZS1pXdHY0dFR0?=
+ =?utf-8?Q?BpvCVbqvKk9Qxjsf0T7BuwxYYqsYmi8bMruSK?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7cffb52e-8892-47ba-9bef-08da447b631d
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR01MB7282.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2022 09:36:36.6052
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ggbtl/0QJWgI2zemSGClzIiEEdEwx25fkOGixHcH0uUheOc33oVldHC7Cmpi+/5LNQAeY79jfqGvM0M4fxmP6x5pQ/ThGB8mo8uuzfW9Kwg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR01MB6500
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Bagas,
+On 01/06/2022 16:33, Greg Kroah-Hartman wrote:
+> On Wed, Jun 01, 2022 at 03:21:47PM +0700, Quan Nguyen wrote:
+>>>> +	if (err_type & BIT(2)) {
+>>>> +		/* Error with data type */
+>>>> +		ret = regmap_read(errmon->regmap, err_info->err_data_low, &data_lo);
+>>>> +		if (ret)
+>>>> +			goto done;
+>>>> +
+>>>> +		ret = regmap_read(errmon->regmap, err_info->err_data_high, &data_hi);
+>>>> +		if (ret)
+>>>> +			goto done;
+>>>> +
+>>>> +		count = sysfs_emit(buf, "%01x%02x%01x%02x%04x%04x%04x\n",
+>>>> +				   4, (ret_hi & 0xf000) >> 12, (ret_hi & 0x0800) >> 11,
+>>>> +				   ret_hi & 0xff, ret_lo, data_hi, data_lo);
+>>>> +		/* clear the read errors */
+>>>> +		ret = regmap_write(errmon->regmap, err_info->err_type, BIT(2));
+>>>> +
+>>>> +	} else if (err_type & BIT(1)) {
+>>>> +		/* Error type */
+>>>> +		count = sysfs_emit(buf, "%01x%02x%01x%02x%04x%04x%04x\n",
+>>>> +				   2, (ret_hi & 0xf000) >> 12, (ret_hi & 0x0800) >> 11,
+>>>> +				   ret_hi & 0xff, ret_lo, data_hi, data_lo);
+>>>> +		/* clear the read errors */
+>>>> +		ret = regmap_write(errmon->regmap, err_info->err_type, BIT(1));
+>>>> +
+>>>> +	} else if (err_type & BIT(0)) {
+>>>> +		/* Warning type */
+>>>> +		count = sysfs_emit(buf, "%01x%02x%01x%02x%04x%04x%04x\n",
+>>>> +				   1, (ret_hi & 0xf000) >> 12, (ret_hi & 0x0800) >> 11,
+>>>> +				   ret_hi & 0xff, ret_lo, data_hi, data_lo);
+>>
+>> Hi Greg,
+>>
+>> Since the internal representation of the internal error is split into high
+>> low chunks of the info and data values which need to be communicated
+>> atomicly, I'm treating them as "one value" here.
+> 
+> That is a huge "one value", that's not what this really is, it needs to
+> be parsed by userspace, right?
+> 
+Thanks Greg for the review,
 
-On Thu, Jun 2, 2022 at 5:13 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> On Wed, Jun 01, 2022 at 05:59:44PM +0800, Huacai Chen wrote:
->
-> > +Note: The register ``$r21`` is reserved in the ELF psABI, but used by the Linux
-> > +kernel for storing the percpu base address. It normally has no ABI name, but is
-> > +called ``$u0`` in the kernel. You may also see ``$v0`` or ``$v1`` in some old code,
-> > +they are deprecated aliases of ``$a0`` and ``$a1`` respectively.
->
-> A nitpick: instead of just comma (,), also use "however" conjunction, that
-> is "You may also see ..., however they ... ."
-OK, thanks.
+User space needs all of this "one value" to know what exactly is the error.
 
-Huacai
->
-> > +
-> > +Note: You may see ``$fv0`` or ``$fv1`` in some old code, they are deprecated
-> > +aliases of ``$fa0`` and ``$fa1`` respectively.
-> > +
->
-> The nitpick above also applies here, too.
->
-> Otherwise, htmldocs built successfully without any new warnings.
->
-> Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
->
-> --
-> An old man doll... just what I always wanted! - Clara
+In our latest version, we remove all the if...else and simplify the code 
+as below:
+/*
+  * The internal representation of the internal error is split into high
+  * low chunks of the info and data values. Rather than temporarily
+  * dumping these into an array and printing that, skip the intermediate
+  * step and print them using a concatenation encoding.
+  */
+count = sysfs_emit(buf, "%04x%04x%04x%04x\n", info_h, info_l, data_h, 
+data_l);
+
+/* clear the read error */
+ret = regmap_write(errmon->regmap, err_info->type, err_type);
+return ret ? ret : count;
+
+> And why does this have to be atomic?  What happens if the values change
+> right after you read them?  What is userspace going to do with them?
+> 
+Because the error is bigger than single register can hold so it is split 
+into small chunks to report via multiple separate registers.
+
+Firmware stores each error in a queue. As the error's chunks are stored 
+in separate registers. All of these registers will need to be read out 
+before the error is clear so that the next error in the queue can be 
+reported. That is why we say those chunks must be read out atomically.
+
+User space will need to parse these information themself.
+
+>> I could dump them in a
+>> temporary array and print that, but it seems like additional complexity for
+>> the same result. Can we consider this concatenated encoding as "an array of
+>> the same type" for the purposes of this driver?"
+> 
+> That's really not a good idea as sysfs files should never need to be
+> "parsed" like this.
+> > Again, what are you trying to do here, and why does it have to be
+> atomic?
+> 
+> thanks,
+> 
+> greg k-h
+
