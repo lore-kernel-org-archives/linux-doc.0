@@ -2,158 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D0CCCCA479
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jun 2022 06:20:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61AB4C43334
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jun 2022 07:27:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230463AbiFBGU0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jun 2022 02:20:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38096 "EHLO
+        id S231714AbiFBH1v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jun 2022 03:27:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230462AbiFBGUZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jun 2022 02:20:25 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 697FE280B2F;
-        Wed,  1 Jun 2022 23:20:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1D54FB81EC0;
-        Thu,  2 Jun 2022 06:20:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 700BEC385A5;
-        Thu,  2 Jun 2022 06:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1654150821;
-        bh=Gn0mmCHssjpDmMOxhtbBTwvuYite/0yMZNqpBs7V2nE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mAWmwIszHR/E98n1VFJCtqm9AVMJpD5/gp2CyX4Vv5NixDiD++yaQLzJte1lSGNKp
-         xuWU6DvmIBmp48RMTO0iZI4wV+Q7MMLEOulO9Jc6txAMg8LocxRjnvBdfi4XDAxWBA
-         Um1envM6ziHjyF3c1yHIpv9bv/zIIyurqyzjyWX8=
-Date:   Thu, 2 Jun 2022 08:20:18 +0200
-From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To:     "Bird, Tim" <Tim.Bird@sony.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Richard Fontana <fontana@sharpeleven.org>,
-        "tj@kernel.org" <tj@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "jeyu@kernel.org" <jeyu@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "bvanassche@acm.org" <bvanassche@acm.org>,
-        "dan.j.williams@intel.com" <dan.j.williams@intel.com>,
-        "joe@perches.com" <joe@perches.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "minchan@kernel.org" <minchan@kernel.org>,
-        "linux-spdx@vger.kernel.org" <linux-spdx@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Goldwyn Rodrigues <rgoldwyn@suse.com>,
-        Kuno Woudt <kuno@frob.nl>,
-        "copyleft-next@lists.fedorahosted.org" 
-        <copyleft-next@lists.fedorahosted.org>,
-        Ciaran Farrell <Ciaran.Farrell@suse.com>,
-        Christopher De Nicolo <Christopher.DeNicolo@suse.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v9 1/6] LICENSES: Add the copyleft-next-0.3.1 license
-Message-ID: <YphWomPaMdLCa3Pt@kroah.com>
-References: <20211029184500.2821444-1-mcgrof@kernel.org>
- <20211029184500.2821444-2-mcgrof@kernel.org>
- <87bkvo0wjd.ffs@tglx>
- <Yo5cxWghV/v2Fnzf@bombadil.infradead.org>
- <BN7PR13MB24998CAFCFB973C80549F308FDD69@BN7PR13MB2499.namprd13.prod.outlook.com>
- <Yo5xTwGLmbsgJhfM@bombadil.infradead.org>
- <BN7PR13MB2499BA2AFAC1C79197734D81FDD69@BN7PR13MB2499.namprd13.prod.outlook.com>
- <871qwhz2aa.ffs@tglx>
- <BYAPR13MB2503DAC31B8B5CC69F8FECD3FDDE9@BYAPR13MB2503.namprd13.prod.outlook.com>
+        with ESMTP id S231169AbiFBH1v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jun 2022 03:27:51 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DBD529FE6C;
+        Thu,  2 Jun 2022 00:27:50 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id g205so4022551pfb.11;
+        Thu, 02 Jun 2022 00:27:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dO8F4huKrg7HK40w6R+II0EDqtahfzCwucyNeG/6yhE=;
+        b=YbmlsAf5cKN+CIdt4ksyeiFsXj0EO16r04pJvRYTBKJYl61jvLfDPpgpGksmXE6pna
+         f0o9KsvP7NHWOUk3Me3mfFvf89XjY/S+STrfm10JmnFCI8kJdybbtZGmP7v0QqyXOvec
+         /b3p05S/iWQNhtPipEU3TFT8HplJgJtc8UaN9lMK4BIhSD6WSw73oa0z82tkxZQEiDtp
+         VmNI88iAEOPDH7L0GG78ABi26dMu5+TROVORxgoYoCMbFyveOI6jW1eBZoNAW0umuoG8
+         7mT7ZOkcL4pfHlESth8wdpUw5eoe2Kkl2Ac/EZ0AaEsqX8SotY9JRn8hmEzfUrRoDf49
+         y/IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dO8F4huKrg7HK40w6R+II0EDqtahfzCwucyNeG/6yhE=;
+        b=r0WPwzDZENiT5NqF0Z6ctHI+V2ONG6onaTY+BOVBR48lE6aH1z8S2etVFK5E8hDTKX
+         tlR3GCE0fYTij9aqy3lTu9eNBS4j+6pDDs9Kay3XaTEtNCCZwlBhkQ4/Szt39mt6mYYO
+         FCILQ/qOtNuHT66BnIaP7h0KAdYiq/nq4cHnt3t/zs3W8qK8YiF+KM9S9A24Qddgz/B2
+         5Ouul8lGm3i6iO0fBTjYr9cKb7ttTltzVuqZGjEjEP466wq5HavR1KwjimbN+2xlcefg
+         2agwE0kiNwjrt8vj/nGz9jGZjYkDWLLH8rAxZIKh+ZQH2VGB5RQkwOp3W2WyZmXC1nho
+         twng==
+X-Gm-Message-State: AOAM533vsVj+FJ2FcbZYVotUHRnbt7/jq7tIyHWFmF417H7MVCqFsW7w
+        ncJWn5pmKAEUJY8qtiRmdw8=
+X-Google-Smtp-Source: ABdhPJxSXbdQaUbjNS/QdVvu+sLCgGBWTdnUUVvw1xqzChxB+sM8bBLz7d44zgYoS4w2B8l5C/3ElQ==
+X-Received: by 2002:a63:114d:0:b0:3fc:cfa3:52f0 with SMTP id 13-20020a63114d000000b003fccfa352f0mr2978866pgr.243.1654154869625;
+        Thu, 02 Jun 2022 00:27:49 -0700 (PDT)
+Received: from localhost.localdomain ([103.220.76.197])
+        by smtp.gmail.com with ESMTPSA id c7-20020aa79527000000b0050dc76281ecsm2705091pfp.198.2022.06.02.00.27.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jun 2022 00:27:48 -0700 (PDT)
+From:   Chao Liu <chaoliu719@gmail.com>
+To:     Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-f2fs-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Yue Hu <huyue2@coolpad.com>,
+        Wayne Zhang <zhangwen@coolpad.com>,
+        Chao Liu <liuchao@coolpad.com>
+Subject: [PATCH] docs: filesystems: f2fs: fix description about compress ioctl
+Date:   Thu,  2 Jun 2022 15:25:40 +0800
+Message-Id: <20220602072540.998638-1-chaoliu719@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BYAPR13MB2503DAC31B8B5CC69F8FECD3FDDE9@BYAPR13MB2503.namprd13.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 02, 2022 at 04:11:16AM +0000, Bird, Tim wrote:
-> > -----Original Message-----
-> > From: Thomas Gleixner <tglx@linutronix.de>
-> > 
-> > Tim!
-> > 
-> > On Wed, May 25 2022 at 19:05, Bird, Tim wrote:
-> > >> From: Luis Chamberlain <mcgrof@infradead.org> On Behalf Of Luis Chamberlain
-> > >> I agree that we want to keep the number of licenses as small as
-> > >> possible but we cannot really dictate which dual licensing options a
-> > >> submitter selects unless the license is GPL-2.0-only incompatible,
-> > >> which copyleft-next is not.
-> > >
-> > > Um, yes we can dictate that.
-> > 
-> > No!
-> Sorry for the delayed response.  I was on vacation over memorial day weekend
-> (holiday in the US.)
-> 
-> I think that the option to reject a contribution based on its license should be
-> available to the community, using criteria beyond those that Luis has mentioned
-> (and that you mention below).
-> 
-> I could create a license that was GPL-2.0-only compatible, and use it to cover a new
-> contribution to the Linux kernel (in dual-license format), in order to get exposure
-> for the license or to promote it.  We could use the SPDX identifier "Tims-license-0.1".
-> I think it would be fair for the community to reject a contribution based
-> on those license circumstances, even though it met all the criteria you mention.
-> 
-> I don't think that the Linux kernel should be used for license promotion, but if it is,
-> then it should be used to promote GPL-v2-only.
+From: Chao Liu <liuchao@coolpad.com>
 
-I agree, and in a way, I feel like that is what is happening here for
-this original submission.  See below for more...
+Since commit c61404153eb6 ("f2fs: introduce FI_COMPRESS_RELEASED
+instead of using IMMUTABLE bit"), we no longer use the IMMUTABLE
+bit to prevent writing data for compression. Let's correct the
+corresponding documentation.
 
-> > > There were good reasons that the original BSD dual-licenses were
-> > > allowed.  Those same reasons don't apply here.
-> > 
-> > That's just wrong. The reason why dual licensing is allowed is to share
-> > code across licesce preferences. The very same reason applies here.
-> 
-> I was talking about why dual licensing was originally introduced, which was
-> a situation different from what went on in 2016, when the copyleft-next
-> dual license was discussed.
-> 
-> Dual-licensing in the Linux kernel was originally introduced because code was being
-> taken from BSD and placed into Linux (under GPL v2), often by someone other than the
-> original author.  This created a bit of hard feelings between the BSD community
-> and the Linux community.  So dual-licensing was introduced so that derivative works
-> (created by Linux developers) of BSD code could flow back into the BSD project.
-> 
-> This was code that existed before being introduced into Linux, and there was
-> no notion of using the kernel to promote the BSD license.
+BTW, this patch fixes some alignment issues in the compress
+metadata layout.
 
-I agree, dual licensed code that is added to the kernel is either done:
-	- because the original code had a non-GPL license and it was
-	  added so that it could be compatible so that it could be added
-	  to Linux.
-	- because the code being accepted into Linux can also be used in
-	  another non-Linux codebase now or in the future.
+Signed-off-by: Chao Liu <liuchao@coolpad.com>
+---
+ Documentation/filesystems/f2fs.rst | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-The submission here was neither of these.
+diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+index ad8dc8c040a2..98dc24f5c6f0 100644
+--- a/Documentation/filesystems/f2fs.rst
++++ b/Documentation/filesystems/f2fs.rst
+@@ -818,10 +818,11 @@ Compression implementation
+   Instead, the main goal is to reduce data writes to flash disk as much as
+   possible, resulting in extending disk life time as well as relaxing IO
+   congestion. Alternatively, we've added ioctl(F2FS_IOC_RELEASE_COMPRESS_BLOCKS)
+-  interface to reclaim compressed space and show it to user after putting the
+-  immutable bit. Immutable bit, after release, it doesn't allow writing/mmaping
+-  on the file, until reserving compressed space via
+-  ioctl(F2FS_IOC_RESERVE_COMPRESS_BLOCKS) or truncating filesize to zero.
++  interface to reclaim compressed space and show it to user after setting a
++  special flag to the inode. Once the compressed space is released, the flag
++  will block writing data to the file until either the compressed space is
++  reserved via ioctl(F2FS_IOC_RESERVE_COMPRESS_BLOCKS) or the file size is
++  truncated to zero.
+ 
+ Compress metadata layout::
+ 
+@@ -830,12 +831,12 @@ Compress metadata layout::
+ 		| cluster 1 | cluster 2 | ......... | cluster N |
+ 		+-----------------------------------------------+
+ 		.           .                       .           .
+-	.                       .                .                      .
++	  .                      .                .                      .
+     .         Compressed Cluster       .        .        Normal Cluster            .
+     +----------+---------+---------+---------+  +---------+---------+---------+---------+
+     |compr flag| block 1 | block 2 | block 3 |  | block 1 | block 2 | block 3 | block 4 |
+     +----------+---------+---------+---------+  +---------+---------+---------+---------+
+-	    .                             .
++	       .                             .
+ 	    .                                           .
+ 	.                                                           .
+ 	+-------------+-------------+----------+----------------------------+
+-- 
+2.36.1
 
-It was to test core Linux kernel functionality that is ONLY GPL-v2.
-That functionality and interactions within the Linux core could never be
-used in any non-Linux project as it does not make any sense.  Or if it
-could be used in a non-Linux project, that would only be if that project
-was also GPLv2 licensed as the kernel core code would have been copied
-out of Linux into that other project.
-
-I feel that the dual-license of this code is purely done to support an
-additional license and give it attention as it could never be invoked on
-this codebase due to the contents of it.  Which makes it not necessary
-and has only distracted us from the real technical issues of why I
-rejected this code in the first place :(
-
-thanks,
-
-greg k-h
