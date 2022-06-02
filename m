@@ -2,114 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F8D3CCA47F
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jun 2022 19:41:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5294AC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jun 2022 21:37:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238752AbiFBTln (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jun 2022 15:41:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54700 "EHLO
+        id S239295AbiFBVhQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jun 2022 17:37:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238914AbiFBTl3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jun 2022 15:41:29 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F4712E9E8;
-        Thu,  2 Jun 2022 12:41:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Eceey+RredpO1DUpw4XgOlm7hqUoNbIq9MwFfP+irVY=; b=VRfjtgzVIIfFh/6aegPoMJ5pyK
-        7gk1arWHebBfVWqJyt7uVOHx6SccEXwTqEY4lmki3xAk/qtzDLUH/1h6P7WkO5+TI+V+WeXu+q1zW
-        MKwPhqjFfksjbafDWz/o58AsRSqI3qKUxVt/TG5ZyxlpLgjf4xYG3vQzdOW3Ojhl0/k9BEK7hVPge
-        vQQDgt2E+uzU7nGqfhz+pdZ8UvuHHOEjUTBveG1XXbJ7+qD58PscQcpWReyxghMtyCtLvZexlxH5A
-        xWrB7CHz3eMGKOSGlDx1LQXODDK1IYdclZ9DSkkwRBSPLbaiNjrWly5+ox1t3zfrMt6ueTradwhiw
-        j+OX/Zrw==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nwqgx-0047ut-H1; Thu, 02 Jun 2022 19:41:11 +0000
-Date:   Thu, 2 Jun 2022 12:41:11 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Cc:     "Bird, Tim" <Tim.Bird@sony.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Richard Fontana <fontana@sharpeleven.org>,
-        "tj@kernel.org" <tj@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "jeyu@kernel.org" <jeyu@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "bvanassche@acm.org" <bvanassche@acm.org>,
-        "dan.j.williams@intel.com" <dan.j.williams@intel.com>,
-        "joe@perches.com" <joe@perches.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "minchan@kernel.org" <minchan@kernel.org>,
-        "linux-spdx@vger.kernel.org" <linux-spdx@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Goldwyn Rodrigues <rgoldwyn@suse.com>,
-        Kuno Woudt <kuno@frob.nl>,
-        "copyleft-next@lists.fedorahosted.org" 
-        <copyleft-next@lists.fedorahosted.org>,
-        Ciaran Farrell <Ciaran.Farrell@suse.com>,
-        Christopher De Nicolo <Christopher.DeNicolo@suse.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v9 1/6] LICENSES: Add the copyleft-next-0.3.1 license
-Message-ID: <YpkSV51Pieq7K4x2@bombadil.infradead.org>
-References: <20211029184500.2821444-1-mcgrof@kernel.org>
- <20211029184500.2821444-2-mcgrof@kernel.org>
- <87bkvo0wjd.ffs@tglx>
- <Yo5cxWghV/v2Fnzf@bombadil.infradead.org>
- <BN7PR13MB24998CAFCFB973C80549F308FDD69@BN7PR13MB2499.namprd13.prod.outlook.com>
- <Yo5xTwGLmbsgJhfM@bombadil.infradead.org>
- <BN7PR13MB2499BA2AFAC1C79197734D81FDD69@BN7PR13MB2499.namprd13.prod.outlook.com>
- <871qwhz2aa.ffs@tglx>
- <BYAPR13MB2503DAC31B8B5CC69F8FECD3FDDE9@BYAPR13MB2503.namprd13.prod.outlook.com>
- <YphWomPaMdLCa3Pt@kroah.com>
+        with ESMTP id S229742AbiFBVhP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jun 2022 17:37:15 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81704BCA5;
+        Thu,  2 Jun 2022 14:37:10 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 806D4723;
+        Thu,  2 Jun 2022 21:37:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 806D4723
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1654205829; bh=emu3MD0vFpbuAKqg2DnTP00ci/l1caFfIP/xff9yOAU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ohMMGb8O+3eEEk0jbxt5GAVbAp3Ih3SJAzrXuPoKzuIaAzRFM71G/hullP1DzeBYf
+         LIOn+tSe+Dm/7btPfemCgAsKRNdXAZLPfu1r1ECy+XIXFHwx2jzxxzgx33TBdTCCzA
+         wLN3Ko6i88T5Zh6KQsLKdG54Lrgdq0rOEl9CU71ksL35nesFkzXvwpYderJXfWWnRT
+         7HbmunzOeoqaW830VaCBlameiM9BHVUtw5cvs+YJmjPztHh6bmV4HkNO50v4SH6cIQ
+         mdCbyTel7slwCv1Fqk4HtFbuVW6+nnPA0eDZiiBXojZ9gvFe3+VxRwlAbcsLAchunO
+         EcX1XoHPu5eAw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Documentation fixes for 5.19
+Date:   Thu, 02 Jun 2022 15:37:21 -0600
+Message-ID: <875yliycfi.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YphWomPaMdLCa3Pt@kroah.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 02, 2022 at 08:20:18AM +0200, gregkh@linuxfoundation.org wrote:
-> On Thu, Jun 02, 2022 at 04:11:16AM +0000, Bird, Tim wrote:
-> > I don't think that the Linux kernel should be used for license promotion, but if it is,
-> > then it should be used to promote GPL-v2-only.
-> 
-> I agree, and in a way, I feel like that is what is happening here for
-> this original submission.  See below for more...
+The following changes since commit b86f46d5ce3e7497930be931a9a9e57480f0baff:
 
-I have been using copyleft-next for years and cross polination for me is real.
+  docs: pdfdocs: Add space for chapter counts >= 100 in TOC (2022-05-17 13:41:26 -0600)
 
-> I agree, dual licensed code that is added to the kernel is either done:
-> 	- because the original code had a non-GPL license and it was
-> 	  added so that it could be compatible so that it could be added
-> 	  to Linux.
-> 	- because the code being accepted into Linux can also be used in
-> 	  another non-Linux codebase now or in the future.
+are available in the Git repository at:
 
-Sometimes such cross polination is purely speculative, but we don't
-stop and ask people for evidence of this.
+  git://git.lwn.net/linux.git tags/docs-5.19-2
 
-You forgot that another reason is because some attorneys like some
-permissive license more. That's it. The Clear BSD license is an example.
-In that case it was a new license to Linux. So let us be clear that one
-could argue that was a bit of license promotion.
+for you to fetch changes up to a27e51b45e1bc57f15cffd6b9bfc38efef8cc419:
 
-> The submission here was neither of these.
+  documentation: Format button_dev as a pointer. (2022-06-01 09:34:28 -0600)
 
-You are incorrect.
+----------------------------------------------------------------
+A handful of late-arriving documentation fixes and the addition of an SVG
+tux logo which, I'm assured, we're going to want.
 
-I have a vision for Linux kernel testing and I have put *years* of
-effort in this regard and thinking about architecture behind all this.
-So yes cross polination is *extremely* important to me and hence some
-of this effort.
+----------------------------------------------------------------
+Akira Yokosawa (1):
+      docs/conf.py: Cope with removal of language=None in Sphinx 5.0.0
 
-  Luis
+Joel Colledge (1):
+      docs: blockdev: change title to match section content
+
+Miguel Ojeda (2):
+      docs: move Linux logo into a new `images` folder
+      docs: add SVG version of the Linux logo
+
+Nelson Penn (1):
+      documentation: Format button_dev as a pointer.
+
+ Documentation/admin-guide/blockdev/index.rst |    6 +-
+ Documentation/conf.py                        |    2 +-
+ Documentation/{ => images}/COPYING-logo      |    8 +
+ Documentation/{ => images}/logo.gif          |  Bin
+ Documentation/images/logo.svg                | 2040 ++++++++++++++++++++++++++
+ Documentation/input/input-programming.rst    |    6 +-
+ scripts/spdxcheck-test.sh                    |    2 +-
+ 7 files changed, 2056 insertions(+), 8 deletions(-)
+ rename Documentation/{ => images}/COPYING-logo (64%)
+ rename Documentation/{ => images}/logo.gif (100%)
+ create mode 100644 Documentation/images/logo.svg
