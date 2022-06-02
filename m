@@ -2,90 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59742C43334
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Jun 2022 07:40:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F500C43334
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Jun 2022 08:23:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231573AbiFBHkF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jun 2022 03:40:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58860 "EHLO
+        id S232147AbiFBIXg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Jun 2022 04:23:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231823AbiFBHkD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jun 2022 03:40:03 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EEBBB6A;
-        Thu,  2 Jun 2022 00:40:00 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id v29so2846686qtc.12;
-        Thu, 02 Jun 2022 00:40:00 -0700 (PDT)
+        with ESMTP id S232146AbiFBIXf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jun 2022 04:23:35 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBB5317E3E;
+        Thu,  2 Jun 2022 01:23:33 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id c14so4122154pgu.13;
+        Thu, 02 Jun 2022 01:23:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cbmNOareeTE5Db8Piv7hDPn78IPOWasDWjVRSeszEak=;
+        b=F2LlSXp3PxiU4nJ+UEfZulTenT901DxKJZUBhWrOIghbAJO7H41vsGxbtH7E6owQWK
+         zQNb3UDVLjgTRyR3z0DwxC517totfjnOMzlmsup9oVLRJ7WIcIHmVTAS06wIa0d3jzBn
+         pGeP0Hnz64qgoYJ2AGAah3DGsQXD+uEy0SyEZlkn9IU2qLQiwtVQsW+yvaR8P/V7kamU
+         PSl9zdxBEmC6RnXKuSxR823fwizfddWXsJUYVeIciFVC6gcr6ZiEvi6BrVD861SpdSCl
+         rVYObcA9UB3exWvMCpScTGJFvKdKHge8UpqidsV4EqPSuxyGlR/kwSWy/e7x5HT03n9x
+         a/BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eXA7li8ZK3RigjqNVXUH284U624036W4Ac97gDcHmjQ=;
-        b=2GSBRSn2tu7hqgbrYbVHW5+7PNMzqbzY6xp0xQh+EUUmsAJJ4vjAsyBU1Jbv1yMQ2u
-         KGjQf2sFimhtsTdvoznjpYNEzmHFRYeQ9OmJuiojNUE9tYceStbPNQuPb4yb48bqHBcv
-         lxp72Av1YrfHFpt9J8gCDiDC7fVTGlyHULhY900As5TnmQGDXqraAD3/4U+elR0h8LNh
-         tpY6ev182TjuYYbYHjUXQLI1VxcMzCq1AVtyvN1x03eqCx1uk7K9Ja1ZJ0I3aOOesxx3
-         F5adhl5gzD0O4moinletr3wn/W+Lw+OgIFG7WsHpclxfWMUJiVE/eqRcyrNIiuVUvPzB
-         SU3w==
-X-Gm-Message-State: AOAM532H6UWqAeyklKHjWww8Ypq85YwG2fAe0+rkI9woXTnQGll/E0CO
-        7I/pi8z5OrhHacC/GavxMstGTgtRzVkXoQ==
-X-Google-Smtp-Source: ABdhPJxq8iSVrj3S3wVTInHOlEs8nlld/3iw5UTL1IfU49jn1YPBjNrAguAomVsWxkw13kBJRPvZ3w==
-X-Received: by 2002:a05:622a:1192:b0:304:b4e5:7cba with SMTP id m18-20020a05622a119200b00304b4e57cbamr2627105qtk.305.1654155599297;
-        Thu, 02 Jun 2022 00:39:59 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id x6-20020ac81206000000b002f3bbad9e37sm647770qti.91.2022.06.02.00.39.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jun 2022 00:39:59 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id z186so6933196ybz.3;
-        Thu, 02 Jun 2022 00:39:58 -0700 (PDT)
-X-Received: by 2002:a25:d748:0:b0:65c:6b00:55af with SMTP id
- o69-20020a25d748000000b0065c6b0055afmr3639736ybg.365.1654155598697; Thu, 02
- Jun 2022 00:39:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cbmNOareeTE5Db8Piv7hDPn78IPOWasDWjVRSeszEak=;
+        b=CiM9cgp5HC14Bbbvn85oRL23reUx+LNK9EKItSmyY8EDhpexh7NRI/Wwe4/RW/FbMV
+         4ZZxT9OrX0fX/puwOWK/7quVlaZFjcfyB3DTUR2w71hUGPDl28t+c5j5Wigz5a7xwOgE
+         qEi5uB5ucrf8icDPWjhFmEadMQcto8B0SphGfVIfCzz5NbeDF4BtJdu3VXqDrsL+Nbsc
+         Nfg+KrwxkMbFE4WWG9few/Z1F1WTDbZsDfMyqktKsV89pzQky9xYLgGv1c4pqb6t90FQ
+         V4t6RZJVkk+Z2/8XE8g7j0BD9DcEUYW9fNs8jg5L6W83rCqa8yuxtO80Vh40v+L6xs9z
+         C9SA==
+X-Gm-Message-State: AOAM532GpZ96spuGwrLaIiK431dHU9xBWe4IiEAuOYoK786xWo/gO7tX
+        POAueHJ+aIl4+3wjLQcZElXK+La3ZqUDAg==
+X-Google-Smtp-Source: ABdhPJxFm4ypSV8CsNf46zwnitNOtF7T1Y2Qz7WihywdMlvPbxJxJgebJkp9t7XcCiJigUBLFeMVdA==
+X-Received: by 2002:a05:6a00:16cd:b0:51b:5f55:9bd with SMTP id l13-20020a056a0016cd00b0051b5f5509bdmr15451936pfc.6.1654158212946;
+        Thu, 02 Jun 2022 01:23:32 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-21.three.co.id. [180.214.233.21])
+        by smtp.gmail.com with ESMTPSA id z14-20020a170903018e00b0016368840c41sm2972334plg.14.2022.06.02.01.23.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jun 2022 01:23:32 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        kernel test robot <lkp@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+        Nikolai Kondrashov <spbnick@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        llvm@lists.linux.dev, stable@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] HID: uclogic: properly format kernel-doc comment for hid_dbg() wrappers
+Date:   Thu,  2 Jun 2022 15:23:21 +0700
+Message-Id: <20220602082321.313143-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-References: <20220528153132.8636-1-ojeda@kernel.org> <20220528153132.8636-2-ojeda@kernel.org>
-In-Reply-To: <20220528153132.8636-2-ojeda@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 2 Jun 2022 09:39:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUa+JJ-mwTtveerndzmjVV95tqK1iWDRDPDRf6MPtpvww@mail.gmail.com>
-Message-ID: <CAMuHMdUa+JJ-mwTtveerndzmjVV95tqK1iWDRDPDRf6MPtpvww@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] docs: add SVG version of the Linux logo
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Garrett LeSage <garrett@lesage.us>,
-        IFo Hancroft <contact@ifohancroft.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Miguel,
+Running kernel-doc script on drivers/hid/hid-uclogic-params.c, it found
+6 warnings for hid_dbg() wrapper functions below:
 
-On Sat, May 28, 2022 at 10:15 PM Miguel Ojeda <ojeda@kernel.org> wrote:
-> In the Rust for Linux patch series, Jonathan Corbet requested [1] that
-> we avoid binary assets (such as the logo), possibly by recreating
-> them in SVG format.
->
-> However, it turns out there is no SVG version of the Linux logo
-> in the kernel tree yet, only a GIF one from the pre-v2.0.0 days.
->
-> This patch fixes that by adding a SVG version of the Linux logo,
-> which we could then use in the Rust for Linux documentation and
-> other similar places.
+drivers/hid/hid-uclogic-params.c:48: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+drivers/hid/hid-uclogic-params.c:48: warning: missing initial short description on line:
+ * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+drivers/hid/hid-uclogic-params.c:48: info: Scanning doc for function Dump
+drivers/hid/hid-uclogic-params.c:80: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Dump tablet interface frame parameters with hid_dbg(), indented with two
+drivers/hid/hid-uclogic-params.c:80: warning: missing initial short description on line:
+ * Dump tablet interface frame parameters with hid_dbg(), indented with two
+drivers/hid/hid-uclogic-params.c:80: info: Scanning doc for function Dump
+drivers/hid/hid-uclogic-params.c:105: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * Dump tablet interface parameters with hid_dbg().
+drivers/hid/hid-uclogic-params.c:105: warning: missing initial short description on line:
+ * Dump tablet interface parameters with hid_dbg().
 
-Perhaps you want to add a Rust logo to drivers/video/logo/, to be
-shown using fb_append_extra_logo() when Rust technology is included?
+One of them is reported by kernel test robot.
 
-;-)
+Fix these warnings by properly format kernel-doc comment for these
+functions.
 
-Gr{oetje,eeting}s,
+Link: https://lore.kernel.org/linux-doc/202205272033.XFYlYj8k-lkp@intel.com/
+Fixes: a228809fa6f39c ("HID: uclogic: Move param printing to a function")
+Reported-by: kernel test robot <lkp@intel.com>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: José Expósito <jose.exposito89@gmail.com>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Nikolai Kondrashov <spbnick@gmail.com>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: llvm@lists.linux.dev
+Cc: stable@vger.kernel.org # v5.18
+Cc: linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Changes since v2 [1]:
+   - Format NULL as kernel-doc constant (suggested by Randy Dunlap)
+   - Collect review tags:
+     - Tested-by and Acked-by from Randy Dunlap
+     - Tested-by from José Expósito
 
-                        Geert
+ [1]: https://lore.kernel.org/linux-doc/20220531092817.13894-1-bagasdotme@gmail.com/
+ drivers/hid/hid-uclogic-params.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
+index db838f16282d64..e5e65d849faa97 100644
+--- a/drivers/hid/hid-uclogic-params.c
++++ b/drivers/hid/hid-uclogic-params.c
+@@ -23,11 +23,11 @@
+ /**
+  * uclogic_params_pen_inrange_to_str() - Convert a pen in-range reporting type
+  *                                       to a string.
+- *
+  * @inrange:	The in-range reporting type to convert.
+  *
+- * Returns:
+- *	The string representing the type, or NULL if the type is unknown.
++ * Return:
++ * * The string representing the type, or
++ * * %NULL if the type is unknown.
+  */
+ static const char *uclogic_params_pen_inrange_to_str(
+ 				enum uclogic_params_pen_inrange inrange)
+@@ -45,10 +45,12 @@ static const char *uclogic_params_pen_inrange_to_str(
+ }
+ 
+ /**
+- * Dump tablet interface pen parameters with hid_dbg(), indented with one tab.
+- *
++ * uclogic_params_pen_hid_dbg() - Dump tablet interface pen parameters
+  * @hdev:	The HID device the pen parameters describe.
+  * @pen:	The pen parameters to dump.
++ *
++ * Dump tablet interface pen parameters with hid_dbg(). The dump is indented
++ * with a tab.
+  */
+ static void uclogic_params_pen_hid_dbg(const struct hid_device *hdev,
+ 					const struct uclogic_params_pen *pen)
+@@ -77,11 +79,12 @@ static void uclogic_params_pen_hid_dbg(const struct hid_device *hdev,
+ }
+ 
+ /**
+- * Dump tablet interface frame parameters with hid_dbg(), indented with two
+- * tabs.
+- *
++ * uclogic_params_frame_hid_dbg() - Dump tablet interface frame parameters
+  * @hdev:	The HID device the pen parameters describe.
+  * @frame:	The frame parameters to dump.
++ *
++ * Dump tablet interface frame parameters with hid_dbg(). The dump is
++ * indented with two tabs.
+  */
+ static void uclogic_params_frame_hid_dbg(
+ 				const struct hid_device *hdev,
+@@ -102,10 +105,11 @@ static void uclogic_params_frame_hid_dbg(
+ }
+ 
+ /**
+- * Dump tablet interface parameters with hid_dbg().
+- *
++ * uclogic_params_hid_dbg() - Dump tablet interface parameters
+  * @hdev:	The HID device the parameters describe.
+  * @params:	The parameters to dump.
++ *
++ * Dump tablet interface parameters with hid_dbg().
+  */
+ void uclogic_params_hid_dbg(const struct hid_device *hdev,
+ 				const struct uclogic_params *params)
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+base-commit: d1dc87763f406d4e67caf16dbe438a5647692395
+-- 
+An old man doll... just what I always wanted! - Clara
+
