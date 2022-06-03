@@ -2,112 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42939C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 07:36:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E50D1C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 08:20:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242559AbiFCHgA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jun 2022 03:36:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32818 "EHLO
+        id S242796AbiFCIUi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jun 2022 04:20:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242363AbiFCHf7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 03:35:59 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A35039168;
-        Fri,  3 Jun 2022 00:35:59 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id c196so6635139pfb.1;
-        Fri, 03 Jun 2022 00:35:59 -0700 (PDT)
+        with ESMTP id S242804AbiFCIUf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 04:20:35 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32F351ADAF
+        for <linux-doc@vger.kernel.org>; Fri,  3 Jun 2022 01:20:34 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id l7-20020a17090aaa8700b001dd1a5b9965so6714007pjq.2
+        for <linux-doc@vger.kernel.org>; Fri, 03 Jun 2022 01:20:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=JBM1UPx7MD7sDC5BTG0YFwzdffsIeuB3hTo7qutHsEw=;
-        b=Kh1fuekm7amMaXiNuuuKYLkXsnDs1AZAnv6a9G2iS8mIRL89Xv35YJw3+OfGdhr3nc
-         3LO4I1jTqOkv9l09zphQkJbKYBGZFNZbglub1ZhrpObe48ODQ29cmypuAXvQD2xeVAFN
-         HtYGMZzOCxsPzV1IZ2m72L2AQvkJaty226htCO7ZTUd8Ax466HzoC4y7m64KEcXFyYoE
-         Tohmt1Bwr+6+oHlq9+ardkJoL2K3EA8wXTj3u734bw9nWoRORCZ2MsTmhAr2djxKS3QI
-         1ZNECEfWxbqNUOoJC+ALFFRAuwmAVYEVPECp50+YBv/LWW13cxaS7DfB3S9OAoBvPJ6X
-         c5sQ==
+        d=norberthealth-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=D4NXs0gM6EmWNl9SZtPfrcFL6Z+go5/snO+sCnoTH3o=;
+        b=OJVPOaSK5wJTmLCMhuJyeLXIlXkwAYg5vYpjvrV87ZVWAzh4cSaT6wr/ggQuS7LBKj
+         SFRu4wk1Waz92BT/Utiz2+hcY/6cI2Y5mYyu+smntCrAfKCi9HxZvtWN04I8wznOrCyw
+         7am54LTnDKZ6O7A3JPJeUzkc9ydHffkYzx3oS6+dLE1ooMYoIQ3fDv3QGR8W+q5WUz2+
+         B8tJpbVoJBIblSD8uTt0lDqlgKnVtErwPVBrwXmtZf1eHzs0cv0f/F+96gFGmqdcPE9l
+         ka+PNtLZZaRI/9ZNyZ5TkClEnZPWZCi5bSOP9R9Xoml/NUGVTVHsfwEkon7Es14bu+yS
+         IqdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=JBM1UPx7MD7sDC5BTG0YFwzdffsIeuB3hTo7qutHsEw=;
-        b=E1vfjse8sfyodHsdM4gFFJnTMiUvEzwk751sSMCgcD3AppzefgWoIDi7nUqQuAU5ov
-         8sNNnQPI9RT9HUT7iu8kdZ/ILfG7+6bI30O2B3FphaDFarKxN0Lkd+J2QbzrkB+RcilC
-         V2Wf3yEDTJM8fUIqz+SyI9ugv6xyL2EjpgH7q6huM5Do/qLpcAC/nS1+9RHcpGUOL3ei
-         YdKowNY3TKluCOiJ1YLrI/HeV2b+o11+SbZVPelek7NaaYuwi7AMs8RR06l+lwVShfeS
-         cjE8Y4aWfItRe9xpCVcYEGQPAPxFPYC7cAyJireENWmdoT+r9GkAiw46GQqyMW2L/hFJ
-         j3OQ==
-X-Gm-Message-State: AOAM531/s8G7tVtSurBsyCxrsOZ0GHKog2Pcq/uKMXe5BmMH+JiAC6Fl
-        5om3yoZDCALTV7bvx9jHxogcUx0Pwg265w==
-X-Google-Smtp-Source: ABdhPJw/Bbs4xGDQ57g/rIq0w4x0Mz626cdS1aczMG3Bjpxhu5Y43xXeCzWqp5byKVGRDXDjN6baXA==
-X-Received: by 2002:a63:65c7:0:b0:3fc:85b5:30c0 with SMTP id z190-20020a6365c7000000b003fc85b530c0mr7888960pgb.165.1654241758619;
-        Fri, 03 Jun 2022 00:35:58 -0700 (PDT)
-Received: from [192.168.43.80] (subs10b-223-255-225-236.three.co.id. [223.255.225.236])
-        by smtp.gmail.com with ESMTPSA id r16-20020a635150000000b003f65560a1a7sm4559488pgl.53.2022.06.03.00.35.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jun 2022 00:35:57 -0700 (PDT)
-Message-ID: <de31731a-5cb5-ece1-6b7f-895d9c04fa95@gmail.com>
-Date:   Fri, 3 Jun 2022 14:35:51 +0700
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=D4NXs0gM6EmWNl9SZtPfrcFL6Z+go5/snO+sCnoTH3o=;
+        b=IxRLmSdlVyzFD/044Fs4dGKbXEyvScs7FenuhwaAV6olTMw5Hb3otjk8JdhzRucNZE
+         Umr6pDoI2WWA+84fwGyX72JL0RPoq0l9clNC+OD6y71kma0y/WNZjXf5CSWnYexIBIgK
+         xfIswOtaVdUGOv1s3F6LFS15RgOx32rL6y/GPLSQ1MxIjuzLr34iLyBzk0LewPrS98QU
+         W07FcO+9mFkw0dqrOhqWrwuDhS7RzdMVf2ggln++dzIeao9dymoZ4FhZ+MySxV5HEZ3e
+         UTTqYvKN9aG6Y85ToFARA1S4uG3cTH9IeSJIWRzcCQBXHLOYC7bWgBfvp7ARyUOCk/QS
+         d8DQ==
+X-Gm-Message-State: AOAM530YyQPofzq8+W4p14D5ndMFooAkFN09VbKsoDzXQxW7DfE2x9tG
+        o6zmul2QMyxDCTOFi1SKuJrx8EbI8TqcggWofEv41g==
+X-Google-Smtp-Source: ABdhPJwvMSX7bJ0sMwvdFp20lychh+sXCuA4C/mut7/HEWAGVctaQxnXeAwtCZxAMkeOUv+YHq4v2qAr7hpIJA5Njmw=
+X-Received: by 2002:a17:903:130d:b0:164:17f5:9de5 with SMTP id
+ iy13-20020a170903130d00b0016417f59de5mr9406413plb.132.1654244433615; Fri, 03
+ Jun 2022 01:20:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH V14 03/24] Documentation: LoongArch: Add basic
- documentations
-Content-Language: en-US
-To:     Huacai Chen <chenhuacai@gmail.com>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        WANG Xuerui <git@xen0n.name>
-References: <20220602115141.3962749-1-chenhuacai@loongson.cn>
- <20220602115141.3962749-4-chenhuacai@loongson.cn>
- <YplnruNz++gABlU0@debian.me>
- <CAAhV-H5Hi_gYvrO6DAGGA=OVExunCubNpDBdkRBxFxiP1APAKw@mail.gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <CAAhV-H5Hi_gYvrO6DAGGA=OVExunCubNpDBdkRBxFxiP1APAKw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220521124745.8747-1-roger@norberthealth.com>
+ <a728cf17-4866-1151-0740-56b06257c917@infradead.org> <CAO_iFwrHcSWJm17fL-Q83DZ5i1xr+_dkEjh5Yt3Hxso0VtnzZw@mail.gmail.com>
+ <47a68855-4547-49dd-d7eb-8ef83630552c@infradead.org> <Ypjwh5f6ByoZl5YE@zx2c4.com>
+In-Reply-To: <Ypjwh5f6ByoZl5YE@zx2c4.com>
+From:   Roger Knecht <roger@norberthealth.com>
+Date:   Fri, 3 Jun 2022 10:20:22 +0200
+Message-ID: <CAO_iFwrAm-bqRgkD+1QSW8JwjV+Whp_BfNz9Bv1-9XOwy2poFw@mail.gmail.com>
+Subject: Re: [PATCH v5] crc-itu-t: Fix typo in CRC ITU-T polynom comment
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+        Ivo van Doorn <IvDoorn@gmail.com>,
+        kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org,
+        Kristian Hoegsberg <krh@redhat.com>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        akpm@linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/3/22 12:27, Huacai Chen wrote:
-> Thank you for your testing. In my environment (sphinx_2.4.4), with or
-> without the border both have no warnings. :)
-> And I think these are more pretty if we keep the border, especially
-> when formatted into PDF. How do you think?
-> 
+On Thu, Jun 2, 2022 at 7:17 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> On Thu, Jun 02, 2022 at 09:31:24AM -0700, Randy Dunlap wrote:
+> > Yes, Andrew can merge it.
+> > Or possibly Jason (also Cc-ed).
+>
+> Sure, I can take this.
+>
+> Jason
 
-I think what you mean is reST table border, right?
-
-By comparison, in Documentation/arm/booting.rst, there is a diagram
-in "Setup the kernel tagged list". The diagram is written just inside
-the literal code block and works fine, albeit the code block
-spans fully. The diagram is small, however.
-
-Otherwise, I see unequal padding in rendered IRQ diagrams. If I
-remember correctly, the bottom and left padding are larger than top
-and right padding. IDK why.
-
-So please apply my suggestion diff.
-
-Thanks.
-
--- 
-An old man doll... just what I always wanted! - Clara
+Great, thanks Jason
