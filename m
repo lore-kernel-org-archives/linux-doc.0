@@ -2,321 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A875DCCA473
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 05:27:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D1A5C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 05:55:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240396AbiFCF1P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jun 2022 01:27:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58938 "EHLO
+        id S241245AbiFCFzN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jun 2022 01:55:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239345AbiFCF1N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 01:27:13 -0400
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75DBF17E02;
-        Thu,  2 Jun 2022 22:27:11 -0700 (PDT)
-Received: by mail-il1-x12a.google.com with SMTP id f7so5022571ilr.5;
-        Thu, 02 Jun 2022 22:27:11 -0700 (PDT)
+        with ESMTP id S241398AbiFCFy5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 01:54:57 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C61B8369D5
+        for <linux-doc@vger.kernel.org>; Thu,  2 Jun 2022 22:54:56 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-30974094b5cso60589277b3.20
+        for <linux-doc@vger.kernel.org>; Thu, 02 Jun 2022 22:54:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oGb27Ak0z2Rkt5N/UACfnN99nvmSQ69B5OG+/UGAQLM=;
-        b=qjUHwWtDO6aI7Fmssc++fi3v4jwxDc0kJYEk1vDRyhGSso7W1ZkZFSkqajhql3wNEA
-         M5hmNYlaxDWWcrdcotJ+aZvuYIgBgoNZnbJqss8yvTjzrr5UHsYCVWIbgQjNyjKS9yN6
-         XSKnbUokIFEYVUfpi3gmuc6AO5GGBQNmpL6wcya0hBiCkvePk92MFbN9gnDfCn2W3k4f
-         vq1rvXMWPW0B7BL7G933m6hgdw0D7VNfTLmJlN4fW75Y10i/xYRMQNCu97jekuzCDAqs
-         cca8vUxo3bCj1ChZ5wzKSgv4o3wQ5IImVCu8YJHpNeNh9fhcVjXcEIZZgSfmXv42OxgH
-         Ya/A==
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=RoBwt0zHEU67rWp9+CrvlYFHsmCCA3p1PhfaqmCXOeo=;
+        b=eyKFF1dCiNQ57w+ZE4SE0yw/Wk1OUn8JtcfiepC6euZILuQsEFeufqeYpMcWksZMK7
+         /ptJkoZXkNKzLA6PvqA0DSYuN54L6fTY2qpHmADDonr8NFRrHYfTeXgdNLOFdsUzWxRc
+         WQtR2vhz6vdFUPnjsbaQPV3pbT3l/em6jjE4W+JiqIJsIFs/Z19Ni4bJ7j5zXvx44V1B
+         trF2eged2CrGSyMshmoMhuJgQOVuhWTASkJW6zVPTS0okM8lVKOeluWgQNLUqpkvhIKo
+         RnnRehXjulITx8JOuKh4aV5T98Z9vBni8p09a99k8lqRlXpD3iUxci4TCQ3CMRqKzFGD
+         lMpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oGb27Ak0z2Rkt5N/UACfnN99nvmSQ69B5OG+/UGAQLM=;
-        b=dTclK/5SghxYRy4NUYOCYrqjwD6uMqX03rOGiV/knH9pbP6Yvpyl/T37LaNJ0GXEgR
-         cGr4KgLSvfKhAinDYdFyFDoLnV2d932BaPpHDuYvwK+OpHwUl1m0nFTZcs/hwp7/9wSK
-         MOE2r0caDKICCda8u+NoNrkE43TpdbGVzE17nlsJc/A4YaRKSykeMlixhkfskXUIFz6O
-         HguW8Wvl5oLiyl0iNvX0TruGLH7dDGb9Rpi4wP+q9XGxK7YSbPLBlXyuio10TNjFkxF6
-         BiNk1jqmL6ZIG2h/UG2P++u3xDoTkLg6HIzBU6enB64rB2VcxejymuP9HIJQnRm1ePWr
-         wNig==
-X-Gm-Message-State: AOAM532yI0k6vOVh1bV6dlaXV6jYbxqmLsOU+OeEIVjn/RuDOf2QcN2G
-        G7MiKlgA4dssPWdYqigs4FUyV1w71RxCJdELujM=
-X-Google-Smtp-Source: ABdhPJxTxG2jY7cybAXHG6BSEzYABkT93h++rypNIN3GXMjB+z1lq7/A/l4005ZP15S5fZveJqS40vrOm/RZYuEXguM=
-X-Received: by 2002:a05:6638:4407:b0:331:692c:1d5f with SMTP id
- bp7-20020a056638440700b00331692c1d5fmr3236731jab.208.1654234030909; Thu, 02
- Jun 2022 22:27:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220602115141.3962749-1-chenhuacai@loongson.cn>
- <20220602115141.3962749-4-chenhuacai@loongson.cn> <YplnruNz++gABlU0@debian.me>
-In-Reply-To: <YplnruNz++gABlU0@debian.me>
-From:   Huacai Chen <chenhuacai@gmail.com>
-Date:   Fri, 3 Jun 2022 13:27:00 +0800
-Message-ID: <CAAhV-H5Hi_gYvrO6DAGGA=OVExunCubNpDBdkRBxFxiP1APAKw@mail.gmail.com>
-Subject: Re: [PATCH V14 03/24] Documentation: LoongArch: Add basic documentations
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        WANG Xuerui <git@xen0n.name>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=RoBwt0zHEU67rWp9+CrvlYFHsmCCA3p1PhfaqmCXOeo=;
+        b=JsxIHOKPa6t7Slwoye741cKP4w7pOq63ry7o0PGc4pnbPADezz5H6fxL8VQRXSrrNg
+         TvRkonP0SmRkRpvqUH3gEXHQeMC3+mVDQkDGVak6ngY70DGrrQve8+p6LA4DMtCkh81K
+         iuMt4vBFMPrCqC56o6qHyGKxgF707K587ViazXZS7clmYwbqggz9LyiViLSajMUoX+Iq
+         SV67s/kSNnTpc0aiz1CK2HiN9igAtID7J80HN8eqEU8IEvsjXt9b5HTMjbNmn2pzRAYq
+         rQ2brCRsTFZOzfHwOWjD5eghKmR23a/xpoP9j9XLgOROE1MKe2jh6d7GFBD/CVKm4YlF
+         c0WQ==
+X-Gm-Message-State: AOAM532E8METhonde7Aof6CPoOkeRbLurB6qN1n6fCnFaLoGIdHVA52W
+        N8yo09MDMwV6KprbAUfrhlqVns7pMtepg28=
+X-Google-Smtp-Source: ABdhPJy8VzzznD94DSeEqNKWVPj7DmQUo3V9uDzsA9D0R+CJlbAToM3qWHIj6HjhA2UkYUUKPkhabzvAsKaUU7E=
+X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:f95e:2d1c:c00f:e866])
+ (user=saravanak job=sendgmr) by 2002:a25:7c1:0:b0:65c:c093:134 with SMTP id
+ 184-20020a2507c1000000b0065cc0930134mr9648263ybh.356.1654235695989; Thu, 02
+ Jun 2022 22:54:55 -0700 (PDT)
+Date:   Thu,  2 Jun 2022 22:54:41 -0700
+Message-Id: <20220603055442.521888-1-saravanak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
+Subject: [PATCH v1] module: Add support for default value for module async_probe
+From:   Saravana Kannan <saravanak@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Saravana Kannan <saravanak@google.com>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-modules@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Bagas,
+Add a module.async_probe kernel command line option that allows enabling
+async probing for all modules. When this command line option is used,
+there might still be some modules for which we want to explicitly force
+synchronous probing, so extend <modulename>.async_probe to take an
+optional bool input so that async probing can be disabled for a specific
+module.
 
-On Fri, Jun 3, 2022 at 9:45 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> On Thu, Jun 02, 2022 at 07:51:20PM +0800, Huacai Chen wrote:
-> > +Legacy IRQ model
-> > +================
-> > +
-> > +In this model, IPI (Inter-Processor Interrupt) and CPU Local Timer interrupt go
-> > +to CPUINTC directly, CPU UARTS interrupts go to LIOINTC, while all other devices
-> > +interrupts go to PCH-PIC/PCH-LPC/PCH-MSI and gathered by HTVECINTC, and then go
-> > +to LIOINTC, and then CPUINTC.
-> > +
-> > + +---------------------------------------------+
-> > + |::                                           |
-> > + |                                             |
-> > + |    +-----+     +---------+     +-------+    |
-> > + |    | IPI | --> | CPUINTC | <-- | Timer |    |
-> > + |    +-----+     +---------+     +-------+    |
-> > + |                     ^                       |
-> > + |                     |                       |
-> > + |                +---------+     +-------+    |
-> > + |                | LIOINTC | <-- | UARTs |    |
-> > + |                +---------+     +-------+    |
-> > + |                     ^                       |
-> > + |                     |                       |
-> > + |               +-----------+                 |
-> > + |               | HTVECINTC |                 |
-> > + |               +-----------+                 |
-> > + |                ^         ^                  |
-> > + |                |         |                  |
-> > + |          +---------+ +---------+            |
-> > + |          | PCH-PIC | | PCH-MSI |            |
-> > + |          +---------+ +---------+            |
-> > + |            ^     ^           ^              |
-> > + |            |     |           |              |
-> > + |    +---------+ +---------+ +---------+      |
-> > + |    | PCH-LPC | | Devices | | Devices |      |
-> > + |    +---------+ +---------+ +---------+      |
-> > + |         ^                                   |
-> > + |         |                                   |
-> > + |    +---------+                              |
-> > + |    | Devices |                              |
-> > + |    +---------+                              |
-> > + |                                             |
-> > + |                                             |
-> > + +---------------------------------------------+
-> > +
-> > +Extended IRQ model
-> > +==================
-> > +
-> > +In this model, IPI (Inter-Processor Interrupt) and CPU Local Timer interrupt go
-> > +to CPUINTC directly, CPU UARTS interrupts go to LIOINTC, while all other devices
-> > +interrupts go to PCH-PIC/PCH-LPC/PCH-MSI and gathered by EIOINTC, and then go to
-> > +to CPUINTC directly.
-> > +
-> > + +--------------------------------------------------------+
-> > + |::                                                      |
-> > + |                                                        |
-> > + |         +-----+     +---------+     +-------+          |
-> > + |         | IPI | --> | CPUINTC | <-- | Timer |          |
-> > + |         +-----+     +---------+     +-------+          |
-> > + |                      ^       ^                         |
-> > + |                      |       |                         |
-> > + |               +---------+ +---------+     +-------+    |
-> > + |               | EIOINTC | | LIOINTC | <-- | UARTs |    |
-> > + |               +---------+ +---------+     +-------+    |
-> > + |                ^       ^                               |
-> > + |                |       |                               |
-> > + |         +---------+ +---------+                        |
-> > + |         | PCH-PIC | | PCH-MSI |                        |
-> > + |         +---------+ +---------+                        |
-> > + |           ^     ^           ^                          |
-> > + |           |     |           |                          |
-> > + |   +---------+ +---------+ +---------+                  |
-> > + |   | PCH-LPC | | Devices | | Devices |                  |
-> > + |   +---------+ +---------+ +---------+                  |
-> > + |        ^                                               |
-> > + |        |                                               |
-> > + |   +---------+                                          |
-> > + |   | Devices |                                          |
-> > + |   +---------+                                          |
-> > + |                                                        |
-> > + |                                                        |
-> > + +--------------------------------------------------------+
-> > +
->
-> I think for consistency with other diagrams in Documentation/, just use
-> literal code block, like:
->
-> diff --git a/Documentation/loongarch/irq-chip-model.rst b/Documentation/loongarch/irq-chip-model.rst
-> index 35c962991283ff..3cfd528021de05 100644
-> --- a/Documentation/loongarch/irq-chip-model.rst
-> +++ b/Documentation/loongarch/irq-chip-model.rst
-> @@ -24,40 +24,38 @@ to CPUINTC directly, CPU UARTS interrupts go to LIOINTC, while all other devices
->  interrupts go to PCH-PIC/PCH-LPC/PCH-MSI and gathered by HTVECINTC, and then go
->  to LIOINTC, and then CPUINTC.
->
-> - +---------------------------------------------+
-> - |::                                           |
-> - |                                             |
-> - |    +-----+     +---------+     +-------+    |
-> - |    | IPI | --> | CPUINTC | <-- | Timer |    |
-> - |    +-----+     +---------+     +-------+    |
-> - |                     ^                       |
-> - |                     |                       |
-> - |                +---------+     +-------+    |
-> - |                | LIOINTC | <-- | UARTs |    |
-> - |                +---------+     +-------+    |
-> - |                     ^                       |
-> - |                     |                       |
-> - |               +-----------+                 |
-> - |               | HTVECINTC |                 |
-> - |               +-----------+                 |
-> - |                ^         ^                  |
-> - |                |         |                  |
-> - |          +---------+ +---------+            |
-> - |          | PCH-PIC | | PCH-MSI |            |
-> - |          +---------+ +---------+            |
-> - |            ^     ^           ^              |
-> - |            |     |           |              |
-> - |    +---------+ +---------+ +---------+      |
-> - |    | PCH-LPC | | Devices | | Devices |      |
-> - |    +---------+ +---------+ +---------+      |
-> - |         ^                                   |
-> - |         |                                   |
-> - |    +---------+                              |
-> - |    | Devices |                              |
-> - |    +---------+                              |
-> - |                                             |
-> - |                                             |
-> - +---------------------------------------------+
-> + ::
-> +
-> +     +-----+     +---------+     +-------+
-> +     | IPI | --> | CPUINTC | <-- | Timer |
-> +     +-----+     +---------+     +-------+
-> +                      ^
-> +                      |
-> +                 +---------+     +-------+
-> +                 | LIOINTC | <-- | UARTs |
-> +                 +---------+     +-------+
-> +                      ^
-> +                      |
-> +                +-----------+
-> +                | HTVECINTC |
-> +                +-----------+
-> +                 ^         ^
-> +                 |         |
-> +           +---------+ +---------+
-> +           | PCH-PIC | | PCH-MSI |
-> +           +---------+ +---------+
-> +             ^     ^           ^
-> +             |     |           |
-> +     +---------+ +---------+ +---------+
-> +     | PCH-LPC | | Devices | | Devices |
-> +     +---------+ +---------+ +---------+
-> +          ^
-> +          |
-> +     +---------+
-> +     | Devices |
-> +     +---------+
-> +
-> +
->
->  Extended IRQ model
->  ==================
-> @@ -67,35 +65,33 @@ to CPUINTC directly, CPU UARTS interrupts go to LIOINTC, while all other devices
->  interrupts go to PCH-PIC/PCH-LPC/PCH-MSI and gathered by EIOINTC, and then go to
->  to CPUINTC directly.
->
-> - +--------------------------------------------------------+
-> - |::                                                      |
-> - |                                                        |
-> - |         +-----+     +---------+     +-------+          |
-> - |         | IPI | --> | CPUINTC | <-- | Timer |          |
-> - |         +-----+     +---------+     +-------+          |
-> - |                      ^       ^                         |
-> - |                      |       |                         |
-> - |               +---------+ +---------+     +-------+    |
-> - |               | EIOINTC | | LIOINTC | <-- | UARTs |    |
-> - |               +---------+ +---------+     +-------+    |
-> - |                ^       ^                               |
-> - |                |       |                               |
-> - |         +---------+ +---------+                        |
-> - |         | PCH-PIC | | PCH-MSI |                        |
-> - |         +---------+ +---------+                        |
-> - |           ^     ^           ^                          |
-> - |           |     |           |                          |
-> - |   +---------+ +---------+ +---------+                  |
-> - |   | PCH-LPC | | Devices | | Devices |                  |
-> - |   +---------+ +---------+ +---------+                  |
-> - |        ^                                               |
-> - |        |                                               |
-> - |   +---------+                                          |
-> - |   | Devices |                                          |
-> - |   +---------+                                          |
-> - |                                                        |
-> - |                                                        |
-> - +--------------------------------------------------------+
-> + ::
-> +
-> +          +-----+     +---------+     +-------+
-> +          | IPI | --> | CPUINTC | <-- | Timer |
-> +          +-----+     +---------+     +-------+
-> +                       ^       ^
-> +                       |       |
-> +                +---------+ +---------+     +-------+
-> +                | EIOINTC | | LIOINTC | <-- | UARTs |
-> +                +---------+ +---------+     +-------+
-> +                 ^       ^
-> +                 |       |
-> +          +---------+ +---------+
-> +          | PCH-PIC | | PCH-MSI |
-> +          +---------+ +---------+
-> +            ^     ^           ^
-> +            |     |           |
-> +    +---------+ +---------+ +---------+
-> +    | PCH-LPC | | Devices | | Devices |
-> +    +---------+ +---------+ +---------+
-> +         ^
-> +         |
-> +    +---------+
-> +    | Devices |
-> +    +---------+
-> +
-> +
->
->  ACPI-related definitions
->  ========================
->
-> Otherwise, htmldocs builds successfully without any new warnings related
-> to this patch series.
-Thank you for your testing. In my environment (sphinx_2.4.4), with or
-without the border both have no warnings. :)
-And I think these are more pretty if we keep the border, especially
-when formatted into PDF. How do you think?
+Signed-off-by: Saravana Kannan <saravanak@google.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  8 ++++++--
+ kernel/module/main.c                            | 11 ++++++++++-
+ 2 files changed, 16 insertions(+), 3 deletions(-)
 
-Huacai
->
-> Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
->
-> --
-> An old man doll... just what I always wanted! - Clara
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 710b52d87bdd..32083056bd25 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1147,8 +1147,12 @@
+ 	nopku		[X86] Disable Memory Protection Keys CPU feature found
+ 			in some Intel CPUs.
+ 
+-	<module>.async_probe [KNL]
+-			Enable asynchronous probe on this module.
++	<module>.async_probe[=<bool>] [KNL]
++			If no <bool> value is specified or if the value
++			specified is not a valid <bool>, enable asynchronous
++			probe on this module.  Otherwise, enable/disable
++			asynchronous probe on this module as indicated by the
++			<bool> value.
+ 
+ 	early_ioremap_debug [KNL]
+ 			Enable debug messages in early_ioremap support. This
+diff --git a/kernel/module/main.c b/kernel/module/main.c
+index fed58d30725d..47085795f037 100644
+--- a/kernel/module/main.c
++++ b/kernel/module/main.c
+@@ -2410,6 +2410,12 @@ static void do_free_init(struct work_struct *w)
+ 	}
+ }
+ 
++#undef MODULE_PARAM_PREFIX
++#define MODULE_PARAM_PREFIX "module."
++/* Default value for module->async_probe_requested */
++static bool async_probe;
++module_param(async_probe, bool, 0644);
++
+ /*
+  * This is where the real work happens.
+  *
+@@ -2630,7 +2636,8 @@ static int unknown_module_param_cb(char *param, char *val, const char *modname,
+ 	int ret;
+ 
+ 	if (strcmp(param, "async_probe") == 0) {
+-		mod->async_probe_requested = true;
++		if (strtobool(val, &mod->async_probe_requested))
++			mod->async_probe_requested = true;
+ 		return 0;
+ 	}
+ 
+@@ -2797,6 +2804,8 @@ static int load_module(struct load_info *info, const char __user *uargs,
+ 	if (err)
+ 		goto bug_cleanup;
+ 
++	mod->async_probe_requested = async_probe;
++
+ 	/* Module is ready to execute: parsing args may do that. */
+ 	after_dashes = parse_args(mod->name, mod->args, mod->kp, mod->num_kp,
+ 				  -32768, 32767, mod,
+-- 
+2.36.1.255.ge46751e96f-goog
+
