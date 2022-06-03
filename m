@@ -2,76 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E50D1C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 08:20:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C28EC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 09:14:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242796AbiFCIUi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jun 2022 04:20:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57998 "EHLO
+        id S242960AbiFCJOP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jun 2022 05:14:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242804AbiFCIUf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 04:20:35 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32F351ADAF
-        for <linux-doc@vger.kernel.org>; Fri,  3 Jun 2022 01:20:34 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id l7-20020a17090aaa8700b001dd1a5b9965so6714007pjq.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jun 2022 01:20:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=norberthealth-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=D4NXs0gM6EmWNl9SZtPfrcFL6Z+go5/snO+sCnoTH3o=;
-        b=OJVPOaSK5wJTmLCMhuJyeLXIlXkwAYg5vYpjvrV87ZVWAzh4cSaT6wr/ggQuS7LBKj
-         SFRu4wk1Waz92BT/Utiz2+hcY/6cI2Y5mYyu+smntCrAfKCi9HxZvtWN04I8wznOrCyw
-         7am54LTnDKZ6O7A3JPJeUzkc9ydHffkYzx3oS6+dLE1ooMYoIQ3fDv3QGR8W+q5WUz2+
-         B8tJpbVoJBIblSD8uTt0lDqlgKnVtErwPVBrwXmtZf1eHzs0cv0f/F+96gFGmqdcPE9l
-         ka+PNtLZZaRI/9ZNyZ5TkClEnZPWZCi5bSOP9R9Xoml/NUGVTVHsfwEkon7Es14bu+yS
-         IqdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=D4NXs0gM6EmWNl9SZtPfrcFL6Z+go5/snO+sCnoTH3o=;
-        b=IxRLmSdlVyzFD/044Fs4dGKbXEyvScs7FenuhwaAV6olTMw5Hb3otjk8JdhzRucNZE
-         Umr6pDoI2WWA+84fwGyX72JL0RPoq0l9clNC+OD6y71kma0y/WNZjXf5CSWnYexIBIgK
-         xfIswOtaVdUGOv1s3F6LFS15RgOx32rL6y/GPLSQ1MxIjuzLr34iLyBzk0LewPrS98QU
-         W07FcO+9mFkw0dqrOhqWrwuDhS7RzdMVf2ggln++dzIeao9dymoZ4FhZ+MySxV5HEZ3e
-         UTTqYvKN9aG6Y85ToFARA1S4uG3cTH9IeSJIWRzcCQBXHLOYC7bWgBfvp7ARyUOCk/QS
-         d8DQ==
-X-Gm-Message-State: AOAM530YyQPofzq8+W4p14D5ndMFooAkFN09VbKsoDzXQxW7DfE2x9tG
-        o6zmul2QMyxDCTOFi1SKuJrx8EbI8TqcggWofEv41g==
-X-Google-Smtp-Source: ABdhPJwvMSX7bJ0sMwvdFp20lychh+sXCuA4C/mut7/HEWAGVctaQxnXeAwtCZxAMkeOUv+YHq4v2qAr7hpIJA5Njmw=
-X-Received: by 2002:a17:903:130d:b0:164:17f5:9de5 with SMTP id
- iy13-20020a170903130d00b0016417f59de5mr9406413plb.132.1654244433615; Fri, 03
- Jun 2022 01:20:33 -0700 (PDT)
+        with ESMTP id S241874AbiFCJOO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 05:14:14 -0400
+Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A30820BF7;
+        Fri,  3 Jun 2022 02:14:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
+        t=1654247646; bh=m1vnCsg0kMjXGWID0KuuTcJ4qjSL9FogZi8jOVhcybo=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=jQIYMDszzAqjFNSsOu9jYkVh+3QNGGnyjHPOYwAedAeIJV2baKTsZArIEw1xqOvIY
+         557sJRLYIFdJ/PkYzr0icbnOpWV+d2oTOLTmcQLVuI5i3dwsjrm2DIqAak8E17/Msu
+         QDdGtmG5Q/gU3+Lkpz8ZwwUSDCVFYMSF/Yi/WW6U=
+Received: from [192.168.9.172] (unknown [101.88.28.48])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 37EBF60104;
+        Fri,  3 Jun 2022 17:14:06 +0800 (CST)
+Message-ID: <e3af6993-bbd5-9ce6-07e8-3c180833db75@xen0n.name>
+Date:   Fri, 3 Jun 2022 17:14:05 +0800
 MIME-Version: 1.0
-References: <20220521124745.8747-1-roger@norberthealth.com>
- <a728cf17-4866-1151-0740-56b06257c917@infradead.org> <CAO_iFwrHcSWJm17fL-Q83DZ5i1xr+_dkEjh5Yt3Hxso0VtnzZw@mail.gmail.com>
- <47a68855-4547-49dd-d7eb-8ef83630552c@infradead.org> <Ypjwh5f6ByoZl5YE@zx2c4.com>
-In-Reply-To: <Ypjwh5f6ByoZl5YE@zx2c4.com>
-From:   Roger Knecht <roger@norberthealth.com>
-Date:   Fri, 3 Jun 2022 10:20:22 +0200
-Message-ID: <CAO_iFwrAm-bqRgkD+1QSW8JwjV+Whp_BfNz9Bv1-9XOwy2poFw@mail.gmail.com>
-Subject: Re: [PATCH v5] crc-itu-t: Fix typo in CRC ITU-T polynom comment
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-        Ivo van Doorn <IvDoorn@gmail.com>,
-        kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org,
-        Kristian Hoegsberg <krh@redhat.com>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        akpm@linux-foundation.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:103.0) Gecko/20100101
+ Thunderbird/103.0a1
+Subject: Re: [PATCH V15 00/24] arch: Add basic LoongArch support
+To:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20220603072053.35005-1-chenhuacai@loongson.cn>
+Content-Language: en-US
+From:   WANG Xuerui <kernel@xen0n.name>
+In-Reply-To: <20220603072053.35005-1-chenhuacai@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 2, 2022 at 7:17 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> On Thu, Jun 02, 2022 at 09:31:24AM -0700, Randy Dunlap wrote:
-> > Yes, Andrew can merge it.
-> > Or possibly Jason (also Cc-ed).
+On 6/3/22 15:20, Huacai Chen wrote:
+> V13 -> V14:
+> 1, Add some missing Cc;
+> 2, Add a comment for EFI_RT_VIRTUAL_LIMIT definition.
 >
-> Sure, I can take this.
->
-> Jason
+> V14 -> V15:
+> 1, Remove EFISTUB for now, since the design detail need further discussion.
 
-Great, thanks Jason
+Thanks for the quick followup revision!
+
+So I've pulled the latest loongarch-next HEAD (commit 
+fb575e32bdd27d57b1587227abea8d4ea2eccb71), and did allmodconfig builds 
+of ARCH={x86,mips,loongarch}. I used the LoongArch cross-toolchain 
+compiled by Arnd and my own Gentoo toolchains (native & crossdev) for 
+x86 and mips; no new problem is found.
+
+Diff between this revision and the previous revision I tested (I think 
+it's v13) is just removal of the non-reviewed architecture-independent 
+EFI changes, which is good, and I believe we now have every commit here 
+ready for PR. (In theory, Eric didn't respond to my previous mail to 
+approve the signal.h UAPI, but I can confirm that his concerns are fully 
+addressed, which involved spelling suggestion and prefixes to the type 
+names.)
+
+On the v14 thread, Bagas suggested that the ASCII art in the 
+documentation in single-cell table form be replaced with ordinary code 
+blocks, which I think is reasonable due to consistency; but we already 
+got 2 revisions of this patchset today, and each revision adds 25 mails 
+to everyone's inbox, so I think Huacai could just apply the changes, 
+collect the Tested-by, and just push to the loongarch-next branch 
+instead (and replying here of course).
+
+So, Arnd, do you think we can go ahead and send the PR today or 
+tomorrow? I know this batch of modification didn't get included in 
+today's linux-next, but there's little substantive change, and Stephen 
+didn't mention that there will be no linux-next tomorrow, so the timing 
+might still work out. We may want to get the final Acked-by from Ard for 
+the now stripped-down Patch 11, though, I'm not entirely sure.
+
