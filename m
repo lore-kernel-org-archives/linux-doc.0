@@ -2,149 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8354ACCA47C
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 19:57:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB87DC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 21:34:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349348AbiFCT5q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jun 2022 15:57:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52640 "EHLO
+        id S238857AbiFCVeQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jun 2022 17:34:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348129AbiFCT5q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 15:57:46 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC4741EEDA
-        for <linux-doc@vger.kernel.org>; Fri,  3 Jun 2022 12:57:44 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-310061f47faso32684657b3.9
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jun 2022 12:57:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=+0BJkP7LQA7GM1MPeGO3z/t5dz9swoXFRqhRmsZFFPo=;
-        b=XgqsCrfxLrG3S04UfcYNJfVoH5ccnQjNtz4xJnA0tnNYj8f3CmKGcspLcmL9hzGQkN
-         zOLnmRdyHyyR36jS7Osm5HwK09Ft3Ql4i9E/JnNdaTh+V/bcWCMhFSK1feT/tqnw1AE6
-         76DCh1hY0Q36NB4nLsVDbBIrKkI0lyuVbktdsxtLAIlHDziorFLtHlrbjC8M13/wC2nP
-         4BlN0e57iMF3pO47ug5R6MOZGMO0SdwLiPCNcpskuEmOryKg6XnqA9U4oNPHgvqYJXA5
-         0SJR8CQneq6FyS7nADbHPFJsILTJsrs8J7S5SjE/3CoQtn3CdV+BE+JL0v+OQb6efoLk
-         ynOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=+0BJkP7LQA7GM1MPeGO3z/t5dz9swoXFRqhRmsZFFPo=;
-        b=kSNSmjPlmmsl6ISbN2UfRDSKgO0CM2yCO9DsrlLKiW88p05/VYldEKmaVIAVbqHhrD
-         jYGIXskzRitq8dm8BO+ZUCePAXlxDIuxWNELcRuzmXh/CLWbBs/HjtUPxi1xzPJoZ7I8
-         fiZXpA+SNLNO0lLD2wt7Aozj9BfI4LM4AIEZWiMOtDH3i95q4EsMtrACyqtd04HY/LBy
-         7pA4C1B3YxInvlMyfJi2slHf/1gFEIk/3NQCMOvlfH9MY7qGJZvfvQZ10cGpHq5fGWQV
-         eRsrREf1TooUUw6xJD1//9x6BvSSel6V9FUvwMzOcWThLoL0GrEv11s5ILw83tJLu9+6
-         g6Tw==
-X-Gm-Message-State: AOAM532Ei4gSstObGF3OmKHmVRfuzGDdBKYDplc+K1/VMy+CZQEpqzWw
-        6zvVhvSNtkdWUFXSB4cMmHciOvyk5bpJ4w==
-X-Google-Smtp-Source: ABdhPJwHQHGSl3m9zUFvEI3sbSQwNUh2f2XGX55AQDH0UH+u9m6F6gc6Zk1TgV+GsgfajBktCzXA3OPsTcHVwg==
-X-Received: from dlatypov.svl.corp.google.com ([2620:15c:2cd:202:9ff0:c6ec:46df:8f8a])
- (user=dlatypov job=sendgmr) by 2002:a25:9cc5:0:b0:65c:c760:9e34 with SMTP id
- z5-20020a259cc5000000b0065cc7609e34mr12465282ybo.518.1654286264235; Fri, 03
- Jun 2022 12:57:44 -0700 (PDT)
-Date:   Fri,  3 Jun 2022 12:56:26 -0700
-In-Reply-To: <20220603195626.121922-1-dlatypov@google.com>
-Message-Id: <20220603195626.121922-3-dlatypov@google.com>
-Mime-Version: 1.0
-References: <20220603195626.121922-1-dlatypov@google.com>
-X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
-Subject: [PATCH 3/3] Documentation: kunit: rewrite section on .kunitconfig
-From:   Daniel Latypov <dlatypov@google.com>
-To:     brendanhiggins@google.com, davidgow@google.com
-Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        Daniel Latypov <dlatypov@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S232022AbiFCVeP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 17:34:15 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0370D3DDFE
+        for <linux-doc@vger.kernel.org>; Fri,  3 Jun 2022 14:34:14 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id B4ABF37C;
+        Fri,  3 Jun 2022 21:34:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B4ABF37C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1654292054; bh=XuZAeQia/QYHoSFRgkIp9KTrN0mIPWPj5LK9HiKG5qE=;
+        h=From:To:Subject:In-Reply-To:References:Date:From;
+        b=SBhzQ7vh8jnJI6gbbseDp1/oFeXeqG+F8YMNiehTnMo+l+o5LhOSQGSw+KtngqS2B
+         mCkBElCgADGZf6ZuBuXahM5xl/U+TkPqcuiidgql+tAXTd+nfnrcICvUuaC5aQKRp2
+         TrBkclcoaVbeFQKOPkL+pSVjhNVCD8GrlBKEarLjghkgM6kEd7Kcj/9b3rzz79Ruzl
+         JlNMVXTd19BbsXV6CJGJBao+9SvFmxgoVlXiNLSHkfbrhP0nsBfZ29oge20rZ1e8L5
+         4SNdQLprYo8CfR53waXVRhxgtZdg5+m3bT7rZbDRH01jNgU4ebOXG0Um6lPVbaXpcP
+         OAHv0GDv8NS6g==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Adam Turner <aaturnerpython@outlook.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: Sphinx pre v3 -- removing support
+In-Reply-To: <LO3P123MB2681ADAA6BD2102ACBD86622C2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
+References: <LO3P123MB26810D190462B6BBBF1305F6C2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
+ <877d5xx1xo.fsf@meer.lwn.net>
+ <LO3P123MB2681ADAA6BD2102ACBD86622C2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
+Date:   Fri, 03 Jun 2022 15:34:14 -0600
+Message-ID: <875ylhjusp.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This section was slightly out of date and redundant.
-* the `note` was obsolete since commit 4c2911f1e140 ("kunit: tool:
-  reconfigure when the used kunitconfig changes")
-* we don't want users to grab the default config manually, running
-  kunit.py config/build/run will do that for them as noted in the
-  section above.
+Adam Turner <aaturnerpython@outlook.com> writes:
 
-This rewrite tries to pull back the curtain and show that .kunitconfig
-isn't magic by giving some example commands a user can run to emulate
-kunit.py.
+>> We've been meaning to raise the minimum version for a bit.  Going to v3
+>> might be a bit of a stretch, though.  I still do most of my test builds
+>> with 2.4.3 just because Sphinx got so....much........slower with 3.0.
+>> I've not yet had a chance to try out 5.0 to see if that helps things,
+>> that's on my list to do soon.
+>
+> Sphinx 5.0 should be faster, I changed the logic to cache and reuse
+> the core publisher objects [1]_. I haven't compared to 2.4.3 though.
 
-Signed-off-by: Daniel Latypov <dlatypov@google.com>
----
- Documentation/dev-tools/kunit/run_wrapper.rst | 47 +++++++------------
- 1 file changed, 17 insertions(+), 30 deletions(-)
+So ... here are a few "make htmldocs" builds that I ran
 
-diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-index 1fccf2e099f7..e0ddd18f8c2e 100644
---- a/Documentation/dev-tools/kunit/run_wrapper.rst
-+++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-@@ -57,45 +57,32 @@ To view kunit_tool flags (optional command-line arguments), run:
- 
- 	./tools/testing/kunit/kunit.py run --help
- 
--Create a  ``.kunitconfig`` File
--===============================
--
--If we want to run a specific set of tests (rather than those listed
--in the KUnit ``defconfig``), we can provide Kconfig options in the
--``.kunitconfig`` file. For default .kunitconfig, see:
--https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/kunit/configs/default.config.
--A ``.kunitconfig`` is a ``minconfig`` (a .config
--generated by running ``make savedefconfig``), used for running a
--specific set of tests. This file contains the regular Kernel configs
--with specific test targets. The ``.kunitconfig`` also
--contains any other config options required by the tests (For example:
--dependencies for features under tests, configs that enable/disable
--certain code blocks, arch configs and so on).
-+.kunitconfig
-+============
- 
--To create a ``.kunitconfig``, using the KUnit ``defconfig``:
-+We mentioned it above, but a ``.kunitconfig`` is a *minconfig*, i.e. you only
-+need to specify the options you care about, e.g.
- 
- .. code-block::
- 
--	cd $PATH_TO_LINUX_REPO
--	cp tools/testing/kunit/configs/default.config .kunit/.kunitconfig
-+	CONFIG_KUNIT=y
-+	CONFIG_KUNIT_EXAMPLE_TEST=y
- 
--We can then add any other Kconfig options. For example:
-+Concretely, here's more or less what ``kunit.py run`` does by default:
- 
--.. code-block::
-+.. code-block:: bash
- 
--	CONFIG_LIST_KUNIT_TEST=y
-+   $ cp $KUNITCONFIG .kunit/.config
-+   $ make O=.kunit ARCH=um olddefconfig
-+   $ make O=.kunit ARCH=um -j `nproc`
-+   $ .kunit/linux </dev/null 2>&1 | ./tools/testing/kunit/kunit.py parse
- 
--kunit_tool ensures that all config options in ``.kunitconfig`` are
--set in the kernel ``.config`` before running the tests. It warns if we
--have not included the options dependencies.
-+See `Parse Test Results`_ for more details about ``kunit.py parse``.
- 
--.. note:: Removing something from the ``.kunitconfig`` will
--   not rebuild the ``.config file``. The configuration is only
--   updated if the ``.kunitconfig`` is not a subset of ``.config``.
--   This means that we can use other tools
--   (For example: ``make menuconfig``) to adjust other config options.
--   The build dir needs to be set for ``make menuconfig`` to
--   work, therefore  by default use ``make O=.kunit menuconfig``.
-+  .. note:: Note: ``make olddefconfig`` will drop ``CONFIG`` options that aren't visible
-+            (e.g. are inside an unsatisfied ``if`` block) or have missing dependencies.
-+            kunit.py will validate every option in ``$KUNITCONFIG`` is present in the final
-+            ``.config``, so it should be safer and less error-prone than doing this manually.
- 
- Configure, Build, and Run Tests
- ===============================
--- 
-2.36.1.255.ge46751e96f-goog
+  VERSION  BUILD TIME
+  2.4.3     5:24
+  4.1.2    10:51
+  4.5.0    10:57
+  5.0.1    11:17
 
+So 5.0 has actually regressed from 4.5 in terms of speed, and takes more
+than twice the time that 2.4.3 takes.  These slow builds are really
+painful when I'm working through the docs patch queue and have to build
+things frequently; they are also a disincentive for other developers to
+build the docs and make sure they haven't broken anything.
+
+(Interestingly, total CPU time is ~16:45 for 2.4.3, and ~21:45 for the
+later versions.  So latter-day Sphinx does use more CPU, but it also
+seems to have lost some parallelism.)
+
+I hope you understand why that makes me reluctant to move the minimum
+version up to 3.0.  But, looking further at this conversation, I don't
+think we need to at this point.  You said:
+
+> I'm referring to removing support for the "c_allow_pre_v3", 
+> "c_warn_on_allowed_pre_v3", configuration options [1]_, and the 
+> associated support for still parsing the pre v3 syntax in the C 
+> domain [2]_. This means that pre v3 syntax in reStructuredText files
+> would not work with Sphinx 6 onwards.
+
+Having looked through the all-too-numerous warnings emitted by our docs
+build, I don't see any that look like they would be tied to pre-v3
+C-domain syntax.  I *believe* that you could remove that support and it
+wouldn't bother us, unless there's something I'm missing?
+
+I truly appreciate your contacting us about this - thanks!
+
+jon
