@@ -2,100 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0C81C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 14:14:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39F31C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 14:21:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243358AbiFCOOj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jun 2022 10:14:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47154 "EHLO
+        id S240024AbiFCOVa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jun 2022 10:21:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240024AbiFCOOi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 10:14:38 -0400
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 347A13EBB6;
-        Fri,  3 Jun 2022 07:14:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-        t=1654265671; bh=othfUBeCgIWwvNgS19Qxvk9oJwBpnSgFLwDEof8nHew=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=J6p4vJWMqJaB2TgUXZNx3DVsQZyOks2t08tu3ZxCfAPZt9esFy9b9XdnjQm1Fs9/f
-         hDlcVQmB2CMwXsk2LQIwgbVWWULZ5BJoeJpIJ9K4wtkooQx7h8sEv3DQ9owIIsPOmH
-         0jwwcMUMynWlWVk96KQbQLZkH2tuQxy7x979ggrY=
-Received: from [192.168.9.172] (unknown [101.88.28.48])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        with ESMTP id S230293AbiFCOV3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 10:21:29 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 095D04C404
+        for <linux-doc@vger.kernel.org>; Fri,  3 Jun 2022 07:21:27 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id EA95760104;
-        Fri,  3 Jun 2022 22:14:30 +0800 (CST)
-Message-ID: <e78940bc-9be2-2fe7-026f-9e64a1416c9f@xen0n.name>
-Date:   Fri, 3 Jun 2022 22:14:30 +0800
+        by ms.lwn.net (Postfix) with ESMTPSA id 3DE7D37C;
+        Fri,  3 Jun 2022 14:21:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3DE7D37C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1654266087; bh=FOLsQBw3O3nOcISv8naNPyLYV7JWHHchcHVjP809Slo=;
+        h=From:To:Subject:In-Reply-To:References:Date:From;
+        b=bP7UDaJhsC4oVIMYTbr1FX7svd27RdvwbYLLvFiL3tsr3K2rouDbBPK2xGLyYrGet
+         XyXBRxbYg6Y9ulZlPycKzeNs1FQ5Kjdnb071bkDmr5vuvcJIjXbYuO3Cx0QqfWlJdE
+         9e1dNfrJyOMLEOeyBIUFQBBzDkGwl6OF4A6azGtvAFUCCg+FKguNVt332gH14cVVKb
+         KQQiUFbYyqumynwAYStfZzhiXWzinqs0Ni2epHfPvyAoklzgjJ2p1yG3K/rqN9j73V
+         +aVH1husa8IIFRVhVZHF+Y5EQXRbqsyjhhIPryMM7+0Dky8BwBOt43A0mwq883UsQv
+         oirTuUfrZXiNg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Adam Turner <aaturnerpython@outlook.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: Sphinx pre v3 -- removing support
+In-Reply-To: <LO3P123MB26810D190462B6BBBF1305F6C2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
+References: <LO3P123MB26810D190462B6BBBF1305F6C2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
+Date:   Fri, 03 Jun 2022 08:21:39 -0600
+Message-ID: <877d5xx1xo.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:103.0) Gecko/20100101
- Thunderbird/103.0a1
-Subject: Re: [PATCH V15 10/24] LoongArch: Add other common headers
-Content-Language: en-US
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        WANG Xuerui <git@xen0n.name>
-References: <20220603072053.35005-1-chenhuacai@loongson.cn>
- <20220603072053.35005-11-chenhuacai@loongson.cn> <YpoPZjJ/Adfu3uH9@zx2c4.com>
- <CAK8P3a0iASLd768imA8pG32Cc2RsqG8-ZyN+Obcg+PksVj1FJg@mail.gmail.com>
- <YpoURwkAbqRlr7Yi@zx2c4.com>
-From:   WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <YpoURwkAbqRlr7Yi@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/3/22 22:01, Jason A. Donenfeld wrote:
-> Hi Arnd,
+Adam Turner <aaturnerpython@outlook.com> writes:
+
+> Hi,
 >
-> On Fri, Jun 03, 2022 at 03:55:27PM +0200, Arnd Bergmann wrote:
->> On Fri, Jun 3, 2022 at 3:40 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->>> On Fri, Jun 03, 2022 at 03:20:39PM +0800, Huacai Chen wrote:
->>>> diff --git a/arch/loongarch/include/asm/timex.h b/arch/loongarch/include/asm/timex.h
->>> "Currently only used on SMP for scheduling" isn't quite correct. It's
->>> also used by random_get_entropy(). And anything else that uses
->>> get_cycles() for, e.g., benchmarking, might use it too.
->>>
->>> You wrote also, "we know that all SMP capable CPUs have cycle counters",
->>> so if I gather from this statement that some !SMP CPUs don't have a
->>> cycle counter, though some do. If that's a correct supposition, then
->>> you may need to rewrite this file to be something like:
->> The file is based on the mips version that deals with a variety of
->> implementations
->> and has the same comment.
->>
->> I assume the loongarch chips all behave the same way here, and won't need
->> a special case for non-SMP.
-> Oh good. In that case, the code is fine and I suppose the comment could
-> just be removed.
+> I was pointed in the direction of this mailing list by Jani Nikula in
+> [1]_, who said:
+>
+>> Thanks for the ping. I was heavily involved in the early days of
+>> converting the kernel to use Sphinx, but I haven't closely followed
+>> the recent developments. Basically I think I'd also be inclined to
+>> push for much higher minimum Sphinx version requirements than what
+>> the kernel currently has. The minimum at the moment is v1.7.9 
+>> (or v2.4.4 for PDF). It's difficult to maintain support for a wide
+>> range of Sphinx versions. Perhaps the best bet would be to mail the
+>> kernel documentation list at linux-doc@vger.kernel.org and Cc 
+>> Jonathan Corbet corbet@lwn.net to try to reach an understanding on
+>> the recommended minimum version and version ranges that makes sense
+>> for both parties to support. HTH.
+>
+> This email is an attempt to do that. 
+>
+> From Sphinx's perspective, we'd like to remove long-deprecated code.
+> What is a good solution here for both sides? The intertial option is
+> for us to delay the deprecation by another major version (removal is
+> currently scheduled for Sphinx 6 (2023-05), and we are currently 
+> releasing a major version every May.
+>
+> Jani reports that you still require Sphinx 1.7.9 -- I have no 
+> investment in the documentation development of the kernel, but he
+> rightly notes that is quite an old version -- released 3 years and 9
+> months ago.
+>
+> Please would you let me know if there is anything required on our
+> (Sphinx's) end that would let us drop the "pre v3" support gracefully.
 
-In addition, the rdtime family of instructions is in fact guaranteed to 
-be available on LoongArch; LoongArch's subsets all contain them, even 
-the 32-bit "Primary" subset intended for university teaching -- they 
-provide the rdtimeh.w and rdtimel.w pair of instructions that access the 
-same 64-bit counter. So I think the comments are probably just leftovers 
-from a very early port; the LoongArch development started way before it 
-was publicized.
+We've been meaning to raise the minimum version for a bit.  Going to v3
+might be a bit of a stretch, though.  I still do most of my test builds
+with 2.4.3 just because Sphinx got so....much........slower with 3.0.
+I've not yet had a chance to try out 5.0 to see if that helps things,
+that's on my list to do soon.
 
-And yes, the comment block re get_cycles usage can be removed altogether.
+Thanks,
 
+jon
