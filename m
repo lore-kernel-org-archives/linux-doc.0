@@ -2,148 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6165C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 12:28:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CAFAC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 13:01:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244329AbiFCM2e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jun 2022 08:28:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54700 "EHLO
+        id S242980AbiFCNBn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jun 2022 09:01:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230159AbiFCM2d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 08:28:33 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC55B3A5DC;
-        Fri,  3 Jun 2022 05:28:28 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id fu3so14133640ejc.7;
-        Fri, 03 Jun 2022 05:28:28 -0700 (PDT)
+        with ESMTP id S233094AbiFCNBn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 09:01:43 -0400
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 958EF33E00;
+        Fri,  3 Jun 2022 06:01:42 -0700 (PDT)
+Received: by mail-il1-x135.google.com with SMTP id y17so6402901ilj.11;
+        Fri, 03 Jun 2022 06:01:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hYSeRFJf+M9aNqS1LqyGbAOqdo1Ua1JvigqLt2idPAQ=;
-        b=cApS9/KdM+AKtD0BQHIShPWRYK9yv+z1A51dOi0JcW8tho065IFK4pMyHHOnL9CodW
-         7mgl+/rGHpwa8CM4iBjJo7oXSCJX7fQns+AjQrNT7OjQfDiY/y9BL4msoibUpFPDb/tq
-         JHkjA5X3vUo0j29wl0mfviqteThl+I8JI2vgE4E+FPthWNbXdF+ouU5xGrkB1CPG5Yvw
-         oBxhxZ6QVbdgm8nfcD7i4zXvsC30bofVbE7XHanAOSSaIuC8OUtJHq0GV6AAguiDcgkz
-         CrLWaN9Xn2mqMXYZ6kAKy2GS1rbicNaOIOQcw0HBCWoJpqQ3u+emF2ArJmhhhm4G9O7R
-         AleQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rgrulR9sWDCPB8J3w8134fSxmlMlybKB98GjFOYddPM=;
+        b=nZB/9Tim4HYP+RhLMDzSxYWSOsxlOt7c/zQOESbRHdxdNgnVJTtf94ATrxncZN4kD3
+         i11tzP7/xhpdjjmzkRpPfOIbYWnfu8VcelF+AMt30/pnlz1b/fBcaH96JUTz0dvmSwvR
+         yBaTYF0Qcz9Uuh9lLWrHHMtlG6oKj7pZUgIFdgwNH7ihpMCEYz4dQzHoZItFxpesI4zj
+         xVm0/mxZGsiO/MhduXeM45jZE9V+La/hlgesJqDWFNmMqdSgB8gH4MHH2rLmoMJnP9t1
+         AaMPFdDdU997v8W9YkDhoneZzLOrx7pXVUfFxJi+bbjXAsqpMZRd8DGWno6vLVQ0CfSn
+         SU+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hYSeRFJf+M9aNqS1LqyGbAOqdo1Ua1JvigqLt2idPAQ=;
-        b=Z8TccpXYw2qnigLXhdNZ4F0OBxnNxioFUqLmMzbzlqakMrLISLG1PTVoXUEul1r72T
-         gXy5fPPsRvbOmnsJ1wDOF5B39KR3i+H576y8P73wH1PSHU6lPP1DJIgoEk2IfLAPyvwh
-         KBxWOR6PvNENS09yUyZlPc5rZPnHT7hVKRNjFgQomJXkYRYMZ2jtadelfXE5wePCVxUQ
-         DR1SHzUSXmY37vUbw6eca7A/MuRdqEQuwpOqPxpPbmi2SOROE/E0sD0ijNnweXk7PYfx
-         GmVsqlPdyW+vxpKPxw+xbSMM5kujZQOhbr2e94zmCYbSMepXm1Zc3ttD0EODgYA4Y0d1
-         /Fnw==
-X-Gm-Message-State: AOAM532SLwfGuoIhZVHnTM9EYNsssA82y/FI3F71MTxHjx4gF1wOqYBH
-        VpCqD2YCEfMTLSid2bjIpQJFrtYZV3JWs4or
-X-Google-Smtp-Source: ABdhPJwGyY6+XKUXe3U/N1bT/Su6zfWYWGUd3DiPengdRwJcKEBMLabu7csFrNmFeRjmfGmhW67HNA==
-X-Received: by 2002:a17:907:9619:b0:6ff:5c3c:bcae with SMTP id gb25-20020a170907961900b006ff5c3cbcaemr8663841ejc.585.1654259307262;
-        Fri, 03 Jun 2022 05:28:27 -0700 (PDT)
-Received: from caracal.goemobile.intern (erm103.goemobile.de. [134.76.0.103])
-        by smtp.googlemail.com with ESMTPSA id o13-20020a17090608cd00b006fedcb78854sm2785521eje.164.2022.06.03.05.28.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jun 2022 05:28:26 -0700 (PDT)
-From:   Eugene Shalygin <eugene.shalygin@gmail.com>
-To:     eugene.shalygin@gmail.com
-Cc:     Shady Nawara <shady.nawara@outlook.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (asus-ec-sensors) add support for Strix Z690-a D4
-Date:   Fri,  3 Jun 2022 14:27:58 +0200
-Message-Id: <20220603122758.1561064-1-eugene.shalygin@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rgrulR9sWDCPB8J3w8134fSxmlMlybKB98GjFOYddPM=;
+        b=WOZkqgTWgQcvIU75M2Ohi1T4qfH0Wc/011nL9ilHvOb79a9/SO0lz+77Kv0nNpCjef
+         WxLtYOP+QyN6ggvkB/1+jxrnA8jjZH8tC5IiCEFRXwfyQVTOCBEoUik6yL27HRwkjkSH
+         mP8T34pnSryfC6+TYaeoC2vUl4dqYf7YVvwGVrKkn6mKQ4y9KS+FGruqcBMlIWfsrNCA
+         7rycZlns0YMN24mlfN07/tlmJDpAE+SFvbEYLozwV+co4XSzd9XmFyY8NK6mg8kwCrF2
+         ex7L3KGI7RZp7bcMvE4xCT27HlYFbGZIBrnxVuF5VxaPr3/vfQzrmwyv8qpSLyHZscNo
+         oQ3A==
+X-Gm-Message-State: AOAM533gYsbKYXyGW/iwVOa3iDwWpapBvyD27/j5yzcWgEFzHyOASU5y
+        RE0y9Zx/LPtp0iYudWB9UmLv0nbr2Cywjy1nk08qez4kSG2XAGNTz1w=
+X-Google-Smtp-Source: ABdhPJyO+Wy90k2d7bT9meJht2LMrT2KMmjl3ZbZHYIX42IrUTb483qKosBX0l5mNBSohko5/wmN7WiKuJk6RZCTo6Y=
+X-Received: by 2002:a05:6e02:12b4:b0:2d3:a822:3a16 with SMTP id
+ f20-20020a056e0212b400b002d3a8223a16mr5629446ilr.279.1654261301972; Fri, 03
+ Jun 2022 06:01:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220602115141.3962749-1-chenhuacai@loongson.cn>
+ <20220602115141.3962749-4-chenhuacai@loongson.cn> <YplnruNz++gABlU0@debian.me>
+ <CAAhV-H5Hi_gYvrO6DAGGA=OVExunCubNpDBdkRBxFxiP1APAKw@mail.gmail.com> <de31731a-5cb5-ece1-6b7f-895d9c04fa95@gmail.com>
+In-Reply-To: <de31731a-5cb5-ece1-6b7f-895d9c04fa95@gmail.com>
+From:   Huacai Chen <chenhuacai@gmail.com>
+Date:   Fri, 3 Jun 2022 21:01:31 +0800
+Message-ID: <CAAhV-H53=9=qsmasoZ6efeiCez4vo0P2Eg-itTvNh3zerCtJsg@mail.gmail.com>
+Subject: Re: [PATCH V14 03/24] Documentation: LoongArch: Add basic documentations
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        WANG Xuerui <git@xen0n.name>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Shady Nawara <shady.nawara@outlook.com>
+Hi, Bagas,
 
-adds T_Sensor and VRM Temp sensors for the Asus Strix z690-a D4 motherboard
+On Fri, Jun 3, 2022 at 3:35 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> On 6/3/22 12:27, Huacai Chen wrote:
+> > Thank you for your testing. In my environment (sphinx_2.4.4), with or
+> > without the border both have no warnings. :)
+> > And I think these are more pretty if we keep the border, especially
+> > when formatted into PDF. How do you think?
+> >
+>
+> I think what you mean is reST table border, right?
+>
+> By comparison, in Documentation/arm/booting.rst, there is a diagram
+> in "Setup the kernel tagged list". The diagram is written just inside
+> the literal code block and works fine, albeit the code block
+> spans fully. The diagram is small, however.
+>
+> Otherwise, I see unequal padding in rendered IRQ diagrams. If I
+> remember correctly, the bottom and left padding are larger than top
+> and right padding. IDK why.
+>
+> So please apply my suggestion diff.
+Your suggestion has been accepted now, thanks.
 
-Signed-off-by: Shady Nawara <shady.nawara@outlook.com>
-Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
----
- Documentation/hwmon/asus_ec_sensors.rst |  1 +
- drivers/hwmon/asus-ec-sensors.c         | 18 ++++++++++++++++++
- 2 files changed, 19 insertions(+)
-
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-index 78ca69eda877..00d8c46ef9e0 100644
---- a/Documentation/hwmon/asus_ec_sensors.rst
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -19,6 +19,7 @@ Supported boards:
-  * ROG STRIX X570-E GAMING WIFI II
-  * ROG STRIX X570-F GAMING
-  * ROG STRIX X570-I GAMING
-+ * ROG STRIX Z690-A GAMING WIFI D4
- 
- Authors:
-     - Eugene Shalygin <eugene.shalygin@gmail.com>
-diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-index 57e11b2bab74..886a71b4c64e 100644
---- a/drivers/hwmon/asus-ec-sensors.c
-+++ b/drivers/hwmon/asus-ec-sensors.c
-@@ -54,6 +54,8 @@ static char *mutex_path_override;
- /* ACPI mutex for locking access to the EC for the firmware */
- #define ASUS_HW_ACCESS_MUTEX_ASMX	"\\AMW0.ASMX"
- 
-+#define ASUS_HW_ACCESS_MUTEX_RMTW_ASMX	"\\RMTW.ASMX"
-+
- #define MAX_IDENTICAL_BOARD_VARIATIONS	3
- 
- /* Moniker for the ACPI global lock (':' is not allowed in ASL identifiers) */
-@@ -139,6 +141,7 @@ enum board_family {
- 	family_unknown,
- 	family_amd_400_series,
- 	family_amd_500_series,
-+	family_intel_600_series
- };
- 
- /* All the known sensors for ASUS EC controllers */
-@@ -197,6 +200,12 @@ static const struct ec_sensor_info sensors_family_amd_500[] = {
- 		EC_SENSOR("Water_Out", hwmon_temp, 1, 0x01, 0x01),
- };
- 
-+static const struct ec_sensor_info sensors_family_intel_600[] = {
-+	[ec_sensor_temp_t_sensor] =
-+		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
-+	[ec_sensor_temp_vrm] = EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x3e),
-+};
-+
- /* Shortcuts for common combinations */
- #define SENSOR_SET_TEMP_CHIPSET_CPU_MB                                         \
- 	(SENSOR_TEMP_CHIPSET | SENSOR_TEMP_CPU | SENSOR_TEMP_MB)
-@@ -330,6 +339,12 @@ static const struct ec_board_info board_info[] = {
- 		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
- 		.family = family_amd_500_series,
- 	},
-+	{
-+		.board_names = {"ROG STRIX Z690-A GAMING WIFI D4"},
-+		.sensors = SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM,
-+		.mutex_path = ASUS_HW_ACCESS_MUTEX_RMTW_ASMX,
-+		.family = family_intel_600_series,
-+	},
- 	{}
- };
- 
-@@ -799,6 +814,9 @@ static int __init asus_ec_probe(struct platform_device *pdev)
- 	case family_amd_500_series:
- 		ec_data->sensors_info = sensors_family_amd_500;
- 		break;
-+	case family_intel_600_series:
-+		ec_data->sensors_info = sensors_family_intel_600;
-+		break;
- 	default:
- 		dev_err(dev, "Unknown board family: %d",
- 			ec_data->board_info->family);
--- 
-2.35.1
-
+Huacai
+>
+> Thanks.
+>
+> --
+> An old man doll... just what I always wanted! - Clara
