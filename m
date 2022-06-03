@@ -2,104 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31058C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 02:57:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09C4DCCA47F
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 05:05:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234718AbiFCC5w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Jun 2022 22:57:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46470 "EHLO
+        id S239627AbiFCFFJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jun 2022 01:05:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbiFCC5w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Jun 2022 22:57:52 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E05C140E5;
-        Thu,  2 Jun 2022 19:57:47 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id q123so6236211pgq.6;
-        Thu, 02 Jun 2022 19:57:47 -0700 (PDT)
+        with ESMTP id S236793AbiFCFFH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 01:05:07 -0400
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E1663917E;
+        Thu,  2 Jun 2022 22:05:06 -0700 (PDT)
+Received: by mail-il1-x12c.google.com with SMTP id v7so4975835ilo.3;
+        Thu, 02 Jun 2022 22:05:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=x820pLXCsqkyIOD33ZRcyDFQsozHdZWLRbOvlupxM6Y=;
-        b=NDVs7le7eCjhAMs5Buj4u9LWNHEViT99BY68+RNb6hrQOt8/o1pD/MCcbbvF09GdkS
-         66lGkrAL9ZiLRIHQmjARe976DldUtD40tGRHxlQL6k+0ZZgYZxZs/2MQV742rWF3X4sU
-         0717vVygxtarruhlweMGXd+844loIrYlW5FuBgs2DixPa6wAsN4BnZxszR4Ll8AVU7Vs
-         iUTW8hmtdfl5dzTTaOMCXegaPLVjVqt/dyd9SfOJaw/7eemo8BCCKYKjxY6Ox0BnqPlr
-         WsHXPYyjXenSjUImK5mLlCrBkz8YZ4jNcWqRUwBZj07jIyYe0NOzatAT3N1Y9vyM6o7k
-         Utwg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=V69MdHZeArGR1p037iUfHw/ib1Y8p6jjj2w/lS/WKCY=;
+        b=O4+rsuFI4q2IP6f0kZluT+02DEU246uyHHow4FVb0J3mZ+w6QZ+L7adWYcZDUgcl5h
+         ZgrPzh0NN0iMHRsEC2ODXobnG7acV3TpCPOYVhV4E3iXgCHyHO8Puarr70+u0JVBSyuU
+         5SICaERPcmUqM6txeFYpwKgbZ1yvAxCmKUane++nAtjUEmuJzH1kdiICFhgJNWnulMh/
+         qZG2hcyJLrI/ewZXcjabuyZ81SjHoCpWfExTG+TuSKpF4E/84130KgexiwgtXMxb2H2I
+         GsG9qinfM6Mq25TgGzrzD6fEJBtFqoq67uWejWJuQntFiY3TqYjPqwr9WOIjuzAcErAI
+         dWmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=x820pLXCsqkyIOD33ZRcyDFQsozHdZWLRbOvlupxM6Y=;
-        b=lTf+Fz5oUNx5RH4OOXvfWjV8VjtQm0RSg6KUowIlhXYVt/VlQjj0dBFVDMFUkT/Re6
-         ejqHwKKoOXi7ow9hr83mI7vvOv1l9dArRSSZ0/uOOGX7CyI+mxAJlaZDTPB/VObZkJkA
-         Js25lh1ewsJwUMzHcnDpo1apVMesM6yR/6IvDz7SuG22uEM8nL03TtW1ftCMAJtm//Po
-         emytQGM++MstvwHBDhhYjUhOFATTgZGhe2GoZ/43B9PRrHsWtjqzQR6kunq4yRStkHwg
-         K0GwWuqxeQZwhG2WtuobNPD4cq+Dzh/UQwfBkKeZaWUPaAHJyLo9+GB6D0D51csEtQo3
-         l4HQ==
-X-Gm-Message-State: AOAM531/+WnHO2783A6RvMynJ3iX5kVOT4r/3ZUmu7UqikhSZ9MJSs8t
-        C2xYGBQp1gpoMinzMuJURo9xLzS2X1a5HA==
-X-Google-Smtp-Source: ABdhPJzd4bR4jGaSMzsYqTsWFkC6YiPrkFfEEtA93z+N5w9JNYeCWlgrqyD3vdIQRzSGf4nj3kKfxQ==
-X-Received: by 2002:a65:6e9b:0:b0:3fc:587a:6dcd with SMTP id bm27-20020a656e9b000000b003fc587a6dcdmr6833105pgb.200.1654225065976;
-        Thu, 02 Jun 2022 19:57:45 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-16.three.co.id. [180.214.232.16])
-        by smtp.gmail.com with ESMTPSA id w16-20020a1709026f1000b00166496ba268sm1393055plk.285.2022.06.02.19.57.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jun 2022 19:57:45 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] leds: Add leds-qcom-lpg entry to documentation table of contents
-Date:   Fri,  3 Jun 2022 09:57:35 +0700
-Message-Id: <20220603025735.17953-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.36.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=V69MdHZeArGR1p037iUfHw/ib1Y8p6jjj2w/lS/WKCY=;
+        b=Y1Ce6HyFfwm5cxdHczRxM+Ief9Wh+ucykyNduhgMVSirvmcX2NegqHEDXwHicQgzU2
+         uXsYOZusCvENmHE35T9cdbFlk94+9fD+mA8HC8+aMLcUAwImfMsJINi3JZcjQmSLgW0Q
+         VV4QY3WBm0luxWc21skUYKS/HTVKbLQvZnnqjhv0hRXHYXVbFu47qrW3nF1CiOwsUdia
+         PoSNS/T60hKKYcmJuGUx+Lo2RNz3zEuTAPicXOP1mtHXKTQcQKAwogqhF4kZDja5trRa
+         V2/Kk4/tJGt7sg4z7i1TQibWqHPstFx8YryubikNIzF334EQGV3foZ0m/4Q2j0zmm+6k
+         wAqA==
+X-Gm-Message-State: AOAM532Vgct46uLL5rmNVo16vzUsOQs2bWRCilAEJf2wmpCR/26x6Veb
+        4ews4AE6hOabUd21tsS5OWNjWlteea8fLXPrEnY=
+X-Google-Smtp-Source: ABdhPJx1Q2URPgzhZwqCBR98Ngqy/AKTQqxQ6EdjLoGuIhPccdjI8x/MzaUCZEQPUAIOTsazaOTNjHjF1YNkqi5X4ww=
+X-Received: by 2002:a02:6014:0:b0:331:57b2:8a3a with SMTP id
+ i20-20020a026014000000b0033157b28a3amr4683275jac.169.1654232705473; Thu, 02
+ Jun 2022 22:05:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220602115141.3962749-1-chenhuacai@loongson.cn>
+ <20220602115141.3962749-2-chenhuacai@loongson.cn> <e68000bf-a271-d1f2-56a5-a9ddce2bbb7c@infradead.org>
+In-Reply-To: <e68000bf-a271-d1f2-56a5-a9ddce2bbb7c@infradead.org>
+From:   Huacai Chen <chenhuacai@gmail.com>
+Date:   Fri, 3 Jun 2022 13:04:55 +0800
+Message-ID: <CAAhV-H4MhHvXMTXN==z2xonfWEtcW8CiBrwnOEznKGira8Yw=g@mail.gmail.com>
+Subject: Re: [PATCH V14 01/24] irqchip: Adjust Kconfig for Loongson
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Marc Zyngier <maz@kernel.org>, WANG Xuerui <git@xen0n.name>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After merging linux-leds tree to the mainline [1], htmldocs build produces
-a new warning:
+Hi, Randy,
 
-checking consistency... /home/bagas/repo/linux-stable/Documentation/leds/leds-qcom-lpg.rst: WARNING: document isn't included in any toctree
+On Fri, Jun 3, 2022 at 12:34 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Hi,
+>
+> On 6/2/22 04:51, Huacai Chen wrote:
+> > diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+> > index 44fb8843e80e..1cb3967fe798 100644
+> > --- a/drivers/irqchip/Kconfig
+> > +++ b/drivers/irqchip/Kconfig
+> > @@ -557,7 +557,7 @@ config LOONGSON_LIOINTC
+> >
+> >  config LOONGSON_HTPIC
+> >       bool "Loongson3 HyperTransport PIC Controller"
+> > -     depends on MACH_LOONGSON64
+> > +     depends on (MACH_LOONGSON64 && MIPS)
+>
+> If you ever have another patch version, please drop the unnecessary left and
+> right parentheses above.
+OK, thanks, I will do that.
 
-The warning above is because leds-qcom-lpg.rst is missing in the table of
-contents.
-
-Add the missing entry.
-
-[1]: https://lore.kernel.org/all/20220531200619.GA8906@duo.ucw.cz/
-
-Fixes: e98a860f65428a ("leds: qcom-lpg: Require pattern to follow documentation")
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: linux-leds@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/leds/index.rst | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-index e5d63b9400459c..014e009b076159 100644
---- a/Documentation/leds/index.rst
-+++ b/Documentation/leds/index.rst
-@@ -25,4 +25,5 @@ LEDs
-    leds-lp5562
-    leds-lp55xx
-    leds-mlxcpld
-+   leds-qcom-lpg
-    leds-sc27xx
-
-base-commit: 50fd82b3a9a9335df5d50c7ddcb81c81d358c4fc
--- 
-An old man doll... just what I always wanted! - Clara
-
+Huacai
+>
+>         depends on MACH_LOONGSON64 && MIPS
+>
+> >       default y
+> >       select IRQ_DOMAIN
+> >       select GENERIC_IRQ_CHIP
+>
+> thanks.
+> --
+> ~Randy
