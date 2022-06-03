@@ -2,139 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3639C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 11:28:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 840F7C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 11:49:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239592AbiFCL2A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jun 2022 07:28:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43048 "EHLO
+        id S244046AbiFCLtE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jun 2022 07:49:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237380AbiFCL2A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 07:28:00 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2109.outbound.protection.outlook.com [40.107.236.109])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73EAA3C481
-        for <linux-doc@vger.kernel.org>; Fri,  3 Jun 2022 04:27:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kjCFELeqkrtC5jc+FVQoMco8CJvnrydy3+SGJp8rZklLJYuaj6DAuAUL/0ZFQuW63gBxTTa945acL9wrOh1LVZU+wLnYKECK0tqztK/0AwyoAsOA8AQPqc25TNtcxucLncweu9wVlDXm3xjXLZT5dDwVJLte5fAjEE89BbQrjlyaiVd7+26CNjWNBtri42MSZNF8tlpGnqopzZwq4gOBZl8eWWOgmXAk75JW3eBaHG6OoEGpfDDzqty8sX5VEUMwXQDgYfHLGE5aK5a9EhFs+fDRSpDR70Kn0PQMSiLvfAX5o8tAUVoucuPHn0KR8hm6+BtxHQRRoMG/svmYPN6Lhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cPHGxoSqJw3IecZ2FtD7ZsbIjD8LWauPFKSs0fUehm8=;
- b=B6uX0Yrt7I36gFG0cNsPeGRS1wG8i15LHfwUPrq2/U0MwfddTiL2Vm9rG2ATJxeq43lGSy42Lfv0nUJ8hpIxFJeAleWpEMl24wNUchlctduH2ok3vp4Jvn+GgM0ChQp8lVErKC0X3ONgHHQaJ+n762fPPbHyWQyNh9thpNOY12GBixuAjjJfZsbNhTYwjVHOuUnePggoMCrabp+dkCW+cAkXB2wEEhb19KKyRT3Qkt6muqnshK97/kUwzgJ2+wg24hLz4MvRsAM/NQVFMFeJ8TVXAtFgtr7CBugkfw645cV8tHnzK7f21qUYAOBXFodzFANPO7/TH1Urk/UQb7uEzw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cPHGxoSqJw3IecZ2FtD7ZsbIjD8LWauPFKSs0fUehm8=;
- b=L1vSx8Dx6gO+t4MbYp8K90hRCKDGL9iDlfgO2QkGdJWDzvZiVShak2vjD0VJ2jdzL5vhKJpMapPhtnPlWkWb5C02wSKVCujkjz102s0xxXYmPbPB6F0A0qA7NgsbqVYDU4bzOmsleQrI425ETdeWwfOYy45OOSSMdVPqrHQ48ck=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by SJ0PR13MB5367.namprd13.prod.outlook.com (2603:10b6:a03:3d2::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.12; Fri, 3 Jun
- 2022 11:27:54 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::b18b:5e90:6805:a8fa]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::b18b:5e90:6805:a8fa%8]) with mapi id 15.20.5332.006; Fri, 3 Jun 2022
- 11:27:53 +0000
-From:   Simon Horman <simon.horman@corigine.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        oss-drivers@corigine.com
-Subject: [PATCH] docs: arm: tcm: Fix typo in description of TCM and MMU usage
-Date:   Fri,  3 Jun 2022 13:27:29 +0200
-Message-Id: <20220603112729.222398-1-simon.horman@corigine.com>
-X-Mailer: git-send-email 2.30.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM4PR0101CA0079.eurprd01.prod.exchangelabs.com
- (2603:10a6:200:41::47) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+        with ESMTP id S235135AbiFCLtD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 07:49:03 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B980381B4;
+        Fri,  3 Jun 2022 04:49:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B7A63B822CE;
+        Fri,  3 Jun 2022 11:49:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A2A1C34115;
+        Fri,  3 Jun 2022 11:48:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654256939;
+        bh=X8VUkQQIsdul5nRaZx8jcDZ3dHSCnETsIvwz4JcA9+k=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HnKVQW64OQEMmE4jBWCM0wy4/jCMxwqwsZN98sUAe1Zkqa8+xEaRBx5BUWRDRapvQ
+         mwIPh5JKkkUclWhIPENdgDy84xtaUizMtHO7psKhzVY5+66dy27EzPmBWB3Jho46fp
+         jBgTGP2or2Lj+RXKqRK4tN6Q6rSSMwHyD67N2QEx2yp0j2jy5QfBf+OCHhyiosMBPn
+         9QfFj5d44xnxpz2l+VHmyh+tmeTPaqPdQ9yCRfvRn1TmGBXgqteBe+g/oxcgmJcHQ2
+         6oWpS2r5jLJUsIwQh5ZMlVP1vMFtD7Vl8pW7tI3iI1MLp0AfoxlAy3eN6iq+L0DzCh
+         PmMWtDMyOFisw==
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-e5e433d66dso10275139fac.5;
+        Fri, 03 Jun 2022 04:48:59 -0700 (PDT)
+X-Gm-Message-State: AOAM532xjGCNId7cXPqc/SSS8NNCrEchQDGb0kSZFN/at8yQ1rmV2K9p
+        LEUcTkkoZNuIkCv2lAtI0ig5fDpOyZwTA95TCDc=
+X-Google-Smtp-Source: ABdhPJw05wRHg99uYpgtAnCv/XqNeM0d/Ebfy5iJ9wfQPaCKtcJTDHMiG8UneinMTluS1Utm3DjYuPp5l621EaDHkR8=
+X-Received: by 2002:a05:6871:5c8:b0:f3:3c1c:126f with SMTP id
+ v8-20020a05687105c800b000f33c1c126fmr5452735oan.126.1654256938205; Fri, 03
+ Jun 2022 04:48:58 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6c688435-915a-478b-3901-08da45541980
-X-MS-TrafficTypeDiagnostic: SJ0PR13MB5367:EE_
-X-Microsoft-Antispam-PRVS: <SJ0PR13MB5367C20FBDEB2105B2A161FCE8A19@SJ0PR13MB5367.namprd13.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LcVwV2MsRkAMAWU2vFUyxj40okMnbFeySbTIBkQUuVWxR+FumMh0HNMoWW/ObQSA3b6eXs1vIuOv+1ZmDC7eGspBw1WsB8Qv71pQA8D3Y8yVrRE0mt2wP+/m8RyXe3Dl9srOpyserMmrzi86Ra/n6TCwqbvxyQp7UISRatNaukGbhu/xcLevTuZsd30p6EMhfFxN0JUWo+jH5f0e9OaNrcMS0S5w2j/oDmk0ZKk+61MxPns12YO8U22uWyt+kZYz/HcszidLi5nMwyBU6IkkAH90QvkxR2qvCvHIn1BXXk0kItXfCT0RFhbZ+fkKkJ621105Y89NJmAAIVX+W9yKbhVqWN75oRAKnXm3VocsEms2LdsR5lYUBCZL79iqf7DGxSttdJ2wpA5KC7ZGMJ6K0XQuUSQIKqyxMBruG6IRK0+8VCbDnuDbzDIA4PKxlWpUmNgif5VVFOKLGHdHON5BZeZxBfMWhzNG2DBm9mCAMzOqa5BZ4Cc4K2s4WoOWWCnbTRQEWnx2Hq3cbq1rrUdhXeIchl6zk5EJPR25gtmwyzlt6Vcx29m30UCBdWWE9+h5bhxJHOddOOdheVscmPTA4RmJxMRUNJntdN6FvzFuGKPBRmOjlPoeIfYgTH11kxSQtDKCA0F2w4lHH1l7CA19Eg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(376002)(136003)(366004)(396003)(346002)(39830400003)(4744005)(44832011)(6666004)(8936002)(508600001)(5660300002)(83380400001)(6512007)(186003)(1076003)(107886003)(41300700001)(2906002)(6486002)(2616005)(52116002)(86362001)(6506007)(8676002)(4326008)(38100700002)(66476007)(6916009)(66556008)(316002)(66946007)(36756003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rNvWEfqhhHZPdx5ja5fyX544XBYrxjiROyLwd1UuwUycn8MbSB8Xrcjl8CLG?=
- =?us-ascii?Q?nXxIjnuIsD3yLBrmRmHgEv5UdD8ob7zHdaA4lYbEGQriMblLeY5voknYDXkb?=
- =?us-ascii?Q?GkBFEDBoEABer8uY/6Bl0SmScYu8jlgmDkLdJG8yLcK05VeQGSqkEIg7cruJ?=
- =?us-ascii?Q?bkpDsV4OVwkL3fn4eY+4NoTX2zcuj4RBJ8UzFmxAfn4I/jXT3mr7sLioOBWZ?=
- =?us-ascii?Q?s0kPDkka3a1+3pXOMNiVMyPVjb9Hk6oNHo6tS7ZekoEzzb4nt1QuBlwq+mCd?=
- =?us-ascii?Q?JtRLTmB8Aa30Kf2C0JmlyIey0thooGd/xnpWkDxTc4sxykdugFx/0xfQucaq?=
- =?us-ascii?Q?VzspuB+Faj6iAoW9wolzvEhnvRAM2Qx/HEFs6LYDZVjsiHOf+eya3HT7gdWK?=
- =?us-ascii?Q?miYC2ulcDLpCvVMugkv0o14dDCkKBnxmkHSZvZdrGrMz/WD7qPrqw2JSH03t?=
- =?us-ascii?Q?bbnVNyqabj+uK8yxJNJnI3+UYgU2F7Vo2+J4M1LzpaN4ypnIoIy/TaZJeyok?=
- =?us-ascii?Q?iVblJr1I1CZ2mU/ogDNhI2IQ+t6+58LVQvg1ZanknJeK2/S1qBX50W7wqk/d?=
- =?us-ascii?Q?8c3qhC5SCDla91hDbC+tJhYTBm8MjdhzBKAW68MWkY62K398fd7JfjpAfws0?=
- =?us-ascii?Q?7dvsR7mph4YU4coPxGWhVP/lfBHTzIG5vI0tFkqK9QKDgwnGohAUAdgcxr+K?=
- =?us-ascii?Q?4oRwgwwL+EYC2zuGYUkum2FYKlOWsvldwc5s36nq1WyovnqvmFFRqRhMSAKx?=
- =?us-ascii?Q?p+qsFRN5+EkCw2NAey1Utu4vIJUUrGedlUDI/r5paVNQCDPI6An/UHOgyTHK?=
- =?us-ascii?Q?lYOC8Ou2FRjamTCUhhG7hp+MntvUU2iOvuvUO6FA7xW8kr3g2sYerAVnpgeG?=
- =?us-ascii?Q?Nxql06/8zjoQEqc+gGCTZX8OcC7w08XIikgs6eTTKqhgFffZsIZO4ToaZb7r?=
- =?us-ascii?Q?GeQmG/Qeh8qfpnhvWVu+tZm3JnqradX5TgcG7qUi9/hm3FKVLwM+KDcyVST/?=
- =?us-ascii?Q?mG0zgg0D+Q1DIZIbQCBkEHyC4zy8R3Cpq8jHzUf4Rs0JKg0SGskVDU8D6EiJ?=
- =?us-ascii?Q?XZ2ecUNEPEhrlYRvPO+6TY7/Is35wYYqcvQPsK45DTCEle7SJVyJmcUN2XiR?=
- =?us-ascii?Q?87GhZea/XAU6dPnkrdWUnI7oCvhydz2nSbqVMWOGNRWJOhXrik85om73nP2K?=
- =?us-ascii?Q?KJoq8EA4mGnxKcAJGinhm0R4TLsYfb57ZVlIiLNp+9bGSLBYulTkGwLKdqFW?=
- =?us-ascii?Q?QlfEg9fy9zYWspTPAvDr/qsRveYXXmzLnITJxFyB4Bi0mZhr1OGyWeqLk5Es?=
- =?us-ascii?Q?UB5mcvLsED4q4MQqNVxTxKlWGrxaOR2RWoklkTzgyKh9brZxPifv1PCETxw/?=
- =?us-ascii?Q?c8lnFXJ9hbwzWN6fvvbQJrEv+tdV0Ff5NSixuj5r8OAV+/vZ1+LpXDUXXTU4?=
- =?us-ascii?Q?AvzLZ5lcOeZ9wWP1zOtrcH7At5nfsoFjjLhkdQJunPRHKBFMjkE1DXhL/FpJ?=
- =?us-ascii?Q?YmsQKsfx/fEWL1CFkrBg4UI19nvYFTTUThC7A3gsu/csgzVU90ZGytTcpjL3?=
- =?us-ascii?Q?a2qRcYKuYzAnAt29Y4aR5zKXkoerpJ4YjEIXpwMaSoJV5+gyCHJo1NaJRbtR?=
- =?us-ascii?Q?TI0zqSkL5VRMUYJQVd7pjSk5e71eBFOiumJoTOU67AEcr2T7fAjZ90nuwoX9?=
- =?us-ascii?Q?wIuu+fpYoHRnlt1kGK3fPYQm0Nzpk7IfvF3O1zIiXUCfYIfLQvyMWEiFWQQJ?=
- =?us-ascii?Q?rBh51Og7bVMYJCfoYPlXFtkkjE/x+h+AOgi3+t6oL0WmFVH5RkadGJ4A59EV?=
-X-MS-Exchange-AntiSpam-MessageData-1: aWTZXo5H769CaGJ07hAEvoYsIhEuTIvXZ+g=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c688435-915a-478b-3901-08da45541980
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2022 11:27:53.6873
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5Nf6TcL4xPyvtwjtYiJi99kDYi/RmZtZTsbCAjKMBf4hHZmQ8Sofs+SbJYmgccY9Abr2ABdLogvr5LomKvUEfsaDdN2aUrpudWAZMEudtqs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR13MB5367
+References: <20220603072053.35005-1-chenhuacai@loongson.cn>
+ <20220603072053.35005-12-chenhuacai@loongson.cn> <4213df91-c762-ae56-f08d-8c925759fa63@xen0n.name>
+ <CAK8P3a2mW7KmgxqWsaf76Q4V++B+0e6bH=tb4w4cA0XkZYuSLA@mail.gmail.com> <fcdbe7bd-bb4a-fc50-a96d-c2dd1456bc9b@xen0n.name>
+In-Reply-To: <fcdbe7bd-bb4a-fc50-a96d-c2dd1456bc9b@xen0n.name>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Fri, 3 Jun 2022 13:48:45 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXENy9Wf4EtNp7F+RHfF2WaUXsaXsMJVCVAXc4i_-nH=VA@mail.gmail.com>
+Message-ID: <CAMj1kXENy9Wf4EtNp7F+RHfF2WaUXsaXsMJVCVAXc4i_-nH=VA@mail.gmail.com>
+Subject: Re: [PATCH V15 11/24] LoongArch: Add boot and setup routines
+To:     WANG Xuerui <kernel@xen0n.name>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Guo Ren <guoren@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        WANG Xuerui <git@xen0n.name>, Yun Liu <liuyun@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct a typo in the description of interaction between
-the TCM and MMU.
+On Fri, 3 Jun 2022 at 12:37, WANG Xuerui <kernel@xen0n.name> wrote:
+>
+> On 6/3/22 18:02, Arnd Bergmann wrote:
+> > On Fri, Jun 3, 2022 at 11:27 AM WANG Xuerui <kernel@xen0n.name> wrote:
+> >> On 6/3/22 15:20, Huacai Chen wrote:
+> >>> Add basic boot, setup and reset routines for LoongArch. Now, LoongArch
+> >>> machines use UEFI-based firmware. The firmware passes configuration
+> >>> information to the kernel via ACPI and DMI/SMBIOS.
+> >>>
+> >>> Currently an existing interface between the kernel and the bootloader
+> >>> is implemented. Kernel gets 2 values from the bootloader, passed in
+> >>> registers a0 and a1; a0 is an "EFI boot flag" distinguishing UEFI and
+> >>> non-UEFI firmware, while a1 is a pointer to an FDT with systable,
+> >>> memmap, cmdline and initrd information.
+> >>>
+> >>> The standard UEFI boot protocol (EFISTUB) will be added later.
+> >>>
+> >>> Cc: linux-efi@vger.kernel.org
+> >>> Cc: Ard Biesheuvel <ardb@kernel.org>
+> >>> Reviewed-by: WANG Xuerui <git@xen0n.name>
+> >>> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> >>> Co-developed-by: Yun Liu <liuyun@loongson.cn>
+> >>> Signed-off-by: Yun Liu <liuyun@loongson.cn>
+> >>> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> >> Would you please look at this patch, which has all the arch-independent
+> >> changes backed out, and Ack if it is fit for mainlining?
+> >>
+> >> I communicated a little with Huacai about the approach for supporting
+> >> alternative boot protocols down the road, and we agreed to carry the
+> >> respective changes downstream. And if needs truly arise for modifying
+> >> common EFI logic, we can do so in a non-rushed manner later.
+> >>
+> >> For the current status of the code, apparently it just accepts the
+> >> standard efistub-shape FDT pointer from (whatever booting the image),
+> >> and everything onwards are fully using the common code without
+> >> modification as you can see from the diffstat. I rebased my BPI support
+> >> patch on top of this (basically translating Loongson BPI data structures
+> >> into the expected FDT form), and can confirm the boot can progress to
+> >> the same point as before -- indeed the SVAM changes etc. are not
+> >> necessary for a working system, and the code remains working.
+> > I'm a bit lost here: Does this mean the v15 version is back to the old
+> > pre-efistub interface and allows booting with existing firmware, or
+> > is it now left out completely? I still see a kernel_entry() function
+> > in head.S, and I see references to loongson_sysconf, but I don't
+> > see if that is what gets passed in from the bootloader.
+> It's not the same interface as in some of the very early revisions; the
+> earlier versions relied on "struct bootparamsinterface" or BPI, while
+> it's the same FDT-based interface to initialize EFI from, as in
+> arch/arm64 and arch/riscv I believe. No Loongson-specific things remain now.
 
-Found by inspection.
+OK, excellent.
 
-Signed-off-by: Louis Peens <louis.peens@corigine.com>
-Signed-off-by: Simon Horman <simon.horman@corigine.com>
----
- Documentation/arm/tcm.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > I really want to make sure that without the EFI stub, there is no
+> > other way to boot the kernel that would have to get maintained
+> > in the long run.
+> Yeah this is the case right now. No LoongArch bootloader that I know of
+> can prepare the EFI stub-shaped FDT that the current code expects, and I
+> don't know of any future Loongson plan to do that either (Loongson's
+> previous in-house efforts all looked something different). So it's
+> pretty safe to say the current code wouldn't get frozen once mainlined.
 
-diff --git a/Documentation/arm/tcm.rst b/Documentation/arm/tcm.rst
-index b256f9783883..1dc6c39220f9 100644
---- a/Documentation/arm/tcm.rst
-+++ b/Documentation/arm/tcm.rst
-@@ -34,7 +34,7 @@ CPU so it is usually wise not to overlap any physical RAM with
- the TCM.
- 
- The TCM memory can then be remapped to another address again using
--the MMU, but notice that the TCM if often used in situations where
-+the MMU, but notice that the TCM is often used in situations where
- the MMU is turned off. To avoid confusion the current Linux
- implementation will map the TCM 1 to 1 from physical to virtual
- memory in the location specified by the kernel. Currently Linux
--- 
-2.30.2
+The use of DT is part of the internal stub <-> kernel ABI, and if
+LoongArch does not make use of DT otherwise, I could well imagine
+changing this down the road.
 
+I'll send out some RFC patches for review after the merge window closes.
