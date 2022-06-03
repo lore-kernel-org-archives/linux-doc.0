@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96399C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 19:57:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8354ACCA47C
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 19:57:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240471AbiFCT5p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jun 2022 15:57:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52454 "EHLO
+        id S1349348AbiFCT5q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jun 2022 15:57:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244713AbiFCT5n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 15:57:43 -0400
-Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A462E1EEDA
-        for <linux-doc@vger.kernel.org>; Fri,  3 Jun 2022 12:57:42 -0700 (PDT)
-Received: by mail-pl1-x649.google.com with SMTP id h13-20020a170902f70d00b0015f4cc5d19aso4708533plo.18
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jun 2022 12:57:42 -0700 (PDT)
+        with ESMTP id S1348129AbiFCT5q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 15:57:46 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC4741EEDA
+        for <linux-doc@vger.kernel.org>; Fri,  3 Jun 2022 12:57:44 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-310061f47faso32684657b3.9
+        for <linux-doc@vger.kernel.org>; Fri, 03 Jun 2022 12:57:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=yw5oLDxPzA4x8GiT50xzenS9433El8aksuU2kCWJ5pk=;
-        b=dlp/8I89YhGs2GWgPG5LnOxa8u3bZx25ZgFP34Y/NU/We4cto1TBikJ/iU4HC+xorT
-         V/oOkMpMzwOcS4l3IIBMN/rjnX+NhwDcXXTGlH3Difj8Sgr2tYgZNaExYJZs5PEanU+e
-         cS/ex2huFpe3TJoCa72Qykd6SQ4vAEEVPg9P3C6rr5/SuTwIGnhs6KUPintnhIr3AnKM
-         qUAgflPjChyZxocbm4AjZjv6pVYa6JuO8oj+/nmJ3oXEfzwclIvonTApEfLdsFshhXNT
-         UT4w4lFYLaRUnMRxrnisa+RsQwqHBSUJfQGfuHPdvhn9R8Gfqj3tADInlsosGXbqgHzE
-         DnWg==
+        bh=+0BJkP7LQA7GM1MPeGO3z/t5dz9swoXFRqhRmsZFFPo=;
+        b=XgqsCrfxLrG3S04UfcYNJfVoH5ccnQjNtz4xJnA0tnNYj8f3CmKGcspLcmL9hzGQkN
+         zOLnmRdyHyyR36jS7Osm5HwK09Ft3Ql4i9E/JnNdaTh+V/bcWCMhFSK1feT/tqnw1AE6
+         76DCh1hY0Q36NB4nLsVDbBIrKkI0lyuVbktdsxtLAIlHDziorFLtHlrbjC8M13/wC2nP
+         4BlN0e57iMF3pO47ug5R6MOZGMO0SdwLiPCNcpskuEmOryKg6XnqA9U4oNPHgvqYJXA5
+         0SJR8CQneq6FyS7nADbHPFJsILTJsrs8J7S5SjE/3CoQtn3CdV+BE+JL0v+OQb6efoLk
+         ynOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=yw5oLDxPzA4x8GiT50xzenS9433El8aksuU2kCWJ5pk=;
-        b=P9lRu25rX9hzri1ZTkzHRQe+0SjAtjdgAhOVZQiusqs3o6G8UNdWSoq0jqrFJYabfm
-         xwFPzIICpfxqSwh/FlVSn41cuDPfpetqhPTeYBIitvIpyiK9DvC64AmiRmQ/OgbU7WqM
-         wMGRE4/6BUUhRzQE+5BZzmPuaiSIep3dw8Y3fHZnn1uXHXo6r5+mJLi3xYYrW4gdGuhq
-         gOAnND4uSY73OAU+RRmYrvRYFoFjYTQhn2ybM+yx5JXZ1sfa+l8JJdPRk/vy5MrVxB2N
-         S2Vg8JA+0mxV/AM3pkNkhudZRP2qOzAltHLKFHAkWVsyMYTE5DKS/rVcqT8cCWSTpJL5
-         PHDA==
-X-Gm-Message-State: AOAM532qKvyXnniDrqcMY3xU0DbXkBbetqm+Pq+AnvLKRpeCKVAGqeYT
-        Ht8uEbY3nYFpNaYnhj880kF0TwKiUIcIlw==
-X-Google-Smtp-Source: ABdhPJzoCnFcZNnBxHclYQ934OCjRTdYAMEtGWA0FpDhfRN90AK7GJ6mLI9IbMQnvkNZZC1VRFDNz87aTBEskw==
+        bh=+0BJkP7LQA7GM1MPeGO3z/t5dz9swoXFRqhRmsZFFPo=;
+        b=kSNSmjPlmmsl6ISbN2UfRDSKgO0CM2yCO9DsrlLKiW88p05/VYldEKmaVIAVbqHhrD
+         jYGIXskzRitq8dm8BO+ZUCePAXlxDIuxWNELcRuzmXh/CLWbBs/HjtUPxi1xzPJoZ7I8
+         fiZXpA+SNLNO0lLD2wt7Aozj9BfI4LM4AIEZWiMOtDH3i95q4EsMtrACyqtd04HY/LBy
+         7pA4C1B3YxInvlMyfJi2slHf/1gFEIk/3NQCMOvlfH9MY7qGJZvfvQZ10cGpHq5fGWQV
+         eRsrREf1TooUUw6xJD1//9x6BvSSel6V9FUvwMzOcWThLoL0GrEv11s5ILw83tJLu9+6
+         g6Tw==
+X-Gm-Message-State: AOAM532Ei4gSstObGF3OmKHmVRfuzGDdBKYDplc+K1/VMy+CZQEpqzWw
+        6zvVhvSNtkdWUFXSB4cMmHciOvyk5bpJ4w==
+X-Google-Smtp-Source: ABdhPJwHQHGSl3m9zUFvEI3sbSQwNUh2f2XGX55AQDH0UH+u9m6F6gc6Zk1TgV+GsgfajBktCzXA3OPsTcHVwg==
 X-Received: from dlatypov.svl.corp.google.com ([2620:15c:2cd:202:9ff0:c6ec:46df:8f8a])
- (user=dlatypov job=sendgmr) by 2002:a05:6a00:114b:b0:4f7:915:3ec3 with SMTP
- id b11-20020a056a00114b00b004f709153ec3mr12029785pfm.8.1654286262084; Fri, 03
- Jun 2022 12:57:42 -0700 (PDT)
-Date:   Fri,  3 Jun 2022 12:56:25 -0700
+ (user=dlatypov job=sendgmr) by 2002:a25:9cc5:0:b0:65c:c760:9e34 with SMTP id
+ z5-20020a259cc5000000b0065cc7609e34mr12465282ybo.518.1654286264235; Fri, 03
+ Jun 2022 12:57:44 -0700 (PDT)
+Date:   Fri,  3 Jun 2022 12:56:26 -0700
 In-Reply-To: <20220603195626.121922-1-dlatypov@google.com>
-Message-Id: <20220603195626.121922-2-dlatypov@google.com>
+Message-Id: <20220603195626.121922-3-dlatypov@google.com>
 Mime-Version: 1.0
 References: <20220603195626.121922-1-dlatypov@google.com>
 X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
-Subject: [PATCH 2/3] Documentation: kunit: move mention of --jobs flag lower
+Subject: [PATCH 3/3] Documentation: kunit: rewrite section on .kunitconfig
 From:   Daniel Latypov <dlatypov@google.com>
 To:     brendanhiggins@google.com, davidgow@google.com
 Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
@@ -62,44 +62,89 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit ad659ccb5412 ("kunit: tool: Default --jobs to number of CPUs")
-changed the --jobs flag from a hard-coded value of 8 to basically
-`nproc`.
+This section was slightly out of date and redundant.
+* the `note` was obsolete since commit 4c2911f1e140 ("kunit: tool:
+  reconfigure when the used kunitconfig changes")
+* we don't want users to grab the default config manually, running
+  kunit.py config/build/run will do that for them as noted in the
+  section above.
 
-Therefore, most users should probably not need to bother to tweak this
-flag. Having it near the top of the page is more noise than anything.
+This rewrite tries to pull back the curtain and show that .kunitconfig
+isn't magic by giving some example commands a user can run to emulate
+kunit.py.
 
 Signed-off-by: Daniel Latypov <dlatypov@google.com>
 ---
- Documentation/dev-tools/kunit/run_wrapper.rst | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ Documentation/dev-tools/kunit/run_wrapper.rst | 47 +++++++------------
+ 1 file changed, 17 insertions(+), 30 deletions(-)
 
 diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-index 653985ce9cae..1fccf2e099f7 100644
+index 1fccf2e099f7..e0ddd18f8c2e 100644
 --- a/Documentation/dev-tools/kunit/run_wrapper.rst
 +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-@@ -30,10 +30,9 @@ We may want to use the following options:
+@@ -57,45 +57,32 @@ To view kunit_tool flags (optional command-line arguments), run:
+ 
+ 	./tools/testing/kunit/kunit.py run --help
+ 
+-Create a  ``.kunitconfig`` File
+-===============================
+-
+-If we want to run a specific set of tests (rather than those listed
+-in the KUnit ``defconfig``), we can provide Kconfig options in the
+-``.kunitconfig`` file. For default .kunitconfig, see:
+-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/kunit/configs/default.config.
+-A ``.kunitconfig`` is a ``minconfig`` (a .config
+-generated by running ``make savedefconfig``), used for running a
+-specific set of tests. This file contains the regular Kernel configs
+-with specific test targets. The ``.kunitconfig`` also
+-contains any other config options required by the tests (For example:
+-dependencies for features under tests, configs that enable/disable
+-certain code blocks, arch configs and so on).
++.kunitconfig
++============
+ 
+-To create a ``.kunitconfig``, using the KUnit ``defconfig``:
++We mentioned it above, but a ``.kunitconfig`` is a *minconfig*, i.e. you only
++need to specify the options you care about, e.g.
  
  .. code-block::
  
--	./tools/testing/kunit/kunit.py run --timeout=30 --jobs=`nproc --all
-+	./tools/testing/kunit/kunit.py run --timeout=30
+-	cd $PATH_TO_LINUX_REPO
+-	cp tools/testing/kunit/configs/default.config .kunit/.kunitconfig
++	CONFIG_KUNIT=y
++	CONFIG_KUNIT_EXAMPLE_TEST=y
  
- - ``--timeout`` sets a maximum amount of time for tests to run.
--- ``--jobs`` sets the number of threads to build the kernel.
+-We can then add any other Kconfig options. For example:
++Concretely, here's more or less what ``kunit.py run`` does by default:
  
- kunit_tool will generate a ``.kunitconfig`` with a default
- configuration, if no other ``.kunitconfig`` file exists
-@@ -237,6 +236,9 @@ command line arguments:
-   compiling a kernel (using ``build`` or ``run`` commands). For example:
-   to enable compiler warnings, we can pass ``--make_options W=1``.
+-.. code-block::
++.. code-block:: bash
  
-+- ``--jobs``: The ``-j`` argument to ``make`` when building the kernel.
-+  Defaults to the same value as ``nproc``.
-+
- - ``--alltests``: Builds a UML kernel with all config options enabled
-   using ``make allyesconfig``. This allows us to run as many tests as
-   possible.
+-	CONFIG_LIST_KUNIT_TEST=y
++   $ cp $KUNITCONFIG .kunit/.config
++   $ make O=.kunit ARCH=um olddefconfig
++   $ make O=.kunit ARCH=um -j `nproc`
++   $ .kunit/linux </dev/null 2>&1 | ./tools/testing/kunit/kunit.py parse
+ 
+-kunit_tool ensures that all config options in ``.kunitconfig`` are
+-set in the kernel ``.config`` before running the tests. It warns if we
+-have not included the options dependencies.
++See `Parse Test Results`_ for more details about ``kunit.py parse``.
+ 
+-.. note:: Removing something from the ``.kunitconfig`` will
+-   not rebuild the ``.config file``. The configuration is only
+-   updated if the ``.kunitconfig`` is not a subset of ``.config``.
+-   This means that we can use other tools
+-   (For example: ``make menuconfig``) to adjust other config options.
+-   The build dir needs to be set for ``make menuconfig`` to
+-   work, therefore  by default use ``make O=.kunit menuconfig``.
++  .. note:: Note: ``make olddefconfig`` will drop ``CONFIG`` options that aren't visible
++            (e.g. are inside an unsatisfied ``if`` block) or have missing dependencies.
++            kunit.py will validate every option in ``$KUNITCONFIG`` is present in the final
++            ``.config``, so it should be safer and less error-prone than doing this manually.
+ 
+ Configure, Build, and Run Tests
+ ===============================
 -- 
 2.36.1.255.ge46751e96f-goog
 
