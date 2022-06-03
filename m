@@ -2,83 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BCF9C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 15:42:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 832D2C43334
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 15:45:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245640AbiFCPmn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jun 2022 11:42:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44140 "EHLO
+        id S245607AbiFCPpC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jun 2022 11:45:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245612AbiFCPme (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 11:42:34 -0400
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FA116410
-        for <linux-doc@vger.kernel.org>; Fri,  3 Jun 2022 08:42:32 -0700 (PDT)
-Received: by mail-qt1-x82e.google.com with SMTP id ew15so5885124qtb.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jun 2022 08:42:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=p7fBM9lxIGcA0pluvXJoxpV2uNoYJjyHDydh/vq7BTg=;
-        b=cqiUZdSVPRe8uD+tiM58wDAFIU1QOm1cewSCGNr8Sqpk0T7O2Eh67CAbDeC685CADU
-         s1T3PyNt1OHwG3EGUYCkUBJYO6qLCxqY3d0XQF+obR7cTC/DremNXApL0n0I/6SrWR4c
-         e7ymYOZEYmuvJHBEcRp1QjkeoMIrpZLlpbf/w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=p7fBM9lxIGcA0pluvXJoxpV2uNoYJjyHDydh/vq7BTg=;
-        b=hSmgq27KcrywNHHpbE+pq3C5JK/R/2N2uOyRgfXlqNQTPiLwVOE5Q+NP4VJnfZS8l4
-         JhlJvoxKqtBSYezWbEhxZumY5+/dm3UhCc5vOIucT7C8XL0/i81fYDZgD5JA9UB08KLl
-         +PWFjw1bDnntVl1nMl9l2/1ncE8InLbgyg7SqpcrDMFk2rKWIQjq9unEgndygf4CYbWa
-         s2FVzH/gm3gTe5pTn+ZlIjbBfhuRRv2NB7qaj+og3lV+FBiCzJ33nhepnIKwqf4bI+Xn
-         V1/zc3MdMWuVyi9UC12SyIOGHEChvPySXPhUAtFGLWSmgkpgBAIQN+m6PCd4dmSkInTZ
-         OF2Q==
-X-Gm-Message-State: AOAM531MFBxfIgIKCZC1mSCaJNGOGGEuY4aS0dVVL1tPmZb+DrQUrnd+
-        nYAm5jIxBD3nMZzpaf6eAu3++nSy6Q5e7A==
-X-Google-Smtp-Source: ABdhPJyc1u+TDFVV4I6/19bF7OYk6sHxqHcn/aNZxi/XijQW4rBl99M5CGLCLgaNXWIGbIDhO0zmzQ==
-X-Received: by 2002:a05:622a:13:b0:301:6d0d:c731 with SMTP id x19-20020a05622a001300b003016d0dc731mr7981103qtw.43.1654270951836;
-        Fri, 03 Jun 2022 08:42:31 -0700 (PDT)
-Received: from meerkat.local (bras-base-mtrlpq5031w-grc-30-209-226-106-245.dsl.bell.ca. [209.226.106.245])
-        by smtp.gmail.com with ESMTPSA id m13-20020a05622a054d00b003030d9f518dsm5011853qtx.60.2022.06.03.08.42.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jun 2022 08:42:31 -0700 (PDT)
-Date:   Fri, 3 Jun 2022 11:42:29 -0400
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Matthew Wilcox <willy@infradead.org>
+        with ESMTP id S231160AbiFCPpB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 11:45:01 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA9D2ED7F
+        for <linux-doc@vger.kernel.org>; Fri,  3 Jun 2022 08:45:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654271100; x=1685807100;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=3uX8zYBMAhYwRM2jPO2zm7vXM4MtRbC0xXfQWLZubco=;
+  b=WbJp9qnuXUmty2Gc8DCbQtzHsZMyQCYnwGVE4jM/9BIuXKZeSH3FkTK0
+   An3BcZ6Q7Em9ot6K7P6QCDh8a/nBp95UyIEbh7Q1z7Vr5eyobiTFyJhm0
+   J6wGUZgBpisuqK5rSRi3r4uC/eIzljluk6y/+Rkk1TuVJAElyjVGvMR2X
+   nrbDlgZrzUMAyeUnBBByQy5euU6Ug4p9hGzM4uneu+i85ro52TCHTOxNY
+   CqrpMCdtC45837SqGlfgf/6F+IvbwHn+Gx9UyJp+ay/CIfZpDlxta5YVo
+   TFlnuVyuYDKyhnKYaLOPulTXtFg6bUp3iX3N9+Eb9UJXewTA5fg/hQF2P
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10367"; a="256141742"
+X-IronPort-AV: E=Sophos;i="5.91,274,1647327600"; 
+   d="scan'208";a="256141742"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2022 08:44:42 -0700
+X-IronPort-AV: E=Sophos;i="5.91,274,1647327600"; 
+   d="scan'208";a="578073171"
+Received: from richardf-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.55.27])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2022 08:44:39 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Adam Turner <aaturnerpython@outlook.com>,
+        Akira Yokosawa <akiyks@gmail.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Adam Turner <aaturnerpython@outlook.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 Subject: Re: Sphinx pre v3 -- removing support
-Message-ID: <20220603154229.sj5sfeaehbkfzgin@meerkat.local>
+In-Reply-To: <LO3P123MB2681A3F3A05E269AE0351799C2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <LO3P123MB26810D190462B6BBBF1305F6C2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
- <877d5xx1xo.fsf@meer.lwn.net>
- <YponOKPBgE8pgBYD@casper.infradead.org>
+ <52a6ffc3-300f-289e-b523-bc1ea93459d1@gmail.com>
+ <LO3P123MB2681A3F3A05E269AE0351799C2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
+Date:   Fri, 03 Jun 2022 18:44:36 +0300
+Message-ID: <87ee05oior.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YponOKPBgE8pgBYD@casper.infradead.org>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 03, 2022 at 04:22:32PM +0100, Matthew Wilcox wrote:
-> We'd need to coordinate with kernel.org's automated build of the
-> documentation.  I believe Konstantin handles that.  With pip, I imagine
-> he can install whatever version is needed.
+On Fri, 03 Jun 2022, Adam Turner <aaturnerpython@outlook.com> wrote:
+>>> From Sphinx's perspective, we'd like to remove long-deprecated code.
+>>> What is a good solution here for both sides? The intertial option is
+>>> for us to delay the deprecation by another major version (removal is
+>>> currently scheduled for Sphinx 6 (2023-05), and we are currently 
+>>> releasing a major version every May.
+>
+>> So, can we assume that there won't be any backward-incompatible
+>> behavior changes in Sphinx due to the removal of those long-deprecated
+>> code?
+>
+> I'm referring to removing support for the "c_allow_pre_v3", 
+> "c_warn_on_allowed_pre_v3", configuration options [1]_, and the 
+> associated support for still parsing the pre v3 syntax in the C 
+> domain [2]_. This means that pre v3 syntax in reStructuredText files
+> would not work with Sphinx 6 onwards.
+>
+>> Or do you mean that after the release of Sphinx 6, pre v3 Sphinx
+>> will be removed in the PyPI repository?
+>
+> No releases will be removed from PyPI, but if pre v3 syntax is still
+> used, Sphinx 6.0 would fail to properly parse it.
 
-Correct. We currently have:
+And that's the crux of the problem. From kernel POV I'd very much prefer
+not setting an upper bound for the Sphinx version. I think it's
+important to be able to build the documentation using the latest Sphinx,
+and gradually iron out the inevitable quirks that arise.
 
-    $ pip show Sphinx
-    Name: Sphinx
-    Version: 2.4.5
+However, if you decide to drop support for pre v3 syntax in Sphinx v6,
+and we decide to stick to being able to use pre v3 Sphinx, we can't move
+forward to newer versions until we bump the lower bound for the Sphinx
+version to v3+. (Or we need to hack around Sphinx version differences in
+kernel, but I think that would be best avoided.)
 
-In the setup, I have it being installed as Sphinx~=2.0 with a comment:
+BR,
+Jani.
 
-    # Don't use Sphinx-3.x until upstream is happy using it 
 
-I'm happy to upgrade that to a newer version if that condition no longer
-applies.
+>
+>> These questions might be too obvious for you but I have no idea what
+>> you mean by "removing support".
+>
+> A
+>
+> _[1]: https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-c_allow_pre_v3
+> _[2]: https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#the-c-domain
+>
 
--K
+-- 
+Jani Nikula, Intel Open Source Graphics Center
