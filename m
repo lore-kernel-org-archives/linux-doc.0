@@ -2,89 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FC33C43334
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jun 2022 06:38:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BCD5C43334
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jun 2022 08:13:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232750AbiFDGiX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Jun 2022 02:38:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54524 "EHLO
+        id S233522AbiFDINc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Jun 2022 04:13:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231144AbiFDGiX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Jun 2022 02:38:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B823C13CEC;
-        Fri,  3 Jun 2022 23:38:21 -0700 (PDT)
+        with ESMTP id S231828AbiFDINb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Jun 2022 04:13:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E1669FD9
+        for <linux-doc@vger.kernel.org>; Sat,  4 Jun 2022 01:13:30 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4CEA060AD9;
-        Sat,  4 Jun 2022 06:38:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E12BC3411D;
-        Sat,  4 Jun 2022 06:38:20 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="d7u6WpIB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1654324695;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=MFuIkM3knB2UIHMtd9NXy9Rob/skTOiBt7kbiwzBuWQ=;
-        b=d7u6WpIB+eBAIBLKWeKxe/F5zf/XGJtvcGAwkmvneRUb80jqMwPWJnL35MyFoFj5KILVVs
-        6W/rbl/OK0+X2HTZrIEFQzCOuJpTWIMIGG9mDJPyXdLJXczUudWyUDYzV7d7EysI0x73b5
-        2cR3jPNSuCguO1A2oatul2XH8dSPCvk=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 937e5903 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
-        Sat, 4 Jun 2022 06:38:15 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-30c2f288f13so101018767b3.7;
-        Fri, 03 Jun 2022 23:38:15 -0700 (PDT)
-X-Gm-Message-State: AOAM532XIM/aJ/arNzLSbo0HRweXioYKrX2HyRQl6gQJmhbA00ND3wY1
-        9Sn/iQeS1PkOHJhaELaWKrvyXVpYivb515afSts=
-X-Google-Smtp-Source: ABdhPJxjwjWtA5f8qIVDzL92JOa+bpONq8VmGkccqIggRjkkiDlzYaoiWDbxXuFq5VkopcUJVWJHikqgmbcSWfXB3TE=
-X-Received: by 2002:a0d:e28d:0:b0:30c:572b:365c with SMTP id
- l135-20020a0de28d000000b0030c572b365cmr15693818ywe.499.1654324692093; Fri, 03
- Jun 2022 23:38:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220603072053.35005-1-chenhuacai@loongson.cn>
- <20220603072053.35005-11-chenhuacai@loongson.cn> <YpoPZjJ/Adfu3uH9@zx2c4.com>
- <CAK8P3a0iASLd768imA8pG32Cc2RsqG8-ZyN+Obcg+PksVj1FJg@mail.gmail.com>
- <YpoURwkAbqRlr7Yi@zx2c4.com> <e78940bc-9be2-2fe7-026f-9e64a1416c9f@xen0n.name>
- <CAAhV-H6wMBV4rgbEx01+Zm+CPQxQYbe1CTuwB95B_JYwGaytFw@mail.gmail.com>
-In-Reply-To: <CAAhV-H6wMBV4rgbEx01+Zm+CPQxQYbe1CTuwB95B_JYwGaytFw@mail.gmail.com>
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date:   Sat, 4 Jun 2022 08:38:01 +0200
-X-Gmail-Original-Message-ID: <CAHmME9rpyoXkOXCedGKtX07ASZQo+nHrEPjMDyvT9Y4jZos3SQ@mail.gmail.com>
-Message-ID: <CAHmME9rpyoXkOXCedGKtX07ASZQo+nHrEPjMDyvT9Y4jZos3SQ@mail.gmail.com>
-Subject: Re: [PATCH V15 10/24] LoongArch: Add other common headers
-To:     Huacai Chen <chenhuacai@gmail.com>
-Cc:     WANG Xuerui <kernel@xen0n.name>, Arnd Bergmann <arnd@arndb.de>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A4FCA60BAA
+        for <linux-doc@vger.kernel.org>; Sat,  4 Jun 2022 08:13:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59727C385B8;
+        Sat,  4 Jun 2022 08:13:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654330409;
+        bh=+d9nlzAColr/B/metFDDTwe69clrkjZVgfv0eOShlo4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=BV9Ne/fAYrVblH9VikirgvA2OF5/QiAUUM6vcwtexfCwuZGySfoxeaOhBdruUmHsJ
+         Jdjje6m1i3T25F7Rp8iU0MLilXVMzfaxsBcuxB9NtmzkbYa4PfMsgHzrpSgypMAsc3
+         QYbycDboZzhwinWGuANJNFbcqvBV2i1jpBpoSZoMvj4UPIuD1D3L58NjWlLsu1Ftzw
+         sq80YgPcOkmZ7/3H7z/aKX+0rW1ksPwlDQpDHnDDZn1L/qsG+I+f5Ag7VkivUL+KyE
+         GqjicqwTXdm1NUNdxplHSAl4EpX6z0eNuBkdzUX1xdatCbggmcDb1nhG6q++RyaHcd
+         SKKyDFWEwA6EQ==
+Date:   Sat, 4 Jun 2022 09:13:22 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Akira Yokosawa <akiyks@gmail.com>,
+        Adam Turner <aaturnerpython@outlook.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        WANG Xuerui <git@xen0n.name>
-Content-Type: text/plain; charset="UTF-8"
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: Sphinx pre v3 -- removing support
+Message-ID: <20220604091322.17a2867c@sal.lan>
+In-Reply-To: <87bkv9o9e7.fsf@intel.com>
+References: <LO3P123MB26810D190462B6BBBF1305F6C2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
+        <52a6ffc3-300f-289e-b523-bc1ea93459d1@gmail.com>
+        <LO3P123MB2681A3F3A05E269AE0351799C2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
+        <87ee05oior.fsf@intel.com>
+        <LO3P123MB26814568842CC74EF831288EC2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
+        <4f13e688-1b4c-1a8e-7ca5-b2fc6d21263c@gmail.com>
+        <87bkv9o9e7.fsf@intel.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Huacai,
+Em Fri, 03 Jun 2022 22:05:20 +0300
+Jani Nikula <jani.nikula@linux.intel.com> escreveu:
 
-On Fri, Jun 3, 2022 at 4:36 PM Huacai Chen <chenhuacai@gmail.com> wrote:
-> As the PR has already been tagged before your reply, this will get
-> fixed in rc2. Thanks for your review again.
+> On Sat, 04 Jun 2022, Akira Yokosawa <akiyks@gmail.com> wrote:
+> > [+Cc: Mauro]
 
-Sent in a patch for that here:
-https://lore.kernel.org/lkml/20220604063525.397826-1-Jason@zx2c4.com/
+Thanks!
 
-Jason
+> >
+> > On Fri, 3 Jun 2022 15:54:33 +0000,
+> > Adam Turner wrote: =20
+> >>>> No releases will be removed from PyPI, but if pre v3 syntax is still
+> >>>> used, Sphinx 6.0 would fail to properly parse it. =20
+> >>  =20
+> >>> And that's the crux of the problem. From kernel POV I'd very much pre=
+fer
+> >>> not setting an upper bound for the Sphinx version. I think it's
+> >>> important to be able to build the documentation using the latest Sphi=
+nx,
+> >>> and gradually iron out the inevitable quirks that arise. =20
+> >>  =20
+> >>> However, if you decide to drop support for pre v3 syntax in Sphinx v6,
+> >>> and we decide to stick to being able to use pre v3 Sphinx, we can't m=
+ove
+> >>> forward to newer versions until we bump the lower bound for the Sphinx
+> >>> version to v3+. (Or we need to hack around Sphinx version differences=
+ in
+> >>> kernel, but I think that would be best avoided.) =20
+> >
+> > I might not be grasping the full context here, but I think the main scr=
+ipt of
+> > kernel documentation tool ./scripts/kernel-doc (a perl script) changes =
+its
+> > behavior depending on the target Sphinx version. =20
+>=20
+> That doesn't change my opinion that it would be best avoided! ;)
+
+Em Fri, 3 Jun 2022 15:27:18 +0000
+Adam Turner <aaturnerpython@outlook.com> escreveu:
+
+> I'm referring to removing support for the "c_allow_pre_v3",=20
+> "c_warn_on_allowed_pre_v3", configuration options [1]_, and the=20
+> associated support for still parsing the pre v3 syntax in the C=20
+> domain [2]_. This means that pre v3 syntax in reStructuredText files
+> would not work with Sphinx 6 onwards.
+
+If all that it is scheduled for Sphinx 6 is the removal of the
+old C domain, this shouldn't be a problem. The kernel-doc has
+long gone support to output tags with both pre and post v3 syntaxes.
+
+We also changed the automarkup plugin to allow using v3 C domain
+tags when compiling against pre-v3.
+
+Tests required, of course.
+
+-
+
+=46rom my side, there are two points to consider when changing
+the minimal release:
+
+- Supporting a version that can build docs 2x faster sounds
+  very interesting;
+- it would also be interesting to support the native Sphinx
+  version that comes with the latest LTS releases,
+  As I suspect that bots may benefit from a long-term distros,
+  and use the distro-provided signed packages on servers.
+
+  Looking at LTS, what we have is:
+
+	- RHEL 9.0/CentOS 9.0:
+	  https://centos.pkgs.org/9-stream/centos-crb-x86_64/python3-sphinx-latex-=
+3.4.3-7.el9.noarch.rpm.html
+	  Sphinx 3.4.3
+	- Debian 11:
+	  Sphinx 3.4.3
+	  https://packages.debian.org/bullseye/python3-sphinx
+	- Suse 15 SP4:
+	  https://scc.suse.com/packages?name=3DSUSE%20Linux%20Enterprise%20Server&=
+version=3D15.4&arch=3Dx86_64&query=3Dpython3-sphinx&module=3D
+	  Have have both Sphinx 4.2.0 and Sphinx 2.3.1=09
+
+  From LTS perspective, it sounds doable to setup the minimal
+  version to 3.4, but we would need to adjust the scripts to
+  select a different package on Suse, as calling:
+
+	./scripts/sphinx-pre-install --no-virtualenv
+
+  Would recommend installing python3-sphinx package there,
+  meaning Sphinx 2.3.1.
+
+So, IMO, we have a couple of alternatives:
+
+1. Change minimal requirement to 2.3:
+	- No changes required at sphinx-pre-install's logic;
+	- all latest LTS will be supported;
+	- pdf will still require a newer version than 2.3.
+	- allow "fast builds" with Sphinx < 3;
+
+2. Change minimal requirement to 2.4:
+	- no need to check for an specific version for PDF;
+	- allow "fast builds" using Sphinx < 3;
+	- Changes needed at sphinx-pre-install on Suse logic;
+
+3. Change minimal requirement to 3.4:
+	- We can drop backward-compatible logic from kernel-doc
+	  and automarkup;
+	- all latest LTS will be supported;
+	- Changes needed at sphinx-pre-install on Suse logic;
+	- No "fast build" suing Sphinx < 3.
+
+On a side note, while Kernel documentation builds with 3.0,
+it is not really properly supported, as there are troubles
+on C domain there (lots of warnings and broken cross references
+are generated there). So, I would avoid setting the minimal=20
+requirement to 3.0.
+
+Regards,
+Mauro
