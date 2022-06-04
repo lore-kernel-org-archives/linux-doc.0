@@ -2,198 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B74BAC433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jun 2022 08:23:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8335CC43334
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jun 2022 16:40:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231502AbiFDIXr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Jun 2022 04:23:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35342 "EHLO
+        id S238510AbiFDQkZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Jun 2022 12:40:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230098AbiFDIXq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Jun 2022 04:23:46 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD7FF5001D
-        for <linux-doc@vger.kernel.org>; Sat,  4 Jun 2022 01:23:44 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id b5so8375705plx.10
-        for <linux-doc@vger.kernel.org>; Sat, 04 Jun 2022 01:23:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gVc2ROt3VZJaSei4lEakeeGLJbG5uUXJbLzBy9ooOuk=;
-        b=1JSd9GB7wEj4YKQ0rpe41OxZqDdS40H/4SV2jgE4Vl1ERlQlPgGGjAV8NepqObc7Xi
-         e6yhC/6o/ZKW2llrn3SG5GvqzIxAxrODbKBA+p7QAX5snJIMZoxg+g9xzQTOIexWMnwx
-         7dbe1QHZLv8oBAjLErl++bSFB88xx225Lhg4lq7ce6V5RNwBu1PQQUxWZmoGcVfJJ0kO
-         aIeQx88qY9SHhuCIh0VyPpqb072Z4/8q63MGTPlsGJ6b6sjmNBc19sFhJTi5YK44l29J
-         q8zApnVczbRpzygGPkmbyYZX7qmLY5u8DhnH7jClu3WDC6ow6FXomGawqLpefomNdPZv
-         TroQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gVc2ROt3VZJaSei4lEakeeGLJbG5uUXJbLzBy9ooOuk=;
-        b=f2TxvWq3z9lAjReVofFQUocCihqClI77BuqjK8b/YKcOeoRZ4GARlemxEsXWk/nVG2
-         Q+GXaE92zuuuOLwvyBxNuood1VTTvzG441b4W9g7z+wMMpW5fNfGVoVRzQDkzKQq/Cbs
-         zPbSTcgiJptqaH+izlsyj9B7/o9Ele7szD42LE7jr/Dze/0TDrJnJAr7GicxdmICmAlV
-         BRI3s/FVwzPoCB+z46k5pgODmsIz8LHygKjuJhE1+cp/+73bpBNy0ibCNzIx3acXG0Ks
-         dDy1DFB0J2BSdy6oxb3Rcf7hh1qdc4+2XnzzM1BJqGzaJOGK/WWX2g/vMkCn9nuiiSw/
-         tf1A==
-X-Gm-Message-State: AOAM533SKrNPAA7fnIVjHBWYEi/FYah0gUNQWLBTq8f79PM/KT6XtZiu
-        VH8Iy9s4NdTSMjxpDYIWq8sYtA==
-X-Google-Smtp-Source: ABdhPJznFObdaOP6dvRZZ53//CjHni+jtI87ASFORabOzFgN6puW1ce3WyaRaM2ue6sqx0jY622Rdg==
-X-Received: by 2002:a17:90a:930b:b0:1d5:684b:8e13 with SMTP id p11-20020a17090a930b00b001d5684b8e13mr15032020pjo.153.1654331024388;
-        Sat, 04 Jun 2022 01:23:44 -0700 (PDT)
-Received: from localhost.localdomain ([139.177.225.224])
-        by smtp.gmail.com with ESMTPSA id k5-20020a170902760500b0015e8d4eb2b8sm6646378pll.258.2022.06.04.01.23.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jun 2022 01:23:43 -0700 (PDT)
-From:   Qi Zheng <zhengqi.arch@bytedance.com>
-To:     hannes@cmpxchg.org, roman.gushchin@linux.dev, shakeelb@google.com,
-        songmuchun@bytedance.com, mhocko@kernel.org,
-        akpm@linux-foundation.org, corbet@lwn.net
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: [PATCH v2] mm: memcontrol: add {pgscan,pgsteal}_{kswapd,direct} items in memory.stat of cgroup v2
-Date:   Sat,  4 Jun 2022 16:22:09 +0800
-Message-Id: <20220604082209.55174-1-zhengqi.arch@bytedance.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+        with ESMTP id S231301AbiFDQkZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Jun 2022 12:40:25 -0400
+X-Greylist: delayed 2622 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 04 Jun 2022 09:40:20 PDT
+Received: from outgoing12.flk.host-h.net (outgoing12.flk.host-h.net [188.40.208.242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 074E64F9D1;
+        Sat,  4 Jun 2022 09:40:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=risingedge.co.za; s=xneelo; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:reply-to:sender:bcc:in-reply-to:references
+        :content-type; bh=Ouuq/2x8flfBkWWM3iJ0UXEE0GwTm71ML+wgFSoBGq8=; b=QUQtxPrWcbV
+        y9Xe9l14+7nxL6BEbvW0LF0VVxswEr1ogHqoYK74WbMMI6ftRnFtMeFXVKa52FIYFMiKMvjwYEFWW
+        r9th580LjPjlIL39USAeQqzSZeBQyvzTTdD1Ej7OwqzbUrZWZwnY7X2JrMJaoUnoOolxd2fr96nNL
+        AD7bcQA4XoS2/nQJ/u3ER4pPHFI1wO9qEzVpCYS3ON2gXI734B77Bnb2zuDitBhCYzzHNFjZErq+D
+        IWSy0ctagp8E4MA7iOujURvLWoH0Q3jV4tTpf/XgGqv+fYW+sVkTLD6F+CRTGeCsqPeo5Zx0GH+5+
+        ZJS1KSQjYJKkghSiIxHVP+A==;
+Received: from www31.flk1.host-h.net ([188.40.1.173])
+        by antispam3-flk1.host-h.net with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <justin.swartz@risingedge.co.za>)
+        id 1nxW8f-0001N8-7l; Sat, 04 Jun 2022 17:56:35 +0200
+Received: from 8ta-249-1-228.telkomadsl.co.za ([102.249.1.228] helo=localhost.localdomain)
+        by www31.flk1.host-h.net with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <justin.swartz@risingedge.co.za>)
+        id 1nxW8d-0006Fa-NV; Sat, 04 Jun 2022 17:56:32 +0200
+From:   Justin Swartz <justin.swartz@risingedge.co.za>
+Cc:     Justin Swartz <justin.swartz@risingedge.co.za>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-usb@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: usb: fix literal block marker in usbmon verification example
+Date:   Sat,  4 Jun 2022 17:54:31 +0200
+Message-Id: <20220604155431.23246-1-justin.swartz@risingedge.co.za>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: justin.swartz@risingedge.co.za
+X-Virus-Scanned: Clear
+X-Originating-IP: 188.40.1.173
+X-SpamExperts-Domain: risingedge.co.za
+X-SpamExperts-Username: 
+Authentication-Results: host-h.net; auth=pass (login) smtp.auth=@risingedge.co.za
+X-SpamExperts-Outgoing-Class: ham
+X-SpamExperts-Outgoing-Evidence: Combined (0.08)
+X-Recommended-Action: accept
+X-Filter-ID: Pt3MvcO5N4iKaDQ5O6lkdGlMVN6RH8bjRMzItlySaT82YxiG3cFkeaozVsb5Y251PUtbdvnXkggZ
+ 3YnVId/Y5jcf0yeVQAvfjHznO7+bT5w1OL79HMxE022P+rQy8YAdcSeERs4TOTnIH1kc1IWc5cqv
+ NIMzTsl2qXZAml/tmiq3wL2Y4F0412ezGCyTUPanTItOOFNNjY132/lViGIyGqLI4OY9HO9H+Fx9
+ YIm3grPYonhfr99jXBd3p8VVa7wrtuUNWnipPNRiS8q/FrUUyhjJsJREzyUqebdx9PH+DyXnx8ye
+ plRO3sLIqUlSH7OGrAhi2aay48NyXBwK776ImabmLbFYYN3/5dv5lrtQLYZCqSlK5qRCEdvOvbYJ
+ im3HHIQnXkm8F0KVRQVUwKh0zQWyZ67BVZNsblNG3e9c5Awq1buObycMKAhCcQU7LIjZWBnaet7l
+ 8u1IaVoSD7d+Eo3hB7oSHLSzN/CB4wk1cFv1mcInHpUATLx0UN3ao+NXpg1nW4rYJEVR3zSUL4GK
+ dNscpwp/WvsW9rkYlRi0DfpKO5QbxpQ97mDfOGVGuYDXzQ6WZJ8UgaMCryZlVIAiHjTVsvdwQtuz
+ vJLCXpRXoS3aG/w4HzP8aLtmk5ibSBsf0vPcm60p8kIPTs72y1m7lCGwfqeNO0Vta0QHISXmTwX0
+ UIfM1ruawjHM1OLDVV66JbExfL0DNiQSnaITrUCp5NqW+IuA05DGXjIjSPSUiMleY9PlOy/65RmT
+ Rr4ei8OATlfri1sIm2TE4+eOrLPislxELZ/g1BglKBRvaJQd7xr74O4hBSz/kkmPgL+fgIguDmiQ
+ iLrHPBwZStlwK9Qctw7OLmyubbvqIytQWIC1S+KOOj1Jcto7+pOU/BQuyJBzjt5fkffMOpXRwnoJ
+ Yo591MNH89VcUVG/rHffeuRCUcMRFZ4oobg8BBg3Jq+ntzj07hLgnebh+IgqOGSsQlliML7mmfvv
+ H8AAJ10/M6mmfXi3REW5XOZTEp8Dyz7eS3cSxMmnhan7ld5Btj8YCzmgH1FfEoXm0/FPF8PR0w36
+ 3lkeywGwPwXGvAKiJ5L9oQVFvqNfQiza3x4QvdmobTpnOiGSptvtgY8/SMqO9OohIts7jnxJ2JWr
+ eVnk3yKNG42yi8l2R9lD/HojO/FRiY6gTWKrLjRFuOfsv9pIlKVsvXMUU4onvk6Td4Wqgmy49Btn
+ G0XDK9jy+ML0pcfvwpalZQ==
+X-Report-Abuse-To: spam@antispammaster.host-h.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are already statistics of {pgscan,pgsteal}_kswapd and
-{pgscan,pgsteal}_direct of memcg event here, but now only the
-sum of the two is displayed in memory.stat of cgroup v2.
+The "Verify that bus sockets are present" example was not properly
+formatted due to a typo in the literal block marker.
 
-In order to obtain more accurate information during monitoring
-and debugging, and to align with the display in /proc/vmstat,
-it better to display {pgscan,pgsteal}_kswapd and
-{pgscan,pgsteal}_direct separately.
-
-Also, for forward compatibility, we still display pgscan and
-pgsteal items so that it won't break existing applications.
-
-Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
-Acked-by: Roman Gushchin <roman.gushchin@linux.dev>
-Acked-by: Muchun Song <songmuchun@bytedance.com>
+Signed-off-by: Justin Swartz <justin.swartz@risingedge.co.za>
 ---
-Changelog in v1 -> v2:
- - keep pgscan and pgsteal items for forward compatibility, thanks to Shakeel
- - update commit log
- - collect Acked-bys
+ Documentation/usb/usbmon.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- Documentation/admin-guide/cgroup-v2.rst | 12 ++++++
- mm/memcontrol.c                         | 54 ++++++++++++-------------
- 2 files changed, 38 insertions(+), 28 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 176298f2f4de..b2b55e7360d8 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1445,9 +1445,21 @@ PAGE_SIZE multiple when read back.
- 	  pgscan (npn)
- 		Amount of scanned pages (in an inactive LRU list)
+diff --git a/Documentation/usb/usbmon.rst b/Documentation/usb/usbmon.rst
+index b0bd51080..6d5ec1e62 100644
+--- a/Documentation/usb/usbmon.rst
++++ b/Documentation/usb/usbmon.rst
+@@ -42,7 +42,7 @@ if usbmon is built into the kernel::
+ 	# modprobe usbmon
+ 	#
  
-+	  pgscan_kswapd (npn)
-+		Amount of scanned pages by kswapd (in an inactive LRU list)
-+
-+	  pgscan_direct (npn)
-+		Amount of scanned pages directly  (in an inactive LRU list)
-+
- 	  pgsteal (npn)
- 		Amount of reclaimed pages
+-Verify that bus sockets are present:
++Verify that bus sockets are present::
  
-+	  pgsteal_kswapd (npn)
-+		Amount of reclaimed pages by kswapd
-+
-+	  pgsteal_direct (npn)
-+		Amount of reclaimed pages directly
-+
- 	  pgactivate (npn)
- 		Amount of pages moved to the active LRU list
- 
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 0d3fe0a0c75a..fd78c4d6bbc7 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -1460,6 +1460,28 @@ static inline unsigned long memcg_page_state_output(struct mem_cgroup *memcg,
- 	return memcg_page_state(memcg, item) * memcg_page_state_unit(item);
- }
- 
-+static const unsigned int memcg_vm_event_stat[] = {
-+	PGSCAN_KSWAPD,
-+	PGSCAN_DIRECT,
-+	PGSTEAL_KSWAPD,
-+	PGSTEAL_DIRECT,
-+	PGFAULT,
-+	PGMAJFAULT,
-+	PGREFILL,
-+	PGACTIVATE,
-+	PGDEACTIVATE,
-+	PGLAZYFREE,
-+	PGLAZYFREED,
-+#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
-+	ZSWPIN,
-+	ZSWPOUT,
-+#endif
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	THP_FAULT_ALLOC,
-+	THP_COLLAPSE_ALLOC,
-+#endif
-+};
-+
- static char *memory_stat_format(struct mem_cgroup *memcg)
- {
- 	struct seq_buf s;
-@@ -1495,41 +1517,17 @@ static char *memory_stat_format(struct mem_cgroup *memcg)
- 	}
- 
- 	/* Accumulated memory events */
--
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGFAULT),
--		       memcg_events(memcg, PGFAULT));
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGMAJFAULT),
--		       memcg_events(memcg, PGMAJFAULT));
--	seq_buf_printf(&s, "%s %lu\n",  vm_event_name(PGREFILL),
--		       memcg_events(memcg, PGREFILL));
- 	seq_buf_printf(&s, "pgscan %lu\n",
- 		       memcg_events(memcg, PGSCAN_KSWAPD) +
- 		       memcg_events(memcg, PGSCAN_DIRECT));
- 	seq_buf_printf(&s, "pgsteal %lu\n",
- 		       memcg_events(memcg, PGSTEAL_KSWAPD) +
- 		       memcg_events(memcg, PGSTEAL_DIRECT));
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGACTIVATE),
--		       memcg_events(memcg, PGACTIVATE));
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGDEACTIVATE),
--		       memcg_events(memcg, PGDEACTIVATE));
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGLAZYFREE),
--		       memcg_events(memcg, PGLAZYFREE));
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGLAZYFREED),
--		       memcg_events(memcg, PGLAZYFREED));
--
--#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(ZSWPIN),
--		       memcg_events(memcg, ZSWPIN));
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(ZSWPOUT),
--		       memcg_events(memcg, ZSWPOUT));
--#endif
- 
--#ifdef CONFIG_TRANSPARENT_HUGEPAGE
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(THP_FAULT_ALLOC),
--		       memcg_events(memcg, THP_FAULT_ALLOC));
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(THP_COLLAPSE_ALLOC),
--		       memcg_events(memcg, THP_COLLAPSE_ALLOC));
--#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-+	for (i = 0; i < ARRAY_SIZE(memcg_vm_event_stat); i++)
-+		seq_buf_printf(&s, "%s %lu\n",
-+			       vm_event_name(memcg_vm_event_stat[i]),
-+			       memcg_events(memcg, memcg_vm_event_stat[i]));
- 
- 	/* The above should easily fit into one page */
- 	WARN_ON_ONCE(seq_buf_has_overflowed(&s));
+ 	# ls /sys/kernel/debug/usb/usbmon
+ 	0s  0u  1s  1t  1u  2s  2t  2u  3s  3t  3u  4s  4t  4u
 -- 
-2.20.1
+2.30.2
 
