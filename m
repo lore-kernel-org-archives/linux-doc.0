@@ -2,129 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB85BC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Jun 2022 23:17:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A9E6C433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jun 2022 00:43:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349610AbiFCXRY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jun 2022 19:17:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60346 "EHLO
+        id S1349820AbiFDAnb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jun 2022 20:43:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243963AbiFCXRX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 19:17:23 -0400
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DC92A44F
-        for <linux-doc@vger.kernel.org>; Fri,  3 Jun 2022 16:17:21 -0700 (PDT)
-Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-30c1b401711so96863277b3.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jun 2022 16:17:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KMFmCo0xnuCUH2Odncvs80dm9xF8nEGJy2inmx7xN8M=;
-        b=F/+W8fk0dgYud/hQIhEr7Ufe0DudYnpd2d3N/0QQ/mEZHDrJyAgdLS/rukKTo6Pa/r
-         0vkLYyBtvOi9xqUW95kLWzIE8kFPZougrxRfqCYcI1Th46WCBSnRYRjmEcro2ZgA49sQ
-         Pb9vIABVpsGaSLRZc30B1diugL2galjwSUwT8vRnIwOcwQELVvVB3P/BgWbMDm3G9Rsh
-         HaUU1cgnVD7bKtGFc4K4K1XOdxzvB4xi/zH1yT7Bu0Viw/1BIzzUu6dfP8/6739i0gVv
-         BSLTI0blrAlLy03wv81cwm3JiGwkc5dEIZsn4ntx/wVskc9chkWUP+2bTGM1llLW5Bc7
-         FPDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KMFmCo0xnuCUH2Odncvs80dm9xF8nEGJy2inmx7xN8M=;
-        b=7WnY1Woqbla3flMUOpf8J9uyjT7CobipEXwV/L5iZv4IzLWSwMav4nuza/yesNAum4
-         Y0SHxic7qw18nKfiDbeG+NMtW9QcmfgpWHgfW4w2d0ZExZCdWmaAizmmGZwrB+m27ech
-         vh5S/eST8bcYSb6iLZkb/+bl09iMPjF/Esv1RGix2EVS7XTxyLiffPZI8xYdBy4l4QH7
-         AvSONWWd6YwyNb17Ueu4489hHF4NXo2hxVkX5yg8iGgQaLU45dB7iMuRPcnVYVz86BIA
-         S2M1/9eDMq3fsYSdS4gAWSCz651lYHgbAZBf1X4rr/I0fEuU7qPLOfga27izQDOLxLGe
-         ke8w==
-X-Gm-Message-State: AOAM532jK2Fzb/XfvhP/F7z2rGKHRgN3vKF27OAdSRfInFbp+YbVbHX7
-        KIQNH1BszcTmIlzQ5070+MKkcvF24eSC/11s6bUZJBcgGdJwUeSq
-X-Google-Smtp-Source: ABdhPJy6zJdvqOlia3DEMRKrSefA1gOxoUOJaclqxhYFZNEkw57TgseFZ/V6baktE3+iJU++/uD29MvHtCeGLT542Mc=
-X-Received: by 2002:a81:87c2:0:b0:2ff:c948:ae50 with SMTP id
- x185-20020a8187c2000000b002ffc948ae50mr14029204ywf.83.1654298240056; Fri, 03
- Jun 2022 16:17:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220603055442.521888-1-saravanak@google.com> <YpoiWhMqANChE/ph@bombadil.infradead.org>
-In-Reply-To: <YpoiWhMqANChE/ph@bombadil.infradead.org>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Fri, 3 Jun 2022 16:16:43 -0700
-Message-ID: <CAGETcx_BOGp_GpNqxjrW1rrmkLrS76Xfh6rUE0tKbd2nqUmDqg@mail.gmail.com>
-Subject: Re: [PATCH v1] module: Add support for default value for module async_probe
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, kernel-team@android.com,
+        with ESMTP id S231961AbiFDAna (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 20:43:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7287B222AD;
+        Fri,  3 Jun 2022 17:43:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0A56D60F1B;
+        Sat,  4 Jun 2022 00:43:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11C97C385A9;
+        Sat,  4 Jun 2022 00:43:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654303407;
+        bh=F/7tG3AfY4gxUo4vwXg4EDogcdpmyXjXiWT5c2u2dCA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=CkP/EXTojeoZMqUP6WS+EqxSwP421kb1mEWFdRdtFY2YiO+Z3Y9PB9iv/BSG6uqXP
+         XeX9ykb+5vSSHtXDft9wqrvw6J2VRURyYBTrGX95ONov5u4cisLmkL5yhjOts4OgGL
+         8XfnNjiVYzbc9Vgee84VdumklF557aJXEFm0npkDPlDNoMcQkf0sbTlBxil23swsyT
+         78jF/HURa7NouGjM5LQapF7NQYdS3e/BJIEcXd+NGL+4JW0xzywakfGtTsBACjE27n
+         Ld1LJYK8UmzrM3DtBUVv7jy/kZ/F6QkpO3oBuH8UUbMlJ+k3P0TYQbsO+7yaztFLI2
+         iIjS+cE5D2n+w==
+Date:   Sat, 4 Jun 2022 01:43:17 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Vegard Nossum <vegard.nossum@oracle.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-modules@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Amit Shah <aams@amazon.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Solar Designer <solar@openwall.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Will Deacon <will@kernel.org>, Willy Tarreau <w@1wt.eu>
+Subject: Re: [PATCH] Documentation/security-bugs: overhaul
+Message-ID: <20220604014317.79eb23db@sal.lan>
+In-Reply-To: <87fsko48xh.fsf@meer.lwn.net>
+References: <20220531230309.9290-1-vegard.nossum@oracle.com>
+        <87fsko48xh.fsf@meer.lwn.net>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 3, 2022 at 8:01 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Thu, Jun 02, 2022 at 10:54:41PM -0700, Saravana Kannan wrote:
-> > Add a module.async_probe kernel command line option that allows enabling
-> > async probing for all modules. When this command line option is used,
-> > there might still be some modules for which we want to explicitly force
-> > synchronous probing, so extend <modulename>.async_probe to take an
-> > optional bool input so that async probing can be disabled for a specific
-> > module.
+Em Wed, 01 Jun 2022 10:58:50 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
+
+> Vegard Nossum <vegard.nossum@oracle.com> writes:
+> 
+> > The current instructions for reporting security vulnerabilities in the
+> > kernel are not clear enough, in particular the process of disclosure
+> > and requesting CVEs, and what the roles of the different lists are and
+> > how exactly to report to each of them.
 > >
-> > Signed-off-by: Saravana Kannan <saravanak@google.com>
-> > ---
-> >  Documentation/admin-guide/kernel-parameters.txt |  8 ++++++--
-> >  kernel/module/main.c                            | 11 ++++++++++-
-> >  2 files changed, 16 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index 710b52d87bdd..32083056bd25 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -1147,8 +1147,12 @@
-> >       nopku           [X86] Disable Memory Protection Keys CPU feature found
-> >                       in some Intel CPUs.
-> >
-> > -     <module>.async_probe [KNL]
-> > -                     Enable asynchronous probe on this module.
-> > +     <module>.async_probe[=<bool>] [KNL]
-> > +                     If no <bool> value is specified or if the value
-> > +                     specified is not a valid <bool>, enable asynchronous
-> > +                     probe on this module.  Otherwise, enable/disable
-> > +                     asynchronous probe on this module as indicated by the
-> > +                     <bool> value.
->
-> The commit log says a bit more. Can you clarify this on the
-> documentation?
+> > Let's give this document an overhaul. Goals are stated as a comment at
+> > the top of the document itself (these will not appear in the rendered
+> > document).  
+> 
+> OK, some other thoughts...
+> 
+> [...]
+> 
+> > +Linux kernel security team at security@kernel.org, henceforth "the
+> > +security list". This is a closed list of trusted developers who will
+> > +help verify the bug report and develop a patch.
+> > +
+> > +While the security list is closed, the security team may bring in
+> > +extra help from the relevant maintainers to understand and fix the
+> > +security vulnerability.
+> > +
+> > +Note that the main interest of the kernel security list is in getting
+> > +bugs fixed; CVE assignment, disclosure to distributions, and public
+> > +disclosure happens on different lists with different people.  
+> 
+> Adding "as described below" or some such might be helpful for readers
+> who are mostly interested in those things.  
+> 
+> > +Here is a quick overview of the various lists:
+> > +
+> > +.. list-table::
+> > +   :widths: 35 10 20 35
+> > +   :header-rows: 1
+> > +
+> > +   * - List address
+> > +     - Open?
+> > +     - Purpose
+> > +     - Members
+> > +   * - security@kernel.org
+> > +     - Closed
+> > +     - Reporting; patch development
+> > +     - Trusted kernel developers
+> > +   * - linux-distros@vs.openwall.org
+> > +     - Closed
+> > +     - Coordination; CVE assignment; patch development, testing, and backporting
+> > +     - Linux distribution representatives
+> > +   * - oss-security@lists.openwall.com
+> > +     - Public
+> > +     - Disclosure
+> > +     - General public  
+> 
+> Please don't use list-table, that's totally unreadable in the plain-text
+> format.  How about something like:
+> 
+>  =============================== ===== ================= ===============
+>  List address                    Open? Purpose           Members
+>  =============================== ===== ================= ===============
+>  security@kernel.org                no Reporting         Trusted kernel
+>                                                          developers
+>                                        Patch development
+>  linux-distros@vs.openwall.org      no Coordination      Distribution 
+>                                                          representatives
+>                                        CVE assignment
+>                                        Patch development
+>                                        Testing
+>                                        Backporting
+>  oss-security@lists.openwall.com   yes Disclosure        General public
+>  =============================== ===== ================= ===============
+> 
+> (Note I haven't tried to format this, there's probably an error in there
+> somewhere). 
 
-Oh yeah, forgot to add module.async_probe there! Will do.
+Yeah, I guess the right syntax is something like:
 
-> We should strive slowly towards more async probes. This will take
-> time.
+  =============================== ===== ================= ===============
+  List address                    Open? Purpose           Members
+  ------------------------------- ----- ----------------- ---------------
+  security@kernel.org                no Reporting         Trusted kernel
+                                                          developers
+                                        Patch development
+  linux-distros@vs.openwall.org      no Coordination      Distribution 
+                                                          representatives
+                                        CVE assignment
 
-Agreed.
+                                        Patch development
 
-> To help with further then a Kconfig option which sets this
-> to a default to true if enabled would be useful so that no kernel
-> parameter is needed at all to set the default. Then you can
-> override the default, and blacklist each driver as well.
+                                        Testing
 
-Based on Linus's view in this thread [1] (I see his point), I don't
-think we'll ever enable default async probes for modules  as a compile
-time config. I think it has to be an explicit decision by whoever
-decides the list of modules being loaded in the system (OEMs in the
-case of Android, end user in the case of a PC?) to enable the default
-to be async probe and then the same entity can decide which modules to
-force sync probe on. So, I'm not sure we want to add a Kconfig for
-this or enable it by default. Let me know what you think. I'll send
-out a v2 with the doc fixes in the meantime.
+                                        Backporting
+  oss-security@lists.openwall.com   yes Disclosure        General public
+  =============================== ===== ================= ===============
 
-On a related note, I'm working on default async probes for built-in
-drivers, but that's feasible to turn on by default because we can
-synchronize everything before we jump to init. And then
-<module>.async_probe needs to be passed explicitly for any modules we
-want to allow async on.
-
--Saravana
-
-[1] - https://lore.kernel.org/lkml/CA+55aFxV40V2WvNtJY3EC0F-B9wPk8CV2o1TTTyoF4CoWH7rhQ@mail.gmail.com/
+Regards,
+Mauro
