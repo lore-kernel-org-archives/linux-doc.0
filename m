@@ -2,175 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BCD5C43334
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jun 2022 08:13:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B74BAC433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jun 2022 08:23:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233522AbiFDINc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Jun 2022 04:13:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38854 "EHLO
+        id S231502AbiFDIXr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Jun 2022 04:23:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231828AbiFDINb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Jun 2022 04:13:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E1669FD9
-        for <linux-doc@vger.kernel.org>; Sat,  4 Jun 2022 01:13:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A4FCA60BAA
-        for <linux-doc@vger.kernel.org>; Sat,  4 Jun 2022 08:13:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59727C385B8;
-        Sat,  4 Jun 2022 08:13:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654330409;
-        bh=+d9nlzAColr/B/metFDDTwe69clrkjZVgfv0eOShlo4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=BV9Ne/fAYrVblH9VikirgvA2OF5/QiAUUM6vcwtexfCwuZGySfoxeaOhBdruUmHsJ
-         Jdjje6m1i3T25F7Rp8iU0MLilXVMzfaxsBcuxB9NtmzkbYa4PfMsgHzrpSgypMAsc3
-         QYbycDboZzhwinWGuANJNFbcqvBV2i1jpBpoSZoMvj4UPIuD1D3L58NjWlLsu1Ftzw
-         sq80YgPcOkmZ7/3H7z/aKX+0rW1ksPwlDQpDHnDDZn1L/qsG+I+f5Ag7VkivUL+KyE
-         GqjicqwTXdm1NUNdxplHSAl4EpX6z0eNuBkdzUX1xdatCbggmcDb1nhG6q++RyaHcd
-         SKKyDFWEwA6EQ==
-Date:   Sat, 4 Jun 2022 09:13:22 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Akira Yokosawa <akiyks@gmail.com>,
-        Adam Turner <aaturnerpython@outlook.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: Sphinx pre v3 -- removing support
-Message-ID: <20220604091322.17a2867c@sal.lan>
-In-Reply-To: <87bkv9o9e7.fsf@intel.com>
-References: <LO3P123MB26810D190462B6BBBF1305F6C2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
-        <52a6ffc3-300f-289e-b523-bc1ea93459d1@gmail.com>
-        <LO3P123MB2681A3F3A05E269AE0351799C2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
-        <87ee05oior.fsf@intel.com>
-        <LO3P123MB26814568842CC74EF831288EC2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
-        <4f13e688-1b4c-1a8e-7ca5-b2fc6d21263c@gmail.com>
-        <87bkv9o9e7.fsf@intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+        with ESMTP id S230098AbiFDIXq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Jun 2022 04:23:46 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD7FF5001D
+        for <linux-doc@vger.kernel.org>; Sat,  4 Jun 2022 01:23:44 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id b5so8375705plx.10
+        for <linux-doc@vger.kernel.org>; Sat, 04 Jun 2022 01:23:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gVc2ROt3VZJaSei4lEakeeGLJbG5uUXJbLzBy9ooOuk=;
+        b=1JSd9GB7wEj4YKQ0rpe41OxZqDdS40H/4SV2jgE4Vl1ERlQlPgGGjAV8NepqObc7Xi
+         e6yhC/6o/ZKW2llrn3SG5GvqzIxAxrODbKBA+p7QAX5snJIMZoxg+g9xzQTOIexWMnwx
+         7dbe1QHZLv8oBAjLErl++bSFB88xx225Lhg4lq7ce6V5RNwBu1PQQUxWZmoGcVfJJ0kO
+         aIeQx88qY9SHhuCIh0VyPpqb072Z4/8q63MGTPlsGJ6b6sjmNBc19sFhJTi5YK44l29J
+         q8zApnVczbRpzygGPkmbyYZX7qmLY5u8DhnH7jClu3WDC6ow6FXomGawqLpefomNdPZv
+         TroQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gVc2ROt3VZJaSei4lEakeeGLJbG5uUXJbLzBy9ooOuk=;
+        b=f2TxvWq3z9lAjReVofFQUocCihqClI77BuqjK8b/YKcOeoRZ4GARlemxEsXWk/nVG2
+         Q+GXaE92zuuuOLwvyBxNuood1VTTvzG441b4W9g7z+wMMpW5fNfGVoVRzQDkzKQq/Cbs
+         zPbSTcgiJptqaH+izlsyj9B7/o9Ele7szD42LE7jr/Dze/0TDrJnJAr7GicxdmICmAlV
+         BRI3s/FVwzPoCB+z46k5pgODmsIz8LHygKjuJhE1+cp/+73bpBNy0ibCNzIx3acXG0Ks
+         dDy1DFB0J2BSdy6oxb3Rcf7hh1qdc4+2XnzzM1BJqGzaJOGK/WWX2g/vMkCn9nuiiSw/
+         tf1A==
+X-Gm-Message-State: AOAM533SKrNPAA7fnIVjHBWYEi/FYah0gUNQWLBTq8f79PM/KT6XtZiu
+        VH8Iy9s4NdTSMjxpDYIWq8sYtA==
+X-Google-Smtp-Source: ABdhPJznFObdaOP6dvRZZ53//CjHni+jtI87ASFORabOzFgN6puW1ce3WyaRaM2ue6sqx0jY622Rdg==
+X-Received: by 2002:a17:90a:930b:b0:1d5:684b:8e13 with SMTP id p11-20020a17090a930b00b001d5684b8e13mr15032020pjo.153.1654331024388;
+        Sat, 04 Jun 2022 01:23:44 -0700 (PDT)
+Received: from localhost.localdomain ([139.177.225.224])
+        by smtp.gmail.com with ESMTPSA id k5-20020a170902760500b0015e8d4eb2b8sm6646378pll.258.2022.06.04.01.23.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Jun 2022 01:23:43 -0700 (PDT)
+From:   Qi Zheng <zhengqi.arch@bytedance.com>
+To:     hannes@cmpxchg.org, roman.gushchin@linux.dev, shakeelb@google.com,
+        songmuchun@bytedance.com, mhocko@kernel.org,
+        akpm@linux-foundation.org, corbet@lwn.net
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Qi Zheng <zhengqi.arch@bytedance.com>
+Subject: [PATCH v2] mm: memcontrol: add {pgscan,pgsteal}_{kswapd,direct} items in memory.stat of cgroup v2
+Date:   Sat,  4 Jun 2022 16:22:09 +0800
+Message-Id: <20220604082209.55174-1-zhengqi.arch@bytedance.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 03 Jun 2022 22:05:20 +0300
-Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+There are already statistics of {pgscan,pgsteal}_kswapd and
+{pgscan,pgsteal}_direct of memcg event here, but now only the
+sum of the two is displayed in memory.stat of cgroup v2.
 
-> On Sat, 04 Jun 2022, Akira Yokosawa <akiyks@gmail.com> wrote:
-> > [+Cc: Mauro]
+In order to obtain more accurate information during monitoring
+and debugging, and to align with the display in /proc/vmstat,
+it better to display {pgscan,pgsteal}_kswapd and
+{pgscan,pgsteal}_direct separately.
 
-Thanks!
+Also, for forward compatibility, we still display pgscan and
+pgsteal items so that it won't break existing applications.
 
-> >
-> > On Fri, 3 Jun 2022 15:54:33 +0000,
-> > Adam Turner wrote: =20
-> >>>> No releases will be removed from PyPI, but if pre v3 syntax is still
-> >>>> used, Sphinx 6.0 would fail to properly parse it. =20
-> >>  =20
-> >>> And that's the crux of the problem. From kernel POV I'd very much pre=
-fer
-> >>> not setting an upper bound for the Sphinx version. I think it's
-> >>> important to be able to build the documentation using the latest Sphi=
-nx,
-> >>> and gradually iron out the inevitable quirks that arise. =20
-> >>  =20
-> >>> However, if you decide to drop support for pre v3 syntax in Sphinx v6,
-> >>> and we decide to stick to being able to use pre v3 Sphinx, we can't m=
-ove
-> >>> forward to newer versions until we bump the lower bound for the Sphinx
-> >>> version to v3+. (Or we need to hack around Sphinx version differences=
- in
-> >>> kernel, but I think that would be best avoided.) =20
-> >
-> > I might not be grasping the full context here, but I think the main scr=
-ipt of
-> > kernel documentation tool ./scripts/kernel-doc (a perl script) changes =
-its
-> > behavior depending on the target Sphinx version. =20
->=20
-> That doesn't change my opinion that it would be best avoided! ;)
+Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+Acked-by: Roman Gushchin <roman.gushchin@linux.dev>
+Acked-by: Muchun Song <songmuchun@bytedance.com>
+---
+Changelog in v1 -> v2:
+ - keep pgscan and pgsteal items for forward compatibility, thanks to Shakeel
+ - update commit log
+ - collect Acked-bys
 
-Em Fri, 3 Jun 2022 15:27:18 +0000
-Adam Turner <aaturnerpython@outlook.com> escreveu:
+ Documentation/admin-guide/cgroup-v2.rst | 12 ++++++
+ mm/memcontrol.c                         | 54 ++++++++++++-------------
+ 2 files changed, 38 insertions(+), 28 deletions(-)
 
-> I'm referring to removing support for the "c_allow_pre_v3",=20
-> "c_warn_on_allowed_pre_v3", configuration options [1]_, and the=20
-> associated support for still parsing the pre v3 syntax in the C=20
-> domain [2]_. This means that pre v3 syntax in reStructuredText files
-> would not work with Sphinx 6 onwards.
-
-If all that it is scheduled for Sphinx 6 is the removal of the
-old C domain, this shouldn't be a problem. The kernel-doc has
-long gone support to output tags with both pre and post v3 syntaxes.
-
-We also changed the automarkup plugin to allow using v3 C domain
-tags when compiling against pre-v3.
-
-Tests required, of course.
-
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 176298f2f4de..b2b55e7360d8 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1445,9 +1445,21 @@ PAGE_SIZE multiple when read back.
+ 	  pgscan (npn)
+ 		Amount of scanned pages (in an inactive LRU list)
+ 
++	  pgscan_kswapd (npn)
++		Amount of scanned pages by kswapd (in an inactive LRU list)
++
++	  pgscan_direct (npn)
++		Amount of scanned pages directly  (in an inactive LRU list)
++
+ 	  pgsteal (npn)
+ 		Amount of reclaimed pages
+ 
++	  pgsteal_kswapd (npn)
++		Amount of reclaimed pages by kswapd
++
++	  pgsteal_direct (npn)
++		Amount of reclaimed pages directly
++
+ 	  pgactivate (npn)
+ 		Amount of pages moved to the active LRU list
+ 
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 0d3fe0a0c75a..fd78c4d6bbc7 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -1460,6 +1460,28 @@ static inline unsigned long memcg_page_state_output(struct mem_cgroup *memcg,
+ 	return memcg_page_state(memcg, item) * memcg_page_state_unit(item);
+ }
+ 
++static const unsigned int memcg_vm_event_stat[] = {
++	PGSCAN_KSWAPD,
++	PGSCAN_DIRECT,
++	PGSTEAL_KSWAPD,
++	PGSTEAL_DIRECT,
++	PGFAULT,
++	PGMAJFAULT,
++	PGREFILL,
++	PGACTIVATE,
++	PGDEACTIVATE,
++	PGLAZYFREE,
++	PGLAZYFREED,
++#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
++	ZSWPIN,
++	ZSWPOUT,
++#endif
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++	THP_FAULT_ALLOC,
++	THP_COLLAPSE_ALLOC,
++#endif
++};
++
+ static char *memory_stat_format(struct mem_cgroup *memcg)
+ {
+ 	struct seq_buf s;
+@@ -1495,41 +1517,17 @@ static char *memory_stat_format(struct mem_cgroup *memcg)
+ 	}
+ 
+ 	/* Accumulated memory events */
 -
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGFAULT),
+-		       memcg_events(memcg, PGFAULT));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGMAJFAULT),
+-		       memcg_events(memcg, PGMAJFAULT));
+-	seq_buf_printf(&s, "%s %lu\n",  vm_event_name(PGREFILL),
+-		       memcg_events(memcg, PGREFILL));
+ 	seq_buf_printf(&s, "pgscan %lu\n",
+ 		       memcg_events(memcg, PGSCAN_KSWAPD) +
+ 		       memcg_events(memcg, PGSCAN_DIRECT));
+ 	seq_buf_printf(&s, "pgsteal %lu\n",
+ 		       memcg_events(memcg, PGSTEAL_KSWAPD) +
+ 		       memcg_events(memcg, PGSTEAL_DIRECT));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGACTIVATE),
+-		       memcg_events(memcg, PGACTIVATE));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGDEACTIVATE),
+-		       memcg_events(memcg, PGDEACTIVATE));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGLAZYFREE),
+-		       memcg_events(memcg, PGLAZYFREE));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGLAZYFREED),
+-		       memcg_events(memcg, PGLAZYFREED));
+-
+-#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(ZSWPIN),
+-		       memcg_events(memcg, ZSWPIN));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(ZSWPOUT),
+-		       memcg_events(memcg, ZSWPOUT));
+-#endif
+ 
+-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(THP_FAULT_ALLOC),
+-		       memcg_events(memcg, THP_FAULT_ALLOC));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(THP_COLLAPSE_ALLOC),
+-		       memcg_events(memcg, THP_COLLAPSE_ALLOC));
+-#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
++	for (i = 0; i < ARRAY_SIZE(memcg_vm_event_stat); i++)
++		seq_buf_printf(&s, "%s %lu\n",
++			       vm_event_name(memcg_vm_event_stat[i]),
++			       memcg_events(memcg, memcg_vm_event_stat[i]));
+ 
+ 	/* The above should easily fit into one page */
+ 	WARN_ON_ONCE(seq_buf_has_overflowed(&s));
+-- 
+2.20.1
 
-=46rom my side, there are two points to consider when changing
-the minimal release:
-
-- Supporting a version that can build docs 2x faster sounds
-  very interesting;
-- it would also be interesting to support the native Sphinx
-  version that comes with the latest LTS releases,
-  As I suspect that bots may benefit from a long-term distros,
-  and use the distro-provided signed packages on servers.
-
-  Looking at LTS, what we have is:
-
-	- RHEL 9.0/CentOS 9.0:
-	  https://centos.pkgs.org/9-stream/centos-crb-x86_64/python3-sphinx-latex-=
-3.4.3-7.el9.noarch.rpm.html
-	  Sphinx 3.4.3
-	- Debian 11:
-	  Sphinx 3.4.3
-	  https://packages.debian.org/bullseye/python3-sphinx
-	- Suse 15 SP4:
-	  https://scc.suse.com/packages?name=3DSUSE%20Linux%20Enterprise%20Server&=
-version=3D15.4&arch=3Dx86_64&query=3Dpython3-sphinx&module=3D
-	  Have have both Sphinx 4.2.0 and Sphinx 2.3.1=09
-
-  From LTS perspective, it sounds doable to setup the minimal
-  version to 3.4, but we would need to adjust the scripts to
-  select a different package on Suse, as calling:
-
-	./scripts/sphinx-pre-install --no-virtualenv
-
-  Would recommend installing python3-sphinx package there,
-  meaning Sphinx 2.3.1.
-
-So, IMO, we have a couple of alternatives:
-
-1. Change minimal requirement to 2.3:
-	- No changes required at sphinx-pre-install's logic;
-	- all latest LTS will be supported;
-	- pdf will still require a newer version than 2.3.
-	- allow "fast builds" with Sphinx < 3;
-
-2. Change minimal requirement to 2.4:
-	- no need to check for an specific version for PDF;
-	- allow "fast builds" using Sphinx < 3;
-	- Changes needed at sphinx-pre-install on Suse logic;
-
-3. Change minimal requirement to 3.4:
-	- We can drop backward-compatible logic from kernel-doc
-	  and automarkup;
-	- all latest LTS will be supported;
-	- Changes needed at sphinx-pre-install on Suse logic;
-	- No "fast build" suing Sphinx < 3.
-
-On a side note, while Kernel documentation builds with 3.0,
-it is not really properly supported, as there are troubles
-on C domain there (lots of warnings and broken cross references
-are generated there). So, I would avoid setting the minimal=20
-requirement to 3.0.
-
-Regards,
-Mauro
