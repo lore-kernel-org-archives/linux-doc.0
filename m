@@ -2,150 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA15DCCA473
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jun 2022 01:01:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 885F6C43334
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Jun 2022 01:27:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349850AbiFDBBH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Jun 2022 21:01:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34528 "EHLO
+        id S1350523AbiFDB1M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Jun 2022 21:27:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232003AbiFDBBG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 21:01:06 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9193F37BDC
-        for <linux-doc@vger.kernel.org>; Fri,  3 Jun 2022 18:01:05 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id p78-20020a254251000000b006607e0a2965so3306237yba.6
-        for <linux-doc@vger.kernel.org>; Fri, 03 Jun 2022 18:01:05 -0700 (PDT)
+        with ESMTP id S239936AbiFDB05 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Jun 2022 21:26:57 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4563F5EDF4
+        for <linux-doc@vger.kernel.org>; Fri,  3 Jun 2022 18:25:10 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id r71so8510126pgr.0
+        for <linux-doc@vger.kernel.org>; Fri, 03 Jun 2022 18:25:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=RAgbyFTnXHd2EZQOA5JUlRHzTD1WbpQcsTK6b7kUvvY=;
-        b=mzm5BpNUjxLU8SESrQmStz6SQ3J+XNC1tGlqjvOEqWTvXJFpWKuDmr1BRysdJwIvP3
-         0zRDsErip3mxko0aQ9dgw/5spK/aS0VUKR66GKNFqK7vF1gVy9FJyeGpi5kD+5jvhKrR
-         1FJF+5Hd+LI0DO7nSwxEBoo5WCzFN20j2SBRfRfUMl7PeskT0BSULIuv2qdohuak1Mdw
-         vTlBXdz+GOFACD33k9svrkDmfkwfxpt6BbeWNpYorJKgLCAtfGHZM3g8Tf6wtdwnft+6
-         DEuh0xbr8gJhECmZT4qvKiiHnLXA6outMtHOYsc3kz1IcRILhpe6epWvzY+UFZzvV1d0
-         dV6w==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=H5GzO1GVZTXiX6PTnZ0maVWHXWhxKwJkxQUe242iFjg=;
+        b=IhocYC3qHy8EUVb5O0v/ELOjI6SsqyJxjKf/Vu8dLAiHITnBEkWby7B4+ZNGaEqDjZ
+         e/DBzSAm/IFgW10mDHfNUIwmrHI8YTpXqXdqGwbC32iHYtxJ4/0rn+5m8mzQ4vFbaBAw
+         oPGAiSYv+WCSjvluB4FT0nP11wfPhnUdLvrHu2zXZ3ohwNKcr4OljPj7JqbJFZe/okca
+         6FogBD7fWTBSaA1+Ld4DfHeJ1j1ald9nZ++kKpSSvAh0vIoYZ82LduuKRiCtLHM/Mb5/
+         R8sINUYQkO9mK/H10qcDYXe+OWlB5JHIDPkwrlNgeDNFhz0yjincgxl0VJMvJLh2QwjE
+         wiCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=RAgbyFTnXHd2EZQOA5JUlRHzTD1WbpQcsTK6b7kUvvY=;
-        b=xronSelQl7slfYb4Gl2du5Jj/RXXtZWRBkupf732m0fbuotO08DqM5gmM9gsI0UU1j
-         FoyctlQeXaiv2LcqhN4Erueryx0VbP7yX/BDAevv4BJe0sHct5PZvbTG/ucnkGmJ+rvw
-         uwF3T065VEJQlf0ZGvYcQ14jUe5CP2b/gqWlDRK7Wi+UgM7I4ZQXurYyl+AcrQdHjjVb
-         tDurP1eLw0l7I3kM4m7K2syhZ5A7XbJXo72HMl+LHTrvd8xgZR08i2fSdcHdpTzyoFiP
-         MWRGqck/npRiCOHywFPa4PXycETexA+VS7bOzx8p3Shl984t9G71c9aCFsQ/LbjnXc0c
-         /qBg==
-X-Gm-Message-State: AOAM5315eOYUhROky7/ccDpQ4J9IisXLIylrKzZPC9kDTIQXExapREvp
-        EzXD614NhUYQpeGInlkFAWSHemTYW+PwIlc=
-X-Google-Smtp-Source: ABdhPJyNbz4Hrf3hy86F6wrLj1ZFqn12F959I1VHUKOAWqS1n29aJeybX34fekgnfKT8n7ttNLWrF34kDhOIIhA=
-X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:f95e:2d1c:c00f:e866])
- (user=saravanak job=sendgmr) by 2002:a81:19c3:0:b0:310:1042:e847 with SMTP id
- 186-20020a8119c3000000b003101042e847mr6843667ywz.311.1654304464832; Fri, 03
- Jun 2022 18:01:04 -0700 (PDT)
-Date:   Fri,  3 Jun 2022 18:01:00 -0700
-Message-Id: <20220604010101.719508-1-saravanak@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
-Subject: [PATCH v2] module: Add support for default value for module async_probe
-From:   Saravana Kannan <saravanak@google.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Saravana Kannan <saravanak@google.com>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-modules@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=H5GzO1GVZTXiX6PTnZ0maVWHXWhxKwJkxQUe242iFjg=;
+        b=MX1P6+xYAmlShPDX1R06goj1jbI2vT9nOSTEdlEsDsXZlN2Ku6AwxKhXWxrkxIkzuc
+         sBIY4wIrgKz/8NizWb2CL3K7W18aJYx3xOt4efYza6tzSzus8JZICmRW/6YlNHLQ+KXP
+         GXxYRMaqSr8vyKF8mgR35EXyqDO+pxf7ALHM20YDV4eymijIerV7HOE+vh2pK01WeiBr
+         9xbiBy0RNQhRALOoCtNMI6W7+jTo24mg4ij8EYAJkJouybvmphTYQ4BRSAdCM0ezwgP7
+         FHdbFgfRe7EEq7631xDG6H48L6TgpmiZZbPUK2AdU87VcJrxLpvuKXU8yA34tHNtf/Ui
+         PVPg==
+X-Gm-Message-State: AOAM532Qc9MJ+rldls4oeV//fvbM7SSRHj7qLhDrYZ9rVPkCXFQ9Y+jb
+        Q4HVRZ3l98HmrDTf1pXDQ8VfAg==
+X-Google-Smtp-Source: ABdhPJx1//CyJ20BJCZkSYLm20hSsC3pDU2Dr4uzutt5qYu615ZOTb8FPdNEj/A4wW+9CG7lFUBURw==
+X-Received: by 2002:a65:4bc5:0:b0:3da:ec0c:c5f2 with SMTP id p5-20020a654bc5000000b003daec0cc5f2mr11018632pgr.221.1654305884726;
+        Fri, 03 Jun 2022 18:24:44 -0700 (PDT)
+Received: from [10.4.187.25] ([139.177.225.224])
+        by smtp.gmail.com with ESMTPSA id p17-20020a17090adf9100b001df2f8f0a45sm5983115pjv.1.2022.06.03.18.24.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Jun 2022 18:24:44 -0700 (PDT)
+Message-ID: <68433856-6b7b-2e9e-6e86-77293da7453b@bytedance.com>
+Date:   Sat, 4 Jun 2022 09:24:38 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH] mm: memcontrol: separate {pgscan,pgsteal}_{kswapd,direct}
+ items in memory.stat of cgroup v2
+Content-Language: en-US
+To:     Shakeel Butt <shakeelb@google.com>
+Cc:     Michal Hocko <mhocko@kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux MM <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20220603070423.10025-1-zhengqi.arch@bytedance.com>
+ <CALvZod6s8ss0Doe9y+X=3ZHvw0Ove9Lw3MdfKekXr0gVnJwA4w@mail.gmail.com>
+From:   Qi Zheng <zhengqi.arch@bytedance.com>
+In-Reply-To: <CALvZod6s8ss0Doe9y+X=3ZHvw0Ove9Lw3MdfKekXr0gVnJwA4w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a module.async_probe kernel command line option that allows enabling
-async probing for all modules. When this command line option is used,
-there might still be some modules for which we want to explicitly force
-synchronous probing, so extend <modulename>.async_probe to take an
-optional bool input so that async probing can be disabled for a specific
-module.
 
-Signed-off-by: Saravana Kannan <saravanak@google.com>
----
-v1->v2:
-- Updated the documentation to capture all the details/changes.
 
- Documentation/admin-guide/kernel-parameters.txt | 17 +++++++++++++++--
- kernel/module/main.c                            | 11 ++++++++++-
- 2 files changed, 25 insertions(+), 3 deletions(-)
+On 2022/6/4 8:47 AM, Shakeel Butt wrote:
+> On Fri, Jun 3, 2022 at 12:06 AM Qi Zheng <zhengqi.arch@bytedance.com> wrote:
+>>
+> [...]
+>>
+>> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+>> index 176298f2f4de..0b9ca7e7df34 100644
+>> --- a/Documentation/admin-guide/cgroup-v2.rst
+>> +++ b/Documentation/admin-guide/cgroup-v2.rst
+>> @@ -1442,11 +1442,17 @@ PAGE_SIZE multiple when read back.
+>>            pgrefill (npn)
+>>                  Amount of scanned pages (in an active LRU list)
+>>
+>> -         pgscan (npn)
+>> -               Amount of scanned pages (in an inactive LRU list)
+>> +         pgscan_kswapd (npn)
+>> +               Amount of scanned pages by kswapd (in an inactive LRU list)
+>>
+>> -         pgsteal (npn)
+>> -               Amount of reclaimed pages
+>> +         pgscan_direct (npn)
+>> +               Amount of scanned pages directly  (in an inactive LRU list)
+>> +
+>> +         pgsteal_kswapd (npn)
+>> +               Amount of reclaimed pages by kswapd
+>> +
+>> +         pgsteal_direct (npn)
+>> +               Amount of reclaimed pages directly
+> 
+> No objection to adding new fields but removing 'pgsteal' and 'pgscan'
+> from the user visible API might break some applications.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 710b52d87bdd..5174a08e20b0 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1147,8 +1147,12 @@
- 	nopku		[X86] Disable Memory Protection Keys CPU feature found
- 			in some Intel CPUs.
- 
--	<module>.async_probe [KNL]
--			Enable asynchronous probe on this module.
-+	<module>.async_probe[=<bool>] [KNL]
-+			If no <bool> value is specified or if the value
-+			specified is not a valid <bool>, enable asynchronous
-+			probe on this module.  Otherwise, enable/disable
-+			asynchronous probe on this module as indicated by the
-+			<bool> value. See also: module.async_probe
- 
- 	early_ioremap_debug [KNL]
- 			Enable debug messages in early_ioremap support. This
-@@ -3201,6 +3205,15 @@
- 			log everything. Information is printed at KERN_DEBUG
- 			so loglevel=8 may also need to be specified.
- 
-+	module.async_probe=<bool>
-+			[KNL] When set to true, modules will use async probing
-+			by default. To enable/disable async probing for a
-+			specific module, use the module specific control that
-+			is documented under <module>.async_probe. When both
-+			module.async_probe and <module>.async_probe are
-+			specified, <module>.async_probe takes precedence for
-+			the specific module.
-+
- 	module.sig_enforce
- 			[KNL] When CONFIG_MODULE_SIG is set, this means that
- 			modules without (valid) signatures will fail to load.
-diff --git a/kernel/module/main.c b/kernel/module/main.c
-index fed58d30725d..47085795f037 100644
---- a/kernel/module/main.c
-+++ b/kernel/module/main.c
-@@ -2410,6 +2410,12 @@ static void do_free_init(struct work_struct *w)
- 	}
- }
- 
-+#undef MODULE_PARAM_PREFIX
-+#define MODULE_PARAM_PREFIX "module."
-+/* Default value for module->async_probe_requested */
-+static bool async_probe;
-+module_param(async_probe, bool, 0644);
-+
- /*
-  * This is where the real work happens.
-  *
-@@ -2630,7 +2636,8 @@ static int unknown_module_param_cb(char *param, char *val, const char *modname,
- 	int ret;
- 
- 	if (strcmp(param, "async_probe") == 0) {
--		mod->async_probe_requested = true;
-+		if (strtobool(val, &mod->async_probe_requested))
-+			mod->async_probe_requested = true;
- 		return 0;
- 	}
- 
-@@ -2797,6 +2804,8 @@ static int load_module(struct load_info *info, const char __user *uargs,
- 	if (err)
- 		goto bug_cleanup;
- 
-+	mod->async_probe_requested = async_probe;
-+
- 	/* Module is ready to execute: parsing args may do that. */
- 	after_dashes = parse_args(mod->name, mod->args, mod->kp, mod->num_kp,
- 				  -32768, 32767, mod,
--- 
-2.36.1.255.ge46751e96f-goog
+Oh, got it. So do we need to keep pgscan and pgsteal fields? If it is, I
+can add it back in patch v2.
 
+Thanks,
+Qi
