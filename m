@@ -2,102 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8335CC43334
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Jun 2022 16:40:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE9A3C43334
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Jun 2022 08:40:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238510AbiFDQkZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Jun 2022 12:40:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47942 "EHLO
+        id S237890AbiFEIkG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Jun 2022 04:40:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231301AbiFDQkZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Jun 2022 12:40:25 -0400
-X-Greylist: delayed 2622 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 04 Jun 2022 09:40:20 PDT
-Received: from outgoing12.flk.host-h.net (outgoing12.flk.host-h.net [188.40.208.242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 074E64F9D1;
-        Sat,  4 Jun 2022 09:40:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=risingedge.co.za; s=xneelo; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:reply-to:sender:bcc:in-reply-to:references
-        :content-type; bh=Ouuq/2x8flfBkWWM3iJ0UXEE0GwTm71ML+wgFSoBGq8=; b=QUQtxPrWcbV
-        y9Xe9l14+7nxL6BEbvW0LF0VVxswEr1ogHqoYK74WbMMI6ftRnFtMeFXVKa52FIYFMiKMvjwYEFWW
-        r9th580LjPjlIL39USAeQqzSZeBQyvzTTdD1Ej7OwqzbUrZWZwnY7X2JrMJaoUnoOolxd2fr96nNL
-        AD7bcQA4XoS2/nQJ/u3ER4pPHFI1wO9qEzVpCYS3ON2gXI734B77Bnb2zuDitBhCYzzHNFjZErq+D
-        IWSy0ctagp8E4MA7iOujURvLWoH0Q3jV4tTpf/XgGqv+fYW+sVkTLD6F+CRTGeCsqPeo5Zx0GH+5+
-        ZJS1KSQjYJKkghSiIxHVP+A==;
-Received: from www31.flk1.host-h.net ([188.40.1.173])
-        by antispam3-flk1.host-h.net with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <justin.swartz@risingedge.co.za>)
-        id 1nxW8f-0001N8-7l; Sat, 04 Jun 2022 17:56:35 +0200
-Received: from 8ta-249-1-228.telkomadsl.co.za ([102.249.1.228] helo=localhost.localdomain)
-        by www31.flk1.host-h.net with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <justin.swartz@risingedge.co.za>)
-        id 1nxW8d-0006Fa-NV; Sat, 04 Jun 2022 17:56:32 +0200
-From:   Justin Swartz <justin.swartz@risingedge.co.za>
-Cc:     Justin Swartz <justin.swartz@risingedge.co.za>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        with ESMTP id S236304AbiFEIkF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Jun 2022 04:40:05 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 140222FE7D;
+        Sun,  5 Jun 2022 01:40:04 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id h192so3815544pgc.4;
+        Sun, 05 Jun 2022 01:40:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=3cNO/ZmiNxVWesEjFLdNPaV0vvUFExRHEz7YWaDi1CA=;
+        b=g4JHpmn1aWNTk/McDk1oHzQoXPPLPxNjbEwZTr9wCBrGmtelG7E5Wa4iV4IH4PjOTo
+         zeRrLTZXlKj2Dg9Q6bnv3WeT89Wyo6Vg4yGUeIU1Bi0n4U+7Eu/pFzxK/pfoHyUhUMoB
+         QSPejsBiz7E5zmxWFsoasCWsbBqCs8F1jalaRD8TIghMpHQYJKh8l5tPRqeElH9AQUlN
+         LWiiH6xDS5nXYYKSJuX9qbAj2rQnqPmwGaotgFYsrR9H9fGN09q37Nc6jaE0CG1A+w/h
+         VbG0Dl4xNvTD7edY3AQWUlvtO5emHS+ZZB+GRVDIzLYh2XX7+6J4kqMNfLT3CjD1bBIR
+         d5UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=3cNO/ZmiNxVWesEjFLdNPaV0vvUFExRHEz7YWaDi1CA=;
+        b=rOoe0Q9a0BAutZtXO2vaT8Z0HXRrL36aXmz/InKPjtTEC5/7djnE2luVwPaZGTmYZw
+         NWPvRkjOr8SDXyMf6Hk+CLwK/DJmwaq1VyuFq1f6IDtgUBGojl1ZJrbw4wpCrqyqf93c
+         WvoigKwKKioC2LhI4SJ3ThZ03ii0mHj/nA7281RWTrRvSvBGpWf88MuMKup4vA6kWX2w
+         6L6qno7RW33mdG9gNYDyORxG/1f2usKp+59YX+Nu9k183K7NVp5eLe6v2wv28pY54Ihi
+         4MjXu02Nz+bV0wYi1VObsJ7XQGi0TuOfdZzi+cRjmZMVV+dKX7dAy4D8Y3pDMfe8qSup
+         weHg==
+X-Gm-Message-State: AOAM531ZrG+m+zEYu2DjZXW6pa1JJ2yuKc90abN/9KtbbmKIO7tylaeT
+        o2ZdLX8950OjjV7rabBGcBXFtmF+j44=
+X-Google-Smtp-Source: ABdhPJzLFnP7Of3foCpLB/QsC9tCG3rSBeZu7x5bfBYcdCFuTTWlx8gpt0dvv5hYBI4nQoJr4JPHNA==
+X-Received: by 2002:a63:8248:0:b0:3fc:523e:1f02 with SMTP id w69-20020a638248000000b003fc523e1f02mr16163897pgd.90.1654418402899;
+        Sun, 05 Jun 2022 01:40:02 -0700 (PDT)
+Received: from [192.168.43.80] (subs28-116-206-12-32.three.co.id. [116.206.12.32])
+        by smtp.gmail.com with ESMTPSA id r16-20020aa79ed0000000b0051b693baadcsm8412451pfq.205.2022.06.05.01.40.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Jun 2022 01:40:02 -0700 (PDT)
+Message-ID: <5f00819a-cd52-a2c7-77de-28a4649c33dd@gmail.com>
+Date:   Sun, 5 Jun 2022 15:39:57 +0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] docs: usb: fix literal block marker in usbmon
+ verification example
+Content-Language: en-US
+To:     Justin Swartz <justin.swartz@risingedge.co.za>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-usb@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: usb: fix literal block marker in usbmon verification example
-Date:   Sat,  4 Jun 2022 17:54:31 +0200
-Message-Id: <20220604155431.23246-1-justin.swartz@risingedge.co.za>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: justin.swartz@risingedge.co.za
-X-Virus-Scanned: Clear
-X-Originating-IP: 188.40.1.173
-X-SpamExperts-Domain: risingedge.co.za
-X-SpamExperts-Username: 
-Authentication-Results: host-h.net; auth=pass (login) smtp.auth=@risingedge.co.za
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.08)
-X-Recommended-Action: accept
-X-Filter-ID: Pt3MvcO5N4iKaDQ5O6lkdGlMVN6RH8bjRMzItlySaT82YxiG3cFkeaozVsb5Y251PUtbdvnXkggZ
- 3YnVId/Y5jcf0yeVQAvfjHznO7+bT5w1OL79HMxE022P+rQy8YAdcSeERs4TOTnIH1kc1IWc5cqv
- NIMzTsl2qXZAml/tmiq3wL2Y4F0412ezGCyTUPanTItOOFNNjY132/lViGIyGqLI4OY9HO9H+Fx9
- YIm3grPYonhfr99jXBd3p8VVa7wrtuUNWnipPNRiS8q/FrUUyhjJsJREzyUqebdx9PH+DyXnx8ye
- plRO3sLIqUlSH7OGrAhi2aay48NyXBwK776ImabmLbFYYN3/5dv5lrtQLYZCqSlK5qRCEdvOvbYJ
- im3HHIQnXkm8F0KVRQVUwKh0zQWyZ67BVZNsblNG3e9c5Awq1buObycMKAhCcQU7LIjZWBnaet7l
- 8u1IaVoSD7d+Eo3hB7oSHLSzN/CB4wk1cFv1mcInHpUATLx0UN3ao+NXpg1nW4rYJEVR3zSUL4GK
- dNscpwp/WvsW9rkYlRi0DfpKO5QbxpQ97mDfOGVGuYDXzQ6WZJ8UgaMCryZlVIAiHjTVsvdwQtuz
- vJLCXpRXoS3aG/w4HzP8aLtmk5ibSBsf0vPcm60p8kIPTs72y1m7lCGwfqeNO0Vta0QHISXmTwX0
- UIfM1ruawjHM1OLDVV66JbExfL0DNiQSnaITrUCp5NqW+IuA05DGXjIjSPSUiMleY9PlOy/65RmT
- Rr4ei8OATlfri1sIm2TE4+eOrLPislxELZ/g1BglKBRvaJQd7xr74O4hBSz/kkmPgL+fgIguDmiQ
- iLrHPBwZStlwK9Qctw7OLmyubbvqIytQWIC1S+KOOj1Jcto7+pOU/BQuyJBzjt5fkffMOpXRwnoJ
- Yo591MNH89VcUVG/rHffeuRCUcMRFZ4oobg8BBg3Jq+ntzj07hLgnebh+IgqOGSsQlliML7mmfvv
- H8AAJ10/M6mmfXi3REW5XOZTEp8Dyz7eS3cSxMmnhan7ld5Btj8YCzmgH1FfEoXm0/FPF8PR0w36
- 3lkeywGwPwXGvAKiJ5L9oQVFvqNfQiza3x4QvdmobTpnOiGSptvtgY8/SMqO9OohIts7jnxJ2JWr
- eVnk3yKNG42yi8l2R9lD/HojO/FRiY6gTWKrLjRFuOfsv9pIlKVsvXMUU4onvk6Td4Wqgmy49Btn
- G0XDK9jy+ML0pcfvwpalZQ==
-X-Report-Abuse-To: spam@antispammaster.host-h.net
-To:     unlisted-recipients:; (no To-header on input)
+References: <20220604155431.23246-1-justin.swartz@risingedge.co.za>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220604155431.23246-1-justin.swartz@risingedge.co.za>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The "Verify that bus sockets are present" example was not properly
-formatted due to a typo in the literal block marker.
+On 6/4/22 22:54, Justin Swartz wrote:
+> The "Verify that bus sockets are present" example was not properly
+> formatted due to a typo in the literal block marker.
+> 
 
-Signed-off-by: Justin Swartz <justin.swartz@risingedge.co.za>
----
- Documentation/usb/usbmon.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Missing second colon?
+iff --git a/Documentation/usb/usbmon.rst b/Documentation/usb/usbmon.rst
+> index b0bd51080..6d5ec1e62 100644
+> --- a/Documentation/usb/usbmon.rst
+> +++ b/Documentation/usb/usbmon.rst
+> @@ -42,7 +42,7 @@ if usbmon is built into the kernel::
+>  	# modprobe usbmon
+>  	#
+>  
+> -Verify that bus sockets are present:
+> +Verify that bus sockets are present::
+>  
+>  	# ls /sys/kernel/debug/usb/usbmon
+>  	0s  0u  1s  1t  1u  2s  2t  2u  3s  3t  3u  4s  4t  4u
 
-diff --git a/Documentation/usb/usbmon.rst b/Documentation/usb/usbmon.rst
-index b0bd51080..6d5ec1e62 100644
---- a/Documentation/usb/usbmon.rst
-+++ b/Documentation/usb/usbmon.rst
-@@ -42,7 +42,7 @@ if usbmon is built into the kernel::
- 	# modprobe usbmon
- 	#
- 
--Verify that bus sockets are present:
-+Verify that bus sockets are present::
- 
- 	# ls /sys/kernel/debug/usb/usbmon
- 	0s  0u  1s  1t  1u  2s  2t  2u  3s  3t  3u  4s  4t  4u
+Otherwise, the literal block rendered correctly.
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
 -- 
-2.30.2
-
+An old man doll... just what I always wanted! - Clara
