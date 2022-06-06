@@ -2,120 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F23FCCA481
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 17:19:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64613C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 17:37:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229911AbiFFRTT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 13:19:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37644 "EHLO
+        id S229700AbiFFRhC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jun 2022 13:37:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229737AbiFFRSy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 13:18:54 -0400
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9672A5130C;
-        Mon,  6 Jun 2022 10:17:53 -0700 (PDT)
-Received: by mail-il1-f172.google.com with SMTP id d6so1584259ilm.4;
-        Mon, 06 Jun 2022 10:17:53 -0700 (PDT)
+        with ESMTP id S229767AbiFFRfH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 13:35:07 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 323CF1B1F45
+        for <linux-doc@vger.kernel.org>; Mon,  6 Jun 2022 10:35:06 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id el14so10669859qvb.7
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jun 2022 10:35:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ONtgrpUVfgaDiq1zXnbAn6nVrL5RzEEKdEEOpv/ts/w=;
+        b=RPfBncwo3xRZLwPCaB9JoOSmhUbJjQWh9/5exDp/xTLykz+3iQC2crnSEzJTjWyngW
+         IO+Uunz+rAz2cBH+5mqRSxNUA0mo50556+qYwskvrDKYj/86Oh7U1tHDmYc0kL4XFimb
+         28/h/wWggvQUJvn+QDFC8qSqgypcW8OXO5p8MCzEzNPUvxnnLpYDMlj5rkMrpLW2GJpF
+         XTzyw1Tx3zPSOsULoI+qZ6DwI6rqRiepjm29aGw7avud7eFNPacK0xOxx8hAb4XLaw+Y
+         7B8tg2GZowlAXWZzUhqt/D3u3E+cr/E7Y6CMu+HqfRt7RFUgXIsF9idwf8un6kTDs60i
+         IAKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=HOgnxEn2ntmtyghL8kOb8yKeTcYGElnyCDEZZ25iRQw=;
-        b=4Rh+2Oy1eY+bYftHCMJntZLu8WUck5porKU754FT8zR6Zrc1ge8btPSGostMVvL3OV
-         SnatfcmfJPoHw7VIetGqvBuSKTKPotPkorQG4RXog3r5KyneQybFCNA9fqODyOKRq3cu
-         JkaTE/OFn4WPIjCWenuUfzjbasK2sDP1uqtUW/40cuMglBuofp7f/Oia3KkhOuYBhBs1
-         zDb4DZfYV+MsuQ3edePHr3aP1Esoi6MOLB2QkKXTxM7QsCyoF5MMBvITQaP0EV0aXodl
-         RetlcCfUZYhfHhYAog1vp4KXM6Gzb+sf29gK7B1QzTvRWwHn+wWbjU7x264uiR/Kwrn1
-         9X9A==
-X-Gm-Message-State: AOAM530qDiQ4MgwcvCqSG0y8EZVSl3dzi7fzsuYTm8MTuU14l6VTbLCZ
-        6jqA5yTXnzCXGGmZPA2C0A==
-X-Google-Smtp-Source: ABdhPJxXRz8rpxHVMQETrBoM9cb8XJJozkw5PJACTm4qK/vhBn8tviwY3PyY58j2eoaPB/u3qpK33w==
-X-Received: by 2002:a05:6e02:184f:b0:2d3:d0c2:d56a with SMTP id b15-20020a056e02184f00b002d3d0c2d56amr13953839ilv.174.1654535872910;
-        Mon, 06 Jun 2022 10:17:52 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id t17-20020a92c0d1000000b002d3da8e4af5sm6121750ilf.23.2022.06.06.10.17.49
+        bh=ONtgrpUVfgaDiq1zXnbAn6nVrL5RzEEKdEEOpv/ts/w=;
+        b=yjP2ilrYdlATa/fDk9FTFv5U1L3ON+Q2aY4bAPZM7zWNo4yLQZjramU7bgfhf6Mhkx
+         hkAI2MgJhGt1woPzNk0GkWOlOTIZY2l/Mmhuri0GUE9Em6IZlYXlZ0qWhPkRdxGRqlfn
+         AvehFcauMFs3ZgJRpiP6SIDQiGiLx6DnlLxBOFuBR2Bn8zcEhjKpfOfqC6kkp2m02yny
+         EozRk66q2F7DPIjRMopHRosnP3EPj6gsTFR3vZTYqNYXr2vIds2a8dSsQyKDEzrKw49z
+         za8HGCbNAtqGCQ953jluzyozjCAzbUzllFOy+LU8Zmjdt6slxkRaTXSoOHWX/Ea0ITDH
+         WcDg==
+X-Gm-Message-State: AOAM533uke2UVsmMu1jOqM/vKzOFWniZF97kURHYl8Zc2GJWGd/YjWCv
+        fUrhRK8A47ZEvWbucxnOGXKPCA==
+X-Google-Smtp-Source: ABdhPJwHrpLRvcb2wRgm9WoukfE/nzu+lokhq+WkPqXduzdXyYjlDQJX7ghcMowYgUkJL1HDosduPQ==
+X-Received: by 2002:a05:6214:1d2f:b0:464:46fe:ca68 with SMTP id f15-20020a0562141d2f00b0046446feca68mr34363805qvd.4.1654536905279;
+        Mon, 06 Jun 2022 10:35:05 -0700 (PDT)
+Received: from localhost (cpe-67-251-217-1.hvc.res.rr.com. [67.251.217.1])
+        by smtp.gmail.com with ESMTPSA id g4-20020a37b604000000b006a5fb8219bbsm11805833qkf.44.2022.06.06.10.35.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 10:17:52 -0700 (PDT)
-Received: (nullmailer pid 911134 invoked by uid 1000);
-        Mon, 06 Jun 2022 17:17:47 -0000
-Date:   Mon, 6 Jun 2022 12:17:47 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Markus Mayer <mmayer@broadcom.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-        keyrings@vger.kernel.org, kvm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-cachefs@redhat.com,
-        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mmc@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-usb@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH 00/23] Update Documentation/ cross-references
-Message-ID: <20220606171747.GB899329-robh@kernel.org>
-References: <cover.1654529011.git.mchehab@kernel.org>
+        Mon, 06 Jun 2022 10:35:04 -0700 (PDT)
+Date:   Mon, 6 Jun 2022 13:34:59 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Qi Zheng <zhengqi.arch@bytedance.com>
+Cc:     roman.gushchin@linux.dev, shakeelb@google.com,
+        songmuchun@bytedance.com, mhocko@kernel.org,
+        akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Michal Hocko <mhocko@suse.com>
+Subject: Re: [PATCH v3] mm: memcontrol: add {pgscan,pgsteal}_{kswapd,direct}
+ items in memory.stat of cgroup v2
+Message-ID: <Yp46w4op9JeX9+g9@cmpxchg.org>
+References: <20220606154028.55030-1-zhengqi.arch@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1654529011.git.mchehab@kernel.org>
+In-Reply-To: <20220606154028.55030-1-zhengqi.arch@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 06, 2022 at 04:25:22PM +0100, Mauro Carvalho Chehab wrote:
-> Hi John,
+On Mon, Jun 06, 2022 at 11:40:28PM +0800, Qi Zheng wrote:
+> There are already statistics of {pgscan,pgsteal}_kswapd and
+> {pgscan,pgsteal}_direct of memcg event here, but now only the
+> sum of the two is displayed in memory.stat of cgroup v2.
 > 
-> There were a number of DT binding conversions and other docs change that
-> were not updated. Address them, in order to keep the cross-references on
-> a sane state.
+> In order to obtain more accurate information during monitoring
+> and debugging, and to align with the display in /proc/vmstat,
+> it better to display {pgscan,pgsteal}_kswapd and
+> {pgscan,pgsteal}_direct separately.
 > 
-> Patch series is against v5.19-rc1 (and applies cleanly on the top of
-> today's -next).
+> Also, for forward compatibility, we still display pgscan and
+> pgsteal items so that it won't break existing applications.
 > 
-> Mauro Carvalho Chehab (23):
->   dt-bindings: mfd: bd9571mwv: update rohm,bd9571mwv.yaml reference
->   dt-bindings: interrupt-controller: update brcm,l2-intc.yaml reference
->   dt-bindings: arm: update vexpress-config.yaml references
->   dt-bindings: reset: update st,stih407-powerdown.yaml references
->   dt-bindings: mfd: rk808: update rockchip,rk808.yaml reference
->   dt-bindings: mmc: exynos-dw-mshc: update samsung,pinctrl.yaml
->     reference
->   docs: netdev: update maintainer-netdev.rst reference
->   docs: filesystems: update netfs-api.rst reference
->   Documentation: update watch_queue.rst references
->   Documentation: KVM: update s390-pv.rst reference
->   Documentation: KVM: update amd-memory-encryption.rst references
->   Documentation: KVM: update msr.rst reference
->   Documentation: KVM: update s390-diag.rst reference
->   MAINTAINERS: update arm,hdlcd.yaml reference
->   MAINTAINERS: update arm,komeda.yaml reference
->   MAINTAINERS: update arm,malidp.yaml reference
->   MAINTAINERS: update cortina,gemini-ethernet.yaml reference
->   MAINTAINERS: update dongwoon,dw9807-vcm.yaml reference
->   MAINTAINERS: update maxim,max77693.yaml reference
->   MAINTAINERS: update snps,axs10x-reset.yaml reference
->   objtool: update objtool.txt references
->   ASoC: wm8731: update wlf,wm8731.yaml reference
->   arch: m68k: q40: README: drop references to IDE driver
+> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+> Acked-by: Roman Gushchin <roman.gushchin@linux.dev>
+> Acked-by: Muchun Song <songmuchun@bytedance.com>
+> Acked-by: Shakeel Butt <shakeelb@google.com>
+> Acked-by: Michal Hocko <mhocko@suse.com>
 
-Applied patches 1-5,17,18,20
+No objection to keeping pgscan and pgsteal, but can you please fix the
+doc to present the items in the same order as memory.stat has them?
+
+> @@ -1445,9 +1445,21 @@ PAGE_SIZE multiple when read back.
+>  	  pgscan (npn)
+>  		Amount of scanned pages (in an inactive LRU list)
+>  
+> +	  pgscan_kswapd (npn)
+> +		Amount of scanned pages by kswapd (in an inactive LRU list)
+> +
+> +	  pgscan_direct (npn)
+> +		Amount of scanned pages directly  (in an inactive LRU list)
+> +
+>  	  pgsteal (npn)
+>  		Amount of reclaimed pages
+>  
+> +	  pgsteal_kswapd (npn)
+> +		Amount of reclaimed pages by kswapd
+> +
+> +	  pgsteal_direct (npn)
+> +		Amount of reclaimed pages directly
+> +
+>  	  pgactivate (npn)
+>  		Amount of pages moved to the active LRU list
+
+vs:
+
+> @@ -1495,41 +1518,17 @@ static char *memory_stat_format(struct mem_cgroup *memcg)
+>  	}
+>  
+>  	/* Accumulated memory events */
+> -
+> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGFAULT),
+> -		       memcg_events(memcg, PGFAULT));
+> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGMAJFAULT),
+> -		       memcg_events(memcg, PGMAJFAULT));
+> -	seq_buf_printf(&s, "%s %lu\n",  vm_event_name(PGREFILL),
+> -		       memcg_events(memcg, PGREFILL));
+>  	seq_buf_printf(&s, "pgscan %lu\n",
+>  		       memcg_events(memcg, PGSCAN_KSWAPD) +
+>  		       memcg_events(memcg, PGSCAN_DIRECT));
+>  	seq_buf_printf(&s, "pgsteal %lu\n",
+>  		       memcg_events(memcg, PGSTEAL_KSWAPD) +
+>  		       memcg_events(memcg, PGSTEAL_DIRECT));
+> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGACTIVATE),
+> -		       memcg_events(memcg, PGACTIVATE));
+> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGDEACTIVATE),
+> -		       memcg_events(memcg, PGDEACTIVATE));
+> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGLAZYFREE),
+> -		       memcg_events(memcg, PGLAZYFREE));
+> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGLAZYFREED),
+> -		       memcg_events(memcg, PGLAZYFREED));
+> -
+> -#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(ZSWPIN),
+> -		       memcg_events(memcg, ZSWPIN));
+> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(ZSWPOUT),
+> -		       memcg_events(memcg, ZSWPOUT));
+> -#endif
+>  
+> -#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(THP_FAULT_ALLOC),
+> -		       memcg_events(memcg, THP_FAULT_ALLOC));
+> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(THP_COLLAPSE_ALLOC),
+> -		       memcg_events(memcg, THP_COLLAPSE_ALLOC));
+> -#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+> +	for (i = 0; i < ARRAY_SIZE(memcg_vm_event_stat); i++)
+> +		seq_buf_printf(&s, "%s %lu\n",
+> +			       vm_event_name(memcg_vm_event_stat[i]),
+> +			       memcg_events(memcg, memcg_vm_event_stat[i]));
+
+Thanks
