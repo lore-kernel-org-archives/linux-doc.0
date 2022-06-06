@@ -2,123 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 478F4CCA473
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 20:53:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7FF6C43334
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 21:31:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234710AbiFFUxR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 16:53:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43952 "EHLO
+        id S233847AbiFFVb3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jun 2022 17:31:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231741AbiFFUws (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 16:52:48 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64F70338B7;
-        Mon,  6 Jun 2022 13:42:40 -0700 (PDT)
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 256KV1pI029119;
-        Mon, 6 Jun 2022 20:42:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : from : to : cc : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=lbaSShEGkI4JCswyOaLK2k7dTapx0AV7036Hk3OhJwE=;
- b=JSV7KtCY7/ifNq4rB26a7tyTcMPfR0+CkHfgJG3GnqGXNCAnRRJXey6mf98nU0jzidy9
- YEODAVohzc0C+YTFHZDpLRYPyLXJuVGbygPyqBbGSjwsmMrw9QkzSgd3qyKYhhbP1nJm
- zvQtxnfRPsjU3mJZrW4l9OyfBMLASzjNdJjtjYoIrrkWHmesxAi4iny8q004QHKcwhxn
- AhoV4yxfbMY2yUZJ6oOsPwe7xkxAIONd3oG1fRjHH5C7rk5tSlD0gNdwzwPT0c6nrhu7
- StDmdBiu+kXUI1xDfJIihMuNmXZZMutPcm7Nyve6zQBrqvvG0P7tciLSU6a5dMSD/OhK JQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ghpqfjbuy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 06 Jun 2022 20:42:36 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 256KW27A032554;
-        Mon, 6 Jun 2022 20:42:36 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com [169.63.121.186])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ghpqfjbuv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 06 Jun 2022 20:42:36 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
-        by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 256KKGOo030481;
-        Mon, 6 Jun 2022 20:42:35 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
-        by ppma03wdc.us.ibm.com with ESMTP id 3gfy19fwpf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 06 Jun 2022 20:42:35 +0000
-Received: from b03ledav003.gho.boulder.ibm.com (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
-        by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 256KgYOu35520962
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 6 Jun 2022 20:42:34 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 533FF6A04F;
-        Mon,  6 Jun 2022 20:42:34 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id ABBCF6A047;
-        Mon,  6 Jun 2022 20:42:31 +0000 (GMT)
-Received: from [9.163.20.188] (unknown [9.163.20.188])
-        by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Mon,  6 Jun 2022 20:42:31 +0000 (GMT)
-Message-ID: <5a2b4f8f-14b4-cbf2-7c22-ba7bbcd4e09f@linux.ibm.com>
-Date:   Mon, 6 Jun 2022 16:42:31 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v9 00/21] KVM: s390: enable zPCI for interpretive
- execution
-Content-Language: en-US
-From:   Matthew Rosato <mjrosato@linux.ibm.com>
-To:     linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        jgg@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220606203325.110625-1-mjrosato@linux.ibm.com>
-In-Reply-To: <20220606203325.110625-1-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: WFXtV8rQRBX5Bmwtlid3r8AwwaBWsNT_
-X-Proofpoint-GUID: lyTwiG177E8ZqAOvlxnKbrvOiwU_nyNv
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        with ESMTP id S233477AbiFFVb2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 17:31:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C9861A394;
+        Mon,  6 Jun 2022 14:31:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EF5406164F;
+        Mon,  6 Jun 2022 21:31:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E556C385A9;
+        Mon,  6 Jun 2022 21:31:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654551086;
+        bh=4Xm0R5P+VrCwOW+zqQpekghTWxOqCtFkCmzjB4kSLss=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=KWhSttqILWZQreWlBFVuXFUfmoWeA03sUhkuDma+WHXl+RsxZKH9sPKk4HER0NQpq
+         L7U5/g9NjmANfX8Qq17db5Ts3HoT/9oJ8ci1ib7MprRxMQaWHFAjAnbAtcBNLAEWeB
+         ipzIE3KsDU3rvyGKrOCIHhmT8CTGQe0Tv8f7IMN9FKTzaB70tBy2EGwDioYy58Yqs+
+         fFnKQGoZkEUWAlx0S/uP8NHqCrdpg8SDzE48vz/hS9sIxCEzzKkI4LtWcDZs407KwG
+         Qy3LGVy68t5qT23k8giQiRfzCmaf5rWUszvUtNOhpo9Od3x01SknQxu46OatVYVaJ8
+         RE+IxjFj+5Nbg==
+Date:   Mon, 6 Jun 2022 23:31:19 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Vegard Nossum <vegard.nossum@oracle.com>
+cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Amit Shah <aams@amazon.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Solar Designer <solar@openwall.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>,
+        Will Deacon <will@kernel.org>, Willy Tarreau <w@1wt.eu>
+Subject: Re: [PATCH v2] Documentation/security-bugs: overhaul
+In-Reply-To: <20220606194850.26122-1-vegard.nossum@oracle.com>
+Message-ID: <nycvar.YFH.7.76.2206062326230.10851@cbobk.fhfr.pm>
+References: <20220606194850.26122-1-vegard.nossum@oracle.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-06_06,2022-06-03_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
- lowpriorityscore=0 phishscore=0 priorityscore=1501 mlxlogscore=709
- suspectscore=0 impostorscore=0 spamscore=0 malwarescore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206060081
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/6/22 4:33 PM, Matthew Rosato wrote:
-> Enable interpretive execution of zPCI instructions + adapter interruption
-> forwarding for s390x KVM vfio-pci.  This is done by triggering a routine
-> when the VFIO group is associated with the KVM guest, transmitting to
-> firmware a special token (GISA designation) to enable that specific guest
-> for interpretive execution on that zPCI device.  Load/store interpreation
-> enablement is then controlled by userspace (based upon whether or not a
-> SHM bit is placed in the virtual function handle).  Adapter Event
-> Notification interpretation is controlled from userspace via a new KVM
-> ioctl.
-> 
-> By allowing intepretation of zPCI instructions and firmware delivery of
-> interrupts to guests, we can reduce the frequency of guest SIE exits for
-> zPCI.
-> 
->  From the perspective of guest configuration, you passthrough zPCI devices
-> in the same manner as before, with intepretation support being used by
-> default if available in kernel+qemu.
-> 
-> Will follow up with a link the most recent QEMU series.
-> 
+On Mon, 6 Jun 2022, Vegard Nossum wrote:
 
-Latest QEMU series:
+> The current instructions for reporting security vulnerabilities in the
+> kernel are not clear enough, in particular the process of disclosure
+> and requesting CVEs, and what the roles of the different lists are and
+> how exactly to report to each of them.
+> 
+> Let's give this document an overhaul. Goals are stated as a comment at
+> the bottom of the document; these will not appear in the rendered HTML
+> document.
+> 
+> v2: address feedback from Willy Tarreau and Jonathan Corbet
+> 
+> Link: https://seclists.org/oss-sec/2022/q2/133
+> Cc: Amit Shah <aams@amazon.com>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: David Woodhouse <dwmw@amazon.co.uk>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Cc: Jiri Kosina <jkosina@suse.cz>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Laura Abbott <labbott@kernel.org>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Solar Designer <solar@openwall.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Thorsten Leemhuis <linux@leemhuis.info>
+> Cc: Tyler Hicks <tyhicks@linux.microsoft.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Willy Tarreau <w@1wt.eu>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+> ---
+>  Documentation/admin-guide/security-bugs.rst | 252 +++++++++++++-------
+>  1 file changed, 167 insertions(+), 85 deletions(-)
+> 
+> v1 thread:
+> https://lore.kernel.org/all/20220531230309.9290-1-vegard.nossum@oracle.com/T/#u
+> 
+> Updated rendered HTML:
+> https://vegard.github.io/security/Documentation/output/admin-guide/security-bugs-v2.html
+> 
+> diff --git a/Documentation/admin-guide/security-bugs.rst b/Documentation/admin-guide/security-bugs.rst
+> index 82e29837d5898..c63eeb1e89ffd 100644
+> --- a/Documentation/admin-guide/security-bugs.rst
+> +++ b/Documentation/admin-guide/security-bugs.rst
 
-https://lore.kernel.org/kvm/20220606203614.110928-1-mjrosato@linux.ibm.com/
+Thanks for investing time into fixing this aged document.
+
+Two rather minor things come to my mind, but as you are touching that 
+document anyway ...
+
+- what sense does it make to have embargoed-hardware-issues.rst and 
+  security-bugs.rst live in different Documentation/ subdirectories 
+  (admin-guide/ vs process/)? It'd seem to make sense to me to have them 
+  in one common place?
+
+- would it make sense to briefly reference embargoed-hardware-issues.rst 
+  somewhere in this text, to make the distinction as obvious as possible? 
+  It's referenced the other way around.
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
+
