@@ -2,143 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C1E0C43334
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 15:08:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A5AAC43334
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 15:25:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240099AbiFFPIm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 11:08:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52102 "EHLO
+        id S240561AbiFFPZv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jun 2022 11:25:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240093AbiFFPIk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 11:08:40 -0400
-Received: from 1wt.eu (wtarreau.pck.nerim.net [62.212.114.60])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5184DC687F;
-        Mon,  6 Jun 2022 08:08:37 -0700 (PDT)
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 256F72xB004867;
-        Mon, 6 Jun 2022 17:07:02 +0200
-Date:   Mon, 6 Jun 2022 17:07:02 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Vegard Nossum <vegard.nossum@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Amit Shah <aams@amazon.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Kees Cook <keescook@chromium.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Solar Designer <solar@openwall.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Tyler Hicks <tyhicks@canonical.com>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH] Documentation/security-bugs: overhaul
-Message-ID: <20220606150702.GA4838@1wt.eu>
-References: <20220531230309.9290-1-vegard.nossum@oracle.com>
- <20220601031254.GB26318@1wt.eu>
- <42200c3e-fb39-ddab-3d68-5dfb5eb89451@oracle.com>
- <20220603064924.GC29741@1wt.eu>
- <303283d9-5f1c-8bc7-6286-ce284de012a8@oracle.com>
+        with ESMTP id S240507AbiFFPZu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 11:25:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D68201C592C;
+        Mon,  6 Jun 2022 08:25:49 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7BEA46150D;
+        Mon,  6 Jun 2022 15:25:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFE67C3411F;
+        Mon,  6 Jun 2022 15:25:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654529148;
+        bh=x0uXsLwTwFEBoP5Y4DzIg5PaJ2+JUPnZLKqBkqVTUMo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Vke6M47fqUm7VYR6UmDGcA+tvqYqLIYqhnvzzkaF+a/m0SLTwO13NeNjOLytmswri
+         AdBRm0/svrkxEm9j/9stuQ4YdtwynSd94CIga8MsoLUpFQg7T26FWPitDyo6i5/mNK
+         uBUE+I8Djq13ahPSj5wAX5pXjhPcrfYxMBU/BgBFkCrsXMzTt2z+hyBTnB/4x2exLR
+         sNvAm8kpuQC4e7qnLqpyJ64TSKI42MYsd4c0AFn6RxKi6RXhNk6AcbmlW6Gg1RSfQK
+         S1ZlvDuxBPSYe0Umaix+oOhKO/CqQoWH68gKPEakFqZQQNz/+yYzxGeWp3NyL8LOVm
+         Ap8/FyyuLp2LQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.95)
+        (envelope-from <mchehab@kernel.org>)
+        id 1nyEby-0012P2-4L;
+        Mon, 06 Jun 2022 16:25:46 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 05/23] dt-bindings: mfd: rk808: update rockchip,rk808.yaml reference
+Date:   Mon,  6 Jun 2022 16:25:27 +0100
+Message-Id: <417281c270e098eefed763859480014bec75c883.1654529011.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <cover.1654529011.git.mchehab@kernel.org>
+References: <cover.1654529011.git.mchehab@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <303283d9-5f1c-8bc7-6286-ce284de012a8@oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vegard,
+Changeset 6c38ca03406e ("dt-bindings: mfd: rk808: Convert bindings to yaml")
+renamed: Documentation/devicetree/bindings/mfd/rk808.txt
+to: Documentation/devicetree/bindings/mfd/rockchip,rk808.yaml.
 
-On Mon, Jun 06, 2022 at 04:21:40PM +0200, Vegard Nossum wrote:
-> I think this points to a bigger problem, but not with CVEs being held up
-> as trophies. There's already a huge monetary incentive to find bugs and
-> sell them as 0-days so IMHO we _should_ be encouraging people to find
-> bugs and either fix or report them, whether privately or publicly. If
-> having CVEs helps with that, that ought to be a good thing...
+Update its cross-reference accordingly.
 
-Yes I'm fine with this approach, provided that we encourage the reporters
-to figure by themselves where to report them. In my opinion, what only
-refers to very old hardware, to anything that's not built by default,
-that requires code change to prove the problem, or that is only
-theoretical ought not be sent to a closed list. The purpose of closed
-lists is to deal with emergencies, issues that could put users in trouble
-if they were disclosed before a fix is merged.
+Fixes: 6c38ca03406e ("dt-bindings: mfd: rk808: Convert bindings to yaml")
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
 
-> If you think a reported issue is not security-relevant, can you not
-> simply ask/encourage the reporter to make a public post instead?
+To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+See [PATCH 00/23] at: https://lore.kernel.org/all/cover.1654529011.git.mchehab@kernel.org/
 
-We regularly do, but it's important also not to send a cold shower to
-the person who already prepared their work and report in a direction
-that they thought was the most suitable one, just to learn the hard
-way that what they found was not that important.
+ Documentation/devicetree/bindings/pinctrl/pinctrl-rk805.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> If the security team is swamped with legitimate, security-relevant
-> reports, then that sounds like an issue with manpower and/or
-> organization. In my (admittedly limited) experience, Linus tends to be
-> one of the first to reply, so maybe having a designated person or group
-> to triage issues (maybe in a rota system) before engaging the rest of
-> the team could take some of the pressure off?
+diff --git a/Documentation/devicetree/bindings/pinctrl/pinctrl-rk805.txt b/Documentation/devicetree/bindings/pinctrl/pinctrl-rk805.txt
+index cbcbd31e3ce8..939cb5b6ffea 100644
+--- a/Documentation/devicetree/bindings/pinctrl/pinctrl-rk805.txt
++++ b/Documentation/devicetree/bindings/pinctrl/pinctrl-rk805.txt
+@@ -27,7 +27,7 @@ Required properties:
+ - pins: List of pins. Valid values of pins properties are: gpio0, gpio1.
+ 
+ First 2 properties must be added in the RK805 PMIC node, documented in
+-Documentation/devicetree/bindings/mfd/rk808.txt
++Documentation/devicetree/bindings/mfd/rockchip,rk808.yaml
+ 
+ Optional properties:
+ -------------------
+-- 
+2.36.1
 
-Actually all of the members are expected to respond. I personally
-consider it as a failure when Linus has to respond to a message that
-stayed there for a while. And it does happen quite a bit, yes. I guess
-that often none of us feels like we're knowledgeable on a particular
-report.
-
-> > As such I think that we could mention something along:
-> > 
-> >   Upon reporters' request in case a forthcoming presentation of the issue
-> >   is planned, it may occasionally be accepted to temporarily keep out some
-> >   of the detailed impacts of the issue, however the security team reserves
-> >   the right to publicize these details if no other publication happens in
-> >   a reasonable time frame or as soon as the fixes are found to cause a
-> >   regression.
-> > 
-> > Because quite frankly, not being able to explain exactly why a patch is
-> > done this way and not slightly differently is not acceptable.
-> 
-> This unfortunately directly contradicts the current policy as stated:
-> 
-> "All other information submitted to the security list and any followup
-> discussions of the report are treated confidentially even after the
-> embargo has been lifted, in perpetuity."
-
-IMHO there's a big difference between disclosing confidential information
-(which we never do) and explaining what makes a bug have a security
-impact. The purpose of the commit message is to serve as arguments to
-defend the commit's presence in the tree. Most of the info must be there,
-except what's not needed to understand the bug (e.g. exploitation method).
-Then the rest of the details ought to be disclosed fast enough for the
-commit to be defended. Of course the context where the issue was discovered
-has to remain confidential.
-
-> So again, unless there's a clear consensus to change this, I wouldn't be
-> comfortable making the change now.
-
-Yeah I'm fine with this of course, but I wanted to take the opportunity
-of your discussion to bring these concerns since they're also about the
-instructions in the doc.
-
-> If I could make a different suggestion (which is in the same spirit as
-> the rewrite, actually), the security team could encourage the reporter
-> to report to linux-distros once there is a patch or the patch is public
-> -- that way, it's: 1) not on the security team to disclose anything, 2)
-> distros get a heads up on the patch, and 3) everybody gets to know about
-> the security impact of the bug when it is eventually posted to
-> oss-security within 1-2 weeks.
-
-Maybe that could work, let's keep thinking about this.
-
-> Thanks for your comments/explanations, it certainly helps to have more
-> perspective.
-
-You're welcome. We're all in the same boat :-)
-
-Willy
