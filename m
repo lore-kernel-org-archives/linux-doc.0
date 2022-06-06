@@ -2,72 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60F9EC43334
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 15:34:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0922C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 15:37:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240537AbiFFPeO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 11:34:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36254 "EHLO
+        id S240932AbiFFPhn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jun 2022 11:37:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240834AbiFFPeO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 11:34:14 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 911443135B;
-        Mon,  6 Jun 2022 08:34:05 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5C0B2D6E;
-        Mon,  6 Jun 2022 08:34:05 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4B97D3F73B;
-        Mon,  6 Jun 2022 08:34:04 -0700 (PDT)
-Date:   Mon, 6 Jun 2022 16:34:01 +0100
-From:   Andre Przywara <andre.przywara@arm.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: [PATCH 14/23] MAINTAINERS: update arm,hdlcd.yaml reference
-Message-ID: <20220606163401.13e5bea3@donnerap.cambridge.arm.com>
-In-Reply-To: <714c3b6e10736d51268b9d71b97829a224b3bae1.1654529011.git.mchehab@kernel.org>
-References: <cover.1654529011.git.mchehab@kernel.org>
-        <714c3b6e10736d51268b9d71b97829a224b3bae1.1654529011.git.mchehab@kernel.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+        with ESMTP id S240925AbiFFPhm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 11:37:42 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D994C20BD8
+        for <linux-doc@vger.kernel.org>; Mon,  6 Jun 2022 08:37:40 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id me5so29192311ejb.2
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jun 2022 08:37:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=TPOApYvb6Wxwe5KarWLI1DK2xlnELfMdmLjwPBhUFmY=;
+        b=xrtvxq07G0Balt8gqFW0xfBnb/KqOGRnSXQmweTC1TqHRtRmMB5Bh3SvoaPCjDVZAl
+         P/aPuE1HqZbPccP4zpOozDQ9Gq9/m5EvyK7WlkVZX4c1s9eK/NG2S3AjSAcEIOfVOjaQ
+         736slRtSeLnDfPGFQLrS1Fqyv3hmnkGTRWxg+UIjmMUXXCP13AIhHnFlGyJBerj6kcUn
+         05eA8tuaZvVdnTvXm0Q9jc20DHMXiNmttyvKF6udj6REH04kfJ/lUQAMRvhTIsumMwlM
+         IH+2UF009KRW9/MJSIKfUEiw++VZFKtsS3FSjqjUZHETbMSyq8CkbvciVrO3ki2IhNZJ
+         1reQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=TPOApYvb6Wxwe5KarWLI1DK2xlnELfMdmLjwPBhUFmY=;
+        b=Jz+GYrBeXPoj695Zvb/3lygfpLuvUsnF0YG3GdwcSYGUYINX3K7gr1VdGhwTXebKhQ
+         3shmDZIxsqkHSToISZj0HtWYpPTeLbXbdaz9xl33c/C2rXQplntvIah7VU+uNS+dQGIG
+         7Je/H2gyGHwCGFRe5EPyYsNlDGqx6MzdRxRX6njMDmhupeD6BygIleI02mdL1BdSpqhP
+         mK4PJ1mZBXj/Iv+NgZHS2l7/IFkFVj/JEbsmz4FLi/Edjt1ugIRJckqzNmrw2GS9aVhC
+         g+tyUzK5Ifdk+AY+ZSlQd4yUt2WhRSZ2qGhL372Kwj2AeN9YaPw8yy+ZXDvKlYNC7VhQ
+         Tuiw==
+X-Gm-Message-State: AOAM530j2cCjDTw5A0Rb8BoTlKbeQKnJA86/n7b0NtvmN8BHTt2I9YyT
+        Vc5Z/5T3H2Qgo99Fo5yq/Ps5pQ==
+X-Google-Smtp-Source: ABdhPJyTldoWxgNbTyUfoG0DE5atMlvTxvy7y3jeS4TIndwvgOwStVK1T0DxwBIHX1tbTfm5woE5lw==
+X-Received: by 2002:a17:907:724a:b0:6ff:2ed0:960 with SMTP id ds10-20020a170907724a00b006ff2ed00960mr22376130ejc.480.1654529859405;
+        Mon, 06 Jun 2022 08:37:39 -0700 (PDT)
+Received: from [192.168.0.181] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id e26-20020a1709062c1a00b00711d88ae162sm669769ejh.24.2022.06.06.08.37.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jun 2022 08:37:38 -0700 (PDT)
+Message-ID: <8bd4323e-9005-6a15-b94b-c49427fffa68@linaro.org>
+Date:   Mon, 6 Jun 2022 17:37:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 19/23] MAINTAINERS: update maxim,max77693.yaml reference
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+References: <cover.1654529011.git.mchehab@kernel.org>
+ <6a87dfb278765465d82ad4641a42ae4de0ded392.1654529011.git.mchehab@kernel.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <6a87dfb278765465d82ad4641a42ae4de0ded392.1654529011.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon,  6 Jun 2022 16:25:36 +0100
-Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
-
-Hi Mauro,
-
-> Changeset 36fd2a65bcaf ("dt-bindings: display: convert Arm HDLCD to DT schema")
-> renamed: Documentation/devicetree/bindings/display/arm,hdlcd.txt
-> to: Documentation/devicetree/bindings/display/arm,hdlcd.yaml.
+On 06/06/2022 17:25, Mauro Carvalho Chehab wrote:
+> Changeset b38213c6118b ("dt-bindings: mfd: maxim,max77693: Convert to dtschema")
+> renamed: Documentation/devicetree/bindings/mfd/max77693.txt
+> to: Documentation/devicetree/bindings/mfd/maxim,max77693.yaml.
 > 
 > Update its cross-reference accordingly.
+> 
+> Fixes: b38213c6118b ("dt-bindings: mfd: maxim,max77693: Convert to dtschema")
 
-So Lukas sent the same thing already last week:
-https://lore.kernel.org/linux-kernel/20220601041746.22986-1-lukas.bulwahn@gmail.com/
+I look at that commit and it performs proper update of Maintainers file.
+It is not the commit which introduced the issue, so the fixes tag is wrong.
 
-His patch covered all of the three ARM display updates (14, 15, 16/23
-in this series) in one go.
-Not sure where to go from here, or if Lukas' patch already made it
-somewhere.
+The commit which introduced the issue is I think within Lee's branches:
 
-If we go ahead with this series instead, please feel free to copy my ACK
-from the other patch.
+Fixes: afb67df31a8c ("Merge branches 'ib-mfd-hwmon-regulator-5.18',
+'ib-mfd-iio-5.18', 'ib-mfd-led-power-regulator-5.18',
+'ib-mfd-mediatek-mt6366-5.18', 'ib-mfd-rtc-watchdog-5.18' and
+'ib-mfd-spi-dt-5.18' into ibs-for-mfd-merged")
 
-Cheers,
-Andre
 
-> Fixes: 36fd2a65bcaf ("dt-bindings: display: convert Arm HDLCD to DT schema")
+
 > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 > ---
 > 
@@ -78,16 +102,20 @@ Andre
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index a6d3bd9d2a8d..c20bd168d209 100644
+> index a11aa7ebb6af..dc64a23d0bdc 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -1507,7 +1507,7 @@ F:	drivers/clocksource/arm_arch_timer.c
->  ARM HDLCD DRM DRIVER
->  M:	Liviu Dudau <liviu.dudau@arm.com>
->  S:	Supported
-> -F:	Documentation/devicetree/bindings/display/arm,hdlcd.txt
-> +F:	Documentation/devicetree/bindings/display/arm,hdlcd.yaml
->  F:	drivers/gpu/drm/arm/hdlcd_*
->  
->  ARM INTEGRATOR, VERSATILE AND REALVIEW SUPPORT
+> @@ -12118,7 +12118,7 @@ F:	Documentation/devicetree/bindings/*/maxim,max77686.yaml
+>  F:	Documentation/devicetree/bindings/*/maxim,max77693.yaml
+>  F:	Documentation/devicetree/bindings/*/maxim,max77843.yaml
+>  F:	Documentation/devicetree/bindings/clock/maxim,max77686.txt
+> -F:	Documentation/devicetree/bindings/mfd/max77693.txt
+> +F:	Documentation/devicetree/bindings/mfd/maxim,max77693.yaml
 
+This "+" is not correct. The entry is already properly covered.
+
+Just remove the max77693.txt.
+
+
+Best regards,
+Krzysztof
