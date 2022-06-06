@@ -2,128 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46437CCA481
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 15:44:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EFE6CCA473
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 15:57:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241056AbiFFPoR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 11:44:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55982 "EHLO
+        id S241074AbiFFP5F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jun 2022 11:57:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241059AbiFFPoQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 11:44:16 -0400
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C6FECC15D;
-        Mon,  6 Jun 2022 08:44:15 -0700 (PDT)
-Received: by mail-oo1-xc2d.google.com with SMTP id ay16-20020a056820151000b0041b71517844so958763oob.4;
-        Mon, 06 Jun 2022 08:44:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=1Dyxrxglk8UzaHWlu8Ip8w2vSs7l7OGlq6jwwOsQ960=;
-        b=BwrNGtzgFqc5GBs+deBOcDtRAxLlmSKd/PBfifxCqtEON0K0Xetx9idzSHIQMwV5SA
-         9f2Lh+l8E89eWdqBoG0wndpJIL4MrXW9B2Z0988Ek2KK4sF5EGuuyAq7HZD0Ne+AbimE
-         TGNYT2BK0SktuwFMDQip7/3ArorHNXsQ8yuWySv1otJ8/qyNvpJFPgCcDTeyh864sVq2
-         pezAVQqrB9W5SXgH36eWHugxjPI8TZTv1DBDpYyrqYQtjH202Y//b+rcc6ABMSaFiOMf
-         ndiybo/ZM8ybLw47HKBm7WsJk1HwxEB1xnxOEWc3TAD7Aao8nS5QOyvldisyxMopaGZ1
-         0IUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=1Dyxrxglk8UzaHWlu8Ip8w2vSs7l7OGlq6jwwOsQ960=;
-        b=YbO5WgRttcIfuy2Bv8noKDYE6981tpEhEjrKjiFhsJMKHfhp5bq+gq/JtbzdRZjiZw
-         HRGxiD/J1MciCb3OqnRNWXFyy04cdKUOTt7H4Br7pEOVkQ730ojiqVkUWYyhlZ7ryqpj
-         jjh2+TgS+5kw6Bje0jP0Tv3afsP4PMJGQuepYkXuqEtOVIkbUqGV5ZL2cNZLrBVdNwUf
-         PcYWgXPhjSRzufdoLfSbp3oBtnMwXXMfcWUQANR4sfrTWdaGcjIw7HR6IWGDr6ES4Xkq
-         jyeIzyrf8XRrC3A2+REaANYf//VZQncdlhtlOWmjXS9FeKdsdFpOWYxDadEBtSz7QrLk
-         4ItQ==
-X-Gm-Message-State: AOAM532u87Q1gIsH0w2ZUHS8uzpWABiAKMQ/vX/uMT9KbWN1GXcPsu5L
-        58kY5pJ/3aAqyJwlsPJNXaE=
-X-Google-Smtp-Source: ABdhPJy1zCj2ZN6ndVK4A6V4NXnjLvRe27BQH9UEBJSslBjosstbd4cuAI508h2hMmqaKojcUerFng==
-X-Received: by 2002:a4a:4f16:0:b0:41b:6f0e:4acc with SMTP id c22-20020a4a4f16000000b0041b6f0e4accmr4734194oob.33.1654530254919;
-        Mon, 06 Jun 2022 08:44:14 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id m4-20020a9d6084000000b0060b1f3924c3sm8318726otj.44.2022.06.06.08.44.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jun 2022 08:44:14 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <451ad3f1-e365-e136-fa1b-c7bb0b05a15f@roeck-us.net>
-Date:   Mon, 6 Jun 2022 08:44:11 -0700
+        with ESMTP id S241168AbiFFP5E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 11:57:04 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19D7C1D0DF;
+        Mon,  6 Jun 2022 08:57:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=hU4R6/iBUp/dtfX8tAmKB9EUg/WAL2XOAVfbzaq0EuI=; b=g/yFzWijqEL9LMtS5EQv5ECnHg
+        hUKbaD3IP81alwyiJ4M+Iouw1RTHClicmOLvYX/p/+fpvEBOGbNYYg80TOcmDW6u7OPFb+8LvLD16
+        b7a3HQFKdn+rNC8Z+wUibs6Gi3cTnSla/iHwicYSBCyAub4EPJOxSaPdQ0mUXU6ZcgHB4T+RRAtZp
+        o/uuWLb3AxKdtSCVKkMDKqVPbj9Og7YVWBcqsKZqsF7WdRd4w0cNSUg63PKYO8UQJjeUiWBdXdCay
+        22mAamJMNE8fsPbp2wFLsmSw6Pwjzwl4Uc4OvoiPYt1flrO/fgC6MHYu4SZJNigTZcBq9HGzpOoB1
+        w8Ckvcbg==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nyF61-005URP-SA; Mon, 06 Jun 2022 15:56:51 +0000
+Message-ID: <d01a18b0-f582-f1de-eab5-78e34f014e7b@infradead.org>
+Date:   Mon, 6 Jun 2022 08:56:38 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 03/23] dt-bindings: arm: update vexpress-config.yaml
- references
+Subject: Re: [PATCH 09/23] Documentation: update watch_queue.rst references
 Content-Language: en-US
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andre Przywara <andre.przywara@arm.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Chris Down <chris@chrisdown.name>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Kees Cook <keescook@chromium.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Peter Xu <peterx@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>, keyrings@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 References: <cover.1654529011.git.mchehab@kernel.org>
- <7020edd9e183652249fc95bf61a1055cc342a4dc.1654529011.git.mchehab@kernel.org>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <7020edd9e183652249fc95bf61a1055cc342a4dc.1654529011.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <6fc832114fac77b56b9e47aa300654bf30cc0fad.1654529011.git.mchehab@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <6fc832114fac77b56b9e47aa300654bf30cc0fad.1654529011.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Mauro,
+
 On 6/6/22 08:25, Mauro Carvalho Chehab wrote:
-> Changeset 7e8339b5162f ("dt-bindings: arm: convert vexpress-config to DT schema")
-> renamed: Documentation/devicetree/bindings/arm/vexpress-sysreg.txt
-> to: Documentation/devicetree/bindings/arm/vexpress-config.yaml.
+> Changeset f5461124d59b ("Documentation: move watch_queue to core-api")
+> renamed: Documentation/watch_queue.rst
+> to: Documentation/core-api/watch_queue.rst.
 > 
 > Update the cross-references accordingly.
 > 
-> Fixes: 7e8339b5162f ("dt-bindings: arm: convert vexpress-config to DT schema")
+> Fixes: f5461124d59b ("Documentation: move watch_queue to core-api")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-Acked-by: Guenter Roeck <linux@roeck-us.net>
-
 > ---
+
+Oops. Thanks for the update.
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
 > 
 > To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 > See [PATCH 00/23] at: https://lore.kernel.org/all/cover.1654529011.git.mchehab@kernel.org/
 > 
->   Documentation/devicetree/bindings/hwmon/vexpress.txt     | 2 +-
->   Documentation/devicetree/bindings/regulator/vexpress.txt | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/security/keys/core.rst | 2 +-
+>  include/linux/watch_queue.h          | 2 +-
+>  init/Kconfig                         | 2 +-
+>  kernel/watch_queue.c                 | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/vexpress.txt b/Documentation/devicetree/bindings/hwmon/vexpress.txt
-> index 9c27ed694bbb..4a4df4ffc460 100644
-> --- a/Documentation/devicetree/bindings/hwmon/vexpress.txt
-> +++ b/Documentation/devicetree/bindings/hwmon/vexpress.txt
-> @@ -9,7 +9,7 @@ Requires node properties:
->   	"arm,vexpress-power"
->   	"arm,vexpress-energy"
->   - "arm,vexpress-sysreg,func" when controlled via vexpress-sysreg
-> -  (see Documentation/devicetree/bindings/arm/vexpress-sysreg.txt
-> +  (see Documentation/devicetree/bindings/arm/vexpress-config.yaml
->     for more details)
->   
->   Optional node properties:
-> diff --git a/Documentation/devicetree/bindings/regulator/vexpress.txt b/Documentation/devicetree/bindings/regulator/vexpress.txt
-> index d775f72487aa..1c2e92c7831e 100644
-> --- a/Documentation/devicetree/bindings/regulator/vexpress.txt
-> +++ b/Documentation/devicetree/bindings/regulator/vexpress.txt
-> @@ -4,7 +4,7 @@ Versatile Express voltage regulators
->   Requires node properties:
->   - "compatible" value: "arm,vexpress-volt"
->   - "arm,vexpress-sysreg,func" when controlled via vexpress-sysreg
-> -  (see Documentation/devicetree/bindings/arm/vexpress-sysreg.txt
-> +  (see Documentation/devicetree/bindings/arm/vexpress-config.yaml
->     for more details)
->   
->   Required regulator properties:
+> diff --git a/Documentation/security/keys/core.rst b/Documentation/security/keys/core.rst
+> index b3ed5c581034..811b905b56bf 100644
+> --- a/Documentation/security/keys/core.rst
+> +++ b/Documentation/security/keys/core.rst
+> @@ -1046,7 +1046,7 @@ The keyctl syscall functions are:
+>       "filter" is either NULL to remove a watch or a filter specification to
+>       indicate what events are required from the key.
+>  
+> -     See Documentation/watch_queue.rst for more information.
+> +     See Documentation/core-api/watch_queue.rst for more information.
+>  
+>       Note that only one watch may be emplaced for any particular { key,
+>       queue_fd } combination.
+> diff --git a/include/linux/watch_queue.h b/include/linux/watch_queue.h
+> index 3b9a40ae8bdb..fc6bba20273b 100644
+> --- a/include/linux/watch_queue.h
+> +++ b/include/linux/watch_queue.h
+> @@ -4,7 +4,7 @@
+>   * Copyright (C) 2020 Red Hat, Inc. All Rights Reserved.
+>   * Written by David Howells (dhowells@redhat.com)
+>   *
+> - * See Documentation/watch_queue.rst
+> + * See Documentation/core-api/watch_queue.rst
+>   */
+>  
+>  #ifndef _LINUX_WATCH_QUEUE_H
+> diff --git a/init/Kconfig b/init/Kconfig
+> index c984afc489de..c84ceb2b2b9f 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -414,7 +414,7 @@ config WATCH_QUEUE
+>  	  with watches for key/keyring change notifications and device
+>  	  notifications.
+>  
+> -	  See Documentation/watch_queue.rst
+> +	  See Documentation/core-api/watch_queue.rst
+>  
+>  config CROSS_MEMORY_ATTACH
+>  	bool "Enable process_vm_readv/writev syscalls"
+> diff --git a/kernel/watch_queue.c b/kernel/watch_queue.c
+> index 230038d4f908..869fea4fe26b 100644
+> --- a/kernel/watch_queue.c
+> +++ b/kernel/watch_queue.c
+> @@ -4,7 +4,7 @@
+>   * Copyright (C) 2020 Red Hat, Inc. All Rights Reserved.
+>   * Written by David Howells (dhowells@redhat.com)
+>   *
+> - * See Documentation/watch_queue.rst
+> + * See Documentation/core-api/watch_queue.rst
+>   */
+>  
+>  #define pr_fmt(fmt) "watchq: " fmt
 
+-- 
+~Randy
