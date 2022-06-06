@@ -2,50 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F8EACCA482
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F127CCA481
 	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 15:26:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240625AbiFFPZz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 11:25:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46000 "EHLO
+        id S240612AbiFFPZ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jun 2022 11:25:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240565AbiFFPZv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 11:25:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB4751CD340;
-        Mon,  6 Jun 2022 08:25:50 -0700 (PDT)
+        with ESMTP id S240589AbiFFPZw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 11:25:52 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 958BA1CD356;
+        Mon,  6 Jun 2022 08:25:51 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1835261519;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1EE25B81A88;
         Mon,  6 Jun 2022 15:25:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7BA9C341CA;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAC0DC34115;
         Mon,  6 Jun 2022 15:25:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654529149;
-        bh=HX77o3GbP6StQGsmQNWtxrZSPmAY70fcGW/50iB60UM=;
+        s=k20201202; t=1654529148;
+        bh=CWKvRxVJEPNnkZuKvwuAotxoLsRKd2ZdPiOn4+Y3dXQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=s9/yhptvDXGC62EWjCN9/23AE9//q71Xm8NvXmnBg+QHhBfORkclu0uFVDhhDrOmv
-         vVRudrbYG0KpPqaKG3pSovGItwyqpIz4gAwxRwS/EMUOHz0+GGt3feFL93pM2MWf0g
-         5aVmu7XR7MpRMn7+pkRO5dnib/Fapm94XG7tEvTcacoJqinocJdlG6T8vL7OoG89YE
-         6TZ12UTAuVqrgjPUWURnPlwWBXA1HADxidBq54xvJhttueY7wQn27dYU+zrNjo+M0o
-         f6MQ/P1oWpXLa1iCW/LbG8+vJN6DQt/sQWY2jZeLKg4L3FnAwfqs1rb0Klx15H1pQx
-         eBmI2stxwjv1A==
+        b=UUiWbhzd2oW4FU2k1AAzQfAjDWWc9dpVWluuxBuRlIg6QMG6f6NeGh1NpnaZLc3m9
+         FGizPPKZgYhRxwDRLt2/8fmqILgFRap+BU2lpj6w33JVaahSn31Hyq+gxyVA/2tm+R
+         bKkmdWk3cq2SsKVDf5Fof3S7Q8knxxQjUg9rUVZGWEuvZdopY4bk+wCRjsvSf1ZmSv
+         Fbt5PV0nwtiC5SL9VUjLaf10BybRGjM7dUdYz7N6Yh8IRnxNOmLLpNQViSCDPVQd4I
+         ytTtXZkX0FxrpeWxHAYmlU6FwLiwbEVKLrJoHnlbPlG0XK8aiy9Cwv2VPYrzeo4CoL
+         kpovps62vytIw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
         (envelope-from <mchehab@kernel.org>)
-        id 1nyEby-0012Pp-Cy;
+        id 1nyEby-0012Pe-BY;
         Mon, 06 Jun 2022 16:25:46 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 18/23] MAINTAINERS: update dongwoon,dw9807-vcm.yaml reference
-Date:   Mon,  6 Jun 2022 16:25:40 +0100
-Message-Id: <89f11772dd4afe9700d6cbbb3da8749eb98b396a.1654529011.git.mchehab@kernel.org>
+        Andre Przywara <andre.przywara@arm.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 16/23] MAINTAINERS: update arm,malidp.yaml reference
+Date:   Mon,  6 Jun 2022 16:25:38 +0100
+Message-Id: <191336fcb78d93bcd46ebf425e382e4c78824e03.1654529011.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1654529011.git.mchehab@kernel.org>
 References: <cover.1654529011.git.mchehab@kernel.org>
@@ -55,13 +54,13 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset a1f4626b282d ("media: dt-bindings: Convert Dongwoon dw9807-vcm bindings to json-schema")
-renamed: Documentation/devicetree/bindings/media/i2c/dongwoon,dw9807-vcm.txt
-to: Documentation/devicetree/bindings/media/i2c/dongwoon,dw9807-vcm.yaml.
+Changeset 2c8b082a3ab1 ("dt-bindings: display: convert Arm Mali-DP to DT schema")
+renamed: Documentation/devicetree/bindings/display/arm,malidp.txt
+to: Documentation/devicetree/bindings/display/arm,malidp.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: a1f4626b282d ("media: dt-bindings: Convert Dongwoon dw9807-vcm bindings to json-schema")
+Fixes: 2c8b082a3ab1 ("dt-bindings: display: convert Arm Mali-DP to DT schema")
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 
@@ -72,18 +71,18 @@ See [PATCH 00/23] at: https://lore.kernel.org/all/cover.1654529011.git.mchehab@k
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index e122b6946063..a11aa7ebb6af 100644
+index aba64cae8f68..91b3ed8ef420 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -6078,7 +6078,7 @@ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
--F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9807-vcm.txt
-+F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9807-vcm.yaml
- F:	drivers/media/i2c/dw9807-vcm.c
+@@ -1564,7 +1564,7 @@ M:	Brian Starkey <brian.starkey@arm.com>
+ L:	Mali DP Maintainers <malidp@foss.arm.com>
+ S:	Supported
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+-F:	Documentation/devicetree/bindings/display/arm,malidp.txt
++F:	Documentation/devicetree/bindings/display/arm,malidp.yaml
+ F:	Documentation/gpu/afbc.rst
+ F:	drivers/gpu/drm/arm/
  
- DOUBLETALK DRIVER
 -- 
 2.36.1
 
