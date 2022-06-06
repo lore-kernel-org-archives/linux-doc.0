@@ -2,173 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD4E9C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 10:06:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B3A1C43334
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 12:04:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233471AbiFFKGM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 06:06:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42452 "EHLO
+        id S235895AbiFFMEF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jun 2022 08:04:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233472AbiFFKGG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 06:06:06 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3408A12D1D5;
-        Mon,  6 Jun 2022 03:05:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654509958; x=1686045958;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=3ePdwoX+DSakNv+ndMXaVUewbzkFOgoQ5XvDH6NwVyI=;
-  b=VjDQ8wbVggOR2ISOSCz8yGUU60pdMVS6YISTfxQQvDO45BkoG10x75+D
-   grrMyxGgNUxJy0NcWF7YYJ8lh475HnYvRyLslZN9wcjpd4PeYgVPNQSRv
-   KOx7YpCAbfPO4UVVs9PhvlrlbohJuu1+aRty19ClDAMFJqIWcbX2nLCy/
-   U1t2m+jGPgNl9vg14xV49/G4gQYFJ/k2VfwK61ISp3tamTfxSlpfjwSci
-   xihsUtidViodI/jqTb7eecArwu/00tJYBteR933pzgGBbwMEvX3xCfqC1
-   i97Y7GWbKXiZqPRhGu8uDD5sKYx8LRWFdD6B6v6yTgWH1grwEjAFWAaw/
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10369"; a="362987071"
-X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; 
-   d="scan'208";a="362987071"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2022 03:05:58 -0700
-X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; 
-   d="scan'208";a="635523793"
-Received: from amkossek-mobl1.ger.corp.intel.com (HELO ijarvine-MOBL2.ger.corp.intel.com) ([10.252.57.11])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2022 03:05:55 -0700
-From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     linux-serial@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH 22/36] serial: Sanitize rs485_struct
-Date:   Mon,  6 Jun 2022 13:04:19 +0300
-Message-Id: <20220606100433.13793-23-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220606100433.13793-1-ilpo.jarvinen@linux.intel.com>
-References: <20220606100433.13793-1-ilpo.jarvinen@linux.intel.com>
+        with ESMTP id S235894AbiFFMEE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 08:04:04 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C3E513E16;
+        Mon,  6 Jun 2022 05:04:02 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id C0AE821A5C;
+        Mon,  6 Jun 2022 12:04:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1654517040; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=CZfbvYWKjKsB+23H/W7org8aRzTVXyVE8kdib5DA8+A=;
+        b=jcF8iBoG9VE/bG+eSReaeL4gfHyFGDthvx6RiW/gjsDWzhaqrw7aX+dln8LJCEc0kxKXNQ
+        tyrPd/7VLmrP8u6mmCPTTALWmexNRou2t6Y6LcmvJS88QN5wnv2mgh4iJ/LDFNbMpcSesH
+        50BPh3SjLuQOz4bNH+m3HkCt5KOCqew=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 3C6362C141;
+        Mon,  6 Jun 2022 12:04:00 +0000 (UTC)
+Date:   Mon, 6 Jun 2022 14:03:56 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Qi Zheng <zhengqi.arch@bytedance.com>
+Cc:     hannes@cmpxchg.org, roman.gushchin@linux.dev, shakeelb@google.com,
+        songmuchun@bytedance.com, akpm@linux-foundation.org,
+        corbet@lwn.net, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] mm: memcontrol: add {pgscan,pgsteal}_{kswapd,direct}
+ items in memory.stat of cgroup v2
+Message-ID: <Yp3tLNi0wybMw7La@dhcp22.suse.cz>
+References: <20220604082209.55174-1-zhengqi.arch@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220604082209.55174-1-zhengqi.arch@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sanitize serial_rs485 struct before calling into rs485_setup. The
-drivers provide supported_rs485 to help sanitization of the fields.
+On Sat 04-06-22 16:22:09, Qi Zheng wrote:
+> There are already statistics of {pgscan,pgsteal}_kswapd and
+> {pgscan,pgsteal}_direct of memcg event here, but now only the
+> sum of the two is displayed in memory.stat of cgroup v2.
+> 
+> In order to obtain more accurate information during monitoring
+> and debugging, and to align with the display in /proc/vmstat,
+> it better to display {pgscan,pgsteal}_kswapd and
+> {pgscan,pgsteal}_direct separately.
+> 
+> Also, for forward compatibility, we still display pgscan and
+> pgsteal items so that it won't break existing applications.
 
-If neither of SER_RS485_RTS_ON_SEND or SER_RS485_RTS_AFTER_SEND
-supported, don't pretend they can be set to sane settings but clear
-them both instead. If only one of them is supported it may look
-tempting to use the one driver supports to set the other, however, the
-userspace does not have that information readily available so it
-wouldn't be helpful.
+I do not remember why we have chosen to report cumulative stats rather
+than the direct and kswapd parts. Looking back when Roman has introduced
+those (http://lkml.kernel.org/r/1494530183-30808-1-git-send-email-guro@fb.com)
+I do not see any discussion around that. So it was likely just not
+a priority.
 
-While adjusting the documentation, remove also the claim that
-TIOCGRS485 would call driver specific code. In reality, it does nothing
-else than copies the stored serial_rs485 structure from uart_port to
-userspace.
+I have just one question. Say we even decide to have a per memcg kswapd
+in some form, would we report that into the same counter?
 
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
- .../driver-api/serial/serial-rs485.rst        | 12 ++++---
- drivers/tty/serial/serial_core.c              | 33 ++++++++++++++++---
- 2 files changed, 37 insertions(+), 8 deletions(-)
+> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+> Acked-by: Roman Gushchin <roman.gushchin@linux.dev>
+> Acked-by: Muchun Song <songmuchun@bytedance.com>
 
-diff --git a/Documentation/driver-api/serial/serial-rs485.rst b/Documentation/driver-api/serial/serial-rs485.rst
-index 6bc824f948f9..00b5d333acba 100644
---- a/Documentation/driver-api/serial/serial-rs485.rst
-+++ b/Documentation/driver-api/serial/serial-rs485.rst
-@@ -38,10 +38,14 @@ RS485 Serial Communications
-    the values given by the device tree.
- 
-    Any driver for devices capable of working both as RS232 and RS485 should
--   implement the rs485_config callback in the uart_port structure. The
--   serial_core calls rs485_config to do the device specific part in response
--   to TIOCSRS485 and TIOCGRS485 ioctls (see below). The rs485_config callback
--   receives a pointer to struct serial_rs485.
-+   implement the rs485_config callback and provide rs485_supported in the
-+   uart_port structure. The serial core calls rs485_config to do the device
-+   specific part in response to TIOCSRS485 ioctl (see below). The rs485_config
-+   callback receives a pointer to a sanitizated serial_rs485 structure. The
-+   serial_rs485 userspace provides is sanitized before calling rs485_config
-+   using rs485_supported that indicates what RS485 features the driver supports
-+   for the uart_port. TIOCGRS485 ioctl can be used to read back the
-+   serial_rs485 structure matching to the current configuration.
- 
- 4. Usage from user-level
- ========================
-diff --git a/drivers/tty/serial/serial_core.c b/drivers/tty/serial/serial_core.c
-index 44a50158552d..f0d7b3d20731 100644
---- a/drivers/tty/serial/serial_core.c
-+++ b/drivers/tty/serial/serial_core.c
-@@ -1278,36 +1278,61 @@ static int uart_get_icount(struct tty_struct *tty,
- 
- static void uart_sanitize_serial_rs485(struct uart_port *port, struct serial_rs485 *rs485)
- {
-+	u32 supported_flags = port->rs485_supported->flags;
-+
- 	/* pick sane settings if the user hasn't */
--	if (!(rs485->flags & SER_RS485_RTS_ON_SEND) ==
-+	if ((supported_flags & (SER_RS485_RTS_ON_SEND|SER_RS485_RTS_AFTER_SEND)) &&
-+	    !(rs485->flags & SER_RS485_RTS_ON_SEND) ==
- 	    !(rs485->flags & SER_RS485_RTS_AFTER_SEND)) {
- 		dev_warn_ratelimited(port->dev,
- 			"%s (%d): invalid RTS setting, using RTS_ON_SEND instead\n",
- 			port->name, port->line);
- 		rs485->flags |= SER_RS485_RTS_ON_SEND;
- 		rs485->flags &= ~SER_RS485_RTS_AFTER_SEND;
-+		supported_flags |= SER_RS485_RTS_ON_SEND|SER_RS485_RTS_AFTER_SEND;
- 	}
- 
--	if (rs485->delay_rts_before_send > RS485_MAX_RTS_DELAY) {
-+	if (!port->rs485_supported->delay_rts_before_send) {
-+		if (rs485->delay_rts_before_send) {
-+			dev_warn_ratelimited(port->dev,
-+				"%s (%d): RTS delay before sending not supported\n",
-+				port->name, port->line);
-+		}
-+		rs485->delay_rts_before_send = 0;
-+	} else if (rs485->delay_rts_before_send > RS485_MAX_RTS_DELAY) {
- 		rs485->delay_rts_before_send = RS485_MAX_RTS_DELAY;
- 		dev_warn_ratelimited(port->dev,
- 			"%s (%d): RTS delay before sending clamped to %u ms\n",
- 			port->name, port->line, rs485->delay_rts_before_send);
- 	}
- 
--	if (rs485->delay_rts_after_send > RS485_MAX_RTS_DELAY) {
-+	if (!port->rs485_supported->delay_rts_after_send) {
-+		if (rs485->delay_rts_after_send) {
-+			dev_warn_ratelimited(port->dev,
-+				"%s (%d): RTS delay after sending not supported\n",
-+				port->name, port->line);
-+		}
-+		rs485->delay_rts_after_send = 0;
-+	} else if (rs485->delay_rts_after_send > RS485_MAX_RTS_DELAY) {
- 		rs485->delay_rts_after_send = RS485_MAX_RTS_DELAY;
- 		dev_warn_ratelimited(port->dev,
- 			"%s (%d): RTS delay after sending clamped to %u ms\n",
- 			port->name, port->line, rs485->delay_rts_after_send);
- 	}
-+
-+	rs485->flags &= supported_flags;
-+
- 	/* Return clean padding area to userspace */
- 	memset(rs485->padding, 0, sizeof(rs485->padding));
- }
- 
- int uart_rs485_config(struct uart_port *port)
- {
--	return port->rs485_config(port, &port->rs485);
-+	struct serial_rs485 *rs485 = &port->rs485;
-+
-+	uart_sanitize_serial_rs485(port, rs485);
-+
-+	return port->rs485_config(port, rs485);
- }
- EXPORT_SYMBOL_GPL(uart_rs485_config);
- 
+In any case
+Acked-by: Michal Hocko <mhocko@suse.com>
+
+One nit below
+[...]
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index 0d3fe0a0c75a..fd78c4d6bbc7 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -1460,6 +1460,28 @@ static inline unsigned long memcg_page_state_output(struct mem_cgroup *memcg,
+>  	return memcg_page_state(memcg, item) * memcg_page_state_unit(item);
+>  }
+>  
+
+I would just add the following for clarity
+
+/* Subset of vm_event_item to report for memcg event stats */
+> +static const unsigned int memcg_vm_event_stat[] = {
+> +	PGSCAN_KSWAPD,
+> +	PGSCAN_DIRECT,
+> +	PGSTEAL_KSWAPD,
+> +	PGSTEAL_DIRECT,
+> +	PGFAULT,
+> +	PGMAJFAULT,
+> +	PGREFILL,
+> +	PGACTIVATE,
+> +	PGDEACTIVATE,
+> +	PGLAZYFREE,
+> +	PGLAZYFREED,
+> +#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+> +	ZSWPIN,
+> +	ZSWPOUT,
+> +#endif
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +	THP_FAULT_ALLOC,
+> +	THP_COLLAPSE_ALLOC,
+> +#endif
+> +};
+
 -- 
-2.30.2
-
+Michal Hocko
+SUSE Labs
