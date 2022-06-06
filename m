@@ -2,110 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CAEBC43334
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 20:03:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5EB0C43334
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 20:10:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233230AbiFFUDD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 16:03:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43908 "EHLO
+        id S233126AbiFFUKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jun 2022 16:10:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233049AbiFFUC7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 16:02:59 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FAA2167C9;
-        Mon,  6 Jun 2022 13:02:54 -0700 (PDT)
+        with ESMTP id S233624AbiFFUKD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 16:10:03 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D56412D1CA
+        for <linux-doc@vger.kernel.org>; Mon,  6 Jun 2022 13:10:02 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id 15so13589644pfy.3
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jun 2022 13:10:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1654545774; x=1686081774;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6VZJe+H1u7IcCz/2BIlajWQNtu3BE7uJ1VjEkW8AnaM=;
-  b=pJBjBR3uNZkErKlc0sXqC/tPtIUhAzMrxfNUkhk5dPENwjETIGeMQucF
-   ChYq4d6JwMdyuv7YQWwmfVnWrYDDwyba9axwY9cH/90bV0unfCurM6VSH
-   C7QsF1cOcHZEISpTtL7hs1hWtA26Sjf+1xiFwypGmRVN7stdI9DXYV11A
-   g=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 06 Jun 2022 13:02:53 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2022 13:02:53 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 6 Jun 2022 13:02:53 -0700
-Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 6 Jun 2022 13:02:52 -0700
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-To:     <corbet@lwn.net>, <sre@kernel.org>, <robh+dt@kernel.org>
-CC:     <vkoul@kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        David Collins <quic_collinsd@quicinc.com>,
-        Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: [PATCH] dt-bindings: power: reset: qcom-pon: update "reg" property details
-Date:   Mon, 6 Jun 2022 13:02:05 -0700
-Message-ID: <20220606200203.22938-1-quic_amelende@quicinc.com>
-X-Mailer: git-send-email 2.35.1
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oQFpDXi6bD7+wKzTyAPy27GXXUSscdFak0V6JCay3LM=;
+        b=Lt8bn1CKv27NBAN2LZ6a3kjXi7zTNT9n5YC6qdlDRRz27wSGX169ro34tJXroQ4ylw
+         9Wh5AtBkZYrRJCB6VOaJC0MlhiSdzn1C4PqwPfP5C2UQ58ClSnY1eORDsS+jz9o2IDri
+         ni9cn1KDaMb5LTVmi0K48gTlOfkMsvw04FEVxngHWMm311dg/8tSsLNw8NZngXEjzLdm
+         MRj2v0erbTuphncL4y5iv8ZG1Wuu7I1voO3ifQtd6JmL8xCnR4egkVJv67k8mCcsucuy
+         B7Vorowmpt94+GNwzICo6EQEcNJyTDkVWQJuYGl9kQjzC8CdwmuVUJOWPEVPDexxdgNI
+         LvRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oQFpDXi6bD7+wKzTyAPy27GXXUSscdFak0V6JCay3LM=;
+        b=vlDWVNAEDqu0+HzL4qq27XQ531Mc8x/RyFYEvnfmKq3dlBP7Dd27U85ngsFFdVFkwt
+         67EuvPYK5kHVjftlFB3sZ5xLL47DW56pUoWNdHBvCC+RcMS3g5CQsVjssYGOqT1rU1TB
+         ORZXeWjXGG0RYHGvpeBLFo1wkQMTjLgIz0lZHhQTetMtyB58R2reeYCxB6f+e+czuObk
+         D2DT0f0FGoAyXa7gt1j2vWaNHfXHal66jvY2eL7PID49aDdkr7UjQWyQSpryzVZwP1AE
+         i7cnPmjpVuIKIHpjDGqxX4fL9XbcwZJUuYLNsw9awqYkf0T74EHiaFcn+MoxWpg3cbsD
+         D6GA==
+X-Gm-Message-State: AOAM531Km0e9CdL1ojkf++ppgDotKllWprheuGjWif2Tis8b3jFgMMc0
+        7T6wpPlxNiz9DWQEUHXUIN6jN39OAB1yRGzKbQaUhQ==
+X-Google-Smtp-Source: ABdhPJz71kp7wjsXPjRB2ML7eIa2fwB82eNGfeI62OXeQw8INa+MLyq06Q2ncMec3mjRtswZPQ72CnuvPkBz4ir4YOc=
+X-Received: by 2002:a63:69c2:0:b0:3fa:78b5:d991 with SMTP id
+ e185-20020a6369c2000000b003fa78b5d991mr23043411pgc.40.1654546201400; Mon, 06
+ Jun 2022 13:10:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+In-Reply-To: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+From:   Vishal Annapurve <vannapurve@google.com>
+Date:   Mon, 6 Jun 2022 13:09:50 -0700
+Message-ID: <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
+Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: David Collins <quic_collinsd@quicinc.com>
+>
+> Private memory map/unmap and conversion
+> ---------------------------------------
+> Userspace's map/unmap operations are done by fallocate() ioctl on the
+> backing store fd.
+>   - map: default fallocate() with mode=0.
+>   - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
+> The map/unmap will trigger above memfile_notifier_ops to let KVM map/unmap
+> secondary MMU page tables.
+>
+....
+>    QEMU: https://github.com/chao-p/qemu/tree/privmem-v6
+>
+> An example QEMU command line for TDX test:
+> -object tdx-guest,id=tdx \
+> -object memory-backend-memfd-private,id=ram1,size=2G \
+> -machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
+>
 
-Update the description of "reg" property to add the PON_PBS base
-address along with PON_HLOS base address.  Also add "reg-names"
-property description.
+There should be more discussion around double allocation scenarios
+when using the private fd approach. A malicious guest or buggy
+userspace VMM can cause physical memory getting allocated for both
+shared (memory accessible from host) and private fds backing the guest
+memory.
+Userspace VMM will need to unback the shared guest memory while
+handling the conversion from shared to private in order to prevent
+double allocation even with malicious guests or bugs in userspace VMM.
 
-Signed-off-by: David Collins <quic_collinsd@quicinc.com>
-Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
----
+Options to unback shared guest memory seem to be:
+1) madvise(.., MADV_DONTNEED/MADV_REMOVE) - This option won't stop
+kernel from backing the shared memory on subsequent write accesses
+2) fallocate(..., FALLOC_FL_PUNCH_HOLE...) - For file backed shared
+guest memory, this option still is similar to madvice since this would
+still allow shared memory to get backed on write accesses
+3) munmap - This would give away the contiguous virtual memory region
+reservation with holes in the guest backing memory, which might make
+guest memory management difficult.
+4) mprotect(... PROT_NONE) - This would keep the virtual memory
+address range backing the guest memory preserved
 
-New patch series to sperate this patch from applied patches.
-Last comments from original patch series can be found
-https://lore.kernel.org/linux-arm-msm/27515993-18f3-8891-4835-9b6a8d7f86b0@quicinc.com/
+ram_block_discard_range_fd from reference implementation:
+https://github.com/chao-p/qemu/tree/privmem-v6 seems to be relying on
+fallocate/madvise.
 
- bindings/power/reset/qcom,pon.yaml | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+Any thoughts/suggestions around better ways to unback the shared
+memory in order to avoid double allocation scenarios?
 
-diff --git a/bindings/power/reset/qcom,pon.yaml b/bindings/power/reset/qcom,pon.yaml
-index 353f155d..1d8cf900 100644
---- a/bindings/power/reset/qcom,pon.yaml
-+++ b/bindings/power/reset/qcom,pon.yaml
-@@ -26,8 +26,26 @@ properties:
-       - qcom,pm8998-pon
- 
-   reg:
--    maxItems: 1
-+    description: |
-+      Specifies the SPMI base address for the PON (power-on) peripheral.  For
-+      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
-+      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
-+      peripherals.  In that case, the PON_PBS address needs to be specified to
-+      facilitate software debouncing on some PMICs.
-+    minItems: 1
-+    maxItems: 2
- 
-+  reg-names:
-+    description: |
-+      For PON GEN1 and GEN2, it should be "pon". For PON GEN3 it should include
-+      "pon_hlos" and optionally "pon_pbs".
-+    minItems: 1
-+    maxItems: 2
-+    items:
-+      anyOf:
-+        - const: pon_hlos
-+        - const: pon_pbs
-+        - const: pon
-   pwrkey:
-     type: object
-     $ref: "../../input/qcom,pm8941-pwrkey.yaml#"
--- 
-2.35.1
-
+Regards,
+Vishal
