@@ -2,99 +2,206 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25328C43334
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 15:41:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E72AC43334
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 15:42:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241014AbiFFPlN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 11:41:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41198 "EHLO
+        id S241042AbiFFPmx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jun 2022 11:42:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240994AbiFFPlM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 11:41:12 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C331E78
-        for <linux-doc@vger.kernel.org>; Mon,  6 Jun 2022 08:41:10 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id gl15so15869809ejb.4
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jun 2022 08:41:10 -0700 (PDT)
+        with ESMTP id S241041AbiFFPmw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 11:42:52 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02E0436157
+        for <linux-doc@vger.kernel.org>; Mon,  6 Jun 2022 08:42:51 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id q12-20020a17090a304c00b001e2d4fb0eb4so18161599pjl.4
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jun 2022 08:42:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=5bsP623yeVUhI4X2qyWKm7xhZAZBEQqTrR3MfihqiO0=;
-        b=pGV3u32GEBOhd7TPDnOWLKJ9oLJuUOxDipMCgJt3EuoZ1rarvWVYq8oK+EU5doKOjK
-         SjmxM35Rzb1UHksLLMUZC4DYfUe6w8HvXhq0YtIZ23J8rixxB6XuOgLghu9cBT3X7v+5
-         8CKA9/yAOJtmExGP8T4abFpaA3PaM3BnjfL2ukfBwdBbz7233FZ2pQAgim1oO1u4diFw
-         Dnf3lFRkKT93piQWB7AwqEXehvglKXOTwbtf2OtFQ4WNsFBDbscEbx8lE2uQE2D7ANLE
-         Aeq7piv2zqJSmwRp4PA+HAoVDcvxcdfbrtP0VaTbP7qHmqDopLuXdRpnHi+IPAgVaH8Y
-         Tqlw==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=adzl7J4UR1Qp4R8eggnQmmMOkmLDFtelBezSB34Z/mg=;
+        b=v+QpT4munOuJrG3ZeTIMHBfcLLEo/iJ4NRKzvu1SAnFere/qBZ7e7sHJ3BM2xs8Mwh
+         wIyGWXGAMK9BCX9kVmPRWxb+3owRG7t+oTPx64bMv+CR6cEr6OYsk59Iwh2wUPMa4fF6
+         584f3NvYZxLlPZ8ZWIJQPvlB0GCweQkNySXdVSM584JUTVoAe9Qf97+9zM+a3LZAZYeT
+         7vCp0f6vbjtIeQOsJ/Aosk/TQjJZRbLuRxUQ4/XcZBJ2BfqCP6f2w2LLleQoXD/hsnDo
+         M/3Al5hGO1eNKco8fkebegsSqsG+l+AjF4h3Rt3jbJqrl9dggLoJKKRfzHTwlt9MyW2E
+         hiqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=5bsP623yeVUhI4X2qyWKm7xhZAZBEQqTrR3MfihqiO0=;
-        b=MdiKPisdeDsinz37RActLD8c9nBN8cT+lhHHhaGM4xPyoJB3J2miOMBrxCnBiBN8X+
-         JzfT7rYMAaQlcB6Qp7kT10Phnbv5y0IiefMQWgqku9PO0aTPECMYM1kkjTIjeEjLD8P3
-         1XBib3SyWeajj2DEw6foBU3VD7sY7fqUyKbHflVveR+7JKe0IRGVZx4m4qjabm6MNTqP
-         ug1eExAW8oH6WHMPDDfs6vcHZQzAXcqPpyW4K27oxYM5SJt/fjXkBD1He1YxnFR3Sr1U
-         s2pockxRHnv3cFMBz1zXNHzhJTf+RAmGKvAU/131hcIOyri/+3wStndoASyAklXf0lOZ
-         nMcA==
-X-Gm-Message-State: AOAM5325NxG9WTwMVrAazR9mNNh+bwbG73m77XyoxyspTYdHBu4T1fgY
-        1qGHezVhuPsB+It/MNfTfYBW+w==
-X-Google-Smtp-Source: ABdhPJxPmR5o/ptnO48/LLqqFHYgHv9f2kSvvBI4oOyV4SSHNtCri883LtJ4arOlCN8+RLxPMr+1YQ==
-X-Received: by 2002:a17:906:5959:b0:710:c2e8:79f3 with SMTP id g25-20020a170906595900b00710c2e879f3mr11652199ejr.489.1654530069008;
-        Mon, 06 Jun 2022 08:41:09 -0700 (PDT)
-Received: from [192.168.0.181] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id n16-20020aa7c790000000b0042bced44061sm8728646eds.10.2022.06.06.08.41.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jun 2022 08:41:08 -0700 (PDT)
-Message-ID: <5fe2246f-97db-e7b0-a72e-c8c5ff6b2abe@linaro.org>
-Date:   Mon, 6 Jun 2022 17:41:07 +0200
+        bh=adzl7J4UR1Qp4R8eggnQmmMOkmLDFtelBezSB34Z/mg=;
+        b=o0o8X1P7np//2QIZusnaGWntQyF2IRj0roycMnT/MjUbbgXrU8Tl2smANNhCl+1k16
+         GhdDHjcgUGn9t+s//esGs6KjDlWG72L3U4ODxgT+1YaMyEh/90rERR8/l82Q65bIHU21
+         0IiauCQO1wbY8wIuWdpRqv0p9gVu6wUb7Dblm1/Ge2pW1kKyHIiDkDpnETa324LFGrPV
+         3/gkXbvTk49zT8yrwgWMb+VZdeqpTD/fnsifJ9KaL8PaMtongJMEqVvm/MZ25YDn+OJ/
+         o1q6pJauSPZupYrG4IAcj3o1T5EyxXDilOSAPOCwCF9DdkWMszWs5JUSRQyWL9Ontx9/
+         RmEw==
+X-Gm-Message-State: AOAM532hg2qL4z4JfokZX/bKmVGLyQKSqsxuRRuVMqZyAUgH7XnEYsLF
+        6qpZxM44Ogb1wYgd4mnbuz4CtA==
+X-Google-Smtp-Source: ABdhPJw3QVyuVPd2L5VPyRHngIgyOPotA5dIeezuj14vpJxAS+QPxzvnRd85Ha5L27wJ9CuUu8Gtfg==
+X-Received: by 2002:a17:90b:1b05:b0:1e2:a053:2fad with SMTP id nu5-20020a17090b1b0500b001e2a0532fadmr51584255pjb.209.1654530170527;
+        Mon, 06 Jun 2022 08:42:50 -0700 (PDT)
+Received: from localhost.localdomain ([139.177.225.230])
+        by smtp.gmail.com with ESMTPSA id 19-20020a170902e9d300b00163f5028fd6sm10651952plk.5.2022.06.06.08.42.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jun 2022 08:42:49 -0700 (PDT)
+From:   Qi Zheng <zhengqi.arch@bytedance.com>
+To:     hannes@cmpxchg.org, roman.gushchin@linux.dev, shakeelb@google.com,
+        songmuchun@bytedance.com, mhocko@kernel.org,
+        akpm@linux-foundation.org, corbet@lwn.net
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Qi Zheng <zhengqi.arch@bytedance.com>,
+        Michal Hocko <mhocko@suse.com>
+Subject: [PATCH v3] mm: memcontrol: add {pgscan,pgsteal}_{kswapd,direct} items in memory.stat of cgroup v2
+Date:   Mon,  6 Jun 2022 23:40:28 +0800
+Message-Id: <20220606154028.55030-1-zhengqi.arch@bytedance.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 06/23] dt-bindings: mmc: exynos-dw-mshc: update
- samsung,pinctrl.yaml reference
-Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sam Protsenko <semen.protsenko@linaro.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-References: <cover.1654529011.git.mchehab@kernel.org>
- <5c937793dd7aec30da4964b39561072ae184f89b.1654529011.git.mchehab@kernel.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <5c937793dd7aec30da4964b39561072ae184f89b.1654529011.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/06/2022 17:25, Mauro Carvalho Chehab wrote:
-> Changeset af030d83da1d ("dt-bindings: pinctrl: samsung: convert to dtschema")
-> renamed: bindings/pinctrl/samsung-pinctrl.txt
-> to: bindings/pinctrl/samsung-pinctrl.yaml, splitting it into multiple
-> files.
-> 
-> Update exynos-dw-mshc.txt accordingly.
-> 
-> Fixes: af030d83da1d ("dt-bindings: pinctrl: samsung: convert to dtschema")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+There are already statistics of {pgscan,pgsteal}_kswapd and
+{pgscan,pgsteal}_direct of memcg event here, but now only the
+sum of the two is displayed in memory.stat of cgroup v2.
 
-Commit is okay, but you can also drop it entirely because entire part
-will be removed with:
-https://lore.kernel.org/all/20220605163710.144210-4-krzysztof.kozlowski@linaro.org/
+In order to obtain more accurate information during monitoring
+and debugging, and to align with the display in /proc/vmstat,
+it better to display {pgscan,pgsteal}_kswapd and
+{pgscan,pgsteal}_direct separately.
 
+Also, for forward compatibility, we still display pgscan and
+pgsteal items so that it won't break existing applications.
 
+Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+Acked-by: Roman Gushchin <roman.gushchin@linux.dev>
+Acked-by: Muchun Song <songmuchun@bytedance.com>
+Acked-by: Shakeel Butt <shakeelb@google.com>
+Acked-by: Michal Hocko <mhocko@suse.com>
+---
+Changelog in v2 -> v3:
+ - add comment for memcg_vm_event_stat (suggested by Michal)
+ - collect Acked-bys
 
-Best regards,
-Krzysztof
+Changelog in v1 -> v2:
+ - keep pgscan and pgsteal items for forward compatibility, thanks to Shakeel
+ - update commit log
+ - collect Acked-bys
+
+ Documentation/admin-guide/cgroup-v2.rst | 12 ++++++
+ mm/memcontrol.c                         | 55 ++++++++++++-------------
+ 2 files changed, 39 insertions(+), 28 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 176298f2f4de..b2b55e7360d8 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1445,9 +1445,21 @@ PAGE_SIZE multiple when read back.
+ 	  pgscan (npn)
+ 		Amount of scanned pages (in an inactive LRU list)
+ 
++	  pgscan_kswapd (npn)
++		Amount of scanned pages by kswapd (in an inactive LRU list)
++
++	  pgscan_direct (npn)
++		Amount of scanned pages directly  (in an inactive LRU list)
++
+ 	  pgsteal (npn)
+ 		Amount of reclaimed pages
+ 
++	  pgsteal_kswapd (npn)
++		Amount of reclaimed pages by kswapd
++
++	  pgsteal_direct (npn)
++		Amount of reclaimed pages directly
++
+ 	  pgactivate (npn)
+ 		Amount of pages moved to the active LRU list
+ 
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 0d3fe0a0c75a..27cebaa53472 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -1460,6 +1460,29 @@ static inline unsigned long memcg_page_state_output(struct mem_cgroup *memcg,
+ 	return memcg_page_state(memcg, item) * memcg_page_state_unit(item);
+ }
+ 
++/* Subset of vm_event_item to report for memcg event stats */
++static const unsigned int memcg_vm_event_stat[] = {
++	PGSCAN_KSWAPD,
++	PGSCAN_DIRECT,
++	PGSTEAL_KSWAPD,
++	PGSTEAL_DIRECT,
++	PGFAULT,
++	PGMAJFAULT,
++	PGREFILL,
++	PGACTIVATE,
++	PGDEACTIVATE,
++	PGLAZYFREE,
++	PGLAZYFREED,
++#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
++	ZSWPIN,
++	ZSWPOUT,
++#endif
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++	THP_FAULT_ALLOC,
++	THP_COLLAPSE_ALLOC,
++#endif
++};
++
+ static char *memory_stat_format(struct mem_cgroup *memcg)
+ {
+ 	struct seq_buf s;
+@@ -1495,41 +1518,17 @@ static char *memory_stat_format(struct mem_cgroup *memcg)
+ 	}
+ 
+ 	/* Accumulated memory events */
+-
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGFAULT),
+-		       memcg_events(memcg, PGFAULT));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGMAJFAULT),
+-		       memcg_events(memcg, PGMAJFAULT));
+-	seq_buf_printf(&s, "%s %lu\n",  vm_event_name(PGREFILL),
+-		       memcg_events(memcg, PGREFILL));
+ 	seq_buf_printf(&s, "pgscan %lu\n",
+ 		       memcg_events(memcg, PGSCAN_KSWAPD) +
+ 		       memcg_events(memcg, PGSCAN_DIRECT));
+ 	seq_buf_printf(&s, "pgsteal %lu\n",
+ 		       memcg_events(memcg, PGSTEAL_KSWAPD) +
+ 		       memcg_events(memcg, PGSTEAL_DIRECT));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGACTIVATE),
+-		       memcg_events(memcg, PGACTIVATE));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGDEACTIVATE),
+-		       memcg_events(memcg, PGDEACTIVATE));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGLAZYFREE),
+-		       memcg_events(memcg, PGLAZYFREE));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGLAZYFREED),
+-		       memcg_events(memcg, PGLAZYFREED));
+-
+-#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(ZSWPIN),
+-		       memcg_events(memcg, ZSWPIN));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(ZSWPOUT),
+-		       memcg_events(memcg, ZSWPOUT));
+-#endif
+ 
+-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(THP_FAULT_ALLOC),
+-		       memcg_events(memcg, THP_FAULT_ALLOC));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(THP_COLLAPSE_ALLOC),
+-		       memcg_events(memcg, THP_COLLAPSE_ALLOC));
+-#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
++	for (i = 0; i < ARRAY_SIZE(memcg_vm_event_stat); i++)
++		seq_buf_printf(&s, "%s %lu\n",
++			       vm_event_name(memcg_vm_event_stat[i]),
++			       memcg_events(memcg, memcg_vm_event_stat[i]));
+ 
+ 	/* The above should easily fit into one page */
+ 	WARN_ON_ONCE(seq_buf_has_overflowed(&s));
+-- 
+2.20.1
+
