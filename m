@@ -2,137 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5EB0C43334
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 20:10:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C830AC43334
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 20:16:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233126AbiFFUKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 16:10:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42938 "EHLO
+        id S233523AbiFFUQe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jun 2022 16:16:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233624AbiFFUKD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 16:10:03 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D56412D1CA
-        for <linux-doc@vger.kernel.org>; Mon,  6 Jun 2022 13:10:02 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id 15so13589644pfy.3
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jun 2022 13:10:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oQFpDXi6bD7+wKzTyAPy27GXXUSscdFak0V6JCay3LM=;
-        b=Lt8bn1CKv27NBAN2LZ6a3kjXi7zTNT9n5YC6qdlDRRz27wSGX169ro34tJXroQ4ylw
-         9Wh5AtBkZYrRJCB6VOaJC0MlhiSdzn1C4PqwPfP5C2UQ58ClSnY1eORDsS+jz9o2IDri
-         ni9cn1KDaMb5LTVmi0K48gTlOfkMsvw04FEVxngHWMm311dg/8tSsLNw8NZngXEjzLdm
-         MRj2v0erbTuphncL4y5iv8ZG1Wuu7I1voO3ifQtd6JmL8xCnR4egkVJv67k8mCcsucuy
-         B7Vorowmpt94+GNwzICo6EQEcNJyTDkVWQJuYGl9kQjzC8CdwmuVUJOWPEVPDexxdgNI
-         LvRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oQFpDXi6bD7+wKzTyAPy27GXXUSscdFak0V6JCay3LM=;
-        b=vlDWVNAEDqu0+HzL4qq27XQ531Mc8x/RyFYEvnfmKq3dlBP7Dd27U85ngsFFdVFkwt
-         67EuvPYK5kHVjftlFB3sZ5xLL47DW56pUoWNdHBvCC+RcMS3g5CQsVjssYGOqT1rU1TB
-         ORZXeWjXGG0RYHGvpeBLFo1wkQMTjLgIz0lZHhQTetMtyB58R2reeYCxB6f+e+czuObk
-         D2DT0f0FGoAyXa7gt1j2vWaNHfXHal66jvY2eL7PID49aDdkr7UjQWyQSpryzVZwP1AE
-         i7cnPmjpVuIKIHpjDGqxX4fL9XbcwZJUuYLNsw9awqYkf0T74EHiaFcn+MoxWpg3cbsD
-         D6GA==
-X-Gm-Message-State: AOAM531Km0e9CdL1ojkf++ppgDotKllWprheuGjWif2Tis8b3jFgMMc0
-        7T6wpPlxNiz9DWQEUHXUIN6jN39OAB1yRGzKbQaUhQ==
-X-Google-Smtp-Source: ABdhPJz71kp7wjsXPjRB2ML7eIa2fwB82eNGfeI62OXeQw8INa+MLyq06Q2ncMec3mjRtswZPQ72CnuvPkBz4ir4YOc=
-X-Received: by 2002:a63:69c2:0:b0:3fa:78b5:d991 with SMTP id
- e185-20020a6369c2000000b003fa78b5d991mr23043411pgc.40.1654546201400; Mon, 06
- Jun 2022 13:10:01 -0700 (PDT)
+        with ESMTP id S233859AbiFFUQR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 16:16:17 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B717B7C;
+        Mon,  6 Jun 2022 13:16:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CD538B81B41;
+        Mon,  6 Jun 2022 20:16:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 121CFC34115;
+        Mon,  6 Jun 2022 20:16:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654546572;
+        bh=4ekHkjqVyQuiN7Z+qLDAIpo/+34U7jys4QWy2f3LQK0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=GVJGRZokkZnyPOVuUnZtXg6IcvAfFLiXZeiHznuclEDLmEzGFTHej+afdF5heNDgQ
+         YcMz59EoDVGUyM0WoCcO4Ki0IFW+EdQVyoNez6JMwYj4hdgLHfqgk9OTNZObxNhBFE
+         OD1ddu6XYyP903U1+ZyZzh6RuhtPbUz3tLW/PzoTtlJu/WywlWvsv0xCGRrdMm7+Y1
+         Q3BBffYDIzHF4yi7HlDo+zm0yhqejRU894v1XlxhzezNIdXC5xIj0Sr2yWBQbM8rkM
+         BkWv0YkGEPGNIFV7LYmzRWSWMn0LlEH61BuRfpTsIoZowSUnXyXgAOE2tUIQrWCx+i
+         PK3A6mCVG9QFw==
+From:   Lorenzo Bianconi <lorenzo@kernel.org>
+To:     netdev@vger.kernel.org
+Cc:     ilias.apalodimas@linaro.org, hawk@kernel.org, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org, jbrouer@redhat.com,
+        lorenzo.bianconi@redhat.com
+Subject: [PATCH v2 net-next] Documentation: update networking/page_pool.rst with ethtool APIs
+Date:   Mon,  6 Jun 2022 22:15:45 +0200
+Message-Id: <8c1f582d286fd5a7406dfff895eea39bb8fedca6.1654546043.git.lorenzo@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
-In-Reply-To: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
-From:   Vishal Annapurve <vannapurve@google.com>
-Date:   Mon, 6 Jun 2022 13:09:50 -0700
-Message-ID: <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
-Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->
-> Private memory map/unmap and conversion
-> ---------------------------------------
-> Userspace's map/unmap operations are done by fallocate() ioctl on the
-> backing store fd.
->   - map: default fallocate() with mode=0.
->   - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
-> The map/unmap will trigger above memfile_notifier_ops to let KVM map/unmap
-> secondary MMU page tables.
->
-....
->    QEMU: https://github.com/chao-p/qemu/tree/privmem-v6
->
-> An example QEMU command line for TDX test:
-> -object tdx-guest,id=tdx \
-> -object memory-backend-memfd-private,id=ram1,size=2G \
-> -machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
->
+Update page_pool documentation with page_pool ethtool stats APIs.
 
-There should be more discussion around double allocation scenarios
-when using the private fd approach. A malicious guest or buggy
-userspace VMM can cause physical memory getting allocated for both
-shared (memory accessible from host) and private fds backing the guest
-memory.
-Userspace VMM will need to unback the shared guest memory while
-handling the conversion from shared to private in order to prevent
-double allocation even with malicious guests or bugs in userspace VMM.
+Signed-off-by: Lorenzo Bianconi <lorenzo@kernel.org>
+---
+Changes since v1:
+- get rid of literal markup
+---
+ Documentation/networking/page_pool.rst | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-Options to unback shared guest memory seem to be:
-1) madvise(.., MADV_DONTNEED/MADV_REMOVE) - This option won't stop
-kernel from backing the shared memory on subsequent write accesses
-2) fallocate(..., FALLOC_FL_PUNCH_HOLE...) - For file backed shared
-guest memory, this option still is similar to madvice since this would
-still allow shared memory to get backed on write accesses
-3) munmap - This would give away the contiguous virtual memory region
-reservation with holes in the guest backing memory, which might make
-guest memory management difficult.
-4) mprotect(... PROT_NONE) - This would keep the virtual memory
-address range backing the guest memory preserved
+diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
+index 5db8c263b0c6..a40203297cd3 100644
+--- a/Documentation/networking/page_pool.rst
++++ b/Documentation/networking/page_pool.rst
+@@ -146,6 +146,29 @@ The ``struct page_pool_recycle_stats`` has the following fields:
+   * ``ring_full``: page released from page pool because the ptr ring was full
+   * ``released_refcnt``: page released (and not recycled) because refcnt > 1
+ 
++The following APIs can be used to report page_pool stats through ethtool and
++avoid code duplication in each driver:
++
++* page_pool_ethtool_stats_get_strings(): reports page_pool ethtool stats
++  strings according to the struct page_pool_stats
++     * rx_pp_alloc_fast
++     * rx_pp_alloc_slow
++     * rx_pp_alloc_slow_ho
++     * rx_pp_alloc_empty
++     * rx_pp_alloc_refill
++     * rx_pp_alloc_waive
++     * rx_pp_recycle_cached
++     * rx_pp_recycle_cache_full
++     * rx_pp_recycle_ring
++     * rx_pp_recycle_ring_full
++     * rx_pp_recycle_released_ref
++
++* page_pool_ethtool_stats_get_count(): reports the number of stats defined in
++  the ethtool page_pool APIs
++
++* page_pool_ethtool_stats_get(u64 \*data, void \*stats): reports the page_pool statistics accounted in
++  the stats pointer in the ethtool data pointer provided by the caller
++
+ Coding examples
+ ===============
+ 
+-- 
+2.35.3
 
-ram_block_discard_range_fd from reference implementation:
-https://github.com/chao-p/qemu/tree/privmem-v6 seems to be relying on
-fallocate/madvise.
-
-Any thoughts/suggestions around better ways to unback the shared
-memory in order to avoid double allocation scenarios?
-
-Regards,
-Vishal
