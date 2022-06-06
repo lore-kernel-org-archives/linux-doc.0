@@ -2,58 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E62FC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 15:26:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE85DCCA473
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 15:26:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240681AbiFFP0K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 11:26:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46196 "EHLO
+        id S240693AbiFFP0M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jun 2022 11:26:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240618AbiFFPZy (ORCPT
+        with ESMTP id S240507AbiFFPZy (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 11:25:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C26B1CD36F;
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F18B21CD37F;
         Mon,  6 Jun 2022 08:25:52 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D39EA61542;
-        Mon,  6 Jun 2022 15:25:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 009D1C36B06;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5209AB81AAE;
+        Mon,  6 Jun 2022 15:25:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9590C341CC;
         Mon,  6 Jun 2022 15:25:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1654529149;
-        bh=niKYlfjKmS5xHiDfjqL4v2PE2kbh/ZAGZOCN30CEhO0=;
+        bh=dzovniYXMBskAcBUaM9tKTfOZoD4DhDdAz8f7SxlcU0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FIoLbrUb1f3o051SNAQoTlP4mRw9FyUhl1jzZse3MzV51w7qmcXB/W6o/4JduflM+
-         FRfdP5IhuNIlo3U7JAa0cl3DLpzLaIwKKonqnoZKJpIlU4T9owhpgKQqN3uYzCpI4k
-         z6uhR1+LpCKPF43sPSe3xzeWIiPP5gc2B+1Av59m+UZHDxynZWUSoXFWtxVi3i2h4R
-         Ve4CztRHUTC5PCw3dJ7ZBNg3f4Q1k5DN+O+yCm3uuJ59zxXPkGlg3enYaj2wK10o/8
-         IyJZwkg52RPSEcY/eGbMtdA3AY24a05ReL7eCqrSCnuSUm5+NEB5JeSk1dbSNWvXxk
-         bBXtin6M66PIg==
+        b=a8PKtPnzjXUG9Pn3kpdfQyNW1r8JQmJ7OKiSEWpuhNAQvJnodpQBUb0KnMmAK+KBB
+         dlr1gw8d60NDz7wYgbvTXCujnBzYQkiCWYQgNiOvYEqQdYvSNcuamI3LeG02a5L1Dl
+         0SgzQCT7ea8qbRPb329/GDnknM0eO5oAl54SU8RYjptRfbL1WXtl2F6UyIZ32TcoBS
+         tRCHcTiYou6xj3REJPygE1FNwt1J5+6gSNqz5zVaoqUfxcDaoU1ar7ijGqbtaaWDlT
+         rac3meqNjQ7XfjtVnEhW73mqOFby8h1wwmIXdOEcnymMkYD8zcY8U87suYWr9hBEQ0
+         ofTF6Nm/2f5Hw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
         (envelope-from <mchehab@kernel.org>)
-        id 1nyEby-0012PL-8Q;
+        id 1nyEby-0012P9-5h;
         Mon, 06 Jun 2022 16:25:46 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ard Biesheuvel <ardb@kernel.org>, Borislav Petkov <bp@suse.de>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Dov Murik <dovmurik@linux.ibm.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 11/23] Documentation: KVM: update amd-memory-encryption.rst references
-Date:   Mon,  6 Jun 2022 16:25:33 +0100
-Message-Id: <be9d6aaa6b745c703230739d418651e1227d2f7e.1654529011.git.mchehab@kernel.org>
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH 07/23] docs: netdev: update maintainer-netdev.rst reference
+Date:   Mon,  6 Jun 2022 16:25:29 +0100
+Message-Id: <ee0778cb0ae9c26047277610d52e8e3c70b4cf5e.1654529011.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1654529011.git.mchehab@kernel.org>
 References: <cover.1654529011.git.mchehab@kernel.org>
@@ -63,62 +56,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset daec8d408308 ("Documentation: KVM: add separate directories for architecture-specific documentation")
-renamed: Documentation/virt/kvm/amd-memory-encryption.rst
-to: Documentation/virt/kvm/x86/amd-memory-encryption.rst.
+Changeset 8df0136376dc ("docs: netdev: move the netdev-FAQ to the process pages")
+renamed: Documentation/networking/netdev-FAQ.rst
+to: Documentation/process/maintainer-netdev.rst.
 
-Update the cross-references accordingly.
+Update its cross-reference accordingly.
 
-Fixes: daec8d408308 ("Documentation: KVM: add separate directories for architecture-specific documentation")
+Fixes: 8df0136376dc ("docs: netdev: move the netdev-FAQ to the process pages")
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/23] at: https://lore.kernel.org/all/cover.1654529011.git.mchehab@kernel.org/
 
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- Documentation/security/secrets/coco.rst         | 2 +-
- Documentation/virt/kvm/api.rst                  | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ Documentation/translations/it_IT/networking/netdev-FAQ.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 8090130b544b..5ef0b2998af7 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3104,7 +3104,7 @@
- 			mem_encrypt=on:		Activate SME
- 			mem_encrypt=off:	Do not activate SME
+diff --git a/Documentation/translations/it_IT/networking/netdev-FAQ.rst b/Documentation/translations/it_IT/networking/netdev-FAQ.rst
+index 7e2456bb7d92..8a1e049585c0 100644
+--- a/Documentation/translations/it_IT/networking/netdev-FAQ.rst
++++ b/Documentation/translations/it_IT/networking/netdev-FAQ.rst
+@@ -1,6 +1,6 @@
+ .. include:: ../disclaimer-ita.rst
  
--			Refer to Documentation/virt/kvm/amd-memory-encryption.rst
-+			Refer to Documentation/virt/kvm/x86/amd-memory-encryption.rst
- 			for details on when memory encryption can be activated.
+-:Original: :ref:`Documentation/networking/netdev-FAQ.rst <netdev-FAQ>`
++:Original: :ref:`Documentation/process/maintainer-netdev.rst <netdev-FAQ>`
  
- 	mem_sleep_default=	[SUSPEND] Default system suspend mode:
-diff --git a/Documentation/security/secrets/coco.rst b/Documentation/security/secrets/coco.rst
-index 262e7abb1b24..087e2d1ae38b 100644
---- a/Documentation/security/secrets/coco.rst
-+++ b/Documentation/security/secrets/coco.rst
-@@ -98,6 +98,6 @@ References
+ .. _it_netdev-FAQ:
  
- See [sev-api-spec]_ for more info regarding SEV ``LAUNCH_SECRET`` operation.
- 
--.. [sev] Documentation/virt/kvm/amd-memory-encryption.rst
-+.. [sev] Documentation/virt/kvm/x86/amd-memory-encryption.rst
- .. [secrets-coco-abi] Documentation/ABI/testing/securityfs-secrets-coco
- .. [sev-api-spec] https://www.amd.com/system/files/TechDocs/55766_SEV-KM_API_Specification.pdf
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 11e00a46c610..b71e1d778e28 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -4667,7 +4667,7 @@ encrypted VMs.
- 
- Currently, this ioctl is used for issuing Secure Encrypted Virtualization
- (SEV) commands on AMD Processors. The SEV commands are defined in
--Documentation/virt/kvm/amd-memory-encryption.rst.
-+Documentation/virt/kvm/x86/amd-memory-encryption.rst.
- 
- 4.111 KVM_MEMORY_ENCRYPT_REG_REGION
- -----------------------------------
 -- 
 2.36.1
 
