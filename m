@@ -2,49 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A79FEC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 15:26:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D852FCCA483
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 15:26:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240573AbiFFPZw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 11:25:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45872 "EHLO
+        id S240677AbiFFP0I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jun 2022 11:26:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240492AbiFFPZu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 11:25:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E06801C592F;
-        Mon,  6 Jun 2022 08:25:49 -0700 (PDT)
+        with ESMTP id S240620AbiFFPZy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 11:25:54 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDCE61CD361;
+        Mon,  6 Jun 2022 08:25:53 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 815B66150F;
-        Mon,  6 Jun 2022 15:25:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDDB1C3411D;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7038BB81AB4;
+        Mon,  6 Jun 2022 15:25:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF272C341D2;
         Mon,  6 Jun 2022 15:25:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654529148;
-        bh=VtYAMmCXheoYZzfzGc9xWH6VwlROf5UK8WlhLc0Lrlg=;
+        s=k20201202; t=1654529149;
+        bh=x+zgkHojqbGSLbsNbvd/i9PJZ2MbJ86c+Jjf+G6oGa8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JFu9KUgF8RyeLz+rN31PQfZJZlmCtXdCWt+SBiUufO9ADzOrBFVnzu4rHbBDilr2C
-         FE4prd3YQ8XW3lQomchUOQTfcWel0XUdT3isEJRzs8B3ewnRdf1NTEFO7Qnt95Bjs3
-         71oWz6RrQzlmZ0zaLBwM4ufQoklardEYr2HpLmoZYHydy0CWJUVZhvCuCCDcpvNY8B
-         rBQzmn2gTjpu+Xw+IzSlTzd3t50RywUkHRYwVlS6DAVfBOJ0IMXdyJ5iUCfc/4iIAO
-         gce6y64+XRq2Cf/y2nZhzsE1KP6g9g+C8csn5qwSksMGlnx4Yf5YERdsU3JW4HBsLD
-         kFQ9rEBYZSOOA==
+        b=PYNG3nK8AHw5MqCJ5eFl1o5dhvPPLuwapxPjZueKKxTb39N+ffm6rdT747UwRLwPh
+         /ZzZqdqv5iSBOaZDIrnQp1byf/gB9luz7Jy8Rv8ai/DxArgJTnRoudJCt5JkrM9pru
+         zuYWYg08CVwDzOeFn04aqDvKIkoGJel2yoWD/Rcyuovo61dFemQHHxAIKX6Paes9WX
+         iTsVXIyZ16cuDicOPHfWDBrEnuHVnXHof6rwsQ4zpImORGcUyrD2sZpFjo/JSf36OL
+         rpNXPprnr8kCv/wz8gUMvEST5H/64DYkfNBaigUVqm2wFu5/DTyRydq973sBEusI0H
+         bmoHMdN5hR7hQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
         (envelope-from <mchehab@kernel.org>)
-        id 1nyEby-0012Pw-E7;
+        id 1nyEby-0012Pb-Aw;
         Mon, 06 Jun 2022 16:25:46 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Andre Przywara <andre.przywara@arm.com>,
         Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 20/23] MAINTAINERS: update snps,axs10x-reset.yaml reference
-Date:   Mon,  6 Jun 2022 16:25:42 +0100
-Message-Id: <56560a2bcc06af94d36a28ed2cfdb25de481eee5.1654529011.git.mchehab@kernel.org>
+Subject: [PATCH 15/23] MAINTAINERS: update arm,komeda.yaml reference
+Date:   Mon,  6 Jun 2022 16:25:37 +0100
+Message-Id: <64fde761c04edc287d397dae1be95ac1c2886c74.1654529011.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1654529011.git.mchehab@kernel.org>
 References: <cover.1654529011.git.mchehab@kernel.org>
@@ -54,13 +54,13 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 820f722c05dd ("dt-bindings: reset: snps,axs10x-reset: Convert to yaml")
-renamed: Documentation/devicetree/bindings/reset/snps,axs10x-reset.txt
-to: Documentation/devicetree/bindings/reset/snps,axs10x-reset.yaml.
+Changeset 0f6983509ea1 ("dt-bindings: display: convert Arm Komeda to DT schema")
+renamed: Documentation/devicetree/bindings/display/arm,komeda.txt
+to: Documentation/devicetree/bindings/display/arm,komeda.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 820f722c05dd ("dt-bindings: reset: snps,axs10x-reset: Convert to yaml")
+Fixes: 0f6983509ea1 ("dt-bindings: display: convert Arm Komeda to DT schema")
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 
@@ -71,18 +71,18 @@ See [PATCH 00/23] at: https://lore.kernel.org/all/cover.1654529011.git.mchehab@k
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index dc64a23d0bdc..47cbe1fef266 100644
+index c20bd168d209..aba64cae8f68 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -19220,7 +19220,7 @@ F:	arch/arc/plat-axs10x
- SYNOPSYS AXS10x RESET CONTROLLER DRIVER
- M:	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+@@ -1542,7 +1542,7 @@ M:	Mihail Atanassov <mihail.atanassov@arm.com>
+ L:	Mali DP Maintainers <malidp@foss.arm.com>
  S:	Supported
--F:	Documentation/devicetree/bindings/reset/snps,axs10x-reset.txt
-+F:	Documentation/devicetree/bindings/reset/snps,axs10x-reset.yaml
- F:	drivers/reset/reset-axs10x.c
- 
- SYNOPSYS CREG GPIO DRIVER
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+-F:	Documentation/devicetree/bindings/display/arm,komeda.txt
++F:	Documentation/devicetree/bindings/display/arm,komeda.yaml
+ F:	Documentation/gpu/komeda-kms.rst
+ F:	drivers/gpu/drm/arm/display/include/
+ F:	drivers/gpu/drm/arm/display/komeda/
 -- 
 2.36.1
 
