@@ -2,152 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93A85C43334
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 17:18:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F23FCCA481
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 17:19:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbiFFRSj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 13:18:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56996 "EHLO
+        id S229911AbiFFRTT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jun 2022 13:19:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229980AbiFFRSN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 13:18:13 -0400
-Received: from email.cn (m218-171.88.com [110.43.218.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E20606EC69;
-        Mon,  6 Jun 2022 10:14:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=DRZpgfFHXujVu6xJM+YtvkphwxLfh/2huzfyk
-        42s2hM=; b=Ni+4yPGUE9bUczBzwqdCsseKujRl/zboFAqaAeiB/DhHAccVp2Fau
-        8eQj0XDm1kuXjaxeGKxHz5iQy28IaCdO8YRcnFOzFjTIANMieezCDUvQ+x0cslUI
-        Ve4M4dFNWeiE5Mi7mHeEOuzZECas08PjnObaFb7hvwy1siKUTqAx1Q=
-Received: from bobwxc.mipc (unknown [120.242.68.234])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgBXgiT7NZ5idUsLAA--.34292S2;
-        Tue, 07 Jun 2022 01:14:36 +0800 (CST)
-Date:   Tue, 7 Jun 2022 01:14:33 +0800
-From:   Wu XiangCheng <bobwxc@email.cn>
-To:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Li Feng <felixlee868@icloud.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: Update zh_CN/kernel-hacking/hacking.rst to
- 5.19-rc1
-Message-ID: <Yp41+eTjoPRa4hrl@bobwxc.mipc>
+        with ESMTP id S229737AbiFFRSy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 13:18:54 -0400
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9672A5130C;
+        Mon,  6 Jun 2022 10:17:53 -0700 (PDT)
+Received: by mail-il1-f172.google.com with SMTP id d6so1584259ilm.4;
+        Mon, 06 Jun 2022 10:17:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=HOgnxEn2ntmtyghL8kOb8yKeTcYGElnyCDEZZ25iRQw=;
+        b=4Rh+2Oy1eY+bYftHCMJntZLu8WUck5porKU754FT8zR6Zrc1ge8btPSGostMVvL3OV
+         SnatfcmfJPoHw7VIetGqvBuSKTKPotPkorQG4RXog3r5KyneQybFCNA9fqODyOKRq3cu
+         JkaTE/OFn4WPIjCWenuUfzjbasK2sDP1uqtUW/40cuMglBuofp7f/Oia3KkhOuYBhBs1
+         zDb4DZfYV+MsuQ3edePHr3aP1Esoi6MOLB2QkKXTxM7QsCyoF5MMBvITQaP0EV0aXodl
+         RetlcCfUZYhfHhYAog1vp4KXM6Gzb+sf29gK7B1QzTvRWwHn+wWbjU7x264uiR/Kwrn1
+         9X9A==
+X-Gm-Message-State: AOAM530qDiQ4MgwcvCqSG0y8EZVSl3dzi7fzsuYTm8MTuU14l6VTbLCZ
+        6jqA5yTXnzCXGGmZPA2C0A==
+X-Google-Smtp-Source: ABdhPJxXRz8rpxHVMQETrBoM9cb8XJJozkw5PJACTm4qK/vhBn8tviwY3PyY58j2eoaPB/u3qpK33w==
+X-Received: by 2002:a05:6e02:184f:b0:2d3:d0c2:d56a with SMTP id b15-20020a056e02184f00b002d3d0c2d56amr13953839ilv.174.1654535872910;
+        Mon, 06 Jun 2022 10:17:52 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id t17-20020a92c0d1000000b002d3da8e4af5sm6121750ilf.23.2022.06.06.10.17.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jun 2022 10:17:52 -0700 (PDT)
+Received: (nullmailer pid 911134 invoked by uid 1000);
+        Mon, 06 Jun 2022 17:17:47 -0000
+Date:   Mon, 6 Jun 2022 12:17:47 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Markus Mayer <mmayer@broadcom.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+        keyrings@vger.kernel.org, kvm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-cachefs@redhat.com,
+        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mmc@vger.kernel.org,
+        linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-usb@vger.kernel.org,
+        x86@kernel.org
+Subject: Re: [PATCH 00/23] Update Documentation/ cross-references
+Message-ID: <20220606171747.GB899329-robh@kernel.org>
+References: <cover.1654529011.git.mchehab@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4633; h=from:subject;
- bh=R4VA0XQH7pOT4Jeus2Xonm2ufN2vgnsQj0FKd0TPHcE=;
- b=owEB7QES/pANAwAKAbZbKBIigrCFAcsmYgBinjXBQaY+FjnjqTAUfa47gjeE61NurKQpizp9THlY
- EKhW3+yJAbMEAAEKAB0WIQRFujdTmQmloK0WXU+2WygSIoKwhQUCYp41wQAKCRC2WygSIoKwhXBbC/
- 97Bvo1A9KKeoLdwbcuDQhF2NtuulyB4p8QOpZlnyRCNAdDn6zEt9/7MpSDYTwhekbxGjTf0eWw6rvY
- 2rSS+05xP7YKjv/dCNtil0lBCiUZsi8Tp4FPjnGmFrBnC7ckrTGBy8H2LAU8dfMgTVJpaqGqXx5tuU
- iaQrQiiFAvrl4SK/EsmsGgNLWZYBd36hjwS+RV4QIoJlm7XU1MO9ISPStQ67g1foDtS10V9lHEbjSZ
- wmW8GVH8jImalwUExh8mL02H5VrzaPiGAUcWP94V1WaDTjS94IDZ4cdQqCourdniFOH52YUODXFWJ/
- 4i8xBBAh15QUjWICYQxziywXTqPqfOT6w7Epjp29n/j5ASnKQMUeJYPL69d+9z23IB3VPfrDna0NcF
- kLX80As2vxZFKVjdCzGXrLjzE94UeWyTNq+TnUUFdaaeuZ1s1FNtX7esvXMoo9KY9RoN4opvJvPPxH
- 7VgSYaJKP/+TMRghCWiNWHO4QUvpPVqU8DLsevXDPauY8=
-X-Developer-Key: i=bobwxc@email.cn; a=openpgp;
- fpr=2BF2A4AA2F0730C3279ED01D32684A40BCA7AEA7
-X-CM-TRANSID: LCKnCgBXgiT7NZ5idUsLAA--.34292S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3JF45trWftw4kXFy5Jr4Utwb_yoW7XF4kpF
-        ZIk34xKr1FyryDZrW0ga4IkF1UCa97W3y7KF40yrySyr90qa9IyFZ0gFWrXF4fX342yFW2
-        gFs5uFyrur12krDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUqSb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1le2I262IYc4
-        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
-        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04
-        k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
-        wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc4
-        0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
-        xVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
-        1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU-KZXDUUU
-        U
-X-Originating-IP: [120.242.68.234]
-X-CM-SenderInfo: pere453f6hztlloou0/
+In-Reply-To: <cover.1654529011.git.mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* update to commit f35cf1a59e9a ("Documentation: kernel-hacking: minor
-  edits for style")
+On Mon, Jun 06, 2022 at 04:25:22PM +0100, Mauro Carvalho Chehab wrote:
+> Hi John,
+> 
+> There were a number of DT binding conversions and other docs change that
+> were not updated. Address them, in order to keep the cross-references on
+> a sane state.
+> 
+> Patch series is against v5.19-rc1 (and applies cleanly on the top of
+> today's -next).
+> 
+> Mauro Carvalho Chehab (23):
+>   dt-bindings: mfd: bd9571mwv: update rohm,bd9571mwv.yaml reference
+>   dt-bindings: interrupt-controller: update brcm,l2-intc.yaml reference
+>   dt-bindings: arm: update vexpress-config.yaml references
+>   dt-bindings: reset: update st,stih407-powerdown.yaml references
+>   dt-bindings: mfd: rk808: update rockchip,rk808.yaml reference
+>   dt-bindings: mmc: exynos-dw-mshc: update samsung,pinctrl.yaml
+>     reference
+>   docs: netdev: update maintainer-netdev.rst reference
+>   docs: filesystems: update netfs-api.rst reference
+>   Documentation: update watch_queue.rst references
+>   Documentation: KVM: update s390-pv.rst reference
+>   Documentation: KVM: update amd-memory-encryption.rst references
+>   Documentation: KVM: update msr.rst reference
+>   Documentation: KVM: update s390-diag.rst reference
+>   MAINTAINERS: update arm,hdlcd.yaml reference
+>   MAINTAINERS: update arm,komeda.yaml reference
+>   MAINTAINERS: update arm,malidp.yaml reference
+>   MAINTAINERS: update cortina,gemini-ethernet.yaml reference
+>   MAINTAINERS: update dongwoon,dw9807-vcm.yaml reference
+>   MAINTAINERS: update maxim,max77693.yaml reference
+>   MAINTAINERS: update snps,axs10x-reset.yaml reference
+>   objtool: update objtool.txt references
+>   ASoC: wm8731: update wlf,wm8731.yaml reference
+>   arch: m68k: q40: README: drop references to IDE driver
 
-* fix a homophone typo reported by Li Feng
-
-Reported-by: Li Feng <felixlee868@icloud.com>
-Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
----
- .../zh_CN/kernel-hacking/hacking.rst          | 22 +++++++++----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/translations/zh_CN/kernel-hacking/hacking.rst b/Documentation/translations/zh_CN/kernel-hacking/hacking.rst
-index f2bc154c5bcc..bda79646bb1e 100644
---- a/Documentation/translations/zh_CN/kernel-hacking/hacking.rst
-+++ b/Documentation/translations/zh_CN/kernel-hacking/hacking.rst
-@@ -81,7 +81,7 @@
- 过硬件中断）的“软件中断”将运行（ ``kernel/softirq.c`` ）。
- 
- 此处完成了许多真正的中断处理工作。在向SMP过渡的早期，只有“bottom halves下半
--部”（BHs）机制，无法利用多个CPU的优势。在从那些一团糟的就电脑切换过来后不久，
-+部”（BHs）机制，无法利用多个CPU的优势。在从那些一团糟的旧电脑切换过来后不久，
- 我们放弃了这个限制，转而使用“软中断”。
- 
- ``include/linux/interrupt.h`` 列出了不同的软中断。定时器软中断是一个非常重要
-@@ -95,8 +95,7 @@
- 
- .. warning::
- 
--    “tasklet”这个名字是误导性的：它们与“任务”无关，可能更多与当时
--    阿列克谢·库兹涅佐夫享用的糟糕伏特加有关。
-+    “tasklet”这个名字是误导性的：它们与“任务”无关。
- 
- 你可以使用 :c:func:`in_softirq()` 宏（ ``include/linux/preempt.h`` ）来确认
- 是否处于软中断（或子任务）中。
-@@ -247,7 +246,7 @@ Provide mechanism not policy”。
-     与 :c:func:`put_user()` 和 :c:func:`get_user()` 不同，它们返回未复制的
-     数据量（即0仍然意味着成功）。
- 
--【是的，这个愚蠢的接口真心让我尴尬。火爆的口水仗大概每年都会发生。
-+【是的，这个讨厌的接口真心让我尴尬。火爆的口水仗大概每年都会发生。
- —— Rusty Russell】
- 
- 这些函数可以隐式睡眠。它不应该在用户上下文之外调用（没有意义）、调用时禁用中断
-@@ -538,9 +537,9 @@ Documentation/core-api/symbol-namespaces.rst 。
- 
- Linus和其他开发人员有时会更改开发内核中的函数或结构体名称；这样做不仅是为了
- 让每个人都保持警惕，还反映了一个重大的更改（例如，不能再在打开中断的情况下
--调用，或者执行额外的检查，或者不执行以前捕获的检查）。通常这会附带一个linux
--内核邮件列表中相当全面的注释；请搜索存档以查看。简单地对文件进行全局替换通常
--会让事情变得 **更糟** 。
-+调用，或者执行额外的检查，或者不执行以前捕获的检查）。通常这会附带发送一个
-+相当全面的注释到相应的内核邮件列表中；请搜索存档以查看。简单地对文件进行全局
-+替换通常只会让事情变得 **更糟** 。
- 
- 初始化结构体成员
- ------------------
-@@ -610,7 +609,7 @@ C++
- 
- 为了让你的东西更正式、补丁更整洁，还有一些工作要做：
- 
---  搞清楚你在谁的地界儿上干活。查看源文件的顶部、 ``MAINTAINERS`` 文件以及
-+-  搞清楚你修改的代码属于谁。查看源文件的根目录、 ``MAINTAINERS`` 文件以及
-    ``CREDITS`` 文件的最后一部分。你应该和此人协调，确保你没有重新发明轮子，
-    或者尝试一些已经被拒绝的东西。
- 
-@@ -629,9 +628,10 @@ C++
-    “obj-$(CONFIG_xxx) += xxx.o”。语法记录在
-    Documentation/kbuild/makefiles.rst 。
- 
---  如果你做了一些有意义的事情，那可以把自己放进 ``CREDITS`` ，通常不止一个
--   文件（无论如何你的名字都应该在源文件的顶部）。维护人员意味着您希望在对
--   子系统进行更改时得到询问，并了解缺陷；这意味着对某部分代码做出更多承诺。
-+-  如果你认为自己做了一些有意义的事情，可以把自己放进 ``CREDITS`` ，通常不
-+   止一个文件（无论如何你的名字都应该在源文件的顶部）。  ``MAINTAINERS``
-+   意味着您希望在对子系统进行更改时得到询问，并了解缺陷；这意味着对某部分
-+   代码做出更多承诺。
- 
- -  最后，别忘记去阅读 Documentation/process/submitting-patches.rst ，
-    也许还有 Documentation/process/submitting-drivers.rst 。
--- 
-2.30.2
-
+Applied patches 1-5,17,18,20
