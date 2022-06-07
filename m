@@ -2,149 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86670C43334
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 12:40:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F8F8C43334
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 12:59:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229884AbiFGMk1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 08:40:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43146 "EHLO
+        id S244348AbiFGM7h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 08:59:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244039AbiFGMk0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 08:40:26 -0400
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4467EBE9;
-        Tue,  7 Jun 2022 05:40:25 -0700 (PDT)
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-edeb6c3642so22993747fac.3;
-        Tue, 07 Jun 2022 05:40:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=veXJPfHkMS+LtparZTe0eg0zxXaGbczedDsr7TOeC1g=;
-        b=oSzAR8Eh6bpfrAeaxldZCXadsI8haXay3afMInYK9HhlYvEsXiYOgWZ/VNTDz25noI
-         nNJiqtrVCyN15WKCLCSb7EH6FC+SUFjHQ0RTMSWId+pun/PUYqNkI4OxAb0MzSYFyqYS
-         Hh2PReF7BV5sLKMJrACP3zOoxBSsguOR737fhcp/ZvOAccFuYLw3ph2ZL+foS3y/FJLo
-         x0lH7wZDqTgzXgX2Q35/iDdfgPMeblWp6LND3q6NsjKDF1qVqGtXSrb/JDz3mDJ9V2XS
-         mMAWTaL2JCHGTpsMMFfXujseHiWdgSoZO6gacwtIWWkOY/i7W4DqSo17dmY5JKNkLM3w
-         88Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=veXJPfHkMS+LtparZTe0eg0zxXaGbczedDsr7TOeC1g=;
-        b=G8EMo7wLCLyb0GPZwKFQNRMX6oY8VldW6oWH9S/hXgdo+Yj8i8Amh0j99NS+U7bZ1B
-         7Qgcu79OT2Zc03/sLg+ZV57HTKtTfKbHayQbQu2+NP++qhUOQs3zkkfJ1bjiyB60lZGj
-         tpMVakVILgnxm5DRpi1mLMWAJ4w10LK3GP/ASIpyopJ8EXRpiH7CwFBUuXssRerBlBqM
-         9wJcnHOBJPKbqn5mnQYsFcqNdSdUQURvTW3r6B2XDXyeEXUG5l6rX1oHz0sHDpunYSsZ
-         9Cydoon2bbpoYb07gKjYaRDSgSiosn5iOD9efAH/dwFszTp8I+cYrVjNyutMpbxSa6gp
-         SgSA==
-X-Gm-Message-State: AOAM530+kAm17r/h/RHd+bSzwR5Yywi84KahroSUlLxPitiweD4k0JQU
-        jggKfdqgvH2Da+TK4582VMA=
-X-Google-Smtp-Source: ABdhPJx9iIUqKOI6JhA/vc8xUWLUc/9nU/qd4Y/M+ng48dq5FhS3Hpa0ygnThnvEXqKSN0ggr3p+Jg==
-X-Received: by 2002:a05:6870:4395:b0:f5:f122:f44d with SMTP id r21-20020a056870439500b000f5f122f44dmr16112071oah.273.1654605624679;
-        Tue, 07 Jun 2022 05:40:24 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id y93-20020a9d22e6000000b0060c06bc1230sm1008749ota.69.2022.06.07.05.40.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jun 2022 05:40:24 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <c1b1a66b-7f92-931e-ad5f-8ffa87865c4a@roeck-us.net>
-Date:   Tue, 7 Jun 2022 05:40:22 -0700
+        with ESMTP id S244341AbiFGM7g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 08:59:36 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BC958A07D;
+        Tue,  7 Jun 2022 05:59:35 -0700 (PDT)
+Received: from [192.168.10.2] (unknown [39.45.211.232])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: usama.anjum)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id EAECB6601A93;
+        Tue,  7 Jun 2022 13:59:31 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1654606774;
+        bh=QEuHwxJN6odW1g5krFZeQvoskzQhnvkfJZhXm3QQ7hk=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=Wnreb7Vt0UfkowMpVzJX44PRp7et4qVMYEC774vdMH2+S5q9cIb+SL+S+wTm3FdCn
+         Dplll3g9VRylAoiNYTCe+1cOA+TbaDM2V72XBpxx9qRWe38p+y+vaaNzNQPT1PlXUn
+         GhIw7LJ7ib9IkVZNYDsilKwMjx2qSgNU9R4n8uV466lFS8l7tu0mxo4ROtiJWcHWne
+         f+mZwDYOXWlGh8ACAIh3LIvt7oYi97y5rLsDbr5fBaoQ4gz6kfihuEKsngUiZEcIy4
+         nuU8ZeEln3co52oGHiuorhM4+EQWXkmiFME/wh5hQ8qxVZ+ULcxw3nAcCK9jZIYHJ4
+         4RaHbM9QUl1MA==
+Message-ID: <e01f90a0-a3c7-c5fd-ae1f-197c6fec525e@collabora.com>
+Date:   Tue, 7 Jun 2022 17:59:28 +0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: linux-next: build warnings after merge of the hwmon-staging tree
+ Thunderbird/91.9.0
+Cc:     usama.anjum@collabora.com, kernel@collabora.com,
+        bagasdotme@gmail.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs/kselftest: add more guidelines for adding new
+ tests
 Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-References: <20220607141958.1e31971d@canb.auug.org.au>
- <Yp8cQ1BcDXuZ9Cv4@debian.me>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <Yp8cQ1BcDXuZ9Cv4@debian.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+References: <20220521073651.4191910-1-usama.anjum@collabora.com>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <20220521073651.4191910-1-usama.anjum@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/7/22 02:37, Bagas Sanjaya wrote:
-> On Tue, Jun 07, 2022 at 02:19:58PM +1000, Stephen Rothwell wrote:
->> Hi all,
->>
->> After merging the hwmon-staging tree, today's linux-next build (htmldocs)
->> produced these warnings:
->>
->> Documentation/hwmon/lt7182s.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent.
->> Documentation/hwmon/lt7182s.rst:75: WARNING: Malformed table.
->> Text in column margin in table line 33.
->>
->> ======================  ====================================
->> curr[1-2]_label         "iin[12]"
->> curr[1-2]_input         Measured input current
->> curr[1-2]_max           Maximum input current
->> curr[1-2]_max_alarm     Current high alarm
->>
->> curr[3-4]_label         "iout[1-2]"
->> curr[3-4]_input         Measured output current
->> curr[3-4]_highest       Highest measured output current
->> curr[3-4]_max           Maximum output current
->> curr[3-4]_max_alarm     Output current high alarm
->>
->> in[1-2]_label           "vin[12]"
->> in[1-2]_input           Measured input voltage
->> in[1-2]_highest         Highest measured input voltage
->> in[1-2]_crit            Critical maximum input voltage
->> in[1-2]_crit_alarm      Input voltage critical high alarm
->> in[1-2]_min             Minimum input voltage
->> in[1-2]_min_alarm       Input voltage low alarm
->> in[1-2]_rated_min       Rated minimum input voltage
->> in[1-2]_rated_max       Rated maximum input voltage
->> in1_reset_history       Write to reset history for all attributes
->>
->> in[3-5]_label           "vmon[1-3]"
->> in[3-5]_input           Measured voltage on ITH1/ITH2/EXTVCC pins
->>                          Only available if enabled with MFR_ADC_CONTROL_LT7182S
->>                          command.
->>
->> in[3-4|6-7]_label       "vout[1-2]"
->> in[3-4|6-7]_input       Measured output voltage
->> in[3-4|6-7]_highest     Highest measured output voltage
->> in[3-4|6-7]_lcrit       Critical minimum output voltage
->> in[3-4|6-7]_lcrit_alarm Output voltage critical low alarm
-                          ^
->> in[3-4|6-7]_min         Minimum output voltage
->> in[3-4|6-7]_max_alarm   Output voltage low alarm
->> in[3-4|6-7]_max         Maximum output voltage
->> in[3-4|6-7]_max_alarm   Output voltage high alarm
->> in[3-4|6-7]_crit        Critical maximum output voltage
->> in[3-4|6-7]_crit_alarm  Output voltage critical high alarm
->>
->> power[1-2]_label        "pout[1-2]"
->> power[1-2]_input        Measured output power
->>
->> temp1_input             Measured temperature
->> temp1_crit              Critical high temperature
->> temp1_crit_alarm        Chip temperature critical high alarm
->> temp1_max               Maximum temperature
->> temp1_max_alarm         Chip temperature high alarm
->> ======================  ====================================
->>
->> Introduced by commit
->>
->>    3d6bcaa21fbd ("hwmon: (pmbus) Add support for Analog Devices LT7182S")
->>
-> 
-> Hi Stephen,
-> 
-> The warning above doesn't appear when doing htmldocs build using Sphinx
-> installed from pip on my system.
-> 
+Reminder!
 
-I already fixed it up.
+On 5/21/22 12:36 PM, Muhammad Usama Anjum wrote:
+> Improve and add instructions to add new tests. Add build commands to
+> test before sending the new test patch.
+> 
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+> ---
+> Changes in v2:
+> - Updated commit message
+> - Removed dependence of this patch from other patch
+> - Updated instructions
+> ---
+>  Documentation/dev-tools/kselftest.rst | 27 ++++++++++++++++++++++++++-
+>  1 file changed, 26 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+> index a833ecf12fbc1..ee6467ca8293f 100644
+> --- a/Documentation/dev-tools/kselftest.rst
+> +++ b/Documentation/dev-tools/kselftest.rst
+> @@ -208,6 +208,14 @@ In general, the rules for selftests are
+>  Contributing new tests (details)
+>  ================================
+>  
+> + * In your Makefile, use facilities from lib.mk by including it instead of
+> +   reinventing the wheel. Specify flags and binaries generation flags on
+> +   need basis before including lib.mk. ::
+> +
+> +    CFLAGS = $(KHDR_INCLUDES)
+> +    TEST_GEN_PROGS := close_range_test
+> +    include ../lib.mk
+> +
+>   * Use TEST_GEN_XXX if such binaries or files are generated during
+>     compiling.
+>  
+> @@ -230,13 +238,30 @@ Contributing new tests (details)
+>   * First use the headers inside the kernel source and/or git repo, and then the
+>     system headers.  Headers for the kernel release as opposed to headers
+>     installed by the distro on the system should be the primary focus to be able
+> -   to find regressions.
+> +   to find regressions. Use KHDR_INCLUDES in Makefile to include headers from
+> +   the kernel source.
+>  
+>   * If a test needs specific kernel config options enabled, add a config file in
+>     the test directory to enable them.
+>  
+>     e.g: tools/testing/selftests/android/config
+>  
+> + * Create a .gitignore file inside test directory and add all generated objects
+> +   in it.
+> +
+> + * Add new test name in TARGETS in selftests/Makefile::
+> +
+> +    TARGETS += android
+> +
+> + * All changes should pass::
+> +
+> +    kselftest-{all,install,clean,gen_tar}
+> +    kselftest-{all,install,clean,gen_tar} O=abo_path
+> +    kselftest-{all,install,clean,gen_tar} O=rel_path
+> +    make -C tools/testing/selftests {all,install,clean,gen_tar}
+> +    make -C tools/testing/selftests {all,install,clean,gen_tar} O=abs_path
+> +    make -C tools/testing/selftests {all,install,clean,gen_tar} O=rel_path
+> +
+>  Test Module
+>  ===========
+>  
 
-Guenter
+-- 
+Muhammad Usama Anjum
