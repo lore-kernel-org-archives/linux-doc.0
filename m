@@ -2,290 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58AC1C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 06:03:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D92DC43334
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 06:48:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230134AbiFGGDw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 02:03:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59378 "EHLO
+        id S237270AbiFGGse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 02:48:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230075AbiFGGDu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 02:03:50 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FBA114036;
-        Mon,  6 Jun 2022 23:03:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654581829; x=1686117829;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PQaqbgfR6maW5C0u78E1636zbiBJai++mqzEJ4Xc1gc=;
-  b=TDNs6XKEtY0SNP8FI/cnl54/2/Fb/bDRq40XMtI3tYGjcqVUKGs2p6o8
-   V4b5KKNfLhoo/vA72SW+ebXXyRrTTJQ/8tUjCi3FLv/armWVa3actiyTw
-   RRETEcwvxwT3RSxcyfu2lwIXlMKR9eVWnbjso2tgp1n8/s2Q2HfsPiK86
-   v34aXjD/MuDPBg5c/hsLJzY74R4/rLlcSst1o6DK5BYp3m2VxANsB7CAl
-   1Jt8SWufuh88QuIP2p/Kg5PvlOoqs1g+eYfdcqtNU1dHMUH6253fnJ0v2
-   5yyxE74Wmnz3j8pY1O2cCiAye2HIPClv3galZZBLBEIYk887jC7l49Ga4
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="257151664"
-X-IronPort-AV: E=Sophos;i="5.91,282,1647327600"; 
-   d="scan'208";a="257151664"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2022 23:03:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,282,1647327600"; 
-   d="scan'208";a="579469046"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 06 Jun 2022 23:03:44 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nySJb-000DPp-S8;
-        Tue, 07 Jun 2022 06:03:43 +0000
-Date:   Tue, 7 Jun 2022 14:03:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Rob Clark <robdclark@chromium.org>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Sean Paul <sean@poorly.run>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 2/2] drm/msm: Expose client engine utilization via
- fdinfo
-Message-ID: <202206071325.FWDwmg2D-lkp@intel.com>
-References: <20220606195432.1888346-2-robdclark@gmail.com>
+        with ESMTP id S237278AbiFGGsd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 02:48:33 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92AE05DE74
+        for <linux-doc@vger.kernel.org>; Mon,  6 Jun 2022 23:48:28 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id 7so14186935pga.12
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jun 2022 23:48:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7rQcgJEIGUGpgYsyIUqNWgUUdRjuukG04jLIMCKTH0c=;
+        b=XjNKoGV/J5xgunGis7NKTl26cgaF1gPJiMcDe2wAHuB+5jBc+Wv5J1V3q4dMa0pA5d
+         vIvKx7KSgO37V9jholbn0XLMu99EPRQjDyzY0bDh9u0EPxXNecTXXhbz8fQ4XazLP2fY
+         vwC76VgZASe4ILfogy5xcSyHuZMd72HaHqRw9OUqde6sNMP6O/WkiANQo3jBxk/0vy40
+         glVGYCqPey9kapi7Jf1DDgON2fJNaR/XfYu1HOTujEKaxM5hZV0WPsiDn0w1xWrOaE0M
+         gMMq6ser1OhJwPyy+eu5bmtSg4zYQFw6x1F5DkJtjMsfv2Dkg+r0Xjdeyk742t22bTf0
+         ZQ2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7rQcgJEIGUGpgYsyIUqNWgUUdRjuukG04jLIMCKTH0c=;
+        b=dA2Tyj7S5+rPuvLHDHHiLNCSRTaZGyuQBKlWSH4IgnE4PgiJ2W1Jv66jBL0R1u8IRJ
+         yJuvMzDMNRYtpjNeEQfk+T4C6cYITdfuwFu/tHFpyolOXLzdzOwmegFyG5nGqk7Us+jb
+         gWjwF6I8FzeqM6sgVyTNYf7HvvFJ400RVZcsJ62XlK+iM0fBPYhMDNDbG6awCv4/RHfI
+         IDvbqyijCWLcNDX68e1jq+wlVzqciDAucV0mxCMkyI1uyPT5V9rjzyIe4Y6swxAyu3fh
+         +h8Ufoc0McWHJ6tlSQoEClTvVFpB/6QE2PxBYZuR+4/ykv96yrTNc9l0B6/11Owk410K
+         DGyg==
+X-Gm-Message-State: AOAM530xuvyvm73amej4duyGV7m4GmXj4ihMmUPMBnX1+lBXam+qJtZj
+        jp3QOnnsfC1IxkjvL3aeLIDXOw==
+X-Google-Smtp-Source: ABdhPJyRyQQmSA0kSCvirbNa7Mtz2TU5HtXIN+UxJA2W7gLSPU3k2Q9MT59vsB1FIPJvD/fep8rSXQ==
+X-Received: by 2002:a05:6a00:139f:b0:51b:e21f:b72 with SMTP id t31-20020a056a00139f00b0051be21f0b72mr20999766pfg.75.1654584508075;
+        Mon, 06 Jun 2022 23:48:28 -0700 (PDT)
+Received: from C02DW0BEMD6R.bytedance.net ([139.177.225.230])
+        by smtp.gmail.com with ESMTPSA id y20-20020a170902d65400b00163cc9d6a04sm11742806plh.299.2022.06.06.23.48.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jun 2022 23:48:27 -0700 (PDT)
+From:   Qi Zheng <zhengqi.arch@bytedance.com>
+To:     hannes@cmpxchg.org, roman.gushchin@linux.dev, shakeelb@google.com,
+        songmuchun@bytedance.com, mhocko@kernel.org,
+        akpm@linux-foundation.org, corbet@lwn.net
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Qi Zheng <zhengqi.arch@bytedance.com>,
+        Michal Hocko <mhocko@suse.com>
+Subject: [PATCH v4] mm: memcontrol: add {pgscan,pgsteal}_{kswapd,direct} items in memory.stat of cgroup v2
+Date:   Tue,  7 Jun 2022 14:48:03 +0800
+Message-Id: <20220607064803.79363-1-zhengqi.arch@bytedance.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220606195432.1888346-2-robdclark@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
+There are already statistics of {pgscan,pgsteal}_kswapd and
+{pgscan,pgsteal}_direct of memcg event here, but now only the
+sum of the two is displayed in memory.stat of cgroup v2.
 
-I love your patch! Perhaps something to improve:
+In order to obtain more accurate information during monitoring
+and debugging, and to align with the display in /proc/vmstat,
+it better to display {pgscan,pgsteal}_kswapd and
+{pgscan,pgsteal}_direct separately.
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-intel/for-linux-next drm-tip/drm-tip v5.19-rc1 next-20220607]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Also, for forward compatibility, we still display pgscan and
+pgsteal items so that it won't break existing applications.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/drm-Add-DRM_GEM_FOPS/20220607-035529
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: s390-buildonly-randconfig-r008-20220605 (https://download.01.org/0day-ci/archive/20220607/202206071325.FWDwmg2D-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b92436efcb7813fc481b30f2593a4907568d917a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/09342d3c56fa77dacb235908515f0a44ac2fc9c2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Rob-Clark/drm-Add-DRM_GEM_FOPS/20220607-035529
-        git checkout 09342d3c56fa77dacb235908515f0a44ac2fc9c2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/ drivers/gpu/drm/msm/
+Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+Acked-by: Roman Gushchin <roman.gushchin@linux.dev>
+Acked-by: Muchun Song <songmuchun@bytedance.com>
+Acked-by: Shakeel Butt <shakeelb@google.com>
+Acked-by: Michal Hocko <mhocko@suse.com>
+---
+Changelog in v3 -> v4:
+ - fix the doc, thanks to Johannes
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Changelog in v2 -> v3:
+ - add comment for memcg_vm_event_stat (suggested by Michal)
+ - collect Acked-bys
 
-All warnings (new ones prefixed by >>):
+Changelog in v1 -> v2:
+ - keep pgscan and pgsteal items for forward compatibility, thanks to Shakeel
+ - update commit log
+ - collect Acked-bys
 
-   In file included from drivers/gpu/drm/msm/msm_gpu.c:9:
-   In file included from drivers/gpu/drm/msm/msm_gpu.h:10:
-   In file included from include/linux/adreno-smmu-priv.h:9:
-   In file included from include/linux/io-pgtable.h:6:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/gpu/drm/msm/msm_gpu.c:9:
-   In file included from drivers/gpu/drm/msm/msm_gpu.h:10:
-   In file included from include/linux/adreno-smmu-priv.h:9:
-   In file included from include/linux/io-pgtable.h:6:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/gpu/drm/msm/msm_gpu.c:9:
-   In file included from drivers/gpu/drm/msm/msm_gpu.h:10:
-   In file included from include/linux/adreno-smmu-priv.h:9:
-   In file included from include/linux/io-pgtable.h:6:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> drivers/gpu/drm/msm/msm_gpu.c:158:46: warning: format specifies type 'unsigned long' but the argument has type 'uint32_t' (aka 'unsigned int') [-Wformat]
-           drm_printf(p, "drm-maxfreq-gpu:\t%lu Hz\n", gpu->fast_rate);
-                                            ~~~        ^~~~~~~~~~~~~~
-                                            %u
-   In file included from drivers/gpu/drm/msm/msm_gpu.c:7:
-   In file included from include/drm/drm_drv.h:33:
-   In file included from include/drm/drm_device.h:5:
-   In file included from include/linux/kref.h:16:
-   In file included from include/linux/spinlock.h:93:
-   arch/s390/include/asm/spinlock.h:81:3: error: expected absolute expression
-                   ALTERNATIVE("", ".insn rre,0xb2fa0000,7,0", 49) /* NIAI 7 */
-                   ^
-   arch/s390/include/asm/alternative.h:118:2: note: expanded from macro 'ALTERNATIVE'
-           ALTINSTR_REPLACEMENT(altinstr, 1)                               \
-           ^
-   arch/s390/include/asm/alternative.h:113:2: note: expanded from macro 'ALTINSTR_REPLACEMENT'
-           INSTR_LEN_SANITY_CHECK(altinstr_len(num))
-           ^
-   arch/s390/include/asm/alternative.h:62:3: note: expanded from macro 'INSTR_LEN_SANITY_CHECK'
-           ".if " len " > 254\n"                                           \
-            ^
-   <inline asm>:5:5: note: instantiated into assembly here
-   .if 6651b-6641b > 254
-       ^
-   In file included from drivers/gpu/drm/msm/msm_gpu.c:7:
-   In file included from include/drm/drm_drv.h:33:
-   In file included from include/drm/drm_device.h:5:
-   In file included from include/linux/kref.h:16:
-   In file included from include/linux/spinlock.h:93:
-   arch/s390/include/asm/spinlock.h:81:3: error: cpu alternatives does not support instructions blocks > 254 bytes
-                   ALTERNATIVE("", ".insn rre,0xb2fa0000,7,0", 49) /* NIAI 7 */
-                   ^
-   arch/s390/include/asm/alternative.h:118:2: note: expanded from macro 'ALTERNATIVE'
-           ALTINSTR_REPLACEMENT(altinstr, 1)                               \
-           ^
-   arch/s390/include/asm/alternative.h:113:2: note: expanded from macro 'ALTINSTR_REPLACEMENT'
-           INSTR_LEN_SANITY_CHECK(altinstr_len(num))
-           ^
-   arch/s390/include/asm/alternative.h:63:3: note: expanded from macro 'INSTR_LEN_SANITY_CHECK'
-           "\t.error \"cpu alternatives does not support instructions "    \
-            ^
-   <inline asm>:6:2: note: instantiated into assembly here
-           .error "cpu alternatives does not support instructions blocks > 254 bytes"
-           ^
-   In file included from drivers/gpu/drm/msm/msm_gpu.c:7:
-   In file included from include/drm/drm_drv.h:33:
-   In file included from include/drm/drm_device.h:5:
-   In file included from include/linux/kref.h:16:
-   In file included from include/linux/spinlock.h:93:
-   arch/s390/include/asm/spinlock.h:81:3: error: expected absolute expression
-                   ALTERNATIVE("", ".insn rre,0xb2fa0000,7,0", 49) /* NIAI 7 */
-                   ^
-   arch/s390/include/asm/alternative.h:118:2: note: expanded from macro 'ALTERNATIVE'
-           ALTINSTR_REPLACEMENT(altinstr, 1)                               \
-           ^
-   arch/s390/include/asm/alternative.h:113:2: note: expanded from macro 'ALTINSTR_REPLACEMENT'
-           INSTR_LEN_SANITY_CHECK(altinstr_len(num))
-           ^
-   arch/s390/include/asm/alternative.h:66:3: note: expanded from macro 'INSTR_LEN_SANITY_CHECK'
-           ".if (" len ") %% 2\n"                                          \
-            ^
-   <inline asm>:8:5: note: instantiated into assembly here
-   .if (6651b-6641b) % 2
-       ^
-   In file included from drivers/gpu/drm/msm/msm_gpu.c:7:
-   In file included from include/drm/drm_drv.h:33:
-   In file included from include/drm/drm_device.h:5:
-   In file included from include/linux/kref.h:16:
-   In file included from include/linux/spinlock.h:93:
-   arch/s390/include/asm/spinlock.h:81:3: error: cpu alternatives instructions length is odd
-                   ALTERNATIVE("", ".insn rre,0xb2fa0000,7,0", 49) /* NIAI 7 */
-                   ^
-   arch/s390/include/asm/alternative.h:118:2: note: expanded from macro 'ALTERNATIVE'
-           ALTINSTR_REPLACEMENT(altinstr, 1)                               \
-           ^
-   arch/s390/include/asm/alternative.h:113:2: note: expanded from macro 'ALTINSTR_REPLACEMENT'
-           INSTR_LEN_SANITY_CHECK(altinstr_len(num))
-           ^
-   arch/s390/include/asm/alternative.h:67:3: note: expanded from macro 'INSTR_LEN_SANITY_CHECK'
-           "\t.error \"cpu alternatives instructions length is odd\"\n"    \
-            ^
-   <inline asm>:9:2: note: instantiated into assembly here
-           .error "cpu alternatives instructions length is odd"
-           ^
-   In file included from drivers/gpu/drm/msm/msm_gpu.c:7:
-   In file included from include/drm/drm_drv.h:33:
-   In file included from include/drm/drm_device.h:5:
-   In file included from include/linux/kref.h:16:
-   In file included from include/linux/spinlock.h:93:
-   arch/s390/include/asm/spinlock.h:81:3: error: expected absolute expression
-                   ALTERNATIVE("", ".insn rre,0xb2fa0000,7,0", 49) /* NIAI 7 */
-                   ^
-   arch/s390/include/asm/alternative.h:120:2: note: expanded from macro 'ALTERNATIVE'
-           OLDINSTR(oldinstr, 1)                                           \
-           ^
-   arch/s390/include/asm/alternative.h:90:2: note: expanded from macro 'OLDINSTR'
-           OLDINSTR_PADDING(oldinstr, num)                                 \
-           ^
-   arch/s390/include/asm/alternative.h:71:3: note: expanded from macro 'OLDINSTR_PADDING'
-           ".if " oldinstr_pad_len(num) " > 6\n"                           \
-            ^
+ Documentation/admin-guide/cgroup-v2.rst | 24 ++++++++---
+ mm/memcontrol.c                         | 55 ++++++++++++-------------
+ 2 files changed, 45 insertions(+), 34 deletions(-)
 
-
-vim +158 drivers/gpu/drm/msm/msm_gpu.c
-
-   150	
-   151	void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
-   152				 struct drm_printer *p)
-   153	{
-   154		drm_printf(p, "drm-driver:\t%s\n", gpu->dev->driver->name);
-   155		drm_printf(p, "drm-client-id:\t%u\n", ctx->seqno);
-   156		drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
-   157		drm_printf(p, "drm-cycles-gpu:\t%llu\n", ctx->cycles);
- > 158		drm_printf(p, "drm-maxfreq-gpu:\t%lu Hz\n", gpu->fast_rate);
-   159	}
-   160	
-
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 176298f2f4de..ad9ba3ec90a5 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1433,6 +1433,24 @@ PAGE_SIZE multiple when read back.
+ 	  workingset_nodereclaim
+ 		Number of times a shadow node has been reclaimed
+ 
++	  pgscan (npn)
++		Amount of scanned pages (in an inactive LRU list)
++
++	  pgsteal (npn)
++		Amount of reclaimed pages
++
++	  pgscan_kswapd (npn)
++		Amount of scanned pages by kswapd (in an inactive LRU list)
++
++	  pgscan_direct (npn)
++		Amount of scanned pages directly  (in an inactive LRU list)
++
++	  pgsteal_kswapd (npn)
++		Amount of reclaimed pages by kswapd
++
++	  pgsteal_direct (npn)
++		Amount of reclaimed pages directly
++
+ 	  pgfault (npn)
+ 		Total number of page faults incurred
+ 
+@@ -1442,12 +1460,6 @@ PAGE_SIZE multiple when read back.
+ 	  pgrefill (npn)
+ 		Amount of scanned pages (in an active LRU list)
+ 
+-	  pgscan (npn)
+-		Amount of scanned pages (in an inactive LRU list)
+-
+-	  pgsteal (npn)
+-		Amount of reclaimed pages
+-
+ 	  pgactivate (npn)
+ 		Amount of pages moved to the active LRU list
+ 
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 0d3fe0a0c75a..27cebaa53472 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -1460,6 +1460,29 @@ static inline unsigned long memcg_page_state_output(struct mem_cgroup *memcg,
+ 	return memcg_page_state(memcg, item) * memcg_page_state_unit(item);
+ }
+ 
++/* Subset of vm_event_item to report for memcg event stats */
++static const unsigned int memcg_vm_event_stat[] = {
++	PGSCAN_KSWAPD,
++	PGSCAN_DIRECT,
++	PGSTEAL_KSWAPD,
++	PGSTEAL_DIRECT,
++	PGFAULT,
++	PGMAJFAULT,
++	PGREFILL,
++	PGACTIVATE,
++	PGDEACTIVATE,
++	PGLAZYFREE,
++	PGLAZYFREED,
++#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
++	ZSWPIN,
++	ZSWPOUT,
++#endif
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++	THP_FAULT_ALLOC,
++	THP_COLLAPSE_ALLOC,
++#endif
++};
++
+ static char *memory_stat_format(struct mem_cgroup *memcg)
+ {
+ 	struct seq_buf s;
+@@ -1495,41 +1518,17 @@ static char *memory_stat_format(struct mem_cgroup *memcg)
+ 	}
+ 
+ 	/* Accumulated memory events */
+-
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGFAULT),
+-		       memcg_events(memcg, PGFAULT));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGMAJFAULT),
+-		       memcg_events(memcg, PGMAJFAULT));
+-	seq_buf_printf(&s, "%s %lu\n",  vm_event_name(PGREFILL),
+-		       memcg_events(memcg, PGREFILL));
+ 	seq_buf_printf(&s, "pgscan %lu\n",
+ 		       memcg_events(memcg, PGSCAN_KSWAPD) +
+ 		       memcg_events(memcg, PGSCAN_DIRECT));
+ 	seq_buf_printf(&s, "pgsteal %lu\n",
+ 		       memcg_events(memcg, PGSTEAL_KSWAPD) +
+ 		       memcg_events(memcg, PGSTEAL_DIRECT));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGACTIVATE),
+-		       memcg_events(memcg, PGACTIVATE));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGDEACTIVATE),
+-		       memcg_events(memcg, PGDEACTIVATE));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGLAZYFREE),
+-		       memcg_events(memcg, PGLAZYFREE));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGLAZYFREED),
+-		       memcg_events(memcg, PGLAZYFREED));
+-
+-#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(ZSWPIN),
+-		       memcg_events(memcg, ZSWPIN));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(ZSWPOUT),
+-		       memcg_events(memcg, ZSWPOUT));
+-#endif
+ 
+-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(THP_FAULT_ALLOC),
+-		       memcg_events(memcg, THP_FAULT_ALLOC));
+-	seq_buf_printf(&s, "%s %lu\n", vm_event_name(THP_COLLAPSE_ALLOC),
+-		       memcg_events(memcg, THP_COLLAPSE_ALLOC));
+-#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
++	for (i = 0; i < ARRAY_SIZE(memcg_vm_event_stat); i++)
++		seq_buf_printf(&s, "%s %lu\n",
++			       vm_event_name(memcg_vm_event_stat[i]),
++			       memcg_events(memcg, memcg_vm_event_stat[i]));
+ 
+ 	/* The above should easily fit into one page */
+ 	WARN_ON_ONCE(seq_buf_has_overflowed(&s));
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.20.1
+
