@@ -2,233 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16210C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 09:07:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07281C43334
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 09:16:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236859AbiFGJHj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 05:07:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45380 "EHLO
+        id S239207AbiFGJQw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 05:16:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237225AbiFGJHg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 05:07:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A3206005E;
-        Tue,  7 Jun 2022 02:07:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A721260A55;
-        Tue,  7 Jun 2022 09:07:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68392C385A5;
-        Tue,  7 Jun 2022 09:07:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654592854;
-        bh=oy94gBKclPiSri9iMSjQIooenS5qZDCAuitKuHsxNOo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZzBmvUn+fG4lGAvIz4wMYcplKFGUdvZFb1+Gj1SX+HehCyaHuI281+tZNwt69ldLe
-         q2gjrFCn4cfnJHiovIdkVXuVmZF7wCjfy8FQoHPmZaA5W05HHm7NHr4SHuYz059ma9
-         MhbT/J8rtJTRhvoCSX8vmo3fY8H9x0DOzok4QZoJUDOeX3tQcg+igGe7x1GeaQL5v0
-         iH8Jefmh2+Y395HEc9oagBh0tqNzlUFzbVFFAUr9mnIjcWtubs3enzuNKb5Y9BKl8E
-         muQVE5Q5ABUs5+LFh1dkmnuVJG5LCud2TZ+t/Gk0Ab/BJeY4Nqc0tDbnQwyPI4LlYd
-         IseQ6nh5lY+cQ==
-Date:   Tue, 7 Jun 2022 10:07:26 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Vegard Nossum <vegard.nossum@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Amit Shah <aams@amazon.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Kees Cook <keescook@chromium.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Solar Designer <solar@openwall.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Tyler Hicks <tyhicks@linux.microsoft.com>,
-        Willy Tarreau <w@1wt.eu>
-Subject: Re: [PATCH v2] Documentation/security-bugs: overhaul
-Message-ID: <20220607090726.GB32282@willie-the-truck>
-References: <20220606194850.26122-1-vegard.nossum@oracle.com>
+        with ESMTP id S239182AbiFGJQr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 05:16:47 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F3EDB0D00;
+        Tue,  7 Jun 2022 02:16:44 -0700 (PDT)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LHPmC185MzRp5T;
+        Tue,  7 Jun 2022 17:13:31 +0800 (CST)
+Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 7 Jun 2022 17:16:42 +0800
+Received: from localhost.localdomain (10.175.112.125) by
+ dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 7 Jun 2022 17:16:40 +0800
+From:   Wupeng Ma <mawupeng1@huawei.com>
+To:     <corbet@lwn.net>, <will@kernel.org>, <ardb@kernel.org>,
+        <catalin.marinas@arm.com>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+        <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+        <dvhart@infradead.org>, <andy@infradead.org>, <rppt@kernel.org>,
+        <akpm@linux-foundation.org>, <paul.walmsley@sifive.com>,
+        <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
+        <paulmck@kernel.org>, <keescook@chromium.org>,
+        <songmuchun@bytedance.com>, <rdunlap@infradead.org>,
+        <damien.lemoal@opensource.wdc.com>, <swboyd@chromium.org>,
+        <wei.liu@kernel.org>, <robin.murphy@arm.com>, <david@redhat.com>,
+        <mawupeng1@huawei.com>, <anshuman.khandual@arm.com>,
+        <thunder.leizhen@huawei.com>, <wangkefeng.wang@huawei.com>,
+        <gpiccoli@igalia.com>, <chenhuacai@kernel.org>,
+        <geert@linux-m68k.org>, <chenzhou10@huawei.com>,
+        <vijayb@linux.microsoft.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-efi@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>
+Subject: [PATCH v3 0/6] introduce mirrored memory support for arm64
+Date:   Tue, 7 Jun 2022 17:37:59 +0800
+Message-ID: <20220607093805.1354256-1-mawupeng1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220606194850.26122-1-vegard.nossum@oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.112.125]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500014.china.huawei.com (7.185.36.153)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+From: Ma Wupeng <mawupeng1@huawei.com>
 
-On Mon, Jun 06, 2022 at 09:48:50PM +0200, Vegard Nossum wrote:
-> The current instructions for reporting security vulnerabilities in the
-> kernel are not clear enough, in particular the process of disclosure
-> and requesting CVEs, and what the roles of the different lists are and
-> how exactly to report to each of them.
-> 
-> Let's give this document an overhaul. Goals are stated as a comment at
-> the bottom of the document; these will not appear in the rendered HTML
-> document.
-> 
-> v2: address feedback from Willy Tarreau and Jonathan Corbet
-> 
-> Link: https://seclists.org/oss-sec/2022/q2/133
-> Cc: Amit Shah <aams@amazon.com>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: David Woodhouse <dwmw@amazon.co.uk>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Gustavo A. R. Silva <gustavoars@kernel.org>
-> Cc: Jiri Kosina <jkosina@suse.cz>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Laura Abbott <labbott@kernel.org>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Solar Designer <solar@openwall.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Thorsten Leemhuis <linux@leemhuis.info>
-> Cc: Tyler Hicks <tyhicks@linux.microsoft.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Willy Tarreau <w@1wt.eu>
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
-> ---
->  Documentation/admin-guide/security-bugs.rst | 252 +++++++++++++-------
->  1 file changed, 167 insertions(+), 85 deletions(-)
-> 
-> v1 thread:
-> https://lore.kernel.org/all/20220531230309.9290-1-vegard.nossum@oracle.com/T/#u
-> 
-> Updated rendered HTML:
-> https://vegard.github.io/security/Documentation/output/admin-guide/security-bugs-v2.html
-> 
-> diff --git a/Documentation/admin-guide/security-bugs.rst b/Documentation/admin-guide/security-bugs.rst
-> index 82e29837d5898..c63eeb1e89ffd 100644
-> --- a/Documentation/admin-guide/security-bugs.rst
-> +++ b/Documentation/admin-guide/security-bugs.rst
-> @@ -1,96 +1,178 @@
-> +
->  .. _securitybugs:
->  
-> -Security bugs
-> -=============
-> +Reporting security bugs
-> +=======================
->  
->  Linux kernel developers take security very seriously.  As such, we'd
->  like to know when a security bug is found so that it can be fixed and
->  disclosed as quickly as possible.  Please report security bugs to the
-> -Linux kernel security team.
-> -
-> -Contact
-> --------
-> -
-> -The Linux kernel security team can be contacted by email at
-> -<security@kernel.org>.  This is a private list of security officers
-> -who will help verify the bug report and develop and release a fix.
-> -If you already have a fix, please include it with your report, as
-> -that can speed up the process considerably.  It is possible that the
-> -security team will bring in extra help from area maintainers to
-> -understand and fix the security vulnerability.
-> -
-> -As it is with any bug, the more information provided the easier it
-> -will be to diagnose and fix.  Please review the procedure outlined in
-> -'Documentation/admin-guide/reporting-issues.rst' if you are unclear about what
-> -information is helpful.  Any exploit code is very helpful and will not
-> -be released without consent from the reporter unless it has already been
-> -made public.
-> -
-> -Please send plain text emails without attachments where possible.
-> -It is much harder to have a context-quoted discussion about a complex
-> -issue if all the details are hidden away in attachments.  Think of it like a
-> -:doc:`regular patch submission <../process/submitting-patches>`
-> -(even if you don't have a patch yet): describe the problem and impact, list
-> +Linux kernel security team at security@kernel.org, henceforth "the
-> +security list". This is a closed list of trusted developers who will
-> +help verify the bug report and develop a patch in case none was already
-> +proposed.
-> +
-> +While the security list is closed, the security team may bring in
-> +extra help from the relevant maintainers to understand and fix the
-> +security vulnerability.
-> +
-> +Note that the main interest of the kernel security list is in getting
-> +bugs fixed and getting patches reviewed, tested, and merged; CVE
-> +assignment, disclosure to distributions, and public disclosure happen
-> +on different lists with different people, as described below.
-> +
-> +Here is a quick overview of the various lists:
-> +
-> + =============================== ===== =================== ===============
-> + List address                    Open? Purpose             Members
-> + =============================== ===== =================== ===============
-> + security@kernel.org                no | Reporting         Trusted kernel
-> +                                       | Patch development developers
-> + ------------------------------- ----- ------------------- ---------------
-> + linux-distros@vs.openwall.org      no | Coordination      Distribution
-> +                                       | CVE assignment    representatives
-> +                                       | Backporting
-> +                                       | Testing
-> + ------------------------------- ----- ------------------- ---------------
-> + oss-security@lists.openwall.com   yes | Disclosure        General public
-> + =============================== ===== =================== ===============
-> +
-> +The following sections give a step-by-step guide to reporting and
-> +disclosure.
-> +
-> +Contacting the security list
-> +----------------------------
-> +
-> +As it is with any bug, the more information provided the easier it will
-> +be to diagnose and fix; please review the procedure outlined in
-> +Documentation/admin-guide/reporting-issues.rst if you are unclear about
-> +what information is helpful. Any exploit code is very helpful and will
-> +not be released without consent from the reporter unless it has already
-> +been made public. Reporters are encouraged to propose patches, participate
-> +in the discussions of a fix, and test patches.
-> +
-> +The security team does not assign CVEs, nor does it require them
-> +for reports or fixes. CVEs may be requested when the issue is reported to
-> +the linux-distros list.
-> +
-> +**Disclosure.** The security list strongly prefers to have patches posted
-> +for review and testing on public mailing lists and and merged into the
+Commit b05b9f5f9dcf ("x86, mirror: x86 enabling - find mirrored memory ranges")
+introduced mirrored memory support for x86. This support rely on UEFI to
+report mirrored memory address ranges.  See UEFI 2.5 spec pages 157-158:
 
-typo: "and and"
+  http://www.uefi.org/sites/default/files/resources/UEFI%202_5.pdf
 
-> +appropriate public git repository as soon as they become available.
-> +However, in exceptional cases, you or an affected party may request that
-> +the patch be withheld for some days; as a rule, the maximum is 7 days.
-> +Only in truly exceptional cases will the security list consider deferring
-> +the publication of a fix beyond this, and the only valid reason for doing
-> +so would be to accommodate the logistics of QA and large scale rollouts
-> +that require release coordination.
+Memory mirroring is a technique used to separate memory into two separate
+channels, usually on a memory device, like a server. In memory mirroring,
+one channel is copied to another to create redundancy. This method makes
+input/output (I/O) registers and memory appear with more than one address
+range because the same physical byte is accessible at more than one
+address. Using memory mirroring, higher memory reliability and a higher
+level of memory consolidation are possible.
 
-I think there's a semantic change here, and I tend to feel that these sort
-of changes would be much easier to review if the semantic changes were done
-separately from the reformatting or the addition of entirely new sections.
-As it stands, the whole doc is effectively being replaced, but what we
-currently have has been tweaked over the years (often as a result of
-spirited debate) and I'm keen not to open up some of the issues we had
-previously if at all possible.
+These EFI memory regions have various attributes, and the "mirrored"
+attribute is one of them. The physical memory region whose descriptors
+in EFI memory map has EFI_MEMORY_MORE_RELIABLE attribute (bit: 16) are
+mirrored. The address range mirroring feature of the kernel arranges such
+mirrored regions into normal zones and other regions into movable zones.
 
-Case in point: the new text above removes both the mention of "calendar
-days" which is a useful disambiguation as well as removing the "extension
-to 14 calendar days" which is a useful upper bound. Why are you removing
-these?
+Arm64 can support this too. So mirrored memory support is added to support
+arm64.
 
-You have also removed use of the term "robust fix", which I think was
-useful. That is, security@ isn't going to post a broken patch to the public
-list just because it's been available for 7 days; that period should only
-begin (if it is even needed) once the fix is ready to go.
+The main purpose of this patch set is to introduce mirrored support for
+arm64 and we have already fixed the problems we had which is shown in
+patch #5 to patch #8 and try to bring total isolation in patch #9 which
+will disable mirror feature if kernelcore is not specified.
 
-Thanks,
+In order to test this support in arm64:
+- patch this patch set
+- add kernelcore=mirror in kernel parameter
+- start you kernel
 
-Will
+Patch #1-#2 introduce mirrored memory support form arm64.
+Patch #3-#5 fix some bugs for arm64 if memory reliable is enabled.
+Patch #6 disable mirror feature if kernelcore is not specified.
+
+Thanks to Ard Biesheuvel's hard work [1], now kernel will perfer mirrored
+memory if kaslr is enabled.
+
+[1] https://lore.kernel.org/linux-arm-kernel/CAMj1kXEPVEzMgOM4+Yj6PxHA-jFuDOAUdDJSiSxy_XaP4P7LSw@mail.gmail.com/T/
+
+Changelog since v2:
+- remove efi_fake_mem support
+- remove Commit ("remove some redundant code in ia64 efi_init") since
+  efi_print_memmap() is not public
+- add mirror flag back on initrd memory
+
+Changelog since v1:
+- update changelog in cover letter
+- use PHYS_PFN in patch #7
+
+Ma Wupeng (6):
+  efi: Make efi_find_mirror() public
+  arm64/mirror: arm64 enabling - find mirrored memory ranges
+  mm: Ratelimited mirrored memory related warning messages
+  mm: Demote warning message in vmemmap_verify() to debug level
+  mm: Add mirror flag back on initrd memory
+  efi: Disable mirror feature if kernelcore is not specified
+
+ .../admin-guide/kernel-parameters.txt         |  2 +-
+ arch/arm64/kernel/setup.c                     |  1 +
+ arch/arm64/mm/init.c                          |  9 +++++++
+ arch/x86/include/asm/efi.h                    |  4 ---
+ arch/x86/platform/efi/efi.c                   | 23 ----------------
+ drivers/firmware/efi/efi.c                    | 26 +++++++++++++++++++
+ include/linux/efi.h                           |  3 +++
+ include/linux/memblock.h                      |  1 +
+ include/linux/mm.h                            |  2 ++
+ mm/memblock.c                                 | 24 +++++++++++++++--
+ mm/page_alloc.c                               |  2 +-
+ mm/sparse-vmemmap.c                           |  2 +-
+ 12 files changed, 67 insertions(+), 32 deletions(-)
+
+-- 
+2.25.1
+
