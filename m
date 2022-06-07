@@ -2,225 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D92DC43334
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 06:48:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9235DC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 07:01:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237270AbiFGGse (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 02:48:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39456 "EHLO
+        id S237383AbiFGHBq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 03:01:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237278AbiFGGsd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 02:48:33 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92AE05DE74
-        for <linux-doc@vger.kernel.org>; Mon,  6 Jun 2022 23:48:28 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id 7so14186935pga.12
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jun 2022 23:48:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7rQcgJEIGUGpgYsyIUqNWgUUdRjuukG04jLIMCKTH0c=;
-        b=XjNKoGV/J5xgunGis7NKTl26cgaF1gPJiMcDe2wAHuB+5jBc+Wv5J1V3q4dMa0pA5d
-         vIvKx7KSgO37V9jholbn0XLMu99EPRQjDyzY0bDh9u0EPxXNecTXXhbz8fQ4XazLP2fY
-         vwC76VgZASe4ILfogy5xcSyHuZMd72HaHqRw9OUqde6sNMP6O/WkiANQo3jBxk/0vy40
-         glVGYCqPey9kapi7Jf1DDgON2fJNaR/XfYu1HOTujEKaxM5hZV0WPsiDn0w1xWrOaE0M
-         gMMq6ser1OhJwPyy+eu5bmtSg4zYQFw6x1F5DkJtjMsfv2Dkg+r0Xjdeyk742t22bTf0
-         ZQ2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7rQcgJEIGUGpgYsyIUqNWgUUdRjuukG04jLIMCKTH0c=;
-        b=dA2Tyj7S5+rPuvLHDHHiLNCSRTaZGyuQBKlWSH4IgnE4PgiJ2W1Jv66jBL0R1u8IRJ
-         yJuvMzDMNRYtpjNeEQfk+T4C6cYITdfuwFu/tHFpyolOXLzdzOwmegFyG5nGqk7Us+jb
-         gWjwF6I8FzeqM6sgVyTNYf7HvvFJ400RVZcsJ62XlK+iM0fBPYhMDNDbG6awCv4/RHfI
-         IDvbqyijCWLcNDX68e1jq+wlVzqciDAucV0mxCMkyI1uyPT5V9rjzyIe4Y6swxAyu3fh
-         +h8Ufoc0McWHJ6tlSQoEClTvVFpB/6QE2PxBYZuR+4/ykv96yrTNc9l0B6/11Owk410K
-         DGyg==
-X-Gm-Message-State: AOAM530xuvyvm73amej4duyGV7m4GmXj4ihMmUPMBnX1+lBXam+qJtZj
-        jp3QOnnsfC1IxkjvL3aeLIDXOw==
-X-Google-Smtp-Source: ABdhPJyRyQQmSA0kSCvirbNa7Mtz2TU5HtXIN+UxJA2W7gLSPU3k2Q9MT59vsB1FIPJvD/fep8rSXQ==
-X-Received: by 2002:a05:6a00:139f:b0:51b:e21f:b72 with SMTP id t31-20020a056a00139f00b0051be21f0b72mr20999766pfg.75.1654584508075;
-        Mon, 06 Jun 2022 23:48:28 -0700 (PDT)
-Received: from C02DW0BEMD6R.bytedance.net ([139.177.225.230])
-        by smtp.gmail.com with ESMTPSA id y20-20020a170902d65400b00163cc9d6a04sm11742806plh.299.2022.06.06.23.48.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 23:48:27 -0700 (PDT)
-From:   Qi Zheng <zhengqi.arch@bytedance.com>
-To:     hannes@cmpxchg.org, roman.gushchin@linux.dev, shakeelb@google.com,
-        songmuchun@bytedance.com, mhocko@kernel.org,
-        akpm@linux-foundation.org, corbet@lwn.net
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Qi Zheng <zhengqi.arch@bytedance.com>,
-        Michal Hocko <mhocko@suse.com>
-Subject: [PATCH v4] mm: memcontrol: add {pgscan,pgsteal}_{kswapd,direct} items in memory.stat of cgroup v2
-Date:   Tue,  7 Jun 2022 14:48:03 +0800
-Message-Id: <20220607064803.79363-1-zhengqi.arch@bytedance.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+        with ESMTP id S231392AbiFGHBq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 03:01:46 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13DA2DFD13;
+        Tue,  7 Jun 2022 00:01:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654585305; x=1686121305;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=ZV74rA8Yj9vsewf5ZR+zBoOmFi7pomIO9JTPNnhNKN8=;
+  b=K0kATua1kyotCI00blMzra3BpvqvEwQpBF3ONucBFBtci+cCdKzXAutw
+   TBRE/He+PipiFuZbJFq3dCEGT8pTGxug7femgjarN8qJP2e2NkuICxD85
+   HC2IekcArSCZXgpkrgzLbRbmtScHP5OtGxCXKBJ+cHOVpPd0euTpANd31
+   dky0nXhbdal3koQTU6Fcg0ba6j2EmTCTISRqo90924sTdqmqBovn664lZ
+   u+cIB0RT1tm9jbvR+OqPKgjFNCp2zunFI7j0sJQzy7fe8fnKCkWxXteXY
+   FQOOWwTmyKy2m/CdR8+Ki7bZBapqBZfdYU7urAQ18blSGx87h3yeYkBFq
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="277355550"
+X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; 
+   d="scan'208";a="277355550"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2022 00:01:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; 
+   d="scan'208";a="579485634"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+  by orsmga007.jf.intel.com with ESMTP; 07 Jun 2022 00:01:13 -0700
+Date:   Tue, 7 Jun 2022 14:57:49 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Vishal Annapurve <vannapurve@google.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220607065749.GA1513445@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are already statistics of {pgscan,pgsteal}_kswapd and
-{pgscan,pgsteal}_direct of memcg event here, but now only the
-sum of the two is displayed in memory.stat of cgroup v2.
+On Mon, Jun 06, 2022 at 01:09:50PM -0700, Vishal Annapurve wrote:
+> >
+> > Private memory map/unmap and conversion
+> > ---------------------------------------
+> > Userspace's map/unmap operations are done by fallocate() ioctl on the
+> > backing store fd.
+> >   - map: default fallocate() with mode=0.
+> >   - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
+> > The map/unmap will trigger above memfile_notifier_ops to let KVM map/unmap
+> > secondary MMU page tables.
+> >
+> ....
+> >    QEMU: https://github.com/chao-p/qemu/tree/privmem-v6
+> >
+> > An example QEMU command line for TDX test:
+> > -object tdx-guest,id=tdx \
+> > -object memory-backend-memfd-private,id=ram1,size=2G \
+> > -machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
+> >
+> 
+> There should be more discussion around double allocation scenarios
+> when using the private fd approach. A malicious guest or buggy
+> userspace VMM can cause physical memory getting allocated for both
+> shared (memory accessible from host) and private fds backing the guest
+> memory.
+> Userspace VMM will need to unback the shared guest memory while
+> handling the conversion from shared to private in order to prevent
+> double allocation even with malicious guests or bugs in userspace VMM.
 
-In order to obtain more accurate information during monitoring
-and debugging, and to align with the display in /proc/vmstat,
-it better to display {pgscan,pgsteal}_kswapd and
-{pgscan,pgsteal}_direct separately.
+I don't know how malicious guest can cause that. The initial design of
+this serie is to put the private/shared memory into two different
+address spaces and gives usersapce VMM the flexibility to convert
+between the two. It can choose respect the guest conversion request or
+not.
 
-Also, for forward compatibility, we still display pgscan and
-pgsteal items so that it won't break existing applications.
+It's possible for a usrspace VMM to cause double allocation if it fails
+to call the unback operation during the conversion, this may be a bug
+or not. Double allocation may not be a wrong thing, even in conception.
+At least TDX allows you to use half shared half private in guest, means
+both shared/private can be effective. Unbacking the memory is just the
+current QEMU implementation choice.
 
-Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
-Acked-by: Roman Gushchin <roman.gushchin@linux.dev>
-Acked-by: Muchun Song <songmuchun@bytedance.com>
-Acked-by: Shakeel Butt <shakeelb@google.com>
-Acked-by: Michal Hocko <mhocko@suse.com>
----
-Changelog in v3 -> v4:
- - fix the doc, thanks to Johannes
-
-Changelog in v2 -> v3:
- - add comment for memcg_vm_event_stat (suggested by Michal)
- - collect Acked-bys
-
-Changelog in v1 -> v2:
- - keep pgscan and pgsteal items for forward compatibility, thanks to Shakeel
- - update commit log
- - collect Acked-bys
-
- Documentation/admin-guide/cgroup-v2.rst | 24 ++++++++---
- mm/memcontrol.c                         | 55 ++++++++++++-------------
- 2 files changed, 45 insertions(+), 34 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 176298f2f4de..ad9ba3ec90a5 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1433,6 +1433,24 @@ PAGE_SIZE multiple when read back.
- 	  workingset_nodereclaim
- 		Number of times a shadow node has been reclaimed
- 
-+	  pgscan (npn)
-+		Amount of scanned pages (in an inactive LRU list)
-+
-+	  pgsteal (npn)
-+		Amount of reclaimed pages
-+
-+	  pgscan_kswapd (npn)
-+		Amount of scanned pages by kswapd (in an inactive LRU list)
-+
-+	  pgscan_direct (npn)
-+		Amount of scanned pages directly  (in an inactive LRU list)
-+
-+	  pgsteal_kswapd (npn)
-+		Amount of reclaimed pages by kswapd
-+
-+	  pgsteal_direct (npn)
-+		Amount of reclaimed pages directly
-+
- 	  pgfault (npn)
- 		Total number of page faults incurred
- 
-@@ -1442,12 +1460,6 @@ PAGE_SIZE multiple when read back.
- 	  pgrefill (npn)
- 		Amount of scanned pages (in an active LRU list)
- 
--	  pgscan (npn)
--		Amount of scanned pages (in an inactive LRU list)
--
--	  pgsteal (npn)
--		Amount of reclaimed pages
--
- 	  pgactivate (npn)
- 		Amount of pages moved to the active LRU list
- 
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 0d3fe0a0c75a..27cebaa53472 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -1460,6 +1460,29 @@ static inline unsigned long memcg_page_state_output(struct mem_cgroup *memcg,
- 	return memcg_page_state(memcg, item) * memcg_page_state_unit(item);
- }
- 
-+/* Subset of vm_event_item to report for memcg event stats */
-+static const unsigned int memcg_vm_event_stat[] = {
-+	PGSCAN_KSWAPD,
-+	PGSCAN_DIRECT,
-+	PGSTEAL_KSWAPD,
-+	PGSTEAL_DIRECT,
-+	PGFAULT,
-+	PGMAJFAULT,
-+	PGREFILL,
-+	PGACTIVATE,
-+	PGDEACTIVATE,
-+	PGLAZYFREE,
-+	PGLAZYFREED,
-+#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
-+	ZSWPIN,
-+	ZSWPOUT,
-+#endif
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	THP_FAULT_ALLOC,
-+	THP_COLLAPSE_ALLOC,
-+#endif
-+};
-+
- static char *memory_stat_format(struct mem_cgroup *memcg)
- {
- 	struct seq_buf s;
-@@ -1495,41 +1518,17 @@ static char *memory_stat_format(struct mem_cgroup *memcg)
- 	}
- 
- 	/* Accumulated memory events */
--
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGFAULT),
--		       memcg_events(memcg, PGFAULT));
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGMAJFAULT),
--		       memcg_events(memcg, PGMAJFAULT));
--	seq_buf_printf(&s, "%s %lu\n",  vm_event_name(PGREFILL),
--		       memcg_events(memcg, PGREFILL));
- 	seq_buf_printf(&s, "pgscan %lu\n",
- 		       memcg_events(memcg, PGSCAN_KSWAPD) +
- 		       memcg_events(memcg, PGSCAN_DIRECT));
- 	seq_buf_printf(&s, "pgsteal %lu\n",
- 		       memcg_events(memcg, PGSTEAL_KSWAPD) +
- 		       memcg_events(memcg, PGSTEAL_DIRECT));
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGACTIVATE),
--		       memcg_events(memcg, PGACTIVATE));
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGDEACTIVATE),
--		       memcg_events(memcg, PGDEACTIVATE));
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGLAZYFREE),
--		       memcg_events(memcg, PGLAZYFREE));
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGLAZYFREED),
--		       memcg_events(memcg, PGLAZYFREED));
--
--#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(ZSWPIN),
--		       memcg_events(memcg, ZSWPIN));
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(ZSWPOUT),
--		       memcg_events(memcg, ZSWPOUT));
--#endif
- 
--#ifdef CONFIG_TRANSPARENT_HUGEPAGE
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(THP_FAULT_ALLOC),
--		       memcg_events(memcg, THP_FAULT_ALLOC));
--	seq_buf_printf(&s, "%s %lu\n", vm_event_name(THP_COLLAPSE_ALLOC),
--		       memcg_events(memcg, THP_COLLAPSE_ALLOC));
--#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-+	for (i = 0; i < ARRAY_SIZE(memcg_vm_event_stat); i++)
-+		seq_buf_printf(&s, "%s %lu\n",
-+			       vm_event_name(memcg_vm_event_stat[i]),
-+			       memcg_events(memcg, memcg_vm_event_stat[i]));
- 
- 	/* The above should easily fit into one page */
- 	WARN_ON_ONCE(seq_buf_has_overflowed(&s));
--- 
-2.20.1
-
+Chao
+> 
+> Options to unback shared guest memory seem to be:
+> 1) madvise(.., MADV_DONTNEED/MADV_REMOVE) - This option won't stop
+> kernel from backing the shared memory on subsequent write accesses
+> 2) fallocate(..., FALLOC_FL_PUNCH_HOLE...) - For file backed shared
+> guest memory, this option still is similar to madvice since this would
+> still allow shared memory to get backed on write accesses
+> 3) munmap - This would give away the contiguous virtual memory region
+> reservation with holes in the guest backing memory, which might make
+> guest memory management difficult.
+> 4) mprotect(... PROT_NONE) - This would keep the virtual memory
+> address range backing the guest memory preserved
+> 
+> ram_block_discard_range_fd from reference implementation:
+> https://github.com/chao-p/qemu/tree/privmem-v6 seems to be relying on
+> fallocate/madvise.
+> 
+> Any thoughts/suggestions around better ways to unback the shared
+> memory in order to avoid double allocation scenarios?
+> 
+> Regards,
+> Vishal
