@@ -2,223 +2,419 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA7ECC43334
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 07:11:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D79BC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 07:37:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237365AbiFGHLp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 03:11:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36614 "EHLO
+        id S231790AbiFGHha (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 03:37:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231491AbiFGHLo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 03:11:44 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 158B6813FD
-        for <linux-doc@vger.kernel.org>; Tue,  7 Jun 2022 00:11:42 -0700 (PDT)
-Received: from localhost.localdomain (unknown [112.20.108.214])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr08m+p5i7xodAA--.38881S2;
-        Tue, 07 Jun 2022 15:11:35 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
-        seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        siyanteng01@gmail.com
-Subject: [PATCH v4 2/2] docs/zh_CN: add vm vmalloced-kernel-stacks translation
-Date:   Tue,  7 Jun 2022 15:13:18 +0800
-Message-Id: <01de54c7ecfd1999a636ee59ac40b79917251af2.1654585011.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1654585011.git.siyanteng@loongson.cn>
-References: <cover.1654585011.git.siyanteng@loongson.cn>
+        with ESMTP id S237716AbiFGHh1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 03:37:27 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8651C25EB;
+        Tue,  7 Jun 2022 00:37:23 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id s12so26185856ejx.3;
+        Tue, 07 Jun 2022 00:37:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=kjtclTo6hwcqYED9n/ojCDRC4tEzQKbn61y6dGb/AZ0=;
+        b=I+I7kSMOBt0Gn137kC6P4pBul8tKAqzwrPFnoqXzkuW01YPYXa1KcFF07qrY1JKLu8
+         u20l2+fyxbA/cB+RQYQu/ljnlX3ZEOnnlW7Y1LLUTNsa5dy69+tFZVHO7ExcJwG04tiS
+         htbeXR+9L38o+VOkMbWKl1Y323NcB0e7aYfMV6wnZiM3qmHuWRWCbRUSCtihO8oKagKw
+         AFoCX0Hb68mkzp11tj5Lu3FDxaF6rkU54M+71NZky0bf04z8NFyYWcRnqzof92hQdSNH
+         DKTmjvJ4cDVIdPM4xbhrlBytMxdQ4cEX0NVvWahmGgtovnNCWPcLwRvxjLXVnvIbR/G9
+         Ip5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=kjtclTo6hwcqYED9n/ojCDRC4tEzQKbn61y6dGb/AZ0=;
+        b=P7VHwWTxZI+lNflt+E1mtr0RNl71kAoGNdLD1vOf4gH8O2txaenbVQO/tJzsq2YJwk
+         IshPg9tfZ4n0wHgkNkeJul34haVz6l2+NrUAE2vsxvma/iVZiiP5upsDYmifgaqMeS9Q
+         xgwGW3rRpyByQM75Q9zdWcKoZ5en8CkFZpWfWGpEjxjzkC7oc/9kMXqY7+p3IRIbeSJm
+         qpOvLD4RKT39CRtyBp/pf/M6PXfaeLtcmoDumTZUabc3RZ813Ac2AmwdgRv6OGh5T1Z4
+         5maLRYGEWHAJ7IpQ3j/1lZ8pExoCSmADsAXgmE6w+jRDf+Q6AxnGlFcU7gJPBVv2jx6M
+         N9zw==
+X-Gm-Message-State: AOAM531Jy+dGlA4XerxrDVxUEQ4t6hEYE1alS4cLgSIJrvLdosKCUmGo
+        hPqSFSD3dwDrhO3UIfUhAuEb1Ykz1i+Qa0A4HJ4=
+X-Google-Smtp-Source: ABdhPJxq7gbKI8I6h6yB4oDTIAKnbBuIrelPBSTjy52gQCtxjY6Ljn+tWqB6H/gwQOV4kqyiRfbomMke7NXsmekEV7A=
+X-Received: by 2002:a17:906:fb07:b0:706:ad5a:db9f with SMTP id
+ lz7-20020a170906fb0700b00706ad5adb9fmr25843828ejb.91.1654587441384; Tue, 07
+ Jun 2022 00:37:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxr08m+p5i7xodAA--.38881S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxKw4fAFW3Zry3AFy7Wry5CFg_yoW3Xr17pF
-        93CryfGF1Yy343A34F9w48CFyUJws7Cr45C3Z7W3Zaqr90yrWUtr1Y9rWrWa93X348AFWU
-        XrWFyaySkr1qk3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-        JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
-        xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-        6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
-        0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8
-        CwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r
-        1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij
-        64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr
-        0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r4j6FyUMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
-        0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQyCJUUUUU=
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+References: <20220518014632.922072-1-yuzhao@google.com> <20220518014632.922072-8-yuzhao@google.com>
+ <CAGsJ_4yboZEY9OfyujPxBa_AEuGM3OAq5y_L9gvzSMUv70BxeQ@mail.gmail.com>
+In-Reply-To: <CAGsJ_4yboZEY9OfyujPxBa_AEuGM3OAq5y_L9gvzSMUv70BxeQ@mail.gmail.com>
+From:   Barry Song <21cnbao@gmail.com>
+Date:   Tue, 7 Jun 2022 19:37:10 +1200
+Message-ID: <CAGsJ_4w3S_8Kaw2GyB3hg7b4N_D+6yBO7D6qmgxD9Fqz3_dhAg@mail.gmail.com>
+Subject: Re: [PATCH v11 07/14] mm: multi-gen LRU: exploit locality in rmap
+To:     Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, x86 <x86@kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>, huzhanyuan@oppo.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate .../vm/vmalloced-kernel-stacks.rst into Chinese.
+On Mon, Jun 6, 2022 at 9:25 PM Barry Song <21cnbao@gmail.com> wrote:
+>
+> On Wed, May 18, 2022 at 4:49 PM Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > Searching the rmap for PTEs mapping each page on an LRU list (to test
+> > and clear the accessed bit) can be expensive because pages from
+> > different VMAs (PA space) are not cache friendly to the rmap (VA
+> > space). For workloads mostly using mapped pages, the rmap has a high
+> > CPU cost in the reclaim path.
+> >
+> > This patch exploits spatial locality to reduce the trips into the
+> > rmap. When shrink_page_list() walks the rmap and finds a young PTE, a
+> > new function lru_gen_look_around() scans at most BITS_PER_LONG-1
+> > adjacent PTEs. On finding another young PTE, it clears the accessed
+> > bit and updates the gen counter of the page mapped by this PTE to
+> > (max_seq%MAX_NR_GENS)+1.
+> >
+> > Server benchmark results:
+> >   Single workload:
+> >     fio (buffered I/O): no change
+> >
+> >   Single workload:
+> >     memcached (anon): +[5.5, 7.5]%
+> >                 Ops/sec      KB/sec
+> >       patch1-6: 1120643.70   43588.06
+> >       patch1-7: 1193918.93   46438.15
+> >
+> >   Configurations:
+> >     no change
+> >
+> > Client benchmark results:
+> >   kswapd profiles:
+> >     patch1-6
+> >       35.99%  lzo1x_1_do_compress (real work)
+> >       19.40%  page_vma_mapped_walk
+> >        6.31%  _raw_spin_unlock_irq
+> >        3.95%  do_raw_spin_lock
+> >        2.39%  anon_vma_interval_tree_iter_first
+> >        2.25%  ptep_clear_flush
+> >        1.92%  __anon_vma_interval_tree_subtree_search
+> >        1.70%  folio_referenced_one
+> >        1.68%  __zram_bvec_write
+> >        1.43%  anon_vma_interval_tree_iter_next
+> >
+> >     patch1-7
+> >       45.90%  lzo1x_1_do_compress (real work)
+> >        9.14%  page_vma_mapped_walk
+> >        6.81%  _raw_spin_unlock_irq
+> >        2.80%  ptep_clear_flush
+> >        2.34%  __zram_bvec_write
+> >        2.29%  do_raw_spin_lock
+> >        1.84%  lru_gen_look_around
+> >        1.78%  memmove
+> >        1.74%  obj_malloc
+> >        1.50%  free_unref_page_list
+> >
+> >   Configurations:
+> >     no change
+> >
+> > Signed-off-by: Yu Zhao <yuzhao@google.com>
+> > Acked-by: Brian Geffon <bgeffon@google.com>
+> > Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+> > Acked-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+> > Acked-by: Steven Barrett <steven@liquorix.net>
+> > Acked-by: Suleiman Souhlal <suleiman@google.com>
+> > Tested-by: Daniel Byrne <djbyrne@mtu.edu>
+> > Tested-by: Donald Carr <d@chaos-reins.com>
+> > Tested-by: Holger Hoffst=C3=A4tte <holger@applied-asynchrony.com>
+> > Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+> > Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
+> > Tested-by: Sofia Trinh <sofia.trinh@edi.works>
+> > Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+> > ---
+> >  include/linux/memcontrol.h |  31 ++++++++
+> >  include/linux/mm.h         |   5 ++
+> >  include/linux/mmzone.h     |   6 ++
+> >  mm/internal.h              |   1 +
+> >  mm/memcontrol.c            |   1 +
+> >  mm/rmap.c                  |   7 ++
+> >  mm/swap.c                  |   4 +-
+> >  mm/vmscan.c                | 157 +++++++++++++++++++++++++++++++++++++
+> >  8 files changed, 210 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> > index 89b14729d59f..2bfdcc77648a 100644
+> > --- a/include/linux/memcontrol.h
+> > +++ b/include/linux/memcontrol.h
+> > @@ -438,6 +438,7 @@ static inline struct obj_cgroup *__folio_objcg(stru=
+ct folio *folio)
+> >   * - LRU isolation
+> >   * - lock_page_memcg()
+> >   * - exclusive reference
+> > + * - mem_cgroup_trylock_pages()
+> >   *
+> >   * For a kmem folio a caller should hold an rcu read lock to protect m=
+emcg
+> >   * associated with a kmem folio from being released.
+> > @@ -499,6 +500,7 @@ static inline struct mem_cgroup *folio_memcg_rcu(st=
+ruct folio *folio)
+> >   * - LRU isolation
+> >   * - lock_page_memcg()
+> >   * - exclusive reference
+> > + * - mem_cgroup_trylock_pages()
+> >   *
+> >   * For a kmem page a caller should hold an rcu read lock to protect me=
+mcg
+> >   * associated with a kmem page from being released.
+> > @@ -948,6 +950,23 @@ void unlock_page_memcg(struct page *page);
+> >
+> >  void __mod_memcg_state(struct mem_cgroup *memcg, int idx, int val);
+> >
+> > +/* try to stablize folio_memcg() for all the pages in a memcg */
+> > +static inline bool mem_cgroup_trylock_pages(struct mem_cgroup *memcg)
+> > +{
+> > +       rcu_read_lock();
+> > +
+> > +       if (mem_cgroup_disabled() || !atomic_read(&memcg->moving_accoun=
+t))
+> > +               return true;
+> > +
+> > +       rcu_read_unlock();
+> > +       return false;
+> > +}
+> > +
+> > +static inline void mem_cgroup_unlock_pages(void)
+> > +{
+> > +       rcu_read_unlock();
+> > +}
+> > +
+> >  /* idx can be of type enum memcg_stat_item or node_stat_item */
+> >  static inline void mod_memcg_state(struct mem_cgroup *memcg,
+> >                                    int idx, int val)
+> > @@ -1386,6 +1405,18 @@ static inline void folio_memcg_unlock(struct fol=
+io *folio)
+> >  {
+> >  }
+> >
+> > +static inline bool mem_cgroup_trylock_pages(struct mem_cgroup *memcg)
+> > +{
+> > +       /* to match folio_memcg_rcu() */
+> > +       rcu_read_lock();
+> > +       return true;
+> > +}
+> > +
+> > +static inline void mem_cgroup_unlock_pages(void)
+> > +{
+> > +       rcu_read_unlock();
+> > +}
+> > +
+> >  static inline void mem_cgroup_handle_over_high(void)
+> >  {
+> >  }
+> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > index 894c289c2c06..4e8ab4ad4473 100644
+> > --- a/include/linux/mm.h
+> > +++ b/include/linux/mm.h
+> > @@ -1523,6 +1523,11 @@ static inline unsigned long folio_pfn(struct fol=
+io *folio)
+> >         return page_to_pfn(&folio->page);
+> >  }
+> >
+> > +static inline struct folio *pfn_folio(unsigned long pfn)
+> > +{
+> > +       return page_folio(pfn_to_page(pfn));
+> > +}
+> > +
+> >  static inline atomic_t *folio_pincount_ptr(struct folio *folio)
+> >  {
+> >         return &folio_page(folio, 1)->compound_pincount;
+> > diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> > index 2d023d243e73..f0b980362186 100644
+> > --- a/include/linux/mmzone.h
+> > +++ b/include/linux/mmzone.h
+> > @@ -374,6 +374,7 @@ enum lruvec_flags {
+> >  #ifndef __GENERATING_BOUNDS_H
+> >
+> >  struct lruvec;
+> > +struct page_vma_mapped_walk;
+> >
+> >  #define LRU_GEN_MASK           ((BIT(LRU_GEN_WIDTH) - 1) << LRU_GEN_PG=
+OFF)
+> >  #define LRU_REFS_MASK          ((BIT(LRU_REFS_WIDTH) - 1) << LRU_REFS_=
+PGOFF)
+> > @@ -429,6 +430,7 @@ struct lru_gen_struct {
+> >  };
+> >
+> >  void lru_gen_init_lruvec(struct lruvec *lruvec);
+> > +void lru_gen_look_around(struct page_vma_mapped_walk *pvmw);
+> >
+> >  #ifdef CONFIG_MEMCG
+> >  void lru_gen_init_memcg(struct mem_cgroup *memcg);
+> > @@ -441,6 +443,10 @@ static inline void lru_gen_init_lruvec(struct lruv=
+ec *lruvec)
+> >  {
+> >  }
+> >
+> > +static inline void lru_gen_look_around(struct page_vma_mapped_walk *pv=
+mw)
+> > +{
+> > +}
+> > +
+> >  #ifdef CONFIG_MEMCG
+> >  static inline void lru_gen_init_memcg(struct mem_cgroup *memcg)
+> >  {
+> > diff --git a/mm/internal.h b/mm/internal.h
+> > index cf16280ce132..59d2422b647d 100644
+> > --- a/mm/internal.h
+> > +++ b/mm/internal.h
+> > @@ -68,6 +68,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf);
+> >  void folio_rotate_reclaimable(struct folio *folio);
+> >  bool __folio_end_writeback(struct folio *folio);
+> >  void deactivate_file_folio(struct folio *folio);
+> > +void folio_activate(struct folio *folio);
+> >
+> >  void free_pgtables(struct mmu_gather *tlb, struct vm_area_struct *star=
+t_vma,
+> >                 unsigned long floor, unsigned long ceiling);
+> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > index 2ee074f80e72..98aa720ac639 100644
+> > --- a/mm/memcontrol.c
+> > +++ b/mm/memcontrol.c
+> > @@ -2769,6 +2769,7 @@ static void commit_charge(struct folio *folio, st=
+ruct mem_cgroup *memcg)
+> >          * - LRU isolation
+> >          * - lock_page_memcg()
+> >          * - exclusive reference
+> > +        * - mem_cgroup_trylock_pages()
+> >          */
+> >         folio->memcg_data =3D (unsigned long)memcg;
+> >  }
+> > diff --git a/mm/rmap.c b/mm/rmap.c
+> > index fedb82371efe..7cb7ef29088a 100644
+> > --- a/mm/rmap.c
+> > +++ b/mm/rmap.c
+> > @@ -73,6 +73,7 @@
+> >  #include <linux/page_idle.h>
+> >  #include <linux/memremap.h>
+> >  #include <linux/userfaultfd_k.h>
+> > +#include <linux/mm_inline.h>
+> >
+> >  #include <asm/tlbflush.h>
+> >
+> > @@ -821,6 +822,12 @@ static bool folio_referenced_one(struct folio *fol=
+io,
+> >                 }
+> >
+> >                 if (pvmw.pte) {
+> > +                       if (lru_gen_enabled() && pte_young(*pvmw.pte) &=
+&
+> > +                           !(vma->vm_flags & (VM_SEQ_READ | VM_RAND_RE=
+AD))) {
+> > +                               lru_gen_look_around(&pvmw);
+> > +                               referenced++;
+> > +                       }
+> > +
+> >                         if (ptep_clear_flush_young_notify(vma, address,
+>
+> Hello, Yu.
+> look_around() is calling ptep_test_and_clear_young(pvmw->vma, addr, pte +=
+ i)
+> only without flush and notify. for flush, there is a tlb operation for ar=
+m64:
+> static inline int ptep_clear_flush_young(struct vm_area_struct *vma,
+>                                          unsigned long address, pte_t *pt=
+ep)
+> {
+>         int young =3D ptep_test_and_clear_young(vma, address, ptep);
+>
+>         if (young) {
+>                 /*
+>                  * We can elide the trailing DSB here since the worst tha=
+t can
+>                  * happen is that a CPU continues to use the young entry =
+in its
+>                  * TLB and we mistakenly reclaim the associated page. The
+>                  * window for such an event is bounded by the next
+>                  * context-switch, which provides a DSB to complete the T=
+LB
+>                  * invalidation.
+>                  */
+>                 flush_tlb_page_nosync(vma, address);
+>         }
+>
+>         return young;
+> }
+>
+> Does it mean the current kernel is over cautious?  is it
+> safe to call ptep_test_and_clear_young() only?
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
----
- Documentation/translations/zh_CN/vm/index.rst |   2 +-
- .../zh_CN/vm/vmalloced-kernel-stacks.rst      | 133 ++++++++++++++++++
- 2 files changed, 134 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/vm/vmalloced-kernel-stacks.rst
+I can't really explain why we are getting a random app/java vm crash in mon=
+key
+test by using ptep_test_and_clear_young() only in lru_gen_look_around() on =
+an
+armv8-a machine without hardware PTE young support.
 
-diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-index d80f1124e93e..7c76cf2f6daf 100644
---- a/Documentation/translations/zh_CN/vm/index.rst
-+++ b/Documentation/translations/zh_CN/vm/index.rst
-@@ -40,6 +40,7 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
-    page_table_check
-    remap_file_pages
-    split_page_table_lock
-+   vmalloced-kernel-stacks
-    z3fold
-    zsmalloc
- 
-@@ -50,4 +51,3 @@ TODOLIST:
- * slub
- * transhuge
- * unevictable-lru
--* vmalloced-kernel-stacks
-diff --git a/Documentation/translations/zh_CN/vm/vmalloced-kernel-stacks.rst b/Documentation/translations/zh_CN/vm/vmalloced-kernel-stacks.rst
-new file mode 100644
-index 000000000000..ad23f274f6d7
---- /dev/null
-+++ b/Documentation/translations/zh_CN/vm/vmalloced-kernel-stacks.rst
-@@ -0,0 +1,133 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/vm/vmalloced-kernel-stacks.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+====================
-+支持虚拟映射的内核栈
-+====================
-+
-+:作者: Shuah Khan <skhan@linuxfoundation.org>
-+
-+.. contents:: :local:
-+
-+概览
-+----
-+
-+这是介绍 `虚拟映射内核栈功能 <https://lwn.net/Articles/694348/>` 的代码
-+和原始补丁系列的信息汇总。
-+
-+简介
-+----
-+
-+内核堆栈溢出通常难以调试，并使内核容易被（恶意）利用。问题可能在稍后的时间出现，使其难以
-+隔离和究其根本原因。
-+
-+带有保护页的虚拟映射内核堆栈如果溢出，会被立即捕获，而不会放任其导致难以诊断的损
-+坏。
-+
-+HAVE_ARCH_VMAP_STACK和VMAP_STACK配置选项能够支持带有保护页的虚拟映射堆栈。
-+当堆栈溢出时，这个特性会引发可靠的异常。溢出后堆栈跟踪的可用性以及对溢出本身的
-+响应取决于架构。
-+
-+.. note::
-+        截至本文撰写时， arm64, powerpc, riscv, s390, um, 和 x86 支持VMAP_STACK。
-+
-+HAVE_ARCH_VMAP_STACK
-+--------------------
-+
-+能够支持虚拟映射内核栈的架构应该启用这个bool配置选项。要求是:
-+
-+- vmalloc空间必须大到足以容纳许多内核堆栈。这可能排除了许多32位架构。
-+- vmalloc空间的堆栈需要可靠地工作。例如，如果vmap页表是按需创建的，当堆栈指向
-+  具有未填充页表的虚拟地址时，这种机制需要工作，或者架构代码（switch_to()和
-+  switch_mm()，很可能）需要确保堆栈的页表项在可能未填充的堆栈上运行之前已经填
-+  充。
-+- 如果堆栈溢出到一个保护页，就应该发生一些合理的事情。“合理”的定义是灵活的，但
-+  在没有记录任何东西的情况下立即重启是不友好的。
-+
-+VMAP_STACK
-+----------
-+
-+VMAP_STACK bool配置选项在启用时分配虚拟映射的任务栈。这个选项依赖于
-+HAVE_ARCH_VMAP_STACK。
-+
-+- 如果你想使用带有保护页的虚拟映射的内核堆栈，请启用该选项。这将导致内核栈溢出
-+  被立即捕获，而不是难以诊断的损坏。
-+
-+.. note::
-+
-+        使用KASAN的这个功能需要架构支持用真实的影子内存来支持虚拟映射，并且
-+        必须启用KASAN_VMALLOC。
-+
-+.. note::
-+
-+        启用VMAP_STACK时，无法在堆栈分配的数据上运行DMA。
-+
-+内核配置选项和依赖性不断变化。请参考最新的代码库:
-+
-+`Kconfig <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/Kconfig>`
-+
-+分配方法
-+--------
-+
-+当一个新的内核线程被创建时，线程堆栈是由页级分配器分配的虚拟连续的内存页组成。这
-+些页面被映射到有PAGE_KERNEL保护的连续的内核虚拟空间。
-+
-+alloc_thread_stack_node()调用__vmalloc_node_range()来分配带有PAGE_KERNEL
-+保护的栈。
-+
-+- 分配的堆栈被缓存起来，以后会被新的线程重用，所以在分配/释放堆栈给任务时，要手动
-+  进行memcg核算。因此，__vmalloc_node_range被调用时没有__GFP_ACCOUNT。
-+- vm_struct被缓存起来，以便能够找到在中断上下文中启动的空闲线程。 free_thread_stack()
-+  可以在中断上下文中调用。
-+- 在arm64上，所有VMAP的堆栈都需要有相同的对齐方式，以确保VMAP的堆栈溢出检测正常
-+  工作。架构特定的vmap堆栈分配器照顾到了这个细节。
-+- 这并不涉及中断堆栈--参考原始补丁
-+
-+线程栈分配是由clone()、fork()、vfork()、kernel_thread()通过kernel_clone()
-+启动的。留点提示在这，以便搜索代码库，了解线程栈何时以及如何分配。
-+
-+大量的代码是在:
-+`kernel/fork.c <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/fork.c>`.
-+
-+task_struct中的stack_vm_area指针可以跟踪虚拟分配的堆栈，一个非空的stack_vm_area
-+指针可以表明虚拟映射的内核堆栈已经启用。
-+
-+::
-+
-+        struct vm_struct *stack_vm_area;
-+
-+堆栈溢出处理
-+------------
-+
-+前守护页和后守护页有助于检测堆栈溢出。当堆栈溢出到守护页时，处理程序必须小心不要再
-+次溢出堆栈。当处理程序被调用时，很可能只留下很少的堆栈空间。
-+
-+在x86上，这是通过处理表明内核堆栈溢出的双异常堆栈的缺页异常来实现的。
-+
-+用守护页测试VMAP分配
-+--------------------
-+
-+我们如何确保VMAP_STACK在分配时确实有前守护页和后守护页的保护？下面的 lkdtm 测试
-+可以帮助检测任何回归。
-+
-+::
-+
-+        void lkdtm_STACK_GUARD_PAGE_LEADING()
-+        void lkdtm_STACK_GUARD_PAGE_TRAILING()
-+
-+结论
-+----
-+
-+- vmalloced堆栈的percpu缓存似乎比高阶堆栈分配要快一些，至少在缓存命中时是这样。
-+- THREAD_INFO_IN_TASK完全摆脱了arch-specific thread_info，并简单地将
-+  thread_info（仅包含标志）和'int cpu'嵌入task_struct中。
-+- 一旦任务死亡，线程栈就可以被释放（无需等待RCU），然后，如果使用vmapped栈，就
-+  可以将整个栈缓存起来，以便在同一cpu上重复使用。
--- 
-2.27.0
+Moving to  ptep_clear_flush_young() in look_around can make the random
+hang disappear according to zhanyuan(Cc-ed).
 
+On x86, ptep_clear_flush_young() is exactly ptep_test_and_clear_young()
+after
+ 'commit b13b1d2d8692 ("x86/mm: In the PTE swapout page reclaim case clear
+the accessed bit instead of flushing the TLB")'
+
+But on arm64, they are different. according to Will's comments in this
+thread which
+tried to make arm64 same with x86,
+https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1793881.html
+
+"
+This is blindly copied from x86 and isn't true for us: we don't invalidate
+the TLB on context switch. That means our window for keeping the stale
+entries around is potentially much bigger and might not be a great idea.
+
+If we roll a TLB invalidation routine without the trailing DSB, what sort o=
+f
+performance does that get you?
+"
+We shouldn't think ptep_clear_flush_young() is safe enough in LRU to
+clear PTE young? Any comments from Will?
+
+>
+> btw, lru_gen_look_around() has already included 'address', are we doing
+> pte check for 'address' twice here?
+>
+
+Thanks
+Barry
