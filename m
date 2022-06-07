@@ -2,419 +2,202 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D79BC433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 07:37:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 404CACCA47C
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 07:55:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231790AbiFGHha (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 03:37:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48092 "EHLO
+        id S231748AbiFGHzK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 03:55:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237716AbiFGHh1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 03:37:27 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8651C25EB;
-        Tue,  7 Jun 2022 00:37:23 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id s12so26185856ejx.3;
-        Tue, 07 Jun 2022 00:37:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=kjtclTo6hwcqYED9n/ojCDRC4tEzQKbn61y6dGb/AZ0=;
-        b=I+I7kSMOBt0Gn137kC6P4pBul8tKAqzwrPFnoqXzkuW01YPYXa1KcFF07qrY1JKLu8
-         u20l2+fyxbA/cB+RQYQu/ljnlX3ZEOnnlW7Y1LLUTNsa5dy69+tFZVHO7ExcJwG04tiS
-         htbeXR+9L38o+VOkMbWKl1Y323NcB0e7aYfMV6wnZiM3qmHuWRWCbRUSCtihO8oKagKw
-         AFoCX0Hb68mkzp11tj5Lu3FDxaF6rkU54M+71NZky0bf04z8NFyYWcRnqzof92hQdSNH
-         DKTmjvJ4cDVIdPM4xbhrlBytMxdQ4cEX0NVvWahmGgtovnNCWPcLwRvxjLXVnvIbR/G9
-         Ip5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=kjtclTo6hwcqYED9n/ojCDRC4tEzQKbn61y6dGb/AZ0=;
-        b=P7VHwWTxZI+lNflt+E1mtr0RNl71kAoGNdLD1vOf4gH8O2txaenbVQO/tJzsq2YJwk
-         IshPg9tfZ4n0wHgkNkeJul34haVz6l2+NrUAE2vsxvma/iVZiiP5upsDYmifgaqMeS9Q
-         xgwGW3rRpyByQM75Q9zdWcKoZ5en8CkFZpWfWGpEjxjzkC7oc/9kMXqY7+p3IRIbeSJm
-         qpOvLD4RKT39CRtyBp/pf/M6PXfaeLtcmoDumTZUabc3RZ813Ac2AmwdgRv6OGh5T1Z4
-         5maLRYGEWHAJ7IpQ3j/1lZ8pExoCSmADsAXgmE6w+jRDf+Q6AxnGlFcU7gJPBVv2jx6M
-         N9zw==
-X-Gm-Message-State: AOAM531Jy+dGlA4XerxrDVxUEQ4t6hEYE1alS4cLgSIJrvLdosKCUmGo
-        hPqSFSD3dwDrhO3UIfUhAuEb1Ykz1i+Qa0A4HJ4=
-X-Google-Smtp-Source: ABdhPJxq7gbKI8I6h6yB4oDTIAKnbBuIrelPBSTjy52gQCtxjY6Ljn+tWqB6H/gwQOV4kqyiRfbomMke7NXsmekEV7A=
-X-Received: by 2002:a17:906:fb07:b0:706:ad5a:db9f with SMTP id
- lz7-20020a170906fb0700b00706ad5adb9fmr25843828ejb.91.1654587441384; Tue, 07
- Jun 2022 00:37:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220518014632.922072-1-yuzhao@google.com> <20220518014632.922072-8-yuzhao@google.com>
- <CAGsJ_4yboZEY9OfyujPxBa_AEuGM3OAq5y_L9gvzSMUv70BxeQ@mail.gmail.com>
-In-Reply-To: <CAGsJ_4yboZEY9OfyujPxBa_AEuGM3OAq5y_L9gvzSMUv70BxeQ@mail.gmail.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Tue, 7 Jun 2022 19:37:10 +1200
-Message-ID: <CAGsJ_4w3S_8Kaw2GyB3hg7b4N_D+6yBO7D6qmgxD9Fqz3_dhAg@mail.gmail.com>
-Subject: Re: [PATCH v11 07/14] mm: multi-gen LRU: exploit locality in rmap
-To:     Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        with ESMTP id S237963AbiFGHzJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 03:55:09 -0400
+Received: from email.cn (m218-153.88.com [110.43.218.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF69EB41ED;
+        Tue,  7 Jun 2022 00:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=4L3YPE141oNh3e8lowr3lweHFnU5fzGrBsPho
+        Ukz4V4=; b=QplFKbzFr3Vq/w82Dxb/jV8yIonStuzz33uThFi1kEH77FdkM6gUa
+        erXk5Qod+I0hibyMIqv9wGXgVLAbZWNwc7rd4M4yusu62HnvIup9isIEeAl6ndcn
+        fIBgxvkN5s8uSz5MqEMWMpKPwKnLn3zpVgew6C48w9qaqXnqNOLJ4M=
+Received: from bobwxc.mipc (unknown [120.242.121.53])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgB3kP8_BJ9ihhcPAA--.47847S2;
+        Tue, 07 Jun 2022 15:54:41 +0800 (CST)
+Date:   Tue, 7 Jun 2022 15:54:39 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     teng sterling <sterlingteng@gmail.com>
+Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
+        Li Feng <felixlee868@icloud.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, x86 <x86@kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>, huzhanyuan@oppo.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] docs/zh_CN: Update zh_CN/kernel-hacking/hacking.rst to
+ 5.19-rc1
+Message-ID: <Yp8EP2L/Q6MbTGEx@bobwxc.mipc>
+References: <Yp41+eTjoPRa4hrl@bobwxc.mipc>
+ <CAMU9jJqKQQGD73_ZXTL1NxwihPtun7D2i4e2_RaZe=5HMbz5xA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMU9jJqKQQGD73_ZXTL1NxwihPtun7D2i4e2_RaZe=5HMbz5xA@mail.gmail.com>
+X-CM-TRANSID: GiKnCgB3kP8_BJ9ihhcPAA--.47847S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3AFy7AF4UAw4rZr13Ww47twb_yoWxKr4DpF
+        sIg3W8GFWjvFy8ArW0ga4I9F15Cws7Way7KF4qy34Syrs0yay7tryqgFWYvaySq34jyFyx
+        WFs7WF1F9r1ayrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUqqb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
+        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
+        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04
+        k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
+        wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc4
+        0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
+        xVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
+        1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUnLSdPUU
+        UUU==
+X-Originating-IP: [120.242.121.53]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 6, 2022 at 9:25 PM Barry Song <21cnbao@gmail.com> wrote:
->
-> On Wed, May 18, 2022 at 4:49 PM Yu Zhao <yuzhao@google.com> wrote:
+On Tue, Jun 07, 2022 at 10:40:16AM +0800, teng sterling wrote:
+> Wu XiangCheng <bobwxc@email.cn> 于2022年6月7日周二 01:20写道：
 > >
-> > Searching the rmap for PTEs mapping each page on an LRU list (to test
-> > and clear the accessed bit) can be expensive because pages from
-> > different VMAs (PA space) are not cache friendly to the rmap (VA
-> > space). For workloads mostly using mapped pages, the rmap has a high
-> > CPU cost in the reclaim path.
+> > * update to commit f35cf1a59e9a ("Documentation: kernel-hacking: minor
+> >   edits for style")
 > >
-> > This patch exploits spatial locality to reduce the trips into the
-> > rmap. When shrink_page_list() walks the rmap and finds a young PTE, a
-> > new function lru_gen_look_around() scans at most BITS_PER_LONG-1
-> > adjacent PTEs. On finding another young PTE, it clears the accessed
-> > bit and updates the gen counter of the page mapped by this PTE to
-> > (max_seq%MAX_NR_GENS)+1.
+> > * fix a homophone typo reported by Li Feng
 > >
-> > Server benchmark results:
-> >   Single workload:
-> >     fio (buffered I/O): no change
-> >
-> >   Single workload:
-> >     memcached (anon): +[5.5, 7.5]%
-> >                 Ops/sec      KB/sec
-> >       patch1-6: 1120643.70   43588.06
-> >       patch1-7: 1193918.93   46438.15
-> >
-> >   Configurations:
-> >     no change
-> >
-> > Client benchmark results:
-> >   kswapd profiles:
-> >     patch1-6
-> >       35.99%  lzo1x_1_do_compress (real work)
-> >       19.40%  page_vma_mapped_walk
-> >        6.31%  _raw_spin_unlock_irq
-> >        3.95%  do_raw_spin_lock
-> >        2.39%  anon_vma_interval_tree_iter_first
-> >        2.25%  ptep_clear_flush
-> >        1.92%  __anon_vma_interval_tree_subtree_search
-> >        1.70%  folio_referenced_one
-> >        1.68%  __zram_bvec_write
-> >        1.43%  anon_vma_interval_tree_iter_next
-> >
-> >     patch1-7
-> >       45.90%  lzo1x_1_do_compress (real work)
-> >        9.14%  page_vma_mapped_walk
-> >        6.81%  _raw_spin_unlock_irq
-> >        2.80%  ptep_clear_flush
-> >        2.34%  __zram_bvec_write
-> >        2.29%  do_raw_spin_lock
-> >        1.84%  lru_gen_look_around
-> >        1.78%  memmove
-> >        1.74%  obj_malloc
-> >        1.50%  free_unref_page_list
-> >
-> >   Configurations:
-> >     no change
-> >
-> > Signed-off-by: Yu Zhao <yuzhao@google.com>
-> > Acked-by: Brian Geffon <bgeffon@google.com>
-> > Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
-> > Acked-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-> > Acked-by: Steven Barrett <steven@liquorix.net>
-> > Acked-by: Suleiman Souhlal <suleiman@google.com>
-> > Tested-by: Daniel Byrne <djbyrne@mtu.edu>
-> > Tested-by: Donald Carr <d@chaos-reins.com>
-> > Tested-by: Holger Hoffst=C3=A4tte <holger@applied-asynchrony.com>
-> > Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
-> > Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
-> > Tested-by: Sofia Trinh <sofia.trinh@edi.works>
-> > Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+> > Reported-by: Li Feng <felixlee868@icloud.com>
+> > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+
+Thank you!
+
+> 
+> BTW,
+> b4 doesn't seem to work for this patch, but I manually downloaded the
+> email for a build test and it was fine. :)
+
+Unable to reproduce. Check the version of b4?
+
+❯ b4 --version
+0.8.0
+❯ b4 am Yp41+eTjoPRa4hrl@bobwxc.mipc
+Looking up https://lore.kernel.org/r/Yp41%2BeTjoPRa4hrl%40bobwxc.mipc
+Grabbing thread from lore.kernel.org/all/Yp41%2BeTjoPRa4hrl%40bobwxc.mipc/t.mbox.gz
+Analyzing 2 messages in the thread
+Checking attestation on all messages, may take a moment...
+---
+  ✓ [PATCH] docs/zh_CN: Update zh_CN/kernel-hacking/hacking.rst to 5.19-rc1
+  ---
+  ✓ Signed: openpgp/bobwxc@email.cn
+  ✓ Signed: DKIM/email.cn
+---
+Total patches: 1
+---
+NOTE: some trailers ignored due to from/email mismatches:
+    ! Trailer: Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+     Msg From: teng sterling <sterlingteng@gmail.com>
+NOTE: Rerun with -S to apply them anyway
+---
+ Link: https://lore.kernel.org/r/Yp41+eTjoPRa4hrl@bobwxc.mipc
+ Base: not specified
+       git am ./20220607_bobwxc_docs_zh_cn_update_zh_cn_kernel_hacking_hacking_rst_to_5_19_rc1.mbx
+
+--
+Thanks,
+	Wu
+
+> 
+> log:
+> $../b4/b4.sh am Yp41+eTjoPRa4hrl@bobwxc.mipc
+> Looking up https://lore.kernel.org/r/Yp41%2BeTjoPRa4hrl%40bobwxc.mipc
+> Grabbing thread from
+> lore.kernel.org/all/Yp41%2BeTjoPRa4hrl%40bobwxc.mipc/t.mbox.gz
+> Analyzing 1 messages in the thread
+> Checking attestation on all messages, may take a moment...
+> Traceback (most recent call last):
+>   File "/home/siyanteng/b4/b4/command.py", line 263, in <module>
+> ......
+> 
+> Thanks,
+> Yanteng
 > > ---
-> >  include/linux/memcontrol.h |  31 ++++++++
-> >  include/linux/mm.h         |   5 ++
-> >  include/linux/mmzone.h     |   6 ++
-> >  mm/internal.h              |   1 +
-> >  mm/memcontrol.c            |   1 +
-> >  mm/rmap.c                  |   7 ++
-> >  mm/swap.c                  |   4 +-
-> >  mm/vmscan.c                | 157 +++++++++++++++++++++++++++++++++++++
-> >  8 files changed, 210 insertions(+), 2 deletions(-)
+> >  .../zh_CN/kernel-hacking/hacking.rst          | 22 +++++++++----------
+> >  1 file changed, 11 insertions(+), 11 deletions(-)
 > >
-> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-> > index 89b14729d59f..2bfdcc77648a 100644
-> > --- a/include/linux/memcontrol.h
-> > +++ b/include/linux/memcontrol.h
-> > @@ -438,6 +438,7 @@ static inline struct obj_cgroup *__folio_objcg(stru=
-ct folio *folio)
-> >   * - LRU isolation
-> >   * - lock_page_memcg()
-> >   * - exclusive reference
-> > + * - mem_cgroup_trylock_pages()
-> >   *
-> >   * For a kmem folio a caller should hold an rcu read lock to protect m=
-emcg
-> >   * associated with a kmem folio from being released.
-> > @@ -499,6 +500,7 @@ static inline struct mem_cgroup *folio_memcg_rcu(st=
-ruct folio *folio)
-> >   * - LRU isolation
-> >   * - lock_page_memcg()
-> >   * - exclusive reference
-> > + * - mem_cgroup_trylock_pages()
-> >   *
-> >   * For a kmem page a caller should hold an rcu read lock to protect me=
-mcg
-> >   * associated with a kmem page from being released.
-> > @@ -948,6 +950,23 @@ void unlock_page_memcg(struct page *page);
+> > diff --git a/Documentation/translations/zh_CN/kernel-hacking/hacking.rst b/Documentation/translations/zh_CN/kernel-hacking/hacking.rst
+> > index f2bc154c5bcc..bda79646bb1e 100644
+> > --- a/Documentation/translations/zh_CN/kernel-hacking/hacking.rst
+> > +++ b/Documentation/translations/zh_CN/kernel-hacking/hacking.rst
+> > @@ -81,7 +81,7 @@
+> >  过硬件中断）的“软件中断”将运行（ ``kernel/softirq.c`` ）。
 > >
-> >  void __mod_memcg_state(struct mem_cgroup *memcg, int idx, int val);
+> >  此处完成了许多真正的中断处理工作。在向SMP过渡的早期，只有“bottom halves下半
+> > -部”（BHs）机制，无法利用多个CPU的优势。在从那些一团糟的就电脑切换过来后不久，
+> > +部”（BHs）机制，无法利用多个CPU的优势。在从那些一团糟的旧电脑切换过来后不久，
+> >  我们放弃了这个限制，转而使用“软中断”。
 > >
-> > +/* try to stablize folio_memcg() for all the pages in a memcg */
-> > +static inline bool mem_cgroup_trylock_pages(struct mem_cgroup *memcg)
-> > +{
-> > +       rcu_read_lock();
-> > +
-> > +       if (mem_cgroup_disabled() || !atomic_read(&memcg->moving_accoun=
-t))
-> > +               return true;
-> > +
-> > +       rcu_read_unlock();
-> > +       return false;
-> > +}
-> > +
-> > +static inline void mem_cgroup_unlock_pages(void)
-> > +{
-> > +       rcu_read_unlock();
-> > +}
-> > +
-> >  /* idx can be of type enum memcg_stat_item or node_stat_item */
-> >  static inline void mod_memcg_state(struct mem_cgroup *memcg,
-> >                                    int idx, int val)
-> > @@ -1386,6 +1405,18 @@ static inline void folio_memcg_unlock(struct fol=
-io *folio)
-> >  {
-> >  }
+> >  ``include/linux/interrupt.h`` 列出了不同的软中断。定时器软中断是一个非常重要
+> > @@ -95,8 +95,7 @@
 > >
-> > +static inline bool mem_cgroup_trylock_pages(struct mem_cgroup *memcg)
-> > +{
-> > +       /* to match folio_memcg_rcu() */
-> > +       rcu_read_lock();
-> > +       return true;
-> > +}
-> > +
-> > +static inline void mem_cgroup_unlock_pages(void)
-> > +{
-> > +       rcu_read_unlock();
-> > +}
-> > +
-> >  static inline void mem_cgroup_handle_over_high(void)
-> >  {
-> >  }
-> > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > index 894c289c2c06..4e8ab4ad4473 100644
-> > --- a/include/linux/mm.h
-> > +++ b/include/linux/mm.h
-> > @@ -1523,6 +1523,11 @@ static inline unsigned long folio_pfn(struct fol=
-io *folio)
-> >         return page_to_pfn(&folio->page);
-> >  }
+> >  .. warning::
 > >
-> > +static inline struct folio *pfn_folio(unsigned long pfn)
-> > +{
-> > +       return page_folio(pfn_to_page(pfn));
-> > +}
-> > +
-> >  static inline atomic_t *folio_pincount_ptr(struct folio *folio)
-> >  {
-> >         return &folio_page(folio, 1)->compound_pincount;
-> > diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> > index 2d023d243e73..f0b980362186 100644
-> > --- a/include/linux/mmzone.h
-> > +++ b/include/linux/mmzone.h
-> > @@ -374,6 +374,7 @@ enum lruvec_flags {
-> >  #ifndef __GENERATING_BOUNDS_H
+> > -    “tasklet”这个名字是误导性的：它们与“任务”无关，可能更多与当时
+> > -    阿列克谢·库兹涅佐夫享用的糟糕伏特加有关。
+> > +    “tasklet”这个名字是误导性的：它们与“任务”无关。
 > >
-> >  struct lruvec;
-> > +struct page_vma_mapped_walk;
+> >  你可以使用 :c:func:`in_softirq()` 宏（ ``include/linux/preempt.h`` ）来确认
+> >  是否处于软中断（或子任务）中。
+> > @@ -247,7 +246,7 @@ Provide mechanism not policy”。
+> >      与 :c:func:`put_user()` 和 :c:func:`get_user()` 不同，它们返回未复制的
+> >      数据量（即0仍然意味着成功）。
 > >
-> >  #define LRU_GEN_MASK           ((BIT(LRU_GEN_WIDTH) - 1) << LRU_GEN_PG=
-OFF)
-> >  #define LRU_REFS_MASK          ((BIT(LRU_REFS_WIDTH) - 1) << LRU_REFS_=
-PGOFF)
-> > @@ -429,6 +430,7 @@ struct lru_gen_struct {
-> >  };
+> > -【是的，这个愚蠢的接口真心让我尴尬。火爆的口水仗大概每年都会发生。
+> > +【是的，这个讨厌的接口真心让我尴尬。火爆的口水仗大概每年都会发生。
+> >  —— Rusty Russell】
 > >
-> >  void lru_gen_init_lruvec(struct lruvec *lruvec);
-> > +void lru_gen_look_around(struct page_vma_mapped_walk *pvmw);
+> >  这些函数可以隐式睡眠。它不应该在用户上下文之外调用（没有意义）、调用时禁用中断
+> > @@ -538,9 +537,9 @@ Documentation/core-api/symbol-namespaces.rst 。
 > >
-> >  #ifdef CONFIG_MEMCG
-> >  void lru_gen_init_memcg(struct mem_cgroup *memcg);
-> > @@ -441,6 +443,10 @@ static inline void lru_gen_init_lruvec(struct lruv=
-ec *lruvec)
-> >  {
-> >  }
+> >  Linus和其他开发人员有时会更改开发内核中的函数或结构体名称；这样做不仅是为了
+> >  让每个人都保持警惕，还反映了一个重大的更改（例如，不能再在打开中断的情况下
+> > -调用，或者执行额外的检查，或者不执行以前捕获的检查）。通常这会附带一个linux
+> > -内核邮件列表中相当全面的注释；请搜索存档以查看。简单地对文件进行全局替换通常
+> > -会让事情变得 **更糟** 。
+> > +调用，或者执行额外的检查，或者不执行以前捕获的检查）。通常这会附带发送一个
+> > +相当全面的注释到相应的内核邮件列表中；请搜索存档以查看。简单地对文件进行全局
+> > +替换通常只会让事情变得 **更糟** 。
 > >
-> > +static inline void lru_gen_look_around(struct page_vma_mapped_walk *pv=
-mw)
-> > +{
-> > +}
-> > +
-> >  #ifdef CONFIG_MEMCG
-> >  static inline void lru_gen_init_memcg(struct mem_cgroup *memcg)
-> >  {
-> > diff --git a/mm/internal.h b/mm/internal.h
-> > index cf16280ce132..59d2422b647d 100644
-> > --- a/mm/internal.h
-> > +++ b/mm/internal.h
-> > @@ -68,6 +68,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf);
-> >  void folio_rotate_reclaimable(struct folio *folio);
-> >  bool __folio_end_writeback(struct folio *folio);
-> >  void deactivate_file_folio(struct folio *folio);
-> > +void folio_activate(struct folio *folio);
+> >  初始化结构体成员
+> >  ------------------
+> > @@ -610,7 +609,7 @@ C++
 > >
-> >  void free_pgtables(struct mmu_gather *tlb, struct vm_area_struct *star=
-t_vma,
-> >                 unsigned long floor, unsigned long ceiling);
-> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> > index 2ee074f80e72..98aa720ac639 100644
-> > --- a/mm/memcontrol.c
-> > +++ b/mm/memcontrol.c
-> > @@ -2769,6 +2769,7 @@ static void commit_charge(struct folio *folio, st=
-ruct mem_cgroup *memcg)
-> >          * - LRU isolation
-> >          * - lock_page_memcg()
-> >          * - exclusive reference
-> > +        * - mem_cgroup_trylock_pages()
-> >          */
-> >         folio->memcg_data =3D (unsigned long)memcg;
-> >  }
-> > diff --git a/mm/rmap.c b/mm/rmap.c
-> > index fedb82371efe..7cb7ef29088a 100644
-> > --- a/mm/rmap.c
-> > +++ b/mm/rmap.c
-> > @@ -73,6 +73,7 @@
-> >  #include <linux/page_idle.h>
-> >  #include <linux/memremap.h>
-> >  #include <linux/userfaultfd_k.h>
-> > +#include <linux/mm_inline.h>
+> >  为了让你的东西更正式、补丁更整洁，还有一些工作要做：
 > >
-> >  #include <asm/tlbflush.h>
+> > --  搞清楚你在谁的地界儿上干活。查看源文件的顶部、 ``MAINTAINERS`` 文件以及
+> > +-  搞清楚你修改的代码属于谁。查看源文件的根目录、 ``MAINTAINERS`` 文件以及
+> >     ``CREDITS`` 文件的最后一部分。你应该和此人协调，确保你没有重新发明轮子，
+> >     或者尝试一些已经被拒绝的东西。
 > >
-> > @@ -821,6 +822,12 @@ static bool folio_referenced_one(struct folio *fol=
-io,
-> >                 }
+> > @@ -629,9 +628,10 @@ C++
+> >     “obj-$(CONFIG_xxx) += xxx.o”。语法记录在
+> >     Documentation/kbuild/makefiles.rst 。
 > >
-> >                 if (pvmw.pte) {
-> > +                       if (lru_gen_enabled() && pte_young(*pvmw.pte) &=
-&
-> > +                           !(vma->vm_flags & (VM_SEQ_READ | VM_RAND_RE=
-AD))) {
-> > +                               lru_gen_look_around(&pvmw);
-> > +                               referenced++;
-> > +                       }
-> > +
-> >                         if (ptep_clear_flush_young_notify(vma, address,
->
-> Hello, Yu.
-> look_around() is calling ptep_test_and_clear_young(pvmw->vma, addr, pte +=
- i)
-> only without flush and notify. for flush, there is a tlb operation for ar=
-m64:
-> static inline int ptep_clear_flush_young(struct vm_area_struct *vma,
->                                          unsigned long address, pte_t *pt=
-ep)
-> {
->         int young =3D ptep_test_and_clear_young(vma, address, ptep);
->
->         if (young) {
->                 /*
->                  * We can elide the trailing DSB here since the worst tha=
-t can
->                  * happen is that a CPU continues to use the young entry =
-in its
->                  * TLB and we mistakenly reclaim the associated page. The
->                  * window for such an event is bounded by the next
->                  * context-switch, which provides a DSB to complete the T=
-LB
->                  * invalidation.
->                  */
->                 flush_tlb_page_nosync(vma, address);
->         }
->
->         return young;
-> }
->
-> Does it mean the current kernel is over cautious?  is it
-> safe to call ptep_test_and_clear_young() only?
+> > --  如果你做了一些有意义的事情，那可以把自己放进 ``CREDITS`` ，通常不止一个
+> > -   文件（无论如何你的名字都应该在源文件的顶部）。维护人员意味着您希望在对
+> > -   子系统进行更改时得到询问，并了解缺陷；这意味着对某部分代码做出更多承诺。
+> > +-  如果你认为自己做了一些有意义的事情，可以把自己放进 ``CREDITS`` ，通常不
+> > +   止一个文件（无论如何你的名字都应该在源文件的顶部）。  ``MAINTAINERS``
+> > +   意味着您希望在对子系统进行更改时得到询问，并了解缺陷；这意味着对某部分
+> > +   代码做出更多承诺。
+> >
+> >  -  最后，别忘记去阅读 Documentation/process/submitting-patches.rst ，
+> >     也许还有 Documentation/process/submitting-drivers.rst 。
+> > --
+> > 2.30.2
+> >
 
-I can't really explain why we are getting a random app/java vm crash in mon=
-key
-test by using ptep_test_and_clear_young() only in lru_gen_look_around() on =
-an
-armv8-a machine without hardware PTE young support.
-
-Moving to  ptep_clear_flush_young() in look_around can make the random
-hang disappear according to zhanyuan(Cc-ed).
-
-On x86, ptep_clear_flush_young() is exactly ptep_test_and_clear_young()
-after
- 'commit b13b1d2d8692 ("x86/mm: In the PTE swapout page reclaim case clear
-the accessed bit instead of flushing the TLB")'
-
-But on arm64, they are different. according to Will's comments in this
-thread which
-tried to make arm64 same with x86,
-https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1793881.html
-
-"
-This is blindly copied from x86 and isn't true for us: we don't invalidate
-the TLB on context switch. That means our window for keeping the stale
-entries around is potentially much bigger and might not be a great idea.
-
-If we roll a TLB invalidation routine without the trailing DSB, what sort o=
-f
-performance does that get you?
-"
-We shouldn't think ptep_clear_flush_young() is safe enough in LRU to
-clear PTE young? Any comments from Will?
-
->
-> btw, lru_gen_look_around() has already included 'address', are we doing
-> pte check for 'address' twice here?
->
-
-Thanks
-Barry
