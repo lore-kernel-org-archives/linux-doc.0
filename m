@@ -2,226 +2,284 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAE09C43334
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 08:53:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9D45CCA47F
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 08:56:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238672AbiFGIxs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 04:53:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56956 "EHLO
+        id S230385AbiFGI4N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 04:56:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238768AbiFGIxj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 04:53:39 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B63402C667;
-        Tue,  7 Jun 2022 01:53:34 -0700 (PDT)
-Received: by ajax-webmail-mail.loongson.cn (Coremail) ; Tue, 7 Jun 2022
- 16:53:24 +0800 (GMT+08:00)
-X-Originating-IP: [112.20.108.214]
-Date:   Tue, 7 Jun 2022 16:53:24 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   =?UTF-8?B?5Y+45bu26IW+?= <siyanteng@loongson.cn>
-To:     "Wu X.C." <bobwxc@email.cn>
-Cc:     "teng sterling" <sterlingteng@gmail.com>,
-        "Alex Shi" <alexs@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        "Li Feng" <felixlee868@icloud.com>,
-        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH] docs/zh_CN: Update zh_CN/kernel-hacking/hacking.rst
- to 5.19-rc1
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.10a build 20191018(4c4f6d15)
- Copyright (c) 2002-2022 www.mailtech.cn .loongson.cn
-In-Reply-To: <Yp8EP2L/Q6MbTGEx@bobwxc.mipc>
-References: <Yp41+eTjoPRa4hrl@bobwxc.mipc>
- <CAMU9jJqKQQGD73_ZXTL1NxwihPtun7D2i4e2_RaZe=5HMbz5xA@mail.gmail.com>
- <Yp8EP2L/Q6MbTGEx@bobwxc.mipc>
-Content-Transfer-Encoding: base64
-X-CM-CTRLDATA: Y/F6/mZvb3Rlcl90eHQ9NzA4Mzo2MTI=
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S236629AbiFGI4L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 04:56:11 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38E13D7715;
+        Tue,  7 Jun 2022 01:56:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654592170; x=1686128170;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=TNjuxlNqjf4QqyCj82B4tS5ErRzaVWZCJ6/e6HR0xyA=;
+  b=WDQSf84AAhZW3WdNkCBW4Q//0GzpuCpCaaR9wX0Pl4J6Lf3xDSUfgFdr
+   HSJ5jR7EMWGo7+mo8ZhsnawV0JD2d82yyUIcotau3Gyl3MgW3Bc1almYt
+   EdFltooZJcgCRKs/OG+w/8M8MVYVSXDMweHkPiI2m7BmrfiF92iDDhIvk
+   N56UuNg/k6DWZ/8/QZ2VnAbXYb883580+7PkmUGOn/voSi2tCxFEFWK3X
+   ep4ZDCMq+wxCL0L2ItC+ukKxYQgZCC8jt0KP912lqslAgf+rndE/69Ryi
+   yGqaIU/YMlAZmdEugdp9pasWLmg/AKAyEt0+F6WAr62RQ9DP0ROBlQket
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="302075521"
+X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; 
+   d="scan'208";a="302075521"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2022 01:56:09 -0700
+X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; 
+   d="scan'208";a="636033838"
+Received: from bdgardin-mobl1.ger.corp.intel.com (HELO [10.213.217.225]) ([10.213.217.225])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2022 01:56:06 -0700
+Message-ID: <8559b6f0-0322-9232-7000-534087e786fe@linux.intel.com>
+Date:   Tue, 7 Jun 2022 09:56:02 +0100
 MIME-Version: 1.0
-Message-ID: <579b15ed.aa91.1813d5e601f.Coremail.siyanteng@loongson.cn>
-X-Coremail-Locale: en_US
-X-CM-TRANSID: AQAAf9BxKeQFEp9ildodAA--.2643W
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/1tbiAQAKEV3QvPhixwAGsw
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 2/2] drm/msm: Expose client engine utilization via
+ fdinfo
+Content-Language: en-US
+To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc:     freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        Rob Clark <robdclark@chromium.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Sean Paul <sean@poorly.run>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20220606195432.1888346-1-robdclark@gmail.com>
+ <20220606195432.1888346-2-robdclark@gmail.com>
+From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220606195432.1888346-2-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CgoKJmd0OyAtLS0tLU9yaWdpbmFsIE1lc3NhZ2VzLS0tLS0KJmd0OyBGcm9tOiAiV3UgWC5DLiIg
-PGJvYnd4Y0BlbWFpbC5jbj4KJmd0OyBTZW50IFRpbWU6IDIwMjItMDYtMDcgMTU6NTQ6MzkgKFR1
-ZXNkYXkpCiZndDsgVG86ICJ0ZW5nIHN0ZXJsaW5nIiA8c3Rlcmxpbmd0ZW5nQGdtYWlsLmNvbT4K
-Jmd0OyBDYzogIkFsZXggU2hpIiA8YWxleHNAa2VybmVsLm9yZz4sICJZYW50ZW5nIFNpIiA8c2l5
-YW50ZW5nQGxvb25nc29uLmNuPiwgIkpvbmF0aGFuIENvcmJldCIgPGNvcmJldEBsd24ubmV0Piwg
-IkxpIEZlbmciIDxmZWxpeGxlZTg2OEBpY2xvdWQuY29tPiwgIkxpbnV4IERvYyBNYWlsaW5nIExp
-c3QiIDxsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnPiwgTEtNTCA8bGludXgta2VybmVsQHZnZXIu
-a2VybmVsLm9yZz4KJmd0OyBTdWJqZWN0OiBSZTogW1BBVENIXSBkb2NzL3poX0NOOiBVcGRhdGUg
-emhfQ04va2VybmVsLWhhY2tpbmcvaGFja2luZy5yc3QgdG8gNS4xOS1yYzEKJmd0OyAKJmd0OyBP
-biBUdWUsIEp1biAwNywgMjAyMiBhdCAxMDo0MDoxNkFNICswODAwLCB0ZW5nIHN0ZXJsaW5nIHdy
-b3RlOgomZ3Q7ICZndDsgV3UgWGlhbmdDaGVuZyA8Ym9id3hjQGVtYWlsLmNuPiDkuo4yMDIy5bm0
-NuaciDfml6XlkajkuowgMDE6MjDlhpnpgZPvvJoKJmd0OyAmZ3Q7ICZndDsKJmd0OyAmZ3Q7ICZn
-dDsgKiB1cGRhdGUgdG8gY29tbWl0IGYzNWNmMWE1OWU5YSAoIkRvY3VtZW50YXRpb246IGtlcm5l
-bC1oYWNraW5nOiBtaW5vcgomZ3Q7ICZndDsgJmd0OyAgIGVkaXRzIGZvciBzdHlsZSIpCiZndDsg
-Jmd0OyAmZ3Q7CiZndDsgJmd0OyAmZ3Q7ICogZml4IGEgaG9tb3Bob25lIHR5cG8gcmVwb3J0ZWQg
-YnkgTGkgRmVuZwomZ3Q7ICZndDsgJmd0OwomZ3Q7ICZndDsgJmd0OyBSZXBvcnRlZC1ieTogTGkg
-RmVuZyA8ZmVsaXhsZWU4NjhAaWNsb3VkLmNvbT4KJmd0OyAmZ3Q7ICZndDsgU2lnbmVkLW9mZi1i
-eTogV3UgWGlhbmdDaGVuZyA8Ym9id3hjQGVtYWlsLmNuPgomZ3Q7ICZndDsgUmV2aWV3ZWQtYnk6
-IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4KJmd0OyAKJmd0OyBUaGFuayB5b3Uh
-CiZndDsgCiZndDsgJmd0OyAKJmd0OyAmZ3Q7IEJUVywKJmd0OyAmZ3Q7IGI0IGRvZXNuJ3Qgc2Vl
-bSB0byB3b3JrIGZvciB0aGlzIHBhdGNoLCBidXQgSSBtYW51YWxseSBkb3dubG9hZGVkIHRoZQom
-Z3Q7ICZndDsgZW1haWwgZm9yIGEgYnVpbGQgdGVzdCBhbmQgaXQgd2FzIGZpbmUuIDopCiZndDsg
-CiZndDsgVW5hYmxlIHRvIHJlcHJvZHVjZS4gQ2hlY2sgdGhlIHZlcnNpb24gb2YgYjQ/CiZndDsg
-CiZndDsg4p2vIGI0IC0tdmVyc2lvbgomZ3Q7IDAuOC4wCiZndDsg4p2vIGI0IGFtIFlwNDErZVRq
-b1BSYTRocmxAYm9id3hjLm1pcGMKJmd0OyBMb29raW5nIHVwIGh0dHBzOi8vbG9yZS5rZXJuZWwu
-b3JnL3IvWXA0MSUyQmVUam9QUmE0aHJsJTQwYm9id3hjLm1pcGMKJmd0OyBHcmFiYmluZyB0aHJl
-YWQgZnJvbSBsb3JlLmtlcm5lbC5vcmcvYWxsL1lwNDElMkJlVGpvUFJhNGhybCU0MGJvYnd4Yy5t
-aXBjL3QubWJveC5negomZ3Q7IEFuYWx5emluZyAyIG1lc3NhZ2VzIGluIHRoZSB0aHJlYWQKJmd0
-OyBDaGVja2luZyBhdHRlc3RhdGlvbiBvbiBhbGwgbWVzc2FnZXMsIG1heSB0YWtlIGEgbW9tZW50
-Li4uCiZndDsgLS0tCiZndDsgICDinJMgW1BBVENIXSBkb2NzL3poX0NOOiBVcGRhdGUgemhfQ04v
-a2VybmVsLWhhY2tpbmcvaGFja2luZy5yc3QgdG8gNS4xOS1yYzEKJmd0OyAgIC0tLQomZ3Q7ICAg
-4pyTIFNpZ25lZDogb3BlbnBncC9ib2J3eGNAZW1haWwuY24KJmd0OyAgIOKckyBTaWduZWQ6IERL
-SU0vZW1haWwuY24KJmd0OyAtLS0KJmd0OyBUb3RhbCBwYXRjaGVzOiAxCiZndDsgLS0tCiZndDsg
-Tk9URTogc29tZSB0cmFpbGVycyBpZ25vcmVkIGR1ZSB0byBmcm9tL2VtYWlsIG1pc21hdGNoZXM6
-CiZndDsgICAgICEgVHJhaWxlcjogUmV2aWV3ZWQtYnk6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bs
-b29uZ3Nvbi5jbj4KJmd0OyAgICAgIE1zZyBGcm9tOiB0ZW5nIHN0ZXJsaW5nIDxzdGVybGluZ3Rl
-bmdAZ21haWwuY29tPgomZ3Q7IE5PVEU6IFJlcnVuIHdpdGggLVMgdG8gYXBwbHkgdGhlbSBhbnl3
-YXkKJmd0OyAtLS0KJmd0OyAgTGluazogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci9ZcDQxK2VU
-am9QUmE0aHJsQGJvYnd4Yy5taXBjCiZndDsgIEJhc2U6IG5vdCBzcGVjaWZpZWQKJmd0OyAgICAg
-ICAgZ2l0IGFtIC4vMjAyMjA2MDdfYm9id3hjX2RvY3NfemhfY25fdXBkYXRlX3poX2NuX2tlcm5l
-bF9oYWNraW5nX2hhY2tpbmdfcnN0X3RvXzVfMTlfcmMxLm1ieApPSywgc2luY2UgSSBkb24ndCBo
-YXZlIHJvb3QgYWNjZXNzIHRvIG15IHNlcnZlciwgZm9yIHRoZSBwYXN0IGxvbmcgdGltZSBJJ3Zl
-IGJlZW4gZG93bmxvYWRpbmcgcGF0Y2hlcyB1c2luZyB0aGUgZm9sbG93aW5nIHN0ZXBzOgoKJDog
-Z2l0IGNsb25lIGdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vdXRpbHMvYjQvYjQuZ2l0CiQ6
-IGI0L2I0LnNoIGFtIDx4eHh4PgoKVGhlbiBJIGV4ZWN1dGU6CgokOiBiNC9iNC5zaCAtLXZlcnNp
-b24KMC45LWRldi02ZjJhYQpUaGlzIHNlZW1zIHRvIGJlIGFuIGluLWRldmVsb3BtZW50IHZlcnNp
-b24uCgpCdXQgSSBoYXZlIGNvbnRhY3RlZCBteSBzZXJ2ZXIgYWRtaW5pc3RyYXRvciB0byAqaW5z
-dGFsbCogYjQgYW5kIEkgdGVzdGVkIGl0IGFuZCBldmVyeXRoaW5nIHdvcmtzIGZpbmUuCgpUaGFu
-a3MsCllhbnRlbmcKJmd0OyAKJmd0OyAtLQomZ3Q7IFRoYW5rcywKJmd0OyAJV3UKJmd0OyAKJmd0
-OyAmZ3Q7IAomZ3Q7ICZndDsgbG9nOgomZ3Q7ICZndDsgJC4uL2I0L2I0LnNoIGFtIFlwNDErZVRq
-b1BSYTRocmxAYm9id3hjLm1pcGMKJmd0OyAmZ3Q7IExvb2tpbmcgdXAgaHR0cHM6Ly9sb3JlLmtl
-cm5lbC5vcmcvci9ZcDQxJTJCZVRqb1BSYTRocmwlNDBib2J3eGMubWlwYwomZ3Q7ICZndDsgR3Jh
-YmJpbmcgdGhyZWFkIGZyb20KJmd0OyAmZ3Q7IGxvcmUua2VybmVsLm9yZy9hbGwvWXA0MSUyQmVU
-am9QUmE0aHJsJTQwYm9id3hjLm1pcGMvdC5tYm94Lmd6CiZndDsgJmd0OyBBbmFseXppbmcgMSBt
-ZXNzYWdlcyBpbiB0aGUgdGhyZWFkCiZndDsgJmd0OyBDaGVja2luZyBhdHRlc3RhdGlvbiBvbiBh
-bGwgbWVzc2FnZXMsIG1heSB0YWtlIGEgbW9tZW50Li4uCiZndDsgJmd0OyBUcmFjZWJhY2sgKG1v
-c3QgcmVjZW50IGNhbGwgbGFzdCk6CiZndDsgJmd0OyAgIEZpbGUgIi9ob21lL3NpeWFudGVuZy9i
-NC9iNC9jb21tYW5kLnB5IiwgbGluZSAyNjMsIGluIDxtb2R1bGU+CiZndDsgJmd0OyAuLi4uLi4K
-Jmd0OyAmZ3Q7IAomZ3Q7ICZndDsgVGhhbmtzLAomZ3Q7ICZndDsgWWFudGVuZwomZ3Q7ICZndDsg
-Jmd0OyAtLS0KJmd0OyAmZ3Q7ICZndDsgIC4uLi96aF9DTi9rZXJuZWwtaGFja2luZy9oYWNraW5n
-LnJzdCAgICAgICAgICB8IDIyICsrKysrKysrKy0tLS0tLS0tLS0KJmd0OyAmZ3Q7ICZndDsgIDEg
-ZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkKJmd0OyAmZ3Q7
-ICZndDsKJmd0OyAmZ3Q7ICZndDsgZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRp
-b25zL3poX0NOL2tlcm5lbC1oYWNraW5nL2hhY2tpbmcucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04va2VybmVsLWhhY2tpbmcvaGFja2luZy5yc3QKJmd0OyAmZ3Q7ICZndDsg
-aW5kZXggZjJiYzE1NGM1YmNjLi5iZGE3OTY0NmJiMWUgMTAwNjQ0CiZndDsgJmd0OyAmZ3Q7IC0t
-LSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2tlcm5lbC1oYWNraW5nL2hhY2tp
-bmcucnN0CiZndDsgJmd0OyAmZ3Q7ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
-X0NOL2tlcm5lbC1oYWNraW5nL2hhY2tpbmcucnN0CiZndDsgJmd0OyAmZ3Q7IEBAIC04MSw3ICs4
-MSw3IEBACiZndDsgJmd0OyAmZ3Q7ICDov4fnoazku7bkuK3mlq3vvInnmoTigJzova/ku7bkuK3m
-lq3igJ3lsIbov5DooYzvvIggYGBrZXJuZWwvc29mdGlycS5jYGAg77yJ44CCCiZndDsgJmd0OyAm
-Z3Q7CiZndDsgJmd0OyAmZ3Q7ICDmraTlpITlrozmiJDkuoborrjlpJrnnJ/mraPnmoTkuK3mlq3l
-pITnkIblt6XkvZzjgILlnKjlkJFTTVDov4fmuKHnmoTml6nmnJ/vvIzlj6rmnInigJxib3R0b20g
-aGFsdmVz5LiL5Y2KCiZndDsgJmd0OyAmZ3Q7IC3pg6jigJ3vvIhCSHPvvInmnLrliLbvvIzml6Dm
-s5XliKnnlKjlpJrkuKpDUFXnmoTkvJjlir/jgILlnKjku47pgqPkupvkuIDlm6Lns5/nmoTlsLHn
-lLXohJHliIfmjaLov4fmnaXlkI7kuI3kuYXvvIwKJmd0OyAmZ3Q7ICZndDsgK+mDqOKAne+8iEJI
-c++8ieacuuWItu+8jOaXoOazleWIqeeUqOWkmuS4qkNQVeeahOS8mOWKv+OAguWcqOS7jumCo+S6
-m+S4gOWbouezn+eahOaXp+eUteiEkeWIh+aNoui/h+adpeWQjuS4jeS5he+8jAomZ3Q7ICZndDsg
-Jmd0OyAg5oiR5Lus5pS+5byD5LqG6L+Z5Liq6ZmQ5Yi277yM6L2s6ICM5L2/55So4oCc6L2v5Lit
-5pat4oCd44CCCiZndDsgJmd0OyAmZ3Q7CiZndDsgJmd0OyAmZ3Q7ICBgYGluY2x1ZGUvbGludXgv
-aW50ZXJydXB0LmhgYCDliJflh7rkuobkuI3lkIznmoTova/kuK3mlq3jgILlrprml7blmajova/k
-uK3mlq3mmK/kuIDkuKrpnZ7luLjph43opoEKJmd0OyAmZ3Q7ICZndDsgQEAgLTk1LDggKzk1LDcg
-QEAKJmd0OyAmZ3Q7ICZndDsKJmd0OyAmZ3Q7ICZndDsgIC4uIHdhcm5pbmc6OgomZ3Q7ICZndDsg
-Jmd0OwomZ3Q7ICZndDsgJmd0OyAtICAgIOKAnHRhc2tsZXTigJ3ov5nkuKrlkI3lrZfmmK/or6/l
-r7zmgKfnmoTvvJrlroPku6zkuI7igJzku7vliqHigJ3ml6DlhbPvvIzlj6/og73mm7TlpJrkuI7l
-vZPml7YKJmd0OyAmZ3Q7ICZndDsgLSAgICDpmL/liJflhYvosKLCt+W6k+WFuea2heS9kOWkq+S6
-q+eUqOeahOezn+ezleS8j+eJueWKoOacieWFs+OAggomZ3Q7ICZndDsgJmd0OyArICAgIOKAnHRh
-c2tsZXTigJ3ov5nkuKrlkI3lrZfmmK/or6/lr7zmgKfnmoTvvJrlroPku6zkuI7igJzku7vliqHi
-gJ3ml6DlhbPjgIIKJmd0OyAmZ3Q7ICZndDsKJmd0OyAmZ3Q7ICZndDsgIOS9oOWPr+S7peS9v+eU
-qCA6YzpmdW5jOmBpbl9zb2Z0aXJxKClgIOWuj++8iCBgYGluY2x1ZGUvbGludXgvcHJlZW1wdC5o
-YGAg77yJ5p2l56Gu6K6kCiZndDsgJmd0OyAmZ3Q7ICDmmK/lkKblpITkuo7ova/kuK3mlq3vvIjm
-iJblrZDku7vliqHvvInkuK3jgIIKJmd0OyAmZ3Q7ICZndDsgQEAgLTI0Nyw3ICsyNDYsNyBAQCBQ
-cm92aWRlIG1lY2hhbmlzbSBub3QgcG9saWN54oCd44CCCiZndDsgJmd0OyAmZ3Q7ICAgICAg5LiO
-IDpjOmZ1bmM6YHB1dF91c2VyKClgIOWSjCA6YzpmdW5jOmBnZXRfdXNlcigpYCDkuI3lkIzvvIzl
-roPku6zov5Tlm57mnKrlpI3liLbnmoQKJmd0OyAmZ3Q7ICZndDsgICAgICDmlbDmja7ph4/vvIjl
-jbMw5LuN54S25oSP5ZGz552A5oiQ5Yqf77yJ44CCCiZndDsgJmd0OyAmZ3Q7CiZndDsgJmd0OyAm
-Z3Q7IC3jgJDmmK/nmoTvvIzov5nkuKrmhJrooKLnmoTmjqXlj6PnnJ/lv4PorqnmiJHlsLTlsKzj
-gILngavniIbnmoTlj6PmsLTku5flpKfmpoLmr4/lubTpg73kvJrlj5HnlJ/jgIIKJmd0OyAmZ3Q7
-ICZndDsgK+OAkOaYr+eahO+8jOi/meS4quiuqOWOjOeahOaOpeWPo+ecn+W/g+iuqeaIkeWwtOWw
-rOOAgueBq+eIhueahOWPo+awtOS7l+Wkp+amguavj+W5tOmDveS8muWPkeeUn+OAggomZ3Q7ICZn
-dDsgJmd0OyAg4oCU4oCUIFJ1c3R5IFJ1c3NlbGzjgJEKJmd0OyAmZ3Q7ICZndDsKJmd0OyAmZ3Q7
-ICZndDsgIOi/meS6m+WHveaVsOWPr+S7pemakOW8j+edoeecoOOAguWug+S4jeW6lOivpeWcqOeU
-qOaIt+S4iuS4i+aWh+S5i+Wkluiwg+eUqO+8iOayoeacieaEj+S5ie+8ieOAgeiwg+eUqOaXtuem
-geeUqOS4reaWrQomZ3Q7ICZndDsgJmd0OyBAQCAtNTM4LDkgKzUzNyw5IEBAIERvY3VtZW50YXRp
-b24vY29yZS1hcGkvc3ltYm9sLW5hbWVzcGFjZXMucnN0IOOAggomZ3Q7ICZndDsgJmd0OwomZ3Q7
-ICZndDsgJmd0OyAgTGludXPlkozlhbbku5blvIDlj5HkurrlkZjmnInml7bkvJrmm7TmlLnlvIDl
-j5HlhoXmoLjkuK3nmoTlh73mlbDmiJbnu5PmnoTkvZPlkI3np7DvvJvov5nmoLflgZrkuI3ku4Xm
-mK/kuLrkuoYKJmd0OyAmZ3Q7ICZndDsgIOiuqeavj+S4quS6uumDveS/neaMgeitpuaDle+8jOi/
-mOWPjeaYoOS6huS4gOS4qumHjeWkp+eahOabtOaUue+8iOS+i+Wmgu+8jOS4jeiDveWGjeWcqOaJ
-k+W8gOS4reaWreeahOaDheWGteS4iwomZ3Q7ICZndDsgJmd0OyAt6LCD55So77yM5oiW6ICF5omn
-6KGM6aKd5aSW55qE5qOA5p+l77yM5oiW6ICF5LiN5omn6KGM5Lul5YmN5o2V6I6355qE5qOA5p+l
-77yJ44CC6YCa5bi46L+Z5Lya6ZmE5bim5LiA5LiqbGludXgKJmd0OyAmZ3Q7ICZndDsgLeWGheag
-uOmCruS7tuWIl+ihqOS4reebuOW9k+WFqOmdoueahOazqOmHiu+8m+ivt+aQnOe0ouWtmOaho+S7
-peafpeeci+OAgueugOWNleWcsOWvueaWh+S7tui/m+ihjOWFqOWxgOabv+aNoumAmuW4uAomZ3Q7
-ICZndDsgJmd0OyAt5Lya6K6p5LqL5oOF5Y+Y5b6XICoq5pu057OfKiog44CCCiZndDsgJmd0OyAm
-Z3Q7ICvosIPnlKjvvIzmiJbogIXmiafooYzpop3lpJbnmoTmo4Dmn6XvvIzmiJbogIXkuI3miafo
-oYzku6XliY3mjZXojrfnmoTmo4Dmn6XvvInjgILpgJrluLjov5nkvJrpmYTluKblj5HpgIHkuIDk
-uKoKJmd0OyAmZ3Q7ICZndDsgK+ebuOW9k+WFqOmdoueahOazqOmHiuWIsOebuOW6lOeahOWGheag
-uOmCruS7tuWIl+ihqOS4re+8m+ivt+aQnOe0ouWtmOaho+S7peafpeeci+OAgueugOWNleWcsOWv
-ueaWh+S7tui/m+ihjOWFqOWxgAomZ3Q7ICZndDsgJmd0OyAr5pu/5o2i6YCa5bi45Y+q5Lya6K6p
-5LqL5oOF5Y+Y5b6XICoq5pu057OfKiog44CCCiZndDsgJmd0OyAmZ3Q7CiZndDsgJmd0OyAmZ3Q7
-ICDliJ3lp4vljJbnu5PmnoTkvZPmiJDlkZgKJmd0OyAmZ3Q7ICZndDsgIC0tLS0tLS0tLS0tLS0t
-LS0tLQomZ3Q7ICZndDsgJmd0OyBAQCAtNjEwLDcgKzYwOSw3IEBAIEMrKwomZ3Q7ICZndDsgJmd0
-OwomZ3Q7ICZndDsgJmd0OyAg5Li65LqG6K6p5L2g55qE5Lic6KW/5pu05q2j5byP44CB6KGl5LiB
-5pu05pW05rSB77yM6L+Y5pyJ5LiA5Lqb5bel5L2c6KaB5YGa77yaCiZndDsgJmd0OyAmZ3Q7CiZn
-dDsgJmd0OyAmZ3Q7IC0tICDmkJ7muIXmpZrkvaDlnKjosIHnmoTlnLDnlYzlhL/kuIrlubLmtLvj
-gILmn6XnnIvmupDmlofku7bnmoTpobbpg6jjgIEgYGBNQUlOVEFJTkVSU2BgIOaWh+S7tuS7peWP
-igomZ3Q7ICZndDsgJmd0OyArLSAg5pCe5riF5qWa5L2g5L+u5pS555qE5Luj56CB5bGe5LqO6LCB
-44CC5p+l55yL5rqQ5paH5Lu255qE5qC555uu5b2V44CBIGBgTUFJTlRBSU5FUlNgYCDmlofku7bk
-u6Xlj4oKJmd0OyAmZ3Q7ICZndDsgICAgIGBgQ1JFRElUU2BgIOaWh+S7tueahOacgOWQjuS4gOmD
-qOWIhuOAguS9oOW6lOivpeWSjOatpOS6uuWNj+iwg++8jOehruS/neS9oOayoeaciemHjeaWsOWP
-keaYjui9ruWtkO+8jAomZ3Q7ICZndDsgJmd0OyAgICAg5oiW6ICF5bCd6K+V5LiA5Lqb5bey57uP
-6KKr5ouS57ud55qE5Lic6KW/44CCCiZndDsgJmd0OyAmZ3Q7CiZndDsgJmd0OyAmZ3Q7IEBAIC02
-MjksOSArNjI4LDEwIEBAIEMrKwomZ3Q7ICZndDsgJmd0OyAgICAg4oCcb2JqLSQoQ09ORklHX3h4
-eCkgKz0geHh4Lm/igJ3jgILor63ms5XorrDlvZXlnKgKJmd0OyAmZ3Q7ICZndDsgICAgIERvY3Vt
-ZW50YXRpb24va2J1aWxkL21ha2VmaWxlcy5yc3Qg44CCCiZndDsgJmd0OyAmZ3Q7CiZndDsgJmd0
-OyAmZ3Q7IC0tICDlpoLmnpzkvaDlgZrkuobkuIDkupvmnInmhI/kuYnnmoTkuovmg4XvvIzpgqPl
-j6/ku6Xmioroh6rlt7HmlL7ov5sgYGBDUkVESVRTYGAg77yM6YCa5bi45LiN5q2i5LiA5LiqCiZn
-dDsgJmd0OyAmZ3Q7IC0gICDmlofku7bvvIjml6DorrrlpoLkvZXkvaDnmoTlkI3lrZfpg73lupTo
-r6XlnKjmupDmlofku7bnmoTpobbpg6jvvInjgILnu7TmiqTkurrlkZjmhI/lkbPnnYDmgqjluIzm
-nJvlnKjlr7kKJmd0OyAmZ3Q7ICZndDsgLSAgIOWtkOezu+e7n+i/m+ihjOabtOaUueaXtuW+l+WI
-sOivoumXru+8jOW5tuS6huino+e8uumZt++8m+i/meaEj+WRs+edgOWvueafkOmDqOWIhuS7o+eg
-geWBmuWHuuabtOWkmuaJv+ivuuOAggomZ3Q7ICZndDsgJmd0OyArLSAg5aaC5p6c5L2g6K6k5Li6
-6Ieq5bex5YGa5LqG5LiA5Lqb5pyJ5oSP5LmJ55qE5LqL5oOF77yM5Y+v5Lul5oqK6Ieq5bex5pS+
-6L+bIGBgQ1JFRElUU2BgIO+8jOmAmuW4uOS4jQomZ3Q7ICZndDsgJmd0OyArICAg5q2i5LiA5Liq
-5paH5Lu277yI5peg6K665aaC5L2V5L2g55qE5ZCN5a2X6YO95bqU6K+l5Zyo5rqQ5paH5Lu255qE
-6aG26YOo77yJ44CCICBgYE1BSU5UQUlORVJTYGAKJmd0OyAmZ3Q7ICZndDsgKyAgIOaEj+WRs+ed
-gOaCqOW4jOacm+WcqOWvueWtkOezu+e7n+i/m+ihjOabtOaUueaXtuW+l+WIsOivoumXru+8jOW5
-tuS6huino+e8uumZt++8m+i/meaEj+WRs+edgOWvueafkOmDqOWIhgomZ3Q7ICZndDsgJmd0OyAr
-ICAg5Luj56CB5YGa5Ye65pu05aSa5om/6K+644CCCiZndDsgJmd0OyAmZ3Q7CiZndDsgJmd0OyAm
-Z3Q7ICAtICDmnIDlkI7vvIzliKvlv5jorrDljrvpmIXor7sgRG9jdW1lbnRhdGlvbi9wcm9jZXNz
-L3N1Ym1pdHRpbmctcGF0Y2hlcy5yc3Qg77yMCiZndDsgJmd0OyAmZ3Q7ICAgICDkuZ/orrjov5jm
-nIkgRG9jdW1lbnRhdGlvbi9wcm9jZXNzL3N1Ym1pdHRpbmctZHJpdmVycy5yc3Qg44CCCiZndDsg
-Jmd0OyAmZ3Q7IC0tCiZndDsgJmd0OyAmZ3Q7IDIuMzAuMgomZ3Q7ICZndDsgJmd0Owo8L21vZHVs
-ZT48L3h4eHg+PC9zdGVybGluZ3RlbmdAZ21haWwuY29tPjwvc2l5YW50ZW5nQGxvb25nc29uLmNu
-Pjwvc2l5YW50ZW5nQGxvb25nc29uLmNuPjwvYm9id3hjQGVtYWlsLmNuPjwvZmVsaXhsZWU4NjhA
-aWNsb3VkLmNvbT48L2JvYnd4Y0BlbWFpbC5jbj48L2xpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5v
-cmc+PC9saW51eC1kb2NAdmdlci5rZXJuZWwub3JnPjwvZmVsaXhsZWU4NjhAaWNsb3VkLmNvbT48
-L2NvcmJldEBsd24ubmV0Pjwvc2l5YW50ZW5nQGxvb25nc29uLmNuPjwvYWxleHNAa2VybmVsLm9y
-Zz48L3N0ZXJsaW5ndGVuZ0BnbWFpbC5jb20+PC9ib2J3eGNAZW1haWwuY24+DQoNCuacrOmCruS7
-tuWPiuWFtumZhOS7tuWQq+aciem+meiKr+S4reenkeeahOWVhuS4muenmOWvhuS/oeaBr++8jOS7
-hemZkOS6juWPkemAgee7meS4iumdouWcsOWdgOS4reWIl+WHuueahOS4quS6uuaIlue+pOe7hOOA
-guemgeatouS7u+S9leWFtuS7luS6uuS7peS7u+S9leW9ouW8j+S9v+eUqO+8iOWMheaLrOS9huS4
-jemZkOS6juWFqOmDqOaIlumDqOWIhuWcsOazhOmcsuOAgeWkjeWItuaIluaVo+WPke+8ieacrOmC
-ruS7tuWPiuWFtumZhOS7tuS4reeahOS/oeaBr+OAguWmguaenOaCqOmUmeaUtuacrOmCruS7tu+8
-jOivt+aCqOeri+WNs+eUteivneaIlumCruS7tumAmuefpeWPkeS7tuS6uuW5tuWIoOmZpOacrOmC
-ruS7tuOAgiANClRoaXMgZW1haWwgYW5kIGl0cyBhdHRhY2htZW50cyBjb250YWluIGNvbmZpZGVu
-dGlhbCBpbmZvcm1hdGlvbiBmcm9tIExvb25nc29uIFRlY2hub2xvZ3kgLCB3aGljaCBpcyBpbnRl
-bmRlZCBvbmx5IGZvciB0aGUgcGVyc29uIG9yIGVudGl0eSB3aG9zZSBhZGRyZXNzIGlzIGxpc3Rl
-ZCBhYm92ZS4gQW55IHVzZSBvZiB0aGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGhlcmVpbiBpbiBh
-bnkgd2F5IChpbmNsdWRpbmcsIGJ1dCBub3QgbGltaXRlZCB0bywgdG90YWwgb3IgcGFydGlhbCBk
-aXNjbG9zdXJlLCByZXByb2R1Y3Rpb24gb3IgZGlzc2VtaW5hdGlvbikgYnkgcGVyc29ucyBvdGhl
-ciB0aGFuIHRoZSBpbnRlbmRlZCByZWNpcGllbnQocykgaXMgcHJvaGliaXRlZC4gSWYgeW91IHJl
-Y2VpdmUgdGhpcyBlbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHBo
-b25lIG9yIGVtYWlsIGltbWVkaWF0ZWx5IGFuZCBkZWxldGUgaXQuIA==
+
+On 06/06/2022 20:54, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Similar to AMD commit
+> 874442541133 ("drm/amdgpu: Add show_fdinfo() interface"), using the
+> infrastructure added in previous patches, we add basic client info
+> and GPU engine utilisation for msm.
+> 
+> Example output:
+> 
+> 	# cat /proc/`pgrep glmark2`/fdinfo/6
+> 	pos:	0
+> 	flags:	02400002
+> 	mnt_id:	21
+> 	ino:	162
+> 	drm-driver:	msm
+> 	drm-client-id:	7
+> 	drm-engine-gpu:	1734371319 ns
+> 	drm-cycles-gpu:	1153645024
+> 	drm-maxfreq-gpu:	800000000 Hz
+> 
+> See also: https://patchwork.freedesktop.org/patch/468505/
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   Documentation/gpu/drm-usage-stats.rst | 21 +++++++++++++++++++++
+>   drivers/gpu/drm/msm/msm_drv.c         | 19 ++++++++++++++++++-
+>   drivers/gpu/drm/msm/msm_gpu.c         | 21 +++++++++++++++++++--
+>   drivers/gpu/drm/msm/msm_gpu.h         | 19 +++++++++++++++++++
+>   4 files changed, 77 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+> index 6c9f166a8d6f..60e5cc9c13ad 100644
+> --- a/Documentation/gpu/drm-usage-stats.rst
+> +++ b/Documentation/gpu/drm-usage-stats.rst
+> @@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
+>   Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
+>   indicating kibi- or mebi-bytes.
+>   
+> +- drm-cycles-<str> <uint>
+> +
+> +Engine identifier string must be the same as the one specified in the
+> +drm-engine-<str> tag and shall contain the number of busy cycles for the given
+> +engine.
+> +
+> +Values are not required to be constantly monotonic if it makes the driver
+> +implementation easier, but are required to catch up with the previously reported
+> +larger value within a reasonable period. Upon observing a value lower than what
+> +was previously read, userspace is expected to stay with that larger previous
+> +value until a monotonic update is seen.
+> +
+> +- drm-maxfreq-<str> <uint> [Hz|MHz|KHz]
+> +
+> +Engine identifier string must be the same as the one specified in the
+> +drm-engine-<str> tag and shall contain the maxium frequence for the given
+
+maximum frequency
+
+> +engine.  Taken together with drm-cycles-<str>, this can be used to calculate
+> +percentage utilization of the engine, whereas drm-engine-<str> only refects
+
+reflects
+
+> +time active without considering what frequency the engine is operating as a
+> +percentage of it's maximum frequency.
+
+Cycles vs max freq sounds very useful. My reservations is that how come 
+the idea hasn't happened in the CPU world. Or maybe it has and I am 
+un-informed?
+
+In any case, if going with this I think we need to clarify the text that 
+the value should reflect the current soft limit, where the driver 
+supports that, in case it has been set to lower than the maximum 
+frequency hardware can support. I am thinking about avoiding "my gpu 
+cannot hit 100%" support incidents in cases when user/admin lowered the 
+soft limit for some reason. Possibly does not apply to msm but can apply 
+to i915, if we decided to export the same data.
+
+No other gotchas come to mind at the moment.
+
+Regards,
+
+Tvrtko
+
+> +
+>   ===============================
+>   Driver specific implementations
+>   ===============================
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 14ab9a627d8b..57a66093e671 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -948,7 +948,24 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
+>   	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
+>   };
+>   
+> -DEFINE_DRM_GEM_FOPS(fops);
+> +static void msm_fop_show_fdinfo(struct seq_file *m, struct file *f)
+> +{
+> +	struct drm_file *file = f->private_data;
+> +	struct drm_device *dev = file->minor->dev;
+> +	struct msm_drm_private *priv = dev->dev_private;
+> +	struct drm_printer p = drm_seq_file_printer(m);
+> +
+> +	if (!priv->gpu)
+> +		return;
+> +
+> +	msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, &p);
+> +}
+> +
+> +static const struct file_operations fops = {
+> +	.owner = THIS_MODULE,
+> +	DRM_GEM_FOPS,
+> +	.show_fdinfo = msm_fop_show_fdinfo,
+> +};
+>   
+>   static const struct drm_driver msm_driver = {
+>   	.driver_features    = DRIVER_GEM |
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+> index eb8a6663f309..333a9a299b41 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.c
+> +++ b/drivers/gpu/drm/msm/msm_gpu.c
+> @@ -4,6 +4,8 @@
+>    * Author: Rob Clark <robdclark@gmail.com>
+>    */
+>   
+> +#include "drm/drm_drv.h"
+> +
+>   #include "msm_gpu.h"
+>   #include "msm_gem.h"
+>   #include "msm_mmu.h"
+> @@ -146,6 +148,16 @@ int msm_gpu_pm_suspend(struct msm_gpu *gpu)
+>   	return 0;
+>   }
+>   
+> +void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
+> +			 struct drm_printer *p)
+> +{
+> +	drm_printf(p, "drm-driver:\t%s\n", gpu->dev->driver->name);
+> +	drm_printf(p, "drm-client-id:\t%u\n", ctx->seqno);
+> +	drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
+> +	drm_printf(p, "drm-cycles-gpu:\t%llu\n", ctx->cycles);
+> +	drm_printf(p, "drm-maxfreq-gpu:\t%lu Hz\n", gpu->fast_rate);
+> +}
+> +
+>   int msm_gpu_hw_init(struct msm_gpu *gpu)
+>   {
+>   	int ret;
+> @@ -652,7 +664,7 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+>   {
+>   	int index = submit->seqno % MSM_GPU_SUBMIT_STATS_COUNT;
+>   	volatile struct msm_gpu_submit_stats *stats;
+> -	u64 elapsed, clock = 0;
+> +	u64 elapsed, clock = 0, cycles;
+>   	unsigned long flags;
+>   
+>   	stats = &ring->memptrs->stats[index];
+> @@ -660,12 +672,17 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+>   	elapsed = (stats->alwayson_end - stats->alwayson_start) * 10000;
+>   	do_div(elapsed, 192);
+>   
+> +	cycles = stats->cpcycles_end - stats->cpcycles_start;
+> +
+>   	/* Calculate the clock frequency from the number of CP cycles */
+>   	if (elapsed) {
+> -		clock = (stats->cpcycles_end - stats->cpcycles_start) * 1000;
+> +		clock = cycles * 1000;
+>   		do_div(clock, elapsed);
+>   	}
+>   
+> +	submit->queue->ctx->elapsed_ns += elapsed;
+> +	submit->queue->ctx->cycles     += cycles;
+> +
+>   	trace_msm_gpu_submit_retired(submit, elapsed, clock,
+>   		stats->alwayson_start, stats->alwayson_end);
+>   
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+> index 6def00883046..4911943ba53b 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.h
+> +++ b/drivers/gpu/drm/msm/msm_gpu.h
+> @@ -361,6 +361,22 @@ struct msm_file_private {
+>   	/** cmdline: Overridden task cmdline, see MSM_PARAM_CMDLINE */
+>   	char *cmdline;
+>   
+> +	/**
+> +	 * elapsed:
+> +	 *
+> +	 * The total (cumulative) elapsed time GPU was busy with rendering
+> +	 * from this context in ns.
+> +	 */
+> +	uint64_t elapsed_ns;
+> +
+> +	/**
+> +	 * cycles:
+> +	 *
+> +	 * The total (cumulative) GPU cycles elapsed attributed to this
+> +	 * context.
+> +	 */
+> +	uint64_t cycles;
+> +
+>   	/**
+>   	 * entities:
+>   	 *
+> @@ -544,6 +560,9 @@ static inline void gpu_write64(struct msm_gpu *gpu, u32 lo, u32 hi, u64 val)
+>   int msm_gpu_pm_suspend(struct msm_gpu *gpu);
+>   int msm_gpu_pm_resume(struct msm_gpu *gpu);
+>   
+> +void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
+> +			 struct drm_printer *p);
+> +
+>   int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx);
+>   struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
+>   		u32 id);
