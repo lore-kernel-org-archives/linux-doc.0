@@ -2,95 +2,196 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18F24CCA488
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB413CCA48E
 	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 01:03:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231982AbiFHBC2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 21:02:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35262 "EHLO
+        id S236190AbiFHBCs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 21:02:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1587310AbiFGXxC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 19:53:02 -0400
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C4FB2945E5;
-        Tue,  7 Jun 2022 15:44:00 -0700 (PDT)
-Received: by mail-pj1-f43.google.com with SMTP id k5-20020a17090a404500b001e8875e6242so5942877pjg.5;
-        Tue, 07 Jun 2022 15:44:00 -0700 (PDT)
+        with ESMTP id S1453568AbiFGXPi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 19:15:38 -0400
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92086248562
+        for <linux-doc@vger.kernel.org>; Tue,  7 Jun 2022 14:07:43 -0700 (PDT)
+Received: by mail-vs1-xe2a.google.com with SMTP id n4so8944201vsm.6
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jun 2022 14:07:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BgxQ0h6I958Y2GI2JoqVGW/OESE9fxrXKfh9ZN0Zq08=;
+        b=oKoX3EKP+If3Pg3CSsiIzp7MdgwGoVt1eWuoV8GtnXDvuCJWY+M7wmLS8sygJpkjaK
+         iOAb0QC3WVE1pARsV9XTNGUaZNsCEia7M1Y1OMdqEzCr2DXhR1x2R0fjgls2GHghq0DJ
+         kmV9VrpihV+4mk7fDF1AIBg06e8OMvXc5a6mzwLGlAFIx2PS+fPJA4xnLb/RNoCfe/qz
+         5sLk3qDe0vNhpDymnq40eNUHcQXuLAYm2G/O3hH9F58tM1JmX/d7h9aWfcX3LmHxBJIg
+         ulq8z9he5xJHfSCzWyqQiUlWhK6wtsKlDnmt21fI11y8OSoQVCEq2KhLU5sFa9gV6pa0
+         7+zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=w8NDUBo3z6UDbWsc/XByX6YF7c4oG4yuYC7oAUnBsYY=;
-        b=wmJNHrZm8vt1N3Fna/3p1FnnVcRuFZZyEy/21hgX49HizjQ9yvZQ53zCvdetoUatVE
-         432zbmPjCUDVtLHXgY6WF2Ivztymj8hl6NqWHXa0mPQ4iQOpCLXwCcnMrFzcSmNGbQaj
-         8ofK7SluYbs2cnAC1+h/0f/MXzhSLGBygpi5nXuTQMwJyBfiHKPPiBpWunGlpXEtGtHq
-         Rj6CYPjj+W1C3sn6g3YobF9ktE01x9ja+yy1MBf2Hf8VGzfoWRBGu6EGXIHFUpNPOUZC
-         IvqdeEoJTm/U1gyCG1ieunVWZO9WkxDZuNEbPl8v7osYuJMLlkesJi5fx4Ju5P8WT+2m
-         +kWQ==
-X-Gm-Message-State: AOAM532+nFS/mMnENlXByKy9Bdh+4jxEPPf5bKLS8/I9CvOyGLk/OQUm
-        aN3qzw6VPJeJUd3HbFFRT3Q=
-X-Google-Smtp-Source: ABdhPJyerYGytLfJP4UmMuvbsKpIxNlss+3u6Myd9djlsW8ZEBq2xQNYIWDPe/Kqg6qSLUHDPa8PZg==
-X-Received: by 2002:a17:902:7088:b0:167:78c0:e05e with SMTP id z8-20020a170902708800b0016778c0e05emr13533905plk.149.1654641824895;
-        Tue, 07 Jun 2022 15:43:44 -0700 (PDT)
-Received: from ?IPV6:2620:15c:211:201:e794:fbe6:94b0:435b? ([2620:15c:211:201:e794:fbe6:94b0:435b])
-        by smtp.gmail.com with ESMTPSA id v11-20020a62a50b000000b0051ba97b788bsm13451064pfm.27.2022.06.07.15.43.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jun 2022 15:43:44 -0700 (PDT)
-Message-ID: <3e2324dc-2ab1-6a35-46ab-72d970cc466c@acm.org>
-Date:   Tue, 7 Jun 2022 15:43:42 -0700
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BgxQ0h6I958Y2GI2JoqVGW/OESE9fxrXKfh9ZN0Zq08=;
+        b=a66c8WvmxIrxgJgSO8F/jLEtTc8THsxtSZUNc+OnX1PSAb++G5rMScMCsXizIN4kZ8
+         bRjCloBf3EWnytcH+MqeG0zBgWACwNobjqOzTjkANjcME1XqcxRgPgyx7LywEu1OL4Ol
+         o6LrAmztPJmUJOBijvIHWly2aft9M+KSGKD82FNgseu8h4s5d5NCvbCsxVvmJq6ZEFT+
+         fcT/j3VqUZtG+OvcYu+1cmHHyo/cZ+slzWzTFSG2OQO9wtEc7JbJSVksmewf8TKIDTKP
+         T/oiBf6k5473RzzDulZT0jxvvE49e3Xo48pdJJdP6KtS3W9pMcFIAbOF3NwpsaMdCT3z
+         m5BQ==
+X-Gm-Message-State: AOAM531fYecHIKOUwMvAQ92tckSIbp4JDNPT7+kSWqBzK7loKpNRX1Qm
+        VWVDFrPBcddonUnvkb/fwq1HGzual232mUH0ey6XkAHoYT3FoNXj
+X-Google-Smtp-Source: ABdhPJyjqcySNrRwXkeaEuBGNMG5NFNqHbpYoFwoZhrkb2oGCeTEFoqKeluO9Bya5UCEshSWAgyv3unWIgN/r4anB6o=
+X-Received: by 2002:a67:f3d0:0:b0:34b:b52d:d676 with SMTP id
+ j16-20020a67f3d0000000b0034bb52dd676mr6635528vsn.6.1654636053943; Tue, 07 Jun
+ 2022 14:07:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 0/4] DMA mapping changes for SCSI core
-Content-Language: en-US
-To:     John Garry <john.garry@huawei.com>,
-        damien.lemoal@opensource.wdc.com, joro@8bytes.org, will@kernel.org,
-        jejb@linux.ibm.com, martin.petersen@oracle.com, hch@lst.de,
-        m.szyprowski@samsung.com, robin.murphy@arm.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-ide@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-scsi@vger.kernel.org, liyihang6@hisilicon.com,
-        chenxiang66@hisilicon.com, thunder.leizhen@huawei.com
-References: <1654507822-168026-1-git-send-email-john.garry@huawei.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <1654507822-168026-1-git-send-email-john.garry@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220518014632.922072-1-yuzhao@google.com> <20220518014632.922072-8-yuzhao@google.com>
+ <CAGsJ_4yboZEY9OfyujPxBa_AEuGM3OAq5y_L9gvzSMUv70BxeQ@mail.gmail.com>
+ <CAGsJ_4w3S_8Kaw2GyB3hg7b4N_D+6yBO7D6qmgxD9Fqz3_dhAg@mail.gmail.com>
+ <20220607102135.GA32448@willie-the-truck> <CAGsJ_4zGEdHDv0ObZ-5y8sFKLO7Y6ZjTsZFs0KvdLwA_-iGJ5A@mail.gmail.com>
+ <20220607104358.GA32583@willie-the-truck>
+In-Reply-To: <20220607104358.GA32583@willie-the-truck>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Tue, 7 Jun 2022 15:06:57 -0600
+Message-ID: <CAOUHufZh46A2hh_fn-8vVBDi_621rgbZq64_afDt8VxrzqJz1g@mail.gmail.com>
+Subject: Re: [PATCH v11 07/14] mm: multi-gen LRU: exploit locality in rmap
+To:     Will Deacon <will@kernel.org>
+Cc:     Barry Song <21cnbao@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, x86 <x86@kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>, huzhanyuan@oppo.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/6/22 02:30, John Garry wrote:
-> As reported in [0], DMA mappings whose size exceeds the IOMMU IOVA caching
-> limit may see a big performance hit.
-> 
-> This series introduces a new DMA mapping API, dma_opt_mapping_size(), so
-> that drivers may know this limit when performance is a factor in the
-> mapping.
-> 
-> Robin didn't like using dma_max_mapping_size() for this [1].
-> 
-> The SCSI core code is modified to use this limit.
-> 
-> I also added a patch for libata-scsi as it does not currently honour the
-> shost max_sectors limit.
-> 
-> Note: Christoph has previously kindly offered to take this series via the
->        dma-mapping tree, so I think that we just need an ack from the
->        IOMMU guys now.
-> 
-> [0] https://lore.kernel.org/linux-iommu/20210129092120.1482-1-thunder.leizhen@huawei.com/
-> [1] https://lore.kernel.org/linux-iommu/f5b78c9c-312e-70ab-ecbb-f14623a4b6e3@arm.com/
+On Tue, Jun 7, 2022 at 4:44 AM Will Deacon <will@kernel.org> wrote:
+>
+> On Tue, Jun 07, 2022 at 10:37:46AM +1200, Barry Song wrote:
+> > On Tue, Jun 7, 2022 at 10:21 PM Will Deacon <will@kernel.org> wrote:
+> > > On Tue, Jun 07, 2022 at 07:37:10PM +1200, Barry Song wrote:
+> > > > I can't really explain why we are getting a random app/java vm crash in monkey
+> > > > test by using ptep_test_and_clear_young() only in lru_gen_look_around() on an
+> > > > armv8-a machine without hardware PTE young support.
+> > > >
+> > > > Moving to  ptep_clear_flush_young() in look_around can make the random
+> > > > hang disappear according to zhanyuan(Cc-ed).
+> > > >
+> > > > On x86, ptep_clear_flush_young() is exactly ptep_test_and_clear_young()
+> > > > after
+> > > >  'commit b13b1d2d8692 ("x86/mm: In the PTE swapout page reclaim case clear
+> > > > the accessed bit instead of flushing the TLB")'
+> > > >
+> > > > But on arm64, they are different. according to Will's comments in this
+> > > > thread which
+> > > > tried to make arm64 same with x86,
+> > > > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1793881.html
+> > > >
+> > > > "
+> > > > This is blindly copied from x86 and isn't true for us: we don't invalidate
+> > > > the TLB on context switch. That means our window for keeping the stale
+> > > > entries around is potentially much bigger and might not be a great idea.
+> > > >
+> > > > If we roll a TLB invalidation routine without the trailing DSB, what sort of
+> > > > performance does that get you?
+> > > > "
+> > > > We shouldn't think ptep_clear_flush_young() is safe enough in LRU to
+> > > > clear PTE young? Any comments from Will?
+> > >
+> > > Given that this issue is specific to the multi-gen LRU work, I think Yu is
+> > > the best person to comment. However, looking quickly at your analysis above,
+> > > I wonder if the code is relying on this sequence:
+> > >
+> > >
+> > >         ptep_test_and_clear_young(vma, address, ptep);
+> > >         ptep_clear_flush_young(vma, address, ptep);
+> > >
+> > >
+> > > to invalidate the TLB. On arm64, that won't be the case, as the invalidation
+> > > in ptep_clear_flush_young() is predicated on the pte being young (and this
+> > > patches the generic implementation in mm/pgtable-generic.c. In fact, that
+> > > second function call is always going to be a no-op unless the pte became
+> > > young again in the middle.
+> >
+> > thanks for your reply, sorry for failing to let you understand my question.
+> > my question is actually as below,
+> > right now  lru_gen_look_around() is using ptep_test_and_clear_young()
+> > only without flush to clear pte for a couple of pages including the specific
+> > address:
+> > void lru_gen_look_around(struct page_vma_mapped_walk *pvmw)
+> > {
+> >        ...
+> >
+> >        for (i = 0, addr = start; addr != end; i++, addr += PAGE_SIZE) {
+> >                ...
+> >
+> >                if (!ptep_test_and_clear_young(pvmw->vma, addr, pte + i))
+> >                        continue;
+> >
+> >                ...
+> > }
+> >
+> > I wonder if it is safe to arm64. Do we need to move to ptep_clear_flush_young()
+> > in the loop?
+>
+> I don't know what this code is doing, so Yu is the best person to answer
+> that. There's nothing inherently dangerous about eliding the TLB
+> maintenance; it really depends on the guarantees needed by the caller.
 
-Regarding [0], that patch reverts commit 4e89dce72521 ("iommu/iova: 
-Retry from last rb tree node if iova search fails"). Reading the 
-description of that patch, it seems to me that the iova allocator can be 
-improved. Shouldn't the iova allocator be improved such that we don't 
-need this patch series? There are algorithms that handle fragmentation 
-much better than the current iova allocator algorithm, e.g. the 
-https://en.wikipedia.org/wiki/Buddy_memory_allocation algorithm.
+Ack.
 
-Thanks,
+> However, the snippet you posted from folio_referenced_one():
+>
+>  |                  if (pvmw.pte) {
+>  |  +                       if (lru_gen_enabled() && pte_young(*pvmw.pte) &&
+>  |  +                           !(vma->vm_flags & (VM_SEQ_READ | VM_RAND_READ))) {
+>  |  +                               lru_gen_look_around(&pvmw);
+>  |  +                               referenced++;
+>  |  +                       }
+>  |  +
+>  |                          if (ptep_clear_flush_young_notify(vma, address,
+>
+>
+> Does seem to call lru_gen_look_around() *and*
+> ptep_clear_flush_young_notify(), which is what prompted my question as it
+> looks pretty suspicious to me.
 
-Bart.
+The _notify varint reaches into the MMU notifier --
+lru_gen_look_around() doesn't do that because GPA space generally has
+no locality. I hope this explains why both.
+
+As to why the code is organized this way -- it depends on the point of
+view. Mine is that lru_gen_look_around() is an add-on, since its logic
+is independent/separable from ptep_clear_flush_young_notify(). We can
+make lru_gen_look_around() include ptep_clear_flush_young_notify(),
+but that would make the code functionally interwinted, which is bad
+for my taste.
