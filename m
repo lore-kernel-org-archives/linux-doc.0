@@ -2,99 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B35B9CCA483
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 14:11:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C566AC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 14:34:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245204AbiFGOLs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 10:11:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59176 "EHLO
+        id S245579AbiFGOeT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 10:34:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245197AbiFGOLq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 10:11:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F18DA501E;
-        Tue,  7 Jun 2022 07:11:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E81C26157B;
-        Tue,  7 Jun 2022 14:11:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31A53C385A5;
-        Tue,  7 Jun 2022 14:11:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654611104;
-        bh=letTzTlIdmYyCQr3t4i/4sQ++BrVupVi397GE8M9uvI=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=ZmrXJqh5VhK6LBrkWuZLcZPb6LB/aKqB7VgbxKHQ5EKdRZGn1B/UtUl37J/VZlncM
-         XaKVqUs9/CrLhurHZmfQE4ZHromAzF5QHFhfcePHGAZt6gJN4oXn1Jgu9OhytNBGsZ
-         Dpp8c39jiY4Y6vji5iZNzY0BkjvDT9oCjsHIgHSItTWWl1ZaFW8x1MWtKzh54+Jsmx
-         MgLY2ScRWCz28NxqLMnfdu2v0uWPvoMrX/y8LVhRzTo8e9BmO+8kP0GacNDIRYfLCx
-         +YjXzNg0JjEvKZfsqCZP5oIjyElXDN9wiUZpKQTLYg3m4X5qyHVoxoSHYehWp506BX
-         a+HtETwbE/zkg==
-From:   Mark Brown <broonie@kernel.org>
-To:     linux-doc@vger.kernel.org, corbet@lwn.net, mchehab@kernel.org
-Cc:     linux@roeck-us.net, linux-cachefs@redhat.com,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dave.hansen@linux.intel.com, linux-samsung-soc@vger.kernel.org,
-        geert@linux-m68k.org, ulf.hansson@linaro.org, hpa@zytor.com,
-        alsa-devel@alsa-project.org, linux-m68k@lists.linux-m68k.org,
-        krzysztof.kozlowski+dt@linaro.org,
-        bcm-kernel-feedback-list@broadcom.com, kvm@vger.kernel.org,
-        mingo@redhat.com, mchehab+huawei@kernel.org, jdelvare@suse.com,
-        robh+dt@kernel.org, linux-gpio@vger.kernel.org, rafael@kernel.org,
-        linux-mmc@vger.kernel.org, federico.vaga@vaga.pv.it, bp@alien8.de,
-        linux-phy@lists.infradead.org, mmayer@broadcom.com,
-        keyrings@vger.kernel.org, x86@kernel.org,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        alim.akhtar@samsung.com, Viresh Kumar <viresh.kumar@linaro.org>,
-        linux-pm@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        jarkko@kernel.org, tglx@linutronix.de, linus.walleij@linaro.org
-In-Reply-To: <cover.1654529011.git.mchehab@kernel.org>
-References: <cover.1654529011.git.mchehab@kernel.org>
-Subject: Re: (subset) [PATCH 00/23] Update Documentation/ cross-references
-Message-Id: <165461109692.1597191.11390741473240531333.b4-ty@kernel.org>
-Date:   Tue, 07 Jun 2022 15:11:36 +0100
+        with ESMTP id S245570AbiFGOeN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 10:34:13 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 0A1A2B41D6
+        for <linux-doc@vger.kernel.org>; Tue,  7 Jun 2022 07:34:10 -0700 (PDT)
+Received: (qmail 405325 invoked by uid 1000); 7 Jun 2022 10:34:08 -0400
+Date:   Tue, 7 Jun 2022 10:34:08 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Will Deacon <will@kernel.org>
+Cc:     Akira Yokosawa <akiyks@gmail.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH -lkmm] docs/memory-barriers: Fix inconsistent name of
+ 'data dependency barrier'
+Message-ID: <Yp9h4Cmo0UNZp6xD@rowland.harvard.edu>
+References: <cc2c7885-ac75-24f3-e18a-e77f97c91b4c@gmail.com>
+ <20220607133432.GA32701@willie-the-truck>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220607133432.GA32701@willie-the-truck>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 6 Jun 2022 16:25:22 +0100, Mauro Carvalho Chehab wrote:
-> There were a number of DT binding conversions and other docs change that
-> were not updated. Address them, in order to keep the cross-references on
-> a sane state.
-> 
-> Patch series is against v5.19-rc1 (and applies cleanly on the top of
-> today's -next).
-> 
-> [...]
+On Tue, Jun 07, 2022 at 02:34:33PM +0100, Will Deacon wrote:
+> On Sat, May 28, 2022 at 01:15:30PM +0900, Akira Yokosawa wrote:
+> > The term "data dependency barrier", which has been in
+> > memory-barriers.txt ever since it was first authored by David Howells,
+> > has become confusing due to the fact that in LKMM's explanations.txt
+> > and elsewhere, "data dependency" is used mostly for load-to-store data
+> > dependency.
+> > 
+> > To prevent further confusions, do the following changes:
+> > 
+> >   - substitute "address-dependency barrier" for "data dependency barrier";
+> >   - add note on the removal of kernel APIs for explicit address-
+> >     dependency barriers in kernel release v5.9;
+> >   - add note on the section title rename;
+> >   - use READ_ONCE_OLD() for READ_ONCE() of pre-4.15 (no address-
+> >     dependency implication) in code snippets;
+> >   - fix number of CPU memory barrier APIs;
+> >   - and a few more context adjustments.
 
-Applied to
+> I suppose this isn't really a comment on your patch, as I much prefer the
+> updated terminology, but the way this section is now worded really makes it
+> sounds like address dependencies only order load -> load, whereas they
+> equally order load -> store. Saying that "An address-dependency barrier...
+> is not required to have any effect on stores" is really confusing to me: the
+> barrier should only ever be used in conjunction with an address-dependency
+> _anyway_ so whether or not it's the barrier or the dependency giving the
+> order is an implementation detail.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+It would be more accurate to say that address-dependency barriers are 
+not _needed_ for load->store ordering because the dependencies 
+themselves already provide this ordering (even on Alpha).
 
-Thanks!
+> Perhaps the barrier should be called a "Read-read-address-dependency
+> barrier", an "Address-dependency read barrier" or even a "Consume barrier"
+> (:p) instead? Dunno, Alan is normally much better at naming these things
+> than I am.
 
-[22/23] ASoC: wm8731: update wlf,wm8731.yaml reference
-        commit: 69c8027c5ff43d68449fda4510a8cce70e8578b0
+Well, "load-load-address-dependency barrier" would be okay as a generic 
+name, albeit unwieldy.  Note however that on Alpha -- the only 
+architecture to need these barriers -- they aren't anything special; the 
+actual instruction is the equivalent of an ordinary smp_rmb().  (Please 
+correct me if my memory about this is wrong.)
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+So in principle you could simply call them "read memory barriers" while 
+pointing out the need for special use on demented architectures where 
+address dependencies do not guarantee load->load ordering.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> Alternatively, maybe we should be removing the historical stuff from the
+> document altogether if it's no longer needed. We don't have any occurrences
+> of read_barrier_depends() anymore, so why confuse people with it?
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+How about relegating discussion of these barriers to a special 
+"historical" or "niche architecture" section of the document?  In a 
+separate patch, of course.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Alan
 
-Thanks,
-Mark
+
