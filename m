@@ -2,318 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC210C43334
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 16:08:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB140C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 16:48:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344783AbiFGQI1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 12:08:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44804 "EHLO
+        id S244008AbiFGQsO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 12:48:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344782AbiFGQIZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 12:08:25 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E52B313A0;
-        Tue,  7 Jun 2022 09:08:23 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id u8so20495192wrm.13;
-        Tue, 07 Jun 2022 09:08:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vDS8tU0h4s3yW5j6fV9TQnuv3IMe+OJzI6nClBIWrgc=;
-        b=f5QycvAE9/GN3fLlvBk052zqfvowX+k+EtYvzGWvolIaDhCirc8/ghAau8/q2KlZkR
-         yaj2ux79heR4lx3e8oZU8vdeA9aDx/u3G3bUyAwv5Ea+RJunpt1NEb1a549KQ281eNrm
-         sLOYz4bU/K9TF0amhnSiciFadostRYKcTFF5IQOLa1clC34bhQPzpKcDdYccumE5DPuL
-         IpsCLHY/vYanHE3f1yQ5lx9qBlnhvVbPxomK996soNXJ435vzHINFXYoHiGqrRNs45YI
-         7VvTEfHiumWqNeF4HEjVELXUyyMCxfuemkJjEVPRVjCGcMaN/UAwfg2faFTIiQ4F7qE2
-         cWSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vDS8tU0h4s3yW5j6fV9TQnuv3IMe+OJzI6nClBIWrgc=;
-        b=rj3mR6QJ1wdbrxhkB5Y3pdxhdyy9dySZu5bglKvTWGon/JF995dL93fDlaFUDK9+dJ
-         gqWZNiDfb3xrlt5NCw+6YrxjUmVl3CGlZM/8nhewql+gnqz2bi63FcOAsxl0QtF+z2Gc
-         +jdEBO7mX9tJV0TJRxieej1YCAxQXlzmUr3BZB6KpPteEA7oq7aLt9Me/IwQPvYKNBx7
-         IMxG7xEattL2uxiT5CaBi2MFsr4xXSDEV6jg6f9a22i1VzNozwYOJ6KfS3tTw+9/w/yV
-         v1wpyyTzZs0AaZoL4B3Q1zYR/JoxpDJEY90CiUTS2gnSiT+ngxQ658iA5qcsVeLYbh+x
-         Qj7Q==
-X-Gm-Message-State: AOAM533/IITJRcE7r6PaZ2OchYLohoYzYAWgArqsJuvMKCx9ebKKwnQL
-        vwd5JIiEW69pqaccFnXSTsho4z1eR/Now2X4084=
-X-Google-Smtp-Source: ABdhPJyhVOQalPR1VYkh20EuicoSw2FV0OUV+CgcCZamkVKxRQVY389JMV0vPwBeHNVIdbVwOAyBMFhqORk+lyhEo9U=
-X-Received: by 2002:a5d:68d2:0:b0:210:31cc:64a6 with SMTP id
- p18-20020a5d68d2000000b0021031cc64a6mr27734429wrw.679.1654618101647; Tue, 07
- Jun 2022 09:08:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220606195432.1888346-1-robdclark@gmail.com> <20220606195432.1888346-2-robdclark@gmail.com>
- <8559b6f0-0322-9232-7000-534087e786fe@linux.intel.com> <CAF6AEGv0heF1fj0W3XALtQwZBE0yJTszXisg2CQR+-hFOmHSng@mail.gmail.com>
-In-Reply-To: <CAF6AEGv0heF1fj0W3XALtQwZBE0yJTszXisg2CQR+-hFOmHSng@mail.gmail.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Tue, 7 Jun 2022 09:08:24 -0700
-Message-ID: <CAF6AEGvMNhoMTV+z0svbeX2bLusp-Yed7p9Z6KYa__0ckvg2LQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/msm: Expose client engine utilization via fdinfo
-To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Rob Clark <robdclark@chromium.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        with ESMTP id S1344214AbiFGQsN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 12:48:13 -0400
+X-Greylist: delayed 142 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 07 Jun 2022 09:48:11 PDT
+Received: from condef-02.nifty.com (condef-02.nifty.com [202.248.20.67])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0FFCD02BD
+        for <linux-doc@vger.kernel.org>; Tue,  7 Jun 2022 09:48:11 -0700 (PDT)
+Received: from conuserg-09.nifty.com ([10.126.8.72])by condef-02.nifty.com with ESMTP id 257GgSnG011048
+        for <linux-doc@vger.kernel.org>; Wed, 8 Jun 2022 01:42:29 +0900
+Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 257Ge4L0032527;
+        Wed, 8 Jun 2022 01:40:04 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 257Ge4L0032527
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1654620005;
+        bh=KIQsPoYwJl2iHAlLQ3N6FDhBbmcoJ7MxPCwB4wOjf9k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Yk7vi2La1zL4Tvi/uHEi9Ftav84vUtcysbVtd4AYUTjaQPRTS5/EuHa9qKhI7ip4U
+         effPPofbrLiBTmdtoGW33Gt5nFEBmSXMjy0cegNqMhC2CF6yHb2w4JSwv8yR/PQy2i
+         mQu9IdjtkNhlnJv+PiOukZGTOoSMDjlfO+toKa1Kc2ebi4Vwi8KNkqfy9tTMUe3+eu
+         WEhZ03vfegdMEDki/5daPNjuEiFJWsDpwxIoy4Tqn9MIXVDyjAipReKy3icpzZf/lJ
+         lfWYb8P++4EgFMGiO5XIz2gh4TsGngsJQrfzcRXpXlcKTZrneHNE77y6UjC7v0ozRQ
+         OpdZ78+/YGF+A==
+X-Nifty-SrcIP: [133.32.177.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Wang Yugui <wangyugui@e16-tech.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Sean Paul <sean@poorly.run>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: [PATCH v2] scripts/check-local-export: avoid 'wait $!' for process substitution
+Date:   Wed,  8 Jun 2022 01:40:00 +0900
+Message-Id: <20220607164000.447941-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 7, 2022 at 9:02 AM Rob Clark <robdclark@gmail.com> wrote:
->
-> On Tue, Jun 7, 2022 at 1:56 AM Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
-> >
-> >
-> > On 06/06/2022 20:54, Rob Clark wrote:
-> > > From: Rob Clark <robdclark@chromium.org>
-> > >
-> > > Similar to AMD commit
-> > > 874442541133 ("drm/amdgpu: Add show_fdinfo() interface"), using the
-> > > infrastructure added in previous patches, we add basic client info
-> > > and GPU engine utilisation for msm.
-> > >
-> > > Example output:
-> > >
-> > >       # cat /proc/`pgrep glmark2`/fdinfo/6
-> > >       pos:    0
-> > >       flags:  02400002
-> > >       mnt_id: 21
-> > >       ino:    162
-> > >       drm-driver:     msm
-> > >       drm-client-id:  7
-> > >       drm-engine-gpu: 1734371319 ns
-> > >       drm-cycles-gpu: 1153645024
-> > >       drm-maxfreq-gpu:        800000000 Hz
-> > >
-> > > See also: https://patchwork.freedesktop.org/patch/468505/
-> > >
-> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > ---
-> > >   Documentation/gpu/drm-usage-stats.rst | 21 +++++++++++++++++++++
-> > >   drivers/gpu/drm/msm/msm_drv.c         | 19 ++++++++++++++++++-
-> > >   drivers/gpu/drm/msm/msm_gpu.c         | 21 +++++++++++++++++++--
-> > >   drivers/gpu/drm/msm/msm_gpu.h         | 19 +++++++++++++++++++
-> > >   4 files changed, 77 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> > > index 6c9f166a8d6f..60e5cc9c13ad 100644
-> > > --- a/Documentation/gpu/drm-usage-stats.rst
-> > > +++ b/Documentation/gpu/drm-usage-stats.rst
-> > > @@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
-> > >   Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
-> > >   indicating kibi- or mebi-bytes.
-> > >
-> > > +- drm-cycles-<str> <uint>
-> > > +
-> > > +Engine identifier string must be the same as the one specified in the
-> > > +drm-engine-<str> tag and shall contain the number of busy cycles for the given
-> > > +engine.
-> > > +
-> > > +Values are not required to be constantly monotonic if it makes the driver
-> > > +implementation easier, but are required to catch up with the previously reported
-> > > +larger value within a reasonable period. Upon observing a value lower than what
-> > > +was previously read, userspace is expected to stay with that larger previous
-> > > +value until a monotonic update is seen.
-> > > +
-> > > +- drm-maxfreq-<str> <uint> [Hz|MHz|KHz]
-> > > +
-> > > +Engine identifier string must be the same as the one specified in the
-> > > +drm-engine-<str> tag and shall contain the maxium frequence for the given
-> >
-> > maximum frequency
-> >
-> > > +engine.  Taken together with drm-cycles-<str>, this can be used to calculate
-> > > +percentage utilization of the engine, whereas drm-engine-<str> only refects
-> >
-> > reflects
-> >
-> > > +time active without considering what frequency the engine is operating as a
-> > > +percentage of it's maximum frequency.
-> >
-> > Cycles vs max freq sounds very useful. My reservations is that how come
-> > the idea hasn't happened in the CPU world. Or maybe it has and I am
-> > un-informed?
->
-> I do often pay attention to both where tasks get scheduled, and the
-> individual CPU freq when I'm profiling CPU side stuff (eg. in
-> perfetto)
->
-> I could also report "always-count" cycles, I think, which could be
-> used by gputop to derive freq.  I'd have to think about that a bit,
-> since keeping the result monotinic(ish) might be a bit tricky (the hw
-> counter loses state across runtime suspend)
->
-> > In any case, if going with this I think we need to clarify the text that
-> > the value should reflect the current soft limit, where the driver
-> > supports that, in case it has been set to lower than the maximum
-> > frequency hardware can support. I am thinking about avoiding "my gpu
-> > cannot hit 100%" support incidents in cases when user/admin lowered the
-> > soft limit for some reason. Possibly does not apply to msm but can apply
-> > to i915, if we decided to export the same data.
->
-> Yes, with pm-qos thermal or userspace could limit the max freq.. but
-> we also internally use a pm-qos constraint to reduce freq when the GPU
-> is idle, and I don't think there is a good way to differentiate
-> *which* constraint is which.  I'll add something involving the word
-> "recommended" ;-)
+Bash>=4.4 supports 'wait $!' to check the exit status of a process
+substitution, but some people using older bash versions reported an
+error like this:
 
-Hmm, or on second thought, maybe it would be better to, for drivers
-that can, just report the soft limit separately?
+  ./scripts/check-local-export: line 54: wait: pid 17328 is not a child of this shell
 
-BR,
--R
+I used the process substitution because a pipeline executes each command
+in a subshell; variables modified within the while-loop in the subshell
+context would be lost after the subshell terminates.
 
-> BR,
-> -R
->
-> >
-> > No other gotchas come to mind at the moment.
-> >
-> > Regards,
-> >
-> > Tvrtko
-> >
-> > > +
-> > >   ===============================
-> > >   Driver specific implementations
-> > >   ===============================
-> > > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> > > index 14ab9a627d8b..57a66093e671 100644
-> > > --- a/drivers/gpu/drm/msm/msm_drv.c
-> > > +++ b/drivers/gpu/drm/msm/msm_drv.c
-> > > @@ -948,7 +948,24 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
-> > >       DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
-> > >   };
-> > >
-> > > -DEFINE_DRM_GEM_FOPS(fops);
-> > > +static void msm_fop_show_fdinfo(struct seq_file *m, struct file *f)
-> > > +{
-> > > +     struct drm_file *file = f->private_data;
-> > > +     struct drm_device *dev = file->minor->dev;
-> > > +     struct msm_drm_private *priv = dev->dev_private;
-> > > +     struct drm_printer p = drm_seq_file_printer(m);
-> > > +
-> > > +     if (!priv->gpu)
-> > > +             return;
-> > > +
-> > > +     msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, &p);
-> > > +}
-> > > +
-> > > +static const struct file_operations fops = {
-> > > +     .owner = THIS_MODULE,
-> > > +     DRM_GEM_FOPS,
-> > > +     .show_fdinfo = msm_fop_show_fdinfo,
-> > > +};
-> > >
-> > >   static const struct drm_driver msm_driver = {
-> > >       .driver_features    = DRIVER_GEM |
-> > > diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-> > > index eb8a6663f309..333a9a299b41 100644
-> > > --- a/drivers/gpu/drm/msm/msm_gpu.c
-> > > +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> > > @@ -4,6 +4,8 @@
-> > >    * Author: Rob Clark <robdclark@gmail.com>
-> > >    */
-> > >
-> > > +#include "drm/drm_drv.h"
-> > > +
-> > >   #include "msm_gpu.h"
-> > >   #include "msm_gem.h"
-> > >   #include "msm_mmu.h"
-> > > @@ -146,6 +148,16 @@ int msm_gpu_pm_suspend(struct msm_gpu *gpu)
-> > >       return 0;
-> > >   }
-> > >
-> > > +void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
-> > > +                      struct drm_printer *p)
-> > > +{
-> > > +     drm_printf(p, "drm-driver:\t%s\n", gpu->dev->driver->name);
-> > > +     drm_printf(p, "drm-client-id:\t%u\n", ctx->seqno);
-> > > +     drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
-> > > +     drm_printf(p, "drm-cycles-gpu:\t%llu\n", ctx->cycles);
-> > > +     drm_printf(p, "drm-maxfreq-gpu:\t%lu Hz\n", gpu->fast_rate);
-> > > +}
-> > > +
-> > >   int msm_gpu_hw_init(struct msm_gpu *gpu)
-> > >   {
-> > >       int ret;
-> > > @@ -652,7 +664,7 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
-> > >   {
-> > >       int index = submit->seqno % MSM_GPU_SUBMIT_STATS_COUNT;
-> > >       volatile struct msm_gpu_submit_stats *stats;
-> > > -     u64 elapsed, clock = 0;
-> > > +     u64 elapsed, clock = 0, cycles;
-> > >       unsigned long flags;
-> > >
-> > >       stats = &ring->memptrs->stats[index];
-> > > @@ -660,12 +672,17 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
-> > >       elapsed = (stats->alwayson_end - stats->alwayson_start) * 10000;
-> > >       do_div(elapsed, 192);
-> > >
-> > > +     cycles = stats->cpcycles_end - stats->cpcycles_start;
-> > > +
-> > >       /* Calculate the clock frequency from the number of CP cycles */
-> > >       if (elapsed) {
-> > > -             clock = (stats->cpcycles_end - stats->cpcycles_start) * 1000;
-> > > +             clock = cycles * 1000;
-> > >               do_div(clock, elapsed);
-> > >       }
-> > >
-> > > +     submit->queue->ctx->elapsed_ns += elapsed;
-> > > +     submit->queue->ctx->cycles     += cycles;
-> > > +
-> > >       trace_msm_gpu_submit_retired(submit, elapsed, clock,
-> > >               stats->alwayson_start, stats->alwayson_end);
-> > >
-> > > diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-> > > index 6def00883046..4911943ba53b 100644
-> > > --- a/drivers/gpu/drm/msm/msm_gpu.h
-> > > +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> > > @@ -361,6 +361,22 @@ struct msm_file_private {
-> > >       /** cmdline: Overridden task cmdline, see MSM_PARAM_CMDLINE */
-> > >       char *cmdline;
-> > >
-> > > +     /**
-> > > +      * elapsed:
-> > > +      *
-> > > +      * The total (cumulative) elapsed time GPU was busy with rendering
-> > > +      * from this context in ns.
-> > > +      */
-> > > +     uint64_t elapsed_ns;
-> > > +
-> > > +     /**
-> > > +      * cycles:
-> > > +      *
-> > > +      * The total (cumulative) GPU cycles elapsed attributed to this
-> > > +      * context.
-> > > +      */
-> > > +     uint64_t cycles;
-> > > +
-> > >       /**
-> > >        * entities:
-> > >        *
-> > > @@ -544,6 +560,9 @@ static inline void gpu_write64(struct msm_gpu *gpu, u32 lo, u32 hi, u64 val)
-> > >   int msm_gpu_pm_suspend(struct msm_gpu *gpu);
-> > >   int msm_gpu_pm_resume(struct msm_gpu *gpu);
-> > >
-> > > +void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
-> > > +                      struct drm_printer *p);
-> > > +
-> > >   int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx);
-> > >   struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
-> > >               u32 id);
+Fortunately, Bash>=4.2 supports the 'lastpipe' option, which runs the
+last element of a pipeline in the current shell process.
+
+Also, set 'pipefail' to catch errors from ${NM}.
+
+Bash 4.2, released in 2011, is 5 years older than Bash 4.4.
+
+Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Reported-by: Michael Ellerman <mpe@ellerman.id.au>
+Reported-by: Wang Yugui <wangyugui@e16-tech.com>
+Tested-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+Changes in v2:
+  - Add bash to Documentation/process/changes.rst
+
+ Documentation/process/changes.rst | 12 +++++++++++
+ scripts/check-local-export        | 35 ++++++++++++++++++-------------
+ 2 files changed, 32 insertions(+), 15 deletions(-)
+
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 34415ae1af1b..19c286c23786 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -32,6 +32,7 @@ you probably needn't concern yourself with pcmciautils.
+ GNU C                  5.1              gcc --version
+ Clang/LLVM (optional)  11.0.0           clang --version
+ GNU make               3.81             make --version
++bash                   4.2              bash --version
+ binutils               2.23             ld -v
+ flex                   2.5.35           flex --version
+ bison                  2.0              bison --version
+@@ -84,6 +85,12 @@ Make
+ 
+ You will need GNU make 3.81 or later to build the kernel.
+ 
++Bash
++----
++
++Some bash scripts are used for the kernel build.
++Bash 4.2 or newer is needed.
++
+ Binutils
+ --------
+ 
+@@ -362,6 +369,11 @@ Make
+ 
+ - <ftp://ftp.gnu.org/gnu/make/>
+ 
++Bash
++----
++
++- <ftp://ftp.gnu.org/gnu/bash/>
++
+ Binutils
+ --------
+ 
+diff --git a/scripts/check-local-export b/scripts/check-local-export
+index da745e2743b7..e21c7b54885d 100755
+--- a/scripts/check-local-export
++++ b/scripts/check-local-export
+@@ -8,11 +8,30 @@
+ 
+ set -e
+ 
++# catch errors from ${NM}
++set -o pipefail
++
++# Run the last element of a pipeline in the current shell.
++# Without this, the while-loop would be executed in a subshell, and
++# the changes made to 'symbol_types' and 'export_symbols' would be lost.
++shopt -s lastpipe
++
+ declare -A symbol_types
+ declare -a export_symbols
+ 
+ exit_code=0
+ 
++# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
++# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
++# '2>/dev/null'. However, it suppresses real error messages as well. Add a
++# hand-crafted error message here.
++#
++# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
++# binutils to 2.37, llvm to 13.0.0.
++#
++# Then, the following line will be really simple:
++#   ${NM} --quiet ${1} |
++{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
+ while read value type name
+ do
+ 	# Skip the line if the number of fields is less than 3.
+@@ -37,21 +56,7 @@ do
+ 	if [[ ${name} == __ksymtab_* ]]; then
+ 		export_symbols+=(${name#__ksymtab_})
+ 	fi
+-
+-	# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm)
+-	# shows 'no symbols' diagnostic (but exits with 0). It is harmless and
+-	# hidden by '2>/dev/null'. However, it suppresses real error messages
+-	# as well. Add a hand-crafted error message here.
+-	#
+-	# Use --quiet instead of 2>/dev/null when we upgrade the minimum version
+-	# of binutils to 2.37, llvm to 13.0.0.
+-	#
+-	# Then, the following line will be really simple:
+-	#   done < <(${NM} --quiet ${1})
+-done < <(${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } )
+-
+-# Catch error in the process substitution
+-wait $!
++done
+ 
+ for name in "${export_symbols[@]}"
+ do
+-- 
+2.32.0
+
