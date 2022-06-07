@@ -2,132 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E03B5CCA482
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 12:25:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED00CC43334
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 12:39:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243680AbiFGMZ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 08:25:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53940 "EHLO
+        id S238007AbiFGMjn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 08:39:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242511AbiFGMZz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 08:25:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 82674657D
-        for <linux-doc@vger.kernel.org>; Tue,  7 Jun 2022 05:25:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1654604753;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Mf4QQ8b/9HcGL5J+sznsLy7f+ZtpXa7DM56pD/5wHRY=;
-        b=QZdUjLJdDMTedDPRnSLCZ+grDpFvVdwSypmj7uIx9cVEBRr7hGT+/17myGIx6uO0B8y7Xn
-        LywoXQgXDR0bV5MFi4oQETG6Uz2zIYBZ5GN9tsSxvay0t7lqSnlT5FdvwlY/mYg0L810Qb
-        6SGuJYfLq3w8zcCeRIDg2wtugRo1Z8o=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-665-S6vb7-xQOaKFJ-NJWofpIg-1; Tue, 07 Jun 2022 08:25:52 -0400
-X-MC-Unique: S6vb7-xQOaKFJ-NJWofpIg-1
-Received: by mail-wr1-f70.google.com with SMTP id m18-20020adff392000000b0021848a78a53so1313328wro.19
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jun 2022 05:25:52 -0700 (PDT)
+        with ESMTP id S233295AbiFGMjk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 08:39:40 -0400
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9E1B1E0;
+        Tue,  7 Jun 2022 05:39:36 -0700 (PDT)
+Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-e656032735so23039955fac.0;
+        Tue, 07 Jun 2022 05:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=HiYTeaH2Ytvy9J3xHvGT5KfgL81gOulpVWevU/JIGjQ=;
+        b=Pa+E2AI+vhzby88jLf87j+HCaBZNNBmAxlyecZ1p+WVUqS/UlmKhq0yL6alWbBO6P3
+         SuLQP30pwhVd2MzPhZRtiS0A5i01/zQOgUqza4LvIGv1ouf1YnWjL0V7Zkyw+cDSyh3E
+         NEBT9iEUH058arGgfX67qm5pTiLIL79GTpV+qxWko3VtrgYblbdtpriu1/0SDu6x3LPG
+         l5fCXojmDNm6B1EFK9SXBLrKV/6/e0zXGlvjtqeOlxJgvAVhCMJIhYX2TUKhxsO1uIvr
+         YXCnDa2iBcFb1MdLIdbVwV3N+NO9qdrHvNgW9WSCSHEuDVbAjUwj/OXXlxNVXF5JnYPI
+         aW3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=Mf4QQ8b/9HcGL5J+sznsLy7f+ZtpXa7DM56pD/5wHRY=;
-        b=vnCcTxdgkpkfzjQIDmRVnQ1qjqqSQlwpMDiIc9WRN8avhONQA0MRCeEzSUmTp7k6K5
-         Pa4eFtvfZ5WMW7wDWKPlct6NBObyPyVuxaY/RpSbZ7XfrR1tLSszjX0EgccFOe5fmh/Z
-         /CO1NucUX21KIFaWlUpEiz7zzT4P7d7B3hjjXSEfnGelfNA2OJgnmUW0sxEpLEL4e9Iy
-         A5fNrTaaVZUa+OMUTQYjY4BKKa7wx5NL7KFOOweAoZYPQ51AVH+Tw+MlxyW3n+vmH7pE
-         +LekwRKXvNj14kWcLvtus1V2CaZIUKv+NP9Y+RaKGsQTn50JaFfngq9LTz96W3v2AO4e
-         w5cA==
-X-Gm-Message-State: AOAM5311J4yqMcfGMKcUKHni11PSh7KwbxSdSvyAD9hrgOMJpCsMQA2N
-        NRTreCGd7eRcpIHzY/wy2oDcZkC1rQKymrQm2WF3ovqaRzpiynWAWwttVJ53ZYbYtWFBTxuYXqX
-        Qn2h3nZORCjcPt0BWx06I
-X-Received: by 2002:a05:600c:190d:b0:394:8241:6454 with SMTP id j13-20020a05600c190d00b0039482416454mr29078086wmq.198.1654604751324;
-        Tue, 07 Jun 2022 05:25:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxEuwOaCR67pR222FFFc/vDtB6DVVouzt2vgnHsRtqi2r3pc13yypWYxPfO2mRuKCd4JmPjUQ==
-X-Received: by 2002:a05:600c:190d:b0:394:8241:6454 with SMTP id j13-20020a05600c190d00b0039482416454mr29078055wmq.198.1654604751070;
-        Tue, 07 Jun 2022 05:25:51 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c709:500:4c8d:4886:f874:7b6f? (p200300cbc70905004c8d4886f8747b6f.dip0.t-ipconnect.de. [2003:cb:c709:500:4c8d:4886:f874:7b6f])
-        by smtp.gmail.com with ESMTPSA id m19-20020a05600c4f5300b003942a244f2esm26245306wmq.7.2022.06.07.05.25.48
+        bh=HiYTeaH2Ytvy9J3xHvGT5KfgL81gOulpVWevU/JIGjQ=;
+        b=ba0BZaX9fgAltmnSe6D3hTKPo/gHgfN/Ai6HyWOmRDCgSxunbQWkVbwOA6BHVhSlWi
+         KCSjd6I3fwwCXF5ZqqcWfgCgXLlpJ9HtQ9jaRMqANfAWVF17Zw48sNTbd3ZqG0Yw/UeO
+         F172nnich6DuWY0folvYecD5AzHQflsWoFhy7j9yDyMsl4MVYtLVZITKQ5UCHZoEvQta
+         u+FapaVP70BRQo+aHvfmgK3cbJEzE2oyTP6O5UI2T4u5MSgPIeFOUwzJUQEim9/SSxep
+         +2+aNEMllNRr9W5Sxu/07nH9qVxuFFkmsd0NoZrI1YpMJRqxN5NdffOUNAamDBitkcG0
+         gSkw==
+X-Gm-Message-State: AOAM530S6EHu/tfu8TtJG/iyGPR4HwPFOyrXnUoP/PYUj5uX2vOJZSEU
+        HpRv5PRmXgimbPKfi0+UtR4=
+X-Google-Smtp-Source: ABdhPJyDzD0MEf/liZAcbSAJnd3NBluQuapP26Cwm4kXdWHdOYC1Dn5nWZetS+yLUXOjPVYFqZrilg==
+X-Received: by 2002:a05:6870:6005:b0:e6:515c:da5a with SMTP id t5-20020a056870600500b000e6515cda5amr16559042oaa.183.1654605576010;
+        Tue, 07 Jun 2022 05:39:36 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id v10-20020a056870424a00b000f317901b29sm8273081oac.4.2022.06.07.05.39.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jun 2022 05:25:50 -0700 (PDT)
-Message-ID: <b1975f44-2552-a03c-bb6f-1452f1fd99c0@redhat.com>
-Date:   Tue, 7 Jun 2022 14:25:47 +0200
+        Tue, 07 Jun 2022 05:39:34 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <a015840d-1457-f874-c7a5-b7c91e639fd6@roeck-us.net>
+Date:   Tue, 7 Jun 2022 05:39:33 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v3 4/6] mm: Demote warning message in vmemmap_verify() to
- debug level
+ Thunderbird/91.9.1
+Subject: Re: linux-next: build warnings after merge of the hwmon-staging tree
 Content-Language: en-US
-To:     Wupeng Ma <mawupeng1@huawei.com>, corbet@lwn.net, will@kernel.org,
-        ardb@kernel.org, catalin.marinas@arm.com
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        dvhart@infradead.org, andy@infradead.org, rppt@kernel.org,
-        akpm@linux-foundation.org, paul.walmsley@sifive.com,
-        palmer@dabbelt.com, aou@eecs.berkeley.edu, paulmck@kernel.org,
-        keescook@chromium.org, songmuchun@bytedance.com,
-        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
-        swboyd@chromium.org, wei.liu@kernel.org, robin.murphy@arm.com,
-        anshuman.khandual@arm.com, thunder.leizhen@huawei.com,
-        wangkefeng.wang@huawei.com, gpiccoli@igalia.com,
-        chenhuacai@kernel.org, geert@linux-m68k.org, chenzhou10@huawei.com,
-        vijayb@linux.microsoft.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-mm@kvack.org, linux-riscv@lists.infradead.org
-References: <20220607093805.1354256-1-mawupeng1@huawei.com>
- <20220607093805.1354256-5-mawupeng1@huawei.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220607093805.1354256-5-mawupeng1@huawei.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+References: <20220607142301.3eb8a53c@canb.auug.org.au>
+ <Yp8bz4Yo45Bq4VfR@debian.me>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <Yp8bz4Yo45Bq4VfR@debian.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07.06.22 11:38, Wupeng Ma wrote:
-> From: Ma Wupeng <mawupeng1@huawei.com>
+On 6/7/22 02:35, Bagas Sanjaya wrote:
+> On Tue, Jun 07, 2022 at 02:23:01PM +1000, Stephen Rothwell wrote:
+>> Hi all,
+>>
+>> After merging the hwmon-staging tree, today's linux-next build (htmldocs)
+>> produced these warnings:
+>>
+>> Documentation/hwmon/lm90.rst:493: WARNING: Bullet list ends without a blank line; unexpected unindent.
+>> Documentation/hwmon/lm90.rst:494: WARNING: Bullet list ends without a blank line; unexpected unindent.
+>>
+>> Introduced by commit
+>>
+>>    7dd47c2603aa ("hwmon: (lm90) Support MAX1617 and LM84")
+>>
 > 
-> For a system only have limited mirrored memory or some numa node without
-> mirrored memory, the per node vmemmap page_structs prefer to allocate
-> memory from mirrored region, which will lead to vmemmap_verify() in
-> vmemmap_populate_basepages() report lots of warning message.
+> Hi Stephen,
 > 
-> This patch demote the "potential offnode page_structs" warning messages
-> to debug level to avoid a very long print during bootup.
+> These warnings above doesn't appear when doing htmldocs build using
+> Sphinx installed from pip on my system.
 > 
-> Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
-> ---
->  mm/sparse-vmemmap.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-> index f4fa61dbbee3..78debdb89eb1 100644
-> --- a/mm/sparse-vmemmap.c
-> +++ b/mm/sparse-vmemmap.c
-> @@ -528,7 +528,7 @@ void __meminit vmemmap_verify(pte_t *pte, int node,
->  	int actual_node = early_pfn_to_nid(pfn);
->  
->  	if (node_distance(actual_node, node) > LOCAL_DISTANCE)
-> -		pr_warn("[%lx-%lx] potential offnode page_structs\n",
-> +		pr_debug("[%lx-%lx] potential offnode page_structs\n",
->  			start, end - 1);
->  }
->  
 
-This will possibly hide it in environments where this might indeed
-indicate performance issues.
+That is possibly because I already fixed it up (in one place a '-'
+instead of '*' had slipped in).
 
-What about a pr_warn_once()?
-
--- 
-Thanks,
-
-David / dhildenb
-
+Guenter
