@@ -2,140 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C640EC43334
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 09:37:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D807C43334
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 10:21:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239776AbiFGJhS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 05:37:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38902 "EHLO
+        id S236752AbiFGKVt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 06:21:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239767AbiFGJhR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 05:37:17 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB1822C5;
-        Tue,  7 Jun 2022 02:37:10 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id d22so14348098plr.9;
-        Tue, 07 Jun 2022 02:37:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Gxs0+aWvYM3LWxC7EUUZ0v49Q04+LWa6qfJ61uUqW8g=;
-        b=itMtcieRDU81frhTBFtGjbAXgvv62YzbLl8XRi7v/gXGpy/tIM3BYjMKK5ECQAfPOB
-         03sfW6r2inxS0tC9t3Wd4oKlafJW5M8VyVTCvYWhod8n9gfgXGYVl9s5pPVMbQL4DBga
-         0P385VzeZYDMhyCAnwfSEL2Bbsvd4ONTAuvIQadPIQzTToZJhmKSdNMJpM9A0r2SRd5b
-         T2EKmwPlNaetQrQ1WTfXGWXiTrO0SGXherfMFEzyZ/TjQAcchxEynd2Q8OyjN5isFrxz
-         imO6VmrkTIwFvVIMsytoqp64ejZOj6LQ512hzOFbBh4c1ODe2iGYwqNLa3LqzBtT1Oys
-         l1iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Gxs0+aWvYM3LWxC7EUUZ0v49Q04+LWa6qfJ61uUqW8g=;
-        b=f9NvTc5GVf/CXvSi6pIr12gGpDLqHJw0d4XXm6793L24amxcW5WjIopKamomt/OsPW
-         s6Pz8LExlZI+EhSzcI4yqrhjts3BITZWwm9icEiJU7kjp5uXO8GzTjvTQTKW2dNnbKKm
-         CVX+XP6sSx93zRxM0UTx5o4V54n4wJsehUd9ddrn7d1UgSsp1gQHf2epUG/3SaxsFjj7
-         YXwCOLh0suarzvVe/JEa0Ato+Q1Kw3br/wiXIzseWfrFtVXTpyA2gzoYF0jeFVBi/zDi
-         f8kQ+IUrVuJT5Ft7cC6hqEVuTLUTmSBILjreAlD9XKizG4aX6Ti1dlj8/f6hP0uV6ABa
-         jXLw==
-X-Gm-Message-State: AOAM532m4rgEEKfz1MH6UDBaZr7VODHPGoqcO7+tv2mDd+/5Le/yMWxK
-        oFN6V9FfL/KmKIMSpnZ0A85kGZ3eONg=
-X-Google-Smtp-Source: ABdhPJxraJAaBzAWGKH5jd/RrR8C7QJhzYi9X0l8/MFx2nfDP7LAo4FI4dWrWi/EW0pd0RtCLb81VA==
-X-Received: by 2002:a17:90b:503:b0:1e2:f129:5135 with SMTP id r3-20020a17090b050300b001e2f1295135mr31179593pjz.22.1654594630407;
-        Tue, 07 Jun 2022 02:37:10 -0700 (PDT)
-Received: from localhost (subs28-116-206-12-32.three.co.id. [116.206.12.32])
-        by smtp.gmail.com with ESMTPSA id f6-20020a170902ab8600b0015e8d4eb25fsm11971380plr.169.2022.06.07.02.37.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 02:37:09 -0700 (PDT)
-Date:   Tue, 7 Jun 2022 16:37:07 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: linux-next: build warnings after merge of the hwmon-staging tree
-Message-ID: <Yp8cQ1BcDXuZ9Cv4@debian.me>
-References: <20220607141958.1e31971d@canb.auug.org.au>
+        with ESMTP id S233401AbiFGKVs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 06:21:48 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FFB66CA83;
+        Tue,  7 Jun 2022 03:21:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0F2546147A;
+        Tue,  7 Jun 2022 10:21:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99FB4C34115;
+        Tue,  7 Jun 2022 10:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654597306;
+        bh=ERNPm8lNz6G7He3QqXaKBpkXFAN043C4YtKDX4d0tlU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AgqUUyVx3DL0GR3U/MsHK/+4nuGnyVvrJrFwX+u9O6T/KpYcSv+mbQFH71PSfga5E
+         sOkaqv+OnCz4aBxxNjAeUaCXjt807P1V6EtX0bsn4dbTGdrIcONODyYLoAM+9JEPTX
+         RQwPrgPnPsu2rVz2kWRhnWSBFQUbfsYxbsLzEVu0j/WCDEqiI0q6D7m8GcWXgklPUf
+         q7dtfevVd3RjtowMBSWbciPODQ8CqjjkMfMmlWd6Pl3+j6J2v2VKiOZvijl46oPhEP
+         U3AW1p0kIalQvY80qEUdqjYveymWlt7IFeorkIlCi2eHojjlcAGJRVdzzP8DfKh9zP
+         YbbfjeYplA05Q==
+Date:   Tue, 7 Jun 2022 11:21:35 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Barry Song <21cnbao@gmail.com>
+Cc:     Yu Zhao <yuzhao@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, x86 <x86@kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>, huzhanyuan@oppo.com
+Subject: Re: [PATCH v11 07/14] mm: multi-gen LRU: exploit locality in rmap
+Message-ID: <20220607102135.GA32448@willie-the-truck>
+References: <20220518014632.922072-1-yuzhao@google.com>
+ <20220518014632.922072-8-yuzhao@google.com>
+ <CAGsJ_4yboZEY9OfyujPxBa_AEuGM3OAq5y_L9gvzSMUv70BxeQ@mail.gmail.com>
+ <CAGsJ_4w3S_8Kaw2GyB3hg7b4N_D+6yBO7D6qmgxD9Fqz3_dhAg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220607141958.1e31971d@canb.auug.org.au>
+In-Reply-To: <CAGsJ_4w3S_8Kaw2GyB3hg7b4N_D+6yBO7D6qmgxD9Fqz3_dhAg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 07, 2022 at 02:19:58PM +1000, Stephen Rothwell wrote:
-> Hi all,
+On Tue, Jun 07, 2022 at 07:37:10PM +1200, Barry Song wrote:
+> On Mon, Jun 6, 2022 at 9:25 PM Barry Song <21cnbao@gmail.com> wrote:
+> > On Wed, May 18, 2022 at 4:49 PM Yu Zhao <yuzhao@google.com> wrote:
+> > > diff --git a/mm/rmap.c b/mm/rmap.c
+> > > index fedb82371efe..7cb7ef29088a 100644
+> > > --- a/mm/rmap.c
+> > > +++ b/mm/rmap.c
+> > > @@ -73,6 +73,7 @@
+> > >  #include <linux/page_idle.h>
+> > >  #include <linux/memremap.h>
+> > >  #include <linux/userfaultfd_k.h>
+> > > +#include <linux/mm_inline.h>
+> > >
+> > >  #include <asm/tlbflush.h>
+> > >
+> > > @@ -821,6 +822,12 @@ static bool folio_referenced_one(struct folio *folio,
+> > >                 }
+> > >
+> > >                 if (pvmw.pte) {
+> > > +                       if (lru_gen_enabled() && pte_young(*pvmw.pte) &&
+> > > +                           !(vma->vm_flags & (VM_SEQ_READ | VM_RAND_READ))) {
+> > > +                               lru_gen_look_around(&pvmw);
+> > > +                               referenced++;
+> > > +                       }
+> > > +
+> > >                         if (ptep_clear_flush_young_notify(vma, address,
+> >
+> > Hello, Yu.
+> > look_around() is calling ptep_test_and_clear_young(pvmw->vma, addr, pte + i)
+> > only without flush and notify. for flush, there is a tlb operation for arm64:
+> > static inline int ptep_clear_flush_young(struct vm_area_struct *vma,
+> >                                          unsigned long address, pte_t *ptep)
+> > {
+> >         int young = ptep_test_and_clear_young(vma, address, ptep);
+> >
+> >         if (young) {
+> >                 /*
+> >                  * We can elide the trailing DSB here since the worst that can
+> >                  * happen is that a CPU continues to use the young entry in its
+> >                  * TLB and we mistakenly reclaim the associated page. The
+> >                  * window for such an event is bounded by the next
+> >                  * context-switch, which provides a DSB to complete the TLB
+> >                  * invalidation.
+> >                  */
+> >                 flush_tlb_page_nosync(vma, address);
+> >         }
+> >
+> >         return young;
+> > }
+> >
+> > Does it mean the current kernel is over cautious?  is it
+> > safe to call ptep_test_and_clear_young() only?
 > 
-> After merging the hwmon-staging tree, today's linux-next build (htmldocs)
-> produced these warnings:
+> I can't really explain why we are getting a random app/java vm crash in monkey
+> test by using ptep_test_and_clear_young() only in lru_gen_look_around() on an
+> armv8-a machine without hardware PTE young support.
 > 
-> Documentation/hwmon/lt7182s.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent.
-> Documentation/hwmon/lt7182s.rst:75: WARNING: Malformed table.
-> Text in column margin in table line 33.
+> Moving to  ptep_clear_flush_young() in look_around can make the random
+> hang disappear according to zhanyuan(Cc-ed).
 > 
-> ======================  ====================================
-> curr[1-2]_label         "iin[12]"
-> curr[1-2]_input         Measured input current
-> curr[1-2]_max           Maximum input current
-> curr[1-2]_max_alarm     Current high alarm
+> On x86, ptep_clear_flush_young() is exactly ptep_test_and_clear_young()
+> after
+>  'commit b13b1d2d8692 ("x86/mm: In the PTE swapout page reclaim case clear
+> the accessed bit instead of flushing the TLB")'
 > 
-> curr[3-4]_label         "iout[1-2]"
-> curr[3-4]_input         Measured output current
-> curr[3-4]_highest       Highest measured output current
-> curr[3-4]_max           Maximum output current
-> curr[3-4]_max_alarm     Output current high alarm
+> But on arm64, they are different. according to Will's comments in this
+> thread which
+> tried to make arm64 same with x86,
+> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1793881.html
 > 
-> in[1-2]_label           "vin[12]"
-> in[1-2]_input           Measured input voltage
-> in[1-2]_highest         Highest measured input voltage
-> in[1-2]_crit            Critical maximum input voltage
-> in[1-2]_crit_alarm      Input voltage critical high alarm
-> in[1-2]_min             Minimum input voltage
-> in[1-2]_min_alarm       Input voltage low alarm
-> in[1-2]_rated_min       Rated minimum input voltage
-> in[1-2]_rated_max       Rated maximum input voltage
-> in1_reset_history       Write to reset history for all attributes
+> "
+> This is blindly copied from x86 and isn't true for us: we don't invalidate
+> the TLB on context switch. That means our window for keeping the stale
+> entries around is potentially much bigger and might not be a great idea.
 > 
-> in[3-5]_label           "vmon[1-3]"
-> in[3-5]_input           Measured voltage on ITH1/ITH2/EXTVCC pins
->                         Only available if enabled with MFR_ADC_CONTROL_LT7182S
->                         command.
-> 
-> in[3-4|6-7]_label       "vout[1-2]"
-> in[3-4|6-7]_input       Measured output voltage
-> in[3-4|6-7]_highest     Highest measured output voltage
-> in[3-4|6-7]_lcrit       Critical minimum output voltage
-> in[3-4|6-7]_lcrit_alarm Output voltage critical low alarm
-> in[3-4|6-7]_min         Minimum output voltage
-> in[3-4|6-7]_max_alarm   Output voltage low alarm
-> in[3-4|6-7]_max         Maximum output voltage
-> in[3-4|6-7]_max_alarm   Output voltage high alarm
-> in[3-4|6-7]_crit        Critical maximum output voltage
-> in[3-4|6-7]_crit_alarm  Output voltage critical high alarm
-> 
-> power[1-2]_label        "pout[1-2]"
-> power[1-2]_input        Measured output power
-> 
-> temp1_input             Measured temperature
-> temp1_crit              Critical high temperature
-> temp1_crit_alarm        Chip temperature critical high alarm
-> temp1_max               Maximum temperature
-> temp1_max_alarm         Chip temperature high alarm
-> ======================  ====================================
-> 
-> Introduced by commit
-> 
->   3d6bcaa21fbd ("hwmon: (pmbus) Add support for Analog Devices LT7182S")
-> 
+> If we roll a TLB invalidation routine without the trailing DSB, what sort of
+> performance does that get you?
+> "
+> We shouldn't think ptep_clear_flush_young() is safe enough in LRU to
+> clear PTE young? Any comments from Will?
 
-Hi Stephen,
+Given that this issue is specific to the multi-gen LRU work, I think Yu is
+the best person to comment. However, looking quickly at your analysis above,
+I wonder if the code is relying on this sequence:
 
-The warning above doesn't appear when doing htmldocs build using Sphinx
-installed from pip on my system.
 
-Cc-ing linux-doc list.
+	ptep_test_and_clear_young(vma, address, ptep);
+	ptep_clear_flush_young(vma, address, ptep);
 
--- 
-An old man doll... just what I always wanted! - Clara
+
+to invalidate the TLB. On arm64, that won't be the case, as the invalidation
+in ptep_clear_flush_young() is predicated on the pte being young (and this
+patches the generic implementation in mm/pgtable-generic.c. In fact, that
+second function call is always going to be a no-op unless the pte became
+young again in the middle.
+
+Will
