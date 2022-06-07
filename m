@@ -2,132 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7FF6C43334
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Jun 2022 21:31:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 160C3C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 02:18:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233847AbiFFVb3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 17:31:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39284 "EHLO
+        id S233259AbiFGCSo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Jun 2022 22:18:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233477AbiFFVb2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 17:31:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C9861A394;
-        Mon,  6 Jun 2022 14:31:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EF5406164F;
-        Mon,  6 Jun 2022 21:31:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E556C385A9;
-        Mon,  6 Jun 2022 21:31:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654551086;
-        bh=4Xm0R5P+VrCwOW+zqQpekghTWxOqCtFkCmzjB4kSLss=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=KWhSttqILWZQreWlBFVuXFUfmoWeA03sUhkuDma+WHXl+RsxZKH9sPKk4HER0NQpq
-         L7U5/g9NjmANfX8Qq17db5Ts3HoT/9oJ8ci1ib7MprRxMQaWHFAjAnbAtcBNLAEWeB
-         ipzIE3KsDU3rvyGKrOCIHhmT8CTGQe0Tv8f7IMN9FKTzaB70tBy2EGwDioYy58Yqs+
-         fFnKQGoZkEUWAlx0S/uP8NHqCrdpg8SDzE48vz/hS9sIxCEzzKkI4LtWcDZs407KwG
-         Qy3LGVy68t5qT23k8giQiRfzCmaf5rWUszvUtNOhpo9Od3x01SknQxu46OatVYVaJ8
-         RE+IxjFj+5Nbg==
-Date:   Mon, 6 Jun 2022 23:31:19 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Vegard Nossum <vegard.nossum@oracle.com>
-cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Amit Shah <aams@amazon.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Solar Designer <solar@openwall.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Tyler Hicks <tyhicks@linux.microsoft.com>,
-        Will Deacon <will@kernel.org>, Willy Tarreau <w@1wt.eu>
-Subject: Re: [PATCH v2] Documentation/security-bugs: overhaul
-In-Reply-To: <20220606194850.26122-1-vegard.nossum@oracle.com>
-Message-ID: <nycvar.YFH.7.76.2206062326230.10851@cbobk.fhfr.pm>
-References: <20220606194850.26122-1-vegard.nossum@oracle.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        with ESMTP id S232904AbiFGCSn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 22:18:43 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12F5B11A0D
+        for <linux-doc@vger.kernel.org>; Mon,  6 Jun 2022 19:18:41 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id 123so4131161pgb.5
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jun 2022 19:18:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=8sGOsf30AB4emDfiLKO1IlUk0AJkLgR+c81RM9kvUeg=;
+        b=23/xn5mUfnbRHw/7rzRolDNvBoA3vJ8Zvi5YH/mMPizfXZRAqEGf1K2xd6h65uCw4B
+         X336gShgxmAzPAqaJyWEXrCo8MaNXGdWVSlPDYLLYyHiCe6iRJBF8jRYyqzCCfWoqqmj
+         Skc6vJCfA/ocFu2mF/RGBfAzkGNiEW/theV44cARZCzxymjqugvtHvvl6bh11PrGg2JD
+         Gy7+kggYxEVh7g28/P5Pjwbeo++DZR6ZYx6g9f8hpIKjN8YRsiM5vMiInKE3rYSewx9A
+         ha22E+aJwCOyd1KWeuki+SPV96uIJXHmXszYv96vQ57TqakvebXz/0msJW5VEt7ai04y
+         k1CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=8sGOsf30AB4emDfiLKO1IlUk0AJkLgR+c81RM9kvUeg=;
+        b=NJi1OpxMPBlRmyEUlYwwxZJ9M50aoQaySTWhSr8oR998SGzaCN/uyqxEsl92rLibst
+         pQF3WRECJ8HnBEPdVOX25abccd0gbDoV5Ib9biy5t9jhWL91B0NFNuLgH/LkVW9ryh0H
+         yBTQPklAwEn2eetbL/smrmSwa+HpOjXPD3h4SQfYNuwd6DcBArweiAX6HPsIylVoTtLE
+         AUuNeiyy0ZyPu/7g4tWZZg5DFJKcoUq8CKxVIjF1jcX2gYsnWEFC8XIeKUiORoLy2p0L
+         gmXNnEybtL3jpeJ2s2K48KNF62kGoZA7Ufp773hJn4qztQj/50tRLhILl0DAo2oa52Hm
+         NN3g==
+X-Gm-Message-State: AOAM533uC2NavQsV0WvAGBV04uINjzpAD39dhXKfYqo9jvppex/4ZLRE
+        6WtVI1CTIMAZarvoOZ50EsA1/13XTdrerA==
+X-Google-Smtp-Source: ABdhPJzd5ZXvpWQ60IJGhalL0hOrDsUY1cmxQggKtjiWvLvBXtomKJRxIhxHb/4bKYIiG3S3A79cLg==
+X-Received: by 2002:a63:8941:0:b0:3fc:7efa:119d with SMTP id v62-20020a638941000000b003fc7efa119dmr23916764pgd.340.1654568320532;
+        Mon, 06 Jun 2022 19:18:40 -0700 (PDT)
+Received: from [10.254.91.102] ([139.177.225.230])
+        by smtp.gmail.com with ESMTPSA id ju10-20020a17090b20ca00b001df264610c4sm13930080pjb.0.2022.06.06.19.18.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jun 2022 19:18:40 -0700 (PDT)
+Message-ID: <64d93544-294b-6149-524d-f7ce227d7e33@bytedance.com>
+Date:   Tue, 7 Jun 2022 10:18:33 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH v3] mm: memcontrol: add {pgscan,pgsteal}_{kswapd,direct}
+ items in memory.stat of cgroup v2
+Content-Language: en-US
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     roman.gushchin@linux.dev, shakeelb@google.com,
+        songmuchun@bytedance.com, mhocko@kernel.org,
+        akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Michal Hocko <mhocko@suse.com>
+References: <20220606154028.55030-1-zhengqi.arch@bytedance.com>
+ <Yp46w4op9JeX9+g9@cmpxchg.org>
+From:   Qi Zheng <zhengqi.arch@bytedance.com>
+In-Reply-To: <Yp46w4op9JeX9+g9@cmpxchg.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 6 Jun 2022, Vegard Nossum wrote:
 
-> The current instructions for reporting security vulnerabilities in the
-> kernel are not clear enough, in particular the process of disclosure
-> and requesting CVEs, and what the roles of the different lists are and
-> how exactly to report to each of them.
-> 
-> Let's give this document an overhaul. Goals are stated as a comment at
-> the bottom of the document; these will not appear in the rendered HTML
-> document.
-> 
-> v2: address feedback from Willy Tarreau and Jonathan Corbet
-> 
-> Link: https://seclists.org/oss-sec/2022/q2/133
-> Cc: Amit Shah <aams@amazon.com>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: David Woodhouse <dwmw@amazon.co.uk>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Gustavo A. R. Silva <gustavoars@kernel.org>
-> Cc: Jiri Kosina <jkosina@suse.cz>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Laura Abbott <labbott@kernel.org>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Solar Designer <solar@openwall.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Thorsten Leemhuis <linux@leemhuis.info>
-> Cc: Tyler Hicks <tyhicks@linux.microsoft.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Willy Tarreau <w@1wt.eu>
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
-> ---
->  Documentation/admin-guide/security-bugs.rst | 252 +++++++++++++-------
->  1 file changed, 167 insertions(+), 85 deletions(-)
-> 
-> v1 thread:
-> https://lore.kernel.org/all/20220531230309.9290-1-vegard.nossum@oracle.com/T/#u
-> 
-> Updated rendered HTML:
-> https://vegard.github.io/security/Documentation/output/admin-guide/security-bugs-v2.html
-> 
-> diff --git a/Documentation/admin-guide/security-bugs.rst b/Documentation/admin-guide/security-bugs.rst
-> index 82e29837d5898..c63eeb1e89ffd 100644
-> --- a/Documentation/admin-guide/security-bugs.rst
-> +++ b/Documentation/admin-guide/security-bugs.rst
 
-Thanks for investing time into fixing this aged document.
+On 2022/6/7 1:34 AM, Johannes Weiner wrote:
+> On Mon, Jun 06, 2022 at 11:40:28PM +0800, Qi Zheng wrote:
+>> There are already statistics of {pgscan,pgsteal}_kswapd and
+>> {pgscan,pgsteal}_direct of memcg event here, but now only the
+>> sum of the two is displayed in memory.stat of cgroup v2.
+>>
+>> In order to obtain more accurate information during monitoring
+>> and debugging, and to align with the display in /proc/vmstat,
+>> it better to display {pgscan,pgsteal}_kswapd and
+>> {pgscan,pgsteal}_direct separately.
+>>
+>> Also, for forward compatibility, we still display pgscan and
+>> pgsteal items so that it won't break existing applications.
+>>
+>> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+>> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+>> Acked-by: Roman Gushchin <roman.gushchin@linux.dev>
+>> Acked-by: Muchun Song <songmuchun@bytedance.com>
+>> Acked-by: Shakeel Butt <shakeelb@google.com>
+>> Acked-by: Michal Hocko <mhocko@suse.com>
+> 
+> No objection to keeping pgscan and pgsteal, but can you please fix the
+> doc to present the items in the same order as memory.stat has them?
 
-Two rather minor things come to my mind, but as you are touching that 
-document anyway ...
-
-- what sense does it make to have embargoed-hardware-issues.rst and 
-  security-bugs.rst live in different Documentation/ subdirectories 
-  (admin-guide/ vs process/)? It'd seem to make sense to me to have them 
-  in one common place?
-
-- would it make sense to briefly reference embargoed-hardware-issues.rst 
-  somewhere in this text, to make the distinction as obvious as possible? 
-  It's referenced the other way around.
+Sure, will fix.
 
 Thanks,
+Qi
+
+> 
+>> @@ -1445,9 +1445,21 @@ PAGE_SIZE multiple when read back.
+>>   	  pgscan (npn)
+>>   		Amount of scanned pages (in an inactive LRU list)
+>>   
+>> +	  pgscan_kswapd (npn)
+>> +		Amount of scanned pages by kswapd (in an inactive LRU list)
+>> +
+>> +	  pgscan_direct (npn)
+>> +		Amount of scanned pages directly  (in an inactive LRU list)
+>> +
+>>   	  pgsteal (npn)
+>>   		Amount of reclaimed pages
+>>   
+>> +	  pgsteal_kswapd (npn)
+>> +		Amount of reclaimed pages by kswapd
+>> +
+>> +	  pgsteal_direct (npn)
+>> +		Amount of reclaimed pages directly
+>> +
+>>   	  pgactivate (npn)
+>>   		Amount of pages moved to the active LRU list
+> 
+> vs:
+> 
+>> @@ -1495,41 +1518,17 @@ static char *memory_stat_format(struct mem_cgroup *memcg)
+>>   	}
+>>   
+>>   	/* Accumulated memory events */
+>> -
+>> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGFAULT),
+>> -		       memcg_events(memcg, PGFAULT));
+>> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGMAJFAULT),
+>> -		       memcg_events(memcg, PGMAJFAULT));
+>> -	seq_buf_printf(&s, "%s %lu\n",  vm_event_name(PGREFILL),
+>> -		       memcg_events(memcg, PGREFILL));
+>>   	seq_buf_printf(&s, "pgscan %lu\n",
+>>   		       memcg_events(memcg, PGSCAN_KSWAPD) +
+>>   		       memcg_events(memcg, PGSCAN_DIRECT));
+>>   	seq_buf_printf(&s, "pgsteal %lu\n",
+>>   		       memcg_events(memcg, PGSTEAL_KSWAPD) +
+>>   		       memcg_events(memcg, PGSTEAL_DIRECT));
+>> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGACTIVATE),
+>> -		       memcg_events(memcg, PGACTIVATE));
+>> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGDEACTIVATE),
+>> -		       memcg_events(memcg, PGDEACTIVATE));
+>> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGLAZYFREE),
+>> -		       memcg_events(memcg, PGLAZYFREE));
+>> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(PGLAZYFREED),
+>> -		       memcg_events(memcg, PGLAZYFREED));
+>> -
+>> -#if defined(CONFIG_MEMCG_KMEM) && defined(CONFIG_ZSWAP)
+>> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(ZSWPIN),
+>> -		       memcg_events(memcg, ZSWPIN));
+>> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(ZSWPOUT),
+>> -		       memcg_events(memcg, ZSWPOUT));
+>> -#endif
+>>   
+>> -#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(THP_FAULT_ALLOC),
+>> -		       memcg_events(memcg, THP_FAULT_ALLOC));
+>> -	seq_buf_printf(&s, "%s %lu\n", vm_event_name(THP_COLLAPSE_ALLOC),
+>> -		       memcg_events(memcg, THP_COLLAPSE_ALLOC));
+>> -#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+>> +	for (i = 0; i < ARRAY_SIZE(memcg_vm_event_stat); i++)
+>> +		seq_buf_printf(&s, "%s %lu\n",
+>> +			       vm_event_name(memcg_vm_event_stat[i]),
+>> +			       memcg_events(memcg, memcg_vm_event_stat[i]));
+> 
+> Thanks
 
 -- 
-Jiri Kosina
-SUSE Labs
-
+Thanks,
+Qi
