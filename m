@@ -2,160 +2,290 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2533C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 02:40:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58AC1C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 06:03:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236009AbiFGCkc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Jun 2022 22:40:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35806 "EHLO
+        id S230134AbiFGGDw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 02:03:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233017AbiFGCka (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Jun 2022 22:40:30 -0400
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45431C0470;
-        Mon,  6 Jun 2022 19:40:29 -0700 (PDT)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-31332df12a6so13529827b3.4;
-        Mon, 06 Jun 2022 19:40:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ONTIA4PsDsUBidqsfJUuQENY/gI8+qK8mmrvpc3J7Ok=;
-        b=bni0Ej2XgU5chmZ+DfFG2JnbZw115iY+Dv/MJh8jD+A3ZZDmoH8Kives8cOUvrread
-         d6blOrbTL9BfZVTW9X9I/Ki4IyyhzsoY2U5Ea2nT1hQg8H/LANH4GLo33ksSZk0ySFap
-         Iacw4ppxidywynSpz/vOzBb2h+g+kRsZHYAbAbqeT91fRChvHrLvtwwFmxsqwYdHEz16
-         psHULs4RS9pebX78swKVRSw2Luoy7UIDJrzWVXZLC/xh9VY9t3CPWIZsgvAWPXNhGjnQ
-         7eySd8HmKe2pOMGkeW7qAEfpNxTw4ZC1MOZ9IlGmh07msivxP5lhsSL/3LkttPi68Zda
-         Rl9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ONTIA4PsDsUBidqsfJUuQENY/gI8+qK8mmrvpc3J7Ok=;
-        b=LZVxnokgN1omsXJLrnZcvByCpCdlKMTtkuP6zoLQRHdwAzNdawq1O9fyzL1/yrc6ry
-         xc1AN0gBfzjtpeqKb8isSaxowUsyyHz714qPVKnzzJtaJAWjP3201DSUxnWUb1l6VZoN
-         5N08ShR1SutAlTTbBNkbqft6UF5TRuedmncNl6HRMbl+yq/A9So6bmXB8wspsJPstDOC
-         QsMx4xjYcqvpLhY8vtjAPsve/YMTb0zzhozpSQQaSzXFrdPeCWocxAtY9F4ht44rsf7n
-         2Bh7qEDysE7vegNGiNOpgpQu5Dcl8LWNe91q3fpE53EV7841DTbvrKaXEpizs5yZww+R
-         rSyA==
-X-Gm-Message-State: AOAM530Q3rjF6fum0l3kbGtGNuToZUgk65OgTeJq6/c+7P90/I7Tn8Tw
-        xymkKlxeJQrEIPYq/fhbPxyJOjftlcOlC+U74RA75qZCATePEA==
-X-Google-Smtp-Source: ABdhPJyP9cPS7hXMybe1ucNoOzY5NjauDggeOhTRDW9dhTzQbnExAHKXQvMsJqZjN04ylGNYb90AA8Cq8a9Se4C80QM=
-X-Received: by 2002:a81:3956:0:b0:2f8:db28:2e87 with SMTP id
- g83-20020a813956000000b002f8db282e87mr29576080ywa.134.1654569628463; Mon, 06
- Jun 2022 19:40:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <Yp41+eTjoPRa4hrl@bobwxc.mipc>
-In-Reply-To: <Yp41+eTjoPRa4hrl@bobwxc.mipc>
-From:   teng sterling <sterlingteng@gmail.com>
-Date:   Tue, 7 Jun 2022 10:40:16 +0800
-Message-ID: <CAMU9jJqKQQGD73_ZXTL1NxwihPtun7D2i4e2_RaZe=5HMbz5xA@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: Update zh_CN/kernel-hacking/hacking.rst to 5.19-rc1
-To:     Wu XiangCheng <bobwxc@email.cn>
-Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+        with ESMTP id S230075AbiFGGDu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 02:03:50 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FBA114036;
+        Mon,  6 Jun 2022 23:03:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654581829; x=1686117829;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PQaqbgfR6maW5C0u78E1636zbiBJai++mqzEJ4Xc1gc=;
+  b=TDNs6XKEtY0SNP8FI/cnl54/2/Fb/bDRq40XMtI3tYGjcqVUKGs2p6o8
+   V4b5KKNfLhoo/vA72SW+ebXXyRrTTJQ/8tUjCi3FLv/armWVa3actiyTw
+   RRETEcwvxwT3RSxcyfu2lwIXlMKR9eVWnbjso2tgp1n8/s2Q2HfsPiK86
+   v34aXjD/MuDPBg5c/hsLJzY74R4/rLlcSst1o6DK5BYp3m2VxANsB7CAl
+   1Jt8SWufuh88QuIP2p/Kg5PvlOoqs1g+eYfdcqtNU1dHMUH6253fnJ0v2
+   5yyxE74Wmnz3j8pY1O2cCiAye2HIPClv3galZZBLBEIYk887jC7l49Ga4
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="257151664"
+X-IronPort-AV: E=Sophos;i="5.91,282,1647327600"; 
+   d="scan'208";a="257151664"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2022 23:03:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,282,1647327600"; 
+   d="scan'208";a="579469046"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 06 Jun 2022 23:03:44 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nySJb-000DPp-S8;
+        Tue, 07 Jun 2022 06:03:43 +0000
+Date:   Tue, 7 Jun 2022 14:03:08 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        Rob Clark <robdclark@chromium.org>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Li Feng <felixlee868@icloud.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Sean Paul <sean@poorly.run>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 2/2] drm/msm: Expose client engine utilization via
+ fdinfo
+Message-ID: <202206071325.FWDwmg2D-lkp@intel.com>
+References: <20220606195432.1888346-2-robdclark@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220606195432.1888346-2-robdclark@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-V3UgWGlhbmdDaGVuZyA8Ym9id3hjQGVtYWlsLmNuPiDkuo4yMDIy5bm0NuaciDfml6Xlkajkuowg
-MDE6MjDlhpnpgZPvvJoNCj4NCj4gKiB1cGRhdGUgdG8gY29tbWl0IGYzNWNmMWE1OWU5YSAoIkRv
-Y3VtZW50YXRpb246IGtlcm5lbC1oYWNraW5nOiBtaW5vcg0KPiAgIGVkaXRzIGZvciBzdHlsZSIp
-DQo+DQo+ICogZml4IGEgaG9tb3Bob25lIHR5cG8gcmVwb3J0ZWQgYnkgTGkgRmVuZw0KPg0KPiBS
-ZXBvcnRlZC1ieTogTGkgRmVuZyA8ZmVsaXhsZWU4NjhAaWNsb3VkLmNvbT4NCj4gU2lnbmVkLW9m
-Zi1ieTogV3UgWGlhbmdDaGVuZyA8Ym9id3hjQGVtYWlsLmNuPg0KUmV2aWV3ZWQtYnk6IFlhbnRl
-bmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCg0KQlRXLA0KYjQgZG9lc24ndCBzZWVtIHRv
-IHdvcmsgZm9yIHRoaXMgcGF0Y2gsIGJ1dCBJIG1hbnVhbGx5IGRvd25sb2FkZWQgdGhlDQplbWFp
-bCBmb3IgYSBidWlsZCB0ZXN0IGFuZCBpdCB3YXMgZmluZS4gOikNCg0KbG9nOg0KJC4uL2I0L2I0
-LnNoIGFtIFlwNDErZVRqb1BSYTRocmxAYm9id3hjLm1pcGMNCkxvb2tpbmcgdXAgaHR0cHM6Ly9s
-b3JlLmtlcm5lbC5vcmcvci9ZcDQxJTJCZVRqb1BSYTRocmwlNDBib2J3eGMubWlwYw0KR3JhYmJp
-bmcgdGhyZWFkIGZyb20NCmxvcmUua2VybmVsLm9yZy9hbGwvWXA0MSUyQmVUam9QUmE0aHJsJTQw
-Ym9id3hjLm1pcGMvdC5tYm94Lmd6DQpBbmFseXppbmcgMSBtZXNzYWdlcyBpbiB0aGUgdGhyZWFk
-DQpDaGVja2luZyBhdHRlc3RhdGlvbiBvbiBhbGwgbWVzc2FnZXMsIG1heSB0YWtlIGEgbW9tZW50
-Li4uDQpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6DQogIEZpbGUgIi9ob21lL3Np
-eWFudGVuZy9iNC9iNC9jb21tYW5kLnB5IiwgbGluZSAyNjMsIGluIDxtb2R1bGU+DQouLi4uLi4N
-Cg0KVGhhbmtzLA0KWWFudGVuZw0KPiAtLS0NCj4gIC4uLi96aF9DTi9rZXJuZWwtaGFja2luZy9o
-YWNraW5nLnJzdCAgICAgICAgICB8IDIyICsrKysrKysrKy0tLS0tLS0tLS0NCj4gIDEgZmlsZSBj
-aGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdp
-dCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2tlcm5lbC1oYWNraW5nL2hhY2tp
-bmcucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04va2VybmVsLWhhY2tpbmcv
-aGFja2luZy5yc3QNCj4gaW5kZXggZjJiYzE1NGM1YmNjLi5iZGE3OTY0NmJiMWUgMTAwNjQ0DQo+
-IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2tlcm5lbC1oYWNraW5nL2hh
-Y2tpbmcucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2tlcm5l
-bC1oYWNraW5nL2hhY2tpbmcucnN0DQo+IEBAIC04MSw3ICs4MSw3IEBADQo+ICDov4fnoazku7bk
-uK3mlq3vvInnmoTigJzova/ku7bkuK3mlq3igJ3lsIbov5DooYzvvIggYGBrZXJuZWwvc29mdGly
-cS5jYGAg77yJ44CCDQo+DQo+ICDmraTlpITlrozmiJDkuoborrjlpJrnnJ/mraPnmoTkuK3mlq3l
-pITnkIblt6XkvZzjgILlnKjlkJFTTVDov4fmuKHnmoTml6nmnJ/vvIzlj6rmnInigJxib3R0b20g
-aGFsdmVz5LiL5Y2KDQo+IC3pg6jigJ3vvIhCSHPvvInmnLrliLbvvIzml6Dms5XliKnnlKjlpJrk
-uKpDUFXnmoTkvJjlir/jgILlnKjku47pgqPkupvkuIDlm6Lns5/nmoTlsLHnlLXohJHliIfmjaLo
-v4fmnaXlkI7kuI3kuYXvvIwNCj4gK+mDqOKAne+8iEJIc++8ieacuuWItu+8jOaXoOazleWIqeeU
-qOWkmuS4qkNQVeeahOS8mOWKv+OAguWcqOS7jumCo+S6m+S4gOWbouezn+eahOaXp+eUteiEkeWI
-h+aNoui/h+adpeWQjuS4jeS5he+8jA0KPiAg5oiR5Lus5pS+5byD5LqG6L+Z5Liq6ZmQ5Yi277yM
-6L2s6ICM5L2/55So4oCc6L2v5Lit5pat4oCd44CCDQo+DQo+ICBgYGluY2x1ZGUvbGludXgvaW50
-ZXJydXB0LmhgYCDliJflh7rkuobkuI3lkIznmoTova/kuK3mlq3jgILlrprml7blmajova/kuK3m
-lq3mmK/kuIDkuKrpnZ7luLjph43opoENCj4gQEAgLTk1LDggKzk1LDcgQEANCj4NCj4gIC4uIHdh
-cm5pbmc6Og0KPg0KPiAtICAgIOKAnHRhc2tsZXTigJ3ov5nkuKrlkI3lrZfmmK/or6/lr7zmgKfn
-moTvvJrlroPku6zkuI7igJzku7vliqHigJ3ml6DlhbPvvIzlj6/og73mm7TlpJrkuI7lvZPml7YN
-Cj4gLSAgICDpmL/liJflhYvosKLCt+W6k+WFuea2heS9kOWkq+S6q+eUqOeahOezn+ezleS8j+eJ
-ueWKoOacieWFs+OAgg0KPiArICAgIOKAnHRhc2tsZXTigJ3ov5nkuKrlkI3lrZfmmK/or6/lr7zm
-gKfnmoTvvJrlroPku6zkuI7igJzku7vliqHigJ3ml6DlhbPjgIINCj4NCj4gIOS9oOWPr+S7peS9
-v+eUqCA6YzpmdW5jOmBpbl9zb2Z0aXJxKClgIOWuj++8iCBgYGluY2x1ZGUvbGludXgvcHJlZW1w
-dC5oYGAg77yJ5p2l56Gu6K6kDQo+ICDmmK/lkKblpITkuo7ova/kuK3mlq3vvIjmiJblrZDku7vl
-iqHvvInkuK3jgIINCj4gQEAgLTI0Nyw3ICsyNDYsNyBAQCBQcm92aWRlIG1lY2hhbmlzbSBub3Qg
-cG9saWN54oCd44CCDQo+ICAgICAg5LiOIDpjOmZ1bmM6YHB1dF91c2VyKClgIOWSjCA6YzpmdW5j
-OmBnZXRfdXNlcigpYCDkuI3lkIzvvIzlroPku6zov5Tlm57mnKrlpI3liLbnmoQNCj4gICAgICDm
-lbDmja7ph4/vvIjljbMw5LuN54S25oSP5ZGz552A5oiQ5Yqf77yJ44CCDQo+DQo+IC3jgJDmmK/n
-moTvvIzov5nkuKrmhJrooKLnmoTmjqXlj6PnnJ/lv4PorqnmiJHlsLTlsKzjgILngavniIbnmoTl
-j6PmsLTku5flpKfmpoLmr4/lubTpg73kvJrlj5HnlJ/jgIINCj4gK+OAkOaYr+eahO+8jOi/meS4
-quiuqOWOjOeahOaOpeWPo+ecn+W/g+iuqeaIkeWwtOWwrOOAgueBq+eIhueahOWPo+awtOS7l+Wk
-p+amguavj+W5tOmDveS8muWPkeeUn+OAgg0KPiAg4oCU4oCUIFJ1c3R5IFJ1c3NlbGzjgJENCj4N
-Cj4gIOi/meS6m+WHveaVsOWPr+S7pemakOW8j+edoeecoOOAguWug+S4jeW6lOivpeWcqOeUqOaI
-t+S4iuS4i+aWh+S5i+Wkluiwg+eUqO+8iOayoeacieaEj+S5ie+8ieOAgeiwg+eUqOaXtuemgeeU
-qOS4reaWrQ0KPiBAQCAtNTM4LDkgKzUzNyw5IEBAIERvY3VtZW50YXRpb24vY29yZS1hcGkvc3lt
-Ym9sLW5hbWVzcGFjZXMucnN0IOOAgg0KPg0KPiAgTGludXPlkozlhbbku5blvIDlj5HkurrlkZjm
-nInml7bkvJrmm7TmlLnlvIDlj5HlhoXmoLjkuK3nmoTlh73mlbDmiJbnu5PmnoTkvZPlkI3np7Dv
-vJvov5nmoLflgZrkuI3ku4XmmK/kuLrkuoYNCj4gIOiuqeavj+S4quS6uumDveS/neaMgeitpuaD
-le+8jOi/mOWPjeaYoOS6huS4gOS4qumHjeWkp+eahOabtOaUue+8iOS+i+Wmgu+8jOS4jeiDveWG
-jeWcqOaJk+W8gOS4reaWreeahOaDheWGteS4iw0KPiAt6LCD55So77yM5oiW6ICF5omn6KGM6aKd
-5aSW55qE5qOA5p+l77yM5oiW6ICF5LiN5omn6KGM5Lul5YmN5o2V6I6355qE5qOA5p+l77yJ44CC
-6YCa5bi46L+Z5Lya6ZmE5bim5LiA5LiqbGludXgNCj4gLeWGheaguOmCruS7tuWIl+ihqOS4reeb
-uOW9k+WFqOmdoueahOazqOmHiu+8m+ivt+aQnOe0ouWtmOaho+S7peafpeeci+OAgueugOWNleWc
-sOWvueaWh+S7tui/m+ihjOWFqOWxgOabv+aNoumAmuW4uA0KPiAt5Lya6K6p5LqL5oOF5Y+Y5b6X
-ICoq5pu057OfKiog44CCDQo+ICvosIPnlKjvvIzmiJbogIXmiafooYzpop3lpJbnmoTmo4Dmn6Xv
-vIzmiJbogIXkuI3miafooYzku6XliY3mjZXojrfnmoTmo4Dmn6XvvInjgILpgJrluLjov5nkvJrp
-mYTluKblj5HpgIHkuIDkuKoNCj4gK+ebuOW9k+WFqOmdoueahOazqOmHiuWIsOebuOW6lOeahOWG
-heaguOmCruS7tuWIl+ihqOS4re+8m+ivt+aQnOe0ouWtmOaho+S7peafpeeci+OAgueugOWNleWc
-sOWvueaWh+S7tui/m+ihjOWFqOWxgA0KPiAr5pu/5o2i6YCa5bi45Y+q5Lya6K6p5LqL5oOF5Y+Y
-5b6XICoq5pu057OfKiog44CCDQo+DQo+ICDliJ3lp4vljJbnu5PmnoTkvZPmiJDlkZgNCj4gIC0t
-LS0tLS0tLS0tLS0tLS0tLQ0KPiBAQCAtNjEwLDcgKzYwOSw3IEBAIEMrKw0KPg0KPiAg5Li65LqG
-6K6p5L2g55qE5Lic6KW/5pu05q2j5byP44CB6KGl5LiB5pu05pW05rSB77yM6L+Y5pyJ5LiA5Lqb
-5bel5L2c6KaB5YGa77yaDQo+DQo+IC0tICDmkJ7muIXmpZrkvaDlnKjosIHnmoTlnLDnlYzlhL/k
-uIrlubLmtLvjgILmn6XnnIvmupDmlofku7bnmoTpobbpg6jjgIEgYGBNQUlOVEFJTkVSU2BgIOaW
-h+S7tuS7peWPig0KPiArLSAg5pCe5riF5qWa5L2g5L+u5pS555qE5Luj56CB5bGe5LqO6LCB44CC
-5p+l55yL5rqQ5paH5Lu255qE5qC555uu5b2V44CBIGBgTUFJTlRBSU5FUlNgYCDmlofku7bku6Xl
-j4oNCj4gICAgIGBgQ1JFRElUU2BgIOaWh+S7tueahOacgOWQjuS4gOmDqOWIhuOAguS9oOW6lOiv
-peWSjOatpOS6uuWNj+iwg++8jOehruS/neS9oOayoeaciemHjeaWsOWPkeaYjui9ruWtkO+8jA0K
-PiAgICAg5oiW6ICF5bCd6K+V5LiA5Lqb5bey57uP6KKr5ouS57ud55qE5Lic6KW/44CCDQo+DQo+
-IEBAIC02MjksOSArNjI4LDEwIEBAIEMrKw0KPiAgICAg4oCcb2JqLSQoQ09ORklHX3h4eCkgKz0g
-eHh4Lm/igJ3jgILor63ms5XorrDlvZXlnKgNCj4gICAgIERvY3VtZW50YXRpb24va2J1aWxkL21h
-a2VmaWxlcy5yc3Qg44CCDQo+DQo+IC0tICDlpoLmnpzkvaDlgZrkuobkuIDkupvmnInmhI/kuYnn
-moTkuovmg4XvvIzpgqPlj6/ku6Xmioroh6rlt7HmlL7ov5sgYGBDUkVESVRTYGAg77yM6YCa5bi4
-5LiN5q2i5LiA5LiqDQo+IC0gICDmlofku7bvvIjml6DorrrlpoLkvZXkvaDnmoTlkI3lrZfpg73l
-upTor6XlnKjmupDmlofku7bnmoTpobbpg6jvvInjgILnu7TmiqTkurrlkZjmhI/lkbPnnYDmgqjl
-uIzmnJvlnKjlr7kNCj4gLSAgIOWtkOezu+e7n+i/m+ihjOabtOaUueaXtuW+l+WIsOivoumXru+8
-jOW5tuS6huino+e8uumZt++8m+i/meaEj+WRs+edgOWvueafkOmDqOWIhuS7o+eggeWBmuWHuuab
-tOWkmuaJv+ivuuOAgg0KPiArLSAg5aaC5p6c5L2g6K6k5Li66Ieq5bex5YGa5LqG5LiA5Lqb5pyJ
-5oSP5LmJ55qE5LqL5oOF77yM5Y+v5Lul5oqK6Ieq5bex5pS+6L+bIGBgQ1JFRElUU2BgIO+8jOmA
-muW4uOS4jQ0KPiArICAg5q2i5LiA5Liq5paH5Lu277yI5peg6K665aaC5L2V5L2g55qE5ZCN5a2X
-6YO95bqU6K+l5Zyo5rqQ5paH5Lu255qE6aG26YOo77yJ44CCICBgYE1BSU5UQUlORVJTYGANCj4g
-KyAgIOaEj+WRs+edgOaCqOW4jOacm+WcqOWvueWtkOezu+e7n+i/m+ihjOabtOaUueaXtuW+l+WI
-sOivoumXru+8jOW5tuS6huino+e8uumZt++8m+i/meaEj+WRs+edgOWvueafkOmDqOWIhg0KPiAr
-ICAg5Luj56CB5YGa5Ye65pu05aSa5om/6K+644CCDQo+DQo+ICAtICDmnIDlkI7vvIzliKvlv5jo
-rrDljrvpmIXor7sgRG9jdW1lbnRhdGlvbi9wcm9jZXNzL3N1Ym1pdHRpbmctcGF0Y2hlcy5yc3Qg
-77yMDQo+ICAgICDkuZ/orrjov5jmnIkgRG9jdW1lbnRhdGlvbi9wcm9jZXNzL3N1Ym1pdHRpbmct
-ZHJpdmVycy5yc3Qg44CCDQo+IC0tDQo+IDIuMzAuMg0KPg0K
+Hi Rob,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-intel/for-linux-next drm-tip/drm-tip v5.19-rc1 next-20220607]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/drm-Add-DRM_GEM_FOPS/20220607-035529
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: s390-buildonly-randconfig-r008-20220605 (https://download.01.org/0day-ci/archive/20220607/202206071325.FWDwmg2D-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b92436efcb7813fc481b30f2593a4907568d917a)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/09342d3c56fa77dacb235908515f0a44ac2fc9c2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Rob-Clark/drm-Add-DRM_GEM_FOPS/20220607-035529
+        git checkout 09342d3c56fa77dacb235908515f0a44ac2fc9c2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/ drivers/gpu/drm/msm/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/msm/msm_gpu.c:9:
+   In file included from drivers/gpu/drm/msm/msm_gpu.h:10:
+   In file included from include/linux/adreno-smmu-priv.h:9:
+   In file included from include/linux/io-pgtable.h:6:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from drivers/gpu/drm/msm/msm_gpu.c:9:
+   In file included from drivers/gpu/drm/msm/msm_gpu.h:10:
+   In file included from include/linux/adreno-smmu-priv.h:9:
+   In file included from include/linux/io-pgtable.h:6:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from drivers/gpu/drm/msm/msm_gpu.c:9:
+   In file included from drivers/gpu/drm/msm/msm_gpu.h:10:
+   In file included from include/linux/adreno-smmu-priv.h:9:
+   In file included from include/linux/io-pgtable.h:6:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> drivers/gpu/drm/msm/msm_gpu.c:158:46: warning: format specifies type 'unsigned long' but the argument has type 'uint32_t' (aka 'unsigned int') [-Wformat]
+           drm_printf(p, "drm-maxfreq-gpu:\t%lu Hz\n", gpu->fast_rate);
+                                            ~~~        ^~~~~~~~~~~~~~
+                                            %u
+   In file included from drivers/gpu/drm/msm/msm_gpu.c:7:
+   In file included from include/drm/drm_drv.h:33:
+   In file included from include/drm/drm_device.h:5:
+   In file included from include/linux/kref.h:16:
+   In file included from include/linux/spinlock.h:93:
+   arch/s390/include/asm/spinlock.h:81:3: error: expected absolute expression
+                   ALTERNATIVE("", ".insn rre,0xb2fa0000,7,0", 49) /* NIAI 7 */
+                   ^
+   arch/s390/include/asm/alternative.h:118:2: note: expanded from macro 'ALTERNATIVE'
+           ALTINSTR_REPLACEMENT(altinstr, 1)                               \
+           ^
+   arch/s390/include/asm/alternative.h:113:2: note: expanded from macro 'ALTINSTR_REPLACEMENT'
+           INSTR_LEN_SANITY_CHECK(altinstr_len(num))
+           ^
+   arch/s390/include/asm/alternative.h:62:3: note: expanded from macro 'INSTR_LEN_SANITY_CHECK'
+           ".if " len " > 254\n"                                           \
+            ^
+   <inline asm>:5:5: note: instantiated into assembly here
+   .if 6651b-6641b > 254
+       ^
+   In file included from drivers/gpu/drm/msm/msm_gpu.c:7:
+   In file included from include/drm/drm_drv.h:33:
+   In file included from include/drm/drm_device.h:5:
+   In file included from include/linux/kref.h:16:
+   In file included from include/linux/spinlock.h:93:
+   arch/s390/include/asm/spinlock.h:81:3: error: cpu alternatives does not support instructions blocks > 254 bytes
+                   ALTERNATIVE("", ".insn rre,0xb2fa0000,7,0", 49) /* NIAI 7 */
+                   ^
+   arch/s390/include/asm/alternative.h:118:2: note: expanded from macro 'ALTERNATIVE'
+           ALTINSTR_REPLACEMENT(altinstr, 1)                               \
+           ^
+   arch/s390/include/asm/alternative.h:113:2: note: expanded from macro 'ALTINSTR_REPLACEMENT'
+           INSTR_LEN_SANITY_CHECK(altinstr_len(num))
+           ^
+   arch/s390/include/asm/alternative.h:63:3: note: expanded from macro 'INSTR_LEN_SANITY_CHECK'
+           "\t.error \"cpu alternatives does not support instructions "    \
+            ^
+   <inline asm>:6:2: note: instantiated into assembly here
+           .error "cpu alternatives does not support instructions blocks > 254 bytes"
+           ^
+   In file included from drivers/gpu/drm/msm/msm_gpu.c:7:
+   In file included from include/drm/drm_drv.h:33:
+   In file included from include/drm/drm_device.h:5:
+   In file included from include/linux/kref.h:16:
+   In file included from include/linux/spinlock.h:93:
+   arch/s390/include/asm/spinlock.h:81:3: error: expected absolute expression
+                   ALTERNATIVE("", ".insn rre,0xb2fa0000,7,0", 49) /* NIAI 7 */
+                   ^
+   arch/s390/include/asm/alternative.h:118:2: note: expanded from macro 'ALTERNATIVE'
+           ALTINSTR_REPLACEMENT(altinstr, 1)                               \
+           ^
+   arch/s390/include/asm/alternative.h:113:2: note: expanded from macro 'ALTINSTR_REPLACEMENT'
+           INSTR_LEN_SANITY_CHECK(altinstr_len(num))
+           ^
+   arch/s390/include/asm/alternative.h:66:3: note: expanded from macro 'INSTR_LEN_SANITY_CHECK'
+           ".if (" len ") %% 2\n"                                          \
+            ^
+   <inline asm>:8:5: note: instantiated into assembly here
+   .if (6651b-6641b) % 2
+       ^
+   In file included from drivers/gpu/drm/msm/msm_gpu.c:7:
+   In file included from include/drm/drm_drv.h:33:
+   In file included from include/drm/drm_device.h:5:
+   In file included from include/linux/kref.h:16:
+   In file included from include/linux/spinlock.h:93:
+   arch/s390/include/asm/spinlock.h:81:3: error: cpu alternatives instructions length is odd
+                   ALTERNATIVE("", ".insn rre,0xb2fa0000,7,0", 49) /* NIAI 7 */
+                   ^
+   arch/s390/include/asm/alternative.h:118:2: note: expanded from macro 'ALTERNATIVE'
+           ALTINSTR_REPLACEMENT(altinstr, 1)                               \
+           ^
+   arch/s390/include/asm/alternative.h:113:2: note: expanded from macro 'ALTINSTR_REPLACEMENT'
+           INSTR_LEN_SANITY_CHECK(altinstr_len(num))
+           ^
+   arch/s390/include/asm/alternative.h:67:3: note: expanded from macro 'INSTR_LEN_SANITY_CHECK'
+           "\t.error \"cpu alternatives instructions length is odd\"\n"    \
+            ^
+   <inline asm>:9:2: note: instantiated into assembly here
+           .error "cpu alternatives instructions length is odd"
+           ^
+   In file included from drivers/gpu/drm/msm/msm_gpu.c:7:
+   In file included from include/drm/drm_drv.h:33:
+   In file included from include/drm/drm_device.h:5:
+   In file included from include/linux/kref.h:16:
+   In file included from include/linux/spinlock.h:93:
+   arch/s390/include/asm/spinlock.h:81:3: error: expected absolute expression
+                   ALTERNATIVE("", ".insn rre,0xb2fa0000,7,0", 49) /* NIAI 7 */
+                   ^
+   arch/s390/include/asm/alternative.h:120:2: note: expanded from macro 'ALTERNATIVE'
+           OLDINSTR(oldinstr, 1)                                           \
+           ^
+   arch/s390/include/asm/alternative.h:90:2: note: expanded from macro 'OLDINSTR'
+           OLDINSTR_PADDING(oldinstr, num)                                 \
+           ^
+   arch/s390/include/asm/alternative.h:71:3: note: expanded from macro 'OLDINSTR_PADDING'
+           ".if " oldinstr_pad_len(num) " > 6\n"                           \
+            ^
+
+
+vim +158 drivers/gpu/drm/msm/msm_gpu.c
+
+   150	
+   151	void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
+   152				 struct drm_printer *p)
+   153	{
+   154		drm_printf(p, "drm-driver:\t%s\n", gpu->dev->driver->name);
+   155		drm_printf(p, "drm-client-id:\t%u\n", ctx->seqno);
+   156		drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
+   157		drm_printf(p, "drm-cycles-gpu:\t%llu\n", ctx->cycles);
+ > 158		drm_printf(p, "drm-maxfreq-gpu:\t%lu Hz\n", gpu->fast_rate);
+   159	}
+   160	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
