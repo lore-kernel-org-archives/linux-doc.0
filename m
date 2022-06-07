@@ -2,104 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22A32CCA47F
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 09:17:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97313C43334
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 09:35:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239175AbiFGJRF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 05:17:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41766 "EHLO
+        id S232947AbiFGJfk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 05:35:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239221AbiFGJQw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 05:16:52 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9253DD2476;
-        Tue,  7 Jun 2022 02:16:49 -0700 (PDT)
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LHPpS5pBrzjcSw;
-        Tue,  7 Jun 2022 17:15:28 +0800 (CST)
-Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 7 Jun 2022 17:16:47 +0800
-Received: from localhost.localdomain (10.175.112.125) by
- dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 7 Jun 2022 17:16:45 +0800
-From:   Wupeng Ma <mawupeng1@huawei.com>
-To:     <corbet@lwn.net>, <will@kernel.org>, <ardb@kernel.org>,
-        <catalin.marinas@arm.com>
-CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-        <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-        <dvhart@infradead.org>, <andy@infradead.org>, <rppt@kernel.org>,
-        <akpm@linux-foundation.org>, <paul.walmsley@sifive.com>,
-        <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-        <paulmck@kernel.org>, <keescook@chromium.org>,
-        <songmuchun@bytedance.com>, <rdunlap@infradead.org>,
-        <damien.lemoal@opensource.wdc.com>, <swboyd@chromium.org>,
-        <wei.liu@kernel.org>, <robin.murphy@arm.com>, <david@redhat.com>,
-        <mawupeng1@huawei.com>, <anshuman.khandual@arm.com>,
-        <thunder.leizhen@huawei.com>, <wangkefeng.wang@huawei.com>,
-        <gpiccoli@igalia.com>, <chenhuacai@kernel.org>,
-        <geert@linux-m68k.org>, <chenzhou10@huawei.com>,
-        <vijayb@linux.microsoft.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-efi@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
-        <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>
-Subject: [PATCH v3 3/6] mm: Ratelimited mirrored memory related warning messages
-Date:   Tue, 7 Jun 2022 17:38:02 +0800
-Message-ID: <20220607093805.1354256-4-mawupeng1@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220607093805.1354256-1-mawupeng1@huawei.com>
-References: <20220607093805.1354256-1-mawupeng1@huawei.com>
+        with ESMTP id S239764AbiFGJfT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 05:35:19 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E26BE64D7;
+        Tue,  7 Jun 2022 02:35:16 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id w13-20020a17090a780d00b001e8961b355dso3125270pjk.5;
+        Tue, 07 Jun 2022 02:35:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=/7EAFJgdonloPk0n/CJ/zciAeZ6ggjWIIfAJFu04Kc4=;
+        b=S1qC8HOeFifIMvVV7Ym8+VedrgGuml+FLWbRZJtWYWp2ddutmxt1jZh9nW1uaFdcP9
+         96r3gzbtnk3ex+h3r7BfV2K5VchL8Tx8o6sjpOAGg4EetIWYaBltqJDH29yt82KhuX6o
+         N2gDEoVoKxGdXYw3GzlLTGTrv/D0yHGWcEV7QJPYASc3ccnGoVXNYLQTs378SsxriSRy
+         VtvDsgfIMSF7B9piY1LNyOe4wK8iokWcZ5ZK/PgewvtfSxFqMgNm9YW+z9WJzsMEflT9
+         hJif8d/zv3kDz7ETAE75U+2euTntkYJA8WGiCfh9k/Iq8CPyd8Kdb5fB+UiZdb3p4fu5
+         9zZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/7EAFJgdonloPk0n/CJ/zciAeZ6ggjWIIfAJFu04Kc4=;
+        b=4DzfbDfBj11UgnKVmli5fzswFKrvbhvm/y931u+hyTi3TIAk8tb9OgFTsiuYnC9GcC
+         l1etp8OYGrBxDo1iHbbW0chwtDRlDwY4rPlcEqmGcB4Yakq3kwpErc14dnwHqhYUs70R
+         UzLMWAnYmqhicJq7vxwb4lwJTtndMDivC80QEWZ95MSpsFnQGs4S1hFRVnOKILAL0Whq
+         YkfI3tsmDD2TA0ZgjDaRRuYxD2pjG5BgS+ApqdrZN2lEaL26oj2/PelUr8PmyKzKsaYH
+         zDgQJn//DyDayqXh4z19V8nPwMM87SGsmC3ue87Rd4QqAosQxDzSPDDhW6xyQvDxg9KK
+         IcJw==
+X-Gm-Message-State: AOAM533EMk5piFz8zPU1nVH3OWRsOAJFtXsv8SjrjXmRhfi+0eEZNu5k
+        jC0X1L03ZZvVPPXQK67kG3WQIWj3+lg=
+X-Google-Smtp-Source: ABdhPJz6KP2YgSIRKs2hKh8e1UIylOlLROEWvw7Unv2OlluDBrIgSrrDYuWMc7+eJZ2wZ4C1CPEdUw==
+X-Received: by 2002:a17:90a:2c0c:b0:1ea:14c0:f0ca with SMTP id m12-20020a17090a2c0c00b001ea14c0f0camr169736pjd.143.1654594515102;
+        Tue, 07 Jun 2022 02:35:15 -0700 (PDT)
+Received: from localhost (subs28-116-206-12-32.three.co.id. [116.206.12.32])
+        by smtp.gmail.com with ESMTPSA id jg15-20020a17090326cf00b001640594376dsm12017207plb.183.2022.06.07.02.35.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jun 2022 02:35:14 -0700 (PDT)
+Date:   Tue, 7 Jun 2022 16:35:11 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Stephen Rothwell <sfr@canb.auug.org.au>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: linux-next: build warnings after merge of the hwmon-staging tree
+Message-ID: <Yp8bz4Yo45Bq4VfR@debian.me>
+References: <20220607142301.3eb8a53c@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.112.125]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500014.china.huawei.com (7.185.36.153)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220607142301.3eb8a53c@canb.auug.org.au>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Ma Wupeng <mawupeng1@huawei.com>
+On Tue, Jun 07, 2022 at 02:23:01PM +1000, Stephen Rothwell wrote:
+> Hi all,
+> 
+> After merging the hwmon-staging tree, today's linux-next build (htmldocs)
+> produced these warnings:
+> 
+> Documentation/hwmon/lm90.rst:493: WARNING: Bullet list ends without a blank line; unexpected unindent.
+> Documentation/hwmon/lm90.rst:494: WARNING: Bullet list ends without a blank line; unexpected unindent.
+> 
+> Introduced by commit
+> 
+>   7dd47c2603aa ("hwmon: (lm90) Support MAX1617 and LM84")
+>
 
-If system has mirrored memory, memblock will try to allocate mirrored
-memory firstly and fallback to non-mirrored memory when fails, but if with
-limited mirrored memory or some numa node without mirrored memory, lots of
-warning message about memblock allocation will occur.
+Hi Stephen,
 
-This patch ratelimit the warning message to avoid a very long print during
-bootup.
+These warnings above doesn't appear when doing htmldocs build using
+Sphinx installed from pip on my system.
 
-Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
----
- mm/memblock.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Cc-ing linux-doc list.
 
-diff --git a/mm/memblock.c b/mm/memblock.c
-index e4f03a6e8e56..b1d2a0009733 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -327,7 +327,7 @@ static phys_addr_t __init_memblock memblock_find_in_range(phys_addr_t start,
- 					    NUMA_NO_NODE, flags);
- 
- 	if (!ret && (flags & MEMBLOCK_MIRROR)) {
--		pr_warn("Could not allocate %pap bytes of mirrored memory\n",
-+		pr_warn_ratelimited("Could not allocate %pap bytes of mirrored memory\n",
- 			&size);
- 		flags &= ~MEMBLOCK_MIRROR;
- 		goto again;
-@@ -1384,7 +1384,7 @@ phys_addr_t __init memblock_alloc_range_nid(phys_addr_t size,
- 
- 	if (flags & MEMBLOCK_MIRROR) {
- 		flags &= ~MEMBLOCK_MIRROR;
--		pr_warn("Could not allocate %pap bytes of mirrored memory\n",
-+		pr_warn_ratelimited("Could not allocate %pap bytes of mirrored memory\n",
- 			&size);
- 		goto again;
- 	}
+Thanks.
+
 -- 
-2.25.1
-
+An old man doll... just what I always wanted! - Clara
