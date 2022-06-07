@@ -2,237 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B7F5C43334
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 19:59:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D63B4C43334
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Jun 2022 21:19:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357539AbiFGT7E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 15:59:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57290 "EHLO
+        id S1378228AbiFGVTW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 17:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357534AbiFGT6Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 15:58:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8079BC1EEC
-        for <linux-doc@vger.kernel.org>; Tue,  7 Jun 2022 11:24:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1654626229;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=oeKZwEXEPcVasf7F1CNd9feC/iLhpeWLvWAJd8mL+VI=;
-        b=a/2xGQolRghD3zMUdM0ChjDMEGEn2TFm6ueRJ3Oi9TjatIeYpsJzn+k0oRtfvMZ7lgPOCs
-        Fac4VYRUQoK1LXqFq/DXrohP2LP2ZceRVSbr6O2HB2RxB8E+v62eah2CYi4VdY9REedivE
-        QA6uNm7gkdFyNMx773PHNL/HgFv2V3E=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-2FyIGMOnORSO3FCXAoC6QA-1; Tue, 07 Jun 2022 14:23:48 -0400
-X-MC-Unique: 2FyIGMOnORSO3FCXAoC6QA-1
-Received: by mail-wm1-f72.google.com with SMTP id n18-20020a05600c3b9200b00397335edc7dso13092870wms.7
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jun 2022 11:23:48 -0700 (PDT)
+        with ESMTP id S1352999AbiFGVS7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 17:18:59 -0400
+Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A254D224113
+        for <linux-doc@vger.kernel.org>; Tue,  7 Jun 2022 11:59:22 -0700 (PDT)
+Received: by mail-vs1-xe29.google.com with SMTP id q14so17522576vsr.12
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jun 2022 11:59:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9Elzb0WSXIXlROa5Ne/fkFdeuavdNhknMmaOlUejDTY=;
+        b=Cv0f7VDXY7aEPKcXAgnBc/m7gn4KcwOMCSs6PnP0SNIDWWYURJ50n1BCOckHKyAo4L
+         osssjroBU4blBT4uRm44yv1fi6oI2L3ujbMxK0o1i7oGhzuJEZHYVRVpCkNRjU/hFtxf
+         Ifer0vvxCoOUoY1v9kjyMENImilrTTM4fAy0Btq15FrFxyPHCeK2B0D84LFU8iZVCbEM
+         TH8Id7ZOemPx6JqSCTpgYaMPAPVA73HfyKXhphSlNjINHTMX+uRZzLvngc5H22ab9HNY
+         8jkBwlmf+zLp0DZxf4DQWE1GgEnOF/mife+Vv/Z4dmejaQyeRkI9GPk+3cw2UFYny78M
+         GbTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=oeKZwEXEPcVasf7F1CNd9feC/iLhpeWLvWAJd8mL+VI=;
-        b=GEJoERd4V0K/ZS5CCxoU1FhgKxL6QN27egAt9PnCf/a2YUfDy5qaP01XVXEL6Tz3zx
-         Cz3g141qNKEKsi9C0TDMv97RpULYdDWh7QHIyTBTYwvAaOnSVIEWQL1WFPLhwSilUbmf
-         xQJIWWVoe8Asf+2Kk1aCWl83KUj0Ub3iGlEs7yeZPA0qL/r6NT7I7mRFjFCNe/qU+Yeo
-         Ww8aSdwMm9gP/Amaqv+EWNciZPi7Fw28rX7smJT/nMh6MslFcB9Xcw/wHyzNZ924YIZR
-         9njXMy1oYL8BI6a91ELD1prS3aPkqQInFXObqzvX9pmk8afD1KusDpz8APvlllVZhmfs
-         cW7Q==
-X-Gm-Message-State: AOAM533yp3ONJjTY68i67zmrZ/TNalRdQGF3bpLGyBwuRDvqhLHI+8Dl
-        UU63gKWJlkFK0nGz3+DG1zjAUf3KFAi+LEASkKO+aImZYGZyhwe/Q71W40dNxgstmwA6HcG2MJL
-        lKdrvDI7S8vkpmxMGI6lf
-X-Received: by 2002:a5d:4526:0:b0:210:bac2:ba63 with SMTP id j6-20020a5d4526000000b00210bac2ba63mr30068071wra.677.1654626227375;
-        Tue, 07 Jun 2022 11:23:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx3NykQdMwif9epScM2xkEJ+WQL2CXLMZHRuVgUZST1zsqWvA2TpoYWLilwG1xnetgJI+uYXQ==
-X-Received: by 2002:a5d:4526:0:b0:210:bac2:ba63 with SMTP id j6-20020a5d4526000000b00210bac2ba63mr30068041wra.677.1654626227134;
-        Tue, 07 Jun 2022 11:23:47 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id m8-20020a05600c4f4800b003942a244f51sm28267502wmq.42.2022.06.07.11.23.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 11:23:46 -0700 (PDT)
-From:   Javier Martinez Canillas <javierm@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     dri-devel@lists.freedesktop.org,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Laszlo Ersek <lersek@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Gerd Hoffmann <kraxel@redhat.com>, kvm@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH v6 2/5] firmware: sysfb: Add sysfb_disable() helper function
-Date:   Tue,  7 Jun 2022 20:23:35 +0200
-Message-Id: <20220607182338.344270-3-javierm@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220607182338.344270-1-javierm@redhat.com>
-References: <20220607182338.344270-1-javierm@redhat.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9Elzb0WSXIXlROa5Ne/fkFdeuavdNhknMmaOlUejDTY=;
+        b=XZ4ecdqF0TPEdBY3Ild71Fv7mXzPPIjIRc0nA2IKD4vSKd2JNMtLxOPCiLa7o53hnF
+         mLIx+7zQ7ZH0x+CostP4ZE4y0XesFGNhDdIhbnSIzWDTINo0G+8sx9+zQocz9a9OYwQ+
+         uvy8pRnCFM0ol7leX2hnLDfbKJ8Na+oCeAUZHVrBXrZSqJaVpLz2W/qB0dtCtzSIv5w3
+         eicppscZ86qMnvoobVVl9CnjECxyiRXyOFLPFo57BmOa8K67qElE2QcIVCbbI46LMR0s
+         yQhKBAPbOi72QKynCfmOaCULOjQQ0gVHtOAteTccOd/Oc3cOSQtGu0tGMv4tx926aATR
+         6WQw==
+X-Gm-Message-State: AOAM532bixGW5MIEdDCK2qGiAAX0ow7fdJcEY31GWlkmUbjGJJ/DG5W/
+        aL8K3TiX7SzK+F/2aiRu/wJ/jHvA5+O/ZkmwX85Rjw==
+X-Google-Smtp-Source: ABdhPJwItyNg+JlCejjmtMRo2UgKL6vqnWouemHIBZUAlTzMQTqGRbdROMZliSDf1VNw1QrtZay3uVygVctsRUZw5Ew=
+X-Received: by 2002:a67:f3d0:0:b0:34b:b52d:d676 with SMTP id
+ j16-20020a67f3d0000000b0034bb52dd676mr6382966vsn.6.1654628358760; Tue, 07 Jun
+ 2022 11:59:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220518014632.922072-1-yuzhao@google.com> <20220518014632.922072-8-yuzhao@google.com>
+ <CAGsJ_4yboZEY9OfyujPxBa_AEuGM3OAq5y_L9gvzSMUv70BxeQ@mail.gmail.com>
+In-Reply-To: <CAGsJ_4yboZEY9OfyujPxBa_AEuGM3OAq5y_L9gvzSMUv70BxeQ@mail.gmail.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Tue, 7 Jun 2022 12:58:42 -0600
+Message-ID: <CAOUHufYwhcWZFdkaJ9qsNoFMUxPOEd+CFzDtYwWdpSGWBbjPgw@mail.gmail.com>
+Subject: Re: [PATCH v11 07/14] mm: multi-gen LRU: exploit locality in rmap
+To:     Barry Song <21cnbao@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, x86 <x86@kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This can be used by subsystems to unregister a platform device registered
-by sysfb and also to disable future platform device registration in sysfb.
+On Mon, Jun 6, 2022 at 3:25 AM Barry Song <21cnbao@gmail.com> wrote:
+>
+> On Wed, May 18, 2022 at 4:49 PM Yu Zhao <yuzhao@google.com> wrote:
 
-Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
----
+...
 
-Changes in v6:
-- Drop sysfb_try_unregister() helper since is no longer needed.
+> > @@ -821,6 +822,12 @@ static bool folio_referenced_one(struct folio *folio,
+> >                 }
+> >
+> >                 if (pvmw.pte) {
+> > +                       if (lru_gen_enabled() && pte_young(*pvmw.pte) &&
+> > +                           !(vma->vm_flags & (VM_SEQ_READ | VM_RAND_READ))) {
+> > +                               lru_gen_look_around(&pvmw);
+> > +                               referenced++;
+> > +                       }
+> > +
+> >                         if (ptep_clear_flush_young_notify(vma, address,
+>
+> Hello, Yu.
+> look_around() is calling ptep_test_and_clear_young(pvmw->vma, addr, pte + i)
+> only without flush and notify. for flush, there is a tlb operation for arm64:
+> static inline int ptep_clear_flush_young(struct vm_area_struct *vma,
+>                                          unsigned long address, pte_t *ptep)
+> {
+>         int young = ptep_test_and_clear_young(vma, address, ptep);
+>
+>         if (young) {
+>                 /*
+>                  * We can elide the trailing DSB here since the worst that can
+>                  * happen is that a CPU continues to use the young entry in its
+>                  * TLB and we mistakenly reclaim the associated page. The
+>                  * window for such an event is bounded by the next
+>                  * context-switch, which provides a DSB to complete the TLB
+>                  * invalidation.
+>                  */
+>                 flush_tlb_page_nosync(vma, address);
+>         }
+>
+>         return young;
+> }
+>
+> Does it mean the current kernel is over cautious?
 
-Changes in v4:
-- Make sysfb_disable() to also attempt to unregister a device.
+Hi Barry,
 
-Changes in v2:
-- Add kernel-doc comments and include in other_interfaces.rst (Daniel Vetter).
+This is up to individual archs. For x86, ptep_clear_flush_young() is
+ptep_test_and_clear_young(). For arm64, I'd say yes, based on Figure 1
+of Navarro, Juan, et al. "Practical, transparent operating system
+support for superpages." [1].
 
- .../driver-api/firmware/other_interfaces.rst  |  6 +++
- drivers/firmware/sysfb.c                      | 54 ++++++++++++++++---
- include/linux/sysfb.h                         | 13 +++++
- 3 files changed, 67 insertions(+), 6 deletions(-)
+int ptep_clear_flush_young(struct vm_area_struct *vma,
+                           unsigned long address, pte_t *ptep)
+{
+        /*
+         * On x86 CPUs, clearing the accessed bit without a TLB flush
+         * doesn't cause data corruption. [ It could cause incorrect
+         * page aging and the (mistaken) reclaim of hot pages, but the
+         * chance of that should be relatively low. ]
+         *
+         * So as a performance optimization don't flush the TLB when
+         * clearing the accessed bit, it will eventually be flushed by
+         * a context switch or a VM operation anyway. [ In the rare
+         * event of it not getting flushed for a long time the delay
+         * shouldn't really matter because there's no real memory
+         * pressure for swapout to react to. ]
+         */
+        return ptep_test_and_clear_young(vma, address, ptep);
+}
 
-diff --git a/Documentation/driver-api/firmware/other_interfaces.rst b/Documentation/driver-api/firmware/other_interfaces.rst
-index b81794e0cfbb..06ac89adaafb 100644
---- a/Documentation/driver-api/firmware/other_interfaces.rst
-+++ b/Documentation/driver-api/firmware/other_interfaces.rst
-@@ -13,6 +13,12 @@ EDD Interfaces
- .. kernel-doc:: drivers/firmware/edd.c
-    :internal:
- 
-+Generic System Framebuffers Interface
-+-------------------------------------
-+
-+.. kernel-doc:: drivers/firmware/sysfb.c
-+   :export:
-+
- Intel Stratix10 SoC Service Layer
- ---------------------------------
- Some features of the Intel Stratix10 SoC require a level of privilege
-diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
-index b032f40a92de..1f276f108cc9 100644
---- a/drivers/firmware/sysfb.c
-+++ b/drivers/firmware/sysfb.c
-@@ -34,21 +34,59 @@
- #include <linux/screen_info.h>
- #include <linux/sysfb.h>
- 
-+static struct platform_device *pd;
-+static DEFINE_MUTEX(disable_lock);
-+static bool disabled;
-+
-+static bool sysfb_unregister(void)
-+{
-+	if (IS_ERR_OR_NULL(pd))
-+		return false;
-+
-+	platform_device_unregister(pd);
-+	pd = NULL;
-+
-+	return true;
-+}
-+
-+/**
-+ * sysfb_disable() - disable the Generic System Framebuffers support
-+ *
-+ * This disables the registration of system framebuffer devices that match the
-+ * generic drivers that make use of the system framebuffer set up by firmware.
-+ *
-+ * It also unregisters a device if this was already registered by sysfb_init().
-+ *
-+ * Context: The function can sleep. A @disable_lock mutex is acquired to serialize
-+ *          against sysfb_init(), that registers a system framebuffer device.
-+ */
-+void sysfb_disable(void)
-+{
-+	mutex_lock(&disable_lock);
-+	sysfb_unregister();
-+	disabled = true;
-+	mutex_unlock(&disable_lock);
-+}
-+EXPORT_SYMBOL_GPL(sysfb_disable);
-+
- static __init int sysfb_init(void)
- {
- 	struct screen_info *si = &screen_info;
- 	struct simplefb_platform_data mode;
--	struct platform_device *pd;
- 	const char *name;
- 	bool compatible;
--	int ret;
-+	int ret = 0;
-+
-+	mutex_lock(&disable_lock);
-+	if (disabled)
-+		goto unlock_mutex;
- 
- 	/* try to create a simple-framebuffer device */
- 	compatible = sysfb_parse_mode(si, &mode);
- 	if (compatible) {
- 		pd = sysfb_create_simplefb(si, &mode);
- 		if (!IS_ERR(pd))
--			return 0;
-+			goto unlock_mutex;
- 	}
- 
- 	/* if the FB is incompatible, create a legacy framebuffer device */
-@@ -60,8 +98,10 @@ static __init int sysfb_init(void)
- 		name = "platform-framebuffer";
- 
- 	pd = platform_device_alloc(name, 0);
--	if (!pd)
--		return -ENOMEM;
-+	if (!pd) {
-+		ret = -ENOMEM;
-+		goto unlock_mutex;
-+	}
- 
- 	sysfb_apply_efi_quirks(pd);
- 
-@@ -73,9 +113,11 @@ static __init int sysfb_init(void)
- 	if (ret)
- 		goto err;
- 
--	return 0;
-+	goto unlock_mutex;
- err:
- 	platform_device_put(pd);
-+unlock_mutex:
-+	mutex_unlock(&disable_lock);
- 	return ret;
- }
- 
-diff --git a/include/linux/sysfb.h b/include/linux/sysfb.h
-index 708152e9037b..e9baee4ae361 100644
---- a/include/linux/sysfb.h
-+++ b/include/linux/sysfb.h
-@@ -55,6 +55,19 @@ struct efifb_dmi_info {
- 	int flags;
- };
- 
-+#ifdef CONFIG_SYSFB
-+
-+void sysfb_disable(void);
-+
-+#else /* CONFIG_SYSFB */
-+
-+static inline void sysfb_disable(void)
-+{
-+
-+}
-+
-+#endif /* CONFIG_SYSFB */
-+
- #ifdef CONFIG_EFI
- 
- extern struct efifb_dmi_info efifb_dmi_list[];
--- 
-2.36.1
+[1] https://www.usenix.org/legacy/events/osdi02/tech/full_papers/navarro/navarro.pdf
 
+> is it
+> safe to call ptep_test_and_clear_young() only?
+
+Yes. Though the h/w A-bit is designed to allow OSes to skip TLB
+flushes when unmapping, the Linux kernel doesn't do this.
+
+> btw, lru_gen_look_around() has already included 'address', are we doing
+> pte check for 'address' twice here?
+
+Yes for host MMU but no KVM MMU. ptep_clear_flush_young_notify() goes
+into the MMU notifier. We don't use the _notify variant in
+lru_gen_look_around() because GPA space generally exhibits no memory
+locality.
+
+Thanks.
