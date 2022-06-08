@@ -2,78 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F275C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 21:07:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E3D3C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 22:28:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229957AbiFHVHL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jun 2022 17:07:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45350 "EHLO
+        id S234789AbiFHW2N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jun 2022 18:28:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229720AbiFHVHL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jun 2022 17:07:11 -0400
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 295A32271A5;
-        Wed,  8 Jun 2022 14:07:09 -0700 (PDT)
-Received: by mail-pg1-f170.google.com with SMTP id f65so9848086pgc.7;
-        Wed, 08 Jun 2022 14:07:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=9ecb3buQLdnsK4f3qTJQfieUPfKbyWt/zyj1SzIvpTM=;
-        b=GT/cb+ne0jcS2KxL5TzPds92fvJZ70ZbabYgMvnNXbAXohuhQC/fGOVk6sMfwGtNUs
-         +C9UE3wJg8m/rnwID+LXlkyFPHL99M6kZZVx4L8T4AmeWK3JsvYgxerUxBTBUQQ1toTB
-         Zsbk4QZBeuuWvZHTs1sNgrxJZUwUtlfTeBVPJzj5cLMwrqi+8vFzinrc3BCd/E6dYzBv
-         +jFYhOVgcioBAOY2kyq5pQmzwPt906i4cSBI2I276gfR5OUxeleBP2PgatRTU5AWC5Tp
-         Vrb/0/W0jw9FPtv3VzJXccMLG39CYwTO1CpCWWFDwf7ND/W8+pTIqP8Nt77ji1V1UWm0
-         6Stw==
-X-Gm-Message-State: AOAM533iN6PH7/ywhyIw1ZauyjPAjFCARqkO2RE8H2gclk9DDIlSurnE
-        PE8bxeId5ZsEf9jGqQdHZeg=
-X-Google-Smtp-Source: ABdhPJwGJ0nRHde8RTl6xYLYR29tSKmbbRXlGMXSsUmS5fgFGnp4YCile/NXrK4PxwLOOdGqsZyMzw==
-X-Received: by 2002:a63:18b:0:b0:3fe:e54b:da15 with SMTP id 133-20020a63018b000000b003fee54bda15mr789973pgb.571.1654722428389;
-        Wed, 08 Jun 2022 14:07:08 -0700 (PDT)
-Received: from ?IPV6:2620:15c:211:201:1cb7:9e5d:5ca4:2a39? ([2620:15c:211:201:1cb7:9e5d:5ca4:2a39])
-        by smtp.gmail.com with ESMTPSA id t20-20020a170902d29400b00161947ecc82sm15020395plc.199.2022.06.08.14.07.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jun 2022 14:07:07 -0700 (PDT)
-Message-ID: <bccbcc9b-4750-a1a7-130f-69eeea5dcb23@acm.org>
-Date:   Wed, 8 Jun 2022 14:07:05 -0700
+        with ESMTP id S231161AbiFHW2J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jun 2022 18:28:09 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5821142ED0;
+        Wed,  8 Jun 2022 15:28:08 -0700 (PDT)
+Received: by linux.microsoft.com (Postfix, from userid 1033)
+        id E908320BE66A; Wed,  8 Jun 2022 15:28:07 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E908320BE66A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1654727287;
+        bh=MF2Y1CBDjZevU8fKZUp5kTEpEkoKnGareWA0GYzqeq8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rTkhDmYdY7rpVbQEn9L9mKl43RlPXNjWiPuTNIqmZzVD1Iy9c2bksxjgfYkkouLUq
+         UPAyhyoSZskG+YgEI73GZWcdXpE59XsE7Wc7P1fKK/FdeMciH5m3kdKbrOjuvWo3TL
+         GZqDCdh02EtKnOhBTJsUGaZi51u2R0kWzglRF03M=
+Date:   Wed, 8 Jun 2022 15:28:07 -0700
+From:   Deven Bowers <deven.desai@linux.microsoft.com>
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v8 10/17] block|security: add LSM blob to block_device
+Message-ID: <20220608222807.GA7650@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1654714889-26728-1-git-send-email-deven.desai@linux.microsoft.com>
+ <1654714889-26728-11-git-send-email-deven.desai@linux.microsoft.com>
+ <14754d16-75ae-cc92-cfc5-adce0628d9d9@schaufler-ca.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 3/4] scsi: core: Cap shost max_sectors according to DMA
- optimum mapping limits
-Content-Language: en-US
-To:     John Garry <john.garry@huawei.com>,
-        damien.lemoal@opensource.wdc.com, joro@8bytes.org, will@kernel.org,
-        jejb@linux.ibm.com, martin.petersen@oracle.com, hch@lst.de,
-        m.szyprowski@samsung.com, robin.murphy@arm.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-ide@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-scsi@vger.kernel.org, liyihang6@hisilicon.com,
-        chenxiang66@hisilicon.com, thunder.leizhen@huawei.com
-References: <1654507822-168026-1-git-send-email-john.garry@huawei.com>
- <1654507822-168026-4-git-send-email-john.garry@huawei.com>
- <fe365aa8-00d5-153d-ceb2-f887a71a6927@acm.org>
- <31417477-953d-283e-808e-cf8701e820a8@huawei.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <31417477-953d-283e-808e-cf8701e820a8@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <14754d16-75ae-cc92-cfc5-adce0628d9d9@schaufler-ca.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/8/22 10:50, John Garry wrote:
-> Please note that this limit only applies if we have an IOMMU enabled for 
-> the scsi host dma device. Otherwise we are limited by dma direct or 
-> swiotlb max mapping size, as before.
+On Wed, Jun 08, 2022 at 01:07:39PM -0700, Casey Schaufler wrote:
+> On 6/8/2022 12:01 PM, Deven Bowers wrote:
+> >block_device structures can have valuable security properties,
+> >based on how they are created, and what subsystem manages them.
+> >
+> >By adding LSM storage to this structure, this data can be accessed
+> >at the LSM layer.
+> >
+> >Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> 
+> Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
+> 
+> Not everyone is going to appreciate the infrastructure allocation
+> of the block_device security blob, but I do.
 
-SCSI host bus adapters that support 64-bit DMA may support much larger 
-transfer sizes than 128 KiB.
-
-Thanks,
-
-Bart.
+Thanks Casey.
 
