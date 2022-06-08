@@ -2,119 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9257C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 03:39:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC01CCA47B
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 03:46:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234455AbiFHDjZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Jun 2022 23:39:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44854 "EHLO
+        id S231552AbiFHDqF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Jun 2022 23:46:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232526AbiFHDil (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 23:38:41 -0400
-X-Greylist: delayed 29312 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 07 Jun 2022 17:50:58 PDT
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A987F22719B;
-        Tue,  7 Jun 2022 17:50:57 -0700 (PDT)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 2580nRkD001938;
-        Wed, 8 Jun 2022 09:49:28 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 2580nRkD001938
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1654649368;
-        bh=S/dDT9BasIRXgEc6RVl1cw8Lg+oN+87n3tvQW1y0y5s=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=pq13qCUBav9taDdoORZZRTDKLMDvrfYbTVf3hheu/c7GIcZWOp3FSECkf/nMzqOtz
-         Nss58zZNp5V9eVt51avZZzKZo+LW3w/t4aEPM1k/Nro3WbOZBbfBcxrr1Z76tGP1da
-         5cdvJbxeeus1daNCFmDT2g4qXbO0Ek9MBtkbLIeqsD78Its7iAq13+kWW3T35n2jxN
-         e/jyVp3foB1lXZIJkew7eKvyH84x/u185Truwq+E076MhLm3TfdMiwxqi8GtMXfXb7
-         WG7r40QZal3l9XN2q6g0CYH5OADQwhn3liydeQ62kxz4c9bHHel9zA8YsLJRWLd/DQ
-         0ZUp2ZfKsK9uA==
-X-Nifty-SrcIP: [209.85.214.178]
-Received: by mail-pl1-f178.google.com with SMTP id n18so16262995plg.5;
-        Tue, 07 Jun 2022 17:49:27 -0700 (PDT)
-X-Gm-Message-State: AOAM533lkkb5qxcGU36RjS5N6j8kxF6xd/7enOlLsoxT6oc/gbPR3gMZ
-        8I6I0Ej3bbsnLU9lYBHaueRcHhqhMnQ2wmdFAOE=
-X-Google-Smtp-Source: ABdhPJyvxrvxhpAQBt1oIWNmd41Y+hLLu9bqNzxLMKWVDzxCt4eJI55BWcV8rcD7rQENE/ud68TgbNZXHjIvxj0IsmI=
-X-Received: by 2002:a17:90b:3a87:b0:1e8:789d:c60 with SMTP id
- om7-20020a17090b3a8700b001e8789d0c60mr15749985pjb.77.1654649367064; Tue, 07
- Jun 2022 17:49:27 -0700 (PDT)
+        with ESMTP id S235299AbiFHDpX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Jun 2022 23:45:23 -0400
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 876F222C8B9
+        for <linux-doc@vger.kernel.org>; Tue,  7 Jun 2022 17:56:07 -0700 (PDT)
+Received: by mail-oi1-x230.google.com with SMTP id i66so26133757oia.11
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jun 2022 17:56:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wFH16JpjBRikHN1IAO48ehtoxfzCGCzN3oM9EiMa6X8=;
+        b=l4i+k+6Abr5HeudzU075zO0r/BLzbacv0V6STNZIEAEBluaeTcRvx1TChTOuxyCASs
+         uAUgVwmDgoEyG6k0dhZ8NFmw5OEbd2l74yvSxXxWA53CBaw9OoBV3iEq26EPYk4y+7IT
+         qKn9JDYz2OP806c9cvPpDahmxZAZDvrVhTSIayulr7dYNanhmDiOChse+RJNE6HykCsj
+         9xuaaLmPGA8/BJDWN8cpUzOPbGbAyNe0shOzPx2NRgDBxX7ug5Bu5rZe5CkKdYsGZDwp
+         RBwBbso17/gWhg2hEdQ9VBPL7L2J3NplhFzwna8YW9Inmvn2hE+jo34OGkRp4w12iAUj
+         sThA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wFH16JpjBRikHN1IAO48ehtoxfzCGCzN3oM9EiMa6X8=;
+        b=zFKnOlPz0Ku6fzneNCAZEF3Uii4nSqkhl9A+3rtlvgSvNe8U7L1lf7qRXJ9sfIgOf4
+         gZb4iNmEMb4WALIaKO6m9H5Z9OzIRXzjDkg7Uf1kveTO8G1p0DsdrzkLHDjrQphQKUdB
+         /x2hyI60AdwsVqrewxMmi1Gowq89I+UaBSPl9zXaJL91o+0qnD0MvOJNsXpVESmi11cX
+         ivi6Ss21LWkR9ZW9ZbTaoHoj8iveLOX7RkleaTWwJgkALbn1UgudwhZoD3tUdRpUmRht
+         4ANDnG+FFv85oCx+tYudf2mkeCCNLJnCY9/BEA3Cqzfa/IA7Jt2p+SPHHEXpGuvhCYkj
+         oBSg==
+X-Gm-Message-State: AOAM532qoDHx0ARLCXJxZ+q07RgNa2oyFgKCFdLY+njVmDDwdVMHJxLW
+        Lz19n4N5OSAJaYEQXjLXabXatPvCqSpJvweTzbSQuw==
+X-Google-Smtp-Source: ABdhPJwjBSZgp55zoUZOFIm3kjCTD4NqCF0p7muhSr/F2gMJemxqIIRloSiqM46aTGwoS/mB8l6y90gRDZltreZ8pZ8=
+X-Received: by 2002:a05:6808:bd3:b0:32e:400d:1eb1 with SMTP id
+ o19-20020a0568080bd300b0032e400d1eb1mr1047136oik.110.1654649757116; Tue, 07
+ Jun 2022 17:55:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220607164000.447941-1-masahiroy@kernel.org> <CAKwvOdk5ZrcSmQSPrFzreZ-z_Hpi4Lc-D-Y4NDuHPiUWpXdwzA@mail.gmail.com>
-In-Reply-To: <CAKwvOdk5ZrcSmQSPrFzreZ-z_Hpi4Lc-D-Y4NDuHPiUWpXdwzA@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 8 Jun 2022 09:48:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQKts5EQ0A-7w6sgcFXn59rRBgK3CB1As-oopO2P4P-Nw@mail.gmail.com>
-Message-ID: <CAK7LNAQKts5EQ0A-7w6sgcFXn59rRBgK3CB1As-oopO2P4P-Nw@mail.gmail.com>
-Subject: Re: [PATCH v2] scripts/check-local-export: avoid 'wait $!' for
- process substitution
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Wang Yugui <wangyugui@e16-tech.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com> <20220607065749.GA1513445@chaop.bj.intel.com>
+In-Reply-To: <20220607065749.GA1513445@chaop.bj.intel.com>
+From:   Marc Orr <marcorr@google.com>
+Date:   Tue, 7 Jun 2022 17:55:46 -0700
+Message-ID: <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
+Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Vishal Annapurve <vannapurve@google.com>,
+        kvm list <kvm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <llvm@lists.linux.dev>
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 8, 2022 at 2:24 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+On Tue, Jun 7, 2022 at 12:01 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
 >
-> On Tue, Jun 7, 2022 at 9:41 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> On Mon, Jun 06, 2022 at 01:09:50PM -0700, Vishal Annapurve wrote:
+> > >
+> > > Private memory map/unmap and conversion
+> > > ---------------------------------------
+> > > Userspace's map/unmap operations are done by fallocate() ioctl on the
+> > > backing store fd.
+> > >   - map: default fallocate() with mode=0.
+> > >   - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
+> > > The map/unmap will trigger above memfile_notifier_ops to let KVM map/unmap
+> > > secondary MMU page tables.
+> > >
+> > ....
+> > >    QEMU: https://github.com/chao-p/qemu/tree/privmem-v6
+> > >
+> > > An example QEMU command line for TDX test:
+> > > -object tdx-guest,id=tdx \
+> > > -object memory-backend-memfd-private,id=ram1,size=2G \
+> > > -machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
+> > >
 > >
-> > Bash>=4.4 supports 'wait $!' to check the exit status of a process
-> > substitution, but some people using older bash versions reported an
-> > error like this:
+> > There should be more discussion around double allocation scenarios
+> > when using the private fd approach. A malicious guest or buggy
+> > userspace VMM can cause physical memory getting allocated for both
+> > shared (memory accessible from host) and private fds backing the guest
+> > memory.
+> > Userspace VMM will need to unback the shared guest memory while
+> > handling the conversion from shared to private in order to prevent
+> > double allocation even with malicious guests or bugs in userspace VMM.
+>
+> I don't know how malicious guest can cause that. The initial design of
+> this serie is to put the private/shared memory into two different
+> address spaces and gives usersapce VMM the flexibility to convert
+> between the two. It can choose respect the guest conversion request or
+> not.
+
+For example, the guest could maliciously give a device driver a
+private page so that a host-side virtual device will blindly write the
+private page.
+
+> It's possible for a usrspace VMM to cause double allocation if it fails
+> to call the unback operation during the conversion, this may be a bug
+> or not. Double allocation may not be a wrong thing, even in conception.
+> At least TDX allows you to use half shared half private in guest, means
+> both shared/private can be effective. Unbacking the memory is just the
+> current QEMU implementation choice.
+
+Right. But the idea is that this patch series should accommodate all
+of the CVM architectures. Or at least that's what I know was
+envisioned last time we discussed this topic for SNP [*].
+
+Regardless, it's important to ensure that the VM respects its memory
+budget. For example, within Google, we run VMs inside of containers.
+So if we double allocate we're going to OOM. This seems acceptable for
+an early version of CVMs. But ultimately, I think we need a more
+robust way to ensure that the VM operates within its memory container.
+Otherwise, the OOM is going to be hard to diagnose and distinguish
+from a real OOM.
+
+[*] https://lore.kernel.org/all/20210820155918.7518-1-brijesh.singh@amd.com/
+
+>
+> Chao
 > >
-> > Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> > Reported-by: Michael Ellerman <mpe@ellerman.id.au>
-> > Reported-by: Wang Yugui <wangyugui@e16-tech.com>
-> > Tested-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> > Tested-by: Jon Hunter <jonathanh@nvidia.com>
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> Acked-by: Nick Desaulniers <ndesaulniers@google.com>
->
-> Some comments below.
->
-> > diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> > index 34415ae1af1b..19c286c23786 100644
-> > --- a/Documentation/process/changes.rst
-> > +++ b/Documentation/process/changes.rst
-> > @@ -32,6 +32,7 @@ you probably needn't concern yourself with pcmciautils.
-> >  GNU C                  5.1              gcc --version
-> >  Clang/LLVM (optional)  11.0.0           clang --version
-> >  GNU make               3.81             make --version
-> > +bash                   4.2              bash --version
->
-> /usr/bin/env bash
-> and definitely /bin/bash
-> both show up a lot in kernel sources. At this point, I think bash is a
-> requirement at this point, so it's good to document it finally.
->
-> > +# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
-> > +# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
-> > +# '2>/dev/null'. However, it suppresses real error messages as well. Add a
-> > +# hand-crafted error message here.
-> > +#
-> > +# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
-> > +# binutils to 2.37, llvm to 13.0.0.
->
-> Might be nice to include `TODO:` in the comment block. Vim will
-> highlight these in comments.
+> > Options to unback shared guest memory seem to be:
+> > 1) madvise(.., MADV_DONTNEED/MADV_REMOVE) - This option won't stop
+> > kernel from backing the shared memory on subsequent write accesses
+> > 2) fallocate(..., FALLOC_FL_PUNCH_HOLE...) - For file backed shared
+> > guest memory, this option still is similar to madvice since this would
+> > still allow shared memory to get backed on write accesses
+> > 3) munmap - This would give away the contiguous virtual memory region
+> > reservation with holes in the guest backing memory, which might make
+> > guest memory management difficult.
+> > 4) mprotect(... PROT_NONE) - This would keep the virtual memory
+> > address range backing the guest memory preserved
+> >
+> > ram_block_discard_range_fd from reference implementation:
+> > https://github.com/chao-p/qemu/tree/privmem-v6 seems to be relying on
+> > fallocate/madvise.
+> >
+> > Any thoughts/suggestions around better ways to unback the shared
+> > memory in order to avoid double allocation scenarios?
 
-
-OK. will do.
-
-Thanks.
-
-
--- 
-Best Regards
-Masahiro Yamada
+I agree with Vishal. I think this patch set is making great progress.
+But the double allocation scenario seems like a high-level design
+issue that warrants more discussion.
