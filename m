@@ -2,123 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5834C43334
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 19:06:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFCCCCCA47A
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 19:11:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235084AbiFHTGh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jun 2022 15:06:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34004 "EHLO
+        id S234740AbiFHTLX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jun 2022 15:11:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235600AbiFHTGY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jun 2022 15:06:24 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 222CE4AE0C;
-        Wed,  8 Jun 2022 12:03:49 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id a10so19873521ioe.9;
-        Wed, 08 Jun 2022 12:03:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=uHvO6lASenJXAwmtol028iE9jl3QIf1MGNf5sYAD2mI=;
-        b=mCzgaJ5RtUYhEB7TvHlxTBehiR1oOVyn5iAnL2NYhYfUTBEpRGyLQQIlfu/Pkjp41N
-         d+ToihCuCXnhN/EOcOn4VXOJd0D2nUFMx8b2ynE7wq8VLYDAbts2Fqlsypxa0BjUGTJI
-         OC2AzPMxMVPfXZVcC1kngUyf8XdkfJfMcx2BeyhsBP/8eVfjWejkDpY6R4G8wQjBo9C0
-         u6pGK9zoPI39Shrk2R7FLhiQDdA59H3KPEPk1ubgMoO9ml86fC98s5w5UNeXe96sMU7X
-         UA0kJzEDY0GdGSyTDxFv7l1QzrGPLcGEIgCeipt6Lnf/ExBnQ3zWOEWw1OJIuSicWkD7
-         0mzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=uHvO6lASenJXAwmtol028iE9jl3QIf1MGNf5sYAD2mI=;
-        b=MEn+LBr1yIYwU4SxjHSedzvsCJZMqypWwIzAe/w3PZek1yihDTKQP9ihyHnLnitiu8
-         3/5vdq5mOWYERVuD4oYSw1smH6abdUHDrxV3J3ntFqHsDWh06t4DBhYfHrbP7JuUl9Pd
-         /vybifgoI0l0Vgagn/q5JU6Y2RV2dh536nTkT+RRl+O0Au98nzyWq9hzWrsD8si4HRPQ
-         9g225nDTXZKgyib3jIyXn9fdQhwtlUUQMuS48QmJ4vgrdZdwc231BQLG4014cntgIzyM
-         NZMe48KnHTfu3I/ZRy5HS+Ti+7uK8cOCY2vpaF1Xe++LClU1a7yywM7BEWFKeOZbrcvn
-         8ncg==
-X-Gm-Message-State: AOAM533nfN21469GZHKywSMGt+Pe4+pZk6meJPpYxR/U+lewRMYn8hre
-        2J84Kha/yWeNjHd0LvM518Fyn/PNOrCbcNS6RSPzierx4OA=
-X-Google-Smtp-Source: ABdhPJyPfBPW81UGtdc6N58+KH5F9Ju0Yh1bhwA/dhd1CNQBi4oFOkgVajdsRbnFlopI7Jcb7mSItJulOzBqKQr6Sc0=
-X-Received: by 2002:a05:6638:2188:b0:331:cf8b:af23 with SMTP id
- s8-20020a056638218800b00331cf8baf23mr5436095jaj.80.1654715021475; Wed, 08 Jun
- 2022 12:03:41 -0700 (PDT)
+        with ESMTP id S234573AbiFHTLW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jun 2022 15:11:22 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C527A220DF;
+        Wed,  8 Jun 2022 12:11:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=tSrfX4aaJXde5l4IKGahGFWY72nscoUjDqvjLBBDf1A=; b=QAKfuIECPCAIteGXFj6p/10k2E
+        4GMVlqZIpYTE5XHMkaWFUjRL1gQ0tJsW2x8Ihw3LI65sb4ipePFJCB91Z62EpK7wRi3btv2DUVLGH
+        /QaGabmo3Mg/DixuxUEbE0xMvBhW6f18TNpNGdrRtBq2gyEHg+d7XisZKaifYZBYCEpVf3E3I61qU
+        djBt0m6j6DFg3YzZ7viL0qJ7QWLaJyy8NOBg1+QkrBHtRGdZjQXEHPQAxwfYR3tT4K2t4Hb1mwvbo
+        4hsYV9m6FwCbOTORYgvX+CV3s6Gq67NTVgLuj09eDeOXVohEB7HKit5/yflXtljo5HQk7BayZJ6L0
+        2OZeUpsA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nz150-00Ctkc-Jl; Wed, 08 Jun 2022 19:10:58 +0000
+Date:   Wed, 8 Jun 2022 20:10:58 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Deven Bowers <deven.desai@linux.microsoft.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v8 00/17] Integrity Policy Enforcement LSM (IPE)
+Message-ID: <YqD0QjNb+wfH+Kjq@casper.infradead.org>
+References: <1654714889-26728-1-git-send-email-deven.desai@linux.microsoft.com>
 MIME-Version: 1.0
-References: <20220607164000.447941-1-masahiroy@kernel.org> <CAKwvOdk5ZrcSmQSPrFzreZ-z_Hpi4Lc-D-Y4NDuHPiUWpXdwzA@mail.gmail.com>
-In-Reply-To: <CAKwvOdk5ZrcSmQSPrFzreZ-z_Hpi4Lc-D-Y4NDuHPiUWpXdwzA@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 8 Jun 2022 21:03:05 +0200
-Message-ID: <CA+icZUUZ0_92vDofYkgG3QzyuhC3wABwdT16ZPbH=92_0pGoRQ@mail.gmail.com>
-Subject: Re: [PATCH v2] scripts/check-local-export: avoid 'wait $!' for
- process substitution
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Wang Yugui <wangyugui@e16-tech.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1654714889-26728-1-git-send-email-deven.desai@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 7, 2022 at 8:42 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> On Tue, Jun 7, 2022 at 9:41 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > Bash>=4.4 supports 'wait $!' to check the exit status of a process
-> > substitution, but some people using older bash versions reported an
-> > error like this:
-> >
-> > Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> > Reported-by: Michael Ellerman <mpe@ellerman.id.au>
-> > Reported-by: Wang Yugui <wangyugui@e16-tech.com>
-> > Tested-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> > Tested-by: Jon Hunter <jonathanh@nvidia.com>
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> Acked-by: Nick Desaulniers <ndesaulniers@google.com>
->
+On Wed, Jun 08, 2022 at 12:01:12PM -0700, Deven Bowers wrote:
+> IPE is a Linux Security Module which takes a complimentary approach to
 
-Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM-14 (x86-64)
+Hello, IPE.  You're looking exceptionally attractive today.  Have you
+been working out?
 
--Sedat-
+(maybe you meant "complementary"?  ;-)
 
-> Some comments below.
->
-> > diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> > index 34415ae1af1b..19c286c23786 100644
-> > --- a/Documentation/process/changes.rst
-> > +++ b/Documentation/process/changes.rst
-> > @@ -32,6 +32,7 @@ you probably needn't concern yourself with pcmciautils.
-> >  GNU C                  5.1              gcc --version
-> >  Clang/LLVM (optional)  11.0.0           clang --version
-> >  GNU make               3.81             make --version
-> > +bash                   4.2              bash --version
->
-> /usr/bin/env bash
-> and definitely /bin/bash
-> both show up a lot in kernel sources. At this point, I think bash is a
-> requirement at this point, so it's good to document it finally.
->
-> > +# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
-> > +# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
-> > +# '2>/dev/null'. However, it suppresses real error messages as well. Add a
-> > +# hand-crafted error message here.
-> > +#
-> > +# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
-> > +# binutils to 2.37, llvm to 13.0.0.
->
-> Might be nice to include `TODO:` in the comment block. Vim will
-> highlight these in comments.
->
-> --
-> Thanks,
-> ~Nick Desaulniers
