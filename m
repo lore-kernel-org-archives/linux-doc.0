@@ -2,325 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88639CCA47E
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 11:08:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35843C43334
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 13:16:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237843AbiFHLIv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jun 2022 07:08:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54016 "EHLO
+        id S239923AbiFHNQA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jun 2022 09:16:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237980AbiFHLIb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jun 2022 07:08:31 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 44F8F203D21
-        for <linux-doc@vger.kernel.org>; Wed,  8 Jun 2022 04:08:26 -0700 (PDT)
-Received: from localhost.localdomain (unknown [223.64.16.213])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx308mg6BixnEtAA--.6094S3;
-        Wed, 08 Jun 2022 19:08:23 +0800 (CST)
-From:   Binbin Zhou <zhoubinbin@loongson.cn>
-To:     alexs@kernel.org, siyanteng@loongson.cn
-Cc:     corbet@lwn.net, chenhuacai@loongson.cn, bobwxc@email.cn,
-        linux-doc@vger.kernel.org, Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH V2 1/2] docs/zh_CN: riscv: Remove the translation of pmu.rst
-Date:   Wed,  8 Jun 2022 19:08:20 +0800
-Message-Id: <6fe45d69210300a6c065262470bce963f8dc0ec3.1654685338.git.zhoubinbin@loongson.cn>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1654685338.git.zhoubinbin@loongson.cn>
-References: <cover.1654685338.git.zhoubinbin@loongson.cn>
+        with ESMTP id S239852AbiFHNP6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jun 2022 09:15:58 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DDD6220C5;
+        Wed,  8 Jun 2022 06:15:57 -0700 (PDT)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 258CFwq2017941;
+        Wed, 8 Jun 2022 13:15:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=yxIq4JKxKZh9YG+pXpusvvjdP7ynYnDFZXORb16tXik=;
+ b=lIOhuNeYHniLCDjW9Tl9xLm4qL1QohBVqgdnbvDZ+4sKavNZXgA+1KUk47bR+qR5+pFb
+ Gnmg/HIT1xjqE814MDZSEgl7rY+iDMAgIgEAePjD/tvmETke/gZf67MwK/5yNHuz5FzB
+ XOQKznqYQJgjEDBnUe35kQlTS9BcbIPfF+7SX7j07+eW0XyP1egJLiBI1RpbqyhO5F7c
+ yCQT9Rz7GlheYZgISgm7WKMloatmfo3FhVeZk8gub5FwdzqfXqr/9r/P6bbaWgxCUQ4S
+ 1dGHnxOpkPHYvYlQSyuoWQ+ROM8MmMfVRYLYPpzW1AgFAMdrfCh859hDt8G0mXz/eueS VQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gjum699yd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 08 Jun 2022 13:15:52 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 258CGn13019849;
+        Wed, 8 Jun 2022 13:15:52 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gjum699y2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 08 Jun 2022 13:15:51 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+        by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 258D5Nrr006325;
+        Wed, 8 Jun 2022 13:15:51 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+        by ppma02dal.us.ibm.com with ESMTP id 3gfy1at693-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 08 Jun 2022 13:15:51 +0000
+Received: from b03ledav005.gho.boulder.ibm.com (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+        by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 258DFnZx32244096
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 8 Jun 2022 13:15:49 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B5539BE051;
+        Wed,  8 Jun 2022 13:15:49 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id AC503BE04F;
+        Wed,  8 Jun 2022 13:15:47 +0000 (GMT)
+Received: from [9.163.20.188] (unknown [9.163.20.188])
+        by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Wed,  8 Jun 2022 13:15:47 +0000 (GMT)
+Message-ID: <ac5cd90a-c92b-1bad-fbec-d1ca6287e826@linux.ibm.com>
+Date:   Wed, 8 Jun 2022 09:15:46 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v9 10/21] vfio/pci: introduce CONFIG_VFIO_PCI_ZDEV_KVM
+Content-Language: en-US
+To:     Thomas Huth <thuth@redhat.com>, linux-s390@vger.kernel.org
+Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
+        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
+        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
+        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
+        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, pasic@linux.ibm.com,
+        pbonzini@redhat.com, corbet@lwn.net, jgg@nvidia.com,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220606203325.110625-1-mjrosato@linux.ibm.com>
+ <20220606203325.110625-11-mjrosato@linux.ibm.com>
+ <025699e6-b870-2648-d4a4-ffbc5fff22e8@redhat.com>
+From:   Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <025699e6-b870-2648-d4a4-ffbc5fff22e8@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx308mg6BixnEtAA--.6094S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3tFW5Aw15uFy5KFW8Ww45Jrb_yoWkWw47pa
-        nI9ryfKa1UCryDX3sxKw17Zw1rJFyxCanIkF48ta4xXF1FvrWqyFWDt3WrAFy3Wa40yFyU
-        Ar1Y9rWrZw1YywUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUQa14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
-        x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-        Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
-        ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS
-        14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7
-        xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Y
-        z7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4
-        kS14v26r126r1DMxkIecxEwVAFwVW8KwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
-        bVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E74
-        80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0
-        I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04
-        k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7Cj
-        xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUU9N-UUUUU=
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: v-6SOwnMCNAsHTL-AduCL7y1U5-h_YeS
+X-Proofpoint-ORIG-GUID: 8HuHCNlCigvg6ddKUBqWfahKcMburMh-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-08_04,2022-06-07_02,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
+ mlxlogscore=999 spamscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
+ mlxscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206080056
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Synchronous translation from the following:
+On 6/8/22 2:19 AM, Thomas Huth wrote:
+> On 06/06/2022 22.33, Matthew Rosato wrote:
+>> The current contents of vfio-pci-zdev are today only useful in a KVM
+>> environment; let's tie everything currently under vfio-pci-zdev to
+>> this Kconfig statement and require KVM in this case, reducing complexity
+>> (e.g. symbol lookups).
+>>
+>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>> ---
+>>   drivers/vfio/pci/Kconfig      | 11 +++++++++++
+>>   drivers/vfio/pci/Makefile     |  2 +-
+>>   include/linux/vfio_pci_core.h |  2 +-
+>>   3 files changed, 13 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
+>> index 4da1914425e1..f9d0c908e738 100644
+>> --- a/drivers/vfio/pci/Kconfig
+>> +++ b/drivers/vfio/pci/Kconfig
+>> @@ -44,6 +44,17 @@ config VFIO_PCI_IGD
+>>         To enable Intel IGD assignment through vfio-pci, say Y.
+>>   endif
+>> +config VFIO_PCI_ZDEV_KVM
+>> +    bool "VFIO PCI extensions for s390x KVM passthrough"
+>> +    depends on S390 && KVM
+>> +    default y
+>> +    help
+>> +      Support s390x-specific extensions to enable support for 
+>> enhancements
+>> +      to KVM passthrough capabilities, such as interpretive execution of
+>> +      zPCI instructions.
+>> +
+>> +      To enable s390x KVM vfio-pci extensions, say Y.
+> 
+> Is it still possible to disable CONFIG_VFIO_PCI_ZDEV_KVM ? Looking at 
+> the later patches (e.g. 20/21 where you call kvm_s390_pci_zpci_op() from 
+> kvm-s390.c), it rather seems to me that it currently cannot be disabled 
+> independently (as long as KVM is enabled).
 
-[1]: commit 23b1f18326ec("Documentation: riscv:
-     Remove the old documentation")
+Yes, you can build with, for example, CONFIG_VFIO_PCI_ZDEV_KVM=n and 
+CONFIG_KVM=m -- I tested it again just now.  The result is kvm and 
+vfio-pci are built and vfio-pci works, but none of the vfio-pci-zdev 
+extensions are available (including zPCI interpretation).
 
-[2]: commit 8933e7f2e375 ("Documentation: riscv: remove
-     non-existent directory from table of contents")
+This is accomplished via the placement of some IS_ENABLED checks.  Some 
+calls (e.g. AEN init) are fenced by 
+IS_ENABLED(CONFIG_VFIO_PCI_ZDEV_KVM).  There are also some areas that 
+are fenced off via a call to kvm_s390_pci_interp_allowed() which also 
+includes an IS_ENABLED check along with checks for facility and cpu id.
 
-Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
----
- .../translations/zh_CN/riscv/index.rst        |   1 -
- .../translations/zh_CN/riscv/pmu.rst          | 235 ------------------
- 2 files changed, 236 deletions(-)
- delete mode 100644 Documentation/translations/zh_CN/riscv/pmu.rst
+Using patch 20 as an example, KVM_CAP_S390_ZPCI_OP will always be 
+reported as unavailable to userspace if CONFIG_VFIO_PCI_ZDEV_KVM=n due 
+to the call to kvm_s390_pci_interp_allowed().  If userspace sends us the 
+ioctl anyway, we will return -EINVAL because there is again a 
+IS_ENABLED(CONFIG_VFIO_PCI_ZDEV_KVM) check before we read the ioctl args 
+from userspace.
 
-diff --git a/Documentation/translations/zh_CN/riscv/index.rst b/Documentation/translations/zh_CN/riscv/index.rst
-index 614cde0c0997..131e405aa857 100644
---- a/Documentation/translations/zh_CN/riscv/index.rst
-+++ b/Documentation/translations/zh_CN/riscv/index.rst
-@@ -19,7 +19,6 @@ RISC-V 体系结构
- 
-     boot-image-header
-     vm-layout
--    pmu
-     patch-acceptance
- 
- 
-diff --git a/Documentation/translations/zh_CN/riscv/pmu.rst b/Documentation/translations/zh_CN/riscv/pmu.rst
-deleted file mode 100644
-index 7ec801026c4d..000000000000
---- a/Documentation/translations/zh_CN/riscv/pmu.rst
-+++ /dev/null
-@@ -1,235 +0,0 @@
--.. include:: ../disclaimer-zh_CN.rst
--
--:Original: Documentation/riscv/pmu.rst
--
--:翻译:
--
-- 司延腾 Yanteng Si <siyanteng@loongson.cn>
--
--.. _cn_riscv_pmu:
--
--========================
--RISC-V平台上对PMUs的支持
--========================
--
--Alan Kao <alankao@andestech.com>, Mar 2018
--
--简介
--------------
--
--截止本文撰写时，在The RISC-V ISA Privileged Version 1.10中提到的 perf_event
--相关特性如下:
--（详情请查阅手册）
--
--* [m|s]counteren
--* mcycle[h], cycle[h]
--* minstret[h], instret[h]
--* mhpeventx, mhpcounterx[h]
--
--仅有以上这些功能，移植perf需要做很多工作，究其原因是缺少以下通用架构的性能
--监测特性:
--
--* 启用/停用计数器
--  在我们这里，计数器一直在自由运行。
--* 计数器溢出引起的中断
--  规范中没有这种功能。
--* 中断指示器
--  不可能所有的计数器都有很多的中断端口，所以需要一个中断指示器让软件来判断
--  哪个计数器刚好溢出。
--* 写入计数器
--  由于内核不能修改计数器，所以会有一个SBI来支持这个功能[1]。 另外，一些厂商
--  考虑实现M-S-U型号机器的硬件扩展来直接写入计数器。
--
--这篇文档旨在为开发者提供一个在内核中支持PMU的简要指南。下面的章节简要解释了
--perf' 机制和待办事项。
--
--你可以在这里查看以前的讨论[1][2]。 另外，查看附录中的相关内核结构体可能会有
--帮助。
--
--
--1. 初始化
-----------
--
--*riscv_pmu* 是一个类型为 *struct riscv_pmu* 的全局指针，它包含了根据perf内部
--约定的各种方法和PMU-specific参数。人们应该声明这样的实例来代表PMU。 默认情况
--下， *riscv_pmu* 指向一个常量结构体 *riscv_base_pmu* ，它对基准QEMU模型有非常
--基础的支持。
--
--
--然后他/她可以将实例的指针分配给 *riscv_pmu* ，这样就可以利用已经实现的最小逻
--辑，或者创建他/她自己的 *riscv_init_platform_pmu* 实现。
--
--换句话说，现有的 *riscv_base_pmu* 源只是提供了一个参考实现。 开发者可以灵活地
--决定多少部分可用，在最极端的情况下，他们可以根据自己的需要定制每一个函数。
--
--
--2. Event Initialization
-------------------------
--
--当用户启动perf命令来监控一些事件时，首先会被用户空间的perf工具解释为多个
--*perf_event_open* 系统调用，然后进一步调用上一步分配的 *event_init* 成员函数
--的主体。 在 *riscv_base_pmu* 的情况下，就是 *riscv_event_init* 。
--
--该功能的主要目的是将用户提供的事件翻译成映射图，从而可以直接对HW-related的控
--制寄存器或计数器进行操作。该翻译基于 *riscv_pmu* 中提供的映射和方法。
--
--注意，有些功能也可以在这个阶段完成:
--
--(1) 中断设置，这个在下一节说；
--(2) 特限级设置(仅用户空间、仅内核空间、两者都有)；
--(3) 析构函数设置。 通常应用 *riscv_destroy_event* 即可；
--(4) 对非采样事件的调整，这将被函数应用，如 *perf_adjust_period* ，通常如下::
--
--      if (!is_sampling_event(event)) {
--              hwc->sample_period = x86_pmu.max_period;
--              hwc->last_period = hwc->sample_period;
--              local64_set(&hwc->period_left, hwc->sample_period);
--      }
--
--
--在 *riscv_base_pmu* 的情况下，目前只提供了（3）。
--
--
--3. 中断
---------
--
--3.1. 中断初始化
--
--这种情况经常出现在 *event_init* 方案的开头。通常情况下，这应该是一个代码段，如::
--
--  int x86_reserve_hardware(void)
--  {
--        int err = 0;
--
--        if (!atomic_inc_not_zero(&pmc_refcount)) {
--                mutex_lock(&pmc_reserve_mutex);
--                if (atomic_read(&pmc_refcount) == 0) {
--                        if (!reserve_pmc_hardware())
--                                err = -EBUSY;
--                        else
--                                reserve_ds_buffers();
--                }
--                if (!err)
--                        atomic_inc(&pmc_refcount);
--                mutex_unlock(&pmc_reserve_mutex);
--        }
--
--        return err;
--  }
--
--而神奇的是 *reserve_pmc_hardware* ，它通常做原子操作，使实现的IRQ可以从某个全局函
--数指针访问。 而 *release_pmc_hardware* 的作用正好相反，它用在上一节提到的事件分配
--器中。
--
-- (注：从所有架构的实现来看，*reserve/release* 对总是IRQ设置，所以 *pmc_hardware*
-- 似乎有些误导。 它并不处理事件和物理计数器之间的绑定，这一点将在下一节介绍。)
--
--3.2. IRQ结构体
--
--基本上，一个IRQ运行以下伪代码::
--
--  for each hardware counter that triggered this overflow
--
--      get the event of this counter
--
--      // following two steps are defined as *read()*,
--      // check the section Reading/Writing Counters for details.
--      count the delta value since previous interrupt
--      update the event->count (# event occurs) by adding delta, and
--                 event->hw.period_left by subtracting delta
--
--      if the event overflows
--          sample data
--          set the counter appropriately for the next overflow
--
--          if the event overflows again
--              too frequently, throttle this event
--          fi
--      fi
--
--  end for
--
-- 然而截至目前，没有一个RISC-V的实现为perf设计了中断，所以具体的实现要在未来完成。
--
--4. Reading/Writing 计数
-------------------------
--
--它们看似差不多，但perf对待它们的态度却截然不同。 对于读，在 *struct pmu* 中有一个
--*read* 接口，但它的作用不仅仅是读。 根据上下文，*read* 函数不仅要读取计数器的内容
--（event->count），还要更新左周期到下一个中断（event->hw.period_left）。
--
-- 但 perf 的核心不需要直接写计数器。 写计数器隐藏在以下两点的抽象化之后，
-- 1） *pmu->start* ，从字面上看就是开始计数，所以必须把计数器设置成一个合适的值，以
-- 便下一次中断；
-- 2）在IRQ里面，应该把计数器设置成同样的合理值。
--
--在RISC-V中，读操作不是问题，但写操作就需要费些力气了，因为S模式不允许写计数器。
--
--
--5. add()/del()/start()/stop()
-------------------------------
--
--基本思想: add()/del() 向PMU添加/删除事件，start()/stop() 启动/停止PMU中某个事件
--的计数器。 所有这些函数都使用相同的参数: *struct perf_event *event* 和 *int flag* 。
--
--把 perf 看作一个状态机，那么你会发现这些函数作为这些状态之间的状态转换过程。
--定义了三种状态（event->hw.state）:
--
--* PERF_HES_STOPPED:	计数停止
--* PERF_HES_UPTODATE:	event->count是最新的
--* PERF_HES_ARCH:	依赖于体系结构的用法，。。。我们现在并不需要它。
--
--这些状态转换的正常流程如下:
--
--* 用户启动一个 perf 事件，导致调用 *event_init* 。
--* 当被上下文切换进来的时候，*add* 会被 perf core 调用，并带有一个标志 PERF_EF_START，
--  也就是说事件被添加后应该被启动。 在这个阶段，如果有的话，一般事件会被绑定到一个物
--  理计数器上。当状态变为PERF_HES_STOPPED和PERF_HES_UPTODATE，因为现在已经停止了,
--  （软件）事件计数不需要更新。
--
--  - 然后调用 *start* ，并启用计数器。
--    通过PERF_EF_RELOAD标志，它向计数器写入一个适当的值（详细情况请参考上一节）。
--    如果标志不包含PERF_EF_RELOAD，则不会写入任何内容。
--    现在状态被重置为none，因为它既没有停止也没有更新（计数已经开始）。
--
--*当被上下文切换出来时被调用。 然后，它检查出PMU中的所有事件，并调用 *stop* 来更新它们
-- 的计数。
--
--  - *stop* 被 *del* 和perf核心调用，标志为PERF_EF_UPDATE，它经常以相同的逻辑和 *read*
--    共用同一个子程序。
--    状态又一次变为PERF_HES_STOPPED和PERF_HES_UPTODATE。
--
--  - 这两对程序的生命周期: *add* 和 *del* 在任务切换时被反复调用；*start* 和 *stop* 在
--    perf核心需要快速停止和启动时也会被调用，比如在调整中断周期时。
--
--目前的实现已经足够了，将来可以很容易地扩展到功能。
--
--A. 相关结构体
---------------
--
--* struct pmu: include/linux/perf_event.h
--* struct riscv_pmu: arch/riscv/include/asm/perf_event.h
--
--  两个结构体都被设计为只读。
--
--  *struct pmu* 定义了一些函数指针接口，它们大多以 *struct perf_event* 作为主参数，根据
--  perf的内部状态机处理perf事件（详情请查看kernel/events/core.c）。
--
--  *struct riscv_pmu* 定义了PMU的具体参数。 命名遵循所有其它架构的惯例。
--
--* struct perf_event: include/linux/perf_event.h
--* struct hw_perf_event
--
--  表示 perf 事件的通用结构体，以及硬件相关的细节。
--
--* struct riscv_hw_events: arch/riscv/include/asm/perf_event.h
--
--  保存事件状态的结构有两个固定成员。
--  事件的数量和事件的数组。
--
--参考文献
----------
--
--[1] https://github.com/riscv/riscv-linux/pull/124
--
--[2] https://groups.google.com/a/groups.riscv.org/forum/#!topic/sw-dev/f19TmCNP6yA
--- 
-2.20.1
+> 
+> So if you want to make this selectable by the user, I think you have to 
+> put some more #ifdefs in the following patches.
+> But if this was not meant to be selectable by the user, I think it 
+> should not get a help text and rather be selected by the KVM switch in 
+> arch/s390/kvm/Kconfig instead of having a "default y".
+> 
+>   Thomas
+> 
 
