@@ -2,187 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32570C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 07:54:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D6CC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 07:59:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229830AbiFHHyp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jun 2022 03:54:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52742 "EHLO
+        id S231339AbiFHH7Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jun 2022 03:59:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231773AbiFHHxU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jun 2022 03:53:20 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8635A172C2C;
-        Wed,  8 Jun 2022 00:20:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654672808; x=1686208808;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=3jv/RyK9DbMhOKnM8Ce8pjAzbywbOBUBVW2NRehb/8E=;
-  b=ITRAX9uugWnKQEIxGgklzxbN+oRR6qxhfvIdTdlmwihQPfI7EDExHhju
-   VA1joIvndQHSVuVv0iC3WUoq1Sye+LS5v5cqMsYzt403kKcqUmuuKG+bt
-   +x4Rh4O3igoBXF1G1Uzz0Fei8P+VOaa4ZaV8k9zKx62A0FVpHSk85ubNB
-   hH8i+lUIXKcUMDZALiy1bMGbz6VGZkoG4Z/73UVEbBdOJzZ0YPKefbLwe
-   eDj+BXohdUmSOJ0n4f0go5m2YmEUteWZwEM2zDcDMt2MQgh/U4uZ61PPp
-   Pa/ID0L/K+lB308QOVZb5dgPcg3TE8Yy/Fl1aHtqt1yGagoZgrJ8UOQzd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="275571383"
-X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; 
-   d="scan'208";a="275571383"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2022 00:19:46 -0700
-X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; 
-   d="scan'208";a="907515497"
-Received: from jking17-mobl.ger.corp.intel.com (HELO [10.213.193.156]) ([10.213.193.156])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2022 00:19:42 -0700
-Message-ID: <4346fb7b-f2c0-367a-0f65-8938bb8c4f40@linux.intel.com>
-Date:   Wed, 8 Jun 2022 08:19:41 +0100
+        with ESMTP id S232952AbiFHH6E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jun 2022 03:58:04 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E76B1E2269;
+        Wed,  8 Jun 2022 00:27:14 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.56])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LHzKy3CJYzYsQl;
+        Wed,  8 Jun 2022 15:26:14 +0800 (CST)
+Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 8 Jun 2022 15:27:12 +0800
+Received: from [10.174.178.120] (10.174.178.120) by
+ dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 8 Jun 2022 15:27:10 +0800
+Message-ID: <29900b05-ec44-76a2-645a-22a13399d7fd@huawei.com>
+Date:   Wed, 8 Jun 2022 15:27:09 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v2 2/2] drm/msm: Expose client engine utilization via
- fdinfo
-Content-Language: en-US
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Rob Clark <robdclark@chromium.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Sean Paul <sean@poorly.run>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20220606195432.1888346-1-robdclark@gmail.com>
- <20220606195432.1888346-2-robdclark@gmail.com>
- <8559b6f0-0322-9232-7000-534087e786fe@linux.intel.com>
- <CAF6AEGv0heF1fj0W3XALtQwZBE0yJTszXisg2CQR+-hFOmHSng@mail.gmail.com>
- <CAF6AEGvMNhoMTV+z0svbeX2bLusp-Yed7p9Z6KYa__0ckvg2LQ@mail.gmail.com>
-From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <CAF6AEGvMNhoMTV+z0svbeX2bLusp-Yed7p9Z6KYa__0ckvg2LQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v3 5/6] mm: Add mirror flag back on initrd memory
+To:     <ardb@kernel.org>, <david@redhat.com>
+CC:     <corbet@lwn.net>, <will@kernel.org>, <catalin.marinas@arm.com>,
+        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+        <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+        <dvhart@infradead.org>, <andy@infradead.org>, <rppt@kernel.org>,
+        <akpm@linux-foundation.org>, <paul.walmsley@sifive.com>,
+        <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
+        <paulmck@kernel.org>, <keescook@chromium.org>,
+        <songmuchun@bytedance.com>, <rdunlap@infradead.org>,
+        <damien.lemoal@opensource.wdc.com>, <swboyd@chromium.org>,
+        <wei.liu@kernel.org>, <robin.murphy@arm.com>,
+        <anshuman.khandual@arm.com>, <thunder.leizhen@huawei.com>,
+        <wangkefeng.wang@huawei.com>, <gpiccoli@igalia.com>,
+        <chenhuacai@kernel.org>, <geert@linux-m68k.org>,
+        <chenzhou10@huawei.com>, <vijayb@linux.microsoft.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-efi@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
+        <mawupeng1@huawei.com>
+References: <20220607093805.1354256-1-mawupeng1@huawei.com>
+ <20220607093805.1354256-6-mawupeng1@huawei.com>
+ <99900b31-2605-2c85-a1b7-9ef2666b58da@redhat.com>
+ <CAMj1kXGkzjq3koW_sgO4uzrdtwqSqzsJfT5ABYyvodf+ggXT2w@mail.gmail.com>
+From:   mawupeng <mawupeng1@huawei.com>
+In-Reply-To: <CAMj1kXGkzjq3koW_sgO4uzrdtwqSqzsJfT5ABYyvodf+ggXT2w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.120]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500014.china.huawei.com (7.185.36.153)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-On 07/06/2022 17:08, Rob Clark wrote:
-> On Tue, Jun 7, 2022 at 9:02 AM Rob Clark <robdclark@gmail.com> wrote:
+
+在 2022/6/7 22:49, Ard Biesheuvel 写道:
+> On Tue, 7 Jun 2022 at 14:22, David Hildenbrand <david@redhat.com> wrote:
 >>
->> On Tue, Jun 7, 2022 at 1:56 AM Tvrtko Ursulin
->> <tvrtko.ursulin@linux.intel.com> wrote:
+>> On 07.06.22 11:38, Wupeng Ma wrote:
+>>> From: Ma Wupeng <mawupeng1@huawei.com>
 >>>
+>>> Initrd memory will be removed and then added in arm64_memblock_init() and this
+>>> will cause it to lose all of its memblock flags. The lost of MEMBLOCK_MIRROR
+>>> flag will lead to error log printed by find_zone_movable_pfns_for_nodes if
+>>> the lower 4G range has some non-mirrored memory.
 >>>
->>> On 06/06/2022 20:54, Rob Clark wrote:
->>>> From: Rob Clark <robdclark@chromium.org>
->>>>
->>>> Similar to AMD commit
->>>> 874442541133 ("drm/amdgpu: Add show_fdinfo() interface"), using the
->>>> infrastructure added in previous patches, we add basic client info
->>>> and GPU engine utilisation for msm.
->>>>
->>>> Example output:
->>>>
->>>>        # cat /proc/`pgrep glmark2`/fdinfo/6
->>>>        pos:    0
->>>>        flags:  02400002
->>>>        mnt_id: 21
->>>>        ino:    162
->>>>        drm-driver:     msm
->>>>        drm-client-id:  7
->>>>        drm-engine-gpu: 1734371319 ns
->>>>        drm-cycles-gpu: 1153645024
->>>>        drm-maxfreq-gpu:        800000000 Hz
->>>>
->>>> See also: https://patchwork.freedesktop.org/patch/468505/
->>>>
->>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
->>>> ---
->>>>    Documentation/gpu/drm-usage-stats.rst | 21 +++++++++++++++++++++
->>>>    drivers/gpu/drm/msm/msm_drv.c         | 19 ++++++++++++++++++-
->>>>    drivers/gpu/drm/msm/msm_gpu.c         | 21 +++++++++++++++++++--
->>>>    drivers/gpu/drm/msm/msm_gpu.h         | 19 +++++++++++++++++++
->>>>    4 files changed, 77 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
->>>> index 6c9f166a8d6f..60e5cc9c13ad 100644
->>>> --- a/Documentation/gpu/drm-usage-stats.rst
->>>> +++ b/Documentation/gpu/drm-usage-stats.rst
->>>> @@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
->>>>    Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
->>>>    indicating kibi- or mebi-bytes.
->>>>
->>>> +- drm-cycles-<str> <uint>
->>>> +
->>>> +Engine identifier string must be the same as the one specified in the
->>>> +drm-engine-<str> tag and shall contain the number of busy cycles for the given
->>>> +engine.
->>>> +
->>>> +Values are not required to be constantly monotonic if it makes the driver
->>>> +implementation easier, but are required to catch up with the previously reported
->>>> +larger value within a reasonable period. Upon observing a value lower than what
->>>> +was previously read, userspace is expected to stay with that larger previous
->>>> +value until a monotonic update is seen.
->>>> +
->>>> +- drm-maxfreq-<str> <uint> [Hz|MHz|KHz]
->>>> +
->>>> +Engine identifier string must be the same as the one specified in the
->>>> +drm-engine-<str> tag and shall contain the maxium frequence for the given
+>>> In order to solve this problem, the lost MEMBLOCK_MIRROR flag will be
+>>> reinstalled if the origin memblock has this flag.
 >>>
->>> maximum frequency
+>>> Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
+>>> ---
+>>>   arch/arm64/mm/init.c     |  9 +++++++++
+>>>   include/linux/memblock.h |  1 +
+>>>   mm/memblock.c            | 20 ++++++++++++++++++++
+>>>   3 files changed, 30 insertions(+)
 >>>
->>>> +engine.  Taken together with drm-cycles-<str>, this can be used to calculate
->>>> +percentage utilization of the engine, whereas drm-engine-<str> only refects
->>>
->>> reflects
->>>
->>>> +time active without considering what frequency the engine is operating as a
->>>> +percentage of it's maximum frequency.
->>>
->>> Cycles vs max freq sounds very useful. My reservations is that how come
->>> the idea hasn't happened in the CPU world. Or maybe it has and I am
->>> un-informed?
+>>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+>>> index 339ee84e5a61..11641f924d08 100644
+>>> --- a/arch/arm64/mm/init.c
+>>> +++ b/arch/arm64/mm/init.c
+>>> @@ -350,9 +350,18 @@ void __init arm64_memblock_init(void)
+>>>                        "initrd not fully accessible via the linear mapping -- please check your bootloader ...\n")) {
+>>>                        phys_initrd_size = 0;
+>>>                } else {
+>>> +                     int flags, ret;
+>>> +
+>>> +                     ret = memblock_get_flags(base, &flags);
+>>> +                     if (ret)
+>>> +                             flags = 0;
+>>> +
+>>>                        memblock_remove(base, size); /* clear MEMBLOCK_ flags */
+>>>                        memblock_add(base, size);
+>>>                        memblock_reserve(base, size);
 >>
->> I do often pay attention to both where tasks get scheduled, and the
->> individual CPU freq when I'm profiling CPU side stuff (eg. in
->> perfetto)
+>> Can you explain why we're removing+re-adding here exactly? Is it just to
+>> clear flags as the comment indicates?
 >>
->> I could also report "always-count" cycles, I think, which could be
->> used by gputop to derive freq.  I'd have to think about that a bit,
->> since keeping the result monotinic(ish) might be a bit tricky (the hw
->> counter loses state across runtime suspend)
->>
->>> In any case, if going with this I think we need to clarify the text that
->>> the value should reflect the current soft limit, where the driver
->>> supports that, in case it has been set to lower than the maximum
->>> frequency hardware can support. I am thinking about avoiding "my gpu
->>> cannot hit 100%" support incidents in cases when user/admin lowered the
->>> soft limit for some reason. Possibly does not apply to msm but can apply
->>> to i915, if we decided to export the same data.
->>
->> Yes, with pm-qos thermal or userspace could limit the max freq.. but
->> we also internally use a pm-qos constraint to reduce freq when the GPU
->> is idle, and I don't think there is a good way to differentiate
->> *which* constraint is which.  I'll add something involving the word
->> "recommended" ;-)
 > 
-> Hmm, or on second thought, maybe it would be better to, for drivers
-> that can, just report the soft limit separately?
+> This should only happen if the placement of the initrd conflicts with
+> a mem= command line parameter or it is not covered by memblock for
+> some other reason.
+> 
+> IOW, this should never happen, and if re-memblock_add'ing this memory
+> unconditionally is causing problems, we should fix that instead of
+> working around it.
 
-Yes. I realized later soft-limit does not work, anything reported here 
-has to be invariant otherwise userspace cannot make sense of the 
-accumulated cycles vs changing freq. Max freq, as long as it is truly 
-max, as you were proposing, works I think.
+This will happen if we use initrdmem=3G,100M to reserve initrd memory below
+the 4G limit to test this scenario(just for testing, I have trouble to boot
+qemu with initrd enabled and memory below 4G are all mirror memory).
 
-Regards,
+Re-memblock_add'ing this memory unconditionally seems fine but clear all
+flags(especially MEMBLOCK_MIRROR) may lead to some error log.
 
-Tvrtko
+> 
+>> If it's really just about clearing flags, I wonder if we rather want to
+>> have an interface that does exactly that, and hides the way this is
+>> actually implemented (obtain flags, remove, re-add ...), internally.
+>>
+>> But most probably there is more magic in the code and clearing flags
+>> isn't all it ends up doing.
+>>
+> 
+> I don't remember exactly why we needed to clear the flags, but I think
+> it had to do with some corner case we hit when the initrd was
+> partially covered.
+If "mem=" is set in command line, memblock_mem_limit_remove_map() will
+remove all memory block without MEMBLOCK_NOMAP. Maybe this will bring the
+memory back if this initrd mem has the MEMBLOCK_NOMAP flag?
+
+The rfc version [1] introduce and use memblock_clear_nomap() to clear the
+MEMBLOCK_NOMAP of this initrd memblock.
+So maybe the usage of memblock_remove() is just to avoid introducing new
+function(memblock_clear_nomap)?
+
+Since commit 4c546b8a3469 ("memblock: add memblock_clear_nomap()") already
+introduced memblock_clear_nomap(). Can we use this to remove flag MEMBLOCK_NOMAP
+to solve this problem rather than bring flag MEMBLOCK_MIRROR back?
+
+[1] https://lore.kernel.org/linux-arm-kernel/20160202180622.GP10166@arm.com/T/#t
+> .
