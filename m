@@ -2,190 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9745EC43334
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 04:51:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24578C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 04:54:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231621AbiFHEvO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jun 2022 00:51:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51708 "EHLO
+        id S229946AbiFHEyv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jun 2022 00:54:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232388AbiFHEuA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jun 2022 00:50:00 -0400
-Received: from conuserg-12.nifty.com (conuserg-12.nifty.com [210.131.2.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB33B128C02;
-        Tue,  7 Jun 2022 18:14:27 -0700 (PDT)
-Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 2581BA8I031282;
-        Wed, 8 Jun 2022 10:11:11 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 2581BA8I031282
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1654650671;
-        bh=FJ3d90hFDqNnz9JEYs7jnADjBvnY8aZMKAyphj9j8FQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=yjghWcWwYRMxitZyUL2cfl8eITvmxadWxCDw0SbMcpKz2MyXGgJ+ly1TSPq/ZOREo
-         15X7U57MtiIJ+iw69dnAG2fAVfXzNOtbxwf/6fsGjoLa/8F5vr95LcwUQLlvI5+OoY
-         fPcdFnEwctsFeXpUQ6wup9+sWM7YqSYTye0Zj7BP8MsqCJS5CQR8+XNgPWbJqBhnJN
-         dFLjZewr5F69CjZd7dvtgN1BNxa6sh8+ntRjJnhWohhJ7gEz66HKzCSyEXX5kzNaH/
-         74n+TtbTuy6Fnxp9SSGg/pv+cO68yI3uwqcxTojgsCEUQTIe+L22RaS4ERoNLgZ74p
-         ckqlw5FGFWH3g==
-X-Nifty-SrcIP: [133.32.177.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Wang Yugui <wangyugui@e16-tech.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: [PATCH v3] scripts/check-local-export: avoid 'wait $!' for process substitution
-Date:   Wed,  8 Jun 2022 10:11:00 +0900
-Message-Id: <20220608011100.486735-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.32.0
+        with ESMTP id S233445AbiFHEyM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jun 2022 00:54:12 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6665E26C0D9;
+        Tue,  7 Jun 2022 18:26:37 -0700 (PDT)
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.55])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4LHqJv1XQ4z1KH3V;
+        Wed,  8 Jun 2022 09:24:47 +0800 (CST)
+Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 8 Jun 2022 09:26:35 +0800
+Received: from [10.174.178.120] (10.174.178.120) by
+ dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 8 Jun 2022 09:26:33 +0800
+Message-ID: <a820f287-e879-6183-a917-6a577b6160ab@huawei.com>
+Date:   Wed, 8 Jun 2022 09:26:33 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+From:   mawupeng <mawupeng1@huawei.com>
+Subject: Re: [PATCH v3 4/6] mm: Demote warning message in vmemmap_verify() to
+ debug level
+To:     <david@redhat.com>, <corbet@lwn.net>, <will@kernel.org>,
+        <ardb@kernel.org>, <catalin.marinas@arm.com>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+        <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+        <dvhart@infradead.org>, <andy@infradead.org>, <rppt@kernel.org>,
+        <akpm@linux-foundation.org>, <paul.walmsley@sifive.com>,
+        <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
+        <paulmck@kernel.org>, <keescook@chromium.org>,
+        <songmuchun@bytedance.com>, <rdunlap@infradead.org>,
+        <damien.lemoal@opensource.wdc.com>, <swboyd@chromium.org>,
+        <wei.liu@kernel.org>, <robin.murphy@arm.com>,
+        <anshuman.khandual@arm.com>, <thunder.leizhen@huawei.com>,
+        <wangkefeng.wang@huawei.com>, <gpiccoli@igalia.com>,
+        <chenhuacai@kernel.org>, <geert@linux-m68k.org>,
+        <vijayb@linux.microsoft.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-efi@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
+        <mawupeng1@huawei.com>
+References: <20220607093805.1354256-1-mawupeng1@huawei.com>
+ <20220607093805.1354256-5-mawupeng1@huawei.com>
+ <b1975f44-2552-a03c-bb6f-1452f1fd99c0@redhat.com>
+In-Reply-To: <b1975f44-2552-a03c-bb6f-1452f1fd99c0@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.120]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500014.china.huawei.com (7.185.36.153)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bash 4.4, released in 2016, supports 'wait $!' to check the exit status
-of a process substitution, but it seems too new.
 
-Some people using older bash versions (on CentOS 7, Ubuntu 16.04, etc.)
-reported an error like this:
 
-  ./scripts/check-local-export: line 54: wait: pid 17328 is not a child of this shell
+在 2022/6/7 20:25, David Hildenbrand 写道:
+> On 07.06.22 11:38, Wupeng Ma wrote:
+>> From: Ma Wupeng <mawupeng1@huawei.com>
+>>
+>> For a system only have limited mirrored memory or some numa node without
+>> mirrored memory, the per node vmemmap page_structs prefer to allocate
+>> memory from mirrored region, which will lead to vmemmap_verify() in
+>> vmemmap_populate_basepages() report lots of warning message.
+>>
+>> This patch demote the "potential offnode page_structs" warning messages
+>> to debug level to avoid a very long print during bootup.
+>>
+>> Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
+>> ---
+>>   mm/sparse-vmemmap.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+>> index f4fa61dbbee3..78debdb89eb1 100644
+>> --- a/mm/sparse-vmemmap.c
+>> +++ b/mm/sparse-vmemmap.c
+>> @@ -528,7 +528,7 @@ void __meminit vmemmap_verify(pte_t *pte, int node,
+>>   	int actual_node = early_pfn_to_nid(pfn);
+>>   
+>>   	if (node_distance(actual_node, node) > LOCAL_DISTANCE)
+>> -		pr_warn("[%lx-%lx] potential offnode page_structs\n",
+>> +		pr_debug("[%lx-%lx] potential offnode page_structs\n",
+>>   			start, end - 1);
+>>   }
+>>   
+> 
+> This will possibly hide it in environments where this might indeed
+> indicate performance issues.
+> 
+> What about a pr_warn_once()?
+> 
 
-I used the process substitution to avoid a pipeline, which executes each
-command in a subshell. If the while-loop is executed in the subshell
-context, variable changes within are lost after the subshell terminates.
+Sure.
 
-Fortunately, Bash 4.2, released in 2011, supports the 'lastpipe' option,
-which runs the last element of a pipeline in the current shell process.
-
-Also, set 'pipefail' to catch errors from ${NM}.
-
-Add the bash requirement to Documentation/process/changes.rst.
-
-Fixes: 31cb50b5590f ("kbuild: check static EXPORT_SYMBOL* by script instead of modpost")
-Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Reported-by: Michael Ellerman <mpe@ellerman.id.au>
-Reported-by: Wang Yugui <wangyugui@e16-tech.com>
-Tested-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
-Changes in v3:
-  - Add "TODO:" to the comment block (Nick)
-
-Changes in v2:
-  - Add bash to Documentation/process/changes.rst
-
- Documentation/process/changes.rst | 12 +++++++++++
- scripts/check-local-export        | 36 ++++++++++++++++++-------------
- 2 files changed, 33 insertions(+), 15 deletions(-)
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 34415ae1af1b..19c286c23786 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -32,6 +32,7 @@ you probably needn't concern yourself with pcmciautils.
- GNU C                  5.1              gcc --version
- Clang/LLVM (optional)  11.0.0           clang --version
- GNU make               3.81             make --version
-+bash                   4.2              bash --version
- binutils               2.23             ld -v
- flex                   2.5.35           flex --version
- bison                  2.0              bison --version
-@@ -84,6 +85,12 @@ Make
- 
- You will need GNU make 3.81 or later to build the kernel.
- 
-+Bash
-+----
-+
-+Some bash scripts are used for the kernel build.
-+Bash 4.2 or newer is needed.
-+
- Binutils
- --------
- 
-@@ -362,6 +369,11 @@ Make
- 
- - <ftp://ftp.gnu.org/gnu/make/>
- 
-+Bash
-+----
-+
-+- <ftp://ftp.gnu.org/gnu/bash/>
-+
- Binutils
- --------
- 
-diff --git a/scripts/check-local-export b/scripts/check-local-export
-index da745e2743b7..6ccc2f467416 100755
---- a/scripts/check-local-export
-+++ b/scripts/check-local-export
-@@ -8,11 +8,31 @@
- 
- set -e
- 
-+# catch errors from ${NM}
-+set -o pipefail
-+
-+# Run the last element of a pipeline in the current shell.
-+# Without this, the while-loop would be executed in a subshell, and
-+# the changes made to 'symbol_types' and 'export_symbols' would be lost.
-+shopt -s lastpipe
-+
- declare -A symbol_types
- declare -a export_symbols
- 
- exit_code=0
- 
-+# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm) shows
-+# 'no symbols' diagnostic (but exits with 0). It is harmless and hidden by
-+# '2>/dev/null'. However, it suppresses real error messages as well. Add a
-+# hand-crafted error message here.
-+#
-+# TODO:
-+# Use --quiet instead of 2>/dev/null when we upgrade the minimum version of
-+# binutils to 2.37, llvm to 13.0.0.
-+# Then, the following line will be really simple:
-+#   ${NM} --quiet ${1} |
-+
-+{ ${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } } |
- while read value type name
- do
- 	# Skip the line if the number of fields is less than 3.
-@@ -37,21 +57,7 @@ do
- 	if [[ ${name} == __ksymtab_* ]]; then
- 		export_symbols+=(${name#__ksymtab_})
- 	fi
--
--	# If there is no symbol in the object, ${NM} (both GNU nm and llvm-nm)
--	# shows 'no symbols' diagnostic (but exits with 0). It is harmless and
--	# hidden by '2>/dev/null'. However, it suppresses real error messages
--	# as well. Add a hand-crafted error message here.
--	#
--	# Use --quiet instead of 2>/dev/null when we upgrade the minimum version
--	# of binutils to 2.37, llvm to 13.0.0.
--	#
--	# Then, the following line will be really simple:
--	#   done < <(${NM} --quiet ${1})
--done < <(${NM} ${1} 2>/dev/null || { echo "${0}: ${NM} failed" >&2; false; } )
--
--# Catch error in the process substitution
--wait $!
-+done
- 
- for name in "${export_symbols[@]}"
- do
--- 
-2.32.0
-
+This will works. We can certainly use a pr_warn_once().
