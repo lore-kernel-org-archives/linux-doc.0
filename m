@@ -2,420 +2,598 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF1EBC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 18:55:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C58F1CCA47A
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 19:01:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232850AbiFHSz2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jun 2022 14:55:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51366 "EHLO
+        id S233672AbiFHTBr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jun 2022 15:01:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232700AbiFHSzW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jun 2022 14:55:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A5FCFFE622
-        for <linux-doc@vger.kernel.org>; Wed,  8 Jun 2022 11:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1654714518;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=abRjllu/MyfASe6azFb9CaVijW10O/mJJvktDxulCkE=;
-        b=XRy2QjVGEgtChXee3woB6+KSG90OGf4Xlvia8fjqbf61clZfBMRRigpv16r0coaBlZN0/r
-        yBYOzjZL1wKwdB9KIsbIqAsusGk3YyV/JAlQcSO+Ij8LEJ4svhEf1oMrY4dCnOjODykDoZ
-        4OoTgUU1pHHfdk0V4jMcVUWZa4YfHFM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-536-h8pmmRqRO52jdrOsUdygNA-1; Wed, 08 Jun 2022 14:55:15 -0400
-X-MC-Unique: h8pmmRqRO52jdrOsUdygNA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9C0B32999B56;
-        Wed,  8 Jun 2022 18:55:14 +0000 (UTC)
-Received: from [172.30.41.16] (unknown [10.22.35.67])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8CCD21415102;
-        Wed,  8 Jun 2022 18:55:13 +0000 (UTC)
-Subject: [PATCH] vfio: de-extern-ify function prototypes
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     alex.williamson@redhat.com
-Cc:     kwankhede@nvidia.com, farman@linux.ibm.com, mjrosato@linux.ibm.com,
-        pasic@linux.ibm.com, diana.craciun@oss.nxp.com, cohuck@redhat.com,
-        eric.auger@redhat.com, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, jgg@nvidia.com, yishaih@nvidia.com,
-        hch@lst.de
-Date:   Wed, 08 Jun 2022 12:55:13 -0600
-Message-ID: <165471414407.203056.474032786990662279.stgit@omen>
-User-Agent: StGit/1.5.dev2+g9ce680a52bd9
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+        with ESMTP id S229496AbiFHTBp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jun 2022 15:01:45 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 30D8714009;
+        Wed,  8 Jun 2022 12:01:44 -0700 (PDT)
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+        by linux.microsoft.com (Postfix) with ESMTPSA id DAA5620BE667;
+        Wed,  8 Jun 2022 12:01:43 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DAA5620BE667
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1654714903;
+        bh=1SiiYimQcqYRBp1qt8JULwbnP1Gb1rebprFnuMnL+V4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=IH62JZdmU7Q943+JIx4WoNXPBzoXhpUvPyP0gd441zvbM5nXsBFXmc7Xa2qiN2c+7
+         yPZHd7ArSjRwCRPxkhlq7JM7hwqpe0YweKbaQsQRlNdIFGrP70jOjZ3ubgIS0hqs3I
+         Bet06BpeXlaXNWdyjLDGYsgTM4naiYc6O3ZPG8ZE=
+From:   Deven Bowers <deven.desai@linux.microsoft.com>
+To:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, paul@paul-moore.com
+Cc:     linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH v8 01/17] security: add ipe lsm & initial context creation
+Date:   Wed,  8 Jun 2022 12:01:13 -0700
+Message-Id: <1654714889-26728-2-git-send-email-deven.desai@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1654714889-26728-1-git-send-email-deven.desai@linux.microsoft.com>
+References: <1654714889-26728-1-git-send-email-deven.desai@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The use of 'extern' in function prototypes has been disrecommended in
-the kernel coding style for several years now, remove them from all vfio
-related files so contributors no longer need to decide between style and
-consistency.
+Integrity Policy Enforcement (IPE) is an LSM that provides an
+complimentary approach to Mandatory Access Control than existing LSMs
+today.
 
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+Existing LSMs have centered around the concept of access to a resource
+should be controlled by the current user's credentials. IPE's approach,
+is that access to a resource should be controlled by the system's trust
+of a current resource.
+
+The basis of this approach is that every process in the kernel is
+associated with a context that determines the policy for what is
+trusted by said process and its descendents, starting with 'init'.
+
+Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
 ---
+v2:
+  + Split evaluation loop, access control hooks,
+    and evaluation loop from policy parser and userspace
+    interface to pass mailing list character limit
 
-A patch in the same vein was proposed about a year ago, but tied to an ill
-fated series and forgotten.  Now that we're at the beginning of a new
-development cycle, I'd like to propose kicking off the v5.20 vfio next
-branch with this patch and would kindly ask anyone with pending respins or
-significant conflicts to rebase on top of this patch.  Thanks!
+v3:
+  + Move ipe_load_properties to patch 04.
+  + Remove useless 0-initializations
+  + Prefix extern variables with ipe_
+  + Remove kernel module parameters, as these are
+    exposed through sysctls.
+  + Add more prose to the IPE base config option
+    help text.
+  + Use GFP_KERNEL for audit_log_start.
+  + Remove unnecessary caching system.
+  + Remove comments from headers
+  + Use rcu_access_pointer for rcu-pointer null check
+  + Remove usage of reqprot; use prot only.
+  + Move policy load and activation audit event to 03/12
 
- Documentation/driver-api/vfio-mediated-device.rst |   10 ++-
- drivers/s390/cio/vfio_ccw_cp.h                    |   12 ++--
- drivers/s390/cio/vfio_ccw_private.h               |    6 +-
- drivers/vfio/fsl-mc/vfio_fsl_mc_private.h         |    2 -
- drivers/vfio/platform/vfio_platform_private.h     |   21 +++---
- include/linux/vfio.h                              |   70 ++++++++++-----------
- include/linux/vfio_pci_core.h                     |   65 ++++++++++----------
- 7 files changed, 91 insertions(+), 95 deletions(-)
+v4:
+  + Remove sysctls in favor of securityfs nodes
+  + Re-add kernel module parameters, as these are now
+    exposed through securityfs.
+  + Refactor property audit loop to a separate function.
 
-diff --git a/Documentation/driver-api/vfio-mediated-device.rst b/Documentation/driver-api/vfio-mediated-device.rst
-index eded8719180f..1c57815619fd 100644
---- a/Documentation/driver-api/vfio-mediated-device.rst
-+++ b/Documentation/driver-api/vfio-mediated-device.rst
-@@ -114,11 +114,11 @@ to register and unregister itself with the core driver:
- 
- * Register::
- 
--    extern int  mdev_register_driver(struct mdev_driver *drv);
-+    int mdev_register_driver(struct mdev_driver *drv);
- 
- * Unregister::
- 
--    extern void mdev_unregister_driver(struct mdev_driver *drv);
-+    void mdev_unregister_driver(struct mdev_driver *drv);
- 
- The mediated bus driver's probe function should create a vfio_device on top of
- the mdev_device and connect it to an appropriate implementation of
-@@ -127,8 +127,8 @@ vfio_device_ops.
- When a driver wants to add the GUID creation sysfs to an existing device it has
- probe'd to then it should call::
- 
--	extern int  mdev_register_device(struct device *dev,
--	                                 struct mdev_driver *mdev_driver);
-+    int mdev_register_device(struct device *dev,
-+                             struct mdev_driver *mdev_driver);
- 
- This will provide the 'mdev_supported_types/XX/create' files which can then be
- used to trigger the creation of a mdev_device. The created mdev_device will be
-@@ -136,7 +136,7 @@ attached to the specified driver.
- 
- When the driver needs to remove itself it calls::
- 
--	extern void mdev_unregister_device(struct device *dev);
-+    void mdev_unregister_device(struct device *dev);
- 
- Which will unbind and destroy all the created mdevs and remove the sysfs files.
- 
-diff --git a/drivers/s390/cio/vfio_ccw_cp.h b/drivers/s390/cio/vfio_ccw_cp.h
-index e4c436199b4c..3194d887e08e 100644
---- a/drivers/s390/cio/vfio_ccw_cp.h
-+++ b/drivers/s390/cio/vfio_ccw_cp.h
-@@ -41,11 +41,11 @@ struct channel_program {
- 	struct ccw1 *guest_cp;
- };
- 
--extern int cp_init(struct channel_program *cp, union orb *orb);
--extern void cp_free(struct channel_program *cp);
--extern int cp_prefetch(struct channel_program *cp);
--extern union orb *cp_get_orb(struct channel_program *cp, u32 intparm, u8 lpm);
--extern void cp_update_scsw(struct channel_program *cp, union scsw *scsw);
--extern bool cp_iova_pinned(struct channel_program *cp, u64 iova);
-+int cp_init(struct channel_program *cp, union orb *orb);
-+void cp_free(struct channel_program *cp);
-+int cp_prefetch(struct channel_program *cp);
-+union orb *cp_get_orb(struct channel_program *cp, u32 intparm, u8 lpm);
-+void cp_update_scsw(struct channel_program *cp, union scsw *scsw);
-+bool cp_iova_pinned(struct channel_program *cp, u64 iova);
- 
- #endif
-diff --git a/drivers/s390/cio/vfio_ccw_private.h b/drivers/s390/cio/vfio_ccw_private.h
-index 7272eb788612..b7163bac8cc7 100644
---- a/drivers/s390/cio/vfio_ccw_private.h
-+++ b/drivers/s390/cio/vfio_ccw_private.h
-@@ -119,10 +119,10 @@ struct vfio_ccw_private {
- 	struct work_struct	crw_work;
- } __aligned(8);
- 
--extern int vfio_ccw_mdev_reg(struct subchannel *sch);
--extern void vfio_ccw_mdev_unreg(struct subchannel *sch);
-+int vfio_ccw_mdev_reg(struct subchannel *sch);
-+void vfio_ccw_mdev_unreg(struct subchannel *sch);
- 
--extern int vfio_ccw_sch_quiesce(struct subchannel *sch);
-+int vfio_ccw_sch_quiesce(struct subchannel *sch);
- 
- extern struct mdev_driver vfio_ccw_mdev_driver;
- 
-diff --git a/drivers/vfio/fsl-mc/vfio_fsl_mc_private.h b/drivers/vfio/fsl-mc/vfio_fsl_mc_private.h
-index 4ad63ececb91..7a29f572f93d 100644
---- a/drivers/vfio/fsl-mc/vfio_fsl_mc_private.h
-+++ b/drivers/vfio/fsl-mc/vfio_fsl_mc_private.h
-@@ -39,7 +39,7 @@ struct vfio_fsl_mc_device {
- 	struct vfio_fsl_mc_irq      *mc_irqs;
- };
- 
--extern int vfio_fsl_mc_set_irqs_ioctl(struct vfio_fsl_mc_device *vdev,
-+int vfio_fsl_mc_set_irqs_ioctl(struct vfio_fsl_mc_device *vdev,
- 			       u32 flags, unsigned int index,
- 			       unsigned int start, unsigned int count,
- 			       void *data);
-diff --git a/drivers/vfio/platform/vfio_platform_private.h b/drivers/vfio/platform/vfio_platform_private.h
-index 520d2a8e8375..691b43f4b2b2 100644
---- a/drivers/vfio/platform/vfio_platform_private.h
-+++ b/drivers/vfio/platform/vfio_platform_private.h
-@@ -78,21 +78,20 @@ struct vfio_platform_reset_node {
- 	vfio_platform_reset_fn_t of_reset;
- };
- 
--extern int vfio_platform_probe_common(struct vfio_platform_device *vdev,
--				      struct device *dev);
-+int vfio_platform_probe_common(struct vfio_platform_device *vdev,
-+			       struct device *dev);
- void vfio_platform_remove_common(struct vfio_platform_device *vdev);
- 
--extern int vfio_platform_irq_init(struct vfio_platform_device *vdev);
--extern void vfio_platform_irq_cleanup(struct vfio_platform_device *vdev);
-+int vfio_platform_irq_init(struct vfio_platform_device *vdev);
-+void vfio_platform_irq_cleanup(struct vfio_platform_device *vdev);
- 
--extern int vfio_platform_set_irqs_ioctl(struct vfio_platform_device *vdev,
--					uint32_t flags, unsigned index,
--					unsigned start, unsigned count,
--					void *data);
-+int vfio_platform_set_irqs_ioctl(struct vfio_platform_device *vdev,
-+				 uint32_t flags, unsigned index,
-+				 unsigned start, unsigned count, void *data);
- 
--extern void __vfio_platform_register_reset(struct vfio_platform_reset_node *n);
--extern void vfio_platform_unregister_reset(const char *compat,
--					   vfio_platform_reset_fn_t fn);
-+void __vfio_platform_register_reset(struct vfio_platform_reset_node *n);
-+void vfio_platform_unregister_reset(const char *compat,
-+				    vfio_platform_reset_fn_t fn);
- #define vfio_platform_register_reset(__compat, __reset)		\
- static struct vfio_platform_reset_node __reset ## _node = {	\
- 	.owner = THIS_MODULE,					\
-diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-index aa888cc51757..49580fa2073a 100644
---- a/include/linux/vfio.h
-+++ b/include/linux/vfio.h
-@@ -140,19 +140,19 @@ int vfio_mig_get_next_state(struct vfio_device *device,
- /*
-  * External user API
-  */
--extern struct iommu_group *vfio_file_iommu_group(struct file *file);
--extern bool vfio_file_enforced_coherent(struct file *file);
--extern void vfio_file_set_kvm(struct file *file, struct kvm *kvm);
--extern bool vfio_file_has_dev(struct file *file, struct vfio_device *device);
-+struct iommu_group *vfio_file_iommu_group(struct file *file);
-+bool vfio_file_enforced_coherent(struct file *file);
-+void vfio_file_set_kvm(struct file *file, struct kvm *kvm);
-+bool vfio_file_has_dev(struct file *file, struct vfio_device *device);
- 
- #define VFIO_PIN_PAGES_MAX_ENTRIES	(PAGE_SIZE/sizeof(unsigned long))
- 
--extern int vfio_pin_pages(struct vfio_device *device, unsigned long *user_pfn,
--			  int npage, int prot, unsigned long *phys_pfn);
--extern int vfio_unpin_pages(struct vfio_device *device, unsigned long *user_pfn,
--			    int npage);
--extern int vfio_dma_rw(struct vfio_device *device, dma_addr_t user_iova,
--		       void *data, size_t len, bool write);
-+int vfio_pin_pages(struct vfio_device *device, unsigned long *user_pfn,
-+		   int npage, int prot, unsigned long *phys_pfn);
-+int vfio_unpin_pages(struct vfio_device *device, unsigned long *user_pfn,
-+		     int npage);
-+int vfio_dma_rw(struct vfio_device *device, dma_addr_t user_iova,
-+		void *data, size_t len, bool write);
- 
- /* each type has independent events */
- enum vfio_notify_type {
-@@ -162,13 +162,13 @@ enum vfio_notify_type {
- /* events for VFIO_IOMMU_NOTIFY */
- #define VFIO_IOMMU_NOTIFY_DMA_UNMAP	BIT(0)
- 
--extern int vfio_register_notifier(struct vfio_device *device,
--				  enum vfio_notify_type type,
--				  unsigned long *required_events,
--				  struct notifier_block *nb);
--extern int vfio_unregister_notifier(struct vfio_device *device,
--				    enum vfio_notify_type type,
--				    struct notifier_block *nb);
-+int vfio_register_notifier(struct vfio_device *device,
-+			   enum vfio_notify_type type,
-+			   unsigned long *required_events,
-+			   struct notifier_block *nb);
-+int vfio_unregister_notifier(struct vfio_device *device,
-+			     enum vfio_notify_type type,
-+			     struct notifier_block *nb);
- 
- 
- /*
-@@ -178,25 +178,24 @@ struct vfio_info_cap {
- 	struct vfio_info_cap_header *buf;
- 	size_t size;
- };
--extern struct vfio_info_cap_header *vfio_info_cap_add(
--		struct vfio_info_cap *caps, size_t size, u16 id, u16 version);
--extern void vfio_info_cap_shift(struct vfio_info_cap *caps, size_t offset);
-+struct vfio_info_cap_header *vfio_info_cap_add(struct vfio_info_cap *caps,
-+					       size_t size, u16 id,
-+					       u16 version);
-+void vfio_info_cap_shift(struct vfio_info_cap *caps, size_t offset);
- 
--extern int vfio_info_add_capability(struct vfio_info_cap *caps,
--				    struct vfio_info_cap_header *cap,
--				    size_t size);
-+int vfio_info_add_capability(struct vfio_info_cap *caps,
-+			     struct vfio_info_cap_header *cap, size_t size);
- 
--extern int vfio_set_irqs_validate_and_prepare(struct vfio_irq_set *hdr,
--					      int num_irqs, int max_irq_type,
--					      size_t *data_size);
-+int vfio_set_irqs_validate_and_prepare(struct vfio_irq_set *hdr,
-+				       int num_irqs, int max_irq_type,
-+				       size_t *data_size);
- 
- struct pci_dev;
- #if IS_ENABLED(CONFIG_VFIO_SPAPR_EEH)
--extern void vfio_spapr_pci_eeh_open(struct pci_dev *pdev);
--extern void vfio_spapr_pci_eeh_release(struct pci_dev *pdev);
--extern long vfio_spapr_iommu_eeh_ioctl(struct iommu_group *group,
--				       unsigned int cmd,
--				       unsigned long arg);
-+void vfio_spapr_pci_eeh_open(struct pci_dev *pdev);
-+void vfio_spapr_pci_eeh_release(struct pci_dev *pdev);
-+long vfio_spapr_iommu_eeh_ioctl(struct iommu_group *group, unsigned int cmd,
-+				unsigned long arg);
- #else
- static inline void vfio_spapr_pci_eeh_open(struct pci_dev *pdev)
- {
-@@ -230,10 +229,9 @@ struct virqfd {
- 	struct virqfd		**pvirqfd;
- };
- 
--extern int vfio_virqfd_enable(void *opaque,
--			      int (*handler)(void *, void *),
--			      void (*thread)(void *, void *),
--			      void *data, struct virqfd **pvirqfd, int fd);
--extern void vfio_virqfd_disable(struct virqfd **pvirqfd);
-+int vfio_virqfd_enable(void *opaque, int (*handler)(void *, void *),
-+		       void (*thread)(void *, void *), void *data,
-+		       struct virqfd **pvirqfd, int fd);
-+void vfio_virqfd_disable(struct virqfd **pvirqfd);
- 
- #endif /* VFIO_H */
-diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
-index 23c176d4b073..22de2bce6394 100644
---- a/include/linux/vfio_pci_core.h
-+++ b/include/linux/vfio_pci_core.h
-@@ -147,23 +147,23 @@ struct vfio_pci_core_device {
- #define is_irq_none(vdev) (!(is_intx(vdev) || is_msi(vdev) || is_msix(vdev)))
- #define irq_is(vdev, type) (vdev->irq_type == type)
- 
--extern void vfio_pci_intx_mask(struct vfio_pci_core_device *vdev);
--extern void vfio_pci_intx_unmask(struct vfio_pci_core_device *vdev);
-+void vfio_pci_intx_mask(struct vfio_pci_core_device *vdev);
-+void vfio_pci_intx_unmask(struct vfio_pci_core_device *vdev);
- 
--extern int vfio_pci_set_irqs_ioctl(struct vfio_pci_core_device *vdev,
--				   uint32_t flags, unsigned index,
--				   unsigned start, unsigned count, void *data);
-+int vfio_pci_set_irqs_ioctl(struct vfio_pci_core_device *vdev,
-+			    uint32_t flags, unsigned index,
-+			    unsigned start, unsigned count, void *data);
- 
--extern ssize_t vfio_pci_config_rw(struct vfio_pci_core_device *vdev,
--				  char __user *buf, size_t count,
--				  loff_t *ppos, bool iswrite);
-+ssize_t vfio_pci_config_rw(struct vfio_pci_core_device *vdev,
-+			   char __user *buf, size_t count,
-+			   loff_t *ppos, bool iswrite);
- 
--extern ssize_t vfio_pci_bar_rw(struct vfio_pci_core_device *vdev, char __user *buf,
--			       size_t count, loff_t *ppos, bool iswrite);
-+ssize_t vfio_pci_bar_rw(struct vfio_pci_core_device *vdev, char __user *buf,
-+			size_t count, loff_t *ppos, bool iswrite);
- 
- #ifdef CONFIG_VFIO_PCI_VGA
--extern ssize_t vfio_pci_vga_rw(struct vfio_pci_core_device *vdev, char __user *buf,
--			       size_t count, loff_t *ppos, bool iswrite);
-+ssize_t vfio_pci_vga_rw(struct vfio_pci_core_device *vdev, char __user *buf,
-+			size_t count, loff_t *ppos, bool iswrite);
- #else
- static inline ssize_t vfio_pci_vga_rw(struct vfio_pci_core_device *vdev,
- 				      char __user *buf, size_t count,
-@@ -173,32 +173,31 @@ static inline ssize_t vfio_pci_vga_rw(struct vfio_pci_core_device *vdev,
- }
- #endif
- 
--extern long vfio_pci_ioeventfd(struct vfio_pci_core_device *vdev, loff_t offset,
--			       uint64_t data, int count, int fd);
-+long vfio_pci_ioeventfd(struct vfio_pci_core_device *vdev, loff_t offset,
-+			uint64_t data, int count, int fd);
- 
--extern int vfio_pci_init_perm_bits(void);
--extern void vfio_pci_uninit_perm_bits(void);
-+int vfio_pci_init_perm_bits(void);
-+void vfio_pci_uninit_perm_bits(void);
- 
--extern int vfio_config_init(struct vfio_pci_core_device *vdev);
--extern void vfio_config_free(struct vfio_pci_core_device *vdev);
-+int vfio_config_init(struct vfio_pci_core_device *vdev);
-+void vfio_config_free(struct vfio_pci_core_device *vdev);
- 
--extern int vfio_pci_register_dev_region(struct vfio_pci_core_device *vdev,
--					unsigned int type, unsigned int subtype,
--					const struct vfio_pci_regops *ops,
--					size_t size, u32 flags, void *data);
-+int vfio_pci_register_dev_region(struct vfio_pci_core_device *vdev,
-+				 unsigned int type, unsigned int subtype,
-+				 const struct vfio_pci_regops *ops,
-+				 size_t size, u32 flags, void *data);
- 
--extern int vfio_pci_set_power_state(struct vfio_pci_core_device *vdev,
--				    pci_power_t state);
-+int vfio_pci_set_power_state(struct vfio_pci_core_device *vdev,
-+			     pci_power_t state);
- 
--extern bool __vfio_pci_memory_enabled(struct vfio_pci_core_device *vdev);
--extern void vfio_pci_zap_and_down_write_memory_lock(struct vfio_pci_core_device
--						    *vdev);
--extern u16 vfio_pci_memory_lock_and_enable(struct vfio_pci_core_device *vdev);
--extern void vfio_pci_memory_unlock_and_restore(struct vfio_pci_core_device *vdev,
--					       u16 cmd);
-+bool __vfio_pci_memory_enabled(struct vfio_pci_core_device *vdev);
-+void vfio_pci_zap_and_down_write_memory_lock(struct vfio_pci_core_device *vdev);
-+u16 vfio_pci_memory_lock_and_enable(struct vfio_pci_core_device *vdev);
-+void vfio_pci_memory_unlock_and_restore(struct vfio_pci_core_device *vdev,
-+					u16 cmd);
- 
- #ifdef CONFIG_VFIO_PCI_IGD
--extern int vfio_pci_igd_init(struct vfio_pci_core_device *vdev);
-+int vfio_pci_igd_init(struct vfio_pci_core_device *vdev);
- #else
- static inline int vfio_pci_igd_init(struct vfio_pci_core_device *vdev)
- {
-@@ -207,8 +206,8 @@ static inline int vfio_pci_igd_init(struct vfio_pci_core_device *vdev)
- #endif
- 
- #ifdef CONFIG_S390
--extern int vfio_pci_info_zdev_add_caps(struct vfio_pci_core_device *vdev,
--				       struct vfio_info_cap *caps);
-+int vfio_pci_info_zdev_add_caps(struct vfio_pci_core_device *vdev,
-+				struct vfio_info_cap *caps);
- #else
- static inline int vfio_pci_info_zdev_add_caps(struct vfio_pci_core_device *vdev,
- 					      struct vfio_info_cap *caps)
+v5:
+  + fix minor grammatical errors
+  + do not group rule by curly-brace in audit record,
+    reconstruct the exact rule.
 
+v6:
+  + No changes
+
+v7:
+  + Further split lsm creation into a separate commit from the
+    evaluation loop and audit system, for easier review.
+
+  + Introduce the concept of an ipe_context, a scoped way to
+    introduce execution policies, used initially for allowing for
+    kunit tests in isolation.
+
+v8:
+  + Follow lsmname_hook_name convention for lsm hooks.
+  + Move LSM blob accessors to ipe.c and mark LSM blobs as static.
+---
+ MAINTAINERS           |   6 ++
+ security/Kconfig      |  11 ++--
+ security/Makefile     |   1 +
+ security/ipe/Kconfig  |  17 +++++
+ security/ipe/Makefile |  11 ++++
+ security/ipe/ctx.c    | 145 ++++++++++++++++++++++++++++++++++++++++++
+ security/ipe/ctx.h    |  28 ++++++++
+ security/ipe/hooks.c  |  54 ++++++++++++++++
+ security/ipe/hooks.h  |  16 +++++
+ security/ipe/ipe.c    |  73 +++++++++++++++++++++
+ security/ipe/ipe.h    |  17 +++++
+ 11 files changed, 374 insertions(+), 5 deletions(-)
+ create mode 100644 security/ipe/Kconfig
+ create mode 100644 security/ipe/Makefile
+ create mode 100644 security/ipe/ctx.c
+ create mode 100644 security/ipe/ctx.h
+ create mode 100644 security/ipe/hooks.c
+ create mode 100644 security/ipe/hooks.h
+ create mode 100644 security/ipe/ipe.c
+ create mode 100644 security/ipe/ipe.h
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a6d3bd9d2a8d..965fdac6d609 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9793,6 +9793,12 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git
+ F:	security/integrity/ima/
+ F:	security/integrity/
+ 
++INTEGRITY POLICY ENFORCEMENT (IPE)
++M:	Deven Bowers <deven.desai@linux.microsoft.com>
++M:	Fan Wu <wufan@linux.microsoft.com>
++S:	Supported
++F:	security/ipe/
++
+ INTEL 810/815 FRAMEBUFFER DRIVER
+ M:	Antonino Daplas <adaplas@gmail.com>
+ L:	linux-fbdev@vger.kernel.org
+diff --git a/security/Kconfig b/security/Kconfig
+index f29e4c656983..7d4c641313ca 100644
+--- a/security/Kconfig
++++ b/security/Kconfig
+@@ -218,6 +218,7 @@ source "security/yama/Kconfig"
+ source "security/safesetid/Kconfig"
+ source "security/lockdown/Kconfig"
+ source "security/landlock/Kconfig"
++source "security/ipe/Kconfig"
+ 
+ source "security/integrity/Kconfig"
+ 
+@@ -257,11 +258,11 @@ endchoice
+ 
+ config LSM
+ 	string "Ordered list of enabled LSMs"
+-	default "landlock,lockdown,yama,loadpin,safesetid,integrity,smack,selinux,tomoyo,apparmor,bpf" if DEFAULT_SECURITY_SMACK
+-	default "landlock,lockdown,yama,loadpin,safesetid,integrity,apparmor,selinux,smack,tomoyo,bpf" if DEFAULT_SECURITY_APPARMOR
+-	default "landlock,lockdown,yama,loadpin,safesetid,integrity,tomoyo,bpf" if DEFAULT_SECURITY_TOMOYO
+-	default "landlock,lockdown,yama,loadpin,safesetid,integrity,bpf" if DEFAULT_SECURITY_DAC
+-	default "landlock,lockdown,yama,loadpin,safesetid,integrity,selinux,smack,tomoyo,apparmor,bpf"
++	default "landlock,lockdown,yama,loadpin,safesetid,integrity,smack,selinux,tomoyo,apparmor,bpf,ipe" if DEFAULT_SECURITY_SMACK
++	default "landlock,lockdown,yama,loadpin,safesetid,integrity,apparmor,selinux,smack,tomoyo,bpf,ipe" if DEFAULT_SECURITY_APPARMOR
++	default "landlock,lockdown,yama,loadpin,safesetid,integrity,tomoyo,bpf,ipe" if DEFAULT_SECURITY_TOMOYO
++	default "landlock,lockdown,yama,loadpin,safesetid,integrity,bpf,ipe" if DEFAULT_SECURITY_DAC
++	default "landlock,lockdown,yama,loadpin,safesetid,integrity,selinux,smack,tomoyo,apparmor,bpf,ipe"
+ 	help
+ 	  A comma-separated list of LSMs, in initialization order.
+ 	  Any LSMs left off this list will be ignored. This can be
+diff --git a/security/Makefile b/security/Makefile
+index 18121f8f85cd..527b1864d96c 100644
+--- a/security/Makefile
++++ b/security/Makefile
+@@ -24,6 +24,7 @@ obj-$(CONFIG_SECURITY_LOCKDOWN_LSM)	+= lockdown/
+ obj-$(CONFIG_CGROUPS)			+= device_cgroup.o
+ obj-$(CONFIG_BPF_LSM)			+= bpf/
+ obj-$(CONFIG_SECURITY_LANDLOCK)		+= landlock/
++obj-$(CONFIG_SECURITY_IPE)		+= ipe/
+ 
+ # Object integrity file lists
+ obj-$(CONFIG_INTEGRITY)			+= integrity/
+diff --git a/security/ipe/Kconfig b/security/ipe/Kconfig
+new file mode 100644
+index 000000000000..e4875fb04883
+--- /dev/null
++++ b/security/ipe/Kconfig
+@@ -0,0 +1,17 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# Integrity Policy Enforcement (IPE) configuration
++#
++
++menuconfig SECURITY_IPE
++	bool "Integrity Policy Enforcement (IPE)"
++	depends on SECURITY && SECURITYFS
++	select PKCS7_MESSAGE_PARSER
++	select SYSTEM_DATA_VERIFICATION
++	help
++	  This option enables the Integrity Policy Enforcement LSM
++	  allowing users to define a policy to enforce a trust-based access
++	  control. A key feature of IPE is a customizable policy to allow
++	  admins to reconfigure trust requirements on the fly.
++
++	  If unsure, answer N.
+diff --git a/security/ipe/Makefile b/security/ipe/Makefile
+new file mode 100644
+index 000000000000..ba3df729e252
+--- /dev/null
++++ b/security/ipe/Makefile
+@@ -0,0 +1,11 @@
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (C) Microsoft Corporation. All rights reserved.
++#
++# Makefile for building the IPE module as part of the kernel tree.
++#
++
++obj-$(CONFIG_SECURITY_IPE) += \
++	ctx.o \
++	hooks.o \
++	ipe.o \
+diff --git a/security/ipe/ctx.c b/security/ipe/ctx.c
+new file mode 100644
+index 000000000000..d51fe2e13ad9
+--- /dev/null
++++ b/security/ipe/ctx.c
+@@ -0,0 +1,145 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) Microsoft Corporation. All rights reserved.
++ */
++
++#include "ipe.h"
++#include "ctx.h"
++
++#include <linux/slab.h>
++#include <linux/types.h>
++#include <linux/parser.h>
++#include <linux/refcount.h>
++#include <linux/spinlock.h>
++
++/**
++ * ipe_current_ctx: Helper to retrieve the ipe_context for the current task.
++ *
++ * Return:
++ *	See ipe_get_ctx_rcu
++ */
++struct ipe_context *ipe_current_ctx(void)
++{
++	return ipe_get_ctx_rcu(*ipe_tsk_ctx(current));
++}
++
++/**
++ * ipe_get_ctx_rcu: Retrieve the underlying ipe_context in an rcu protected
++ *		    address space.
++ * @ctx: Context to dereference.
++ *
++ * This function will increment the reference count of the dereferenced
++ * ctx, ensuring that it is valid outside of the rcu_read_lock.
++ *
++ * However, if a context has a reference count of 0 (and thus being)
++ * freed, this API will return NULL.
++ *
++ * Return:
++ *	!NULL - Valid context
++ *	NULL - the dereferenced context will not exist outside after the
++ *	       next grace period.
++ */
++struct ipe_context *ipe_get_ctx_rcu(struct ipe_context __rcu *ctx)
++{
++	struct ipe_context *rv = NULL;
++
++	rcu_read_lock();
++
++	rv = rcu_dereference(ctx);
++	if (!rv || !refcount_inc_not_zero(&rv->refcount))
++		rv = NULL;
++
++	rcu_read_unlock();
++
++	return rv;
++}
++
++/**
++ * free_ctx_work: Worker function to deallocate a context structure.
++ * @work: work_struct passed to schedule_work
++ */
++static void free_ctx_work(struct work_struct *const work)
++{
++	struct ipe_context *ctx = NULL;
++
++	ctx = container_of(work, struct ipe_context, free_work);
++
++	kfree(ctx);
++}
++
++/**
++ * create_ctx: Allocate a context structure.
++ *
++ * The reference count at this point will be set to 1.
++ *
++ * Return:
++ * !IS_ERR - OK
++ * ERR_PTR(-ENOMEM) - Lack of memory.
++ */
++static struct ipe_context *create_ctx(void)
++{
++	int rc = 0;
++	struct ipe_context *ctx = NULL;
++
++	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
++	if (!ctx) {
++		rc = -ENOMEM;
++		goto err;
++	}
++
++	INIT_WORK(&ctx->free_work, free_ctx_work);
++	refcount_set(&ctx->refcount, 1);
++	spin_lock_init(&ctx->lock);
++
++	return ctx;
++
++err:
++	ipe_put_ctx(ctx);
++	return ERR_PTR(rc);
++}
++
++/**
++ * ipe_put_ctx: Decrement the reference of an ipe_context structure,
++ *	       scheduling a free as necessary.
++ * @ctx: Structure to free
++ *
++ * This function no-ops on error and null values for @ctx, and the
++ * deallocation will only occur if the refcount is 0.
++ */
++void ipe_put_ctx(struct ipe_context *ctx)
++{
++	if (IS_ERR_OR_NULL(ctx) || !refcount_dec_and_test(&ctx->refcount))
++		return;
++
++	schedule_work(&ctx->free_work);
++}
++
++/**
++ * ipe_init_ctx: Initialize the init context.
++ *
++ * This is called at LSM init, and marks the kernel init process
++ * with a context. All processes descendent from kernel
++ * init will inherit this context.
++ *
++ * Return:
++ * 0 - OK
++ * -ENOMEM: Not enough memory to allocate the init context.
++ */
++int __init ipe_init_ctx(void)
++{
++	int rc = 0;
++	struct ipe_context *lns = NULL;
++
++	lns = create_ctx();
++	if (IS_ERR(lns)) {
++		rc = PTR_ERR(lns);
++		goto err;
++	}
++
++	rcu_assign_pointer(*ipe_tsk_ctx(current), lns);
++
++	return 0;
++err:
++	ipe_put_ctx(lns);
++	return rc;
++}
+diff --git a/security/ipe/ctx.h b/security/ipe/ctx.h
+new file mode 100644
+index 000000000000..69a2c92c0a8c
+--- /dev/null
++++ b/security/ipe/ctx.h
+@@ -0,0 +1,28 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) Microsoft Corporation. All rights reserved.
++ */
++#ifndef IPE_CONTEXT_H
++#define IPE_CONTEXT_H
++
++#include <linux/sched.h>
++#include <linux/types.h>
++#include <linux/refcount.h>
++#include <linux/spinlock.h>
++#include <linux/workqueue.h>
++
++struct ipe_context {
++	refcount_t refcount;
++	/* Protects concurrent writers */
++	spinlock_t lock;
++
++	struct work_struct free_work;
++};
++
++int __init ipe_init_ctx(void);
++struct ipe_context __rcu **ipe_tsk_ctx(struct task_struct *tsk);
++struct ipe_context *ipe_current_ctx(void);
++struct ipe_context *ipe_get_ctx_rcu(struct ipe_context __rcu *ctx);
++void ipe_put_ctx(struct ipe_context *ctx);
++
++#endif /* IPE_CONTEXT_H */
+diff --git a/security/ipe/hooks.c b/security/ipe/hooks.c
+new file mode 100644
+index 000000000000..dd9606962fa5
+--- /dev/null
++++ b/security/ipe/hooks.c
+@@ -0,0 +1,54 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) Microsoft Corporation. All rights reserved.
++ */
++
++#include "ipe.h"
++#include "ctx.h"
++#include "hooks.h"
++
++#include <linux/sched.h>
++#include <linux/types.h>
++#include <linux/refcount.h>
++#include <linux/rcupdate.h>
++
++/**
++ * ipe_task_alloc: Assign a new context for an associated task structure.
++ * @task: Supplies the task structure to assign a context to.
++ * @clone_flags: unused.
++ *
++ * The context assigned is always the context of the current task.
++ * Reference counts are dropped by ipe_task_free
++ *
++ * Return:
++ * 0 - OK
++ * -ENOMEM - Out of Memory
++ */
++int ipe_task_alloc(struct task_struct *task, unsigned long clone_flags)
++{
++	struct ipe_context __rcu **ctx = NULL;
++	struct ipe_context *current_ctx = NULL;
++
++	current_ctx = ipe_current_ctx();
++	ctx = ipe_tsk_ctx(task);
++	rcu_assign_pointer(*ctx, current_ctx);
++	refcount_inc(&current_ctx->refcount);
++
++	ipe_put_ctx(current_ctx);
++	return 0;
++}
++
++/**
++ * ipe_task_free: Drop a reference to an ipe_context associated with @task.
++ *		  If there are no tasks remaining, the context is freed.
++ * @task: Supplies the task to drop an ipe_context reference to.
++ */
++void ipe_task_free(struct task_struct *task)
++{
++	struct ipe_context *ctx;
++
++	rcu_read_lock();
++	ctx = rcu_dereference(*ipe_tsk_ctx(task));
++	ipe_put_ctx(ctx);
++	rcu_read_unlock();
++}
+diff --git a/security/ipe/hooks.h b/security/ipe/hooks.h
+new file mode 100644
+index 000000000000..e0ae3c7dfb5b
+--- /dev/null
++++ b/security/ipe/hooks.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) Microsoft Corporation. All rights reserved.
++ */
++#ifndef IPE_HOOKS_H
++#define IPE_HOOKS_H
++
++#include <linux/types.h>
++#include <linux/sched.h>
++
++int ipe_task_alloc(struct task_struct *task,
++		   unsigned long clone_flags);
++
++void ipe_task_free(struct task_struct *task);
++
++#endif /* IPE_HOOKS_H */
+diff --git a/security/ipe/ipe.c b/security/ipe/ipe.c
+new file mode 100644
+index 000000000000..8a1e0b1c7240
+--- /dev/null
++++ b/security/ipe/ipe.c
+@@ -0,0 +1,73 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) Microsoft Corporation. All rights reserved.
++ */
++
++#include "ipe.h"
++#include "ctx.h"
++#include "hooks.h"
++
++#include <linux/fs.h>
++#include <linux/sched.h>
++#include <linux/module.h>
++#include <linux/kernel.h>
++#include <linux/security.h>
++#include <linux/rcupdate.h>
++#include <linux/lsm_hooks.h>
++
++static struct lsm_blob_sizes ipe_blobs __lsm_ro_after_init = {
++	.lbs_task = sizeof(struct ipe_context __rcu *),
++};
++
++static struct security_hook_list ipe_hooks[] __lsm_ro_after_init = {
++	LSM_HOOK_INIT(task_alloc, ipe_task_alloc),
++	LSM_HOOK_INIT(task_free, ipe_task_free),
++};
++
++/**
++ * ipe_tsk_ctx: Retrieve the RCU-protected address of the task
++ *		that contains the ipe_context.
++ * @tsk: Task to retrieve the address from.
++ *
++ * Callers need to use the rcu* family functions to interact with
++ * the ipe_context, or ipe_get_ctx_rcu.
++ *
++ * Return:
++ *	Valid Address to a location containing an RCU-protected ipe_context.
++ */
++struct ipe_context __rcu **ipe_tsk_ctx(struct task_struct *tsk)
++{
++	return tsk->security + ipe_blobs.lbs_task;
++}
++
++/**
++ * ipe_init: Entry point of IPE.
++ *
++ * This is called at LSM init, which happens occurs early during kernel
++ * start up. During this phase, IPE loads the properties compiled into
++ * the kernel, and register's IPE's hooks. The boot policy is loaded
++ * later, during securityfs init, at which point IPE will start
++ * enforcing its policy.
++ *
++ * Return:
++ * 0 - OK
++ * -ENOMEM - Context creation failed.
++ */
++static int __init ipe_init(void)
++{
++	int rc = 0;
++
++	rc = ipe_init_ctx();
++	if (rc)
++		return rc;
++
++	security_add_hooks(ipe_hooks, ARRAY_SIZE(ipe_hooks), "ipe");
++
++	return rc;
++}
++
++DEFINE_LSM(ipe) = {
++	.name = "ipe",
++	.init = ipe_init,
++	.blobs = &ipe_blobs,
++};
+diff --git a/security/ipe/ipe.h b/security/ipe/ipe.h
+new file mode 100644
+index 000000000000..152ae28f3cdd
+--- /dev/null
++++ b/security/ipe/ipe.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) Microsoft Corporation. All rights reserved.
++ */
++
++#ifndef IPE_H
++#define IPE_H
++
++#define pr_fmt(fmt) "IPE " fmt "\n"
++
++#include "ctx.h"
++
++#include <linux/types.h>
++#include <linux/sched.h>
++#include <linux/lsm_hooks.h>
++
++#endif /* IPE_H */
+-- 
+2.25.1
 
