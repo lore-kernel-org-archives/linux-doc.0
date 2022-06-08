@@ -2,155 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D6CC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 07:59:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A95C8C43334
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Jun 2022 08:22:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231339AbiFHH7Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Jun 2022 03:59:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56784 "EHLO
+        id S230196AbiFHIW5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Jun 2022 04:22:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232952AbiFHH6E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jun 2022 03:58:04 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E76B1E2269;
-        Wed,  8 Jun 2022 00:27:14 -0700 (PDT)
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LHzKy3CJYzYsQl;
-        Wed,  8 Jun 2022 15:26:14 +0800 (CST)
-Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 8 Jun 2022 15:27:12 +0800
-Received: from [10.174.178.120] (10.174.178.120) by
- dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 8 Jun 2022 15:27:10 +0800
-Message-ID: <29900b05-ec44-76a2-645a-22a13399d7fd@huawei.com>
-Date:   Wed, 8 Jun 2022 15:27:09 +0800
+        with ESMTP id S230430AbiFHIVk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Jun 2022 04:21:40 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2261C3AE80D;
+        Wed,  8 Jun 2022 00:48:30 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id kq6so26719595ejb.11;
+        Wed, 08 Jun 2022 00:48:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kXkJZDN5f41vCkZwW8ZE7hb5zQfmu2jYPyBC+wVy0V8=;
+        b=eNf6oOTDd4otQkXVR6HRhBsozVbIZwZyj++kC1qQELl8tphSLEM/Hu7EmLxoB3GLLo
+         mKqHWgCo7DltiHf+Z0vuFYCL3ghZSenJBKEylJBKWkgx2ZZ//nPKQUEtVIFDBJnwsK1u
+         14uL/3oKR+8p+woV2hkpDEFVK7PrNRfZNr7YXGN0GJTFMxksR2wV/9vlyQ+Ec7zTivEN
+         q0s3MfmTZy6AC9GeJtv6VZfz8wmBxvsHmXZmYzWKXVyWdbhuaKpHghNzNV8f8YiQhGrU
+         pZ2k6A5QDSe+DeMhczhQAGKEqlntx/szER82q86xUWbNSbpJLGXHG5LyxviMC0DflYu/
+         2ZDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kXkJZDN5f41vCkZwW8ZE7hb5zQfmu2jYPyBC+wVy0V8=;
+        b=PoFTrtMQw56ILqDotyYIc8djACfQ7gjhRsFHAe6943ewmWy/KxQlJ5+vpfvL/hpTFm
+         gHdLO2mkh9i7VVz8hhO9FbM2mTOE47tWvPUArB3bQazA0Gcxs04CYg7fJZ1yY68JbdEi
+         MleaVyzK59X0YphWxe/XTe49yyS8oXiCfx4caRBUzXMjQQfIFMYG+U9+StgEj253Aamt
+         vsq+7F+90tjFYNUO5WXz08RmX8+Af0HVt0hSeQSKcNPvKJ3mdO9LI5ZI6YH/eAYr3/Jc
+         aBzGQrjGh9OZ3/yLu5dLV1tY3awcuJA6zIfwCxAsWyAgMX0BZMvTg3xmSnYWPlXfmIan
+         GHvw==
+X-Gm-Message-State: AOAM531CeE9Wo2qSFasqSlV+astsgGn7rpouDEV78kIPBtbGn23BSFvM
+        /u7JY6LHOhfrtLZIQnM+uOiWfKzqvBAzyTYdgTY=
+X-Google-Smtp-Source: ABdhPJxSeTe7VJehA0LRTPFttB6Zx5E5UjOZxX/dzRtWP2rBcx1ZeTzlRRrljEuS9xzqsTj0W3eVnJ09RbifGzFqMlI=
+X-Received: by 2002:a17:907:a0c8:b0:711:d82a:1caa with SMTP id
+ hw8-20020a170907a0c800b00711d82a1caamr10971990ejc.702.1654674508479; Wed, 08
+ Jun 2022 00:48:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v3 5/6] mm: Add mirror flag back on initrd memory
-To:     <ardb@kernel.org>, <david@redhat.com>
-CC:     <corbet@lwn.net>, <will@kernel.org>, <catalin.marinas@arm.com>,
-        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-        <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-        <dvhart@infradead.org>, <andy@infradead.org>, <rppt@kernel.org>,
-        <akpm@linux-foundation.org>, <paul.walmsley@sifive.com>,
-        <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-        <paulmck@kernel.org>, <keescook@chromium.org>,
-        <songmuchun@bytedance.com>, <rdunlap@infradead.org>,
-        <damien.lemoal@opensource.wdc.com>, <swboyd@chromium.org>,
-        <wei.liu@kernel.org>, <robin.murphy@arm.com>,
-        <anshuman.khandual@arm.com>, <thunder.leizhen@huawei.com>,
-        <wangkefeng.wang@huawei.com>, <gpiccoli@igalia.com>,
-        <chenhuacai@kernel.org>, <geert@linux-m68k.org>,
-        <chenzhou10@huawei.com>, <vijayb@linux.microsoft.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-efi@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
-        <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
-        <mawupeng1@huawei.com>
-References: <20220607093805.1354256-1-mawupeng1@huawei.com>
- <20220607093805.1354256-6-mawupeng1@huawei.com>
- <99900b31-2605-2c85-a1b7-9ef2666b58da@redhat.com>
- <CAMj1kXGkzjq3koW_sgO4uzrdtwqSqzsJfT5ABYyvodf+ggXT2w@mail.gmail.com>
-From:   mawupeng <mawupeng1@huawei.com>
-In-Reply-To: <CAMj1kXGkzjq3koW_sgO4uzrdtwqSqzsJfT5ABYyvodf+ggXT2w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.120]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500014.china.huawei.com (7.185.36.153)
-X-CFilter-Loop: Reflected
+References: <20220518014632.922072-1-yuzhao@google.com> <20220518014632.922072-8-yuzhao@google.com>
+ <CAGsJ_4yboZEY9OfyujPxBa_AEuGM3OAq5y_L9gvzSMUv70BxeQ@mail.gmail.com>
+ <CAGsJ_4w3S_8Kaw2GyB3hg7b4N_D+6yBO7D6qmgxD9Fqz3_dhAg@mail.gmail.com> <CAOUHufbi7h6siHdnhsAEiXaCoNrUs9bUnEihYouE4CNMt-Zd_w@mail.gmail.com>
+In-Reply-To: <CAOUHufbi7h6siHdnhsAEiXaCoNrUs9bUnEihYouE4CNMt-Zd_w@mail.gmail.com>
+From:   Barry Song <21cnbao@gmail.com>
+Date:   Wed, 8 Jun 2022 19:48:17 +1200
+Message-ID: <CAGsJ_4w6JjuG4rn2P=d974wBOUtXUUnaZKnx+-G6a8_mSROa+Q@mail.gmail.com>
+Subject: Re: [PATCH v11 07/14] mm: multi-gen LRU: exploit locality in rmap
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Will Deacon <will@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, x86 <x86@kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>, huzhanyuan@oppo.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Jun 8, 2022 at 7:07 AM Yu Zhao <yuzhao@google.com> wrote:
+>
+> On Tue, Jun 7, 2022 at 1:37 AM Barry Song <21cnbao@gmail.com> wrote:
+> >
+> > On Mon, Jun 6, 2022 at 9:25 PM Barry Song <21cnbao@gmail.com> wrote:
+> > >
+> > > On Wed, May 18, 2022 at 4:49 PM Yu Zhao <yuzhao@google.com> wrote:
+>
+> ...
+>
+> > I can't really explain why we are getting a random app/java vm crash in monkey
+> > test by using ptep_test_and_clear_young() only in lru_gen_look_around() on an
+> > armv8-a machine without hardware PTE young support.
+> >
+> > Moving to  ptep_clear_flush_young() in look_around can make the random
+> > hang disappear according to zhanyuan(Cc-ed).
+>
+> This sounds too familiar -- let me ask again: was the following commit
+> included during the test?
+>
+>   07509e10dcc7 arm64: pgtable: Fix pte_accessible()
+>
+> If not, it will cause exactly the problem you described. And what
+> about this one?
+>
+>   e914d8f00391 mm: fix unexpected zeroed page mapping with zram swap
+>
+> Missing it also causes userspace memory corruption on Android, i.e.,
+> random app crashes.
+>
 
+According to zhanyuan's testing, we can confirm the above two commits
+can fix the random android crash.
 
-在 2022/6/7 22:49, Ard Biesheuvel 写道:
-> On Tue, 7 Jun 2022 at 14:22, David Hildenbrand <david@redhat.com> wrote:
->>
->> On 07.06.22 11:38, Wupeng Ma wrote:
->>> From: Ma Wupeng <mawupeng1@huawei.com>
->>>
->>> Initrd memory will be removed and then added in arm64_memblock_init() and this
->>> will cause it to lose all of its memblock flags. The lost of MEMBLOCK_MIRROR
->>> flag will lead to error log printed by find_zone_movable_pfns_for_nodes if
->>> the lower 4G range has some non-mirrored memory.
->>>
->>> In order to solve this problem, the lost MEMBLOCK_MIRROR flag will be
->>> reinstalled if the origin memblock has this flag.
->>>
->>> Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
->>> ---
->>>   arch/arm64/mm/init.c     |  9 +++++++++
->>>   include/linux/memblock.h |  1 +
->>>   mm/memblock.c            | 20 ++++++++++++++++++++
->>>   3 files changed, 30 insertions(+)
->>>
->>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
->>> index 339ee84e5a61..11641f924d08 100644
->>> --- a/arch/arm64/mm/init.c
->>> +++ b/arch/arm64/mm/init.c
->>> @@ -350,9 +350,18 @@ void __init arm64_memblock_init(void)
->>>                        "initrd not fully accessible via the linear mapping -- please check your bootloader ...\n")) {
->>>                        phys_initrd_size = 0;
->>>                } else {
->>> +                     int flags, ret;
->>> +
->>> +                     ret = memblock_get_flags(base, &flags);
->>> +                     if (ret)
->>> +                             flags = 0;
->>> +
->>>                        memblock_remove(base, size); /* clear MEMBLOCK_ flags */
->>>                        memblock_add(base, size);
->>>                        memblock_reserve(base, size);
->>
->> Can you explain why we're removing+re-adding here exactly? Is it just to
->> clear flags as the comment indicates?
->>
-> 
-> This should only happen if the placement of the initrd conflicts with
-> a mem= command line parameter or it is not covered by memblock for
-> some other reason.
-> 
-> IOW, this should never happen, and if re-memblock_add'ing this memory
-> unconditionally is causing problems, we should fix that instead of
-> working around it.
-
-This will happen if we use initrdmem=3G,100M to reserve initrd memory below
-the 4G limit to test this scenario(just for testing, I have trouble to boot
-qemu with initrd enabled and memory below 4G are all mirror memory).
-
-Re-memblock_add'ing this memory unconditionally seems fine but clear all
-flags(especially MEMBLOCK_MIRROR) may lead to some error log.
-
-> 
->> If it's really just about clearing flags, I wonder if we rather want to
->> have an interface that does exactly that, and hides the way this is
->> actually implemented (obtain flags, remove, re-add ...), internally.
->>
->> But most probably there is more magic in the code and clearing flags
->> isn't all it ends up doing.
->>
-> 
-> I don't remember exactly why we needed to clear the flags, but I think
-> it had to do with some corner case we hit when the initrd was
-> partially covered.
-If "mem=" is set in command line, memblock_mem_limit_remove_map() will
-remove all memory block without MEMBLOCK_NOMAP. Maybe this will bring the
-memory back if this initrd mem has the MEMBLOCK_NOMAP flag?
-
-The rfc version [1] introduce and use memblock_clear_nomap() to clear the
-MEMBLOCK_NOMAP of this initrd memblock.
-So maybe the usage of memblock_remove() is just to avoid introducing new
-function(memblock_clear_nomap)?
-
-Since commit 4c546b8a3469 ("memblock: add memblock_clear_nomap()") already
-introduced memblock_clear_nomap(). Can we use this to remove flag MEMBLOCK_NOMAP
-to solve this problem rather than bring flag MEMBLOCK_MIRROR back?
-
-[1] https://lore.kernel.org/linux-arm-kernel/20160202180622.GP10166@arm.com/T/#t
-> .
+Thanks
+Barry
