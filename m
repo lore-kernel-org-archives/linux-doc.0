@@ -2,87 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B8F2CCA47D
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 08:10:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D590BC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 08:13:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229836AbiFIIKV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jun 2022 04:10:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41456 "EHLO
+        id S240594AbiFIINu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jun 2022 04:13:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235128AbiFIIKU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 04:10:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1C30E16ABE8
-        for <linux-doc@vger.kernel.org>; Thu,  9 Jun 2022 01:10:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1654762218;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=tiLrsl9taTyGSrJjDKI7N8ule2WbsgbzAGcFN4T087E=;
-        b=VlB3im/d3lUJ3Gi/g6gc+aHqzIp9ry4Da84UCZmrlUy8WCZaC43X9bk5KudE+1MEjzOi8E
-        WawPk4QI1xzbVuGuXDb5FLnBWUpIdCw4uHwoNbn/egQyKZB8WgXGkp31bdQrOPyT0FaXAB
-        ZtMFLhdRdTx84Nc6v9LdmbO9Rcjdya0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-sFd4YcckPoi0xEo8ZlBU9g-1; Thu, 09 Jun 2022 04:10:14 -0400
-X-MC-Unique: sFd4YcckPoi0xEo8ZlBU9g-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A7AB3C0E216;
-        Thu,  9 Jun 2022 08:10:13 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.115])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B475492C3B;
-        Thu,  9 Jun 2022 08:10:12 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Alex Williamson <alex.williamson@redhat.com>,
-        alex.williamson@redhat.com
-Cc:     kwankhede@nvidia.com, farman@linux.ibm.com, mjrosato@linux.ibm.com,
-        pasic@linux.ibm.com, diana.craciun@oss.nxp.com,
-        eric.auger@redhat.com, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, jgg@nvidia.com, yishaih@nvidia.com,
-        hch@lst.de
-Subject: Re: [PATCH] vfio: de-extern-ify function prototypes
-In-Reply-To: <165471414407.203056.474032786990662279.stgit@omen>
-Organization: Red Hat GmbH
-References: <165471414407.203056.474032786990662279.stgit@omen>
-User-Agent: Notmuch/0.36 (https://notmuchmail.org)
-Date:   Thu, 09 Jun 2022 10:10:11 +0200
-Message-ID: <87tu8u9s0s.fsf@redhat.com>
+        with ESMTP id S240611AbiFIINt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 04:13:49 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 513CA60DB8;
+        Thu,  9 Jun 2022 01:13:47 -0700 (PDT)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4LJcKx5gqNz8wtL;
+        Thu,  9 Jun 2022 16:13:25 +0800 (CST)
+Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 9 Jun 2022 16:13:45 +0800
+Received: from [10.174.178.120] (10.174.178.120) by
+ dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 9 Jun 2022 16:13:43 +0800
+Message-ID: <8d5e867f-e51a-d763-5ac3-6dfc4e67a376@huawei.com>
+Date:   Thu, 9 Jun 2022 16:13:43 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+From:   mawupeng <mawupeng1@huawei.com>
+Subject: Re: [PATCH v3 4/6] mm: Demote warning message in vmemmap_verify() to
+ debug level
+To:     <anshuman.khandual@arm.com>, <david@redhat.com>, <corbet@lwn.net>,
+        <will@kernel.org>, <ardb@kernel.org>, <catalin.marinas@arm.com>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+        <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+        <dvhart@infradead.org>, <andy@infradead.org>, <rppt@kernel.org>,
+        <akpm@linux-foundation.org>, <paul.walmsley@sifive.com>,
+        <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
+        <paulmck@kernel.org>, <keescook@chromium.org>,
+        <songmuchun@bytedance.com>, <rdunlap@infradead.org>,
+        <damien.lemoal@opensource.wdc.com>, <swboyd@chromium.org>,
+        <wei.liu@kernel.org>, <robin.murphy@arm.com>,
+        <thunder.leizhen@huawei.com>, <wangkefeng.wang@huawei.com>,
+        <gpiccoli@igalia.com>, <chenhuacai@kernel.org>,
+        <geert@linux-m68k.org>, <vijayb@linux.microsoft.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-efi@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
+        <mawupeng1@huawei.com>
+References: <20220607093805.1354256-1-mawupeng1@huawei.com>
+ <20220607093805.1354256-5-mawupeng1@huawei.com>
+ <b1975f44-2552-a03c-bb6f-1452f1fd99c0@redhat.com>
+ <a820f287-e879-6183-a917-6a577b6160ab@huawei.com>
+ <1f2a76d5-7c4e-46bc-ce66-20a962eac73c@arm.com>
+In-Reply-To: <1f2a76d5-7c4e-46bc-ce66-20a962eac73c@arm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.120]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500014.china.huawei.com (7.185.36.153)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 08 2022, Alex Williamson <alex.williamson@redhat.com> wrote:
 
-> The use of 'extern' in function prototypes has been disrecommended in
-> the kernel coding style for several years now, remove them from all vfio
-> related files so contributors no longer need to decide between style and
-> consistency.
->
-> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
-> ---
->
-> A patch in the same vein was proposed about a year ago, but tied to an ill
-> fated series and forgotten.  Now that we're at the beginning of a new
-> development cycle, I'd like to propose kicking off the v5.20 vfio next
-> branch with this patch and would kindly ask anyone with pending respins or
-> significant conflicts to rebase on top of this patch.  Thanks!
->
->  Documentation/driver-api/vfio-mediated-device.rst |   10 ++-
->  drivers/s390/cio/vfio_ccw_cp.h                    |   12 ++--
->  drivers/s390/cio/vfio_ccw_private.h               |    6 +-
->  drivers/vfio/fsl-mc/vfio_fsl_mc_private.h         |    2 -
->  drivers/vfio/platform/vfio_platform_private.h     |   21 +++---
->  include/linux/vfio.h                              |   70 ++++++++++-----------
->  include/linux/vfio_pci_core.h                     |   65 ++++++++++----------
->  7 files changed, 91 insertions(+), 95 deletions(-)
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+在 2022/6/8 18:00, Anshuman Khandual 写道:
+> 
+> 
+> On 6/8/22 06:56, mawupeng wrote:
+>>
+>>
+>> 在 2022/6/7 20:25, David Hildenbrand 写道:
+>>> On 07.06.22 11:38, Wupeng Ma wrote:
+>>>> From: Ma Wupeng <mawupeng1@huawei.com>
+>>>>
+>>>> For a system only have limited mirrored memory or some numa node without
+>>>> mirrored memory, the per node vmemmap page_structs prefer to allocate
+>>>> memory from mirrored region, which will lead to vmemmap_verify() in
+>>>> vmemmap_populate_basepages() report lots of warning message.
+>>>>
+>>>> This patch demote the "potential offnode page_structs" warning messages
+>>>> to debug level to avoid a very long print during bootup.
+>>>>
+>>>> Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
+>>>> ---
+>>>>    mm/sparse-vmemmap.c | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+>>>> index f4fa61dbbee3..78debdb89eb1 100644
+>>>> --- a/mm/sparse-vmemmap.c
+>>>> +++ b/mm/sparse-vmemmap.c
+>>>> @@ -528,7 +528,7 @@ void __meminit vmemmap_verify(pte_t *pte, int node,
+>>>>        int actual_node = early_pfn_to_nid(pfn);
+>>>>          if (node_distance(actual_node, node) > LOCAL_DISTANCE)
+>>>> -        pr_warn("[%lx-%lx] potential offnode page_structs\n",
+>>>> +        pr_debug("[%lx-%lx] potential offnode page_structs\n",
+>>>>                start, end - 1);
+>>>>    }
+>>>>    
+>>>
+>>> This will possibly hide it in environments where this might indeed
+>>> indicate performance issues.
+>>>
+>>> What about a pr_warn_once()?
+>>>
+>>
+>> Sure.
+>>
+>> This will works. We can certainly use a pr_warn_once().
+> 
+> Why not pr_warn_ratelimited() like in the previous patch ?
 
+Function vmemmap_populate_basepages() is used to populate base pages.
+System with huge memory will produce lots lots of warning message
+during this populate process even with ratelimited. This may lead to slow
+startup.
+
+Thanks for reviewing.
+
+> .
