@@ -2,59 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2EF6CCA481
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 13:23:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 100BEC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 13:25:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343744AbiFINXf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jun 2022 09:23:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42982 "EHLO
+        id S1343624AbiFINZJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jun 2022 09:25:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245054AbiFINXe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 09:23:34 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 806882600;
-        Thu,  9 Jun 2022 06:23:33 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id d129so21806768pgc.9;
-        Thu, 09 Jun 2022 06:23:33 -0700 (PDT)
+        with ESMTP id S1343868AbiFINZG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 09:25:06 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C96FB152BB2;
+        Thu,  9 Jun 2022 06:25:03 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id u12-20020a17090a1d4c00b001df78c7c209so26681600pju.1;
+        Thu, 09 Jun 2022 06:25:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=+YkdE4hgL9nudEqBz5hZQ0msyQAME4oIXjwpc7HKTC4=;
-        b=kSLcdlt+IN5JIBnJAeI9HUaw3v+tFe11y6pKaRx+W+JMBoNlQEfYvNyH3QWBzC3hQZ
-         /FQfM+NN+dQC50RZW8QaG7gYa9LfyDjqCercchn4qONMAz/FScyoeZ1wsBgYD7+Io6Wr
-         oelsqYApYfG3r+dcjopj2SolZNdcp9pK9zqqhSfcY7C/3iFqfIi0tVCFZQIG4CTNUnqc
-         ASsA0Ds+gfQxTT4NjQRXNu6EupkB2lcdORW68vR2sFPuf7YMyKfkQRwD+TjsWFHPZn9V
-         41r480kar8I3HEbHcrdd1KvthfxSX2hwg/3YE5Zlb8wh7emejC8YRGWqOX5l13BEfXym
-         2m8A==
+        bh=+QrEfwNyUObZpg4FR+sDjlTmpv+zGn+vrSq3i8QmgIA=;
+        b=KjljSREzL0wSolOtkUlpNwONHUFbpDBeP4bOEVdzkt7/LC+m0uNQ952f84SvOUHVuN
+         bMD7CDu5uh2CMmetkp8JZR+W/2B5oNX6TX4koHVCBkolsJkCkxzquLgmLdfYXRp/8TAd
+         CuCO8abxzcObs0NX31sjtO6YZc4FtEPkOcpbeS+dEVA0PR9ECTg9QYihqMurlTSsZUgz
+         nGiu3dc+PalMt9Uf2UfpkBbDsHpSum7BdqTLV8OJWN4vyGUcQlZAQ77z0jJFunrQ6Aao
+         OGvxqAPnh3BNEoWDZ9UmymrKJsIW3IlRdC7xpY1uJg6QASP57GEOxro2NRBvcuCweXGY
+         7P1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=+YkdE4hgL9nudEqBz5hZQ0msyQAME4oIXjwpc7HKTC4=;
-        b=56AKyi6QVnbcairB7MAZ4+b6lWJlgpF6C4kktqJJeWPwUZQDeCsUSne3GcfcjO0SkO
-         JOCT+csuCPT7UGhkoZ/5T8R/51IGfSDh4pdgneptDBB1wHeZEaTaeotLgpQ9QjXHx9d0
-         QL4KS9Z/h1NFQz2k36hQR8GKfNsAArUF6S7et87vEQLtMcQnRpCavpdVvPLmByZAoWv0
-         Qk+e/+apawd2f6nnG6ZGvkaidniKC6bVcpHNYxICd6SC7wYx4Mu9LgRUu/TuuCI7ZMUz
-         4EB8frxV/GB8WhLUgVi82gOhKKAPLBDfpEpabce2MVE/uBlK30Vx92ClymoYmg/JtAns
-         sPZA==
-X-Gm-Message-State: AOAM533xsUTRr+0DTg8LyLGT+FO0aVHhKOYdudNE3PBfIuhbB++UG/BQ
-        KHzCJspcQ+RdZ2dgAQ+z/nw=
-X-Google-Smtp-Source: ABdhPJyMOFMlhAynmsJzHw50MAGtr8ty3qmRrNgcjKI3OM2dTXIg01V2FcUu4QCq1unNbC/t1pS8KA==
-X-Received: by 2002:a05:6a00:1387:b0:51c:2712:7859 with SMTP id t7-20020a056a00138700b0051c27127859mr19074541pfg.38.1654781013066;
-        Thu, 09 Jun 2022 06:23:33 -0700 (PDT)
+        bh=+QrEfwNyUObZpg4FR+sDjlTmpv+zGn+vrSq3i8QmgIA=;
+        b=AZ3NN2irCrrh2m8IOaVFX1Yf2ztpB5fROI9ZnaOaj0H1O9n3j0hMZjVEYx11aWSsiJ
+         7Z6lAKJ+xAEQn58OidaqH+hX46/nm0AyqxbEC43EfDWIOkZc8/ZO5kv2JZT3mhDiXfYA
+         9dQo/78+bgj16hyUFe0ZwerXPw6hxVoh3u9QhsJzTBpKqMRgr8GHR+D6f1ZYiaY8Nioj
+         P3iAGgS0l7WKm9c2kHnWonUGfRl/tu3voSVJXUdPZ2z4vuzrTpSurpaJ8yJnwps5gwut
+         ezfUtNXzpg3kqq+BxQ8MK3pASseBaPva6N1UV1UxxT81M1SKFMJcY0FHVeo/MeVHz0SF
+         /uKA==
+X-Gm-Message-State: AOAM533swU1KKvwU2rqc2TKKhJ5c/5mXGCkehPj+2xwP3N4OmS5HcqrQ
+        EPvxRcXOOOeoRP+XNmK9nB0lxi8o2II=
+X-Google-Smtp-Source: ABdhPJwsevakWlOrt4ajIp6BMcqWo0rbDiVYcTI3fI1UWc0KtcPGoRi7pihMy42NUg8+RwLL19mXhQ==
+X-Received: by 2002:a17:90b:4c4e:b0:1e3:368b:c09c with SMTP id np14-20020a17090b4c4e00b001e3368bc09cmr3466584pjb.140.1654781103319;
+        Thu, 09 Jun 2022 06:25:03 -0700 (PDT)
 Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id a21-20020a170902ee9500b00161a40b2135sm16914849pld.104.2022.06.09.06.23.30
+        by smtp.gmail.com with ESMTPSA id t15-20020a17090340cf00b0016168e90f2csm16596512pld.208.2022.06.09.06.25.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jun 2022 06:23:32 -0700 (PDT)
-Message-ID: <81cddbde-bc28-bec1-fca4-3c8fe2df502f@gmail.com>
-Date:   Thu, 9 Jun 2022 22:23:27 +0900
+        Thu, 09 Jun 2022 06:25:02 -0700 (PDT)
+Message-ID: <ff89c064-e24a-0f2f-fc03-b029e5d04338@gmail.com>
+Date:   Thu, 9 Jun 2022 22:24:58 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: [PATCH 1/5] docs/doc-guide: Add footnote on Inkscape for better
- images in PDF documents
+Subject: [PATCH 2/5] docs/doc-guide: Mention make variable SPHINXDIRS
 Content-Language: en-US
 To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -70,46 +69,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-With kernel releases v5.18 and later, if you have Inkscape, images
-embedded in PDF documents are of vector graphics, not the raster
-images as are the case with pre-v5.18 releases.
-Even with pre-5.18 releases, having Inkscape would improve images
-converted from some of SVG files which are not fully covered by the
-limited capability of rsvg-convert(1) [1].
+SPHINXDIRS is useful when you want test builds of only those
+documents affected by your changes.
 
-Add a footnote mentioning the expected improvements of such images.
+Mention it in the "Sphinx Build" section.
 
-Link: https://gitlab.gnome.org/GNOME/librsvg#non-goals-of-librsvg [1]
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Maciej W. Rozycki <macro@orcam.me.uk>
 ---
- Documentation/doc-guide/sphinx.rst | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+This change is inspired from correspondence with Maciej [1].
+
+[1]: https://lore.kernel.org/r/f4d40da6-756b-9e75-b867-cc9eedc4b232@gmail.com
+
+--
+ Documentation/doc-guide/sphinx.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index 2ff1ab4158d4..edc4fa023986 100644
+index edc4fa023986..efcccab68286 100644
 --- a/Documentation/doc-guide/sphinx.rst
 +++ b/Documentation/doc-guide/sphinx.rst
-@@ -132,7 +132,8 @@ format-specific subdirectories under ``Documentation/output``.
- To generate documentation, Sphinx (``sphinx-build``) must obviously be
- installed. For prettier HTML output, the Read the Docs Sphinx theme
- (``sphinx_rtd_theme``) is used if available. For PDF output you'll also need
--``XeLaTeX`` and ``convert(1)`` from ImageMagick (https://www.imagemagick.org).
-+``XeLaTeX`` and ``convert(1)`` from ImageMagick
-+(https://www.imagemagick.org).\ [#ink]_
- All of these are widely available and packaged in distributions.
+@@ -151,6 +151,10 @@ If the theme is not available, it will fall-back to the classic one.
  
- To pass extra options to Sphinx, you can use the ``SPHINXOPTS`` make
-@@ -152,6 +153,10 @@ The Sphinx theme can be overridden by using the ``DOCS_THEME`` make variable.
+ The Sphinx theme can be overridden by using the ``DOCS_THEME`` make variable.
  
++There is another make variable ``SPHINXDIRS``, which is useful when test
++building a subset of documentation.  Again, see the documentation section
++of ``make help`` for the details.
++
  To remove the generated documentation, run ``make cleandocs``.
  
-+.. [#ink] Having ``inkscape(1)`` from Inkscape (https://inkscape.org)
-+	  as well would improve the quality of images embedded in PDF
-+	  documents, especially for kernel releases 5.18 and later.
-+
- Writing Documentation
- =====================
- 
+ .. [#ink] Having ``inkscape(1)`` from Inkscape (https://inkscape.org)
 -- 
 2.25.1
 
