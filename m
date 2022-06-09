@@ -2,156 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 559BDC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 19:57:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE3E3C43334
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 20:29:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235518AbiFIT5Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jun 2022 15:57:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32838 "EHLO
+        id S234572AbiFIU3Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jun 2022 16:29:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231303AbiFIT5V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 15:57:21 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7546B1E9;
-        Thu,  9 Jun 2022 12:57:17 -0700 (PDT)
-Received: from mercury (unknown [185.209.196.172])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sre)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7D815660168F;
-        Thu,  9 Jun 2022 20:57:16 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1654804636;
-        bh=RQQb7BmIektz/FsEL8cchJ+lkAHGyM8a4PfysX6zqow=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BreZkrOQBydylDoZnlnE/hdoxTtyFRds91CvEpMaON93f64ZSOormVTr6Jh5+Suwq
-         uZVQGhErvpzC/ePWKaurMc5t0vJkghMZbO0orQyEFGbHpGLsZdlZuT2qqFj7yetuN+
-         UidtzfQWOGwVbrFVH/cxE1rj56m5gkekg0/S5qJBDuNqWYUNDbtSyjMxVIgPnPNgfX
-         V0CClFFA23WqU5q/0f9XcUZLZ0mwBFBO6q1aCoe0pe5GxoPXJlR5nX+5nAxe2FnScT
-         D2rUZkh7j8jG0jP+Na0a6ME/0EwD9GUE3cGfWZF0wk9FAQu4z/kJhFByPFa6plfHW6
-         PPJj799p8ZyPA==
-Received: by mercury (Postfix, from userid 1000)
-        id B936C10605B9; Thu,  9 Jun 2022 21:57:13 +0200 (CEST)
-Date:   Thu, 9 Jun 2022 21:57:13 +0200
-From:   Sebastian Reichel <sebastian.reichel@collabora.com>
-To:     Anjelique Melendez <quic_amelende@quicinc.com>
-Cc:     corbet@lwn.net, robh+dt@kernel.org, vkoul@kernel.org,
-        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        David Collins <quic_collinsd@quicinc.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH] dt-bindings: power: reset: qcom-pon: update "reg"
- property details
-Message-ID: <20220609195713.u762ie4lav47fhsc@mercury.elektranox.org>
-References: <20220606200203.22938-1-quic_amelende@quicinc.com>
+        with ESMTP id S234177AbiFIU3N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 16:29:13 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A23426EE9E
+        for <linux-doc@vger.kernel.org>; Thu,  9 Jun 2022 13:29:12 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id t2so21138517pld.4
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jun 2022 13:29:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=C4/yJYyLya7rE6Jieokr56CujDpfPfuLcGNiEECS+QU=;
+        b=CjppovKB2YLi+/umkUgs7TGbUGFHqjbhz+/vuQpURnYcTn7Y/XOYbzw0Ykj8khDf1D
+         lU6118PzbLcDnYEohwwuQpWRqLnFFor88HMkhxJnTWzVFPYmlDCWI4t25w0FcOY9LsJ3
+         Xx+fRvY97K5Q4b9fyl2wIJsNDu8BFxuzsJC2MBkEM8rOua9Xl2avo9S7S1w8ygcb6WQp
+         l07wjz7O+ipoSddpByuvOEx8LLG0at/WFa44rE+IaodvVFqdep6gbL1AbyDvvOmSNBeS
+         GcNHdTH1imkTwWGYIM5B+u73KBCppBXzzkigAH/N4DrtNRxqLpENGyWxu6onk+j5isHM
+         5lXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=C4/yJYyLya7rE6Jieokr56CujDpfPfuLcGNiEECS+QU=;
+        b=K2uc5bk5nfn3+YeIfNw2bcNdQGpTG/3X/Ra9I5S549aFamchfIxmYxfbXi3ywaM3kw
+         /YwRgltpJR21jH0BHvxhTVR2dmn9zP2AOSpj9VKm7tM1v9U/qnR66plh2eKd7d3W24Hv
+         1Rdwh8AydzsAC+uqtpaIsEfTJfpVZazpk67w7+nfQVo0Cy40vO2ZdqEx7KX0MvY3Y4w8
+         Fmr6yzRHnQJwU8f+C8jmwNTqzHjJQ/BqdaQAv7Pd4VUGM59OgpMhIPqp1bfnQAzfo63j
+         mSAeSt1aunDwd580abpAGty0+df7vdtizk4hdYuWuo/JNkzlYpaQTtca0HjoYEIX/pIH
+         12aw==
+X-Gm-Message-State: AOAM530bkYoqKUQagXJ8GquCfX3TNHBT6u7Q1mHe1PfaS2pHyyz17Zgm
+        sjMMdTZ35IZAHg0iz1qYAu7XCg==
+X-Google-Smtp-Source: ABdhPJx0nBU6Y+TUh04OO6/IROXMWJ7hUc76Ud455mDwfSNlb8nAgIObkwH4NgXB0NSx9cPem36m4g==
+X-Received: by 2002:a17:90a:b284:b0:1e3:826b:d11d with SMTP id c4-20020a17090ab28400b001e3826bd11dmr5147277pjr.79.1654806551448;
+        Thu, 09 Jun 2022 13:29:11 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id e3-20020a17090301c300b0016511314b94sm17748369plh.159.2022.06.09.13.29.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jun 2022 13:29:10 -0700 (PDT)
+Date:   Thu, 9 Jun 2022 20:29:06 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Vishal Annapurve <vannapurve@google.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
+        Marc Orr <marcorr@google.com>, kvm list <kvm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <YqJYEheLiGI4KqXF@google.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
+ <20220607065749.GA1513445@chaop.bj.intel.com>
+ <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
+ <20220608021820.GA1548172@chaop.bj.intel.com>
+ <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="s6475kpyxxjrzego"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220606200203.22938-1-quic_amelende@quicinc.com>
+In-Reply-To: <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Jun 08, 2022, Vishal Annapurve wrote:
+> ...
+> > With this patch series, it's actually even not possible for userspace VMM
+> > to allocate private page by a direct write, it's basically unmapped from
+> > there. If it really wants to, it should so something special, by intention,
+> > that's basically the conversion, which we should allow.
+> >
+> 
+> A VM can pass GPA backed by private pages to userspace VMM and when
+> Userspace VMM accesses the backing hva there will be pages allocated
+> to back the shared fd causing 2 sets of pages backing the same guest
+> memory range.
+> 
+> > Thanks for bringing this up. But in my mind I still think userspace VMM
+> > can do and it's its responsibility to guarantee that, if that is hard
+> > required.
 
---s6475kpyxxjrzego
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That was my initial reaction too, but there are unfortunate side effects to punting
+this to userspace. 
 
-Hi,
+> By design, userspace VMM is the decision-maker for page
+> > conversion and has all the necessary information to know which page is
+> > shared/private. It also has the necessary knobs to allocate/free the
+> > physical pages for guest memory. Definitely, we should make userspace
+> > VMM more robust.
+> 
+> Making Userspace VMM more robust to avoid double allocation can get
+> complex, it will have to keep track of all in-use (by Userspace VMM)
+> shared fd memory to disallow conversion from shared to private and
+> will have to ensure that all guest supplied addresses belong to shared
+> GPA ranges.
 
-On Mon, Jun 06, 2022 at 01:02:05PM -0700, Anjelique Melendez wrote:
-> From: David Collins <quic_collinsd@quicinc.com>
->=20
-> Update the description of "reg" property to add the PON_PBS base
-> address along with PON_HLOS base address.  Also add "reg-names"
-> property description.
->=20
-> Signed-off-by: David Collins <quic_collinsd@quicinc.com>
-> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
-> ---
->=20
-> New patch series to sperate this patch from applied patches.
-> Last comments from original patch series can be found
-> https://lore.kernel.org/linux-arm-msm/27515993-18f3-8891-4835-9b6a8d7f86b=
-0@quicinc.com/
->=20
->  bindings/power/reset/qcom,pon.yaml | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
->=20
-> diff --git a/bindings/power/reset/qcom,pon.yaml b/bindings/power/reset/qc=
-om,pon.yaml
+IMO, the complexity argument isn't sufficient justfication for introducing new
+kernel functionality.  If multiple processes are accessing guest memory then there
+already needs to be some amount of coordination, i.e. it can't be _that_ complex.
 
-uhm... the path is missing Documentation/devicetree prefix, so this
-obviously would not apply. Then you missed adding Krzysztof to CC.
-I will not apply this without an explicit Ack from DT binding maintainers.
+My concern with forcing userspace to fully handle unmapping shared memory is that
+it may lead to additional performance overhead and/or noisy neighbor issues, even
+if all guests are well-behaved.
 
-Also I suppose GEN1/GEN2/GEN3 is something that can be inferred from
-the compatible string, so the binding can limit the allowed options
-based on that.
+Unnmapping arbitrary ranges will fragment the virtual address space and consume
+more memory for all the result VMAs.  The extra memory consumption isn't that big
+of a deal, and it will be self-healing to some extent as VMAs will get merged when
+the holes are filled back in (if the guest converts back to shared), but it's still
+less than desirable.
 
--- Sebastian
+More concerning is having to take mmap_lock for write for every conversion, which
+is very problematic for configurations where a single userspace process maps memory
+belong to multiple VMs.  Unmapping and remapping on every conversion will create a
+bottleneck, especially if a VM has sub-optimal behavior and is converting pages at
+a high rate.
 
-> index 353f155d..1d8cf900 100644
-> --- a/bindings/power/reset/qcom,pon.yaml
-> +++ b/bindings/power/reset/qcom,pon.yaml
-> @@ -26,8 +26,26 @@ properties:
->        - qcom,pm8998-pon
-> =20
->    reg:
-> -    maxItems: 1
-> +    description: |
-> +      Specifies the SPMI base address for the PON (power-on) peripheral.=
-  For
-> +      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and =
-PON_PBS
-> +      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_P=
-BS
-> +      peripherals.  In that case, the PON_PBS address needs to be specif=
-ied to
-> +      facilitate software debouncing on some PMICs.
-> +    minItems: 1
-> +    maxItems: 2
-> =20
-> +  reg-names:
-> +    description: |
-> +      For PON GEN1 and GEN2, it should be "pon". For PON GEN3 it should =
-include
-> +      "pon_hlos" and optionally "pon_pbs".
-> +    minItems: 1
-> +    maxItems: 2
-> +    items:
-> +      anyOf:
-> +        - const: pon_hlos
-> +        - const: pon_pbs
-> +        - const: pon
->    pwrkey:
->      type: object
->      $ref: "../../input/qcom,pm8941-pwrkey.yaml#"
-> --=20
-> 2.35.1
->=20
+One argument is that userspace can simply rely on cgroups to detect misbehaving
+guests, but (a) those types of OOMs will be a nightmare to debug and (b) an OOM
+kill from the host is typically considered a _host_ issue and will be treated as
+a missed SLO.
 
---s6475kpyxxjrzego
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmKiUJYACgkQ2O7X88g7
-+poOMA/9G66Nb8kSBWXvKmSMvbcCkF37B+tf5WJC++z5qhJmvNRB+HZNMcEZh/Xm
-y7YgZiIcfuTIhl6N4vJjodobDlz7NdhH9s9WCMdllIrmQsObkIpRyDsf819erOkB
-YFwSiKGumqfDenLedqTp0Rr5ELyiLyCgMxqH+EZxxAaCEoxHNw9zGMkP1htsa0AS
-MJord0axgPM81d873R7QrD0GnQnk548CL0QKJEC47MoYQaWZgxYSq1KBBxrqhUwC
-cK5SlUjSpDY0tGF3UEsOkXZHZLzoU8t1CaEpEseMmjEQNSeX++M5zumvjFMsCXh8
-VlktuzIe/6nP2i8NbvDbuh0wXgk/J1msktco8D14EEsC4EIdkixQccgYYiRglWzH
-DjrlzBcRQnkLHtyNsK3F4SGf9SVpG0m9MtMcVrpYnzqGmcDYDcAeRM5icBPK7425
-tURbJHpljNn7IcC10XXAG92TnpbdTeT/akMt+nCFakSjwLuUo6fER3JECH2TeXKH
-QEVyfd5b6NdUIXJ36+mHiA9W6i2CCvEB1VLjSkT4KehiTXv0WY6IB93RE0Tsub/w
-hN9sYA9XVgfAjwxL7gLfG4ZFt2a7YHfgODwKX2UPl+tGjF9KN/ilaXAeyUhsUzC3
-9x+KEXYrw9HNrNXQqEdB3mvmRMTdpOP/d/LkOCeKHGfwbMFJI/w=
-=6fzu
------END PGP SIGNATURE-----
-
---s6475kpyxxjrzego--
+An idea for handling this in the kernel without too much complexity would be to
+add F_SEAL_FAULT_ALLOCATIONS (terrible name) that would prevent page faults from
+allocating pages, i.e. holes can only be filled by an explicit fallocate().  Minor
+faults, e.g. due to NUMA balancing stupidity, and major faults due to swap would
+still work, but writes to previously unreserved/unallocated memory would get a
+SIGSEGV on something it has mapped.  That would allow the userspace VMM to prevent
+unintentional allocations without having to coordinate unmapping/remapping across
+multiple processes.
