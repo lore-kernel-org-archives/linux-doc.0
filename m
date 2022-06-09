@@ -2,85 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13BACC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 15:26:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EE65C43334
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 15:33:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344225AbiFIP0U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jun 2022 11:26:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58520 "EHLO
+        id S236999AbiFIPdc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jun 2022 11:33:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344422AbiFIP0T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 11:26:19 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D5E33DA7C;
-        Thu,  9 Jun 2022 08:26:18 -0700 (PDT)
+        with ESMTP id S1343936AbiFIPdS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 11:33:18 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8954959BA4
+        for <linux-doc@vger.kernel.org>; Thu,  9 Jun 2022 08:33:17 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BF268732;
-        Thu,  9 Jun 2022 15:26:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BF268732
+        by ms.lwn.net (Postfix) with ESMTPSA id F0E69732;
+        Thu,  9 Jun 2022 15:33:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F0E69732
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1654788377; bh=kzXiyg6PaQ9/LR5j+f389QxXJKQf9bbIWSaEQxA3ZNs=;
+        t=1654788797; bh=SxR7yHtZhhWPaFAieTyxeA8TYhUUOP5ojQJcC98USxw=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Nysfa1cYifs83+aNRNQneXD2iTLzP8n3HJYTXr4KVmG39r4MI36b4Pu+euWKbsUSN
-         fCQ0v8XcLNTiFDtQtWG+n4sTepKv4NHuvxrmT1pmMOUYXL8U3LydixO1aJu4OGJ4Z2
-         KrcRhOnfh4egJhfk5Ls1OLvvp7P62eswgwE7VLR9GZ6YKKAWqTahrJwyPIunLE+N21
-         YLFU4g+z531cyvibbykzDzz4vNrbcVbnZ+5p1fAtWpcoiBW2rZRDf0hzkSCdR1JKEF
-         xhSrZNmiXDFj3DfyoVUEwMYsoF8zyhPuIFMXDe9jGKVJ7tzSIq/yrs/yt8uM1XrqY0
-         pZPt3gFfqHiTg==
+        b=lXhEF5ovqB6iYtg9IEZeaSw+qkW6D02h2TcF01p7glNL2eqyA9Hoj168Ou8rR1w/I
+         lryeK+tVThZA0QbRjzkauCClVC9Q+hjaS13d8QWxkwXva49MGsv0bpX9Kbz6lwI1yt
+         4K1LKtxadhYvyhtsGGvSYDYJMq/pNk17nVlM1sj+oKaueYy/UqVJaiJhlpkqD9zW+x
+         8ela6dpy1uxaOFqGyVlT6P1OTI6XrrWt1NS3TNsDNVnm56QFbv5nnSfuHNkfPqvWBH
+         1EKbw66Fkv5bpPAv7sj82x5vq1XGNlPPKx1omL99RN7SutWYCcb/va6N8gfwtWsYyP
+         VL1WzG3cj/Fiw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH 2/5] docs/doc-guide: Mention make variable SPHINXDIRS
-In-Reply-To: <ff89c064-e24a-0f2f-fc03-b029e5d04338@gmail.com>
-References: <dccb5233-7f4f-1be6-d1f4-bbe9f42f88e0@gmail.com>
- <ff89c064-e24a-0f2f-fc03-b029e5d04338@gmail.com>
-Date:   Thu, 09 Jun 2022 09:26:17 -0600
-Message-ID: <87v8t9504m.fsf@meer.lwn.net>
+To:     Dipen Patel <dipenp@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: Move the HTE documentation to driver-api/
+In-Reply-To: <985966be-b7a1-c208-0775-d1cb4ff072cd@nvidia.com>
+References: <87a6apj1do.fsf@meer.lwn.net>
+ <985966be-b7a1-c208-0775-d1cb4ff072cd@nvidia.com>
+Date:   Thu, 09 Jun 2022 09:33:16 -0600
+Message-ID: <87sfod4zsz.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Dipen Patel <dipenp@nvidia.com> writes:
 
-> SPHINXDIRS is useful when you want test builds of only those
-> documents affected by your changes.
+> Acked-by: Dipen Patel <dipenp@nvidia.com>
 >
-> Mention it in the "Sphinx Build" section.
->
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Cc: Maciej W. Rozycki <macro@orcam.me.uk>
-> ---
-> This change is inspired from correspondence with Maciej [1].
->
-> [1]: https://lore.kernel.org/r/f4d40da6-756b-9e75-b867-cc9eedc4b232@gmail.com
->
-> --
->  Documentation/doc-guide/sphinx.rst | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-> index edc4fa023986..efcccab68286 100644
-> --- a/Documentation/doc-guide/sphinx.rst
-> +++ b/Documentation/doc-guide/sphinx.rst
-> @@ -151,6 +151,10 @@ If the theme is not available, it will fall-back to the classic one.
->  
->  The Sphinx theme can be overridden by using the ``DOCS_THEME`` make variable.
->  
-> +There is another make variable ``SPHINXDIRS``, which is useful when test
-> +building a subset of documentation.  Again, see the documentation section
-> +of ``make help`` for the details.
+> On 6/6/22 7:46 AM, Jonathan Corbet wrote:
+>> The hardware timestamp engine documentation is driver API material, and
+>> really belongs in the driver-API book; move it there.
 
-This should definitely be documented, it's kind of sad that we never did
-that.  Rather than redirect readers to type a "make" command, though,
-why not just tell them how to use it here?
-
-Thanks,
+Thanks...I'll push this through the docs tree unless I hear an
+objection.
 
 jon
