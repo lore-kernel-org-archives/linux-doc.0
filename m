@@ -2,58 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EE65C43334
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 15:33:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1124CC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 15:48:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236999AbiFIPdc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jun 2022 11:33:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33568 "EHLO
+        id S237849AbiFIPsx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jun 2022 11:48:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343936AbiFIPdS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 11:33:18 -0400
+        with ESMTP id S236467AbiFIPsw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 11:48:52 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8954959BA4
-        for <linux-doc@vger.kernel.org>; Thu,  9 Jun 2022 08:33:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6D1E51584;
+        Thu,  9 Jun 2022 08:48:51 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id F0E69732;
-        Thu,  9 Jun 2022 15:33:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F0E69732
+        by ms.lwn.net (Postfix) with ESMTPSA id BF199732;
+        Thu,  9 Jun 2022 15:48:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BF199732
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1654788797; bh=SxR7yHtZhhWPaFAieTyxeA8TYhUUOP5ojQJcC98USxw=;
+        t=1654789730; bh=wzS4sH2vP/NmHZejwgyf+MxzmvQDlQlgWpCRyix8Jtw=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=lXhEF5ovqB6iYtg9IEZeaSw+qkW6D02h2TcF01p7glNL2eqyA9Hoj168Ou8rR1w/I
-         lryeK+tVThZA0QbRjzkauCClVC9Q+hjaS13d8QWxkwXva49MGsv0bpX9Kbz6lwI1yt
-         4K1LKtxadhYvyhtsGGvSYDYJMq/pNk17nVlM1sj+oKaueYy/UqVJaiJhlpkqD9zW+x
-         8ela6dpy1uxaOFqGyVlT6P1OTI6XrrWt1NS3TNsDNVnm56QFbv5nnSfuHNkfPqvWBH
-         1EKbw66Fkv5bpPAv7sj82x5vq1XGNlPPKx1omL99RN7SutWYCcb/va6N8gfwtWsYyP
-         VL1WzG3cj/Fiw==
+        b=YvqV3u3gaSodZonxEOQl7lpMs4fYJiNOq9svxxs3OUkua7GmJNRqkJqdwsxqEgoR7
+         91rJzPbzIh2Ex5HR/7NMRz/Z1b0nJHk/N8sUAnuqR3TfHRu7drhB3pEvYFXQwV5/Sm
+         SAOMwaGXWoVSIp+TFRcyvxrwx7XEoplRrLYyPGjhrEbLAPklA0MVsp1GRZejXR726U
+         CZu+I3vpshVYT1nN/D+S1fp9HJ+CbreFVhdx7YTr1zz0MaCAkrPfykSQpt4w7y/KGR
+         PnZDeiIStPVmexsHTbnP+6xw35dhhyE5zVOOKig1CH7tTdzIcRXj6H0huPaHxoJGz/
+         dL2wxsl2XccPA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Dipen Patel <dipenp@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: Move the HTE documentation to driver-api/
-In-Reply-To: <985966be-b7a1-c208-0775-d1cb4ff072cd@nvidia.com>
-References: <87a6apj1do.fsf@meer.lwn.net>
- <985966be-b7a1-c208-0775-d1cb4ff072cd@nvidia.com>
-Date:   Thu, 09 Jun 2022 09:33:16 -0600
-Message-ID: <87sfod4zsz.fsf@meer.lwn.net>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@corigine.com>,
+        linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, oss-drivers@corigine.com,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@corigine.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        Louis Peens <louis.peens@corigine.com>
+Subject: Re: [PATCH] scripts: kernel-doc: Always increment warnings counter
+In-Reply-To: <20220608142601.832926-1-niklas.soderlund@corigine.com>
+References: <20220608142601.832926-1-niklas.soderlund@corigine.com>
+Date:   Thu, 09 Jun 2022 09:48:50 -0600
+Message-ID: <87mtel4z31.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dipen Patel <dipenp@nvidia.com> writes:
+Niklas S=C3=B6derlund <niklas.soderlund@corigine.com> writes:
 
-> Acked-by: Dipen Patel <dipenp@nvidia.com>
+> Some warnings did not increment the warnings counter making the behavior
+> of running kernel-doc with -Werror unlogical as some warnings would be
+> generated but not treated as errors.
 >
-> On 6/6/22 7:46 AM, Jonathan Corbet wrote:
->> The hardware timestamp engine documentation is driver API material, and
->> really belongs in the driver-API book; move it there.
+> Fix this by always incrementing the warnings counter every time a
+> warning related to the input documentation is generated. There is one
+> location in get_sphinx_version() where a warning is printed and the
+> counter is not touched as it concerns the execution environment of the
+> kernel-doc and not the documentation being processed.
 
-Thanks...I'll push this through the docs tree unless I hear an
-objection.
+So this seems like an improvement, but I have to ask: wouldn't it be far
+better to just add a function to emit a warning and use that rather than
+all these print/++$warnings pairings?  The current way seems repetitive
+and error-prone.
+
+I also have to ask...
+
+> Incrementing the counter only have effect when running kernel-doc in
+> either verbose mode (-v or environment variable KBUILD_VERBOSE) or when
+> treating warnings as errors (-Werror or environment variable
+> KDOC_WERROR). In both cases the number of warnings printed is printed to
+> stderr and for the later the exit code of kernel-doc is non-zero if
+> warnings where encountered.
+>
+> Simple test case to demo one of the warnings,
+>
+>     $ cat test.c
+>     /**
+>      * foo() - Description
+>      */
+>     int bar();
+>
+>     # Without this change
+>     $ ./scripts/kernel-doc -Werror -none test.c
+>     test.c:4: warning: expecting prototype for foo(). Prototype was for
+>     bar() instead
+>
+>     # With this change
+>     $ ./scripts/kernel-doc -Werror -none test.c
+>     test.c:4: warning: expecting prototype for foo(). Prototype was for
+>     bar() instead
+>     1 warnings as Errors
+>
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund@corigine.com>
+> Signed-off-by: Simon Horman <simon.horman@corigine.com>
+> Signed-off-by: Louis Peens <louis.peens@corigine.com>
+
+What does this signoff chain mean?  If it really took three people to
+make this patch, then we need Co-developed-by tags to reflect that.
+
+Thanks,
 
 jon
