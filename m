@@ -2,104 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1124CC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 15:48:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7215FC43334
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 15:58:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237849AbiFIPsx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jun 2022 11:48:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46438 "EHLO
+        id S237893AbiFIP6m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jun 2022 11:58:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236467AbiFIPsw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 11:48:52 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6D1E51584;
-        Thu,  9 Jun 2022 08:48:51 -0700 (PDT)
+        with ESMTP id S237806AbiFIP6l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 11:58:41 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072471D4DC2;
+        Thu,  9 Jun 2022 08:58:41 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BF199732;
-        Thu,  9 Jun 2022 15:48:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BF199732
+        by ms.lwn.net (Postfix) with ESMTPSA id A8ED8732;
+        Thu,  9 Jun 2022 15:58:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A8ED8732
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1654789730; bh=wzS4sH2vP/NmHZejwgyf+MxzmvQDlQlgWpCRyix8Jtw=;
+        t=1654790320; bh=UYYa6e09TrnQINuS2KrwL4+6IJnM22V/hh9mWBFbN0w=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=YvqV3u3gaSodZonxEOQl7lpMs4fYJiNOq9svxxs3OUkua7GmJNRqkJqdwsxqEgoR7
-         91rJzPbzIh2Ex5HR/7NMRz/Z1b0nJHk/N8sUAnuqR3TfHRu7drhB3pEvYFXQwV5/Sm
-         SAOMwaGXWoVSIp+TFRcyvxrwx7XEoplRrLYyPGjhrEbLAPklA0MVsp1GRZejXR726U
-         CZu+I3vpshVYT1nN/D+S1fp9HJ+CbreFVhdx7YTr1zz0MaCAkrPfykSQpt4w7y/KGR
-         PnZDeiIStPVmexsHTbnP+6xw35dhhyE5zVOOKig1CH7tTdzIcRXj6H0huPaHxoJGz/
-         dL2wxsl2XccPA==
+        b=Za4Ad5eNtuySOd2Sg6mCfyY9k2QfYGFAtJBnEPh3VNi9xFpv3jG53BAgjeXagnp2/
+         QrOUwVvmjHWtw9n2yquHV4roeiCzIggA83W/fBOh3XoDdsXkfetBtFs8i5VEoSyT/8
+         AD2zSO/FibJFTcaqnyCrHRD2QPxgyMU1aW+m43OtTT/EjDi2pg7onDG0/dOoVuu/DM
+         BH+C7IpY0HKTLi2WWGpDqpEL0W9LuT0Cxye206/3jAeXPyyQXIrPNFpsezeEN/39ed
+         WR0CFjjlWvwx2OjM6tPmG7SmP0TTQjSqAWUuzz8o4ZcM01AHFMMYVlZ9m2HidAahmd
+         E8oDSI5fAmUKw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@corigine.com>,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, oss-drivers@corigine.com,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@corigine.com>,
-        Simon Horman <simon.horman@corigine.com>,
-        Louis Peens <louis.peens@corigine.com>
-Subject: Re: [PATCH] scripts: kernel-doc: Always increment warnings counter
-In-Reply-To: <20220608142601.832926-1-niklas.soderlund@corigine.com>
-References: <20220608142601.832926-1-niklas.soderlund@corigine.com>
-Date:   Thu, 09 Jun 2022 09:48:50 -0600
-Message-ID: <87mtel4z31.fsf@meer.lwn.net>
+To:     Justin Swartz <justin.swartz@risingedge.co.za>
+Cc:     Justin Swartz <justin.swartz@risingedge.co.za>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: usb: fix literal block marker in usbmon
+ verification example
+In-Reply-To: <20220604155431.23246-1-justin.swartz@risingedge.co.za>
+References: <20220604155431.23246-1-justin.swartz@risingedge.co.za>
+Date:   Thu, 09 Jun 2022 09:58:40 -0600
+Message-ID: <87k09p4ymn.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Niklas S=C3=B6derlund <niklas.soderlund@corigine.com> writes:
+Justin Swartz <justin.swartz@risingedge.co.za> writes:
 
-> Some warnings did not increment the warnings counter making the behavior
-> of running kernel-doc with -Werror unlogical as some warnings would be
-> generated but not treated as errors.
+> The "Verify that bus sockets are present" example was not properly
+> formatted due to a typo in the literal block marker.
 >
-> Fix this by always incrementing the warnings counter every time a
-> warning related to the input documentation is generated. There is one
-> location in get_sphinx_version() where a warning is printed and the
-> counter is not touched as it concerns the execution environment of the
-> kernel-doc and not the documentation being processed.
+> Signed-off-by: Justin Swartz <justin.swartz@risingedge.co.za>
+> ---
+>  Documentation/usb/usbmon.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/usb/usbmon.rst b/Documentation/usb/usbmon.rst
+> index b0bd51080..6d5ec1e62 100644
+> --- a/Documentation/usb/usbmon.rst
+> +++ b/Documentation/usb/usbmon.rst
+> @@ -42,7 +42,7 @@ if usbmon is built into the kernel::
+>  	# modprobe usbmon
+>  	#
+>  
+> -Verify that bus sockets are present:
+> +Verify that bus sockets are present::
+>  
 
-So this seems like an improvement, but I have to ask: wouldn't it be far
-better to just add a function to emit a warning and use that rather than
-all these print/++$warnings pairings?  The current way seems repetitive
-and error-prone.
-
-I also have to ask...
-
-> Incrementing the counter only have effect when running kernel-doc in
-> either verbose mode (-v or environment variable KBUILD_VERBOSE) or when
-> treating warnings as errors (-Werror or environment variable
-> KDOC_WERROR). In both cases the number of warnings printed is printed to
-> stderr and for the later the exit code of kernel-doc is non-zero if
-> warnings where encountered.
->
-> Simple test case to demo one of the warnings,
->
->     $ cat test.c
->     /**
->      * foo() - Description
->      */
->     int bar();
->
->     # Without this change
->     $ ./scripts/kernel-doc -Werror -none test.c
->     test.c:4: warning: expecting prototype for foo(). Prototype was for
->     bar() instead
->
->     # With this change
->     $ ./scripts/kernel-doc -Werror -none test.c
->     test.c:4: warning: expecting prototype for foo(). Prototype was for
->     bar() instead
->     1 warnings as Errors
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund@corigine.com>
-> Signed-off-by: Simon Horman <simon.horman@corigine.com>
-> Signed-off-by: Louis Peens <louis.peens@corigine.com>
-
-What does this signoff chain mean?  If it really took three people to
-make this patch, then we need Co-developed-by tags to reflect that.
-
-Thanks,
+Applied, thanks.
 
 jon
