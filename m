@@ -2,165 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE3E3C43334
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 20:29:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43ED3C43334
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 20:34:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234572AbiFIU3Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jun 2022 16:29:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50262 "EHLO
+        id S238810AbiFIUek (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jun 2022 16:34:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234177AbiFIU3N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 16:29:13 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A23426EE9E
-        for <linux-doc@vger.kernel.org>; Thu,  9 Jun 2022 13:29:12 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id t2so21138517pld.4
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jun 2022 13:29:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=C4/yJYyLya7rE6Jieokr56CujDpfPfuLcGNiEECS+QU=;
-        b=CjppovKB2YLi+/umkUgs7TGbUGFHqjbhz+/vuQpURnYcTn7Y/XOYbzw0Ykj8khDf1D
-         lU6118PzbLcDnYEohwwuQpWRqLnFFor88HMkhxJnTWzVFPYmlDCWI4t25w0FcOY9LsJ3
-         Xx+fRvY97K5Q4b9fyl2wIJsNDu8BFxuzsJC2MBkEM8rOua9Xl2avo9S7S1w8ygcb6WQp
-         l07wjz7O+ipoSddpByuvOEx8LLG0at/WFa44rE+IaodvVFqdep6gbL1AbyDvvOmSNBeS
-         GcNHdTH1imkTwWGYIM5B+u73KBCppBXzzkigAH/N4DrtNRxqLpENGyWxu6onk+j5isHM
-         5lXw==
+        with ESMTP id S234450AbiFIUej (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 16:34:39 -0400
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AF3120F6F;
+        Thu,  9 Jun 2022 13:34:35 -0700 (PDT)
+Received: by mail-pj1-f47.google.com with SMTP id l7-20020a17090aaa8700b001dd1a5b9965so367809pjq.2;
+        Thu, 09 Jun 2022 13:34:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=C4/yJYyLya7rE6Jieokr56CujDpfPfuLcGNiEECS+QU=;
-        b=K2uc5bk5nfn3+YeIfNw2bcNdQGpTG/3X/Ra9I5S549aFamchfIxmYxfbXi3ywaM3kw
-         /YwRgltpJR21jH0BHvxhTVR2dmn9zP2AOSpj9VKm7tM1v9U/qnR66plh2eKd7d3W24Hv
-         1Rdwh8AydzsAC+uqtpaIsEfTJfpVZazpk67w7+nfQVo0Cy40vO2ZdqEx7KX0MvY3Y4w8
-         Fmr6yzRHnQJwU8f+C8jmwNTqzHjJQ/BqdaQAv7Pd4VUGM59OgpMhIPqp1bfnQAzfo63j
-         mSAeSt1aunDwd580abpAGty0+df7vdtizk4hdYuWuo/JNkzlYpaQTtca0HjoYEIX/pIH
-         12aw==
-X-Gm-Message-State: AOAM530bkYoqKUQagXJ8GquCfX3TNHBT6u7Q1mHe1PfaS2pHyyz17Zgm
-        sjMMdTZ35IZAHg0iz1qYAu7XCg==
-X-Google-Smtp-Source: ABdhPJx0nBU6Y+TUh04OO6/IROXMWJ7hUc76Ud455mDwfSNlb8nAgIObkwH4NgXB0NSx9cPem36m4g==
-X-Received: by 2002:a17:90a:b284:b0:1e3:826b:d11d with SMTP id c4-20020a17090ab28400b001e3826bd11dmr5147277pjr.79.1654806551448;
-        Thu, 09 Jun 2022 13:29:11 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id e3-20020a17090301c300b0016511314b94sm17748369plh.159.2022.06.09.13.29.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 13:29:10 -0700 (PDT)
-Date:   Thu, 9 Jun 2022 20:29:06 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Vishal Annapurve <vannapurve@google.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
-        Marc Orr <marcorr@google.com>, kvm list <kvm@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jun Nakajima <jun.nakajima@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <YqJYEheLiGI4KqXF@google.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
- <20220607065749.GA1513445@chaop.bj.intel.com>
- <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
- <20220608021820.GA1548172@chaop.bj.intel.com>
- <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=6wtdNtGFdpESF6glfweoRrpOjBH9aO2zp0t1kc4rzd4=;
+        b=XM41EtxdgqDwSnXs9BxHiYNEE9xSlvjsSvGS6YC1mYa51sY4dbnJPUmP33vLBALWEl
+         YF8HjcT9tTOZ9yKl9lTEJpFNTs4cj75iNSJolVpAWTqd+6drodK2hc/XpgrULVfTfhkM
+         SiuICvel3BY1u5JqongrT2ea2PF98hWm3CPFC0rupvbFyql1UUg3V0eBU0HrRf2heRA1
+         YqdKtj2Dcn5soxcLM3uEVpc8jUR4s7NJgWhxNNgtWlTyxdl33Kb6ehuUi3y0kvBgMxSX
+         v41eHk0ggApdXMgDT3p9hUrU6qdErcrfAgplQGeXt+oMXl0qrSWJwwqhYDVDfBKP6scD
+         qVug==
+X-Gm-Message-State: AOAM532q7xox2hHyyYrC3bYVMrIAUP1Ozs9DT8j0jhF8WAg97yN4S0i3
+        WeLm0cbhRtuj33O0zQZh5lA=
+X-Google-Smtp-Source: ABdhPJzP68mcRSDMkhmkAefbn0A7+sB9Xcl1QQgOF53xsaTu2y4djDDrLLteVYsPMpjj5mZsq2HCYQ==
+X-Received: by 2002:a17:903:22d1:b0:166:4bc1:a1da with SMTP id y17-20020a17090322d100b001664bc1a1damr37186025plg.13.1654806874934;
+        Thu, 09 Jun 2022 13:34:34 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:8a44:a3e:c994:3f4b? ([2620:15c:211:201:8a44:a3e:c994:3f4b])
+        by smtp.gmail.com with ESMTPSA id k16-20020aa79d10000000b0050dc7628162sm17863699pfp.60.2022.06.09.13.34.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jun 2022 13:34:33 -0700 (PDT)
+Message-ID: <23bf4427-41c3-bf1d-903a-75928bb47627@acm.org>
+Date:   Thu, 9 Jun 2022 13:34:31 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 3/4] scsi: core: Cap shost max_sectors according to DMA
+ optimum mapping limits
+Content-Language: en-US
+To:     John Garry <john.garry@huawei.com>,
+        damien.lemoal@opensource.wdc.com, joro@8bytes.org, will@kernel.org,
+        jejb@linux.ibm.com, martin.petersen@oracle.com, hch@lst.de,
+        m.szyprowski@samsung.com, robin.murphy@arm.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-ide@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-scsi@vger.kernel.org, liyihang6@hisilicon.com,
+        chenxiang66@hisilicon.com, thunder.leizhen@huawei.com
+References: <1654507822-168026-1-git-send-email-john.garry@huawei.com>
+ <1654507822-168026-4-git-send-email-john.garry@huawei.com>
+ <fe365aa8-00d5-153d-ceb2-f887a71a6927@acm.org>
+ <31417477-953d-283e-808e-cf8701e820a8@huawei.com>
+ <bccbcc9b-4750-a1a7-130f-69eeea5dcb23@acm.org>
+ <5b214e95-dd95-551a-496e-a2139a74e8eb@huawei.com>
+ <a2585983-75d7-c627-13ba-38a464cf716e@acm.org>
+ <9b1d155e-28cc-08dc-5a5a-8580132575e7@huawei.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <9b1d155e-28cc-08dc-5a5a-8580132575e7@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 08, 2022, Vishal Annapurve wrote:
-> ...
-> > With this patch series, it's actually even not possible for userspace VMM
-> > to allocate private page by a direct write, it's basically unmapped from
-> > there. If it really wants to, it should so something special, by intention,
-> > that's basically the conversion, which we should allow.
-> >
-> 
-> A VM can pass GPA backed by private pages to userspace VMM and when
-> Userspace VMM accesses the backing hva there will be pages allocated
-> to back the shared fd causing 2 sets of pages backing the same guest
-> memory range.
-> 
-> > Thanks for bringing this up. But in my mind I still think userspace VMM
-> > can do and it's its responsibility to guarantee that, if that is hard
-> > required.
+On 6/9/22 10:54, John Garry wrote:
+> ok, but do you have a system where the UFS host controller is behind an 
+> IOMMU? I had the impression that UFS controllers would be mostly found 
+> in embedded systems and IOMMUs are not as common on there.
 
-That was my initial reaction too, but there are unfortunate side effects to punting
-this to userspace. 
+Modern phones have an IOMMU. Below one can find an example from a Pixel 
+6 phone. The UFS storage controller is not controller by the IOMMU as 
+far as I can see but I wouldn't be surprised if the security team would 
+ask us one day to enable the IOMMU for the UFS controller.
 
-> By design, userspace VMM is the decision-maker for page
-> > conversion and has all the necessary information to know which page is
-> > shared/private. It also has the necessary knobs to allocate/free the
-> > physical pages for guest memory. Definitely, we should make userspace
-> > VMM more robust.
-> 
-> Making Userspace VMM more robust to avoid double allocation can get
-> complex, it will have to keep track of all in-use (by Userspace VMM)
-> shared fd memory to disallow conversion from shared to private and
-> will have to ensure that all guest supplied addresses belong to shared
-> GPA ranges.
+# (cd /sys/class/iommu && ls */devices)
+1a090000.sysmmu/devices:
+19000000.aoc
 
-IMO, the complexity argument isn't sufficient justfication for introducing new
-kernel functionality.  If multiple processes are accessing guest memory then there
-already needs to be some amount of coordination, i.e. it can't be _that_ complex.
+1a510000.sysmmu/devices:
+1a440000.lwis_csi
 
-My concern with forcing userspace to fully handle unmapping shared memory is that
-it may lead to additional performance overhead and/or noisy neighbor issues, even
-if all guests are well-behaved.
+1a540000.sysmmu/devices:
+1aa40000.lwis_pdp
 
-Unnmapping arbitrary ranges will fragment the virtual address space and consume
-more memory for all the result VMAs.  The extra memory consumption isn't that big
-of a deal, and it will be self-healing to some extent as VMAs will get merged when
-the holes are filled back in (if the guest converts back to shared), but it's still
-less than desirable.
+1a880000.sysmmu/devices:
+1a840000.lwis_g3aa
 
-More concerning is having to take mmap_lock for write for every conversion, which
-is very problematic for configurations where a single userspace process maps memory
-belong to multiple VMs.  Unmapping and remapping on every conversion will create a
-bottleneck, especially if a VM has sub-optimal behavior and is converting pages at
-a high rate.
+1ad00000.sysmmu/devices:
+1ac40000.lwis_ipp  1ac80000.lwis_gtnr_align
 
-One argument is that userspace can simply rely on cgroups to detect misbehaving
-guests, but (a) those types of OOMs will be a nightmare to debug and (b) an OOM
-kill from the host is typically considered a _host_ issue and will be treated as
-a missed SLO.
+1b080000.sysmmu/devices:
+1b450000.lwis_itp
 
-An idea for handling this in the kernel without too much complexity would be to
-add F_SEAL_FAULT_ALLOCATIONS (terrible name) that would prevent page faults from
-allocating pages, i.e. holes can only be filled by an explicit fallocate().  Minor
-faults, e.g. due to NUMA balancing stupidity, and major faults due to swap would
-still work, but writes to previously unreserved/unallocated memory would get a
-SIGSEGV on something it has mapped.  That would allow the userspace VMM to prevent
-unintentional allocations without having to coordinate unmapping/remapping across
-multiple processes.
+1b780000.sysmmu/devices:
+
+1b7b0000.sysmmu/devices:
+1b760000.lwis_mcsc
+
+1b7e0000.sysmmu/devices:
+
+1baa0000.sysmmu/devices:
+1a4e0000.lwis_votf  1ba40000.lwis_gdc
+
+1bad0000.sysmmu/devices:
+1ba60000.lwis_gdc
+
+1bb00000.sysmmu/devices:
+1ba80000.lwis_scsc
+
+1bc70000.sysmmu/devices:
+1bc40000.lwis_gtnr_merge
+
+1bca0000.sysmmu/devices:
+
+1bcd0000.sysmmu/devices:
+
+1bd00000.sysmmu/devices:
+
+1bd30000.sysmmu/devices:
+
+1c100000.sysmmu/devices:
+1c300000.drmdecon  1c302000.drmdecon
+
+1c110000.sysmmu/devices:
+
+1c120000.sysmmu/devices:
+
+1c660000.sysmmu/devices:
+1c640000.g2d
+
+1c690000.sysmmu/devices:
+
+1c710000.sysmmu/devices:
+1c700000.smfc
+
+1c870000.sysmmu/devices:
+1c8d0000.MFC-0  mfc
+
+1c8a0000.sysmmu/devices:
+
+1ca40000.sysmmu/devices:
+1cb00000.bigocean
+
+1cc40000.sysmmu/devices:
+1ce00000.abrolhos
+
+Bart.
