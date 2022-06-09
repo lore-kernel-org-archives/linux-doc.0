@@ -2,78 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C30C4C43334
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 08:01:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B8F2CCA47D
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 08:10:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229816AbiFIIBB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jun 2022 04:01:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55418 "EHLO
+        id S229836AbiFIIKV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jun 2022 04:10:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240415AbiFIIBA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 04:01:00 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED075FDB;
-        Thu,  9 Jun 2022 01:00:54 -0700 (PDT)
-Received: from fraeml743-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LJbxw3Jf7z6881w;
-        Thu,  9 Jun 2022 15:56:04 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml743-chm.china.huawei.com (10.206.15.224) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 9 Jun 2022 10:00:52 +0200
-Received: from [10.47.88.201] (10.47.88.201) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 9 Jun
- 2022 09:00:51 +0100
-Message-ID: <5b214e95-dd95-551a-496e-a2139a74e8eb@huawei.com>
-Date:   Thu, 9 Jun 2022 09:00:50 +0100
+        with ESMTP id S235128AbiFIIKU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 04:10:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1C30E16ABE8
+        for <linux-doc@vger.kernel.org>; Thu,  9 Jun 2022 01:10:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1654762218;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=tiLrsl9taTyGSrJjDKI7N8ule2WbsgbzAGcFN4T087E=;
+        b=VlB3im/d3lUJ3Gi/g6gc+aHqzIp9ry4Da84UCZmrlUy8WCZaC43X9bk5KudE+1MEjzOi8E
+        WawPk4QI1xzbVuGuXDb5FLnBWUpIdCw4uHwoNbn/egQyKZB8WgXGkp31bdQrOPyT0FaXAB
+        ZtMFLhdRdTx84Nc6v9LdmbO9Rcjdya0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-562-sFd4YcckPoi0xEo8ZlBU9g-1; Thu, 09 Jun 2022 04:10:14 -0400
+X-MC-Unique: sFd4YcckPoi0xEo8ZlBU9g-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A7AB3C0E216;
+        Thu,  9 Jun 2022 08:10:13 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.115])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B475492C3B;
+        Thu,  9 Jun 2022 08:10:12 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Alex Williamson <alex.williamson@redhat.com>,
+        alex.williamson@redhat.com
+Cc:     kwankhede@nvidia.com, farman@linux.ibm.com, mjrosato@linux.ibm.com,
+        pasic@linux.ibm.com, diana.craciun@oss.nxp.com,
+        eric.auger@redhat.com, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org, jgg@nvidia.com, yishaih@nvidia.com,
+        hch@lst.de
+Subject: Re: [PATCH] vfio: de-extern-ify function prototypes
+In-Reply-To: <165471414407.203056.474032786990662279.stgit@omen>
+Organization: Red Hat GmbH
+References: <165471414407.203056.474032786990662279.stgit@omen>
+User-Agent: Notmuch/0.36 (https://notmuchmail.org)
+Date:   Thu, 09 Jun 2022 10:10:11 +0200
+Message-ID: <87tu8u9s0s.fsf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v3 3/4] scsi: core: Cap shost max_sectors according to DMA
- optimum mapping limits
-To:     Bart Van Assche <bvanassche@acm.org>,
-        <damien.lemoal@opensource.wdc.com>, <joro@8bytes.org>,
-        <will@kernel.org>, <jejb@linux.ibm.com>,
-        <martin.petersen@oracle.com>, <hch@lst.de>,
-        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-ide@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
-        <linux-scsi@vger.kernel.org>, <liyihang6@hisilicon.com>,
-        <chenxiang66@hisilicon.com>, <thunder.leizhen@huawei.com>
-References: <1654507822-168026-1-git-send-email-john.garry@huawei.com>
- <1654507822-168026-4-git-send-email-john.garry@huawei.com>
- <fe365aa8-00d5-153d-ceb2-f887a71a6927@acm.org>
- <31417477-953d-283e-808e-cf8701e820a8@huawei.com>
- <bccbcc9b-4750-a1a7-130f-69eeea5dcb23@acm.org>
-From:   John Garry <john.garry@huawei.com>
-In-Reply-To: <bccbcc9b-4750-a1a7-130f-69eeea5dcb23@acm.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.88.201]
-X-ClientProxiedBy: lhreml727-chm.china.huawei.com (10.201.108.78) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/06/2022 22:07, Bart Van Assche wrote:
-> On 6/8/22 10:50, John Garry wrote:
->> Please note that this limit only applies if we have an IOMMU enabled 
->> for the scsi host dma device. Otherwise we are limited by dma direct 
->> or swiotlb max mapping size, as before.
-> 
-> SCSI host bus adapters that support 64-bit DMA may support much larger 
-> transfer sizes than 128 KiB.
+On Wed, Jun 08 2022, Alex Williamson <alex.williamson@redhat.com> wrote:
 
-Indeed, and that is my problem today, as my storage controller is 
-generating DMA mapping lengths which exceeds 128K and they slow 
-everything down.
+> The use of 'extern' in function prototypes has been disrecommended in
+> the kernel coding style for several years now, remove them from all vfio
+> related files so contributors no longer need to decide between style and
+> consistency.
+>
+> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> ---
+>
+> A patch in the same vein was proposed about a year ago, but tied to an ill
+> fated series and forgotten.  Now that we're at the beginning of a new
+> development cycle, I'd like to propose kicking off the v5.20 vfio next
+> branch with this patch and would kindly ask anyone with pending respins or
+> significant conflicts to rebase on top of this patch.  Thanks!
+>
+>  Documentation/driver-api/vfio-mediated-device.rst |   10 ++-
+>  drivers/s390/cio/vfio_ccw_cp.h                    |   12 ++--
+>  drivers/s390/cio/vfio_ccw_private.h               |    6 +-
+>  drivers/vfio/fsl-mc/vfio_fsl_mc_private.h         |    2 -
+>  drivers/vfio/platform/vfio_platform_private.h     |   21 +++---
+>  include/linux/vfio.h                              |   70 ++++++++++-----------
+>  include/linux/vfio_pci_core.h                     |   65 ++++++++++----------
+>  7 files changed, 91 insertions(+), 95 deletions(-)
 
-If you say that SRP enjoys best peformance with larger transfers then 
-can you please test this with an IOMMU enabled (iommu group type DMA or 
-DMA-FQ)?
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
-Thanks,
-John
