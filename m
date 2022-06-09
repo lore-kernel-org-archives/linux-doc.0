@@ -2,105 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 100BEC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 13:25:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69FFEC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 13:25:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343624AbiFINZJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jun 2022 09:25:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49888 "EHLO
+        id S245483AbiFINZm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jun 2022 09:25:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343868AbiFINZG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 09:25:06 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C96FB152BB2;
-        Thu,  9 Jun 2022 06:25:03 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id u12-20020a17090a1d4c00b001df78c7c209so26681600pju.1;
-        Thu, 09 Jun 2022 06:25:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=+QrEfwNyUObZpg4FR+sDjlTmpv+zGn+vrSq3i8QmgIA=;
-        b=KjljSREzL0wSolOtkUlpNwONHUFbpDBeP4bOEVdzkt7/LC+m0uNQ952f84SvOUHVuN
-         bMD7CDu5uh2CMmetkp8JZR+W/2B5oNX6TX4koHVCBkolsJkCkxzquLgmLdfYXRp/8TAd
-         CuCO8abxzcObs0NX31sjtO6YZc4FtEPkOcpbeS+dEVA0PR9ECTg9QYihqMurlTSsZUgz
-         nGiu3dc+PalMt9Uf2UfpkBbDsHpSum7BdqTLV8OJWN4vyGUcQlZAQ77z0jJFunrQ6Aao
-         OGvxqAPnh3BNEoWDZ9UmymrKJsIW3IlRdC7xpY1uJg6QASP57GEOxro2NRBvcuCweXGY
-         7P1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=+QrEfwNyUObZpg4FR+sDjlTmpv+zGn+vrSq3i8QmgIA=;
-        b=AZ3NN2irCrrh2m8IOaVFX1Yf2ztpB5fROI9ZnaOaj0H1O9n3j0hMZjVEYx11aWSsiJ
-         7Z6lAKJ+xAEQn58OidaqH+hX46/nm0AyqxbEC43EfDWIOkZc8/ZO5kv2JZT3mhDiXfYA
-         9dQo/78+bgj16hyUFe0ZwerXPw6hxVoh3u9QhsJzTBpKqMRgr8GHR+D6f1ZYiaY8Nioj
-         P3iAGgS0l7WKm9c2kHnWonUGfRl/tu3voSVJXUdPZ2z4vuzrTpSurpaJ8yJnwps5gwut
-         ezfUtNXzpg3kqq+BxQ8MK3pASseBaPva6N1UV1UxxT81M1SKFMJcY0FHVeo/MeVHz0SF
-         /uKA==
-X-Gm-Message-State: AOAM533swU1KKvwU2rqc2TKKhJ5c/5mXGCkehPj+2xwP3N4OmS5HcqrQ
-        EPvxRcXOOOeoRP+XNmK9nB0lxi8o2II=
-X-Google-Smtp-Source: ABdhPJwsevakWlOrt4ajIp6BMcqWo0rbDiVYcTI3fI1UWc0KtcPGoRi7pihMy42NUg8+RwLL19mXhQ==
-X-Received: by 2002:a17:90b:4c4e:b0:1e3:368b:c09c with SMTP id np14-20020a17090b4c4e00b001e3368bc09cmr3466584pjb.140.1654781103319;
-        Thu, 09 Jun 2022 06:25:03 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id t15-20020a17090340cf00b0016168e90f2csm16596512pld.208.2022.06.09.06.25.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jun 2022 06:25:02 -0700 (PDT)
-Message-ID: <ff89c064-e24a-0f2f-fc03-b029e5d04338@gmail.com>
-Date:   Thu, 9 Jun 2022 22:24:58 +0900
+        with ESMTP id S245380AbiFINZk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 09:25:40 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 37F10F3F8C
+        for <linux-doc@vger.kernel.org>; Thu,  9 Jun 2022 06:25:38 -0700 (PDT)
+Received: from localhost.localdomain (unknown [112.20.112.55])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxf0zM9KFiSWk0AA--.696S2;
+        Thu, 09 Jun 2022 21:25:33 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com, zhoubinbin@loongson.cn
+Subject: [PATCH 0/3] docs/zh_CN: Update the translation of vm to 5.19-rc1
+Date:   Thu,  9 Jun 2022 21:27:17 +0800
+Message-Id: <cover.1654780922.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: [PATCH 2/5] docs/doc-guide: Mention make variable SPHINXDIRS
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <dccb5233-7f4f-1be6-d1f4-bbe9f42f88e0@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <dccb5233-7f4f-1be6-d1f4-bbe9f42f88e0@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxf0zM9KFiSWk0AA--.696S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cw4Utry5ury7CFyDCw48WFg_yoW8Zw1xpa
+        s2kryfW3WxA3ZxCw4xGa18Cr18Aa4xWa15Gr12qwnaqrs7tr4rtrZ8tr9Fga9aqry8AF15
+        Xr4FkF4UW34jkFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+        6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+        n2kIc2xKxwCY02Avz4vE14v_Xr4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
+        0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
+        17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
+        C0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF
+        0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2Kf
+        nxnUUI43ZEXa7VUjHGQDUUUUU==
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SPHINXDIRS is useful when you want test builds of only those
-documents affected by your changes.
+Update .../zh_CN/vm/* to 5.19-rc1.
 
-Mention it in the "Sphinx Build" section.
+Yanteng Si (3):
+  docs/zh_CN: Update the translation of highmem to 5.19-rc1
+  docs/zh_CN: Update the translation of page_owner to 5.19-rc1
+  docs/zh_CN: Update the translation of vm index to 5.19-rc1
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Maciej W. Rozycki <macro@orcam.me.uk>
----
-This change is inspired from correspondence with Maciej [1].
+ .../translations/zh_CN/vm/bootmem.rst         | 13 ++++
+ .../translations/zh_CN/vm/highmem.rst         | 77 +++++++++++--------
+ Documentation/translations/zh_CN/vm/index.rst | 39 ++++++++--
+ Documentation/translations/zh_CN/vm/oom.rst   | 13 ++++
+ .../translations/zh_CN/vm/page_allocation.rst | 13 ++++
+ .../translations/zh_CN/vm/page_cache.rst      | 13 ++++
+ .../translations/zh_CN/vm/page_owner.rst      | 70 +++++++++++++++--
+ .../translations/zh_CN/vm/page_reclaim.rst    | 13 ++++
+ .../translations/zh_CN/vm/page_tables.rst     | 13 ++++
+ .../translations/zh_CN/vm/physical_memory.rst | 13 ++++
+ .../translations/zh_CN/vm/process_addrs.rst   | 13 ++++
+ Documentation/translations/zh_CN/vm/shmfs.rst | 13 ++++
+ Documentation/translations/zh_CN/vm/swap.rst  | 13 ++++
+ .../translations/zh_CN/vm/vmalloc.rst         | 13 ++++
+ 14 files changed, 282 insertions(+), 47 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/vm/bootmem.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/oom.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/page_allocation.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/page_cache.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/page_reclaim.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/page_tables.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/physical_memory.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/process_addrs.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/shmfs.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/swap.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/vmalloc.rst
 
-[1]: https://lore.kernel.org/r/f4d40da6-756b-9e75-b867-cc9eedc4b232@gmail.com
-
---
- Documentation/doc-guide/sphinx.rst | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index edc4fa023986..efcccab68286 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -151,6 +151,10 @@ If the theme is not available, it will fall-back to the classic one.
- 
- The Sphinx theme can be overridden by using the ``DOCS_THEME`` make variable.
- 
-+There is another make variable ``SPHINXDIRS``, which is useful when test
-+building a subset of documentation.  Again, see the documentation section
-+of ``make help`` for the details.
-+
- To remove the generated documentation, run ``make cleandocs``.
- 
- .. [#ink] Having ``inkscape(1)`` from Inkscape (https://inkscape.org)
 -- 
-2.25.1
-
+2.27.0
 
