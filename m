@@ -2,96 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A15CC43334
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 13:28:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61DC2CCA473
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 13:54:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236356AbiFIN2r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jun 2022 09:28:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37970 "EHLO
+        id S243290AbiFINy4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jun 2022 09:54:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236472AbiFIN2q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 09:28:46 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77EBBC01;
-        Thu,  9 Jun 2022 06:28:44 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d13so4586426plh.13;
-        Thu, 09 Jun 2022 06:28:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Mz7V2xD1G6h5TvOs7Ag8m6DrvQ9A1f2IYetUk1d+PhQ=;
-        b=B4zn5ZGeBYoVIcQ/k+mcJqq14IHOQj3uKEcxP5ZCiIyILNtXmeX1a3/pZULGcGoyKG
-         9I0bdB9k4gCBE4shh70XOv3E86s8fLu3sfb0mIptRvcxAGmCsf28bCMBmAtzTLL1XylV
-         CiMw/Vfz9t5DifHHm7LcwvGnHpoG3lnnxjvhBnH25Y2d5NagIuvrgYj8b/h2GFphW0qU
-         8q/kFu29nmz7X9a/m0PIVxiZFgkXpKc7cqQ31wQcsdZarUDEdq/4DCXdjTAOjUktct9J
-         xmIlPQKtrKzknalUYLDTowIkXiVRyECcpN7gX7ZAwWUbjygMkeLhrVE/rv/XZFYEcXVX
-         SUVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Mz7V2xD1G6h5TvOs7Ag8m6DrvQ9A1f2IYetUk1d+PhQ=;
-        b=U5sBmBfKsMAN/BIjOsDGlGCHXIIloc0GMM4z2oKbXHjBiZKnV4GldADtn4uU/bpO7f
-         GvTzyugwo89X5o+XJKIC0JFwnCQDcK+urkRwVoBzFMCUy9ZlquBzXdAGd4ilJoiGbW82
-         XFvV+5vVedSpo/3zvbHS7Vkxf070yAGbAmNEyPKKZivY9LJRZTvPhidcPS8VTu7merHm
-         m19DS55K7by5QhR9CLvWETkZL1uLR7dhPCaoRWlGAh3fl42URY6Td66u5c7m2YcqWJcv
-         fv2HTtbInMpRuP7EUCINmPalFrGBzpAyUGucEhFerozmMzVwERNURbXJ80WnJtJ87wtw
-         hVhA==
-X-Gm-Message-State: AOAM5318vNVecHHdT17vl7ora9ZB7W2p2JWs9cIXiuWVtZPZIsSBZUyR
-        zXpjuarRgIrhmLdTK90Dgxg=
-X-Google-Smtp-Source: ABdhPJxsVethl6NbMzTT/j6FDOIG6XvSlq+VQNCFhGOK00BjXa8MIVhSqSAUY6ozNNcfG32Nj6MKjA==
-X-Received: by 2002:a17:903:1211:b0:15e:8208:8cc0 with SMTP id l17-20020a170903121100b0015e82088cc0mr40322693plh.52.1654781324091;
-        Thu, 09 Jun 2022 06:28:44 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id l21-20020a17090b079500b001e0d4169365sm18521658pjz.17.2022.06.09.06.28.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jun 2022 06:28:42 -0700 (PDT)
-Message-ID: <15636c13-7fa2-f973-6d3d-361222b839ef@gmail.com>
-Date:   Thu, 9 Jun 2022 22:28:40 +0900
+        with ESMTP id S243525AbiFINyz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 09:54:55 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96844563A1;
+        Thu,  9 Jun 2022 06:54:53 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LJltJ296wzjXKF;
+        Thu,  9 Jun 2022 21:53:28 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 9 Jun 2022 21:54:50 +0800
+Received: from thunder-town.china.huawei.com (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 9 Jun 2022 21:54:49 +0800
+From:   Zhen Lei <thunder.leizhen@huawei.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        <kexec@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+CC:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        "John Donnelly" <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: [PATCH] arm64: kdump: Provide default size when crashkernel=Y,low is not specified
+Date:   Thu, 9 Jun 2022 21:50:29 +0800
+Message-ID: <20220609135029.607-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: [PATCH 5/5] docs/doc-guide: Put meta title for kernel-doc HTML page
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <dccb5233-7f4f-1be6-d1f4-bbe9f42f88e0@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <dccb5233-7f4f-1be6-d1f4-bbe9f42f88e0@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kernel-doc.rst has two 1st level section titles of "Writing
-kernel-doc comments" and "Including kernel-doc comments".
+To be consistent with the implementation of x86 and improve cross-platform
+user experience. Try to allocate at least 256 MiB low memory automatically
+when crashkernel=Y,low is not specified.
 
-Therefore, rather than using the first one, put a meta title
-of "Kernel-doc comments" for the title of the resulting HTML
-page by using the "title" directive.
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- Documentation/doc-guide/kernel-doc.rst | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/admin-guide/kernel-parameters.txt | 10 +++-------
+ arch/arm64/mm/init.c                            | 12 +++++++++++-
+ 2 files changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index a7cb2afd7990..9c779bd7a751 100644
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -1,3 +1,5 @@
-+.. title:: Kernel-doc comments
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 8090130b544b070..9560f5af248e0d6 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -843,7 +843,9 @@
+ 			available.
+ 			It will be ignored if crashkernel=X is specified.
+ 	crashkernel=size[KMG],low
+-			[KNL, X86-64] range under 4G. When crashkernel=X,high
++			[KNL, X86-64, ARM64] range under 4G(For some platforms,
++			not all low 4G memory can be directly accessed by devices,
++			use the DMA zones instead). When crashkernel=X,high
+ 			is passed, kernel could allocate physical memory region
+ 			above 4G, that cause second kernel crash on system
+ 			that require some amount of low memory, e.g. swiotlb
+@@ -857,12 +859,6 @@
+ 			It will be ignored when crashkernel=X,high is not used
+ 			or memory reserved is below 4G.
+ 
+-			[KNL, ARM64] range in low memory.
+-			This one lets the user specify a low range in the
+-			DMA zone for the crash dump kernel.
+-			It will be ignored when crashkernel=X,high is not used
+-			or memory reserved is located in the DMA zones.
+-
+ 	cryptomgr.notests
+ 			[KNL] Disable crypto self-tests
+ 
+diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+index 339ee84e5a61a0b..5390f361208ccf7 100644
+--- a/arch/arm64/mm/init.c
++++ b/arch/arm64/mm/init.c
+@@ -96,6 +96,14 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
+ #define CRASH_ADDR_LOW_MAX		arm64_dma_phys_limit
+ #define CRASH_ADDR_HIGH_MAX		(PHYS_MASK + 1)
+ 
++/*
++ * This is an empirical value in x86_64 and taken here directly. Please
++ * refer to the code comment in reserve_crashkernel_low() of x86_64 for more
++ * details.
++ */
++#define DEFAULT_CRASH_KERNEL_LOW_SIZE	\
++	max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20)
 +
- ===========================
- Writing kernel-doc comments
- ===========================
+ static int __init reserve_crashkernel_low(unsigned long long low_size)
+ {
+ 	unsigned long long low_base;
+@@ -147,7 +155,9 @@ static void __init reserve_crashkernel(void)
+ 		 * is not allowed.
+ 		 */
+ 		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
+-		if (ret && (ret != -ENOENT))
++		if (ret == -ENOENT)
++			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
++		else if (ret)
+ 			return;
+ 
+ 		crash_max = CRASH_ADDR_HIGH_MAX;
 -- 
 2.25.1
-
 
