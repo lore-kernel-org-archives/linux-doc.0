@@ -2,162 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 268B8CCA480
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 23:18:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AF5AC43334
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 23:47:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345647AbiFIXS5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jun 2022 19:18:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38704 "EHLO
+        id S1345548AbiFIXrD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jun 2022 19:47:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345664AbiFIXSz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 19:18:55 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AE5E202D09;
-        Thu,  9 Jun 2022 16:18:46 -0700 (PDT)
+        with ESMTP id S231949AbiFIXrC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 19:47:02 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2BBFC965D;
+        Thu,  9 Jun 2022 16:47:00 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 29401B82D85;
-        Thu,  9 Jun 2022 23:18:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 580E0C34114;
-        Thu,  9 Jun 2022 23:18:43 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6E1616201E;
+        Thu,  9 Jun 2022 23:47:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43018C34114;
+        Thu,  9 Jun 2022 23:46:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654816723;
-        bh=jV7HoOubF6PTB2ncQUr11grjqLBwpz0PFhGJjzU5azE=;
+        s=k20201202; t=1654818419;
+        bh=75ma3gShevB/s+RL0PO7tBwv+TZNSdvzkkGB14y8o+U=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GFF+OvYad586MW1XA098aEQbKkZR/csWDoiuq1bsWvvpmFu96w9PTb+Q1L3yeRM1m
-         VAQ+RTjn4X2LdsCEMPHLp+CNprlppcO5JeRczRLxBIU1dqd7wuwnMztQ1p3TivfCv7
-         QeuvQoxzm+hJduo9ugf698Ws4UIxvWCW5t02Dp5WudTA0MgpCC3Xr4bMlV1XSyXC+w
-         82JghlyQfOk4n9LKvTCSGs7c1YyjvAUNaU6cQwM0Eam2KZQWOo9xuw5GAsvw09pIWK
-         aSXRHVRr6b1g0LBCSakH0Z+xC/42BzxxKYxyGQqii4lUPxH4F4ECgdxEZl6EY1sRJW
-         ilwdH5o4JlgeA==
-Date:   Thu, 9 Jun 2022 16:18:41 -0700
+        b=kcX+PwMw5mFGo3Hvd5s+OCw0NUn7tGUaFLmRiU7V0WspqeDtxnP4hKHuGR04d0Zh/
+         CmqrhaiNPpoiltOTf+gpcxwOtF2MvuPkzFtYsPvf0fFIr2JbSi7wNC+Csv9+lRUjWi
+         opbqKAFrkAoeuRc7dMMJbhCkSkK4kowoEKuE5crEYe4xnUSu/eOOgwMqFaDAPU8na3
+         fphsoQ/VKiMJbP/Epu6c/rwA+3yiRDVQI2cSRN8LsM296JFCP0HRNxCApnQHSLL/bN
+         I3irVFNVvS/5ZSLwPzuIsM3L6DDs8FHN/TmjloO4XV1i006u9oLMGJ4ej4H8MhUo/V
+         11soWc+hYdL8Q==
+Date:   Thu, 9 Jun 2022 16:46:57 -0700
 From:   Eric Biggers <ebiggers@kernel.org>
-To:     Frederick Lawler <fred@cloudflare.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-cachefs@redhat.com, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org, linux-mm@kvack.org,
-        linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-        linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
-        keyrings@vger.kernel.org, selinux@vger.kernel.org,
-        serge@hallyn.com, amir73il@gmail.com, kernel-team@cloudflare.com,
-        Jeff Moyer <jmoyer@redhat.com>,
-        Paul Moore <paul@paul-moore.com>
-Subject: Re: [PATCH v3] cred: Propagate security_prepare_creds() error code
-Message-ID: <YqJ/0W3wxPThWqgC@sol.localdomain>
-References: <20220608150942.776446-1-fred@cloudflare.com>
+To:     Deven Bowers <deven.desai@linux.microsoft.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, agk@redhat.com,
+        snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, linux-audit@redhat.com,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v8 13/17] fsverity: consume builtin signature via LSM
+ hook
+Message-ID: <YqKGcdM3t5gjqBpq@sol.localdomain>
+References: <1654714889-26728-1-git-send-email-deven.desai@linux.microsoft.com>
+ <1654714889-26728-14-git-send-email-deven.desai@linux.microsoft.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220608150942.776446-1-fred@cloudflare.com>
+In-Reply-To: <1654714889-26728-14-git-send-email-deven.desai@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 08, 2022 at 10:09:42AM -0500, Frederick Lawler wrote:
-> diff --git a/fs/aio.c b/fs/aio.c
-> index 3c249b938632..5abbe88c3ca7 100644
-> --- a/fs/aio.c
-> +++ b/fs/aio.c
-> @@ -1620,6 +1620,8 @@ static void aio_fsync_work(struct work_struct *work)
->  static int aio_fsync(struct fsync_iocb *req, const struct iocb *iocb,
->  		     bool datasync)
->  {
-> +	int err;
-> +
->  	if (unlikely(iocb->aio_buf || iocb->aio_offset || iocb->aio_nbytes ||
->  			iocb->aio_rw_flags))
->  		return -EINVAL;
-> @@ -1628,8 +1630,11 @@ static int aio_fsync(struct fsync_iocb *req, const struct iocb *iocb,
->  		return -EINVAL;
->  
->  	req->creds = prepare_creds();
-> -	if (!req->creds)
-> -		return -ENOMEM;
-> +	if (IS_ERR(req->creds)) {
-> +		err = PTR_ERR(req->creds);
-> +		req->creds = NULL;
-> +		return err;
-> +	}
+On Wed, Jun 08, 2022 at 12:01:25PM -0700, Deven Bowers wrote:
+> From: Fan Wu <wufan@linux.microsoft.com>
+> 
+> fsverity represents a mechanism to support both integrity and
+> authenticity protection of a file, supporting both signed and unsigned
+> digests.
+> 
+> An LSM which controls access to a resource based on authenticity and
+> integrity of said resource, can then use this data to make an informed
+> decision on the authorization (provided by the LSM's policy) of said
+> claim.
+> 
+> This effectively allows the extension of a policy enforcement layer in
+> LSM for fsverity, allowing for more granular control of how a
+> particular authenticity claim can be used. For example, "all (built-in)
+> signed fsverity files should be allowed to execute, but only these
+> hashes are allowed to be loaded as kernel modules".
+> 
+> This enforcement must be done in kernel space, as a userspace only
+> solution would fail a simple litmus test: Download a self-contained
+> malicious binary that never touches the userspace stack. This
+> binary would still be able to execute.
+> 
+> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
 
-This part is a little ugly.  How about doing:
-
-	creds = prepare_creds();
-	if (IS_ERR(creds))
-		return PTR_ERR(creds);
-	req->creds = creds;
-
-> diff --git a/fs/exec.c b/fs/exec.c
-> index 0989fb8472a1..02624783e40e 100644
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -1468,15 +1468,19 @@ EXPORT_SYMBOL(finalize_exec);
->   */
->  static int prepare_bprm_creds(struct linux_binprm *bprm)
->  {
-> +	int err = -ERESTARTNOINTR;
->  	if (mutex_lock_interruptible(&current->signal->cred_guard_mutex))
-> -		return -ERESTARTNOINTR;
-> +		return err;
->  
->  	bprm->cred = prepare_exec_creds();
-> -	if (likely(bprm->cred))
-> -		return 0;
-> +	if (IS_ERR(bprm->cred)) {
-> +		err = PTR_ERR(bprm->cred);
-> +		bprm->cred = NULL;
-> +		mutex_unlock(&current->signal->cred_guard_mutex);
-> +		return err;
-> +	}
->  
-> -	mutex_unlock(&current->signal->cred_guard_mutex);
-> -	return -ENOMEM;
-> +	return 0;
->  }
-
-Similarly:
-
-static int prepare_bprm_creds(struct linux_binprm *bprm)
-{
-	struct cred *cred;
-
-	if (mutex_lock_interruptible(&current->signal->cred_guard_mutex))
-		return -ERESTARTNOINTR;
-
-	cred = prepare_exec_creds();
-	if (IS_ERR(cred)) {
-		mutex_unlock(&current->signal->cred_guard_mutex);
-		return PTR_ERR(cred);
-	}
-	bprm->cred = cred;
-	return 0;
-}
-
-> diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
-> index eec72ca962e2..6cf75aa83b6c 100644
-> --- a/kernel/nsproxy.c
-> +++ b/kernel/nsproxy.c
-> @@ -311,6 +311,7 @@ static void put_nsset(struct nsset *nsset)
->  
->  static int prepare_nsset(unsigned flags, struct nsset *nsset)
->  {
-> +	int err = -ENOMEM;
->  	struct task_struct *me = current;
->  
->  	nsset->nsproxy = create_new_namespaces(0, me, current_user_ns(), me->fs);
-> @@ -324,6 +325,12 @@ static int prepare_nsset(unsigned flags, struct nsset *nsset)
->  	if (!nsset->cred)
->  		goto out;
->  
-> +	if (IS_ERR(nsset->cred)) {
-> +		err = PTR_ERR(nsset->cred);
-> +		nsset->cred = NULL;
-> +		goto out;
-> +	}
-
-Why is the NULL check above being kept?
-
-Also, drivers/crypto/ccp/sev-dev.c needs to be updated.
+The IMA support for fs-verity, which is now upstream, already does this (except
+that IMA isn't an LSM).  It also doesn't rely on the fs-verity builtin
+signatures, which shouldn't really be used.  Can you elaborate on how what
+you're doing is better?
 
 - Eric
