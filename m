@@ -2,99 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AE07CCA473
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 15:07:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13BACC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Jun 2022 15:26:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237133AbiFIPHU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jun 2022 11:07:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54702 "EHLO
+        id S1344225AbiFIP0U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jun 2022 11:26:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243905AbiFIPHO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 11:07:14 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC5FA3AA9E8;
-        Thu,  9 Jun 2022 08:07:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S1344422AbiFIP0T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 11:26:19 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D5E33DA7C;
+        Thu,  9 Jun 2022 08:26:18 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 983FFB82DE6;
-        Thu,  9 Jun 2022 15:07:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDD14C34115;
-        Thu,  9 Jun 2022 15:07:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654787230;
-        bh=sr7x9nyyc6Swg+unCedL/fcC7RNlzrz9OBX0Z8PtW2w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TmTCsIUcRHP8cYOWzsESc7rdP8dbhJLzPFBVFPWqAQh8AyUbeVvXZOJZeMSIiGwLO
-         2nO1Fi+QMcB/5BmACfKI5lZlbhg+Y3lXtetC57VlZ8AzyaMRWUiYnLUAzYr5tNgmNj
-         R8pmr7uV49KorN6IUaOMU/vZ2UfUiIQibv0FMbEoB6J8H6ECa7qBSLvSV25GKcnG9r
-         ZMnxI/PSBktUAULW/sto0d0mgg9hd24kVRi66PbX0ypU8tM1QaKvvZb+H6NfGcf53T
-         604jOe1tP/s6daahxVEi+kSF2qLg+solsR8sWApJVC+Gmnxz8IpHItxxyCjwKqcItp
-         xUs8ox/NpvFVg==
-Date:   Thu, 9 Jun 2022 16:07:04 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH -lkmm] docs/memory-barriers: Fix inconsistent name of
- 'data dependency barrier'
-Message-ID: <20220609150703.GB3289@willie-the-truck>
-References: <cc2c7885-ac75-24f3-e18a-e77f97c91b4c@gmail.com>
- <20220607133432.GA32701@willie-the-truck>
- <Yp9h4Cmo0UNZp6xD@rowland.harvard.edu>
- <d6fab7d9-cf22-cb64-d4dd-50cf8bdd4bba@gmail.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id BF268732;
+        Thu,  9 Jun 2022 15:26:17 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BF268732
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1654788377; bh=kzXiyg6PaQ9/LR5j+f389QxXJKQf9bbIWSaEQxA3ZNs=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Nysfa1cYifs83+aNRNQneXD2iTLzP8n3HJYTXr4KVmG39r4MI36b4Pu+euWKbsUSN
+         fCQ0v8XcLNTiFDtQtWG+n4sTepKv4NHuvxrmT1pmMOUYXL8U3LydixO1aJu4OGJ4Z2
+         KrcRhOnfh4egJhfk5Ls1OLvvp7P62eswgwE7VLR9GZ6YKKAWqTahrJwyPIunLE+N21
+         YLFU4g+z531cyvibbykzDzz4vNrbcVbnZ+5p1fAtWpcoiBW2rZRDf0hzkSCdR1JKEF
+         xhSrZNmiXDFj3DfyoVUEwMYsoF8zyhPuIFMXDe9jGKVJ7tzSIq/yrs/yt8uM1XrqY0
+         pZPt3gFfqHiTg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH 2/5] docs/doc-guide: Mention make variable SPHINXDIRS
+In-Reply-To: <ff89c064-e24a-0f2f-fc03-b029e5d04338@gmail.com>
+References: <dccb5233-7f4f-1be6-d1f4-bbe9f42f88e0@gmail.com>
+ <ff89c064-e24a-0f2f-fc03-b029e5d04338@gmail.com>
+Date:   Thu, 09 Jun 2022 09:26:17 -0600
+Message-ID: <87v8t9504m.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d6fab7d9-cf22-cb64-d4dd-50cf8bdd4bba@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 08, 2022 at 11:00:46AM +0900, Akira Yokosawa wrote:
-> On Tue, 7 Jun 2022 10:34:08 -0400, Alan Stern wrote:
-> > On Tue, Jun 07, 2022 at 02:34:33PM +0100, Will Deacon wrote:
-> >> Alternatively, maybe we should be removing the historical stuff from the
-> >> document altogether if it's no longer needed. We don't have any occurrences
-> >> of read_barrier_depends() anymore, so why confuse people with it?
-> > 
-> > How about relegating discussion of these barriers to a special 
-> > "historical" or "niche architecture" section of the document?  In a 
-> > separate patch, of course.
-> 
-> Another option would be to add a section on "Ordering guarantees by
-> dependencies", and explain three variants: address, data, and
-> control.  We have only "control dependencies" section at the moment
-> and uses "data dependency" without properly defining it. 
-> 
-> Address dependencies are special in that they can provide load-to-load
-> ordering guarantees as well as those of load-to-store.
-> Alpha doesn't provide these guarantees at the architecture level, hence
-> the implicit address-dependency barrier in READ_ONCE().
-> 
-> Also, IIUC, arm64's READ_ONCE() is promoted to acquire-load when
-> LTO is enabled.  It is to cope with the possible (but not observed
-> yet) transformation of address dependencies into control dependencies,
-> which can't provide load-to-load ordering guarantees.
-> 
-> These points can be added later in memory-barriers.txt, but I'm
-> afraid I might not be up to such involved changes.
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-I think we should try hard to avoid documenting how specific architectures
-implement the memory model (in this document, at least); it's likely to
-stagnate and it encourages people to rely on the behaviours of a specific
-architecture rather than the portable guarantees offered by the higher-level
-memory model.
+> SPHINXDIRS is useful when you want test builds of only those
+> documents affected by your changes.
+>
+> Mention it in the "Sphinx Build" section.
+>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: Maciej W. Rozycki <macro@orcam.me.uk>
+> ---
+> This change is inspired from correspondence with Maciej [1].
+>
+> [1]: https://lore.kernel.org/r/f4d40da6-756b-9e75-b867-cc9eedc4b232@gmail.com
+>
+> --
+>  Documentation/doc-guide/sphinx.rst | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+> index edc4fa023986..efcccab68286 100644
+> --- a/Documentation/doc-guide/sphinx.rst
+> +++ b/Documentation/doc-guide/sphinx.rst
+> @@ -151,6 +151,10 @@ If the theme is not available, it will fall-back to the classic one.
+>  
+>  The Sphinx theme can be overridden by using the ``DOCS_THEME`` make variable.
+>  
+> +There is another make variable ``SPHINXDIRS``, which is useful when test
+> +building a subset of documentation.  Again, see the documentation section
+> +of ``make help`` for the details.
 
-Will
+This should definitely be documented, it's kind of sad that we never did
+that.  Rather than redirect readers to type a "make" command, though,
+why not just tell them how to use it here?
+
+Thanks,
+
+jon
