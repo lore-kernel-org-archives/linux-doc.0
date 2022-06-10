@@ -2,73 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E437C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 16:51:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EB8BC43334
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 16:57:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349729AbiFJQvZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jun 2022 12:51:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50734 "EHLO
+        id S243320AbiFJQ5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jun 2022 12:57:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349926AbiFJQu3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 12:50:29 -0400
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C50A29348;
-        Fri, 10 Jun 2022 09:50:28 -0700 (PDT)
-Received: by mail-il1-x12a.google.com with SMTP id h18so21357494ilj.7;
-        Fri, 10 Jun 2022 09:50:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WGxcvvJYy03A6wteBM0BcXbbkTu0XQ38OAx58GjiKYI=;
-        b=I28gC4LJOetplJcM9grRBxKIYjuI5i/X5PfZAxaN2YDFflEClUrX7I7tOPOldrr7mi
-         Nt86AkBx3bGtSEtMYKpxRr0mW6brtuLag0h0p8AQwzmgLf+F1WEGFbzjcZkTYb77omv6
-         cR9UMBAskXtIHR97VtHYuzNBjWLo5UdcHSG05+5JWoecGDr7qzb9B0Jzx9HgWVVTK2TY
-         /AU149gMGpavE/fPfiIKLBTGxHWf2+vXQTzh7sUmGPB06tDfDB4/IjkQGW25yi//aArH
-         b8/VYaYPfhG/lwDAywZQTVB8V9DPf2M2kDNkl0m/O8fSdwgR4Itp4pznQsU3db1mit5F
-         UBHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WGxcvvJYy03A6wteBM0BcXbbkTu0XQ38OAx58GjiKYI=;
-        b=pvXXvs+pS/fX7ZQFQ69FCw1gF/kqjkawrjysKuNrn3SNGk6ZG0iLTxn9Rw6cE8DOTI
-         2AzFUAJUj2SpZ5oDprWccQWcQM5rtzh3eV71/2x6beCdQQjDHc59WVpOUlO6UbM1k+wK
-         tMovXPC7/CGsPj09IardvANnaJ+Tsq6hPgwa6/Kf+wzpvdf8zVjLgkKPeJvW+7lhSwfa
-         hPaUodTEFZZqQRaf15TVLYDXLa75C23d2aH4nZU0vT6monlPa65nTkKAUA/dHHfvtFd/
-         tIZ8Uvw9cJoB8xXa/ZVXCBattIdremS1e4Wg+uGQkWNKv1mQPBiecDy39sV469IitYjo
-         w4ug==
-X-Gm-Message-State: AOAM5306QdaHeEnx0Ao1Lyqily/aOcXuqFiH1zU0SV3P+I6XCTSxQn1G
-        b+C4f1wGMcTvwkeJF914ZjcPKz6XV4d/lNgQdq3O+NHstjo=
-X-Google-Smtp-Source: ABdhPJxNLHpFyPTXbs5fl264+vPRDCjkwED81P+zBTPlUV0jZd9Yas7zs7ph54LGjttd2VsxIR+LJRjm+dguQ7TFT5k=
-X-Received: by 2002:a05:6e02:152f:b0:2d4:980:a529 with SMTP id
- i15-20020a056e02152f00b002d40980a529mr21205445ilu.72.1654879827513; Fri, 10
- Jun 2022 09:50:27 -0700 (PDT)
+        with ESMTP id S231317AbiFJQ5h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 12:57:37 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16F0310C3;
+        Fri, 10 Jun 2022 09:57:31 -0700 (PDT)
+X-UUID: 3074d9628a6c410286eeecd13f5fc3f3-20220611
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5,REQID:a4bc0329-0515-494a-8883-0e46bb75846b,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:22,FILE:0,RULE:Release_Ham,ACT
+        ION:release,TS:22
+X-CID-INFO: VERSION:1.1.5,REQID:a4bc0329-0515-494a-8883-0e46bb75846b,OB:0,LOB:
+        0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:22,FILE:0,RULE:Release_Ham,ACTIO
+        N:release,TS:22
+X-CID-META: VersionHash:2a19b09,CLOUDID:e1dd5e50-276a-4a9a-a4c8-ea931023add4,C
+        OID:IGNORED,Recheck:0,SF:28|100|17|19|48|101,TC:nil,Content:-5,EDM:-3,IP:n
+        il,URL:0,File:nil,QS:0,BEC:nil
+X-UUID: 3074d9628a6c410286eeecd13f5fc3f3-20220611
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        (envelope-from <miles.chen@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 796968846; Sat, 11 Jun 2022 00:57:25 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
+ Sat, 11 Jun 2022 00:57:24 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Sat, 11 Jun 2022 00:57:24 +0800
+From:   Miles Chen <miles.chen@mediatek.com>
+To:     <masahiroy@kernel.org>
+CC:     <corbet@lwn.net>, <jonathanh@nvidia.com>,
+        <linux-doc@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>,
+        <mpe@ellerman.id.au>, <nathan@kernel.org>,
+        <ndesaulniers@google.com>, <penguin-kernel@I-love.SAKURA.ne.jp>,
+        <trix@redhat.com>, <wangyugui@e16-tech.com>
+Subject: Re: [PATCH v3] scripts/check-local-export: avoid 'wait $!' for process substitution
+Date:   Sat, 11 Jun 2022 00:57:24 +0800
+Message-ID: <20220610165724.16214-1-miles.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220608011100.486735-1-masahiroy@kernel.org>
+References: <20220608011100.486735-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-References: <dccb5233-7f4f-1be6-d1f4-bbe9f42f88e0@gmail.com>
-In-Reply-To: <dccb5233-7f4f-1be6-d1f4-bbe9f42f88e0@gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 10 Jun 2022 18:50:16 +0200
-Message-ID: <CANiq72=jEDgxD5ZWwGXBTf7q760Rb-WKF7xNmY6cJurnULSUqA@mail.gmail.com>
-Subject: Re: [PATCH 0/5] docs/doc-guide: Sphinx related updates
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 9, 2022 at 3:21 PM Akira Yokosawa <akiyks@gmail.com> wrote:
+>Bash 4.4, released in 2016, supports 'wait $!' to check the exit status
+>of a process substitution, but it seems too new.
 >
-> This update was inspired by private communication with Miguel and
-> Jon.
+>Some people using older bash versions (on CentOS 7, Ubuntu 16.04, etc.)
+>reported an error like this:
+>
+>  ./scripts/check-local-export: line 54: wait: pid 17328 is not a child of this shell
 
-Thanks for working on the update, Akira!
+Thanks for fixing this!
+I hit this issue and this patch fixes my problem.
 
-Cheers,
-Miguel
+Tested-by: Miles Chen <miles.chen@mediatek.com> 
+
+>
+>I used the process substitution to avoid a pipeline, which executes each
+>command in a subshell. If the while-loop is executed in the subshell
+>context, variable changes within are lost after the subshell terminates.
+
+
