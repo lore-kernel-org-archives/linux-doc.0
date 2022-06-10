@@ -2,67 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE119C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 18:26:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2BC4C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 22:44:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350424AbiFJS0T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jun 2022 14:26:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37918 "EHLO
+        id S1348368AbiFJWoP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jun 2022 18:44:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241779AbiFJS0P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 14:26:15 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7BDA2D1CA;
-        Fri, 10 Jun 2022 11:26:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7D704B836F6;
-        Fri, 10 Jun 2022 18:26:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 36C52C3411C;
-        Fri, 10 Jun 2022 18:26:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654885571;
-        bh=UPENPVLVv8JSaT98f62sRrKQHDCAQ7O2mVi27++iWnw=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=rev5psLGF4I4wKrcgdLNhRxCBHKfGxoPqKLyIKL8Ip09OVxajZvSbdOV1cLsa2yjN
-         E8VsS+gpxokWi5PMG4aa5h7xhcMV1tHY3BnNWtfr08hT+Q08+D1RuBHj3EEx9YV6UL
-         gRubwsxRpGDdx7KejHnrEkBF+pDPP//6nigjKzg4fl+XbBC/tLRNM7WYhf4EmrPjBu
-         CzVAaQjF+oqjP2g1IDYlh4vOryrAE934Wq2rnLMs+FZ/lm6RGMjCaCxaqBt+EMsTyL
-         aka0glnvmBzz075xSi8PFi2YwVN1i4VPIJ9WVwsbbQcmfiRXZhzrjsfVzX/U6KTyQY
-         HK4jYw8qY+S0g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 22942E737EE;
-        Fri, 10 Jun 2022 18:26:11 +0000 (UTC)
-Subject: Re: [GIT PULL] Documentation fixes for 5.19
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <87h74s77e2.fsf@meer.lwn.net>
-References: <87h74s77e2.fsf@meer.lwn.net>
-X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87h74s77e2.fsf@meer.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.19-3
-X-PR-Tracked-Commit-Id: 387c67afccbb271707cbe6de2817f4e4c76287ad
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: fe43c0188911885a70d0dd405f89ca4f1300e7db
-Message-Id: <165488557113.32117.5474621163444297169.pr-tracker-bot@kernel.org>
-Date:   Fri, 10 Jun 2022 18:26:11 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        with ESMTP id S1348403AbiFJWoO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 18:44:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 82D233C480
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jun 2022 15:44:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1654901052;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=pblZd+Kqp7f2K+2rxNpvXUuiOLaopPh9IaEYk0kwYKE=;
+        b=NTjYhRsx6ctDVsjQjsegWvbKCxKclOsEO07UrXSk8ypDynoqmphEPoXwlWosTDmIHU9jKu
+        NKAwmxOJK34qSCSYKb+G7QwCrJl47j/kbQpKWg4P/UnmlckC+uUe3niKVZInsbxS/dMuzs
+        suM1nz9eAMOXglsw91/x6M5dOdPLk4g=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-580-NsQryGV5PUa_VHADxP0iuQ-1; Fri, 10 Jun 2022 18:44:11 -0400
+X-MC-Unique: NsQryGV5PUa_VHADxP0iuQ-1
+Received: by mail-io1-f72.google.com with SMTP id l7-20020a6b7007000000b00669b2a0d497so279263ioc.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jun 2022 15:44:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=pblZd+Kqp7f2K+2rxNpvXUuiOLaopPh9IaEYk0kwYKE=;
+        b=HLRV/5hv2UKDPVogn14iYIWlBwSgE6a66G/m3okhfBj3qbt/F4D6XxxFLgxLxIOGXU
+         FJ7x1/SJNb15Rb6G5Ts2RvZIWKYL8fl3rwuzqQ3qLAf5F456CZwKtn5+cvSteSKQirTE
+         WHQafSbBkiijN/nzl3a9Ym6uPG6r+959pW+0gNkbxf7lFR4nK9Lp7I7aMwX/FkLgoFBK
+         M9Bv9gZ8znfSgIiFE5EuKTyVob/d/wSRVTc3P7Nn5SKdn9l9PNxoO07ih99QtxquUpMs
+         r6AOxe60FLlPuPpXu4xHLiSQ90YIR8jJSlUXgbLUt4UxCNbuJzH+HpRQ99NPssB9/LXy
+         eICA==
+X-Gm-Message-State: AOAM531oW1WPHFu14GrqCSuESXK3XRqMz1z6/KSjdy2h4YWbooFQxIGO
+        ljJvBE4Z8KxO6wXQBb3F/X9E0Vi6pWnthGPQamoiVXfY7uafFj4yUq+ltEm8SUutkQ1L+cGg2YE
+        jLPGUKjazjTlVpjcqOSAf
+X-Received: by 2002:a02:c811:0:b0:332:2c2e:88e0 with SMTP id p17-20020a02c811000000b003322c2e88e0mr343363jao.132.1654901050840;
+        Fri, 10 Jun 2022 15:44:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwgEFjSHs9TXHG3p6x60NRKxwsOGKtJ1mMFIodXcBQ3lbM9zLgveeGgcd98DfNgAuz2vKQAXQ==
+X-Received: by 2002:a02:c811:0:b0:332:2c2e:88e0 with SMTP id p17-20020a02c811000000b003322c2e88e0mr343346jao.132.1654901050600;
+        Fri, 10 Jun 2022 15:44:10 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239])
+        by smtp.gmail.com with ESMTPSA id y2-20020a926402000000b002d3a3a089b3sm130533ilb.1.2022.06.10.15.44.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jun 2022 15:44:09 -0700 (PDT)
+Date:   Fri, 10 Jun 2022 16:44:07 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     kwankhede@nvidia.com, farman@linux.ibm.com, mjrosato@linux.ibm.com,
+        pasic@linux.ibm.com, diana.craciun@oss.nxp.com, cohuck@redhat.com,
+        eric.auger@redhat.com, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org, yishaih@nvidia.com, hch@lst.de
+Subject: Re: [PATCH] vfio: de-extern-ify function prototypes
+Message-ID: <20220610164407.25feeb23.alex.williamson@redhat.com>
+In-Reply-To: <20220610000434.GE1343366@nvidia.com>
+References: <165471414407.203056.474032786990662279.stgit@omen>
+        <20220610000434.GE1343366@nvidia.com>
+Organization: Red Hat
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Fri, 10 Jun 2022 11:31:01 -0600:
+On Thu, 9 Jun 2022 21:04:34 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-> git://git.lwn.net/linux.git tags/docs-5.19-3
+> On Wed, Jun 08, 2022 at 12:55:13PM -0600, Alex Williamson wrote:
+> > The use of 'extern' in function prototypes has been disrecommended in
+> > the kernel coding style for several years now, remove them from all vfio
+> > related files so contributors no longer need to decide between style and
+> > consistency.
+> > 
+> > Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> > ---
+> > 
+> > A patch in the same vein was proposed about a year ago, but tied to an ill
+> > fated series and forgotten.  Now that we're at the beginning of a new
+> > development cycle, I'd like to propose kicking off the v5.20 vfio next
+> > branch with this patch and would kindly ask anyone with pending respins or
+> > significant conflicts to rebase on top of this patch.  Thanks!  
+> 
+> Can you stick it in your branch please?
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/fe43c0188911885a70d0dd405f89ca4f1300e7db
+Thanks for the R-b, it was my plan today to put it in my next branch,
+but I can't currently test vfio on mainline due to:
 
-Thank you!
+https://lore.kernel.org/all/165490039431.944052.12458624139225785964.stgit@omen/
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+I'll get this in once there's a mainline base where vfio still works.  Thanks,
+
+Alex
+
