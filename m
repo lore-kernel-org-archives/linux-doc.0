@@ -2,184 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 954EFCCA473
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 00:11:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FF57C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 01:58:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234151AbiFJALg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Jun 2022 20:11:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47210 "EHLO
+        id S229924AbiFJB6P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Jun 2022 21:58:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231631AbiFJALf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 20:11:35 -0400
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com [IPv6:2001:4860:4864:20::32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5356D53A61
-        for <linux-doc@vger.kernel.org>; Thu,  9 Jun 2022 17:11:34 -0700 (PDT)
-Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-f16a3e0529so1444484fac.2
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jun 2022 17:11:34 -0700 (PDT)
+        with ESMTP id S229833AbiFJB6P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Jun 2022 21:58:15 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 013C17642;
+        Thu,  9 Jun 2022 18:58:14 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id o6-20020a17090a0a0600b001e2c6566046so974969pjo.0;
+        Thu, 09 Jun 2022 18:58:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lN+fOqwv9bBcDqIpukqHItG5mOqsK9h2lCdbXTf1cPM=;
-        b=DayT0SdBt1ymTKyry+8RI8dWvFXfKXAgjmO8VhNnB1yoDZK63YuzcCUTHD3X1Z3+t5
-         KxmGEbccYszaa9LA1rH+uPvXkUot/k7y+eYJ5dVw1vcNDUZMV9ll/y/F+7N08dr0Wzcn
-         baBzETzPA15Z2tn9QgoF5S7+WOA0j8RJa/fH3l+HKIsIdEIRN75ENG6RuJQTaJE4f7s+
-         tdQ6ePOMDHk+W48X2uZ7KmmqPYEcwu7pMK65fJXjpYRLWoV5X97j/IkcgrkGUpYpxwIB
-         E5LIO66muSm/XASIShQU2K4+YUS/ejVNHYtSotPk8eFHXkkvvETkJhzMm8POKoBM9Wup
-         sSZg==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=O3LtD/aDVvE2wBzGRW4V0+STwua/GO8Xrmfqlkp9N2s=;
+        b=lxXJTgddIZrrXoH1Ic5uWclhiaG3LHEknnCzwkN3/Lvs84IVaofd0opU2VXzapsNTR
+         GbXkjCLfnIX/o2FTHzH4BCk9LBSLMch6rySPhwS7XbfRj2F8VpFjQGM1QWLI5BmzAve9
+         1pzvdcgW2ZfpH/nJSozRjn6+HSv1gJ8fdgYUNOKDeunXAlOb6EaG9jU5Dln81bqzr7w3
+         nImxh+W+aoEGuk+t1ZqDZAPVPro8Okpfkl+OEf/rlRAx9J8/LFdiI5a512kZ8tH4Ogyf
+         wksI1S1CHjAjDoYtZbR9g3DDuJzYwHNeunyNVwnbKZUsM9TXzQiR5D34ROEl9EpR0c+a
+         HztQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lN+fOqwv9bBcDqIpukqHItG5mOqsK9h2lCdbXTf1cPM=;
-        b=vYLZkLIS2Tme+ehEPfm+Xt8+EJJBHtn4H5u63fBgaMyzRb85+3tOZWWFooskVrsHU7
-         5SNNiXfBg4GHceV1K/IipXkJSAoPrKTKMLwX3P+DUKZJKaG6/KMm8RXGixP4aQ8Sa1wO
-         +pX1UcKeXCPxuGCSDrWHnu1bblmfU1ssKPK0Algo8HSkciTTqa5mEgUjUKzUlsQdxTaN
-         fvGJbzBsJgI1O269roHLMsBy27QuxZCPX0vNez6bAcg/rubSHhvE1NoiR3j+49qesajg
-         k5oW2mAhTkwUVYv2uZbYsRw3GtKoa7PPOzuTKtdPyLqtxRgimmrk4s7tFqqVq4wmvOEF
-         XURQ==
-X-Gm-Message-State: AOAM5312KMFxFdhmHuJs2Njynrjj3O5KDVU6ROTgh3wgw2lgbBjUX0ks
-        2dCWlkZp8iqKF8D/XzY9YjGyr/N4DY3vkpH2KhIcqg==
-X-Google-Smtp-Source: ABdhPJzdaT0C30mX9Im9rqGsL6x1Rmi0294lLn68XE92+pqgxWwSN0AqB6f3CMYnEGDUJ7ZH1btvuZX8xfTHzXelZbU=
-X-Received: by 2002:a05:6870:b616:b0:e2:f8bb:5eb with SMTP id
- cm22-20020a056870b61600b000e2f8bb05ebmr3338490oab.218.1654819893261; Thu, 09
- Jun 2022 17:11:33 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=O3LtD/aDVvE2wBzGRW4V0+STwua/GO8Xrmfqlkp9N2s=;
+        b=WLgUuB7ehvG7GNJl64hNMRRt+lvddDhibusN7AcUAjoQ/DZJOzgn4HPaprmsr7ZJei
+         CGXGdqfnErKeTTqptcC7L6TS9mYXZoPc9hVmN+9ZnxJBroW+3R9K/pJYLjYo79xgKEnM
+         vSKMrvHN0aycIgs/dr6SjemScn4EQwR+hxX24sfzr595Q9l7ekFN2eAIqBirW1P8jic2
+         njskxVMVdj1/MUBHm771gGfWUZx1jivyKfRSMSG7QP2X4X3nk74pLYaUHreq3105x8Ca
+         /M08DJRgaDNCGEdlYRXbnrMaZzOp7RFrVTfz8pSS6Gg7+T99bdvvmDyZjRMTXdCafbL4
+         0rGQ==
+X-Gm-Message-State: AOAM532VUIBsF+2/wNutJperiTAgZqBKaHfm8X8LW04w4/fleGm4eNvi
+        0nxw3ZFT7gMz4coDYkaycLg=
+X-Google-Smtp-Source: ABdhPJwUDyRRXAZMFHVN/1bQuIDfalX0tHlEaBneQ7uoGFzqoFeqBwVJM4PdLoHdY7RKLVeea1SeOw==
+X-Received: by 2002:a17:90a:b703:b0:1dd:1e2f:97d7 with SMTP id l3-20020a17090ab70300b001dd1e2f97d7mr6264351pjr.62.1654826293469;
+        Thu, 09 Jun 2022 18:58:13 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id 72-20020a62144b000000b0051b416c065esm17832918pfu.8.2022.06.09.18.58.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jun 2022 18:58:12 -0700 (PDT)
+Message-ID: <7bac8111-d18c-4edc-0722-66e6312daab9@gmail.com>
+Date:   Fri, 10 Jun 2022 10:58:09 +0900
 MIME-Version: 1.0
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
- <20220607065749.GA1513445@chaop.bj.intel.com> <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
- <20220608021820.GA1548172@chaop.bj.intel.com>
-In-Reply-To: <20220608021820.GA1548172@chaop.bj.intel.com>
-From:   Marc Orr <marcorr@google.com>
-Date:   Thu, 9 Jun 2022 17:11:21 -0700
-Message-ID: <CAA03e5GmJw8u83=OG2wYrhdO81Sx5Jme-jkUnoTMQ7cc_o7u=w@mail.gmail.com>
-Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Vishal Annapurve <vannapurve@google.com>,
-        kvm list <kvm@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jun Nakajima <jun.nakajima@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 2/5] docs/doc-guide: Mention make variable SPHINXDIRS
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <dccb5233-7f4f-1be6-d1f4-bbe9f42f88e0@gmail.com>
+ <ff89c064-e24a-0f2f-fc03-b029e5d04338@gmail.com>
+ <87v8t9504m.fsf@meer.lwn.net>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <87v8t9504m.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 7, 2022 at 7:22 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> On Tue, Jun 07, 2022 at 05:55:46PM -0700, Marc Orr wrote:
-> > On Tue, Jun 7, 2022 at 12:01 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > >
-> > > On Mon, Jun 06, 2022 at 01:09:50PM -0700, Vishal Annapurve wrote:
-> > > > >
-> > > > > Private memory map/unmap and conversion
-> > > > > ---------------------------------------
-> > > > > Userspace's map/unmap operations are done by fallocate() ioctl on the
-> > > > > backing store fd.
-> > > > >   - map: default fallocate() with mode=0.
-> > > > >   - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
-> > > > > The map/unmap will trigger above memfile_notifier_ops to let KVM map/unmap
-> > > > > secondary MMU page tables.
-> > > > >
-> > > > ....
-> > > > >    QEMU: https://github.com/chao-p/qemu/tree/privmem-v6
-> > > > >
-> > > > > An example QEMU command line for TDX test:
-> > > > > -object tdx-guest,id=tdx \
-> > > > > -object memory-backend-memfd-private,id=ram1,size=2G \
-> > > > > -machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
-> > > > >
-> > > >
-> > > > There should be more discussion around double allocation scenarios
-> > > > when using the private fd approach. A malicious guest or buggy
-> > > > userspace VMM can cause physical memory getting allocated for both
-> > > > shared (memory accessible from host) and private fds backing the guest
-> > > > memory.
-> > > > Userspace VMM will need to unback the shared guest memory while
-> > > > handling the conversion from shared to private in order to prevent
-> > > > double allocation even with malicious guests or bugs in userspace VMM.
-> > >
-> > > I don't know how malicious guest can cause that. The initial design of
-> > > this serie is to put the private/shared memory into two different
-> > > address spaces and gives usersapce VMM the flexibility to convert
-> > > between the two. It can choose respect the guest conversion request or
-> > > not.
-> >
-> > For example, the guest could maliciously give a device driver a
-> > private page so that a host-side virtual device will blindly write the
-> > private page.
->
-> With this patch series, it's actually even not possible for userspace VMM
-> to allocate private page by a direct write, it's basically unmapped from
-> there. If it really wants to, it should so something special, by intention,
-> that's basically the conversion, which we should allow.
+On Thu, 09 Jun 2022 09:26:17 -0600,
+Jonathan Corbet wrote:
+> Akira Yokosawa <akiyks@gmail.com> writes:
+[...]
+>> --- a/Documentation/doc-guide/sphinx.rst
+>> +++ b/Documentation/doc-guide/sphinx.rst
+>> @@ -151,6 +151,10 @@ If the theme is not available, it will fall-back to the classic one.
+>>  
+>>  The Sphinx theme can be overridden by using the ``DOCS_THEME`` make variable.
+>>  
+>> +There is another make variable ``SPHINXDIRS``, which is useful when test
+>> +building a subset of documentation.  Again, see the documentation section
+>> +of ``make help`` for the details.
+> 
+> This should definitely be documented, it's kind of sad that we never did
+> that.  Rather than redirect readers to type a "make" command, though,
+> why not just tell them how to use it here?
 
-I think Vishal did a better job to explain this scenario in his last
-reply than I did.
+Good point.
+I have updated the hunk as follows:
 
-> > > It's possible for a usrspace VMM to cause double allocation if it fails
-> > > to call the unback operation during the conversion, this may be a bug
-> > > or not. Double allocation may not be a wrong thing, even in conception.
-> > > At least TDX allows you to use half shared half private in guest, means
-> > > both shared/private can be effective. Unbacking the memory is just the
-> > > current QEMU implementation choice.
-> >
-> > Right. But the idea is that this patch series should accommodate all
-> > of the CVM architectures. Or at least that's what I know was
-> > envisioned last time we discussed this topic for SNP [*].
->
-> AFAICS, this series should work for both TDX and SNP, and other CVM
-> architectures. I don't see where TDX can work but SNP cannot, or I
-> missed something here?
++There is another make variable ``SPHINXDIRS``, which is useful when test
++building a subset of documentation.  For example, you can build documents
++under ``Documentation/doc-guide`` by running
++``make SPHINXDIRS=doc-guide htmldocs``.
++The documentation section of ``make help`` will show you the list of
++subdirectories you can specify.
 
-Agreed. I was just responding to the "At least TDX..." bit. Sorry for
-any confusion.
+Thoughts?
 
-> >
-> > Regardless, it's important to ensure that the VM respects its memory
-> > budget. For example, within Google, we run VMs inside of containers.
-> > So if we double allocate we're going to OOM. This seems acceptable for
-> > an early version of CVMs. But ultimately, I think we need a more
-> > robust way to ensure that the VM operates within its memory container.
-> > Otherwise, the OOM is going to be hard to diagnose and distinguish
-> > from a real OOM.
->
-> Thanks for bringing this up. But in my mind I still think userspace VMM
-> can do and it's its responsibility to guarantee that, if that is hard
-> required. By design, userspace VMM is the decision-maker for page
-> conversion and has all the necessary information to know which page is
-> shared/private. It also has the necessary knobs to allocate/free the
-> physical pages for guest memory. Definitely, we should make userspace
-> VMM more robust.
+        Thanks, Akira
 
-Vishal and Sean did a better job to articulate the concern in their
-most recent replies.
+> 
+> Thanks,
+> 
+> jon
