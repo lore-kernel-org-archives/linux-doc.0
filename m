@@ -2,388 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC6B9C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 16:13:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 162EBC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 16:14:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239010AbiFJQNH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jun 2022 12:13:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49324 "EHLO
+        id S1344737AbiFJQO2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jun 2022 12:14:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229737AbiFJQNF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 12:13:05 -0400
-Received: from email.cn (m218-153.88.com [110.43.218.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 835985FC6
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jun 2022 09:13:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=eyxEgvYCAP7eW/U0080cSbwzsFscUWZU7HIIf
-        BIyhEg=; b=V+spkhIcqo2ik9vdZ+xdHvATvNov17kZOC398PnTDZ/ASbqJqW51W
-        OznQwOrHPdx+jAFCM5F2B3zPYtITMYzYK/GUU3KVgT49xrlMxHNbv5zt++B496jn
-        yqYSnwEERu8qn+j2ckv8bRPd1QrOPU5LSb/WzHgkRdukqG/TKwvDXY=
-Received: from bobwxc.mipc (unknown [120.242.121.232])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgCHn_59baNiXBgWAA--.1595S2;
-        Sat, 11 Jun 2022 00:12:46 +0800 (CST)
-Date:   Sat, 11 Jun 2022 00:12:45 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com,
-        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com,
-        zhoubinbin@loongson.cn
-Subject: Re: [PATCH 3/3] docs/zh_CN: Update the translation of vm index to
- 5.19-rc1
-Message-ID: <YqNtfTmaFzRKfBFK@bobwxc.mipc>
-References: <cover.1654780922.git.siyanteng@loongson.cn>
- <41ce34c3f296ae6f615f6a1a61f49186c54139d5.1654780922.git.siyanteng@loongson.cn>
+        with ESMTP id S229737AbiFJQO2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 12:14:28 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1CA05FC6
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jun 2022 09:14:26 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id i64so683241pfc.8
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jun 2022 09:14:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=sqYpRJpV7hTVkJzWeySC/55ywPreerEYyAHVK7rq9LA=;
+        b=ZehwwLYuij7pbQaghWD2GrdTIOfQ1XgasEUmVI+nhvd82X4ZEWGF79XBvheRliFM+8
+         LQlrxByJVokCQ/gINBsFhOZhZjHXcpmAir492TXOaXI7iC/F7Bwi4ptRQtYUbYGyY5SQ
+         TxK5qW/wV8CCV8YqQLV5jWM8YEEm92a1WCcQVxigUczBkLKzhwgrSGPjDy4yzeckQMEl
+         k23GcmLFp8s0aWbczjuNfnjBEB9gzzj7nGZZJi5rfah1FRb/8MQ3Cd99incf77459IOk
+         fmV8msfIleb4V2r4FMWvWw0fr1RX3bQCUO2JP23SfG2qby97FTF15ddfD8Y7n8su8tG3
+         h2BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=sqYpRJpV7hTVkJzWeySC/55ywPreerEYyAHVK7rq9LA=;
+        b=Jf+IPjrZJatGK7ZShiOWGUUR2k/rNAnNHBYh6lSygiTTsdOEmJ/OOs+8fZ2YokUHwm
+         dTZhsDpQzNBEHLJHxGBfpF6EfUZD82s+OIhP7vpyaCSvhOMw6q1ZcYCrXKiqU4xjBeVt
+         DkwOHznZpvuAakscM2l8dzedbAW+JEYe12LCffK3QCctJnw3Gm95/YfYvhDxDqw+WoXg
+         qg9PZuTJ0q+5etROW2BflHiUnUFZ94tb6V7Y4Kpfkz32xh60VuRkYi1SZM6tr4+8tJNl
+         Cv3TZWSYDHtd3ErO7T2z33ijKlzPy1qDOyc3catlFhLeUw8yXiTtNkvQtN/VQyXS7T4J
+         CKMw==
+X-Gm-Message-State: AOAM532fsp0V4ryywmSe5u4772wcvWlTYD064wKPs5eSc1syc2okg7Zu
+        RLSnqokw349+kJoKl1rihxnmGg==
+X-Google-Smtp-Source: ABdhPJzxrryZznx/9GnvIIDqh+c23V5/Xt5ZsJHD0N8PohIbtiXWvM06mGWU66DmH3LeRvNyTftAHA==
+X-Received: by 2002:a63:5:0:b0:3fe:2558:677 with SMTP id 5-20020a630005000000b003fe25580677mr14572323pga.113.1654877666234;
+        Fri, 10 Jun 2022 09:14:26 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id r11-20020a170902e3cb00b0015e8d4eb28csm18669442ple.214.2022.06.10.09.14.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jun 2022 09:14:25 -0700 (PDT)
+Date:   Fri, 10 Jun 2022 16:14:21 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Andy Lutomirski <luto@kernel.org>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <YqNt3Sgzge5Rph/R@google.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-5-chao.p.peng@linux.intel.com>
+ <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
+ <YofeZps9YXgtP3f1@google.com>
+ <20220523132154.GA947536@chaop.bj.intel.com>
+ <YoumuHUmgM6TH20S@google.com>
+ <20220530132613.GA1200843@chaop.bj.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <41ce34c3f296ae6f615f6a1a61f49186c54139d5.1654780922.git.siyanteng@loongson.cn>
-X-CM-TRANSID: GiKnCgCHn_59baNiXBgWAA--.1595S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3KFWkWw1DAw4kWrWDGr45Jrb_yoWDZr4fpF
-        ykKryfWa1xJ345C34xGw1UKF18AF1xua1UCr1IqwnYvrsrJr4ktrsFyryDKa93Wry8AFWU
-        XFs3KFW09r1jy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUqqb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AIxVAIcx
-        kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWx
-        Jr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2Ij64vIr41l42
-        xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
-        14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
-        kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
-        wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
-        4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7xRRJPEDUU
-        UUU==
-X-Originating-IP: [120.242.121.232]
-X-CM-SenderInfo: pere453f6hztlloou0/
+In-Reply-To: <20220530132613.GA1200843@chaop.bj.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 09, 2022 at 09:27:20PM +0800, Yanteng Si wrote:
-> update to commit 481cc97349d6 ("mm,doc: Add new
-> documentation structure")
+On Mon, May 30, 2022, Chao Peng wrote:
+> On Mon, May 23, 2022 at 03:22:32PM +0000, Sean Christopherson wrote:
+> > Actually, if the semantics are that userspace declares memory as private, then we
+> > can reuse KVM_MEMORY_ENCRYPT_REG_REGION and KVM_MEMORY_ENCRYPT_UNREG_REGION.  It'd
+> > be a little gross because we'd need to slightly redefine the semantics for TDX, SNP,
+> > and software-protected VM types, e.g. the ioctls() currently require a pre-exisitng
+> > memslot.  But I think it'd work...
 > 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  .../translations/zh_CN/vm/bootmem.rst         | 13 +++++++
->  Documentation/translations/zh_CN/vm/index.rst | 39 +++++++++++++++----
->  Documentation/translations/zh_CN/vm/oom.rst   | 13 +++++++
->  .../translations/zh_CN/vm/page_allocation.rst | 13 +++++++
->  .../translations/zh_CN/vm/page_cache.rst      | 13 +++++++
->  .../translations/zh_CN/vm/page_reclaim.rst    | 13 +++++++
->  .../translations/zh_CN/vm/page_tables.rst     | 13 +++++++
->  .../translations/zh_CN/vm/physical_memory.rst | 13 +++++++
->  .../translations/zh_CN/vm/process_addrs.rst   | 13 +++++++
->  Documentation/translations/zh_CN/vm/shmfs.rst | 13 +++++++
->  Documentation/translations/zh_CN/vm/swap.rst  | 13 +++++++
->  .../translations/zh_CN/vm/vmalloc.rst         | 13 +++++++
->  12 files changed, 175 insertions(+), 7 deletions(-)
->  create mode 100644 Documentation/translations/zh_CN/vm/bootmem.rst
->  create mode 100644 Documentation/translations/zh_CN/vm/oom.rst
->  create mode 100644 Documentation/translations/zh_CN/vm/page_allocation.rst
->  create mode 100644 Documentation/translations/zh_CN/vm/page_cache.rst
->  create mode 100644 Documentation/translations/zh_CN/vm/page_reclaim.rst
->  create mode 100644 Documentation/translations/zh_CN/vm/page_tables.rst
->  create mode 100644 Documentation/translations/zh_CN/vm/physical_memory.rst
->  create mode 100644 Documentation/translations/zh_CN/vm/process_addrs.rst
->  create mode 100644 Documentation/translations/zh_CN/vm/shmfs.rst
->  create mode 100644 Documentation/translations/zh_CN/vm/swap.rst
->  create mode 100644 Documentation/translations/zh_CN/vm/vmalloc.rst
+> These existing ioctls looks good for TDX and probably SNP as well. For
+> softrware-protected VM types, it may not be enough. Maybe for the first
+> step we can reuse this for all hardware based solutions and invent new
+> interface when software-protected solution gets really supported.
 > 
-> diff --git a/Documentation/translations/zh_CN/vm/bootmem.rst b/Documentation/translations/zh_CN/vm/bootmem.rst
-> new file mode 100644
-> index 000000000000..45652031a9cc
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/bootmem.rst
-> @@ -0,0 +1,13 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: Documentation/vm/bootmem.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +========
-> +启动内存
-> +========
-> diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-> index a1c6d529b6ff..e9adc693184d 100644
-> --- a/Documentation/translations/zh_CN/vm/index.rst
-> +++ b/Documentation/translations/zh_CN/vm/index.rst
-> @@ -12,11 +12,38 @@
->  Linux内存管理文档
->  =================
->  
-> -这是一个关于Linux内存管理（mm）子系统内部的文档集，其中有不同层次的细节，包括注释
-> -和邮件列表的回复，用于阐述数据结构和算法的基本情况。如果你正在寻找关于简单分配内存的建
-> -议，请参阅(Documentation/translations/zh_CN/core-api/memory-allocation.rst)。
-> -对于控制和调整指南，请参阅(Documentation/admin-guide/mm/index)。
-> -TODO:待引用文档集被翻译完毕后请及时修改此处）
-> +这是一份关于了解Linux的内存管理子系统的指南。如果你正在寻找关于简单分配内存的
-> +建议，请参阅内存分配指南
-> +(Documentation/translations/zh_CN/core-api/memory-allocation.rst)。
-> +关于控制和调整的指南，请看管理指南
-> +(Documentation/translations/zh_CN/admin-guide/mm/index.rst)。
-> +
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   physical_memory
-> +   page_tables
-> +   process_addrs
-> +   bootmem
-> +   page_allocation
-> +   vmalloc
-> +   highmem
-> +   page_reclaim
-> +   swap
-> +   page_cache
-> +   shmfs
-> +   oom
-> +
-> +TODOLIST:
-> +* slab
-> +
-> +遗留文档
-> +========
-> +
-> +这是一个关于Linux内存管理（MM）子系统内部的旧文档的集合，其中有不同层次的细节，
-> +包括注释和邮件列表的回复，用于阐述数据结构和算法的描述。它应该被很好地整合到上述
-> +结构化的文档中，如果它已经完成了它的使命，可以删除。
->  
->  .. toctree::
->     :maxdepth: 1
-> @@ -25,7 +52,6 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
->     balance
->     damon/index
->     free_page_reporting
-> -   highmem
->     ksm
->     frontswap
->     hmm
-> @@ -48,7 +74,6 @@ TODOLIST:
->  * free_page_reporting
->  * hugetlbfs_reserv
->  * page_migration
-> -* slub
->  * transhuge
->  * unevictable-lru
->  * vmalloced-kernel-stacks
-> diff --git a/Documentation/translations/zh_CN/vm/oom.rst b/Documentation/translations/zh_CN/vm/oom.rst
-> new file mode 100644
-> index 000000000000..00cc444cf86b
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/oom.rst
-> @@ -0,0 +1,13 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: Documentation/vm/oom.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +============
-> +内存不足处理
-> +============
-> diff --git a/Documentation/translations/zh_CN/vm/page_allocation.rst b/Documentation/translations/zh_CN/vm/page_allocation.rst
-> new file mode 100644
-> index 000000000000..ab779498abe6
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/page_allocation.rst
-> @@ -0,0 +1,13 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: Documentation/vm/page_allocation.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +========
-> +页面分配
-> +========
-> diff --git a/Documentation/translations/zh_CN/vm/page_cache.rst b/Documentation/translations/zh_CN/vm/page_cache.rst
-> new file mode 100644
-> index 000000000000..6e000699da78
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/page_cache.rst
-> @@ -0,0 +1,13 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: Documentation/vm/page_cache.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +========
-> +页面缓存
-> +========
-> diff --git a/Documentation/translations/zh_CN/vm/page_reclaim.rst b/Documentation/translations/zh_CN/vm/page_reclaim.rst
-> new file mode 100644
-> index 000000000000..3939d4c4a67b
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/page_reclaim.rst
-> @@ -0,0 +1,13 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: Documentation/vm/page_reclaim.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +========
-> +页面回收
-> +========
-> diff --git a/Documentation/translations/zh_CN/vm/page_tables.rst b/Documentation/translations/zh_CN/vm/page_tables.rst
-> new file mode 100644
-> index 000000000000..180fb79befd0
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/page_tables.rst
-> @@ -0,0 +1,13 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: Documentation/vm/page_tables.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +====
-> +页表
-> +====
-> diff --git a/Documentation/translations/zh_CN/vm/physical_memory.rst b/Documentation/translations/zh_CN/vm/physical_memory.rst
-> new file mode 100644
-> index 000000000000..5427baea5306
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/physical_memory.rst
-> @@ -0,0 +1,13 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: Documentation/vm/physical_memory.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +========
-> +物理内存
-> +========
-> diff --git a/Documentation/translations/zh_CN/vm/process_addrs.rst b/Documentation/translations/zh_CN/vm/process_addrs.rst
-> new file mode 100644
-> index 000000000000..980fa32ecf07
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/process_addrs.rst
-> @@ -0,0 +1,13 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: Documentation/vm/process_addrs.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +========
-> +进程地址
-> +========
-> diff --git a/Documentation/translations/zh_CN/vm/shmfs.rst b/Documentation/translations/zh_CN/vm/shmfs.rst
-> new file mode 100644
-> index 000000000000..5b3c85e5f992
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/shmfs.rst
-> @@ -0,0 +1,13 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: Documentation/vm/shmfs.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +================
-> +共享内存文件系统
-> +================
+> There is semantics difference for fd-based private memory. Current above
+> two ioctls() use userspace addreess(hva) while for fd-based it should be
+> fd+offset, and probably it's better to use gpa in this case. Then we
+> will need change existing semantics and break backward-compatibility.
 
-Missing:
+My thought was to keep the existing semantics for VMs with type==0, i.e. SEV and
+SEV-ES VMs.  It's a bit gross, but the pinning behavior is a dead end for SNP and
+TDX, so it effectively needs to be deprecated anyways.  I'm definitely not opposed
+to a new ioctl if Paolo or others think this is too awful, but burning an ioctl
+for this seems wasteful.
 
-diff --git a/Documentation/vm/slab.rst b/Documentation/vm/slab.rst
-new file mode 100644
-index 000000000000..87d5a5bb172f
---- /dev/null
-+++ b/Documentation/vm/slab.rst
-@@ -0,0 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===============
-+Slab Allocation
-+===============
+Then generic KVM can do something like:
 
---
-Thanks,
-	Wu
+	case KVM_MEMORY_ENCRYPT_REG_REGION:
+	case KVM_MEMORY_ENCRYPT_UNREG_REGION:
+		struct kvm_enc_region region;
 
-> diff --git a/Documentation/translations/zh_CN/vm/swap.rst b/Documentation/translations/zh_CN/vm/swap.rst
-> new file mode 100644
-> index 000000000000..568a4472ff11
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/swap.rst
-> @@ -0,0 +1,13 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: Documentation/vm/swap.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +========
-> +交换内存
-> +========
-> diff --git a/Documentation/translations/zh_CN/vm/vmalloc.rst b/Documentation/translations/zh_CN/vm/vmalloc.rst
-> new file mode 100644
-> index 000000000000..efb542878f8c
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/vmalloc.rst
-> @@ -0,0 +1,13 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: Documentation/vm/vmalloc.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +================
-> +连续虚拟内存分配
-> +================
-> -- 
-> 2.27.0
+		if (!kvm_arch_vm_supports_private_memslots(kvm))
+			goto arch_vm_ioctl;
 
+		r = -EFAULT;
+		if (copy_from_user(&region, argp, sizeof(region)))
+			goto out;
+
+		r = kvm_set_encrypted_region(ioctl, &region);
+		break;
+	default:
+arch_vm_ioctl:
+		r = kvm_arch_vm_ioctl(filp, ioctl, arg);
+
+
+where common KVM provides
+
+  __weak void kvm_arch_vm_supports_private_memslots(struct kvm *kvm)
+  {
+	return false;
+  }
+
+and x86 overrides that to
+
+  bool kvm_arch_vm_supports_private_memslots(struct kvm *kvm)
+  {
+  	/* I can't remember what we decided on calling type '0' VMs. */
+	return !!kvm->vm_type;
+  }
+
+and if someone ever wants to enable private memslot for SEV/SEV-ES guests we can
+always add a capability or even a new VM type.
+
+pKVM on arm can then obviously implement kvm_arch_vm_supports_private_memslots()
+to grab whatever identifies a pKVM VM.
