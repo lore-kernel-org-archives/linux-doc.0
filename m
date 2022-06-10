@@ -2,135 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 209AEC43334
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 11:38:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92CA7CCA47D
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 12:15:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345103AbiFJLiQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jun 2022 07:38:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53718 "EHLO
+        id S1345218AbiFJMP1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jun 2022 08:15:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347706AbiFJLhW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 07:37:22 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA414703E7
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jun 2022 04:36:53 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id g2so487888ljk.5
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jun 2022 04:36:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=semihalf.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=2bt8jTYVrowhc1gg8uINAlbLKdSaOnKBxI1tejzJnw0=;
-        b=VytV+NMseeOv5ay6lpQ90w3nH/J9TkSL7TDekYgqNJ6A5QUx0JjdEV0LQWDwhoNvvm
-         Rz8hppK3LV/Zx32rXRUnaGgGsmX5wt3+Wmt5lTiuSxzOy65Y0u8rI5JHIib+7RFuxjoR
-         K4FMqtzyophRWwfQGCU0kfhqOEQ94XiFDzl6um4dsmiYHUWa3LfOkaMwdF1Qku7lIBoX
-         +J4huc80z4RkwDz+5pqpvmsCfTSDrhJkZa4kFfpu1icagXacVx0PxFd+2xgKHpaVRf2K
-         OAx2EknOTp0kRe54ep30g5Aq3K5hi4ofIym1NY+KaQ9x9OaGRMBB+UILcxymGGjOJClP
-         HyHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=2bt8jTYVrowhc1gg8uINAlbLKdSaOnKBxI1tejzJnw0=;
-        b=qq5EFYZX8T7TAiX4/x3dHxPBgVB3zfH/Ehgat18UAtRJu0rHu2d+Vln4GeOr5FKjK+
-         Jmq1za+eLhAffXGB1J3zwh35rTURzpsJ4nxuxuIDCl2fQzWSyxMZoVCPGTHDACdvGLcz
-         sw2WkhuOqwkGKVVuoNSc/V7dcfzbmk8MtleeVuV7Yuc8yrBls0MeE54T+rCl8jrTBPlF
-         n31RFLrNX7dYpeXmZXWu5k9r8g4NRODvM0aCeicGxONw+UImwsyyUvn/1ewXgmMr79ps
-         yV5ihbkMLGcl+CgOPXaOFQ3uJkw5yLnNIEossSdA9+eOLXJKxVoYcBT4Z3ZTdzaS7kg3
-         AZBw==
-X-Gm-Message-State: AOAM532bf+34Fg/bd2jso4II8BrSQaJeUr+rO85UvBUvItCzxAYw6Bty
-        gi3eh5JcbAI+G6REF0/hmLPFlE5f5Vx6KjpS7+0//w==
-X-Google-Smtp-Source: ABdhPJz8nMlzBjn3iuzofJua8K4CiElzoan8JfpHCRGcxYs+YT4rOc7inWwuPW0xOg+L4p23ZR9tOj3oZXYetl1y8Z0=
-X-Received: by 2002:a2e:9a82:0:b0:255:77fd:1c2c with SMTP id
- p2-20020a2e9a82000000b0025577fd1c2cmr21978710lji.357.1654861012161; Fri, 10
- Jun 2022 04:36:52 -0700 (PDT)
+        with ESMTP id S242459AbiFJMP0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 08:15:26 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3948622DB65;
+        Fri, 10 Jun 2022 05:15:21 -0700 (PDT)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LKKcR3XT9zgYbl;
+        Fri, 10 Jun 2022 20:13:27 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 10 Jun 2022 20:15:19 +0800
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 10 Jun 2022 20:15:17 +0800
+Message-ID: <70bd99eb-a05d-adb0-5cb8-84dcc66b674e@huawei.com>
+Date:   Fri, 10 Jun 2022 20:15:17 +0800
 MIME-Version: 1.0
-References: <20220609110337.1238762-1-jaz@semihalf.com> <20220609110337.1238762-2-jaz@semihalf.com>
- <f62ab257-b2e0-3097-e394-93a9e7a0d2bf@intel.com>
-In-Reply-To: <f62ab257-b2e0-3097-e394-93a9e7a0d2bf@intel.com>
-From:   Grzegorz Jaszczyk <jaz@semihalf.com>
-Date:   Fri, 10 Jun 2022 13:36:41 +0200
-Message-ID: <CAH76GKPo6VL33tBaZyszL8wvjpzJ7hjOg3o1JddaEnuGbwk=dQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] x86: notify hypervisor about guest entering s2idle state
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     linux-kernel@vger.kernel.org, Dmytro Maluka <dmy@semihalf.com>,
-        Zide Chen <zide.chen@intel.corp-partner.google.com>,
-        Peter Fang <peter.fang@intel.corp-partner.google.com>,
-        Tomasz Nowicki <tn@semihalf.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 6/6] efi: Disable mirror feature if kernelcore is not
+ specified
+Content-Language: en-US
+To:     Ard Biesheuvel <ardb@kernel.org>, Wupeng Ma <mawupeng1@huawei.com>
+CC:     Jonathan Corbet <corbet@lwn.net>, Will Deacon <will@kernel.org>,
+        "Catalin Marinas" <catalin.marinas@arm.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "Ingo Molnar" <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Ashish Kalra <ashish.kalra@amd.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Sachi King <nakato@nakato.io>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        David Dunn <daviddunn@google.com>,
-        Wei Wang <wei.w.wang@intel.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "open list:KERNEL VIRTUAL MACHINE (KVM)" <kvm@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:ACPI" <linux-acpi@vger.kernel.org>,
-        "open list:HIBERNATION (aka Software Suspend, aka swsusp)" 
-        <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "Palmer Dabbelt" <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>, <songmuchun@bytedance.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        <damien.lemoal@opensource.wdc.com>,
+        Stephen Boyd <swboyd@chromium.org>, <wei.liu@kernel.org>,
+        <robin.murphy@arm.com>, <david@redhat.com>,
+        <anshuman.khandual@arm.com>, <thunder.leizhen@huawei.com>,
+        <gpiccoli@igalia.com>, <chenhuacai@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        <chenzhou10@huawei.com>, <vijayb@linux.microsoft.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-efi@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>
+References: <20220607093805.1354256-1-mawupeng1@huawei.com>
+ <20220607093805.1354256-7-mawupeng1@huawei.com>
+ <CAMj1kXGMHn_jsMe2WxWZ-s_QV==1tc5k=xpbNXuDbGp0qF534w@mail.gmail.com>
+From:   Kefeng Wang <wangkefeng.wang@huawei.com>
+In-Reply-To: <CAMj1kXGMHn_jsMe2WxWZ-s_QV==1tc5k=xpbNXuDbGp0qF534w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.243]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-czw., 9 cze 2022 o 16:27 Dave Hansen <dave.hansen@intel.com> napisa=C5=82(a=
-):
->
-> On 6/9/22 04:03, Grzegorz Jaszczyk wrote:
-> > Co-developed-by: Peter Fang <peter.fang@intel.corp-partner.google.com>
-> > Signed-off-by: Peter Fang <peter.fang@intel.corp-partner.google.com>
-> > Co-developed-by: Tomasz Nowicki <tn@semihalf.com>
-> > Signed-off-by: Tomasz Nowicki <tn@semihalf.com>
-> > Signed-off-by: Zide Chen <zide.chen@intel.corp-partner.google.com>
-> > Co-developed-by: Grzegorz Jaszczyk <jaz@semihalf.com>
-> > Signed-off-by: Grzegorz Jaszczyk <jaz@semihalf.com>
-> > ---
-> >  Documentation/virt/kvm/x86/hypercalls.rst | 7 +++++++
-> >  arch/x86/kvm/x86.c                        | 3 +++
-> >  drivers/acpi/x86/s2idle.c                 | 8 ++++++++
-> >  include/linux/suspend.h                   | 1 +
-> >  include/uapi/linux/kvm_para.h             | 1 +
-> >  kernel/power/suspend.c                    | 4 ++++
-> >  6 files changed, 24 insertions(+)
->
-> What's the deal with these emails?
->
->         zide.chen@intel.corp-partner.google.com
->
-> I see a smattering of those in the git logs, but never for Intel folks.
 
-I've kept emails as they were in the original patch and I do not think
-I should change them. This is what Zide and Peter originally used.
+On 2022/6/10 19:20, Ard Biesheuvel wrote:
+> On Tue, 7 Jun 2022 at 11:16, Wupeng Ma <mawupeng1@huawei.com> wrote:
+>> From: Ma Wupeng <mawupeng1@huawei.com>
+>>
+>> If system have some mirrored memory and mirrored feature is not specified
+>> in boot parameter, the basic mirrored feature will be enabled and this will
+>> lead to the following situations:
+>>
+>> - memblock memory allocation prefers mirrored region. This may have some
+>>    unexpected influence on numa affinity.
+>>
+>> - contiguous memory will be split into several parts if parts of them
+>>    is mirrored memory via memblock_mark_mirror().
+>>
+>> To fix this, variable mirrored_kernelcore will be checked before calling
+>> efi_find_mirror() which will enable basic mirrored feature and this
+>> variable is true if kernelcore=mirror is added in the kernel parameters.
+>>
+>> Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
+> This seems like the wrong place to do this. If mirrored memory is
+> irrelevant to memblock, it should ignore the attribute. So I think
+> this check belongs in mm/memblock.c instead.
+
+Sound good,  let's add check into memblock_mark_mirror() and retain
+
+the efi memory mirror information printing.
 
 >
-> I'll also say that I'm a bit suspicious of a patch that includes 5
-> authors for 24 lines of code.  Did it really take five of you to write
-> 24 lines of code?
-
-This patch was built iteratively: original patch comes from Zide and
-Peter, I've squashed it with Tomasz later changes and reworked by
-myself for upstream. I didn't want to take credentials from any of the
-above so ended up with Zide as an author and 3 co-developers. Please
-let me know if that's an issue.
-
-Best regards,
-Grzegorz
+>
+>> ---
+>>   drivers/firmware/efi/efi.c | 3 +++
+>>   include/linux/mm.h         | 2 ++
+>>   mm/page_alloc.c            | 2 +-
+>>   3 files changed, 6 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/firmware/efi/efi.c b/drivers/firmware/efi/efi.c
+>> index 79c232e07de7..8a5edcb0dd82 100644
+>> --- a/drivers/firmware/efi/efi.c
+>> +++ b/drivers/firmware/efi/efi.c
+>> @@ -454,6 +454,9 @@ void __init efi_find_mirror(void)
+>>          if (!efi_enabled(EFI_MEMMAP))
+>>                  return;
+>>
+>> +       if (!mirrored_kernelcore)
+>> +               return;
+>> +
+>>          for_each_efi_memory_desc(md) {
+>>                  unsigned long long start = md->phys_addr;
+>>                  unsigned long long size = md->num_pages << EFI_PAGE_SHIFT;
+>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+>> index bc8f326be0ce..741ac7d022c3 100644
+>> --- a/include/linux/mm.h
+>> +++ b/include/linux/mm.h
+>> @@ -2540,6 +2540,8 @@ extern void get_pfn_range_for_nid(unsigned int nid,
+>>                          unsigned long *start_pfn, unsigned long *end_pfn);
+>>   extern unsigned long find_min_pfn_with_active_regions(void);
+>>
+>> +extern bool mirrored_kernelcore;
+>> +
+>>   #ifndef CONFIG_NUMA
+>>   static inline int early_pfn_to_nid(unsigned long pfn)
+>>   {
+>> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+>> index e008a3df0485..cf6f70aba787 100644
+>> --- a/mm/page_alloc.c
+>> +++ b/mm/page_alloc.c
+>> @@ -356,7 +356,7 @@ static unsigned long required_kernelcore_percent __initdata;
+>>   static unsigned long required_movablecore __initdata;
+>>   static unsigned long required_movablecore_percent __initdata;
+>>   static unsigned long zone_movable_pfn[MAX_NUMNODES] __initdata;
+>> -static bool mirrored_kernelcore __meminitdata;
+>> +bool mirrored_kernelcore __meminitdata;
+>>
+>>   /* movable_zone is the "real" zone pages in ZONE_MOVABLE are taken from */
+>>   int movable_zone;
+>> --
+>> 2.25.1
+>>
+> .
