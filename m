@@ -2,78 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EB8BC43334
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 16:57:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D9BC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 17:31:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243320AbiFJQ5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jun 2022 12:57:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57902 "EHLO
+        id S1343819AbiFJRbI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jun 2022 13:31:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231317AbiFJQ5h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 12:57:37 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16F0310C3;
-        Fri, 10 Jun 2022 09:57:31 -0700 (PDT)
-X-UUID: 3074d9628a6c410286eeecd13f5fc3f3-20220611
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5,REQID:a4bc0329-0515-494a-8883-0e46bb75846b,OB:0,LO
-        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:22,FILE:0,RULE:Release_Ham,ACT
-        ION:release,TS:22
-X-CID-INFO: VERSION:1.1.5,REQID:a4bc0329-0515-494a-8883-0e46bb75846b,OB:0,LOB:
-        0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:22,FILE:0,RULE:Release_Ham,ACTIO
-        N:release,TS:22
-X-CID-META: VersionHash:2a19b09,CLOUDID:e1dd5e50-276a-4a9a-a4c8-ea931023add4,C
-        OID:IGNORED,Recheck:0,SF:28|100|17|19|48|101,TC:nil,Content:-5,EDM:-3,IP:n
-        il,URL:0,File:nil,QS:0,BEC:nil
-X-UUID: 3074d9628a6c410286eeecd13f5fc3f3-20220611
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-        (envelope-from <miles.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 796968846; Sat, 11 Jun 2022 00:57:25 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
- Sat, 11 Jun 2022 00:57:24 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Sat, 11 Jun 2022 00:57:24 +0800
-From:   Miles Chen <miles.chen@mediatek.com>
-To:     <masahiroy@kernel.org>
-CC:     <corbet@lwn.net>, <jonathanh@nvidia.com>,
-        <linux-doc@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>,
-        <mpe@ellerman.id.au>, <nathan@kernel.org>,
-        <ndesaulniers@google.com>, <penguin-kernel@I-love.SAKURA.ne.jp>,
-        <trix@redhat.com>, <wangyugui@e16-tech.com>
-Subject: Re: [PATCH v3] scripts/check-local-export: avoid 'wait $!' for process substitution
-Date:   Sat, 11 Jun 2022 00:57:24 +0800
-Message-ID: <20220610165724.16214-1-miles.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220608011100.486735-1-masahiroy@kernel.org>
-References: <20220608011100.486735-1-masahiroy@kernel.org>
+        with ESMTP id S244429AbiFJRbG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 13:31:06 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A4271CE781;
+        Fri, 10 Jun 2022 10:31:02 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C23395CC;
+        Fri, 10 Jun 2022 17:31:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C23395CC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1654882261; bh=LHNWIZejSrX/E/iorq8X9FF5y8jRZt3nffd9SWiAc+c=;
+        h=From:To:Cc:Subject:Date:From;
+        b=TU7OO79TgvV6QTpsplDGDM9I/67MUSeP73aF7hzNQf6amivRixBoo1Th9QAXXUbad
+         Z9MEZHDqp+qqa+m/mkze8LBU2cYOm56nh1xIrit3t2b+cn1ARstnIc2F2aTPsp5QPa
+         2o7i2MXRkhF0BnZtfGXPTD2zGQW9kD+9HO2YO5fKaMWLuRCQiivtvt+rT1S7NbNv9E
+         q+GydDQQGXEpAUMDWl1j2IX75hT17jijbCKTNojqzs5AY+iFDBJOQp8eUOjBTPRRDA
+         4umfaGSANzIYhk5gUt6fE+U5wqhPhGsuNFXSjnzbqCgA0lnvdp1h0KUzGas1DlfDsy
+         zM2mu9Q4EUxFQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linuxfoundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Documentation fixes for 5.19
+Date:   Fri, 10 Jun 2022 11:31:01 -0600
+Message-ID: <87h74s77e2.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-MTK:  N
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->Bash 4.4, released in 2016, supports 'wait $!' to check the exit status
->of a process substitution, but it seems too new.
->
->Some people using older bash versions (on CentOS 7, Ubuntu 16.04, etc.)
->reported an error like this:
->
->  ./scripts/check-local-export: line 54: wait: pid 17328 is not a child of this shell
+The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a56:
 
-Thanks for fixing this!
-I hit this issue and this patch fixes my problem.
+  Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
 
-Tested-by: Miles Chen <miles.chen@mediatek.com> 
+are available in the Git repository at:
 
->
->I used the process substitution to avoid a pipeline, which executes each
->command in a subshell. If the while-loop is executed in the subshell
->context, variable changes within are lost after the subshell terminates.
+  git://git.lwn.net/linux.git tags/docs-5.19-3
 
+for you to fetch changes up to 387c67afccbb271707cbe6de2817f4e4c76287ad:
 
+  docs: arm: tcm: Fix typo in description of TCM and MMU usage (2022-06-09 12:56:33 -0600)
+
+----------------------------------------------------------------
+A few documentation fixes for 5.19, including moving the new HTE docs to a
+more suitable location, adding loongarch to the features lists, and a
+couple of typo fixes.
+
+----------------------------------------------------------------
+Jonathan Corbet (1):
+      docs: Move the HTE documentation to driver-api/
+
+Justin Swartz (1):
+      docs: usb: fix literal block marker in usbmon verification example
+
+Simon Horman (1):
+      docs: arm: tcm: Fix typo in description of TCM and MMU usage
+
+Zheng Zengkai (1):
+      Documentation/features: Update the arch support status files
+
+ Documentation/arm/tcm.rst                                          | 2 +-
+ Documentation/{ => driver-api}/hte/hte.rst                         | 0
+ Documentation/{ => driver-api}/hte/index.rst                       | 0
+ Documentation/{ => driver-api}/hte/tegra194-hte.rst                | 0
+ Documentation/driver-api/index.rst                                 | 1 +
+ Documentation/features/core/cBPF-JIT/arch-support.txt              | 1 +
+ Documentation/features/core/eBPF-JIT/arch-support.txt              | 1 +
+ Documentation/features/core/generic-idle-thread/arch-support.txt   | 1 +
+ Documentation/features/core/jump-labels/arch-support.txt           | 1 +
+ Documentation/features/core/thread-info-in-task/arch-support.txt   | 1 +
+ Documentation/features/core/tracehook/arch-support.txt             | 1 +
+ Documentation/features/debug/KASAN/arch-support.txt                | 1 +
+ Documentation/features/debug/debug-vm-pgtable/arch-support.txt     | 3 ++-
+ Documentation/features/debug/gcov-profile-all/arch-support.txt     | 3 ++-
+ Documentation/features/debug/kcov/arch-support.txt                 | 1 +
+ Documentation/features/debug/kgdb/arch-support.txt                 | 1 +
+ Documentation/features/debug/kmemleak/arch-support.txt             | 1 +
+ Documentation/features/debug/kprobes-on-ftrace/arch-support.txt    | 1 +
+ Documentation/features/debug/kprobes/arch-support.txt              | 1 +
+ Documentation/features/debug/kretprobes/arch-support.txt           | 1 +
+ Documentation/features/debug/optprobes/arch-support.txt            | 1 +
+ Documentation/features/debug/stackprotector/arch-support.txt       | 1 +
+ Documentation/features/debug/uprobes/arch-support.txt              | 1 +
+ Documentation/features/debug/user-ret-profiler/arch-support.txt    | 1 +
+ Documentation/features/io/dma-contiguous/arch-support.txt          | 1 +
+ Documentation/features/locking/cmpxchg-local/arch-support.txt      | 1 +
+ Documentation/features/locking/lockdep/arch-support.txt            | 1 +
+ Documentation/features/locking/queued-rwlocks/arch-support.txt     | 3 ++-
+ Documentation/features/locking/queued-spinlocks/arch-support.txt   | 1 +
+ Documentation/features/perf/kprobes-event/arch-support.txt         | 3 ++-
+ Documentation/features/perf/perf-regs/arch-support.txt             | 1 +
+ Documentation/features/perf/perf-stackdump/arch-support.txt        | 1 +
+ Documentation/features/sched/membarrier-sync-core/arch-support.txt | 1 +
+ Documentation/features/sched/numa-balancing/arch-support.txt       | 1 +
+ Documentation/features/seccomp/seccomp-filter/arch-support.txt     | 1 +
+ Documentation/features/time/arch-tick-broadcast/arch-support.txt   | 1 +
+ Documentation/features/time/clockevents/arch-support.txt           | 1 +
+ Documentation/features/time/context-tracking/arch-support.txt      | 1 +
+ Documentation/features/time/irq-time-acct/arch-support.txt         | 1 +
+ Documentation/features/time/virt-cpuacct/arch-support.txt          | 1 +
+ Documentation/features/vm/ELF-ASLR/arch-support.txt                | 1 +
+ Documentation/features/vm/PG_uncached/arch-support.txt             | 1 +
+ Documentation/features/vm/THP/arch-support.txt                     | 1 +
+ Documentation/features/vm/TLB/arch-support.txt                     | 1 +
+ Documentation/features/vm/huge-vmap/arch-support.txt               | 1 +
+ Documentation/features/vm/ioremap_prot/arch-support.txt            | 1 +
+ Documentation/features/vm/pte_special/arch-support.txt             | 3 ++-
+ Documentation/index.rst                                            | 1 -
+ Documentation/usb/usbmon.rst                                       | 2 +-
+ MAINTAINERS                                                        | 2 +-
+ 50 files changed, 51 insertions(+), 9 deletions(-)
+ rename Documentation/{ => driver-api}/hte/hte.rst (100%)
+ rename Documentation/{ => driver-api}/hte/index.rst (100%)
+ rename Documentation/{ => driver-api}/hte/tegra194-hte.rst (100%)
