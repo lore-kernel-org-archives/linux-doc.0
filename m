@@ -2,96 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1EBDC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 18:02:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9372CCA47B
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 18:06:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244045AbiFJSCW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jun 2022 14:02:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38742 "EHLO
+        id S1347566AbiFJSG6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jun 2022 14:06:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241580AbiFJSCV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 14:02:21 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1ED7F04;
-        Fri, 10 Jun 2022 11:02:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S1350243AbiFJSGy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 14:06:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0252B5523D
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jun 2022 11:06:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1654884406;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PMsjmdghjftZcHJYxe23lhIe8tlheZvEV884DJ3XaMQ=;
+        b=Bd6aDVEb5xw1xN3qEtGxg71rwM8RFdalfsSga1kMQwcvssl7Hi2Hxuat49JKWFhTlvS9BJ
+        PvEcKmhFtqEn1jfWKqPx0fNsVbBVKU8TyPYs4saYgivGnFZuSsqZPma9ZWxQOm7TINx4GA
+        23ZEpFe4jLiW3mb9nu7UpTCdFWhCwfU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-517-RurBROcsP7ulDRyRjKQieg-1; Fri, 10 Jun 2022 14:06:40 -0400
+X-MC-Unique: RurBROcsP7ulDRyRjKQieg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2AE1EB836B6;
-        Fri, 10 Jun 2022 18:02:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7501EC34114;
-        Fri, 10 Jun 2022 18:02:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654884137;
-        bh=xdgudyzcUYULsU1aZaCdI0nmCH/Fx4yp1ArgCFICDXI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=UtaW+5X3ipQeRtYPqpcDTMZaIin+9ysNpz0fEi2YtrAsLi4wsHNl2CEqS3B8KSJoz
-         9abRBQd61RqfV3IU9LEk0jqfa89mKz3FWH+mCJpjWqiED28TrCpk4k/hMMY6Ek0UNF
-         EUL0+lG7ixf/amH+rh2mbkcQ85fOOTNWM4oKJL6ZpxYdnqVgDmq0L9W+HXkciM9P2Q
-         ZLgFaEwRJXlQm3lmZ8aJyG0Pg68BCBsMFrYq+M9pCOWjtNNfbiTSP3bxHNvd0zXNdd
-         1+RFnVn2kkPKxvz5MpE3KeKwKESWeKx4yKI7lg3tYQkrGGmoztNlrMyAsqhR7aCPzb
-         LMQoE4UD23hnQ==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, maximmi@nvidia.com,
-        Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Subject: [PATCH net] docs: tls: document the TLS_TX_ZEROCOPY_RO
-Date:   Fri, 10 Jun 2022 11:02:12 -0700
-Message-Id: <20220610180212.110590-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.36.1
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 055FD1C01B20;
+        Fri, 10 Jun 2022 18:06:39 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.33.36.62])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A360018EA7;
+        Fri, 10 Jun 2022 18:06:35 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <CAHk-=wgkwKyNmNdKpQkqZ6DnmUL-x9hp0YBnUGjaPFEAdxDTbw@mail.gmail.com>
+References: <CAHk-=wgkwKyNmNdKpQkqZ6DnmUL-x9hp0YBnUGjaPFEAdxDTbw@mail.gmail.com> <40676.1654807564@warthog.procyon.org.uk>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     dhowells@redhat.com, Jeff Layton <jlayton@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Eric Van Hensbergen <ericvh@gmail.com>,
+        Latchesar Ionkov <lucho@ionkov.net>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Christian Schoenebeck <linux_oss@crudebyte.com>,
+        Marc Dionne <marc.dionne@auristor.com>,
+        Xiubo Li <xiubli@redhat.com>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Steve French <smfrench@gmail.com>,
+        William Kucharski <william.kucharski@oracle.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        v9fs-developer@lists.sourceforge.net,
+        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
+        CIFS <linux-cifs@vger.kernel.org>,
+        samba-technical@lists.samba.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-hardening@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] netfs: Fix gcc-12 warning by embedding vfs inode in netfs_i_context
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <652127.1654884394.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date:   Fri, 10 Jun 2022 19:06:34 +0100
+Message-ID: <652128.1654884394@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add missing documentation for the TLS_TX_ZEROCOPY_RO opt-in.
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-CC: corbet@lwn.net
-CC: linux-doc@vger.kernel.org
----
- Documentation/networking/tls.rst | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+> Side note: I think this could have been done with an unnamed union as
+> =
 
-diff --git a/Documentation/networking/tls.rst b/Documentation/networking/tls.rst
-index 8cb2cd4e2a80..be8e10c14b05 100644
---- a/Documentation/networking/tls.rst
-+++ b/Documentation/networking/tls.rst
-@@ -214,6 +214,31 @@ of calling send directly after a handshake using gnutls.
- Since it doesn't implement a full record layer, control
- messages are not supported.
- 
-+Optional optimizations
-+----------------------
-+
-+There are certain condition-specific optimizations the TLS ULP can make,
-+if requested. Those optimizations are either not universally beneficial
-+or may impact correctness, hence they require an opt-in.
-+All options are set per-socket using setsockopt(), and their
-+state can be checked using getsockopt() and via socket diag (``ss``).
-+
-+TLS_TX_ZEROCOPY_RO
-+~~~~~~~~~~~~~~~~~~
-+
-+For device offload only. Allow sendfile() data to be transmitted directly
-+to the NIC without making an in-kernel copy. This allows true zero-copy
-+behavior when device offload is enabled.
-+
-+The application must make sure that the data is not modified between being
-+submitted and transmission completing. In other words this is mostly
-+applicable if the data sent on a socket via sendfile() is read-only.
-+
-+Modifying the data may result in different versions of the data being used
-+for the original TCP transmission and TCP retransmissions. To the receiver
-+this will look like TLS records had been tampered with and will result
-+in record authentication failures.
-+
- Statistics
- ==========
- 
--- 
-2.36.1
+>         struct my_inode {
+>                 union {
+>                         struct inode            vfs_inode;
+>                         struct netfs_inode netfs_inode;
+>                 };
+>         [...]
+> =
+
+> instead, with the rule that 'netfs_inode' always starts with a 'struct i=
+node'.
+
+I'm slightly wary of that, lest struct netfs_inode gets randomised.  I'm n=
+ot
+sure how likely that would be without netfs_inode getting explicitly marke=
+d.
+
+> But in a lot of cases you really could do so much better: you *have* a
+> "struct netfs_inode" to begin with, but you converted it to just
+> "struct inode *", and now you're converting it back.
+> =
+
+> Look at that AFS code, for example, where we have afs_vnode_cache() doin=
+g
+> =
+
+>         return netfs_i_cookie(&vnode->netfs.inode);
+> =
+
+> and look how it *had* a netfs structure, and it was passing it to a
+> netfs function, but it explicitly passed the WRONG TYPE, so now we've
+> lost the type information and it is using that cast to fake it all
+> back.
+
+Yeah, I didn't look at those as they didn't cause warnings, but you're rig=
+ht -
+those should take struct netfs_inode pointers in some cases, rather than
+struct inode.
+
+Note that some functions, such as netfs_readpage() and netfs_readpages() d=
+o
+need to take struct inode pointers as I'm trying to get the VFS ops to jum=
+p
+into netfslib and get all the VM interface stuff out of the network
+filesystems - the idea being that the network filesystem will provide netf=
+slib
+primarily with two functions: do a read op and do a write op.
+
+I'll have a look at your patch in a bit.
+
+Thanks,
+David
 
