@@ -2,137 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9372CCA47B
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 18:06:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE119C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 18:26:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347566AbiFJSG6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jun 2022 14:06:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59902 "EHLO
+        id S1350424AbiFJS0T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jun 2022 14:26:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350243AbiFJSGy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 14:06:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0252B5523D
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jun 2022 11:06:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1654884406;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=PMsjmdghjftZcHJYxe23lhIe8tlheZvEV884DJ3XaMQ=;
-        b=Bd6aDVEb5xw1xN3qEtGxg71rwM8RFdalfsSga1kMQwcvssl7Hi2Hxuat49JKWFhTlvS9BJ
-        PvEcKmhFtqEn1jfWKqPx0fNsVbBVKU8TyPYs4saYgivGnFZuSsqZPma9ZWxQOm7TINx4GA
-        23ZEpFe4jLiW3mb9nu7UpTCdFWhCwfU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-RurBROcsP7ulDRyRjKQieg-1; Fri, 10 Jun 2022 14:06:40 -0400
-X-MC-Unique: RurBROcsP7ulDRyRjKQieg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S241779AbiFJS0P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 14:26:15 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7BDA2D1CA;
+        Fri, 10 Jun 2022 11:26:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 055FD1C01B20;
-        Fri, 10 Jun 2022 18:06:39 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.33.36.62])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A360018EA7;
-        Fri, 10 Jun 2022 18:06:35 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CAHk-=wgkwKyNmNdKpQkqZ6DnmUL-x9hp0YBnUGjaPFEAdxDTbw@mail.gmail.com>
-References: <CAHk-=wgkwKyNmNdKpQkqZ6DnmUL-x9hp0YBnUGjaPFEAdxDTbw@mail.gmail.com> <40676.1654807564@warthog.procyon.org.uk>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     dhowells@redhat.com, Jeff Layton <jlayton@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Eric Van Hensbergen <ericvh@gmail.com>,
-        Latchesar Ionkov <lucho@ionkov.net>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Christian Schoenebeck <linux_oss@crudebyte.com>,
-        Marc Dionne <marc.dionne@auristor.com>,
-        Xiubo Li <xiubli@redhat.com>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Steve French <smfrench@gmail.com>,
-        William Kucharski <william.kucharski@oracle.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        v9fs-developer@lists.sourceforge.net,
-        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
-        CIFS <linux-cifs@vger.kernel.org>,
-        samba-technical@lists.samba.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-hardening@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] netfs: Fix gcc-12 warning by embedding vfs inode in netfs_i_context
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <652127.1654884394.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date:   Fri, 10 Jun 2022 19:06:34 +0100
-Message-ID: <652128.1654884394@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7D704B836F6;
+        Fri, 10 Jun 2022 18:26:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 36C52C3411C;
+        Fri, 10 Jun 2022 18:26:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654885571;
+        bh=UPENPVLVv8JSaT98f62sRrKQHDCAQ7O2mVi27++iWnw=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=rev5psLGF4I4wKrcgdLNhRxCBHKfGxoPqKLyIKL8Ip09OVxajZvSbdOV1cLsa2yjN
+         E8VsS+gpxokWi5PMG4aa5h7xhcMV1tHY3BnNWtfr08hT+Q08+D1RuBHj3EEx9YV6UL
+         gRubwsxRpGDdx7KejHnrEkBF+pDPP//6nigjKzg4fl+XbBC/tLRNM7WYhf4EmrPjBu
+         CzVAaQjF+oqjP2g1IDYlh4vOryrAE934Wq2rnLMs+FZ/lm6RGMjCaCxaqBt+EMsTyL
+         aka0glnvmBzz075xSi8PFi2YwVN1i4VPIJ9WVwsbbQcmfiRXZhzrjsfVzX/U6KTyQY
+         HK4jYw8qY+S0g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 22942E737EE;
+        Fri, 10 Jun 2022 18:26:11 +0000 (UTC)
+Subject: Re: [GIT PULL] Documentation fixes for 5.19
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <87h74s77e2.fsf@meer.lwn.net>
+References: <87h74s77e2.fsf@meer.lwn.net>
+X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87h74s77e2.fsf@meer.lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.19-3
+X-PR-Tracked-Commit-Id: 387c67afccbb271707cbe6de2817f4e4c76287ad
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: fe43c0188911885a70d0dd405f89ca4f1300e7db
+Message-Id: <165488557113.32117.5474621163444297169.pr-tracker-bot@kernel.org>
+Date:   Fri, 10 Jun 2022 18:26:11 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+The pull request you sent on Fri, 10 Jun 2022 11:31:01 -0600:
 
-> Side note: I think this could have been done with an unnamed union as
-> =
+> git://git.lwn.net/linux.git tags/docs-5.19-3
 
->         struct my_inode {
->                 union {
->                         struct inode            vfs_inode;
->                         struct netfs_inode netfs_inode;
->                 };
->         [...]
-> =
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/fe43c0188911885a70d0dd405f89ca4f1300e7db
 
-> instead, with the rule that 'netfs_inode' always starts with a 'struct i=
-node'.
+Thank you!
 
-I'm slightly wary of that, lest struct netfs_inode gets randomised.  I'm n=
-ot
-sure how likely that would be without netfs_inode getting explicitly marke=
-d.
-
-> But in a lot of cases you really could do so much better: you *have* a
-> "struct netfs_inode" to begin with, but you converted it to just
-> "struct inode *", and now you're converting it back.
-> =
-
-> Look at that AFS code, for example, where we have afs_vnode_cache() doin=
-g
-> =
-
->         return netfs_i_cookie(&vnode->netfs.inode);
-> =
-
-> and look how it *had* a netfs structure, and it was passing it to a
-> netfs function, but it explicitly passed the WRONG TYPE, so now we've
-> lost the type information and it is using that cast to fake it all
-> back.
-
-Yeah, I didn't look at those as they didn't cause warnings, but you're rig=
-ht -
-those should take struct netfs_inode pointers in some cases, rather than
-struct inode.
-
-Note that some functions, such as netfs_readpage() and netfs_readpages() d=
-o
-need to take struct inode pointers as I'm trying to get the VFS ops to jum=
-p
-into netfslib and get all the VM interface stuff out of the network
-filesystems - the idea being that the network filesystem will provide netf=
-slib
-primarily with two functions: do a read op and do a write op.
-
-I'll have a look at your patch in a bit.
-
-Thanks,
-David
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
