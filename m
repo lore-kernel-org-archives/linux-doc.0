@@ -2,105 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2BC4C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Jun 2022 22:44:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4665DC43334
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Jun 2022 03:16:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348368AbiFJWoP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jun 2022 18:44:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46262 "EHLO
+        id S1347826AbiFKDQI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Jun 2022 23:16:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348403AbiFJWoO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 18:44:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 82D233C480
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jun 2022 15:44:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1654901052;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=pblZd+Kqp7f2K+2rxNpvXUuiOLaopPh9IaEYk0kwYKE=;
-        b=NTjYhRsx6ctDVsjQjsegWvbKCxKclOsEO07UrXSk8ypDynoqmphEPoXwlWosTDmIHU9jKu
-        NKAwmxOJK34qSCSYKb+G7QwCrJl47j/kbQpKWg4P/UnmlckC+uUe3niKVZInsbxS/dMuzs
-        suM1nz9eAMOXglsw91/x6M5dOdPLk4g=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-580-NsQryGV5PUa_VHADxP0iuQ-1; Fri, 10 Jun 2022 18:44:11 -0400
-X-MC-Unique: NsQryGV5PUa_VHADxP0iuQ-1
-Received: by mail-io1-f72.google.com with SMTP id l7-20020a6b7007000000b00669b2a0d497so279263ioc.0
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jun 2022 15:44:11 -0700 (PDT)
+        with ESMTP id S236391AbiFKDQH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 23:16:07 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 794BE143868;
+        Fri, 10 Jun 2022 20:16:05 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id f8so748790plo.9;
+        Fri, 10 Jun 2022 20:16:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:from:subject:to:cc
+         :references:content-language:in-reply-to:content-transfer-encoding;
+        bh=izhA0dul3NBXKk1k4ps+Tgt4s/S/pmcFYXYqBbcTa8Y=;
+        b=h1rQGyQOYzmuaURtLY9r01a9R7uH7Sm1eSaYrtz8lwHbfMuTqy2Xcamy0ccgFe72uO
+         HuleMtIeDg1UgbI1VfEBnIFviqdIFj27znO486PVdrdD1scDZSIv4FLGSDB96B5PMET/
+         /0ASRCN/d+trnZ+q4/J6Vek0Yken06o+YhabaiUgDRFYnx+omKEicTnby8/0yNK1CDf1
+         rXYRRVCvQEWnVyOENnUHhZnTeJsl7etrZLsEHNfZimVVMeSCFWaVTmwnv1zyZq9KNSYu
+         hpbAxaELQ3YuJFmxXBepaKB69PSogbq0O8JtmAUmwzI89hEmYOTbbWXd8vHbVP1kDLeU
+         aV4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=pblZd+Kqp7f2K+2rxNpvXUuiOLaopPh9IaEYk0kwYKE=;
-        b=HLRV/5hv2UKDPVogn14iYIWlBwSgE6a66G/m3okhfBj3qbt/F4D6XxxFLgxLxIOGXU
-         FJ7x1/SJNb15Rb6G5Ts2RvZIWKYL8fl3rwuzqQ3qLAf5F456CZwKtn5+cvSteSKQirTE
-         WHQafSbBkiijN/nzl3a9Ym6uPG6r+959pW+0gNkbxf7lFR4nK9Lp7I7aMwX/FkLgoFBK
-         M9Bv9gZ8znfSgIiFE5EuKTyVob/d/wSRVTc3P7Nn5SKdn9l9PNxoO07ih99QtxquUpMs
-         r6AOxe60FLlPuPpXu4xHLiSQ90YIR8jJSlUXgbLUt4UxCNbuJzH+HpRQ99NPssB9/LXy
-         eICA==
-X-Gm-Message-State: AOAM531oW1WPHFu14GrqCSuESXK3XRqMz1z6/KSjdy2h4YWbooFQxIGO
-        ljJvBE4Z8KxO6wXQBb3F/X9E0Vi6pWnthGPQamoiVXfY7uafFj4yUq+ltEm8SUutkQ1L+cGg2YE
-        jLPGUKjazjTlVpjcqOSAf
-X-Received: by 2002:a02:c811:0:b0:332:2c2e:88e0 with SMTP id p17-20020a02c811000000b003322c2e88e0mr343363jao.132.1654901050840;
-        Fri, 10 Jun 2022 15:44:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwgEFjSHs9TXHG3p6x60NRKxwsOGKtJ1mMFIodXcBQ3lbM9zLgveeGgcd98DfNgAuz2vKQAXQ==
-X-Received: by 2002:a02:c811:0:b0:332:2c2e:88e0 with SMTP id p17-20020a02c811000000b003322c2e88e0mr343346jao.132.1654901050600;
-        Fri, 10 Jun 2022 15:44:10 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239])
-        by smtp.gmail.com with ESMTPSA id y2-20020a926402000000b002d3a3a089b3sm130533ilb.1.2022.06.10.15.44.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jun 2022 15:44:09 -0700 (PDT)
-Date:   Fri, 10 Jun 2022 16:44:07 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     kwankhede@nvidia.com, farman@linux.ibm.com, mjrosato@linux.ibm.com,
-        pasic@linux.ibm.com, diana.craciun@oss.nxp.com, cohuck@redhat.com,
-        eric.auger@redhat.com, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, yishaih@nvidia.com, hch@lst.de
-Subject: Re: [PATCH] vfio: de-extern-ify function prototypes
-Message-ID: <20220610164407.25feeb23.alex.williamson@redhat.com>
-In-Reply-To: <20220610000434.GE1343366@nvidia.com>
-References: <165471414407.203056.474032786990662279.stgit@omen>
-        <20220610000434.GE1343366@nvidia.com>
-Organization: Red Hat
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+         :subject:to:cc:references:content-language:in-reply-to
+         :content-transfer-encoding;
+        bh=izhA0dul3NBXKk1k4ps+Tgt4s/S/pmcFYXYqBbcTa8Y=;
+        b=lbFwumuddPYHcCIygnbXYB03d9lvjHukskcgK9CmYqjoTgVV2iK4ZTD9ObUuss/6jS
+         mIKab3YwLngD7c23ibrWRA8kMgziXwOud3k0WRD3+9XNwCvhk/U3MyPUtK9c5ORKqTYP
+         HWSRv3G9iX3qf1u6HfOk+qXoDgfX5pnlABDUherMlFfYiu+lrhQ1dJMHoQAMeI/6TVDw
+         Ans0hY93dxOMSDQRWr5Aa2WJiYMrhRiYNpdsRchyqk2y37zlhiBbMeZGDygcQbZ3qh44
+         VHCfJl69k2cCSuazmGTLEcmQO75jdjviR2i3rC9t5VTxP08eH4O9f3jIaP5E8cN7fyPp
+         EG0Q==
+X-Gm-Message-State: AOAM533DjaWb9yTfeC9TpIwIn6Sg65fhFmlBApTsNN6UgWkIyUYbVGd8
+        sKJuRpW9rZvES8MkWRjPVnK2udA315c=
+X-Google-Smtp-Source: ABdhPJxjy5tTC7pUgPVJWvk0xO+KTI27KyHE1GQKHl65g3UJL1qZqfy+hsE0miHdA0LSHurL86xQIA==
+X-Received: by 2002:a17:902:b28c:b0:168:9928:db1b with SMTP id u12-20020a170902b28c00b001689928db1bmr16106620plr.55.1654917364989;
+        Fri, 10 Jun 2022 20:16:04 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id h188-20020a62dec5000000b0051bb61c0eacsm329768pfg.20.2022.06.10.20.16.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jun 2022 20:16:03 -0700 (PDT)
+Message-ID: <c25c29c7-28a6-65d4-8eb2-ac857894c1ba@gmail.com>
+Date:   Sat, 11 Jun 2022 12:15:54 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [RFC PATCH 3/5] docs/doc-guide: Update guidelines for title
+ adornments
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+References: <dccb5233-7f4f-1be6-d1f4-bbe9f42f88e0@gmail.com>
+ <732154bc-aa35-2326-2b64-87b6c4dd02e7@gmail.com> <871qvw2898.fsf@intel.com>
+ <CANiq72n3MQnjenbQGBUKD+SqNzdGUyJW9zjTOVY4+6cKBRc9ig@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CANiq72n3MQnjenbQGBUKD+SqNzdGUyJW9zjTOVY4+6cKBRc9ig@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 9 Jun 2022 21:04:34 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Fri, 10 Jun 2022 18:08:43 +0200,
+Miguel Ojeda wrote:
+> On Fri, Jun 10, 2022 at 11:11 AM Jani Nikula
+> <jani.nikula@linux.intel.com> wrote:
+Thank Jani and Miguel for chiming in!
+As this is a RFC patch, I'm glad to have nice comments from both of you.
 
-> On Wed, Jun 08, 2022 at 12:55:13PM -0600, Alex Williamson wrote:
-> > The use of 'extern' in function prototypes has been disrecommended in
-> > the kernel coding style for several years now, remove them from all vfio
-> > related files so contributors no longer need to decide between style and
-> > consistency.
-> > 
-> > Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
-> > ---
-> > 
-> > A patch in the same vein was proposed about a year ago, but tied to an ill
-> > fated series and forgotten.  Now that we're at the beginning of a new
-> > development cycle, I'd like to propose kicking off the v5.20 vfio next
-> > branch with this patch and would kindly ask anyone with pending respins or
-> > significant conflicts to rebase on top of this patch.  Thanks!  
+>>
+>> When I wrote the original guidelines, it was my subjective decision to
+>> steer towards using the same title adornment styles and ordering across
+>> the kernel documentation. I intentionally left out all the
+>> reStructuredText details about this, because the definitive
+>> documentation is the reStructuredText documentation we can refer to.
+>>
+>> While the "Nth level title" is a more precise description, I'm not sure
+>> it's actually helpful without describing how these levels should map to
+>> kernel documentation structure. (Not saying the original did that
+>> either, but then there wasn't much structure to speak of.)
+I agree that we need to cover in doc-guide the way the kernel documentation
+is organized and managed.  Total lack of such documentation is kind of
+surprising to me.
+
 > 
-> Can you stick it in your branch please?
+> To give a bit of context: this patch followed from a question I asked
+> to Jonathan and Akira privately. Currently it is hard to tell the
+> "nesting level", and even worse, existing files are not consistent and
+> checking is not automated. Therefore, an easy way to handle this is to
+> request to follow the same pattern regardless of nesting across the
+> tree.
+> 
+>> Improving the documentation on documentation is great, but I think it's
+>> a bad sign when length of the notes and warnings on something far exceed
+>> the length of the thing being documented. The bulk of the text should be
+>> helpful enough for people to DTRT, while leaving out exhaustive
+>> descriptions of all the details that should just be references to
+>> reStructuredText documentation.
 
-Thanks for the R-b, it was my plan today to put it in my next branch,
-but I can't currently test vfio on mainline due to:
+So, I was not aware of such a hidden rule on what should _not_ be in
+doc-guide.  :-)
+In my opinion, RST documentation is not easy to follow especially for
+new contributors, and putting some useful tips somewhere in doc-guide
+would improve situation.
 
-https://lore.kernel.org/all/165490039431.944052.12458624139225785964.stgit@omen/
+I agree with you that those notes and warning don't belong to guidelines.
 
-I'll get this in once there's a mainline base where vfio still works.  Thanks,
+Maybe add a section collecting RST tips and tricks mainly consisting
+of pointers to RST and docutils documentation.
 
-Alex
+> 
+> Perhaps we can move the rationale to the commit message, and keep only
+> the current rules in the document. What about something like:
+> 
+> """
+> Please stick to this relative order of adornments within each file
+> (i.e. regardless of nesting level across the kernel tree):
+> 
+>     1. ``=`` with overline.
+>     2. ``=``.
+>     3. ``-``.
+>     4. ``~``.
+> 
+> For instance::
+> 
+>     =====
+>     First
+>     =====
+> 
+>     Second
+>     ======
+> 
+>     Third
+>     -----
+> 
+>     Fourth
+>     ~~~~~~
+> """
 
+I'm more inclined to keep "level"s in the example.
+Without them, a new contributor might be confused to use those
+adornments exactly in that order, for example:
+
+    ==============
+    Document title
+    ==============
+
+    Chapter A
+    =========
+
+    Section A.1
+    -----------
+
+    Section A.2
+    ~~~~~~~~~~~
+
+    Section A.3
+    ???????????
+
+Unlikely, but possible...
+
+Anyway, I'll post a v2 for your further comments.
+Might take a while.
+
+        Thanks, Akira
+> 
+> Cheers,
+> Miguel
