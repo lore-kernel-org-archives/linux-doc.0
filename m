@@ -2,127 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 072AEC43334
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Jun 2022 20:30:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB9EC43334
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Jun 2022 23:25:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231263AbiFKUaq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 11 Jun 2022 16:30:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43004 "EHLO
+        id S229832AbiFKXZ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Jun 2022 19:25:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229861AbiFKUap (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Jun 2022 16:30:45 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D75296B656;
-        Sat, 11 Jun 2022 13:30:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654979443; x=1686515443;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=btdK/KTIo3K5kFVxw3S6KoQxkEXifhXgZQTDN1wwsOE=;
-  b=E01lrtBjS5jfRI4gxlCsSH1egCS6ifmQS/O7ihWBRauL3nIz7bEn93Ex
-   9L2k5j0oKAO9JZ3kVojUpRHuzao8601O88KHHUmpFbhlV3/ViN5fHVRDq
-   Xs8kqXWC4bbOsH7TC7lnxdZZDKnaz5rOYEuFqex5FbUOFwBMNxTlhmCJZ
-   QQj91IlBuDamZkMv3ON/C9mVidCaZuDNLxN8ckPKQzq/m/YTtS6L5cKxc
-   Jt+9BEf+XZxfR8at66m1mPEotNUp2Fh2dZcFnlxi7nMHIAo+zqhN7fYKj
-   6Kwy4aFQAS/aN/hFnxnvXIiEHdGLBZlll4KLW/WmDLOa2w0mNp3pSiR0s
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10375"; a="277974906"
-X-IronPort-AV: E=Sophos;i="5.91,294,1647327600"; 
-   d="scan'208";a="277974906"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2022 13:30:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,294,1647327600"; 
-   d="scan'208";a="672510836"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 11 Jun 2022 13:30:42 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o07kn-000JGj-Fc;
-        Sat, 11 Jun 2022 20:30:41 +0000
-Date:   Sun, 12 Jun 2022 04:30:19 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Ang Tien Sung <tien.sung.ang@intel.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Dinh Nguyen <dinguyen@kernel.org>, linux-doc@vger.kernel.org
-Subject: [dinguyen:svc_driver_updates_for_v4.20 1/6] htmldocs:
- include/linux/firmware/intel/stratix10-svc-client.h:19: warning: This
- comment starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202206120445.FeU5wA93-lkp@intel.com>
+        with ESMTP id S229454AbiFKXZ1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Jun 2022 19:25:27 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4426C3E0E4;
+        Sat, 11 Jun 2022 16:25:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C772EB80B4B;
+        Sat, 11 Jun 2022 23:25:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEDD7C34116;
+        Sat, 11 Jun 2022 23:25:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654989919;
+        bh=kt58fye0OvkKlNPCoqcE//wrcrWCQBuwW6FUcECoqYQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=n5pcTGtPOoY/+MPc9NA7wlmYfkABIUeLxO9fAUTmgHzNn/6qwtXZYptU7Whu0CJSk
+         CZ496VssUPK+mU+VSQhuP8+00iLsHwTrL4rhZ7S4vJtD2Z65noLFuEk0EFAphqNq47
+         MtdaUMIZVNleZe+Y/2jtxN4eyTw2Nl+5JiAHD6mTFYdd/8CaUFHJa2IqV9/8QDL6HT
+         9NYlsKTTjeqyuymmbltcmxM4SVc6cX5EfjrCVScK0YrezpsNkXVCpx1BcCweIuA8dw
+         ehCEJkfWbN8JpG588mXWZvyThKBlus5KklymJJhM+baA7ta73w4xq3KCwuKmdAocDx
+         t1Q3y542zOI8Q==
+Date:   Sun, 12 Jun 2022 00:25:12 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 3/5] docs/doc-guide: Update guidelines for title
+ adornments
+Message-ID: <20220612002512.1150fc83@sal.lan>
+In-Reply-To: <c25c29c7-28a6-65d4-8eb2-ac857894c1ba@gmail.com>
+References: <dccb5233-7f4f-1be6-d1f4-bbe9f42f88e0@gmail.com>
+        <732154bc-aa35-2326-2b64-87b6c4dd02e7@gmail.com>
+        <871qvw2898.fsf@intel.com>
+        <CANiq72n3MQnjenbQGBUKD+SqNzdGUyJW9zjTOVY4+6cKBRc9ig@mail.gmail.com>
+        <c25c29c7-28a6-65d4-8eb2-ac857894c1ba@gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git svc_driver_updates_for_v4.20
-head:   107da326a0a3e7b6e81557c4225548db670a2647
-commit: 88f42ac48b89689a3e8673263c09ad77be157a09 [1/6] firmware: stratix10-svc: Add support for FCS
-reproduce: make htmldocs
+Em Sat, 11 Jun 2022 12:15:54 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+> On Fri, 10 Jun 2022 18:08:43 +0200,
+> Miguel Ojeda wrote:
+> > On Fri, Jun 10, 2022 at 11:11 AM Jani Nikula
+> > <jani.nikula@linux.intel.com> wrote:  
+> Thank Jani and Miguel for chiming in!
+> As this is a RFC patch, I'm glad to have nice comments from both of you.
+> 
+> >>
+> >> When I wrote the original guidelines, it was my subjective decision to
+> >> steer towards using the same title adornment styles and ordering across
+> >> the kernel documentation. I intentionally left out all the
+> >> reStructuredText details about this, because the definitive
+> >> documentation is the reStructuredText documentation we can refer to.
+> >>
+> >> While the "Nth level title" is a more precise description, I'm not sure
+> >> it's actually helpful without describing how these levels should map to
+> >> kernel documentation structure. (Not saying the original did that
+> >> either, but then there wasn't much structure to speak of.)  
+> I agree that we need to cover in doc-guide the way the kernel documentation
+> is organized and managed.  Total lack of such documentation is kind of
+> surprising to me.
+> 
+> > 
+> > To give a bit of context: this patch followed from a question I asked
+> > to Jonathan and Akira privately. Currently it is hard to tell the
+> > "nesting level", and even worse, existing files are not consistent and
+> > checking is not automated. Therefore, an easy way to handle this is to
+> > request to follow the same pattern regardless of nesting across the
+> > tree.
 
-All warnings (new ones prefixed by >>):
+The thing is that there were *lots* of Kernel documents that were already
+following ReST syntax, some requiring minor adjustments.
 
->> include/linux/firmware/intel/stratix10-svc-client.h:19: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+Yet, each one used its own way to indent the several levels. On most
+of those, the indentation was:
 
-vim +19 include/linux/firmware/intel/stratix10-svc-client.h
+	First
+	=====
 
-7ca5ce896524f5 Richard Gong          2018-11-13   8  
-e23bd83368af41 Mauro Carvalho Chehab 2021-01-14   9  /*
-7ca5ce896524f5 Richard Gong          2018-11-13  10   * Service layer driver supports client names
-7ca5ce896524f5 Richard Gong          2018-11-13  11   *
-7ca5ce896524f5 Richard Gong          2018-11-13  12   * fpga: for FPGA configuration
-6b50d882d38d5a Richard Gong          2018-11-13  13   * rsu: for remote status update
-7ca5ce896524f5 Richard Gong          2018-11-13  14   */
-7ca5ce896524f5 Richard Gong          2018-11-13  15  #define SVC_CLIENT_FPGA			"fpga"
-6b50d882d38d5a Richard Gong          2018-11-13  16  #define SVC_CLIENT_RSU			"rsu"
-88f42ac48b8968 Ang Tien Sung         2022-03-15  17  #define SVC_CLIENT_FCS			"fcs"
-88f42ac48b8968 Ang Tien Sung         2022-03-15  18  /**
-7ca5ce896524f5 Richard Gong          2018-11-13 @19   * Status of the sent command, in bit number
-7ca5ce896524f5 Richard Gong          2018-11-13  20   *
-7536ad8dbfcfd5 Richard Gong          2020-04-14  21   * SVC_STATUS_OK:
-7536ad8dbfcfd5 Richard Gong          2020-04-14  22   * Secure firmware accepts the request issued by one of service clients.
-7ca5ce896524f5 Richard Gong          2018-11-13  23   *
-7536ad8dbfcfd5 Richard Gong          2020-04-14  24   * SVC_STATUS_BUFFER_SUBMITTED:
-7536ad8dbfcfd5 Richard Gong          2020-04-14  25   * Service client successfully submits data buffer to secure firmware.
-7ca5ce896524f5 Richard Gong          2018-11-13  26   *
-7536ad8dbfcfd5 Richard Gong          2020-04-14  27   * SVC_STATUS_BUFFER_DONE:
-7ca5ce896524f5 Richard Gong          2018-11-13  28   * Secure firmware completes data process, ready to accept the
-7ca5ce896524f5 Richard Gong          2018-11-13  29   * next WRITE transaction.
-7ca5ce896524f5 Richard Gong          2018-11-13  30   *
-7536ad8dbfcfd5 Richard Gong          2020-04-14  31   * SVC_STATUS_COMPLETED:
-7536ad8dbfcfd5 Richard Gong          2020-04-14  32   * Secure firmware completes service request successfully. In case of
-7536ad8dbfcfd5 Richard Gong          2020-04-14  33   * FPGA configuration, FPGA should be in user mode.
-7ca5ce896524f5 Richard Gong          2018-11-13  34   *
-7536ad8dbfcfd5 Richard Gong          2020-04-14  35   * SVC_COMMAND_STATUS_BUSY:
-7536ad8dbfcfd5 Richard Gong          2020-04-14  36   * Service request is still in process.
-7ca5ce896524f5 Richard Gong          2018-11-13  37   *
-7536ad8dbfcfd5 Richard Gong          2020-04-14  38   * SVC_COMMAND_STATUS_ERROR:
-7536ad8dbfcfd5 Richard Gong          2020-04-14  39   * Error encountered during the process of the service request.
-6b50d882d38d5a Richard Gong          2018-11-13  40   *
-7536ad8dbfcfd5 Richard Gong          2020-04-14  41   * SVC_STATUS_NO_SUPPORT:
-7536ad8dbfcfd5 Richard Gong          2020-04-14  42   * Secure firmware doesn't support requested features such as RSU retry
-7536ad8dbfcfd5 Richard Gong          2020-04-14  43   * or RSU notify.
-7ca5ce896524f5 Richard Gong          2018-11-13  44   */
-7536ad8dbfcfd5 Richard Gong          2020-04-14  45  #define SVC_STATUS_OK			0
-7536ad8dbfcfd5 Richard Gong          2020-04-14  46  #define SVC_STATUS_BUFFER_SUBMITTED	1
-7536ad8dbfcfd5 Richard Gong          2020-04-14  47  #define SVC_STATUS_BUFFER_DONE		2
-7536ad8dbfcfd5 Richard Gong          2020-04-14  48  #define SVC_STATUS_COMPLETED		3
-7536ad8dbfcfd5 Richard Gong          2020-04-14  49  #define SVC_STATUS_BUSY			4
-7536ad8dbfcfd5 Richard Gong          2020-04-14  50  #define SVC_STATUS_ERROR		5
-7536ad8dbfcfd5 Richard Gong          2020-04-14  51  #define SVC_STATUS_NO_SUPPORT		6
-e9cb0497b1c801 Richard Gong          2019-11-04  52  
+	Second
+	------
 
-:::::: The code at line 19 was first introduced by commit
-:::::: 7ca5ce896524f5292e610b27d168269e5ab74951 firmware: add Intel Stratix10 service layer driver
+Having to rewrite all tags at the entire document with no real gain,
+while having a batch of thousands of documents left to be converted
+from .txt to .rst was simply a waste of resources. At the documents
+I converted myself, I just kept whatever level indentation it was
+already there.
 
-:::::: TO: Richard Gong <richard.gong@intel.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Going further, even now I would really prefer not needing to review
+patches that are just changing the tags for each indentation level.
+Again, this would be a waste of resources. I would very much like
+to receive more patches adding kernel-doc documentation and ReST
+changes to document the Kernel core APIs.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Now, for *new* documents, I agree that it makes sense to use a
+standard way, at least up to level 3, like:
+
+	=====
+	First
+	=====
+
+	Second
+	======
+
+	Third
+	-----
+
+Which is quite intuitive to me. 
+
+> >   
+> >> Improving the documentation on documentation is great, but I think it's
+> >> a bad sign when length of the notes and warnings on something far exceed
+> >> the length of the thing being documented. The bulk of the text should be
+> >> helpful enough for people to DTRT, while leaving out exhaustive
+> >> descriptions of all the details that should just be references to
+> >> reStructuredText documentation.  
+> 
+> So, I was not aware of such a hidden rule on what should _not_ be in
+> doc-guide.  :-)
+> In my opinion, RST documentation is not easy to follow especially for
+> new contributors, and putting some useful tips somewhere in doc-guide
+> would improve situation.
+> 
+> I agree with you that those notes and warning don't belong to guidelines.
+> 
+> Maybe add a section collecting RST tips and tricks mainly consisting
+> of pointers to RST and docutils documentation.
+> 
+> > 
+> > Perhaps we can move the rationale to the commit message, and keep only
+> > the current rules in the document. What about something like:
+> > 
+> > """
+> > Please stick to this relative order of adornments within each file
+> > (i.e. regardless of nesting level across the kernel tree):
+> > 
+> >     1. ``=`` with overline.
+> >     2. ``=``.
+> >     3. ``-``.
+> >     4. ``~``.
+
+At least at the charset I use here, `~` is bigger than `-`. For me, it sounds
+counter-intuitive to use it there... Personally, i prefer `^` for the
+4th level.
+
+Yet, the forth level (and the following ones) generally happen when someone
+needs to add something to an already-existing document. I doubt anyone that
+already works with ReST would ever look at the doc-guide if they need to 
+add a 4th/5th/... level on an already existing documents.
+
+So, IMO, it is pointless to define or expect that all docs would use the
+same level markup after the third level.
+
+
+> > For instance::
+> > 
+> >     =====
+> >     First
+> >     =====
+> > 
+> >     Second
+> >     ======
+> > 
+> >     Third
+> >     -----
+> > 
+> >     Fourth
+> >     ~~~~~~
+> > """  
+> 
+> I'm more inclined to keep "level"s in the example.
+
+Agreed.
+
+Regards,
+Mauro
