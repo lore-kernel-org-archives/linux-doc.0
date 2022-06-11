@@ -2,182 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4665DC43334
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Jun 2022 03:16:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB7EAC433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Jun 2022 08:26:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347826AbiFKDQI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Jun 2022 23:16:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36622 "EHLO
+        id S230280AbiFKI0J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Jun 2022 04:26:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236391AbiFKDQH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Jun 2022 23:16:07 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 794BE143868;
-        Fri, 10 Jun 2022 20:16:05 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id f8so748790plo.9;
-        Fri, 10 Jun 2022 20:16:05 -0700 (PDT)
+        with ESMTP id S230168AbiFKI0I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Jun 2022 04:26:08 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0471B10BD;
+        Sat, 11 Jun 2022 01:26:06 -0700 (PDT)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25B3w5l2029706;
+        Sat, 11 Jun 2022 08:25:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references :
+ content-transfer-encoding : content-type : mime-version;
+ s=corp-2021-07-09; bh=BtS8nygjSQylZS9hvjnpn8QUoZvoRh4UVM+vmoCkVjM=;
+ b=xmrmrHzEP2PSstbGTJQ7K7rkTVX0oPucnLd59iTSZICEGlF7uRwynb4qRikEKlFdGZcQ
+ HU6xQyD6X7fkdT1Yi62VBYzHvitcu6qGgQeTlmpY4/OdsxPgnJtwtIel+uwnkOkhkZ7Q
+ bub2Ir/GwUOSoCplJgj6WSxdAegVUH9xUtjaZtu9Ni6iR3YxBDw6Q92KQ8v6/kMuhCMi
+ swkUUKW7WACYffOmplM8zQRE/BaYOlqD5DMYk3xz5bAVl50Klc8zwc+R8p8so3kL3LYb
+ K0spS28/dH7fsaic2pmiQHqW3oXgdgXyG3QEgOfJIcwD6QG4G73maOEHRE5/uzYHmRmY nw== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmkkt86dq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sat, 11 Jun 2022 08:25:38 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25B8BWGZ022098;
+        Sat, 11 Jun 2022 08:25:36 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2041.outbound.protection.outlook.com [104.47.57.41])
+        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gmhg6sukc-2
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sat, 11 Jun 2022 08:25:36 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IVnAdSurfSS9uCF9Dyzp8QKIIc/nZsUiDY+yAGFCz9AovhuQ0yRD+POVvE6HUlnzlT2gUyLmygtdLON1gRdQsaiuQ6nM7aYp4tIbDmuSoFAHM2cj/xMGJlNrnbg3EblAcXKxXqN4LufdtT4Enl/f9aRZ0iKQ3D3QGYTziMazHUEhSRnyr37wtAH2lKHrhTch1iHjlzt1i+AUJcp750I8JnyM9qrtNQI0ou9POrrSZ8gAnbbyMW+QWD4HhOH4IiT05BheFm2WsA4jASmtyU0Gysc2R5PdsNCvi+Q8WySSUbOd2WfPvvNkbQnCg225ayYZwpWSAKnE7pVmBIDNz9qR/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BtS8nygjSQylZS9hvjnpn8QUoZvoRh4UVM+vmoCkVjM=;
+ b=bCgpWl+9/ZGLc8uh+ujP8pq5v9QVThxE4mW0Z5+9fBOk7lws1yNG67jSGcNUTHecSsuOoNSsKjJ2x7qUpAG/dVXj49PXRFiSLBqYshkTsVEPIDUYYI31tlzv3AXfCoYoK4zOPQ+IaM1jH9jGSCYKch1VdJtNZFOuOI1j2jwaKUQUMtfXJfDY2lQ54hyP/xF3R3Be7W/eMH07Yc5dJZ7VlfAa+4a/zXfPgF006/U8mQ/DFg09QjAu6juyXETWd/DPeZgvAy5mphR+I/3jxTZxDLRZDrrMFVFEDqGOf1rvJIsJZaHkXLddI7jUzix6o+U5tpD4C5fpQVK+2CLj3nLW2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:from:subject:to:cc
-         :references:content-language:in-reply-to:content-transfer-encoding;
-        bh=izhA0dul3NBXKk1k4ps+Tgt4s/S/pmcFYXYqBbcTa8Y=;
-        b=h1rQGyQOYzmuaURtLY9r01a9R7uH7Sm1eSaYrtz8lwHbfMuTqy2Xcamy0ccgFe72uO
-         HuleMtIeDg1UgbI1VfEBnIFviqdIFj27znO486PVdrdD1scDZSIv4FLGSDB96B5PMET/
-         /0ASRCN/d+trnZ+q4/J6Vek0Yken06o+YhabaiUgDRFYnx+omKEicTnby8/0yNK1CDf1
-         rXYRRVCvQEWnVyOENnUHhZnTeJsl7etrZLsEHNfZimVVMeSCFWaVTmwnv1zyZq9KNSYu
-         hpbAxaELQ3YuJFmxXBepaKB69PSogbq0O8JtmAUmwzI89hEmYOTbbWXd8vHbVP1kDLeU
-         aV4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
-         :subject:to:cc:references:content-language:in-reply-to
-         :content-transfer-encoding;
-        bh=izhA0dul3NBXKk1k4ps+Tgt4s/S/pmcFYXYqBbcTa8Y=;
-        b=lbFwumuddPYHcCIygnbXYB03d9lvjHukskcgK9CmYqjoTgVV2iK4ZTD9ObUuss/6jS
-         mIKab3YwLngD7c23ibrWRA8kMgziXwOud3k0WRD3+9XNwCvhk/U3MyPUtK9c5ORKqTYP
-         HWSRv3G9iX3qf1u6HfOk+qXoDgfX5pnlABDUherMlFfYiu+lrhQ1dJMHoQAMeI/6TVDw
-         Ans0hY93dxOMSDQRWr5Aa2WJiYMrhRiYNpdsRchyqk2y37zlhiBbMeZGDygcQbZ3qh44
-         VHCfJl69k2cCSuazmGTLEcmQO75jdjviR2i3rC9t5VTxP08eH4O9f3jIaP5E8cN7fyPp
-         EG0Q==
-X-Gm-Message-State: AOAM533DjaWb9yTfeC9TpIwIn6Sg65fhFmlBApTsNN6UgWkIyUYbVGd8
-        sKJuRpW9rZvES8MkWRjPVnK2udA315c=
-X-Google-Smtp-Source: ABdhPJxjy5tTC7pUgPVJWvk0xO+KTI27KyHE1GQKHl65g3UJL1qZqfy+hsE0miHdA0LSHurL86xQIA==
-X-Received: by 2002:a17:902:b28c:b0:168:9928:db1b with SMTP id u12-20020a170902b28c00b001689928db1bmr16106620plr.55.1654917364989;
-        Fri, 10 Jun 2022 20:16:04 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id h188-20020a62dec5000000b0051bb61c0eacsm329768pfg.20.2022.06.10.20.16.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jun 2022 20:16:03 -0700 (PDT)
-Message-ID: <c25c29c7-28a6-65d4-8eb2-ac857894c1ba@gmail.com>
-Date:   Sat, 11 Jun 2022 12:15:54 +0900
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BtS8nygjSQylZS9hvjnpn8QUoZvoRh4UVM+vmoCkVjM=;
+ b=bAcm+ATGy7RlJQUDvZNamzMFY5On2sxeRrc06Io2wYGQp7D/eYBhOtBKemTInzeLMbgw/8RoCkCvdSi75M8laU5twCK93GWPDomiu8GDW6z7siR2IHhs0OTxdD++SHHWdf4SOam+H9NoqKtisJ/PKsIyYjwAWjmHsWEahVuSA6I=
+Received: from BYAPR10MB2663.namprd10.prod.outlook.com (2603:10b6:a02:a9::20)
+ by BL0PR10MB2945.namprd10.prod.outlook.com (2603:10b6:208:33::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.13; Sat, 11 Jun
+ 2022 08:25:35 +0000
+Received: from BYAPR10MB2663.namprd10.prod.outlook.com
+ ([fe80::60b7:5604:cc5d:54bd]) by BYAPR10MB2663.namprd10.prod.outlook.com
+ ([fe80::60b7:5604:cc5d:54bd%5]) with mapi id 15.20.5332.015; Sat, 11 Jun 2022
+ 08:25:35 +0000
+From:   Dongli Zhang <dongli.zhang@oracle.com>
+To:     iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
+        x86@kernel.org
+Cc:     linux-kernel@vger.kernel.org, joe.jin@oracle.com,
+        hch@infradead.org, m.szyprowski@samsung.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        corbet@lwn.net
+Subject: [PATCH v1 1/4] swiotlb: remove unused swiotlb_force
+Date:   Sat, 11 Jun 2022 01:25:11 -0700
+Message-Id: <20220611082514.37112-2-dongli.zhang@oracle.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220611082514.37112-1-dongli.zhang@oracle.com>
+References: <20220611082514.37112-1-dongli.zhang@oracle.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR13CA0092.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c5::7) To BYAPR10MB2663.namprd10.prod.outlook.com
+ (2603:10b6:a02:a9::20)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [RFC PATCH 3/5] docs/doc-guide: Update guidelines for title
- adornments
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-References: <dccb5233-7f4f-1be6-d1f4-bbe9f42f88e0@gmail.com>
- <732154bc-aa35-2326-2b64-87b6c4dd02e7@gmail.com> <871qvw2898.fsf@intel.com>
- <CANiq72n3MQnjenbQGBUKD+SqNzdGUyJW9zjTOVY4+6cKBRc9ig@mail.gmail.com>
-Content-Language: en-US
-In-Reply-To: <CANiq72n3MQnjenbQGBUKD+SqNzdGUyJW9zjTOVY4+6cKBRc9ig@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 06ff5a60-27ee-4ee4-5598-08da4b83f50a
+X-MS-TrafficTypeDiagnostic: BL0PR10MB2945:EE_
+X-Microsoft-Antispam-PRVS: <BL0PR10MB29458836AF04146C9C075433F0A99@BL0PR10MB2945.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tjKcG3QMotVLErF1O1Ghf3wCRc8HsPLr7gIe/YvoJEJSCNwWhA/SADJ6T16GRHSaL5kvPulOTzHzBDKaaQOD0MSlCi67Z3Y+C5lJKqueMRw6M1XfVvQe6GW8H5QaWyvD9jOjmFlWEJL1JGkrmhbvCMp69WLYVeuaPJ6wWF4vQgXOOv7Szmc5XIVZdp451RdLd4YTE/w1kpsNYLDQiXBUAcu2dz+nzBtJJYib4NiOr9ec5AERpqIZOzgmpfEdARco5ZqaYA7DpRkSZj38iLh9iL/G/7IoB6VCetaydSa7drMlzcmwfdpQAmA/SREdXBGL+EyiNyl1Ju/+LuOCrPcTV6joQPCJ9aBNHcYY6Vzrga9njD/aaKI1HHKlUBYbpz7aS2RIjb88a6+L0VWufgt022TII2TgX8KWRpdpI5yGr6NjAjVnfD+aR6TqG1SiWqDI6IqjvfRlKaVKCCI5tRRG5VrQxHyprIa3PITZJhYTroYd06dTtFXLLslthr99cZvnEdm2PflLRyqcHe0YSrnTT2FKlLgfLeWnVBpMkO/bUYJHmVX6QXI3uqiUiFns+cW7Vg/tgEV+zDwApiZhe3YC+omXq/67TpJm633bLiR/PVHHcL9qWwDLjxrDoq3S5PoBOyr8oCYotGyqId5P+jaXLw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR10MB2663.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(66476007)(26005)(66556008)(8676002)(4326008)(1076003)(66946007)(186003)(36756003)(316002)(2616005)(6506007)(6666004)(44832011)(7416002)(38100700002)(2906002)(6512007)(86362001)(4744005)(83380400001)(508600001)(6486002)(5660300002)(8936002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lUsnsgJB5FOMHPoTwXb+Nx65LloexpHi7d/rYsCpzSIj0ceTKA+uyM+nhq7r?=
+ =?us-ascii?Q?SBNjaRf0J7c+79u/tzLZRUZOO+Fb1Pcv4vwB9nQ98y+7xfcaRztQqq+Q9W9l?=
+ =?us-ascii?Q?el2/nILVHhJwJwxL7B9N898I40JWSAFf1VT91PXo1MrhE7Md0Dv9PwqizvtT?=
+ =?us-ascii?Q?xKC1CNpIrUxLjOi8/yrAbDswxE/fO/TXTqF59mvYGzW9nkRbMOXuqQ+ZAMBT?=
+ =?us-ascii?Q?NN6YXSt5hKuGQ5kbh7+OF/yY9nYQ+/+jm5DQXTGjWeeqBzQKoeufZQcSbA3d?=
+ =?us-ascii?Q?hUDFyG1/0X2dq6yCs+NLW1y7KIJxLebsC5LldyvkPR2eK8pNAwqOlENXVi62?=
+ =?us-ascii?Q?eC/38s/uw2QvwdfFsolLOzE/LdS1SkxF6oCZUkHNnbmCWy59Io1scSJDY5b0?=
+ =?us-ascii?Q?EEOYd+SN0aq7FeZ9odidBwIytfSFOauWZAwQlQNCFdEyb++zoniSLHM1egHG?=
+ =?us-ascii?Q?LyMODHxtjMASjfUHVJTiBnYLC3hncLSh0psF2AqP7OSxr/Bzkoxnf93Kt9I4?=
+ =?us-ascii?Q?UHTEhGDCgxJr9fHciM0UnTLHP+CMyEDuuzHp4PTDrMCpp3MstV2RuaCh9PO8?=
+ =?us-ascii?Q?56BDkp18HzFbyvbeGjufK13W/F5QgyTuU9JprUPUC8k8O7n74cBVP4hq83u+?=
+ =?us-ascii?Q?rxCCsZUg0IyiJtQoGabFHEhKSd5KtNXENCm4q10ZLdH0OTDbx7TWzpi/6wL1?=
+ =?us-ascii?Q?gqNouYciGZOqot4YPXweHrzfXKsa/LKuieYL+nkbE1Z7kdSvPFpRg7NT2mG/?=
+ =?us-ascii?Q?5gBuD/mydKEnY7XuQyYndQdqpfhj1Mg4zwTdGeZZIHn5XOaO90/NHAqpPP/X?=
+ =?us-ascii?Q?L8XgVh+Iy+FYqRFKbRDzCJ4JCh4oEO8CFllIyUAKG9YwVUTKaByFvIKbTUH3?=
+ =?us-ascii?Q?5G21tee6hO1moSn0lS/sZyISg9sPa0MYqpMa4Xuw6sw8GTPxwtbHK2xZ56wC?=
+ =?us-ascii?Q?HK6w8IySCH8dDKx3BXFlD9mon0D51jusUhRowlbbHZpLBDeJo5zwZy93GOt2?=
+ =?us-ascii?Q?Sy+3SbkH7XeM643bOEONd3jEQGxhB+h5WS8uBECrIv4xO1GwkreISOf9Nr+R?=
+ =?us-ascii?Q?RN46AcrXDwn2E3SSH6ADu8ymrFeJo1svcCiq2OFwXrfIFQ/EfFnmBfyQaYqk?=
+ =?us-ascii?Q?KC0uSPqe8g/FM0J3RtiFUQ5BVmHGhDY/PDjgR21zepVfojHmJlHMOHcItvI3?=
+ =?us-ascii?Q?biRKQTYhMqN7b1bMDOrutdLWWTSfsZqjKffZXjBGXd4MfyLHRA/TeTNR1RGp?=
+ =?us-ascii?Q?MahWFDodMGmOaDpP9Q3PwppiPLmyc5lLZpid3yo8tDNliQRK8ncZoytGiO1G?=
+ =?us-ascii?Q?8ELXbGclDZ05aLdM6FYM/0QvYaV4RnKzP9thcKYOLLyRulEnNHjaXM4xDDoR?=
+ =?us-ascii?Q?9m+vcGrVe4c/Oa0eGSwo3gSW7VyU/I61miFmskMTP+JhQK3I0CsTj+pdWnD8?=
+ =?us-ascii?Q?VD6EEy+ccP/1rbTKItXGp5Jm2pt7h8kMJDcbsD1R0at72FpQidpx1tssiSe+?=
+ =?us-ascii?Q?osmfhWi6LnUJct+1MxPt/Jz7laZrP6h2FNSW7up78KxxTofjzzS0PhdsypJF?=
+ =?us-ascii?Q?PgrwSBZb6FvU34VwvidEqpDmVF1juyfFSAJ3KegVM0F5n9S7mVvdBni13zHP?=
+ =?us-ascii?Q?1C0IMX0frULmmRn+wpQ18yKTQz9E8MEDawCm/9XIWv8BgbZMYB8pwRzh2LTT?=
+ =?us-ascii?Q?dgL10FdFaRAQ2shTOQOyKwfRpcpz7evejFS78/65/aL4hFmy+OS4UCNAivLq?=
+ =?us-ascii?Q?GJ+61oItegqXCHS40Z+jUl3RAjcKn0g=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06ff5a60-27ee-4ee4-5598-08da4b83f50a
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2663.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2022 08:25:35.2584
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qVSfGI+SKISJUo+8LgZXUmJiaQzf7625pXlOxeuG/lSz3W+AvssFo7Nqq5Anf0oCqtLhAK2ChUWuq4Od9LVRgw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR10MB2945
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
+ definitions=2022-06-11_03:2022-06-09,2022-06-11 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 bulkscore=0
+ malwarescore=0 suspectscore=0 mlxscore=0 phishscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206110032
+X-Proofpoint-GUID: 4IE3bbVIfK4U-VFTkYZDSp9lgkDNOygB
+X-Proofpoint-ORIG-GUID: 4IE3bbVIfK4U-VFTkYZDSp9lgkDNOygB
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 10 Jun 2022 18:08:43 +0200,
-Miguel Ojeda wrote:
-> On Fri, Jun 10, 2022 at 11:11 AM Jani Nikula
-> <jani.nikula@linux.intel.com> wrote:
-Thank Jani and Miguel for chiming in!
-As this is a RFC patch, I'm glad to have nice comments from both of you.
+The 'swiotlb_force' is removed since commit c6af2aa9ffc9 ("swiotlb: make
+the swiotlb_init interface more useful").
 
->>
->> When I wrote the original guidelines, it was my subjective decision to
->> steer towards using the same title adornment styles and ordering across
->> the kernel documentation. I intentionally left out all the
->> reStructuredText details about this, because the definitive
->> documentation is the reStructuredText documentation we can refer to.
->>
->> While the "Nth level title" is a more precise description, I'm not sure
->> it's actually helpful without describing how these levels should map to
->> kernel documentation structure. (Not saying the original did that
->> either, but then there wasn't much structure to speak of.)
-I agree that we need to cover in doc-guide the way the kernel documentation
-is organized and managed.  Total lack of such documentation is kind of
-surprising to me.
+Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+---
+ include/linux/swiotlb.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-> 
-> To give a bit of context: this patch followed from a question I asked
-> to Jonathan and Akira privately. Currently it is hard to tell the
-> "nesting level", and even worse, existing files are not consistent and
-> checking is not automated. Therefore, an easy way to handle this is to
-> request to follow the same pattern regardless of nesting across the
-> tree.
-> 
->> Improving the documentation on documentation is great, but I think it's
->> a bad sign when length of the notes and warnings on something far exceed
->> the length of the thing being documented. The bulk of the text should be
->> helpful enough for people to DTRT, while leaving out exhaustive
->> descriptions of all the details that should just be references to
->> reStructuredText documentation.
+diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+index 7ed35dd3de6e..bdc58a0e20b1 100644
+--- a/include/linux/swiotlb.h
++++ b/include/linux/swiotlb.h
+@@ -60,7 +60,6 @@ dma_addr_t swiotlb_map(struct device *dev, phys_addr_t phys,
+ 		size_t size, enum dma_data_direction dir, unsigned long attrs);
+ 
+ #ifdef CONFIG_SWIOTLB
+-extern enum swiotlb_force swiotlb_force;
+ 
+ /**
+  * struct io_tlb_mem - IO TLB Memory Pool Descriptor
+-- 
+2.17.1
 
-So, I was not aware of such a hidden rule on what should _not_ be in
-doc-guide.  :-)
-In my opinion, RST documentation is not easy to follow especially for
-new contributors, and putting some useful tips somewhere in doc-guide
-would improve situation.
-
-I agree with you that those notes and warning don't belong to guidelines.
-
-Maybe add a section collecting RST tips and tricks mainly consisting
-of pointers to RST and docutils documentation.
-
-> 
-> Perhaps we can move the rationale to the commit message, and keep only
-> the current rules in the document. What about something like:
-> 
-> """
-> Please stick to this relative order of adornments within each file
-> (i.e. regardless of nesting level across the kernel tree):
-> 
->     1. ``=`` with overline.
->     2. ``=``.
->     3. ``-``.
->     4. ``~``.
-> 
-> For instance::
-> 
->     =====
->     First
->     =====
-> 
->     Second
->     ======
-> 
->     Third
->     -----
-> 
->     Fourth
->     ~~~~~~
-> """
-
-I'm more inclined to keep "level"s in the example.
-Without them, a new contributor might be confused to use those
-adornments exactly in that order, for example:
-
-    ==============
-    Document title
-    ==============
-
-    Chapter A
-    =========
-
-    Section A.1
-    -----------
-
-    Section A.2
-    ~~~~~~~~~~~
-
-    Section A.3
-    ???????????
-
-Unlikely, but possible...
-
-Anyway, I'll post a v2 for your further comments.
-Might take a while.
-
-        Thanks, Akira
-> 
-> Cheers,
-> Miguel
