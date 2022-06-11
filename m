@@ -2,181 +2,499 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4849C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Jun 2022 08:27:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBDCFCCA47A
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Jun 2022 09:29:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231127AbiFKI1Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 11 Jun 2022 04:27:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57386 "EHLO
+        id S232432AbiFKJ2y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Jun 2022 05:28:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230484AbiFKI1O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Jun 2022 04:27:14 -0400
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE5B15A0D;
-        Sat, 11 Jun 2022 01:27:13 -0700 (PDT)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25B2rwxT017956;
-        Sat, 11 Jun 2022 08:25:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=2YKrmBgH9+ZAgOd4P2FzfQU9I4tK/mwmsjEtCBeCelo=;
- b=eDf5i09uYb0Ek941JF9h/c+llLAoDdcbNwqCUuIc2Ts4AXzS/p72KPlaf6nUazb4wwtC
- uEq160zPVn2dDdHwa0iRjwKdWBrueSi+vp01N6HQxwAT+gOpGe2GEY84eJpBvTsOAoWF
- z6eZsG1/L5PCkD1yYK4A5HGJ1MIGIX1VWY4ItMcmZjP92o3p7vboxgDQ/VyB1cO0EqL+
- nsBcbTDBQUUja4wLXuVk1pttFLg/9BE91kzs59PpFALicruwhnHBvB3rutwTQ3/7DuKF
- jn+P49biMXsq6IiLUPRNo+prRVLUC76BG9jk3tzmLQcQEfkGm2ZoaiDvxA6PBep9masB DA== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmjns07dr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 11 Jun 2022 08:25:41 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25B8A980031031;
-        Sat, 11 Jun 2022 08:25:41 GMT
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2045.outbound.protection.outlook.com [104.47.56.45])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gmhg6hug0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 11 Jun 2022 08:25:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CxOxzJuWCOl7hJnUuwrYZWlXbNmE52emV2YXsLytemczs2CKTrZd9bgndpArxbhaohtCqi/gZ+2jkYD5vpUDbZRFQK4FK/UQrd14iRYP71hPVmPJNL1FX/ujvIqjFz7IC0U6BCGoTBjckm2gJe+ZLTrHPeanF2qbTWj3QkRnvWELsUAWJ29L1qAj1pSgg7s5sKLzHRZbPeetc8fRXvxeyBDQTijvi+Cf93d+G9CVK6vXQKzv4Tf8/W6BBFP8vnvBYYd+MpVralWx0JSutQYOqi+lY6rfjckSrZoVgGKpPchjebRB0BzBzYPcJGuRsWA2JqPKSdcCglHV09lWAikGlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2YKrmBgH9+ZAgOd4P2FzfQU9I4tK/mwmsjEtCBeCelo=;
- b=nbWaz16Qeyv0IMB5+ruhbWmaQrQNyCfdIvKV1GpMVuRdVGnzEebwQkXeDaUS9Pcni7/e5kdaaaE88W+s7WQDKvuAC4ESkmFsu8VoDVNX628SgA9Errt89zWSoI0wyo/WSQdyQTyDUc+wvLJsD20R1jXLoBrtgx9zeP9avHUY24yZ/dBdUkwTrD//h7JlMAynpStA6qpma+l9zRbN4QvzVKhPoek08nlOx0DlQEEj2drHMErWAIzl6LdNAlnVKU3m1u/+jQKbnHpDq5MEf3Ae6Ut9+reU4iNiewR4WsrSp38hLIEBTXjqG+s2f95bPbZgx6bpnbE2PBF0UoMVvoROFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2YKrmBgH9+ZAgOd4P2FzfQU9I4tK/mwmsjEtCBeCelo=;
- b=lxBQtgK+e/5JZR2LxxvWp6hMwwQU6bT+GLt5a//7ldcWWQYKPsOXlmb1My0eB9wawE0tdQFO1jC7f6cxlw1GVE++wcBFZBNA5Ld6Z9KkwZrdPK8srPBVbKoUFHBqCKi+Z8pOWha2d7UP7B9qUvK5J4n+uDHVkaed7f0WaGW+g84=
-Received: from BYAPR10MB2663.namprd10.prod.outlook.com (2603:10b6:a02:a9::20)
- by BL0PR10MB2945.namprd10.prod.outlook.com (2603:10b6:208:33::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.13; Sat, 11 Jun
- 2022 08:25:39 +0000
-Received: from BYAPR10MB2663.namprd10.prod.outlook.com
- ([fe80::60b7:5604:cc5d:54bd]) by BYAPR10MB2663.namprd10.prod.outlook.com
- ([fe80::60b7:5604:cc5d:54bd%5]) with mapi id 15.20.5332.015; Sat, 11 Jun 2022
- 08:25:39 +0000
-From:   Dongli Zhang <dongli.zhang@oracle.com>
-To:     iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
-        x86@kernel.org
-Cc:     linux-kernel@vger.kernel.org, joe.jin@oracle.com,
-        hch@infradead.org, m.szyprowski@samsung.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        corbet@lwn.net
-Subject: [PATCH v1 4/4] swiotlb: panic if nslabs is too small
-Date:   Sat, 11 Jun 2022 01:25:14 -0700
-Message-Id: <20220611082514.37112-5-dongli.zhang@oracle.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220611082514.37112-1-dongli.zhang@oracle.com>
-References: <20220611082514.37112-1-dongli.zhang@oracle.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY5PR03CA0019.namprd03.prod.outlook.com
- (2603:10b6:a03:1e0::29) To BYAPR10MB2663.namprd10.prod.outlook.com
- (2603:10b6:a02:a9::20)
+        with ESMTP id S232614AbiFKJ2f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Jun 2022 05:28:35 -0400
+Received: from mail.pr-group.ru (mail.pr-group.ru [178.18.215.3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C17D96AA5D;
+        Sat, 11 Jun 2022 02:28:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+        d=metrotek.ru; s=mail;
+        h=from:subject:date:message-id:to:cc:mime-version:content-transfer-encoding:
+         in-reply-to:references;
+        bh=8ooPHj9DciQfhFG6N+FDAVSroYYk4O2FaF03l63c+G0=;
+        b=UttwKvudrgKUx4q7pPFqCZgqVbqlFVjlD52zW/Kh8G5eTKk1ZmMgSaBBDRUZswVdASGnRweYbfMoa
+         +Q+iPI/zEiqnYmY7rdUW/XAy25RhDvnuIkVpeZT1wkTUXJ27ywrc9tPp8LVqEF3x4PUYHkvxm8wIyB
+         YfgnO5088ZmfTKV3rahtWd7qtl1igxj5cTtzWjJd2u7WoYMzfxuSWTGBC8/CxDZQDbBj7EefnImiyR
+         OdTK5IyI3kTe6F55DDLIeUF1Y9ICKAc9X7HfLJxpS+mDwGOBAItjaBHgsKMLEfrRAsMEeJHXb1HfSo
+         jdH3PasROeMlEJFOm3ZiTjLLQLW9wGg==
+X-Kerio-Anti-Spam:  Build: [Engines: 2.16.3.1424, Stamp: 3], Multi: [Enabled, t: (0.000016,0.037205)], BW: [Enabled, t: (0.000021,0.000001)], RTDA: [Enabled, t: (0.076314), Hit: No, Details: v2.40.0; Id: 15.52k02f.1g591fe8p.3h0f; mclb], total: 0(700)
+X-Footer: bWV0cm90ZWsucnU=
+Received: from localhost.localdomain ([178.70.36.174])
+        (authenticated user i.bornyakov@metrotek.ru)
+        by mail.pr-group.ru with ESMTPSA
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits));
+        Sat, 11 Jun 2022 12:28:12 +0300
+From:   Ivan Bornyakov <i.bornyakov@metrotek.ru>
+To:     mdf@kernel.org, hao.wu@intel.com, yilun.xu@intel.com,
+        trix@redhat.com, corbet@lwn.net
+Cc:     Ivan Bornyakov <i.bornyakov@metrotek.ru>,
+        Conor.Dooley@microchip.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-fpga@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, system@metrotek.ru,
+        Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v18 3/4] fpga: microchip-spi: add Microchip MPF FPGA manager
+Date:   Sat, 11 Jun 2022 12:05:30 +0300
+Message-Id: <20220611090531.9663-4-i.bornyakov@metrotek.ru>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220611090531.9663-1-i.bornyakov@metrotek.ru>
+References: <20220611090531.9663-1-i.bornyakov@metrotek.ru>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 185145fa-c430-475d-7f3d-08da4b83f746
-X-MS-TrafficTypeDiagnostic: BL0PR10MB2945:EE_
-X-Microsoft-Antispam-PRVS: <BL0PR10MB2945F88F1C7A4D441D1E2F54F0A99@BL0PR10MB2945.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LyLGVR4ujXuiEMum1Tn2I8RypoRnCqBqSK2MC9+hSNwIqrfbhxULMj8nsC5WpuS/Y2y0lD5Xmm6/2ALphr4QGIunku/E2U87fXYrzykGM4mu+I7uJCMSLESljnr6q4f2HhB9c15mrb1Rwt2KCZa/TCZHzuMMU4lb0nl4U9X1t7wdsUVVkrDSAsIXCGKE1M+J+AIso5IuoU7ID1/DVBRL2dt3DjCtuE8+L6FDYHA570kQ+KYv8Osr3BJaZXvXUsOwwjol/QkcseXuUTn0b9vANJUIec8OQmSWzh7kv5MpRPhSql/S98vLQQKQ6HDylwKrzczncnKR4oNIAm+k5bkSSfbeoFNJRyLR+p+zBzV1yjdbISL5fAyc+jFGVCA27XSAJR4QbU76ExcA6Nu6Ogs/DQUUs5FXKnwcRJfUlI8pAkde3LS/U6n3RdECvhdn7Dj4lBxuCckjWHpOvFPZtRixCFMV0n8UPydq1UnCYHSBNO9jOY/NCUFwtRBjeG71mzNzDiguV8dQ+SApRY160REvHE2HagaJ++Ow/jPfqhJXhCpDW03/5dsO8pOCgqZtdgtHg/o/I+TV7qLYIfbBqDcNavrQg/+7pRz/nA0MV/3CnmY52Bcnc1hHJv87yoXRjo7XufUzoC+FQcRo+AIdFFRbZw16aUUQOGdUfauQOhbmFg03Ozj4/vjoWyTzWY8xW1xjElTpk87qHKi0bIVPe9XyZVXlRrhklmWVqKr7/c2ook8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR10MB2663.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(66476007)(26005)(66556008)(8676002)(4326008)(1076003)(66946007)(186003)(36756003)(316002)(2616005)(6506007)(6666004)(44832011)(7416002)(38100700002)(2906002)(6512007)(86362001)(83380400001)(508600001)(6486002)(5660300002)(8936002)(160913001)(15963001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Vplc4T2Axtn6mYTFp7YasV4eXI3/CNm6yEBbl4E19qRsE4hCU2aif16A6GU/?=
- =?us-ascii?Q?AjAKriisQNkdnZavm0Sa0g6mHkCCbGDDqiv7QjE/wYyAS/ffXDSe1g2KOdl8?=
- =?us-ascii?Q?SSZw5++VRlo9tK4mtfR15TwlwMvy5oCEx2GAk0Z0fSw3KCZ/TkUcqf+0+awq?=
- =?us-ascii?Q?Fx/9KlxYehWG35aHyviinbKjlfRIy8cm6tR4+GahchZYuMXdTUyNLbD3hOYB?=
- =?us-ascii?Q?hOiBffEFDUTWdD8hGLMikewBAXFGvllaKqoqgwJ6eO1z4lpC9SR5beZi9BVX?=
- =?us-ascii?Q?9vcqr2RRjuE/3TmINEWbA+G00/IFaqomDvl8YbWVW2Dc3/FdMZNJnLADS/a3?=
- =?us-ascii?Q?Uu+j6iV4pkgVWHS/G7+RVudOcU/etfFv9PAySEOTWUnc7yCLv8B/5Nt/FT6L?=
- =?us-ascii?Q?8ITol80Xt1bHnuQzTJTAFRq6NwWvS+eEOkueEAy4aI1eoLvOpP8lLp8zYhZM?=
- =?us-ascii?Q?K07NMpovHa6I85M/j7Gslcl9sTjLa65qKjhfAdIbMETONk2ltMv6zDaqs9q+?=
- =?us-ascii?Q?+zsSWH1EKUFBJbo2urzOKwu6UtXg+ngc9ipANsx/RLs+5F4o9lz+Odh0kFsp?=
- =?us-ascii?Q?Ot+OuAgC7m65Mmdr12RziZT2y9tGj0MFFKgIYk7xxc+gZZR+w7aAaHmipDkE?=
- =?us-ascii?Q?v2cBytK7zPFtOhIvrRzAUkqTeSMjPb2Gdx2eI2CG8gqjGhYJBBpg9HuHuCuu?=
- =?us-ascii?Q?VrgSeJRwu7ocFK3iCP5eYQjyTC4yRi6Wi7vCbeFPfFDmcHveHpuB13Ftdyy/?=
- =?us-ascii?Q?h21V1ck1gJdOXUZ1AwqMxU53/P4DiKx8VcSfu9q6ogGcI2mhioIRfYrSkjMU?=
- =?us-ascii?Q?Q2sdDC5PPGF8qnx4tBdNSuN1fGz8iX8xSMMS4HYx9Qbob3gbWtZ8tu2/tJKd?=
- =?us-ascii?Q?g6z7Py/cbznhT9i8qnpgyVwTz5mbVDAI01GFRYnivafTG1g7DIW0ANoeqzcx?=
- =?us-ascii?Q?RwwThrLlnv41Fb+r1qXPmubX9MnX11hWppI3sRX0PmiWz1fKkS9f0Xk2VDKm?=
- =?us-ascii?Q?9bf1TKcR0uBiLqP22yeK423r1PjRmiZZOASavav61dhcBSi0iIIotIptguW4?=
- =?us-ascii?Q?A5tcrrVOU9op8dtsy60rfAND7B3wNNoW1xB5za8+OhfCckOHEASFUCTbSJoX?=
- =?us-ascii?Q?iyIzwuP+Ms1TdfXjVhEWA+oue/CqZGJ5VTPX6OjtDFu+UtGXFD0EJuWWGjuT?=
- =?us-ascii?Q?AvtyF1VXF5swZL4+TupZbkE8oojyJvoYXyWXvYM5hqUz2e1z+zJUpQrZTZcA?=
- =?us-ascii?Q?Z3P6iKU2TZ17xRwDYPklW89emaYG173xVcN46IOvgFTUxfW6tkZBfqDwmT8O?=
- =?us-ascii?Q?TZ/cV1ysiPDF70Cc+mABKpRwi2l8rWFDOoo+O68krQx9bv+19qEsLeMakmde?=
- =?us-ascii?Q?RBQTtW2CBCmkzeo2AU9oYKkeijzWwoCsQIB0ThRljSEjI3XLCypdGnPGnpOG?=
- =?us-ascii?Q?yrqHRRZjnONgLN223uVMNIQj28tyceKhAcZn7rAGb87+WJt+CJs9TJ2QSuCa?=
- =?us-ascii?Q?YB//x5+dfE4nB8DgfctJEJ9yQC2E+YEucZy+yn6ixrsljVx/l+2A/lVnNG4l?=
- =?us-ascii?Q?It0ILfHEV7gStQrVD+fitDaCSPnX7wfgwEwjVpW0nCXN7nbF1xFA9b62Jg2u?=
- =?us-ascii?Q?XeCD0nCjDoJD2MuxSozpZVLggRevsildUD0aMpwVl2vPzkV8P6uZhbiQm1ls?=
- =?us-ascii?Q?0eG8CfHHp97rCOxnt6rI4HCihsPw9KdNgskZk2ABpD68rScaY6oAsbiK+UOp?=
- =?us-ascii?Q?Kwt9325vLCYdrgZbqNnSxZrGC+oUUfk=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 185145fa-c430-475d-7f3d-08da4b83f746
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2663.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2022 08:25:38.9300
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iomXJeXny6bCxoavptsJvJJTVLrOOS0ngp3P+gE1GkUYWQL/DHyxGRSm8Wi+vOOB9A2JY/lJi8/axXCjggkpzA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR10MB2945
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
- definitions=2022-06-11_03:2022-06-09,2022-06-11 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0
- mlxlogscore=999 adultscore=0 mlxscore=0 malwarescore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206110032
-X-Proofpoint-GUID: eUpcJ-iOAbARGOOjd4axl89SnuOWizF9
-X-Proofpoint-ORIG-GUID: eUpcJ-iOAbARGOOjd4axl89SnuOWizF9
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Panic on purpose if nslabs is too small, in order to sync with the remap
-retry logic.
+Add support to the FPGA manager for programming Microchip Polarfire
+FPGAs over slave SPI interface with .dat formatted bitsream image.
 
-In addition, print the number of bytes for tlb alloc failure.
-
-Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+Signed-off-by: Ivan Bornyakov <i.bornyakov@metrotek.ru>
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Tested-by: Conor Dooley <conor.dooley@microchip.com>
+Acked-by: Xu Yilun <yilun.xu@intel.com>
 ---
- kernel/dma/swiotlb.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/fpga/Kconfig         |   8 +
+ drivers/fpga/Makefile        |   1 +
+ drivers/fpga/microchip-spi.c | 393 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 402 insertions(+)
+ create mode 100644 drivers/fpga/microchip-spi.c
 
-diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index fd21f4162f4b..1758b724c7a8 100644
---- a/kernel/dma/swiotlb.c
-+++ b/kernel/dma/swiotlb.c
-@@ -242,6 +242,9 @@ void __init swiotlb_init_remap(bool addressing_limit, unsigned int flags,
- 	if (swiotlb_force_disable)
- 		return;
+diff --git a/drivers/fpga/Kconfig b/drivers/fpga/Kconfig
+index 0831eecc9a09..6c416955da53 100644
+--- a/drivers/fpga/Kconfig
++++ b/drivers/fpga/Kconfig
+@@ -255,4 +255,12 @@ config FPGA_M10_BMC_SEC_UPDATE
+ 	  (BMC) and provides support for secure updates for the BMC image,
+ 	  the FPGA image, the Root Entry Hashes, etc.
  
-+	if (nslabs < IO_TLB_MIN_SLABS)
-+		panic("%s: nslabs = %lu too small\n", __func__, nslabs);
++config FPGA_MGR_MICROCHIP_SPI
++	tristate "Microchip Polarfire SPI FPGA manager"
++	depends on SPI
++	help
++	  FPGA manager driver support for Microchip Polarfire FPGAs
++	  programming over slave SPI interface with .dat formatted
++	  bitstream image.
 +
- 	/*
- 	 * By default allocate the bounce buffer memory from low memory, but
- 	 * allow to pick a location everywhere for hypervisors with guest
-@@ -254,7 +257,8 @@ void __init swiotlb_init_remap(bool addressing_limit, unsigned int flags,
- 	else
- 		tlb = memblock_alloc_low(bytes, PAGE_SIZE);
- 	if (!tlb) {
--		pr_warn("%s: failed to allocate tlb structure\n", __func__);
-+		pr_warn("%s: Failed to allocate %zu bytes tlb structure\n",
-+			__func__, bytes);
- 		return;
- 	}
+ endif # FPGA
+diff --git a/drivers/fpga/Makefile b/drivers/fpga/Makefile
+index 139ac1b573d3..42ae8b58abce 100644
+--- a/drivers/fpga/Makefile
++++ b/drivers/fpga/Makefile
+@@ -19,6 +19,7 @@ obj-$(CONFIG_FPGA_MGR_XILINX_SPI)	+= xilinx-spi.o
+ obj-$(CONFIG_FPGA_MGR_ZYNQ_FPGA)	+= zynq-fpga.o
+ obj-$(CONFIG_FPGA_MGR_ZYNQMP_FPGA)	+= zynqmp-fpga.o
+ obj-$(CONFIG_FPGA_MGR_VERSAL_FPGA)	+= versal-fpga.o
++obj-$(CONFIG_FPGA_MGR_MICROCHIP_SPI)	+= microchip-spi.o
+ obj-$(CONFIG_ALTERA_PR_IP_CORE)		+= altera-pr-ip-core.o
+ obj-$(CONFIG_ALTERA_PR_IP_CORE_PLAT)	+= altera-pr-ip-core-plat.o
  
+diff --git a/drivers/fpga/microchip-spi.c b/drivers/fpga/microchip-spi.c
+new file mode 100644
+index 000000000000..2d1b73fe0b65
+--- /dev/null
++++ b/drivers/fpga/microchip-spi.c
+@@ -0,0 +1,393 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Microchip Polarfire FPGA programming over slave SPI interface.
++ */
++
++#include <asm/unaligned.h>
++#include <linux/delay.h>
++#include <linux/fpga/fpga-mgr.h>
++#include <linux/module.h>
++#include <linux/of_device.h>
++#include <linux/spi/spi.h>
++
++#define	MPF_SPI_ISC_ENABLE	0x0B
++#define	MPF_SPI_ISC_DISABLE	0x0C
++#define	MPF_SPI_READ_STATUS	0x00
++#define	MPF_SPI_READ_DATA	0x01
++#define	MPF_SPI_FRAME_INIT	0xAE
++#define	MPF_SPI_FRAME		0xEE
++#define	MPF_SPI_PRG_MODE	0x01
++#define	MPF_SPI_RELEASE		0x23
++
++#define	MPF_SPI_FRAME_SIZE	16
++
++#define	MPF_HEADER_SIZE_OFFSET	24
++#define	MPF_DATA_SIZE_OFFSET	55
++
++#define	MPF_LOOKUP_TABLE_RECORD_SIZE		9
++#define	MPF_LOOKUP_TABLE_BLOCK_ID_OFFSET	0
++#define	MPF_LOOKUP_TABLE_BLOCK_START_OFFSET	1
++
++#define	MPF_COMPONENTS_SIZE_ID	5
++#define	MPF_BITSTREAM_ID	8
++
++#define	MPF_BITS_PER_COMPONENT_SIZE	22
++
++#define	MPF_STATUS_POLL_RETRIES		10000
++#define	MPF_STATUS_BUSY			BIT(0)
++#define	MPF_STATUS_READY		BIT(1)
++#define	MPF_STATUS_SPI_VIOLATION	BIT(2)
++#define	MPF_STATUS_SPI_ERROR		BIT(3)
++
++struct mpf_priv {
++	struct spi_device *spi;
++	bool program_mode;
++};
++
++static int mpf_read_status(struct spi_device *spi)
++{
++	u8 status = 0, status_command = MPF_SPI_READ_STATUS;
++	struct spi_transfer xfers[2] = { 0 };
++	int ret;
++
++	/*
++	 * HW status is returned on MISO in the first byte after CS went
++	 * active. However, first reading can be inadequate, so we submit
++	 * two identical SPI transfers and use result of the later one.
++	 */
++	xfers[0].tx_buf = xfers[1].tx_buf = &status_command;
++	xfers[0].rx_buf = xfers[1].rx_buf = &status;
++	xfers[0].len = xfers[1].len = 1;
++	xfers[0].cs_change = 1;
++
++	ret = spi_sync_transfer(spi, xfers, 2);
++
++	if ((status & MPF_STATUS_SPI_VIOLATION) ||
++	    (status & MPF_STATUS_SPI_ERROR))
++		ret = -EIO;
++
++	return ret ? : status;
++}
++
++static enum fpga_mgr_states mpf_ops_state(struct fpga_manager *mgr)
++{
++	struct mpf_priv *priv = mgr->priv;
++	struct spi_device *spi;
++	bool program_mode;
++	int status;
++
++	spi = priv->spi;
++	program_mode = priv->program_mode;
++	status = mpf_read_status(spi);
++
++	if (!program_mode && !status)
++		return FPGA_MGR_STATE_OPERATING;
++
++	return FPGA_MGR_STATE_UNKNOWN;
++}
++
++static int mpf_ops_parse_header(struct fpga_manager *mgr,
++				struct fpga_image_info *info,
++				const char *buf, size_t count)
++{
++	size_t component_size_byte_num, component_size_byte_off,
++	       components_size_start, bitstream_start,
++	       block_id_offset, block_start_offset;
++	u8 header_size, blocks_num, block_id;
++	u32 block_start, component_size;
++	u16 components_num, i;
++
++	if (!buf) {
++		dev_err(&mgr->dev, "Image buffer is not provided\n");
++		return -EINVAL;
++	}
++
++	header_size = *(buf + MPF_HEADER_SIZE_OFFSET);
++	if (header_size > count) {
++		info->header_size = header_size;
++		return -EAGAIN;
++	}
++
++	/*
++	 * Go through look-up table to find out where actual bitstream starts
++	 * and where sizes of components of the bitstream lies.
++	 */
++	blocks_num = *(buf + header_size - 1);
++	block_id_offset = header_size + MPF_LOOKUP_TABLE_BLOCK_ID_OFFSET;
++	block_start_offset = header_size + MPF_LOOKUP_TABLE_BLOCK_START_OFFSET;
++
++	header_size += blocks_num * MPF_LOOKUP_TABLE_RECORD_SIZE;
++	if (header_size > count) {
++		info->header_size = header_size;
++		return -EAGAIN;
++	}
++
++	components_size_start = 0;
++	bitstream_start = 0;
++
++	while (blocks_num--) {
++		block_id = *(buf + block_id_offset);
++		block_start = get_unaligned_le32(buf + block_start_offset);
++
++		switch (block_id) {
++		case MPF_BITSTREAM_ID:
++			info->header_size = bitstream_start = block_start;
++			if (block_start > count)
++				return -EAGAIN;
++
++			break;
++		case MPF_COMPONENTS_SIZE_ID:
++			components_size_start = block_start;
++			break;
++		default:
++			break;
++		}
++
++		if (bitstream_start && components_size_start)
++			break;
++
++		block_id_offset += MPF_LOOKUP_TABLE_RECORD_SIZE;
++		block_start_offset += MPF_LOOKUP_TABLE_RECORD_SIZE;
++	}
++
++	if (!bitstream_start || !components_size_start) {
++		dev_err(&mgr->dev, "Failed to parse header look-up table\n");
++		return -EFAULT;
++	}
++
++	/*
++	 * Parse bitstream size.
++	 * Sizes of components of the bitstream are 22-bits long placed next
++	 * to each other. Image header should be extended by now up to where
++	 * actual bitstream starts, so no need for overflow check anymore.
++	 */
++	components_num = get_unaligned_le16(buf + MPF_DATA_SIZE_OFFSET);
++
++	for (i = 0; i < components_num; i++) {
++		component_size_byte_num =
++			(i * MPF_BITS_PER_COMPONENT_SIZE) / BITS_PER_BYTE;
++		component_size_byte_off =
++			(i * MPF_BITS_PER_COMPONENT_SIZE) % BITS_PER_BYTE;
++
++		component_size = get_unaligned_le32(buf +
++						    components_size_start +
++						    component_size_byte_num);
++		component_size >>= component_size_byte_off;
++		component_size &= GENMASK(MPF_BITS_PER_COMPONENT_SIZE - 1, 0);
++
++		info->data_size += component_size * MPF_SPI_FRAME_SIZE;
++	}
++
++	return 0;
++}
++
++/* Poll HW status until busy bit is cleared and mask bits are set. */
++static int mpf_poll_status(struct spi_device *spi, u8 mask)
++{
++	int status, retries = MPF_STATUS_POLL_RETRIES;
++
++	while (retries--) {
++		status = mpf_read_status(spi);
++		if (status < 0)
++			return status;
++
++		if (status & MPF_STATUS_BUSY)
++			continue;
++
++		if (!mask || (status & mask))
++			return status;
++	}
++
++	return -EBUSY;
++}
++
++static int mpf_spi_write(struct spi_device *spi, const void *buf, size_t buf_size)
++{
++	int status = mpf_poll_status(spi, 0);
++
++	if (status < 0)
++		return status;
++
++	return spi_write(spi, buf, buf_size);
++}
++
++static int mpf_spi_write_then_read(struct spi_device *spi,
++				   const void *txbuf, size_t txbuf_size,
++				   void *rxbuf, size_t rxbuf_size)
++{
++	const u8 read_command[] = { MPF_SPI_READ_DATA };
++	int ret;
++
++	ret = mpf_spi_write(spi, txbuf, txbuf_size);
++	if (ret)
++		return ret;
++
++	ret = mpf_poll_status(spi, MPF_STATUS_READY);
++	if (ret < 0)
++		return ret;
++
++	return spi_write_then_read(spi, read_command, sizeof(read_command),
++				   rxbuf, rxbuf_size);
++}
++
++static int mpf_ops_write_init(struct fpga_manager *mgr,
++			      struct fpga_image_info *info, const char *buf,
++			      size_t count)
++{
++	const u8 program_mode[] = { MPF_SPI_FRAME_INIT, MPF_SPI_PRG_MODE };
++	const u8 isc_en_command[] = { MPF_SPI_ISC_ENABLE };
++	struct mpf_priv *priv = mgr->priv;
++	struct device *dev = &mgr->dev;
++	struct spi_device *spi;
++	u32 isc_ret = 0;
++	int ret;
++
++	if (info->flags & FPGA_MGR_PARTIAL_RECONFIG) {
++		dev_err(dev, "Partial reconfiguration is not supported\n");
++		return -EOPNOTSUPP;
++	}
++
++	spi = priv->spi;
++
++	ret = mpf_spi_write_then_read(spi, isc_en_command, sizeof(isc_en_command),
++				      &isc_ret, sizeof(isc_ret));
++	if (ret || isc_ret) {
++		dev_err(dev, "Failed to enable ISC: spi_ret %d, isc_ret %u\n",
++			ret, isc_ret);
++		return -EFAULT;
++	}
++
++	ret = mpf_spi_write(spi, program_mode, sizeof(program_mode));
++	if (ret) {
++		dev_err(dev, "Failed to enter program mode: %d\n", ret);
++		return ret;
++	}
++
++	priv->program_mode = true;
++
++	return 0;
++}
++
++static int mpf_ops_write(struct fpga_manager *mgr, const char *buf, size_t count)
++{
++	u8 spi_frame_command[] = { MPF_SPI_FRAME };
++	struct spi_transfer xfers[2] = { 0 };
++	struct mpf_priv *priv = mgr->priv;
++	struct device *dev = &mgr->dev;
++	struct spi_device *spi;
++	int ret, i;
++
++	if (count % MPF_SPI_FRAME_SIZE) {
++		dev_err(dev, "Bitstream size is not a multiple of %d\n",
++			MPF_SPI_FRAME_SIZE);
++		return -EINVAL;
++	}
++
++	spi = priv->spi;
++
++	xfers[0].tx_buf = spi_frame_command;
++	xfers[0].len = sizeof(spi_frame_command);
++
++	for (i = 0; i < count / MPF_SPI_FRAME_SIZE; i++) {
++		xfers[1].tx_buf = buf + i * MPF_SPI_FRAME_SIZE;
++		xfers[1].len = MPF_SPI_FRAME_SIZE;
++
++		ret = mpf_poll_status(spi, 0);
++		if (ret >= 0)
++			ret = spi_sync_transfer(spi, xfers, ARRAY_SIZE(xfers));
++
++		if (ret) {
++			dev_err(dev, "Failed to write bitstream frame %d/%zu\n",
++				i, count / MPF_SPI_FRAME_SIZE);
++			return ret;
++		}
++	}
++
++	return 0;
++}
++
++static int mpf_ops_write_complete(struct fpga_manager *mgr,
++				  struct fpga_image_info *info)
++{
++	const u8 isc_dis_command[] = { MPF_SPI_ISC_DISABLE };
++	const u8 release_command[] = { MPF_SPI_RELEASE };
++	struct mpf_priv *priv = mgr->priv;
++	struct device *dev = &mgr->dev;
++	struct spi_device *spi;
++	int ret;
++
++	spi = priv->spi;
++
++	ret = mpf_spi_write(spi, isc_dis_command, sizeof(isc_dis_command));
++	if (ret) {
++		dev_err(dev, "Failed to disable ISC: %d\n", ret);
++		return ret;
++	}
++
++	usleep_range(1000, 2000);
++
++	ret = mpf_spi_write(spi, release_command, sizeof(release_command));
++	if (ret) {
++		dev_err(dev, "Failed to exit program mode: %d\n", ret);
++		return ret;
++	}
++
++	priv->program_mode = false;
++
++	return 0;
++}
++
++static const struct fpga_manager_ops mpf_ops = {
++	.state = mpf_ops_state,
++	.initial_header_size = 71,
++	.parse_header = mpf_ops_parse_header,
++	.write_init = mpf_ops_write_init,
++	.write = mpf_ops_write,
++	.write_complete = mpf_ops_write_complete,
++};
++
++static int mpf_probe(struct spi_device *spi)
++{
++	struct device *dev = &spi->dev;
++	struct fpga_manager *mgr;
++	struct mpf_priv *priv;
++
++	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->spi = spi;
++
++	mgr = devm_fpga_mgr_register(dev, "Microchip Polarfire SPI FPGA Manager",
++				     &mpf_ops, priv);
++
++	return PTR_ERR_OR_ZERO(mgr);
++}
++
++static const struct spi_device_id mpf_spi_ids[] = {
++	{ .name = "mpf-spi-fpga-mgr", },
++	{},
++};
++MODULE_DEVICE_TABLE(spi, mpf_spi_ids);
++
++#if IS_ENABLED(CONFIG_OF)
++static const struct of_device_id mpf_of_ids[] = {
++	{ .compatible = "microchip,mpf-spi-fpga-mgr" },
++	{},
++};
++MODULE_DEVICE_TABLE(of, mpf_of_ids);
++#endif /* IS_ENABLED(CONFIG_OF) */
++
++static struct spi_driver mpf_driver = {
++	.probe = mpf_probe,
++	.id_table = mpf_spi_ids,
++	.driver = {
++		.name = "microchip_mpf_spi_fpga_mgr",
++		.of_match_table = of_match_ptr(mpf_of_ids),
++	},
++};
++
++module_spi_driver(mpf_driver);
++
++MODULE_DESCRIPTION("Microchip Polarfire SPI FPGA Manager");
++MODULE_LICENSE("GPL");
 -- 
-2.17.1
+2.35.1
+
 
