@@ -2,58 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D51EC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Jun 2022 14:51:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 072AEC43334
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Jun 2022 20:30:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236005AbiFKOvM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 11 Jun 2022 10:51:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53638 "EHLO
+        id S231263AbiFKUaq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Jun 2022 16:30:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233571AbiFKOvL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Jun 2022 10:51:11 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A87715584;
-        Sat, 11 Jun 2022 07:51:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-        In-Reply-To:References; bh=/EEge3ftYRCZN5Nh04+7KkRdYV+5milHO3YyNYaNuqY=; b=0U
-        rcM6JbUZgmpprIh8gXXmSQ+tH9GHd0ii4a55+BC4iJeJ7hYNIjpzA1hutbEX6UHiqj4pYBQF3NkZV
-        qmPmRDmWSzR42yedwY37gPk3ZohAu0cqDyiBnkQZVzJPSgNbDWJhVCBX8Kl13q94wb2dvNDriDyie
-        Y1ZQVdwBogGd9sc=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1o02Rk-006W9u-Sy; Sat, 11 Jun 2022 16:50:40 +0200
-Date:   Sat, 11 Jun 2022 16:50:40 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
-Cc:     netdev@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: networking: phy: Fix a typo
-Message-ID: <YqSrwHg/JpCvmz4j@lunn.ch>
-References: <20220610072809.352962-1-j.neuschaefer@gmx.net>
+        with ESMTP id S229861AbiFKUap (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Jun 2022 16:30:45 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D75296B656;
+        Sat, 11 Jun 2022 13:30:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654979443; x=1686515443;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=btdK/KTIo3K5kFVxw3S6KoQxkEXifhXgZQTDN1wwsOE=;
+  b=E01lrtBjS5jfRI4gxlCsSH1egCS6ifmQS/O7ihWBRauL3nIz7bEn93Ex
+   9L2k5j0oKAO9JZ3kVojUpRHuzao8601O88KHHUmpFbhlV3/ViN5fHVRDq
+   Xs8kqXWC4bbOsH7TC7lnxdZZDKnaz5rOYEuFqex5FbUOFwBMNxTlhmCJZ
+   QQj91IlBuDamZkMv3ON/C9mVidCaZuDNLxN8ckPKQzq/m/YTtS6L5cKxc
+   Jt+9BEf+XZxfR8at66m1mPEotNUp2Fh2dZcFnlxi7nMHIAo+zqhN7fYKj
+   6Kwy4aFQAS/aN/hFnxnvXIiEHdGLBZlll4KLW/WmDLOa2w0mNp3pSiR0s
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10375"; a="277974906"
+X-IronPort-AV: E=Sophos;i="5.91,294,1647327600"; 
+   d="scan'208";a="277974906"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2022 13:30:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,294,1647327600"; 
+   d="scan'208";a="672510836"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Jun 2022 13:30:42 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o07kn-000JGj-Fc;
+        Sat, 11 Jun 2022 20:30:41 +0000
+Date:   Sun, 12 Jun 2022 04:30:19 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Ang Tien Sung <tien.sung.ang@intel.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Dinh Nguyen <dinguyen@kernel.org>, linux-doc@vger.kernel.org
+Subject: [dinguyen:svc_driver_updates_for_v4.20 1/6] htmldocs:
+ include/linux/firmware/intel/stratix10-svc-client.h:19: warning: This
+ comment starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202206120445.FeU5wA93-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220610072809.352962-1-j.neuschaefer@gmx.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 10, 2022 at 09:28:08AM +0200, Jonathan Neuschäfer wrote:
-> Write "to be operated" instead of "to be operate".
-> 
-> Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git svc_driver_updates_for_v4.20
+head:   107da326a0a3e7b6e81557c4225548db670a2647
+commit: 88f42ac48b89689a3e8673263c09ad77be157a09 [1/6] firmware: stratix10-svc: Add support for FCS
+reproduce: make htmldocs
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-    Andrew
+All warnings (new ones prefixed by >>):
+
+>> include/linux/firmware/intel/stratix10-svc-client.h:19: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+
+vim +19 include/linux/firmware/intel/stratix10-svc-client.h
+
+7ca5ce896524f5 Richard Gong          2018-11-13   8  
+e23bd83368af41 Mauro Carvalho Chehab 2021-01-14   9  /*
+7ca5ce896524f5 Richard Gong          2018-11-13  10   * Service layer driver supports client names
+7ca5ce896524f5 Richard Gong          2018-11-13  11   *
+7ca5ce896524f5 Richard Gong          2018-11-13  12   * fpga: for FPGA configuration
+6b50d882d38d5a Richard Gong          2018-11-13  13   * rsu: for remote status update
+7ca5ce896524f5 Richard Gong          2018-11-13  14   */
+7ca5ce896524f5 Richard Gong          2018-11-13  15  #define SVC_CLIENT_FPGA			"fpga"
+6b50d882d38d5a Richard Gong          2018-11-13  16  #define SVC_CLIENT_RSU			"rsu"
+88f42ac48b8968 Ang Tien Sung         2022-03-15  17  #define SVC_CLIENT_FCS			"fcs"
+88f42ac48b8968 Ang Tien Sung         2022-03-15  18  /**
+7ca5ce896524f5 Richard Gong          2018-11-13 @19   * Status of the sent command, in bit number
+7ca5ce896524f5 Richard Gong          2018-11-13  20   *
+7536ad8dbfcfd5 Richard Gong          2020-04-14  21   * SVC_STATUS_OK:
+7536ad8dbfcfd5 Richard Gong          2020-04-14  22   * Secure firmware accepts the request issued by one of service clients.
+7ca5ce896524f5 Richard Gong          2018-11-13  23   *
+7536ad8dbfcfd5 Richard Gong          2020-04-14  24   * SVC_STATUS_BUFFER_SUBMITTED:
+7536ad8dbfcfd5 Richard Gong          2020-04-14  25   * Service client successfully submits data buffer to secure firmware.
+7ca5ce896524f5 Richard Gong          2018-11-13  26   *
+7536ad8dbfcfd5 Richard Gong          2020-04-14  27   * SVC_STATUS_BUFFER_DONE:
+7ca5ce896524f5 Richard Gong          2018-11-13  28   * Secure firmware completes data process, ready to accept the
+7ca5ce896524f5 Richard Gong          2018-11-13  29   * next WRITE transaction.
+7ca5ce896524f5 Richard Gong          2018-11-13  30   *
+7536ad8dbfcfd5 Richard Gong          2020-04-14  31   * SVC_STATUS_COMPLETED:
+7536ad8dbfcfd5 Richard Gong          2020-04-14  32   * Secure firmware completes service request successfully. In case of
+7536ad8dbfcfd5 Richard Gong          2020-04-14  33   * FPGA configuration, FPGA should be in user mode.
+7ca5ce896524f5 Richard Gong          2018-11-13  34   *
+7536ad8dbfcfd5 Richard Gong          2020-04-14  35   * SVC_COMMAND_STATUS_BUSY:
+7536ad8dbfcfd5 Richard Gong          2020-04-14  36   * Service request is still in process.
+7ca5ce896524f5 Richard Gong          2018-11-13  37   *
+7536ad8dbfcfd5 Richard Gong          2020-04-14  38   * SVC_COMMAND_STATUS_ERROR:
+7536ad8dbfcfd5 Richard Gong          2020-04-14  39   * Error encountered during the process of the service request.
+6b50d882d38d5a Richard Gong          2018-11-13  40   *
+7536ad8dbfcfd5 Richard Gong          2020-04-14  41   * SVC_STATUS_NO_SUPPORT:
+7536ad8dbfcfd5 Richard Gong          2020-04-14  42   * Secure firmware doesn't support requested features such as RSU retry
+7536ad8dbfcfd5 Richard Gong          2020-04-14  43   * or RSU notify.
+7ca5ce896524f5 Richard Gong          2018-11-13  44   */
+7536ad8dbfcfd5 Richard Gong          2020-04-14  45  #define SVC_STATUS_OK			0
+7536ad8dbfcfd5 Richard Gong          2020-04-14  46  #define SVC_STATUS_BUFFER_SUBMITTED	1
+7536ad8dbfcfd5 Richard Gong          2020-04-14  47  #define SVC_STATUS_BUFFER_DONE		2
+7536ad8dbfcfd5 Richard Gong          2020-04-14  48  #define SVC_STATUS_COMPLETED		3
+7536ad8dbfcfd5 Richard Gong          2020-04-14  49  #define SVC_STATUS_BUSY			4
+7536ad8dbfcfd5 Richard Gong          2020-04-14  50  #define SVC_STATUS_ERROR		5
+7536ad8dbfcfd5 Richard Gong          2020-04-14  51  #define SVC_STATUS_NO_SUPPORT		6
+e9cb0497b1c801 Richard Gong          2019-11-04  52  
+
+:::::: The code at line 19 was first introduced by commit
+:::::: 7ca5ce896524f5292e610b27d168269e5ab74951 firmware: add Intel Stratix10 service layer driver
+
+:::::: TO: Richard Gong <richard.gong@intel.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
