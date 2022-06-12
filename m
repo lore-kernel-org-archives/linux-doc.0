@@ -2,104 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9548C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Jun 2022 00:01:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ECBCC433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Jun 2022 01:23:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232483AbiFLABi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 11 Jun 2022 20:01:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50816 "EHLO
+        id S233157AbiFLBXZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Jun 2022 21:23:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230028AbiFLABh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Jun 2022 20:01:37 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B12146A425;
-        Sat, 11 Jun 2022 17:01:36 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id gc3-20020a17090b310300b001e33092c737so2671295pjb.3;
-        Sat, 11 Jun 2022 17:01:36 -0700 (PDT)
+        with ESMTP id S230074AbiFLBXQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Jun 2022 21:23:16 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4DCD642E;
+        Sat, 11 Jun 2022 18:23:15 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id s37so54278pfg.11;
+        Sat, 11 Jun 2022 18:23:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rrR2yAG5ZDoOc5RKGUSqko0qrkTdkFcvAE69IpskmQk=;
-        b=bxm/xiWQoxyLzg/Q6KDEDCwr+QZ3vIvSrbwYfyVTcvKPaoIxtp34y3V3YDIDleYI+W
-         QK/vtFXhrhy2ZhZRrycP2vEZ0ewJbEZQa3myf2dCw85jXBLROXvMLWRZoF/fWczBPjZo
-         VyxfUKhQsoA0rnjMKfSCfmGI0Wr6s0grg37+v8JpW7Qt5qxlMybuzGNZDIuyEE/IOcOB
-         ZgNge4Pw8ce200HQ49utHlg6PPmI0zIPFY74F3gyntOl3fRzU4XWnTI99vIItxdWSRrU
-         m9Sow0NKHDamMtXdKpPq42VO/pr8bh9twl6MVcv7pw6o8NfsGUyw20z3wYPPG1/b60NJ
-         0dHg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=NiEciZY0Y+MsQ4Cu7oNktvyx7vPhk6nYZfGdQh1JxSs=;
+        b=jIOEe15yrEOjUSrG535TJ+ZgC5XOVlDyZXMmwiv4OCYuiMhAG9OvMmvsCIxJRZiC4o
+         5mdYXDVj0mtocFB6KWum8zOmDAqbx+ZjOp9FNbAMUg0l/9WMmgb4sfz+qwqk4xWECkLv
+         8rE0a7qGvhc1++Qo58pKskwdl2bOg739k8pk9yE6sXsv0Gm8su7puKjoYbRia7vwVE8v
+         ICGzFENn7vvW52qDdGlDdRxPbkUwRvZgQhjK0xj452j9REjHMJ667oAXzwqHH33xbPLm
+         RSh2+s3ntAa/q2HcULb+FP1XCPORjjJ1sl+nsSXfY5ieOszsAtN0urFPUegBdghR7JH1
+         B3rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rrR2yAG5ZDoOc5RKGUSqko0qrkTdkFcvAE69IpskmQk=;
-        b=H3goDps9U2JRGibN4+AHv7y6p2/hguvAh6eaAr5hXTKVIpM/7ZGqvx0YxQPaYkWUAa
-         d8ChUaB/lagZF8evbPEPvY2fY/8vHbRsq2Edg8iRvdefH1vanim1G5+BcXL/fiGSWmwV
-         Hjtf02BCzAqMUeYDuF1ZCP7CtLU0gqtp5JmUnWGX+3w1RtoFfBN7eiETaqZAyEwV8NLv
-         p2YzoSEMDylGpd7ZmEDtWtwYjLu8NCoBDLPiXGpn1948nieYDLgdx7NkjST6SZfdb4Cp
-         V/snTGDJ9/XucwQZ33qqNf58smgmflXYSsy/e0iKCg4EDpa6ovQcXxDkDhMf12269ujs
-         2YAA==
-X-Gm-Message-State: AOAM533FxA7DeHuOMkA9M1sxHee+4ARZTEf5VInNcXPwvyJAIz5arl22
-        NKF0MJDw3huyEHXRu6Q8pSxCY0U/oKQ=
-X-Google-Smtp-Source: ABdhPJwzSAUVchKa+rTUGUJRkr60hBjUTrhIP0rYG8PQuiBVJ4d9X8ZgTMHK527r6yMU87IvTMLFEA==
-X-Received: by 2002:a17:902:cf05:b0:156:9d:ca01 with SMTP id i5-20020a170902cf0500b00156009dca01mr51176328plg.111.1654992095656;
-        Sat, 11 Jun 2022 17:01:35 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-72.three.co.id. [180.214.233.72])
-        by smtp.gmail.com with ESMTPSA id a15-20020a62d40f000000b0051f2b9f9b05sm2146794pfh.76.2022.06.11.17.01.32
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=NiEciZY0Y+MsQ4Cu7oNktvyx7vPhk6nYZfGdQh1JxSs=;
+        b=GFtN1JsGafVEsDtCeTaxLqOEMvKQdtxRyQtoPTPA6rL+J/9tM0DvSgvmASDwBuwsoD
+         IZ07a9jhOzRxKfNmKAHDeUTmQh9qZPOf3Jje54e86DnYfLjAPDslPBcXcQkyUP8Wz6B7
+         rHFUiV+DH/I3MFzHlHh1asKfEeSzwl5lB+V8vKyR+FVSNGzAPCdi6GxQS9ui4QRoyrBM
+         aXyOGnNG+bQbVYIBcfkShhQFQMnZXPXw6ZGm8obApyqOswE/hlBUkhltilIyOocYFYIA
+         J1SD+E5ex6DerPdKQNtw/kiGbe4SpOtxVq7Bmw9plJ5OGmlYYkfsjJeLHSrBu4dHeitJ
+         WtRA==
+X-Gm-Message-State: AOAM533v46kGS6QkCyHwKwcIJKLlg4Rlq1DV0SDPQ0Ii2ru8i/q4M4co
+        Zxp/+8OnBakWno/HdWEfRej3vSBmSD4=
+X-Google-Smtp-Source: ABdhPJyeovKVqYWeYt4k6hSIw3xqU+X4t97IlTRs94rmPfk9/BEr4ePyNYDDmTSPnPXYDJok139gug==
+X-Received: by 2002:a05:6a00:158e:b0:51c:2a89:3845 with SMTP id u14-20020a056a00158e00b0051c2a893845mr30382392pfk.64.1654996994964;
+        Sat, 11 Jun 2022 18:23:14 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-93.three.co.id. [180.214.233.93])
+        by smtp.gmail.com with ESMTPSA id b5-20020a62a105000000b0051bcf4877f1sm2177729pff.199.2022.06.11.18.23.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jun 2022 17:01:35 -0700 (PDT)
+        Sat, 11 Jun 2022 18:23:14 -0700 (PDT)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND v2] leds: Add leds-qcom-lpg entry to documentation table of contents
-Date:   Sun, 12 Jun 2022 07:01:25 +0700
-Message-Id: <20220612000125.9777-1-bagasdotme@gmail.com>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        kernel test robot <lkp@intel.com>,
+        Ang Tien Sung <tien.sung.ang@intel.com>,
+        Richard Gong <richard.gong@intel.com>,
+        Dinh Nguyen <dinguyen@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH] firmware: stratix10-svc: remove extraneous asterisk from #define comments
+Date:   Sun, 12 Jun 2022 08:22:53 +0700
+Message-Id: <20220612012253.16583-1-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.36.0
+In-Reply-To: <202206120445.FeU5wA93-lkp@intel.com>
+References: <202206120445.FeU5wA93-lkp@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After merging linux-leds tree to the mainline [1], htmldocs build produces
-a new warning:
+kernel test robot reported kernel-doc warning:
 
-checking consistency... /home/bagas/repo/linux-stable/Documentation/leds/leds-qcom-lpg.rst: WARNING: document isn't included in any toctree
+>> include/linux/firmware/intel/stratix10-svc-client.h:19: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
 
-The warning above is because leds-qcom-lpg.rst is missing in the table of
-contents.
+The warning above is because comments above #define statements are prefixed
+with double asterisk, which kernel-doc script mistook these as actual
+kernel-doc comment.
 
-Add the missing entry.
+Remove extraneouse asterisk from these comments.
 
-[1]: https://lore.kernel.org/all/20220531200619.GA8906@duo.ucw.cz/
-
-Fixes: 24e2d05d1b6898 ("leds: Add driver for Qualcomm LPG")
-Acked-by: Pavel Machek <pavel@ucw.cz>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: linux-leds@vger.kernel.org
+Link: https://lore.kernel.org/lkml/202206120445.FeU5wA93-lkp@intel.com/
+Fixes: 88f42ac48b8968 ("firmware: stratix10-svc: Add support for FCS")
+Reported-by: kernel test robot <lkp@intel.com>
+Cc: Ang Tien Sung <tien.sung.ang@intel.com>
+Cc: Richard Gong <richard.gong@intel.com>
+Cc: Dinh Nguyen <dinguyen@kernel.org>
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/leds/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+ include/linux/firmware/intel/stratix10-svc-client.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-index e5d63b9400459c..014e009b076159 100644
---- a/Documentation/leds/index.rst
-+++ b/Documentation/leds/index.rst
-@@ -25,4 +25,5 @@ LEDs
-    leds-lp5562
-    leds-lp55xx
-    leds-mlxcpld
-+   leds-qcom-lpg
-    leds-sc27xx
+diff --git a/include/linux/firmware/intel/stratix10-svc-client.h b/include/linux/firmware/intel/stratix10-svc-client.h
+index 5098dbba138d0f..63927aba0b5699 100644
+--- a/include/linux/firmware/intel/stratix10-svc-client.h
++++ b/include/linux/firmware/intel/stratix10-svc-client.h
+@@ -15,7 +15,7 @@
+ #define SVC_CLIENT_FPGA			"fpga"
+ #define SVC_CLIENT_RSU			"rsu"
+ #define SVC_CLIENT_FCS			"fcs"
+-/**
++/*
+  * Status of the sent command, in bit number
+  *
+  * SVC_STATUS_OK:
+@@ -50,7 +50,7 @@
+ #define SVC_STATUS_ERROR		5
+ #define SVC_STATUS_NO_SUPPORT		6
+ #define SVC_STATUS_INVALID_PARAM	7
+-/**
++/*
+  * Flag bit for COMMAND_RECONFIG
+  *
+  * COMMAND_RECONFIG_FLAG_PARTIAL:
 
-base-commit: 0678afa6055d14799c1dc1eee47c8025eba56cab
+base-commit: 107da326a0a3e7b6e81557c4225548db670a2647
 -- 
 An old man doll... just what I always wanted! - Clara
 
