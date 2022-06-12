@@ -2,105 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33604C43334
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Jun 2022 17:50:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA6D9CCA473
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Jun 2022 19:02:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232603AbiFLRuC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 12 Jun 2022 13:50:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45870 "EHLO
+        id S233484AbiFLTCC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 12 Jun 2022 15:02:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232666AbiFLRt6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Jun 2022 13:49:58 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4A9D13F95;
-        Sun, 12 Jun 2022 10:49:57 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id k12-20020a17090a404c00b001eaabc1fe5dso898450pjg.1;
-        Sun, 12 Jun 2022 10:49:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=cX/8ziMeK45ox+UcvZwAkANNXl3ViVJCTAY7BoIDC9g=;
-        b=ZNHpDRCIVg04yWKFQl5Us2As61s+pXeR4lsY92xVrDkk6imXnuwyuIisMOGvIeIGxd
-         UvUQVa4cGrHsfK+hrkzKtoYgoFEOSIxRsMURxjDSRjGACqfWn7/dvweFPJsMOkrPBRpR
-         iA5XsNAId11fOFa4E2cR+sKI30/M/jtzbtHiYNrYgi9ZhzrWPAyQdnFgV5ZMdLVoLnwa
-         FDDQgbhlu8/E64e1QdJtdDKu4xmWBiHVWN7oTvvkD7FBAGPnbKjZ77qy09wvbncWw1rH
-         W4PWLjJkm1uMXK8esCcS1J5utUQ1jjSpSeAhAj8FyImJCUY97wQRjpr9Xw6bHfpGujvB
-         h1jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=cX/8ziMeK45ox+UcvZwAkANNXl3ViVJCTAY7BoIDC9g=;
-        b=w1eMr4vsA+26tf+t/6LsqkWw96dTgavHWtuGKUGxJPb+IUeSkGBax94OVZueTa34t3
-         C7+rFSmGmnufwZVDi+2heQOHnCYvKcO7/O7ppsoVKZDGEkekjRL7zYiTr4E2wJ1HlSFM
-         ap91lkBWztIXUdo+c5o40lVFSQvNeSbxhLFtiU7z9JtyjZG1KiSmaCL283Q877vT8+ON
-         rjI5cSSVftl8mu5qGw7iZXYnIsxlewO5Yv48/nT0AsNivkZTewrsGs4BOP6diuXVGDW+
-         Yb9pFd6vspCH6aQMCeUa4dJzLp5Ns+umn2kiN+uizeWM6vvqZ1q4dzYLaWgkaZV5FlI8
-         xNrw==
-X-Gm-Message-State: AOAM531z4L/iq6xhjIx84gsegpDt8GiBj+K7mMsmZftoVBDGRbrt4R3k
-        rlKkS6JYMbsDSiHnrpyumRU=
-X-Google-Smtp-Source: ABdhPJxe4U/h6/4hb1steSvpD1cv7v94zKtcqGJ9I3Q5qaJHTtMkECTh2aJT9D0ZtBy8Qxfk9gxLeg==
-X-Received: by 2002:a17:90b:3e85:b0:1e8:8e0c:88de with SMTP id rj5-20020a17090b3e8500b001e88e0c88demr11290004pjb.151.1655056197208;
-        Sun, 12 Jun 2022 10:49:57 -0700 (PDT)
-Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
-        by smtp.gmail.com with ESMTPSA id w6-20020a639346000000b003fdc7e490a6sm3653286pgm.20.2022.06.12.10.49.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jun 2022 10:49:56 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Sun, 12 Jun 2022 07:49:55 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-Subject: Re: [PATCH v11 7/8] cgroup/cpuset: Update description of
- cpuset.cpus.partition in cgroup-v2.rst
-Message-ID: <YqYnQ4U4t6j/3UaL@slm.duckdns.org>
-References: <20220510153413.400020-1-longman@redhat.com>
- <20220510153413.400020-8-longman@redhat.com>
+        with ESMTP id S230478AbiFLTCB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Jun 2022 15:02:01 -0400
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5641017AAE
+        for <linux-doc@vger.kernel.org>; Sun, 12 Jun 2022 12:01:58 -0700 (PDT)
+Received: from submission (posteo.de [185.67.36.169]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id B9A8A240026
+        for <linux-doc@vger.kernel.org>; Sun, 12 Jun 2022 21:01:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1655060515; bh=OIJ2JP7SQeXyamrKWxoIIVw/HJ+6Iauyz0L3wpT0p3s=;
+        h=Date:From:To:Cc:Subject:From;
+        b=pdv5QUjSULTph4ufdkyAhyOK41v50GuNzt8MFjO+nFdBTb10GK9w6jzRFrnsApqKm
+         t9xt7u8xnYT9nsyn8IY8/X7wlsuDvjT/cp/MHczuSTrqK94WHVqpKeT0hfeWHrWFTk
+         QyeclBX0tu1eHzk5cQobkM5KSZDSSk47OhroIETTdUT4iN0t1ZzKFTyru7TeRBEmxF
+         gGmPyRqLLwC0AbnvJqQnfmSF0dZYcDx60Un35Kq5mA2SGBjytGvGFHC+lNME90I45l
+         NZDl64+VYhsixylsRNTMwibr7U8YlrNrzBykzb0ijn/A7+oJTqDzu5xiQHrj6JP2cb
+         E+MmYNfnMyvng==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4LLkZp6cJyz6tmX;
+        Sun, 12 Jun 2022 21:01:54 +0200 (CEST)
+Date:   Sun, 12 Jun 2022 19:01:09 +0000
+From:   Tom Schwindl <schwindl@posteo.de>
+To:     corbet@lwn.net
+Cc:     linus.walleij@linaro.org, brgl@bgdev.pl, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: driver-api: gpio: Fix filename mismatch
+Message-ID: <YqY39Rwi4Lnzw2GH@posteo.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220510153413.400020-8-longman@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+The filenames were changed a while ago, but board.rst, consumer.rst and
+intro.rst still refer to the old names. Fix those references to match the
+Actual names and avoid possible confusion.
 
-On Tue, May 10, 2022 at 11:34:12AM -0400, Waiman Long wrote:
-> +	External events like hotplug or changes to "cpuset.cpus" can
-> +	cause a valid partition root to become invalid and vice versa.
-> +	Note that a task cannot be moved to a cgroup with empty
-> +	"cpuset.cpus.effective".
-> +
-> +	For a valid partition root or an invalid partition root with
-> +	the exclusivity rule enabled, changes made to "cpuset.cpus"
-> +	that violate the exclusivity rule will not be allowed.
+Signed-off-by: Tom Schwindl <schwindl@posteo.de>
+---
+ Documentation/driver-api/gpio/board.rst    | 2 +-
+ Documentation/driver-api/gpio/consumer.rst | 6 +++---
+ Documentation/driver-api/gpio/intro.rst    | 6 +++---
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-My memory is failing but this is the same thing that we were discussing
-before, right? The point was that the different behaviors re. system events
-and config actions seemed unncessary and IIRC Michal was of the same opinion
-(please correct me if I'm misremembering).
-
-> +	A valid non-root parent partition may distribute out all its CPUs
-> +	to its child partitions when there is no task associated with it.
-
-I'm probably forgetting something. Was this necessary because of threaded
-cgroup support because otherwise the above condition is superflous?
-
-Thanks.
-
+diff --git a/Documentation/driver-api/gpio/board.rst b/Documentation/driver-api/gpio/board.rst
+index 4e3adf31c8d1..b33aa04f213f 100644
+--- a/Documentation/driver-api/gpio/board.rst
++++ b/Documentation/driver-api/gpio/board.rst
+@@ -6,7 +6,7 @@ This document explains how GPIOs can be assigned to given devices and functions.
+ 
+ Note that it only applies to the new descriptor-based interface. For a
+ description of the deprecated integer-based GPIO interface please refer to
+-gpio-legacy.txt (actually, there is no real mapping possible with the old
++legacy.rst (actually, there is no real mapping possible with the old
+ interface; you just fetch an integer from somewhere and request the
+ corresponding GPIO).
+ 
+diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
+index 47869ca8ccf0..72bcf5f5e3a2 100644
+--- a/Documentation/driver-api/gpio/consumer.rst
++++ b/Documentation/driver-api/gpio/consumer.rst
+@@ -4,7 +4,7 @@ GPIO Descriptor Consumer Interface
+ 
+ This document describes the consumer interface of the GPIO framework. Note that
+ it describes the new descriptor-based interface. For a description of the
+-deprecated integer-based GPIO interface please refer to gpio-legacy.txt.
++deprecated integer-based GPIO interface please refer to legacy.rst.
+ 
+ 
+ Guidelines for GPIOs consumers
+@@ -78,7 +78,7 @@ whether the line is configured active high or active low (see
+ 
+ The two last flags are used for use cases where open drain is mandatory, such
+ as I2C: if the line is not already configured as open drain in the mappings
+-(see board.txt), then open drain will be enforced anyway and a warning will be
++(see board.rst), then open drain will be enforced anyway and a warning will be
+ printed that the board configuration needs to be updated to match the use case.
+ 
+ Both functions return either a valid GPIO descriptor, or an error code checkable
+@@ -270,7 +270,7 @@ driven.
+ The same is applicable for open drain or open source output lines: those do not
+ actively drive their output high (open drain) or low (open source), they just
+ switch their output to a high impedance value. The consumer should not need to
+-care. (For details read about open drain in driver.txt.)
++care. (For details read about open drain in driver.rst.)
+ 
+ With this, all the gpiod_set_(array)_value_xxx() functions interpret the
+ parameter "value" as "asserted" ("1") or "de-asserted" ("0"). The physical line
+diff --git a/Documentation/driver-api/gpio/intro.rst b/Documentation/driver-api/gpio/intro.rst
+index 2e924fb5b3d5..c9c19243b97f 100644
+--- a/Documentation/driver-api/gpio/intro.rst
++++ b/Documentation/driver-api/gpio/intro.rst
+@@ -14,12 +14,12 @@ Due to the history of GPIO interfaces in the kernel, there are two different
+ ways to obtain and use GPIOs:
+ 
+   - The descriptor-based interface is the preferred way to manipulate GPIOs,
+-    and is described by all the files in this directory excepted gpio-legacy.txt.
++    and is described by all the files in this directory excepted legacy.rst.
+   - The legacy integer-based interface which is considered deprecated (but still
+-    usable for compatibility reasons) is documented in gpio-legacy.txt.
++    usable for compatibility reasons) is documented in legacy.rst.
+ 
+ The remainder of this document applies to the new descriptor-based interface.
+-gpio-legacy.txt contains the same information applied to the legacy
++legacy.rst contains the same information applied to the legacy
+ integer-based interface.
+ 
+ 
 -- 
-tejun
+
