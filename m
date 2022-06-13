@@ -2,140 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 823B6C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 18:38:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFBDBCCA47B
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 18:41:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343617AbiFMSiH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 14:38:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35502 "EHLO
+        id S1344045AbiFMSlE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 14:41:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236744AbiFMShz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 14:37:55 -0400
+        with ESMTP id S245639AbiFMSkc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 14:40:32 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 24C5D60BB9
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 08:40:05 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 47BA062CD1
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 08:27:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655134804;
+        s=mimecast20190719; t=1655134052;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=9O1sbdf2ij2vjNGIB5kmQiO/dPYFEEYuNBpIJztkYLI=;
-        b=g6wG/6mBYuSKKGv4BV0QTdLut4pwsl5nWYoDlwZ3HfBPm5u1vsfmUsJ4X4anL8BP8I2oPw
-        J4PsM6Qv+/wXyFze14uzdKW1qSRErid+jVs1LmbjjJLu7e/ua2Gfe3w2tj293+ZLxoYy46
-        9e0VyVcE3F5y6O54/0RbCAKZZjHWUu4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=349ItO45Tva+Eg6mNSQZ8gAgx0dNkmVf6n7IrTnPg/k=;
+        b=DKD2aMRYWxq/AN3Jrp9y8znBjc4DORo9JLcRxmPegXEzXJlPUgxB5hgNbe43SAZ39/UMl2
+        bEwLOk1n7fO1k8aK2STvniE0HcHBDQaPx35XiPJgU3jK9U4s9xfOCyVex/hvlu+3/N8Nez
+        fGa1RzrvJSBcVE6fHxifBtoVb0q2jTE=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-198-ZlB2vqyEOz-jtdoOQysSWA-1; Mon, 13 Jun 2022 11:40:02 -0400
-X-MC-Unique: ZlB2vqyEOz-jtdoOQysSWA-1
-Received: by mail-wr1-f72.google.com with SMTP id d9-20020adfe849000000b00213375a746aso810770wrn.18
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 08:40:02 -0700 (PDT)
+ us-mta-204-Z3XoGyfHPkmy0lmP3g61UQ-1; Mon, 13 Jun 2022 11:27:31 -0400
+X-MC-Unique: Z3XoGyfHPkmy0lmP3g61UQ-1
+Received: by mail-ej1-f72.google.com with SMTP id a9-20020a17090682c900b0070b513b9dc4so1937383ejy.4
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 08:27:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=9O1sbdf2ij2vjNGIB5kmQiO/dPYFEEYuNBpIJztkYLI=;
-        b=vLIjEElwJmrtTWZjx9KS+sdYTdjHVj66zEH4ep4VYIO4BrAF1FEa/9m112R4X0ow1g
-         xG/c95olFNnLPg6lk2/37bwimSPu1Dj5Yz4d64cPLtC0APwTKYMAu9i7Wn6ILnxfZnVD
-         fR0nrYbaHUg8R8JgkSedzL+G3GA1xDHhmY5+YPIUd9oxHOeraaOSmWXm72Mte815vVOn
-         FvntgbpCn0P3GZNocKk1uSUJ0z+5mGfBvUd15FLt+aj5moZ79ImKQraQudF2Lnhzrb0W
-         bQtRc9kam3UrTE+aVneDkv/iyFxV5HYIwyKIM4w7ADM6V2q/+dl7u6q17uJl1S+xJPit
-         VokA==
-X-Gm-Message-State: AOAM530tFHoz7CLkFWDh2j6n1QN5qCCNWxqLnECivND5qCB0SgzgzqNk
-        11ewlTu1e0oQ5eXIWlCN4IY0SMDLiZQwBkjVqRe9r9c5uPL1TozrNdgEMQXplVdnFo9ZagsbAtJ
-        HOmL/3gONCD2k0uylwN6t
-X-Received: by 2002:a1c:7418:0:b0:39c:6ead:321c with SMTP id p24-20020a1c7418000000b0039c6ead321cmr54836wmc.171.1655134801547;
-        Mon, 13 Jun 2022 08:40:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzd53JP6ehA2t0cS3jtwwK9+a0CJFs7Y0/eewsb9jvYGyOfgxsScdBrMX3bH7wHA4OxcpYqyA==
-X-Received: by 2002:a1c:7418:0:b0:39c:6ead:321c with SMTP id p24-20020a1c7418000000b0039c6ead321cmr54821wmc.171.1655134801302;
-        Mon, 13 Jun 2022 08:40:01 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c706:bd00:963c:5455:c10e:fa6f? (p200300cbc706bd00963c5455c10efa6f.dip0.t-ipconnect.de. [2003:cb:c706:bd00:963c:5455:c10e:fa6f])
-        by smtp.gmail.com with ESMTPSA id l15-20020a05600c4f0f00b003942a244f39sm18189229wmq.18.2022.06.13.08.39.59
+        bh=349ItO45Tva+Eg6mNSQZ8gAgx0dNkmVf6n7IrTnPg/k=;
+        b=nO5OGRRNhaBn3WRyyB75nWf9JJ5ySuPBBXFvilTx+/JBWx27IyGEACsXZ0ZkbNdB2K
+         7AypdM07BzV2egrbDNldXPz/Uhd/EbGDSVJPYtfmunUf0UatXtzWFHfntAdJeteVIbVk
+         IF2CpMNSySXGXq+8UmO+KcVqmZF+E00h2KwWACXW7/AHAo0PVoZVwjJLbppW8opQsOdV
+         T/LgjMz6KA2sFFEfSom8nqwj1+M5hpsAUMrGFoWBgfaPCHPm/qhzUkHg94N0ez1B9agL
+         MwGZ4Fnnf9ystj48pOlzx20iU9FfEFhzdWeI4J64Ie5u9pZ/J3fC7I6yPrGsjCR/8nwN
+         hP4Q==
+X-Gm-Message-State: AOAM5301NnJ8ob1s60Md1p8B4XMYxe1Ot9Xvc9OevGGiL4qih11PTJPz
+        FSa886dIMlhOWASFrzTPOhtOWINJ1dVeTXlj7ZphtH9y9h2tfSVZal97BlVp4lLDu7UNnN4c3PS
+        RU0tWAx9phu0U2NxNNrAj
+X-Received: by 2002:a17:906:2c4d:b0:70f:ede5:d456 with SMTP id f13-20020a1709062c4d00b0070fede5d456mr373612ejh.366.1655134049912;
+        Mon, 13 Jun 2022 08:27:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJybsNmkzlGzyyL4shgHdKlEEvyjK/FcnSjJ/CLCJb6gofvFDki+1kMsAbYEIwlvSuuJGGJGfA==
+X-Received: by 2002:a17:906:2c4d:b0:70f:ede5:d456 with SMTP id f13-20020a1709062c4d00b0070fede5d456mr373604ejh.366.1655134049710;
+        Mon, 13 Jun 2022 08:27:29 -0700 (PDT)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id h20-20020a056402281400b0042dd05edeedsm5226591ede.17.2022.06.13.08.27.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jun 2022 08:40:00 -0700 (PDT)
-Message-ID: <4a6023f3-0fbd-32cf-7e52-bc72e2b4a407@redhat.com>
-Date:   Mon, 13 Jun 2022 17:39:59 +0200
+        Mon, 13 Jun 2022 08:27:29 -0700 (PDT)
+Message-ID: <23f92ec3-a739-6ee7-10f9-f66b17ae6088@redhat.com>
+Date:   Mon, 13 Jun 2022 17:27:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 3/6] mm: hugetlb_vmemmap: introduce the name HVO
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 00/12] platform/surface: aggregator: Add support for
+ client hot-removal
 Content-Language: en-US
-To:     Muchun Song <songmuchun@bytedance.com>, mike.kravetz@oracle.com,
-        akpm@linux-foundation.org, corbet@lwn.net
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220613063512.17540-1-songmuchun@bytedance.com>
- <20220613063512.17540-4-songmuchun@bytedance.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220613063512.17540-4-songmuchun@bytedance.com>
+To:     Maximilian Luz <luzmaximilian@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20220527023447.2460025-1-luzmaximilian@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220527023447.2460025-1-luzmaximilian@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 13.06.22 08:35, Muchun Song wrote:
-> It it inconvenient to mention the feature of optimizing vmemmap pages associated
-> with HugeTLB pages when communicating with others since there is no specific or
-> abbreviated name for it when it is first introduced.  Let us give it a name HVO
-> (HugeTLB Vmemmap Optimization) from now.
+Hi,
+
+On 5/27/22 04:34, Maximilian Luz wrote:
+> Summary:
 > 
-> This commit also updates the document about "hugetlb_free_vmemmap" by the way
-> discussed in thread [1].
+>   Add support for the HID type cover input devices on the Pro 8 and all
+>   requirements for that.
 > 
-> Link: https://lore.kernel.org/all/21aae898-d54d-cc4b-a11f-1bb7fddcfffa@redhat.com/ [1]
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |  7 ++++---
->  Documentation/admin-guide/mm/hugetlbpage.rst    |  3 +--
->  Documentation/admin-guide/sysctl/vm.rst         |  3 +--
->  fs/Kconfig                                      | 13 ++++++-------
->  mm/hugetlb_vmemmap.c                            |  8 ++++----
->  mm/hugetlb_vmemmap.h                            |  4 ++--
->  6 files changed, 18 insertions(+), 20 deletions(-)
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 391b43fee93e..7539553b3fb0 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1725,12 +1725,13 @@
->  	hugetlb_free_vmemmap=
->  			[KNL] Reguires CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
->  			enabled.
-> +			Control if HugeTLB Vmemmap Optimization (HVO) is enabled.
->  			Allows heavy hugetlb users to free up some more
->  			memory (7 * PAGE_SIZE for each 2MB hugetlb page).
-> -			Format: { [oO][Nn]/Y/y/1 | [oO][Ff]/N/n/0 (default) }
-> +			Format: { on | off (default) }
->  
-> -			[oO][Nn]/Y/y/1: enable the feature
-> -			[oO][Ff]/N/n/0: disable the feature
-> +			on: enable HVO
-> +			off: disable HVO
->  
->  			Built with CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON=y,
->  			the default is on.
-> diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
-> index a90330d0a837..64e0d5c512e7 100644
-> --- a/Documentation/admin-guide/mm/hugetlbpage.rst
-> +++ b/Documentation/admin-guide/mm/hugetlbpage.rst
-> @@ -164,8 +164,7 @@ default_hugepagesz
->  	will all result in 256 2M huge pages being allocated.  Valid default
->  	huge page size is architecture dependent.
->  hugetlb_free_vmemmap
-> -	When CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP is set, this enables optimizing
-> -	unused vmemmap pages associated with each HugeTLB page.
-> +	When CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP is set, this enables HVO.
+> Blurb from v1:
+> 
+>   This series adds support for the type cover of the Surface Pro 8. On
+>   the Pro 8, the type cover is (unlike on previous generations) handled
+>   via the Surface System Aggregator Module (SSAM). As the type cover is
+>   detachable, care needs to be taken and the respective SSAM (HID)
+>   client devices need to be properly removed when detached and
+>   re-initialized when attached.
+>   
+>   Therefore, this series does three things:
+>   
+>    1. Improve hot-removal support for SSAM client devices. When
+>       hot-removing clients, subsequent communication may time out.
+>   
+>       In the worst case, this can lead to problems when devices are
+>       detached and re-attached quickly, before we can remove their
+>       respective kernel representations. This can then lead to devices
+>       being in an uninitialized state, preventing, for example, touchpad
+>       gestures from working properly as the required HID feature report
+>       has not been sent.
+>   
+>       Therefore, handle hot-removal of devices more gracefully by
+>       avoiding communication once it has been detected and ensure that
+>       devices are actually removed.
+>    
+>    2. Generify SSAM subsystem hubs and add a KIP hub. On the Surface Pro
+>       8, the KIP subsystem (only that abbreviation is known) is
+>       responsible for managing type-cover devices. This hub acts as the
+>       controller for device removal similar to the BAS (detachable base)
+>       subsystem hub on the Surface Book 3 (therefore we can share most
+>       of the code between them).
+>   
+>    3. Add the (HID) type-cover clients of the Surface Pro 8 to the
+>       aggregator registry.
+> 
+> 
+> Changes in v2:
+> 
+>  - Introduce "platform/surface: aggregator: Allow is_ssam_device() to be
+>    used when CONFIG_SURFACE_AGGREGATOR_BUS is disabled" to fix an
+>    undefined reference  build issue when CONFIG_SURFACE_AGGREGATOR_BUS
+>    is disabled.
+> 
+>  - Make SSAM hub device UIDs consistent.
+>     - Introduce "platform/surface: aggregator_registry: Change device ID
+>       for base hub" to make association between hub and subsystem target
+>       category more obvious.
+>     - Change hub device ID for KIP subsystem hub to be consistent with
+>       the id of the already existing BAS hub.
 
-Heh, it would be convenient to call this
+Thank you for your patch-series, I've applied the series to my
+review-hans branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
 
-CONFIG_HUGETLB_PAGE_VMEMMAP_OPTIMIZATION (HVO) then.
+Once I've run some tests on this branch the patches there will be
+added to the platform-drivers-x86/for-next branch and eventually
+will be included in the pdx86 pull-request to Linus for the next
+merge-window.
 
--- 
-Thanks,
+Jiri, Benjamin, note I've also taken the one small(ish) HID patch
+which is a part of this series, despite it lacking an Ack from
+either of you. I hope this is ok, if not let me know.
 
-David / dhildenb
+Regards,
+
+Hans
+
+
+
+
+> Maximilian Luz (12):
+>   platform/surface: aggregator: Allow is_ssam_device() to be used when
+>     CONFIG_SURFACE_AGGREGATOR_BUS is disabled
+>   platform/surface: aggregator: Allow devices to be marked as
+>     hot-removed
+>   platform/surface: aggregator: Allow notifiers to avoid communication
+>     on unregistering
+>   platform/surface: aggregator_registry: Use client device wrappers for
+>     notifier registration
+>   power/supply: surface_charger: Use client device wrappers for notifier
+>     registration
+>   power/supply: surface_battery: Use client device wrappers for notifier
+>     registration
+>   HID: surface-hid: Add support for hot-removal
+>   platform/surface: aggregator: Add comment for KIP subsystem category
+>   platform/surface: aggregator_registry: Generify subsystem hub
+>     functionality
+>   platform/surface: aggregator_registry: Change device ID for base hub
+>   platform/surface: aggregator_registry: Add KIP device hub
+>   platform/surface: aggregator_registry: Add support for keyboard cover
+>     on Surface Pro 8
+> 
+>  .../driver-api/surface_aggregator/client.rst  |   6 +-
+>  drivers/hid/surface-hid/surface_hid_core.c    |  38 +-
+>  .../platform/surface/aggregator/controller.c  |  53 ++-
+>  .../surface/surface_aggregator_registry.c     | 403 +++++++++++++-----
+>  drivers/power/supply/surface_battery.c        |   4 +-
+>  drivers/power/supply/surface_charger.c        |   4 +-
+>  include/linux/surface_aggregator/controller.h |  24 +-
+>  include/linux/surface_aggregator/device.h     | 125 +++++-
+>  include/linux/surface_aggregator/serial_hub.h |   2 +-
+>  9 files changed, 513 insertions(+), 146 deletions(-)
+> 
 
