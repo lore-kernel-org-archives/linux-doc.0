@@ -2,69 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DBD1C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 19:14:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12A97C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 19:15:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236879AbiFMTOo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 15:14:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39180 "EHLO
+        id S245045AbiFMTPT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 15:15:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238758AbiFMTOH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 15:14:07 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79B4735862
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 10:33:26 -0700 (PDT)
+        with ESMTP id S244254AbiFMTOz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 15:14:55 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 470E0DFBD;
+        Mon, 13 Jun 2022 10:32:19 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 33328736;
-        Mon, 13 Jun 2022 17:33:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 33328736
+        by ms.lwn.net (Postfix) with ESMTPSA id 8BA722D6;
+        Mon, 13 Jun 2022 17:32:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8BA722D6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1655141606; bh=NVQY+s9dya+hMKYs7UhypkaiGBM7Fn6qOR5BWob8Syo=;
+        t=1655141538; bh=CAbykZa7LGiaL2uhDi89WkbWfjlRfKkHuNP3EFQo03s=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ZewnITy/D7nI/TQhPJECQ5mnuSHxCtS5ofHziSxUjtSDTqMpY48K4qExRGQDdi5+x
-         OvUyvO0lK5unHqdbDwuaCOAgPGZJB8Ov0z7LuFn6Lsr2Nf4ivJnEEnHan8mlCdaDPF
-         lBqRf4eVmV2tmczPM60IQ9cZnSSOaWonU7sUKaVEFMnvltlYyK5YSFB7wBKtxJ1oKJ
-         NesnzLf1v0pcFlR+UtJ3C6Ry6xXUZco3svRwEtylhR1kyTgpIcpDpmbiaBdfmK8DjI
-         znPWRszFFuKwkHxkza4fQpQ9X/ssoSpUagQlXUuxmSuCvgeyptFR3SNRNsqh0ziqQH
-         1/5oJxwsTQr1A==
+        b=N42M3GdSdWLMCo+/tgB3jVt6aSIRdm0RFtxr9QoLJDLbbauCOZZV/SFLtBq062D/1
+         5Xg6JO9smW9/dAEFIJ/0RoQmwP9F0pyqRArtYuljLm2oZ/4zO6qq5vVAXSjFBjcXTC
+         1mFyIB2na3LoZwX+1rNLS82NQfN4to/Cmyv1fqzBYqr1JYLL74DBwJd952tYKuN10o
+         ADVUzrwcwkHQsCnt9aqd6y2HFKPTAV+xT9tYuYoPxa0VuYBDGmJrn9zN7CSFgi5CCF
+         v1P6gGOmFPz6guG2M4pHFzDL4pof3LEBOBr60sNzEtLf0mVbuVKQIwtWdemeNDmKMi
+         B43eEj9evcuzQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Wu XiangCheng <bobwxc@email.cn>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs/zh_CN: Update translation of
- reporting-issues.rst to 5.18
-In-Reply-To: <YoRlDOUl/eg+h/Cc@bobwxc.mipc>
-References: <cover.1652792205.git.bobwxc@email.cn>
- <YoRlDOUl/eg+h/Cc@bobwxc.mipc>
-Date:   Mon, 13 Jun 2022 11:33:25 -0600
-Message-ID: <87zgigzcwq.fsf@meer.lwn.net>
+To:     Martin =?utf-8?Q?Li=C5=A1ka?= <mliska@suse.cz>, akiyks@gmail.com
+Cc:     bagasdotme@gmail.com, catalin.marinas@arm.com,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mliska@suse.cz, will@kernel.org
+Subject: Re: [PATCH v3] docs/arm64: elf_hwcaps: Unify HWCAP lists as
+ description lists
+In-Reply-To: <d0e576ab-6121-b7d7-da5b-7750f05ca7f4@suse.cz>
+References: <0846c96d-62fa-555f-b0ab-1f5ec33fd5fb@gmail.com>
+ <d0e576ab-6121-b7d7-da5b-7750f05ca7f4@suse.cz>
+Date:   Mon, 13 Jun 2022 11:32:17 -0600
+Message-ID: <874k0o1nby.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wu XiangCheng <bobwxc@email.cn> writes:
+Martin Li=C5=A1ka <mliska@suse.cz> writes:
 
-> Update zh_CN/admin-guide/reporting-issues.rst to newest English version
->
-> commit 247097e2bbff4 ("docs: reporting-issues.rst: link new document
->                        about regressions")
->
-> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+> Signed-off-by: Martin Liska <mliska@suse.cz>
 > ---
-> v2:
-> * merge former two patches together
-> * give the commit a better name
->
-> v1:
-> <https://lore.kernel.org/linux-doc/cover.1652792205.git.bobwxc@email.cn/T/#t>
->
->  .../zh_CN/admin-guide/reporting-issues.rst    | 125 +++++++++++-------
->  1 file changed, 79 insertions(+), 46 deletions(-)
+>  Documentation/arm64/elf_hwcaps.rst | 23 -----------------------
+>  1 file changed, 23 deletions(-)
 
-Applied, thanks.
+This patch has been sitting for about three weeks, which seems like long
+enough, so I've gone ahead and applied it.  I've added a bit of a
+changelog to it, which I'd rather not have to do; Martin, please be sure
+to include a changelog in future patches.
+
+Thanks,
 
 jon
