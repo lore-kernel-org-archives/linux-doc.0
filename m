@@ -2,198 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5DAEC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 19:57:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 552CFC43334
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 20:23:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243812AbiFMT5j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 15:57:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60058 "EHLO
+        id S239532AbiFMUXu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 16:23:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243386AbiFMT5Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 15:57:16 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A5414D6BD;
-        Mon, 13 Jun 2022 11:28:41 -0700 (PDT)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25DHnWek011713;
-        Mon, 13 Jun 2022 18:28:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type :
- content-transfer-encoding : in-reply-to : mime-version; s=corp-2021-07-09;
- bh=3E3mFo5U9eJ04AMwO3fkVOI8KevRCRIZ7OPL0sSnj3Q=;
- b=ypRIKLKG4cy0BkfWcRVkhYXhBnz7NZEXvU0jCCwBScHVwQerQAkOEU9T2RA38KTC4KKo
- RW3WSegwCZkf6LoSSPufKgiv7iOACBujHAVgVRdKYlCeP6KlVxhVNfkJA7OyGJrgwy3m
- t4JGX4zDrm4ycyfFzi99LSyYhYZZBmLxVpo7T+soMGKjPPpSyK1YuZM3/NXjlyBEOsQl
- tByP0l8BURRMfTjZ5jnSscaqiy7LHtA4dRJYZa+HYPy7/4tvRbzncOdsNdF2f1s8hYqH
- 82uy0qY9K5Bjm3daTQROpEv4ElOsdU3D2mUF5HBHV7N/c1Gx5I4nhzq0QxoRYGHTXwtN KA== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmjx9btje-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 13 Jun 2022 18:28:36 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25DIQupk011535;
-        Mon, 13 Jun 2022 18:28:34 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2108.outbound.protection.outlook.com [104.47.55.108])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gpah901yy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 13 Jun 2022 18:28:34 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CU16WLfwSfrTtE7IzUVLnACIq3nRUIBJn0TjtpWHeSaOVT90PjXWOKRPB4RGCUKiBf7f8iQ2t+IYTX3oyXsdWz/gcEfanFcOYyEjC28+lE8AyYoHU3s0GLS8AJzKdMOVm0zWifiSuMOs5dyotPO21V+rdqFbYAvmhEghYWxTcCJSrvs0+RHuUZEGCt9X0zD18hfWUBETAmcxBs2NYNpLuXDzqB/r0lqPgw+vgofVWJbw1TJfhmrIPlF3aspW0sjrbkehFcSt4S+eiBNs1tmYb9mEmF8D5l5VHu1X24XdIZxw+oqal1MEvtUKWUZ7p6TLkdritFRWxYxEtZLw96g+AQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3E3mFo5U9eJ04AMwO3fkVOI8KevRCRIZ7OPL0sSnj3Q=;
- b=fVvGMf9EU2xaIXQnhx9Z7BdTjKmcwZLN/op3mGRgxoqDiNTDoEV7OuBZn4AzWk8+/aYurmnJOETSL8JCPqx4H67xiIoesSsazdXoq3mkm4gaMubcJBarW8lYfqkMeJ5kooVwPhwejQL/ouk3hZEKQHPlQp3oX6HKWU2uBzfEGNb6hUTBD+Glw9NGZ5OXwb1YLhfnpQZMVGpOWUmM6vn+p3bYKJn4dmaKc0DcJS23EUDQFCmfJQXhxOmuVhqs7y75nSSOuoKlD1ajMENvoOtl5Mn8VDLVcnt+4nyW4uRXRX41nlBkwGVis/ZRWYL34zex+2VgtSE9Ex0Hb8V4nv04Eg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        with ESMTP id S1351216AbiFMUXR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 16:23:17 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8540C4665E
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 12:02:57 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id r187-20020a1c44c4000000b0039c76434147so5064739wma.1
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 12:02:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3E3mFo5U9eJ04AMwO3fkVOI8KevRCRIZ7OPL0sSnj3Q=;
- b=ur8gIr+kOjL1E1IfWTzqOUydFhvVfTqfalqVvbQU2KsGcC3rNNrU+RGxPzm2vudxAWxzxAeQfBjolYWMgvHU+eQ2NhC/d8dQmCiSPQc6FS5NysN6yEzQ04PIosioIUbIOf77+PZSzs84wbKZNvbD3O2/YU72lAZAVJ8PDAgUWEA=
-Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
- by BN7PR10MB2641.namprd10.prod.outlook.com (2603:10b6:406:c0::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.14; Mon, 13 Jun
- 2022 18:28:32 +0000
-Received: from BY5PR10MB4196.namprd10.prod.outlook.com
- ([fe80::2125:9bb7:bfeb:81f9]) by BY5PR10MB4196.namprd10.prod.outlook.com
- ([fe80::2125:9bb7:bfeb:81f9%8]) with mapi id 15.20.5332.022; Mon, 13 Jun 2022
- 18:28:32 +0000
-Date:   Mon, 13 Jun 2022 11:28:28 -0700
-From:   Mike kravetz <mike.kravetz@oracle.com>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     david@redhat.com, akpm@linux-foundation.org, corbet@lwn.net,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/6] mm: hugetlb_vmemmap: optimize vmemmap_optimize_mode
- handling
-Message-ID: <YqeBzNYrgFGqtfaj@monkey>
-References: <20220613063512.17540-1-songmuchun@bytedance.com>
- <20220613063512.17540-3-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220613063512.17540-3-songmuchun@bytedance.com>
-X-ClientProxiedBy: MWHPR22CA0072.namprd22.prod.outlook.com
- (2603:10b6:300:12a::34) To BY5PR10MB4196.namprd10.prod.outlook.com
- (2603:10b6:a03:20d::23)
+        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mH2Ozc7vMDdov6awFdZkb28XDYXs+pc/Kj4sGvxaIss=;
+        b=qklH4NQKDQbRIpUUWVJtxeVuhF8FRjK4L/NjNFqxXoH6l2HjERK8TB80/tnuhJvwMw
+         2bEedUr6juXWRkThZagMaar/6V3Jy6sOaAGDKMD151x3Tl2tVhcBkE062fLRLYaSgAgw
+         YPFxzx8aONKizMg3UxzpxrOjcffAnFB/YLnicMNHboxh0LN63aBh3yfUj6IW0+WfvoyP
+         KfFAb1xeUoJTlB8BrDY6wLWeYZEhECjkcPFOY0CIzZzAy5kUG0z3T52nkJYc/Ir6zVEd
+         QB83IXLuLvHyBEkziiMroRwSlIKST4uAnEowdN/weQqpODlLCqyu1SDc4uyTW64GwKg5
+         Kdiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mH2Ozc7vMDdov6awFdZkb28XDYXs+pc/Kj4sGvxaIss=;
+        b=D+vCgKYo9u/iDck7YauP3BvtV7MifgpdMDIPg+uE1Y89rDJR68GaHXXAJzhAw16QMf
+         VE6k5MCVgvneOWArYgVKdpru0vS+EZD7Hf3CwmgQH6Q8EE0sd6L5dZpfA7zTDx2qNPYd
+         dUq+j6ntp1AstpEEcSjMYFf41FuW8PYkHeuwD2YeWr/W19/VinPMOxlTWUgh/Sg3Xgi5
+         DKyuONUt6uXMvv98Ol1i+K/qYtUsMCYLRZOea6pbVG3nt++FgcC+/4Cgnpqn3QSRnjmG
+         hDkZdMoTYiQVmm0nPOneZHjbqYRHzasFx/3vTX08qAKTegWKiujajzq3HGV/pLoombEm
+         5hrA==
+X-Gm-Message-State: AOAM5320o0B9+Pnp227P7mpitMVKjhIzpns/qfdAF492mU7E9JGkZvtk
+        E1t9z5CB9T9WKxEU+NvAUi4omzv7V2+cGVx31huE
+X-Google-Smtp-Source: ABdhPJwIVdlXZUG+b0oYW3vmcFS1npPovHkBAqvGSJkQxxWnGw7dzfbuSFb15EczDUQwmfXU3vwinPoA2tGzIH0j5tI=
+X-Received: by 2002:a05:600c:1c94:b0:39c:55a2:af25 with SMTP id
+ k20-20020a05600c1c9400b0039c55a2af25mr120868wms.155.1655146976099; Mon, 13
+ Jun 2022 12:02:56 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2f13c2e6-6b58-4a5c-d3bd-08da4d6a84f1
-X-MS-TrafficTypeDiagnostic: BN7PR10MB2641:EE_
-X-Microsoft-Antispam-PRVS: <BN7PR10MB26417028760ECF0673586018E2AB9@BN7PR10MB2641.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9+IoiwfwG4S4gS4vTH4W4BqX9vTZ3HPofkdjVq9+5la7utiRXRHsalAU128fov2djLxYwy2/+v3AQFyzCCeovl4kgd05zhTHPmDyu9xWMY+fJFK9s6/L2hHyH0AZ00dN4X96SGXlFjyfwrTsLqz2H0a1A+yNGgV6b9JC5Cu6rcbYnpu2v00P5Ja1RU+Tp5BVmx6Ex12ikERaA80dHXOBqyNUGAFPbj58T/d3iJwTybrbwKuTZo9bGmdhWc42alY8voT15gmc5QfNo2AYAXE6iuSdwoQVhrETcjzdyDl57QhiobxGWsrXpFFdyR+IHM7frjcsswwyAd1kjbfZ4vIR77ftXGvMCFB4oyXWoJzAXS117sUE/3WW4lveNjydk1VLOJP8BOyQrK7Vrob6RVBVG9ydWOCwKjy0KP85xB8MIzViEr+M5SIGrf/ZgbENas2Vst9Vbt8MqOZklEFY8s50qpc6JAEcX4AZWeB/wRSEsabBpDKMhBLSDMaleDvJ0noPQM/2A7HD6kP1QCIvc4CCun5mOHTUQzH1/C72bNSiGGHz5HDu/l0D6epPtFy9LHdssXA2U/SYphI0fpWcXGk80kwfuv/BaSMDhkL9VzRd01EROuEGVq80iHOUYqyD7w2/75k2w6NCpofuF+d1079rvg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(366004)(6666004)(33716001)(2906002)(508600001)(26005)(186003)(5660300002)(9686003)(8936002)(6512007)(6506007)(86362001)(6486002)(38100700002)(66946007)(66556008)(6916009)(316002)(66476007)(4326008)(83380400001)(8676002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ekJDSHZzQUtjei9VNzFpRzVlaEdZU3F2NjdHK1J3OW5TUkNKVWZSdElOZFJ6?=
- =?utf-8?B?clZkLzROaXFyc2pRdHQ1cDFScW9tSUxWYXpaRFhMRGlyekNmcE0raEphRUlr?=
- =?utf-8?B?NUJOTUpMTGJtNHorK1dyZk9xUHVhVVV5VnVPZmNPaUpWemJzUkZ0TmQ2OHhq?=
- =?utf-8?B?Qm9HdmQxb3h0YXNsZThYRkZjTUxWTm5pUlJONWJhQXNZeG1GZis1VTczYWZm?=
- =?utf-8?B?MXUvejNicjd5K0t5Lzk4S1p1WkVCdVkybDFsOUdDcEw5dUtwY2luaDFzWUJV?=
- =?utf-8?B?MWlYSkhBVU5GSzVmNytzREpyMG9XZnlXWDNtUUdsWHdaMytPNkNheE0rTDNl?=
- =?utf-8?B?c1JadkZUUHhwZVNSQ0ZmaEowV2RzVkVwSmsxRHFmTHE2c3NFTGZjQnJpeWUx?=
- =?utf-8?B?UXBQejNibG82WUd1Ynpha1cyTEM0RDd2MXVIZ1V6M3VvMEx0REMrVStLZ0xZ?=
- =?utf-8?B?dm8zV0RLdnBEc1RERXpWWUhUdHJtTjFGNUlwd3kxNkFLbW8xRVV4VXpJdEVQ?=
- =?utf-8?B?MmJvbWRqNmNXQy9CODB2bjdTdFZLUHU4KzgwMWxiQ0QvQzl5WHoyaW1DVUIz?=
- =?utf-8?B?VkhOUjU0M2s0bkxhbTI0Tm1WQUY5VW1JVTB1Zm4vOFkwdEY2QUR5Qmc4QmVl?=
- =?utf-8?B?QUp5OWhxVmlaY0RkalloRmE3dW1acngwMm5LNVZ5aTZHckF3VzcxWGEvcGRT?=
- =?utf-8?B?ZFpUNWsyRFVncjFtUnR2ai9FV3hRUk9jR3JHT1lsWmNsSVE2Q3ZWcWM3dVVE?=
- =?utf-8?B?bmhaUlVFT2NKMCtzZ1krc1NXQXEwVmVHSkRtRExtVDRJK21BOXZ4dzhOYkZ5?=
- =?utf-8?B?a2swWDdRV0d2QW16aUUyczBYSFVXWnpXV2pwdm9nUlpMb3BzYzFIR2Q2V0tD?=
- =?utf-8?B?cWI3c3hvWjU5ZFl5VXBiZlF4dmhKZ3k0SjYreHFZbE1LN0FsM0hSdDh6VFAw?=
- =?utf-8?B?YkpOYVc1enRjcmthZ01jbld2anlDc05pS1NoUDB1VkxwUU5mbU1wdi8xcjN5?=
- =?utf-8?B?VEg5bTB5NjlWaGVUSWN2UHhYU2VWV05qb1ZLa0xHNkRuRDBHYU1UdFE0ZFRW?=
- =?utf-8?B?NFNKVTg2RnNkRGtINXFJTGdpYVdwcm5JaDJXOWZMVENCM2x0ZGZOYlc3K1Nw?=
- =?utf-8?B?OStqREdCUytuQkx5VXB5Uys2dDdMaUNuaUx3M0RPUC9URHAwWXY0ZnpzNFo4?=
- =?utf-8?B?STMramhtTVpFNXdjekJNQUkvWUVHbGRCT2NmdXRpU2xhcENNdEV1RlVPLzZ5?=
- =?utf-8?B?eFU0ZEord3YwWGlQSGIvOHhwUkxBTW53Z3BSanhZTWEwNDZtb0w1ZFEvK2Zx?=
- =?utf-8?B?Smp4RkhkSktTZUdYRHd5akRoSG1lMFMycHdTSXlWT1JXUzE4dGNNa2RiWTlW?=
- =?utf-8?B?QitkVmY1eXhFVlFDSzIzckMyZ0tQRzAxUHVBZXhpaWRCYVN6UlkzVzlYeHY2?=
- =?utf-8?B?c3lNVDFKb2JsT0g5QndiL1NHR0NxSzdVUnhNZ050UUNuMU05RmI1QzJHSjJM?=
- =?utf-8?B?endveGxDYlRzYW9nYk13NDV0Z0VSdnVXRXd4NVI1Ylo3WVVZbmQxaE04ZWdF?=
- =?utf-8?B?dWQ2VjhmMW9OWDNlY2l6UUVTaGlVUHJHckJyVnVueGhRYUZDbWxHaWZZNFdH?=
- =?utf-8?B?K1Y2TFlyOWpWY2s5dTJoNXZvWThMRENRNTg0S0VOR2dhQ1Z5NWRRWXJxcUNN?=
- =?utf-8?B?WnpzdGJOZ1JDbFQvZFEvRERqRWdyaG1pYmhHcTA0cjJ4cTVINkVYTlVCblZ6?=
- =?utf-8?B?bytKQ29NbzVETFk4TTJrcFBObThYaU5DYlhSdGRSU0JwZlpUNVI0elc3bXBa?=
- =?utf-8?B?NTg2bGJjZ2VnbHBYay9vSXVmaDhNeDZRSkJHZSs5SHVYN0ROeTNIb2kvTVh1?=
- =?utf-8?B?bTlsVnExNnArcXJHNGlRQjV2V2E4blZhbFVINENUdWEzUXByLzVLU2J4WFhh?=
- =?utf-8?B?N3V0V1BPL3FjS2o2aFA0ZnBYQ2R6dXVmRGpsVW9iT3NwL2xOVFZ5OUxMd21x?=
- =?utf-8?B?NVRrTWtFcFFGaXNHUExwc2tTZzNrU1VubjdySkJyQmNXT1hlTTB1VlJOcHp1?=
- =?utf-8?B?alMyMk5jdGltVEg2QUlBSDFWYXYvemhjYVIxckdVSmZiUXc1UmZCRGxMQVJX?=
- =?utf-8?B?Skt1MkcrZUJia3BOQXhQU3praG1hUFZjVXAvMGIwOExDZmFacGY5djE4MW1u?=
- =?utf-8?B?ekdCRnJIdDZRb01CNUdDalpEVElQcEVPNWtDSHZEL3NCY0hLbHZwakFKVk1X?=
- =?utf-8?B?R1g4eXZMUThaeDB5YjBGMEg2WThMdXhyT0FucTNlTGhVZmdsL0pka1o5NmpZ?=
- =?utf-8?B?U1k2UGVQUWZ6bmRqRkVNdU54azVrSU8rQS9vN3FzYkZqeFN2azBEMjRRVzNm?=
- =?utf-8?Q?zt+7O9Klag707lmk=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f13c2e6-6b58-4a5c-d3bd-08da4d6a84f1
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2022 18:28:32.0377
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0+AYFU2b5qQxwcCsajf02zP9pdhKlpf8Z7Yw14LMh3enOy7JkPlxd7rymDoxBckmqyRoYF3vFdfGYc6CxOtadQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR10MB2641
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
- definitions=2022-06-13_08:2022-06-13,2022-06-13 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
- phishscore=0 suspectscore=0 mlxlogscore=999 spamscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206130078
-X-Proofpoint-ORIG-GUID: BRX7zyKQ22yXFOL0oiGCqEGE0GMlA-wu
-X-Proofpoint-GUID: BRX7zyKQ22yXFOL0oiGCqEGE0GMlA-wu
+References: <20220301041454.18960-1-rdunlap@infradead.org> <CAHC9VhSuzpuEm437SCYC8pf0mU6qdWXRU38sb2+JjVtj-8T4Kw@mail.gmail.com>
+In-Reply-To: <CAHC9VhSuzpuEm437SCYC8pf0mU6qdWXRU38sb2+JjVtj-8T4Kw@mail.gmail.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Mon, 13 Jun 2022 15:02:45 -0400
+Message-ID: <CAHC9VhSa74OFVV=XcceO12kVOxivm5cnyvBo-yeMbyPT8+t5Kg@mail.gmail.com>
+Subject: Re: [PATCH] docs: selinux: add '=' signs to kernel boot options
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, patches@lists.linux.dev,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Eric Paris <eparis@parisplace.org>, selinux@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 13, 2022 at 02:35:08PM +0800”, Muchun Song wrote:
-> We hold an another reference to hugetlb_optimize_vmemmap_key when
-> making vmemmap_optimize_mode on, because we use static_key to tell
-> memory_hotplug that memory_hotplug.memmap_on_memory should be
-> overridden.  However, this rule has gone when we have introduced
-> SECTION_CANNOT_OPTIMIZE_VMEMMAP.  Therefore, we could simplify
-> vmemmap_optimize_mode handling by not holding an another reference
-> to hugetlb_optimize_vmemmap_key.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->  include/linux/page-flags.h |  6 ++---
->  mm/hugetlb_vmemmap.c       | 65 +++++-----------------------------------------
->  2 files changed, 9 insertions(+), 62 deletions(-)
-> 
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index b8b992cb201c..da7ccc3b16ad 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -200,8 +200,7 @@ enum pageflags {
->  #ifndef __GENERATING_BOUNDS_H
->  
->  #ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
-> -DECLARE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON,
-> -			 hugetlb_optimize_vmemmap_key);
-> +DECLARE_STATIC_KEY_FALSE(hugetlb_optimize_vmemmap_key);
->  
->  /*
->   * If the feature of optimizing vmemmap pages associated with each HugeTLB
-> @@ -221,8 +220,7 @@ DECLARE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON,
->   */
->  static __always_inline const struct page *page_fixed_fake_head(const struct page *page)
->  {
-> -	if (!static_branch_maybe(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON,
-> -				 &hugetlb_optimize_vmemmap_key))
-> +	if (!static_branch_unlikely(&hugetlb_optimize_vmemmap_key))
->  		return page;
+On Tue, Mar 1, 2022 at 12:34 PM Paul Moore <paul@paul-moore.com> wrote:
+> On Mon, Feb 28, 2022 at 11:14 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+> >
+> > Provide the full kernel boot option string (with ending '=' sign).
+> > They won't work without that and that is how other boot options are
+> > listed.
+> >
+> > If used without an '=' sign (as listed here), they cause an "Unknown
+> > parameters" message and are added to init's argument strings,
+> > polluting them.
+> >
+> >   Unknown kernel command line parameters "enforcing checkreqprot
+> >     BOOT_IMAGE=/boot/bzImage-517rc6", will be passed to user space.
+> >
+> >  Run /sbin/init as init process
+> >    with arguments:
+> >      /sbin/init
+> >      enforcing
+> >      checkreqprot
+> >    with environment:
+> >      HOME=/
+> >      TERM=linux
+> >      BOOT_IMAGE=/boot/bzImage-517rc6
+> >
+> > Fixes: ^1da177e4c3f4 ("Linux-2.6.12-rc2")
+> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> > Cc: Paul Moore <paul@paul-moore.com>
+> > Cc: Stephen Smalley <stephen.smalley.work@gmail.com>
+> > Cc: Eric Paris <eparis@parisplace.org>
+> > Cc: selinux@vger.kernel.org
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > ---
+> >  Documentation/admin-guide/kernel-parameters.txt |    4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> Thanks Randy.
+>
+> Acked-by: Paul Moore <paul@paul-moore.com>
 
-This also means that we not incur the extra page_fixed_fake_head checks
-if there are no vmemmap optinmized hugetlb pages.  Nice!
+I assumed the doc folks would have picked this up but I don't see it
+in the tree so I'm going to pull it into the selinux/next tree right
+now.  Thanks again Randy, I'm sorry for the delay.
 
-Reviewed-by: Mike Kravetz <mike.kravetz@oracle.com>
 -- 
-Mike Kravetz
+paul-moore.com
