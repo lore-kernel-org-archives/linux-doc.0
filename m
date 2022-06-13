@@ -2,121 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA6D9CCA473
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Jun 2022 19:02:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8FF1C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 02:08:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233484AbiFLTCC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 12 Jun 2022 15:02:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57050 "EHLO
+        id S231344AbiFMCIj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 12 Jun 2022 22:08:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230478AbiFLTCB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Jun 2022 15:02:01 -0400
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5641017AAE
-        for <linux-doc@vger.kernel.org>; Sun, 12 Jun 2022 12:01:58 -0700 (PDT)
-Received: from submission (posteo.de [185.67.36.169]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id B9A8A240026
-        for <linux-doc@vger.kernel.org>; Sun, 12 Jun 2022 21:01:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1655060515; bh=OIJ2JP7SQeXyamrKWxoIIVw/HJ+6Iauyz0L3wpT0p3s=;
-        h=Date:From:To:Cc:Subject:From;
-        b=pdv5QUjSULTph4ufdkyAhyOK41v50GuNzt8MFjO+nFdBTb10GK9w6jzRFrnsApqKm
-         t9xt7u8xnYT9nsyn8IY8/X7wlsuDvjT/cp/MHczuSTrqK94WHVqpKeT0hfeWHrWFTk
-         QyeclBX0tu1eHzk5cQobkM5KSZDSSk47OhroIETTdUT4iN0t1ZzKFTyru7TeRBEmxF
-         gGmPyRqLLwC0AbnvJqQnfmSF0dZYcDx60Un35Kq5mA2SGBjytGvGFHC+lNME90I45l
-         NZDl64+VYhsixylsRNTMwibr7U8YlrNrzBykzb0ijn/A7+oJTqDzu5xiQHrj6JP2cb
-         E+MmYNfnMyvng==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4LLkZp6cJyz6tmX;
-        Sun, 12 Jun 2022 21:01:54 +0200 (CEST)
-Date:   Sun, 12 Jun 2022 19:01:09 +0000
-From:   Tom Schwindl <schwindl@posteo.de>
-To:     corbet@lwn.net
-Cc:     linus.walleij@linaro.org, brgl@bgdev.pl, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: driver-api: gpio: Fix filename mismatch
-Message-ID: <YqY39Rwi4Lnzw2GH@posteo.de>
+        with ESMTP id S231376AbiFMCIj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Jun 2022 22:08:39 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 973AE201B0;
+        Sun, 12 Jun 2022 19:08:37 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id g16-20020a17090a7d1000b001ea9f820449so2817381pjl.5;
+        Sun, 12 Jun 2022 19:08:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+3pr9uOc2+xB/06ujAwee6065J1tqxQJUyenAY58NrY=;
+        b=XLPFoFjeAFpIhjYc7RrxDgI1JQQcEA6qdwX654uAfMjDFJLTmESBCwnOMqHgfX0g+r
+         LzgC/VYxpsUgjBFYHH/I2ubbNdEeHXZG4bthbrUpcX4Cr5QLW9Ck2zXqfROKCIO7acRO
+         FS0lPxc74W/q+u0aFFyPk88zyg16grTaVKOTPLhEgQFjGvZLqY8jWCct0RCVIDvNk3jv
+         9tK9vcKVcKvI1TG5775bl2f5zPxDNJqWzXzUrrypXsl/66d43PsN+pVO4tcI/2wKAmkX
+         QbtmB0NDhE02JCksbm974cHWRJGr/6q8auFq+upwKRC4cqFimhRNeyQkIJdKXwEyj/yj
+         UMhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+3pr9uOc2+xB/06ujAwee6065J1tqxQJUyenAY58NrY=;
+        b=hEOODaUBbnWRK6D3bxkQ32KtLO2gvyHGXtjN8CRIGZZHW2QIAQE7IOC/3AqgnAkPBw
+         R1uUeDUIDnI/g6BTGl1rDmKjC8JyZ6wJqbadvTG5GhM9DXOZh8aUtQdlt0QGuEfpAKoY
+         Tr1eMflWUjp4pJKinCApOErrPhlmAxr613PE8deWHynyQi5igoCLNWTuPhHN/vccd9ya
+         KHxiyJQQnUPiXroX1iyt8S8n7OIf9Z4NbBEsPC3kh6GMWinBy+6kgVb+0ffCHuacriLC
+         xnDSpclWQIZfQC4vb7VwuNxPYuHexHqDJaH51rAMvNGGFBaHDvXFbwlVVQs40pXOTX+1
+         RysA==
+X-Gm-Message-State: AOAM531vrOrCXEPzW79MHU67C43PagakKlBFs+uW3LVuC97AGSL0Nv2j
+        iDrAkRtUw40p/ev6wqORzxM=
+X-Google-Smtp-Source: ABdhPJwk9edjXzK1cRjyu7FIFuyGFeOmiuXy87Jlhm5MaGBv8fbIwrnZBH1j3UjyOkQETO3j1+Y+tw==
+X-Received: by 2002:a17:902:e8d6:b0:161:ea52:cd52 with SMTP id v22-20020a170902e8d600b00161ea52cd52mr55528700plg.71.1655086117029;
+        Sun, 12 Jun 2022 19:08:37 -0700 (PDT)
+Received: from localhost.localdomain ([156.236.96.165])
+        by smtp.gmail.com with ESMTPSA id l130-20020a633e88000000b003fdf49f161bsm4009285pga.21.2022.06.12.19.08.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jun 2022 19:08:36 -0700 (PDT)
+From:   Chao Liu <chaoliu719@gmail.com>
+To:     Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-f2fs-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Yue Hu <huyue2@coolpad.com>,
+        Wayne Zhang <zhangwen@coolpad.com>,
+        Chao Liu <liuchao@coolpad.com>
+Subject: [PATCH v2] docs: filesystems: f2fs: fix description about compress ioctl
+Date:   Mon, 13 Jun 2022 10:08:00 +0800
+Message-Id: <20220613020800.3379482-1-chaoliu719@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The filenames were changed a while ago, but board.rst, consumer.rst and
-intro.rst still refer to the old names. Fix those references to match the
-Actual names and avoid possible confusion.
+From: Chao Liu <liuchao@coolpad.com>
 
-Signed-off-by: Tom Schwindl <schwindl@posteo.de>
+Since commit c61404153eb6 ("f2fs: introduce FI_COMPRESS_RELEASED
+instead of using IMMUTABLE bit"), we no longer use the IMMUTABLE
+bit to prevent writing data for compression. Let's correct the
+corresponding documentation.
+
+BTW, this patch fixes some alignment issues in the compress
+metadata layout.
+
+Signed-off-by: Chao Liu <liuchao@coolpad.com>
 ---
- Documentation/driver-api/gpio/board.rst    | 2 +-
- Documentation/driver-api/gpio/consumer.rst | 6 +++---
- Documentation/driver-api/gpio/intro.rst    | 6 +++---
- 3 files changed, 7 insertions(+), 7 deletions(-)
+v2:
+- s/file size/filesize/
+ Documentation/filesystems/f2fs.rst | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/driver-api/gpio/board.rst b/Documentation/driver-api/gpio/board.rst
-index 4e3adf31c8d1..b33aa04f213f 100644
---- a/Documentation/driver-api/gpio/board.rst
-+++ b/Documentation/driver-api/gpio/board.rst
-@@ -6,7 +6,7 @@ This document explains how GPIOs can be assigned to given devices and functions.
+diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+index ad8dc8c040a2..531b0f8a3946 100644
+--- a/Documentation/filesystems/f2fs.rst
++++ b/Documentation/filesystems/f2fs.rst
+@@ -818,10 +818,11 @@ Compression implementation
+   Instead, the main goal is to reduce data writes to flash disk as much as
+   possible, resulting in extending disk life time as well as relaxing IO
+   congestion. Alternatively, we've added ioctl(F2FS_IOC_RELEASE_COMPRESS_BLOCKS)
+-  interface to reclaim compressed space and show it to user after putting the
+-  immutable bit. Immutable bit, after release, it doesn't allow writing/mmaping
+-  on the file, until reserving compressed space via
+-  ioctl(F2FS_IOC_RESERVE_COMPRESS_BLOCKS) or truncating filesize to zero.
++  interface to reclaim compressed space and show it to user after setting a
++  special flag to the inode. Once the compressed space is released, the flag
++  will block writing data to the file until either the compressed space is
++  reserved via ioctl(F2FS_IOC_RESERVE_COMPRESS_BLOCKS) or the filesize is
++  truncated to zero.
  
- Note that it only applies to the new descriptor-based interface. For a
- description of the deprecated integer-based GPIO interface please refer to
--gpio-legacy.txt (actually, there is no real mapping possible with the old
-+legacy.rst (actually, there is no real mapping possible with the old
- interface; you just fetch an integer from somewhere and request the
- corresponding GPIO).
+ Compress metadata layout::
  
-diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
-index 47869ca8ccf0..72bcf5f5e3a2 100644
---- a/Documentation/driver-api/gpio/consumer.rst
-+++ b/Documentation/driver-api/gpio/consumer.rst
-@@ -4,7 +4,7 @@ GPIO Descriptor Consumer Interface
- 
- This document describes the consumer interface of the GPIO framework. Note that
- it describes the new descriptor-based interface. For a description of the
--deprecated integer-based GPIO interface please refer to gpio-legacy.txt.
-+deprecated integer-based GPIO interface please refer to legacy.rst.
- 
- 
- Guidelines for GPIOs consumers
-@@ -78,7 +78,7 @@ whether the line is configured active high or active low (see
- 
- The two last flags are used for use cases where open drain is mandatory, such
- as I2C: if the line is not already configured as open drain in the mappings
--(see board.txt), then open drain will be enforced anyway and a warning will be
-+(see board.rst), then open drain will be enforced anyway and a warning will be
- printed that the board configuration needs to be updated to match the use case.
- 
- Both functions return either a valid GPIO descriptor, or an error code checkable
-@@ -270,7 +270,7 @@ driven.
- The same is applicable for open drain or open source output lines: those do not
- actively drive their output high (open drain) or low (open source), they just
- switch their output to a high impedance value. The consumer should not need to
--care. (For details read about open drain in driver.txt.)
-+care. (For details read about open drain in driver.rst.)
- 
- With this, all the gpiod_set_(array)_value_xxx() functions interpret the
- parameter "value" as "asserted" ("1") or "de-asserted" ("0"). The physical line
-diff --git a/Documentation/driver-api/gpio/intro.rst b/Documentation/driver-api/gpio/intro.rst
-index 2e924fb5b3d5..c9c19243b97f 100644
---- a/Documentation/driver-api/gpio/intro.rst
-+++ b/Documentation/driver-api/gpio/intro.rst
-@@ -14,12 +14,12 @@ Due to the history of GPIO interfaces in the kernel, there are two different
- ways to obtain and use GPIOs:
- 
-   - The descriptor-based interface is the preferred way to manipulate GPIOs,
--    and is described by all the files in this directory excepted gpio-legacy.txt.
-+    and is described by all the files in this directory excepted legacy.rst.
-   - The legacy integer-based interface which is considered deprecated (but still
--    usable for compatibility reasons) is documented in gpio-legacy.txt.
-+    usable for compatibility reasons) is documented in legacy.rst.
- 
- The remainder of this document applies to the new descriptor-based interface.
--gpio-legacy.txt contains the same information applied to the legacy
-+legacy.rst contains the same information applied to the legacy
- integer-based interface.
- 
- 
+@@ -830,12 +831,12 @@ Compress metadata layout::
+ 		| cluster 1 | cluster 2 | ......... | cluster N |
+ 		+-----------------------------------------------+
+ 		.           .                       .           .
+-	.                       .                .                      .
++	  .                      .                .                      .
+     .         Compressed Cluster       .        .        Normal Cluster            .
+     +----------+---------+---------+---------+  +---------+---------+---------+---------+
+     |compr flag| block 1 | block 2 | block 3 |  | block 1 | block 2 | block 3 | block 4 |
+     +----------+---------+---------+---------+  +---------+---------+---------+---------+
+-	    .                             .
++	       .                             .
+ 	    .                                           .
+ 	.                                                           .
+ 	+-------------+-------------+----------+----------------------------+
 -- 
+2.36.1
 
