@@ -2,159 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC868C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 09:44:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DFE5CCA47F
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 09:48:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239215AbiFMJou (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 05:44:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39236 "EHLO
+        id S239935AbiFMJsp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 05:48:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235330AbiFMJos (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 05:44:48 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3895612D2B;
-        Mon, 13 Jun 2022 02:44:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 9BC73CE10FB;
-        Mon, 13 Jun 2022 09:44:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD2B4C3411E;
-        Mon, 13 Jun 2022 09:44:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655113482;
-        bh=xt5DGwjhYrIt2t4/I7WxcJsztFBJP3gm0q1s4WQ34ZM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=O6YeFxlyL68gdYVZZNmot4hKDu0cvDrL3n970VtnwqC9I7SfliUL5fhLeFQ4/9bin
-         T8zI4SrdeG92yvm7oD0YAcVoiXTFDHh28yErHqdUpfGE3l8jWy59lCt44xoXqiVYSC
-         I1Z18vioGAzwJOeFhgQIglmEv8c7kXJ8qrYOAjH7LtWOk4F+xLDBKV1LrBX0QY69Xf
-         oYM20nOCGNvfXlNxhrShdrqtSJhvfFSnhgSL1r67+lRBEpFwCMaWrgIT+2uZ2a/pO3
-         0vNnT4K97SF5CYxpWY0TAy70/MiMaYUqQUWDiiuRybC1LkGsmhR5stXESG+KOtcBee
-         qam3B2J8kCg/w==
-Received: by mail-oi1-f172.google.com with SMTP id h187so7109196oif.4;
-        Mon, 13 Jun 2022 02:44:42 -0700 (PDT)
-X-Gm-Message-State: AOAM530eFjOPm1KaCH46mFxQ7DfzQo8y3q5zAZK8ITXNn6eW43AAWWgh
-        nqMk7elbFsfA40g/xGyGkxhsGzZjogvZHPBKx9M=
-X-Google-Smtp-Source: ABdhPJxWL190gaOo8x+poLO9fIQXg4n82FrPAPLPqZ2Srb/3zr8FQ26NmuG4wz3v6gR8a+MZBf5hmYgVu3gibFw/syM=
-X-Received: by 2002:a05:6870:e98b:b0:fe:219a:2449 with SMTP id
- r11-20020a056870e98b00b000fe219a2449mr7281685oao.228.1655113471413; Mon, 13
- Jun 2022 02:44:31 -0700 (PDT)
+        with ESMTP id S240151AbiFMJsU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 05:48:20 -0400
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31C851928C;
+        Mon, 13 Jun 2022 02:48:16 -0700 (PDT)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+        by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25D7bRpY017595;
+        Mon, 13 Jun 2022 04:47:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=PODMain02222019;
+ bh=CRTviHcnTGYQGc17bUWtHNOWPL7Dy+tsuuEXIupdrr4=;
+ b=AB1boW9dAs+Yf9LKm3cYDlA9u3I06+BGsMJFLbKaexcHZujzQyhBBE0tsMWZHWJ5/pk2
+ Yyag1HGoBElpx5OnHF30JfOUa9g36GGrRtvJf8H1/Q9BY+yz/u9t+aL9XqxYrei5xnOs
+ giKpcS9xQ70DzbDl2kRUxUopnvLFhKniuHn4fsycKcT7PipsEbs4vt1wJJx5iiSv9F0l
+ nyIFrdF/LwwXcQTKm7V6Uzs8RHe+wlqHdVRKEyziQ/2tfUXJHhHmO02NGjhNqwYPGa25
+ Q3TAabCTfGg/TVXobLSQVDwCqtFmMjvQA9oYzM0olaJ+nAbQHd7SjQvCcZr2zAy3HGn+ yg== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gmrf31psy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Mon, 13 Jun 2022 04:47:53 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 13 Jun
+ 2022 10:47:51 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
+ Transport; Mon, 13 Jun 2022 10:47:51 +0100
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 7915B46C;
+        Mon, 13 Jun 2022 09:47:51 +0000 (UTC)
+Date:   Mon, 13 Jun 2022 09:47:51 +0000
+From:   Charles Keepax <ckeepax@opensource.cirrus.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 22/23] ASoC: wm8731: update wlf,wm8731.yaml reference
+Message-ID: <20220613094751.GZ38351@ediswmail.ad.cirrus.com>
+References: <cover.1654529011.git.mchehab@kernel.org>
+ <e56e54fe0ebb1b6e8dd2e245c398190016eb0a34.1654529011.git.mchehab@kernel.org>
 MIME-Version: 1.0
-References: <20220613082147.183145-1-mawupeng1@huawei.com> <20220613082147.183145-7-mawupeng1@huawei.com>
- <590a1211-d316-d51d-6577-eb9983126dd0@huawei.com>
-In-Reply-To: <590a1211-d316-d51d-6577-eb9983126dd0@huawei.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Mon, 13 Jun 2022 11:44:19 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXFfmXMriLutNA1FyeNhNz=Zo2hHgO8FLkQ3_xT8kF6oeQ@mail.gmail.com>
-Message-ID: <CAMj1kXFfmXMriLutNA1FyeNhNz=Zo2hHgO8FLkQ3_xT8kF6oeQ@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] memblock: Disable mirror feature if kernelcore is
- not specified
-To:     mawupeng <mawupeng1@huawei.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>, aou@eecs.berkeley.edu,
-        paulmck@kernel.org, keescook@chromium.org,
-        songmuchun@bytedance.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, swboyd@chromium.org,
-        wei.liu@kernel.org, robin.murphy@arm.com, david@redhat.com,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        wangkefeng.wang@huawei.com, gpiccoli@igalia.com,
-        chenhuacai@kernel.org, geert@linux-m68k.org,
-        vijayb@linux.microsoft.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-mm@kvack.org, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <e56e54fe0ebb1b6e8dd2e245c398190016eb0a34.1654529011.git.mchehab@kernel.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: xy_jBaiF63BsDcKqeMRnyVUazqatw_C5
+X-Proofpoint-ORIG-GUID: xy_jBaiF63BsDcKqeMRnyVUazqatw_C5
+X-Proofpoint-Spam-Reason: safe
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 13 Jun 2022 at 11:13, mawupeng <mawupeng1@huawei.com> wrote:
->
->
->
-> On 6/13/2022 4:21 PM, Wupeng Ma wrote:
-> > From: Ma Wupeng <mawupeng1@huawei.com>
-> >
-> > If system have some mirrored memory and mirrored feature is not specified
-> > in boot parameter, the basic mirrored feature will be enabled and this will
-> > lead to the following situations:
-> >
-> > - memblock memory allocation prefers mirrored region. This may have some
-> >   unexpected influence on numa affinity.
-> >
-> > - contiguous memory will be split into several parts if parts of them
-> >   is mirrored memory via memblock_mark_mirror().
-> >
-> > To fix this, variable mirrored_kernelcore will be checked in
-> > memblock_mark_mirror(). Mark mirrored memory with flag MEMBLOCK_MIRROR iff
-> > kernelcore=mirror is added in the kernel parameters.
-> >
-> > Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
-> > ---
-> >  mm/internal.h   | 2 ++
-> >  mm/memblock.c   | 3 +++
-> >  mm/page_alloc.c | 2 +-
-> >  3 files changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/mm/internal.h b/mm/internal.h
-> > index c0f8fbe0445b..ddd2d6a46f1b 100644
-> > --- a/mm/internal.h
-> > +++ b/mm/internal.h
-> > @@ -861,4 +861,6 @@ struct folio *try_grab_folio(struct page *page, int refs, unsigned int flags);
-> >
-> >  DECLARE_PER_CPU(struct per_cpu_nodestat, boot_nodestats);
-> >
-> > +extern bool mirrored_kernelcore;
-> > +
-> >  #endif       /* __MM_INTERNAL_H */
-> > diff --git a/mm/memblock.c b/mm/memblock.c
-> > index b1d2a0009733..a9f18b988b7f 100644
-> > --- a/mm/memblock.c
-> > +++ b/mm/memblock.c
-> > @@ -924,6 +924,9 @@ int __init_memblock memblock_clear_hotplug(phys_addr_t base, phys_addr_t size)
-> >   */
-> >  int __init_memblock memblock_mark_mirror(phys_addr_t base, phys_addr_t size)
-> >  {
-> > +     if (!mirrored_kernelcore)
-> > +             return 0;
-> > +
-> >       system_has_some_mirror = true;
-> >
-> >       return memblock_setclr_flag(base, size, 1, MEMBLOCK_MIRROR);
-> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> > index e008a3df0485..9b030aeb4983 100644
-> > --- a/mm/page_alloc.c
-> > +++ b/mm/page_alloc.c
-> > @@ -356,7 +356,7 @@ static unsigned long required_kernelcore_percent __initdata;
-> >  static unsigned long required_movablecore __initdata;
-> >  static unsigned long required_movablecore_percent __initdata;
-> >  static unsigned long zone_movable_pfn[MAX_NUMNODES] __initdata;
-> > -static bool mirrored_kernelcore __meminitdata;
-> > +bool mirrored_kernelcore __initdata;
->
-> __initdata here is not suitable and will lead to compile warnings.
->
-> In my test, __initdata_memblock and ro_after_init are both fine, but I am not
-> sure which one to choose? Do you have any idea on this?
->
+On Mon, Jun 06, 2022 at 04:25:44PM +0100, Mauro Carvalho Chehab wrote:
+> Changeset 0e336eeaf467 ("ASoC: wm8731: Convert DT bindings to YAML format")
+> renamed: Documentation/devicetree/bindings/sound/wm8731.txt
+> to: Documentation/devicetree/bindings/sound/wlf,wm8731.yaml.
+> 
+> Update its cross-reference accordingly.
+> 
+> Fixes: 0e336eeaf467 ("ASoC: wm8731: Convert DT bindings to YAML format")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
 
-__initdata_memblock is fine if it works.
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-This looks to me like the right place to implement this policy, so
-
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
-
-> >
-> >  /* movable_zone is the "real" zone pages in ZONE_MOVABLE are taken from */
-> >  int movable_zone;
+Thanks,
+Charles
