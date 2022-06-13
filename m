@@ -2,69 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19D14C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 18:56:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CD2FC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 18:59:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344996AbiFMS4x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 14:56:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37986 "EHLO
+        id S245665AbiFMS7N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 14:59:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345326AbiFMSzn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 14:55:43 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 372F2E64
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 09:00:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=kVweHBeIAt8iVzGUpmrlJ3UE3hMq8yyWMUFUj5xycRw=; b=Cl4SMVznahNQP2ZzbRbs3gHA02
-        BukFHF1rftb625C688LcQcmeU5P5xZvSV29TlJT+3ese1aQijDnfyugi0ZEFMZRZ4zAtB78WnUu39
-        TlF9p9gCqFqmdVsLQOV3dA4a9pDLTvowdunG1KwMpVdmB0jx3QQgBlv90JPZQ0/lG9U9fwmc+ZxnK
-        ZWPic24WRtoSt7yRxZr9Ep3corgKOpxg6ziCCi3GwwJL4nQ8KO60nAYNsbprBouT9Lx50t5nVz9tf
-        ldBjSPGAJ4ASAMbAOcOi7o+863+T9jIyiVBT9A3RyjXa1mQPesx1t0sCgc8YXSEugpXna6qbc5OKZ
-        Q5nXWNkg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o0mUW-00GyXu-24; Mon, 13 Jun 2022 16:00:36 +0000
-Date:   Mon, 13 Jun 2022 17:00:36 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Adam Turner <aaturnerpython@outlook.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: Sphinx pre v3 -- removing support
-Message-ID: <YqdfJPiQmYkC2uyT@casper.infradead.org>
-References: <LO3P123MB26810D190462B6BBBF1305F6C2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
- <877d5xx1xo.fsf@meer.lwn.net>
- <YponOKPBgE8pgBYD@casper.infradead.org>
- <20220603154229.sj5sfeaehbkfzgin@meerkat.local>
- <87tu91vis5.fsf@meer.lwn.net>
- <20220603162615.wto3fywuvs2wlb5r@meerkat.local>
- <871qw5ju1m.fsf@meer.lwn.net>
- <20220613154059.oeb2kfp3j2amqat5@meerkat.local>
+        with ESMTP id S1347254AbiFMS6y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 14:58:54 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43F0C2CDC4
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 09:13:05 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id y19so12115426ejq.6
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 09:13:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ClWJGxROkRDHXKyRKDqxhN+/3eAFVZ0J4XFXQm1t9qU=;
+        b=352ckjxwFkIPRoqqLFdZX1qx+ohNn0RBDoCcMhG20RcD8Am5eTfV3uZE0VupOpwFdS
+         JQxFM4g+EMOniZcH52An4JwINyQFsFGcYHRrDQhYh60Wp3OxVBFl3ut9qmMbePIQgovv
+         QxlmDkCHe6VoOOR7AmY6uFB3hPZ0xrRSo6UgMjmvCpFDLaE2n7HkR54ZJAs9OoeUBAFQ
+         1wJ4rJ38bIDtUFNVEVY6zOXyiBZ7O7azc+BYvlrplLCUz1rJ88BPzOBcIqELN2dNt6LZ
+         GLrE3KUAwVBUe8vZ7Rv8KRS57zXAKiTVwYLlXkh11EGZexZx30i+dld6IKhx7AbBJxdm
+         ADsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ClWJGxROkRDHXKyRKDqxhN+/3eAFVZ0J4XFXQm1t9qU=;
+        b=rzqqRpueULakw4Z5R2ESVamVE2aQXoA9wtY6VkjTd42+LYmtbZKnR5bvv22Xs2AvuD
+         1XOYqjTkWDLBiOAGNlsoK4M+xqZA9U0wvaS4bp4+qj4wgzwcKxyXjsTjZ8pR/VRoR2It
+         sLm6Rt+6qFwQkgiRWX4TeHaAQk9BBiyFVNUAH2RRC/QN1ZJL7AMwMw7NRgKWhGQTMlE1
+         FTZyd10sb2y2ymoPe/ypgJcYsVHVFnScHNzu6aZdAwTlEPFCGv1/VvjU5JQcTYePxubr
+         2shQ9ARwvPXbteii1sus/MNoFXDkSL6He7Qmv9MNIbf6GRx9367YAReL8oe0zZiqfQeA
+         CP6g==
+X-Gm-Message-State: AOAM530+hCnoInY7N9wWwyHCDSAkKId1/3IvUn7L6qBdNO0f6azN4VeD
+        Utq8Mq3QnkcIgp8VEJGy9/F7LR2QmW54ddu02vgCbg==
+X-Google-Smtp-Source: ABdhPJySjC9TbtjM/sD70Pf5P+b3I/hrQhRNqdbWjkjgsqa+zsxIpqishLf6a0BMLEDd1Xhsp9hDMzexnGYeDSh2CL4=
+X-Received: by 2002:a17:907:90c8:b0:711:c8e1:7109 with SMTP id
+ gk8-20020a17090790c800b00711c8e17109mr517177ejb.492.1655136783827; Mon, 13
+ Jun 2022 09:13:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220613154059.oeb2kfp3j2amqat5@meerkat.local>
+References: <YqY39Rwi4Lnzw2GH@posteo.de>
+In-Reply-To: <YqY39Rwi4Lnzw2GH@posteo.de>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Mon, 13 Jun 2022 18:12:53 +0200
+Message-ID: <CAMRc=MeVHf2Zq3L9prhxSZ=tNDcY6+aXQKyq_BqO5XF0oDB1HQ@mail.gmail.com>
+Subject: Re: [PATCH] docs: driver-api: gpio: Fix filename mismatch
+To:     Tom Schwindl <schwindl@posteo.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 13, 2022 at 11:40:59AM -0400, Konstantin Ryabitsev wrote:
-> On Fri, Jun 03, 2022 at 03:50:29PM -0600, Jonathan Corbet wrote:
-> > > Indeed. So, should I go to 3.x, 4.x, or go all new and shiny with 5.x?
-> > 
-> > Unless there is some subtle problem in the rendered docs that I'm not
-> > seeing, I don't think that there is any reason to go with the older
-> > releases.  5.0.1 seems to build things just fine, so I'd say go with the
-> > shiniest you can get.
-> 
-> Okay, https://docs.kernel.org/ is now built with Sphinx-5.0.1. At least, the
-> timestamps on the files are telling me so, because I can't see any other
-> changes. :)
+On Sun, Jun 12, 2022 at 9:01 PM Tom Schwindl <schwindl@posteo.de> wrote:
+>
+> The filenames were changed a while ago, but board.rst, consumer.rst and
+> intro.rst still refer to the old names. Fix those references to match the
+> Actual names and avoid possible confusion.
+>
+> Signed-off-by: Tom Schwindl <schwindl@posteo.de>
+> ---
+>  Documentation/driver-api/gpio/board.rst    | 2 +-
+>  Documentation/driver-api/gpio/consumer.rst | 6 +++---
+>  Documentation/driver-api/gpio/intro.rst    | 6 +++---
+>  3 files changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/driver-api/gpio/board.rst b/Documentation/driver-api/gpio/board.rst
+> index 4e3adf31c8d1..b33aa04f213f 100644
+> --- a/Documentation/driver-api/gpio/board.rst
+> +++ b/Documentation/driver-api/gpio/board.rst
+> @@ -6,7 +6,7 @@ This document explains how GPIOs can be assigned to given devices and functions.
+>
+>  Note that it only applies to the new descriptor-based interface. For a
+>  description of the deprecated integer-based GPIO interface please refer to
+> -gpio-legacy.txt (actually, there is no real mapping possible with the old
+> +legacy.rst (actually, there is no real mapping possible with the old
+>  interface; you just fetch an integer from somewhere and request the
+>  corresponding GPIO).
+>
+> diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
+> index 47869ca8ccf0..72bcf5f5e3a2 100644
+> --- a/Documentation/driver-api/gpio/consumer.rst
+> +++ b/Documentation/driver-api/gpio/consumer.rst
+> @@ -4,7 +4,7 @@ GPIO Descriptor Consumer Interface
+>
+>  This document describes the consumer interface of the GPIO framework. Note that
+>  it describes the new descriptor-based interface. For a description of the
+> -deprecated integer-based GPIO interface please refer to gpio-legacy.txt.
+> +deprecated integer-based GPIO interface please refer to legacy.rst.
+>
+>
+>  Guidelines for GPIOs consumers
+> @@ -78,7 +78,7 @@ whether the line is configured active high or active low (see
+>
+>  The two last flags are used for use cases where open drain is mandatory, such
+>  as I2C: if the line is not already configured as open drain in the mappings
+> -(see board.txt), then open drain will be enforced anyway and a warning will be
+> +(see board.rst), then open drain will be enforced anyway and a warning will be
+>  printed that the board configuration needs to be updated to match the use case.
+>
+>  Both functions return either a valid GPIO descriptor, or an error code checkable
+> @@ -270,7 +270,7 @@ driven.
+>  The same is applicable for open drain or open source output lines: those do not
+>  actively drive their output high (open drain) or low (open source), they just
+>  switch their output to a high impedance value. The consumer should not need to
+> -care. (For details read about open drain in driver.txt.)
+> +care. (For details read about open drain in driver.rst.)
+>
+>  With this, all the gpiod_set_(array)_value_xxx() functions interpret the
+>  parameter "value" as "asserted" ("1") or "de-asserted" ("0"). The physical line
+> diff --git a/Documentation/driver-api/gpio/intro.rst b/Documentation/driver-api/gpio/intro.rst
+> index 2e924fb5b3d5..c9c19243b97f 100644
+> --- a/Documentation/driver-api/gpio/intro.rst
+> +++ b/Documentation/driver-api/gpio/intro.rst
+> @@ -14,12 +14,12 @@ Due to the history of GPIO interfaces in the kernel, there are two different
+>  ways to obtain and use GPIOs:
+>
+>    - The descriptor-based interface is the preferred way to manipulate GPIOs,
+> -    and is described by all the files in this directory excepted gpio-legacy.txt.
+> +    and is described by all the files in this directory excepted legacy.rst.
+>    - The legacy integer-based interface which is considered deprecated (but still
+> -    usable for compatibility reasons) is documented in gpio-legacy.txt.
+> +    usable for compatibility reasons) is documented in legacy.rst.
+>
+>  The remainder of this document applies to the new descriptor-based interface.
+> -gpio-legacy.txt contains the same information applied to the legacy
+> +legacy.rst contains the same information applied to the legacy
+>  integer-based interface.
+>
+>
+> --
+>
 
-Can confirm the bug I mentioned is now present on at least
-https://www.kernel.org/doc/html/latest/core-api/mm-api.html#c.folio_add_wait_queue
+Applied, thanks!
 
-What should be the link to 'struct folio' is instead a link to
-folio_add_wait_queue.
+Bart
