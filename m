@@ -2,186 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40219C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 08:11:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F65CC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 08:12:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234005AbiFMIK3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 04:10:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35690 "EHLO
+        id S229891AbiFMILc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 04:11:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239585AbiFMIKM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 04:10:12 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A34431E3DD;
-        Mon, 13 Jun 2022 01:10:11 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 3E03D1FAC2;
-        Mon, 13 Jun 2022 08:10:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1655107810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3gX01sey3U8CCSAGhSSb8DIikXknEWnqb+fuJzKhhcI=;
-        b=xNzQJkhAxH68lbQ2fQKbUYQvw520KSkP1h5NHyYCvL/KKAqw0MQahh3QfTERcAu2lEiYZN
-        ekxMgOXq41YFXsdwvcCIcIce9fxCLI7BY5tz+yRtkkFBFfzUAyJK/gKmXmzC81itEskvIb
-        SShkxuSAMaGEuuz/4HODB/F5vQ37/dI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1655107810;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3gX01sey3U8CCSAGhSSb8DIikXknEWnqb+fuJzKhhcI=;
-        b=gLycz0xHDPt69/IdsWDlUKNzvabkzQy77VT/mTBzD2gVzeK0QyI+Te3W3864W5XbO9ah8X
-        gU8uwyP/hlV7ajAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B331613443;
-        Mon, 13 Jun 2022 08:10:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id R5r+KOHwpmJMIgAAMHmgww
-        (envelope-from <osalvador@suse.de>); Mon, 13 Jun 2022 08:10:09 +0000
-Date:   Mon, 13 Jun 2022 10:10:08 +0200
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     mike.kravetz@oracle.com, david@redhat.com,
-        akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/6] mm: hugetlb_vmemmap: optimize vmemmap_optimize_mode
- handling
-Message-ID: <Yqbw4IYwtLQaoarB@localhost.localdomain>
-References: <20220613063512.17540-1-songmuchun@bytedance.com>
- <20220613063512.17540-3-songmuchun@bytedance.com>
+        with ESMTP id S239606AbiFMILH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 04:11:07 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F3C21E3FA;
+        Mon, 13 Jun 2022 01:11:06 -0700 (PDT)
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.56])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4LM44w0PKbzDqqK;
+        Mon, 13 Jun 2022 16:10:40 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 13 Jun 2022 16:11:03 +0800
+Received: from thunder-town.china.huawei.com (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 13 Jun 2022 16:11:02 +0800
+From:   Zhen Lei <thunder.leizhen@huawei.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        <kexec@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+CC:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        "John Donnelly" <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: [PATCH 2/5] arm64: kdump: Support crashkernel=X fall back to reserve region above DMA zones
+Date:   Mon, 13 Jun 2022 16:09:29 +0800
+Message-ID: <20220613080932.663-3-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
+In-Reply-To: <20220613080932.663-1-thunder.leizhen@huawei.com>
+References: <20220613080932.663-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220613063512.17540-3-songmuchun@bytedance.com>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 13, 2022 at 02:35:08PM +0800, Muchun Song wrote:
-> We hold an another reference to hugetlb_optimize_vmemmap_key when
-> making vmemmap_optimize_mode on, because we use static_key to tell
-> memory_hotplug that memory_hotplug.memmap_on_memory should be
-> overridden.  However, this rule has gone when we have introduced
-> SECTION_CANNOT_OPTIMIZE_VMEMMAP.  Therefore, we could simplify
-> vmemmap_optimize_mode handling by not holding an another reference
-> to hugetlb_optimize_vmemmap_key.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+For crashkernel=X without '@offset', select a region within DMA zones
+first, and fall back to reserve region above DMA zones. This allows
+users to use the same configuration on multiple platforms.
 
-LGTM, and it looks way nicer, so
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  2 +-
+ arch/arm64/mm/init.c                            | 16 +++++++++++++++-
+ 2 files changed, 16 insertions(+), 2 deletions(-)
 
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
-
-One question below though
-
-> -static enum vmemmap_optimize_mode vmemmap_optimize_mode =
-> +static bool vmemmap_optimize_enabled =
->  	IS_ENABLED(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON);
-
-So, by default vmemmap_optimize_enabled will be on if we have
-CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON, but we can always override that
-via cmdline, as below, right?
-
-
->  
-> -static void vmemmap_optimize_mode_switch(enum vmemmap_optimize_mode to)
-> -{
-> -	if (vmemmap_optimize_mode == to)
-> -		return;
-> -
-> -	if (to == VMEMMAP_OPTIMIZE_OFF)
-> -		static_branch_dec(&hugetlb_optimize_vmemmap_key);
-> -	else
-> -		static_branch_inc(&hugetlb_optimize_vmemmap_key);
-> -	WRITE_ONCE(vmemmap_optimize_mode, to);
-> -}
-> -
->  static int __init hugetlb_vmemmap_early_param(char *buf)
->  {
-> -	bool enable;
-> -	enum vmemmap_optimize_mode mode;
-> -
-> -	if (kstrtobool(buf, &enable))
-> -		return -EINVAL;
-> -
-> -	mode = enable ? VMEMMAP_OPTIMIZE_ON : VMEMMAP_OPTIMIZE_OFF;
-> -	vmemmap_optimize_mode_switch(mode);
-> -
-> -	return 0;
-> +	return kstrtobool(buf, &vmemmap_optimize_enabled);
->  }
->  early_param("hugetlb_free_vmemmap", hugetlb_vmemmap_early_param);
->  
-> @@ -103,7 +76,7 @@ static unsigned int optimizable_vmemmap_pages(struct hstate *h,
->  	unsigned long pfn = page_to_pfn(head);
->  	unsigned long end = pfn + pages_per_huge_page(h);
->  
-> -	if (READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
-> +	if (!READ_ONCE(vmemmap_optimize_enabled))
->  		return 0;
->  
->  	for (; pfn < end; pfn += PAGES_PER_SECTION) {
-> @@ -155,7 +128,6 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
->  
->  	if (!is_power_of_2(sizeof(struct page))) {
->  		pr_warn_once("cannot optimize vmemmap pages because \"struct page\" crosses page boundaries\n");
-> -		static_branch_disable(&hugetlb_optimize_vmemmap_key);
->  		return;
->  	}
->  
-> @@ -176,36 +148,13 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
->  }
->  
->  #ifdef CONFIG_PROC_SYSCTL
-> -static int hugetlb_optimize_vmemmap_handler(struct ctl_table *table, int write,
-> -					    void *buffer, size_t *length,
-> -					    loff_t *ppos)
-> -{
-> -	int ret;
-> -	enum vmemmap_optimize_mode mode;
-> -	static DEFINE_MUTEX(sysctl_mutex);
-> -
-> -	if (write && !capable(CAP_SYS_ADMIN))
-> -		return -EPERM;
-> -
-> -	mutex_lock(&sysctl_mutex);
-> -	mode = vmemmap_optimize_mode;
-> -	table->data = &mode;
-> -	ret = proc_dointvec_minmax(table, write, buffer, length, ppos);
-> -	if (write && !ret)
-> -		vmemmap_optimize_mode_switch(mode);
-> -	mutex_unlock(&sysctl_mutex);
-> -
-> -	return ret;
-> -}
-> -
->  static struct ctl_table hugetlb_vmemmap_sysctls[] = {
->  	{
->  		.procname	= "hugetlb_optimize_vmemmap",
-> -		.maxlen		= sizeof(enum vmemmap_optimize_mode),
-> +		.data		= &vmemmap_optimize_enabled,
-> +		.maxlen		= sizeof(int),
->  		.mode		= 0644,
-> -		.proc_handler	= hugetlb_optimize_vmemmap_handler,
-> -		.extra1		= SYSCTL_ZERO,
-> -		.extra2		= SYSCTL_ONE,
-> +		.proc_handler	= proc_dobool,
->  	},
->  	{ }
->  };
-> -- 
-> 2.11.0
-> 
-> 
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 61b179232b68001..fdac18beba5624e 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -823,7 +823,7 @@
+ 			memory region [offset, offset + size] for that kernel
+ 			image. If '@offset' is omitted, then a suitable offset
+ 			is selected automatically.
+-			[KNL, X86-64] Select a region under 4G first, and
++			[KNL, X86-64, ARM64] Select a region under 4G first, and
+ 			fall back to reserve region above 4G when '@offset'
+ 			hasn't been specified.
+ 			See Documentation/admin-guide/kdump/kdump.rst for further details.
+diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+index 5390f361208ccf7..8539598f9e58b4d 100644
+--- a/arch/arm64/mm/init.c
++++ b/arch/arm64/mm/init.c
+@@ -138,6 +138,7 @@ static void __init reserve_crashkernel(void)
+ 	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+ 	char *cmdline = boot_command_line;
+ 	int ret;
++	bool fixed_base;
+ 
+ 	if (!IS_ENABLED(CONFIG_KEXEC_CORE))
+ 		return;
+@@ -166,15 +167,28 @@ static void __init reserve_crashkernel(void)
+ 		return;
+ 	}
+ 
++	fixed_base = !!crash_base;
+ 	crash_size = PAGE_ALIGN(crash_size);
+ 
+ 	/* User specifies base address explicitly. */
+-	if (crash_base)
++	if (fixed_base)
+ 		crash_max = crash_base + crash_size;
+ 
++retry:
+ 	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+ 					       crash_base, crash_max);
+ 	if (!crash_base) {
++		/*
++		 * Attempt to fully allocate low memory failed, fall back
++		 * to high memory, the minimum required low memory will be
++		 * reserved later.
++		 */
++		if (!fixed_base && (crash_max == CRASH_ADDR_LOW_MAX)) {
++			crash_max = CRASH_ADDR_HIGH_MAX;
++			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
++			goto retry;
++		}
++
+ 		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+ 			crash_size);
+ 		return;
 -- 
-Oscar Salvador
-SUSE Labs
+2.25.1
+
