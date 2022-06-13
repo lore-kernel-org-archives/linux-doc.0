@@ -2,108 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BE94C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 08:33:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21BD7C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 08:55:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232441AbiFMIdy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 04:33:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43928 "EHLO
+        id S240475AbiFMIzh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 04:55:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230106AbiFMIdx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 04:33:53 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5806A25ED;
-        Mon, 13 Jun 2022 01:33:52 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 12ECB1F74A;
-        Mon, 13 Jun 2022 08:33:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1655109231; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=p577qqkGNM+YtsoofFUL3UzNKI8twXildO3X6IpGT8g=;
-        b=oODkKERJipnIGzo/BnNlMVHmFGZlp0FnEzeqIPnFGDRFmxrF0N2CDdtwKZvzWvkUhLBRZE
-        eBKqXP3z4V7hEzHliebaSsqsfMZ65cUEPWGDYSYOrxsLcsyF8J6YzOnSJDhccVR7Jea52G
-        mvj+EB5TMaf/v1r5OpM3y71B0L/oBMo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1655109231;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=p577qqkGNM+YtsoofFUL3UzNKI8twXildO3X6IpGT8g=;
-        b=Hex085tRJvhzdgZf0mt9vxmsnKSEDT5rnQBlfmusPSWgC4d3G5BiYgupVBGeE/voVo8MMf
-        w2XwGkzSCcsqHUAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7F2DB13443;
-        Mon, 13 Jun 2022 08:33:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id f0MAHG72pmIwKwAAMHmgww
-        (envelope-from <osalvador@suse.de>); Mon, 13 Jun 2022 08:33:50 +0000
-Date:   Mon, 13 Jun 2022 10:33:48 +0200
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     mike.kravetz@oracle.com, david@redhat.com,
-        akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 6/6] mm: hugetlb_vmemmap: improve hugetlb_vmemmap code
- readability
-Message-ID: <Yqb2bA25HhLU/mpM@localhost.localdomain>
-References: <20220613063512.17540-1-songmuchun@bytedance.com>
- <20220613063512.17540-7-songmuchun@bytedance.com>
+        with ESMTP id S239287AbiFMIzb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 04:55:31 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B1BDB7E3;
+        Mon, 13 Jun 2022 01:55:22 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LM50h0gsGzRj23;
+        Mon, 13 Jun 2022 16:52:04 +0800 (CST)
+Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 13 Jun 2022 16:55:16 +0800
+Received: from huawei.com (10.174.178.102) by dggpemm100009.china.huawei.com
+ (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 13 Jun
+ 2022 16:55:15 +0800
+From:   linshengwang <linshengwang1@huawei.com>
+To:     <alexs@kernel.org>, <corbet@lwn.net>, <linshengwang1@huawei.com>
+CC:     <siyanteng01@gmail.com>, <bobwxc@email.cn>, <src.res@email.cn>,
+        <wanjiabing@vivo.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] fs/ntfs3: Remove unused function 'attr_must_be_resident'
+Date:   Mon, 13 Jun 2022 16:55:14 +0800
+Message-ID: <20220613085514.977-1-linshengwang1@huawei.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220613063512.17540-7-songmuchun@bytedance.com>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.174.178.102]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm100009.china.huawei.com (7.185.36.113)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 13, 2022 at 02:35:12PM +0800, Muchun Song wrote:
-> -static __init int hugetlb_vmemmap_sysctls_init(void)
-> +static int __init hugetlb_vmemmap_init(void)
->  {
-> +	const struct hstate *h;
-> +	bool optimizable = false;
-> +
->  	/*
-> -	 * If "struct page" crosses page boundaries, the vmemmap pages cannot
-> -	 * be optimized.
-> +	 * There are only (RESERVE_VMEMMAP_SIZE / sizeof(struct page)) struct
-> +	 * page structs that can be used when HVO is enabled.
->  	 */
-> -	if (is_power_of_2(sizeof(struct page)))
-> -		register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
-> +	BUILD_BUG_ON(__NR_USED_SUBPAGE >= RESERVE_VMEMMAP_SIZE / sizeof(struct page));
+From: Lin Shengwang <linshengwang1@huawei.com>
 
-I need to take another look, but from the first glance there is something
-here that caught my eye.
+It is introduced by commit be71b5cba2e6 ("fs/ntfs3:
+Add attrib operations"), but never used, so remove it.
 
-> +
-> +	for_each_hstate(h) {
-> +		char buf[16];
-> +		unsigned int size = 0;
-> +
-> +		if (hugetlb_vmemmap_optimizable(h))
-> +			size = hugetlb_vmemmap_size(h) - RESERVE_VMEMMAP_SIZE;
-> +		optimizable = size ? true : optimizable;
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Lin Shengwang <linshengwang1@huawei.com>
+---
+ fs/ntfs3/attrib.c | 27 ---------------------------
+ 1 file changed, 27 deletions(-)
 
-This feels weird, just use false instead of optimizable.
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index fc0623b029e6..3df0c3f5ec72 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -54,33 +54,6 @@ static inline u64 get_pre_allocated(u64 size)
+ 	return ret;
+ }
 
-> +		string_get_size(huge_page_size(h), 1, STRING_UNITS_2, buf,
-> +				sizeof(buf));
-> +		pr_info("%d KiB vmemmap can be optimized for a %s page\n",
-> +			size / SZ_1K, buf);
+-/*
+- * attr_must_be_resident
+- *
+- * Return: True if attribute must be resident.
+- */
+-static inline bool attr_must_be_resident(struct ntfs_sb_info *sbi,
+-					 enum ATTR_TYPE type)
+-{
+-	const struct ATTR_DEF_ENTRY *de;
+-
+-	switch (type) {
+-	case ATTR_STD:
+-	case ATTR_NAME:
+-	case ATTR_ID:
+-	case ATTR_LABEL:
+-	case ATTR_VOL_INFO:
+-	case ATTR_ROOT:
+-	case ATTR_EA_INFO:
+-		return true;
+-	default:
+-		de = ntfs_query_def(sbi, type);
+-		if (de && (de->flags & NTFS_ATTR_MUST_BE_RESIDENT))
+-			return true;
+-		return false;
+-	}
+-}
+-
+ /*
+  * attr_load_runs - Load all runs stored in @attr.
+  */
+--
+2.17.1
 
-I do not have a strong opinion but I wonder whether this brings a lot.
 
-
--- 
-Oscar Salvador
-SUSE Labs
