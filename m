@@ -2,78 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CA3CCCA47B
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 19:21:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDF8DC43334
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 19:22:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349075AbiFMTVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 15:21:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44740 "EHLO
+        id S1348233AbiFMTWM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 15:22:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349107AbiFMTVS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 15:21:18 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 325C41CB37;
-        Mon, 13 Jun 2022 10:23:08 -0700 (PDT)
+        with ESMTP id S1343931AbiFMTVg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 15:21:36 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C455E110B;
+        Mon, 13 Jun 2022 10:18:08 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id AB2EC381;
-        Mon, 13 Jun 2022 17:23:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AB2EC381
+        by ms.lwn.net (Postfix) with ESMTPSA id 0A335736;
+        Mon, 13 Jun 2022 17:18:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0A335736
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1655140987; bh=k58hDWJfANavQFvKsrGGJcppdon+Ur4ul3J1RTm5fL0=;
+        t=1655140688; bh=c6lIsFQ+NWEImD41NwrKBPBx7AxmBW0WsXXocbKtZ3Q=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=NjSw1C6pIAC6Tha3bJMkfoZss6QYYR0CEm5g91/3GPYdVZS2eaj9FgEYMVTTTrRPO
-         bsw8H+P29gvcHZCtuSpRgiNJ6J6pXM9APWdle3PaJupADTHs4ZqoOLCvMnNuNXFC4M
-         E7TSEZbLhN+YWnNadbNzEmoboX8eorGlkRpfKTc5vuc5trCHooiaRN1RENI2owHmjp
-         wrh4zRQm0mZ7CTanfStloZSMmpNOWvxqdb3ec2YqH1w0q08EBSAOyEwAVueRmp07T0
-         QdrbTK3lm4L64k4mfCiFRyg1G5QPLln5YWGWXosMIHa5eVrNu0pwjShJ76HmOgzJ0r
-         oqUgxOofFipDA==
+        b=HPiyOJpDMdEGGeZSyRLvvB0lyI08Vz4LJhuP+R8C6aAeLLjgfB0h/TyvkVu5v1LNL
+         XGicJSLAO9iuy+kEuNncqAVlORTHKxOHXvePMI4oZimAdvcTzuzhPRp9OcwVjs/tm0
+         H+CprU+qGn9dwV+ZAIgc12wSx6cPwDUpNHh7z09L012UqYilubpMCXmP3m7gcosqUm
+         b9crKXu+FvsgH2vJJHJD1AuTEtCIbfk+j1+HxulpJHI2tH+wALlcVc2/jkxLyYErST
+         +NJbsqqRLtdOq8LNy4shyWHQNXusfw6k2/lIOKeGWL15jMDjRu+aSc402EA0GCyEaD
+         27PPFWsecTDSQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Chao Liu <chaoliu719@gmail.com>,
-        Matthew Wilcox <willy@infradead.org>, Chao Yu <chao@kernel.org>
-Cc:     Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yue Hu <huyue2@coolpad.com>,
-        Wayne Zhang <zhangwen@coolpad.com>,
-        Chao Liu <liuchao@coolpad.com>
-Subject: Re: [PATCH v2] docs: filesystems: f2fs: fix description about
- compress ioctl
-In-Reply-To: <Yqbu+BArbUNGvft9@liuchao-VM>
-References: <20220613020800.3379482-1-chaoliu719@gmail.com>
- <Yqaw3VTD46PAMN8O@casper.infradead.org> <Yqbu+BArbUNGvft9@liuchao-VM>
-Date:   Mon, 13 Jun 2022 11:23:07 -0600
-Message-ID: <87czfc1nr8.fsf@meer.lwn.net>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@corigine.com>,
+        linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, oss-drivers@corigine.com,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@corigine.com>
+Subject: Re: [PATCH v2] scripts: kernel-doc: Always increment warnings counter
+In-Reply-To: <20220613090510.3088294-1-niklas.soderlund@corigine.com>
+References: <20220613090510.3088294-1-niklas.soderlund@corigine.com>
+Date:   Mon, 13 Jun 2022 11:18:07 -0600
+Message-ID: <87h74o1nzk.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Chao Liu <chaoliu719@gmail.com> writes:
+Niklas S=C3=B6derlund <niklas.soderlund@corigine.com> writes:
 
-> On Mon, Jun 13, 2022 at 04:37:01AM +0100, Matthew Wilcox wrote:
->> On Mon, Jun 13, 2022 at 10:08:00AM +0800, Chao Liu wrote:
->> > v2:
->> > - s/file size/filesize/
->>
->> Why would you change it to be wrong?
->>
+> Some warnings do not increment the warnings counter making the behavior
+> of running kernel-doc with -Werror unlogical as some warnings will be
+> generated but not treated as errors.
 >
-> This is a suggestion from Chao Yu. Maybe he has some other considerations.
+> Fix this by creating a helper function that always incrementing the
+> warnings counter every time a warning is emitted. There is one location
+> in get_sphinx_version() where a warning is not touched as it concerns
+> the execution environment of the kernel-doc and not the documentation
+> being processed.
+>
+> Incrementing the counter only have effect when running kernel-doc in
+> either verbose mode (-v or environment variable KBUILD_VERBOSE) or when
+> treating warnings as errors (-Werror or environment variable
+> KDOC_WERROR). In both cases the number of warnings printed is printed to
+> stderr and for the later the exit code of kernel-doc is non-zero if
+> warnings where encountered.
+>
+> Simple test case to demo one of the warnings,
+>
+>     $ cat test.c
+>     /**
+>      * foo() - Description
+>      */
+>     int bar();
+>
+>     # Without this change
+>     $ ./scripts/kernel-doc -Werror -none test.c
+>     test.c:4: warning: expecting prototype for foo(). Prototype was for
+>     bar() instead
+>
+>     # With this change
+>     $ ./scripts/kernel-doc -Werror -none test.c
+>     test.c:4: warning: expecting prototype for foo(). Prototype was for
+>     bar() instead
+>     1 warnings as Errors
+>
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund@corigine.com>
+> ---
+> * Changes since v1
+> - Added a helper emit_warning() to print the message and increment the
+>   counter instead of adding statements to increment the counter where it
+>   was missing.
 
-Sorry, I should have replied to that.  I disagree with that suggestion.
-"Filesize" is not an English word, and there doesn't seem to be any
-reason to use it in our docs.
+Thanks for making this change.  Anything that rationalizes this horrific
+script even a little bit is more than welcome.
 
-<checks>
-
-We have to occurrences now - one already in the f2fs docs.  I think we
-shouldn't add more.  So my plan is to apply the first version of this
-patch.  Chao Liu: is there a reason why you didn't add the Reviewed-by
-from Chao Yu in the second version?  Chao Yu: is that tag still
-applicable even without the "filesize" change?
-
-Thanks,
+I've applied the patch, thanks.
 
 jon
