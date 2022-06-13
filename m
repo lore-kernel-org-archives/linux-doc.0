@@ -2,94 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AB12CCA47E
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 08:05:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40219C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 08:11:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238814AbiFMIFG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 04:05:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55526 "EHLO
+        id S234005AbiFMIK3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 04:10:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239550AbiFMIEy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 04:04:54 -0400
+        with ESMTP id S239585AbiFMIKM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 04:10:12 -0400
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB5431E3C4;
-        Mon, 13 Jun 2022 01:04:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A34431E3DD;
+        Mon, 13 Jun 2022 01:10:11 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 770591FAC3;
-        Mon, 13 Jun 2022 08:04:48 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 3E03D1FAC2;
+        Mon, 13 Jun 2022 08:10:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1655107488; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1655107810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=y60ZvMkZEvWsM3Un0BjgZp3hCBuh4mCFqBODWskoeZE=;
-        b=akD1NQrPb8kShRnk5+EHe9Cr91LqOhi0QO71GuaEYHpEmW49+LoonALIapZr511qIZPLtq
-        5K/x6DMxM+ZVP6WWM+45emQFsHMbb9xPma3VpqdrtcjOfkUSAQDyXTF1Q+r3dsdJ1rkrQb
-        xo2AJdWVATN3YMr+padQdfhNAuXYTJI=
+        bh=3gX01sey3U8CCSAGhSSb8DIikXknEWnqb+fuJzKhhcI=;
+        b=xNzQJkhAxH68lbQ2fQKbUYQvw520KSkP1h5NHyYCvL/KKAqw0MQahh3QfTERcAu2lEiYZN
+        ekxMgOXq41YFXsdwvcCIcIce9fxCLI7BY5tz+yRtkkFBFfzUAyJK/gKmXmzC81itEskvIb
+        SShkxuSAMaGEuuz/4HODB/F5vQ37/dI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1655107488;
+        s=susede2_ed25519; t=1655107810;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=y60ZvMkZEvWsM3Un0BjgZp3hCBuh4mCFqBODWskoeZE=;
-        b=wVCJhQJLX4rfg077cikqvO4E2WMFayaLWJVwyDa69Hq5geO6iYcXP8dsl3raNUwY8GAfMm
-        Se+tuBPW96J9fFCA==
+        bh=3gX01sey3U8CCSAGhSSb8DIikXknEWnqb+fuJzKhhcI=;
+        b=gLycz0xHDPt69/IdsWDlUKNzvabkzQy77VT/mTBzD2gVzeK0QyI+Te3W3864W5XbO9ah8X
+        gU8uwyP/hlV7ajAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C19A613443;
-        Mon, 13 Jun 2022 08:04:47 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B331613443;
+        Mon, 13 Jun 2022 08:10:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id WA+SLJ/vpmJeIAAAMHmgww
-        (envelope-from <osalvador@suse.de>); Mon, 13 Jun 2022 08:04:47 +0000
-Date:   Mon, 13 Jun 2022 10:04:46 +0200
+        id R5r+KOHwpmJMIgAAMHmgww
+        (envelope-from <osalvador@suse.de>); Mon, 13 Jun 2022 08:10:09 +0000
+Date:   Mon, 13 Jun 2022 10:10:08 +0200
 From:   Oscar Salvador <osalvador@suse.de>
 To:     Muchun Song <songmuchun@bytedance.com>
 Cc:     mike.kravetz@oracle.com, david@redhat.com,
         akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Anshuman Khandual <anshuman.khandual@arm.com>
-Subject: Re: [PATCH 1/6] mm: hugetlb_vmemmap: delete
- hugetlb_optimize_vmemmap_enabled()
-Message-ID: <Yqbvno7vM5knoh6u@localhost.localdomain>
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/6] mm: hugetlb_vmemmap: optimize vmemmap_optimize_mode
+ handling
+Message-ID: <Yqbw4IYwtLQaoarB@localhost.localdomain>
 References: <20220613063512.17540-1-songmuchun@bytedance.com>
- <20220613063512.17540-2-songmuchun@bytedance.com>
+ <20220613063512.17540-3-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220613063512.17540-2-songmuchun@bytedance.com>
+In-Reply-To: <20220613063512.17540-3-songmuchun@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 13, 2022 at 02:35:07PM +0800, Muchun Song wrote:
-> The name hugetlb_optimize_vmemmap_enabled() a bit confusing as it tests
-> two conditions (enabled and pages in use).  Instead of coming up to
-> an appropriate name, we could just delete it.  There is already a
-> discussion about deleting it in thread [1].
+On Mon, Jun 13, 2022 at 02:35:08PM +0800, Muchun Song wrote:
+> We hold an another reference to hugetlb_optimize_vmemmap_key when
+> making vmemmap_optimize_mode on, because we use static_key to tell
+> memory_hotplug that memory_hotplug.memmap_on_memory should be
+> overridden.  However, this rule has gone when we have introduced
+> SECTION_CANNOT_OPTIMIZE_VMEMMAP.  Therefore, we could simplify
+> vmemmap_optimize_mode handling by not holding an another reference
+> to hugetlb_optimize_vmemmap_key.
 > 
-> There is only one user of hugetlb_optimize_vmemmap_enabled() outside of
-> hugetlb_vmemmap, that is flush_dcache_page() in arch/arm64/mm/flush.c.
-> However, it does not need to call hugetlb_optimize_vmemmap_enabled()
-> in flush_dcache_page() since HugeTLB pages are always fully mapped and
-> only head page will be set PG_dcache_clean meaning only head page's flag
-> may need to be cleared (see commit cf5a501d985b).  So it is easy to
-> remove hugetlb_optimize_vmemmap_enabled().
-> 
-> Link: https://lore.kernel.org/all/c77c61c8-8a5a-87e8-db89-d04d8aaab4cc@oracle.com/ [1]
 > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+
+LGTM, and it looks way nicer, so
 
 Reviewed-by: Oscar Salvador <osalvador@suse.de>
 
+One question below though
+
+> -static enum vmemmap_optimize_mode vmemmap_optimize_mode =
+> +static bool vmemmap_optimize_enabled =
+>  	IS_ENABLED(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON);
+
+So, by default vmemmap_optimize_enabled will be on if we have
+CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON, but we can always override that
+via cmdline, as below, right?
+
+
+>  
+> -static void vmemmap_optimize_mode_switch(enum vmemmap_optimize_mode to)
+> -{
+> -	if (vmemmap_optimize_mode == to)
+> -		return;
+> -
+> -	if (to == VMEMMAP_OPTIMIZE_OFF)
+> -		static_branch_dec(&hugetlb_optimize_vmemmap_key);
+> -	else
+> -		static_branch_inc(&hugetlb_optimize_vmemmap_key);
+> -	WRITE_ONCE(vmemmap_optimize_mode, to);
+> -}
+> -
+>  static int __init hugetlb_vmemmap_early_param(char *buf)
+>  {
+> -	bool enable;
+> -	enum vmemmap_optimize_mode mode;
+> -
+> -	if (kstrtobool(buf, &enable))
+> -		return -EINVAL;
+> -
+> -	mode = enable ? VMEMMAP_OPTIMIZE_ON : VMEMMAP_OPTIMIZE_OFF;
+> -	vmemmap_optimize_mode_switch(mode);
+> -
+> -	return 0;
+> +	return kstrtobool(buf, &vmemmap_optimize_enabled);
+>  }
+>  early_param("hugetlb_free_vmemmap", hugetlb_vmemmap_early_param);
+>  
+> @@ -103,7 +76,7 @@ static unsigned int optimizable_vmemmap_pages(struct hstate *h,
+>  	unsigned long pfn = page_to_pfn(head);
+>  	unsigned long end = pfn + pages_per_huge_page(h);
+>  
+> -	if (READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
+> +	if (!READ_ONCE(vmemmap_optimize_enabled))
+>  		return 0;
+>  
+>  	for (; pfn < end; pfn += PAGES_PER_SECTION) {
+> @@ -155,7 +128,6 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
+>  
+>  	if (!is_power_of_2(sizeof(struct page))) {
+>  		pr_warn_once("cannot optimize vmemmap pages because \"struct page\" crosses page boundaries\n");
+> -		static_branch_disable(&hugetlb_optimize_vmemmap_key);
+>  		return;
+>  	}
+>  
+> @@ -176,36 +148,13 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
+>  }
+>  
+>  #ifdef CONFIG_PROC_SYSCTL
+> -static int hugetlb_optimize_vmemmap_handler(struct ctl_table *table, int write,
+> -					    void *buffer, size_t *length,
+> -					    loff_t *ppos)
+> -{
+> -	int ret;
+> -	enum vmemmap_optimize_mode mode;
+> -	static DEFINE_MUTEX(sysctl_mutex);
+> -
+> -	if (write && !capable(CAP_SYS_ADMIN))
+> -		return -EPERM;
+> -
+> -	mutex_lock(&sysctl_mutex);
+> -	mode = vmemmap_optimize_mode;
+> -	table->data = &mode;
+> -	ret = proc_dointvec_minmax(table, write, buffer, length, ppos);
+> -	if (write && !ret)
+> -		vmemmap_optimize_mode_switch(mode);
+> -	mutex_unlock(&sysctl_mutex);
+> -
+> -	return ret;
+> -}
+> -
+>  static struct ctl_table hugetlb_vmemmap_sysctls[] = {
+>  	{
+>  		.procname	= "hugetlb_optimize_vmemmap",
+> -		.maxlen		= sizeof(enum vmemmap_optimize_mode),
+> +		.data		= &vmemmap_optimize_enabled,
+> +		.maxlen		= sizeof(int),
+>  		.mode		= 0644,
+> -		.proc_handler	= hugetlb_optimize_vmemmap_handler,
+> -		.extra1		= SYSCTL_ZERO,
+> -		.extra2		= SYSCTL_ONE,
+> +		.proc_handler	= proc_dobool,
+>  	},
+>  	{ }
+>  };
+> -- 
+> 2.11.0
+> 
+> 
 
 -- 
 Oscar Salvador
