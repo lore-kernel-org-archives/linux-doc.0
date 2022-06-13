@@ -2,201 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20BA5CCA47B
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 15:56:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03F1DC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 16:10:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242820AbiFMP4g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 11:56:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41174 "EHLO
+        id S243346AbiFMQKB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 12:10:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243141AbiFMP4L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 11:56:11 -0400
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7600193220
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 06:46:52 -0700 (PDT)
-Received: by mail-oi1-x230.google.com with SMTP id s8so7788393oib.6
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 06:46:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=F8034aqgQYOIDnTJYbKnqdxe/P3NxT2RcNrYib0/ruQ=;
-        b=R4MMR5hyemRuM3l2mh4JZIS+Ysd67mGMs9w57QzxuAYNivT2oR2uA0ccLItOXx/Nff
-         HI6/bkCTWcHzuf8uaxK0aZVKIRxAzJmo3pQ4NckjHUXisjQlQKqlTIlGGFMleFZ26TS5
-         XrbPJQzMEXp3LBINHndQ9fwG3XW2+NnK70OZQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=F8034aqgQYOIDnTJYbKnqdxe/P3NxT2RcNrYib0/ruQ=;
-        b=hFj+0SZvhnd0YFCiZb48qXu/6mxcGXlPe3vLlIBchoFhFAXf4LTgjgfeNstJo1sXZN
-         8myY6nHRARAKP8aRJtC4TtdyDlKOOPCz7Z+E/H61jOtFvzGKVY5vmQyKWfWjqLxx3pT/
-         j+xu25hDUgGNfOPMTgtiVeaX+dYw4Pg+dAVUZcr56jWd2Gqqun4yOlWK6P9YBfYyxAgR
-         8ibTCDzyCJYjichiSeZLZXU/RBse9B7bR2bsiNKyMeBvO5rMOIDYRph/CYdAIp5E8kBY
-         3hcR90LGMgrcXNPUqGVEiGukUb8njIxqaGHnSYje1oYkHPXRXV0KIWfSgWIsllE7oLYV
-         gTNQ==
-X-Gm-Message-State: AOAM532kO8BobOIl3xnwIP80a56r7jrAcf/QoAiLoRR61ioitDgqo3k/
-        F4QY3uej4CHBqTnQF2atn/z1zQ==
-X-Google-Smtp-Source: ABdhPJxMf2Qm5H8GA35Xq5n+x+nRvAKUAEETko5C92sldqd/ieCBtB6EHAADbYtdN68bTfZpGjw0Ow==
-X-Received: by 2002:aca:b744:0:b0:32f:4c19:cec1 with SMTP id h65-20020acab744000000b0032f4c19cec1mr1696209oif.43.1655128012170;
-        Mon, 13 Jun 2022 06:46:52 -0700 (PDT)
-Received: from [192.168.0.41] ([184.4.90.121])
-        by smtp.gmail.com with ESMTPSA id o20-20020a4ad494000000b0035eb4e5a6b5sm3699171oos.11.2022.06.13.06.46.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jun 2022 06:46:51 -0700 (PDT)
-Message-ID: <b4113083-73de-3ab6-e23f-32c6627d177e@cloudflare.com>
-Date:   Mon, 13 Jun 2022 08:46:49 -0500
+        with ESMTP id S243280AbiFMQJ3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 12:09:29 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 430ED1ABA54;
+        Mon, 13 Jun 2022 07:02:10 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 6CDF121B9C;
+        Mon, 13 Jun 2022 14:02:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1655128928; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=dH96i6OHzwC4qIcatlfFaUeHgKDc3G4KvUuOT69KD6U=;
+        b=jKmUvylV66P3EkHqBQvMGTtVkWvt3Wx/VA/PZBaOos9trJT4344bWhR6bLjSmrFKY20UEl
+        StmiA+zFdv2T74AbHfLh2YLHX7k3Vg9sqDrqaSJPEgdZHIWaU5wTS00B0KEGoy5/XNqkFT
+        UQXWzd05W3OVdfDU/9WRQ8W9KcenvM0=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 19BF0134CF;
+        Mon, 13 Jun 2022 14:02:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id soFdBWBDp2JROgAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Mon, 13 Jun 2022 14:02:08 +0000
+Date:   Mon, 13 Jun 2022 16:02:06 +0200
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Waiman Long <longman@redhat.com>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v11 3/8] cgroup/cpuset: Allow no-task partition to have
+ empty cpuset.cpus.effective
+Message-ID: <20220613140206.GA6910@blackbody.suse.cz>
+References: <20220510153413.400020-1-longman@redhat.com>
+ <20220510153413.400020-4-longman@redhat.com>
+ <YqYlCRywdgSYtwKk@slm.duckdns.org>
+ <YqYlOQjKtQCBsQuT@slm.duckdns.org>
+ <ce3106c1-a3c4-b449-bafc-6940d672bd94@redhat.com>
+ <YqanEZZooeZwtutA@slm.duckdns.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3] cred: Propagate security_prepare_creds() error code
-Content-Language: en-US
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-cachefs@redhat.com, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org, linux-mm@kvack.org,
-        linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-        linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
-        keyrings@vger.kernel.org, selinux@vger.kernel.org,
-        serge@hallyn.com, amir73il@gmail.com, kernel-team@cloudflare.com,
-        Jeff Moyer <jmoyer@redhat.com>,
-        Paul Moore <paul@paul-moore.com>
-References: <20220608150942.776446-1-fred@cloudflare.com>
- <YqJ/0W3wxPThWqgC@sol.localdomain>
-From:   Frederick Lawler <fred@cloudflare.com>
-In-Reply-To: <YqJ/0W3wxPThWqgC@sol.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="/04w6evG8XlLl3ft"
+Content-Disposition: inline
+In-Reply-To: <YqanEZZooeZwtutA@slm.duckdns.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Eric,
 
-On 6/9/22 6:18 PM, Eric Biggers wrote:
-> On Wed, Jun 08, 2022 at 10:09:42AM -0500, Frederick Lawler wrote:
->> diff --git a/fs/aio.c b/fs/aio.c
->> index 3c249b938632..5abbe88c3ca7 100644
->> --- a/fs/aio.c
->> +++ b/fs/aio.c
->> @@ -1620,6 +1620,8 @@ static void aio_fsync_work(struct work_struct *work)
->>   static int aio_fsync(struct fsync_iocb *req, const struct iocb *iocb,
->>   		     bool datasync)
->>   {
->> +	int err;
->> +
->>   	if (unlikely(iocb->aio_buf || iocb->aio_offset || iocb->aio_nbytes ||
->>   			iocb->aio_rw_flags))
->>   		return -EINVAL;
->> @@ -1628,8 +1630,11 @@ static int aio_fsync(struct fsync_iocb *req, const struct iocb *iocb,
->>   		return -EINVAL;
->>   
->>   	req->creds = prepare_creds();
->> -	if (!req->creds)
->> -		return -ENOMEM;
->> +	if (IS_ERR(req->creds)) {
->> +		err = PTR_ERR(req->creds);
->> +		req->creds = NULL;
->> +		return err;
->> +	}
-> 
-> This part is a little ugly.  How about doing:
-> 
-> 	creds = prepare_creds();
-> 	if (IS_ERR(creds))
-> 		return PTR_ERR(creds);
-> 	req->creds = creds;
-> 
+--/04w6evG8XlLl3ft
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I can do that, and same for below.
+On Sun, Jun 12, 2022 at 04:55:13PM -1000, Tejun Heo <tj@kernel.org> wrote:
+> But how would that happen? A lot of other things would break too if that
+> were to happen.
 
->> diff --git a/fs/exec.c b/fs/exec.c
->> index 0989fb8472a1..02624783e40e 100644
->> --- a/fs/exec.c
->> +++ b/fs/exec.c
->> @@ -1468,15 +1468,19 @@ EXPORT_SYMBOL(finalize_exec);
->>    */
->>   static int prepare_bprm_creds(struct linux_binprm *bprm)
->>   {
->> +	int err = -ERESTARTNOINTR;
->>   	if (mutex_lock_interruptible(&current->signal->cred_guard_mutex))
->> -		return -ERESTARTNOINTR;
->> +		return err;
->>   
->>   	bprm->cred = prepare_exec_creds();
->> -	if (likely(bprm->cred))
->> -		return 0;
->> +	if (IS_ERR(bprm->cred)) {
->> +		err = PTR_ERR(bprm->cred);
->> +		bprm->cred = NULL;
->> +		mutex_unlock(&current->signal->cred_guard_mutex);
->> +		return err;
->> +	}
->>   
->> -	mutex_unlock(&current->signal->cred_guard_mutex);
->> -	return -ENOMEM;
->> +	return 0;
->>   }
-> 
-> Similarly:
-> 
-> static int prepare_bprm_creds(struct linux_binprm *bprm)
-> {
-> 	struct cred *cred;
-> 
-> 	if (mutex_lock_interruptible(&current->signal->cred_guard_mutex))
-> 		return -ERESTARTNOINTR;
-> 
-> 	cred = prepare_exec_creds();
-> 	if (IS_ERR(cred)) {
-> 		mutex_unlock(&current->signal->cred_guard_mutex);
-> 		return PTR_ERR(cred);
-> 	}
-> 	bprm->cred = cred;
-> 	return 0;
-> }
-> 
->> diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
->> index eec72ca962e2..6cf75aa83b6c 100644
->> --- a/kernel/nsproxy.c
->> +++ b/kernel/nsproxy.c
->> @@ -311,6 +311,7 @@ static void put_nsset(struct nsset *nsset)
->>   
->>   static int prepare_nsset(unsigned flags, struct nsset *nsset)
->>   {
->> +	int err = -ENOMEM;
->>   	struct task_struct *me = current;
->>   
->>   	nsset->nsproxy = create_new_namespaces(0, me, current_user_ns(), me->fs);
->> @@ -324,6 +325,12 @@ static int prepare_nsset(unsigned flags, struct nsset *nsset)
->>   	if (!nsset->cred)
->>   		goto out;
->>   
->> +	if (IS_ERR(nsset->cred)) {
->> +		err = PTR_ERR(nsset->cred);
->> +		nsset->cred = NULL;
->> +		goto out;
->> +	}
-> 
-> Why is the NULL check above being kept?
-> 
+cpuset is a threaded controller where the internal-node-constraint does
+not hold. So the additional condition for cpuset migrations is IMO
+warranted (and needed if there's no "fall up").
 
-In the branch prior:
+Michal
 
-	if (flags & CLONE_NEWUSER) {
-		nsset->cred = prepare_creds();
-	else
-		nsset->cred = current_cred();
+--/04w6evG8XlLl3ft
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-I don't see cases where others are checking for null after 
-current_cred(), therefore I can remove that check.
+-----BEGIN PGP SIGNATURE-----
 
-> Also, drivers/crypto/ccp/sev-dev.c needs to be updated.
-> 
+iHUEARYIAB0WIQTrXXag4J0QvXXBmkMkDQmsBEOquQUCYqdDXAAKCRAkDQmsBEOq
+uVxRAPwMiG5QiY65xj/WyfY3nCUyKyx+lDQh6bCpufc5IIQORgD9FIrNztTt7lmR
+ic79LsvKPERP5RiY2PezetNtf5xH9wA=
+=VnhP
+-----END PGP SIGNATURE-----
 
-Nice catch! I clearly missed addition after the merge window.
-
-> - Eric
-
+--/04w6evG8XlLl3ft--
