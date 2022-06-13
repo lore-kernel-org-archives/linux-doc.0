@@ -2,71 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61184C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 20:33:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C64C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 20:35:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231944AbiFMUdl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 16:33:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36038 "EHLO
+        id S235114AbiFMUe6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 16:34:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232288AbiFMUdG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 16:33:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90CF93631E;
-        Mon, 13 Jun 2022 12:23:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S234951AbiFMUda (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 16:33:30 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08EC1220D7;
+        Mon, 13 Jun 2022 12:23:35 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4EBC2614EF;
-        Mon, 13 Jun 2022 19:23:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43251C341C8;
-        Mon, 13 Jun 2022 19:23:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655148192;
-        bh=/ZIOfIXjUyDL/E317WytkrmVVIeFLDByyTBTkw3FhHs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TQbrkfuor7ndKRkLJR3NUU84zVZPei00GRr2otDJiT+VZlwEryFoOHCX1Syn6t9Xe
-         8oJZnO+PJBBUrPCdzUv8PWssdHiL3vSPi+rOYH1y/sHRyySHTWhGs4oZjVgKlELfip
-         ziKC4IXJ9o+lMKCzodXTrfhm4w38F9ZlbpWSs4rJ32h8Uc5vbUaYWRSQ17NcxjPaQ9
-         ARph6Dsherb3IPwUe7Nh+g/K1qPB0pVoMg5BfE7hiuar8OmAy0tFaQx5YNm8UMDP5Q
-         j8G/4Md/ii7Ni/TvrE3v22zCWouPhR0BzoRkAjiC+m+1jcjbKWHoGwElUnqYzizREd
-         Xd/6ZOkRAY6Vg==
-From:   SeongJae Park <sj@kernel.org>
-To:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     damon@lists.linux.dev, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 6/8] Docs/admin-guide/damon/sysfs: document 'LRU_DEPRIO' scheme action
-Date:   Mon, 13 Jun 2022 19:22:59 +0000
-Message-Id: <20220613192301.8817-8-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220613192301.8817-1-sj@kernel.org>
-References: <20220613192301.8817-1-sj@kernel.org>
+        by ms.lwn.net (Postfix) with ESMTPSA id 8A13A381;
+        Mon, 13 Jun 2022 19:23:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8A13A381
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1655148215; bh=rBY3N4QR1n3+5OXPHvfMtmdiaKqHzqM5y8hE07IM9iw=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=C7OkFKVk1mHRlS5iqhKWKF6fHxsKpj9RLS+0EaxvpU0ML79br35AoIicKUVbfBfNL
+         R3ZhAskiHH26CYBN7gWUuZvf2WBx3/oJ2DIRMyBHrGpodXxC2GXRGvb16MRwP5EO11
+         iynQRrOOF03V1C9boXdc8ubfmOyqW8q1jyXTt5gNUhc4Edws5fWH0HJoqowuVrgPmM
+         jjwA8/aMQLes89AdXqvmu1XgHciYoIRSyww58BcHjOgcFDpCj9dr3nkpt7YgAEeoUk
+         zC/nL5/GYrCeZwygr7lRzgEfSX0SyT0pLeDcegZLgKLI9y6CCYeaq1jautiQqGv6nV
+         dFKgR8lC+TAzA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Paul Moore <paul@paul-moore.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, patches@lists.linux.dev,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Eric Paris <eparis@parisplace.org>, selinux@vger.kernel.org
+Subject: Re: [PATCH] docs: selinux: add '=' signs to kernel boot options
+In-Reply-To: <CAHC9VhSa74OFVV=XcceO12kVOxivm5cnyvBo-yeMbyPT8+t5Kg@mail.gmail.com>
+References: <20220301041454.18960-1-rdunlap@infradead.org>
+ <CAHC9VhSuzpuEm437SCYC8pf0mU6qdWXRU38sb2+JjVtj-8T4Kw@mail.gmail.com>
+ <CAHC9VhSa74OFVV=XcceO12kVOxivm5cnyvBo-yeMbyPT8+t5Kg@mail.gmail.com>
+Date:   Mon, 13 Jun 2022 13:23:34 -0600
+Message-ID: <87mtegz7t5.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit documents the 'LRU_DEPRIO' scheme action for DAMON sysfs
-interface.`
+Paul Moore <paul@paul-moore.com> writes:
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 1 +
- 1 file changed, 1 insertion(+)
+> I assumed the doc folks would have picked this up but I don't see it
+> in the tree so I'm going to pull it into the selinux/next tree right
+> now.  Thanks again Randy, I'm sorry for the delay.
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index af4e15ee81cd..d822bf6355ce 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -265,6 +265,7 @@ that can be written to and read from the file and their meaning are as below.
-  - ``hugepage``: Call ``madvise()`` for the region with ``MADV_HUGEPAGE``
-  - ``nohugepage``: Call ``madvise()`` for the region with ``MADV_NOHUGEPAGE``
-  - ``lru_prio``: Prioritize the region on its LRU lists.
-+ - ``lru_deprio``: Deprioritize the region on its LRU lists.
-  - ``stat``: Do nothing but count the statistics
- 
- schemes/<N>/access_pattern/
--- 
-2.25.1
+Sorry, the "doc folks" have learned that, in general, folks in the
+security subsystems prefer to carry their own patches upward, so I
+assumed this one was taken care of.  If you'd rather I picked up SELinux
+documentation patches, I'd be glad to do so.
 
+Thanks,
+
+jon
