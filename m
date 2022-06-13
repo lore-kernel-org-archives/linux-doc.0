@@ -2,126 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B84AC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 08:02:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AB12CCA47E
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 08:05:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237147AbiFMICT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 04:02:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48372 "EHLO
+        id S238814AbiFMIFG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 04:05:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239307AbiFMICH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 04:02:07 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCC7615A24;
-        Mon, 13 Jun 2022 01:02:06 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id k12-20020a17090a404c00b001eaabc1fe5dso2222014pjg.1;
-        Mon, 13 Jun 2022 01:02:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=p1C8yN+vY8r/BHzAHLXxk073G3pWCMQ/vUB+HuPD1g4=;
-        b=aSepHBzqKyR8Qo5Ni0Ko6/WPnq+LpRSeEYfmQngvGmWanOcbzx2aiaaZQa8eQadyJ9
-         dDlrjox3fpUosoUz8TVBuRrVDb+97Wl2wvvmZQ5PjWF+MckNqtoF0Yqjfp1JiEGapoH9
-         wz1pf8EuHtCVmFBbIXiY9LmPpzE9OQpoIIgx91IYpnQxpyTRTtfb+1GAi3DxhIKrbkKN
-         N1NK74nkvvYnOtImC2zpVWDa2FwLrek2i8y6h66bEXMWyg0IOiDQAdHJY5QSIbr2K94S
-         gdujIYqPT1xp+21GLpVsPtRLshj81Who+zb4KBxHDhX6J7NLhycAWX+JQaOSSNbDRwf4
-         bSxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=p1C8yN+vY8r/BHzAHLXxk073G3pWCMQ/vUB+HuPD1g4=;
-        b=alPhgJ9J3a1QqtxWyWasHuSvBayF3JL4dTB7Scq+BEAeY2qLkwmX4vqFYINNYOY9X3
-         hBMX53dR5hrmVnDSj36cfbTWt0s0Q+kE8SwRp7Uyojh+yccQpYAxkb1V7L3AX8dONPPd
-         les8+fBLI+ybcrePMGmIr0dMVVpooSKauyfy6BIqgtznb7CdvvG15lv60eZkx83i0XHq
-         WmxknNbOnFFeY1F8K9XJgJKUy9KbUTiL+YMz98j3fqBv0x/2V3IFHVjhf/xI5Pqu2ohb
-         l8qIJxw4Y4Fu37kq+mR5OGCUps5G6SE1Gbp6Xb649wj6AS8FRnKkpsaZrDG3z3zkNmzF
-         +/mg==
-X-Gm-Message-State: AOAM53276Im6mQfPx7T8h2Crcu4oOA+/LL3KyzLux0wgnd2vOpcriaNf
-        xqnWie7wFRANtnt/081F9Mk=
-X-Google-Smtp-Source: ABdhPJyvL+v4MFBf2+W3Xz3H2xuY0V3wLF4p+6lH0Y3cve/USE1Poi/owF+J0aydCJ7qDD3UPUlfcA==
-X-Received: by 2002:a17:90b:350f:b0:1e6:94e1:bd17 with SMTP id ls15-20020a17090b350f00b001e694e1bd17mr14587004pjb.162.1655107326065;
-        Mon, 13 Jun 2022 01:02:06 -0700 (PDT)
-Received: from liuchao-VM ([156.236.96.165])
-        by smtp.gmail.com with ESMTPSA id ct21-20020a056a000f9500b0051c0784cb45sm4728274pfb.99.2022.06.13.01.02.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jun 2022 01:02:05 -0700 (PDT)
-Date:   Mon, 13 Jun 2022 16:02:00 +0800
-From:   Chao Liu <chaoliu719@gmail.com>
-To:     Matthew Wilcox <willy@infradead.org>, Chao Yu <chao@kernel.org>
-Cc:     Jaegeuk Kim <jaegeuk@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-f2fs-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yue Hu <huyue2@coolpad.com>,
-        Wayne Zhang <zhangwen@coolpad.com>,
-        Chao Liu <liuchao@coolpad.com>
-Subject: Re: [PATCH v2] docs: filesystems: f2fs: fix description about
- compress ioctl
-Message-ID: <Yqbu+BArbUNGvft9@liuchao-VM>
-References: <20220613020800.3379482-1-chaoliu719@gmail.com>
- <Yqaw3VTD46PAMN8O@casper.infradead.org>
+        with ESMTP id S239550AbiFMIEy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 04:04:54 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB5431E3C4;
+        Mon, 13 Jun 2022 01:04:49 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 770591FAC3;
+        Mon, 13 Jun 2022 08:04:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1655107488; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=y60ZvMkZEvWsM3Un0BjgZp3hCBuh4mCFqBODWskoeZE=;
+        b=akD1NQrPb8kShRnk5+EHe9Cr91LqOhi0QO71GuaEYHpEmW49+LoonALIapZr511qIZPLtq
+        5K/x6DMxM+ZVP6WWM+45emQFsHMbb9xPma3VpqdrtcjOfkUSAQDyXTF1Q+r3dsdJ1rkrQb
+        xo2AJdWVATN3YMr+padQdfhNAuXYTJI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1655107488;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=y60ZvMkZEvWsM3Un0BjgZp3hCBuh4mCFqBODWskoeZE=;
+        b=wVCJhQJLX4rfg077cikqvO4E2WMFayaLWJVwyDa69Hq5geO6iYcXP8dsl3raNUwY8GAfMm
+        Se+tuBPW96J9fFCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C19A613443;
+        Mon, 13 Jun 2022 08:04:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id WA+SLJ/vpmJeIAAAMHmgww
+        (envelope-from <osalvador@suse.de>); Mon, 13 Jun 2022 08:04:47 +0000
+Date:   Mon, 13 Jun 2022 10:04:46 +0200
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     mike.kravetz@oracle.com, david@redhat.com,
+        akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH 1/6] mm: hugetlb_vmemmap: delete
+ hugetlb_optimize_vmemmap_enabled()
+Message-ID: <Yqbvno7vM5knoh6u@localhost.localdomain>
+References: <20220613063512.17540-1-songmuchun@bytedance.com>
+ <20220613063512.17540-2-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yqaw3VTD46PAMN8O@casper.infradead.org>
+In-Reply-To: <20220613063512.17540-2-songmuchun@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 13, 2022 at 04:37:01AM +0100, Matthew Wilcox wrote:
-> On Mon, Jun 13, 2022 at 10:08:00AM +0800, Chao Liu wrote:
-> > v2:
-> > - s/file size/filesize/
->
-> Why would you change it to be wrong?
->
+On Mon, Jun 13, 2022 at 02:35:07PM +0800, Muchun Song wrote:
+> The name hugetlb_optimize_vmemmap_enabled() a bit confusing as it tests
+> two conditions (enabled and pages in use).  Instead of coming up to
+> an appropriate name, we could just delete it.  There is already a
+> discussion about deleting it in thread [1].
+> 
+> There is only one user of hugetlb_optimize_vmemmap_enabled() outside of
+> hugetlb_vmemmap, that is flush_dcache_page() in arch/arm64/mm/flush.c.
+> However, it does not need to call hugetlb_optimize_vmemmap_enabled()
+> in flush_dcache_page() since HugeTLB pages are always fully mapped and
+> only head page will be set PG_dcache_clean meaning only head page's flag
+> may need to be cleared (see commit cf5a501d985b).  So it is easy to
+> remove hugetlb_optimize_vmemmap_enabled().
+> 
+> Link: https://lore.kernel.org/all/c77c61c8-8a5a-87e8-db89-d04d8aaab4cc@oracle.com/ [1]
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
 
-This is a suggestion from Chao Yu. Maybe he has some other considerations.
+Reviewed-by: Oscar Salvador <osalvador@suse.de>
 
-Hi Chao,
 
-Can you help with this question?
-
-Thanks.
-
-> >  Documentation/filesystems/f2fs.rst | 13 +++++++------
-> >  1 file changed, 7 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
-> > index ad8dc8c040a2..531b0f8a3946 100644
-> > --- a/Documentation/filesystems/f2fs.rst
-> > +++ b/Documentation/filesystems/f2fs.rst
-> > @@ -818,10 +818,11 @@ Compression implementation
-> >    Instead, the main goal is to reduce data writes to flash disk as much as
-> >    possible, resulting in extending disk life time as well as relaxing IO
-> >    congestion. Alternatively, we've added ioctl(F2FS_IOC_RELEASE_COMPRESS_BLOCKS)
-> > -  interface to reclaim compressed space and show it to user after putting the
-> > -  immutable bit. Immutable bit, after release, it doesn't allow writing/mmaping
-> > -  on the file, until reserving compressed space via
-> > -  ioctl(F2FS_IOC_RESERVE_COMPRESS_BLOCKS) or truncating filesize to zero.
-> > +  interface to reclaim compressed space and show it to user after setting a
-> > +  special flag to the inode. Once the compressed space is released, the flag
-> > +  will block writing data to the file until either the compressed space is
-> > +  reserved via ioctl(F2FS_IOC_RESERVE_COMPRESS_BLOCKS) or the filesize is
-> > +  truncated to zero.
-> >
-> >  Compress metadata layout::
-> >
-> > @@ -830,12 +831,12 @@ Compress metadata layout::
-> >  		| cluster 1 | cluster 2 | ......... | cluster N |
-> >  		+-----------------------------------------------+
-> >  		.           .                       .           .
-> > -	.                       .                .                      .
-> > +	  .                      .                .                      .
-> >      .         Compressed Cluster       .        .        Normal Cluster            .
-> >      +----------+---------+---------+---------+  +---------+---------+---------+---------+
-> >      |compr flag| block 1 | block 2 | block 3 |  | block 1 | block 2 | block 3 | block 4 |
-> >      +----------+---------+---------+---------+  +---------+---------+---------+---------+
-> > -	    .                             .
-> > +	       .                             .
-> >  	    .                                           .
-> >  	.                                                           .
-> >  	+-------------+-------------+----------+----------------------------+
-> > --
-> > 2.36.1
-> >
+-- 
+Oscar Salvador
+SUSE Labs
