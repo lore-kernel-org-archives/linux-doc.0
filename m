@@ -2,79 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AD3DCCA47B
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 19:00:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61FFDCCA481
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 19:04:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346500AbiFMTAy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 15:00:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50232 "EHLO
+        id S1346481AbiFMTEU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 15:04:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346311AbiFMTAV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 15:00:21 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C14C89270D
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 09:20:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=EPzxVs47nIxGZ2zvDCchlISLDeGrafNLqdyatVa2evM=; b=UZpMQOFFYtx+AcfoUT00FanRUS
-        D3u1z6wp+hmarCPQ1ZdYpC24bIo6wxgJ4m5ZvQ7se0bDXkZquZIO700bw3NSLQvQNpJf8vP9xARBw
-        IEaQEOdz1A6VZ9PYAWqFCXbrU+aYRArQe5nPd+JxZL+RdicbpA6pFVGl+lJ/qX1mx7Jrik9Fh3ITZ
-        UHkRhOII4QAxwBHllJtiGWo0YdHOy3hSjo8JNVe5/CtmsSKTkpr0bQqKDXAI/FDrkGRzOfe5KnsQc
-        8gK9EGtt62m7xyQSS3eqL4cf8md7Llb9NjOUIqqypu2JqvZ7VVBBon/3NCcwYtQ61LUOC6pmNZRmp
-        C50LxyYg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o0mnF-00GzNz-RB; Mon, 13 Jun 2022 16:19:57 +0000
-Date:   Mon, 13 Jun 2022 17:19:57 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Adam Turner <aaturnerpython@outlook.com>
-Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: Sphinx pre v3 -- removing support
-Message-ID: <YqdjrTKV77OycnQt@casper.infradead.org>
-References: <LO3P123MB26810D190462B6BBBF1305F6C2A19@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
- <877d5xx1xo.fsf@meer.lwn.net>
- <YponOKPBgE8pgBYD@casper.infradead.org>
- <20220603154229.sj5sfeaehbkfzgin@meerkat.local>
- <87tu91vis5.fsf@meer.lwn.net>
- <20220603162615.wto3fywuvs2wlb5r@meerkat.local>
- <871qw5ju1m.fsf@meer.lwn.net>
- <20220613154059.oeb2kfp3j2amqat5@meerkat.local>
- <YqdfJPiQmYkC2uyT@casper.infradead.org>
- <LO3P123MB2681B5638A09A83208095DCDC2AB9@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
+        with ESMTP id S1348375AbiFMTDn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 15:03:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 546F21059F4
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 09:47:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655138862;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PtMrsrYPM0J5i/yjkLVXsmYxyhse0DEHxO9KbSLC6N4=;
+        b=NVm6JHcqgeYrZPnJbsnO4rOARkx/0Tby1Eo96q+HGKo/dfsqvRg9EnggvRTlPnzn8XvBNv
+        THSzrRDXJLa+1+zSAmWJLHA/rHZhlyAhQOjUeWN1bPWAMTfonFk+0ED5d5rGvBXmLwjlR5
+        lMsvX6tb50kaPLCgA0FEW2VaCQTfv9U=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-344-xlhnHyQEOVexYZQQbhyPUQ-1; Mon, 13 Jun 2022 12:47:38 -0400
+X-MC-Unique: xlhnHyQEOVexYZQQbhyPUQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E0FB802804;
+        Mon, 13 Jun 2022 16:47:38 +0000 (UTC)
+Received: from [10.18.17.215] (dhcp-17-215.bos.redhat.com [10.18.17.215])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 820BE2166B26;
+        Mon, 13 Jun 2022 16:47:37 +0000 (UTC)
+Message-ID: <f1c33447-1f82-9698-6b0c-fc9ffb12b4bb@redhat.com>
+Date:   Mon, 13 Jun 2022 12:47:37 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v11 3/8] cgroup/cpuset: Allow no-task partition to have
+ empty cpuset.cpus.effective
+Content-Language: en-US
+To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+        Tejun Heo <tj@kernel.org>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+References: <20220510153413.400020-1-longman@redhat.com>
+ <20220510153413.400020-4-longman@redhat.com>
+ <YqYlCRywdgSYtwKk@slm.duckdns.org> <YqYlOQjKtQCBsQuT@slm.duckdns.org>
+ <ce3106c1-a3c4-b449-bafc-6940d672bd94@redhat.com>
+ <YqanEZZooeZwtutA@slm.duckdns.org> <20220613140206.GA6910@blackbody.suse.cz>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <20220613140206.GA6910@blackbody.suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <LO3P123MB2681B5638A09A83208095DCDC2AB9@LO3P123MB2681.GBRP123.PROD.OUTLOOK.COM>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 13, 2022 at 04:16:12PM +0000, Adam Turner wrote:
-> > Can confirm the bug I mentioned is now present on at least
-> > https://www.kernel.org/doc/html/latest/core-api/mm-api.html#c.folio_add_wait_queue
-> 
-> > What should be the link to 'struct folio' is instead a link to
-> > folio_add_wait_queue.
-> 
-> >From a skim of the "view source" link, I think it is probably a problem in the kernel-doc directive, offending lines copied below:
-> 
-> .. code-block:: restructuredtext
-> 
->    Filemap
->    -------
-> 
->    .. kernel-doc:: mm/filemap.c
->       :export:
-> 
-> Happy to take a look on the Sphinx side for any regressions we've introduced, though I don't know anything about the kernel's documentation tooling so can't help from that side.
+On 6/13/22 10:02, Michal KoutnÃ½ wrote:
+> On Sun, Jun 12, 2022 at 04:55:13PM -1000, Tejun Heo <tj@kernel.org> wrote:
+>> But how would that happen? A lot of other things would break too if that
+>> were to happen.
+> cpuset is a threaded controller where the internal-node-constraint does
+> not hold. So the additional condition for cpuset migrations is IMO
+> warranted (and needed if there's no "fall up").
 
-Jon's pretty sure it's our bug,
+Yes, you are right. cpuset is threaded and so it may have tasks even if 
+it is not the leaf node.
 
-https://lore.kernel.org/linux-doc/87tu91ieiw.fsf@meer.lwn.net/
+Thanks,
+Longman
 
-Our tooling is an unholy mess of perl and python, so it may take some
-time to track down.
