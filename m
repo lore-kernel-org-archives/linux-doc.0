@@ -2,94 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D948CCA47B
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 06:35:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9247CCA481
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 06:35:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233139AbiFMGfb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 02:35:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38378 "EHLO
+        id S231356AbiFMGfe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 02:35:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229638AbiFMGf3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 02:35:29 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFE93BC8E
-        for <linux-doc@vger.kernel.org>; Sun, 12 Jun 2022 23:35:27 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id q140so4727160pgq.6
-        for <linux-doc@vger.kernel.org>; Sun, 12 Jun 2022 23:35:27 -0700 (PDT)
+        with ESMTP id S233239AbiFMGfd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 02:35:33 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34920B872
+        for <linux-doc@vger.kernel.org>; Sun, 12 Jun 2022 23:35:32 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id gd1so4796951pjb.2
+        for <linux-doc@vger.kernel.org>; Sun, 12 Jun 2022 23:35:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ejoz2DCbggYc1zBmQNGGZRqPtrQj0ureLICOuzJFZmU=;
-        b=OxTUnNdHpp50SMsYqQOIYKSwtagFzLBUmMmPY9dFZ+mCEDI0GK+/N644JE0MVvRWuD
-         oi1jkSH30j46ZX061wTIpMoKjsckKkkuG/UTdIMbtVUUrwrWj6v0vGxlZ5xKHU3UMk9T
-         MrG7FrNRnF7cqn36SdxWn026hu4EX/7nFvs5WuiE7CM50W17zGVGpz84tR9HpKEl3rAP
-         ebelIoFS5Lhto5GBs76E3lrxeLiAqiWUJpaQk8EmX7YkGPsQrbcXln9b+NRDLz4b96yY
-         iO0CKZxjNJq7XR6NnOJoSyQDAR3SBeko1QHhxk3M5dWxw7EsjElP96SoYkXgUEZRLgbb
-         1vjg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=B72Ua44K+e6NGA36blstxa09i97avcKmfrwwXvB2UR0=;
+        b=qwkYRnZuS/W9slMWkIAwYldruSCyscLX8/wyF7kLD8G4uAeT2sqkPMDJ9FLteGBkba
+         jPtSNz9K5I6n2/vLHYGNDpiJsEr6w0AdooLipoVAUAZ8Y4EBOxLw9+mQhljpgwFEQzqf
+         yztz6xnzmXcan/IcMsTOWEk5Pil7u0lNfnQePAdqkP+93elHBvBPF44pEJT1wFoWpLse
+         3kVLIYgT3gyvTFurcJnYDGckq9NnRYCNM90frf7MuhOYmtrIXMfiKNc7i4JsrOf8flV7
+         yS3Q7pWIirK0dCxNgn28AalTjpfE0oz8lfmYe0RuwZiDGEikCM0cN6ykGA39pbDhQ8x8
+         Fgew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ejoz2DCbggYc1zBmQNGGZRqPtrQj0ureLICOuzJFZmU=;
-        b=M5vQlaaSH9LxuujFj/xBEo5Pdqvrnv8ANTj31+XuQEwS9zGuRA5DZCkdzWtx7O33l/
-         nUDaP+RHUzr8tkqRWTbRLgWCDAR1qgGcbFsY+Js//HDRBsueCQ7Emsw0Utzs7Y8FMGjX
-         NsFtGJGlaA/yq11/ZCE+HeOe93RGHgDkbo4PxG5y/734VX5+5zLlpP6VYv9gsi+s9DtR
-         ZLCwHD5bwxQTWgk4iJG+UkoOgrBBiDkjAdsSkVkY+5uPAlE9nn/45ntyYyy7CwENUuWA
-         5QIl/zRvtpwmOG8evVpjuMFH4m6K3R8jnc0/jY0EUd5PQf5/54QpiH3dNzc6Ruoi7l5R
-         eFmA==
-X-Gm-Message-State: AOAM5332y6OoJ6I/EWrC+by/dOorvyS0MUa5Dl2oJBHZWizsR+Kq0cql
-        Rx8TCuFk3lEizLuPN4qx90Xbvg==
-X-Google-Smtp-Source: ABdhPJymj2CTUZcvnfpi7YZkMigHH98usV2DwWdiEfXKQZqUz6w1sAVIilmQqx44Ffhe7JQCx6y0YA==
-X-Received: by 2002:a63:5723:0:b0:3fd:d8b4:c19f with SMTP id l35-20020a635723000000b003fdd8b4c19fmr31492536pgb.137.1655102127199;
-        Sun, 12 Jun 2022 23:35:27 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=B72Ua44K+e6NGA36blstxa09i97avcKmfrwwXvB2UR0=;
+        b=cTgqxVAYFOgKWCp8SL9UCMfXF71cjIyvdExRiPJt9haKm2zG4NEJMyOF2KAQyLXri2
+         t2OHQFgGn27pAZd9dGYapti/uD2QUBoZ64UY6iBr6nDPS3lbcIHN92ut2rSVByTa9BGr
+         ruFhL+aOhKr8ODJaoDEf8xpTr+q3Q4zAsajAc/0fXP6f6SOntGye6bf7h+87VjRu3c2X
+         aw9OmJh4mPrtqkKOis+gbx0hXS6kASFccPRPNhWBUgN97v/kouvXyWfqSXSDPCdViLz8
+         7UYjPI/JVMhZNWXWv+RwkQMEyGCO5OgIseBkTndSKXa3whUJLsyW2+63I1zJxGc8NI7h
+         zFLw==
+X-Gm-Message-State: AOAM533xlC5k1kS8RBHcnQby+sf3lNe8YxnNbiKEtg9yBPpl4HsY/S6D
+        bsvYHV3U2HPueHdEAxEOUiri0Q==
+X-Google-Smtp-Source: ABdhPJy8ePrJh8eNpFPc7r+hoH67PAyb+LUzYIz//Skci1r3NK3WQ1UlwXpoXXJMTLqE6uQnUgUeXg==
+X-Received: by 2002:a17:902:d2c9:b0:167:1195:3a41 with SMTP id n9-20020a170902d2c900b0016711953a41mr51441419plc.126.1655102131696;
+        Sun, 12 Jun 2022 23:35:31 -0700 (PDT)
 Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.255])
-        by smtp.gmail.com with ESMTPSA id v3-20020aa799c3000000b0051bc538baadsm4366554pfi.184.2022.06.12.23.35.23
+        by smtp.gmail.com with ESMTPSA id v3-20020aa799c3000000b0051bc538baadsm4366554pfi.184.2022.06.12.23.35.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jun 2022 23:35:26 -0700 (PDT)
+        Sun, 12 Jun 2022 23:35:31 -0700 (PDT)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     mike.kravetz@oracle.com, david@redhat.com,
         akpm@linux-foundation.org, corbet@lwn.net
 Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH 0/6] Simplify hugetlb vmemmap and improve its readability
-Date:   Mon, 13 Jun 2022 14:35:06 +0800
-Message-Id: <20220613063512.17540-1-songmuchun@bytedance.com>
+        linux-doc@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: [PATCH 1/6] mm: hugetlb_vmemmap: delete hugetlb_optimize_vmemmap_enabled()
+Date:   Mon, 13 Jun 2022 14:35:07 +0800
+Message-Id: <20220613063512.17540-2-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.32.1 (Apple Git-133)
+In-Reply-To: <20220613063512.17540-1-songmuchun@bytedance.com>
+References: <20220613063512.17540-1-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series aims to simplify hugetlb vmemmap and improve its readability
-and is based on next-20220610.
+The name hugetlb_optimize_vmemmap_enabled() a bit confusing as it tests
+two conditions (enabled and pages in use).  Instead of coming up to
+an appropriate name, we could just delete it.  There is already a
+discussion about deleting it in thread [1].
 
-Muchun Song (6):
-  mm: hugetlb_vmemmap: delete hugetlb_optimize_vmemmap_enabled()
-  mm: hugetlb_vmemmap: optimize vmemmap_optimize_mode handling
-  mm: hugetlb_vmemmap: introduce the name HVO
-  mm: hugetlb_vmemmap: move vmemmap code related to HugeTLB to
-    hugetlb_vmemmap.c
-  mm: hugetlb_vmemmap: replace early_param() with core_param()
-  mm: hugetlb_vmemmap: improve hugetlb_vmemmap code readability
+There is only one user of hugetlb_optimize_vmemmap_enabled() outside of
+hugetlb_vmemmap, that is flush_dcache_page() in arch/arm64/mm/flush.c.
+However, it does not need to call hugetlb_optimize_vmemmap_enabled()
+in flush_dcache_page() since HugeTLB pages are always fully mapped and
+only head page will be set PG_dcache_clean meaning only head page's flag
+may need to be cleared (see commit cf5a501d985b).  So it is easy to
+remove hugetlb_optimize_vmemmap_enabled().
 
- Documentation/admin-guide/kernel-parameters.txt |   7 +-
- Documentation/admin-guide/mm/hugetlbpage.rst    |   3 +-
- Documentation/admin-guide/sysctl/vm.rst         |   3 +-
- arch/arm64/mm/flush.c                           |  13 +-
- fs/Kconfig                                      |  13 +-
- include/linux/hugetlb.h                         |   7 +-
- include/linux/mm.h                              |   7 -
- include/linux/page-flags.h                      |  16 +-
- mm/hugetlb.c                                    |  11 +-
- mm/hugetlb_vmemmap.c                            | 592 ++++++++++++++++++------
- mm/hugetlb_vmemmap.h                            |  43 +-
- mm/sparse-vmemmap.c                             | 391 ----------------
- 12 files changed, 509 insertions(+), 597 deletions(-)
+Link: https://lore.kernel.org/all/c77c61c8-8a5a-87e8-db89-d04d8aaab4cc@oracle.com/ [1]
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+---
+ arch/arm64/mm/flush.c      | 13 +++----------
+ include/linux/page-flags.h | 14 ++------------
+ 2 files changed, 5 insertions(+), 22 deletions(-)
 
-
-base-commit: 6d0c806803170f120f8cb97b321de7bd89d3a791
+diff --git a/arch/arm64/mm/flush.c b/arch/arm64/mm/flush.c
+index fc4f710e9820..5f9379b3c8c8 100644
+--- a/arch/arm64/mm/flush.c
++++ b/arch/arm64/mm/flush.c
+@@ -76,17 +76,10 @@ EXPORT_SYMBOL_GPL(__sync_icache_dcache);
+ void flush_dcache_page(struct page *page)
+ {
+ 	/*
+-	 * Only the head page's flags of HugeTLB can be cleared since the tail
+-	 * vmemmap pages associated with each HugeTLB page are mapped with
+-	 * read-only when CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP is enabled (more
+-	 * details can refer to vmemmap_remap_pte()).  Although
+-	 * __sync_icache_dcache() only set PG_dcache_clean flag on the head
+-	 * page struct, there is more than one page struct with PG_dcache_clean
+-	 * associated with the HugeTLB page since the head vmemmap page frame
+-	 * is reused (more details can refer to the comments above
+-	 * page_fixed_fake_head()).
++	 * HugeTLB pages are always fully mapped and only head page will be
++	 * set PG_dcache_clean (see comments in __sync_icache_dcache()).
+ 	 */
+-	if (hugetlb_optimize_vmemmap_enabled() && PageHuge(page))
++	if (PageHuge(page))
+ 		page = compound_head(page);
+ 
+ 	if (test_bit(PG_dcache_clean, &page->flags))
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index de80f0c26b2f..b8b992cb201c 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -203,12 +203,6 @@ enum pageflags {
+ DECLARE_STATIC_KEY_MAYBE(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON,
+ 			 hugetlb_optimize_vmemmap_key);
+ 
+-static __always_inline bool hugetlb_optimize_vmemmap_enabled(void)
+-{
+-	return static_branch_maybe(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON,
+-				   &hugetlb_optimize_vmemmap_key);
+-}
+-
+ /*
+  * If the feature of optimizing vmemmap pages associated with each HugeTLB
+  * page is enabled, the head vmemmap page frame is reused and all of the tail
+@@ -227,7 +221,8 @@ static __always_inline bool hugetlb_optimize_vmemmap_enabled(void)
+  */
+ static __always_inline const struct page *page_fixed_fake_head(const struct page *page)
+ {
+-	if (!hugetlb_optimize_vmemmap_enabled())
++	if (!static_branch_maybe(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON,
++				 &hugetlb_optimize_vmemmap_key))
+ 		return page;
+ 
+ 	/*
+@@ -255,11 +250,6 @@ static inline const struct page *page_fixed_fake_head(const struct page *page)
+ {
+ 	return page;
+ }
+-
+-static inline bool hugetlb_optimize_vmemmap_enabled(void)
+-{
+-	return false;
+-}
+ #endif
+ 
+ static __always_inline int page_is_fake_head(struct page *page)
 -- 
 2.11.0
 
