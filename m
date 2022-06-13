@@ -2,88 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DFE5CCA47F
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 09:48:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 466EFC43334
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 10:12:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239935AbiFMJsp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 05:48:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43606 "EHLO
+        id S235500AbiFMKMs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 06:12:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240151AbiFMJsU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 05:48:20 -0400
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31C851928C;
-        Mon, 13 Jun 2022 02:48:16 -0700 (PDT)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-        by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25D7bRpY017595;
-        Mon, 13 Jun 2022 04:47:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=PODMain02222019;
- bh=CRTviHcnTGYQGc17bUWtHNOWPL7Dy+tsuuEXIupdrr4=;
- b=AB1boW9dAs+Yf9LKm3cYDlA9u3I06+BGsMJFLbKaexcHZujzQyhBBE0tsMWZHWJ5/pk2
- Yyag1HGoBElpx5OnHF30JfOUa9g36GGrRtvJf8H1/Q9BY+yz/u9t+aL9XqxYrei5xnOs
- giKpcS9xQ70DzbDl2kRUxUopnvLFhKniuHn4fsycKcT7PipsEbs4vt1wJJx5iiSv9F0l
- nyIFrdF/LwwXcQTKm7V6Uzs8RHe+wlqHdVRKEyziQ/2tfUXJHhHmO02NGjhNqwYPGa25
- Q3TAabCTfGg/TVXobLSQVDwCqtFmMjvQA9oYzM0olaJ+nAbQHd7SjQvCcZr2zAy3HGn+ yg== 
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gmrf31psy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Mon, 13 Jun 2022 04:47:53 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 13 Jun
- 2022 10:47:51 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Mon, 13 Jun 2022 10:47:51 +0100
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 7915B46C;
-        Mon, 13 Jun 2022 09:47:51 +0000 (UTC)
-Date:   Mon, 13 Jun 2022 09:47:51 +0000
-From:   Charles Keepax <ckeepax@opensource.cirrus.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        with ESMTP id S241348AbiFMKMk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 06:12:40 -0400
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF4C6F08;
+        Mon, 13 Jun 2022 03:12:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=xbSS6/wiDH/1RkoIqjpuk8UPCrRb3ic63i+lK3L+h/Y=;
+  b=ZQ457tF97m5mn6CMi7t5HVWoScnKbwtSSgkgmV4i8qd6jDKaF1OM4/iY
+   XsvbYSJQZSbphS+NqBc22dkJxFafFZ1GaTTCdrWGPb1Chv8UWoz+Lij6E
+   bh2lOb+K9jZxdTcO5vt/HCR+w31RcF/r7lAHbovMi5ntPymrWAwBqLIQr
+   8=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.91,297,1647298800"; 
+   d="scan'208";a="40717374"
+Received: from 245.122.68.85.rev.sfr.net (HELO hadrien) ([85.68.122.245])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2022 12:12:32 +0200
+Date:   Mon, 13 Jun 2022 12:12:31 +0200 (CEST)
+From:   Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+cc:     Dongliang Mu <dzm91@hust.edu.cn>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        <alsa-devel@alsa-project.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 22/23] ASoC: wm8731: update wlf,wm8731.yaml reference
-Message-ID: <20220613094751.GZ38351@ediswmail.ad.cirrus.com>
-References: <cover.1654529011.git.mchehab@kernel.org>
- <e56e54fe0ebb1b6e8dd2e245c398190016eb0a34.1654529011.git.mchehab@kernel.org>
+        Dongliang Mu <mudongliangabcd@gmail.com>, cocci@inria.fr,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dev-tools: fix one invalid url
+In-Reply-To: <Yqbu8TwmaXdBiIBs@debian.me>
+Message-ID: <alpine.DEB.2.22.394.2206131212160.2812@hadrien>
+References: <20220613071243.12961-1-dzm91@hust.edu.cn> <Yqbu8TwmaXdBiIBs@debian.me>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <e56e54fe0ebb1b6e8dd2e245c398190016eb0a34.1654529011.git.mchehab@kernel.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: xy_jBaiF63BsDcKqeMRnyVUazqatw_C5
-X-Proofpoint-ORIG-GUID: xy_jBaiF63BsDcKqeMRnyVUazqatw_C5
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 06, 2022 at 04:25:44PM +0100, Mauro Carvalho Chehab wrote:
-> Changeset 0e336eeaf467 ("ASoC: wm8731: Convert DT bindings to YAML format")
-> renamed: Documentation/devicetree/bindings/sound/wm8731.txt
-> to: Documentation/devicetree/bindings/sound/wlf,wm8731.yaml.
-> 
-> Update its cross-reference accordingly.
-> 
-> Fixes: 0e336eeaf467 ("ASoC: wm8731: Convert DT bindings to YAML format")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Thanks,
-Charles
+On Mon, 13 Jun 2022, Bagas Sanjaya wrote:
+
+> On Mon, Jun 13, 2022 at 03:12:42PM +0800, Dongliang Mu wrote:
+> > From: Dongliang Mu <mudongliangabcd@gmail.com>
+> >
+> > Fix the invalid url about Semantic Patch Language
+> >
+>
+> I think what this patch doing is to point SPL reference URL from old
+> Coccinelle documentation (doc root) to actual SPL doc entry on new
+> Coccinelle page, right? If so, "fix invalid URL" may not be right patch
+> description and title.
+
+Agreed, thanks for the suggestion.
+
+julia
