@@ -2,152 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE42CCA47C
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 22:22:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11D54C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 22:29:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234096AbiFMWWq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 18:22:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59466 "EHLO
+        id S234454AbiFMW3f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 18:29:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236264AbiFMWWo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 18:22:44 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B87F96342;
-        Mon, 13 Jun 2022 15:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1655158932;
-        bh=/K38MCAmHWxqyV1M9IU8mCPprustLYV8uXAeCmwAeEQ=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=bqJRkVrfmrxiWp4dHM+lZQYZYWy4oUodCG5GQOBxWKeiD9v2xehtL/oXUA92CTC5u
-         UEwDXKvqlCKD6fcpx2lBqW2I+mUBDxkmW6IxjRVZgunZZMgc2QHLBjjMDs8hJns0gd
-         UsD2FP3cG2SEpgE3Fp8kSsDtrtvAMLfSAdKXk4XE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.0.33] ([46.223.3.220]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MhlKs-1nVvLI0TwG-00drMA; Tue, 14
- Jun 2022 00:22:12 +0200
-Subject: Re: [PATCH v6 5/6] serial: Support for RS-485 multipoint addresses
-To:     =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        linux-serial@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
+        with ESMTP id S231668AbiFMW3e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 18:29:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9063B2BB31
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 15:29:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655159372;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=N9slvxSG8yuHf5LjsS6/OHnxn9VuKQYSBmJtKIsodrQ=;
+        b=TjRM9LR4WC3YlE8PD2X3jJdNx1EnExzaqP037+4HgLHzVT0fByLT7mBbeNJbK2KZCQYPnB
+        a6u/c/eS9OByf40OaHNmIRQ59ZD7Z+Ev4SX/dULjLP9mNr+13qdW9PfCDrhGG9TR1lAFsm
+        rXhJ8r5f6WO1JLpyryJ+6zzrQCraH1U=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-91-dyqqG6DcMTyStdCJDX5dsw-1; Mon, 13 Jun 2022 18:29:31 -0400
+X-MC-Unique: dyqqG6DcMTyStdCJDX5dsw-1
+Received: by mail-io1-f70.google.com with SMTP id m65-20020a6b3f44000000b00669c2aae17dso3364102ioa.23
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 15:29:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=N9slvxSG8yuHf5LjsS6/OHnxn9VuKQYSBmJtKIsodrQ=;
+        b=1wMLH1U5nyXMrc/FkwYtkRN3WLperDZ7eUKGugha5bpV2odsdUnX6PqmM+mt7kEw8+
+         2MEcKFCBgPzdED664Nz1uqGz4TIpxUac/fFzOnuWtW8p50zzJ6WvxooqAPUjuD1ilMhl
+         9fGVVaeXMLVE9Xco7puyCTq884MMtcQv5/77rxDygDN2Oe8Z7Et+5KHTIGtuSpKrSw2R
+         1h2KVxGuWhC2cgY6t+SJVF7kgy/Rge49DsqTZOOXjFRn0CChs0/9TdNKK1UhL2DCtUnV
+         CWUGSlJQTzgUbV7cSZQKoQbsng9kN84OXTT2sFr1RCX8pHm/XDJ+UfiqHzLzk1OL7ka9
+         6+dQ==
+X-Gm-Message-State: AOAM533hc1lD6E72BSM2hQ9iVUM8QOy+mBlN7y6G53V62Xo5/Iz19aGw
+        fnyYyPrUUMtUPRGIEcH4wsDjw+6TBVtlfEAKVdYQ8udzLuM708FHp0UAgKQ1SuPWrjbc2vfklVg
+        FqRass5KWic9AFgcQX/ho
+X-Received: by 2002:a05:6602:2d0e:b0:64f:d1ff:ac9c with SMTP id c14-20020a0566022d0e00b0064fd1ffac9cmr999333iow.41.1655159370928;
+        Mon, 13 Jun 2022 15:29:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzYuLiEIgEbDCMpfZ5G5MofdrV4wPXivgDYQrkwahKK9C4xyx5BABua4comPb9o8kU9eTD8mQ==
+X-Received: by 2002:a05:6602:2d0e:b0:64f:d1ff:ac9c with SMTP id c14-20020a0566022d0e00b0064fd1ffac9cmr999316iow.41.1655159370649;
+        Mon, 13 Jun 2022 15:29:30 -0700 (PDT)
+Received: from xz-m1.local (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+        by smtp.gmail.com with ESMTPSA id k26-20020a02661a000000b0032e22496addsm4041331jac.139.2022.06.13.15.29.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jun 2022 15:29:29 -0700 (PDT)
+Date:   Mon, 13 Jun 2022 18:29:27 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Axel Rasmussen <axelrasmussen@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Charan Teja Reddy <charante@codeaurora.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
+        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
         Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Lukas Wunner <lukas.wunner@intel.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        linux-api@vger.kernel.org
-References: <20220613075227.10394-1-ilpo.jarvinen@linux.intel.com>
- <20220613075227.10394-6-ilpo.jarvinen@linux.intel.com>
-From:   Lino Sanfilippo <LinoSanfilippo@gmx.de>
-Message-ID: <cd72151d-b087-0fdf-2775-6068999f7d05@gmx.de>
-Date:   Tue, 14 Jun 2022 00:22:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        zhangyi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 2/6] userfaultfd: add /dev/userfaultfd for fine
+ grained access control
+Message-ID: <Yqe6R+XSH+nFc8se@xz-m1.local>
+References: <20220601210951.3916598-1-axelrasmussen@google.com>
+ <20220601210951.3916598-3-axelrasmussen@google.com>
+ <20220613145540.1c9f7750092911bae1332b92@linux-foundation.org>
 MIME-Version: 1.0
-In-Reply-To: <20220613075227.10394-6-ilpo.jarvinen@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qnVCycgo6Woco+A3lDsqIOO1oP7H1X4CPI8yz97JmGIl88WWKr0
- w9veZfbN+pE+xEqp+BlWuETwaVnzMVZDlca/2HiEABVfIsJC4cTm8uNC+2s445Ze6HGOFXH
- V78VCdX4v523Sy487dlPg1XVplazwhZ/fR0yxSu0CQOCaYnp4cQk5WSlashwrv2xjUJJyD9
- 36uU5KhofP6iYfTGwyFgQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MVjJOMYMOwE=:7gX1hIQ2xDO46urdrI1QL9
- Bsm1JLAJtVtr1qB/BAypHnrYt+3H+E9FYQkuaBg1FF0egLYxWGXXFnJbz0WZSBOYTNKHiAIQM
- 7PuDrugoiJcK/TFBJZ+47jVlxRVJneOo8FgDUhRR1AJutoezw6lOZzkAjQ6NWKGsopqgOq8cO
- 7Ya8DQfdAoPRg68Uyklj6rRI6Y9bADWP5CNuB2XMMoq2GSuGmJUQU2RLPP+Vm6jGjPUDYHxFT
- EY8z1IEwEbbhD1TOK4PXU1glK1UhSv3xyW4shxyt+L1nBn31I5e3O3njPOBmhAMiiToScmVm9
- e9h9O/QByjhcYSlxs5/yO+kACi7r/8EZXUKWbtRoNZ4euq2wT59nz+zIy8a9Ej5YTiA7/j+WE
- vEIFUvpZEWB3yqHkRt9h+uxoVs47PI7aOUqfkg3SbQtKTTNNzlM+dVG/6B30kBMWcY9lfIlIg
- b3/uTr8Bh8anwgbKgQNgofQ4dfrjwJDIdETka0s15Pz0t6PNO2Uh4vHIxCiezv/1jJru5TDW6
- op1G1WNieZNoGZLImWXZC7P0CEov8TsxCrx99rTujMXj0RADh57F79aItcj6lzWxliry4kGs/
- c+waCLTx0wnrYxxHLFw8D72/bVwnT03ZJMaar7kWIX3hvor7uRqSKvYB5uG6sQe3Fr9iz9/b1
- baUPbtMASGfljpmSafxOaUzX5l7e6NxgnxO++e+qSpETu4n+DIXfOz/U3R/TWR1scj9dthZKa
- ojE6iy7vdiGvL8Z/v4kOCDg13HOw4bLdNCf+XHcEYzKs9uByllHPbgClKjbymuAVIsg/fScVW
- HeKcG4cVv6Ap+93IlfKZAvijJZOrcCvETnC0r4zOnVgk8YYSJITmQk580zUnPfGtDXKDAKq/a
- yFLMZ1y+/Kp9+UpudB7SJM53zXfz3PJxh9tncVCTOgE/hU63f2HD8UNIdApMbvqyc/+NT+y0k
- zgHocbKY2VqXmOT3t5pJwlIshrk6fJ0z6UBUE5PRQoPremSjFmmy94XE0ik/w0T44eSjO60aj
- 1+Ox5B2+lEySItRi0xhtv9k6vaxeuoqVpZgL1lHerbLRxVXQI/UGOLUd/xnl2s7kQGXbNBube
- 61VGT7urLlqHAQadzgyz0Xfn5f1digeRTQ9fXNiXKGSjUXiGvzCxJUXag==
+Content-Disposition: inline
+In-Reply-To: <20220613145540.1c9f7750092911bae1332b92@linux-foundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Jun 13, 2022 at 02:55:40PM -0700, Andrew Morton wrote:
+> On Wed,  1 Jun 2022 14:09:47 -0700 Axel Rasmussen <axelrasmussen@google.com> wrote:
+> 
+> > To achieve this, add a /dev/userfaultfd misc device. This device
+> > provides an alternative to the userfaultfd(2) syscall for the creation
+> > of new userfaultfds. The idea is, any userfaultfds created this way will
+> > be able to handle kernel faults, without the caller having any special
+> > capabilities. Access to this mechanism is instead restricted using e.g.
+> > standard filesystem permissions.
+> 
+> The use of a /dev node isn't pretty.  Why can't this be done by
+> tweaking sys_userfaultfd() or by adding a sys_userfaultfd2()?
+> 
+> Peter, will you be completing review of this patchset?
 
-Hi,
+Sorry to not have reviewed it proactively..
 
-there are some typos in the documentation and comments (see below).
+I think it's because I never had a good picture/understanding of what
+should be the best security model for uffd, meanwhile I am (it seems) just
+seeing more and more ways to "provide a safer uffd" by different people
+using different ways.. and I never had time (and probably capability too..)
+to figure out the correct approach if not to accept all options provided.
 
+I think I'll just assume the whole thing is acked already from you
+generally, then I'll read at least the implementation before the end of
+tomorrow.
 
-On 13.06.22 at 09:52, Ilpo J=C3=A4rvinen wrote:
+Thanks,
 
-> -5. References
-> +5. Multipoint Addressing
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> +
-> +   The Linux kernel provides addressiong mode for multipoint RS-485 ser=
-ial
+-- 
+Peter Xu
 
-addressiong -> addressing
-
-> +   communications line. The addressing mode is enabled with SER_RS485_A=
-DDRB
-> +   flag in serial_rs485. Struct serial_rs485 fhas two additional flags =
-and
-
-fhas -> has
-
-> +   fields for enabling reveive and destination addresses.
-
-reveive -> receive
-
-> +
-> +   Address mode flags:
-> +	- SER_RS485_ADDRB: Enabled addressing mode (sets also ADDRB in termios=
-).
-> +	- SER_RS485_ADDR_RECV: Receive (filter) address enabled.
-> +	- SER_RS485_ADDR_DEST: Set destination address.
-> +
-> +   Address fields (enabled with corresponding SER_RS485_ADDR_* flag):
-> +	- addr_recv: Receive address.
-> +	- addr_dest: Destination address.
-> +
-> +   Once a receive address is set, the communication can occur only with=
- the
-> +   particular device and other peers are filtered out. It is left up to=
- the
-> +   receiver side to enforce the filtering. Receive address will be clea=
-red
-> +   if SER_RS485_ADDR_RECV is not set.
-> +
-> +   Note: not all devices supporting RS485 support multipoint addressing=
-.
-> +
-> +6. References
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->   [1]	include/uapi/linux/serial.h
-> diff --git a/drivers/tty/serial/serial_core.c b/drivers/tty/serial/seria=
-l_core.c
-> index 76bb1b77b06e..bc18018e8d4b 100644
-> --- a/drivers/tty/serial/serial_core.c
-> +++ b/drivers/tty/serial/serial_core.c
-> @@ -1294,6 +1294,17 @@ static int uart_check_rs485_flags(struct uart_por=
-t *port, struct serial_rs485 *r
->  	if (flags & ~port->rs485_supported->flags)
->  		return -EINVAL;
->
-> +	/* Asking for address w/o addressing mode? */
-> +	if (!(rs485->flags & SER_RS485_ADDRB) &&
-> +	    (rs485->flags & (SER_RS485_ADDR_RECV|SER_RS485_ADDR_DEST)))
-> +		return -EINVAL;
-> +
-> +	/* Address gived but not enabled? */
-
-gived -> given
-
-
-
-Regards,
-Lino
