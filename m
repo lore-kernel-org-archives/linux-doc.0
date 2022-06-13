@@ -2,129 +2,208 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E75C8C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 13:32:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8142DCCA480
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 14:07:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377360AbiFMNcx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 09:32:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50628 "EHLO
+        id S1380825AbiFMOG7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 10:06:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378044AbiFMNas (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 09:30:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6498C6EC62;
-        Mon, 13 Jun 2022 04:25:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 903B46101F;
-        Mon, 13 Jun 2022 11:25:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC27C341C4;
-        Mon, 13 Jun 2022 11:25:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655119527;
-        bh=7W3RCHPt+tsv4dUVuAHZPUmYNjQsn6MQMQZiltiHPMo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=BYeZAMVPRmwlA54Ck5SoP5JNY1uzX1oKBuBKOEW0/18L/N7SH1Q6Pz9oeAFuPK1GE
-         Ptzikw+GpSyVlczUN29YAhruuXdl1iBwdleFwXj61A8Bjm6Oap6QobCHLuR6IlGnrG
-         a867EL6fHjHeZqJiTG32UY8WKmmCidwwJxDMWSPSUuFcrVt24whdpbUYvFaLs3dxYn
-         AnpWvYOJmpWmr+DcDVSHh8dj91Y3P9JW0WcBwHlU2aG5hZNYY1rBi91fVlWG/958dW
-         EgY1jhEIQqrZrlsm7hkIRXVSmVgXDCBEI8MnB+noz8cDuV9nyp8ck0qtHSevV3zFqO
-         QMZCGqo3oQqRQ==
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1014b2752c1so970922fac.11;
-        Mon, 13 Jun 2022 04:25:26 -0700 (PDT)
-X-Gm-Message-State: AOAM5300mjgZjXs5Ylm4yVobjPfl6gqUuHS6O99QC8FmhVsMdt5F9sV+
-        Alj7Gda5QTfMQxDeM9Nq164nP9GylQFMkkUXLHM=
-X-Google-Smtp-Source: ABdhPJwye+3Ce8gz8k+4lo9ehXOBU1aZPcGoJ+NlVwPSgSQ16T74tDI4+9Z8khhO9pTdsWAwon+Bdee0S9o3i5/Vjzs=
-X-Received: by 2002:a05:6871:5c8:b0:f3:3c1c:126f with SMTP id
- v8-20020a05687105c800b000f33c1c126fmr7435011oan.126.1655119515578; Mon, 13
- Jun 2022 04:25:15 -0700 (PDT)
+        with ESMTP id S1381431AbiFMOEU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 10:04:20 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98D892BB2D;
+        Mon, 13 Jun 2022 04:39:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655120361; x=1686656361;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=G7QQ+WW3LOvtPCdg1OVAOqL6XRPidEyJLiCpfLWTSgM=;
+  b=kyomMcxqDR2f7EPFb4BtDU7kLOMwDtShk0FJQPRM0nJv+caCXuAy82lc
+   ql6MXXyf+stufw6+y7iKaKMBN9v5+nRn5MgJpkiM16vaORqGKaodqrqpu
+   Tsl80wHfFls7BLZtSGtQTstNiXVGg1fxS/pdm20GGqLYJ9KXLdi12/vB1
+   l9VQRXS0uOKfp7ESQ8Qqr9kGRe6ZeT2/Kj9EJJV3jjtjZDWuuyExvNDyP
+   lMv/2Fv5MwU6hpjbSywZtjrH1IsC5ubTMZjItPfcI8sT1r6DXFNBhWIj9
+   DYYAciYbF0nWcZNT5iFBPx+EvQ9RAweOQlwevgqCvGEMft8fmWTYU+pHJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10376"; a="342227628"
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; 
+   d="scan'208";a="342227628"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2022 04:39:16 -0700
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; 
+   d="scan'208";a="639685879"
+Received: from fnechitx-mobl.ger.corp.intel.com (HELO ijarvine-MOBL2.ger.corp.intel.com) ([10.249.40.115])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2022 04:39:13 -0700
+From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
+Cc:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH] serial: Drop timeout from uart_port
+Date:   Mon, 13 Jun 2022 14:39:05 +0300
+Message-Id: <20220613113905.22962-1-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220613082147.183145-1-mawupeng1@huawei.com> <20220613082147.183145-7-mawupeng1@huawei.com>
- <YqcZ4O3pwceVtKYm@kernel.org>
-In-Reply-To: <YqcZ4O3pwceVtKYm@kernel.org>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Mon, 13 Jun 2022 13:25:02 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXGwOczo1bgftMX9xTf8fRkrVYq8BjXJ6=XPj_yarbDYrA@mail.gmail.com>
-Message-ID: <CAMj1kXGwOczo1bgftMX9xTf8fRkrVYq8BjXJ6=XPj_yarbDYrA@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] memblock: Disable mirror feature if kernelcore is
- not specified
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Wupeng Ma <mawupeng1@huawei.com>, corbet@lwn.net, will@kernel.org,
-        catalin.marinas@arm.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, dvhart@infradead.org, andy@infradead.org,
-        akpm@linux-foundation.org, paul.walmsley@sifive.com,
-        palmer@dabbelt.com, aou@eecs.berkeley.edu, paulmck@kernel.org,
-        keescook@chromium.org, songmuchun@bytedance.com,
-        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
-        swboyd@chromium.org, wei.liu@kernel.org, robin.murphy@arm.com,
-        david@redhat.com, anshuman.khandual@arm.com,
-        thunder.leizhen@huawei.com, wangkefeng.wang@huawei.com,
-        gpiccoli@igalia.com, chenhuacai@kernel.org, geert@linux-m68k.org,
-        vijayb@linux.microsoft.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-mm@kvack.org, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 13 Jun 2022 at 13:05, Mike Rapoport <rppt@kernel.org> wrote:
->
-> On Mon, Jun 13, 2022 at 04:21:47PM +0800, Wupeng Ma wrote:
-> > From: Ma Wupeng <mawupeng1@huawei.com>
-> >
-> > If system have some mirrored memory and mirrored feature is not specified
-> > in boot parameter, the basic mirrored feature will be enabled and this will
-> > lead to the following situations:
-> >
-> > - memblock memory allocation prefers mirrored region. This may have some
-> >   unexpected influence on numa affinity.
-> >
-> > - contiguous memory will be split into several parts if parts of them
-> >   is mirrored memory via memblock_mark_mirror().
-> >
-> > To fix this, variable mirrored_kernelcore will be checked in
-> > memblock_mark_mirror(). Mark mirrored memory with flag MEMBLOCK_MIRROR iff
-> > kernelcore=mirror is added in the kernel parameters.
-> >
-> > Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
-> > ---
-> >  mm/internal.h   | 2 ++
-> >  mm/memblock.c   | 3 +++
-> >  mm/page_alloc.c | 2 +-
-> >  3 files changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/mm/internal.h b/mm/internal.h
-> > index c0f8fbe0445b..ddd2d6a46f1b 100644
-> > --- a/mm/internal.h
-> > +++ b/mm/internal.h
-> > @@ -861,4 +861,6 @@ struct folio *try_grab_folio(struct page *page, int refs, unsigned int flags);
-> >
-> >  DECLARE_PER_CPU(struct per_cpu_nodestat, boot_nodestats);
-> >
-> > +extern bool mirrored_kernelcore;
-> > +
-> >  #endif       /* __MM_INTERNAL_H */
-> > diff --git a/mm/memblock.c b/mm/memblock.c
-> > index b1d2a0009733..a9f18b988b7f 100644
-> > --- a/mm/memblock.c
-> > +++ b/mm/memblock.c
-> > @@ -924,6 +924,9 @@ int __init_memblock memblock_clear_hotplug(phys_addr_t base, phys_addr_t size)
-> >   */
-> >  int __init_memblock memblock_mark_mirror(phys_addr_t base, phys_addr_t size)
-> >  {
-> > +     if (!mirrored_kernelcore)
-> > +             return 0;
-> > +
->
-> Hmm, this changes the way x86 uses mirrored memory.
-> This change makes sense for x86 as well, but we should get an Ack from x86 folks.
->
+Since commit 31f6bd7fad3b ("serial: Store character timing information
+to uart_port"), per frame timing information is available on uart_port.
+Uart port's timeout can be derived from frame_time by multiplying with
+fifosize.
 
-Also, on second thought, I don't think marking as mirror is what
-should be affected by the policy. Instead, choose_memblock_flags()
-should take this into account, in a way that we could refine later if
-needed.
+Most callers of uart_poll_timeout are not made under port's lock. To be
+on the safe side, make sure frame_time is only accessed once. As
+fifo_size is effectively a constant, it shouldn't cause any issues.
+
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+
+---
+ Documentation/driver-api/serial/driver.rst |  5 +++--
+ drivers/tty/serial/mux.c                   |  6 ------
+ drivers/tty/serial/serial_core.c           | 25 ++++++++++---------------
+ include/linux/serial_core.h                | 16 ++++++++++++++--
+ 4 files changed, 27 insertions(+), 25 deletions(-)
+
+diff --git a/Documentation/driver-api/serial/driver.rst b/Documentation/driver-api/serial/driver.rst
+index 7ef83fd3917b..1e7ab4142d49 100644
+--- a/Documentation/driver-api/serial/driver.rst
++++ b/Documentation/driver-api/serial/driver.rst
+@@ -422,8 +422,9 @@ Other functions
+ ---------------
+ 
+ uart_update_timeout(port,cflag,baud)
+-	Update the FIFO drain timeout, port->timeout, according to the
+-	number of bits, parity, stop bits and baud rate.
++	Update the frame timing information according to the number of bits,
++	parity, stop bits and baud rate. The FIFO drain timeout is derived
++	from the frame timing information.
+ 
+ 	Locking: caller is expected to take port->lock
+ 
+diff --git a/drivers/tty/serial/mux.c b/drivers/tty/serial/mux.c
+index 643dfbcc43f9..0ba0f4d9459d 100644
+--- a/drivers/tty/serial/mux.c
++++ b/drivers/tty/serial/mux.c
+@@ -481,12 +481,6 @@ static int __init mux_probe(struct parisc_device *dev)
+ 		port->line	= port_cnt;
+ 		port->has_sysrq = IS_ENABLED(CONFIG_SERIAL_MUX_CONSOLE);
+ 
+-		/* The port->timeout needs to match what is present in
+-		 * uart_wait_until_sent in serial_core.c.  Otherwise
+-		 * the time spent in msleep_interruptable will be very
+-		 * long, causing the appearance of a console hang.
+-		 */
+-		port->timeout   = HZ / 50;
+ 		spin_lock_init(&port->lock);
+ 
+ 		status = uart_add_one_port(&mux_driver, port);
+diff --git a/drivers/tty/serial/serial_core.c b/drivers/tty/serial/serial_core.c
+index 621fc15e2e54..e068b16d770d 100644
+--- a/drivers/tty/serial/serial_core.c
++++ b/drivers/tty/serial/serial_core.c
+@@ -327,13 +327,14 @@ static void uart_shutdown(struct tty_struct *tty, struct uart_state *state)
+ }
+ 
+ /**
+- *	uart_update_timeout - update per-port FIFO timeout.
++ *	uart_update_timeout - update per-port frame timing information.
+  *	@port:  uart_port structure describing the port
+  *	@cflag: termios cflag value
+  *	@baud:  speed of the port
+  *
+- *	Set the port FIFO timeout value.  The @cflag value should
+- *	reflect the actual hardware settings.
++ *	Set the port frame timing information from which the FIFO timeout
++ *	value is derived. The @cflag value should reflect the actual hardware
++ *	settings.
+  */
+ void
+ uart_update_timeout(struct uart_port *port, unsigned int cflag,
+@@ -343,13 +344,6 @@ uart_update_timeout(struct uart_port *port, unsigned int cflag,
+ 	u64 frame_time;
+ 
+ 	frame_time = (u64)size * NSEC_PER_SEC;
+-	size *= port->fifosize;
+-
+-	/*
+-	 * Figure the timeout to send the above number of bits.
+-	 * Add .02 seconds of slop
+-	 */
+-	port->timeout = (HZ * size) / baud + HZ/50;
+ 	port->frame_time = DIV64_U64_ROUND_UP(frame_time, baud);
+ }
+ EXPORT_SYMBOL(uart_update_timeout);
+@@ -1698,7 +1692,7 @@ static void uart_wait_until_sent(struct tty_struct *tty, int timeout)
+ {
+ 	struct uart_state *state = tty->driver_data;
+ 	struct uart_port *port;
+-	unsigned long char_time, expire;
++	unsigned long char_time, expire, fifo_timeout;
+ 
+ 	port = uart_port_ref(state);
+ 	if (!port)
+@@ -1728,12 +1722,13 @@ static void uart_wait_until_sent(struct tty_struct *tty, int timeout)
+ 		 * amount of time to send the entire FIFO, it probably won't
+ 		 * ever clear.  This assumes the UART isn't doing flow
+ 		 * control, which is currently the case.  Hence, if it ever
+-		 * takes longer than port->timeout, this is probably due to a
++		 * takes longer than FIFO timeout, this is probably due to a
+ 		 * UART bug of some kind.  So, we clamp the timeout parameter at
+-		 * 2*port->timeout.
++		 * 2 * FIFO timeout.
+ 		 */
+-		if (timeout == 0 || timeout > 2 * port->timeout)
+-			timeout = 2 * port->timeout;
++		fifo_timeout = uart_fifo_timeout(port);
++		if (timeout == 0 || timeout > 2 * fifo_timeout)
++			timeout = 2 * fifo_timeout;
+ 	}
+ 
+ 	expire = jiffies + timeout;
+diff --git a/include/linux/serial_core.h b/include/linux/serial_core.h
+index 5518b70177b3..373783487b2e 100644
+--- a/include/linux/serial_core.h
++++ b/include/linux/serial_core.h
+@@ -231,7 +231,6 @@ struct uart_port {
+ 
+ 	int			hw_stopped;		/* sw-assisted CTS flow state */
+ 	unsigned int		mctrl;			/* current modem ctrl settings */
+-	unsigned int		timeout;		/* character-based timeout */
+ 	unsigned int		frame_time;		/* frame timing in ns */
+ 	unsigned int		type;			/* port type */
+ 	const struct uart_ops	*ops;
+@@ -334,10 +333,23 @@ unsigned int uart_get_baud_rate(struct uart_port *port, struct ktermios *termios
+ 				unsigned int max);
+ unsigned int uart_get_divisor(struct uart_port *port, unsigned int baud);
+ 
++/*
++ * Calculates FIFO drain time.
++ */
++static inline unsigned long uart_fifo_timeout(struct uart_port *port)
++{
++	u64 fifo_timeout = (u64)READ_ONCE(port->frame_time) * port->fifosize;
++
++	/* Add .02 seconds of slop */
++	fifo_timeout += 20 * NSEC_PER_MSEC;
++
++	return max(nsecs_to_jiffies(fifo_timeout), 1UL);
++}
++
+ /* Base timer interval for polling */
+ static inline int uart_poll_timeout(struct uart_port *port)
+ {
+-	int timeout = port->timeout;
++	int timeout = uart_fifo_timeout(port);
+ 
+ 	return timeout > 6 ? (timeout / 2 - 2) : 1;
+ }
+
+-- 
+tg: (65534736d9a5..) serial/drop-timeout (depends on: tty-next)
