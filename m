@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7AA6CCA47F
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 20:33:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61184C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 20:33:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230480AbiFMUdk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 16:33:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36118 "EHLO
+        id S231944AbiFMUdl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 16:33:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233219AbiFMUdI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 16:33:08 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98C4B25E8D;
-        Mon, 13 Jun 2022 12:23:15 -0700 (PDT)
+        with ESMTP id S232288AbiFMUdG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 16:33:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90CF93631E;
+        Mon, 13 Jun 2022 12:23:13 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C8F18B81260;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4EBC2614EF;
+        Mon, 13 Jun 2022 19:23:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43251C341C8;
         Mon, 13 Jun 2022 19:23:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8645C341C6;
-        Mon, 13 Jun 2022 19:23:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655148191;
-        bh=VBsgQVJb305tu+x5Ezk9xdnNcUiCg8aWk5S50W2VGCw=;
+        s=k20201202; t=1655148192;
+        bh=/ZIOfIXjUyDL/E317WytkrmVVIeFLDByyTBTkw3FhHs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nwkY5iB/FBsFoMBVuUTRoDxNVkViDcsprfVa78XaY+e7pn0E6ofcJAjKfa3FiTuYV
-         ZAvtKRakoy2Pw1Ka4WbCimxUtoupKTxE20bGydUF+qaBNqxK/oP1M6tGBim0b2riWz
-         cGhqciMQKJiHntWylNAwhcH/oNXNkvpcJEaUyQdEvtpD+RWTJqwYRFItCqj5M5Tkvp
-         UWOf5ZuGcGnRJtioModUaO7SA5r/B+//cRZaUe9JKD4P2fu9GTWgjb33Em7uXhzCx5
-         PkFPWPiOXYDWYA9uKF8XmQkIwVCXFXHp9VlLNw5VW9Szz+j2t5rCRuHGQuxZ3vIWGo
-         32ujOHqyEAA1A==
+        b=TQbrkfuor7ndKRkLJR3NUU84zVZPei00GRr2otDJiT+VZlwEryFoOHCX1Syn6t9Xe
+         8oJZnO+PJBBUrPCdzUv8PWssdHiL3vSPi+rOYH1y/sHRyySHTWhGs4oZjVgKlELfip
+         ziKC4IXJ9o+lMKCzodXTrfhm4w38F9ZlbpWSs4rJ32h8Uc5vbUaYWRSQ17NcxjPaQ9
+         ARph6Dsherb3IPwUe7Nh+g/K1qPB0pVoMg5BfE7hiuar8OmAy0tFaQx5YNm8UMDP5Q
+         j8G/4Md/ii7Ni/TvrE3v22zCWouPhR0BzoRkAjiC+m+1jcjbKWHoGwElUnqYzizREd
+         Xd/6ZOkRAY6Vg==
 From:   SeongJae Park <sj@kernel.org>
 To:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>
 Cc:     damon@lists.linux.dev, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/8] Docs/admin-guide/damon/sysfs: document 'LRU_PRIO' scheme action
-Date:   Mon, 13 Jun 2022 19:22:57 +0000
-Message-Id: <20220613192301.8817-6-sj@kernel.org>
+Subject: [PATCH 6/8] Docs/admin-guide/damon/sysfs: document 'LRU_DEPRIO' scheme action
+Date:   Mon, 13 Jun 2022 19:22:59 +0000
+Message-Id: <20220613192301.8817-8-sj@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220613192301.8817-1-sj@kernel.org>
 References: <20220613192301.8817-1-sj@kernel.org>
@@ -47,8 +47,8 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit documents the 'lru_prio' scheme action for DAMON sysfs
-interface.
+This commit documents the 'LRU_DEPRIO' scheme action for DAMON sysfs
+interface.`
 
 Signed-off-by: SeongJae Park <sj@kernel.org>
 ---
@@ -56,14 +56,14 @@ Signed-off-by: SeongJae Park <sj@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 1bb7b72414b2..af4e15ee81cd 100644
+index af4e15ee81cd..d822bf6355ce 100644
 --- a/Documentation/admin-guide/mm/damon/usage.rst
 +++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -264,6 +264,7 @@ that can be written to and read from the file and their meaning are as below.
-  - ``pageout``: Call ``madvise()`` for the region with ``MADV_PAGEOUT``
+@@ -265,6 +265,7 @@ that can be written to and read from the file and their meaning are as below.
   - ``hugepage``: Call ``madvise()`` for the region with ``MADV_HUGEPAGE``
   - ``nohugepage``: Call ``madvise()`` for the region with ``MADV_NOHUGEPAGE``
-+ - ``lru_prio``: Prioritize the region on its LRU lists.
+  - ``lru_prio``: Prioritize the region on its LRU lists.
++ - ``lru_deprio``: Deprioritize the region on its LRU lists.
   - ``stat``: Do nothing but count the statistics
  
  schemes/<N>/access_pattern/
