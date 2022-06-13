@@ -2,59 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D1FDC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 22:38:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A66A0CCA47B
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 23:23:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230339AbiFMWir (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 18:38:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41344 "EHLO
+        id S236807AbiFMXXa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 19:23:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240410AbiFMWin (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 18:38:43 -0400
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 247D0627D
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 15:38:39 -0700 (PDT)
-Received: by mail-io1-xd34.google.com with SMTP id n11so7662840iod.4
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 15:38:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cSfQVDPdSZV7BsUZMX0DMKU36oE62bl8JUEG399LTGQ=;
-        b=iOe2c0LZoVW+GY27vdPQ164YNh5IJrimb87nSfQol6K9V2Wjvi7hEXWRmNiYR1bwUQ
-         5TpXCahY9UIL2dY5I5t2MiTzSJeqPHWw1Bto/qfAjYn4kJxplc0U01mR//HUbdxvQDGH
-         LC1M4Ru3Us/w/yWJb/J6AsoYk4lQ2ihX8s0Q5Vwi6gl6Ecnqp3Ll7kSNctOBXPo0GBq9
-         0QlakwT6SIWPHk+3iwnGbYC8THbaSirHeaaduFJiwRI7mJgxtID2V6jIeJmNOgmln4Kn
-         nr1bVIcZPbAxgugwhMKLjJyi++xVgjKyQpMomzK+P5O1PiDVc69khAKw2yR2WyI0wcqy
-         tq7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cSfQVDPdSZV7BsUZMX0DMKU36oE62bl8JUEG399LTGQ=;
-        b=RkqNyaaI4ssgWQxAEPtkzjykN/9XoYnc1GQKQE0Al1IBShmuWPqTp3wHyhvsydu+SA
-         aJOCcM/xw5hIP/L1NCkZemxTZGsQHAXwVmvxDEApKneCkL4/nKbvG+o20kpvG6oIKSf9
-         Y1GRRohivM4WI7Ele1kHxR5I5Jfpztlf8g61WNmU87cHuh8SgWCLHSArxfdFExveVik9
-         HFmIPlZ1sKPpgPLByFusySd6A2guJ8MTsGck9LlSs5h7VGnixmFPIPoIDnmO7yi36v56
-         Lot0jktPpUYXRVnRftV4ar5Z8M0OPVa3GZgD4fQHb1HZnEDhwK0ouWLebNytg3iqpF2x
-         VPFQ==
-X-Gm-Message-State: AOAM533v6n4Z221PvoK2Ccjorl0rIatNZO7M07+a74H3PEMAlIBoLil5
-        z0saSAMiO6j3J50tp8fZe3v/SUcW6kJg5CLEOcMX0w==
-X-Google-Smtp-Source: ABdhPJzj+2L+AFjPv9s2kVu3WHMiTFEhxc4SE7Sug7k/UXLKnkibOKebwzScvc2nvqb2XiNvP2b7nEi2BQSFne2x9hs=
-X-Received: by 2002:a02:2305:0:b0:331:a026:b650 with SMTP id
- u5-20020a022305000000b00331a026b650mr1141093jau.314.1655159918049; Mon, 13
- Jun 2022 15:38:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220601210951.3916598-1-axelrasmussen@google.com>
- <20220601210951.3916598-3-axelrasmussen@google.com> <20220613145540.1c9f7750092911bae1332b92@linux-foundation.org>
- <Yqe6R+XSH+nFc8se@xz-m1.local>
-In-Reply-To: <Yqe6R+XSH+nFc8se@xz-m1.local>
-From:   Axel Rasmussen <axelrasmussen@google.com>
-Date:   Mon, 13 Jun 2022 15:38:02 -0700
-Message-ID: <CAJHvVchdmV42qCgO6j=zGBi0DeVcvW1OC88rHUP6V66Fg3CSww@mail.gmail.com>
-Subject: Re: [PATCH v3 2/6] userfaultfd: add /dev/userfaultfd for fine grained
- access control
-To:     Peter Xu <peterx@redhat.com>
+        with ESMTP id S229922AbiFMXXR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 19:23:17 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC26E32050;
+        Mon, 13 Jun 2022 16:23:15 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 63E322D6;
+        Mon, 13 Jun 2022 23:23:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 63E322D6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1655162595; bh=DaRek4VCbbCEWDVHGSepYt+fEnKtHG9ut+awCzRUXRQ=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=FvS3IOr2TAOGBY3ITgsqcvlVGpzQmoKdunLDI+3/shEpR/t7oSEVVeHoGDDdKX6dK
+         Cd2H+2nc/WjM5b4sVQ8yNi7nlUuPXXG+a4sIK+UrOD6YPML0Y/EpPTvLykfUtrihqp
+         1XS8NPeT74mLMvk6FtO/Ac9KHGggTSOoAru8AlmMmkiVFfNrdkZ8ngujBF+HYdqN34
+         3UJ5krv9fnSnhbPSzoTQy5sHuxOwVSwaZWMBP/YU3q+oSaktASpzcEQaAUL/OUsBas
+         i3jQ8659pZFpkCyCBVVeNy4nrowO+LjnbeEtjztKMVkqznwuc4JCXqMY6ZifUbJ8c6
+         OCm5Hpe4Z58GQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Axel Rasmussen <axelrasmussen@google.com>,
+        Peter Xu <peterx@redhat.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Charan Teja Reddy <charante@codeaurora.org>,
@@ -62,7 +39,6 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         "Dmitry V . Levin" <ldv@altlinux.org>,
         Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
         Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
         Mel Gorman <mgorman@techsingularity.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
@@ -73,77 +49,36 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Linux MM <linux-mm@kvack.org>,
         Linuxkselftest <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 2/6] userfaultfd: add /dev/userfaultfd for fine
+ grained access control
+In-Reply-To: <CAJHvVchdmV42qCgO6j=zGBi0DeVcvW1OC88rHUP6V66Fg3CSww@mail.gmail.com>
+References: <20220601210951.3916598-1-axelrasmussen@google.com>
+ <20220601210951.3916598-3-axelrasmussen@google.com>
+ <20220613145540.1c9f7750092911bae1332b92@linux-foundation.org>
+ <Yqe6R+XSH+nFc8se@xz-m1.local>
+ <CAJHvVchdmV42qCgO6j=zGBi0DeVcvW1OC88rHUP6V66Fg3CSww@mail.gmail.com>
+Date:   Mon, 13 Jun 2022 17:23:14 -0600
+Message-ID: <87k09kxi59.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 13, 2022 at 3:29 PM Peter Xu <peterx@redhat.com> wrote:
->
-> On Mon, Jun 13, 2022 at 02:55:40PM -0700, Andrew Morton wrote:
-> > On Wed,  1 Jun 2022 14:09:47 -0700 Axel Rasmussen <axelrasmussen@google.com> wrote:
-> >
-> > > To achieve this, add a /dev/userfaultfd misc device. This device
-> > > provides an alternative to the userfaultfd(2) syscall for the creation
-> > > of new userfaultfds. The idea is, any userfaultfds created this way will
-> > > be able to handle kernel faults, without the caller having any special
-> > > capabilities. Access to this mechanism is instead restricted using e.g.
-> > > standard filesystem permissions.
-> >
-> > The use of a /dev node isn't pretty.  Why can't this be done by
-> > tweaking sys_userfaultfd() or by adding a sys_userfaultfd2()?
+Axel Rasmussen <axelrasmussen@google.com> writes:
 
-I think for any approach involving syscalls, we need to be able to
-control access to who can call a syscall. Maybe there's another way
-I'm not aware of, but I think today the only mechanism to do this is
-capabilities. I proposed adding a CAP_USERFAULTFD for this purpose,
-but that approach was rejected [1]. So, I'm not sure of another way
-besides using a device node.
+> I think for any approach involving syscalls, we need to be able to
+> control access to who can call a syscall. Maybe there's another way
+> I'm not aware of, but I think today the only mechanism to do this is
+> capabilities. I proposed adding a CAP_USERFAULTFD for this purpose,
+> but that approach was rejected [1]. So, I'm not sure of another way
+> besides using a device node.
 
-One thing that could potentially make this cleaner is, as one LWN
-commenter pointed out, we could have open() on /dev/userfaultfd just
-return a new userfaultfd directly, instead of this multi-step process
-of open /dev/userfaultfd, NEW ioctl, then you get a userfaultfd. When
-I wrote this originally it wasn't clear to me how to get that to
-happen - open() doesn't directly return the result of our custom open
-function pointer, as far as I can tell - but it could be investigated.
+I take it there's a reason why this can't be done with a security module
+- either a custom module or a policy in one of the existing modules?
+That sort of access control is just what security modules are supposed
+to be for, after all.
 
-[1]: https://lore.kernel.org/lkml/686276b9-4530-2045-6bd8-170e5943abe4@schaufler-ca.com/T/
+Thanks,
 
-> >
-> > Peter, will you be completing review of this patchset?
->
-> Sorry to not have reviewed it proactively..
->
-> I think it's because I never had a good picture/understanding of what
-> should be the best security model for uffd, meanwhile I am (it seems) just
-> seeing more and more ways to "provide a safer uffd" by different people
-> using different ways.. and I never had time (and probably capability too..)
-> to figure out the correct approach if not to accept all options provided.
-
-Agreed, what we have right now is a bit of a mess of different
-approaches. I think the reason for this is, there is no "perfect" way
-to control access to features like this, so what we now have is
-several different approaches with different tradeoffs.
-
-From my perspective, the existing controls were simpler to implement,
-but are not ideal because they require us to grant access to UFFD
-*plus more stuff too*.
-
-The approach I've proposed is the most granular, so it doesn't require
-adding any extra permissions. But, I agree the interface is sort of
-overcomplicated. :/ But, from my perspective, security in shared Cloud
-computing environments where UFFD is used for live migration is
-critical, so I prefer this tradeoff - I'll put up with a slightly
-messier interface, if the gain is a very minimal set of privileges.
-
->
-> I think I'll just assume the whole thing is acked already from you
-> generally, then I'll read at least the implementation before the end of
-> tomorrow.
->
-> Thanks,
->
-> --
-> Peter Xu
->
+jon
