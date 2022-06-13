@@ -2,488 +2,210 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18D32C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 06:36:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3A5BC43334
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Jun 2022 06:51:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235702AbiFMGf7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 02:35:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38914 "EHLO
+        id S238598AbiFMGvk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Jun 2022 02:51:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236127AbiFMGfx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 02:35:53 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AEB2BCA2
-        for <linux-doc@vger.kernel.org>; Sun, 12 Jun 2022 23:35:51 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id q140so4727160pgq.6
-        for <linux-doc@vger.kernel.org>; Sun, 12 Jun 2022 23:35:51 -0700 (PDT)
+        with ESMTP id S238615AbiFMGvN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 02:51:13 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCCE915828;
+        Sun, 12 Jun 2022 23:50:15 -0700 (PDT)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25CJA7Vo023173;
+        Mon, 13 Jun 2022 06:49:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
+ cc : references : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=rdT0Kmg0WbQ1x7KCFmYDIzbJUVE8Kl9lqsFxVCWGRB8=;
+ b=aSICDTZT1PNK3V2MCDIb118/J8ckn7Mf4CNsklJqyLG3FioGsqFHnRQ/Mb9re8p4VJ09
+ HqY7cCMoz3ZghvcEeH8sGTxGuhYYVq+Lc7ktgAllWSc/2fc3SLbXYDL8qLA+GAB803Xx
+ txDI3iaufuFnkB07Y2DTp8iYEKCBtTMjQO6WFGCv0h9FwaqekKnFKfISR/BiCl/05pUO
+ HhuDCx4xVtKc7BzvEQflthz5pHhHOi4BDcbqwDkftuAoFEZScCE+ideST57WL0F1pltg
+ ZeHllJqJpK9plUTNmOTDkbzy/HMUzECXBByMqqgNP3JayUodRf1ECMeg6dKQlqanKCD8 Tw== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmjx9a6rs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 13 Jun 2022 06:49:53 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25D6fHRs023155;
+        Mon, 13 Jun 2022 06:49:52 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2048.outbound.protection.outlook.com [104.47.66.48])
+        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gmhg34f3h-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 13 Jun 2022 06:49:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BhnBmCqDPygfysrqtLdgROgH0JxSz3F3ORJd9JiskU1GPqMibQivgB2jgwfln6zMuMNy8mV/3eQn+f5aaSlgWxpcgZWqlyolPvw375obq/0z2ALay9PlEqs4C5Qk+eyrNzhMuw5loNcveJMhoNsyPN6Evf2BRUVpz+C4EK1VUjIPSwatFLG2evZ9nBNHLaWSs5WZ+3JREUpDBg3N7W68b2Etem3GOz3zxUxgEsanbt2z4Rjh+CZGga+9AIgBe4U/SC8CZLHc/1WPN87+n61/dnVxkg4VifK5evxDVJQn41/WvKurZUL5CBnehh1Cl3ijA7PQLOZUgX33LD43IX1meg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rdT0Kmg0WbQ1x7KCFmYDIzbJUVE8Kl9lqsFxVCWGRB8=;
+ b=cPW/H/ZB8550cK4QULEISPP1NrB18t7RKpX1DGzNPzff+lPFZstWn10yfbAKkzPpl08zJz7Qv2IKwQcJZAp0FnFB06WDdelmj4dG5/R6XUJcLDm8zmeOoePqlzWQcLJwz9pEh0geH7lTUsX1KHeart78PpqMmNnl9n3h7b3vpXg4wr67bWSZsrVAaRDQGFevLLJRysOdVsod3xaa+LG0HmohG+Y0MoVOQXTUxKYwf6Ib8VKNvp436Cf6UJIxPE0gacnVbXPJd4Z215BobnQfDmd+jplMpTItdacw5nmGSAZS9cvei2m7jiyVSLJmGAT9+kgj1bplU+EXiWER9P5akw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gwkuZE56aSA9/tatUtzCc+m4R0MzHGUai/Pf7RD5URU=;
-        b=Kjz8rGkl7FUYvNUnypP5Qyyj+Q6Yamk+s0aKQd9kRPShoI7ZOlXd8aKUfnLlq9VRDB
-         2IfUB/K+zfaqtPom55HNE6nY/05iePr6inRaRAesiMWdSIoAh1ye3EsBFXLtNMLr2tAR
-         Fb/Hsv2nG/b2HGDs6VBfx0c9n0h/U8MnTniUCYUNU8LUi4I+p+AMkK5YytsFI58VYv5t
-         1Jl91fMb+LgXqyUBvkiNO2PGH6dWAAXvpAtDzGS8jywgFBpsKNXleUSj+JD4WX5bfVPZ
-         rZaLzWXTJfU0O6StEleg8g9iCZOzQsFeWDeSdE23GLC3Ca0j2sx41hCPzX3sfrqha1hw
-         zjSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gwkuZE56aSA9/tatUtzCc+m4R0MzHGUai/Pf7RD5URU=;
-        b=QN0QEJQiZx7JTFYxBqJHlikbXfKNEGjGpCeR1xdTk7zdolFfgERKXpq3X3XMZIdUJ2
-         DBR2tU0lxEodEH46oJMC6loKui9J1KdsHEUI2d3cDgYX5ESVmsMoRqN7DGzCGMUSGARL
-         foVaBfUzoBjk/xmOc/89a3rMd5WP9uFaE0c7atMSJeW+eBxKCnkxjxD11ujs/yK0vcRt
-         n4Bf6D6BRYCNwk9Q7KZCRailrGNuNzn9pcbOWx/hmhkL1RhhFpHfnfUejdTOfbIc7Fo8
-         eVHABu1hr4Og66ekrGa6/VKlSrAnWGrAfKMr+XBzd+hlHW02+DYfUgTTKcU64DTIQE58
-         pnZQ==
-X-Gm-Message-State: AOAM530b8TqlmqBM0FJmi6rYX3tSJ7HAF9CbTXvvWWaC1oHs2E1y1cHo
-        Lsk3cEUHoNS/bbLtnMg7m+KQVw==
-X-Google-Smtp-Source: ABdhPJx2XekdnvADwYsXewHpUnTmAPdpTfW58vn7LUP2xBm6iJ9za0hOyv1YbpUo8oZuj7TQ2LmxOQ==
-X-Received: by 2002:a62:6410:0:b0:4f3:9654:266d with SMTP id y16-20020a626410000000b004f39654266dmr58255506pfb.59.1655102150896;
-        Sun, 12 Jun 2022 23:35:50 -0700 (PDT)
-Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.255])
-        by smtp.gmail.com with ESMTPSA id v3-20020aa799c3000000b0051bc538baadsm4366554pfi.184.2022.06.12.23.35.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jun 2022 23:35:50 -0700 (PDT)
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     mike.kravetz@oracle.com, david@redhat.com,
-        akpm@linux-foundation.org, corbet@lwn.net
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH 6/6] mm: hugetlb_vmemmap: improve hugetlb_vmemmap code readability
-Date:   Mon, 13 Jun 2022 14:35:12 +0800
-Message-Id: <20220613063512.17540-7-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.32.1 (Apple Git-133)
-In-Reply-To: <20220613063512.17540-1-songmuchun@bytedance.com>
-References: <20220613063512.17540-1-songmuchun@bytedance.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rdT0Kmg0WbQ1x7KCFmYDIzbJUVE8Kl9lqsFxVCWGRB8=;
+ b=UbD8WyOhsUA1iB0506J5NhMA3zd0sqUj6oaSv8Yv4Za79IHhge1MEbRzZoV0cBQD38+mhzxtUF2Vo8o+Jaz4HGEgRSenxjx/8B5hrtMK7G4xlRb3pSmjWHwimQmAvZkC/ySXUmeYvk+c+Ir4/aHGU3zTMfQxaewIbtKsSgH5Vyw=
+Received: from BYAPR10MB2663.namprd10.prod.outlook.com (2603:10b6:a02:a9::20)
+ by BN6PR1001MB2100.namprd10.prod.outlook.com (2603:10b6:405:35::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.20; Mon, 13 Jun
+ 2022 06:49:50 +0000
+Received: from BYAPR10MB2663.namprd10.prod.outlook.com
+ ([fe80::60b7:5604:cc5d:54bd]) by BYAPR10MB2663.namprd10.prod.outlook.com
+ ([fe80::60b7:5604:cc5d:54bd%5]) with mapi id 15.20.5332.020; Mon, 13 Jun 2022
+ 06:49:50 +0000
+Subject: Re: [PATCH v1 4/4] swiotlb: panic if nslabs is too small
+From:   Dongli Zhang <dongli.zhang@oracle.com>
+To:     iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
+        x86@kernel.org
+Cc:     corbet@lwn.net, dave.hansen@linux.intel.com, joe.jin@oracle.com,
+        linux-kernel@vger.kernel.org, hch@infradead.org, mingo@redhat.com,
+        bp@alien8.de, tglx@linutronix.de
+References: <20220611082514.37112-1-dongli.zhang@oracle.com>
+ <20220611082514.37112-5-dongli.zhang@oracle.com>
+Message-ID: <4c1e123d-6b5d-7fa2-d072-64deb119ae10@oracle.com>
+Date:   Sun, 12 Jun 2022 23:49:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+In-Reply-To: <20220611082514.37112-5-dongli.zhang@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1PR02CA0021.namprd02.prod.outlook.com
+ (2603:10b6:806:2cf::20) To BYAPR10MB2663.namprd10.prod.outlook.com
+ (2603:10b6:a02:a9::20)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: db9885e8-337e-49f4-f956-08da4d08e9b7
+X-MS-TrafficTypeDiagnostic: BN6PR1001MB2100:EE_
+X-Microsoft-Antispam-PRVS: <BN6PR1001MB210006DB7C593BA85C365058F0AB9@BN6PR1001MB2100.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1VQC+uxT1Wd+z6iaCp9pU5xJk2hiFs3QgiLZB2L6BY1uHlhT1lBNwBesQ64HIeY57uaFo1s1hofr3fYQw+GsO2wEdbk2tPpia1Z34Q0AfNUyA+bX0mrGJUqV7n7BYg1qYFW8UWCYjL59U2sqESiD0q6k5eBKKUJfB55HNmK+KaVU2U8a8IHqGbAJQ0aOG6oHXeBiEz3LQrxqTMCTRnHia4W92DeyiiXModVYbHns7Y6JMaRgqdASgwYQ2r0lbla9iQn5FZhGBwl76cV0yrfcVVSu0iqgq6pZ1FygAMGDDUycgVOVLyH7Vcx+YuWX5GQqWWrggBxGnfQeV4sHtOel1j4GkEUhYNHT3bwg/d0TZ06Y8XQVxcDlkOFCnnlWLYSuF16E6Nmc7IinHAKIqlCdQ22QrJvPNTwBhaLNbfuMVQxLUgAh8v7Pl3H6/u9b3u/iyMUZiL4tYAWIMSraVW9CI4rQCSsZ62+2qpjHp4pBPJuKXW2ucotldeTYz0dEh1r/MCpDPJsjr8FUqcaYOJ/EJ5Xnj5nsDmbI6XIXNkg0Cddd2QgOqN7lhqNPgXkWgMC9j/bF/RsApRrfIUATLY0RqS9nWIH5EqrNAyfGjbFxAjOQ+9JrMoVCIJZf2oGGaM1DTA/dNb+vROyAG63SmsKYhYIUrXYHqpSgSHP0Vy2HMwvBRNSdmv6ExW88+thQDsxfph32tFyRkMqJVOT4xTjkunphwrDKd5nkvJyqI4dRHV+ZWcSwA5OikLHZFVZ1/lPFSfgiL/sDrFMemVu385TD5jeghqipbc4EflIHDJgNt80=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR10MB2663.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(31686004)(6666004)(53546011)(6506007)(83380400001)(316002)(4326008)(66556008)(66946007)(66476007)(36756003)(8676002)(8936002)(38100700002)(6486002)(44832011)(5660300002)(508600001)(7416002)(2616005)(2906002)(6512007)(31696002)(186003)(86362001)(160913001)(15963001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UkJUejllUEdVRFpQRXU5TFUzVjZ6Zk5BbmRXaVhwZVVFQ3hLcTFJNkF3UEdG?=
+ =?utf-8?B?T1VtNUhJNUVoMlpNQ0dFZ2MvMTZkQkFSazZaRXRSRzhzTit5Q25QcXpDWmxv?=
+ =?utf-8?B?N213Z2Fnb21oanJhR3pua0dVTFFpZk1LSzN1aktiNVBWUkxGTlJPTXAxK0Vu?=
+ =?utf-8?B?dHBQc01TdXZaakR1bVZPY2pEMkhUYXdSSzVGWGpmVU84UzY1aTVWMVhGN2gw?=
+ =?utf-8?B?UEVZRkdUU0I3d0lRa3FmWnBXQnhIODVTaERzZ254MmlEa1k1aEdXK21wZzdS?=
+ =?utf-8?B?VFdmOUtCakhLc0hCSWEyOEZRc2tWNFltMU9DdEt2d01CRDVnRXRqeXZMWjQx?=
+ =?utf-8?B?MEJaZkQ0QVBXWjVERlB6QzR1dko0WkUxeU4yY2h3MG4vcmlJbFYzWjVhTDgx?=
+ =?utf-8?B?NWdMUVhCQ0ZiVzBDS3k4Q0N3OENMWkc4YytUaWNianVZOWFtaHdmVmFtQnFt?=
+ =?utf-8?B?T0U4cEwvenRaelJ2azNIOWp2Y0RmK3JSVVNXNnVJQzBjc1hpMjdnZWRGOThH?=
+ =?utf-8?B?ZVB1bStEdWxXT0F5dUNaRzBaZW9PcktwQUw5Qkt1M3lnOW91b2pTSURoSlZU?=
+ =?utf-8?B?cnY2Ykg4aktLcHhYbGc4eUg4REVmVmpVZDVHREpmWEdPRy9aSklhOFkya1FD?=
+ =?utf-8?B?L2lnQm05d2srNnB2T09rY1p5bmU0dk5Wb2JCZHlha3RzQWZmUG9RQzZmMjZV?=
+ =?utf-8?B?dzM0NzVTSVBVaUZxd3UxTGtHdUN2MkZTOGYvMEFvSmdBM3NabXROblJVdnVn?=
+ =?utf-8?B?ZEZJWjlyT3ZtdWg3V2ZQMmtlK0h1UFVjT1BaYWJicGU2VzFhMTdNMzZUMDdm?=
+ =?utf-8?B?YmJCdUkyZyszNHNxRGgva1U2NWU5WWpxVks3emlFd3l2ZUEwSVpIalZjQUlz?=
+ =?utf-8?B?aFpydTNKbjkySy9VejUyZnVkWXFDSmVkYUlFb2hsSUphK3Q4RGFnTmN2K3dC?=
+ =?utf-8?B?a3RTaDFqeTVZSWJtc2IxQk9PK3pMV01uNjFpSFFOK1A5UUV5Wit1bGkwVk9O?=
+ =?utf-8?B?cTRMMVNwaVNRUHlDb3Ftbnd6Wms0Z2k4MDdOd05aRVNLZS9vVXkxMk1nZS9F?=
+ =?utf-8?B?R2QwRkVZNkhtbUdZMVRvb3lYOG15ZVZ1ZlplbXRvK1A3SzZSdVAyMGRMaitC?=
+ =?utf-8?B?WS9KNmNvVEkrc25MRzRmbG05V2YxN3dsbWJyN2djSk9hbHY1Z2pWZTJ1Sy9l?=
+ =?utf-8?B?Z21ib1RWT1VpY21Lb3BvcWlBTXk5cFAwS1JzV0VKYXNocjNKenZ0R05WdnpH?=
+ =?utf-8?B?ZWxMcW15dXJsbHlGM2JoeTlEaXZzb093M05mK2l5UzR3OWQ4cFhsc1hyVHp1?=
+ =?utf-8?B?dTNlQTFkNm50bVRnQTRXd1hMYTQ1SVF0UTliS2VXUHZnQVkrT2Zxa2c3a1B6?=
+ =?utf-8?B?enVuUlBxM1FIQVp2d2ljQURHbGFlQW9wZlBoSHluSG1DVXNEUnNGSjdZVmFi?=
+ =?utf-8?B?WEU4dTdkVkpIeWxxcXAyQ2JwbjNwb1E5bUNrM3Q4TERDb3Z0SmR2TFFoQlRq?=
+ =?utf-8?B?b213VVJDclpQMXprSkxYdENGb2E4ckV6K0crWCtycGloSmMwb21ZdnN2U3VS?=
+ =?utf-8?B?Yll4S0Z1b3NVMmI0bHNxaW9WVlBOUGN0MzRwSmFVQXlOK01rb2YwK05razd5?=
+ =?utf-8?B?Tk1xV3JDV3pDMWtzY1MwYk8rcTNuVGd4cFpiZWF6YTlKMFYzR1dPVGsxbnpo?=
+ =?utf-8?B?c3FEZVNVRTEyRGdqc0ZVdHk5eVllZGJUVGRwRHhIbXM1d0pDdDNuMHV3TmNK?=
+ =?utf-8?B?OXJRVmZkVUw2WWlkcTd4RGlFeEJqb1p6T2I0anRiOVp0NWtFajltK2IrbXU1?=
+ =?utf-8?B?Y2pGUElFcENaZnQ2T0pQMi9IRWd3Q3RLWjVGOGF6V21BTEFUdjM5eThIYmRO?=
+ =?utf-8?B?ekF4ZlY3M3kxaUR6RWtFSlFrTE1pcXl3L3F4bW1iaEVWbDNJT1UvNXBCQzZv?=
+ =?utf-8?B?Uk1zUVJrYS9HTmJMYVNlTlBUa3Y3WC8wbjV4SjIwcHFGamc4ZWxjUUhPNTkv?=
+ =?utf-8?B?NWdhaGNkY1ZRdE9mQkw4djlBMjQzeHlFNHFOZUVVVWgySjlCdnBDakhzSGh3?=
+ =?utf-8?B?cnFiV29pUFBRb05YL3NRdTBzWm8yL0JRWTB5Mld5TFNHbHM2TVpraEdqSFQy?=
+ =?utf-8?B?NnAxd2N3VzgyL2huR0ZaSWt4OE96dDdUR2V0dGFCVWZ1bnlJRXJxanpOMXVS?=
+ =?utf-8?B?MEk3eU4yTmN5NDBoV01adld6cUdFb1AwMFhiRGtGRFBYdUNXdkRsRWd1RTJP?=
+ =?utf-8?B?WC9Ga3JWSEVHc296ay85b3ArQThwNGRLYVBpK0ZlZ0xyTUhiSkdYZ3RBS292?=
+ =?utf-8?B?bjZRMzBvVEZkVHdBSFQyaUFNTS9rbDNpaXBqWmhnTCtvanZQVlozdHhLQzh0?=
+ =?utf-8?Q?LHAn1vRY6CIq5WqE6e5qnWDWt7ezbThLZfdzg?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db9885e8-337e-49f4-f956-08da4d08e9b7
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2663.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2022 06:49:50.4602
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: w3BrGiZMNESdbI42LortYjilgP6xgxyc89I2i+DsTY/AjyeRlfizfAa60aAPXigpfy8ZY15rLvDrrv9VwZP4TA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1001MB2100
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
+ definitions=2022-06-13_02:2022-06-09,2022-06-13 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 mlxscore=0 spamscore=0
+ bulkscore=0 malwarescore=0 phishscore=0 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206130030
+X-Proofpoint-ORIG-GUID: wGRElR9f8iznPO59CAPgRyW1VfN_26WZ
+X-Proofpoint-GUID: wGRElR9f8iznPO59CAPgRyW1VfN_26WZ
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There is a discussion about the name of hugetlb_vmemmap_alloc/free in
-thread [1].  The suggestion suggested by David is rename "alloc/free"
-to "optimize/restore" to make functionalities clearer to users,
-"optimize" means the function will optimize vmemmap pages, while
-"restore" means restoring its vmemmap pages discared before. This
-commit does this.
 
-Another discussion is the confusion RESERVE_VMEMMAP_NR isn't used
-explicitly for vmemmap_addr but implicitly for vmemmap_end in
-hugetlb_vmemmap_alloc/free.  David suggested we can compute what
-hugetlb_vmemmap_init() does now at runtime.  We do not need to worry
-for the overhead of computing at runtime since the calculation is
-simple enough and those functions are not in a hot path.  This commit
-has the following improvements:
 
-  1) The function suffixed name ("optimize/restore") is more expressive.
-  2) The logic becomes less weird in hugetlb_vmemmap_optmize/restore().
-  3) The hugetlb_vmemmap_init() does not need to be exported anymore.
-  4) A ->optimize_vmemmap_pages field in struct hstate is killed.
-  5) There is only one place where checks is_power_of_2(sizeof(struct
-     page)) instead of two places.
-  6) Add more comments for hugetlb_vmemmap_optmize/restore().
-  7) For external users, hugetlb_optimize_vmemmap_pages() is used for
-     detecting if the HugeTLB's vmemmap pages is optimizable originally.
-     In this commit, it is killed and we introduce a new helper
-     hugetlb_vmemmap_optimizable() to replace it.  The name is more
-     expressive.
+On 6/11/22 1:25 AM, Dongli Zhang wrote:
+> Panic on purpose if nslabs is too small, in order to sync with the remap
+> retry logic.
+> 
+> In addition, print the number of bytes for tlb alloc failure.
+> 
+> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+> ---
+>  kernel/dma/swiotlb.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> index fd21f4162f4b..1758b724c7a8 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -242,6 +242,9 @@ void __init swiotlb_init_remap(bool addressing_limit, unsigned int flags,
+>  	if (swiotlb_force_disable)
+>  		return;
+>  
+> +	if (nslabs < IO_TLB_MIN_SLABS)
+> +		panic("%s: nslabs = %lu too small\n", __func__, nslabs);
+> +
+>  	/*
+>  	 * By default allocate the bounce buffer memory from low memory, but
+>  	 * allow to pick a location everywhere for hypervisors with guest
+> @@ -254,7 +257,8 @@ void __init swiotlb_init_remap(bool addressing_limit, unsigned int flags,
+>  	else
+>  		tlb = memblock_alloc_low(bytes, PAGE_SIZE);
+>  	if (!tlb) {
+> -		pr_warn("%s: failed to allocate tlb structure\n", __func__);
+> +		pr_warn("%s: Failed to allocate %zu bytes tlb structure\n",
+> +			__func__, bytes);
 
-Link: https://lore.kernel.org/all/20220404074652.68024-2-songmuchun@bytedance.com/ [1]
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
----
- include/linux/hugetlb.h |   7 +--
- mm/hugetlb.c            |  11 ++--
- mm/hugetlb_vmemmap.c    | 154 +++++++++++++++++++++++-------------------------
- mm/hugetlb_vmemmap.h    |  39 +++++++-----
- 4 files changed, 105 insertions(+), 106 deletions(-)
+Indeed I have a question on this pr_warn(). (I was going to send another patch
+to retry with nslabs = ALIGN(nslabs >> 1, IO_TLB_SEGSIZE)).
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 642a39016f9a..0b475faf9bf4 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -640,9 +640,6 @@ struct hstate {
- 	unsigned int nr_huge_pages_node[MAX_NUMNODES];
- 	unsigned int free_huge_pages_node[MAX_NUMNODES];
- 	unsigned int surplus_huge_pages_node[MAX_NUMNODES];
--#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
--	unsigned int optimize_vmemmap_pages;
--#endif
- #ifdef CONFIG_CGROUP_HUGETLB
- 	/* cgroup control files */
- 	struct cftype cgroup_files_dfl[8];
-@@ -718,7 +715,7 @@ static inline struct hstate *hstate_vma(struct vm_area_struct *vma)
- 	return hstate_file(vma->vm_file);
- }
- 
--static inline unsigned long huge_page_size(struct hstate *h)
-+static inline unsigned long huge_page_size(const struct hstate *h)
- {
- 	return (unsigned long)PAGE_SIZE << h->order;
- }
-@@ -747,7 +744,7 @@ static inline bool hstate_is_gigantic(struct hstate *h)
- 	return huge_page_order(h) >= MAX_ORDER;
- }
- 
--static inline unsigned int pages_per_huge_page(struct hstate *h)
-+static inline unsigned int pages_per_huge_page(const struct hstate *h)
- {
- 	return 1 << h->order;
- }
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 259b9c41892f..26a5af7f0065 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1541,7 +1541,7 @@ static void __update_and_free_page(struct hstate *h, struct page *page)
- 	if (hstate_is_gigantic(h) && !gigantic_page_runtime_supported())
- 		return;
- 
--	if (hugetlb_vmemmap_alloc(h, page)) {
-+	if (hugetlb_vmemmap_restore(h, page)) {
- 		spin_lock_irq(&hugetlb_lock);
- 		/*
- 		 * If we cannot allocate vmemmap pages, just refuse to free the
-@@ -1627,7 +1627,7 @@ static DECLARE_WORK(free_hpage_work, free_hpage_workfn);
- 
- static inline void flush_free_hpage_work(struct hstate *h)
- {
--	if (hugetlb_optimize_vmemmap_pages(h))
-+	if (hugetlb_vmemmap_optimizable(h))
- 		flush_work(&free_hpage_work);
- }
- 
-@@ -1749,7 +1749,7 @@ static void __prep_account_new_huge_page(struct hstate *h, int nid)
- 
- static void __prep_new_huge_page(struct hstate *h, struct page *page)
- {
--	hugetlb_vmemmap_free(h, page);
-+	hugetlb_vmemmap_optimize(h, page);
- 	INIT_LIST_HEAD(&page->lru);
- 	set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
- 	hugetlb_set_page_subpool(page, NULL);
-@@ -2122,7 +2122,7 @@ int dissolve_free_huge_page(struct page *page)
- 		 * Attempt to allocate vmemmmap here so that we can take
- 		 * appropriate action on failure.
- 		 */
--		rc = hugetlb_vmemmap_alloc(h, head);
-+		rc = hugetlb_vmemmap_restore(h, head);
- 		if (!rc) {
- 			/*
- 			 * Move PageHWPoison flag from head page to the raw
-@@ -3434,7 +3434,7 @@ static int demote_free_huge_page(struct hstate *h, struct page *page)
- 	remove_hugetlb_page_for_demote(h, page, false);
- 	spin_unlock_irq(&hugetlb_lock);
- 
--	rc = hugetlb_vmemmap_alloc(h, page);
-+	rc = hugetlb_vmemmap_restore(h, page);
- 	if (rc) {
- 		/* Allocation of vmemmmap failed, we can not demote page */
- 		spin_lock_irq(&hugetlb_lock);
-@@ -4124,7 +4124,6 @@ void __init hugetlb_add_hstate(unsigned int order)
- 	h->next_nid_to_free = first_memory_node;
- 	snprintf(h->name, HSTATE_NAME_LEN, "hugepages-%lukB",
- 					huge_page_size(h)/1024);
--	hugetlb_vmemmap_init(h);
- 
- 	parsed_hstate = h;
- }
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 9808d32cdb9e..595b0cee3109 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -35,16 +35,6 @@ struct vmemmap_remap_walk {
- 	struct list_head	*vmemmap_pages;
- };
- 
--/*
-- * There are a lot of struct page structures associated with each HugeTLB page.
-- * For tail pages, the value of compound_head is the same. So we can reuse first
-- * page of head page structures. We map the virtual addresses of all the pages
-- * of tail page structures to the head page struct, and then free these page
-- * frames. Therefore, we need to reserve one pages as vmemmap areas.
-- */
--#define RESERVE_VMEMMAP_NR		1U
--#define RESERVE_VMEMMAP_SIZE		(RESERVE_VMEMMAP_NR << PAGE_SHIFT)
--
- static int __split_vmemmap_huge_pmd(pmd_t *pmd, unsigned long start)
- {
- 	pmd_t __pmd;
-@@ -418,32 +408,38 @@ EXPORT_SYMBOL(hugetlb_optimize_vmemmap_key);
- static bool vmemmap_optimize_enabled = IS_ENABLED(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON);
- core_param(hugetlb_free_vmemmap, vmemmap_optimize_enabled, bool, 0);
- 
--/*
-- * Previously discarded vmemmap pages will be allocated and remapping
-- * after this function returns zero.
-+/**
-+ * hugetlb_vmemmap_restore - restore previously optimized (by
-+ *			     hugetlb_vmemmap_optimize()) vmemmap pages which
-+ *			     will be reallocated and remapped.
-+ * @h:		struct hstate.
-+ * @head:	the head page whose vmemmap pages will be restored.
-+ *
-+ * Return: %0 if @head's vmemmap pages have been reallocated and remapped,
-+ * negative error code otherwise.
-  */
--int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
-+int hugetlb_vmemmap_restore(const struct hstate *h, struct page *head)
- {
- 	int ret;
--	unsigned long vmemmap_addr = (unsigned long)head;
--	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
-+	unsigned long vmemmap_start = (unsigned long)head;
-+	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_size;
- 
- 	if (!HPageVmemmapOptimized(head))
- 		return 0;
- 
--	vmemmap_addr	+= RESERVE_VMEMMAP_SIZE;
--	vmemmap_pages	= hugetlb_optimize_vmemmap_pages(h);
--	vmemmap_end	= vmemmap_addr + (vmemmap_pages << PAGE_SHIFT);
--	vmemmap_reuse	= vmemmap_addr - PAGE_SIZE;
-+	vmemmap_size	= hugetlb_vmemmap_size(h);
-+	vmemmap_end	= vmemmap_start + vmemmap_size;
-+	vmemmap_reuse	= vmemmap_start;
-+	vmemmap_start	+= RESERVE_VMEMMAP_SIZE;
- 
- 	/*
--	 * The pages which the vmemmap virtual address range [@vmemmap_addr,
-+	 * The pages which the vmemmap virtual address range [@vmemmap_start,
- 	 * @vmemmap_end) are mapped to are freed to the buddy allocator, and
- 	 * the range is mapped to the page which @vmemmap_reuse is mapped to.
- 	 * When a HugeTLB page is freed to the buddy allocator, previously
- 	 * discarded vmemmap pages must be allocated and remapping.
- 	 */
--	ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
-+	ret = vmemmap_remap_alloc(vmemmap_start, vmemmap_end, vmemmap_reuse,
- 				  GFP_KERNEL | __GFP_NORETRY | __GFP_THISNODE);
- 	if (!ret) {
- 		ClearHPageVmemmapOptimized(head);
-@@ -453,84 +449,62 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
- 	return ret;
- }
- 
--static unsigned int optimizable_vmemmap_pages(struct hstate *h,
--					      struct page *head)
-+/* Return true iff a HugeTLB whose vmemmap should and can be optimized. */
-+static bool vmemmap_should_optimize(const struct hstate *h, const struct page *head)
- {
- 	unsigned long pfn = page_to_pfn(head);
- 	unsigned long end = pfn + pages_per_huge_page(h);
- 
- 	if (!READ_ONCE(vmemmap_optimize_enabled))
--		return 0;
-+		return false;
-+
-+	if (!hugetlb_vmemmap_optimizable(h))
-+		return false;
- 
- 	for (; pfn < end; pfn += PAGES_PER_SECTION) {
- 		if (section_cannot_optimize_vmemmap(__pfn_to_section(pfn)))
--			return 0;
-+			return false;
- 	}
- 
--	return hugetlb_optimize_vmemmap_pages(h);
-+	return true;
- }
- 
--void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
-+/**
-+ * hugetlb_vmemmap_optimize - optimize @head page's vmemmap pages.
-+ * @h:		struct hstate.
-+ * @head:	the head page whose vmemmap pages will be optimized.
-+ *
-+ * This function only tries to optimize @head's vmemmap pages and does not
-+ * guarantee that the optimization will succeed after it returns. The caller
-+ * can use HPageVmemmapOptimized(@head) to detect if @head's vmemmap pages
-+ * have been optimized.
-+ */
-+void hugetlb_vmemmap_optimize(const struct hstate *h, struct page *head)
- {
--	unsigned long vmemmap_addr = (unsigned long)head;
--	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
-+	unsigned long vmemmap_start = (unsigned long)head;
-+	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_size;
- 
--	vmemmap_pages = optimizable_vmemmap_pages(h, head);
--	if (!vmemmap_pages)
-+	if (!vmemmap_should_optimize(h, head))
- 		return;
- 
- 	static_branch_inc(&hugetlb_optimize_vmemmap_key);
- 
--	vmemmap_addr	+= RESERVE_VMEMMAP_SIZE;
--	vmemmap_end	= vmemmap_addr + (vmemmap_pages << PAGE_SHIFT);
--	vmemmap_reuse	= vmemmap_addr - PAGE_SIZE;
-+	vmemmap_size	= hugetlb_vmemmap_size(h);
-+	vmemmap_end	= vmemmap_start + vmemmap_size;
-+	vmemmap_reuse	= vmemmap_start;
-+	vmemmap_start	+= RESERVE_VMEMMAP_SIZE;
- 
- 	/*
--	 * Remap the vmemmap virtual address range [@vmemmap_addr, @vmemmap_end)
-+	 * Remap the vmemmap virtual address range [@vmemmap_start, @vmemmap_end)
- 	 * to the page which @vmemmap_reuse is mapped to, then free the pages
--	 * which the range [@vmemmap_addr, @vmemmap_end] is mapped to.
-+	 * which the range [@vmemmap_start, @vmemmap_end] is mapped to.
- 	 */
--	if (vmemmap_remap_free(vmemmap_addr, vmemmap_end, vmemmap_reuse))
-+	if (vmemmap_remap_free(vmemmap_start, vmemmap_end, vmemmap_reuse))
- 		static_branch_dec(&hugetlb_optimize_vmemmap_key);
- 	else
- 		SetHPageVmemmapOptimized(head);
- }
- 
--void __init hugetlb_vmemmap_init(struct hstate *h)
--{
--	unsigned int nr_pages = pages_per_huge_page(h);
--	unsigned int vmemmap_pages;
--
--	/*
--	 * There are only (RESERVE_VMEMMAP_SIZE / sizeof(struct page)) struct
--	 * page structs that can be used when HVO is enabled, add a BUILD_BUG_ON
--	 * to catch invalid usage of the tail page structs.
--	 */
--	BUILD_BUG_ON(__NR_USED_SUBPAGE >=
--		     RESERVE_VMEMMAP_SIZE / sizeof(struct page));
--
--	if (!is_power_of_2(sizeof(struct page))) {
--		pr_warn_once("cannot optimize vmemmap pages because \"struct page\" crosses page boundaries\n");
--		return;
--	}
--
--	vmemmap_pages = (nr_pages * sizeof(struct page)) >> PAGE_SHIFT;
--	/*
--	 * The head page is not to be freed to buddy allocator, the other tail
--	 * pages will map to the head page, so they can be freed.
--	 *
--	 * Could RESERVE_VMEMMAP_NR be greater than @vmemmap_pages? It is true
--	 * on some architectures (e.g. aarch64). See Documentation/arm64/
--	 * hugetlbpage.rst for more details.
--	 */
--	if (likely(vmemmap_pages > RESERVE_VMEMMAP_NR))
--		h->optimize_vmemmap_pages = vmemmap_pages - RESERVE_VMEMMAP_NR;
--
--	pr_info("can optimize %d vmemmap pages for %s\n",
--		h->optimize_vmemmap_pages, h->name);
--}
--
--#ifdef CONFIG_PROC_SYSCTL
- static struct ctl_table hugetlb_vmemmap_sysctls[] = {
- 	{
- 		.procname	= "hugetlb_optimize_vmemmap",
-@@ -542,16 +516,36 @@ static struct ctl_table hugetlb_vmemmap_sysctls[] = {
- 	{ }
- };
- 
--static __init int hugetlb_vmemmap_sysctls_init(void)
-+static int __init hugetlb_vmemmap_init(void)
- {
-+	const struct hstate *h;
-+	bool optimizable = false;
-+
- 	/*
--	 * If "struct page" crosses page boundaries, the vmemmap pages cannot
--	 * be optimized.
-+	 * There are only (RESERVE_VMEMMAP_SIZE / sizeof(struct page)) struct
-+	 * page structs that can be used when HVO is enabled.
- 	 */
--	if (is_power_of_2(sizeof(struct page)))
--		register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
-+	BUILD_BUG_ON(__NR_USED_SUBPAGE >= RESERVE_VMEMMAP_SIZE / sizeof(struct page));
-+
-+	for_each_hstate(h) {
-+		char buf[16];
-+		unsigned int size = 0;
-+
-+		if (hugetlb_vmemmap_optimizable(h))
-+			size = hugetlb_vmemmap_size(h) - RESERVE_VMEMMAP_SIZE;
-+		optimizable = size ? true : optimizable;
-+		string_get_size(huge_page_size(h), 1, STRING_UNITS_2, buf,
-+				sizeof(buf));
-+		pr_info("%d KiB vmemmap can be optimized for a %s page\n",
-+			size / SZ_1K, buf);
-+	}
- 
-+	if (optimizable) {
-+		if (IS_ENABLED(CONFIG_PROC_SYSCTL))
-+			register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
-+		pr_info("%d huge pages whose vmemmap are optimized at boot\n",
-+			static_key_count(&hugetlb_optimize_vmemmap_key.key));
-+	}
- 	return 0;
- }
--late_initcall(hugetlb_vmemmap_sysctls_init);
--#endif /* CONFIG_PROC_SYSCTL */
-+late_initcall(hugetlb_vmemmap_init);
-diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-index ba66fadad9fc..0af3f08cf63c 100644
---- a/mm/hugetlb_vmemmap.h
-+++ b/mm/hugetlb_vmemmap.h
-@@ -11,35 +11,44 @@
- #include <linux/hugetlb.h>
- 
- #ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
--int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head);
--void hugetlb_vmemmap_free(struct hstate *h, struct page *head);
--void hugetlb_vmemmap_init(struct hstate *h);
-+int hugetlb_vmemmap_restore(const struct hstate *h, struct page *head);
-+void hugetlb_vmemmap_optimize(const struct hstate *h, struct page *head);
- 
- /*
-- * How many vmemmap pages associated with a HugeTLB page that can be
-- * optimized and freed to the buddy allocator.
-+ * There are a lot of struct page structures associated with each HugeTLB page.
-+ * The only 'useful' information in the tail page structs is the compound_head
-+ * field which is the same for all tail page structs. So we can reuse the first
-+ * page frame of page structs. The virtual addresses of all the remaining pages
-+ * of tail page structs will be mapped to the head page frame, and then these
-+ * tail page frames are freed. Therefore, we need to reserve one page as
-+ * vmemmap. See Documentation/vm/vmemmap_dedup.rst.
-  */
--static inline unsigned int hugetlb_optimize_vmemmap_pages(struct hstate *h)
-+#define RESERVE_VMEMMAP_SIZE		PAGE_SIZE
-+
-+static inline unsigned int hugetlb_vmemmap_size(const struct hstate *h)
- {
--	return h->optimize_vmemmap_pages;
-+	return pages_per_huge_page(h) * sizeof(struct page);
- }
--#else
--static inline int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
-+
-+static inline bool hugetlb_vmemmap_optimizable(const struct hstate *h)
- {
--	return 0;
-+	if (!is_power_of_2(sizeof(struct page)))
-+		return false;
-+	return hugetlb_vmemmap_size(h) > RESERVE_VMEMMAP_SIZE;
- }
--
--static inline void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
-+#else
-+static inline int hugetlb_vmemmap_restore(const struct hstate *h, struct page *head)
- {
-+	return 0;
- }
- 
--static inline void hugetlb_vmemmap_init(struct hstate *h)
-+static inline void hugetlb_vmemmap_optimize(const struct hstate *h, struct page *head)
- {
- }
- 
--static inline unsigned int hugetlb_optimize_vmemmap_pages(struct hstate *h)
-+static inline bool hugetlb_vmemmap_optimizable(const struct hstate *h)
- {
--	return 0;
-+	return false;
- }
- #endif /* CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP */
- #endif /* _LINUX_HUGETLB_VMEMMAP_H */
--- 
-2.11.0
+Why not retry with nslabs = ALIGN(nslabs >> 1, IO_TLB_SEGSIZE), or panic here?
 
+If the QEMU machine of my VM is i440fx, the boot is almost failed even here is
+pr_warn. Why not sync with the remap failure handling?
+
+1. retry with nslabs = ALIGN(nslabs >> 1, IO_TLB_SEGSIZE))
+2. and finally panic if nslabs is too small.
+
+Thank you very much!
+
+Dongli Zhang
+
+>  		return;
+>  	}
+>  
+> 
