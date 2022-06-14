@@ -2,166 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D642C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 10:50:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37DE1C43334
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 11:53:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354715AbiFNKuW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jun 2022 06:50:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41694 "EHLO
+        id S243614AbiFNLxw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jun 2022 07:53:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241702AbiFNKuV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 06:50:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D1D4D48E60
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 03:50:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655203820;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=IiQIaQMhxL76RBZHsmcLreZUSDHLka20T5mMLLN/xgk=;
-        b=KOSbu7vWo7KopZCHcFJyELO+l7cQBkQYusUFvu4F7KrmX+UebZyW7V4mNlacW4s9sb4w4B
-        Sk4JfWPrWTby0cQuWfN4tVr0yyXQcH2VNOHBhl1XmBGFyt6ZmwCxwW4ZpqXfkrjveiI4o6
-        z4nMf8nfeoyHpB1bcuguQuBK9Y+Qb6k=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-352-DhirNWZtMFiMrb8YeOnp2g-1; Tue, 14 Jun 2022 06:50:15 -0400
-X-MC-Unique: DhirNWZtMFiMrb8YeOnp2g-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S241585AbiFNLxu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 07:53:50 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35E3B366BA;
+        Tue, 14 Jun 2022 04:53:49 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 78950299E755;
-        Tue, 14 Jun 2022 10:50:14 +0000 (UTC)
-Received: from localhost (ovpn-12-211.pek2.redhat.com [10.72.12.211])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id BE2A5416164;
-        Tue, 14 Jun 2022 10:50:12 +0000 (UTC)
-Date:   Tue, 14 Jun 2022 18:50:09 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Wupeng Ma <mawupeng1@huawei.com>, Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>,
+        by smtp-out2.suse.de (Postfix) with ESMTPS id D43451F953;
+        Tue, 14 Jun 2022 11:53:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1655207627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=enED3+mwpyEj3HYd1xYYpNVTbgUm7frMywot5/XVq7k=;
+        b=MKNAdTBQZJDywcGSMhM7eKVDS9hIFTqkt9SPhb/KumTuThcjnWgew5g35qS1WfIN35FvMH
+        +jmoTfwK7Sml47xjNTXbVEOEhtfUIjQJ3l2yz4rYR/B37fK1VH4zw9FonngffORHliRegZ
+        t1BTLwB3rgE1pXUmN+ycYXWzqtGXp5U=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 53F0D139EC;
+        Tue, 14 Jun 2022 11:53:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id OdGjE8t2qGJdfAAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Tue, 14 Jun 2022 11:53:47 +0000
+Date:   Tue, 14 Jun 2022 13:53:45 +0200
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Waiman Long <longman@redhat.com>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>, songmuchun@bytedance.com,
-        Randy Dunlap <rdunlap@infradead.org>,
-        damien.lemoal@opensource.wdc.com,
-        Stephen Boyd <swboyd@chromium.org>,
-        Wei Liu <wei.liu@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>, gpiccoli@igalia.com,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        vijayb@linux.microsoft.com,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>
-Subject: Re: [PATCH v5 5/5] memblock: Disable mirror feature if kernelcore is
- not specified
-Message-ID: <Yqhn4Qs1bzPY9J4s@MiWiFi-R3L-srv>
-References: <20220614092156.1972846-1-mawupeng1@huawei.com>
- <20220614092156.1972846-6-mawupeng1@huawei.com>
- <Yqhg6abZDGZSpJ7+@MiWiFi-R3L-srv>
- <CAMj1kXGXvjrnY=Hzd4c3CYZsNT6OiqTcMmKT0tdnk=jFOiVpWA@mail.gmail.com>
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v11 7/8] cgroup/cpuset: Update description of
+ cpuset.cpus.partition in cgroup-v2.rst
+Message-ID: <20220614115345.GA6771@blackbody.suse.cz>
+References: <20220510153413.400020-1-longman@redhat.com>
+ <20220510153413.400020-8-longman@redhat.com>
+ <YqYnQ4U4t6j/3UaL@slm.duckdns.org>
+ <404171dc-0da3-21f2-5003-9718f875e967@redhat.com>
+ <YqarMyNo9oHxhZFh@slm.duckdns.org>
+ <20220613142452.GB6910@blackbody.suse.cz>
+ <YqdzuSQuAeiPXQvy@slm.duckdns.org>
+ <20220613175548.GB21665@blackbody.suse.cz>
+ <Yqd7WMFj6AEyV3Cy@slm.duckdns.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="3V7upXqbjpZ4EhLz"
 Content-Disposition: inline
-In-Reply-To: <CAMj1kXGXvjrnY=Hzd4c3CYZsNT6OiqTcMmKT0tdnk=jFOiVpWA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+In-Reply-To: <Yqd7WMFj6AEyV3Cy@slm.duckdns.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/14/22 at 12:27pm, Ard Biesheuvel wrote:
-> On Tue, 14 Jun 2022 at 12:20, Baoquan He <bhe@redhat.com> wrote:
-> >
-> > On 06/14/22 at 05:21pm, Wupeng Ma wrote:
-> > > From: Ma Wupeng <mawupeng1@huawei.com>
-> > >
-> > > If system have some mirrored memory and mirrored feature is not specified
-> > > in boot parameter, the basic mirrored feature will be enabled and this will
-> > > lead to the following situations:
-> > >
-> > > - memblock memory allocation prefers mirrored region. This may have some
-> > >   unexpected influence on numa affinity.
-> > >
-> > > - contiguous memory will be split into several parts if parts of them
-> > >   is mirrored memory via memblock_mark_mirror().
-> > >
-> > > To fix this, variable mirrored_kernelcore will be checked in
-> > > memblock_mark_mirror(). Mark mirrored memory with flag MEMBLOCK_MIRROR iff
-> > > kernelcore=mirror is added in the kernel parameters.
-> > >
-> > > Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
-> > > Acked-by: Ard Biesheuvel <ardb@kernel.org>
-> > > ---
-> > >  mm/internal.h   | 2 ++
-> > >  mm/memblock.c   | 3 +++
-> > >  mm/page_alloc.c | 2 +-
-> > >  3 files changed, 6 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/mm/internal.h b/mm/internal.h
-> > > index c0f8fbe0445b..ddd2d6a46f1b 100644
-> > > --- a/mm/internal.h
-> > > +++ b/mm/internal.h
-> > > @@ -861,4 +861,6 @@ struct folio *try_grab_folio(struct page *page, int refs, unsigned int flags);
-> > >
-> > >  DECLARE_PER_CPU(struct per_cpu_nodestat, boot_nodestats);
-> > >
-> > > +extern bool mirrored_kernelcore;
-> > > +
-> > >  #endif       /* __MM_INTERNAL_H */
-> > > diff --git a/mm/memblock.c b/mm/memblock.c
-> > > index b1d2a0009733..a9f18b988b7f 100644
-> > > --- a/mm/memblock.c
-> > > +++ b/mm/memblock.c
-> > > @@ -924,6 +924,9 @@ int __init_memblock memblock_clear_hotplug(phys_addr_t base, phys_addr_t size)
-> > >   */
-> > >  int __init_memblock memblock_mark_mirror(phys_addr_t base, phys_addr_t size)
-> > >  {
-> > > +     if (!mirrored_kernelcore)
-> > > +             return 0;
-> >
-> > memblock_mark_mirror() is just a wrapper, maybe we should check this in
-> > efi_find_mirror(). Otherwise, how do we explain the message printed out
-> > at below in boot log if we don't mark mirror memory at all?
-> >
-> > void __init efi_find_mirror(void)
-> > {
-> > ......
-> >         if (mirror_size)
-> >                 pr_info("Memory: %lldM/%lldM mirrored memory\n",
-> >                         mirror_size>>20, total_size>>20);
-> > }
-> >
-> 
-> EFI does not care about *how* mirrored memory is being used or not, it
-> just reports what the firmware provided. So EFI is not the appropriate
-> level to take kernelcore=mirror into account.
-> 
-> I already mentioned that memblock_mark_mirror() is also the wrong
-> place IMO, but Kefeng explained that doing it elsewhere is
-> problematic.
 
-OK, seems we have no better choice other than these two. 
+--3V7upXqbjpZ4EhLz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> 
+On Mon, Jun 13, 2022 at 08:00:56AM -1000, Tejun Heo <tj@kernel.org> wrote:
+> Yeah, I don't know why this part is different from any other errors that the
+> parent can make.
 
+It's different because a write to parent's cpuset.cpus is independent of
+whether cpuset.cpus of its children are exclusive or not.
+In an extreme case the children may be non-exclusive
+
+    parent	cpuset.cpus=0-3 //   valid partition
+    `- child_1	cpuset.cpus=0-1	// invalid partition
+    `- child_2	cpuset.cpus=1-2 // invalid partition
+
+but the parent can still be a valid partition (thanks to cpu no. 3 in
+the example above).
+
+Do I miss anything?
+
+Thanks,
+Michal
+
+--3V7upXqbjpZ4EhLz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYIAB0WIQTrXXag4J0QvXXBmkMkDQmsBEOquQUCYqh2xwAKCRAkDQmsBEOq
+uYpOAQCf85csUj8650NOSj8/SYGx1Rke2TaokzgsJH1Dl9CDigD9GRFyEDBK4gUH
+O3ICbyDSHByTv2ncDcIRjpX6QGMWSAM=
+=mVZv
+-----END PGP SIGNATURE-----
+
+--3V7upXqbjpZ4EhLz--
