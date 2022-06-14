@@ -2,76 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD8E3C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 10:10:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AC9EC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 10:20:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350386AbiFNKKj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jun 2022 06:10:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54890 "EHLO
+        id S1353091AbiFNKUn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jun 2022 06:20:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241279AbiFNKKO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 06:10:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7DED369EC;
-        Tue, 14 Jun 2022 03:10:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S1353888AbiFNKUl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 06:20:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8A48D4754C
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 03:20:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655202037;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=94Tijhs2krNsUh5sgMXTyng6F8TEy2CILJiweYDy2xE=;
+        b=c1771Fp87tNf+bv5nRdtQsIs3tVBdXsMJBNWZc017Lcc6Ln9UjwJlgTqbuFvQNo+7dz2vV
+        +bRQiKLp+IuY+p6AFnY/6zV4nkO82mhvw+QG9O2u4KSc4yVLSqylo3kYzpwbzZBLofct87
+        aH9I6IX5Pbe0u/NneJBJPcOjc6X9bUg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-575-oZmcGoKQNE-UgM_JJWpd_A-1; Tue, 14 Jun 2022 06:20:33 -0400
+X-MC-Unique: oZmcGoKQNE-UgM_JJWpd_A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6CFDA6009B;
-        Tue, 14 Jun 2022 10:10:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C52F7C3411E;
-        Tue, 14 Jun 2022 10:10:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655201412;
-        bh=JvDzxUuOOtcGI1GXESqFqKZQSGOQ0UaFPLR+q/la0VY=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=U404fFySO9/4Akc7Pv5G1a3Z1xddOD6jsvtaOr7+he4PLhU+cqBwMdQIlIYknaCNV
-         mYWvGQe5958mEeybauAHje3i7MxrxaH8VsSkAnxIHKJHXoRQwpG6aswCc8AZ/FMRce
-         3+d3ueXcuF0BiAZY+wfq5avh9Kz/Uqe8VvOF1UfBgxbZ273Lqwtfa50nr8b44kaAaI
-         vunZdDdQE9VAOl58feaKAAR5R8Z4JUwiJWDeQZ2tdqJq0+EQE0GdYdNUu0CawMvrCT
-         3yvkWbjjXIw/YPE11PittGrS3LH2R4r8S7XIy75XcYcOoqmNSZVMFlgpMNBbyoz021
-         KGanex6+O9zqQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A9F34E73858;
-        Tue, 14 Jun 2022 10:10:12 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 50276811E76;
+        Tue, 14 Jun 2022 10:20:31 +0000 (UTC)
+Received: from localhost (ovpn-12-211.pek2.redhat.com [10.72.12.211])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A42CC52D63;
+        Tue, 14 Jun 2022 10:20:29 +0000 (UTC)
+Date:   Tue, 14 Jun 2022 18:20:25 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Wupeng Ma <mawupeng1@huawei.com>
+Cc:     corbet@lwn.net, will@kernel.org, ardb@kernel.org,
+        catalin.marinas@arm.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, dvhart@infradead.org, andy@infradead.org,
+        rppt@kernel.org, akpm@linux-foundation.org,
+        paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, paulmck@kernel.org, keescook@chromium.org,
+        songmuchun@bytedance.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, swboyd@chromium.org,
+        wei.liu@kernel.org, robin.murphy@arm.com, david@redhat.com,
+        anshuman.khandual@arm.com, thunder.leizhen@huawei.com,
+        wangkefeng.wang@huawei.com, gpiccoli@igalia.com,
+        chenhuacai@kernel.org, geert@linux-m68k.org,
+        vijayb@linux.microsoft.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-mm@kvack.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v5 5/5] memblock: Disable mirror feature if kernelcore is
+ not specified
+Message-ID: <Yqhg6abZDGZSpJ7+@MiWiFi-R3L-srv>
+References: <20220614092156.1972846-1-mawupeng1@huawei.com>
+ <20220614092156.1972846-6-mawupeng1@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] docs: tls: document the TLS_TX_ZEROCOPY_RO
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165520141269.27801.15722081345018226392.git-patchwork-notify@kernel.org>
-Date:   Tue, 14 Jun 2022 10:10:12 +0000
-References: <20220610180212.110590-1-kuba@kernel.org>
-In-Reply-To: <20220610180212.110590-1-kuba@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, maximmi@nvidia.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220614092156.1972846-6-mawupeng1@huawei.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net-next.git (master)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Fri, 10 Jun 2022 11:02:12 -0700 you wrote:
-> Add missing documentation for the TLS_TX_ZEROCOPY_RO opt-in.
+On 06/14/22 at 05:21pm, Wupeng Ma wrote:
+> From: Ma Wupeng <mawupeng1@huawei.com>
 > 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> If system have some mirrored memory and mirrored feature is not specified
+> in boot parameter, the basic mirrored feature will be enabled and this will
+> lead to the following situations:
+> 
+> - memblock memory allocation prefers mirrored region. This may have some
+>   unexpected influence on numa affinity.
+> 
+> - contiguous memory will be split into several parts if parts of them
+>   is mirrored memory via memblock_mark_mirror().
+> 
+> To fix this, variable mirrored_kernelcore will be checked in
+> memblock_mark_mirror(). Mark mirrored memory with flag MEMBLOCK_MIRROR iff
+> kernelcore=mirror is added in the kernel parameters.
+> 
+> Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
+> Acked-by: Ard Biesheuvel <ardb@kernel.org>
 > ---
-> CC: corbet@lwn.net
-> CC: linux-doc@vger.kernel.org
+>  mm/internal.h   | 2 ++
+>  mm/memblock.c   | 3 +++
+>  mm/page_alloc.c | 2 +-
+>  3 files changed, 6 insertions(+), 1 deletion(-)
 > 
-> [...]
+> diff --git a/mm/internal.h b/mm/internal.h
+> index c0f8fbe0445b..ddd2d6a46f1b 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -861,4 +861,6 @@ struct folio *try_grab_folio(struct page *page, int refs, unsigned int flags);
+>  
+>  DECLARE_PER_CPU(struct per_cpu_nodestat, boot_nodestats);
+>  
+> +extern bool mirrored_kernelcore;
+> +
+>  #endif	/* __MM_INTERNAL_H */
+> diff --git a/mm/memblock.c b/mm/memblock.c
+> index b1d2a0009733..a9f18b988b7f 100644
+> --- a/mm/memblock.c
+> +++ b/mm/memblock.c
+> @@ -924,6 +924,9 @@ int __init_memblock memblock_clear_hotplug(phys_addr_t base, phys_addr_t size)
+>   */
+>  int __init_memblock memblock_mark_mirror(phys_addr_t base, phys_addr_t size)
+>  {
+> +	if (!mirrored_kernelcore)
+> +		return 0;
 
-Here is the summary with links:
-  - [net] docs: tls: document the TLS_TX_ZEROCOPY_RO
-    https://git.kernel.org/netdev/net-next/c/7e5e8ec7dbd8
+memblock_mark_mirror() is just a wrapper, maybe we should check this in
+efi_find_mirror(). Otherwise, how do we explain the message printed out
+at below in boot log if we don't mark mirror memory at all?
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+void __init efi_find_mirror(void)
+{
+......
+	if (mirror_size)
+                pr_info("Memory: %lldM/%lldM mirrored memory\n",
+                        mirror_size>>20, total_size>>20);
+}
 
+> +
+>  	system_has_some_mirror = true;
+>  
+>  	return memblock_setclr_flag(base, size, 1, MEMBLOCK_MIRROR);
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index e008a3df0485..10dc35ec7479 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -356,7 +356,7 @@ static unsigned long required_kernelcore_percent __initdata;
+>  static unsigned long required_movablecore __initdata;
+>  static unsigned long required_movablecore_percent __initdata;
+>  static unsigned long zone_movable_pfn[MAX_NUMNODES] __initdata;
+> -static bool mirrored_kernelcore __meminitdata;
+> +bool mirrored_kernelcore __initdata_memblock;
+>  
+>  /* movable_zone is the "real" zone pages in ZONE_MOVABLE are taken from */
+>  int movable_zone;
+> -- 
+> 2.25.1
+> 
+> 
 
