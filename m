@@ -2,186 +2,195 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11F03C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 03:58:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ABFFC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 04:17:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232306AbiFND6l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Jun 2022 23:58:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54416 "EHLO
+        id S236855AbiFNERb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jun 2022 00:17:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237666AbiFND61 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Jun 2022 23:58:27 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2543F637E;
-        Mon, 13 Jun 2022 20:58:26 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B4804B80D13;
-        Tue, 14 Jun 2022 03:58:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3530BC3411B;
-        Tue, 14 Jun 2022 03:58:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655179103;
-        bh=WXZpz+dTnwY7h/5r3XpM8J82ngxzqIIgauF8paQgEug=;
-        h=From:To:Cc:Subject:Date:From;
-        b=nIj2w+8eF3c9KjuYbeiY03jGs4Nihzl9LEDaWhVYJ0sKzoLiIEHddJ5yo5hzVdQBb
-         1rqXKcTDoLfqH6aWuVEJT3u5kctDmEywo2hMY/YjdOzF4EbWaeFCzRaho4V1NprqcM
-         9YtD3s3xbuHVkOA+sBDxhVG1yfcMoBylZCCsURXgizlZo72VBNDMGO56tDK1LlGlyP
-         pTMh025ckr7SrQLYfV0DOvgFCGQHnA97kg6gqvdYhAgrfkXR3v9wwvViAAUGTnrUBf
-         yCUiz+bwSwZfO5YZ/W4J4b2y+UfdKwPzrK7pl4PtJJnoQBQlnRS/3gXUXawC6mMyoT
-         5IQl6JxWYMVxg==
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     linux-fscrypt@vger.kernel.org
-Cc:     linux-btrfs@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Sterba <dsterba@suse.com>
-Subject: [PATCH RESEND] fs-verity: mention btrfs support
-Date:   Mon, 13 Jun 2022 20:57:43 -0700
-Message-Id: <20220614035743.81014-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.36.1
+        with ESMTP id S230137AbiFNER3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 00:17:29 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A42A2FD04
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 21:17:26 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id s135so7413485pgs.10
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jun 2022 21:17:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=6dJRIYQeBiwdqkEyQXK5bbwytY5J/MNh7n1Czybxz00=;
+        b=hSDYK+5NMFmmgN7ucoYKtg/LTTSdpexcHGmpof3CyC7gtJ8xv7mpAi7dCXAkG1Ujl3
+         8aVAWBhsQ7UZy34Y/RTX4uX0zMGdt8nOLYXI9yI+l+NHxTvOIXTnHJm84fDVRoknFK4w
+         R3LV26gHoJEfHSjTt1co3ls/niUVQ82Y2MzLb3xTyJeFydyddYBbBbdE/Yb2GXZFH/q7
+         5Uqh3jKVPklh5/RHY04Q2ZffwuTnJqAFC+VqeyP1ex5dl+IbYEmzJrOgN6ymEr1NZNT4
+         hVgAitP1FlSbnBj3I+nwLf+MYyQ9GicsR8oYs6am3LC8WQOSqH4INbcqHlKqTguXNEbY
+         OjOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=6dJRIYQeBiwdqkEyQXK5bbwytY5J/MNh7n1Czybxz00=;
+        b=ULSvMccR5kzyxnw6yrbquuArkQG2TV5Z4fOUL9w+5RHD8lxHh3ueIkDuneNP5Wg+Tq
+         gDZEvRPL3pX2EbeixT/JGIgn7qql8vH9QZiFrtBc4f9mpxWQpYgzosFs6GNT6E8AsXOa
+         TPIJZZDi60X6dsTqTDpsCFCPPn7/OLTqKVm8eSclOqzlCmSeFSxwUa/60UQZB4wvOHkT
+         jfnVVftos2EiB9xDhcsTxLtpf73VUd2Vtu0IxlT9TAbmaDqY6aw2UTx6csYdjKYhR+Vv
+         mqWt66w437XNhaGhx53N+/oOZe3m26s77XR8HdMQ5EV48eK572TaqSUMOp1mDitNU3g5
+         NOGQ==
+X-Gm-Message-State: AOAM531x1u6R3VShEQqDHgsyE4MaMYKuQLtYLGBH+OTMuKS0F4Vkm/Nh
+        HiL8zhSIMT0BJjZ+yFXYtlmdKw==
+X-Google-Smtp-Source: ABdhPJxgft2ux5nboh5dJXvGaSOZCadJLfXkYbghmSd5tJoQ0IpefLnYqg45oxkagiMpeZ9FAHRl4g==
+X-Received: by 2002:a05:6a00:729:b0:4f7:77ed:c256 with SMTP id 9-20020a056a00072900b004f777edc256mr2734122pfm.1.1655180246058;
+        Mon, 13 Jun 2022 21:17:26 -0700 (PDT)
+Received: from localhost ([139.177.225.255])
+        by smtp.gmail.com with ESMTPSA id cd6-20020a056a00420600b0050dc7628162sm6205484pfb.60.2022.06.13.21.17.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jun 2022 21:17:25 -0700 (PDT)
+Date:   Tue, 14 Jun 2022 12:17:21 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     Oscar Salvador <osalvador@suse.de>, david@redhat.com,
+        akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 6/6] mm: hugetlb_vmemmap: improve hugetlb_vmemmap code
+ readability
+Message-ID: <YqgL0ZcU5dhhO5uL@FVFYT0MHHV2J.usts.net>
+References: <20220613063512.17540-1-songmuchun@bytedance.com>
+ <20220613063512.17540-7-songmuchun@bytedance.com>
+ <Yqb2bA25HhLU/mpM@localhost.localdomain>
+ <Yqb89waW/jcsgRgo@FVFYT0MHHV2J.usts.net>
+ <YqfUxscKfUhT35jR@monkey>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YqfUxscKfUhT35jR@monkey>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Eric Biggers <ebiggers@google.com>
+On Mon, Jun 13, 2022 at 05:22:30PM -0700, Mike Kravetz wrote:
+> On Mon, Jun 13, 2022 at 05:01:43PM +0800”, Muchun Song wrote:
+> > On Mon, Jun 13, 2022 at 10:33:48AM +0200, Oscar Salvador wrote:
+> > > On Mon, Jun 13, 2022 at 02:35:12PM +0800, Muchun Song wrote:
+> > > > -static __init int hugetlb_vmemmap_sysctls_init(void)
+> > > > +static int __init hugetlb_vmemmap_init(void)
+> > > >  {
+> > > > +	const struct hstate *h;
+> > > > +	bool optimizable = false;
+> > > > +
+> > > >  	/*
+> > > > -	 * If "struct page" crosses page boundaries, the vmemmap pages cannot
+> > > > -	 * be optimized.
+> > > > +	 * There are only (RESERVE_VMEMMAP_SIZE / sizeof(struct page)) struct
+> > > > +	 * page structs that can be used when HVO is enabled.
+> > > >  	 */
+> > > > -	if (is_power_of_2(sizeof(struct page)))
+> > > > -		register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
+> > > > +	BUILD_BUG_ON(__NR_USED_SUBPAGE >= RESERVE_VMEMMAP_SIZE / sizeof(struct page));
+> > > 
+> > > I need to take another look, but from the first glance there is something
+> > > here that caught my eye.
+> > >
+> > 
+> > Thanks for taking a look. This is introduced in commit f41f2ed43ca5.
+> >  
+> > > > +
+> > > > +	for_each_hstate(h) {
+> > > > +		char buf[16];
+> > > > +		unsigned int size = 0;
+> > > > +
+> > > > +		if (hugetlb_vmemmap_optimizable(h))
+> > > > +			size = hugetlb_vmemmap_size(h) - RESERVE_VMEMMAP_SIZE;
+> > > > +		optimizable = size ? true : optimizable;
+> > > 
+> > > This feels weird, just use false instead of optimizable.
+> > >
+> > 
+> > This is a loop, we shoud keep "optimizable" as "true" as long as there is one
+> > hstate is optimizable. How about:
+> > 
+> >   if (size)
+> > 	optimizable = true;
+> > 
+> > > > +		string_get_size(huge_page_size(h), 1, STRING_UNITS_2, buf,
+> > > > +				sizeof(buf));
+> > > > +		pr_info("%d KiB vmemmap can be optimized for a %s page\n",
+> > > > +			size / SZ_1K, buf);
+> > > 
+> > > I do not have a strong opinion but I wonder whether this brings a lot.
+> > >
+> > 
+> > I thought the users can know what size HugeTLB is optimizable via
+> > this log.  E.g. On aarch64, 64KB HugeTLB cannot be optimizable.
+> > I do not have a strong opinion as well, if anyone think it is
+> > unnecessary, I'll drop it in next version.
+> 
+> I do not have a strong opinion.  I think it adds a little information.  For me,
+> the new logging of number of pages vmemmap optimized at boot seems a bit
+> redundant.  Here is a BEFORE/AFTER comparison.
+>
 
-btrfs supports fs-verity since Linux v5.15.  Document this.
+Well, I'll drop the "new logging".
+ 
+> BEFORE
+> ------
+> [    0.000000] Command line: BOOT_IMAGE=(hd0,msdos1)/vmlinuz-5.19.0-rc1-next-20220610+ root=UUID=49c13301-2555-44dc-847b-caabe1d62bdf ro console=tty0 console=ttyS0,115200 audit=0 transparent_hugepage=always hugetlb_free_vmemmap=on hugepages=512
+> ...
+> [    0.330930] HugeTLB: can optimize 4095 vmemmap pages for hugepages-1048576kB
+> [    0.350450] HugeTLB: can optimize 7 vmemmap pages for hugepages-2048kB
+> [    0.359282] HugeTLB registered 1.00 GiB page size, pre-allocated 0 pages
+> [    0.359285] HugeTLB registered 2.00 MiB page size, pre-allocated 512 pages
+> 
+> AFTER
+> -----
+> [    0.000000] Command line: BOOT_IMAGE=(hd0,msdos1)/vmlinuz-5.19.0-rc1-next-20220610+ root=UUID=49c13301-2555-44dc-847b-caabe1d62bdf ro console=tty0 console=ttyS0,115200 audit=0 transparent_hugepage=always hugetlb_free_vmemmap=on hugepages=512
+> ...
+> [    0.409068] HugeTLB registered 1.00 GiB page size, pre-allocated 0 pages
+> [    0.409071] HugeTLB registered 2.00 MiB page size, pre-allocated 512 pages
+> [    1.246107] HugeTLB: 16380 KiB vmemmap can be optimized for a 1.00 GiB page
+> [    1.246110] HugeTLB: 28 KiB vmemmap can be optimized for a 2.00 MiB page
+> [    1.246123] HugeTLB: 512 huge pages whose vmemmap are optimized at boot
+> 
+> When I read those messages, I am not sure if 'optimized' is the best
+> word to use.  I know that using alloc/free throughout the code was
+> confusing.  But, wouldn't it perhaps be more clear to the end user if
+> the messages read?
 
-Acked-by: David Sterba <dsterba@suse.com>
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
+Well, I agree with you at least. "free" may be more friendly to the end
+users.  I'll change the word "optimized" to "freed".
 
-[resent to add linux-doc to CC]
+> 
+> HugeTLB: 16380 KiB vmemmap can be freed for a 1.00 GiB page
+> 
+> Also, how about having report_hugepages() call a routine that prints the
+> vmemmmap savings.  Then output could then look something like:
+> 
+> HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+> 	 16380 KiB vmemmap can be freed for a 1.00 GiB page
+> HugeTLB: registered 2.00 MiB page size, pre-allocated 512 pages
+> 	 28 KiB vmemmap can be free for a 2.00 MiB page
+>
 
- Documentation/filesystems/fsverity.rst | 53 +++++++++++++++-----------
- fs/verity/Kconfig                      | 10 ++---
- 2 files changed, 35 insertions(+), 28 deletions(-)
+Well, we eliminate the prefix "HugeTLB:" for memory saving log.
+Maybe it is not a good choice since it it not easy to grep the log
+(e.g. dmesg | grep "HugeTLB" will not show saving log).  If
+we combine both 2-line log into one line, the log becomes a bit long.
+So I'd like to not eliminate the prefix but gather this 2-line log
+into one place. I mean "HugeTLB: registered 1.00 GiB page size,
+pre-allocated 0 pages" is just followed by "HugeTLB: 28 KiB vmemmap
+can be freed for a 2.00 MiB page" without any log insertion in
+between. But I have no strong opinion do this, I'd likt to listen
+to your opinion before making decision to do those changes.
 
-diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
-index 756f2c215ba13..cb8e7573882a1 100644
---- a/Documentation/filesystems/fsverity.rst
-+++ b/Documentation/filesystems/fsverity.rst
-@@ -11,9 +11,9 @@ Introduction
- 
- fs-verity (``fs/verity/``) is a support layer that filesystems can
- hook into to support transparent integrity and authenticity protection
--of read-only files.  Currently, it is supported by the ext4 and f2fs
--filesystems.  Like fscrypt, not too much filesystem-specific code is
--needed to support fs-verity.
-+of read-only files.  Currently, it is supported by the ext4, f2fs, and
-+btrfs filesystems.  Like fscrypt, not too much filesystem-specific
-+code is needed to support fs-verity.
- 
- fs-verity is similar to `dm-verity
- <https://www.kernel.org/doc/Documentation/device-mapper/verity.txt>`_
-@@ -473,9 +473,9 @@ files being swapped around.
- Filesystem support
- ==================
- 
--fs-verity is currently supported by the ext4 and f2fs filesystems.
--The CONFIG_FS_VERITY kconfig option must be enabled to use fs-verity
--on either filesystem.
-+fs-verity is supported by several filesystems, described below.  The
-+CONFIG_FS_VERITY kconfig option must be enabled to use fs-verity on
-+any of these filesystems.
- 
- ``include/linux/fsverity.h`` declares the interface between the
- ``fs/verity/`` support layer and filesystems.  Briefly, filesystems
-@@ -544,6 +544,13 @@ Currently, f2fs verity only supports a Merkle tree block size of 4096.
- Also, f2fs doesn't support enabling verity on files that currently
- have atomic or volatile writes pending.
- 
-+btrfs
-+-----
-+
-+btrfs supports fs-verity since Linux v5.15.  Verity-enabled inodes are
-+marked with a RO_COMPAT inode flag, and the verity metadata is stored
-+in separate btree items.
-+
- Implementation details
- ======================
- 
-@@ -622,14 +629,14 @@ workqueue, and then the workqueue work does the decryption or
- verification.  Finally, pages where no decryption or verity error
- occurred are marked Uptodate, and the pages are unlocked.
- 
--Files on ext4 and f2fs may contain holes.  Normally, ``->readahead()``
--simply zeroes holes and sets the corresponding pages Uptodate; no bios
--are issued.  To prevent this case from bypassing fs-verity, these
--filesystems use fsverity_verify_page() to verify hole pages.
-+On many filesystems, files can contain holes.  Normally,
-+``->readahead()`` simply zeroes holes and sets the corresponding pages
-+Uptodate; no bios are issued.  To prevent this case from bypassing
-+fs-verity, these filesystems use fsverity_verify_page() to verify hole
-+pages.
- 
--ext4 and f2fs disable direct I/O on verity files, since otherwise
--direct I/O would bypass fs-verity.  (They also do the same for
--encrypted files.)
-+Filesystems also disable direct I/O on verity files, since otherwise
-+direct I/O would bypass fs-verity.
- 
- Userspace utility
- =================
-@@ -648,7 +655,7 @@ Tests
- To test fs-verity, use xfstests.  For example, using `kvm-xfstests
- <https://github.com/tytso/xfstests-bld/blob/master/Documentation/kvm-quickstart.md>`_::
- 
--    kvm-xfstests -c ext4,f2fs -g verity
-+    kvm-xfstests -c ext4,f2fs,btrfs -g verity
- 
- FAQ
- ===
-@@ -771,15 +778,15 @@ weren't already directly answered in other parts of this document.
-     e.g. magically trigger construction of a Merkle tree.
- 
- :Q: Does fs-verity support remote filesystems?
--:A: Only ext4 and f2fs support is implemented currently, but in
--    principle any filesystem that can store per-file verity metadata
--    can support fs-verity, regardless of whether it's local or remote.
--    Some filesystems may have fewer options of where to store the
--    verity metadata; one possibility is to store it past the end of
--    the file and "hide" it from userspace by manipulating i_size.  The
--    data verification functions provided by ``fs/verity/`` also assume
--    that the filesystem uses the Linux pagecache, but both local and
--    remote filesystems normally do so.
-+:A: So far all filesystems that have implemented fs-verity support are
-+    local filesystems, but in principle any filesystem that can store
-+    per-file verity metadata can support fs-verity, regardless of
-+    whether it's local or remote.  Some filesystems may have fewer
-+    options of where to store the verity metadata; one possibility is
-+    to store it past the end of the file and "hide" it from userspace
-+    by manipulating i_size.  The data verification functions provided
-+    by ``fs/verity/`` also assume that the filesystem uses the Linux
-+    pagecache, but both local and remote filesystems normally do so.
- 
- :Q: Why is anything filesystem-specific at all?  Shouldn't fs-verity
-     be implemented entirely at the VFS level?
-diff --git a/fs/verity/Kconfig b/fs/verity/Kconfig
-index 54598cd801457..aad1f1d998b9d 100644
---- a/fs/verity/Kconfig
-+++ b/fs/verity/Kconfig
-@@ -14,11 +14,11 @@ config FS_VERITY
- 	help
- 	  This option enables fs-verity.  fs-verity is the dm-verity
- 	  mechanism implemented at the file level.  On supported
--	  filesystems (currently EXT4 and F2FS), userspace can use an
--	  ioctl to enable verity for a file, which causes the filesystem
--	  to build a Merkle tree for the file.  The filesystem will then
--	  transparently verify any data read from the file against the
--	  Merkle tree.  The file is also made read-only.
-+	  filesystems (currently ext4, f2fs, and btrfs), userspace can
-+	  use an ioctl to enable verity for a file, which causes the
-+	  filesystem to build a Merkle tree for the file.  The filesystem
-+	  will then transparently verify any data read from the file
-+	  against the Merkle tree.  The file is also made read-only.
- 
- 	  This serves as an integrity check, but the availability of the
- 	  Merkle tree root hash also allows efficiently supporting
+Thanks.
 
-base-commit: b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
--- 
-2.36.1
-
+> Not insisting on these changes.  Just wanted to share the ideas.
+> 
+> 
+> Overall, the code improvements look good.
+> -- 
+> Mike Kravetz
+> 
