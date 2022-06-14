@@ -2,128 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDEC0C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 09:01:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57903C43334
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 09:12:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231641AbiFNJBv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jun 2022 05:01:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40026 "EHLO
+        id S1353792AbiFNJMx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jun 2022 05:12:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239852AbiFNJBs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 05:01:48 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FAD32F00B;
-        Tue, 14 Jun 2022 02:01:47 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.53])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LMj783mwBzgZDS;
-        Tue, 14 Jun 2022 16:59:48 +0800 (CST)
-Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 14 Jun 2022 17:00:43 +0800
-Received: from localhost.localdomain (10.175.112.125) by
- dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 14 Jun 2022 17:00:41 +0800
-From:   Wupeng Ma <mawupeng1@huawei.com>
-To:     <corbet@lwn.net>, <will@kernel.org>, <ardb@kernel.org>,
-        <catalin.marinas@arm.com>
-CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-        <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-        <dvhart@infradead.org>, <andy@infradead.org>, <rppt@kernel.org>,
-        <akpm@linux-foundation.org>, <paul.walmsley@sifive.com>,
-        <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-        <paulmck@kernel.org>, <keescook@chromium.org>,
-        <songmuchun@bytedance.com>, <rdunlap@infradead.org>,
-        <damien.lemoal@opensource.wdc.com>, <swboyd@chromium.org>,
-        <wei.liu@kernel.org>, <robin.murphy@arm.com>, <david@redhat.com>,
-        <mawupeng1@huawei.com>, <anshuman.khandual@arm.com>,
-        <thunder.leizhen@huawei.com>, <wangkefeng.wang@huawei.com>,
-        <gpiccoli@igalia.com>, <chenhuacai@kernel.org>,
-        <geert@linux-m68k.org>, <vijayb@linux.microsoft.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-efi@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
-        <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>
-Subject: [PATCH v5 5/5] memblock: Disable mirror feature if kernelcore is not specified
-Date:   Tue, 14 Jun 2022 17:21:56 +0800
-Message-ID: <20220614092156.1972846-6-mawupeng1@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220614092156.1972846-1-mawupeng1@huawei.com>
-References: <20220614092156.1972846-1-mawupeng1@huawei.com>
+        with ESMTP id S1352256AbiFNJMv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 05:12:51 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CABB22E095;
+        Tue, 14 Jun 2022 02:12:49 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id e11so8054214pfj.5;
+        Tue, 14 Jun 2022 02:12:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=y5LT+u5NJwfL+PCufqicam27W4bMIdilO9Tb0uSbuJw=;
+        b=nyyfSAIljfbbg9J3tKKnVZ1qRwcUvNUP3r7s0JcEfwNekIsrKQezYRevflWcjzMxrU
+         xfTEW/dsQ0N+F9PVsr91emTuWnp233t51yjsizqPVHyRK0m2DprdU65mAZhPmSKf6U4y
+         mB7tBYeCXFMDDsmbxlX7EToxp/Ey8QTE7aMUiD2sU10e7AvDfIy6J9Kb+XGmt0MRh7Qq
+         rkgPP1m0bgNTcfKPNCtijqiLwyAhRj6x2zlzt1P4hge8RYn8mlWhtbM9zdMjPFPL55ZP
+         flNwWqgmhbLWRDVTqBNBxhRe/CtfnLAzUvcE1ufSrm/zWwz/R90tdU1nPO349Bl6hv1L
+         VSRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=y5LT+u5NJwfL+PCufqicam27W4bMIdilO9Tb0uSbuJw=;
+        b=MOVFZjA3Jgu1JYRz7X3AIE2z+mF6S4TVvoK7r4JtA8dHP2WzSeEHMvB9kKXsL7XK0Y
+         HpkBHE7n/vsEwiuYZainTBcPaBqTZRK4n2HGGGMK1MYRU/Wnh9vRtWhi+Vhh1dAt8eDJ
+         Fj9WGNDmpqXmpZ720rmMdYQePvZ+dJ49KPQOEPZxOqqUcY2h+z81XqQQbNEUasaXjUDT
+         TRlEAX0KZXHc3RqCbKzJImc9exzSFeXgA4xRK98yFk/JGKMCTHs7EntKZfCsjha/Axjh
+         ZgeA3MrqlMzdjbSltPAwsgOYI9JLvix3IsU8cDm5yxvl/jtssAmYDvHSY+0CqTNjv6YC
+         9xkw==
+X-Gm-Message-State: AOAM532Yy3PA3v7FqARQIIjtiMBQop7bijb+IeXtO0XpIMQZh417qiId
+        OEHfckw6ppNOnXYRlcS5XNznnKywIgE=
+X-Google-Smtp-Source: ABdhPJxOvBmngXgCrooJxQT9ykcKnUh3jmmDBWhzUl3DjtQzdednyrSId9pr8pomv5f7DOGeD0vOLg==
+X-Received: by 2002:a63:3193:0:b0:3fe:3f57:35fd with SMTP id x141-20020a633193000000b003fe3f5735fdmr3735508pgx.232.1655197968928;
+        Tue, 14 Jun 2022 02:12:48 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-87.three.co.id. [180.214.233.87])
+        by smtp.gmail.com with ESMTPSA id cp15-20020a170902e78f00b00168c5230332sm6680965plb.148.2022.06.14.02.12.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jun 2022 02:12:48 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: tty: add closing double backticks for lookahead_buf() prototype
+Date:   Tue, 14 Jun 2022 16:12:15 +0700
+Message-Id: <20220614091214.511791-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.36.0
+In-Reply-To: <20220614164745.7b746354@canb.auug.org.au>
+References: <20220614164745.7b746354@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.112.125]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500014.china.huawei.com (7.185.36.153)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Ma Wupeng <mawupeng1@huawei.com>
+After merging tty tree for linux-next testing, Stephen Rothwell reported
+htmldocs warning:
 
-If system have some mirrored memory and mirrored feature is not specified
-in boot parameter, the basic mirrored feature will be enabled and this will
-lead to the following situations:
+Documentation/driver-api/tty/tty_ldisc:46: include/linux/tty_ldisc.h:190: WARNING: Inline literal start-string without end-string.
+Documentation/driver-api/tty/tty_ldisc:46: include/linux/tty_ldisc.h:190: WARNING: Inline emphasis start-string without end-string.
+Documentation/driver-api/tty/tty_ldisc:46: include/linux/tty_ldisc.h:190: WARNING: Inline emphasis start-string without end-string.
+Documentation/driver-api/tty/tty_ldisc:46: include/linux/tty_ldisc.h:190: WARNING: Inline emphasis start-string without end-string.
 
-- memblock memory allocation prefers mirrored region. This may have some
-  unexpected influence on numa affinity.
+The warning is because of missing closing double backticks at
+lookahead_buf() function prototype ([DRV] directive), which cause the
+prototype to be rendered as normal paragraph text instead of inline code
+(monospace).
 
-- contiguous memory will be split into several parts if parts of them
-  is mirrored memory via memblock_mark_mirror().
+Fix the warning by adding missing closing backticks.
 
-To fix this, variable mirrored_kernelcore will be checked in
-memblock_mark_mirror(). Mark mirrored memory with flag MEMBLOCK_MIRROR iff
-kernelcore=mirror is added in the kernel parameters.
-
-Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
+Link: https://lore.kernel.org/linux-next/20220614164745.7b746354@canb.auug.org.au/
+Fixes: 6bb6fa6908ebd3 ("tty: Implement lookahead to process XON/XOFF timely")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jiri Slaby <jirislaby@kernel.org>
+Cc: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- mm/internal.h   | 2 ++
- mm/memblock.c   | 3 +++
- mm/page_alloc.c | 2 +-
- 3 files changed, 6 insertions(+), 1 deletion(-)
+ This patch is based on next-20220614.
 
-diff --git a/mm/internal.h b/mm/internal.h
-index c0f8fbe0445b..ddd2d6a46f1b 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -861,4 +861,6 @@ struct folio *try_grab_folio(struct page *page, int refs, unsigned int flags);
- 
- DECLARE_PER_CPU(struct per_cpu_nodestat, boot_nodestats);
- 
-+extern bool mirrored_kernelcore;
-+
- #endif	/* __MM_INTERNAL_H */
-diff --git a/mm/memblock.c b/mm/memblock.c
-index b1d2a0009733..a9f18b988b7f 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -924,6 +924,9 @@ int __init_memblock memblock_clear_hotplug(phys_addr_t base, phys_addr_t size)
-  */
- int __init_memblock memblock_mark_mirror(phys_addr_t base, phys_addr_t size)
- {
-+	if (!mirrored_kernelcore)
-+		return 0;
-+
- 	system_has_some_mirror = true;
- 
- 	return memblock_setclr_flag(base, size, 1, MEMBLOCK_MIRROR);
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index e008a3df0485..10dc35ec7479 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -356,7 +356,7 @@ static unsigned long required_kernelcore_percent __initdata;
- static unsigned long required_movablecore __initdata;
- static unsigned long required_movablecore_percent __initdata;
- static unsigned long zone_movable_pfn[MAX_NUMNODES] __initdata;
--static bool mirrored_kernelcore __meminitdata;
-+bool mirrored_kernelcore __initdata_memblock;
- 
- /* movable_zone is the "real" zone pages in ZONE_MOVABLE are taken from */
- int movable_zone;
+ include/linux/tty_ldisc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/tty_ldisc.h b/include/linux/tty_ldisc.h
+index 33678e1936f6a6..ede6f2157f329f 100644
+--- a/include/linux/tty_ldisc.h
++++ b/include/linux/tty_ldisc.h
+@@ -187,7 +187,7 @@ int ldsem_down_write_nested(struct ld_semaphore *sem, int subclass,
+  *	function for automatic flow control.
+  *
+  * @lookahead_buf: [DRV] ``void ()(struct tty_struct *tty,
+- *			const unsigned char *cp, const char *fp, int count)
++ *			const unsigned char *cp, const char *fp, int count)``
+  *
+  *	This function is called by the low-level tty driver for characters
+  *	not eaten by ->receive_buf() or ->receive_buf2(). It is useful for
+
+base-commit: 35d872b9ea5b3ad784d7479ea728dcb688df2db7
 -- 
-2.25.1
+An old man doll... just what I always wanted! - Clara
 
