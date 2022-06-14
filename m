@@ -2,56 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35A29C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 07:17:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F56DCCA47A
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 07:17:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353740AbiFNHRf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jun 2022 03:17:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56050 "EHLO
+        id S1353704AbiFNHRg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jun 2022 03:17:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353704AbiFNHRe (ORCPT
+        with ESMTP id S1353707AbiFNHRe (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 03:17:34 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 707901146C
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 00:17:30 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id s22-20020a252d56000000b0065d1ef35f9dso6962540ybe.5
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 00:17:30 -0700 (PDT)
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D2B1181C
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 00:17:32 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id y123-20020a253281000000b0066473f97bf1so6999489yby.3
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 00:17:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc:content-transfer-encoding;
-        bh=xTOA4sg7pfz84VFvXZbM+u/sOLuUvSF317f0fAB6CvA=;
-        b=NQDJWcNdxfrB7NDIOBcWfb7RvMxtoi2r//D0yITx6m9ycvVo+WnrlKPyaAFf3x02/6
-         OiuLOpBDOO0HNPMVhH90ayseDQVOwMGGjVpBV5W8qIOz2ZXx0RHn4NYW0ptfjslPMPSy
-         sIqV6GmJSjxo8Mk9RIemorEOsKPQCB75GgoKZrMfJftOuedOttzAGwv29kNf2TilAiKv
-         j/UEYkpqBafRAkn8OZLNy61gs1B96xW9HNkL8+UI1MEHYTF4ZtZb1csO4Ebs2HY7NySK
-         qG8DheVO48kI8RimuM1OjbgF9UXZw/cDYLaw3oBQY9kG5nbwdL4yIAgk4pSG+CEqmxtD
-         /trQ==
+        bh=D1tI7WDD6BkSp8vdJUGyasd9RspDYVcf2s3K3k00n8E=;
+        b=oVRZoBVjG7Z4RBep9kZJo6+f/8GPme9EC4Rjg3mMbmfp42nGp5yz4K6r1QvXRcxPJN
+         9mMsDFeH6u1+l2WSoQ3O6zlXfQR4yhMIySD4Z/GkwdIaewcfx6jJrixTMAAqtgMsa34q
+         RWlzUXwTCHNovn+liPTEnS7IyzwYNVTpiZlKrhsx4qhGPdMXNEitlBg7tE3NeJZWPJH1
+         nTt1+klEynatT9dGdyS+6oZr5/WQoTUASriruXj9BnKhuytK+J2aIZNhfOtOrVdIxPuh
+         jSLKFFaZSA+H5uB9Tl0el85eepw4IilpgV9W609BtW5CIgwFJw6QSZYoKZ6+yIMqmqg9
+         4A1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc:content-transfer-encoding;
-        bh=xTOA4sg7pfz84VFvXZbM+u/sOLuUvSF317f0fAB6CvA=;
-        b=V8obQNPX9G2YMLOPy70PpE6dg/ww4oAfeCxb8lg0hFFVdSG51u/t28GkDrnl2tbJp7
-         /G5GbQplHFT0d9Y+90qneMJH41bIqErzFJtf9cXu04wd1EH1mbJK4NYZgim4q5xSW5hS
-         +xi0fhQ7TL/Qw9LilnKhcAA2m35cXohAcCtXnM58cEpYv6nAQc8qjHLUPxsU3lvWi5ux
-         PFNYf/n+VugwtoE0qer5rBkpY5cSfPXl9Jbr5Xw98sq8aP6w5fRZxilINB8mNmJ3dUdE
-         TNdhzbtmRRGYhLyMzcxNiVxsG0TOy26gDswHbC1bgeX7EflNml4nABnh0dVWtHswX+YV
-         TNmg==
-X-Gm-Message-State: AJIora+kOXFXwysXC+l94nwefoBfN8h3Brlw/ZARUTlA/Snc2e66wdDq
-        zrVagfadI3Y5Y57meLQuWrzNj4rMqKg=
-X-Google-Smtp-Source: AGRyM1trT+uBk35S+YIkYOGM7Dd5M87w1H+akBFPKbi7xNQDbNhsL8OlM8TOgoe8GTUSjVxWSJZmE223ZHU=
+        bh=D1tI7WDD6BkSp8vdJUGyasd9RspDYVcf2s3K3k00n8E=;
+        b=CbRe3enlN/k+p4G0ixwkTYLjT3ZdD8DjPtnAcWxRMr9GcP+UOSmXXEfqDydycM8SdA
+         1y15eWc7KWrBPUphLtvw4cUViISs2J54mgv40DmUTtILHn4/pS/mqiiAA5SlEAiHtwkl
+         cyk9vmn3MaDp4hLAX/+M/i4wTrmd69VccaN2WB6937hSDqrKotuFjS28vS+Q/v0D3P+H
+         OeO0yTjuWUYUFLChh7yUzihP1kSoB/iDlyM293BYHLSHvvB5JD52RS/NreT+bG1HeH3z
+         6giXy0DK4jVkqOvROoYUZTebpt1oQk8AtxbaTxLkA74Qd+EAfL/j3Z2fwBQLAMl9xUPK
+         kkmg==
+X-Gm-Message-State: AJIora9fbOfWYuCOAXNROBlSMarvNOe9sh+bu8GmWQahzTMroiU+P9Cq
+        hop9t4p4rSI6Kylyva0JdxSYFZv+Kzk=
+X-Google-Smtp-Source: AGRyM1toFkvdpMNGM0kO7TSnX52idsIuCtYt4XUqDdqzJqgRklSPx3240tBaTFSm3AZCDyJ2di6Eb18fdcQ=
 X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:eaa7:1f3f:e74a:2a26])
- (user=yuzhao job=sendgmr) by 2002:a25:aa26:0:b0:663:f4fc:b781 with SMTP id
- s35-20020a25aa26000000b00663f4fcb781mr3703670ybi.316.1655191050056; Tue, 14
- Jun 2022 00:17:30 -0700 (PDT)
-Date:   Tue, 14 Jun 2022 01:16:40 -0600
+ (user=yuzhao job=sendgmr) by 2002:a25:3c45:0:b0:664:cf75:c2d6 with SMTP id
+ j66-20020a253c45000000b00664cf75c2d6mr3416410yba.446.1655191051871; Tue, 14
+ Jun 2022 00:17:31 -0700 (PDT)
+Date:   Tue, 14 Jun 2022 01:16:41 -0600
 In-Reply-To: <20220614071650.206064-1-yuzhao@google.com>
-Message-Id: <20220614071650.206064-4-yuzhao@google.com>
+Message-Id: <20220614071650.206064-5-yuzhao@google.com>
 Mime-Version: 1.0
 References: <20220614071650.206064-1-yuzhao@google.com>
 X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
-Subject: [PATCH v12 03/14] mm/vmscan.c: refactor shrink_node()
+Subject: [PATCH v12 04/14] Revert "include/linux/mm_inline.h: fold
+ __update_lru_size() into its sole caller"
 From:   Yu Zhao <yuzhao@google.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     Andi Kleen <ak@linux.intel.com>,
@@ -73,7 +74,6 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
         page-reclaim@google.com, Yu Zhao <yuzhao@google.com>,
-        Barry Song <baohua@kernel.org>,
         Miaohe Lin <linmiaohe@huawei.com>,
         Brian Geffon <bgeffon@google.com>,
         Jan Alexander Steffens <heftig@archlinux.org>,
@@ -94,11 +94,14 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch refactors shrink_node() to improve readability for the
-upcoming changes to mm/vmscan.c.
+This patch undoes the following refactor:
+commit 289ccba18af4 ("include/linux/mm_inline.h: fold __update_lru_size() i=
+nto its sole caller")
+
+The upcoming changes to include/linux/mm_inline.h will reuse
+__update_lru_size().
 
 Signed-off-by: Yu Zhao <yuzhao@google.com>
-Reviewed-by: Barry Song <baohua@kernel.org>
 Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
 Acked-by: Brian Geffon <bgeffon@google.com>
 Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
@@ -113,235 +116,37 @@ Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
 Tested-by: Sofia Trinh <sofia.trinh@edi.works>
 Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
 ---
- mm/vmscan.c | 198 +++++++++++++++++++++++++++-------------------------
- 1 file changed, 104 insertions(+), 94 deletions(-)
+ include/linux/mm_inline.h | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index f7d9a683e3a7..fddb9bd3c6c2 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -2670,6 +2670,109 @@ enum scan_balance {
- 	SCAN_FILE,
- };
+diff --git a/include/linux/mm_inline.h b/include/linux/mm_inline.h
+index 7b25b53c474a..fb8aadb81cd6 100644
+--- a/include/linux/mm_inline.h
++++ b/include/linux/mm_inline.h
+@@ -34,7 +34,7 @@ static inline int page_is_file_lru(struct page *page)
+ 	return folio_is_file_lru(page_folio(page));
+ }
 =20
-+static void prepare_scan_count(pg_data_t *pgdat, struct scan_control *sc)
-+{
-+	unsigned long file;
-+	struct lruvec *target_lruvec;
-+
-+	target_lruvec =3D mem_cgroup_lruvec(sc->target_mem_cgroup, pgdat);
-+
-+	/*
-+	 * Flush the memory cgroup stats, so that we read accurate per-memcg
-+	 * lruvec stats for heuristics.
-+	 */
-+	mem_cgroup_flush_stats();
-+
-+	/*
-+	 * Determine the scan balance between anon and file LRUs.
-+	 */
-+	spin_lock_irq(&target_lruvec->lru_lock);
-+	sc->anon_cost =3D target_lruvec->anon_cost;
-+	sc->file_cost =3D target_lruvec->file_cost;
-+	spin_unlock_irq(&target_lruvec->lru_lock);
-+
-+	/*
-+	 * Target desirable inactive:active list ratios for the anon
-+	 * and file LRU lists.
-+	 */
-+	if (!sc->force_deactivate) {
-+		unsigned long refaults;
-+
-+		refaults =3D lruvec_page_state(target_lruvec,
-+				WORKINGSET_ACTIVATE_ANON);
-+		if (refaults !=3D target_lruvec->refaults[0] ||
-+			inactive_is_low(target_lruvec, LRU_INACTIVE_ANON))
-+			sc->may_deactivate |=3D DEACTIVATE_ANON;
-+		else
-+			sc->may_deactivate &=3D ~DEACTIVATE_ANON;
-+
-+		/*
-+		 * When refaults are being observed, it means a new
-+		 * workingset is being established. Deactivate to get
-+		 * rid of any stale active pages quickly.
-+		 */
-+		refaults =3D lruvec_page_state(target_lruvec,
-+				WORKINGSET_ACTIVATE_FILE);
-+		if (refaults !=3D target_lruvec->refaults[1] ||
-+		    inactive_is_low(target_lruvec, LRU_INACTIVE_FILE))
-+			sc->may_deactivate |=3D DEACTIVATE_FILE;
-+		else
-+			sc->may_deactivate &=3D ~DEACTIVATE_FILE;
-+	} else
-+		sc->may_deactivate =3D DEACTIVATE_ANON | DEACTIVATE_FILE;
-+
-+	/*
-+	 * If we have plenty of inactive file pages that aren't
-+	 * thrashing, try to reclaim those first before touching
-+	 * anonymous pages.
-+	 */
-+	file =3D lruvec_page_state(target_lruvec, NR_INACTIVE_FILE);
-+	if (file >> sc->priority && !(sc->may_deactivate & DEACTIVATE_FILE))
-+		sc->cache_trim_mode =3D 1;
-+	else
-+		sc->cache_trim_mode =3D 0;
-+
-+	/*
-+	 * Prevent the reclaimer from falling into the cache trap: as
-+	 * cache pages start out inactive, every cache fault will tip
-+	 * the scan balance towards the file LRU.  And as the file LRU
-+	 * shrinks, so does the window for rotation from references.
-+	 * This means we have a runaway feedback loop where a tiny
-+	 * thrashing file LRU becomes infinitely more attractive than
-+	 * anon pages.  Try to detect this based on file LRU size.
-+	 */
-+	if (!cgroup_reclaim(sc)) {
-+		unsigned long total_high_wmark =3D 0;
-+		unsigned long free, anon;
-+		int z;
-+
-+		free =3D sum_zone_node_page_state(pgdat->node_id, NR_FREE_PAGES);
-+		file =3D node_page_state(pgdat, NR_ACTIVE_FILE) +
-+			   node_page_state(pgdat, NR_INACTIVE_FILE);
-+
-+		for (z =3D 0; z < MAX_NR_ZONES; z++) {
-+			struct zone *zone =3D &pgdat->node_zones[z];
-+
-+			if (!managed_zone(zone))
-+				continue;
-+
-+			total_high_wmark +=3D high_wmark_pages(zone);
-+		}
-+
-+		/*
-+		 * Consider anon: if that's low too, this isn't a
-+		 * runaway file reclaim problem, but rather just
-+		 * extreme pressure. Reclaim as per usual then.
-+		 */
-+		anon =3D node_page_state(pgdat, NR_INACTIVE_ANON);
-+
-+		sc->file_is_tiny =3D
-+			file + free <=3D total_high_wmark &&
-+			!(sc->may_deactivate & DEACTIVATE_ANON) &&
-+			anon >> sc->priority;
-+	}
+-static __always_inline void update_lru_size(struct lruvec *lruvec,
++static __always_inline void __update_lru_size(struct lruvec *lruvec,
+ 				enum lru_list lru, enum zone_type zid,
+ 				long nr_pages)
+ {
+@@ -43,6 +43,13 @@ static __always_inline void update_lru_size(struct lruve=
+c *lruvec,
+ 	__mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+ 	__mod_zone_page_state(&pgdat->node_zones[zid],
+ 				NR_ZONE_LRU_BASE + lru, nr_pages);
 +}
 +
- /*
-  * Determine how aggressively the anon and file LRU lists should be
-  * scanned.
-@@ -3138,109 +3241,16 @@ static void shrink_node(pg_data_t *pgdat, struct s=
-can_control *sc)
- 	unsigned long nr_reclaimed, nr_scanned;
- 	struct lruvec *target_lruvec;
- 	bool reclaimable =3D false;
--	unsigned long file;
-=20
- 	target_lruvec =3D mem_cgroup_lruvec(sc->target_mem_cgroup, pgdat);
-=20
- again:
--	/*
--	 * Flush the memory cgroup stats, so that we read accurate per-memcg
--	 * lruvec stats for heuristics.
--	 */
--	mem_cgroup_flush_stats();
--
- 	memset(&sc->nr, 0, sizeof(sc->nr));
-=20
- 	nr_reclaimed =3D sc->nr_reclaimed;
- 	nr_scanned =3D sc->nr_scanned;
-=20
--	/*
--	 * Determine the scan balance between anon and file LRUs.
--	 */
--	spin_lock_irq(&target_lruvec->lru_lock);
--	sc->anon_cost =3D target_lruvec->anon_cost;
--	sc->file_cost =3D target_lruvec->file_cost;
--	spin_unlock_irq(&target_lruvec->lru_lock);
--
--	/*
--	 * Target desirable inactive:active list ratios for the anon
--	 * and file LRU lists.
--	 */
--	if (!sc->force_deactivate) {
--		unsigned long refaults;
--
--		refaults =3D lruvec_page_state(target_lruvec,
--				WORKINGSET_ACTIVATE_ANON);
--		if (refaults !=3D target_lruvec->refaults[0] ||
--			inactive_is_low(target_lruvec, LRU_INACTIVE_ANON))
--			sc->may_deactivate |=3D DEACTIVATE_ANON;
--		else
--			sc->may_deactivate &=3D ~DEACTIVATE_ANON;
--
--		/*
--		 * When refaults are being observed, it means a new
--		 * workingset is being established. Deactivate to get
--		 * rid of any stale active pages quickly.
--		 */
--		refaults =3D lruvec_page_state(target_lruvec,
--				WORKINGSET_ACTIVATE_FILE);
--		if (refaults !=3D target_lruvec->refaults[1] ||
--		    inactive_is_low(target_lruvec, LRU_INACTIVE_FILE))
--			sc->may_deactivate |=3D DEACTIVATE_FILE;
--		else
--			sc->may_deactivate &=3D ~DEACTIVATE_FILE;
--	} else
--		sc->may_deactivate =3D DEACTIVATE_ANON | DEACTIVATE_FILE;
--
--	/*
--	 * If we have plenty of inactive file pages that aren't
--	 * thrashing, try to reclaim those first before touching
--	 * anonymous pages.
--	 */
--	file =3D lruvec_page_state(target_lruvec, NR_INACTIVE_FILE);
--	if (file >> sc->priority && !(sc->may_deactivate & DEACTIVATE_FILE))
--		sc->cache_trim_mode =3D 1;
--	else
--		sc->cache_trim_mode =3D 0;
--
--	/*
--	 * Prevent the reclaimer from falling into the cache trap: as
--	 * cache pages start out inactive, every cache fault will tip
--	 * the scan balance towards the file LRU.  And as the file LRU
--	 * shrinks, so does the window for rotation from references.
--	 * This means we have a runaway feedback loop where a tiny
--	 * thrashing file LRU becomes infinitely more attractive than
--	 * anon pages.  Try to detect this based on file LRU size.
--	 */
--	if (!cgroup_reclaim(sc)) {
--		unsigned long total_high_wmark =3D 0;
--		unsigned long free, anon;
--		int z;
--
--		free =3D sum_zone_node_page_state(pgdat->node_id, NR_FREE_PAGES);
--		file =3D node_page_state(pgdat, NR_ACTIVE_FILE) +
--			   node_page_state(pgdat, NR_INACTIVE_FILE);
--
--		for (z =3D 0; z < MAX_NR_ZONES; z++) {
--			struct zone *zone =3D &pgdat->node_zones[z];
--			if (!managed_zone(zone))
--				continue;
--
--			total_high_wmark +=3D high_wmark_pages(zone);
--		}
--
--		/*
--		 * Consider anon: if that's low too, this isn't a
--		 * runaway file reclaim problem, but rather just
--		 * extreme pressure. Reclaim as per usual then.
--		 */
--		anon =3D node_page_state(pgdat, NR_INACTIVE_ANON);
--
--		sc->file_is_tiny =3D
--			file + free <=3D total_high_wmark &&
--			!(sc->may_deactivate & DEACTIVATE_ANON) &&
--			anon >> sc->priority;
--	}
-+	prepare_scan_count(pgdat, sc);
-=20
- 	shrink_node_memcgs(pgdat, sc);
-=20
++static __always_inline void update_lru_size(struct lruvec *lruvec,
++				enum lru_list lru, enum zone_type zid,
++				long nr_pages)
++{
++	__update_lru_size(lruvec, lru, zid, nr_pages);
+ #ifdef CONFIG_MEMCG
+ 	mem_cgroup_update_lru_size(lruvec, lru, zid, nr_pages);
+ #endif
 --=20
 2.36.1.476.g0c4daa206d-goog
 
