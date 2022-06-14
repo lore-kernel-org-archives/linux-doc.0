@@ -2,132 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B580CCA47A
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 13:09:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27B2DC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 13:42:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240854AbiFNNJQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jun 2022 09:09:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55420 "EHLO
+        id S234288AbiFNNmI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jun 2022 09:42:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234149AbiFNNJQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 09:09:16 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52AC321E11;
-        Tue, 14 Jun 2022 06:09:14 -0700 (PDT)
-Received: from fraeml736-chm.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LMpd70JCTz6F90V;
-        Tue, 14 Jun 2022 21:07:39 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml736-chm.china.huawei.com (10.206.15.217) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 14 Jun 2022 15:09:12 +0200
-Received: from [10.195.33.253] (10.195.33.253) by
- lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 14 Jun 2022 14:09:10 +0100
-Message-ID: <4a3ab043-f609-22cb-895f-e67c8dd8f6ab@huawei.com>
-Date:   Tue, 14 Jun 2022 14:12:18 +0100
+        with ESMTP id S232220AbiFNNmH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 09:42:07 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BB9A1E3DC;
+        Tue, 14 Jun 2022 06:42:05 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 9C5F21F96D;
+        Tue, 14 Jun 2022 13:42:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1655214123; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=2RynI9bveMfEuPgV6NPWSG+N+V9ocQzdvnmJTX6vFZ4=;
+        b=fXJSI5N73XY/TsVtBo1pbPCeladhUNe0OuW0optUN+aU9DU1HrfsOlqAQxdHCLX0Ew2NTa
+        y3ruaG/ezUKGV4An80QmY59I65Gxwj3x3EDnUWPMn120DIJZuesrMch21RVHmCLLE/HJd7
+        wKV9TZKc6B+VxsG30ymxMBhs5NNUKPI=
+Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
+        by relay2.suse.de (Postfix) with ESMTP id 93CA32C141;
+        Tue, 14 Jun 2022 13:42:03 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+        id 955F9DA864; Tue, 14 Jun 2022 15:37:31 +0200 (CEST)
+From:   David Sterba <dsterba@suse.com>
+To:     linux-btrfs@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, David Sterba <dsterba@suse.com>
+Subject: [PATCH] docs: update btrfs list of features and link to readthedocs.io
+Date:   Tue, 14 Jun 2022 15:37:28 +0200
+Message-Id: <20220614133728.29320-1-dsterba@suse.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v3 2/4] dma-iommu: Add iommu_dma_opt_mapping_size()
-To:     <damien.lemoal@opensource.wdc.com>, <joro@8bytes.org>,
-        <will@kernel.org>, <jejb@linux.ibm.com>,
-        <martin.petersen@oracle.com>, <hch@lst.de>,
-        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-ide@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
-        <linux-scsi@vger.kernel.org>, <liyihang6@hisilicon.com>,
-        <chenxiang66@hisilicon.com>, <thunder.leizhen@huawei.com>
-References: <1654507822-168026-1-git-send-email-john.garry@huawei.com>
- <1654507822-168026-3-git-send-email-john.garry@huawei.com>
-From:   John Garry <john.garry@huawei.com>
-In-Reply-To: <1654507822-168026-3-git-send-email-john.garry@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.195.33.253]
-X-ClientProxiedBy: lhreml746-chm.china.huawei.com (10.201.108.196) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/06/2022 10:30, John Garry wrote:
-> Add the IOMMU callback for DMA mapping API dma_opt_mapping_size(), which
-> allows the drivers to know the optimal mapping limit and thus limit the
-> requested IOVA lengths.
-> 
-> This value is based on the IOVA rcache range limit, as IOVAs allocated
-> above this limit must always be newly allocated, which may be quite slow.
-> 
+The btrfs documentation in kernel is only meant as a starting point, so
+update the list of features and add link to readthedocs.io page that is
+most up-to-date. The wiki is still used but information is migrated from
+there.
 
-Can I please get some sort of ack from the IOMMU people on this one?
+Signed-off-by: David Sterba <dsterba@suse.com>
+---
+ Documentation/filesystems/btrfs.rst | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-Thanks,
-John
-
-EOM
-
-> Signed-off-by: John Garry <john.garry@huawei.com>
-> Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-> ---
->   drivers/iommu/dma-iommu.c | 6 ++++++
->   drivers/iommu/iova.c      | 5 +++++
->   include/linux/iova.h      | 2 ++
->   3 files changed, 13 insertions(+)
-> 
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index f90251572a5d..9e1586447ee8 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -1459,6 +1459,11 @@ static unsigned long iommu_dma_get_merge_boundary(struct device *dev)
->   	return (1UL << __ffs(domain->pgsize_bitmap)) - 1;
->   }
->   
-> +static size_t iommu_dma_opt_mapping_size(void)
-> +{
-> +	return iova_rcache_range();
-> +}
-> +
->   static const struct dma_map_ops iommu_dma_ops = {
->   	.alloc			= iommu_dma_alloc,
->   	.free			= iommu_dma_free,
-> @@ -1479,6 +1484,7 @@ static const struct dma_map_ops iommu_dma_ops = {
->   	.map_resource		= iommu_dma_map_resource,
->   	.unmap_resource		= iommu_dma_unmap_resource,
->   	.get_merge_boundary	= iommu_dma_get_merge_boundary,
-> +	.opt_mapping_size	= iommu_dma_opt_mapping_size,
->   };
->   
->   /*
-> diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
-> index db77aa675145..9f00b58d546e 100644
-> --- a/drivers/iommu/iova.c
-> +++ b/drivers/iommu/iova.c
-> @@ -26,6 +26,11 @@ static unsigned long iova_rcache_get(struct iova_domain *iovad,
->   static void free_cpu_cached_iovas(unsigned int cpu, struct iova_domain *iovad);
->   static void free_iova_rcaches(struct iova_domain *iovad);
->   
-> +unsigned long iova_rcache_range(void)
-> +{
-> +	return PAGE_SIZE << (IOVA_RANGE_CACHE_MAX_SIZE - 1);
-> +}
-> +
->   static int iova_cpuhp_dead(unsigned int cpu, struct hlist_node *node)
->   {
->   	struct iova_domain *iovad;
-> diff --git a/include/linux/iova.h b/include/linux/iova.h
-> index 320a70e40233..c6ba6d95d79c 100644
-> --- a/include/linux/iova.h
-> +++ b/include/linux/iova.h
-> @@ -79,6 +79,8 @@ static inline unsigned long iova_pfn(struct iova_domain *iovad, dma_addr_t iova)
->   int iova_cache_get(void);
->   void iova_cache_put(void);
->   
-> +unsigned long iova_rcache_range(void);
-> +
->   void free_iova(struct iova_domain *iovad, unsigned long pfn);
->   void __free_iova(struct iova_domain *iovad, struct iova *iova);
->   struct iova *alloc_iova(struct iova_domain *iovad, unsigned long size,
+diff --git a/Documentation/filesystems/btrfs.rst b/Documentation/filesystems/btrfs.rst
+index d0904f602819..8e6068448648 100644
+--- a/Documentation/filesystems/btrfs.rst
++++ b/Documentation/filesystems/btrfs.rst
+@@ -19,13 +19,23 @@ contribution from anyone.
+     * Subvolumes (separate internal filesystem roots)
+     * Object level mirroring and striping
+     * Checksums on data and metadata (multiple algorithms available)
+-    * Compression
++    * Compression (multiple algorithms available)
++    * Reflink, deduplication
++    * Scrub (on-line checksum verification)
++    * Hierachical quota groups (subvolume and snapshot support)
+     * Integrated multiple device support, with several raid algorithms
+     * Offline filesystem check
+-    * Efficient incremental backup and FS mirroring
++    * Efficient incremental backup and FS mirroring (send/receive)
++    * Trim/discard
+     * Online filesystem defragmentation
++    * Swapfile support
++    * Zoned mode
++    * Read/write metadata verification
++    * Online resize (shrink, grow)
+ 
+-For more information please refer to the wiki
++For more information please refer to the documentation site or wiki
++
++  https://btrfs.readthedocs.io
+ 
+   https://btrfs.wiki.kernel.org
+ 
+-- 
+2.36.1
 
