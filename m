@@ -2,166 +2,239 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC24FC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 06:48:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0A69C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 07:17:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237414AbiFNGs5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jun 2022 02:48:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52236 "EHLO
+        id S1353648AbiFNHRb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jun 2022 03:17:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352348AbiFNGs4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 02:48:56 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0B42393D0;
-        Mon, 13 Jun 2022 23:48:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655189335; x=1686725335;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=wuX5JnFrxSq386a6TH37odo/ge8jsmW2qkPxXWwsMwk=;
-  b=XqyBeM+SC0sn1m7v6sUkGKi3+OmUwaPu8oyiBwspM2lG1Iic58DIA9vw
-   BsBnIj1O+Wjy1LFUBhFzfVmct8m2xyi9ZXj648n+QmmsfIwd9Y62S1vxg
-   rIs9oFIPj4C7JjaL5z475EnQcUC3dP8Qzi6kJu36+Fm601u6gGVi4LDlA
-   UQbsc1ZFe7GHxZ3E3ls4b4Ua8RwQMk1G71H3wU06W3yz763pklJWFcm7M
-   UksybhVQ+ibZYou2JPRLTqdstS+yj2IofS4ch5SpC87yuCVVhuuuhYq1I
-   x7Dd/G8pOLEfKVJnXbWGRupqhA2wEr8cdoO6ZRQYAjXy7n5Vrjkvptcxi
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="303933443"
-X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; 
-   d="scan'208";a="303933443"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2022 23:48:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; 
-   d="scan'208";a="582566724"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
-  by orsmga007.jf.intel.com with ESMTP; 13 Jun 2022 23:48:44 -0700
-Date:   Tue, 14 Jun 2022 14:45:22 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Andy Lutomirski <luto@kernel.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S1353639AbiFNHRa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 03:17:30 -0400
+Received: from mail-il1-x149.google.com (mail-il1-x149.google.com [IPv6:2607:f8b0:4864:20::149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3930911C25
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 00:17:29 -0700 (PDT)
+Received: by mail-il1-x149.google.com with SMTP id a2-20020a923302000000b002d1ad5053feso6045085ilf.17
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 00:17:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc:content-transfer-encoding;
+        bh=XIsXFs30BiQ4xVpnyaiGSMl+eo9iapqmZvbIkD7nffY=;
+        b=kV3K2cQaLBR41xqFMrN/Ux7hMuL6Rg1Vu68/PiSlyzxAOtRnVEVl0Cn1CYlMGenwKA
+         hGdRBxXfRcZABFmeilG2wo6Bo7tUG6ONQPpoU2rPUiMMOAcS0x9sVR/2gCl8FpP2eunk
+         sI7gKYZbBiiIFUnOH8RLZIQSTU373ETF583DCcNdSXBpaPkD+qFFsDPsS4OAm1OGL3g0
+         WOwsQBxN5VJkRJJeqIv78UNWXfDsdbSseA8Pg9aYuQWBwr8RjOA13UCbTdYfpaOQThKh
+         yWRLqGhIw4xROnUHXGl9s/DdpCx7XbZk7g0UyaMcfK9hKA1RuYMvtHmTIffae+bbYxDR
+         +Nbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc:content-transfer-encoding;
+        bh=XIsXFs30BiQ4xVpnyaiGSMl+eo9iapqmZvbIkD7nffY=;
+        b=gUd2M5517vWwnirsC1LriV6f9WpmRVuG7/pbBx+2qCpU2IPTuBpoRCPkdXoX7fjgFX
+         mMBDeXKW+jPMLMpQUPsfL8fT9mJiivrr1t0g0aUzd7z5CSSkWvmuF+UquOoIL+5iG1cW
+         gybF51ggPei/f6+rVxitB6SEuwl57Dqv5Q9ZCwv29H5op8DyVUuUbRd+62FVarz+pyoM
+         remm770wQYumKaRgT+eO1xeO8uZ8Av0Zd1g1qfC429g8pA67xdbvXI9Jvd7SgdUIv3Sx
+         fU8RQlkSZ1txnu0P0bmbCEGBkn5deV6jUM/dt7d4CAkXmZ3k/PPD94PQltCkqK89jiqL
+         /vmg==
+X-Gm-Message-State: AOAM5304YB1vzrbP4LM9JjeYC90rBr1voY25roQ6bAP6IZhXUgPzI6cS
+        9QlY6BchUK936vwQkigRNexuLYiQHlk=
+X-Google-Smtp-Source: ABdhPJwa+IuL3uSYhO0EkwzPcVoaUMEgy/aSEtokQvpBtMacR7RNVPI7HK1y0235IWN8BGc4jvSwVHc/fdE=
+X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:eaa7:1f3f:e74a:2a26])
+ (user=yuzhao job=sendgmr) by 2002:a05:6638:2481:b0:331:df8f:95e0 with SMTP id
+ x1-20020a056638248100b00331df8f95e0mr1974663jat.280.1655191048469; Tue, 14
+ Jun 2022 00:17:28 -0700 (PDT)
+Date:   Tue, 14 Jun 2022 01:16:39 -0600
+In-Reply-To: <20220614071650.206064-1-yuzhao@google.com>
+Message-Id: <20220614071650.206064-3-yuzhao@google.com>
+Mime-Version: 1.0
+References: <20220614071650.206064-1-yuzhao@google.com>
+X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
+Subject: [PATCH v12 02/14] mm: x86: add CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG
+From:   Yu Zhao <yuzhao@google.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
         Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <20220614064522.GA1783435@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-5-chao.p.peng@linux.intel.com>
- <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
- <YofeZps9YXgtP3f1@google.com>
- <20220523132154.GA947536@chaop.bj.intel.com>
- <YoumuHUmgM6TH20S@google.com>
- <20220530132613.GA1200843@chaop.bj.intel.com>
- <YqNt3Sgzge5Rph/R@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YqNt3Sgzge5Rph/R@google.com>
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
+        page-reclaim@google.com, Yu Zhao <yuzhao@google.com>,
+        Barry Song <baohua@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        "=?UTF-8?q?Holger=20Hoffst=C3=A4tte?=" 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 10, 2022 at 04:14:21PM +0000, Sean Christopherson wrote:
-> On Mon, May 30, 2022, Chao Peng wrote:
-> > On Mon, May 23, 2022 at 03:22:32PM +0000, Sean Christopherson wrote:
-> > > Actually, if the semantics are that userspace declares memory as private, then we
-> > > can reuse KVM_MEMORY_ENCRYPT_REG_REGION and KVM_MEMORY_ENCRYPT_UNREG_REGION.  It'd
-> > > be a little gross because we'd need to slightly redefine the semantics for TDX, SNP,
-> > > and software-protected VM types, e.g. the ioctls() currently require a pre-exisitng
-> > > memslot.  But I think it'd work...
-> > 
-> > These existing ioctls looks good for TDX and probably SNP as well. For
-> > softrware-protected VM types, it may not be enough. Maybe for the first
-> > step we can reuse this for all hardware based solutions and invent new
-> > interface when software-protected solution gets really supported.
-> > 
-> > There is semantics difference for fd-based private memory. Current above
-> > two ioctls() use userspace addreess(hva) while for fd-based it should be
-> > fd+offset, and probably it's better to use gpa in this case. Then we
-> > will need change existing semantics and break backward-compatibility.
-> 
-> My thought was to keep the existing semantics for VMs with type==0, i.e. SEV and
-> SEV-ES VMs.  It's a bit gross, but the pinning behavior is a dead end for SNP and
-> TDX, so it effectively needs to be deprecated anyways. 
+Some architectures support the accessed bit in non-leaf PMD entries,
+e.g., x86 sets the accessed bit in a non-leaf PMD entry when using it
+as part of linear address translation [1]. Page table walkers that
+clear the accessed bit may use this capability to reduce their search
+space.
 
-Yes agreed.
+Note that:
+1. Although an inline function is preferable, this capability is added
+   as a configuration option for consistency with the existing macros.
+2. Due to the little interest in other varieties, this capability was
+   only tested on Intel and AMD CPUs.
 
-> I'm definitely not opposed
-> to a new ioctl if Paolo or others think this is too awful, but burning an ioctl
-> for this seems wasteful.
+Thanks to the following developers for their efforts [2][3].
+  Randy Dunlap <rdunlap@infradead.org>
+  Stephen Rothwell <sfr@canb.auug.org.au>
 
-Yes, I also feel confortable if it's acceptable to reuse kvm_enc_region
-to pass _gpa_ range for this new type.
+[1]: Intel 64 and IA-32 Architectures Software Developer's Manual
+     Volume 3 (June 2021), section 4.8
+[2] https://lore.kernel.org/r/bfdcc7c8-922f-61a9-aa15-7e7250f04af7@infradea=
+d.org/
+[3] https://lore.kernel.org/r/20220413151513.5a0d7a7e@canb.auug.org.au/
 
-> 
-> Then generic KVM can do something like:
-> 
-> 	case KVM_MEMORY_ENCRYPT_REG_REGION:
-> 	case KVM_MEMORY_ENCRYPT_UNREG_REGION:
-> 		struct kvm_enc_region region;
-> 
-> 		if (!kvm_arch_vm_supports_private_memslots(kvm))
-> 			goto arch_vm_ioctl;
-> 
-> 		r = -EFAULT;
-> 		if (copy_from_user(&region, argp, sizeof(region)))
-> 			goto out;
-> 
-> 		r = kvm_set_encrypted_region(ioctl, &region);
-> 		break;
-> 	default:
-> arch_vm_ioctl:
-> 		r = kvm_arch_vm_ioctl(filp, ioctl, arg);
-> 
-> 
-> where common KVM provides
-> 
->   __weak void kvm_arch_vm_supports_private_memslots(struct kvm *kvm)
->   {
-> 	return false;
->   }
+Signed-off-by: Yu Zhao <yuzhao@google.com>
+Reviewed-by: Barry Song <baohua@kernel.org>
+Acked-by: Brian Geffon <bgeffon@google.com>
+Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+Acked-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+Acked-by: Steven Barrett <steven@liquorix.net>
+Acked-by: Suleiman Souhlal <suleiman@google.com>
+Tested-by: Daniel Byrne <djbyrne@mtu.edu>
+Tested-by: Donald Carr <d@chaos-reins.com>
+Tested-by: Holger Hoffst=C3=A4tte <holger@applied-asynchrony.com>
+Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
+Tested-by: Sofia Trinh <sofia.trinh@edi.works>
+Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+---
+ arch/Kconfig                   | 8 ++++++++
+ arch/x86/Kconfig               | 1 +
+ arch/x86/include/asm/pgtable.h | 3 ++-
+ arch/x86/mm/pgtable.c          | 5 ++++-
+ include/linux/pgtable.h        | 4 ++--
+ 5 files changed, 17 insertions(+), 4 deletions(-)
 
-I already had kvm_arch_private_mem_supported() introduced in patch-07
-so that can be reused.
+diff --git a/arch/Kconfig b/arch/Kconfig
+index fcf9a41a4ef5..eaeec187bd6a 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -1403,6 +1403,14 @@ config DYNAMIC_SIGFRAME
+ config HAVE_ARCH_NODE_DEV_GROUP
+ 	bool
+=20
++config ARCH_HAS_NONLEAF_PMD_YOUNG
++	bool
++	help
++	  Architectures that select this option are capable of setting the
++	  accessed bit in non-leaf PMD entries when using them as part of linear
++	  address translations. Page table walkers that clear the accessed bit
++	  may use this capability to reduce their search space.
++
+ source "kernel/gcov/Kconfig"
+=20
+ source "scripts/gcc-plugins/Kconfig"
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index be0b95e51df6..5715111abe13 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -85,6 +85,7 @@ config X86
+ 	select ARCH_HAS_PMEM_API		if X86_64
+ 	select ARCH_HAS_PTE_DEVMAP		if X86_64
+ 	select ARCH_HAS_PTE_SPECIAL
++	select ARCH_HAS_NONLEAF_PMD_YOUNG	if PGTABLE_LEVELS > 2
+ 	select ARCH_HAS_UACCESS_FLUSHCACHE	if X86_64
+ 	select ARCH_HAS_COPY_MC			if X86_64
+ 	select ARCH_HAS_SET_MEMORY
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.=
+h
+index dc5f7d8ef68a..5059799bebe3 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -815,7 +815,8 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
+=20
+ static inline int pmd_bad(pmd_t pmd)
+ {
+-	return (pmd_flags(pmd) & ~_PAGE_USER) !=3D _KERNPG_TABLE;
++	return (pmd_flags(pmd) & ~(_PAGE_USER | _PAGE_ACCESSED)) !=3D
++	       (_KERNPG_TABLE & ~_PAGE_ACCESSED);
+ }
+=20
+ static inline unsigned long pages_to_mb(unsigned long npg)
+diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
+index a932d7712d85..8525f2876fb4 100644
+--- a/arch/x86/mm/pgtable.c
++++ b/arch/x86/mm/pgtable.c
+@@ -550,7 +550,7 @@ int ptep_test_and_clear_young(struct vm_area_struct *vm=
+a,
+ 	return ret;
+ }
+=20
+-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++#if defined(CONFIG_TRANSPARENT_HUGEPAGE) || defined(CONFIG_ARCH_HAS_NONLEA=
+F_PMD_YOUNG)
+ int pmdp_test_and_clear_young(struct vm_area_struct *vma,
+ 			      unsigned long addr, pmd_t *pmdp)
+ {
+@@ -562,6 +562,9 @@ int pmdp_test_and_clear_young(struct vm_area_struct *vm=
+a,
+=20
+ 	return ret;
+ }
++#endif
++
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ int pudp_test_and_clear_young(struct vm_area_struct *vma,
+ 			      unsigned long addr, pud_t *pudp)
+ {
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index 8eee31bc9bde..9c57c5cc49c2 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -213,7 +213,7 @@ static inline int ptep_test_and_clear_young(struct vm_a=
+rea_struct *vma,
+ #endif
+=20
+ #ifndef __HAVE_ARCH_PMDP_TEST_AND_CLEAR_YOUNG
+-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++#if defined(CONFIG_TRANSPARENT_HUGEPAGE) || defined(CONFIG_ARCH_HAS_NONLEA=
+F_PMD_YOUNG)
+ static inline int pmdp_test_and_clear_young(struct vm_area_struct *vma,
+ 					    unsigned long address,
+ 					    pmd_t *pmdp)
+@@ -234,7 +234,7 @@ static inline int pmdp_test_and_clear_young(struct vm_a=
+rea_struct *vma,
+ 	BUILD_BUG();
+ 	return 0;
+ }
+-#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
++#endif /* CONFIG_TRANSPARENT_HUGEPAGE || CONFIG_ARCH_HAS_NONLEAF_PMD_YOUNG=
+ */
+ #endif
+=20
+ #ifndef __HAVE_ARCH_PTEP_CLEAR_YOUNG_FLUSH
+--=20
+2.36.1.476.g0c4daa206d-goog
 
-> 
-> and x86 overrides that to
-> 
->   bool kvm_arch_vm_supports_private_memslots(struct kvm *kvm)
->   {
->   	/* I can't remember what we decided on calling type '0' VMs. */
-> 	return !!kvm->vm_type;
->   }
-> 
-> and if someone ever wants to enable private memslot for SEV/SEV-ES guests we can
-> always add a capability or even a new VM type.
-> 
-> pKVM on arm can then obviously implement kvm_arch_vm_supports_private_memslots()
-> to grab whatever identifies a pKVM VM.
