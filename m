@@ -2,199 +2,195 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDCF5C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 09:20:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17A1EC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 09:45:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354933AbiFNJUO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jun 2022 05:20:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59118 "EHLO
+        id S232938AbiFNJpi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jun 2022 05:45:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354730AbiFNJUN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 05:20:13 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E501241FBA;
-        Tue, 14 Jun 2022 02:20:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655198413; x=1686734413;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1zqpTqgp59Z99VrOl0GaDy6GAy94VFKx5+2iNEgIphk=;
-  b=EbW7a17Liy96zOPxP2HJThjEkKFwgZTz4nJXD2WqhvRWcOKhmSYGcTM4
-   qfou6GVXbJXomOevFMMu6mreGkgGYS7TmT0aVNivG4FH23FrH0w/Na0vq
-   doUmNEO5q1nZ2VwtLyYqs71wS/c5JyytJg0h0DljoQDwR6YwCgQOYfuOr
-   fRdqbSiXgnaT8YtRRVKOacol1hEGa91BBa/6ySPAz79tUzUzgCIapxBH6
-   z0Momlyhl7AukzuadMYUlP4pUGnwYJjiM/xN23dJU0GCA8lvC8R+wtg1B
-   0dQTduZ6/LzWndS9GbYoACA4Dhi5F7lC0+8fw5SyJHAr1EKeAgNmR34sH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="279601071"
-X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; 
-   d="scan'208";a="279601071"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2022 02:20:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; 
-   d="scan'208";a="673783811"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2022 02:20:08 -0700
-Date:   Tue, 14 Jun 2022 17:12:07 +0800
-From:   Xu Yilun <yilun.xu@intel.com>
-To:     Ivan Bornyakov <i.bornyakov@metrotek.ru>
-Cc:     mdf@kernel.org, hao.wu@intel.com, trix@redhat.com, corbet@lwn.net,
-        Conor.Dooley@microchip.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-fpga@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, system@metrotek.ru
-Subject: Re: [PATCH v18 0/4] Microchip Polarfire FPGA manager
-Message-ID: <20220614091207.GA869905@yilunxu-OptiPlex-7050>
-References: <20220611090531.9663-1-i.bornyakov@metrotek.ru>
+        with ESMTP id S230157AbiFNJph (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 05:45:37 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0461B39BB7;
+        Tue, 14 Jun 2022 02:45:37 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id f9so7373725plg.0;
+        Tue, 14 Jun 2022 02:45:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:from
+         :subject:to:cc:content-transfer-encoding;
+        bh=73S1jK2kx2ZRVydinmPVHC622te8kmk8uRqY6O2Um0o=;
+        b=b7nIN9tHAbq2tdHyN5KzLdZiupniSSm8uzhn+Xc58s8rnaEF1HClUzTXEdCS4x6FqS
+         3ttBOjDaGB2pSqUlQXE9TPa9D2/nf0o2bJlph3EAU8biirqgFeDmnBkG7IYE75Lu/9lw
+         fC7ZQt7ydK2EEHr5ewWDunhchbCu+tvu+Q0Xh4G/pSIOedOR2cUpFOerOM25FQCsa1I/
+         lU+5oJJdDKkL4Ub6mrwjS544NaY+hMA5uLWHBlk12fs9mRwIGbfN0j4RBSqWts8/vr7j
+         YCasLhkkoup9Kjh3NX6XcO2Myyl9BXKOYNvlaT/e9t95Eit5xwWbAVwvdqMT8kAJ9zz2
+         Z6zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:from:subject:to:cc:content-transfer-encoding;
+        bh=73S1jK2kx2ZRVydinmPVHC622te8kmk8uRqY6O2Um0o=;
+        b=6GfHVZMpiIUR3lhjORNn/Anb1B/Jr3Y0kr5PKEwbB/ILwxdqNf/UefsVpDVKzBlUl4
+         z7dT2RxREvuuPvWyRtTd7fYPZuYIYtjgJxPlFVQk55gGb8PPKJKKqIkWP347R8pnlAVx
+         mvth5yvQI/MmhRz9kCJF4uZScHeB6/NTGuFdumDXpatYqVkS6yhExWiqgsx39Xe+ziaB
+         76UTCwRiTpnyp2AKlgQoqEfRd6doPxqEWaw3Ii4MvsFFB9diqlVIqE/6CAWeZ7WiAhEi
+         q5twEO/mhOyLjc6p0xVbf4EcNdIKvTYtgQxUKIdXjDE8dIABDor3LlyO9xcBXkMMGo0G
+         df/A==
+X-Gm-Message-State: AJIora8MOyHLIeUvN9AX5eJD8/YXVHA9OSVocLHX7A4ntUfJn8Huq5Xk
+        1O2N4qakz0ZvFUWB0CvStpMsuUxX/Ok=
+X-Google-Smtp-Source: AGRyM1vixRMQqL+EKfXaTAmirAGdYWVfHwyPJSXwVJ6O1dNKU5Gy/sY6pDckgXEyw4yMy/vwvQWcYg==
+X-Received: by 2002:a17:903:120f:b0:15f:99f:9597 with SMTP id l15-20020a170903120f00b0015f099f9597mr3562560plh.45.1655199936369;
+        Tue, 14 Jun 2022 02:45:36 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id r10-20020a170902ea4a00b001637997d0d4sm6741988plg.206.2022.06.14.02.45.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jun 2022 02:45:35 -0700 (PDT)
+Message-ID: <2fcb021f-2683-53f3-3088-683276aa580c@gmail.com>
+Date:   Tue, 14 Jun 2022 18:45:28 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220611090531.9663-1-i.bornyakov@metrotek.ru>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH v1 0/2] docs/memory-barriers.txt: Fix confusing name of 'data
+ dependency barrier'
+To:     "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Will Deacon <will@kernel.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 11, 2022 at 12:05:27PM +0300, Ivan Bornyakov wrote:
-> Add support to the FPGA manager for programming Microchip Polarfire
-> FPGAs over slave SPI interface with .dat formatted bitsream image.
+Hi all,
 
-Hi Ivan:
+This is a revised patch set of RFC [1].
 
-I've found some warnings/checks when running "checkpatch --strict",
-please help fix them.
+Discussion so far is about possible follow-up improvements,
+so I hereby submit this set as a "v1".
 
-One of them is the krealloc issue. Some reference for you:
-https://lkml.org/lkml/2013/3/14/558
+Changes since RFC [1]:
 
-BTW: You could check Documentation/process/submit-checklist.rst for more
-guildlines. I think at least checkpatch, make htmldocs or make pdfdocs,
-sparse is the basic checks for you.
+  - Rename title of Patch 1/2.
+  - Remove note on the rename of section "DATA DEPENDENCY BARRIER".
+    Rational in the changelog should suffice.
+  - Wordsmith by self review.
+  - Add Patch 2/2 (fixup of long lines).
 
-Thanks,
-Yilun
+[1]: https://lore.kernel.org/linux-doc/cc2c7885-ac75-24f3-e18a-e77f97c91b4c@gmail.com/ # RFC
 
-> 
-> Changelog:
->   v1 -> v2: fix printk formating
->   v2 -> v3:
->    * replace "microsemi" with "microchip"
->    * replace prefix "microsemi_fpga_" with "mpf_"
->    * more sensible .compatible and .name strings
->    * remove unused defines STATUS_SPI_VIOLATION and STATUS_SPI_ERROR
->   v3 -> v4: fix unused variable warning
->     Put 'mpf_of_ids' definition under conditional compilation, so it
->     would not hang unused if CONFIG_OF is not enabled.
->   v4 -> v5:
->    * prefix defines with MPF_
->    * mdelay() -> usleep_range()
->    * formatting fixes
->    * add DT bindings doc
->    * rework fpga_manager_ops.write() to fpga_manager_ops.write_sg()
->      We can't parse image header in write_init() because image header
->      size is not known beforehand. Thus parsing need to be done in
->      fpga_manager_ops.write() callback, but fpga_manager_ops.write()
->      also need to be reenterable. On the other hand,
->      fpga_manager_ops.write_sg() is called once. Thus, rework usage of
->      write() callback to write_sg().
->   v5 -> v6: fix patch applying
->      I forgot to clean up unrelated local changes which lead to error on
->      patch 0001-fpga-microchip-spi-add-Microchip-MPF-FPGA-manager.patch
->      applying on vanilla kernel.
->   v6 -> v7: fix binding doc to pass dt_binding_check
->   v7 -> v8: another fix for dt_binding_check warning
->   v8 -> v9:
->    * add another patch to support bitstream offset in FPGA image buffer
->    * rework fpga_manager_ops.write_sg() back to fpga_manager_ops.write()
->    * move image header parsing from write() to write_init()
->   v9 -> v10:
->    * add parse_header() callback to fpga_manager_ops
->    * adjust fpga_mgr_write_init[_buf|_sg]() for parse_header() usage
->    * implement parse_header() in microchip-spi driver
->   v10 -> v11: include missing unaligned.h to microchip-spi
->      fix error: implicit declaration of function 'get_unaligned_le[16|32]'
->   v11 -> v12:
->    * microchip-spi: double read hw status, ignore first read, because it
->      can be unreliable.
->    * microchip-spi: remove sleep between status readings in
->      poll_status_not_busy() to save a few seconds. Status is polled on
->      every 16 byte writes - that is quite often, therefore
->      usleep_range() accumulate to a considerable number of seconds.
->   v12 -> v13:
->    * fpga-mgr: separate fpga_mgr_parse_header_buf() from
->      fpga_mgr_write_init_buf()
->    * fpga-mgr: introduce FPGA_MGR_STATE_PARSE_HEADER and
->      FPGA_MGR_STATE_PARSE_HEADER_ERR fpga_mgr_states
->    * fpga-mgr: rename fpga_mgr_write_init_sg() to fpga_mgr_prepare_sg()
->      and rework with respect to a new fpga_mgr_parse_header_buf()
->    * fpga-mgr: rework write accounting in fpga_mgr_buf_load_sg() for
->      better clarity
->    * microchip-spi: rename MPF_STATUS_POLL_TIMEOUT to
->      MPF_STATUS_POLL_RETRIES
->    * microchip-spi: add comment about status reading quirk to
->      mpf_read_status()
->    * microchip-spi: rename poll_status_not_busy() to mpf_poll_status()
->      and add comment.
->    * microchip-spi: make if statement in mpf_poll_status() easier to
->      read.
->   v13 -> v14:
->    * fpga-mgr: improvements from Xu Yilun in
->       - fpga_mgr_parse_header_buf()
->       - fpga_mgr_write_init_buf()
->       - fpga_mgr_prepare_sg()
->       - fpga_mgr_buf_load_sg()
->    * fpga-mgr: add check for -EAGAIN from fpga_mgr_parse_header_buf()
->      when called from fpga_mgr_buf_load_mapped()
->    * microchip-spi: remove excessive cs_change from second spi_transfer
->      in mpf_read_status()
->    * microchip-spi: change type of components_size_start,
->      bitstream_start, i from size_t to u32 in mpf_ops_parse_header()
->   v14 -> v15: eliminate memcpy() in mpf_ops_write()
->     Eliminate excessive memcpy() in mpf_ops_write() by using
->     spi_sync_transfer() instead of spi_write().
->   v15 -> v16:
->    * microchip-spi: change back components_size_start and
->      bitstream_start variables types to size_t, i - to u16 in
->      mpf_ops_parse_header()
->    * fpga-mgr: rename fpga_parse_header_buf() to
->      fpga_parse_header_mapped(). It serves only mapped FPGA image now,
->      adjust it accordingly.
->    * fpga-mgr: separate fpga_mgr_parse_header_sg_first() and
->      fpga_mgr_parse_header_sg() from fpga_mgr_prepare_sg()
->   v16 -> v17:
->    * fpga-mgr: return size of allocated header from
->      fpga_mgr_parse_header_sg(), add `char **ret_buf` to function args
->      to save pointer to allocated header. This allow us to call
->      fpga_mgr_write_init_buf() with exact size of allocated header.
->    * document parse_header() callback in fpga-mgr.rst
->   v17 -> v18:
->    * fpga-mgr: change back fpga_mgr_parse_header_sg() to return
->      allocated buffer but set buffer size into output parameter
->    * fpga-mgr: check returned pointer from krealloc for ZERO_OR_NULL_PTR
->      in fpga_mgr_paese_header_sg() as krealloc may return ZERO_SIZE_PTR.
->    * fpga-mgr: in fpga_mgr_prepare_sg() return fpga_mgr_write_init() on
->      fast path only when both initial_header_size and parse_header() are
->      not defined.
->    * docs: fpga-mgr: a few rewords from Xu Yilun
-> 
-> Ivan Bornyakov (4):
->   fpga: fpga-mgr: support bitstream offset in image buffer
->   docs: fpga: mgr: document parse_header() callback
->   fpga: microchip-spi: add Microchip MPF FPGA manager
->   dt-bindings: fpga: add binding doc for microchip-spi fpga mgr
-> 
->  .../fpga/microchip,mpf-spi-fpga-mgr.yaml      |  44 ++
->  Documentation/driver-api/fpga/fpga-mgr.rst    |  31 +-
->  drivers/fpga/Kconfig                          |   8 +
->  drivers/fpga/Makefile                         |   1 +
->  drivers/fpga/fpga-mgr.c                       | 235 +++++++++--
->  drivers/fpga/microchip-spi.c                  | 393 ++++++++++++++++++
->  include/linux/fpga/fpga-mgr.h                 |  17 +-
->  7 files changed, 693 insertions(+), 36 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/fpga/microchip,mpf-spi-fpga-mgr.yaml
->  create mode 100644 drivers/fpga/microchip-spi.c
-> 
-> -- 
-> 2.35.1
-> 
+For your convenience, diff of "v1 1/2" vs RFC is appended below.
+
+Following is the explanation of background in RFC (with typo fixes):
+-------------------------------------------------------------------
+This is a response to Michael's report back in last November [2].
+
+[2]: "data dependency naming inconsistency":
+     https://lore.kernel.org/r/20211011064233-mutt-send-email-mst@kernel.org/
+
+In the thread, I suggested removing all the explanations of "data dependency
+barriers", which Paul thought was reasonable.
+
+However, such removal would require involved rewrites in the infamously
+hard-to-grasp document, which is beyond my capability.
+I have become more inclined to just substitute "data dependency barrier"
+with "address-dependency barrier" considering the that READ_ONCE() still
+has an implicit address-dependency barrier.
+
+This patch set is the result of such an attempt.
+
+Note: I made a mistake in the thread above. Kernel APIs for explicit data
+dependency barriers were removed in v5.9.
+I was confused the removal with the addition of the barrier to Alpha's
+READ_ONCE() in v4.15.
+
+diff of "v1 1/2" vs RFC
+------------------------------------------------------------------
+diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+index 306afa1f9347..bdbea3cc66a3 100644
+--- a/Documentation/memory-barriers.txt
++++ b/Documentation/memory-barriers.txt
+@@ -391,8 +391,8 @@ Memory barriers come in four basic varieties:
+      memory system as time progresses.  All stores _before_ a write barrier
+      will occur _before_ all the stores after the write barrier.
+ 
+-     [!] Note that write barriers should normally be paired with read- or address-
+-     dependency barriers; see the "SMP barrier pairing" subsection.
++     [!] Note that write barriers should normally be paired with read or
++     address-dependency barriers; see the "SMP barrier pairing" subsection.
+ 
+ 
+  (2) Address-dependency barriers (historical).
+@@ -561,17 +561,14 @@ As of v4.15 of the Linux kernel, an smp_mb() was added to READ_ONCE() for
+ DEC Alpha, which means that about the only people who need to pay attention
+ to this section are those working on DEC Alpha architecture-specific code
+ and those working on READ_ONCE() itself.  For those who need it, and for
+-those who are interested in the history, here is the story of address-
+-dependency barriers.
++those who are interested in the history, here is the story of
++address-dependency barriers.
+ 
+-[!] The title of this section was renamed from "DATA DEPENDENCY BARRIERS"
+-to prevent developer confusion as "data dependencies" usually refers to
+-load-to-store data dependencies.
+-While address dependencies are observed in both load-to-load and load-to-
+-store relations, address-dependency barriers concern only load-to-load
+-situations.
++[!] While address dependencies are observed in both load-to-load and
++load-to-store relations, address-dependency barriers are not necessary
++for load-to-store situations.
+ 
+-The usage requirements of address-dependency barriers are a little subtle, and
++The requirement of address-dependency barriers is a little subtle, and
+ it's not always obvious that they're needed.  To illustrate, consider the
+ following sequence of events:
+ 
+@@ -602,8 +599,8 @@ While this may seem like a failure of coherency or causality maintenance, it
+ isn't, and this behaviour can be observed on certain real CPUs (such as the DEC
+ Alpha).
+ 
+-To deal with this, an implicit address-dependency barrier of READ_ONCE()
+-or better must be inserted between the address load and the data load:
++To deal with this, READ_ONCE() provides an implicit address-dependency
++barrier since kernel release v4.15:
+ 
+ 	CPU 1		      CPU 2
+ 	===============	      ===============
+@@ -659,11 +656,9 @@ can be used to record rare error conditions and the like, and the CPUs'
+ naturally occurring ordering prevents such records from being lost.
+ 
+ 
+-Note well that the ordering provided by an address or a data dependency is local to
++Note well that the ordering provided by an address dependency is local to
+ the CPU containing it.  See the section on "Multicopy atomicity" for
+ more information.
+ 
+---------------------------------------------------------------------
+
+        Thanks, Akira
+--
+Akira Yokosawa (2):
+  docs/memory-barriers.txt: Fix confusing name of 'data dependency
+    barrier'
+  docs/memory-barriers.txt: Fixup long lines
+
+ Documentation/memory-barriers.txt | 177 ++++++++++++++++--------------
+ 1 file changed, 95 insertions(+), 82 deletions(-)
+
+
+base-commit: 21710a691d770f8b48e2de66426fb1c1c8416ee6
+-- 
+2.25.1
+
