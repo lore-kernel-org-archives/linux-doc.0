@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69A22C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 07:18:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E5A0CCA47C
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 07:18:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354072AbiFNHSL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jun 2022 03:18:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56716 "EHLO
+        id S1353886AbiFNHSO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jun 2022 03:18:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353927AbiFNHRo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 03:17:44 -0400
-Received: from mail-io1-xd4a.google.com (mail-io1-xd4a.google.com [IPv6:2607:f8b0:4864:20::d4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D1DA27FFE
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 00:17:39 -0700 (PDT)
-Received: by mail-io1-xd4a.google.com with SMTP id s189-20020a6b2cc6000000b00669add3c306so3884623ios.21
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 00:17:39 -0700 (PDT)
+        with ESMTP id S1352539AbiFNHSI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 03:18:08 -0400
+Received: from mail-io1-xd49.google.com (mail-io1-xd49.google.com [IPv6:2607:f8b0:4864:20::d49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64CD622BD3
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 00:17:42 -0700 (PDT)
+Received: by mail-io1-xd49.google.com with SMTP id i126-20020a6bb884000000b006691e030971so3905237iof.15
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 00:17:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc:content-transfer-encoding;
-        bh=LLoCoXjO4TFz1E04Z+IXKrU3JiHaDtUTrEVan6vhRdc=;
-        b=W0sMiG9BsCs2t5uHoWKuvB2mjJMsLlD3a1zIJUqGcOvRHr5+crwoyFLZ34dKQvN3cj
-         MWp0GUNKu82a9ZGcBJfhYTyYqe4LaGMbU9Og8VAi2CLnVEigDWeprC99DzU5Y+h9E1Uj
-         E6XsGvdaVpVhdjydb7UCpVdc1c/Zde+8lw2B5kmHY3accrTRu/Th+xFAnPNuhLjBbhTU
-         fRzE26FVl8qg3ybASts/APNOhbfAvMRcywctB31PlRT2PpZ4Eyx43nJLSnQLQJwYaLxZ
-         Sneo37HMTx38LvhwLxKocltzmGNVCWE3sCbKomht4twohEAFfqQlU41LRHMgV1lv9a2/
-         7byA==
+        bh=hWQ/pnH1IXBczpgDhNdPRVcRKkX01kpJeoSQmJTZ/E8=;
+        b=NP0JFeVh5/LPbnW/y3636zUCWVda9EYqywiDnvF21ZXsgIBShq1h7BvC4Rrl603A8T
+         +Ace/YsvlFsB0aaxLzuvXzyIhd58XHpVrU//G+O7x2dqEMj1C6LeIb36fPHxh1LZc5zi
+         yub5O7gzo5kn+xhaS8slwkOTTjt6wpwZI0pb5jESWxPZrEIaXq9Rlu/n4JVK2KQoxT5P
+         d3uX+1JCbWJz+sWb9DsMV9q9PLbaZ2v3wHc50k2QgsqR4rfcyPU1cm1TuOqghHT8ZEWV
+         2UxQspqmHz7pUvNuMLC+39LM+xSbuaOWvvsqA9n0TOWQ4ZxUjAmF27Oi8jQabEtD73Pm
+         tCzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc:content-transfer-encoding;
-        bh=LLoCoXjO4TFz1E04Z+IXKrU3JiHaDtUTrEVan6vhRdc=;
-        b=qhDe/rDtdBbEcDZrjOJOSWf4CcWDZScOsiGWHaC8afzdNBawoseEFPVKkOcYYA94aL
-         FAJ9soAZ1gaFFkSJhufZ0LFJolwEd4VytNCJdaiHqUE3Zm37RZ8/2vLZaKfdaWSRckDs
-         /6GgaN2XV1NMGQsXYJBlFNsnMH8g8wIIwAqE6YG1Zi8IBF/6on83cqsAVES0otiDLzS7
-         b1VS/+N8362G8YSlxkF6X4KDNXjirQKmWD9RqqhCePCSM8A6oVToDYSTA114crN58GzE
-         3IG32+mHzuYuM43cBIifHx8lJJYKUwjuVdHx/ycuqsoaq0fxziQrSFwF5Ala82lBjCYS
-         bX0g==
-X-Gm-Message-State: AOAM533+j1OXkaIHEVMaZcqdPj3mtaUNMxMziNjkSQnoo1d7VC/mGPuP
-        uee/AoQE9c+Yer72sjenLRYCHSxLFgo=
-X-Google-Smtp-Source: ABdhPJwnG2X3wGXTZvkVxucFv3E9UlBWU9X45J/77DhA7aSS4xATWLjQOu+ZYvWpE2P+2YHEIijs3yyD04Y=
+        bh=hWQ/pnH1IXBczpgDhNdPRVcRKkX01kpJeoSQmJTZ/E8=;
+        b=c6jcZxnPhpi3JbipoOw967urkiFFmUK1LXuYPmpmv+Vt2VSpT8QELBPESJJLED2wAb
+         yZzh8XeKBnWetdiKctILD6ifGGyI67shFiyGK34UqSRYobHHkWWBzDK6Aq/Dmw1a5oZP
+         UMbXjxn5ctNcXX7jJhzvAT5F3+Wk3u65SB1EobLmFlAwrT+7+RmEA4WRgDlZqjx8RSea
+         53Ti4gp8/kzsWrzBlI6COWkmwIyHr4ZE/W04EHOItbDefFg51Lq0Q9PAQVigRqeYJi/X
+         mbbr1uSLR5Koftc5bZrP5qK4apRHNZWfVsGgZXujG2W264wn6nVtxACT0ISZw+w6zz6D
+         civQ==
+X-Gm-Message-State: AOAM530Zgn8E4SRgjcZMErVR4e06Y+iMgLcoeMK/Lb6JJgfLeZsQIbP1
+        /HTG1Ssu8Vj8q2d6o/pVSRzgWxchOss=
+X-Google-Smtp-Source: ABdhPJw5kkiLi1VUjJRTA9t18NMo5X41YB0/ctzW7svU9pT/nobxcfccImde+K9fDSALv1ESSLJTpNZDXas=
 X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:eaa7:1f3f:e74a:2a26])
- (user=yuzhao job=sendgmr) by 2002:a05:6638:2053:b0:331:6410:1e6d with SMTP id
- t19-20020a056638205300b0033164101e6dmr2118404jaj.98.1655191059251; Tue, 14
- Jun 2022 00:17:39 -0700 (PDT)
-Date:   Tue, 14 Jun 2022 01:16:46 -0600
+ (user=yuzhao job=sendgmr) by 2002:a5d:96d0:0:b0:654:91d3:97b7 with SMTP id
+ r16-20020a5d96d0000000b0065491d397b7mr1829135iol.164.1655191062117; Tue, 14
+ Jun 2022 00:17:42 -0700 (PDT)
+Date:   Tue, 14 Jun 2022 01:16:48 -0600
 In-Reply-To: <20220614071650.206064-1-yuzhao@google.com>
-Message-Id: <20220614071650.206064-10-yuzhao@google.com>
+Message-Id: <20220614071650.206064-12-yuzhao@google.com>
 Mime-Version: 1.0
 References: <20220614071650.206064-1-yuzhao@google.com>
 X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
-Subject: [PATCH v12 09/14] mm: multi-gen LRU: optimize multiple memcgs
+Subject: [PATCH v12 11/14] mm: multi-gen LRU: thrashing prevention
 From:   Yu Zhao <yuzhao@google.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     Andi Kleen <ak@linux.intel.com>,
@@ -92,81 +92,24 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When multiple memcgs are available, it is possible to make better
-choices based on generations and tiers and therefore improve the
-overall performance under global memory pressure. This patch adds a
-rudimentary optimization to select memcgs that can drop single-use
-unmapped clean pages first. Doing so reduces the chance of going into
-the aging path or swapping. These two decisions can be costly.
+Add /sys/kernel/mm/lru_gen/min_ttl_ms for thrashing prevention, as
+requested by many desktop users [1].
 
-A typical example that benefits from this optimization is a server
-running mixed types of workloads, e.g., heavy anon workload in one
-memcg and heavy buffered I/O workload in the other.
+When set to value N, it prevents the working set of N milliseconds
+from getting evicted. The OOM killer is triggered if this working set
+cannot be kept in memory. Based on the average human detectable lag
+(~100ms), N=3D1000 usually eliminates intolerable lags due to thrashing.
+Larger values like N=3D3000 make lags less noticeable at the risk of
+premature OOM kills.
 
-Though this optimization can be applied to both kswapd and direct
-reclaim, it is only added to kswapd to keep the patchset manageable.
-Later improvements will cover the direct reclaim path.
+Compared with the size-based approach [2], this time-based approach
+has the following advantages:
+1. It is easier to configure because it is agnostic to applications
+   and memory sizes.
+2. It is more reliable because it is directly wired to the OOM killer.
 
-Server benchmark results:
-  Mixed workloads:
-    fio (buffered I/O): +[19, 21]%
-                IOPS         BW
-      patch1-8: 1880k        7343MiB/s
-      patch1-9: 2252k        8796MiB/s
-
-    memcached (anon): +[119, 123]%
-                Ops/sec      KB/sec
-      patch1-8: 862768.65    33514.68
-      patch1-9: 1911022.12   74234.54
-
-  Mixed workloads:
-    fio (buffered I/O): +[75, 77]%
-                IOPS         BW
-      5.19-rc1: 1279k        4996MiB/s
-      patch1-9: 2252k        8796MiB/s
-
-    memcached (anon): +[13, 15]%
-                Ops/sec      KB/sec
-      5.19-rc1: 1673524.04   65008.87
-      patch1-9: 1911022.12   74234.54
-
-  Configurations:
-    (changes since patch 6)
-
-    cat mixed.sh
-    modprobe brd rd_nr=3D2 rd_size=3D56623104
-
-    swapoff -a
-    mkswap /dev/ram0
-    swapon /dev/ram0
-
-    mkfs.ext4 /dev/ram1
-    mount -t ext4 /dev/ram1 /mnt
-
-    memtier_benchmark -S /var/run/memcached/memcached.sock \
-      -P memcache_binary -n allkeys --key-minimum=3D1 \
-      --key-maximum=3D50000000 --key-pattern=3DP:P -c 1 -t 36 \
-      --ratio 1:0 --pipeline 8 -d 2000
-
-    fio -name=3Dmglru --numjobs=3D36 --directory=3D/mnt --size=3D1408m \
-      --buffered=3D1 --ioengine=3Dio_uring --iodepth=3D128 \
-      --iodepth_batch_submit=3D32 --iodepth_batch_complete=3D32 \
-      --rw=3Drandread --random_distribution=3Drandom --norandommap \
-      --time_based --ramp_time=3D10m --runtime=3D90m --group_reporting &
-    pid=3D$!
-
-    sleep 200
-
-    memtier_benchmark -S /var/run/memcached/memcached.sock \
-      -P memcache_binary -n allkeys --key-minimum=3D1 \
-      --key-maximum=3D50000000 --key-pattern=3DR:R -c 1 -t 36 \
-      --ratio 0:1 --pipeline 8 --randomize --distinct-client-seed
-
-    kill -INT $pid
-    wait
-
-Client benchmark results:
-  no change (CONFIG_MEMCG=3Dn)
+[1] https://lore.kernel.org/r/Ydza%2FzXKY9ATRoh6@google.com/
+[2] https://lore.kernel.org/r/20101028191523.GA14972@google.com/
 
 Signed-off-by: Yu Zhao <yuzhao@google.com>
 Acked-by: Brian Geffon <bgeffon@google.com>
@@ -182,155 +125,185 @@ Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
 Tested-by: Sofia Trinh <sofia.trinh@edi.works>
 Tested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
 ---
- mm/vmscan.c | 55 ++++++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 46 insertions(+), 9 deletions(-)
+ include/linux/mmzone.h |  2 ++
+ mm/vmscan.c            | 71 +++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 69 insertions(+), 4 deletions(-)
 
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index 840b7ca8b91f..472bd5335517 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -419,6 +419,8 @@ struct lru_gen_struct {
+ 	unsigned long max_seq;
+ 	/* the eviction increments the oldest generation numbers */
+ 	unsigned long min_seq[ANON_AND_FILE];
++	/* the birth time of each generation in jiffies */
++	unsigned long timestamps[MAX_NR_GENS];
+ 	/* the multi-gen LRU lists, lazily sorted on eviction */
+ 	struct list_head lists[MAX_NR_GENS][ANON_AND_FILE][MAX_NR_ZONES];
+ 	/* the multi-gen LRU sizes, eventually consistent */
 diff --git a/mm/vmscan.c b/mm/vmscan.c
-index b086105d485d..4746c4874795 100644
+index 2b6de7e38aa7..075525a9526a 100644
 --- a/mm/vmscan.c
 +++ b/mm/vmscan.c
-@@ -129,6 +129,13 @@ struct scan_control {
- 	/* Always discard instead of demoting to lower tier memory */
- 	unsigned int no_demotion:1;
+@@ -4231,6 +4231,7 @@ static void inc_max_seq(struct lruvec *lruvec, bool c=
+an_swap)
+ 	for (type =3D 0; type < ANON_AND_FILE; type++)
+ 		reset_ctrl_pos(lruvec, type, false);
 =20
-+#ifdef CONFIG_LRU_GEN
-+	/* help make better choices when multiple memcgs are available */
-+	unsigned int memcgs_need_aging:1;
-+	unsigned int memcgs_need_swapping:1;
-+	unsigned int memcgs_avoid_swapping:1;
-+#endif
++	WRITE_ONCE(lrugen->timestamps[next], jiffies);
+ 	/* make sure preceding modifications appear */
+ 	smp_store_release(&lrugen->max_seq, lrugen->max_seq + 1);
+=20
+@@ -4357,7 +4358,7 @@ static unsigned long get_nr_evictable(struct lruvec *=
+lruvec, unsigned long max_s
+ 	return total;
+ }
+=20
+-static void age_lruvec(struct lruvec *lruvec, struct scan_control *sc)
++static bool age_lruvec(struct lruvec *lruvec, struct scan_control *sc, uns=
+igned long min_ttl)
+ {
+ 	bool need_aging;
+ 	unsigned long nr_to_scan;
+@@ -4371,21 +4372,40 @@ static void age_lruvec(struct lruvec *lruvec, struc=
+t scan_control *sc)
+ 	mem_cgroup_calculate_protection(NULL, memcg);
+=20
+ 	if (mem_cgroup_below_min(memcg))
+-		return;
++		return false;
+=20
+ 	nr_to_scan =3D get_nr_evictable(lruvec, max_seq, min_seq, swappiness, &ne=
+ed_aging);
+ 	if (!nr_to_scan)
+-		return;
++		return false;
+=20
+ 	nr_to_scan >>=3D mem_cgroup_online(memcg) ? sc->priority : 0;
+=20
++	if (min_ttl) {
++		int gen =3D lru_gen_from_seq(min_seq[LRU_GEN_FILE]);
++		unsigned long birth =3D READ_ONCE(lruvec->lrugen.timestamps[gen]);
 +
- 	/* Allocation order */
- 	s8 order;
++		if (time_is_after_jiffies(birth + min_ttl))
++			return false;
++
++		/* the size is likely too small to be helpful */
++		if (!nr_to_scan && sc->priority !=3D DEF_PRIORITY)
++			return false;
++	}
++
+ 	if (nr_to_scan && need_aging)
+ 		try_to_inc_max_seq(lruvec, max_seq, sc, swappiness);
++
++	return true;
+ }
 =20
-@@ -4370,6 +4377,22 @@ static void lru_gen_age_node(struct pglist_data *pgd=
-at, struct scan_control *sc)
++/* to protect the working set of the last N jiffies */
++static unsigned long lru_gen_min_ttl __read_mostly;
++
+ static void lru_gen_age_node(struct pglist_data *pgdat, struct scan_contro=
+l *sc)
+ {
+ 	struct mem_cgroup *memcg;
++	bool success =3D false;
++	unsigned long min_ttl =3D READ_ONCE(lru_gen_min_ttl);
 =20
  	VM_WARN_ON_ONCE(!current_is_kswapd());
 =20
-+	/*
-+	 * To reduce the chance of going into the aging path or swapping, which
-+	 * can be costly, optimistically skip them unless their corresponding
-+	 * flags were cleared in the eviction path. This improves the overall
-+	 * performance when multiple memcgs are available.
-+	 */
-+	if (!sc->memcgs_need_aging) {
-+		sc->memcgs_need_aging =3D true;
-+		sc->memcgs_avoid_swapping =3D !sc->memcgs_need_swapping;
-+		sc->memcgs_need_swapping =3D true;
-+		return;
-+	}
-+
-+	sc->memcgs_need_swapping =3D true;
-+	sc->memcgs_avoid_swapping =3D true;
-+
- 	set_mm_walk(pgdat);
+@@ -4411,12 +4431,28 @@ static void lru_gen_age_node(struct pglist_data *pg=
+dat, struct scan_control *sc)
+ 	do {
+ 		struct lruvec *lruvec =3D mem_cgroup_lruvec(memcg, pgdat);
 =20
- 	memcg =3D mem_cgroup_iter(NULL, NULL, NULL);
-@@ -4775,7 +4798,8 @@ static int isolate_folios(struct lruvec *lruvec, stru=
-ct scan_control *sc, int sw
- 	return scanned;
- }
+-		age_lruvec(lruvec, sc);
++		if (age_lruvec(lruvec, sc, min_ttl))
++			success =3D true;
 =20
--static int evict_folios(struct lruvec *lruvec, struct scan_control *sc, in=
-t swappiness)
-+static int evict_folios(struct lruvec *lruvec, struct scan_control *sc, in=
-t swappiness,
-+			bool *need_swapping)
- {
- 	int type;
- 	int scanned;
-@@ -4837,14 +4861,16 @@ static int evict_folios(struct lruvec *lruvec, stru=
-ct scan_control *sc, int swap
-=20
- 	sc->nr_reclaimed +=3D reclaimed;
-=20
-+	if (type =3D=3D LRU_GEN_ANON && need_swapping)
-+		*need_swapping =3D true;
-+
- 	return scanned;
- }
-=20
- static unsigned long get_nr_to_scan(struct lruvec *lruvec, struct scan_con=
-trol *sc,
--				    bool can_swap, unsigned long reclaimed)
-+				    bool can_swap, unsigned long reclaimed, bool *need_aging)
- {
- 	int priority;
--	bool need_aging;
- 	unsigned long nr_to_scan;
- 	struct mem_cgroup *memcg =3D lruvec_memcg(lruvec);
- 	DEFINE_MAX_SEQ(lruvec);
-@@ -4854,7 +4880,7 @@ static unsigned long get_nr_to_scan(struct lruvec *lr=
-uvec, struct scan_control *
- 	    (mem_cgroup_below_low(memcg) && !sc->memcg_low_reclaim))
- 		return 0;
-=20
--	nr_to_scan =3D get_nr_evictable(lruvec, max_seq, min_seq, can_swap, &need=
-_aging);
-+	nr_to_scan =3D get_nr_evictable(lruvec, max_seq, min_seq, can_swap, need_=
-aging);
- 	if (!nr_to_scan)
- 		return 0;
-=20
-@@ -4870,7 +4896,7 @@ static unsigned long get_nr_to_scan(struct lruvec *lr=
-uvec, struct scan_control *
- 	if (!nr_to_scan)
- 		return 0;
-=20
--	if (!need_aging)
-+	if (!*need_aging)
- 		return nr_to_scan;
-=20
- 	/* skip the aging path at the default priority */
-@@ -4890,6 +4916,8 @@ static unsigned long get_nr_to_scan(struct lruvec *lr=
-uvec, struct scan_control *
- static void lru_gen_shrink_lruvec(struct lruvec *lruvec, struct scan_contr=
-ol *sc)
- {
- 	struct blk_plug plug;
-+	bool need_aging =3D false;
-+	bool need_swapping =3D false;
- 	unsigned long scanned =3D 0;
- 	unsigned long reclaimed =3D sc->nr_reclaimed;
-=20
-@@ -4911,21 +4939,30 @@ static void lru_gen_shrink_lruvec(struct lruvec *lr=
-uvec, struct scan_control *sc
- 		else
- 			swappiness =3D 0;
-=20
--		nr_to_scan =3D get_nr_to_scan(lruvec, sc, swappiness, reclaimed);
-+		nr_to_scan =3D get_nr_to_scan(lruvec, sc, swappiness, reclaimed, &need_a=
-ging);
- 		if (!nr_to_scan)
--			break;
-+			goto done;
-=20
--		delta =3D evict_folios(lruvec, sc, swappiness);
-+		delta =3D evict_folios(lruvec, sc, swappiness, &need_swapping);
- 		if (!delta)
--			break;
-+			goto done;
-=20
- 		scanned +=3D delta;
- 		if (scanned >=3D nr_to_scan)
- 			break;
-=20
-+		if (sc->memcgs_avoid_swapping && swappiness < 200 && need_swapping)
-+			break;
-+
  		cond_resched();
- 	}
+ 	} while ((memcg =3D mem_cgroup_iter(NULL, memcg, NULL)));
 =20
-+	/* see the comment in lru_gen_age_node() */
-+	if (!need_aging)
-+		sc->memcgs_need_aging =3D false;
-+	if (!need_swapping)
-+		sc->memcgs_need_swapping =3D false;
-+done:
  	clear_mm_walk();
++
++	/*
++	 * The main goal is to OOM kill if every generation from all memcgs is
++	 * younger than min_ttl. However, another theoretical possibility is all
++	 * memcgs are either below min or empty.
++	 */
++	if (!success && !sc->order && mutex_trylock(&oom_lock)) {
++		struct oom_control oc =3D {
++			.gfp_mask =3D sc->gfp_mask,
++		};
++
++		out_of_memory(&oc);
++
++		mutex_unlock(&oom_lock);
++	}
+ }
 =20
- 	blk_finish_plug(&plug);
+ /*
+@@ -5128,6 +5164,28 @@ static void lru_gen_change_state(bool enabled)
+  *                          sysfs interface
+  *************************************************************************=
+*****/
+=20
++static ssize_t show_min_ttl(struct kobject *kobj, struct kobj_attribute *a=
+ttr, char *buf)
++{
++	return sprintf(buf, "%u\n", jiffies_to_msecs(READ_ONCE(lru_gen_min_ttl)))=
+;
++}
++
++static ssize_t store_min_ttl(struct kobject *kobj, struct kobj_attribute *=
+attr,
++			     const char *buf, size_t len)
++{
++	unsigned int msecs;
++
++	if (kstrtouint(buf, 0, &msecs))
++		return -EINVAL;
++
++	WRITE_ONCE(lru_gen_min_ttl, msecs_to_jiffies(msecs));
++
++	return len;
++}
++
++static struct kobj_attribute lru_gen_min_ttl_attr =3D __ATTR(
++	min_ttl_ms, 0644, show_min_ttl, store_min_ttl
++);
++
+ static ssize_t show_enabled(struct kobject *kobj, struct kobj_attribute *a=
+ttr, char *buf)
+ {
+ 	unsigned int caps =3D 0;
+@@ -5176,6 +5234,7 @@ static struct kobj_attribute lru_gen_enabled_attr =3D=
+ __ATTR(
+ );
+=20
+ static struct attribute *lru_gen_attrs[] =3D {
++	&lru_gen_min_ttl_attr.attr,
+ 	&lru_gen_enabled_attr.attr,
+ 	NULL
+ };
+@@ -5191,12 +5250,16 @@ static struct attribute_group lru_gen_attr_group =
+=3D {
+=20
+ void lru_gen_init_lruvec(struct lruvec *lruvec)
+ {
++	int i;
+ 	int gen, type, zone;
+ 	struct lru_gen_struct *lrugen =3D &lruvec->lrugen;
+=20
+ 	lrugen->max_seq =3D MIN_NR_GENS + 1;
+ 	lrugen->enabled =3D lru_gen_enabled();
+=20
++	for (i =3D 0; i <=3D MIN_NR_GENS + 1; i++)
++		lrugen->timestamps[i] =3D jiffies;
++
+ 	for_each_gen_type_zone(gen, type, zone)
+ 		INIT_LIST_HEAD(&lrugen->lists[gen][type][zone]);
+=20
 --=20
 2.36.1.476.g0c4daa206d-goog
 
