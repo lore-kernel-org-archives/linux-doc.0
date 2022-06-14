@@ -2,201 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21CF6C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 08:53:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF671CCA47A
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 09:00:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355910AbiFNIxE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jun 2022 04:53:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58960 "EHLO
+        id S230348AbiFNJAr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jun 2022 05:00:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355948AbiFNIwz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 04:52:55 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E9F9F4C;
-        Tue, 14 Jun 2022 01:52:42 -0700 (PDT)
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25E7sKMB028296;
-        Tue, 14 Jun 2022 08:52:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=gyfDtNZz1cmWrxBXHGNepl/UxgVnK4jomTFCZjnc4dc=;
- b=HpDw6kfIM0irn+zMgd2gnZhv/0EHn2vHwqz0gFrjSwL58MztnsZ0PGYQs29FGrPpJ2QS
- bOs2w46m9XMKzpkz76L73tdm8v3yqfLKDzg9HOv1k723L7K/NFOkZ6luYE8wFV7salN5
- upBrNK4ZKdIiTivaKodzh1tDshugF6zbasx/1WfaKhKf/BJ52eO7fLfoN0iAnWC8fCCs
- d1dy3JzUklUWz5c0W7xCaZF3mjOXpGjVWCQCIZ+ZaI2M8kSyCXt+axHxpMhh/cVFDLXi
- Ghb1MUZQv7g3KsBr3AgPjEJgip263Of+lIzzhbaLKODBadd/ShIDlbqlFFtrhI87q9+Q kA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gppbqsens-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 14 Jun 2022 08:52:39 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25E8nQUu022648;
-        Tue, 14 Jun 2022 08:52:39 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gppbqsen6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 14 Jun 2022 08:52:39 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
-        by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25E8oRfb023979;
-        Tue, 14 Jun 2022 08:52:37 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
-        by ppma02fra.de.ibm.com with ESMTP id 3gmjp934mm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 14 Jun 2022 08:52:37 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 25E8qXKB22675716
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 14 Jun 2022 08:52:33 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A05DCAE051;
-        Tue, 14 Jun 2022 08:52:33 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6720CAE04D;
-        Tue, 14 Jun 2022 08:52:32 +0000 (GMT)
-Received: from [9.171.87.27] (unknown [9.171.87.27])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue, 14 Jun 2022 08:52:32 +0000 (GMT)
-Message-ID: <69ec8abd-c579-46d0-08cd-2714de91b6cb@linux.ibm.com>
-Date:   Tue, 14 Jun 2022 10:56:51 +0200
+        with ESMTP id S229758AbiFNJAq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 05:00:46 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDE5E27158;
+        Tue, 14 Jun 2022 02:00:43 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.57])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LMj4M4SW0zRjS7;
+        Tue, 14 Jun 2022 16:57:23 +0800 (CST)
+Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 14 Jun 2022 17:00:36 +0800
+Received: from localhost.localdomain (10.175.112.125) by
+ dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 14 Jun 2022 17:00:35 +0800
+From:   Wupeng Ma <mawupeng1@huawei.com>
+To:     <corbet@lwn.net>, <will@kernel.org>, <ardb@kernel.org>,
+        <catalin.marinas@arm.com>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+        <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+        <dvhart@infradead.org>, <andy@infradead.org>, <rppt@kernel.org>,
+        <akpm@linux-foundation.org>, <paul.walmsley@sifive.com>,
+        <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
+        <paulmck@kernel.org>, <keescook@chromium.org>,
+        <songmuchun@bytedance.com>, <rdunlap@infradead.org>,
+        <damien.lemoal@opensource.wdc.com>, <swboyd@chromium.org>,
+        <wei.liu@kernel.org>, <robin.murphy@arm.com>, <david@redhat.com>,
+        <mawupeng1@huawei.com>, <anshuman.khandual@arm.com>,
+        <thunder.leizhen@huawei.com>, <wangkefeng.wang@huawei.com>,
+        <gpiccoli@igalia.com>, <chenhuacai@kernel.org>,
+        <geert@linux-m68k.org>, <vijayb@linux.microsoft.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-efi@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>
+Subject: [PATCH v5 1/5] efi: arm64: Introduce ability to find mirrored memory ranges
+Date:   Tue, 14 Jun 2022 17:21:52 +0800
+Message-ID: <20220614092156.1972846-2-mawupeng1@huawei.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220614092156.1972846-1-mawupeng1@huawei.com>
+References: <20220614092156.1972846-1-mawupeng1@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v9 10/21] vfio/pci: introduce CONFIG_VFIO_PCI_ZDEV_KVM
-Content-Language: en-US
-To:     Matthew Rosato <mjrosato@linux.ibm.com>,
-        Thomas Huth <thuth@redhat.com>, linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com,
-        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, pasic@linux.ibm.com,
-        pbonzini@redhat.com, corbet@lwn.net, jgg@nvidia.com,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220606203325.110625-1-mjrosato@linux.ibm.com>
- <20220606203325.110625-11-mjrosato@linux.ibm.com>
- <025699e6-b870-2648-d4a4-ffbc5fff22e8@redhat.com>
- <ac5cd90a-c92b-1bad-fbec-d1ca6287e826@linux.ibm.com>
-From:   Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <ac5cd90a-c92b-1bad-fbec-d1ca6287e826@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ZsTgDjDy4c79eKKmtexsZutRAXlU9BZm
-X-Proofpoint-ORIG-GUID: kMmIYTe2BBcz5s1DeyMpSniHFDveLBEC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-14_02,2022-06-13_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- priorityscore=1501 suspectscore=0 impostorscore=0 adultscore=0
- phishscore=0 bulkscore=0 mlxscore=0 malwarescore=0 clxscore=1015
- lowpriorityscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2204290000 definitions=main-2206140033
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.112.125]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500014.china.huawei.com (7.185.36.153)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Ma Wupeng <mawupeng1@huawei.com>
 
+Commit b05b9f5f9dcf ("x86, mirror: x86 enabling - find mirrored memory
+ranges") introduce the efi_find_mirror() function on x86. In order to reuse
+the API we make it public.
 
-On 6/8/22 15:15, Matthew Rosato wrote:
-> On 6/8/22 2:19 AM, Thomas Huth wrote:
->> On 06/06/2022 22.33, Matthew Rosato wrote:
->>> The current contents of vfio-pci-zdev are today only useful in a KVM
->>> environment; let's tie everything currently under vfio-pci-zdev to
->>> this Kconfig statement and require KVM in this case, reducing complexity
->>> (e.g. symbol lookups).
->>>
->>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Arm64 can support mirrored memory too, so function efi_find_mirror() is added to
+efi_init() to this support for arm64.
 
-Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+Since efi_init() is shared by ARM, arm64 and riscv, this patch will bring
+mirror memory support for these architectures, but this support is only tested
+in arm64.
 
+Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
+---
+ arch/x86/include/asm/efi.h      |  4 ----
+ arch/x86/platform/efi/efi.c     | 23 -----------------------
+ drivers/firmware/efi/efi-init.c |  1 +
+ drivers/firmware/efi/efi.c      | 23 +++++++++++++++++++++++
+ include/linux/efi.h             |  3 +++
+ 5 files changed, 27 insertions(+), 27 deletions(-)
 
->>> ---
->>>   drivers/vfio/pci/Kconfig      | 11 +++++++++++
->>>   drivers/vfio/pci/Makefile     |  2 +-
->>>   include/linux/vfio_pci_core.h |  2 +-
->>>   3 files changed, 13 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
->>> index 4da1914425e1..f9d0c908e738 100644
->>> --- a/drivers/vfio/pci/Kconfig
->>> +++ b/drivers/vfio/pci/Kconfig
->>> @@ -44,6 +44,17 @@ config VFIO_PCI_IGD
->>>         To enable Intel IGD assignment through vfio-pci, say Y.
->>>   endif
->>> +config VFIO_PCI_ZDEV_KVM
->>> +    bool "VFIO PCI extensions for s390x KVM passthrough"
->>> +    depends on S390 && KVM
->>> +    default y
->>> +    help
->>> +      Support s390x-specific extensions to enable support for 
->>> enhancements
->>> +      to KVM passthrough capabilities, such as interpretive 
->>> execution of
->>> +      zPCI instructions.
->>> +
->>> +      To enable s390x KVM vfio-pci extensions, say Y.
->>
->> Is it still possible to disable CONFIG_VFIO_PCI_ZDEV_KVM ? Looking at 
->> the later patches (e.g. 20/21 where you call kvm_s390_pci_zpci_op() 
->> from kvm-s390.c), it rather seems to me that it currently cannot be 
->> disabled independently (as long as KVM is enabled).
-> 
-> Yes, you can build with, for example, CONFIG_VFIO_PCI_ZDEV_KVM=n and 
-> CONFIG_KVM=m -- I tested it again just now.  The result is kvm and 
-> vfio-pci are built and vfio-pci works, but none of the vfio-pci-zdev 
-> extensions are available (including zPCI interpretation).
-> 
-> This is accomplished via the placement of some IS_ENABLED checks.  Some 
-> calls (e.g. AEN init) are fenced by 
-> IS_ENABLED(CONFIG_VFIO_PCI_ZDEV_KVM).  There are also some areas that 
-> are fenced off via a call to kvm_s390_pci_interp_allowed() which also 
-> includes an IS_ENABLED check along with checks for facility and cpu id.
-> 
-> Using patch 20 as an example, KVM_CAP_S390_ZPCI_OP will always be 
-> reported as unavailable to userspace if CONFIG_VFIO_PCI_ZDEV_KVM=n due 
-> to the call to kvm_s390_pci_interp_allowed().  If userspace sends us the 
-> ioctl anyway, we will return -EINVAL because there is again a 
-> IS_ENABLED(CONFIG_VFIO_PCI_ZDEV_KVM) check before we read the ioctl args 
-> from userspace.
-
-Yes and the code will not be generated by the compiler in patch 20 after 
-the break if CONFIG_VFIO_PCI_ZDEV_KVM is not enabled.
-
-+	case KVM_S390_ZPCI_OP: {
-+		struct kvm_s390_zpci_op args;
+diff --git a/arch/x86/include/asm/efi.h b/arch/x86/include/asm/efi.h
+index 71943dce691e..eb90206eae80 100644
+--- a/arch/x86/include/asm/efi.h
++++ b/arch/x86/include/asm/efi.h
+@@ -383,7 +383,6 @@ static inline bool efi_is_64bit(void)
+ extern bool efi_reboot_required(void);
+ extern bool efi_is_table_address(unsigned long phys_addr);
+ 
+-extern void efi_find_mirror(void);
+ extern void efi_reserve_boot_services(void);
+ #else
+ static inline void parse_efi_setup(u64 phys_addr, u32 data_len) {}
+@@ -395,9 +394,6 @@ static inline  bool efi_is_table_address(unsigned long phys_addr)
+ {
+ 	return false;
+ }
+-static inline void efi_find_mirror(void)
+-{
+-}
+ static inline void efi_reserve_boot_services(void)
+ {
+ }
+diff --git a/arch/x86/platform/efi/efi.c b/arch/x86/platform/efi/efi.c
+index 1591d67e0bcd..6e598bd78eef 100644
+--- a/arch/x86/platform/efi/efi.c
++++ b/arch/x86/platform/efi/efi.c
+@@ -108,29 +108,6 @@ static int __init setup_add_efi_memmap(char *arg)
+ }
+ early_param("add_efi_memmap", setup_add_efi_memmap);
+ 
+-void __init efi_find_mirror(void)
+-{
+-	efi_memory_desc_t *md;
+-	u64 mirror_size = 0, total_size = 0;
+-
+-	if (!efi_enabled(EFI_MEMMAP))
+-		return;
+-
+-	for_each_efi_memory_desc(md) {
+-		unsigned long long start = md->phys_addr;
+-		unsigned long long size = md->num_pages << EFI_PAGE_SHIFT;
+-
+-		total_size += size;
+-		if (md->attribute & EFI_MEMORY_MORE_RELIABLE) {
+-			memblock_mark_mirror(start, size);
+-			mirror_size += size;
+-		}
+-	}
+-	if (mirror_size)
+-		pr_info("Memory: %lldM/%lldM mirrored memory\n",
+-			mirror_size>>20, total_size>>20);
+-}
+-
+ /*
+  * Tell the kernel about the EFI memory map.  This might include
+  * more than the max 128 entries that can fit in the passed in e820
+diff --git a/drivers/firmware/efi/efi-init.c b/drivers/firmware/efi/efi-init.c
+index b2c829e95bd1..8e3a0d14dac5 100644
+--- a/drivers/firmware/efi/efi-init.c
++++ b/drivers/firmware/efi/efi-init.c
+@@ -241,6 +241,7 @@ void __init efi_init(void)
+ 	 */
+ 	early_init_dt_check_for_usable_mem_range();
++	efi_find_mirror();
+ 	efi_esrt_init();
+ 	efi_mokvar_table_init();
+ 
+ 	memblock_reserve(data.phys_map & PAGE_MASK,
+diff --git a/drivers/firmware/efi/efi.c b/drivers/firmware/efi/efi.c
+index 860534bcfdac..79c232e07de7 100644
+--- a/drivers/firmware/efi/efi.c
++++ b/drivers/firmware/efi/efi.c
+@@ -446,6 +446,29 @@ static int __init efisubsys_init(void)
+ 
+ subsys_initcall(efisubsys_init);
+ 
++void __init efi_find_mirror(void)
++{
++	efi_memory_desc_t *md;
++	u64 mirror_size = 0, total_size = 0;
 +
-+		r = -EINVAL;
-+		if (!IS_ENABLED(CONFIG_VFIO_PCI_ZDEV_KVM))
-+			break;
-
-Code not generated----v
-
-+		if (copy_from_user(&args, argp, sizeof(args))) {
-+			r = -EFAULT;
-+			break;
++	if (!efi_enabled(EFI_MEMMAP))
++		return;
++
++	for_each_efi_memory_desc(md) {
++		unsigned long long start = md->phys_addr;
++		unsigned long long size = md->num_pages << EFI_PAGE_SHIFT;
++
++		total_size += size;
++		if (md->attribute & EFI_MEMORY_MORE_RELIABLE) {
++			memblock_mark_mirror(start, size);
++			mirror_size += size;
 +		}
-+		r = kvm_s390_pci_zpci_op(kvm, &args);
-+		break;
-
-----------^
-
 +	}
-> 
->>
->> So if you want to make this selectable by the user, I think you have 
->> to put some more #ifdefs in the following patches.
->> But if this was not meant to be selectable by the user, I think it 
->> should not get a help text and rather be selected by the KVM switch in 
->> arch/s390/kvm/Kconfig instead of having a "default y".
->>
->>   Thomas
->>
-> 
-
++	if (mirror_size)
++		pr_info("Memory: %lldM/%lldM mirrored memory\n",
++			mirror_size>>20, total_size>>20);
++}
++
+ /*
+  * Find the efi memory descriptor for a given physical address.  Given a
+  * physical address, determine if it exists within an EFI Memory Map entry,
+diff --git a/include/linux/efi.h b/include/linux/efi.h
+index 7d9b0bb47eb3..53f64c14a525 100644
+--- a/include/linux/efi.h
++++ b/include/linux/efi.h
+@@ -872,6 +872,7 @@ static inline bool efi_rt_services_supported(unsigned int mask)
+ {
+ 	return (efi.runtime_supported_mask & mask) == mask;
+ }
++extern void efi_find_mirror(void);
+ #else
+ static inline bool efi_enabled(int feature)
+ {
+@@ -889,6 +890,8 @@ static inline bool efi_rt_services_supported(unsigned int mask)
+ {
+ 	return false;
+ }
++
++static inline void efi_find_mirror(void) {}
+ #endif
+ 
+ extern int efi_status_to_err(efi_status_t status);
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+2.25.1
+
