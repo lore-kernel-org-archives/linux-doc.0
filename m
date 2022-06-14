@@ -2,163 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01924C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 07:24:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92712C43334
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 07:31:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354258AbiFNHYB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jun 2022 03:24:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39740 "EHLO
+        id S1354560AbiFNHbh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jun 2022 03:31:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354271AbiFNHYA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 03:24:00 -0400
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEF4D3BBFD
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 00:23:58 -0700 (PDT)
-Received: by mail-il1-x133.google.com with SMTP id p1so5956666ilj.9
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 00:23:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=WgsPByWFwvmxTN6GW/uMi6kC/eCqUxKkzQvH+8GjA0Q=;
-        b=NpIAuWM0RbO9xoxmZjSOjTmrkmHw9aJ0t4AZ/Wbpsg6xH7ArIvcbtmqUcBM5cUbKHH
-         5xqRXIZ27/l9KZtdtnpcqsycUrnqML4JuLEVmW6jeC73ec1QkNGGkqtwAt07d27DVnpX
-         0MvW5YY5H66m65onie1kxC12c+WNiv9Y7+mZUBkFFCgg2cqzs5dKfw4Kjs43vqnFJpI3
-         pWOAgAG0h61eBIpprpOLGscaRiEgzhbIeiTYzm/S+llD55TjkYAiJGOzt1OmwCNPzoCJ
-         bpnCWmI05A8hdqBzIhwhLALelmCucxBQt4yDdO3Z1DjHHolziDMEzep2UbwmCO7kzO5D
-         ToxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WgsPByWFwvmxTN6GW/uMi6kC/eCqUxKkzQvH+8GjA0Q=;
-        b=LRvXCMofj/Ahh94UhxlPEMvzb5h3Hcmw049GLKh1PXknLvkSYnogjlIIUpEKBwizSv
-         tq8WC34tAeg87fTHVlCe33zoCzBcXUmlXq8PRQjSGQvaFfoZwxMt7YC815x5ADFzHbcv
-         SoJlIdvDF2Pbj/L66+5T/PRoOb0RvkKQPIoQaVMqDRC/s2kLdo58Gne+G5L2i33+HCF4
-         mxpTZDbSSaeZ+MsNF/C0L3ueQ8KiDnB22qq5LnfK+33Vs+TMAc4cBr26SSdMMHWr7s5u
-         nMeQmycqee7wy71QqGFJN6MAC4sN3PieVUAfCo3wd4D+Ez4aTeqaBd8WjFxOcyFq/yO5
-         O4Ag==
-X-Gm-Message-State: AJIora/T2DDZb2xlqsoOusWFzYYq8AsIMpA7UcFGay6k6xzBDYIYc6Z5
-        VV2pHycLAge5NwUox6sQI3XRLA==
-X-Google-Smtp-Source: AGRyM1tTdAgY4KPZSG2TLNgC428eedn0ZcqHWQI+CM35U4PQPM8vuUi36BqDkOW7JRkwKXukuMZr/g==
-X-Received: by 2002:a92:504:0:b0:2d6:5aff:82ad with SMTP id q4-20020a920504000000b002d65aff82admr2153215ile.3.1655191437980;
-        Tue, 14 Jun 2022 00:23:57 -0700 (PDT)
-Received: from google.com ([2620:15c:183:200:eaa7:1f3f:e74a:2a26])
-        by smtp.gmail.com with ESMTPSA id f8-20020a02cac8000000b00331d411da60sm4544641jap.75.2022.06.14.00.23.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jun 2022 00:23:57 -0700 (PDT)
-Date:   Tue, 14 Jun 2022 01:23:52 -0600
-From:   Yu Zhao <yuzhao@google.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        with ESMTP id S1354512AbiFNHbf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 03:31:35 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 585273E5D7;
+        Tue, 14 Jun 2022 00:31:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655191893; x=1686727893;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=BwfIVHuEaK8z+QZZOZqmlU4SXCS0pKVU8k7FqNhuJ+Y=;
+  b=nPDtOROeeJYCkJ9Gto/aTf7q28luIOhBq7Q4CrikfFK/Gn34lmPmYcuS
+   er00auX4GEcl0W5+k2+1YdQkgK+7qKi08yUskedjoM6L8U1vp+NT1nh1b
+   9oKWF8eZbuIAmEYFRu4O/aJ1/vI+T0KREddvV6B3mhxTX4w00A0reTcPx
+   RL5IrTGErBFWfv45Ftv9w8i2oKJIy7yxZ8y1IgsGx4g6qtf7TsaH2Ae+F
+   kqU0BhxzqWnglMSXz8HGMUqvDE9I5fRIm63x6PTGb80lztLdJ7N3cUSam
+   8/xzXqWh0AOu8uJjlsoaKD08UodYQQVIhcAxCoFzXJcVNxyd6dGOPgBUk
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="258370173"
+X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; 
+   d="scan'208";a="258370173"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2022 00:31:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; 
+   d="scan'208";a="582581789"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+  by orsmga007.jf.intel.com with ESMTP; 14 Jun 2022 00:31:23 -0700
+Date:   Tue, 14 Jun 2022 15:28:00 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Vishal Annapurve <vannapurve@google.com>,
+        Marc Orr <marcorr@google.com>, kvm list <kvm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Mike Rapoport <rppt@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
-        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v12 08/14] mm: multi-gen LRU: support page table walks
-Message-ID: <Yqg3iLBGPyHOEfA2@google.com>
-References: <20220614071650.206064-1-yuzhao@google.com>
- <20220614071650.206064-9-yuzhao@google.com>
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220614072800.GB1783435@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
+ <20220607065749.GA1513445@chaop.bj.intel.com>
+ <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
+ <20220608021820.GA1548172@chaop.bj.intel.com>
+ <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
+ <YqJYEheLiGI4KqXF@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220614071650.206064-9-yuzhao@google.com>
+In-Reply-To: <YqJYEheLiGI4KqXF@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 14, 2022 at 01:16:45AM -0600, Yu Zhao wrote:
-> +static bool get_next_vma(unsigned long mask, unsigned long size, struct mm_walk *args,
-> +			 unsigned long *vm_start, unsigned long *vm_end)
-> +{
-> +	unsigned long start = round_up(*vm_end, size);
-> +	unsigned long end = (start | ~mask) + 1;
-> +
-> +	VM_WARN_ON_ONCE(mask & size);
-> +	VM_WARN_ON_ONCE((start & mask) != (*vm_start & mask));
-> +
-> +	while (args->vma) {
-> +		if (start >= args->vma->vm_end) {
-> +			args->vma = args->vma->vm_next;
-> +			continue;
-> +		}
-> +
-> +		if (end && end <= args->vma->vm_start)
-> +			return false;
-> +
-> +		if (should_skip_vma(args->vma->vm_start, args->vma->vm_end, args)) {
-> +			args->vma = args->vma->vm_next;
-> +			continue;
-> +		}
-> +
-> +		*vm_start = max(start, args->vma->vm_start);
-> +		*vm_end = min(end - 1, args->vma->vm_end - 1) + 1;
-> +
-> +		return true;
-> +	}
-> +
-> +	return false;
-> +}
+On Thu, Jun 09, 2022 at 08:29:06PM +0000, Sean Christopherson wrote:
+> On Wed, Jun 08, 2022, Vishal Annapurve wrote:
+> > ...
+> > > With this patch series, it's actually even not possible for userspace VMM
+> > > to allocate private page by a direct write, it's basically unmapped from
+> > > there. If it really wants to, it should so something special, by intention,
+> > > that's basically the conversion, which we should allow.
+> > >
+> > 
+> > A VM can pass GPA backed by private pages to userspace VMM and when
+> > Userspace VMM accesses the backing hva there will be pages allocated
+> > to back the shared fd causing 2 sets of pages backing the same guest
+> > memory range.
+> > 
+> > > Thanks for bringing this up. But in my mind I still think userspace VMM
+> > > can do and it's its responsibility to guarantee that, if that is hard
+> > > required.
+> 
+> That was my initial reaction too, but there are unfortunate side effects to punting
+> this to userspace. 
+> 
+> > By design, userspace VMM is the decision-maker for page
+> > > conversion and has all the necessary information to know which page is
+> > > shared/private. It also has the necessary knobs to allocate/free the
+> > > physical pages for guest memory. Definitely, we should make userspace
+> > > VMM more robust.
+> > 
+> > Making Userspace VMM more robust to avoid double allocation can get
+> > complex, it will have to keep track of all in-use (by Userspace VMM)
+> > shared fd memory to disallow conversion from shared to private and
+> > will have to ensure that all guest supplied addresses belong to shared
+> > GPA ranges.
+> 
+> IMO, the complexity argument isn't sufficient justfication for introducing new
+> kernel functionality.  If multiple processes are accessing guest memory then there
+> already needs to be some amount of coordination, i.e. it can't be _that_ complex.
+> 
+> My concern with forcing userspace to fully handle unmapping shared memory is that
+> it may lead to additional performance overhead and/or noisy neighbor issues, even
+> if all guests are well-behaved.
+> 
+> Unnmapping arbitrary ranges will fragment the virtual address space and consume
+> more memory for all the result VMAs.  The extra memory consumption isn't that big
+> of a deal, and it will be self-healing to some extent as VMAs will get merged when
+> the holes are filled back in (if the guest converts back to shared), but it's still
+> less than desirable.
+> 
+> More concerning is having to take mmap_lock for write for every conversion, which
+> is very problematic for configurations where a single userspace process maps memory
+> belong to multiple VMs.  Unmapping and remapping on every conversion will create a
+> bottleneck, especially if a VM has sub-optimal behavior and is converting pages at
+> a high rate.
+> 
+> One argument is that userspace can simply rely on cgroups to detect misbehaving
+> guests, but (a) those types of OOMs will be a nightmare to debug and (b) an OOM
+> kill from the host is typically considered a _host_ issue and will be treated as
+> a missed SLO.
+> 
+> An idea for handling this in the kernel without too much complexity would be to
+> add F_SEAL_FAULT_ALLOCATIONS (terrible name) that would prevent page faults from
+> allocating pages, i.e. holes can only be filled by an explicit fallocate().  Minor
+> faults, e.g. due to NUMA balancing stupidity, and major faults due to swap would
+> still work, but writes to previously unreserved/unallocated memory would get a
+> SIGSEGV on something it has mapped.  That would allow the userspace VMM to prevent
+> unintentional allocations without having to coordinate unmapping/remapping across
+> multiple processes.
 
-Andrew,
+Since this is mainly for shared memory and the motivation is catching
+misbehaved access, can we use mprotect(PROT_NONE) for this? We can mark
+those range backed by private fd as PROT_NONE during the conversion so
+subsequence misbehaved accesses will be blocked instead of causing double
+allocation silently.
 
-The above function has a conflict with Maple Tree. Please use the
-following fix-up if you apply MGLRU on top of Maple Tree. Thanks.
-
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 69a52aae1e03..05e62948e365 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -3749,23 +3749,14 @@ static bool get_next_vma(unsigned long mask, unsigned long size, struct mm_walk
- {
- 	unsigned long start = round_up(*vm_end, size);
- 	unsigned long end = (start | ~mask) + 1;
-+	VMA_ITERATOR(vmi, args->mm, start);
- 
- 	VM_WARN_ON_ONCE(mask & size);
- 	VM_WARN_ON_ONCE((start & mask) != (*vm_start & mask));
- 
--	while (args->vma) {
--		if (start >= args->vma->vm_end) {
--			args->vma = args->vma->vm_next;
-+	for_each_vma_range(vmi, args->vma, end) {
-+		if (should_skip_vma(args->vma->vm_start, args->vma->vm_end, args))
- 			continue;
--		}
--
--		if (end && end <= args->vma->vm_start)
--			return false;
--
--		if (should_skip_vma(args->vma->vm_start, args->vma->vm_end, args)) {
--			args->vma = args->vma->vm_next;
--			continue;
--		}
- 
- 		*vm_start = max(start, args->vma->vm_start);
- 		*vm_end = min(end - 1, args->vma->vm_end - 1) + 1;
+Chao
