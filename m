@@ -2,166 +2,195 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92712C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 07:31:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0EBDC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 07:49:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354560AbiFNHbh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jun 2022 03:31:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47280 "EHLO
+        id S1354869AbiFNHtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jun 2022 03:49:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354512AbiFNHbf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 03:31:35 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 585273E5D7;
-        Tue, 14 Jun 2022 00:31:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655191893; x=1686727893;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=BwfIVHuEaK8z+QZZOZqmlU4SXCS0pKVU8k7FqNhuJ+Y=;
-  b=nPDtOROeeJYCkJ9Gto/aTf7q28luIOhBq7Q4CrikfFK/Gn34lmPmYcuS
-   er00auX4GEcl0W5+k2+1YdQkgK+7qKi08yUskedjoM6L8U1vp+NT1nh1b
-   9oKWF8eZbuIAmEYFRu4O/aJ1/vI+T0KREddvV6B3mhxTX4w00A0reTcPx
-   RL5IrTGErBFWfv45Ftv9w8i2oKJIy7yxZ8y1IgsGx4g6qtf7TsaH2Ae+F
-   kqU0BhxzqWnglMSXz8HGMUqvDE9I5fRIm63x6PTGb80lztLdJ7N3cUSam
-   8/xzXqWh0AOu8uJjlsoaKD08UodYQQVIhcAxCoFzXJcVNxyd6dGOPgBUk
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="258370173"
-X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; 
-   d="scan'208";a="258370173"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2022 00:31:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; 
-   d="scan'208";a="582581789"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
-  by orsmga007.jf.intel.com with ESMTP; 14 Jun 2022 00:31:23 -0700
-Date:   Tue, 14 Jun 2022 15:28:00 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Vishal Annapurve <vannapurve@google.com>,
-        Marc Orr <marcorr@google.com>, kvm list <kvm@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jun Nakajima <jun.nakajima@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220614072800.GB1783435@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
- <20220607065749.GA1513445@chaop.bj.intel.com>
- <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
- <20220608021820.GA1548172@chaop.bj.intel.com>
- <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
- <YqJYEheLiGI4KqXF@google.com>
+        with ESMTP id S1354832AbiFNHtD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 03:49:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DA8333E5D7
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 00:49:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655192941;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=p+wrdfuMBKazwT1cY4RvGcWmJDzmwuDS6uqWLtKiUfE=;
+        b=SHOlycRuNAZ9ieuFWvRrwE9FyWRvNqdFP8x3lxblRYzvps0uTC/qMbFGwA9wYkcVTwpe1m
+        te4JoBA4WosO0VVAZwuvZlR+KJCAv4VRai8LXj85Ieec9ssBaDciQcn6JM9Cm5iUVQqMNw
+        5YyjyZV/CuvTM72EYYgGc1hycNqyyj0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-528-4fwtt90OOBmlDGWDtDQvWg-1; Tue, 14 Jun 2022 03:48:55 -0400
+X-MC-Unique: 4fwtt90OOBmlDGWDtDQvWg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF52A8041BD;
+        Tue, 14 Jun 2022 07:48:54 +0000 (UTC)
+Received: from [10.39.194.250] (unknown [10.39.194.250])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1D770492C3B;
+        Tue, 14 Jun 2022 07:48:52 +0000 (UTC)
+Message-ID: <9bc97629-8680-75f3-7cca-c6029a9235fa@redhat.com>
+Date:   Tue, 14 Jun 2022 09:48:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YqJYEheLiGI4KqXF@google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 00/12] platform/surface: aggregator: Add support for
+ client hot-removal
+Content-Language: en-US
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20220527023447.2460025-1-luzmaximilian@gmail.com>
+ <23f92ec3-a739-6ee7-10f9-f66b17ae6088@redhat.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+In-Reply-To: <23f92ec3-a739-6ee7-10f9-f66b17ae6088@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 09, 2022 at 08:29:06PM +0000, Sean Christopherson wrote:
-> On Wed, Jun 08, 2022, Vishal Annapurve wrote:
-> > ...
-> > > With this patch series, it's actually even not possible for userspace VMM
-> > > to allocate private page by a direct write, it's basically unmapped from
-> > > there. If it really wants to, it should so something special, by intention,
-> > > that's basically the conversion, which we should allow.
-> > >
-> > 
-> > A VM can pass GPA backed by private pages to userspace VMM and when
-> > Userspace VMM accesses the backing hva there will be pages allocated
-> > to back the shared fd causing 2 sets of pages backing the same guest
-> > memory range.
-> > 
-> > > Thanks for bringing this up. But in my mind I still think userspace VMM
-> > > can do and it's its responsibility to guarantee that, if that is hard
-> > > required.
+On 6/13/22 17:27, Hans de Goede wrote:
+> Hi,
 > 
-> That was my initial reaction too, but there are unfortunate side effects to punting
-> this to userspace. 
+> On 5/27/22 04:34, Maximilian Luz wrote:
+>> Summary:
+>>
+>>    Add support for the HID type cover input devices on the Pro 8 and all
+>>    requirements for that.
+>>
+>>
+>> Blurb from v1:
+>>
+>>    This series adds support for the type cover of the Surface Pro 8. On
+>>    the Pro 8, the type cover is (unlike on previous generations) handled
+>>    via the Surface System Aggregator Module (SSAM). As the type cover is
+>>    detachable, care needs to be taken and the respective SSAM (HID)
+>>    client devices need to be properly removed when detached and
+>>    re-initialized when attached.
+>>    
+>>    Therefore, this series does three things:
+>>    
+>>     1. Improve hot-removal support for SSAM client devices. When
+>>        hot-removing clients, subsequent communication may time out.
+>>    
+>>        In the worst case, this can lead to problems when devices are
+>>        detached and re-attached quickly, before we can remove their
+>>        respective kernel representations. This can then lead to devices
+>>        being in an uninitialized state, preventing, for example, touchpad
+>>        gestures from working properly as the required HID feature report
+>>        has not been sent.
+>>    
+>>        Therefore, handle hot-removal of devices more gracefully by
+>>        avoiding communication once it has been detected and ensure that
+>>        devices are actually removed.
+>>     
+>>     2. Generify SSAM subsystem hubs and add a KIP hub. On the Surface Pro
+>>        8, the KIP subsystem (only that abbreviation is known) is
+>>        responsible for managing type-cover devices. This hub acts as the
+>>        controller for device removal similar to the BAS (detachable base)
+>>        subsystem hub on the Surface Book 3 (therefore we can share most
+>>        of the code between them).
+>>    
+>>     3. Add the (HID) type-cover clients of the Surface Pro 8 to the
+>>        aggregator registry.
+>>
+>>
+>> Changes in v2:
+>>
+>>   - Introduce "platform/surface: aggregator: Allow is_ssam_device() to be
+>>     used when CONFIG_SURFACE_AGGREGATOR_BUS is disabled" to fix an
+>>     undefined reference  build issue when CONFIG_SURFACE_AGGREGATOR_BUS
+>>     is disabled.
+>>
+>>   - Make SSAM hub device UIDs consistent.
+>>      - Introduce "platform/surface: aggregator_registry: Change device ID
+>>        for base hub" to make association between hub and subsystem target
+>>        category more obvious.
+>>      - Change hub device ID for KIP subsystem hub to be consistent with
+>>        the id of the already existing BAS hub.
 > 
-> > By design, userspace VMM is the decision-maker for page
-> > > conversion and has all the necessary information to know which page is
-> > > shared/private. It also has the necessary knobs to allocate/free the
-> > > physical pages for guest memory. Definitely, we should make userspace
-> > > VMM more robust.
-> > 
-> > Making Userspace VMM more robust to avoid double allocation can get
-> > complex, it will have to keep track of all in-use (by Userspace VMM)
-> > shared fd memory to disallow conversion from shared to private and
-> > will have to ensure that all guest supplied addresses belong to shared
-> > GPA ranges.
+> Thank you for your patch-series, I've applied the series to my
+> review-hans branch:
+> https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
 > 
-> IMO, the complexity argument isn't sufficient justfication for introducing new
-> kernel functionality.  If multiple processes are accessing guest memory then there
-> already needs to be some amount of coordination, i.e. it can't be _that_ complex.
+> Once I've run some tests on this branch the patches there will be
+> added to the platform-drivers-x86/for-next branch and eventually
+> will be included in the pdx86 pull-request to Linus for the next
+> merge-window.
 > 
-> My concern with forcing userspace to fully handle unmapping shared memory is that
-> it may lead to additional performance overhead and/or noisy neighbor issues, even
-> if all guests are well-behaved.
-> 
-> Unnmapping arbitrary ranges will fragment the virtual address space and consume
-> more memory for all the result VMAs.  The extra memory consumption isn't that big
-> of a deal, and it will be self-healing to some extent as VMAs will get merged when
-> the holes are filled back in (if the guest converts back to shared), but it's still
-> less than desirable.
-> 
-> More concerning is having to take mmap_lock for write for every conversion, which
-> is very problematic for configurations where a single userspace process maps memory
-> belong to multiple VMs.  Unmapping and remapping on every conversion will create a
-> bottleneck, especially if a VM has sub-optimal behavior and is converting pages at
-> a high rate.
-> 
-> One argument is that userspace can simply rely on cgroups to detect misbehaving
-> guests, but (a) those types of OOMs will be a nightmare to debug and (b) an OOM
-> kill from the host is typically considered a _host_ issue and will be treated as
-> a missed SLO.
-> 
-> An idea for handling this in the kernel without too much complexity would be to
-> add F_SEAL_FAULT_ALLOCATIONS (terrible name) that would prevent page faults from
-> allocating pages, i.e. holes can only be filled by an explicit fallocate().  Minor
-> faults, e.g. due to NUMA balancing stupidity, and major faults due to swap would
-> still work, but writes to previously unreserved/unallocated memory would get a
-> SIGSEGV on something it has mapped.  That would allow the userspace VMM to prevent
-> unintentional allocations without having to coordinate unmapping/remapping across
-> multiple processes.
+> Jiri, Benjamin, note I've also taken the one small(ish) HID patch
+> which is a part of this series, despite it lacking an Ack from
+> either of you. I hope this is ok, if not let me know.
 
-Since this is mainly for shared memory and the motivation is catching
-misbehaved access, can we use mprotect(PROT_NONE) for this? We can mark
-those range backed by private fd as PROT_NONE during the conversion so
-subsequence misbehaved accesses will be blocked instead of causing double
-allocation silently.
+Sorry I am well behind on my patch processing.
 
-Chao
+The patch is simple enough and if you reviewed the rest, that is fine by me.
+
+Just for the archives:
+For the HID part
+Acked-by: Benjamin Tissoires <benjamin.tisssoires@redhat.com>
+
+(no need to force push your branch unless you think it's really 
+important to have my ack).
+
+Cheers,
+Benjamin
+
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> 
+>> Maximilian Luz (12):
+>>    platform/surface: aggregator: Allow is_ssam_device() to be used when
+>>      CONFIG_SURFACE_AGGREGATOR_BUS is disabled
+>>    platform/surface: aggregator: Allow devices to be marked as
+>>      hot-removed
+>>    platform/surface: aggregator: Allow notifiers to avoid communication
+>>      on unregistering
+>>    platform/surface: aggregator_registry: Use client device wrappers for
+>>      notifier registration
+>>    power/supply: surface_charger: Use client device wrappers for notifier
+>>      registration
+>>    power/supply: surface_battery: Use client device wrappers for notifier
+>>      registration
+>>    HID: surface-hid: Add support for hot-removal
+>>    platform/surface: aggregator: Add comment for KIP subsystem category
+>>    platform/surface: aggregator_registry: Generify subsystem hub
+>>      functionality
+>>    platform/surface: aggregator_registry: Change device ID for base hub
+>>    platform/surface: aggregator_registry: Add KIP device hub
+>>    platform/surface: aggregator_registry: Add support for keyboard cover
+>>      on Surface Pro 8
+>>
+>>   .../driver-api/surface_aggregator/client.rst  |   6 +-
+>>   drivers/hid/surface-hid/surface_hid_core.c    |  38 +-
+>>   .../platform/surface/aggregator/controller.c  |  53 ++-
+>>   .../surface/surface_aggregator_registry.c     | 403 +++++++++++++-----
+>>   drivers/power/supply/surface_battery.c        |   4 +-
+>>   drivers/power/supply/surface_charger.c        |   4 +-
+>>   include/linux/surface_aggregator/controller.h |  24 +-
+>>   include/linux/surface_aggregator/device.h     | 125 +++++-
+>>   include/linux/surface_aggregator/serial_hub.h |   2 +-
+>>   9 files changed, 513 insertions(+), 146 deletions(-)
+>>
+> 
+
