@@ -2,108 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E4BC43334
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 15:34:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1989C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 15:48:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348988AbiFOPey (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 11:34:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59624 "EHLO
+        id S229906AbiFOPsB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 11:48:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349528AbiFOPex (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 11:34:53 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 29899275D8
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 08:34:51 -0700 (PDT)
-Received: from [172.20.10.6] (unknown [117.136.68.182])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr98U_Kli7RlEAA--.21634S3;
-        Wed, 15 Jun 2022 23:34:48 +0800 (CST)
-Subject: Re: [PATCH 0/9] docs/zh_CN: core-api: Update the partial translation
- to 5.19-rc2
-To:     Binbin Zhou <zhoubinbin@loongson.cn>, alexs@kernel.org
-Cc:     corbet@lwn.net, chenhuacai@loongson.cn, bobwxc@email.cn,
-        linux-doc@vger.kernel.org, bobwxc@yeah.net
-References: <cover.1655258291.git.zhoubinbin@loongson.cn>
-From:   Yanteng Si <siyanteng@loongson.cn>
-Message-ID: <0ae5b49b-8756-4b6c-0ec8-6cba35d5a5a5@loongson.cn>
-Date:   Wed, 15 Jun 2022 23:34:44 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        with ESMTP id S229662AbiFOPr7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 11:47:59 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED8DF220F9;
+        Wed, 15 Jun 2022 08:47:57 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id be31so19567197lfb.10;
+        Wed, 15 Jun 2022 08:47:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=VTCGWujNv4+ZeNU9inSiK0tI+fyoxm0X3NKXlbOy8Y8=;
+        b=GphwJd+LsGEWeN2UG4hGNyGvnzO74SuULFcCInrrgMlqBx8ENwGzXPt2mYReWKHevc
+         0XbVfNJOky5MmRd3j4yfAIyRzYLYgHv7/n0cn0R+GFOpDUVDUC81hCn2m1oE1UxPUoWo
+         +qgBpWgoy4aIdpBjLJl1r0T+ju62jYqHcOMRTctNqp2bWSn4QS6F2IVeElVNzK99mGrb
+         WoIIyfTwWKcNpy2mXR+SKnP/cc6nh07OU48gAhRTmgRycemIPRHP9oukemCczQWi7JJt
+         yTgLZ7YWzIi/Z/8M+yheAOjE60UQs2PPXenesWMsQyrdGX7sZMb2PDXbl3/Vz9sxlg/l
+         vnnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=VTCGWujNv4+ZeNU9inSiK0tI+fyoxm0X3NKXlbOy8Y8=;
+        b=DEBo60Z4mWTXRCwqSqA78/Xj2d0uFpLPkHmex1g0Uai12vfB5/QBKfoork7JAii79b
+         wRZw9U62kNqEuzQwnZ+idOTEyIVSnCHp47uft7Y/DLTtEmnraN5Titdg6UCb3IgP9ck+
+         Ox/K5QOT5XR+R02dK7sNbvGQ4WGoQ0TTEZwLkYKF/X0zG7K8l8rQYDpu5NDolQWPxA5o
+         qFKgswOTHLspd5NhG+fR2L+hzav9mSVZHPtOS+WQ0rhQ/FofhFfyBxuFfPy22xwrFCDj
+         x5HBRlN4mk3vmgX7mZOp8lySjMEL1OnkBbYUO3KBzejTrIu4oCM7G9ZWJG3UJNMBHcFJ
+         RtYQ==
+X-Gm-Message-State: AJIora+mgFLl9i7pS71BYyacZh6Mp6OMuk9r4mBVkCdMypVr/F563FFF
+        L2i/oLrzldSrjTwmZq1yV6s=
+X-Google-Smtp-Source: AGRyM1vcCVXtE8TdfCiHOURs9ffWBcnlUTL+yi36mILI8l9ZN3HWHOYcewv5RFV18a3Ky1FRl+oYTA==
+X-Received: by 2002:a05:6512:39cb:b0:47d:a4c6:40eb with SMTP id k11-20020a05651239cb00b0047da4c640ebmr62321lfu.597.1655308076206;
+        Wed, 15 Jun 2022 08:47:56 -0700 (PDT)
+Received: from [192.168.1.7] ([212.22.223.21])
+        by smtp.gmail.com with ESMTPSA id s15-20020a2e150f000000b0025567cf8633sm1710514ljd.85.2022.06.15.08.47.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jun 2022 08:47:55 -0700 (PDT)
+Subject: Re: [PATCH] xen: don't require virtio with grants for non-PV guests
+To:     Juergen Gross <jgross@suse.com>
+Cc:     xen-devel@lists.xenproject.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
+References: <20220615084835.27113-1-jgross@suse.com>
+From:   Oleksandr <olekstysh@gmail.com>
+Message-ID: <6f5b1562-1270-5e83-bf9f-a9a7afc5a725@gmail.com>
+Date:   Wed, 15 Jun 2022 18:47:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1655258291.git.zhoubinbin@loongson.cn>
+In-Reply-To: <20220615084835.27113-1-jgross@suse.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxr98U_Kli7RlEAA--.21634S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7AFy8XFWkuFyrurWfWFWktFb_yoW8Cw48pr
-        WfKr93X3WkCa45uw1xWrWkAFyrZF4UX390kw4IqwnIywn5KryUtr4Ut34Ygay8Jr92vr1F
-        yr43trWDuayUAr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUvv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
-        6r4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-        0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-        jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-        1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxv
-        r21lc2xSY4AK67AK6ryrMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
-        8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
-        xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
-        8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E
-        87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
-        IFyTuYvjfUnwZ2UUUUU
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/6/15 下午5:24, Binbin Zhou wrote:
-> This series of patches updat the contents of the translated files
-Hi Binbin
 
-what is "updat"? ;)
+On 15.06.22 11:48, Juergen Gross wrote:
 
-BTW,
-Describe your changes in imperative mood, e.g. "make xyzzy do frotz"
-instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
-to do frotz", as if you are giving orders to the codebase to change
-its behaviour.
+Hello Juergen
 
---CC bobwxc@yeah.net
+> Commit fa1f57421e0b ("xen/virtio: Enable restricted memory access using
+> Xen grant mappings") introduced a new requirement for using virtio
+> devices: the backend now needs to support the VIRTIO_F_ACCESS_PLATFORM
+> feature.
+>
+> This is an undue requirement for non-PV guests, as those can be operated
+> with existing backends without any problem, as long as those backends
+> are running in dom0.
+>
+> Per default allow virtio devices without grant support for non-PV
+> guests.
+>
+> The setting can be overridden by using the new "xen_virtio_grant"
+> command line parameter.
+>
+> Add a new config item to always force use of grants for virtio.
+>
+> Fixes: fa1f57421e0b ("xen/virtio: Enable restricted memory access using Xen grant mappings")
+> Signed-off-by: Juergen Gross <jgross@suse.com>
 
-Thanks,
-Yanteng
-> in the core-api directory to 5.19-rc2.
-> 
-> In the next step, I plan to translate the untranslated documents
-> in the core-api directory. For details, see TODOLIST in the
-> core-api/index.rst file.
-> 
-> Binbin Zhou (9):
->    docs/zh_CN: core-api: Update the translation of cachetlb.rst to
->      5.19-rc2
->    docs/zh_CN: core-api: Update the translation of cpu_hotplug.rst to
->      5.19-rc2
->    docs/zh_CN: core-api: Update the translation of irq/irq-domain.rst to
->      5.19-rc2
->    docs/zh_CN: core-api: Update the translation of kernel-api.rst to
->      5.19-rc2
->    docs/zh_CN: core-api: Update the translation of mm-api.rst to 5.19-rc2
->    docs/zh_CN: core-api: Update the translation of printk-basics.rst to
->      5.19-rc2
->    docs/zh_CN: core-api: Update the translation of printk-format.rst to
->      5.19-rc2
->    docs/zh_CN: core-api: Update the translation of workqueue.rst to
->      5.19-rc2
->    docs/zh_CN: core-api: Update the translation of xarray.rst to 5.19-rc2
-> 
->   .../translations/zh_CN/core-api/cachetlb.rst  |   6 +
->   .../zh_CN/core-api/cpu_hotplug.rst            | 435 +++++++++++++++---
->   .../zh_CN/core-api/irq/irq-domain.rst         |  22 +-
->   .../zh_CN/core-api/kernel-api.rst             |   3 +
->   .../translations/zh_CN/core-api/mm-api.rst    |  23 +-
->   .../zh_CN/core-api/printk-basics.rst          |   3 +-
->   .../zh_CN/core-api/printk-formats.rst         |  13 +-
->   .../translations/zh_CN/core-api/workqueue.rst |  21 +-
->   .../translations/zh_CN/core-api/xarray.rst    |   4 +-
->   9 files changed, 459 insertions(+), 71 deletions(-)
-> 
+Thank you for the fix.
+
+
+I have tested it on Arm64 guest (XEN_HVM_DOMAIN), it works.
+
+With the "__init" fix (pointed out by Viresh) applied you can add my:
+
+Tested-by: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com> #Arm64 only
+
+
+[snip]
+
+
+-- 
+Regards,
+
+Oleksandr Tyshchenko
 
