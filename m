@@ -2,127 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51332CCA47F
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 10:16:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5FCECCA47B
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 10:31:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235408AbiFOKQQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 06:16:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33240 "EHLO
+        id S1346597AbiFOKbP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 06:31:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbiFOKQP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 06:16:15 -0400
+        with ESMTP id S1348390AbiFOKbH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 06:31:07 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF7037BF4;
-        Wed, 15 Jun 2022 03:16:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11CF3522C1;
+        Wed, 15 Jun 2022 03:30:41 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 87DE960C70;
-        Wed, 15 Jun 2022 10:16:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECB11C34115;
-        Wed, 15 Jun 2022 10:16:13 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9C2386124F;
+        Wed, 15 Jun 2022 10:30:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 573BAC34115;
+        Wed, 15 Jun 2022 10:30:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655288174;
-        bh=LzuKKmeaKzYyf1F4EGCFzObtFswa551XpejD5PM/0gU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=V2e4eedCwuT64uSq8EWZIlqOealrKlJhOjYwUPwzUjmJe3h1gZVozcylD0pHKd3xB
-         Ak6Oc8tweWPYhMTh9H3oadcrNqf+QiU9LPyAX/6yzLb9dednhlxc8YlZ9ce8PuC1Ja
-         NHZaZBVX97va3bcZW8Ev5S8x4pj3H+aSGwSujEXKe2YYokqjbd8o8kqjr+IR6la6s3
-         b+BdazS+sViwet2f8F/vjuwIdaqpG4Joh9L6TTujDPf1UclgVXVsul3UoHplJbGy38
-         U2r67XkRS9chQDQXsUdeJiHunFShBZ/xGbDIlCLcdCYRVMWuiRl/HXRfVkZxuaPp3H
-         f3taqgo3g7DTQ==
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-fe32122311so15874740fac.7;
-        Wed, 15 Jun 2022 03:16:13 -0700 (PDT)
-X-Gm-Message-State: AJIora+HD5Dw5zsrzOD9yOe2H3eSWf8FMogwYJhfqJoeB/wpjeY/apXX
-        0L4LqohiaEksf3oqP2Cs38MLpxhqC6LnnQOYEro=
-X-Google-Smtp-Source: AGRyM1uN/3D1+5Ut4Xt2mabIT0hR6gzAEW7Im9WVGqBeGn3OnhJh0XIUKAqRs97/yUL1cD2/EM5eYL4/9b9oQIafJWE=
-X-Received: by 2002:a05:6871:5c8:b0:f3:3c1c:126f with SMTP id
- v8-20020a05687105c800b000f33c1c126fmr5067969oan.126.1655288162336; Wed, 15
- Jun 2022 03:16:02 -0700 (PDT)
+        s=k20201202; t=1655289040;
+        bh=YafxQjI7ufgKbi/etVjbtyfiMqolpy9uY6amJmgj0/U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LJ8R0L3Z4Jmi1KlcuklT1wWOVBxnXRyLMSAm0VAIF4BW7eGhh8KQQBVeovw7amJcV
+         VTY91dFe4RUXbAByaUghGetxipTYk7lXMAaZNn9r5zpUEiaffGRHXtHTcDT0ewykbm
+         lp7wcl8Nh9YzrKgMga8EuiiA9tNraPvKFrsi2wd/4Zj2n9vUv3m1a02J2pEfWq5oR6
+         OmspHS3307xy9oukdHKKAWkTuxsr5Jh4ZzKMrjUwwfJblDjFQU9dlYJDPWL/5hb1NJ
+         fbm3aZNkiQe4NGdOl/RRiPPNcwSDPXPC8hGOS7T5zPjIa7Ot4UK1c9K5SjhClCe0m4
+         Fm2YpZs6kb3aQ==
+Date:   Wed, 15 Jun 2022 12:30:31 +0200
+From:   Christian Brauner <brauner@kernel.org>
+To:     Frederick Lawler <fred@cloudflare.com>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-cachefs@redhat.com, linux-cifs@vger.kernel.org,
+        samba-technical@lists.samba.org, linux-mm@kvack.org,
+        linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+        linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
+        keyrings@vger.kernel.org, selinux@vger.kernel.org,
+        serge@hallyn.com, amir73il@gmail.com, kernel-team@cloudflare.com,
+        Jeff Moyer <jmoyer@redhat.com>,
+        Paul Moore <paul@paul-moore.com>
+Subject: Re: [PATCH v3] cred: Propagate security_prepare_creds() error code
+Message-ID: <20220615103031.qkzae4xr34wysj4b@wittgenstein>
+References: <20220608150942.776446-1-fred@cloudflare.com>
+ <87tu8oze94.fsf@email.froward.int.ebiederm.org>
+ <e1b62234-9b8a-e7c2-2946-5ef9f6f23a08@cloudflare.com>
+ <87y1xzyhub.fsf@email.froward.int.ebiederm.org>
+ <859cb593-9e96-5846-2191-6613677b07c5@cloudflare.com>
+ <87o7yvxl4x.fsf@email.froward.int.ebiederm.org>
+ <9ed91f15-420c-3db6-8b3b-85438b02bf97@cloudflare.com>
 MIME-Version: 1.0
-References: <20220614092156.1972846-1-mawupeng1@huawei.com> <YqmQIpQ8hzxYkMv2@kernel.org>
-In-Reply-To: <YqmQIpQ8hzxYkMv2@kernel.org>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Wed, 15 Jun 2022 12:15:51 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXGytXz7VZh3xR=Vj-Mo7q+Wu3NUsqU9MFhPStm2=c9khw@mail.gmail.com>
-Message-ID: <CAMj1kXGytXz7VZh3xR=Vj-Mo7q+Wu3NUsqU9MFhPStm2=c9khw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/5] introduce mirrored memory support for arm64
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Wupeng Ma <mawupeng1@huawei.com>, Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>, songmuchun@bytedance.com,
-        Randy Dunlap <rdunlap@infradead.org>,
-        damien.lemoal@opensource.wdc.com,
-        Stephen Boyd <swboyd@chromium.org>,
-        Wei Liu <wei.liu@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>, gpiccoli@igalia.com,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        vijayb@linux.microsoft.com,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <9ed91f15-420c-3db6-8b3b-85438b02bf97@cloudflare.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 15 Jun 2022 at 09:54, Mike Rapoport <rppt@kernel.org> wrote:
->
-> On Tue, Jun 14, 2022 at 05:21:51PM +0800, Wupeng Ma wrote:
-> > From: Ma Wupeng <mawupeng1@huawei.com>
-> >
-> > Patch #1 introduce mirrored memory support form arm64.
-> > Patch #2-#4 fix some bugs for arm64 if memory reliable is enabled.
-> > Patch #5 disable mirror feature if kernelcore is not specified.
-> >
-> > Thanks to Ard Biesheuvel's hard work [1], now kernel will perfer mirrored
-> > memory if kaslr is enabled.
-> >
-> > [1] https://lore.kernel.org/linux-arm-kernel/CAMj1kXEPVEzMgOM4+Yj6PxHA-jFuDOAUdDJSiSxy_XaP4P7LSw@mail.gmail.com/T/
-> >
-> >
-> > Ma Wupeng (5):
-> >   efi: arm64: Introduce ability to find mirrored memory ranges
-> >   mm: Ratelimited mirrored memory related warning messages
-> >   mm: Limit warning message in vmemmap_verify() to once
-> >   arm64: mm: Only remove nomap flag for initrd
-> >   memblock: Disable mirror feature if kernelcore is not specified
-> >
-> >  arch/arm64/mm/init.c            |  2 +-
-> >  arch/x86/include/asm/efi.h      |  4 ----
-> >  arch/x86/platform/efi/efi.c     | 23 -----------------------
-> >  drivers/firmware/efi/efi-init.c |  1 +
-> >  drivers/firmware/efi/efi.c      | 23 +++++++++++++++++++++++
-> >  include/linux/efi.h             |  3 +++
-> >  mm/internal.h                   |  2 ++
-> >  mm/memblock.c                   |  7 +++++--
-> >  mm/page_alloc.c                 |  2 +-
-> >  mm/sparse-vmemmap.c             |  2 +-
-> >  10 files changed, 37 insertions(+), 32 deletions(-)
->
-> For the series: Acked-by: Mike Rapoport <rppt@linux.ibm.com>
->
+On Tue, Jun 14, 2022 at 01:59:08PM -0500, Frederick Lawler wrote:
+> On 6/14/22 11:30 AM, Eric W. Biederman wrote:
+> > Frederick Lawler <fred@cloudflare.com> writes:
+> > 
+> > > On 6/13/22 11:44 PM, Eric W. Biederman wrote:
+> > > > Frederick Lawler <fred@cloudflare.com> writes:
+> > > > 
+> > > > > Hi Eric,
+> > > > > 
+> > > > > On 6/13/22 12:04 PM, Eric W. Biederman wrote:
+> > > > > > Frederick Lawler <fred@cloudflare.com> writes:
+> > > > > > 
+> > > > > > > While experimenting with the security_prepare_creds() LSM hook, we
+> > > > > > > noticed that our EPERM error code was not propagated up the callstack.
+> > > > > > > Instead ENOMEM is always returned.  As a result, some tools may send a
+> > > > > > > confusing error message to the user:
+> > > > > > > 
+> > > > > > > $ unshare -rU
+> > > > > > > unshare: unshare failed: Cannot allocate memory
+> > > > > > > 
+> > > > > > > A user would think that the system didn't have enough memory, when
+> > > > > > > instead the action was denied.
+> > > > > > > 
+> > > > > > > This problem occurs because prepare_creds() and prepare_kernel_cred()
+> > > > > > > return NULL when security_prepare_creds() returns an error code. Later,
+> > > > > > > functions calling prepare_creds() and prepare_kernel_cred() return
+> > > > > > > ENOMEM because they assume that a NULL meant there was no memory
+> > > > > > > allocated.
+> > > > > > > 
+> > > > > > > Fix this by propagating an error code from security_prepare_creds() up
+> > > > > > > the callstack.
+> > > > > > Why would it make sense for security_prepare_creds to return an error
+> > > > > > code other than ENOMEM?
+> > > > > >    > That seems a bit of a violation of what that function is supposed to do
+> > > > > > 
+> > > > > 
+> > > > > The API allows LSM authors to decide what error code is returned from the
+> > > > > cred_prepare hook. security_task_alloc() is a similar hook, and has its return
+> > > > > code propagated.
+> > > > It is not an api.  It is an implementation detail of the linux kernel.
+> > > > It is a set of convenient functions that do a job.
+> > > > The general rule is we don't support cases without an in-tree user.  I
+> > > > don't see an in-tree user.
+> > > > 
+> > > > > I'm proposing we follow security_task_allocs() pattern, and add visibility for
+> > > > > failure cases in prepare_creds().
+> > > > I am asking why we would want to.  Especially as it is not an API, and I
+> > > > don't see any good reason for anything but an -ENOMEM failure to be
+> > > > supported.
+> > > > 
+> > > We're writing a LSM BPF policy, and not a new LSM. Our policy aims to solve
+> > > unprivileged unshare, similar to Debian's patch [1]. We're in a position such
+> > > that we can't use that patch because we can't block _all_ of our applications
+> > > from performing an unshare. We prefer a granular approach. LSM BPF seems like a
+> > > good choice.
+> > 
+> > I am quite puzzled why doesn't /proc/sys/user/max_user_namespaces work
+> > for you?
+> > 
+> 
+> We have the following requirements:
+> 
+> 1. Allow list criteria
+> 2. root user must be able to create namespaces whenever
+> 3. Everything else not in 1 & 2 must be denied
+> 
+> We use per task attributes to determine whether or not we allow/deny the
+> current call to unshare().
+> 
+> /proc/sys/user/max_user_namespaces limits are a bit broad for this level of
+> detail.
+> 
+> > > Because LSM BPF exposes these hooks, we should probably treat them as an
+> > > API. From that perspective, userspace expects unshare to return a EPERM
+> > > when the call is denied permissions.
+> > 
+> > The BPF code gets to be treated as a out of tree kernel module.
+> > 
+> > > > Without an in-tree user that cares it is probably better to go the
+> > > > opposite direction and remove the possibility of return anything but
+> > > > memory allocation failure.  That will make it clearer to implementors
+> > > > that a general error code is not supported and this is not a location
+> > > > to implement policy, this is only a hook to allocate state for the LSM.
+> > > > 
+> > > 
+> > > That's a good point, and it's possible we're using the wrong hook for the
+> > > policy. Do you know of other hooks we can look into?
 
-
-Thanks all, I've queued these up now.
+Fwiw, from this commit it wasn't very clear what you wanted to achieve
+with this. It might be worth considering adding a new security hook for
+this. Within msft it recently came up SELinux might have an interest in
+something like this as well.
