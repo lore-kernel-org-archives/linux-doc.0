@@ -2,52 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAEA2C43334
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 11:24:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96D87C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 11:24:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344205AbiFOLYf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 07:24:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52484 "EHLO
+        id S1346450AbiFOLYz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 07:24:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344963AbiFOLY2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 07:24:28 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB9BC3BF8D;
-        Wed, 15 Jun 2022 04:24:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=BK8bIaaa2wq3VpZdMmSbQMojkUO+GHs4/AOKLZKBl7Q=; b=UB+Jljv2uYmYDQ6VXlacVbsXef
-        dqTRZnATTAR/5b7GUWgSzE2FyUwMS4FTTKpvLECUeCtZ50iJ1WdKIYoleKOcawth62F9jFMifLH48
-        PAt5nKttUO4No+iT6DksuV0nbb73d28QWyXshaWvgzjsMgR7Oiy/6VA9EiKsjGoL/SOxns4rzYxQj
-        /nN7UlP7WD9hOWDF1/jaod4Gu888DPsfRrTbvJxkllsilOnIN5u15pb8xTD1Qgi4f4RZPzZZKC4MK
-        QRVBML5IGUKiQeW7tocw75XsUZrep09UuxgSrXGIMzD7EXwzqK/rvezMjvOxA9v2PTZgTAzI7kpte
-        P3e2OYXQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o1R8I-00E9lp-6L; Wed, 15 Jun 2022 11:24:22 +0000
-Date:   Wed, 15 Jun 2022 04:24:22 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Juergen Gross <jgross@suse.com>
-Cc:     xen-devel@lists.xenproject.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-Subject: Re: [PATCH] xen: don't require virtio with grants for non-PV guests
-Message-ID: <YqnBZhiLOHnoalbC@infradead.org>
-References: <20220615084835.27113-1-jgross@suse.com>
+        with ESMTP id S1345463AbiFOLYy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 07:24:54 -0400
+Received: from mail.pr-group.ru (mail.pr-group.ru [178.18.215.3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 236E63BF8D;
+        Wed, 15 Jun 2022 04:24:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+        d=metrotek.ru; s=mail;
+        h=from:subject:date:message-id:to:cc:mime-version:content-transfer-encoding:
+         in-reply-to:references;
+        bh=PYcsBoWzdiCutgNRzhzdQblCHgmrM9wgVrOHPOZNCxQ=;
+        b=WubsJc9T0cKdJs/LOfFph6c9oHlDT9XttIKh7WXyioqy16IsWGnibxGMHMbOtC1ONP5WCykhba4/C
+         QzfXFK22CvSfzDg+Hd7ywMUOmfRfhkhLZmVF+Ln7MNZC6JqNgbbsrFEtxNwMUvOmtrxUt4vqCc2q/6
+         hpsdlIQOwWkfuO6RcdAah2qcbUnoXEOjgmM+jVRMq7lXrbysEWctDWGZJ96mMwaNomhS7v7ftPKCfN
+         Wj2lPSyu6OMdKWWDKym0IZMD+aME6uKX1lHr6OetdjOmhJ1+gbS+mJBacC7mTtuRjY6A7HhWTcERR0
+         p5siU49Rz2y4OG8VlrYoUrFyBID/D0Q==
+X-Kerio-Anti-Spam:  Build: [Engines: 2.16.3.1424, Stamp: 3], Multi: [Enabled, t: (0.000009,0.008181)], BW: [Enabled, t: (0.000020,0.000001)], RTDA: [Enabled, t: (0.073016), Hit: No, Details: v2.40.0; Id: 15.52k2j2.1g5jhnbul.lq7q; mclb], total: 0(700)
+X-Footer: bWV0cm90ZWsucnU=
+Received: from localhost.localdomain ([85.143.252.66])
+        (authenticated user i.bornyakov@metrotek.ru)
+        by mail.pr-group.ru with ESMTPSA
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits));
+        Wed, 15 Jun 2022 14:24:34 +0300
+From:   Ivan Bornyakov <i.bornyakov@metrotek.ru>
+To:     mdf@kernel.org, hao.wu@intel.com, yilun.xu@intel.com,
+        trix@redhat.com, corbet@lwn.net
+Cc:     Ivan Bornyakov <i.bornyakov@metrotek.ru>,
+        Conor.Dooley@microchip.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-fpga@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, system@metrotek.ru,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v19 4/4] dt-bindings: fpga: add binding doc for microchip-spi fpga mgr
+Date:   Wed, 15 Jun 2022 14:01:37 +0300
+Message-Id: <20220615110137.21902-5-i.bornyakov@metrotek.ru>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220615110137.21902-1-i.bornyakov@metrotek.ru>
+References: <20220615110137.21902-1-i.bornyakov@metrotek.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220615084835.27113-1-jgross@suse.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I don't think this command line mess is a good idea.  Instead the
-brand new grant devices need to be properly advertised in the device
-tree, and any device that isn't a grant device doesn't need
-VIRTIO_F_ACCESS_PLATFORM.  No need for a command line or user
-intervention.
+Add Device Tree Binding doc for Microchip Polarfire FPGA Manager using
+slave SPI to load .dat formatted bitstream image.
+
+Signed-off-by: Ivan Bornyakov <i.bornyakov@metrotek.ru>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Xu Yilun <yilun.xu@intel.com>
+---
+ .../fpga/microchip,mpf-spi-fpga-mgr.yaml      | 44 +++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/fpga/microchip,mpf-spi-fpga-mgr.yaml
+
+diff --git a/Documentation/devicetree/bindings/fpga/microchip,mpf-spi-fpga-mgr.yaml b/Documentation/devicetree/bindings/fpga/microchip,mpf-spi-fpga-mgr.yaml
+new file mode 100644
+index 000000000000..aee45cb15592
+--- /dev/null
++++ b/Documentation/devicetree/bindings/fpga/microchip,mpf-spi-fpga-mgr.yaml
+@@ -0,0 +1,44 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/fpga/microchip,mpf-spi-fpga-mgr.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Microchip Polarfire FPGA manager.
++
++maintainers:
++  - Ivan Bornyakov <i.bornyakov@metrotek.ru>
++
++description:
++  Device Tree Bindings for Microchip Polarfire FPGA Manager using slave SPI to
++  load the bitstream in .dat format.
++
++properties:
++  compatible:
++    enum:
++      - microchip,mpf-spi-fpga-mgr
++
++  reg:
++    description: SPI chip select
++    maxItems: 1
++
++  spi-max-frequency: true
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    spi {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            fpga_mgr@0 {
++                    compatible = "microchip,mpf-spi-fpga-mgr";
++                    spi-max-frequency = <20000000>;
++                    reg = <0>;
++            };
++    };
+-- 
+2.35.1
+
 
