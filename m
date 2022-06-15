@@ -2,181 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10551C43334
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 08:48:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8529C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 08:56:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345679AbiFOIsr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 04:48:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53800 "EHLO
+        id S239817AbiFOI4w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 04:56:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346722AbiFOIsk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 04:48:40 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 009FD33373;
-        Wed, 15 Jun 2022 01:48:37 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id A97B721C37;
-        Wed, 15 Jun 2022 08:48:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1655282916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=iIBkW7Vwr7SXxDUNu3qaCisr7ig2aybwnHdNAbRTR4E=;
-        b=htosqkbsQ1Cd4ZgHAGpw3up4szZoT77TjUmHY/iCSCLPrwGrVG8o905OCfwtFbYrBTkZp5
-        Kd9h+RB5YxM+NXcBIe0ztc9PUF6a0CSkOVYW3jpSTMG0/CCRVUpkMiilgaiMNaAbZ86VNo
-        NL2/VDfud72k6e7+qCMEUC+swXeC1jE=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 703CF13A35;
-        Wed, 15 Jun 2022 08:48:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id vL3yGeScqWJaLQAAMHmgww
-        (envelope-from <jgross@suse.com>); Wed, 15 Jun 2022 08:48:36 +0000
-From:   Juergen Gross <jgross@suse.com>
-To:     xen-devel@lists.xenproject.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Juergen Gross <jgross@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-Subject: [PATCH] xen: don't require virtio with grants for non-PV guests
-Date:   Wed, 15 Jun 2022 10:48:35 +0200
-Message-Id: <20220615084835.27113-1-jgross@suse.com>
-X-Mailer: git-send-email 2.35.3
+        with ESMTP id S235386AbiFOI4t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 04:56:49 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEDC43CA65;
+        Wed, 15 Jun 2022 01:56:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655283409; x=1686819409;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=YUylNu9M17rCKFlfGnkhsZRqok22qMLdjCA7fnGzy7c=;
+  b=NbZ9+CyUHocvHsi1PmjXztgbRL/+O1bDVGGI05z1EkSy0Vy2ko/5OUs0
+   dux/8ByjCtROh3Oc3sJ8661OT5u1TTPS6nE3fPZN90fzZJ/St6ickxo64
+   ed5H/jHlGzmyZAGCXfD9QtXzPwmWtnzzR59OUOhG9HKHwD7dOwOYmBTRD
+   ejtuqDSYxlkf4w7BxogzdRPmZ04m98fURnREiaGyAdP3g/pKil6kAiQH1
+   hJ+Kq+wLaVEFBQFLvwwRR6TNjj8rC8i/fHm8wg+FDnjQcoBofeQ7VBSsG
+   7x+D+b6t2zZdUy0dKM8PQJSePwbusSQnr3MC2fz9SBMu8eb413Sy8jhjd
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="277679791"
+X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
+   d="scan'208";a="277679791"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 01:56:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
+   d="scan'208";a="589000276"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+  by fmsmga007.fm.intel.com with ESMTP; 15 Jun 2022 01:56:38 -0700
+Date:   Wed, 15 Jun 2022 16:53:16 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     "Gupta, Pankaj" <pankaj.gupta@amd.com>,
+        Vishal Annapurve <vannapurve@google.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 3/8] mm/memfd: Introduce MFD_INACCESSIBLE flag
+Message-ID: <20220615085316.GA1823790@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-4-chao.p.peng@linux.intel.com>
+ <CAGtprH8EMsPMMoOEzjRu0SMVKT0RqmkLk=n+6uXkBA6-wiRtUA@mail.gmail.com>
+ <20220601101747.GA1255243@chaop.bj.intel.com>
+ <1f1b17e8-a16d-c029-88e0-01f522cc077a@amd.com>
+ <20220602100733.GA1296997@chaop.bj.intel.com>
+ <YqjuUngpVg8cZTD/@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YqjuUngpVg8cZTD/@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit fa1f57421e0b ("xen/virtio: Enable restricted memory access using
-Xen grant mappings") introduced a new requirement for using virtio
-devices: the backend now needs to support the VIRTIO_F_ACCESS_PLATFORM
-feature.
+On Tue, Jun 14, 2022 at 08:23:46PM +0000, Sean Christopherson wrote:
+> On Thu, Jun 02, 2022, Chao Peng wrote:
+> > On Wed, Jun 01, 2022 at 02:11:42PM +0200, Gupta, Pankaj wrote:
+> > > 
+> > > > > > Introduce a new memfd_create() flag indicating the content of the
+> > > > > > created memfd is inaccessible from userspace through ordinary MMU
+> > > > > > access (e.g., read/write/mmap). However, the file content can be
+> > > > > > accessed via a different mechanism (e.g. KVM MMU) indirectly.
+> > > > > > 
+> > > > > 
+> > > > > SEV, TDX, pkvm and software-only VMs seem to have usecases to set up
+> > > > > initial guest boot memory with the needed blobs.
+> > > > > TDX already supports a KVM IOCTL to transfer contents to private
+> > > > > memory using the TDX module but rest of the implementations will need
+> > > > > to invent
+> > > > > a way to do this.
+> > > > 
+> > > > There are some discussions in https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flkml.org%2Flkml%2F2022%2F5%2F9%2F1292&amp;data=05%7C01%7Cpankaj.gupta%40amd.com%7Cb81ef334e2dd44c6143308da43b87d17%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637896756895977587%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=oQbM2Hj7GlhJTwnTM%2FPnwsfJlmTL7JR9ULBysAqm6V8%3D&amp;reserved=0
+> > > > already. I somehow agree with Sean. TDX is using an dedicated ioctl to
+> > > > copy guest boot memory to private fd so the rest can do that similarly.
+> > > > The concern is the performance (extra memcpy) but it's trivial since the
+> > > > initial guest payload is usually optimized in size.
+> > > > 
+> > > > > 
+> > > > > Is there a plan to support a common implementation for either allowing
+> > > > > initial write access from userspace to private fd or adding a KVM
+> > > > > IOCTL to transfer contents to such a file,
+> > > > > as part of this series through future revisions?
+> > > > 
+> > > > Indeed, adding pre-boot private memory populating on current design
+> > > > isn't impossible, but there are still some opens, e.g. how to expose
+> > > > private fd to userspace for access, pKVM and CC usages may have
+> > > > different requirements. Before that's well-studied I would tend to not
+> > > > add that and instead use an ioctl to copy. Whether we need a generic
+> > > > ioctl or feature-specific ioctl, I don't have strong opinion here.
+> > > > Current TDX uses a feature-specific ioctl so it's not covered in this
+> > > > series.
+> > > 
+> > > Common function or ioctl to populate preboot private memory actually makes
+> > > sense.
+> > > 
+> > > Sorry, did not follow much of TDX code yet, Is it possible to filter out
+> > > the current TDX specific ioctl to common function so that it can be used by
+> > > other technologies?
+> > 
+> > TDX code is here:
+> > https://patchwork.kernel.org/project/kvm/patch/70ed041fd47c1f7571aa259450b3f9244edda48d.1651774250.git.isaku.yamahata@intel.com/
+> > 
+> > AFAICS It might be possible to filter that out to a common function. But
+> > would like to hear from Paolo/Sean for their opinion.
+> 
+> Eh, I wouldn't put too much effort into creating a common helper, I would be very
+> surprised if TDX and SNP can share a meaningful amount of code that isn't already
+> shared, e.g. provided by MMU helpers.
+> 
+> The only part I truly care about sharing is whatever ioctl(s) get added, i.e. I
+> don't want to end up with two ioctls that do the same thing for TDX vs. SNP.
 
-This is an undue requirement for non-PV guests, as those can be operated
-with existing backends without any problem, as long as those backends
-are running in dom0.
+OK, then that part would be better to be added in TDX or SNP series.
 
-Per default allow virtio devices without grant support for non-PV
-guests.
-
-The setting can be overridden by using the new "xen_virtio_grant"
-command line parameter.
-
-Add a new config item to always force use of grants for virtio.
-
-Fixes: fa1f57421e0b ("xen/virtio: Enable restricted memory access using Xen grant mappings")
-Signed-off-by: Juergen Gross <jgross@suse.com>
----
- .../admin-guide/kernel-parameters.txt         |  6 +++++
- drivers/xen/Kconfig                           |  9 ++++++++
- drivers/xen/grant-dma-ops.c                   | 22 +++++++++++++++++++
- include/xen/xen.h                             | 12 +++++-----
- 4 files changed, 42 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 8090130b544b..7960480c6fe4 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6695,6 +6695,12 @@
- 			improve timer resolution at the expense of processing
- 			more timer interrupts.
- 
-+	xen_virtio_grant= [XEN]
-+			Control whether virtio devices are required to use
-+			grants when running as a Xen guest. The default is
-+			"yes" for PV guests or when the kernel has been built
-+			with CONFIG_XEN_VIRTIO_FORCE_GRANT set.
-+
- 	xen.balloon_boot_timeout= [XEN]
- 			The time (in seconds) to wait before giving up to boot
- 			in case initial ballooning fails to free enough memory.
-diff --git a/drivers/xen/Kconfig b/drivers/xen/Kconfig
-index bfd5f4f706bc..a65bd92121a5 100644
---- a/drivers/xen/Kconfig
-+++ b/drivers/xen/Kconfig
-@@ -355,4 +355,13 @@ config XEN_VIRTIO
- 
- 	  If in doubt, say n.
- 
-+config XEN_VIRTIO_FORCE_GRANT
-+	bool "Require Xen virtio support to use grants"
-+	depends on XEN_VIRTIO
-+	help
-+	  Require virtio for Xen guests to use grant mappings.
-+	  This will avoid the need to give the backend the right to map all
-+	  of the guest memory. This will need support on the backend side
-+	  (e.g. qemu or kernel, depending on the virtio device types used).
-+
- endmenu
-diff --git a/drivers/xen/grant-dma-ops.c b/drivers/xen/grant-dma-ops.c
-index fc0142484001..d1fae789dfad 100644
---- a/drivers/xen/grant-dma-ops.c
-+++ b/drivers/xen/grant-dma-ops.c
-@@ -11,6 +11,7 @@
- #include <linux/dma-map-ops.h>
- #include <linux/of.h>
- #include <linux/pfn.h>
-+#include <linux/platform-feature.h>
- #include <linux/xarray.h>
- #include <xen/xen.h>
- #include <xen/xen-ops.h>
-@@ -27,6 +28,27 @@ static DEFINE_XARRAY(xen_grant_dma_devices);
- 
- #define XEN_GRANT_DMA_ADDR_OFF	(1ULL << 63)
- 
-+static bool __initdata xen_virtio_grants;
-+static bool __initdata xen_virtio_grants_set;
-+static __init int parse_use_grants(char *arg)
-+{
-+	if (!strcmp(arg, "yes"))
-+		xen_virtio_grants = true;
-+	else if (!strcmp(arg, "no"))
-+		xen_virtio_grants = false;
-+	xen_virtio_grants_set = true;
-+
-+	return 0;
-+}
-+early_param("xen_virtio_grant", parse_use_grants);
-+
-+void xen_set_restricted_virtio_memory_access(void)
-+{
-+	if (IS_ENABLED(CONFIG_XEN_VIRTIO_FORCE_GRANT) || xen_virtio_grants ||
-+	    (!xen_virtio_grants_set && xen_pv_domain()))
-+		platform_set(PLATFORM_VIRTIO_RESTRICTED_MEM_ACCESS);
-+}
-+
- static inline dma_addr_t grant_to_dma(grant_ref_t grant)
- {
- 	return XEN_GRANT_DMA_ADDR_OFF | ((dma_addr_t)grant << PAGE_SHIFT);
-diff --git a/include/xen/xen.h b/include/xen/xen.h
-index 0780a81e140d..e0b1d534366f 100644
---- a/include/xen/xen.h
-+++ b/include/xen/xen.h
-@@ -52,13 +52,11 @@ bool xen_biovec_phys_mergeable(const struct bio_vec *vec1,
- extern u64 xen_saved_max_mem_size;
- #endif
- 
--#include <linux/platform-feature.h>
--
--static inline void xen_set_restricted_virtio_memory_access(void)
--{
--	if (IS_ENABLED(CONFIG_XEN_VIRTIO) && xen_domain())
--		platform_set(PLATFORM_VIRTIO_RESTRICTED_MEM_ACCESS);
--}
-+#ifdef CONFIG_XEN_GRANT_DMA_OPS
-+void xen_set_restricted_virtio_memory_access(void);
-+#else
-+static inline void xen_set_restricted_virtio_memory_access(void) { }
-+#endif
- 
- #ifdef CONFIG_XEN_UNPOPULATED_ALLOC
- int xen_alloc_unpopulated_pages(unsigned int nr_pages, struct page **pages);
--- 
-2.35.3
-
+Chao
