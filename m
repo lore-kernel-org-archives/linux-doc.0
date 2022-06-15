@@ -2,212 +2,249 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7DBDC43334
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 09:32:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CB7BC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 09:35:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237161AbiFOJco (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 05:32:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43538 "EHLO
+        id S242322AbiFOJfQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 05:35:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236116AbiFOJcn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 05:32:43 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6395713F67;
-        Wed, 15 Jun 2022 02:32:42 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 1E6AB21B61;
-        Wed, 15 Jun 2022 09:32:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1655285561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        with ESMTP id S241430AbiFOJfQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 05:35:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0B3CD396B9
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 02:35:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655285713;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=GdiDvCAg9O1/d1vITE2FLYA4kxpmVbO5wBq5nI2zzws=;
-        b=rDnf0s4wqN2vFvjXd+otZTvw7/+5+9Bkl3WtioPxpmigme3C2DIjBJ8sJTBlIDoZBInaLd
-        b3n/XqvL+WSEE3Su6AQ29x2/qaSvqtPjKigIncjwiwBlc964HFcuZGoLSei1LmU4dc2HGb
-        3oIs5sYCrQFz5NB9fR8s06K/hsivbco=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DA5A1139F3;
-        Wed, 15 Jun 2022 09:32:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id ikr3MzinqWJSQQAAMHmgww
-        (envelope-from <jgross@suse.com>); Wed, 15 Jun 2022 09:32:40 +0000
-Message-ID: <a063368a-022a-c294-5a19-da1b80c45461@suse.com>
-Date:   Wed, 15 Jun 2022 11:32:40 +0200
+        bh=GDQf++O5Povpr9/MTkGUovRB/Hb0K7Xk0pSbUnRMSQo=;
+        b=ekxx31zs3gNBFFQN5Upp8IWx35uH+HpArVTZXwyccOh7j7IclEHgBzl1fkNClRhzkGoK/D
+        hf4Uacz5bzd/1wjXqt2FRrb+CQv0bvziYdKuAeXPLcLCtjKwdfop6VjrVJOl7oqQd+4C2r
+        pGAS+T1MFC6aQwWvu9gDK2bonJnr9uo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-8-8JolF1frNievrMwyY63uLQ-1; Wed, 15 Jun 2022 05:35:12 -0400
+X-MC-Unique: 8JolF1frNievrMwyY63uLQ-1
+Received: by mail-wm1-f70.google.com with SMTP id 2-20020a1c0202000000b0039c94528746so986560wmc.6
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 02:35:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:organization:subject
+         :in-reply-to:content-transfer-encoding;
+        bh=GDQf++O5Povpr9/MTkGUovRB/Hb0K7Xk0pSbUnRMSQo=;
+        b=ajXyhnjIU71KbbGLRI15uftRjtz5MtBIBI5yDrWX1G5Ov5FPYiXK8L4hbAQZXIBE/1
+         kfiT0hbyiEYksBmq+JgPS0gWWJaB8AookmOuGXjHm6HwDNYgleXBqFTYelMlB1tCF03Z
+         IYiPmy+3zGFCcZKXLh8zAvz9zvYM0hH8bdvRgqCJhdJokRvpeEjJI2jK11vBTl3HZZeL
+         Be6PVHmzhCvWEjeVotH06zUPkkH4X04qKQ/EY9yczPr6krGJcK6H17pLulDEcPfyt8FA
+         rFkZzlyty24e5WzkaDMX8QgGGD8W3qV8OD+6cWM3tdF7ksKBX2vMdiz++DpE1q+p8g8O
+         EsOA==
+X-Gm-Message-State: AJIora+j8s8UDXHgWlZs2hSAlUO7BB9bJBVC3oVAF51zbMGUSro6aUHM
+        MBirl3kPgiSna1+ZAI+2XUs1f8QH+gVBUUbzF+XyEdHxYqMUYtQ00kM6n9L1wF0GR2Fa+5bKfOX
+        6KOaYVPz4Xq/E0BuVg59z
+X-Received: by 2002:a5d:44d1:0:b0:218:418a:3e8e with SMTP id z17-20020a5d44d1000000b00218418a3e8emr9093833wrr.112.1655285711147;
+        Wed, 15 Jun 2022 02:35:11 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1usrRKHDlRrMRggLDYWYnub1eXo3xJ7dJE30Bxlc74UafUJUr+6XV2sS6N/BEXdlP6jd9dMXA==
+X-Received: by 2002:a5d:44d1:0:b0:218:418a:3e8e with SMTP id z17-20020a5d44d1000000b00218418a3e8emr9093812wrr.112.1655285710878;
+        Wed, 15 Jun 2022 02:35:10 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70a:2700:1d28:26c3:b272:fcc6? (p200300cbc70a27001d2826c3b272fcc6.dip0.t-ipconnect.de. [2003:cb:c70a:2700:1d28:26c3:b272:fcc6])
+        by smtp.gmail.com with ESMTPSA id c186-20020a1c35c3000000b0039c948dbb61sm1757510wma.26.2022.06.15.02.35.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jun 2022 02:35:10 -0700 (PDT)
+Message-ID: <62aef8a9-aa21-37ec-83b5-9dd9fc729890@redhat.com>
+Date:   Wed, 15 Jun 2022 11:35:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH] xen: don't require virtio with grants for non-PV guests
 Content-Language: en-US
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     xen-devel@lists.xenproject.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-References: <20220615084835.27113-1-jgross@suse.com>
- <20220615092519.5677clabobheziet@vireshk-i7>
-From:   Juergen Gross <jgross@suse.com>
-In-Reply-To: <20220615092519.5677clabobheziet@vireshk-i7>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------WbFtDx5jTtNkqzBb0mqgblYE"
+To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mike.kravetz@oracle.com, osalvador@suse.de
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com
+References: <20220520025538.21144-1-songmuchun@bytedance.com>
+ <20220520025538.21144-2-songmuchun@bytedance.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v2 1/2] mm: memory_hotplug: enumerate all supported
+ section flags
+In-Reply-To: <20220520025538.21144-2-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------WbFtDx5jTtNkqzBb0mqgblYE
-Content-Type: multipart/mixed; boundary="------------nKGSwd00yM0V3lyWpANyvyUW";
- protected-headers="v1"
-From: Juergen Gross <jgross@suse.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: xen-devel@lists.xenproject.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-Message-ID: <a063368a-022a-c294-5a19-da1b80c45461@suse.com>
-Subject: Re: [PATCH] xen: don't require virtio with grants for non-PV guests
-References: <20220615084835.27113-1-jgross@suse.com>
- <20220615092519.5677clabobheziet@vireshk-i7>
-In-Reply-To: <20220615092519.5677clabobheziet@vireshk-i7>
+On 20.05.22 04:55, Muchun Song wrote:
+> We are almost running out of section flags, only one bit is available in
+> the worst case (powerpc with 256k pages).  However, there are still some
+> free bits (in ->section_mem_map) on other architectures (e.g. x86_64 has
+> 10 bits available, arm64 has 8 bits available with worst case of 64K
+> pages).  We have hard coded those numbers in code, it is inconvenient to
+> use those bits on other architectures except powerpc.  So transfer those
+> section flags to enumeration to make it easy to add new section flags in
+> the future.  Also, move SECTION_TAINT_ZONE_DEVICE into the scope of
+> CONFIG_ZONE_DEVICE to save a bit on non-zone-device case.
+> 
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 
---------------nKGSwd00yM0V3lyWpANyvyUW
-Content-Type: multipart/mixed; boundary="------------gQNSt1Ojv9sx01gPYMoid8mJ"
+Sorry for the late reply. This looks overly complicated to me.
 
---------------gQNSt1Ojv9sx01gPYMoid8mJ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+IOW, staring at that patch I don't quite like what I am seeing.
 
-T24gMTUuMDYuMjIgMTE6MjUsIFZpcmVzaCBLdW1hciB3cm90ZToNCj4gT24gMTUtMDYtMjIs
-IDEwOjQ4LCBKdWVyZ2VuIEdyb3NzIHdyb3RlOg0KPj4gQ29tbWl0IGZhMWY1NzQyMWUwYiAo
-Inhlbi92aXJ0aW86IEVuYWJsZSByZXN0cmljdGVkIG1lbW9yeSBhY2Nlc3MgdXNpbmcNCj4+
-IFhlbiBncmFudCBtYXBwaW5ncyIpIGludHJvZHVjZWQgYSBuZXcgcmVxdWlyZW1lbnQgZm9y
-IHVzaW5nIHZpcnRpbw0KPj4gZGV2aWNlczogdGhlIGJhY2tlbmQgbm93IG5lZWRzIHRvIHN1
-cHBvcnQgdGhlIFZJUlRJT19GX0FDQ0VTU19QTEFURk9STQ0KPj4gZmVhdHVyZS4NCj4+DQo+
-PiBUaGlzIGlzIGFuIHVuZHVlIHJlcXVpcmVtZW50IGZvciBub24tUFYgZ3Vlc3RzLCBhcyB0
-aG9zZSBjYW4gYmUgb3BlcmF0ZWQNCj4+IHdpdGggZXhpc3RpbmcgYmFja2VuZHMgd2l0aG91
-dCBhbnkgcHJvYmxlbSwgYXMgbG9uZyBhcyB0aG9zZSBiYWNrZW5kcw0KPj4gYXJlIHJ1bm5p
-bmcgaW4gZG9tMC4NCj4+DQo+PiBQZXIgZGVmYXVsdCBhbGxvdyB2aXJ0aW8gZGV2aWNlcyB3
-aXRob3V0IGdyYW50IHN1cHBvcnQgZm9yIG5vbi1QVg0KPj4gZ3Vlc3RzLg0KPj4NCj4+IFRo
-ZSBzZXR0aW5nIGNhbiBiZSBvdmVycmlkZGVuIGJ5IHVzaW5nIHRoZSBuZXcgInhlbl92aXJ0
-aW9fZ3JhbnQiDQo+PiBjb21tYW5kIGxpbmUgcGFyYW1ldGVyLg0KPj4NCj4+IEFkZCBhIG5l
-dyBjb25maWcgaXRlbSB0byBhbHdheXMgZm9yY2UgdXNlIG9mIGdyYW50cyBmb3IgdmlydGlv
-Lg0KPj4NCj4+IEZpeGVzOiBmYTFmNTc0MjFlMGIgKCJ4ZW4vdmlydGlvOiBFbmFibGUgcmVz
-dHJpY3RlZCBtZW1vcnkgYWNjZXNzIHVzaW5nIFhlbiBncmFudCBtYXBwaW5ncyIpDQo+PiBT
-aWduZWQtb2ZmLWJ5OiBKdWVyZ2VuIEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+DQo+PiAtLS0N
-Cj4+ICAgLi4uL2FkbWluLWd1aWRlL2tlcm5lbC1wYXJhbWV0ZXJzLnR4dCAgICAgICAgIHwg
-IDYgKysrKysNCj4+ICAgZHJpdmVycy94ZW4vS2NvbmZpZyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIHwgIDkgKysrKysrKysNCj4+ICAgZHJpdmVycy94ZW4vZ3JhbnQtZG1hLW9wcy5j
-ICAgICAgICAgICAgICAgICAgIHwgMjIgKysrKysrKysrKysrKysrKysrKw0KPj4gICBpbmNs
-dWRlL3hlbi94ZW4uaCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAxMiArKysrKy0t
-LS0tDQo+PiAgIDQgZmlsZXMgY2hhbmdlZCwgNDIgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlv
-bnMoLSkNCj4gDQo+IFRoYW5rcyBmb3IgdGhlIHF1aWNrIGZpeC4NCj4gDQo+IFdpdGggQ09O
-RklHX0RFQlVHX1NFQ1RJT05fTUlTTUFUQ0g9eSwgdGhpcyBnZW5lcmF0ZXMgYSB3YXJuaW5n
-Lg0KPiANCj4gV0FSTklORzogbW9kcG9zdDogdm1saW51eC5vKC50ZXh0KzB4N2E4MjcwKTog
-U2VjdGlvbiBtaXNtYXRjaCBpbiByZWZlcmVuY2UgZnJvbSB0aGUgZnVuY3Rpb24geGVuX3Nl
-dF9yZXN0cmljdGVkX3ZpcnRpb19tZW1vcnlfYWNjZXNzKCkgdG8gdGhlIHZhcmlhYmxlIC5p
-bml0LmRhdGE6eGVuX3ZpcnRpb19ncmFudHMNCj4gVGhlIGZ1bmN0aW9uIHhlbl9zZXRfcmVz
-dHJpY3RlZF92aXJ0aW9fbWVtb3J5X2FjY2VzcygpIHJlZmVyZW5jZXMNCj4gdGhlIHZhcmlh
-YmxlIF9faW5pdGRhdGEgeGVuX3ZpcnRpb19ncmFudHMuDQo+IFRoaXMgaXMgb2Z0ZW4gYmVj
-YXVzZSB4ZW5fc2V0X3Jlc3RyaWN0ZWRfdmlydGlvX21lbW9yeV9hY2Nlc3MgbGFja3MgYSBf
-X2luaXRkYXRhDQo+IGFubm90YXRpb24gb3IgdGhlIGFubm90YXRpb24gb2YgeGVuX3ZpcnRp
-b19ncmFudHMgaXMgd3JvbmcuDQoNClNpbGx5IG1lLiBUaGFua3MgZm9yIHRoZSBub3RpY2Uu
-DQoNCj4gDQo+IFRoaXMgY2FuIGJlIGZpeGVkIGJ5Og0KPiANCj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMveGVuL2dyYW50LWRtYS1vcHMuYyBiL2RyaXZlcnMveGVuL2dyYW50LWRtYS1vcHMu
-Yw0KPiBpbmRleCBkMWZhZTc4OWRmYWQuLjEwOTkwOTdiNDUxNSAxMDA2NDQNCj4gLS0tIGEv
-ZHJpdmVycy94ZW4vZ3JhbnQtZG1hLW9wcy5jDQo+ICsrKyBiL2RyaXZlcnMveGVuL2dyYW50
-LWRtYS1vcHMuYw0KPiBAQCAtNDIsNyArNDIsNyBAQCBzdGF0aWMgX19pbml0IGludCBwYXJz
-ZV91c2VfZ3JhbnRzKGNoYXIgKmFyZykNCj4gICB9DQo+ICAgZWFybHlfcGFyYW0oInhlbl92
-aXJ0aW9fZ3JhbnQiLCBwYXJzZV91c2VfZ3JhbnRzKTsNCj4gDQo+IC12b2lkIHhlbl9zZXRf
-cmVzdHJpY3RlZF92aXJ0aW9fbWVtb3J5X2FjY2Vzcyh2b2lkKQ0KPiArdm9pZCBfX2luaXQg
-eGVuX3NldF9yZXN0cmljdGVkX3ZpcnRpb19tZW1vcnlfYWNjZXNzKHZvaWQpDQo+ICAgew0K
-PiAgICAgICAgICBpZiAoSVNfRU5BQkxFRChDT05GSUdfWEVOX1ZJUlRJT19GT1JDRV9HUkFO
-VCkgfHwgeGVuX3ZpcnRpb19ncmFudHMgfHwNCj4gICAgICAgICAgICAgICgheGVuX3ZpcnRp
-b19ncmFudHNfc2V0ICYmIHhlbl9wdl9kb21haW4oKSkpDQo+IA0KPiBXaXRoIHRoYXQ6DQo+
-IA0KPiBUZXN0ZWQtYnk6IFZpcmVzaCBLdW1hciA8dmlyZXNoLmt1bWFyQGxpbmFyby5vcmc+
-DQo+IA0KDQpUaGFua3MsDQoNCg0KSnVlcmdlbg0K
---------------gQNSt1Ojv9sx01gPYMoid8mJ
-Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+Something like the following is *a lot* easier to read than some
+MAPPER macro magic. What speaks against it?
 
-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
-jR/i1DG86lem3iBDXzXsZDn8R38=3D
-=3D2wuH
------END PGP PUBLIC KEY BLOCK-----
+/*
+ * Section bits use the lower unused bits in the ->section_mem_map
+ */
+enum {
+	SECTION_MARKED_PRESENT_BIT = 0,
+	SECTION_HAS_MEM_MAP_BIT,
+	...
+#ifdef ZONE_DEVICE
+	SECTION_TAINT_ZONE_DEVICE_BIT
+#endif
+}
 
---------------gQNSt1Ojv9sx01gPYMoid8mJ--
+#define SECTION_MARKED_PRESENT	   (1ULL << SECTION_MARKED_PRESENT_BIT)
+...
+#ifdef ZONE_DEVICE
+#define SECTION_TAINT_ZONE_DEVICE  (1ULL << SECTION_TAINT_ZONE_DEVICE_BIT)
+#endif /* ZONE_DEVICE */
 
---------------nKGSwd00yM0V3lyWpANyvyUW--
 
---------------WbFtDx5jTtNkqzBb0mqgblYE
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
------BEGIN PGP SIGNATURE-----
+> ---
+>  include/linux/kconfig.h |  1 +
+>  include/linux/mmzone.h  | 54 +++++++++++++++++++++++++++++++++++++++++--------
+>  mm/memory_hotplug.c     |  6 ++++++
+>  3 files changed, 53 insertions(+), 8 deletions(-)
+> 
+> diff --git a/include/linux/kconfig.h b/include/linux/kconfig.h
+> index 20d1079e92b4..7044032b9f42 100644
+> --- a/include/linux/kconfig.h
+> +++ b/include/linux/kconfig.h
+> @@ -10,6 +10,7 @@
+>  #define __LITTLE_ENDIAN 1234
+>  #endif
+>  
+> +#define __ARG_PLACEHOLDER_ 0,
+>  #define __ARG_PLACEHOLDER_1 0,
+>  #define __take_second_arg(__ignored, val, ...) val
+>  
+> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> index 299259cfe462..2cf2a76535ab 100644
+> --- a/include/linux/mmzone.h
+> +++ b/include/linux/mmzone.h
+> @@ -1422,16 +1422,47 @@ extern size_t mem_section_usage_size(void);
+>   *      (equal SECTION_SIZE_BITS - PAGE_SHIFT), and the
+>   *      worst combination is powerpc with 256k pages,
+>   *      which results in PFN_SECTION_SHIFT equal 6.
+> - * To sum it up, at least 6 bits are available.
+> + * To sum it up, at least 6 bits are available on all architectures.
+> + * However, we can exceed 6 bits on some other architectures except
+> + * powerpc (e.g. 15 bits are available on x86_64, 13 bits are available
+> + * with the worst case of 64K pages on arm64) if we make sure the
+> + * exceeded bit is not applicable to powerpc.
+>   */
+> -#define SECTION_MARKED_PRESENT		(1UL<<0)
+> -#define SECTION_HAS_MEM_MAP		(1UL<<1)
+> -#define SECTION_IS_ONLINE		(1UL<<2)
+> -#define SECTION_IS_EARLY		(1UL<<3)
+> -#define SECTION_TAINT_ZONE_DEVICE	(1UL<<4)
+> -#define SECTION_MAP_LAST_BIT		(1UL<<5)
+> +#define ENUM_SECTION_FLAG(MAPPER)						\
+> +	MAPPER(MARKED_PRESENT)							\
+> +	MAPPER(HAS_MEM_MAP)							\
+> +	MAPPER(IS_ONLINE)							\
+> +	MAPPER(IS_EARLY)							\
+> +	MAPPER(TAINT_ZONE_DEVICE, CONFIG_ZONE_DEVICE)				\
+> +	MAPPER(MAP_LAST_BIT)
+> +
+> +#define __SECTION_SHIFT_FLAG_MAPPER_0(x)
+> +#define __SECTION_SHIFT_FLAG_MAPPER_1(x)	SECTION_##x##_SHIFT,
+> +#define __SECTION_SHIFT_FLAG_MAPPER(x, ...)	\
+> +	__PASTE(__SECTION_SHIFT_FLAG_MAPPER_, IS_ENABLED(__VA_ARGS__))(x)
+> +
+> +#define __SECTION_FLAG_MAPPER_0(x)
+> +#define __SECTION_FLAG_MAPPER_1(x)		SECTION_##x = BIT(SECTION_##x##_SHIFT),
+> +#define __SECTION_FLAG_MAPPER(x, ...)		\
+> +	__PASTE(__SECTION_FLAG_MAPPER_, IS_ENABLED(__VA_ARGS__))(x)
+> +
+> +enum {
+> +	/*
+> +	 * Generate a series of enumeration flags like SECTION_$name_SHIFT.
+> +	 * Each entry in ENUM_SECTION_FLAG() macro will be generated to one
+> +	 * enumeration iff the 2nd parameter of MAPPER() is defined or absent.
+> +	 * The $name comes from the 1st parameter of MAPPER() macro.
+> +	 */
+> +	ENUM_SECTION_FLAG(__SECTION_SHIFT_FLAG_MAPPER)
+> +	/*
+> +	 * Generate a series of enumeration flags like:
+> +	 *   SECTION_$name = BIT(SECTION_$name_SHIFT)
+> +	 */
+> +	ENUM_SECTION_FLAG(__SECTION_FLAG_MAPPER)
+> +};
+> +
+>  #define SECTION_MAP_MASK		(~(SECTION_MAP_LAST_BIT-1))
+> -#define SECTION_NID_SHIFT		6
+> +#define SECTION_NID_SHIFT		SECTION_MAP_LAST_BIT_SHIFT
+>  
+>  static inline struct page *__section_mem_map_addr(struct mem_section *section)
+>  {
+> @@ -1470,12 +1501,19 @@ static inline int online_section(struct mem_section *section)
+>  	return (section && (section->section_mem_map & SECTION_IS_ONLINE));
+>  }
+>  
+> +#ifdef CONFIG_ZONE_DEVICE
+>  static inline int online_device_section(struct mem_section *section)
+>  {
+>  	unsigned long flags = SECTION_IS_ONLINE | SECTION_TAINT_ZONE_DEVICE;
+>  
+>  	return section && ((section->section_mem_map & flags) == flags);
+>  }
+> +#else
+> +static inline int online_device_section(struct mem_section *section)
+> +{
+> +	return 0;
+> +}
+> +#endif
+>  
+>  static inline int online_section_nr(unsigned long nr)
+>  {
+> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+> index 1213d0c67a53..3b360eda933f 100644
+> --- a/mm/memory_hotplug.c
+> +++ b/mm/memory_hotplug.c
+> @@ -672,12 +672,18 @@ static void __meminit resize_pgdat_range(struct pglist_data *pgdat, unsigned lon
+>  
+>  }
+>  
+> +#ifdef CONFIG_ZONE_DEVICE
+>  static void section_taint_zone_device(unsigned long pfn)
+>  {
+>  	struct mem_section *ms = __pfn_to_section(pfn);
+>  
+>  	ms->section_mem_map |= SECTION_TAINT_ZONE_DEVICE;
+>  }
+> +#else
+> +static inline void section_taint_zone_device(unsigned long pfn)
+> +{
+> +}
+> +#endif
+>  
+>  /*
+>   * Associate the pfn range with the given zone, initializing the memmaps
 
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmKppzgFAwAAAAAACgkQsN6d1ii/Ey/V
-YAf/Q8X92e3qwlE8Q4ITny2XI7T0CiFWcAdKwHkIjBHIHtMszxV/RdVnjVkEHOgh1c1rLwzvf9nC
-DODMe4T3YbDZAjCkztASdGuCPn++tuBeBrlTWOvtsbn4W1DzKfQvSptJAjSrZU6tiiwopunvtvtW
-4ImAUhCCyxYTJwAaGs1/XgT5RQTt8kAq5GjFb77difPu87aJLVX7evdDbGkdD5qEvReKKVChZVyu
-BkQSv4wYWQcVRZBeT7y0EAzNE/erpi3GFrP5rKMbqPtgBRbRFwKmBRxhiZDr4AAcDWi90NAHnnn9
-hmwzoDCBPA5BeHeLCtPMtMwnmPI41V/12bkZFGtWUA==
-=e5f6
------END PGP SIGNATURE-----
 
---------------WbFtDx5jTtNkqzBb0mqgblYE--
+-- 
+Thanks,
+
+David / dhildenb
+
