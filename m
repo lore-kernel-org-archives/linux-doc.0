@@ -2,251 +2,314 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30147C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Jun 2022 23:33:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85E3DCCA47A
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 00:54:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233356AbiFNXdZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jun 2022 19:33:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53590 "EHLO
+        id S240947AbiFOAy3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jun 2022 20:54:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231775AbiFNXdY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 19:33:24 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D3554C7B7;
-        Tue, 14 Jun 2022 16:33:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655249603; x=1686785603;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=y4FKZHKqsJqrgo0rZLbjPy41hyqjua5mA514+7rOyLI=;
-  b=hk77gHOuAYva7NmfR2PASG8rIWRI7i8XsA8x4eu4hX4Gfa1dojqonwK5
-   w6hmmO7CskafYD15EV8Ra78xQhSY//D7XH0PGaI6Ww7TP/c7Yr4lMoW+s
-   8kHZR5ALSsfm9nCU7pso4XtMCKpgQyh537AUwPjFqEubf0+QlBBlDEdym
-   ZLQgRNfn8WvmvCEwRwBJbW3eCb9T8WlVFjmZraQzmjRQvbhVYhIk75SEO
-   N0SpPR9fylsiUAr6DanAuOoz28W3bCDPPnuRG8KQl7jrpVoq+/MbjufRB
-   KJ5yU2Q5DqNJgYabNq//cn+tR9cgOJj6z5GnOQbK+S4LeezQgPl1P/bgl
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="278818609"
-X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
-   d="scan'208";a="278818609"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2022 16:33:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
-   d="scan'208";a="588756170"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Jun 2022 16:33:22 -0700
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 14 Jun 2022 16:33:22 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Tue, 14 Jun 2022 16:33:22 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Tue, 14 Jun 2022 16:33:21 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GzNzM3hHflnpB3965V0Qv1IfKzNTrVqCjWqizlaWQP4T/UX+BXDElIY4ATeyJNL0DGkfhZRaWrSe7kDxGFc1cAyt9gz3BgPLAXMwijBY56u3Yahn05e/A8Foo60ffL4lzskb85slwrv/KrOuGRftG6JfYqT7D5EgUKy7bpSziECdtQq5PQ4sR0ovux5S2xB0MYTc738HvalcSary2MzmO3hrYQK3DDPChskWJz0uKPf7In0va4HqBaMQP50AzbRVJFuxP0enzAA0KEcFnn85zudgbHr0XqhcREnJOGTXJnvPoaQ6Lq1YxrI3ZzZCvfqGGDbCl3fzk3o3Sq+nFJ/WeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=drPS0ipK1HZNNpO+Kbjh78AkmkgYASBTMue/ZVHcvTg=;
- b=JWEUyefLHaYf/fofK1nK2izu5c7uHYTAZ5a6tChnpVsIN1yzx0DtraCh40zsw00A83KBbhueVHvuCmpvLLL4byS41aayOZwQ4/kxhFPAxRt5u0PTtFg+7D6tVkzVqLNkxGH0KzxvthU+s8YbHvDs1H/Go1udISGCmPq/iI3ZmUl+8lIjxMlPu3hZlLOKB/6hk8lDnNpnyEjjSKn+eho3pe1JmI6WqionndRHVNa8X/Aq2zdFsTlVDy2LpE4BvpSdgqC6h1RKKI/jPMWsje2TKmh41gcikdvXTvdDKGTTnzq7Fc8rUSBx1ruTpk8UWGduUHl57AVyQojkO+ElhaCJiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB6311.namprd11.prod.outlook.com (2603:10b6:8:a6::21) by
- SJ0PR11MB5166.namprd11.prod.outlook.com (2603:10b6:a03:2d8::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5332.13; Tue, 14 Jun 2022 23:33:20 +0000
-Received: from DM4PR11MB6311.namprd11.prod.outlook.com
- ([fe80::d4e9:9ae1:29b2:90c]) by DM4PR11MB6311.namprd11.prod.outlook.com
- ([fe80::d4e9:9ae1:29b2:90c%5]) with mapi id 15.20.5332.020; Tue, 14 Jun 2022
- 23:33:20 +0000
-Date:   Tue, 14 Jun 2022 16:33:15 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-CC:     <linux-doc@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: highmem: Use literal block for
- *kmap_local_folio() example
-Message-ID: <Yqkauy1EmrBlUz1c@iweiny-desk3>
-References: <20220614123115.522131-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220614123115.522131-1-bagasdotme@gmail.com>
-X-ClientProxiedBy: MW4PR03CA0356.namprd03.prod.outlook.com
- (2603:10b6:303:dc::31) To DM4PR11MB6311.namprd11.prod.outlook.com
- (2603:10b6:8:a6::21)
+        with ESMTP id S234123AbiFOAy1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 20:54:27 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 239684C424
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 17:54:26 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id b138so4327602iof.13
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 17:54:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=g/o214ka60maiASojlNW0EMmpvUlSswnoTPZvTfc5Kc=;
+        b=UFknaUHfF9Hd84TujXyCMqsVqOPqBh60xzYHToPJoyo2UGClkJ9vp5jFhIXGX7w60M
+         H4Q8N4SsqWD6nu2l26JvM/Ibl4XCpGc1gMmPzXTGO/JCLZSY1+k1bddGaPKQNiuOTdV/
+         YNcZ0IouwvYEIGEO72PYlLHtLnHZNcvIq7reVES7HH12NODrM+Dv0pANnz5Vrnu/Iojs
+         fPHPCXrN9dr7fd1l87KrELjKc2RGZQ9Lo8AUNgoZa4zNFs8/wLMckLam+xfFkmtFw9hS
+         4UcHJhUF0hqB+qQdbt2NP9SZUwCMOxULsPMeKHOYJmyFSEj9RPC1QqFXsNlj/gJ3xn0K
+         w5NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g/o214ka60maiASojlNW0EMmpvUlSswnoTPZvTfc5Kc=;
+        b=K/UcNwEotda3UZbSS0PKdsw9GgDKn1YUSuQ3K+Ood7vXQt70pGiT/B5PTiWF0qazNq
+         WAA3K+WkyNxcR10BclzRouiCvi+aCk/77zNisGEsc4pKnqoccRyCes0bhfOpcSk1bdMX
+         PapOLXP629RBWGj/IOdgefpoH50Jfa88SpgujbXpc/QxTCgK8gdHvImpuLNs1duMwwIU
+         E89osCQdN1fxeKTsTyH+/2H1MsEtIP3BR7zx1pcIqVnAGJrPFfXswtDhRCLB5ntfO6uQ
+         U+v+VMmJROoOKnG4XkbCH/aHvPikp/tf0DQiMDE91I/j0/2gImriVRdxOH74YsaBJWLI
+         SB9w==
+X-Gm-Message-State: AOAM532K0vxYwD7g7rEgBa4xxVVoFuCRpsUrLerttejSZZbTQe8gjyXt
+        0KkGm0MzhHs0ivgLf8AGmlQtGyUSU11x4o9whKyawQ==
+X-Google-Smtp-Source: ABdhPJxqJkud1Xxc+ejVu6vGpGTX+vLqjpBLPEk/P4975j41DduO/8+CDXliqc1BzV/wuHr7hFoFg6RZKHTaf3bl+0Q=
+X-Received: by 2002:a02:85e8:0:b0:331:c16a:55d3 with SMTP id
+ d95-20020a0285e8000000b00331c16a55d3mr4248221jai.167.1655254465201; Tue, 14
+ Jun 2022 17:54:25 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cb77bea0-ad77-4efe-7357-08da4e5e4429
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5166:EE_
-X-Microsoft-Antispam-PRVS: <SJ0PR11MB5166C4A98D866F99FAB38B6BF7AA9@SJ0PR11MB5166.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HhmPjoYXA6fsJqpIkhUFtmqUHA9XPQGbKwlCxlnCIv08RsQjHOHo8fv2HTyyT8q/upmLeZgXbG/CoxTuOkWlQ4h87yHjLe5iC6t0rIpG7BTwDm5tuzkZXB7BaxmKzBygqOA4dIUBfcQNtzWwIDRpJCHPZ8lcYJ2T695YetC0MrtjyeruVNkkwewfY4bpg+Z//9vq4E+Q3WpMRZ1l2hYHze4hoE2FO/43TxTkuyEVbcgp3878SrAUdNoab9Nyjm3XxYErxRIZTr3XEPQe87vOM+pQ508Seh/dH/RNQjnOgAU70C1BaS/TRVuMm+fEFTeDpJ0zdf0C2wabjTyJOQ6nDzBOUpAhEkTyKywI/yap5WQhYH26WuOPYYdZCixLlqPsqRrw01pDex/LYsgEGhTLPHUcO3/H8u6eL6Ii9UsdvZja8F8Y5w2Kg7ihOGiPURkt1QYxFZho5Kx8KuRkJuLP3QyvjwxuBIkVZKOU0z/7rUFHCvxuo6RdyzoBsXwJqvJlc6/m3fuBArtWrZfIY2AmLinFKYXYQHU/Iwy0HXHOSJ0G21gH1xvhZfc55Fg/hgFHmUFvFOcrFBohkJvPySGicw2ppNfi6a9yMznlN6RZGquSJslaCW2LexL25D0Ae2TTJz0CEzN+SqSBWsIO8ot2Qw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6311.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(366004)(26005)(316002)(186003)(9686003)(6512007)(83380400001)(44832011)(54906003)(66476007)(66556008)(66946007)(6506007)(6916009)(6666004)(4326008)(8676002)(2906002)(6486002)(5660300002)(38100700002)(86362001)(8936002)(508600001)(82960400001)(33716001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NcnqLExjxuOEx5nMdT1FcvMlZNegdp058ELwZCttVEly7PdtjBbVT9cIVnCk?=
- =?us-ascii?Q?2yDAoywM6Np119WfZu+aUlK3vzZd1aTtgfbxS/MsMF5LodZqczG1NZ+mp61M?=
- =?us-ascii?Q?PS2h31CWNyRM0iW5mqZBEqciTEgHgkrjHGByyYdtWZXpOtOBQeMO1q1U5X3f?=
- =?us-ascii?Q?0r+lgTXgS8DQjr7wWkoasxZFpKxXGcXCnguW5N9zE12fZVMIH7GQaeDsJJIo?=
- =?us-ascii?Q?suiHEpL91Hqx7AXDME5vPrxeYy37WEmqoVC6yG7OJtgSk7J2AQeVgimMqHy+?=
- =?us-ascii?Q?uFZM3Lllkxs+vAugGDE7sPCGpL9HSfT/uu2SyN1ySi8Kg4og/GMoZ+g9rPnX?=
- =?us-ascii?Q?N8eHWW/doF0r2xXbQemdbmswSdOMYu3rXqjJkX3sT9WmLbdrAVtf0ST+HFlb?=
- =?us-ascii?Q?QwMnbdhCJ6p/flI/2Ql48pF0VCrHmK7gkMKrOlz1V5bzZjf4iGJU3a7YVMNb?=
- =?us-ascii?Q?OpvpWtrgiGRm0HU89B8DJX7E0uPMxYxz+I6/+mnJuWgJmSzzpxCwZbkc8R1m?=
- =?us-ascii?Q?DadAJmp8JocSiQc6a5cnYkhHdBRW4wFBGEpeyuJdtnWVN0TrhH3D/U3hdEdc?=
- =?us-ascii?Q?T31lC1fuS3aP8zGit8HbfkfBp96Wu+D5pBqde/9MfAYKt5wcwAoiaXJeIHCV?=
- =?us-ascii?Q?LRUVHD/+VoLFpQH6VuVA+H5W1kbNlTtNGMgA/U/tXPhIZsl/tvqvQbzI2ifd?=
- =?us-ascii?Q?U5URoBSx4HOPC2gcEIqoOFUq2yyouXpHNZ1TePDuHXZu0zdLIEwrbVa3oar0?=
- =?us-ascii?Q?A/l0TkWxPLsO0Ise8EtxYvH5dU4QKIL977jV5f0x0XSEQKMv0kqDIiTFxmLC?=
- =?us-ascii?Q?dJ5hmGCvXCm1OSG8SgsMMHIXZbilDIORZ8FUrTGabqPYZDvt6M0fnfJ/zErh?=
- =?us-ascii?Q?LIgnF2/kOoXrQovRwRcpbZACjfo7ZoIoEzlKkDYZeYZldsNmwnuF08G+Qg8h?=
- =?us-ascii?Q?Jue41lt2fk7PJxsa3kPsWJiADLy+B8LyAoMuuJqw46Xaekd3vVcOy7lHvVjd?=
- =?us-ascii?Q?WAd2BG2DM//j5p8g5MN2+1ZEYNQBoB3LhxGz3PKqHstbclGDG9WLIwsd5CUS?=
- =?us-ascii?Q?g8QjVPMP0QBRdPy+v8OjKSp73/yu4bVv0OMX2Njvf3q9z3jTeN9BLx9aEr5E?=
- =?us-ascii?Q?uDfxXkRwHB6orh5oNKtNlETsSopaSa6LPN8gZ3Q7cfp5ou5YTdG2loIPkhNC?=
- =?us-ascii?Q?WAE6QoOQ8yWNSAV+cpjWmVeBo9070b5CJN/QFpUcwqBNcLMY3DGF6NBRUFBt?=
- =?us-ascii?Q?/J5N9vNyR92ji0IXPGLuR2HtEiH4+gS5lmXVfWZTLQ9EqWlqUcPQpnl3WpWF?=
- =?us-ascii?Q?m4l+8GXUk0a0hQ9JaLzgVzf27eSQQgFRzENvOAPHOfNCLNGKWUP1KBSOtV91?=
- =?us-ascii?Q?AsXlu8IqRZhIy3RO50qIVFNjzMVuYYbA+OsPoaHDa5oq4FXGmfFIZNAimL53?=
- =?us-ascii?Q?IUYAoyBw7w3y/xfTchZA6DyQglqwLLnGYw5FhiwzYbp7joCmz3sysZ/qBIWr?=
- =?us-ascii?Q?Bzc5GhERUkQ5vu9kqxTqgHo/D+BLxLB/l599/O909QSOaxUsqea3VZ3dT7cF?=
- =?us-ascii?Q?z5Z3QMH34v/EI+GGsX9g5Yl1qJq2nFXd7hBp0AqMepAyTNVIQRn9V52a5Fp2?=
- =?us-ascii?Q?keKMkIx2V/YjoPmHQbSuT30vxXldo6hT8QFykCpFBsGvKrOwcpwKKeI04bgK?=
- =?us-ascii?Q?qtkRu4whfPqCxszV1GDybuW+GPSmEtN2nreWq0sx0rqCjcK6sVpu5btnuGTl?=
- =?us-ascii?Q?TOGyK4XY4Q=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb77bea0-ad77-4efe-7357-08da4e5e4429
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6311.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2022 23:33:20.5055
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BBXnsWGLpKgijUuR9I4gzNLdN5Y5s1SIPGiV3PqPFZbryb1vGlpugz6daS1eiLgbqJnVeXU+uLs2ufj5fjiCMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5166
-X-OriginatorOrg: intel.com
+References: <20220601210951.3916598-1-axelrasmussen@google.com>
+ <20220601210951.3916598-3-axelrasmussen@google.com> <Yqjc7t+XPtfWUVlw@xz-m1.local>
+In-Reply-To: <Yqjc7t+XPtfWUVlw@xz-m1.local>
+From:   Axel Rasmussen <axelrasmussen@google.com>
+Date:   Tue, 14 Jun 2022 17:53:49 -0700
+Message-ID: <CAJHvVcg+r+mmdODWKH3YpA7VyRs+H-UfaB3W2JOsGj0V=2=yHg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/6] userfaultfd: add /dev/userfaultfd for fine grained
+ access control
+To:     Peter Xu <peterx@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Charan Teja Reddy <charante@codeaurora.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
+        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        zhangyi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Linuxkselftest <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 14, 2022 at 07:31:16PM +0700, Bagas Sanjaya wrote:
-> When building htmldocs on Linus' tree, there are inline emphasis warnings
-> on include/linux/highmem.h:
-> 
-> Documentation/vm/highmem:166: ./include/linux/highmem.h:154: WARNING: Inline emphasis start-string without end-string.
-> Documentation/vm/highmem:166: ./include/linux/highmem.h:157: WARNING: Inline emphasis start-string without end-string.
+On Tue, Jun 14, 2022 at 12:09 PM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Wed, Jun 01, 2022 at 02:09:47PM -0700, Axel Rasmussen wrote:
+> > Historically, it has been shown that intercepting kernel faults with
+> > userfaultfd (thereby forcing the kernel to wait for an arbitrary amount
+> > of time) can be exploited, or at least can make some kinds of exploits
+> > easier. So, in 37cd0575b8 "userfaultfd: add UFFD_USER_MODE_ONLY" we
+> > changed things so, in order for kernel faults to be handled by
+> > userfaultfd, either the process needs CAP_SYS_PTRACE, or this sysctl
+> > must be configured so that any unprivileged user can do it.
+> >
+> > In a typical implementation of a hypervisor with live migration (take
+> > QEMU/KVM as one such example), we do indeed need to be able to handle
+> > kernel faults. But, both options above are less than ideal:
+> >
+> > - Toggling the sysctl increases attack surface by allowing any
+> >   unprivileged user to do it.
+> >
+> > - Granting the live migration process CAP_SYS_PTRACE gives it this
+> >   ability, but *also* the ability to "observe and control the
+> >   execution of another process [...], and examine and change [its]
+> >   memory and registers" (from ptrace(2)). This isn't something we need
+> >   or want to be able to do, so granting this permission violates the
+> >   "principle of least privilege".
+> >
+> > This is all a long winded way to say: we want a more fine-grained way to
+> > grant access to userfaultfd, without granting other additional
+> > permissions at the same time.
+> >
+> > To achieve this, add a /dev/userfaultfd misc device. This device
+> > provides an alternative to the userfaultfd(2) syscall for the creation
+> > of new userfaultfds. The idea is, any userfaultfds created this way will
+> > be able to handle kernel faults, without the caller having any special
+> > capabilities. Access to this mechanism is instead restricted using e.g.
+> > standard filesystem permissions.
+> >
+> > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+> > ---
+> >  fs/userfaultfd.c                 | 76 ++++++++++++++++++++++++++------
+> >  include/uapi/linux/userfaultfd.h |  4 ++
+> >  2 files changed, 66 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+> > index e943370107d0..8b92c1398169 100644
+> > --- a/fs/userfaultfd.c
+> > +++ b/fs/userfaultfd.c
+> > @@ -30,6 +30,7 @@
+> >  #include <linux/security.h>
+> >  #include <linux/hugetlb.h>
+> >  #include <linux/swapops.h>
+> > +#include <linux/miscdevice.h>
+> >
+> >  int sysctl_unprivileged_userfaultfd __read_mostly;
+> >
+> > @@ -413,13 +414,8 @@ vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason)
+> >
+> >       if (ctx->features & UFFD_FEATURE_SIGBUS)
+> >               goto out;
+> > -     if ((vmf->flags & FAULT_FLAG_USER) == 0 &&
+> > -         ctx->flags & UFFD_USER_MODE_ONLY) {
+> > -             printk_once(KERN_WARNING "uffd: Set unprivileged_userfaultfd "
+> > -                     "sysctl knob to 1 if kernel faults must be handled "
+> > -                     "without obtaining CAP_SYS_PTRACE capability\n");
+> > +     if (!(vmf->flags & FAULT_FLAG_USER) && (ctx->flags & UFFD_USER_MODE_ONLY))
+> >               goto out;
+> > -     }
+> >
+> >       /*
+> >        * If it's already released don't get it. This avoids to loop
+> > @@ -2052,19 +2048,33 @@ static void init_once_userfaultfd_ctx(void *mem)
+> >       seqcount_spinlock_init(&ctx->refile_seq, &ctx->fault_pending_wqh.lock);
+> >  }
+> >
+> > -SYSCALL_DEFINE1(userfaultfd, int, flags)
+> > +static inline bool userfaultfd_allowed(bool is_syscall, int flags)
+> > +{
+> > +     bool kernel_faults = !(flags & UFFD_USER_MODE_ONLY);
+> > +     bool allow_unprivileged = sysctl_unprivileged_userfaultfd;
+> > +
+> > +     /* userfaultfd(2) access is controlled by sysctl + capability. */
+> > +     if (is_syscall && kernel_faults) {
+> > +             if (!allow_unprivileged && !capable(CAP_SYS_PTRACE))
+> > +                     return false;
+> > +     }
+> > +
+> > +     /*
+> > +      * For /dev/userfaultfd, access is to be controlled using e.g.
+> > +      * permissions on the device node. We assume this is correctly
+> > +      * configured by userspace, so we simply allow access here.
+> > +      */
+> > +
+> > +     return true;
+> > +}
+>
+> This helper reads a bit weird because potentially it constantly returns
+> "true" for !syscall use case but it's very not obvious..
+>
+> Would it be cleaner to not pass in the bool at all?  Something like (I also
+> un-nested some of the condition checks, hopefully it'll be easier to read):
+>
+> bool userfaultfd_syscall_allowed(int flags)
+> {
+>         /* Userspace-only page faults are always allowed */
+>         if (flags & UFFD_USER_MODE_ONLY)
+>                 return true;
+>
+>         /*
+>          * The user is requesting kernel fault capabilities. Privileged
+>          * users are always allowed even for kernel fault traps.
+>          */
+>         if (capable(CAP_SYS_PTRACE))
+>                 return true;
+>
+>         /* Whether we allow unprivileged users for kernel faults? */
+>         return sysctl_unprivileged_userfaultfd;
+> }
+>
+> Then below...
+>
+> > +
+> > +static int new_userfaultfd(bool is_syscall, int flags)
+> >  {
+> >       struct userfaultfd_ctx *ctx;
+> >       int fd;
+> >
+> > -     if (!sysctl_unprivileged_userfaultfd &&
+> > -         (flags & UFFD_USER_MODE_ONLY) == 0 &&
+> > -         !capable(CAP_SYS_PTRACE)) {
+> > -             printk_once(KERN_WARNING "uffd: Set unprivileged_userfaultfd "
+> > -                     "sysctl knob to 1 if kernel faults must be handled "
+> > -                     "without obtaining CAP_SYS_PTRACE capability\n");
+> > +     if (!userfaultfd_allowed(is_syscall, flags))
+> >               return -EPERM;
+> > -     }
+>
+> .. we could write it as:
+>
+>         if (is_syscall && !userfaultfd_syscall_allowed(flags))
+>                 return -EPERM;
+>
+> What do you think?
+>
+> >
+> >       BUG_ON(!current->mm);
+> >
+> > @@ -2083,6 +2093,10 @@ SYSCALL_DEFINE1(userfaultfd, int, flags)
+> >       refcount_set(&ctx->refcount, 1);
+> >       ctx->flags = flags;
+> >       ctx->features = 0;
+> > +     /*
+> > +      * If UFFD_USER_MODE_ONLY is not set, then userfaultfd_allowed() above
+> > +      * decided that kernel faults were allowed and should be handled.
+> > +      */
+>
+> Hmm.. why this needs to be added above "released=false"? Did you want to
+> add this (perhaps) above "flags" instead?
+>
+> IMHO when people reading the flags it'll be clear already on how it was
+> handled, the thing is the comment probably hide deep anyway so I'd consider
+> omitting it.
+>
+> The rest looks good to me, thanks.
 
-Nice catch.
+Thanks for reviewing, Peter! Most of these comments look good to me,
+I'll include them in a v4 after I get back to the office in about a
+week.
 
-> 
-> These warnings above are due to comments in code example of
-> *kmap_local_folio() are enclosed by double dash (--) instead of prefixed
-
-As Willy said these are for kmap_atomic()
-
-> with comment symbol (#).
-
-I'd rather see '//' used since this is C code and it makes the output
-consistent with C syntax rather than mixing shell and C.
-
-Thanks for the fixup!
-Ira
-
-
-diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-index a244e0345c87..56d6a0196534 100644
---- a/include/linux/highmem.h
-+++ b/include/linux/highmem.h
-@@ -151,16 +151,16 @@ static inline void *kmap_local_folio(struct folio *folio, size_t offset);
-  * example a page in the pagecache.  The API has two functions, and they
-  * can be used in a manner similar to the following::
-  *
-- *   # Find the page of interest.
-+ *   // Find the page of interest.
-  *   struct page *page = find_get_page(mapping, offset);
-  *
-- *   # Gain access to the contents of that page.
-+ *   // Gain access to the contents of that page.
-  *   void *vaddr = kmap_atomic(page);
-  *
-- *   # Do something to the contents of that page.
-+ *   // Do something to the contents of that page.
-  *   memset(vaddr, 0, PAGE_SIZE);
-  *
-- *   # Unmap that page.
-+ *   // Unmap that page.
-  *   kunmap_atomic(vaddr);
-  *
-  * Note that the kunmap_atomic() call takes the result of the kmap_atomic()
-
-
-> 
-> Fix these warnings by indenting the code example with literal block
-> indentation and prefixing comments inside the example with #.
-> 
-> Fixes: 85a85e7601263f ("Documentation/vm: move "Using kmap-atomic" to highmem.h")
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Ira Weiny <ira.weiny@intel.com>
-> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Cc: linux-mm@kvack.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  include/linux/highmem.h | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-> index 3af34de54330cb..a244e0345c87ca 100644
-> --- a/include/linux/highmem.h
-> +++ b/include/linux/highmem.h
-> @@ -149,19 +149,19 @@ static inline void *kmap_local_folio(struct folio *folio, size_t offset);
->   * It is used in atomic context when code wants to access the contents of a
->   * page that might be allocated from high memory (see __GFP_HIGHMEM), for
->   * example a page in the pagecache.  The API has two functions, and they
-> - * can be used in a manner similar to the following:
-> + * can be used in a manner similar to the following::
->   *
-> - * -- Find the page of interest. --
-> - * struct page *page = find_get_page(mapping, offset);
-> + *   # Find the page of interest.
-> + *   struct page *page = find_get_page(mapping, offset);
->   *
-> - * -- Gain access to the contents of that page. --
-> - * void *vaddr = kmap_atomic(page);
-> + *   # Gain access to the contents of that page.
-> + *   void *vaddr = kmap_atomic(page);
->   *
-> - * -- Do something to the contents of that page. --
-> - * memset(vaddr, 0, PAGE_SIZE);
-> + *   # Do something to the contents of that page.
-> + *   memset(vaddr, 0, PAGE_SIZE);
->   *
-> - * -- Unmap that page. --
-> - * kunmap_atomic(vaddr);
-> + *   # Unmap that page.
-> + *   kunmap_atomic(vaddr);
->   *
->   * Note that the kunmap_atomic() call takes the result of the kmap_atomic()
->   * call, not the argument.
-> 
-> base-commit: b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
-> -- 
-> An old man doll... just what I always wanted! - Clara
-> 
+>
+> >       ctx->released = false;
+> >       atomic_set(&ctx->mmap_changing, 0);
+> >       ctx->mm = current->mm;
+> > @@ -2098,8 +2112,42 @@ SYSCALL_DEFINE1(userfaultfd, int, flags)
+> >       return fd;
+> >  }
+> >
+> > +SYSCALL_DEFINE1(userfaultfd, int, flags)
+> > +{
+> > +     return new_userfaultfd(true, flags);
+> > +}
+> > +
+> > +static int userfaultfd_dev_open(struct inode *inode, struct file *file)
+> > +{
+> > +     return 0;
+> > +}
+> > +
+> > +static long userfaultfd_dev_ioctl(struct file *file, unsigned int cmd, unsigned long flags)
+> > +{
+> > +     if (cmd != USERFAULTFD_IOC_NEW)
+> > +             return -EINVAL;
+> > +
+> > +     return new_userfaultfd(false, flags);
+> > +}
+> > +
+> > +static const struct file_operations userfaultfd_dev_fops = {
+> > +     .open = userfaultfd_dev_open,
+> > +     .unlocked_ioctl = userfaultfd_dev_ioctl,
+> > +     .compat_ioctl = userfaultfd_dev_ioctl,
+> > +     .owner = THIS_MODULE,
+> > +     .llseek = noop_llseek,
+> > +};
+> > +
+> > +static struct miscdevice userfaultfd_misc = {
+> > +     .minor = MISC_DYNAMIC_MINOR,
+> > +     .name = "userfaultfd",
+> > +     .fops = &userfaultfd_dev_fops
+> > +};
+> > +
+> >  static int __init userfaultfd_init(void)
+> >  {
+> > +     WARN_ON(misc_register(&userfaultfd_misc));
+> > +
+> >       userfaultfd_ctx_cachep = kmem_cache_create("userfaultfd_ctx_cache",
+> >                                               sizeof(struct userfaultfd_ctx),
+> >                                               0,
+> > diff --git a/include/uapi/linux/userfaultfd.h b/include/uapi/linux/userfaultfd.h
+> > index 7d32b1e797fb..005e5e306266 100644
+> > --- a/include/uapi/linux/userfaultfd.h
+> > +++ b/include/uapi/linux/userfaultfd.h
+> > @@ -12,6 +12,10 @@
+> >
+> >  #include <linux/types.h>
+> >
+> > +/* ioctls for /dev/userfaultfd */
+> > +#define USERFAULTFD_IOC 0xAA
+> > +#define USERFAULTFD_IOC_NEW _IO(USERFAULTFD_IOC, 0x00)
+> > +
+> >  /*
+> >   * If the UFFDIO_API is upgraded someday, the UFFDIO_UNREGISTER and
+> >   * UFFDIO_WAKE ioctls should be defined as _IOW and not as _IOR.  In
+> > --
+> > 2.36.1.255.ge46751e96f-goog
+> >
+>
+> --
+> Peter Xu
+>
