@@ -2,72 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87DD8CCA47F
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 10:04:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BE72C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 10:15:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346980AbiFOKER (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 06:04:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48484 "EHLO
+        id S229910AbiFOKPn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 06:15:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346631AbiFOKEQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 06:04:16 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A8CC3055F;
-        Wed, 15 Jun 2022 03:04:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 51BA7B81D45;
-        Wed, 15 Jun 2022 10:04:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32E08C34115;
-        Wed, 15 Jun 2022 10:04:06 +0000 (UTC)
-Date:   Wed, 15 Jun 2022 11:04:02 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Wupeng Ma <mawupeng1@huawei.com>
-Cc:     corbet@lwn.net, will@kernel.org, ardb@kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        dvhart@infradead.org, andy@infradead.org, rppt@kernel.org,
-        akpm@linux-foundation.org, paul.walmsley@sifive.com,
-        palmer@dabbelt.com, aou@eecs.berkeley.edu, paulmck@kernel.org,
-        keescook@chromium.org, songmuchun@bytedance.com,
-        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
-        swboyd@chromium.org, wei.liu@kernel.org, robin.murphy@arm.com,
-        david@redhat.com, anshuman.khandual@arm.com,
-        thunder.leizhen@huawei.com, wangkefeng.wang@huawei.com,
-        gpiccoli@igalia.com, chenhuacai@kernel.org, geert@linux-m68k.org,
-        vijayb@linux.microsoft.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-mm@kvack.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v5 4/5] arm64: mm: Only remove nomap flag for initrd
-Message-ID: <Yqmukqq5E2FPz+/6@arm.com>
-References: <20220614092156.1972846-1-mawupeng1@huawei.com>
- <20220614092156.1972846-5-mawupeng1@huawei.com>
+        with ESMTP id S245388AbiFOKPj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 06:15:39 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37E7A36E06;
+        Wed, 15 Jun 2022 03:15:36 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id gd1so10826135pjb.2;
+        Wed, 15 Jun 2022 03:15:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8Mg3IddV8fqKnhInS4vCQZ7ljmMvEGOBjmrWbtncoys=;
+        b=WTtyjNYuNz6SGgDX2yLb6Uvj+evRZIUmEenoCBK+pENsEY7L4jsgZjdcTtZxn81qVi
+         3IJoUMLv23y7iWQ33KIIHpMtjx+XCs1v+v07f0dT0DP6VauEJz0faMdRXtuA7U/CzWb3
+         i4Zqvzn27MxDdWRf7qIAH6BSGhBx1rRgj2i+8yeptixfQUpJZEOZ7Dm1UnTI7UHAquoz
+         5qw2N83+Z03CuPVIr4hY+i9Xmfk16y1DMZOB5v6FP0upL38IDpdl4Lzy3uHvk2mGe8wY
+         YYdCzRWJzqcm9f1gHIyfe6RwrxydVBO5nmQLtkNsxLoUOryIVIWMJw6sx2z8RAtR8OYB
+         HI/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8Mg3IddV8fqKnhInS4vCQZ7ljmMvEGOBjmrWbtncoys=;
+        b=6eKpCZbLLdITFzulTjNEwFo+EBxihwSVUDEUhW9noHw+3Dik1iZudiHI+A9ghjFsc4
+         dXpskYFkcYl0Kq+LB0M4nZA/QzYqMs1J3L91F6DZKCjKr42APnzMnLcF/BaELSm2IOhr
+         VEDys40Xl1BwmeVVdbcAavTHRM6/3y/c6zLUpZwBRDlJlGCIj9Lf1Qgnhh2ZnTrIQEtF
+         5GO2VEMrYZhDfZO/AB7SGcE8WYH5bCuMOi592h+jMU2xIHUqw4nwUWcsyoSEtHE5wpPe
+         h0Ni7o9pYSgR8an89Oh/bIgvTp87n+1ri45Nn8+0RJfALAGPCGqlMJ5CAFhrvmw+Iklj
+         bLkg==
+X-Gm-Message-State: AJIora9nJdVRZ09Fo1zdkAkoAN4bDYG7ArhhVH7KbjI86CF3mlCX36Dv
+        0DTaxH//dWhwsS0MPIvgt8AYFnnNhQw=
+X-Google-Smtp-Source: AGRyM1sVvh6CZslExlcC7HTPkanuprVYxIw70h7LqP+R229D/XyNr22C/tSMN72XTlGthIsT60N03g==
+X-Received: by 2002:a17:90a:c7d7:b0:1e8:3d2d:dd67 with SMTP id gf23-20020a17090ac7d700b001e83d2ddd67mr9452119pjb.89.1655288135315;
+        Wed, 15 Jun 2022 03:15:35 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-70.three.co.id. [180.214.233.70])
+        by smtp.gmail.com with ESMTPSA id m26-20020a63941a000000b003fc5b1db26fsm9502035pge.52.2022.06.15.03.15.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jun 2022 03:15:34 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] Documentation: highmem: Use literal block for *kmap_local_folio() example
+Date:   Wed, 15 Jun 2022 17:15:10 +0700
+Message-Id: <20220615101509.516520-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220614092156.1972846-5-mawupeng1@huawei.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 14, 2022 at 05:21:55PM +0800, Wupeng Ma wrote:
-> From: Ma Wupeng <mawupeng1@huawei.com>
-> 
-> Commit 177e15f0c144 ("arm64: add the initrd region to the linear mapping explicitly")
-> remove all the flags of the memory used by initrd. This is fine since
-> MEMBLOCK_MIRROR is not used in arm64.
-> 
-> However with mirrored feature introduced to arm64, this will clear the mirrored
-> flag used by initrd, which will lead to error log printed by
-> find_zone_movable_pfns_for_nodes() if the lower 4G range has some non-mirrored
-> memory.
-> 
-> To solve this problem, only MEMBLOCK_NOMAP flag will be removed via
-> memblock_clear_nomap().
-> 
-> Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
-> Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+When building htmldocs on Linus' tree, there are inline emphasis warnings
+on include/linux/highmem.h:
 
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Documentation/vm/highmem:166: ./include/linux/highmem.h:154: WARNING: Inline emphasis start-string without end-string.
+Documentation/vm/highmem:166: ./include/linux/highmem.h:157: WARNING: Inline emphasis start-string without end-string.
+
+These warnings above are due to comments in code example of
+kmap_atomic() inside kernel-doc comment of *kmap_local_folio() are enclosed
+by double dash (--) instead of prefixed with C comment symbol (//).
+
+Fix these warnings by indenting the code example with literal block
+indentation and prefixing comments inside the example with C comment
+symbol.
+
+Fixes: 85a85e7601263f ("Documentation/vm: move "Using kmap-atomic" to highmem.h")
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Ira Weiny <ira.weiny@intel.com>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Changes since v1 [1]:
+   - Point that the code example is for kmap_atomic() (suggested by
+     Matthew Wilcox)
+   - Use C comments instead of Unix shell comments prefix (suggested by
+     Ira Weiny)
+
+ [1]: https://lore.kernel.org/linux-doc/20220614123115.522131-1-bagasdotme@gmail.com/
+ 
+ include/linux/highmem.h | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/include/linux/highmem.h b/include/linux/highmem.h
+index 3af34de54330cb..56d6a019653489 100644
+--- a/include/linux/highmem.h
++++ b/include/linux/highmem.h
+@@ -149,19 +149,19 @@ static inline void *kmap_local_folio(struct folio *folio, size_t offset);
+  * It is used in atomic context when code wants to access the contents of a
+  * page that might be allocated from high memory (see __GFP_HIGHMEM), for
+  * example a page in the pagecache.  The API has two functions, and they
+- * can be used in a manner similar to the following:
++ * can be used in a manner similar to the following::
+  *
+- * -- Find the page of interest. --
+- * struct page *page = find_get_page(mapping, offset);
++ *   // Find the page of interest.
++ *   struct page *page = find_get_page(mapping, offset);
+  *
+- * -- Gain access to the contents of that page. --
+- * void *vaddr = kmap_atomic(page);
++ *   // Gain access to the contents of that page.
++ *   void *vaddr = kmap_atomic(page);
+  *
+- * -- Do something to the contents of that page. --
+- * memset(vaddr, 0, PAGE_SIZE);
++ *   // Do something to the contents of that page.
++ *   memset(vaddr, 0, PAGE_SIZE);
+  *
+- * -- Unmap that page. --
+- * kunmap_atomic(vaddr);
++ *   // Unmap that page.
++ *   kunmap_atomic(vaddr);
+  *
+  * Note that the kunmap_atomic() call takes the result of the kmap_atomic()
+  * call, not the argument.
+
+base-commit: 018ab4fabddd94f1c96f3b59e180691b9e88d5d8
+-- 
+An old man doll... just what I always wanted! - Clara
+
