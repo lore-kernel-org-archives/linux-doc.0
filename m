@@ -2,119 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7737CCA481
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 15:33:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E4BC43334
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 15:34:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348919AbiFOPdz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 11:33:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58604 "EHLO
+        id S1348988AbiFOPey (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 11:34:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345732AbiFOPdw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 11:33:52 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F6C20BDD
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 08:33:50 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id p6-20020a05600c1d8600b0039c630b8d96so2237001wms.1
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 08:33:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=J5eKPAN5lqKWqHRVMFEt8bECLi2YfU3n/Xvj8y2gEBE=;
-        b=Zv2JhKlV+WgmpireahD92+ZSg2KnCdRZZvKLhjp5oxI5lNh/Plc3RXY+mQgK5+7Vg0
-         YcEbwmKcYO+eUdZVm8cnx1XTn3jFZkr+/y958BJAt6RHw6tO4gb/qGpriKZF4237xYW8
-         XdcUnlcVAybauV76RUaKKOU+9Jk1HAP8Ybq8jFsO4UP/QfChfQnRT6ZMjB1JSUkSG5A+
-         eeKIxvMjnfgD/uvv36ColBnfjqbtL+d7YJ45Q6RgQZkCXiULCPAF4BJO7j+EvyygfMPL
-         eLCZ6VWgFpV+KubW52X0faomk4hEuBQnOj14ASkrNV4X772O83FKpX8IgKteHTah4Jpx
-         0t5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=J5eKPAN5lqKWqHRVMFEt8bECLi2YfU3n/Xvj8y2gEBE=;
-        b=Aqduf3DgDaN1Ayy5OeOuXbVxFprd3D4Oym3MtlUBFVDAyR1GLPTn2IbVPLakjuwlaT
-         rGMjrzicjOe+olGGHq/S/iju5UdipxYK2N997usSKjWBPlBQBQvJzLSWmp0m9T45d73I
-         9KJMQiKJZfat8ztKgGanglH3Snv3nWXgtGCPxaxm4IsgTesF/w13CTpISlkJcr4EXBVz
-         SgKbsYrwWk5GRdnisNBrg9nu6lm5gMBw+QdMkirBza/7E49W/ohR3UAM17CFxcH02/a+
-         lST73MFDlDqCERmNzqN1qbgvZ02DldiRv6wC+zdLPdSDdt/6FeMVSeY1XoILGqIqGOSZ
-         Sa9Q==
-X-Gm-Message-State: AJIora/9LIYUpyXkl1MJ9HwdkkgI2SNr7+LYyVNQud3NO6Xq4AJ0v9Ub
-        zm9AHKyhczGSG2APTqwcSov/c22uB6U+cJDIROC0
-X-Google-Smtp-Source: AGRyM1tbSXhyojX0sdqJuy36Y8CiIJerDEBwNNO0en1/SGp4CFCRbzqu86TVD3k4/Lh2/5SBr3CWSXHz2TZ3Gh292cQ=
-X-Received: by 2002:a05:600c:1d91:b0:39c:544b:abdd with SMTP id
- p17-20020a05600c1d9100b0039c544babddmr20003wms.70.1655307229181; Wed, 15 Jun
- 2022 08:33:49 -0700 (PDT)
+        with ESMTP id S1349528AbiFOPex (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 11:34:53 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 29899275D8
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 08:34:51 -0700 (PDT)
+Received: from [172.20.10.6] (unknown [117.136.68.182])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr98U_Kli7RlEAA--.21634S3;
+        Wed, 15 Jun 2022 23:34:48 +0800 (CST)
+Subject: Re: [PATCH 0/9] docs/zh_CN: core-api: Update the partial translation
+ to 5.19-rc2
+To:     Binbin Zhou <zhoubinbin@loongson.cn>, alexs@kernel.org
+Cc:     corbet@lwn.net, chenhuacai@loongson.cn, bobwxc@email.cn,
+        linux-doc@vger.kernel.org, bobwxc@yeah.net
+References: <cover.1655258291.git.zhoubinbin@loongson.cn>
+From:   Yanteng Si <siyanteng@loongson.cn>
+Message-ID: <0ae5b49b-8756-4b6c-0ec8-6cba35d5a5a5@loongson.cn>
+Date:   Wed, 15 Jun 2022 23:34:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20220608150942.776446-1-fred@cloudflare.com> <87tu8oze94.fsf@email.froward.int.ebiederm.org>
- <e1b62234-9b8a-e7c2-2946-5ef9f6f23a08@cloudflare.com> <87y1xzyhub.fsf@email.froward.int.ebiederm.org>
- <859cb593-9e96-5846-2191-6613677b07c5@cloudflare.com> <87o7yvxl4x.fsf@email.froward.int.ebiederm.org>
- <9ed91f15-420c-3db6-8b3b-85438b02bf97@cloudflare.com> <20220615103031.qkzae4xr34wysj4b@wittgenstein>
- <CAHC9VhR8yPHZb2sCu4JGgXOSs7rudm=9opB+-LsG6_Lta9466A@mail.gmail.com> <CALrw=nGZtrNYn+CV+Q_w-2=Va_9m3C8PDvvPtd01d0tS=2NMWQ@mail.gmail.com>
-In-Reply-To: <CALrw=nGZtrNYn+CV+Q_w-2=Va_9m3C8PDvvPtd01d0tS=2NMWQ@mail.gmail.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 15 Jun 2022 11:33:38 -0400
-Message-ID: <CAHC9VhRSzXeAZmBdNSAFEh=6XR57ecO7Ov+6BV9b0xVN1YR_Qw@mail.gmail.com>
-Subject: Re: [PATCH v3] cred: Propagate security_prepare_creds() error code
-To:     Ignat Korchagin <ignat@cloudflare.com>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Frederick Lawler <fred@cloudflare.com>,
-        linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>, linux-aio@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-cachefs@redhat.com,
-        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-        linux-mm@kvack.org, linux-nfs@vger.kernel.org,
-        linux-unionfs@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        netdev <netdev@vger.kernel.org>, keyrings@vger.kernel.org,
-        selinux@vger.kernel.org, serge@hallyn.com, amir73il@gmail.com,
-        kernel-team <kernel-team@cloudflare.com>,
-        Jeff Moyer <jmoyer@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <cover.1655258291.git.zhoubinbin@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxr98U_Kli7RlEAA--.21634S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7AFy8XFWkuFyrurWfWFWktFb_yoW8Cw48pr
+        WfKr93X3WkCa45uw1xWrWkAFyrZF4UX390kw4IqwnIywn5KryUtr4Ut34Ygay8Jr92vr1F
+        yr43trWDuayUAr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+        6r4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+        0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+        jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+        1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxv
+        r21lc2xSY4AK67AK6ryrMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
+        8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
+        xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
+        8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E
+        87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
+        IFyTuYvjfUnwZ2UUUUU
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 15, 2022 at 11:06 AM Ignat Korchagin <ignat@cloudflare.com> wrote:
-> On Wed, Jun 15, 2022 at 3:14 PM Paul Moore <paul@paul-moore.com> wrote:
-> > On Wed, Jun 15, 2022 at 6:30 AM Christian Brauner <brauner@kernel.org> wrote:
+On 2022/6/15 下午5:24, Binbin Zhou wrote:
+> This series of patches updat the contents of the translated files
+Hi Binbin
 
-...
+what is "updat"? ;)
 
-> > > Fwiw, from this commit it wasn't very clear what you wanted to achieve
-> > > with this. It might be worth considering adding a new security hook for
-> > > this. Within msft it recently came up SELinux might have an interest in
-> > > something like this as well.
-> >
-> > Just to clarify things a bit, I believe SELinux would have an interest
-> > in a LSM hook capable of implementing an access control point for user
-> > namespaces regardless of Microsoft's current needs.  I suspect due to
-> > the security relevant nature of user namespaces most other LSMs would
-> > be interested as well; it seems like a well crafted hook would be
-> > welcome by most folks I think.
->
-> Just to get the full picture: is there actually a good reason not to
-> make this hook support this scenario? I understand it was not
-> originally intended for this, but it is well positioned in the code,
-> covers multiple subsystems (not only user namespaces), doesn't require
-> changing the LSM interface and it already does the job - just the
-> kernel internals need to respect the error code better. What bad
-> things can happen if we extend its use case to not only allocate
-> resources in LSMs?
+BTW,
+Describe your changes in imperative mood, e.g. "make xyzzy do frotz"
+instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
+to do frotz", as if you are giving orders to the codebase to change
+its behaviour.
 
-My concern is that the security_prepare_creds() hook, while only
-called from two different functions, ends up being called for a
-variety of different uses (look at the prepare_creds() and
-perpare_kernel_cred() callers) and I think it would be a challenge to
-identify the proper calling context in the LSM hook implementation
-given the current hook parameters.  One might be able to modify the
-hook to pass the necessary information, but I don't think that would
-be any cleaner than adding a userns specific hook.  I'm also guessing
-that the modified security_prepare_creds() hook implementations would
-also be more likely to encounter future maintenance issues as
-overriding credentials in the kernel seems only to be increasing, and
-each future caller would risk using the modified hook wrong by passing
-the wrong context and triggering the wrong behavior in the LSM.
+--CC bobwxc@yeah.net
 
--- 
-paul-moore.com
+Thanks,
+Yanteng
+> in the core-api directory to 5.19-rc2.
+> 
+> In the next step, I plan to translate the untranslated documents
+> in the core-api directory. For details, see TODOLIST in the
+> core-api/index.rst file.
+> 
+> Binbin Zhou (9):
+>    docs/zh_CN: core-api: Update the translation of cachetlb.rst to
+>      5.19-rc2
+>    docs/zh_CN: core-api: Update the translation of cpu_hotplug.rst to
+>      5.19-rc2
+>    docs/zh_CN: core-api: Update the translation of irq/irq-domain.rst to
+>      5.19-rc2
+>    docs/zh_CN: core-api: Update the translation of kernel-api.rst to
+>      5.19-rc2
+>    docs/zh_CN: core-api: Update the translation of mm-api.rst to 5.19-rc2
+>    docs/zh_CN: core-api: Update the translation of printk-basics.rst to
+>      5.19-rc2
+>    docs/zh_CN: core-api: Update the translation of printk-format.rst to
+>      5.19-rc2
+>    docs/zh_CN: core-api: Update the translation of workqueue.rst to
+>      5.19-rc2
+>    docs/zh_CN: core-api: Update the translation of xarray.rst to 5.19-rc2
+> 
+>   .../translations/zh_CN/core-api/cachetlb.rst  |   6 +
+>   .../zh_CN/core-api/cpu_hotplug.rst            | 435 +++++++++++++++---
+>   .../zh_CN/core-api/irq/irq-domain.rst         |  22 +-
+>   .../zh_CN/core-api/kernel-api.rst             |   3 +
+>   .../translations/zh_CN/core-api/mm-api.rst    |  23 +-
+>   .../zh_CN/core-api/printk-basics.rst          |   3 +-
+>   .../zh_CN/core-api/printk-formats.rst         |  13 +-
+>   .../translations/zh_CN/core-api/workqueue.rst |  21 +-
+>   .../translations/zh_CN/core-api/xarray.rst    |   4 +-
+>   9 files changed, 459 insertions(+), 71 deletions(-)
+> 
+
