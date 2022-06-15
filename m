@@ -2,161 +2,249 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25026CCA47F
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 22:25:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4E90C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 23:40:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349574AbiFOWZR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 18:25:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44508 "EHLO
+        id S1345675AbiFOXky (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 19:40:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347056AbiFOWZP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 18:25:15 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2059.outbound.protection.outlook.com [40.107.93.59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB05A2F027;
-        Wed, 15 Jun 2022 15:25:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I5dUgL904Awaf5GB87Ph+XT8l2I9ZlaqfbLcLK7VqN0jRVaEvJJehcmFQ7ogj3nvgWWxrzhiYn3cP4gYOh6M5YnMWKTGVxwHceTn08W+M2+IoEJKdrGcmmefE2fq5VMyN3zksnzrBvZi7cXEwBMA84XAyzdAC9bG2SuadVvt1R2gCpaP+SquUisWaJ184JK+J0ipd9A40ofQaOLfIUKx/9XIlTW2uGztSg+p2hyw1XqyBz4XSRdknbRHuItgMjXswqTK/myguyCdMvxilzcLIx0r6/xeiobx1+JQAjNXjwTq5no1Ot1igvsddGbBACpDKyLQwxnJZI7ecbjdd1QPmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=one2GZ2Kga2hjrWKebUneYR1HHafhg8oBuExZHY7A6Y=;
- b=iJbgsbWgxH70dh5c/GulvbEKc42rvCfDl95GkVDTIYCz/9fDqtke13y2H0u3IuvbRnDPcGfv4U+3w6WgIkMPbAJ1p8YNu6Xqwjt2hCpqDgMPdD7l6KtINaCZFALPnQ4wuxuEhATkNPmE8atQZ+gD+tXJUYSAVevSUJ3j9KiOqQIorXuakFuQXA2pNzCmkUOD4kh43mStkg8T+b+Le3if8WHiEs0oItOwV8fDGytKoqNCZFxYIOyHaJcFnajl0/P0VpiTsSrEn/Sfs0atOvvSCx0TkzL/WTgCXzy5NoSsMsjQFaL/jplI8SXs5Ym7SESb2u21fa3jIzNhMHkveZn1nQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=one2GZ2Kga2hjrWKebUneYR1HHafhg8oBuExZHY7A6Y=;
- b=x9TJpMbbZYFWYYDJLj6sUFSOrM4V1qBvYQqMAcdIOVtz1VuHUIMOU11X7UtyVZfkjV+uaLbgH9Y8sgBxs7YLhEPnFkFBmo5DCDLywgCOfs8dNtmxpAJFIm4zHLKl44903tDx+INGA0KcbbFq37+KGBs94H86Ol3NjYZaVa/uKi8=
-Received: from BY3PR05MB8531.namprd05.prod.outlook.com (2603:10b6:a03:3ce::6)
- by DM6PR05MB6538.namprd05.prod.outlook.com (2603:10b6:5:130::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14; Wed, 15 Jun
- 2022 22:25:12 +0000
-Received: from BY3PR05MB8531.namprd05.prod.outlook.com
- ([fe80::a4f8:718a:b2a0:977f]) by BY3PR05MB8531.namprd05.prod.outlook.com
- ([fe80::a4f8:718a:b2a0:977f%5]) with mapi id 15.20.5353.013; Wed, 15 Jun 2022
- 22:25:11 +0000
-From:   Nadav Amit <namit@vmware.com>
-To:     Axel Rasmussen <axelrasmussen@google.com>
-CC:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Charan Teja Reddy <charante@codeaurora.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        zhangyi <yi.zhang@huawei.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH v3 5/6] userfaultfd: selftests: make /dev/userfaultfd
- testing configurable
-Thread-Topic: [PATCH v3 5/6] userfaultfd: selftests: make /dev/userfaultfd
- testing configurable
-Thread-Index: AQHYdfv6fDyMczipnEG9l81JJqWcj61RIZWA
-Date:   Wed, 15 Jun 2022 22:25:11 +0000
-Message-ID: <7665FE27-EB0C-4FCA-ACAA-B4B37F87CB19@vmware.com>
-References: <20220601210951.3916598-1-axelrasmussen@google.com>
- <20220601210951.3916598-6-axelrasmussen@google.com>
-In-Reply-To: <20220601210951.3916598-6-axelrasmussen@google.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.100.31)
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vmware.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8aec645d-7a29-4aa5-f066-08da4f1de99a
-x-ms-traffictypediagnostic: DM6PR05MB6538:EE_
-x-microsoft-antispam-prvs: <DM6PR05MB65389BF7A0851F540E1C7972D0AD9@DM6PR05MB6538.namprd05.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: qdyyNUdH/MnrZLe1WxnN9kYcMZEaCKdj41OEzS+JM+xxPqPwwbLxv4UScrvR/dThmdvkyvxKDZhNkKMooAeudFZIzMhC5FE2qzSjoG3S3KHgHC5wQRWfE26u5uZrKjycCoOkMQhmS1QxXwDn/dLXwLSiC8CHnEJqM3aUIdy8CBmD3942c8Wsb7mtlj+GXr1nQ4V0eybKt488vphfsSuiolHCv+NL4fc0cBSkfx6x5ZGun6YDHCGBTcmbKwOxtuS8SfvxEL69ee1O2r+dc03UFI1wK7rK5MPbzo/x2OGNrmZQaNC2ftO+c02jZf/pEpQop8XyIg2+BKpetFzPe+p4F4/s0TlWjjn5dA1Fj/yNoce+7/5cy1q9THuuEbLXD5CraOYqsmgsxcoGr2ew/D2QW+BT8XyvvTyXiT7g8SYRXTwU2oI3odsUNv1UrNhwCwOgQfsJHtFKN2g/66utKpC7Us/9fY2i/IZlOEyxcSvLoc4Whgwe+6ZJbO5UQV+CejeBvdjzPrsgesVJaDGWL8MXEoa8lNEjkSVbKwjBhYwLYKpsuE8EkWZ99Vj+vrmHVNM+RBdQ63+8MV/SXs6/0zC1MyyOSqj74cl4z2sIxPwjar59b5FPrJ6SDvNsEORLkctxJLxZL9/c4HcW9tsNHNCX5ah7e84vVkBGFhhr7yOuWI/0+jtph77ZZecso0td/vDlAoZFoCPs5Zvz6h1mNkqimXaKwghbwAO2iHIkGzqyzLoeJMihnBXpFdRWlrtTfR+tL1hbx1eJwxYpNHLwI/MIhP79F+T3EnpjGtzuXsp7d1b/L5qjMzLdHhOrYjwULTdZJGxH2Tv49+I0+ZsnAKl9oA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY3PR05MB8531.namprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(6916009)(71200400001)(33656002)(54906003)(38070700005)(5660300002)(186003)(2906002)(7416002)(36756003)(4744005)(76116006)(8676002)(66946007)(66556008)(66476007)(316002)(53546011)(4326008)(66446008)(8936002)(86362001)(6486002)(966005)(122000001)(38100700002)(508600001)(6506007)(2616005)(26005)(64756008)(6512007)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xvni0SIxgt6F/3CDT1ezacdC0bbUZk8L0yyphz7O0Cs3x4OhEJ9tteXDE0qv?=
- =?us-ascii?Q?9IIVD8xz2WwkKOBGD2kxR58fgDA85OVjxLJGoAPo1cBeKaFVfyDYyAAZlgjV?=
- =?us-ascii?Q?/6lC8fmGqRONLz4UWbhNxzflBa2IGckzE7Cr0YkrZnH118d8HI/5CsJX+Xr+?=
- =?us-ascii?Q?Ry/2DPuESJpSo+bXGGt5DARXT1nA3IBeoKHE36HJXBbgv65+74UufT4i6k4n?=
- =?us-ascii?Q?FeBq4nXhlK4cNm2UzT3+zeX5S8GMVuGpPNWE+13fpPR4/MpdKhtXo5N4HTOj?=
- =?us-ascii?Q?cAZ4wufOINFRI723Zn9llKXql2kGUs1BI7SqPoZaz6sjn4DJsahbRT4Cmum3?=
- =?us-ascii?Q?F3jWkdu9IiswB2LzAaj6987R4OJ9XRhFh+J6a/ztvtHsKVOhxm9vxfWD3x22?=
- =?us-ascii?Q?k8H2Dw1/zFlFzJvGVvJQFNYufZPMdEEZifocZTJ6B0Hb6LB5VIW/lkV+ZPtm?=
- =?us-ascii?Q?7EfUzebASUeumrx/ynQCwKBXEIPWaZkDn+L3jHoe7Wz/rgdHzVn4dJG1WPwD?=
- =?us-ascii?Q?ofY3stBxd0y5qDDvS/zn8P7YYDwcSKdTj+7oHL2DgFuGGXLchEwibGZn5sMu?=
- =?us-ascii?Q?2kxF5nR38vc5I9woMBHFQqhf9PZHAQsqvwvVyVgQVB8hcDVI3zGFEh5bYdDm?=
- =?us-ascii?Q?7YI68TUl3bYgM5Lbcwhr4qW93JDj2qST1Ny/2cTU9QzPbfaacKLgfUdSei2S?=
- =?us-ascii?Q?QTQmvExSj0ff70hqEcfnoL0zpDsOHGWiswb39aupywH54msWsqZLV53u8EAs?=
- =?us-ascii?Q?roNcUel++mr6mFY/B9TY96ZjjIxY6HMdfFlkPtiGpiMiAt1+QgKXSIFcMb5u?=
- =?us-ascii?Q?+C6U3GWUOpw0Xz+rXapp/HWom1udJ2ZndZwn96gn0nbjWJZ+dJsyNWWcWXVZ?=
- =?us-ascii?Q?6iq16ILavkyj+XdO2VkUNyIOcQuBdW8XmMlQK7Kw9nt9RLtvsmt7sirgQXoM?=
- =?us-ascii?Q?e26X1jnNe6OcAPNYe+5O98MepsNqTBLUfzDHuiyfBj2BsUBbFMEkascUuv6z?=
- =?us-ascii?Q?Qzf4abHuB9uB5bPjcizQCHqBm9ecUrIrOTh/HLo/kzUeDcvy8BkcF2q4GscO?=
- =?us-ascii?Q?Ry5lV5LASM22YZ5tTi2MiLCJhxWN0OXBQapZqmfiKQhxzITHko5iZB3n5Azk?=
- =?us-ascii?Q?n+gl7paSOZ+jiDVfYCP0f5F8H573Gp1BUFjj/avA0ixanU7PiyI9YopBLAHL?=
- =?us-ascii?Q?kBlHIKipo6huAYf5OkSUgzD/n8X7IN838Y7MRhs9ivpY5TVD5gWF15U5dXP7?=
- =?us-ascii?Q?UufKvjwTwS8rlin+FnCU3k5pOzi6aJIbsbLI6e+nbPZo3QDi4hziztMzbf/v?=
- =?us-ascii?Q?oFKp/5erV/pPxEPCVu7M40x3311Btd6Tr8cBFEhv6md2u+sSarE4dyP42fZK?=
- =?us-ascii?Q?L7iCyc15Ht5CUta7yM26zwDbkWAKpytHC9ThW/3TfDykXJ+RYToeIVN5XhJV?=
- =?us-ascii?Q?A31DCjq+jpJQlDQ28aaJFF5CcJX2KPBhEd/qWL8Dk1Za10UQlkzkawH3Tq23?=
- =?us-ascii?Q?PtIZC7n6Iq/93b6cQ11FIgvSe3wwDg9b6a6KM59hwWLyMutLa1A92Ye69KhH?=
- =?us-ascii?Q?wyBhaTclDJS4vNlBrSA8Oc8muecBOKuDXcGbBkxbeOjBxriexlvaqMt3DYOD?=
- =?us-ascii?Q?zE+HwrdGxDJeTtZbBbEcwxvDz8imS6Cr2q3Ho4bBSB8xW7JcB/k8RoIlEyBB?=
- =?us-ascii?Q?4gK1uUAPVNwheMkUEFpNC+kxkYdjz3slstxwoVBPPIjvRrQ5LrVCOZcsr6pz?=
- =?us-ascii?Q?EeJ+IkdP3g=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <78A305CC8349C94FAD25ABBFD1E25239@namprd05.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S230172AbiFOXkx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 19:40:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CFA136332;
+        Wed, 15 Jun 2022 16:40:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 17DC261A25;
+        Wed, 15 Jun 2022 23:40:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EE0AC3411A;
+        Wed, 15 Jun 2022 23:40:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655336451;
+        bh=oSj2REQ5qGLGBBrSe5qR+g1EGWydDN+7KvkPWe4Dyo4=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=LUW1bMXvrBoJoj1dB2FuYZFam/bHc7Ly+IxnWxq6Eb8tkpXlgcaemVUcTi8TY4Mj6
+         uHZLAofAPPPATkiVmcMgvzpBt62ULG6W6WGlXSJGSocKm3EFl3Z8hx0RCnMvyecbzY
+         WLLEW+JmY1nObyduCjwaVJfMU8rdhhVpDjLZzvIU4VvLwXf8/ZlyeF1dtohOyzFKSu
+         y8zUBntYlUWGr/91mAzroQtwqdOzKbJoEawyIF/BwKQoECNk0wFztH29gRlL7r4aN8
+         oOZ6g0VIMBXuP+1EKhMpG4IYmehNZyQ2KnPhCGHeYpGcIPz9M6QPoCSvKLbOoywOEW
+         VU8wLej/gSrQQ==
+Date:   Wed, 15 Jun 2022 16:40:42 -0700 (PDT)
+From:   Stefano Stabellini <sstabellini@kernel.org>
+X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
+To:     Juergen Gross <jgross@suse.com>
+cc:     xen-devel@lists.xenproject.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
+Subject: Re: [PATCH] xen: don't require virtio with grants for non-PV
+ guests
+In-Reply-To: <20220615084835.27113-1-jgross@suse.com>
+Message-ID: <alpine.DEB.2.22.394.2206151336230.2430546@ubuntu-linux-20-04-desktop>
+References: <20220615084835.27113-1-jgross@suse.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY3PR05MB8531.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8aec645d-7a29-4aa5-f066-08da4f1de99a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jun 2022 22:25:11.8081
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: igsPpQUdj//u5SDQzz9K0Mk33jqv/ZiZw8T66luGJwhiVLs7F5vBzU76Exw/Xv/L+pLlRyQX/2eS2RFZ+/ZyxQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR05MB6538
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Jun 1, 2022, at 2:09 PM, Axel Rasmussen <axelrasmussen@google.com> wrote=
-:
+On Wed, 15 Jun 2022, Juergen Gross wrote:
+> Commit fa1f57421e0b ("xen/virtio: Enable restricted memory access using
+> Xen grant mappings") introduced a new requirement for using virtio
+> devices: the backend now needs to support the VIRTIO_F_ACCESS_PLATFORM
+> feature.
+> 
+> This is an undue requirement for non-PV guests, as those can be operated
+> with existing backends without any problem, as long as those backends
+> are running in dom0.
+> 
+> Per default allow virtio devices without grant support for non-PV
+> guests.
+> 
+> The setting can be overridden by using the new "xen_virtio_grant"
+> command line parameter.
+> 
+> Add a new config item to always force use of grants for virtio.
+> 
+> Fixes: fa1f57421e0b ("xen/virtio: Enable restricted memory access using Xen grant mappings")
+> Signed-off-by: Juergen Gross <jgross@suse.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  6 +++++
+>  drivers/xen/Kconfig                           |  9 ++++++++
+>  drivers/xen/grant-dma-ops.c                   | 22 +++++++++++++++++++
+>  include/xen/xen.h                             | 12 +++++-----
+>  4 files changed, 42 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 8090130b544b..7960480c6fe4 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6695,6 +6695,12 @@
+>  			improve timer resolution at the expense of processing
+>  			more timer interrupts.
+>  
+> +	xen_virtio_grant= [XEN]
+> +			Control whether virtio devices are required to use
+> +			grants when running as a Xen guest. The default is
+> +			"yes" for PV guests or when the kernel has been built
+> +			with CONFIG_XEN_VIRTIO_FORCE_GRANT set.
+> +
+>  	xen.balloon_boot_timeout= [XEN]
+>  			The time (in seconds) to wait before giving up to boot
+>  			in case initial ballooning fails to free enough memory.
+> diff --git a/drivers/xen/Kconfig b/drivers/xen/Kconfig
+> index bfd5f4f706bc..a65bd92121a5 100644
+> --- a/drivers/xen/Kconfig
+> +++ b/drivers/xen/Kconfig
+> @@ -355,4 +355,13 @@ config XEN_VIRTIO
+>  
+>  	  If in doubt, say n.
+>  
+> +config XEN_VIRTIO_FORCE_GRANT
+> +	bool "Require Xen virtio support to use grants"
+> +	depends on XEN_VIRTIO
+> +	help
+> +	  Require virtio for Xen guests to use grant mappings.
+> +	  This will avoid the need to give the backend the right to map all
+> +	  of the guest memory. This will need support on the backend side
+> +	  (e.g. qemu or kernel, depending on the virtio device types used).
+> +
+>  endmenu
+> diff --git a/drivers/xen/grant-dma-ops.c b/drivers/xen/grant-dma-ops.c
+> index fc0142484001..d1fae789dfad 100644
+> --- a/drivers/xen/grant-dma-ops.c
+> +++ b/drivers/xen/grant-dma-ops.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/dma-map-ops.h>
+>  #include <linux/of.h>
+>  #include <linux/pfn.h>
+> +#include <linux/platform-feature.h>
+>  #include <linux/xarray.h>
+>  #include <xen/xen.h>
+>  #include <xen/xen-ops.h>
+> @@ -27,6 +28,27 @@ static DEFINE_XARRAY(xen_grant_dma_devices);
+>  
+>  #define XEN_GRANT_DMA_ADDR_OFF	(1ULL << 63)
+>  
+> +static bool __initdata xen_virtio_grants;
+> +static bool __initdata xen_virtio_grants_set;
+> +static __init int parse_use_grants(char *arg)
+> +{
+> +	if (!strcmp(arg, "yes"))
+> +		xen_virtio_grants = true;
+> +	else if (!strcmp(arg, "no"))
+> +		xen_virtio_grants = false;
+> +	xen_virtio_grants_set = true;
+> +
+> +	return 0;
+> +}
+> +early_param("xen_virtio_grant", parse_use_grants);
+> +
+> +void xen_set_restricted_virtio_memory_access(void)
+> +{
+> +	if (IS_ENABLED(CONFIG_XEN_VIRTIO_FORCE_GRANT) || xen_virtio_grants ||
+> +	    (!xen_virtio_grants_set && xen_pv_domain()))
+> +		platform_set(PLATFORM_VIRTIO_RESTRICTED_MEM_ACCESS);
+> +}
 
-> Instead of always testing both userfaultfd(2) and /dev/userfaultfd,
-> let the user choose which to test.
->=20
-> As with other test features, change the behavior based on a new
-> command line flag. Introduce the idea of "test mods", which are
-> generic (not specific to a test type) modifications to the behavior of
-> the test. This is sort of borrowed from this RFC patch series [1], but
-> simplified a bit.
->=20
-> The benefit is, in "typical" configurations this test is somewhat slow
-> (say, 30sec or something). Testing both clearly doubles it, so it may
-> not always be desirable, as users are likely to use one or the other,
-> but never both, in the "real world".
->=20
-> [1]: https://patchwork.kernel.org/project/linux-mm/patch/20201129004548.1=
-619714-14-namit@vmware.com/
+I agree with Christoph on this.
 
-Thanks for pushing this change! Your code is better.
+On ARM all guests are HVM guests. Unless I am reading this wrongly, with
+this check, the user needs to pass the xen_virtio_grant command line
+option or add CONFIG_XEN_VIRTIO_FORCE_GRANT to the build to use virtio
+with grants. Instead, it should be automatic.
 
+I am not against adding new command line or compile-time options. But
+on ARM we already have all the information we need in device tree with
+"iommus" and "xen,grant-dma". We don't need anything more.
 
+On ARM if "xen,grant-dma" is present we need to enable
+PLATFORM_VIRTIO_RESTRICTED_MEM_ACCESS, otherwise we don't.
 
+So I think it should be something like the appended (untested):
+
+- on ARM we call xen_set_restricted_virtio_memory_access if
+  xen,grant-dma is present in device tree
+- on x86 ideally we would have something like xen,grant-dma in a Xen
+  ACPI table, but for now:
+    - always restrict for PV guests (no change)
+    - only restrict for HVM guests if a new cmdline option is passed
+    - so the command line option is only for Xen x86 HVM guests
+    - no need for another build-time option
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 2522b11e593f..cdd13d08f836 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6730,6 +6730,10 @@
+ 			improve timer resolution at the expense of processing
+ 			more timer interrupts.
+ 
++	xen_virtio_grant= [X86,XEN]
++			Control whether virtio devices are required to use
++			grants when running as a Xen HVM guest.
++
+ 	xen.balloon_boot_timeout= [XEN]
+ 			The time (in seconds) to wait before giving up to boot
+ 			in case initial ballooning fails to free enough memory.
+diff --git a/arch/arm/xen/enlighten.c b/arch/arm/xen/enlighten.c
+index 1f9c3ba32833..07eb69f9e7df 100644
+--- a/arch/arm/xen/enlighten.c
++++ b/arch/arm/xen/enlighten.c
+@@ -443,8 +443,6 @@ static int __init xen_guest_init(void)
+ 	if (!xen_domain())
+ 		return 0;
+ 
+-	xen_set_restricted_virtio_memory_access();
+-
+ 	if (!acpi_disabled)
+ 		xen_acpi_guest_init();
+ 	else
+diff --git a/arch/x86/xen/enlighten_hvm.c b/arch/x86/xen/enlighten_hvm.c
+index 8b71b1dd7639..66b1d9d3d950 100644
+--- a/arch/x86/xen/enlighten_hvm.c
++++ b/arch/x86/xen/enlighten_hvm.c
+@@ -189,13 +189,27 @@ static int xen_cpu_dead_hvm(unsigned int cpu)
+ }
+ 
+ static bool no_vector_callback __initdata;
++static bool __initdata xen_virtio_grants;
++static bool __initdata xen_virtio_grants_set;
++static __init int parse_use_grants(char *arg)
++{
++	if (!strcmp(arg, "yes"))
++		xen_virtio_grants = true;
++	else if (!strcmp(arg, "no"))
++		xen_virtio_grants = false;
++	xen_virtio_grants_set = true;
++
++	return 0;
++}
++early_param("xen_virtio_grant", parse_use_grants);
+ 
+ static void __init xen_hvm_guest_init(void)
+ {
+ 	if (xen_pv_domain())
+ 		return;
+ 
+-	xen_set_restricted_virtio_memory_access();
++	if (xen_virtio_grant)
++		xen_set_restricted_virtio_memory_access();
+ 
+ 	init_hvm_pv_info();
+ 
+diff --git a/drivers/xen/grant-dma-iommu.c b/drivers/xen/grant-dma-iommu.c
+index 16b8bc0c0b33..b43a8906ef64 100644
+--- a/drivers/xen/grant-dma-iommu.c
++++ b/drivers/xen/grant-dma-iommu.c
+@@ -40,6 +40,7 @@ static int grant_dma_iommu_probe(struct platform_device *pdev)
+ 		return ret;
+ 
+ 	platform_set_drvdata(pdev, mmu);
++	xen_set_restricted_virtio_memory_access();
+ 
+ 	return 0;
+ }
