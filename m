@@ -2,134 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42416CCA47A
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 00:56:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9B92C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 01:06:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239884AbiFOA4f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jun 2022 20:56:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34218 "EHLO
+        id S232344AbiFOBGp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Jun 2022 21:06:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241921AbiFOA4e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 20:56:34 -0400
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F174D617
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 17:56:32 -0700 (PDT)
-Received: by mail-io1-xd34.google.com with SMTP id 19so11146648iou.12
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 17:56:32 -0700 (PDT)
+        with ESMTP id S231489AbiFOBGo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 21:06:44 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 608D03EBA4;
+        Tue, 14 Jun 2022 18:06:44 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id 31so8360125pgv.11;
+        Tue, 14 Jun 2022 18:06:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tKyg93cuOsjgX3SRfMau9CFkIFtGcca71X1GBGA/twA=;
-        b=MQ6LtxZjQfWtQHpWV47vomiQdfj6L27c0TRvC+C0M3zjA6uTx0gi+PucQ1P8g5G2lR
-         9s4oKj6dTne6zg91Xlovn8GYKkSwHJeIPuUHrS1pUHw5ghOP87l97ghNFoSKJ9mSge+C
-         bEQwt8e/oxql3neQNhMMlLVpRMWR+eKrArWle1YkBw/jEN5CSb4b5l9idUba5IPyPKb0
-         CFV2ZKNqCNOx/k7mUFmt6iaI8e4IO9X74o7exY4nB9pCR4mfCHevtOig8n3yuIL7806C
-         CdcyhTYbMciQTpJrRaO0LMoQaewg3RhKTqCq5trGPrCnzKvs17mUU2qQfL/AQFilLOPc
-         mU4Q==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=hsIakku4FnVx99K8632PhAPuzZKXQqxNFY60mWq6fhY=;
+        b=PZtwOpTSO8PjeTx6/6jNFf+M4XWpL8halrvUQJjg8NTHIByf/qy+RGIEjbmGMJq+d7
+         zuMqo/2vMqMYH2tLYpZrPFoPmZnSuzhbxymRY7ZV8+ugj5Jd6EGFRHEGtjRDsYoUJ4sm
+         aeGOr3WJO827uNDIQh1i4FRbvlNot95n/LcEx+jnzavIwhFn5bg7bi+lJRVppzE220ua
+         kkqLDgnD9hBc4T1MGUGc7eKu62A5RbgTJi+nJMUKaDgckC/iQh6zmCJFUBdRhv5YoP/u
+         VcGAgTigIIgXZ7t3BaF1PFIquuynKMtr41a8W7BiiMJttzkopQQpw3kwwpM7Qfp7FHj8
+         J0ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tKyg93cuOsjgX3SRfMau9CFkIFtGcca71X1GBGA/twA=;
-        b=qEC32X9hrKhVMWwdiHxIEPzjLk92q84JfSy+rfpGuk1ncl03smo+/yoexPqgpXblCC
-         5iOWr9R0Q34oQ4pSigfOG0Dt3cGK+/mtgF7OYM0otof4FCaSFMgP3ih0GVSxqqeUwoIj
-         QxNfk1tWq4OZJLkS9aXI8EVbRjRSrBqJUHh4XsMG/mWxPziY78SOOZ3XeayR2oA6HXZG
-         WnDaYAbjJyVdcr1bIKBTOf6nEzXd8bdqxqM+5OW5GdGQwV5onUQN1miU1tkDwaaHfKSJ
-         UgedOx4E7cvp2mh5lqpMpICB9UrbQEeyRmW9nyToJFrB743hKLwOKHZ3u06gszr3vTQc
-         jjew==
-X-Gm-Message-State: AOAM533gcYuI43/wFBGQUcG1jfXmsfQAc5TOkc5kIZ4K/2R+qypXYAQz
-        xiEMT0knpiShu/lWe8/nSmpYy2HwHdF9lGxd60S10Q==
-X-Google-Smtp-Source: ABdhPJwWsIjLEnNLsaAhJ8A6hUvciYK/wN9so24tP4f0QVi5UXzjajeATgovbKX1vhEiDkTp95uLVXPznXV5ZJFVHys=
-X-Received: by 2002:a6b:bac1:0:b0:669:b1fe:58e4 with SMTP id
- k184-20020a6bbac1000000b00669b1fe58e4mr3965351iof.171.1655254591967; Tue, 14
- Jun 2022 17:56:31 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=hsIakku4FnVx99K8632PhAPuzZKXQqxNFY60mWq6fhY=;
+        b=5hS2oYeHDrd2ntfLlNsxLjXw0kUEAEJhpqH80hQm1IXdb8+D9fqWLq3wmkI6yCk8Ol
+         sUsediadt+7qrqTAqAjQIx4+0vEW4Dd6xwwgdCsK4lapjQZCCyuEu//8ns+pA0mQN4Sm
+         mb4GG/+VEQ8ihEts2B8/hl+XPAOj0p+KmNJ0gX0TAbsxAThRSEmg/kuVUUj70w5iOzwk
+         NS8noR4UX5ZUbdORCKEUSA8IBvlas/21C896Z6NNtnovgo/Z7Fe+lTRVjb0eFNvWjQ6M
+         F+HOLsmzbgbpjWlHShL0UdmqwEXy4zC1zBngwHhbvs8kcDEGbfJMli+xoN3TJRKr3Iwd
+         7lHA==
+X-Gm-Message-State: AOAM530B0zXCou34luKZILSAYh/GIacm5e07GMbvxNkTjaMCiYmfL1yO
+        R8WFppmNNWx4II2/xtT63s/jbp9Ue20=
+X-Google-Smtp-Source: ABdhPJxNlZaPX57z0XJyh3gcPU4N3Iqz2gzpfXQUutDHW8rM86PpNhgK8+6Ksu19MbeMEVwsVTx0xg==
+X-Received: by 2002:a63:5fc3:0:b0:3fd:f15d:5df6 with SMTP id t186-20020a635fc3000000b003fdf15d5df6mr6512040pgb.573.1655255203857;
+        Tue, 14 Jun 2022 18:06:43 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-7.three.co.id. [180.214.232.7])
+        by smtp.gmail.com with ESMTPSA id v11-20020a1709028d8b00b001616e19537esm7821759plo.213.2022.06.14.18.06.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jun 2022 18:06:42 -0700 (PDT)
+Message-ID: <94468546-5571-b61f-0d98-8501626e30e3@gmail.com>
+Date:   Wed, 15 Jun 2022 08:06:37 +0700
 MIME-Version: 1.0
-References: <20220601210951.3916598-1-axelrasmussen@google.com>
- <20220601210951.3916598-3-axelrasmussen@google.com> <20220613145540.1c9f7750092911bae1332b92@linux-foundation.org>
- <Yqe6R+XSH+nFc8se@xz-m1.local> <CAJHvVchdmV42qCgO6j=zGBi0DeVcvW1OC88rHUP6V66Fg3CSww@mail.gmail.com>
- <C1C5939A-B7D2-49E7-B18B-EE7FEFE9C924@vmware.com>
-In-Reply-To: <C1C5939A-B7D2-49E7-B18B-EE7FEFE9C924@vmware.com>
-From:   Axel Rasmussen <axelrasmussen@google.com>
-Date:   Tue, 14 Jun 2022 17:55:55 -0700
-Message-ID: <CAJHvVche7ZKOpO=8PY2frtJ5nHyzo=Yt+qT1OmYg8ZOUujkPfA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/6] userfaultfd: add /dev/userfaultfd for fine grained
- access control
-To:     Nadav Amit <namit@vmware.com>
-Cc:     Peter Xu <peterx@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Charan Teja Reddy <charante@codeaurora.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        zhangyi <yi.zhang@huawei.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Linuxkselftest <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 5.18 01/11] Documentation: Add documentation for Processor
+ MMIO Stale Data
+Content-Language: en-US
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Cc:     stable@vger.kernel.org,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Borislav Petkov <bp@suse.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <20220614183720.861582392@linuxfoundation.org>
+ <20220614183721.248466580@linuxfoundation.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220614183721.248466580@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 13, 2022 at 5:10 PM Nadav Amit <namit@vmware.com> wrote:
->
-> On Jun 13, 2022, at 3:38 PM, Axel Rasmussen <axelrasmussen@google.com> wrote:
->
-> > On Mon, Jun 13, 2022 at 3:29 PM Peter Xu <peterx@redhat.com> wrote:
-> >> On Mon, Jun 13, 2022 at 02:55:40PM -0700, Andrew Morton wrote:
-> >>> On Wed,  1 Jun 2022 14:09:47 -0700 Axel Rasmussen <axelrasmussen@google.com> wrote:
-> >>>
-> >>>> To achieve this, add a /dev/userfaultfd misc device. This device
-> >>>> provides an alternative to the userfaultfd(2) syscall for the creation
-> >>>> of new userfaultfds. The idea is, any userfaultfds created this way will
-> >>>> be able to handle kernel faults, without the caller having any special
-> >>>> capabilities. Access to this mechanism is instead restricted using e.g.
-> >>>> standard filesystem permissions.
-> >>>
-> >>> The use of a /dev node isn't pretty.  Why can't this be done by
-> >>> tweaking sys_userfaultfd() or by adding a sys_userfaultfd2()?
-> >
-> > I think for any approach involving syscalls, we need to be able to
-> > control access to who can call a syscall. Maybe there's another way
-> > I'm not aware of, but I think today the only mechanism to do this is
-> > capabilities. I proposed adding a CAP_USERFAULTFD for this purpose,
-> > but that approach was rejected [1]. So, I'm not sure of another way
-> > besides using a device node.
-> >
-> > One thing that could potentially make this cleaner is, as one LWN
-> > commenter pointed out, we could have open() on /dev/userfaultfd just
-> > return a new userfaultfd directly, instead of this multi-step process
-> > of open /dev/userfaultfd, NEW ioctl, then you get a userfaultfd. When
-> > I wrote this originally it wasn't clear to me how to get that to
-> > happen - open() doesn't directly return the result of our custom open
-> > function pointer, as far as I can tell - but it could be investigated.
->
-> If this direction is pursued, I think that it would be better to set it as
-> /proc/[pid]/userfaultfd, which would allow remote monitors (processes) to
-> hook into userfaultfd of remote processes. I have a patch for that which
-> extends userfaultfd syscall, but /proc/[pid]/userfaultfd may be cleaner.
+On 6/15/22 01:40, Greg Kroah-Hartman wrote:
+> +  .. list-table::
+> +
+> +     * - 'Not affected'
+> +       - The processor is not vulnerable
+> +     * - 'Vulnerable'
+> +       - The processor is vulnerable, but no mitigation enabled
+> +     * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
+> +       - The processor is vulnerable, but microcode is not updated. The
+> +         mitigation is enabled on a best effort basis.
+> +     * - 'Mitigation: Clear CPU buffers'
+> +       - The processor is vulnerable and the CPU buffer clearing mitigation is
+> +         enabled.
+> +
+> +If the processor is vulnerable then the following information is appended to
+> +the above information:
+> +
+> +  ========================  ===========================================
+> +  'SMT vulnerable'          SMT is enabled
+> +  'SMT disabled'            SMT is disabled
+> +  'SMT Host state unknown'  Kernel runs in a VM, Host SMT state unknown
+> +  ========================  ===========================================
+> +
 
-Hmm, one thing I'm unsure about -
+Why is list-table used in sysfs table instead of usual ASCII table in SMT
+vulnerabilities list above? I think using ASCII table in both cases is enough
+for the purpose.
 
-If a process is able to control another process' memory like this,
-then this seems like exactly what CAP_SYS_PTRACE is intended to deal
-with, right? So I'm not sure this case is directly related to the one
-I'm trying to address.
-
-This also seems distinct to me versus the existing way you'd do this,
-which is open a userfaultfd and register a shared memory region, and
-then fork(). Now you can control your child's memory with userfaultfd.
-But, attaching to some other, previously-unrelated process with
-/proc/[pid]/userfaultfd seems like a clear case for CAP_SYS_PTRACE.
-
->
+-- 
+An old man doll... just what I always wanted! - Clara
