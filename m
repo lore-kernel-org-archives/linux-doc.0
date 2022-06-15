@@ -2,169 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58EA7C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 03:56:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66D0EC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 07:54:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233224AbiFOD4g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Jun 2022 23:56:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34190 "EHLO
+        id S243565AbiFOHyb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 03:54:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354229AbiFOD4Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Jun 2022 23:56:16 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91B5212D22
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 20:56:07 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id l20so5071334lji.0
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jun 2022 20:56:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=WKQZz+MMJWEQJ46ry9vZVVhlq7I3kthxxCjdHo8n/iA=;
-        b=iEdUBsk861Zwsqa/wiz7X1jxTz9Of21OWBAmPD+fDTVUq4QSBhYL3q06odOOfH+DVw
-         Dpx2KB6N4YBXToikuRrCcr6oJ10oksT8SkIW5BlJRwkXhSderCiwJq9BCFahEAiVGX2B
-         hQI44ZAlmiclVZ7zVBhJVP5njHH5W9LL7tUZXofbIiiTLBYUzZMDKyS25Hvr5rE3kMSH
-         wTA5SISy+NsjLtMi5Ut+oRn+xldyeDkouJQtHqrBrXVLGNfA+BlLkwnFovnWL/Y0Eq1G
-         5N2bxR7jWxcWCbHTYemvoIkTv7VXRNaIx+5+DyqjBk7xg9xO2gdOFNiSvmVKjJv9T6n2
-         HF1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=WKQZz+MMJWEQJ46ry9vZVVhlq7I3kthxxCjdHo8n/iA=;
-        b=FsgNQtjWbV6M99aBSC7gNfb0LVYPubOveuHU81+pRVQ8qfE9MSqwBb2wpjWIIM/SXX
-         ZEKF81mXsG+pBB1ShpiotIlvXzrpPMje7sscq54qgU9VuNQqXMnErI3Qn+IicjOkP7JO
-         WQJRN5V5BzxS7ZmQAKqWgT4+7aOMUlqAk6UKhoIW0qC+HHquh5t11wjA6ObqT4rS7q/V
-         wag/LChtZhvLo/2aVuHq+hA2twW/8I3bDScaqh8La6QWWvATRRosQoaQ1M2ps+8zTsAg
-         D61shLAmEdxKb42aKm2fPNREH7Lz8osRcPtqGiT6FGIVSml341kbt9njKU/uUSj73A86
-         RBeQ==
-X-Gm-Message-State: AJIora8coiWn9yE4uvza8PniFOf+zT9huaYxt3R4P2SJ19O5klaKYJVH
-        ZupXfPi5zaD4rkf4M4sJjEmZCJklsrcJ9DDI77k=
-X-Google-Smtp-Source: AGRyM1tDMWDOQG+dYS9eJHFLV1J3RhMHwclrxCowyek7CPCcy3SdYQO4sZpK/cLI97A98i3fWoA52BzHKO2dcjpkixc=
-X-Received: by 2002:a05:651c:2124:b0:255:847d:38ea with SMTP id
- a36-20020a05651c212400b00255847d38eamr4148594ljq.439.1655265365774; Tue, 14
- Jun 2022 20:56:05 -0700 (PDT)
+        with ESMTP id S239892AbiFOHy3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 03:54:29 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BFBD4339A;
+        Wed, 15 Jun 2022 00:54:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1F4EFB81CD1;
+        Wed, 15 Jun 2022 07:54:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84DCFC341C0;
+        Wed, 15 Jun 2022 07:54:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655279666;
+        bh=VM9JsnNuaNSKfXw3/W5PC+ryw2B8xnjrM3+SbaLRwlY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HGl2tA+QFedQio6WLQwpcsHPnnA1J6C5L1sRmDLoeb3aoI8ASmSAQZPpx3dpnJQiI
+         pDOcKbh0vMtfkMxkcx4TlTVvIJUrjr76Cw1solVGw/gRLRYWv3JlY6Lq9MmxVxT5j/
+         bkbcToCwXmrl3xvOw9GSJTg2DmPekpNmHTRPDzapkdq/a3RdN3rabGuDhMuStcQS6x
+         VwlN1I1cwKuDoqdyORjIwz6SNT2g6+KyOxR+MKurRsgXM+YaKexJa5CjJYGmPn3H1V
+         DFahL1shyawETgdZ0mzky2SzjljSvbv90h7cW6JEneyZ1UqvKnIQa24J2Jm+ovL4uY
+         0sx+LrZ32kNwg==
+Date:   Wed, 15 Jun 2022 10:54:10 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Wupeng Ma <mawupeng1@huawei.com>
+Cc:     corbet@lwn.net, will@kernel.org, ardb@kernel.org,
+        catalin.marinas@arm.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, dvhart@infradead.org, andy@infradead.org,
+        akpm@linux-foundation.org, paul.walmsley@sifive.com,
+        palmer@dabbelt.com, aou@eecs.berkeley.edu, paulmck@kernel.org,
+        keescook@chromium.org, songmuchun@bytedance.com,
+        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
+        swboyd@chromium.org, wei.liu@kernel.org, robin.murphy@arm.com,
+        david@redhat.com, anshuman.khandual@arm.com,
+        thunder.leizhen@huawei.com, wangkefeng.wang@huawei.com,
+        gpiccoli@igalia.com, chenhuacai@kernel.org, geert@linux-m68k.org,
+        vijayb@linux.microsoft.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-mm@kvack.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v5 0/5] introduce mirrored memory support for arm64
+Message-ID: <YqmQIpQ8hzxYkMv2@kernel.org>
+References: <20220614092156.1972846-1-mawupeng1@huawei.com>
 MIME-Version: 1.0
-References: <cover.1655094814.git.siyanteng@loongson.cn> <9f458a7be9ef3b9eea3d7bba4e97fc962f6a061e.1655094814.git.siyanteng@loongson.cn>
- <CAJy-AmkF6uCreGjK_iJVOfO6x+yXCecPvL42V+DpXNchm5_bxQ@mail.gmail.com>
- <4d48992c-b09d-3a56-19d5-23b5f971cbcd@loongson.cn> <CAJy-AmkAHT80n7BUfCi0kj4zMZYtUdG7q=WrUnnkUbg_mVZ4_g@mail.gmail.com>
- <5be7a9e0-7968-f38e-6d4c-ca1900c58524@loongson.cn>
-In-Reply-To: <5be7a9e0-7968-f38e-6d4c-ca1900c58524@loongson.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Wed, 15 Jun 2022 11:55:29 +0800
-Message-ID: <CAJy-Am=sr07ZaDhLJdipubZs5bSpFHmv9ht2-zBbv6YAc85UYw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] docs/zh_CN: Update the translation of vm index to 5.19-rc1
-To:     YanTeng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        "Wu X.C." <bobwxc@email.cn>, Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        yanteng si <siyanteng01@gmail.com>, zhoubinbin@loongson.cn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220614092156.1972846-1-mawupeng1@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 15, 2022 at 10:38 AM YanTeng Si <siyanteng@loongson.cn> wrote:
->
->
-> =E5=9C=A8 2022/6/14 21:42, Alex Shi =E5=86=99=E9=81=93:
-> > On Tue, Jun 14, 2022 at 9:02 PM Yanteng Si <siyanteng@loongson.cn> wrot=
-e:
-> >> On 2022/6/13 =E4=B8=8B=E5=8D=882:30, Alex Shi wrote:
-> >>> On Mon, Jun 13, 2022 at 1:02 PM Yanteng Si <siyanteng@loongson.cn> wr=
-ote:
-> >>>> update to commit 481cc97349d6 ("mm,doc: Add new
-> >>>> documentation structure")
->
-> Note: There are some empty files that do not need to be updated for now,
->
-> they are:
->
-> bootmem,
-> oom,
-> page_allocation,
-> page_cache,
-> page_reclaim,
-> page_tables,
-> physical_memory
-> process_addrs,
-> shmfs,
-> slab,
-> swap.
-> >>>>
-> >>>> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> >>>> ---
-> >>>>    .../translations/zh_CN/vm/bootmem.rst         | 14 +++++++
-> >>>>    Documentation/translations/zh_CN/vm/index.rst | 37 ++++++++++++++=
-+----
-> >>>>    Documentation/translations/zh_CN/vm/oom.rst   | 14 +++++++
-> >>>>    .../translations/zh_CN/vm/page_allocation.rst | 14 +++++++
-> >>>>    .../translations/zh_CN/vm/page_cache.rst      | 14 +++++++
-> >>>>    .../translations/zh_CN/vm/page_reclaim.rst    | 14 +++++++
-> >>>>    .../translations/zh_CN/vm/page_tables.rst     | 14 +++++++
-> >>>>    .../translations/zh_CN/vm/physical_memory.rst | 14 +++++++
-> >>>>    .../translations/zh_CN/vm/process_addrs.rst   | 14 +++++++
-> >>>>    Documentation/translations/zh_CN/vm/shmfs.rst | 14 +++++++
-> >>>>    Documentation/translations/zh_CN/vm/slab.rst  | 14 +++++++
-> >>>>    Documentation/translations/zh_CN/vm/swap.rst  | 14 +++++++
-> >>>>    .../translations/zh_CN/vm/vmalloc.rst         | 14 +++++++
-> >>>>    13 files changed, 198 insertions(+), 7 deletions(-)
-> >>>>    create mode 100644 Documentation/translations/zh_CN/vm/bootmem.rs=
-t
-> >>>>    create mode 100644 Documentation/translations/zh_CN/vm/oom.rst
-> >>>>    create mode 100644 Documentation/translations/zh_CN/vm/page_alloc=
-ation.rst
-> >>>>    create mode 100644 Documentation/translations/zh_CN/vm/page_cache=
-.rst
-> >>>>    create mode 100644 Documentation/translations/zh_CN/vm/page_recla=
-im.rst
-> >>>>    create mode 100644 Documentation/translations/zh_CN/vm/page_table=
-s.rst
-> >>>>    create mode 100644 Documentation/translations/zh_CN/vm/physical_m=
-emory.rst
-> >>>>    create mode 100644 Documentation/translations/zh_CN/vm/process_ad=
-drs.rst
-> >>>>    create mode 100644 Documentation/translations/zh_CN/vm/shmfs.rst
-> >>>>    create mode 100644 Documentation/translations/zh_CN/vm/slab.rst
-> >>>>    create mode 100644 Documentation/translations/zh_CN/vm/swap.rst
-> >>>>    create mode 100644 Documentation/translations/zh_CN/vm/vmalloc.rs=
-t
-> >>> It's better to add above doc completely one by one, not just
-> >>> unfinished few words.
-> >> In the beginning, I thought so too.
-> >>
-> >> To be honest, My original intention was that a zh_CN update patch shou=
-ld
-> >> equal an English patch. Because My commit simply updates vm/index.rst =
-to
-> >> 5.19rc-1. I don't know why there are so many empty files mixed in with
-> >> the original patch(commit: 481cc97349d694e3211e14a886ad2b7ef55b5a2c).
-> >>
-> >> Of course, I'm willing to add them to the TODOLIST if you insist. :)
-> >>
-> > Uh, I understand these awkward empty files may imply a plan, but until =
-now
-> > It's just meaningless file, may not worth to translate them now. We'd
-> > better leave
-> > them off and do translation after some meaningful info added, and then =
-the
-> > translator sign will be more accountable.  Is this good for you or any
-> > more ideas?
->
-> OK, remove them, and add them to the TODOLIST.
+On Tue, Jun 14, 2022 at 05:21:51PM +0800, Wupeng Ma wrote:
+> From: Ma Wupeng <mawupeng1@huawei.com>
+> 
+> Patch #1 introduce mirrored memory support form arm64.
+> Patch #2-#4 fix some bugs for arm64 if memory reliable is enabled.
+> Patch #5 disable mirror feature if kernelcore is not specified.
+> 
+> Thanks to Ard Biesheuvel's hard work [1], now kernel will perfer mirrored
+> memory if kaslr is enabled.
+> 
+> [1] https://lore.kernel.org/linux-arm-kernel/CAMj1kXEPVEzMgOM4+Yj6PxHA-jFuDOAUdDJSiSxy_XaP4P7LSw@mail.gmail.com/T/
+> 
+> 
+> Ma Wupeng (5):
+>   efi: arm64: Introduce ability to find mirrored memory ranges
+>   mm: Ratelimited mirrored memory related warning messages
+>   mm: Limit warning message in vmemmap_verify() to once
+>   arm64: mm: Only remove nomap flag for initrd
+>   memblock: Disable mirror feature if kernelcore is not specified
+> 
+>  arch/arm64/mm/init.c            |  2 +-
+>  arch/x86/include/asm/efi.h      |  4 ----
+>  arch/x86/platform/efi/efi.c     | 23 -----------------------
+>  drivers/firmware/efi/efi-init.c |  1 +
+>  drivers/firmware/efi/efi.c      | 23 +++++++++++++++++++++++
+>  include/linux/efi.h             |  3 +++
+>  mm/internal.h                   |  2 ++
+>  mm/memblock.c                   |  7 +++++--
+>  mm/page_alloc.c                 |  2 +-
+>  mm/sparse-vmemmap.c             |  2 +-
+>  10 files changed, 37 insertions(+), 32 deletions(-)
 
-Hi yanteng,
+For the series: Acked-by: Mike Rapoport <rppt@linux.ibm.com>
 
-After thought twice about TODOLIST, we hope TODOLIST become the
-guide list for next translation target, on this pointview, these meaningles=
-s
-files are not worth to get into them, otherwise, the TODDOLIST is just all
-files list without guiding function.
-So on this point, we may leave off them totally until sth meaningful fulfil=
-led
-into these files.  Is this better?
+> -- 
+> 2.25.1
+> 
 
-Thanks
-Alex
+-- 
+Sincerely yours,
+Mike.
