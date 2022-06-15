@@ -2,275 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0344CC43334
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 12:53:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C84C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 12:54:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347182AbiFOMxi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 08:53:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33180 "EHLO
+        id S1351470AbiFOMyG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 08:54:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240337AbiFOMxS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 08:53:18 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2A0D14D3E;
-        Wed, 15 Jun 2022 05:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655297597; x=1686833597;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=d4YTN2oJ2wEg9km7RqOmzcHYPAYIj901Sf+UmvzSgSM=;
-  b=eYDypMz+7tRMP2+S+eX4T0jVmdi3xpEC0bKKjR0A+8pOXW4zLCfti3lh
-   jQskBBtxciyErXtdD/xYxSaeNaj31RWWX3pkJWZDDjixD3/9h3e4RMQYB
-   FWnLBIN0/OUylBTqa55lnZwh2sN14zVralc3BzcMowTVPvdSUzvGY46ME
-   tjiEi1wL6gki6tLZLuAcizCViqKa+y6JfD/yKe1jg9LxYkog8k2RgXm1X
-   OWJEAZmt8yrpbI3arsvaqRRsAkF9pDpRLAW1Kt84x6wwOFUmzn4R7W/EF
-   hW0yqOjW0WKkVT2UuWWqUq5p0lUsoDvG06y4fFxg6oWWLYcJ1UNgoNc6o
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="258802197"
-X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; 
-   d="scan'208";a="258802197"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 05:52:27 -0700
-X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; 
-   d="scan'208";a="911641796"
-Received: from nhanraha-mobl1.ger.corp.intel.com (HELO [10.213.196.47]) ([10.213.196.47])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 05:52:23 -0700
-Message-ID: <fb37c48c-a7a4-2b23-e12e-7e5e194f33ce@linux.intel.com>
-Date:   Wed, 15 Jun 2022 13:52:21 +0100
+        with ESMTP id S1350237AbiFOMx5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 08:53:57 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD7D731918;
+        Wed, 15 Jun 2022 05:53:56 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 6956C1F88E;
+        Wed, 15 Jun 2022 12:53:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1655297635; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PLZICg7uteGrNkus+TkltCr/ZYre6VfA0dO/FQY4hBw=;
+        b=p+YUDTvyU1YaKkaZw0bO9m/mkJG6yTT5UQ8s2qYt7VfrHo5y0N6yJd5AlmCyxpCFa5W0ki
+        zztrz/qRxcccaMvVVuTlgx8PZZ/Bi8HnqZjITC2X5UCQ//IeXslo6hT2R/T3SQ91CnH4lM
+        15mWzbHHC1chKY4HQubgTCBa5gsTJ1s=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3061913A35;
+        Wed, 15 Jun 2022 12:53:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id IB41CmPWqWLzFgAAMHmgww
+        (envelope-from <jgross@suse.com>); Wed, 15 Jun 2022 12:53:55 +0000
+Message-ID: <ab0653bc-7728-e24c-5d83-78cee135528c@suse.com>
+Date:   Wed, 15 Jun 2022 14:53:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3 2/2] drm/msm: Expose client engine utilization via
- fdinfo
+ Thunderbird/91.9.0
 Content-Language: en-US
-To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Chris Healy <cphealy@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Sean Paul <sean@poorly.run>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20220609174213.2265938-1-robdclark@gmail.com>
- <20220609174213.2265938-2-robdclark@gmail.com>
-From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220609174213.2265938-2-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     xen-devel@lists.xenproject.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
+References: <20220615084835.27113-1-jgross@suse.com>
+ <YqnBZhiLOHnoalbC@infradead.org>
+ <9b9785f5-085b-0882-177f-d8418c366beb@suse.com>
+ <YqnCZ+EKZeZ5AEnr@infradead.org>
+ <c5a521e0-26b1-b1d6-7f7d-00aa9b4b1e0e@suse.com>
+ <YqnIWCXxsGzkfQp7@infradead.org>
+From:   Juergen Gross <jgross@suse.com>
+Subject: Re: [PATCH] xen: don't require virtio with grants for non-PV guests
+In-Reply-To: <YqnIWCXxsGzkfQp7@infradead.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------bCUY8BhvhKPVYA0Vkiaf5GOk"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------bCUY8BhvhKPVYA0Vkiaf5GOk
+Content-Type: multipart/mixed; boundary="------------bJYoAtcPkRBUuSODuR5n1ait";
+ protected-headers="v1"
+From: Juergen Gross <jgross@suse.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: xen-devel@lists.xenproject.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
+Message-ID: <ab0653bc-7728-e24c-5d83-78cee135528c@suse.com>
+Subject: Re: [PATCH] xen: don't require virtio with grants for non-PV guests
+References: <20220615084835.27113-1-jgross@suse.com>
+ <YqnBZhiLOHnoalbC@infradead.org>
+ <9b9785f5-085b-0882-177f-d8418c366beb@suse.com>
+ <YqnCZ+EKZeZ5AEnr@infradead.org>
+ <c5a521e0-26b1-b1d6-7f7d-00aa9b4b1e0e@suse.com>
+ <YqnIWCXxsGzkfQp7@infradead.org>
+In-Reply-To: <YqnIWCXxsGzkfQp7@infradead.org>
 
-On 09/06/2022 18:42, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Similar to AMD commit
-> 874442541133 ("drm/amdgpu: Add show_fdinfo() interface"), using the
-> infrastructure added in previous patches, we add basic client info
-> and GPU engine utilisation for msm.
-> 
-> Example output:
-> 
-> 	# cat /proc/`pgrep glmark2`/fdinfo/6
-> 	pos:	0
-> 	flags:	02400002
-> 	mnt_id:	21
-> 	ino:	162
-> 	drm-driver:	msm
-> 	drm-client-id:	7
-> 	drm-engine-gpu:	1734371319 ns
-> 	drm-cycles-gpu:	1153645024
-> 	drm-maxfreq-gpu:	800000000 Hz
-> 
-> See also: https://patchwork.freedesktop.org/patch/468505/
-> 
-> v2: Add dev-maxfreq-$engine and update drm-usage-stats.rst
-> v3: spelling and compiler warning
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   Documentation/gpu/drm-usage-stats.rst | 21 +++++++++++++++++++++
->   drivers/gpu/drm/msm/msm_drv.c         | 19 ++++++++++++++++++-
->   drivers/gpu/drm/msm/msm_gpu.c         | 21 +++++++++++++++++++--
->   drivers/gpu/drm/msm/msm_gpu.h         | 19 +++++++++++++++++++
->   4 files changed, 77 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> index 6c9f166a8d6f..92c5117368d7 100644
-> --- a/Documentation/gpu/drm-usage-stats.rst
-> +++ b/Documentation/gpu/drm-usage-stats.rst
-> @@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
->   Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
->   indicating kibi- or mebi-bytes.
->   
-> +- drm-cycles-<str> <uint>
-> +
-> +Engine identifier string must be the same as the one specified in the
-> +drm-engine-<str> tag and shall contain the number of busy cycles for the given
-> +engine.
-> +
-> +Values are not required to be constantly monotonic if it makes the driver
-> +implementation easier, but are required to catch up with the previously reported
-> +larger value within a reasonable period. Upon observing a value lower than what
-> +was previously read, userspace is expected to stay with that larger previous
-> +value until a monotonic update is seen.
-> +
-> +- drm-maxfreq-<str> <uint> [Hz|MHz|KHz]
+--------------bJYoAtcPkRBUuSODuR5n1ait
+Content-Type: multipart/mixed; boundary="------------kckpb9DKnPpfXEBq0EuR6m7l"
 
-Kilo should be lowercase, I *think*. Simplify and only document Hz?
+--------------kckpb9DKnPpfXEBq0EuR6m7l
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> +
-> +Engine identifier string must be the same as the one specified in the
-> +drm-engine-<str> tag and shall contain the maximum frequency for the given
-> +engine.  Taken together with drm-cycles-<str>, this can be used to calculate
-> +percentage utilization of the engine, whereas drm-engine-<str> only reflects
-> +time active without considering what frequency the engine is operating as a
-> +percentage of it's maximum frequency.
+T24gMTUuMDYuMjIgMTM6NTQsIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOg0KPiBPbiBXZWQs
+IEp1biAxNSwgMjAyMiBhdCAwMTozOTowMVBNICswMjAwLCBKdWVyZ2VuIEdyb3NzIHdyb3Rl
+Og0KPj4gTm8sIGl0IGRvZXNuJ3QuIEknbSB3b3JraW5nIG9uIGEgcWVtdSBwYXRjaCBzZXJp
+ZXMgZW5hYmxpbmcgdGhlIHFlbXUNCj4+IGJhc2VkIGJhY2tlbmRzIHRvIHN1cHBvcnQgZ3Jh
+bnRzIHdpdGggdmlydGlvLiBUaGUgY29kZSBpcyB3b3JraW5nIGZpbmUNCj4+IG9uIHg4Niwg
+dG9vIChhcGFydCBmcm9tIHRoZSBmYWN0IHRoYXQgdGhlIGJhY2tlbmRzIGFyZW4ndCByZWFk
+eSB5ZXQpLg0KPiANCj4gVGhlIGNvZGUgcmlnaHQgbm93IGluIG1haW5saW5lIG9ubHkgZXZl
+ciBzZXRzIHRoZSBvcHMgZm9yIERNQS4gIFNvDQo+IEkgY2FuJ3Qgc2VlIGhvdyB5b3UgY291
+bGQgbWFrZSBpdCB3b3JrLg0KDQpBaCwgeW91IGFyZSByaWdodC4gSSB3YXMgdXNpbmcgYSBn
+dWVzdCB3aXRoIGFuIG9sZGVyIHZlcnNpb24gb2YgdGhlIHNlcmllcy4NClNvcnJ5IGZvciB0
+aGUgbm9pc2UuDQoNCg0KSnVlcmdlbg0K
+--------------kckpb9DKnPpfXEBq0EuR6m7l
+Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-Slipped my mind to reply to v3..
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjri
+oyspZKOBycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2
+kaV2KL9650I1SJvedYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i
+1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/B
+BLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xqG7/377qptDmrk42GlSK
+N4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR3Jvc3Mg
+PGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsE
+FgIDAQIeAQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4F
+UGNQH2lvWAUy+dnyThpwdtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3Tye
+vpB0CA3dbBQp0OW0fgCetToGIQrg0MbD1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u
++6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbvoPHZ8SlM4KWm8rG+lIkGurq
+qu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v5QL+qHI3EIP
+tyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVy
+Z2VuIEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJ
+CAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4
+RF7HoZhPVPogNVbC4YA6lW7DrWf0teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz7
+8X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC/nuAFVGy+67q2DH8As3KPu0344T
+BDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0LhITTd9jLzdDad1pQ
+SToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLmXBK
+7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkM
+nQfvUewRz80hSnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMB
+AgAjBQJTjHDXAhsDBwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/
+Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJnFOXgMLdBQgBlVPO3/D9R8LtF9DBAFPN
+hlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1jnDkfJZr6jrbjgyoZHi
+w/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0N51N5Jf
+VRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwP
+OoE+lotufe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK
+/1xMI3/+8jbO0tsn1tqSEUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1
+c2UuZGU+wsB5BBMBAgAjBQJTjHDrAhsDBwsJCAcDAgEGFQgCCQoLBBYCAwECHgEC
+F4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3g3OZUEBmDHVVbqMtzwlmNC4
+k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5dM7wRqzgJpJ
+wK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu
+5D+jLRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzB
+TNh30FVKK1EvmV2xAKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37Io
+N1EblHI//x/e2AaIHpzK5h88NEawQsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6
+AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpWnHIs98ndPUDpnoxWQugJ6MpMncr
+0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZRwgnBC5mVM6JjQ5x
+Dk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNVbVF
+LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mm
+we0icXKLkpEdIXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0I
+v3OOImwTEe4co3c1mwARAQABwsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMv
+Q/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEwTbe8YFsw2V/Buv6Z4Mysln3nQK5ZadD
+534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1vJzQ1fOU8lYFpZXTXIH
+b+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8VGiwXvT
+yJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqc
+suylWsviuGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5B
+jR/i1DG86lem3iBDXzXsZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
 
-Regards,
+--------------kckpb9DKnPpfXEBq0EuR6m7l--
 
-Tvrtko
+--------------bJYoAtcPkRBUuSODuR5n1ait--
 
-> +
->   ===============================
->   Driver specific implementations
->   ===============================
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 14ab9a627d8b..57a66093e671 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -948,7 +948,24 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
->   	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
->   };
->   
-> -DEFINE_DRM_GEM_FOPS(fops);
-> +static void msm_fop_show_fdinfo(struct seq_file *m, struct file *f)
-> +{
-> +	struct drm_file *file = f->private_data;
-> +	struct drm_device *dev = file->minor->dev;
-> +	struct msm_drm_private *priv = dev->dev_private;
-> +	struct drm_printer p = drm_seq_file_printer(m);
-> +
-> +	if (!priv->gpu)
-> +		return;
-> +
-> +	msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, &p);
-> +}
-> +
-> +static const struct file_operations fops = {
-> +	.owner = THIS_MODULE,
-> +	DRM_GEM_FOPS,
-> +	.show_fdinfo = msm_fop_show_fdinfo,
-> +};
->   
->   static const struct drm_driver msm_driver = {
->   	.driver_features    = DRIVER_GEM |
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-> index 244511f85044..f99292eaf529 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.c
-> +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> @@ -4,6 +4,8 @@
->    * Author: Rob Clark <robdclark@gmail.com>
->    */
->   
-> +#include "drm/drm_drv.h"
-> +
->   #include "msm_gpu.h"
->   #include "msm_gem.h"
->   #include "msm_mmu.h"
-> @@ -146,6 +148,16 @@ int msm_gpu_pm_suspend(struct msm_gpu *gpu)
->   	return 0;
->   }
->   
-> +void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
-> +			 struct drm_printer *p)
-> +{
-> +	drm_printf(p, "drm-driver:\t%s\n", gpu->dev->driver->name);
-> +	drm_printf(p, "drm-client-id:\t%u\n", ctx->seqno);
-> +	drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
-> +	drm_printf(p, "drm-cycles-gpu:\t%llu\n", ctx->cycles);
-> +	drm_printf(p, "drm-maxfreq-gpu:\t%u Hz\n", gpu->fast_rate);
-> +}
-> +
->   int msm_gpu_hw_init(struct msm_gpu *gpu)
->   {
->   	int ret;
-> @@ -652,7 +664,7 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
->   {
->   	int index = submit->seqno % MSM_GPU_SUBMIT_STATS_COUNT;
->   	volatile struct msm_gpu_submit_stats *stats;
-> -	u64 elapsed, clock = 0;
-> +	u64 elapsed, clock = 0, cycles;
->   	unsigned long flags;
->   
->   	stats = &ring->memptrs->stats[index];
-> @@ -660,12 +672,17 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
->   	elapsed = (stats->alwayson_end - stats->alwayson_start) * 10000;
->   	do_div(elapsed, 192);
->   
-> +	cycles = stats->cpcycles_end - stats->cpcycles_start;
-> +
->   	/* Calculate the clock frequency from the number of CP cycles */
->   	if (elapsed) {
-> -		clock = (stats->cpcycles_end - stats->cpcycles_start) * 1000;
-> +		clock = cycles * 1000;
->   		do_div(clock, elapsed);
->   	}
->   
-> +	submit->queue->ctx->elapsed_ns += elapsed;
-> +	submit->queue->ctx->cycles     += cycles;
-> +
->   	trace_msm_gpu_submit_retired(submit, elapsed, clock,
->   		stats->alwayson_start, stats->alwayson_end);
->   
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-> index 6def00883046..4911943ba53b 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.h
-> +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> @@ -361,6 +361,22 @@ struct msm_file_private {
->   	/** cmdline: Overridden task cmdline, see MSM_PARAM_CMDLINE */
->   	char *cmdline;
->   
-> +	/**
-> +	 * elapsed:
-> +	 *
-> +	 * The total (cumulative) elapsed time GPU was busy with rendering
-> +	 * from this context in ns.
-> +	 */
-> +	uint64_t elapsed_ns;
-> +
-> +	/**
-> +	 * cycles:
-> +	 *
-> +	 * The total (cumulative) GPU cycles elapsed attributed to this
-> +	 * context.
-> +	 */
-> +	uint64_t cycles;
-> +
->   	/**
->   	 * entities:
->   	 *
-> @@ -544,6 +560,9 @@ static inline void gpu_write64(struct msm_gpu *gpu, u32 lo, u32 hi, u64 val)
->   int msm_gpu_pm_suspend(struct msm_gpu *gpu);
->   int msm_gpu_pm_resume(struct msm_gpu *gpu);
->   
-> +void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
-> +			 struct drm_printer *p);
-> +
->   int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx);
->   struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
->   		u32 id);
+--------------bCUY8BhvhKPVYA0Vkiaf5GOk
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmKp1mIFAwAAAAAACgkQsN6d1ii/Ey+J
+FAgAhuZtO01u/6KCQl0hcc36qfENJd+p4klPGlJisL+gbDez8fKGAGOGaXpG8HpoaLmbevtFLh5V
+m3czisUFvhjMNlW4if4JtMNMCAtopicTLUCzGEjDdA9fzPv4/e7jNoXj4/XibNeJE9Cc5+W5Z5HV
+CX4j6vTmMgdpDOBHdaDlfXQc8sdib6dHqUbnmEqKQzXXj65ihWbIPuzZ5k7PNkB8opNuBWAX64m4
+I9PIggUJvEVBxWcNP+Tu7diz5AKOvoBjZopkfv/PSQQJ0YvXldKtLp+nL5BABw2yCb8Ey8JdJ+1J
+TRoUWqYc8PNe3H8pkmjOigIIvieWWHSsJIOtr9XRxg==
+=lckF
+-----END PGP SIGNATURE-----
+
+--------------bCUY8BhvhKPVYA0Vkiaf5GOk--
