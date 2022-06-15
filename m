@@ -2,176 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76DACCCA47E
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 14:14:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C24DC43334
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 14:29:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346085AbiFOOOz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 10:14:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59496 "EHLO
+        id S241332AbiFOO3Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 10:29:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235785AbiFOOOx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 10:14:53 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A25F381B3
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 07:14:51 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id w17so8062943wrg.7
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 07:14:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TmFspR35i19OaG7kIq4BfP3Z5+5KHooJY8o+wf2Eu7g=;
-        b=hnjS0y0DJB+Pgxck/o6M0KR1CyJPsNohu8wEV1ngzYEvfR3BNgdCgc8bBCjYcSn/q2
-         LGrABHBIuN5wiJVr3vFBZSQoyuo+ow5O4zy8y+xuerraxDm52W00Ql6GN8mxJBK7Aged
-         DMepzdaFMPS1SBM8wU0DjvHn5zjVaCWGHNtmseACjEovZd9TfrOheGRLWXnnpvnFbk3L
-         Oh5JBbb6A+TcxaBr62FlW4W2kMYFlFl4qBPFa5Vljf/kfuiWpPulvsvFhKfMVnlp7H1I
-         /Ewf9GWseGoqqzdlh7+S2YPdnfxgjB6XJIAkXpRzobHf9nGOIaKrkjPQFKm48HdjqWaG
-         xCzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TmFspR35i19OaG7kIq4BfP3Z5+5KHooJY8o+wf2Eu7g=;
-        b=CtKuqtFwh8EVGWbnHna7at0ns2TcC+GhuDbIsrqJOyH/fTu1XA1EU2TISCb7jcLKhl
-         QzFlW3zWZb1EOdJ9Q1u59n/ON9WcCBqOG4XLnvfPfbbniGAMe5hLxNdNo3LuNYfY1Vhd
-         hoj3MwNJQ1IPx6OdX1Vd7JTRQABRlo6FzcO9+My16W2H5pehxu3iFNhOb1yp0ItBJUEv
-         3WOJaW9GLI5kdyOp7EOLpyeO2RRQqj749gqWpWsC/up1zO1bm97wBt8zjFwbOpyHW3k0
-         7U4ujd3Bzfa3wQV1PZS280G4dgy7rKH9/M7QqXkmhl+fZvCL7OsWlZizR3dCDMX7l+dQ
-         WX6g==
-X-Gm-Message-State: AJIora9gAOxn8tfOBKINwfxeD3MoU8QtJ5punaRSY0p73ZGaY0/wmQMQ
-        JIdg/iWrT7gLcf+2VIehHRf37gB9LAKuGb1Fe/bv
-X-Google-Smtp-Source: AGRyM1shZLCqZkkSojukqCXaW+5XT6IN8fQuWUaigb52d2YijY5GHtpeOYg1i3lr6LTItEcWJJFmcKwvqWFcwysL51U=
-X-Received: by 2002:a05:6000:1447:b0:21a:278a:181c with SMTP id
- v7-20020a056000144700b0021a278a181cmr27393wrx.161.1655302489487; Wed, 15 Jun
- 2022 07:14:49 -0700 (PDT)
+        with ESMTP id S1347340AbiFOO23 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 10:28:29 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C092DFF5;
+        Wed, 15 Jun 2022 07:28:28 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 15D5335F;
+        Wed, 15 Jun 2022 14:28:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 15D5335F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1655303308; bh=vC9CwTdZm/z4Pz05ijVwgi0T285E+Nc749dDtbDBeGA=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=DTHl2fuVd21n0ootoa07lZCvZ5aKSDBF0aoRrd9rhFyjwXKJHTmTJBAzJWDOYnhv0
+         4xsBdLyrQKe+YrCXn7j8fzRN6wbyYbCvrnfBSiYxJiz1mvMipb9cAsPDVfXLldLKsR
+         ZbdnPTRdppX5NMLE2TFuS363wVccn6ZpxIts2UkL0umlG23cCge/+/D8BtprRIwBSZ
+         5YhIZJaTj1slK+fdIdj/KupZzp3JzpJsjo1o/CTmsAaswXpMAC8M0vSwVibiWuZWto
+         upyxO2fLkjDUSWM8Tdl3c4+ytFpTT6/l8X/wOHB2hJkvI6EwilQ9V5wuUI5LM2RiN3
+         M3RJ5yzaIiMtQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Borislav Petkov <bp@suse.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 5.18 01/11] Documentation: Add documentation for
+ Processor MMIO Stale Data
+In-Reply-To: <20220615032507.go6t24dyzotpe3xv@guptapa-desk>
+References: <20220614183720.861582392@linuxfoundation.org>
+ <20220614183721.248466580@linuxfoundation.org>
+ <94468546-5571-b61f-0d98-8501626e30e3@gmail.com>
+ <20220615032507.go6t24dyzotpe3xv@guptapa-desk>
+Date:   Wed, 15 Jun 2022 08:28:27 -0600
+Message-ID: <87tu8muhkk.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20220608150942.776446-1-fred@cloudflare.com> <87tu8oze94.fsf@email.froward.int.ebiederm.org>
- <e1b62234-9b8a-e7c2-2946-5ef9f6f23a08@cloudflare.com> <87y1xzyhub.fsf@email.froward.int.ebiederm.org>
- <859cb593-9e96-5846-2191-6613677b07c5@cloudflare.com> <87o7yvxl4x.fsf@email.froward.int.ebiederm.org>
- <9ed91f15-420c-3db6-8b3b-85438b02bf97@cloudflare.com> <20220615103031.qkzae4xr34wysj4b@wittgenstein>
-In-Reply-To: <20220615103031.qkzae4xr34wysj4b@wittgenstein>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 15 Jun 2022 10:14:38 -0400
-Message-ID: <CAHC9VhR8yPHZb2sCu4JGgXOSs7rudm=9opB+-LsG6_Lta9466A@mail.gmail.com>
-Subject: Re: [PATCH v3] cred: Propagate security_prepare_creds() error code
-To:     Christian Brauner <brauner@kernel.org>
-Cc:     Frederick Lawler <fred@cloudflare.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-cachefs@redhat.com, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org, linux-mm@kvack.org,
-        linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-        linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
-        keyrings@vger.kernel.org, selinux@vger.kernel.org,
-        serge@hallyn.com, amir73il@gmail.com, kernel-team@cloudflare.com,
-        Jeff Moyer <jmoyer@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 15, 2022 at 6:30 AM Christian Brauner <brauner@kernel.org> wrote:
->
-> On Tue, Jun 14, 2022 at 01:59:08PM -0500, Frederick Lawler wrote:
-> > On 6/14/22 11:30 AM, Eric W. Biederman wrote:
-> > > Frederick Lawler <fred@cloudflare.com> writes:
-> > >
-> > > > On 6/13/22 11:44 PM, Eric W. Biederman wrote:
-> > > > > Frederick Lawler <fred@cloudflare.com> writes:
-> > > > >
-> > > > > > Hi Eric,
-> > > > > >
-> > > > > > On 6/13/22 12:04 PM, Eric W. Biederman wrote:
-> > > > > > > Frederick Lawler <fred@cloudflare.com> writes:
-> > > > > > >
-> > > > > > > > While experimenting with the security_prepare_creds() LSM hook, we
-> > > > > > > > noticed that our EPERM error code was not propagated up the callstack.
-> > > > > > > > Instead ENOMEM is always returned.  As a result, some tools may send a
-> > > > > > > > confusing error message to the user:
-> > > > > > > >
-> > > > > > > > $ unshare -rU
-> > > > > > > > unshare: unshare failed: Cannot allocate memory
-> > > > > > > >
-> > > > > > > > A user would think that the system didn't have enough memory, when
-> > > > > > > > instead the action was denied.
-> > > > > > > >
-> > > > > > > > This problem occurs because prepare_creds() and prepare_kernel_cred()
-> > > > > > > > return NULL when security_prepare_creds() returns an error code. Later,
-> > > > > > > > functions calling prepare_creds() and prepare_kernel_cred() return
-> > > > > > > > ENOMEM because they assume that a NULL meant there was no memory
-> > > > > > > > allocated.
-> > > > > > > >
-> > > > > > > > Fix this by propagating an error code from security_prepare_creds() up
-> > > > > > > > the callstack.
-> > > > > > > Why would it make sense for security_prepare_creds to return an error
-> > > > > > > code other than ENOMEM?
-> > > > > > >    > That seems a bit of a violation of what that function is supposed to do
-> > > > > > >
-> > > > > >
-> > > > > > The API allows LSM authors to decide what error code is returned from the
-> > > > > > cred_prepare hook. security_task_alloc() is a similar hook, and has its return
-> > > > > > code propagated.
-> > > > > It is not an api.  It is an implementation detail of the linux kernel.
-> > > > > It is a set of convenient functions that do a job.
-> > > > > The general rule is we don't support cases without an in-tree user.  I
-> > > > > don't see an in-tree user.
-> > > > >
-> > > > > > I'm proposing we follow security_task_allocs() pattern, and add visibility for
-> > > > > > failure cases in prepare_creds().
-> > > > > I am asking why we would want to.  Especially as it is not an API, and I
-> > > > > don't see any good reason for anything but an -ENOMEM failure to be
-> > > > > supported.
-> > > > >
-> > > > We're writing a LSM BPF policy, and not a new LSM. Our policy aims to solve
-> > > > unprivileged unshare, similar to Debian's patch [1]. We're in a position such
-> > > > that we can't use that patch because we can't block _all_ of our applications
-> > > > from performing an unshare. We prefer a granular approach. LSM BPF seems like a
-> > > > good choice.
-> > >
-> > > I am quite puzzled why doesn't /proc/sys/user/max_user_namespaces work
-> > > for you?
-> > >
-> >
-> > We have the following requirements:
-> >
-> > 1. Allow list criteria
-> > 2. root user must be able to create namespaces whenever
-> > 3. Everything else not in 1 & 2 must be denied
-> >
-> > We use per task attributes to determine whether or not we allow/deny the
-> > current call to unshare().
-> >
-> > /proc/sys/user/max_user_namespaces limits are a bit broad for this level of
-> > detail.
-> >
-> > > > Because LSM BPF exposes these hooks, we should probably treat them as an
-> > > > API. From that perspective, userspace expects unshare to return a EPERM
-> > > > when the call is denied permissions.
-> > >
-> > > The BPF code gets to be treated as a out of tree kernel module.
-> > >
-> > > > > Without an in-tree user that cares it is probably better to go the
-> > > > > opposite direction and remove the possibility of return anything but
-> > > > > memory allocation failure.  That will make it clearer to implementors
-> > > > > that a general error code is not supported and this is not a location
-> > > > > to implement policy, this is only a hook to allocate state for the LSM.
-> > > > >
-> > > >
-> > > > That's a good point, and it's possible we're using the wrong hook for the
-> > > > policy. Do you know of other hooks we can look into?
->
-> Fwiw, from this commit it wasn't very clear what you wanted to achieve
-> with this. It might be worth considering adding a new security hook for
-> this. Within msft it recently came up SELinux might have an interest in
-> something like this as well.
+Pawan Gupta <pawan.kumar.gupta@linux.intel.com> writes:
 
-Just to clarify things a bit, I believe SELinux would have an interest
-in a LSM hook capable of implementing an access control point for user
-namespaces regardless of Microsoft's current needs.  I suspect due to
-the security relevant nature of user namespaces most other LSMs would
-be interested as well; it seems like a well crafted hook would be
-welcome by most folks I think.
+> On Wed, Jun 15, 2022 at 08:06:37AM +0700, Bagas Sanjaya wrote:
+>>On 6/15/22 01:40, Greg Kroah-Hartman wrote:
+>>> +  .. list-table::
+>>> +
+>>> +     * - 'Not affected'
+>>> +       - The processor is not vulnerable
+>>> +     * - 'Vulnerable'
+>>> +       - The processor is vulnerable, but no mitigation enabled
+>>> +     * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
+>>> +       - The processor is vulnerable, but microcode is not updated. The
+>>> +         mitigation is enabled on a best effort basis.
+>>> +     * - 'Mitigation: Clear CPU buffers'
+>>> +       - The processor is vulnerable and the CPU buffer clearing mitigation is
+>>> +         enabled.
+>>> +
+>>> +If the processor is vulnerable then the following information is appended to
+>>> +the above information:
+>>> +
+>>> +  ========================  ===========================================
+>>> +  'SMT vulnerable'          SMT is enabled
+>>> +  'SMT disabled'            SMT is disabled
+>>> +  'SMT Host state unknown'  Kernel runs in a VM, Host SMT state unknown
+>>> +  ========================  ===========================================
+>>> +
+>>
+>>Why is list-table used in sysfs table instead of usual ASCII table in SMT
+>>vulnerabilities list above? I think using ASCII table in both cases is enough
+>>for the purpose.
+>
+> Maybe you are right (and I am no expert in this), but quite a few
+> documents use list-table for sysfs status:
+>
+>    https://www.kernel.org/doc/Documentation/admin-guide/hw-vuln/mds.rst
+>    https://www.kernel.org/doc/Documentation/admin-guide/hw-vuln/spectre.rst
+>    https://www.kernel.org/doc/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
 
--- 
-paul-moore.com
+List-table should really be avoided whenever possible; it makes reading
+the plain-text files difficult at best.  I'd like to see the existing
+uses taken out over time.
+
+This isn't really something to be addressed in the stable updates,
+though.
+
+jon
