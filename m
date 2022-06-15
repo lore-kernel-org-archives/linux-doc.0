@@ -2,139 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE2F4C43334
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 17:32:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76E39C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 18:00:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357173AbiFORcR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 13:32:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41012 "EHLO
+        id S1357798AbiFOSAx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 14:00:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357296AbiFORb4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 13:31:56 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFC8053A46
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 10:31:34 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id o10so17215552edi.1
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 10:31:34 -0700 (PDT)
+        with ESMTP id S236325AbiFOSAx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 14:00:53 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8D5C52B0E
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 11:00:51 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id g10-20020a17090a708a00b001ea8aadd42bso2778858pjk.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 11:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=semihalf.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=w3YUx2QLwqjC4yt6Na4HDX+YOsTdcO8b9CpzZpDW+SU=;
-        b=SumGg4ML2+ipUmc7XA+lq9lEeAMN0G+c1nkIb8xlQdeSVIXK7p8gchHLt4JMr6H2DB
-         oay1lq5P2vRcbJXDcviUhEXtOuH0wnMLPDb9TSVPWMFmqsCzv/3C5/PS3UIUNxLhWLFF
-         stiOnXVgBnI1zKc+m2gV4bh+ZP9jm2By0atDyoqFmq9V6owXGPdCIBexAyREiyN/lqWP
-         sE0WUW66Z3ial6A4UoLjgKhJjd15EU91IEkibIDuhAx6QDoDtHXsAnahe4K9HdlDUCRk
-         bV02tDWRCArcwrkIhFBPyvdeAp0V7KDoiMmXTmMmQR0oyvjc0mW2aORSBPxsiKFydKXZ
-         joRQ==
+         :cc:content-transfer-encoding;
+        bh=aKVoJG94TlRK1lO5EtxaMQBi2kCbacnBTEUYcvXReYs=;
+        b=FNCP2oYfZ40CEmxTy0qRZfyApcZ+1R96el63F2TOp0qXRzJnR18YS28i4ComAHwniE
+         NzTpAhKsSs6GfhSpMAsAxbNJupjAtzYcPojh6rHDREBCcik6J0UGscpWefqG+eMOycrr
+         aNexRCGLHPIzOHCw8RDDtF/Fgo2OCR6YPINhDQDEeoxo8cbnCZpBaY+kr2yrXknY/y1Z
+         zfx+ItNutvYmKUljGz5VBNfeGRdgaNZ+CJnsAfAr6ZB+wBvlE7tz22gcnBLKKfCg1Vig
+         RWkN5AS2C0LgtERETqvsbgVx5ftTRmODp8vNncg5KxCNG3Nyopz/Rx/p6HlmPiHQzMF9
+         OMBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w3YUx2QLwqjC4yt6Na4HDX+YOsTdcO8b9CpzZpDW+SU=;
-        b=4rIDRTyha7sV5lnMivBAs9rNXlYE9bmA503swuhzrpqtx2+wnrxhwh1nv83sA+7yPO
-         lBEYKN53Amr8nf1C1joMzAZk2ZO4SoaC1rAV69rq31tPVOCGMdqjjMc5vJ887RDcyqQg
-         8WBfi90Wmyc9m7Jo7tGTeKGOHelu4Gpa054Z3TyEMsCsW2uwRdtuFGwoVydh0rCTm8U8
-         A61aRd1gEo+DKiBoCcEHxk/srxv44NFCVcj7/Ls8oz19rLawUZjRJ/yRMVYChxbGQnsO
-         KqNmWcq4nBxTS3cn086A2gm353gJ15I3/W48atIfIukDTNvG12I8lqipTTUkqZt6IHqy
-         aZuA==
-X-Gm-Message-State: AJIora8NCHriZqARqs5VcBfdVQPumAgvkTn3xwk43aRXj34oc1sF0LRj
-        BqzexvUn/Ucn+IYXVRPzr4S8xOET23f1Znmau1Uabw==
-X-Google-Smtp-Source: AGRyM1sS/o8uE5SIVvuRne76FHmKtTOxLuF/9qz0QiBkZZh/OtXHhO00qEM0M0U9FVkRkm0Vv+czaVupYJU60sZU7Ow=
-X-Received: by 2002:a05:6402:3325:b0:42d:e1d8:99e9 with SMTP id
- e37-20020a056402332500b0042de1d899e9mr1033464eda.87.1655314293062; Wed, 15
- Jun 2022 10:31:33 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=aKVoJG94TlRK1lO5EtxaMQBi2kCbacnBTEUYcvXReYs=;
+        b=GhfYkDVw/FbNZfvjXpdAnf8Jle2rs3o7/rO30kr9d+oEl9vD9lW/fGTBZ1bWP5GGhh
+         Mw+rLinTKRosfMT2mAg3Ac6I76lEch0s1ln+FBlpm/UTut9qZHu0IuO97t+9+4okFY+i
+         y9njwWqTYx8sEYVAPmcX6Q133CH3QlibC3AqgAbf/caOZ6CAg6zQidXfsNcJ7YgxRdTk
+         e5pP3rKXAn1OP9bYdYqiT+0ym9jnZiS0Yn1HTvkz4E3AlvlUxw9sgvnZIf3h7/IXtvsA
+         fy4z/2HwyOyZR1bw9wRknXKmcxKF2VHBRu2MeaDD47dijDgsE9Ew8WeFgEpnlabeZXF9
+         kPjQ==
+X-Gm-Message-State: AJIora/vmMcKGi8LlyyxR4TTXVtM0VLP62eMyYmHfeAeCi7nBuGcjk4R
+        WPMz2Sga2HTpsrq4AjFZRHF5LSm2SRcgw4GRRbk08w==
+X-Google-Smtp-Source: AGRyM1sMkrDeId7x/50KkjN7iA2jK8X0btO6512sJN4xGHhvO2BWqk0v85/hMP7+RYjUk3yjrmwAVc2SnFWgd5AdlWU=
+X-Received: by 2002:a17:90b:2247:b0:1e8:9f24:269a with SMTP id
+ hk7-20020a17090b224700b001e89f24269amr11622697pjb.14.1655316051101; Wed, 15
+ Jun 2022 11:00:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220510235653.933868-1-tjmercier@google.com> <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
- <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
- <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
- <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
- <Yn6DpUsoSz1/15Kc@slm.duckdns.org> <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
- <YodHjYlMx1XGtM2+@slm.duckdns.org> <CABdmKX2Ok023rN1drQgXVZLKUO_DVYrzmEamCgMMu6BPO67yhQ@mail.gmail.com>
-In-Reply-To: <CABdmKX2Ok023rN1drQgXVZLKUO_DVYrzmEamCgMMu6BPO67yhQ@mail.gmail.com>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Wed, 15 Jun 2022 10:31:21 -0700
-Message-ID: <CABdmKX0WV8VWgeafVGJ++nJ4xsJD7Wpz=3KX=BW1du=huttfvw@mail.gmail.com>
-Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+References: <20220609110337.1238762-1-jaz@semihalf.com> <20220609110337.1238762-2-jaz@semihalf.com>
+ <f62ab257-b2e0-3097-e394-93a9e7a0d2bf@intel.com> <CAH76GKPo6VL33tBaZyszL8wvjpzJ7hjOg3o1JddaEnuGbwk=dQ@mail.gmail.com>
+ <2854ae00-e965-ab0f-80dd-6012ae36b271@intel.com> <7eb5313e-dea0-c73e-5467-d01f0ca0fc2d@amd.com>
+In-Reply-To: <7eb5313e-dea0-c73e-5467-d01f0ca0fc2d@amd.com>
+From:   Grzegorz Jaszczyk <jaz@semihalf.com>
+Date:   Wed, 15 Jun 2022 20:00:39 +0200
+Message-ID: <CAH76GKO-X-DrR=yAh3NpvAC_Spd_aJ8+yLTATm+c34iPShNttQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] x86: notify hypervisor about guest entering s2idle state
+To:     Mario Limonciello <mario.limonciello@amd.com>,
+        Dave Hansen <dave.hansen@intel.com>
+Cc:     linux-kernel@vger.kernel.org, Dmytro Maluka <dmy@semihalf.com>,
+        Zide Chen <zide.chen@intel.corp-partner.google.com>,
+        Peter Fang <peter.fang@intel.corp-partner.google.com>,
+        Tomasz Nowicki <tn@semihalf.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Shuah Khan <shuah@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
-        John Stultz <jstultz@google.com>,
-        Carlos Llamas <cmllamas@google.com>,
-        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        kernel-team@android.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Brijesh Singh <brijesh.singh@amd.com>,
+        Ashish Kalra <ashish.kalra@amd.com>,
+        Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sachi King <nakato@nakato.io>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        David Dunn <daviddunn@google.com>,
+        Wei Wang <wei.w.wang@intel.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "open list:KERNEL VIRTUAL MACHINE (KVM)" <kvm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:ACPI" <linux-acpi@vger.kernel.org>,
+        "open list:HIBERNATION (aka Software Suspend, aka swsusp)" 
+        <linux-pm@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 20, 2022 at 9:25 AM T.J. Mercier <tjmercier@google.com> wrote:
+pon., 13 cze 2022 o 07:03 Mario Limonciello
+<mario.limonciello@amd.com> napisa=C5=82(a):
 >
-> On Fri, May 20, 2022 at 12:47 AM Tejun Heo <tj@kernel.org> wrote:
+> On 6/10/22 07:49, Dave Hansen wrote:
+> > On 6/10/22 04:36, Grzegorz Jaszczyk wrote:
+> >> czw., 9 cze 2022 o 16:27 Dave Hansen <dave.hansen@intel.com> napisa=C5=
+=82(a):
+> >>> On 6/9/22 04:03, Grzegorz Jaszczyk wrote:
+> >>>> Co-developed-by: Peter Fang <peter.fang@intel.corp-partner.google.co=
+m>
+> >>>> Signed-off-by: Peter Fang <peter.fang@intel.corp-partner.google.com>
+> >>>> Co-developed-by: Tomasz Nowicki <tn@semihalf.com>
+> >>>> Signed-off-by: Tomasz Nowicki <tn@semihalf.com>
+> >>>> Signed-off-by: Zide Chen <zide.chen@intel.corp-partner.google.com>
+> >>>> Co-developed-by: Grzegorz Jaszczyk <jaz@semihalf.com>
+> >>>> Signed-off-by: Grzegorz Jaszczyk <jaz@semihalf.com>
+> >>>> ---
+> >>>>   Documentation/virt/kvm/x86/hypercalls.rst | 7 +++++++
+> >>>>   arch/x86/kvm/x86.c                        | 3 +++
+> >>>>   drivers/acpi/x86/s2idle.c                 | 8 ++++++++
+> >>>>   include/linux/suspend.h                   | 1 +
+> >>>>   include/uapi/linux/kvm_para.h             | 1 +
+> >>>>   kernel/power/suspend.c                    | 4 ++++
+> >>>>   6 files changed, 24 insertions(+)
+> >>> What's the deal with these emails?
+> >>>
+> >>>          zide.chen@intel.corp-partner.google.com
+> >>>
+> >>> I see a smattering of those in the git logs, but never for Intel folk=
+s.
+> >> I've kept emails as they were in the original patch and I do not think
+> >> I should change them. This is what Zide and Peter originally used.
 > >
-> > Hello,
-> >
-> > On Tue, May 17, 2022 at 04:30:29PM -0700, T.J. Mercier wrote:
-> > > Thanks for your suggestion. This almost works. "dmabuf" as a key could
-> > > work, but I'd actually like to account for each heap. Since heaps can
-> > > be dynamically added, I can't accommodate every potential heap name by
-> > > hardcoding registrations in the misc controller.
-> >
-> > On its own, that's a pretty weak reason to be adding a separate gpu
-> > controller especially given that it doesn't really seem to be one with
-> > proper abstractions for gpu resources. We don't want to keep adding random
-> > keys to misc controller but can definitely add limited flexibility. What
-> > kind of keys do you need?
-> >
-> Well the dmabuf-from-heaps component of this is the initial use case.
-> I was envisioning we'd have additional keys as discussed here:
-> https://lore.kernel.org/lkml/20220328035951.1817417-1-tjmercier@google.com/T/#m82e5fe9d8674bb60160701e52dae4356fea2ddfa
-> So we'd end up with a well-defined core set of keys like "system", and
-> then drivers would be free to use their own keys for their own unique
-> purposes which could be complementary or orthogonal to the core set.
-> Yesterday I was talking with someone who is interested in limiting gpu
-> cores and bus IDs in addition to gpu memory. How to define core keys
-> is the part where it looks like there's trouble.
+> > "Original patch"?  Where did you get this from?
 >
-> For my use case it would be sufficient to have current and maximum
-> values for an arbitrary number of keys - one per heap. So the only
-> part missing from the misc controller (for my use case) is the ability
-> to register a new key at runtime as heaps are added. Instead of
-> keeping track of resources with enum misc_res_type, requesting a
-> resource handle/ID from the misc controller at runtime is what I think
-> would be required instead.
->
-Quick update: I'm going to make an attempt to modify the misc
-controller to support a limited amount of dynamic resource
-registration/tracking in place of the new controller in this series.
+> Is this perhaps coming from Chromium Gerrit?  If so, I think you should
+> include a link to the Gerrit code review discussion.
 
-Thanks everyone for the feedback.
--T.J.
+Yes, the original patch comes from chromium gerrit:
+https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/=
+3482475/4
+and after reworking but before sending to the mailing list, I've asked
+all involved guys for ack and it was done internally on gerrit:
+https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/=
+3666997
 
-> > Thanks.
+>
+> If it's not a public discussion/patch originally perhaps Suggested-by:
+> might be a better tag to use.
+>
 > >
-> > --
-> > tejun
+> >>> I'll also say that I'm a bit suspicious of a patch that includes 5
+> >>> authors for 24 lines of code.  Did it really take five of you to writ=
+e
+> >>> 24 lines of code?
+> >> This patch was built iteratively: original patch comes from Zide and
+> >> Peter, I've squashed it with Tomasz later changes and reworked by
+> >> myself for upstream. I didn't want to take credentials from any of the
+> >> above so ended up with Zide as an author and 3 co-developers. Please
+> >> let me know if that's an issue.
+> >
+> > It just looks awfully fishy.
+> >
+> > If it were me, and I'd put enough work into it to believe I deserved
+> > credit as an *author* (again, of ~13 lines of actual code), I'd probabl=
+y
+> > just zap all the other SoB's and mention them in the changelog.  I'd
+> > also explain where the code came from.
+> >
+> > Your text above wouldn't be horrible context to add to a cover letter.
+
+Actually it may not be an issue for the next version since the
+suggested by Sean approach is quite different so I would most likely
+end up with reduced SoB/Co-dev-by in the next version.
+
+Best regards,
+Grzegorz
