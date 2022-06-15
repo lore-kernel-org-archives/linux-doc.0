@@ -2,148 +2,192 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C96CC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 14:54:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E395C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 15:06:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245709AbiFOOyH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 10:54:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42114 "EHLO
+        id S1345942AbiFOPGU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 11:06:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245274AbiFOOyE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 10:54:04 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14BC327168;
-        Wed, 15 Jun 2022 07:54:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655304844; x=1686840844;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AyHEYASdAXzKDT8EuTX1y0edC0hgS/AoJlSZAmp9yEk=;
-  b=IXkl2bnIwOoVDlb4HggkMzh9bq7lEvp9ta7FKylHiXsqT7mBSdOS7Q8I
-   J8+Uf+VGEJYBdBWwhQ3xLcFyUKljBPCUrhK24w6D99o16hv8fGQsOwo9h
-   hs0ItKg4ycwoj+T5hphDfUlgnTapUaO2Ux1VP4cLJshC2y/Sb+S/jqzfo
-   XDCKX1I9TZ8/yHjyIzTPCMDA1KTkfuFHBqkZbN+ipVR9o71KKKR7MNPgG
-   5C6XqI6oJ0JKTG3v3tFOlLPi/hmHBkJ7nqu8/nk4qLwABC7w8JqV/qt/o
-   Ud3TkMTODvYcTqiziZ4OWaUYNiCTKxamXISVBnh/bpw4PAyOgB9nqSPPK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="267676003"
-X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; 
-   d="scan'208";a="267676003"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 07:54:03 -0700
-X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; 
-   d="scan'208";a="583242956"
-Received: from iweiny-server.sc.intel.com (HELO localhost) ([172.25.222.75])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 07:54:02 -0700
-Date:   Wed, 15 Jun 2022 07:54:02 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: highmem: Use literal block for
- *kmap_local_folio() example
-Message-ID: <YqnyiuaeQz6aSNUL@iweiny-server>
-References: <20220615101509.516520-1-bagasdotme@gmail.com>
- <YqnyJ/5/ZLiNI+5v@iweiny-server>
+        with ESMTP id S243887AbiFOPGU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 11:06:20 -0400
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24BAA3B29D
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 08:06:18 -0700 (PDT)
+Received: by mail-il1-x12b.google.com with SMTP id l14so4999776ilq.1
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 08:06:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cloudflare.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=j6yW8cSNxyHcKGLBH/RzzZpKDGH+HEQvUp5OHLJ1vSg=;
+        b=nHFIWSpabtnN+Um1pljyrhwwDAfJjxUkuJ6rvWuwYZgQx3aHiUVOzZBoQ315+IY0IK
+         y9sYTVz0n6GHUXTI1hng+qIVv9i00u8NOVnfVbThgFFOBxMJPVRnOoLGZMJaolcOFg0W
+         l4S0cC3C+ob82bPzHmurYZcuzY3FwqJYYvn3E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=j6yW8cSNxyHcKGLBH/RzzZpKDGH+HEQvUp5OHLJ1vSg=;
+        b=tKCqHUWcSojolA7oUdW0BSy7rTqQe7qNWVPkl4weABmlLDKm6hutYzFbrLxlH2rirc
+         DhFSndAheGb5yA64I1FTS6fxRVOy/pLSd3u6KxKVdQXeDo0NaD/v3sfNRI8CvdxXcyU/
+         IBDy4k9sljcN0Itl1St/1hO0Zx1vZpIGs7lCqVOXlDGiAA8hqfpgOU8LiPjpSAHw5JDv
+         L3eDPLYf1WQNgq73NuRvRX6rlzjGkK/khfDTzz3XkS6I/uDf9x+edXlzuBy7Z2A/8gy4
+         Ny2/oMbnVcwvWfQ0PZSZc7aNKQfp9mMISR1+v4j6iFiLOWlKJnbrWi3fRi0X8hejl4ND
+         JmBg==
+X-Gm-Message-State: AJIora8KDPySKh08sIr/W+36oASaz4yI50hDc3eJqo+n5qBI8pg38qsJ
+        Iy1O2K7lqFnUSojLpvFoD3AFbV3D9jwUIF4i1cdtrA==
+X-Google-Smtp-Source: AGRyM1vl6hb3B14OhbZ5pyrW5E0uvZJEWyTkyieVnvYbDV9l4KSiSfWp3W3NzE6bbMlKOpxyW1c3ccvo1VZk+jYZkps=
+X-Received: by 2002:a05:6e02:1747:b0:2d3:e571:5058 with SMTP id
+ y7-20020a056e02174700b002d3e5715058mr142461ill.309.1655305577283; Wed, 15 Jun
+ 2022 08:06:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YqnyJ/5/ZLiNI+5v@iweiny-server>
+References: <20220608150942.776446-1-fred@cloudflare.com> <87tu8oze94.fsf@email.froward.int.ebiederm.org>
+ <e1b62234-9b8a-e7c2-2946-5ef9f6f23a08@cloudflare.com> <87y1xzyhub.fsf@email.froward.int.ebiederm.org>
+ <859cb593-9e96-5846-2191-6613677b07c5@cloudflare.com> <87o7yvxl4x.fsf@email.froward.int.ebiederm.org>
+ <9ed91f15-420c-3db6-8b3b-85438b02bf97@cloudflare.com> <20220615103031.qkzae4xr34wysj4b@wittgenstein>
+ <CAHC9VhR8yPHZb2sCu4JGgXOSs7rudm=9opB+-LsG6_Lta9466A@mail.gmail.com>
+In-Reply-To: <CAHC9VhR8yPHZb2sCu4JGgXOSs7rudm=9opB+-LsG6_Lta9466A@mail.gmail.com>
+From:   Ignat Korchagin <ignat@cloudflare.com>
+Date:   Wed, 15 Jun 2022 16:06:06 +0100
+Message-ID: <CALrw=nGZtrNYn+CV+Q_w-2=Va_9m3C8PDvvPtd01d0tS=2NMWQ@mail.gmail.com>
+Subject: Re: [PATCH v3] cred: Propagate security_prepare_creds() error code
+To:     Paul Moore <paul@paul-moore.com>,
+        Christian Brauner <brauner@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Frederick Lawler <fred@cloudflare.com>, linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>, linux-aio@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-cachefs@redhat.com,
+        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+        linux-mm@kvack.org, linux-nfs@vger.kernel.org,
+        linux-unionfs@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        netdev <netdev@vger.kernel.org>, keyrings@vger.kernel.org,
+        selinux@vger.kernel.org, serge@hallyn.com, amir73il@gmail.com,
+        kernel-team <kernel-team@cloudflare.com>,
+        Jeff Moyer <jmoyer@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 15, 2022 at 07:52:23AM -0700, Ira wrote:
-> On Wed, Jun 15, 2022 at 05:15:10PM +0700, Bagas Sanjaya wrote:
-> > When building htmldocs on Linus' tree, there are inline emphasis warnings
-> > on include/linux/highmem.h:
-> > 
-> > Documentation/vm/highmem:166: ./include/linux/highmem.h:154: WARNING: Inline emphasis start-string without end-string.
-> > Documentation/vm/highmem:166: ./include/linux/highmem.h:157: WARNING: Inline emphasis start-string without end-string.
-> > 
-> > These warnings above are due to comments in code example of
-> > kmap_atomic() inside kernel-doc comment of *kmap_local_folio() are enclosed
-> > by double dash (--) instead of prefixed with C comment symbol (//).
-> > 
-> > Fix these warnings by indenting the code example with literal block
-> > indentation and prefixing comments inside the example with C comment
-> > symbol.
-> > 
-> > Fixes: 85a85e7601263f ("Documentation/vm: move "Using kmap-atomic" to highmem.h")
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: Ira Weiny <ira.weiny@intel.com>
-> 
-> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+On Wed, Jun 15, 2022 at 3:14 PM Paul Moore <paul@paul-moore.com> wrote:
+>
+> On Wed, Jun 15, 2022 at 6:30 AM Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > On Tue, Jun 14, 2022 at 01:59:08PM -0500, Frederick Lawler wrote:
+> > > On 6/14/22 11:30 AM, Eric W. Biederman wrote:
+> > > > Frederick Lawler <fred@cloudflare.com> writes:
+> > > >
+> > > > > On 6/13/22 11:44 PM, Eric W. Biederman wrote:
+> > > > > > Frederick Lawler <fred@cloudflare.com> writes:
+> > > > > >
+> > > > > > > Hi Eric,
+> > > > > > >
+> > > > > > > On 6/13/22 12:04 PM, Eric W. Biederman wrote:
+> > > > > > > > Frederick Lawler <fred@cloudflare.com> writes:
+> > > > > > > >
+> > > > > > > > > While experimenting with the security_prepare_creds() LSM hook, we
+> > > > > > > > > noticed that our EPERM error code was not propagated up the callstack.
+> > > > > > > > > Instead ENOMEM is always returned.  As a result, some tools may send a
+> > > > > > > > > confusing error message to the user:
+> > > > > > > > >
+> > > > > > > > > $ unshare -rU
+> > > > > > > > > unshare: unshare failed: Cannot allocate memory
+> > > > > > > > >
+> > > > > > > > > A user would think that the system didn't have enough memory, when
+> > > > > > > > > instead the action was denied.
+> > > > > > > > >
+> > > > > > > > > This problem occurs because prepare_creds() and prepare_kernel_cred()
+> > > > > > > > > return NULL when security_prepare_creds() returns an error code. Later,
+> > > > > > > > > functions calling prepare_creds() and prepare_kernel_cred() return
+> > > > > > > > > ENOMEM because they assume that a NULL meant there was no memory
+> > > > > > > > > allocated.
+> > > > > > > > >
+> > > > > > > > > Fix this by propagating an error code from security_prepare_creds() up
+> > > > > > > > > the callstack.
+> > > > > > > > Why would it make sense for security_prepare_creds to return an error
+> > > > > > > > code other than ENOMEM?
+> > > > > > > >    > That seems a bit of a violation of what that function is supposed to do
+> > > > > > > >
+> > > > > > >
+> > > > > > > The API allows LSM authors to decide what error code is returned from the
+> > > > > > > cred_prepare hook. security_task_alloc() is a similar hook, and has its return
+> > > > > > > code propagated.
+> > > > > > It is not an api.  It is an implementation detail of the linux kernel.
+> > > > > > It is a set of convenient functions that do a job.
+> > > > > > The general rule is we don't support cases without an in-tree user.  I
+> > > > > > don't see an in-tree user.
+> > > > > >
+> > > > > > > I'm proposing we follow security_task_allocs() pattern, and add visibility for
+> > > > > > > failure cases in prepare_creds().
+> > > > > > I am asking why we would want to.  Especially as it is not an API, and I
+> > > > > > don't see any good reason for anything but an -ENOMEM failure to be
+> > > > > > supported.
+> > > > > >
+> > > > > We're writing a LSM BPF policy, and not a new LSM. Our policy aims to solve
+> > > > > unprivileged unshare, similar to Debian's patch [1]. We're in a position such
+> > > > > that we can't use that patch because we can't block _all_ of our applications
+> > > > > from performing an unshare. We prefer a granular approach. LSM BPF seems like a
+> > > > > good choice.
+> > > >
+> > > > I am quite puzzled why doesn't /proc/sys/user/max_user_namespaces work
+> > > > for you?
+> > > >
+> > >
+> > > We have the following requirements:
+> > >
+> > > 1. Allow list criteria
+> > > 2. root user must be able to create namespaces whenever
+> > > 3. Everything else not in 1 & 2 must be denied
+> > >
+> > > We use per task attributes to determine whether or not we allow/deny the
+> > > current call to unshare().
+> > >
+> > > /proc/sys/user/max_user_namespaces limits are a bit broad for this level of
+> > > detail.
+> > >
+> > > > > Because LSM BPF exposes these hooks, we should probably treat them as an
+> > > > > API. From that perspective, userspace expects unshare to return a EPERM
+> > > > > when the call is denied permissions.
+> > > >
+> > > > The BPF code gets to be treated as a out of tree kernel module.
+> > > >
+> > > > > > Without an in-tree user that cares it is probably better to go the
+> > > > > > opposite direction and remove the possibility of return anything but
+> > > > > > memory allocation failure.  That will make it clearer to implementors
+> > > > > > that a general error code is not supported and this is not a location
+> > > > > > to implement policy, this is only a hook to allocate state for the LSM.
+> > > > > >
+> > > > >
+> > > > > That's a good point, and it's possible we're using the wrong hook for the
+> > > > > policy. Do you know of other hooks we can look into?
+> >
+> > Fwiw, from this commit it wasn't very clear what you wanted to achieve
+> > with this. It might be worth considering adding a new security hook for
+> > this. Within msft it recently came up SELinux might have an interest in
+> > something like this as well.
+>
+> Just to clarify things a bit, I believe SELinux would have an interest
+> in a LSM hook capable of implementing an access control point for user
+> namespaces regardless of Microsoft's current needs.  I suspect due to
+> the security relevant nature of user namespaces most other LSMs would
+> be interested as well; it seems like a well crafted hook would be
+> welcome by most folks I think.
+>
+> --
+> paul-moore.com
 
-My bad...
+Just to get the full picture: is there actually a good reason not to
+make this hook support this scenario? I understand it was not
+originally intended for this, but it is well positioned in the code,
+covers multiple subsystems (not only user namespaces), doesn't require
+changing the LSM interface and it already does the job - just the
+kernel internals need to respect the error code better. What bad
+things can happen if we extend its use case to not only allocate
+resources in LSMs?
 
-> Tested-by: Ira Weiny <ira.weiny@intel.com>
-> 
-> > Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> > Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-> > Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > Cc: linux-mm@kvack.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > ---
-> >  Changes since v1 [1]:
-> >    - Point that the code example is for kmap_atomic() (suggested by
-> >      Matthew Wilcox)
+After all, the original Linus email introducing Linux stated that
+Linux was not intended to be a great OS, but here we are :)
 
-As Willy pointed out you did not do this.  I was mistaken to believe this
-statement.
-
-Ira
-
-> >    - Use C comments instead of Unix shell comments prefix (suggested by
-> >      Ira Weiny)
-> > 
-> >  [1]: https://lore.kernel.org/linux-doc/20220614123115.522131-1-bagasdotme@gmail.com/
-> >  
-> >  include/linux/highmem.h | 18 +++++++++---------
-> >  1 file changed, 9 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-> > index 3af34de54330cb..56d6a019653489 100644
-> > --- a/include/linux/highmem.h
-> > +++ b/include/linux/highmem.h
-> > @@ -149,19 +149,19 @@ static inline void *kmap_local_folio(struct folio *folio, size_t offset);
-> >   * It is used in atomic context when code wants to access the contents of a
-> >   * page that might be allocated from high memory (see __GFP_HIGHMEM), for
-> >   * example a page in the pagecache.  The API has two functions, and they
-> > - * can be used in a manner similar to the following:
-> > + * can be used in a manner similar to the following::
-> >   *
-> > - * -- Find the page of interest. --
-> > - * struct page *page = find_get_page(mapping, offset);
-> > + *   // Find the page of interest.
-> > + *   struct page *page = find_get_page(mapping, offset);
-> >   *
-> > - * -- Gain access to the contents of that page. --
-> > - * void *vaddr = kmap_atomic(page);
-> > + *   // Gain access to the contents of that page.
-> > + *   void *vaddr = kmap_atomic(page);
-> >   *
-> > - * -- Do something to the contents of that page. --
-> > - * memset(vaddr, 0, PAGE_SIZE);
-> > + *   // Do something to the contents of that page.
-> > + *   memset(vaddr, 0, PAGE_SIZE);
-> >   *
-> > - * -- Unmap that page. --
-> > - * kunmap_atomic(vaddr);
-> > + *   // Unmap that page.
-> > + *   kunmap_atomic(vaddr);
-> >   *
-> >   * Note that the kunmap_atomic() call takes the result of the kmap_atomic()
-> >   * call, not the argument.
-> > 
-> > base-commit: 018ab4fabddd94f1c96f3b59e180691b9e88d5d8
-> > -- 
-> > An old man doll... just what I always wanted! - Clara
-> > 
-> 
+Ignat
