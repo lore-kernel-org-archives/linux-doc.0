@@ -2,194 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B2F2CCA47F
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 13:47:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A647CCCA473
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 14:14:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348983AbiFONrF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 09:47:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55544 "EHLO
+        id S1354957AbiFOOOO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 10:14:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349094AbiFONrC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 09:47:02 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FE1038BFA;
-        Wed, 15 Jun 2022 06:47:01 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id E105D21C44;
-        Wed, 15 Jun 2022 13:46:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1655300819; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=t8c6ISAdYWh/3XpBO9dSTJ2YoEerDJCxg3v6Cg36NWI=;
-        b=ebBHbnYZMWGRp7C4ce9eYigmVRAlcjPIk/98LGdgKWQfvlsNZyq4CezBMmipkcMDDO5CgT
-        p3yD8OzAhioZsuL+R09saUbA0FGzYil8/TgufQFqDDJ23uE6T8SBE1ULe6pDaZSuOVm2a9
-        LDZDTV90P2TZOZe0xECHv56qnT+juCQ=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A890113A35;
-        Wed, 15 Jun 2022 13:46:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id VmCWJ9PiqWKiLAAAMHmgww
-        (envelope-from <jgross@suse.com>); Wed, 15 Jun 2022 13:46:59 +0000
-Message-ID: <0a1501fc-e03f-8a1d-76a1-c115606c6278@suse.com>
-Date:   Wed, 15 Jun 2022 15:46:59 +0200
+        with ESMTP id S1346085AbiFOONr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 10:13:47 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA65128E34;
+        Wed, 15 Jun 2022 07:13:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655302426; x=1686838426;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=B8TiHIv5Q07n74NXSDQu97TnsKK0fjGHsjxfyj1wpiY=;
+  b=j7s2LQCiH9CKxMSDH7iK001hej/is0TvhiFUsIDii4844ClqkgD1K5Sq
+   T4JY0+935qE90NBYUmLzfqYjlIO5JNE98WaI4s3lDMn0hAJwcTaQFiEc5
+   8fBNXHG13OPkxqDx8PpnQ1H+se38knaOYn0TmrqnktyzhsFZVxDBBvYan
+   KL+KWnQnVkPeXSyGJzSWiKmwilaIzvbYv2Sae4+o1sfZo4S8c6j4ozWsc
+   CcwcPBnB8XmwG50cUr7zMApYucDAXYomLHS5WSAfENO48NOi5EOqbEOYC
+   bkus4cvuDpCxnar1o/PHXpgl+LGtzl5aNgx8w1THZAr0ae9KLYD5RAxpO
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="267662562"
+X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; 
+   d="scan'208";a="267662562"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 07:13:20 -0700
+X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; 
+   d="scan'208";a="536053581"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 07:13:17 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1o1Tlh-000dUY-Vg;
+        Wed, 15 Jun 2022 17:13:13 +0300
+Date:   Wed, 15 Jun 2022 17:13:13 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc:     linux-serial@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        Lukas Wunner <lukas@wunner.de>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v7 5/6] serial: Support for RS-485 multipoint addresses
+Message-ID: <Yqno+b/+W2RP8rnh@smile.fi.intel.com>
+References: <20220615124829.34516-1-ilpo.jarvinen@linux.intel.com>
+ <20220615124829.34516-6-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] xen: don't require virtio with grants for non-PV guests
-Content-Language: en-US
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     xen-devel@lists.xenproject.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-References: <20220615084835.27113-1-jgross@suse.com>
- <YqnBZhiLOHnoalbC@infradead.org>
- <9b9785f5-085b-0882-177f-d8418c366beb@suse.com>
- <YqnCZ+EKZeZ5AEnr@infradead.org>
- <c5a521e0-26b1-b1d6-7f7d-00aa9b4b1e0e@suse.com>
- <YqnIWCXxsGzkfQp7@infradead.org>
- <ab0653bc-7728-e24c-5d83-78cee135528c@suse.com>
- <Yqnh7vjO8iT4/fiK@infradead.org>
-From:   Juergen Gross <jgross@suse.com>
-In-Reply-To: <Yqnh7vjO8iT4/fiK@infradead.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ag0QxufSzrrpFlmYdFmtHaa1"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220615124829.34516-6-ilpo.jarvinen@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ag0QxufSzrrpFlmYdFmtHaa1
-Content-Type: multipart/mixed; boundary="------------0baxSOydh0hsGx0Put4W0HVi";
- protected-headers="v1"
-From: Juergen Gross <jgross@suse.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: xen-devel@lists.xenproject.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-Message-ID: <0a1501fc-e03f-8a1d-76a1-c115606c6278@suse.com>
-Subject: Re: [PATCH] xen: don't require virtio with grants for non-PV guests
-References: <20220615084835.27113-1-jgross@suse.com>
- <YqnBZhiLOHnoalbC@infradead.org>
- <9b9785f5-085b-0882-177f-d8418c366beb@suse.com>
- <YqnCZ+EKZeZ5AEnr@infradead.org>
- <c5a521e0-26b1-b1d6-7f7d-00aa9b4b1e0e@suse.com>
- <YqnIWCXxsGzkfQp7@infradead.org>
- <ab0653bc-7728-e24c-5d83-78cee135528c@suse.com>
- <Yqnh7vjO8iT4/fiK@infradead.org>
-In-Reply-To: <Yqnh7vjO8iT4/fiK@infradead.org>
+On Wed, Jun 15, 2022 at 03:48:28PM +0300, Ilpo Järvinen wrote:
+> Add support for RS-485 multipoint addressing using 9th bit [*]. The
+> addressing mode is configured through .rs485_config().
+> 
+> ADDRB in termios indicates 9th bit addressing mode is enabled. In this
+> mode, 9th bit is used to indicate an address (byte) within the
+> communication line. ADDRB can only be enabled/disabled through
+> .rs485_config() that is also responsible for setting the destination and
+> receiver (filter) addresses.
+> 
+> [*] Technically, RS485 is just an electronic spec and does not itself
+> specify the 9th bit addressing mode but 9th bit seems at least
+> "semi-standard" way to do addressing with RS485.
+> 
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-api@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-arch@vger.kernel.org
 
---------------0baxSOydh0hsGx0Put4W0HVi
-Content-Type: multipart/mixed; boundary="------------yO30fh0Q0Jn02q3nM59fph43"
+Hmm... In order to reduce commit messages you can move these Cc:s after the
+cutter line ('---').
 
---------------yO30fh0Q0Jn02q3nM59fph43
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+...
 
-T24gMTUuMDYuMjIgMTU6NDMsIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOg0KPiBPbiBXZWQs
-IEp1biAxNSwgMjAyMiBhdCAwMjo1Mzo1NFBNICswMjAwLCBKdWVyZ2VuIEdyb3NzIHdyb3Rl
-Og0KPj4gT24gMTUuMDYuMjIgMTM6NTQsIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOg0KPj4+
-IE9uIFdlZCwgSnVuIDE1LCAyMDIyIGF0IDAxOjM5OjAxUE0gKzAyMDAsIEp1ZXJnZW4gR3Jv
-c3Mgd3JvdGU6DQo+Pj4+IE5vLCBpdCBkb2Vzbid0LiBJJ20gd29ya2luZyBvbiBhIHFlbXUg
-cGF0Y2ggc2VyaWVzIGVuYWJsaW5nIHRoZSBxZW11DQo+Pj4+IGJhc2VkIGJhY2tlbmRzIHRv
-IHN1cHBvcnQgZ3JhbnRzIHdpdGggdmlydGlvLiBUaGUgY29kZSBpcyB3b3JraW5nIGZpbmUN
-Cj4+Pj4gb24geDg2LCB0b28gKGFwYXJ0IGZyb20gdGhlIGZhY3QgdGhhdCB0aGUgYmFja2Vu
-ZHMgYXJlbid0IHJlYWR5IHlldCkuDQo+Pj4NCj4+PiBUaGUgY29kZSByaWdodCBub3cgaW4g
-bWFpbmxpbmUgb25seSBldmVyIHNldHMgdGhlIG9wcyBmb3IgRE1BLiAgU28NCj4+PiBJIGNh
-bid0IHNlZSBob3cgeW91IGNvdWxkIG1ha2UgaXQgd29yay4NCj4+DQo+PiBBaCwgeW91IGFy
-ZSByaWdodC4gSSB3YXMgdXNpbmcgYSBndWVzdCB3aXRoIGFuIG9sZGVyIHZlcnNpb24gb2Yg
-dGhlIHNlcmllcy4NCj4+IFNvcnJ5IGZvciB0aGUgbm9pc2UuDQo+IA0KPiBObyBwcm9ibGVt
-LiAgQnV0IHdoYXRldmVyIHlvdSBlbmQgdXAgdXNpbmcgdG8gZW5hYmxlIHRoZSBncmFudCBE
-TUENCj4gb3BzIG4geDg2IHNob3VsZCBhbHNvIHJlcXVpcmUgdGhlIHBsYXRmb3JtIGFjY2Vz
-cyBmZWF0dXJlLiAgV2UgYWxyZWFkeQ0KPiBoYXZlIHRoYXQgaW5mb3JtYXRpb24gc28gd2Ug
-Y2FuIG1ha2UgdXNlIG9mIGl0Lg0KDQpZZXMsIG9mIGNvdXJzZS4NCg0KDQpKdWVyZ2VuDQo=
+> -	__u32	padding[5];		/* Memory is cheap, new structs
+> -					   are a royal PITA .. */
+> +	__u8	addr_recv;
+> +	__u8	addr_dest;
+> +	__u8	padding[2 + 4 * sizeof(__u32)];		/* Memory is cheap, new structs
+> +							 * are a royal PITA .. */
 
---------------yO30fh0Q0Jn02q3nM59fph43
-Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+I'm not sure it's an equivalent. I would leave u32 members  untouched, so
+something like
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+	__u8	addr_recv;
+	__u8	addr_dest;
+	__u8	padding0[2];		/* Memory is cheap, new structs
+	__u32	padding1[4];		 * are a royal PITA .. */
 
-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
-jR/i1DG86lem3iBDXzXsZDn8R38=3D
-=3D2wuH
------END PGP PUBLIC KEY BLOCK-----
+And repeating about `pahole` tool which may be useful here to check for ABI
+potential changes.
 
---------------yO30fh0Q0Jn02q3nM59fph43--
+-- 
+With Best Regards,
+Andy Shevchenko
 
---------------0baxSOydh0hsGx0Put4W0HVi--
 
---------------ag0QxufSzrrpFlmYdFmtHaa1
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmKp4tMFAwAAAAAACgkQsN6d1ii/Ey9o
-ZQf/bERS+itpRsVc5LubFWQpXz+QtHmp7xtjzZR9SBcdwrciAvH05Tjkabht1CobtWXS/qJwT6RP
-GpMmfNa8JTdkNTTuDai4B4d5SNOEaDdOrI4rDPlFVBUU1zny2ZdAagAGZoNXJY34m2iw74y12BIL
-42JHw3AnqXVAA/sgVMwYYGjQIccTDT2UUCqPDGL03662ZwGRV1YFPy0t4EebQx6QrrpWv4R3ixqg
-3qMhwYlsH7S2BVs2yFDc8psGlPn5uBFsayJcuiL15OLvrmKoCn16mrbLhZpDkpQBYKuym31Iduo8
-3olWAUdMp+Zn1Gc4vBKe5BP4Borm144RUhDNZURRrA==
-=VSIN
------END PGP SIGNATURE-----
-
---------------ag0QxufSzrrpFlmYdFmtHaa1--
