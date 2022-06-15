@@ -2,99 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C24DC43334
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 14:29:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB498CCA473
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Jun 2022 14:29:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241332AbiFOO3Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 10:29:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44928 "EHLO
+        id S1352872AbiFOO3x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 10:29:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347340AbiFOO23 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 10:28:29 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C092DFF5;
-        Wed, 15 Jun 2022 07:28:28 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 15D5335F;
-        Wed, 15 Jun 2022 14:28:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 15D5335F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1655303308; bh=vC9CwTdZm/z4Pz05ijVwgi0T285E+Nc749dDtbDBeGA=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=DTHl2fuVd21n0ootoa07lZCvZ5aKSDBF0aoRrd9rhFyjwXKJHTmTJBAzJWDOYnhv0
-         4xsBdLyrQKe+YrCXn7j8fzRN6wbyYbCvrnfBSiYxJiz1mvMipb9cAsPDVfXLldLKsR
-         ZbdnPTRdppX5NMLE2TFuS363wVccn6ZpxIts2UkL0umlG23cCge/+/D8BtprRIwBSZ
-         5YhIZJaTj1slK+fdIdj/KupZzp3JzpJsjo1o/CTmsAaswXpMAC8M0vSwVibiWuZWto
-         upyxO2fLkjDUSWM8Tdl3c4+ytFpTT6/l8X/wOHB2hJkvI6EwilQ9V5wuUI5LM2RiN3
-         M3RJ5yzaIiMtQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Borislav Petkov <bp@suse.de>,
+        with ESMTP id S1346586AbiFOO3v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 10:29:51 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8E9536300
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 07:29:50 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id c196so11618190pfb.1
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 07:29:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=urXLCEo0HdMiwrT9/lHPLDvk+tFr+S8kFKoTasWYgTM=;
+        b=jE8+1EoaVPLQAQgJuF6uSHsVQUNEYiULaZEf4qWJ+FDCtBcy5wU+1PuRU/qTw6mXuJ
+         rhkDSC1GoM3r6gP1XqDzyFKdRxVJyQscQceF46fTmrMh4tpJ7/3OD4E0UUUL4FXaE4E4
+         HLsY4nWxsZ1bLbc4mtfRzI75UcR7ige6egZvCSqqgKpyeTsqtkTZjDQiW2mEf6TP1C0u
+         784mpZz2YhCQYjeTdJsTJu7oJeXZ7GHllZjsJApUFHo2QiJHGuFpB3Xi7l8+I0pC+m8X
+         WUI+8LcLsPMDaqunWg8z0EiW4EPIpYE086RJe+7JyYOWlUAXkMPBTz0xEA+GhbwuK97s
+         EpUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=urXLCEo0HdMiwrT9/lHPLDvk+tFr+S8kFKoTasWYgTM=;
+        b=KKOZrWF8RKLvUPbOh/k1SwVevOHLihqzeGNlcth6/XqTQSUvDL+eT5txfVJL0ZWA8x
+         0Trg5oXZ36xbptw5nDDCE9j2avSW08kZGKB8lZhmk7az/l8TK2qzTsqpurV/TV9wHobP
+         2lotqxiSzTpEKkseKYmvPCxl8JBSke7IfvNyYThWeM8DrJBAcYguy2uKKSzThj4jmUyc
+         z0SZQv6SuB2iIn1muDd3wiZ566zuKRr+AjV5RZqT3h/ObTbNzGabKHA3mGRbWolKa8TI
+         byMZzskkIEKmM+2wa2KLgB/qHk8/Ufht71QHpaUUunuDX8QId3iHO+ijW3MTBsRuMzj3
+         hK5w==
+X-Gm-Message-State: AJIora/GHEymnVs/jD7mvu8V6b37jfxKs32Lwry+ddHAGRpDxWqsGE2f
+        cjZcby7NdhOb1hD2s9MKJbicfQ==
+X-Google-Smtp-Source: AGRyM1tbE6e2B2i42MyE6StE9nppc07YDmrFHDgu8iNlTHFWW5xo4NNjzQzQb9yFXGjB6QHFLP8hJw==
+X-Received: by 2002:a63:e1c:0:b0:3fd:f319:df7b with SMTP id d28-20020a630e1c000000b003fdf319df7bmr75509pgl.135.1655303389770;
+        Wed, 15 Jun 2022 07:29:49 -0700 (PDT)
+Received: from google.com (123.65.230.35.bc.googleusercontent.com. [35.230.65.123])
+        by smtp.gmail.com with ESMTPSA id z15-20020a170903018f00b0015eb200cc00sm9366660plg.138.2022.06.15.07.29.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jun 2022 07:29:49 -0700 (PDT)
+Date:   Wed, 15 Jun 2022 14:29:45 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Marc Orr <marcorr@google.com>, kvm list <kvm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 5.18 01/11] Documentation: Add documentation for
- Processor MMIO Stale Data
-In-Reply-To: <20220615032507.go6t24dyzotpe3xv@guptapa-desk>
-References: <20220614183720.861582392@linuxfoundation.org>
- <20220614183721.248466580@linuxfoundation.org>
- <94468546-5571-b61f-0d98-8501626e30e3@gmail.com>
- <20220615032507.go6t24dyzotpe3xv@guptapa-desk>
-Date:   Wed, 15 Jun 2022 08:28:27 -0600
-Message-ID: <87tu8muhkk.fsf@meer.lwn.net>
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Jun Nakajima <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <Yqns2ar0TND4RP9P@google.com>
+References: <20220607065749.GA1513445@chaop.bj.intel.com>
+ <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
+ <20220608021820.GA1548172@chaop.bj.intel.com>
+ <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
+ <YqJYEheLiGI4KqXF@google.com>
+ <20220614072800.GB1783435@chaop.bj.intel.com>
+ <CALCETrWw=Q=1AKW0Jcj3ZGscjyjDJXAjuxOnQx_sabQ6ZtS-wg@mail.gmail.com>
+ <Yqjcx6u0KJcJuZfI@google.com>
+ <CALCETrUdGoZ2yUnNGbxJ-Xr3KD7QhTi-ddhS8AUMjFyJM5pDfA@mail.gmail.com>
+ <20220615091759.GB1823790@chaop.bj.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220615091759.GB1823790@chaop.bj.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Pawan Gupta <pawan.kumar.gupta@linux.intel.com> writes:
+On Wed, Jun 15, 2022, Chao Peng wrote:
+> On Tue, Jun 14, 2022 at 01:59:41PM -0700, Andy Lutomirski wrote:
+> > On Tue, Jun 14, 2022 at 12:09 PM Sean Christopherson <seanjc@google.com> wrote:
+> > >
+> > > On Tue, Jun 14, 2022, Andy Lutomirski wrote:
+> > > > This patch series is fairly close to implementing a rather more
+> > > > efficient solution.  I'm not familiar enough with hypervisor userspace
+> > > > to really know if this would work, but:
+> > > >
+> > > > What if shared guest memory could also be file-backed, either in the
+> > > > same fd or with a second fd covering the shared portion of a memslot?
+> > > > This would allow changes to the backing store (punching holes, etc) to
+> > > > be some without mmap_lock or host-userspace TLB flushes?  Depending on
+> > > > what the guest is doing with its shared memory, userspace might need
+> > > > the memory mapped or it might not.
+> > >
+> > > That's what I'm angling for with the F_SEAL_FAULT_ALLOCATIONS idea.  The issue,
+> > > unless I'm misreading code, is that punching a hole in the shared memory backing
+> > > store doesn't prevent reallocating that hole on fault, i.e. a helper process that
+> > > keeps a valid mapping of guest shared memory can silently fill the hole.
+> > >
+> > > What we're hoping to achieve is a way to prevent allocating memory without a very
+> > > explicit action from userspace, e.g. fallocate().
+> > 
+> > Ah, I misunderstood.  I thought your goal was to mmap it and prevent
+> > page faults from allocating.
 
-> On Wed, Jun 15, 2022 at 08:06:37AM +0700, Bagas Sanjaya wrote:
->>On 6/15/22 01:40, Greg Kroah-Hartman wrote:
->>> +  .. list-table::
->>> +
->>> +     * - 'Not affected'
->>> +       - The processor is not vulnerable
->>> +     * - 'Vulnerable'
->>> +       - The processor is vulnerable, but no mitigation enabled
->>> +     * - 'Vulnerable: Clear CPU buffers attempted, no microcode'
->>> +       - The processor is vulnerable, but microcode is not updated. The
->>> +         mitigation is enabled on a best effort basis.
->>> +     * - 'Mitigation: Clear CPU buffers'
->>> +       - The processor is vulnerable and the CPU buffer clearing mitigation is
->>> +         enabled.
->>> +
->>> +If the processor is vulnerable then the following information is appended to
->>> +the above information:
->>> +
->>> +  ========================  ===========================================
->>> +  'SMT vulnerable'          SMT is enabled
->>> +  'SMT disabled'            SMT is disabled
->>> +  'SMT Host state unknown'  Kernel runs in a VM, Host SMT state unknown
->>> +  ========================  ===========================================
->>> +
->>
->>Why is list-table used in sysfs table instead of usual ASCII table in SMT
->>vulnerabilities list above? I think using ASCII table in both cases is enough
->>for the purpose.
->
-> Maybe you are right (and I am no expert in this), but quite a few
-> documents use list-table for sysfs status:
->
->    https://www.kernel.org/doc/Documentation/admin-guide/hw-vuln/mds.rst
->    https://www.kernel.org/doc/Documentation/admin-guide/hw-vuln/spectre.rst
->    https://www.kernel.org/doc/Documentation/admin-guide/hw-vuln/tsx_async_abort.rst
+I don't think you misunderstood, that's also one of the goals.  The use case is
+that multiple processes in the host mmap() guest memory, and we'd like to be able
+to punch a hole without having to rendezvous with all processes and also to prevent
+an unintentional re-allocation.
 
-List-table should really be avoided whenever possible; it makes reading
-the plain-text files difficult at best.  I'd like to see the existing
-uses taken out over time.
+> I think we still need the mmap, but want to prevent allocating when
+> userspace touches previously mmaped area that has never filled the page.
 
-This isn't really something to be addressed in the stable updates,
-though.
+Yes, or if a chunk was filled at some point but then was removed via PUNCH_HOLE.
 
-jon
+> I don't have clear answer if other operations like read/write should be
+> also prevented (probably yes). And only after an explicit fallocate() to
+> allocate the page these operations would act normally.
+
+I always forget about read/write.  I believe reads should be ok, the semantics of
+holes are that they return zeros, i.e. can use ZERO_PAGE() and not allocate a new
+backing page.  Not sure what to do about writes though.  Allocating on direct writes
+might be ok for our use case, but that could also result in a rather wierd API.
+
+> > It is indeed the case (and has been since before quite a few of us
+> > were born) that a hole in a sparse file is logically just a bunch of
+> > zeros.  A way to make a file for which a hole is an actual hole seems
+> > like it would solve this problem nicely.  It could also be solved more
+> > specifically for KVM by making sure that the private/shared mode that
+> > userspace programs is strict enough to prevent accidental allocations
+> > -- if a GPA is definitively private, shared, neither, or (potentially,
+> > on TDX only) both, then a page that *isn't* shared will never be
+> > accidentally allocated by KVM.
+> 
+> KVM is clever enough to not allocate since it knows a GPA is shared or
+> not. This case it's the host userspace that can cause the allocating and
+> is too complex to check on every access from guest.
+
+Yes, KVM is not in the picture at all.  KVM won't trigger allocation, but KVM also
+is not in a position to prevent userspace from touching memory.
+
+> > If the shared backing is not mmapped,
+> > it also won't be accidentally allocated by host userspace on a stray
+> > or careless write.
+> 
+> As said above, mmap is still prefered, otherwise too many changes are
+> needed for usespace VMM.
+
+Forcing userspace to change doesn't bother me too much, the biggest concern is
+having to take mmap_lock for write in a per-host process.
