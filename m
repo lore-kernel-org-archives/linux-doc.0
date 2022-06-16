@@ -2,91 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26FF0C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jun 2022 21:03:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3097BC43334
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jun 2022 21:31:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378504AbiFPVDo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jun 2022 17:03:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52514 "EHLO
+        id S235569AbiFPVbQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jun 2022 17:31:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230154AbiFPVDo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jun 2022 17:03:44 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FD872CC9C;
-        Thu, 16 Jun 2022 14:03:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=l5SmrcbO4GZrUo3EqVT75W/un0U3qwBg6eyDpd+eRLs=; b=P3IR48QvvLm+efucSZUbbj02F6
-        WSscTALgM/IMzD8eVS9UBe7Y8ahSF4J7Gz1wgx7ZYEb1sZTGIEoyaifNpan3/36AalpDYJv1RRxCU
-        +C6lp/aEtT78C5eUymdZQ5AkFyiUpnCzZOTzHhjW5V1QdiLkISHVowUyXV/SElc7GPCJ1NRiOddxa
-        KgWmONu2jPggVwiarSa/T0kbt62Xs4XTLwNA3gJwXUZgIUHqaIt3wdOdKGSgU9n+bNoy4AnY5auGJ
-        Klcs4PFrIRdwM/E+WLCejBXEyaAAiBkQMgS36zWKDHt7kUxUmBnfKIpR5nvWopxfMWG/B8Yx1oqYx
-        DWSWvLSg==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o1we6-008VxI-GG; Thu, 16 Jun 2022 21:03:19 +0000
-Message-ID: <3230f073-5228-693e-f7cd-5fc4b7226a66@infradead.org>
-Date:   Thu, 16 Jun 2022 14:03:11 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH V4 13/20] rv/reactor: Add the panic reactor
-Content-Language: en-US
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
+        with ESMTP id S231592AbiFPVbP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jun 2022 17:31:15 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B8CA61296;
+        Thu, 16 Jun 2022 14:31:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655415075; x=1686951075;
+  h=from:to:cc:subject:date:message-id;
+  bh=/+AYwiPu7I6p1wniSCqIx6zbG2kzik2LX3FT34lcIs8=;
+  b=QS/bIXdEgkB4ZzSzlcoRcgL4tkdsdNeDoA0KjwI20D32t1Oea+BQHqzy
+   oHdHXtiVMRwo2uzugnivMufyoLREu5dP9RGErtjTQKKlsYfnCMbHRGrDh
+   0INjtcXz+D9TYTvmy4iOGTkLBcqT78TAb+6jQNULlyd746fwVxgJFXhOd
+   kzOQyY6HKQxQV2TrmDFD/yYxSQcQ5Nt0gXHRfK4F145zYAnPXNh2zVnNu
+   P4VR2xQNcc+Rjh/6TufgMFdha+Vypz46vd0Q8H7GzxVB8XF5VTX1Jt1Ff
+   eAusCnCy4HVeP236keP75C6YObZn2q1AichCtMsjref1RRoHISYc7l1lk
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="280389919"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
+   d="scan'208";a="280389919"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2022 14:31:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
+   d="scan'208";a="589824120"
+Received: from chang-linux-3.sc.intel.com ([172.25.66.173])
+  by fmsmga007.fm.intel.com with ESMTP; 16 Jun 2022 14:31:14 -0700
+From:   "Chang S. Bae" <chang.seok.bae@intel.com>
+To:     dave.hansen@intel.com, len.brown@intel.com, tony.luck@intel.com,
+        rafael.j.wysocki@intel.com, reinette.chatre@intel.com,
+        dan.j.williams@intel.com
+Cc:     corbet@lwn.net, pbonzini@redhat.com, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-References: <cover.1655368610.git.bristot@kernel.org>
- <67e522ab57e64eee313af508a8c70f3cce33e525.1655368610.git.bristot@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <67e522ab57e64eee313af508a8c70f3cce33e525.1655368610.git.bristot@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        chang.seok.bae@intel.com
+Subject: [PATCH 0/2] Documentation/x86: Update the dynamic XSTATE doc
+Date:   Thu, 16 Jun 2022 14:22:08 -0700
+Message-Id: <20220616212210.3182-1-chang.seok.bae@intel.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi all,
+
+This series is intended to update the documentation only. It is not ready
+yet for x86 maintainers. So more acknowledgment from Intel reviewers is
+needed. Any preliminary review from the cc'ed folks will be much
+appreciated. But it is possibly a waste of maintainers' time to review this
+draft at this stage.
+
+=== Cover Letter ===
+
+With the AMX support in the mainline, I realize a couple of new
+arch_prctl(2) options that were added for KVM have been missing in the doc.
+And recently I heard some folks had hard time to understand the AMX
+enabling process. A code example is expected to clarify the steps.
+
+Thus, this patch set includes the following two updates:
+(1) Patch 1 adds AMX enabling code example.
+(2) Patch 2 explains the arch_prctl(2) options for guest:
+    ARCH_{GET|REQ}_XCOMP_GUEST_PERM
+
+The arch_prctl(2) manual page [1] is also missing the above and even other
+options that are already included in the doc. Perhaps, the man-page update
+follows up after this.
+
+These changes can be found in the repo:
+  git://github.com/intel/amx-linux.git doc
+
+And the compiled preview is available here:
+  https://htmlpreview.github.io/?https://github.com/intel/amx-linux/blob/doc-web/x86/xstate.html
+
+Thanks,
+Chang
+
+[1] arch_prctl(2): https://man7.org/linux/man-pages/man2/arch_prctl.2.html
+
+Chang S. Bae (2):
+  Documentation/x86: Add the AMX enabling example
+  Documentation/x86: Explain guest XSTATE permission control
+
+ Documentation/x86/xstate.rst | 69 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
 
 
-On 6/16/22 01:44, Daniel Bristot de Oliveira wrote:
-> diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-> index be8e3dab0a52..91a17b13a080 100644
-> --- a/kernel/trace/rv/Kconfig
-> +++ b/kernel/trace/rv/Kconfig
-> @@ -60,4 +60,12 @@ config RV_REACT_PRINTK
->  	  Enables the printk reactor. The printk reactor emmits a printk()
-
-	                                                 emits
-
->  	  message if an exception is found.
->  
-> +config RV_REACT_PANIC
-> +	bool "Panic reactor"
-> +	depends on RV_REACTORS
-> +	default y if RV_REACTORS
-> +	help
-> +	  Enables the panic reactor. The panic reactor emmits a printk()
-
-	                                               emits
-
-> +	  message if an exception is found and panic()s the system.
-
+base-commit: b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3
 -- 
-~Randy
+2.17.1
+
