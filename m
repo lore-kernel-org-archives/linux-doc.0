@@ -2,88 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E882C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jun 2022 01:33:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74AC6C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jun 2022 01:39:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355385AbiFPBdj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 21:33:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39144 "EHLO
+        id S1344835AbiFPBjG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 21:39:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355476AbiFPBdi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 21:33:38 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBFAC57173;
-        Wed, 15 Jun 2022 18:33:32 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id e9so159490pju.5;
-        Wed, 15 Jun 2022 18:33:32 -0700 (PDT)
+        with ESMTP id S1358219AbiFPBiz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 21:38:55 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 587EB57B19;
+        Wed, 15 Jun 2022 18:38:43 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id hv24-20020a17090ae41800b001e33eebdb5dso4602346pjb.0;
+        Wed, 15 Jun 2022 18:38:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language
-         :from:to:cc:references:in-reply-to:content-transfer-encoding;
-        bh=JkG7sUC11qpO15GX2zgwuQatsRPoDK80WEYSGtvU0cc=;
-        b=SENhJLb3UINlfc4VxpO8fXotQfKm1gYqofD3Je8z5PJTU1uoQKZYn56GDd6SyAdFxH
-         7e5cinr8MGZuawsixCSXzkTyQOqiRXlXBO6/dHm6xjMiTrYFeUxPZxaf2+ONsZrXym9w
-         MOHlKw/0eCICQ8GwxaNmQ6GT3PEFkVE8LtIuJx00jKeeAzymHUSqvBW7OZt75vlgEfz6
-         kRw8hnA+/mRI1TfZwCsQf4fZzfpFxA/oh2xaFqocnbfVk9WXpo5twRp6VfXMl8Qg48aa
-         gOCDS/oEUBmhpANpT7HfadjnvlKGgXDnFLbPSQZTowZJqqRHSyITV3B540vegpkVoY9i
-         ICug==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=FsbGtY6ybO5i94cEGRw91xXrnBAb+w+D3K5JghnAVfE=;
+        b=mK2rmvByw5FxP/VDuR9Uau4CGs06KNreFgtZGESJcIUwQdX/OpPXHXY0XKwGLvs61p
+         gtlfa47NadAmHWf/nF9v8oHxPfmUwuF/sm+3/7KdLZXGi3rv2bfG+gvcIZjjoAYrEA/i
+         syTdr5Hk8vr8eEe1FbAcKY+OM6fqHZZkqmdynP4zelBB6Z6h3/eRQ4dHVyBWYTf1+5s/
+         Yh4w38dSFTsPgXP608Ogjt1ALqpoyv8mz6j4mqR2JT7O1jj6ElkpnN+xv3z4eWrpnFx6
+         aa4NIsgs6eKGNOFNleSHoNNb85SHvIHqyJ14jWT9LU0UbJOuVaY3wvlEoX5faFtFDLN/
+         CblQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:from:to:cc:references:in-reply-to
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=JkG7sUC11qpO15GX2zgwuQatsRPoDK80WEYSGtvU0cc=;
-        b=FaWo69/Q9toXRZD95JcAiYQNQzHv61VXIW8hYwMgSv27AzcWj+f0gcx/Gm21Kj35Nx
-         WfMeHGSTyGWGlwnTVl4/FPnY/pwGnZKqoSWljY6HsH2Syri3KMoEAWjP0EIXLnr3D2e+
-         wqdbs6LyMNLBEKqaL1N0ovoPhB6ZuZ5wzY4/aFDkhtW0dkRy3sIPltN8QzHU0vVBD2P0
-         IF1dm8qRPAUm9Brhi4pKBbvlvWeRC1uZPtUVW9lrevdlAj61pPJDa4NKqzW5tZV1sq0p
-         FpInSXlHTZtKUMSi39vmvQuRKr7GglYxq4dxplehE5kb64BCXVOJlHoGTM949n5kWG8u
-         hBZQ==
-X-Gm-Message-State: AJIora+Kzto5xic83L6AsNiorPAPmYcXtX3TxuUQ8adVCfVepBLutVHF
-        chOo8uo3mUfHcdSSljUH2Ew=
-X-Google-Smtp-Source: AGRyM1srqYqkoHBsOg4aXL8dqDAorIp5AvtAlhCtihs0Y4iO9o+FGA8DWOKcs0kAd7Z7HgGTZSFARw==
-X-Received: by 2002:a17:902:ba8d:b0:168:ff8f:c1f with SMTP id k13-20020a170902ba8d00b00168ff8f0c1fmr2119481pls.6.1655343212351;
-        Wed, 15 Jun 2022 18:33:32 -0700 (PDT)
+        bh=FsbGtY6ybO5i94cEGRw91xXrnBAb+w+D3K5JghnAVfE=;
+        b=JvYC2f5p3xeIpD5u924blZSp5Uj+iE2FPC/LYwV3zIwcBOyYV40OixGG2jZ4QtYlIV
+         FdtanIBmGTnJWMdLLUVHJcDGL9GTu3IuymR6DM/4mnbRmQX0uJBFQWU2/YwLn3rP089V
+         +KQcOcer9d3T2P9Xh+MXr2ECAe8A3y9iFyrBUvngetQpm5sn7jlyMPUWDpO8dgXEkPtA
+         Tr0V332bjCiYUZuF16D3aYBIqWXC1WqkqDhpn8QoiyHpp2249wR14ZMVV7TcfZ8vZtBD
+         +G2W6bOTMpukDfC3ZRq4TBB0asP/DLfWyz5y4Ss87/loHoXAuxECrv9SoNotzghaFqS2
+         5QQQ==
+X-Gm-Message-State: AJIora/S0CB+PelPfkQCDHtgmwDr/Ct+CdOOYu8SIsthv2iXUeRab8+V
+        tTYj1axGxmOLIDQpM6LLNk8=
+X-Google-Smtp-Source: AGRyM1ulUMg+nyfV+Q9WLCBZ5A5YYGzZ7XNO3ds3ZmYEF5y9LsWVHB4sLYTgNqHy5SiKSol8wRNk9w==
+X-Received: by 2002:a17:90b:3b88:b0:1e6:7aa2:4301 with SMTP id pc8-20020a17090b3b8800b001e67aa24301mr13162105pjb.118.1655343522796;
+        Wed, 15 Jun 2022 18:38:42 -0700 (PDT)
 Received: from [192.168.43.80] (subs28-116-206-12-50.three.co.id. [116.206.12.50])
-        by smtp.gmail.com with ESMTPSA id w22-20020a1709026f1600b001676f87473fsm247025plk.302.2022.06.15.18.33.29
+        by smtp.gmail.com with ESMTPSA id e13-20020a17090301cd00b0015e8d4eb1d2sm301894plh.28.2022.06.15.18.38.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jun 2022 18:33:31 -0700 (PDT)
-Message-ID: <5111ed70-3dbd-ef51-82ff-aa83bf9c58a3@gmail.com>
-Date:   Thu, 16 Jun 2022 08:33:27 +0700
+        Wed, 15 Jun 2022 18:38:42 -0700 (PDT)
+Message-ID: <38c5d597-4e24-6933-dbf7-b98dd7458cc7@gmail.com>
+Date:   Thu, 16 Jun 2022 08:38:38 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
 Subject: Re: [PATCH v2] Documentation: highmem: Use literal block for
  *kmap_local_folio() example
 Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Ira Weiny <ira.weiny@intel.com>
+To:     Matthew Wilcox <willy@infradead.org>
 Cc:     linux-doc@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Ira Weiny <ira.weiny@intel.com>,
         "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         linux-mm@kvack.org, linux-kernel@vger.kernel.org
 References: <20220615101509.516520-1-bagasdotme@gmail.com>
- <YqnyJ/5/ZLiNI+5v@iweiny-server> <YqnyiuaeQz6aSNUL@iweiny-server>
- <62074230-52d9-83b7-df64-c00aea016150@gmail.com>
-In-Reply-To: <62074230-52d9-83b7-df64-c00aea016150@gmail.com>
+ <YqnujWdTA+QSdMHJ@casper.infradead.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <YqnujWdTA+QSdMHJ@casper.infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/16/22 08:31, Bagas Sanjaya wrote:
-> My bad too...
+On 6/15/22 21:37, Matthew Wilcox wrote:
+> On Wed, Jun 15, 2022 at 05:15:10PM +0700, Bagas Sanjaya wrote:
+>> These warnings above are due to comments in code example of
+>> kmap_atomic() inside kernel-doc comment of *kmap_local_folio() are enclosed
 > 
-> I forget editing patch subject. I guess the subject and description could
-> just say "code example in *kmap_local_folio() comment" somewhere.
-> 
-> Willy, what do you think? Any suggestion?
+> You still seem to think this has something to do with kmap_local_folio().
+> It has nothing to do with kmap_local_folio().  Your next version of this
+> patch should not mention kmap_local_folio() anywhere.
 > 
 
-Ah, I don't see Willy's reply.
+But I think mentioning kmap_local_folio() is necessary in the patch
+subject, because we know the original warning is pointed to kernel-doc
+comment of that funcion.
 
 -- 
 An old man doll... just what I always wanted! - Clara
