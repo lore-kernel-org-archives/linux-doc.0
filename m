@@ -2,214 +2,533 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC4C2C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jun 2022 13:48:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CBF4C43334
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jun 2022 14:43:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233396AbiFPNsI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jun 2022 09:48:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53612 "EHLO
+        id S230166AbiFPOng (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jun 2022 10:43:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233077AbiFPNsH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jun 2022 09:48:07 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93FEB3DDC9;
-        Thu, 16 Jun 2022 06:48:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655387286; x=1686923286;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vGUkbkYnPTkRCUU0zk0sdqOdfKr4cQ3wFU8xRSXZG90=;
-  b=bNt9oJpnOTpv/RXljBjGt+ZKNIDYYErJZvNGyQ6HejA8qQHGx09f4lGk
-   DUAZ2rjM7qhT7Y4EdiORdG7dCrDfiTldlUVZ4aaUbtzcCn8N8KL2lwhP3
-   U5GH333kX9cl50V5gSf4L8YjnN+rQCz4tydz9mT4ZZAsFCgsK7xYdrPgH
-   uZ2yu9RHhIHgtgkCXJT4caCZjQXNG16mXrJ+ptpxTdE0OqWb2LgTPkMXO
-   P7CgpEIbr/vLz4DgkdxaZ2OnxF4QhYhQqrZbryDZCtQa49hPSwB2nY5qY
-   cEL4D1mfDgAarN4tGzK+8EtFyUE/QJwuCJYMHN4qqf/QtRxB9KFQadD21
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="304695134"
-X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; 
-   d="scan'208";a="304695134"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2022 06:48:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; 
-   d="scan'208";a="675030959"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 16 Jun 2022 06:48:01 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o1pqr-000OQV-0g;
-        Thu, 16 Jun 2022 13:48:01 +0000
-Date:   Thu, 16 Jun 2022 21:47:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     kbuild-all@lists.01.org,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-Subject: Re: [PATCH V4 11/20] rv/monitor: wwnr instrumentation and
- Makefile/Kconfig entries
-Message-ID: <202206162130.0xtEgymS-lkp@intel.com>
-References: <944694879f67c0e635815ac57154be477a1b9108.1655368610.git.bristot@kernel.org>
+        with ESMTP id S1377877AbiFPOln (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jun 2022 10:41:43 -0400
+Received: from mail.pr-group.ru (mail.pr-group.ru [178.18.215.3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807B648E77;
+        Thu, 16 Jun 2022 07:41:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+        d=metrotek.ru; s=mail;
+        h=from:subject:date:message-id:to:cc:mime-version:content-type:in-reply-to:
+         references;
+        bh=YqT5U5pDGoUdqx1LVN92Km3BEUrGwvp9Pd/4M+FS33c=;
+        b=KpV3xquWkNhlHxyxMRoXIw2AnvGvgsHKaaA/fvx4oVV7ZvP6wny0Yr3VM7D1t3fA2jQiUb3bQ5tlU
+         6FELIqfJXPy0fExPMqbZcud5vMoi7bTSkvjj1UWaA/pGI9ui2NMWhldk3S/3Zf/yWN7pt2voggNilk
+         2qHo8GDYd+SjRTcSXhyUz4auGa31usUsBeDZmJtFTFc4DbIxZJjVSY3VrWujh8E9/iuUQlJ7zVtb68
+         /g05ttscsJrNYPOZD/LRCPPBYB1APNqOLO3wKpnlcgVlmyx70rmBomPrsiAxeXzn4Zyr9eWEn9+SXI
+         YlqRHT2Lz+T0FirYi2xGNqiTPdwfFOw==
+X-Kerio-Anti-Spam:  Build: [Engines: 2.16.3.1424, Stamp: 3], Multi: [Enabled, t: (0.000012,0.049594)], BW: [Enabled, t: (0.000014,0.000001)], RTDA: [Enabled, t: (0.076696), Hit: No, Details: v2.40.0; Id: 15.52k0b6.1g5mfc5fa.2ufl; mclb], total: 0(700)
+X-Footer: bWV0cm90ZWsucnU=
+Received: from h-e2.ddg ([85.143.252.66])
+        (authenticated user i.bornyakov@metrotek.ru)
+        by mail.pr-group.ru with ESMTPSA
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits));
+        Thu, 16 Jun 2022 17:41:13 +0300
+Date:   Thu, 16 Jun 2022 17:40:55 +0300
+From:   Ivan Bornyakov <i.bornyakov@metrotek.ru>
+To:     Xu Yilun <yilun.xu@intel.com>
+Cc:     mdf@kernel.org, hao.wu@intel.com, trix@redhat.com, corbet@lwn.net,
+        Conor.Dooley@microchip.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-fpga@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, system@metrotek.ru
+Subject: Re: [PATCH v19 1/4] fpga: fpga-mgr: support bitstream offset in
+ image buffer
+Message-ID: <20220616144055.kcusb6uyvoevezey@h-e2.ddg>
+References: <20220615110137.21902-1-i.bornyakov@metrotek.ru>
+ <20220615110137.21902-2-i.bornyakov@metrotek.ru>
+ <20220616133854.GB1064215@yilunxu-OptiPlex-7050>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <944694879f67c0e635815ac57154be477a1b9108.1655368610.git.bristot@kernel.org>
+In-Reply-To: <20220616133854.GB1064215@yilunxu-OptiPlex-7050>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Daniel,
+On Thu, Jun 16, 2022 at 09:38:54PM +0800, Xu Yilun wrote:
+> On Wed, Jun 15, 2022 at 02:01:34PM +0300, Ivan Bornyakov wrote:
+> > At the moment FPGA manager core loads to the device entire image
+> > provided to fpga_mgr_load(). But it is not always whole FPGA image
+> > buffer meant to be written to the device. In particular, .dat formatted
+> > image for Microchip MPF contains meta info in the header that is not
+> > meant to be written to the device. This is issue for those low level
+> > drivers that loads data to the device with write() fpga_manager_ops
+> > callback, since write() can be called in iterator over scatter-gather
+> > table, not only linear image buffer. On the other hand, write_sg()
+> > callback is provided with whole image in scatter-gather form and can
+> > decide itself which part should be sent to the device.
+> > 
+> > Add header_size and data_size to the fpga_image_info struct and adjust
+> > fpga_mgr_write() callers with respect to them.
+> > 
+> >   * info->header_size indicates part at the beginning of image buffer
+> >     that is *not* meant to be written to the device. It is optional and
+> >     can be 0.
+> 
+> I thought it over again, and still have some concern about the
+> definition of info->header_size.
+> 
+> In this patch, the header_size is also used for the write_init() callback,
+> So if a driver needs the dynamic image header for write_init(), it should
+> update the info->header_size. But the driver may not want to skip the
+> header size when write(). Actually we have existing case now, some
+> drivers have initial_header_size but don't skip the header on write().
+> I guess maybe the firmware behind its data transfer engine deals with the
+> header correctly. And our current definition of info->header_size
+> restricts the usage.
+> 
+> I think if we could define the info->header_size as the generic image
+> header, the framework initialize the info->header_size as the
+> mops->initial_header_size. The parse_header() could enlarge the
+> info->header_size as needed.
+> Then we introduce a bool mops->skip_header for drivers to indicate
+> whether to skip info->header_size on write(). Since the exsiting drivers
+> don't skip the header, the default initial value of skip_header doesn't
+> affect exsiting drivers.
+> 
+> I think this definition is more clear, then we don't have to frequently
+> use like:
+> 
+>   if (info->header_size)
+>       header_size = info->header_size;
+>   else
+>       header_size = mops->initial_header_size
+> 
+> We may not need mops->initial_header_size any more after
+> info->header_size initialization.
+> 
+> 
+> And for info->data_size, it could be the actual data size that would be
+> transfered by write(). That is to say, if skip_header == true, it
+> excludes header_size, if skip_header == false, it includes header_size.
+> It could still be 0, which means the whole image buffer.
+> 
+> How do you think?
+> 
+> Thanks,
+> Yilun
+> 
 
-I love your patch! Perhaps something to improve:
+That sounds totally reasonable. Will do!
 
-[auto build test WARNING on rostedt-trace/for-next]
-[also build test WARNING on tip/sched/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+> > 
+> >   * info->data_size is the size of actual bitstream data that *is* meant
+> >     to be written to the device, starting at info->header_size from the
+> >     beginning of image buffer. It is also optional and can be 0, which
+> >     means bitstream data is up to the end of image buffer.
+> > 
+> > Also add parse_header() callback to fpga_manager_ops, which purpose is
+> > to set info->header_size and info->data_size. At least
+> > initial_header_size bytes of image buffer will be passed into
+> > parse_header() first time. If it is not enough, parse_header() should
+> > set desired size into info->header_size and return -EAGAIN, then it will
+> > be called again with greater part of image buffer on the input.
+> > 
+> > Signed-off-by: Ivan Bornyakov <i.bornyakov@metrotek.ru>
+> > ---
+> >  drivers/fpga/fpga-mgr.c       | 237 ++++++++++++++++++++++++++++++----
+> >  include/linux/fpga/fpga-mgr.h |  17 ++-
+> >  2 files changed, 227 insertions(+), 27 deletions(-)
+> > 
+> > diff --git a/drivers/fpga/fpga-mgr.c b/drivers/fpga/fpga-mgr.c
+> > index 08dc85fcd511..52b826b62207 100644
+> > --- a/drivers/fpga/fpga-mgr.c
+> > +++ b/drivers/fpga/fpga-mgr.c
+> > @@ -74,6 +74,15 @@ static inline int fpga_mgr_write_complete(struct fpga_manager *mgr,
+> >  	return 0;
+> >  }
+> >  
+> > +static inline int fpga_mgr_parse_header(struct fpga_manager *mgr,
+> > +					struct fpga_image_info *info,
+> > +					const char *buf, size_t count)
+> > +{
+> > +	if (mgr->mops->parse_header)
+> > +		return mgr->mops->parse_header(mgr, info, buf, count);
+> > +	return 0;
+> > +}
+> > +
+> >  static inline int fpga_mgr_write_init(struct fpga_manager *mgr,
+> >  				      struct fpga_image_info *info,
+> >  				      const char *buf, size_t count)
+> > @@ -136,24 +145,146 @@ void fpga_image_info_free(struct fpga_image_info *info)
+> >  EXPORT_SYMBOL_GPL(fpga_image_info_free);
+> >  
+> >  /*
+> > - * Call the low level driver's write_init function.  This will do the
+> > + * Call the low level driver's parse_header function with entire FPGA image
+> > + * buffer on the input. This will set info->header_size and info->data_size.
+> > + */
+> > +static int fpga_mgr_parse_header_mapped(struct fpga_manager *mgr,
+> > +					struct fpga_image_info *info,
+> > +					const char *buf, size_t count)
+> > +{
+> > +	int ret;
+> > +
+> > +	mgr->state = FPGA_MGR_STATE_PARSE_HEADER;
+> > +	ret = fpga_mgr_parse_header(mgr, info, buf, count);
+> > +
+> > +	if (info->header_size + info->data_size > count) {
+> > +		dev_err(&mgr->dev, "Bitsream data outruns FPGA image\n");
+> > +		ret = -EINVAL;
+> > +	}
+> > +
+> > +	if (ret) {
+> > +		dev_err(&mgr->dev, "Error while parsing FPGA image header\n");
+> > +		mgr->state = FPGA_MGR_STATE_PARSE_HEADER_ERR;
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +/*
+> > + * Call the low level driver's parse_header function with first fragment of
+> > + * scattered FPGA image on the input. If header fits first fragment,
+> > + * parse_header will set info->header_size and info->data_size. If it is not,
+> > + * parse_header will set desired size to info->header_size and -EAGAIN will be
+> > + * returned.
+> > + */
+> > +static int fpga_mgr_parse_header_sg_first(struct fpga_manager *mgr,
+> > +					  struct fpga_image_info *info,
+> > +					  struct sg_table *sgt)
+> > +{
+> > +	size_t header_size = mgr->mops->initial_header_size;
+> > +	struct sg_mapping_iter miter;
+> > +	int ret;
+> > +
+> > +	mgr->state = FPGA_MGR_STATE_PARSE_HEADER;
+> > +
+> > +	sg_miter_start(&miter, sgt->sgl, sgt->nents, SG_MITER_FROM_SG);
+> > +	if (sg_miter_next(&miter) &&
+> > +	    miter.length >= header_size)
+> > +		ret = fpga_mgr_parse_header(mgr, info, miter.addr, miter.length);
+> > +	else
+> > +		ret = -EAGAIN;
+> > +	sg_miter_stop(&miter);
+> > +
+> > +	if (ret && ret != -EAGAIN) {
+> > +		dev_err(&mgr->dev, "Error while parsing FPGA image header\n");
+> > +		mgr->state = FPGA_MGR_STATE_PARSE_HEADER_ERR;
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +/*
+> > + * Copy scattered FPGA image fragments to temporary buffer and call the
+> > + * low level driver's parse_header function. This should be called after
+> > + * fpga_mgr_parse_header_sg_first() returned -EAGAIN. In case of success,
+> > + * pointer to the newly allocated image header copy will be returned and
+> > + * its size will be set into *ret_size. Returned buffer needs to be freed.
+> > + */
+> > +static void *fpga_mgr_parse_header_sg(struct fpga_manager *mgr,
+> > +				      struct fpga_image_info *info,
+> > +				      struct sg_table *sgt, size_t *ret_size)
+> > +{
+> > +	size_t len, header_size = mgr->mops->initial_header_size;
+> > +	char *new_buf, *buf = NULL;
+> > +	int ret;
+> > +
+> > +	do {
+> > +		if (info->header_size)
+> > +			header_size = info->header_size;
+> > +
+> > +		new_buf = krealloc(buf, header_size, GFP_KERNEL);
+> > +		if (new_buf)
+> > +			buf = new_buf;
+> > +
+> > +		if (ZERO_OR_NULL_PTR(new_buf)) {
+> > +			ret = -ENOMEM;
+> > +			break;
+> > +		}
+> > +
+> > +		len = sg_copy_to_buffer(sgt->sgl, sgt->nents, buf, header_size);
+> > +		if (len != header_size) {
+> > +			ret = -EFAULT;
+> > +			break;
+> > +		}
+> > +
+> > +		ret = fpga_mgr_parse_header(mgr, info, buf, header_size);
+> > +		if (ret == -EAGAIN && info->header_size <= header_size) {
+> > +			dev_err(&mgr->dev, "Requested invalid header size\n");
+> > +			ret = -EFAULT;
+> > +		}
+> > +	} while (ret == -EAGAIN);
+> > +
+> > +	if (ret) {
+> > +		dev_err(&mgr->dev, "Error while parsing FPGA image header\n");
+> > +		mgr->state = FPGA_MGR_STATE_PARSE_HEADER_ERR;
+> > +		kfree(buf);
+> > +		buf = ERR_PTR(ret);
+> > +	}
+> > +
+> > +	*ret_size = header_size;
+> > +
+> > +	return buf;
+> > +}
+> > +
+> > +/*
+> > + * Call the low level driver's write_init function. This will do the
+> >   * device-specific things to get the FPGA into the state where it is ready to
+> > - * receive an FPGA image. The low level driver only gets to see the first
+> > - * initial_header_size bytes in the buffer.
+> > + * receive an FPGA image. If info->header_size is defined, the low level
+> > + * driver gets to see at least first info->header_size bytes in the buffer,
+> > + * mgr->mops->initial_header_size otherwise. If neither initial_header_size
+> > + * nor header_size are not set, write_init will not get any bytes of image
+> > + * buffer.
+> >   */
+> >  static int fpga_mgr_write_init_buf(struct fpga_manager *mgr,
+> >  				   struct fpga_image_info *info,
+> >  				   const char *buf, size_t count)
+> >  {
+> > +	size_t header_size;
+> >  	int ret;
+> >  
+> >  	mgr->state = FPGA_MGR_STATE_WRITE_INIT;
+> > -	if (!mgr->mops->initial_header_size) {
+> > +
+> > +	if (info->header_size)
+> > +		header_size = info->header_size;
+> > +	else
+> > +		header_size = mgr->mops->initial_header_size;
+> > +
+> > +	if (header_size > count)
+> > +		ret = -EINVAL;
+> > +	else if (!header_size)
+> >  		ret = fpga_mgr_write_init(mgr, info, NULL, 0);
+> > -	} else {
+> > -		count = min(mgr->mops->initial_header_size, count);
+> > +	else
+> >  		ret = fpga_mgr_write_init(mgr, info, buf, count);
+> > -	}
+> >  
+> >  	if (ret) {
+> >  		dev_err(&mgr->dev, "Error preparing FPGA for writing\n");
+> > @@ -164,39 +295,49 @@ static int fpga_mgr_write_init_buf(struct fpga_manager *mgr,
+> >  	return 0;
+> >  }
+> >  
+> > -static int fpga_mgr_write_init_sg(struct fpga_manager *mgr,
+> > -				  struct fpga_image_info *info,
+> > -				  struct sg_table *sgt)
+> > +static int fpga_mgr_prepare_sg(struct fpga_manager *mgr,
+> > +			       struct fpga_image_info *info,
+> > +			       struct sg_table *sgt)
+> >  {
+> >  	struct sg_mapping_iter miter;
+> >  	size_t len;
+> >  	char *buf;
+> >  	int ret;
+> >  
+> > -	if (!mgr->mops->initial_header_size)
+> > +	if (!mgr->mops->initial_header_size && !mgr->mops->parse_header)
+> >  		return fpga_mgr_write_init_buf(mgr, info, NULL, 0);
+> >  
+> >  	/*
+> >  	 * First try to use miter to map the first fragment to access the
+> >  	 * header, this is the typical path.
+> >  	 */
+> > -	sg_miter_start(&miter, sgt->sgl, sgt->nents, SG_MITER_FROM_SG);
+> > -	if (sg_miter_next(&miter) &&
+> > -	    miter.length >= mgr->mops->initial_header_size) {
+> > -		ret = fpga_mgr_write_init_buf(mgr, info, miter.addr,
+> > -					      miter.length);
+> > +	ret = fpga_mgr_parse_header_sg_first(mgr, info, sgt);
+> > +	/* If 0, header fits first fragment, call write_init on it */
+> > +	if (!ret) {
+> > +		sg_miter_start(&miter, sgt->sgl, sgt->nents, SG_MITER_FROM_SG);
+> > +		if (sg_miter_next(&miter)) {
+> > +			ret = fpga_mgr_write_init_buf(mgr, info, miter.addr,
+> > +						      miter.length);
+> > +			sg_miter_stop(&miter);
+> > +			return ret;
+> > +		}
+> >  		sg_miter_stop(&miter);
+> > +	/*
+> > +	 * If -EAGAIN, more sg buffer is needed,
+> > +	 * otherwise an error has occurred.
+> > +	 */
+> > +	} else if (ret != -EAGAIN) {
+> >  		return ret;
+> >  	}
+> > -	sg_miter_stop(&miter);
+> >  
+> > -	/* Otherwise copy the fragments into temporary memory. */
+> > -	buf = kmalloc(mgr->mops->initial_header_size, GFP_KERNEL);
+> > -	if (!buf)
+> > -		return -ENOMEM;
+> > +	/*
+> > +	 * Otherwise copy the fragments into temporary memory.
+> > +	 * Copying is done inside fpga_mgr_parse_header_sg()
+> > +	 */
+> > +	buf = fpga_mgr_parse_header_sg(mgr, info, sgt, &len);
+> > +	if (IS_ERR(buf))
+> > +		return PTR_ERR(buf);
+> >  
+> > -	len = sg_copy_to_buffer(sgt->sgl, sgt->nents, buf,
+> > -				mgr->mops->initial_header_size);
+> >  	ret = fpga_mgr_write_init_buf(mgr, info, buf, len);
+> >  
+> >  	kfree(buf);
+> > @@ -227,7 +368,7 @@ static int fpga_mgr_buf_load_sg(struct fpga_manager *mgr,
+> >  {
+> >  	int ret;
+> >  
+> > -	ret = fpga_mgr_write_init_sg(mgr, info, sgt);
+> > +	ret = fpga_mgr_prepare_sg(mgr, info, sgt);
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > @@ -237,11 +378,40 @@ static int fpga_mgr_buf_load_sg(struct fpga_manager *mgr,
+> >  		ret = fpga_mgr_write_sg(mgr, sgt);
+> >  	} else {
+> >  		struct sg_mapping_iter miter;
+> > +		size_t length, data_size;
+> > +		bool last = false;
+> > +		ssize_t count;
+> > +		char *addr;
+> > +
+> > +		data_size = info->data_size;
+> > +		count = -info->header_size;
+> >  
+> >  		sg_miter_start(&miter, sgt->sgl, sgt->nents, SG_MITER_FROM_SG);
+> >  		while (sg_miter_next(&miter)) {
+> > -			ret = fpga_mgr_write(mgr, miter.addr, miter.length);
+> > -			if (ret)
+> > +			count += miter.length;
+> > +
+> > +			/* sg block contains only header, no data */
+> > +			if (count <= 0)
+> > +				continue;
+> > +
+> > +			if (count < miter.length) {
+> > +				/* sg block contains both header and data */
+> > +				addr = miter.addr + miter.length - count;
+> > +				length = count;
+> > +			} else {
+> > +				/* sg block contains pure data */
+> > +				addr = miter.addr;
+> > +				length = miter.length;
+> > +			}
+> > +
+> > +			/* truncate last block to data_size, if needed */
+> > +			if (data_size && count > data_size) {
+> > +				length -= count - data_size;
+> > +				last = true;
+> > +			}
+> > +
+> > +			ret = fpga_mgr_write(mgr, addr, length);
+> > +			if (ret || last)
+> >  				break;
+> >  		}
+> >  		sg_miter_stop(&miter);
+> > @@ -262,10 +432,21 @@ static int fpga_mgr_buf_load_mapped(struct fpga_manager *mgr,
+> >  {
+> >  	int ret;
+> >  
+> > +	ret = fpga_mgr_parse_header_mapped(mgr, info, buf, count);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> >  	ret = fpga_mgr_write_init_buf(mgr, info, buf, count);
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > +	if (info->data_size)
+> > +		count = info->data_size;
+> > +	else
+> > +		count -= info->header_size;
+> > +
+> > +	buf += info->header_size;
+> > +
+> >  	/*
+> >  	 * Write the FPGA image to the FPGA.
+> >  	 */
+> > @@ -424,6 +605,10 @@ static const char * const state_str[] = {
+> >  	[FPGA_MGR_STATE_FIRMWARE_REQ] =		"firmware request",
+> >  	[FPGA_MGR_STATE_FIRMWARE_REQ_ERR] =	"firmware request error",
+> >  
+> > +	/* Parse FPGA image header */
+> > +	[FPGA_MGR_STATE_PARSE_HEADER] =		"parse header",
+> > +	[FPGA_MGR_STATE_PARSE_HEADER_ERR] =	"parse header error",
+> > +
+> >  	/* Preparing FPGA to receive image */
+> >  	[FPGA_MGR_STATE_WRITE_INIT] =		"write init",
+> >  	[FPGA_MGR_STATE_WRITE_INIT_ERR] =	"write init error",
+> > diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.h
+> > index 0f9468771bb9..cba8bb7827a5 100644
+> > --- a/include/linux/fpga/fpga-mgr.h
+> > +++ b/include/linux/fpga/fpga-mgr.h
+> > @@ -22,6 +22,8 @@ struct sg_table;
+> >   * @FPGA_MGR_STATE_RESET: FPGA in reset state
+> >   * @FPGA_MGR_STATE_FIRMWARE_REQ: firmware request in progress
+> >   * @FPGA_MGR_STATE_FIRMWARE_REQ_ERR: firmware request failed
+> > + * @FPGA_MGR_STATE_PARSE_HEADER: parse FPGA image header
+> > + * @FPGA_MGR_STATE_PARSE_HEADER_ERR: Error during PARSE_HEADER stage
+> >   * @FPGA_MGR_STATE_WRITE_INIT: preparing FPGA for programming
+> >   * @FPGA_MGR_STATE_WRITE_INIT_ERR: Error during WRITE_INIT stage
+> >   * @FPGA_MGR_STATE_WRITE: writing image to FPGA
+> > @@ -42,6 +44,8 @@ enum fpga_mgr_states {
+> >  	FPGA_MGR_STATE_FIRMWARE_REQ_ERR,
+> >  
+> >  	/* write sequence: init, write, complete */
+> > +	FPGA_MGR_STATE_PARSE_HEADER,
+> > +	FPGA_MGR_STATE_PARSE_HEADER_ERR,
+> >  	FPGA_MGR_STATE_WRITE_INIT,
+> >  	FPGA_MGR_STATE_WRITE_INIT_ERR,
+> >  	FPGA_MGR_STATE_WRITE,
+> > @@ -85,6 +89,8 @@ enum fpga_mgr_states {
+> >   * @sgt: scatter/gather table containing FPGA image
+> >   * @buf: contiguous buffer containing FPGA image
+> >   * @count: size of buf
+> > + * @header_size: offset in image buffer where bitstream data starts
+> > + * @data_size: size of bitstream. If 0, (count - header_size) will be used.
+> >   * @region_id: id of target region
+> >   * @dev: device that owns this
+> >   * @overlay: Device Tree overlay
+> > @@ -98,6 +104,8 @@ struct fpga_image_info {
+> >  	struct sg_table *sgt;
+> >  	const char *buf;
+> >  	size_t count;
+> > +	size_t header_size;
+> > +	size_t data_size;
+> >  	int region_id;
+> >  	struct device *dev;
+> >  #ifdef CONFIG_OF
+> > @@ -137,9 +145,13 @@ struct fpga_manager_info {
+> >  
+> >  /**
+> >   * struct fpga_manager_ops - ops for low level fpga manager drivers
+> > - * @initial_header_size: Maximum number of bytes that should be passed into write_init
+> > + * @initial_header_size: minimum number of bytes that should be passed into
+> > + *	parse_header and write_init.
+> >   * @state: returns an enum value of the FPGA's state
+> >   * @status: returns status of the FPGA, including reconfiguration error code
+> > + * @parse_header: parse FPGA image header to set info->header_size and
+> > + *	info->data_size. In case the input buffer is not large enough, set
+> > + *	required size to info->header_size and return -EAGAIN.
+> >   * @write_init: prepare the FPGA to receive configuration data
+> >   * @write: write count bytes of configuration data to the FPGA
+> >   * @write_sg: write the scatter list of configuration data to the FPGA
+> > @@ -155,6 +167,9 @@ struct fpga_manager_ops {
+> >  	size_t initial_header_size;
+> >  	enum fpga_mgr_states (*state)(struct fpga_manager *mgr);
+> >  	u64 (*status)(struct fpga_manager *mgr);
+> > +	int (*parse_header)(struct fpga_manager *mgr,
+> > +			    struct fpga_image_info *info,
+> > +			    const char *buf, size_t count);
+> >  	int (*write_init)(struct fpga_manager *mgr,
+> >  			  struct fpga_image_info *info,
+> >  			  const char *buf, size_t count);
+> > -- 
+> > 2.35.1
+> > 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220616-164837
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git for-next
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220616/202206162130.0xtEgymS-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/31dad6685057c10f6301fbc4018b6586fce0757e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220616-164837
-        git checkout 31dad6685057c10f6301fbc4018b6586fce0757e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/trace/rv/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   In file included from kernel/trace/rv/monitors/wwnr/wwnr.c:8:
-   kernel/trace/rv/monitors/wwnr/wwnr.c: In function 'start_wwnr':
-   kernel/trace/rv/monitors/wwnr/wwnr.c:62:53: error: passing argument 1 of 'check_trace_callback_type_sched_switch' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      62 |         rv_attach_trace_probe("wwnr", sched_switch, handle_switch);
-         |                                                     ^~~~~~~~~~~~~
-         |                                                     |
-         |                                                     void (*)(void *, bool,  struct task_struct *, struct task_struct *, unsigned int) {aka void (*)(void *, _Bool,  struct task_struct *, struct task_struct *, unsigned int)}
-   include/rv/instrumentation.h:15:48: note: in definition of macro 'rv_attach_trace_probe'
-      15 |                 check_trace_callback_type_##tp(rv_handler);                             \
-         |                                                ^~~~~~~~~~
-   In file included from kernel/trace/rv/monitors/wwnr/wwnr.c:3:
-   include/linux/tracepoint.h:279:49: note: expected 'void (*)(void *, bool,  unsigned int,  struct task_struct *, struct task_struct *)' {aka 'void (*)(void *, _Bool,  unsigned int,  struct task_struct *, struct task_struct *)'} but argument is of type 'void (*)(void *, bool,  struct task_struct *, struct task_struct *, unsigned int)' {aka 'void (*)(void *, _Bool,  struct task_struct *, struct task_struct *, unsigned int)'}
-     279 |         check_trace_callback_type_##name(void (*cb)(data_proto))        \
-         |                                          ~~~~~~~^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:419:9: note: in expansion of macro '__DECLARE_TRACE'
-     419 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:553:9: note: in expansion of macro 'DECLARE_TRACE'
-     553 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^~~~~~~~~~~~~
-   include/trace/events/sched.h:222:1: note: in expansion of macro 'TRACE_EVENT'
-     222 | TRACE_EVENT(sched_switch,
-         | ^~~~~~~~~~~
-   In file included from include/linux/printk.h:11,
-                    from include/linux/kernel.h:29,
-                    from include/linux/interrupt.h:6,
-                    from include/linux/trace_recursion.h:5,
-                    from include/linux/ftrace.h:10,
-                    from kernel/trace/rv/monitors/wwnr/wwnr.c:2:
-   kernel/trace/rv/monitors/wwnr/wwnr.c:62:53: error: passing argument 1 of 'register_trace_sched_switch' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      62 |         rv_attach_trace_probe("wwnr", sched_switch, handle_switch);
-         |                                                     ^~~~~~~~~~~~~
-         |                                                     |
-         |                                                     void (*)(void *, bool,  struct task_struct *, struct task_struct *, unsigned int) {aka void (*)(void *, _Bool,  struct task_struct *, struct task_struct *, unsigned int)}
-   include/linux/once_lite.h:15:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      15 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   include/rv/instrumentation.h:16:17: note: in expansion of macro 'WARN_ONCE'
-      16 |                 WARN_ONCE(register_trace_##tp(rv_handler, NULL),                        \
-         |                 ^~~~~~~~~
-   kernel/trace/rv/monitors/wwnr/wwnr.c:62:9: note: in expansion of macro 'rv_attach_trace_probe'
-      62 |         rv_attach_trace_probe("wwnr", sched_switch, handle_switch);
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/trace/rv/monitors/wwnr/wwnr.c:3:
-   include/linux/tracepoint.h:260:38: note: expected 'void (*)(void *, bool,  unsigned int,  struct task_struct *, struct task_struct *)' {aka 'void (*)(void *, _Bool,  unsigned int,  struct task_struct *, struct task_struct *)'} but argument is of type 'void (*)(void *, bool,  struct task_struct *, struct task_struct *, unsigned int)' {aka 'void (*)(void *, _Bool,  struct task_struct *, struct task_struct *, unsigned int)'}
-     260 |         register_trace_##name(void (*probe)(data_proto), void *data)    \
-         |                               ~~~~~~~^~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:419:9: note: in expansion of macro '__DECLARE_TRACE'
-     419 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:553:9: note: in expansion of macro 'DECLARE_TRACE'
-     553 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^~~~~~~~~~~~~
-   include/trace/events/sched.h:222:1: note: in expansion of macro 'TRACE_EVENT'
-     222 | TRACE_EVENT(sched_switch,
-         | ^~~~~~~~~~~
-   In file included from kernel/trace/rv/monitors/wwnr/wwnr.c:8:
-   kernel/trace/rv/monitors/wwnr/wwnr.c: In function 'stop_wwnr':
-   kernel/trace/rv/monitors/wwnr/wwnr.c:72:53: error: passing argument 1 of 'unregister_trace_sched_switch' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      72 |         rv_detach_trace_probe("wwnr", sched_switch, handle_switch);
-         |                                                     ^~~~~~~~~~~~~
-         |                                                     |
-         |                                                     void (*)(void *, bool,  struct task_struct *, struct task_struct *, unsigned int) {aka void (*)(void *, _Bool,  struct task_struct *, struct task_struct *, unsigned int)}
-   include/rv/instrumentation.h:22:39: note: in definition of macro 'rv_detach_trace_probe'
-      22 |                 unregister_trace_##tp(rv_handler, NULL);                                \
-         |                                       ^~~~~~~~~~
-   In file included from kernel/trace/rv/monitors/wwnr/wwnr.c:3:
-   include/linux/tracepoint.h:273:40: note: expected 'void (*)(void *, bool,  unsigned int,  struct task_struct *, struct task_struct *)' {aka 'void (*)(void *, _Bool,  unsigned int,  struct task_struct *, struct task_struct *)'} but argument is of type 'void (*)(void *, bool,  struct task_struct *, struct task_struct *, unsigned int)' {aka 'void (*)(void *, _Bool,  struct task_struct *, struct task_struct *, unsigned int)'}
-     273 |         unregister_trace_##name(void (*probe)(data_proto), void *data)  \
-         |                                 ~~~~~~~^~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:419:9: note: in expansion of macro '__DECLARE_TRACE'
-     419 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:553:9: note: in expansion of macro 'DECLARE_TRACE'
-     553 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^~~~~~~~~~~~~
-   include/trace/events/sched.h:222:1: note: in expansion of macro 'TRACE_EVENT'
-     222 | TRACE_EVENT(sched_switch,
-         | ^~~~~~~~~~~
-   kernel/trace/rv/monitors/wwnr/wwnr.c: At top level:
->> kernel/trace/rv/monitors/wwnr/wwnr.c:90:5: warning: no previous prototype for 'register_wwnr' [-Wmissing-prototypes]
-      90 | int register_wwnr(void)
-         |     ^~~~~~~~~~~~~
->> kernel/trace/rv/monitors/wwnr/wwnr.c:96:6: warning: no previous prototype for 'unregister_wwnr' [-Wmissing-prototypes]
-      96 | void unregister_wwnr(void)
-         |      ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/register_wwnr +90 kernel/trace/rv/monitors/wwnr/wwnr.c
-
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16   89  
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16  @90  int register_wwnr(void)
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16   91  {
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16   92  	rv_register_monitor(&rv_wwnr);
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16   93  	return 0;
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16   94  }
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16   95  
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16  @96  void unregister_wwnr(void)
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16   97  {
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16   98  	if (rv_wwnr.enabled)
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16   99  		stop_wwnr();
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16  100  
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16  101  	rv_unregister_monitor(&rv_wwnr);
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16  102  }
-13d11b21732323 Daniel Bristot de Oliveira 2022-06-16  103  
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
