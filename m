@@ -2,394 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E698C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jun 2022 02:45:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAE2DCCA473
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jun 2022 03:20:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245457AbiFPCpY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Jun 2022 22:45:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48102 "EHLO
+        id S1357429AbiFPDUO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Jun 2022 23:20:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348991AbiFPCpX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 22:45:23 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5190847561
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 19:45:21 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id t2so190659pld.4
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 19:45:21 -0700 (PDT)
+        with ESMTP id S1350033AbiFPDUN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Jun 2022 23:20:13 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E66265AA57
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 20:20:11 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-313a8a8b95aso1857667b3.5
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jun 2022 20:20:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=TlLQ7tosji2YkhAul6rILt0FgOyJFX5PDRocyDPTg+Y=;
-        b=RI32rOnGwOPA5gsdV4n1uZ8GnPXTgWdA+QXDkeyb0Mp+N7AxQJ5cANlDDv66PpbCNx
-         X53He4UMduIQt8iou2s/guBWDRDUHxKF8lNL9GcRrfi9bkRMf5I7tUyOYpW3hIBgkje8
-         TlpYwGFECnzsuSBSEWdQth1qLfn+WyYmrL9GdVqyE3Eis93x0tTHwPePBQCTn/VL/Gzb
-         z8c7ayKOD8mGj80driftnCEMDYQQNWgQUeCoIIC1ryRf2rOn5RjfQwM0pDycAg/Of8ng
-         B1N4qWXr8thkCmsl8KsocD9FKe56EVKbZFr5FcEgvbWWkbRRiRaXQV/VvSgcoBeltqjM
-         4WjA==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yZC94QyGrxl20UVmi6Bbzh0z18nlmSnWSZKrrHOOlIU=;
+        b=nHLVhA6zL+rr1952EK4dDV99gYj7eeUWk5vsiO5wZJUyS45PabFeca4mj5gjXNGyLc
+         1zJFAAjJvkbtkdYElrt6Zs8VWwCTee9GP375AJDVmzZHPV1WuASUTbZ2dcohWHoDlfdH
+         BrdsWLzS/BhNKK4O9esn7kFkseBYhREmF5IqhNjOeT1sTyL9Gdpf5AarECMER4NXc3h/
+         hbxuG7PBpvVWc19f3t5qU2lSnef2mJW2q3AB4dCEA1h3x9HBsnFobZyy0Hiqf7lx6zMc
+         KTWzzys98kURmMHk2EAoi64fjETZKhn53ZJsIRZhvPM1/zU8M/HboMjrXDMAlHNq+yhU
+         9i2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=TlLQ7tosji2YkhAul6rILt0FgOyJFX5PDRocyDPTg+Y=;
-        b=g0mqU6nWtbBvaexdW2uaNbjETLEXW4b5BPp36r7COJm9MYtabCmd43wPxS9ExYxX/O
-         hWMSWpnCMa2YvzXJe/Y3pQ6ikzBqP/LA1kT04IjTCa4U9F8tGXH3GrRSxt8KU+N2j0jA
-         rMuElMXituehhpUXAE1D9T/jYG2GyOsbipsTZHNQapzavFzihWZY9T639H5uvn4vSlRo
-         jMuh5SiAC84PvUgYfA7Nz7nzBGMYAd49yTtNT/STTsedaR/k5AX6HJ9I8r9kYgmmFEXM
-         p0YjRAKTFWFKkWIOh6yolSh7jg4Fq6pbLbDEBF5s/Xe1RHLbdwcY6BSbxBRqIFJEHZwO
-         H7Ww==
-X-Gm-Message-State: AJIora+meFPOHfEDnUNL13FqX8bjan3NMbuVHxUWwKXXuSgL0lstRFpe
-        E6GmSpS7u8L1w9G6fbLsVa1Iwg==
-X-Google-Smtp-Source: AGRyM1sCcm3nUs0MXMRNeFgPdlkO8phixsKPfk6BM/du3+VL+6b8V8UFzHEPRaCM2/QPj94/XqqBdg==
-X-Received: by 2002:a17:90a:e7d2:b0:1e8:97ac:da0b with SMTP id kb18-20020a17090ae7d200b001e897acda0bmr13451995pjb.242.1655347520681;
-        Wed, 15 Jun 2022 19:45:20 -0700 (PDT)
-Received: from localhost ([139.177.225.255])
-        by smtp.gmail.com with ESMTPSA id k16-20020a17090aaa1000b001e3351cb7fbsm2514708pjq.28.2022.06.15.19.45.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jun 2022 19:45:20 -0700 (PDT)
-Date:   Thu, 16 Jun 2022 10:45:14 +0800
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, paulmck@kernel.org,
-        mike.kravetz@oracle.com, osalvador@suse.de,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v2 2/2] mm: memory_hotplug: introduce
- SECTION_CANNOT_OPTIMIZE_VMEMMAP
-Message-ID: <YqqZOj+zby1fLGv/@FVFYT0MHHV2J.usts.net>
-References: <20220520025538.21144-1-songmuchun@bytedance.com>
- <20220520025538.21144-3-songmuchun@bytedance.com>
- <53024884-0182-df5f-9ca2-00652c64ce36@redhat.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yZC94QyGrxl20UVmi6Bbzh0z18nlmSnWSZKrrHOOlIU=;
+        b=KdVCc/whWNvOFCAAqNu7omkslIkQ1aUGsd93b5JNdEqbAs7CKln1MntQYD3p6yH9Bj
+         YFNDk1pM/YOP4sUTF8aNUeWlxgSDHL3aFqmtGC5UFDe34nv5st8yaBT3ZwNBMGthXftE
+         iKsHsbdjn/eRkKh1P9ezNwSCiBs9f6q0G9fd3k8tBdP4Ow7V7dkfQcVGNbB81sNI/z4F
+         rswAhSaA1+nCiB30Xb9ODWCOUGDzoLTS1o0OjhT8HBI21+V7hwlXomBV8EUp+DVpqrEq
+         hO9Y85pffAdcc1InVMMnxRwUhcBhM6PzrDWza/KktRqJBreUUWBUwL+Hfy0ijqbKs1pc
+         vBGA==
+X-Gm-Message-State: AJIora9RpA8nsQBQGfOdKS7VuhO3yT0fAnQutGp62mNl6oYf4Q0A+iO3
+        Tf84IPKgEdQ4UIRZx7bFswH3GFyKIUDgG3RrQRLAzQ==
+X-Google-Smtp-Source: AGRyM1tRDeWpcUh85R6nZJELiK50ZhN1KTNctwS1M4XiRR4sm0BrQ50F4dmy0+hMKWAlzdbrYVLXOGYB6+n3mVA+Xyw=
+X-Received: by 2002:a81:7557:0:b0:317:6536:d404 with SMTP id
+ q84-20020a817557000000b003176536d404mr2710980ywc.459.1655349610880; Wed, 15
+ Jun 2022 20:20:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <53024884-0182-df5f-9ca2-00652c64ce36@redhat.com>
+References: <20220604010101.719508-1-saravanak@google.com>
+In-Reply-To: <20220604010101.719508-1-saravanak@google.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Wed, 15 Jun 2022 20:19:34 -0700
+Message-ID: <CAGETcx_9AxUzmSFou=PqLpAJ6P_k4mq5tjFpt0WOC348RRBF0g@mail.gmail.com>
+Subject: Re: [PATCH v2] module: Add support for default value for module async_probe
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>
+Cc:     kernel-team@android.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 15, 2022 at 11:51:49AM +0200, David Hildenbrand wrote:
-> On 20.05.22 04:55, Muchun Song wrote:
-> > For now, the feature of hugetlb_free_vmemmap is not compatible with the
-> > feature of memory_hotplug.memmap_on_memory, and hugetlb_free_vmemmap
-> > takes precedence over memory_hotplug.memmap_on_memory. However, someone
-> > wants to make memory_hotplug.memmap_on_memory takes precedence over
-> > hugetlb_free_vmemmap since memmap_on_memory makes it more likely to
-> > succeed memory hotplug in close-to-OOM situations.  So the decision
-> > of making hugetlb_free_vmemmap take precedence is not wise and elegant.
-> > The proper approach is to have hugetlb_vmemmap.c do the check whether
-> > the section which the HugeTLB pages belong to can be optimized.  If
-> > the section's vmemmap pages are allocated from the added memory block
-> > itself, hugetlb_free_vmemmap should refuse to optimize the vmemmap,
-> > otherwise, do the optimization.  Then both kernel parameters are
-> > compatible.  So this patch introduces SECTION_CANNOT_OPTIMIZE_VMEMMAP
-> > to indicate whether the section could be optimized.
-> > 
-> 
-> In theory, we have that information stored in the relevant memory block,
-> but I assume that lookup in the xarray + locking is impractical.
-> 
-> I wonder if we can derive that information simply from the vmemmap pages
-> themselves, because *drumroll*
-> 
-> For one vmemmap page (the first one), the vmemmap corresponds to itself
-> -- what?!
-> 
-> 
-> [	hotplugged memory	]
-> [ memmap ][      usable memory	]
->       |    |                    |
->   ^---     |                    |
->    ^-------                     |
->          ^----------------------
-> 
-> The memmap of the first page of hotplugged memory falls onto itself.
-> We'd have to derive from actual "usable memory" that condition.
+On Fri, Jun 3, 2022 at 6:01 PM Saravana Kannan <saravanak@google.com> wrote:
 >
-> 
-> We currently support memmap_on_memory memory only within fixed-size
-> memory blocks. So "hotplugged memory" is guaranteed to be aligned to
-> memory_block_size_bytes() and the size is memory_block_size_bytes().
-> 
-> If we'd have a page falling into usbale memory, we'd simply lookup the
-> first page and test if the vmemmap maps to itself.
+> Add a module.async_probe kernel command line option that allows enabling
+> async probing for all modules. When this command line option is used,
+> there might still be some modules for which we want to explicitly force
+> synchronous probing, so extend <modulename>.async_probe to take an
+> optional bool input so that async probing can be disabled for a specific
+> module.
 >
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> ---
+> v1->v2:
+> - Updated the documentation to capture all the details/changes.
 
-I think this can work. Should we use this approach in next version?
+Luis,
 
-> 
-> Of course, once we'd support variable-sized memory blocks, it would be
-> different.
-> 
-> 
-> An easier/future-proof approach might simply be flagging the vmemmap
-> pages as being special. We reuse page flags for that, which don't have
-> semantics yet (i.e., PG_reserved indicates a boot-time allocation via
-> memblock).
+Gentle reminder.
+
+-Saravana
+
 >
-
-I think you mean flag vmemmap pages' struct page as PG_reserved if it
-can be optimized, right? When the vmemmap pages are allocated in
-hugetlb_vmemmap_alloc(), is it valid to flag them as PG_reserved (they
-are allocated from buddy allocator not memblock)?
-
-Thanks.
-
-> You'd walk the applicable vmemmap pages you want to optimize and check
-> if they are marked as special. You don't have to walk all but can
-> optimize: memmap_on_memory uses a vmemmap size that's at least PMD_SIZE.
-> So it's sufficient to check a single vmemmap page inside a PMD_SIZE
-> vmemmap range.
-> 
-> 
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  Documentation/admin-guide/kernel-parameters.txt | 22 +++++++++----------
-> >  Documentation/admin-guide/sysctl/vm.rst         |  5 ++---
-> >  include/linux/memory_hotplug.h                  |  9 --------
-> >  include/linux/mmzone.h                          | 17 +++++++++++++++
-> >  mm/hugetlb_vmemmap.c                            | 28 ++++++++++++++++++-------
-> >  mm/memory_hotplug.c                             | 22 +++++++------------
-> >  mm/sparse.c                                     |  8 +++++++
-> >  7 files changed, 66 insertions(+), 45 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index c087f578d9d8..5359ffb04a84 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -1730,9 +1730,11 @@
-> >  			Built with CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON=y,
-> >  			the default is on.
-> >  
-> > -			This is not compatible with memory_hotplug.memmap_on_memory.
-> > -			If both parameters are enabled, hugetlb_free_vmemmap takes
-> > -			precedence over memory_hotplug.memmap_on_memory.
-> > +			Note that the vmemmap pages may be allocated from the added
-> > +			memory block itself when memory_hotplug.memmap_on_memory is
-> > +			enabled, those vmemmap pages cannot be optimized even if this
-> > +			feature is enabled.  Other vmemmap pages not allocated from
-> > +			the added memory block itself do not be affected.
-> >  
-> >  	hung_task_panic=
-> >  			[KNL] Should the hung task detector generate panics.
-> > @@ -3077,10 +3079,12 @@
-> >  			[KNL,X86,ARM] Boolean flag to enable this feature.
-> >  			Format: {on | off (default)}
-> >  			When enabled, runtime hotplugged memory will
-> > -			allocate its internal metadata (struct pages)
-> > -			from the hotadded memory which will allow to
-> > -			hotadd a lot of memory without requiring
-> > -			additional memory to do so.
-> > +			allocate its internal metadata (struct pages,
-> > +			those vmemmap pages cannot be optimized even
-> > +			if hugetlb_free_vmemmap is enabled) from the
-> > +			hotadded memory which will allow to hotadd a
-> > +			lot of memory without requiring additional
-> > +			memory to do so.
-> >  			This feature is disabled by default because it
-> >  			has some implication on large (e.g. GB)
-> >  			allocations in some configurations (e.g. small
-> > @@ -3090,10 +3094,6 @@
-> >  			Note that even when enabled, there are a few cases where
-> >  			the feature is not effective.
-> >  
-> > -			This is not compatible with hugetlb_free_vmemmap. If
-> > -			both parameters are enabled, hugetlb_free_vmemmap takes
-> > -			precedence over memory_hotplug.memmap_on_memory.
-> > -
-> >  	memtest=	[KNL,X86,ARM,M68K,PPC,RISCV] Enable memtest
-> >  			Format: <integer>
-> >  			default : 0 <disable>
-> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> > index 5c9aa171a0d3..d7374a1e8ac9 100644
-> > --- a/Documentation/admin-guide/sysctl/vm.rst
-> > +++ b/Documentation/admin-guide/sysctl/vm.rst
-> > @@ -565,9 +565,8 @@ See Documentation/admin-guide/mm/hugetlbpage.rst
-> >  hugetlb_optimize_vmemmap
-> >  ========================
-> >  
-> > -This knob is not available when memory_hotplug.memmap_on_memory (kernel parameter)
-> > -is configured or the size of 'struct page' (a structure defined in
-> > -include/linux/mm_types.h) is not power of two (an unusual system config could
-> > +This knob is not available when the size of 'struct page' (a structure defined
-> > +in include/linux/mm_types.h) is not power of two (an unusual system config could
-> >  result in this).
-> >  
-> >  Enable (set to 1) or disable (set to 0) the feature of optimizing vmemmap pages
-> > diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
-> > index 20d7edf62a6a..e0b2209ab71c 100644
-> > --- a/include/linux/memory_hotplug.h
-> > +++ b/include/linux/memory_hotplug.h
-> > @@ -351,13 +351,4 @@ void arch_remove_linear_mapping(u64 start, u64 size);
-> >  extern bool mhp_supports_memmap_on_memory(unsigned long size);
-> >  #endif /* CONFIG_MEMORY_HOTPLUG */
-> >  
-> > -#ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
-> > -bool mhp_memmap_on_memory(void);
-> > -#else
-> > -static inline bool mhp_memmap_on_memory(void)
-> > -{
-> > -	return false;
-> > -}
-> > -#endif
-> > -
-> >  #endif /* __LINUX_MEMORY_HOTPLUG_H */
-> > diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> > index 2cf2a76535ab..607a4fcabbd4 100644
-> > --- a/include/linux/mmzone.h
-> > +++ b/include/linux/mmzone.h
-> > @@ -1434,6 +1434,7 @@ extern size_t mem_section_usage_size(void);
-> >  	MAPPER(IS_ONLINE)							\
-> >  	MAPPER(IS_EARLY)							\
-> >  	MAPPER(TAINT_ZONE_DEVICE, CONFIG_ZONE_DEVICE)				\
-> > +	MAPPER(CANNOT_OPTIMIZE_VMEMMAP, CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP)	\
-> >  	MAPPER(MAP_LAST_BIT)
-> >  
-> >  #define __SECTION_SHIFT_FLAG_MAPPER_0(x)
-> > @@ -1471,6 +1472,22 @@ static inline struct page *__section_mem_map_addr(struct mem_section *section)
-> >  	return (struct page *)map;
-> >  }
-> >  
-> > +#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
-> > +static inline void section_mark_cannot_optimize_vmemmap(struct mem_section *ms)
-> > +{
-> > +	ms->section_mem_map |= SECTION_CANNOT_OPTIMIZE_VMEMMAP;
-> > +}
-> > +
-> > +static inline int section_cannot_optimize_vmemmap(struct mem_section *ms)
-> > +{
-> > +	return (ms && (ms->section_mem_map & SECTION_CANNOT_OPTIMIZE_VMEMMAP));
-> > +}
-> > +#else
-> > +static inline void section_mark_cannot_optimize_vmemmap(struct mem_section *ms)
-> > +{
-> > +}
-> > +#endif
-> > +
-> >  static inline int present_section(struct mem_section *section)
-> >  {
-> >  	return (section && (section->section_mem_map & SECTION_MARKED_PRESENT));
-> > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> > index fcd9f7872064..f12170520337 100644
-> > --- a/mm/hugetlb_vmemmap.c
-> > +++ b/mm/hugetlb_vmemmap.c
-> > @@ -97,18 +97,32 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
-> >  	return ret;
-> >  }
-> >  
-> > +static unsigned int optimizable_vmemmap_pages(struct hstate *h,
-> > +					      struct page *head)
-> > +{
-> > +	unsigned long pfn = page_to_pfn(head);
-> > +	unsigned long end = pfn + pages_per_huge_page(h);
-> > +
-> > +	if (READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
-> > +		return 0;
-> > +
-> > +	for (; pfn < end; pfn += PAGES_PER_SECTION) {
-> > +		if (section_cannot_optimize_vmemmap(__pfn_to_section(pfn)))
-> > +			return 0;
-> > +	}
-> > +
-> > +	return hugetlb_optimize_vmemmap_pages(h);
-> > +}
-> > +
-> >  void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
-> >  {
-> >  	unsigned long vmemmap_addr = (unsigned long)head;
-> >  	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
-> >  
-> > -	vmemmap_pages = hugetlb_optimize_vmemmap_pages(h);
-> > +	vmemmap_pages = optimizable_vmemmap_pages(h, head);
-> >  	if (!vmemmap_pages)
-> >  		return;
-> >  
-> > -	if (READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
-> > -		return;
-> > -
-> >  	static_branch_inc(&hugetlb_optimize_vmemmap_key);
-> >  
-> >  	vmemmap_addr	+= RESERVE_VMEMMAP_SIZE;
-> > @@ -199,10 +213,10 @@ static struct ctl_table hugetlb_vmemmap_sysctls[] = {
-> >  static __init int hugetlb_vmemmap_sysctls_init(void)
-> >  {
-> >  	/*
-> > -	 * If "memory_hotplug.memmap_on_memory" is enabled or "struct page"
-> > -	 * crosses page boundaries, the vmemmap pages cannot be optimized.
-> > +	 * If "struct page" crosses page boundaries, the vmemmap pages cannot
-> > +	 * be optimized.
-> >  	 */
-> > -	if (!mhp_memmap_on_memory() && is_power_of_2(sizeof(struct page)))
-> > +	if (is_power_of_2(sizeof(struct page)))
-> >  		register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
-> >  
-> >  	return 0;
-> > diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-> > index 3b360eda933f..7309694c4dee 100644
-> > --- a/mm/memory_hotplug.c
-> > +++ b/mm/memory_hotplug.c
-> > @@ -43,30 +43,22 @@
-> >  #include "shuffle.h"
-> >  
-> >  #ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
-> > -static int memmap_on_memory_set(const char *val, const struct kernel_param *kp)
-> > -{
-> > -	if (hugetlb_optimize_vmemmap_enabled())
-> > -		return 0;
-> > -	return param_set_bool(val, kp);
-> > -}
-> > -
-> > -static const struct kernel_param_ops memmap_on_memory_ops = {
-> > -	.flags	= KERNEL_PARAM_OPS_FL_NOARG,
-> > -	.set	= memmap_on_memory_set,
-> > -	.get	= param_get_bool,
-> > -};
-> > -
-> >  /*
-> >   * memory_hotplug.memmap_on_memory parameter
-> >   */
-> >  static bool memmap_on_memory __ro_after_init;
-> > -module_param_cb(memmap_on_memory, &memmap_on_memory_ops, &memmap_on_memory, 0444);
-> > +module_param(memmap_on_memory, bool, 0444);
-> >  MODULE_PARM_DESC(memmap_on_memory, "Enable memmap on memory for memory hotplug");
-> >  
-> > -bool mhp_memmap_on_memory(void)
-> > +static inline bool mhp_memmap_on_memory(void)
-> >  {
-> >  	return memmap_on_memory;
-> >  }
-> > +#else
-> > +static inline bool mhp_memmap_on_memory(void)
-> > +{
-> > +	return false;
-> > +}
-> >  #endif
-> >  
-> >  enum {
-> > diff --git a/mm/sparse.c b/mm/sparse.c
-> > index cb3bfae64036..1f353bf9ea6b 100644
-> > --- a/mm/sparse.c
-> > +++ b/mm/sparse.c
-> > @@ -913,6 +913,14 @@ int __meminit sparse_add_section(int nid, unsigned long start_pfn,
-> >  	ms = __nr_to_section(section_nr);
-> >  	set_section_nid(section_nr, nid);
-> >  	__section_mark_present(ms, section_nr);
-> > +	/*
-> > +	 * Mark whole section as non-optimizable once there is a subsection
-> > +	 * whose vmemmap pages are allocated from alternative allocator. The
-> > +	 * early section is always optimizable since the early section's
-> > +	 * vmemmap pages do not consider partially being populated.
-> > +	 */
-> > +	if (!early_section(ms) && altmap)
-> > +		section_mark_cannot_optimize_vmemmap(ms);
-> >  
-> >  	/* Align memmap to section boundary in the subsection case */
-> >  	if (section_nr_to_pfn(section_nr) != start_pfn)
-> 
-> 
-> -- 
-> Thanks,
-> 
-> David / dhildenb
-> 
-> 
+>  Documentation/admin-guide/kernel-parameters.txt | 17 +++++++++++++++--
+>  kernel/module/main.c                            | 11 ++++++++++-
+>  2 files changed, 25 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 710b52d87bdd..5174a08e20b0 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1147,8 +1147,12 @@
+>         nopku           [X86] Disable Memory Protection Keys CPU feature found
+>                         in some Intel CPUs.
+>
+> -       <module>.async_probe [KNL]
+> -                       Enable asynchronous probe on this module.
+> +       <module>.async_probe[=<bool>] [KNL]
+> +                       If no <bool> value is specified or if the value
+> +                       specified is not a valid <bool>, enable asynchronous
+> +                       probe on this module.  Otherwise, enable/disable
+> +                       asynchronous probe on this module as indicated by the
+> +                       <bool> value. See also: module.async_probe
+>
+>         early_ioremap_debug [KNL]
+>                         Enable debug messages in early_ioremap support. This
+> @@ -3201,6 +3205,15 @@
+>                         log everything. Information is printed at KERN_DEBUG
+>                         so loglevel=8 may also need to be specified.
+>
+> +       module.async_probe=<bool>
+> +                       [KNL] When set to true, modules will use async probing
+> +                       by default. To enable/disable async probing for a
+> +                       specific module, use the module specific control that
+> +                       is documented under <module>.async_probe. When both
+> +                       module.async_probe and <module>.async_probe are
+> +                       specified, <module>.async_probe takes precedence for
+> +                       the specific module.
+> +
+>         module.sig_enforce
+>                         [KNL] When CONFIG_MODULE_SIG is set, this means that
+>                         modules without (valid) signatures will fail to load.
+> diff --git a/kernel/module/main.c b/kernel/module/main.c
+> index fed58d30725d..47085795f037 100644
+> --- a/kernel/module/main.c
+> +++ b/kernel/module/main.c
+> @@ -2410,6 +2410,12 @@ static void do_free_init(struct work_struct *w)
+>         }
+>  }
+>
+> +#undef MODULE_PARAM_PREFIX
+> +#define MODULE_PARAM_PREFIX "module."
+> +/* Default value for module->async_probe_requested */
+> +static bool async_probe;
+> +module_param(async_probe, bool, 0644);
+> +
+>  /*
+>   * This is where the real work happens.
+>   *
+> @@ -2630,7 +2636,8 @@ static int unknown_module_param_cb(char *param, char *val, const char *modname,
+>         int ret;
+>
+>         if (strcmp(param, "async_probe") == 0) {
+> -               mod->async_probe_requested = true;
+> +               if (strtobool(val, &mod->async_probe_requested))
+> +                       mod->async_probe_requested = true;
+>                 return 0;
+>         }
+>
+> @@ -2797,6 +2804,8 @@ static int load_module(struct load_info *info, const char __user *uargs,
+>         if (err)
+>                 goto bug_cleanup;
+>
+> +       mod->async_probe_requested = async_probe;
+> +
+>         /* Module is ready to execute: parsing args may do that. */
+>         after_dashes = parse_args(mod->name, mod->args, mod->kp, mod->num_kp,
+>                                   -32768, 32767, mod,
+> --
+> 2.36.1.255.ge46751e96f-goog
+>
