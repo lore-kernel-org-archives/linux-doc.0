@@ -2,146 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5604C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jun 2022 15:04:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48DB4C43334
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jun 2022 15:20:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377787AbiFPPEP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jun 2022 11:04:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43812 "EHLO
+        id S1376965AbiFPPUK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jun 2022 11:20:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377769AbiFPPEO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jun 2022 11:04:14 -0400
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B8A3EF0C
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jun 2022 08:04:11 -0700 (PDT)
-Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-1014b2752c1so2183166fac.11
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jun 2022 08:04:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=zoPzQU7tFCHKbazE96n62nKhOYL6lpl30iCKAfHWF3k=;
-        b=hzB+iWkLegyX/YVU4Z4Uk20/fD5mQ12Bb87V6Eh8E5BihrifNpR/2Kid3c5IL3kULj
-         /Kav66ARa+qN/N67YFml7VO4vjU3H+d51tIoMenFO1qIG1cNa0TEMy6orpmxvFp0gMGw
-         /kiER4gc6alC0Jl/FnyoXaEN+XA94MiTxlaik=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=zoPzQU7tFCHKbazE96n62nKhOYL6lpl30iCKAfHWF3k=;
-        b=P1koStN+U6VRh8u+1EiA02WJVjOAgg0L2lxpIyXnv6/AcVfEqAX4RiFZB3E9pzgp/l
-         kfZN8ff8qcffyxSbxtGvcIncoG1rtoo/d+SZqTBuW1A9BsK17UayqFFSVoefr8WKkxwt
-         ZmYCSyZ+Ja3MVgZawL6ZltR2Ma9B+Bv17NqXXxz29LRNczfUGUOkZ+eujd5Fi/ScboLu
-         2hQMknarrpA+/KI+Iywq6qrsqy711apTkkL7wNXnPdo4pVbKT/92x41iVe0cJqoTUDMK
-         c1wFZt6+z7ecXYx/G8lGYKXn0r4tAuW34pKcreXVYLL1nPptNOGWIXhWoS6fza69/XG7
-         LFjw==
-X-Gm-Message-State: AJIora8xxfVawft8Xg6hTlRzUtJJjuV2h1ch1CpMj0MM2aUqGM9ZiQkh
-        y82CXo7gT+70WhnCNXrZ37qqHg==
-X-Google-Smtp-Source: AGRyM1t/ql2JMv1ewpAojMoM3/cs4LVSN9IuvwaxwKyqaHE21iNNhZqbPJBxqQN/Cljh9oFWXsyihg==
-X-Received: by 2002:a05:6870:c181:b0:f1:ea2f:f7f7 with SMTP id h1-20020a056870c18100b000f1ea2ff7f7mr8618905oad.18.1655391849854;
-        Thu, 16 Jun 2022 08:04:09 -0700 (PDT)
-Received: from [192.168.0.41] ([184.4.90.121])
-        by smtp.gmail.com with ESMTPSA id n5-20020a4ab345000000b0035eb4e5a6d6sm1098587ooo.44.2022.06.16.08.04.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Jun 2022 08:04:08 -0700 (PDT)
-Message-ID: <9fe9cd9f-1ded-a179-8ded-5fde8960a586@cloudflare.com>
-Date:   Thu, 16 Jun 2022 10:04:07 -0500
+        with ESMTP id S232449AbiFPPUJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jun 2022 11:20:09 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7725D344FA;
+        Thu, 16 Jun 2022 08:20:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655392808; x=1686928808;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9GFnmtQhesbFhhI0eu3wSxeKy81JLBgTOD42fl56qpI=;
+  b=JEW6yD50IZIDv9HeKAhilIvU9jCu8in+F3PrbAhi8rYSvHErin/qG6Cl
+   m+F91NqpgDYfwOEZl6HnTl5qPlYW7FDtVvEs48IsAPdoxB1yQYgX5JQ00
+   Go9KNJf1xfTYbYjFARb79XcZE+wsycLFh5Q/SdUqtxTRxwSm5MX+EhYt3
+   xZrznowtEFN2Anij6/B/gxgEzT9wBBVDgjdPkk5P7TRXwAbEnZt6yAGIj
+   wdYClxUDpektpMuyePlMh/MTPWLNqWuuqnWiKiB929X0ThPOCq/IKIIet
+   z98UhDxlf+C1CN64C+JYJXVrEUmC5m+a71Vpt1ZPw7hj5V869V4S0vzE0
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="259733613"
+X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; 
+   d="scan'208";a="259733613"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2022 08:20:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; 
+   d="scan'208";a="653200801"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 16 Jun 2022 08:20:04 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o1rHv-000OUJ-JV;
+        Thu, 16 Jun 2022 15:20:03 +0000
+Date:   Thu, 16 Jun 2022 23:20:00 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     kbuild-all@lists.01.org,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+Subject: Re: [PATCH V4 13/20] rv/reactor: Add the panic reactor
+Message-ID: <202206162325.aggB6gj9-lkp@intel.com>
+References: <67e522ab57e64eee313af508a8c70f3cce33e525.1655368610.git.bristot@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3] cred: Propagate security_prepare_creds() error code
-Content-Language: en-US
-To:     Casey Schaufler <casey@schaufler-ca.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Ignat Korchagin <ignat@cloudflare.com>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>, linux-aio@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-cachefs@redhat.com,
-        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-        linux-mm@kvack.org, linux-nfs@vger.kernel.org,
-        linux-unionfs@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        netdev <netdev@vger.kernel.org>, keyrings@vger.kernel.org,
-        selinux@vger.kernel.org, serge@hallyn.com, amir73il@gmail.com,
-        kernel-team <kernel-team@cloudflare.com>,
-        Jeff Moyer <jmoyer@redhat.com>
-References: <20220608150942.776446-1-fred@cloudflare.com>
- <87tu8oze94.fsf@email.froward.int.ebiederm.org>
- <e1b62234-9b8a-e7c2-2946-5ef9f6f23a08@cloudflare.com>
- <87y1xzyhub.fsf@email.froward.int.ebiederm.org>
- <859cb593-9e96-5846-2191-6613677b07c5@cloudflare.com>
- <87o7yvxl4x.fsf@email.froward.int.ebiederm.org>
- <9ed91f15-420c-3db6-8b3b-85438b02bf97@cloudflare.com>
- <20220615103031.qkzae4xr34wysj4b@wittgenstein>
- <CAHC9VhR8yPHZb2sCu4JGgXOSs7rudm=9opB+-LsG6_Lta9466A@mail.gmail.com>
- <CALrw=nGZtrNYn+CV+Q_w-2=Va_9m3C8PDvvPtd01d0tS=2NMWQ@mail.gmail.com>
- <CAHC9VhRSzXeAZmBdNSAFEh=6XR57ecO7Ov+6BV9b0xVN1YR_Qw@mail.gmail.com>
- <1c4b1c0d-12f6-6e9e-a6a3-cdce7418110c@schaufler-ca.com>
-From:   Frederick Lawler <fred@cloudflare.com>
-In-Reply-To: <1c4b1c0d-12f6-6e9e-a6a3-cdce7418110c@schaufler-ca.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <67e522ab57e64eee313af508a8c70f3cce33e525.1655368610.git.bristot@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/15/22 10:55 AM, Casey Schaufler wrote:
-> On 6/15/2022 8:33 AM, Paul Moore wrote:
->> On Wed, Jun 15, 2022 at 11:06 AM Ignat Korchagin 
->> <ignat@cloudflare.com> wrote:
->>> On Wed, Jun 15, 2022 at 3:14 PM Paul Moore <paul@paul-moore.com> wrote:
->>>> On Wed, Jun 15, 2022 at 6:30 AM Christian Brauner 
->>>> <brauner@kernel.org> wrote:
->> ...
->>
->>>>> Fwiw, from this commit it wasn't very clear what you wanted to achieve
->>>>> with this. It might be worth considering adding a new security hook 
->>>>> for
->>>>> this. Within msft it recently came up SELinux might have an 
->>>>> interest in
->>>>> something like this as well.
->>>> Just to clarify things a bit, I believe SELinux would have an interest
->>>> in a LSM hook capable of implementing an access control point for user
->>>> namespaces regardless of Microsoft's current needs.  I suspect due to
->>>> the security relevant nature of user namespaces most other LSMs would
->>>> be interested as well; it seems like a well crafted hook would be
->>>> welcome by most folks I think.
->>> Just to get the full picture: is there actually a good reason not to
->>> make this hook support this scenario? I understand it was not
->>> originally intended for this, but it is well positioned in the code,
->>> covers multiple subsystems (not only user namespaces), doesn't require
->>> changing the LSM interface and it already does the job - just the
->>> kernel internals need to respect the error code better. What bad
->>> things can happen if we extend its use case to not only allocate
->>> resources in LSMs?
->> My concern is that the security_prepare_creds() hook, while only
->> called from two different functions, ends up being called for a
->> variety of different uses (look at the prepare_creds() and
->> perpare_kernel_cred() callers) and I think it would be a challenge to
->> identify the proper calling context in the LSM hook implementation
->> given the current hook parameters.  One might be able to modify the
->> hook to pass the necessary information, but I don't think that would
->> be any cleaner than adding a userns specific hook.  I'm also guessing
->> that the modified security_prepare_creds() hook implementations would
->> also be more likely to encounter future maintenance issues as
->> overriding credentials in the kernel seems only to be increasing, and
->> each future caller would risk using the modified hook wrong by passing
->> the wrong context and triggering the wrong behavior in the LSM.
-> 
-> We don't usually have hooks that do both attribute management and
-> access control. Some people seem excessively concerned about "cluttering"
-> calling code with security_something() instances, but for the most
-> part I think we're past that. I agree that making security_prepare_creds()
-> multi-purpose is a bad idea. Shared cred management isn't simple, and
-> adding access checks there is only going to make it worse.
-> 
+Hi Daniel,
 
-Sounds like we've reached the conclusion not to proceed with a v4 of 
-this patch. I'll pivot to propose a new hook instead.
+I love your patch! Perhaps something to improve:
 
-Thanks for the feedback everyone :)
+[auto build test WARNING on rostedt-trace/for-next]
+[also build test WARNING on tip/sched/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Fred
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220616-164837
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git for-next
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220616/202206162325.aggB6gj9-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/c32f84c1978c0e0b8526da45a2ab87e191246f68
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220616-164837
+        git checkout c32f84c1978c0e0b8526da45a2ab87e191246f68
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/trace/rv/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> kernel/trace/rv/reactor_panic.c:28:5: warning: no previous prototype for 'register_react_panic' [-Wmissing-prototypes]
+      28 | int register_react_panic(void)
+         |     ^~~~~~~~~~~~~~~~~~~~
+>> kernel/trace/rv/reactor_panic.c:34:6: warning: no previous prototype for 'unregister_react_panic' [-Wmissing-prototypes]
+      34 | void unregister_react_panic(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/register_react_panic +28 kernel/trace/rv/reactor_panic.c
+
+    27	
+  > 28	int register_react_panic(void)
+    29	{
+    30		rv_register_reactor(&rv_panic);
+    31		return 0;
+    32	}
+    33	
+  > 34	void unregister_react_panic(void)
+    35	{
+    36		rv_unregister_reactor(&rv_panic);
+    37	}
+    38	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
