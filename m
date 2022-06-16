@@ -2,436 +2,533 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C444C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jun 2022 13:44:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAA70C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Jun 2022 13:47:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233576AbiFPNom (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jun 2022 09:44:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49194 "EHLO
+        id S1376888AbiFPNrN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jun 2022 09:47:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233364AbiFPNol (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jun 2022 09:44:41 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B23E2D1E0;
-        Thu, 16 Jun 2022 06:44:40 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id 73-20020a17090a0fcf00b001eaee69f600so1546957pjz.1;
-        Thu, 16 Jun 2022 06:44:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:content-language:to
-         :cc:references:from:subject:in-reply-to:content-transfer-encoding;
-        bh=dHd4NMnmd4gEBcXEaXsPg3WsIFVvJpyfsK6peOFdGiE=;
-        b=qNGbgYCtPAEaqRl6FEflE7UxtWIqGj/iIGbxoQaDM7YhCnfAAbuNc8DK4q7nJzHkz+
-         V0of0eOm1VgLkADUXp7iP0LHf3TjFWdTqDbOnJVuFJCBSgyxeKO4YxKqW6OrdLTQ3RBZ
-         TrNNpt9riTmyv4NiMlMhHReqUTzpQEbu0CrWDSbzvafX2mG85MgZUpK4M8G3iQRn/tzM
-         a+PZoQaYCg6h57NeG44CQpheDRM7cnVo7gYqQhIv6p8kC7WN1gMiL8oAta0A/jwW7LX/
-         2lWFRtukc4UnQ5QTPZy1UYpXbGiEILpoSr5IE69zFbuh7KRJq4AB03xrMAvM8mTDA7am
-         /fxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:subject:in-reply-to
-         :content-transfer-encoding;
-        bh=dHd4NMnmd4gEBcXEaXsPg3WsIFVvJpyfsK6peOFdGiE=;
-        b=IdpbbgqDbPS8Uh5xT7v9JLqvc+4lq7UoZVec/+O9COuVOE6Hd5EoiTIKbTEXtDt6+o
-         r+vwdoNpeqLsaanY9IGzbYPPfHWzMdcQu4aBJ6ATksCSKUHV2z6qjDkddCVWbFKQYOy1
-         cN+J1m+m0NrqGf7NLWCezfzfCe8uoi+NcikmL4JPQgrBX/brsNXbDWPXrooauXda09OF
-         qL3OjLZoJXNvtb6/SF3mh7v4reeV0SflqOur6ydfyMvSiw6+5J3r2/USqat4mO8+JqmI
-         0qwM++gWBMCH1jn5ofDPvgaXnq1MRvt4WB1k8rmvBpGmXXzIciKoT0Pz62EXYdmytMzT
-         qH7Q==
-X-Gm-Message-State: AJIora/eCD0cWGaSWCONID2v/8iMNLDC1T31NYVqi26ImzJTzGybwXh7
-        SqFoal0mX+h1TwzkudwM8Lc=
-X-Google-Smtp-Source: AGRyM1vbMYzQ7ZWU1I26Ikz+YgDT35l6qt263JCfVheG1LZ6Ni6k8ix7dWMTcXlnkv8CgKvtvxFgzg==
-X-Received: by 2002:a17:902:eccc:b0:167:5c6e:31e4 with SMTP id a12-20020a170902eccc00b001675c6e31e4mr4685416plh.90.1655387079521;
-        Thu, 16 Jun 2022 06:44:39 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id a127-20020a621a85000000b0051bc721b838sm1764214pfa.188.2022.06.16.06.44.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Jun 2022 06:44:38 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <a141e63a-c62c-8094-fedf-7f22f9090b0f@roeck-us.net>
-Date:   Thu, 16 Jun 2022 06:44:35 -0700
+        with ESMTP id S233271AbiFPNrN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jun 2022 09:47:13 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C156D381B2;
+        Thu, 16 Jun 2022 06:47:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655387231; x=1686923231;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EJ+ce527wh6lQA+lHh4gyYTQ3PaCD3cBQi4PKTQkbFQ=;
+  b=aylWJo6sE6jRVNj0bs+j1XpzLOh7PNbecQGIbyQcDusHNrlojXvqq19A
+   rZH+/dNN7GX9sVrDl8zXzqY4flSOpVq03DxN59adxwGwD+UPj2/NaL7cz
+   MG/ChQzCwVLccMJ4HkJmOHuYr+Tg7W0qMqXnm4Et0xcb9n/OH/NEtV3E5
+   /Kb/PkihkAUDRGgS5MqVSpaPMPSlW9lqC4z/xd7VNC5pdVHRprsRq3Im7
+   iQEXhzTdj3WBsXf3jYjUYbD+hBTsr/QqbXa90SDZisEOlzJkilgIr8z3q
+   9A2QpfkvZgZZOHMxF5KqlGCwdQd2plylpgRI6Kv3F2a6jcfU6rvfQhdNL
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="278046987"
+X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; 
+   d="scan'208";a="278046987"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2022 06:47:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; 
+   d="scan'208";a="675030584"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by FMSMGA003.fm.intel.com with ESMTP; 16 Jun 2022 06:46:57 -0700
+Date:   Thu, 16 Jun 2022 21:38:54 +0800
+From:   Xu Yilun <yilun.xu@intel.com>
+To:     Ivan Bornyakov <i.bornyakov@metrotek.ru>
+Cc:     mdf@kernel.org, hao.wu@intel.com, trix@redhat.com, corbet@lwn.net,
+        Conor.Dooley@microchip.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, linux-fpga@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, system@metrotek.ru
+Subject: Re: [PATCH v19 1/4] fpga: fpga-mgr: support bitstream offset in
+ image buffer
+Message-ID: <20220616133854.GB1064215@yilunxu-OptiPlex-7050>
+References: <20220615110137.21902-1-i.bornyakov@metrotek.ru>
+ <20220615110137.21902-2-i.bornyakov@metrotek.ru>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: en-US
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-References: <cover.1655368610.git.bristot@kernel.org>
- <e153b772306577bcb3915474ed10eb3dcb228eda.1655368610.git.bristot@kernel.org>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH V4 17/20] watchdog/dev: Add tracepoints
-In-Reply-To: <e153b772306577bcb3915474ed10eb3dcb228eda.1655368610.git.bristot@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220615110137.21902-2-i.bornyakov@metrotek.ru>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/16/22 01:44, Daniel Bristot de Oliveira wrote:
-> Add a set of tracepoints, enabling the observability of the watchdog
-> device interactions with user-space.
+On Wed, Jun 15, 2022 at 02:01:34PM +0300, Ivan Bornyakov wrote:
+> At the moment FPGA manager core loads to the device entire image
+> provided to fpga_mgr_load(). But it is not always whole FPGA image
+> buffer meant to be written to the device. In particular, .dat formatted
+> image for Microchip MPF contains meta info in the header that is not
+> meant to be written to the device. This is issue for those low level
+> drivers that loads data to the device with write() fpga_manager_ops
+> callback, since write() can be called in iterator over scatter-gather
+> table, not only linear image buffer. On the other hand, write_sg()
+> callback is provided with whole image in scatter-gather form and can
+> decide itself which part should be sent to the device.
 > 
-> The events are:
-> 	watchdog:watchdog_open
-> 	watchdog:watchdog_close
-> 	watchdog:watchdog_start
-> 	watchdog:watchdog_stop
-> 	watchdog:watchdog_set_timeout
-> 	watchdog:watchdog_ping
-> 	watchdog:watchdog_nowayout
-> 	watchdog:watchdog_set_keep_alive
-> 	watchdog:watchdog_keep_alive
-> 	watchdog:watchdog_set_pretimeout
-> 	watchdog:watchdog_pretimeout
+> Add header_size and data_size to the fpga_image_info struct and adjust
+> fpga_mgr_write() callers with respect to them.
 > 
-> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: "Paul E. McKenney" <paulmck@kernel.org>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
-> Cc: Juri Lelli <juri.lelli@redhat.com>
-> Cc: Clark Williams <williams@redhat.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-trace-devel@vger.kernel.org
-> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+>   * info->header_size indicates part at the beginning of image buffer
+>     that is *not* meant to be written to the device. It is optional and
+>     can be 0.
+
+I thought it over again, and still have some concern about the
+definition of info->header_size.
+
+In this patch, the header_size is also used for the write_init() callback,
+So if a driver needs the dynamic image header for write_init(), it should
+update the info->header_size. But the driver may not want to skip the
+header size when write(). Actually we have existing case now, some
+drivers have initial_header_size but don't skip the header on write().
+I guess maybe the firmware behind its data transfer engine deals with the
+header correctly. And our current definition of info->header_size
+restricts the usage.
+
+I think if we could define the info->header_size as the generic image
+header, the framework initialize the info->header_size as the
+mops->initial_header_size. The parse_header() could enlarge the
+info->header_size as needed.
+Then we introduce a bool mops->skip_header for drivers to indicate
+whether to skip info->header_size on write(). Since the exsiting drivers
+don't skip the header, the default initial value of skip_header doesn't
+affect exsiting drivers.
+
+I think this definition is more clear, then we don't have to frequently
+use like:
+
+  if (info->header_size)
+      header_size = info->header_size;
+  else
+      header_size = mops->initial_header_size
+
+We may not need mops->initial_header_size any more after
+info->header_size initialization.
+
+
+And for info->data_size, it could be the actual data size that would be
+transfered by write(). That is to say, if skip_header == true, it
+excludes header_size, if skip_header == false, it includes header_size.
+It could still be 0, which means the whole image buffer.
+
+How do you think?
+
+Thanks,
+Yilun
+
+> 
+>   * info->data_size is the size of actual bitstream data that *is* meant
+>     to be written to the device, starting at info->header_size from the
+>     beginning of image buffer. It is also optional and can be 0, which
+>     means bitstream data is up to the end of image buffer.
+> 
+> Also add parse_header() callback to fpga_manager_ops, which purpose is
+> to set info->header_size and info->data_size. At least
+> initial_header_size bytes of image buffer will be passed into
+> parse_header() first time. If it is not enough, parse_header() should
+> set desired size into info->header_size and return -EAGAIN, then it will
+> be called again with greater part of image buffer on the input.
+> 
+> Signed-off-by: Ivan Bornyakov <i.bornyakov@metrotek.ru>
 > ---
->   drivers/watchdog/watchdog_dev.c        |  43 ++++++++++-
->   drivers/watchdog/watchdog_pretimeout.c |   2 +
->   include/linux/watchdog.h               |   7 +-
->   include/trace/events/watchdog.h        | 101 +++++++++++++++++++++++++
->   4 files changed, 143 insertions(+), 10 deletions(-)
->   create mode 100644 include/trace/events/watchdog.h
+>  drivers/fpga/fpga-mgr.c       | 237 ++++++++++++++++++++++++++++++----
+>  include/linux/fpga/fpga-mgr.h |  17 ++-
+>  2 files changed, 227 insertions(+), 27 deletions(-)
 > 
-> diff --git a/drivers/watchdog/watchdog_dev.c b/drivers/watchdog/watchdog_dev.c
-> index 54903f3c851e..2f28dc5ab763 100644
-> --- a/drivers/watchdog/watchdog_dev.c
-> +++ b/drivers/watchdog/watchdog_dev.c
-> @@ -44,6 +44,9 @@
->   #include <linux/watchdog.h>	/* For watchdog specific items */
->   #include <linux/uaccess.h>	/* For copy_to_user/put_user/... */
->   
-> +#define CREATE_TRACE_POINTS
-> +#include <trace/events/watchdog.h>
-> +
->   #include "watchdog_core.h"
->   #include "watchdog_pretimeout.h"
->   
-> @@ -130,9 +133,11 @@ static inline void watchdog_update_worker(struct watchdog_device *wdd)
->   	if (watchdog_need_worker(wdd)) {
->   		ktime_t t = watchdog_next_keepalive(wdd);
->   
-> -		if (t > 0)
-> +		if (t > 0) {
->   			hrtimer_start(&wd_data->timer, t,
->   				      HRTIMER_MODE_REL_HARD);
-> +			trace_watchdog_set_keep_alive(wdd, ktime_to_ms(t));
-> +		}
->   	} else {
->   		hrtimer_cancel(&wd_data->timer);
->   	}
-> @@ -141,7 +146,7 @@ static inline void watchdog_update_worker(struct watchdog_device *wdd)
->   static int __watchdog_ping(struct watchdog_device *wdd)
->   {
->   	struct watchdog_core_data *wd_data = wdd->wd_data;
-> -	ktime_t earliest_keepalive, now;
-> +	ktime_t earliest_keepalive, now, next_keepalive;
->   	int err;
->   
->   	earliest_keepalive = ktime_add(wd_data->last_hw_keepalive,
-> @@ -149,14 +154,16 @@ static int __watchdog_ping(struct watchdog_device *wdd)
->   	now = ktime_get();
->   
->   	if (ktime_after(earliest_keepalive, now)) {
-> -		hrtimer_start(&wd_data->timer,
-> -			      ktime_sub(earliest_keepalive, now),
-> +		next_keepalive = ktime_sub(earliest_keepalive, now);
-> +		hrtimer_start(&wd_data->timer, next_keepalive,
->   			      HRTIMER_MODE_REL_HARD);
-> +		trace_watchdog_set_keep_alive(wdd, ktime_to_ms(next_keepalive));
->   		return 0;
->   	}
->   
->   	wd_data->last_hw_keepalive = now;
->   
-> +	trace_watchdog_ping(wdd);
->   	if (wdd->ops->ping)
->   		err = wdd->ops->ping(wdd);  /* ping the watchdog */
->   	else
-> @@ -215,6 +222,7 @@ static void watchdog_ping_work(struct kthread_work *work)
->   	wd_data = container_of(work, struct watchdog_core_data, work);
->   
->   	mutex_lock(&wd_data->lock);
-> +	trace_watchdog_keep_alive(wd_data->wdd);
->   	if (watchdog_worker_should_ping(wd_data))
->   		__watchdog_ping(wd_data->wdd);
->   	mutex_unlock(&wd_data->lock);
-> @@ -250,6 +258,8 @@ static int watchdog_start(struct watchdog_device *wdd)
->   
->   	set_bit(_WDOG_KEEPALIVE, &wd_data->status);
->   
-> +	trace_watchdog_start(wdd);
-> +
->   	started_at = ktime_get();
->   	if (watchdog_hw_running(wdd) && wdd->ops->ping) {
->   		err = __watchdog_ping(wdd);
-> @@ -294,6 +304,7 @@ static int watchdog_stop(struct watchdog_device *wdd)
->   		return -EBUSY;
->   	}
->   
-> +	trace_watchdog_stop(wdd);
->   	if (wdd->ops->stop) {
->   		clear_bit(WDOG_HW_RUNNING, &wdd->status);
->   		err = wdd->ops->stop(wdd);
-> @@ -367,6 +378,7 @@ static int watchdog_set_timeout(struct watchdog_device *wdd,
->   	if (watchdog_timeout_invalid(wdd, timeout))
->   		return -EINVAL;
->   
-> +	trace_watchdog_set_timeout(wdd, timeout);
-
-The driver has no obligation to set the timeout to the
-requested value. It might be more valuable to report both
-the requested and the actual values.
-
-
->   	if (wdd->ops->set_timeout) {
->   		err = wdd->ops->set_timeout(wdd, timeout);
->   	} else {
-> @@ -399,6 +411,8 @@ static int watchdog_set_pretimeout(struct watchdog_device *wdd,
->   	if (watchdog_pretimeout_invalid(wdd, timeout))
->   		return -EINVAL;
->   
-> +	trace_watchdog_set_pretimeout(wdd, timeout);
-> +
-
-Again, the driver has no obligation to set the timeout to the
-requested value.
-
->   	if (wdd->ops->set_pretimeout && (wdd->info->options & WDIOF_PRETIMEOUT))
->   		err = wdd->ops->set_pretimeout(wdd, timeout);
->   	else
-> @@ -430,6 +444,23 @@ static int watchdog_get_timeleft(struct watchdog_device *wdd,
->   	return 0;
->   }
->   
-> +/**
-> + * watchdog_set_nowayout - set nowaout bit
-> + * @wdd:	The watchdog device to set nowayoutbit
-> + * @nowayout	A boolean on/off switcher
-> + *
-> + * If nowayout boolean is true, the nowayout option is set. No action is
-> + * taken if nowayout is false.
-> + */
-> +void watchdog_set_nowayout(struct watchdog_device *wdd, bool nowayout)
+> diff --git a/drivers/fpga/fpga-mgr.c b/drivers/fpga/fpga-mgr.c
+> index 08dc85fcd511..52b826b62207 100644
+> --- a/drivers/fpga/fpga-mgr.c
+> +++ b/drivers/fpga/fpga-mgr.c
+> @@ -74,6 +74,15 @@ static inline int fpga_mgr_write_complete(struct fpga_manager *mgr,
+>  	return 0;
+>  }
+>  
+> +static inline int fpga_mgr_parse_header(struct fpga_manager *mgr,
+> +					struct fpga_image_info *info,
+> +					const char *buf, size_t count)
 > +{
-> +	if (nowayout) {
-> +		set_bit(WDOG_NO_WAY_OUT, &wdd->status);
-> +		trace_watchdog_nowayout(wdd);
-> +	}
+> +	if (mgr->mops->parse_header)
+> +		return mgr->mops->parse_header(mgr, info, buf, count);
+> +	return 0;
 > +}
-> +EXPORT_SYMBOL(watchdog_set_nowayout);
 > +
->   #ifdef CONFIG_WATCHDOG_SYSFS
->   static ssize_t nowayout_show(struct device *dev, struct device_attribute *attr,
->   				char *buf)
-> @@ -861,6 +892,8 @@ static int watchdog_open(struct inode *inode, struct file *file)
->   		goto out_clear;
->   	}
->   
-> +	trace_watchdog_open(wdd);
+>  static inline int fpga_mgr_write_init(struct fpga_manager *mgr,
+>  				      struct fpga_image_info *info,
+>  				      const char *buf, size_t count)
+> @@ -136,24 +145,146 @@ void fpga_image_info_free(struct fpga_image_info *info)
+>  EXPORT_SYMBOL_GPL(fpga_image_info_free);
+>  
+>  /*
+> - * Call the low level driver's write_init function.  This will do the
+> + * Call the low level driver's parse_header function with entire FPGA image
+> + * buffer on the input. This will set info->header_size and info->data_size.
+> + */
+> +static int fpga_mgr_parse_header_mapped(struct fpga_manager *mgr,
+> +					struct fpga_image_info *info,
+> +					const char *buf, size_t count)
+> +{
+> +	int ret;
 > +
->   	err = watchdog_start(wdd);
->   	if (err < 0)
->   		goto out_mod;
-> @@ -883,6 +916,7 @@ static int watchdog_open(struct inode *inode, struct file *file)
->   	return stream_open(inode, file);
->   
->   out_mod:
-> +	trace_watchdog_close(wdd);
->   	module_put(wd_data->wdd->ops->owner);
->   out_clear:
->   	clear_bit(_WDOG_DEV_OPEN, &wd_data->status);
-> @@ -944,6 +978,7 @@ static int watchdog_release(struct inode *inode, struct file *file)
->   	/* make sure that /dev/watchdog can be re-opened */
->   	clear_bit(_WDOG_DEV_OPEN, &wd_data->status);
->   
-> +	trace_watchdog_close(wdd);
->   done:
->   	running = wdd && watchdog_hw_running(wdd);
->   	mutex_unlock(&wd_data->lock);
-> diff --git a/drivers/watchdog/watchdog_pretimeout.c b/drivers/watchdog/watchdog_pretimeout.c
-> index 376a495ab80c..58c391ed2205 100644
-> --- a/drivers/watchdog/watchdog_pretimeout.c
-> +++ b/drivers/watchdog/watchdog_pretimeout.c
-> @@ -8,6 +8,7 @@
->   #include <linux/spinlock.h>
->   #include <linux/string.h>
->   #include <linux/watchdog.h>
-> +#include <trace/events/watchdog.h>
->   
->   #include "watchdog_core.h"
->   #include "watchdog_pretimeout.h"
-> @@ -107,6 +108,7 @@ void watchdog_notify_pretimeout(struct watchdog_device *wdd)
->   		return;
->   	}
->   
-> +	trace_watchdog_pretimeout(wdd);
->   	wdd->gov->pretimeout(wdd);
->   	spin_unlock_irqrestore(&pretimeout_lock, flags);
->   }
-> diff --git a/include/linux/watchdog.h b/include/linux/watchdog.h
-> index 99660197a36c..11d93407e492 100644
-> --- a/include/linux/watchdog.h
-> +++ b/include/linux/watchdog.h
-> @@ -139,12 +139,7 @@ static inline bool watchdog_hw_running(struct watchdog_device *wdd)
->   	return test_bit(WDOG_HW_RUNNING, &wdd->status);
->   }
->   
-> -/* Use the following function to set the nowayout feature */
-> -static inline void watchdog_set_nowayout(struct watchdog_device *wdd, bool nowayout)
-> -{
-> -	if (nowayout)
-> -		set_bit(WDOG_NO_WAY_OUT, &wdd->status);
-> -}
-> +void watchdog_set_nowayout(struct watchdog_device *wdd, bool nowayout);
->   
->   /* Use the following function to stop the watchdog on reboot */
->   static inline void watchdog_stop_on_reboot(struct watchdog_device *wdd)
-> diff --git a/include/trace/events/watchdog.h b/include/trace/events/watchdog.h
-> new file mode 100644
-> index 000000000000..145cd6cfaa02
-> --- /dev/null
-> +++ b/include/trace/events/watchdog.h
-> @@ -0,0 +1,101 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#undef TRACE_SYSTEM
-> +#define TRACE_SYSTEM watchdog
+> +	mgr->state = FPGA_MGR_STATE_PARSE_HEADER;
+> +	ret = fpga_mgr_parse_header(mgr, info, buf, count);
 > +
-> +#if !defined(_TRACE_WATCHDOG_H) || defined(TRACE_HEADER_MULTI_READ)
-> +#define _TRACE_WATCHDOG_H
+> +	if (info->header_size + info->data_size > count) {
+> +		dev_err(&mgr->dev, "Bitsream data outruns FPGA image\n");
+> +		ret = -EINVAL;
+> +	}
 > +
-> +#include <linux/tracepoint.h>
+> +	if (ret) {
+> +		dev_err(&mgr->dev, "Error while parsing FPGA image header\n");
+> +		mgr->state = FPGA_MGR_STATE_PARSE_HEADER_ERR;
+> +	}
+> +
+> +	return ret;
+> +}
 > +
 > +/*
-> + * These are all events whose sole argument is the watchdog id.
+> + * Call the low level driver's parse_header function with first fragment of
+> + * scattered FPGA image on the input. If header fits first fragment,
+> + * parse_header will set info->header_size and info->data_size. If it is not,
+> + * parse_header will set desired size to info->header_size and -EAGAIN will be
+> + * returned.
 > + */
-> +DECLARE_EVENT_CLASS(dev_operations_template,
+> +static int fpga_mgr_parse_header_sg_first(struct fpga_manager *mgr,
+> +					  struct fpga_image_info *info,
+> +					  struct sg_table *sgt)
+> +{
+> +	size_t header_size = mgr->mops->initial_header_size;
+> +	struct sg_mapping_iter miter;
+> +	int ret;
 > +
-> +	TP_PROTO(struct watchdog_device *wdd),
+> +	mgr->state = FPGA_MGR_STATE_PARSE_HEADER;
 > +
-> +	TP_ARGS(wdd),
+> +	sg_miter_start(&miter, sgt->sgl, sgt->nents, SG_MITER_FROM_SG);
+> +	if (sg_miter_next(&miter) &&
+> +	    miter.length >= header_size)
+> +		ret = fpga_mgr_parse_header(mgr, info, miter.addr, miter.length);
+> +	else
+> +		ret = -EAGAIN;
+> +	sg_miter_stop(&miter);
 > +
-> +	TP_STRUCT__entry(
-> +		__field(__u32, id)
-> +	),
+> +	if (ret && ret != -EAGAIN) {
+> +		dev_err(&mgr->dev, "Error while parsing FPGA image header\n");
+> +		mgr->state = FPGA_MGR_STATE_PARSE_HEADER_ERR;
+> +	}
 > +
-> +	TP_fast_assign(
-> +		__entry->id = wdd->id;
-> +	),
-> +
-> +	TP_printk("id=%d",
-> +		  __entry->id)
-> +);
-> +
-> +DEFINE_EVENT(dev_operations_template, watchdog_open,
-> +	     TP_PROTO(struct watchdog_device *wdd),
-> +	     TP_ARGS(wdd));
-> +
-> +DEFINE_EVENT(dev_operations_template, watchdog_close,
-> +	     TP_PROTO(struct watchdog_device *wdd),
-> +	     TP_ARGS(wdd));
-> +
-> +DEFINE_EVENT(dev_operations_template, watchdog_start,
-> +	     TP_PROTO(struct watchdog_device *wdd),
-> +	     TP_ARGS(wdd));
-> +
-> +DEFINE_EVENT(dev_operations_template, watchdog_stop,
-> +	     TP_PROTO(struct watchdog_device *wdd),
-> +	     TP_ARGS(wdd));
-> +
-> +DEFINE_EVENT(dev_operations_template, watchdog_ping,
-> +	     TP_PROTO(struct watchdog_device *wdd),
-> +	     TP_ARGS(wdd));
-> +
-> +DEFINE_EVENT(dev_operations_template, watchdog_nowayout,
-> +	     TP_PROTO(struct watchdog_device *wdd),
-> +	     TP_ARGS(wdd));
-> +
-> +DEFINE_EVENT(dev_operations_template, watchdog_keep_alive,
-> +	     TP_PROTO(struct watchdog_device *wdd),
-> +	     TP_ARGS(wdd));
-> +
-> +DEFINE_EVENT(dev_operations_template, watchdog_pretimeout,
-> +	     TP_PROTO(struct watchdog_device *wdd),
-> +	     TP_ARGS(wdd));
+> +	return ret;
+> +}
 > +
 > +/*
-> + * These are all events with a device ID and a given timeout.
+> + * Copy scattered FPGA image fragments to temporary buffer and call the
+> + * low level driver's parse_header function. This should be called after
+> + * fpga_mgr_parse_header_sg_first() returned -EAGAIN. In case of success,
+> + * pointer to the newly allocated image header copy will be returned and
+> + * its size will be set into *ret_size. Returned buffer needs to be freed.
 > + */
-> +DECLARE_EVENT_CLASS(watchdog_timeout_template,
+> +static void *fpga_mgr_parse_header_sg(struct fpga_manager *mgr,
+> +				      struct fpga_image_info *info,
+> +				      struct sg_table *sgt, size_t *ret_size)
+> +{
+> +	size_t len, header_size = mgr->mops->initial_header_size;
+> +	char *new_buf, *buf = NULL;
+> +	int ret;
 > +
-> +	TP_PROTO(struct watchdog_device *wdd, u64 timeout),
+> +	do {
+> +		if (info->header_size)
+> +			header_size = info->header_size;
 > +
-> +	TP_ARGS(wdd, timeout),
+> +		new_buf = krealloc(buf, header_size, GFP_KERNEL);
+> +		if (new_buf)
+> +			buf = new_buf;
 > +
-> +	TP_STRUCT__entry(
-> +		__field(__u32, id)
-> +		__field(__u64, timeout)
-
-
-Why u64 ? timeout is unsigned long.
-
-> +	),
+> +		if (ZERO_OR_NULL_PTR(new_buf)) {
+> +			ret = -ENOMEM;
+> +			break;
+> +		}
 > +
-> +	TP_fast_assign(
-> +		__entry->id		= wdd->id;
-> +		__entry->timeout	= timeout;
-> +	),
+> +		len = sg_copy_to_buffer(sgt->sgl, sgt->nents, buf, header_size);
+> +		if (len != header_size) {
+> +			ret = -EFAULT;
+> +			break;
+> +		}
 > +
-> +	TP_printk("id=%d timeout=%llus",
-> +		  __entry->id, __entry->timeout)
-> +);
+> +		ret = fpga_mgr_parse_header(mgr, info, buf, header_size);
+> +		if (ret == -EAGAIN && info->header_size <= header_size) {
+> +			dev_err(&mgr->dev, "Requested invalid header size\n");
+> +			ret = -EFAULT;
+> +		}
+> +	} while (ret == -EAGAIN);
 > +
-> +DEFINE_EVENT(watchdog_timeout_template, watchdog_set_timeout,
-> +	     TP_PROTO(struct watchdog_device *wdd, u64 timeout),
-> +	     TP_ARGS(wdd, timeout));
+> +	if (ret) {
+> +		dev_err(&mgr->dev, "Error while parsing FPGA image header\n");
+> +		mgr->state = FPGA_MGR_STATE_PARSE_HEADER_ERR;
+> +		kfree(buf);
+> +		buf = ERR_PTR(ret);
+> +	}
 > +
-> +DEFINE_EVENT(watchdog_timeout_template, watchdog_set_pretimeout,
-> +	     TP_PROTO(struct watchdog_device *wdd, u64 timeout),
-> +	     TP_ARGS(wdd, timeout));
+> +	*ret_size = header_size;
 > +
-> +DEFINE_EVENT(watchdog_timeout_template, watchdog_set_keep_alive,
-> +	     TP_PROTO(struct watchdog_device *wdd, u64 timeout),
-> +	     TP_ARGS(wdd, timeout));
+> +	return buf;
+> +}
 > +
-> +#endif /* _TRACE_WATCHDOG_H */
+> +/*
+> + * Call the low level driver's write_init function. This will do the
+>   * device-specific things to get the FPGA into the state where it is ready to
+> - * receive an FPGA image. The low level driver only gets to see the first
+> - * initial_header_size bytes in the buffer.
+> + * receive an FPGA image. If info->header_size is defined, the low level
+> + * driver gets to see at least first info->header_size bytes in the buffer,
+> + * mgr->mops->initial_header_size otherwise. If neither initial_header_size
+> + * nor header_size are not set, write_init will not get any bytes of image
+> + * buffer.
+>   */
+>  static int fpga_mgr_write_init_buf(struct fpga_manager *mgr,
+>  				   struct fpga_image_info *info,
+>  				   const char *buf, size_t count)
+>  {
+> +	size_t header_size;
+>  	int ret;
+>  
+>  	mgr->state = FPGA_MGR_STATE_WRITE_INIT;
+> -	if (!mgr->mops->initial_header_size) {
 > +
-> +/* This part must be outside protection */
-> +#include <trace/define_trace.h>
-
+> +	if (info->header_size)
+> +		header_size = info->header_size;
+> +	else
+> +		header_size = mgr->mops->initial_header_size;
+> +
+> +	if (header_size > count)
+> +		ret = -EINVAL;
+> +	else if (!header_size)
+>  		ret = fpga_mgr_write_init(mgr, info, NULL, 0);
+> -	} else {
+> -		count = min(mgr->mops->initial_header_size, count);
+> +	else
+>  		ret = fpga_mgr_write_init(mgr, info, buf, count);
+> -	}
+>  
+>  	if (ret) {
+>  		dev_err(&mgr->dev, "Error preparing FPGA for writing\n");
+> @@ -164,39 +295,49 @@ static int fpga_mgr_write_init_buf(struct fpga_manager *mgr,
+>  	return 0;
+>  }
+>  
+> -static int fpga_mgr_write_init_sg(struct fpga_manager *mgr,
+> -				  struct fpga_image_info *info,
+> -				  struct sg_table *sgt)
+> +static int fpga_mgr_prepare_sg(struct fpga_manager *mgr,
+> +			       struct fpga_image_info *info,
+> +			       struct sg_table *sgt)
+>  {
+>  	struct sg_mapping_iter miter;
+>  	size_t len;
+>  	char *buf;
+>  	int ret;
+>  
+> -	if (!mgr->mops->initial_header_size)
+> +	if (!mgr->mops->initial_header_size && !mgr->mops->parse_header)
+>  		return fpga_mgr_write_init_buf(mgr, info, NULL, 0);
+>  
+>  	/*
+>  	 * First try to use miter to map the first fragment to access the
+>  	 * header, this is the typical path.
+>  	 */
+> -	sg_miter_start(&miter, sgt->sgl, sgt->nents, SG_MITER_FROM_SG);
+> -	if (sg_miter_next(&miter) &&
+> -	    miter.length >= mgr->mops->initial_header_size) {
+> -		ret = fpga_mgr_write_init_buf(mgr, info, miter.addr,
+> -					      miter.length);
+> +	ret = fpga_mgr_parse_header_sg_first(mgr, info, sgt);
+> +	/* If 0, header fits first fragment, call write_init on it */
+> +	if (!ret) {
+> +		sg_miter_start(&miter, sgt->sgl, sgt->nents, SG_MITER_FROM_SG);
+> +		if (sg_miter_next(&miter)) {
+> +			ret = fpga_mgr_write_init_buf(mgr, info, miter.addr,
+> +						      miter.length);
+> +			sg_miter_stop(&miter);
+> +			return ret;
+> +		}
+>  		sg_miter_stop(&miter);
+> +	/*
+> +	 * If -EAGAIN, more sg buffer is needed,
+> +	 * otherwise an error has occurred.
+> +	 */
+> +	} else if (ret != -EAGAIN) {
+>  		return ret;
+>  	}
+> -	sg_miter_stop(&miter);
+>  
+> -	/* Otherwise copy the fragments into temporary memory. */
+> -	buf = kmalloc(mgr->mops->initial_header_size, GFP_KERNEL);
+> -	if (!buf)
+> -		return -ENOMEM;
+> +	/*
+> +	 * Otherwise copy the fragments into temporary memory.
+> +	 * Copying is done inside fpga_mgr_parse_header_sg()
+> +	 */
+> +	buf = fpga_mgr_parse_header_sg(mgr, info, sgt, &len);
+> +	if (IS_ERR(buf))
+> +		return PTR_ERR(buf);
+>  
+> -	len = sg_copy_to_buffer(sgt->sgl, sgt->nents, buf,
+> -				mgr->mops->initial_header_size);
+>  	ret = fpga_mgr_write_init_buf(mgr, info, buf, len);
+>  
+>  	kfree(buf);
+> @@ -227,7 +368,7 @@ static int fpga_mgr_buf_load_sg(struct fpga_manager *mgr,
+>  {
+>  	int ret;
+>  
+> -	ret = fpga_mgr_write_init_sg(mgr, info, sgt);
+> +	ret = fpga_mgr_prepare_sg(mgr, info, sgt);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -237,11 +378,40 @@ static int fpga_mgr_buf_load_sg(struct fpga_manager *mgr,
+>  		ret = fpga_mgr_write_sg(mgr, sgt);
+>  	} else {
+>  		struct sg_mapping_iter miter;
+> +		size_t length, data_size;
+> +		bool last = false;
+> +		ssize_t count;
+> +		char *addr;
+> +
+> +		data_size = info->data_size;
+> +		count = -info->header_size;
+>  
+>  		sg_miter_start(&miter, sgt->sgl, sgt->nents, SG_MITER_FROM_SG);
+>  		while (sg_miter_next(&miter)) {
+> -			ret = fpga_mgr_write(mgr, miter.addr, miter.length);
+> -			if (ret)
+> +			count += miter.length;
+> +
+> +			/* sg block contains only header, no data */
+> +			if (count <= 0)
+> +				continue;
+> +
+> +			if (count < miter.length) {
+> +				/* sg block contains both header and data */
+> +				addr = miter.addr + miter.length - count;
+> +				length = count;
+> +			} else {
+> +				/* sg block contains pure data */
+> +				addr = miter.addr;
+> +				length = miter.length;
+> +			}
+> +
+> +			/* truncate last block to data_size, if needed */
+> +			if (data_size && count > data_size) {
+> +				length -= count - data_size;
+> +				last = true;
+> +			}
+> +
+> +			ret = fpga_mgr_write(mgr, addr, length);
+> +			if (ret || last)
+>  				break;
+>  		}
+>  		sg_miter_stop(&miter);
+> @@ -262,10 +432,21 @@ static int fpga_mgr_buf_load_mapped(struct fpga_manager *mgr,
+>  {
+>  	int ret;
+>  
+> +	ret = fpga_mgr_parse_header_mapped(mgr, info, buf, count);
+> +	if (ret)
+> +		return ret;
+> +
+>  	ret = fpga_mgr_write_init_buf(mgr, info, buf, count);
+>  	if (ret)
+>  		return ret;
+>  
+> +	if (info->data_size)
+> +		count = info->data_size;
+> +	else
+> +		count -= info->header_size;
+> +
+> +	buf += info->header_size;
+> +
+>  	/*
+>  	 * Write the FPGA image to the FPGA.
+>  	 */
+> @@ -424,6 +605,10 @@ static const char * const state_str[] = {
+>  	[FPGA_MGR_STATE_FIRMWARE_REQ] =		"firmware request",
+>  	[FPGA_MGR_STATE_FIRMWARE_REQ_ERR] =	"firmware request error",
+>  
+> +	/* Parse FPGA image header */
+> +	[FPGA_MGR_STATE_PARSE_HEADER] =		"parse header",
+> +	[FPGA_MGR_STATE_PARSE_HEADER_ERR] =	"parse header error",
+> +
+>  	/* Preparing FPGA to receive image */
+>  	[FPGA_MGR_STATE_WRITE_INIT] =		"write init",
+>  	[FPGA_MGR_STATE_WRITE_INIT_ERR] =	"write init error",
+> diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.h
+> index 0f9468771bb9..cba8bb7827a5 100644
+> --- a/include/linux/fpga/fpga-mgr.h
+> +++ b/include/linux/fpga/fpga-mgr.h
+> @@ -22,6 +22,8 @@ struct sg_table;
+>   * @FPGA_MGR_STATE_RESET: FPGA in reset state
+>   * @FPGA_MGR_STATE_FIRMWARE_REQ: firmware request in progress
+>   * @FPGA_MGR_STATE_FIRMWARE_REQ_ERR: firmware request failed
+> + * @FPGA_MGR_STATE_PARSE_HEADER: parse FPGA image header
+> + * @FPGA_MGR_STATE_PARSE_HEADER_ERR: Error during PARSE_HEADER stage
+>   * @FPGA_MGR_STATE_WRITE_INIT: preparing FPGA for programming
+>   * @FPGA_MGR_STATE_WRITE_INIT_ERR: Error during WRITE_INIT stage
+>   * @FPGA_MGR_STATE_WRITE: writing image to FPGA
+> @@ -42,6 +44,8 @@ enum fpga_mgr_states {
+>  	FPGA_MGR_STATE_FIRMWARE_REQ_ERR,
+>  
+>  	/* write sequence: init, write, complete */
+> +	FPGA_MGR_STATE_PARSE_HEADER,
+> +	FPGA_MGR_STATE_PARSE_HEADER_ERR,
+>  	FPGA_MGR_STATE_WRITE_INIT,
+>  	FPGA_MGR_STATE_WRITE_INIT_ERR,
+>  	FPGA_MGR_STATE_WRITE,
+> @@ -85,6 +89,8 @@ enum fpga_mgr_states {
+>   * @sgt: scatter/gather table containing FPGA image
+>   * @buf: contiguous buffer containing FPGA image
+>   * @count: size of buf
+> + * @header_size: offset in image buffer where bitstream data starts
+> + * @data_size: size of bitstream. If 0, (count - header_size) will be used.
+>   * @region_id: id of target region
+>   * @dev: device that owns this
+>   * @overlay: Device Tree overlay
+> @@ -98,6 +104,8 @@ struct fpga_image_info {
+>  	struct sg_table *sgt;
+>  	const char *buf;
+>  	size_t count;
+> +	size_t header_size;
+> +	size_t data_size;
+>  	int region_id;
+>  	struct device *dev;
+>  #ifdef CONFIG_OF
+> @@ -137,9 +145,13 @@ struct fpga_manager_info {
+>  
+>  /**
+>   * struct fpga_manager_ops - ops for low level fpga manager drivers
+> - * @initial_header_size: Maximum number of bytes that should be passed into write_init
+> + * @initial_header_size: minimum number of bytes that should be passed into
+> + *	parse_header and write_init.
+>   * @state: returns an enum value of the FPGA's state
+>   * @status: returns status of the FPGA, including reconfiguration error code
+> + * @parse_header: parse FPGA image header to set info->header_size and
+> + *	info->data_size. In case the input buffer is not large enough, set
+> + *	required size to info->header_size and return -EAGAIN.
+>   * @write_init: prepare the FPGA to receive configuration data
+>   * @write: write count bytes of configuration data to the FPGA
+>   * @write_sg: write the scatter list of configuration data to the FPGA
+> @@ -155,6 +167,9 @@ struct fpga_manager_ops {
+>  	size_t initial_header_size;
+>  	enum fpga_mgr_states (*state)(struct fpga_manager *mgr);
+>  	u64 (*status)(struct fpga_manager *mgr);
+> +	int (*parse_header)(struct fpga_manager *mgr,
+> +			    struct fpga_image_info *info,
+> +			    const char *buf, size_t count);
+>  	int (*write_init)(struct fpga_manager *mgr,
+>  			  struct fpga_image_info *info,
+>  			  const char *buf, size_t count);
+> -- 
+> 2.35.1
+> 
