@@ -2,141 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAD25C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 09:40:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E113FC43334
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 09:40:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380297AbiFQJkC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jun 2022 05:40:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57980 "EHLO
+        id S1381239AbiFQJkh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jun 2022 05:40:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381301AbiFQJkA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 05:40:00 -0400
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C5776899F
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 02:39:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-        t=1655458795; bh=Q+nuDa2ew5oCnRYem5uwgxQVfi09zFsYanu3Lec5dZA=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=TntH/wr8VOhWBbT6Rj2wNhjdIjj0moBjtJWb+9Jga0213JA6zMES21XMm61CErL65
-         cRp0gUp+AQcOsPdtuoplKhRGCH8G9so9iO+wFgqaFvJpb8iQVdl2eB0DjCciu4BMz3
-         PVuJnpAM8VTZhllY9z1kizpCPNOuanpwbGmodzlE=
-Received: from [100.100.57.190] (unknown [220.248.53.61])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 7687C600FF;
-        Fri, 17 Jun 2022 17:39:55 +0800 (CST)
-Message-ID: <6c0035de-4f45-48c0-1976-e521c81e29a2@xen0n.name>
-Date:   Fri, 17 Jun 2022 17:39:54 +0800
+        with ESMTP id S1380968AbiFQJkf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 05:40:35 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B47FA689A2
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 02:40:34 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id z17so3725950pff.7
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 02:40:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oP9b1fRe1FrYO+cRjF7MOt6K6rFA5naLprw/nGX+IIc=;
+        b=dFgM3JVWxR5Y3jWKGxOgJTH/OCbEngqqOMW/DUPt1hXXSe8xR7N3XYxfk98e/nLL3K
+         G8qPMV6EXSkfQp6ypfAvTFX0/5Ch/IhiA8vIzRtvV8zoLqB6l7w/ydv+Y42IP/IOf6t/
+         pzNLKGUFH3NeK1Qixa3QD3m4G5O1K1oFDWn6Xg/sWee2VHFJaDhrzxXpRbHvE86S+0n5
+         Oxoa9pa/BXXqKvRcGAlpZq+otlPlBVn7E7MZZTQaSZN/B/kUMjhnZWZbcU4w+lEZQIdt
+         K2OT+MHVz++Xq+07Nqu148ck5wOuaOzqjvSsfNg2Fvm+nBd3oF5b1SxFqQjVird3WZLK
+         xY3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oP9b1fRe1FrYO+cRjF7MOt6K6rFA5naLprw/nGX+IIc=;
+        b=stVuZCFRVD9hs37GAKLr4qZM2ptElb1tdsYfMi8VjLBGUNa3qucFTpZ8IXWfn9xmfA
+         UBg1To02Ja+FDHygh11qqQWDWaZGErzbuueiV1OOdKKaXp9u/DiqWAX4vuEb04EVTfjX
+         Zj1xCZAu9WdtJmkbWjTBqL2+0qhFWBn2BqwM4aUnl7kHDVx2vc6fqdqZND0xIa+b8bQF
+         VWGrDzfpFMdScOh9xtKzhbqrT8SAPL9Tvk5QEV5cVeNJJBXi3gbm3R0CzCXFB6dC9ma4
+         vKbh5Zq0+/Adr5nPbC25HPDyqsILq3fn8w1VCOzPqN9mcWmOvoEn6d7xTgzEbcsn9Bzm
+         B8TQ==
+X-Gm-Message-State: AJIora9L+VoKM2QD49D7ndGatz7eOZeUYOeeXfjcX5WcTF4ufUf/Md+n
+        YMpNiNZvCS0gk4+qtOJ2BS+tow==
+X-Google-Smtp-Source: AGRyM1vEn8ceYz8KxZK0n+8LVfnirfs9naCdtivRNjInsHXP6hfgB3ai/WEkLU4q+sRnf4JgqXVDQw==
+X-Received: by 2002:a05:6a00:319b:b0:51b:c5ec:62ba with SMTP id bj27-20020a056a00319b00b0051bc5ec62bamr9221172pfb.1.1655458834211;
+        Fri, 17 Jun 2022 02:40:34 -0700 (PDT)
+Received: from localhost ([139.177.225.255])
+        by smtp.gmail.com with ESMTPSA id t14-20020a63954e000000b0040c644e82efsm84034pgn.43.2022.06.17.02.40.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jun 2022 02:40:32 -0700 (PDT)
+Date:   Fri, 17 Jun 2022 17:40:28 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Oscar Salvador <osalvador@suse.de>, corbet@lwn.net,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mike.kravetz@oracle.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v2 2/2] mm: memory_hotplug: introduce
+ SECTION_CANNOT_OPTIMIZE_VMEMMAP
+Message-ID: <YqxMDHlTLgp/Ry/0@FVFYT0MHHV2J.usts.net>
+References: <20220520025538.21144-1-songmuchun@bytedance.com>
+ <20220520025538.21144-3-songmuchun@bytedance.com>
+ <53024884-0182-df5f-9ca2-00652c64ce36@redhat.com>
+ <YqqqPjkh9r8ZrH0r@localhost.localdomain>
+ <24d5ec20-9c9e-93aa-11f4-c4619f51f7d1@redhat.com>
+ <YqwVTT+50vt5WpeG@localhost.localdomain>
+ <YqwtCu2Ura+skV3B@FVFYT0MHHV2J.usts.net>
+ <79a1ca29-de8e-6456-460b-a9099340fec4@redhat.com>
+ <YqxE/yJ1srzpegPb@FVFYT0MHHV2J.usts.net>
+ <751b003d-e7c2-dfcc-82b3-e80612cdc104@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:103.0)
- Gecko/20100101 Thunderbird/103.0a1
-Subject: Re: [PATCH v2 1/2] docs/LoongArch: Rewrite all the notes
-To:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        alexs@kernel.org, bobwxc@email.cn, seakeel@gmail.com
-Cc:     corbet@lwn.net, kernel@xen0n.name, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com,
-        loongarch@lists.linux.dev
-References: <cover.1655456950.git.siyanteng@loongson.cn>
- <ad1d2316a4240ae05697759990b7e0c6f94faa83.1655456950.git.siyanteng@loongson.cn>
-Content-Language: en-US
-From:   WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <ad1d2316a4240ae05697759990b7e0c6f94faa83.1655456950.git.siyanteng@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <751b003d-e7c2-dfcc-82b3-e80612cdc104@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/6/17 17:33, Yanteng Si wrote:
-> Since 0ea8ce61cb2c ("Documentation: LoongArch: Add
-> basic documentations"), Note is an admonition, But
-> it doesn't show correctly, let's fix it.
-
-The commit subject is a bit ambiguous: it sounds like some kind of -- 
-hmm, rewrite -- of the original sentences, while it's actually only a 
-migration to the reST note directive.
-
-I'd suggest re-phrasing the commit message to highlight the "migration" 
-nature instead.
-
+On Fri, Jun 17, 2022 at 11:25:20AM +0200, David Hildenbrand wrote:
+> On 17.06.22 11:10, Muchun Song wrote:
+> > On Fri, Jun 17, 2022 at 09:39:27AM +0200, David Hildenbrand wrote:
+> >> On 17.06.22 09:28, Muchun Song wrote:
+> >>> On Fri, Jun 17, 2022 at 07:46:53AM +0200, Oscar Salvador wrote:
+> >>>> On Thu, Jun 16, 2022 at 09:30:33AM +0200, David Hildenbrand wrote:
+> >>>>> IIRC, that was used to skip these patches on the offlining path before
+> >>>>> we provided the ranges to offline_pages().
+> >>>>
+> >>>> Yeah, it was designed for that purpose back then.
+> >>>>
+> >>>>> I'd not mess with PG_reserved, and give them a clearer name, to not
+> >>>>> confuse them with other, ordinary, vmemmap pages that are not
+> >>>>> self-hosted (maybe in the future we might want to flag all vmemmap pages
+> >>>>> with a new type?).
+> >>>>
+> >>>> Not sure whether a new type is really needed, or to put it another way, I
+> >>>> cannot see the benefit.
+> >>>>
+> >>>>>
+> >>>>> I'd just try reusing the flag PG_owner_priv_1. And eventually, flag all
+> >>>>> (v)memmap pages with a type PG_memmap. However, the latter would be
+> >>>>> optional and might not be strictly required
+> >>>>>
+> >>>>>
+> >>>>> So what think could make sense is
+> >>>>>
+> >>>>> /* vmemmap pages that are self-hosted and cannot be optimized/freed. */
+> >>>>> PG_vmemmap_self_hosted = PG_owner_priv_1,
+> >>>>
+> >>>> Sure, I just lightly tested the below, and seems to work, but not sure
+> >>>> whether that is what you are referring to.
+> >>>> @Munchun: thoughts?
+> >>>>
+> >>>
+> >>> I think it works and fits my requirement.
+> >>>
+> >>>> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> >>>> index e66f7aa3191d..a4556afd7bda 100644
+> >>>> --- a/include/linux/page-flags.h
+> >>>> +++ b/include/linux/page-flags.h
+> >>>> @@ -193,6 +193,11 @@ enum pageflags {
+> >>>>  
+> >>>>  	/* Only valid for buddy pages. Used to track pages that are reported */
+> >>>>  	PG_reported = PG_uptodate,
+> >>>> +
+> >>>> +#ifdef CONFIG_MEMORY_HOTPLUG
+> >>>> +	/* For self-hosted memmap pages */
+> >>>> +	PG_vmemmap_self_hosted = PG_owner_priv_1,
+> >>>> +#endif
+> >>>>  };
+> >>>>  
+> >>>>  #define PAGEFLAGS_MASK		((1UL << NR_PAGEFLAGS) - 1)
+> >>>> @@ -628,6 +633,10 @@ PAGEFLAG_FALSE(SkipKASanPoison, skip_kasan_poison)
+> >>>>   */
+> >>>>  __PAGEFLAG(Reported, reported, PF_NO_COMPOUND)
+> >>>>  
+> >>>> +#ifdef CONFIG_MEMORY_HOTPLUG
+> >>>> +PAGEFLAG(Vmemmap_self_hosted, vmemmap_self_hosted, PF_ANY)
+> >>>> +#endif
+> >>>> +
+> >>>>  /*
+> >>>>   * On an anonymous page mapped into a user virtual memory area,
+> >>>>   * page->mapping points to its anon_vma, not to a struct address_space;
+> >>>> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> >>>> index 1089ea8a9c98..e2de7ed27e9e 100644
+> >>>> --- a/mm/hugetlb_vmemmap.c
+> >>>> +++ b/mm/hugetlb_vmemmap.c
+> >>>> @@ -101,6 +101,14 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
+> >>>>  {
+> >>>>  	unsigned long vmemmap_addr = (unsigned long)head;
+> >>>>  	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
+> >>>> +	struct mem_section *ms = __pfn_to_section(page_to_pfn(head));
+> >>>> +	struct page *memmap;
+> >>>> +
+> >>>> +	memmap = sparse_decode_mem_map(ms->section_mem_map,
+> >>>> +				       pfn_to_section_nr(page_to_pfn(head)));
+> >>>> +
+> >>>> +	if (PageVmemmap_self_hosted(memmap))
+> >>>> +		return;
+> >>>
+> >>> I think here needs a loop if it is a 1GB page (spans multiple sections).
+> >>> Right?  Here is an implementation based on another approach. But I think
+> >>> your implementation is more simpler and efficient.  Would you mind me
+> >>> squash your diff into my patch and with your "Co-developed-by"?
+> >>
+> >> Due to hugtlb alignment requirements, and the vmemmap pages being at the
+> >> start of the hotplugged memory region, I think that cannot currently
+> >> happen. Checking the first vmemmap page might be good enough for now,
+> >> and probably for the future.
+> >>
+> > 
+> > If the memory block size is 128MB, then a 1GB huge page spans 8 blocks.
+> > Is it possible that some blocks of them are vmemmap-hosted?
+> 
+> No, don't think so. If you think about it, a huge/gigantic page can only
+> start in a memmap-on-memory region but never end in on (or overlap one)
+> -- because the reserved memmap part of the memory block always precedes
+> actually usable data.
+> 
+> So even with variable-size memory blocks and weird address alignment,
+> checking the first memmap of a huge page for vmemmp-on-memory should be
+> sufficient.
+> 
+> Unless I am missing something.
 >
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->   Documentation/loongarch/introduction.rst   | 15 +++++++++------
->   Documentation/loongarch/irq-chip-model.rst | 22 +++++++++++++---------
->   2 files changed, 22 insertions(+), 15 deletions(-)
->
-> diff --git a/Documentation/loongarch/introduction.rst b/Documentation/loongarch/introduction.rst
-> index 2bf40ad370df..46e3f8d54067 100644
-> --- a/Documentation/loongarch/introduction.rst
-> +++ b/Documentation/loongarch/introduction.rst
-> @@ -45,10 +45,12 @@ Name              Alias           Usage               Preserved
->   ``$r23``-``$r31`` ``$s0``-``$s8`` Static registers    Yes
->   ================= =============== =================== ============
->   
-> -Note: The register ``$r21`` is reserved in the ELF psABI, but used by the Linux
-> -kernel for storing the percpu base address. It normally has no ABI name, but is
-> -called ``$u0`` in the kernel. You may also see ``$v0`` or ``$v1`` in some old code,
-> -however they are deprecated aliases of ``$a0`` and ``$a1`` respectively.
-> +.. Note::
-> +    The register ``$r21`` is reserved in the ELF psABI, but used by the Linux
-> +    kernel for storing the percpu base address. It normally has no ABI name,
-> +    but is called ``$u0`` in the kernel. You may also see ``$v0`` or ``$v1``
-> +    in some old code,however they are deprecated aliases of ``$a0`` and ``$a1``
-Nit: space after "code,".
-> +    respectively.
->   
->   FPRs
->   ----
-> @@ -69,8 +71,9 @@ Name              Alias              Usage               Preserved
->   ``$f24``-``$f31`` ``$fs0``-``$fs7``  Static registers    Yes
->   ================= ================== =================== ============
->   
-> -Note: You may see ``$fv0`` or ``$fv1`` in some old code, however they are deprecated
-> -aliases of ``$fa0`` and ``$fa1`` respectively.
-> +.. Note::
-> +    You may see ``$fv0`` or ``$fv1`` in some old code, however they are
-> +    deprecated aliases of ``$fa0`` and ``$fa1`` respectively.
->   
->   VRs
->   ----
-> diff --git a/Documentation/loongarch/irq-chip-model.rst b/Documentation/loongarch/irq-chip-model.rst
-> index 8d88f7ab2e5e..7988f4192363 100644
-> --- a/Documentation/loongarch/irq-chip-model.rst
-> +++ b/Documentation/loongarch/irq-chip-model.rst
-> @@ -145,12 +145,16 @@ Documentation of Loongson's LS7A chipset:
->   
->     https://github.com/loongson/LoongArch-Documentation/releases/latest/download/Loongson-7A1000-usermanual-2.00-EN.pdf (in English)
->   
-> -Note: CPUINTC is CSR.ECFG/CSR.ESTAT and its interrupt controller described
-> -in Section 7.4 of "LoongArch Reference Manual, Vol 1"; LIOINTC is "Legacy I/O
-> -Interrupts" described in Section 11.1 of "Loongson 3A5000 Processor Reference
-> -Manual"; EIOINTC is "Extended I/O Interrupts" described in Section 11.2 of
-> -"Loongson 3A5000 Processor Reference Manual"; HTVECINTC is "HyperTransport
-> -Interrupts" described in Section 14.3 of "Loongson 3A5000 Processor Reference
-> -Manual"; PCH-PIC/PCH-MSI is "Interrupt Controller" described in Section 5 of
-> -"Loongson 7A1000 Bridge User Manual"; PCH-LPC is "LPC Interrupts" described in
-> -Section 24.3 of "Loongson 7A1000 Bridge User Manual".
-> +.. Note::
-> +    - CPUINTC is CSR.ECFG/CSR.ESTAT and its interrupt controller described
-> +      in Section 7.4 of "LoongArch Reference Manual, Vol 1";
-> +    - LIOINTC is "Legacy I/OInterrupts" described in Section 11.1 of
-> +      "Loongson 3A5000 Processor Reference Manual";
-> +    - EIOINTC is "Extended I/O Interrupts" described in Section 11.2 of
-> +      "Loongson 3A5000 Processor Reference Manual";
-> +    - HTVECINTC is "HyperTransport Interrupts" described in Section 14.3 of
-> +      "Loongson 3A5000 Processor Reference Manual";
-> +    - PCH-PIC/PCH-MSI is "Interrupt Controller" described in Section 5 of
-> +      "Loongson 7A1000 Bridge User Manual";
-> +    - PCH-LPC is "LPC Interrupts" described in Section 24.3 of
-> +      "Loongson 7A1000 Bridge User Manual".
 
-This seems like tabular content disguised as a list, but I don't have 
-strong preferences here. You may try using a table for this relationship 
-between kernel-speak and manual-speak.
-
-With the nits addressed:
-
-Reviewed-by: WANG Xuerui <git@xen0n.name>
+Got it. You are awesome. I ignored the fact that we have reserved
+some memory as vmemmap pages in memmap-on-memory case, the whole
+memory block cannot be used as a gigantic page. Thanks for your
+nice explanation.
 
