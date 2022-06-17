@@ -2,65 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C00EDC43334
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 13:55:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55317C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 13:58:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382507AbiFQNzt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jun 2022 09:55:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35544 "EHLO
+        id S1382494AbiFQN6P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jun 2022 09:58:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382512AbiFQNzs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 09:55:48 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 973343C4B8
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 06:55:44 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E09674E5;
-        Fri, 17 Jun 2022 13:55:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E09674E5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1655474144; bh=38vtG8F8DpATGIv38pChXBKHQbGJ3rZR5QRuShP6PvY=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=SnMSyTHLBj7+fwwc6sATZV0B2SdH7RLKELpg1uPEaEeL607cRXjEOLpd3BlawB8mv
-         lwEv+jEvjvWG3qd9He8l/7B/hUEY/tu2rq3EOfWxkygdBBv0uNxaLnMF+6e+jt1CQS
-         3yzi3yN45c0kN7O/peYRQmV2W71cgPu6F88qQbQC1SbYomeFSETx8a/3hecvYumXUS
-         40zN+p1A++xyOdgiPIRpJunP8QPS8H+nCPP8Zmnd/kun5gXMSXzUmGTJkY4oYpqtcZ
-         o/iAdUvFUerbh1Df82TJdCt5m54D/tKvFbyf7MeKtj3y4Ch1l9ocnUsytpzL/fzok0
-         rL13Ovp8VZVpQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Wu XiangCheng <bobwxc@email.cn>,
-        Binbin Zhou <zhoubinbin@loongson.cn>
-Cc:     alexs@kernel.org, siyanteng@loongson.cn, chenhuacai@loongson.cn,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 7/9] docs/zh_CN: core-api: Update the translation of
- printk-format.rst to 5.19-rc2
-In-Reply-To: <Yqu+x95ngy68Vu0p@bobwxc.mipc>
-References: <cover.1655258291.git.zhoubinbin@loongson.cn>
- <ebfda3a43afbfb5dd0186a6e68e080dd933a4883.1655258291.git.zhoubinbin@loongson.cn>
- <Yqu+x95ngy68Vu0p@bobwxc.mipc>
-Date:   Fri, 17 Jun 2022 07:55:43 -0600
-Message-ID: <87pmj7qtr4.fsf@meer.lwn.net>
+        with ESMTP id S1382258AbiFQN6M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 09:58:12 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADFE336323
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 06:58:07 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id g10-20020a17090a708a00b001ea8aadd42bso4276285pjk.0
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 06:58:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=R3PCuIcYAcZyb+k4ENIbfzjTIn3XM8zfk9TCfHX0dmA=;
+        b=EWCtootqlRe6RzPmBcX/GvZIDoYDBFHPKC5RtYBkHp4WG27bDvGfe8Vb3qaWqpOIxu
+         X9cpHH/lpp6xBmJoXDKQp+QTVXQ83H5faWsQksdRKoyIu24ml5tBs6fYuUyoeBYGJx1B
+         bzyrTklsyt/4hngqwLTTfcNQinZlBWyAl9GHG1Ya0r0X7fNcwboZs91b32JcVi/GDfJa
+         f/20BsC0euG+39EZLQgh+t0kViZC14EUAtd63YPMhQkpOuY7DOHHOJ3bqsX6a75lG9bT
+         R8mJFQc6/EUiX8ZL2S+F45kcOEpLZBPhembrWLM/edIQ3fijtGT4Zv8Ote0Ky2ShrPtn
+         Nlhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=R3PCuIcYAcZyb+k4ENIbfzjTIn3XM8zfk9TCfHX0dmA=;
+        b=i2q50fpPnPwgDCXZuRgYDn9mKrVSudI/SBXruZeqR6+xNi5kokkjX6ue56PfkprSaE
+         xEQbgwNQiJ+VowdM8ctyNVvVIDSF3FMSuZqvl9NaxYQ4wdjj0BLoUMZwkXXeBBjqEXIU
+         fZJ89f08GivnX9iXx+JFwWvJ/pxSn2CCxRYISRx8DzMYm85Y2/SwHWPksNNeUwrpvux/
+         sazui6QCn5/9M++ab4ztlPJLuWMINkwS6U7k1Fxox9rGYjQxrffc3DQiaKID5u7L5xZ5
+         XNalTqBldVL8Bhf9SjnhggZvFQd7DlOZ+VGW2NVbK3HP7m12bcbPhPy6TAEAoPQLImY2
+         Yz+g==
+X-Gm-Message-State: AJIora9lwAnGEd/TgmKQ0UiAynvY4PQ8q0/d7WayhSa2qQ5T6z682omg
+        m5AXVe9Oib5xSd+msWgrZm1eRg==
+X-Google-Smtp-Source: AGRyM1u0E5+TFznm/6+22gBGLbXXne5g4/D4eqNgUB31mGswQgCMIRkIrFAmMJdL0nA2QSXkuN7Ynw==
+X-Received: by 2002:a17:90b:4b49:b0:1e6:8827:aaf1 with SMTP id mi9-20020a17090b4b4900b001e68827aaf1mr10740999pjb.154.1655474286821;
+        Fri, 17 Jun 2022 06:58:06 -0700 (PDT)
+Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.255])
+        by smtp.gmail.com with ESMTPSA id e3-20020a170903240300b0015e8d4eb277sm3605869plo.193.2022.06.17.06.58.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jun 2022 06:58:05 -0700 (PDT)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     akpm@linux-foundation.org, corbet@lwn.net, david@redhat.com,
+        mike.kravetz@oracle.com, osalvador@suse.de, paulmck@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH v3 0/2] make hugetlb_optimize_vmemmap compatible with memmap_on_memory
+Date:   Fri, 17 Jun 2022 21:56:48 +0800
+Message-Id: <20220617135650.74901-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wu XiangCheng <bobwxc@email.cn> writes:
+This series makes hugetlb_optimize_vmemmap compatible with memmap_on_memory
+and is based on mm-stable.  The reason refers to the patch 2's commit log.
 
-> On Wed, Jun 15, 2022 at 05:24:30PM +0800, Binbin Zhou wrote:
->> Synchronous translation from the following commits(Latest in front):
->> 
->> [1]: commit 2fbf5241a561("vsprintf: add new `%pA` format specifier")
->
-> ^ this commit is from rust-next and not appeared in master or
-> jc/docs-next yet, so please drop it.
+v3:
+ - Switch complicated enumeration magic (David).
+ - Introduce PageVmemmapSelfHosted to make both parameters compatible (David and Oscar).
 
-An alternative is to take the changes relative to that commit (only) and
-send a patch for inclusion in the Rust tree.
+v2:
+ - Fix compile error when !CONFIG_ZONE_DEVICE reported by kernel test robot.
 
-Thanks,
+Muchun Song (2):
+  mm: memory_hotplug: enumerate all supported section flags
+  mm: memory_hotplug: make hugetlb_optimize_vmemmap compatible with
+    memmap_on_memory
 
-jon
+ Documentation/admin-guide/kernel-parameters.txt | 22 ++++++------
+ Documentation/admin-guide/sysctl/vm.rst         |  5 ++-
+ include/linux/memory_hotplug.h                  |  9 -----
+ include/linux/mmzone.h                          | 44 ++++++++++++++++++-----
+ include/linux/page-flags.h                      | 11 ++++++
+ mm/hugetlb_vmemmap.c                            | 47 ++++++++++++++++++++-----
+ mm/memory_hotplug.c                             | 33 ++++++++---------
+ mm/sparse.c                                     |  2 +-
+ 8 files changed, 116 insertions(+), 57 deletions(-)
+
+
+base-commit: 6edda04ccc7cfb281d139e352dbd5dd933bd2751
+-- 
+2.11.0
+
