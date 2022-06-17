@@ -2,146 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BBF0C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 11:05:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57C18C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 11:19:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380066AbiFQLFs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jun 2022 07:05:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34128 "EHLO
+        id S235718AbiFQLTW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jun 2022 07:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380595AbiFQLFs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 07:05:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DF9C6C0F5
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 04:05:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2182061E58
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 11:05:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B681C3411F
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 11:05:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655463946;
-        bh=1uBbVLUaPRXNbZsqVcCu1YMFZSM4++BuUkFmwedlp4I=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=bykSvHlXRKyLX4wVsrTVP+bW91xmZ/BLH8mINuM7pI9Qj9q8XHbzImGpTpjBwg9HM
-         Bv6gTPLARHvphoYwYEyu6tn5p33/A35e0uUVkhP4T9i/887FercX2jY9+YPBur8Oo+
-         E/sHJJNRBIydcOwZ0F9hxosJpLeIS/nWchrpsJZKoEJsUb8VoeVmTfN1bjSPZpcvhm
-         HMg4ctJ62ikFRsHUCc59gqPyriApTtLxBBnnhCmv+gHrNSb2A1i87bGHqHmN5q1BVU
-         lBEmsqUVSO86Vz+gBhoTXaYGeogqVZgRw0TalGyETuViOaltHBnfcWZQaPPPt1uP/T
-         UespwVY15za7Q==
-Received: by mail-lj1-f182.google.com with SMTP id l18so4336577lje.13
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 04:05:46 -0700 (PDT)
-X-Gm-Message-State: AJIora9PaNM3/I+a8EOvOK1fjzeB12ProDy/XRFYcgZYn795XPbOSd6/
-        /2lewbbOuv14gjQQTbZ8n/V6NmUV8sZqoCHz+nk=
-X-Google-Smtp-Source: AGRyM1s4dyvnGCe4oSjf+q3h8djWoa1ljc5T+ue0cjMzRKAHztM3iOfkRGBqYgeEycivTzxyflSOPbkvRxjPA/f+VcM=
-X-Received: by 2002:a05:651c:506:b0:257:c12:b941 with SMTP id
- o6-20020a05651c050600b002570c12b941mr4770423ljp.429.1655463944476; Fri, 17
- Jun 2022 04:05:44 -0700 (PDT)
+        with ESMTP id S1381728AbiFQLTV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 07:19:21 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 033AF6C55D
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 04:19:16 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id g8so3616912plt.8
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 04:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=JYYqCC4EL5cjTYCu5ouFlRe38KV3xRfbg1LQZEZpvv0=;
+        b=IKSnq/sdUWRx+9KlrAbt0m9f+gCf+QJPQV5gbmqqkJg6EegAl/quj6vGgFFHDuITyu
+         3YxWy9utBlBzpaGPPbE8PhzqbXe7cxDrFz/8JcaNxZYyvtMEi/Qqnk9Pky01e2+a+t6c
+         t7LgTJr53GF35dO6BneltdqnTGMSu/3mQn2Sh9GpttW/9E7Z7vELo4rTtb9O94O7u9b4
+         k7m0vSZ/eKTHYRkK6jOqLdJ/j/DEF6paJB4Qg9Ap1sJzvmpIr4z+k8BzBANRO667ZQdh
+         1w0jxmG8OfIU8V1nY0U+zyCXch/e2SoD7LoHF6R0+6LRTnSAeDh+GbtGD8Rl7IT7JE1x
+         j5Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JYYqCC4EL5cjTYCu5ouFlRe38KV3xRfbg1LQZEZpvv0=;
+        b=1PbPJ1ecNA5Yvk1y5vCPiBggERBbQV4jzcofelhB1pSEJq7j78MHoYcXIG8jwIXZie
+         YSISYr1h2/omvyZVx949EwXfKq+hOtBawqxSGtIe9SHzn5xVxduHh03NpGsxxJJUN+43
+         tiBP5YEMXTnU/rQB/TQwmc0KlfRDCO4JaGnFEReRt3WEn3eClhwvr5D0xiFBrONwcl6e
+         JqJw6rhAp+r7UzWtniyZLNuXHWr0t90MQjK5Wlc8xFo/tV1yOx4Npq3x1lBcmR64YGOh
+         E3F7wB2s92nT2OvI66mR8cPLMoj8+JvQXxUEdNtqGyw8nMUov6KOHTl15ynIvOtJJGnj
+         B6Ug==
+X-Gm-Message-State: AJIora+7uwZZ3hXKFCqmQIOmyArvVU9RsfdCQYcj6C9zhaC7WS+4jZc2
+        bg8JEq2VjbtUR6PGg8911irG0sYHh25ngXQtV8w=
+X-Google-Smtp-Source: AGRyM1vLvDTc0M380Aw9TDgt7gKezaAz1cXdrzRvlgufbZaphVo25He2KGAgImgiu6GQkLec7fcA1Q==
+X-Received: by 2002:a17:90b:4c4a:b0:1e3:3b3:8800 with SMTP id np10-20020a17090b4c4a00b001e303b38800mr10356726pjb.6.1655464755408;
+        Fri, 17 Jun 2022 04:19:15 -0700 (PDT)
+Received: from localhost ([139.177.225.255])
+        by smtp.gmail.com with ESMTPSA id az5-20020a170902a58500b0016636256970sm1032836plb.167.2022.06.17.04.19.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jun 2022 04:19:14 -0700 (PDT)
+Date:   Fri, 17 Jun 2022 19:19:10 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Oscar Salvador <osalvador@suse.de>, corbet@lwn.net,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mike.kravetz@oracle.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v2 2/2] mm: memory_hotplug: introduce
+ SECTION_CANNOT_OPTIMIZE_VMEMMAP
+Message-ID: <YqxjLud4h+z1Lfrk@FVFYT0MHHV2J.usts.net>
+References: <20220520025538.21144-1-songmuchun@bytedance.com>
+ <20220520025538.21144-3-songmuchun@bytedance.com>
+ <53024884-0182-df5f-9ca2-00652c64ce36@redhat.com>
+ <YqqqPjkh9r8ZrH0r@localhost.localdomain>
+ <24d5ec20-9c9e-93aa-11f4-c4619f51f7d1@redhat.com>
+ <YqwVTT+50vt5WpeG@localhost.localdomain>
+ <186924ab-651f-71a1-93d2-3500a67dffee@redhat.com>
+ <YqxPTUuqdDpoU9o3@localhost.localdomain>
+ <a2f5cb7e-0aaa-cb3c-5437-3aba9ae015d1@redhat.com>
+ <YqxcK/XzyNn+KfGt@FVFYT0MHHV2J.usts.net>
 MIME-Version: 1.0
-References: <cover.1655463225.git.siyanteng@loongson.cn> <2da9b19588cfa20c3797015ea3ce6831b3a7fa2b.1655463225.git.siyanteng@loongson.cn>
-In-Reply-To: <2da9b19588cfa20c3797015ea3ce6831b3a7fa2b.1655463225.git.siyanteng@loongson.cn>
-From:   Huacai Chen <chenhuacai@kernel.org>
-Date:   Fri, 17 Jun 2022 19:05:33 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4ihtPn-3zKWaevvTKeCs=tdi8RQ8NaKoEU_XD44mEytg@mail.gmail.com>
-Message-ID: <CAAhV-H4ihtPn-3zKWaevvTKeCs=tdi8RQ8NaKoEU_XD44mEytg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] docs/LoongArch: Fix notes rendering by using reST directives
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Alex Shi <alexs@kernel.org>, bobwxc@email.cn, seakeel@gmail.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Yanteng Si <siyanteng01@gmail.com>, loongarch@lists.linux.dev,
-        WANG Xuerui <git@xen0n.name>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YqxcK/XzyNn+KfGt@FVFYT0MHHV2J.usts.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Yanteng,
+On Fri, Jun 17, 2022 at 06:49:15PM +0800, Muchun Song wrote:
+> On Fri, Jun 17, 2022 at 12:14:02PM +0200, David Hildenbrand wrote:
+> > On 17.06.22 11:54, Oscar Salvador wrote:
+> > > On Fri, Jun 17, 2022 at 09:43:33AM +0200, David Hildenbrand wrote:
+> > >> VmemmapSelfHosted, then the function names get nicer.
+> > > 
+> > > Definitely.
+> > > 
+> > >>
+> > >>> +#endif
+> > >>> +
+> > >>>  /*
+> > >>>   * On an anonymous page mapped into a user virtual memory area,
+> > >>>   * page->mapping points to its anon_vma, not to a struct address_space;
+> > >>> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> > >>> index 1089ea8a9c98..e2de7ed27e9e 100644
+> > >>> --- a/mm/hugetlb_vmemmap.c
+> > >>> +++ b/mm/hugetlb_vmemmap.c
+> > >>> @@ -101,6 +101,14 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
+> > >>>  {
+> > >>>  	unsigned long vmemmap_addr = (unsigned long)head;
+> > >>>  	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
+> > >>> +	struct mem_section *ms = __pfn_to_section(page_to_pfn(head));
+> > >>> +	struct page *memmap;
+> > >>> +
+> > >>> +	memmap = sparse_decode_mem_map(ms->section_mem_map,
+> > >>> +				       pfn_to_section_nr(page_to_pfn(head)));
+> > >>
+> > >> Why can't we check the head page directly? Either I need more coffee or
+> > >> this can be simplified.
+> > > 
+> > > Uhm, maybe I'm the one who needs coffe here but we have something like:
+> > > 
+> > > [    hot-plugges section   ]
+> > > [memmap pages][normal pages]
+> > 
+> > Oh, right, we need the memmap for our hugetlb page (which resides in the
+> > reserved section), but these are not marked. We need the memmap of that
+> > memmap.
+> > 
+> > I assume one could directly via the page address. Because we want the
+> > memmap of the memmap.
+> > 
+> > vmmemmap_page = virt_to_page(head);
+> >
+>
+> I think this can works, more simple.
+> 
 
-On Fri, Jun 17, 2022 at 6:55 PM Yanteng Si <siyanteng@loongson.cn> wrote:
->
-> "Note" is an admonition, but it doesn't render
-> correctly, let's fix it by using reST directives.
-I think "but it doesn't render correctly" should be "but it isn't
-correctly rendered in HTML". How do you think, Xuerui?
+Oh, I forgot virt_to_page() cannot applicable for vmemmap addresses.
+I think Oscar's approach is right.
 
-Huacai
->
-> Fixes: 0ea8ce61cb2c ("Documentation: LoongArch: Add basic documentations")
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> Reviewed-by: WANG Xuerui <git@xen0n.name>
-> ---
->  Documentation/loongarch/introduction.rst   | 15 +++++++++------
->  Documentation/loongarch/irq-chip-model.rst | 22 +++++++++++++---------
->  2 files changed, 22 insertions(+), 15 deletions(-)
->
-> diff --git a/Documentation/loongarch/introduction.rst b/Documentation/loongarch/introduction.rst
-> index 2bf40ad370df..216b3f390e80 100644
-> --- a/Documentation/loongarch/introduction.rst
-> +++ b/Documentation/loongarch/introduction.rst
-> @@ -45,10 +45,12 @@ Name              Alias           Usage               Preserved
->  ``$r23``-``$r31`` ``$s0``-``$s8`` Static registers    Yes
->  ================= =============== =================== ============
->
-> -Note: The register ``$r21`` is reserved in the ELF psABI, but used by the Linux
-> -kernel for storing the percpu base address. It normally has no ABI name, but is
-> -called ``$u0`` in the kernel. You may also see ``$v0`` or ``$v1`` in some old code,
-> -however they are deprecated aliases of ``$a0`` and ``$a1`` respectively.
-> +.. Note::
-> +    The register ``$r21`` is reserved in the ELF psABI, but used by the Linux
-> +    kernel for storing the percpu base address. It normally has no ABI name,
-> +    but is called ``$u0`` in the kernel. You may also see ``$v0`` or ``$v1``
-> +    in some old code,however they are deprecated aliases of ``$a0`` and ``$a1``
-> +    respectively.
->
->  FPRs
->  ----
-> @@ -69,8 +71,9 @@ Name              Alias              Usage               Preserved
->  ``$f24``-``$f31`` ``$fs0``-``$fs7``  Static registers    Yes
->  ================= ================== =================== ============
->
-> -Note: You may see ``$fv0`` or ``$fv1`` in some old code, however they are deprecated
-> -aliases of ``$fa0`` and ``$fa1`` respectively.
-> +.. Note::
-> +    You may see ``$fv0`` or ``$fv1`` in some old code, however they are
-> +    deprecated aliases of ``$fa0`` and ``$fa1`` respectively.
->
->  VRs
->  ----
-> diff --git a/Documentation/loongarch/irq-chip-model.rst b/Documentation/loongarch/irq-chip-model.rst
-> index 8d88f7ab2e5e..7988f4192363 100644
-> --- a/Documentation/loongarch/irq-chip-model.rst
-> +++ b/Documentation/loongarch/irq-chip-model.rst
-> @@ -145,12 +145,16 @@ Documentation of Loongson's LS7A chipset:
->
->    https://github.com/loongson/LoongArch-Documentation/releases/latest/download/Loongson-7A1000-usermanual-2.00-EN.pdf (in English)
->
-> -Note: CPUINTC is CSR.ECFG/CSR.ESTAT and its interrupt controller described
-> -in Section 7.4 of "LoongArch Reference Manual, Vol 1"; LIOINTC is "Legacy I/O
-> -Interrupts" described in Section 11.1 of "Loongson 3A5000 Processor Reference
-> -Manual"; EIOINTC is "Extended I/O Interrupts" described in Section 11.2 of
-> -"Loongson 3A5000 Processor Reference Manual"; HTVECINTC is "HyperTransport
-> -Interrupts" described in Section 14.3 of "Loongson 3A5000 Processor Reference
-> -Manual"; PCH-PIC/PCH-MSI is "Interrupt Controller" described in Section 5 of
-> -"Loongson 7A1000 Bridge User Manual"; PCH-LPC is "LPC Interrupts" described in
-> -Section 24.3 of "Loongson 7A1000 Bridge User Manual".
-> +.. Note::
-> +    - CPUINTC is CSR.ECFG/CSR.ESTAT and its interrupt controller described
-> +      in Section 7.4 of "LoongArch Reference Manual, Vol 1";
-> +    - LIOINTC is "Legacy I/OInterrupts" described in Section 11.1 of
-> +      "Loongson 3A5000 Processor Reference Manual";
-> +    - EIOINTC is "Extended I/O Interrupts" described in Section 11.2 of
-> +      "Loongson 3A5000 Processor Reference Manual";
-> +    - HTVECINTC is "HyperTransport Interrupts" described in Section 14.3 of
-> +      "Loongson 3A5000 Processor Reference Manual";
-> +    - PCH-PIC/PCH-MSI is "Interrupt Controller" described in Section 5 of
-> +      "Loongson 7A1000 Bridge User Manual";
-> +    - PCH-LPC is "LPC Interrupts" described in Section 24.3 of
-> +      "Loongson 7A1000 Bridge User Manual".
-> --
-> 2.27.0
->
+> Thanks.
+>  
+> > Not sure, though, if that would work with that function.
+> 
