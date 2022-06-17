@@ -2,121 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78CD7CCA479
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 07:50:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8460CC43334
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 08:06:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380290AbiFQHuE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jun 2022 03:50:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60022 "EHLO
+        id S1380734AbiFQIGm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jun 2022 04:06:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380024AbiFQHuE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 03:50:04 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3070674FB
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 00:50:02 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id d5so3222822plo.12
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 00:50:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=/5JQEnezBo8SAr6g2AvndTomb05vaO1mzGxpKpnfNFw=;
-        b=ZeTtH3DabDO7sw5h2E093njHE2+DJU4emaCoQlZUp7EeNN+4aqMW1wh+gGD4kgX9Mb
-         un4tS4Jz1w73FWDZF9ZIdgVT4CjQfT+O58u4lonCUU4uDdjPPFhd/QhQSUWmU1Cfl/uH
-         ARkOv26uS6Tj6rYl3rJyTDKKXbQWwSvGnysutexvWFVLvrTJdMnQ4544eG97GvJ9CpwH
-         YAg9krnua2PFEENTm+SWJv1BXx7U1o/MnvzD+3uFuTubs401RvZe9elIco/tuXL9jhOh
-         P2uHvQFQ2AHrJbAzOH6EFe0vMgyyXMjYYTFHYRhm9HMU2rqIB8oKHsWHamCQQI5XKdvx
-         XjiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=/5JQEnezBo8SAr6g2AvndTomb05vaO1mzGxpKpnfNFw=;
-        b=oK7Fl8R/wPresVVeJ6BjJTS0Td2ZZqXUIJiVbUEZwgedmDnT/J/fbc7/X1nBV2qPuZ
-         sy6P9L4UHLNlXtagNdR4u0KRwQCFxHYreG+qjKxi0dLNHiX/X3BDobcBuWQJJ6FRXuiV
-         pldi4QGNaGJEeXmxZUl/L45J76iLa5BtB4XDVTVpoo8lEYw0MjEkUQDbJDOikshBkw5J
-         stfR148ATYPauaT0DCETw9Zml9zvXmGqbej/Y9R7p5zMixQwagOYiokNnWBBHhVnyNMv
-         pd/bwIMgKHew+Jtv9bUGPoUfRdGnur+lHz4c8kBOfJp2fomvUitQayq0rmCNpB+rZOr/
-         WHLQ==
-X-Gm-Message-State: AJIora+pklCWuUhOJ7PNpd5YIX5QrFTsun+CiZ02HhDFv5EXQgshvL90
-        qaSNHIGVrLoGGayNVv0z4OexIQ==
-X-Google-Smtp-Source: AGRyM1ueXFqi+rj4FAeCjjkCGaS9L29wOvXRortQKXhhP6ngSuvIFI1dEyfbPgthDbo+9Iga7OUdBg==
-X-Received: by 2002:a17:902:c946:b0:163:ed13:7ab1 with SMTP id i6-20020a170902c94600b00163ed137ab1mr8111674pla.36.1655452202297;
-        Fri, 17 Jun 2022 00:50:02 -0700 (PDT)
-Received: from localhost ([139.177.225.255])
-        by smtp.gmail.com with ESMTPSA id 203-20020a6218d4000000b0051ba0ee30cbsm2994752pfy.128.2022.06.17.00.49.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jun 2022 00:49:58 -0700 (PDT)
-Date:   Fri, 17 Jun 2022 15:49:55 +0800
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Joao Martins <joao.m.martins@oracle.com>, david@redhat.com,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
-        corbet@lwn.net
-Subject: Re: [PATCH 3/6] mm: hugetlb_vmemmap: introduce the name HVO
-Message-ID: <YqwyI+MKIg1BLkfy@FVFYT0MHHV2J.usts.net>
-References: <20220613063512.17540-1-songmuchun@bytedance.com>
- <20220613063512.17540-4-songmuchun@bytedance.com>
- <41e2d762-2c0d-b13b-d6da-6e0e0e858a84@oracle.com>
- <YqqjaPOMyPd3aUs2@FVFYT0MHHV2J.usts.net>
- <YquuXIaBM98oTyD9@monkey>
+        with ESMTP id S1380252AbiFQIGm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 04:06:42 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E50567D3C
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 01:06:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B87AAB827A4
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 08:06:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F7F4C341C0
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 08:06:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655453198;
+        bh=ajnYmOOxTUii9cZ5GAsDd2Of1eCFawODk9KJY8KP0Z0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HPX8Ja3v0ckikrU/QkF8AhplE0VL6TSmT/T7M455O8o0vwlVI6vzYi1yu9bOrxCOj
+         FhuCnQPjNXuMSOmegoQA6X1hxSDRfpbTBbgiPZ+nB0yZgTOJOcOrHsELr2MYr8Lvvy
+         Zml4Lah36olHMH3p0/P2wucrxy+hYNM/f45ewD6pYkmSqHU/T3EXvyyO5iotoDn8nT
+         vBT/YsryhtU7cBq4GSItHL2aemJYRZhzuT8HzsCowsdUfmMExN1R3sXrIny8h2QnW8
+         n+gU9qYYUzMn40xvqWjANHgUppUfkBnsLquUbWqq1T733BDDkk5aH0nOncpmRys+dj
+         IDQYuY9H8Q0Ww==
+Received: by mail-lf1-f45.google.com with SMTP id s6so5743312lfo.13
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 01:06:38 -0700 (PDT)
+X-Gm-Message-State: AJIora81P4qgoZkAls972Q0/qYZBb5QUxWR1zLkFPUHZ9XlnF368II6X
+        5anxHLV3z8XdfXOUejLD5qyvAKERk15wa6gBRdc=
+X-Google-Smtp-Source: AGRyM1t+BMTGaBXQqA6qlN7+RTAb+kFl408jddD3j9HRXprarInufx4mxWvS56p0Idti64JGN5VONCV06VxKx+oA28Y=
+X-Received: by 2002:a05:6512:e9c:b0:479:1fd9:1b94 with SMTP id
+ bi28-20020a0565120e9c00b004791fd91b94mr4643947lfb.591.1655453196412; Fri, 17
+ Jun 2022 01:06:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YquuXIaBM98oTyD9@monkey>
+References: <cover.1655450200.git.siyanteng@loongson.cn> <151c8e9725b51d8629335a828ab0115705e7696c.1655450200.git.siyanteng@loongson.cn>
+In-Reply-To: <151c8e9725b51d8629335a828ab0115705e7696c.1655450200.git.siyanteng@loongson.cn>
+From:   Huacai Chen <chenhuacai@kernel.org>
+Date:   Fri, 17 Jun 2022 16:06:25 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5-wZ0WBy3v=ZRQ-uYDcHLQKtYL359-GgigONZw6fWjmw@mail.gmail.com>
+Message-ID: <CAAhV-H5-wZ0WBy3v=ZRQ-uYDcHLQKtYL359-GgigONZw6fWjmw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] docs/zh_CN: rewrite all the notes
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     Alex Shi <alexs@kernel.org>, bobwxc@email.cn, seakeel@gmail.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Yanteng Si <siyanteng01@gmail.com>, loongarch@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 16, 2022 at 03:27:40PM -0700, Mike Kravetz wrote:
-> On 06/16/22 11:28, Muchun Song wrote:
-> > On Wed, Jun 15, 2022 at 03:51:51PM +0100, Joao Martins wrote:
-> > > On 6/13/22 07:35, Muchun Song wrote:
-> > > > It it inconvenient to mention the feature of optimizing vmemmap pages associated
-> > > > with HugeTLB pages when communicating with others since there is no specific or
-> > > > abbreviated name for it when it is first introduced.  Let us give it a name HVO
-> > > > (HugeTLB Vmemmap Optimization) from now.
-> > > > 
-> > > 
-> > > Just thought I would throw this suggestion, even though I am probably too late.
-> > > 
-> > 
-> > Not too late, we are still discussing the name.
-> > 
-> > > I find the term "vmemmap deduplication" more self-explanatory (at least for me)
-> > > to refer to your technique ,and similarly s/optimize/dedup. Or vmemmap tail page
-> > > deduplication (too verbose maybe) because really that's what this optimization is all
-> > > about. OTOH it would slightly deviate from what maybe established now
-> > > in hugetlb code.
-> > >
-> > 
-> > Well, I have looked up this word "deduplication" which refers to a method of
-> > eliminating a dataset’s redundant data.  At least I agree with you "deduplication"
-> > is more expressive for my technique.  So I am thinking of renaming "HVO" to "HVD (
-> > HugeTLB Vmemmap Deduplication)".  In this series (patch 6), I have renamed
-> > hugetlb_vmemmap_alloc/free to hugetlb_vmemmmap_optimize/restore.  I am also
-> > thinking of replacing it to:
-> > 
-> >   hugetlb_vmemmmap_deduplicate vs hugetlb_vmemmmap_duplicate.
-> > 
-> > Many other places in hugetlb_vmemmap.c use "optimize" word, maybe most of them do
-> > not need to be changed since "deduplication" is also a __optimization__ technique.
-> > 
-> > Hi Mike and David:
-> > 
-> > What your opinion on this? I want to hear some thoughts from you.
-> 
-> I can understand Joao's preference for deduplication.  However, I can
-> also understand just using the term optimization.  IMO, neither is far
-> superior to the other.  It is mostly a matter of personal preference.
-> 
-> My preference would be to leave it as named in this series unless
-> someone has a strong preference for changing.
->
-
-All right. I'll keep the HVO name.
-
-Thanks. 
+SGksIFlhbnRlbmcsDQoNCk9uIEZyaSwgSnVuIDE3LCAyMDIyIGF0IDM6MTcgUE0gWWFudGVuZyBT
+aSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPiB3cm90ZToNCj4NCj4gTm90ZSBpcyBhbiBhZG1vbml0
+aW9uLCBsZXQncyB1c2UgdGhlIGRpcmVjdGl2ZXMNCj4gaW1wbGVtZW50ZWQgaW4gdGhlIHJlZmVy
+ZW5jZSByZVN0cnVjdHVyZWRUZXh0IHBhcnNlci4NCj4NCj4gU2lnbmVkLW9mZi1ieTogWWFudGVu
+ZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPg0KPiAtLS0NCj4gIC4uLi90cmFuc2xhdGlvbnMv
+emhfQ04vbG9vbmdhcmNoL2ludHJvZHVjdGlvbi5yc3QgfCAxNCArKysrKysrKy0tLS0tLQ0KPiAg
+Li4uL3poX0NOL2xvb25nYXJjaC9pcnEtY2hpcC1tb2RlbC5yc3QgICAgICAgICAgICB8IDE1ICsr
+KysrKysrKy0tLS0tLQ0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAxNyBpbnNlcnRpb25zKCspLCAxMiBk
+ZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
+L3poX0NOL2xvb25nYXJjaC9pbnRyb2R1Y3Rpb24ucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xh
+dGlvbnMvemhfQ04vbG9vbmdhcmNoL2ludHJvZHVjdGlvbi5yc3QNCj4gaW5kZXggZTMxYTFhOTI4
+YzQ4Li5hOGE1YWFjYTdkOTQgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRp
+b25zL3poX0NOL2xvb25nYXJjaC9pbnRyb2R1Y3Rpb24ucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRp
+b24vdHJhbnNsYXRpb25zL3poX0NOL2xvb25nYXJjaC9pbnRyb2R1Y3Rpb24ucnN0DQo+IEBAIC00
+NiwxMCArNDYsMTEgQEAgTEE2NOS4reavj+S4quWvhOWtmOWZqOS4ujY05L2N5a6944CCIGBgJHIw
+YGAg55qE5YaF5a655oC75piv5Zu65a6a5Li6MO+8jOiAjOWFtg0KPiAgYGAkcjIzYGAtYGAkcjMx
+YGAgYGAkczBgYC1gYCRzOGBgIOmdmeaAgeWvhOWtmOWZqCAgICAgICAgICDmmK8NCj4gID09PT09
+PT09PT09PT09PT09ID09PT09PT09PT09PT09PSA9PT09PT09PT09PT09PT09PT09ID09PT09PT09
+PT0NCj4NCj4gLeazqOaEj++8mmBgJHIyMWBg5a+E5a2Y5Zmo5ZyoRUxGIHBzQUJJ5Lit5L+d55WZ
+5pyq5L2/55So77yM5L2G5piv5ZyoTGludXjlhoXmoLjnlKjkuo7kv53lrZjmr49DUFUNCj4gLeWP
+mOmHj+WfuuWcsOWdgOOAguivpeWvhOWtmOWZqOayoeaciUFCSeWRveWQje+8jOS4jei/h+WcqOWG
+heaguOS4reensOS4umBgJHUwYGDjgILlnKjkuIDkupvpgZfnlZnku6PnoIENCj4gLeS4reacieaX
+tuWPr+iDveingeWIsGBgJHYwYGDlkoxgYCR2MWBg77yM5a6D5Lus5pivYGAkYTBgYOWSjGBgJGEx
+YGDnmoTliKvlkI3vvIzlsZ7kuo7lt7Lnu4/lup/lvIMNCj4gLeeahOeUqOazleOAgg0KPiArLi4g
+bm90ZTo6DQo+ICsgICAg5rOo5oSP77yaIGBgJHIyMWBg5a+E5a2Y5Zmo5ZyoRUxGIHBzQUJJ5Lit
+5L+d55WZ5pyq5L2/55So77yM5L2G5piv5ZyoTGludXjlhoXmoLjnlKjkuo7kv50NCj4gKyAgICDl
+rZjmr49DUFXlj5jph4/ln7rlnLDlnYDjgILor6Xlr4TlrZjlmajmsqHmnIlBQknlkb3lkI3vvIzk
+uI3ov4flnKjlhoXmoLjkuK3np7DkuLpgYCR1MGBg44CC5Zyo5LiADQo+ICsgICAg5Lqb6YGX55WZ
+5Luj56CB5Lit5pyJ5pe25Y+v6IO96KeB5YiwYGAkdjBgYOWSjGBgJHYxYGDvvIzlroPku6zmmK9g
+YCRhMGBg5ZKMYGAkYTFgYOeahA0KPiArICAgIOWIq+WQje+8jOWxnuS6juW3sue7j+W6n+W8g+ea
+hOeUqOazleOAgg0KVGhlcmUgc2hvdWxkIGJlIGEgc3BhY2UgYmV0d2VlbiBgYCRyMjFgYCBhbmQg
+Q2hpbmVzZSB0ZXh0IGZvciBIVE1MDQpkaXNwbGF5LCBwbGVhc2UgZml4IGFsbCBvZiBzdWNoIHBy
+b2JsZW1zLCB0aGFua3MuDQoNCkh1YWNhaQ0KPg0KPiAg5rWu54K55a+E5a2Y5ZmoDQo+ICAtLS0t
+LS0tLS0tDQo+IEBAIC02OCw4ICs2OSw5IEBAIExBNjTkuK3mr4/kuKrlr4TlrZjlmajkuLo2NOS9
+jeWuveOAgiBgYCRyMGBgIOeahOWGheWuueaAu+aYr+WbuuWumuS4ujDvvIzogIzlhbYNCj4gIGBg
+JGYyNGBgLWBgJGYzMWBgIGBgJGZzMGBgLWBgJGZzN2BgICDpnZnmgIHlr4TlrZjlmaggICAgICAg
+ICAg5pivDQo+ICA9PT09PT09PT09PT09PT09PSA9PT09PT09PT09PT09PT09PT0gPT09PT09PT09
+PT09PT09PT09PSA9PT09PT09PT09DQo+DQo+IC3ms6jmhI/vvJrlnKjkuIDkupvpgZfnlZnku6Pn
+oIHkuK3mnInml7blj6/og73op4HliLAgYGAkdjBgYCDlkowgYGAkdjFgYCDvvIzlroPku6zmmK8g
+YGAkYTBgYA0KPiAt5ZKMIGBgJGExYGAg55qE5Yir5ZCN77yM5bGe5LqO5bey57uP5bqf5byD55qE
+55So5rOV44CCDQo+ICsuLiBub3RlOjoNCj4gKyAgICDms6jmhI/vvJrlnKjkuIDkupvpgZfnlZnk
+u6PnoIHkuK3mnInml7blj6/og73op4HliLAgYGAkdjBgYCDlkowgYGAkdjFgYCDvvIzlroPku6zm
+mK8NCj4gKyAgICBgYCRhMGBg5ZKMIGBgJGExYGAg55qE5Yir5ZCN77yM5bGe5LqO5bey57uP5bqf
+5byD55qE55So5rOV44CCDQo+DQo+DQo+ICDlkJHph4/lr4TlrZjlmagNCj4gZGlmZiAtLWdpdCBh
+L0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2xvb25nYXJjaC9pcnEtY2hpcC1tb2Rl
+bC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9sb29uZ2FyY2gvaXJxLWNo
+aXAtbW9kZWwucnN0DQo+IGluZGV4IDJhNGMzYWQzOGJlNC4uNDliN2JkYjU5YTRhIDEwMDY0NA0K
+PiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9sb29uZ2FyY2gvaXJxLWNo
+aXAtbW9kZWwucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2xv
+b25nYXJjaC9pcnEtY2hpcC1tb2RlbC5yc3QNCj4gQEAgLTE0Nyw5ICsxNDcsMTIgQEAgUENILUxQ
+Qzo6DQo+DQo+ICAgIGh0dHBzOi8vZ2l0aHViLmNvbS9sb29uZ3Nvbi9Mb29uZ0FyY2gtRG9jdW1l
+bnRhdGlvbi9yZWxlYXNlcy9sYXRlc3QvZG93bmxvYWQvTG9vbmdzb24tN0ExMDAwLXVzZXJtYW51
+YWwtMi4wMC1FTi5wZGYgKOiLseaWh+eJiCkNCj4NCj4gLeazqO+8mkNQVUlOVEPljbPjgIrpvpno
+iq/mnrbmnoTlj4LogIPmiYvlhozljbfkuIDjgIvnrKw3LjToioLmiYDmj4/ov7DnmoRDU1IuRUNG
+Ry9DU1IuRVNUQVTlr4TlrZjlmajlj4rlhbbkuK3mlq0NCj4gLeaOp+WItumAu+i+ke+8m0xJT0lO
+VEPljbPjgIrpvpnoiq8zQTUwMDDlpITnkIblmajkvb/nlKjmiYvlhozjgIvnrKwxMS4x6IqC5omA
+5o+P6L+w55qE4oCc5Lyg57ufSS9P5Lit5pat4oCd77ybRUlPSU5UQw0KPiAt5Y2z44CK6b6Z6Iqv
+M0E1MDAw5aSE55CG5Zmo5L2/55So5omL5YaM44CL56ysMTEuMuiKguaJgOaPj+i/sOeahOKAnOaJ
+qeWxlUkvT+S4reaWreKAne+8m0hUVkVDSU5UQ+WNs+OAium+meiKrzNBNTAwMA0KPiAt5aSE55CG
+5Zmo5L2/55So5omL5YaM44CL56ysMTQuM+iKguaJgOaPj+i/sOeahOKAnEh5cGVyVHJhbnNwb3J0
+5Lit5pat4oCd77ybUENILVBJQy9QQ0gtTVNJ5Y2z44CK6b6Z6IqvN0ExMDAw5qGlDQo+IC3niYfn
+lKjmiLfmiYvlhozjgIvnrKw156ug5omA5o+P6L+w55qE4oCc5Lit5pat5o6n5Yi25Zmo4oCd77yb
+UENILUxQQ+WNs+OAium+meiKrzdBMTAwMOahpeeJh+eUqOaIt+aJi+WGjOOAi+esrDI0LjPoioLm
+iYANCj4gLeaPj+i/sOeahOKAnExQQ+S4reaWreKAneOAgg0KPiArLi4gbm90ZTo6DQo+ICsgICDm
+s6jvvJoNCj4gKyAgICAtIENQVUlOVEPvvJrljbPjgIrpvpnoiq/mnrbmnoTlj4LogIPmiYvlhozl
+jbfkuIDjgIvnrKw3LjToioLmiYDmj4/ov7DnmoRDU1IuRUNGRy9DU1IuRVNUQVTlr4TlrZjlmajl
+j4rlhbYNCj4gKyAgICAgIOS4reaWreaOp+WItumAu+i+ke+8mw0KPiArICAgIC0gTElPSU5UQ++8
+muWNs+OAium+meiKrzNBNTAwMOWkhOeQhuWZqOS9v+eUqOaJi+WGjOOAi+esrDExLjHoioLmiYDm
+j4/ov7DnmoTigJzkvKDnu59JL0/kuK3mlq3igJ3vvJsNCj4gKyAgICAtIEVJT0lOVEPvvJrljbPj
+gIrpvpnoiq8zQTUwMDDlpITnkIblmajkvb/nlKjmiYvlhozjgIvnrKwxMS4y6IqC5omA5o+P6L+w
+55qE4oCc5omp5bGVSS9P5Lit5pat4oCd77ybDQo+ICsgICAgLSBIVFZFQ0lOVEPvvJrljbPjgIrp
+vpnoiq8zQTUwMDDlpITnkIblmajkvb/nlKjmiYvlhozjgIvnrKwxNC4z6IqC5omA5o+P6L+w55qE
+4oCcSHlwZXJUcmFuc3BvcnTkuK3mlq3igJ3vvJsNCj4gKyAgICAtIFBDSC1QSUMvUENILU1TSe+8
+muWNs+OAium+meiKrzdBMTAwMOahpeeJh+eUqOaIt+aJi+WGjOOAi+esrDXnq6DmiYDmj4/ov7Dn
+moTigJzkuK3mlq3mjqfliLblmajigJ3vvJsNCj4gKyAgICAtIFBDSC1MUEPvvJrljbPjgIrpvpno
+iq83QTEwMDDmoaXniYfnlKjmiLfmiYvlhozjgIvnrKwyNC4z6IqC5omA5o+P6L+w55qE4oCcTFBD
+5Lit5pat4oCd44CCDQo+IC0tDQo+IDIuMjcuMA0KPg0K
