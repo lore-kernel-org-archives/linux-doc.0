@@ -2,199 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50802C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 05:47:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4B82C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 05:57:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234146AbiFQFq7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jun 2022 01:46:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42554 "EHLO
+        id S1379711AbiFQF53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jun 2022 01:57:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbiFQFq6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 01:46:58 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EF7266C9C;
-        Thu, 16 Jun 2022 22:46:57 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id B76E01FAF7;
-        Fri, 17 Jun 2022 05:46:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1655444815; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3nN0uwMwYHIGnvGf1je2kTJf72RD7LvC05n350gAJao=;
-        b=M8mPJFXaFRl8/xy8Tz42A0gFlxI4KziLyoj++3uQDgNavMd6xnlh2txXAnkRy8hkDsTzh1
-        B0YGRyP0LGre7vtdrdxltbCmtMNWAA9WwY0oUOoxkwm++eFZXkAt22XEwZn3FOWCiffSEA
-        Z5LTjH3ey/rK6EDbp8+0XxnxxM0HP2A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1655444815;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3nN0uwMwYHIGnvGf1je2kTJf72RD7LvC05n350gAJao=;
-        b=y9n6WNPT2pFDQWR9Lis2ZM020dZ/WkbveEmcOy9KbJPQXT1iS+gVKpL2e5noqK5OD3RXPd
-        HRMGwxNk/JhyCZDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 18B741330D;
-        Fri, 17 Jun 2022 05:46:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id F6AlA08VrGJmVAAAMHmgww
-        (envelope-from <osalvador@suse.de>); Fri, 17 Jun 2022 05:46:55 +0000
-Date:   Fri, 17 Jun 2022 07:46:53 +0200
-From:   Oscar Salvador <osalvador@suse.de>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        mike.kravetz@oracle.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v2 2/2] mm: memory_hotplug: introduce
- SECTION_CANNOT_OPTIMIZE_VMEMMAP
-Message-ID: <YqwVTT+50vt5WpeG@localhost.localdomain>
-References: <20220520025538.21144-1-songmuchun@bytedance.com>
- <20220520025538.21144-3-songmuchun@bytedance.com>
- <53024884-0182-df5f-9ca2-00652c64ce36@redhat.com>
- <YqqqPjkh9r8ZrH0r@localhost.localdomain>
- <24d5ec20-9c9e-93aa-11f4-c4619f51f7d1@redhat.com>
+        with ESMTP id S240710AbiFQF53 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 01:57:29 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF6F566F8D
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jun 2022 22:57:27 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o24yq-0001Mj-TF; Fri, 17 Jun 2022 07:57:16 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o24yn-00109t-8f; Fri, 17 Jun 2022 07:57:14 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1o24yo-00GttI-0N; Fri, 17 Jun 2022 07:57:14 +0200
+Date:   Fri, 17 Jun 2022 07:57:10 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Wolfram Sang <wsa@kernel.org>
+Cc:     linux-doc@vger.kernel.org,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: efm32: remove bindings for deleted platform
+Message-ID: <20220617055710.d4wnya5aclskpqjg@pengutronix.de>
+References: <20220615210720.6363-1-wsa@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="olp76qajcz2msgae"
 Content-Disposition: inline
-In-Reply-To: <24d5ec20-9c9e-93aa-11f4-c4619f51f7d1@redhat.com>
+In-Reply-To: <20220615210720.6363-1-wsa@kernel.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 16, 2022 at 09:30:33AM +0200, David Hildenbrand wrote:
-> IIRC, that was used to skip these patches on the offlining path before
-> we provided the ranges to offline_pages().
 
-Yeah, it was designed for that purpose back then.
+--olp76qajcz2msgae
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> I'd not mess with PG_reserved, and give them a clearer name, to not
-> confuse them with other, ordinary, vmemmap pages that are not
-> self-hosted (maybe in the future we might want to flag all vmemmap pages
-> with a new type?).
+On Wed, Jun 15, 2022 at 11:07:19PM +0200, Wolfram Sang wrote:
+> Commit cc6111375cec ("ARM: drop efm32 platform") removed the platform,
+> so no need to still carry the bindings.
+>=20
+> Signed-off-by: Wolfram Sang <wsa@kernel.org>
+> ---
+>  .../devicetree/bindings/clock/efm32-clock.txt | 11 -----
+>  .../devicetree/bindings/i2c/i2c-efm32.txt     | 33 --------------
+>  .../devicetree/bindings/serial/efm32-uart.txt | 20 ---------
+>  .../devicetree/bindings/spi/efm32-spi.txt     | 39 -----------------
+>  include/dt-bindings/clock/efm32-cmu.h         | 43 -------------------
+>  5 files changed, 146 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/clock/efm32-clock.t=
+xt
+>  delete mode 100644 Documentation/devicetree/bindings/i2c/i2c-efm32.txt
+>  delete mode 100644 Documentation/devicetree/bindings/serial/efm32-uart.t=
+xt
+>  delete mode 100644 Documentation/devicetree/bindings/spi/efm32-spi.txt
+>  delete mode 100644 include/dt-bindings/clock/efm32-cmu.h
 
-Not sure whether a new type is really needed, or to put it another way, I
-cannot see the benefit.
+I didn't do that back then wondering if the bindings are sensible to
+keep even for removed arch (or more general drivers). In this case the
+chip isn't old and unavailable, but just too small for sensible Linux
+usage.
 
-> 
-> I'd just try reusing the flag PG_owner_priv_1. And eventually, flag all
-> (v)memmap pages with a type PG_memmap. However, the latter would be
-> optional and might not be strictly required
-> 
-> 
-> So what think could make sense is
-> 
-> /* vmemmap pages that are self-hosted and cannot be optimized/freed. */
-> PG_vmemmap_self_hosted = PG_owner_priv_1,
+OTOH I'm not aware of any dtb usage on efm32.
 
-Sure, I just lightly tested the below, and seems to work, but not sure
-whether that is what you are referring to.
-@Munchun: thoughts?
+No hard feelings here, if you consider it not useful to keep the binding
+around, go on and remove them.
 
-diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index e66f7aa3191d..a4556afd7bda 100644
---- a/include/linux/page-flags.h
-+++ b/include/linux/page-flags.h
-@@ -193,6 +193,11 @@ enum pageflags {
- 
- 	/* Only valid for buddy pages. Used to track pages that are reported */
- 	PG_reported = PG_uptodate,
-+
-+#ifdef CONFIG_MEMORY_HOTPLUG
-+	/* For self-hosted memmap pages */
-+	PG_vmemmap_self_hosted = PG_owner_priv_1,
-+#endif
- };
- 
- #define PAGEFLAGS_MASK		((1UL << NR_PAGEFLAGS) - 1)
-@@ -628,6 +633,10 @@ PAGEFLAG_FALSE(SkipKASanPoison, skip_kasan_poison)
-  */
- __PAGEFLAG(Reported, reported, PF_NO_COMPOUND)
- 
-+#ifdef CONFIG_MEMORY_HOTPLUG
-+PAGEFLAG(Vmemmap_self_hosted, vmemmap_self_hosted, PF_ANY)
-+#endif
-+
- /*
-  * On an anonymous page mapped into a user virtual memory area,
-  * page->mapping points to its anon_vma, not to a struct address_space;
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 1089ea8a9c98..e2de7ed27e9e 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -101,6 +101,14 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
- {
- 	unsigned long vmemmap_addr = (unsigned long)head;
- 	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
-+	struct mem_section *ms = __pfn_to_section(page_to_pfn(head));
-+	struct page *memmap;
-+
-+	memmap = sparse_decode_mem_map(ms->section_mem_map,
-+				       pfn_to_section_nr(page_to_pfn(head)));
-+
-+	if (PageVmemmap_self_hosted(memmap))
-+		return;
- 
- 	vmemmap_pages = hugetlb_optimize_vmemmap_pages(h);
- 	if (!vmemmap_pages)
-@@ -199,10 +207,10 @@ static struct ctl_table hugetlb_vmemmap_sysctls[] = {
- static __init int hugetlb_vmemmap_sysctls_init(void)
- {
- 	/*
--	 * If "memory_hotplug.memmap_on_memory" is enabled or "struct page"
--	 * crosses page boundaries, the vmemmap pages cannot be optimized.
-+	 * If "struct page" crosses page boundaries, the vmemmap pages cannot
-+	 * be optimized.
- 	 */
--	if (!mhp_memmap_on_memory() && is_power_of_2(sizeof(struct page)))
-+	if (is_power_of_2(sizeof(struct page)))
- 		register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
- 
- 	return 0;
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 1213d0c67a53..863966c2c6f1 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -45,8 +45,6 @@
- #ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
- static int memmap_on_memory_set(const char *val, const struct kernel_param *kp)
- {
--	if (hugetlb_optimize_vmemmap_enabled())
--		return 0;
- 	return param_set_bool(val, kp);
- }
- 
-@@ -1032,6 +1030,7 @@ int mhp_init_memmap_on_memory(unsigned long pfn, unsigned long nr_pages,
- {
- 	unsigned long end_pfn = pfn + nr_pages;
- 	int ret;
-+	int i;
- 
- 	ret = kasan_add_zero_shadow(__va(PFN_PHYS(pfn)), PFN_PHYS(nr_pages));
- 	if (ret)
-@@ -1039,6 +1038,12 @@ int mhp_init_memmap_on_memory(unsigned long pfn, unsigned long nr_pages,
- 
- 	move_pfn_range_to_zone(zone, pfn, nr_pages, NULL, MIGRATE_UNMOVABLE);
- 
-+	/*
-+	 * Let us flag self-hosted memmap
-+	 */
-+	for (i = 0; i < nr_pages; i++)
-+		SetPageVmemmap_self_hosted(pfn_to_page(pfn + i));
-+
- 	/*
- 	 * It might be that the vmemmap_pages fully span sections. If that is
- 	 * the case, mark those sections online here as otherwise they will be
+Best regards
+Uwe
 
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
--- 
-Oscar Salvador
-SUSE Labs
+--olp76qajcz2msgae
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmKsF7IACgkQwfwUeK3K
+7AmlkAgAkeP7ubk1SId4jZw5jRCgEtryr8uSSJbLjLngkCCk9Tk4niLiq7RE9svU
+ogytTFnt0i4WSXrORBidg644EcgoWZrpUDA1ULORe/EbRS3k6bupHQneGP7BkXgo
+GiNgDvJ+ufdcLrI0Nj+jH/C5PxNqOa1sH7GnRE5viYXpbpB6kwyqR18v6G2CAUin
+E3b2QRB32jCAXTYlitLmbjLweY/Qz0pW8yTY4pwhLoG3w+wDshQVwRqSt778yqZN
+dLwli2Zv0+zs2EBKBZgST0hruHpcZ3HJXQy/6UhnXTCdHbxm2pI0AdQo5nIxrYe6
+/oWYm+u40EbHnR0PPhQFCKeOW1OExg==
+=4gVo
+-----END PGP SIGNATURE-----
+
+--olp76qajcz2msgae--
