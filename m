@@ -2,124 +2,324 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91AE2C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 07:17:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E34CECCA479
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 07:28:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380555AbiFQHRw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jun 2022 03:17:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58354 "EHLO
+        id S1380593AbiFQH2i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jun 2022 03:28:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380577AbiFQHRv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 03:17:51 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DFD6F13CC6
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 00:17:45 -0700 (PDT)
-Received: from localhost.localdomain (unknown [112.20.110.105])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxX92JKqxirf5HAA--.12068S4;
-        Fri, 17 Jun 2022 15:17:35 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     chenhuacai@kernel.org, alexs@kernel.org, bobwxc@email.cn,
-        seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
-        kernel@xen0n.name, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com,
-        loongarch@lists.linux.dev
-Subject: [PATCH 2/2] docs/zh_CN: rewrite all the notes
-Date:   Fri, 17 Jun 2022 15:19:07 +0800
-Message-Id: <151c8e9725b51d8629335a828ab0115705e7696c.1655450200.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1655450200.git.siyanteng@loongson.cn>
-References: <cover.1655450200.git.siyanteng@loongson.cn>
+        with ESMTP id S1380636AbiFQH2b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 03:28:31 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C719E42ED7
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 00:28:16 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id r5so3377668pgr.3
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 00:28:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=b+rfEXZ4GLjjuoJrw+X3apDxL7fB3SJwlxuDhP2gRLw=;
+        b=leZzHlDaC8chjBI7eid/Y9ny7U2cJ+x+zmGOgrvGGE1xkxPQkQTRxjqbgsVMU8d61S
+         MJURzbBcc6/juGlbN4N35Yz7V4IVU3RwsYfHHbaSPNuMyF5n9cGP8pel686dKGoM+wXb
+         ys2D6FHgNTZht3H6j/QNYqVT6BGCYsS7NN75/SV9tAvqbwxa/0M9zyAeo6DcAD7CrohQ
+         tA/3kMuObtUuAiWO0fgRHs+Yd3ctpmZtMVfA5UPwMV0bn4ENYe0PEPEQQa67p3MkbGXI
+         LlEdU9OxqmO92e4s5x0A3zmS9OLwPBmB3mNuFLxuc4WkggOpzJHGS1vEGrrAeaWVlV6D
+         E96Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=b+rfEXZ4GLjjuoJrw+X3apDxL7fB3SJwlxuDhP2gRLw=;
+        b=mrJOhItC3j0qXgYm8Q0aowmYNB0M8YtpB9dMrgcBNM0D5AY5IdQsfBtBngZHqSMWZl
+         CVipOIX2x2EBY9+2Pi+zL0WHtZpYri3dURl9DSDWE63iwbDT0VVQVz9bwITW0Kp+guks
+         DH/Dsx0FGRGn6Hhv/E+eMxMmNRo4vNXY0IUMhh+y1kUI24Qet8voKnXSEEPbX//eqLlU
+         fs9jqAeZ0/Tf4hIdv782eHkWs8mj/NtZECxYjVJoMlFBBcFW10xNg65WAxpeyEwJ6aSs
+         b969E0So/eWKhNx0IT6dRi294x+kQih9E1/oAVG7XdIloZU1ejuUsmH1v7vl6AaaHySb
+         C2hQ==
+X-Gm-Message-State: AJIora/3uCXz8goTBLxL+G5Z5Ro73L+Xm3qVNVKvTDV1Zd4sQlSZCJiv
+        SmTflfKO/WUEMp/ER7djY305xg==
+X-Google-Smtp-Source: AGRyM1vPPlph1s3ty+1w5MCA25O8Zvoml/8ArR/MhH1gDvCSAS1ZGO+v2FWHyehTw4AAB+zn8ryF4Q==
+X-Received: by 2002:a63:8648:0:b0:3fd:980d:8de4 with SMTP id x69-20020a638648000000b003fd980d8de4mr7767738pgd.198.1655450896206;
+        Fri, 17 Jun 2022 00:28:16 -0700 (PDT)
+Received: from localhost ([139.177.225.255])
+        by smtp.gmail.com with ESMTPSA id p15-20020a170903248f00b00163c6ac211fsm584071plw.111.2022.06.17.00.28.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jun 2022 00:28:14 -0700 (PDT)
+Date:   Fri, 17 Jun 2022 15:28:10 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     David Hildenbrand <david@redhat.com>, corbet@lwn.net,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mike.kravetz@oracle.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v2 2/2] mm: memory_hotplug: introduce
+ SECTION_CANNOT_OPTIMIZE_VMEMMAP
+Message-ID: <YqwtCu2Ura+skV3B@FVFYT0MHHV2J.usts.net>
+References: <20220520025538.21144-1-songmuchun@bytedance.com>
+ <20220520025538.21144-3-songmuchun@bytedance.com>
+ <53024884-0182-df5f-9ca2-00652c64ce36@redhat.com>
+ <YqqqPjkh9r8ZrH0r@localhost.localdomain>
+ <24d5ec20-9c9e-93aa-11f4-c4619f51f7d1@redhat.com>
+ <YqwVTT+50vt5WpeG@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxX92JKqxirf5HAA--.12068S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxAr1kAF1xCF1kuFWxKF1rZwb_yoWrZw1kpa
-        s2kr93KF1DA347Jr4kCF1UGa1xGF1xC3W7CFWrK3WkJr17AwnYyr18tF9rXFW3GryayFZY
-        vr4rKrs5Zr1Ykw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUPC14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
-        x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-        Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
-        A2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
-        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
-        8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
-        jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
-        kIwI1lc2xSY4AK67AK6r4xMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
-        MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
-        AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
-        cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
-        80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
-        43ZEXa7VUb3fQtUUUUU==
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YqwVTT+50vt5WpeG@localhost.localdomain>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Note is an admonition, let's use the directives
-implemented in the reference reStructuredText parser.
+On Fri, Jun 17, 2022 at 07:46:53AM +0200, Oscar Salvador wrote:
+> On Thu, Jun 16, 2022 at 09:30:33AM +0200, David Hildenbrand wrote:
+> > IIRC, that was used to skip these patches on the offlining path before
+> > we provided the ranges to offline_pages().
+> 
+> Yeah, it was designed for that purpose back then.
+> 
+> > I'd not mess with PG_reserved, and give them a clearer name, to not
+> > confuse them with other, ordinary, vmemmap pages that are not
+> > self-hosted (maybe in the future we might want to flag all vmemmap pages
+> > with a new type?).
+> 
+> Not sure whether a new type is really needed, or to put it another way, I
+> cannot see the benefit.
+> 
+> > 
+> > I'd just try reusing the flag PG_owner_priv_1. And eventually, flag all
+> > (v)memmap pages with a type PG_memmap. However, the latter would be
+> > optional and might not be strictly required
+> > 
+> > 
+> > So what think could make sense is
+> > 
+> > /* vmemmap pages that are self-hosted and cannot be optimized/freed. */
+> > PG_vmemmap_self_hosted = PG_owner_priv_1,
+> 
+> Sure, I just lightly tested the below, and seems to work, but not sure
+> whether that is what you are referring to.
+> @Munchun: thoughts?
+>
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- .../translations/zh_CN/loongarch/introduction.rst | 14 ++++++++------
- .../zh_CN/loongarch/irq-chip-model.rst            | 15 +++++++++------
- 2 files changed, 17 insertions(+), 12 deletions(-)
+I think it works and fits my requirement.
 
-diff --git a/Documentation/translations/zh_CN/loongarch/introduction.rst b/Documentation/translations/zh_CN/loongarch/introduction.rst
-index e31a1a928c48..a8a5aaca7d94 100644
---- a/Documentation/translations/zh_CN/loongarch/introduction.rst
-+++ b/Documentation/translations/zh_CN/loongarch/introduction.rst
-@@ -46,10 +46,11 @@ LA64中每个寄存器为64位宽。 ``$r0`` 的内容总是固定为0，而其
- ``$r23``-``$r31`` ``$s0``-``$s8`` 静态寄存器          是
- ================= =============== =================== ==========
- 
--注意：``$r21``寄存器在ELF psABI中保留未使用，但是在Linux内核用于保存每CPU
--变量基地址。该寄存器没有ABI命名，不过在内核中称为``$u0``。在一些遗留代码
--中有时可能见到``$v0``和``$v1``，它们是``$a0``和``$a1``的别名，属于已经废弃
--的用法。
-+.. note::
-+    注意： ``$r21``寄存器在ELF psABI中保留未使用，但是在Linux内核用于保
-+    存每CPU变量基地址。该寄存器没有ABI命名，不过在内核中称为``$u0``。在一
-+    些遗留代码中有时可能见到``$v0``和``$v1``，它们是``$a0``和``$a1``的
-+    别名，属于已经废弃的用法。
- 
- 浮点寄存器
- ----------
-@@ -68,8 +69,9 @@ LA64中每个寄存器为64位宽。 ``$r0`` 的内容总是固定为0，而其
- ``$f24``-``$f31`` ``$fs0``-``$fs7``  静态寄存器          是
- ================= ================== =================== ==========
- 
--注意：在一些遗留代码中有时可能见到 ``$v0`` 和 ``$v1`` ，它们是 ``$a0``
--和 ``$a1`` 的别名，属于已经废弃的用法。
-+.. note::
-+    注意：在一些遗留代码中有时可能见到 ``$v0`` 和 ``$v1`` ，它们是
-+    ``$a0``和 ``$a1`` 的别名，属于已经废弃的用法。
- 
- 
- 向量寄存器
-diff --git a/Documentation/translations/zh_CN/loongarch/irq-chip-model.rst b/Documentation/translations/zh_CN/loongarch/irq-chip-model.rst
-index 2a4c3ad38be4..49b7bdb59a4a 100644
---- a/Documentation/translations/zh_CN/loongarch/irq-chip-model.rst
-+++ b/Documentation/translations/zh_CN/loongarch/irq-chip-model.rst
-@@ -147,9 +147,12 @@ PCH-LPC::
- 
-   https://github.com/loongson/LoongArch-Documentation/releases/latest/download/Loongson-7A1000-usermanual-2.00-EN.pdf (英文版)
- 
--注：CPUINTC即《龙芯架构参考手册卷一》第7.4节所描述的CSR.ECFG/CSR.ESTAT寄存器及其中断
--控制逻辑；LIOINTC即《龙芯3A5000处理器使用手册》第11.1节所描述的“传统I/O中断”；EIOINTC
--即《龙芯3A5000处理器使用手册》第11.2节所描述的“扩展I/O中断”；HTVECINTC即《龙芯3A5000
--处理器使用手册》第14.3节所描述的“HyperTransport中断”；PCH-PIC/PCH-MSI即《龙芯7A1000桥
--片用户手册》第5章所描述的“中断控制器”；PCH-LPC即《龙芯7A1000桥片用户手册》第24.3节所
--描述的“LPC中断”。
-+.. note::
-+   注：
-+    - CPUINTC：即《龙芯架构参考手册卷一》第7.4节所描述的CSR.ECFG/CSR.ESTAT寄存器及其
-+      中断控制逻辑；
-+    - LIOINTC：即《龙芯3A5000处理器使用手册》第11.1节所描述的“传统I/O中断”；
-+    - EIOINTC：即《龙芯3A5000处理器使用手册》第11.2节所描述的“扩展I/O中断”；
-+    - HTVECINTC：即《龙芯3A5000处理器使用手册》第14.3节所描述的“HyperTransport中断”；
-+    - PCH-PIC/PCH-MSI：即《龙芯7A1000桥片用户手册》第5章所描述的“中断控制器”；
-+    - PCH-LPC：即《龙芯7A1000桥片用户手册》第24.3节所描述的“LPC中断”。
--- 
-2.27.0
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index e66f7aa3191d..a4556afd7bda 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -193,6 +193,11 @@ enum pageflags {
+>  
+>  	/* Only valid for buddy pages. Used to track pages that are reported */
+>  	PG_reported = PG_uptodate,
+> +
+> +#ifdef CONFIG_MEMORY_HOTPLUG
+> +	/* For self-hosted memmap pages */
+> +	PG_vmemmap_self_hosted = PG_owner_priv_1,
+> +#endif
+>  };
+>  
+>  #define PAGEFLAGS_MASK		((1UL << NR_PAGEFLAGS) - 1)
+> @@ -628,6 +633,10 @@ PAGEFLAG_FALSE(SkipKASanPoison, skip_kasan_poison)
+>   */
+>  __PAGEFLAG(Reported, reported, PF_NO_COMPOUND)
+>  
+> +#ifdef CONFIG_MEMORY_HOTPLUG
+> +PAGEFLAG(Vmemmap_self_hosted, vmemmap_self_hosted, PF_ANY)
+> +#endif
+> +
+>  /*
+>   * On an anonymous page mapped into a user virtual memory area,
+>   * page->mapping points to its anon_vma, not to a struct address_space;
+> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> index 1089ea8a9c98..e2de7ed27e9e 100644
+> --- a/mm/hugetlb_vmemmap.c
+> +++ b/mm/hugetlb_vmemmap.c
+> @@ -101,6 +101,14 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
+>  {
+>  	unsigned long vmemmap_addr = (unsigned long)head;
+>  	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
+> +	struct mem_section *ms = __pfn_to_section(page_to_pfn(head));
+> +	struct page *memmap;
+> +
+> +	memmap = sparse_decode_mem_map(ms->section_mem_map,
+> +				       pfn_to_section_nr(page_to_pfn(head)));
+> +
+> +	if (PageVmemmap_self_hosted(memmap))
+> +		return;
 
+I think here needs a loop if it is a 1GB page (spans multiple sections).
+Right?  Here is an implementation based on another approach. But I think
+your implementation is more simpler and efficient.  Would you mind me
+squash your diff into my patch and with your "Co-developed-by"?
+
+diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+index fcd9f7872064..46d637acc15e 100644
+--- a/mm/hugetlb_vmemmap.c
++++ b/mm/hugetlb_vmemmap.c
+@@ -10,7 +10,7 @@
+  */
+ #define pr_fmt(fmt)    "HugeTLB: " fmt
+
+-#include <linux/memory_hotplug.h>
++#include <linux/memory.h>
+ #include "hugetlb_vmemmap.h"
+
+ /*
+@@ -97,18 +97,79 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
+        return ret;
+ }
+
++/*
++ * The vmemmap of the first page of hotplugged memory falls onto itself when
++ * memory_hotplug.memmap_on_memory is enabled, and the vmemmap pages cannot be
++ * optimized in this case.  We can simply lookup the first page and test if
++ * the vmemmap maps to itself to detect if memory_hotplug.memmap_on_memory is
++ * enabled for this memory block.
++ *
++ * [      hotplugged memory     ]
++ * [ vmemmap ][  usable memory  ]
++ *   ^   |      |            |
++ *   +---+      |            |
++ *     ^        |            |
++ *     +--------+            |
++ *         ^                 |
++ *         +-----------------+
++ */
++static bool memory_block_vmemmap_optimizable(unsigned long start_pfn)
++{
++       pmd_t *pmdp, pmd;
++       unsigned long pfn, vaddr;
++
++       vaddr = (unsigned long)pfn_to_page(start_pfn);
++       pmdp = pmd_off_k(vaddr);
++       /*
++        * The READ_ONCE() is used to stabilize *pmdp in a register or on
++        * the stack so that it will stop changing under the code.
++        */
++       pmd = READ_ONCE(*pmdp);
++
++       if (pmd_large(pmd))
++               pfn = pmd_pfn(pmd);
++       else
++               pfn = pte_pfn(*pte_offset_kernel(pmdp, vaddr));
++
++       return pfn != start_pfn;
++}
++
++static unsigned int optimizable_vmemmap_pages(struct hstate *h,
++                                             struct page *head)
++{
++       unsigned long size = memory_block_size_bytes();
++       unsigned long pfn = page_to_pfn(head);
++       unsigned long start = ALIGN_DOWN(pfn, size);
++       unsigned long end = start + pages_per_huge_page(h);
++
++       if (READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
++               return 0;
++
++       for (; start < end; start += size) {
++               /*
++                * Fast path. The early section is always optimizable since the
++                * early section's vmemmap pages do not allocated from the added
++                * memory block itself.
++                */
++               if (early_section(__pfn_to_section(start + (pfn & PAGE_SECTION_MASK))))
++                       continue;
++
++               if (!memory_block_vmemmap_optimizable(start))
++                       return 0;
++       }
++
++       return hugetlb_optimize_vmemmap_pages(h);
++}
++
+ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
+ {
+        unsigned long vmemmap_addr = (unsigned long)head;
+        unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
+
+-       vmemmap_pages = hugetlb_optimize_vmemmap_pages(h);
++       vmemmap_pages = optimizable_vmemmap_pages(h, head);
+        if (!vmemmap_pages)
+                return;
+
+-       if (READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
+-               return;
+-
+        static_branch_inc(&hugetlb_optimize_vmemmap_key);
+
+        vmemmap_addr    += RESERVE_VMEMMAP_SIZE;
+@@ -199,10 +260,10 @@ static struct ctl_table hugetlb_vmemmap_sysctls[] = {
+ static __init int hugetlb_vmemmap_sysctls_init(void)
+ {
+        /*
+-        * If "memory_hotplug.memmap_on_memory" is enabled or "struct page"
+-        * crosses page boundaries, the vmemmap pages cannot be optimized.
++        * If "struct page" crosses page boundaries, the vmemmap pages cannot
++        * be optimized.
+         */
+-       if (!mhp_memmap_on_memory() && is_power_of_2(sizeof(struct page)))
++       if (is_power_of_2(sizeof(struct page)))
+                register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
+
+        return 0;
+
+>  
+>  	vmemmap_pages = hugetlb_optimize_vmemmap_pages(h);
+>  	if (!vmemmap_pages)
+> @@ -199,10 +207,10 @@ static struct ctl_table hugetlb_vmemmap_sysctls[] = {
+>  static __init int hugetlb_vmemmap_sysctls_init(void)
+>  {
+>  	/*
+> -	 * If "memory_hotplug.memmap_on_memory" is enabled or "struct page"
+> -	 * crosses page boundaries, the vmemmap pages cannot be optimized.
+> +	 * If "struct page" crosses page boundaries, the vmemmap pages cannot
+> +	 * be optimized.
+>  	 */
+> -	if (!mhp_memmap_on_memory() && is_power_of_2(sizeof(struct page)))
+> +	if (is_power_of_2(sizeof(struct page)))
+>  		register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
+>  
+>  	return 0;
+> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+> index 1213d0c67a53..863966c2c6f1 100644
+> --- a/mm/memory_hotplug.c
+> +++ b/mm/memory_hotplug.c
+> @@ -45,8 +45,6 @@
+>  #ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
+>  static int memmap_on_memory_set(const char *val, const struct kernel_param *kp)
+>  {
+> -	if (hugetlb_optimize_vmemmap_enabled())
+> -		return 0;
+>  	return param_set_bool(val, kp);
+>  }
+>  
+> @@ -1032,6 +1030,7 @@ int mhp_init_memmap_on_memory(unsigned long pfn, unsigned long nr_pages,
+>  {
+>  	unsigned long end_pfn = pfn + nr_pages;
+>  	int ret;
+> +	int i;
+>  
+>  	ret = kasan_add_zero_shadow(__va(PFN_PHYS(pfn)), PFN_PHYS(nr_pages));
+>  	if (ret)
+> @@ -1039,6 +1038,12 @@ int mhp_init_memmap_on_memory(unsigned long pfn, unsigned long nr_pages,
+>  
+>  	move_pfn_range_to_zone(zone, pfn, nr_pages, NULL, MIGRATE_UNMOVABLE);
+>  
+> +	/*
+> +	 * Let us flag self-hosted memmap
+> +	 */
+> +	for (i = 0; i < nr_pages; i++)
+> +		SetPageVmemmap_self_hosted(pfn_to_page(pfn + i));
+> +
+>  	/*
+>  	 * It might be that the vmemmap_pages fully span sections. If that is
+>  	 * the case, mark those sections online here as otherwise they will be
+> 
+> 
+> -- 
+> Oscar Salvador
+> SUSE Labs
+> 
