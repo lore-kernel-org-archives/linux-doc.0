@@ -2,48 +2,48 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF46BC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 03:04:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3CADC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 03:18:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379737AbiFQDEM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jun 2022 23:04:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44600 "EHLO
+        id S1379584AbiFQDSQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jun 2022 23:18:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379749AbiFQDEL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jun 2022 23:04:11 -0400
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F226166237
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jun 2022 20:04:08 -0700 (PDT)
-Received: by mail-vs1-xe2f.google.com with SMTP id x9so2902884vsg.13
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jun 2022 20:04:08 -0700 (PDT)
+        with ESMTP id S1379982AbiFQDSO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jun 2022 23:18:14 -0400
+Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com [IPv6:2607:f8b0:4864:20::e2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDC8C2CCBE
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jun 2022 20:18:12 -0700 (PDT)
+Received: by mail-vs1-xe2e.google.com with SMTP id j16so2956138vso.3
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jun 2022 20:18:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=R6Hc91+se229HD5l7HXDZ+HfW8CTebpMh8HfmhUTOpA=;
-        b=rioKHEIXDdxpnd/mle8IERdGydANcz3zdHn0l4i2x1RpmqCSnw9KTj9jkZZMwplNDn
-         hMqUfoVr2OqKjQuUuidCzs3LijuS6mdh05jK0teI86Oia85a5Sm19d0LyGe7L/vKbbXk
-         9BIRpRnklRBsVO3ko6z9LDwebm/KS9e4ArmqWzS9uo1ruIW5wN79d12SSrm0X6BSpVQd
-         cDC9czJBLgFS/tpSc73Nko1xNA6EXFpqDISPLKvovY/Hf0q3HnQ4dfYLpG/KalzrW98H
-         V4MBOZR99I/7fsZSRQnjknyRpAP9Th9JlHfIGgOoT7RhuLx9p5zXIPCaKH6EpGUV9LEM
-         jIVA==
+        bh=3M25tFguWp/X9ij6lANFYaSoUUby/E3YsU5KYOEMENo=;
+        b=HvDTxqzJkYuB1OOqj5vT2ZumBPxqjCCuXlbgpqcEzgoBkHqfOKs9lfpCYcc86NPJXV
+         gJMFCnV+fGYAfuAGDVOpMlKl2v4l6Vsp/OU+sQFkAZqkiu1ifKqF38GrnFYNrYv1JROw
+         7gDlIdg4QF8/CCQS2XvSq7NmlW7Lffjoh+LbAV688L8XYrskKcQ9UKcqaLHu5o6U6/1B
+         BQn1oo7m/Z/+ExsIspqR4CgfAAZVPKpF5AmwUJL+9EuV/aWdjm/PVICxyUxvx3aEgNiu
+         /voZYxWZJT25rBKbY9ohl95zpS8oKJ3rx5XrtfphLb/3f2PSNlGkXh6sx3thhez4qRtR
+         8Qnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=R6Hc91+se229HD5l7HXDZ+HfW8CTebpMh8HfmhUTOpA=;
-        b=FJi9g3sc1g8rbw1I2YcIgh0LGhDFOiLZg7tjgwYKPVrE17jeI7kMDwaa1KRPcwmVFI
-         DZcAzSuxKieLgWjrumYaQLbVIUl0NrhiG7lzOAE6XAo4BfSOldnbWoN3w41/i33FXBLs
-         iE2WCkixqnCU/QUeTL+aXXxPu68Sm1WEdJ8d0C1VDx5ZfinPQS90LF4AzM3S6v/7D+9W
-         w4/ig//ZK8G6mW58FB5V3IuC5me3PXmYE1/ptwWhB9dNjLCO4EKBSpyUnDw4zvoXhikM
-         d5oaNlHCeY8+aAjCCasE7em0/Bk4OyVNUQmfx/74Nmg3E+8aBsKWuf0dU1tCVsT3dbbt
-         TdTg==
-X-Gm-Message-State: AJIora88TmlFArSzJFpVR8S0cPnMVWf1ISo9v4AYnoYL/FkQbqCmsvKS
-        8z6CGT1pa9bgXyzM/JB/OGriZ4t/LCi4QnLxVd2ahQ==
-X-Google-Smtp-Source: AGRyM1vCXNHebt05ptZ7JoVLnKs4Sdwk6Yu91UiZuW/GkTbEnghrDi/daLOPKyzPqqN/SgRdWsZdqe2KQZdg2rJ5GkQ=
+        bh=3M25tFguWp/X9ij6lANFYaSoUUby/E3YsU5KYOEMENo=;
+        b=uJKnRlslPNeaaIGt/t2fx+TeAiLNqbQN7qLr1RW2kWXV4CQVe4NDzGXa0XW7ixjRyM
+         0FEoPuaR4pueoxbvG+EqWryQXigEM+FGfyoNs6fLBNfHBUHDrp7lVA/6keHo9qklo7Uk
+         rslqFPqfJ1DVJQMAGhFqCgDWt8MrqVNKQXsTEadKB9O0UP3msDoSFoGLIBB8OmLqkLmP
+         qp1U4GCZmGZLpRkVwB79Lsn1v1xA43ZGQojuzR9bnvL5UwpVjA18Wk6/adJBO9lr3tFS
+         ak3bfsCPkPgkC+M5mwQrgwZ7ocjLdBOdCrWJHTFysCQ4g47ugi854TQQ4FYpSvOU+VXq
+         WWHA==
+X-Gm-Message-State: AJIora/oEKYzj3rI/YdDn2hwF/F5HPkTaLyzucGJtmRUFWiwcvq0zRFv
+        6VTUmdZkSkh5DLFnLeEey35FAGPQR9babKKLb5MBkA==
+X-Google-Smtp-Source: AGRyM1vsL0OlvWTOfhp/D7Jo3bIVV/t+d/4aM8TOzcafArnqBF7Y5wIusDh4SqSkn3/yp6WhIj6Spiny1WtQHG7N534=
 X-Received: by 2002:a05:6102:214c:b0:34b:b31d:1a50 with SMTP id
- h12-20020a056102214c00b0034bb31d1a50mr3610381vsg.41.1655435047846; Thu, 16
- Jun 2022 20:04:07 -0700 (PDT)
+ h12-20020a056102214c00b0034bb31d1a50mr3621564vsg.41.1655435891717; Thu, 16
+ Jun 2022 20:18:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220518014632.922072-1-yuzhao@google.com> <20220518014632.922072-8-yuzhao@google.com>
  <CAGsJ_4yboZEY9OfyujPxBa_AEuGM3OAq5y_L9gvzSMUv70BxeQ@mail.gmail.com>
@@ -56,11 +56,12 @@ References: <20220518014632.922072-1-yuzhao@google.com> <20220518014632.922072-8
  <CAOUHufZn5L_R7b_S3P9O+VoJC=EnY10e+xyFF7UqiGbLzzzqKg@mail.gmail.com>
  <CAGsJ_4ws3uNWM1wpW603UPYrcXqMe3vmPzbLRkgj9SjSgurN3A@mail.gmail.com>
  <CAOUHufbOwPSbBwd7TG0QFt4YJvBp93Q9nUJEDvMpUA6PqjYMUQ@mail.gmail.com>
- <CAOUHufYvH2LaGyAJZFQNOsGDBKD2++aFnTV6=qaVtcNrKjS_bA@mail.gmail.com> <CAGsJ_4ypWMoxUJPjYiFdwQpLOXj8STDN8dSDEQbCpuNonBBkcA@mail.gmail.com>
-In-Reply-To: <CAGsJ_4ypWMoxUJPjYiFdwQpLOXj8STDN8dSDEQbCpuNonBBkcA@mail.gmail.com>
+ <CAOUHufYvH2LaGyAJZFQNOsGDBKD2++aFnTV6=qaVtcNrKjS_bA@mail.gmail.com>
+ <CAGsJ_4ypWMoxUJPjYiFdwQpLOXj8STDN8dSDEQbCpuNonBBkcA@mail.gmail.com> <CAOUHufYq81_1HAnTU84md5xr8a8msjxK3tDWmmRfLSUnY-+u+g@mail.gmail.com>
+In-Reply-To: <CAOUHufYq81_1HAnTU84md5xr8a8msjxK3tDWmmRfLSUnY-+u+g@mail.gmail.com>
 From:   Yu Zhao <yuzhao@google.com>
-Date:   Thu, 16 Jun 2022 21:03:31 -0600
-Message-ID: <CAOUHufYq81_1HAnTU84md5xr8a8msjxK3tDWmmRfLSUnY-+u+g@mail.gmail.com>
+Date:   Thu, 16 Jun 2022 21:17:35 -0600
+Message-ID: <CAOUHufYGywncZGYGPnbS1rSEngtsj+RPevAAcvjQqRLDBTZbmQ@mail.gmail.com>
 Subject: Re: [PATCH v11 07/14] mm: multi-gen LRU: exploit locality in rmap
 To:     Barry Song <21cnbao@gmail.com>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
@@ -101,113 +102,118 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 16, 2022 at 8:01 PM Barry Song <21cnbao@gmail.com> wrote:
+On Thu, Jun 16, 2022 at 9:03 PM Yu Zhao <yuzhao@google.com> wrote:
 >
-> On Fri, Jun 17, 2022 at 1:43 PM Yu Zhao <yuzhao@google.com> wrote:
+> On Thu, Jun 16, 2022 at 8:01 PM Barry Song <21cnbao@gmail.com> wrote:
 > >
-> > On Thu, Jun 16, 2022 at 5:29 PM Yu Zhao <yuzhao@google.com> wrote:
+> > On Fri, Jun 17, 2022 at 1:43 PM Yu Zhao <yuzhao@google.com> wrote:
 > > >
-> > > On Thu, Jun 16, 2022 at 4:33 PM Barry Song <21cnbao@gmail.com> wrote:
+> > > On Thu, Jun 16, 2022 at 5:29 PM Yu Zhao <yuzhao@google.com> wrote:
 > > > >
-> > > > On Fri, Jun 17, 2022 at 9:56 AM Yu Zhao <yuzhao@google.com> wrote:
+> > > > On Thu, Jun 16, 2022 at 4:33 PM Barry Song <21cnbao@gmail.com> wrote:
 > > > > >
-> > > > > On Wed, Jun 8, 2022 at 4:46 PM Barry Song <21cnbao@gmail.com> wrote:
+> > > > > On Fri, Jun 17, 2022 at 9:56 AM Yu Zhao <yuzhao@google.com> wrote:
 > > > > > >
-> > > > > > On Thu, Jun 9, 2022 at 3:52 AM Linus Torvalds
-> > > > > > <torvalds@linux-foundation.org> wrote:
+> > > > > > On Wed, Jun 8, 2022 at 4:46 PM Barry Song <21cnbao@gmail.com> wrote:
 > > > > > > >
-> > > > > > > On Tue, Jun 7, 2022 at 5:43 PM Barry Song <21cnbao@gmail.com> wrote:
+> > > > > > > On Thu, Jun 9, 2022 at 3:52 AM Linus Torvalds
+> > > > > > > <torvalds@linux-foundation.org> wrote:
 > > > > > > > >
-> > > > > > > > Given we used to have a flush for clear pte young in LRU, right now we are
-> > > > > > > > moving to nop in almost all cases for the flush unless the address becomes
-> > > > > > > > young exactly after look_around and before ptep_clear_flush_young_notify.
-> > > > > > > > It means we are actually dropping flush. So the question is,  were we
-> > > > > > > > overcautious? we actually don't need the flush at all even without mglru?
+> > > > > > > > On Tue, Jun 7, 2022 at 5:43 PM Barry Song <21cnbao@gmail.com> wrote:
+> > > > > > > > >
+> > > > > > > > > Given we used to have a flush for clear pte young in LRU, right now we are
+> > > > > > > > > moving to nop in almost all cases for the flush unless the address becomes
+> > > > > > > > > young exactly after look_around and before ptep_clear_flush_young_notify.
+> > > > > > > > > It means we are actually dropping flush. So the question is,  were we
+> > > > > > > > > overcautious? we actually don't need the flush at all even without mglru?
+> > > > > > > >
+> > > > > > > > We stopped flushing the TLB on A bit clears on x86 back in 2014.
+> > > > > > > >
+> > > > > > > > See commit b13b1d2d8692 ("x86/mm: In the PTE swapout page reclaim case
+> > > > > > > > clear the accessed bit instead of flushing the TLB").
 > > > > > > >
-> > > > > > > We stopped flushing the TLB on A bit clears on x86 back in 2014.
+> > > > > > > This is true for x86, RISC-V, powerpc and S390. but it is not true for
+> > > > > > > most platforms.
 > > > > > > >
-> > > > > > > See commit b13b1d2d8692 ("x86/mm: In the PTE swapout page reclaim case
-> > > > > > > clear the accessed bit instead of flushing the TLB").
+> > > > > > > There was an attempt to do the same thing in arm64:
+> > > > > > > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1793830.html
+> > > > > > > but arm64 still sent a nosync tlbi and depent on a deferred to dsb :
+> > > > > > > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1794484.html
 > > > > > >
-> > > > > > This is true for x86, RISC-V, powerpc and S390. but it is not true for
-> > > > > > most platforms.
+> > > > > > Barry, you've already answered your own question.
 > > > > > >
-> > > > > > There was an attempt to do the same thing in arm64:
-> > > > > > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1793830.html
-> > > > > > but arm64 still sent a nosync tlbi and depent on a deferred to dsb :
-> > > > > > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1794484.html
+> > > > > > Without commit 07509e10dcc7 arm64: pgtable: Fix pte_accessible():
+> > > > > >    #define pte_accessible(mm, pte)        \
+> > > > > >   -       (mm_tlb_flush_pending(mm) ? pte_present(pte) : pte_valid_young(pte))
+> > > > > >   +       (mm_tlb_flush_pending(mm) ? pte_present(pte) : pte_valid(pte))
+> > > > > >
+> > > > > > You missed all TLB flushes for PTEs that have gone through
+> > > > > > ptep_test_and_clear_young() on the reclaim path. But most of the time,
+> > > > > > you got away with it, only occasional app crashes:
+> > > > > > https://lore.kernel.org/r/CAGsJ_4w6JjuG4rn2P=d974wBOUtXUUnaZKnx+-G6a8_mSROa+Q@mail.gmail.com/
+> > > > > >
+> > > > > > Why?
 > > > > >
-> > > > > Barry, you've already answered your own question.
+> > > > > Yes. On the arm64 platform, ptep_test_and_clear_young() without flush
+> > > > > can cause random
+> > > > > App to crash.
+> > > > > ptep_test_and_clear_young() + flush won't have this kind of crashes though.
+> > > > > But after applying commit 07509e10dcc7 arm64: pgtable: Fix
+> > > > > pte_accessible(), on arm64,
+> > > > > ptep_test_and_clear_young() without flush won't cause App to crash.
 > > > > >
-> > > > > Without commit 07509e10dcc7 arm64: pgtable: Fix pte_accessible():
-> > > > >    #define pte_accessible(mm, pte)        \
-> > > > >   -       (mm_tlb_flush_pending(mm) ? pte_present(pte) : pte_valid_young(pte))
-> > > > >   +       (mm_tlb_flush_pending(mm) ? pte_present(pte) : pte_valid(pte))
-> > > > >
-> > > > > You missed all TLB flushes for PTEs that have gone through
-> > > > > ptep_test_and_clear_young() on the reclaim path. But most of the time,
-> > > > > you got away with it, only occasional app crashes:
-> > > > > https://lore.kernel.org/r/CAGsJ_4w6JjuG4rn2P=d974wBOUtXUUnaZKnx+-G6a8_mSROa+Q@mail.gmail.com/
-> > > > >
-> > > > > Why?
+> > > > > ptep_test_and_clear_young(), with flush, without commit 07509e10dcc7:   OK
+> > > > > ptep_test_and_clear_young(), without flush, with commit 07509e10dcc7:   OK
+> > > > > ptep_test_and_clear_young(), without flush, without commit 07509e10dcc7:   CRASH
 > > > >
-> > > > Yes. On the arm64 platform, ptep_test_and_clear_young() without flush
-> > > > can cause random
-> > > > App to crash.
-> > > > ptep_test_and_clear_young() + flush won't have this kind of crashes though.
-> > > > But after applying commit 07509e10dcc7 arm64: pgtable: Fix
-> > > > pte_accessible(), on arm64,
-> > > > ptep_test_and_clear_young() without flush won't cause App to crash.
+> > > > I agree -- my question was rhetorical :)
 > > > >
-> > > > ptep_test_and_clear_young(), with flush, without commit 07509e10dcc7:   OK
-> > > > ptep_test_and_clear_young(), without flush, with commit 07509e10dcc7:   OK
-> > > > ptep_test_and_clear_young(), without flush, without commit 07509e10dcc7:   CRASH
+> > > > I was trying to imply this logic:
+> > > > 1. We cleared the A-bit in PTEs with ptep_test_and_clear_young()
+> > > > 2. We missed TLB flush for those PTEs on the reclaim path, i.e., case
+> > > > 3 (case 1 & 2 guarantee flushes)
+> > > > 3. We saw crashes, but only occasionally
+> > > >
+> > > > Assuming TLB cached those PTEs, we would have seen the crashes more
+> > > > often, which contradicts our observation. So the conclusion is TLB
+> > > > didn't cache them most of the time, meaning flushing TLB just for the
+> > > > sake of the A-bit isn't necessary.
+> > > >
+> > > > > do you think it is safe to totally remove the flush code even for
+> > > > > the original
+> > > > > LRU?
+> > > >
+> > > > Affirmative, based on not only my words, but 3rd parties':
+> > > > 1. Your (indirect) observation
+> > > > 2. Alexander's benchmark:
+> > > > https://lore.kernel.org/r/BYAPR12MB271295B398729E07F31082A7CFAA0@BYAPR12MB2712.namprd12.prod.outlook.com/
+> > > > 3. The fundamental hardware limitation in terms of the TLB scalability
+> > > > (Fig. 1): https://www.usenix.org/legacy/events/osdi02/tech/full_papers/navarro/navarro.pdf
 > > >
-> > > I agree -- my question was rhetorical :)
-> > >
-> > > I was trying to imply this logic:
-> > > 1. We cleared the A-bit in PTEs with ptep_test_and_clear_young()
-> > > 2. We missed TLB flush for those PTEs on the reclaim path, i.e., case
-> > > 3 (case 1 & 2 guarantee flushes)
-> > > 3. We saw crashes, but only occasionally
-> > >
-> > > Assuming TLB cached those PTEs, we would have seen the crashes more
-> > > often, which contradicts our observation. So the conclusion is TLB
-> > > didn't cache them most of the time, meaning flushing TLB just for the
-> > > sake of the A-bit isn't necessary.
-> > >
-> > > > do you think it is safe to totally remove the flush code even for
-> > > > the original
-> > > > LRU?
-> > >
-> > > Affirmative, based on not only my words, but 3rd parties':
-> > > 1. Your (indirect) observation
-> > > 2. Alexander's benchmark:
-> > > https://lore.kernel.org/r/BYAPR12MB271295B398729E07F31082A7CFAA0@BYAPR12MB2712.namprd12.prod.outlook.com/
-> > > 3. The fundamental hardware limitation in terms of the TLB scalability
-> > > (Fig. 1): https://www.usenix.org/legacy/events/osdi02/tech/full_papers/navarro/navarro.pdf
+> > > 4. Intel's commit b13b1d2d8692 ("x86/mm: In the PTE swapout page
+> > > reclaim case clear the accessed bit instead of flushing the TLB")
 > >
-> > 4. Intel's commit b13b1d2d8692 ("x86/mm: In the PTE swapout page
-> > reclaim case clear the accessed bit instead of flushing the TLB")
+> > Hi Yu,
+> > I am going to send a RFC based on the above discussion.
+> >
+> > diff --git a/mm/rmap.c b/mm/rmap.c
+> > index 5bcb334cd6f2..7ce6f0b6c330 100644
+> > --- a/mm/rmap.c
+> > +++ b/mm/rmap.c
+> > @@ -830,7 +830,7 @@ static bool folio_referenced_one(struct folio *folio,
+> >                 }
+> >
+> >                 if (pvmw.pte) {
+> > -                       if (ptep_clear_flush_young_notify(vma, address,
+> > +                       if (ptep_clear_young_notify(vma, address,
+> >                                                 pvmw.pte)) {
+> >                                 /*
+> >                                  * Don't treat a reference through
 >
-> Hi Yu,
-> I am going to send a RFC based on the above discussion.
+> Thanks!
 >
-> diff --git a/mm/rmap.c b/mm/rmap.c
-> index 5bcb334cd6f2..7ce6f0b6c330 100644
-> --- a/mm/rmap.c
-> +++ b/mm/rmap.c
-> @@ -830,7 +830,7 @@ static bool folio_referenced_one(struct folio *folio,
->                 }
->
->                 if (pvmw.pte) {
-> -                       if (ptep_clear_flush_young_notify(vma, address,
-> +                       if (ptep_clear_young_notify(vma, address,
->                                                 pvmw.pte)) {
->                                 /*
->                                  * Don't treat a reference through
+> This might make a difference on my 64 core Altra -- I'll test after
+> you post the RFC.
 
-Thanks!
-
-This might make a difference on my 64 core Altra -- I'll test after
-you post the RFC.
+Also, IIRC, it made no difference on POWER9 because POWER9 flushes TBL
+regardless which variant is used.
