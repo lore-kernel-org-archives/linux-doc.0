@@ -2,324 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E34CECCA479
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 07:28:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A66AEC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 07:39:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380593AbiFQH2i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jun 2022 03:28:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41070 "EHLO
+        id S1380630AbiFQHjO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jun 2022 03:39:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380636AbiFQH2b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 03:28:31 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C719E42ED7
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 00:28:16 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id r5so3377668pgr.3
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 00:28:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=b+rfEXZ4GLjjuoJrw+X3apDxL7fB3SJwlxuDhP2gRLw=;
-        b=leZzHlDaC8chjBI7eid/Y9ny7U2cJ+x+zmGOgrvGGE1xkxPQkQTRxjqbgsVMU8d61S
-         MJURzbBcc6/juGlbN4N35Yz7V4IVU3RwsYfHHbaSPNuMyF5n9cGP8pel686dKGoM+wXb
-         ys2D6FHgNTZht3H6j/QNYqVT6BGCYsS7NN75/SV9tAvqbwxa/0M9zyAeo6DcAD7CrohQ
-         tA/3kMuObtUuAiWO0fgRHs+Yd3ctpmZtMVfA5UPwMV0bn4ENYe0PEPEQQa67p3MkbGXI
-         LlEdU9OxqmO92e4s5x0A3zmS9OLwPBmB3mNuFLxuc4WkggOpzJHGS1vEGrrAeaWVlV6D
-         E96Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=b+rfEXZ4GLjjuoJrw+X3apDxL7fB3SJwlxuDhP2gRLw=;
-        b=mrJOhItC3j0qXgYm8Q0aowmYNB0M8YtpB9dMrgcBNM0D5AY5IdQsfBtBngZHqSMWZl
-         CVipOIX2x2EBY9+2Pi+zL0WHtZpYri3dURl9DSDWE63iwbDT0VVQVz9bwITW0Kp+guks
-         DH/Dsx0FGRGn6Hhv/E+eMxMmNRo4vNXY0IUMhh+y1kUI24Qet8voKnXSEEPbX//eqLlU
-         fs9jqAeZ0/Tf4hIdv782eHkWs8mj/NtZECxYjVJoMlFBBcFW10xNg65WAxpeyEwJ6aSs
-         b969E0So/eWKhNx0IT6dRi294x+kQih9E1/oAVG7XdIloZU1ejuUsmH1v7vl6AaaHySb
-         C2hQ==
-X-Gm-Message-State: AJIora/3uCXz8goTBLxL+G5Z5Ro73L+Xm3qVNVKvTDV1Zd4sQlSZCJiv
-        SmTflfKO/WUEMp/ER7djY305xg==
-X-Google-Smtp-Source: AGRyM1vPPlph1s3ty+1w5MCA25O8Zvoml/8ArR/MhH1gDvCSAS1ZGO+v2FWHyehTw4AAB+zn8ryF4Q==
-X-Received: by 2002:a63:8648:0:b0:3fd:980d:8de4 with SMTP id x69-20020a638648000000b003fd980d8de4mr7767738pgd.198.1655450896206;
-        Fri, 17 Jun 2022 00:28:16 -0700 (PDT)
-Received: from localhost ([139.177.225.255])
-        by smtp.gmail.com with ESMTPSA id p15-20020a170903248f00b00163c6ac211fsm584071plw.111.2022.06.17.00.28.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jun 2022 00:28:14 -0700 (PDT)
-Date:   Fri, 17 Jun 2022 15:28:10 +0800
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     David Hildenbrand <david@redhat.com>, corbet@lwn.net,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        mike.kravetz@oracle.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v2 2/2] mm: memory_hotplug: introduce
- SECTION_CANNOT_OPTIMIZE_VMEMMAP
-Message-ID: <YqwtCu2Ura+skV3B@FVFYT0MHHV2J.usts.net>
-References: <20220520025538.21144-1-songmuchun@bytedance.com>
- <20220520025538.21144-3-songmuchun@bytedance.com>
- <53024884-0182-df5f-9ca2-00652c64ce36@redhat.com>
- <YqqqPjkh9r8ZrH0r@localhost.localdomain>
- <24d5ec20-9c9e-93aa-11f4-c4619f51f7d1@redhat.com>
- <YqwVTT+50vt5WpeG@localhost.localdomain>
+        with ESMTP id S1380565AbiFQHjO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 03:39:14 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB6E8663F8;
+        Fri, 17 Jun 2022 00:39:12 -0700 (PDT)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.56])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LPW8Q0yF8zhXb1;
+        Fri, 17 Jun 2022 15:37:10 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 17 Jun 2022 15:39:08 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 17 Jun 2022 15:39:07 +0800
+Subject: Re: [PATCH 1/5] arm64: kdump: Provide default size when
+ crashkernel=Y,low is not specified
+To:     Baoquan He <bhe@redhat.com>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>, <kexec@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        "John Donnelly" <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+References: <20220613080932.663-1-thunder.leizhen@huawei.com>
+ <20220613080932.663-2-thunder.leizhen@huawei.com>
+ <20220617024042.GC234358@MiWiFi-R3L-srv>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <26bb3d13-fb8b-3e1d-2529-31d34d3c1c1d@huawei.com>
+Date:   Fri, 17 Jun 2022 15:39:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YqwVTT+50vt5WpeG@localhost.localdomain>
+In-Reply-To: <20220617024042.GC234358@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 17, 2022 at 07:46:53AM +0200, Oscar Salvador wrote:
-> On Thu, Jun 16, 2022 at 09:30:33AM +0200, David Hildenbrand wrote:
-> > IIRC, that was used to skip these patches on the offlining path before
-> > we provided the ranges to offline_pages().
+
+
+On 2022/6/17 10:40, Baoquan He wrote:
+> On 06/13/22 at 04:09pm, Zhen Lei wrote:
+>> To be consistent with the implementation of x86 and improve cross-platform
+>> user experience. Try to allocate at least 256 MiB low memory automatically
+>> when crashkernel=Y,low is not specified.
 > 
-> Yeah, it was designed for that purpose back then.
+> This should correspond to the case that crashkernel=,high is explicitly
+> specified, while crashkenrel=,low is omitted. It could be better to
+> mention these.
+
+Okay, I'll update the description in the next version.
+
 > 
-> > I'd not mess with PG_reserved, and give them a clearer name, to not
-> > confuse them with other, ordinary, vmemmap pages that are not
-> > self-hosted (maybe in the future we might want to flag all vmemmap pages
-> > with a new type?).
+> Otherwise, this looks good to me.
 > 
-> Not sure whether a new type is really needed, or to put it another way, I
-> cannot see the benefit.
+>>
+>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+>> ---
+>>  Documentation/admin-guide/kernel-parameters.txt |  8 +-------
+>>  arch/arm64/mm/init.c                            | 12 +++++++++++-
+>>  2 files changed, 12 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 8090130b544b070..61b179232b68001 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -843,7 +843,7 @@
+>>  			available.
+>>  			It will be ignored if crashkernel=X is specified.
+>>  	crashkernel=size[KMG],low
+>> -			[KNL, X86-64] range under 4G. When crashkernel=X,high
+>> +			[KNL, X86-64, ARM64] range under 4G. When crashkernel=X,high
+>                         ~~~~ exceeds 80 characters, it should be OK.
 > 
-> > 
-> > I'd just try reusing the flag PG_owner_priv_1. And eventually, flag all
-> > (v)memmap pages with a type PG_memmap. However, the latter would be
-> > optional and might not be strictly required
-> > 
-> > 
-> > So what think could make sense is
-> > 
-> > /* vmemmap pages that are self-hosted and cannot be optimized/freed. */
-> > PG_vmemmap_self_hosted = PG_owner_priv_1,
+>>  			is passed, kernel could allocate physical memory region
+>>  			above 4G, that cause second kernel crash on system
+>>  			that require some amount of low memory, e.g. swiotlb
+>> @@ -857,12 +857,6 @@
+>>  			It will be ignored when crashkernel=X,high is not used
+>>  			or memory reserved is below 4G.
+>>  
+>> -			[KNL, ARM64] range in low memory.
+>> -			This one lets the user specify a low range in the
+>> -			DMA zone for the crash dump kernel.
+>> -			It will be ignored when crashkernel=X,high is not used
+>> -			or memory reserved is located in the DMA zones.
+>> -
+>>  	cryptomgr.notests
+>>  			[KNL] Disable crypto self-tests
+>>  
+>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+>> index 339ee84e5a61a0b..5390f361208ccf7 100644
+>> --- a/arch/arm64/mm/init.c
+>> +++ b/arch/arm64/mm/init.c
+>> @@ -96,6 +96,14 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
+>>  #define CRASH_ADDR_LOW_MAX		arm64_dma_phys_limit
+>>  #define CRASH_ADDR_HIGH_MAX		(PHYS_MASK + 1)
+>>  
+>> +/*
+>> + * This is an empirical value in x86_64 and taken here directly. Please
+>> + * refer to the code comment in reserve_crashkernel_low() of x86_64 for more
+>> + * details.
+>> + */
+>> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	\
+>> +	max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20)
+>> +
+>>  static int __init reserve_crashkernel_low(unsigned long long low_size)
+>>  {
+>>  	unsigned long long low_base;
+>> @@ -147,7 +155,9 @@ static void __init reserve_crashkernel(void)
+>>  		 * is not allowed.
+>>  		 */
+>>  		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
+>> -		if (ret && (ret != -ENOENT))
+>> +		if (ret == -ENOENT)
+>> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>> +		else if (ret)
+>>  			return;
+>>  
+>>  		crash_max = CRASH_ADDR_HIGH_MAX;
+>> -- 
+>> 2.25.1
+>>
 > 
-> Sure, I just lightly tested the below, and seems to work, but not sure
-> whether that is what you are referring to.
-> @Munchun: thoughts?
->
-
-I think it works and fits my requirement.
-
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index e66f7aa3191d..a4556afd7bda 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -193,6 +193,11 @@ enum pageflags {
->  
->  	/* Only valid for buddy pages. Used to track pages that are reported */
->  	PG_reported = PG_uptodate,
-> +
-> +#ifdef CONFIG_MEMORY_HOTPLUG
-> +	/* For self-hosted memmap pages */
-> +	PG_vmemmap_self_hosted = PG_owner_priv_1,
-> +#endif
->  };
->  
->  #define PAGEFLAGS_MASK		((1UL << NR_PAGEFLAGS) - 1)
-> @@ -628,6 +633,10 @@ PAGEFLAG_FALSE(SkipKASanPoison, skip_kasan_poison)
->   */
->  __PAGEFLAG(Reported, reported, PF_NO_COMPOUND)
->  
-> +#ifdef CONFIG_MEMORY_HOTPLUG
-> +PAGEFLAG(Vmemmap_self_hosted, vmemmap_self_hosted, PF_ANY)
-> +#endif
-> +
->  /*
->   * On an anonymous page mapped into a user virtual memory area,
->   * page->mapping points to its anon_vma, not to a struct address_space;
-> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> index 1089ea8a9c98..e2de7ed27e9e 100644
-> --- a/mm/hugetlb_vmemmap.c
-> +++ b/mm/hugetlb_vmemmap.c
-> @@ -101,6 +101,14 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
->  {
->  	unsigned long vmemmap_addr = (unsigned long)head;
->  	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
-> +	struct mem_section *ms = __pfn_to_section(page_to_pfn(head));
-> +	struct page *memmap;
-> +
-> +	memmap = sparse_decode_mem_map(ms->section_mem_map,
-> +				       pfn_to_section_nr(page_to_pfn(head)));
-> +
-> +	if (PageVmemmap_self_hosted(memmap))
-> +		return;
-
-I think here needs a loop if it is a 1GB page (spans multiple sections).
-Right?  Here is an implementation based on another approach. But I think
-your implementation is more simpler and efficient.  Would you mind me
-squash your diff into my patch and with your "Co-developed-by"?
-
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index fcd9f7872064..46d637acc15e 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -10,7 +10,7 @@
-  */
- #define pr_fmt(fmt)    "HugeTLB: " fmt
-
--#include <linux/memory_hotplug.h>
-+#include <linux/memory.h>
- #include "hugetlb_vmemmap.h"
-
- /*
-@@ -97,18 +97,79 @@ int hugetlb_vmemmap_alloc(struct hstate *h, struct page *head)
-        return ret;
- }
-
-+/*
-+ * The vmemmap of the first page of hotplugged memory falls onto itself when
-+ * memory_hotplug.memmap_on_memory is enabled, and the vmemmap pages cannot be
-+ * optimized in this case.  We can simply lookup the first page and test if
-+ * the vmemmap maps to itself to detect if memory_hotplug.memmap_on_memory is
-+ * enabled for this memory block.
-+ *
-+ * [      hotplugged memory     ]
-+ * [ vmemmap ][  usable memory  ]
-+ *   ^   |      |            |
-+ *   +---+      |            |
-+ *     ^        |            |
-+ *     +--------+            |
-+ *         ^                 |
-+ *         +-----------------+
-+ */
-+static bool memory_block_vmemmap_optimizable(unsigned long start_pfn)
-+{
-+       pmd_t *pmdp, pmd;
-+       unsigned long pfn, vaddr;
-+
-+       vaddr = (unsigned long)pfn_to_page(start_pfn);
-+       pmdp = pmd_off_k(vaddr);
-+       /*
-+        * The READ_ONCE() is used to stabilize *pmdp in a register or on
-+        * the stack so that it will stop changing under the code.
-+        */
-+       pmd = READ_ONCE(*pmdp);
-+
-+       if (pmd_large(pmd))
-+               pfn = pmd_pfn(pmd);
-+       else
-+               pfn = pte_pfn(*pte_offset_kernel(pmdp, vaddr));
-+
-+       return pfn != start_pfn;
-+}
-+
-+static unsigned int optimizable_vmemmap_pages(struct hstate *h,
-+                                             struct page *head)
-+{
-+       unsigned long size = memory_block_size_bytes();
-+       unsigned long pfn = page_to_pfn(head);
-+       unsigned long start = ALIGN_DOWN(pfn, size);
-+       unsigned long end = start + pages_per_huge_page(h);
-+
-+       if (READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
-+               return 0;
-+
-+       for (; start < end; start += size) {
-+               /*
-+                * Fast path. The early section is always optimizable since the
-+                * early section's vmemmap pages do not allocated from the added
-+                * memory block itself.
-+                */
-+               if (early_section(__pfn_to_section(start + (pfn & PAGE_SECTION_MASK))))
-+                       continue;
-+
-+               if (!memory_block_vmemmap_optimizable(start))
-+                       return 0;
-+       }
-+
-+       return hugetlb_optimize_vmemmap_pages(h);
-+}
-+
- void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
- {
-        unsigned long vmemmap_addr = (unsigned long)head;
-        unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
-
--       vmemmap_pages = hugetlb_optimize_vmemmap_pages(h);
-+       vmemmap_pages = optimizable_vmemmap_pages(h, head);
-        if (!vmemmap_pages)
-                return;
-
--       if (READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
--               return;
--
-        static_branch_inc(&hugetlb_optimize_vmemmap_key);
-
-        vmemmap_addr    += RESERVE_VMEMMAP_SIZE;
-@@ -199,10 +260,10 @@ static struct ctl_table hugetlb_vmemmap_sysctls[] = {
- static __init int hugetlb_vmemmap_sysctls_init(void)
- {
-        /*
--        * If "memory_hotplug.memmap_on_memory" is enabled or "struct page"
--        * crosses page boundaries, the vmemmap pages cannot be optimized.
-+        * If "struct page" crosses page boundaries, the vmemmap pages cannot
-+        * be optimized.
-         */
--       if (!mhp_memmap_on_memory() && is_power_of_2(sizeof(struct page)))
-+       if (is_power_of_2(sizeof(struct page)))
-                register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
-
-        return 0;
-
->  
->  	vmemmap_pages = hugetlb_optimize_vmemmap_pages(h);
->  	if (!vmemmap_pages)
-> @@ -199,10 +207,10 @@ static struct ctl_table hugetlb_vmemmap_sysctls[] = {
->  static __init int hugetlb_vmemmap_sysctls_init(void)
->  {
->  	/*
-> -	 * If "memory_hotplug.memmap_on_memory" is enabled or "struct page"
-> -	 * crosses page boundaries, the vmemmap pages cannot be optimized.
-> +	 * If "struct page" crosses page boundaries, the vmemmap pages cannot
-> +	 * be optimized.
->  	 */
-> -	if (!mhp_memmap_on_memory() && is_power_of_2(sizeof(struct page)))
-> +	if (is_power_of_2(sizeof(struct page)))
->  		register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
->  
->  	return 0;
-> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-> index 1213d0c67a53..863966c2c6f1 100644
-> --- a/mm/memory_hotplug.c
-> +++ b/mm/memory_hotplug.c
-> @@ -45,8 +45,6 @@
->  #ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
->  static int memmap_on_memory_set(const char *val, const struct kernel_param *kp)
->  {
-> -	if (hugetlb_optimize_vmemmap_enabled())
-> -		return 0;
->  	return param_set_bool(val, kp);
->  }
->  
-> @@ -1032,6 +1030,7 @@ int mhp_init_memmap_on_memory(unsigned long pfn, unsigned long nr_pages,
->  {
->  	unsigned long end_pfn = pfn + nr_pages;
->  	int ret;
-> +	int i;
->  
->  	ret = kasan_add_zero_shadow(__va(PFN_PHYS(pfn)), PFN_PHYS(nr_pages));
->  	if (ret)
-> @@ -1039,6 +1038,12 @@ int mhp_init_memmap_on_memory(unsigned long pfn, unsigned long nr_pages,
->  
->  	move_pfn_range_to_zone(zone, pfn, nr_pages, NULL, MIGRATE_UNMOVABLE);
->  
-> +	/*
-> +	 * Let us flag self-hosted memmap
-> +	 */
-> +	for (i = 0; i < nr_pages; i++)
-> +		SetPageVmemmap_self_hosted(pfn_to_page(pfn + i));
-> +
->  	/*
->  	 * It might be that the vmemmap_pages fully span sections. If that is
->  	 * the case, mark those sections online here as otherwise they will be
+> .
 > 
-> 
-> -- 
-> Oscar Salvador
-> SUSE Labs
-> 
+
+-- 
+Regards,
+  Zhen Lei
