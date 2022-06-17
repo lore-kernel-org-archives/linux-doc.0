@@ -2,148 +2,199 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71D35CCA479
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 04:16:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50802C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 05:47:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379964AbiFQEQq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jun 2022 00:16:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38414 "EHLO
+        id S234146AbiFQFq7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jun 2022 01:46:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379952AbiFQEQp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 00:16:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E1B4965D1C
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jun 2022 21:16:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655439403;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Rv0vNXKXyCH9T82Y1Ot9urO7/UnO0DqQajZUCOmTg8E=;
-        b=bjp4DPpxhd9zPgJ0k+q8uFwxd/QHVAbGalHmWgrWWcFE+gSL9iz2oEKYpfiugViKH8I3om
-        Qd5H6+OKVHq2PN4g/UMmVwMbv8SefGTKc4GQLDu/O1nQVJaiMSTtXUdAg6ptNjxz4JGK9o
-        YMblMbwQFWXH+e9UFvm08dmntdpaOD8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-81-NCX5GbcZNReCBVP6NcqkMg-1; Fri, 17 Jun 2022 00:16:39 -0400
-X-MC-Unique: NCX5GbcZNReCBVP6NcqkMg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S229696AbiFQFq6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 01:46:58 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EF7266C9C;
+        Thu, 16 Jun 2022 22:46:57 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6386F185A79C;
-        Fri, 17 Jun 2022 04:16:38 +0000 (UTC)
-Received: from localhost (ovpn-12-144.pek2.redhat.com [10.72.12.144])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 43DDE1121314;
-        Fri, 17 Jun 2022 04:16:37 +0000 (UTC)
-Date:   Fri, 17 Jun 2022 12:16:33 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, kexec@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH 2/5] arm64: kdump: Support crashkernel=X fall back to
- reserve region above DMA zones
-Message-ID: <20220617041633.GD234358@MiWiFi-R3L-srv>
-References: <20220613080932.663-1-thunder.leizhen@huawei.com>
- <20220613080932.663-3-thunder.leizhen@huawei.com>
+        by smtp-out2.suse.de (Postfix) with ESMTPS id B76E01FAF7;
+        Fri, 17 Jun 2022 05:46:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1655444815; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=3nN0uwMwYHIGnvGf1je2kTJf72RD7LvC05n350gAJao=;
+        b=M8mPJFXaFRl8/xy8Tz42A0gFlxI4KziLyoj++3uQDgNavMd6xnlh2txXAnkRy8hkDsTzh1
+        B0YGRyP0LGre7vtdrdxltbCmtMNWAA9WwY0oUOoxkwm++eFZXkAt22XEwZn3FOWCiffSEA
+        Z5LTjH3ey/rK6EDbp8+0XxnxxM0HP2A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1655444815;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=3nN0uwMwYHIGnvGf1je2kTJf72RD7LvC05n350gAJao=;
+        b=y9n6WNPT2pFDQWR9Lis2ZM020dZ/WkbveEmcOy9KbJPQXT1iS+gVKpL2e5noqK5OD3RXPd
+        HRMGwxNk/JhyCZDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 18B741330D;
+        Fri, 17 Jun 2022 05:46:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id F6AlA08VrGJmVAAAMHmgww
+        (envelope-from <osalvador@suse.de>); Fri, 17 Jun 2022 05:46:55 +0000
+Date:   Fri, 17 Jun 2022 07:46:53 +0200
+From:   Oscar Salvador <osalvador@suse.de>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mike.kravetz@oracle.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v2 2/2] mm: memory_hotplug: introduce
+ SECTION_CANNOT_OPTIMIZE_VMEMMAP
+Message-ID: <YqwVTT+50vt5WpeG@localhost.localdomain>
+References: <20220520025538.21144-1-songmuchun@bytedance.com>
+ <20220520025538.21144-3-songmuchun@bytedance.com>
+ <53024884-0182-df5f-9ca2-00652c64ce36@redhat.com>
+ <YqqqPjkh9r8ZrH0r@localhost.localdomain>
+ <24d5ec20-9c9e-93aa-11f4-c4619f51f7d1@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220613080932.663-3-thunder.leizhen@huawei.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+In-Reply-To: <24d5ec20-9c9e-93aa-11f4-c4619f51f7d1@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/13/22 at 04:09pm, Zhen Lei wrote:
-> For crashkernel=X without '@offset', select a region within DMA zones
-> first, and fall back to reserve region above DMA zones. This allows
-> users to use the same configuration on multiple platforms.
+On Thu, Jun 16, 2022 at 09:30:33AM +0200, David Hildenbrand wrote:
+> IIRC, that was used to skip these patches on the offlining path before
+> we provided the ranges to offline_pages().
 
-LGTM,
+Yeah, it was designed for that purpose back then.
 
-Acked-by: Baoquan He <bhe@redhat.com>
+> I'd not mess with PG_reserved, and give them a clearer name, to not
+> confuse them with other, ordinary, vmemmap pages that are not
+> self-hosted (maybe in the future we might want to flag all vmemmap pages
+> with a new type?).
+
+Not sure whether a new type is really needed, or to put it another way, I
+cannot see the benefit.
 
 > 
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |  2 +-
->  arch/arm64/mm/init.c                            | 16 +++++++++++++++-
->  2 files changed, 16 insertions(+), 2 deletions(-)
+> I'd just try reusing the flag PG_owner_priv_1. And eventually, flag all
+> (v)memmap pages with a type PG_memmap. However, the latter would be
+> optional and might not be strictly required
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 61b179232b68001..fdac18beba5624e 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -823,7 +823,7 @@
->  			memory region [offset, offset + size] for that kernel
->  			image. If '@offset' is omitted, then a suitable offset
->  			is selected automatically.
-> -			[KNL, X86-64] Select a region under 4G first, and
-> +			[KNL, X86-64, ARM64] Select a region under 4G first, and
->  			fall back to reserve region above 4G when '@offset'
->  			hasn't been specified.
->  			See Documentation/admin-guide/kdump/kdump.rst for further details.
-> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-> index 5390f361208ccf7..8539598f9e58b4d 100644
-> --- a/arch/arm64/mm/init.c
-> +++ b/arch/arm64/mm/init.c
-> @@ -138,6 +138,7 @@ static void __init reserve_crashkernel(void)
->  	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
->  	char *cmdline = boot_command_line;
->  	int ret;
-> +	bool fixed_base;
->  
->  	if (!IS_ENABLED(CONFIG_KEXEC_CORE))
->  		return;
-> @@ -166,15 +167,28 @@ static void __init reserve_crashkernel(void)
->  		return;
->  	}
->  
-> +	fixed_base = !!crash_base;
->  	crash_size = PAGE_ALIGN(crash_size);
->  
->  	/* User specifies base address explicitly. */
-> -	if (crash_base)
-> +	if (fixed_base)
->  		crash_max = crash_base + crash_size;
->  
-> +retry:
->  	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
->  					       crash_base, crash_max);
->  	if (!crash_base) {
-> +		/*
-> +		 * Attempt to fully allocate low memory failed, fall back
-> +		 * to high memory, the minimum required low memory will be
-> +		 * reserved later.
-> +		 */
-> +		if (!fixed_base && (crash_max == CRASH_ADDR_LOW_MAX)) {
-> +			crash_max = CRASH_ADDR_HIGH_MAX;
-> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-> +			goto retry;
-> +		}
-> +
->  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
->  			crash_size);
->  		return;
-> -- 
-> 2.25.1
 > 
+> So what think could make sense is
+> 
+> /* vmemmap pages that are self-hosted and cannot be optimized/freed. */
+> PG_vmemmap_self_hosted = PG_owner_priv_1,
 
+Sure, I just lightly tested the below, and seems to work, but not sure
+whether that is what you are referring to.
+@Munchun: thoughts?
+
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index e66f7aa3191d..a4556afd7bda 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -193,6 +193,11 @@ enum pageflags {
+ 
+ 	/* Only valid for buddy pages. Used to track pages that are reported */
+ 	PG_reported = PG_uptodate,
++
++#ifdef CONFIG_MEMORY_HOTPLUG
++	/* For self-hosted memmap pages */
++	PG_vmemmap_self_hosted = PG_owner_priv_1,
++#endif
+ };
+ 
+ #define PAGEFLAGS_MASK		((1UL << NR_PAGEFLAGS) - 1)
+@@ -628,6 +633,10 @@ PAGEFLAG_FALSE(SkipKASanPoison, skip_kasan_poison)
+  */
+ __PAGEFLAG(Reported, reported, PF_NO_COMPOUND)
+ 
++#ifdef CONFIG_MEMORY_HOTPLUG
++PAGEFLAG(Vmemmap_self_hosted, vmemmap_self_hosted, PF_ANY)
++#endif
++
+ /*
+  * On an anonymous page mapped into a user virtual memory area,
+  * page->mapping points to its anon_vma, not to a struct address_space;
+diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+index 1089ea8a9c98..e2de7ed27e9e 100644
+--- a/mm/hugetlb_vmemmap.c
++++ b/mm/hugetlb_vmemmap.c
+@@ -101,6 +101,14 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
+ {
+ 	unsigned long vmemmap_addr = (unsigned long)head;
+ 	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
++	struct mem_section *ms = __pfn_to_section(page_to_pfn(head));
++	struct page *memmap;
++
++	memmap = sparse_decode_mem_map(ms->section_mem_map,
++				       pfn_to_section_nr(page_to_pfn(head)));
++
++	if (PageVmemmap_self_hosted(memmap))
++		return;
+ 
+ 	vmemmap_pages = hugetlb_optimize_vmemmap_pages(h);
+ 	if (!vmemmap_pages)
+@@ -199,10 +207,10 @@ static struct ctl_table hugetlb_vmemmap_sysctls[] = {
+ static __init int hugetlb_vmemmap_sysctls_init(void)
+ {
+ 	/*
+-	 * If "memory_hotplug.memmap_on_memory" is enabled or "struct page"
+-	 * crosses page boundaries, the vmemmap pages cannot be optimized.
++	 * If "struct page" crosses page boundaries, the vmemmap pages cannot
++	 * be optimized.
+ 	 */
+-	if (!mhp_memmap_on_memory() && is_power_of_2(sizeof(struct page)))
++	if (is_power_of_2(sizeof(struct page)))
+ 		register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
+ 
+ 	return 0;
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 1213d0c67a53..863966c2c6f1 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -45,8 +45,6 @@
+ #ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
+ static int memmap_on_memory_set(const char *val, const struct kernel_param *kp)
+ {
+-	if (hugetlb_optimize_vmemmap_enabled())
+-		return 0;
+ 	return param_set_bool(val, kp);
+ }
+ 
+@@ -1032,6 +1030,7 @@ int mhp_init_memmap_on_memory(unsigned long pfn, unsigned long nr_pages,
+ {
+ 	unsigned long end_pfn = pfn + nr_pages;
+ 	int ret;
++	int i;
+ 
+ 	ret = kasan_add_zero_shadow(__va(PFN_PHYS(pfn)), PFN_PHYS(nr_pages));
+ 	if (ret)
+@@ -1039,6 +1038,12 @@ int mhp_init_memmap_on_memory(unsigned long pfn, unsigned long nr_pages,
+ 
+ 	move_pfn_range_to_zone(zone, pfn, nr_pages, NULL, MIGRATE_UNMOVABLE);
+ 
++	/*
++	 * Let us flag self-hosted memmap
++	 */
++	for (i = 0; i < nr_pages; i++)
++		SetPageVmemmap_self_hosted(pfn_to_page(pfn + i));
++
+ 	/*
+ 	 * It might be that the vmemmap_pages fully span sections. If that is
+ 	 * the case, mark those sections online here as otherwise they will be
+
+
+-- 
+Oscar Salvador
+SUSE Labs
