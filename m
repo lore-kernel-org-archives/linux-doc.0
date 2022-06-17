@@ -2,101 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9618C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 16:18:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 679B3C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 16:58:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236634AbiFQQSL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jun 2022 12:18:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34876 "EHLO
+        id S237486AbiFQQ6r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jun 2022 12:58:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1383231AbiFQQSK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 12:18:10 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 278D52BB34;
-        Fri, 17 Jun 2022 09:18:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 87B70CE2C2C;
-        Fri, 17 Jun 2022 16:18:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3C5FC3411B;
-        Fri, 17 Jun 2022 16:18:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655482685;
-        bh=nuz1WM5Oa3ePTXUEbxlVKyfN1W7nA0w8fVej9LOyDpU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=kDGbekmq5K+Fd7P94YdGndn3GZahGJXpFJs7zYvxDHGDB8iJjRrk0fL6l38mZnqem
-         xflkTN6ajXmszOrUWxY8LtTsstEPs8AXlkaD67V+niK3tkzeoGoSENMStmHksfyiup
-         Q2faP/v4j81N9mQ+WYSgpg/P6UxQHtKD3sEe53jHB8vefoyGpP1g8hYIOTygQNHrL0
-         0ZFCka7ntrEKvBbUVHwUxvDH6k6iqVNtAIg6ayjgOflE8zOEQVbVWAlM7nqEBKpyAd
-         LOvUjkQh9UfuXpzlSodYV5zf4rhh9k8o1bzSo/VyjeEkstmPrcXgPw6HEZKS1B+qhl
-         m5uft5P5bEk+g==
-Message-ID: <2abc864e-b8af-cc3f-b10d-bd450d443656@kernel.org>
-Date:   Fri, 17 Jun 2022 18:17:59 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH V4 18/20] rv/monitor: Add safe watchdog monitor
-Content-Language: en-US
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-References: <cover.1655368610.git.bristot@kernel.org>
- <6366fdc89d65b8d9b14ccd1e42fa0d793fbe9f73.1655368610.git.bristot@kernel.org>
- <2a54bec4-5902-b22a-13f2-2237f4b10164@infradead.org>
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <2a54bec4-5902-b22a-13f2-2237f4b10164@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S1383070AbiFQQ6l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 12:58:41 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCFBD2FFD1
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 09:58:40 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id e6-20020a259246000000b00668cc122ca7so276779ybo.9
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 09:58:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=HIkosMxJu0DsWXpVdxpWrXztbgfsO84tS9Or7dZuu1Q=;
+        b=hNEMukuOffSzyw5d6QBcwxNcqKUnC8L7F85D8e4DMiaNmNOcfyuY3Zx7l9WU+TMSNN
+         bng7bOJtVv2lMxmVy9WRgT/M1tn0wUyWP+6xcjbbtGndZqD195wLuodEcCItkC1CZnwm
+         /yxrwNI4Jl3rGOwj9tm7zr/ciXe+j2yqDhblmTlIoLedlOlLT8hBZJzfF50f4JP6HsDE
+         TTStfbmqBaNN8+9kBYjLLKaASBEYJYJhXGYhCWWlCOyrbr25ynvp1kJOOXIRI90IP9Jv
+         y88Cvk9Toe3vn+iXOoUKaaV/nJk7QeRSxPxV71CsQGaCI4XKbAKe8LGojB2WJ/BVl/2m
+         PH6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=HIkosMxJu0DsWXpVdxpWrXztbgfsO84tS9Or7dZuu1Q=;
+        b=tl6zSa16hlX5F+ii5hhLp2OawhzXcJ7S7PYBHXW032GBbCR4zuqCFJkPMUg1qT1WMS
+         oRZrI6MztCAXuEUnzC+vHYAfqovpVmu3vGzysRsVqTiQ6EhfOiIZB1cRiszjOlYubtec
+         kXzzew0jIe+RJ2ptrd8Dtd+EwPzPbaUfolwOkZLxlsntFw43QsxrDoKwhDd5BDNOxEdS
+         LuBWDmnqcPcDQcuRmKxBsFM8oxQPPMtrjnoSC68GnJIqAHPpZ+vRPEZvhVoDv7mLj4P5
+         bE/BsyUB4yi6PX8orVGBb742dJKr/idTN78vwGiwBjkZQN8LNJ3KnN77T//3pSjvWKbp
+         PzeQ==
+X-Gm-Message-State: AJIora+rBemkDVj0QKSRQMywS3eMAEIAF9frkfat7zUPBKaQICd85Z3X
+        7uZOqT+R70FljPShpjierbt6ZgaVF35E3Bxx0lI=
+X-Google-Smtp-Source: AGRyM1uaTYh1F8LDuoxG1oRipLMJSHEmWpZiFQyuyySsXPgzvm1S5MjCu7Uh4zVtK17/lbBhl7nz67P0zLVAEzLDqRc=
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:7e0c:dc00:6576:994e])
+ (user=ndesaulniers job=sendgmr) by 2002:a0d:cf04:0:b0:30f:c6e3:b62c with SMTP
+ id r4-20020a0dcf04000000b0030fc6e3b62cmr12128627ywd.306.1655485120058; Fri,
+ 17 Jun 2022 09:58:40 -0700 (PDT)
+Date:   Fri, 17 Jun 2022 09:58:17 -0700
+Message-Id: <20220617165817.3204917-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=lvO/pmg+aaCb6dPhyGC1GyOCvPueDrrc8Zeso5CaGKE=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1655485097; l=1310;
+ s=20211004; h=from:subject; bh=pe+YwCN7a/5bmdaqbfY3NE5BJF4TRtPW3C6ELb8zZF8=;
+ b=eNQ0gyHPhuoYjZ/pWdaRl9A62Rla+ymyhL1crK6lecZwFPypboi8Y9gWiEqW6dcb1XWwvQeLFVZ1
+ KEYzifuFCQCYqa7UTDNE+9DgoPPpMYO6Qjfxhtbg/G3o5f3JfD/C
+X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
+Subject: [PATCH] Documentation/llvm: Update Supported Arch table
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Michael Opdenacker <michael.opdenacker@bootlin.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Tom Rix <trix@redhat.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>, llvm@lists.linux.dev,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/16/22 22:57, Randy Dunlap wrote:
-> Hi--
-> 
-> On 6/16/22 01:45, Daniel Bristot de Oliveira wrote:
->> diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
->> index 21f03fb3101a..b14ae63e792b 100644
->> --- a/kernel/trace/rv/Kconfig
->> +++ b/kernel/trace/rv/Kconfig
->> @@ -45,6 +45,16 @@ config RV_MON_WWNR
->>  	  illustrates the usage of per-task monitor. The model is
->>  	  broken on purpose: it serves to test reactors.
->>  
->> +config RV_MON_SAFE_WTD
->> +	select DA_MON_EVENTS_IMPLICIT
->> +	bool "Safety watchdog"
->> +	help
->> +	  Enable safe_wtd, this monitor observes the interaction
->> +	  between a user-space safety monitor and a watchdog device.
->> +
->> +	  For futher information see:
->> +	    Documentation/trace/rv/safety-monitor.rst
-> I'm curious about what "WTD" means.
-> 
-> I see lots of WDT in drivers/watchdog/Kconfig
-> (where it means WatchDog Timer AFAIK).
+While watching Michael's new talk on Clang-built-Linux, I noticed the
+arch table in our docs that he refers to is outdated.
 
-Yep, watchdog. I will add the long description right after the first WTD appearance.
+Add hexagon and User Mode.  Bump MIPS and RISCV to LLVM=1.  PowerPC is
+almost LLVM=1 capable; ppc64le works, but ppc64 (big endian) and ppc32
+still need more work.
 
--- Daniel
+Link: https://youtu.be/W4zdEDpvR5c?t=399
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+ Documentation/kbuild/llvm.rst | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-> thanks.
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+index b854bb413164..6b2bac8e9ce0 100644
+--- a/Documentation/kbuild/llvm.rst
++++ b/Documentation/kbuild/llvm.rst
+@@ -129,18 +129,24 @@ yet. Bug reports are always welcome at the issue tracker below!
+    * - arm64
+      - Supported
+      - ``LLVM=1``
++   * - hexagon
++     - Maintained
++     - ``LLVM=1``
+    * - mips
+      - Maintained
+-     - ``CC=clang``
++     - ``LLVM=1``
+    * - powerpc
+      - Maintained
+      - ``CC=clang``
+    * - riscv
+      - Maintained
+-     - ``CC=clang``
++     - ``LLVM=1``
+    * - s390
+      - Maintained
+      - ``CC=clang``
++   * - um (User Mode)
++     - Maintained
++     - ``LLVM=1``
+    * - x86
+      - Supported
+      - ``LLVM=1``
+-- 
+2.36.1.476.g0c4daa206d-goog
 
