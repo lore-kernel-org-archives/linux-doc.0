@@ -2,82 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B459BCCA479
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 10:56:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BBF0C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 11:05:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381000AbiFQK4E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jun 2022 06:56:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52046 "EHLO
+        id S1380066AbiFQLFs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jun 2022 07:05:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381290AbiFQK4C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 06:56:02 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7BCC56B7C3
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 03:55:59 -0700 (PDT)
-Received: from localhost.localdomain (unknown [112.20.110.105])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxb062Xaxi1GBIAA--.27263S2;
-        Fri, 17 Jun 2022 18:55:51 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     chenhuacai@kernel.org, alexs@kernel.org, bobwxc@email.cn,
-        seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
-        kernel@xen0n.name, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com,
-        loongarch@lists.linux.dev
-Subject: [PATCH v3 0/2] docs: Improve loongarch documents
-Date:   Fri, 17 Jun 2022 18:57:26 +0800
-Message-Id: <cover.1655463225.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
+        with ESMTP id S1380595AbiFQLFs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 07:05:48 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DF9C6C0F5
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 04:05:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2182061E58
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 11:05:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B681C3411F
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 11:05:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655463946;
+        bh=1uBbVLUaPRXNbZsqVcCu1YMFZSM4++BuUkFmwedlp4I=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=bykSvHlXRKyLX4wVsrTVP+bW91xmZ/BLH8mINuM7pI9Qj9q8XHbzImGpTpjBwg9HM
+         Bv6gTPLARHvphoYwYEyu6tn5p33/A35e0uUVkhP4T9i/887FercX2jY9+YPBur8Oo+
+         E/sHJJNRBIydcOwZ0F9hxosJpLeIS/nWchrpsJZKoEJsUb8VoeVmTfN1bjSPZpcvhm
+         HMg4ctJ62ikFRsHUCc59gqPyriApTtLxBBnnhCmv+gHrNSb2A1i87bGHqHmN5q1BVU
+         lBEmsqUVSO86Vz+gBhoTXaYGeogqVZgRw0TalGyETuViOaltHBnfcWZQaPPPt1uP/T
+         UespwVY15za7Q==
+Received: by mail-lj1-f182.google.com with SMTP id l18so4336577lje.13
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 04:05:46 -0700 (PDT)
+X-Gm-Message-State: AJIora9PaNM3/I+a8EOvOK1fjzeB12ProDy/XRFYcgZYn795XPbOSd6/
+        /2lewbbOuv14gjQQTbZ8n/V6NmUV8sZqoCHz+nk=
+X-Google-Smtp-Source: AGRyM1s4dyvnGCe4oSjf+q3h8djWoa1ljc5T+ue0cjMzRKAHztM3iOfkRGBqYgeEycivTzxyflSOPbkvRxjPA/f+VcM=
+X-Received: by 2002:a05:651c:506:b0:257:c12:b941 with SMTP id
+ o6-20020a05651c050600b002570c12b941mr4770423ljp.429.1655463944476; Fri, 17
+ Jun 2022 04:05:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxb062Xaxi1GBIAA--.27263S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZr4DCF1UtF4UGFy3uF4DArb_yoWfJwc_uF
-        Z7Jay5Aw42gFyrWaySkr13AF98JF4j93W5AF1ktrZFkFy7trsxAr4DGrWFvr1IqFsrCrZ8
-        KrWkXryrAr12qjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUb38FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
-        6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
-        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
-        n2kIc2xKxwCY02Avz4vE14v_Gw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
-        0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
-        17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
-        C0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI
-        42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
-        evJa73UjIFyTuYvjfU52NtDUUUU
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+References: <cover.1655463225.git.siyanteng@loongson.cn> <2da9b19588cfa20c3797015ea3ce6831b3a7fa2b.1655463225.git.siyanteng@loongson.cn>
+In-Reply-To: <2da9b19588cfa20c3797015ea3ce6831b3a7fa2b.1655463225.git.siyanteng@loongson.cn>
+From:   Huacai Chen <chenhuacai@kernel.org>
+Date:   Fri, 17 Jun 2022 19:05:33 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4ihtPn-3zKWaevvTKeCs=tdi8RQ8NaKoEU_XD44mEytg@mail.gmail.com>
+Message-ID: <CAAhV-H4ihtPn-3zKWaevvTKeCs=tdi8RQ8NaKoEU_XD44mEytg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] docs/LoongArch: Fix notes rendering by using reST directives
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     Alex Shi <alexs@kernel.org>, bobwxc@email.cn, seakeel@gmail.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Yanteng Si <siyanteng01@gmail.com>, loongarch@lists.linux.dev,
+        WANG Xuerui <git@xen0n.name>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-v3:
-Modify Subject.
+Hi, Yanteng,
 
-v2:
-Fix ``inline literals``.
-Delete "注：" of zh_CN patch.
-Add fix tag.
+On Fri, Jun 17, 2022 at 6:55 PM Yanteng Si <siyanteng@loongson.cn> wrote:
+>
+> "Note" is an admonition, but it doesn't render
+> correctly, let's fix it by using reST directives.
+I think "but it doesn't render correctly" should be "but it isn't
+correctly rendered in HTML". How do you think, Xuerui?
 
-v1:
-Rewrite all the notes in the loongarch document.
-Note is an admonition, let's use the directives
-implemented in the reference reStructuredText parser.
-About reStructuredText Directives,
-see <https://docutils.sourceforge.io/docs/ref/rst/directives.html>
-
-Yanteng Si (2):
-  docs/LoongArch: Fix notes rendering by using reST directives
-  docs/zh_CN/LoongArch: Fix notes rendering by using reST directives
-
- Documentation/loongarch/introduction.rst      | 15 ++++++++-----
- Documentation/loongarch/irq-chip-model.rst    | 22 +++++++++++--------
- .../zh_CN/loongarch/introduction.rst          | 14 +++++++-----
- .../zh_CN/loongarch/irq-chip-model.rst        | 14 +++++++-----
- 4 files changed, 38 insertions(+), 27 deletions(-)
-
--- 
-2.27.0
-
+Huacai
+>
+> Fixes: 0ea8ce61cb2c ("Documentation: LoongArch: Add basic documentations")
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> Reviewed-by: WANG Xuerui <git@xen0n.name>
+> ---
+>  Documentation/loongarch/introduction.rst   | 15 +++++++++------
+>  Documentation/loongarch/irq-chip-model.rst | 22 +++++++++++++---------
+>  2 files changed, 22 insertions(+), 15 deletions(-)
+>
+> diff --git a/Documentation/loongarch/introduction.rst b/Documentation/loongarch/introduction.rst
+> index 2bf40ad370df..216b3f390e80 100644
+> --- a/Documentation/loongarch/introduction.rst
+> +++ b/Documentation/loongarch/introduction.rst
+> @@ -45,10 +45,12 @@ Name              Alias           Usage               Preserved
+>  ``$r23``-``$r31`` ``$s0``-``$s8`` Static registers    Yes
+>  ================= =============== =================== ============
+>
+> -Note: The register ``$r21`` is reserved in the ELF psABI, but used by the Linux
+> -kernel for storing the percpu base address. It normally has no ABI name, but is
+> -called ``$u0`` in the kernel. You may also see ``$v0`` or ``$v1`` in some old code,
+> -however they are deprecated aliases of ``$a0`` and ``$a1`` respectively.
+> +.. Note::
+> +    The register ``$r21`` is reserved in the ELF psABI, but used by the Linux
+> +    kernel for storing the percpu base address. It normally has no ABI name,
+> +    but is called ``$u0`` in the kernel. You may also see ``$v0`` or ``$v1``
+> +    in some old code,however they are deprecated aliases of ``$a0`` and ``$a1``
+> +    respectively.
+>
+>  FPRs
+>  ----
+> @@ -69,8 +71,9 @@ Name              Alias              Usage               Preserved
+>  ``$f24``-``$f31`` ``$fs0``-``$fs7``  Static registers    Yes
+>  ================= ================== =================== ============
+>
+> -Note: You may see ``$fv0`` or ``$fv1`` in some old code, however they are deprecated
+> -aliases of ``$fa0`` and ``$fa1`` respectively.
+> +.. Note::
+> +    You may see ``$fv0`` or ``$fv1`` in some old code, however they are
+> +    deprecated aliases of ``$fa0`` and ``$fa1`` respectively.
+>
+>  VRs
+>  ----
+> diff --git a/Documentation/loongarch/irq-chip-model.rst b/Documentation/loongarch/irq-chip-model.rst
+> index 8d88f7ab2e5e..7988f4192363 100644
+> --- a/Documentation/loongarch/irq-chip-model.rst
+> +++ b/Documentation/loongarch/irq-chip-model.rst
+> @@ -145,12 +145,16 @@ Documentation of Loongson's LS7A chipset:
+>
+>    https://github.com/loongson/LoongArch-Documentation/releases/latest/download/Loongson-7A1000-usermanual-2.00-EN.pdf (in English)
+>
+> -Note: CPUINTC is CSR.ECFG/CSR.ESTAT and its interrupt controller described
+> -in Section 7.4 of "LoongArch Reference Manual, Vol 1"; LIOINTC is "Legacy I/O
+> -Interrupts" described in Section 11.1 of "Loongson 3A5000 Processor Reference
+> -Manual"; EIOINTC is "Extended I/O Interrupts" described in Section 11.2 of
+> -"Loongson 3A5000 Processor Reference Manual"; HTVECINTC is "HyperTransport
+> -Interrupts" described in Section 14.3 of "Loongson 3A5000 Processor Reference
+> -Manual"; PCH-PIC/PCH-MSI is "Interrupt Controller" described in Section 5 of
+> -"Loongson 7A1000 Bridge User Manual"; PCH-LPC is "LPC Interrupts" described in
+> -Section 24.3 of "Loongson 7A1000 Bridge User Manual".
+> +.. Note::
+> +    - CPUINTC is CSR.ECFG/CSR.ESTAT and its interrupt controller described
+> +      in Section 7.4 of "LoongArch Reference Manual, Vol 1";
+> +    - LIOINTC is "Legacy I/OInterrupts" described in Section 11.1 of
+> +      "Loongson 3A5000 Processor Reference Manual";
+> +    - EIOINTC is "Extended I/O Interrupts" described in Section 11.2 of
+> +      "Loongson 3A5000 Processor Reference Manual";
+> +    - HTVECINTC is "HyperTransport Interrupts" described in Section 14.3 of
+> +      "Loongson 3A5000 Processor Reference Manual";
+> +    - PCH-PIC/PCH-MSI is "Interrupt Controller" described in Section 5 of
+> +      "Loongson 7A1000 Bridge User Manual";
+> +    - PCH-LPC is "LPC Interrupts" described in Section 24.3 of
+> +      "Loongson 7A1000 Bridge User Manual".
+> --
+> 2.27.0
+>
