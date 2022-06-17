@@ -2,167 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB05C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 08:26:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F729C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 08:42:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380899AbiFQI0R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jun 2022 04:26:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35470 "EHLO
+        id S1346467AbiFQImy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jun 2022 04:42:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380922AbiFQI0R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 04:26:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4F53468337
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 01:26:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655454375;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=hTHK8486lIIQN7NgMgmBqHT4WzEpoAXoz+nMVgMQJgE=;
-        b=ZWkHk4T1nRHN7f+bhlPhsPXmG1CeeRWXnW12GMLq0LzBUgVGidRuUnPj8GTFqiOc2yQmKo
-        TlcufWNjxTWuRPE0kKjFx7ASY6uBJyKClV7rm6LxTdfmGRDUzSQ2xgBSBsVYZ0dPjJziER
-        MevPG6eR+7PxD50xvxaWT/6TtA//dGo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-463-Oa1fsMubMqqWgbWDxIYN4Q-1; Fri, 17 Jun 2022 04:26:09 -0400
-X-MC-Unique: Oa1fsMubMqqWgbWDxIYN4Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C34AC3C10223;
-        Fri, 17 Jun 2022 08:26:08 +0000 (UTC)
-Received: from localhost (ovpn-12-144.pek2.redhat.com [10.72.12.144])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 43C211415106;
-        Fri, 17 Jun 2022 08:26:07 +0000 (UTC)
-Date:   Fri, 17 Jun 2022 16:26:02 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Zhen Lei <thunder.leizhen@huawei.com>, msalter@redhat.com,
-        ctatman@redhat.com
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, kexec@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH 1/5] arm64: kdump: Provide default size when
- crashkernel=Y,low is not specified
-Message-ID: <20220617082602.GE234358@MiWiFi-R3L-srv>
-References: <20220613080932.663-1-thunder.leizhen@huawei.com>
- <20220613080932.663-2-thunder.leizhen@huawei.com>
+        with ESMTP id S1380537AbiFQImx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 04:42:53 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4981E1146F;
+        Fri, 17 Jun 2022 01:42:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=0+txUdQ43jf+UIe9zCVUaGGeb7a9BrmjbJwClV7VdAQ=; b=PiIGLlDRnD4KR6sJKZqqRuNH4y
+        A1WYA1tieOBnORXjxYl7vYwDNHafaUH7kYlCGCM7t1x+LNel94rwNqbGLhL4BlEC1MZI6OoXIujQ+
+        vShzmh+5ZQkZyPwkWL4IeGPcVy3qPp0FVWp+1X3n5/wOKktGNoZ+yXqlvb1GolNq7m204U7ValNhe
+        PkayypEKB6d3IiePr18juhMYL99/5gj5wb8bEduIdLVbW/pWQRg5bqTa0WI1L1c72qUazXmBQ3noN
+        dvIC73wU5vA/zg4eIo53LFb51U5nQ1OmOZtia6HZ6P0IvRSnO212m0w+el6cH6nOpWbqjM0UR53we
+        YsE01FbA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1o27Yw-006PUX-Gk; Fri, 17 Jun 2022 08:42:42 +0000
+Date:   Fri, 17 Jun 2022 01:42:42 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Nicolin Chen <nicolinc@nvidia.com>
+Cc:     kwankhede@nvidia.com, corbet@lwn.net, hca@linux.ibm.com,
+        gor@linux.ibm.com, agordeev@linux.ibm.com,
+        borntraeger@linux.ibm.com, svens@linux.ibm.com,
+        zhenyuw@linux.intel.com, zhi.a.wang@intel.com,
+        jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+        rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com,
+        airlied@linux.ie, daniel@ffwll.ch, farman@linux.ibm.com,
+        mjrosato@linux.ibm.com, pasic@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com,
+        akrowiak@linux.ibm.com, jjherne@linux.ibm.com,
+        alex.williamson@redhat.com, cohuck@redhat.com, jgg@nvidia.com,
+        kevin.tian@intel.com, jchrist@linux.ibm.com, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org, intel-gvt-dev@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [RFT][PATCH v1 3/6] vfio: Pass in starting IOVA to
+ vfio_pin/unpin_pages API
+Message-ID: <Yqw+goqTJwb0lrxy@infradead.org>
+References: <20220616235212.15185-1-nicolinc@nvidia.com>
+ <20220616235212.15185-4-nicolinc@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220613080932.663-2-thunder.leizhen@huawei.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+In-Reply-To: <20220616235212.15185-4-nicolinc@nvidia.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/13/22 at 04:09pm, Zhen Lei wrote:
-> To be consistent with the implementation of x86 and improve cross-platform
-> user experience. Try to allocate at least 256 MiB low memory automatically
-> when crashkernel=Y,low is not specified.
-> 
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |  8 +-------
->  arch/arm64/mm/init.c                            | 12 +++++++++++-
->  2 files changed, 12 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 8090130b544b070..61b179232b68001 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -843,7 +843,7 @@
->  			available.
->  			It will be ignored if crashkernel=X is specified.
->  	crashkernel=size[KMG],low
-> -			[KNL, X86-64] range under 4G. When crashkernel=X,high
-> +			[KNL, X86-64, ARM64] range under 4G. When crashkernel=X,high
->  			is passed, kernel could allocate physical memory region
->  			above 4G, that cause second kernel crash on system
->  			that require some amount of low memory, e.g. swiotlb
-> @@ -857,12 +857,6 @@
->  			It will be ignored when crashkernel=X,high is not used
->  			or memory reserved is below 4G.
->  
-> -			[KNL, ARM64] range in low memory.
-> -			This one lets the user specify a low range in the
-> -			DMA zone for the crash dump kernel.
-> -			It will be ignored when crashkernel=X,high is not used
-> -			or memory reserved is located in the DMA zones.
-> -
->  	cryptomgr.notests
->  			[KNL] Disable crypto self-tests
->  
-> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-> index 339ee84e5a61a0b..5390f361208ccf7 100644
-> --- a/arch/arm64/mm/init.c
-> +++ b/arch/arm64/mm/init.c
-> @@ -96,6 +96,14 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
->  #define CRASH_ADDR_LOW_MAX		arm64_dma_phys_limit
->  #define CRASH_ADDR_HIGH_MAX		(PHYS_MASK + 1)
->  
-> +/*
-> + * This is an empirical value in x86_64 and taken here directly. Please
-> + * refer to the code comment in reserve_crashkernel_low() of x86_64 for more
-> + * details.
-> + */
-> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	\
-> +	max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20)
+On Thu, Jun 16, 2022 at 04:52:09PM -0700, Nicolin Chen wrote:
+> +	ret = vfio_unpin_pages(&vgpu->vfio_device, gfn << PAGE_SHIFT, npage);
+> +	drm_WARN_ON(&i915->drm, ret != npage);
 
-About this default low value, 256M, I am not sure if it can be lowered
-down. We have Ampere Mt-Jade systems in Redhat and their biggest
-contiguous memory is less than 256M under low 4G when the firmware 32bit
-option is disabled. Obviously this will fail the default crashkernel,low
-value.
+The shifting of gfn seems to happen bother here and in the callers.
 
-I am not sure how common the 32bit option is disabled. If it's an
-important feature and widely set, it need be taken into consideration
-when deciding this default crashkernel,low value. Otherwise, the
-crashkernel=xM won't work in Ampere Mt-Jade system with 32bit option
-disabled, and people need specify crashkernel=xM,high,
-crashkernel=yM,low explicitly. The omission of crashkernel,low is also
-not allowed in the case.
+Also this is the only caller that does anything withthe vfio_unpin_pages
+return value.  Given that you touch the API here we might as well
+not return any value, and turn the debug checks that can return errors
+into WARN_ON_ONCE calls the vfio/iommu_type1 code.
 
-Hi, Mark and Christopher,
+> +extern int vfio_pin_pages(struct vfio_device *device, dma_addr_t iova,
+>  			  int npage, int prot, unsigned long *phys_pfn);
+> -extern int vfio_unpin_pages(struct vfio_device *device, unsigned long *user_pfn,
+> +extern int vfio_unpin_pages(struct vfio_device *device, dma_addr_t iova,
+>  			    int npage);
 
-Add you in CC. If you happen to know contact person from Ampere, please
-also feel free to add them in this thread.
-
-Thanks
-Baoquan
-
->  static int __init reserve_crashkernel_low(unsigned long long low_size)
->  {
->  	unsigned long long low_base;
-> @@ -147,7 +155,9 @@ static void __init reserve_crashkernel(void)
->  		 * is not allowed.
->  		 */
->  		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
-> -		if (ret && (ret != -ENOENT))
-> +		if (ret == -ENOENT)
-> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-> +		else if (ret)
->  			return;
->  
->  		crash_max = CRASH_ADDR_HIGH_MAX;
-> -- 
-> 2.25.1
-> 
-
+This will clash with the extern removal patch that Alex has sent.
