@@ -2,415 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE8E2C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Jun 2022 23:55:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0046CC43334
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 00:32:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379179AbiFPXz2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Jun 2022 19:55:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49914 "EHLO
+        id S1378861AbiFQAcx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Jun 2022 20:32:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379198AbiFPXzY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jun 2022 19:55:24 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8CB262CF7;
-        Thu, 16 Jun 2022 16:55:22 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id v11-20020a17090a4ecb00b001e2c5b837ccso3143696pjl.3;
-        Thu, 16 Jun 2022 16:55:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=ku/N1D4TewWQGYkEyPdHcptcQrrBWamkJuGCacVJaFw=;
-        b=DRM7h9b7QnemRh2d8WudLMXQ3qckTbANbRLN1YliZRS5hRjfUDpGUOa19BsW8qC65o
-         lKdDOBQsXCow3OiFTww1jTnFmHgfcSXpAwSiHaZSq8XFhhC1sHwpwCA6iwZmy3/dsDPZ
-         1mJ8xlJn/cJxt1Hb4tCVQpqS038INLfysmm/xddJxCJvLVioBzfheurh2X0fTjZV4Fwt
-         zdsobGm/gKQCjVuTKtY0c0i/+NisPOZ3scnFSrDM3p6dLHgX2AMue+NFWa9PIzdhpjJX
-         lujwPkizkMinkFpIVODU922baUbb+pjWMKgFwEAkZaq6nOuCDHFNe14Dbe9Me1hFTxKp
-         8Xpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=ku/N1D4TewWQGYkEyPdHcptcQrrBWamkJuGCacVJaFw=;
-        b=UJ8PD7Z/NRD4jbClmsulRTrmiXu7cYD8ji99h811t1pkY9tzvShVNF/8eyyelIauB7
-         NeG2S1r/WOql9GoAQlfAFQwQwM68qDdrKHNUXAZKk4BlFa7oFN96bVVey5OVbSSawidk
-         l9yPWZ6adoLvP8Oe/Io1FLXrv9TK56GZJ64TiwbS5tPsj92UwQ6WmHocRHzmzKQtPgZk
-         LU9U6bNqns58CAViHoOEVglscmT8rUI5XORMjncghIbUHaW2w1haNlx0zoewZgsq/jjQ
-         XpUnT4xsSopiC2AxbfV6RfGn6juNqOwx+8TH3lkSikhJswfz4P3Zw4GkxsYG9e28B0tx
-         23bQ==
-X-Gm-Message-State: AJIora+zgyN2dLKfjVph2Qgr67vxaDO9lnGs2udKlOui8wA7Yi6hcQor
-        q4IXRBLAoryTl3v5h/9ennA=
-X-Google-Smtp-Source: AGRyM1t097LHAGhJhnJ9a6x/bocPOpMkbdZQtc0iIFRkvRSkonz94QnD5uy2kY42YW/yG36HR08X9g==
-X-Received: by 2002:a17:902:c2d3:b0:168:e13c:4e23 with SMTP id c19-20020a170902c2d300b00168e13c4e23mr6889718pla.99.1655423722150;
-        Thu, 16 Jun 2022 16:55:22 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id l17-20020a170902d05100b001636d95fe59sm2161711pll.172.2022.06.16.16.55.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Jun 2022 16:55:21 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <dc48373d-6568-4fab-cbe6-39f2c84ee1b5@roeck-us.net>
-Date:   Thu, 16 Jun 2022 16:55:19 -0700
+        with ESMTP id S230263AbiFQAcw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Jun 2022 20:32:52 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 66FE1120B0
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jun 2022 17:32:50 -0700 (PDT)
+Received: by ajax-webmail-mail.loongson.cn (Coremail) ; Fri, 17 Jun 2022
+ 08:32:47 +0800 (GMT+08:00)
+X-Originating-IP: [223.64.16.213]
+Date:   Fri, 17 Jun 2022 08:32:47 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   =?UTF-8?B?5ZGo5b2s5b2s?= <zhoubinbin@loongson.cn>
+To:     "Wu XiangCheng" <bobwxc@email.cn>
+Cc:     alexs@kernel.org, siyanteng@loongson.cn, corbet@lwn.net,
+        chenhuacai@loongson.cn, linux-doc@vger.kernel.org
+Subject: Re: Re: [PATCH 7/9] docs/zh_CN: core-api: Update the translation of
+ printk-format.rst to 5.19-rc2
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.10a build 20191018(4c4f6d15)
+ Copyright (c) 2002-2022 www.mailtech.cn .loongson.cn
+In-Reply-To: <Yqu+x95ngy68Vu0p@bobwxc.mipc>
+References: <cover.1655258291.git.zhoubinbin@loongson.cn>
+ <ebfda3a43afbfb5dd0186a6e68e080dd933a4883.1655258291.git.zhoubinbin@loongson.cn>
+ <Yqu+x95ngy68Vu0p@bobwxc.mipc>
+Content-Transfer-Encoding: base64
+X-CM-CTRLDATA: sy6SsmZvb3Rlcl90eHQ9MjY5ODo2MTI=
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH V4 17/20] watchdog/dev: Add tracepoints
-Content-Language: en-US
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-References: <cover.1655368610.git.bristot@kernel.org>
- <e153b772306577bcb3915474ed10eb3dcb228eda.1655368610.git.bristot@kernel.org>
- <a141e63a-c62c-8094-fedf-7f22f9090b0f@roeck-us.net>
- <4d8c53a1-7b94-fb0e-29e5-ed13b72093f1@kernel.org>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <4d8c53a1-7b94-fb0e-29e5-ed13b72093f1@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Message-ID: <1abbefb1.371.1816f13a56a.Coremail.zhoubinbin@loongson.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: AQAAf9Dx392vy6tiE11HAA--.154W
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAQAACF3QvPm1TAAAs4
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+        daVFxhVjvjDU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/16/22 08:47, Daniel Bristot de Oliveira wrote:
-> On 6/16/22 15:44, Guenter Roeck wrote:
->> On 6/16/22 01:44, Daniel Bristot de Oliveira wrote:
->>> Add a set of tracepoints, enabling the observability of the watchdog
->>> device interactions with user-space.
->>>
->>> The events are:
->>>      watchdog:watchdog_open
->>>      watchdog:watchdog_close
->>>      watchdog:watchdog_start
->>>      watchdog:watchdog_stop
->>>      watchdog:watchdog_set_timeout
->>>      watchdog:watchdog_ping
->>>      watchdog:watchdog_nowayout
->>>      watchdog:watchdog_set_keep_alive
->>>      watchdog:watchdog_keep_alive
->>>      watchdog:watchdog_set_pretimeout
->>>      watchdog:watchdog_pretimeout
->>>
->>> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
->>> Cc: Guenter Roeck <linux@roeck-us.net>
->>> Cc: Jonathan Corbet <corbet@lwn.net>
->>> Cc: Steven Rostedt <rostedt@goodmis.org>
->>> Cc: Ingo Molnar <mingo@redhat.com>
->>> Cc: Thomas Gleixner <tglx@linutronix.de>
->>> Cc: Peter Zijlstra <peterz@infradead.org>
->>> Cc: Will Deacon <will@kernel.org>
->>> Cc: Catalin Marinas <catalin.marinas@arm.com>
->>> Cc: Marco Elver <elver@google.com>
->>> Cc: Dmitry Vyukov <dvyukov@google.com>
->>> Cc: "Paul E. McKenney" <paulmck@kernel.org>
->>> Cc: Shuah Khan <skhan@linuxfoundation.org>
->>> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
->>> Cc: Juri Lelli <juri.lelli@redhat.com>
->>> Cc: Clark Williams <williams@redhat.com>
->>> Cc: linux-doc@vger.kernel.org
->>> Cc: linux-kernel@vger.kernel.org
->>> Cc: linux-trace-devel@vger.kernel.org
->>> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
->>> ---
->>>    drivers/watchdog/watchdog_dev.c        |  43 ++++++++++-
->>>    drivers/watchdog/watchdog_pretimeout.c |   2 +
->>>    include/linux/watchdog.h               |   7 +-
->>>    include/trace/events/watchdog.h        | 101 +++++++++++++++++++++++++
->>>    4 files changed, 143 insertions(+), 10 deletions(-)
->>>    create mode 100644 include/trace/events/watchdog.h
->>>
->>> diff --git a/drivers/watchdog/watchdog_dev.c b/drivers/watchdog/watchdog_dev.c
->>> index 54903f3c851e..2f28dc5ab763 100644
->>> --- a/drivers/watchdog/watchdog_dev.c
->>> +++ b/drivers/watchdog/watchdog_dev.c
->>> @@ -44,6 +44,9 @@
->>>    #include <linux/watchdog.h>    /* For watchdog specific items */
->>>    #include <linux/uaccess.h>    /* For copy_to_user/put_user/... */
->>>    +#define CREATE_TRACE_POINTS
->>> +#include <trace/events/watchdog.h>
->>> +
->>>    #include "watchdog_core.h"
->>>    #include "watchdog_pretimeout.h"
->>>    @@ -130,9 +133,11 @@ static inline void watchdog_update_worker(struct
->>> watchdog_device *wdd)
->>>        if (watchdog_need_worker(wdd)) {
->>>            ktime_t t = watchdog_next_keepalive(wdd);
->>>    -        if (t > 0)
->>> +        if (t > 0) {
->>>                hrtimer_start(&wd_data->timer, t,
->>>                          HRTIMER_MODE_REL_HARD);
->>> +            trace_watchdog_set_keep_alive(wdd, ktime_to_ms(t));
->>> +        }
->>>        } else {
->>>            hrtimer_cancel(&wd_data->timer);
->>>        }
->>> @@ -141,7 +146,7 @@ static inline void watchdog_update_worker(struct
->>> watchdog_device *wdd)
->>>    static int __watchdog_ping(struct watchdog_device *wdd)
->>>    {
->>>        struct watchdog_core_data *wd_data = wdd->wd_data;
->>> -    ktime_t earliest_keepalive, now;
->>> +    ktime_t earliest_keepalive, now, next_keepalive;
->>>        int err;
->>>          earliest_keepalive = ktime_add(wd_data->last_hw_keepalive,
->>> @@ -149,14 +154,16 @@ static int __watchdog_ping(struct watchdog_device *wdd)
->>>        now = ktime_get();
->>>          if (ktime_after(earliest_keepalive, now)) {
->>> -        hrtimer_start(&wd_data->timer,
->>> -                  ktime_sub(earliest_keepalive, now),
->>> +        next_keepalive = ktime_sub(earliest_keepalive, now);
->>> +        hrtimer_start(&wd_data->timer, next_keepalive,
->>>                      HRTIMER_MODE_REL_HARD);
->>> +        trace_watchdog_set_keep_alive(wdd, ktime_to_ms(next_keepalive));
->>>            return 0;
->>>        }
->>>          wd_data->last_hw_keepalive = now;
->>>    +    trace_watchdog_ping(wdd);
->>>        if (wdd->ops->ping)
->>>            err = wdd->ops->ping(wdd);  /* ping the watchdog */
->>>        else
->>> @@ -215,6 +222,7 @@ static void watchdog_ping_work(struct kthread_work *work)
->>>        wd_data = container_of(work, struct watchdog_core_data, work);
->>>          mutex_lock(&wd_data->lock);
->>> +    trace_watchdog_keep_alive(wd_data->wdd);
->>>        if (watchdog_worker_should_ping(wd_data))
->>>            __watchdog_ping(wd_data->wdd);
->>>        mutex_unlock(&wd_data->lock);
->>> @@ -250,6 +258,8 @@ static int watchdog_start(struct watchdog_device *wdd)
->>>          set_bit(_WDOG_KEEPALIVE, &wd_data->status);
->>>    +    trace_watchdog_start(wdd);
->>> +
->>>        started_at = ktime_get();
->>>        if (watchdog_hw_running(wdd) && wdd->ops->ping) {
->>>            err = __watchdog_ping(wdd);
->>> @@ -294,6 +304,7 @@ static int watchdog_stop(struct watchdog_device *wdd)
->>>            return -EBUSY;
->>>        }
->>>    +    trace_watchdog_stop(wdd);
->>>        if (wdd->ops->stop) {
->>>            clear_bit(WDOG_HW_RUNNING, &wdd->status);
->>>            err = wdd->ops->stop(wdd);
->>> @@ -367,6 +378,7 @@ static int watchdog_set_timeout(struct watchdog_device *wdd,
->>>        if (watchdog_timeout_invalid(wdd, timeout))
->>>            return -EINVAL;
->>>    +    trace_watchdog_set_timeout(wdd, timeout);
->>
->> The driver has no obligation to set the timeout to the
->> requested value. It might be more valuable to report both
->> the requested and the actual values.
->>
->>
-> 
-> Ack! how do I get the actual value?
-> 
-Read it from the data structure after the driver function returned.
-
->>>        if (wdd->ops->set_timeout) {
->>>            err = wdd->ops->set_timeout(wdd, timeout);
->>>        } else {
->>> @@ -399,6 +411,8 @@ static int watchdog_set_pretimeout(struct watchdog_device
->>> *wdd,
->>>        if (watchdog_pretimeout_invalid(wdd, timeout))
->>>            return -EINVAL;
->>>    +    trace_watchdog_set_pretimeout(wdd, timeout);
->>> +
->>
->> Again, the driver has no obligation to set the timeout to the
->> requested value.
-> 
-> /me takes note.
-> 
->>
->>>        if (wdd->ops->set_pretimeout && (wdd->info->options & WDIOF_PRETIMEOUT))
->>>            err = wdd->ops->set_pretimeout(wdd, timeout);
->>>        else
->>> @@ -430,6 +444,23 @@ static int watchdog_get_timeleft(struct watchdog_device
->>> *wdd,
->>>        return 0;
->>>    }
->>>    +/**
->>> + * watchdog_set_nowayout - set nowaout bit
->>> + * @wdd:    The watchdog device to set nowayoutbit
->>> + * @nowayout    A boolean on/off switcher
->>> + *
->>> + * If nowayout boolean is true, the nowayout option is set. No action is
->>> + * taken if nowayout is false.
->>> + */
->>> +void watchdog_set_nowayout(struct watchdog_device *wdd, bool nowayout)
->>> +{
->>> +    if (nowayout) {
->>> +        set_bit(WDOG_NO_WAY_OUT, &wdd->status);
->>> +        trace_watchdog_nowayout(wdd);
->>> +    }
->>> +}
->>> +EXPORT_SYMBOL(watchdog_set_nowayout);
->>> +
->>>    #ifdef CONFIG_WATCHDOG_SYSFS
->>>    static ssize_t nowayout_show(struct device *dev, struct device_attribute *attr,
->>>                    char *buf)
->>> @@ -861,6 +892,8 @@ static int watchdog_open(struct inode *inode, struct file
->>> *file)
->>>            goto out_clear;
->>>        }
->>>    +    trace_watchdog_open(wdd);
->>> +
->>>        err = watchdog_start(wdd);
->>>        if (err < 0)
->>>            goto out_mod;
->>> @@ -883,6 +916,7 @@ static int watchdog_open(struct inode *inode, struct file
->>> *file)
->>>        return stream_open(inode, file);
->>>      out_mod:
->>> +    trace_watchdog_close(wdd);
->>>        module_put(wd_data->wdd->ops->owner);
->>>    out_clear:
->>>        clear_bit(_WDOG_DEV_OPEN, &wd_data->status);
->>> @@ -944,6 +978,7 @@ static int watchdog_release(struct inode *inode, struct
->>> file *file)
->>>        /* make sure that /dev/watchdog can be re-opened */
->>>        clear_bit(_WDOG_DEV_OPEN, &wd_data->status);
->>>    +    trace_watchdog_close(wdd);
->>>    done:
->>>        running = wdd && watchdog_hw_running(wdd);
->>>        mutex_unlock(&wd_data->lock);
->>> diff --git a/drivers/watchdog/watchdog_pretimeout.c
->>> b/drivers/watchdog/watchdog_pretimeout.c
->>> index 376a495ab80c..58c391ed2205 100644
->>> --- a/drivers/watchdog/watchdog_pretimeout.c
->>> +++ b/drivers/watchdog/watchdog_pretimeout.c
->>> @@ -8,6 +8,7 @@
->>>    #include <linux/spinlock.h>
->>>    #include <linux/string.h>
->>>    #include <linux/watchdog.h>
->>> +#include <trace/events/watchdog.h>
->>>      #include "watchdog_core.h"
->>>    #include "watchdog_pretimeout.h"
->>> @@ -107,6 +108,7 @@ void watchdog_notify_pretimeout(struct watchdog_device *wdd)
->>>            return;
->>>        }
->>>    +    trace_watchdog_pretimeout(wdd);
->>>        wdd->gov->pretimeout(wdd);
->>>        spin_unlock_irqrestore(&pretimeout_lock, flags);
->>>    }
->>> diff --git a/include/linux/watchdog.h b/include/linux/watchdog.h
->>> index 99660197a36c..11d93407e492 100644
->>> --- a/include/linux/watchdog.h
->>> +++ b/include/linux/watchdog.h
->>> @@ -139,12 +139,7 @@ static inline bool watchdog_hw_running(struct
->>> watchdog_device *wdd)
->>>        return test_bit(WDOG_HW_RUNNING, &wdd->status);
->>>    }
->>>    -/* Use the following function to set the nowayout feature */
->>> -static inline void watchdog_set_nowayout(struct watchdog_device *wdd, bool
->>> nowayout)
->>> -{
->>> -    if (nowayout)
->>> -        set_bit(WDOG_NO_WAY_OUT, &wdd->status);
->>> -}
->>> +void watchdog_set_nowayout(struct watchdog_device *wdd, bool nowayout);
->>>      /* Use the following function to stop the watchdog on reboot */
->>>    static inline void watchdog_stop_on_reboot(struct watchdog_device *wdd)
->>> diff --git a/include/trace/events/watchdog.h b/include/trace/events/watchdog.h
->>> new file mode 100644
->>> index 000000000000..145cd6cfaa02
->>> --- /dev/null
->>> +++ b/include/trace/events/watchdog.h
->>> @@ -0,0 +1,101 @@
->>> +/* SPDX-License-Identifier: GPL-2.0 */
->>> +#undef TRACE_SYSTEM
->>> +#define TRACE_SYSTEM watchdog
->>> +
->>> +#if !defined(_TRACE_WATCHDOG_H) || defined(TRACE_HEADER_MULTI_READ)
->>> +#define _TRACE_WATCHDOG_H
->>> +
->>> +#include <linux/tracepoint.h>
->>> +
->>> +/*
->>> + * These are all events whose sole argument is the watchdog id.
->>> + */
->>> +DECLARE_EVENT_CLASS(dev_operations_template,
->>> +
->>> +    TP_PROTO(struct watchdog_device *wdd),
->>> +
->>> +    TP_ARGS(wdd),
->>> +
->>> +    TP_STRUCT__entry(
->>> +        __field(__u32, id)
->>> +    ),
->>> +
->>> +    TP_fast_assign(
->>> +        __entry->id = wdd->id;
->>> +    ),
->>> +
->>> +    TP_printk("id=%d",
->>> +          __entry->id)
->>> +);
->>> +
->>> +DEFINE_EVENT(dev_operations_template, watchdog_open,
->>> +         TP_PROTO(struct watchdog_device *wdd),
->>> +         TP_ARGS(wdd));
->>> +
->>> +DEFINE_EVENT(dev_operations_template, watchdog_close,
->>> +         TP_PROTO(struct watchdog_device *wdd),
->>> +         TP_ARGS(wdd));
->>> +
->>> +DEFINE_EVENT(dev_operations_template, watchdog_start,
->>> +         TP_PROTO(struct watchdog_device *wdd),
->>> +         TP_ARGS(wdd));
->>> +
->>> +DEFINE_EVENT(dev_operations_template, watchdog_stop,
->>> +         TP_PROTO(struct watchdog_device *wdd),
->>> +         TP_ARGS(wdd));
->>> +
->>> +DEFINE_EVENT(dev_operations_template, watchdog_ping,
->>> +         TP_PROTO(struct watchdog_device *wdd),
->>> +         TP_ARGS(wdd));
->>> +
->>> +DEFINE_EVENT(dev_operations_template, watchdog_nowayout,
->>> +         TP_PROTO(struct watchdog_device *wdd),
->>> +         TP_ARGS(wdd));
->>> +
->>> +DEFINE_EVENT(dev_operations_template, watchdog_keep_alive,
->>> +         TP_PROTO(struct watchdog_device *wdd),
->>> +         TP_ARGS(wdd));
->>> +
->>> +DEFINE_EVENT(dev_operations_template, watchdog_pretimeout,
->>> +         TP_PROTO(struct watchdog_device *wdd),
->>> +         TP_ARGS(wdd));
->>> +
->>> +/*
->>> + * These are all events with a device ID and a given timeout.
->>> + */
->>> +DECLARE_EVENT_CLASS(watchdog_timeout_template,
->>> +
->>> +    TP_PROTO(struct watchdog_device *wdd, u64 timeout),
->>> +
->>> +    TP_ARGS(wdd, timeout),
->>> +
->>> +    TP_STRUCT__entry(
->>> +        __field(__u32, id)
->>> +        __field(__u64, timeout)
->>
->>
->> Why u64 ? timeout is unsigned long.
-> 
-> ack! I will change it. (I am seeing unsigned int, am I missing something?).
-
-Yes, you are correct.
-
-Guenter
+CgoKJmd0OyAtLS0tLeWOn+Wni+mCruS7ti0tLS0tCiZndDsg5Y+R5Lu25Lq6OiAiV3UgWGlhbmdD
+aGVuZyIgPGJvYnd4Y0BlbWFpbC5jbj4KJmd0OyDlj5HpgIHml7bpl7Q6IDIwMjItMDYtMTcgMDc6
+Mzc6NDMgKOaYn+acn+S6lCkKJmd0OyDmlLbku7bkuro6ICJCaW5iaW4gWmhvdSIgPHpob3ViaW5i
+aW5AbG9vbmdzb24uY24+CiZndDsg5oqE6YCBOiBhbGV4c0BrZXJuZWwub3JnLCBzaXlhbnRlbmdA
+bG9vbmdzb24uY24sIGNvcmJldEBsd24ubmV0LCBjaGVuaHVhY2FpQGxvb25nc29uLmNuLCBsaW51
+eC1kb2NAdmdlci5rZXJuZWwub3JnCiZndDsg5Li76aKYOiBSZTogW1BBVENIIDcvOV0gZG9jcy96
+aF9DTjogY29yZS1hcGk6IFVwZGF0ZSB0aGUgdHJhbnNsYXRpb24gb2YgcHJpbnRrLWZvcm1hdC5y
+c3QgdG8gNS4xOS1yYzIKJmd0OyAKJmd0OyBPbiBXZWQsIEp1biAxNSwgMjAyMiBhdCAwNToyNDoz
+MFBNICswODAwLCBCaW5iaW4gWmhvdSB3cm90ZToKJmd0OyAmZ3Q7IFN5bmNocm9ub3VzIHRyYW5z
+bGF0aW9uIGZyb20gdGhlIGZvbGxvd2luZyBjb21taXRzKExhdGVzdCBpbiBmcm9udCk6CiZndDsg
+Jmd0OyAKJmd0OyAmZ3Q7IFsxXTogY29tbWl0IDJmYmY1MjQxYTU2MSgidnNwcmludGY6IGFkZCBu
+ZXcgYCVwQWAgZm9ybWF0IHNwZWNpZmllciIpCiZndDsgCiZndDsgXiB0aGlzIGNvbW1pdCBpcyBm
+cm9tIHJ1c3QtbmV4dCBhbmQgbm90IGFwcGVhcmVkIGluIG1hc3RlciBvcgomZ3Q7IGpjL2RvY3Mt
+bmV4dCB5ZXQsIHNvIHBsZWFzZSBkcm9wIGl0LgomZ3Q7IAomZ3Q7IFRoYW5rcywKJmd0OyAJV3UK
+Ck9LLCBJIHNlZS4KClRoYW5rcywKQmluYmluCiZndDsgCiZndDsgJmd0OyAKJmd0OyAmZ3Q7IFsy
+XTogY29tbWl0IDZhN2NhODBmNDAzMygidnNwcmludGY6IFVwZGF0ZSAlcEdwIGRvY3VtZW50YXRp
+b24KJmd0OyAmZ3Q7ICAgICAgYWJvdXQgdGhhdCBpdCBwcmludHMgaGV4IHZhbHVlIikKJmd0OyAm
+Z3Q7IAomZ3Q7ICZndDsgU2lnbmVkLW9mZi1ieTogQmluYmluIFpob3UgPHpob3ViaW5iaW5AbG9v
+bmdzb24uY24+CiZndDsgJmd0OyAtLS0KJmd0OyAmZ3Q7ICAuLi4vdHJhbnNsYXRpb25zL3poX0NO
+L2NvcmUtYXBpL3ByaW50ay1mb3JtYXRzLnJzdCAgfCAxMyArKysrKysrKysrKystCiZndDsgJmd0
+OyAgMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKJmd0OyAm
+Z3Q7IAomZ3Q7ICZndDsgZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
+X0NOL2NvcmUtYXBpL3ByaW50ay1mb3JtYXRzLnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRp
+b25zL3poX0NOL2NvcmUtYXBpL3ByaW50ay1mb3JtYXRzLnJzdAomZ3Q7ICZndDsgaW5kZXggY2Uz
+OWM3ODhjZjVhLi43ODU2MWMzNWU1MjggMTAwNjQ0CiZndDsgJmd0OyAtLS0gYS9Eb2N1bWVudGF0
+aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9wcmludGstZm9ybWF0cy5yc3QKJmd0OyAm
+Z3Q7ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL3ByaW50
+ay1mb3JtYXRzLnJzdAomZ3Q7ICZndDsgQEAgLTUsNiArNSw3IEBACiZndDsgJmd0OyAgOue/u+iv
+kToKJmd0OyAmZ3Q7ICAKJmd0OyAmZ3Q7ICAg5Y+45bu26IW+IFlhbnRlbmcgU2kgPHNpeWFudGVu
+Z0Bsb29uZ3Nvbi5jbj4KJmd0OyAmZ3Q7ICsg5ZGo5b2s5b2sIEJpbmJpbiBaaG91IDx6aG91Ymlu
+YmluQGxvb25nc29uLmNuPgomZ3Q7ICZndDsgIAomZ3Q7ICZndDsgIC4uIF9jbl9wcmludGstZm9y
+bWF0cy5yc3Q6CiZndDsgJmd0OyAgCiZndDsgJmd0OyBAQCAtNTQ4LDcgKzU0OSw3IEBAIG5vZGVt
+YXNrX3ByX2FyZ3MoKeadpeaWueS+v+aJk+WNsGNwdW1hc2vlkoxub2RlbWFza+OAggomZ3Q7ICZn
+dDsgIAomZ3Q7ICZndDsgIDo6CiZndDsgJmd0OyAgCiZndDsgJmd0OyAtCSVwR3AJcmVmZXJlbmNl
+ZHx1cHRvZGF0ZXxscnV8YWN0aXZlfHByaXZhdGV8bm9kZT0wfHpvbmU9MnxsYXN0Y3B1cGlkPTB4
+MWZmZmZmCiZndDsgJmd0OyArCSVwR3AJMHgxN2ZmZmZjMDAwMjAzNihyZWZlcmVuY2VkfHVwdG9k
+YXRlfGxydXxhY3RpdmV8cHJpdmF0ZXxub2RlPTB8em9uZT0yfGxhc3RjcHVwaWQ9MHgxZmZmZmYp
+CiZndDsgJmd0OyAgCSVwR2cJR0ZQX1VTRVJ8R0ZQX0RNQTMyfEdGUF9OT1dBUk4KJmd0OyAmZ3Q7
+ICAJJXBHdglyZWFkfGV4ZWN8bWF5cmVhZHxtYXl3cml0ZXxtYXlleGVjfGRlbnl3cml0ZQomZ3Q7
+ICZndDsgIAomZ3Q7ICZndDsgQEAgLTU4OSw2ICs1OTAsMTYgQEAgVjRMMuWSjERSTSBGb3VyQ0Pk
+u6PnoIEo5YOP57Sg5qC85byPKQomZ3Q7ICZndDsgIAklcDRjYwlZMTAgIGxpdHRsZS1lbmRpYW4g
+KDB4MjAzMDMxNTkpCiZndDsgJmd0OyAgCSVwNGNjCU5WMTIgYmlnLWVuZGlhbiAoMHhiMjMxNTY0
+ZSkKJmd0OyAmZ3Q7ICAKJmd0OyAmZ3Q7ICtSdXN0CiZndDsgJmd0OyArLS0tLQomZ3Q7ICZndDsg
+KwomZ3Q7ICZndDsgKzo6CiZndDsgJmd0OyArCiZndDsgJmd0OyArICAgICAgICVwQQomZ3Q7ICZn
+dDsgKwomZ3Q7ICZndDsgK+S7heeUqOS6jlJ1c3Tku6PnoIHmoLzlvI/ljJZgYGNvcmU6OmZtdDo6
+QXJndW1lbnRzYGDjgIIKJmd0OyAmZ3Q7ICvkuI3og73nlKjkuo5D6K+t6KiA44CCCiZndDsgJmd0
+OyArCiZndDsgJmd0OyAg6LCi6LCiCiZndDsgJmd0OyAgPT09PQomZ3Q7ICZndDsgIAomZ3Q7ICZn
+dDsgLS0gCiZndDsgJmd0OyAyLjIwLjEKPC96aG91YmluYmluQGxvb25nc29uLmNuPjwvc2l5YW50
+ZW5nQGxvb25nc29uLmNuPjwvemhvdWJpbmJpbkBsb29uZ3Nvbi5jbj48L3pob3ViaW5iaW5AbG9v
+bmdzb24uY24+PC9ib2J3eGNAZW1haWwuY24+DQoNCuacrOmCruS7tuWPiuWFtumZhOS7tuWQq+ac
+iem+meiKr+S4reenkeeahOWVhuS4muenmOWvhuS/oeaBr++8jOS7hemZkOS6juWPkemAgee7meS4
+iumdouWcsOWdgOS4reWIl+WHuueahOS4quS6uuaIlue+pOe7hOOAguemgeatouS7u+S9leWFtuS7
+luS6uuS7peS7u+S9leW9ouW8j+S9v+eUqO+8iOWMheaLrOS9huS4jemZkOS6juWFqOmDqOaIlumD
+qOWIhuWcsOazhOmcsuOAgeWkjeWItuaIluaVo+WPke+8ieacrOmCruS7tuWPiuWFtumZhOS7tuS4
+reeahOS/oeaBr+OAguWmguaenOaCqOmUmeaUtuacrOmCruS7tu+8jOivt+aCqOeri+WNs+eUteiv
+neaIlumCruS7tumAmuefpeWPkeS7tuS6uuW5tuWIoOmZpOacrOmCruS7tuOAgiANClRoaXMgZW1h
+aWwgYW5kIGl0cyBhdHRhY2htZW50cyBjb250YWluIGNvbmZpZGVudGlhbCBpbmZvcm1hdGlvbiBm
+cm9tIExvb25nc29uIFRlY2hub2xvZ3kgLCB3aGljaCBpcyBpbnRlbmRlZCBvbmx5IGZvciB0aGUg
+cGVyc29uIG9yIGVudGl0eSB3aG9zZSBhZGRyZXNzIGlzIGxpc3RlZCBhYm92ZS4gQW55IHVzZSBv
+ZiB0aGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGhlcmVpbiBpbiBhbnkgd2F5IChpbmNsdWRpbmcs
+IGJ1dCBub3QgbGltaXRlZCB0bywgdG90YWwgb3IgcGFydGlhbCBkaXNjbG9zdXJlLCByZXByb2R1
+Y3Rpb24gb3IgZGlzc2VtaW5hdGlvbikgYnkgcGVyc29ucyBvdGhlciB0aGFuIHRoZSBpbnRlbmRl
+ZCByZWNpcGllbnQocykgaXMgcHJvaGliaXRlZC4gSWYgeW91IHJlY2VpdmUgdGhpcyBlbWFpbCBp
+biBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHBob25lIG9yIGVtYWlsIGltbWVk
+aWF0ZWx5IGFuZCBkZWxldGUgaXQuIA==
