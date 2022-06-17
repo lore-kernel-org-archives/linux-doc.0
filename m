@@ -2,115 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4B82C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 05:57:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC0F8C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 07:17:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379711AbiFQF53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jun 2022 01:57:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49914 "EHLO
+        id S1380561AbiFQHRr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jun 2022 03:17:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240710AbiFQF53 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 01:57:29 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF6F566F8D
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jun 2022 22:57:27 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o24yq-0001Mj-TF; Fri, 17 Jun 2022 07:57:16 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o24yn-00109t-8f; Fri, 17 Jun 2022 07:57:14 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1o24yo-00GttI-0N; Fri, 17 Jun 2022 07:57:14 +0200
-Date:   Fri, 17 Jun 2022 07:57:10 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Wolfram Sang <wsa@kernel.org>
-Cc:     linux-doc@vger.kernel.org,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-spi@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: efm32: remove bindings for deleted platform
-Message-ID: <20220617055710.d4wnya5aclskpqjg@pengutronix.de>
-References: <20220615210720.6363-1-wsa@kernel.org>
+        with ESMTP id S1380564AbiFQHRp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 03:17:45 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9E39D11C1E
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 00:17:42 -0700 (PDT)
+Received: from localhost.localdomain (unknown [112.20.110.105])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxX92JKqxirf5HAA--.12068S2;
+        Fri, 17 Jun 2022 15:17:30 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     chenhuacai@kernel.org, alexs@kernel.org, bobwxc@email.cn,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
+        kernel@xen0n.name, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, siyanteng01@gmail.com,
+        loongarch@lists.linux.dev
+Subject: [PATCH 0/2] docs/loongarch: improve loongarch documents
+Date:   Fri, 17 Jun 2022 15:19:05 +0800
+Message-Id: <cover.1655450200.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="olp76qajcz2msgae"
-Content-Disposition: inline
-In-Reply-To: <20220615210720.6363-1-wsa@kernel.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxX92JKqxirf5HAA--.12068S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKFWktw4xZrWxKF13Gw18Grg_yoWxuwb_uF
+        Z7Ga45Cw42qa4rGayxKr13AF98JF4j93Z8AF1ktFsrKFyftwnxAr4DW390vr10qFsruFZ8
+        KrWkXryrAr12qjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUb38FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+        6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+        Y2ka0xkIwI1lc2xSY4AK67AK6r4xMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+        1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+        b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+        vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI
+        42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
+        evJa73UjIFyTuYvjfUYMKZDUUUU
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Rewrite all the notes in the loongarch document.
 
---olp76qajcz2msgae
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Note is an admonition, let's use the directives
+implemented in the reference reStructuredText parser.
+About reStructuredText Directives,
+see <https://docutils.sourceforge.io/docs/ref/rst/directives.html>
 
-On Wed, Jun 15, 2022 at 11:07:19PM +0200, Wolfram Sang wrote:
-> Commit cc6111375cec ("ARM: drop efm32 platform") removed the platform,
-> so no need to still carry the bindings.
->=20
-> Signed-off-by: Wolfram Sang <wsa@kernel.org>
-> ---
->  .../devicetree/bindings/clock/efm32-clock.txt | 11 -----
->  .../devicetree/bindings/i2c/i2c-efm32.txt     | 33 --------------
->  .../devicetree/bindings/serial/efm32-uart.txt | 20 ---------
->  .../devicetree/bindings/spi/efm32-spi.txt     | 39 -----------------
->  include/dt-bindings/clock/efm32-cmu.h         | 43 -------------------
->  5 files changed, 146 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/clock/efm32-clock.t=
-xt
->  delete mode 100644 Documentation/devicetree/bindings/i2c/i2c-efm32.txt
->  delete mode 100644 Documentation/devicetree/bindings/serial/efm32-uart.t=
-xt
->  delete mode 100644 Documentation/devicetree/bindings/spi/efm32-spi.txt
->  delete mode 100644 include/dt-bindings/clock/efm32-cmu.h
+Yanteng Si (2):
+  docs/loongarch: rewrite all the notes
+  docs/zh_CN: rewrite all the notes
 
-I didn't do that back then wondering if the bindings are sensible to
-keep even for removed arch (or more general drivers). In this case the
-chip isn't old and unavailable, but just too small for sensible Linux
-usage.
+ Documentation/loongarch/introduction.rst      | 15 ++++++++-----
+ Documentation/loongarch/irq-chip-model.rst    | 22 +++++++++++--------
+ .../zh_CN/loongarch/introduction.rst          | 14 +++++++-----
+ .../zh_CN/loongarch/irq-chip-model.rst        | 15 ++++++++-----
+ 4 files changed, 39 insertions(+), 27 deletions(-)
 
-OTOH I'm not aware of any dtb usage on efm32.
+-- 
+2.27.0
 
-No hard feelings here, if you consider it not useful to keep the binding
-around, go on and remove them.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---olp76qajcz2msgae
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmKsF7IACgkQwfwUeK3K
-7AmlkAgAkeP7ubk1SId4jZw5jRCgEtryr8uSSJbLjLngkCCk9Tk4niLiq7RE9svU
-ogytTFnt0i4WSXrORBidg644EcgoWZrpUDA1ULORe/EbRS3k6bupHQneGP7BkXgo
-GiNgDvJ+ufdcLrI0Nj+jH/C5PxNqOa1sH7GnRE5viYXpbpB6kwyqR18v6G2CAUin
-E3b2QRB32jCAXTYlitLmbjLweY/Qz0pW8yTY4pwhLoG3w+wDshQVwRqSt778yqZN
-dLwli2Zv0+zs2EBKBZgST0hruHpcZ3HJXQy/6UhnXTCdHbxm2pI0AdQo5nIxrYe6
-/oWYm+u40EbHnR0PPhQFCKeOW1OExg==
-=4gVo
------END PGP SIGNATURE-----
-
---olp76qajcz2msgae--
