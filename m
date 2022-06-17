@@ -2,232 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E31BDC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 07:43:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78CD7CCA479
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Jun 2022 07:50:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229559AbiFQHnp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Jun 2022 03:43:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55064 "EHLO
+        id S1380290AbiFQHuE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Jun 2022 03:50:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380717AbiFQHnk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 03:43:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F34FF66F8D
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 00:43:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655451818;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7ReX5+Tea9DeNVBMZAkITRir8x1EyrdX1TO+zxwb4MY=;
-        b=LbmU6caJta2yqT+jWYuxmtRb5f2IR6xm993WUqMT6wO608KWLQ2ai3dt5S6ii3dNmHGY5b
-        xBXlCED1aPBXApptAd6M97P1AsoDUgyk4pTivlMvFgvc21lGhxjfwhYwK5Es7bgYxoM6yR
-        0azOgTZpt/+UNbsIZZFJLluqOSD6kZ0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-556-i62bWbLlMt2Mjk-YacKlfg-1; Fri, 17 Jun 2022 03:43:36 -0400
-X-MC-Unique: i62bWbLlMt2Mjk-YacKlfg-1
-Received: by mail-wm1-f69.google.com with SMTP id k16-20020a7bc310000000b0038e6cf00439so1890324wmj.0
-        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 00:43:36 -0700 (PDT)
+        with ESMTP id S1380024AbiFQHuE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Jun 2022 03:50:04 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3070674FB
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 00:50:02 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id d5so3222822plo.12
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jun 2022 00:50:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=/5JQEnezBo8SAr6g2AvndTomb05vaO1mzGxpKpnfNFw=;
+        b=ZeTtH3DabDO7sw5h2E093njHE2+DJU4emaCoQlZUp7EeNN+4aqMW1wh+gGD4kgX9Mb
+         un4tS4Jz1w73FWDZF9ZIdgVT4CjQfT+O58u4lonCUU4uDdjPPFhd/QhQSUWmU1Cfl/uH
+         ARkOv26uS6Tj6rYl3rJyTDKKXbQWwSvGnysutexvWFVLvrTJdMnQ4544eG97GvJ9CpwH
+         YAg9krnua2PFEENTm+SWJv1BXx7U1o/MnvzD+3uFuTubs401RvZe9elIco/tuXL9jhOh
+         P2uHvQFQ2AHrJbAzOH6EFe0vMgyyXMjYYTFHYRhm9HMU2rqIB8oKHsWHamCQQI5XKdvx
+         XjiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=7ReX5+Tea9DeNVBMZAkITRir8x1EyrdX1TO+zxwb4MY=;
-        b=CLlMXucEQUqgecZEgpMYodY27579/VqCUV2O7uW040Bhv0DyU/GqIE7mF/1pzh3cu3
-         H0QXZMf83mCjzmTh6YzUznNgBmRhhCsqkR2Ihbp1sbq+qPsZEVdKDSFH9f5fwfEkVEvl
-         QZYuwnR8rOCumi6ol4wOYeaUIihe2AgtcOZ2Vlq4+BqTN/YpnACJ5wk74wNlS2UUVPTV
-         cmg+jptSJdqnp5dfmTL3MEY5APJAGLdqZIAO17THt4KYbMnZkgBdHwfXcQ6HnL7FDpzf
-         P7781NtWMbr9DaumWB/WWUmmPX52JXpw/Z4FC0WtreAShgE4Nigb+p55RKiwtItxuddi
-         oOzA==
-X-Gm-Message-State: AJIora8Kkk47Se16oPCxSZsoHDd4BBghVXgCqxJxj3QOq+TFC3MZ1iIC
-        oXvI5KDuUjVCQEOf8M2Lc9lmJ6wQNPPFBL5n4ZYczN+vTa91T+6CYOF3p3VoTbW+T/l7sQE7xhJ
-        kqX/eX4APzbag/eKRvI/Q
-X-Received: by 2002:a05:600c:1c88:b0:39d:7299:e295 with SMTP id k8-20020a05600c1c8800b0039d7299e295mr8647677wms.155.1655451815082;
-        Fri, 17 Jun 2022 00:43:35 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uMuSqagueU9Uty34908kiFQvwzEaIjUHGQED46YbY0HAP5x4mQF32qlzPwNjwllIDuTBStrQ==
-X-Received: by 2002:a05:600c:1c88:b0:39d:7299:e295 with SMTP id k8-20020a05600c1c8800b0039d7299e295mr8647654wms.155.1655451814763;
-        Fri, 17 Jun 2022 00:43:34 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c70a:7e00:bb5b:b526:5b76:5824? (p200300cbc70a7e00bb5bb5265b765824.dip0.t-ipconnect.de. [2003:cb:c70a:7e00:bb5b:b526:5b76:5824])
-        by smtp.gmail.com with ESMTPSA id o20-20020a1c7514000000b0039c4ec6fdacsm4549519wmc.40.2022.06.17.00.43.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Jun 2022 00:43:34 -0700 (PDT)
-Message-ID: <186924ab-651f-71a1-93d2-3500a67dffee@redhat.com>
-Date:   Fri, 17 Jun 2022 09:43:33 +0200
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=/5JQEnezBo8SAr6g2AvndTomb05vaO1mzGxpKpnfNFw=;
+        b=oK7Fl8R/wPresVVeJ6BjJTS0Td2ZZqXUIJiVbUEZwgedmDnT/J/fbc7/X1nBV2qPuZ
+         sy6P9L4UHLNlXtagNdR4u0KRwQCFxHYreG+qjKxi0dLNHiX/X3BDobcBuWQJJ6FRXuiV
+         pldi4QGNaGJEeXmxZUl/L45J76iLa5BtB4XDVTVpoo8lEYw0MjEkUQDbJDOikshBkw5J
+         stfR148ATYPauaT0DCETw9Zml9zvXmGqbej/Y9R7p5zMixQwagOYiokNnWBBHhVnyNMv
+         pd/bwIMgKHew+Jtv9bUGPoUfRdGnur+lHz4c8kBOfJp2fomvUitQayq0rmCNpB+rZOr/
+         WHLQ==
+X-Gm-Message-State: AJIora+pklCWuUhOJ7PNpd5YIX5QrFTsun+CiZ02HhDFv5EXQgshvL90
+        qaSNHIGVrLoGGayNVv0z4OexIQ==
+X-Google-Smtp-Source: AGRyM1ueXFqi+rj4FAeCjjkCGaS9L29wOvXRortQKXhhP6ngSuvIFI1dEyfbPgthDbo+9Iga7OUdBg==
+X-Received: by 2002:a17:902:c946:b0:163:ed13:7ab1 with SMTP id i6-20020a170902c94600b00163ed137ab1mr8111674pla.36.1655452202297;
+        Fri, 17 Jun 2022 00:50:02 -0700 (PDT)
+Received: from localhost ([139.177.225.255])
+        by smtp.gmail.com with ESMTPSA id 203-20020a6218d4000000b0051ba0ee30cbsm2994752pfy.128.2022.06.17.00.49.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jun 2022 00:49:58 -0700 (PDT)
+Date:   Fri, 17 Jun 2022 15:49:55 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     Joao Martins <joao.m.martins@oracle.com>, david@redhat.com,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
+        corbet@lwn.net
+Subject: Re: [PATCH 3/6] mm: hugetlb_vmemmap: introduce the name HVO
+Message-ID: <YqwyI+MKIg1BLkfy@FVFYT0MHHV2J.usts.net>
+References: <20220613063512.17540-1-songmuchun@bytedance.com>
+ <20220613063512.17540-4-songmuchun@bytedance.com>
+ <41e2d762-2c0d-b13b-d6da-6e0e0e858a84@oracle.com>
+ <YqqjaPOMyPd3aUs2@FVFYT0MHHV2J.usts.net>
+ <YquuXIaBM98oTyD9@monkey>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 2/2] mm: memory_hotplug: introduce
- SECTION_CANNOT_OPTIMIZE_VMEMMAP
-Content-Language: en-US
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        mike.kravetz@oracle.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-References: <20220520025538.21144-1-songmuchun@bytedance.com>
- <20220520025538.21144-3-songmuchun@bytedance.com>
- <53024884-0182-df5f-9ca2-00652c64ce36@redhat.com>
- <YqqqPjkh9r8ZrH0r@localhost.localdomain>
- <24d5ec20-9c9e-93aa-11f4-c4619f51f7d1@redhat.com>
- <YqwVTT+50vt5WpeG@localhost.localdomain>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <YqwVTT+50vt5WpeG@localhost.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YquuXIaBM98oTyD9@monkey>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17.06.22 07:46, Oscar Salvador wrote:
-> On Thu, Jun 16, 2022 at 09:30:33AM +0200, David Hildenbrand wrote:
->> IIRC, that was used to skip these patches on the offlining path before
->> we provided the ranges to offline_pages().
+On Thu, Jun 16, 2022 at 03:27:40PM -0700, Mike Kravetz wrote:
+> On 06/16/22 11:28, Muchun Song wrote:
+> > On Wed, Jun 15, 2022 at 03:51:51PM +0100, Joao Martins wrote:
+> > > On 6/13/22 07:35, Muchun Song wrote:
+> > > > It it inconvenient to mention the feature of optimizing vmemmap pages associated
+> > > > with HugeTLB pages when communicating with others since there is no specific or
+> > > > abbreviated name for it when it is first introduced.  Let us give it a name HVO
+> > > > (HugeTLB Vmemmap Optimization) from now.
+> > > > 
+> > > 
+> > > Just thought I would throw this suggestion, even though I am probably too late.
+> > > 
+> > 
+> > Not too late, we are still discussing the name.
+> > 
+> > > I find the term "vmemmap deduplication" more self-explanatory (at least for me)
+> > > to refer to your technique ,and similarly s/optimize/dedup. Or vmemmap tail page
+> > > deduplication (too verbose maybe) because really that's what this optimization is all
+> > > about. OTOH it would slightly deviate from what maybe established now
+> > > in hugetlb code.
+> > >
+> > 
+> > Well, I have looked up this word "deduplication" which refers to a method of
+> > eliminating a dataset’s redundant data.  At least I agree with you "deduplication"
+> > is more expressive for my technique.  So I am thinking of renaming "HVO" to "HVD (
+> > HugeTLB Vmemmap Deduplication)".  In this series (patch 6), I have renamed
+> > hugetlb_vmemmap_alloc/free to hugetlb_vmemmmap_optimize/restore.  I am also
+> > thinking of replacing it to:
+> > 
+> >   hugetlb_vmemmmap_deduplicate vs hugetlb_vmemmmap_duplicate.
+> > 
+> > Many other places in hugetlb_vmemmap.c use "optimize" word, maybe most of them do
+> > not need to be changed since "deduplication" is also a __optimization__ technique.
+> > 
+> > Hi Mike and David:
+> > 
+> > What your opinion on this? I want to hear some thoughts from you.
 > 
-> Yeah, it was designed for that purpose back then.
+> I can understand Joao's preference for deduplication.  However, I can
+> also understand just using the term optimization.  IMO, neither is far
+> superior to the other.  It is mostly a matter of personal preference.
 > 
->> I'd not mess with PG_reserved, and give them a clearer name, to not
->> confuse them with other, ordinary, vmemmap pages that are not
->> self-hosted (maybe in the future we might want to flag all vmemmap pages
->> with a new type?).
-> 
-> Not sure whether a new type is really needed, or to put it another way, I
-> cannot see the benefit.
-> 
->>
->> I'd just try reusing the flag PG_owner_priv_1. And eventually, flag all
->> (v)memmap pages with a type PG_memmap. However, the latter would be
->> optional and might not be strictly required
->>
->>
->> So what think could make sense is
->>
->> /* vmemmap pages that are self-hosted and cannot be optimized/freed. */
->> PG_vmemmap_self_hosted = PG_owner_priv_1,
-> 
-> Sure, I just lightly tested the below, and seems to work, but not sure
-> whether that is what you are referring to.
-> @Munchun: thoughts?
-> 
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index e66f7aa3191d..a4556afd7bda 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -193,6 +193,11 @@ enum pageflags {
->  
->  	/* Only valid for buddy pages. Used to track pages that are reported */
->  	PG_reported = PG_uptodate,
-> +
-> +#ifdef CONFIG_MEMORY_HOTPLUG
-> +	/* For self-hosted memmap pages */
-> +	PG_vmemmap_self_hosted = PG_owner_priv_1,
-> +#endif
->  };
->  
->  #define PAGEFLAGS_MASK		((1UL << NR_PAGEFLAGS) - 1)
-> @@ -628,6 +633,10 @@ PAGEFLAG_FALSE(SkipKASanPoison, skip_kasan_poison)
->   */
->  __PAGEFLAG(Reported, reported, PF_NO_COMPOUND)
->  
-> +#ifdef CONFIG_MEMORY_HOTPLUG
-> +PAGEFLAG(Vmemmap_self_hosted, vmemmap_self_hosted, PF_ANY)
+> My preference would be to leave it as named in this series unless
+> someone has a strong preference for changing.
+>
 
-VmemmapSelfHosted, then the function names get nicer.
+All right. I'll keep the HVO name.
 
-> +#endif
-> +
->  /*
->   * On an anonymous page mapped into a user virtual memory area,
->   * page->mapping points to its anon_vma, not to a struct address_space;
-> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> index 1089ea8a9c98..e2de7ed27e9e 100644
-> --- a/mm/hugetlb_vmemmap.c
-> +++ b/mm/hugetlb_vmemmap.c
-> @@ -101,6 +101,14 @@ void hugetlb_vmemmap_free(struct hstate *h, struct page *head)
->  {
->  	unsigned long vmemmap_addr = (unsigned long)head;
->  	unsigned long vmemmap_end, vmemmap_reuse, vmemmap_pages;
-> +	struct mem_section *ms = __pfn_to_section(page_to_pfn(head));
-> +	struct page *memmap;
-> +
-> +	memmap = sparse_decode_mem_map(ms->section_mem_map,
-> +				       pfn_to_section_nr(page_to_pfn(head)));
-
-Why can't we check the head page directly? Either I need more coffee or
-this can be simplified.
-
-> +
-> +	if (PageVmemmap_self_hosted(memmap))
-
-Maybe that's the right place for a comment, an ascii art, and how it is
-safe to only check the first vmemmap page due to alignment restrictions.
-
-> +		return;
->  
->  	vmemmap_pages = hugetlb_optimize_vmemmap_pages(h);
->  	if (!vmemmap_pages)
-> @@ -199,10 +207,10 @@ static struct ctl_table hugetlb_vmemmap_sysctls[] = {
->  static __init int hugetlb_vmemmap_sysctls_init(void)
->  {
->  	/*
-> -	 * If "memory_hotplug.memmap_on_memory" is enabled or "struct page"
-> -	 * crosses page boundaries, the vmemmap pages cannot be optimized.
-> +	 * If "struct page" crosses page boundaries, the vmemmap pages cannot
-> +	 * be optimized.
->  	 */
-> -	if (!mhp_memmap_on_memory() && is_power_of_2(sizeof(struct page)))
-> +	if (is_power_of_2(sizeof(struct page)))
->  		register_sysctl_init("vm", hugetlb_vmemmap_sysctls);
->  
->  	return 0;
-> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-> index 1213d0c67a53..863966c2c6f1 100644
-> --- a/mm/memory_hotplug.c
-> +++ b/mm/memory_hotplug.c
-> @@ -45,8 +45,6 @@
->  #ifdef CONFIG_MHP_MEMMAP_ON_MEMORY
->  static int memmap_on_memory_set(const char *val, const struct kernel_param *kp)
->  {
-> -	if (hugetlb_optimize_vmemmap_enabled())
-> -		return 0;
->  	return param_set_bool(val, kp);
->  }
->  
-> @@ -1032,6 +1030,7 @@ int mhp_init_memmap_on_memory(unsigned long pfn, unsigned long nr_pages,
->  {
->  	unsigned long end_pfn = pfn + nr_pages;
->  	int ret;
-> +	int i;
->  
->  	ret = kasan_add_zero_shadow(__va(PFN_PHYS(pfn)), PFN_PHYS(nr_pages));
->  	if (ret)
-> @@ -1039,6 +1038,12 @@ int mhp_init_memmap_on_memory(unsigned long pfn, unsigned long nr_pages,
->  
->  	move_pfn_range_to_zone(zone, pfn, nr_pages, NULL, MIGRATE_UNMOVABLE);
->  
-> +	/*
-> +	 * Let us flag self-hosted memmap
-> +	 */
-
-I think that comment can be dropped because the code does exactly that.
-
-> +	for (i = 0; i < nr_pages; i++)
-> +		SetPageVmemmap_self_hosted(pfn_to_page(pfn + i));
-> +
->  	/*
->  	 * It might be that the vmemmap_pages fully span sections. If that is
->  	 * the case, mark those sections online here as otherwise they will be
-> 
-> 
-
-
--- 
-Thanks,
-
-David / dhildenb
-
+Thanks. 
