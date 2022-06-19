@@ -2,112 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26431C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jun 2022 07:30:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5CCCC433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jun 2022 09:45:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232644AbiFSHaE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jun 2022 03:30:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50332 "EHLO
+        id S230439AbiFSJpe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jun 2022 05:45:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230124AbiFSHaD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jun 2022 03:30:03 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B429865C8;
-        Sun, 19 Jun 2022 00:30:02 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id l4so7572137pgh.13;
-        Sun, 19 Jun 2022 00:30:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=T0Zq2sYSbf3nMISBHuZKmX2FWCO+JFM7UHxrKNRM8l4=;
-        b=dxxKD1IIOw/UKep65Yl2KZVU8SjzPt9hxjuqZgqBYI45aLQUYyqZQ448QkezxmCvbC
-         egrUNykFdjpdxPMfABGIEGvjVD1JU1kkWMg/xcGAjyMUvpvwr+NjGawplPiR9ud3Kuc+
-         XPO0Rxqa0B9QRwNRu3Zduu3tg6jPaHttKvg5539KS/Om3ml+hlOOWjtRIUcIomNTxkRc
-         HW8CeNwyIghLYAVT6Oe0vePiqQJtlDAEsZjYdr09XXwEQ472QG1S+iuQa/wB8FDhe25J
-         HI6f7dGSLgIeaBGqW9ffGNIX8V6sQSyY8g9aijW9E8wb7ptphNe7hWnL6zVNoRrCYMop
-         654w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=T0Zq2sYSbf3nMISBHuZKmX2FWCO+JFM7UHxrKNRM8l4=;
-        b=zw2CSeH6mbRPQUzccWwXElX/SsnK/20W3Wm6lu6MPSEi9BFvU8lWJNKFvTQfE6+GBy
-         +bc8aai1nsMwNN4zTSaG32X03YFS/hLSCeCJMkE0zdQvl/iUqO/G7PneYg3yLNi6v7KZ
-         2+XgGXfn5U7N4jInVX+JjVy9GynrrjNSmMiEBAF85RUtNQJsdKvol8v8QfOB89I5N6/d
-         L/BMj2EaHy6Plw3F+iy5RsNqGNz2zIaD6uTKDV9YlhAWMu0BB3SiQq6W2sXcwTHke2mh
-         pLzz3KS8C9E+ydR4/X2Y9m2ozqsgDyoiPi0/6GNJQ7gHgHCj7oDX3u8L+xbgzgvv59Qq
-         ezwA==
-X-Gm-Message-State: AJIora8ehmTNiXmueLBq97cAPFKTqyKWgueSWI4Ex3i0JUiFDYZeJdV5
-        VCeAow/aM/fL24ei7G2BrPnPYxqYipg=
-X-Google-Smtp-Source: AGRyM1vO/efRhjdO+72XdR9PXMipaaDp8WzocoemKoakQ1UjHnv6cZ3qoJH5VU0st1L98/7W44jE7A==
-X-Received: by 2002:a63:ae4a:0:b0:40c:2d48:5fda with SMTP id e10-20020a63ae4a000000b0040c2d485fdamr14003202pgp.434.1655623801856;
-        Sun, 19 Jun 2022 00:30:01 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-74.three.co.id. [180.214.233.74])
-        by smtp.gmail.com with ESMTPSA id l2-20020a17090af8c200b001e02073474csm8166168pjd.36.2022.06.19.00.29.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jun 2022 00:30:01 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Wang Jianjian <wangjianjian3@huawei.com>,
-        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: ext4: fix cell spacing of table heading on blockmap table
-Date:   Sun, 19 Jun 2022 14:29:39 +0700
-Message-Id: <20220619072938.7334-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.36.0
+        with ESMTP id S229816AbiFSJpc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jun 2022 05:45:32 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E80F3A453;
+        Sun, 19 Jun 2022 02:45:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9EC64B80CFE;
+        Sun, 19 Jun 2022 09:45:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A049C34114;
+        Sun, 19 Jun 2022 09:45:25 +0000 (UTC)
+Date:   Sun, 19 Jun 2022 10:45:22 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Marco Elver <elver@google.com>
+Cc:     paulmck@kernel.org, Kefeng Wang <wangkefeng.wang@huawei.com>,
+        will@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, mark.rutland@arm.com,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        arnd@arndb.de, Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH v4 1/2] asm-generic: Add memory barrier dma_mb()
+Message-ID: <Yq7wMj30T/mJp+FZ@arm.com>
+References: <20220523113126.171714-1-wangkefeng.wang@huawei.com>
+ <20220523113126.171714-2-wangkefeng.wang@huawei.com>
+ <CANpmjNNPf5J2OcVxoMgVtFYjWJhJ2JE+UBFyqnt6+WrPobPOHQ@mail.gmail.com>
+ <20220616231350.GA1790663@paulmck-ThinkPad-P17-Gen-1>
+ <CANpmjNMnA0VtExcvpV=Sr57RQ3xxVkHxhrTkvEKeHZ27bhud+w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNMnA0VtExcvpV=Sr57RQ3xxVkHxhrTkvEKeHZ27bhud+w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 3103084afcf234 ("ext4, doc: remove unnecessary escaping") removes
-redundant underscore escaping, however the cell spacing in heading row of
-blockmap table became not aligned anymore, hence triggers malformed table
-warning:
+On Fri, Jun 17, 2022 at 12:18:41PM +0200, Marco Elver wrote:
+> On Fri, 17 Jun 2022 at 01:13, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > On Mon, May 23, 2022 at 01:35:27PM +0200, Marco Elver wrote:
+> > > On Mon, 23 May 2022 at 13:21, Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
+> > > >
+> > > > The memory barrier dma_mb() is introduced by commit a76a37777f2c
+> > > > ("iommu/arm-smmu-v3: Ensure queue is read after updating prod pointer"),
+> > > > which is used to ensure that prior (both reads and writes) accesses
+> > > > to memory by a CPU are ordered w.r.t. a subsequent MMIO write.
+> > > >
+> > > > Reviewed-by: Arnd Bergmann <arnd@arndb.de> # for asm-generic
+> > > > Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+> > >
+> > > Reviewed-by: Marco Elver <elver@google.com>
+> >
+> > Just checking...  Did these ever get picked up?  It was suggested
+> > that they go up via the arm64 tree, if I remember correctly.
+> 
+> I don't see them in -next, and as far as I can tell, they're not in
+> the arm64 tree.
 
-Documentation/filesystems/ext4/blockmap.rst:3: WARNING: Malformed table.
+Since v4 was posted during the merging window, it hasn't been queued for
+5.19-rc1. I normally only merge patches with a Fixes tag during the -rc
+period (though there are some exceptions). Mark commented in v1 that
+such tag isn't necessary, so I thought I'd leave it for the 5.20 merging
+window.
 
-+---------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| i.i_block Offset   | Where It Points                                                                                                                                                                                                              |
-<snipped>...
+That said, the diffstat is small, so if it helps having this in 5.19, I
+can queue it for -rc4.
 
-The warning caused the table not being loaded.
-
-Realign the heading row cell by adding missing space at the first cell
-to fix the warning.
-
-Fixes: 3103084afcf234 ("ext4, doc: remove unnecessary escaping")
-Cc: "Theodore Ts'o" <tytso@mit.edu>
-Cc: Andreas Dilger <adilger.kernel@dilger.ca>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Wang Jianjian <wangjianjian3@huawei.com>
-Cc: linux-ext4@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/filesystems/ext4/blockmap.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/filesystems/ext4/blockmap.rst b/Documentation/filesystems/ext4/blockmap.rst
-index 2bd990402a5c49..cc596541ce7921 100644
---- a/Documentation/filesystems/ext4/blockmap.rst
-+++ b/Documentation/filesystems/ext4/blockmap.rst
-@@ -1,7 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- +---------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
--| i.i_block Offset   | Where It Points                                                                                                                                                                                                              |
-+| i.i_block Offset    | Where It Points                                                                                                                                                                                                              |
- +=====================+==============================================================================================================================================================================================================================+
- | 0 to 11             | Direct map to file blocks 0 to 11.                                                                                                                                                                                           |
- +---------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-
-base-commit: 354c6e071be986a44b956f7b57f1884244431048
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Catalin
