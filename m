@@ -2,237 +2,220 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71DBBC433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jun 2022 21:56:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE52C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jun 2022 23:56:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233051AbiFSV4o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jun 2022 17:56:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38796 "EHLO
+        id S236663AbiFSX4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jun 2022 19:56:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230180AbiFSV4n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jun 2022 17:56:43 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA5B95F60;
-        Sun, 19 Jun 2022 14:56:40 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id me5so17757357ejb.2;
-        Sun, 19 Jun 2022 14:56:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=t3E71HFaW3fuCoxXqBR03Y7dzyATYVy7fTuHpfxeM5o=;
-        b=YpHFJSST6aSsgGH3AedZcRFQCiS6D5/P1eoRspY+ddyiu4Z9E+l5u0hB2qoM9IZ+bv
-         5adPkivBvZzheTnt51ZSZAe2WcNHAgqeNQ5WtULY9p1HTR9nZ1VRJgX9BuCIv54KWNRF
-         7NIhkgNL11V9rBru+v5g2PC0YV6RDsvuGftFYvby7t5ah54vNSrxOqSE/bbt4LOb1lYO
-         HI6hUD/iAykazsNFuw8/vFRWScneRNqDvw8MhZON020ntnhJ3CZwaulIZCK5KFnkInCj
-         StpKGkbIafGRzfnLy7/vy+Y6+KRvlNUQnaySXgOpdwJVNbLbLLtQJhQhaq9Gp/z9fS9t
-         CTYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=t3E71HFaW3fuCoxXqBR03Y7dzyATYVy7fTuHpfxeM5o=;
-        b=Jipa0/cveejQuqdo5yY8rHXWP6Yl9LRhIJhkBfvL+2uo0sJCnzrku5it1nkMEYh0S+
-         KKv74l6NcaxFhBfGaeaQUYa44gUytpxcMGPm6MXoUTXEyQ6QGOoGS29rMsmBZFUBXCPo
-         Gz3nGnPhNCWkcPt/xiOdHb16Ei+zyoeD3zijToUT8ItzTYAinHb0wz4DyK7EDwR1iSTK
-         9ceTMC//XkzZO0w1gMN9fy7Pl5T0nAUOxdsuNsB3VmPoBWhR+U7WNFWDKyc3uk3j8BnD
-         7+kpklhYU6CEYx10uYWTMDeCfoj/LPhl8jxM/xehF0yYgqWr214MshLeIdK8czOmomx+
-         jqhw==
-X-Gm-Message-State: AJIora/6Dn9o+OvhXOLW5JsXshF3LZIqlTKPfAfeDNMEDPCe/adEegD5
-        C0X4zqiDz1mlxTp46d0ay+xzcLlelZPp3SzPuT0=
-X-Google-Smtp-Source: AGRyM1tAE2kynBYNqIaLU/KwxNZstM8342q9wYal/qJ7jGfmEtKsoccvZPhiUZAgVVmrsFU5plec5WCi+/OzxHxeIig=
-X-Received: by 2002:a17:906:728a:b0:715:2fb5:19f9 with SMTP id
- b10-20020a170906728a00b007152fb519f9mr17981861ejl.170.1655675799170; Sun, 19
- Jun 2022 14:56:39 -0700 (PDT)
+        with ESMTP id S231539AbiFSX4q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jun 2022 19:56:46 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91E96A1A5;
+        Sun, 19 Jun 2022 16:56:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=/5IadmUJamjDGD60cMZbxHIClJJP6KkcPRaQTlWaQAU=; b=ULnr8UttY4ComEXiDrHVKuZSK+
+        DFYvGF5aBSn675cQ+153y7zkX0P8d+DhS18MG7UfCFUGtY8On6GfcETkcvU6j407qS5VuAfeUXGrL
+        gL+7mbqqsxhX9zEeW+vZz3UfQoZvwWwPb+emRC6gYKnqkkdZCWMXZxCXWo3Xc5hQ7U9DaD2SfdU2Y
+        KZZE6oTgFkGPg2gudyYzgazta4D4cF6iJsSO7iJiiKARcoUpS7xkGdkycPtaybO7mhvVGj/vS26Jx
+        rq1NxpfO8MM6RH6rSSTwUPjPrCofJA43Z5J/Zpb1VPAnUBvOlHm2UByqftD+9wv3AYBa7OjW7Li1M
+        +bR6/x9g==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1o34mT-004iMi-37; Sun, 19 Jun 2022 23:56:37 +0000
+Message-ID: <799f42aa-bdb1-6a5a-e5b6-7fa2e56c2f46@infradead.org>
+Date:   Sun, 19 Jun 2022 16:56:31 -0700
 MIME-Version: 1.0
-References: <20220518014632.922072-1-yuzhao@google.com> <20220518014632.922072-8-yuzhao@google.com>
- <CAGsJ_4yboZEY9OfyujPxBa_AEuGM3OAq5y_L9gvzSMUv70BxeQ@mail.gmail.com>
- <CAGsJ_4w3S_8Kaw2GyB3hg7b4N_D+6yBO7D6qmgxD9Fqz3_dhAg@mail.gmail.com>
- <20220607102135.GA32448@willie-the-truck> <CAGsJ_4zGEdHDv0ObZ-5y8sFKLO7Y6ZjTsZFs0KvdLwA_-iGJ5A@mail.gmail.com>
- <20220607104358.GA32583@willie-the-truck> <CAOUHufZh46A2hh_fn-8vVBDi_621rgbZq64_afDt8VxrzqJz1g@mail.gmail.com>
- <CAGsJ_4yvsXCj8snemAyX3jPJgWJR+tFCtUhV-3QJ75RNi=q_KA@mail.gmail.com>
- <CAHk-=wirMfOpzNavjWao5GA65ve=9LQN-6=YCUtJGRpu=ujdoA@mail.gmail.com>
- <CAGsJ_4yLCsJJvK5QkFOk_7UW72DRO7gWnd6wdn2TWzBrTmRjSg@mail.gmail.com>
- <CAOUHufZn5L_R7b_S3P9O+VoJC=EnY10e+xyFF7UqiGbLzzzqKg@mail.gmail.com>
- <CAGsJ_4ws3uNWM1wpW603UPYrcXqMe3vmPzbLRkgj9SjSgurN3A@mail.gmail.com>
- <CAOUHufbOwPSbBwd7TG0QFt4YJvBp93Q9nUJEDvMpUA6PqjYMUQ@mail.gmail.com>
- <CAOUHufYvH2LaGyAJZFQNOsGDBKD2++aFnTV6=qaVtcNrKjS_bA@mail.gmail.com>
- <CAGsJ_4ypWMoxUJPjYiFdwQpLOXj8STDN8dSDEQbCpuNonBBkcA@mail.gmail.com>
- <CAOUHufYq81_1HAnTU84md5xr8a8msjxK3tDWmmRfLSUnY-+u+g@mail.gmail.com>
- <CAOUHufYGywncZGYGPnbS1rSEngtsj+RPevAAcvjQqRLDBTZbmQ@mail.gmail.com> <CAOUHufbLhLFxisCmAzyjxf3fQJLDuO+zrVf6pp_Dx-qEp2YMrQ@mail.gmail.com>
-In-Reply-To: <CAOUHufbLhLFxisCmAzyjxf3fQJLDuO+zrVf6pp_Dx-qEp2YMrQ@mail.gmail.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Mon, 20 Jun 2022 09:56:27 +1200
-Message-ID: <CAGsJ_4wHXA3xUzmMdXFxaZ9Pu1nsmATNQv6WnNUDQxVY-13S0w@mail.gmail.com>
-Subject: Re: [PATCH v11 07/14] mm: multi-gen LRU: exploit locality in rmap
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Will Deacon <will@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux-MM <linux-mm@kvack.org>, Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, x86 <x86@kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>, huzhanyuan@oppo.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] Documentation: kunit: eliminate code-block warnings
+Content-Language: en-US
+To:     linux-kernel@vger.kernel.org
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Harinder Singh <sharinder@google.com>,
+        Tim Bird <tim.bird@sony.com>
+References: <20220401024707.10550-1-rdunlap@infradead.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220401024707.10550-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 20, 2022 at 8:37 AM Yu Zhao <yuzhao@google.com> wrote:
->
-> On Thu, Jun 16, 2022 at 9:17 PM Yu Zhao <yuzhao@google.com> wrote:
-> >
-> > On Thu, Jun 16, 2022 at 9:03 PM Yu Zhao <yuzhao@google.com> wrote:
-> > >
-> > > On Thu, Jun 16, 2022 at 8:01 PM Barry Song <21cnbao@gmail.com> wrote:
-> > > >
-> > > > On Fri, Jun 17, 2022 at 1:43 PM Yu Zhao <yuzhao@google.com> wrote:
-> > > > >
-> > > > > On Thu, Jun 16, 2022 at 5:29 PM Yu Zhao <yuzhao@google.com> wrote:
-> > > > > >
-> > > > > > On Thu, Jun 16, 2022 at 4:33 PM Barry Song <21cnbao@gmail.com> wrote:
-> > > > > > >
-> > > > > > > On Fri, Jun 17, 2022 at 9:56 AM Yu Zhao <yuzhao@google.com> wrote:
-> > > > > > > >
-> > > > > > > > On Wed, Jun 8, 2022 at 4:46 PM Barry Song <21cnbao@gmail.com> wrote:
-> > > > > > > > >
-> > > > > > > > > On Thu, Jun 9, 2022 at 3:52 AM Linus Torvalds
-> > > > > > > > > <torvalds@linux-foundation.org> wrote:
-> > > > > > > > > >
-> > > > > > > > > > On Tue, Jun 7, 2022 at 5:43 PM Barry Song <21cnbao@gmail.com> wrote:
-> > > > > > > > > > >
-> > > > > > > > > > > Given we used to have a flush for clear pte young in LRU, right now we are
-> > > > > > > > > > > moving to nop in almost all cases for the flush unless the address becomes
-> > > > > > > > > > > young exactly after look_around and before ptep_clear_flush_young_notify.
-> > > > > > > > > > > It means we are actually dropping flush. So the question is,  were we
-> > > > > > > > > > > overcautious? we actually don't need the flush at all even without mglru?
-> > > > > > > > > >
-> > > > > > > > > > We stopped flushing the TLB on A bit clears on x86 back in 2014.
-> > > > > > > > > >
-> > > > > > > > > > See commit b13b1d2d8692 ("x86/mm: In the PTE swapout page reclaim case
-> > > > > > > > > > clear the accessed bit instead of flushing the TLB").
-> > > > > > > > >
-> > > > > > > > > This is true for x86, RISC-V, powerpc and S390. but it is not true for
-> > > > > > > > > most platforms.
-> > > > > > > > >
-> > > > > > > > > There was an attempt to do the same thing in arm64:
-> > > > > > > > > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1793830.html
-> > > > > > > > > but arm64 still sent a nosync tlbi and depent on a deferred to dsb :
-> > > > > > > > > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1794484.html
-> > > > > > > >
-> > > > > > > > Barry, you've already answered your own question.
-> > > > > > > >
-> > > > > > > > Without commit 07509e10dcc7 arm64: pgtable: Fix pte_accessible():
-> > > > > > > >    #define pte_accessible(mm, pte)        \
-> > > > > > > >   -       (mm_tlb_flush_pending(mm) ? pte_present(pte) : pte_valid_young(pte))
-> > > > > > > >   +       (mm_tlb_flush_pending(mm) ? pte_present(pte) : pte_valid(pte))
-> > > > > > > >
-> > > > > > > > You missed all TLB flushes for PTEs that have gone through
-> > > > > > > > ptep_test_and_clear_young() on the reclaim path. But most of the time,
-> > > > > > > > you got away with it, only occasional app crashes:
-> > > > > > > > https://lore.kernel.org/r/CAGsJ_4w6JjuG4rn2P=d974wBOUtXUUnaZKnx+-G6a8_mSROa+Q@mail.gmail.com/
-> > > > > > > >
-> > > > > > > > Why?
-> > > > > > >
-> > > > > > > Yes. On the arm64 platform, ptep_test_and_clear_young() without flush
-> > > > > > > can cause random
-> > > > > > > App to crash.
-> > > > > > > ptep_test_and_clear_young() + flush won't have this kind of crashes though.
-> > > > > > > But after applying commit 07509e10dcc7 arm64: pgtable: Fix
-> > > > > > > pte_accessible(), on arm64,
-> > > > > > > ptep_test_and_clear_young() without flush won't cause App to crash.
-> > > > > > >
-> > > > > > > ptep_test_and_clear_young(), with flush, without commit 07509e10dcc7:   OK
-> > > > > > > ptep_test_and_clear_young(), without flush, with commit 07509e10dcc7:   OK
-> > > > > > > ptep_test_and_clear_young(), without flush, without commit 07509e10dcc7:   CRASH
-> > > > > >
-> > > > > > I agree -- my question was rhetorical :)
-> > > > > >
-> > > > > > I was trying to imply this logic:
-> > > > > > 1. We cleared the A-bit in PTEs with ptep_test_and_clear_young()
-> > > > > > 2. We missed TLB flush for those PTEs on the reclaim path, i.e., case
-> > > > > > 3 (case 1 & 2 guarantee flushes)
-> > > > > > 3. We saw crashes, but only occasionally
-> > > > > >
-> > > > > > Assuming TLB cached those PTEs, we would have seen the crashes more
-> > > > > > often, which contradicts our observation. So the conclusion is TLB
-> > > > > > didn't cache them most of the time, meaning flushing TLB just for the
-> > > > > > sake of the A-bit isn't necessary.
-> > > > > >
-> > > > > > > do you think it is safe to totally remove the flush code even for
-> > > > > > > the original
-> > > > > > > LRU?
-> > > > > >
-> > > > > > Affirmative, based on not only my words, but 3rd parties':
-> > > > > > 1. Your (indirect) observation
-> > > > > > 2. Alexander's benchmark:
-> > > > > > https://lore.kernel.org/r/BYAPR12MB271295B398729E07F31082A7CFAA0@BYAPR12MB2712.namprd12.prod.outlook.com/
-> > > > > > 3. The fundamental hardware limitation in terms of the TLB scalability
-> > > > > > (Fig. 1): https://www.usenix.org/legacy/events/osdi02/tech/full_papers/navarro/navarro.pdf
-> > > > >
-> > > > > 4. Intel's commit b13b1d2d8692 ("x86/mm: In the PTE swapout page
-> > > > > reclaim case clear the accessed bit instead of flushing the TLB")
-> > > >
-> > > > Hi Yu,
-> > > > I am going to send a RFC based on the above discussion.
-> > > >
-> > > > diff --git a/mm/rmap.c b/mm/rmap.c
-> > > > index 5bcb334cd6f2..7ce6f0b6c330 100644
-> > > > --- a/mm/rmap.c
-> > > > +++ b/mm/rmap.c
-> > > > @@ -830,7 +830,7 @@ static bool folio_referenced_one(struct folio *folio,
-> > > >                 }
-> > > >
-> > > >                 if (pvmw.pte) {
-> > > > -                       if (ptep_clear_flush_young_notify(vma, address,
-> > > > +                       if (ptep_clear_young_notify(vma, address,
-> > > >                                                 pvmw.pte)) {
-> > > >                                 /*
-> > > >                                  * Don't treat a reference through
-> > >
-> > > Thanks!
-> > >
-> > > This might make a difference on my 64 core Altra -- I'll test after
-> > > you post the RFC.
-> >
-> > Also, IIRC, it made no difference on POWER9 because POWER9
-> > flushes TBL regardless which variant is used.
->   ^^^^^^^ doesn't flush
->
-> I just verified this on POWER9. So on top of exhibit 1-4, we got:
->   5. 3cb1aa7aa3940 ("powerpc/64s: Implement ptep_clear_flush_young
-> that does not flush TLBs")
+ping. Any progress on this patch?
 
-Thanks, Yu. I put a rfc,
-https://lore.kernel.org/lkml/20220617070555.344368-1-21cnbao@gmail.com/
+Thanks.
 
-we may clarify everything in that thread :-)
+On 3/31/22 19:47, Randy Dunlap wrote:
+> Fix Sphinx complaints about code-block directive missing an argument.
+> For start.rst, add "none" since that is already heavily used in that
+> file. For run_wrapper.rst, use the simpler "::" literal block instead.
+> 
+> dev-tools/kunit/start.rst:83: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> 
+> dev-tools/kunit/run_wrapper.rst:17: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:23: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:31: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:51: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:57: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:78: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:85: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:109: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:116: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:124: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:139: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:162: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> 
+> Fixes: c48b9ef1f794 ("Documentation: KUnit: Rewrite getting started")
+> Fixes: 46201d47d6c4 ("Documentation: kunit: Reorganize documentation related to running tests")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Brendan Higgins <brendanhiggins@google.com>
+> Cc: linux-kselftest@vger.kernel.org
+> Cc: kunit-dev@googlegroups.com
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Harinder Singh <sharinder@google.com>
+> Cc: Tim Bird <tim.bird@sony.com>
+> ---
+>  Documentation/dev-tools/kunit/run_wrapper.rst |   24 ++++++++--------
+>  Documentation/dev-tools/kunit/start.rst       |    2 -
+>  2 files changed, 13 insertions(+), 13 deletions(-)
+> 
+> --- linux-next-20220331.orig/Documentation/dev-tools/kunit/run_wrapper.rst
+> +++ linux-next-20220331/Documentation/dev-tools/kunit/run_wrapper.rst
+> @@ -14,13 +14,13 @@ tests, and formats the test results.
+>  
+>  Run command:
+>  
+> -.. code-block::
+> +::
+>  
+>  	./tools/testing/kunit/kunit.py run
+>  
+>  We should see the following:
+>  
+> -.. code-block::
+> +::
+>  
+>  	Generating .config...
+>  	Building KUnit kernel...
+> @@ -28,7 +28,7 @@ We should see the following:
+>  
+>  We may want to use the following options:
+>  
+> -.. code-block::
+> +::
+>  
+>  	./tools/testing/kunit/kunit.py run --timeout=30 --jobs=`nproc --all
+>  
+> @@ -48,13 +48,13 @@ test configs for certain subsystems.
+>  To use a different ``.kunitconfig`` file (such as one
+>  provided to test a particular subsystem), pass it as an option:
+>  
+> -.. code-block::
+> +::
+>  
+>  	./tools/testing/kunit/kunit.py run --kunitconfig=fs/ext4/.kunitconfig
+>  
+>  To view kunit_tool flags (optional command-line arguments), run:
+>  
+> -.. code-block::
+> +::
+>  
+>  	./tools/testing/kunit/kunit.py run --help
+>  
+> @@ -75,14 +75,14 @@ certain code blocks, arch configs and so
+>  
+>  To create a ``.kunitconfig``, using the KUnit ``defconfig``:
+>  
+> -.. code-block::
+> +::
+>  
+>  	cd $PATH_TO_LINUX_REPO
+>  	cp tools/testing/kunit/configs/default.config .kunit/.kunitconfig
+>  
+>  We can then add any other Kconfig options. For example:
+>  
+> -.. code-block::
+> +::
+>  
+>  	CONFIG_LIST_KUNIT_TEST=y
+>  
+> @@ -106,14 +106,14 @@ can run part of the KUnit build process
+>  When running kunit_tool, from a ``.kunitconfig``, we can generate a
+>  ``.config`` by using the ``config`` argument:
+>  
+> -.. code-block::
+> +::
+>  
+>  	./tools/testing/kunit/kunit.py config
+>  
+>  To build a KUnit kernel from the current ``.config``, we can use the
+>  ``build`` argument:
+>  
+> -.. code-block::
+> +::
+>  
+>  	./tools/testing/kunit/kunit.py build
+>  
+> @@ -121,7 +121,7 @@ If we already have built UML kernel with
+>  can run the kernel, and display the test results with the ``exec``
+>  argument:
+>  
+> -.. code-block::
+> +::
+>  
+>  	./tools/testing/kunit/kunit.py exec
+>  
+> @@ -136,7 +136,7 @@ format. When running tests, kunit_tool p
+>  a summary. To see the raw test results in TAP format, we can pass the
+>  ``--raw_output`` argument:
+>  
+> -.. code-block::
+> +::
+>  
+>  	./tools/testing/kunit/kunit.py run --raw_output
+>  
+> @@ -159,7 +159,7 @@ By passing a bash style glob filter to t
+>  commands, we can run a subset of the tests built into a kernel . For
+>  example: if we only want to run KUnit resource tests, use:
+>  
+> -.. code-block::
+> +::
+>  
+>  	./tools/testing/kunit/kunit.py run 'kunit-resource*'
+>  
+> --- linux-next-20220331.orig/Documentation/dev-tools/kunit/start.rst
+> +++ linux-next-20220331/Documentation/dev-tools/kunit/start.rst
+> @@ -80,7 +80,7 @@ Running Tests (KUnit Wrapper)
+>  
+>  If everything worked correctly, you should see the following:
+>  
+> -.. code-block::
+> +.. code-block:: none
+>  
+>  	Generating .config ...
+>  	Building KUnit Kernel ...
 
-Thanks
-Barry
+-- 
+~Randy
