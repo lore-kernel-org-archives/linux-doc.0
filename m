@@ -2,96 +2,191 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF9EBC433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jun 2022 13:39:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96ED3C43334
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Jun 2022 13:39:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237682AbiFSNji (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jun 2022 09:39:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36632 "EHLO
+        id S237781AbiFSNjs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jun 2022 09:39:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237774AbiFSNjM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jun 2022 09:39:12 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ECA5B8D
-        for <linux-doc@vger.kernel.org>; Sun, 19 Jun 2022 06:39:02 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id o18so538849plg.2
-        for <linux-doc@vger.kernel.org>; Sun, 19 Jun 2022 06:39:02 -0700 (PDT)
+        with ESMTP id S237340AbiFSNja (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jun 2022 09:39:30 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64A2EDEAF
+        for <linux-doc@vger.kernel.org>; Sun, 19 Jun 2022 06:39:08 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id k12-20020a17090a404c00b001eaabc1fe5dso8494791pjg.1
+        for <linux-doc@vger.kernel.org>; Sun, 19 Jun 2022 06:39:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NJUThxAbJyqHo4wAO0WvoWToQ66mp7p8ZN8chIB/8WE=;
-        b=y3Z8mKnOqPCBt5vg+KEZFQlp14jVAC0tlThNRZKuaqBPKHkl9D0vVDjZW7rPfrb00n
-         ZoxvEe+DNEO3XJGDJ52QKjbRGPJw7w4sUe5+m5Fi0U8NMl13TepVQ99W9TE1xh374/DZ
-         9r6ZvDv5TLJCjmAMgBnTCvCmKjo2/w3COAu5ZLKtbsk2EZuTVJl1PrbgGJwcPOoxP+N/
-         nZTCTT98GlMO5r1gXApmtO756g7JBWNxVi2GJNChJYsrV9fcVzyJkpu9QSH4j54Agfjx
-         6NgIiDynKEnSLwFarHV74U6a1BfCXKQorjAg7mcgJ+QV6W8fEj8arG6cK1js63YL5pL8
-         txgw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=EMatSV1+t4qFy1NZ5GBQuBSsvAWCaC/xn6RiPVNR2iY=;
+        b=egHHCkuudg/7I8ZBB5X4/KpYkcCBo1KW8NC5gvcUAbUmJuJzsaOvA/wvkAMnpEImG6
+         Xwt3fJTLMv+n0o/HKvIYPjPKkreRvNNwwfabkvMQbi6FV4wT4dRS+UCBQzCUrwCAz2Nh
+         hbnlbsf6Mp1GqYpyQi0tZs3KGvp2FWJ2SQ+FrUlVi2DqzQpHOnHr1Y01R0wEfpX4Pt1K
+         SjBpW0zFJ3UjmpnM3BxZ7vYtdqF36EVZDzcx7qtyfiy2Wq1o0RjHydJ6Et75P5MwdTCH
+         7BfrqaL5aoqghMRVQJZIz+pAxvlVjTHg+3E3B32w7R8fQWR3NAkEWMuQuweJ5YwVvSVU
+         8K/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NJUThxAbJyqHo4wAO0WvoWToQ66mp7p8ZN8chIB/8WE=;
-        b=VsviBFnSz6DXCAD9ywgjQob+pMK8xE/mUnvhJQdVqQbsNjWVckZW5VO07HxmNpcZOq
-         tvKuefb/yfWWvgy3tfP56HQ6R5WBENvc70zyd0Pw1feeL+j80frd2W7MEwG01ae77QhA
-         nRKsmOg+nFsEv2LNt7wpV0ba7ktCMFaNfTdXM4oBLvPIaPrPgVjS4pToiP1r08osJUoD
-         OmZftRm3gVGaZeKHXT03iNmM+IdtPp4VpW1sP2rcMmRcVT5qCqHX2sCDsvLSFdUZCgZq
-         3fywvXD2MJXfcUOsIA24kD4SgDnSEr0An4/huqGzR+eKZKInrbegzTdBrMcCHRWCfYbc
-         3TJA==
-X-Gm-Message-State: AJIora9GiD6un4Ve/1hFiozHyo0uvtimaIGEVoQSsOVZfmvxUoXenUoe
-        3RRHrO+Kcjg/CEXwPHp5kJt5Fw==
-X-Google-Smtp-Source: AGRyM1trK4VDxsHco8/FgKM3jmUSM6Dk0Rt9A9V6YAAja/YFFDkZ1NRQTotG6djtdn5Tx8s4INAUpQ==
-X-Received: by 2002:a17:903:2012:b0:16a:856:96a7 with SMTP id s18-20020a170903201200b0016a085696a7mr11566495pla.109.1655645942149;
-        Sun, 19 Jun 2022 06:39:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=EMatSV1+t4qFy1NZ5GBQuBSsvAWCaC/xn6RiPVNR2iY=;
+        b=qVIHCKtUb21NkHVZ3d8v0NYa/Ti+3IwKXh33eM4R+xi+jFJMIHCnXpXbWGj9PXGqpj
+         E2w2mVnngTMnPs5WcXopUlwbWQnvmWz0UYoOvQEwk/Jo+gThDRcV5ujXcbD/KzBRGDRW
+         DswGU8HcX8wZ+5UCeuFeqSd/wSN0Blg10Kk5LslrSyfAbioDpM1rQJlSccLGlBHUbAl9
+         b9cGoG5kflLs1lYakyRZAFlbG1p1INSJcLdEUqaSyBHnYTaPExwGi0NZe+r5KoVAMWmx
+         7WjHoDOQKCPjwIIs7xvFeoeaQjJ/mqMome40kqNnFjEZW6NoFthvEWYj+fijHXoddkAS
+         CD2g==
+X-Gm-Message-State: AJIora8UVh699gvtkMgtBnwrvOARbuRBDtcEaBI8xchjMG72z8KYfPY6
+        k3fYVHoSJYgXn9gBgF+nnrXoIA==
+X-Google-Smtp-Source: AGRyM1teSCoKuhJy4pJtr6LdpTRxLya/8YCG8snNHMD8qJItI0CGEttEwXXS3E/TvTZOXzPXNFC7cQ==
+X-Received: by 2002:a17:902:7e84:b0:166:395c:4b68 with SMTP id z4-20020a1709027e8400b00166395c4b68mr19417328pla.8.1655645947264;
+        Sun, 19 Jun 2022 06:39:07 -0700 (PDT)
 Received: from FVFYT0MHHV2J.bytedance.net ([139.177.225.255])
-        by smtp.gmail.com with ESMTPSA id y23-20020a056a001c9700b0051b95c76752sm6990982pfw.153.2022.06.19.06.38.57
+        by smtp.gmail.com with ESMTPSA id y23-20020a056a001c9700b0051b95c76752sm6990982pfw.153.2022.06.19.06.39.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jun 2022 06:39:01 -0700 (PDT)
+        Sun, 19 Jun 2022 06:39:07 -0700 (PDT)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     akpm@linux-foundation.org, corbet@lwn.net, david@redhat.com,
         mike.kravetz@oracle.com, osalvador@suse.de, paulmck@kernel.org
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com,
         Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v4 0/2] make hugetlb_optimize_vmemmap compatible with memmap_on_memory
-Date:   Sun, 19 Jun 2022 21:38:49 +0800
-Message-Id: <20220619133851.68184-1-songmuchun@bytedance.com>
+Subject: [PATCH v4 1/2] mm: memory_hotplug: enumerate all supported section flags
+Date:   Sun, 19 Jun 2022 21:38:50 +0800
+Message-Id: <20220619133851.68184-2-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.32.1 (Apple Git-133)
+In-Reply-To: <20220619133851.68184-1-songmuchun@bytedance.com>
+References: <20220619133851.68184-1-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series makes hugetlb_optimize_vmemmap compatible with memmap_on_memory
-and is based on mm-stable.  The reason refers to the patch 2's commit log.
+We are almost running out of section flags, only one bit is available in
+the worst case (powerpc with 256k pages).  However, there are still some
+free bits (in ->section_mem_map) on other architectures (e.g. x86_64 has
+10 bits available, arm64 has 8 bits available with worst case of 64K
+pages).  We have hard coded those numbers in code, it is inconvenient to
+use those bits on other architectures except powerpc.  So transfer those
+section flags to enumeration to make it easy to add new section flags in
+the future. Also, move SECTION_TAINT_ZONE_DEVICE into the scope of
+CONFIG_ZONE_DEVICE to save a bit on non-zone-device case.
 
-v4:
- - Fix compiling error when CONFIG_MEMORY_HOTPLUG is disabled reported by kernel test robot.
- - Fix a bug when memory_block_size_bytes() is not equal to section size.
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+---
+ include/linux/mmzone.h | 44 +++++++++++++++++++++++++++++++++++---------
+ mm/memory_hotplug.c    |  6 ++++++
+ mm/sparse.c            |  2 +-
+ 3 files changed, 42 insertions(+), 10 deletions(-)
 
-v3:
- - Switch complicated enumeration magic (David).
- - Introduce PageVmemmapSelfHosted to make both parameters compatible (David and Oscar).
-
-v2:
- - Fix compile error when !CONFIG_ZONE_DEVICE reported by kernel test robot.
-
-Muchun Song (2):
-  mm: memory_hotplug: enumerate all supported section flags
-  mm: memory_hotplug: make hugetlb_optimize_vmemmap compatible with
-    memmap_on_memory
-
- Documentation/admin-guide/kernel-parameters.txt | 22 +++++------
- Documentation/admin-guide/sysctl/vm.rst         |  5 +--
- include/linux/memory_hotplug.h                  |  9 -----
- include/linux/mmzone.h                          | 44 ++++++++++++++++-----
- include/linux/page-flags.h                      | 11 ++++++
- mm/hugetlb_vmemmap.c                            | 52 +++++++++++++++++++++----
- mm/memory_hotplug.c                             | 33 ++++++++--------
- mm/sparse.c                                     |  2 +-
- 8 files changed, 121 insertions(+), 57 deletions(-)
-
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index aab70355d64f..932843c6459b 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -1418,16 +1418,35 @@ extern size_t mem_section_usage_size(void);
+  *      (equal SECTION_SIZE_BITS - PAGE_SHIFT), and the
+  *      worst combination is powerpc with 256k pages,
+  *      which results in PFN_SECTION_SHIFT equal 6.
+- * To sum it up, at least 6 bits are available.
++ * To sum it up, at least 6 bits are available on all architectures.
++ * However, we can exceed 6 bits on some other architectures except
++ * powerpc (e.g. 15 bits are available on x86_64, 13 bits are available
++ * with the worst case of 64K pages on arm64) if we make sure the
++ * exceeded bit is not applicable to powerpc.
+  */
+-#define SECTION_MARKED_PRESENT		(1UL<<0)
+-#define SECTION_HAS_MEM_MAP		(1UL<<1)
+-#define SECTION_IS_ONLINE		(1UL<<2)
+-#define SECTION_IS_EARLY		(1UL<<3)
+-#define SECTION_TAINT_ZONE_DEVICE	(1UL<<4)
+-#define SECTION_MAP_LAST_BIT		(1UL<<5)
+-#define SECTION_MAP_MASK		(~(SECTION_MAP_LAST_BIT-1))
+-#define SECTION_NID_SHIFT		6
++enum {
++	SECTION_MARKED_PRESENT_BIT,
++	SECTION_HAS_MEM_MAP_BIT,
++	SECTION_IS_ONLINE_BIT,
++	SECTION_IS_EARLY_BIT,
++#ifdef CONFIG_ZONE_DEVICE
++	SECTION_TAINT_ZONE_DEVICE_BIT,
++#endif
++	SECTION_MAP_LAST_BIT,
++};
++
++enum {
++	SECTION_MARKED_PRESENT		= BIT(SECTION_MARKED_PRESENT_BIT),
++	SECTION_HAS_MEM_MAP		= BIT(SECTION_HAS_MEM_MAP_BIT),
++	SECTION_IS_ONLINE		= BIT(SECTION_IS_ONLINE_BIT),
++	SECTION_IS_EARLY		= BIT(SECTION_IS_EARLY_BIT),
++#ifdef CONFIG_ZONE_DEVICE
++	SECTION_TAINT_ZONE_DEVICE	= BIT(SECTION_TAINT_ZONE_DEVICE_BIT),
++#endif
++};
++
++#define SECTION_MAP_MASK		(~(BIT(SECTION_MAP_LAST_BIT) - 1))
++#define SECTION_NID_SHIFT		SECTION_MAP_LAST_BIT
+ 
+ static inline struct page *__section_mem_map_addr(struct mem_section *section)
+ {
+@@ -1466,12 +1485,19 @@ static inline int online_section(struct mem_section *section)
+ 	return (section && (section->section_mem_map & SECTION_IS_ONLINE));
+ }
+ 
++#ifdef CONFIG_ZONE_DEVICE
+ static inline int online_device_section(struct mem_section *section)
+ {
+ 	unsigned long flags = SECTION_IS_ONLINE | SECTION_TAINT_ZONE_DEVICE;
+ 
+ 	return section && ((section->section_mem_map & flags) == flags);
+ }
++#else
++static inline int online_device_section(struct mem_section *section)
++{
++	return 0;
++}
++#endif
+ 
+ static inline int online_section_nr(unsigned long nr)
+ {
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 1f1a730c4499..6662b86e9e64 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -670,12 +670,18 @@ static void __meminit resize_pgdat_range(struct pglist_data *pgdat, unsigned lon
+ 
+ }
+ 
++#ifdef CONFIG_ZONE_DEVICE
+ static void section_taint_zone_device(unsigned long pfn)
+ {
+ 	struct mem_section *ms = __pfn_to_section(pfn);
+ 
+ 	ms->section_mem_map |= SECTION_TAINT_ZONE_DEVICE;
+ }
++#else
++static inline void section_taint_zone_device(unsigned long pfn)
++{
++}
++#endif
+ 
+ /*
+  * Associate the pfn range with the given zone, initializing the memmaps
+diff --git a/mm/sparse.c b/mm/sparse.c
+index cb3bfae64036..e5a8a3a0edd7 100644
+--- a/mm/sparse.c
++++ b/mm/sparse.c
+@@ -281,7 +281,7 @@ static unsigned long sparse_encode_mem_map(struct page *mem_map, unsigned long p
+ {
+ 	unsigned long coded_mem_map =
+ 		(unsigned long)(mem_map - (section_nr_to_pfn(pnum)));
+-	BUILD_BUG_ON(SECTION_MAP_LAST_BIT > (1UL<<PFN_SECTION_SHIFT));
++	BUILD_BUG_ON(SECTION_MAP_LAST_BIT > PFN_SECTION_SHIFT);
+ 	BUG_ON(coded_mem_map & ~SECTION_MAP_MASK);
+ 	return coded_mem_map;
+ }
 -- 
 2.11.0
 
