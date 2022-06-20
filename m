@@ -2,64 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B161C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 16:57:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35575C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 18:24:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231773AbiFTQ51 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jun 2022 12:57:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37242 "EHLO
+        id S245022AbiFTSYl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jun 2022 14:24:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231153AbiFTQ50 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 12:57:26 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 843DC19FA9;
-        Mon, 20 Jun 2022 09:57:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 49AC8B8120F;
-        Mon, 20 Jun 2022 16:57:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28337C3411B;
-        Mon, 20 Jun 2022 16:57:20 +0000 (UTC)
-Date:   Mon, 20 Jun 2022 17:57:17 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     mike.kravetz@oracle.com, david@redhat.com,
-        akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Will Deacon <will@kernel.org>,
-        Anshuman Khandual <anshuman.khandual@arm.com>
-Subject: Re: [PATCH 1/6] mm: hugetlb_vmemmap: delete
- hugetlb_optimize_vmemmap_enabled()
-Message-ID: <YrCm7fL59QOSPUSp@arm.com>
-References: <20220613063512.17540-1-songmuchun@bytedance.com>
- <20220613063512.17540-2-songmuchun@bytedance.com>
+        with ESMTP id S243531AbiFTSYj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 14:24:39 -0400
+Received: from mail.pr-group.ru (mail.pr-group.ru [178.18.215.3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EAAF13FB1;
+        Mon, 20 Jun 2022 11:24:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+        d=metrotek.ru; s=mail;
+        h=from:subject:date:message-id:to:cc:mime-version:content-type:in-reply-to:
+         references;
+        bh=QGRD7oCFnD0lIO8/JoEbhbSbKlBmQoT6/CM5t/z0lq0=;
+        b=Rs0lnhxnt3PHGmfTFT8RdCyWPbeC/GTAAC+g29x5fJw/dxVOCPw266tV9uvNUPHix4i4btMiu88C4
+         A5OQYk0qlWdBU1Szg1ykmtSXYPZEsQYNagcXSyWf6iZx8owf2JriIBi9g0zi6NhSkJ01N9RqE0hCcS
+         r6tokCRsaijAGiC5WAgwfvHHv9lpuYq3VtWlrMV1yHLdidEw0UmHKSnNyKWS0ewe5NzlvvjTzDm+8J
+         +EvGfTqVGII//YbHHQUq8/0G/OCzeT4l1tZaJMNH/JE+CA0FtMyRKxdJZW9wZ2ZKr6h+wtip80FByO
+         imu4dfAEm1FifFLE3i9m/SI2nFD0tFg==
+X-Kerio-Anti-Spam:  Build: [Engines: 2.16.3.1424, Stamp: 3], Multi: [Enabled, t: (0.000008,0.008251)], BW: [Enabled, t: (0.000015,0.000001)], RTDA: [Enabled, t: (0.076561), Hit: No, Details: v2.40.0; Id: 15.52k3tn.1g615nd38.16l4n; mclb], total: 0(700)
+X-Footer: bWV0cm90ZWsucnU=
+Received: from x260 ([178.70.36.174])
+        (authenticated user i.bornyakov@metrotek.ru)
+        by mail.pr-group.ru with ESMTPSA
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits));
+        Mon, 20 Jun 2022 21:24:15 +0300
+Date:   Mon, 20 Jun 2022 21:01:06 +0300
+From:   Ivan Bornyakov <i.bornyakov@metrotek.ru>
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     corbet@lwn.net, devicetree@vger.kernel.org, hao.wu@intel.com,
+        krzysztof.kozlowski+dt@linaro.org, linux-doc@vger.kernel.org,
+        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mdf@kernel.org, robh+dt@kernel.org, system@metrotek.ru,
+        trix@redhat.com, yilun.xu@intel.com
+Subject: Re: [PATCH v20 0/4] Microchip Polarfire FPGA manager
+Message-ID: <20220620180106.a5o53zr2waxkoay6@x260>
+References: <20220620100745.yxjmq2qtsicxlrgn@h-e2.ddg>
+ <20220620105747.2145347-1-conor.dooley@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220613063512.17540-2-songmuchun@bytedance.com>
+In-Reply-To: <20220620105747.2145347-1-conor.dooley@microchip.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 13, 2022 at 02:35:07PM +0800, Muchun Song wrote:
-> The name hugetlb_optimize_vmemmap_enabled() a bit confusing as it tests
-> two conditions (enabled and pages in use).  Instead of coming up to
-> an appropriate name, we could just delete it.  There is already a
-> discussion about deleting it in thread [1].
+On Mon, Jun 20, 2022 at 11:57:48AM +0100, Conor Dooley wrote:
+> I had a quick check in -next and there's an entry for the BMC
+> driver there.
+> How about the following? I put you as R, but clearly if you want to be
+> maintainer then you are *more than* qualified.
+> Feel free to edit the patch if so, either is fine by me.
+> You can tack this onto a v21 if you have more changes or I can resend
+> standalone once the driver is merged.
 > 
-> There is only one user of hugetlb_optimize_vmemmap_enabled() outside of
-> hugetlb_vmemmap, that is flush_dcache_page() in arch/arm64/mm/flush.c.
-> However, it does not need to call hugetlb_optimize_vmemmap_enabled()
-> in flush_dcache_page() since HugeTLB pages are always fully mapped and
-> only head page will be set PG_dcache_clean meaning only head page's flag
-> may need to be cleared (see commit cf5a501d985b).  So it is easy to
-> remove hugetlb_optimize_vmemmap_enabled().
+> Thanks,
+> Conor.
 > 
-> Link: https://lore.kernel.org/all/c77c61c8-8a5a-87e8-db89-d04d8aaab4cc@oracle.com/ [1]
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+> From: Conor Dooley <conor.dooley@microchip.com>
+> Date: Mon, 20 Jun 2022 11:46:19 +0100
+> Subject: [PATCH] MAINTAINERS: add polarfire fpga programmer drivers
+> Add a MAINTAINERS entry for the newly added PolarFire (MPF) SPI slave
+> programming driver.
+> 
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+>  MAINTAINERS | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 168e0af869a7..60ab3c4bf65d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7869,6 +7869,14 @@ S:	Maintained
+>  F:	Documentation/ABI/testing/sysfs-driver-intel-m10-bmc-sec-update
+>  F:	drivers/fpga/intel-m10-bmc-sec-update.c
+>  
+> +FPGA PolarFire Drivers
+> +M:	Conor Dooley <conor.dooley@microchip.com>
+> +R:	Ivan Bornyakov <i.bornyakov@metrotek.ru>
+> +L:	linux-fpga@vger.kernel.org
+> +S:	Supported
+> +F:	Documentation/devicetree/bindings/fpga/microchip,mpf-spi-fpga-mgr.yaml
+> +F:	drivers/fpga/microchip-spi.c
+> +
+>  FPU EMULATOR
+>  M:	Bill Metzenthen <billm@melbpc.org.au>
+>  S:	Maintained
+> 
+> base-commit: 07dc787be2316e243a16a33d0a9b734cd9365bd3
+> -- 
+> 2.36.1
+> 
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+Ok, I'll add this to v21, but I'll wait for a review on fpga-mgr changes
+first.
+
