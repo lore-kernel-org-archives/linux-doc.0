@@ -2,153 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A1F0C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 07:52:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A7F2C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 08:13:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239596AbiFTHwC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jun 2022 03:52:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46962 "EHLO
+        id S238726AbiFTIND (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jun 2022 04:13:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239595AbiFTHv6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 03:51:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 84EC110547
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jun 2022 00:51:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655711516;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=yjoa1DMFRC4sDiSMpzTkndxHuKmwJoDSdtI3MTSI+I4=;
-        b=ZTiDyr6aCHKVoTyqEa75ZJEz7ZRSnN4dk6PNW74xxae9FC0U/dVaDW7Ogh9q/7WQRcDsWU
-        2UTmABZnAsZR4biyJ3CgXYiOuVnXkBjPRE8S+aGgvXPtBhB9LeOJMsBDALE30bX+tQx3zL
-        0SJ22NkIoKZi5e7xX/ZCAX9QQZTWowQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-35-uyAeHJ2RN_uRaXk6CDpq8g-1; Mon, 20 Jun 2022 03:51:45 -0400
-X-MC-Unique: uyAeHJ2RN_uRaXk6CDpq8g-1
-Received: by mail-wm1-f72.google.com with SMTP id o3-20020a05600c510300b0039743540ac7so3076517wms.5
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jun 2022 00:51:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=yjoa1DMFRC4sDiSMpzTkndxHuKmwJoDSdtI3MTSI+I4=;
-        b=Cbg5+IrMfPlTold4n3PKMKO2XTbNzIquaZAS+l2wPdQs5vsKqjQEdtMxVGNvor9i8o
-         RUi/c40MF8iraP2w1NI/pUsf6B9qN6QnJiJPCSkydJ9fpRgeym96cnX4MmgQw1s0ChON
-         Pn72W2F9AWYXtSXwGyJNkH65WXntYqDGkrTC2/MnCmps4UurOaifuaUF19iX70yffHkX
-         CFnyMPpDMbCIjNbj7219NKNHxkr4vTIBBuE7SISd8ghTexW2eb8aPSor1dSdOtpR8Nr4
-         SgpaPTZ+3SxkprdooG11F6g6AjuAN63J0XxrtmfT2V3zFDgMcP3643VxKuoi7Ok5QALO
-         p2rw==
-X-Gm-Message-State: AJIora8R+uzQ54CM0N4Hd8x5EWvYdItnmJHyaOTZn3DSw8TlCGFjcy7b
-        yKOPi5nWcJ+oOQ46tYURTNTrtOEUbGFvsHL2IJZVqFrH7ur4PCAJO+KowdZ4CsHIbeOzMh64azN
-        ZXN2/C1qe640WqnC14DHV
-X-Received: by 2002:a1c:f20b:0:b0:39e:f4b9:24e3 with SMTP id s11-20020a1cf20b000000b0039ef4b924e3mr12724060wmc.51.1655711504576;
-        Mon, 20 Jun 2022 00:51:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1stvnVfC36AP5yjx+OVuzg3RFUKA1Vn0pstbCqQkPk8/+gvIZbX5tuF4RE5q9ZTq8HuH46hNg==
-X-Received: by 2002:a1c:f20b:0:b0:39e:f4b9:24e3 with SMTP id s11-20020a1cf20b000000b0039ef4b924e3mr12724036wmc.51.1655711504283;
-        Mon, 20 Jun 2022 00:51:44 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f04:2500:cdb0:9b78:d423:43f? (p200300d82f042500cdb09b78d423043f.dip0.t-ipconnect.de. [2003:d8:2f04:2500:cdb0:9b78:d423:43f])
-        by smtp.gmail.com with ESMTPSA id v6-20020adfa1c6000000b0021b8905e797sm5510805wrv.69.2022.06.20.00.51.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Jun 2022 00:51:43 -0700 (PDT)
-Message-ID: <b3226af2-5d19-5377-9072-179388cb2609@redhat.com>
-Date:   Mon, 20 Jun 2022 09:51:42 +0200
+        with ESMTP id S233274AbiFTIND (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 04:13:03 -0400
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5618625C;
+        Mon, 20 Jun 2022 01:12:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1655712780;
+  x=1687248780;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gZFTepVCVuUiqVxMVdZ46Oj4Iz+xt4uwly/OdoZth3I=;
+  b=ejM5C1dTXUQXl0PyF0zSPtptwseGwwUEExKTkagu51codOB5xGEuGiLP
+   rNac9fNUKlX3AUMHvYk84+2LnaTvtrnkbenkYwwghzNW4FK/klfaYqYZp
+   tphOQ4x+w2WSd3Kuh6W07BHhiRzLHMQjzJFpV+TfPwc3YgBU0kN0SPVZi
+   bYxBElXDIfGxb+NHvXsUerwS9bGcJ4laYShEL83hjdrgkYweyBte6V0Kd
+   SPhzSVj6WeQzC79VI5Uh6yfkMmbR5WqK/1dXEYrzT4251Z04vYI4stGjS
+   RzvUvIILVJukpqNh95TAJeGS948CshA8b9B3wsPsROMuRDrcBqh1tR6By
+   g==;
+From:   Vincent Whitchurch <vincent.whitchurch@axis.com>
+To:     <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>
+CC:     <kernel@axis.com>, <linux-mm@kvack.org>,
+        Vincent Whitchurch <vincent.whitchurch@axis.com>,
+        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH v2] mm/smaps: add Pss_Dirty
+Date:   Mon, 20 Jun 2022 10:12:50 +0200
+Message-ID: <20220620081251.2928103-1-vincent.whitchurch@axis.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v4 1/2] mm: memory_hotplug: enumerate all supported
- section flags
-Content-Language: en-US
-To:     Muchun Song <songmuchun@bytedance.com>, akpm@linux-foundation.org,
-        corbet@lwn.net, mike.kravetz@oracle.com, osalvador@suse.de,
-        paulmck@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com
-References: <20220619133851.68184-1-songmuchun@bytedance.com>
- <20220619133851.68184-2-songmuchun@bytedance.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220619133851.68184-2-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19.06.22 15:38, Muchun Song wrote:
-> We are almost running out of section flags, only one bit is available in
-> the worst case (powerpc with 256k pages).  However, there are still some
-> free bits (in ->section_mem_map) on other architectures (e.g. x86_64 has
-> 10 bits available, arm64 has 8 bits available with worst case of 64K
-> pages).  We have hard coded those numbers in code, it is inconvenient to
-> use those bits on other architectures except powerpc.  So transfer those
-> section flags to enumeration to make it easy to add new section flags in
-> the future. Also, move SECTION_TAINT_ZONE_DEVICE into the scope of
-> CONFIG_ZONE_DEVICE to save a bit on non-zone-device case.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->  include/linux/mmzone.h | 44 +++++++++++++++++++++++++++++++++++---------
->  mm/memory_hotplug.c    |  6 ++++++
->  mm/sparse.c            |  2 +-
->  3 files changed, 42 insertions(+), 10 deletions(-)
-> 
-> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> index aab70355d64f..932843c6459b 100644
-> --- a/include/linux/mmzone.h
-> +++ b/include/linux/mmzone.h
-> @@ -1418,16 +1418,35 @@ extern size_t mem_section_usage_size(void);
->   *      (equal SECTION_SIZE_BITS - PAGE_SHIFT), and the
->   *      worst combination is powerpc with 256k pages,
->   *      which results in PFN_SECTION_SHIFT equal 6.
-> - * To sum it up, at least 6 bits are available.
-> + * To sum it up, at least 6 bits are available on all architectures.
-> + * However, we can exceed 6 bits on some other architectures except
-> + * powerpc (e.g. 15 bits are available on x86_64, 13 bits are available
-> + * with the worst case of 64K pages on arm64) if we make sure the
-> + * exceeded bit is not applicable to powerpc.
->   */
-> -#define SECTION_MARKED_PRESENT		(1UL<<0)
-> -#define SECTION_HAS_MEM_MAP		(1UL<<1)
-> -#define SECTION_IS_ONLINE		(1UL<<2)
-> -#define SECTION_IS_EARLY		(1UL<<3)
-> -#define SECTION_TAINT_ZONE_DEVICE	(1UL<<4)
-> -#define SECTION_MAP_LAST_BIT		(1UL<<5)
-> -#define SECTION_MAP_MASK		(~(SECTION_MAP_LAST_BIT-1))
-> -#define SECTION_NID_SHIFT		6
-> +enum {
-> +	SECTION_MARKED_PRESENT_BIT,
-> +	SECTION_HAS_MEM_MAP_BIT,
-> +	SECTION_IS_ONLINE_BIT,
-> +	SECTION_IS_EARLY_BIT,
-> +#ifdef CONFIG_ZONE_DEVICE
-> +	SECTION_TAINT_ZONE_DEVICE_BIT,
-> +#endif
-> +	SECTION_MAP_LAST_BIT,
-> +};
-> +
-> +enum {
-> +	SECTION_MARKED_PRESENT		= BIT(SECTION_MARKED_PRESENT_BIT),
-> +	SECTION_HAS_MEM_MAP		= BIT(SECTION_HAS_MEM_MAP_BIT),
-> +	SECTION_IS_ONLINE		= BIT(SECTION_IS_ONLINE_BIT),
-> +	SECTION_IS_EARLY		= BIT(SECTION_IS_EARLY_BIT),
-> +#ifdef CONFIG_ZONE_DEVICE
-> +	SECTION_TAINT_ZONE_DEVICE	= BIT(SECTION_TAINT_ZONE_DEVICE_BIT),
-> +#endif
-> +};
+Pss is the sum of the sizes of clean and dirty private pages, and the
+proportional sizes of clean and dirty shared pages:
 
-I can understand the reason for the other enum, to auto-assing numbers.
-What's the underlying reason for the enum here? Personally, I'd just
-stay with defines, so I'm curious :)
+ Private = Private_Dirty + Private_Clean
+ Shared_Proportional = Shared_Dirty_Proportional + Shared_Clean_Proportional
+ Pss = Private + Shared_Proportional
 
-LGTM
+The Shared*Proportional fields are not present in smaps, so it is not
+always possible to determine how much of the Pss is from dirty pages and
+how much is from clean pages.  This information can be useful for
+measuring memory usage for the purpose of optimisation, since clean
+pages can usually be discarded by the kernel immediately while dirty
+pages cannot.
 
+The smaps routines in the kernel already have access to this data, so
+add a Pss_Dirty to show it to userspace.  Pss_Clean is not added since
+it can be calculated from Pss and Pss_Dirty.
+
+Signed-off-by: Vincent Whitchurch <vincent.whitchurch@axis.com>
+---
+ Documentation/ABI/testing/procfs-smaps_rollup | 1 +
+ Documentation/filesystems/proc.rst            | 5 ++++-
+ fs/proc/task_mmu.c                            | 3 +++
+ 3 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/ABI/testing/procfs-smaps_rollup b/Documentation/ABI/testing/procfs-smaps_rollup
+index a4e31c465194..b446a7154a1b 100644
+--- a/Documentation/ABI/testing/procfs-smaps_rollup
++++ b/Documentation/ABI/testing/procfs-smaps_rollup
+@@ -22,6 +22,7 @@ Description:
+ 			MMUPageSize:           4 kB
+ 			Rss:		     884 kB
+ 			Pss:		     385 kB
++			Pss_Dirty:	      68 kB
+ 			Pss_Anon:	     301 kB
+ 			Pss_File:	      80 kB
+ 			Pss_Shmem:	       4 kB
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 1bc91fb8c321..f7dce062548f 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -448,6 +448,7 @@ Memory Area, or VMA) there is a series of lines such as the following::
+     MMUPageSize:           4 kB
+     Rss:                 892 kB
+     Pss:                 374 kB
++    Pss_Dirty:             0 kB
+     Shared_Clean:        892 kB
+     Shared_Dirty:          0 kB
+     Private_Clean:         0 kB
+@@ -479,7 +480,9 @@ dirty shared and private pages in the mapping.
+ The "proportional set size" (PSS) of a process is the count of pages it has
+ in memory, where each page is divided by the number of processes sharing it.
+ So if a process has 1000 pages all to itself, and 1000 shared with one other
+-process, its PSS will be 1500.
++process, its PSS will be 1500.  "Pss_Dirty" is the portion of PSS which
++consists of dirty pages.  ("Pss_Clean" is not included, but it can be
++calculated by subtracting "Pss_Dirty" from "Pss".)
+ 
+ Note that even a page which is part of a MAP_SHARED mapping, but has only
+ a single pte mapped, i.e.  is currently used by only one process, is accounted
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 2d04e3470d4c..751c19d5bfdd 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -406,6 +406,7 @@ struct mem_size_stats {
+ 	u64 pss_anon;
+ 	u64 pss_file;
+ 	u64 pss_shmem;
++	u64 pss_dirty;
+ 	u64 pss_locked;
+ 	u64 swap_pss;
+ };
+@@ -427,6 +428,7 @@ static void smaps_page_accumulate(struct mem_size_stats *mss,
+ 		mss->pss_locked += pss;
+ 
+ 	if (dirty || PageDirty(page)) {
++		mss->pss_dirty += pss;
+ 		if (private)
+ 			mss->private_dirty += size;
+ 		else
+@@ -808,6 +810,7 @@ static void __show_smap(struct seq_file *m, const struct mem_size_stats *mss,
+ {
+ 	SEQ_PUT_DEC("Rss:            ", mss->resident);
+ 	SEQ_PUT_DEC(" kB\nPss:            ", mss->pss >> PSS_SHIFT);
++	SEQ_PUT_DEC(" kB\nPss_Dirty:      ", mss->pss_dirty >> PSS_SHIFT);
+ 	if (rollup_mode) {
+ 		/*
+ 		 * These are meaningful only for smaps_rollup, otherwise two of
 -- 
-Thanks,
-
-David / dhildenb
+2.34.1
 
