@@ -2,137 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24ED0CCA479
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 08:37:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BC20C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 08:44:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238683AbiFTIhN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jun 2022 04:37:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51146 "EHLO
+        id S239463AbiFTIop (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jun 2022 04:44:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238623AbiFTIhM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 04:37:12 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1401A12ABD;
-        Mon, 20 Jun 2022 01:37:12 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id m2so1861998plx.3;
-        Mon, 20 Jun 2022 01:37:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5yVoQ0SxXSvnuAGacC2kdFONdFFTdfJJAv2a0z5/PO0=;
-        b=dhw8MT0S+vtcLI7BXU81rHgRCqHaG1FDHc+OxIonEzZ2aCHN/rxNcaD84xAI7ZahNf
-         8GZqmP6Y0RluwS+4LowO1bL2altpW0RUTaVuvJAnivogsoHqiWptymz8LwgT0aiUaqPS
-         CS+uj3qKguRR/zb64GBnNWsY6/hva3KWkhkXf3on/F+ujnHiC+193ib6Spj7BJGHRPgy
-         Lm79Bk0jjXBAoj8ZK1iXADJjYKaklfKLu/idDJXyvDd+VHQrEYfhJ23gzC77jSDol3y0
-         u7o0zSDjIPWHVs6R2Eqdmbw0SDjqQ1XOtJ2h5bm0kFsQmQV2AeB4m+ugwBdmjKBhVAao
-         hsbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5yVoQ0SxXSvnuAGacC2kdFONdFFTdfJJAv2a0z5/PO0=;
-        b=q1+kv2gjGw6rVewUodzjbN6i/E093H3i3VJQYvr//KwI/0ma/KNQfcyfbyZrftxeFW
-         FjmZHNwqeleH28X5qLtSoxGp7cVP3ImOIWw0qDdPh+NElErW7preTNbjOQ2GNlyArDC3
-         YI4q/1WTrlSdoFMlUVDTNtVvFwYXxsvP33gElZ5LT0hqTxMTaF/MPVDRrY3jJ4/X02jb
-         JBWvwawGa1+i51BkuNsis2KhMBQ/y3oWd05JhNDLsiU3ge5mfhasPW3ONIXoioTMEu1I
-         dFuBaq8iGnrnBgZ6kdjT/NTUZCGATmAmCyUU5exfyLLW6Jgqtn4JN2QX2rtqYgEEecKJ
-         4OzA==
-X-Gm-Message-State: AJIora9X1HX93E9R7jcMYzahHjXhYfAUNIOQ6ETW0AIU5oThhBZ5fHBC
-        gYnqVHMbuQXxyIxWwD6qY0IebikBq98=
-X-Google-Smtp-Source: AGRyM1sRBbaktKY2lcchpbjnRC7DWal2IsF8bIXeouU3CCZeyJvcoY2hquO+2BAGrLwE8l9OqR9+dQ==
-X-Received: by 2002:a17:902:c951:b0:163:ed13:7acd with SMTP id i17-20020a170902c95100b00163ed137acdmr22886995pla.51.1655714231053;
-        Mon, 20 Jun 2022 01:37:11 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-21.three.co.id. [116.206.28.21])
-        by smtp.gmail.com with ESMTPSA id e7-20020a17090a9a8700b001eab99a42efsm5594002pjp.31.2022.06.20.01.37.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 01:37:10 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] Documentation: highmem: Use literal block for code example in highmem.h comment
-Date:   Mon, 20 Jun 2022 15:36:49 +0700
-Message-Id: <20220620083649.18172-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.36.0
+        with ESMTP id S239062AbiFTIop (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 04:44:45 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24C31E9A;
+        Mon, 20 Jun 2022 01:44:44 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id D5CFC1F383;
+        Mon, 20 Jun 2022 08:44:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1655714682; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=mMXO29bS5Q5WlYmqVACMoUiiETrgWHmM6SWuoP7+kKk=;
+        b=lP9zx3xPKJLxlJpBtp1BMFWIfqYN19uwvucIIYapP9tnNRt001tMLdLVdX5Auq/B7OpdNK
+        ICULE3T252YKMFmyGXMaiBHQu0D+Y3wbC8hgjCjiuKFLfO+ysv3XMJJdGlyQRk5CmGh6z5
+        IheflEFXNcTl67Nohect5VcFvKupEV0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1655714682;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=mMXO29bS5Q5WlYmqVACMoUiiETrgWHmM6SWuoP7+kKk=;
+        b=OXh9d08JY4cPZuhYh4bghTRS6B4Iaz6hpajRV8YXITxOpgsVKp5mBAdN5nBqdtYrSM3eP2
+        Ms1Tw9nvVP1aWLAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3796313638;
+        Mon, 20 Jun 2022 08:44:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 7mreCnozsGLQLAAAMHmgww
+        (envelope-from <osalvador@suse.de>); Mon, 20 Jun 2022 08:44:42 +0000
+Date:   Mon, 20 Jun 2022 10:44:40 +0200
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     David Hildenbrand <david@redhat.com>, akpm@linux-foundation.org,
+        corbet@lwn.net, mike.kravetz@oracle.com, paulmck@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v4 2/2] mm: memory_hotplug: make hugetlb_optimize_vmemmap
+ compatible with memmap_on_memory
+Message-ID: <YrAzeHbYt1mAs9ue@localhost.localdomain>
+References: <20220619133851.68184-1-songmuchun@bytedance.com>
+ <20220619133851.68184-3-songmuchun@bytedance.com>
+ <YrAgUtV6wD6CIrad@FVFYT0MHHV2J.usts.net>
+ <226243a9-b4f5-182e-1a5b-7b8d5c28f3b3@redhat.com>
+ <YrAv18GnMOcQaAxz@FVFYT0MHHV2J.usts.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YrAv18GnMOcQaAxz@FVFYT0MHHV2J.usts.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When building htmldocs on Linus' tree, there are inline emphasis warnings
-on include/linux/highmem.h:
+On Mon, Jun 20, 2022 at 04:29:11PM +0800, Muchun Song wrote:
+> > > Although it works, I think PageVmemmapSelfHosted() check for the 1st pfn's
+> > > vmemmap page is not always reliable.  Since we reused PG_owner_priv_1
+> > > as PG_vmemmap_self_hosted, the test is noly reliable for vmemmap page's
+> > > vmemmap page.  Other non-vmemmap page can be flagged with PG_owner_priv_1.
+> > > So this check can be false-positive. Maybe the following code snippet is
+> > > the solution.
+> > 
+> > How could that happen for pages used for backing a vmemmap?
+> >
+> 
+> It cannot happen for memmap_on_memory case. Howwver, it can happen for other
+> cases. E.g. the 1st pfn (of boot memory block) whose vmemmap page may be flagged
+> as PG_owner_priv_1 (if PG_swapcache is set). Then, the check is false-positive.
 
-Documentation/vm/highmem:166: ./include/linux/highmem.h:154: WARNING: Inline emphasis start-string without end-string.
-Documentation/vm/highmem:166: ./include/linux/highmem.h:157: WARNING: Inline emphasis start-string without end-string.
+If this can really happen, which I am not that sure tbh, maybe a way out would be
+to just define a new page-type as we did in previous versions of memmap_on_memory.
+In that way we would not for flags, but for its type.
 
-These warnings above are due to comments in code example at the
-mentioned lines above are enclosed by double dash (--), which confuses
-Sphinx as inline markup delimiters instead.
+But as I said, I am not entirely sure about the potential fallout of what you mention.
 
-Fix these warnings by indenting the code example with literal block
-indentation and prefixing comments inside the example with C comment
-symbol (#).
 
-Fixes: 85a85e7601263f ("Documentation/vm: move "Using kmap-atomic" to highmem.h")
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Ira Weiny <ira.weiny@intel.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Changes since v2 [1]:
-   - Rebase on v5.19-rc3
-   - Don't mention any functions
-
- [1]: https://lore.kernel.org/linux-doc/20220615101509.516520-1-bagasdotme@gmail.com/
- include/linux/highmem.h | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-index 3af34de54330cb..56d6a019653489 100644
---- a/include/linux/highmem.h
-+++ b/include/linux/highmem.h
-@@ -149,19 +149,19 @@ static inline void *kmap_local_folio(struct folio *folio, size_t offset);
-  * It is used in atomic context when code wants to access the contents of a
-  * page that might be allocated from high memory (see __GFP_HIGHMEM), for
-  * example a page in the pagecache.  The API has two functions, and they
-- * can be used in a manner similar to the following:
-+ * can be used in a manner similar to the following::
-  *
-- * -- Find the page of interest. --
-- * struct page *page = find_get_page(mapping, offset);
-+ *   // Find the page of interest.
-+ *   struct page *page = find_get_page(mapping, offset);
-  *
-- * -- Gain access to the contents of that page. --
-- * void *vaddr = kmap_atomic(page);
-+ *   // Gain access to the contents of that page.
-+ *   void *vaddr = kmap_atomic(page);
-  *
-- * -- Do something to the contents of that page. --
-- * memset(vaddr, 0, PAGE_SIZE);
-+ *   // Do something to the contents of that page.
-+ *   memset(vaddr, 0, PAGE_SIZE);
-  *
-- * -- Unmap that page. --
-- * kunmap_atomic(vaddr);
-+ *   // Unmap that page.
-+ *   kunmap_atomic(vaddr);
-  *
-  * Note that the kunmap_atomic() call takes the result of the kmap_atomic()
-  * call, not the argument.
-
-base-commit: a111daf0c53ae91e71fd2bfe7497862d14132e3e
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Oscar Salvador
+SUSE Labs
