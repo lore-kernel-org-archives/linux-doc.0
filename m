@@ -2,77 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91528C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 09:51:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65059C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 09:56:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240196AbiFTJvg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jun 2022 05:51:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53546 "EHLO
+        id S235257AbiFTJ4X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jun 2022 05:56:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238852AbiFTJvd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 05:51:33 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF09D13E00;
-        Mon, 20 Jun 2022 02:51:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655718692; x=1687254692;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=wKG3yHDY3jxND3pnewROmPbZC+Yuv0XTwko/EEp6Uag=;
-  b=VoGd6zrdzx5gucdDdUa1kNPDwA9XDGvdniC5+chyWID4dxmRWv6Wg3qG
-   N1A5F9SP8MGW6DzQEynSK4oo3iw3kmsPgPQrQONuZnvfJk0UBfPt+xY56
-   b0bJyK99j6suDqAtsHA301eNViLxesrGU2s49SZd8hPrh4unqODlCEF18
-   PxyLPpbUcmAJk+BFyGfSIJBrYioYML5mlxAhXsa1591e3L7ukZ9BwGXdW
-   jqxC9/53e/Duy/CCqCCt3YTLRnT+QmK/0DHRoOGcb/ev+hi0SV7ItUVBG
-   9yggTtxZed4d4U8skcpgRLA0IRVK+rRYXxKQOU9+FVTyU/eANWAKOSI92
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="277401919"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="277401919"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 02:51:19 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="833039096"
-Received: from gna-nuc-dev34.igk.intel.com ([10.102.80.34])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 02:51:16 -0700
-From:   maciej.kwapulinski@linux.intel.com
-To:     gregkh@linuxfoundation.org
+        with ESMTP id S234256AbiFTJ4W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 05:56:22 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E391813E19;
+        Mon, 20 Jun 2022 02:56:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 3FD5BCE1154;
+        Mon, 20 Jun 2022 09:56:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6A22C3411B;
+        Mon, 20 Jun 2022 09:56:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1655718978;
+        bh=1feoivY7gwwMDCEhN+h7CXS1lJojSZFu+I+k5bzv8lY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bXSZGrRZaf5e2n8tbsdGgJIvPmuI2GM9VQK6GSLMSkonCkVFpjPmfOzhF7bNZJsHe
+         ULseOJRdk5rQbsZsEAjaJcz0mHlPE7xstzmqAyqOO+zTWh6XqMn5i8sDZr51KbHOxh
+         2W2neMoTs2CkoRr0Zy0wBgbSASRpSf4DjQ1PI6Ts=
+Date:   Mon, 20 Jun 2022 11:56:15 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     maciej.kwapulinski@linux.intel.com
 Cc:     andy.shevchenko@gmail.com, arnd@arndb.de, corbet@lwn.net,
         derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
         guy.zadicario@intel.com, linus.walleij@linaro.org, olof@lixom.net,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, maciej.kwapulinski@linux.intel.com
+        dri-devel@lists.freedesktop.org
 Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
-Date:   Mon, 20 Jun 2022 11:49:07 +0200
-Message-Id: <20220620094907.4101274-1-maciej.kwapulinski@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <85a6nq45uh.fsf@linux.intel.com>
+Message-ID: <YrBEP4P9JA60LeOB@kroah.com>
 References: <85a6nq45uh.fsf@linux.intel.com>
+ <20220620094907.4101274-1-maciej.kwapulinski@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220620094907.4101274-1-maciej.kwapulinski@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 16 Jun 2021 09:38:14 +0200, Maciej Kwapulinski wrote:
-> after consulting, we will try to share api and some kernel code
-> between the two drivers.
+On Mon, Jun 20, 2022 at 11:49:07AM +0200, maciej.kwapulinski@linux.intel.com wrote:
+> Please share your thoughts.
 
-We prepared a prototype work based on Daniel Vetter’s invitation to
-evaluate DRM framework as prospective fit.
-
-Early results look quite promising. Effective leverage of DRM framework for
-non GPU driver has been achieved. GNA driver source code turned out to have
-been simplified by offloading some areas (device management + memory
-regions management).
-
-As a result, GNA driver source code size has been reduced by 15% (420
-lines). DRM Framework complexity has not been an issue so far.
- 
-Plan for next step is to publish code to dri-devel ML.
-Please share your thoughts.
- 
-Regards,
-Maciej
+No code here to share thoughts about :(
