@@ -2,220 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE52C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Jun 2022 23:56:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E873FC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 00:41:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236663AbiFSX4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Jun 2022 19:56:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52534 "EHLO
+        id S231539AbiFTAlT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Jun 2022 20:41:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231539AbiFSX4q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jun 2022 19:56:46 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91E96A1A5;
-        Sun, 19 Jun 2022 16:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=/5IadmUJamjDGD60cMZbxHIClJJP6KkcPRaQTlWaQAU=; b=ULnr8UttY4ComEXiDrHVKuZSK+
-        DFYvGF5aBSn675cQ+153y7zkX0P8d+DhS18MG7UfCFUGtY8On6GfcETkcvU6j407qS5VuAfeUXGrL
-        gL+7mbqqsxhX9zEeW+vZz3UfQoZvwWwPb+emRC6gYKnqkkdZCWMXZxCXWo3Xc5hQ7U9DaD2SfdU2Y
-        KZZE6oTgFkGPg2gudyYzgazta4D4cF6iJsSO7iJiiKARcoUpS7xkGdkycPtaybO7mhvVGj/vS26Jx
-        rq1NxpfO8MM6RH6rSSTwUPjPrCofJA43Z5J/Zpb1VPAnUBvOlHm2UByqftD+9wv3AYBa7OjW7Li1M
-        +bR6/x9g==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o34mT-004iMi-37; Sun, 19 Jun 2022 23:56:37 +0000
-Message-ID: <799f42aa-bdb1-6a5a-e5b6-7fa2e56c2f46@infradead.org>
-Date:   Sun, 19 Jun 2022 16:56:31 -0700
+        with ESMTP id S229520AbiFTAlS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Jun 2022 20:41:18 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A827064E0;
+        Sun, 19 Jun 2022 17:41:17 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 25K0eqMu014065;
+        Mon, 20 Jun 2022 09:40:53 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 25K0eqMu014065
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1655685653;
+        bh=KO2bT9e9o1IlLF54RMsY4B67RQeQIcc8YsGFuQTNKLY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=gCEMMxAqgN5MkR3ByO6vuxpk0MZ5UA1pn2VZ4l5Iz/W90yG1BTegn5Bg/VSYOgpEq
+         FngUKyK5CjlZBSHDgmb3HarTPBPhucgdGVE07JG/FDcVaULahPASP2aw5OV7GOB9/I
+         5PoL7VpRozqBtrFukWbVh0/FdOiCwnZ31AKfJvBu7v9/QPPltOjR5fPnLLIF12FnY1
+         H2OKr19oEhpvapzIvIfEaU79N6jHZTJcA61RDZynSPOrRe0Imj8D0cXMu+3XGwPi1W
+         +vcKr2Y6J3++n+EpRKXiVJTKtuV3QMGlqNM8dpfTHf5xD7kjJsVSsl6vReqJcM5idC
+         lOFl290quIv+w==
+X-Nifty-SrcIP: [209.85.221.49]
+Received: by mail-wr1-f49.google.com with SMTP id i10so8745256wrc.0;
+        Sun, 19 Jun 2022 17:40:52 -0700 (PDT)
+X-Gm-Message-State: AJIora9xgrUudXH60WywrcCj7ejttWCzU8vnQxb1NuITe67UNMaGXMca
+        AuzUjSDD+SmHPdGmFcWHclRuKSCy2MwdV9d3T8o=
+X-Google-Smtp-Source: AGRyM1uugHpW+HpdtWiopVlodunIpeGyQF/T1HRP+yqxZMsIwBu975CxA4O4ugSBs0fyZGtwh8RmiCWj7jfTUPOc6As=
+X-Received: by 2002:a5d:5e92:0:b0:21a:278c:b901 with SMTP id
+ ck18-20020a5d5e92000000b0021a278cb901mr20414562wrb.461.1655685651233; Sun, 19
+ Jun 2022 17:40:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] Documentation: kunit: eliminate code-block warnings
-Content-Language: en-US
-To:     linux-kernel@vger.kernel.org
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Harinder Singh <sharinder@google.com>,
-        Tim Bird <tim.bird@sony.com>
-References: <20220401024707.10550-1-rdunlap@infradead.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220401024707.10550-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220617165817.3204917-1-ndesaulniers@google.com> <Yqy0EkraT0O52Na7@dev-arch.thelio-3990X>
+In-Reply-To: <Yqy0EkraT0O52Na7@dev-arch.thelio-3990X>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 20 Jun 2022 09:40:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQfDC-qGoqwaAsEpoevu8oawPjQMoyJ7pEthbdBn30f4Q@mail.gmail.com>
+Message-ID: <CAK7LNAQfDC-qGoqwaAsEpoevu8oawPjQMoyJ7pEthbdBn30f4Q@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/llvm: Update Supported Arch table
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Michael Opdenacker <michael.opdenacker@bootlin.com>,
+        Tom Rix <trix@redhat.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        clang-built-linux <llvm@lists.linux.dev>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ping. Any progress on this patch?
+On Sat, Jun 18, 2022 at 2:04 AM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> On Fri, Jun 17, 2022 at 09:58:17AM -0700, Nick Desaulniers wrote:
+> > While watching Michael's new talk on Clang-built-Linux, I noticed the
+> > arch table in our docs that he refers to is outdated.
+> >
+> > Add hexagon and User Mode.  Bump MIPS and RISCV to LLVM=1.  PowerPC is
+> > almost LLVM=1 capable; ppc64le works, but ppc64 (big endian) and ppc32
+> > still need more work.
+> >
+> > Link: https://youtu.be/W4zdEDpvR5c?t=399
+> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+>
+> Thanks for updating this!
+>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
+
+Applied to linux-kbuild/fixes.
 Thanks.
 
-On 3/31/22 19:47, Randy Dunlap wrote:
-> Fix Sphinx complaints about code-block directive missing an argument.
-> For start.rst, add "none" since that is already heavily used in that
-> file. For run_wrapper.rst, use the simpler "::" literal block instead.
-> 
-> dev-tools/kunit/start.rst:83: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> 
-> dev-tools/kunit/run_wrapper.rst:17: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:23: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:31: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:51: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:57: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:78: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:85: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:109: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:116: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:124: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:139: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:162: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> 
-> Fixes: c48b9ef1f794 ("Documentation: KUnit: Rewrite getting started")
-> Fixes: 46201d47d6c4 ("Documentation: kunit: Reorganize documentation related to running tests")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Brendan Higgins <brendanhiggins@google.com>
-> Cc: linux-kselftest@vger.kernel.org
-> Cc: kunit-dev@googlegroups.com
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Harinder Singh <sharinder@google.com>
-> Cc: Tim Bird <tim.bird@sony.com>
-> ---
->  Documentation/dev-tools/kunit/run_wrapper.rst |   24 ++++++++--------
->  Documentation/dev-tools/kunit/start.rst       |    2 -
->  2 files changed, 13 insertions(+), 13 deletions(-)
-> 
-> --- linux-next-20220331.orig/Documentation/dev-tools/kunit/run_wrapper.rst
-> +++ linux-next-20220331/Documentation/dev-tools/kunit/run_wrapper.rst
-> @@ -14,13 +14,13 @@ tests, and formats the test results.
->  
->  Run command:
->  
-> -.. code-block::
-> +::
->  
->  	./tools/testing/kunit/kunit.py run
->  
->  We should see the following:
->  
-> -.. code-block::
-> +::
->  
->  	Generating .config...
->  	Building KUnit kernel...
-> @@ -28,7 +28,7 @@ We should see the following:
->  
->  We may want to use the following options:
->  
-> -.. code-block::
-> +::
->  
->  	./tools/testing/kunit/kunit.py run --timeout=30 --jobs=`nproc --all
->  
-> @@ -48,13 +48,13 @@ test configs for certain subsystems.
->  To use a different ``.kunitconfig`` file (such as one
->  provided to test a particular subsystem), pass it as an option:
->  
-> -.. code-block::
-> +::
->  
->  	./tools/testing/kunit/kunit.py run --kunitconfig=fs/ext4/.kunitconfig
->  
->  To view kunit_tool flags (optional command-line arguments), run:
->  
-> -.. code-block::
-> +::
->  
->  	./tools/testing/kunit/kunit.py run --help
->  
-> @@ -75,14 +75,14 @@ certain code blocks, arch configs and so
->  
->  To create a ``.kunitconfig``, using the KUnit ``defconfig``:
->  
-> -.. code-block::
-> +::
->  
->  	cd $PATH_TO_LINUX_REPO
->  	cp tools/testing/kunit/configs/default.config .kunit/.kunitconfig
->  
->  We can then add any other Kconfig options. For example:
->  
-> -.. code-block::
-> +::
->  
->  	CONFIG_LIST_KUNIT_TEST=y
->  
-> @@ -106,14 +106,14 @@ can run part of the KUnit build process
->  When running kunit_tool, from a ``.kunitconfig``, we can generate a
->  ``.config`` by using the ``config`` argument:
->  
-> -.. code-block::
-> +::
->  
->  	./tools/testing/kunit/kunit.py config
->  
->  To build a KUnit kernel from the current ``.config``, we can use the
->  ``build`` argument:
->  
-> -.. code-block::
-> +::
->  
->  	./tools/testing/kunit/kunit.py build
->  
-> @@ -121,7 +121,7 @@ If we already have built UML kernel with
->  can run the kernel, and display the test results with the ``exec``
->  argument:
->  
-> -.. code-block::
-> +::
->  
->  	./tools/testing/kunit/kunit.py exec
->  
-> @@ -136,7 +136,7 @@ format. When running tests, kunit_tool p
->  a summary. To see the raw test results in TAP format, we can pass the
->  ``--raw_output`` argument:
->  
-> -.. code-block::
-> +::
->  
->  	./tools/testing/kunit/kunit.py run --raw_output
->  
-> @@ -159,7 +159,7 @@ By passing a bash style glob filter to t
->  commands, we can run a subset of the tests built into a kernel . For
->  example: if we only want to run KUnit resource tests, use:
->  
-> -.. code-block::
-> +::
->  
->  	./tools/testing/kunit/kunit.py run 'kunit-resource*'
->  
-> --- linux-next-20220331.orig/Documentation/dev-tools/kunit/start.rst
-> +++ linux-next-20220331/Documentation/dev-tools/kunit/start.rst
-> @@ -80,7 +80,7 @@ Running Tests (KUnit Wrapper)
->  
->  If everything worked correctly, you should see the following:
->  
-> -.. code-block::
-> +.. code-block:: none
->  
->  	Generating .config ...
->  	Building KUnit Kernel ...
+
+>
+> > ---
+> >  Documentation/kbuild/llvm.rst | 10 ++++++++--
+> >  1 file changed, 8 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> > index b854bb413164..6b2bac8e9ce0 100644
+> > --- a/Documentation/kbuild/llvm.rst
+> > +++ b/Documentation/kbuild/llvm.rst
+> > @@ -129,18 +129,24 @@ yet. Bug reports are always welcome at the issue tracker below!
+> >     * - arm64
+> >       - Supported
+> >       - ``LLVM=1``
+> > +   * - hexagon
+> > +     - Maintained
+> > +     - ``LLVM=1``
+> >     * - mips
+> >       - Maintained
+> > -     - ``CC=clang``
+> > +     - ``LLVM=1``
+> >     * - powerpc
+> >       - Maintained
+> >       - ``CC=clang``
+> >     * - riscv
+> >       - Maintained
+> > -     - ``CC=clang``
+> > +     - ``LLVM=1``
+> >     * - s390
+> >       - Maintained
+> >       - ``CC=clang``
+> > +   * - um (User Mode)
+> > +     - Maintained
+> > +     - ``LLVM=1``
+> >     * - x86
+> >       - Supported
+> >       - ``LLVM=1``
+> > --
+> > 2.36.1.476.g0c4daa206d-goog
+> >
+
+
 
 -- 
-~Randy
+Best Regards
+Masahiro Yamada
