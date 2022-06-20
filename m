@@ -2,67 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6179AC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 10:11:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B05EDC43334
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 10:26:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234353AbiFTKLf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jun 2022 06:11:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42836 "EHLO
+        id S240145AbiFTK0Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jun 2022 06:26:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240911AbiFTKLe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 06:11:34 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44FB8A18B;
-        Mon, 20 Jun 2022 03:11:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655719891; x=1687255891;
-  h=references:from:to:cc:subject:date:in-reply-to:
-   message-id:mime-version;
-  bh=3y8nDAKWBUlZ9K1j37HQS8U7bJfHwitl9vAtCp1vOyU=;
-  b=RCAqntx1/fTtROJplSWXeeLgM4HtDXE2Fc63rFOyUZMtG5IUXEwGFqxc
-   aqzTmjaqSCzEA14tZLVG5l+EZe0B3zcTHNPeLQpCnFImVEwWepQiJQE4P
-   vAHBlgc2zjmqY2B2Zy2jfw9efwmF+oU3ISE4d4XlUbBAR+AmiAI36ymhn
-   000GnloM54LrVmM4EbpH9Vf5CB8+IE3Oo/RHugRp8biMHW6ddwr4Db8e4
-   hli34AZR/qJCjECn9AbVbYH/d9iqHIECEIL8hTR4jdhLKeKMqJKw9NAU3
-   MOcoJCFTb7fhE6/VC38zu3hs4PFKlqFIBIiewSHnASgkUTsA+GqWYwc/U
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="268576888"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="268576888"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 03:11:30 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="584836507"
-Received: from gna-nuc-dev34.igk.intel.com (HELO localhost) ([10.102.80.34])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 03:11:27 -0700
-References: <85a6nq45uh.fsf@linux.intel.com>
- <20220620094907.4101274-1-maciej.kwapulinski@linux.intel.com>
- <YrBEP4P9JA60LeOB@kroah.com>
-User-agent: mu4e 1.6.10; emacs 27.2
-From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
+        with ESMTP id S239908AbiFTK0I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 06:26:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B4A113E8B;
+        Mon, 20 Jun 2022 03:26:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 178F160B28;
+        Mon, 20 Jun 2022 10:26:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E754DC3411B;
+        Mon, 20 Jun 2022 10:26:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1655720763;
+        bh=Wal+H1rMTMUMX67N1hK9qOOenXwy00Js2GP0OU5lLmA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nLD/STKXRr4oGH09HyHcudKrcxGfa2TnFtj0fGs+YchvfpQ/yHENjP/tlZc0XSBcp
+         a3JfWGHDkUt4EwoQd8oaukI/RVZq4dBRo4E2obYlxv3X4k0juV6YtlUIB2Ou/jgdEE
+         ZO/ExEnaVlHTsyeSHYOLsfyVm1dTWcmbORoXqA+U=
+Date:   Mon, 20 Jun 2022 12:26:00 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 Cc:     andy.shevchenko@gmail.com, arnd@arndb.de, corbet@lwn.net,
         derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
         guy.zadicario@intel.com, linus.walleij@linaro.org, olof@lixom.net,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         dri-devel@lists.freedesktop.org
 Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
-Date:   Mon, 20 Jun 2022 12:08:34 +0200
-In-reply-to: <YrBEP4P9JA60LeOB@kroah.com>
-Message-ID: <86czf3wsrg.fsf@linux.intel.com>
+Message-ID: <YrBLOPHGAZgFJvWN@kroah.com>
+References: <85a6nq45uh.fsf@linux.intel.com>
+ <20220620094907.4101274-1-maciej.kwapulinski@linux.intel.com>
+ <YrBEP4P9JA60LeOB@kroah.com>
+ <86czf3wsrg.fsf@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <86czf3wsrg.fsf@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Jun 20, 2022 at 12:08:34PM +0200, Maciej Kwapulinski wrote:
+> 
+> Greg KH <gregkh@linuxfoundation.org> writes:
+> 
+> > On Mon, Jun 20, 2022 at 11:49:07AM +0200, maciej.kwapulinski@linux.intel.com wrote:
+> >> Please share your thoughts.
+> >
+> > No code here to share thoughts about :(
+> 
+> code will be published in comming weeks to dri-devel ML
 
-Greg KH <gregkh@linuxfoundation.org> writes:
+Saying "we will send patches sometime in the future" is a bit odd when
+we have thousands of patches each week in our inbox to review now.  Why
+not help us out with that workload?  :)
 
-> On Mon, Jun 20, 2022 at 11:49:07AM +0200, maciej.kwapulinski@linux.intel.com wrote:
->> Please share your thoughts.
->
-> No code here to share thoughts about :(
+thanks,
 
-code will be published in comming weeks to dri-devel ML
+greg k-h
