@@ -2,136 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED61CCCA480
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 15:29:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BB89C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 15:36:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242523AbiFTP3B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jun 2022 11:29:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58934 "EHLO
+        id S234865AbiFTPgf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jun 2022 11:36:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245116AbiFTP2p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 11:28:45 -0400
-Received: from 7of9.schinagl.nl (7of9.connected.by.freedominter.net [185.238.129.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D9837CD6;
-        Mon, 20 Jun 2022 08:28:42 -0700 (PDT)
-Received: from [10.2.12.24] (unknown [10.2.12.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by 7of9.schinagl.nl (Postfix) with ESMTPSA id 549661842F6F;
-        Mon, 20 Jun 2022 17:11:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=schinagl.nl; s=7of9;
-        t=1655737904; bh=UqBZTWQhX1oGqwuuGk9ArGFlxBsKUZyh+tzOazjtW9s=;
-        h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To;
-        b=bOAzh2IFJWlWBZypDTa0e5IixUmK4ODxJw2v/sUawktoEQv/WpwcVc3LTrMbtQHhF
-         elnL57V0cO+lBHvFupyfUQQnTg4lArzlyPePP/ZUZOKyBBGv1uTDYimPzaXnBf04HK
-         xyx9I2GtQpi6lx7toDHyNw8pQLpR57FT+sUwMkWU=
-Message-ID: <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
-Date:   Mon, 20 Jun 2022 17:11:43 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Reply-To: oliver+list@schinagl.nl
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Content-Language: en-US
-To:     ojeda@kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        with ESMTP id S240728AbiFTPgd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 11:36:33 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2072.outbound.protection.outlook.com [40.107.243.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0932814D3B;
+        Mon, 20 Jun 2022 08:36:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ipm6XsXR3XMoRqJncOojL2E6Fv+VSYsgOPT2CLtTxArq0W0v6GpxYJLt3EMKwZag8KPzZmIUnsZQWwSW2KKpQ9hxIsMWmj340VzpLZxGyKX6bRg6WVjKhMx+orEFAjmGW7Zp96bCJJ4aJn9VtLYTe6yVWbFm8oJV+1AivDg95CqtvZdexSJyC4RAgmuJBoU6aX80gZT02U5vsMzFipIkAabrUFP7bFs+SHp1s+xh3+xqb7eotjVT+DUOOOnZbMHdw1CcVAMGi76NtdPL+ImMNhmlQ+cAWTA4Cm2EdaSjzcBx5JXjOwp674F4QaPnzs11fDGL+2b25tHtMs0leqJexA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XxExLSLje0IsPubQt3DEVni75/KwiaOILS42XzkUvGY=;
+ b=Ilas+esHwLm8+FLwwQYGiWoZvuP2JWDy9idEBnJeUyDlI7uTPkDU5M3xT7jToghL68wZxBRzZT4MfsqAWcoAfP7DnB3Zzp5GUT1k+cm+w8X6uTMocdCL1fUCJMxo1N5vnHklatq2NO1x0LBAvv78NL6ZJdGTovnOvQeq240xUPQNlM9hfMWTez2hd61Jv3UzOrO8f8dB9CwV+RJ8o/xuOZKql7ZEkEg3pnfKvwRJ0YNL93Ztw7yqk2YN3UbPx2IlMO1l/Y1rQYt9P777tR8VqpoPIsrVI1tAURpFlWUrS1W859bA1mhAI4yurE0quePumD2+pkmJLMMJ7dRK45OPpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XxExLSLje0IsPubQt3DEVni75/KwiaOILS42XzkUvGY=;
+ b=jxASaIkrt8oJ1etwInaRX0uwuKHHLplY+FMPVq/s4UYOg/BvXlCaxuHEGA0Fsxp0zNFl7aXxA/dtxbiuuDjoXYWv16r3e+gOf/LKr8O2W8Pd7HCcjcFdV6+2Ak/JrOiBKH/sCu8gXUo9WZbSeT4TcdcZ+/Z4XcZAI//ta62ERxIqOa9G+VKlZd8cKSwGO/TgAEbTiTxSqoFVcTawfJnP6RZ6hJvgWxktShMVT6YcbdRGdtO26H+4D+w7FsCa+5Drokk2Cl43XUroQqI8Q4957mephX2h5GRkcUba85fJR6WlWF8pokOhtv//w9MztyMzaTYqGMDi9cubjEYUOU95fg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by BY5PR12MB3794.namprd12.prod.outlook.com (2603:10b6:a03:1aa::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14; Mon, 20 Jun
+ 2022 15:36:31 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ac35:7c4b:3282:abfb]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ac35:7c4b:3282:abfb%3]) with mapi id 15.20.5353.022; Mon, 20 Jun 2022
+ 15:36:31 +0000
+Date:   Mon, 20 Jun 2022 12:36:28 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Nicolin Chen <nicolinc@nvidia.com>, kwankhede@nvidia.com,
+        corbet@lwn.net, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, zhenyuw@linux.intel.com, zhi.a.wang@intel.com,
+        jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+        rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com,
+        airlied@linux.ie, daniel@ffwll.ch, farman@linux.ibm.com,
+        mjrosato@linux.ibm.com, pasic@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com,
+        akrowiak@linux.ibm.com, jjherne@linux.ibm.com,
+        alex.williamson@redhat.com, cohuck@redhat.com,
+        kevin.tian@intel.com, jchrist@linux.ibm.com, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        oliver+list@schinagl.nl
-References: <20210414184604.23473-1-ojeda@kernel.org>
-From:   Olliver Schinagl <oliver@schinagl.nl>
-In-Reply-To: <20210414184604.23473-1-ojeda@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        linux-s390@vger.kernel.org, intel-gvt-dev@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [RFT][PATCH v1 6/6] vfio: Replace phys_pfn with phys_page for
+ vfio_pin_pages()
+Message-ID: <20220620153628.GA5502@nvidia.com>
+References: <20220616235212.15185-1-nicolinc@nvidia.com>
+ <20220616235212.15185-7-nicolinc@nvidia.com>
+ <YqxBLbu8yPJiwK6Z@infradead.org>
+ <20220620030046.GB5219@nvidia.com>
+ <YrAK87zjdOqUF6gB@infradead.org>
+ <YrAVuxMEkV4Wytci@infradead.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YrAVuxMEkV4Wytci@infradead.org>
+X-ClientProxiedBy: MW4P220CA0005.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:303:115::10) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e282e9b6-c05b-4e66-1963-08da52d2a5dd
+X-MS-TrafficTypeDiagnostic: BY5PR12MB3794:EE_
+X-Microsoft-Antispam-PRVS: <BY5PR12MB3794099CB9611D2E36FD1B7DC2B09@BY5PR12MB3794.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Wt1ZsE06Wa31OUiH/4sISpZcCjPh0ORWltRH8WiWERo1OD8NBVYjopikouY1IbRHV3T26ykAoZ8Iq7L0s94fSQnqpeoZMQrlzdisHN+/5gtQb9pP2g0AcqKG2YwNwqBTQIYyr1W8I6oiq00DQLLcenb90ekC9XlKeIFMOO4Jm6EPVfST4W7q+WlWxw5Y4IWPBYqDYhuGZ/HXIZerYYBwI/rW5wZxvjid1wjjF6Jf6Z+yloAxhOFNihydZtMspvAVIGs1JYJ66iFVhKQGX1D2dep1s/ykWlTl+1qsKExposcx65OzgvBuFeWfHw4NNgBkTU8BCaip7EBotf+wy06b9XYwUUhjiL64GLpu3fAbGG6RBBUyXgWLRdRcQgDGzghtQE00CLoBdSNR7qJkDuh46tmpwpYhw0LLeK74BvJgCiEMh+PEtC0cCiBFNKm8wDN+W0mMI5y0pmqonXg1nH/gvgTgNucfDGm8tih7J0zWAvPeDNYQOTKENogEAAyyNFD0P7CbGX3/eaUmZtua0cD4sX1zN+PwN3j0HjSfddO3pv6o6dnHvpQXG7KRL13vr0E63znT0hbN9SS7PNXRYUVOVvWDcGeKR5UCgRephcjm+CyjR1xz+CWH3ljht4ZmWFmOOUXNkLb5y8CFUtgknUKhtQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(346002)(376002)(396003)(136003)(39860400002)(7416002)(5660300002)(7406005)(186003)(41300700001)(66476007)(6512007)(26005)(33656002)(38100700002)(66946007)(8676002)(4326008)(66556008)(1076003)(2616005)(36756003)(6916009)(316002)(6666004)(2906002)(6486002)(8936002)(478600001)(86362001)(6506007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MFrMjvpYjPTzQhVzhXqeHisd1VLlV/VyeEXaP+smyVNdHEJVKk5ACx8jICZ0?=
+ =?us-ascii?Q?seYauzwjkrj60rwhKZzR5f38hogWoQNRfqFh53Evvu/d13AixiORokWVVG8d?=
+ =?us-ascii?Q?dbFZfQi/WLTBiAam+7v8/xGJmWaiP99/lnhyewH1GapBXnF6SALPUqiB0FHB?=
+ =?us-ascii?Q?0cbF5L21iHqVzf3Bk2jd7/B20w22cYMhcSPZH66KOBcNdkBXtztFdH12kqPe?=
+ =?us-ascii?Q?P/75VIRmLUA7bFlsmlSFHBayNNRkc1v1gKQ6CdaTDdrlsCDjb3gWIcKd1114?=
+ =?us-ascii?Q?MmeUUxoaizikPx5PQDIOVd4Bly6zFl0jwxYHJrXYCbnhjBkLdctqm5KOAdyG?=
+ =?us-ascii?Q?7SbcYln+AO+UWqyYdkJsEI7gCCWzI3B5P39SRuxZYn7aHIVAgUDLPVJf8Ksi?=
+ =?us-ascii?Q?5XAVtk75GQ7eJAaBFWLokC+xddyR452jySL7+ZRv7fd9LmB0L1644lpRoohF?=
+ =?us-ascii?Q?W1Qk2ZWQDTFdOz/pxDXQULnkx11E7OEOa1b9NzPO55+e2SmsfMvabNSgizlF?=
+ =?us-ascii?Q?FYF66isIfB1Ies4gQYnU3yj0rE4ql/mEWyB3kQifanDA+UnqeigzyaK8Kox/?=
+ =?us-ascii?Q?9AW5FUtR/T304rAUqwCVjxWwJ2mqqFqYjqTtvPCQIWZ0BPfGsLKJ5lbVxmq9?=
+ =?us-ascii?Q?oycpwWUD1w4tYL0hwKMdmhu8HUam+kbFPwTexR9qvvni6g46JBBXX60MRtjw?=
+ =?us-ascii?Q?SZ35IQFw2YRsliA4O1NjxFeGJU3L7rBB4k1yAIHPLnFGktkCT8I9CeWDa6ll?=
+ =?us-ascii?Q?QPI0g8EbdCcEqUdHgCb6LGDbCbCwRFOwJ46EpklyJZ20aLT6j+yJG0Fg/vjH?=
+ =?us-ascii?Q?zNw0NmtvRNCXkrSCvkSKE5t4DSVEIHwC+kNlr60yIs34tSEcz1X5ikL9HHjJ?=
+ =?us-ascii?Q?39zjKeumI03T1SYqTfZW89BBUza7ceIhT9gaGfQ6Y6xz4oCbCtBwTaTM0NL/?=
+ =?us-ascii?Q?n55AqyOhHPTNK0/2kipdXvPG8p5ECkKb/+kCtGyfbQk2/YBDr4AAq2nrHjJ+?=
+ =?us-ascii?Q?UVYI/nH2Pu1dTII7RzcoB5JQp97hfoQ0Vt2XUHhzbFA+p0fxo+W4XxI1zOfy?=
+ =?us-ascii?Q?yLn0tCb19XkeIzv0nHwWwDxSGCHXzyNtCl5RlvAJ5vxZdH+U4YVk9muzasM5?=
+ =?us-ascii?Q?ZTay6lGFzcYSgKVJiB5OfyNrVMKB3FI8kNbAQXoOLF6dvr3I7KiZ9+Y7wbnZ?=
+ =?us-ascii?Q?LxdwosQZvGoM+P6fBsAB1VCQetXLbIFY4Mnfunvd7RXKyaW3yGmFtccSXSr2?=
+ =?us-ascii?Q?iAmMniGF0FNCq7m+hZsX6rqIxhH6iEBXfoUaAH1rCU9R7AxNNg8801xCkrbU?=
+ =?us-ascii?Q?PC7yYLgrcjenlrC/8M82tOeXDuxanSYgP9JbHMTMps3ZwE8q1WFZezp6klj4?=
+ =?us-ascii?Q?mJcq4+HktNtxozPDID89VpHz8v1l/J63fQMCqt7IgdS3SHSdbg8oAtRNuXa4?=
+ =?us-ascii?Q?dyXi9AwyrrozeVNGsPJ/B9WqaxbIZeBrAkCG5I9EFZ7Qtx/tUJrOQreChaOR?=
+ =?us-ascii?Q?BKuKm1UrZzHqMbDWUgPo94LKp+c0rtmz4So9Cgi86AQYdRsH3Rxe64lBEUBC?=
+ =?us-ascii?Q?BvVsW+EsQVVS1Y0REmWqGthpZW67+1AfQKiNnJ4PBrg0KBNBGz703REI1OI7?=
+ =?us-ascii?Q?sdM7YNh6+lob5Pie4VEmzVYy/1ihY9+W/RQaa4RkKuC5gX7TQ8t4owzXXmBZ?=
+ =?us-ascii?Q?5DfmjNwZFE2bVujaLukvZrFeADGi+m0K0RHtRRHE4XEIpp76Nd2znDUnbFp/?=
+ =?us-ascii?Q?nXEaa7iHRA=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e282e9b6-c05b-4e66-1963-08da52d2a5dd
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2022 15:36:30.8186
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lqmMCY6R9ngDAW1/DoezGpwxppoHEaXlifgiXmdUvpbMS4IpKaReVgYzE21BqcC9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3794
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hey Miguel and others,
-
-Having followed this for a while, I finally decided it best to at least 
-share some thoughts in the hopes to make life better for us with some 
-readability/accessibility issues, such as dyslexia for example.
-
-I apologize for being late to the party and for potentially using the 
-wrong thread, but I recall somewhere in v5 that it was best to respond 
-to the RFC for general comments.
-
-On 14-04-2021 20:45, ojeda@kernel.org wrote:
-> From: Miguel Ojeda <ojeda@kernel.org>
+On Sun, Jun 19, 2022 at 11:37:47PM -0700, Christoph Hellwig wrote:
+> On Sun, Jun 19, 2022 at 10:51:47PM -0700, Christoph Hellwig wrote:
+> > On Mon, Jun 20, 2022 at 12:00:46AM -0300, Jason Gunthorpe wrote:
+> > > On Fri, Jun 17, 2022 at 01:54:05AM -0700, Christoph Hellwig wrote:
+> > > > There is a bunch of code an comments in the iommu type1 code that
+> > > > suggest we can pin memory that is not page backed.  
+> > > 
+> > > AFAIK you can.. The whole follow_pte() mechanism allows raw PFNs to be
+> > > loaded into the type1 maps and the pin API will happily return
+> > > them. This happens in almost every qemu scenario because PCI MMIO BAR
+> > > memory ends up routed down this path.
+> > 
+> > Indeed, my read wasn't deep enough.  Which means that we can't change
+> > the ->pin_pages interface to return a struct pages array, as we don't
+> > have one for those.
 > 
-> Some of you have noticed the past few weeks and months that
-> a serious attempt to bring a second language to the kernel was
-> being forged. We are finally here, with an RFC that adds support
-> for Rust to the Linux kernel.
-> 
-> This cover letter is fairly long, since there are quite a few topics
-> to describe, but I hope it answers as many questions as possible
-> before the discussion starts.
-> 
+> Actually.  gvt requires a struct page, and both s390 seem to require
+> normal non-I/O, non-remapped kernel pointers.  So I think for the
+> vfio_pin_pages we can assume that we only want page backed memory and
+> remove the follow_fault_pfn case entirely.   But we'll probably have
+> to keep it for the vfio_iommu_replay case that is not tied to
+> emulated IOMMU drivers.
 
-<snip>
+Right, that is my thinking - since all drivers actually need a struct
+page we should have the API return a working struct page and have the
+VFIO layer isolate the non-struct page stuff so it never leaks out of
+this API.
 
-> 
-> Moreover, as explained above, we are taking the chance to enforce
-> some documentation guidelines. We are also enforcing automatic code
-> formatting, a set of Clippy lints, etc. We decided to go with Rust's
-> idiomatic style, i.e. keeping `rustfmt` defaults. For instance, this
-> means 4 spaces are used for indentation, rather than a tab. We are
-> happy to change that if needed -- we think what is important is
-> keeping the formatting automated
+This nicely fixes the various problems in all the drivers if io memory
+comes down this path.
 
-Enforcing this is great, but how will you enforce this 'everywhere'? 
-Right now, you can easily 'bypass' any CI put in place, and while 'for 
-now' this is only about the Rust infra, where this can be strongly 
-enforced, once we see actual drivers pop-up; these won't go through the 
-Rust CI before merging CI forever? A maintainer can 'just merge' 
-something still, right?
+It is also why doing too much surgery deeper into type 1 probably
+isn't too worthwhile as it still needs raw pfns in its data
+structures for iommu modes.
 
-Anyway, what I wanted to criticize, is the so called "keeping with 
-`rustfmt` defaults". It has been known, that, well Rust's defaults are 
-pretty biased and opinionated. For the Rust project, that's fair of 
-course, their code, their rules.
-
-However, there's two arguments against that. For one, using the Rust 
-'style', now means there's 2 different code styles in the Kernel. 
-Cognitively alone, that can be quite frustrating and annoying. Having to 
-go back and forth between two styles can be mentally challenging which 
-only causes mistakes and frustration. So why change something that 
-already exists? Also, see my first point. Having to constantly 
-remember/switch to 'in this file/function the curly brace is on a 
-different line'. Lets try to stay consistent, the rules may not be 
-perfect (80 columns ;), but so far consistency is tried. OCD and Autism 
-etc doesn't help with this ;)
-
-Secondly, and this is really far more important, the Rust default style 
-is not very inclusive, as it makes readability harder. This has been 
-brought up by many others in plenty of places, including the `rustfmt` 
-issue tracker under bug #4067 [0]. While the discussion eventually only 
-led to the 'fmt-rfcs' [1], where it was basically said 'you could be on 
-to something, but this ship has sailed 3 years ago (when nobody was 
-looking caring), and while we hear you, we're not going to change our 
-defaults anymore.
-
-But I also agree and share these commenters pain. When the tab character 
-is used for indenting (and not alignment mind you), then visually 
-impaired (who can still be amazing coders) can more easily read code by 
-adjusting the width what works best to them.
-
-With even git renaming `master` to `main` to be more inclusive, can we 
-also be more inclusive to us that have a hard time distinguishing narrow 
-indentations?
-
-Thanks, and sorry for rubbing any ones nerves, but to "some of us" this 
-actually matters a great deal.
-
-Olliver
-
-P.S. would we expect inline C/Rust code mixed? What then?
-
-
-<snip>
-
-[0]: https://github.com/rust-lang/rustfmt/issues/4067#issuecomment-685961408
-[1]: 
-https://github.com/rust-dev-tools/fmt-rfcs/issues/1#issuecomment-911804826
+Thanks,
+Jason
