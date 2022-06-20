@@ -2,69 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B05EDC43334
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 10:26:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB382CCA47F
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 10:58:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240145AbiFTK0Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jun 2022 06:26:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53080 "EHLO
+        id S241181AbiFTK6w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jun 2022 06:58:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239908AbiFTK0I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 06:26:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B4A113E8B;
-        Mon, 20 Jun 2022 03:26:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 178F160B28;
-        Mon, 20 Jun 2022 10:26:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E754DC3411B;
-        Mon, 20 Jun 2022 10:26:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1655720763;
-        bh=Wal+H1rMTMUMX67N1hK9qOOenXwy00Js2GP0OU5lLmA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nLD/STKXRr4oGH09HyHcudKrcxGfa2TnFtj0fGs+YchvfpQ/yHENjP/tlZc0XSBcp
-         a3JfWGHDkUt4EwoQd8oaukI/RVZq4dBRo4E2obYlxv3X4k0juV6YtlUIB2Ou/jgdEE
-         ZO/ExEnaVlHTsyeSHYOLsfyVm1dTWcmbORoXqA+U=
-Date:   Mon, 20 Jun 2022 12:26:00 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-Cc:     andy.shevchenko@gmail.com, arnd@arndb.de, corbet@lwn.net,
-        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
-        guy.zadicario@intel.com, linus.walleij@linaro.org, olof@lixom.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
-Message-ID: <YrBLOPHGAZgFJvWN@kroah.com>
-References: <85a6nq45uh.fsf@linux.intel.com>
- <20220620094907.4101274-1-maciej.kwapulinski@linux.intel.com>
- <YrBEP4P9JA60LeOB@kroah.com>
- <86czf3wsrg.fsf@linux.intel.com>
+        with ESMTP id S241323AbiFTK6f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 06:58:35 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC6F5DD7;
+        Mon, 20 Jun 2022 03:58:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655722713; x=1687258713;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=vpL39t3xJejS0Bc6qv3jVN1E/qqa66dF3rn6N+6Zg0U=;
+  b=VCOAYqRVZ09Ip/tllDIfGdc+GRGKH2LkpVnWe3jeBhJxzBMQzq1uY4Ks
+   K0hEUtnp/uOmlVzjjLJd0c436GNup5bSaXKsh5vC8JC+QODGKwUO42Jwx
+   Pktel0Cez4aAFELcm//EYbDliCqUfrAhtiDv2tLSsZuN/SJ52eD6NP9dh
+   sok5bK1iRk98cxECEWYAS3uEjPYVlWi5ebxp6jcCzYmZX4jT2xmKzF8g0
+   lGlWmaEeWY2h+Q2Atc+8U1bnOmmhK3W89aXQducCnPIcJDntdVBfobXKw
+   9Gl5XM3blgFXvAMlwv3CF/hzMyEXTePS9wpB7LveFeR0a5AL2d1puo1io
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="260297379"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
+   d="scan'208";a="260297379"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 03:58:33 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
+   d="scan'208";a="689402203"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 03:58:30 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1o3F6x-000kHu-Dx;
+        Mon, 20 Jun 2022 13:58:27 +0300
+Date:   Mon, 20 Jun 2022 13:58:27 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc:     linux-serial@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        Lukas Wunner <lukas@wunner.de>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v8 5/6] serial: Support for RS-485 multipoint addresses
+Message-ID: <YrBS03ymAWVajy7e@smile.fi.intel.com>
+References: <20220620064030.7938-1-ilpo.jarvinen@linux.intel.com>
+ <20220620064030.7938-6-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <86czf3wsrg.fsf@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220620064030.7938-6-ilpo.jarvinen@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 20, 2022 at 12:08:34PM +0200, Maciej Kwapulinski wrote:
+On Mon, Jun 20, 2022 at 09:40:29AM +0300, Ilpo Järvinen wrote:
+> Add support for RS-485 multipoint addressing using 9th bit [*]. The
+> addressing mode is configured through ->rs485_config().
 > 
-> Greg KH <gregkh@linuxfoundation.org> writes:
-> 
-> > On Mon, Jun 20, 2022 at 11:49:07AM +0200, maciej.kwapulinski@linux.intel.com wrote:
-> >> Please share your thoughts.
-> >
-> > No code here to share thoughts about :(
-> 
-> code will be published in comming weeks to dri-devel ML
+> ADDRB in termios indicates 9th bit addressing mode is enabled. In this
+> mode, 9th bit is used to indicate an address (byte) within the
+> communication line. ADDRB can only be enabled/disabled through
+> ->rs485_config() that is also responsible for setting the destination and
+> receiver (filter) addresses.
 
-Saying "we will send patches sometime in the future" is a bit odd when
-we have thousands of patches each week in our inbox to review now.  Why
-not help us out with that workload?  :)
+> The changes to serial_rs485 struct were test built with a few traps to
+> detect mislayouting on archs lkp/0day builts for (all went fine):
+>   BUILD_BUG_ON(((&rs485.delay_rts_after_send) + 1) != &rs485.padding[0]);
+>   BUILD_BUG_ON(&rs485.padding[1] != &rs485.padding1[0]);
+>   BUILD_BUG_ON(sizeof(rs485) != ((u8 *)(&rs485.padding[4]) -
+> 				 ((u8 *)&rs485.flags) + sizeof(__u32)));
 
-thanks,
+You may add static_asserts() for the above mentioned cases.
 
-greg k-h
+> [*] Technically, RS485 is just an electronic spec and does not itself
+> specify the 9th bit addressing mode but 9th bit seems at least
+> "semi-standard" way to do addressing with RS485.
+
+...
+
+> -	__u32	padding[5];		/* Memory is cheap, new structs
+> -					   are a royal PITA .. */
+> +	union {
+> +		/* v1 */
+> +		__u32	padding[5];		/* Memory is cheap, new structs are a pain */
+> +
+> +		/* v2 (adds addressing mode fields) */
+
+How user space will inform a kernel that it's trying v2?
+
+Usually when we have a union, it should be accompanied with the enum or version
+or something to tell which part of it is in use. I can imagine that in this case
+it's implied by the IOCTL parameters that never should be used on a garbage.
+
+Either add a commit message / UAPI comment or add a version field or ...?
+
+> +		struct {
+> +			__u8	addr_recv;
+> +			__u8	addr_dest;
+> +			__u8	padding0[2];
+> +			__u32	padding1[4];
+> +		};
+> +	};
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
