@@ -2,139 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3D70C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 14:55:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE2E4C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 14:57:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244373AbiFTOzT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jun 2022 10:55:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52056 "EHLO
+        id S238189AbiFTO5W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jun 2022 10:57:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244682AbiFTOzA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 10:55:00 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A3F35714F;
-        Mon, 20 Jun 2022 07:13:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655734403; x=1687270403;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=Bp9Mlz7Na3xaUAMgzpqbQL8va7PMos3P8wYwM1/XQFY=;
-  b=eF153AK9kS14i+4Zu84vlJjtYyqS2ARd/dKgo7tiDVySWaEvORe9ZBcq
-   Rw/6CFmwc28vneuwtbBml2YbYlBvUP4xUlMjrmjWozLdX2/4Cfe+1ZrUZ
-   arrEmtiBhu5KDrpd3twuDbF267y+nK8uUWYZocBpP3/g6Vtet31PwrALc
-   uGPLSF9N67JVEgYaWu7l6GGMqnBn08juNMMb+5CY8ic45MrsugoIfqCnd
-   ZoOSpjVnwUYCQjtUxB5C/ZcGW3/KOp0H7g6hdnU8e5/G7dck0Iv7dDjzz
-   U+V0wtDMpz4JgvhKhyi9ZbFDS0iuuSLJ530EiyZbbHtibcAb3xGOeO9iy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="278677891"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="278677891"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 07:13:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="584912288"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
-  by orsmga007.jf.intel.com with ESMTP; 20 Jun 2022 07:13:02 -0700
-Date:   Mon, 20 Jun 2022 22:09:41 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <20220620140941.GB2016793@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-5-chao.p.peng@linux.intel.com>
- <Yqzpf3AEYabFWjnW@google.com>
- <YqzxvYU7EtHab6U7@google.com>
+        with ESMTP id S242175AbiFTO4b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 10:56:31 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30FCE3F8B3
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jun 2022 07:15:21 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id p5so4558186pjt.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jun 2022 07:15:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=DmB//D/LSYNMnH2xgULemxOw5o9iappAp34jQZEddSs=;
+        b=o8egWsj4lRXnkeqxXw5VHRYIVps5VdNa+CzcHJyE0Pb4iMGV1/XbJaRtH4lr2qAu8v
+         xtPrFYbZ10e2h6/ilbEdyDpSY1GPoh7VhivaCg7xX0nut2tSuk2ULYxiL/2rg4/vfmH5
+         LCv1wbpSeTpoE4Gj/TDg9AB4Vf1pEFWUrb7tYba9ABbn28uWDjxMrH3EuooTEZAQaNjV
+         ZSujm5/hY4PLGGhvTSRf8LVuI2j6RihtdMgattmCrta5AI2lhFRx/aUpBdKUPV+6M7lW
+         NmcPC4CRHfdznRLNYKEI8h0KHJIgyfeCsLLsXjjpYvfZYP3r08UJulZyjyWs+rSrmLJK
+         bkkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=DmB//D/LSYNMnH2xgULemxOw5o9iappAp34jQZEddSs=;
+        b=i4zaF4ZpM9iIw/aOFS9fWWrda9Xl7xdA9+C5XzG1rbKB+u8cG9vvoUPdXeD1Gy80yh
+         xKbLHt9EyRVpPnIzzkaRlpO0bpZ8a+5SQsj6R+LjYMfzTE6v+mqZe+fGYuNe2zz0oOTw
+         8vmkI1TTmZIolhMdKzF4lOYTxKXBg2BZ8chsA/7u5MacpUbrLAPPRgqcL0OLjkRbt202
+         xAWO0iY9Bp5gYKmUNPhmnNuIndg8Gq//RTT+l33Ys6wAhHY2ej56E1dRjGnUNPfMXZmz
+         0GASUp49Sf2angxdFISJstBAQuadVIT+IHgODzQZTe9bjXzehYLCEZqedbdYd6GsGSKw
+         17iA==
+X-Gm-Message-State: AJIora9geaNxNznm/+tuApK9mbYO9I9VjyXxIMooqTdtQtqepxzjN0f9
+        cRYs/6fCufuGK9IrvMIRSskaEr11tHj6ssUM
+X-Google-Smtp-Source: AGRyM1ugU+bQTMidOzp4N2Fc4lbEHGZc7loK2/xuGSo+EKAp7FqeMBjuC/KX7MpamF+73pMUL1RIUA==
+X-Received: by 2002:a17:902:6941:b0:168:b5f7:4bce with SMTP id k1-20020a170902694100b00168b5f74bcemr24176394plt.104.1655734520698;
+        Mon, 20 Jun 2022 07:15:20 -0700 (PDT)
+Received: from localhost ([139.177.225.239])
+        by smtp.gmail.com with ESMTPSA id o12-20020a62f90c000000b0051be16492basm9202042pfh.195.2022.06.20.07.15.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jun 2022 07:15:20 -0700 (PDT)
+Date:   Mon, 20 Jun 2022 22:15:16 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     akpm@linux-foundation.org, corbet@lwn.net, david@redhat.com,
+        mike.kravetz@oracle.com, paulmck@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v5 2/2] mm: memory_hotplug: make hugetlb_optimize_vmemmap
+ compatible with memmap_on_memory
+Message-ID: <YrCA9JIet7RulSPo@FVFYT0MHHV2J.usts.net>
+References: <20220620110616.12056-1-songmuchun@bytedance.com>
+ <20220620110616.12056-3-songmuchun@bytedance.com>
+ <YrBz5dBpb3XTZm5c@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <YqzxvYU7EtHab6U7@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YrBz5dBpb3XTZm5c@localhost.localdomain>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 17, 2022 at 09:27:25PM +0000, Sean Christopherson wrote:
-> On Fri, Jun 17, 2022, Sean Christopherson wrote:
-> > > @@ -110,6 +133,7 @@ struct kvm_userspace_memory_region {
-> > >   */
-> > >  #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
-> > >  #define KVM_MEM_READONLY	(1UL << 1)
-> > > +#define KVM_MEM_PRIVATE		(1UL << 2)
-> > 
-> > Hmm, KVM_MEM_PRIVATE is technically wrong now that a "private" memslot maps private
-> > and/or shared memory.  Strictly speaking, we don't actually need a new flag.  Valid
-> > file descriptors must be >=0, so the logic for specifying a memslot that can be
-> > converted between private and shared could be that "(int)private_fd < 0" means
-> > "not convertible", i.e. derive the flag from private_fd.
-> > 
-> > And looking at the two KVM consumers of the flag, via kvm_slot_is_private(), they're
-> > both wrong.  Both kvm_faultin_pfn() and kvm_mmu_max_mapping_level() should operate
-> > on the _fault_, not the slot.  So it would actually be a positive to not have an easy
-> > way to query if a slot supports conversion.
+On Mon, Jun 20, 2022 at 03:19:33PM +0200, Oscar Salvador wrote:
+> On Mon, Jun 20, 2022 at 07:06:16PM +0800, Muchun Song wrote:
+> > +		/*
+> > +		 * The READ_ONCE() is used to stabilize *pmdp in a register or
+> > +		 * on the stack so that it will stop changing under the code.
+> > +		 * The only concurrent operation where it can be changed is
+> > +		 * split_vmemmap_huge_pmd() (*pmdp will be stable after this
+> > +		 * operation).
+> > +		 */
+> > +		pmd = READ_ONCE(*pmdp);
+> > +		if (pmd_leaf(pmd))
+> > +			vmemmap_page = pmd_page(pmd) + pte_index(vaddr);
+> > +		else
+> > +			vmemmap_page = pte_page(*pte_offset_kernel(pmdp, vaddr));
 > 
-> I take that back, the usage in kvm_faultin_pfn() is correct, but the names ends
-> up being confusing because it suggests that it always faults in a private pfn.
+> I was about to suggest to get rid of the else branch because on x86_64
+> we can only allocate PMD_SIZE chunks when using an alternative allocator,
+> meaning that anything which is not a pmd_leaf can't be a PageVmemmapSelfHosted.
+>
 
-Make sense, will change the naming, thanks.
+You are right. However, I think relaying on this condition is fragile and
+not straightforward compared to the check of PageVmemmapSelfHosted(). And
+the else branch is not in a hot path. So I'd like to stay with it. Does
+this make sense for you?
+ 
+> But then I went to check the other platform that supports memmap_on_memory (arm64),
+> and in there I can see that we fallback to populate basepages with altmap should
+> we fail to allocate a PMD_SIZE chunk.
+> 
 
-> 
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index b6d75016e48c..e1008f00609d 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-> @@ -4045,7 +4045,7 @@ static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
->                         return RET_PF_EMULATE;
->         }
-> 
-> -       if (fault->is_private) {
-> +       if (kvm_slot_can_be_private(slot)) {
->                 r = kvm_faultin_pfn_private(vcpu, fault);
->                 if (r != RET_PF_CONTINUE)
->                         return r == RET_PF_FIXED ? RET_PF_CONTINUE : r;
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 31f704c83099..c5126190fb71 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -583,9 +583,9 @@ struct kvm_memory_slot {
->         struct kvm *kvm;
->  };
-> 
-> -static inline bool kvm_slot_is_private(const struct kvm_memory_slot *slot)
-> +static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
->  {
-> -       return slot && (slot->flags & KVM_MEM_PRIVATE);
-> +       return slot && !!slot->private_file;
->  }
-> 
->  static inline bool kvm_slot_dirty_track_enabled(const struct kvm_memory_slot *slot)
+I think it cannot be fail for memmap_on_memory case.
+
+Thanks.
+
