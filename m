@@ -2,122 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB382CCA47F
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 10:58:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA3D3C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 11:00:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241181AbiFTK6w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jun 2022 06:58:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49332 "EHLO
+        id S241107AbiFTLAJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jun 2022 07:00:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241323AbiFTK6f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 06:58:35 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC6F5DD7;
-        Mon, 20 Jun 2022 03:58:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655722713; x=1687258713;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=vpL39t3xJejS0Bc6qv3jVN1E/qqa66dF3rn6N+6Zg0U=;
-  b=VCOAYqRVZ09Ip/tllDIfGdc+GRGKH2LkpVnWe3jeBhJxzBMQzq1uY4Ks
-   K0hEUtnp/uOmlVzjjLJd0c436GNup5bSaXKsh5vC8JC+QODGKwUO42Jwx
-   Pktel0Cez4aAFELcm//EYbDliCqUfrAhtiDv2tLSsZuN/SJ52eD6NP9dh
-   sok5bK1iRk98cxECEWYAS3uEjPYVlWi5ebxp6jcCzYmZX4jT2xmKzF8g0
-   lGlWmaEeWY2h+Q2Atc+8U1bnOmmhK3W89aXQducCnPIcJDntdVBfobXKw
-   9Gl5XM3blgFXvAMlwv3CF/hzMyEXTePS9wpB7LveFeR0a5AL2d1puo1io
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="260297379"
+        with ESMTP id S240411AbiFTLAI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 07:00:08 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 247EC55AE;
+        Mon, 20 Jun 2022 04:00:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1655722807; x=1687258807;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=c8QNBVZ8wFnmT7eCQXOvJyyFc4aUfS6m/vVmJyJk64g=;
+  b=2swxPYfLMKjKWWzuxwGqtMijESKVe6ce8gtR0xKJyVNg8Bzmm3kTBrCh
+   9x51HbGgO3JpwEJyxv2YsgQgDN6MbgLUv/tQ4vZfc+nfbBvxl9WuHwBRu
+   e2UEpQ6mqpbd6QKgpolw45EcpfMAoPhISpVibfo7EibILPDmmZGU5cbt+
+   byYU2sEJo3mE5Y11MK8IgDopUer+rubEoTy/E/V2LpPyWOQ05odZlT7rY
+   zpCwiorq2J9kNM9FBnC/BTjl4WqAGt6eE5+PAEsA20VnFGZN05xDIk7LI
+   jMMJaLorLCSwpPgPk4N1NaISgLM8Nf1Xvonn3omUInRd5yFY5nkHgU0TZ
+   w==;
 X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="260297379"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 03:58:33 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="689402203"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 03:58:30 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1o3F6x-000kHu-Dx;
-        Mon, 20 Jun 2022 13:58:27 +0300
-Date:   Mon, 20 Jun 2022 13:58:27 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     linux-serial@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        Lukas Wunner <lukas@wunner.de>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH v8 5/6] serial: Support for RS-485 multipoint addresses
-Message-ID: <YrBS03ymAWVajy7e@smile.fi.intel.com>
-References: <20220620064030.7938-1-ilpo.jarvinen@linux.intel.com>
- <20220620064030.7938-6-ilpo.jarvinen@linux.intel.com>
+   d="scan'208";a="100805212"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 20 Jun 2022 04:00:05 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17; Mon, 20 Jun 2022 04:00:05 -0700
+Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2375.17 via Frontend
+ Transport; Mon, 20 Jun 2022 04:00:02 -0700
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     <i.bornyakov@metrotek.ru>
+CC:     <Conor.Dooley@microchip.com>, <corbet@lwn.net>,
+        <devicetree@vger.kernel.org>, <hao.wu@intel.com>,
+        <krzysztof.kozlowski+dt@linaro.org>, <linux-doc@vger.kernel.org>,
+        <linux-fpga@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mdf@kernel.org>, <robh+dt@kernel.org>, <system@metrotek.ru>,
+        <trix@redhat.com>, <yilun.xu@intel.com>,
+        Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v20 0/4] Microchip Polarfire FPGA manager
+Date:   Mon, 20 Jun 2022 11:57:48 +0100
+Message-ID: <20220620105747.2145347-1-conor.dooley@microchip.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220620100745.yxjmq2qtsicxlrgn@h-e2.ddg>
+References: <20220620100745.yxjmq2qtsicxlrgn@h-e2.ddg>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220620064030.7938-6-ilpo.jarvinen@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 20, 2022 at 09:40:29AM +0300, Ilpo Järvinen wrote:
-> Add support for RS-485 multipoint addressing using 9th bit [*]. The
-> addressing mode is configured through ->rs485_config().
-> 
-> ADDRB in termios indicates 9th bit addressing mode is enabled. In this
-> mode, 9th bit is used to indicate an address (byte) within the
-> communication line. ADDRB can only be enabled/disabled through
-> ->rs485_config() that is also responsible for setting the destination and
-> receiver (filter) addresses.
+I had a quick check in -next and there's an entry for the BMC
+driver there.
+How about the following? I put you as R, but clearly if you want to be
+maintainer then you are *more than* qualified.
+Feel free to edit the patch if so, either is fine by me.
+You can tack this onto a v21 if you have more changes or I can resend
+standalone once the driver is merged.
 
-> The changes to serial_rs485 struct were test built with a few traps to
-> detect mislayouting on archs lkp/0day builts for (all went fine):
->   BUILD_BUG_ON(((&rs485.delay_rts_after_send) + 1) != &rs485.padding[0]);
->   BUILD_BUG_ON(&rs485.padding[1] != &rs485.padding1[0]);
->   BUILD_BUG_ON(sizeof(rs485) != ((u8 *)(&rs485.padding[4]) -
-> 				 ((u8 *)&rs485.flags) + sizeof(__u32)));
+Thanks,
+Conor.
 
-You may add static_asserts() for the above mentioned cases.
+From: Conor Dooley <conor.dooley@microchip.com>
+Date: Mon, 20 Jun 2022 11:46:19 +0100
+Subject: [PATCH] MAINTAINERS: add polarfire fpga programmer drivers
+Add a MAINTAINERS entry for the newly added PolarFire (MPF) SPI slave
+programming driver.
 
-> [*] Technically, RS485 is just an electronic spec and does not itself
-> specify the 9th bit addressing mode but 9th bit seems at least
-> "semi-standard" way to do addressing with RS485.
+Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+---
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 168e0af869a7..60ab3c4bf65d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7869,6 +7869,14 @@ S:	Maintained
+ F:	Documentation/ABI/testing/sysfs-driver-intel-m10-bmc-sec-update
+ F:	drivers/fpga/intel-m10-bmc-sec-update.c
+ 
++FPGA PolarFire Drivers
++M:	Conor Dooley <conor.dooley@microchip.com>
++R:	Ivan Bornyakov <i.bornyakov@metrotek.ru>
++L:	linux-fpga@vger.kernel.org
++S:	Supported
++F:	Documentation/devicetree/bindings/fpga/microchip,mpf-spi-fpga-mgr.yaml
++F:	drivers/fpga/microchip-spi.c
++
+ FPU EMULATOR
+ M:	Bill Metzenthen <billm@melbpc.org.au>
+ S:	Maintained
 
-> -	__u32	padding[5];		/* Memory is cheap, new structs
-> -					   are a royal PITA .. */
-> +	union {
-> +		/* v1 */
-> +		__u32	padding[5];		/* Memory is cheap, new structs are a pain */
-> +
-> +		/* v2 (adds addressing mode fields) */
-
-How user space will inform a kernel that it's trying v2?
-
-Usually when we have a union, it should be accompanied with the enum or version
-or something to tell which part of it is in use. I can imagine that in this case
-it's implied by the IOCTL parameters that never should be used on a garbage.
-
-Either add a commit message / UAPI comment or add a version field or ...?
-
-> +		struct {
-> +			__u8	addr_recv;
-> +			__u8	addr_dest;
-> +			__u8	padding0[2];
-> +			__u32	padding1[4];
-> +		};
-> +	};
-
+base-commit: 07dc787be2316e243a16a33d0a9b734cd9365bd3
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.36.1
 
