@@ -2,105 +2,248 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F47ACCA47C
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 00:16:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29973C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 05:33:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343718AbiFUAQB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jun 2022 20:16:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43678 "EHLO
+        id S1344235AbiFUFdd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jun 2022 01:33:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244646AbiFUAQA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 20:16:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 35C1919F93
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jun 2022 17:16:00 -0700 (PDT)
+        with ESMTP id S1344211AbiFUFdd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 01:33:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 258BD2181B
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jun 2022 22:33:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655770559;
+        s=mimecast20190719; t=1655789608;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=am4ljrsE7Ufjfmqsop2MzHsqSlEXrA5rSRIM1yT2FYE=;
-        b=Oa8gRzGY2u2DYqxCXVM5yCVTFVRsVzxdTcxOVLtaoW4nFhj03p7/+84b5DP9JPbgw1lWRC
-        I8LH+kdVGSo9Y6oEVDDakR3hqdg+hPdp4gotjnbyD+i/SPR2F+hrqLfHVJJ5f5AW9cTWbH
-        5d6ORyviubna4kTKMi6eOkzYL8KJrmQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=h+MrydMOJRPtRlmLWVZnu2Vf2FmC8y0u+vnzj78C7Ng=;
+        b=YnjOqj7YNRlIDhkRQzylc+Rvf46pWb6KT5Fwj7/jJOInhvUL9q9PmNcs05p7Y4sZKJ+OdO
+        rLWEMetuveGl5OndTtcyXS9TIkI88kxVei0OcHMomf9VHI4pO1ixFRodUqYTI9JQOOj185
+        8B8HFfdAMAeQjfoSQn/qzIIx3jW9ufk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-13-t0dcDnsbPbK8BPt_ntvE-A-1; Mon, 20 Jun 2022 20:15:58 -0400
-X-MC-Unique: t0dcDnsbPbK8BPt_ntvE-A-1
-Received: by mail-wr1-f69.google.com with SMTP id b10-20020adf9b0a000000b0021a0c74738aso2825828wrc.7
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jun 2022 17:15:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=am4ljrsE7Ufjfmqsop2MzHsqSlEXrA5rSRIM1yT2FYE=;
-        b=1Waxe4AL+darR05ar0Ku3ekuJ/jLxEs4vGnZ3LARAdOCLg690Qbbh7XsX+n4DSjkEK
-         clU4yeegN55KuW1hDOPbzivW2b6Hgjnt5FsHMP6Va3H+n+Y+9Zasfx0j+xTMBC13Xdl4
-         j/xY63Bd9PL55Wvl9SWDsk9XVFicJQynJLnzxQtRiJAoan+mFMNLy9M9eoWy1kclth3g
-         OfM+lc4L4Aypr1I6u+lPa6E+35r72+PZ1MBJegIQl9x9AICjBgzKBH80rbtnYNERy2gu
-         RaerG7NXp7GGgYeiQB6T8qzNU/MTBWm45/YPZ1iVGmo1+gzvQxvfKSUeEvlTOAYgC6n3
-         jMxg==
-X-Gm-Message-State: AOAM532fIm+U/JQbKWB1n3IXIHFX2KEaoQUVOgpXc8C1ndtNy5+PLdJj
-        tKGKilEgw7hPP2oTWeAZbSjQ5SFI8jhj28XfdEYJjg2Ug3rIVI249JjdAB18cCgBes47j5c0XXv
-        YJoFX5zG1FtNMdaTegsrd
-X-Received: by 2002:a05:600c:3b05:b0:397:54ce:896 with SMTP id m5-20020a05600c3b0500b0039754ce0896mr37343018wms.3.1655770556335;
-        Mon, 20 Jun 2022 17:15:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxuF9L1be7ni3J1YmYNIb9c4ZabGtFSUgGjCv0tSabp2R2QRhWX6wNq50I5/oKWe6fZHu9qDw==
-X-Received: by 2002:a05:600c:3b05:b0:397:54ce:896 with SMTP id m5-20020a05600c3b0500b0039754ce0896mr37343003wms.3.1655770556103;
-        Mon, 20 Jun 2022 17:15:56 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id e13-20020adfe7cd000000b0021b89181863sm7340790wrn.41.2022.06.20.17.15.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Jun 2022 17:15:55 -0700 (PDT)
-Message-ID: <e6306933-45c4-f38a-bae1-3ad149d67e1b@redhat.com>
-Date:   Tue, 21 Jun 2022 02:15:54 +0200
+ us-mta-154-pyhe4RwjNv-T_j2ChAXYbA-1; Tue, 21 Jun 2022 01:33:24 -0400
+X-MC-Unique: pyhe4RwjNv-T_j2ChAXYbA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9735101AA47;
+        Tue, 21 Jun 2022 05:33:23 +0000 (UTC)
+Received: from localhost (ovpn-12-183.pek2.redhat.com [10.72.12.183])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 303CF492C3B;
+        Tue, 21 Jun 2022 05:33:21 +0000 (UTC)
+Date:   Tue, 21 Jun 2022 13:33:17 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ard Biesheuvel <ardb@kernel.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>, kexec@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH 5/5] arm64: kdump: Don't defer the reservation of crash
+ high memory
+Message-ID: <YrFYHYgX3mC//t2l@MiWiFi-R3L-srv>
+References: <20220613080932.663-1-thunder.leizhen@huawei.com>
+ <20220613080932.663-6-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 2/2] vfio/pci: Remove console drivers
-Content-Language: en-US
-To:     Alex Williamson <alex.williamson@redhat.com>, corbet@lwn.net,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
-        deller@gmx.de, gregkh@linuxfoundation.org
-Cc:     linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
-        Laszlo Ersek <lersek@redhat.com>
-References: <165541020563.1955826.16350888595945658159.stgit@omen>
- <165541193265.1955826.8778757616438743090.stgit@omen>
-From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <165541193265.1955826.8778757616438743090.stgit@omen>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220613080932.663-6-thunder.leizhen@huawei.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Alex,
+Hi,
 
-On 6/16/22 22:38, Alex Williamson wrote:
-> Console drivers can create conflicts with PCI resources resulting in
-> userspace getting mmap failures to memory BARs.  This is especially
-> evident when trying to re-use the system primary console for userspace
-> drivers.  Use the aperture helpers to remove these conflicts.
+On 06/13/22 at 04:09pm, Zhen Lei wrote:
+> If the crashkernel has both high memory above DMA zones and low memory
+> in DMA zones, kexec always loads the content such as Image and dtb to the
+> high memory instead of the low memory. This means that only high memory
+> requires write protection based on page-level mapping. The allocation of
+> high memory does not depend on the DMA boundary. So we can reserve the
+> high memory first even if the crashkernel reservation is deferred.
 > 
-> Reported-by: Laszlo Ersek <lersek@redhat.com>
-> Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> This means that the block mapping can still be performed on other kernel
+> linear address spaces, the TLB miss rate can be reduced and the system
+> performance will be improved.
+
+Ugh, this looks a little ugly, honestly.
+
+If that's for sure arm64 can't split large page mapping of linear
+region, this patch is one way to optimize linear mapping. Given kdump
+setting is necessary on arm64 server, the booting speed is truly
+impacted heavily.
+
+However, I would suggest letting it as is with below reasons:
+
+1) The code will complicate the crashkernel reservatoin code which
+is already difficult to understand. 
+2) It can only optimize the two cases, first is CONFIG_ZONE_DMA|DMA32
+  disabled, the other is crashkernel=,high is specified. While both
+  two cases are corner case, most of systems have CONFIG_ZONE_DMA|DMA32
+  enabled, and most of systems have crashkernel=xM which is enough.
+  Having them optimized won't bring benefit to most of systems.
+3) Besides, the crashkernel=,high can be handled earlier because 
+  arm64 alwasys have memblock.bottom_up == false currently, thus we
+  don't need worry arbout the lower limit of crashkernel,high
+  reservation for now. If memblock.bottom_up is set true in the future,
+  this patch doesn't work any more.
+
+
+...
+        crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+                                               crash_base, crash_max);
+
+So, in my opinion, we can leave the current NON_BLOCK|SECT mapping as
+is caused by crashkernel reserving, since no regression is brought.
+And meantime, turning to check if there's any way to make the contiguous
+linear mapping and later splitting work. The patch 4, 5 in this patchset
+doesn't make much sense to me, frankly speaking.
+
+Thanks
+Baoquan
+
+> 
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 > ---
-
-Patch looks good to me. 
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+>  arch/arm64/mm/init.c | 71 ++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 65 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> index fb24efbc46f5ef4..ae0bae2cafe6ab0 100644
+> --- a/arch/arm64/mm/init.c
+> +++ b/arch/arm64/mm/init.c
+> @@ -141,15 +141,44 @@ static void __init reserve_crashkernel(int dma_state)
+>  	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+>  	char *cmdline = boot_command_line;
+>  	int dma_enabled = IS_ENABLED(CONFIG_ZONE_DMA) || IS_ENABLED(CONFIG_ZONE_DMA32);
+> -	int ret;
+> +	int ret, skip_res = 0, skip_low_res = 0;
+>  	bool fixed_base;
+>  
+>  	if (!IS_ENABLED(CONFIG_KEXEC_CORE))
+>  		return;
+>  
+> -	if ((!dma_enabled && (dma_state != DMA_PHYS_LIMIT_UNKNOWN)) ||
+> -	     (dma_enabled && (dma_state != DMA_PHYS_LIMIT_KNOWN)))
+> -		return;
+> +	/*
+> +	 * In the following table:
+> +	 * X,high  means crashkernel=X,high
+> +	 * unknown means dma_state = DMA_PHYS_LIMIT_UNKNOWN
+> +	 * known   means dma_state = DMA_PHYS_LIMIT_KNOWN
+> +	 *
+> +	 * The first two columns indicate the status, and the last two
+> +	 * columns indicate the phase in which crash high or low memory
+> +	 * needs to be reserved.
+> +	 *  ---------------------------------------------------
+> +	 * | DMA enabled | X,high used |  unknown  |   known   |
+> +	 *  ---------------------------------------------------
+> +	 * |      N            N       |    low    |    NOP    |
+> +	 * |      Y            N       |    NOP    |    low    |
+> +	 * |      N            Y       |  high/low |    NOP    |
+> +	 * |      Y            Y       |    high   |    low    |
+> +	 *  ---------------------------------------------------
+> +	 *
+> +	 * But in this function, the crash high memory allocation of
+> +	 * crashkernel=Y,high and the crash low memory allocation of
+> +	 * crashkernel=X[@offset] for crashk_res are mixed at one place.
+> +	 * So the table above need to be adjusted as below:
+> +	 *  ---------------------------------------------------
+> +	 * | DMA enabled | X,high used |  unknown  |   known   |
+> +	 *  ---------------------------------------------------
+> +	 * |      N            N       |    res    |    NOP    |
+> +	 * |      Y            N       |    NOP    |    res    |
+> +	 * |      N            Y       |res/low_res|    NOP    |
+> +	 * |      Y            Y       |    res    |  low_res  |
+> +	 *  ---------------------------------------------------
+> +	 *
+> +	 */
+>  
+>  	/* crashkernel=X[@offset] */
+>  	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
+> @@ -169,10 +198,33 @@ static void __init reserve_crashkernel(int dma_state)
+>  		else if (ret)
+>  			return;
+>  
+> +		/* See the third row of the second table above, NOP */
+> +		if (!dma_enabled && (dma_state == DMA_PHYS_LIMIT_KNOWN))
+> +			return;
+> +
+> +		/* See the fourth row of the second table above */
+> +		if (dma_enabled) {
+> +			if (dma_state == DMA_PHYS_LIMIT_UNKNOWN)
+> +				skip_low_res = 1;
+> +			else
+> +				skip_res = 1;
+> +		}
+> +
+>  		crash_max = CRASH_ADDR_HIGH_MAX;
+>  	} else if (ret || !crash_size) {
+>  		/* The specified value is invalid */
+>  		return;
+> +	} else {
+> +		/* See the 1-2 rows of the second table above, NOP */
+> +		if ((!dma_enabled && (dma_state == DMA_PHYS_LIMIT_KNOWN)) ||
+> +		     (dma_enabled && (dma_state == DMA_PHYS_LIMIT_UNKNOWN)))
+> +			return;
+> +	}
+> +
+> +	if (skip_res) {
+> +		crash_base = crashk_res.start;
+> +		crash_size = crashk_res.end - crashk_res.start + 1;
+> +		goto check_low;
+>  	}
+>  
+>  	fixed_base = !!crash_base;
+> @@ -202,9 +254,18 @@ static void __init reserve_crashkernel(int dma_state)
+>  		return;
+>  	}
+>  
+> +	crashk_res.start = crash_base;
+> +	crashk_res.end = crash_base + crash_size - 1;
+> +
+> +check_low:
+> +	if (skip_low_res)
+> +		return;
+> +
+>  	if ((crash_base >= CRASH_ADDR_LOW_MAX) &&
+>  	     crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+>  		memblock_phys_free(crash_base, crash_size);
+> +		crashk_res.start = 0;
+> +		crashk_res.end = 0;
+>  		return;
+>  	}
+>  
+> @@ -219,8 +280,6 @@ static void __init reserve_crashkernel(int dma_state)
+>  	if (crashk_low_res.end)
+>  		kmemleak_ignore_phys(crashk_low_res.start);
+>  
+> -	crashk_res.start = crash_base;
+> -	crashk_res.end = crash_base + crash_size - 1;
+>  	insert_resource(&iomem_resource, &crashk_res);
+>  }
+>  
+> -- 
+> 2.25.1
+> 
 
