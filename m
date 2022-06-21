@@ -2,118 +2,195 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98350C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 18:04:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A3B7C43334
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 18:53:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235755AbiFUSEd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jun 2022 14:04:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53576 "EHLO
+        id S1351567AbiFUSxo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jun 2022 14:53:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235625AbiFUSEc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 14:04:32 -0400
+        with ESMTP id S1351521AbiFUSxm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 14:53:42 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58D0319C2E;
-        Tue, 21 Jun 2022 11:04:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 916A412ACD;
+        Tue, 21 Jun 2022 11:53:41 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id ECC98615E3;
-        Tue, 21 Jun 2022 18:04:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A105C3411C;
-        Tue, 21 Jun 2022 18:04:25 +0000 (UTC)
-Date:   Tue, 21 Jun 2022 19:04:22 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc:     Baoquan He <bhe@redhat.com>, Zhen Lei <thunder.leizhen@huawei.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, kexec@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>,
-        liushixin <liushixin2@huawei.com>
-Subject: Re: [PATCH 5/5] arm64: kdump: Don't defer the reservation of crash
- high memory
-Message-ID: <YrIIJkhKWSuAqkCx@arm.com>
-References: <20220613080932.663-1-thunder.leizhen@huawei.com>
- <20220613080932.663-6-thunder.leizhen@huawei.com>
- <YrFYHYgX3mC//t2l@MiWiFi-R3L-srv>
- <3f66323d-f371-b931-65fb-edfae0f01c88@huawei.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 375D86170D;
+        Tue, 21 Jun 2022 18:53:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FF49C3411C;
+        Tue, 21 Jun 2022 18:53:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655837620;
+        bh=+khD1q8RhpxPqrvYCBaL5xyl6Uw1nYGFYmqhJyFMJ+k=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=OypHFChoCPYE3niL5+cCNkjXQBktRM8PcAF9WPGY1TBZGHj/zHW5srbRdaWcBojKQ
+         Xqp2T9EVzX89bujTo1tZWbGddZyF3aAPrMqXDqYU/g+ONjEb3b+AVyVbLkW1ltyQS7
+         HZwQaCA8NLhe6F8GpHdX0sAv0gtt9QT+OO20/oJYqJvAA/PdLef/Nn73lGU9+4Mt5L
+         xuRU1CHD7vjxFKl0Zp3WF1fm251p8BGrVEICb8/oeujViCeSLF+ydG/N0AA/z9BSJ6
+         /rG4Ve8or+iK4kzZ5LY2pLPv/nA//c3eTrg5RSZgpr4H5UZ+K98HqLZVpq8Zal1cNE
+         EhkqpdvllX9jQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 2D93D5C09AF; Tue, 21 Jun 2022 11:53:40 -0700 (PDT)
+Date:   Tue, 21 Jun 2022 11:53:40 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Will Deacon <will@kernel.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH RESEND v1 0/2] docs/memory-barriers.txt: Fix confusing
+ name of 'data dependency barrier'
+Message-ID: <20220621185340.GK1790663@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <a84435e4-5342-f886-4388-e4c5909298a7@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3f66323d-f371-b931-65fb-edfae0f01c88@huawei.com>
+In-Reply-To: <a84435e4-5342-f886-4388-e4c5909298a7@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 21, 2022 at 02:24:01PM +0800, Kefeng Wang wrote:
-> On 2022/6/21 13:33, Baoquan He wrote:
-> > On 06/13/22 at 04:09pm, Zhen Lei wrote:
-> > > If the crashkernel has both high memory above DMA zones and low memory
-> > > in DMA zones, kexec always loads the content such as Image and dtb to the
-> > > high memory instead of the low memory. This means that only high memory
-> > > requires write protection based on page-level mapping. The allocation of
-> > > high memory does not depend on the DMA boundary. So we can reserve the
-> > > high memory first even if the crashkernel reservation is deferred.
-> > > 
-> > > This means that the block mapping can still be performed on other kernel
-> > > linear address spaces, the TLB miss rate can be reduced and the system
-> > > performance will be improved.
-> > 
-> > Ugh, this looks a little ugly, honestly.
-> > 
-> > If that's for sure arm64 can't split large page mapping of linear
-> > region, this patch is one way to optimize linear mapping. Given kdump
-> > setting is necessary on arm64 server, the booting speed is truly
-> > impacted heavily.
+On Mon, Jun 20, 2022 at 05:16:04PM +0900, Akira Yokosawa wrote:
+> I used Paul's old email address in RFC and v1.  My bad.
+> Sorry for making noise to other recipients.
 > 
-> Is there some conclusion or discussion that arm64 can't split large page
-> mapping?
+> Paul, please see RFC [1] for the discussion so far.
+> There was no response to v1.
+
+Thank you for resending, Akira!  I have queued it, and also support
+the general consensus for creating a "historical" section.
+
+							Thanx, Paul
+
+> -----
 > 
-> Could the crashkernel reservation (and Kfence pool) be splited dynamically?
+> Hi all,
 > 
-> I found Mark replay "arm64: remove page granularity limitation from
-> KFENCE"[1],
+> This is a revised patch set of RFC [1].
 > 
->   "We also avoid live changes from block<->table mappings, since the
->   archtitecture gives us very weak guarantees there and generally requires
->   a Break-Before-Make sequence (though IIRC this was tightened up
->   somewhat, so maybe going one way is supposed to work). Unless it's
->   really necessary, I'd rather not split these block mappings while
->   they're live."
-
-The problem with splitting is that you can end up with two entries in
-the TLB for the same VA->PA mapping (e.g. one for a 4KB page and another
-for a 2MB block). In the lucky case, the CPU will trigger a TLB conflict
-abort (but can be worse like loss of coherency).
-
-Prior to FEAT_BBM (added in ARMv8.4), such scenario was not allowed at
-all, the software would have to unmap the range, TLBI, remap. With
-FEAT_BBM (level 2), we can do this without tearing the mapping down but
-we still need to handle the potential TLB conflict abort. The handler
-only needs a TLBI but if it touches the memory range being changed it
-risks faulting again. With vmap stacks and the kernel image mapped in
-the vmalloc space, we have a small window where this could be handled
-but we probably can't go into the C part of the exception handling
-(tracing etc. may access a kmalloc'ed object for example).
-
-Another option is to do a stop_machine() (if multi-processor at that
-point), disable the MMUs, modify the page tables, re-enable the MMU but
-it's also complicated.
-
--- 
-Catalin
+> Discussion so far is about possible follow-up improvements,
+> so I hereby submit this set as a "v1".
+> 
+> Changes since RFC [1]:
+> 
+>   - Rename title of Patch 1/2.
+>   - Remove note on the rename of section "DATA DEPENDENCY BARRIER".
+>     Rational in the changelog should suffice.
+>   - Wordsmith by self review.
+>   - Add Patch 2/2 (fixup of long lines).
+> 
+> [1]: https://lore.kernel.org/linux-doc/cc2c7885-ac75-24f3-e18a-e77f97c91b4c@gmail.com/ # RFC
+> 
+> For your convenience, diff of "v1 1/2" vs RFC is appended below.
+> 
+> Following is the explanation of background in RFC (with typo fixes):
+> -------------------------------------------------------------------
+> This is a response to Michael's report back in last November [2].
+> 
+> [2]: "data dependency naming inconsistency":
+>      https://lore.kernel.org/r/20211011064233-mutt-send-email-mst@kernel.org/
+> 
+> In the thread, I suggested removing all the explanations of "data dependency
+> barriers", which Paul thought was reasonable.
+> 
+> However, such removal would require involved rewrites in the infamously
+> hard-to-grasp document, which is beyond my capability.
+> I have become more inclined to just substitute "data dependency barrier"
+> with "address-dependency barrier" considering that READ_ONCE() still has
+> an implicit address-dependency barrier.
+> 
+> This patch set is the result of such an attempt.
+> 
+> Note: I made a mistake in the thread above. Kernel APIs for explicit data
+> dependency barriers were removed in v5.9.
+> I was confused the removal with the addition of the barrier to Alpha's
+> READ_ONCE() in v4.15.
+> 
+> diff of "v1 1/2" vs RFC
+> ------------------------------------------------------------------
+> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+> index 306afa1f9347..bdbea3cc66a3 100644
+> --- a/Documentation/memory-barriers.txt
+> +++ b/Documentation/memory-barriers.txt
+> @@ -391,8 +391,8 @@ Memory barriers come in four basic varieties:
+>       memory system as time progresses.  All stores _before_ a write barrier
+>       will occur _before_ all the stores after the write barrier.
+>  
+> -     [!] Note that write barriers should normally be paired with read- or address-
+> -     dependency barriers; see the "SMP barrier pairing" subsection.
+> +     [!] Note that write barriers should normally be paired with read or
+> +     address-dependency barriers; see the "SMP barrier pairing" subsection.
+>  
+>  
+>   (2) Address-dependency barriers (historical).
+> @@ -561,17 +561,14 @@ As of v4.15 of the Linux kernel, an smp_mb() was added to READ_ONCE() for
+>  DEC Alpha, which means that about the only people who need to pay attention
+>  to this section are those working on DEC Alpha architecture-specific code
+>  and those working on READ_ONCE() itself.  For those who need it, and for
+> -those who are interested in the history, here is the story of address-
+> -dependency barriers.
+> +those who are interested in the history, here is the story of
+> +address-dependency barriers.
+>  
+> -[!] The title of this section was renamed from "DATA DEPENDENCY BARRIERS"
+> -to prevent developer confusion as "data dependencies" usually refers to
+> -load-to-store data dependencies.
+> -While address dependencies are observed in both load-to-load and load-to-
+> -store relations, address-dependency barriers concern only load-to-load
+> -situations.
+> +[!] While address dependencies are observed in both load-to-load and
+> +load-to-store relations, address-dependency barriers are not necessary
+> +for load-to-store situations.
+>  
+> -The usage requirements of address-dependency barriers are a little subtle, and
+> +The requirement of address-dependency barriers is a little subtle, and
+>  it's not always obvious that they're needed.  To illustrate, consider the
+>  following sequence of events:
+>  
+> @@ -602,8 +599,8 @@ While this may seem like a failure of coherency or causality maintenance, it
+>  isn't, and this behaviour can be observed on certain real CPUs (such as the DEC
+>  Alpha).
+>  
+> -To deal with this, an implicit address-dependency barrier of READ_ONCE()
+> -or better must be inserted between the address load and the data load:
+> +To deal with this, READ_ONCE() provides an implicit address-dependency
+> +barrier since kernel release v4.15:
+>  
+>  	CPU 1		      CPU 2
+>  	===============	      ===============
+> @@ -659,11 +656,9 @@ can be used to record rare error conditions and the like, and the CPUs'
+>  naturally occurring ordering prevents such records from being lost.
+>  
+>  
+> -Note well that the ordering provided by an address or a data dependency is local to
+> +Note well that the ordering provided by an address dependency is local to
+>  the CPU containing it.  See the section on "Multicopy atomicity" for
+>  more information.
+>  
+> ---------------------------------------------------------------------
+> 
+>         Thanks, Akira
+> --
+> Akira Yokosawa (2):
+>   docs/memory-barriers.txt: Fix confusing name of 'data dependency
+>     barrier'
+>   docs/memory-barriers.txt: Fixup long lines
+> 
+>  Documentation/memory-barriers.txt | 177 ++++++++++++++++--------------
+>  1 file changed, 95 insertions(+), 82 deletions(-)
+> 
+> 
+> base-commit: c09ca10d879bae4a8df842dbe8d6bd8b87830633
+> -- 
+> 2.25.1
+> 
