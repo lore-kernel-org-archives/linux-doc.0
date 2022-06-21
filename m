@@ -2,74 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51AE7C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 10:47:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7329CC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 11:22:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229557AbiFUKrO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jun 2022 06:47:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42720 "EHLO
+        id S230161AbiFULWH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jun 2022 07:22:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346961AbiFUKqu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 06:46:50 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB6BA29346;
-        Tue, 21 Jun 2022 03:46:49 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5FC5AB81761;
-        Tue, 21 Jun 2022 10:46:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51AEBC341C4;
-        Tue, 21 Jun 2022 10:46:45 +0000 (UTC)
-Date:   Tue, 21 Jun 2022 11:46:41 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc:     elver@google.com, will@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        mark.rutland@arm.com, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, arnd@arndb.de
-Subject: Re: [PATCH v4 2/2] arm64: kcsan: Support detecting more missing
- memory barriers
-Message-ID: <YrGhkSt/tYF1H84v@arm.com>
-References: <20220523113126.171714-1-wangkefeng.wang@huawei.com>
- <20220523113126.171714-3-wangkefeng.wang@huawei.com>
+        with ESMTP id S229685AbiFULWH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 07:22:07 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB2792A24E;
+        Tue, 21 Jun 2022 04:22:05 -0700 (PDT)
+Received: from fraeml701-chm.china.huawei.com (unknown [172.18.147.206])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LS3xZ43Xgz67Zm5;
+        Tue, 21 Jun 2022 19:21:38 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml701-chm.china.huawei.com (10.206.15.50) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.24; Tue, 21 Jun 2022 13:22:00 +0200
+Received: from localhost.localdomain (10.69.192.58) by
+ lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 21 Jun 2022 12:21:55 +0100
+From:   John Garry <john.garry@huawei.com>
+To:     <axboe@kernel.dk>, <damien.lemoal@opensource.wdc.com>,
+        <bvanassche@acm.org>, <hch@lst.de>, <jejb@linux.ibm.com>,
+        <martin.petersen@oracle.com>, <hare@suse.de>, <satishkh@cisco.com>,
+        <sebaddel@cisco.com>, <kartilak@cisco.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linux-mmc@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
+        <linux-s390@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+        <mpi3mr-linuxdrv.pdl@broadcom.com>, <linux-block@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <nbd@other.debian.org>,
+        John Garry <john.garry@huawei.com>
+Subject: [PATCH v2 0/6] blk-mq: Add a flag for reserved requests series
+Date:   Tue, 21 Jun 2022 19:15:37 +0800
+Message-ID: <1655810143-67784-1-git-send-email-john.garry@huawei.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220523113126.171714-3-wangkefeng.wang@huawei.com>
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.58]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 23, 2022 at 07:31:26PM +0800, Kefeng Wang wrote:
-> As "kcsan: Support detecting a subset of missing memory barriers"[1]
-> introduced KCSAN_STRICT/KCSAN_WEAK_MEMORY which make kcsan detects
-> more missing memory barrier, but arm64 don't have KCSAN instrumentation
-> for barriers, so the new selftest test_barrier() and test cases for
-> memory barrier instrumentation in kcsan_test module will fail, even
-> panic on selftest.
-> 
-> Let's prefix all barriers with __ on arm64, as asm-generic/barriers.h
-> defined the final instrumented version of these barriers, which will
-> fix the above issues.
-> 
-> Note, barrier instrumentation that can be disabled via __no_kcsan with
-> appropriate compiler-support (and not just with objtool help), see
-> commit bd3d5bd1a0ad ("kcsan: Support WEAK_MEMORY with Clang where no
-> objtool support exists"), it adds disable_sanitizer_instrumentation to
-> __no_kcsan attribute which will remove all sanitizer instrumentation fully
-> (with Clang 14.0). Meanwhile, GCC does the same thing with no_sanitize.
-> 
-> [1] https://lore.kernel.org/linux-mm/20211130114433.2580590-1-elver@google.com/
-> 
-> Acked-by: Marco Elver <elver@google.com>
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+In [0] I included "blk-mq: Add a flag for reserved requests" to identify
+if a request is 'reserved' for special handling. Doing this is easier than
+passing a 'reserved' arg to the blk_mq_ops callbacks. Indeed, only 1x
+timeout implementation or blk-mq iter function actually uses the
+'reserved' arg (or 3x if you count SCSI core and FNIC SCSI driver). So
+this series drops the 'reserved' arg for these timeout and iter functions.
+Christoph suggested that I try to upstream now.
 
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Differences to v1:
+- Use "scsi_timeout" as name for SCSI timeout function and update docs
+- Add RB tags (thanks!)
+- Split out patch to drop local variables for 'reserved', as requested by
+  Bart
 
-I'll leave the series to Will to queue for 5.20.
+Based on following:
+6dbcddf6e76b (block/for-5.20/block) block: bfq: Fix kernel-doc headers
 
-Thanks.
+[0] https://lore.kernel.org/linux-scsi/1654770559-101375-1-git-send-email-john.garry@huawei.com/T/#m22aa9f89e55835edc2e650d43f7e3219a3a1a324
+
+John Garry (6):
+  scsi: core: Remove reserved request time-out handling
+  blk-mq: Add a flag for reserved requests
+  blk-mq: Drop blk_mq_ops.timeout 'reserved' arg
+  scsi: fnic: Drop reserved request handling
+  blk-mq: Drop 'reserved' arg of busy_tag_iter_fn
+  blk-mq: Drop local variable for reserved tag
+
+ Documentation/scsi/scsi_eh.rst          |  3 +--
+ Documentation/scsi/scsi_mid_low_api.rst |  2 +-
+ block/blk-mq-debugfs.c                  |  2 +-
+ block/blk-mq-tag.c                      | 13 +++++--------
+ block/blk-mq.c                          | 22 +++++++++++++---------
+ block/bsg-lib.c                         |  2 +-
+ drivers/block/mtip32xx/mtip32xx.c       | 11 +++++------
+ drivers/block/nbd.c                     |  5 ++---
+ drivers/block/null_blk/main.c           |  2 +-
+ drivers/infiniband/ulp/srp/ib_srp.c     |  3 +--
+ drivers/mmc/core/queue.c                |  3 +--
+ drivers/nvme/host/apple.c               |  3 +--
+ drivers/nvme/host/core.c                |  2 +-
+ drivers/nvme/host/fc.c                  |  6 ++----
+ drivers/nvme/host/nvme.h                |  2 +-
+ drivers/nvme/host/pci.c                 |  2 +-
+ drivers/nvme/host/rdma.c                |  3 +--
+ drivers/nvme/host/tcp.c                 |  3 +--
+ drivers/s390/block/dasd.c               |  2 +-
+ drivers/s390/block/dasd_int.h           |  2 +-
+ drivers/scsi/aacraid/comminit.c         |  2 +-
+ drivers/scsi/aacraid/linit.c            |  2 +-
+ drivers/scsi/fnic/fnic_scsi.c           | 14 ++++----------
+ drivers/scsi/hosts.c                    | 14 ++++++--------
+ drivers/scsi/mpi3mr/mpi3mr_os.c         | 16 ++++------------
+ drivers/scsi/scsi_error.c               |  6 +++---
+ drivers/scsi/scsi_lib.c                 |  8 --------
+ drivers/scsi/scsi_priv.h                |  2 +-
+ include/linux/blk-mq.h                  | 10 ++++++++--
+ include/scsi/scsi_host.h                |  2 +-
+ 30 files changed, 71 insertions(+), 98 deletions(-)
 
 -- 
-Catalin
+2.25.1
+
