@@ -2,100 +2,270 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55006C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 07:40:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBC39C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 07:57:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345845AbiFUHjs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jun 2022 03:39:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39164 "EHLO
+        id S1347827AbiFUH5R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jun 2022 03:57:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347692AbiFUHjj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 03:39:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CC7E111440
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 00:39:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655797177;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=N9tiKnq6phB8o+3F1BeH/xJoEGEmyesclfjwFxkzgCE=;
-        b=JVyQemiRW1Znf96EWsJ/UAn3lvPM+TU+f1rog4pNvpZvgALi85R6U10DRBjbwOeDOcDGLl
-        jLNyTqNxAK+D41bbvZl7+a5xSqZ+9p71BnuYbnNawXzE2+YIqxMYLMolVL+YEruabwC7Kx
-        7Hhe8rTDuk+50cL7kiP56u0GwJhVFkA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-509-QgIlBktTOpCU_jFNUAJxyw-1; Tue, 21 Jun 2022 03:39:35 -0400
-X-MC-Unique: QgIlBktTOpCU_jFNUAJxyw-1
-Received: by mail-wr1-f70.google.com with SMTP id ck13-20020a5d5e8d000000b0021b984d1565so193661wrb.10
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 00:39:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=N9tiKnq6phB8o+3F1BeH/xJoEGEmyesclfjwFxkzgCE=;
-        b=KfcPWxuX2lIyxQ4+ICQCowneB6JQ4DLT6UvY0KT4d5KI2iCCvTUmbkDjXge7DepHRg
-         6SSKogcnW73bLlX9j7WuJ1MCPwIcVooOzjtUdkjNlkdoMIXCT1MasCgBHjQyYe3gbcG5
-         Xld6boB4ltzPG4+ln7Gc9bzipabT1mA5dRFIINXJsNsCLyk3ISJsHDGDT+BFk91APms9
-         XK/Z5WY40JFe4aUfkVJOuwS2on1uVCKV0dP7RrvwHwOw4XPY3N+KM0Wofp8IMTaMhalT
-         uHCfu15Pve2E49Kvuun0rmQPCZ4EfXGOeJJ/2lsF+nfl/3hCfAR2nP5FZ5Qu3tU6DUV5
-         uH9w==
-X-Gm-Message-State: AJIora9Ic0R6rlKSoM21AOCBt03558Hz/eRqrIKLBnZ8vPab7BkX9FKX
-        gnAJDs/VXptorQiZQZ5Z3Ox0Ny28TyRsl8CwAhP1vw76OSdQxyUbqhTJYaWct4Ywpemuj333sR3
-        oCm8A0opwWGqxRK32ZEIu
-X-Received: by 2002:adf:e491:0:b0:213:ba6b:b017 with SMTP id i17-20020adfe491000000b00213ba6bb017mr2244114wrm.652.1655797174145;
-        Tue, 21 Jun 2022 00:39:34 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vOMmayQmvf7SIYR8lv3P/I4QUP1e869MPBj5r5k76l2FUw/Qwk9oItuc7MizEnliZ9dC4/YQ==
-X-Received: by 2002:adf:e491:0:b0:213:ba6b:b017 with SMTP id i17-20020adfe491000000b00213ba6bb017mr2244092wrm.652.1655797173867;
-        Tue, 21 Jun 2022 00:39:33 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f04:2500:cdb0:9b78:d423:43f? (p200300d82f042500cdb09b78d423043f.dip0.t-ipconnect.de. [2003:d8:2f04:2500:cdb0:9b78:d423:43f])
-        by smtp.gmail.com with ESMTPSA id n15-20020a5d4c4f000000b0021b966abc19sm1468962wrt.19.2022.06.21.00.39.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jun 2022 00:39:33 -0700 (PDT)
-Message-ID: <b01d66f5-67c9-95a4-7dc7-ec7645560214@redhat.com>
-Date:   Tue, 21 Jun 2022 09:39:31 +0200
+        with ESMTP id S1347817AbiFUH5R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 03:57:17 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C5FB245AB;
+        Tue, 21 Jun 2022 00:57:15 -0700 (PDT)
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.57])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LRzMG6ybKzcbCw;
+        Tue, 21 Jun 2022 15:55:06 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 21 Jun 2022 15:56:41 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 21 Jun 2022 15:56:40 +0800
+Subject: Re: [PATCH 5/5] arm64: kdump: Don't defer the reservation of crash
+ high memory
+To:     Baoquan He <bhe@redhat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Ard Biesheuvel <ardb@kernel.org>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>, <kexec@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "Chen Zhou" <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+References: <20220613080932.663-1-thunder.leizhen@huawei.com>
+ <20220613080932.663-6-thunder.leizhen@huawei.com>
+ <YrFYHYgX3mC//t2l@MiWiFi-R3L-srv>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <4ad5f8c9-a411-da4e-f626-ead83d107bca@huawei.com>
+Date:   Tue, 21 Jun 2022 15:56:40 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v5 1/2] mm: memory_hotplug: enumerate all supported
- section flags
+In-Reply-To: <YrFYHYgX3mC//t2l@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-To:     Muchun Song <songmuchun@bytedance.com>, akpm@linux-foundation.org,
-        corbet@lwn.net, mike.kravetz@oracle.com, osalvador@suse.de,
-        paulmck@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com
-References: <20220620110616.12056-1-songmuchun@bytedance.com>
- <20220620110616.12056-2-songmuchun@bytedance.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220620110616.12056-2-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20.06.22 13:06, Muchun Song wrote:
-> We are almost running out of section flags, only one bit is available in
-> the worst case (powerpc with 256k pages).  However, there are still some
-> free bits (in ->section_mem_map) on other architectures (e.g. x86_64 has
-> 10 bits available, arm64 has 8 bits available with worst case of 64K
-> pages).  We have hard coded those numbers in code, it is inconvenient to
-> use those bits on other architectures except powerpc.  So transfer those
-> section flags to enumeration to make it easy to add new section flags in
-> the future. Also, move SECTION_TAINT_ZONE_DEVICE into the scope of
-> CONFIG_ZONE_DEVICE to save a bit on non-zone-device case.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+
+On 2022/6/21 13:33, Baoquan He wrote:
+> Hi,
+> 
+> On 06/13/22 at 04:09pm, Zhen Lei wrote:
+>> If the crashkernel has both high memory above DMA zones and low memory
+>> in DMA zones, kexec always loads the content such as Image and dtb to the
+>> high memory instead of the low memory. This means that only high memory
+>> requires write protection based on page-level mapping. The allocation of
+>> high memory does not depend on the DMA boundary. So we can reserve the
+>> high memory first even if the crashkernel reservation is deferred.
+>>
+>> This means that the block mapping can still be performed on other kernel
+>> linear address spaces, the TLB miss rate can be reduced and the system
+>> performance will be improved.
+> 
+> Ugh, this looks a little ugly, honestly.
+> 
+> If that's for sure arm64 can't split large page mapping of linear
+> region, this patch is one way to optimize linear mapping. Given kdump
+> setting is necessary on arm64 server, the booting speed is truly
+> impacted heavily.
+
+There is also a performance impact when running.
+
+> 
+> However, I would suggest letting it as is with below reasons:
+> 
+> 1) The code will complicate the crashkernel reservatoin code which
+> is already difficult to understand. 
+
+Yeah, I feel it, too.
+
+> 2) It can only optimize the two cases, first is CONFIG_ZONE_DMA|DMA32
+>   disabled, the other is crashkernel=,high is specified. While both
+>   two cases are corner case, most of systems have CONFIG_ZONE_DMA|DMA32
+>   enabled, and most of systems have crashkernel=xM which is enough.
+>   Having them optimized won't bring benefit to most of systems.
+
+The case of CONFIG_ZONE_DMA|DMA32 disabled have been resolved by
+commit 031495635b46 ("arm64: Do not defer reserve_crashkernel() for platforms with no DMA memory zones").
+Currently the performance problem to be optimized is that DMA is enabled.
+
+
+> 3) Besides, the crashkernel=,high can be handled earlier because 
+>   arm64 alwasys have memblock.bottom_up == false currently, thus we
+>   don't need worry arbout the lower limit of crashkernel,high
+>   reservation for now. If memblock.bottom_up is set true in the future,
+>   this patch doesn't work any more.
+> 
+> 
+> ...
+>         crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+>                                                crash_base, crash_max);
+> 
+> So, in my opinion, we can leave the current NON_BLOCK|SECT mapping as
+> is caused by crashkernel reserving, since no regression is brought.
+> And meantime, turning to check if there's any way to make the contiguous
+> linear mapping and later splitting work. The patch 4, 5 in this patchset
+> doesn't make much sense to me, frankly speaking.
+
+OK. As discussed earlier, I can rethink if there is a better way to patch 4-5,
+and this time focus on patch 1-2. In this way, all the functions are complete,
+and only optimization is left.
+
+> 
+> Thanks
+> Baoquan
+> 
+>>
+>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+>> ---
+>>  arch/arm64/mm/init.c | 71 ++++++++++++++++++++++++++++++++++++++++----
+>>  1 file changed, 65 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+>> index fb24efbc46f5ef4..ae0bae2cafe6ab0 100644
+>> --- a/arch/arm64/mm/init.c
+>> +++ b/arch/arm64/mm/init.c
+>> @@ -141,15 +141,44 @@ static void __init reserve_crashkernel(int dma_state)
+>>  	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+>>  	char *cmdline = boot_command_line;
+>>  	int dma_enabled = IS_ENABLED(CONFIG_ZONE_DMA) || IS_ENABLED(CONFIG_ZONE_DMA32);
+>> -	int ret;
+>> +	int ret, skip_res = 0, skip_low_res = 0;
+>>  	bool fixed_base;
+>>  
+>>  	if (!IS_ENABLED(CONFIG_KEXEC_CORE))
+>>  		return;
+>>  
+>> -	if ((!dma_enabled && (dma_state != DMA_PHYS_LIMIT_UNKNOWN)) ||
+>> -	     (dma_enabled && (dma_state != DMA_PHYS_LIMIT_KNOWN)))
+>> -		return;
+>> +	/*
+>> +	 * In the following table:
+>> +	 * X,high  means crashkernel=X,high
+>> +	 * unknown means dma_state = DMA_PHYS_LIMIT_UNKNOWN
+>> +	 * known   means dma_state = DMA_PHYS_LIMIT_KNOWN
+>> +	 *
+>> +	 * The first two columns indicate the status, and the last two
+>> +	 * columns indicate the phase in which crash high or low memory
+>> +	 * needs to be reserved.
+>> +	 *  ---------------------------------------------------
+>> +	 * | DMA enabled | X,high used |  unknown  |   known   |
+>> +	 *  ---------------------------------------------------
+>> +	 * |      N            N       |    low    |    NOP    |
+>> +	 * |      Y            N       |    NOP    |    low    |
+>> +	 * |      N            Y       |  high/low |    NOP    |
+>> +	 * |      Y            Y       |    high   |    low    |
+>> +	 *  ---------------------------------------------------
+>> +	 *
+>> +	 * But in this function, the crash high memory allocation of
+>> +	 * crashkernel=Y,high and the crash low memory allocation of
+>> +	 * crashkernel=X[@offset] for crashk_res are mixed at one place.
+>> +	 * So the table above need to be adjusted as below:
+>> +	 *  ---------------------------------------------------
+>> +	 * | DMA enabled | X,high used |  unknown  |   known   |
+>> +	 *  ---------------------------------------------------
+>> +	 * |      N            N       |    res    |    NOP    |
+>> +	 * |      Y            N       |    NOP    |    res    |
+>> +	 * |      N            Y       |res/low_res|    NOP    |
+>> +	 * |      Y            Y       |    res    |  low_res  |
+>> +	 *  ---------------------------------------------------
+>> +	 *
+>> +	 */
+>>  
+>>  	/* crashkernel=X[@offset] */
+>>  	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
+>> @@ -169,10 +198,33 @@ static void __init reserve_crashkernel(int dma_state)
+>>  		else if (ret)
+>>  			return;
+>>  
+>> +		/* See the third row of the second table above, NOP */
+>> +		if (!dma_enabled && (dma_state == DMA_PHYS_LIMIT_KNOWN))
+>> +			return;
+>> +
+>> +		/* See the fourth row of the second table above */
+>> +		if (dma_enabled) {
+>> +			if (dma_state == DMA_PHYS_LIMIT_UNKNOWN)
+>> +				skip_low_res = 1;
+>> +			else
+>> +				skip_res = 1;
+>> +		}
+>> +
+>>  		crash_max = CRASH_ADDR_HIGH_MAX;
+>>  	} else if (ret || !crash_size) {
+>>  		/* The specified value is invalid */
+>>  		return;
+>> +	} else {
+>> +		/* See the 1-2 rows of the second table above, NOP */
+>> +		if ((!dma_enabled && (dma_state == DMA_PHYS_LIMIT_KNOWN)) ||
+>> +		     (dma_enabled && (dma_state == DMA_PHYS_LIMIT_UNKNOWN)))
+>> +			return;
+>> +	}
+>> +
+>> +	if (skip_res) {
+>> +		crash_base = crashk_res.start;
+>> +		crash_size = crashk_res.end - crashk_res.start + 1;
+>> +		goto check_low;
+>>  	}
+>>  
+>>  	fixed_base = !!crash_base;
+>> @@ -202,9 +254,18 @@ static void __init reserve_crashkernel(int dma_state)
+>>  		return;
+>>  	}
+>>  
+>> +	crashk_res.start = crash_base;
+>> +	crashk_res.end = crash_base + crash_size - 1;
+>> +
+>> +check_low:
+>> +	if (skip_low_res)
+>> +		return;
+>> +
+>>  	if ((crash_base >= CRASH_ADDR_LOW_MAX) &&
+>>  	     crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+>>  		memblock_phys_free(crash_base, crash_size);
+>> +		crashk_res.start = 0;
+>> +		crashk_res.end = 0;
+>>  		return;
+>>  	}
+>>  
+>> @@ -219,8 +280,6 @@ static void __init reserve_crashkernel(int dma_state)
+>>  	if (crashk_low_res.end)
+>>  		kmemleak_ignore_phys(crashk_low_res.start);
+>>  
+>> -	crashk_res.start = crash_base;
+>> -	crashk_res.end = crash_base + crash_size - 1;
+>>  	insert_resource(&iomem_resource, &crashk_res);
+>>  }
+>>  
+>> -- 
+>> 2.25.1
+>>
+> 
+> .
+> 
 
 -- 
-Thanks,
-
-David / dhildenb
-
+Regards,
+  Zhen Lei
