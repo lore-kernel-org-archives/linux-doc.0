@@ -2,86 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7E05C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 07:30:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05618C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 07:39:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347456AbiFUHav (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jun 2022 03:30:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60602 "EHLO
+        id S1347593AbiFUHjR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jun 2022 03:39:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347526AbiFUHaV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 03:30:21 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62B85248F5;
-        Tue, 21 Jun 2022 00:29:28 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id d17so3342344pfq.9;
-        Tue, 21 Jun 2022 00:29:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SeQa+wrODZcFHBRh9tXKTMZZ67C9LDi6PMYsp4W5ugc=;
-        b=fCsDF89i8RkubqktqLjrS+Ri0NGGpj23A2NPIMrwWV4MIQ837xA67Gain7vRUKJFOR
-         N2PFM7GUsAR/Qd5otlUubXDWw0QPr6oz/4enHe3CuBTB35GrdIN55qnfL/jyR0HMpL0J
-         VsqDgxR3QZf+ZSUcWO5RL7w1Z31KlXipPPKBDtJCjcfxo9OPeA2/rskOOSqAGcEZeFkF
-         0e7oC/o/BQll3UQ+0q2lJ9FnKYdwi+jO7dgpU8IjhYfsvA4BVB3KuRkHErA9oDnQsDVh
-         4ih+tBOhRMxzWJRbGIQElXsDEdEIeWE92OXJuBa1AnaZvrdXoqUsztwPVCTSnW5GZ4E7
-         xL7w==
+        with ESMTP id S1347594AbiFUHjH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 03:39:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1776111440
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 00:39:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655797145;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Zwfem3uveCMVHvWRElD2ntpsDQotbmTt7QrAnuC0sFY=;
+        b=c5sGHdBnAknSebhi0dFenMR5Gm+/DDd7WGiZSADxTuwg4i2fs6ESFmdZcFa9lBCqhJxWnt
+        CDpKnu8UlFz1NDkvxE+RBpxyYIfqrQsj842kLcgwdBZIQC8b906bp5n8xL8VxHmfngzAH5
+        NsJgTDPZwDfnFdkYTwJc41tGMoLeeXs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-436-04xqnST9M7mVrEM2FEn5Yg-1; Tue, 21 Jun 2022 03:39:03 -0400
+X-MC-Unique: 04xqnST9M7mVrEM2FEn5Yg-1
+Received: by mail-wr1-f72.google.com with SMTP id w8-20020adfde88000000b00213b7fa3a37so2961252wrl.2
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 00:39:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
          :content-transfer-encoding;
-        bh=SeQa+wrODZcFHBRh9tXKTMZZ67C9LDi6PMYsp4W5ugc=;
-        b=Zd0XWhNdV3rrvAyFC4dTZCJmDFldTbn3juRJhPtRzR2DNXYUs74KpTRsdZziOid8oy
-         GPGtBkQpD6qq7mqJpZAFgqWzUmOfjvoOab5IOQ9P6Ox0gJjIXGe3C8SAirJfw6jaDcYP
-         SrrxJAQw8/Km14AabwYn6GNJN/FYblKsx+hCKGdYlv/Y3B0zAopdtxqJmKcwiQdVi+AI
-         9+vVKaqEI5/cqmqmvIgceEHQybIDhdSZKKceRR4iY+xwRnuXHEmzFIlS7QWbLaLB/vfv
-         4x/VIvK1L0hmIPmlGhHASz2tGr1McqqsGxI9eVil8sdH3f9X60JD+U4M85SVb6Ev+99U
-         /ROw==
-X-Gm-Message-State: AJIora8PNJOOmXBQG5flXDD9+MvhT0uh9tUmFfa6XS4k9UHl8gZIKofH
-        CZcNFnFL53+nkvo0LmQ98xpwzppo4vtdr/P5
-X-Google-Smtp-Source: AGRyM1sEY6WBSCZcdQDwWHc3mBmtTfGIzhtvU5E6wnZzHFt9Zj1HWnleAcoc0zPnh30ZQtl54jmKCw==
-X-Received: by 2002:a63:d851:0:b0:408:a74a:29 with SMTP id k17-20020a63d851000000b00408a74a0029mr25225868pgj.603.1655796567377;
-        Tue, 21 Jun 2022 00:29:27 -0700 (PDT)
-Received: from longfanaikebuke.Dlink (36-236-237-46.dynamic-ip.hinet.net. [36.236.237.46])
-        by smtp.gmail.com with ESMTPSA id n18-20020a056a00213200b005251f4596f0sm4203152pfj.107.2022.06.21.00.29.25
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 21 Jun 2022 00:29:27 -0700 (PDT)
-From:   Steven Lung <1030steven@gmail.com>
-To:     corbet@lwn.net
-Cc:     johannes@sipsolutions.net, linux-um@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Steven Lung <1030steven@gmail.com>
-Subject: [PATCH] docs: UML: fix typo
-Date:   Tue, 21 Jun 2022 15:29:10 +0800
-Message-Id: <20220621072910.4704-1-1030steven@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        bh=Zwfem3uveCMVHvWRElD2ntpsDQotbmTt7QrAnuC0sFY=;
+        b=8L/0q6bBM+w/yL+0NGBBj7mTeVPpimZJQ7ICjYzwiToLmfTmqPtJopLp2BVCNrCgkO
+         xO9ztfrug6lVC+cLu4TcF2zfigZCvbf2fpKoykjZdR437ykN7geuAGXGt8lXP+oAQpGL
+         VSOrcxkQyOij2joanjO+c7DBz4BYwiKkIe3JzJUTZlK0R1blckaI1F8FMLfBfZlnI0pZ
+         cs6I+z3+GDZJstt62W/acBUZrLlYBuVuYgl96KqmOORaBsPBbniOYouwEMxb3FF34Gxh
+         Y/bKn2V0mY/AxxxvsBPlyo72Jh40pP7gREtqpFQNRqNS1hGdzPGCaTIjl4w5+1d7WeHu
+         F1aw==
+X-Gm-Message-State: AJIora8tXQL9vogKnfR0WNpTPQ0AHOVqoPhJOU1apdMyExBC0KxT6Z3T
+        mq6hLPXa8AS0rkbe2jYKu/knn8nN9hnSoLTzgUMJ0zE1i9ODncfSgvNMiKjbaRQ1lb30B7Zsm4l
+        faqZrnUAMoPHCNAMx+HjT
+X-Received: by 2002:a05:6000:18c4:b0:21b:8b8e:4994 with SMTP id w4-20020a05600018c400b0021b8b8e4994mr11042349wrq.122.1655797142360;
+        Tue, 21 Jun 2022 00:39:02 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tY34WWq2a1oDkkjRucMjmAsNPLPMUQUiGG5ZZmJwsDBonqnup9PU4sqC5FozyGwDBO7hjWWQ==
+X-Received: by 2002:a05:6000:18c4:b0:21b:8b8e:4994 with SMTP id w4-20020a05600018c400b0021b8b8e4994mr11042323wrq.122.1655797142065;
+        Tue, 21 Jun 2022 00:39:02 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f04:2500:cdb0:9b78:d423:43f? (p200300d82f042500cdb09b78d423043f.dip0.t-ipconnect.de. [2003:d8:2f04:2500:cdb0:9b78:d423:43f])
+        by smtp.gmail.com with ESMTPSA id y6-20020a5d6206000000b0021350f7b22esm16641626wru.109.2022.06.21.00.39.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jun 2022 00:39:01 -0700 (PDT)
+Message-ID: <41477111-dc5d-d0ef-7d4a-ca1c6336bbbf@redhat.com>
+Date:   Tue, 21 Jun 2022 09:39:00 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v5 2/2] mm: memory_hotplug: make hugetlb_optimize_vmemmap
+ compatible with memmap_on_memory
+Content-Language: en-US
+To:     Muchun Song <songmuchun@bytedance.com>, akpm@linux-foundation.org,
+        corbet@lwn.net, mike.kravetz@oracle.com, osalvador@suse.de,
+        paulmck@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com
+References: <20220620110616.12056-1-songmuchun@bytedance.com>
+ <20220620110616.12056-3-songmuchun@bytedance.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220620110616.12056-3-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Replace 'absense' with 'absence'.
+On 20.06.22 13:06, Muchun Song wrote:
+> For now, the feature of hugetlb_free_vmemmap is not compatible with the
+> feature of memory_hotplug.memmap_on_memory, and hugetlb_free_vmemmap
+> takes precedence over memory_hotplug.memmap_on_memory. However, someone
+> wants to make memory_hotplug.memmap_on_memory takes precedence over
+> hugetlb_free_vmemmap since memmap_on_memory makes it more likely to
+> succeed memory hotplug in close-to-OOM situations.  So the decision
+> of making hugetlb_free_vmemmap take precedence is not wise and elegant.
+> The proper approach is to have hugetlb_vmemmap.c do the check whether
+> the section which the HugeTLB pages belong to can be optimized.  If
+> the section's vmemmap pages are allocated from the added memory block
+> itself, hugetlb_free_vmemmap should refuse to optimize the vmemmap,
+> otherwise, do the optimization.  Then both kernel parameters are
+> compatible.  So this patch introduces VmemmapSelfHosted to mask any
+> non-optimizable vmemmap pages. The hugetlb_vmemmap can use this flag
+> to detect if a vmemmap page can be optimized.
+> 
 
-Signed-off-by: Steven Lung <1030steven@gmail.com>
----
- Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Makes sense to me and looks good
 
-diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-index 863f67b72..af2a97429 100644
---- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-+++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-@@ -322,7 +322,7 @@ Shared Options
- * ``v6=[0,1]`` to specify if a v6 connection is desired for all
-   transports which operate over IP. Additionally, for transports that
-   have some differences in the way they operate over v4 and v6 (for example
--  EoL2TPv3), sets the correct mode of operation. In the absense of this
-+  EoL2TPv3), sets the correct mode of operation. In the absence of this
-   option, the socket type is determined based on what do the src and dst
-   arguments resolve/parse to.
- 
+Acked-by: David Hildenbrand <david@redhat.com>
+
+
+
 -- 
-2.35.1
+Thanks,
+
+David / dhildenb
 
