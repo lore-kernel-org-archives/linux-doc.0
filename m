@@ -2,171 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 612AFC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 20:26:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92067CCA482
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 21:05:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353874AbiFUU0F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jun 2022 16:26:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60584 "EHLO
+        id S1355568AbiFUVFO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jun 2022 17:05:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353746AbiFUU0F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 16:26:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A67862AE35
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 13:26:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655843162;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=hBOzUNP2nn9f1CNcwGGAJIjWfMTRt0plrPkw96cdEyY=;
-        b=BiyIJjVwR5UKsBPhP7bGRsl6hY62LRtgb/mp5pwcRlWwETm9p6XZF5EMqXxwvJ0ee7z6px
-        34SRIF21zIijWXMFx0vdvQLwm1MeJVXaDi/CwqrpDydNKpHa+/y/PW4Mt+7vjKUhl6yfbo
-        VyEldEL49hsMMOvL2kpyLsxjQ2faotM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-114-2oMMqpqzO7mwUJ4om_opcA-1; Tue, 21 Jun 2022 16:26:01 -0400
-X-MC-Unique: 2oMMqpqzO7mwUJ4om_opcA-1
-Received: by mail-wr1-f70.google.com with SMTP id n5-20020adf8b05000000b00219ece7272bso3584422wra.8
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 13:26:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=hBOzUNP2nn9f1CNcwGGAJIjWfMTRt0plrPkw96cdEyY=;
-        b=ql/SKRr7+QxBXGLaZhj1Ue7NT+SUDa81NArNEi0I6Kqza5BCvRYQu+T8R1yJbn/kCd
-         pbHpGhbZTshDWSqoN3aiU7W7ZUWDxjW9NkcQY8YW1+8Y5vhHSrW/xQUeUWUjuIcR4Myi
-         x+8QPO8IE8N1pEGJVtC993JAP2Fm4diebsIeq9DVniZfGsV3LqdW/I7GcFVy5m/D1rdl
-         qg8w+KbgfgZVq1ClCA/9Ct7YbPlkt4/qAzzbW1QOJ4rsQPmSVwRAq9bbkwRePh4Lg7KD
-         RjGTykdkYNQXmkPdf8wGQhvDs6MZsdaBmjQy4VnbTEzLJYe+yvehVrWPOejylx2VZ1wK
-         xCOg==
-X-Gm-Message-State: AJIora9P6JA2S5AVYTezFVfH7r7LBdhlpixaGyOpHgGRwxgiWAXJAa8X
-        ave0eYChyRcR/ZV41/gf5Qu8KtWMF8DhaXQ2vEjlW4VOAd233yFUqlAhBLT8EKbqMOht26c1EB2
-        jOnF11MY9BNVWdTFCuRs=
-X-Received: by 2002:adf:fec2:0:b0:21a:6cff:a4f1 with SMTP id q2-20020adffec2000000b0021a6cffa4f1mr23495511wrs.139.1655843159924;
-        Tue, 21 Jun 2022 13:25:59 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tsXAWAlNpwcRfS/mKDgEH4mxXrw+o6EU2TMYs3FV5DxepsS/o0TXx2d6tLvaTXGvgHkWLCIA==
-X-Received: by 2002:adf:fec2:0:b0:21a:6cff:a4f1 with SMTP id q2-20020adffec2000000b0021a6cffa4f1mr23495498wrs.139.1655843159731;
-        Tue, 21 Jun 2022 13:25:59 -0700 (PDT)
-Received: from localhost (cpc111743-lutn13-2-0-cust979.9-3.cable.virginm.net. [82.17.115.212])
-        by smtp.gmail.com with ESMTPSA id t2-20020a1c4602000000b0039db60fa340sm22877183wma.33.2022.06.21.13.25.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jun 2022 13:25:58 -0700 (PDT)
-Date:   Tue, 21 Jun 2022 21:25:58 +0100
-From:   Aaron Tomlin <atomlin@redhat.com>
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-modules@vger.kernel.org
-Subject: Re: [PATCH v2] module: Add support for default value for module
- async_probe
-Message-ID: <20220621202558.jmvn2kozz44e2elg@ava.usersys.com>
-X-PGP-Key: http://pgp.mit.edu/pks/lookup?search=atomlin%40redhat.com
-X-PGP-Fingerprint: 7906 84EB FA8A 9638 8D1E  6E9B E2DE 9658 19CC 77D6
-References: <20220604010101.719508-1-saravanak@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220604010101.719508-1-saravanak@google.com>
+        with ESMTP id S1356805AbiFUVEw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 17:04:52 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 671926400;
+        Tue, 21 Jun 2022 13:53:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BF0F4B81A9A;
+        Tue, 21 Jun 2022 20:53:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E70BC3411C;
+        Tue, 21 Jun 2022 20:53:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1655844811;
+        bh=20N4ZigNt3ywDZXkpxWcD1TBryesu5HI23JwFB7LT6Y=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Ki9Ly2I17JqvfHtT9RHEyv92O0rFsOjs8eDP3o2/BGTxMObJIPpQZgeqVnU/Vn8VT
+         +qrGnD6sUvLGN1MjXJtGByEvIB0XWyBMMCbt0IuJN1hocwlnH54YS62IhyT+LYf+is
+         01mlP/9fWSPpl+j6bDoLXjDXLRZzJ8Df5WNTKDDE=
+Date:   Tue, 21 Jun 2022 13:53:13 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, david@redhat.com, mike.kravetz@oracle.com,
+        osalvador@suse.de, paulmck@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v5 0/2] make hugetlb_optimize_vmemmap compatible with
+ memmap_on_memory
+Message-Id: <20220621135313.ae6fbc28338f1220328694f7@linux-foundation.org>
+In-Reply-To: <20220620110616.12056-1-songmuchun@bytedance.com>
+References: <20220620110616.12056-1-songmuchun@bytedance.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 2022-06-03 18:01 -0700, Saravana Kannan wrote:
-> Add a module.async_probe kernel command line option that allows enabling
-> async probing for all modules. When this command line option is used,
-> there might still be some modules for which we want to explicitly force
-> synchronous probing, so extend <modulename>.async_probe to take an
-> optional bool input so that async probing can be disabled for a specific
-> module.
-> 
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
-> ---
-> v1->v2:
-> - Updated the documentation to capture all the details/changes.
-> 
->  Documentation/admin-guide/kernel-parameters.txt | 17 +++++++++++++++--
->  kernel/module/main.c                            | 11 ++++++++++-
->  2 files changed, 25 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 710b52d87bdd..5174a08e20b0 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1147,8 +1147,12 @@
->  	nopku		[X86] Disable Memory Protection Keys CPU feature found
->  			in some Intel CPUs.
->  
-> -	<module>.async_probe [KNL]
-> -			Enable asynchronous probe on this module.
-> +	<module>.async_probe[=<bool>] [KNL]
-> +			If no <bool> value is specified or if the value
-> +			specified is not a valid <bool>, enable asynchronous
-> +			probe on this module.  Otherwise, enable/disable
-> +			asynchronous probe on this module as indicated by the
-> +			<bool> value. See also: module.async_probe
->  
->  	early_ioremap_debug [KNL]
->  			Enable debug messages in early_ioremap support. This
-> @@ -3201,6 +3205,15 @@
->  			log everything. Information is printed at KERN_DEBUG
->  			so loglevel=8 may also need to be specified.
->  
-> +	module.async_probe=<bool>
-> +			[KNL] When set to true, modules will use async probing
-> +			by default. To enable/disable async probing for a
-> +			specific module, use the module specific control that
-> +			is documented under <module>.async_probe. When both
-> +			module.async_probe and <module>.async_probe are
-> +			specified, <module>.async_probe takes precedence for
-> +			the specific module.
-> +
->  	module.sig_enforce
->  			[KNL] When CONFIG_MODULE_SIG is set, this means that
->  			modules without (valid) signatures will fail to load.
-> diff --git a/kernel/module/main.c b/kernel/module/main.c
-> index fed58d30725d..47085795f037 100644
-> --- a/kernel/module/main.c
-> +++ b/kernel/module/main.c
-> @@ -2410,6 +2410,12 @@ static void do_free_init(struct work_struct *w)
->  	}
->  }
->  
-> +#undef MODULE_PARAM_PREFIX
-> +#define MODULE_PARAM_PREFIX "module."
-> +/* Default value for module->async_probe_requested */
-> +static bool async_probe;
-> +module_param(async_probe, bool, 0644);
-> +
->  /*
->   * This is where the real work happens.
->   *
-> @@ -2630,7 +2636,8 @@ static int unknown_module_param_cb(char *param, char *val, const char *modname,
->  	int ret;
->  
->  	if (strcmp(param, "async_probe") == 0) {
-> -		mod->async_probe_requested = true;
-> +		if (strtobool(val, &mod->async_probe_requested))
-> +			mod->async_probe_requested = true;
->  		return 0;
->  	}
->  
-> @@ -2797,6 +2804,8 @@ static int load_module(struct load_info *info, const char __user *uargs,
->  	if (err)
->  		goto bug_cleanup;
->  
-> +	mod->async_probe_requested = async_probe;
-> +
->  	/* Module is ready to execute: parsing args may do that. */
->  	after_dashes = parse_args(mod->name, mod->args, mod->kp, mod->num_kp,
->  				  -32768, 32767, mod,
-> -- 
-> 2.36.1.255.ge46751e96f-goog
+On Mon, 20 Jun 2022 19:06:14 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
 
-Reviewed-by: Aaron Tomlin <atomlin@redhat.com>
+> This series makes hugetlb_optimize_vmemmap compatible with memmap_on_memory
+> and is based on mm-stable.  The reason refers to the patch 2's commit log.
+> 
+> v5:
+>  - Replace enum to defines per David.
+>  - Walk vmemmap page tables to avoid false-positive.
 
--- 
-Aaron Tomlin
+I can't see this second change in the v3->v5 deltas?
+
+
+
+From: Muchun Song <songmuchun@bytedance.com>
+Subject: mm-memory_hotplug-enumerate-all-supported-section-flags-v5
+Date: Mon, 20 Jun 2022 19:06:15 +0800
+
+replace enum with defines per David
+ 
+Link: https://lkml.kernel.org/r/20220620110616.12056-2-songmuchun@bytedance.com
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
+
+ include/linux/mmzone.h |   13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
+
+--- a/include/linux/mmzone.h~mm-memory_hotplug-enumerate-all-supported-section-flags-v5
++++ a/include/linux/mmzone.h
+@@ -1439,16 +1439,13 @@ enum {
+ 	SECTION_MAP_LAST_BIT,
+ };
+ 
+-enum {
+-	SECTION_MARKED_PRESENT		= BIT(SECTION_MARKED_PRESENT_BIT),
+-	SECTION_HAS_MEM_MAP		= BIT(SECTION_HAS_MEM_MAP_BIT),
+-	SECTION_IS_ONLINE		= BIT(SECTION_IS_ONLINE_BIT),
+-	SECTION_IS_EARLY		= BIT(SECTION_IS_EARLY_BIT),
++#define SECTION_MARKED_PRESENT		BIT(SECTION_MARKED_PRESENT_BIT)
++#define SECTION_HAS_MEM_MAP		BIT(SECTION_HAS_MEM_MAP_BIT)
++#define SECTION_IS_ONLINE		BIT(SECTION_IS_ONLINE_BIT)
++#define SECTION_IS_EARLY		BIT(SECTION_IS_EARLY_BIT)
+ #ifdef CONFIG_ZONE_DEVICE
+-	SECTION_TAINT_ZONE_DEVICE	= BIT(SECTION_TAINT_ZONE_DEVICE_BIT),
++#define SECTION_TAINT_ZONE_DEVICE	BIT(SECTION_TAINT_ZONE_DEVICE_BIT)
+ #endif
+-};
+-
+ #define SECTION_MAP_MASK		(~(BIT(SECTION_MAP_LAST_BIT) - 1))
+ #define SECTION_NID_SHIFT		SECTION_MAP_LAST_BIT
+ 
+_
+
+
+
+
+From: Muchun Song <songmuchun@bytedance.com>
+Subject: mm-memory_hotplug-make-hugetlb_optimize_vmemmap-compatible-with-memmap_on_memory-v5
+Date: Mon, 20 Jun 2022 19:06:16 +0800
+
+walk vmemmap page tables to avoid false-positive
+
+Link: https://lkml.kernel.org/r/20220620110616.12056-3-songmuchun@bytedance.com
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+Co-developed-by: Oscar Salvador <osalvador@suse.de>
+Signed-off-by: Oscar Salvador <osalvador@suse.de>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
+
+ mm/hugetlb_vmemmap.c |   69 ++++++++++++++++++++++++++---------------
+ 1 file changed, 44 insertions(+), 25 deletions(-)
+
+--- a/mm/hugetlb_vmemmap.c~mm-memory_hotplug-make-hugetlb_optimize_vmemmap-compatible-with-memmap_on_memory-v5
++++ a/mm/hugetlb_vmemmap.c
+@@ -10,6 +10,7 @@
+  */
+ #define pr_fmt(fmt)	"HugeTLB: " fmt
+ 
++#include <linux/memory.h>
+ #include "hugetlb_vmemmap.h"
+ 
+ /*
+@@ -99,34 +100,52 @@ int hugetlb_vmemmap_alloc(struct hstate
+ static unsigned int vmemmap_optimizable_pages(struct hstate *h,
+ 					      struct page *head)
+ {
+-	struct mem_section *ms;
+-	struct page *vmemmap_page;
+-	unsigned long pfn = page_to_pfn(head);
+-
+ 	if (READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
+ 		return 0;
+ 
+-	ms = __pfn_to_section(pfn);
+-	vmemmap_page = sparse_decode_mem_map(ms->section_mem_map,
+-					     pfn_to_section_nr(pfn));
+-	/*
+-	 * Only the vmemmap pages' vmemmap may be marked as VmemmapSelfHosted.
+-	 *
+-	 * Due to HugeTLB alignment requirements, and the vmemmap pages being
+-	 * at the start of the hotplugged memory region. Checking any vmemmap
+-	 * page's vmemmap is fine.
+-	 *
+-	 * [      hotplugged memory     ]
+-	 * [ vmemmap ][  usable memory  ]
+-	 *   ^   |      |            |
+-	 *   +---+      |            |
+-	 *     ^        |            |
+-	 *     +--------+            |
+-	 *         ^                 |
+-	 *         +-----------------+
+-	 */
+-	if (PageVmemmapSelfHosted(vmemmap_page))
+-		return 0;
++	if (IS_ENABLED(CONFIG_MEMORY_HOTPLUG)) {
++		pmd_t *pmdp, pmd;
++		struct page *vmemmap_page;
++		unsigned long vaddr = (unsigned long)head;
++
++		/*
++		 * Only the vmemmap page's vmemmap page can be self-hosted.
++		 * Walking the page tables to find the backing page of the
++		 * vmemmap page.
++		 */
++		pmdp = pmd_off_k(vaddr);
++		/*
++		 * The READ_ONCE() is used to stabilize *pmdp in a register or
++		 * on the stack so that it will stop changing under the code.
++		 * The only concurrent operation where it can be changed is
++		 * split_vmemmap_huge_pmd() (*pmdp will be stable after this
++		 * operation).
++		 */
++		pmd = READ_ONCE(*pmdp);
++		if (pmd_leaf(pmd))
++			vmemmap_page = pmd_page(pmd) + pte_index(vaddr);
++		else
++			vmemmap_page = pte_page(*pte_offset_kernel(pmdp, vaddr));
++		/*
++		 * Due to HugeTLB alignment requirements and the vmemmap pages
++		 * being at the start of the hotplugged memory region in
++		 * memory_hotplug.memmap_on_memory case. Checking any vmemmap
++		 * page's vmemmap page if it is marked as VmemmapSelfHosted is
++		 * sufficient.
++		 *
++		 * [                  hotplugged memory                  ]
++		 * [        section        ][...][        section        ]
++		 * [ vmemmap ][              usable memory               ]
++		 *   ^   |     |                                        |
++		 *   +---+     |                                        |
++		 *     ^       |                                        |
++		 *     +-------+                                        |
++		 *          ^                                           |
++		 *          +-------------------------------------------+
++		 */
++		if (PageVmemmapSelfHosted(vmemmap_page))
++			return 0;
++	}
+ 
+ 	return hugetlb_optimize_vmemmap_pages(h);
+ }
+_
 
