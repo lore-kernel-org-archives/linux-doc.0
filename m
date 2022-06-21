@@ -2,120 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EC3DC43334
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 07:20:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7E05C43334
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 07:30:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346062AbiFUHUT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jun 2022 03:20:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50776 "EHLO
+        id S1347456AbiFUHav (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jun 2022 03:30:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346031AbiFUHUS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 03:20:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D01C1F2E8;
-        Tue, 21 Jun 2022 00:20:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AF59C60F56;
-        Tue, 21 Jun 2022 07:20:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EBA2C3411D;
-        Tue, 21 Jun 2022 07:20:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1655796017;
-        bh=6W0c7s4KkH+S/zdUiGrAMs/0jMjBrVdLfs+zroSmWF4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=g1p6Ippw5y6KSOOg7wb0i774Ka1xszMqIOW9nuXJLpb/8twkTNJEEhhRwnHSKmov0
-         gCj62pnmgvcV17OsttAU6q0/WkuCEASKm2osM1ZbEb0kgIefuicLGBvagTSWSWAdqR
-         9+wzwwTqw0sxr2EN7V3AdI80Za1SJalKHS8U7hn8=
-Date:   Tue, 21 Jun 2022 09:20:13 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Ray Chi <raychi@google.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        albertccwang@google.com
-Subject: Re: [PATCH] USB: hub: add module parameters to usbcore for port init
- retries
-Message-ID: <YrFxLYibDtyuxSO6@kroah.com>
-References: <20220617102256.3253019-1-raychi@google.com>
+        with ESMTP id S1347526AbiFUHaV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 03:30:21 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62B85248F5;
+        Tue, 21 Jun 2022 00:29:28 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id d17so3342344pfq.9;
+        Tue, 21 Jun 2022 00:29:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SeQa+wrODZcFHBRh9tXKTMZZ67C9LDi6PMYsp4W5ugc=;
+        b=fCsDF89i8RkubqktqLjrS+Ri0NGGpj23A2NPIMrwWV4MIQ837xA67Gain7vRUKJFOR
+         N2PFM7GUsAR/Qd5otlUubXDWw0QPr6oz/4enHe3CuBTB35GrdIN55qnfL/jyR0HMpL0J
+         VsqDgxR3QZf+ZSUcWO5RL7w1Z31KlXipPPKBDtJCjcfxo9OPeA2/rskOOSqAGcEZeFkF
+         0e7oC/o/BQll3UQ+0q2lJ9FnKYdwi+jO7dgpU8IjhYfsvA4BVB3KuRkHErA9oDnQsDVh
+         4ih+tBOhRMxzWJRbGIQElXsDEdEIeWE92OXJuBa1AnaZvrdXoqUsztwPVCTSnW5GZ4E7
+         xL7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SeQa+wrODZcFHBRh9tXKTMZZ67C9LDi6PMYsp4W5ugc=;
+        b=Zd0XWhNdV3rrvAyFC4dTZCJmDFldTbn3juRJhPtRzR2DNXYUs74KpTRsdZziOid8oy
+         GPGtBkQpD6qq7mqJpZAFgqWzUmOfjvoOab5IOQ9P6Ox0gJjIXGe3C8SAirJfw6jaDcYP
+         SrrxJAQw8/Km14AabwYn6GNJN/FYblKsx+hCKGdYlv/Y3B0zAopdtxqJmKcwiQdVi+AI
+         9+vVKaqEI5/cqmqmvIgceEHQybIDhdSZKKceRR4iY+xwRnuXHEmzFIlS7QWbLaLB/vfv
+         4x/VIvK1L0hmIPmlGhHASz2tGr1McqqsGxI9eVil8sdH3f9X60JD+U4M85SVb6Ev+99U
+         /ROw==
+X-Gm-Message-State: AJIora8PNJOOmXBQG5flXDD9+MvhT0uh9tUmFfa6XS4k9UHl8gZIKofH
+        CZcNFnFL53+nkvo0LmQ98xpwzppo4vtdr/P5
+X-Google-Smtp-Source: AGRyM1sEY6WBSCZcdQDwWHc3mBmtTfGIzhtvU5E6wnZzHFt9Zj1HWnleAcoc0zPnh30ZQtl54jmKCw==
+X-Received: by 2002:a63:d851:0:b0:408:a74a:29 with SMTP id k17-20020a63d851000000b00408a74a0029mr25225868pgj.603.1655796567377;
+        Tue, 21 Jun 2022 00:29:27 -0700 (PDT)
+Received: from longfanaikebuke.Dlink (36-236-237-46.dynamic-ip.hinet.net. [36.236.237.46])
+        by smtp.gmail.com with ESMTPSA id n18-20020a056a00213200b005251f4596f0sm4203152pfj.107.2022.06.21.00.29.25
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 21 Jun 2022 00:29:27 -0700 (PDT)
+From:   Steven Lung <1030steven@gmail.com>
+To:     corbet@lwn.net
+Cc:     johannes@sipsolutions.net, linux-um@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Steven Lung <1030steven@gmail.com>
+Subject: [PATCH] docs: UML: fix typo
+Date:   Tue, 21 Jun 2022 15:29:10 +0800
+Message-Id: <20220621072910.4704-1-1030steven@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220617102256.3253019-1-raychi@google.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 17, 2022 at 06:22:56PM +0800, Ray Chi wrote:
-> Currently, there is a Kconfig (CONFIG_USB_FEW_INIT_RETRIES) to
-> reduce retries when the port initialization is failed. The retry
-> times are fixed and assigned in compile time. To improve the
-> flexibility, this patch add four module parameters:
-> port_reset_tries, set_address_tries, get_descriptor_tries,
-> and get_maxpacket0_tries, to replace the original default values.
-> 
-> The default value of module parameters is the same as before
-> to preserve the existing behavior.
-> 
-> Signed-off-by: Ray Chi <raychi@google.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         | 16 ++++++++++
->  drivers/usb/core/hub.c                        | 31 ++++++++++++++++---
->  2 files changed, 42 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 8090130b544b..c467b2778128 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6277,6 +6277,22 @@
->  			USB_REQ_GET_DESCRIPTOR request in milliseconds
->  			(default 5000 = 5.0 seconds).
->  
-> +	usbcore.port_reset_tries=
-> +			[USB] Set the retry time of port reset for each
-> +			port initialization (default PORT_RESET_TRIES = 5).
-> +
-> +	usbcore.set_address_tries=
-> +			[USB] set the retry time of set address for each
-> +			port initialization (default SET_ADDRESS_TRIES = 2).
-> +
-> +	usbcore.get_descriptor_tries=
-> +			[USB] set the retry time of set address for each
-> +			port initialization (default GET_DESCRIPTOR_TRIES = 2).
-> +
-> +	usbcore.get_maxpacket0_tries=
-> +			[USB] set the retry time of get maxpacket0 for each
-> +			port initialization (default GET_MAXPACKET0_TRIES = 3).
-> +
->  	usbcore.nousb	[USB] Disable the USB subsystem
->  
->  	usbcore.quirks=
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index b7f66dcd1fe0..c5c695886424 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -2788,6 +2788,27 @@ static unsigned hub_is_wusb(struct usb_hub *hub)
->  #define HUB_LONG_RESET_TIME	200
->  #define HUB_RESET_TIMEOUT	800
->  
-> +/* define retry time for port reset */
-> +static int port_reset_tries = PORT_RESET_TRIES;
-> +module_param(port_reset_tries, int, S_IRUGO|S_IWUSR);
-> +MODULE_PARM_DESC(port_reset_tries, "retry times of port reset for each port initialization");
+Replace 'absense' with 'absence'.
 
-Please no.  Module parameters are from the 1990's, let us never add new
-ones if at all possible.
+Signed-off-by: Steven Lung <1030steven@gmail.com>
+---
+ Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-These are global options, for all devices in the system.  Instead, use
-per-device settings if you really need to change these values.
+diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+index 863f67b72..af2a97429 100644
+--- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
++++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+@@ -322,7 +322,7 @@ Shared Options
+ * ``v6=[0,1]`` to specify if a v6 connection is desired for all
+   transports which operate over IP. Additionally, for transports that
+   have some differences in the way they operate over v4 and v6 (for example
+-  EoL2TPv3), sets the correct mode of operation. In the absense of this
++  EoL2TPv3), sets the correct mode of operation. In the absence of this
+   option, the socket type is determined based on what do the src and dst
+   arguments resolve/parse to.
+ 
+-- 
+2.35.1
 
-But I would even push back on that and ask why these values need to be
-changed at all.  What hardware is broken so badly that our timeout
-settings do not work properly?  Can we modify them gracefully to "just
-work" without any need for tweaking or requiring any modification by a
-user at all?  That would be the better solution instead of requiring
-users to do this on their own when confronted by misbehaving hardware.
-
-thanks,
-
-greg k-h
