@@ -2,195 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A3B7C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 18:53:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 612AFC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 20:26:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351567AbiFUSxo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jun 2022 14:53:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49878 "EHLO
+        id S1353874AbiFUU0F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jun 2022 16:26:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351521AbiFUSxm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 14:53:42 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 916A412ACD;
-        Tue, 21 Jun 2022 11:53:41 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 375D86170D;
-        Tue, 21 Jun 2022 18:53:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FF49C3411C;
-        Tue, 21 Jun 2022 18:53:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655837620;
-        bh=+khD1q8RhpxPqrvYCBaL5xyl6Uw1nYGFYmqhJyFMJ+k=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=OypHFChoCPYE3niL5+cCNkjXQBktRM8PcAF9WPGY1TBZGHj/zHW5srbRdaWcBojKQ
-         Xqp2T9EVzX89bujTo1tZWbGddZyF3aAPrMqXDqYU/g+ONjEb3b+AVyVbLkW1ltyQS7
-         HZwQaCA8NLhe6F8GpHdX0sAv0gtt9QT+OO20/oJYqJvAA/PdLef/Nn73lGU9+4Mt5L
-         xuRU1CHD7vjxFKl0Zp3WF1fm251p8BGrVEICb8/oeujViCeSLF+ydG/N0AA/z9BSJ6
-         /rG4Ve8or+iK4kzZ5LY2pLPv/nA//c3eTrg5RSZgpr4H5UZ+K98HqLZVpq8Zal1cNE
-         EhkqpdvllX9jQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 2D93D5C09AF; Tue, 21 Jun 2022 11:53:40 -0700 (PDT)
-Date:   Tue, 21 Jun 2022 11:53:40 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Will Deacon <will@kernel.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH RESEND v1 0/2] docs/memory-barriers.txt: Fix confusing
- name of 'data dependency barrier'
-Message-ID: <20220621185340.GK1790663@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <a84435e4-5342-f886-4388-e4c5909298a7@gmail.com>
+        with ESMTP id S1353746AbiFUU0F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 16:26:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A67862AE35
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 13:26:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655843162;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=hBOzUNP2nn9f1CNcwGGAJIjWfMTRt0plrPkw96cdEyY=;
+        b=BiyIJjVwR5UKsBPhP7bGRsl6hY62LRtgb/mp5pwcRlWwETm9p6XZF5EMqXxwvJ0ee7z6px
+        34SRIF21zIijWXMFx0vdvQLwm1MeJVXaDi/CwqrpDydNKpHa+/y/PW4Mt+7vjKUhl6yfbo
+        VyEldEL49hsMMOvL2kpyLsxjQ2faotM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-114-2oMMqpqzO7mwUJ4om_opcA-1; Tue, 21 Jun 2022 16:26:01 -0400
+X-MC-Unique: 2oMMqpqzO7mwUJ4om_opcA-1
+Received: by mail-wr1-f70.google.com with SMTP id n5-20020adf8b05000000b00219ece7272bso3584422wra.8
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 13:26:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=hBOzUNP2nn9f1CNcwGGAJIjWfMTRt0plrPkw96cdEyY=;
+        b=ql/SKRr7+QxBXGLaZhj1Ue7NT+SUDa81NArNEi0I6Kqza5BCvRYQu+T8R1yJbn/kCd
+         pbHpGhbZTshDWSqoN3aiU7W7ZUWDxjW9NkcQY8YW1+8Y5vhHSrW/xQUeUWUjuIcR4Myi
+         x+8QPO8IE8N1pEGJVtC993JAP2Fm4diebsIeq9DVniZfGsV3LqdW/I7GcFVy5m/D1rdl
+         qg8w+KbgfgZVq1ClCA/9Ct7YbPlkt4/qAzzbW1QOJ4rsQPmSVwRAq9bbkwRePh4Lg7KD
+         RjGTykdkYNQXmkPdf8wGQhvDs6MZsdaBmjQy4VnbTEzLJYe+yvehVrWPOejylx2VZ1wK
+         xCOg==
+X-Gm-Message-State: AJIora9P6JA2S5AVYTezFVfH7r7LBdhlpixaGyOpHgGRwxgiWAXJAa8X
+        ave0eYChyRcR/ZV41/gf5Qu8KtWMF8DhaXQ2vEjlW4VOAd233yFUqlAhBLT8EKbqMOht26c1EB2
+        jOnF11MY9BNVWdTFCuRs=
+X-Received: by 2002:adf:fec2:0:b0:21a:6cff:a4f1 with SMTP id q2-20020adffec2000000b0021a6cffa4f1mr23495511wrs.139.1655843159924;
+        Tue, 21 Jun 2022 13:25:59 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tsXAWAlNpwcRfS/mKDgEH4mxXrw+o6EU2TMYs3FV5DxepsS/o0TXx2d6tLvaTXGvgHkWLCIA==
+X-Received: by 2002:adf:fec2:0:b0:21a:6cff:a4f1 with SMTP id q2-20020adffec2000000b0021a6cffa4f1mr23495498wrs.139.1655843159731;
+        Tue, 21 Jun 2022 13:25:59 -0700 (PDT)
+Received: from localhost (cpc111743-lutn13-2-0-cust979.9-3.cable.virginm.net. [82.17.115.212])
+        by smtp.gmail.com with ESMTPSA id t2-20020a1c4602000000b0039db60fa340sm22877183wma.33.2022.06.21.13.25.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jun 2022 13:25:58 -0700 (PDT)
+Date:   Tue, 21 Jun 2022 21:25:58 +0100
+From:   Aaron Tomlin <atomlin@redhat.com>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-modules@vger.kernel.org
+Subject: Re: [PATCH v2] module: Add support for default value for module
+ async_probe
+Message-ID: <20220621202558.jmvn2kozz44e2elg@ava.usersys.com>
+X-PGP-Key: http://pgp.mit.edu/pks/lookup?search=atomlin%40redhat.com
+X-PGP-Fingerprint: 7906 84EB FA8A 9638 8D1E  6E9B E2DE 9658 19CC 77D6
+References: <20220604010101.719508-1-saravanak@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <a84435e4-5342-f886-4388-e4c5909298a7@gmail.com>
+In-Reply-To: <20220604010101.719508-1-saravanak@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 20, 2022 at 05:16:04PM +0900, Akira Yokosawa wrote:
-> I used Paul's old email address in RFC and v1.  My bad.
-> Sorry for making noise to other recipients.
+On Fri 2022-06-03 18:01 -0700, Saravana Kannan wrote:
+> Add a module.async_probe kernel command line option that allows enabling
+> async probing for all modules. When this command line option is used,
+> there might still be some modules for which we want to explicitly force
+> synchronous probing, so extend <modulename>.async_probe to take an
+> optional bool input so that async probing can be disabled for a specific
+> module.
 > 
-> Paul, please see RFC [1] for the discussion so far.
-> There was no response to v1.
-
-Thank you for resending, Akira!  I have queued it, and also support
-the general consensus for creating a "historical" section.
-
-							Thanx, Paul
-
-> -----
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> ---
+> v1->v2:
+> - Updated the documentation to capture all the details/changes.
 > 
-> Hi all,
+>  Documentation/admin-guide/kernel-parameters.txt | 17 +++++++++++++++--
+>  kernel/module/main.c                            | 11 ++++++++++-
+>  2 files changed, 25 insertions(+), 3 deletions(-)
 > 
-> This is a revised patch set of RFC [1].
-> 
-> Discussion so far is about possible follow-up improvements,
-> so I hereby submit this set as a "v1".
-> 
-> Changes since RFC [1]:
-> 
->   - Rename title of Patch 1/2.
->   - Remove note on the rename of section "DATA DEPENDENCY BARRIER".
->     Rational in the changelog should suffice.
->   - Wordsmith by self review.
->   - Add Patch 2/2 (fixup of long lines).
-> 
-> [1]: https://lore.kernel.org/linux-doc/cc2c7885-ac75-24f3-e18a-e77f97c91b4c@gmail.com/ # RFC
-> 
-> For your convenience, diff of "v1 1/2" vs RFC is appended below.
-> 
-> Following is the explanation of background in RFC (with typo fixes):
-> -------------------------------------------------------------------
-> This is a response to Michael's report back in last November [2].
-> 
-> [2]: "data dependency naming inconsistency":
->      https://lore.kernel.org/r/20211011064233-mutt-send-email-mst@kernel.org/
-> 
-> In the thread, I suggested removing all the explanations of "data dependency
-> barriers", which Paul thought was reasonable.
-> 
-> However, such removal would require involved rewrites in the infamously
-> hard-to-grasp document, which is beyond my capability.
-> I have become more inclined to just substitute "data dependency barrier"
-> with "address-dependency barrier" considering that READ_ONCE() still has
-> an implicit address-dependency barrier.
-> 
-> This patch set is the result of such an attempt.
-> 
-> Note: I made a mistake in the thread above. Kernel APIs for explicit data
-> dependency barriers were removed in v5.9.
-> I was confused the removal with the addition of the barrier to Alpha's
-> READ_ONCE() in v4.15.
-> 
-> diff of "v1 1/2" vs RFC
-> ------------------------------------------------------------------
-> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-> index 306afa1f9347..bdbea3cc66a3 100644
-> --- a/Documentation/memory-barriers.txt
-> +++ b/Documentation/memory-barriers.txt
-> @@ -391,8 +391,8 @@ Memory barriers come in four basic varieties:
->       memory system as time progresses.  All stores _before_ a write barrier
->       will occur _before_ all the stores after the write barrier.
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 710b52d87bdd..5174a08e20b0 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1147,8 +1147,12 @@
+>  	nopku		[X86] Disable Memory Protection Keys CPU feature found
+>  			in some Intel CPUs.
 >  
-> -     [!] Note that write barriers should normally be paired with read- or address-
-> -     dependency barriers; see the "SMP barrier pairing" subsection.
-> +     [!] Note that write barriers should normally be paired with read or
-> +     address-dependency barriers; see the "SMP barrier pairing" subsection.
+> -	<module>.async_probe [KNL]
+> -			Enable asynchronous probe on this module.
+> +	<module>.async_probe[=<bool>] [KNL]
+> +			If no <bool> value is specified or if the value
+> +			specified is not a valid <bool>, enable asynchronous
+> +			probe on this module.  Otherwise, enable/disable
+> +			asynchronous probe on this module as indicated by the
+> +			<bool> value. See also: module.async_probe
 >  
+>  	early_ioremap_debug [KNL]
+>  			Enable debug messages in early_ioremap support. This
+> @@ -3201,6 +3205,15 @@
+>  			log everything. Information is printed at KERN_DEBUG
+>  			so loglevel=8 may also need to be specified.
 >  
->   (2) Address-dependency barriers (historical).
-> @@ -561,17 +561,14 @@ As of v4.15 of the Linux kernel, an smp_mb() was added to READ_ONCE() for
->  DEC Alpha, which means that about the only people who need to pay attention
->  to this section are those working on DEC Alpha architecture-specific code
->  and those working on READ_ONCE() itself.  For those who need it, and for
-> -those who are interested in the history, here is the story of address-
-> -dependency barriers.
-> +those who are interested in the history, here is the story of
-> +address-dependency barriers.
+> +	module.async_probe=<bool>
+> +			[KNL] When set to true, modules will use async probing
+> +			by default. To enable/disable async probing for a
+> +			specific module, use the module specific control that
+> +			is documented under <module>.async_probe. When both
+> +			module.async_probe and <module>.async_probe are
+> +			specified, <module>.async_probe takes precedence for
+> +			the specific module.
+> +
+>  	module.sig_enforce
+>  			[KNL] When CONFIG_MODULE_SIG is set, this means that
+>  			modules without (valid) signatures will fail to load.
+> diff --git a/kernel/module/main.c b/kernel/module/main.c
+> index fed58d30725d..47085795f037 100644
+> --- a/kernel/module/main.c
+> +++ b/kernel/module/main.c
+> @@ -2410,6 +2410,12 @@ static void do_free_init(struct work_struct *w)
+>  	}
+>  }
 >  
-> -[!] The title of this section was renamed from "DATA DEPENDENCY BARRIERS"
-> -to prevent developer confusion as "data dependencies" usually refers to
-> -load-to-store data dependencies.
-> -While address dependencies are observed in both load-to-load and load-to-
-> -store relations, address-dependency barriers concern only load-to-load
-> -situations.
-> +[!] While address dependencies are observed in both load-to-load and
-> +load-to-store relations, address-dependency barriers are not necessary
-> +for load-to-store situations.
+> +#undef MODULE_PARAM_PREFIX
+> +#define MODULE_PARAM_PREFIX "module."
+> +/* Default value for module->async_probe_requested */
+> +static bool async_probe;
+> +module_param(async_probe, bool, 0644);
+> +
+>  /*
+>   * This is where the real work happens.
+>   *
+> @@ -2630,7 +2636,8 @@ static int unknown_module_param_cb(char *param, char *val, const char *modname,
+>  	int ret;
 >  
-> -The usage requirements of address-dependency barriers are a little subtle, and
-> +The requirement of address-dependency barriers is a little subtle, and
->  it's not always obvious that they're needed.  To illustrate, consider the
->  following sequence of events:
+>  	if (strcmp(param, "async_probe") == 0) {
+> -		mod->async_probe_requested = true;
+> +		if (strtobool(val, &mod->async_probe_requested))
+> +			mod->async_probe_requested = true;
+>  		return 0;
+>  	}
 >  
-> @@ -602,8 +599,8 @@ While this may seem like a failure of coherency or causality maintenance, it
->  isn't, and this behaviour can be observed on certain real CPUs (such as the DEC
->  Alpha).
+> @@ -2797,6 +2804,8 @@ static int load_module(struct load_info *info, const char __user *uargs,
+>  	if (err)
+>  		goto bug_cleanup;
 >  
-> -To deal with this, an implicit address-dependency barrier of READ_ONCE()
-> -or better must be inserted between the address load and the data load:
-> +To deal with this, READ_ONCE() provides an implicit address-dependency
-> +barrier since kernel release v4.15:
->  
->  	CPU 1		      CPU 2
->  	===============	      ===============
-> @@ -659,11 +656,9 @@ can be used to record rare error conditions and the like, and the CPUs'
->  naturally occurring ordering prevents such records from being lost.
->  
->  
-> -Note well that the ordering provided by an address or a data dependency is local to
-> +Note well that the ordering provided by an address dependency is local to
->  the CPU containing it.  See the section on "Multicopy atomicity" for
->  more information.
->  
-> ---------------------------------------------------------------------
-> 
->         Thanks, Akira
-> --
-> Akira Yokosawa (2):
->   docs/memory-barriers.txt: Fix confusing name of 'data dependency
->     barrier'
->   docs/memory-barriers.txt: Fixup long lines
-> 
->  Documentation/memory-barriers.txt | 177 ++++++++++++++++--------------
->  1 file changed, 95 insertions(+), 82 deletions(-)
-> 
-> 
-> base-commit: c09ca10d879bae4a8df842dbe8d6bd8b87830633
+> +	mod->async_probe_requested = async_probe;
+> +
+>  	/* Module is ready to execute: parsing args may do that. */
+>  	after_dashes = parse_args(mod->name, mod->args, mod->kp, mod->num_kp,
+>  				  -32768, 32767, mod,
 > -- 
-> 2.25.1
-> 
+> 2.36.1.255.ge46751e96f-goog
+
+Reviewed-by: Aaron Tomlin <atomlin@redhat.com>
+
+-- 
+Aaron Tomlin
+
