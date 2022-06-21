@@ -2,131 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E721DC43334
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 12:45:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FC41C43334
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 14:33:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350772AbiFUMpI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jun 2022 08:45:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45548 "EHLO
+        id S237343AbiFUOd6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jun 2022 10:33:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350809AbiFUMpF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 08:45:05 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60B7219C05;
-        Tue, 21 Jun 2022 05:45:04 -0700 (PDT)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LS5jv0q93zSh3w;
-        Tue, 21 Jun 2022 20:41:39 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 21 Jun 2022 20:44:44 +0800
-Received: from thunder-town.china.huawei.com (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 21 Jun 2022 20:44:43 +0800
-From:   Zhen Lei <thunder.leizhen@huawei.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        <kexec@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
-CC:     Zhen Lei <thunder.leizhen@huawei.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "John Donnelly" <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: [PATCH v2 3/3] arm64: kdump: Remove some redundant checks in map_mem()
-Date:   Tue, 21 Jun 2022 20:42:48 +0800
-Message-ID: <20220621124249.1315-4-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20220621124249.1315-1-thunder.leizhen@huawei.com>
-References: <20220621124249.1315-1-thunder.leizhen@huawei.com>
+        with ESMTP id S1350991AbiFUOd4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 10:33:56 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A3081C127;
+        Tue, 21 Jun 2022 07:33:55 -0700 (PDT)
+Received: from [192.168.10.5] (unknown [39.45.247.111])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: usama.anjum)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id B53416601688;
+        Tue, 21 Jun 2022 15:33:51 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1655822033;
+        bh=F8yRvq3Kx4hHKAfFp6vxgPwTAuKL3kJxkpN/M5vr8DY=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=h1Ddw65ku4x4Nz7IzNI9dXxbxgHEDS1oXPh3Ik5YWwcmtnFtu4gTAqD7vY98PONbS
+         BKWE4iWsQy+CrobZHgfJS0S8iP0ZkoZQyGVpg/nQFxWJDPHGdM/Q1LzbuDe8r5EYOC
+         7LrQEal5vlPjDHPALOP8MD3CbWTbnjqxCsJc5eGyniip8Z9L5U7Vru/hMGckRgrutw
+         76xda5pWGluCK01Ot/QyJY9isqndWIe6RnnDjPPAOAU25if5ezkFAj93VCHDO1SmYg
+         i/Wa6cu4xVqXQHngCI2x6RDZKRkzEU7b0dYaMHI3T+VcACjHwHer8vjiVjuXu4t9fp
+         VK+g09nMzsFOQ==
+Message-ID: <0e8ea624-3cf0-7c63-9b24-8c4109096d3d@collabora.com>
+Date:   Tue, 21 Jun 2022 19:33:47 +0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Cc:     usama.anjum@collabora.com, kernel@collabora.com,
+        bagasdotme@gmail.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs/kselftest: add more guidelines for adding new
+ tests
+Content-Language: en-US
+To:     Shuah Khan <skhan@linuxfoundation.org>,
+        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+References: <20220521073651.4191910-1-usama.anjum@collabora.com>
+ <e01f90a0-a3c7-c5fd-ae1f-197c6fec525e@collabora.com>
+ <63fc263d-c06a-2974-298c-5da80322411a@linuxfoundation.org>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <63fc263d-c06a-2974-298c-5da80322411a@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-arm64_memblock_init()
-	if (!IS_ENABLED(CONFIG_ZONE_DMA/DMA32))
-		reserve_crashkernel()
-			//initialize crashk_res when
-			//"crashkernel=" is correctly specified
-paging_init()
-	map_mem()
+On 6/8/22 2:41 AM, Shuah Khan wrote:
+> 
+> The change looks good to me. I am catching up on patch backlog after the
+> merge window and vacation. I can take this through kselftest or if it
+> goes through doc tree - here is my
+> 
+> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+> 
+This patch hasn't been accepted yet.
 
-As shown in the above pseudo code, the crashk_res.end can only be
-initialized to non-zero when both "!IS_ENABLED(CONFIG_ZONE_DMA/DMA32)"
-and crash_mem_map are true. So some checks in map_mem() can be adjusted
-or optimized.
+> thanks,
+> -- Shuah
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-Acked-by: Baoquan He <bhe@redhat.com>
----
- arch/arm64/mm/mmu.c | 25 +++++++++++--------------
- 1 file changed, 11 insertions(+), 14 deletions(-)
-
-diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-index 626ec32873c6c36..6028a5757e4eae2 100644
---- a/arch/arm64/mm/mmu.c
-+++ b/arch/arm64/mm/mmu.c
-@@ -529,12 +529,12 @@ static void __init map_mem(pgd_t *pgdp)
- 
- #ifdef CONFIG_KEXEC_CORE
- 	if (crash_mem_map) {
--		if (IS_ENABLED(CONFIG_ZONE_DMA) ||
--		    IS_ENABLED(CONFIG_ZONE_DMA32))
--			flags |= NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS;
--		else if (crashk_res.end)
-+		if (crashk_res.end)
- 			memblock_mark_nomap(crashk_res.start,
- 			    resource_size(&crashk_res));
-+		else if (IS_ENABLED(CONFIG_ZONE_DMA) ||
-+			 IS_ENABLED(CONFIG_ZONE_DMA32))
-+			flags |= NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS;
- 	}
- #endif
- 
-@@ -571,16 +571,13 @@ static void __init map_mem(pgd_t *pgdp)
- 	 * through /sys/kernel/kexec_crash_size interface.
- 	 */
- #ifdef CONFIG_KEXEC_CORE
--	if (crash_mem_map &&
--	    !IS_ENABLED(CONFIG_ZONE_DMA) && !IS_ENABLED(CONFIG_ZONE_DMA32)) {
--		if (crashk_res.end) {
--			__map_memblock(pgdp, crashk_res.start,
--				       crashk_res.end + 1,
--				       PAGE_KERNEL,
--				       NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS);
--			memblock_clear_nomap(crashk_res.start,
--					     resource_size(&crashk_res));
--		}
-+	if (crashk_res.end) {
-+		__map_memblock(pgdp, crashk_res.start,
-+			       crashk_res.end + 1,
-+			       PAGE_KERNEL,
-+			       NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS);
-+		memblock_clear_nomap(crashk_res.start,
-+				     resource_size(&crashk_res));
- 	}
- #endif
- }
 -- 
-2.25.1
-
+Muhammad Usama Anjum
