@@ -2,142 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A98CC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 06:24:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EC3DC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 07:20:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238120AbiFUGYR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jun 2022 02:24:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45954 "EHLO
+        id S1346062AbiFUHUT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jun 2022 03:20:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236786AbiFUGYQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 02:24:16 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09DF718380;
-        Mon, 20 Jun 2022 23:24:13 -0700 (PDT)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LRxK01kWszkWZJ;
-        Tue, 21 Jun 2022 14:23:00 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 21 Jun 2022 14:24:09 +0800
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 21 Jun 2022 14:24:03 +0800
-Message-ID: <3f66323d-f371-b931-65fb-edfae0f01c88@huawei.com>
-Date:   Tue, 21 Jun 2022 14:24:01 +0800
+        with ESMTP id S1346031AbiFUHUS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 03:20:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D01C1F2E8;
+        Tue, 21 Jun 2022 00:20:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AF59C60F56;
+        Tue, 21 Jun 2022 07:20:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EBA2C3411D;
+        Tue, 21 Jun 2022 07:20:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1655796017;
+        bh=6W0c7s4KkH+S/zdUiGrAMs/0jMjBrVdLfs+zroSmWF4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=g1p6Ippw5y6KSOOg7wb0i774Ka1xszMqIOW9nuXJLpb/8twkTNJEEhhRwnHSKmov0
+         gCj62pnmgvcV17OsttAU6q0/WkuCEASKm2osM1ZbEb0kgIefuicLGBvagTSWSWAdqR
+         9+wzwwTqw0sxr2EN7V3AdI80Za1SJalKHS8U7hn8=
+Date:   Tue, 21 Jun 2022 09:20:13 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Ray Chi <raychi@google.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        albertccwang@google.com
+Subject: Re: [PATCH] USB: hub: add module parameters to usbcore for port init
+ retries
+Message-ID: <YrFxLYibDtyuxSO6@kroah.com>
+References: <20220617102256.3253019-1-raychi@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 5/5] arm64: kdump: Don't defer the reservation of crash
- high memory
-Content-Language: en-US
-To:     Baoquan He <bhe@redhat.com>, Zhen Lei <thunder.leizhen@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, <kexec@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "John Donnelly" <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>,
-        liushixin <liushixin2@huawei.com>
-References: <20220613080932.663-1-thunder.leizhen@huawei.com>
- <20220613080932.663-6-thunder.leizhen@huawei.com>
- <YrFYHYgX3mC//t2l@MiWiFi-R3L-srv>
-From:   Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <YrFYHYgX3mC//t2l@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220617102256.3253019-1-raychi@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Jun 17, 2022 at 06:22:56PM +0800, Ray Chi wrote:
+> Currently, there is a Kconfig (CONFIG_USB_FEW_INIT_RETRIES) to
+> reduce retries when the port initialization is failed. The retry
+> times are fixed and assigned in compile time. To improve the
+> flexibility, this patch add four module parameters:
+> port_reset_tries, set_address_tries, get_descriptor_tries,
+> and get_maxpacket0_tries, to replace the original default values.
+> 
+> The default value of module parameters is the same as before
+> to preserve the existing behavior.
+> 
+> Signed-off-by: Ray Chi <raychi@google.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         | 16 ++++++++++
+>  drivers/usb/core/hub.c                        | 31 ++++++++++++++++---
+>  2 files changed, 42 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 8090130b544b..c467b2778128 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6277,6 +6277,22 @@
+>  			USB_REQ_GET_DESCRIPTOR request in milliseconds
+>  			(default 5000 = 5.0 seconds).
+>  
+> +	usbcore.port_reset_tries=
+> +			[USB] Set the retry time of port reset for each
+> +			port initialization (default PORT_RESET_TRIES = 5).
+> +
+> +	usbcore.set_address_tries=
+> +			[USB] set the retry time of set address for each
+> +			port initialization (default SET_ADDRESS_TRIES = 2).
+> +
+> +	usbcore.get_descriptor_tries=
+> +			[USB] set the retry time of set address for each
+> +			port initialization (default GET_DESCRIPTOR_TRIES = 2).
+> +
+> +	usbcore.get_maxpacket0_tries=
+> +			[USB] set the retry time of get maxpacket0 for each
+> +			port initialization (default GET_MAXPACKET0_TRIES = 3).
+> +
+>  	usbcore.nousb	[USB] Disable the USB subsystem
+>  
+>  	usbcore.quirks=
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index b7f66dcd1fe0..c5c695886424 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -2788,6 +2788,27 @@ static unsigned hub_is_wusb(struct usb_hub *hub)
+>  #define HUB_LONG_RESET_TIME	200
+>  #define HUB_RESET_TIMEOUT	800
+>  
+> +/* define retry time for port reset */
+> +static int port_reset_tries = PORT_RESET_TRIES;
+> +module_param(port_reset_tries, int, S_IRUGO|S_IWUSR);
+> +MODULE_PARM_DESC(port_reset_tries, "retry times of port reset for each port initialization");
 
-On 2022/6/21 13:33, Baoquan He wrote:
-> Hi,
->
-> On 06/13/22 at 04:09pm, Zhen Lei wrote:
->> If the crashkernel has both high memory above DMA zones and low memory
->> in DMA zones, kexec always loads the content such as Image and dtb to the
->> high memory instead of the low memory. This means that only high memory
->> requires write protection based on page-level mapping. The allocation of
->> high memory does not depend on the DMA boundary. So we can reserve the
->> high memory first even if the crashkernel reservation is deferred.
->>
->> This means that the block mapping can still be performed on other kernel
->> linear address spaces, the TLB miss rate can be reduced and the system
->> performance will be improved.
-> Ugh, this looks a little ugly, honestly.
->
-> If that's for sure arm64 can't split large page mapping of linear
-> region, this patch is one way to optimize linear mapping. Given kdump
-> setting is necessary on arm64 server, the booting speed is truly
-> impacted heavily.
+Please no.  Module parameters are from the 1990's, let us never add new
+ones if at all possible.
 
-Is there some conclusion or discussion that arm64 can't split large page 
-mapping?
+These are global options, for all devices in the system.  Instead, use
+per-device settings if you really need to change these values.
 
-Could the crashkernel reservation (and Kfence pool) be splited dynamically?
+But I would even push back on that and ask why these values need to be
+changed at all.  What hardware is broken so badly that our timeout
+settings do not work properly?  Can we modify them gracefully to "just
+work" without any need for tweaking or requiring any modification by a
+user at all?  That would be the better solution instead of requiring
+users to do this on their own when confronted by misbehaving hardware.
 
-I found Mark replay "arm64: remove page granularity limitation from 
-KFENCE"[1],
+thanks,
 
-   "We also avoid live changes from block<->table mappings, since the
-   archtitecture gives us very weak guarantees there and generally requires
-   a Break-Before-Make sequence (though IIRC this was tightened up
-   somewhat, so maybe going one way is supposed to work). Unless it's
-   really necessary, I'd rather not split these block mappings while
-   they're live."
-
-Hi Mark and Catalin,  could you give some comment,  many thanks.
-
-[1] 
-https://lore.kernel.org/lkml/20210920101938.GA13863@C02TD0UTHF1T.local/T/#m1a7f974593f5545cbcfc0d21560df4e7926b1381
-
-
->
-> However, I would suggest letting it as is with below reasons:
->
-> 1) The code will complicate the crashkernel reservatoin code which
-> is already difficult to understand.
-> 2) It can only optimize the two cases, first is CONFIG_ZONE_DMA|DMA32
->    disabled, the other is crashkernel=,high is specified. While both
->    two cases are corner case, most of systems have CONFIG_ZONE_DMA|DMA32
->    enabled, and most of systems have crashkernel=xM which is enough.
->    Having them optimized won't bring benefit to most of systems.
-> 3) Besides, the crashkernel=,high can be handled earlier because
->    arm64 alwasys have memblock.bottom_up == false currently, thus we
->    don't need worry arbout the lower limit of crashkernel,high
->    reservation for now. If memblock.bottom_up is set true in the future,
->    this patch doesn't work any more.
->
->
-> ...
->          crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
->                                                 crash_base, crash_max);
->
-> So, in my opinion, we can leave the current NON_BLOCK|SECT mapping as
-> is caused by crashkernel reserving, since no regression is brought.
-> And meantime, turning to check if there's any way to make the contiguous
-> linear mapping and later splitting work. The patch 4, 5 in this patchset
-> doesn't make much sense to me, frankly speaking.
->
-> Thanks
-> Baoquan
+greg k-h
