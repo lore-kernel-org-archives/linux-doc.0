@@ -2,232 +2,352 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5939C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Jun 2022 21:44:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E88AC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Jun 2022 00:14:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235444AbiFTVoQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Jun 2022 17:44:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49022 "EHLO
+        id S240353AbiFUAOh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Jun 2022 20:14:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231244AbiFTVoP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 17:44:15 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E865B98;
-        Mon, 20 Jun 2022 14:44:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655761451; x=1687297451;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=M++SGFYlMQ7EUf4lZu/Nxw8UrHS2BaRjFDRM2JfqF6s=;
-  b=PzJaBSG3rzxrfMozbNdzrlaNi1LycO6X/A0Gy070VFJA6mBi9+v8kpUu
-   aLDEdwSPQpRyYCzxm5VXEFjb5khS8QIu4bp7ahwRlN87NXoNcXAJ2AZH0
-   PGR9oETI8lz445wbmZdqKbmaucWmgVB9qDIWlm4phSWR/wolvyP5VSKyu
-   +5CryF8CkbUuwe/XbB4xw/aI5EYyc163hU/q7T7uOU4s+YktfbFQ745eu
-   ruAMIh3mzHt35ZLD9u0/IIz0QnxRMb7TDJo+rbpwoF2+iJ6usNvlU0/nR
-   EbcYLSX/NryyS+hK3b/puW0ZkDCXdKeEZNjxnelbEUupy1FouvXLYt2Ia
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10384"; a="305413264"
-X-IronPort-AV: E=Sophos;i="5.92,207,1650956400"; 
-   d="scan'208";a="305413264"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 14:44:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,207,1650956400"; 
-   d="scan'208";a="689641515"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Jun 2022 14:44:11 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 20 Jun 2022 14:44:10 -0700
-Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 20 Jun 2022 14:44:10 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Mon, 20 Jun 2022 14:44:10 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.106)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Mon, 20 Jun 2022 14:44:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Bdry31XzFw9i2bW+eyXQG3zjIxSaP3vc1yvRL9w7BVpoGUjtzqg1q3dxD3yrsSHreJSx93xLFuudUYcmZYlHVEtTHaVmvqXA7QGxqog+zHhSLMT5w9fi8suU85nUzIytiqkGBjiV3y5wAY3JTH6WGO1m+G5ivhYW8QbKODP/Bm2Wvf7K3WbrDAXvlW8f8y8o/PVLTiNf8CRy6PDuEnY11I3yBnInU60NHwQdMjZi128CBj6bg4loai7hieYJQKJZx4Ap7L6XoAYfwOP4uT4ZuZ61o9jj0Ass0iISixKJhbmxBoFPlnCdo9GU3kjFKTz2JxV1TSpVpqn4AW/l23GgdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ql9PZDXfL4/3XgsdO8TkUB+yjP5Ds7YoTr6XEyLGiNk=;
- b=S7dwTgzcBsdRxmZ5L/vWFN6wV08ofp2LyBt34yJh3sLXm7oJ4BD27m/qTmWEIii+xKFycLRE4CYF0QkCS4ruxV6EkCRfiq5DVNoU24teN9hcmWauRsYIaqqtG6EWiQmmodXjHAyENru5QUDVPir64xECJbXrvTh58s3xyxRf1s4k31qLLo8EpTtbWbQ4zkmIfaUxiyHILMgfli3fugkTDYY+T4TwvMkH8Vk97+t1RL6KaKlKG1TAurqC3Omh+fPj24ik/j6+i4nkCQv9lJiFpK1GlZZWbH2EsE1Ca33Sv7aiox7lGRRoAyJczDeBZvyC3Zbno0I4fLH7yPoJufl6UA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB6311.namprd11.prod.outlook.com (2603:10b6:8:a6::21) by
- DM5PR11MB1355.namprd11.prod.outlook.com (2603:10b6:3:b::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5353.18; Mon, 20 Jun 2022 21:44:08 +0000
-Received: from DM4PR11MB6311.namprd11.prod.outlook.com
- ([fe80::f0ac:be8f:9429:d262]) by DM4PR11MB6311.namprd11.prod.outlook.com
- ([fe80::f0ac:be8f:9429:d262%5]) with mapi id 15.20.5353.018; Mon, 20 Jun 2022
- 21:44:08 +0000
-Date:   Mon, 20 Jun 2022 14:44:04 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-CC:     <linux-doc@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] Documentation: highmem: Use literal block for code
- example in highmem.h comment
-Message-ID: <YrDqJB0J1PT8VlwA@iweiny-desk3>
-References: <20220620083649.18172-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220620083649.18172-1-bagasdotme@gmail.com>
-X-ClientProxiedBy: MWHPR15CA0036.namprd15.prod.outlook.com
- (2603:10b6:300:ad::22) To DM4PR11MB6311.namprd11.prod.outlook.com
- (2603:10b6:8:a6::21)
+        with ESMTP id S241831AbiFUAOg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Jun 2022 20:14:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 369EC19286
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jun 2022 17:14:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655770471;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=YVrVeKPAQSI4AB4vZ7MyOJPPx0q5Q+PSH+24GSNfDdk=;
+        b=AuB9LtRBzVHe4ONsU+OjiLEooVfZeGqG/wdPilMPon9xPjaAKs5fVmrZi5oFqdTY4VmbUQ
+        B+HEDKpdhkm9/tez23xN4X3Ene3ctDs9qfuvFkM0RA6BLzJqybJoTAllJBXulgXDqBEtam
+        O7zi5NO1q7Vzjp9Pmma4vEKUqSFXbus=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-208-IunaL_hUMAG9An4BVQTvZA-1; Mon, 20 Jun 2022 20:14:30 -0400
+X-MC-Unique: IunaL_hUMAG9An4BVQTvZA-1
+Received: by mail-wm1-f71.google.com with SMTP id n15-20020a05600c4f8f00b0039c3e76d646so5624681wmq.7
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jun 2022 17:14:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=YVrVeKPAQSI4AB4vZ7MyOJPPx0q5Q+PSH+24GSNfDdk=;
+        b=bSkOMSNnhccO2Cvk5GsV08DUPWvYRUdY9eLcEMxV1c5BCmoiyKaVTTEreg8fl1l4Sw
+         9CZAOZph/HzN27+ibEQE2UAcAbVEN1aHlOdpma3TDmvae2Mf+OP0CCTajAysR1H4vy8T
+         /GF0lpd/pCpS/ILsxJafdj711+STpbaxO/zX9KPWnpgiIDukZuw9a9xfuad8pgxW6QwR
+         PaUShjn/QrUL6JvHjsAA1WpAwWmezx0+sNp2/xt5o8UZzIB3kplkpOulW3D2/CMjpt/8
+         AMBvBae3ZrAgMUBifwTN4aqT/+GMAoQsRDpEs2GXq4a0jZpOjqCPWtt8JKTtb/DvkOpG
+         VJTA==
+X-Gm-Message-State: AOAM533sSq10gdb6mL9NFWYNCyEb+X7/TrFIiS8nrJD8c1c8aWm+Xzgt
+        Ty8yszJutuT3iU4gPdYIGBdS/gAhsXjkSJE3jQYsdo7533jya8lU1QgNqREQwegIEpa2IQpSf0+
+        1qbHW/Uj7ALD271B6ttew
+X-Received: by 2002:a1c:7318:0:b0:39c:7ab9:934c with SMTP id d24-20020a1c7318000000b0039c7ab9934cmr37918726wmb.200.1655770469029;
+        Mon, 20 Jun 2022 17:14:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy+niHvOlBzhdAVy81+ewTZLfHJj94jM8s0LNLjY3ov8z2Zpwsyks99Njqzq1zWmToWQYxOWg==
+X-Received: by 2002:a1c:7318:0:b0:39c:7ab9:934c with SMTP id d24-20020a1c7318000000b0039c7ab9934cmr37918708wmb.200.1655770468669;
+        Mon, 20 Jun 2022 17:14:28 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id y16-20020a5d6150000000b0021b932de5d6sm2877092wrt.39.2022.06.20.17.14.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jun 2022 17:14:28 -0700 (PDT)
+Message-ID: <e1fd76ae-a865-889f-b4f0-878c00837368@redhat.com>
+Date:   Tue, 21 Jun 2022 02:14:21 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 03c2abe6-c29e-4ad8-2750-08da5306010e
-X-MS-TrafficTypeDiagnostic: DM5PR11MB1355:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR11MB135518C0563F113FAE25B53BF7B09@DM5PR11MB1355.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zQl+1/xP1fuAUystTtz37j5nr6Iv/x2zTQl7H6ozQb6P4M0xOt/TFhqE9b/LWgqaWk4jZUv/q10dWENGkACIUeUN+jv/LH9Id8RfXibvcqfYo1W4hQW4iiXHoFfjQTjpcKQnymXarhH1hWFzwTG+FslKBYI4NPZ88ywIDWOvaahXvEtQptyoN2b7ujdf5iVcnmI49+OBOyiyqqe+kUrkMCz8JObyiIdqMDvFlWE2DKWhvmQOT3ESfX1LZyYb/3uzlv7uufAS/KsPQ8S/Q2HBFYS9s+cCoRGJFH5Xqtk0jwCaZZfqbdwcYCODbjpcyBmV39byhN9AObfMc/EgzXaOywihteZf6xIqu/Vxq3Hd6mMywtLWIgMrtw6OG+kdIa3kgtdm3K+CrCCNB3J+lkq/51s6zRp9VBxlFmGJxDXeYTlnvOQvOQ4AzUIXDQfrEvf24L+fJh5jhPnRP9LSwz5Iy7mcMy+EjFI4rXf8CGbnWmwXh0TOETpQ7m6ZJYH17kC0jWxSJUFNdYRyXDopwR3Yf4tQN32M4p0S68HIC3ymA8890JQFhLHlncrGBVPiAs4dfhSXQyGCvB9LIrQNIXAWygMvB5pZRgVeiZuYHc8DiH6hY5El9ySwlI5San/GNavjLG3VUdO9XOwT7UzdRwypRQ8V5UGjf594QXMJZnG58nOzuSfvd0ZPP+5rzMIYdSzM0d3ZPEh4d3eaSYz9/8yuJrMNItREu5tUMcbkVz32z6M=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6311.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(136003)(346002)(39860400002)(396003)(366004)(376002)(82960400001)(9686003)(966005)(6666004)(5660300002)(6486002)(83380400001)(26005)(2906002)(6512007)(38100700002)(6506007)(86362001)(66476007)(66946007)(66556008)(478600001)(8936002)(33716001)(4326008)(8676002)(41300700001)(186003)(316002)(6916009)(54906003)(44832011);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TYWY6HjydsHKssYwSn1MtYlz39v0UvYksFuZHv+lJI+i2DPGfwOHCrp7bfPU?=
- =?us-ascii?Q?iO3RntFzC5KH8j1MDjkrx2yiQKdtO/e7EMI3XSKmzxtXo8mVX9z9MiCW6HaE?=
- =?us-ascii?Q?QkIbl3zYjMPP8R7Prg9Zdz79ATbYG7QQrSo4Be1HOhEqQC6T4eeB9iNUz6lw?=
- =?us-ascii?Q?XQgmnivZe/VEEcvHBewWO2r+O9P2EWFe1EV2FawgfNyQZFOQ9dxGih3kEPPj?=
- =?us-ascii?Q?c7Gar/45LduL+P11aN1GTRFL9alV38ZMyXbug6XRiTI0AwLGxTZ1Cv5OnOsO?=
- =?us-ascii?Q?9AHzysjMwm133eQsk7xxibQ7cGMBtFWFwZLjUDAfrxpZR2Gp5LQL1IYTP8Wo?=
- =?us-ascii?Q?g+A+Crb2tj+mCYEUOwMu6peR0LkDatw4r101ceQnxP6z5H8AnhGZCzcUh9Xs?=
- =?us-ascii?Q?W08X0hleOH5/OPWXyT3nZ5cn539BO5Oa2ZpdTiUDFa2KQ/Bv5qfOzqemVDA9?=
- =?us-ascii?Q?NwOio9BLCBBeXCSSQC3g8HP/KQgNZIDZSr4XJrgVXUKQEjpIOhZ5H3TIuPVs?=
- =?us-ascii?Q?0Hq+Qz7vwfGmY1OUfmzswmhbDSuXY+Hs3DFIP04CMqvmRVRZWljN6Me8CUFh?=
- =?us-ascii?Q?uyaUKzdrAhx9KmDApd+SNHQVynDeXIO2Ltsg+130bVqBw8c9exYQTaDwMR7S?=
- =?us-ascii?Q?AFdvGBdv+MsUTRnmCOMlQ5PVqEe20y+bZCrmBf3N1fjgwUK9aoSBCerkjo/7?=
- =?us-ascii?Q?UD2ycxNMx8WvmYGTmCjZbqoBbbuthD2hDGvvrqWIp/fwbp/UNe0ClU81CXTv?=
- =?us-ascii?Q?vZzwmL+J0ZR7l2wDpSPLvGhd5/UQFpz/2wfa6FYzY9zAMNo6r3eIUbHcwp1t?=
- =?us-ascii?Q?xPxkEmNPc2RV2pylinJ1A6Fev5k5B+ObWqcChaPN8fVWrL18C7oMSLyJRcPy?=
- =?us-ascii?Q?/aE/Wpgi9eXjQPsbCvahaZ9wC7udU+lb4S97CvHHlNrJQWqTfFHsx8Sn4um/?=
- =?us-ascii?Q?O66yU9NVEFQ47Eh4xCWtIKeGEVb6oV3Dh4Wa60hkEA3BwZA7kk++9f0lSfJX?=
- =?us-ascii?Q?a1pniY5sIvAnSo2nkMlz/soShr0zniMUPBoGocYjVJFeXJM8oCTzgU4z7mWF?=
- =?us-ascii?Q?hfYlU9Wm21XjurtxulTDFF2UAii0vd9wug2ubZc0f81DHI0hoxs/S5+B8j/T?=
- =?us-ascii?Q?CYEa+gcb2WO7r/YJRDKRvLpRhI1mHSQikIsvZcSlOVOP8G0K8LOwRgdQ+dcF?=
- =?us-ascii?Q?jZS4Kx0ZtDQyqE+4L7zxxgAkN7DYbYkMdRZBaaJLkV/296XkbvKZQTIyeMzc?=
- =?us-ascii?Q?TnryWltPumtHb8ExfSrsKybgobXJpCTAN/L0eSJoW32lO62C7djylXBcp3Be?=
- =?us-ascii?Q?p3xK2mMbmxjaKVOmy/9kmzK+RU7oOyyhW5LyjJCgPc5S1u6bIUlvKlVsyNfl?=
- =?us-ascii?Q?hZI9qmyyt0rEnoq5uqNUWOujPHitn3FFVVNYBbzh+sNxOcZXgpfA1UT2JgLJ?=
- =?us-ascii?Q?Hh83GxfKp5O40K5X5xaItpFUzWH7JmPh95nYAvS926mQv5lI5U06vo6+CDZP?=
- =?us-ascii?Q?0BePx6aQiaevwtjyrTCyLdOHhKVpKXJ7ivQ46NtK1u9nLdgD/rxZm1KDCPQI?=
- =?us-ascii?Q?8EQKqGDXRRry3ir+u4MAM1EERWR8L+p4QEtvRzZ8NT02j5B5NkrJ0AWXpt+S?=
- =?us-ascii?Q?M6x6OWfkZCT3/ReCUlvJ0wfQfQv/Id/Mrx6hMRVt1ALozGHCgl5hLTxgXgsz?=
- =?us-ascii?Q?VPAswh146Yc9SVovXIyjJAQtBsM/FNC+QAIjyf1x0LnSfATs4wF18Zw+PQbC?=
- =?us-ascii?Q?dVlyl/kTUA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03c2abe6-c29e-4ad8-2750-08da5306010e
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6311.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2022 21:44:08.0991
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q5R1yDyag70sdeRQRhWtkgw8SsrZmTkp3TF6YDzOems91w/FnVEMODqrqgbgtndNaJdw9kFg57e/Cgj+3AOSpA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1355
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 1/2] drm: Implement DRM aperture helpers under video/
+Content-Language: en-US
+To:     Alex Williamson <alex.williamson@redhat.com>, corbet@lwn.net,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+        deller@gmx.de, gregkh@linuxfoundation.org
+Cc:     kvm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org
+References: <165541020563.1955826.16350888595945658159.stgit@omen>
+ <165541192621.1955826.6848784198896919390.stgit@omen>
+From:   Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <165541192621.1955826.6848784198896919390.stgit@omen>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 20, 2022 at 03:36:49PM +0700, Bagas Sanjaya wrote:
-> When building htmldocs on Linus' tree, there are inline emphasis warnings
-> on include/linux/highmem.h:
+On 6/16/22 22:38, Alex Williamson wrote:
+> From: Thomas Zimmermann <tzimmermann@suse.de>
 > 
-> Documentation/vm/highmem:166: ./include/linux/highmem.h:154: WARNING: Inline emphasis start-string without end-string.
-> Documentation/vm/highmem:166: ./include/linux/highmem.h:157: WARNING: Inline emphasis start-string without end-string.
+> Implement DRM's aperture helpers under video/ for sharing with other
+> sub-systems. Remove DRM-isms from the interface. The helpers track
+> the ownership of framebuffer apertures and provide hand-over from
+> firmware, such as EFI and VESA, to native graphics drivers.
 > 
-> These warnings above are due to comments in code example at the
-> mentioned lines above are enclosed by double dash (--), which confuses
-> Sphinx as inline markup delimiters instead.
+> Other subsystems, such as fbdev and vfio, also have to maintain ownership
+> of framebuffer apertures. Moving DRM's aperture helpers to a more public
+> location allows all subsystems to interact with each other and share a
+> common implementation.
 > 
-> Fix these warnings by indenting the code example with literal block
-> indentation and prefixing comments inside the example with C comment
-> symbol (#).
+> The aperture helpers are selected by the various firmware drivers within
+> DRM and fbdev, and the VGA text-console driver.
+>
 
-"//"?
-
-Frankly I'd just drop "(#)".
-
-Perhaps:
-
-... indentation and making the comments C comments.
-
-Ira
-
+Thanks a lot for working on this.
+ 
+> The original DRM interface is kept in place for use by DRM drivers.
 > 
-> Fixes: 85a85e7601263f ("Documentation/vm: move "Using kmap-atomic" to highmem.h")
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Ira Weiny <ira.weiny@intel.com>
-> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Cc: linux-mm@kvack.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 > ---
->  Changes since v2 [1]:
->    - Rebase on v5.19-rc3
->    - Don't mention any functions
-> 
->  [1]: https://lore.kernel.org/linux-doc/20220615101509.516520-1-bagasdotme@gmail.com/
->  include/linux/highmem.h | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-> index 3af34de54330cb..56d6a019653489 100644
-> --- a/include/linux/highmem.h
-> +++ b/include/linux/highmem.h
-> @@ -149,19 +149,19 @@ static inline void *kmap_local_folio(struct folio *folio, size_t offset);
->   * It is used in atomic context when code wants to access the contents of a
->   * page that might be allocated from high memory (see __GFP_HIGHMEM), for
->   * example a page in the pagecache.  The API has two functions, and they
-> - * can be used in a manner similar to the following:
-> + * can be used in a manner similar to the following::
->   *
-> - * -- Find the page of interest. --
-> - * struct page *page = find_get_page(mapping, offset);
-> + *   // Find the page of interest.
-> + *   struct page *page = find_get_page(mapping, offset);
->   *
-> - * -- Gain access to the contents of that page. --
-> - * void *vaddr = kmap_atomic(page);
-> + *   // Gain access to the contents of that page.
-> + *   void *vaddr = kmap_atomic(page);
->   *
-> - * -- Do something to the contents of that page. --
-> - * memset(vaddr, 0, PAGE_SIZE);
-> + *   // Do something to the contents of that page.
-> + *   memset(vaddr, 0, PAGE_SIZE);
->   *
-> - * -- Unmap that page. --
-> - * kunmap_atomic(vaddr);
-> + *   // Unmap that page.
-> + *   kunmap_atomic(vaddr);
->   *
->   * Note that the kunmap_atomic() call takes the result of the kmap_atomic()
->   * call, not the argument.
-> 
-> base-commit: a111daf0c53ae91e71fd2bfe7497862d14132e3e
-> -- 
-> An old man doll... just what I always wanted! - Clara
-> 
-> 
+
+[...]
+
+> diff --git a/drivers/video/Kconfig b/drivers/video/Kconfig
+> index 427a993c7f57..c69b45f8c427 100644
+> --- a/drivers/video/Kconfig
+> +++ b/drivers/video/Kconfig
+> @@ -5,6 +5,12 @@
+>  
+>  menu "Graphics support"
+>  
+> +config APERTURE_HELPERS
+> +	bool
+> +	help
+> +	  Support tracking and hand-over of aperture ownership. Required
+> +	  for firmware graphics drivers.
+> +
+
+Maybe "graphics drivers using a firmware-provided framebuffer" is more clear?
+
+[...]
+
+> +++ b/drivers/video/aperture.c
+> @@ -0,0 +1,340 @@
+> +// SPDX-License-Identifier: MIT
+> +
+> +#include <linux/aperture.h>
+> +#include <linux/device.h>
+> +#include <linux/fb.h> /* for old fbdev helpers */
+> +#include <linux/list.h>
+> +#include <linux/mutex.h>
+> +#include <linux/pci.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/slab.h>
+> +#include <linux/types.h>
+> +#include <linux/vgaarb.h>
+> +
+> +/**
+> + * DOC: overview
+> + *
+> + * A graphics device might be supported by different drivers, but only one
+> + * driver can be active at any given time. Many systems load a generic
+> + * graphics drivers, such as EFI-GOP or VESA, early during the boot process.
+> + * During later boot stages, they replace the generic driver with a dedicated,
+> + * hardware-specific driver. To take over the device the dedicated driver
+> + * first has to remove the generic driver. Aperture functions manage
+> + * ownership of framebuffer memory and hand-over between drivers.
+> + *
+> + * Graphics drivers should call remove_conflicting_devices()
+> + * at the top of their probe function. The function removes any generic
+> + * driver that is currently associated with the given framebuffer memory.
+> + * If the framebuffer is located at PCI BAR 0, the rsp code looks as in the
+
+s/rsp/respective 
+
+> + * example given below. The cod assumes a DRM driver.
+> + *
+
+s/cod/code
+
+> + * .. code-block:: c
+> + *
+> + *	static const struct drm_driver example_driver = {
+> + *		.name = "exampledrm",
+> + *		...
+> + *	};
+> + *
+> + *	static int remove_conflicting_framebuffers(struct pci_dev *pdev)
+> + *	{
+> + *		bool primary = false;
+> + *		resource_size_t base, size;
+> + *		int ret;
+> + *
+> + *		base = pci_resource_start(pdev, 0);
+> + *		size = pci_resource_len(pdev, 0);
+> + *	#ifdef CONFIG_X86
+> + *		primary = pdev->resource[PCI_ROM_RESOURCE].flags & IORESOURCE_ROM_SHADOW;
+> + *	#endif
+
+This example seems to be copied from drivers/gpu/drm/ast/ast_drv.c and I
+don't see any other driver that has its framebuffer located in PCI BAR 0
+or at least having a similar code.
+
+So I wonder if we really want to have this example for such a corner case ? 
+
+Also, remove_conflicting_pci_framebuffers() seems to already at least check
+for the IORESOURCE_ROM_SHADOW flag so it would be better to grow that and
+support this special case of PCI BAR 0 (maybe adding another param that is
+passed through remove_conflicting_pci_devices() ?
+
+In any case, it seems to me that it is something that ast shouldn't really
+have to open code it and instead the helpers should be fixed to cover that
+case for drivers not to care. I would really not add the snippet in the doc.
+
+Since we are talking about remove_conflicting_devices() here, a better code
+example could be for a platform device instead of a PCI device, like this:
+
+*	static const struct platform_driver example_driver = {
+*		.name = "example",
+*		...
+*	};
+*
+*	static int probe(struct platform_device *pdev)
+*	{
+*		struct resource *mem;
+*		resource_size_t base, size;
+*
+*		mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+*		if (!mem)
+*			return -EINVAL;
+*		base = mem->start;
+*		size = resource_size(mem);
+*
+*		ret = remove_conflicting_devices(base, size, false, &example_driver->name);
+*		if (ret)
+*			return ret;
+*
+*		// ... and initialize the hardware.
+*		...
+*
+*		return 0;
+*	}
+
+> + *	static int probe(struct pci_dev *pdev)
+> + *	{
+> + *		int ret;
+> + *
+> + *		// Remove any generic drivers...
+> + *		ret = remove_conflicting_framebuffers(pdev);
+
+And here we can just use remove_conflicting_pci_devices(pdev) without the
+unnecessary level of indirection. It makes the example more clear IMO and
+it could be moved as an example for the remove_conflicting_pci_devices().
+
+Another option is to have here an example for platform devices instead of
+a PCI device (and move this example when talking about remove
+
+[...]
+
+> + * PCI device drivers can also call remove_conflicting_pci_devices() and let the
+> + * function detect the apertures automatically. Device drivers without knowledge of
+> + * the framebuffer's location shall call remove_all_conflicting_devices(),
+> + * which removes all known devices.
+> + *
+
+Can we get all the public aperture functions be in the aperture namespace? i.e:
+aperture_remove_conflicting_devices(), aperture_remove_all_conflicting_devices()
+and so on. That makes easier to grep, ftrace and also read the drivers' code.
+
+> + * Drivers that are susceptible to being removed by other drivers, such as
+> + * generic EFI or VESA drivers, have to register themselves as owners of their
+> + * framebuffer apertures. Ownership of the framebuffer memory is achieved
+> + * by calling devm_acquire_aperture_of_platform_device(). On success, the driver
+
+AFAICT the aperture infrastructure only allows to remove platform devices, even
+when it can check if the requested I/O resource overlaps with a PCI BAR range,
+so maybe all functions also should use _platform_device() as suffix instead of
+just _device() ? Or maybe the _platform is just verbose but I think that the
+functions should be named consistently and only use either _device or _platform.
+
+[...]
+
+> + *	static int acquire_framebuffers(struct drm_device *dev, struct platform_device *pdev)
+> + *	{
+> + *		resource_size_t base, size;
+> + *
+
+This example is missing a struct resource *mem declaration.
+
+> + * The generic driver is now subject to forced removal by other drivers. This
+> + * only works for platform drivers that support hot unplugging.
+> + * When a driver calls remove_conflicting_devices() et al
+> + * for the registered framebuffer range, the aperture helpers call
+> + * platform_device_unregister() and the generic driver unloads itself. It
+> + * may not access the device's registers, framebuffer memory, ROM, etc
+> + * afterwards.
+> + */
+> +
+> +struct dev_aperture {
+> +	struct device *dev;
+
+And here we could just use a struct platform_device *pdev since currently we
+only support platform devices. It seems to me that this is a DRM-ism that we
+are carrying since for DRM drivers made sense to use struct device.
+
+Doing that would also allow get rid of indirections like the need of both a
+devm_acquire_aperture_of_platform_device() and devm_aperture_acquire() just
+to do a &pdev->dev.
+
+And also some to_platform_device() in drm_aperture_detach_firmware() and
+detach_platform_device().
+
+If we ever support non-platform devices then we can refactor it, but I don't
+think that is worth to complicate just in case we ever support struct device.
+
+> +	resource_size_t base;
+> +	resource_size_t size;
+> +	struct list_head lh;
+> +	void (*detach)(struct device *dev);
+
+Same here, just	void (*detach)(struct platform_device *pdev) if you agree with
+that I mentioned above.
+
+> +};
+> +
+> +static LIST_HEAD(apertures);
+> +static DEFINE_MUTEX(apertures_lock);
+> +
+> +static bool overlap(resource_size_t base1, resource_size_t end1,
+> +		    resource_size_t base2, resource_size_t end2)
+> +{
+> +	return (base1 < end2) && (end1 > base2);
+> +}
+
+There's a resource_overlaps() helper in include/linux/ioport.h, I wonder if it
+could just be used, maybe declaring and filling a struct resource just to call
+that helper. Later as an optimization a resource_range_overlap() or something
+could be proposed for include/linux/ioport.h.
+
+Also, I noticed that resource_overlaps() uses <= and >= but this helper uses
+< and >. It seems there's an off-by-one error here but maybe I'm wrong on this.
+
+[...]
+
+> +static void detach_platform_device(struct device *dev)
+> +{
+> +	struct platform_device *pdev = to_platform_device(dev);
+> +
+> +	/*
+> +	 * Remove the device from the device hierarchy. This is the right thing
+> +	 * to do for firmware-based DRM drivers, such as EFI, VESA or VGA. After
+> +	 * the new driver takes over the hardware, the firmware device's state
+> +	 * will be lost.
+> +	 *
+> +	 * For non-platform devices, a new callback would be required.
+> +	 *
+
+I wonder if we ever are going to need this. AFAICT the problem only happens for
+platform devices. Or do you envision a case when some a bus could need this and
+the aperture unregister the device instead of the Linux kernel device model ?
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
