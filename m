@@ -2,94 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7518FC43334
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 03:40:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C94DAC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 06:22:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350370AbiFVDkv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jun 2022 23:40:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53930 "EHLO
+        id S1348747AbiFVGW1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jun 2022 02:22:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232276AbiFVDku (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 23:40:50 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B592FFC0;
-        Tue, 21 Jun 2022 20:40:49 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id CE5791F86C;
-        Wed, 22 Jun 2022 03:40:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1655869246; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jeXIvyG+fPIiAWcZllL+XxAZd7FyyfACJBUCMpR3g5k=;
-        b=dKUbM58veNma+6AqhJX4djD7Ja1SaxFaSeAziPjuF4tMdf5xwB+eCeyNbaCHwLnEDidRvo
-        nQUT3/gOA8huOLVkOnvl/ENu7A85bVkeITWMVmXXRFS2hCpr1mcyxcgv3TI51z6T0N3zQW
-        D3RU589h7mhgx2lcCc1mp4rhaHlfrMA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1655869246;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jeXIvyG+fPIiAWcZllL+XxAZd7FyyfACJBUCMpR3g5k=;
-        b=MEuGvTyAqBHAx/bVdPsPW0HY67LJfovTu392gs17hV9r5V83i/Eaeim4/nG5/1UyDNOvJu
-        PcQ2hTD1ueF8uLAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C3561342C;
-        Wed, 22 Jun 2022 03:40:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 8x//Az6PsmIlDgAAMHmgww
-        (envelope-from <osalvador@suse.de>); Wed, 22 Jun 2022 03:40:46 +0000
-Date:   Wed, 22 Jun 2022 05:40:44 +0200
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     akpm@linux-foundation.org, corbet@lwn.net, david@redhat.com,
-        mike.kravetz@oracle.com, paulmck@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v5 2/2] mm: memory_hotplug: make hugetlb_optimize_vmemmap
- compatible with memmap_on_memory
-Message-ID: <YrKPPBGsT25FQFww@localhost.localdomain>
-References: <20220620110616.12056-1-songmuchun@bytedance.com>
- <20220620110616.12056-3-songmuchun@bytedance.com>
+        with ESMTP id S1348823AbiFVGWZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 02:22:25 -0400
+Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com [IPv6:2607:f8b0:4864:20::a35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EB3B2F038
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 23:22:24 -0700 (PDT)
+Received: by mail-vk1-xa35.google.com with SMTP id bb7so4858919vkb.9
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 23:22:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3XkLitP86rtDsNGNbm0pYZThHpLJXqkixx7LWXPpMas=;
+        b=lV/C6bX6AorIyXEwUKhCPN4hfwYvOVc72nXEWyA16PukyWkFG0DvFmv6UUjVbQa/n/
+         dBlQDAmwYcrP/bm5/Wyv7Vc9yoWw7v9Jm8SmGzSZOxcvCsDQEsxZlgnA1KhvecIkHvfv
+         eoumq5reiZ6xTrsecj3D52UwphTC1hXbBTZt59ANbHd4hM0Et/l4TSagGnh2Hlm/TLT9
+         sfZMYu0v1Kg/89RnQMWTNQYbk0Fk/GyUkSkoBEHLUFrMTWuM8dTFyhbbzKumcNAhg0po
+         yH2nrG2A3dViKLmvyjsyNWXYWYSnOZ7y8VnP9qV0zyM8vGffeqVrbN7/D1bybfeAzNYa
+         OtYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3XkLitP86rtDsNGNbm0pYZThHpLJXqkixx7LWXPpMas=;
+        b=w3VgQArOvWHG5IqQjFk7p15HOG/zUdP2TN1JtsZhb1akct3Mlj/3xA9RXIwhyqn3SM
+         bKNoFksL+ReWWKBosE/zJCM9dDueS/Z2acmmoyuVkvdbFDQWNTksDEttK6NT9nXQDZ6x
+         gmxty4zpyWNb1Io+sgqpGXCBjizcxIUZvrtAyU7Mbx4OzWe7+iSFtgCcin0AR6XQjlS1
+         3Qh6kD68KPr+DjLY7kILvwaT/37HkvWR7bAymLOKxTW5DGHah+f3IsUPl1Maqcu6GbyI
+         JV3e2rOFK0hMxE1C2Gwkel/ppVK9qUhhQAB3NqYSF0lDT5a94g6/HV+L+2jNTN1Htox/
+         Eutw==
+X-Gm-Message-State: AJIora8xFrZxt7zgnDteVm+lAvWsFp8xF16L3S5lBCO912FLJweECA9u
+        PHxtgk7NBMId/0Orx9xOiv7m0O/XxkIcFaBnoUryEg==
+X-Google-Smtp-Source: AGRyM1uGOkTBGY7ctKwH9tj7aqZUuj0ObZQ8AcIdtefS/K84QQ9iakI+N0KjfrqW0Z/yfLxJn1WX37eYGSmcYBCl/qs=
+X-Received: by 2002:a05:6122:1479:b0:36c:502b:fdda with SMTP id
+ r25-20020a056122147900b0036c502bfddamr4569701vkp.14.1655878943347; Tue, 21
+ Jun 2022 23:22:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220620110616.12056-3-songmuchun@bytedance.com>
+References: <20220614071650.206064-1-yuzhao@google.com>
+In-Reply-To: <20220614071650.206064-1-yuzhao@google.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Wed, 22 Jun 2022 00:21:47 -0600
+Message-ID: <CAOUHufbuqGJJ1pUJuYW8h6uB5+KpNSJotEd_WSzF5AK-S_6PoA@mail.gmail.com>
+Subject: Re: [PATCH v12 00/14] Multi-Gen LRU Framework
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 20, 2022 at 07:06:16PM +0800, Muchun Song wrote:
-> For now, the feature of hugetlb_free_vmemmap is not compatible with the
-> feature of memory_hotplug.memmap_on_memory, and hugetlb_free_vmemmap
-> takes precedence over memory_hotplug.memmap_on_memory. However, someone
-> wants to make memory_hotplug.memmap_on_memory takes precedence over
-> hugetlb_free_vmemmap since memmap_on_memory makes it more likely to
-> succeed memory hotplug in close-to-OOM situations.  So the decision
-> of making hugetlb_free_vmemmap take precedence is not wise and elegant.
-> The proper approach is to have hugetlb_vmemmap.c do the check whether
-> the section which the HugeTLB pages belong to can be optimized.  If
-> the section's vmemmap pages are allocated from the added memory block
-> itself, hugetlb_free_vmemmap should refuse to optimize the vmemmap,
-> otherwise, do the optimization.  Then both kernel parameters are
-> compatible.  So this patch introduces VmemmapSelfHosted to mask any
-> non-optimizable vmemmap pages. The hugetlb_vmemmap can use this flag
-> to detect if a vmemmap page can be optimized.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Co-developed-by: Oscar Salvador <osalvador@suse.de>
-> Signed-off-by: Oscar Salvador <osalvador@suse.de>
+On Tue, Jun 14, 2022 at 1:17 AM Yu Zhao <yuzhao@google.com> wrote:
+>
+> What's new
+> ==========
+> 1. Fixed a bug (using pmd_addr_end() when __PAGETABLE_PMD_FOLDED)
+>    reported by:
+>    Thomas Graichen <thomas.graichen@googlemail.com>
+>    https://forum.armbian.com/topic/20018-mglru-patches-to-bring-down-kswapd-cpu-usage/
+> 2. Retested on v5.19-rc1 and rebased to v5.19-rc2.
+> 3. Nits.
+>
+> TLDR
+> ====
+> The current page reclaim is too expensive in terms of CPU usage and it
+> often makes poor choices about what to evict. This patchset offers an
+> alternative solution that is performant, versatile and
+> straightforward.
 
-LGTM, thanks for working on this!
-
-
--- 
-Oscar Salvador
-SUSE Labs
+I don't see any action items left for me. Are we good for the next merge window?
