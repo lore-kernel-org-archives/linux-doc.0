@@ -2,152 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60E3CC43334
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 08:35:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE2D2C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 08:36:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351659AbiFVIfd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Jun 2022 04:35:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60866 "EHLO
+        id S1355166AbiFVIgv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jun 2022 04:36:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344965AbiFVIfb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 04:35:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2D305387A4
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jun 2022 01:35:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655886929;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FXbG8YAYtCcHZc9mu4c2Nm+a/RYeu4/cnHXEYuhco7U=;
-        b=VhIcEmy9j9x3FeabZaRe+8Fb+g75MHWMV5rjp1tm0TnzLfMLXUPGZi7c4KSfvK3FmpUCHI
-        szD3VnFlX2ThczSibQEPs8L3HlADRYFd92sBtaaOxQLetNLx4HgeZQCIe2asDGBLCaw7Ym
-        HyshX5dd0r/2CtD9g9qsyN9C9N02Tzs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-44-MIsd6_-XM4S793yov44VGw-1; Wed, 22 Jun 2022 04:35:25 -0400
-X-MC-Unique: MIsd6_-XM4S793yov44VGw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 094F48001EA;
-        Wed, 22 Jun 2022 08:35:24 +0000 (UTC)
-Received: from localhost (ovpn-13-227.pek2.redhat.com [10.72.13.227])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 33F7CC28115;
-        Wed, 22 Jun 2022 08:35:22 +0000 (UTC)
-Date:   Wed, 22 Jun 2022 16:35:16 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, kexec@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>,
-        liushixin <liushixin2@huawei.com>
-Subject: Re: [PATCH 5/5] arm64: kdump: Don't defer the reservation of crash
- high memory
-Message-ID: <YrLUREAoBMSZo7RR@MiWiFi-R3L-srv>
-References: <20220613080932.663-1-thunder.leizhen@huawei.com>
- <20220613080932.663-6-thunder.leizhen@huawei.com>
- <YrFYHYgX3mC//t2l@MiWiFi-R3L-srv>
- <3f66323d-f371-b931-65fb-edfae0f01c88@huawei.com>
- <YrIIJkhKWSuAqkCx@arm.com>
+        with ESMTP id S1355191AbiFVIgV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 04:36:21 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9171D38BE9;
+        Wed, 22 Jun 2022 01:36:20 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id b12-20020a17090a6acc00b001ec2b181c98so14492107pjm.4;
+        Wed, 22 Jun 2022 01:36:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=GfqsjDBnA9NqFc4n3hU0IVEZHFYA77sBuc7M8HEDFv4=;
+        b=SCJ4YnfN0j6VfMY6hCBVf3g+LHXlQtW3TbuoeEPCtIMN6tXD2EgW8J6OrY9p0rjKR7
+         +73PbV/YzovsnkWK7y2v0+eFUyhnrkgYs3Y4FO+xXp+m0rSCpfYTPkC2WAI/ovyWQKEt
+         +voZrX9kY1ZQyAE41i5WnoqtXqe2r2sCp2i4fHVrwJKetMHh0AYfi/2O2zC7aVzMGXlY
+         95fj9LZmhmPIUrX7se4dZjKMxuCDKlTKcGoYodK2PIx2bHylLEx+TOVEnzKDI53FhoIR
+         qMbBMHn0bWsXFz57v7ATK8lnAKNTvMJqiFp+iW3iLfLc2o/jEOMi9pBMDUqYLUNtD9xv
+         dx0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=GfqsjDBnA9NqFc4n3hU0IVEZHFYA77sBuc7M8HEDFv4=;
+        b=df4zy3QvnJwYtequomVdZf5Gp6oHP8UL+51CXyrFIifnC0BF/njd4xzlUR6YXKSmzu
+         iqxl8BCLZl7Vz4nnijgj2QmZvfSThrACvFZFuI7LLmFq7qAZY3fOBRxHgRbyxOpV7Y8s
+         1CHZ0b9jDNNVg9LAVI/fvyZWkpqKM6j9uTCbAAXQox6kmePHJVoY5gvxv6wqtvaIRs3b
+         ivOcSzwDwabVo523qOrBgvNWUkpf6cb0PeP6x5oRhrpHk4Dx8Qhu5huKSYpBLW1vUwaR
+         6Bl//bR7lWo6eiGwMwJ3SE+V+hSBGHy8RpHYgRTcCyrdsNs0nwSEWAfZA5ywHM21WB0m
+         VRKA==
+X-Gm-Message-State: AJIora855/iu9XwGJwubzfH3yJOIxzTEqoIPa+h24DVmvV2X69SleQKu
+        qLrI6QYuu0EaRPJK/LTCWJA=
+X-Google-Smtp-Source: AGRyM1trF/g/qBtoZmunuNjBApWXlmttV6L2+xeXbV9Lz9cPbXDrtpIAPRZpMXtDA4goIIFXG0CqKQ==
+X-Received: by 2002:a17:903:240c:b0:169:52d:cd75 with SMTP id e12-20020a170903240c00b00169052dcd75mr31594874plo.12.1655886980080;
+        Wed, 22 Jun 2022 01:36:20 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-12.three.co.id. [180.214.233.12])
+        by smtp.gmail.com with ESMTPSA id jf20-20020a170903269400b0016a10e0ce17sm8143718plb.151.2022.06.22.01.36.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jun 2022 01:36:19 -0700 (PDT)
+Message-ID: <4c566329-b2ce-80a5-00da-f3048bdbed3e@gmail.com>
+Date:   Wed, 22 Jun 2022 15:36:14 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YrIIJkhKWSuAqkCx@arm.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3] Documentation: highmem: Use literal block for code
+ example in highmem.h comment
+Content-Language: en-US
+To:     Ira Weiny <ira.weiny@intel.com>
+Cc:     linux-doc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+References: <20220620083649.18172-1-bagasdotme@gmail.com>
+ <YrDqJB0J1PT8VlwA@iweiny-desk3>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <YrDqJB0J1PT8VlwA@iweiny-desk3>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Catalin,
+On 6/21/22 04:44, Ira Weiny wrote:
 
-On 06/21/22 at 07:04pm, Catalin Marinas wrote:
-> On Tue, Jun 21, 2022 at 02:24:01PM +0800, Kefeng Wang wrote:
-> > On 2022/6/21 13:33, Baoquan He wrote:
-> > > On 06/13/22 at 04:09pm, Zhen Lei wrote:
-> > > > If the crashkernel has both high memory above DMA zones and low memory
-> > > > in DMA zones, kexec always loads the content such as Image and dtb to the
-> > > > high memory instead of the low memory. This means that only high memory
-> > > > requires write protection based on page-level mapping. The allocation of
-> > > > high memory does not depend on the DMA boundary. So we can reserve the
-> > > > high memory first even if the crashkernel reservation is deferred.
-> > > > 
-> > > > This means that the block mapping can still be performed on other kernel
-> > > > linear address spaces, the TLB miss rate can be reduced and the system
-> > > > performance will be improved.
-> > > 
-> > > Ugh, this looks a little ugly, honestly.
-> > > 
-> > > If that's for sure arm64 can't split large page mapping of linear
-> > > region, this patch is one way to optimize linear mapping. Given kdump
-> > > setting is necessary on arm64 server, the booting speed is truly
-> > > impacted heavily.
-> > 
-> > Is there some conclusion or discussion that arm64 can't split large page
-> > mapping?
-> > 
-> > Could the crashkernel reservation (and Kfence pool) be splited dynamically?
-> > 
-> > I found Mark replay "arm64: remove page granularity limitation from
-> > KFENCE"[1],
-> > 
-> >   "We also avoid live changes from block<->table mappings, since the
-> >   archtitecture gives us very weak guarantees there and generally requires
-> >   a Break-Before-Make sequence (though IIRC this was tightened up
-> >   somewhat, so maybe going one way is supposed to work). Unless it's
-> >   really necessary, I'd rather not split these block mappings while
-> >   they're live."
+>> Fix these warnings by indenting the code example with literal block
+>> indentation and prefixing comments inside the example with C comment
+>> symbol (#).
 > 
-> The problem with splitting is that you can end up with two entries in
-> the TLB for the same VA->PA mapping (e.g. one for a 4KB page and another
-> for a 2MB block). In the lucky case, the CPU will trigger a TLB conflict
-> abort (but can be worse like loss of coherency).
-
-Thanks for this explanation. Is this a drawback of arm64 design? X86
-code do the same thing w/o issue, is there way to overcome this on
-arm64 from hardware or software side?
-
-I ever got a arm64 server with huge memory, w or w/o crashkernel setting 
-have different bootup time. And the more often TLB miss and flush will
-cause performance cost. It is really a pity if we have very powerful
-arm64 cpu and system capacity, but bottlenecked by this drawback.
-
+> "//"?
 > 
-> Prior to FEAT_BBM (added in ARMv8.4), such scenario was not allowed at
-> all, the software would have to unmap the range, TLBI, remap. With
-> FEAT_BBM (level 2), we can do this without tearing the mapping down but
-> we still need to handle the potential TLB conflict abort. The handler
-> only needs a TLBI but if it touches the memory range being changed it
-> risks faulting again. With vmap stacks and the kernel image mapped in
-> the vmalloc space, we have a small window where this could be handled
-> but we probably can't go into the C part of the exception handling
-> (tracing etc. may access a kmalloc'ed object for example).
+> Frankly I'd just drop "(#)".
 > 
-> Another option is to do a stop_machine() (if multi-processor at that
-> point), disable the MMUs, modify the page tables, re-enable the MMU but
-> it's also complicated.
+> Perhaps:
 > 
-> -- 
-> Catalin
+> ... indentation and making the comments C comments.
 > 
 
+Ah! I had overlooked that. Thanks.
+
+-- 
+An old man doll... just what I always wanted! - Clara
