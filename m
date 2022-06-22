@@ -2,241 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F324EC43334
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 03:31:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7518FC43334
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 03:40:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356528AbiFVDb2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jun 2022 23:31:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49854 "EHLO
+        id S1350370AbiFVDkv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jun 2022 23:40:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356516AbiFVDb0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 23:31:26 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FCAB33A0A
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 20:31:25 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id q140so14914605pgq.6
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 20:31:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=zIckZjx7nBE8+LrtkYIITkN+RjWFo0BrzsFyrHjWsuE=;
-        b=HR2ehh1THOUQ/7sVD3IxlsNn5X9iiusHdkvQi2v7mCXaSiOlWuubLTsBInnuZSMIV1
-         yyrPoOAP2Ojg4Swx91s1XU/1zn/eLXNS8RszKuPDGFC8Iy92YzlnXAxGZOZR7QoG0sak
-         7M2SFRlLE3VXFhvX6AL9tDSdfz1SVkR6ozIAbwvGN6mXDiBDFtpnB0e1h4PXCUfpyaRx
-         Yhdv5wCO8sko56NAT6PKlZFhgDksALXFs3i3B5fU5SUnV9PjVtQvJkk00GU+tcuQYfJo
-         5VOUrjb0Gl+GWLXK46LHl20wuH6c/vfxp0U7E7RUTtvHxQL3Cvv9uxzcA3Wd9Iv1winU
-         V90A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zIckZjx7nBE8+LrtkYIITkN+RjWFo0BrzsFyrHjWsuE=;
-        b=aziwLE/ujmRbwj0Pxqrz679dWhsbMUeYw2M0Vx++wmC+UI/Zqw5MKmABNxVCgoW4mj
-         F7nILJkV9eI8HPoPGhWVn2sftW8ohfrsG3jzn1qHU14Y3W5DS6G018o1ULyC6BxKXWJF
-         j7RuWUMtUyQHhpKc9Rb6XClyiXNLlgnWh2BRWeCPEyx7vwAjHFt51znJJQmQJCcZEMRG
-         d9ETGlq9yEZvCVWqudKtl6eoltQXBsTjJ4jFOJ4ySFNZ+pLNseuhbNZfYpgZ7PnxLrUh
-         Q+espTSz2IOJmPvVrBxCjTlbF2ImoHpS6aJ+Vtac6fjWVyWu86FqDL5EVGhAjTwUUlBR
-         WT3A==
-X-Gm-Message-State: AJIora97utggMbU56O2MQfd1Zn+qytw9M+Tg9614MIxqbU66lL3zWu0Z
-        9aEL5ngdOlF57KG3Rcgtmra9ZA==
-X-Google-Smtp-Source: AGRyM1t0+4a7W1b88iaY0mq5xGeMqBK/vj1Q19dBpqEycB3mZ15nOpLahQdSlpV+QlmyxdO9MwebXA==
-X-Received: by 2002:a63:8341:0:b0:40d:268f:d8ed with SMTP id h62-20020a638341000000b0040d268fd8edmr1145053pge.232.1655868685123;
-        Tue, 21 Jun 2022 20:31:25 -0700 (PDT)
-Received: from localhost ([2404:9dc0:cd01::13])
-        by smtp.gmail.com with ESMTPSA id t20-20020a17090a951400b001d903861194sm13194409pjo.30.2022.06.21.20.31.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jun 2022 20:31:24 -0700 (PDT)
-Date:   Wed, 22 Jun 2022 11:31:21 +0800
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     corbet@lwn.net, david@redhat.com, mike.kravetz@oracle.com,
-        osalvador@suse.de, paulmck@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        duanxiongchun@bytedance.com, smuchun@gmail.com
-Subject: Re: [PATCH v5 0/2] make hugetlb_optimize_vmemmap compatible with
- memmap_on_memory
-Message-ID: <YrKNCRHg6PCXzg3K@FVFYT0MHHV2J.usts.net>
+        with ESMTP id S232276AbiFVDku (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 23:40:50 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B592FFC0;
+        Tue, 21 Jun 2022 20:40:49 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id CE5791F86C;
+        Wed, 22 Jun 2022 03:40:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1655869246; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=jeXIvyG+fPIiAWcZllL+XxAZd7FyyfACJBUCMpR3g5k=;
+        b=dKUbM58veNma+6AqhJX4djD7Ja1SaxFaSeAziPjuF4tMdf5xwB+eCeyNbaCHwLnEDidRvo
+        nQUT3/gOA8huOLVkOnvl/ENu7A85bVkeITWMVmXXRFS2hCpr1mcyxcgv3TI51z6T0N3zQW
+        D3RU589h7mhgx2lcCc1mp4rhaHlfrMA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1655869246;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=jeXIvyG+fPIiAWcZllL+XxAZd7FyyfACJBUCMpR3g5k=;
+        b=MEuGvTyAqBHAx/bVdPsPW0HY67LJfovTu392gs17hV9r5V83i/Eaeim4/nG5/1UyDNOvJu
+        PcQ2hTD1ueF8uLAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C3561342C;
+        Wed, 22 Jun 2022 03:40:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 8x//Az6PsmIlDgAAMHmgww
+        (envelope-from <osalvador@suse.de>); Wed, 22 Jun 2022 03:40:46 +0000
+Date:   Wed, 22 Jun 2022 05:40:44 +0200
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     akpm@linux-foundation.org, corbet@lwn.net, david@redhat.com,
+        mike.kravetz@oracle.com, paulmck@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v5 2/2] mm: memory_hotplug: make hugetlb_optimize_vmemmap
+ compatible with memmap_on_memory
+Message-ID: <YrKPPBGsT25FQFww@localhost.localdomain>
 References: <20220620110616.12056-1-songmuchun@bytedance.com>
- <20220621135313.ae6fbc28338f1220328694f7@linux-foundation.org>
+ <20220620110616.12056-3-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220621135313.ae6fbc28338f1220328694f7@linux-foundation.org>
+In-Reply-To: <20220620110616.12056-3-songmuchun@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 21, 2022 at 01:53:13PM -0700, Andrew Morton wrote:
-> On Mon, 20 Jun 2022 19:06:14 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
+On Mon, Jun 20, 2022 at 07:06:16PM +0800, Muchun Song wrote:
+> For now, the feature of hugetlb_free_vmemmap is not compatible with the
+> feature of memory_hotplug.memmap_on_memory, and hugetlb_free_vmemmap
+> takes precedence over memory_hotplug.memmap_on_memory. However, someone
+> wants to make memory_hotplug.memmap_on_memory takes precedence over
+> hugetlb_free_vmemmap since memmap_on_memory makes it more likely to
+> succeed memory hotplug in close-to-OOM situations.  So the decision
+> of making hugetlb_free_vmemmap take precedence is not wise and elegant.
+> The proper approach is to have hugetlb_vmemmap.c do the check whether
+> the section which the HugeTLB pages belong to can be optimized.  If
+> the section's vmemmap pages are allocated from the added memory block
+> itself, hugetlb_free_vmemmap should refuse to optimize the vmemmap,
+> otherwise, do the optimization.  Then both kernel parameters are
+> compatible.  So this patch introduces VmemmapSelfHosted to mask any
+> non-optimizable vmemmap pages. The hugetlb_vmemmap can use this flag
+> to detect if a vmemmap page can be optimized.
 > 
-> > This series makes hugetlb_optimize_vmemmap compatible with memmap_on_memory
-> > and is based on mm-stable.  The reason refers to the patch 2's commit log.
-> > 
-> > v5:
-> >  - Replace enum to defines per David.
-> >  - Walk vmemmap page tables to avoid false-positive.
-> 
-> I can't see this second change in the v3->v5 deltas? 
-> 
-
-My changlog is not clear, Let me clarify it here.
-
-v3: Drop a section flag SECTION_CANNOT_OPTIMIZE_VMEMMAP and introduce a page
-    flag PageVmemmapSelfHosted to make both parameters compatible.
-v4: Fix compiling error when !CONFIG_MEMORY_HOTPLUG and a bug when memory block
-    spans multiple sections.
-v5: Fix a bug which PageVmemmapSelfHosted() check can be false-positive.
-
-Thanks.
-
-> From: Muchun Song <songmuchun@bytedance.com>
-> Subject: mm-memory_hotplug-enumerate-all-supported-section-flags-v5
-> Date: Mon, 20 Jun 2022 19:06:15 +0800
-> 
-> replace enum with defines per David
->  
-> Link: https://lkml.kernel.org/r/20220620110616.12056-2-songmuchun@bytedance.com
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-> ---
-> 
->  include/linux/mmzone.h |   13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
-> 
-> --- a/include/linux/mmzone.h~mm-memory_hotplug-enumerate-all-supported-section-flags-v5
-> +++ a/include/linux/mmzone.h
-> @@ -1439,16 +1439,13 @@ enum {
->  	SECTION_MAP_LAST_BIT,
->  };
->  
-> -enum {
-> -	SECTION_MARKED_PRESENT		= BIT(SECTION_MARKED_PRESENT_BIT),
-> -	SECTION_HAS_MEM_MAP		= BIT(SECTION_HAS_MEM_MAP_BIT),
-> -	SECTION_IS_ONLINE		= BIT(SECTION_IS_ONLINE_BIT),
-> -	SECTION_IS_EARLY		= BIT(SECTION_IS_EARLY_BIT),
-> +#define SECTION_MARKED_PRESENT		BIT(SECTION_MARKED_PRESENT_BIT)
-> +#define SECTION_HAS_MEM_MAP		BIT(SECTION_HAS_MEM_MAP_BIT)
-> +#define SECTION_IS_ONLINE		BIT(SECTION_IS_ONLINE_BIT)
-> +#define SECTION_IS_EARLY		BIT(SECTION_IS_EARLY_BIT)
->  #ifdef CONFIG_ZONE_DEVICE
-> -	SECTION_TAINT_ZONE_DEVICE	= BIT(SECTION_TAINT_ZONE_DEVICE_BIT),
-> +#define SECTION_TAINT_ZONE_DEVICE	BIT(SECTION_TAINT_ZONE_DEVICE_BIT)
->  #endif
-> -};
-> -
->  #define SECTION_MAP_MASK		(~(BIT(SECTION_MAP_LAST_BIT) - 1))
->  #define SECTION_NID_SHIFT		SECTION_MAP_LAST_BIT
->  
-> _
-> 
-> 
-> 
-> 
-> From: Muchun Song <songmuchun@bytedance.com>
-> Subject: mm-memory_hotplug-make-hugetlb_optimize_vmemmap-compatible-with-memmap_on_memory-v5
-> Date: Mon, 20 Jun 2022 19:06:16 +0800
-> 
-> walk vmemmap page tables to avoid false-positive
-> 
-> Link: https://lkml.kernel.org/r/20220620110616.12056-3-songmuchun@bytedance.com
 > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 > Co-developed-by: Oscar Salvador <osalvador@suse.de>
 > Signed-off-by: Oscar Salvador <osalvador@suse.de>
-> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-> ---
-> 
->  mm/hugetlb_vmemmap.c |   69 ++++++++++++++++++++++++++---------------
->  1 file changed, 44 insertions(+), 25 deletions(-)
-> 
-> --- a/mm/hugetlb_vmemmap.c~mm-memory_hotplug-make-hugetlb_optimize_vmemmap-compatible-with-memmap_on_memory-v5
-> +++ a/mm/hugetlb_vmemmap.c
-> @@ -10,6 +10,7 @@
->   */
->  #define pr_fmt(fmt)	"HugeTLB: " fmt
->  
-> +#include <linux/memory.h>
->  #include "hugetlb_vmemmap.h"
->  
->  /*
-> @@ -99,34 +100,52 @@ int hugetlb_vmemmap_alloc(struct hstate
->  static unsigned int vmemmap_optimizable_pages(struct hstate *h,
->  					      struct page *head)
->  {
-> -	struct mem_section *ms;
-> -	struct page *vmemmap_page;
-> -	unsigned long pfn = page_to_pfn(head);
-> -
->  	if (READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
->  		return 0;
->  
-> -	ms = __pfn_to_section(pfn);
-> -	vmemmap_page = sparse_decode_mem_map(ms->section_mem_map,
-> -					     pfn_to_section_nr(pfn));
-> -	/*
-> -	 * Only the vmemmap pages' vmemmap may be marked as VmemmapSelfHosted.
-> -	 *
-> -	 * Due to HugeTLB alignment requirements, and the vmemmap pages being
-> -	 * at the start of the hotplugged memory region. Checking any vmemmap
-> -	 * page's vmemmap is fine.
-> -	 *
-> -	 * [      hotplugged memory     ]
-> -	 * [ vmemmap ][  usable memory  ]
-> -	 *   ^   |      |            |
-> -	 *   +---+      |            |
-> -	 *     ^        |            |
-> -	 *     +--------+            |
-> -	 *         ^                 |
-> -	 *         +-----------------+
-> -	 */
-> -	if (PageVmemmapSelfHosted(vmemmap_page))
-> -		return 0;
-> +	if (IS_ENABLED(CONFIG_MEMORY_HOTPLUG)) {
-> +		pmd_t *pmdp, pmd;
-> +		struct page *vmemmap_page;
-> +		unsigned long vaddr = (unsigned long)head;
-> +
-> +		/*
-> +		 * Only the vmemmap page's vmemmap page can be self-hosted.
-> +		 * Walking the page tables to find the backing page of the
-> +		 * vmemmap page.
-> +		 */
-> +		pmdp = pmd_off_k(vaddr);
-> +		/*
-> +		 * The READ_ONCE() is used to stabilize *pmdp in a register or
-> +		 * on the stack so that it will stop changing under the code.
-> +		 * The only concurrent operation where it can be changed is
-> +		 * split_vmemmap_huge_pmd() (*pmdp will be stable after this
-> +		 * operation).
-> +		 */
-> +		pmd = READ_ONCE(*pmdp);
-> +		if (pmd_leaf(pmd))
-> +			vmemmap_page = pmd_page(pmd) + pte_index(vaddr);
-> +		else
-> +			vmemmap_page = pte_page(*pte_offset_kernel(pmdp, vaddr));
-> +		/*
-> +		 * Due to HugeTLB alignment requirements and the vmemmap pages
-> +		 * being at the start of the hotplugged memory region in
-> +		 * memory_hotplug.memmap_on_memory case. Checking any vmemmap
-> +		 * page's vmemmap page if it is marked as VmemmapSelfHosted is
-> +		 * sufficient.
-> +		 *
-> +		 * [                  hotplugged memory                  ]
-> +		 * [        section        ][...][        section        ]
-> +		 * [ vmemmap ][              usable memory               ]
-> +		 *   ^   |     |                                        |
-> +		 *   +---+     |                                        |
-> +		 *     ^       |                                        |
-> +		 *     +-------+                                        |
-> +		 *          ^                                           |
-> +		 *          +-------------------------------------------+
-> +		 */
-> +		if (PageVmemmapSelfHosted(vmemmap_page))
-> +			return 0;
-> +	}
->  
->  	return hugetlb_optimize_vmemmap_pages(h);
->  }
-> _
-> 
-> 
+
+LGTM, thanks for working on this!
+
+
+-- 
+Oscar Salvador
+SUSE Labs
