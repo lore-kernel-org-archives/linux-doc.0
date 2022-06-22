@@ -2,164 +2,241 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 967FAC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 03:10:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F324EC43334
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 03:31:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356251AbiFVDKv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Jun 2022 23:10:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38888 "EHLO
+        id S1356528AbiFVDb2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Jun 2022 23:31:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231720AbiFVDKu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 23:10:50 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1047F2E9C3;
-        Tue, 21 Jun 2022 20:10:50 -0700 (PDT)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25M0IiA2002242;
-        Wed, 22 Jun 2022 00:57:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : message-id : references : date : in-reply-to : content-type :
- mime-version; s=corp-2021-07-09;
- bh=hYPUunJv39Kc2I5cyf9e+WJqO1CwN/sdH2K7lZcHexc=;
- b=b4gfe1KPzhVRlE1660Vbk/oN3bTJAk/Bpt494KwUuU/Nkhmvjxa2c1VvUYW5wixIsfw5
- 0V4XCWwESSFQgqEgytte5C4e+UGt41eJSjIiUCjACmZMEjCfeGbBk9GZFZibTFu0Dxc2
- mZxUV/q7Twncf1v7Tiw+UYIocVHg2oQ0nNBSM8ovIThiIrcAd1lvjHcaO7/c6kqnMA5T
- gS9AO4tg/LHr6/19G+12695iW3njWDB75t9CaogW973lzNy2l2+Cmmiteqd1HPB5ZG+d
- XOpqXf6nRKx+MN8mksbxelKvYZMDrjuhxAdeFK0CeizMSod7ioXfKRlvgTEUMMRNagfU nw== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs5a0f39m-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 22 Jun 2022 00:57:48 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25M0p1Ue012151;
-        Wed, 22 Jun 2022 00:57:48 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2175.outbound.protection.outlook.com [104.47.56.175])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gth8wy4xb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 22 Jun 2022 00:57:48 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QM8VuCBpBslfRxaUBaiAv5AeOp2BcD0IuEB/MQojqDemXHjqeCgn3vnjkHlRdv2K1ppkYwyL2ZTuwZ0+B2r6oxH9JQWwVwSgqhcg1rSiVXjjd52HI1yMY95NmUqf4qR6JopPiRrIu1Nh2S/JSJoNAVSj5klZRUT1Gxp7a1K80PbqsHYtPvbVAsAmOrFNZ7bTZnRHYV4lPoaOYv8UU1JC2xqhVXZPwKLziKQ/tUURkgzXJrvAhGnVtAZOoHHP+mt5xj4Ot16E4YmvshPG9Omhc4RTmQXrJPtjY+sRAGYYT+9q2lBq5iOrgFXmYvIHIOxIEgNU6hHJyDZggVULY+iWlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hYPUunJv39Kc2I5cyf9e+WJqO1CwN/sdH2K7lZcHexc=;
- b=LnR99KXqbNOiAXIOxgMAXDi5nY7QQMtB3yxr0jymPXQrl8U3g4yvsvTF1ccvNvYVN96Fuh0KglHPilDSkh4WkYA/XUQqNm8m1E+M+jISc2csEKhHdmJ7kRxaMx8Y5CfqN8wvvyZigUR/OCPlT9XMh/r81kzuZLxkQokjHSTtmSBzdYS+/QD2XeP0+t9ISgH4QsKoS7UhgBBZX8vpdBqEotmoVB0uM+UFwR8Ck5uGTYSHgAdRiX9/t+GuWsFnBc47WgVUguFMjtZuEeWNkJ2EztTou+sziwaZm6r1MhoNcPjFkfazS7HQ+fQoZg+q8rfTYrIDPMtu1yJZslCXPMk/mA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        with ESMTP id S1356516AbiFVDb0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Jun 2022 23:31:26 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FCAB33A0A
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 20:31:25 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id q140so14914605pgq.6
+        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 20:31:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hYPUunJv39Kc2I5cyf9e+WJqO1CwN/sdH2K7lZcHexc=;
- b=XW4RLygnn9mfc/uRXwqIA9p/khrqa9uepT/MlLY5Cih1cz5BHJc7tKtwl9eKegG/ZDa8ndaPkrFkOJnnm7f+6rQgslArwvwWUZE/U9kOL47msCic8OO0GioazQWmKxuyTRQq1Nw1UZ/l9KxiL3Mu2RYumHVoQSHTb5lOeaPacOo=
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by CO1PR10MB4417.namprd10.prod.outlook.com (2603:10b6:303:93::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.15; Wed, 22 Jun
- 2022 00:57:46 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::6516:e908:d2bd:ca45]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::6516:e908:d2bd:ca45%5]) with mapi id 15.20.5353.022; Wed, 22 Jun 2022
- 00:57:46 +0000
-To:     John Garry <john.garry@huawei.com>
-Cc:     <axboe@kernel.dk>, <damien.lemoal@opensource.wdc.com>,
-        <bvanassche@acm.org>, <hch@lst.de>, <jejb@linux.ibm.com>,
-        <martin.petersen@oracle.com>, <hare@suse.de>, <satishkh@cisco.com>,
-        <sebaddel@cisco.com>, <kartilak@cisco.com>,
-        <linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
-        <linux-s390@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-        <mpi3mr-linuxdrv.pdl@broadcom.com>, <linux-block@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <nbd@other.debian.org>
-Subject: Re: [PATCH v2 0/6] blk-mq: Add a flag for reserved requests series
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq14k0dldlx.fsf@ca-mkp.ca.oracle.com>
-References: <1655810143-67784-1-git-send-email-john.garry@huawei.com>
-Date:   Tue, 21 Jun 2022 20:57:42 -0400
-In-Reply-To: <1655810143-67784-1-git-send-email-john.garry@huawei.com> (John
-        Garry's message of "Tue, 21 Jun 2022 19:15:37 +0800")
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR15CA0032.namprd15.prod.outlook.com
- (2603:10b6:208:1b4::45) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=zIckZjx7nBE8+LrtkYIITkN+RjWFo0BrzsFyrHjWsuE=;
+        b=HR2ehh1THOUQ/7sVD3IxlsNn5X9iiusHdkvQi2v7mCXaSiOlWuubLTsBInnuZSMIV1
+         yyrPoOAP2Ojg4Swx91s1XU/1zn/eLXNS8RszKuPDGFC8Iy92YzlnXAxGZOZR7QoG0sak
+         7M2SFRlLE3VXFhvX6AL9tDSdfz1SVkR6ozIAbwvGN6mXDiBDFtpnB0e1h4PXCUfpyaRx
+         Yhdv5wCO8sko56NAT6PKlZFhgDksALXFs3i3B5fU5SUnV9PjVtQvJkk00GU+tcuQYfJo
+         5VOUrjb0Gl+GWLXK46LHl20wuH6c/vfxp0U7E7RUTtvHxQL3Cvv9uxzcA3Wd9Iv1winU
+         V90A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zIckZjx7nBE8+LrtkYIITkN+RjWFo0BrzsFyrHjWsuE=;
+        b=aziwLE/ujmRbwj0Pxqrz679dWhsbMUeYw2M0Vx++wmC+UI/Zqw5MKmABNxVCgoW4mj
+         F7nILJkV9eI8HPoPGhWVn2sftW8ohfrsG3jzn1qHU14Y3W5DS6G018o1ULyC6BxKXWJF
+         j7RuWUMtUyQHhpKc9Rb6XClyiXNLlgnWh2BRWeCPEyx7vwAjHFt51znJJQmQJCcZEMRG
+         d9ETGlq9yEZvCVWqudKtl6eoltQXBsTjJ4jFOJ4ySFNZ+pLNseuhbNZfYpgZ7PnxLrUh
+         Q+espTSz2IOJmPvVrBxCjTlbF2ImoHpS6aJ+Vtac6fjWVyWu86FqDL5EVGhAjTwUUlBR
+         WT3A==
+X-Gm-Message-State: AJIora97utggMbU56O2MQfd1Zn+qytw9M+Tg9614MIxqbU66lL3zWu0Z
+        9aEL5ngdOlF57KG3Rcgtmra9ZA==
+X-Google-Smtp-Source: AGRyM1t0+4a7W1b88iaY0mq5xGeMqBK/vj1Q19dBpqEycB3mZ15nOpLahQdSlpV+QlmyxdO9MwebXA==
+X-Received: by 2002:a63:8341:0:b0:40d:268f:d8ed with SMTP id h62-20020a638341000000b0040d268fd8edmr1145053pge.232.1655868685123;
+        Tue, 21 Jun 2022 20:31:25 -0700 (PDT)
+Received: from localhost ([2404:9dc0:cd01::13])
+        by smtp.gmail.com with ESMTPSA id t20-20020a17090a951400b001d903861194sm13194409pjo.30.2022.06.21.20.31.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jun 2022 20:31:24 -0700 (PDT)
+Date:   Wed, 22 Jun 2022 11:31:21 +0800
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     corbet@lwn.net, david@redhat.com, mike.kravetz@oracle.com,
+        osalvador@suse.de, paulmck@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        duanxiongchun@bytedance.com, smuchun@gmail.com
+Subject: Re: [PATCH v5 0/2] make hugetlb_optimize_vmemmap compatible with
+ memmap_on_memory
+Message-ID: <YrKNCRHg6PCXzg3K@FVFYT0MHHV2J.usts.net>
+References: <20220620110616.12056-1-songmuchun@bytedance.com>
+ <20220621135313.ae6fbc28338f1220328694f7@linux-foundation.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9fe1d8aa-cbd8-436f-194b-08da53ea3848
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4417:EE_
-X-Microsoft-Antispam-PRVS: <CO1PR10MB44170BF067037272FE052FAC8EB29@CO1PR10MB4417.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SX57tL0ZuJv+LXmnWHuw2+0zFdTXJ45W/PXWre9o0D4SHwohMiDcYdqmzPbnd9CdGkMifkGJVg4HZpSzEa0ITMaJqj7TGQDNBBnKghTT7ZwTDucEsu9ydmjztNGfKmvrMFis3rBJUlMh79JmnWYVPZmqbxBrXpTEqvWC8C4qLByuHhaEZS6NClpSGwmA6QV6tN2/d18nH0qlCNgL3cRVf4K+zYvov035WsIwoN8n4NDXxlUuuGAryh7V7rLtsezxkYMw9m/JbHEJw5LqIWwMiWZ2ChTR/aGavnK4v5UqcTdjV+cCj6dKkRZub6ThA5NN/Pxs/7TIqkjv/bK/fqXaysh128MbUsvO39xfJngMCaazZeXS70/wpxDBrXgyBfxIL5g5S4Gli1LtM6YlWAsCXIWCY4J7QDrBcZjipWU8WK7U89yC5dHSx+JVXCI9SJq7TzS9yWzlp4MegfQHOpuDMYI8anpxhi1h8rPrl5HFOFmMOexQjBAay7RU17dZNta4SdVhTlHGGMHbOqOYKeRI+2NbhVbyLa8qpu6P+xavNUi2wUAlDKw7U7LLUWJYkqj/AID1amQ5LzZlP5BQojCk3XUaYiWSSDfK+ubyVqkFWB4W/gKLC9SeBYy0WpTIMEmc0c0cy0yUIGiNmjBHSdo98sAwTIoi4HLDlzyNHdJa6GBN4mMggN9GQupAq1Ot4sFLUXIo2B2ftu84tGtYHXVWfg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(39860400002)(136003)(346002)(366004)(376002)(396003)(7416002)(4744005)(41300700001)(8936002)(5660300002)(6486002)(186003)(83380400001)(478600001)(2906002)(86362001)(38100700002)(6506007)(26005)(6512007)(52116002)(36916002)(6666004)(38350700002)(6916009)(316002)(4326008)(66946007)(54906003)(66556008)(66476007)(8676002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4187q9J/CK/yNL2YqGEZ1ty21oEeOXmPfZq0S2L7iw+KclhfB3OKwscnOnSz?=
- =?us-ascii?Q?9jSOkGn4iGe0mov4JyQNnr2O3Ca1cojbogdWKIGTJ+yNZq+Gse+3o0FdtGeF?=
- =?us-ascii?Q?+88tu0p3vkTrG+SdP9rOnS8eBSakGqHZ0D0loPkGYuw7z4srGVDBRg2GVL3T?=
- =?us-ascii?Q?BRdPauRIk2CCwUDrBvIDyGoRdkEzZZvFuulbXv8Qvki2dSNoCfvNtrkR6QBU?=
- =?us-ascii?Q?5wekEeN5qXpgZw0Bz+CUIk0oP7m7N6QNqK8T0+TZjpx3r6IHlPWN57/TujiR?=
- =?us-ascii?Q?xX7HM4lY5uhqxNNx/8JHBRyylvLsSImUd9neGNabZGwovq0BMq6QcahzaXqy?=
- =?us-ascii?Q?oC66oDQODImGO4LeYsTqzAYExoC3rlVJd0tNKDX/GF5NJ4agI2bilB+ESx2r?=
- =?us-ascii?Q?KucHbOivg6RJln75uMLwQATb2k66m1bsClHZ99qv8RvegbUyJI2GewX+aviV?=
- =?us-ascii?Q?dPjije145cDxFoVBORi6dTnCYi5Z6jQi4bLYzPYwfe0wjFJ1Jbfl5I2xrBuj?=
- =?us-ascii?Q?6yPkrlO1BBlZxkJUfFk2Dwc2hwd2g5MUQRnZ/MhK632bJRC3lXt0bgC12AX4?=
- =?us-ascii?Q?hX46NugQ+ct2NYJj2ZU2Sv+S2sFOjpRRAWqCO+Dx4SCorwFvVLgM7hwgMlN0?=
- =?us-ascii?Q?iuRBBxZdyBjhnS5xV6sww+RRyb1zH+xXFRs0dcjAkoncr15eu261qhkzOWZB?=
- =?us-ascii?Q?qhU0k0bKsPYh438lKajMLvA1+P6Y06AdopVGK8mDJirkyufJ9GhrfPrZL/ok?=
- =?us-ascii?Q?4JjZF6Kk33oyVZoAGDwZLbDggWKc/gimDwWOOAMd37mkeOczsojCRCUDoOZE?=
- =?us-ascii?Q?yvv5ILhrXLUDVA3v8woNAK3yHr2VFnP0MNAaPZKuoXtH4gYUW/b/Xn4cQfhh?=
- =?us-ascii?Q?G2sEXqw13WlTXbTjuLgY/R8Tjt50JmvDwhi996X/cTKUVVMj/7S/jsUWIcMm?=
- =?us-ascii?Q?UCciSnIXYdPyKg+/iQbSLUydQuiVM1IdHdBYlE6NzINtx+rPK8t47ttW9GjP?=
- =?us-ascii?Q?2/QwiZEZsE+/hQZvmwg+AwcVBWIAcj1q2tKvh9jkzM95P2a13wIKA+ObjR49?=
- =?us-ascii?Q?ZWY+t4XvJH5C8sihn/14JOR+2XZhrn144aNcBgXc8WJ5VvAKxnhuATJOc+ju?=
- =?us-ascii?Q?mLl996FstnYHAasyY/d7vMQxuopfp1rT/JWOmsbnF3aoDahH2jlW4s3ndID5?=
- =?us-ascii?Q?2zhRoTV/urx7UsHTmImVwtOk2tagMirWyc8a+1PXzu1ZbrdP88aKRzwe1GvZ?=
- =?us-ascii?Q?zERqk2I/AsJ51mztArLPq6jvY/tQHm7/OiIqoKjPDQJZ0HF6hJjFkCZUKjkj?=
- =?us-ascii?Q?l/oMPBED0Gb3mu7DvmdfpTDj9uW3CKvqi04Dh7wXyCDv9DQLV2KJKYugJVTt?=
- =?us-ascii?Q?NGijQ6HXmAE0tf3WMdglnz36QvGn0BFY1bcHUV53Qo9d2JTBQKHSisIlbIdo?=
- =?us-ascii?Q?qWxC+2ivl/yKr1AMDZ8KKaAR8ObSDX8FeRUM6GAiHdFXYTDbnt195UhTo4RZ?=
- =?us-ascii?Q?qH3MOedKaxiBLsPdTEPEfHCARmIHOkj0peCKGN6UuLDkADtlNmu/pK5l2bs0?=
- =?us-ascii?Q?vmdaGpBk82tqa1BpArn9J4fh8feIh9TRQfqcsj7akjyB4Td4t85R9yrPemKc?=
- =?us-ascii?Q?TM92gZLj30zcrJDegrVd+dV2B52i36xgop0B53js7HSeHPuYjC90d+AITnjJ?=
- =?us-ascii?Q?UOORpSf1ojIzQkhFqnG4vb5Ynd479Jgsiv4hTfbQ3BPQyRV3ockC/IXId+AP?=
- =?us-ascii?Q?3GAX4UpD5EEg+9B8UIPnsX5yqccMA48=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fe1d8aa-cbd8-436f-194b-08da53ea3848
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2022 00:57:46.0235
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MPRo1YUazgxGRe7mTsYs3Qal9B7yPVPXLfBbYYQmI0xIg3HftnE4l5VZ7l2JPIJdk5z1aBbumfF/z8tOmvrneZXbFb5lF2Qzm+1uUQDPKlE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4417
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
- definitions=2022-06-21_11:2022-06-21,2022-06-21 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 mlxscore=0
- phishscore=0 adultscore=0 suspectscore=0 mlxlogscore=959 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2206220003
-X-Proofpoint-ORIG-GUID: llj4IUyuh1EIdvAYE9Mt_03d7tmIrmCz
-X-Proofpoint-GUID: llj4IUyuh1EIdvAYE9Mt_03d7tmIrmCz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220621135313.ae6fbc28338f1220328694f7@linux-foundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jun 21, 2022 at 01:53:13PM -0700, Andrew Morton wrote:
+> On Mon, 20 Jun 2022 19:06:14 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
+> 
+> > This series makes hugetlb_optimize_vmemmap compatible with memmap_on_memory
+> > and is based on mm-stable.  The reason refers to the patch 2's commit log.
+> > 
+> > v5:
+> >  - Replace enum to defines per David.
+> >  - Walk vmemmap page tables to avoid false-positive.
+> 
+> I can't see this second change in the v3->v5 deltas? 
+> 
 
-John,
+My changlog is not clear, Let me clarify it here.
 
-> In [0] I included "blk-mq: Add a flag for reserved requests" to
-> identify if a request is 'reserved' for special handling. Doing this
-> is easier than passing a 'reserved' arg to the blk_mq_ops
-> callbacks. Indeed, only 1x timeout implementation or blk-mq iter
-> function actually uses the 'reserved' arg (or 3x if you count SCSI
-> core and FNIC SCSI driver). So this series drops the 'reserved' arg
-> for these timeout and iter functions.  Christoph suggested that I try
-> to upstream now.
+v3: Drop a section flag SECTION_CANNOT_OPTIMIZE_VMEMMAP and introduce a page
+    flag PageVmemmapSelfHosted to make both parameters compatible.
+v4: Fix compiling error when !CONFIG_MEMORY_HOTPLUG and a bug when memory block
+    spans multiple sections.
+v5: Fix a bug which PageVmemmapSelfHosted() check can be false-positive.
 
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+Thanks.
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+> From: Muchun Song <songmuchun@bytedance.com>
+> Subject: mm-memory_hotplug-enumerate-all-supported-section-flags-v5
+> Date: Mon, 20 Jun 2022 19:06:15 +0800
+> 
+> replace enum with defines per David
+>  
+> Link: https://lkml.kernel.org/r/20220620110616.12056-2-songmuchun@bytedance.com
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> ---
+> 
+>  include/linux/mmzone.h |   13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
+> 
+> --- a/include/linux/mmzone.h~mm-memory_hotplug-enumerate-all-supported-section-flags-v5
+> +++ a/include/linux/mmzone.h
+> @@ -1439,16 +1439,13 @@ enum {
+>  	SECTION_MAP_LAST_BIT,
+>  };
+>  
+> -enum {
+> -	SECTION_MARKED_PRESENT		= BIT(SECTION_MARKED_PRESENT_BIT),
+> -	SECTION_HAS_MEM_MAP		= BIT(SECTION_HAS_MEM_MAP_BIT),
+> -	SECTION_IS_ONLINE		= BIT(SECTION_IS_ONLINE_BIT),
+> -	SECTION_IS_EARLY		= BIT(SECTION_IS_EARLY_BIT),
+> +#define SECTION_MARKED_PRESENT		BIT(SECTION_MARKED_PRESENT_BIT)
+> +#define SECTION_HAS_MEM_MAP		BIT(SECTION_HAS_MEM_MAP_BIT)
+> +#define SECTION_IS_ONLINE		BIT(SECTION_IS_ONLINE_BIT)
+> +#define SECTION_IS_EARLY		BIT(SECTION_IS_EARLY_BIT)
+>  #ifdef CONFIG_ZONE_DEVICE
+> -	SECTION_TAINT_ZONE_DEVICE	= BIT(SECTION_TAINT_ZONE_DEVICE_BIT),
+> +#define SECTION_TAINT_ZONE_DEVICE	BIT(SECTION_TAINT_ZONE_DEVICE_BIT)
+>  #endif
+> -};
+> -
+>  #define SECTION_MAP_MASK		(~(BIT(SECTION_MAP_LAST_BIT) - 1))
+>  #define SECTION_NID_SHIFT		SECTION_MAP_LAST_BIT
+>  
+> _
+> 
+> 
+> 
+> 
+> From: Muchun Song <songmuchun@bytedance.com>
+> Subject: mm-memory_hotplug-make-hugetlb_optimize_vmemmap-compatible-with-memmap_on_memory-v5
+> Date: Mon, 20 Jun 2022 19:06:16 +0800
+> 
+> walk vmemmap page tables to avoid false-positive
+> 
+> Link: https://lkml.kernel.org/r/20220620110616.12056-3-songmuchun@bytedance.com
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Co-developed-by: Oscar Salvador <osalvador@suse.de>
+> Signed-off-by: Oscar Salvador <osalvador@suse.de>
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> ---
+> 
+>  mm/hugetlb_vmemmap.c |   69 ++++++++++++++++++++++++++---------------
+>  1 file changed, 44 insertions(+), 25 deletions(-)
+> 
+> --- a/mm/hugetlb_vmemmap.c~mm-memory_hotplug-make-hugetlb_optimize_vmemmap-compatible-with-memmap_on_memory-v5
+> +++ a/mm/hugetlb_vmemmap.c
+> @@ -10,6 +10,7 @@
+>   */
+>  #define pr_fmt(fmt)	"HugeTLB: " fmt
+>  
+> +#include <linux/memory.h>
+>  #include "hugetlb_vmemmap.h"
+>  
+>  /*
+> @@ -99,34 +100,52 @@ int hugetlb_vmemmap_alloc(struct hstate
+>  static unsigned int vmemmap_optimizable_pages(struct hstate *h,
+>  					      struct page *head)
+>  {
+> -	struct mem_section *ms;
+> -	struct page *vmemmap_page;
+> -	unsigned long pfn = page_to_pfn(head);
+> -
+>  	if (READ_ONCE(vmemmap_optimize_mode) == VMEMMAP_OPTIMIZE_OFF)
+>  		return 0;
+>  
+> -	ms = __pfn_to_section(pfn);
+> -	vmemmap_page = sparse_decode_mem_map(ms->section_mem_map,
+> -					     pfn_to_section_nr(pfn));
+> -	/*
+> -	 * Only the vmemmap pages' vmemmap may be marked as VmemmapSelfHosted.
+> -	 *
+> -	 * Due to HugeTLB alignment requirements, and the vmemmap pages being
+> -	 * at the start of the hotplugged memory region. Checking any vmemmap
+> -	 * page's vmemmap is fine.
+> -	 *
+> -	 * [      hotplugged memory     ]
+> -	 * [ vmemmap ][  usable memory  ]
+> -	 *   ^   |      |            |
+> -	 *   +---+      |            |
+> -	 *     ^        |            |
+> -	 *     +--------+            |
+> -	 *         ^                 |
+> -	 *         +-----------------+
+> -	 */
+> -	if (PageVmemmapSelfHosted(vmemmap_page))
+> -		return 0;
+> +	if (IS_ENABLED(CONFIG_MEMORY_HOTPLUG)) {
+> +		pmd_t *pmdp, pmd;
+> +		struct page *vmemmap_page;
+> +		unsigned long vaddr = (unsigned long)head;
+> +
+> +		/*
+> +		 * Only the vmemmap page's vmemmap page can be self-hosted.
+> +		 * Walking the page tables to find the backing page of the
+> +		 * vmemmap page.
+> +		 */
+> +		pmdp = pmd_off_k(vaddr);
+> +		/*
+> +		 * The READ_ONCE() is used to stabilize *pmdp in a register or
+> +		 * on the stack so that it will stop changing under the code.
+> +		 * The only concurrent operation where it can be changed is
+> +		 * split_vmemmap_huge_pmd() (*pmdp will be stable after this
+> +		 * operation).
+> +		 */
+> +		pmd = READ_ONCE(*pmdp);
+> +		if (pmd_leaf(pmd))
+> +			vmemmap_page = pmd_page(pmd) + pte_index(vaddr);
+> +		else
+> +			vmemmap_page = pte_page(*pte_offset_kernel(pmdp, vaddr));
+> +		/*
+> +		 * Due to HugeTLB alignment requirements and the vmemmap pages
+> +		 * being at the start of the hotplugged memory region in
+> +		 * memory_hotplug.memmap_on_memory case. Checking any vmemmap
+> +		 * page's vmemmap page if it is marked as VmemmapSelfHosted is
+> +		 * sufficient.
+> +		 *
+> +		 * [                  hotplugged memory                  ]
+> +		 * [        section        ][...][        section        ]
+> +		 * [ vmemmap ][              usable memory               ]
+> +		 *   ^   |     |                                        |
+> +		 *   +---+     |                                        |
+> +		 *     ^       |                                        |
+> +		 *     +-------+                                        |
+> +		 *          ^                                           |
+> +		 *          +-------------------------------------------+
+> +		 */
+> +		if (PageVmemmapSelfHosted(vmemmap_page))
+> +			return 0;
+> +	}
+>  
+>  	return hugetlb_optimize_vmemmap_pages(h);
+>  }
+> _
+> 
+> 
