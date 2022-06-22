@@ -2,94 +2,258 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF087C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 09:54:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B05DFCCA47D
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 09:54:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232568AbiFVJyD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S234651AbiFVJyD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 22 Jun 2022 05:54:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47742 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234528AbiFVJx7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 05:53:59 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA04C26131
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jun 2022 02:53:53 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id i15so14940965plr.1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jun 2022 02:53:53 -0700 (PDT)
+        with ESMTP id S234550AbiFVJyA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 05:54:00 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 312633A183
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jun 2022 02:53:55 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id 128so8609657pfv.12
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jun 2022 02:53:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uG6jvGK7DE4pcxcjqDdu/3T91Yn/8bATqtze3yr2DMY=;
-        b=oDJqOieC8QUlDk97MSVHnclNz6NPbxsWjvykjXa8w9We4+e1+5pK6msg8CfnLZcvRg
-         HScKCABdeRuXxCksKxlUpBTFaQGU9TBX/QAO6rWrGcB8c8W7yk73P9370mUe4ygrJLnA
-         rzPfY+NIzgrgXDZJyUvZaOXXDVEHUDKzWJDwgO/+au1UQpFYI6S1zDSEy6nFqI32ngR4
-         Etjhqqnx0dePBNUpJzO3TljrJAD7HAL4cjxJxy4G2Zik/4SaLbCUNp3aW64gGD0HF6Jt
-         8P8F54S1GfE5HqWyQ0qdBzb6/tnRUuQGS5A43waMDNKXq1x1TYpfHoSBwdAbQ5VIL1HG
-         bEww==
+        d=semihalf.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=JRDDa19/V45DwVNKWWlivh1c2U4yhYbqsPjFmKAFcC0=;
+        b=oCbFF8GITK0WLSNS996UukaQQxuW5VMs1JWv2/z4ZDj53CBVxVgSvP1BZWSyaQ2GkT
+         oX4HcC6+Hde6lQYcZIz3g2pAo4gHbPX/iqoaNzOIgqf2zxOfCm+tVqKLVFI7RKpNDjvA
+         sXBZAuwmt3W7e3Q1XFknYcyW3SqJvCud2SydZIk+euKIODjVj30FSlasx09FTl9GrZRB
+         Xs7tHZddYGZGDmXcjY1ad1I04G9u1GiFAPs7+3H6/84YE/8PwZKQI3ithWaRtQVdeLDX
+         9Un2fwGKiy/9sr29uCz/weploPlRk9GjQ3YOIjHDYM2GzY6Gh02wkYt4LslCGwCtoGJB
+         02OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uG6jvGK7DE4pcxcjqDdu/3T91Yn/8bATqtze3yr2DMY=;
-        b=2VbJoSvcIav4GEirGhiL24GEQi0HxZpA+agg7T22LQidrH5+H5gr1D7MrBsj9bOghg
-         hOewjd+aLAAB8hOQ4Ovq1BvWRZG+Vqy+Ix6qHfEGg5CMqIQHFlw8tpQOAOHPv4qQN7D1
-         VualaPSsRLfeqBPOAJY0Hu3fktjxwxDNwsp8f9ECQD4cdxOsg7SBUg2IiyGVOuqQ3Xhj
-         0kn/syk8+mNp1YtMBZ8XavdZ3US60zDlUT6EAwkG5KfaVuMcASYRUTzLdNzwz/AcV1AG
-         gGo5FFfy5vYQwN6zNUW0SxT8hFl+nE0jIjdAUDpLib6luq+y+MB34+sIQFjliIhxaEbt
-         +3Pg==
-X-Gm-Message-State: AJIora/mbt6na8l8moksrNXxIuZLzMbr2rR0Z+fGJsdhyL5M5aWN/MJR
-        tN1CQ6TnFgGcbLUjqrdU5NyHvEY+Zks=
-X-Google-Smtp-Source: AGRyM1tO/oexz4rxnEoC1WXshADM5iSFW4SCYhHkeEr/SFxaORJ/tdZUc57W8TpSVYhWJt4S9ggzgw==
-X-Received: by 2002:a17:90b:794:b0:1ec:c760:5736 with SMTP id l20-20020a17090b079400b001ecc7605736mr2820209pjz.241.1655891632823;
-        Wed, 22 Jun 2022 02:53:52 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-91.three.co.id. [180.214.232.91])
-        by smtp.gmail.com with ESMTPSA id d26-20020aa7869a000000b0051c4f6d2d95sm7064420pfo.106.2022.06.22.02.53.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jun 2022 02:53:52 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 0/2] Documentation: PCI: Documentation fixes for vNTB
-Date:   Wed, 22 Jun 2022 16:53:43 +0700
-Message-Id: <20220622095345.27121-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20220621200235.211b2e32@canb.auug.org.au>
-References: <20220621200235.211b2e32@canb.auug.org.au>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=JRDDa19/V45DwVNKWWlivh1c2U4yhYbqsPjFmKAFcC0=;
+        b=P6RNklHuvZWx8AzFmZRRSgg3PkRbJYASTIu3HutjEGD4mwtiqkllQDscAoklRGjQfV
+         wy+RCX3ipUWrIU78QHXHkPIOkuBbX2idFa4/TAhc+9y3j8zKnhkodJwapUixjezuZ1go
+         HOfGU3VipIaJbIM9LI2PBtU76Ij0hnwTwCj8ER3ynik0mRLsD1t5+fp8qfkfafJUyiSZ
+         r8g5YS2COjrHPo1iqi1/U5MxT/rTUpS2eYTEcDkmPj+4dJIKDmy4v7ryK5idVMpgwFQT
+         hy12Q5Bn6P5Vf2CvNtwiloZoWc8fLP5QX1sdYzDDFVPoz8T44mP5cy2Sx2ez6S9GCDTY
+         swNA==
+X-Gm-Message-State: AJIora/pRL2MESGaqRCXaKavhmlhOZKJVpMFn9FrA6UWnIPvdihZUhCo
+        YWrXFhArWwKhsQZJ7Dc6WyDNyDDDJUcRJOCsc+OhBQ==
+X-Google-Smtp-Source: AGRyM1uQo6daJYtS5ejR5Y/X9OxYYqtlJ3QuYGsgKTVwSdlFfEIAk4PqNE1UhZuwF2CF5RwzGbOWGTczmXlHTHZzmBc=
+X-Received: by 2002:a63:7a11:0:b0:40c:fbcb:2f12 with SMTP id
+ v17-20020a637a11000000b0040cfbcb2f12mr2244262pgc.180.1655891634647; Wed, 22
+ Jun 2022 02:53:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220609110337.1238762-1-jaz@semihalf.com> <20220609110337.1238762-2-jaz@semihalf.com>
+ <YqIJ8HtdqnoVzfQD@google.com> <CAH76GKNRDXAyGYvs2ji5Phu=5YPW8+SV8-6TLjizBRzTCnEROg@mail.gmail.com>
+ <YqNVYz4+yVbWnmNv@google.com> <CAH76GKNSfaHwpy46r1WWTVgnsuijqcHe=H5nvUTUUs1UbdZvkQ@mail.gmail.com>
+ <Yqtez/J540yD7VdD@google.com> <2201fe5f-5bd8-baaf-aad5-eaaea2f1e20e@amd.com>
+ <CAH76GKP=2wu4+eqLCFu1F5a4rHhReUT_7N89K8xbO-gSqEQ-3w@mail.gmail.com> <88344644-44e1-0089-657a-2e34316ea4b4@amd.com>
+In-Reply-To: <88344644-44e1-0089-657a-2e34316ea4b4@amd.com>
+From:   Grzegorz Jaszczyk <jaz@semihalf.com>
+Date:   Wed, 22 Jun 2022 11:53:43 +0200
+Message-ID: <CAH76GKMKjogX9kE5jch+LqkGswGAmyOdu5sOdY_G23Dqpf0puA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] x86: notify hypervisor about guest entering s2idle state
+To:     "Limonciello, Mario" <mario.limonciello@amd.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc:     linux-kernel@vger.kernel.org, Dmytro Maluka <dmy@semihalf.com>,
+        Zide Chen <zide.chen@intel.corp-partner.google.com>,
+        Peter Fang <peter.fang@intel.corp-partner.google.com>,
+        Tomasz Nowicki <tn@semihalf.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Ashish Kalra <ashish.kalra@amd.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sachi King <nakato@nakato.io>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        David Dunn <daviddunn@google.com>,
+        Wei Wang <wei.w.wang@intel.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "open list:KERNEL VIRTUAL MACHINE (KVM)" <kvm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:ACPI" <linux-acpi@vger.kernel.org>,
+        "open list:HIBERNATION (aka Software Suspend, aka swsusp)" 
+        <linux-pm@vger.kernel.org>, Dominik Behr <dbehr@google.com>,
+        Dmitry Torokhov <dtor@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After merging ntb tree for linux-next integration testing, Stephen
-Rothwell reported following htmldocs warnings:
+pon., 20 cze 2022 o 18:32 Limonciello, Mario
+<mario.limonciello@amd.com> napisa=C5=82(a):
+>
+> On 6/20/2022 10:43, Grzegorz Jaszczyk wrote:
+> > czw., 16 cze 2022 o 18:58 Limonciello, Mario
+> > <mario.limonciello@amd.com> napisa=C5=82(a):
+> >>
+> >> On 6/16/2022 11:48, Sean Christopherson wrote:
+> >>> On Wed, Jun 15, 2022, Grzegorz Jaszczyk wrote:
+> >>>> pt., 10 cze 2022 o 16:30 Sean Christopherson <seanjc@google.com> nap=
+isa=C5=82(a):
+> >>>>> MMIO or PIO for the actual exit, there's nothing special about hype=
+rcalls.  As for
+> >>>>> enumerating to the guest that it should do something, why not add a=
+ new ACPI_LPS0_*
+> >>>>> function?  E.g. something like
+> >>>>>
+> >>>>> static void s2idle_hypervisor_notify(void)
+> >>>>> {
+> >>>>>           if (lps0_dsm_func_mask > 0)
+> >>>>>                   acpi_sleep_run_lps0_dsm(ACPI_LPS0_EXIT_HYPERVISOR=
+_NOTIFY
+> >>>>>                                           lps0_dsm_func_mask, lps0_=
+dsm_guid);
+> >>>>> }
+> >>>>
+> >>>> Great, thank you for your suggestion! I will try this approach and
+> >>>> come back. Since this will be the main change in the next version,
+> >>>> will it be ok for you to add Suggested-by: Sean Christopherson
+> >>>> <seanjc@google.com> tag?
+> >>>
+> >>> If you want, but there's certainly no need to do so.  But I assume yo=
+u or someone
+> >>> at Intel will need to get formal approval for adding another ACPI LPS=
+0 function?
+> >>> I.e. isn't there work to be done outside of the kernel before any pat=
+ches can be
+> >>> merged?
+> >>
+> >> There are 3 different LPS0 GUIDs in use.  An Intel one, an AMD (legacy=
+)
+> >> one, and a Microsoft one.  They all have their own specs, and so if th=
+is
+> >> was to be added I think all 3 need to be updated.
+> >
+> > Yes this will not be easy to achieve I think.
+> >
+> >>
+> >> As this is Linux specific hypervisor behavior, I don't know you would =
+be
+> >> able to convince Microsoft to update theirs' either.
+> >>
+> >> How about using s2idle_devops?  There is a prepare() call and a
+> >> restore() call that is set for each handler.  The only consumer of thi=
+s
+> >> ATM I'm aware of is the amd-pmc driver, but it's done like a
+> >> notification chain so that a bunch of drivers can hook in if they need=
+ to.
+> >>
+> >> Then you can have this notification path and the associated ACPI devic=
+e
+> >> it calls out to be it's own driver.
+> >
+> > Thank you for your suggestion, just to be sure that I've understand
+> > your idea correctly:
+> > 1) it will require to extend acpi_s2idle_dev_ops about something like
+> > hypervisor_notify() call, since existing prepare() is called from end
+> > of acpi_s2idle_prepare_late so it is too early as it was described in
+> > one of previous message (between acpi_s2idle_prepare_late and place
+> > where we use hypercall there are several places where the suspend
+> > could be canceled, otherwise we could probably try to trap on other
+> > acpi_sleep_run_lps0_dsm occurrence from acpi_s2idle_prepare_late).
+> >
+>
+> The idea for prepare() was it would be the absolute last thing before
+> the s2idle loop was run.  You're sure that's too early?  It's basically
+> the same thing as having a last stage new _DSM call.
+>
+> What about adding a new abort() extension to acpi_s2idle_dev_ops?  Then
+> you could catch the cancelled suspend case still and take corrective
+> action (if that action is different than what restore() would do).
 
-Documentation/PCI/endpoint/pci-vntb-function.rst:82: WARNING: Unexpected indentation.
-Documentation/PCI/endpoint/pci-vntb-howto.rst:131: WARNING: Title underline too short.
+It will be problematic since the abort/restore notification could
+arrive too late and therefore the whole system will go to suspend
+thinking that the guest is in desired s2ilde state. Also in this case
+it would be impossible to prevent races and actually making sure that
+the guest is suspended or not. We already had similar discussion with
+Sean earlier in this thread why the notification have to be send just
+before swait_event_exclusive(s2idle_wait_head, s2idle_state =3D=3D
+S2IDLE_STATE_WAKE) and that the VMM have to have control over guest
+resumption.
 
-These warnings are introduced by commit 0c4b285d9636cc ("Documentation: PCI:
-Add specification for the PCI vNTB function device").
+Nevertheless if extending acpi_s2idle_dev_ops is possible, why not
+extend it about the hypervisor_notify() and use it in the same place
+where the hypercall is used in this patch? Do you see any issue with
+that?
 
-Fix these two warnings above by:
-  1. Using code block for scratchpad diagram ([1/2])
-  2. Extending "lspci output" subheading underline syntax ([2/2])
+>
+> > 2) using newly introduced acpi_s2idle_dev_ops hypervisor_notify() call
+> > will allow to register handler from Intel x86/intel/pmc/core.c driver
+> > and/or AMD x86/amd-pmc.c driver. Therefore we will need to get only
+> > Intel and/or AMD approval about extending the ACPI LPS0 _DSM method,
+> > correct?
+> >
+>
+> Right now the only thing that hooks prepare()/restore() is the amd-pmc
+> driver (unless Intel's PMC had a change I didn't catch yet).
+>
+> I don't think you should be changing any existing drivers but rather
+> introduce another platform driver for this specific case.
+>
+> So it would be something like this:
+>
+> acpi_s2idle_prepare_late
+> -> prepare()
+> --> AMD: amd_pmc handler for prepare()
+> --> Intel: intel_pmc handler for prepare() (conceptual)
+> --> HYPE0001 device: new driver's prepare() routine
+>
+> So the platform driver would match the HYPE0001 device to load, and it
+> wouldn't do anything other than provide a prepare()/restore() handler
+> for your case.
+>
+> You don't need to change any existing specs.  If anything a new spec to
+> go with this new ACPI device would be made.  Someone would need to
+> reserve the ID and such for it, but I think you can mock it up in advance=
+.
 
-This patchset is based on next-20220622.
+Thank you for your explanation. This means that I should register
+"HYPE" through https://uefi.org/PNP_ACPI_Registry before introducing
+this new driver to Linux.
+I have no experience with the above, so I wonder who should be
+responsible for maintaining such ACPI ID since it will not belong to
+any specific vendor? There is an example of e.g. COREBOOT PROJECT
+using "BOOT" ACPI ID [1], which seems similar in terms of not
+specifying any vendor but rather the project as a responsible entity.
+Maybe you have some recommendations?
 
-Bagas Sanjaya (2):
-  Documentation: PCI: Use code-block block for scratchpad registers
-    diagram
-  Documentation: PCI: extend subheading underline for "lspci output"
-    section
+I am also not sure if and where a specification describing such a
+device has to be maintained. Since "HYPE0001" will have its own _DSM
+so will it be required to document it somewhere rather than just using
+it in the driver and preparing proper ACPI tables for guest?
 
- Documentation/PCI/endpoint/pci-vntb-function.rst | 5 ++++-
- Documentation/PCI/endpoint/pci-vntb-howto.rst    | 2 +-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+>
+> > I wonder if this will be affordable so just re-thinking loudly if
+> > there is no other mechanism that could be suggested and used upstream
+> > so we could notify hypervisor/vmm about guest entering s2idle state?
+> > Especially that such _DSM function will be introduced only to trap on
+> > some fake MMIO/PIO access and will be useful only for guest ACPI
+> > tables?
+> >
+>
+> Do you need to worry about Microsoft guests using Modern Standby too or
+> is that out of the scope of your problem set?  I think you'll be a lot
+> more limited in how this can behave and where you can modify things if so=
+.
+>
 
+I do not need to worry about Microsoft guests.
 
-base-commit: ac0ba5454ca85162c08dc429fef1999e077ca976
--- 
-An old man doll... just what I always wanted! - Clara
+[1] https://uefi.org/acpi_id_list
 
+Thank you,
+Grzegorz
