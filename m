@@ -2,99 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C94DAC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 06:22:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26BC8CCA47A
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 07:24:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348747AbiFVGW1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Jun 2022 02:22:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39920 "EHLO
+        id S1351904AbiFVHYR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jun 2022 03:24:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348823AbiFVGWZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 02:22:25 -0400
-Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com [IPv6:2607:f8b0:4864:20::a35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EB3B2F038
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 23:22:24 -0700 (PDT)
-Received: by mail-vk1-xa35.google.com with SMTP id bb7so4858919vkb.9
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jun 2022 23:22:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3XkLitP86rtDsNGNbm0pYZThHpLJXqkixx7LWXPpMas=;
-        b=lV/C6bX6AorIyXEwUKhCPN4hfwYvOVc72nXEWyA16PukyWkFG0DvFmv6UUjVbQa/n/
-         dBlQDAmwYcrP/bm5/Wyv7Vc9yoWw7v9Jm8SmGzSZOxcvCsDQEsxZlgnA1KhvecIkHvfv
-         eoumq5reiZ6xTrsecj3D52UwphTC1hXbBTZt59ANbHd4hM0Et/l4TSagGnh2Hlm/TLT9
-         sfZMYu0v1Kg/89RnQMWTNQYbk0Fk/GyUkSkoBEHLUFrMTWuM8dTFyhbbzKumcNAhg0po
-         yH2nrG2A3dViKLmvyjsyNWXYWYSnOZ7y8VnP9qV0zyM8vGffeqVrbN7/D1bybfeAzNYa
-         OtYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3XkLitP86rtDsNGNbm0pYZThHpLJXqkixx7LWXPpMas=;
-        b=w3VgQArOvWHG5IqQjFk7p15HOG/zUdP2TN1JtsZhb1akct3Mlj/3xA9RXIwhyqn3SM
-         bKNoFksL+ReWWKBosE/zJCM9dDueS/Z2acmmoyuVkvdbFDQWNTksDEttK6NT9nXQDZ6x
-         gmxty4zpyWNb1Io+sgqpGXCBjizcxIUZvrtAyU7Mbx4OzWe7+iSFtgCcin0AR6XQjlS1
-         3Qh6kD68KPr+DjLY7kILvwaT/37HkvWR7bAymLOKxTW5DGHah+f3IsUPl1Maqcu6GbyI
-         JV3e2rOFK0hMxE1C2Gwkel/ppVK9qUhhQAB3NqYSF0lDT5a94g6/HV+L+2jNTN1Htox/
-         Eutw==
-X-Gm-Message-State: AJIora8xFrZxt7zgnDteVm+lAvWsFp8xF16L3S5lBCO912FLJweECA9u
-        PHxtgk7NBMId/0Orx9xOiv7m0O/XxkIcFaBnoUryEg==
-X-Google-Smtp-Source: AGRyM1uGOkTBGY7ctKwH9tj7aqZUuj0ObZQ8AcIdtefS/K84QQ9iakI+N0KjfrqW0Z/yfLxJn1WX37eYGSmcYBCl/qs=
-X-Received: by 2002:a05:6122:1479:b0:36c:502b:fdda with SMTP id
- r25-20020a056122147900b0036c502bfddamr4569701vkp.14.1655878943347; Tue, 21
- Jun 2022 23:22:23 -0700 (PDT)
+        with ESMTP id S229788AbiFVHYQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 03:24:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FD2A22BF6;
+        Wed, 22 Jun 2022 00:24:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A147660B27;
+        Wed, 22 Jun 2022 07:24:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12599C341CC;
+        Wed, 22 Jun 2022 07:24:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655882654;
+        bh=JiUmLr3/0e1RNKeHvzjIP+5tON2+whgVrIH7fVgqTNU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=nIzNAf+DdKeOJK1+iYa4MglibigAJba7ldQE9PMVN3daaAT/O1BAMVxD9al0kJ+gB
+         Pe93OiGS1HcKmLgX5hzENJ4KiduRg2pCeNTLp7a+rjnSZxvL88DdzUEgjI6pfMeugB
+         PLj45fT94dGKiRk7bXXcLNjVM6sElJ6pSgG96pEOCseLtmmWDv7du1bVooB4I2nkAp
+         PnRVrEW+IvSuKrw5ottFrjsE0C6WyIsY1zVkHKi5kSJs+DQpaLYdIumIoVrLoK4xE7
+         juyED/M6mWK0IyFDDVv6B3WAkIxCmQZ9y9bxjvNsBiDZOE2NI4GplhpLXvm8EUvF5Z
+         Cw5KNpQ4yEaZw==
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-3137316bb69so153766697b3.10;
+        Wed, 22 Jun 2022 00:24:14 -0700 (PDT)
+X-Gm-Message-State: AJIora/AgujWmKmwB1DksrscHYq6FeTanl2jwnQSc+Nk4HaIS98/xewb
+        nlo9vUHOTxaA6mTMd3uxd9E1vfA6oaEvmOnjnPE=
+X-Google-Smtp-Source: AGRyM1tgZ+O9TJ8EHjbT4BHY3xD8wh4oZ1p44labWtawTe0cB2aSDAd92BXSVa0Kr7X+vv/etvHwZhHuEfcYC2PdVQk=
+X-Received: by 2002:a81:4ed4:0:b0:317:9581:589b with SMTP id
+ c203-20020a814ed4000000b003179581589bmr2482870ywb.472.1655882653006; Wed, 22
+ Jun 2022 00:24:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220614071650.206064-1-yuzhao@google.com>
-In-Reply-To: <20220614071650.206064-1-yuzhao@google.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Wed, 22 Jun 2022 00:21:47 -0600
-Message-ID: <CAOUHufbuqGJJ1pUJuYW8h6uB5+KpNSJotEd_WSzF5AK-S_6PoA@mail.gmail.com>
-Subject: Re: [PATCH v12 00/14] Multi-Gen LRU Framework
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+References: <cover.1655368610.git.bristot@kernel.org>
+In-Reply-To: <cover.1655368610.git.bristot@kernel.org>
+From:   Song Liu <song@kernel.org>
+Date:   Wed, 22 Jun 2022 00:24:02 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW4eDhVs2iu0y40LiFyKweJ+3d82-748kavGg5KXWsRuZg@mail.gmail.com>
+Message-ID: <CAPhsuW4eDhVs2iu0y40LiFyKweJ+3d82-748kavGg5KXWsRuZg@mail.gmail.com>
+Subject: Re: [PATCH V4 00/20] The Runtime Verification (RV) interface
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        linux-trace-devel <linux-trace-devel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 14, 2022 at 1:17 AM Yu Zhao <yuzhao@google.com> wrote:
->
-> What's new
-> ==========
-> 1. Fixed a bug (using pmd_addr_end() when __PAGETABLE_PMD_FOLDED)
->    reported by:
->    Thomas Graichen <thomas.graichen@googlemail.com>
->    https://forum.armbian.com/topic/20018-mglru-patches-to-bring-down-kswapd-cpu-usage/
-> 2. Retested on v5.19-rc1 and rebased to v5.19-rc2.
-> 3. Nits.
->
-> TLDR
-> ====
-> The current page reclaim is too expensive in terms of CPU usage and it
-> often makes poor choices about what to evict. This patchset offers an
-> alternative solution that is performant, versatile and
-> straightforward.
+Hi Daniel,
 
-I don't see any action items left for me. Are we good for the next merge window?
+On Thu, Jun 16, 2022 at 1:45 AM Daniel Bristot de Oliveira
+<bristot@kernel.org> wrote:
+>
+> Over the last years, I've been exploring the possibility of
+> verifying the Linux kernel behavior using Runtime Verification.
+>
+> Runtime Verification (RV) is a lightweight (yet rigorous) method that
+> complements classical exhaustive verification techniques (such as model
+> checking and theorem proving) with a more practical approach for complex
+> systems.
+>
+> Instead of relying on a fine-grained model of a system (e.g., a
+> re-implementation a instruction level), RV works by analyzing the trace of the
+> system's actual execution, comparing it against a formal specification of
+> the system behavior.
+>
+> The usage of deterministic automaton for RV is a well-established
+> approach. In the specific case of the Linux kernel, you can check how
+> to model complex behavior of the Linux kernel with this paper:
+>
+>   DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo Silva.
+>   *Efficient formal verification for the Linux kernel.* In: International
+>   Conference on Software Engineering and Formal Methods. Springer, Cham, 2019.
+>   p. 315-332.
+>
+> And how efficient is this approach here:
+>
+>   DE OLIVEIRA, Daniel B.; DE OLIVEIRA, Romulo S.; CUCINOTTA, Tommaso. *A thread
+>   synchronization model for the PREEMPT_RT Linux kernel.* Journal of Systems
+>   Architecture, 2020, 107: 101729.
+>
+> tlrd: it is possible to model complex behaviors in a modular way, with
+> an acceptable overhead (even for production systems). See this
+> presentation at 2019's ELCE: https://www.youtube.com/watch?v=BfTuEHafNgg
+>
+> Here I am proposing a more practical approach for the usage of deterministic
+> automata for runtime verification, and it includes:
+>
+>         - An interface for controlling the verification;
+>         - A tool and set of headers that enables the automatic code
+>           generation of the RV monitor (Monitor Synthesis);
+>         - Sample monitors to evaluate the interface;
+>         - A sample monitor developed in the context of the Elisa Project
+>           demonstrating how to use RV in the context of safety-critical
+>           systems.
+>
+> Given that RV is a tracing consumer, the code is being placed inside the
+> tracing subsystem (Steven and I have been talking about it for a while).
+
+This is interesting work!
+
+I applied the series on top of commit 78ca55889a549a9a194c6ec666836329b774ab6d
+in upstream. Then, I got some compile/link error for CONFIG_RV_MON_WIP and
+CONFIG_RV_MON_SAFE_WTD. I was able to compile the kernel with these two
+configs disabled. However, I hit the some issue with monitors/wwnr/enabled :
+
+    [root@eth50-1 ~]# cd /sys/kernel/debug/tracing/rv/
+    [root@eth50-1 rv]# cat available_monitors
+    wwnr
+    [root@eth50-1 rv]# echo wwnr > enabled_monitors
+    [root@eth50-1 rv]# cd monitors/
+    [root@eth50-1 monitors]# cd wwnr/
+    [root@eth50-1 wwnr]# ls
+    desc  enable  reactors
+    [root@eth50-1 wwnr]# cat enable
+    1
+    [root@eth50-1 wwnr]# echo 0 > enable   <<< hangs
+
+The last echo command hangs forever on a qemu vm. I haven't figured out why
+this happens though.
+
+I also have a more general question: can we do RV with BPF and simplify the
+work? AFAICT, the idea of RV is to maintain a state machine based on events.
+If something unexpected happens, call the reactor.
+
+IIUC, BPF has most of these building blocks ready for use. With BPF, we
+can ship many RV monitors without much kernel changes.
+
+Here is my toy wwnr in bpftrace. The reactor is "print to console".
+It runs on most systems with BPF and tracepoint enabled. I probably
+missed some events, as a result, the script triggers the "reactor" a lot.
+
+=============== 8< ======================
+[root@ ~]# cat wwnr.bt
+/*
+ * task_state[pid]
+ * not_running = 1
+ * running = 2
+ */
+tracepoint:sched:sched_switch
+{
+        if (args->prev_state == 0x0001 /* TASK_INTERRUPTIBLE */) {
+           /* after first suspension */
+           @task_state[args->prev_pid] = 1;
+        } else {
+           if (@task_state[args->prev_pid] == 1) {
+              printf("Something wrong, call reactor\n");
+           }
+           @task_state[args->prev_pid] = 1;
+        }
+        @task_state[args->next_pid] = 2;
+}
+
+tracepoint:sched:sched_wakeup
+{
+        if (@task_state[args->pid] == 2) {
+           printf("Something wrong, call reactor\n");
+           }
+         @task_state[args->pid] = 2;
+}
+
+[root@ ~]# bpftrace wwnr.bt
+<<<< some print >>>>
+=============== 8< ======================
+
+Does this (BPF for RV) make any sense?
+
+Thanks,
+Song
