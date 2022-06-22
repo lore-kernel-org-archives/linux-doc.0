@@ -2,45 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4F05C43334
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 10:43:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F1CAC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 10:54:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352881AbiFVKn7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Jun 2022 06:43:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60732 "EHLO
+        id S1355906AbiFVKyj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jun 2022 06:54:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356506AbiFVKnq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 06:43:46 -0400
+        with ESMTP id S1356759AbiFVKyc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 06:54:32 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B1DA167C4;
-        Wed, 22 Jun 2022 03:43:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 647563BBC1;
+        Wed, 22 Jun 2022 03:54:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
         :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=d9qh4ClogxgC0O6hF1eUSJPidsyvY/LbjmD7UJqICRw=; b=effxifTebkgcG6rotJpwJVDCEb
-        zxQ0vXZ8GXZVYpoyvSB61V6hix18oqpmTo90l9csCV6ATv+Pk5ieUQHdhOIdf47JOA0//38Gf5qcN
-        +jWUcehjbts8XSqtewFPNB1gT0HkHI07OrEc0IyqY8pa7JCbLaghfQtJ1HaGGalSBsAtgdwVgpDZa
-        cZJxQ0Kn7Ahhmy4ugrHuqxjX16mwkf6uZry8P3xVjNa4AsfUfsOURPtZCwuC/P1t81bzrtsN4q+VU
-        qC6NxfSLsSchTAyeOWpPZAJVDP4jvPMxwpqA28hLJF0jL/Omn3EzS0NFAeOsvMgfSRH0Bdn9obc/n
-        r50sqR7w==;
+        bh=h6Ni4JY3NSS01Nb6TQNOQZ0HSFRdoJBUQ6dpTFFJhdY=; b=JyZxBr61+7LNv2xOpLLWy09ECs
+        vXy9cu8Ppj0Kz441rbC9FXoY/AYGrnLU8edkf3+09otEtbWkxjeQdtMWfeGTao48tTp/skcnsCPhv
+        YE/YhvZycdAO7sdt3v1ZmKoDyW1MLxzIhQDMzh5PcHLQlKdrTetEBnHoTfeDyAdysxXKji2UTfiOE
+        uniVcOW8H52tnK/dOCU740qNa3JpbRpT0tQkKke9pJ5vlscSN3X7P+IWYvKH1ZCutvs0LYIHWz4ve
+        W3eEO9m8exFyOPu6rLAGqVCJrSLKJLGAGDrFdsdANidX80xJ8bgIYFLIje0mLfJ/uJDSyq4y0r+he
+        hMuBFJ3w==;
 Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o3xpj-009yMX-Ac; Wed, 22 Jun 2022 10:43:39 +0000
-Date:   Wed, 22 Jun 2022 03:43:39 -0700
+        id 1o3y03-00A1BF-EA; Wed, 22 Jun 2022 10:54:19 +0000
+Date:   Wed, 22 Jun 2022 03:54:19 -0700
 From:   Christoph Hellwig <hch@infradead.org>
-To:     Dongli Zhang <dongli.zhang@oracle.com>
-Cc:     iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
-        x86@kernel.org, linux-kernel@vger.kernel.org, joe.jin@oracle.com,
-        hch@infradead.org, m.szyprowski@samsung.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        corbet@lwn.net
-Subject: Re: [PATCH v1 0/4] swiotlb: some cleanup
-Message-ID: <YrLyWzL48no3a6cS@infradead.org>
-References: <20220611082514.37112-1-dongli.zhang@oracle.com>
+To:     Tianyu Lan <ltykernel@gmail.com>
+Cc:     corbet@lwn.net, hch@infradead.org, m.szyprowski@samsung.com,
+        robin.murphy@arm.com, paulmck@kernel.org,
+        akpm@linux-foundation.org, bp@suse.de, tglx@linutronix.de,
+        songmuchun@bytedance.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, michael.h.kelley@microsoft.com,
+        kys@microsoft.com, Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, vkuznets@redhat.com,
+        wei.liu@kernel.org, parri.andrea@gmail.com,
+        thomas.lendacky@amd.com, linux-hyperv@vger.kernel.org,
+        kirill.shutemov@intel.com, andi.kleen@intel.com,
+        Andi Kleen <ak@linux.intel.com>
+Subject: Re: [RFC PATCH V4 1/1] swiotlb: Split up single swiotlb lock
+Message-ID: <YrL02y/fYxDkDRlA@infradead.org>
+References: <20220617144741.921308-1-ltykernel@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220611082514.37112-1-dongli.zhang@oracle.com>
+In-Reply-To: <20220617144741.921308-1-ltykernel@gmail.com>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -48,4 +55,54 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Thanks,
 
-I've applied all 4 to the dma-mapping tree for Linux 5.20.
+this looks pretty good to me.  A few comments below:
+
+On Fri, Jun 17, 2022 at 10:47:41AM -0400, Tianyu Lan wrote:
+> +/**
+> + * struct io_tlb_area - IO TLB memory area descriptor
+> + *
+> + * This is a single area with a single lock.
+> + *
+> + * @used:	The number of used IO TLB block.
+> + * @index:	The slot index to start searching in this area for next round.
+> + * @lock:	The lock to protect the above data structures in the map and
+> + *		unmap calls.
+> + */
+> +struct io_tlb_area {
+> +	unsigned long used;
+> +	unsigned int index;
+> +	spinlock_t lock;
+> +};
+
+This can go into swiotlb.c.
+
+> +void __init swiotlb_adjust_nareas(unsigned int nareas);
+
+And this should be marked static.
+
+> +#define DEFAULT_NUM_AREAS 1
+
+I'd drop this define, the magic 1 and a > 1 comparism seems to
+convey how it is used much better as the checks aren't about default
+or not, but about larger than one.
+
+I also think that we want some good way to size the default, e.g.
+by number of CPUs or memory size.
+
+> +void __init swiotlb_adjust_nareas(unsigned int nareas)
+> +{
+> +	if (!is_power_of_2(nareas)) {
+> +		pr_err("swiotlb: Invalid areas parameter %d.\n", nareas);
+> +		return;
+> +	}
+> +
+> +	default_nareas = nareas;
+> +
+> +	pr_info("area num %d.\n", nareas);
+> +	/* Round up number of slabs to the next power of 2.
+> +	 * The last area is going be smaller than the rest if
+> +	 * default_nslabs is not power of two.
+> +	 */
+
+Please follow the normal kernel comment style with a /* on its own line.
+
