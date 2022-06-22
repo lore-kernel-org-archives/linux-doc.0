@@ -2,93 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE2D2C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 08:36:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75A19C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 08:48:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355166AbiFVIgv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Jun 2022 04:36:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33636 "EHLO
+        id S1350108AbiFVIsC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jun 2022 04:48:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355191AbiFVIgV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 04:36:21 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9171D38BE9;
-        Wed, 22 Jun 2022 01:36:20 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id b12-20020a17090a6acc00b001ec2b181c98so14492107pjm.4;
-        Wed, 22 Jun 2022 01:36:20 -0700 (PDT)
+        with ESMTP id S234486AbiFVIsC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 04:48:02 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5677125E1;
+        Wed, 22 Jun 2022 01:48:00 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id h34-20020a17090a29a500b001eb01527d9eso15263123pjd.3;
+        Wed, 22 Jun 2022 01:48:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=GfqsjDBnA9NqFc4n3hU0IVEZHFYA77sBuc7M8HEDFv4=;
-        b=SCJ4YnfN0j6VfMY6hCBVf3g+LHXlQtW3TbuoeEPCtIMN6tXD2EgW8J6OrY9p0rjKR7
-         +73PbV/YzovsnkWK7y2v0+eFUyhnrkgYs3Y4FO+xXp+m0rSCpfYTPkC2WAI/ovyWQKEt
-         +voZrX9kY1ZQyAE41i5WnoqtXqe2r2sCp2i4fHVrwJKetMHh0AYfi/2O2zC7aVzMGXlY
-         95fj9LZmhmPIUrX7se4dZjKMxuCDKlTKcGoYodK2PIx2bHylLEx+TOVEnzKDI53FhoIR
-         qMbBMHn0bWsXFz57v7ATK8lnAKNTvMJqiFp+iW3iLfLc2o/jEOMi9pBMDUqYLUNtD9xv
-         dx0A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Hs9pVTpUBi42eMdaATCBVLHpAcP7Nw426zvueY8ZwZI=;
+        b=Lw0reKp119fQgW191FyyK0jxb52gIGmRolrrEJan5fK67WbHe6KIeUNsg7pgDoqjtT
+         RzO3qPtfgxrYlG/fRm0u8QBkiO/igrt4hSQwVNHETFmkLoMkwJwaTT7mpeooVbsiN9fL
+         8I2KrBsqduyUa+VSUxarzQxWslOLClxg5whYaXKY5ZXnOuK8gMQsLEa1DKU8/SxqlH8n
+         JDIBbuDtZGUR1qz4pUDcY0uXn6Pnfk+jzwUo8vRF+Ni0gZrppyu5+G7IElQJbAJFbwn0
+         NqXSmHspY8OWIBFYtfgkweYjzXgs0aK/59uJPuDKoM/hHkfGSay0c1bnYIx4JIInMCOP
+         4hDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=GfqsjDBnA9NqFc4n3hU0IVEZHFYA77sBuc7M8HEDFv4=;
-        b=df4zy3QvnJwYtequomVdZf5Gp6oHP8UL+51CXyrFIifnC0BF/njd4xzlUR6YXKSmzu
-         iqxl8BCLZl7Vz4nnijgj2QmZvfSThrACvFZFuI7LLmFq7qAZY3fOBRxHgRbyxOpV7Y8s
-         1CHZ0b9jDNNVg9LAVI/fvyZWkpqKM6j9uTCbAAXQox6kmePHJVoY5gvxv6wqtvaIRs3b
-         ivOcSzwDwabVo523qOrBgvNWUkpf6cb0PeP6x5oRhrpHk4Dx8Qhu5huKSYpBLW1vUwaR
-         6Bl//bR7lWo6eiGwMwJ3SE+V+hSBGHy8RpHYgRTcCyrdsNs0nwSEWAfZA5ywHM21WB0m
-         VRKA==
-X-Gm-Message-State: AJIora855/iu9XwGJwubzfH3yJOIxzTEqoIPa+h24DVmvV2X69SleQKu
-        qLrI6QYuu0EaRPJK/LTCWJA=
-X-Google-Smtp-Source: AGRyM1trF/g/qBtoZmunuNjBApWXlmttV6L2+xeXbV9Lz9cPbXDrtpIAPRZpMXtDA4goIIFXG0CqKQ==
-X-Received: by 2002:a17:903:240c:b0:169:52d:cd75 with SMTP id e12-20020a170903240c00b00169052dcd75mr31594874plo.12.1655886980080;
-        Wed, 22 Jun 2022 01:36:20 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-12.three.co.id. [180.214.233.12])
-        by smtp.gmail.com with ESMTPSA id jf20-20020a170903269400b0016a10e0ce17sm8143718plb.151.2022.06.22.01.36.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jun 2022 01:36:19 -0700 (PDT)
-Message-ID: <4c566329-b2ce-80a5-00da-f3048bdbed3e@gmail.com>
-Date:   Wed, 22 Jun 2022 15:36:14 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3] Documentation: highmem: Use literal block for code
- example in highmem.h comment
-Content-Language: en-US
-To:     Ira Weiny <ira.weiny@intel.com>
-Cc:     linux-doc@vger.kernel.org,
+        bh=Hs9pVTpUBi42eMdaATCBVLHpAcP7Nw426zvueY8ZwZI=;
+        b=LpslrHezcQCyHm+VEVOTMSRLxERozF5drOOxNliCDm+PvFI48R5ewUZFZDvUfOlHXB
+         CiS42FKzNGekZu4/SFcMTCZ8t6nV6h8VsPZIN1MmiyDZrS62RhnuhLnzfVftanH/w7Xb
+         fD1/ELS69tDMN38UysZJc2BcHHv/TJLbdRvrN57nXuPka5xn6WTrgy0yD3yNvzea5bRH
+         OYk+IQU5rn9TYIblw1yzOTq/mRXy9dlxW1kAASrx0egwfY3/IM14eIKIdq42sMUZcMce
+         w0pw3vxeIHNbJ3DwglR1aticwaxd3dmd+OBEKZMQySuUm0/fLKuVounTlz1N4/esGpEy
+         ALoA==
+X-Gm-Message-State: AJIora8D/KuQauig3+F3RJvHYeFYHw6u13wM0xxeVyn/WxwdhrC5/1Dx
+        vLjTykhbpAh4TUfxsWKhek9+7vNE31s=
+X-Google-Smtp-Source: AGRyM1shJvjitaGBPWgz/pdx6BV2OQUPOBwCHk3mBN4tYOSIhFIxvffRnNlgoVtOp/xm7tZgDMdKLQ==
+X-Received: by 2002:a17:902:d509:b0:167:6ed8:afb5 with SMTP id b9-20020a170902d50900b001676ed8afb5mr33549819plg.137.1655887679517;
+        Wed, 22 Jun 2022 01:47:59 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-91.three.co.id. [180.214.232.91])
+        by smtp.gmail.com with ESMTPSA id a9-20020a170902ecc900b001677fa34a4fsm8199930plh.72.2022.06.22.01.47.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jun 2022 01:47:58 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
+        Ira Weiny <ira.weiny@intel.com>,
         "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         linux-mm@kvack.org, linux-kernel@vger.kernel.org
-References: <20220620083649.18172-1-bagasdotme@gmail.com>
- <YrDqJB0J1PT8VlwA@iweiny-desk3>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <YrDqJB0J1PT8VlwA@iweiny-desk3>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH v4] Documentation: highmem: Use literal block for code example in highmem.h comment
+Date:   Wed, 22 Jun 2022 15:45:46 +0700
+Message-Id: <20220622084546.17745-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.36.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/21/22 04:44, Ira Weiny wrote:
+When building htmldocs on Linus' tree, there are inline emphasis warnings
+on include/linux/highmem.h:
 
->> Fix these warnings by indenting the code example with literal block
->> indentation and prefixing comments inside the example with C comment
->> symbol (#).
-> 
-> "//"?
-> 
-> Frankly I'd just drop "(#)".
-> 
-> Perhaps:
-> 
-> ... indentation and making the comments C comments.
-> 
+Documentation/vm/highmem:166: ./include/linux/highmem.h:154: WARNING: Inline emphasis start-string without end-string.
+Documentation/vm/highmem:166: ./include/linux/highmem.h:157: WARNING: Inline emphasis start-string without end-string.
 
-Ah! I had overlooked that. Thanks.
+These warnings above are due to comments in code example at the
+mentioned lines above are enclosed by double dash (--), which confuses
+Sphinx as inline markup delimiters instead.
 
+Fix these warnings by indenting the code example with literal block
+indentation and making the comments C comments.
+
+Fixes: 85a85e7601263f ("Documentation/vm: move "Using kmap-atomic" to highmem.h")
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Ira Weiny <ira.weiny@intel.com>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Changes since v3 [1]:
+   - Say "C comments" rephrase (suggested by Ira)
+
+ [1]: https://lore.kernel.org/linux-doc/20220620083649.18172-1-bagasdotme@gmail.com/
+
+ include/linux/highmem.h | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/include/linux/highmem.h b/include/linux/highmem.h
+index 3af34de54330cb..56d6a019653489 100644
+--- a/include/linux/highmem.h
++++ b/include/linux/highmem.h
+@@ -149,19 +149,19 @@ static inline void *kmap_local_folio(struct folio *folio, size_t offset);
+  * It is used in atomic context when code wants to access the contents of a
+  * page that might be allocated from high memory (see __GFP_HIGHMEM), for
+  * example a page in the pagecache.  The API has two functions, and they
+- * can be used in a manner similar to the following:
++ * can be used in a manner similar to the following::
+  *
+- * -- Find the page of interest. --
+- * struct page *page = find_get_page(mapping, offset);
++ *   // Find the page of interest.
++ *   struct page *page = find_get_page(mapping, offset);
+  *
+- * -- Gain access to the contents of that page. --
+- * void *vaddr = kmap_atomic(page);
++ *   // Gain access to the contents of that page.
++ *   void *vaddr = kmap_atomic(page);
+  *
+- * -- Do something to the contents of that page. --
+- * memset(vaddr, 0, PAGE_SIZE);
++ *   // Do something to the contents of that page.
++ *   memset(vaddr, 0, PAGE_SIZE);
+  *
+- * -- Unmap that page. --
+- * kunmap_atomic(vaddr);
++ *   // Unmap that page.
++ *   kunmap_atomic(vaddr);
+  *
+  * Note that the kunmap_atomic() call takes the result of the kmap_atomic()
+  * call, not the argument.
+
+base-commit: a111daf0c53ae91e71fd2bfe7497862d14132e3e
 -- 
 An old man doll... just what I always wanted! - Clara
+
