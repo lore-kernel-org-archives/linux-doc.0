@@ -2,85 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEE67C43334
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 10:19:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88729C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 10:19:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241979AbiFVKTF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Jun 2022 06:19:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39966 "EHLO
+        id S241671AbiFVKTU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jun 2022 06:19:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235776AbiFVKS6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 06:18:58 -0400
+        with ESMTP id S1347120AbiFVKTJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 06:19:09 -0400
 Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 27AAD3AA6D
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jun 2022 03:18:51 -0700 (PDT)
-Received: from [10.161.0.133] (unknown [112.20.108.207])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz02E7LJiRRFUAA--.28631S3;
-        Wed, 22 Jun 2022 18:18:45 +0800 (CST)
-From:   zhoubinbin <zhoubinbin@loongson.cn>
-Subject: Re: [PATCH 7/9] docs/zh_CN: core-api: Update the translation of
- printk-format.rst to 5.19-rc2
-To:     Jonathan Corbet <corbet@lwn.net>, Wu XiangCheng <bobwxc@email.cn>
-Cc:     alexs@kernel.org, siyanteng@loongson.cn, chenhuacai@loongson.cn,
-        linux-doc@vger.kernel.org
-References: <cover.1655258291.git.zhoubinbin@loongson.cn>
- <ebfda3a43afbfb5dd0186a6e68e080dd933a4883.1655258291.git.zhoubinbin@loongson.cn>
- <Yqu+x95ngy68Vu0p@bobwxc.mipc> <87pmj7qtr4.fsf@meer.lwn.net>
-Message-ID: <8eaec666-be39-68f6-82bd-cd1cde0058dc@loongson.cn>
-Date:   Wed, 22 Jun 2022 18:18:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D98963B3F1
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jun 2022 03:18:59 -0700 (PDT)
+Received: from localhost.localdomain (unknown [112.20.108.207])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Cxr+aQ7LJiWBFUAA--.27260S2;
+        Wed, 22 Jun 2022 18:18:57 +0800 (CST)
+From:   Binbin Zhou <zhoubinbin@loongson.cn>
+To:     alexs@kernel.org, siyanteng@loongson.cn
+Cc:     corbet@lwn.net, chenhuacai@loongson.cn, bobwxc@email.cn,
+        linux-doc@vger.kernel.org, Binbin Zhou <zhoubinbin@loongson.cn>
+Subject: [PATCH V2 0/9] docs/zh_CN: core-api: Update the partial translation to 5.19-rc3
+Date:   Wed, 22 Jun 2022 18:18:46 +0800
+Message-Id: <cover.1655863769.git.zhoubinbin@loongson.cn>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <87pmj7qtr4.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9Dxz02E7LJiRRFUAA--.28631S3
-X-Coremail-Antispam: 1UD129KBjvdXoW7GrWDZr43KrWDtF4rGr47twb_yoWxuFgE9w
-        42v3WxC348JFyFya15KFs3Z392gayxWw4Y9345Kw4fAa95Jws7WFWDGr93J3W8tFWYqr98
-        Cr4qvF45GrW29jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbsxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-        Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-        0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-        jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-        1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxv
-        r21lc2xSY4AK67AK6r4DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
-        8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
-        xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
-        8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E
-        87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0x
-        ZFpf9x0JUd-B_UUUUU=
+X-CM-TRANSID: AQAAf9Cxr+aQ7LJiWBFUAA--.27260S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tFWUuw18Jr13XryDXF18Krg_yoW8Zw1rpF
+        W3Kr93X3WkGFy3uwn7WrWDAFWrWFWUX390kw4ftwnIyrn5K3y8tr48t34agay8Gr92qF1F
+        yr43trWDu3yjyr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkS14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+        6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_Gw1l
+        42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
+        WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
+        I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F
+        4UMIIF0xvE42xK8VAvwI8IcIk0rVW8JVW3JwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+        6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUFg4SDUUUU
 X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+In this series of patches, I updated the translated file contents in the core-api
+directory to 5.19-rc3.
 
-在 2022/6/17 下午9:55, Jonathan Corbet 写道:
-> Wu XiangCheng<bobwxc@email.cn>  writes:
->
->> On Wed, Jun 15, 2022 at 05:24:30PM +0800, Binbin Zhou wrote:
->>> Synchronous translation from the following commits(Latest in front):
->>>
->>> [1]: commit 2fbf5241a561("vsprintf: add new `%pA` format specifier")
->> ^ this commit is from rust-next and not appeared in master or
->> jc/docs-next yet, so please drop it.
-> An alternative is to take the changes relative to that commit (only) and
-> send a patch for inclusion in the Rust tree.
+The next step, I plan to translate the untranslated documents in the core-api
+directory. For details, please see TODOLIST in the core-api/index.rst file.
 
-Hi, Jon:
+Changes since V1:
+- Update the code base to 5.19-rc3
 
-Sorry for my late reply, I will reorganize this part into a patch and 
-submit it to thr Rust tree.
+- According to the suggestions of Xiangcheng and Yanteng, the translations of
+  corresponding documents are updated to make them more readable.
+  
+  The modified documents are as follows:
+    cpu_hotplug.rst
+    irq/irq-domain.rst
+    printk-format.rst
 
-Thanks  for your comments.
+  If you like, please review the mailing list for details.
 
-Binbin
+In addition, for the translation of the Rust part in "printk-format.rst", I will
+reorganize it into a patch to the Rust tree.
 
+Binbin Zhou (9):
+  docs/zh_CN: core-api: Update the translation of cachetlb.rst to
+    5.19-rc3
+  docs/zh_CN: core-api: Update the translation of cpu_hotplug.rst to
+    5.19-rc3
+  docs/zh_CN: core-api: Update the translation of irq/irq-domain.rst to
+    5.19-rc3
+  docs/zh_CN: core-api: Update the translation of kernel-api.rst to
+    5.19-rc3
+  docs/zh_CN: core-api: Update the translation of mm-api.rst to 5.19-rc3
+  docs/zh_CN: core-api: Update the translation of printk-basics.rst to
+    5.19-rc3
+  docs/zh_CN: core-api: Update the translation of printk-format.rst to
+    5.19-rc3
+  docs/zh_CN: core-api: Update the translation of workqueue.rst to
+    5.19-rc3
+  docs/zh_CN: core-api: Update the translation of xarray.rst to 5.19-rc3
 
-> Thanks,
->
-> jon
+ .../translations/zh_CN/core-api/cachetlb.rst  |   6 +
+ .../zh_CN/core-api/cpu_hotplug.rst            | 435 +++++++++++++++---
+ .../zh_CN/core-api/irq/irq-domain.rst         |  22 +-
+ .../zh_CN/core-api/kernel-api.rst             |   3 +
+ .../translations/zh_CN/core-api/mm-api.rst    |  23 +-
+ .../zh_CN/core-api/printk-basics.rst          |   3 +-
+ .../zh_CN/core-api/printk-formats.rst         |   3 +-
+ .../translations/zh_CN/core-api/workqueue.rst |  21 +-
+ .../translations/zh_CN/core-api/xarray.rst    |   4 +-
+ 9 files changed, 449 insertions(+), 71 deletions(-)
+
+-- 
+2.20.1
 
