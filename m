@@ -2,69 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A1B5C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 13:11:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A378C43334
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 13:11:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231309AbiFWNLC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jun 2022 09:11:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53244 "EHLO
+        id S231339AbiFWNLs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jun 2022 09:11:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230248AbiFWNLC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 09:11:02 -0400
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B7E22E9DC;
-        Thu, 23 Jun 2022 06:11:01 -0700 (PDT)
-Received: by mail-pl1-f173.google.com with SMTP id n10so796517plp.0;
-        Thu, 23 Jun 2022 06:11:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=68nt+J0G/haWsaqcORubs5/O2GXyfdJNdDR4QR4VCKw=;
-        b=OOXLkug51HBqCw3dNk3pSEFynWE9ri2JWFspSvWJxb/TckhcRf012zC2sGXlgNEuFU
-         cR+1wwiAFMsh5uoVp+5JcbylySNFJdgqrA3t5V21Wk7QnHD4Nu6kXrBI5fbhYl80+iof
-         dCZAs1StpH0Y8xwSxqsDpK5cv7ddaJGi98rnb0zlF6Fh7NdcVVe3l6dfdZo48yUXJE6Y
-         oeNu9w1r3v6tKeYjxWHa9AiY3QwG4vX59YIS7CpNUiotR7SWPrwf6GCMmXnDdeZJI9+R
-         aBFDJQPWHbf5AngdMelmJKIGt9A7B2kjwxo0KjKAtpLP8B5g5RYMjR30Af9zeBKiReMW
-         Yb/g==
-X-Gm-Message-State: AJIora/2q4cP3au2rrc4u+5JfrNd+l86AiuiDyMxAWp/Um9eTW2XE7Ed
-        gR/fNuEEbxBN5Ftr5ewfeNo=
-X-Google-Smtp-Source: AGRyM1ug8aOaBKwK2eQ4pDHsrijU8aBX0RbI1irUvRXGrh/3bVzmBklJ17kBxFIfIHeCUSDk8qqjYg==
-X-Received: by 2002:a17:90b:4c8a:b0:1e3:60f:58c3 with SMTP id my10-20020a17090b4c8a00b001e3060f58c3mr4043995pjb.230.1655989860307;
-        Thu, 23 Jun 2022 06:11:00 -0700 (PDT)
-Received: from ?IPV6:2601:647:4000:d7:feaa:14ff:fe9d:6dbd? ([2601:647:4000:d7:feaa:14ff:fe9d:6dbd])
-        by smtp.gmail.com with ESMTPSA id jf12-20020a170903268c00b0016a0ac06424sm11978240plb.51.2022.06.23.06.10.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jun 2022 06:10:59 -0700 (PDT)
-Message-ID: <3a2a2d1a-ab52-687d-d521-4a05d7047701@acm.org>
-Date:   Thu, 23 Jun 2022 06:10:57 -0700
+        with ESMTP id S231641AbiFWNLq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 09:11:46 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D220230554
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jun 2022 06:11:45 -0700 (PDT)
+Received: from [192.168.100.8] (unknown [112.20.108.207])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxH9qPZrRiQKlWAA--.396S3;
+        Thu, 23 Jun 2022 21:11:44 +0800 (CST)
+Message-ID: <c84bc8b4-4b84-9dc8-3288-e704602a5e8c@loongson.cn>
+Date:   Thu, 23 Jun 2022 21:11:43 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v2 6/6] blk-mq: Drop local variable for reserved tag
-Content-Language: en-US
-To:     John Garry <john.garry@huawei.com>, axboe@kernel.dk,
-        damien.lemoal@opensource.wdc.com, hch@lst.de, jejb@linux.ibm.com,
-        martin.petersen@oracle.com, hare@suse.de, satishkh@cisco.com,
-        sebaddel@cisco.com, kartilak@cisco.com
-Cc:     linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-        mpi3mr-linuxdrv.pdl@broadcom.com, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, nbd@other.debian.org
-References: <1655810143-67784-1-git-send-email-john.garry@huawei.com>
- <1655810143-67784-7-git-send-email-john.garry@huawei.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <1655810143-67784-7-git-send-email-john.garry@huawei.com>
+Subject: Re: [PATCH 3/9] docs/zh_CN: core-api: Update the translation of
+ irq/irq-domain.rst to 5.19-rc3
+To:     Binbin Zhou <zhoubinbin@loongson.cn>, alexs@kernel.org
+Cc:     corbet@lwn.net, chenhuacai@loongson.cn, bobwxc@email.cn,
+        linux-doc@vger.kernel.org
+References: <cover.1655863769.git.zhoubinbin@loongson.cn>
+ <eb82606f323c4c25e497a01a060e1e76f18be72f.1655863769.git.zhoubinbin@loongson.cn>
+From:   YanTeng Si <siyanteng@loongson.cn>
+In-Reply-To: <eb82606f323c4c25e497a01a060e1e76f18be72f.1655863769.git.zhoubinbin@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxH9qPZrRiQKlWAA--.396S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxWry5Gr1ruw4DAr43KF1kuFg_yoWrCF4rpF
+        42g3y3Gw43Jr1jqrWkWr1UXw1ftryxGanFkan8JF9rXF95A392kr4DtFy5GrW7Ar9aqFW2
+        vF1SgrW8uF1Yka7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvq14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+        6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+        Y487MxkIecxEwVAFwVW5GwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
+        C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
+        wI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
+        v20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r4j6FyUMIIF0xvEx4A2
+        jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0x
+        ZFpf9x0JUSJP_UUUUU=
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/21/22 04:15, John Garry wrote:
-> The local variable is now only referenced once so drop it.
 
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+在 2022/6/22 18:18, Binbin Zhou 写道:
+> Synchronous translation from the following commits(Latest in front):
+>
+> [1]: commit 0953fb263714("irq: remove handle_domain_{irq,nmi}()")
+>
+> [2]: commit 0ddc5e55e6f1("Documentation: Fix irq-domain.rst build warning")
+>
+> [3]: commit 991007ba6cca("Documentation: Update
+>       irq_domain.rst with new lookup APIs")
+>
+> [4]: commit 405e94e9aed2("irqdomain: Kill irq_domain_add_legacy_isa")
+>
+> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+
+Reviewed-by: Yanteng Si<siyanteng@loongson.cn>
+
+Thanks,
+Yantneg
+
+> ---
+>   .../zh_CN/core-api/irq/irq-domain.rst         | 22 +++++++++++++++----
+>   1 file changed, 18 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/translations/zh_CN/core-api/irq/irq-domain.rst b/Documentation/translations/zh_CN/core-api/irq/irq-domain.rst
+> index 7d077742f758..9174fce12c1b 100644
+> --- a/Documentation/translations/zh_CN/core-api/irq/irq-domain.rst
+> +++ b/Documentation/translations/zh_CN/core-api/irq/irq-domain.rst
+> @@ -5,6 +5,7 @@
+>   :翻译:
+>   
+>    司延腾 Yanteng Si <siyanteng@loongson.cn>
+> + 周彬彬 Binbin Zhou <zhoubinbin@loongson.cn>
+>   
+>   .. _cn_irq-domain.rst:
+>   
+> @@ -52,8 +53,18 @@ irq_domain和一个hwirq号作为参数。 如果hwirq的映射还不存在，
+>   一个新的Linux irq_desc，将其与hwirq关联起来，并调用.map()回调，这样驱动
+>   程序就可以执行任何必要的硬件设置。
+>   
+> -当接收到一个中断时，应该使用irq_find_mapping()函数从hwirq号中找到
+> -Linux IRQ号。
+> +一旦建立了映射，可以通过多种方法检索或使用它：
+> +
+> +- irq_resolve_mapping()返回一个指向给定域和hwirq号的irq_desc结构指针，
+> +  如果没有映射则返回NULL。
+> +
+> +- irq_find_mapping()返回给定域和hwirq的Linux IRQ号，如果没有映射则返回0。
+> +
+> +- irq_linear_revmap()现与irq_find_mapping()相同，已被废弃。
+> +
+> +- generic_handle_domain_irq()处理一个由域和hwirq号描述的中断。
+> +
+> +请注意，irq域的查找必须发生在与RCU读临界区兼容的上下文中。
+>   
+>   在调用irq_find_mapping()之前，至少要调用一次irq_create_mapping()函数，
+>   以免描述符不能被分配。
+> @@ -119,7 +130,8 @@ irq_domain_add_tree()和irq_domain_create_tree()在功能上是等价的，除
+>   Linux IRQ号编入硬件本身，这样就不需要映射了。 调用irq_create_direct_mapping()
+>   会分配一个Linux IRQ号，并调用.map()回调，这样驱动就可以将Linux IRQ号编入硬件中。
+>   
+> -大多数驱动程序不能使用这个映射。
+> +大多数驱动程序无法使用此映射，现在它由CONFIG_IRQ_DOMAIN_NOMAP选项控制。
+> +请不要引入此API的新用户。
+>   
+>   传统映射类型
+>   ------------
+> @@ -128,7 +140,6 @@ Linux IRQ号编入硬件本身，这样就不需要映射了。 调用irq_create
+>   
+>   	irq_domain_add_simple()
+>   	irq_domain_add_legacy()
+> -	irq_domain_add_legacy_isa()
+>   	irq_domain_create_simple()
+>   	irq_domain_create_legacy()
+>   
+> @@ -137,6 +148,9 @@ Linux IRQ号编入硬件本身，这样就不需要映射了。 调用irq_create
+>   一组用于IRQ号的定义（#define），这些定义被传递给struct设备注册。 在这种情况下，
+>   不能动态分配Linux IRQ号，应该使用传统映射。
+>   
+> +顾名思义，\*_legacy()系列函数已被废弃，只是为了方便对古老平台的支持而存在。
+> +不应该增加新的用户。当\*_simple()系列函数的使用导致遗留行为时，他们也是如此。
+> +
+>   传统映射假设已经为控制器分配了一个连续的IRQ号范围，并且可以通过向hwirq号添加一
+>   个固定的偏移来计算IRQ号，反之亦然。 缺点是需要中断控制器管理IRQ分配，并且需要为每
+>   个hwirq分配一个irq_desc，即使它没有被使用。
 
