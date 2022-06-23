@@ -2,83 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82A58C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 07:51:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B9F7C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 08:36:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230010AbiFWHvK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jun 2022 03:51:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37274 "EHLO
+        id S230111AbiFWIgV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jun 2022 04:36:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230003AbiFWHvI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 03:51:08 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A99EE2CE0E;
-        Thu, 23 Jun 2022 00:51:05 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 66A2B1FD45;
-        Thu, 23 Jun 2022 07:51:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1655970664; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=N/aCRSdhEB1a/0vv+am/2J2O6zh8qGqpd9QHXNhE6fQ=;
-        b=uX9mixs8DaMWvUWkJIlE5hYrzddV835XJc/pbvqs6zdl2ElMIt6vkjYE976CR/AFb8xzm5
-        AE+zJC+LE7CWeChJY9ZsZnarpVzWsKP9XyHYR6oZu4lbuY0C1Jif8xInDH2xQajcTkU+LH
-        f+KGfRmCvrPYV5PW7x6Nq7DwZvzsuvw=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 045BE133A6;
-        Thu, 23 Jun 2022 07:51:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 6/h0O2cbtGJubwAAMHmgww
-        (envelope-from <mkoutny@suse.com>); Thu, 23 Jun 2022 07:51:03 +0000
-Date:   Thu, 23 Jun 2022 09:51:02 +0200
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     Chengming Zhou <zhouchengming@bytedance.com>
-Cc:     rdunlap@infradead.org, mingo@redhat.com, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
-        corbet@lwn.net, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [External] Re: [PATCH v2] sched: RT bandwidth interface for
- cgroup unified hierarchy
-Message-ID: <20220623075102.GJ27251@blackbody.suse.cz>
-References: <20220622015557.7497-1-zhouchengming@bytedance.com>
- <20220622173929.GA669@blackbody.suse.cz>
- <888b6885-5380-e21f-260f-eb1bb89679c3@bytedance.com>
+        with ESMTP id S229910AbiFWIgT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 04:36:19 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2A6048E57;
+        Thu, 23 Jun 2022 01:36:17 -0700 (PDT)
+Received: from fraeml704-chm.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LTD9H0dZ7z684wN;
+        Thu, 23 Jun 2022 16:35:47 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml704-chm.china.huawei.com (10.206.15.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.24; Thu, 23 Jun 2022 10:36:14 +0200
+Received: from [10.195.245.183] (10.195.245.183) by
+ lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2375.24; Thu, 23 Jun 2022 09:36:13 +0100
+Message-ID: <c973c0d1-49a4-e0d5-2d2e-4eefeb91099f@huawei.com>
+Date:   Thu, 23 Jun 2022 09:36:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <888b6885-5380-e21f-260f-eb1bb89679c3@bytedance.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v3 3/4] scsi: core: Cap shost max_sectors according to DMA
+ optimum mapping limits
+To:     Bart Van Assche <bvanassche@acm.org>,
+        <damien.lemoal@opensource.wdc.com>, <joro@8bytes.org>,
+        <will@kernel.org>, <jejb@linux.ibm.com>,
+        <martin.petersen@oracle.com>, <hch@lst.de>,
+        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>
+CC:     <linux-scsi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <liyihang6@hisilicon.com>, <linux-kernel@vger.kernel.org>,
+        <linux-ide@vger.kernel.org>, <iommu@lists.linux-foundation.org>
+References: <1654507822-168026-1-git-send-email-john.garry@huawei.com>
+ <1654507822-168026-4-git-send-email-john.garry@huawei.com>
+ <fe365aa8-00d5-153d-ceb2-f887a71a6927@acm.org>
+ <31417477-953d-283e-808e-cf8701e820a8@huawei.com>
+ <bccbcc9b-4750-a1a7-130f-69eeea5dcb23@acm.org>
+ <5b214e95-dd95-551a-496e-a2139a74e8eb@huawei.com>
+ <a2585983-75d7-c627-13ba-38a464cf716e@acm.org>
+ <9b1d155e-28cc-08dc-5a5a-8580132575e7@huawei.com>
+ <23bf4427-41c3-bf1d-903a-75928bb47627@acm.org>
+ <f7872ebc-dfe5-d977-c51f-91b73e6d1fbb@huawei.com>
+From:   John Garry <john.garry@huawei.com>
+In-Reply-To: <f7872ebc-dfe5-d977-c51f-91b73e6d1fbb@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.195.245.183]
+X-ClientProxiedBy: lhreml705-chm.china.huawei.com (10.201.108.54) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 23, 2022 at 10:23:26AM +0800, Chengming Zhou <zhouchengming@bytedance.com> wrote:
-> I don't know why v2 differ from v1 in the RT bandwidth control.. Is there
-> some links of explanation? (CFS bandwidth control can work on v2 now.)
+On 10/06/2022 16:37, John Garry via iommu wrote:
+> 
+>> On 6/9/22 10:54, John Garry wrote:
+>>> ok, but do you have a system where the UFS host controller is behind 
+>>> an IOMMU? I had the impression that UFS controllers would be mostly 
+>>> found in embedded systems and IOMMUs are not as common on there.
+>>
+>> Modern phones have an IOMMU. Below one can find an example from a 
+>> Pixel 6 phone. The UFS storage controller is not controller by the 
+>> IOMMU as far as I can see but I wouldn't be surprised if the security 
+>> team would ask us one day to enable the IOMMU for the UFS controller.
+> 
+> OK, then unfortunately it seems that you have no method to test. I might 
+> be able to test USB MSC but I am not even sure if I can even get DMA 
+> mappings who length exceeds the IOVA rcache limit there.
 
-You can see some ideas in [1] (the v1 API allows configurations that are
-not implemented).
-And I'd also say more generally, that applying throttling to an RT task
-is already a lost game (either it's a runaway meaning there's a bug
-elsewhere or the RT task won't have sufficient runtime which defeats its
-RTness).
+I was able to do some testing on USB MSC for an XHCI controller. The 
+result is that limiting the max HW sectors there does not affect 
+performance in normal conditions.
 
-> If the problem can't be solved, we have to unset CONFIG_RT_GROUP_SCHED.
+However if I hack the USB driver and fiddle with request queue settings 
+then it can:
+- lift max_sectors limit in usb_stor_host_template 120KB -> 256KB
+- lift request queue read_ahead_kb 128KB -> 256KB
 
-AFAICT, this was enough so far (but RT group scheduling can still be
-(re)worked).
+In this scenario I can get 42.5MB/s read throughput, as opposed to 
+39.5MB/s in normal conditions. Since .can_queue=1 for that host it would 
+not fall foul of some issues I experience in IOVA allocator performance, 
+so limiting max_sectors would not be required for that reason.
 
-HTH,
-Michal
+So this is an artificial test, but it may be worth considering only 
+applying this DMA mapping optimal max_sectors limit to SAS controllers 
+which I know can benefit.
 
-[1] https://www.kernel.org/doc/html/latest/scheduler/sched-rt-group.html
+Christoph, any opinion?
+
+thanks,
+John
