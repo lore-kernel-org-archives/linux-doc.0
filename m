@@ -2,137 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80F38C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 21:21:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AC39CCA47C
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 21:38:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbiFWVVe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jun 2022 17:21:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41486 "EHLO
+        id S229493AbiFWViG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jun 2022 17:38:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229642AbiFWVVc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 17:21:32 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A7DC4D9D5
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jun 2022 14:21:31 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id c13so730269eds.10
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jun 2022 14:21:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7XXr3wvfzyPEEB6ageHJZCwuCmEqrP5Y6OCseOgyEFs=;
-        b=1taa7fGzS0gwwiZZZMghFVWNNBD1llCsgooIA2VHj0ACeTQSu5DJsqavaUQLBx/GNc
-         oveXSh33asHduJoA8f87sIF4sYudQi/oKjL+1cYTd7cYb1k05SJ/u/9jeyZoJBkBC7PU
-         mE+/aREHomvvpd5YRJmbQKmErtLQZ09ocAyhX22DvzoAp705CBEgs1Uy83W/KN5vlTDW
-         stRGodkF253VTTmAfgTgtAdH3vnnsSQ/A/iKfzsPziEvqwL+RE5GdfRwZw7ZHSanz/ED
-         Ycluk1Gn1hTjoF3E+tFattpXKMs4v7Hyo+dN7f/a/aeZQJkCeQwNcUiVsOQDKvSPeLlV
-         t50g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7XXr3wvfzyPEEB6ageHJZCwuCmEqrP5Y6OCseOgyEFs=;
-        b=IGsHoohGiEK2ss49+Amkw+XzxKwi+c7w5IT+FV5In51RPgnKY/7uUaU/tyTCgyspwI
-         tKE9nL1/ve3tF54JOggzAgm+aGrVCIqEO60yVrV8Pr4B0g5ywdDfi5kHia5GH2uDv7ei
-         4cfK11x7Uqs43EXdFPqW0md5cYk+HvMn0wG9hIhVARHXnJwD8p+ufnGNIRdqmYwU7bz+
-         bTO5c14+KLrWY6NjNYFvtJOQRgq0gEnsuvAFlhn2nMdyRQxzVXCflWHYySfjVMI8teg8
-         wj2wkD7GE0xCPH/+tHLdrELfqoyVT6Y9T2kYd7+hI5vEFe8qIHKpNP8ImefV0hfZ6O8Y
-         42og==
-X-Gm-Message-State: AJIora+yXVC/neqwXoUdsgDf1aXtbU8BIvFIHgjua2TJVLuxDi920Zyh
-        8mx2G9QKe0C1RLozoiJcMf6uxAvlreXx7UjkKAPmPA==
-X-Google-Smtp-Source: AGRyM1tIomF/CV81BQAJ3q4sAaFjsJj+DjqtGKsjlsj/RS3fVXAqHWOMzY1sdoaCaCn4BhusN8e2ERzS4C62EHigcTM=
-X-Received: by 2002:a05:6402:18:b0:435:9a79:9a40 with SMTP id
- d24-20020a056402001800b004359a799a40mr13135974edu.328.1656019289606; Thu, 23
- Jun 2022 14:21:29 -0700 (PDT)
+        with ESMTP id S230250AbiFWViD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 17:38:03 -0400
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ABD01EAC2
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jun 2022 14:38:01 -0700 (PDT)
+Received: from submission (posteo.de [185.67.36.169]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id 1865B240028
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jun 2022 23:37:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1656020279; bh=o+zEnjZneqzTskv0wxGKR7oSFYyBticMFCftbUGH1Ig=;
+        h=Date:From:To:Cc:Subject:From;
+        b=fLsrF7BYyeJgFGmN5zboM6/aj3gzctj1EszOf0N1c0P2dkMLZq1QrpfzlL84j+mOJ
+         U0W0XSHgbx8aPmWf7PUhG6I982jos7iECzLKOhsq0PeuMR0lPGWCMRcJ2/t9q1is3g
+         DP83sMUSf82nZCllQfhIR7bcn7Ceqi36UDITkFlk1T3PGDlTebeClWR8+Gr1yLDn7L
+         BJ+QwkwB5Roo4EB45beU32T0ggOeZi9yuexYLie01KtHAhyroT4G/G54MzL0d8OAhC
+         Fx+7LYlHJAeXxfGX0u6RA4x4q+v/6qyxaTSpHLgq/EhvFTnvH6BF3l5W4DmHQU5GXg
+         FAPu3AtUmOn/Q==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4LTYWp2XHgz6tmR;
+        Thu, 23 Jun 2022 23:37:58 +0200 (CEST)
+Date:   Thu, 23 Jun 2022 21:37:06 +0000
+From:   Tom Schwindl <schwindl@posteo.de>
+To:     corbet@lwn.net
+Cc:     linus.walleij@linaro.org, brgl@bgdev.pl,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs: driver-api: gpio: Fix some typos
+Message-ID: <YrTdAv3YPlCiDr2u@posteo.de>
 MIME-Version: 1.0
-References: <YrSnkBodv7TYvtMb@posteo.de>
-In-Reply-To: <YrSnkBodv7TYvtMb@posteo.de>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Thu, 23 Jun 2022 23:21:19 +0200
-Message-ID: <CAMRc=MfT__UTcVx8r84qFTh3raroB1Cyp0dPrbJ9L6eYO_LGRg@mail.gmail.com>
-Subject: Re: [PATCH] docs: driver-api: gpio: Fix some typos
-To:     Tom Schwindl <schwindl@posteo.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 23, 2022 at 7:49 PM Tom Schwindl <schwindl@posteo.de> wrote:
->
+Correct some simple spelling mistakes in consumer.rst, driver.rst
+and using-gpio.rst.
 
-Please add some description here as is customary in kernel git messages.
+Signed-off-by: Tom Schwindl <schwindl@posteo.de>
+---
+ Documentation/driver-api/gpio/consumer.rst   | 2 +-
+ Documentation/driver-api/gpio/driver.rst     | 6 +++---
+ Documentation/driver-api/gpio/using-gpio.rst | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-Bart
+diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
+index 72bcf5f5e3a2..de6fc79ad6f0 100644
+--- a/Documentation/driver-api/gpio/consumer.rst
++++ b/Documentation/driver-api/gpio/consumer.rst
+@@ -114,7 +114,7 @@ For a function using multiple GPIOs all of those can be obtained with one call::
+ 
+ This function returns a struct gpio_descs which contains an array of
+ descriptors.  It also contains a pointer to a gpiolib private structure which,
+-if passed back to get/set array functions, may speed up I/O proocessing::
++if passed back to get/set array functions, may speed up I/O processing::
+ 
+ 	struct gpio_descs {
+ 		struct gpio_array *info;
+diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
+index 70ff43ac4fcc..6baaeab79534 100644
+--- a/Documentation/driver-api/gpio/driver.rst
++++ b/Documentation/driver-api/gpio/driver.rst
+@@ -119,7 +119,7 @@ GPIO lines with debounce support
+ Debouncing is a configuration set to a pin indicating that it is connected to
+ a mechanical switch or button, or similar that may bounce. Bouncing means the
+ line is pulled high/low quickly at very short intervals for mechanical
+-reasons. This can result in the value being unstable or irqs fireing repeatedly
++reasons. This can result in the value being unstable or irqs firing repeatedly
+ unless the line is debounced.
+ 
+ Debouncing in practice involves setting up a timer when something happens on
+@@ -219,7 +219,7 @@ use a trick: when a line is set as output, if the line is flagged as open
+ drain, and the IN output value is low, it will be driven low as usual. But
+ if the IN output value is set to high, it will instead *NOT* be driven high,
+ instead it will be switched to input, as input mode is high impedance, thus
+-achieveing an "open drain emulation" of sorts: electrically the behaviour will
++achieving an "open drain emulation" of sorts: electrically the behaviour will
+ be identical, with the exception of possible hardware glitches when switching
+ the mode of the line.
+ 
+@@ -642,7 +642,7 @@ In this case the typical set-up will look like this:
+ 
+ As you can see pretty similar, but you do not supply a parent handler for
+ the IRQ, instead a parent irqdomain, an fwnode for the hardware and
+-a funcion .child_to_parent_hwirq() that has the purpose of looking up
++a function .child_to_parent_hwirq() that has the purpose of looking up
+ the parent hardware irq from a child (i.e. this gpio chip) hardware irq.
+ As always it is good to look at examples in the kernel tree for advice
+ on how to find the required pieces.
+diff --git a/Documentation/driver-api/gpio/using-gpio.rst b/Documentation/driver-api/gpio/using-gpio.rst
+index 64c8d3f76c3a..894d88855d73 100644
+--- a/Documentation/driver-api/gpio/using-gpio.rst
++++ b/Documentation/driver-api/gpio/using-gpio.rst
+@@ -44,7 +44,7 @@ These devices will appear on the system as ``/dev/gpiochip0`` thru
+ found in the kernel tree ``tools/gpio`` subdirectory.
+ 
+ For structured and managed applications, we recommend that you make use of the
+-libgpiod_ library. This provides helper abstractions, command line utlities
++libgpiod_ library. This provides helper abstractions, command line utilities
+ and arbitration for multiple simultaneous consumers on the same GPIO chip.
+ 
+ .. _libgpiod: https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/
+-- 
+2.36.1
 
-> Signed-off-by: Tom Schwindl <schwindl@posteo.de>
-> ---
->  Documentation/driver-api/gpio/consumer.rst   | 2 +-
->  Documentation/driver-api/gpio/driver.rst     | 6 +++---
->  Documentation/driver-api/gpio/using-gpio.rst | 2 +-
->  3 files changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
-> index 72bcf5f5e3a2..de6fc79ad6f0 100644
-> --- a/Documentation/driver-api/gpio/consumer.rst
-> +++ b/Documentation/driver-api/gpio/consumer.rst
-> @@ -114,7 +114,7 @@ For a function using multiple GPIOs all of those can be obtained with one call::
->
->  This function returns a struct gpio_descs which contains an array of
->  descriptors.  It also contains a pointer to a gpiolib private structure which,
-> -if passed back to get/set array functions, may speed up I/O proocessing::
-> +if passed back to get/set array functions, may speed up I/O processing::
->
->         struct gpio_descs {
->                 struct gpio_array *info;
-> diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
-> index 70ff43ac4fcc..6baaeab79534 100644
-> --- a/Documentation/driver-api/gpio/driver.rst
-> +++ b/Documentation/driver-api/gpio/driver.rst
-> @@ -119,7 +119,7 @@ GPIO lines with debounce support
->  Debouncing is a configuration set to a pin indicating that it is connected to
->  a mechanical switch or button, or similar that may bounce. Bouncing means the
->  line is pulled high/low quickly at very short intervals for mechanical
-> -reasons. This can result in the value being unstable or irqs fireing repeatedly
-> +reasons. This can result in the value being unstable or irqs firing repeatedly
->  unless the line is debounced.
->
->  Debouncing in practice involves setting up a timer when something happens on
-> @@ -219,7 +219,7 @@ use a trick: when a line is set as output, if the line is flagged as open
->  drain, and the IN output value is low, it will be driven low as usual. But
->  if the IN output value is set to high, it will instead *NOT* be driven high,
->  instead it will be switched to input, as input mode is high impedance, thus
-> -achieveing an "open drain emulation" of sorts: electrically the behaviour will
-> +achieving an "open drain emulation" of sorts: electrically the behaviour will
->  be identical, with the exception of possible hardware glitches when switching
->  the mode of the line.
->
-> @@ -642,7 +642,7 @@ In this case the typical set-up will look like this:
->
->  As you can see pretty similar, but you do not supply a parent handler for
->  the IRQ, instead a parent irqdomain, an fwnode for the hardware and
-> -a funcion .child_to_parent_hwirq() that has the purpose of looking up
-> +a function .child_to_parent_hwirq() that has the purpose of looking up
->  the parent hardware irq from a child (i.e. this gpio chip) hardware irq.
->  As always it is good to look at examples in the kernel tree for advice
->  on how to find the required pieces.
-> diff --git a/Documentation/driver-api/gpio/using-gpio.rst b/Documentation/driver-api/gpio/using-gpio.rst
-> index 64c8d3f76c3a..894d88855d73 100644
-> --- a/Documentation/driver-api/gpio/using-gpio.rst
-> +++ b/Documentation/driver-api/gpio/using-gpio.rst
-> @@ -44,7 +44,7 @@ These devices will appear on the system as ``/dev/gpiochip0`` thru
->  found in the kernel tree ``tools/gpio`` subdirectory.
->
->  For structured and managed applications, we recommend that you make use of the
-> -libgpiod_ library. This provides helper abstractions, command line utlities
-> +libgpiod_ library. This provides helper abstractions, command line utilities
->  and arbitration for multiple simultaneous consumers on the same GPIO chip.
->
->  .. _libgpiod: https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/
-> --
-> 2.36.1
->
