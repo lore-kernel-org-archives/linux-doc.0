@@ -2,225 +2,199 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F75DC43334
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 02:36:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B717C43334
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 06:24:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231287AbiFWCg0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Jun 2022 22:36:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41752 "EHLO
+        id S229893AbiFWGYq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jun 2022 02:24:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229935AbiFWCgZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 22:36:25 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0A723C722
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jun 2022 19:36:24 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id c4so764438plc.8
-        for <linux-doc@vger.kernel.org>; Wed, 22 Jun 2022 19:36:24 -0700 (PDT)
+        with ESMTP id S229891AbiFWGYp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 02:24:45 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB2BA35AA7
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jun 2022 23:24:42 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id d5so17283461plo.12
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jun 2022 23:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=ap/l5/DtRvj53V2CP02OCV8Y9yv6B47W9rFtmSDPxls=;
-        b=FpOyHo8x4jGy05YG6pNB+UTP0d2tDbI8uK8nVnAfyLYHadT0jVXhh164JY6S+Y4Ets
-         StuLbjcpbIXgQfPPKNHjHdrFuZxp/1vsrAwNf+MIRPoxcw2kOtZI+0qyHYG4PtWf4EGZ
-         4YX3AIDmZ0EnsgevwSnayUEl1nJyIOGwjXbMlMLWZ8+We04oQ2oKyh0YzlwFBT2uW/5m
-         sW28f3aZPh+rREYYdhaXmB1yj66IS6Pe9Nx5ez8jz2nMgKIo8SrdNIPH5bvcUB5LURHZ
-         klTqDnqyx8w+fAKTMzbI11ocnkMFpG+Hji/l7D7R1aVizV0BooQ27c5D+vlP5GNpleON
-         NAIQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qqsTAghqTcuad0HsznITt9fffgHBbEr55RFNzBL7lOs=;
+        b=gWXW1KFmTOn7RA7YtwnUU+JfSn1X7Z7Lq2YUE4Ik4Y9UgSo4zjNU5nMWWmzSaSN9zJ
+         EEt7tekxZYwwhhsZBVugmYWHWO0Js8N3mzXOJsjHQa0pO0XYmEuEZQSvp0IkF3j/ijVN
+         8POsp0Lus50ymFzxF5wDS6wTDklhtYlJHi+nJZZtfy19VRv0ENwCJiAIgZZMt5uxWLff
+         NJLTALbrnpj6x2CiNF7h0vfl3L2O7Gvg+OHV5lEXzXEB9wsVhikUGLpI8zerQlDNXAh4
+         uN22Z5qNxGKH0ADGnTH44j0G9BrGqjxbqktqr5/zL5ttxUAms5NZsWtgV1s6wnNIvhNK
+         Q1zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ap/l5/DtRvj53V2CP02OCV8Y9yv6B47W9rFtmSDPxls=;
-        b=T2LWmwosmNY8eiOxmm+AqbR2cO+UjA71bj1wFtrdiH/WaZLl0Z6pVJIvlnGqDfjPr5
-         ssbaSUK8EFqWoUBtEzMCLR8139P8TQbfQff56fg1vhGhMvrdo5Mw/X1mE65fmAyEY60g
-         ZowFV8JU6zBywua8Glk0iciS6XOe6PQtEnBWNqSdxWvJk/TvsZJDsJJ7Kqu/fnMOEj8+
-         bvCusHOyIinylfYIWzGHCZx1m+ajzZlCYo95FFVIGB78mLtfGF68clYts+XEfQTqKVMh
-         csMriTmeBBuN/Y5UDQxmEx1VPGsJ5dPeclJPCuFuNUI+zZ8fUEmMyGOphVzuwuTjIbg3
-         wtGw==
-X-Gm-Message-State: AJIora/JVoQpYwlzdHuS2yXRfABRLfRK/Rl/+NlJn7BtJINpELlbBLVr
-        w61NQPtvakwYjEZ7TuD4GXFmvw==
-X-Google-Smtp-Source: AGRyM1vpifYz050GyEzWzRjhQy8/6B2veXLZvJ6SBiX5HXPWJbx+e9VN+j5wuu1AX6XUoLZCOJnVtA==
-X-Received: by 2002:a17:902:f60d:b0:16a:1a7f:a22f with SMTP id n13-20020a170902f60d00b0016a1a7fa22fmr21280279plg.13.1655951784244;
-        Wed, 22 Jun 2022 19:36:24 -0700 (PDT)
-Received: from [10.4.214.173] ([139.177.225.237])
-        by smtp.gmail.com with ESMTPSA id a13-20020a1709027e4d00b0015e8d4eb26csm13583831pln.182.2022.06.22.19.36.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jun 2022 19:36:23 -0700 (PDT)
-Message-ID: <2d607f47-71fa-9505-b355-7203eb327bab@bytedance.com>
-Date:   Thu, 23 Jun 2022 10:36:10 +0800
+        bh=qqsTAghqTcuad0HsznITt9fffgHBbEr55RFNzBL7lOs=;
+        b=E6s5zEvpMy/J9Pw+U4Kl4ek3Lvpj6qCRdJZG9mxVYcqARE5xuaqX15duCyRrx7+gUZ
+         sbNK4Ie6pDNlGQRjzGyMkVXrwJSASkXv63ONsyyqFDDEL68sN+KlOFm5YLnTQpMEkexK
+         +fze8rwz3Sqf87G4g+mJRpKs/pGQS/tffLOnuya2Y8tOFQhaw6ALpfvPDa8aemMLo5yJ
+         lFh7Zb9XTYU98uSXm1VUAsFrNVXwr4KGhIxOBQMU1f84QXMAYGdBdTuoD1JuD+0j1eQF
+         UnqM/nHVVOfYjn4Zkuy5Eoa/pZjDYUEpbaQJhNe0SjIcvXSKwQr10vTWfQWhHM8wLsm4
+         E1Rw==
+X-Gm-Message-State: AJIora/Rx6NN6bfqGSr5A1MzJTj2TKbBPUN3PRi7xCsgwY6vq0C66xcY
+        ae38d6cg47TAcQFT4B5R5QIWsg==
+X-Google-Smtp-Source: AGRyM1sSG3iOrty2T6axDbCTVmpM8WFQ2J15pfUCzhLILoXLC5tQuQUI0jkR6MONUinrzLKRdqvInA==
+X-Received: by 2002:a17:90b:1e47:b0:1e6:7d04:2f4 with SMTP id pi7-20020a17090b1e4700b001e67d0402f4mr2339936pjb.93.1655965482226;
+        Wed, 22 Jun 2022 23:24:42 -0700 (PDT)
+Received: from MacBook-Pro.local.net ([139.177.225.225])
+        by smtp.gmail.com with ESMTPSA id y18-20020a62b512000000b0051e7b6e8b12sm8656807pfe.11.2022.06.22.23.24.38
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 22 Jun 2022 23:24:41 -0700 (PDT)
+From:   lizhe.67@bytedance.com
+To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com
+Cc:     lizefan.x@bytedance.com, lizhe.67@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC] memmap: introduce cmdline parameter "memmap=nn[KMG]$" without start addr
+Date:   Thu, 23 Jun 2022 14:24:02 +0800
+Message-Id: <20220623062402.12392-1-lizhe.67@bytedance.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PATCH v12 12/14] mm: multi-gen LRU: debugfs interface
-Content-Language: en-US
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-References: <20220614071650.206064-1-yuzhao@google.com>
- <20220614071650.206064-13-yuzhao@google.com>
- <214db251-827c-715c-54cf-9c0e9bb5fe30@bytedance.com>
- <CAOUHufZ8xaVKZD7LNeo8AZv_xywvwef4P8CjdO+npijLHEUfWg@mail.gmail.com>
-From:   Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <CAOUHufZ8xaVKZD7LNeo8AZv_xywvwef4P8CjdO+npijLHEUfWg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Li Zhe <lizhe.67@bytedance.com>
 
+In current kernel we can use memmap=nn[KMG]$ss[KMG] to reserve an
+area of memory for another use from kernel. We have to determine
+it's start addr and length. In our scenario, we need reserve or
+alloc large continous memory like 256M in machine which have
+different memory specification at just boot phase for a user land
+process. And these memorys will not be freed to system before
+system reboot. It is a hard work for us to reserve memory with
+same length from machine with different memory specification,
+because we have to determine the start addr of the reserved memory
+for each type of machine.
 
-On 2022/6/23 03:13, Yu Zhao wrote:
-> On Wed, Jun 22, 2022 at 3:16 AM Qi Zheng <zhengqi.arch@bytedance.com> wrote:
-> 
->>> +static ssize_t lru_gen_seq_write(struct file *file, const char __user *src,
->>> +                              size_t len, loff_t *pos)
->>> +{
->>> +     void *buf;
->>> +     char *cur, *next;
->>> +     unsigned int flags;
->>> +     struct blk_plug plug;
->>> +     int err = -EINVAL;
->>> +     struct scan_control sc = {
->>> +             .may_writepage = true,
->>> +             .may_unmap = true,
->>> +             .may_swap = true,
->>> +             .reclaim_idx = MAX_NR_ZONES - 1,
->>> +             .gfp_mask = GFP_KERNEL,
->>> +     };
->>> +
->>> +     buf = kvmalloc(len + 1, GFP_KERNEL);
->>> +     if (!buf)
->>> +             return -ENOMEM;
->>> +
->>> +     if (copy_from_user(buf, src, len)) {
->>> +             kvfree(buf);
->>> +             return -EFAULT;
->>> +     }
->>> +
->>> +     if (!set_mm_walk(NULL)) {
->>
->> The current->reclaim_state will be dereferenced in set_mm_walk(), so
->> calling set_mm_walk() before set_task_reclaim_state(current,
->> &sc.reclaim_state) will cause panic:
->>
->> [ 1861.154916] BUG: kernel NULL pointer dereference, address:
->> 0000000000000008
-> 
-> Thanks.
-> 
-> Apparently I shot myself in the foot by one of the nits between v11 and v12.
-> 
->>> +             kvfree(buf);
->>> +             return -ENOMEM;
->>> +     }
->>> +
->>> +     set_task_reclaim_state(current, &sc.reclaim_state);
->>> +     flags = memalloc_noreclaim_save();
->>> +     blk_start_plug(&plug);
->>> +
->>> +     next = buf;
->>> +     next[len] = '\0';
->>> +
->>> +     while ((cur = strsep(&next, ",;\n"))) {
->>> +             int n;
->>> +             int end;
->>> +             char cmd;
->>> +             unsigned int memcg_id;
->>> +             unsigned int nid;
->>> +             unsigned long seq;
->>> +             unsigned int swappiness = -1;
->>> +             unsigned long opt = -1;
->>> +
->>> +             cur = skip_spaces(cur);
->>> +             if (!*cur)
->>> +                     continue;
->>> +
->>> +             n = sscanf(cur, "%c %u %u %lu %n %u %n %lu %n", &cmd, &memcg_id, &nid,
->>> +                        &seq, &end, &swappiness, &end, &opt, &end);
->>> +             if (n < 4 || cur[end]) {
->>> +                     err = -EINVAL;
->>> +                     break;
->>> +             }
->>> +
->>> +             err = run_cmd(cmd, memcg_id, nid, seq, &sc, swappiness, opt);
->>> +             if (err)
->>> +                     break;
->>> +     }
->>> +
->>> +     blk_finish_plug(&plug);
->>> +     memalloc_noreclaim_restore(flags);
->>> +     set_task_reclaim_state(current, NULL);
->>> +
->>> +     clear_mm_walk();
->>
->> Ditto, we can't call clear_mm_walk() after
->> set_task_reclaim_state(current, NULL).
->>
->> Maybe it can be modified as follows:
->>
->> diff --git a/mm/vmscan.c b/mm/vmscan.c
->> index 2422edc786eb..552e6ae5243e 100644
->> --- a/mm/vmscan.c
->> +++ b/mm/vmscan.c
->> @@ -5569,12 +5569,12 @@ static ssize_t lru_gen_seq_write(struct file
->> *file, const char __user *src,
->>                   return -EFAULT;
->>           }
->>
->> +       set_task_reclaim_state(current, &sc.reclaim_state);
->>           if (!set_mm_walk(NULL)) {
->>                   kvfree(buf);
->>                   return -ENOMEM;
->>           }
->>
->> -       set_task_reclaim_state(current, &sc.reclaim_state);
-> 
-> We need a `goto` because otherwise we leave a dangling
+This patch introduce a cmdline parameter "memmap=nn[KMG]$" to make
+this work easy. It is an extension of "memmap=nn[KMG]$ss[KMG]". We
+don't need to input the start addr. Kernel will reserve a suitable
+area of memory and we can get the area from /proc/iomem with the
+key word "Memmap Alloc". Notice that we need "$" in our cmdline
+parameter or it will be confused with memmap=nn[KMG]@ss[KMG].
 
-Yes, right. With this:
+Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
+---
+ .../admin-guide/kernel-parameters.txt         |  7 ++
+ arch/x86/kernel/e820.c                        | 64 ++++++++++++++++++-
+ 2 files changed, 69 insertions(+), 2 deletions(-)
 
-Reviewed-by: Qi Zheng <zhengqi.arch@bytedance.com>
-
-> `current->reclaim_state`. (I swear I had one.)
-
-(I believe :))
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 2522b11e593f..b88df1e61d48 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3022,6 +3022,13 @@
+ 			         memmap=64K$0x18690000
+ 			         or
+ 			         memmap=0x10000$0x18690000
++			[KNL, X86] If @ss[KMG] is omitted, kernel will reserve a
++			suitable area of memory for us. We can find the area from
++			/proc/iomem with key word "Memmap Alloc".
++			Example: Exclude memory with size 0x10000
++					 memmap=64K$
++					 or
++					 memmap=0x10000$
+ 			Some bootloaders may need an escape character before '$',
+ 			like Grub2, otherwise '$' and the following number
+ 			will be eaten.
+diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
+index f267205f2d5a..241d41ec870f 100644
+--- a/arch/x86/kernel/e820.c
++++ b/arch/x86/kernel/e820.c
+@@ -942,8 +942,18 @@ static int __init parse_memmap_one(char *p)
+ 		start_at = memparse(p+1, &p);
+ 		e820__range_add(start_at, mem_size, E820_TYPE_ACPI);
+ 	} else if (*p == '$') {
+-		start_at = memparse(p+1, &p);
+-		e820__range_add(start_at, mem_size, E820_TYPE_RESERVED);
++		if (*(p+1) == '\0') {
++			/*
++			 * In the case we just want to reserve memory with size
++			 * 'mem_size' and don't care where it start, we get '\0'
++			 * here.
++			 */
++			p++;
++		} else {
++			/* We determine the start and size of the reserved memory */
++			start_at = memparse(p+1, &p);
++			e820__range_add(start_at, mem_size, E820_TYPE_RESERVED);
++		}
+ 	} else if (*p == '!') {
+ 		start_at = memparse(p+1, &p);
+ 		e820__range_add(start_at, mem_size, E820_TYPE_PRAM);
+@@ -972,6 +982,40 @@ static int __init parse_memmap_one(char *p)
+ 	return *p == '\0' ? 0 : -EINVAL;
+ }
+ 
++static int __init setup_memmap_random(char *p)
++{
++	char *oldp;
++	struct resource *res;
++	u64 start_at, mem_size;
++
++	if (!p)
++		return -EINVAL;
++	oldp = p;
++	mem_size = memparse(p, &p);
++	if (p == oldp)
++		return -EINVAL;
++
++	if (*p == '$') {
++		if (*(p+1) != '\0')
++			return 0; /* no need to deal with */
++		start_at = memblock_phys_alloc(mem_size, SMP_CACHE_BYTES);
++		if (start_at == 0)
++			return -ENOMEM;
++		res = memblock_alloc(sizeof(struct resource), SMP_CACHE_BYTES);
++		if (res == NULL) {
++			memblock_phys_free(start_at, mem_size);
++			return -ENOMEM;
++		}
++		res->start = start_at;
++		res->end = start_at + mem_size - 1;
++		res->name = "Memmap Alloc";
++		res->flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
++		res->desc = IORES_DESC_RESERVED;
++		insert_resource(&iomem_resource, res);
++	}
++	return 0;
++}
++
+ static int __init parse_memmap_opt(char *str)
+ {
+ 	while (str) {
+@@ -988,6 +1032,22 @@ static int __init parse_memmap_opt(char *str)
+ }
+ early_param("memmap", parse_memmap_opt);
+ 
++static int __init setup_memmap_opt(char *str)
++{
++	while (str) {
++		char *k = strchr(str, ',');
++
++		if (k)
++			*k++ = 0;
++
++		setup_memmap_random(str);
++		str = k;
++	}
++
++	return 0;
++}
++__setup("memmap=", setup_memmap_opt);
++
+ /*
+  * Reserve all entries from the bootloader's extensible data nodes list,
+  * because if present we are going to use it later on to fetch e820
 -- 
-Thanks,
-Qi
+2.20.1
+
