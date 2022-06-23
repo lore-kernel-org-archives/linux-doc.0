@@ -2,395 +2,554 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DE0FCCA486
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 18:08:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3FB3C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 18:15:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235797AbiFWSIt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jun 2022 14:08:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48354 "EHLO
+        id S230117AbiFWSPC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jun 2022 14:15:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236539AbiFWSH6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 14:07:58 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 480CD87D4E;
-        Thu, 23 Jun 2022 10:19:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dNdpb7n7/KPjAH2XKnrunibaD487hQBZ5UdXfYJ1p4cNSjrFyUlu+aIlwpoe+AW2on2Ls/Sm+Z87EmugPLIXoOivPVlO2vVS9rb9cs9zJOsBExjH58xEcZLqN8gJN0eMrk4r6BHkMWrKk40yrhjEBrf7MhH34FFx9mSYgsbbBNYunzLTH+IyD9gsZbdg0H2OgrRlg6GkVxaPMkKk22mGXkl9uphW4OV7fiSzecAfc2gcWDCnvEFiJfq7w3Pz8GxzhXCEbbTzlNV53UcqKHkhzSuF2RjMZRrgTrrNukuJyH5kPgZxoudoTBHTk3mVvIbZnPfR9yiGXiQOHHJ2eqpu5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZV+TO/fLr0+6h1fXUUPY8j/wqrT9Ix+TbNWFq1X51pY=;
- b=EetphdHRj50uOtSWSDa+J1PNVpyqYUUDLiWmEoRdHGeYBQWlxkf8GGSy4D1HgKWyDdHsHE3EOE8PmbNBvWMbyMpXSX2wqZWQYvIc1aUqffM53jqR5PmHaRRfGx1cSIkguIfJsHVBld8bGHkiEx4bklR+ufjMFhq3CMt9Moze+KaqUOAwSJysXbzn3txG/17rjvYnQ3XOernqqLHiHZ+ZOEwJqA9OrN4X0VW0T0Hybwm9Epvzw6zYmOSDd0fqesHiYrEI/gKl619Q65B1vYnadA68gkSkkYaKzPCeBaDwG5JtSQOXsDIG7feC/LP55QkEFV08M+OBqK3rJNfQex25JQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZV+TO/fLr0+6h1fXUUPY8j/wqrT9Ix+TbNWFq1X51pY=;
- b=wftKZOfWFpxPmvmZgJQ890mTkNUwsnu9Qm7nNlZVqTr5H4o98eIQtBve7IaosukipG+ABHuP1TD3VzAj0RJhY4C3zRS/xE3zgHf8GWgvZa+DTJ4K2llJGuran7y4KtBAJPFbtusF3pkbM9jUwiDgeR9BWo3OpWF4XBoPnQnK3kI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by BN9PR12MB5260.namprd12.prod.outlook.com (2603:10b6:408:101::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.15; Thu, 23 Jun
- 2022 17:19:24 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::1143:10a5:987a:7598]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::1143:10a5:987a:7598%5]) with mapi id 15.20.5353.016; Thu, 23 Jun 2022
- 17:19:24 +0000
-Message-ID: <d6330f93-dfc4-91fc-3e5f-7be93b1ce2cb@amd.com>
-Date:   Thu, 23 Jun 2022 12:19:19 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 1/2] x86: notify hypervisor about guest entering s2idle
- state
-Content-Language: en-US
-To:     Grzegorz Jaszczyk <jaz@semihalf.com>,
-        Sean Christopherson <seanjc@google.com>
-Cc:     linux-kernel@vger.kernel.org, Dmytro Maluka <dmy@semihalf.com>,
-        Zide Chen <zide.chen@intel.corp-partner.google.com>,
-        Peter Fang <peter.fang@intel.corp-partner.google.com>,
-        Tomasz Nowicki <tn@semihalf.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S234257AbiFWSOV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 14:14:21 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD7C89A876
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jun 2022 10:21:18 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id e5so11428418wma.0
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jun 2022 10:21:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:references:date:in-reply-to:message-id
+         :user-agent:mime-version;
+        bh=L5rVpiSBD6bHrgBbtOmsPeL7WjLPbqmPTnPwPerx3Is=;
+        b=vbtD2FZDG3XohdsHpK60LexpnW+hZCYEHreA264cxYeVivWYaDcm0zb1Huzfez0fjQ
+         o32V0KP/x69JAJxE0jvMYFRIRo1acdALwZhSKmTRoCRpVwjrRgIqrCNeqZIeE0jKjZkg
+         pJjD/hZhxxYNMnLQ/EFS/QTyMU9KwfBp9cqytDZYFluHN9AY5U9mOZ9KL40yfq3vB1H/
+         xNDFQ0MB/p2gjHHzYDI+r0nB+h9IRuel8guBd0fSjSvfgiQy7RxY4dlH5JB14OkOnoEy
+         sBl5M8F9EunKpreLdXteAy3X3ZlsZt8OkkZXH5vn+iXZCKODl1mmi/jrhV50Bl8RwF66
+         BdaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
+         :message-id:user-agent:mime-version;
+        bh=L5rVpiSBD6bHrgBbtOmsPeL7WjLPbqmPTnPwPerx3Is=;
+        b=c30HDN25KTF5I2B20KEp0DCxbu9Lwzit60CtFygp8I95oVjvKtmYHRDgLh+lDlCgXh
+         YXxxvZSZVEnWnTa4OHbYcmrdrbY7GZvA/tt/XDEAv7/kn0MRaw/MLKh4P8bz7eV53Nsy
+         ZK+wCbwWdR7egly5zCw2PxlNNYR5j/IVNXYrbTfMCQ16fP/dWDyedp8vGEXo/pzprVHY
+         eWcLekKIUWUgXDxXyBnlMZOWDBoBWw5iOYu/J5WbyfX0Yk9twJ0/jqxfFWeZuzKUFOaN
+         KKqLTIm3tP0YQIrdHwnVRP5zjc+ltqLuEbfJ3d11V8KvHsmGQ4ct77CG1XLSaKeS0B2l
+         Tbnw==
+X-Gm-Message-State: AJIora/0JMY0sZLKH1bw434wdmzqYQILTyZFJv7qDbrbzqp70OqApO55
+        uy+gryOjNTroPfXlCBIyjFe5IA==
+X-Google-Smtp-Source: AGRyM1uW7ezE3RjDBrd+dlkQkVXAVdDjKKoY4iGLl68odcrGDz/V5+RroxuGNGlOorVYSQnn/3nXdA==
+X-Received: by 2002:a05:600c:35d2:b0:39c:8490:abbf with SMTP id r18-20020a05600c35d200b0039c8490abbfmr5463860wmq.86.1656004876835;
+        Thu, 23 Jun 2022 10:21:16 -0700 (PDT)
+Received: from localhost ([109.180.234.132])
+        by smtp.gmail.com with ESMTPSA id e18-20020a05600c219200b003a0279f5935sm3999965wme.9.2022.06.23.10.21.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jun 2022 10:21:16 -0700 (PDT)
+From:   Punit Agrawal <punit.agrawal@bytedance.com>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
+        Ingo Molnar <mingo@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Ashish Kalra <ashish.kalra@amd.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Sachi King <nakato@nakato.io>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        David Dunn <daviddunn@google.com>,
-        Wei Wang <wei.w.wang@intel.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "open list:KERNEL VIRTUAL MACHINE (KVM)" <kvm@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:ACPI" <linux-acpi@vger.kernel.org>,
-        "open list:HIBERNATION (aka Software Suspend, aka swsusp)" 
-        <linux-pm@vger.kernel.org>, Dominik Behr <dbehr@google.com>,
-        Dmitry Torokhov <dtor@google.com>
-References: <20220609110337.1238762-1-jaz@semihalf.com>
- <20220609110337.1238762-2-jaz@semihalf.com> <YqIJ8HtdqnoVzfQD@google.com>
- <CAH76GKNRDXAyGYvs2ji5Phu=5YPW8+SV8-6TLjizBRzTCnEROg@mail.gmail.com>
- <YqNVYz4+yVbWnmNv@google.com>
- <CAH76GKNSfaHwpy46r1WWTVgnsuijqcHe=H5nvUTUUs1UbdZvkQ@mail.gmail.com>
- <Yqtez/J540yD7VdD@google.com> <2201fe5f-5bd8-baaf-aad5-eaaea2f1e20e@amd.com>
- <CAH76GKP=2wu4+eqLCFu1F5a4rHhReUT_7N89K8xbO-gSqEQ-3w@mail.gmail.com>
- <88344644-44e1-0089-657a-2e34316ea4b4@amd.com>
- <CAH76GKMKjogX9kE5jch+LqkGswGAmyOdu5sOdY_G23Dqpf0puA@mail.gmail.com>
- <7c428b03-261f-78cb-4ce3-5949ac93f028@amd.com>
- <CAH76GKNB0V+-Ky6bfhX6Kzudyn6zJW42iSWfRkfbo9C-eKdo-w@mail.gmail.com>
-From:   "Limonciello, Mario" <mario.limonciello@amd.com>
-In-Reply-To: <CAH76GKNB0V+-Ky6bfhX6Kzudyn6zJW42iSWfRkfbo9C-eKdo-w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1PR13CA0423.namprd13.prod.outlook.com
- (2603:10b6:208:2c3::8) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+Subject: Re: [PATCH V4 01/20] rv: Add Runtime Verification (RV) interface
+References: <cover.1655368610.git.bristot@kernel.org>
+        <60548902dbccaa7ba420e40e46835693e27f643f.1655368610.git.bristot@kernel.org>
+Date:   Thu, 23 Jun 2022 18:21:15 +0100
+In-Reply-To: <60548902dbccaa7ba420e40e46835693e27f643f.1655368610.git.bristot@kernel.org>
+        (Daniel Bristot de Oliveira's message of "Thu, 16 Jun 2022 10:44:43
+        +0200")
+Message-ID: <87tu8bmh2s.fsf@stealth>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f4291a4a-60d3-4520-c509-08da553c84aa
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5260:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oHqT0ChzPIzBQKuDx/CtQMQrbKhY4OXzagLxAns18k+oF3Xa+y4eb0BgOfdBK7uvoxxYBRO+ebwFNeyJu752JMhfJ57YfTcghPShzvE+WScFmeacMmVS/8eNqB9gmXNxuKSAEP5iGbqdRCGHInM1r0G8iJpQhWC4Qn9XcIyCIehOnFPirW639bE5TM/q+idozi+IB0wOLQ0lw19h7Ua02HxBjUkKyE26SW50vHgvQ8/GVWs9zffP1WCtWKB0cNZNET5S7VgiH4/0MBJ96q+Mh8Iym/tL5x5J7vbQCyexrW2BVF6C2H6GdQHUok9I0RRafau2a3W3UzMX6VTecqcJGzbwss4aXBj4dnlsmZP9Z6ExqlSnLXK1D8B0MHYrNVS9RnXchORbeakof/GYKAUn3N6FI1cjRfwoA4dymQWpoIBErSHq0b0MAu3k5ztOfO0zLbEfCVBMCzA5G5DHXTSLG9SRlsMM3YZGzF4t3Y1vRSb4Lls39/ZCQvgkl9NH9PYKqvYWnxkL+KZM7aHvDIy8ex/NzmsaNAmY24bDzuP+6DcezS12tBok//ugzngCTrI3Xvg8iK5OjHvbzRQ0bNhV+k19ExJkEODF3vydNA9mBTJYydHpD6VJOXYUW6wWWRg1MQhi6tAqWxq065HYVfSvEtUr3V4OnChGjcWwbsfNKz6nSdaPxx9prNvLvcAR+UinK/38l6k5pg4hnE2dzfs8Vnr3rGVepKkx/AKfL7PLDGKdOwS0rzJvo6PWM9iKFaCbx2fwpRYyVwL9s0mnV1efaGA+ptHdZsazMVlVPeLWq4C6Wjcv6Plxt8wwcdK9AaPNNgqDolEGUorcZEF+s17gaOxQ+TgXjJmCanK719FnUE4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(366004)(39860400002)(376002)(136003)(346002)(31696002)(7416002)(5660300002)(38100700002)(8936002)(86362001)(478600001)(2906002)(316002)(966005)(66946007)(8676002)(6486002)(66476007)(66556008)(53546011)(4326008)(6666004)(7406005)(6506007)(26005)(2616005)(6512007)(36756003)(31686004)(110136005)(41300700001)(30864003)(54906003)(186003)(45080400002)(83380400001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RUc2QVl3d2VQWExwYUJsS2xpUStIMUVSRlRHcnJTc3ZjYWxFK0hlTDJaWkxL?=
- =?utf-8?B?TmJKRjRuNDNvMTFZV3J2T0xuRVk3SVpKWmVSQS9BZ0dOa3ZOV1lCUjZFUnBF?=
- =?utf-8?B?NnZSdmlNZnhJV05Wdi9LODJKMlRpVEpZbHl6VVhLU1MrZzZWUEdSWHRoUHFo?=
- =?utf-8?B?VGprb3h1TVFXbWZQNjVoWld4ZkJRU1hOeVNiUU5qbUptbXdMSHRCRE5vYVc2?=
- =?utf-8?B?Zi9ZMVRuVGplUmk5V2dsRldTeHhMNTVXNTl3YmJqUFk3UTdGaDlDQXlOcElN?=
- =?utf-8?B?RER4dVlwNG5YdGNxbUJ1RnlOOXF2ZUtPMytOSGVHM2NlekFrN0dZU1JhSHRi?=
- =?utf-8?B?THBqd0xFa0hKa0thSG5YaExib3p6d052WkFCdmJvTzVyaUd0c2tZQWl1bGpB?=
- =?utf-8?B?RnQwajNyUEpwb01MMTlxS3QreStvUDhsUm0yS1dqMzNacDgzZ0E5YysvLzlC?=
- =?utf-8?B?MHgzdEQ5UVJWSVd0WWp2eGFBZk54eXdKczhRajY2T3NxSGhyWDh3NmxZaUg2?=
- =?utf-8?B?Nyt5UG9CWEtyWUNLeE9GUFdlakNBTC9iTjhPU0dGOEtYR09qaGc3L3cxMkpZ?=
- =?utf-8?B?eWVoalVKdmhxVktIejdhUlFPTU5wRGt2dEVEUmVNdVM0NDFETzNMWFh3ZkdB?=
- =?utf-8?B?MHozK3J2VkgxREwxOVVEWU8waElFenIwTHVDblZKQ2pHaHB1NEhxTnlaZkwz?=
- =?utf-8?B?Rm9DR2Y3cytvZVY1YlZJZWpEaHVyZm5KZDNIUlBwMktOL216K3RGVnJIcmp1?=
- =?utf-8?B?ZEJKSzlVRFlFZytkNndYdG1QQXdpaUVEZWd3VElmL0dRT3NnWkN6VW5yREtT?=
- =?utf-8?B?L1JyZXNGNnh2cFVSNVRSQXZ0LzhiRy82SGpXWldsN0ZMWC9iRllOUWhsL2Ft?=
- =?utf-8?B?ZXdnYU5CdGY5MGpoemZ2R3doektyRytqN29UeEFrQWVDNjQ2Zm5TNnlRbEpS?=
- =?utf-8?B?Nm5xNndlOXJKTlJiSllDQmhLdk9ZcW5vS2Z0YlZPK2JBeVZSOGlJU0ROajA1?=
- =?utf-8?B?Rm43dmNiMXZzWkJSUFQ3a1RiUTcrME50ajdTYjVHUE12Y3ZwMzZqaDdVR0xm?=
- =?utf-8?B?Wk5tWmFUakVYME9NWmhCdE9VQUxyWlJaWmU4cDNMK3hiL3NtdHFQckRvSnVp?=
- =?utf-8?B?RlNoSjEvK1VCM0F4c3R4M3Jva1JnWndHd0hFU2hkMHNUSmRuQmVISklBNnZ0?=
- =?utf-8?B?dWVsWDBUTG1aeUZYdjBsQzJncHl5aDVnU1ZaTmk3T2pLOSs3dWNoVnVGYTl2?=
- =?utf-8?B?VGh0TjJJZzNxVjdpYmJtU1M3L2g3QU5seFIzaWZqdHl2SnJlMkQ2SDRGeEVj?=
- =?utf-8?B?RTg5eVFadHVKL2dGclBtK2ZPdy9WZ0doWEFBbzAzWGdiTFkvS2FJdUtBblpC?=
- =?utf-8?B?SDhpWUJQOXZGRDVRclV1bldKemdvdWRiYVFORnVFd3gyVSt6cFFqNXpIZFQ0?=
- =?utf-8?B?eWs1alZtejRYQStxc2h5YldqenEyMlFTMXFsQXN2UUk1VGFrYXJDZUxuTDlq?=
- =?utf-8?B?blBhVWJTU0loZEVMcnBwQXJjeDVidytWK0F4b0k4VVNJN2labENSKzVheVlT?=
- =?utf-8?B?U2VLQUZ4bFV0NzRmT3Ywallwdm5rWmFjb09raHpRTjhUaXNyZmdZUGw2bkU4?=
- =?utf-8?B?L2JkNGpvaVBNSVNlbFgyWXp3VGo1Z2Y4cXpCcHhoMVdTa29FWEZacUxLY21M?=
- =?utf-8?B?N3dPd09QL1kzMG43RjRPdkR6ZmIzOGRBQnRkYmdVd21ZQXJiZ0FuZDZoZGE1?=
- =?utf-8?B?OFpMQ0FNaksyQllKc0RGeVY3N0F6RmJ5b0h6NmNuY1BRQVV3VmdUU1JqaHJX?=
- =?utf-8?B?TzlFY0p5WVhpT2wxSXh3Rk50VFlNems0Z2ZabTNaNlgxNG8xU1FOWWZ1OThu?=
- =?utf-8?B?a2xhSndXV2RrME0zS0ova1B2N3FzbEpCMFFDNHJoSlhDOGwvNHRHSW56WmZY?=
- =?utf-8?B?QkxmSVBDVmZJRkl0Y3lYQmVKZ0NocW5oOTRFWDV0TGkvVHBVU0F3QmwrUkc3?=
- =?utf-8?B?VWF6dzdBU29Pcml5MFlLc1Z0dlp4RnhBMkoxTFJjT1NvY2YrQjVjVHAzQXJV?=
- =?utf-8?B?Ymx0R3JNaTBmeXZra0tRQ1JnWHJqK01BWFU1VmlMTEVnd0FwbUpTSnRzUWxa?=
- =?utf-8?Q?r6pzz26+dNgyEIpOPzLDx1hYB?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4291a4a-60d3-4520-c509-08da553c84aa
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2022 17:19:24.0872
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +C93TZtI17z6N39+XwI8K5aO7ySHNpIcPRj8bpIiITJlFTXq8YSjjxEUwdfK8AOFWhxHmVFjF/5ng2Lz5u8/iw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5260
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/23/2022 11:50, Grzegorz Jaszczyk wrote:
-> śr., 22 cze 2022 o 23:50 Limonciello, Mario
-> <mario.limonciello@amd.com> napisał(a):
->>
->> On 6/22/2022 04:53, Grzegorz Jaszczyk wrote:
->>> pon., 20 cze 2022 o 18:32 Limonciello, Mario
->>> <mario.limonciello@amd.com> napisał(a):
->>>>
->>>> On 6/20/2022 10:43, Grzegorz Jaszczyk wrote:
->>>>> czw., 16 cze 2022 o 18:58 Limonciello, Mario
->>>>> <mario.limonciello@amd.com> napisał(a):
->>>>>>
->>>>>> On 6/16/2022 11:48, Sean Christopherson wrote:
->>>>>>> On Wed, Jun 15, 2022, Grzegorz Jaszczyk wrote:
->>>>>>>> pt., 10 cze 2022 o 16:30 Sean Christopherson <seanjc@google.com> napisał(a):
->>>>>>>>> MMIO or PIO for the actual exit, there's nothing special about hypercalls.  As for
->>>>>>>>> enumerating to the guest that it should do something, why not add a new ACPI_LPS0_*
->>>>>>>>> function?  E.g. something like
->>>>>>>>>
->>>>>>>>> static void s2idle_hypervisor_notify(void)
->>>>>>>>> {
->>>>>>>>>             if (lps0_dsm_func_mask > 0)
->>>>>>>>>                     acpi_sleep_run_lps0_dsm(ACPI_LPS0_EXIT_HYPERVISOR_NOTIFY
->>>>>>>>>                                             lps0_dsm_func_mask, lps0_dsm_guid);
->>>>>>>>> }
->>>>>>>>
->>>>>>>> Great, thank you for your suggestion! I will try this approach and
->>>>>>>> come back. Since this will be the main change in the next version,
->>>>>>>> will it be ok for you to add Suggested-by: Sean Christopherson
->>>>>>>> <seanjc@google.com> tag?
->>>>>>>
->>>>>>> If you want, but there's certainly no need to do so.  But I assume you or someone
->>>>>>> at Intel will need to get formal approval for adding another ACPI LPS0 function?
->>>>>>> I.e. isn't there work to be done outside of the kernel before any patches can be
->>>>>>> merged?
->>>>>>
->>>>>> There are 3 different LPS0 GUIDs in use.  An Intel one, an AMD (legacy)
->>>>>> one, and a Microsoft one.  They all have their own specs, and so if this
->>>>>> was to be added I think all 3 need to be updated.
->>>>>
->>>>> Yes this will not be easy to achieve I think.
->>>>>
->>>>>>
->>>>>> As this is Linux specific hypervisor behavior, I don't know you would be
->>>>>> able to convince Microsoft to update theirs' either.
->>>>>>
->>>>>> How about using s2idle_devops?  There is a prepare() call and a
->>>>>> restore() call that is set for each handler.  The only consumer of this
->>>>>> ATM I'm aware of is the amd-pmc driver, but it's done like a
->>>>>> notification chain so that a bunch of drivers can hook in if they need to.
->>>>>>
->>>>>> Then you can have this notification path and the associated ACPI device
->>>>>> it calls out to be it's own driver.
->>>>>
->>>>> Thank you for your suggestion, just to be sure that I've understand
->>>>> your idea correctly:
->>>>> 1) it will require to extend acpi_s2idle_dev_ops about something like
->>>>> hypervisor_notify() call, since existing prepare() is called from end
->>>>> of acpi_s2idle_prepare_late so it is too early as it was described in
->>>>> one of previous message (between acpi_s2idle_prepare_late and place
->>>>> where we use hypercall there are several places where the suspend
->>>>> could be canceled, otherwise we could probably try to trap on other
->>>>> acpi_sleep_run_lps0_dsm occurrence from acpi_s2idle_prepare_late).
->>>>>
->>>>
->>>> The idea for prepare() was it would be the absolute last thing before
->>>> the s2idle loop was run.  You're sure that's too early?  It's basically
->>>> the same thing as having a last stage new _DSM call.
->>>>
->>>> What about adding a new abort() extension to acpi_s2idle_dev_ops?  Then
->>>> you could catch the cancelled suspend case still and take corrective
->>>> action (if that action is different than what restore() would do).
->>>
->>> It will be problematic since the abort/restore notification could
->>> arrive too late and therefore the whole system will go to suspend
->>> thinking that the guest is in desired s2ilde state. Also in this case
->>> it would be impossible to prevent races and actually making sure that
->>> the guest is suspended or not. We already had similar discussion with
->>> Sean earlier in this thread why the notification have to be send just
->>> before swait_event_exclusive(s2idle_wait_head, s2idle_state ==
->>> S2IDLE_STATE_WAKE) and that the VMM have to have control over guest
->>> resumption.
->>>
->>> Nevertheless if extending acpi_s2idle_dev_ops is possible, why not
->>> extend it about the hypervisor_notify() and use it in the same place
->>> where the hypercall is used in this patch? Do you see any issue with
->>> that?
->>
->> If this needs to be a hypercall and the hypercall needs to go at that
->> specific time, I wouldn't bother with extending acpi_s2idle_dev_ops.
->> The whole idea there was that this would be less custom and could follow
->> a spec.
-> 
-> Just to clarify - it probably doesn't need to be a hypercall. I've
-> probably misled you with copy-pasting a handler name from the current
-> patch but aiming your and Sean ACPI like approach.
+Hi Daniel,
 
-Ah... Yeah I was quite confused.
+A few flyby issues I noticed while going through the patches to
+understand what RV offers.
 
-> What I meant is
-> something like:
-> - extend acpi_s2idle_dev_ops with notify()
-> - implement notify() handler for acpi_s2idle_dev_ops in HYPE0001
-> driver (without hypercall):
-> static void s2idle_notify(void)
-> {
->          acpi_evaluate_dsm(acpi_handle, guid_of_HYPE0001, 0,
-> ACPI_HYPE_NOTIFY, NULL);
-> }
-> 
-> - register it via acpi_register_lps0_dev() from HYPE0001 driver
-> - use it just before swait_event_exclusive(s2idle_wait_head..) as it
-> is with original patch (the name of the function will be different):
-> static void s2idle_hypervisor_notify(void)
-> {
->           struct acpi_s2idle_dev_ops *handler;
-> ...
->           list_for_each_entry(handler, &lps0_s2idle_devops_head, list_node) {
->                    if (handler->notify)
->                            handler->notify();
->            }
-> }
-> 
-> so it will be like:
-> -> s2idle_enter (just before swait_event_exclusive(s2idle_wait_head,.. )
-> --> s2idle_hypervisor_notify (as platform_s2idle_ops)
-> ---> notify (as acpi_s2idle_dev_ops)
-> ----> HYPE0001 device driver's notify () routine
-> 
-> It will probably be easier to understand it if I actually implement
-> it.
+For the typos, I wonder if it isn't better to use a spellcheck - they
+unnecessarily detract from the review. Sorry for the annoyance!
 
-Yeah; A lot of times seeing the mocked up code makes it easier to follow.
+Daniel Bristot de Oliveira <bristot@kernel.org> writes:
 
-> Nevertheless this way we ensure that:
-> - notification will be triggered at very last command before actually
-> entering s2idle
-> - we can trap on MMIO/PIO by implementing HYPE0001 specific  _DSM
-> method and therefore this implementation will not become hypervisor
-> specific and also not use KVM as "dumb pipe out to userspace" as Sean
-> suggested
-> - we will not have to change existing Intel/AMD/Window spec (3
-> different LPS0 GUIDs) but thanks to HYPE0001's acpi_s2idle_dev_ops
-> involvment, only care about new HYPE0001 spec
-> 
+> RV is a lightweight (yet rigorous) method that complements classical
+> exhaustive verification techniques (such as model checking and
+> theorem proving) with a more practical approach to complex systems.
+>
+> RV works by analyzing the trace of the system's actual execution,
+> comparing it against a formal specification of the system behavior.
+> RV can give precise information on the runtime behavior of the
+> monitored system while enabling the reaction for unexpected
+> events, avoiding, for example, the propagation of a failure on
+> safety-critical systems.
+>
+> The development of this interface roots in the development of the
+> paper:
+>
+> DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo
+> Silva. Efficient formal verification for the Linux kernel. In:
+> International Conference on Software Engineering and Formal Methods.
+> Springer, Cham, 2019. p. 315-332.
+>
+> And:
+>
+> DE OLIVEIRA, Daniel Bristot, et al. Automata-based formal analysis
+> and verification of the real-time Linux kernel. PhD Thesis, 2020.
+>
+> The RV interface resembles the tracing/ interface on purpose. The current
+> path for the RV interface is /sys/kernel/tracing/rv/.
+>
+> It presents these files:
+>
+>  "available_monitors"
+>    - List the available monitors, one per line.
+>
+>    For example:
+>    [root@f32 rv]# cat available_monitors
+>    wip
+>    wwnr
+>
+>  "enabled_monitors"
+>    - Lists the enabled monitors, one per line;
+>    - Writing to it enables a given monitor;
+>    - Writing a monitor name with a '-' prefix disables it;
+>    - Truncating the file disables all enabled monitors.
+>
+>    For example:
+>    [root@f32 rv]# cat enabled_monitors
+>    [root@f32 rv]# echo wip > enabled_monitors
+>    [root@f32 rv]# echo wwnr >> enabled_monitors
+>    [root@f32 rv]# cat enabled_monitors
+>    wip
+>    wwnr
+>    [root@f32 rv]# echo !wip >> enabled_monitors
+>    [root@f32 rv]# cat enabled_monitors
+>    wwnr
+>    [root@f32 rv]# echo > enabled_monitors
+>    [root@f32 rv]# cat enabled_monitors
+>    [root@f32 rv]#
+>
+>    Note that more than one monitor can be enabled concurrently.
+>
+>  "monitoring_on"
+>    - It is an on/off general switcher for monitoring. Note
+>    that it does not disable enabled monitors, but stop the per-entity
+>    monitors of monitoring the events received from the system.
+>    It resambles the "tracing_on" switcher.
 
-I think your proposal is reasonable.  Please include me on the RFC when 
-you've got it ready as well.
+        resembles
+>
+>  "monitors/"
+>    Each monitor will have its one directory inside "monitors/". There
+>    the monitor specific files will be presented.
+>    The "monitors/" directory resambles the "events" directory on
 
->>
->> TBH - given the strong dependency on being the very last command and
->> this being all Linux specific (you won't need to do something similar
->> with Windows) - I think the way you already did it makes the most sense.
->> It seems to me the ACPI device model doesn't really work well for this
->> scenario.
->>
->>>
->>>>
->>>>> 2) using newly introduced acpi_s2idle_dev_ops hypervisor_notify() call
->>>>> will allow to register handler from Intel x86/intel/pmc/core.c driver
->>>>> and/or AMD x86/amd-pmc.c driver. Therefore we will need to get only
->>>>> Intel and/or AMD approval about extending the ACPI LPS0 _DSM method,
->>>>> correct?
->>>>>
->>>>
->>>> Right now the only thing that hooks prepare()/restore() is the amd-pmc
->>>> driver (unless Intel's PMC had a change I didn't catch yet).
->>>>
->>>> I don't think you should be changing any existing drivers but rather
->>>> introduce another platform driver for this specific case.
->>>>
->>>> So it would be something like this:
->>>>
->>>> acpi_s2idle_prepare_late
->>>> -> prepare()
->>>> --> AMD: amd_pmc handler for prepare()
->>>> --> Intel: intel_pmc handler for prepare() (conceptual)
->>>> --> HYPE0001 device: new driver's prepare() routine
->>>>
->>>> So the platform driver would match the HYPE0001 device to load, and it
->>>> wouldn't do anything other than provide a prepare()/restore() handler
->>>> for your case.
->>>>
->>>> You don't need to change any existing specs.  If anything a new spec to
->>>> go with this new ACPI device would be made.  Someone would need to
->>>> reserve the ID and such for it, but I think you can mock it up in advance.
->>>
->>> Thank you for your explanation. This means that I should register
->>> "HYPE" through https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fuefi.org%2FPNP_ACPI_Registry&amp;data=05%7C01%7Cmario.limonciello%40amd.com%7Cfb93455738b84f772c0508da553878b6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637915998363689041%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=jE1agna7RsjTW7%2BTp5UVFxByOPYURlNa79eyJxcKi2o%3D&amp;reserved=0 before introducing
->>> this new driver to Linux.
->>> I have no experience with the above, so I wonder who should be
->>> responsible for maintaining such ACPI ID since it will not belong to
->>> any specific vendor? There is an example of e.g. COREBOOT PROJECT
->>> using "BOOT" ACPI ID [1], which seems similar in terms of not
->>> specifying any vendor but rather the project as a responsible entity.
->>> Maybe you have some recommendations?
->>
->> Maybe LF could own a namespace and ID?  But I would suggest you make a
->> mockup that everything works this way before you go explore too much.
-> 
-> Yeah, sure.
-> 
->>
->> Also make sure Rafael is aligned with your mockup.
-> 
-> Agree.
-> 
->>
->>>
->>> I am also not sure if and where a specification describing such a
->>> device has to be maintained. Since "HYPE0001" will have its own _DSM
->>> so will it be required to document it somewhere rather than just using
->>> it in the driver and preparing proper ACPI tables for guest?
->>>
->>>>
->>>>> I wonder if this will be affordable so just re-thinking loudly if
->>>>> there is no other mechanism that could be suggested and used upstream
->>>>> so we could notify hypervisor/vmm about guest entering s2idle state?
->>>>> Especially that such _DSM function will be introduced only to trap on
->>>>> some fake MMIO/PIO access and will be useful only for guest ACPI
->>>>> tables?
->>>>>
->>>>
->>>> Do you need to worry about Microsoft guests using Modern Standby too or
->>>> is that out of the scope of your problem set?  I think you'll be a lot
->>>> more limited in how this can behave and where you can modify things if so.
->>>>
->>>
->>> I do not need to worry about Microsoft guests.
->>
->> Makes life a lot easier :)
-> 
-> Agree :) and thank you for all your feedback,
-> Grzegorz
+                               resembles
 
-Sure.
+... and in the rest of the file.
+
+>    tracefs.
+>
+>    For example:
+>    [root@f32 rv]# cd monitors/wip/
+>    [root@f32 wip]# ls
+>    desc  enable
+>    [root@f32 wip]# cat desc
+>    auto-generated wakeup in preemptive monitor.
+>    [root@f32 wip]# cat enable
+>    0
+>
+> For further information, see the comments in the header of
+> kernel/trace/rv/rv.c from this patch.
+>
+> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: "Paul E. McKenney" <paulmck@kernel.org>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
+> Cc: Juri Lelli <juri.lelli@redhat.com>
+> Cc: Clark Williams <williams@redhat.com>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-trace-devel@vger.kernel.org
+> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+> ---
+>  include/linux/rv.h       |  23 ++
+>  include/linux/sched.h    |  11 +
+>  include/rv/rv.h          |  23 ++
+>  kernel/fork.c            |  14 +
+>  kernel/trace/Kconfig     |   2 +
+>  kernel/trace/Makefile    |   2 +
+>  kernel/trace/rv/Kconfig  |  12 +
+>  kernel/trace/rv/Makefile |   3 +
+>  kernel/trace/rv/rv.c     | 738 +++++++++++++++++++++++++++++++++++++++
+>  kernel/trace/rv/rv.h     |  34 ++
+>  kernel/trace/trace.c     |   4 +
+>  kernel/trace/trace.h     |   2 +
+>  12 files changed, 868 insertions(+)
+>  create mode 100644 include/linux/rv.h
+>  create mode 100644 include/rv/rv.h
+>  create mode 100644 kernel/trace/rv/Kconfig
+>  create mode 100644 kernel/trace/rv/Makefile
+>  create mode 100644 kernel/trace/rv/rv.c
+>  create mode 100644 kernel/trace/rv/rv.h
+
+[...]
+
+> diff --git a/kernel/trace/rv/rv.c b/kernel/trace/rv/rv.c
+> new file mode 100644
+> index 000000000000..43af7b13187e
+> --- /dev/null
+> +++ b/kernel/trace/rv/rv.c
+> @@ -0,0 +1,738 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * This is the online Runtime Verification (RV) interface.
+> + *
+> + * RV is a lightweight (yet rigorous) method that complements classical
+> + * exhaustive verification techniques (such as model checking and
+> + * theorem proving) with a more practical approach to complex systems.
+> + *
+> + * RV works by analyzing the trace of the system's actual execution,
+> + * comparing it against a formal specification of the system behavior.
+> + * RV can give precise information on the runtime behavior of the
+> + * monitored system while enabling the reaction for unexpected
+> + * events, avoiding, for example, the propagation of a failure on
+> + * safety-critical systems.
+> + *
+> + * The development of this interface roots in the development of the
+> + * paper:
+> + *
+> + * DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo
+> + * Silva. Efficient formal verification for the Linux kernel. In:
+> + * International Conference on Software Engineering and Formal Methods.
+> + * Springer, Cham, 2019. p. 315-332.
+> + *
+> + * And:
+> + *
+> + * DE OLIVEIRA, Daniel Bristot, et al. Automata-based formal analysis
+> + * and verification of the real-time Linux kernel. PhD Thesis, 2020.
+> + *
+> + * == Runtime monitor interface ==
+> + *
+> + * A monitor is the central part of the runtime verification of a system.
+> + *
+> + * The monitor stands in between the formal specification of the desired
+> + * (or undesired) behavior, and the trace of the actual system.
+> + *
+> + * In Linux terms, the runtime verification monitors are encapsulated
+> + * inside the "RV monitor" abstraction. A RV monitor includes a reference
+> + * model of the system, a set of instances of the monitor (per-cpu monitor,
+> + * per-task monitor, and so on), and the helper functions that glue the
+> + * monitor to the system via trace. Generally, a monitor includes some form
+> + * of trace output as a reaction for event parsing and exceptions,
+> + * as depicted bellow:
+> + *
+> + * Linux  +----- RV Monitor ----------------------------------+ Formal
+> + *  Realm |                                                   |  Realm
+> + *  +-------------------+     +----------------+     +-----------------+
+> + *  |   Linux kernel    |     |     Monitor    |     |     Reference   |
+> + *  |     Tracing       |  -> |   Instance(s)  | <-  |       Model     |
+> + *  | (instrumentation) |     | (verification) |     | (specification) |
+> + *  +-------------------+     +----------------+     +-----------------+
+> + *         |                          |                       |
+> + *         |                          V                       |
+> + *         |                     +----------+                 |
+> + *         |                     | Reaction |                 |
+> + *         |                     +--+--+--+-+                 |
+> + *         |                        |  |  |                   |
+> + *         |                        |  |  +-> trace output ?  |
+> + *         +------------------------|--|----------------------+
+> + *                                  |  +----> panic ?
+> + *                                  +-------> <user-specified>
+> + *
+> + * This file implements the interface for loading RV monitors, and
+> + * to control the verification session.
+> + *
+> + * == Registering monitors ==
+> + *
+> + * The struct rv_monitor defines a set of callback functions to control
+> + * a verification session. For instance, when a given monitor is enabled,
+> + * the "start" callback function is called to hook the instrumentation
+> + * functions to the kernel trace events. The "stop" function is called
+> + * when disabling the verification session.
+> + *
+> + * A RV monitor is registered via:
+> + *   int rv_register_monitor(struct rv_monitor *monitor);
+> + * And unregistered via:
+> + *   int rv_unregister_monitor(struct rv_monitor *monitor);
+> + *
+> + * These functions are exported to modules, enabling verification monitors
+> + * to be dynamically loaded.
+> + *
+> + * == User interface ==
+> + *
+> + * The user interface resembles kernel tracing interface. It presents
+> + * these files:
+> + *
+> + *  "available_monitors"
+> + *    - List the available monitors, one per line.
+> + *
+> + *    For example:
+> + *    [root@f32 rv]# cat available_monitors
+> + *    wip
+> + *    wwnr
+> + *
+> + *  "enabled_monitors"
+> + *    - Lists the enabled monitors, one per line;
+> + *    - Writing to it enables a given monitor;
+> + *    - Writing a monitor name with a '-' prefix disables it;
+> + *    - Truncating the file disables all enabled monitors.
+> + *
+> + *    For example:
+> + *    [root@f32 rv]# cat enabled_monitors
+> + *    [root@f32 rv]# echo wip > enabled_monitors
+> + *    [root@f32 rv]# echo wwnr >> enabled_monitors
+> + *    [root@f32 rv]# cat enabled_monitors
+> + *    wip
+> + *    wwnr
+> + *    [root@f32 rv]# echo !wip >> enabled_monitors
+> + *    [root@f32 rv]# cat enabled_monitors
+> + *    wwnr
+> + *    [root@f32 rv]# echo > enabled_monitors
+> + *    [root@f32 rv]# cat enabled_monitors
+> + *    [root@f32 rv]#
+> + *
+> + *    Note that more than one monitor can be enabled concurrently.
+> + *
+> + *  "monitoring_on"
+> + *    - It is an on/off general switcher for monitoring. Note
+> + *    that it does not disable enabled monitors, but stop the per-entity
+> + *    monitors of monitoring the events received from the system.
+> + *    It resambles the "tracing_on" switcher.
+> + *
+> + *  "monitors/"
+> + *    Each monitor will have its one directory inside "monitors/". There
+> + *    the monitor specific files will be presented.
+> + *    The "monitors/" directory resambles the "events" directory on
+> + *    tracefs.
+> + *
+> + *    For example:
+> + *    [root@f32 rv]# cd monitors/wip/
+> + *    [root@f32 wip]# ls
+> + *    desc  enable
+> + *    [root@f32 wip]# cat desc
+> + *    auto-generated wakeup in preemptive monitor.
+> + *    [root@f32 wip]# cat enable
+> + *    0
+> + *
+> + * Copyright (C) 2019-2022 Daniel Bristot de Oliveira <bristot@kernel.org>
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/init.h>
+> +#include <linux/slab.h>
+> +#include <rv/rv.h>
+> +
+> +#include "rv.h"
+> +
+> +DEFINE_MUTEX(rv_interface_lock);
+> +struct rv_interface rv_root;
+> +
+> +struct dentry *get_monitors_root(void)
+> +{
+> +	return rv_root.monitors_dir;
+> +}
+> +
+> +/*
+> + * Monitoring on global switcher!
+> + */
+> +bool __read_mostly monitoring_on;
+> +
+> +/*
+> + * Interface for the monitor register.
+> + */
+> +LIST_HEAD(rv_monitors_list);
+> +
+> +static int task_monitor_count;
+> +static bool task_monitor_slots[RV_PER_TASK_MONITORS];
+> +
+> +int get_task_monitor_slot(void)
+> +{
+> +	int i;
+> +
+> +	lockdep_assert_held(&rv_interface_lock);
+> +
+> +	if (task_monitor_count == RV_PER_TASK_MONITORS)
+> +		return -EBUSY;
+> +
+> +	task_monitor_count++;
+> +
+> +	for (i = 0; i < RV_PER_TASK_MONITORS; i++) {
+> +		if (task_monitor_slots[i] == false) {
+> +			task_monitor_slots[i] = true;
+> +			return i;
+> +		}
+> +	}
+> +
+> +	WARN_ONCE(1, "RV task_monitor_cout and slots are out of sync\n");
+
+                         task_monitor_count
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +void put_task_monitor_slot(int slot)
+> +{
+> +	lockdep_assert_held(&rv_interface_lock);
+> +
+> +	if (slot < 0 || slot > RV_PER_TASK_MONITORS) {
+> +		WARN_ONCE(1, "RV releasing an invlid slot!: %d\n", slot);
+
+                                              invalid
+                                              
+> +		return;
+> +	}
+> +
+> +	WARN_ONCE(!task_monitor_slots[slot], "RV releasing unsused task_monitor_slots: %d\n",
+
+                                                           unused
+
+> +		  slot);
+> +
+> +	task_monitor_count--;
+> +	task_monitor_slots[slot] = false;
+> +}
+> +
+> +/*
+> + * This section collects the monitor/ files and folders.
+> + */
+> +static ssize_t monitor_enable_read_data(struct file *filp,
+> +					char __user *user_buf,
+> +					size_t count, loff_t *ppos)
+> +{
+> +	struct rv_monitor_def *mdef = filp->private_data;
+> +	char buff[4];
+> +
+> +	memset(buff, 0, sizeof(buff));
+
+Not sure if the generated code is different, but the memset can be
+rolled into buff declaration as -
+
+char buff[4] = { 0 };
+
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +	sprintf(buff, "%x\n", mdef->monitor->enabled);
+> +	mutex_unlock(&rv_interface_lock);
+> +
+> +	return simple_read_from_buffer(user_buf, count, ppos,
+> +				       buff, strlen(buff)+1);
+> +}
+> +
+> +/*
+> + * Disable a given runtime monitor.
+> + */
+> +static int disable_monitor(struct rv_monitor_def *mdef)
+> +{
+> +	if (mdef->monitor->enabled) {
+> +		mdef->monitor->enabled = 0;
+> +		mdef->monitor->stop();
+> +	}
+> +
+> +	mdef->enabled = 0;
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Enable a given monitor.
+> + */
+> +static int enable_monitor(struct rv_monitor_def *mdef)
+> +{
+> +	int retval;
+> +
+> +	/*
+> +	 * Reset all internal monitors before starting.
+> +	 */
+> +	mdef->monitor->reset();
+> +	if (!mdef->monitor->enabled) {
+> +		retval = mdef->monitor->start();
+> +		if (retval)
+> +			return retval;
+> +	}
+> +
+> +	mdef->monitor->enabled = 1;
+> +	mdef->enabled = 1;
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * interface for enabling/disabling a monitor.
+> + */
+> +static ssize_t monitor_enable_write_data(struct file *filp,
+> +					 const char __user *user_buf,
+> +					 size_t count, loff_t *ppos)
+> +{
+> +	struct rv_monitor_def *mdef = filp->private_data;
+> +	int retval;
+> +	u64 val;
+> +
+> +	retval = kstrtoull_from_user(user_buf, count, 10, &val);
+
+IIUC, kstrtobool_from_user() is better suited here.
+
+Thanks,
+Punit
+
+> +	if (retval)
+> +		return retval;
+> +
+> +	retval = count;
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +
+> +	switch (val) {
+> +	case 0:
+> +		retval = disable_monitor(mdef);
+> +		break;
+> +	case 1:
+> +		retval = enable_monitor(mdef);
+> +		break;
+> +	default:
+> +		retval = -EINVAL;
+> +	}
+> +
+> +	mutex_unlock(&rv_interface_lock);
+> +
+> +	return retval;
+> +}
+> +
+
+[...]
 
