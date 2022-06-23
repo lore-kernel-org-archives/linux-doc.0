@@ -2,104 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E7EEC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Jun 2022 23:34:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E934C43334
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 02:24:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377500AbiFVXe0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Jun 2022 19:34:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47112 "EHLO
+        id S236924AbiFWCXw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Jun 2022 22:23:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377494AbiFVXeW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 19:34:22 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1182D2F657;
-        Wed, 22 Jun 2022 16:34:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655940860; x=1687476860;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MtpP6KaJSVSdiH7d+5TEm0dDvUmVQLm06+z3a7CH9Dg=;
-  b=H7pBMnIE7SSe7QuRELrSpXokUrP0xmdFpZGHkBA6qtLyPm5ri0yqE1KH
-   PyhdKR7T7KEWGIXX2TH21qQ3mMmWWuchpVlzLrEjQfX2EBIOGVFnukwRG
-   yDBvUwrtAYTN8YqKJ1OWIKHWPMBQH236Aw8thTSGqyRo1AvsX1kUj30kf
-   5/WdMn2DdcfRIiVo+iFrTB7kE3SDiWZ4JrH1BzRPskYTk99qFo50ZWtfp
-   7GaGwl+rDM/ms60IoX6kkIlEtf9AQytjhvLauMTlcVBBo4Dk40pkKys9j
-   ZQUaY39ACWfme9JLdZs43WfeuNKYfKWfVFIrxxzGUVb+UPMqwvmpVSgbD
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10386"; a="280620701"
-X-IronPort-AV: E=Sophos;i="5.92,215,1650956400"; 
-   d="scan'208";a="280620701"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2022 16:34:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,215,1650956400"; 
-   d="scan'208";a="677803307"
-Received: from lkp-server02.sh.intel.com (HELO a67cc04a5eeb) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 22 Jun 2022 16:34:18 -0700
-Received: from kbuild by a67cc04a5eeb with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o49rV-0001pj-VT;
-        Wed, 22 Jun 2022 23:34:17 +0000
-Date:   Thu, 23 Jun 2022 07:33:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Harita Chilukuri <harita.chilukuri@intel.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [mchinth:sep_socwatch_linux_5_15 2/2]
- drivers/platform/x86/socwatch/sw_telem.c:635: warning: This comment starts
- with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202206230700.Lw6vkxpn-lkp@intel.com>
+        with ESMTP id S1376824AbiFWCXh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Jun 2022 22:23:37 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B94E840903
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jun 2022 19:23:33 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id a17so14968785pls.6
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jun 2022 19:23:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=csCXiXt7nFq4+h4WD6heVCXixZoWRVAJL1Lssrp4las=;
+        b=WA6u/LptxC6hvIktNHSr3CpHwaPyPUZckJ++HrZ8zmkycEVEbijkXaMLEyDey8F+Lt
+         +g9qR64kyl7wYpz43zDjaGpxgpfUYBvM2MdhkLXKLiNBAox4WxuLcd38TMk7diCM5eOL
+         tC9IYkjtiUnlLb0jH4nTwNbo1PbJKCHFNfMv2BUZLagEOhrTkFeGlPLJXXFHXNifaD81
+         rS/gmlxZpPouMX1g7QzQbznGjyvAn1lNo0P9Oa/y0XRQ/pvZstMIW9Mc0r+zv5BrjsGH
+         h8iGUiTl3PWQxbL7LmjM13/+bsHsPrxA+jWjulwftKo/3WMMHrO0Le7Wf11NO9X04NEA
+         L3rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=csCXiXt7nFq4+h4WD6heVCXixZoWRVAJL1Lssrp4las=;
+        b=P+0WnSy/HPdzGfkcOKb3ShThwBhdKFdI9ayD4QxnNHciY2MwyySUcEth8S1CilyC/T
+         Azj8bbW3X5ewqtP3M9vzPt5/kbD4Qt0qb8vl2u7dbGApLsrYjFIyJwK9Xx/Ygy/0oj3B
+         lx5HAqFu/dgkT3qkArUfzPTgOzPQT56+NQ9We9H6CrTB+6UWpRA7F+j4NqzHJl4zRIep
+         AXIOmnC9J6+rPXwMqx6UTMvIkLUXkxhm17EBZaOeg89vsYsbG49xG3oHE7KpWDrGA9Ij
+         C4DZWpI/mxp/tEGGg07kq2OWSLpZd6LuBSTzuSjPGB5QVajOSktSHppvs2OM9SEO7zVd
+         /cJg==
+X-Gm-Message-State: AJIora87WM1wDwVaO2m8+6aUXhIhFPMF2babjrrFCX7ArVj0Zaq65OEK
+        7bCzY3iiwAmTuvV+hR2yMaO+tw==
+X-Google-Smtp-Source: AGRyM1uqKjCtHrQUq09eFtxE8toLu3fagTEkTNfoVLp49TLIhUukD4B98EO0re9osjwaTkK0xXam5A==
+X-Received: by 2002:a17:90b:344f:b0:1ed:9f:a2de with SMTP id lj15-20020a17090b344f00b001ed009fa2demr1532594pjb.174.1655951013124;
+        Wed, 22 Jun 2022 19:23:33 -0700 (PDT)
+Received: from [10.70.253.98] ([139.177.225.230])
+        by smtp.gmail.com with ESMTPSA id h4-20020a62de04000000b0051bb61c0eacsm5989417pfg.20.2022.06.22.19.23.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jun 2022 19:23:32 -0700 (PDT)
+Message-ID: <888b6885-5380-e21f-260f-eb1bb89679c3@bytedance.com>
+Date:   Thu, 23 Jun 2022 10:23:26 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.10.0
+Subject: Re: [External] Re: [PATCH v2] sched: RT bandwidth interface for
+ cgroup unified hierarchy
+Content-Language: en-US
+To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
+Cc:     rdunlap@infradead.org, mingo@redhat.com, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
+        corbet@lwn.net, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220622015557.7497-1-zhouchengming@bytedance.com>
+ <20220622173929.GA669@blackbody.suse.cz>
+From:   Chengming Zhou <zhouchengming@bytedance.com>
+In-Reply-To: <20220622173929.GA669@blackbody.suse.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/mchinth/linux sep_socwatch_linux_5_15
-head:   3af50f40725e78c505cbf840fb0be424c2f33e5e
-commit: 3af50f40725e78c505cbf840fb0be424c2f33e5e [2/2] Pull socwatch driver to intel-next 5.15
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20220623/202206230700.Lw6vkxpn-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/mchinth/linux/commit/3af50f40725e78c505cbf840fb0be424c2f33e5e
-        git remote add mchinth https://github.com/mchinth/linux
-        git fetch --no-tags mchinth sep_socwatch_linux_5_15
-        git checkout 3af50f40725e78c505cbf840fb0be424c2f33e5e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/platform/x86/socwatch/
+Hello Michal,
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+On 2022/6/23 01:39, Michal Koutný wrote:
+> Hello Chengming.
+> 
+> On Wed, Jun 22, 2022 at 09:55:57AM +0800, Chengming Zhou <zhouchengming@bytedance.com> wrote:
+>> We need to run RT threads in cgroup unified hierarchy, but we can't
+>> since the default rt_bandwidth.rt_runtime of non-root task_group is 0
+>> and we haven't interface to update it.
+> 
+> Do you really want to make use of group RT schedulling
+> (CONFIG_RT_GROUP_SCHED) or just be able to run RT threads in the unified
+> hieararchy with cpu controller enabled?
+> 
 
-All warnings (new ones prefixed by >>):
+The latter could meet our current needs I think, but it would be better that
+we can put a max limit on the task_group in case multiple groups need to
+run RT processes.
 
-   drivers/platform/x86/socwatch/sw_telem.c:334: warning: Function parameter or member 'addrs' not described in 'setup_telem'
-   drivers/platform/x86/socwatch/sw_telem.c:376: warning: Function parameter or member 'events' not described in 'get_or_set_id'
-   drivers/platform/x86/socwatch/sw_telem.c:376: warning: Function parameter or member 'unit_idx' not described in 'get_or_set_id'
-   drivers/platform/x86/socwatch/sw_telem.c:376: warning: Function parameter or member 'id' not described in 'get_or_set_id'
-   drivers/platform/x86/socwatch/sw_telem.c:437: warning: Cannot understand  * @returns timestamp (1st entry of SSRAM)
-    on line 437 - I thought it was a doc line
->> drivers/platform/x86/socwatch/sw_telem.c:635: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Configurs events + starts counters
-   drivers/platform/x86/socwatch/sw_telem.c:858: warning: expecting prototype for sw_available_telem(). Prototype was for sw_telem_available() instead
---
->> drivers/platform/x86/socwatch/sw_ops_provider.c:830: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Decide if the socperf interface is available for use
+> Those are two different use cases, the former is more complex and it's a
+> reason why v2 doesn't expose the RT attributes (yet).
+> The latter is typically achieved by unsetting CONFIG_RT_GROUP_SCHED (and
+> relying on the global rt_runtime limit).
+> 
 
+I don't know why v2 differ from v1 in the RT bandwidth control.. Is there
+some links of explanation? (CFS bandwidth control can work on v2 now.)
 
-vim +635 drivers/platform/x86/socwatch/sw_telem.c
+If the problem can't be solved, we have to unset CONFIG_RT_GROUP_SCHED.
 
-688e338c753b33 Faycal Benmlih 2019-04-23 @635   * Configurs events + starts counters
+Thanks.
 
-:::::: The code at line 635 was first introduced by commit
-:::::: 688e338c753b33c023de3b774f7347effbf537a4 Platform/x86: Update SoCWatch driver code to 2.10
-
-:::::: TO: Faycal Benmlih <faycal.benmlih@intel.com>
-:::::: CC: Faycal Benmlih <faycal.benmlih@intel.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> Thanks,
+> Michal
