@@ -2,554 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3FB3C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 18:15:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4026CCCA47C
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 18:56:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230117AbiFWSPC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jun 2022 14:15:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40792 "EHLO
+        id S231468AbiFWS4u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jun 2022 14:56:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234257AbiFWSOV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 14:14:21 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD7C89A876
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jun 2022 10:21:18 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id e5so11428418wma.0
-        for <linux-doc@vger.kernel.org>; Thu, 23 Jun 2022 10:21:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:references:date:in-reply-to:message-id
-         :user-agent:mime-version;
-        bh=L5rVpiSBD6bHrgBbtOmsPeL7WjLPbqmPTnPwPerx3Is=;
-        b=vbtD2FZDG3XohdsHpK60LexpnW+hZCYEHreA264cxYeVivWYaDcm0zb1Huzfez0fjQ
-         o32V0KP/x69JAJxE0jvMYFRIRo1acdALwZhSKmTRoCRpVwjrRgIqrCNeqZIeE0jKjZkg
-         pJjD/hZhxxYNMnLQ/EFS/QTyMU9KwfBp9cqytDZYFluHN9AY5U9mOZ9KL40yfq3vB1H/
-         xNDFQ0MB/p2gjHHzYDI+r0nB+h9IRuel8guBd0fSjSvfgiQy7RxY4dlH5JB14OkOnoEy
-         sBl5M8F9EunKpreLdXteAy3X3ZlsZt8OkkZXH5vn+iXZCKODl1mmi/jrhV50Bl8RwF66
-         BdaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
-         :message-id:user-agent:mime-version;
-        bh=L5rVpiSBD6bHrgBbtOmsPeL7WjLPbqmPTnPwPerx3Is=;
-        b=c30HDN25KTF5I2B20KEp0DCxbu9Lwzit60CtFygp8I95oVjvKtmYHRDgLh+lDlCgXh
-         YXxxvZSZVEnWnTa4OHbYcmrdrbY7GZvA/tt/XDEAv7/kn0MRaw/MLKh4P8bz7eV53Nsy
-         ZK+wCbwWdR7egly5zCw2PxlNNYR5j/IVNXYrbTfMCQ16fP/dWDyedp8vGEXo/pzprVHY
-         eWcLekKIUWUgXDxXyBnlMZOWDBoBWw5iOYu/J5WbyfX0Yk9twJ0/jqxfFWeZuzKUFOaN
-         KKqLTIm3tP0YQIrdHwnVRP5zjc+ltqLuEbfJ3d11V8KvHsmGQ4ct77CG1XLSaKeS0B2l
-         Tbnw==
-X-Gm-Message-State: AJIora/0JMY0sZLKH1bw434wdmzqYQILTyZFJv7qDbrbzqp70OqApO55
-        uy+gryOjNTroPfXlCBIyjFe5IA==
-X-Google-Smtp-Source: AGRyM1uW7ezE3RjDBrd+dlkQkVXAVdDjKKoY4iGLl68odcrGDz/V5+RroxuGNGlOorVYSQnn/3nXdA==
-X-Received: by 2002:a05:600c:35d2:b0:39c:8490:abbf with SMTP id r18-20020a05600c35d200b0039c8490abbfmr5463860wmq.86.1656004876835;
-        Thu, 23 Jun 2022 10:21:16 -0700 (PDT)
-Received: from localhost ([109.180.234.132])
-        by smtp.gmail.com with ESMTPSA id e18-20020a05600c219200b003a0279f5935sm3999965wme.9.2022.06.23.10.21.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jun 2022 10:21:16 -0700 (PDT)
-From:   Punit Agrawal <punit.agrawal@bytedance.com>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-Subject: Re: [PATCH V4 01/20] rv: Add Runtime Verification (RV) interface
-References: <cover.1655368610.git.bristot@kernel.org>
-        <60548902dbccaa7ba420e40e46835693e27f643f.1655368610.git.bristot@kernel.org>
-Date:   Thu, 23 Jun 2022 18:21:15 +0100
-In-Reply-To: <60548902dbccaa7ba420e40e46835693e27f643f.1655368610.git.bristot@kernel.org>
-        (Daniel Bristot de Oliveira's message of "Thu, 16 Jun 2022 10:44:43
-        +0200")
-Message-ID: <87tu8bmh2s.fsf@stealth>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        with ESMTP id S235670AbiFWSq0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 14:46:26 -0400
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0652DA6912
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jun 2022 10:50:07 -0700 (PDT)
+Received: from submission (posteo.de [185.67.36.169]) 
+        by mout02.posteo.de (Postfix) with ESMTPS id 5DD3624010A
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jun 2022 19:49:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1656006597; bh=9z4F8N+hb9sjB8yqiYKIg3nnlI5xJEvNG+P1PWED4G4=;
+        h=Date:From:To:Cc:Subject:From;
+        b=rp+7qA98zOJ1HB9Vu9bhFOBWPbGZNk0gze9vAYENIgC2F3KHc+m8gU6Xm5qTvjsGs
+         ie8y+Zw8WrQBFq/hmTmluIAXPHl5n8PdgrL1xIug+qPE0uEGC9l3cQlebEnX6KJ39Y
+         /RNEekjlfMbNmxDZarxpeQYqAfYVm08Y+LoHTW/L1/RjfqL5AEeW0JyNcSaY32UrAc
+         F2NQB8K64hEDjTlqZvoqcPWDxOMe9ZDJNBWC06J3HhfGIHv04iBzDtXFKUg2Ki50uV
+         llIk/3q/ozK1sRXflksG4ZWdzy6HAKKBuxOMgb7jFgpi3nZiL+InbtunFagN2tZ4bK
+         LBQd90Oz5gTEg==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4LTSSh2PVrz6tmY;
+        Thu, 23 Jun 2022 19:49:56 +0200 (CEST)
+Date:   Thu, 23 Jun 2022 17:49:04 +0000
+From:   Tom Schwindl <schwindl@posteo.de>
+To:     corbet@lwn.net
+Cc:     linus.walleij@linaro.org, brgl@bgdev.pl,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: driver-api: gpio: Fix some typos
+Message-ID: <YrSnkBodv7TYvtMb@posteo.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Daniel,
+Signed-off-by: Tom Schwindl <schwindl@posteo.de>
+---
+ Documentation/driver-api/gpio/consumer.rst   | 2 +-
+ Documentation/driver-api/gpio/driver.rst     | 6 +++---
+ Documentation/driver-api/gpio/using-gpio.rst | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-A few flyby issues I noticed while going through the patches to
-understand what RV offers.
-
-For the typos, I wonder if it isn't better to use a spellcheck - they
-unnecessarily detract from the review. Sorry for the annoyance!
-
-Daniel Bristot de Oliveira <bristot@kernel.org> writes:
-
-> RV is a lightweight (yet rigorous) method that complements classical
-> exhaustive verification techniques (such as model checking and
-> theorem proving) with a more practical approach to complex systems.
->
-> RV works by analyzing the trace of the system's actual execution,
-> comparing it against a formal specification of the system behavior.
-> RV can give precise information on the runtime behavior of the
-> monitored system while enabling the reaction for unexpected
-> events, avoiding, for example, the propagation of a failure on
-> safety-critical systems.
->
-> The development of this interface roots in the development of the
-> paper:
->
-> DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo
-> Silva. Efficient formal verification for the Linux kernel. In:
-> International Conference on Software Engineering and Formal Methods.
-> Springer, Cham, 2019. p. 315-332.
->
-> And:
->
-> DE OLIVEIRA, Daniel Bristot, et al. Automata-based formal analysis
-> and verification of the real-time Linux kernel. PhD Thesis, 2020.
->
-> The RV interface resembles the tracing/ interface on purpose. The current
-> path for the RV interface is /sys/kernel/tracing/rv/.
->
-> It presents these files:
->
->  "available_monitors"
->    - List the available monitors, one per line.
->
->    For example:
->    [root@f32 rv]# cat available_monitors
->    wip
->    wwnr
->
->  "enabled_monitors"
->    - Lists the enabled monitors, one per line;
->    - Writing to it enables a given monitor;
->    - Writing a monitor name with a '-' prefix disables it;
->    - Truncating the file disables all enabled monitors.
->
->    For example:
->    [root@f32 rv]# cat enabled_monitors
->    [root@f32 rv]# echo wip > enabled_monitors
->    [root@f32 rv]# echo wwnr >> enabled_monitors
->    [root@f32 rv]# cat enabled_monitors
->    wip
->    wwnr
->    [root@f32 rv]# echo !wip >> enabled_monitors
->    [root@f32 rv]# cat enabled_monitors
->    wwnr
->    [root@f32 rv]# echo > enabled_monitors
->    [root@f32 rv]# cat enabled_monitors
->    [root@f32 rv]#
->
->    Note that more than one monitor can be enabled concurrently.
->
->  "monitoring_on"
->    - It is an on/off general switcher for monitoring. Note
->    that it does not disable enabled monitors, but stop the per-entity
->    monitors of monitoring the events received from the system.
->    It resambles the "tracing_on" switcher.
-
-        resembles
->
->  "monitors/"
->    Each monitor will have its one directory inside "monitors/". There
->    the monitor specific files will be presented.
->    The "monitors/" directory resambles the "events" directory on
-
-                               resembles
-
-... and in the rest of the file.
-
->    tracefs.
->
->    For example:
->    [root@f32 rv]# cd monitors/wip/
->    [root@f32 wip]# ls
->    desc  enable
->    [root@f32 wip]# cat desc
->    auto-generated wakeup in preemptive monitor.
->    [root@f32 wip]# cat enable
->    0
->
-> For further information, see the comments in the header of
-> kernel/trace/rv/rv.c from this patch.
->
-> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: "Paul E. McKenney" <paulmck@kernel.org>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
-> Cc: Juri Lelli <juri.lelli@redhat.com>
-> Cc: Clark Williams <williams@redhat.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-trace-devel@vger.kernel.org
-> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
-> ---
->  include/linux/rv.h       |  23 ++
->  include/linux/sched.h    |  11 +
->  include/rv/rv.h          |  23 ++
->  kernel/fork.c            |  14 +
->  kernel/trace/Kconfig     |   2 +
->  kernel/trace/Makefile    |   2 +
->  kernel/trace/rv/Kconfig  |  12 +
->  kernel/trace/rv/Makefile |   3 +
->  kernel/trace/rv/rv.c     | 738 +++++++++++++++++++++++++++++++++++++++
->  kernel/trace/rv/rv.h     |  34 ++
->  kernel/trace/trace.c     |   4 +
->  kernel/trace/trace.h     |   2 +
->  12 files changed, 868 insertions(+)
->  create mode 100644 include/linux/rv.h
->  create mode 100644 include/rv/rv.h
->  create mode 100644 kernel/trace/rv/Kconfig
->  create mode 100644 kernel/trace/rv/Makefile
->  create mode 100644 kernel/trace/rv/rv.c
->  create mode 100644 kernel/trace/rv/rv.h
-
-[...]
-
-> diff --git a/kernel/trace/rv/rv.c b/kernel/trace/rv/rv.c
-> new file mode 100644
-> index 000000000000..43af7b13187e
-> --- /dev/null
-> +++ b/kernel/trace/rv/rv.c
-> @@ -0,0 +1,738 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * This is the online Runtime Verification (RV) interface.
-> + *
-> + * RV is a lightweight (yet rigorous) method that complements classical
-> + * exhaustive verification techniques (such as model checking and
-> + * theorem proving) with a more practical approach to complex systems.
-> + *
-> + * RV works by analyzing the trace of the system's actual execution,
-> + * comparing it against a formal specification of the system behavior.
-> + * RV can give precise information on the runtime behavior of the
-> + * monitored system while enabling the reaction for unexpected
-> + * events, avoiding, for example, the propagation of a failure on
-> + * safety-critical systems.
-> + *
-> + * The development of this interface roots in the development of the
-> + * paper:
-> + *
-> + * DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo
-> + * Silva. Efficient formal verification for the Linux kernel. In:
-> + * International Conference on Software Engineering and Formal Methods.
-> + * Springer, Cham, 2019. p. 315-332.
-> + *
-> + * And:
-> + *
-> + * DE OLIVEIRA, Daniel Bristot, et al. Automata-based formal analysis
-> + * and verification of the real-time Linux kernel. PhD Thesis, 2020.
-> + *
-> + * == Runtime monitor interface ==
-> + *
-> + * A monitor is the central part of the runtime verification of a system.
-> + *
-> + * The monitor stands in between the formal specification of the desired
-> + * (or undesired) behavior, and the trace of the actual system.
-> + *
-> + * In Linux terms, the runtime verification monitors are encapsulated
-> + * inside the "RV monitor" abstraction. A RV monitor includes a reference
-> + * model of the system, a set of instances of the monitor (per-cpu monitor,
-> + * per-task monitor, and so on), and the helper functions that glue the
-> + * monitor to the system via trace. Generally, a monitor includes some form
-> + * of trace output as a reaction for event parsing and exceptions,
-> + * as depicted bellow:
-> + *
-> + * Linux  +----- RV Monitor ----------------------------------+ Formal
-> + *  Realm |                                                   |  Realm
-> + *  +-------------------+     +----------------+     +-----------------+
-> + *  |   Linux kernel    |     |     Monitor    |     |     Reference   |
-> + *  |     Tracing       |  -> |   Instance(s)  | <-  |       Model     |
-> + *  | (instrumentation) |     | (verification) |     | (specification) |
-> + *  +-------------------+     +----------------+     +-----------------+
-> + *         |                          |                       |
-> + *         |                          V                       |
-> + *         |                     +----------+                 |
-> + *         |                     | Reaction |                 |
-> + *         |                     +--+--+--+-+                 |
-> + *         |                        |  |  |                   |
-> + *         |                        |  |  +-> trace output ?  |
-> + *         +------------------------|--|----------------------+
-> + *                                  |  +----> panic ?
-> + *                                  +-------> <user-specified>
-> + *
-> + * This file implements the interface for loading RV monitors, and
-> + * to control the verification session.
-> + *
-> + * == Registering monitors ==
-> + *
-> + * The struct rv_monitor defines a set of callback functions to control
-> + * a verification session. For instance, when a given monitor is enabled,
-> + * the "start" callback function is called to hook the instrumentation
-> + * functions to the kernel trace events. The "stop" function is called
-> + * when disabling the verification session.
-> + *
-> + * A RV monitor is registered via:
-> + *   int rv_register_monitor(struct rv_monitor *monitor);
-> + * And unregistered via:
-> + *   int rv_unregister_monitor(struct rv_monitor *monitor);
-> + *
-> + * These functions are exported to modules, enabling verification monitors
-> + * to be dynamically loaded.
-> + *
-> + * == User interface ==
-> + *
-> + * The user interface resembles kernel tracing interface. It presents
-> + * these files:
-> + *
-> + *  "available_monitors"
-> + *    - List the available monitors, one per line.
-> + *
-> + *    For example:
-> + *    [root@f32 rv]# cat available_monitors
-> + *    wip
-> + *    wwnr
-> + *
-> + *  "enabled_monitors"
-> + *    - Lists the enabled monitors, one per line;
-> + *    - Writing to it enables a given monitor;
-> + *    - Writing a monitor name with a '-' prefix disables it;
-> + *    - Truncating the file disables all enabled monitors.
-> + *
-> + *    For example:
-> + *    [root@f32 rv]# cat enabled_monitors
-> + *    [root@f32 rv]# echo wip > enabled_monitors
-> + *    [root@f32 rv]# echo wwnr >> enabled_monitors
-> + *    [root@f32 rv]# cat enabled_monitors
-> + *    wip
-> + *    wwnr
-> + *    [root@f32 rv]# echo !wip >> enabled_monitors
-> + *    [root@f32 rv]# cat enabled_monitors
-> + *    wwnr
-> + *    [root@f32 rv]# echo > enabled_monitors
-> + *    [root@f32 rv]# cat enabled_monitors
-> + *    [root@f32 rv]#
-> + *
-> + *    Note that more than one monitor can be enabled concurrently.
-> + *
-> + *  "monitoring_on"
-> + *    - It is an on/off general switcher for monitoring. Note
-> + *    that it does not disable enabled monitors, but stop the per-entity
-> + *    monitors of monitoring the events received from the system.
-> + *    It resambles the "tracing_on" switcher.
-> + *
-> + *  "monitors/"
-> + *    Each monitor will have its one directory inside "monitors/". There
-> + *    the monitor specific files will be presented.
-> + *    The "monitors/" directory resambles the "events" directory on
-> + *    tracefs.
-> + *
-> + *    For example:
-> + *    [root@f32 rv]# cd monitors/wip/
-> + *    [root@f32 wip]# ls
-> + *    desc  enable
-> + *    [root@f32 wip]# cat desc
-> + *    auto-generated wakeup in preemptive monitor.
-> + *    [root@f32 wip]# cat enable
-> + *    0
-> + *
-> + * Copyright (C) 2019-2022 Daniel Bristot de Oliveira <bristot@kernel.org>
-> + */
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/init.h>
-> +#include <linux/slab.h>
-> +#include <rv/rv.h>
-> +
-> +#include "rv.h"
-> +
-> +DEFINE_MUTEX(rv_interface_lock);
-> +struct rv_interface rv_root;
-> +
-> +struct dentry *get_monitors_root(void)
-> +{
-> +	return rv_root.monitors_dir;
-> +}
-> +
-> +/*
-> + * Monitoring on global switcher!
-> + */
-> +bool __read_mostly monitoring_on;
-> +
-> +/*
-> + * Interface for the monitor register.
-> + */
-> +LIST_HEAD(rv_monitors_list);
-> +
-> +static int task_monitor_count;
-> +static bool task_monitor_slots[RV_PER_TASK_MONITORS];
-> +
-> +int get_task_monitor_slot(void)
-> +{
-> +	int i;
-> +
-> +	lockdep_assert_held(&rv_interface_lock);
-> +
-> +	if (task_monitor_count == RV_PER_TASK_MONITORS)
-> +		return -EBUSY;
-> +
-> +	task_monitor_count++;
-> +
-> +	for (i = 0; i < RV_PER_TASK_MONITORS; i++) {
-> +		if (task_monitor_slots[i] == false) {
-> +			task_monitor_slots[i] = true;
-> +			return i;
-> +		}
-> +	}
-> +
-> +	WARN_ONCE(1, "RV task_monitor_cout and slots are out of sync\n");
-
-                         task_monitor_count
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +void put_task_monitor_slot(int slot)
-> +{
-> +	lockdep_assert_held(&rv_interface_lock);
-> +
-> +	if (slot < 0 || slot > RV_PER_TASK_MONITORS) {
-> +		WARN_ONCE(1, "RV releasing an invlid slot!: %d\n", slot);
-
-                                              invalid
-                                              
-> +		return;
-> +	}
-> +
-> +	WARN_ONCE(!task_monitor_slots[slot], "RV releasing unsused task_monitor_slots: %d\n",
-
-                                                           unused
-
-> +		  slot);
-> +
-> +	task_monitor_count--;
-> +	task_monitor_slots[slot] = false;
-> +}
-> +
-> +/*
-> + * This section collects the monitor/ files and folders.
-> + */
-> +static ssize_t monitor_enable_read_data(struct file *filp,
-> +					char __user *user_buf,
-> +					size_t count, loff_t *ppos)
-> +{
-> +	struct rv_monitor_def *mdef = filp->private_data;
-> +	char buff[4];
-> +
-> +	memset(buff, 0, sizeof(buff));
-
-Not sure if the generated code is different, but the memset can be
-rolled into buff declaration as -
-
-char buff[4] = { 0 };
-
-> +
-> +	mutex_lock(&rv_interface_lock);
-> +	sprintf(buff, "%x\n", mdef->monitor->enabled);
-> +	mutex_unlock(&rv_interface_lock);
-> +
-> +	return simple_read_from_buffer(user_buf, count, ppos,
-> +				       buff, strlen(buff)+1);
-> +}
-> +
-> +/*
-> + * Disable a given runtime monitor.
-> + */
-> +static int disable_monitor(struct rv_monitor_def *mdef)
-> +{
-> +	if (mdef->monitor->enabled) {
-> +		mdef->monitor->enabled = 0;
-> +		mdef->monitor->stop();
-> +	}
-> +
-> +	mdef->enabled = 0;
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Enable a given monitor.
-> + */
-> +static int enable_monitor(struct rv_monitor_def *mdef)
-> +{
-> +	int retval;
-> +
-> +	/*
-> +	 * Reset all internal monitors before starting.
-> +	 */
-> +	mdef->monitor->reset();
-> +	if (!mdef->monitor->enabled) {
-> +		retval = mdef->monitor->start();
-> +		if (retval)
-> +			return retval;
-> +	}
-> +
-> +	mdef->monitor->enabled = 1;
-> +	mdef->enabled = 1;
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * interface for enabling/disabling a monitor.
-> + */
-> +static ssize_t monitor_enable_write_data(struct file *filp,
-> +					 const char __user *user_buf,
-> +					 size_t count, loff_t *ppos)
-> +{
-> +	struct rv_monitor_def *mdef = filp->private_data;
-> +	int retval;
-> +	u64 val;
-> +
-> +	retval = kstrtoull_from_user(user_buf, count, 10, &val);
-
-IIUC, kstrtobool_from_user() is better suited here.
-
-Thanks,
-Punit
-
-> +	if (retval)
-> +		return retval;
-> +
-> +	retval = count;
-> +
-> +	mutex_lock(&rv_interface_lock);
-> +
-> +	switch (val) {
-> +	case 0:
-> +		retval = disable_monitor(mdef);
-> +		break;
-> +	case 1:
-> +		retval = enable_monitor(mdef);
-> +		break;
-> +	default:
-> +		retval = -EINVAL;
-> +	}
-> +
-> +	mutex_unlock(&rv_interface_lock);
-> +
-> +	return retval;
-> +}
-> +
-
-[...]
+diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/driver-api/gpio/consumer.rst
+index 72bcf5f5e3a2..de6fc79ad6f0 100644
+--- a/Documentation/driver-api/gpio/consumer.rst
++++ b/Documentation/driver-api/gpio/consumer.rst
+@@ -114,7 +114,7 @@ For a function using multiple GPIOs all of those can be obtained with one call::
+ 
+ This function returns a struct gpio_descs which contains an array of
+ descriptors.  It also contains a pointer to a gpiolib private structure which,
+-if passed back to get/set array functions, may speed up I/O proocessing::
++if passed back to get/set array functions, may speed up I/O processing::
+ 
+ 	struct gpio_descs {
+ 		struct gpio_array *info;
+diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
+index 70ff43ac4fcc..6baaeab79534 100644
+--- a/Documentation/driver-api/gpio/driver.rst
++++ b/Documentation/driver-api/gpio/driver.rst
+@@ -119,7 +119,7 @@ GPIO lines with debounce support
+ Debouncing is a configuration set to a pin indicating that it is connected to
+ a mechanical switch or button, or similar that may bounce. Bouncing means the
+ line is pulled high/low quickly at very short intervals for mechanical
+-reasons. This can result in the value being unstable or irqs fireing repeatedly
++reasons. This can result in the value being unstable or irqs firing repeatedly
+ unless the line is debounced.
+ 
+ Debouncing in practice involves setting up a timer when something happens on
+@@ -219,7 +219,7 @@ use a trick: when a line is set as output, if the line is flagged as open
+ drain, and the IN output value is low, it will be driven low as usual. But
+ if the IN output value is set to high, it will instead *NOT* be driven high,
+ instead it will be switched to input, as input mode is high impedance, thus
+-achieveing an "open drain emulation" of sorts: electrically the behaviour will
++achieving an "open drain emulation" of sorts: electrically the behaviour will
+ be identical, with the exception of possible hardware glitches when switching
+ the mode of the line.
+ 
+@@ -642,7 +642,7 @@ In this case the typical set-up will look like this:
+ 
+ As you can see pretty similar, but you do not supply a parent handler for
+ the IRQ, instead a parent irqdomain, an fwnode for the hardware and
+-a funcion .child_to_parent_hwirq() that has the purpose of looking up
++a function .child_to_parent_hwirq() that has the purpose of looking up
+ the parent hardware irq from a child (i.e. this gpio chip) hardware irq.
+ As always it is good to look at examples in the kernel tree for advice
+ on how to find the required pieces.
+diff --git a/Documentation/driver-api/gpio/using-gpio.rst b/Documentation/driver-api/gpio/using-gpio.rst
+index 64c8d3f76c3a..894d88855d73 100644
+--- a/Documentation/driver-api/gpio/using-gpio.rst
++++ b/Documentation/driver-api/gpio/using-gpio.rst
+@@ -44,7 +44,7 @@ These devices will appear on the system as ``/dev/gpiochip0`` thru
+ found in the kernel tree ``tools/gpio`` subdirectory.
+ 
+ For structured and managed applications, we recommend that you make use of the
+-libgpiod_ library. This provides helper abstractions, command line utlities
++libgpiod_ library. This provides helper abstractions, command line utilities
+ and arbitration for multiple simultaneous consumers on the same GPIO chip.
+ 
+ .. _libgpiod: https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/
+-- 
+2.36.1
 
