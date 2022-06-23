@@ -2,145 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 866D3C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 14:23:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA8B9C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 14:36:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231334AbiFWOXp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jun 2022 10:23:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53174 "EHLO
+        id S231905AbiFWOgx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jun 2022 10:36:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229768AbiFWOXp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 10:23:45 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3619E34B9D;
-        Thu, 23 Jun 2022 07:23:43 -0700 (PDT)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.56])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LTMrk00dLzkWTt;
-        Thu, 23 Jun 2022 22:21:57 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 23 Jun 2022 22:23:40 +0800
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 23 Jun 2022 22:23:39 +0800
-Message-ID: <f400756c-dd41-e347-c281-c4a594fdb429@huawei.com>
-Date:   Thu, 23 Jun 2022 22:23:39 +0800
+        with ESMTP id S231869AbiFWOgw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 10:36:52 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25A2B35DE8
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jun 2022 07:36:51 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id g26so20112068ejb.5
+        for <linux-doc@vger.kernel.org>; Thu, 23 Jun 2022 07:36:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Qp/cRCbGIgaCK9Ty5kMpVAtTHuKK7E2w/DMIg7EAxo8=;
+        b=FO8cBP0K4xsPceTBKKHnUGgnYHY1Skq6ChggmGpBCgZGpla/bByE6oUaAlWXyWU0vF
+         PLhf3kmatH5of8GlqKiHPsRCyA5+r7g41edN+j8JCyhoVtTvCLU8KnaJSihfW9NPUtiE
+         nmoc/SF+baFHe+LoOgYH0o6VZ1Lz3ZwDdgerB0kAiYWTGdZARohhrhB5wpCbDTC/OnW5
+         Db+cMHuhKmYI8yDaUhdbaOSBdGyYNHD7+pbSEks0YpCyXh7IS1Yczau7NBKgqZU6lJvu
+         tF2SxqKZmSGq3uSzUjsN364b9VQui0bWtNcoey7TDDTr8EcUiQThWwTnhH/4221dF58O
+         TVZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Qp/cRCbGIgaCK9Ty5kMpVAtTHuKK7E2w/DMIg7EAxo8=;
+        b=ERDdSt9v14lt4g+25opRI4W129mkvaLmggu+LLSl9xOq3rr6mY9ZCbTNC7CEmrhiBK
+         Lf53aX7zUJpnUQfah4PnMTLQPHLKVKvkXjlwjZXvdNLa6qg7Ji1NLMnrLUPcln/pcM08
+         6VsOmXtHWLqyoUt0lttEuQPKQup5/+Zdy5xybYg4Fmfg0+DcJ3K00C6Zw+Etwwm2a8fi
+         C9j30/EH8ELZae9pWYJmmQ8CFpkrBzv0DF0LQK7JJ5FDfoTc5WvpluyhDkyLH9eHcGun
+         S8T15v70zPQtunmPxUXU00MAy0J5JBwvJxKZgtbg5hOwMSHHH+OWXVbIaJpTGJlHkLVQ
+         MJow==
+X-Gm-Message-State: AJIora9t/l2vHfvnq4C4/mLdtjGAI7nSSBEVSqZPak4bHDh9aygt9NP4
+        rj61rMRYZ5pnrHd7M3r0o7zMqjfrHTb05eS78cGZvQ==
+X-Google-Smtp-Source: AGRyM1s564s3fiLiyBxM2nC5JNnQByLI+ku9H6xw8kOmrjGeURS4OVf9zehn05tp04En+oZZWCKo/XjwQ4Fy2TyI2f8=
+X-Received: by 2002:a17:907:60cc:b0:722:e564:eb11 with SMTP id
+ hv12-20020a17090760cc00b00722e564eb11mr8899574ejc.736.1655995009719; Thu, 23
+ Jun 2022 07:36:49 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 5/5] arm64: kdump: Don't defer the reservation of crash
- high memory
-Content-Language: en-US
-To:     Catalin Marinas <catalin.marinas@arm.com>
-CC:     Baoquan He <bhe@redhat.com>, Zhen Lei <thunder.leizhen@huawei.com>,
-        "Ard Biesheuvel" <ardb@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "Borislav Petkov" <bp@alien8.de>, <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, "Dave Young" <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, <kexec@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        "Dave Kleikamp" <dave.kleikamp@oracle.com>,
-        liushixin <liushixin2@huawei.com>
-References: <20220613080932.663-1-thunder.leizhen@huawei.com>
- <20220613080932.663-6-thunder.leizhen@huawei.com>
- <YrFYHYgX3mC//t2l@MiWiFi-R3L-srv>
- <3f66323d-f371-b931-65fb-edfae0f01c88@huawei.com> <YrIIJkhKWSuAqkCx@arm.com>
- <ba3a97d6-262d-6413-135d-0be9b0af9a6a@huawei.com> <YrQ/98J5UqPh8K89@arm.com>
-From:   Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <YrQ/98J5UqPh8K89@arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
+References: <20220622172842.86713-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20220622172842.86713-1-andriy.shevchenko@linux.intel.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Thu, 23 Jun 2022 16:36:39 +0200
+Message-ID: <CAMRc=Mfqo19we+0ShbpCtbbsXgU6trKbwQR2Zg7LcAWSJ_834A@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] gpiolib: devres: Get rid of unused devm_gpio_free()
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Jun 22, 2022 at 7:28 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> The last user, which in fact was a dead code, has gone a year ago,
+> previous one 3 years ago. On top of that we want to drop away the
+> legacy GPIO APIs in the kernel, so take a chance to get rid of
+> unused devm_gpio_free() and accompanying stuff.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
 
-On 2022/6/23 18:27, Catalin Marinas wrote:
-> On Wed, Jun 22, 2022 at 08:03:21PM +0800, Kefeng Wang wrote:
->> On 2022/6/22 2:04, Catalin Marinas wrote:
->>> On Tue, Jun 21, 2022 at 02:24:01PM +0800, Kefeng Wang wrote:
->>>> On 2022/6/21 13:33, Baoquan He wrote:
->>>>> On 06/13/22 at 04:09pm, Zhen Lei wrote:
->>>>>> If the crashkernel has both high memory above DMA zones and low memory
->>>>>> in DMA zones, kexec always loads the content such as Image and dtb to the
->>>>>> high memory instead of the low memory. This means that only high memory
->>>>>> requires write protection based on page-level mapping. The allocation of
->>>>>> high memory does not depend on the DMA boundary. So we can reserve the
->>>>>> high memory first even if the crashkernel reservation is deferred.
->>>>>>
->>>>>> This means that the block mapping can still be performed on other kernel
->>>>>> linear address spaces, the TLB miss rate can be reduced and the system
->>>>>> performance will be improved.
->>>>> Ugh, this looks a little ugly, honestly.
->>>>>
->>>>> If that's for sure arm64 can't split large page mapping of linear
->>>>> region, this patch is one way to optimize linear mapping. Given kdump
->>>>> setting is necessary on arm64 server, the booting speed is truly
->>>>> impacted heavily.
->>>> Is there some conclusion or discussion that arm64 can't split large page
->>>> mapping?
->>>>
->>>> Could the crashkernel reservation (and Kfence pool) be splited dynamically?
->>>>
->>>> I found Mark replay "arm64: remove page granularity limitation from
->>>> KFENCE"[1],
->>>>
->>>>     "We also avoid live changes from block<->table mappings, since the
->>>>     archtitecture gives us very weak guarantees there and generally requires
->>>>     a Break-Before-Make sequence (though IIRC this was tightened up
->>>>     somewhat, so maybe going one way is supposed to work). Unless it's
->>>>     really necessary, I'd rather not split these block mappings while
->>>>     they're live."
->>> The problem with splitting is that you can end up with two entries in
->>> the TLB for the same VA->PA mapping (e.g. one for a 4KB page and another
->>> for a 2MB block). In the lucky case, the CPU will trigger a TLB conflict
->>> abort (but can be worse like loss of coherency).
->> Thanks for your explanation，
->>> Prior to FEAT_BBM (added in ARMv8.4), such scenario was not allowed at
->>> all, the software would have to unmap the range, TLBI, remap. With
->>> FEAT_BBM (level 2), we can do this without tearing the mapping down but
->>> we still need to handle the potential TLB conflict abort. The handler
->>> only needs a TLBI but if it touches the memory range being changed it
->>> risks faulting again. With vmap stacks and the kernel image mapped in
->>> the vmalloc space, we have a small window where this could be handled
->>> but we probably can't go into the C part of the exception handling
->>> (tracing etc. may access a kmalloc'ed object for example).
->> So if without FEAT_BBM，we can only guarantee BBM sequence via
->> "unmap the range, TLBI, remap" or the following option,
-> Yes, that's the break-before-make sequence.
->
->> and with FEAT_BBM (level 2), we could have easy way to avoid TLB
->> conflict for some vmalloc space, but still hard to deal with other
->> scence?
-> It's not too hard in theory. Basically there's a small risk of getting a
-> TLB conflict abort for the mappings you change without a BBM sequence (I
-> think it's nearly non-existed when going from large block to smaller
-> pages, though the architecture states that it's still possible). Since
-> we only want to do this for the linear map and the kernel and stack are
-> in the vmalloc space, we can handle such trap as an safety measure (it
-> just needs a TLBI). It may help to tweak a model to force it to generate
-> such conflict aborts, otherwise we'd not be able to test the code.
->
-> It's possible that such trap is raised at EL2 if a guest caused the
-> conflict abort (the architecture left this as IMP DEF). The hypervisors
-> may need to be taught to do a TLBI VMALLS12E1 instead of killing the
-> guest. I haven't checked what KVM does.
-Got it，many thanks.
+Always a pleasure to remove code. :) Applied, thanks!
+
+Bart
