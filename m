@@ -2,65 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 014DBC43334
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 19:46:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4525C43334
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Jun 2022 19:51:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229658AbiFWTqt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jun 2022 15:46:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44064 "EHLO
+        id S230092AbiFWTvR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jun 2022 15:51:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231598AbiFWTqi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 15:46:38 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F22C4EA0A;
-        Thu, 23 Jun 2022 12:42:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=MX0kiPH31dynVTuH8Zp+4b3FVBpDuquUp03t7B9Kx3A=; b=WrkY02HyWdaSbCakCsv/60qak0
-        cjF94QBw2meBWDpaVl+0OAQ9O5Cvp5UiuIA9Cuvh478rgwXlN1flPtYyT59D/JEgIBztA81jBc4aO
-        JbjvrSbjjRhNy5zdhlaeU4v45lL1XIvjjikRlwaX2KcZ8ro63bezPCBEqQ0kJCwb0aIZgoiF9nU5R
-        eHnfzUoamfYunCrZGuLR8ZAXwl17gx5/9hD6i3D5SLvHBDujM7ooqU6iEmikFtaHJtBhKnXndhO7d
-        uKCZANgtfgyTrlYPnpZMoaGZqz9E1/6+dLjr9uRzVJENCRRPFcos8Fp3493y5TRVCnRM9opfwMu7W
-        DxrMCAWw==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o4Se8-00Bt7E-Ll; Thu, 23 Jun 2022 19:37:45 +0000
-Message-ID: <930cad70-917d-b929-704b-7e761c3f5eeb@infradead.org>
-Date:   Thu, 23 Jun 2022 12:37:38 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] docs: driver-api: gpio: Fix some typos
-Content-Language: en-US
-To:     Tom Schwindl <schwindl@posteo.de>, corbet@lwn.net
-Cc:     linus.walleij@linaro.org, brgl@bgdev.pl,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        with ESMTP id S229547AbiFWTvQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 15:51:16 -0400
+X-Greylist: delayed 3597 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 23 Jun 2022 12:51:15 PDT
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 533CB1E7;
+        Thu, 23 Jun 2022 12:51:15 -0700 (PDT)
+Received: from [127.0.0.1] ([73.223.250.219])
+        (authenticated bits=0)
+        by mail.zytor.com (8.17.1/8.15.2) with ESMTPSA id 25NIMqIa1294203
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Thu, 23 Jun 2022 11:22:52 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 25NIMqIa1294203
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2022060401; t=1656008574;
+        bh=yPR8n8gQ6dVLtX830iKeJU5ojINLZInrepZE/uEszNU=;
+        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+        b=er7qtRymZfIxZTCmBzdiQOaT9sgecnfHHau1qec/d4ZsNGp1S4IbzlkDm4wm2DzyD
+         RcffhT2oLnHYmNbDQJKdr+8JDECqsW7mBl6QPIfENIGnsD4Cip/YkKWVWfgsXN59BN
+         BZ2VQuXZnu2MwPrxSMpYXRfKaLRQDNuF6iVfLyq/tB8SSt4bdIezjsoh+oO8rhmieU
+         dDvX+Gup28nAvZFrgFOsOzlsKUB6nbTnltY1xlPbI2f6FK73oHFFAzph6QJWYDFLYk
+         Adg4LCSNbEuBI4uEGEBQGmjStLROs6fCVh7A3LiyZVhbpHfanTbzG7ANa2iSENnC6d
+         FJX9mkpSn6gig==
+Date:   Thu, 23 Jun 2022 11:22:52 -0700
+From:   "H. Peter Anvin" <hpa@zytor.com>
+To:     Dave Hansen <dave.hansen@intel.com>, lizhe.67@bytedance.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org
+CC:     lizefan.x@bytedance.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <YrSnkBodv7TYvtMb@posteo.de>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <YrSnkBodv7TYvtMb@posteo.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: =?US-ASCII?Q?Re=3A_=5BRFC=5D_memmap=3A_introduce_cmdline_param?= =?US-ASCII?Q?eter_=22memmap=3Dnn=5BKMG=5D=24=22_without_start_addr?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <de2500c4-fce4-31dc-29bc-aa3007027eb9@intel.com>
+References: <20220623062402.12392-1-lizhe.67@bytedance.com> <de2500c4-fce4-31dc-29bc-aa3007027eb9@intel.com>
+Message-ID: <0EA9CBD4-D083-4546-BFAC-9C3A97420E5B@zytor.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On June 23, 2022 7:06:36 AM PDT, Dave Hansen <dave=2Ehansen@intel=2Ecom> wr=
+ote:
+>On 6/22/22 23:24, lizhe=2E67@bytedance=2Ecom wrote:
+>> In our scenario, we need reserve or alloc large continous memory like
+>> 256M in machine which have different memory specification at just
+>> boot phase for a user land process=2E
+>
+>Just marking the memory reserved doesn't do any good by itself=2E  There
+>must be some *other* kernel code to find this reserved area and make it
+>available to userspace=2E
+>
+>It seems kinda silly to add this to the kernel without also adding the
+>other half of the solution=2E  Plus, we don't really even know what this
+>is for=2E  Are there other, better solutions?  I certainly can't offer an=
+y
+>because this changelog did not provide a full picture of the problem
+>this solves=2E
 
-
-On 6/23/22 10:49, Tom Schwindl wrote:
-> Signed-off-by: Tom Schwindl <schwindl@posteo.de>
-> ---
->  Documentation/driver-api/gpio/consumer.rst   | 2 +-
->  Documentation/driver-api/gpio/driver.rst     | 6 +++---
->  Documentation/driver-api/gpio/using-gpio.rst | 2 +-
->  3 files changed, 5 insertions(+), 5 deletions(-)
-> 
-
-Looks good. Thanks.
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
--- 
-~Randy
+Don't we already have a large contiguous physical memory allocator for thi=
+s reason (misdesigned hardware?)
