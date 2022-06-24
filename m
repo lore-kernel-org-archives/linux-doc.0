@@ -2,77 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79986C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 19:09:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0581C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 19:11:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230391AbiFXTJ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jun 2022 15:09:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38462 "EHLO
+        id S229840AbiFXTLs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jun 2022 15:11:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229852AbiFXTJ1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 15:09:27 -0400
+        with ESMTP id S230504AbiFXTLh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 15:11:37 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C66B336E2E;
-        Fri, 24 Jun 2022 12:09:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB70E82396;
+        Fri, 24 Jun 2022 12:11:36 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 73F2031A;
-        Fri, 24 Jun 2022 19:09:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 73F2031A
+        by ms.lwn.net (Postfix) with ESMTPSA id 3B27A31A;
+        Fri, 24 Jun 2022 19:11:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3B27A31A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1656097766; bh=RGewBMLVE0KQ/bTKs7DpXZSxrXMAmWieLsFDh9gfy60=;
+        t=1656097896; bh=/hcWFSxgiaiNcPhaw2iwtRiQyURtEUizPdBnFLZxYPw=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=fiSxHoNx/VlLxp0nkv+31DT6YfqlKxFxYuoPx5NMye5FgWBcEDazGICrPj90OcbBi
-         OmgXZ0Yq6mjWgp3RY2/RdP8COvyj09V7uMONWG31Rw34/sEJGHF4hU93SwuFW1nHQx
-         HeQOwk9kjNBv1AmtuA+YKf5MfYx91YwZtmJ17KIiixCZWN87eqEuC7ANndlg466eIk
-         esYlbf52ZGrg6Trc78ncU3/72QnoNTXgFShOVIvwxFwaWnsk/WxrJq7Vy2w6iEdGly
-         dA1nxFSreSd6gzUxNwq/t4QAq9Wgnp0aj2naqhycHSxDYFxcKZYTzzSQ9juMUy4kD0
-         hQznrow7VLG3g==
+        b=G/U+ZVLp6azbvZkvALXTUCqCtphtC5wJVs/vvq7aN/jIuetNE/bTvWw8LGMdDxnvF
+         AkQi1BerBWi0MZxZy0xDGs4qoDsUPnh3a+qrC9utEw3dy2hlP5shimQnO1+OHfJSWG
+         qH+2FwUo5jp86gWWP2R2GKx4iGn5mNRT+SKNv/j0za9cEzxrEh6T6zcaO/Vj0u64Ne
+         zA3FFwt1POOanp4EVM4PmRgF4zMRnSIpUSyxgLRWia5HT/xWendEuuOZuZEti4fCsS
+         cYC+uDR9r/+zZa2WFjnnYDLCvRzKIaXmrpK/Gf335Fk2N42wIPL1tXnONVEs+ZTROe
+         UAlX1pQMLjKmA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Stephen Kitt <steve@sk2.org>, linux-kernel@vger.kernel.org
-Cc:     Stephen Kitt <steve@sk2.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: admin-guide/sysctl: escape % symbols
-In-Reply-To: <20220624110230.595740-1-steve@sk2.org>
-References: <20220624110230.595740-1-steve@sk2.org>
-Date:   Fri, 24 Jun 2022 13:09:25 -0600
-Message-ID: <871qvd6fq2.fsf@meer.lwn.net>
+To:     Deming Wang <wangdeming@inspur.com>, miklos@szeredi.hu
+Cc:     linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Deming Wang <wangdeming@inspur.com>
+Subject: Re: [PATCH] media: docs: Modify the section of User xattr
+In-Reply-To: <20220624014605.2007-1-wangdeming@inspur.com>
+References: <20220624014605.2007-1-wangdeming@inspur.com>
+Date:   Fri, 24 Jun 2022 13:11:35 -0600
+Message-ID: <87wnd55120.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Stephen Kitt <steve@sk2.org> writes:
+Deming Wang <wangdeming@inspur.com> writes:
 
-> % symbols need to be escaped to render correctly here, do so.
+> Delete duplicate words of "the".
 >
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
+> Signed-off-by: Deming Wang <wangdeming@inspur.com>
 > ---
->  Documentation/admin-guide/sysctl/kernel.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/filesystems/overlayfs.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index ddccd1077462..079a51ed88a9 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -38,8 +38,8 @@ acct
+> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/filesystems/overlayfs.rst
+> index 7da6c30ed596..4c76fda07645 100644
+> --- a/Documentation/filesystems/overlayfs.rst
+> +++ b/Documentation/filesystems/overlayfs.rst
+> @@ -607,7 +607,7 @@ can be removed.
+>  User xattr
+>  ----------
 >  
->  If BSD-style process accounting is enabled these values control
->  its behaviour. If free space on filesystem where the log lives
-> -goes below ``lowwater``% accounting suspends. If free space gets
-> -above ``highwater``% accounting resumes. ``frequency`` determines
-> +goes below ``lowwater``\% accounting suspends. If free space gets
-> +above ``highwater``\% accounting resumes. ``frequency`` determines
->  how often do we check the amount of free space (value is in
->  seconds). Default:
+> -The the "-o userxattr" mount option forces overlayfs to use the
+> +The "-o userxattr" mount option forces overlayfs to use the
+>  "user.overlay." xattr namespace instead of "trusted.overlay.".  This is
+>  useful for unprivileged mounting of overlayfs.
 
-Interesting...I had to go digging into why this is, because "%" isn't
-really special for RST.  The real problem is that ``literal`` markup
-needs to have word separators around it, and the recommended solution is
-to use "\ " instead.
-
-So I'll apply this, but tweak the changelog and add the extra spaces.
+I've applied this but changed the patch title.  This is not a media
+patch, and "modify" tells the reader nothing; it's now "docs: Remove
+duplicate word".
 
 Thanks,
 
