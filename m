@@ -2,103 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76C8BC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 19:16:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F1E3C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 19:19:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229586AbiFXTQX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jun 2022 15:16:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45612 "EHLO
+        id S230308AbiFXTTa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jun 2022 15:19:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229645AbiFXTQV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 15:16:21 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE2B882396
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jun 2022 12:16:20 -0700 (PDT)
+        with ESMTP id S229645AbiFXTTa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 15:19:30 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75D2E4A3C4;
+        Fri, 24 Jun 2022 12:19:29 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8BAF52A0;
-        Fri, 24 Jun 2022 19:16:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8BAF52A0
+        by ms.lwn.net (Postfix) with ESMTPSA id 103332A0;
+        Fri, 24 Jun 2022 19:19:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 103332A0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1656098180; bh=kdmpVSCgOuGAl4dB0jFzHKeSD7TAIKikxSCbG84hEMs=;
+        t=1656098369; bh=9Ji5uLZz14A869gxBwYDwBrsjygfs3ud5yvyYK8Xbmg=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=RQ7zOpMBrFCKnAc3rgIM/JoL9I3s2if8UmEoVjuu/K9c1a3tln128SGlwG0p0zaHI
-         kWXTkFZ2Co38ATf+2m6mOBOVaK29b1DthcPwQM1536pd9tPOhgRvmC0gv2lFYSVFTu
-         KBia8UmoIzjqUGxdiZMMYaZxeo1x/ANg3yanw26GfU4NAUfbj2B2Zkv+/Bre611nbf
-         BNTQLfTVNZOZlmwC+U8+CkRLY7gZxfNwWkvhqCoCOdtQCBN8pDgvRKEgoE2Tgn/wqZ
-         DqMn6PemDfFjwlLDp0CFXEJrLAYc1K0ok9Eu6z/KDQUnK0ZS44g1lBwRu+LV6ViRSm
-         uK3GvMtoOCyiQ==
+        b=mDWmnAjzvDkjRjnlf4DD4PyNEdlYn04kg1Icj0fKVAssVGs131dRlEfCA5MyMCcyT
+         gknETvSyErbSXsekzBaN5RZ2QOwPMJQyipg1KXPedZUk0GbRV9T1YzDixPttDM8Oud
+         0ZujCFSX/jSlrsmMJzXcAf+vWcB4fxko4RBZvKVAlDTiNjqMcw9gSaRl40wV/KoRUZ
+         matOay0OZrHxaIZd6pNuU9/7qBTlsKyzMmMoTFmA9F992Cd2+biDPg1cUGY0W9sSBp
+         siDWxMF+O3rNYHzum6V+BA7/DL12zZSJFLK3ZpJG6uOreZJmyeJHyNRt/y7elWBxGb
+         XZ80ZIYo1f2/A==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Binbin Zhou <zhoubinbin@loongson.cn>, alexs@kernel.org,
-        siyanteng@loongson.cn
-Cc:     chenhuacai@loongson.cn, bobwxc@email.cn, linux-doc@vger.kernel.org,
-        Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: Re: [PATCH V2 0/9] docs/zh_CN: core-api: Update the partial
- translation to 5.19-rc3
-In-Reply-To: <cover.1655863769.git.zhoubinbin@loongson.cn>
-References: <cover.1655863769.git.zhoubinbin@loongson.cn>
-Date:   Fri, 24 Jun 2022 13:16:20 -0600
-Message-ID: <87o7yh50u3.fsf@meer.lwn.net>
+To:     Steven Lung <1030steven@gmail.com>
+Cc:     johannes@sipsolutions.net, linux-um@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Steven Lung <1030steven@gmail.com>
+Subject: Re: [PATCH] docs: UML: fix typo
+In-Reply-To: <20220621072910.4704-1-1030steven@gmail.com>
+References: <20220621072910.4704-1-1030steven@gmail.com>
+Date:   Fri, 24 Jun 2022 13:19:28 -0600
+Message-ID: <87k09550ov.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Binbin Zhou <zhoubinbin@loongson.cn> writes:
+Steven Lung <1030steven@gmail.com> writes:
 
-> In this series of patches, I updated the translated file contents in the core-api
-> directory to 5.19-rc3.
+> Replace 'absense' with 'absence'.
 >
-> The next step, I plan to translate the untranslated documents in the core-api
-> directory. For details, please see TODOLIST in the core-api/index.rst file.
+> Signed-off-by: Steven Lung <1030steven@gmail.com>
+> ---
+>  Documentation/virt/uml/user_mode_linux_howto_v2.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Changes since V1:
-> - Update the code base to 5.19-rc3
->
-> - According to the suggestions of Xiangcheng and Yanteng, the translations of
->   corresponding documents are updated to make them more readable.
->   
->   The modified documents are as follows:
->     cpu_hotplug.rst
->     irq/irq-domain.rst
->     printk-format.rst
->
->   If you like, please review the mailing list for details.
->
-> In addition, for the translation of the Rust part in "printk-format.rst", I will
-> reorganize it into a patch to the Rust tree.
->
-> Binbin Zhou (9):
->   docs/zh_CN: core-api: Update the translation of cachetlb.rst to
->     5.19-rc3
->   docs/zh_CN: core-api: Update the translation of cpu_hotplug.rst to
->     5.19-rc3
->   docs/zh_CN: core-api: Update the translation of irq/irq-domain.rst to
->     5.19-rc3
->   docs/zh_CN: core-api: Update the translation of kernel-api.rst to
->     5.19-rc3
->   docs/zh_CN: core-api: Update the translation of mm-api.rst to 5.19-rc3
->   docs/zh_CN: core-api: Update the translation of printk-basics.rst to
->     5.19-rc3
->   docs/zh_CN: core-api: Update the translation of printk-format.rst to
->     5.19-rc3
->   docs/zh_CN: core-api: Update the translation of workqueue.rst to
->     5.19-rc3
->   docs/zh_CN: core-api: Update the translation of xarray.rst to 5.19-rc3
->
->  .../translations/zh_CN/core-api/cachetlb.rst  |   6 +
->  .../zh_CN/core-api/cpu_hotplug.rst            | 435 +++++++++++++++---
->  .../zh_CN/core-api/irq/irq-domain.rst         |  22 +-
->  .../zh_CN/core-api/kernel-api.rst             |   3 +
->  .../translations/zh_CN/core-api/mm-api.rst    |  23 +-
->  .../zh_CN/core-api/printk-basics.rst          |   3 +-
->  .../zh_CN/core-api/printk-formats.rst         |   3 +-
->  .../translations/zh_CN/core-api/workqueue.rst |  21 +-
->  .../translations/zh_CN/core-api/xarray.rst    |   4 +-
->  9 files changed, 449 insertions(+), 71 deletions(-)
+> diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+> index 863f67b72..af2a97429 100644
+> --- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+> +++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+> @@ -322,7 +322,7 @@ Shared Options
+>  * ``v6=[0,1]`` to specify if a v6 connection is desired for all
+>    transports which operate over IP. Additionally, for transports that
+>    have some differences in the way they operate over v4 and v6 (for example
+> -  EoL2TPv3), sets the correct mode of operation. In the absense of this
+> +  EoL2TPv3), sets the correct mode of operation. In the absence of this
+>    option, the socket type is determined based on what do the src and dst
 
-Series applied, thanks.
+Applied, thanks.  Congratulations on (I think) your first kernel patch.
 
 jon
