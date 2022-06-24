@@ -2,197 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DA3FC43334
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 21:18:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5687C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 21:48:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230400AbiFXVSG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jun 2022 17:18:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50200 "EHLO
+        id S230355AbiFXVst (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jun 2022 17:48:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230431AbiFXVSF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 17:18:05 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49C8563E5
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jun 2022 14:18:02 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id ay16so7151211ejb.6
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jun 2022 14:18:02 -0700 (PDT)
+        with ESMTP id S229450AbiFXVst (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 17:48:49 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82DA087B56;
+        Fri, 24 Jun 2022 14:48:48 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id l6so3157291plg.11;
+        Fri, 24 Jun 2022 14:48:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kOvhoEpSE/InAZniXEti7vxsLeyf1a5ZFLlDrYfEPAA=;
-        b=M1hPxnJUFy/KS9mddV1ZPCrOTUCJOFrbdOpyi7j0ftrXkyhBEEnYliwfUMRIJpc302
-         UerGSaJuJ0U+ZQOOBbu9YnTTWBPqzn6BGm20kcHK021zUKyUQcLbeROv76yKvkCA4wL5
-         TKPV/NeXPSFred9jnh+TebuOPhqPca6DgiiGGp4t7notg/0HrutadjdFHCaRzrR60/SS
-         kEf+UPdtfuMWWyAGy3sWvPgk2BDAIWToAkVEoiSpYe94Nv1jd3nvOoAgAb/ln/G4XSiC
-         GAFPYKei8IcLsfKWZvc/9gQfNai9RmMKWnJqWlZq+QZRlzREX3RhLKN999kWcpZY7b77
-         80Uw==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=cqDPhxwA+fQ6/Q7mForQQgzL/CTmM3l1w6GHFMlWWsc=;
+        b=idPiRHTllzehnm0hBLvbknV90TBlRCI3c1TtxVG/gaKR2nNgm3JfmmZAiRD7u6Gmvv
+         GLEZMjHof5cqw0cLzxJ+EwaJcQYFDqL67+UNL8OhhaNiFOUWX4TV+gEBvoKGNajseXy8
+         C5hxZHwJmUKIAvsfzZKA/MBarPp1PVHvpDOav6ClmknikR7eyzNIJb94/4KoHA6mtjVD
+         zyFvcYeUbyffIsmjJ5lduQeuZAixF2NdSJqqkDsMh9ldm0wjgHMcJLq4DPrYNraxSbxI
+         YIAS/TfOvN/cgqG0RYGdycW9V++aWely890/u4gWag80dtKHuVR9gHOmHxZMoyGF4RVl
+         bkug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kOvhoEpSE/InAZniXEti7vxsLeyf1a5ZFLlDrYfEPAA=;
-        b=4WBxj4Tx24GHM4ZVzL+546dIozuM7e2Oa59Xq4NkiWTitXQSyRP7iW39KhRJpJ14Gw
-         9JfAtVIx/1N6LEJH2EL/BMEoD8EqHjkYr4IhlkJTri0gKTUxqYQNP2MWy+CacOUnUZ0C
-         VUleWQ3Vs3HYQS18q8WvRjT/y7s2lKAqGqomxr+SBqK5iuFPtnokHEp+4e/bEl1MxSXN
-         55h30vmB7Jsxd3s/bb3qwN+vFOKSEawuXKiGcXNlnPaGso+46BjXW1RIQxv8n6nCyEAZ
-         iBnelRQFW6AaHhqIbxwT+c8tkVbQW5b0+yf1QaNt4UgKcjy/Hd50qEPKDae9x2RABCUz
-         v4Ow==
-X-Gm-Message-State: AJIora+Yk44J4JloAPEstJAQLgNSEL4fK3TuOFgUwj6AaZcDrtes+RLv
-        fWqDozemtwo6RAAKFZLwEL+wZfdsOApMVY6F/2jUpw==
-X-Google-Smtp-Source: AGRyM1sSg7LIinwzTB+qnSxgsQphAXAb9tAoVzunteBdzvrsgIwf9MXdDqBKLlkpEVBLtUpHvFPPJdLDYUqh2lPKgqo=
-X-Received: by 2002:a17:907:d25:b0:711:ea61:63aa with SMTP id
- gn37-20020a1709070d2500b00711ea6163aamr992776ejc.584.1656105480525; Fri, 24
- Jun 2022 14:18:00 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=cqDPhxwA+fQ6/Q7mForQQgzL/CTmM3l1w6GHFMlWWsc=;
+        b=QNfBbjLBqhj5nGgJqvSHig1GSHnpxS3eEMfgRuhbTFldqPQQQ/A59ulUiVCujmd3JJ
+         9yJSNuJMARdYaM+dQ4Ww8U+df7ES9nD0bbAyGD6l2n2CYYxG1kVYckMGuGrucgmR0UIF
+         46Ha+45aTPJodq0B9zEUWqKZDi2Q/jFm7CATuxgMSL5LIWOGY3b/Q9j76j/WfLfeMMmV
+         5M7A6OfaYwPw+ENIzj2qD++ieWDofypjDApfeSMNtpMadj78VvtVVt9eWPax/TLBueYt
+         H8bmiinCaUdxCR+606HuRoe0fgS2nE4f/VtU/NELkiNTaiG7FoYK5rhbAOUeoQwoqJMk
+         oz/A==
+X-Gm-Message-State: AJIora9DvN9GyvqN5OQPtS9SBi6+PjsKC0UD1Q3HZxSc9Q9yFLdqhdIJ
+        LviIUkxOHyM2KaA93ZE9NUg=
+X-Google-Smtp-Source: AGRyM1ul7wBE/s4SS69T9P+A3QQIyfZjNS2MajPSGhmiMqFnHhZ7UgSN4pzjQ7PhP0oJrQxIvb6Fvw==
+X-Received: by 2002:a17:902:f10b:b0:16a:198f:bedb with SMTP id e11-20020a170902f10b00b0016a198fbedbmr1266563plb.16.1656107327939;
+        Fri, 24 Jun 2022 14:48:47 -0700 (PDT)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id l189-20020a6225c6000000b005255263a864sm2204718pfl.169.2022.06.24.14.48.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jun 2022 14:48:47 -0700 (PDT)
+Message-ID: <c051ba46-8fdd-0990-ce76-0fbc7647f320@gmail.com>
+Date:   Sat, 25 Jun 2022 06:48:43 +0900
 MIME-Version: 1.0
-References: <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
- <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
- <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
- <Yn6DpUsoSz1/15Kc@slm.duckdns.org> <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
- <YodHjYlMx1XGtM2+@slm.duckdns.org> <CABdmKX2Ok023rN1drQgXVZLKUO_DVYrzmEamCgMMu6BPO67yhQ@mail.gmail.com>
- <CABdmKX0WV8VWgeafVGJ++nJ4xsJD7Wpz=3KX=BW1du=huttfvw@mail.gmail.com>
- <YrYbwu0iIAJJGXVg@phenom.ffwll.local> <CANDhNCqGjaq-SFvWwkqnEFj4tJcRqCYupZ03wLyCexqTH5MqMg@mail.gmail.com>
- <YrYgWCTtZqfvCt5D@phenom.ffwll.local>
-In-Reply-To: <YrYgWCTtZqfvCt5D@phenom.ffwll.local>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Fri, 24 Jun 2022 14:17:49 -0700
-Message-ID: <CABdmKX0bJDLwK7JEDGVb=KHtoVbZgnXYr8UE5eUpLYuAyiWwyw@mail.gmail.com>
-Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
-To:     John Stultz <jstultz@google.com>,
-        "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Carlos Llamas <cmllamas@google.com>,
-        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        kernel-team@android.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org
-Cc:     Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 0/5] docs/doc-guide: Sphinx related updates
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>
+References: <dccb5233-7f4f-1be6-d1f4-bbe9f42f88e0@gmail.com>
+ <87h7493kaj.fsf@meer.lwn.net>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <87h7493kaj.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 24, 2022 at 1:36 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Fri, Jun 24, 2022 at 01:32:45PM -0700, John Stultz wrote:
-> > On Fri, Jun 24, 2022 at 1:17 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Wed, Jun 15, 2022 at 10:31:21AM -0700, T.J. Mercier wrote:
-> > > > On Fri, May 20, 2022 at 9:25 AM T.J. Mercier <tjmercier@google.com> wrote:
-> > > > >
-> > > > > On Fri, May 20, 2022 at 12:47 AM Tejun Heo <tj@kernel.org> wrote:
-> > > > > >
-> > > > > > Hello,
-> > > > > >
-> > > > > > On Tue, May 17, 2022 at 04:30:29PM -0700, T.J. Mercier wrote:
-> > > > > > > Thanks for your suggestion. This almost works. "dmabuf" as a key could
-> > > > > > > work, but I'd actually like to account for each heap. Since heaps can
-> > > > > > > be dynamically added, I can't accommodate every potential heap name by
-> > > > > > > hardcoding registrations in the misc controller.
-> > > > > >
-> > > > > > On its own, that's a pretty weak reason to be adding a separate gpu
-> > > > > > controller especially given that it doesn't really seem to be one with
-> > > > > > proper abstractions for gpu resources. We don't want to keep adding random
-> > > > > > keys to misc controller but can definitely add limited flexibility. What
-> > > > > > kind of keys do you need?
-> > > > > >
-> > > > > Well the dmabuf-from-heaps component of this is the initial use case.
-> > > > > I was envisioning we'd have additional keys as discussed here:
-> > > > > https://lore.kernel.org/lkml/20220328035951.1817417-1-tjmercier@google.com/T/#m82e5fe9d8674bb60160701e52dae4356fea2ddfa
-> > > > > So we'd end up with a well-defined core set of keys like "system", and
-> > > > > then drivers would be free to use their own keys for their own unique
-> > > > > purposes which could be complementary or orthogonal to the core set.
-> > > > > Yesterday I was talking with someone who is interested in limiting gpu
-> > > > > cores and bus IDs in addition to gpu memory. How to define core keys
-> > > > > is the part where it looks like there's trouble.
-> > > > >
-> > > > > For my use case it would be sufficient to have current and maximum
-> > > > > values for an arbitrary number of keys - one per heap. So the only
-> > > > > part missing from the misc controller (for my use case) is the ability
-> > > > > to register a new key at runtime as heaps are added. Instead of
-> > > > > keeping track of resources with enum misc_res_type, requesting a
-> > > > > resource handle/ID from the misc controller at runtime is what I think
-> > > > > would be required instead.
-> > > > >
-> > > > Quick update: I'm going to make an attempt to modify the misc
-> > > > controller to support a limited amount of dynamic resource
-> > > > registration/tracking in place of the new controller in this series.
-> > > >
-> > > > Thanks everyone for the feedback.
-> > >
-> > > Somehow I missed this entire chain here.
-> > >
-> > > I'm not a fan, because I'm kinda hoping we could finally unify gpu memory
-> > > account. Atm everyone just adds their one-off solution in a random corner:
-> > > - total tracking in misc cgroup controller
-> > > - dma-buf sysfs files (except apparently too slow so it'll get deleted
-> > >   again)
-> > > - random other stuff on open device files os OOM killer can see it
-> > >
-> > > This doesn't look good.
-> >
-> > But I also think one could see it as "gpu memory" is the drm subsystem
-> > doing the same thing (in that it's artificially narrow to gpus). It
-> > seems we need something to account for buffers allocated by drivers,
-> > no matter which subsystem it was in (drm, v4l2, or networking or
-> > whatever).
->
-> This is what the gpucg was. It wasn't called the dmabuf cg because we want
-> to account also memory of other types (e.g. drm gem buffer objects which
-> aren't exported), and I guess people didn't dare call it an xpu.
->
-> But this was absolutely for a lot more than just "gpu drivers in drm".
-> Better names welcome.
-> -Daniel
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+[+CC: Jani]
+Jonathan Corbet wrote:
+> Akira Yokosawa <akiyks@gmail.com> writes:
+> 
+>> Hi all,
+>>
+>> This small set of patches fill in a couple of missing info and update
+>> outdated guidelines in doc-guide/sphinx.rst.
+> 
+> I've applied patches 1 and 5; I'm not quite sure where we stand with the
+> others...
 
-From an API perspective the two approaches (misc vs GPU) seem similar
-to me. Someone comes up with a name of a resource they want to track,
-and it's added as a key in a cgroup interface file as drivers register
-and perform accounting on that resource. Considering just the naming,
-what do you see as the appeal of a controller named GPU/XPU vs one
-named Misc? Folks seem to have assumptions about the type of resources
-a "GPU" controller should be tracking, and potentially also how
-different resources are grouped under a single resource name. So is
-your thought that non-graphics related accounting of the same sort
-should be using a differently named controller, even if that
-controller could have the same implementation?
+Yeah, I've got lost after seeing all those different views on RFC 3/5.
 
-My thought is that the resource names should be as specific as
-possible to allow fine-grained accounting, and leave any grouping of
-resources to userspace. We can do that under any controller. If you'd
-like to see a separate controller for graphics related stuff... well
-that's what I was aiming for with the GPU cgroup controller. It's just
-that dmabufs from heaps are the first use-case wired up.
+I'll post v2 of 2/5 as a single patch soon.
 
-I haven't put much time into the misc controller effort yet, and I'd
-still be happy to see the GPU controller accepted if we can agree
-about how it'd be used going forward. Daniel, I think you're in a
-great position to comment about this. :) If there's a place where the
-implementation is missing the mark, then let's change it. Are the
-controller and resource naming the only issues?
+        Thanks, Akira
+
+> 
+> Thanks,
+> 
+> jon
