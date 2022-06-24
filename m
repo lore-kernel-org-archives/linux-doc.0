@@ -2,145 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A988DC43334
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 19:22:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1513CC43334
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 19:27:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229830AbiFXTWq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jun 2022 15:22:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48754 "EHLO
+        id S230324AbiFXT1H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jun 2022 15:27:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229645AbiFXTWp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 15:22:45 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2059.outbound.protection.outlook.com [40.107.243.59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57EB681C40;
-        Fri, 24 Jun 2022 12:22:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M0nISYKZPHB5BagomA4Nc2HIa3FieBnz7UrTTukbGM8wFf4w2WjR7DCBdKqn2IBz6YUgQN03xoPO/jYgSHNX+Epud60NzrK/wImpt31FcxMIInccTgk15jrF6c+fGb+/yHyuY6nCjEqdWcAw58zPzjHB6v4CvjPw8hAoqdq85CVs3Em2WiGgG9XyG5gAsqHO9GkvtvfpOsXk9LnFtu6OCzuYlWcRr3GRnVxWcbUdYQXpBiX4YCxt48sukZVxkwW9Ty3P7DV64HV4XEOTqyv6eyy+gxjwRZLHec2lMscBJnFe32cL5AZqm1BAAXuE9iRyZZ1KiCPfUTWL0HYuIHlEgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5eroiJynnWGd/FZUmHb9waiSg72Sl62A8vAIZFUu1tA=;
- b=lkTKmDl5a6RsRDhvxXtlv0HIecGwHnzZ3uB02yWvBwq/ZLgF0Pgy/lkh0QX6EWBRcnHubQ0hzyvhZguiQz+O0whYCPS6TzhPJd8pPm/v4aJuojauMgFnuNcJD4Q9o9P7KE1HoIOCVkJ6RRyogqb7t0R+Y+WOj/49RdKKQO9d1F089vsZ7pS0Xl5MYgVd6ym057hGFe5Djv2sfm7getagK5BWmN+5Lh8zgMmgwso4I+OvHDyTYy+VF5cnb7tTN0Zx5Z0GlIsYm8eb/CzaOxoxtVFw2E8QLR1uxENct0r1St0QPSAMO6zPNOkUea4Bltm9gwFudNftAmTnd5Ko3TrcoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.234) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5eroiJynnWGd/FZUmHb9waiSg72Sl62A8vAIZFUu1tA=;
- b=PtXb3h8QafaG1pccazWoZIT1DvuTbpdUhIoiR4PdPpekPvtM0eUjLnjjCRLUnzPWMy4V07kRhj0IK1n9yHrHqwGR52cMLv+VO7T9nZQP94gHMXeU4GLAFV2X/SBLpj0ciihwpsr7Zje1mHPaVLHw26r6hx1pcqedgw+0fe7d/StnvmXO+2NM1OVVDlb/slaaelR56kJ9pyq5brzTiG5KM2CNhZFGA9exA13gLxypT3pTXB3ZiVLC7vc3uJPGJCIg6XRLrTS26UQV+8ycxI9WH4CngrShYbBkV9oor4BKIgKH4mEhmQo01wMy3R8G7Wr8lTu/af7eAX6xk9BfQTfCvw==
-Received: from BN6PR16CA0018.namprd16.prod.outlook.com (2603:10b6:404:f5::28)
- by PH7PR12MB5760.namprd12.prod.outlook.com (2603:10b6:510:1d3::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.13; Fri, 24 Jun
- 2022 19:22:42 +0000
-Received: from BN8NAM11FT050.eop-nam11.prod.protection.outlook.com
- (2603:10b6:404:f5:cafe::bf) by BN6PR16CA0018.outlook.office365.com
- (2603:10b6:404:f5::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.17 via Frontend
- Transport; Fri, 24 Jun 2022 19:22:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.234)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.234 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.234; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.234) by
- BN8NAM11FT050.mail.protection.outlook.com (10.13.177.5) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5373.15 via Frontend Transport; Fri, 24 Jun 2022 19:22:42 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by DRHQMAIL101.nvidia.com
- (10.27.9.10) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Fri, 24 Jun
- 2022 19:22:41 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Fri, 24 Jun
- 2022 12:22:40 -0700
-Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com (10.129.68.10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26 via Frontend
- Transport; Fri, 24 Jun 2022 12:22:38 -0700
-Date:   Fri, 24 Jun 2022 12:22:36 -0700
-From:   Nicolin Chen <nicolinc@nvidia.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-CC:     Christoph Hellwig <hch@infradead.org>, <kwankhede@nvidia.com>,
-        <corbet@lwn.net>, <hca@linux.ibm.com>, <gor@linux.ibm.com>,
-        <agordeev@linux.ibm.com>, <borntraeger@linux.ibm.com>,
-        <svens@linux.ibm.com>, <zhenyuw@linux.intel.com>,
-        <zhi.a.wang@intel.com>, <jani.nikula@linux.intel.com>,
-        <joonas.lahtinen@linux.intel.com>, <rodrigo.vivi@intel.com>,
-        <tvrtko.ursulin@linux.intel.com>, <airlied@linux.ie>,
-        <daniel@ffwll.ch>, <farman@linux.ibm.com>,
-        <mjrosato@linux.ibm.com>, <pasic@linux.ibm.com>,
-        <vneethv@linux.ibm.com>, <oberpar@linux.ibm.com>,
-        <freude@linux.ibm.com>, <akrowiak@linux.ibm.com>,
-        <jjherne@linux.ibm.com>, <alex.williamson@redhat.com>,
-        <cohuck@redhat.com>, <kevin.tian@intel.com>,
-        <jchrist@linux.ibm.com>, <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-s390@vger.kernel.org>,
-        <intel-gvt-dev@lists.freedesktop.org>,
-        <intel-gfx@lists.freedesktop.org>,
-        <dri-devel@lists.freedesktop.org>
-Subject: Re: [RFT][PATCH v1 5/6] vfio/ccw: Add kmap_local_page() for memcpy
-Message-ID: <YrYO/KAa2bqmxEIu@Asurada-Nvidia>
-References: <20220616235212.15185-1-nicolinc@nvidia.com>
- <20220616235212.15185-6-nicolinc@nvidia.com>
- <Yqw+7gM3Lz96UFdz@infradead.org>
- <20220620025726.GA5219@nvidia.com>
- <YrAUZ7hXy2FcZcjl@infradead.org>
- <YrI2Ul/u6pRvt0rT@Asurada-Nvidia>
- <20220624135615.GO4147@nvidia.com>
+        with ESMTP id S229607AbiFXT1G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 15:27:06 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 974EA48328;
+        Fri, 24 Jun 2022 12:27:05 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 9278E31A;
+        Fri, 24 Jun 2022 19:27:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9278E31A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1656098824; bh=1Tl+2VcojDecCEW67KaGgou+vGthJ0QFAm7poWodRvk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=CXbnElIJmvmgDUlbluzNCNfxDH6z6VQTD1MsHkndvrTyVlCCfxgCo8NnA6W0NQ9Pn
+         hbWdzKXHBUBqTmT3zFis5EtScJ6Ul7oZ86bajW+Vp3AwUvkqzwdIhEEVlw9w92pJnt
+         1hrVohDc7dr5oQ7GkAG7vwuODjxYHZbeh4x51XrtH3hNQSXdMz+8+uTa4J/y5PkznW
+         SEvA9BEl6GcIUtVppCdfbwl6wh2ILydQGxiXPiUJdoaXLMal8pUsAhBj7A5RazmsS3
+         jhmvQ2OiAuq2VZ/zJPD65emLvXqX1LCpiNFO657ijZ2OsN0OoKOYPC3k5gjnTylkiN
+         EGsyplVXF2hKw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, Harinder Singh <sharinder@google.com>,
+        Tim Bird <tim.bird@sony.com>
+Subject: Re: [PATCH] Documentation: kunit: eliminate code-block warnings
+In-Reply-To: <20220401024707.10550-1-rdunlap@infradead.org>
+References: <20220401024707.10550-1-rdunlap@infradead.org>
+Date:   Fri, 24 Jun 2022 13:27:03 -0600
+Message-ID: <87fsjt50c8.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220624135615.GO4147@nvidia.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 266349de-d9f5-4c54-7d84-08da5616e908
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5760:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WjjWCze/LnONHyFlrtJTDW+lroA+9xqqr6u1oQKqzDnZ3Lz6ipZ+eSVH9Plqkwyu4YDEKmHTy6ycAI3xiIEOpVPKEIJmjpXbJve6LRRtZNS3TdO3VLV7Q3+78Qjv+ju34myPzjpV4q4odsLmT/QM2FUKoR+N6tmlfKMgbxuwuepnWijs1ZdwVGfPYoLgCcfzmKP18QADiDJ9t6Ha4+lKVv/byESVkC3sNsghvKUHhSsTPjyVdlYQi673Pl+2y/N017owQNZWXcaGnAYbTJNJbM8CDG9b+2KKEiZZclZSk+/Zpvf1n92IJ4SH9DvYrYldch+ncYCcmRUWOWEPvIQ8MfKo7fOnd+AvZLeJXpOrNrE+z6B1wpWKzivBTMKO342sZP/uv/5+bFsXICq4sCo4cAYnH0qBQwP2dKKOPJW/gZynuiXIoarKm3V/0utSgZntu9mUchCGW9QjjG94QzY7c5+/BRMygab0Em4ltOOdbP37VsSdHPaT3r7tVRJBJwZfZVjpmcSP5foC5I6wMY2y4rhk/3TuIRjoe1cx2HUfJGkZRT3ZX72rym48n5S1FnMuY/XLIQ6K6A1kPo9D+W4llhQu888LvhszgbPvrV+DHoEZ/7DKhK1Pex79fYnUdJBkZeBXSoYo3dml9HjU7JRWf2sYMLMaxsuGmI9c2GV4lRFCpOTQbbevlkbIN9QkvdTUcThmwoNpPvzM1ECyDjUBdwmzmi5UJtr1HRMbt9IQ5gqdWhZJ+UbluSSGdQ76Wa24V1hBkQSBQ1cxG3lIUYzGlNZeZ1SrClYNEPzFmh4yP+gXzRyIANDHequJeMrdJ42VNZRQEk74VUSd70rQ2Eb3AA==
-X-Forefront-Antispam-Report: CIP:12.22.5.234;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(376002)(39860400002)(396003)(136003)(346002)(40470700004)(36840700001)(46966006)(26005)(9686003)(186003)(40460700003)(82310400005)(40480700001)(6862004)(2906002)(8936002)(41300700001)(7406005)(316002)(336012)(8676002)(478600001)(36860700001)(33716001)(426003)(5660300002)(86362001)(54906003)(7416002)(70586007)(356005)(81166007)(47076005)(4326008)(82740400003)(6636002)(70206006)(83380400001)(55016003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2022 19:22:42.2919
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 266349de-d9f5-4c54-7d84-08da5616e908
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.234];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT050.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5760
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 24, 2022 at 10:56:15AM -0300, Jason Gunthorpe wrote:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> > How about the updated commit log below? Thanks.
-> > 
-> > The pinned PFN list returned from vfio_pin_pages() is converted using
-> > page_to_pfn(), so direct access via memcpy() will crash on S390 if the
-> > PFN is an IO PFN, as we have to use the memcpy_to/fromio(), which uses
-> > the special s390 IO access instructions.
-> > 
-> > As a standard practice for security purpose, add kmap_local_page() to
-> > block any IO memory from ever getting into this call path.
-> 
-> The kmap_local_page is not about the IO memory, the switch to struct
-> page is what is protecting against IO memory.
-> 
-> Use kmap_local_page() is just the correct way to convert a struct page
-> into a CPU address to use with memcpy and it is a NOP on S390 because
-> it doesn't use highmem/etc.
+> Fix Sphinx complaints about code-block directive missing an argument.
+> For start.rst, add "none" since that is already heavily used in that
+> file. For run_wrapper.rst, use the simpler "::" literal block instead.
 
-I thought the whole purpose of switching to "struct page *" was to use
-kmap_local_page() for the memcpy call, and the combination of these two
-does the protection. Do you mind explaining how the switching part does
-the protection?
+[Sorry that this fell through the cracks; I'm never quite sure who is
+going to handle kunit patches]
 
-Thanks!
+> dev-tools/kunit/start.rst:83: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+>
+> dev-tools/kunit/run_wrapper.rst:17: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+
+So which version of Sphinx are you using?  The language argument became
+optional in 2.0, so you'd need to be running something pretty ancient to
+see this.
+
+Ah, I see 1.8.5 in your later message...how wedded are you to that
+version?
+
+Ostensibly we support back to 1.7, so I guess we should stick by its
+rules.  But the better solution, I think, is to raise our minimum
+version; I think I'll look into that shortly.
+
+> dev-tools/kunit/run_wrapper.rst:23: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:31: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:51: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:57: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:78: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:85: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:109: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:116: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:124: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:139: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+> dev-tools/kunit/run_wrapper.rst:162: WARNING: Error in "code-block" directive:
+> 1 argument(s) required, 0 supplied.
+>
+> Fixes: c48b9ef1f794 ("Documentation: KUnit: Rewrite getting started")
+> Fixes: 46201d47d6c4 ("Documentation: kunit: Reorganize documentation related to running tests")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Brendan Higgins <brendanhiggins@google.com>
+> Cc: linux-kselftest@vger.kernel.org
+> Cc: kunit-dev@googlegroups.com
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Harinder Singh <sharinder@google.com>
+> Cc: Tim Bird <tim.bird@sony.com>
+> ---
+>  Documentation/dev-tools/kunit/run_wrapper.rst |   24 ++++++++--------
+>  Documentation/dev-tools/kunit/start.rst       |    2 -
+>  2 files changed, 13 insertions(+), 13 deletions(-)
+>
+> --- linux-next-20220331.orig/Documentation/dev-tools/kunit/run_wrapper.rst
+> +++ linux-next-20220331/Documentation/dev-tools/kunit/run_wrapper.rst
+> @@ -14,13 +14,13 @@ tests, and formats the test results.
+>  
+>  Run command:
+>  
+> -.. code-block::
+> +::
+
+A much nicer fix for these would have been just:
+
+  Run command::
+
+Oh well, I've applied it.
+
+Thanks,
+
+jon
