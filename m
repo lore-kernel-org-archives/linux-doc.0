@@ -2,56 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F1AFC43334
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 01:21:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82FA5C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 01:48:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230196AbiFXBVT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Jun 2022 21:21:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34174 "EHLO
+        id S230197AbiFXBsT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Jun 2022 21:48:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbiFXBVT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 21:21:19 -0400
-Received: from out30-45.freemail.mail.aliyun.com (out30-45.freemail.mail.aliyun.com [115.124.30.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00E2756FA1;
-        Thu, 23 Jun 2022 18:21:17 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=liusong@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0VHETYia_1656033648;
-Received: from localhost(mailfrom:liusong@linux.alibaba.com fp:SMTPD_---0VHETYia_1656033648)
-          by smtp.aliyun-inc.com;
-          Fri, 24 Jun 2022 09:21:15 +0800
-From:   Liu Song <liusong@linux.alibaba.com>
-To:     corbet@lwn.net, will@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] arm64: correct the effect of mitigations off on kpti
-Date:   Fri, 24 Jun 2022 09:20:48 +0800
-Message-Id: <1656033648-84181-1-git-send-email-liusong@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        with ESMTP id S229476AbiFXBsS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Jun 2022 21:48:18 -0400
+X-Greylist: delayed 126 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 23 Jun 2022 18:48:17 PDT
+Received: from unicom146.biz-email.net (unicom146.biz-email.net [210.51.26.146])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84C0C2E68A;
+        Thu, 23 Jun 2022 18:48:17 -0700 (PDT)
+Received: from ([60.208.111.195])
+        by unicom146.biz-email.net ((D)) with ASMTP (SSL) id SXS00107;
+        Fri, 24 Jun 2022 09:46:07 +0800
+Received: from localhost.localdomain (10.200.104.82) by
+ jtjnmail201612.home.langchao.com (10.100.2.12) with Microsoft SMTP Server id
+ 15.1.2308.27; Fri, 24 Jun 2022 09:46:06 +0800
+From:   Deming Wang <wangdeming@inspur.com>
+To:     <miklos@szeredi.hu>, <corbet@lwn.net>
+CC:     <linux-unionfs@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Deming Wang <wangdeming@inspur.com>
+Subject: [PATCH] media: docs: Modify the section of User xattr
+Date:   Thu, 23 Jun 2022 21:46:05 -0400
+Message-ID: <20220624014605.2007-1-wangdeming@inspur.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.200.104.82]
+tUid:   20226240946072f1b8e7173e573eab90b3df8c2f41691
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Liu Song <liusong@linux.alibaba.com>
+Delete duplicate words of "the".
 
-If KASLR is enabled, then kpti will be forced to be enabled even if
-mitigations off, so we need to adjust the description of this parameter.
-
-Signed-off-by: Liu Song <liusong@linux.alibaba.com>
+Signed-off-by: Deming Wang <wangdeming@inspur.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ Documentation/filesystems/overlayfs.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 8090130..5b9e7f3 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3162,7 +3162,7 @@
- 				improves system performance, but it may also
- 				expose users to several CPU vulnerabilities.
- 				Equivalent to: nopti [X86,PPC]
--					       kpti=0 [ARM64]
-+					       if nokaslr then kpti=0 [ARM64]
- 					       nospectre_v1 [X86,PPC]
- 					       nobp=0 [S390]
- 					       nospectre_v2 [X86,PPC,S390,ARM64]
+diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/filesystems/overlayfs.rst
+index 7da6c30ed596..4c76fda07645 100644
+--- a/Documentation/filesystems/overlayfs.rst
++++ b/Documentation/filesystems/overlayfs.rst
+@@ -607,7 +607,7 @@ can be removed.
+ User xattr
+ ----------
+ 
+-The the "-o userxattr" mount option forces overlayfs to use the
++The "-o userxattr" mount option forces overlayfs to use the
+ "user.overlay." xattr namespace instead of "trusted.overlay.".  This is
+ useful for unprivileged mounting of overlayfs.
+ 
 -- 
-1.8.3.1
+2.27.0
 
