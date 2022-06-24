@@ -2,71 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1A7BC43334
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 16:58:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 620AEC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 18:55:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230417AbiFXQ62 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jun 2022 12:58:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52374 "EHLO
+        id S229607AbiFXSzt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jun 2022 14:55:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230032AbiFXQ6X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 12:58:23 -0400
-X-Greylist: delayed 8397 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 24 Jun 2022 09:58:21 PDT
-Received: from 7.mo575.mail-out.ovh.net (7.mo575.mail-out.ovh.net [46.105.63.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B5E311444
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jun 2022 09:58:20 -0700 (PDT)
-Received: from player694.ha.ovh.net (unknown [10.110.103.180])
-        by mo575.mail-out.ovh.net (Postfix) with ESMTP id 780A725F72
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jun 2022 11:03:02 +0000 (UTC)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player694.ha.ovh.net (Postfix) with ESMTPSA id A079C2BDB6F28;
-        Fri, 24 Jun 2022 11:02:58 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-106R0063cb03ecb-227a-4b1b-a9b4-809ab7d74b16,
-                    3A36F777C3506A3F96EA03190DC1808DFCB0D32C) smtp.auth=steve@sk2.org
-X-OVh-ClientIp: 82.65.25.201
-From:   Stephen Kitt <steve@sk2.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Stephen Kitt <steve@sk2.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] docs: admin-guide/sysctl: escape % symbols
-Date:   Fri, 24 Jun 2022 13:02:30 +0200
-Message-Id: <20220624110230.595740-1-steve@sk2.org>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S229441AbiFXSzt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 14:55:49 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB91981A19;
+        Fri, 24 Jun 2022 11:55:48 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 54F5831A;
+        Fri, 24 Jun 2022 18:55:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 54F5831A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1656096948; bh=iMM6E9TOMBSB4mE/oc18Rn0KNys0P8Y37p9/4Pd3Sm0=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Ic5apTY/sloGCyUxOokNtgo/A6ABwNnOHl5ZfOm6M7Jh4FqKl1y0I3L1RP8WCCfWK
+         RyU8UeUEC9Ec/1H7WecBNjKoZTSepszFT1HKNlGEWLZ0/5l9kHequsoqosnu49qVYz
+         yRucFkWMh4KY+2G722QkWcUxzDJ2BFx2iEUmyIwPAuBkoCRcJL1L5OAl2nHQgQciH0
+         YeXy3LefngGmkHf/WhKzhpczfjHEK9uWdkzW85u54kWB9qkfoShIvrFUhoB7t0Gfxs
+         cCHZ14xbZvnPyUP/rSdq+csCi9ukeZ7HXL6iS3fQum69aW20aHOX+K84m211+WS5Pg
+         KZsryzvni/5Mw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH] docs: rename Documentation/vm to Documentation/mm
+In-Reply-To: <20220622132258.457734-1-rppt@kernel.org>
+References: <20220622132258.457734-1-rppt@kernel.org>
+Date:   Fri, 24 Jun 2022 12:55:47 -0600
+Message-ID: <877d556gcs.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 11089551134924441172
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudefledgfeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepleegteeujeffjeefjeevhfdtudefjefgteelgedtudekleeiledvvdetudevjedtnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhlrgihvghrieelgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheejhe
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-% symbols need to be escaped to render correctly here, do so.
+Mike Rapoport <rppt@kernel.org> writes:
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
----
- Documentation/admin-guide/sysctl/kernel.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> From: Mike Rapoport <rppt@linux.ibm.com>
+>
+> so it will be consistent with code mm directory and with
+> Documentation/admin-guide/mm and won't be confused with virtual
+> machines.
+>
+> Suggested-by: Matthew Wilcox <willy@infradead.org>
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index ddccd1077462..079a51ed88a9 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -38,8 +38,8 @@ acct
- 
- If BSD-style process accounting is enabled these values control
- its behaviour. If free space on filesystem where the log lives
--goes below ``lowwater``% accounting suspends. If free space gets
--above ``highwater``% accounting resumes. ``frequency`` determines
-+goes below ``lowwater``\% accounting suspends. If free space gets
-+above ``highwater``\% accounting resumes. ``frequency`` determines
- how often do we check the amount of free space (value is in
- seconds). Default:
- 
+So this seems like a good idea to me.  I'm guessing it should probably
+go through -mm, otherwise I see myself explaining lots of conflicts to
+Linus when the time comes...anybody disagree?
 
-base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
--- 
-2.30.2
+Acked-by: Jonathan Corbet <corbet@lwn.net>
 
+THanks,
+
+jon
