@@ -2,130 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1513CC43334
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 19:27:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 932D6C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 19:30:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230324AbiFXT1H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jun 2022 15:27:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51470 "EHLO
+        id S229522AbiFXTam (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jun 2022 15:30:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229607AbiFXT1G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 15:27:06 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 974EA48328;
-        Fri, 24 Jun 2022 12:27:05 -0700 (PDT)
+        with ESMTP id S229451AbiFXTal (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 15:30:41 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DEBA51319
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jun 2022 12:30:41 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9278E31A;
-        Fri, 24 Jun 2022 19:27:04 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9278E31A
+        by ms.lwn.net (Postfix) with ESMTPSA id A52422A0;
+        Fri, 24 Jun 2022 19:30:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A52422A0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1656098824; bh=1Tl+2VcojDecCEW67KaGgou+vGthJ0QFAm7poWodRvk=;
+        t=1656099040; bh=hc04pTODor8NIk4n8bASLA4gmJ7Xm73ng1MVVswJGnw=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=CXbnElIJmvmgDUlbluzNCNfxDH6z6VQTD1MsHkndvrTyVlCCfxgCo8NnA6W0NQ9Pn
-         hbWdzKXHBUBqTmT3zFis5EtScJ6Ul7oZ86bajW+Vp3AwUvkqzwdIhEEVlw9w92pJnt
-         1hrVohDc7dr5oQ7GkAG7vwuODjxYHZbeh4x51XrtH3hNQSXdMz+8+uTa4J/y5PkznW
-         SEvA9BEl6GcIUtVppCdfbwl6wh2ILydQGxiXPiUJdoaXLMal8pUsAhBj7A5RazmsS3
-         jhmvQ2OiAuq2VZ/zJPD65emLvXqX1LCpiNFO657ijZ2OsN0OoKOYPC3k5gjnTylkiN
-         EGsyplVXF2hKw==
+        b=Gz1g179JuAVPYvbqVtyLEwNULrKCnzCwCcTQMKo6NsPDUZZM0zy/1OF9tv1gvwRA6
+         bwFmQwLBbICVeZHh/oZkk0JWIciTygeOcitGOjZ17bEjZRTw2bx+cW2nilUZvVsV4Y
+         8f1XyNBrc+JW+6EkFJVbBLumwCjUu4KtAHX4PjybG/oywXjHJUWJlMdnRVjjI6a35V
+         xJRxyij2j/SdLjoFn74pvN46Za3jacu7tk0v96Mdn2P31zr9mfN0G8wPN0slfVhNQE
+         LsEPz8h94D+vgOBFcuVB4g8aGELDdfgxGGZWAxEGND9VEZJbwUanW5vmibOVwCKCBi
+         cCop8KI48GaNA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, Harinder Singh <sharinder@google.com>,
-        Tim Bird <tim.bird@sony.com>
-Subject: Re: [PATCH] Documentation: kunit: eliminate code-block warnings
-In-Reply-To: <20220401024707.10550-1-rdunlap@infradead.org>
-References: <20220401024707.10550-1-rdunlap@infradead.org>
-Date:   Fri, 24 Jun 2022 13:27:03 -0600
-Message-ID: <87fsjt50c8.fsf@meer.lwn.net>
+To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
+        bobwxc@email.cn, seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com, zhoubinbin@loongson.cn
+Subject: Re: [PATCH v3 0/3] docs/zh_CN: Update the translation of vm to
+ 5.19-rc1
+In-Reply-To: <cover.1655362610.git.siyanteng@loongson.cn>
+References: <cover.1655362610.git.siyanteng@loongson.cn>
+Date:   Fri, 24 Jun 2022 13:30:40 -0600
+Message-ID: <87bkuh5067.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Yanteng Si <siyanteng@loongson.cn> writes:
 
-> Fix Sphinx complaints about code-block directive missing an argument.
-> For start.rst, add "none" since that is already heavily used in that
-> file. For run_wrapper.rst, use the simpler "::" literal block instead.
-
-[Sorry that this fell through the cracks; I'm never quite sure who is
-going to handle kunit patches]
-
-> dev-tools/kunit/start.rst:83: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
+> v3:
+> * Remove empty files.
+> * Add the missing text in v2,and replace space with tab.
 >
-> dev-tools/kunit/run_wrapper.rst:17: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-
-So which version of Sphinx are you using?  The language argument became
-optional in 2.0, so you'd need to be running something pretty ancient to
-see this.
-
-Ah, I see 1.8.5 in your later message...how wedded are you to that
-version?
-
-Ostensibly we support back to 1.7, so I guess we should stick by its
-rules.  But the better solution, I think, is to raise our minimum
-version; I think I'll look into that shortly.
-
-> dev-tools/kunit/run_wrapper.rst:23: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:31: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:51: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:57: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:78: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:85: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:109: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:116: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:124: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:139: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
-> dev-tools/kunit/run_wrapper.rst:162: WARNING: Error in "code-block" directive:
-> 1 argument(s) required, 0 supplied.
+> v2:
+> Modify some words under Xiangcheng's advice.
+> add disclaimer-zh_CN to [PATCH 3/3].
 >
-> Fixes: c48b9ef1f794 ("Documentation: KUnit: Rewrite getting started")
-> Fixes: 46201d47d6c4 ("Documentation: kunit: Reorganize documentation related to running tests")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Brendan Higgins <brendanhiggins@google.com>
-> Cc: linux-kselftest@vger.kernel.org
-> Cc: kunit-dev@googlegroups.com
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Harinder Singh <sharinder@google.com>
-> Cc: Tim Bird <tim.bird@sony.com>
-> ---
->  Documentation/dev-tools/kunit/run_wrapper.rst |   24 ++++++++--------
->  Documentation/dev-tools/kunit/start.rst       |    2 -
->  2 files changed, 13 insertions(+), 13 deletions(-)
+> v1:
+> Update .../zh_CN/vm/* to 5.19-rc1.
 >
-> --- linux-next-20220331.orig/Documentation/dev-tools/kunit/run_wrapper.rst
-> +++ linux-next-20220331/Documentation/dev-tools/kunit/run_wrapper.rst
-> @@ -14,13 +14,13 @@ tests, and formats the test results.
->  
->  Run command:
->  
-> -.. code-block::
-> +::
+> Yanteng Si (3):
+>   docs/zh_CN: Update the translation of highmem to 5.19-rc1
+>   docs/zh_CN: Update the translation of page_owner to 5.19-rc1
+>   docs/zh_CN: Update the translation of vm index to 5.19-rc1
+>
+>  .../translations/zh_CN/vm/highmem.rst         | 77 ++++++++++--------
+>  Documentation/translations/zh_CN/vm/index.rst | 27 +++++--
+>  .../translations/zh_CN/vm/page_owner.rst      | 79 ++++++++++++++++---
+>  3 files changed, 134 insertions(+), 49 deletions(-)
 
-A much nicer fix for these would have been just:
-
-  Run command::
-
-Oh well, I've applied it.
-
-Thanks,
+Series applied, thanks.
 
 jon
